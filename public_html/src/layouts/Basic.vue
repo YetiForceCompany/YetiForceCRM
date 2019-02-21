@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header v-if="this.$store.state.login.isLoggedIn">
+    <q-header>
       <q-toolbar>
         <q-btn
                 flat
@@ -21,7 +21,6 @@
 
     <q-drawer
             v-model="leftDrawerOpen"
-            v-if="this.$store.state.login.isLoggedIn"
             bordered
             content-class="bg-grey-2"
     >
@@ -36,7 +35,7 @@
             <q-item-label caption>YetiForce Home Page</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable v-ripple @click="$router.push('/module/Module')">
+        <q-item clickable v-ripple @click="$router.push('/')">
           <q-item-section avatar>
             <q-icon name="star"/>
           </q-item-section>

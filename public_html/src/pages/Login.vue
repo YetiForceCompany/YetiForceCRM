@@ -47,6 +47,7 @@
           this.$store.commit('login/isLoggedIn', true)
           let user = this.user
           let password = this.password
+          this.$router.push('/')
         }
       }
     }
