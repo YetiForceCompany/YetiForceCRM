@@ -60,9 +60,7 @@ class VTSendPdf extends VTTask
 				return false;
 			}
 			if (!$templateRecord->isEmpty('filename')) {
-				$textParser = \App\TextParser::getInstanceById($recordModel->getId(), $recordModel->getModuleName());
-				$textParser->setType('pdf');
-				$textParser->setParams(['pdf' => $recordModel->getModule()]);
+				$textParser = \App\TextParser::getInstanceByModel($recordModel);
 				$fileName = \App\Fields\File::sanitizeUploadFileName($textParser->setContent($templateRecord->get('filename'))->parse()->getContent());
 			}
 			$mailerContent['attachments'] = [$pdfFile => $fileName];
