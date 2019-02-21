@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header v-if="isLoggedIn">
+    <q-header v-if="this.$store.state.login.isLoggedIn">
       <q-toolbar>
         <q-btn
                 flat
@@ -21,7 +21,7 @@
 
     <q-drawer
             v-model="leftDrawerOpen"
-            v-if="isLoggedIn"
+            v-if="this.$store.state.login.isLoggedIn"
             bordered
             content-class="bg-grey-2"
     >
@@ -44,7 +44,6 @@
         </q-item>
       </q-list>
     </q-drawer>
-
     <q-page-container>
       <router-view/>
     </q-page-container>
@@ -58,7 +57,6 @@
     name: 'MyLayout',
     data() {
       return {
-        isLoggedIn: false,
         leftDrawerOpen: this.$q.platform.is.desktop
       }
     },

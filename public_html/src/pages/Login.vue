@@ -33,9 +33,7 @@
     data() {
       return {
         user: '',
-        password: '',
-
-        accept: false
+        password: ''
       }
     },
     methods: {
@@ -45,17 +43,10 @@
 
         if (this.$refs.user.hasError || this.$refs.password.hasError) {
           this.formHasError = true
-        } else if (this.accept !== true) {
-          this.$q.notify({
-            color: 'negative',
-            message: 'You need to accept the license and terms first'
-          })
         } else {
-          this.$q.notify({
-            icon: 'done',
-            color: 'positive',
-            message: 'Submitted'
-          })
+          this.$store.commit('login/isLoggedIn', true)
+          let user = this.user
+          let password = this.password
         }
       }
     }
