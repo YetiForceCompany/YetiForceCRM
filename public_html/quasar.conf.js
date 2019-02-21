@@ -1,5 +1,5 @@
 // Configuration for your app
-const moduleLoader = require('./src/moduleLoader.js');
+const moduleLoader = require('./src/ModuleLoader.js');
 const modules = moduleLoader.loadModules();
 
 module.exports = function (ctx) {
@@ -61,13 +61,18 @@ module.exports = function (ctx) {
 
     build: {
       scopeHoisting: true,
-      // publicPath: 'dist/spa',
+      publicPath: ctx.prod ? 'dist/spa' : '',
       vueRouterMode: 'history',
       // vueCompiler: true,
       // gzip: true,
       // analyze: true,
       // extractCSS: false,
-      extendWebpack(cfg) { }
+      extendWebpack(cfg) {
+        if (typeof cfg.output === 'object') {
+          cfg.output.filename = 'js/[name].js';
+          cfg.output.chunkFilename = 'js/[name].js';
+        }
+      }
     },
 
     devServer: {
