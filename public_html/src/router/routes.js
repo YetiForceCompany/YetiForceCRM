@@ -15,7 +15,7 @@ if (typeof window.modules === 'object') {
   for (const moduleName in window.modules) {
     const moduleConf = window.modules[moduleName];
     moduleConf.routes.forEach(route => {
-      route.component = () => import(`src/modules/${moduleName}/${route.componentPath}`);
+      route.component = () => import(`../modules/${moduleName}/${route.componentPath}`);
       if (typeof route.parent === 'string') {
         for (const parentRoute of routes) {
           if (parentRoute.name === route.parent) {
