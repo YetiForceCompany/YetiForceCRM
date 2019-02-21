@@ -148,7 +148,9 @@ class VTJsonCondition
 		if (empty($condition)) {
 			return false;
 		}
-		if ($cond['fieldname'] === 'date_start' || $cond['fieldname'] === 'due_date') {
+		$fieldInstance = $recordModel->getModule()->getFieldByName($cond['fieldname']);
+		$dataType = $fieldInstance->getFieldDataType();
+		if (isset($fieldInstance) && $dataType === 'datetime') {
 			$fieldName = $cond['fieldname'];
 			$dateTimePair = ['date_start' => 'time_start', 'due_date' => 'time_end'];
 			if (!$recordModel->isEmpty($dateTimePair[$fieldName])) {
@@ -179,9 +181,8 @@ class VTJsonCondition
 				$value = $exprEvaluater->evaluate($recordModel);
 			}
 		}
-		$fieldInstance = $recordModel->getModule()->getFieldByName($cond['fieldname']);
 		if ($fieldInstance) {
-			switch ($fieldInstance->getFieldDataType()) {
+			switch ($dataType) {
 				case 'datetime':
 					$fieldValue = $recordModel->get($fieldInstance->getName());
 					break;
