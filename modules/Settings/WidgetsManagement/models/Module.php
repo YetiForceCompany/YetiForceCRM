@@ -290,11 +290,11 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		if ($isWidgetExists) {
 			$size = \App\Json::encode(['width' => $data['width'], 'height' => $data['height']]);
 			$insert = [
-				'isdefault' => (int) $data['isdefault'],
+				'isdefault' => $data['isdefault'] ?? 0,
 				'size' => $size,
-				'limit' => $data['limit'],
-				'cache' => $data['cache'],
-				'date' => $data['default_date'],
+				'limit' => $data['limit'] ?? '',
+				'cache' => $data['cache'] ?? 0,
+				'date' => $data['default_date'] ?? '',
 			];
 			if (!empty($data['default_owner']) && !empty($data['owners_all'])) {
 				$insert['owners'] = \App\Json::encode(['default' => $data['default_owner'], 'available' => $data['owners_all']]);
@@ -511,11 +511,11 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			'mdw.size', 'mdw.limit', 'mdw.isdefault', 'mdw.owners', 'mdw.cache', 'mdw.date',
 			'vtiger_links.*', 'mdb.authorized',
 		])
-		->from('vtiger_module_dashboard AS mdw')
-		->innerJoin('vtiger_links', 'mdw.linkid = vtiger_links.linkid')
-		->innerJoin('vtiger_module_dashboard_blocks AS mdb', 'mdw.blockid = mdb.id AND vtiger_links.tabid = mdb.tabid')
-		->where(['vtiger_links.tabid' => $tabId])
-		->createCommand()->query();
+			->from('vtiger_module_dashboard AS mdw')
+			->innerJoin('vtiger_links', 'mdw.linkid = vtiger_links.linkid')
+			->innerJoin('vtiger_module_dashboard_blocks AS mdb', 'mdw.blockid = mdb.id AND vtiger_links.tabid = mdb.tabid')
+			->where(['vtiger_links.tabid' => $tabId])
+			->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			if ($row['linklabel'] == 'Mini List') {
 				$minilistWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
