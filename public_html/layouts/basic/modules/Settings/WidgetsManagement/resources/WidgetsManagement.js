@@ -435,6 +435,9 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 						let id = form.find('.saveFieldDetails').data('field-id');
 						paramsForm['action'] = 'saveDetails';
 						paramsForm['id'] = id;
+						if (typeof paramsForm['customMultiFilter'] !== "undefined" && !$.isArray(paramsForm['customMultiFilter'])) {
+							paramsForm['customMultiFilter'] = [paramsForm['customMultiFilter']];
+						}
 						if (paramsForm['default_owner'] && typeof paramsForm['owners_all'] === "undefined") {
 							let params = {};
 							params['type'] = 'error';

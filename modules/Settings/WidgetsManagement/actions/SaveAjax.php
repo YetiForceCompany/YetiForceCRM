@@ -28,7 +28,7 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_Basic_A
 			'data' => 'Text',
 			'blockid' => 'Integer',
 			'linkid' => 'Integer',
-			'customMultiFilter' => 'Integer',
+			'customMultiFilter' => ['Integer'],
 			'label' => 'Text',
 			'title' => 'Text',
 			'name' => 'Text',
