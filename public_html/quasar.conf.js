@@ -62,7 +62,7 @@ module.exports = function (ctx) {
     build: {
       scopeHoisting: true,
       // publicPath: 'dist/spa',
-      // vueRouterMode: 'history',
+      vueRouterMode: 'history',
       // vueCompiler: true,
       // gzip: true,
       // analyze: true,
