@@ -1,0 +1,7 @@
+[
+  {
+    "parent": "Layout",
+    "path": "/home",
+    "componentPath": "pages/Home.vue"
+  }
+]
