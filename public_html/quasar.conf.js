@@ -23,47 +23,49 @@ module.exports = function (ctx) {
     ],
 
     // framework: 'all', // --- includes everything; for dev only!
-    framework: {
-      components: [
-        'QLayout',
-        'QHeader',
-        'QDrawer',
-        'QPageContainer',
-        'QPage',
-        'QToolbar',
-        'QToolbarTitle',
-        'QBtn',
-        'QIcon',
-        'QList',
-        'QItem',
-        'QItemSection',
-        'QItemLabel'
-      ],
-
-      directives: [
-        'Ripple'
-      ],
-
-      // Quasar plugins
-      plugins: [
-        'Notify'
-      ]
-
-      // iconSet: 'ionicons-v4'
-      // lang: 'de' // Quasar language
-    },
+    framework: 'all',
+    //   {
+    //   components: [
+    //     'QLayout',
+    //     'QHeader',
+    //     'QDrawer',
+    //     'QPageContainer',
+    //     'QPage',
+    //     'QToolbar',
+    //     'QToolbarTitle',
+    //     'QBtn',
+    //     'QIcon',
+    //     'QList',
+    //     'QItem',
+    //     'QItemSection',
+    //     'QItemLabel',
+    //     'QInput'
+    //   ],
+    //
+    //   directives: [
+    //     'Ripple'
+    //   ],
+    //
+    //   // Quasar plugins
+    //   plugins: [
+    //     'Notify'
+    //   ]
+    //
+    //   // iconSet: 'ionicons-v4'
+    //   // lang: 'de' // Quasar language
+    // },
 
     supportIE: false,
 
     build: {
       scopeHoisting: true,
-	  publicPath: 'dist/spa',
-	  // vueRouterMode: 'history',
+      publicPath: 'dist/spa',
+      // vueRouterMode: 'history',
       // vueCompiler: true,
       // gzip: true,
       // analyze: true,
       // extractCSS: false,
-      extendWebpack (cfg) {
+      extendWebpack(cfg) {
       }
     },
 
@@ -127,7 +129,7 @@ module.exports = function (ctx) {
 
     electron: {
       // bundler: 'builder', // or 'packager'
-      extendWebpack (cfg) {
+      extendWebpack(cfg) {
         // do something with Electron process Webpack cfg
       },
       packager: {
