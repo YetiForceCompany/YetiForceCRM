@@ -1,7 +1,5 @@
 <template>
-  <q-page class="flex flex-center">
-    Home module
-  </q-page>
+  <q-page class="flex flex-center">Home module</q-page>
 </template>
 
 <style>
@@ -9,6 +7,6 @@
 
 <script>
 export default {
-  name: 'Home'
-}
+  name: "Home"
+};
 </script>

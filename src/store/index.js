@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import Base from './Base';
 import login from './login'
 
 Vue.use(Vuex)
@@ -11,11 +12,13 @@ Vue.use(Vuex)
  */
 
 export default function (/* { ssrContext } */) {
-  const Store = new Vuex.Store({
-    modules: {
-      login
-    }
-  })
+  const modules = {
+    Base,
+    login
+  };
 
+  const Store = new Vuex.Store({
+    modules
+  });
   return Store
 }

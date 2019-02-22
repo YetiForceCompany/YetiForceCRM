@@ -1,5 +1,7 @@
 /**
  * Module loader
+ *
+ * @author Rafal Pospiech <r.pospiech@yetiforce.com>
  */
 
 const { lstatSync, readdirSync, writeFileSync, readFileSync } = require('fs');
@@ -31,6 +33,7 @@ module.exports = {
     getModuleDirectories(moduleDir).forEach(moduleName => {
       const moduleConf = modules[moduleName] = {};
       moduleConf.path = `${moduleDir}/${moduleName}`;
+      moduleConf.entry = `${moduleConf.path}/${moduleName}.vue`;
       const moduleDirs = getModuleDirectories(moduleConf.path);
       moduleConf.directories = moduleDirs;
       if (moduleDirs.indexOf('router') !== -1) {
