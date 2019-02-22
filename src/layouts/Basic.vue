@@ -11,39 +11,7 @@
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" bordered content-class="bg-grey-2">
-      <q-list>
-        <q-item-label header>YetiForceCRM</q-item-label>
-
-        <q-item clickable @click="$router.push('/home')">
-          <q-item-section avatar>
-            <q-icon name="home"/>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Home</q-item-label>
-            <q-item-label caption>Home Page</q-item-label>
-          </q-item-section>
-        </q-item>
-
-        <q-item clickable @click="$router.push('/login')">
-          <q-item-section avatar>
-            <q-icon name="input"/>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Login</q-item-label>
-            <q-item-label caption>Enter the matrix neo</q-item-label>
-          </q-item-section>
-        </q-item>
-
-        <q-item clickable tag="a" target="_blank" href="https://yetiforce.com">
-          <q-item-section avatar>
-            <q-icon name="open_in_new"/>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>YetiForce</q-item-label>
-            <q-item-label caption>YetiForce Home Page</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
+      <left-menu/>
     </q-drawer>
     <q-page-container>
       <router-view/>
@@ -53,9 +21,13 @@
 
 <script>
 import { openURL } from "quasar";
+import LeftMenu from "components/Base/Menu/LeftMenu.vue";
 
 export default {
   name: "Basic",
+  components: {
+    LeftMenu
+  },
   data() {
     return {
       leftDrawerOpen: this.$q.platform.is.desktop
