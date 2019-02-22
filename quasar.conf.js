@@ -61,7 +61,8 @@ module.exports = function (ctx) {
 
     build: {
       scopeHoisting: true,
-      publicPath: ctx.prod ? 'dist/spa' : '',
+      publicPath: ctx.prod ? 'dist' : '',
+      distDir: 'public_html/dist',
       vueRouterMode: 'history',
       // vueCompiler: true,
       // gzip: true,
@@ -104,26 +105,26 @@ module.exports = function (ctx) {
           'sizes': '128x128',
           'type': 'image/png'
         },
-        {
-          'src': 'statics/icons/icon-192x192.png',
-          'sizes': '192x192',
-          'type': 'image/png'
-        },
-        {
-          'src': 'statics/icons/icon-256x256.png',
-          'sizes': '256x256',
-          'type': 'image/png'
-        },
-        {
-          'src': 'statics/icons/icon-384x384.png',
-          'sizes': '384x384',
-          'type': 'image/png'
-        },
-        {
-          'src': 'statics/icons/icon-512x512.png',
-          'sizes': '512x512',
-          'type': 'image/png'
-        }
+          {
+            'src': 'statics/icons/icon-192x192.png',
+            'sizes': '192x192',
+            'type': 'image/png'
+          },
+          {
+            'src': 'statics/icons/icon-256x256.png',
+            'sizes': '256x256',
+            'type': 'image/png'
+          },
+          {
+            'src': 'statics/icons/icon-384x384.png',
+            'sizes': '384x384',
+            'type': 'image/png'
+          },
+          {
+            'src': 'statics/icons/icon-512x512.png',
+            'sizes': '512x512',
+            'type': 'image/png'
+          }
         ]
       }
     },
