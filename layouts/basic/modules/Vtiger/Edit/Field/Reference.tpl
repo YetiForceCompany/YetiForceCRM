@@ -18,46 +18,39 @@
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	<div>
 		{if {$REFERENCE_LIST_COUNT} eq 1}
-			<input name="popupReferenceModule" type="hidden" data-multi-reference="0" title="{reset($REFERENCE_LIST)}"
-				   value="{reset($REFERENCE_LIST)}"/>
+			<input name="popupReferenceModule" type="hidden" data-multi-reference="0" title="{reset($REFERENCE_LIST)}" value="{reset($REFERENCE_LIST)}"/>
 		{/if}
 		{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
-		{assign var="DISPLAYID" value=$FIELD_MODEL->get('fieldvalue')}
+		{assign var="VALUE" value=$FIELD_MODEL->getEditViewValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
 		{if {$REFERENCE_LIST_COUNT} gt 1}
-			{assign var="REFERENCED_MODULE_STRUCT" value=$FIELD_MODEL->getUITypeModel()->getReferenceModule($DISPLAYID)}
+			{assign var="REFERENCED_MODULE_STRUCT" value=$FIELD_MODEL->getUITypeModel()->getReferenceModule($VALUE)}
 			{if !empty($REFERENCED_MODULE_STRUCT)}
 				{assign var="REFERENCED_MODULE_NAME" value=$REFERENCED_MODULE_STRUCT->get('name')}
 			{else}
 				{assign var="REFERENCED_MODULE_NAME" value=''}
 			{/if}
 			{if in_array($REFERENCED_MODULE_NAME, $REFERENCE_LIST)}
-				<input name="popupReferenceModule" type="hidden" data-multi-reference="1"
-					   value="{$REFERENCED_MODULE_NAME}"/>
+				<input name="popupReferenceModule" type="hidden" data-multi-reference="1" value="{$REFERENCED_MODULE_NAME}"/>
 			{else}
 				<input name="popupReferenceModule" type="hidden" data-multi-reference="1" value="{$REFERENCE_LIST[0]}"/>
 			{/if}
 		{/if}
 		{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCE_LIST[0])}
-		<input name="{$FIELD_MODEL->getFieldName()}" type="hidden"
-			   value="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}"
-			   title="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}" class="sourceField"
-			   data-type="entity" data-fieldtype="{$FIELD_MODEL->getFieldDataType()}" data-displayvalue="{$FIELD_VALUE}"
-			   data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} />
+		<input name="{$FIELD_MODEL->getFieldName()}" type="hidden" value="{$VALUE}" title="{$FIELD_VALUE}" class="sourceField" data-type="entity" data-fieldtype="{$FIELD_MODEL->getFieldDataType()}" data-displayvalue="{$FIELD_VALUE}" data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} />
 		<div class="input-group referenceGroup">
 			{if $REFERENCE_LIST_COUNT > 1}
 				<div class="input-group-prepend referenceModulesListGroup">
 					<select class="select2 referenceModulesList"
 							title="{\App\Language::translate('LBL_RELATED_MODULE_TYPE')}" required="required">
 						{foreach key=index item=REFERENCE from=$REFERENCE_LIST}
-							<option value="{$REFERENCE}"
-									title="{\App\Language::translate($REFERENCE, $REFERENCE)}" {if $REFERENCE eq $REFERENCED_MODULE_NAME} selected {/if}>{\App\Language::translate($REFERENCE, $REFERENCE)}</option>
+							<option value="{$REFERENCE}" title="{\App\Language::translate($REFERENCE, $REFERENCE)}" {if $REFERENCE eq $REFERENCED_MODULE_NAME} selected {/if}>{\App\Language::translate($REFERENCE, $REFERENCE)}</option>
 						{/foreach}
 					</select>
 				</div>
 			{/if}
 			<input id="{$FIELD_NAME}_display" name="{$FIELD_MODEL->getFieldName()}_display" type="text"
 				   title="{$FIELD_VALUE}" class="marginLeftZero form-control autoComplete"
-				   {if !empty($DISPLAYID)}readonly="true"{/if}
+				   {if !empty($VALUE)}readonly="true"{/if}
 				   value="{$FIELD_VALUE}"
 				   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 				   data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->get('displaytype') != 10}placeholder="{\App\Language::translate('LBL_TYPE_SEARCH',$MODULE)}"{/if} {if $REFERENCE_MODULE_MODEL == false}disabled{/if}

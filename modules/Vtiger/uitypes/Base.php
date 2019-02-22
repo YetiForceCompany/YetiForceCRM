@@ -168,6 +168,18 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
+	 * Function to get the edit value.
+	 *
+	 * @param   mixed  $value
+	 * @param   Vtiger_Record_Model  $recordModel
+	 *
+	 * @return  mixed
+	 */
+	public function getEditViewValue($value, $recordModel = false)
+	{
+		return $this->getEditViewDisplayValue($value, $recordModel = false);
+	}
+	/**
 	 * Function to get the list value in display view.
 	 *
 	 * @param mixed                    $value       Field value
