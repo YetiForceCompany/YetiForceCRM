@@ -61,6 +61,13 @@ abstract class Base
 	abstract public function remove();
 
 	/**
+	 * Check if the current user exists.
+	 *
+	 * @return  bool
+	 */
+	abstract public function isExists();
+
+	/**
 	 * Log info.
 	 *
 	 * @param string $message
