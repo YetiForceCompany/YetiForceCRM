@@ -72,7 +72,7 @@ yarn-error.log
 .DS_Store
 .thumbs.db
 node_modules
-/dist
+/public_html/dist
 /src-cordova/node_modules
 /src-cordova/platforms
 /src-cordova/plugins
