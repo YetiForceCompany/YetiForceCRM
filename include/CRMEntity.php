@@ -614,7 +614,7 @@ class CRMEntity
 		if ($secModule === false) {
 			return $relTables;
 		}
-		return $relTables[$secModule];
+		return $relTables[$secModule] ?? [];
 	}
 
 	/**
