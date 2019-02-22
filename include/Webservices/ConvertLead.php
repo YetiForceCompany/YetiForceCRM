@@ -241,6 +241,7 @@ class WebservicesConvertLead
 	{
 		$adb = PearDatabase::getInstance();
 		if ($entityIds['Accounts'] != '' || $entityIds['Contacts'] != '') {
+			\App\Cache::delete('Leads.converted', $leadId);
 			$sql = 'UPDATE vtiger_leaddetails SET converted = 1 where leadid=?';
 			$result = $adb->pquery($sql, [$leadId]);
 			if ($result === false) {
