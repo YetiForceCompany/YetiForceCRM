@@ -3,7 +3,7 @@ $.Class("Base_RecordConverter_JS", {}, {
 	container: false,
 	/**
 	 *
-	 * @returns {{module: string, view: string, convertType: integer, fieldMerge: string, onlyBody: boolean, destinyModule: string, inView: string}}
+	 * @returns {{module: string, view: string, convertType: integer, fieldMerge: string, onlyBody: boolean, destinyModule: string, sourceView: string}}
 	 */
 	getParams: function () {
 		let params = {
@@ -11,7 +11,7 @@ $.Class("Base_RecordConverter_JS", {}, {
 			view: this.container.data('view'),
 			convertType: this.container.find('.js-convert-type option:selected').val(),
 			onlyBody: true,
-			inView: app.getViewName()
+			sourceView: app.getViewName()
 		};
 		if (app.getViewName() === 'List') {
 			let listInstance = Vtiger_List_Js.getInstance();

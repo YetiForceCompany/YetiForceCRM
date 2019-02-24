@@ -309,7 +309,7 @@ class Vtiger_ListView_Model extends \App\Base
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_RECORD_CONVERTER',
-				'linkdata' => ['url' => "index.php?module={$moduleModel->getName()}&view=RecordConverter&inView=List"],
+				'linkdata' => ['url' => "index.php?module={$moduleModel->getName()}&view=RecordConverter&sourceView=List"],
 				'linkicon' => 'fas fa-exchange-alt',
 				'linkclass' => 'u-cursor-pointer js-mass-action'
 			];
