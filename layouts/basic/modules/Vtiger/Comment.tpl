@@ -124,7 +124,6 @@
 						</a>
 					{/if}
 					<div class="js-comment-info commentInfoContent" data-js="html">
-
 						{$COMMENT->getDisplayValue('commentcontent')}
 					</div>
 				</div>
