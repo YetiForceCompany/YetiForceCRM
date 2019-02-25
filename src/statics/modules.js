@@ -34,7 +34,7 @@ window.modules = {
     "routes": [
       {
         "name": "ModuleExample",
-        "parent": "Home",
+        "parent": "Layout",
         "path": "module-example",
         "componentPath": "pages/ModuleExample.vue"
       }

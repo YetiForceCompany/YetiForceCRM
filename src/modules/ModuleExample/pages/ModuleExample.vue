@@ -1,5 +1,5 @@
 <template>
-  <div>ModuleExample page</div>
+  <q-page class="flex flex-center">Layout -> ModuleExample page</q-page>
 </template>
 
 <style>
