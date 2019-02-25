@@ -59,7 +59,7 @@ module.exports = function(ctx) {
 
     build: {
       scopeHoisting: true,
-      publicPath: '',
+      publicPath: 'dist',
       distDir: 'public_html/dist',
       vueRouterMode: 'history',
       // vueCompiler: true,
