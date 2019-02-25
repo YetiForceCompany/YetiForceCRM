@@ -6,7 +6,7 @@
         v-model="user"
         label="User Name"
         lazy-rules
-        :rules="[ val => val && val.length > 0 || 'Please type something']"
+        :rules="[val => (val && val.length > 0) || 'Please type something']"
       />
 
       <q-input
@@ -15,41 +15,40 @@
         v-model="password"
         label="Password"
         lazy-rules
-        :rules="[ val => val && val.length > 0 || 'Please type something']"
+        :rules="[val => (val && val.length > 0) || 'Please type something']"
       />
       <div>
-        <q-btn label="Submit" type="submit" color="primary"/>
+        <q-btn label="Submit" type="submit" color="primary" />
       </div>
     </form>
   </q-page>
 </template>
 
-<style>
-</style>
+<style></style>
 
 <script>
 export default {
-  name: "Login",
+  name: 'Login',
   data() {
     return {
-      user: "",
-      password: ""
-    };
+      user: '',
+      password: ''
+    }
   },
   methods: {
     onSubmit() {
-      this.$refs.user.validate();
-      this.$refs.password.validate();
+      this.$refs.user.validate()
+      this.$refs.password.validate()
 
       if (this.$refs.user.hasError || this.$refs.password.hasError) {
-        this.formHasError = true;
+        this.formHasError = true
       } else {
-        this.$store.commit("login/isLoggedIn", true);
-        let user = this.user;
-        let password = this.password;
-        this.$router.push("/");
+        this.$store.commit('login/isLoggedIn', true)
+        let user = this.user
+        let password = this.password
+        this.$router.push('/')
       }
     }
   }
-};
+}
 </script>

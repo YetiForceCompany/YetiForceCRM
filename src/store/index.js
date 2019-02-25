@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import Base from './Base';
+import Base from './Base'
 import login from './login'
 
 Vue.use(Vuex)
@@ -11,14 +11,14 @@ Vue.use(Vuex)
  * directly export the Store instantiation
  */
 
-export default function (/* { ssrContext } */) {
+export default function(/* { ssrContext } */) {
   const modules = {
     Base,
     login
-  };
+  }
 
   const Store = new Vuex.Store({
     modules
-  });
+  })
   return Store
 }

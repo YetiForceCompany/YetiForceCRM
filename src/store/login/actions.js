@@ -1,8 +1,12 @@
 import axios from 'axios'
-export function login({commit}, user) {
+export function login({ commit }, user) {
   return new Promise((resolve, reject) => {
     commit('auth_request')
-    axios({url: 'index.php?module=Users&action=Login', data: user, method: 'POST'})
+    axios({
+      url: 'index.php?module=Users&action=Login',
+      data: user,
+      method: 'POST'
+    })
       .then(resp => {
         const token = resp.data.token
         const user = resp.data.user
@@ -18,4 +22,3 @@ export function login({commit}, user) {
       })
   })
 }
-

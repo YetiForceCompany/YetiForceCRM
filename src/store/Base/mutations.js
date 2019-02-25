@@ -5,5 +5,5 @@
  * @param {array} positions
  */
 export function updateMenuPositions(state, positions) {
-  state.menu.positions = positions;
+  state.menu.positions = positions
 }

@@ -11,16 +11,16 @@
 </template>
 
 <script>
-import RoutePush from "./Positions/RoutePush";
+import RoutePush from './Positions/RoutePush'
 export default {
-  name: "BaseLeftMenu",
+  name: 'BaseLeftMenu',
   components: {
     RoutePush
   },
   computed: {
     positions() {
-      return this.$store.state.Base.menu.positions;
+      return this.$store.state.Base.menu.positions
     }
   }
-};
+}
 </script>
