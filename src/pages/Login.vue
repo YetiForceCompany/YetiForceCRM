@@ -43,7 +43,7 @@ export default {
       if (this.$refs.user.hasError || this.$refs.password.hasError) {
         this.formHasError = true
       } else {
-        this.$store.commit('login/isLoggedIn', true)
+        this.$store.commit('Login/isLoggedIn', true)
         let user = this.user
         let password = this.password
         this.$router.push('/')

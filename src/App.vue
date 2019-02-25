@@ -1,6 +1,6 @@
 <template>
   <div id="q-app">
-    <router-view/>
+    <router-view />
     <div class="modules">
       <component v-for="module in modules" :is="module.component" :key="module.name"></component>
     </div>
@@ -12,8 +12,7 @@ const components = {}
 const modules = []
 if (typeof window.modules === 'object') {
   for (const moduleName in window.modules) {
-    components[moduleName] = () =>
-      import(`./modules/${moduleName}/${moduleName}.vue`)
+    components[moduleName] = () => import(`./modules/${moduleName}/${moduleName}.vue`)
     modules.push({
       name: moduleName,
       component: components[moduleName]
@@ -41,7 +40,6 @@ export default {
     ])
   },
   preFetch({ store, redirect }) {
-    console.log(store.state.Login.isLoggedIn)
     if (!store.state.Login.isLoggedIn) {
       redirect('/login')
     }
@@ -50,5 +48,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>
