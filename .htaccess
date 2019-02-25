@@ -17,8 +17,17 @@ RedirectMatch 403 (?i).*\.log$
 	RewriteRule ^\.well-known/caldav dav.php/calendars/ [R]
 	RewriteRule /.well-known/carddav dav.php/addressbooks/ [R,L]
 	RewriteRule /.well-known/caldav dav.php/calendars/ [R,L]
-	RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
-	RewriteRule .* - [E=HTTP_CONTENT_TYPE:%{HTTP:Content-Type},L]
+  # DAV RULES START
+	# RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
+	# RewriteRule .* - [E=HTTP_CONTENT_TYPE:%{HTTP:Content-Type},L]
+  # DAV ENDS
+  # VUE RULE
+  RewriteBase /
+  RewriteRule ^index\.php$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.php [L]
+  # VUE RULE ENDS
 </IfModule>
 <IfModule mod_headers.c>
 	Header unset Server
