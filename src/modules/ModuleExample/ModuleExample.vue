@@ -11,7 +11,7 @@ export default {
     positions.push({
       component: "RoutePush",
       props: {
-        path: "/module-example",
+        path: "/home/module-example",
         icon: "home",
         label: "Module Example"
       }

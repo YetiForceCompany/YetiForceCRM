@@ -1,5 +1,7 @@
 <template>
-  <div>Index</div>
+  <q-page class="flex flex-center">Index ->
+    <router-view/>
+  </q-page>
 </template>
 
 <script>

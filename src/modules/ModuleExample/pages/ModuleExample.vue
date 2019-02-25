@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center">Home2 module</q-page>
+  <div>ModuleExample page</div>
 </template>
 
 <style>
@@ -7,9 +7,9 @@
 
 <script>
 export default {
-  name: "ModuleExample",
+  name: 'ModuleExample',
   created() {
-    console.log("ModuleExample created");
+    console.log('ModuleExample created')
   }
-};
+}
 </script>

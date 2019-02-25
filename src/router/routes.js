@@ -1,11 +1,17 @@
+import moduleLoader from '../ModuleLoader.client.js'
+
 const routes = [
   {
     name: 'Layout',
     path: '/',
     component: () => import('layouts/Basic.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') },
-      { path: '/login', component: () => import('pages/Login.vue') }
+      { name: 'Index', path: '', component: () => import('pages/Index.vue') },
+      {
+        name: 'Login',
+        path: '/login',
+        component: () => import('pages/Login.vue')
+      }
     ]
   }
 ]
@@ -14,19 +20,7 @@ const routes = [
 if (typeof window.modules === 'object') {
   for (const moduleName in window.modules) {
     const moduleConf = window.modules[moduleName]
-    moduleConf.routes.forEach(route => {
-      route.component = () =>
-        import(`../modules/${moduleName}/${route.componentPath}`)
-      if (typeof route.parent === 'string') {
-        for (const parentRoute of routes) {
-          if (parentRoute.name === route.parent) {
-            parentRoute.children.push(route)
-          }
-        }
-      } else {
-        routes.push(route)
-      }
-    })
+    moduleLoader.attachRoutes(routes, moduleConf)
   }
 }
 

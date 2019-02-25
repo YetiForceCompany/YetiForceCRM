@@ -1,19 +1,15 @@
 // Configuration for your app
-const moduleLoader = require('./src/ModuleLoader.js');
-const modules = moduleLoader.loadModules();
+const moduleLoader = require('./src/ModuleLoader.server.js')
 
-module.exports = function (ctx) {
+module.exports = function(ctx) {
+  const modules = moduleLoader.loadModules()
+  console.info(` Modules loaded ${new Date().toLocaleTimeString()}`)
   return {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
-    boot: [
-      'i18n',
-      'axios'
-    ],
+    boot: ['i18n', 'axios'],
 
-    css: [
-      'app.styl'
-    ],
+    css: ['app.styl'],
 
     extras: [
       'roboto-font',
@@ -63,7 +59,7 @@ module.exports = function (ctx) {
 
     build: {
       scopeHoisting: true,
-      publicPath: ctx.prod ? 'dist' : '',
+      publicPath: '',
       distDir: 'public_html/dist',
       vueRouterMode: 'history',
       // vueCompiler: true,
@@ -72,8 +68,8 @@ module.exports = function (ctx) {
       // extractCSS: false,
       extendWebpack(cfg) {
         if (typeof cfg.output === 'object') {
-          cfg.output.filename = 'js/[name].js';
-          cfg.output.chunkFilename = 'js/[name].js';
+          cfg.output.filename = 'js/[name].js'
+          cfg.output.chunkFilename = 'js/[name].js'
         }
       }
     },
@@ -102,31 +98,32 @@ module.exports = function (ctx) {
         orientation: 'portrait',
         background_color: '#ffffff',
         theme_color: '#027be3',
-        icons: [{
-          'src': 'statics/icons/icon-128x128.png',
-          'sizes': '128x128',
-          'type': 'image/png'
-        },
-        {
-          'src': 'statics/icons/icon-192x192.png',
-          'sizes': '192x192',
-          'type': 'image/png'
-        },
-        {
-          'src': 'statics/icons/icon-256x256.png',
-          'sizes': '256x256',
-          'type': 'image/png'
-        },
-        {
-          'src': 'statics/icons/icon-384x384.png',
-          'sizes': '384x384',
-          'type': 'image/png'
-        },
-        {
-          'src': 'statics/icons/icon-512x512.png',
-          'sizes': '512x512',
-          'type': 'image/png'
-        }
+        icons: [
+          {
+            src: 'statics/icons/icon-128x128.png',
+            sizes: '128x128',
+            type: 'image/png'
+          },
+          {
+            src: 'statics/icons/icon-192x192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: 'statics/icons/icon-256x256.png',
+            sizes: '256x256',
+            type: 'image/png'
+          },
+          {
+            src: 'statics/icons/icon-384x384.png',
+            sizes: '384x384',
+            type: 'image/png'
+          },
+          {
+            src: 'statics/icons/icon-512x512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          }
         ]
       }
     },
@@ -142,22 +139,18 @@ module.exports = function (ctx) {
       },
       packager: {
         // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
-
         // OS X / Mac App Store
         // appBundleId: '',
         // appCategoryType: '',
         // osxSign: '',
         // protocol: 'myapp://path',
-
         // Window only
         // win32metadata: { ... }
       },
       builder: {
         // https://www.electron.build/configuration/configuration
-
         // appId: 'quasar-app'
       }
-    },
-    preFetch: true
+    }
   }
 }
