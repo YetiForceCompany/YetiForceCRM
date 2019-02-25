@@ -249,7 +249,7 @@ class RecordConverter extends Base
 		$this->sourceModuleModel = \Vtiger_Module_Model::getInstance($this->sourceModule);
 		$this->fieldMapping = $this->get('field_mappging') ? \App\Json::decode($this->get('field_mappging')) : [];
 		$this->inventoryMapping = $this->get('inv_field_mapping') ? \App\Json::decode($this->get('inv_field_mapping')) : [];
-		$inventoryField = \Vtiger_InventoryField_Model::getInstance($this->sourceModule);
+		$inventoryField = \Vtiger_Inventory_Model::getInstance($this->sourceModule);
 		$this->sourceInvFields = $inventoryField->getFields();
 		$this->defaultValuesCreatedRecord = $this->get('default_values') ? \App\Json::decode($this->get('default_values')) : [];
 	}
@@ -302,7 +302,7 @@ class RecordConverter extends Base
 	{
 		$this->destinyModule = $moduleName;
 		$this->destinyModuleModel = \Vtiger_Module_Model::getInstance($this->destinyModule);
-		$inventoryField = \Vtiger_InventoryField_Model::getInstance($this->destinyModule);
+		$inventoryField = \Vtiger_Inventory_Model::getInstance($this->destinyModule);
 		$this->destinyInvFields = $inventoryField->getFields();
 		$this->isFieldMergeExists = $this->checkFieldMerge();
 	}
@@ -343,9 +343,7 @@ class RecordConverter extends Base
 	{
 		$fieldModel = \Vtiger_Field_Model::getInstance($this->get('field_merge'), $this->sourceModuleModel);
 		$focus = \CRMEntity::getInstance($this->sourceModule);
-		$result = (new \App\Db\Query())->select([$fieldModel->getTableName() . ".{$fieldModel->getColumnName()}", $focus->tab_name_index[$fieldModel->getTableName()]])
-			->from($fieldModel->getTableName())->where([$focus->tab_name_index[$fieldModel->getTableName()] => $records])->createCommand()->queryAllByGroup(2);
-		return $result;
+		return (new \App\Db\Query())->select([$fieldModel->getTableName() . ".{$fieldModel->getColumnName()}", $focus->tab_name_index[$fieldModel->getTableName()]])->from($fieldModel->getTableName())->where([$focus->tab_name_index[$fieldModel->getTableName()] => $records])->createCommand()->queryAllByGroup(2);
 	}
 
 	/**
@@ -459,7 +457,6 @@ class RecordConverter extends Base
 			$invData = [];
 			$counter = 1;
 			if ($this->inventoryMapping[0] === 'auto') {
-				$inventoryFields = array_merge($this->sourceInvFields, $this->destinyInvFields);
 				foreach ($this->cleanRecordModels as $groupBy => $newRecordModel) {
 					if (!is_array($this->recordModels[$groupBy])) {
 						$sourceRecordModels = [$this->recordModels[$groupBy]];
@@ -472,25 +469,23 @@ class RecordConverter extends Base
 						}
 						foreach ($recordModel as $recordModelGroupBy) {
 							foreach ($recordModelGroupBy->getInventoryData() as $inventoryRow) {
-								foreach ($inventoryFields as $columnName => $fieldModel) {
-									$invData[$groupBy][$columnName . $counter] = $inventoryRow[$columnName];
-									$fieldCustomColumn = $fieldModel->getCustomColumn();
-									if ($fieldCustomColumn) {
-										foreach (array_keys($fieldCustomColumn) as $customColumn) {
-											$inventoryData[$groupBy][$counter][$customColumn] = $inventoryRow[$customColumn];
-											$invData[$groupBy][$customColumn . $counter] = $inventoryRow[$customColumn];
+								foreach ($this->destinyInvFields as $columnName => $fieldModel) {
+									if (isset($this->sourceInvFields[$columnName])) {
+										$invData[$groupBy][$counter][$columnName] = $inventoryRow[$columnName];
+										$fieldCustomColumn = $fieldModel->getCustomColumn();
+										if ($fieldCustomColumn) {
+											foreach (array_keys($fieldCustomColumn) as $customColumn) {
+												$invData[$groupBy][$counter][$customColumn] = $inventoryRow[$customColumn];
+											}
 										}
 									}
 								}
-								$invData[$groupBy]['seq' . $counter] = $counter;
-								$invData[$groupBy]['inventoryItemsNo'] = $counter;
 								$counter++;
 							}
 						}
 					}
 				}
-				$newRecordModel->setInventoryRawData(new \App\Request($invData[$groupBy], false));
-				$newRecordModel->initInventoryData();
+				$newRecordModel->initInventoryDataFromRequest(new \App\Request(['inventory' => $invData[$groupBy]], false));
 			} else {
 				foreach ($this->cleanRecordModels as $groupBy => $newRecordModel) {
 					if (!is_array($this->recordModels[$groupBy])) {
@@ -509,21 +504,20 @@ class RecordConverter extends Base
 										$fieldCustomColumn = $this->destinyInvFields[$destinyField]->getCustomColumn();
 										if ($fieldCustomColumn) {
 											foreach (array_keys($fieldCustomColumn) as $customColumn) {
-												$invData[$groupBy][$customColumn . $counter] = $inventoryRow[$customColumn];
+												$invData[$groupBy][$counter][$customColumn] = $inventoryRow[$customColumn];
 											}
 										}
-										$invData[$groupBy][$destinyField . $counter] = $inventoryRow[$sourceField];
+										$invData[$groupBy][$counter][$destinyField] = $inventoryRow[$sourceField];
 									}
-									$invData[$groupBy]['name' . $counter] = $inventoryRow['id'];
-									$invData[$groupBy]['seq' . $counter] = $counter;
+									$invData[$groupBy][$counter]['name'] = $inventoryRow['id'];
+									$invData[$groupBy][$counter]['seq'] = $counter;
 									$invData[$groupBy]['inventoryItemsNo'] = $counter++;
 								}
 							}
 						}
 					}
 				}
-				$newRecordModel->setInventoryRawData(new \App\Request($invData[$groupBy], false));
-				$newRecordModel->initInventoryData();
+				$newRecordModel->initInventoryDataFromRequest(new \App\Request(['inventory' => $invData[$groupBy]], false));
 			}
 		}
 	}

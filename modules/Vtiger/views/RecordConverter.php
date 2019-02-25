@@ -52,7 +52,7 @@ class Vtiger_RecordConverter_View extends \App\Controller\Modal
 			$viewer->assign('SELECTED_CONVERT_TYPE', $request->getInteger('convertType'));
 			$viewer->assign('CREATED_RECORDS', $converter->countCreatedRecords($records));
 		}
-		$moduleConverters = \App\RecordConverter::getModuleConverters($moduleName, $request->getByType('inView', 'Text'));
+		$moduleConverters = \App\RecordConverter::getModuleConverters($moduleName, $request->getByType('sourceView', 'Text'));
 		foreach ($moduleConverters as $key => $converter) {
 			$destinyModules = explode(',', $converter['destiny_module']);
 			foreach ($destinyModules as $destinyModuleKey => $destinyModuleId) {
