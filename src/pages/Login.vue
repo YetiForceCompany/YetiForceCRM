@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center column">
+  <div class="fixed-center">
     <form @submit.prevent.stop="onSubmit" class="q-gutter-md">
       <q-input
         ref="user"
@@ -21,7 +21,7 @@
         <q-btn label="Submit" type="submit" color="primary" />
       </div>
     </form>
-  </q-page>
+  </div>
 </template>
 
 <style></style>

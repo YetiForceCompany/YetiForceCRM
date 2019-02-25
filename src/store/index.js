@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import Base from './Base'
-import login from './login'
+import Login from './Login'
 
 Vue.use(Vuex)
 
@@ -14,7 +14,7 @@ Vue.use(Vuex)
 export default function(/* { ssrContext } */) {
   const modules = {
     Base,
-    login
+    Login
   }
 
   const Store = new Vuex.Store({

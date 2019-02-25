@@ -8,16 +8,16 @@
 </template>
 
 <script>
-const components = {};
-const modules = [];
-if (typeof window.modules === "object") {
+const components = {}
+const modules = []
+if (typeof window.modules === 'object') {
   for (const moduleName in window.modules) {
     components[moduleName] = () =>
-      import(`./modules/${moduleName}/${moduleName}.vue`);
+      import(`./modules/${moduleName}/${moduleName}.vue`)
     modules.push({
       name: moduleName,
       component: components[moduleName]
-    });
+    })
   }
 }
 
@@ -26,28 +26,28 @@ export default {
   data() {
     return {
       modules
-    };
-  },
-  mounted() {
-    this.$store.commit("Base/updateMenuPositions", [
-      {
-        component: "RoutePush",
-        props: {
-          path: "/login",
-          icon: "input",
-          label: "Login"
-        }
-      }
-    ]);
-  },
-  preFetch({ store, redirect }) {
-    console.log(store.state.login.isLoggedIn);
-    if (!store.state.login.isLoggedIn) {
-      redirect("/login");
     }
   },
-  name: "App"
-};
+  mounted() {
+    this.$store.commit('Base/updateMenuPositions', [
+      {
+        component: 'RoutePush',
+        props: {
+          path: '/login',
+          icon: 'input',
+          label: 'Login'
+        }
+      }
+    ])
+  },
+  preFetch({ store, redirect }) {
+    console.log(store.state.Login.isLoggedIn)
+    if (!store.state.Login.isLoggedIn) {
+      redirect('/login')
+    }
+  },
+  name: 'App'
+}
 </script>
 
 <style>
