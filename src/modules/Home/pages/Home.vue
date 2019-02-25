@@ -1,5 +1,7 @@
 <template>
-  <q-page class="flex flex-center">Home module</q-page>
+  <div>Home view ->
+    <router-view/>
+  </div>
 </template>
 
 <style></style>
