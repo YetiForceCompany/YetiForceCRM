@@ -21,7 +21,7 @@ class Settings_TreesManager_Save_Action extends Settings_Vtiger_Basic_Action
 		$replace = $request->getMultiDimensionArray('replace', [['old' => ['Integer'], ['new' => ['Integer']]]]);
 		$templatemodule = $request->getInteger('templatemodule');
 		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
-		if (!$request->isEmpty('record')) {
+		if (!$request->isEmpty('record', true)) {
 			$recordModel = Settings_TreesManager_Record_Model::getInstanceById($request->getInteger('record'));
 		} else {
 			$recordModel = new Settings_TreesManager_Record_Model();
