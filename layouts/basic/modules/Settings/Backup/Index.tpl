@@ -28,11 +28,16 @@
 						{/if}
 						{if isset($STRUCTURE['catalogs'])}
 							{foreach from=$STRUCTURE['catalogs'] item=$catalog}
-								<tr class="listViewEntries">
+								<tr class="listViewEntries{if empty($catalog['url'])} u-opacity-muted{/if}">
 									<td>
-										<a href="{$catalog['url']}" class="font-weight-bold">
-											<span class="fas fa-folder"></span> {\App\Purifier::encodeHtml($catalog['name'])}
-										</a>
+										{if empty($catalog['url'])}
+											<span class="fas fa-folder mr-1"></span>
+										{\App\Purifier::encodeHtml($catalog['name'])}
+										{else}
+											<a href="{$catalog['url']}" class="font-weight-bold">
+												<span class="fas fa-folder"></span> {\App\Purifier::encodeHtml($catalog['name'])}
+											</a>
+										{/if}
 									</td>
 								</tr>
 							{/foreach}
