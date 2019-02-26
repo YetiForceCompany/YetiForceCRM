@@ -40,7 +40,8 @@ export default {
     ])
   },
   preFetch({ store, redirect }) {
-    if (!store.state.Login.isLoggedIn) {
+    store.dispatch('Login/tryAutoLogin')
+    if (store.state.Login.idToken === null) {
       redirect('/login')
     }
   },

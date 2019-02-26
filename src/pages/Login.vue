@@ -39,14 +39,10 @@ export default {
     onSubmit() {
       this.$refs.user.validate()
       this.$refs.password.validate()
-
       if (this.$refs.user.hasError || this.$refs.password.hasError) {
         this.formHasError = true
       } else {
-        this.$store.commit('Login/isLoggedIn', true)
-        let user = this.user
-        let password = this.password
-        this.$router.push('/')
+        this.$store.dispatch('Login/login', { user: this.user, password: this.password })
       }
     }
   }
