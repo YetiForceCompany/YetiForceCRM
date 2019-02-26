@@ -1,15 +1,18 @@
 // Configuration for your app
-const moduleLoader = require('./src/ModuleLoader.server.js')
+const ModuleLoader = require('./ModuleLoader.server.js')
 
 module.exports = function(ctx) {
-  const modules = moduleLoader.loadModules()
-  console.info(` Modules loaded ${new Date().toLocaleTimeString()}`)
+  ModuleLoader.loadModules()
   return {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     boot: ['i18n', 'axios'],
 
     css: ['app.styl'],
+
+    htmlVariables: {
+      modulesFile: ctx.dev ? '/statics/modules.js' : '/dist/statics/modules.js'
+    },
 
     extras: [
       'roboto-font',
@@ -20,40 +23,35 @@ module.exports = function(ctx) {
       // 'eva-icons'
     ],
 
-    // framework: 'all', // --- includes everything; for dev only!
-    framework: 'all',
-    //   {
-    //   components: [
-    //     'QLayout',
-    //     'QHeader',
-    //     'QDrawer',
-    //     'QPageContainer',
-    //     'QPage',
-    //     'QToolbar',
-    //     'QToolbarTitle',
-    //     'QBtn',
-    //     'QIcon',
-    //     'QList',
-    //     'QItem',
-    //     'QItemSection',
-    //     'QItemLabel',
-    //     'QInput'
-    //   ],
-    //
-    //   directives: [
-    //     'Ripple'
-    //   ],
-    //
-    //   // Quasar plugins
-    //   plugins: [
-    //     'Notify'
-    //   ]
-    //
-    //   // iconSet: 'ionicons-v4'
-    //   // lang: 'de' // Quasar language
-    // },
+    framework: 'all', // --- includes everything; for dev only!
+    /*framework: {
+      components: [
+        'QLayout',
+        'QHeader',
+        'QDrawer',
+        'QPageContainer',
+        'QPage',
+        'QToolbar',
+        'QToolbarTitle',
+        'QBtn',
+        'QIcon',
+        'QList',
+        'QItem',
+        'QItemSection',
+        'QItemLabel',
+        'QInput'
+      ],
 
-    supportIE: false,
+      directives: ['Ripple'],
+
+      // Quasar plugins
+      plugins: ['Notify']
+
+      // iconSet: 'ionicons-v4'
+      // lang: 'de' // Quasar language
+    },*/
+
+    supportIE: true,
 
     preFetch: true,
 
@@ -71,13 +69,13 @@ module.exports = function(ctx) {
           cfg.output.filename = 'js/[name].js'
           cfg.output.chunkFilename = 'js/[name].js'
         }
-        cfg.module.rules.push({
+        /*cfg.module.rules.push({
           test: /\.(html)$/,
           loader: 'html-loader',
           options: {
             attrs: [':data-src']
           }
-        })
+        })*/
       }
     },
 
