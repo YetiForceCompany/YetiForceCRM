@@ -2,7 +2,7 @@
   <div class="ModuleExample"></div>
 </template>
 <script>
-import mutations from '../../store/mutation-types.js'
+import mutations from '../../store/mutation-types.json'
 export default {
   name: 'ModuleExample',
   mounted() {
