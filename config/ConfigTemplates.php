@@ -547,6 +547,16 @@ return [
 			'description' => 'Max number of exported records',
 			'validation' => '\App\Validator::naturalNumber'
 		],
+		'MAX_MASS_DELETE_RECORDS' => [
+			'default' => 1000,
+			'description' => 'Max number of mass deleted records',
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'MAX_MASS_TRANSFER_OWNERSHIP_RECORDS' => [
+			'default' => 1000,
+			'description' => 'Max number of transfer ownership records',
+			'validation' => '\App\Validator::naturalNumber'
+		],
 		'OWNER_MINIMUM_INPUT_LENGTH' => [
 			'default' => 2,
 			'description' => 'Minimum number of characters to search for record owner',

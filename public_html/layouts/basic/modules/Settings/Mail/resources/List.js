@@ -45,9 +45,6 @@ Settings_Vtiger_List_Js("Settings_Mail_List_Js", {}, {
 						}
 					});
 					AppConnector.request(params).done(function (data) {
-						if (typeof data == 'string') {
-							data = JSON.parse(data);
-						}
 						progressIndicatorElement.progressIndicator({
 							'mode': 'hide'
 						});
