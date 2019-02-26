@@ -61,7 +61,7 @@ class Backup
 					}
 					$returnStructure['catalogs'][] = $record;
 				} else {
-					if (!\in_array($element->getExtension(), $allowedExtensions)) {
+					if (!$element->isReadable() || !\in_array($element->getExtension(), $allowedExtensions)) {
 						continue;
 					}
 					$record['url'] = "{$requestUrl}&action=DownloadFile&file={$urlDirectory}{$record['name']}";
