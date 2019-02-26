@@ -58,7 +58,7 @@ export default function(/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules,
     mutations: {
-      update(state, payload) {
+      UPDATE(state, payload) {
         state = mergeDeepReactive(state, payload)
       }
     }
