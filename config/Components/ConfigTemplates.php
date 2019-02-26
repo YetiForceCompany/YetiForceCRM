@@ -41,7 +41,10 @@ return [
 		'BACKUP_PATH' => [
 			'default' => '',
 			'description' => 'Backup catalog path.',
-			'validation' => '\App\Fields\File::isAllowedDirectory'
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return $arg === '' || \App\Fields\File::isAllowedDirectory($arg);
+			}
 		],
 		'EXT_TO_SHOW' => [
 			'default' => ['7z', 'bz2', 'gz', 'rar', 'tar', 'tar.bz2', 'tar.gz', 'tar.lzma', 'tbz2', 'tgz', 'zip', 'zipx'],

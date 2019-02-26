@@ -114,6 +114,14 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getEditViewValue($value, $recordModel = false)
+	{
+		return (int) $value;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getListSearchTemplateName()
 	{
 		$fieldModel = $this->getFieldModel();

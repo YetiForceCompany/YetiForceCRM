@@ -5,7 +5,7 @@ If you want to contribute to YetiForce even if  have no (or little) programming 
 
 ## 👍TRANSLATE the system
 We are always looking for people who would like to help us translate YetiForce to different languages in order to be able to reach people all over the world. We as a company only take care of the English and Polish translations of the system, all the other languages are maintained by our wonderful community. 
-Adding and updating translations in YetiForce is very simple and doesn’t require any programming knowledge thanks to Crowdin. This [guide](https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/adding-translations-via-crowdin) explains how to add new translations.
+Adding and updating translations in YetiForce is very simple and doesn’t require any programming knowledge thanks to [Crowdin](https://crowdin.com/project/yetiforcecrm). This [guide](https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/adding-translations-via-crowdin) explains how to add new translations.
 
 ## 👍TEST the system
 Help us find all the bugs in the developer version of our system - [gitdeveloper](https://gitdeveloper.yetiforce.com). We add changes to the this version several times per day and sometimes some bugs manage to sneak in as well, so testers are always most welcome and appreciated. Once you do find a bug you should definitely ↓

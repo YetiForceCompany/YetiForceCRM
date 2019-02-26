@@ -26,15 +26,22 @@
 								</td>
 							</tr>
 						{/if}
-						{foreach from=$STRUCTURE['catalogs'] item=$catalog}
-							<tr class="listViewEntries">
-								<td>
-									<a href="{$catalog['url']}" class="font-weight-bold">
-										<span class="fas fa-folder"></span> {\App\Purifier::encodeHtml($catalog['name'])}
-									</a>
-								</td>
-							</tr>
-						{/foreach}
+						{if isset($STRUCTURE['catalogs'])}
+							{foreach from=$STRUCTURE['catalogs'] item=$catalog}
+								<tr class="listViewEntries{if empty($catalog['url'])} u-opacity-muted{/if}">
+									<td>
+										{if empty($catalog['url'])}
+											<span class="fas fa-folder mr-1"></span>
+										{\App\Purifier::encodeHtml($catalog['name'])}
+										{else}
+											<a href="{$catalog['url']}" class="font-weight-bold">
+												<span class="fas fa-folder"></span> {\App\Purifier::encodeHtml($catalog['name'])}
+											</a>
+										{/if}
+									</td>
+								</tr>
+							{/foreach}
+						{/if}
 					</table>
 					<table class="table table-striped table-bordered dataTable">
 						<tr class="c-tab--border-active listViewHeaders">

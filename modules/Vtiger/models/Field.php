@@ -1121,7 +1121,18 @@ class Vtiger_Field_Model extends vtlib\Field
 	{
 		return $this->getUITypeModel()->getEditViewDisplayValue($value, $recordModel);
 	}
-
+	/**
+	 * Function to retrieve user value in edit view.
+	 *
+	 * @param mixed               $value
+	 * @param Vtiger_Record_Model $recordModel
+	 *
+	 * @return mixed
+	 */
+	public function getEditViewValue($value, $recordModel = false)
+	{
+		return $this->getUITypeModel()->getEditViewValue($value, $recordModel);
+	}
 	/**
 	 * Function returns list of Currencies available in the system.
 	 *

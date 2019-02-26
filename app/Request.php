@@ -288,17 +288,20 @@ class Request
 						if (count($tempTemplate) === 1) {
 							$tempTemplate = current($tempTemplate);
 						} elseif (!isset($tempTemplate[$secondKey])) {
-							throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$secondKey}", 406);
+							throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$secondKey}", 406);
 						} else {
 							$tempTemplate = $tempTemplate[$secondKey];
 						}
 						$values[$firstKey][$secondKey] = $this->purifyMultiDimensionArray($val, $tempTemplate);
 					}
 				} else {
-					if (!isset($template[$firstKey])) {
-						throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$firstKey}", 406);
+					if (\is_array($template) && count($template) === 1) {
+						$values[$firstKey] = $this->purifyMultiDimensionArray($value, current($template));
+					} elseif (isset($template[$firstKey])) {
+						$values[$firstKey] = $this->purifyMultiDimensionArray($value, $template[$firstKey]);
+					} else {
+						throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$firstKey}", 406);
 					}
-					$values[$firstKey] = $this->purifyMultiDimensionArray($value, $template[$firstKey]);
 				}
 			}
 		} else {

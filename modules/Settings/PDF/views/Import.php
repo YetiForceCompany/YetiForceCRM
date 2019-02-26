@@ -36,9 +36,10 @@ class Settings_PDF_Import_View extends Settings_Vtiger_Index_View
 								$pdfModel->set($columnKey, '');
 								break;
 							case 'header_content':
+							case 'body_content':
 							case 'footer_content':
 								$pdfModel->set($columnKey, App\Purifier::purifyHtml((string) $columnValue));
-							// no break
+								break;
 							default:
 								$pdfModel->set($columnKey, App\Purifier::purify((string) $columnValue));
 						}
