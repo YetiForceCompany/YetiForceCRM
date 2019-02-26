@@ -260,5 +260,9 @@ class WebservicesUtils
 		$db->createCommand()->update('vtiger_lettersin', ['relatedid' => $destinationRecordId], ['relatedid' => $sourceRecordId])->execute();
 		//LettersOut
 		$db->createCommand()->update('vtiger_lettersout', ['relatedid' => $destinationRecordId], ['relatedid' => $sourceRecordId])->execute();
+		//SQuoteEnquiries
+		$db->createCommand()->update('u_yf_squoteenquiries', ['accountid' => $destinationRecordId], ['accountid' => $sourceRecordId])->execute();
+		//Reservations
+		$db->createCommand()->update('vtiger_reservations', ['link' => $destinationRecordId], ['link' => $sourceRecordId])->execute();
 	}
 }

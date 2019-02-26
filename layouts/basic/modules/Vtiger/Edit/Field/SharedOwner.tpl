@@ -42,9 +42,9 @@
 					title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
 					data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 					data-name="{$FIELD_NAME}" name="{$FIELD_NAME}[]" data-fieldinfo='{$FIELD_INFO}'
-					multiple {if !empty($SPECIAL_VALIDATOR)} data-validator="{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}"{/if}
+					multiple="multiple" {if !empty($SPECIAL_VALIDATOR)} data-validator="{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}"{/if}
 					{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
-					data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName={$FIELD_NAME}" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
+				data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName={$FIELD_NAME}" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
 					{elseif AppConfig::module('Users','FAVORITE_OWNERS')}
 				data-select-cb="registerIconsEvents" data-template-result="prependDataTemplate" data-template-selection="prependDataTemplate"
 					{/if}>
@@ -70,8 +70,8 @@
 					{if !empty($NOT_DISPLAY_LIST)}
 						{foreach from=$NOT_DISPLAY_LIST key=OWNER_ID item=OWNER_NAME}
 							<option value="{$OWNER_ID}"
-									{if in_array(\App\Purifier::encodeHtml($OWNER_NAME), $FIELD_VALUE)}selected{/if}
-									disabled class="d-none">{\App\Purifier::encodeHtml($OWNER_NAME)}</option>
+									{if in_array(\App\Purifier::encodeHtml($OWNER_NAME), $FIELD_VALUE)}selected="selected"{/if}
+									disabled="disabled" class="d-none">{\App\Purifier::encodeHtml($OWNER_NAME)}</option>
 						{/foreach}
 					{/if}
 				{/if}

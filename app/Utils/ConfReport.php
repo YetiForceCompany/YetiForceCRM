@@ -724,6 +724,7 @@ class ConfReport
 	private static function validateTimeZone(string $name, array $row, string $sapi)
 	{
 		unset($name);
+		$row[$sapi] = \App\Fields\DateTime::getTimeZone();
 		try {
 			$test = new \DateTimeZone($row[$sapi]);
 			if ($test->getName() === $row[$sapi]) {

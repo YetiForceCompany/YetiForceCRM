@@ -1,7 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Chat-Item -->
 	{assign var=USER_ID value=$USER_MODEL->getId()}
-	<div class="tpl-Chat-Item js-chat-item o-chat__item chatItem {if $USER_ID == $ROW['userid']} active flex-row {else} flex-row-reverse {/if} my-3 d-flex align-items-center"
+	<div class="js-chat-item o-chat__item chatItem {if $USER_ID == $ROW['userid']} active flex-row {else} flex-row-reverse {/if} my-3 d-flex align-items-center"
 		 data-mid="{$ROW['id']}" data-user-id="{$ROW['userid']}" data-js="data">
 		{assign var=IS_IMAGE value=!empty($ROW['image'])}
 		<div class="u-w-50px {if $USER_ID == $ROW['userid']} mr-3 {else} ml-3 {/if} js-author text-center"
@@ -29,7 +30,8 @@
 				</span>
 			</div>
 			<div class="o-chat__messages js-message col-12 p-3 ownerCBg_{$ROW['userid']} {if $USER_ID == $ROW['userid']} active float-right  {else} float-left {/if}"
-				 data-js="data">{nl2br(\App\Utils\Completions::decode(\App\Purifier::decodeHtml($ROW['messages'])))}</div>
+				 data-js="data">{nl2br(\App\Utils\Completions::decode(\App\Purifier::purifyHtml(\App\Purifier::decodeHtml($ROW['messages']))))}</div>
 		</div>
 	</div>
+	<!-- /tpl-Chat-Item -->
 {/strip}
