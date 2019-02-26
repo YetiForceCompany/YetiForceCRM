@@ -43,21 +43,27 @@ class ProjectMilestone extends CRMEntity
 		// tablename should not have prefix 'vtiger_'
 		'Project Milestone Name' => ['projectmilestone', 'projectmilestonename'],
 		'Milestone Date' => ['projectmilestone', 'projectmilestonedate'],
+		'FL_STATUS' => ['projectmilestone', 'projectmilestone_status'],
 		'Type' => ['projectmilestone', 'projectmilestonetype'],
+		'Related to' => ['projectmilestone', 'projectid'],
+		'FL_PARENT_PROJECT_MILESTONE' => ['projectmilestone', 'parentid'],
 		//'Assigned To' => Array('crmentity','smownerid')
 	];
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
 		'Project Milestone Name' => 'projectmilestonename',
 		'Milestone Date' => 'projectmilestonedate',
+		'FL_STATUS' => 'projectmilestone_status',
 		'Type' => 'projectmilestonetype',
+		'Related to' => 'projectid',
+		'FL_PARENT_PROJECT_MILESTONE' => 'parentid',
 		//'Assigned To' => 'assigned_user_id'
 	];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['projectmilestonename', 'projectmilestonedate', 'projectmilestonetype', 'assigned_user_id'];
+	public $relationFields = ['projectmilestonename', 'projectmilestonedate', 'projectmilestone_status', 'projectmilestonetype', 'assigned_user_id','projectid', 'parentid'];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'projectmilestonename';
 	// For Popup listview and UI type support
@@ -66,13 +72,19 @@ class ProjectMilestone extends CRMEntity
 		// tablename should not have prefix 'vtiger_'
 		'Project Milestone Name' => ['projectmilestone', 'projectmilestonename'],
 		'Milestone Date' => ['projectmilestone', 'projectmilestonedate'],
+		'FL_STATUS' => ['projectmilestone', 'projectmilestone_status'],
 		'Type' => ['projectmilestone', 'projectmilestonetype'],
+		'Related to' => ['projectmilestone', 'projectid'],
+		'FL_PARENT_PROJECT_MILESTONE' => ['projectmilestone', 'parentid'],
 	];
 	public $search_fields_name = [
 		// Format: Field Label => fieldname
 		'Project Milestone Namee' => 'projectmilestonename',
 		'Milestone Date' => 'projectmilestonedate',
+		'FL_STATUS' => 'projectmilestone_status',
 		'Type' => 'projectmilestonetype',
+		'Related to' => 'projectid',
+		'FL_PARENT_PROJECT_MILESTONE' => 'parentid',
 	];
 	// For Popup window record selection
 	public $popup_fields = ['projectmilestonename'];

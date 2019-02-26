@@ -728,6 +728,11 @@ class Vtiger_Record_Model extends \App\Base
 		return $matchingRecords;
 	}
 
+	/**
+	 * Function check if record is viewable.
+	 *
+	 * @return bool
+	 */
 	public function isViewable()
 	{
 		if (!isset($this->privileges['isViewable'])) {
@@ -736,6 +741,11 @@ class Vtiger_Record_Model extends \App\Base
 		return $this->privileges['isViewable'];
 	}
 
+	/**
+	 * Function check if record is createable.
+	 *
+	 * @return  bool
+	 */
 	public function isCreateable()
 	{
 		if (!isset($this->privileges['isCreateable'])) {

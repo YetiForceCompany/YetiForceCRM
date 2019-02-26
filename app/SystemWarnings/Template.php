@@ -11,6 +11,12 @@ namespace App\SystemWarnings;
  */
 abstract class Template
 {
+	/**
+	 * Status value - 2 = ignored.
+	 *
+	 * @var int
+	 */
+	protected $statusValue = 0;
 	protected $title;
 	protected $description;
 	protected $priority = 0;
@@ -63,6 +69,16 @@ abstract class Template
 	public function getColor()
 	{
 		return $this->color;
+	}
+
+	/**
+	 * Get status value.
+	 *
+	 * @return int
+	 */
+	public function getStatusValue(): int
+	{
+		return $this->statusValue;
 	}
 
 	/**
@@ -167,7 +183,6 @@ abstract class Template
 			$fileContent = preg_replace('/{/', $replacement, $fileContent, 1);
 		}
 		file_put_contents($filePath, $fileContent);
-
 		return ['result' => true, 'message' => \App\Language::translate('LBL_DATA_SAVE_OK', 'Settings::SystemWarnings')];
 	}
 }

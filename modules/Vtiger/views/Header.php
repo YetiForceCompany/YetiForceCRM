@@ -60,7 +60,7 @@ abstract class Vtiger_Header_View extends \App\Controller\View
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'LBL_MY_PREFERENCES',
 				'linkurl' => $userModel->getPreferenceDetailViewUrl(),
-				'icon' => 'fas fa-user fa-fw',
+				'icon' => 'fas fa-user-cog fa-fw',
 			];
 		}
 		if ($userModel->isAdminUser()) {
@@ -76,7 +76,7 @@ abstract class Vtiger_Header_View extends \App\Controller\View
 					'linktype' => 'HEADERLINK',
 					'linklabel' => 'LBL_USER_PANEL',
 					'linkurl' => 'index.php',
-					'icon' => 'fas fa-user-cog fa-fw',
+					'icon' => 'fas fa-user fa-fw',
 				];
 			}
 		}

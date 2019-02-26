@@ -14,7 +14,4 @@ require_once 'include/ConfigUtils.php';
 
 $webUI = new \App\WebUI();
 $webUI->process();
-$index = file_get_contents(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . 'dist' . DIRECTORY_SEPARATOR . 'index.html');
-$baseURL = AppConfig::Main('site_URL');
-$index = str_replace('<config></config>', "<script>window.baseURL = '$baseURL';</script>", $index);
-echo $index;
+require ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . 'dist' . DIRECTORY_SEPARATOR . 'index.html';
