@@ -2,8 +2,7 @@ export function AUTH_USER(state, userData) {
   state.tokenId = userData.token
   state.userId = userData.userId
   state.userName = userData.token
-  state.admin = userData.userId
-  state.expiresIn = userData.expiresIn
+  state.admin = userData.admin
 }
 
 export function STORE_USER(state, user) {
@@ -15,5 +14,4 @@ export function CLEAR_AUTH_DATA(state) {
   state.userId = null
   state.userName = null
   state.admin = null
-  state.expiresIn = null
 }

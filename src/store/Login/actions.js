@@ -8,7 +8,7 @@ export function login({ commit, dispatch }, user) {
   })
     .then(({ data }) => {
       const now = new Date()
-      const expirationDate = new Date(now.getTime() + data.expiresIn * 1000)
+      const expirationDate = new Date(now.getTime() + data.expiresIn * 100000)
       localStorage.setItem('tokenId', data.tokenId)
       localStorage.setItem('userId', data.userId)
       localStorage.setItem('userName', data.userId)
@@ -33,17 +33,16 @@ export function setLogoutTimer({ commit }, expirationTime) {
 }
 export function tryAutoLogin({ commit }) {
   const token = localStorage.getItem('tokenId')
-  if (!token) {
-    return
+  const expirationDate = new Date(localStorage.getItem('expiresIn')).getTime()
+  const now = new Date().getTime()
+  if (!token || now >= expirationDate) {
+    commit('CLEAR_AUTH_DATA')
+  } else {
+    commit('AUTH_USER', {
+      tokenId: token,
+      userId: localStorage.getItem('userId'),
+      admin: localStorage.getItem('admin'),
+      userName: localStorage.getItem('userName')
+    })
   }
-  const expirationDate = localStorage.getItem('expiresIn')
-  const now = new Date()
-  if (now >= expirationDate) {
-    return
-  }
-  const userId = localStorage.getItem('userId')
-  commit('AUTH_USER', {
-    tokenId: token,
-    userId: userId
-  })
 }

@@ -1,6 +1,7 @@
 <template>
-  <q-page class="flex flex-center">Index ->
-    <router-view/>
+  <q-page class="flex flex-center"
+    >Index ->
+    <router-view />
   </q-page>
 </template>
 

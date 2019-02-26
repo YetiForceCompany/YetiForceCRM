@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
+// import store from '../store/index.js'
 import routes from './routes'
 import ModuleLoader from './ModuleLoader.js'
 
@@ -20,7 +20,7 @@ Vue.use(VueRouter)
  * directly export the Router instantiation
  */
 
-export default function(/* { store, ssrContext } */) {
+export default function({ store }) {
   const Router = new VueRouter({
     scrollBehavior: () => ({ y: 0 }),
     routes,
@@ -36,9 +36,11 @@ export default function(/* { store, ssrContext } */) {
     Loading.show({
       spinner: QSpinnerGears
     })
-    setTimeout(function() {
+    if (store.getters.isAuthenticated || routeTo.name === 'Login') {
       next()
-    }, 1000)
+    } else {
+      next({ name: 'Login' })
+    }
   })
 
   Router.afterEach(() => {
