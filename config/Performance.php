@@ -60,6 +60,9 @@ class Performance
 	/** Max number of exported records */
 	public static $MAX_NUMBER_EXPORT_RECORDS = 500;
 
+	/** Max number of mass deleted records */
+	public static $MAX_MASS_DELETE_RECORDS = 1000;
+
 	/** Minimum number of characters to search for record owner */
 	public static $OWNER_MINIMUM_INPUT_LENGTH = 2;
 
@@ -92,7 +95,7 @@ class Performance
 
 	/**
 	 * Parameter that allows to disable file overwriting.
-	 * After enabling it the system will additionally check whether the file exists in the custom directory. Ex. custom/modules/Assets/Assets.php
+	 * After enabling it the system will additionally check whether the file exists in the custom directory. Ex. custom/modules/Assets/Assets.php.
 	 */
 	public static $LOAD_CUSTOM_FILES = false;
 

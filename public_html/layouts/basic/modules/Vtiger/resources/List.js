@@ -1600,6 +1600,9 @@ jQuery.Class("Vtiger_List_Js", {
 							url: target.data('url'),
 							data: self.getSearchParams()
 						}).done(function (data) {
+							if (typeof data == 'string') {
+								data = JSON.parse(data);
+							}
 							progressIndicatorElement.progressIndicator({mode: 'hide'});
 							if (data && data.result && data.result.notify) {
 								Vtiger_Helper_Js.showMessage(data.result.notify);
