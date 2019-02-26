@@ -15,11 +15,14 @@ class Vtiger_CurrencyInventory_UIType extends Vtiger_Double_UIType
 	{
 		$value = parent::getDisplayValue($value);
 		$currencyId = null;
-		if ($recordModel) {
-			$currencyId = $this->getCurrencyId($recordModel);
+		if ($recordModel->getModule()->isInventory()) {
+			$currencyId = $this->getCurrencyId($recordModel->getInventoryData());
 		}
-		if ($record && !$currencyId && $recordModel = Vtiger_Record_Model::getInstanceById($record)) {
-			$currencyId= $this->getCurrencyId($recordModel);
+		if ($record && !$currencyId) {
+			$moduleModel = Vtiger_Module_Model::getInstance((\App\Record::getType($record)));
+			if ($moduleModel->isInventory()) {
+				$currencyId = $this->getCurrencyId(\Vtiger_Inventory_Model::getInventoryDataById($record, $moduleModel->getName()));
+			}
 		}
 		if ($currencyId) {
 			$currencySymbol = \App\Fields\Currency::getById($currencyId)['currency_symbol'];
@@ -32,16 +35,12 @@ class Vtiger_CurrencyInventory_UIType extends Vtiger_Double_UIType
 	/**
 	 * Function gets currency id of inventory record.
 	 *
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param array $invData
 	 *
 	 * @return int|null
 	 */
-	public function getCurrencyId(Vtiger_Record_Model $recordModel): ?int
+	public function getCurrencyId(array $invData): ?int
 	{
-		if ($recordModel->getModule()->isInventory()) {
-			$invData = $recordModel->getInventoryData();
-			return current($invData)['currency'] ?? null;
-		}
-		return null;
+		return  current($invData)['currency'] ?? null;
 	}
 }
