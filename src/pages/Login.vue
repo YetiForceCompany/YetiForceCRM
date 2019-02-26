@@ -27,6 +27,7 @@
 <style></style>
 
 <script>
+console.log('loginpage')
 export default {
   name: 'Login',
   data() {
