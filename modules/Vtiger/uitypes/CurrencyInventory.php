@@ -15,7 +15,7 @@ class Vtiger_CurrencyInventory_UIType extends Vtiger_Double_UIType
 	{
 		$value = parent::getDisplayValue($value);
 		$currencyId = null;
-		if ($recordModel->getModule()->isInventory()) {
+		if ($recordModel && $recordModel->getModule()->isInventory()) {
 			$currencyId = $this->getCurrencyId($recordModel->getInventoryData());
 		}
 		if ($record && !$currencyId) {
