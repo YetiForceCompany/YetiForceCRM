@@ -1,5 +1,3 @@
-import moduleLoader from '../ModuleLoader.client.js'
-
 const routes = [
   {
     name: 'Layout',
@@ -12,14 +10,6 @@ const routes = [
     component: () => import('pages/Login.vue')
   }
 ]
-
-// Load module routes
-if (typeof window.modules === 'object') {
-  for (const moduleName in window.modules) {
-    const moduleConf = window.modules[moduleName]
-    moduleLoader.attachRoutes(routes, moduleConf)
-  }
-}
 
 // Always leave this as last one
 if (process.env.MODE !== 'ssr') {

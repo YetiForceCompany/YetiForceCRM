@@ -21,16 +21,15 @@
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "axios": "^0.18.0",
-    "babel-plugin-webpack-chunkname": "^1.2.0",
     "quasar": "^1.0.0-beta.4",
     "vue-i18n": "^7.3.3"
   },
   "devDependencies": {
-    "@quasar/app": "^1.0.0-beta.7",
+    "@quasar/app": "^1.0.0-beta.8",
+    "strip-ansi": "=3.0.1",
+    "babel-plugin-webpack-chunkname": "^1.2.0",
     "@vue/cli-plugin-eslint": "^3.0.0",
-    "@vue/eslint-config-prettier": "^3.0.0",
-    "html-loader": "^0.5.5",
-    "strip-ansi": "=3.0.1"
+    "@vue/eslint-config-prettier": "^3.0.0"
   },
   "engines": {
     "node": ">= 8.9.0",

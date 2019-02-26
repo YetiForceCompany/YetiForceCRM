@@ -1,4 +1,4 @@
-export default {
+const ModuleLoader = {
   /**
    * Attach route - recursive
    *
@@ -29,9 +29,9 @@ export default {
     return routes.map(route => {
       const routeItem = Object.assign({}, route)
       if (routeItem.componentPath.substr(0, 1) !== '/') {
-        routeItem.component = () => import(`./modules/${moduleName}/${route.componentPath}`)
+        routeItem.component = () => import(`../modules/${moduleName}/${route.componentPath}`)
       } else {
-        routeItem.component = () => import(`.${route.componentPath}`)
+        routeItem.component = () => import(`../${route.componentPath.substr(1)}`)
       }
       if (typeof route.children !== 'undefined') {
         routeItem.children = this.prepareRoutes(moduleName, route.children)
@@ -57,3 +57,5 @@ export default {
     })
   }
 }
+
+export default ModuleLoader
