@@ -14,7 +14,15 @@ export default {
         label: 'Module Example'
       }
     })
-    this.$store.commit('Base/updateMenuPositions', positions)
+    // this.$store.commit('Base/updateMenuPositions', positions)
+    // same as
+    this.$store.commit('update', {
+      Base: {
+        menu: {
+          positions
+        }
+      }
+    })
   }
 }
 </script>
