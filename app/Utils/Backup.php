@@ -56,7 +56,9 @@ class Backup
 					'name' => $element->getBasename()
 				];
 				if ($element->isDir()) {
-					$record['url'] = "{$requestUrl}&catalog={$urlDirectory}{$record['name']}";
+					if ($element->isReadable()) {
+						$record['url'] = "{$requestUrl}&catalog={$urlDirectory}{$record['name']}";
+					}
 					$returnStructure['catalogs'][] = $record;
 				} else {
 					if (!\in_array($element->getExtension(), $allowedExtensions)) {
