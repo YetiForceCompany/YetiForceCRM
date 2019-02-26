@@ -26,7 +26,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 		} elseif (\App\Cache::has('Leads.converted', $this->getId())) {
 			$returnVal = (bool) \App\Cache::get('Leads.converted', $this->getId());
 		} else {
-			$returnVal = (bool) (new \App\Db\Query())->select('converted')->from('vtiger_leaddetails')->where(['leadid'=>$this->getId()])->scalar();
+			$returnVal = (bool) (new \App\Db\Query())->select(['converted'])->from('vtiger_leaddetails')->where(['leadid'=>$this->getId()])->scalar();
 			\App\Cache::save('Leads.converted', $this->getId(), $returnVal);
 		}
 		return $returnVal;
