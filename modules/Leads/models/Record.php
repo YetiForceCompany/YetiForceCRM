@@ -17,7 +17,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Get converted column.
 	 *
-	 * @return  [type]  [return description]
+	 * @return  bool
 	 */
 	public function getConverted() : bool
 	{
