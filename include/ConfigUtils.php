@@ -10,18 +10,6 @@
  */
 class AppConfig
 {
-	protected static $api = [];
-	protected static $main = [];
-	protected static $debug = [];
-	protected static $developer = [];
-	protected static $security = [];
-	protected static $securityKeys = [];
-	protected static $performance = [];
-	protected static $relation = [];
-	protected static $modules = [];
-	protected static $sounds = [];
-	protected static $search = [];
-
 	/**
 	 * Function to get main configuration of system.
 	 *
@@ -117,11 +105,6 @@ class AppConfig
 		return \App\Config::search($key, $defvalue);
 	}
 
-	public static function load($key, $config)
-	{
-		self::$$key = $config;
-	}
-
 	/**
 	 * Set config value.
 	 *
@@ -143,6 +126,8 @@ session_save_path(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEP
 if (!defined('IS_PUBLIC_DIR')) {
 	define('IS_PUBLIC_DIR', false);
 }
+\App\Debuger::init();
+\App\Cache::init();
 if (\App\Config::debug('EXCEPTION_ERROR_HANDLER')) {
 	\App\ErrorHandler::init();
 }

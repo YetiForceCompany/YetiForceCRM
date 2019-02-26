@@ -1,0 +1,8 @@
+[
+  {
+    "name": "ModuleExample",
+    "parent": "Layout",
+    "path": "module-example",
+    "componentPath": "pages/ModuleExample.vue"
+  }
+]

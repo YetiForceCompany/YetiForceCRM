@@ -1,0 +1,15 @@
+[
+  {
+    "name": "HomeIndex",
+    "parent": "Layout",
+    "path": "home",
+    "componentPath": "/pages/Index.vue",
+    "children": [
+      {
+        "name": "Home",
+        "path": "",
+        "componentPath": "pages/Home.vue"
+      }
+    ]
+  }
+]
