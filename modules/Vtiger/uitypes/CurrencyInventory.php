@@ -24,7 +24,7 @@ class Vtiger_CurrencyInventory_UIType extends Vtiger_Double_UIType
 		if ($currencyId) {
 			$currencySymbol = \App\Fields\Currency::getById($currencyId)['currency_symbol'];
 		} else {
-			$currencySymbol =App\Fields\Currency::getDefault()['currency_symbol'];
+			$currencySymbol = \App\Fields\Currency::getDefault()['currency_symbol'];
 		}
 		return 	CurrencyField::appendCurrencySymbol($value, $currencySymbol);
 	}
