@@ -328,6 +328,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 316:
 						$fieldDataType = 'smtp';
 						break;
+					case 317:
+						$fieldDataType = 'currencyInventory';
+						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
 						if (isset($fieldsDataType[$uiType])) {
@@ -1121,6 +1124,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	{
 		return $this->getUITypeModel()->getEditViewDisplayValue($value, $recordModel);
 	}
+
 	/**
 	 * Function to retrieve user value in edit view.
 	 *
@@ -1133,6 +1137,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	{
 		return $this->getUITypeModel()->getEditViewValue($value, $recordModel);
 	}
+
 	/**
 	 * Function returns list of Currencies available in the system.
 	 *
