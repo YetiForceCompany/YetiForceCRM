@@ -71,6 +71,13 @@ module.exports = function(ctx) {
           cfg.output.filename = 'js/[name].js'
           cfg.output.chunkFilename = 'js/[name].js'
         }
+        cfg.module.rules.push({
+          test: /\.(html)$/,
+          loader: 'html-loader',
+          options: {
+            attrs: [':data-src']
+          }
+        })
       }
     },
 
