@@ -43,7 +43,6 @@ class Cron
 	public function set($key, $value)
 	{
 		$this->data[$key] = $value;
-
 		return $this;
 	}
 
@@ -353,7 +352,7 @@ class Cron
 	public static function listAllActiveInstances()
 	{
 		$instances = [];
-		$query = (new \App\Db\Query())->select(['id'])->from(self::$baseTable)->where(['<>', 'status', self::$STATUS_DISABLED])->orderBy(['sequence' => SORT_ASC]);
+		$query = (new \App\Db\Query())->select(['id','name'])->from(self::$baseTable)->where(['<>', 'status', self::$STATUS_DISABLED])->orderBy(['sequence' => SORT_ASC]);
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$instances[] = new self($row);
