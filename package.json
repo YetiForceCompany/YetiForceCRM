@@ -27,9 +27,10 @@
   },
   "devDependencies": {
     "@quasar/app": "^1.0.0-beta.7",
-    "strip-ansi": "=3.0.1",
     "@vue/cli-plugin-eslint": "^3.0.0",
-    "@vue/eslint-config-prettier": "^3.0.0"
+    "@vue/eslint-config-prettier": "^3.0.0",
+    "html-loader": "^0.5.5",
+    "strip-ansi": "=3.0.1"
   },
   "engines": {
     "node": ">= 8.9.0",
