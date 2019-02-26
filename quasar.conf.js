@@ -1,5 +1,6 @@
 // Configuration for your app
 const ModuleLoader = require('./ModuleLoader.server.js')
+const webpack = require('webpack')
 
 module.exports = function(ctx) {
   ModuleLoader.loadModules()
@@ -69,13 +70,12 @@ module.exports = function(ctx) {
           cfg.output.filename = 'js/[name].js'
           cfg.output.chunkFilename = 'js/[name].js'
         }
-        /*cfg.module.rules.push({
-          test: /\.(html)$/,
-          loader: 'html-loader',
-          options: {
-            attrs: [':data-src']
+        if (process.argv.indexOf('--watch') >= 0) {
+          cfg.watch = true
+          cfg.watchOptions = {
+            ignored: [/node_modules/, /public_html/]
           }
-        })*/
+        }
       }
     },
 

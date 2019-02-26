@@ -2,13 +2,12 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import routes from './routes'
-import ModuleLoader from './ModuleLoader'
+import ModuleLoader from './ModuleLoader.js'
 
 // Load module routes
 if (typeof window.modules === 'object') {
   for (const moduleName in window.modules) {
-    const moduleConf = window.modules[moduleName]
-    ModuleLoader.attachRoutes(routes, moduleConf)
+    ModuleLoader.attachRoutes(routes, window.modules[moduleName])
   }
 }
 
