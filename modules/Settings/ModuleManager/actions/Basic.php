@@ -48,8 +48,8 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_Basic_Action
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleName = ucfirst($request->getByType('moduleName', 'Alnum'));
-		$module = vtlib\Module::getInstance($moduleName);
-		if ($module) {
+		$paths = array_map('strtolower', array_keys(iterator_to_array((new \RecursiveDirectoryIterator('modules/', FilesystemIterator::SKIP_DOTS)))));
+		if (\in_array('modules\\' . strtolower($moduleName), $paths)) {
 			$result = ['success' => false, 'text' => \App\Language::translate('LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER', $qualifiedModuleName)];
 		} elseif (strpos($moduleName, 'Settings') !== false) {
 			$result = ['success' => false, 'text' => \App\Language::translate('LBL_ERROR_MODULE_NAME_CONTAINS_SETTINGS', $qualifiedModuleName)];
