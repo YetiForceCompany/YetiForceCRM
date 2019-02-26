@@ -1,5 +1,7 @@
 export default {
-  idToken: null,
+  tokenId: null,
   userId: null,
-  user: null
+  userName: null,
+  admin: null,
+  expiresIn: null
 }

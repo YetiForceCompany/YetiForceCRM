@@ -1,6 +1,6 @@
 <template>
   <div id="q-app">
-    <router-view/>
+    <router-view />
     <div class="modules">
       <component v-for="module in modules" :is="module.component" :key="module.name"></component>
     </div>
@@ -42,7 +42,7 @@ export default {
   preFetch({ store, redirect }) {
     store.dispatch('Login/tryAutoLogin')
     if (store.state.Login.idToken === null) {
-      //redirect('/login')
+      redirect('/login')
     }
   },
   name: 'App'

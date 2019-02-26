@@ -1,5 +1,4 @@
 import loginAxios from '../../services/Login.js'
-import globalAxios from '../../services/Global.js'
 
 export function login({ commit, dispatch }, user) {
   loginAxios({
@@ -7,22 +6,23 @@ export function login({ commit, dispatch }, user) {
     data: user,
     method: 'POST'
   })
-    .then(res => {
+    .then(({ data }) => {
       const now = new Date()
-      const expirationDate = new Date(now.getTime() + res.data.expiresIn * 1000)
-      localStorage.setItem('token', res.data.idToken)
-      localStorage.setItem('userId', res.data.localId)
-      localStorage.setItem('expirationDate', expirationDate)
+      const expirationDate = new Date(now.getTime() + data.expiresIn * 1000)
+      localStorage.setItem('tokenId', data.tokenId)
+      localStorage.setItem('userId', data.userId)
+      localStorage.setItem('userName', data.userId)
+      localStorage.setItem('admin', data.userId)
+      localStorage.setItem('expiresIn', expirationDate)
       commit('AUTH_USER', {
-        token: res.data.idToken,
-        userId: res.data.localId
+        token: data.idToken,
+        userId: data.localId
       })
-      dispatch('setLogoutTimer', res.data.expiresIn)
+      dispatch('setLogoutTimer', data.expiresIn)
     })
     .catch(error => console.log(error))
     .catch(err => {
-      commit('auth_error')
-      localStorage.removeItem('token')
+      localStorage.removeItem('tokenId')
       reject(err)
     })
 }
@@ -32,18 +32,18 @@ export function setLogoutTimer({ commit }, expirationTime) {
   }, expirationTime * 1000)
 }
 export function tryAutoLogin({ commit }) {
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('tokenId')
   if (!token) {
     return
   }
-  const expirationDate = localStorage.getItem('expirationDate')
+  const expirationDate = localStorage.getItem('expiresIn')
   const now = new Date()
   if (now >= expirationDate) {
     return
   }
   const userId = localStorage.getItem('userId')
   commit('AUTH_USER', {
-    token: token,
+    tokenId: token,
     userId: userId
   })
 }
