@@ -416,7 +416,7 @@ class ConfReport
 				'spaceTemp' => '',
 				'lastCronStart' => $lastCronStartText,
 				'lastCronStartDateTime' => $lastCronStart,
-				'protocolVersion' => $_SERVER['SERVER_PROTOCOL'] ? substr($_SERVER['SERVER_PROTOCOL'], strpos($_SERVER['SERVER_PROTOCOL'], '/') + 1) : '-'
+				'protocolVersion' => isset($_SERVER['SERVER_PROTOCOL']) ? substr($_SERVER['SERVER_PROTOCOL'], strpos($_SERVER['SERVER_PROTOCOL'], '/') + 1) : '-'
 			]
 		];
 	}
