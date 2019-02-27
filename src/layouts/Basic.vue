@@ -1,15 +1,10 @@
+<!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          @click="leftDrawerOpen = !leftDrawerOpen"
-          aria-label="Menu"
-        >
-          <q-icon name="menu" />
+        <q-btn flat dense round @click="leftDrawerOpen = !leftDrawerOpen" aria-label="Menu">
+          <q-icon name="menu"/>
         </q-btn>
 
         <q-toolbar-title>YetiForceCRM</q-toolbar-title>
@@ -17,10 +12,10 @@
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" bordered content-class="bg-grey-2">
-      <left-menu />
+      <left-menu/>
     </q-drawer>
     <q-page-container>
-      <router-view />
+      <router-view/>
     </q-page-container>
   </q-layout>
 </template>
