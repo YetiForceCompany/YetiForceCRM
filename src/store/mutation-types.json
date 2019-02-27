@@ -2,7 +2,7 @@
   "UPDATE": "UPDATE",
 
   "Login": {
-    "AUTH_USER": "AUTH_USER",
-    "CLEAR_AUTH_DATA": "CLEAR_AUTH_DATA"
+    "AUTH_USER": "Login/AUTH_USER",
+    "CLEAR_AUTH_DATA": "Login/CLEAR_AUTH_DATA"
   }
 }
