@@ -1,8 +1,0 @@
-{
-  "UPDATE": "UPDATE",
-
-  "Login": {
-    "AUTH_USER": "Login/AUTH_USER",
-    "CLEAR_AUTH_DATA": "Login/CLEAR_AUTH_DATA"
-  }
-}

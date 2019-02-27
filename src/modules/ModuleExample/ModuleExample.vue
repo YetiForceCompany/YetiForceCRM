@@ -2,7 +2,7 @@
   <div class="ModuleExample"></div>
 </template>
 <script>
-import mutations from '../../store/mutation-types.json'
+import mutations from '../../store/mutations.js'
 export default {
   name: 'ModuleExample',
   mounted() {
@@ -17,7 +17,7 @@ export default {
     })
     // this.$store.commit('Base/updateMenuPositions', positions)
     // same as
-    this.$store.commit(mutations.UPDATE, {
+    this.$store.commit(mutations.Global.update, {
       Base: {
         menu: {
           positions
