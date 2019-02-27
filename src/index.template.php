@@ -1,3 +1,15 @@
+<?php
+/**
+ * Index file.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
+ */
+$config = [
+    'baseURL' => \AppConfig::main('site_URL'),
+];
+?>
 <!DOCTYPE html>
 <html>
 
@@ -14,6 +26,7 @@
   <link rel="icon" href="statics/quasar-logo.png" type="image/x-icon">
   <link rel="icon" type="image/png" sizes="32x32" href="statics/icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="statics/icons/favicon-16x16.png">
+  <script>window.CONFIG = <?php echo json_encode($config); ?>;</script>
   <script src="<%= htmlWebpackPlugin.options.modulesFile %>"></script>
 </head>
 
