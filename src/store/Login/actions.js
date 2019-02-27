@@ -2,6 +2,7 @@
 import loginAxios from '../../services/Login.js'
 import globalAxios from '../../services/Global.js'
 import { LocalStorage } from 'quasar'
+
 /**
  * Login action
  *
@@ -23,7 +24,7 @@ export function login({ commit, dispatch }, user) {
       LocalStorage.set('userName', data.userName)
       LocalStorage.set('admin', data.admin)
       LocalStorage.set('expiresIn', expirationDate)
-      commit('AUTH_USER', {
+      commit('Login/AUTH_USER', {
         tokenId: data.tokenId,
         userId: data.userId,
         admin: data.admin,
@@ -49,7 +50,7 @@ export function login({ commit, dispatch }, user) {
  */
 export function setLogoutTimer({ commit }, expirationTime) {
   setTimeout(() => {
-    commit('CLEAR_AUTH_DATA')
+    commit('Login/CLEAR_AUTH_DATA')
   }, expirationTime * 100000)
 }
 
@@ -64,10 +65,10 @@ export function tryAutoLogin({ commit }) {
     const expirationDate = new Date(localStorage.getItem('expiresIn')).getTime()
     const now = new Date().getTime()
     if (!token || now >= expirationDate) {
-      commit('CLEAR_AUTH_DATA')
+      commit('Login/CLEAR_AUTH_DATA')
       resolve(false)
     } else {
-      commit('AUTH_USER', {
+      commit('Login/AUTH_USER', {
         tokenId: token,
         userId: localStorage.getItem('userId'),
         admin: localStorage.getItem('admin'),
