@@ -8,9 +8,6 @@
 
 <script>
 export default {
-  name: 'ModuleExample',
-  created() {
-    console.log('ModuleExample created')
-  }
+  name: 'ModuleExample'
 }
 </script>
