@@ -27,7 +27,7 @@ class Vtiger_MassDelete_Action extends Vtiger_Mass_Action
 	{
 		$moduleName = $request->getModule();
 		$recordIds = self::getRecordsListFromRequest($request);
-		$configMaxMassDelete = App\Config::performance('MAX_MASS_DELETE_RECORDS');
+		$configMaxMassDelete = App\Config::performance('maxMassDeleteRecords');
 		if (count($recordIds) > $configMaxMassDelete) {
 			$response = new Vtiger_Response();
 			$response->setResult(['notify' => ['text' => \App\Language::translateArgs('LBL_SELECT_UP_TO_RECORDS', '_Base', $configMaxMassDelete), 'type' => 'error']]);

@@ -37,7 +37,7 @@ class Vtiger_TransferOwnership_Action extends \App\Controller\Action
 		} else {
 			$recordIds = [$record];
 		}
-		$configMaxTransferRecords = App\Config::performance('MAX_MASS_TRANSFER_OWNERSHIP_RECORDS');
+		$configMaxTransferRecords = App\Config::performance('maxMassTransferOwnershipRecords');
 		if (count($recordIds) > $configMaxTransferRecords) {
 			$response = new Vtiger_Response();
 			$response->setResult(['notify' => ['text' => \App\Language::translateArgs('LBL_SELECT_UP_TO_RECORDS', '_Base', $configMaxTransferRecords), 'type' => 'error']]);
@@ -58,7 +58,7 @@ class Vtiger_TransferOwnership_Action extends \App\Controller\Action
 			}
 		}
 		$response = new Vtiger_Response();
-		$response->setResult(['notify' => ['text' => \App\Language::translateArgs('JS_RECORDS_TRANSFERRED_SUCCESSFULLY'), 'type' => 'info']]);
+		$response->setResult(['notify' => ['text' => \App\Language::translate('JS_RECORDS_TRANSFERRED_SUCCESSFULLY'), 'type' => 'info']]);
 		$response->emit();
 	}
 
