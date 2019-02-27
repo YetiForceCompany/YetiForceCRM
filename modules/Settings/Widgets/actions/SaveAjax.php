@@ -32,7 +32,7 @@ class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 				'actionSelect' => 'Integer',
 				'no_result_text' => 'Integer',
 				'switchHeader' => 'Text',
-				'filter' => 'Alnum',
+				'filter' => 'Text',
 				'checkbox' => 'Text',
 				'field_name' => 'Alnum'
 			]
