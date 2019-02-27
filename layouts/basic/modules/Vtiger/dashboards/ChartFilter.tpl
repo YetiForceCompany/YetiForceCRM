@@ -72,8 +72,8 @@
 			<div class="{$COL_LBL}"><label><span class="redColor">*</span>{\App\Language::translate('LBL_FILTER')}</label></div>
 			<div class="{$COL_CTRL}">
 				<select class="form-control filtersId" {if $CHART_TYPE!=='Funnel'}name="filtersId"
-						multiple{else}name="filtersId[]"{/if}
-						data-maximum-selection-length="{\AppConfig::performance('CHART_MULTI_FILTER_LIMIT')}">
+						multiple {else}name="filtersId[] "{/if}
+						data-validation-engine="validate[ required]" data-maximum-selection-length="{\AppConfig::performance('CHART_MULTI_FILTER_LIMIT')}">
 					<option></option>
 					{foreach from=$ALLFILTERS item=FILTERS key=FILTERGROUP}
 						<optgroup label="{\App\Language::translate($FILTERGROUP,$SELECTED_MODULE)}">
@@ -91,7 +91,7 @@
 		<div class="step3 form-group row">
 			<div class="{$COL_LBL}"><label><span class="redColor">*</span>{\App\Language::translate('LBL_GROUP_FIELD','Home')}</label></div>
 			<div class="{$COL_CTRL}">
-				<select class="form-control groupField" name="groupField" size="2">
+				<select class="form-control groupField" name="groupField" size="2" data-validation-engine="validate[ required]">
 					{foreach from=$MODULE_FIELDS item=FIELDS key=BLOCK_NAME}
 						<optgroup label="{\App\Language::translate($BLOCK_NAME,$SELECTED_MODULE)}">
 							{foreach from=$FIELDS item=FIELD key=FIELD_NAME}
