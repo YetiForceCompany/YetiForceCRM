@@ -1,3 +1,5 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
 /**
  * Helper function to determine if specified variable is an object
  *
@@ -49,5 +51,6 @@ export function mergeDeepReactive(target, ...sources) {
 }
 
 export default {
-  isObject, mergeDeepReactive
+  isObject,
+  mergeDeepReactive
 }
