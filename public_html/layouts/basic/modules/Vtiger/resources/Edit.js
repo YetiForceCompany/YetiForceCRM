@@ -171,9 +171,11 @@ $.Class("Vtiger_Edit_Js", {
 				app.event.trigger("EditView.SelectReference", params, formElement);
 				$.each(mappingRelatedField, function (key, value) {
 					if (response[value[0]] != 0 && !thisInstance.getMappingValuesFromUrl(key)) {
-						var mapFieldElement = formElement.find('[name="' + key + '"]');
-						var fieldinfo = mapFieldElement.data('fieldinfo');
-						if (mapFieldElement.is('select')) {
+						let mapFieldElement = formElement.find('[name="' + key + '"]');
+						let fieldinfo = mapFieldElement.data('fieldinfo');
+						if( data['result']['type'][value[0]]==='date' || data['result']['type'][value[0]]==='datetime' ){
+							mapFieldElement.val(data['result']['displayData'][value[0]]);
+						}else if (mapFieldElement.is('select')) {
 							if (mapFieldElement.find('option[value="' + response[value[0]] + '"]').length) {
 								mapFieldElement.val(response[value[0]]).trigger("change");
 							}
