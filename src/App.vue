@@ -39,14 +39,6 @@ export default {
       }
     ])
   },
-  preFetch({ store, redirect }) {
-    store.dispatch('Login/tryAutoLogin')
-    console.log('redir')
-    console.log(store.state.Login.idToken)
-    if (store.state.Login.idToken === null) {
-      redirect('/login')
-    }
-  },
   name: 'App'
 }
 </script>

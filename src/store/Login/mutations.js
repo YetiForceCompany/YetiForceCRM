@@ -1,7 +1,7 @@
 export function AUTH_USER(state, userData) {
-  state.tokenId = userData.token
+  state.tokenId = userData.tokenId
   state.userId = userData.userId
-  state.userName = userData.token
+  state.userName = userData.userName
   state.admin = userData.admin
 }
 
