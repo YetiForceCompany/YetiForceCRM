@@ -101,7 +101,7 @@ class ProductsTableLongVersion extends Base
 							$sum += $inventoryRow[$field->getColumnName()];
 						}
 						if (!empty($currencySymbol)) {
-							$html .= \CurrencyField::convertToUserFormat($sum, null, true) . ' ' . $currencySymbol;
+							$html .= \CurrencyField::appendCurrencySymbol(\CurrencyField::convertToUserFormat($sum, null, true), $currencySymbol);
 						} else {
 							$html .= \CurrencyField::convertToUserFormat($sum, null, true);
 						}
