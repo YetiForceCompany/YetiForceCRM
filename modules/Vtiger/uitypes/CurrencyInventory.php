@@ -35,7 +35,7 @@ class Vtiger_CurrencyInventory_UIType extends Vtiger_Double_UIType
 		} else {
 			$currencySymbol = \App\Fields\Currency::getDefault()['currency_symbol'];
 		}
-		return 	CurrencyField::appendCurrencySymbol($value, $currencySymbol);
+		return CurrencyField::appendCurrencySymbol($value, $currencySymbol);
 	}
 
 	/**
@@ -47,6 +47,6 @@ class Vtiger_CurrencyInventory_UIType extends Vtiger_Double_UIType
 	 */
 	public function getCurrencyId(array $invData): ?int
 	{
-		return  current($invData)['currency'] ?? null;
+		return current($invData)['currency'] ?? null;
 	}
 }
