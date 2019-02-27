@@ -152,6 +152,8 @@ class Users extends CRMEntity
 	/** Function to retreive the user info of the specifed user id The user info will be available in $this->column_fields array
 	 * @param $record -- record id:: Type integer
 	 * @param $module -- module:: Type varchar
+	 *
+	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function retrieveEntityInfo($record, $module)
 	{
@@ -167,6 +169,9 @@ class Users extends CRMEntity
 			$result[$tableName] = (new \App\Db\Query())
 				->from($tableName)
 				->where([$index => $record])->one();
+			if (empty($result[$tableName])) {
+				throw new \App\Exceptions\NoPermittedToRecord('ERR_RECORD_NOT_FOUND||' . $record);
+			}
 		}
 		$fields = vtlib\Functions::getModuleFieldInfos($module);
 		foreach ($fields as $fieldName => &$fieldRow) {
