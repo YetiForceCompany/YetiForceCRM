@@ -145,7 +145,9 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		}
 		\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
 		unlink($uploadFileName);
-
+		if ($importType === 'inventory') {
+			\Vtiger_Inventory_Model::getInstance($importModuleName)->createInventoryTables();
+		}
 		$viewer->assign('IMPORT_MODULE_NAME', $importModuleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('ImportUserModuleStep3.tpl', $qualifiedModuleName);
