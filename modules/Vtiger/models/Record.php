@@ -1159,6 +1159,8 @@ class Vtiger_Record_Model extends \App\Base
 		\App\Log::trace('Entering ' . __METHOD__);
 		if (!isset($this->inventoryData) && $this->getId()) {
 			$this->inventoryData = \Vtiger_Inventory_Model::getInventoryDataById($this->getId(), $this->getModuleName());
+		}elseif(!isset($this->inventoryData) && $this->get('record_id')){
+			$this->inventoryData = \Vtiger_Inventory_Model::getInventoryDataById($this->get('record_id'), $this->getModuleName());
 		} else {
 			$this->inventoryData = $this->inventoryData ?? [];
 		}
