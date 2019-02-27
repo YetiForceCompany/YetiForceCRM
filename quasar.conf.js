@@ -56,7 +56,19 @@ module.exports = function(ctx) {
 
     preFetch: true,
 
+    sourceFiles: {
+      indexHtmlTemplate: 'src/index.template.php'
+      //rootComponent: 'src/App.vue',
+      //router: 'src/router',
+      //store: 'src/store',
+      //registerServiceWorker: 'src-pwa/register-service-worker.js',
+      //serviceWorker: 'src-pwa/custom-service-worker.js',
+      //electronMainDev: 'src-electron/main-process/electron-main.dev.js',
+      //electronMainProd: 'src-electron/main-process/electron-main.js'
+    },
+
     build: {
+      htmlFilename: 'index.php',
       scopeHoisting: true,
       publicPath: 'dist',
       distDir: 'public_html/dist',
