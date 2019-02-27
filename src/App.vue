@@ -20,7 +20,9 @@ if (typeof window.modules === 'object') {
     })
   }
 }
-
+/**
+ * @vue-data {Array} modules - installed modules
+ */
 export default {
   components,
   data() {

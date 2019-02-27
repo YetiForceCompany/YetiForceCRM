@@ -20,7 +20,7 @@ Vue.use(VueRouter)
  * directly export the Router instantiation
  */
 
-export default function({ store, getters }) {
+export default function({ store }) {
   const Router = new VueRouter({
     scrollBehavior: () => ({ y: 0 }),
     routes,
