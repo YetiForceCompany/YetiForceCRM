@@ -1370,10 +1370,11 @@ $.Class("Vtiger_Inventory_Js", {
 		});
 	},
 	registerDeleteLineItemEvent: function (container) {
-		var thisInstance = this;
+		const thisInstance = this;
 		container.on('click', '.deleteRow', function (e) {
 			let num = thisInstance.getClosestRow($(e.currentTarget)).attr('numrow');
 			thisInstance.getInventoryItemsContainer().find('[numrow="' + num + '"], [numrowex="' + num + '"]').remove();
+			$('#EditView').find('[name^="inventory\\[' + num + '\\]"]').remove();
 			thisInstance.checkDeleteIcon();
 			thisInstance.rowsCalculations();
 			if (thisInstance.getInventoryItemsContainer().find('.inventoryRow').length === 0) {
