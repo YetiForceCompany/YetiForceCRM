@@ -1,5 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 import loginAxios from '../../services/Login.js'
+import globalAxios from '../../services/Global.js'
 import { LocalStorage } from 'quasar'
 /**
  * Login action
@@ -28,6 +29,7 @@ export function login({ commit, dispatch }, user) {
         admin: data.admin,
         userName: data.userName
       })
+      globalAxios.defaults.headers.common['Authorization'] = data.tokenId
       dispatch('setLogoutTimer', data.expiresIn)
       this.$router.replace('/')
     })
@@ -37,6 +39,7 @@ export function login({ commit, dispatch }, user) {
       reject(err)
     })
 }
+
 /**
  * Clear authentication data, when the expirationTime passed
  *
@@ -49,6 +52,7 @@ export function setLogoutTimer({ commit }, expirationTime) {
     commit('CLEAR_AUTH_DATA')
   }, expirationTime * 100000)
 }
+
 /**
  * Try auto login on application start
  *
