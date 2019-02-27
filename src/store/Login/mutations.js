@@ -12,6 +12,7 @@ export function AUTH_USER(state, userData) {
   state.userName = userData.userName
   state.admin = userData.admin
 }
+
 /**
  * Clear authorization data
  *
