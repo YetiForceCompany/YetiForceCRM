@@ -1059,7 +1059,7 @@ class PackageImport extends PackageExport
 	 */
 	public function importInventory()
 	{
-		if ($this->_modulexml->type !== 'inventory') {
+		if ($this->moduleInstance->type !== 1) {
 			return false;
 		}
 		$module = (string) $this->moduleInstance->name;
