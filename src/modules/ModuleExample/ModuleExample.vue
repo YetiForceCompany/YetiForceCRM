@@ -3,10 +3,19 @@
 </template>
 <script>
 import mutations from '../../store/mutations.js'
+import getters from '../../store/getters.js'
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'ModuleExample',
+  computed: {
+    ...mapGetters({
+      menuPositions: getters.Base.menuPositions
+    })
+  },
   mounted() {
-    const positions = this.$store.state.Base.menu.positions.map(position => position)
+    console.log(this.menuPositions)
+    const positions = this.menuPositions.map(position => position)
     positions.push({
       component: 'RoutePush',
       props: {
@@ -15,15 +24,7 @@ export default {
         label: 'Module Example'
       }
     })
-    // this.$store.commit('Base/updateMenuPositions', positions)
-    // same as
-    this.$store.commit(mutations.Global.update, {
-      Base: {
-        menu: {
-          positions
-        }
-      }
-    })
+    this.$store.commit(mutations.Base.updateMenuPositions, positions)
   }
 }
 </script>
