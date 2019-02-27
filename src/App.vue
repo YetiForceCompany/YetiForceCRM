@@ -1,7 +1,7 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <div id="q-app">
-    <router-view />
+    <router-view/>
     <div class="modules">
       <component v-for="module in modules" :is="module.component" :key="module.name"></component>
     </div>
@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import mutations from './store/mutations.js'
+
 const components = {}
 const modules = []
 if (typeof window.modules === 'object') {
@@ -31,7 +33,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.commit('Base/updateMenuPositions', [
+    this.$store.commit(mutations.Base.updateMenuPositions, [
       {
         component: 'RoutePush',
         props: {
