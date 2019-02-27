@@ -20,6 +20,7 @@
     "description": "Description",
     "Related to": "Related to",
     "FL_MEMBER_OF": "Parent Project",
+    "FL_PLAN": "Plan",
     "LBL_TASKS_OPEN": "Tasks opened",
     "LBL_TASKS_DUE": "Tasks due",
     "LBL_TASKS_COMPLETED": "Tasks completed",

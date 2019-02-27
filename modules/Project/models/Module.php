@@ -118,6 +118,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 		static::calculateProgressOfMilestones($id, $estimatedWorkTime, $progressInHours);
 		$projectProgress = $estimatedWorkTime ? round((100 * $progressInHours) / $estimatedWorkTime) : 0;
 		$recordModel->set('progress', $projectProgress);
+		$recordModel->set('plan', $estimatedWorkTime);
 		$recordModel->save();
 		if (!$recordModel->isEmpty('parentid') && $recordModel->get('parentid') !== $callerId) {
 			static::updateProgress(

@@ -5634,7 +5634,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2779 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2781 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -7794,6 +7794,7 @@ CREATE TABLE `vtiger_project` (
   `servicecontractsid` int(10) DEFAULT NULL,
   `ssalesprocessesid` int(10) DEFAULT NULL,
   `parentid` int(10) DEFAULT NULL,
+  `plan` decimal(15,2) DEFAULT NULL,
   PRIMARY KEY (`projectid`),
   KEY `servicecontractsid` (`servicecontractsid`),
   KEY `linktoaccountscontacts` (`linktoaccountscontacts`),
@@ -7826,6 +7827,7 @@ CREATE TABLE `vtiger_projectmilestone` (
   `projectmilestone_progress` decimal(5,2) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT 0.00,
   `parentid` int(10) DEFAULT NULL,
+  `projectmilestone_plan` decimal(15,2) DEFAULT NULL,
   PRIMARY KEY (`projectmilestoneid`),
   KEY `projectid` (`projectid`),
   KEY `vtiger_projectmilestone_parentid_idx` (`parentid`),
