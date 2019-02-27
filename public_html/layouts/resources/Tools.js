@@ -8,7 +8,7 @@ App.Tools = {
 		 * @param container
 		 */
 		refreshCompanyVariables(container) {
-			const companyId = container.find(".companyList").val();
+			const companyId = container.find(".js-company-list").val();
 			container.find(".js-company-variable > optgroup > option").each(function () {
 				let template = $(this).data('value-template');
 				this.value = template.replace(/__X__/i, companyId);
