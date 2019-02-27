@@ -55,10 +55,11 @@ class Vtiger_Double_InventoryField extends Vtiger_Basic_InventoryField
 		if ($isUserFormat) {
 			$value = $this->getDBValue($value, $columnName);
 		}
+		$moduleName = $this->getFieldModel()->getModuleName();
 		if (!is_numeric($value)) {
-			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
+			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$moduleName||$value", 406);
 		} elseif ($this->maximumLength < $value || -$this->maximumLength > $value) {
-			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
+			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$moduleName||$value", 406);
 		}
 	}
 }
