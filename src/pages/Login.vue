@@ -19,7 +19,7 @@
         :rules="[val => (val && val.length > 0) || 'Please type something']"
       />
       <div>
-        <q-btn label="Submit" type="submit" color="primary" />
+        <q-btn label="Submit" type="submit" color="primary"/>
       </div>
     </form>
   </div>
@@ -28,6 +28,7 @@
 <style></style>
 
 <script>
+import actions from '../store/actions.js'
 export default {
   name: 'Login',
   data() {
@@ -43,7 +44,7 @@ export default {
       if (this.$refs.user.hasError || this.$refs.password.hasError) {
         this.formHasError = true
       } else {
-        this.$store.dispatch('Login/login', { user: this.user, password: this.password })
+        this.$store.dispatch(actions.Login.login, { user: this.user, password: this.password })
       }
     }
   }

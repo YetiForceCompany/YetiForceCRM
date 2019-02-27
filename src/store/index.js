@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Objects from '../utilities/Objects.js'
-
+import mutations from './mutations.js'
 // modules
 import Base from './Base'
 import Login from './Login'
@@ -19,7 +19,7 @@ export default function(/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules,
     mutations: {
-      UPDATE(state, payload) {
+      [mutations.Global.update](state, payload) {
         state = Objects.mergeDeepReactive(state, payload)
       }
     }

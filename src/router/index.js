@@ -3,6 +3,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import routes from './routes'
 import ModuleLoader from './ModuleLoader.js'
+import getters from '../store/getters.js'
+import actions from '../store/actions.js'
 
 import { Loading, QSpinnerGears } from 'quasar'
 
@@ -34,7 +36,7 @@ export default function({ store }) {
 
   Router.beforeEach((routeTo, routeFrom, next) => {
     const setRoute = () => {
-      if (store.getters['Login/isAuthenticated'] || routeTo.name === 'Login') {
+      if (store.getters[getters.Login.isAuthenticated] || routeTo.name === 'Login') {
         next()
       } else {
         next({ name: 'Login' })
@@ -44,7 +46,7 @@ export default function({ store }) {
       spinner: QSpinnerGears
     })
     if (!routeFrom.name) {
-      store.dispatch('Login/tryAutoLogin').then(() => {
+      store.dispatch(actions.Login.tryAutoLogin).then(() => {
         setRoute()
       })
     } else {
