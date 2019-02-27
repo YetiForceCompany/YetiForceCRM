@@ -305,15 +305,6 @@ class Project extends CRMEntity
 	}
 
 	/**
-	 * Function to Recursively get all the upper sales of a given.
-	 *
-	 * @param int   $id     - multicompanyid
-	 * @param array $parent - Array of all the parent sales
-	 *                      returns All the parent  f the given multicompanyid in array format
-	 * @YTTODO to rebuild
-	 */
-
-	/**
 	 * Function to Recursively get all the upper projects of a given.
 	 *
 	 * @param int   $id
