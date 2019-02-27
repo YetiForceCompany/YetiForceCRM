@@ -836,7 +836,7 @@ class TextParser
 	{
 		$model = $this->recordModel;
 		if ($value === false) {
-			$value = $this->recordModel->get($fieldModel->getName());
+			$value = \App\Utils\Completions::decode($this->recordModel->get($fieldModel->getName()), \App\Utils\Completions::FORMAT_TEXT);
 			if (!$fieldModel->isViewEnabled()) {
 				return '';
 			}
