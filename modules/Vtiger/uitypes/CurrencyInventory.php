@@ -2,9 +2,15 @@
 /**
  * UIType CurrencyInventory Field Class.
  *
+ * @package   UIType
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Koń <a.kon@yetiforce.com>
+ */
+
+/**
+ * Class CurrencyInventory.
  */
 class Vtiger_CurrencyInventory_UIType extends Vtiger_Double_UIType
 {
@@ -15,12 +21,12 @@ class Vtiger_CurrencyInventory_UIType extends Vtiger_Double_UIType
 	{
 		$value = parent::getDisplayValue($value);
 		$currencyId = null;
-		if ($recordModel && $recordModel->getModule()->isInventory()) {
-			$currencyId = $this->getCurrencyId($recordModel->getInventoryData());
-		}
-		if ($record && !$currencyId) {
-			$moduleModel = $this->getFieldModel()->getModule();
-			if ($moduleModel->isInventory()) {
+		$moduleModel = $this->getFieldModel()->getModule();
+		if ($moduleModel->isInventory() && \Vtiger_Inventory_Model::getInstance($moduleModel->getName())->isField('currency')) {
+			if ($recordModel) {
+				$currencyId = $this->getCurrencyId($recordModel->getInventoryData());
+			}
+			if ($record && !$currencyId) {
 				$currencyId = $this->getCurrencyId(\Vtiger_Inventory_Model::getInventoryDataById($record, $moduleModel->getName()));
 			}
 		}
