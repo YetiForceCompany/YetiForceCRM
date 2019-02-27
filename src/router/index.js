@@ -1,7 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import store from '../store/index.js'
 import routes from './routes'
 import ModuleLoader from './ModuleLoader.js'
 
@@ -21,7 +20,7 @@ Vue.use(VueRouter)
  * directly export the Router instantiation
  */
 
-export default function({ store }) {
+export default function({ store, getters }) {
   const Router = new VueRouter({
     scrollBehavior: () => ({ y: 0 }),
     routes,
@@ -34,21 +33,22 @@ export default function({ store }) {
   })
 
   Router.beforeEach((routeTo, routeFrom, next) => {
+    const setRoute = () => {
+      if (store.getters['Login/isAuthenticated'] || routeTo.name === 'Login') {
+        next()
+      } else {
+        next({ name: 'Login' })
+      }
+    }
     Loading.show({
       spinner: QSpinnerGears
     })
     if (!routeFrom.name) {
-      store.dispatch('Login/tryAutoLogin').then(isLoggedIn => {
-        if (isLoggedIn || routeTo.name === 'Login') {
-          next()
-        } else {
-          next({ name: 'Login' })
-        }
+      store.dispatch('Login/tryAutoLogin').then(() => {
+        setRoute()
       })
-    } else if (store.state.Login.tokenId || routeTo.name === 'Login') {
-      next()
     } else {
-      next({ name: 'Login' })
+      setRoute()
     }
   })
 
