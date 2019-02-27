@@ -1,7 +1,13 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 import loginAxios from '../../services/Login.js'
 import { LocalStorage } from 'quasar'
-
+/**
+ * Login action
+ *
+ * @param   {any}     commit
+ * @param   {any}     dispatch
+ * @param   {object}  user
+ */
 export function login({ commit, dispatch }, user) {
   loginAxios({
     url: 'login.php/',
@@ -31,11 +37,23 @@ export function login({ commit, dispatch }, user) {
       reject(err)
     })
 }
+/**
+ * Clear authentication data, when the expirationTime passed
+ *
+ * @param   {any}     commit
+ * @param   {any}     dispatch
+ * @param   {number}  expirationTime
+ */
 export function setLogoutTimer({ commit }, expirationTime) {
   setTimeout(() => {
     commit('CLEAR_AUTH_DATA')
   }, expirationTime * 100000)
 }
+/**
+ * Try auto login on application start
+ *
+ * @param   {any}     commit
+ */
 export function tryAutoLogin({ commit }) {
   return new Promise(resolve => {
     const token = localStorage.getItem('tokenId')
