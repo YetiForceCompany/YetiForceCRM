@@ -1059,12 +1059,15 @@ class PackageImport extends PackageExport
 	 */
 	public function importInventory()
 	{
-		if (empty($this->_modulexml->inventory) || empty($this->_modulexml->inventory->fields->field)) {
+		if ($this->_modulexml->type !== 'inventory') {
 			return false;
 		}
 		$module = (string) $this->moduleInstance->name;
 		$inventory = \Vtiger_Inventory_Model::getInstance($module);
 		$inventory->createInventoryTables();
+		if(empty($this->_modulexml->inventory) || empty($this->_modulexml->inventory->fields->field)){
+			return false;
+		}
 		foreach ($this->_modulexml->inventory->fields->field as $fieldNode) {
 			$fieldModel = $inventory->getFieldCleanInstance((string) $fieldNode->invtype);
 			$fieldModel->setDefaultDataConfig();
