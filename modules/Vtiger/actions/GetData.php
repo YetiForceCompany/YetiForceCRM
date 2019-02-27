@@ -41,7 +41,7 @@ class Vtiger_GetData_Action extends App\Controller\Action
 		if (!$recordModel->isViewable()) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		$labels = $data = $display = [];
+		$labels = $data = $display = $type = [];
 		if ($request->has('fieldType')) {
 			$fields = $recordModel->getModule()->getFieldsByType($request->getArray('fieldType', 'Standard'));
 		} else {
@@ -52,6 +52,7 @@ class Vtiger_GetData_Action extends App\Controller\Action
 				$data[$fieldName] = $recordModel->get($fieldName);
 				$labels[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $recordModel->getModuleName());
 				$display[$fieldName] = $fieldModel->getDisplayValue($recordModel->get($fieldName), $record, $recordModel, true);
+				$type[$fieldName] = $fieldModel->getFieldDataType();
 			}
 		}
 		$response = new Vtiger_Response();
@@ -60,6 +61,7 @@ class Vtiger_GetData_Action extends App\Controller\Action
 			'data' => array_map('App\Purifier::decodeHtml', $data),
 			'displayData' => array_map('App\Purifier::decodeHtml', $display),
 			'labels' => $labels,
+			'type' => $type,
 		]);
 		$response->emit();
 	}
