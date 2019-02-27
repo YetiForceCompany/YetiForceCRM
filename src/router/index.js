@@ -36,7 +36,15 @@ export default function({ store }) {
     Loading.show({
       spinner: QSpinnerGears
     })
-    if (store.getters.isAuthenticated || routeTo.name === 'Login') {
+    if (!routeFrom.name) {
+      store.dispatch('Login/tryAutoLogin').then(isLoggedIn => {
+        if (isLoggedIn || routeTo.name === 'Login') {
+          next()
+        } else {
+          next({ name: 'Login' })
+        }
+      })
+    } else if (store.state.Login.tokenId || routeTo.name === 'Login') {
       next()
     } else {
       next({ name: 'Login' })
