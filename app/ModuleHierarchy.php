@@ -178,6 +178,9 @@ class ModuleHierarchy
 				$return = 68;
 				break;
 			case 3:
+				$return = 64;
+				break;
+			case 4:
 				$return = 65;
 				break;
 			default:
