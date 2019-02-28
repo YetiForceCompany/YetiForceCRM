@@ -1,6 +1,8 @@
 // Configuration for your app
 const ModuleLoader = require('./ModuleLoader.server.js')
 const webpack = require('webpack')
+const exec = require('child_process').exec
+const axios = require('axios')
 
 module.exports = function(ctx) {
   ModuleLoader.loadModules()
@@ -12,7 +14,8 @@ module.exports = function(ctx) {
     css: ['app.styl'],
 
     htmlVariables: {
-      modulesFile: ctx.dev ? '/statics/modules.js' : '/dist/statics/modules.js'
+      modulesFile: ctx.dev ? '/statics/modules.js' : '/dist/statics/modules.js',
+      dev: ctx.dev
     },
 
     extras: [
@@ -57,7 +60,7 @@ module.exports = function(ctx) {
     preFetch: true,
 
     sourceFiles: {
-      indexHtmlTemplate: 'src/index.template.php'
+      indexHtmlTemplate: ctx.dev ? 'src/index.template.dev.html' : 'src/index.template.php'
       //rootComponent: 'src/App.vue',
       //router: 'src/router',
       //store: 'src/store',
@@ -68,7 +71,7 @@ module.exports = function(ctx) {
     },
 
     build: {
-      htmlFilename: 'index.php',
+      htmlFilename: ctx.dev ? '' : 'index.php',
       scopeHoisting: true,
       publicPath: 'dist',
       distDir: 'public_html/dist',
@@ -94,7 +97,45 @@ module.exports = function(ctx) {
     devServer: {
       // https: true,
       // port: 8080,
-      open: true // opens browser window automatically
+      open: true, // opens browser window automatically
+      before(app, server) {
+        let baseURL = ''
+        // get configuration by running index.php from command line
+        // which will in return get dev server template with configuration from php
+        app.all('/', (req, res) => {
+          exec('php ' + __dirname + '/index.php --dev', function(error, stdout, stderr) {
+            res.append('access-control-allow-origin', '*')
+            res.append('access-control-allow-headers', '*')
+            res.append('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS')
+            baseURL = /data\-config\-url\=\"([^\"]+)\"/gi.exec(stdout)[1]
+            res.end(stdout)
+          })
+        })
+        // catch login request and forward it to php server
+        app.all('/login.php', (req, res) => {
+          axios
+            .post(baseURL + '/login.php', req.body)
+            .then(function(response) {
+              for (let headerName in response.headers) {
+                res.append(headerName, response.headers[headerName])
+              }
+              if (response.status === 200) {
+                res.status(200).json(response.data)
+              } else {
+                res
+                  .type('.html')
+                  .status(response.status)
+                  .end(response.data)
+              }
+            })
+            .catch(function(error) {
+              res
+                .type('.html')
+                .status(500)
+                .end(error)
+            })
+        })
+      }
     },
 
     // animations: 'all' --- includes all animations
