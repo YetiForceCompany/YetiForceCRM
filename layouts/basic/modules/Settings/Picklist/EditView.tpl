@@ -81,6 +81,10 @@
 							<div class="form-group row align-items-center">
 								<div class="col-md-3 col-form-label text-right">
 									{\App\Language::translate('LBL_CLOSES_RECORD',$QUALIFIED_MODULE)}
+									<div class="js-popover-tooltip ml-2 d-inline my-auto u-h-fit u-cursor-pointer" data-js="popover"
+										data-content="{\App\Language::translate('LBL_BLOCKED_RECORD_INFO',$QUALIFIED_MODULE)}">
+										<span class="fas fa-info-circle"></span>
+									</div>
 								</div>
 								<div class="col-md-9 controls">
 									<input class="form-control" type="checkbox" value="1"

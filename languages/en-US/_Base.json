@@ -1317,7 +1317,14 @@
     "LBL_YETIFORCE_NEWSLETTER_ERROR": "No e-mail address was added to company details. If you want to receive newsletter %s.",
     "LBL_START": "Start",
     "LBL_END": "End",
-    "LBL_AUTOMATIC": "Automatic"
+    "LBL_AUTOMATIC": "Automatic",
+    "PLL_PLANNED" : "Planned",
+    "PLL_ON_HOLD" : "On hold",
+    "PLL_SUBMITTED_COMMENTS" : "Submitted comments",
+    "PLL_IN_PROGRESSING" : "In progressing",
+    "PLL_IN_APPROVAL" : "In approval",
+    "PLL_COMPLETED" : "Completed",
+    "PLL_CANCELLED" : "Cancelled"
   },
   "js": {
     "JS_APPROVE": "Approve",
