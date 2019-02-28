@@ -6,8 +6,49 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class ProjectTask_Module_Model extends Vtiger_Module_Model
 {
+	/**
+	 * Get project tasks by status.
+	 *
+	 * @param array  $status
+	 * @param object $pagingModel
+	 * @param mixed  $user
+	 *
+	 * @return array
+	 */
+	public static function getRecordsByStatus(array $status, object $pagingModel, $user): array
+	{
+		$query = new \App\Db\Query();
+		if (!$user) {
+			$user = (int) App\User::getCurrentUserModel()->getId();
+		}
+		$query->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.smownerid', 'vtiger_crmentity.setype', 'vtiger_projecttask.*'])
+			->from('vtiger_projecttask')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_projecttask.projecttaskid')
+			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_projecttask.projecttaskstatus' => $status]);
+		\App\PrivilegeQuery::getConditions($query, 'ProjectTask');
+		if ($user !== 'all' && !empty($user)) {
+			$subQuery = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->innerJoin('vtiger_projecttask', 'u_#__crmentity_showners.crmid=vtiger_projecttask.projecttaskid')->where(['userid' => $user])->distinct('crmid');
+			$query->andWhere(['or', ['vtiger_crmentity.smownerid' => $user], ['vtiger_crmentity.crmid' => $subQuery]]);
+		}
+		$query->limit($pagingModel->getPageLimit() + 1)->offset($pagingModel->getStartIndex());
+		$dataReader = $query->createCommand()->query();
+		$projectTasks = [];
+		while ($row = $dataReader->read()) {
+			$projectTasks[] = $row;
+		}
+		$pagingModel->calculatePageRange($dataReader->count());
+		if ($dataReader->count() > $pagingModel->getPageLimit()) {
+			array_pop($projectTasks);
+			$pagingModel->set('nextPageExists', true);
+		} else {
+			$pagingModel->set('nextPageExists', false);
+		}
+		$dataReader->close();
+		return $projectTasks;
+	}
 }
