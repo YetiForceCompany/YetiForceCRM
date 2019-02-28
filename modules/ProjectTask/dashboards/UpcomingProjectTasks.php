@@ -27,7 +27,11 @@ class ProjectTask_UpcomingProjectTasks_Dashboard extends Vtiger_IndexAjax_View
 		$pagingModel->set('page', $request->getInteger('page'));
 		$pagingModel->set('limit', (int) $widget->get('limit'));
 		$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'ProjectTask', $request->getByType('owner', 2));
-		$projectTasks = ($owner === false) ? [] : ProjectTask_Module_Model::getRecordsByStatus(['Open', 'In Progress'], $pagingModel, $owner);
+		$params = ['projecttaskstatus' =>['Open', 'In Progress']];
+		if (!$request->isEmpty('projecttaskpriority') && $request->getByType('projecttaskpriority', 'Standard') !== 'all') {
+			$params['projecttaskpriority'] = $request->getByType('projecttaskpriority', 'Standard');
+		}
+		$projectTasks = ($owner === false) ? [] : ProjectTask_Module_Model::getRecordsByStatus($params, $pagingModel, $owner);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('SOURCE_MODULE', 'Calendar');
 		$viewer->assign('MODULE_NAME', $moduleName);

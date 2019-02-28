@@ -14,13 +14,13 @@ class ProjectTask_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Get project tasks by status.
 	 *
-	 * @param array  $status
+	 * @param array  $params
 	 * @param object $pagingModel
 	 * @param mixed  $user
 	 *
 	 * @return array
 	 */
-	public static function getRecordsByStatus(array $status, object $pagingModel, $user): array
+	public static function getRecordsByStatus(array $params, object $pagingModel, $user): array
 	{
 		$query = new \App\Db\Query();
 		if (!$user) {
@@ -29,7 +29,11 @@ class ProjectTask_Module_Model extends Vtiger_Module_Model
 		$query->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.smownerid', 'vtiger_crmentity.setype', 'vtiger_projecttask.*'])
 			->from('vtiger_projecttask')
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_projecttask.projecttaskid')
-			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_projecttask.projecttaskstatus' => $status]);
+			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_projecttask.projecttaskstatus' => $params['projecttaskstatus']]);
+
+		if (isset($params['projecttaskpriority'])) {
+			$query->andWhere(['vtiger_projecttask.projecttaskpriority' => $params['projecttaskpriority']]);
+		}
 		\App\PrivilegeQuery::getConditions($query, 'ProjectTask');
 		if ($user !== 'all' && !empty($user)) {
 			$subQuery = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->innerJoin('vtiger_projecttask', 'u_#__crmentity_showners.crmid=vtiger_projecttask.projecttaskid')->where(['userid' => $user])->distinct('crmid');

@@ -2922,3 +2922,26 @@ YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {
 		this.loadMultifilterData(false);
 	},
 });
+YetiForce_Widget_Js('YetiForce_UpcomingProjectTasks_Widget_Js', {}, {
+	postLoadWidget: function () {
+		this._super();
+		this.registerListViewButton();
+	},
+	postRefreshWidget: function () {
+		this._super();
+	},
+	registerListViewButton: function () {
+		const thisInstance = this,
+		container = thisInstance.getContainer();
+		container.find('.goToListView').on('click', function () {
+			let url = 'index.php?module=ProjectTask&view=List&viewname=All';
+			url += '&search_params=[[';
+			let owner = container.find('.widgetFilter.owner option:selected');
+			if (owner.val() !== 'all') {
+				url += '["assigned_user_id","e","' + owner.val() + '"],';
+			}
+			url += '["projecttaskstatus","e","' + encodeURIComponent('Open##In Progress') + '"]]]';
+			window.location.href = url;
+		});
+	}
+});
