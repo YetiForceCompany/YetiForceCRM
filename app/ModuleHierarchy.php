@@ -200,13 +200,13 @@ class ModuleHierarchy
 		switch (static::getModuleLevel($moduleName)) {
 			case 0:
 				$is1Level = in_array(1, $hierarchy);
-				$is3Level = in_array(3, $hierarchy);
-				if ($is1Level && $is3Level) {
-					$modules = array_keys(array_merge(static::getModulesByLevel(1), static::getModulesByLevel(3)));
+				$isLevel4 = in_array(4, $hierarchy);
+				if ($is1Level && $isLevel4) {
+					$modules = array_keys(array_merge(static::getModulesByLevel(1), static::getModulesByLevel(4)));
 				} elseif ($is1Level) {
 					$modules = array_keys(static::getModulesByLevel(1));
-				} elseif ($is3Level) {
-					$modules = array_keys(static::getModulesByLevel(3));
+				} elseif ($isLevel4) {
+					$modules = array_keys(static::getModulesByLevel(4));
 				}
 				break;
 			case 1:
