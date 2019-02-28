@@ -27,7 +27,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	protected $uitypeModel;
 
-	public static $referenceTypes = ['reference', 'referenceLink', 'referenceProcess', 'referenceSubProcess', 'referenceExtend'];
+	public static $referenceTypes = ['reference', 'referenceLink', 'referenceProcess', 'referenceSubProcess', 'referenceExtend', 'referenceSubProcessSL'];
 
 	const REFERENCE_TYPE = 'reference';
 	const OWNER_TYPE = 'owner';
@@ -251,6 +251,9 @@ class Vtiger_Field_Model extends vtlib\Field
 						} elseif ($this->getName() === 'firstname') {
 							$fieldDataType = 'salutation';
 						}
+						break;
+					case 64:
+						$fieldDataType = 'referenceSubProcessSL';
 						break;
 					case 65:
 						$fieldDataType = 'referenceExtend';
