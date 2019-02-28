@@ -88,8 +88,11 @@ class ModuleHierarchy
 			case 68:
 				$level = 2;
 				break;
-			case 65:
+			case 64:
 				$level = 3;
+				break;
+			case 65:
+				$level = 4;
 				break;
 			default:
 				break;
@@ -321,7 +324,7 @@ class ModuleHierarchy
 								$queryGenerator = new QueryGenerator($subField['name']);
 								$queryGenerator->setFields(['id']);
 								$queryGenerator->addNativeCondition([$subField['tablename'] . '.' . $subField['columnname'] => clone $tempQuery]);
-								$queries[] =  $queryGenerator->createQuery();
+								$queries[] = $queryGenerator->createQuery();
 							}
 						}
 					}
