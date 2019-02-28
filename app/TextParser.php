@@ -1373,4 +1373,17 @@ class TextParser
 			return strlen($text);
 		}
 	}
+
+	/**
+	 * Compare two HTML if they are the same.
+	 *
+	 * @param   string  $str1
+	 * @param   string  $str2
+	 *
+	 * @return  bool
+	 */
+	public static function sameHtml(string $str1, string $str2) : bool
+	{
+		return \App\Purifier::purifyByType(str_replace(["\r", "\n"], ['', ''], $str1), 'Text') === \App\Purifier::purifyByType(str_replace(["\r", "\n"], ['', ''], $str2), 'Text');
+	}
 }
