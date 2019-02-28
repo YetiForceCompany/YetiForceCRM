@@ -23,11 +23,11 @@ class VTUpdateWorkTime extends VTTask
 	 */
 	public function doTask($recordModel)
 	{
-		$referenceName = OSSTimeControl_Record_Model::$referenceFieldsToTime;
+		$referenceFields = $recordModel->getModule()->getFieldsByReference();
 		$referenceIds = [];
-		foreach ($referenceName as $name) {
-			if ($recordModel->get($name)) {
-				$referenceIds[$recordModel->get($name)] = $name;
+		foreach ($referenceFields as $fieldModel) {
+			if ($value = $recordModel->get($fieldModel->getName())) {
+				$referenceIds[$value] = $fieldModel->getName();
 			}
 		}
 		$delta = \App\Json::decode($this->getContents($recordModel));
@@ -64,8 +64,7 @@ class VTUpdateWorkTime extends VTTask
 	public function getContents($recordModel)
 	{
 		if (!$this->contents && is_object($recordModel)) {
-			$delta = array_intersect_key($recordModel->getPreviousValue(), array_flip(OSSTimeControl_Record_Model::$referenceFieldsToTime));
-
+			$delta = array_intersect_key($recordModel->getPreviousValue(), $recordModel->getModule()->getFieldsByReference());
 			$this->contents = \App\Json::encode($delta);
 		}
 		return $this->contents;
