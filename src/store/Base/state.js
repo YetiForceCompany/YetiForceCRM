@@ -2,5 +2,10 @@
 export default {
   menu: {
     positions: []
+  },
+  url: {
+    Login: {
+      login: 'login.php'
+    }
   }
 }
