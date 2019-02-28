@@ -20,6 +20,7 @@
     "description": "Description",
     "Related to": "Related to",
     "FL_MEMBER_OF": "Parent Project",
+    "LBL_ESTIMATED_WORK_TIME": "Estimated work time",
     "LBL_TASKS_OPEN": "Tasks opened",
     "LBL_TASKS_DUE": "Tasks due",
     "LBL_TASKS_COMPLETED": "Tasks completed",
