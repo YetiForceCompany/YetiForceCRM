@@ -18,6 +18,7 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_Basic_A
 	public function save(\App\Request $request)
 	{
 		$data = $request->getMultiDimensionArray('form', [
+			'id' => 'Integer',
 			'module' => 'Alnum',
 			'parent' => 'Alnum',
 			'widgets' => 'Integer',
@@ -27,9 +28,11 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_Basic_A
 			'data' => 'Text',
 			'blockid' => 'Integer',
 			'linkid' => 'Integer',
+			'customMultiFilter' => ['Integer'],
 			'label' => 'Text',
 			'title' => 'Text',
 			'name' => 'Text',
+			'type' => 'Text',
 			'filterid' => 'Text',
 			'isdefault' => 'Integer',
 			'owners_all' => [
@@ -44,6 +47,9 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_Basic_A
 			'cache' => 'Integer',
 			'default_date' => 'Standard',
 			'authorized' => 'Alnum',
+			'plotTickSize' => 'Integer',
+			'plotLimit' => 'Integer',
+			'defaultFilter' => 'Integer',
 			'__vtrftk' => 'Text',
 		]);
 		$moduleName = $request->getByType('sourceModule', 2);

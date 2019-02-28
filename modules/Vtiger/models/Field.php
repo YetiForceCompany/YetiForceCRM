@@ -27,7 +27,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	protected $uitypeModel;
 
-	public static $referenceTypes = ['reference', 'referenceLink', 'referenceProcess', 'referenceSubProcess', 'referenceExtend'];
+	public static $referenceTypes = ['reference', 'referenceLink', 'referenceProcess', 'referenceSubProcess', 'referenceExtend', 'referenceSubProcessSL'];
 
 	const REFERENCE_TYPE = 'reference';
 	const OWNER_TYPE = 'owner';
@@ -252,6 +252,9 @@ class Vtiger_Field_Model extends vtlib\Field
 							$fieldDataType = 'salutation';
 						}
 						break;
+					case 64:
+						$fieldDataType = 'referenceSubProcessSL';
+						break;
 					case 65:
 						$fieldDataType = 'referenceExtend';
 						break;
@@ -327,6 +330,9 @@ class Vtiger_Field_Model extends vtlib\Field
 						break;
 					case 316:
 						$fieldDataType = 'smtp';
+						break;
+					case 317:
+						$fieldDataType = 'currencyInventory';
 						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
@@ -1120,6 +1126,19 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		return $this->getUITypeModel()->getEditViewDisplayValue($value, $recordModel);
+	}
+
+	/**
+	 * Function to retrieve user value in edit view.
+	 *
+	 * @param mixed               $value
+	 * @param Vtiger_Record_Model $recordModel
+	 *
+	 * @return mixed
+	 */
+	public function getEditViewValue($value, $recordModel = false)
+	{
+		return $this->getUITypeModel()->getEditViewValue($value, $recordModel);
 	}
 
 	/**

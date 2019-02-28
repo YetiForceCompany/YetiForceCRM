@@ -81,7 +81,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		return \App\Json::encode($value);
+		return empty($value) ? '' : \App\Json::encode($value);
 	}
 
 	/**

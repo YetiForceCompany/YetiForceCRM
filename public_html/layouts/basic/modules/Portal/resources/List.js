@@ -198,7 +198,7 @@ Vtiger_List_Js("Portal_List_Js", {
 						var params = {
 							title: app.vtranslate('JS_MESSAGE'),
 							text: data.result.message,
-							type: 'error'
+							type: 'success'
 						};
 						Vtiger_Helper_Js.showPnotify(params);
 						var url = Portal_List_Js.getDefaultParams();

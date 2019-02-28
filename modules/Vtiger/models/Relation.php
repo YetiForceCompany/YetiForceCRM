@@ -451,34 +451,17 @@ class Vtiger_Relation_Model extends \App\Base
 	 */
 	public function getActivities()
 	{
-		$queryGenerator = $this->getQueryGenerator();
-		$relatedModuleName = $this->getRelationModuleName();
 		$moduleName = $this->getParentModuleModel()->getName();
-		$referenceLinkClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceExtend', $relatedModuleName);
-		$referenceLinkInstance = new $referenceLinkClass();
-		if (in_array($moduleName, $referenceLinkInstance->getReferenceList())) {
-			$queryGenerator->addNativeCondition(['vtiger_activity.linkextend' => $this->get('parentRecord')->getId()]);
-		} else {
-			$referenceLinkClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceLink', $relatedModuleName);
-			$referenceLinkInstance = new $referenceLinkClass();
-			if (in_array($moduleName, $referenceLinkInstance->getReferenceList())) {
-				$queryGenerator->addNativeCondition(['vtiger_activity.link' => $this->get('parentRecord')->getId()]);
-			} else {
-				$referenceProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceProcess', $relatedModuleName);
-				$referenceProcessInstance = new $referenceProcessClass();
-				if (in_array($moduleName, $referenceProcessInstance->getReferenceList())) {
-					$queryGenerator->addNativeCondition(['vtiger_activity.process' => $this->get('parentRecord')->getId()]);
-				} else {
-					$referenceSubProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceSubProcess', $relatedModuleName);
-					$referenceSubProcessInstance = new $referenceSubProcessClass();
-					if (in_array($moduleName, $referenceSubProcessInstance->getReferenceList())) {
-						$queryGenerator->addNativeCondition(['vtiger_activity.subprocess' => $this->get('parentRecord')->getId()]);
-					} else {
-						throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
-					}
-				}
-			}
+		$fields = $this->getRelationModuleModel()->getReferenceFieldsForModule($moduleName);
+		if (!$fields) {
+			throw new \App\Exceptions\AppException('ERR_NO_VALUE');
 		}
+		$conditions = ['or'];
+		foreach ($fields as $fieldModel) {
+			$conditions[] = ["{$fieldModel->getTableName()}.{$fieldModel->getColumnName()}" => $this->get('parentRecord')->getId()];
+		}
+		$queryGenerator = $this->getQueryGenerator();
+		$queryGenerator->addNativeCondition($conditions);
 		switch (\App\Request::_get('time')) {
 			case 'current':
 				$queryGenerator->addNativeCondition(['vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('current')]);

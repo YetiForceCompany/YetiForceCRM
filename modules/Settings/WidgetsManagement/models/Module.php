@@ -281,7 +281,6 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	public function saveDetails($data, $moduleName)
 	{
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::saveDetails($moduleName) method ...");
-
 		$db = \App\Db::getInstance();
 		$isWidgetExists = (new \App\Db\Query())
 			->from('vtiger_module_dashboard')
@@ -290,28 +289,26 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		if ($isWidgetExists) {
 			$size = \App\Json::encode(['width' => $data['width'], 'height' => $data['height']]);
 			$insert = [
-				'isdefault' => (int) $data['isdefault'],
+				'isdefault' => $data['isdefault'] ?? 0,
 				'size' => $size,
-				'limit' => $data['limit'],
-				'cache' => $data['cache'],
-				'date' => $data['default_date'],
+				'limit' => $data['limit'] ?? '',
+				'cache' => $data['cache'] ?? 0,
+				'date' => $data['default_date'] ?? '',
 			];
 			if (!empty($data['default_owner']) && !empty($data['owners_all'])) {
 				$insert['owners'] = \App\Json::encode(['default' => $data['default_owner'], 'available' => $data['owners_all']]);
 			}
-			if ($data['type'] === 'DW_SUMMATION_BY_MONTHS') {
+			$dataType = $data['type'] ?? null;
+			if ($dataType === 'DW_SUMMATION_BY_MONTHS') {
 				$insert['data'] = \App\Json::encode(['plotLimit' => $data['plotLimit'], 'plotTickSize' => $data['plotTickSize']]);
-			}
-			if ($data['type'] === 'DW_SUMMATION_BY_USER') {
+			} elseif ($dataType === 'DW_SUMMATION_BY_USER') {
 				$insert['data'] = \App\Json::encode(['showUsers' => isset($data['showUsers']) ? 1 : 0]);
-			}
-			if ($data['type'] === 'Multifilter') {
-				if (!is_array($data['customMultiFilter'])) {
+			} elseif ($dataType === 'Multifilter') {
+				if (empty($data['customMultiFilter']) || !is_array($data['customMultiFilter'])) {
 					$data['customMultiFilter'] = [$data['customMultiFilter'] ?? ''];
 				}
 				$insert['data'] = \App\Json::encode(['customMultiFilter' => $data['customMultiFilter']]);
-			}
-			if ($data['type'] === 'Calendar') {
+			} elseif ($dataType === 'Calendar') {
 				$insert['data'] = \App\Json::encode(['defaultFilter' => $data['defaultFilter'] ?? '']);
 			}
 			$db->createCommand()->update('vtiger_module_dashboard', $insert, ['id' => $data['id']])
@@ -322,7 +319,6 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				->execute();
 		}
 		\App\Log::trace('Exiting Settings_WidgetsManagement_Module_Model::saveData() method ...');
-
 		return ['success' => true];
 	}
 

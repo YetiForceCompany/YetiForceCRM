@@ -171,7 +171,7 @@ class CRMEntity
 			}
 			$resultRow = $query->one();
 			if (empty($resultRow)) {
-				throw new \App\Exceptions\NoPermittedToRecord('ERR_RECORD_NOT_FOUND||' . $record);
+				throw new \App\Exceptions\AppException('ERR_RECORD_NOT_FOUND||' . $record);
 			} else {
 				foreach ($cachedModuleFields as $fieldInfo) {
 					$fieldvalue = '';
@@ -217,6 +217,7 @@ class CRMEntity
 			case 'getManyToMany':
 				$this->deleteRelatedM2M($id, $returnModule, $returnId);
 				break;
+			case 'getActivities':
 			case 'getDependentsList':
 				$this->deleteRelatedDependent($id, $returnModule, $returnId);
 				break;
@@ -233,23 +234,29 @@ class CRMEntity
 		}
 	}
 
+	/**
+	 * Delete relationship.
+	 *
+	 * @param int    $crmid
+	 * @param string $withModule
+	 * @param int    $withCrmid
+	 *
+	 * @throws \Exception
+	 */
 	public function deleteRelatedDependent($crmid, $withModule, $withCrmid)
 	{
-		$dataReader = (new \App\Db\Query())->select(['vtiger_field.fieldname'])
-			->from('vtiger_field')
-			->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
-			->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $this->moduleName, 'relmodule' => $withModule])])
-			->createCommand()->query();
-		if ($dataReader->count()) {
+		$moduleModel = \Vtiger_Module_Model::getInstance($this->moduleName);
+		if ($fields = $moduleModel->getReferenceFieldsForModule($withModule)) {
 			$recordModel = \Vtiger_Record_Model::getInstanceById($crmid, $this->moduleName);
-			while ($row = $dataReader->read()) {
-				if ((int) $recordModel->get($row['fieldname']) === (int) $withCrmid) {
-					$recordModel->set($row['fieldname'], 0);
+			foreach ($fields as $fieldModel) {
+				if ((int) $recordModel->get($fieldModel->getName()) === (int) $withCrmid) {
+					$recordModel->set($fieldModel->getName(), 0);
 				}
 			}
 			$recordModel->save();
+		} else {
+			\App\Log::warning("Incorrectly deleted relationship: {$crmid},{$this->moduleName},{$withModule},{$withCrmid}");
 		}
-		$dataReader->close();
 	}
 
 	/**
@@ -614,7 +621,7 @@ class CRMEntity
 		if ($secModule === false) {
 			return $relTables;
 		}
-		return $relTables[$secModule];
+		return $relTables[$secModule] ?? [];
 	}
 
 	/**

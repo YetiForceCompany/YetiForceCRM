@@ -200,7 +200,7 @@ class Field
 			$query = (new Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_tab.name'])
 				->from('vtiger_field')
 				->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')
-				->where(['vtiger_tab.presence' => 0, 'vtiger_field.uitype' => [65, 66, 67, 68]]);
+				->where(['vtiger_tab.presence' => 0, 'vtiger_field.uitype' => [64, 65, 66, 67, 68]]);
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				foreach (ModuleHierarchy::getModulesByUitype($row['uitype']) as $module => $value) {
