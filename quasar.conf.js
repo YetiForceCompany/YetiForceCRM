@@ -72,7 +72,7 @@ module.exports = function(ctx) {
       scopeHoisting: true,
       publicPath: 'dist',
       distDir: 'public_html/dist',
-      vueRouterMode: 'history',
+      vueRouterMode: 'hash',
       // vueCompiler: true,
       // gzip: true,
       // analyze: true,
