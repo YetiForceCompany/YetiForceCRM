@@ -5,7 +5,8 @@ export default {
   },
 
   Base: {
-    updateMenuPositions: 'Base/updateMenuPositions'
+    updateMenuPositions: 'Base/updateMenuPositions',
+    addUrl: 'Base/addUrl'
   },
 
   Login: {
