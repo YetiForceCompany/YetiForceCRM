@@ -111,48 +111,4 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		$end = DateTimeField::convertToUserTimeZone($this->column_fields['due_date'] . ' ' . $this->column_fields['time_end']);
 		$this->column_fields['due_date'] = $end->format('Y-m-d');
 	}
-
-	/**
-	 * Function to unlink an entity with given Id from another entity.
-	 *
-	 * @param int    $id
-	 * @param string $returnModule
-	 * @param int    $returnId
-	 * @param bool   $relatedName
-	 */
-	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
-	{
-		$results = [];
-		parent::deleteRelatedFromDB($id, $returnModule, $returnId);
-		$dataReader = (new \App\Db\Query())->select(['vtiger_field.tabid', 'vtiger_field.tablename', 'vtiger_field.columnname', 'vtiger_tab.name'])
-			->from('vtiger_field')
-			->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
-			->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $this->moduleName, 'relmodule' => $returnModule])])
-			->createCommand()->query();
-		if ($dataReader->count()) {
-			$results = $dataReader->readAll();
-		} else {
-			$dataReader = (new \App\Db\Query())->select(['name' => 'fieldname', 'id' => 'fieldid', 'label' => 'fieldlabel', 'column' => 'columnname', 'table' => 'tablename', 'vtiger_field.*'])
-				->from('vtiger_field')
-				->where(['uitype' => [66, 67, 68], 'tabid' => App\Module::getModuleId($this->moduleName)])
-				->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $this->moduleName);
-				$fieldModel = new $className();
-				foreach ($row as $properName => $propertyValue) {
-					$fieldModel->$properName = $propertyValue;
-				}
-				$moduleList = $fieldModel->getUITypeModel()->getReferenceList();
-				if (!empty($moduleList) && in_array($returnModule, $moduleList)) {
-					$results[] = $row;
-					break;
-				}
-			}
-			$dataReader->close();
-		}
-		foreach ($results as $row) {
-			App\Db::getInstance()->createCommand()
-				->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $returnId, CRMEntity::getInstance(App\Module::getModuleName($row['tabid']))->table_index => $id])->execute();
-		}
-	}
 }
