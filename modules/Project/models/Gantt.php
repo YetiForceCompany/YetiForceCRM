@@ -354,6 +354,7 @@ class Project_Gantt_Model
 		foreach ($this->tasks as &$task) {
 			if (empty($task['duration']) && isset($task['start_date'], $task['end_date'])) {
 				$task['duration'] = $this->calculateDuration($task['start_date'], $task['end_date']);
+				$task['planned_duration'] = $this->calculateDuration($task['start_date'], $task['target_end_date']);
 			}
 		}
 	}
@@ -437,7 +438,7 @@ class Project_Gantt_Model
 		}
 		$projects = [];
 		$queryGenerator = new App\QueryGenerator('Project');
-		$queryGenerator->setFields(['id', 'projectid', 'parentid', 'projectname', 'projectpriority', 'description', 'project_no', 'projectstatus', 'startdate', 'actualenddate', 'targetenddate', 'assigned_user_id']);
+		$queryGenerator->setFields(['id', 'projectid', 'parentid', 'projectname', 'projectpriority', 'description', 'project_no', 'projectstatus', 'sum_time', 'startdate', 'actualenddate', 'targetenddate', 'assigned_user_id']);
 		if ($id !== [0]) {
 			// empty id means that we want all projects
 			$queryGenerator->addNativeCondition([
@@ -461,6 +462,7 @@ class Project_Gantt_Model
 				'parentId' => !empty($row['parentid']) ? $row['parentid'] : null,
 				'priority' => $row['projectpriority'],
 				'priority_label' => \App\Language::translate($row['projectpriority'], 'Project'),
+				'sum_time' => $row['sum_time'],
 				'status' => 'STATUS_ACTIVE',
 				'type' => 'project',
 				'module' => 'Project',
@@ -488,6 +490,7 @@ class Project_Gantt_Model
 				$project['start'] = date('Y-m-d H:i:s', strtotime($row['startdate']));
 			}
 			$project['end_date'] = $row['actualenddate'];
+			$project['target_end_date'] = $row['targetenddate'];
 			if (empty($project['end_date']) && !empty($row['targetenddate'])) {
 				$endDate = strtotime(date('Y-m-d', strtotime($row['targetenddate'])) . ' +1 days');
 				$project['end_date'] = date('Y-m-d', $endDate);
@@ -596,7 +599,7 @@ class Project_Gantt_Model
 	public function getGanttMilestones($projectIds)
 	{
 		$queryGenerator = new App\QueryGenerator('ProjectMilestone');
-		$queryGenerator->setFields(['id', 'parentid', 'projectid', 'projectmilestonename', 'projectmilestonedate', 'projectmilestone_no', 'projectmilestone_progress', 'projectmilestone_priority', 'projectmilestone_status', 'assigned_user_id']);
+		$queryGenerator->setFields(['id', 'parentid', 'projectid', 'projectmilestonename', 'projectmilestonedate', 'projectmilestone_no', 'projectmilestone_progress', 'projectmilestone_priority', 'sum_time', 'estimated_work_time', 'projectmilestone_status', 'assigned_user_id']);
 		$queryGenerator->addNativeCondition(['vtiger_projectmilestone.projectid' => $projectIds]);
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		$milestones = [];
@@ -613,6 +616,8 @@ class Project_Gantt_Model
 				'progress' => (int) $row['projectmilestone_progress'],
 				'priority' => $row['projectmilestone_priority'],
 				'priority_label' => \App\Language::translate($row['projectmilestone_priority'], 'ProjectMilestone'),
+				'sum_time' => $row['sum_time'],
+				'estimated_work_time' => $row['estimated_work_time'],
 				'open' => true,
 				'type' => 'milestone',
 				'normalized_status' => $row['projectmilestone_status'],
@@ -641,6 +646,7 @@ class Project_Gantt_Model
 				$endDate = strtotime(date('Y-m-d', strtotime($row['projectmilestonedate'])) . ' +1 days');
 				$milestone['end'] = $endDate * 1000;
 				$milestone['end_date'] = date('Y-m-d', $endDate);
+				$milestone['planned_duration'] = (int) $row['estimated_work_time'] * 24 * 60 * 60;
 			}
 			$milestone['style'] = [
 				'base' => [
@@ -667,7 +673,7 @@ class Project_Gantt_Model
 	{
 		$taskTime = 0;
 		$queryGenerator = new App\QueryGenerator('ProjectTask');
-		$queryGenerator->setFields(['id', 'projectid', 'projecttaskname', 'parentid', 'projectmilestoneid', 'projecttaskprogress', 'projecttaskpriority', 'startdate', 'targetenddate', 'projecttask_no', 'projecttaskstatus', 'estimated_work_time', 'assigned_user_id']);
+		$queryGenerator->setFields(['id', 'projectid', 'projecttaskname', 'parentid', 'projectmilestoneid', 'projecttaskprogress', 'projecttaskpriority', 'startdate', 'enddate', 'targetenddate', 'sum_time', 'projecttask_no', 'projecttaskstatus', 'estimated_work_time', 'assigned_user_id']);
 		$queryGenerator->addNativeCondition([
 			'or',
 			['vtiger_projecttask.projectid' => $projectIds],
@@ -689,13 +695,15 @@ class Project_Gantt_Model
 				'progress' => (int) $row['projecttaskprogress'],
 				'priority' => $row['projecttaskpriority'],
 				'priority_label' => \App\Language::translate($row['projecttaskpriority'], 'ProjectTask'),
+				'sum_time' => $row['sum_time'],
 				'no' => $row['projecttask_no'],
 				'normalized_status' => $row['projecttaskstatus'],
 				'status_label' => App\Language::translate($row['projecttaskstatus'], 'ProjectTask'),
 				'color' => $row['projecttaskstatus'] ? $this->statusColors['ProjectTask']['projecttaskstatus'][$row['projecttaskstatus']] : App\Colors::getRandomColor('projecttaskstatus_' . $row['id']),
 				'start_date' => date('Y-m-d', strtotime($row['startdate'])),
 				'start' => date('Y-m-d H:i:s', strtotime($row['startdate'])),
-				'end_date' => $row['targetenddate'],
+				'end_date' => $row['enddate'],
+				'target_end_date' => $row['targetenddate'],
 				'assigned_user_id' => $row['assigned_user_id'],
 				'assigned_user_name' => \App\Fields\Owner::getUserLabel($row['assigned_user_id']),
 				'open' => true,
@@ -720,6 +728,7 @@ class Project_Gantt_Model
 			unset($task['color']);
 			$endDate = strtotime(date('Y-m-d', strtotime($row['targetenddate'])) . ' +1 days');
 			$task['duration'] = $this->calculateDuration($task['start_date'], $task['end_date']);
+			$task['planned_duration'] = $this->calculateDuration($task['start_date'], $task['target_end_date']);
 			$taskTime += $row['estimated_work_time'];
 			$ganttTasks[] = $task;
 		}
