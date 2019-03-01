@@ -14,7 +14,7 @@ class Gantt {
 		this.containerParent = this.container.parent();
 		this.headerContainer = this.containerParent.parent().find('.js-gantt-header').eq(0);
 		this.weekStart = 6 - CONFIG.firstDayOfWeekNos;
-		let workingDays = [1, 2, 3, 4, 5]
+		let workingDays = [1, 2, 3, 4, 5];
 		this.options = {
 			slots: {
 				header: {
