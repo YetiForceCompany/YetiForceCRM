@@ -50,7 +50,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 		$timeFormat = 'H:i:s';
 		$d = DateTime::createFromFormat($timeFormat, $value);
 		if (!$d || $d->format($timeFormat) !== $value) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$rawValue] = true;
 	}

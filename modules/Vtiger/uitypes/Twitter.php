@@ -23,7 +23,7 @@ class Vtiger_Twitter_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		if (!preg_match('/^[a-zA-Z0-9_]{1,' . static::MAX_LENGTH . '}$/', $value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		parent::validate($value, $isUserFormat);
 	}
