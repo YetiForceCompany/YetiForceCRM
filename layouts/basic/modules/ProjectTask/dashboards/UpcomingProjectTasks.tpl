@@ -31,7 +31,7 @@
 							title="{\App\Language::translate('LBL_TICKET_PRIORITY',$MODULE_NAME)}">
 						<option value="all">{\App\Language::translate('LBL_ALL')}</option>
 						{foreach item=ITEM from=\App\Fields\Picklist::getValues('projecttaskpriority')}
-							<option value="{$ITEM['picklistValue']}"{if $ITEM['picklistValue'] === $TICKETPRIORITY} selected{/if}>{\App\Language::translate($ITEM['picklistValue'],$MODULE_NAME)} {$MODULE_NAME}</option>
+							<option value="{$ITEM['picklistValue']}"{if $ITEM['picklistValue'] === $TICKETPRIORITY} selected{/if}>{\App\Language::translate($ITEM['picklistValue'],$MODULE_NAME)}</option>
 						{/foreach}
 					</select>
 				</div>
