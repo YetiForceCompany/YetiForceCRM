@@ -9,6 +9,7 @@ $config = PhpCsFixer\Config::create()
             'array_syntax' => ['syntax' => 'short'],
             'blank_line_after_namespace' => true,
             'blank_line_after_opening_tag' => true,
+            'binary_operator_spaces' => true,
             'cast_spaces' => true,
             'class_keyword_remove' => false,
             'combine_consecutive_issets' => true,
