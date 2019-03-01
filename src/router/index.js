@@ -36,7 +36,7 @@ export default function({ store }) {
 
   Router.beforeEach((routeTo, routeFrom, next) => {
     const setRoute = () => {
-      if (store.getters[getters.Login.isAuthenticated] || routeTo.name === 'Login') {
+      if (store.getters[getters.Auth.isAuthenticated] || routeTo.path.startsWith('/auth')) {
         next()
       } else {
         next({ name: 'Login' })
@@ -46,14 +46,13 @@ export default function({ store }) {
       spinner: QSpinnerGears
     })
     if (!routeFrom.name) {
-      store.dispatch(actions.Login.tryAutoLogin).then(() => {
+      store.dispatch(actions.Auth.tryAutoLogin).then(() => {
         setRoute()
       })
     } else {
       setRoute()
     }
   })
-
   Router.afterEach(() => {
     Loading.hide()
   })

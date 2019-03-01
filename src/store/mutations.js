@@ -9,8 +9,8 @@ export default {
     addUrl: 'Base/addUrl'
   },
 
-  Login: {
-    authUser: 'Login/authUser',
-    clearAuthData: 'Login/clearAuthData'
+  Auth: {
+    authUser: 'Auth/authUser',
+    clearAuthData: 'Auth/clearAuthData'
   }
 }

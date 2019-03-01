@@ -11,13 +11,12 @@
       </template>
     </q-input>
     <q-btn size="lg" :label="$t('LBL_SEND')" type="submit" color="secondary" class="full-width q-mt-lg" />
-    <a @click="toggleActiveComponent('login-form')" href="#" class="text-secondary float-right">{{
-      $t('LBL_TO_CRM')
-    }}</a>
+    <router-link :to="{ name: 'Login' }" class="text-secondary float-right">{{ $t('LBL_TO_CRM') }}</router-link>
   </form>
 </template>
 <script>
 export default {
+  name: 'Reminder',
   props: {
     CONFIG: {
       type: Object

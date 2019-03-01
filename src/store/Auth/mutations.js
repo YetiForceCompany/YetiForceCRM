@@ -7,7 +7,7 @@ export default {
    * @param   {object}  state
    * @param   {object}  userData
    */
-  [mutations.Login.authUser](state, userData) {
+  [mutations.Auth.authUser](state, userData) {
     state.tokenId = userData.tokenId
     state.userId = userData.userId
     state.userName = userData.userName
@@ -19,7 +19,7 @@ export default {
    *
    * @param   {object}  state
    */
-  [mutations.Login.clearAuthData](state) {
+  [mutations.Auth.clearAuthData](state) {
     state.tokenId = null
     state.userId = null
     state.userName = null
