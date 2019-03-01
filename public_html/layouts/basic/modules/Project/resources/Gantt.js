@@ -115,7 +115,7 @@ class Gantt {
 						id: 5,
 						label: app.vtranslate('JS_PLANNED'),
 						value: (task) => {
-							return task.planned_duration / 24 / 60 / 60;
+							return task.planned_duration;
 						},
 						width: 85,
 						style: {
