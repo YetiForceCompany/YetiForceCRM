@@ -76,32 +76,31 @@
 									   value="">
 							</div>
 						</div>
+						{if $SELECTED_PICKLIST_FIELDMODEL->get('uitype') === 15}
+							<div class="form-group row align-items-center">
+								<div class="col-md-3 col-form-label text-right">
+									{\App\Language::translate('LBL_CLOSES_RECORD',$QUALIFIED_MODULE)}
+								</div>
+								<div class="col-md-9 controls">
+									<input class="form-control" type="checkbox" value="1" name="close_state">
+								</div>
+							</div>
+						{/if}
+						{if $SELECTED_PICKLIST_FIELDMODEL->getFieldDataType() eq 'picklist' }
+							<div class="form-group row align-items-center">
+								<div class="col-md-3 col-form-label text-right">
+									{\App\Language::translate('LBL_AUTOMATION',$QUALIFIED_MODULE)}
+								</div>
+								<div class="col-md-9 controls">
+									<select name="automation" class="automation-list form-control">
+										{foreach item=$VALUE key=$KEY from=Settings_Picklist_Module_Model::getAutomationStatus()}
+											<option value="{$KEY}">{\App\Language::translate($VALUE,$QUALIFIED_MODULE)}</option>
+										{/foreach}
+									</select>
+								</div>
+							</div>
+						{/if}
 					</div>
-					{if $SELECTED_PICKLIST_FIELDMODEL->get('uitype') === 15}
-						<div class="form-group row align-items-center">
-							<div class="col-md-3 col-form-label text-right">
-								{\App\Language::translate('LBL_CLOSES_RECORD',$QUALIFIED_MODULE)}
-							</div>
-							<div class="col-md-9 controls">
-								<input class="form-control" type="checkbox" value="1" name="close_state">
-							</div>
-						</div>
-					{/if}
-					{if $FIELD_MODEL->get('uitype') === 15 || $FIELD_MODEL->get('uitype') === 16 }
-						<div class="form-group row align-items-center">
-							<div class="col-md-3 col-form-label text-right">
-								{\App\Language::translate('LBL_AUTOMATION',$QUALIFIED_MODULE)}
-							</div>
-							<div class="col-md-9 controls">
-							<select class="select2 form-control" name="automation">
-								<option value=""></option>
-								{foreach item=$VALUE from=Settings_Picklist_Module_Model::getAutomationStatus()}
-									<option value="{$VALUE}"{if $VALUE === $AUTOMATION_VALUE} selected{/if}>{Settings_Picklist_Module_Model::getAutomationTranslation($VALUE)}</option>
-								{/foreach}
-							</select>
-							</div>
-						</div>
-					{/if}
 					{include file=App\Layout::getTemplatePath('Modals/Footer.tpl', $QUALIFIED_MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 				</form>
 			</div>

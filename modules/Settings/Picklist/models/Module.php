@@ -108,7 +108,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			if (!$this->checkColumn($tableName, 'automation')) {
 				$this->addAutomationColumn($tableName);
 			}
-			$row['automation'] = $description;
+			$row['automation'] = $automation;
 		}
 		if (in_array('color', $db->getTableSchema($tableName)->getColumnNames())) {
 			$row['color'] = '#E6FAD8';
@@ -479,31 +479,6 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getAutomationStatus(): array
 	{
-		return [self::AUTOMATION_NO_CONCERN, self::AUTOMATION_OPEN, self::AUTOMATION_CLOSED];
-	}
-
-	/**
-	 * Get translation for automation status.
-	 *
-	 * @param int $value
-	 *
-	 * @return string
-	 */
-	public static function getAutomationTranslation(int $value): string
-	{
-		switch ($value) {
-			case 0:
-				$value = 'LBL_AUTOMATION_NO_CONCERN';
-				break;
-			case 1:
-				$value = 'LBL_AUTOMATION_OPEN';
-				break;
-			case 2:
-				$value = 'LBL_AUTOMATION_CLOSED';
-				break;
-			default:
-			$value= '';
-		}
-		return \App\Language::translate($value);
+		return [self::AUTOMATION_NO_CONCERN  => 'LBL_AUTOMATION_NO_CONCERN', self::AUTOMATION_OPEN  => 'LBL_AUTOMATION_OPEN', self::AUTOMATION_CLOSED  => 'LBL_AUTOMATION_CLOSED'];
 	}
 }

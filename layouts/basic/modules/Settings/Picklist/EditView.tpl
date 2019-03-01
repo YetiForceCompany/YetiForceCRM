@@ -93,7 +93,7 @@
 								</div>
 							</div>
 						{/if}
-						{if $FIELD_MODEL->get('uitype') === 15 || $FIELD_MODEL->get('uitype') === 16 }
+						{if $FIELD_MODEL->getFieldDataType() eq 'picklist' }
 							<div class="form-group row align-items-center">
 								<div class="col-md-3 col-form-label text-right">
 									{\App\Language::translate('LBL_AUTOMATION',$QUALIFIED_MODULE)}
@@ -101,10 +101,9 @@
 								<div class="col-md-9 controls">
 								<select class="select2 form-control" name="automation">
 									<option value=""></option>
-									{foreach item=$VALUE from=Settings_Picklist_Module_Model::getAutomationStatus()}
-										<option value="{$VALUE}"{if $VALUE === $AUTOMATION_VALUE} selected{/if}>
-										{Settings_Picklist_Module_Model::getAutomationTranslation($VALUE)}</option>
-									{/foreach}
+										{foreach item=$VALUE key=$KEY from=Settings_Picklist_Module_Model::getAutomationStatus()}
+									<option value="{$KEY}"{if $VALUE === $AUTOMATION_VALUE} selected{/if}>{\App\Language::translate($VALUE,$QUALIFIED_MODULE)}</option>
+								{/foreach}
 								</select>
 								</div>
 							</div>
