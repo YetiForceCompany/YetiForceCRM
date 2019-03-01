@@ -13,13 +13,8 @@ class Gantt {
 		this.container = $(container);
 		this.containerParent = this.container.parent();
 		this.headerContainer = this.containerParent.parent().find('.js-gantt-header').eq(0);
-		let workingDays = [1, 2, 3, 4, 5].map(day => {
-			day = day - CONFIG.firstDayOfWeekNo;
-			if (day < 0) {
-				day = day + 7;
-			}
-			return day;
-		});
+		this.weekStart = 6 - CONFIG.firstDayOfWeekNos;
+		let workingDays = [1, 2, 3, 4, 5];
 		this.options = {
 			slots: {
 				header: {
@@ -91,8 +86,8 @@ class Gantt {
 						html: true,
 						value: 'label', width: 280, expander: true
 					},
-					{id: 3, label: app.vtranslate('JS_PRIORITY'), value: 'priority_label', width: 70},
-					{id: 3, label: app.vtranslate('JS_STATUS'), value: 'status_label', width: 80},
+					{ id: 3, label: app.vtranslate('JS_PRIORITY'), value: 'priority_label', width: 70 },
+					{ id: 3, label: app.vtranslate('JS_STATUS'), value: 'status_label', width: 80 },
 					{
 						id: 4,
 						label: app.vtranslate('JS_DAYS'),
@@ -175,9 +170,10 @@ class Gantt {
 		this.options.locale = {
 			'code': CONFIG.langKey,
 			'name': CONFIG.langKey,
-			'weekdays': [LANG.JS_MONDAY, LANG.JS_TUESDAY, LANG.JS_WEDNESDAY, LANG.JS_THURSDAY, LANG.JS_FRIDAY, LANG.JS_SATURDAY, LANG.JS_SUNDAY],
-			'weekdaysShort': [LANG.JS_MON, LANG.JS_TUE, LANG.JS_WED, LANG.JS_THU, LANG.JS_FRI, LANG.JS_SAT, LANG.JS_SUN],
-			'weekdaysMin': [LANG.JS_MON, LANG.JS_TUE, LANG.JS_WED, LANG.JS_THU, LANG.JS_FRI, LANG.JS_SAT, LANG.JS_SUN],
+			'weekStart': this.weekStart,
+			'weekdays': [LANG.JS_SUNDAY, LANG.JS_MONDAY, LANG.JS_TUESDAY, LANG.JS_WEDNESDAY, LANG.JS_THURSDAY, LANG.JS_FRIDAY, LANG.JS_SATURDAY],
+			'weekdaysShort': [LANG.JS_SUN, LANG.JS_MON, LANG.JS_TUE, LANG.JS_WED, LANG.JS_THU, LANG.JS_FRI, LANG.JS_SAT],
+			'weekdaysMin': [LANG.JS_SUN, LANG.JS_MON, LANG.JS_TUE, LANG.JS_WED, LANG.JS_THU, LANG.JS_FRI, LANG.JS_SAT],
 			'months': [LANG.JS_JANUARY, LANG.JS_FEBRUARY, LANG.JS_MARCH, LANG.JS_APRIL, LANG.JS_MAY, LANG.JS_JUNE, LANG.JS_JULY, LANG.JS_AUGUST, LANG.JS_SEPTEMBER, LANG.JS_NOVEMBER, LANG.JS_OCTOBER, LANG.JS_DECEMBER],
 			'monthsShort': [LANG.JS_JAN, LANG.JS_FEB, LANG.JS_MAR, LANG.JS_APR, LANG.JS_MAY, LANG.JS_JUN, LANG.JS_JUL, LANG.JS_AUG, LANG.JS_SEP, LANG.JS_NOV, LANG.JS_OCT, LANG.JS_DEC],
 			'ordinal': n => `${n}`,
@@ -295,7 +291,7 @@ class Gantt {
 			this.allTasks = this.addIcons(this.projectData.tasks);
 		}
 		this.statuses = this.projectData.statuses;
-		this.filter = {status: this.projectData.activeStatuses};
+		this.filter = { status: this.projectData.activeStatuses };
 		this.container.closest('form').on('submit', (ev) => {
 			ev.preventDefault();
 			ev.stopPropagation();
@@ -332,7 +328,7 @@ class Gantt {
 					onBlock: () => {
 						AppConnector.request(params).done((response) => {
 							self.loadProject(response.result);
-							progressInstance.progressIndicator({mode: 'hide'});
+							progressInstance.progressIndicator({ mode: 'hide' });
 						});
 					}
 				},

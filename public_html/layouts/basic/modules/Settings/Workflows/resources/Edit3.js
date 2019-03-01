@@ -442,7 +442,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		});
 	},
 	registerDeleteConditionEvent() {
-		$('#saveTask').on('click', '.deleteCondition', (e) => {
+		$('#saveTask').on('click', '.js-condition-delete', (e) => {
 			$(e.currentTarget).closest('.js-conditions-row').remove();
 		});
 	},

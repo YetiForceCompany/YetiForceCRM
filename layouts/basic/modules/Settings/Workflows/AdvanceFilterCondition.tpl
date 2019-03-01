@@ -74,7 +74,7 @@
 			<input type="hidden" name="column_condition" value="{$CONDITION}"/>
 		</span>
 		<span class="col-md-1">
-			<button class="btn btn-danger deleteCondition" type="button">
+			<button class="btn btn-danger js-condition-delete" type="button" data-js="click">
 				<span class="fas fa-trash-alt" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
 			</button>
 		</span>

@@ -36,7 +36,7 @@ class Vtiger_Theme_UIType extends Vtiger_Base_UIType
 		}
 		$allSkins = Vtiger_Theme::getAllSkins();
 		if (!isset($allSkins[$value])) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;
 	}
