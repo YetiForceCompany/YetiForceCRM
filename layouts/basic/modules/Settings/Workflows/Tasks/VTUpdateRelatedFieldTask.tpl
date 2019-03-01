@@ -66,8 +66,8 @@
 					<input type="hidden" name="valuetype" value="{$FIELD_MAP['valuetype']}"/>
 				</div>
 				<div class="col-2">
-					<button class="btn btn-danger float-right float-xl-left" type="button">
-						<span class="alignMiddle deleteCondition fas fa-trash-alt"></span>
+					<button class="btn btn-danger js-condition-delete float-right float-xl-left" type="button" data-js="click">
+						<span class="fas fa-trash-alt"></span>
 					</button>
 				</div>
 			</div>
@@ -126,8 +126,8 @@
 			<input type="hidden" name="valuetype" class="form-control" value="rawtext"/>
 		</div>
 		<div class="col-2">
-			<button class="btn btn-danger float-right float-xl-left" type="button">
-				<span class="alignMiddle deleteCondition fas fa-trash-alt"></span>
+			<button class="btn btn-danger js-condition-delete float-right float-xl-left" type="button" data-js="click">
+				<span class="fas fa-trash-alt"></span>
 			</button>
 		</div>
 	</div>
