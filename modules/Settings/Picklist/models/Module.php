@@ -1,5 +1,5 @@
 <?php
-/* +**********************************************************************************
+ /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -66,11 +66,11 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	 * @param int[]              $rolesSelected
 	 * @param string             $description
 	 * @param string             $prefix
-	 * @param string             $automation
+	 * @param int                $automation
 	 *
 	 * @return int[]
 	 */
-	public function addPickListValues($fieldModel, $newValue, $rolesSelected = [], $description = '', $prefix = '', $automation = '')
+	public function addPickListValues($fieldModel, $newValue, $rolesSelected = [], $description = '', $prefix = '', $automation = self::AUTOMATION_NO_CONCERN)
 	{
 		$db = App\Db::getInstance();
 		$pickListFieldName = $fieldModel->getName();
@@ -104,10 +104,12 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			}
 			$row['description'] = $description;
 		}
-		if (!empty($automation)) {
-			if (!$this->checkColumn($tableName, 'automation')) {
-				$this->addAutomationColumn($tableName);
-			}
+		$automationColumnExists = $this->checkColumn($tableName, 'automation');
+		if ($automation !== self::AUTOMATION_NO_CONCERN && !$automationColumnExists) {
+			$this->addAutomationColumn($tableName);
+			$row['automation'] = $automation;
+		}
+		if ($automationColumnExists) {
 			$row['automation'] = $automation;
 		}
 		if (in_array('color', $db->getTableSchema($tableName)->getColumnNames())) {
@@ -147,10 +149,11 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	 * @param int                           $id
 	 * @param string                        $description
 	 * @param string                        $prefix
+	 * @param int                           $automation
 	 *
 	 * @return bool
 	 */
-	public function renamePickListValues($fieldModel, $oldValue, $newValue, $id, $description = '', $prefix = '')
+	public function renamePickListValues($fieldModel, $oldValue, $newValue, $id, $description = '', $prefix = '', $automation = self::AUTOMATION_NO_CONCERN)
 	{
 		$db = App\Db::getInstance();
 		$pickListFieldName = $fieldModel->getName();
@@ -172,10 +175,11 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			$newData['prefix'] = $prefix;
 		}
 		$automationColumnExists = $this->checkColumn($tableName, 'automation');
-		if (!empty($automation) || $automationColumnExists) {
-			if (!$automationColumnExists) {
-				$this->addAutomationColumn($tableName);
-			}
+		if ($automation !== self::AUTOMATION_NO_CONCERN && !$automationColumnExists) {
+			$this->addAutomationColumn($tableName);
+			$newData['automation'] = $automation;
+		}
+		if ($automationColumnExists) {
 			$newData['automation'] = $automation;
 		}
 
@@ -241,7 +245,9 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	 */
 	public function addAutomationColumn(string $tableName)
 	{
-		return App\Db::getInstance()->createCommand()->addColumn($tableName, 'automation', 'tinyint(1)')->execute();
+		$db = App\Db::getInstance();
+		$schema = $db->getSchema();
+		$db->createCommand()->addColumn($tableName, 'automation', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TINYINT, 1))->execute();
 	}
 
 	/**
@@ -408,8 +414,8 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				['vtiger_field.presence' => [0, 2]],
 				['<>', 'vtiger_field.columnname', 'taxtype'],
 			])->orderBy(['vtiger_tab.tabid' => SORT_ASC])
-				->distinct()
-				->createCommand()->query();
+			->distinct()
+			->createCommand()->query();
 		$modulesModelsList = [];
 		while ($row = $dataReader->read()) {
 			$moduleLabel = $row['tablabel'];
@@ -473,12 +479,12 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Get all automation statuses.
+	 * Get all automation status
 	 *
 	 * @return int[]
 	 */
 	public static function getAutomationStatus(): array
 	{
-		return [self::AUTOMATION_NO_CONCERN  => 'LBL_AUTOMATION_NO_CONCERN', self::AUTOMATION_OPEN  => 'LBL_AUTOMATION_OPEN', self::AUTOMATION_CLOSED  => 'LBL_AUTOMATION_CLOSED'];
+		return [self::AUTOMATION_NO_CONCERN => 'LBL_AUTOMATION_NO_CONCERN', self::AUTOMATION_OPEN => 'LBL_AUTOMATION_OPEN', self::AUTOMATION_CLOSED => 'LBL_AUTOMATION_CLOSED'];
 	}
 }
