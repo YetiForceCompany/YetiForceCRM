@@ -10,13 +10,13 @@
             </div>
             <div>
               <form
-                v-if="!CONFIG.IS_BLOCKED_IP"
+                v-if="!CONFIG.IS_BLOCKED_IP && showLoginForm"
                 @submit.prevent.stop="onSubmit"
                 class="col q-gutter-md q-mx-lg"
                 :autocomplete="CONFIG.LOGIN_PAGE_REMEMBER_CREDENTIALS ? 'on' : 'off'"
               >
                 <q-input
-                  ref="user"
+                  type="text"
                   v-model="user"
                   :label="$t('LBL_USER')"
                   lazy-rules
@@ -24,7 +24,6 @@
                   :autocomplete="CONFIG.LOGIN_PAGE_REMEMBER_CREDENTIALS ? 'on' : 'off'"
                 />
                 <q-input
-                  ref="password"
                   type="password"
                   v-model="password"
                   :label="$t('Password')"
@@ -35,7 +34,7 @@
                 <q-select
                   v-if="CONFIG.LANGUAGE_SELECTION"
                   v-model="language"
-                  :options="CONFIG.languages"
+                  :options="CONFIG.LANGUAGES"
                   :label="$t('LBL_CHOOSE_LANGUAGE')"
                 >
                   <template v-slot:prepend>
@@ -59,11 +58,18 @@
                   color="secondary"
                   class="full-width q-mt-lg"
                 />
-                <a v-if="CONFIG.FORGOT_PASSWORD" class="text-secondary float-right" href="#"
+                <a
+                  v-if="CONFIG.FORGOT_PASSWORD"
+                  @click="
+                    showRemindForm = !showRemindForm
+                    showLoginForm = !showLoginForm
+                  "
+                  class="text-secondary float-right"
+                  href="#"
                   >{{ $t('ForgotPassword') }}?</a
                 >
               </form>
-              <q-banner v-else class="bg-negative q-mt-lg text-white">
+              <q-banner v-else-if="CONFIG.IS_BLOCKED_IP" class="bg-negative q-mt-lg text-white">
                 <div class="text-center">
                   <q-icon name="remove_circle_outline" class="text-h1 q-pb-md"></q-icon>
                 </div>
@@ -73,6 +79,42 @@
                 <p>{{ CONFIG.MESSAGE }}</p>
               </q-banner>
             </div>
+            <template v-if="CONFIG.FORGOT_PASSWORD && showRemindForm">
+              <form class="col q-gutter-md q-mx-lg" action="index.php?module=Users&action=ForgotPassword" method="POST">
+                <q-input
+                  type="text"
+                  v-model="reminderUser"
+                  :title="$t('LBL_USER')"
+                  :label="$t('LBL_USER')"
+                  autocomplete="off"
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="person" />
+                  </template>
+                </q-input>
+                <q-input
+                  type="text"
+                  v-model="reminderEmail"
+                  autocomplete="off"
+                  :title="$t('LBL_EMAIL')"
+                  :label="$t('LBL_EMAIL')"
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="mail_outline" />
+                  </template>
+                </q-input>
+                <q-btn size="lg" :label="$t('LBL_SEND')" type="submit" color="secondary" class="full-width q-mt-lg" />
+                <a
+                  @click="
+                    showLoginForm = !showLoginForm
+                    showRemindForm = !showRemindForm
+                  "
+                  href="#"
+                  class="text-secondary float-right"
+                  >{{ $t('LBL_TO_CRM') }}</a
+                >
+              </form>
+            </template>
           </div>
         </div>
       </q-page>
@@ -109,6 +151,10 @@ export default {
       password: '',
       language: CONFIG.DEFAULT_LANGUAGE, //AppConfig::main('default_language')
       layout: '',
+      showRemindForm: false,
+      showLoginForm: true,
+      reminderEmail: '',
+      reminderUser: '',
       CONFIG: CONFIG
     }
   },
