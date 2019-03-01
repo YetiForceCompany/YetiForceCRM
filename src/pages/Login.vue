@@ -44,9 +44,9 @@
         </template>
       </q-select>
       <q-btn size="lg" :label="$t('LBL_SIGN_IN')" type="submit" color="secondary" class="full-width q-mt-lg" />
-      <router-link v-if="CONFIG.FORGOT_PASSWORD" class="text-secondary float-right" :to="{ name: 'Reminder' }">
-        {{ $t('ForgotPassword') }}
-      </router-link>
+      <router-link v-if="CONFIG.FORGOT_PASSWORD" class="text-secondary float-right" :to="{ name: 'Reminder' }">{{
+        $t('ForgotPassword')
+      }}</router-link>
     </form>
   </div>
 </template>
@@ -56,9 +56,7 @@ import actions from '../store/actions.js'
 export default {
   name: 'Login',
   props: {
-    CONFIG: {
-      type: Object
-    }
+    CONFIG: {}
   },
   data() {
     return {

@@ -6,6 +6,20 @@ import actions from '../actions.js'
 import mutations from '../mutations.js'
 
 export default {
+  [actions.Auth.fetchViewData]({ commit }) {
+    commit(mutations.Auth.fetchViewData, {
+      LANGUAGES: ['polish', 'english', 'german'],
+      IS_BLOCKED_IP: false, //bruteforce check,
+      MESSAGE: '', //\App\Session::get('UserLoginMessageType'),
+      MESSAGE_TYPE: '',
+      LOGIN_PAGE_REMEMBER_CREDENTIALS: true, // AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')
+      FORGOT_PASSWORD: true, //{if AppConfig::security('RESET_LOGIN_PASSWORD') && App\Mail::getDefaultSmtp()}
+      LANGUAGE_SELECTION: true,
+      DEFAULT_LANGUAGE: 'polish',
+      LAYOUT_SELECTION: true,
+      LAYOUTS: ['material', 'ios'] //\App\Layout::getAllLayouts()
+    })
+  },
   /**
    * Login action
    *

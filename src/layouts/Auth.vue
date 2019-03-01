@@ -8,7 +8,7 @@
             <div class="col-auto self-center q-pb-lg">
               <img class src="statics/Logo/logo" width="100" />
             </div>
-            <router-view :CONFIG="CONFIG" />
+            <router-view :CONFIG="CONFIG" :params="CONFIG.IS_BLOCKED_IP" />
             <q-banner v-if="CONFIG.MESSAGE" :class="[msgClass, 'q-mt-lg', 'text-white']">
               <p>{{ CONFIG.MESSAGE }}</p>
             </q-banner>
@@ -27,19 +27,8 @@
 
 <script>
 import { openURL } from 'quasar'
-const CONFIG = {
-  // component config loaded from server
-  LANGUAGES: ['polish', 'english', 'german'],
-  IS_BLOCKED_IP: false, //bruteforce check,
-  MESSAGE: '', //\App\Session::get('UserLoginMessageType'),
-  MESSAGE_TYPE: '',
-  LOGIN_PAGE_REMEMBER_CREDENTIALS: true, // AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')
-  FORGOT_PASSWORD: true, //{if AppConfig::security('RESET_LOGIN_PASSWORD') && App\Mail::getDefaultSmtp()}
-  LANGUAGE_SELECTION: true,
-  DEFAULT_LANGUAGE: 'polish',
-  LAYOUT_SELECTION: true,
-  LAYOUTS: ['material', 'ios'] //\App\Layout::getAllLayouts()
-}
+import actions from '../store/actions.js'
+var config = ''
 export default {
   name: 'Auth',
   data() {
@@ -47,14 +36,18 @@ export default {
       activeComponent: 'login-form',
       showReminderForm: false,
       showLoginForm: true,
-      CONFIG: CONFIG
+      CONFIG: config
     }
   },
   methods: {
-    toggleActiveComponent: function(componentName) {
-      this.activeComponent = componentName
-    },
     openURL
+  },
+  mounted() {
+    console.log(actions)
+    this.$store.dispatch(actions.Auth.fetchViewData).then(() => {
+      this.CONFIG = this.$store.state.Auth.view
+      console.log(this.CONFIG)
+    })
   }
 }
 </script>

@@ -14,17 +14,17 @@ const routes = [
       {
         name: 'Reminder',
         path: '/auth/reminder',
-        component: () => import('pages/Reminder.vue')
+        component: () => import('pages/Reminder.vue'),
+        props: true,
+        beforeEnter(routeTo, routeFrom, next) {
+          console.log(routeTo)
+          next()
+        }
       },
       {
         name: 'Login',
         path: '/auth/login',
         component: () => import('pages/Login.vue')
-      },
-      {
-        name: 'Brute',
-        path: '/auth/brute',
-        component: () => import('pages/Brute.vue')
       }
     ]
   }

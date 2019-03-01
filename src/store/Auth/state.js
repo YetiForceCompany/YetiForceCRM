@@ -4,5 +4,17 @@ export default {
   tokenId: null,
   userId: null,
   userName: null,
-  admin: null
+  admin: null,
+  view: {
+    LANGUAGES: null,
+    IS_BLOCKED_IP: null,
+    MESSAGE: null,
+    MESSAGE_TYPE: null,
+    LOGIN_PAGE_REMEMBER_CREDENTIALS: null,
+    FORGOT_PASSWORD: null,
+    LANGUAGE_SELECTION: null,
+    DEFAULT_LANGUAGE: null,
+    LAYOUT_SELECTION: null,
+    LAYOUTS: null
+  }
 }

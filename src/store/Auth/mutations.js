@@ -24,5 +24,20 @@ export default {
     state.userId = null
     state.userName = null
     state.admin = null
+  },
+
+  [mutations.Auth.fetchViewData](state, data) {
+    state.view = {
+      LANGUAGES: data.LANGUAGES,
+      IS_BLOCKED_IP: data.IS_BLOCKED_IP,
+      MESSAGE: data.MESSAGE,
+      MESSAGE_TYPE: data.MESSAGE_TYPE,
+      LOGIN_PAGE_REMEMBER_CREDENTIALS: data.LOGIN_PAGE_REMEMBER_CREDENTIALS,
+      FORGOT_PASSWORD: data.FORGOT_PASSWORD,
+      LANGUAGE_SELECTION: data.LANGUAGE_SELECTION,
+      DEFAULT_LANGUAGE: data.DEFAULT_LANGUAGE,
+      LAYOUT_SELECTION: data.LAYOUT_SELECTION,
+      LAYOUTS: data.LAYOUTS
+    }
   }
 }
