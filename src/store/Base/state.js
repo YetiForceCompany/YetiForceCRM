@@ -4,7 +4,7 @@ export default {
     positions: []
   },
   url: {
-    Login: {
+    Auth: {
       login: 'login.php'
     }
   }
