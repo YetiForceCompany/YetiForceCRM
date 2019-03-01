@@ -18,8 +18,9 @@ class Users_Picklist_UIType extends Vtiger_Picklist_UIType
 	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
 		$currentModel = \App\User::getCurrentUserModel();
+		$fieldModel = $this->getFieldModel();
 		if ($this->getFieldModel()->getUIType() === 115 && (!$currentModel->isAdmin() || $currentModel->getId() === $recordModel->getId())) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName(), 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $fieldModel->getFieldName() . '||' . $fieldModel->getModuleName(), 406);
 		}
 		parent::setValueFromRequest($request, $recordModel, $requestFieldName);
 	}
