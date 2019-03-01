@@ -6,9 +6,27 @@ const routes = [
     component: () => import('layouts/Basic.vue')
   },
   {
-    name: 'Login',
-    path: '/login',
-    component: () => import('pages/Login.vue')
+    name: 'Auth',
+    path: '/auth',
+    redirect: '/auth/login',
+    component: () => import('layouts/Auth.vue'),
+    children: [
+      {
+        name: 'Reminder',
+        path: '/auth/reminder',
+        component: () => import('pages/Reminder.vue')
+      },
+      {
+        name: 'Login',
+        path: '/auth/login',
+        component: () => import('pages/Login.vue')
+      },
+      {
+        name: 'Brute',
+        path: '/auth/brute',
+        component: () => import('pages/Brute.vue')
+      }
+    ]
   }
 ]
 

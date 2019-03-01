@@ -1,74 +1,94 @@
-<!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <q-layout>
-    <q-page-container>
-      <q-page class="row">
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 fixed-center">
-          <div class="card-shadow q-pa-xl column">
-            <div class="col-auto self-center q-pb-lg">
-              <img class src="statics/Logo/logo" width="100" />
-            </div>
-            <keep-alive>
-              <component
-                v-if="!CONFIG.IS_BLOCKED_IP"
-                :is="activeComponent"
-                :CONFIG="CONFIG"
-                :toggleActiveComponent="toggleActiveComponent"
-              />
-            </keep-alive>
-            <q-banner v-if="CONFIG.IS_BLOCKED_IP" class="bg-negative q-mt-lg text-white">
-              <p>{{ $t('LBL_IP_IS_BLOCKED') }}</p>
-            </q-banner>
-            <q-banner v-if="CONFIG.MESSAGE" :class="[msgClass, 'q-mt-lg', 'text-white']">
-              <p>{{ CONFIG.MESSAGE }}</p>
-            </q-banner>
-          </div>
-        </div>
-      </q-page>
-    </q-page-container>
-  </q-layout>
+  <div>
+    <form
+      @submit.prevent.stop="onSubmit"
+      class="col q-gutter-md q-mx-lg"
+      :autocomplete="CONFIG.LOGIN_PAGE_REMEMBER_CREDENTIALS ? 'on' : 'off'"
+    >
+      <q-input
+        type="text"
+        ref="user"
+        v-model="user"
+        :label="$t('LBL_USER')"
+        lazy-rules
+        :rules="[val => (val && val.length > 0) || 'Please type something']"
+        :autocomplete="CONFIG.LOGIN_PAGE_REMEMBER_CREDENTIALS ? 'on' : 'off'"
+      />
+      <q-input
+        type="password"
+        ref="password"
+        v-model="password"
+        :label="$t('Password')"
+        lazy-rules
+        :rules="[val => (val && val.length > 0) || 'Please type something']"
+        :autocomplete="CONFIG.LOGIN_PAGE_REMEMBER_CREDENTIALS ? 'on' : 'off'"
+      />
+      <q-select
+        v-if="CONFIG.LANGUAGE_SELECTION"
+        v-model="language"
+        :options="CONFIG.LANGUAGES"
+        :label="$t('LBL_CHOOSE_LANGUAGE')"
+      >
+        <template v-slot:prepend>
+          <q-icon name="translate" />
+        </template>
+      </q-select>
+      <q-select
+        v-if="CONFIG.LAYOUT_SELECTION"
+        v-model="layout"
+        :options="CONFIG.LAYOUTS"
+        :label="$t('LBL_SELECT_LAYOUT')"
+      >
+        <template v-slot:prepend>
+          <q-icon name="looks" />
+        </template>
+      </q-select>
+      <q-btn size="lg" :label="$t('LBL_SIGN_IN')" type="submit" color="secondary" class="full-width q-mt-lg" />
+      <router-link v-if="CONFIG.FORGOT_PASSWORD" class="text-secondary float-right" :to="{ name: 'Reminder' }">
+        {{ $t('ForgotPassword') }}
+      </router-link>
+    </form>
+  </div>
 </template>
-
-<style>
-.card-shadow {
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2), 0 2px 2px rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
-}
-</style>
-
 <script>
-import Form from '../components/Login/Form.vue'
-import Reminder from '../components/Login/Reminder.vue'
-const CONFIG = {
-  // component config loaded from server
-  LANGUAGES: ['polish', 'english', 'german'],
-  IS_BLOCKED_IP: false, //bruteforce check,
-  MESSAGE: '', //\App\Session::get('UserLoginMessageType'),
-  MESSAGE_TYPE: '',
-  LOGIN_PAGE_REMEMBER_CREDENTIALS: true, // AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')
-  FORGOT_PASSWORD: true, //{if AppConfig::security('RESET_LOGIN_PASSWORD') && App\Mail::getDefaultSmtp()}
-  LANGUAGE_SELECTION: true,
-  DEFAULT_LANGUAGE: 'polish',
-  LAYOUT_SELECTION: true,
-  LAYOUTS: ['material', 'ios'] //\App\Layout::getAllLayouts()
-}
+import actions from '../store/actions.js'
+
 export default {
   name: 'Login',
-  data() {
-    return {
-      activeComponent: 'login-form',
-      showReminderForm: false,
-      showLoginForm: true,
-      CONFIG: CONFIG
+  props: {
+    CONFIG: {
+      type: Object
     }
   },
-  components: {
-    loginForm: Form,
-    reminderForm: Reminder
+  data() {
+    return {
+      user: '',
+      password: '',
+      language: this.CONFIG.DEFAULT_LANGUAGE, //AppConfig::main('default_language')
+      layout: ''
+    }
+  },
+  computed: {
+    msgClass: function() {
+      return {
+        'bg-positive': this.CONFIG.MESSAGE_TYPE === 'success',
+        'bg-negative': this.CONFIG.MESSAGE_TYPE === 'error',
+        'bg-warning': this.CONFIG.MESSAGE_TYPE === ''
+      }
+    }
   },
   methods: {
-    toggleActiveComponent: function(componentName) {
-      this.activeComponent = componentName
+    onSubmit() {
+      this.$refs.user.validate()
+      this.$refs.password.validate()
+      if (this.$refs.user.hasError || this.$refs.password.hasError) {
+        this.formHasError = true
+      } else {
+        this.$store.dispatch(actions.Auth.login, { user: this.user, password: this.password, fingerPrint: '' })
+      }
     }
   }
 }
 </script>
+
+<style scoped></style>

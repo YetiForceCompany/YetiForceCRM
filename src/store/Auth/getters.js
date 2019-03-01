@@ -8,7 +8,7 @@ export default {
    *
    * @return  {bool}
    */
-  [getters.Login.isAuthenticated](state) {
+  [getters.Auth.isAuthenticated](state) {
     return state.tokenId !== null
   }
 }

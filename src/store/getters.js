@@ -4,7 +4,7 @@ export default {
     menuPositions: 'Base/menuPositions',
     url: 'Base/url'
   },
-  Login: {
-    isAuthenticated: 'Login/isAuthenticated'
+  Auth: {
+    isAuthenticated: 'Auth/isAuthenticated'
   }
 }
