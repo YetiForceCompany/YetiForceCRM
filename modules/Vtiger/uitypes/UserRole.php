@@ -20,7 +20,7 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 			return;
 		}
 		if (substr($value, 0, 1) !== 'H' || !is_numeric(substr($value, 1)) || is_null(\App\PrivilegeUtil::getRoleName($value))) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;
 	}
