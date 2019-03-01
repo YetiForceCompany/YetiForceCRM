@@ -20,10 +20,9 @@ class Users_String_UIType extends Vtiger_Base_UIType
 		if ($this->validate || empty($value)) {
 			return;
 		}
-		$fieldModel = $this->getFieldModel();
-		if ($fieldModel->getUIType() === 106) {
+		if ($this->getFieldModel() > getUIType() === 106) {
 			if (!preg_match('/^[a-zA-Z0-9_.@]{3,32}$/', $value)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $fieldModel->getFieldName() . '||' . $fieldModel->getModuleName() . '||' . $value, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 			}
 			$this->validate = true;
 		} else {
