@@ -42,6 +42,13 @@
 		</div>
 	</div>
 	<div name="history" class="dashboardWidgetContent">
+		<div class="row">
+			<h6 class="p-0 pr-2 col-sm-3 u-font-size-100per mb-0"><strong>{\App\Language::translate('Project Task Name', $MODULE_NAME)}</strong></h6>
+			<h6 class="p-0 pr-2 col-sm-1 u-font-size-100per mb-0"><strong>{\App\Language::translate('Progress', $MODULE_NAME)}</strong></h6>
+			<h6 class="p-0 pr-2 col-sm-3 u-font-size-100per mb-0"><strong>{\App\Language::translate('Projekt brak tłumaczeni', $MODULE_NAME)}</strong></h6>
+			<h6 class="p-0 pr-2 col-sm-3 u-font-size-100per mb-0"><strong>{\App\Language::translate('Project Milestones', $MODULE_NAME)}</strong></h6>
+			<h6 class="p-0 pr-2 col-sm-2 u-font-size-100per mb-0"><strong>{\App\Language::translate('Target End Date', $MODULE_NAME)}</strong></h6>
+		</div>
 		{include file=\App\Layout::getTemplatePath('dashboards/UpcomingProjectTasksContents.tpl', $MODULE_NAME) WIDGET=$WIDGET}
 	</div>
 {/strip}
