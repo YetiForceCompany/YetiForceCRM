@@ -4,8 +4,14 @@ import globalAxios from '../../services/Global.js'
 import { LocalStorage } from 'quasar'
 import actions from '../actions.js'
 import mutations from '../mutations.js'
+import getters from '../../store/getters.js'
 
 export default {
+  /**
+   * Fetch view data
+   *
+   * @param {object} state
+   */
   [actions.Auth.fetchViewData]({ commit }) {
     commit(mutations.Auth.setViewData, {
       LANGUAGES: ['polish', 'english', 'german'],
@@ -23,13 +29,12 @@ export default {
   /**
    * Login action
    *
-   * @param   {any}     commit
-   * @param   {any}     dispatch
+   * @param   {object}  store
    * @param   {object}  user
    */
-  [actions.Auth.login]({ commit, dispatch }, user) {
+  [actions.Auth.login]({ commit, dispatch, rootGetters }, user) {
     authAxios({
-      url: 'login.php/',
+      url: rootGetters[getters.Base.url].Auth.login,
       data: user,
       method: 'POST'
     })
@@ -66,8 +71,7 @@ export default {
   /**
    * Clear authentication data, when the expirationTime passed
    *
-   * @param   {any}     commit
-   * @param   {any}     dispatch
+   * @param   {object}  store
    * @param   {number}  expirationTime
    */
   [actions.Auth.setLogoutTimer]({ commit }, expirationTime) {
@@ -79,7 +83,7 @@ export default {
   /**
    * Try auto login on application start
    *
-   * @param   {any}     commit
+   * @param   {object} store
    */
   [actions.Auth.tryAutoLogin]({ commit }) {
     return new Promise(resolve => {

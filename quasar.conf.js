@@ -4,7 +4,7 @@ const webpack = require('webpack')
 const exec = require('child_process').exec
 const axios = require('axios')
 
-module.exports = function (ctx) {
+module.exports = function(ctx) {
   ModuleLoader.loadModules()
   return {
     // app boot file (/src/boot)
@@ -100,14 +100,14 @@ module.exports = function (ctx) {
       open: true, // opens browser window automatically
       headers: {
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': '*',
+        'Access-Control-Allow-Headers': '*'
       },
       before(app, server) {
         let baseURL = ''
         // get configuration by running index.php from command line
         // which will in return get dev server template with configuration from php
         app.all('/', (req, res) => {
-          exec('php ' + __dirname + '/index.php --dev', function (error, stdout, stderr) {
+          exec('php ' + __dirname + '/dev.php', function(error, stdout, stderr) {
             res.append('access-control-allow-origin', '*')
             res.append('access-control-allow-headers', '*')
             res.append('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS')
@@ -128,7 +128,7 @@ module.exports = function (ctx) {
         app.all('/login.php', (req, res) => {
           axios
             .post(baseURL + '/login.php', req.body)
-            .then(function (response) {
+            .then(function(response) {
               for (let headerName in response.headers) {
                 res.append(headerName, response.headers[headerName])
               }
@@ -138,14 +138,14 @@ module.exports = function (ctx) {
                 res.status(response.status).end(response.statusText)
               }
             })
-            .catch(function (error) {
+            .catch(function(error) {
               res.end(error)
             })
         })
         app.all('/api.php', (req, res) => {
           axios
             .post(baseURL + '/api.php', req.body)
-            .then(function (response) {
+            .then(function(response) {
               for (let headerName in response.headers) {
                 res.append(headerName, response.headers[headerName])
               }
@@ -155,7 +155,7 @@ module.exports = function (ctx) {
                 res.status(response.status).end(response.statusText)
               }
             })
-            .catch(function (error) {
+            .catch(function(error) {
               res.end(error)
             })
         })
