@@ -78,6 +78,7 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", {}, {
 			}).done(function(e) {
 				Settings_PDF_List_Js.deleteById(deleteId).done(function() {
 					self.registerTemplateDelete(container);
+				});
 			});
 		});
 	},
