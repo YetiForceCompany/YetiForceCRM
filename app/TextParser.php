@@ -1264,12 +1264,13 @@ class TextParser
 	 * @param          $html
 	 * @param int|bool $length
 	 * @param bool     $addDots
+	 * @param bool	   $isTruncated
 	 *
 	 * @throws \HTMLPurifier_Exception
 	 *
 	 * @return string
 	 */
-	public static function htmlTruncate($html, $length = false, $addDots = true)
+	public static function htmlTruncate($html, $length = false, $addDots = true, &$isTruncated = false)
 	{
 		if (!$length) {
 			$length = \AppConfig::main('listview_max_textlength');
@@ -1325,7 +1326,8 @@ class TextParser
 			}
 			return $matches[0];
 		}, $generator->generateFromTokens($truncated));
-		return $html . ($totalCount >= $length ? ($addDots ? '...' : '') : '');
+		$isTruncated = $totalCount >= $length;
+		return $html . ($isTruncated ? ($addDots ? '...' : '') : '');
 	}
 
 	/**
@@ -1372,18 +1374,5 @@ class TextParser
 		} else {
 			return strlen($text);
 		}
-	}
-
-	/**
-	 * Compare two HTML if they are the same.
-	 *
-	 * @param   string  $str1
-	 * @param   string  $str2
-	 *
-	 * @return  bool
-	 */
-	public static function sameHtml(string $str1, string $str2) : bool
-	{
-		return \App\Purifier::purifyByType(str_replace(["\r", "\n"], ['', ''], $str1), 'Text') === \App\Purifier::purifyByType(str_replace(["\r", "\n"], ['', ''], $str2), 'Text');
 	}
 }
