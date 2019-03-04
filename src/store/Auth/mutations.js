@@ -26,7 +26,7 @@ export default {
     state.admin = null
   },
 
-  [mutations.Auth.fetchViewData](state, data) {
+  [mutations.Auth.setViewData](state, data) {
     state.view = {
       LANGUAGES: data.LANGUAGES,
       IS_BLOCKED_IP: data.IS_BLOCKED_IP,
