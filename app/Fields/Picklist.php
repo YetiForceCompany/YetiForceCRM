@@ -350,4 +350,21 @@ class Picklist
 		\App\Cache::save($cacheName, $tabId, $values);
 		return $values;
 	}
+
+	/**
+	 *  Get picklist values by automation value.
+	 *
+	 * @param string $fieldName
+	 * @param int    $automation
+	 *
+	 * @return array
+	 */
+	public static function getValuesByAutomation(string $fieldName, int $automation = 0): array
+	{
+		if ((bool) \App\Db::getInstance()->getTableSchema("vtiger_$fieldName", true)->getColumn('automation')) {
+			return (new \App\Db\Query())->select([$fieldName])->from("vtiger_$fieldName")->where(['automation' => $automation])
+				->orderBy('sortorderid')->column();
+		}
+		return [];
+	}
 }

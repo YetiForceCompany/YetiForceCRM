@@ -13,13 +13,6 @@
 class ProjectTask_CompletedProjectTasks_Dashboard extends Vtiger_IndexAjax_View
 {
 	/**
-	 * Contains status values which indicate that the record is open.
-	 *
-	 * @var string[]
-	 */
-	protected $closedStatus = ['PLL_COMPLETED', 'PLL_CANCELLED'];
-
-	/**
 	 * Process.
 	 *
 	 * @param \App\Request $request
@@ -34,7 +27,7 @@ class ProjectTask_CompletedProjectTasks_Dashboard extends Vtiger_IndexAjax_View
 		$pagingModel->set('page', $request->getInteger('page'));
 		$pagingModel->set('limit', (int) $widget->get('limit'));
 		$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'ProjectTask', $request->getByType('owner', 2));
-		$params = ['projecttaskstatus' => $this->closedStatus];
+		$params = ['projecttaskstatus' => \App\Fields\Picklist::getValuesByAutomation('projecttaskstatus', Settings_Picklist_Module_Model::AUTOMATION_CLOSED)];
 		if (!$request->isEmpty('projecttaskpriority') && $request->getByType('projecttaskpriority', 'Standard') !== 'all') {
 			$params['projecttaskpriority'] = $request->getByType('projecttaskpriority', 'Standard');
 		}
@@ -48,7 +41,7 @@ class ProjectTask_CompletedProjectTasks_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('NAMELENGTH', \AppConfig::main('title_max_length'));
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('TICKETPRIORITY', $params['projecttaskpriority'] ?? '');
-		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_Completed_PROJECT_TASKS');
+		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_COMPLETED_PROJECT_TASKS');
 		$viewer->assign('LISTVIEWLINKS', true);
 		if ($request->has('content')) {
 			$viewer->view('dashboards/CompletedProjectTasksContents.tpl', $moduleName);

@@ -13,13 +13,6 @@
 class ProjectTask_UpcomingProjectTasks_Dashboard extends Vtiger_IndexAjax_View
 {
 	/**
-	 * Contains status values which indicate that the record is open.
-	 *
-	 * @var string[]
-	 */
-	protected $openStatus = ['PLL_PLANNED', 'PLL_ON_HOLD', 'PLL_IN_PROGRESSING', 'PLL_IN_APPROVAL'];
-
-	/**
 	 * Process.
 	 *
 	 * @param \App\Request $request
@@ -34,7 +27,7 @@ class ProjectTask_UpcomingProjectTasks_Dashboard extends Vtiger_IndexAjax_View
 		$pagingModel->set('page', $request->getInteger('page'));
 		$pagingModel->set('limit', (int) $widget->get('limit'));
 		$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'ProjectTask', $request->getByType('owner', 2));
-		$params = ['projecttaskstatus' => $this->openStatus];
+		$params = ['projecttaskstatus' => \App\Fields\Picklist::getValuesByAutomation('projecttaskstatus', Settings_Picklist_Module_Model::AUTOMATION_OPEN)];
 		if (!$request->isEmpty('projecttaskpriority') && $request->getByType('projecttaskpriority', 'Standard') !== 'all') {
 			$params['projecttaskpriority'] = $request->getByType('projecttaskpriority', 'Standard');
 		}
