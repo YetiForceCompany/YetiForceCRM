@@ -1,6 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 import authAxios from '../../services/Auth.js'
-import globalAxios from '../../services/Global.js'
+import apiAxios from '../../services/Api.js'
 import { LocalStorage } from 'quasar'
 import actions from '../actions.js'
 import mutations from '../mutations.js'
@@ -56,7 +56,7 @@ export default {
           admin: data.admin,
           userName: data.userName
         })
-        globalAxios.defaults.headers.common['Authorization'] = data.tokenId
+        apiAxios.defaults.headers.common['Authorization'] = data.tokenId
         dispatch(actions.Auth.setLogoutTimer, data.expiresIn)
         console.log('replace')
         this.$router.replace('/')
