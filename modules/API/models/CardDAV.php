@@ -421,27 +421,28 @@ class API_CardDAV_Model
 	 *
 	 * @return string
 	 */
-	public function getCardTel(Sabre\VObject\Component $vcard, $type)
+	public function getCardTel(Sabre\VObject\Component $vcard, string $type)
 	{
 		\App\Log::trace(__METHOD__ . ' | Start | Type:' . $type);
 		if (!isset($vcard->TEL)) {
 			\App\Log::trace(__METHOD__ . ' | End | return: ""');
-
 			return '';
 		}
+		$type = strtoupper($type);
 		foreach ($vcard->TEL as $t) {
 			foreach ($t->parameters() as $p) {
-				$vcardType = $p->getValue();
-				$vcardType = strtoupper(trim(str_replace('VOICE', '', $vcardType), ','));
-				if ($vcardType == strtoupper($type) && $t->getValue() != '') {
-					\App\Log::trace(__METHOD__ . ' | End | return: ' . $t->getValue());
-
-					return \App\Purifier::purify($t->getValue());
+				$vcardType = strtoupper(trim(str_replace('VOICE', '', $p->getValue()), ','));
+				if ($vcardType === $type && !empty($t->getValue())) {
+					$phone = \App\Purifier::purify($t->getValue());
+					if (!($phone = \App\Fields\Phone::getProperNumber($phone, ($this->user ? $this->user->getId() : null)))) {
+						$phone = '';
+					}
+					\App\Log::trace(__METHOD__ . ' | End | return: ' . $phone);
+					return $phone;
 				}
 			}
 		}
 		\App\Log::trace(__METHOD__ . ' | End | return: ""');
-
 		return '';
 	}
 
