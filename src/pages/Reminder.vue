@@ -30,6 +30,11 @@ export default {
       reminderEmail: '',
       reminderUser: ''
     }
+  },
+  mounted() {
+    if (!this.CONFIG.FORGOT_PASSWORD || this.CONFIG.IS_BLOCKED_IP) {
+      this.$router.replace('/auth/login')
+    }
   }
 }
 </script>

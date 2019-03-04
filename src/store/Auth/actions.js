@@ -1,5 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-import loginAxios from '../../services/Auth.js'
+import authAxios from '../../services/Auth.js'
 import globalAxios from '../../services/Global.js'
 import { LocalStorage } from 'quasar'
 import actions from '../actions.js'
@@ -7,13 +7,13 @@ import mutations from '../mutations.js'
 
 export default {
   [actions.Auth.fetchViewData]({ commit }) {
-    commit(mutations.Auth.fetchViewData, {
+    commit(mutations.Auth.setViewData, {
       LANGUAGES: ['polish', 'english', 'german'],
       IS_BLOCKED_IP: false, //bruteforce check,
       MESSAGE: '', //\App\Session::get('UserLoginMessageType'),
       MESSAGE_TYPE: '',
       LOGIN_PAGE_REMEMBER_CREDENTIALS: true, // AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')
-      FORGOT_PASSWORD: true, //{if AppConfig::security('RESET_LOGIN_PASSWORD') && App\Mail::getDefaultSmtp()}
+      FORGOT_PASSWORD: false, //{if AppConfig::security('RESET_LOGIN_PASSWORD') && App\Mail::getDefaultSmtp()}
       LANGUAGE_SELECTION: true,
       DEFAULT_LANGUAGE: 'polish',
       LAYOUT_SELECTION: true,
@@ -28,7 +28,7 @@ export default {
    * @param   {object}  user
    */
   [actions.Auth.login]({ commit, dispatch }, user) {
-    loginAxios({
+    authAxios({
       url: 'login.php/',
       data: user,
       method: 'POST'
@@ -53,6 +53,7 @@ export default {
         })
         globalAxios.defaults.headers.common['Authorization'] = data.tokenId
         dispatch(actions.Auth.setLogoutTimer, data.expiresIn)
+        console.log('replace')
         this.$router.replace('/')
       })
       .catch(error => console.log(error))

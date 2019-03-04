@@ -2,12 +2,10 @@
 import axios from 'axios'
 
 const LoginService = axios.create({
-  baseURL: '/', //dev path
+  baseURL: window.CONFIG.baseURL, //dev path
   headers: {
     Accept: 'application/json',
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': '*'
+    'Content-Type': 'application/json'
   }
 })
 

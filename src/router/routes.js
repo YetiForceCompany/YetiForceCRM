@@ -14,12 +14,7 @@ const routes = [
       {
         name: 'Reminder',
         path: '/auth/reminder',
-        component: () => import('pages/Reminder.vue'),
-        props: true,
-        beforeEnter(routeTo, routeFrom, next) {
-          console.log(routeTo)
-          next()
-        }
+        component: () => import('pages/Reminder.vue')
       },
       {
         name: 'Login',

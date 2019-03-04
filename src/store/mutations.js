@@ -11,6 +11,7 @@ export default {
 
   Auth: {
     authUser: 'Auth/authUser',
-    clearAuthData: 'Auth/clearAuthData'
+    clearAuthData: 'Auth/clearAuthData',
+    setViewData: 'Auth/setViewData'
   }
 }
