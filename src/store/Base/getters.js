@@ -2,6 +2,18 @@ import getters from '../../store/getters.js'
 import Objects from '../../utilities/Objects.js'
 
 export default {
+
+  /**
+   * Get global configuration from server
+   *
+   * @param {object} state
+   *
+   * @returns {object}
+   */
+  [getters.Base.config](state) {
+    return state.config
+  },
+
   /**
    * Get menu positions
    *

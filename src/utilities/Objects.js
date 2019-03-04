@@ -30,7 +30,11 @@ export default {
       for (const key in source) {
         if (this.isObject(source[key])) {
           if (typeof target[key] === 'undefined') {
-            Vue.set(target, key, {})
+            if (source[key].constructor.name === 'Observer') {
+              target[key] = source[key]
+            } else {
+              Vue.set(target, key, {})
+            }
           }
           this.mergeDeepReactive(target[key], source[key])
         }
@@ -38,13 +42,13 @@ export default {
           Vue.set(
             target,
             key,
-            source[key].map(item => {
-              if (this.isObject(item)) {
+            Vue.observable(source[key].map(item => {
+              if (this.isObject(item) && item.constructor.name !== 'Observable') {
                 return this.mergeDeepReactive({}, item)
               }
               return item
             })
-          )
+            ))
         } else {
           Vue.set(target, key, source[key])
         }
@@ -53,8 +57,14 @@ export default {
     return this.mergeDeepReactive(target, ...sources)
   },
 
+  /**
+   * Get method from dot-prop
+   */
   get,
 
+  /**
+   * Set method from dot-prop
+   */
   set,
 
   /**
@@ -64,7 +74,7 @@ export default {
    * @param   {string}  path    where to store path inside an object
    * @param   {any}     value
    *
-   * @return  {object}          reactive objecct
+   * @return  {object}          reactive object
    */
   setReactive(target, path, value) {
     return this.mergeDeepReactive(target, this.set(target, path, value))

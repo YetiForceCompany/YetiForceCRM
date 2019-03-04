@@ -6,9 +6,9 @@
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 fixed-center">
           <div class="card-shadow q-pa-xl column">
             <div class="col-auto self-center q-pb-lg">
-              <img class :src="'./statics/Logo/logo'" width="100" />
+              <img class :src="config.publicDir+'/statics/Logo/logo'" width="100">
             </div>
-            <router-view :CONFIG="CONFIG" :params="CONFIG.IS_BLOCKED_IP" />
+            <router-view :CONFIG="CONFIG" :params="CONFIG.IS_BLOCKED_IP"/>
             <q-banner v-if="CONFIG.MESSAGE" :class="[msgClass, 'q-mt-lg', 'text-white']">
               <p>{{ CONFIG.MESSAGE }}</p>
             </q-banner>
@@ -28,6 +28,8 @@
 <script>
 import { openURL } from 'quasar'
 import actions from '../store/actions.js'
+import getters from '../store/getters.js'
+import { mapGetters } from 'vuex'
 var config = ''
 export default {
   name: 'Auth',
@@ -41,6 +43,11 @@ export default {
   },
   methods: {
     openURL
+  },
+  computed: {
+    ...mapGetters({
+      config: getters.Base.config
+    })
   },
   mounted() {
     this.$store.dispatch(actions.Auth.fetchViewData).then(() => {

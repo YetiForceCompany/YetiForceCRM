@@ -2,7 +2,8 @@
 export default {
   Base: {
     menuPositions: 'Base/menuPositions',
-    url: 'Base/url'
+    url: 'Base/url',
+    config: 'Base/config'
   },
   Auth: {
     isAuthenticated: 'Auth/isAuthenticated'
