@@ -103,7 +103,7 @@ module.exports = function (ctx) {
         'Access-Control-Allow-Headers': '*',
       },
       before(app, server) {
-        let baseURL = 'http://yeti'
+        let baseURL = ''
         // get configuration by running index.php from command line
         // which will in return get dev server template with configuration from php
         app.all('/', (req, res) => {
@@ -112,15 +112,14 @@ module.exports = function (ctx) {
             res.append('access-control-allow-headers', '*')
             res.append('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS')
             if (stderr) {
-              console.log('PHP Server error', stderr)
+              console.error('PHP Server error', stderr)
               return res.end(stderr)
             }
             const matches = /data\-config\-url\=\"([^\"]+)\"/gi.exec(stdout)
             if (matches && matches.length > 1) {
               baseURL = matches[1]
-              console.log('baseURL:', baseURL)
             } else {
-              console.log('No baseURL inside template', stdout)
+              console.error('No baseURL inside template', stdout)
             }
             res.end(stdout)
           })
