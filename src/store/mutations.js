@@ -6,7 +6,8 @@ export default {
 
   Base: {
     updateMenuPositions: 'Base/updateMenuPositions',
-    addUrl: 'Base/addUrl'
+    addUrl: 'Base/addUrl',
+    updateConfig: 'Base/updateConfig'
   },
 
   Auth: {

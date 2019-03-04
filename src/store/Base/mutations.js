@@ -3,8 +3,19 @@ import mutations from '../../store/mutations.js'
 import Objects from '../../utilities/Objects.js'
 
 export default {
+
   /**
-   * Set menu positions
+   * Update configuration from server
+   *
+   * @param {object} state
+   * @param {config} config
+   */
+  [mutations.Base.updateConfig](state, config) {
+    Objects.mergeDeepReactive(state.config, config)
+  },
+
+  /**
+   * Update menu positions
    *
    * @param {object} state
    * @param {array} positions
