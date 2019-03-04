@@ -10,12 +10,12 @@
 		</div>
 		<div class="m-2">
 			{assign var=FULL_TEXT value=$RECORD->getDisplayValue($WIDGET['data']['field_name'])}
-			{assign var=TRUNCATE_TEXT value=\App\TextParser::htmlTruncate($FULL_TEXT,600)}
+			{assign var=TRUNCATE_TEXT value=\App\TextParser::htmlTruncate($FULL_TEXT,600,true,$IS_TRUNCATED)}
 			<div class="moreContent table-responsive">
 				<span class="teaserContent">
 					{$TRUNCATE_TEXT}
 				</span>
-				{if !\App\TextParser::sameHtml($FULL_TEXT, $TRUNCATE_TEXT)}
+				{if $IS_TRUNCATED}
 					<span class="fullContent d-none">
 						{$FULL_TEXT}
 					</span>
