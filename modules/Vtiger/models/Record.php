@@ -24,7 +24,6 @@ class Vtiger_Record_Model extends \App\Base
 	public $summaryRowCount = 4;
 	public $isNew = true;
 	public $ext = [];
-	protected $dataForSave = [];
 
 	/**
 	 * Function to get the id of the record.
@@ -90,15 +89,7 @@ class Vtiger_Record_Model extends \App\Base
 
 		return $this;
 	}
-	/**
-	 * Set data for save
-	 *
-	 * @param   array  $array
-	 */
-	public function setDataForSave(array $array)
-	{
-		$this->dataForSave = array_merge($this->dataForSave, $array);
-	}
+
 	/**
 	 * Fuction to get the Name of the record.
 	 *
@@ -571,7 +562,7 @@ class Vtiger_Record_Model extends \App\Base
 		$row['modifiedby'] = $this->getPreviousValue('modifiedby') ? $this->get('modifiedby') : \App\User::getCurrentUserRealId();
 		$this->set('modifiedtime', $row['modifiedtime']);
 		$this->set('modifiedby', $row['modifiedby']);
-		return array_merge($this->dataForSave, ['vtiger_crmentity' => $row]);
+		return ['vtiger_crmentity' => $row];
 	}
 
 	/**
@@ -752,7 +743,7 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * Function check if record is createable.
 	 *
-	 * @return  bool
+	 * @return bool
 	 */
 	public function isCreateable()
 	{
