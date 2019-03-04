@@ -28,6 +28,7 @@
     "Cancelled": "Cancelled",
     "administrative": "Internal",
     "operative": "External",
-    "other": "Shared"
+    "other": "Shared",
+    "LBL_PROJECT": "Project"
   }
 }

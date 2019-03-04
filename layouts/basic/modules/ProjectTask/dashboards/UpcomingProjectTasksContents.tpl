@@ -3,26 +3,25 @@
 	<div class="tpl-ProjectTask-Dashboard-UpcomingProjectTasksContents">
 		{foreach from=$PROJECTTASKS key=INDEX item=TASK}
 			<div class="row">
-				<div class="p-0 col-sm-3">
-					<a href="index.php?module=ProjectTask&view=Detail&record={$TASK['projecttaskid']}">
-						{\App\TextParser::textTruncate($TASK['projecttaskname'], $NAMELENGTH)}
+				<div class="p-0 text-center col-sm-3">
+					<a href="{$TASK->getDetailViewUrl()}">
+						{\App\TextParser::textTruncate($TASK->getDisplayName(), $NAMELENGTH)}
 					</a>
 				</div>
-				<div class="p-0 col-sm-1">
-					{$TASK['projecttaskprogress']} %
+				<div class="p-0 text-center col-sm-1">
+					{$TASK->getDisplayValue('projecttaskprogress')}
 				</div>
-					<div class="p-0 col-sm-3">
-					link do projektu
+				<div class="p-0 text-center col-sm-3">
+					{$TASK->getDisplayValue('projectid')}
 				</div>
-				<div class="p-0 col-sm-3">
-					<a href="index.php?module=ProjectMilestone&view=Detail&record={$TASK['projectmilestoneid']}">
-						{\App\TextParser::textTruncate(\App\Record::getLabel($TASK['projectmilestoneid']), $NAMELENGTH)}
-					</a>
+				<div class="p-0 text-center col-sm-3">
+					{$TASK->getDisplayValue('projectmilestoneid')}
 				</div>
-				<div class="p-0 col-sm-2">
-					{\App\Fields\DateTime::formatToViewDate($TASK['targetenddate']|cat:" 23:59:00")}
+				<div class="p-0 text-center col-sm-2">
+					{\App\Fields\DateTime::formatToViewDate($TASK->get('targetenddate')|cat:" 23:59:00")}
 				</div>
 			</div>
+			<hr>
 		{foreachelse}
 			<span class="noDataMsg">
 				{\App\Language::translate($NODATAMSGLABLE, $MODULE_NAME)}

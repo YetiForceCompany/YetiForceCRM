@@ -1,5 +1,5 @@
 <?php
-/* +***********************************************************************************
+ /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -43,7 +43,10 @@ class ProjectTask_Module_Model extends Vtiger_Module_Model
 		$dataReader = $query->createCommand()->query();
 		$projectTasks = [];
 		while ($row = $dataReader->read()) {
-			$projectTasks[] = $row;
+			$model = Vtiger_Record_Model::getCleanInstance('ProjectTask');
+			$model->setData($row);
+			$model->setId($row['crmid']);
+			$projectTasks[] = $model;
 		}
 		$pagingModel->calculatePageRange($dataReader->count());
 		if ($dataReader->count() > $pagingModel->getPageLimit()) {
