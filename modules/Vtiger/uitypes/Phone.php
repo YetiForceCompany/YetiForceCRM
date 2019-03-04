@@ -46,7 +46,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 			try {
 				$phoneUtil->isValidNumber($phoneUtil->parse($value));
 			} catch (\libphonenumber\NumberParseException $e) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 			}
 			$this->validate[$value] = true;
 		} else {

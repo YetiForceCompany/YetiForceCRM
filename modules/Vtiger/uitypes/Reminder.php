@@ -54,7 +54,7 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 			return;
 		}
 		if (($isUserFormat && !in_array($value, [0, 1, '1', '0', 'on'])) || (!$isUserFormat && !(empty($value) || is_numeric($value)))) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;
 	}
@@ -72,7 +72,7 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 		$this->validate($value, true);
 		if ($value) {
 			if (!$request->has('remdays') || !$request->has('remhrs') || !$request->has('remmin')) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 			}
 			$value = $request->getInteger('remdays') * 24 * 60 + $request->getInteger('remhrs') * 60 + $request->getInteger('remmin');
 		}
