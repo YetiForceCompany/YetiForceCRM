@@ -62,6 +62,7 @@ class WebUI
 				header('location: ' . \App\Config::main('site_URL'), true, 301);
 			}
 		}
+		\App\Session::init();
 		$this->setHeaders();
 		$this->requirementsValidation();
 		if (!\App\Config::main('application_unique_key', false)) {
@@ -69,6 +70,9 @@ class WebUI
 		}
 	}
 
+	/**
+	 * Sets headers.
+	 */
 	public function setHeaders()
 	{
 		if (headers_sent()) {

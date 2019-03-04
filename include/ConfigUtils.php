@@ -122,6 +122,7 @@ if (!defined('ROOT_DIRECTORY')) {
 	define('ROOT_DIRECTORY', str_replace(DIRECTORY_SEPARATOR . 'include', '', __DIR__));
 }
 require_once ROOT_DIRECTORY . '/vendor/autoload.php';
+require_once ROOT_DIRECTORY . '/include/Loader.php';
 session_save_path(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'session');
 if (!defined('IS_PUBLIC_DIR')) {
 	define('IS_PUBLIC_DIR', false);

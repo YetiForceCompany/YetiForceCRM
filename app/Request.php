@@ -676,8 +676,40 @@ class Request
 	{
 		if (!static::$request) {
 			static::$request = new self($request ? $request : $_REQUEST);
+			if ($content = file_get_contents('php://input')) {
+				static::$request->rawValues = array_merge(static::$request->contentParse($content), static::$request->rawValues);
+			}
 		}
 		return static::$request;
+	}
+
+	/**
+	 * Parse data.
+	 *
+	 * @param mixed $content
+	 *
+	 * @return mixed
+	 */
+	public function contentParse($content)
+	{
+		$type = isset($_SERVER['CONTENT_TYPE']) ? $this->getServer('CONTENT_TYPE') : $this->getHeader('content-type');
+		if (empty($type)) {
+			$type = $this->getHeader('accept');
+		}
+		if (!empty($type)) {
+			$type = explode('/', $type);
+			$type = array_pop($type);
+		}
+		$data = [];
+		switch ($type) {
+			case 'form-data':
+				parse_str($content, $data);
+			break;
+			case 'json':
+			default:
+				return $data = \App\Json::decode($content);
+	}
+		return $data;
 	}
 
 	/**
