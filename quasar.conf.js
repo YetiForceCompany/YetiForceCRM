@@ -124,10 +124,27 @@ module.exports = function (ctx) {
             res.end(stdout)
           })
         })
-        // catch login request and forward it to php server
+        // catch login and api.php request and forward it to php server
         app.all('/login.php', (req, res) => {
           axios
             .post(baseURL + '/login.php', req.body)
+            .then(function (response) {
+              for (let headerName in response.headers) {
+                res.append(headerName, response.headers[headerName])
+              }
+              if (response.status === 200) {
+                res.json(response.data)
+              } else {
+                res.status(response.status).end(response.statusText)
+              }
+            })
+            .catch(function (error) {
+              res.end(error)
+            })
+        })
+        app.all('/api.php', (req, res) => {
+          axios
+            .post(baseURL + '/api.php', req.body)
             .then(function (response) {
               for (let headerName in response.headers) {
                 res.append(headerName, response.headers[headerName])
