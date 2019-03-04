@@ -188,6 +188,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 		thisInstance.baseCurrency = $('.js-converted-price', parentElem).val();
 		thisInstance.getUnitPrice().val(thisInstance.baseCurrency);
 		$('input[name="base_currency"]', thisInstance.getForm()).val(thisInstance.baseCurrencyName);
+		$('.js-base-currency-check-id', thisInstance.getForm()).attr('name', thisInstance.baseCurrencyName.replace('name', '_') + '_check');
 		thisInstance.getForm().find('.js-currencies-container').html('').append(modalContainer.children().clone());
 		return true;
 	},
