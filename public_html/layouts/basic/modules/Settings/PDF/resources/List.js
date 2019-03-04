@@ -72,9 +72,12 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", {}, {
 		container.find('.templateDelete').on('click', function (e) {
 			e.stopPropagation();
 			e.preventDefault();
-			var templateId = jQuery(this).closest('tr').data('id');
-			Settings_PDF_List_Js.deleteById(templateId).done(function () {
-				thisInstance.registerTemplateDelete(container);
+			let deleteId = $(this).closest("tr").data("id");
+			Vtiger_Helper_Js.showConfirmationBox({
+				message: app.vtranslate("JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE")
+			}).done(function(e) {
+				Settings_PDF_List_Js.deleteById(deleteId).done(function() {
+					self.registerTemplateDelete(container);
 			});
 		});
 	},
