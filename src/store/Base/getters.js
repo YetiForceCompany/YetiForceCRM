@@ -3,7 +3,6 @@ import getters from '../../store/getters.js'
 import Objects from '../../utilities/Objects.js'
 
 export default {
-
   /**
    * Get global configuration from server
    *
@@ -34,6 +33,6 @@ export default {
    * @returns {object}
    */
   [getters.Base.url](state) {
-    return path => Objects.get(state.url, path)
+    return state.url
   }
 }
