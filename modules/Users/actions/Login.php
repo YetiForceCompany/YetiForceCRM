@@ -74,6 +74,7 @@ class Users_Login_Action extends \App\Controller\Action
 			\App\Session::set('authenticated_user_id', $userId);
 			\App\Session::delete('2faUserId');
 			\App\Session::delete('LoginAuthyMethod');
+			\App\User::setCurrentUserId($userId);
 			$this->redirectUser();
 		} else {
 			\App\Session::set('UserLoginMessage', \App\Language::translate('LBL_2FA_WRONG_CODE', 'Users'));
@@ -145,6 +146,7 @@ class Users_Login_Action extends \App\Controller\Action
 		if (Users_Totp_Authmethod::isActive($this->userRecordModel->getId())) {
 			if (Users_Totp_Authmethod::mustInit($this->userRecordModel->getId())) {
 				\App\Session::set('authenticated_user_id', $this->userRecordModel->getId());
+				\App\User::setCurrentUserId($this->userRecordModel->getId());
 				\App\Session::set('ShowAuthy2faModal', true);
 			} else {
 				\App\Session::set('LoginAuthyMethod', '2fa');
@@ -155,6 +157,7 @@ class Users_Login_Action extends \App\Controller\Action
 			}
 		} else {
 			\App\Session::set('authenticated_user_id', $this->userRecordModel->getId());
+			\App\User::setCurrentUserId($this->userRecordModel->getId());
 		}
 		\App\Session::set('app_unique_key', AppConfig::main('application_unique_key'));
 		\App\Session::set('user_name', $this->userRecordModel->get('user_name'));
