@@ -11,9 +11,9 @@
 foreach (\App\SocialMedia::ALLOWED_UITYPE as $uiType => $socialMediaType) {
 	if (\App\SocialMedia::isActiveByType($uiType)) {
 		foreach (\App\SocialMedia::getSocialMediaAccount($socialMediaType) as $socialMedia) {
-			if( !\App\RequestUtil::isNetConnection() ){
+			if(!\App\RequestUtil::isNetConnection()){
 				continue;
-			}elseif( !$socialMedia->isExists() ){
+			}elseif(!$socialMedia->isExists()){
 				\App\SocialMedia::log($uiType, 'warning', "User does not exist");
 				continue;
 			}else{
