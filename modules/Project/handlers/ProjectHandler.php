@@ -22,10 +22,10 @@ class Project_ProjectHandler_Handler
 		if (!$recordModel->isNew()) {
 			if (($value = $recordModel->getPreviousValue('parentid')) !== false) {
 				if (!empty($recordModel->get('parentid'))) {
-					Project_Module_Model::updateProgress($recordModel->get('parentid'));
+					(new \App\BatchMethod(['method' => 'Project_Module_Model::updateProgress', 'params' => [$recordModel->get('parentid')]]))->save();
 				}
 				if (!empty($value)) {
-					Project_Module_Model::updateProgress($value);
+					(new \App\BatchMethod(['method' => 'Project_Module_Model::updateProgress', 'params' => [$value]]))->save();
 				}
 			}
 		}
@@ -40,7 +40,7 @@ class Project_ProjectHandler_Handler
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		if (!$recordModel->isEmpty('parentid')) {
-			Project_Module_Model::updateProgress($recordModel->get('parentid'));
+			(new \App\BatchMethod(['method' => 'Project_Module_Model::updateProgress', 'params' => [$recordModel->get('parentid')]]))->save();
 		}
 	}
 }
