@@ -3,15 +3,14 @@ import mutations from '../../store/mutations.js'
 import Objects from '../../utilities/Objects.js'
 
 export default {
-
   /**
    * Update configuration from server
    *
    * @param {object} state
-   * @param {config} config
+   * @param {object} env
    */
-  [mutations.Base.updateConfig](state, config) {
-    Objects.mergeDeepReactive(state.config, config)
+  [mutations.Base.updateEnv](state, env) {
+    Objects.mergeDeepReactive(state.env, env)
   },
 
   /**

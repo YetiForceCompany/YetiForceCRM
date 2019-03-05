@@ -14,8 +14,7 @@ module.exports = function(ctx) {
     css: ['app.styl'],
 
     htmlVariables: {
-      modulesFile: ctx.dev ? '/statics/modules.js' : '/dist/statics/modules.js',
-      dev: ctx.dev
+      modulesFile: ctx.dev ? '/statics/modules.js' : '/dist/statics/modules.js'
     },
 
     extras: [
@@ -115,7 +114,7 @@ module.exports = function(ctx) {
               console.error('PHP Server error', stderr)
               return res.end(stderr)
             }
-            const matches = /data\-config\-url\=\"([^\"]+)\"/gi.exec(stdout)
+            const matches = /data\-env\-url\=\"([^\"]+)\"/gi.exec(stdout)
             if (matches && matches.length > 1) {
               baseURL = matches[1]
             } else {

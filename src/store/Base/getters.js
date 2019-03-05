@@ -4,14 +4,14 @@ import Objects from '../../utilities/Objects.js'
 
 export default {
   /**
-   * Get global configuration from server
+   * Get global environment configuration from server
    *
    * @param {object} state
    *
    * @returns {object}
    */
-  [getters.Base.config](state) {
-    return state.config
+  [getters.Base.env](state) {
+    return state.env
   },
 
   /**
