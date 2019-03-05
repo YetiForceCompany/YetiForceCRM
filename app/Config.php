@@ -31,7 +31,71 @@ class Config
 	 */
 	public static function getJsEnv()
 	{
-		return Json::encode(self::$jsEnv);
+		if (empty(self::$jsEnv)) {
+			self::loadJsConfig();
+		}
+		return self::$jsEnv;
+	}
+
+	/**
+	 * Load js config.
+	 */
+	public static function loadJsConfig()
+	{
+		$userModel = User::getCurrentUserModel();
+		foreach ([
+					 'siteUrl' => Layout::getPublicUrl('', true),
+					 'layoutPath' => Layout::getPublicUrl('layouts/' . Layout::getActiveLayout()),
+					 'langPrefix' => Language::getLanguage(),
+					 'langKey' => Language::getShortLanguageName(),
+					 'dateFormat' => $userModel->getDetail('date_format'),
+					 'dateFormatJs' => Fields\Date::currentUserJSDateFormat($userModel->getDetail('date_format')),
+					 'hourFormat' => $userModel->getDetail('hour_format'),
+					 'startHour' => $userModel->getDetail('start_hour'),
+					 'endHour' => $userModel->getDetail('end_hour'),
+					 'firstDayOfWeek' => $userModel->getDetail('dayoftheweek'),
+					 'firstDayOfWeekNo' => Fields\Date::$dayOfWeek[$userModel->getDetail('dayoftheweek')] ?? false,
+					 'eventLimit' => self::module('Calendar', 'EVENT_LIMIT'),
+					 'timeZone' => $userModel->getDetail('time_zone'),
+					 'currencyId' => $userModel->getDetail('currency_id'),
+					 'currencyName' => $userModel->getDetail('currency_name'),
+					 'currencyCode' => $userModel->getDetail('currency_code'),
+					 'currencySymbol' => $userModel->getDetail('currency_symbol'),
+					 'currencyGroupingPattern' => $userModel->getDetail('currency_grouping_pattern'),
+					 'currencyDecimalSeparator' => $userModel->getDetail('currency_decimal_separator'),
+					 'currencyGroupingSeparator' => $userModel->getDetail('currency_grouping_separator'),
+					 'currencySymbolPlacement' => $userModel->getDetail('currency_symbol_placement'),
+					 'noOfCurrencyDecimals' => (int) $userModel->getDetail('no_of_currency_decimals'),
+					 'truncateTrailingZeros' => $userModel->getDetail('truncate_trailing_zeros'),
+					 'rowHeight' => $userModel->getDetail('rowheight'),
+					 'userId' => $userModel->getId(),
+					 'backgroundClosingModal' => self::main('backgroundClosingModal'),
+					 'globalSearchAutocompleteActive' => self::search('GLOBAL_SEARCH_AUTOCOMPLETE'),
+					 'globalSearchAutocompleteMinLength' => self::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH'),
+					 'globalSearchAutocompleteAmountResponse' => self::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT'),
+					 'globalSearchDefaultOperator' => self::search('GLOBAL_SEARCH_DEFAULT_OPERATOR'),
+					 'sounds' => self::sounds(),
+					 'intervalForNotificationNumberCheck' => self::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK'),
+					 'recordPopoverDelay' => self::performance('RECORD_POPOVER_DELAY'),
+					 'searchShowOwnerOnlyInList' => self::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST'),
+					 'fieldsReferencesDependent' => self::security('FIELDS_REFERENCES_DEPENDENT'),
+					 'soundFilesPath' => Layout::getPublicUrl('layouts/resources/sounds/'),
+					 'debug' => (bool) self::debug('JS_DEBUG'),
+				 ] as $key => $value) {
+			self::setJsEnv($key, $value);
+		}
+		if (Session::has('ShowAuthy2faModal')) {
+			self::setJsEnv('ShowAuthy2faModal', Session::get('ShowAuthy2faModal'));
+			if (self::security('USER_AUTHY_MODE') === 'TOTP_OPTIONAL') {
+				Session::delete('ShowAuthy2faModal');
+			}
+		}
+		if (Session::has('ShowUserPasswordChange')) {
+			self::setJsEnv('ShowUserPasswordChange', Session::get('ShowUserPasswordChange'));
+			if ((int) Session::get('ShowUserPasswordChange') === 1) {
+				Session::delete('ShowUserPasswordChange');
+			}
+		}
 	}
 
 	/**

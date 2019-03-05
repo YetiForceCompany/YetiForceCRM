@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Login base file.
  *
@@ -32,10 +33,11 @@ class Login extends \App\WebUi
 		$request = \App\Request::init();
 		$handler = new $handlerClass();
 		$handler->checkPermission($request);
-		$response = $handler->process($request);
-		if (is_object($response)) {
-			$response->emit();
-		}
+		$result = $handler->process($request);
+		$response = new \App\Response();
+		$response->setEnv(\App\Config::getJsEnv());
+		$response->setResult($result);
+		$response->emit();
 	}
 }
 

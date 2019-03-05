@@ -19,6 +19,7 @@ class Api extends \App\WebUi
 	{
 		parent::process();
 		try {
+			$response = new \App\Response();
 			\App\Session::init();
 			if (!$this->isLoggedIn()) {
 				throw new \App\Exceptions\Unauthorized('LBL_LOGIN_IS_REQUIRED', 401);
@@ -46,13 +47,13 @@ class Api extends \App\WebUi
 				$handler->validateRequest($request);
 			}
 			$handler->checkPermission($request);
-			$response = $handler->process($request);
-		} catch (Throwable $e) {
-			$response = false;
-			\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
+			$result = $handler->process($request);
+			$response->setEnv(\App\Config::getJsEnv());
+			$response->setResult($result);
 			$response->emit();
-		}
-		if (is_object($response)) {
+		} catch (Throwable $e) {
+			\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
+			$response->setError($e->getCode(), $e->getMessage(), $e->getTraceAsString());
 			$response->emit();
 		}
 	}
