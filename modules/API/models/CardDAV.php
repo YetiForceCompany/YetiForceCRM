@@ -281,6 +281,7 @@ class API_CardDAV_Model
 	{
 		\App\Log::trace(__METHOD__ . ' | Start Card ID' . $card['id']);
 		$vcard = Sabre\VObject\Reader::read($card['carddata']);
+		$leadId = false;
 		if (isset($vcard->ORG)) {
 			$lead = Vtiger_Record_Model::getCleanInstance('Leads');
 			$lead->set('assigned_user_id', $this->user->get('id'));
@@ -434,7 +435,7 @@ class API_CardDAV_Model
 				$vcardType = strtoupper(trim(str_replace('VOICE', '', $p->getValue()), ','));
 				if ($vcardType === $type && !empty($t->getValue())) {
 					$phone = \App\Purifier::purify($t->getValue());
-					if (!($phone = \App\Fields\Phone::getProperNumber($phone, ($this->user ? $this->user->getId() : null)))) {
+					if (\App\Config::main('phoneFieldAdvancedVerification', false) && !($phone = \App\Fields\Phone::getProperNumber($phone, ($this->user ? $this->user->getId() : null)))) {
 						$phone = '';
 					}
 					\App\Log::trace(__METHOD__ . ' | End | return: ' . $phone);

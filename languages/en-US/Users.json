@@ -93,7 +93,6 @@
     "LBL_CARDDAV_SYNCHRONIZATION_CONTACT": "Synchronize CardDAV contacts",
     "LBL_CALDAV_SYNCHRONIZATION_CALENDAR": "Synchronize CalDAV calendar",
     "LBL_CARDDAV_DEFAULT_COUNTRY": "Default country for CardDAV",
-    "LBL_CARDDAV_DEFAULT_COUNTRY_DESC": "The default country used when synchronizing the CardDAV phone field. If the phone is without a national number, this field will be used",
     "Number Of Currency Decimals": "Number of currency decimals",
     "Office Phone": "Office phone",
     "Other Event Duration": "Other event duration (mins)",

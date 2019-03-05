@@ -94,7 +94,7 @@ class Phone
 			$returnVal = $numberToCheck;
 		} else {
 			$country = \App\User::getUserModel($userId)->getDetail('default_country_carddav');
-			if (!empty($country) && ($phoneDetails = \App\Fields\Phone::getDetails($numberToCheck, \App\Fields\Country::getCountryCode($country)))) {
+			if (!empty($country) && ($phoneDetails = static::getDetails($numberToCheck, Country::getCountryCode($country)))) {
 				$returnVal = $phoneDetails['number'];
 			}
 		}
