@@ -125,10 +125,6 @@ class Assets extends CRMEntity
 			$accountInstance->setRelatedlist($assetInstance, $assetLabel, ['ADD'], 'getDependentsList');
 			$productInstance = vtlib\Module::getInstance('Products');
 			$productInstance->setRelatedlist($assetInstance, $assetLabel, ['ADD'], 'getDependentsList');
-
-			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'ASSET')->set('cur_id', 1)->save();
-		} elseif ($eventType === 'module.postupdate') {
-			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'ASSET')->set('cur_id', 1)->save();
 		}
 	}
 
