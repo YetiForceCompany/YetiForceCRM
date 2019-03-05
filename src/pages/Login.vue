@@ -82,7 +82,7 @@ export default {
       if (this.$refs.user.hasError || this.$refs.password.hasError) {
         this.formHasError = true
       } else {
-        this.$store.dispatch(actions.Auth.login, { user: this.user, password: this.password, fingerPrint: '' })
+        this.$store.dispatch(actions.Auth.login, { username: this.user, password: this.password, fingerPrint: '' })
       }
     }
   }

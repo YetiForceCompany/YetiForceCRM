@@ -54,9 +54,9 @@ class Users_Login_Action extends \App\Controller\Action
 			return false;
 		}
 		if (\App\Session::get('LoginAuthyMethod') === '2fa') {
-			$this->check2fa($request);
+			return $this->check2fa($request);
 		} else {
-			$this->login($request);
+			return $this->login($request);
 		}
 	}
 
@@ -124,7 +124,7 @@ class Users_Login_Action extends \App\Controller\Action
 			if (Users_Totp_Authmethod::isActive($this->userRecordModel->getId()) && !Users_Totp_Authmethod::mustInit($this->userRecordModel->getId())) {
 				header('location: index.php?module=Users&view=Login');
 			} else {
-				$this->redirectUser();
+				// $this->redirectUser();
 			}
 			return true;
 		}
