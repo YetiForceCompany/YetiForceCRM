@@ -27,7 +27,7 @@ class Config
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public static function getJsEnv()
 	{
