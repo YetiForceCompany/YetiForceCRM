@@ -123,6 +123,7 @@ if (!defined('ROOT_DIRECTORY')) {
 }
 require_once ROOT_DIRECTORY . '/vendor/autoload.php';
 require_once ROOT_DIRECTORY . '/include/Loader.php';
+require_once ROOT_DIRECTORY . '/include/CRMEntity.php';
 session_save_path(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'session');
 if (!defined('IS_PUBLIC_DIR')) {
 	define('IS_PUBLIC_DIR', false);
