@@ -65,9 +65,9 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", {}, {
 		});
 	},
 	registerTemplateDelete: function (container) {
-		var thisInstance = this;
+		const self = this;
 		if (container == undefined) {
-			container = thisInstance.getListContainer();
+			container = self.getListContainer();
 		}
 		container.find('.templateDelete').on('click', function (e) {
 			e.stopPropagation();

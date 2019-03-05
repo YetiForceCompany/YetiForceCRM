@@ -157,7 +157,7 @@ jQuery.Class('Settings_Module_Manager_Js', {
 						title: app.vtranslate("JS_REMOVED_MODULE"),
 						type: "info"
 					});
-					window.location.href = "index.php?module=ModuleManager&parent=Settings&view=List";
+					app.openUrl("index.php?module=ModuleManager&parent=Settings&view=List");
 				});
 			});
 		});
