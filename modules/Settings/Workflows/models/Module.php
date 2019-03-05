@@ -255,22 +255,24 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		$scriptData = base64_decode($method['script_content']);
 		$functionPath = $method['function_path'];
 		if (!$this->checkPathForImportMethod($functionPath)) {
-			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||function_path', 406);
+			throw new \App\Exceptions\Security('ERR_NOT_ALLOWED_VALUE||function_path', 406);
 		} elseif (!\preg_match("/^<\?php/", $scriptData)) {
-			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||script_content', 406);
+			throw new \App\Exceptions\Security('ERR_NOT_ALLOWED_VALUE||script_content', 406);
 		} else {
-			$moduleName = $this->getName(true);
 			if (!file_exists($functionPath)) {
-				if (!file_exists(dirname($functionPath))) {
+				$workflowsExists = file_exists(dirname($functionPath));
+				if($workflowsExists && is_file(dirname($functionPath))){
+					throw new \App\Exceptions\Security('ERR_DIRECTORY_CANNOT_BE_CREATED||function_path', 406);
+				}elseif (!$workflowsExists) {
 					mkdir(dirname($functionPath));
 				}
 				if (file_put_contents($functionPath, $scriptData) === false) {
-					$messages['error'][] = \App\Language::translateArgs('LBL_FAILED_TO_SAVE_SCRIPT', $moduleName, basename($functionPath));
+					throw new \App\Exceptions\IllegalValue('ERR_FAILED_TO_SAVE_SCRIPT||function_path', 406);
 				}
 			} else {
 				require_once $functionPath;
-				if (!function_exists($method['function_name'])) {
-					$messages['error'][] = \App\Language::translateArgs('LBL_SCRIPT_EXISTS_FUNCTION_NOT', $moduleName, $method['function_name'], $functionPath);
+				if(!method_exists($method['function_name'], $method['method_name'])){
+					throw new \App\Exceptions\IllegalValue('ERR_SCRIPT_EXISTS_FUNCTION_NOT||function_path', 406);
 				}
 			}
 			$num = (new \App\Db\Query())
