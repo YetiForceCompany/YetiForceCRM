@@ -30,7 +30,6 @@ import { openURL } from 'quasar'
 import actions from '../store/actions.js'
 import getters from '../store/getters.js'
 import { mapGetters } from 'vuex'
-var config = ''
 export default {
   name: 'Auth',
   data() {
@@ -38,7 +37,7 @@ export default {
       activeComponent: 'login-form',
       showReminderForm: false,
       showLoginForm: true,
-      CONFIG: config
+      CONFIG: {}
     }
   },
   methods: {
@@ -48,6 +47,9 @@ export default {
     ...mapGetters({
       env: getters.Base.env
     })
+  },
+  created() {
+    this.$i18n.locale = 'User'
   },
   mounted() {
     this.$store.dispatch(actions.Auth.fetchViewData).then(() => {
