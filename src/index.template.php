@@ -6,11 +6,20 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
  */
+$langDir = 'languages'.DIRECTORY_SEPARATOR.\App\Language::getLanguage();
+$langFiles = preg_grep("/^\.|\.\.|.*(?<!.json)$/", scandir($langDir), PREG_GREP_INVERT);
+$translations = [];
+foreach ($langFiles as $file) {
+    $translations[rtrim($file, '.json')] = \App\Json::decode(file_get_contents($langDir.DIRECTORY_SEPARATOR.$file), true)['php'];
+}
 $env = [
-	'baseURL' => \AppConfig::main('site_URL'),
-	'publicDir' => '/dist',
-	'routerMode' => 'hash'
+    'baseURL' => \AppConfig::main('site_URL'),
+    'publicDir' => '',
+  'routerMode' => 'hash',
+  'lang' => \App\Language::getLanguage(),
+  'translations' => $translations,
 ];
+
 ?>
 <!DOCTYPE html>
 <html>
