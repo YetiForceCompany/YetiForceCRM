@@ -19,7 +19,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 		if (empty($value)) {
 			return '';
 		}
-		if (AppConfig::main('phoneFieldAdvancedVerification', false)) {
+		if (\App\Config::main('phoneFieldAdvancedVerification', false)) {
 			$value = str_replace(' ', '', $value);
 		}
 		return \App\Purifier::decodeHtml($value);
@@ -41,7 +41,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
-		if (AppConfig::main('phoneFieldAdvancedVerification', false)) {
+		if (\App\Config::main('phoneFieldAdvancedVerification', false)) {
 			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
 			try {
 				$phoneUtil->isValidNumber($phoneUtil->parse($value));
@@ -61,7 +61,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	{
 		$extra = '';
 		$rfc3966 = $international = \App\Purifier::encodeHtml($value);
-		if (AppConfig::main('phoneFieldAdvancedVerification', false)) {
+		if (\App\Config::main('phoneFieldAdvancedVerification', false)) {
 			if ($recordModel) {
 				$extra = $recordModel->getDisplayValue($this->getFieldModel()->getFieldName() . '_extra');
 				if ($extra) {
@@ -93,7 +93,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
 		$rfc3966 = $international = \App\Purifier::encodeHtml($value);
-		if (AppConfig::main('phoneFieldAdvancedVerification', false)) {
+		if (\App\Config::main('phoneFieldAdvancedVerification', false)) {
 			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
 			try {
 				$swissNumberProto = $phoneUtil->parse($value);
