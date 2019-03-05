@@ -1,9 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-ProjectTask-Dashboard-UpcomingProjectTasks dashboardWidgetHeader">
-		{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
-		{assign var=ACCESSIBLE_GROUPS value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
-		{assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
+		<input name="status" data-value="{\App\Purifier::encodeHtml($STATUS)}" data-js="data-value" type="hidden">
 		<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME) CLASSNAME="col-md-6"}
 			<div class="d-inline-flex">
@@ -23,7 +21,7 @@
 					<span class="input-group-prepend">
 						<span class="input-group-text">
 							<span class="fas fa-filter iconMiddle margintop3"
-								  title="{\App\Language::translate('Assigned To', $MODULE_NAME)}"></span>
+								  title="{\App\Language::translate('Priority', $MODULE_NAME)}"></span>
 						</span>
 					</span>
 					<select class="widgetFilter select2 form-control" aria-label="Small"
