@@ -134,7 +134,6 @@ class ProjectTask extends CRMEntity
 					ModComments::addWidgetTo(['ProjectTask']);
 				}
 			}
-			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'PT')->set('cur_id', 1)->save();
 		}
 	}
 }
