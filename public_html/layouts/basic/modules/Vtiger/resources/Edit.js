@@ -173,7 +173,7 @@ $.Class("Vtiger_Edit_Js", {
 					if (response[value[0]] != 0 && !thisInstance.getMappingValuesFromUrl(key)) {
 						let mapFieldElement = formElement.find('[name="' + key + '"]');
 						let fieldinfo = mapFieldElement.data('fieldinfo');
-						if( data['result']['type'][value[0]]==='date' || data['result']['type'][value[0]]==='datetime' ){
+						if(data['result']['type'][value[0]]==='date' || data['result']['type'][value[0]]==='datetime'){
 							mapFieldElement.val(data['result']['displayData'][value[0]]);
 						}else if (mapFieldElement.is('select')) {
 							if (mapFieldElement.find('option[value="' + response[value[0]] + '"]').length) {
