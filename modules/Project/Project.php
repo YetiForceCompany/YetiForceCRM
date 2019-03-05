@@ -141,8 +141,6 @@ class Project extends CRMEntity
 					ModComments::addWidgetTo(['Project']);
 				}
 			}
-
-			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'PROJ')->set('cur_id', 1)->save();
 		}
 	}
 

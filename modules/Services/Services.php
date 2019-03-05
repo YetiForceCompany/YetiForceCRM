@@ -174,7 +174,6 @@ class Services extends CRMEntity
 			$pbModuleInstance->setRelatedList($moduleInstance, 'Services', ['select'], 'getPricebookServices');
 
 			// Initialize module sequence for the module
-			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'SER')->set('cur_id', 1)->save();
 			// Mark the module as Standard module
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
 		} elseif ($eventType === 'module.postupdate') {
