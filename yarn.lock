@@ -250,10 +250,10 @@ fullcalendar@3.10.0:
   resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-3.10.0.tgz#cc5e87d518fd6550e142816a31dd191664847919"
   integrity sha512-0OtsHhmdYhtFmQwXzyo8VqHzYgamg+zVOoytv5N13gI+iF6CGjevpCi/yBaQs0O4wY3OAp8I688IxdNYe0iAvw==
 
-gantt-elastic@^0.9.2:
-  version "0.9.2"
-  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.9.2.tgz#66c57d12ddf5562b74adabfa40885800d5ffa601"
-  integrity sha512-r8uiFHppdLl0vuwAIh8cq2dGX7PWSX6yWuKTGRi8VLN5f1gSINxAEpePVQhWEcGFG7aY23YHI6nPRGRB6QLV/w==
+gantt-elastic@^0.9.3:
+  version "0.9.6"
+  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.9.6.tgz#b6034963c754fc40e5b854fca97ed61e53b78859"
+  integrity sha512-6kSknTB03aqWd4E1gAzZ22jRcqCmx/0Gs/k84W0bBH5mSt36AqrBFwin2JiftCJiSNtM1in4IOnG7suMtsDeFw==
   dependencies:
     dayjs "^1.8.5"
 
@@ -389,10 +389,10 @@ moment@^2.10.2, moment@^2.23.0, moment@^2.9.0:
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
   integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
 
-mousetrap@^1.6.1:
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/mousetrap/-/mousetrap-1.6.2.tgz#caadd9cf886db0986fb2fee59a82f6bd37527587"
-  integrity sha512-jDjhi7wlHwdO6q6DS7YRmSHcuI+RVxadBkLt3KHrhd3C2b+w5pKefg3oj5beTcHZyVFA9Aksf+yEE1y5jxUjVA==
+mousetrap@^1.6.3:
+  version "1.6.3"
+  resolved "https://registry.yarnpkg.com/mousetrap/-/mousetrap-1.6.3.tgz#80fee49665fd478bccf072c9d46bdf1bfed3558a"
+  integrity sha512-bd+nzwhhs9ifsUrC2tWaSgm24/oo2c83zaRyZQF06hYA6sANfsXHtnZ19AbbbDXCDzeH5nZBSQ4NvCjgD62tJA==
 
 perfect-scrollbar@^1.3.0:
   version "1.4.0"
