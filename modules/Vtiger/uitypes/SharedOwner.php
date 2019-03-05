@@ -46,7 +46,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		if (!is_array($value)) {
-			$value = (array)$value;
+			$value = (array) $value;
 		}
 		$rangeValues = null;
 		$maximumLength = $this->getFieldModel()->get('maximumlength');

@@ -15,7 +15,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		return empty($value) ? \App\User::getCurrentUserRealId() : (int)$value;
+		return empty($value) ? \App\User::getCurrentUserRealId() : (int) $value;
 	}
 
 	/**
@@ -94,7 +94,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 				break;
 		}
 		if (isset($detailViewUrl)) {
-			return "<a $popoverRecordClass href=\"$detailViewUrl\"> $ownerName  </a>";
+			return "<a $popoverRecordClass href=\"$detailViewUrl\"> $ownerName </a>";
 		}
 		return $ownerName;
 	}
