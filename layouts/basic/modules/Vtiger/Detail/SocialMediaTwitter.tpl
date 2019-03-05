@@ -14,15 +14,16 @@
 								</div>
 								<div class="timeline-body small">
 									<strong>
-										{$ITEM['twitter_name']} ( {$ITEM['twitter_login']} )
+										{\App\Purifier::encodeHtml($ITEM['twitter_name'])}
+										( {\App\Purifier::encodeHtml($ITEM['twitter_login'])} )
 									</strong>
 									<div class="float-right time text-muted">
-										<span title="{$ITEM['created']}">
-											{$ITEM['created']}
+										<span title="{\App\Purifier::encodeHtml($ITEM['created'])}">
+											{\App\Purifier::encodeHtml($ITEM['created'])}
 										</span>
 									</div>
 									<div>
-										{$ITEM['message']}
+										{\App\Purifier::encodeHtml($ITEM['message'])}
 									</div>
 								</div>
 							</div>

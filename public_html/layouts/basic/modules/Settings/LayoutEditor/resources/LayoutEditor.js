@@ -393,7 +393,6 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			var containment = $(this).closest('.moduleBlocks');
 			$(this).find('ul[name=sortable1], ul[name=sortable2]').sortable({
 				'containment': containment,
-				'revert': true,
 				'tolerance': 'pointer',
 				'cursor': 'move',
 				'connectWith': containment.find('.connectedSortable'),
@@ -518,12 +517,10 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	 * Function to register click event for save button of fields sequence
 	 */
 	registerFieldSequenceSaveClick: function () {
-		var thisInstance = this;
-		var layout = $('#detailViewLayout');
-		layout.on('click', '.saveFieldSequence', function () {
-			thisInstance.hideSaveFieldSequenceButton();
-			thisInstance.createUpdatedBlockFieldsList();
-			thisInstance.updateFieldSequence();
+		$(document).on('click', '.saveFieldSequence', () => {
+			this.hideSaveFieldSequenceButton();
+			this.createUpdatedBlockFieldsList();
+			this.updateFieldSequence();
 		});
 	},
 	/**
@@ -1809,8 +1806,8 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	 * Context help
 	 * @param {jQuery} container
 	 */
-	registerContextHelp: function (container) {
-		container.on('click', '.js-context-help', function (e) {
+	registerContextHelp: function () {
+		$(document).on('click', '.js-context-help', function (e) {
 			const customConfig = {
 				toolbar: 'Min',
 			};
@@ -1868,13 +1865,11 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	registerEvents: function () {
 		var thisInstance = this;
-		var container = $('#layoutEditorContainer');
 
 		thisInstance.registerBlockEvents();
 		thisInstance.registerFieldEvents();
 		thisInstance.setInactiveFieldsList();
 		thisInstance.registerAddCustomBlockEvent();
-		thisInstance.registerFieldSequenceSaveClick();
 
 		thisInstance.relatedModulesTabClickEvent();
 		thisInstance.registerModulesChangeEvent();
@@ -1890,15 +1885,21 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		thisInstance.registerEditInventoryField();
 		thisInstance.registerInventoryFieldSequenceSaveClick();
 		thisInstance.registerDeleteInventoryField();
-		thisInstance.registerCopyClipboard(container);
-		thisInstance.registerContextHelp(container);
+	},
+	registerBasicEvents: function () {
+		var container = $('#layoutEditorContainer');
+
+		this.registerEvents();
+		this.registerFieldSequenceSaveClick();
+		this.registerCopyClipboard(container);
+		this.registerContextHelp(container);
 	}
 
 });
 
 $(document).ready(function () {
 	var instance = new Settings_LayoutEditor_Js();
-	instance.registerEvents();
+	instance.registerBasicEvents();
 })
 
 Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_FloatingDigits_Validator_Js", {
