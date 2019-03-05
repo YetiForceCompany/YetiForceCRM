@@ -11,8 +11,7 @@ export default {
   },
 
   Auth: {
-    authUser: 'Auth/authUser',
-    clearAuthData: 'Auth/clearAuthData',
+    isLoggedIn: 'Auth/isLoggedIn',
     setViewData: 'Auth/setViewData'
   }
 }
