@@ -2940,15 +2940,8 @@ YetiForce_Widget_Js('YetiForce_UpcomingProjectTasks_Widget_Js', {}, {
 			if (owner.val() !== 'all') {
 				url += '["assigned_user_id","e","' + owner.val() + '"],';
 			}
-			let status;
-			let activitiesStatus = container.data('name');
-			if (activitiesStatus === 'UpcomingProjectTasks') {
-				status = 'PLL_PLANNED##PLL_ON_HOLD##PLL_SUBMITTED_COMMENTS##PLL_IN_PROGRESSING##PLL_IN_APPROVAL';
-			} else {
-				status = 'PLL_COMPLETED##PLL_CANCELLED';
-			}
-			url += '["projecttaskstatus","e","' + encodeURIComponent(status) + '"]]]';
-			window.location.href = url;
+			url += '["projecttaskstatus","e","' + encodeURIComponent(container.find('[name="status"]').data('value')) + '"]]]';
+			app.openUrl(url)
 		});
 	}
 });
