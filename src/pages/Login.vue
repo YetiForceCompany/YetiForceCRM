@@ -1,3 +1,4 @@
+<!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <div>
     <form
@@ -52,7 +53,15 @@
 </template>
 <script>
 import actions from '../store/actions.js'
-
+/**
+ * @vue-prop     {Object} CONFIG - view config
+ * @vue-data     {String} user - form data
+ * @vue-data     {String} password - form data
+ * @vue-data     {String} language - form data
+ * @vue-data     {String} layout - form data
+ * @vue-computed {String} msgClass - additional message class
+ * @vue-event    {Object} onSubmit - submit form event
+ */
 export default {
   name: 'Login',
   props: {
