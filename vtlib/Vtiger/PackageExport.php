@@ -502,7 +502,7 @@ class PackageExport
 				}
 			}
 
-			if($uitype == '4'){
+			if ($uitype == '4') {
 				$valueFieldNumber = \App\Fields\RecordNumber::getInstance($moduleInstance->id);
 				$this->openNode('numberInfo');
 				$this->outputNode($valueFieldNumber->get('prefix'), 'prefix');
