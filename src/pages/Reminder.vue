@@ -15,14 +15,16 @@
   </form>
 </template>
 <script>
+/**
+ * @vue-prop     {Object} CONFIG - view config
+ * @vue-data     {String} reminderEmail
+ * @vue-data     {String} reminderUser
+ */
 export default {
   name: 'Reminder',
   props: {
     CONFIG: {
       type: Object
-    },
-    toggleActiveComponent: {
-      type: Function
     }
   },
   data() {

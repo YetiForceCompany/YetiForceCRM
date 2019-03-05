@@ -30,6 +30,14 @@ import { openURL } from 'quasar'
 import actions from '../store/actions.js'
 import getters from '../store/getters.js'
 import { mapGetters } from 'vuex'
+/**
+ * @vue-data     {String}    activeComponent - component name
+ * @vue-data     {Boolean}   showReminderForm - form data
+ * @vue-data     {Boolean}   showLoginForm - form data
+ * @vue-data     {Object}    CONFIG - view data
+ * @vue-computed {Object}    env - env variables
+ * @vue-event    {Object}    openURL
+ */
 export default {
   name: 'Auth',
   data() {
@@ -40,13 +48,13 @@ export default {
       CONFIG: {}
     }
   },
-  methods: {
-    openURL
-  },
   computed: {
     ...mapGetters({
       env: getters.Base.env
     })
+  },
+  methods: {
+    openURL
   },
   created() {
     this.$i18n.locale = 'User'
