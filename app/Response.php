@@ -37,9 +37,9 @@ class Response
 	 *
 	 * @param int         $code
 	 * @param string|null $message
-	 * @param bool        $trace
+	 * @param string|null $trace
 	 */
-	public function setError(int $code, ?string $message = null, bool $trace = false)
+	public function setError(int $code, ?string $message = null, ?string $trace = null)
 	{
 		if ($message === null) {
 			$message = $code;
