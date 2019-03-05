@@ -29,7 +29,17 @@ export default {
    * @param {object} state
    * @param {object} payload
    */
-  [mutations.Base.addUrl](state, { moduleName, path, url }) {
+  [mutations.Base.addUrl](state, { path, url }) {
     Objects.setReactive(state.url, path, url)
+  },
+
+  /**
+   * Set authorization data
+   *
+   * @param   {object}  state
+   * @param   {object}  data
+   */
+  [mutations.Base.isLoggedIn](state, data) {
+    state.isLoggedIn = data.isLoggedIn
   }
 }

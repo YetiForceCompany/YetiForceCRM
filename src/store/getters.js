@@ -6,6 +6,6 @@ export default {
     env: 'Base/env'
   },
   Auth: {
-    isAuthenticated: 'Auth/isAuthenticated'
+    isAuthenticated: 'Auth/isLoggedIn'
   }
 }

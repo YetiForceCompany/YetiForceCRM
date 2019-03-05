@@ -1,10 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 export default {
-  tokenId: null,
-  userId: null,
-  userName: null,
-  admin: null,
   view: {
     LANGUAGES: null,
     IS_BLOCKED_IP: null,

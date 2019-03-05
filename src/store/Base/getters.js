@@ -34,5 +34,16 @@ export default {
    */
   [getters.Base.url](state) {
     return state.url
+  },
+
+  /**
+   * Check if user is logged in
+   *
+   * @param   {null|string}  state
+   *
+   * @return  {bool}
+   */
+  [getters.Auth.isLoggedIn](state) {
+    return state.isLoggedIn !== false
   }
 }

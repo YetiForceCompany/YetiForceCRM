@@ -2,8 +2,6 @@
 export default {
   Auth: {
     fetchViewData: 'Auth/fetchViewData',
-    login: 'Auth/login',
-    setLogoutTimer: 'Auth/setLogoutTimer',
-    tryAutoLogin: 'Auth/tryAutoLogin'
+    login: 'Auth/login'
   }
 }
