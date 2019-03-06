@@ -3,7 +3,7 @@ const ModuleLoader = require('./ModuleLoader.server.js')
 const webpack = require('webpack')
 const exec = require('child_process').exec
 const axios = require('axios')
-
+let path = require('path')
 module.exports = function(ctx) {
   ModuleLoader.loadModules()
   return {
@@ -89,6 +89,10 @@ module.exports = function(ctx) {
           cfg.watchOptions = {
             ignored: [/node_modules/, /public_html/]
           }
+        }
+        cfg.resolve.alias = {
+          ...cfg.resolve.alias,
+          '@': path.resolve(__dirname, './src')
         }
       }
     },
