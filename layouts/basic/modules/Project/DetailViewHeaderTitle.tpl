@@ -16,7 +16,7 @@
 					<span class="moduleIcon">
 							<span class="pl-0 o-detail__icon js-detail__icon js-detail-hierarchy userIcon-{$MODULE_NAME}"
 								  data-js="click"></span>
-						{if AppConfig::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
+						{if \App\Config::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
 							<span class="hierarchy">
 								<span class="badge bgGreen"></span>
 							</span>
