@@ -50,7 +50,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      env: getters.Base.all
+      env: getters.Env.all
     })
   },
   methods: {

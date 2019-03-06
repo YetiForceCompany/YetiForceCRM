@@ -36,7 +36,7 @@ export default {
     this.$store.commit(mutations.Global.update, window.env)
   },
   mounted() {
-    this.$store.commit(mutations.Base.updateMenuPositions, [
+    this.$store.commit(mutations.Menu.updateItems, [
       {
         component: 'RoutePush',
         props: {
@@ -46,7 +46,6 @@ export default {
         }
       }
     ])
-    console.log(this.$store.state.Base)
   },
   name: 'App'
 }

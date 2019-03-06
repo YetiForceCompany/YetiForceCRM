@@ -3,13 +3,14 @@ export default {
   Global: {
     update: 'update'
   },
-
-  Base: {
-    updateMenuPositions: 'Base/updateMenuPositions',
-    addUrl: 'Base/addUrl',
-    updateEnv: 'Base/updateEnv'
+  Env: {},
+  Language: {},
+  Menu: {
+    updateItems: 'Menu/updateItems'
   },
-
+  Url: {
+    addUrl: 'Url/addUrl'
+  },
   User: {
     setViewData: 'User/setViewData',
     isLoggedIn: 'User/isLoggedIn'

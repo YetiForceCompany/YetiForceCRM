@@ -11,12 +11,12 @@ export default {
   name: 'ModuleExample',
   computed: {
     ...mapGetters({
-      menuPositions: getters.Base.menuPositions
+      menuItems: getters.Menu.items
     })
   },
   mounted() {
-    const positions = this.menuPositions.map(position => position)
-    positions.push({
+    const items = this.menuItems.map(item => item)
+    items.push({
       component: 'RoutePush',
       props: {
         path: '/module-example',
@@ -24,7 +24,7 @@ export default {
         label: 'Module Example'
       }
     })
-    this.$store.commit(mutations.Base.updateMenuPositions, positions)
+    this.$store.commit(mutations.Menu.updateItems, items)
   }
 }
 </script>

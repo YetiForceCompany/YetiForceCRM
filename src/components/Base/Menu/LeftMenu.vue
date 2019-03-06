@@ -41,7 +41,7 @@ export default {
   },
   computed: {
     positions() {
-      return this.$store.state.Base.menu.positions
+      return this.$store.state.Menu.items
     }
   }
 }

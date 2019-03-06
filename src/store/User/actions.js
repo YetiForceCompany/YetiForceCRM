@@ -40,14 +40,13 @@ export default {
       .then(response => {
         const data = response.data
         if (data.success) {
-          console.log('global')
           commit(mutations.Global.update, data.env)
           this.$router.replace('/')
         } else {
           return console.error('Server error', response)
         }
       })
-      .catch(error => console.log(error))
+      .catch(error => console.error(error))
       .catch(err => {
         reject(err)
       })

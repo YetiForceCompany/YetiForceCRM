@@ -4,7 +4,7 @@
 export default {
   name: 'Home',
   mounted() {
-    const menuPosition = {
+    const menuItem = {
       component: 'RoutePush',
       props: {
         path: '/home',
@@ -12,9 +12,9 @@ export default {
         label: 'Home'
       }
     }
-    const positions = this.$store.state.Base.menu.positions.map(position => position)
-    positions.push(menuPosition)
-    this.$store.commit('Base/updateMenuPositions', positions)
+    const items = this.$store.state.Menu.items.map(item => item)
+    items.push(menuItem)
+    this.$store.commit('Menu/updateItems', items)
   }
 }
 </script>
