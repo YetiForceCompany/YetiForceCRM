@@ -163,7 +163,7 @@ class Competition extends Vtiger_CRMEntity
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($eventType === 'module.postinstall') {
+		if ('module.postinstall' === $eventType) {
 			\App\Db::getInstance()->update('vtiger_tab', ['customized' => 0], ['name' => 'Competition'])->execute();
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
@@ -186,30 +186,23 @@ class Competition extends Vtiger_CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = PearDatabase::getInstance();
-
-		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
-
-		$rel_table_arr = ['Campaigns' => 'vtiger_campaign_records'];
-
-		$tbl_field_arr = ['vtiger_campaign_records' => 'campaignid'];
-
-		$entity_tbl_field_arr = ['vtiger_campaign_records' => 'crmid'];
-
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		\App\Log::trace("Entering function transferRelatedRecords (${module}, ${transferEntityIds}, ${entityId})");
+		$relTableArr = ['Campaigns' => 'vtiger_campaign_records'];
+		$tblFieldArr = ['vtiger_campaign_records' => 'campaignid'];
+		$entityTblFieldArr = ['vtiger_campaign_records' => 'crmid'];
 		foreach ($transferEntityIds as $transferId) {
-			foreach ($rel_table_arr as $rel_table) {
-				$id_field = $tbl_field_arr[$rel_table];
-				$entity_id_field = $entity_tbl_field_arr[$rel_table];
+			foreach ($relTableArr as $relTable) {
+				$idField = $tblFieldArr[$relTable];
+				$entityIdField = $entityTblFieldArr[$relTable];
 				// IN clause to avoid duplicate entries
-				$sel_result = $adb->pquery("select $id_field from $rel_table where $entity_id_field=? " .
-					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", [$transferId, $entityId]);
-				$res_cnt = $adb->numRows($sel_result);
-				if ($res_cnt > 0) {
-					for ($i = 0; $i < $res_cnt; ++$i) {
-						$id_field_value = $adb->queryResult($sel_result, $i, $id_field);
-						$adb->update($rel_table, [$entity_id_field => $entityId], $entity_id_field . ' = ? and ' . $id_field . ' = ?', [$transferId, $id_field_value]);
-					}
+				$subQuery = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $entityId]);
+				$query = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $transferId])->andWhere(['not in', $idField, $subQuery]);
+				$dataReader = $query->createCommand()->query();
+				while ($idFieldValue = $dataReader->readColumn(0)) {
+					$dbCommand->update($relTable, [$entityIdField => $entityId], [$entityIdField => $transferId, $idField => $idFieldValue])->execute();
 				}
+				$dataReader->close();
 			}
 		}
 		\App\Log::trace('Exiting transferRelatedRecords...');
@@ -228,9 +221,10 @@ class Competition extends Vtiger_CRMEntity
 			'Campaigns' => ['vtiger_campaign_records' => ['crmid', 'campaignid'], 'u_yf_competition' => 'competitionid'],
 			'OSSMailView' => ['vtiger_ossmailview_relation' => ['crmid', 'ossmailviewid'], 'u_yf_competition' => 'competitionid'],
 		];
-		if ($secModule === false) {
+		if (false === $secModule) {
 			return $relTables;
 		}
+
 		return $relTables[$secModule];
 	}
 
@@ -247,7 +241,7 @@ class Competition extends Vtiger_CRMEntity
 		if (empty($returnModule) || empty($returnId)) {
 			return;
 		}
-		if ($returnModule === 'Campaigns') {
+		if ('Campaigns' === $returnModule) {
 			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $returnId])->execute();
 		} else {
 			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
@@ -269,7 +263,7 @@ class Competition extends Vtiger_CRMEntity
 			$withCrmids = [$withCrmids];
 		}
 		foreach ($withCrmids as $withCrmid) {
-			if ($withModule === 'Campaigns') {
+			if ('Campaigns' === $withModule) {
 				App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
 					'campaignid' => $withCrmid,
 					'crmid' => $crmid,
@@ -339,7 +333,7 @@ class Competition extends Vtiger_CRMEntity
 		foreach ($listColumns as $colname) {
 			if (\App\Field::getFieldPermission('Competition', $colname)) {
 				$data = \App\Purifier::encodeHtml($baseInfo[$colname]);
-				if ($getRawData === false && $colname === 'subject') {
+				if (false === $getRawData && 'subject' === $colname) {
 					if ($recordId != $id) {
 						if ($getLinks) {
 							if ($hasRecordViewAccess) {
@@ -389,7 +383,7 @@ class Competition extends Vtiger_CRMEntity
 		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
 		$row = (new App\Db\Query())->select([
 			'u_#__competition.*',
-			new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name"),
+			new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN ${userNameSql} ELSE vtiger_groups.groupname END as user_name"),
 		])->from('u_#__competition')
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_#__competition.competitionid')
 			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
@@ -398,7 +392,7 @@ class Competition extends Vtiger_CRMEntity
 			->one();
 		if ($row) {
 			$parentid = $row['parent_id'];
-			if ($parentid !== '' && $parentid != 0 && !in_array($parentid, $encountered)) {
+			if ('' !== $parentid && 0 != $parentid && !in_array($parentid, $encountered)) {
 				$encountered[] = $parentid;
 				$this->getParent($parentid, $parent, $encountered, $depthBase + 1);
 			}
@@ -413,9 +407,9 @@ class Competition extends Vtiger_CRMEntity
 				$listColumns = $this->list_fields_name;
 			}
 			foreach ($listColumns as $columnname) {
-				if ($columnname === 'assigned_user_id') {
+				if ('assigned_user_id' === $columnname) {
 					$parentInfo[$columnname] = $row['user_name'];
-				} elseif ($columnname === 'competition_status') {
+				} elseif ('competition_status' === $columnname) {
 					$parentInfo[$columnname] = \App\Language::translate($row[$columnname], 'Competition');
 				} else {
 					$parentInfo[$columnname] = $row[$columnname];
@@ -449,7 +443,7 @@ class Competition extends Vtiger_CRMEntity
 		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
 		$dataReader = (new App\Db\Query())->select([
 			'u_#__competition.*',
-			new \yii\db\Expression("CASE when (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name"),
+			new \yii\db\Expression("CASE when (vtiger_users.user_name NOT LIKE '') THEN ${userNameSql} ELSE vtiger_groups.groupname END as user_name"),
 		])->from('u_#__competition')
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_#__competition.competitionid')
 			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
@@ -467,9 +461,9 @@ class Competition extends Vtiger_CRMEntity
 				$childCompetitionProcessesInfo = [];
 				$childCompetitionProcessesInfo['depth'] = $depth;
 				foreach ($listColumns as $columnname) {
-					if ($columnname === 'assigned_user_id') {
+					if ('assigned_user_id' === $columnname) {
 						$childCompetitionProcessesInfo[$columnname] = $row['user_name'];
-					} elseif ($columnname === 'competition_status') {
+					} elseif ('competition_status' === $columnname) {
 						$childCompetitionProcessesInfo[$columnname] = \App\Language::translate($row[$columnname], 'Competition');
 					} else {
 						$childCompetitionProcessesInfo[$columnname] = $row[$columnname];
