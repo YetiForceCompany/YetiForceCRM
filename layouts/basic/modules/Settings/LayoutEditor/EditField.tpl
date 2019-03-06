@@ -151,7 +151,8 @@
 						</div>
 						{if AppConfig::developer('CHANGE_GENERATEDTYPE')}
 							<div class="checkbox">
-								<input type="checkbox" name="generatedtype" id="generatedtype"
+							<input type="hidden" name="generatedtype" value="0"/>
+							<input type="checkbox" name="generatedtype" id="generatedtype"
 									   value="1" {if $FIELD_MODEL->get('generatedtype') eq 1} checked {/if} />
 								<label for="generatedtype">
 									{App\Language::translate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
