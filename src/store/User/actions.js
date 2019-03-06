@@ -11,8 +11,8 @@ export default {
    *
    * @param {object} state
    */
-  [actions.Auth.fetchViewData]({ commit }) {
-    commit(mutations.Auth.setViewData, {
+  [actions.User.fetchViewData]({ commit }) {
+    commit(mutations.User.setViewData, {
       LANGUAGES: ['polish', 'english', 'german'],
       IS_BLOCKED_IP: false, //bruteforce check,
       MESSAGE: '', //\App\Session::get('UserLoginMessageType'),
@@ -31,9 +31,9 @@ export default {
    * @param   {object}  store
    * @param   {object}  user
    */
-  [actions.Auth.login]({ commit, rootGetters }, user) {
+  [actions.User.login]({ commit, rootGetters }, user) {
     authAxios({
-      url: rootGetters[getters.Base.url].Auth.login,
+      url: rootGetters[getters.Base.url].User.login,
       data: user,
       method: 'POST'
     })

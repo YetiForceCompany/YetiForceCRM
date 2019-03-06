@@ -11,7 +11,7 @@ export default {
     isLoggedIn: 'Base/isLoggedIn'
   },
 
-  Auth: {
-    setViewData: 'Auth/setViewData'
+  User: {
+    setViewData: 'User/setViewData'
   }
 }

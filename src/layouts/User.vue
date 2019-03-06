@@ -39,7 +39,7 @@ import { mapGetters } from 'vuex'
  * @vue-event    {Object}    openURL
  */
 export default {
-  name: 'Auth',
+  name: 'User',
   data() {
     return {
       activeComponent: 'login-form',
@@ -60,8 +60,8 @@ export default {
     this.$i18n.locale = 'User'
   },
   mounted() {
-    this.$store.dispatch(actions.Auth.fetchViewData).then(() => {
-      this.CONFIG = this.$store.state.Auth.view
+    this.$store.dispatch(actions.User.fetchViewData).then(() => {
+      this.CONFIG = this.$store.state.User.view
     })
   }
 }

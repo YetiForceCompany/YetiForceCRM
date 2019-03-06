@@ -6,14 +6,14 @@ import Objects from '../utilities/Objects.js'
 import mutations from './mutations.js'
 // modules
 import Base from './Base'
-import Auth from './Auth'
+import User from './User'
 
 Vue.use(Vuex)
 
 export default function(/* { ssrContext } */) {
   const modules = {
     Base,
-    Auth
+    User
   }
 
   const Store = new Vuex.Store({
