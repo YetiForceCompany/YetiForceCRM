@@ -1,9 +1,8 @@
 // Configuration for your app
 const ModuleLoader = require('./ModuleLoader.server.js')
-const webpack = require('webpack')
 const exec = require('child_process').exec
 const axios = require('axios')
-let path = require('path')
+const path = require('path')
 module.exports = function(ctx) {
   ModuleLoader.loadModules()
   return {
