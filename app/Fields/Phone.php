@@ -79,10 +79,10 @@ class Phone
 	/**
 	 * Get proper number.
 	 *
-	 * @param   string    $numberToCheck
-	 * @param   int|null  $userId
+	 * @param string   $numberToCheck
+	 * @param int|null $userId
 	 *
-	 * @return  string|false	Return false if wrong number
+	 * @return string|false Return false if wrong number
 	 */
 	public static function getProperNumber(string $numberToCheck, ?int $userId = null)
 	{
