@@ -9245,7 +9245,7 @@ CREATE TABLE `vtiger_users` (
   `login_method` varchar(255) DEFAULT 'PLL_PASSWORD',
   `sync_carddav` varchar(100) DEFAULT 'PLL_OWNER',
   `sync_caldav` varchar(100) DEFAULT 'PLL_OWNER',
-  `default_country_carddav` varchar(255) DEFAULT NULL,
+  `sync_carddav_default_country` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email1` (`email1`),
   KEY `user_user_name_idx` (`user_name`),
