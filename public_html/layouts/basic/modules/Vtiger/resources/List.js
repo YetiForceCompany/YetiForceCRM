@@ -558,7 +558,6 @@ jQuery.Class("Vtiger_List_Js", {
 		self.registerFixedThead(container);
 		App.Fields.Picklist.showSelect2ElementView(container.find('select.select2'));
 		App.Fields.Picklist.changeSelectElementView(container);
-		self.registerListViewSpecialOption();
 		var searchInstance = self.getListSearchInstance();
 		if (searchInstance !== false) {
 			searchInstance.registerBasicEvents();
@@ -2054,24 +2053,10 @@ jQuery.Class("Vtiger_List_Js", {
 		var listViewContainer = this.getListViewContentContainer();
 		listViewContainer.find('#listViewEntriesMainCheckBox,.listViewEntriesCheckBox').prop('checked', false);
 		this.getListSearchInstance(false);
-		this.registerListViewSpecialOption();
 		this.registerDesktopEvents(listViewContainer);
 		this.registerUnreviewedCountEvent();
 		this.registerLastRelationsEvent();
 		Vtiger_Index_Js.registerMailButtons(listViewContainer);
-	},
-	registerListViewSpecialOption: function () {
-		var thisInstance = this;
-		var listViewContainer = this.getListViewContentContainer();
-		var box = listViewContainer.find('.listViewEntriesTable input.searchInSubcategories');
-		box.on("change", function (e) {
-			var element = jQuery(e.currentTarget);
-			var searchContributorElement = jQuery('.listSearchContributor[name="' + element.data('columnname') + '"]');
-			var searchValue = searchContributorElement.val();
-			if (searchValue) {
-				thisInstance.getListSearchInstance().triggerListSearch();
-			}
-		})
 	},
 	/**
 	 * Function that executes after the mass delete action
