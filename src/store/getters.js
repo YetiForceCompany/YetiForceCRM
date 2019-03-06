@@ -3,6 +3,9 @@ export default {
   Base: {
     menuPositions: 'Base/menuPositions',
     url: 'Base/url',
-    env: 'Base/env'
+    all: 'Base/all'
+  },
+  User: {
+    isLoggedIn: 'User/isLoggedIn'
   }
 }

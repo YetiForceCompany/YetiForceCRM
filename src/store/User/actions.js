@@ -40,10 +40,8 @@ export default {
       .then(response => {
         const data = response.data
         if (data.success) {
-          commit(mutations.Base.isLoggedIn, {
-            isLoggedIn: true
-          })
-          this.$store.commit(mutations.Base.updateEnv, data.env)
+          console.log('global')
+          commit(mutations.Global.update, data.env)
           this.$router.replace('/')
         } else {
           return console.error('Server error', response)

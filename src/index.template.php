@@ -13,11 +13,16 @@ foreach ($langFiles as $file) {
     $translations[rtrim($file, '.json')] = \App\Json::decode(file_get_contents($langDir.DIRECTORY_SEPARATOR.$file), true)['php'];
 }
 $env = [
+  'Base' => [
     'baseURL' => \App\Config::main('site_URL'),
     'publicDir' => '/dist',
-  'routerMode' => 'hash',
-  'lang' => \App\Language::getLanguage(),
-  'translations' => $translations,
+    'routerMode' => 'hash',
+  ],
+  'User' => ['isLoggedIn' => true],
+  'Language' => [
+    'lang' => \App\Language::getLanguage(),
+    'translations' => $translations,
+  ],
 ];
 
 ?>
