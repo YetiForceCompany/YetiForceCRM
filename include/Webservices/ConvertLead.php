@@ -21,8 +21,6 @@ class WebservicesConvertLead
 	 */
 	public static function vtwsConvertlead($entityvalues, Users_Record_Model $user)
 	{
-		$adb = PearDatabase::getInstance();
-
 		\App\Log::trace('Start ' . __METHOD__);
 		if (empty($entityvalues['assignedTo'])) {
 			$entityvalues['assignedTo'] = $user->id;
@@ -32,15 +30,14 @@ class WebservicesConvertLead
 		}
 		$recordModel = Vtiger_Record_Model::getInstanceById($entityvalues['leadId']);
 		$leadInfo = $recordModel->getData();
-		$sql = 'select converted from vtiger_leaddetails where converted = 1 and leadid=?';
 		$leadIdComponents = $entityvalues['leadId'];
-		$result = $adb->pquery($sql, [$leadIdComponents]);
-		if ($result === false) {
+		$dataReader = (new \App\Db\Query())->select(['converted'])->from('vtiger_leaddetails')->where(['converted' => 1, 'leadid' => $leadIdComponents])->createCommand()->query();
+		if ($dataReader === false) {
 			$translateDatabaseError = \App\Language::translate('LBL_' . WebServiceErrorCode::$DATABASEQUERYERROR, 'Webservices');
 			\App\Log::error('Error converting a lead: ' . $translateDatabaseError);
 			throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, $translateDatabaseError);
 		}
-		$rowCount = $adb->numRows($result);
+		$rowCount = $dataReader->count();
 		if ($rowCount > 0) {
 			$translateAlreadyConvertedError = \App\Language::translate('LBL_' . WebServiceErrorCode::$LEAD_ALREADY_CONVERTED, 'Leads');
 			\App\Log::error('Error converting a lead: ' . $translateAlreadyConvertedError);
@@ -140,7 +137,7 @@ class WebservicesConvertLead
 		$targetModuleModel = Vtiger_Module_Model::getInstance($entityvalue['name']);
 		$entityName = $entityvalue['name'];
 		$dataReader = (new \App\Db\Query())->from('vtiger_convertleadmapping')->createCommand()->query();
-		$rowCount = $dataReader->rowCount;
+		$rowCount = $dataReader->count();
 		if ($rowCount) {
 			switch ($entityName) {
 				case 'Accounts':
