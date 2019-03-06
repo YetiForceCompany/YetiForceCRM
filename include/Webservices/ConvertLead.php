@@ -234,21 +234,21 @@ class WebservicesConvertLead
 	 */
 	public static function vtwsUpdateConvertLeadStatus($entityIds, $leadId, Users_Record_Model $user)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		if ($entityIds['Accounts'] != '' || $entityIds['Contacts'] != '') {
 			\App\Cache::delete('Leads.converted', $leadId);
-			$sql = 'UPDATE vtiger_leaddetails SET converted = 1 where leadid=?';
-			$result = $adb->pquery($sql, [$leadId]);
+			$result = $db->createCommand()
+				->update('vtiger_leaddetails', ['converted' => 1], ['leadid' => $leadId])
+				->execute();
 			if ($result === false) {
 				throw new WebServiceException(WebServiceErrorCode::$FAILED_TO_MARK_CONVERTED, 'Failed mark lead converted');
 			}
 			//update the modifiedtime and modified by information for the record
-			$leadModifiedTime = $adb->formatDate(date('Y-m-d H:i:s'), true);
-			$crmentityUpdateSql = 'UPDATE vtiger_crmentity SET modifiedtime=?, modifiedby=? WHERE crmid=?';
-			$adb->pquery($crmentityUpdateSql, [$leadModifiedTime, $user->getId(), $leadId]);
+			$db->createCommand()
+				->update('vtiger_crmentity', ['modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => $user->getId()], ['crmid' => $leadId])
+				->execute();
 		}
 		$moduleArray = ['Accounts', 'Contacts'];
-
 		foreach ($moduleArray as $module) {
 			if (!empty($entityIds[$module])) {
 				$id = $entityIds[$module];
@@ -256,8 +256,9 @@ class WebservicesConvertLead
 				$field = $moduleModel->getFieldByName('isconvertedfromlead');
 				$tablename = $field->getTableName();
 				$entity = $moduleModel->getEntityInstance();
-				$tableIndex = $entity->tab_name_index[$tablename];
-				$adb->pquery("UPDATE $tablename SET isconvertedfromlead = ? WHERE $tableIndex = ?", [1, $id]);
+				$db->createCommand()
+					->update($tablename, ['isconvertedfromlead' => 1], [$entity->tab_name_index[$tablename] => $id])
+					->execute();
 			}
 		}
 	}
