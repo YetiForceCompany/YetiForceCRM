@@ -6,7 +6,7 @@ export default {
     positions: []
   },
   url: {
-    Auth: {
+    User: {
       login: 'login.php'
     }
   }

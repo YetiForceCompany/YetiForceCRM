@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 import mutations from '../mutations.js'
 export default {
-  [mutations.Auth.setViewData](state, data) {
+  [mutations.User.setViewData](state, data) {
     state.view = {
       LANGUAGES: data.LANGUAGES,
       IS_BLOCKED_IP: data.IS_BLOCKED_IP,

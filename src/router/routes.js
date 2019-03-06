@@ -6,19 +6,19 @@ const routes = [
     component: () => import('layouts/Basic.vue')
   },
   {
-    name: 'Auth',
-    path: '/auth',
-    redirect: '/auth/login',
-    component: () => import('layouts/Auth.vue'),
+    name: 'User',
+    path: '/user',
+    redirect: '/user/login',
+    component: () => import('layouts/User.vue'),
     children: [
       {
         name: 'Reminder',
-        path: '/auth/reminder',
+        path: '/user/reminder',
         component: () => import('pages/Reminder.vue')
       },
       {
         name: 'Login',
-        path: '/auth/login',
+        path: '/user/login',
         component: () => import('pages/Login.vue')
       }
     ]
