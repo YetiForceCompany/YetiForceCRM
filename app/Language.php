@@ -36,21 +36,21 @@ class Language
 	/**
 	 * Current language.
 	 *
-	 * @var string|bool
+	 * @var bool|string
 	 */
 	private static $language = false;
 
 	/**
 	 * Temporary language.
 	 *
-	 * @var string|bool
+	 * @var bool|string
 	 */
 	private static $temporaryLanguage = false;
 
 	/**
 	 * Short current language.
 	 *
-	 * @var string|bool
+	 * @var bool|string
 	 */
 	private static $shortLanguage = false;
 
@@ -86,6 +86,7 @@ class Language
 		} else {
 			$language = User::getCurrentUserModel()->getDetail('language');
 		}
+
 		return static::$language = empty($language) ? \AppConfig::main('default_language') : $language;
 	}
 
@@ -93,6 +94,8 @@ class Language
 	 * Get IETF language tag.
 	 *
 	 * @see https://en.wikipedia.org/wiki/IETF_language_tag
+	 *
+	 * @param mixed $separator
 	 *
 	 * @return string
 	 */
@@ -132,6 +135,7 @@ class Language
 			return static::$shortLanguage;
 		}
 		preg_match('/^[a-z]+/i', static::getLanguage(), $match);
+
 		return static::$shortLanguage = (empty($match[0])) ? \Locale::getPrimaryLanguage(self::DEFAULT_LANG) : $match[0];
 	}
 
@@ -141,6 +145,7 @@ class Language
 	 * @param string      $key        - string which need to be translated
 	 * @param string      $moduleName - module scope in which the translation need to be check
 	 * @param bool|string $language   - language of translation
+	 * @param mixed       $encode
 	 *
 	 * @return string - translated string
 	 */
@@ -149,33 +154,36 @@ class Language
 		if (empty($key)) { // nothing to translate
 			return $key;
 		}
-		if (!$language || ($language && strlen($language) !== 5)) {
+		if (!$language || ($language && 5 !== strlen($language))) {
 			$language = static::getLanguage();
 		}
 		if (is_array($moduleName)) {
 			Log::warning('Invalid module name - module: ' . var_export($moduleName, true));
+
 			return $key;
 		}
 		if (is_numeric($moduleName)) { // ok, we have a tab id, lets turn it into name
 			$moduleName = Module::getModuleName($moduleName);
 		} else {
-			$moduleName = str_replace([':', '.'], [DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR], $moduleName);
+			$moduleName = str_replace([':', '.'], [\DIRECTORY_SEPARATOR, \DIRECTORY_SEPARATOR], $moduleName);
 		}
 		static::loadLanguageFile($language, $moduleName);
 		if (isset(static::$languageContainer[$language][$moduleName]['php'][$key])) {
 			if ($encode) {
 				return \nl2br(Purifier::encodeHtml(static::$languageContainer[$language][$moduleName]['php'][$key]));
 			}
+
 			return \nl2br(static::$languageContainer[$language][$moduleName]['php'][$key]);
 		}
 		// Lookup for the translation in base module, in case of sub modules, before ending up with common strings
-		if (strpos($moduleName, 'Settings') === 0) {
-			$base = 'Settings' . DIRECTORY_SEPARATOR . '_Base';
+		if (0 === strpos($moduleName, 'Settings')) {
+			$base = 'Settings' . \DIRECTORY_SEPARATOR . '_Base';
 			static::loadLanguageFile($language, $base);
 			if (isset(static::$languageContainer[$language][$base]['php'][$key])) {
 				if ($encode) {
 					return \nl2br(Purifier::encodeHtml(static::$languageContainer[$language][$base]['php'][$key]));
 				}
+
 				return \nl2br(static::$languageContainer[$language][$base]['php'][$key]);
 			}
 		}
@@ -184,20 +192,23 @@ class Language
 			if ($encode) {
 				return \nl2br(Purifier::encodeHtml(static::$languageContainer[$language]['_Base']['php'][$key]));
 			}
+
 			return \nl2br(static::$languageContainer[$language]['_Base']['php'][$key]);
 		}
 		if (\App\Config::performance('recursiveTranslate') && static::DEFAULT_LANG !== $language) {
 			return static::translate($key, $moduleName, static::DEFAULT_LANG, $encode);
 		}
-		\App\Log::info("Cannot translate this: '$key' for module '$moduleName', lang: $language");
+		\App\Log::info("Cannot translate this: '{$key}' for module '{$moduleName}', lang: {$language}");
+
 		return $key;
 	}
 
 	/**
 	 * Functions that gets translated string with encoding html.
 	 *
-	 * @param string $key        - string which need to be translated
-	 * @param string $moduleName - module scope in which the translation need to be check
+	 * @param string $key             - string which need to be translated
+	 * @param string $moduleName      - module scope in which the translation need to be check
+	 * @param mixed  $currentLanguage
 	 *
 	 * @return string - translated string with encoding html
 	 */
@@ -221,6 +232,7 @@ class Language
 		if (is_array($args) && !empty($args)) {
 			$formattedString = call_user_func_array('vsprintf', [$formattedString, $args]);
 		}
+
 		return $formattedString;
 	}
 
@@ -231,8 +243,8 @@ class Language
 	 * @param string $moduleName Module scope in which the translation need to be check
 	 * @param int    $count      Quantityu for plural determination
 	 *
-	 * @link https://www.i18next.com/plurals.html
-	 * @link http://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/pluralforms.html?id=l10n/pluralforms#pluralforms-list
+	 * @see https://www.i18next.com/plurals.html
+	 * @see http://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/pluralforms.html?id=l10n/pluralforms#pluralforms-list
 	 *
 	 * @return string
 	 */
@@ -243,6 +255,7 @@ class Language
 		} else {
 			$postfix = static::getPluralized((int) $count);
 		}
+
 		return vsprintf(static::translate($key . $postfix, $moduleName), [$count]);
 	}
 
@@ -251,7 +264,7 @@ class Language
 	 *
 	 * @param string      $key
 	 * @param string      $moduleName
-	 * @param string|bool $language
+	 * @param bool|string $language
 	 *
 	 * @return string
 	 */
@@ -260,11 +273,12 @@ class Language
 		if (!$language) {
 			$language = static::getLanguage();
 		}
-		$moduleName = str_replace([':', '.'], [DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR], $moduleName);
+		$moduleName = str_replace([':', '.'], [\DIRECTORY_SEPARATOR, \DIRECTORY_SEPARATOR], $moduleName);
 		static::loadLanguageFile($language, $moduleName);
 		if (isset(static::$languageContainer[$language][$moduleName]['php'][$key])) {
 			return Purifier::encodeHtml(static::$languageContainer[$language][$moduleName]['php'][$key]);
 		}
+
 		return $key;
 	}
 
@@ -277,7 +291,7 @@ class Language
 	 */
 	public static function getSingularModuleName($moduleName)
 	{
-		return "SINGLE_$moduleName";
+		return "SINGLE_{$moduleName}";
 	}
 
 	/**
@@ -289,7 +303,7 @@ class Language
 	 */
 	public static function translateSingularModuleName($moduleName)
 	{
-		return static::translate("SINGLE_$moduleName", $moduleName);
+		return static::translate("SINGLE_{$moduleName}", $moduleName);
 	}
 
 	/**
@@ -305,12 +319,12 @@ class Language
 				static::$languageContainer[$language][$moduleName] = Cache::get('LanguageFiles', $language . $moduleName);
 			} else {
 				static::$languageContainer[$language][$moduleName] = [];
-				$file = DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEPARATOR . $language . DIRECTORY_SEPARATOR . $moduleName . '.' . static::FORMAT;
+				$file = \DIRECTORY_SEPARATOR . 'languages' . \DIRECTORY_SEPARATOR . $language . \DIRECTORY_SEPARATOR . $moduleName . '.' . static::FORMAT;
 				$langFile = ROOT_DIRECTORY . $file;
 				if (file_exists($langFile)) {
 					static::$languageContainer[$language][$moduleName] = Json::decode(file_get_contents($langFile), true) ?? [];
 				}
-				$langCustomFile = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . static::$customDirectory . $file;
+				$langCustomFile = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . static::$customDirectory . $file;
 				if (file_exists($langCustomFile)) {
 					$translation = Json::decode(file_get_contents($langCustomFile), true) ?? [];
 					foreach ($translation as $type => $rows) {
@@ -320,11 +334,32 @@ class Language
 					}
 				}
 				if (!file_exists($langFile) && !file_exists($langCustomFile)) {
-					\App\Log::info("Language file does not exist, module: $moduleName ,language: $language");
+					\App\Log::info("Language file does not exist, module: {$moduleName} ,language: {$language}");
 				}
 				Cache::save('LanguageFiles', $language . $moduleName, static::$languageContainer[$language][$moduleName], Cache::LONG);
 			}
 		}
+	}
+
+	/**
+	 * Gets language data.
+	 *
+	 * @param string $language
+	 */
+	public static function getLanguageData(string $language): array
+	{
+		$source = 'languages' . \DIRECTORY_SEPARATOR . $language;
+		$langData = [];
+		$format = self::FORMAT;
+		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($source), \RecursiveIteratorIterator::SELF_FIRST) as $object) {
+			if ($format === $object->getExtension()) {
+				$folder = $iterator->getSubPath();
+				$name = $object->getBasename(".{$format}");
+				$langData[($folder ? "{$folder}:" : '') . $name] = self::getFromFile($folder . \DIRECTORY_SEPARATOR . $name, $language)['php'] ?? [];
+			}
+		}
+
+		return $langData;
 	}
 
 	/**
@@ -353,14 +388,14 @@ class Language
 	public static function getJsStrings($moduleName)
 	{
 		$language = static::getLanguage();
-		$moduleName = str_replace([':', '.'], [DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR], $moduleName);
+		$moduleName = str_replace([':', '.'], [\DIRECTORY_SEPARATOR, \DIRECTORY_SEPARATOR], $moduleName);
 		static::loadLanguageFile($language, $moduleName);
 		$return = [];
 		if (isset(static::$languageContainer[$language][$moduleName]['js'])) {
 			$return = static::$languageContainer[$language][$moduleName]['js'];
 		}
-		if (strpos($moduleName, 'Settings') === 0) {
-			$base = 'Settings' . DIRECTORY_SEPARATOR . '_Base';
+		if (0 === strpos($moduleName, 'Settings')) {
+			$base = 'Settings' . \DIRECTORY_SEPARATOR . '_Base';
 			static::loadLanguageFile($language, $base);
 			if (isset(static::$languageContainer[$language][$base]['js'])) {
 				$return = array_merge(static::$languageContainer[$language][$base]['js'], $return);
@@ -370,6 +405,7 @@ class Language
 		if (isset(static::$languageContainer[$language]['_Base']['js'])) {
 			$return = array_merge(static::$languageContainer[$language]['_Base']['js'], $return);
 		}
+
 		return $return;
 	}
 
@@ -390,7 +426,7 @@ class Language
 	private static function getPluralized($count)
 	{
 		//Extract language code from locale with special cases
-		if (strcasecmp(static::getLanguage(), 'pt_br') === 0) {
+		if (0 === strcasecmp(static::getLanguage(), 'pt_br')) {
 			$lang = 'pt_br';
 		} else {
 			$lang = static::getShortLanguageName();
@@ -409,11 +445,11 @@ class Language
 			'nb', 'ne', 'nl', 'nn', 'nso', 'or', 'pa', 'pap', 'pms', 'ps', 'pt', 'rm', 'rw', 'sat', 'sco', 'sd', 'se', 'si', 'so', 'son', 'sq', 'sv', 'sw',
 			'ta', 'te', 'tk', 'ur', 'yo',
 		])) {
-			return ($count !== 1) ? '_1' : '_0';
+			return (1 !== $count) ? '_1' : '_0';
 		}
 		switch ($lang) {
 			case 'is':
-				return ($count % 10 !== 1 || $count % 100 === 11) ? '_1' : '_0';
+				return (1 !== $count % 10 || 11 === $count % 100) ? '_1' : '_0';
 			case 'be':
 			case 'bs':
 			case 'hr':
@@ -422,7 +458,7 @@ class Language
 			case 'uk':
 				$i = $count % 10;
 				$j = $count % 100;
-				if ($i === 1 && $j !== 11) {
+				if (1 === $i && 11 !== $j) {
 					return '_0';
 				}
 				if ($i >= 2 && $i <= 4 && ($j < 10 || $j >= 20)) {
@@ -432,7 +468,7 @@ class Language
 				return '_2';
 			case 'cs':
 			case 'sk':
-				if ($count === 1) {
+				if (1 === $count) {
 					return '_0';
 				}
 				if ($count >= 2 && $count <= 4) {
@@ -443,7 +479,7 @@ class Language
 			case 'csb':
 				$i = $count % 10;
 				$j = $count % 100;
-				if ($count === 1) {
+				if (1 === $count) {
 					return '_0';
 				}
 				if ($i >= 2 && $i <= 4 && ($j < 10 || $j >= 20)) {
@@ -454,7 +490,7 @@ class Language
 			case 'lt':
 				$i = $count % 10;
 				$j = $count % 100;
-				if ($i == 1 && $j != 11) {
+				if (1 == $i && 11 != $j) {
 					return '_0';
 				}
 				if ($i >= 2 && ($j < 10 || $j >= 20)) {
@@ -465,10 +501,10 @@ class Language
 			case 'lv':
 				$i = $count % 10;
 				$j = $count % 100;
-				if ($i == 1 && $j != 11) {
+				if (1 == $i && 11 != $j) {
 					return '_0';
 				}
-				if ($count !== 0) {
+				if (0 !== $count) {
 					return '_1';
 				}
 
@@ -476,7 +512,7 @@ class Language
 			case 'me':
 				$i = $count % 10;
 				$j = $count % 100;
-				if ($i === 1 && $j !== 11) {
+				if (1 === $i && 11 !== $j) {
 					return '_0';
 				}
 				if ($i >= 2 && $i <= 4 && ($j < 10 || $j >= 20)) {
@@ -487,7 +523,7 @@ class Language
 			case 'pl':
 				$i = $count % 10;
 				$j = $count % 100;
-				if ($count === 1) {
+				if (1 === $count) {
 					return '_0';
 				}
 				if ($i >= 2 && $i <= 4 && ($j < 10 || $j >= 20)) {
@@ -497,31 +533,31 @@ class Language
 				return '_2';
 			case 'ro':
 				$j = $count % 100;
-				if ($count === 1) {
+				if (1 === $count) {
 					return '_0';
 				}
-				if ($count === 0 || ($j > 0 && $j < 20)) {
+				if (0 === $count || ($j > 0 && $j < 20)) {
 					return '_1';
 				}
 
 				return '_2';
 			case 'cy':
-				if ($count === 1) {
+				if (1 === $count) {
 					return '_0';
 				}
-				if ($count === 2) {
+				if (2 === $count) {
 					return '_1';
 				}
-				if ($count !== 8 && $count !== 11) {
+				if (8 !== $count && 11 !== $count) {
 					return '_2';
 				}
 
 				return '_3';
 			case 'gd':
-				if ($count === 1 || $count === 11) {
+				if (1 === $count || 11 === $count) {
 					return '_0';
 				}
-				if ($count === 2 || $count === 12) {
+				if (2 === $count || 12 === $count) {
 					return '_1';
 				}
 				if ($count > 2 && $count < 20) {
@@ -530,23 +566,23 @@ class Language
 
 				return '_3';
 			case 'kw':
-				if ($count === 1) {
+				if (1 === $count) {
 					return '_0';
 				}
-				if ($count === 2) {
+				if (2 === $count) {
 					return '_1';
 				}
-				if ($count === 3) {
+				if (3 === $count) {
 					return '_2';
 				}
 
 				return '_3';
 			case 'mt':
 				$j = $count % 100;
-				if ($count === 1) {
+				if (1 === $count) {
 					return '_0';
 				}
-				if ($count === 0 || ($j > 1 && $j < 11)) {
+				if (0 === $count || ($j > 1 && $j < 11)) {
 					return '_1';
 				}
 				if ($j > 10 && $j < 20) {
@@ -556,22 +592,22 @@ class Language
 				return '_3';
 			case 'sl':
 				$j = $count % 100;
-				if ($j === 1) {
+				if (1 === $j) {
 					return '_0';
 				}
-				if ($j === 2) {
+				if (2 === $j) {
 					return '_1';
 				}
-				if ($j === 3 || $j === 4) {
+				if (3 === $j || 4 === $j) {
 					return '_2';
 				}
 
 				return '_3';
 			case 'ga':
-				if ($count === 1) {
+				if (1 === $count) {
 					return '_0';
 				}
-				if ($count === 2) {
+				if (2 === $count) {
 					return '_1';
 				}
 				if ($count > 2 && $count < 7) {
@@ -583,13 +619,13 @@ class Language
 
 				return '_4';
 			case 'ar':
-				if ($count === 0) {
+				if (0 === $count) {
 					return '_0';
 				}
-				if ($count === 1) {
+				if (1 === $count) {
 					return '_1';
 				}
-				if ($count === 2) {
+				if (2 === $count) {
 					return '_2';
 				}
 				if ($count % 100 >= 3 && $count % 100 <= 10) {
@@ -610,7 +646,7 @@ class Language
 	 *
 	 * @param string $prefix
 	 *
-	 * @return string|bool
+	 * @return bool|string
 	 */
 	public static function getLanguageLabel(string $prefix)
 	{
@@ -632,6 +668,7 @@ class Language
 			if (!$allData) {
 				return array_column(Cache::get('getAllLanguages', $cacheKey), 'name', 'prefix');
 			}
+
 			return Cache::get('getAllLanguages', $cacheKey);
 		}
 		$all = [];
@@ -639,7 +676,7 @@ class Language
 		$dataReader = (new Db\Query())->from('vtiger_language')->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$all[$row['prefix']] = $row;
-			if ((int) $row['active'] === 1) {
+			if (1 === (int) $row['active']) {
 				$actives[$row['prefix']] = $row;
 			}
 			Cache::save('getLangInfo', $row['prefix'], $row);
@@ -650,6 +687,7 @@ class Language
 		if (!$allData) {
 			return array_column(Cache::get('getAllLanguages', $cacheKey), 'name', 'prefix');
 		}
+
 		return Cache::get('getAllLanguages', $cacheKey);
 	}
 
@@ -665,6 +703,7 @@ class Language
 		if (Cache::has('getLangInfo', $prefix)) {
 			return Cache::get('getLangInfo', $prefix);
 		}
+
 		return Cache::save('getLangInfo', $prefix, (new Db\Query())->from('vtiger_language')->where(['prefix' => $prefix])->one());
 	}
 
@@ -684,14 +723,14 @@ class Language
 	{
 		$fileLocation = explode('__', $fileName, 2);
 		array_unshift($fileLocation, 'custom', 'languages', $language);
-		$fileDirectory = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $fileLocation) . '.' . static::FORMAT;
+		$fileDirectory = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . implode(\DIRECTORY_SEPARATOR, $fileLocation) . '.' . static::FORMAT;
 		if (file_exists($fileDirectory)) {
 			$translations = Json::decode(file_get_contents($fileDirectory), true);
 		} else {
 			$loc = '';
 			array_pop($fileLocation);
 			foreach ($fileLocation as $name) {
-				$loc .= DIRECTORY_SEPARATOR . $name;
+				$loc .= \DIRECTORY_SEPARATOR . $name;
 				if (!file_exists(ROOT_DIRECTORY . $loc) && !mkdir(ROOT_DIRECTORY . $loc, 0755)) {
 					throw new Exceptions\AppException('ERR_NO_PERMISSIONS_TO_CREATE_DIRECTORIES');
 				}
@@ -701,10 +740,10 @@ class Language
 		if ($remove) {
 			unset($translations[$type][$label]);
 		}
-		if (file_put_contents($fileDirectory, Json::encode($translations, JSON_PRETTY_PRINT)) === false) {
+		if (false === file_put_contents($fileDirectory, Json::encode($translations, JSON_PRETTY_PRINT))) {
 			throw new Exceptions\AppException('ERR_CREATE_FILE_FAILURE');
 		}
-		Cache::delete('LanguageFiles', $language . str_replace('__', DIRECTORY_SEPARATOR, $fileName));
+		Cache::delete('LanguageFiles', $language . str_replace('__', \DIRECTORY_SEPARATOR, $fileName));
 	}
 
 	/**
@@ -715,16 +754,16 @@ class Language
 		$original = explode(';', setlocale(LC_ALL, 0));
 		$defaultCharset = strtolower(\AppConfig::main('default_charset'));
 		setlocale(LC_ALL, \Locale::acceptFromHttp(self::getLanguage()) . '.' . $defaultCharset,
-			\Locale::acceptFromHttp(\AppConfig::main('default_language')) . '.' . $defaultCharset, \Locale::acceptFromHttp(self::DEFAULT_LANG) . ".$defaultCharset",
+			\Locale::acceptFromHttp(\AppConfig::main('default_language')) . '.' . $defaultCharset, \Locale::acceptFromHttp(self::DEFAULT_LANG) . ".{$defaultCharset}",
 			\Locale::acceptFromHttp(self::DEFAULT_LANG) . '.utf8');
 		foreach ($original as $localeSetting) {
-			if (strpos($localeSetting, '=') !== false) {
-				list($category, $locale) = explode('=', $localeSetting);
+			if (false !== strpos($localeSetting, '=')) {
+				[$category, $locale] = explode('=', $localeSetting);
 			} else {
 				$category = 'LC_ALL';
 				$locale = $localeSetting;
 			}
-			if ($category !== 'LC_COLLATE' && $category !== 'LC_CTYPE' && defined($category)) {
+			if ('LC_COLLATE' !== $category && 'LC_CTYPE' !== $category && defined($category)) {
 				setlocale(constant($category), $locale);
 			}
 		}

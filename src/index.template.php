@@ -5,24 +5,20 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-$langDir = 'languages'.DIRECTORY_SEPARATOR.\App\Language::getLanguage();
-$langFiles = preg_grep("/^\.|\.\.|.*(?<!.json)$/", scandir($langDir), PREG_GREP_INVERT);
-$translations = [];
-foreach ($langFiles as $file) {
-    $translations[rtrim($file, '.json')] = \App\Json::decode(file_get_contents($langDir.DIRECTORY_SEPARATOR.$file), true)['php'];
-}
+$lang = \App\Language::getLanguage();
 $env = [
-  'Env' => [
-    'baseURL' => \App\Config::main('site_URL'),
-    'publicDir' => '/dist',
-    'routerMode' => 'hash',
-  ],
-  'User' => ['isLoggedIn' => true],
-  'Language' => [
-    'lang' => \App\Language::getLanguage(),
-    'translations' => $translations,
-  ],
+	'Env' => [
+		'baseURL' => \App\Config::main('site_URL'),
+		'publicDir' => '/dist',
+		'routerMode' => 'hash',
+	],
+	'User' => ['isLoggedIn' => true],
+	'Language' => [
+		'lang' => $lang,
+		'translations' => \App\Language::getLanguageData($lang),
+	],
 ];
 
 ?>
