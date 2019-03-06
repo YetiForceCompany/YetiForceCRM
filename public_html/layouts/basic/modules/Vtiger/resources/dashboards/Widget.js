@@ -2927,12 +2927,8 @@ YetiForce_Widget_Js('YetiForce_UpcomingProjectTasks_Widget_Js', {}, {
 		this._super();
 		this.registerListViewButton();
 	},
-	postRefreshWidget: function () {
-		this._super();
-	},
 	registerListViewButton: function () {
-		const thisInstance = this,
-			container = thisInstance.getContainer();
+		const container = this.getContainer();
 		container.find('.goToListView').on('click', function () {
 			let url = 'index.php?module=ProjectTask&view=List&viewname=All';
 			url += '&search_params=[[';
