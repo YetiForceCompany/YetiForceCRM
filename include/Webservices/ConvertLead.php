@@ -32,13 +32,7 @@ class WebservicesConvertLead
 		$leadInfo = $recordModel->getData();
 		$leadIdComponents = $entityvalues['leadId'];
 		$dataReader = (new \App\Db\Query())->select(['converted'])->from('vtiger_leaddetails')->where(['converted' => 1, 'leadid' => $leadIdComponents])->createCommand()->query();
-		if ($dataReader === false) {
-			$translateDatabaseError = \App\Language::translate('LBL_' . WebServiceErrorCode::$DATABASEQUERYERROR, 'Webservices');
-			\App\Log::error('Error converting a lead: ' . $translateDatabaseError);
-			throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, $translateDatabaseError);
-		}
-		$rowCount = $dataReader->count();
-		if ($rowCount > 0) {
+		if ($dataReader->count() > 0) {
 			$translateAlreadyConvertedError = \App\Language::translate('LBL_' . WebServiceErrorCode::$LEAD_ALREADY_CONVERTED, 'Leads');
 			\App\Log::error('Error converting a lead: ' . $translateAlreadyConvertedError);
 			throw new WebServiceException(WebServiceErrorCode::$LEAD_ALREADY_CONVERTED, $translateAlreadyConvertedError);
@@ -137,8 +131,7 @@ class WebservicesConvertLead
 		$targetModuleModel = Vtiger_Module_Model::getInstance($entityvalue['name']);
 		$entityName = $entityvalue['name'];
 		$dataReader = (new \App\Db\Query())->from('vtiger_convertleadmapping')->createCommand()->query();
-		$rowCount = $dataReader->count();
-		if ($rowCount) {
+		if ($dataReader->count()) {
 			switch ($entityName) {
 				case 'Accounts':
 					$column = 'accountfid';
@@ -251,13 +244,10 @@ class WebservicesConvertLead
 		$moduleArray = ['Accounts', 'Contacts'];
 		foreach ($moduleArray as $module) {
 			if (!empty($entityIds[$module])) {
-				$id = $entityIds[$module];
 				$moduleModel = Vtiger_Module_Model::getInstance($module);
-				$field = $moduleModel->getFieldByName('isconvertedfromlead');
-				$tablename = $field->getTableName();
-				$entity = $moduleModel->getEntityInstance();
+				$tablename = $moduleModel->getFieldByName('isconvertedfromlead')->getTableName();
 				$db->createCommand()
-					->update($tablename, ['isconvertedfromlead' => 1], [$entity->tab_name_index[$tablename] => $id])
+					->update($tablename, ['isconvertedfromlead' => 1], [$moduleModel->getEntityInstance()->tab_name_index[$tablename] => $entityIds[$module]])
 					->execute();
 			}
 		}
