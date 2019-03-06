@@ -623,7 +623,7 @@ class Project_Gantt_Model
 				'open' => true,
 				'type' => 'milestone',
 				'normalized_status' => $queryGenerator->getModuleField('projectmilestone_status')->getDisplayValue($row['projectmilestone_status'], $row['id']),
-				'status_label' => App\Language::translate($queryGenerator->getModuleField('projectmilestone_status')->getDisplayValue($row['projectmilestone_status'], $row['id']), 'ProjectMilestone'),
+				'status_label' => $queryGenerator->getModuleField('projectmilestone_status')->getDisplayValue($row['projectmilestone_status'], $row['id']),
 				'canWrite' => false,
 				'canDelete' => false,
 				'status' => 'STATUS_ACTIVE',
