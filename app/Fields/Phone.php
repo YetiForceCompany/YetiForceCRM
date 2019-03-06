@@ -22,7 +22,7 @@ class Phone
 	 *
 	 * @return bool|array
 	 */
-	public static function getDetails(?string $phoneNumber, ?string $phoneCountry = null)
+	public static function getDetails(string $phoneNumber, ?string $phoneCountry = null)
 	{
 		$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
 		try {
@@ -93,7 +93,7 @@ class Phone
 		if (static::getDetails($numberToCheck)) {
 			$returnVal = $numberToCheck;
 		} else {
-			$country = \App\User::getUserModel($userId)->getDetail('default_country_carddav');
+			$country = \App\User::getUserModel($userId)->getDetail('sync_carddav_default_country');
 			if (!empty($country) && ($phoneDetails = static::getDetails($numberToCheck, Country::getCountryCode($country)))) {
 				$returnVal = $phoneDetails['number'];
 			}
