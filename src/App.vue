@@ -40,7 +40,7 @@ export default {
       {
         component: 'RoutePush',
         props: {
-          path: '/User/login',
+          path: '/user/auth/login',
           icon: 'input',
           label: 'Login'
         }

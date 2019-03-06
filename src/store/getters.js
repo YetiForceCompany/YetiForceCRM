@@ -11,6 +11,6 @@ export default {
     isLoggedIn: 'User/isLoggedIn'
   },
   Url: {
-    module: 'Url/module'
+    all: 'Url/all'
   }
 }

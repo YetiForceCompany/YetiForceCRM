@@ -33,7 +33,7 @@ export default {
    */
   [actions.User.login]({ commit, rootGetters }, user) {
     authAxios({
-      url: rootGetters[getters.Base.url].User.login,
+      url: rootGetters[getters.Url.all].User.login,
       data: user,
       method: 'POST'
     })
