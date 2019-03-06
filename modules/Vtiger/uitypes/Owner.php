@@ -75,9 +75,8 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 				$userModel->setModule('Users');
 				if ($userModel->get('status') === 'Inactive') {
 					$ownerName = '<span class="redColor"><s>' . $ownerName . '</s></span>';
-				}
-				if ($userModel->get('status') === 'Active' && \App\Privilege::isPermitted('Users', 'DetailView', $value)) {
-					$detailViewUrl = "index.php?module=Users&view=Detail&record={$value}";
+				} elseif (\App\Privilege::isPermitted('Users', 'DetailView', $value)) {
+					$detailViewUrl = 'index.php?module=Users&view=Detail&record=' . $value;
 					$popoverRecordClass = 'class="js-popover-tooltip--record"';
 				}
 				break;
