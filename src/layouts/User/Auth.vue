@@ -27,8 +27,8 @@
 
 <script>
 import { openURL } from 'quasar'
-import actions from '../store/actions.js'
-import getters from '../store/getters.js'
+import actions from '@/store/actions.js'
+import getters from '@/store/getters.js'
 import { mapGetters } from 'vuex'
 /**
  * @vue-data     {String}    activeComponent - component name

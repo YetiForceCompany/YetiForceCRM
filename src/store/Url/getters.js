@@ -9,7 +9,7 @@ export default {
    *
    * @returns {object}
    */
-  [getters.Url.module]: state => moduleName => {
-    return state.url[moduleName]
+  [getters.Url.all](state) {
+    return state
   }
 }
