@@ -792,7 +792,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		fieldContainer.find('.fieldLabel').html(result['label'] + ' [' + result['name'] + ']');
 		fieldContainer.find('#relatedFieldValue').val(result['name']).prop('id', 'relatedFieldValue' + result['id']);
 		fieldContainer.find('.copyFieldLabel').attr('data-target', 'relatedFieldValue' + result['id']);
-		thisInstance.registerCopyClipboard(fieldContainer);
+		thisInstance.registerCopyClipboard();
 		if (!result['customField']) {
 			fieldContainer.find('.deleteCustomField').remove();
 		}
@@ -1791,14 +1791,14 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	/**
 	 * Register label copy
 	 */
-	registerCopyClipboard: function (form) {
+	registerCopyClipboard: function () {
 		new ClipboardJS('.copyFieldLabel', {
 			text: function (trigger) {
 				Vtiger_Helper_Js.showPnotify({
 					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 					type: 'success'
 				});
-				return form.find('#' + trigger.getAttribute('data-target')).val();
+				return $('#layoutEditorContainer').find('#' + trigger.getAttribute('data-target')).val();
 			}
 		});
 	},
@@ -1891,7 +1891,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 
 		this.registerEvents();
 		this.registerFieldSequenceSaveClick();
-		this.registerCopyClipboard(container);
+		this.registerCopyClipboard();
 		this.registerContextHelp(container);
 	}
 
