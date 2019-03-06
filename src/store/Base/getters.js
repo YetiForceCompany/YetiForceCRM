@@ -10,8 +10,8 @@ export default {
    *
    * @returns {object}
    */
-  [getters.Base.env](state) {
-    return state.env
+  [getters.Base.all](state) {
+    return state
   },
 
   /**
@@ -34,16 +34,5 @@ export default {
    */
   [getters.Base.url](state) {
     return state.url
-  },
-
-  /**
-   * Check if user is logged in
-   *
-   * @param   {null|string}  state
-   *
-   * @return  {bool}
-   */
-  [getters.Base.isLoggedIn](state) {
-    return state.isLoggedIn !== false
   }
 }

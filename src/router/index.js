@@ -38,7 +38,7 @@ export default function({ store }) {
     Loading.show({
       spinner: QSpinnerGears
     })
-    if (store.getters[getters.Base.isLoggedIn] || routeTo.path.startsWith('/User')) {
+    if (store.getters[getters.User.isLoggedIn] || routeTo.path.startsWith('/User')) {
       next()
     } else {
       next({ name: 'Login' })

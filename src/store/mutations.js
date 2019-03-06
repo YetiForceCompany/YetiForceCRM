@@ -7,11 +7,11 @@ export default {
   Base: {
     updateMenuPositions: 'Base/updateMenuPositions',
     addUrl: 'Base/addUrl',
-    updateEnv: 'Base/updateEnv',
-    isLoggedIn: 'Base/isLoggedIn'
+    updateEnv: 'Base/updateEnv'
   },
 
   User: {
-    setViewData: 'User/setViewData'
+    setViewData: 'User/setViewData',
+    isLoggedIn: 'User/isLoggedIn'
   }
 }

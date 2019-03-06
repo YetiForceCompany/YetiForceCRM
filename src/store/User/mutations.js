@@ -14,5 +14,15 @@ export default {
       LAYOUT_SELECTION: data.LAYOUT_SELECTION,
       LAYOUTS: data.LAYOUTS
     }
+  },
+
+  /**
+   * Set authorization data
+   *
+   * @param   {object}  state
+   * @param   {object}  data
+   */
+  [mutations.User.isLoggedIn](state, data) {
+    state.isLoggedIn = data.isLoggedIn
   }
 }
