@@ -4,8 +4,5 @@ export default {
     menuPositions: 'Base/menuPositions',
     url: 'Base/url',
     env: 'Base/env'
-  },
-  Auth: {
-    isAuthenticated: 'Auth/isLoggedIn'
   }
 }

@@ -43,7 +43,7 @@ export default {
    *
    * @return  {bool}
    */
-  [getters.Auth.isLoggedIn](state) {
+  [getters.Base.isLoggedIn](state) {
     return state.isLoggedIn !== false
   }
 }
