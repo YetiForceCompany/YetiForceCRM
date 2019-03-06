@@ -4,6 +4,11 @@ $config = PhpCsFixer\Config::create()
         ->setIndent("\t")
         ->setUsingCache(false)
         ->setRules([
+			'@PHP56Migration' => true,
+			'@PHPUnit60Migration:risky' => true,
+			'@PhpCsFixer' => true,
+			'@PhpCsFixer:risky' => true,
+			'list_syntax' => ['syntax' => 'short'],
             '@PSR2' => true,
             'align_multiline_comment' => true,
             'array_syntax' => ['syntax' => 'short'],
