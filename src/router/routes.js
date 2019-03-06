@@ -14,12 +14,12 @@ const routes = [
       {
         name: 'Reminder',
         path: '/user/reminder',
-        component: () => import('pages/Reminder.vue')
+        component: () => import('pages/User/Reminder.vue')
       },
       {
         name: 'Login',
         path: '/user/login',
-        component: () => import('pages/Login.vue')
+        component: () => import('pages/User/Login.vue')
       }
     ]
   }

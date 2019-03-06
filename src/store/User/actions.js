@@ -18,7 +18,7 @@ export default {
       MESSAGE: '', //\App\Session::get('UserLoginMessageType'),
       MESSAGE_TYPE: '',
       LOGIN_PAGE_REMEMBER_CREDENTIALS: true, // AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')
-      FORGOT_PASSWORD: false, //{if AppConfig::security('RESET_LOGIN_PASSWORD') && App\Mail::getDefaultSmtp()}
+      FORGOT_PASSWORD: true, //{if AppConfig::security('RESET_LOGIN_PASSWORD') && App\Mail::getDefaultSmtp()}
       LANGUAGE_SELECTION: true,
       DEFAULT_LANGUAGE: 'polish',
       LAYOUT_SELECTION: true,
