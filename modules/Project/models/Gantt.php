@@ -617,7 +617,7 @@ class Project_Gantt_Model
 				'module' => 'ProjectMilestone',
 				'progress' => (int) $row['projectmilestone_progress'],
 				'priority' => $queryGenerator->getModuleField('projectmilestone_priority')->getDisplayValue($row['projectmilestone_priority'], $row['id']),
-				'priority_label' => \App\Language::translate($queryGenerator->getModuleField('projectmilestone_priority')->getDisplayValue($row['projectmilestone_priority'], $row['id']), 'ProjectMilestone'),
+				'priority_label' => $queryGenerator->getModuleField('projectmilestone_priority')->getDisplayValue($row['projectmilestone_priority'], $row['id']),
 				'sum_time' => $queryGenerator->getModuleField('sum_time')->getDisplayValue($row['sum_time'], $row['id']),
 				'estimated_work_time' => $queryGenerator->getModuleField('estimated_work_time')->getDisplayValue($row['estimated_work_time'], $row['id']),
 				'open' => true,
