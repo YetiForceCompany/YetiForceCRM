@@ -361,10 +361,17 @@ class Picklist
 	 */
 	public static function getValuesByAutomation(string $fieldName, int $automation = 0): array
 	{
-		if ((bool) \App\Db::getInstance()->getTableSchema("vtiger_$fieldName", true)->getColumn('automation')) {
-			return (new \App\Db\Query())->select([$fieldName])->from("vtiger_$fieldName")->where(['automation' => $automation])
-				->orderBy('sortorderid')->column();
+		$cacheName = "getValuesByAutomation$fieldName";
+		if (\App\Cache::has($cacheName, $automation)) {
+			return \App\Cache::get($cacheName, $automation);
 		}
-		return [];
+		if ((bool) \App\Db::getInstance()->getTableSchema("vtiger_$fieldName", true)->getColumn('automation')) {
+			$values = (new \App\Db\Query())->select([$fieldName])->from("vtiger_$fieldName")->where(['automation' => $automation])
+				->column();
+		} else {
+			$values = [];
+		}
+		\App\Cache::save($cacheName, $automation, $values);
+		return $values;
 	}
 }

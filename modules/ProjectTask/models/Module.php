@@ -14,13 +14,13 @@ class ProjectTask_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Get project tasks by status.
 	 *
-	 * @param array  $params
-	 * @param object $pagingModel
-	 * @param mixed  $user
+	 * @param array               $params
+	 * @param Vtiger_Paging_Model $pagingModel
+	 * @param mixed               $user
 	 *
 	 * @return array
 	 */
-	public static function getRecordsByStatus(array $params, object $pagingModel, $user): array
+	public static function getRecordsByStatus(array $params, Vtiger_Paging_Model $pagingModel, $user): array
 	{
 		$query = new \App\Db\Query();
 		if (!$user) {

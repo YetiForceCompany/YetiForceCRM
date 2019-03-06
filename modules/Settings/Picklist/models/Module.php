@@ -1,5 +1,5 @@
 <?php
-/* +**********************************************************************************
+ /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -423,5 +423,8 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		\App\Cache::delete('getPickListFieldValuesRows', $fieldName);
 		\App\Cache::delete('getCloseStatesByName', \App\Module::getModuleId($moduleName));
 		\App\Cache::delete('getCloseStates', \App\Module::getModuleId($moduleName));
+		\App\Cache::delete("getValuesByAutomation$fieldName", self::AUTOMATION_OPEN);
+		\App\Cache::delete("getValuesByAutomation$fieldName", self::AUTOMATION_CLOSED);
+		\App\Cache::delete("getValuesByAutomation$fieldName", self::AUTOMATION_NO_CONCERN);
 	}
 }
