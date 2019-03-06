@@ -318,7 +318,7 @@ class PackageImport extends PackageExport
 			!empty($this->_modulexml->dependencies) &&
 			!empty($this->_modulexml->dependencies->vtiger_version)) {
 			$moduleVersion = (string) $this->_modulexml->dependencies->vtiger_version;
-			$versionCheck = \App\Version::compare(\App\Version::get(), $moduleVersion);
+			$versionCheck = \App\Version::compare(\App\Version::get(), $moduleVersion, '>=');
 			if ($versionCheck !== false && $versionCheck >= 0) {
 				$moduleVersionFound = true;
 			} else {
