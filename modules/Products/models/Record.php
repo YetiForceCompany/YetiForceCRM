@@ -342,7 +342,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 			if ($request->getRaw($curCheckName) === 'on' || $request->get($curCheckName) === 1) {
 				$actualPrice = $request->getByType($curValue, 'NumberInUserFormat');
 				$actualConversionRate = $productBaseConvRate * $currency['conversion_rate'];
-				$unitPrice = ($request->isEmpty('unit_price') ? 0 : \CurrencyField::convertToDBFormat($request->getByType('unit_price', 'NumberInUserFormat')));
+				$unitPrice = ($request->isEmpty('unit_price') ? 0 : $request->getByType('unit_price', 'NumberInUserFormat'));
 				$convertedPrice = $actualConversionRate * $unitPrice;
 				\App\Log::trace("Going to save the Product - $curName currency relationship");
 				\App\Db::getInstance()->createCommand()->insert('vtiger_productcurrencyrel', [

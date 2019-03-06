@@ -151,4 +151,18 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 		}
 		return \App\Fields\Currency::formatToDb(random_int($min, (int) $max - 1) . \App\User::getCurrentUserModel()->getDetail('currency_decimal_separator') . random_int(0, 9) . random_int(0, 9));
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
+	{
+		$fieldName = $this->getFieldModel()->getFieldName();
+		if (!$requestFieldName) {
+			$requestFieldName = $fieldName;
+		}
+		$value = $request->getByType($requestFieldName, 'NumberInUserFormat');
+		$this->validate($value, true);
+		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
+	}
 }
