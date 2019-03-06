@@ -138,11 +138,10 @@ class WebservicesConvertLead
 	public static function vtwsPopulateConvertLeadEntities($entityvalue, $entity, Vtiger_Record_Model $recordModel, $leadinfo)
 	{
 		$targetModuleModel = Vtiger_Module_Model::getInstance($entityvalue['name']);
-		$adb = PearDatabase::getInstance();
 		$entityName = $entityvalue['name'];
-		$sql = 'SELECT * FROM vtiger_convertleadmapping';
-		$result = $adb->pquery($sql, []);
-		if ($adb->numRows($result)) {
+		$dataReader = (new \App\Db\Query())->from('vtiger_convertleadmapping')->createCommand()->query();
+		$rowCount = $dataReader->rowCount;
+		if ($rowCount) {
 			switch ($entityName) {
 				case 'Accounts':
 					$column = 'accountfid';
@@ -154,7 +153,7 @@ class WebservicesConvertLead
 					$column = 'leadfid';
 					break;
 			}
-			$row = $adb->fetchArray($result);
+			$row = $dataReader->read();
 			$count = 1;
 			foreach ($targetModuleModel->getFields() as $fieldname => $field) {
 				$defaultvalue = $field->getDefaultFieldValue();
@@ -175,8 +174,7 @@ class WebservicesConvertLead
 				$entityFieldName = $entityField->getFieldName();
 				$entity[$entityFieldName] = $leadinfo[$leadFieldName];
 				++$count;
-			} while ($row = $adb->fetchArray($result));
-
+			} while ($row = $dataReader->read());
 			foreach ($entityvalue as $fieldname => $fieldvalue) {
 				if (!empty($fieldvalue)) {
 					$entity[$fieldname] = $fieldvalue;
