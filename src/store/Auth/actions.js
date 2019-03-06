@@ -38,11 +38,12 @@ export default {
       method: 'POST'
     })
       .then(response => {
-        if (response.success) {
+        const data = response.data
+        if (data.success) {
           commit(mutations.Base.isLoggedIn, {
             isLoggedIn: true
           })
-          this.$store.commit(mutations.Base.updateEnv, response.env)
+          this.$store.commit(mutations.Base.updateEnv, data.env)
           this.$router.replace('/')
         } else {
           return console.error('Server error', response)
