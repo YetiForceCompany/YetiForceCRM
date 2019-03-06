@@ -390,7 +390,7 @@ class Project extends CRMEntity
 			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
 			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_project.parentid' => $id])
 			->createCommand()->query();
-		$listColumns = AppConfig::module('Project', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = \App\Config::module('Project', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
