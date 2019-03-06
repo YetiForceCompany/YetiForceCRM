@@ -34,26 +34,24 @@ class WebservicesUtils
 	 */
 	public static function vtwsGetRelatedNotesAttachments($id, $relatedId)
 	{
-		$adb = PearDatabase::getInstance();
 		$db = \App\Db::getInstance();
-
-		$sql = 'SELECT notesid FROM vtiger_senotesrel WHERE crmid=?';
-		$result = $adb->pquery($sql, [$id]);
-		if (!$result->rowCount()) {
+		$dbConnection = (new \App\Db\Query());
+		$query = $dbConnection->select(['notesid'])->from('vtiger_senotesrel')->where(['crmid' => $id]);
+		if (!$query->createCommand()->query()->count()) {
 			return false;
 		}
-		while ($noteId = $adb->getSingleValue($result)) {
-			$db->createCommand()->insert('vtiger_senotesrel', ['crmid' => $relatedId, 'notesid' => $noteId])->execute();
+		foreach ($query->createCommand()->queryAll() as $noteId) {
+			$db->createCommand()->insert('vtiger_senotesrel', ['crmid' => $relatedId, 'notesid' => $noteId['notesid']])->execute();
 		}
 
-		$sql = 'SELECT attachmentsid FROM vtiger_seattachmentsrel WHERE crmid=?';
-		$result = $adb->pquery($sql, [$id]);
-		if (!$result->rowCount()) {
+		$query = $dbConnection->select(['attachmentsid'])->from('vtiger_seattachmentsrel')->where(['crmid' => $id]);
+		if (!$query->createCommand()->query()->count()) {
 			return false;
 		}
-		while ($attachmentId = $adb->getSingleValue($result)) {
-			$db->createCommand()->insert('vtiger_seattachmentsrel', ['crmid' => $relatedId, 'attachmentsid' => $attachmentId])->execute();
+		foreach ($query->createCommand()->queryAll() as $attachmentId) {
+			$db->createCommand()->insert('vtiger_seattachmentsrel', ['crmid' => $relatedId, 'attachmentsid' => $attachmentId['attachmentsid']])->execute();
 		}
+
 		return true;
 	}
 
