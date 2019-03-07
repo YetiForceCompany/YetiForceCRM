@@ -28,7 +28,7 @@ Settings_Vtiger_Index_Js("Settings_Log_Index_Js", {}, {
 		}).done((response) => {
 			const columns = [], data = [];
 			for (let key in response.columns) {
-				const render = key === 'url' ? (data) => data : $.fn.dataTable.render.text();
+				const render = (key === 'url' || key === 'request') ? (data) => data : $.fn.dataTable.render.text();
 				columns.push({
 					title: response.columns[key],
 					name: key,
