@@ -354,7 +354,7 @@ class Project_Gantt_Model
 		foreach ($this->tasks as &$task) {
 			if (empty($task['duration']) && isset($task['start_date'], $task['end_date'])) {
 				$task['duration'] = $this->calculateDuration($task['start_date'], $task['end_date']);
-				$task['planned_duration'] = (new App\QueryGenerator('Project'))->getModuleField('estimated_work_time')->getDisplayValue($task['estimated_work_time'], $task['id']);
+				$task['planned_duration'] = Vtiger_Module_Model::getInstance('Project')->getField('estimated_work_time')->getDisplayValue($task['estimated_work_time'], $task['id']);
 			}
 		}
 	}
@@ -648,7 +648,7 @@ class Project_Gantt_Model
 				$endDate = strtotime(date('Y-m-d', strtotime($row['projectmilestonedate'])) . ' +1 days');
 				$milestone['end'] = $endDate * 1000;
 				$milestone['end_date'] = date('Y-m-d', $endDate);
-				$milestone['planned_duration'] = $queryGenerator->getModuleField('estimated_work_time')->getDisplayValue($row['estimated_work_time'], $row['id']);
+				$milestone['v'] = $queryGenerator->getModuleField('estimated_work_time')->getDisplayValue($row['estimated_work_time'], $row['id']);
 			}
 			$milestone['style'] = [
 				'base' => [
