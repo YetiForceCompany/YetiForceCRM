@@ -12,14 +12,19 @@ const routes = [
     component: () => import('layouts/User/Auth.vue'),
     children: [
       {
-        name: 'Reminder',
-        path: '/user/auth/reminder',
-        component: () => import('pages/User/Auth/Reminder.vue')
-      },
-      {
         name: 'Login',
         path: '/user/auth/login',
         component: () => import('pages/User/Auth/Login.vue')
+      },
+      {
+        name: 'Qr',
+        path: '/user/auth/qr',
+        component: () => import('pages/User/Auth/Qr.vue')
+      },
+      {
+        name: 'Reminder',
+        path: '/user/auth/reminder',
+        component: () => import('pages/User/Auth/Reminder.vue')
       }
     ]
   }
