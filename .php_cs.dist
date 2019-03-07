@@ -23,6 +23,7 @@ $config = PhpCsFixer\Config::create()
             'concat_space' => [
                 'spacing' => 'one',
             ],
+            'explicit_string_variable' => false,
             'declare_equal_normalize' => true,
             'dir_constant' => false,
             'doctrine_annotation_braces' => true,
