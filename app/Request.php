@@ -587,7 +587,8 @@ class Request
 	 */
 	public function set($key, $value)
 	{
-		$this->rawValues[$key] = $this->purifiedValuesByGet[$key] = $this->purifiedValuesByInteger[$key] = $this->purifiedValuesByType[$key] = $this->purifiedValuesByHtml[$key] = $value;
+		$this->rawValues[$key] = $this->purifiedValuesByGet[$key] = $this->purifiedValuesByInteger[$key] = $this->purifiedValuesByHtml[$key] = $value;
+		$this->purifiedValuesByType[$key] = [];
 
 		return $this;
 	}
