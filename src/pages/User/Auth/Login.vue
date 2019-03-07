@@ -4,7 +4,7 @@
     <form
       @submit.prevent.stop="onSubmit"
       class="col q-gutter-md q-mx-lg"
-      :autocomplete="CONFIG.LOGIN_PAGE_REMEMBER_CREDENTIALS ? 'on' : 'off'"
+      :autocomplete="$store.state.User.loginPageRememberCredentials ? 'on' : 'off'"
     >
       <q-input
         type="text"
@@ -13,7 +13,6 @@
         :label="$t('LBL_USER')"
         lazy-rules
         :rules="[val => (val && val.length > 0) || 'Please type something']"
-        :autocomplete="CONFIG.LOGIN_PAGE_REMEMBER_CREDENTIALS ? 'on' : 'off'"
       >
         <template v-slot:prepend>
           <q-icon name="person" />
@@ -26,16 +25,15 @@
         :label="$t('Password')"
         lazy-rules
         :rules="[val => (val && val.length > 0) || 'Please type something']"
-        :autocomplete="CONFIG.LOGIN_PAGE_REMEMBER_CREDENTIALS ? 'on' : 'off'"
       >
         <template v-slot:prepend>
           <q-icon name="mdi-lock" />
         </template>
       </q-input>
       <q-select
-        v-if="CONFIG.LANGUAGE_SELECTION"
+        v-if="$store.state.User.languageSelection"
         v-model="language"
-        :options="CONFIG.LANGUAGES"
+        :options="$store.state.Language.langs"
         :label="$t('LBL_CHOOSE_LANGUAGE')"
       >
         <template v-slot:prepend>
@@ -43,9 +41,9 @@
         </template>
       </q-select>
       <q-select
-        v-if="CONFIG.LAYOUT_SELECTION"
+        v-if="$store.state.User.layoutSelection"
         v-model="layout"
-        :options="CONFIG.LAYOUTS"
+        :options="$store.state.Env.layouts"
         :label="$t('LBL_SELECT_LAYOUT')"
       >
         <template v-slot:prepend>
@@ -53,43 +51,32 @@
         </template>
       </q-select>
       <q-btn size="lg" :label="$t('LBL_SIGN_IN')" type="submit" color="secondary" class="full-width q-mt-lg" />
-      <router-link v-if="CONFIG.FORGOT_PASSWORD" class="text-secondary float-right" :to="{ name: 'Reminder' }">{{
-        $t('ForgotPassword')
-      }}</router-link>
+      <router-link
+        v-if="$store.state.User.forgotPassword"
+        class="text-secondary float-right"
+        :to="{ name: 'Reminder' }"
+        >{{ $t('ForgotPassword') }}</router-link
+      >
     </form>
   </div>
 </template>
 <script>
 import actions from 'src/store/actions.js'
 /**
- * @vue-prop     {Object} CONFIG - view config
  * @vue-data     {String} user - form data
  * @vue-data     {String} password - form data
  * @vue-data     {String} language - form data
  * @vue-data     {String} layout - form data
- * @vue-computed {String} msgClass - additional message class
  * @vue-event    {Object} onSubmit - submit form event
  */
 export default {
   name: 'Login',
-  props: {
-    CONFIG: {}
-  },
   data() {
     return {
       user: '',
       password: '',
-      language: this.CONFIG.DEFAULT_LANGUAGE, //AppConfig::main('default_language')
+      language: this.$store.state.Language.defaultLanguage,
       layout: ''
-    }
-  },
-  computed: {
-    msgClass: function() {
-      return {
-        'bg-positive': this.CONFIG.MESSAGE_TYPE === 'success',
-        'bg-negative': this.CONFIG.MESSAGE_TYPE === 'error',
-        'bg-warning': this.CONFIG.MESSAGE_TYPE === ''
-      }
     }
   },
   methods: {
