@@ -93,6 +93,7 @@ module.exports = function(ctx) {
           ...cfg.resolve.alias,
           '@': path.resolve(__dirname, './src')
         }
+        cfg.devtool = 'source-map'
       }
     },
 
