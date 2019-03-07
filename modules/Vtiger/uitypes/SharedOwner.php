@@ -88,10 +88,10 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					$userModel = Users_Privileges_Model::getInstanceById($shownerid);
 					$userModel->setModule('Users');
 					if ($userModel->get('status') === 'Inactive') {
-						$ownerName = '<span class="redColor">' . $ownerName . '</span>';
-					}
-					if (App\User::getCurrentUserModel()->isAdmin()) {
-						$detailViewUrl = $userModel->getDetailViewUrl();
+						$ownerName = '<span class="redColor"><s>' . $ownerName . '</s></span>';
+					} elseif (\App\Privilege::isPermitted('Users', 'DetailView', $value)) {
+						$detailViewUrl = 'index.php?module=Users&view=Detail&record=' . $shownerid;
+						$popoverRecordClass = 'class="js-popover-tooltip--record"';
 					}
 					break;
 				case 'Groups':
@@ -99,14 +99,19 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 						$recordModel = new Settings_Groups_Record_Model();
 						$recordModel->set('groupid', $shownerid);
 						$detailViewUrl = $recordModel->getDetailViewUrl();
+						$popoverRecordClass = '';
 					}
 					break;
 				default:
 					$ownerName = '<span class="redColor">---</span>';
 					break;
 			}
-			if (!empty($detailViewUrl)) {
-				$displayValue[] = "<a href=\"$detailViewUrl\">$ownerName</a>";
+			if (isset($detailViewUrl)) {
+				if ($userModel->get('status') === 'Active') {
+					$displayValue[] = "<a $popoverRecordClass href=\"$detailViewUrl\"> $ownerName </a>";
+				} else {
+					$displayValue[] = $ownerName;
+				}
 			}
 		}
 		return implode(', ', $displayValue);
@@ -133,9 +138,9 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					$display[$key] = $name;
 					if ($userModel->get('status') === 'Inactive') {
 						$shownerData[$key]['inactive'] = true;
-					}
-					if ($isAdmin && !$rawText) {
-						$shownerData[$key]['link'] = $userModel->getDetailViewUrl();
+					} elseif (\App\Privilege::isPermitted('Users', 'DetailView', $shownerid) && !$rawText) {
+						$shownerData[$key]['link'] = 'index.php?module=Users&view=Detail&record=' . $shownerid;
+						$shownerData[$key]['class'] = 'class="js-popover-tooltip--record"';
 					}
 					break;
 				case 'Groups':
@@ -148,8 +153,8 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					$detailViewUrl = $recordModel->getDetailViewUrl();
 					if ($isAdmin && !$rawText) {
 						$shownerData[$key]['link'] = $detailViewUrl;
+						$shownerData[$key]['class'] = '';
 					}
-
 					break;
 				default:
 					break;
@@ -159,10 +164,9 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		$display = explode(', ', \App\TextParser::textTruncate($display, $maxLengthText));
 		foreach ($display as $key => &$shownerName) {
 			if (isset($shownerData[$key]['inactive'])) {
-				$shownerName = '<span class="redColor">' . $shownerName . '</span>';
-			}
-			if (isset($shownerData[$key]['link'])) {
-				$shownerName = "<a href='" . $shownerData[$key]['link'] . "'>$shownerName</a>";
+				$shownerName = '<span class="redColor"><s>' . $shownerName . '</s></span>';
+			} elseif (isset($shownerData[$key]['link'])) {
+				$shownerName = '<a ' . $shownerData[$key]['class'] . 'href="' . $shownerData[$key]['link'] . '">' . $shownerName . '</a>';
 			}
 		}
 		return implode(', ', $display);
