@@ -2,7 +2,7 @@
 
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Objects from '../utilities/Objects.js'
+import Objects from 'src/utilities/Objects.js'
 import mutations from './mutations.js'
 // modules
 import Env from './Env'
