@@ -123,7 +123,7 @@ class Request
 		} else {
 			return $value;
 		}
-		if (is_string($value) && (strpos($value, '[') === 0 || strpos($value, '{') === 0)) {
+		if (is_string($value) && (0 === strpos($value, '[') || 0 === strpos($value, '{'))) {
 			$decodeValue = Json::decode($value);
 			if (isset($decodeValue)) {
 				$value = $decodeValue;
@@ -132,6 +132,7 @@ class Request
 		if ($value) {
 			$value = Purifier::purify($value);
 		}
+
 		return $this->purifiedValuesByGet[$key] = $value;
 	}
 
@@ -151,12 +152,13 @@ class Request
 	 */
 	public function getByType($key, $type = 'Standard')
 	{
-		if (isset($this->purifiedValuesByType[$key])) {
-			return $this->purifiedValuesByType[$key];
+		if (isset($this->purifiedValuesByType[$key][$type])) {
+			return $this->purifiedValuesByType[$key][$type];
 		}
 		if (isset($this->rawValues[$key])) {
-			return $this->purifiedValuesByType[$key] = Purifier::purifyByType($this->rawValues[$key], $type);
+			return $this->purifiedValuesByType[$key][$type] = Purifier::purifyByType($this->rawValues[$key], $type);
 		}
+
 		return false;
 	}
 
@@ -174,7 +176,8 @@ class Request
 		if (is_bool($value)) {
 			return $value;
 		}
-		return strcasecmp('true', (string) $value) === 0 || (string) $value === '1';
+
+		return 0 === strcasecmp('true', (string) $value) || '1' === (string) $value;
 	}
 
 	/**
@@ -193,9 +196,10 @@ class Request
 		if (!isset($this->rawValues[$key])) {
 			return $value;
 		}
-		if (($value = filter_var($this->rawValues[$key], FILTER_VALIDATE_INT)) !== false) {
+		if (false !== ($value = filter_var($this->rawValues[$key], FILTER_VALIDATE_INT))) {
 			return $this->purifiedValuesByInteger[$key] = $value;
 		}
+
 		throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$key||{$this->rawValues[$key]}", 406);
 	}
 
@@ -218,7 +222,7 @@ class Request
 			if (!$value) {
 				return [];
 			}
-			if (is_string($value) && (strpos($value, '[') === 0 || strpos($value, '{') === 0)) {
+			if (is_string($value) && (0 === strpos($value, '[') || 0 === strpos($value, '{'))) {
 				$decodeValue = Json::decode($value);
 				if (isset($decodeValue)) {
 					$value = $decodeValue;
@@ -229,8 +233,10 @@ class Request
 			if ($value) {
 				$value = $type ? Purifier::purifyByType($value, $type) : Purifier::purify($value);
 			}
+
 			return $this->purifiedValuesByArray[$key] = (array) $value;
 		}
+
 		return $value;
 	}
 
@@ -250,15 +256,17 @@ class Request
 		}
 		$value = [];
 		if (isset($this->rawValues[$key])) {
-			if ($this->rawValues[$key] === '') {
+			if ('' === $this->rawValues[$key]) {
 				return $value;
 			}
 			$value = explode($delimiter, $this->rawValues[$key]);
 			if ($value) {
 				$value = $type ? Purifier::purifyByType($value, $type) : Purifier::purify($value);
 			}
+
 			return $this->purifiedValuesByExploded[$key] = $value;
 		}
+
 		return $value;
 	}
 
@@ -266,7 +274,7 @@ class Request
 	 * Purify multi dimension array.
 	 *
 	 * @param mixed        $values
-	 * @param string|array $template
+	 * @param array|string $template
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 *
@@ -277,7 +285,7 @@ class Request
 		if (is_array($template)) {
 			foreach ($values as $firstKey => $value) {
 				if (is_array($value)) {
-					if (count($template) === 1) {
+					if (1 === count($template)) {
 						$template = current($template);
 					}
 					foreach ($value as $secondKey => $val) {
@@ -285,7 +293,7 @@ class Request
 						if (isset($template[$firstKey])) {
 							$tempTemplate = $template[$firstKey];
 						}
-						if (count($tempTemplate) === 1) {
+						if (1 === count($tempTemplate)) {
 							$tempTemplate = current($tempTemplate);
 						} elseif (!isset($tempTemplate[$secondKey])) {
 							throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$secondKey}", 406);
@@ -295,7 +303,7 @@ class Request
 						$values[$firstKey][$secondKey] = $this->purifyMultiDimensionArray($val, $tempTemplate);
 					}
 				} else {
-					if (\is_array($template) && count($template) === 1) {
+					if (\is_array($template) && 1 === count($template)) {
 						$values[$firstKey] = $this->purifyMultiDimensionArray($value, current($template));
 					} elseif (isset($template[$firstKey])) {
 						$values[$firstKey] = $this->purifyMultiDimensionArray($value, $template[$firstKey]);
@@ -307,6 +315,7 @@ class Request
 		} else {
 			$values = $template ? Purifier::purifyByType($values, $template) : Purifier::purify($values);
 		}
+
 		return $values;
 	}
 
@@ -324,9 +333,9 @@ class Request
 		if (isset($this->purifiedValuesByMultiDimension[$key])) {
 			$return = $this->purifiedValuesByMultiDimension[$key];
 		} elseif (isset($this->rawValues[$key]) && ($value = $this->rawValues[$key])) {
-			if (\is_string($value) && (strpos($value, '[') === 0 || strpos($value, '{') === 0)) {
+			if (\is_string($value) && (0 === strpos($value, '[') || 0 === strpos($value, '{'))) {
 				$decodeValue = Json::decode($value);
-				if ($decodeValue !== null) {
+				if (null !== $decodeValue) {
 					$value = $decodeValue;
 				} else {
 					Log::warning('Invalid data format, problem encountered while decoding JSON. Data should be in JSON format. Data: ' . $value);
@@ -335,6 +344,7 @@ class Request
 			$value = (array) $this->purifyMultiDimensionArray($value, $template);
 			$return = $this->purifiedValuesByMultiDimension[$key] = $value;
 		}
+
 		return $return;
 	}
 
@@ -369,6 +379,7 @@ class Request
 		if ($value) {
 			$value = \App\Purifier::purifyHtml($value);
 		}
+
 		return $this->purifiedValuesByHtml[$key] = $value;
 	}
 
@@ -392,7 +403,7 @@ class Request
 	 */
 	public function getMode()
 	{
-		return $this->getRaw('mode') !== '' ? $this->getByType('mode', 2) : '';
+		return '' !== $this->getRaw('mode') ? $this->getByType('mode', 2) : '';
 	}
 
 	/**
@@ -405,6 +416,7 @@ class Request
 		foreach ($this->rawValues as $key => $value) {
 			$this->get($key);
 		}
+
 		return $this->purifiedValuesByGet;
 	}
 
@@ -431,6 +443,7 @@ class Request
 		if (isset($this->rawValues[$key])) {
 			return $this->rawValues[$key];
 		}
+
 		return $defaultValue;
 	}
 
@@ -447,7 +460,7 @@ class Request
 		$data = [];
 		if (!function_exists('apache_request_headers')) {
 			foreach ($_SERVER as $key => $value) {
-				if (substr($key, 0, 5) === 'HTTP_') {
+				if ('HTTP_' === substr($key, 0, 5)) {
 					$key = str_replace(' ', '-', \strtolower(str_replace('_', ' ', substr($key, 5))));
 					$data[$key] = Purifier::purify($value);
 				}
@@ -458,6 +471,7 @@ class Request
 				$value = Purifier::purify($value);
 			}
 		}
+
 		return $this->headers = $data;
 	}
 
@@ -473,6 +487,7 @@ class Request
 		if (!isset($this->headers)) {
 			$this->getHeaders();
 		}
+
 		return isset($this->headers[$key]) ? $this->headers[$key] : null;
 	}
 
@@ -486,15 +501,16 @@ class Request
 	public function getRequestMethod()
 	{
 		$method = $this->getServer('REQUEST_METHOD');
-		if ($method === 'POST' && isset($_SERVER['HTTP_X_HTTP_METHOD'])) {
-			if ($_SERVER['HTTP_X_HTTP_METHOD'] === 'DELETE') {
+		if ('POST' === $method && isset($_SERVER['HTTP_X_HTTP_METHOD'])) {
+			if ('DELETE' === $_SERVER['HTTP_X_HTTP_METHOD']) {
 				$method = 'DELETE';
-			} elseif ($_SERVER['HTTP_X_HTTP_METHOD'] === 'PUT') {
+			} elseif ('PUT' === $_SERVER['HTTP_X_HTTP_METHOD']) {
 				$method = 'PUT';
 			} else {
 				throw new \App\Exceptions\AppException('Unexpected Header');
 			}
 		}
+
 		return $method;
 	}
 
@@ -502,6 +518,7 @@ class Request
 	 * Get server and execution environment information.
 	 *
 	 * @param string $key
+	 * @param mixed  $default
 	 *
 	 * @return bool
 	 */
@@ -510,6 +527,7 @@ class Request
 		if (!isset($_SERVER[$key])) {
 			return $default;
 		}
+
 		return Purifier::purifyByType($_SERVER[$key], 'Text');
 	}
 
@@ -523,9 +541,10 @@ class Request
 	public function getModule($raw = true)
 	{
 		$moduleName = $this->getByType('module', 2);
-		if (!$raw && !$this->isEmpty('parent', true) && ($parentModule = $this->getByType('parent', 2)) === 'Settings') {
+		if (!$raw && !$this->isEmpty('parent', true) && 'Settings' === ($parentModule = $this->getByType('parent', 2))) {
 			$moduleName = "$parentModule:$moduleName";
 		}
+
 		return $moduleName;
 	}
 
@@ -553,9 +572,9 @@ class Request
 	{
 		if ($emptyFunction) {
 			return empty($this->rawValues[$key]);
-		} else {
-			return !isset($this->rawValues[$key]) || $this->rawValues[$key] === '';
 		}
+
+		return !isset($this->rawValues[$key]) || '' === $this->rawValues[$key];
 	}
 
 	/**
@@ -626,11 +645,13 @@ class Request
 	 */
 	public function isAjax()
 	{
-		if (!empty($_SERVER['HTTP_X_PJAX']) && $_SERVER['HTTP_X_PJAX'] === true) {
-			return true;
-		} elseif (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+		if (!empty($_SERVER['HTTP_X_PJAX']) && true === $_SERVER['HTTP_X_PJAX']) {
 			return true;
 		}
+		if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+			return true;
+		}
+
 		return false;
 	}
 
@@ -642,7 +663,7 @@ class Request
 	public function validateReadAccess()
 	{
 		// Referer check if present - to over come && Check for user post authentication.
-		if (isset($_SERVER['HTTP_REFERER']) && \App\User::getCurrentUserId() && (stripos($_SERVER['HTTP_REFERER'], \AppConfig::main('site_URL')) !== 0) && ($this->get('module') !== 'Install')) {
+		if (isset($_SERVER['HTTP_REFERER']) && \App\User::getCurrentUserId() && (0 !== stripos($_SERVER['HTTP_REFERER'], \AppConfig::main('site_URL'))) && ('Install' !== $this->get('module'))) {
 			throw new \App\Exceptions\Csrf('Illegal request');
 		}
 	}
@@ -656,7 +677,7 @@ class Request
 	 */
 	public function validateWriteAccess($skipRequestTypeCheck = false)
 	{
-		if (!$skipRequestTypeCheck && $_SERVER['REQUEST_METHOD'] !== 'POST') {
+		if (!$skipRequestTypeCheck && 'POST' !== $_SERVER['REQUEST_METHOD']) {
 			throw new \App\Exceptions\Csrf('Invalid request - validate Write Access');
 		}
 		$this->validateReadAccess();
@@ -668,7 +689,7 @@ class Request
 	/**
 	 * Static instance initialization.
 	 *
-	 * @param bool|array $request
+	 * @param array|bool $request
 	 *
 	 * @return Request
 	 */
@@ -677,6 +698,7 @@ class Request
 		if (!static::$request) {
 			static::$request = new self($request ? $request : $_REQUEST);
 		}
+
 		return static::$request;
 	}
 
@@ -700,14 +722,13 @@ class Request
 			throw new \App\Exceptions\AppException('Method not found');
 		}
 		if (empty($arguments)) {
-			return static::$request->$function();
-		} else {
-			$first = array_shift($arguments);
-			if (empty($arguments)) {
-				return static::$request->$function($first);
-			}
-
-			return static::$request->$function($first, $arguments[0]);
+			return static::$request->{$function}();
 		}
+		$first = array_shift($arguments);
+		if (empty($arguments)) {
+			return static::$request->{$function}($first);
+		}
+
+		return static::$request->{$function}($first, $arguments[0]);
 	}
 }
