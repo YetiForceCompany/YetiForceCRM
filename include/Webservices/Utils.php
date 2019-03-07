@@ -39,8 +39,8 @@ class WebservicesUtils
 		if (!$dataReader->count()) {
 			return false;
 		}
-		while ($row = $dataReader->read()) {
-			$dbCommand->insert('vtiger_senotesrel', ['crmid' => $relatedId, 'notesid' => $row['notesid']])->execute();
+		while ($row = $dataReader->readColumn(0)) {
+			$dbCommand->insert('vtiger_senotesrel', ['crmid' => $relatedId, 'notesid' => $row])->execute();
 		}
 		$dataReader->close();
 
@@ -48,8 +48,8 @@ class WebservicesUtils
 		if (!$dataReader->count()) {
 			return false;
 		}
-		while ($row = $dataReader->read()) {
-			$dbCommand->insert('vtiger_seattachmentsrel', ['crmid' => $relatedId, 'attachmentsid' => $row['attachmentsid']])->execute();
+		while ($row = $dataReader->readColumn(0)) {
+			$dbCommand->insert('vtiger_seattachmentsrel', ['crmid' => $relatedId, 'attachmentsid' => $row])->execute();
 		}
 		$dataReader->close();
 
