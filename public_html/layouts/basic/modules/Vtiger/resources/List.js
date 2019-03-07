@@ -189,7 +189,15 @@ jQuery.Class("Vtiger_List_Js", {
 				app.hideModalWindow();
 				listInstance.getListViewRecords();
 				Vtiger_List_Js.clearList();
-				Vtiger_Helper_Js.showMessage(response.result.notify);
+				 if (response.result.success) {
+					Vtiger_Helper_Js.showMessage({
+						title: app.vtranslate("JS_MESSAGE"),
+						text: app.vtranslate("JS_RECORDS_TRANSFERRED_SUCCESSFULLY"),
+						type: "info"
+					});
+				} else {
+					Vtiger_Helper_Js.showMessage(response.result.notify);
+				}
 			}
 		);
 	},
