@@ -397,7 +397,8 @@ class API_CardDAV_Model
 				->innerJoin('vtiger_crmentity', 'vtiger_contactdetails.contactid = vtiger_crmentity.crmid')
 				->innerJoin('vtiger_contactaddress', 'vtiger_contactdetails.contactid = vtiger_contactaddress.contactaddressid')
 				->where(['vtiger_contactdetails.dav_status' => 1, 'vtiger_crmentity.deleted' => 0]);
-		}elseif ('OSSEmployees' == $moduleName) {
+		}
+		if ('OSSEmployees' == $moduleName) {
 			return (new App\Db\Query())->select([
 				'vtiger_crmentity.crmid', 'vtiger_crmentity.smownerid', 'vtiger_ossemployees.name', 'vtiger_ossemployees.last_name',
 				'vtiger_ossemployees.business_phone', 'vtiger_ossemployees.private_phone', 'vtiger_ossemployees.business_mail',
