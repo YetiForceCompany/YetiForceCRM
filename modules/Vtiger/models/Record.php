@@ -90,7 +90,15 @@ class Vtiger_Record_Model extends \App\Base
 
 		return $this;
 	}
-
+	/**
+	 * Set data for save
+	 *
+	 * @param   array  $array
+	 */
+	public function setDataForSave(array $array)
+	{
+		$this->dataForSave = array_merge($this->dataForSave, $array);
+	}
 	/**
 	 * Fuction to get the Name of the record.
 	 *
@@ -550,7 +558,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getEntityDataForSave()
 	{
-		$row = $this->dataForSave;
+		$row = [];
 		$time = date('Y-m-d H:i:s');
 		if ($this->isNew()) {
 			$row['setype'] = $this->getModuleName();
@@ -563,7 +571,7 @@ class Vtiger_Record_Model extends \App\Base
 		$row['modifiedby'] = $this->getPreviousValue('modifiedby') ? $this->get('modifiedby') : \App\User::getCurrentUserRealId();
 		$this->set('modifiedtime', $row['modifiedtime']);
 		$this->set('modifiedby', $row['modifiedby']);
-		return ['vtiger_crmentity' => $row];
+		return array_merge($this->dataForSave, ['vtiger_crmentity' => $row]);
 	}
 
 	/**

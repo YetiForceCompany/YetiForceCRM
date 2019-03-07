@@ -34,7 +34,8 @@
 			</thead>
 			<tbody>
 			{foreach from=App\Language::getAll(false, true) item=LANG key=ID}
-				<tr data-prefix="{\App\Purifier::encodeHtml($LANG['prefix'])}">
+				<tr data-prefix="{\App\Purifier::encodeHtml($LANG['prefix'])}"
+					data-is-default="{if $LANG['prefix']===\App\Language::DEFAULT_LANG}true{else}false{/if}">
 					<td>{\App\Purifier::encodeHtml($LANG['name'])}</td>
 					<td>{\App\Purifier::encodeHtml($LANG['prefix'])}</td>
 					<td>{\App\Fields\DateTime::formatToViewDate($LANG['lastupdated'])}</td>

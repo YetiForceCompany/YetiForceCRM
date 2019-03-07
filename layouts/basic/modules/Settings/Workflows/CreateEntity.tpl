@@ -67,9 +67,9 @@
 					<input type="hidden" name="valuetype" value="{$FIELD_MAP['valuetype']}"/>
 				</div>
 				{if $MANDATORY_FIELD neq true || $MAPPING_PANEL}
-					<div class="u-cursor-pointer btn span">
-						<span class="alignMiddle deleteCondition fas fa-trash-alt"></span>
-					</div>
+					<button type="button" class="btn btn-danger js-condition-delete" data-js="click"
+						<span class="fas fa-trash-alt"></span>
+					</button>
 				{/if}
 			</div>
 		{/foreach}
@@ -156,7 +156,7 @@
 			<input type="text" class="form-control" readonly="" name="fieldValue" value=""/>
 			<input type="hidden" name="valuetype" value="rawtext"/>
 		</div>
-		<button class="btn btn-danger deleteCondition">
+		<button type="button" class="btn btn-danger js-condition-delete" data-js="click">
 			<span class="fas fa-trash-alt"></span>
 		</button>
 	</div>
