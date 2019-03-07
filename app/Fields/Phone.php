@@ -17,14 +17,15 @@ class Phone
 	/**
 	 * Get phone details.
 	 *
-	 * @param string      $phoneNumber
-	 * @param string|null $phoneCountry
+	 * @param null|string $phoneNumber
+	 * @param null|string $phoneCountry
 	 *
-	 * @return bool|array
+	 * @return array|bool
 	 */
-	public static function getDetails(string $phoneNumber, ?string $phoneCountry = null)
+	public static function getDetails(?string $phoneNumber, ?string $phoneCountry = null)
 	{
 		$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+
 		try {
 			$swissNumberProto = $phoneUtil->parse($phoneNumber, $phoneCountry);
 			if ($phoneUtil->isValidNumber($swissNumberProto)) {
@@ -38,6 +39,7 @@ class Phone
 		} catch (\libphonenumber\NumberParseException $e) {
 			\App\Log::info($e->getMessage(), __CLASS__);
 		}
+
 		return false;
 	}
 
@@ -45,7 +47,7 @@ class Phone
 	 * Verify phone number.
 	 *
 	 * @param string      $phoneNumber
-	 * @param string|null $phoneCountry
+	 * @param null|string $phoneCountry
 	 *
 	 * @throws \App\Exceptions\FieldException
 	 *
@@ -57,6 +59,7 @@ class Phone
 		if ($phoneCountry && !in_array($phoneCountry, $phoneUtil->getSupportedRegions())) {
 			throw new \App\Exceptions\FieldException('LBL_INVALID_COUNTRY_CODE');
 		}
+
 		try {
 			$swissNumberProto = $phoneUtil->parse($phoneNumber, $phoneCountry);
 			if ($phoneUtil->isValidNumber($swissNumberProto)) {
@@ -73,6 +76,7 @@ class Phone
 		} catch (\libphonenumber\NumberParseException $e) {
 			\App\Log::info($e->getMessage(), __CLASS__);
 		}
+
 		throw new \App\Exceptions\FieldException('LBL_INVALID_PHONE_NUMBER');
 	}
 
@@ -80,9 +84,9 @@ class Phone
 	 * Get proper number.
 	 *
 	 * @param string   $numberToCheck
-	 * @param int|null $userId
+	 * @param null|int $userId
 	 *
-	 * @return string|false Return false if wrong number
+	 * @return false|string Return false if wrong number
 	 */
 	public static function getProperNumber(string $numberToCheck, ?int $userId = null)
 	{
@@ -98,6 +102,7 @@ class Phone
 				$returnVal = $phoneDetails['number'];
 			}
 		}
+
 		return $returnVal;
 	}
 }
