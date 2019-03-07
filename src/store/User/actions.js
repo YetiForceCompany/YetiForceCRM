@@ -39,9 +39,11 @@ export default {
     })
       .then(response => {
         const data = response.data
-        if (data.success) {
+        if (data.result === true) {
           commit(mutations.Global.update, data.env)
           this.$router.replace('/')
+        } else if (data.result.multi !== undefined) {
+          this.$router.replace(`/user/auth/${data.result.multi}`)
         } else {
           return console.error('Server error', response)
         }
