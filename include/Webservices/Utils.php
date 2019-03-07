@@ -34,13 +34,13 @@ class WebservicesUtils
 	 */
 	public static function vtwsGetRelatedNotesAttachments($id, $relatedId)
 	{
-		$dbCommand = \App\Db::getInstance();
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		$dataReader = (new \App\Db\Query())->select(['notesid'])->from('vtiger_senotesrel')->where(['crmid' => $id])->createCommand()->query();
 		if (!$dataReader->count()) {
 			return false;
 		}
 		while ($row = $dataReader->read()) {
-			$dbCommand->createCommand()->insert('vtiger_senotesrel', ['crmid' => $relatedId, 'notesid' => $row['notesid']])->execute();
+			$dbCommand->insert('vtiger_senotesrel', ['crmid' => $relatedId, 'notesid' => $row['notesid']])->execute();
 		}
 		$dataReader->close();
 
@@ -49,7 +49,7 @@ class WebservicesUtils
 			return false;
 		}
 		while ($row = $dataReader->read()) {
-			$dbCommand->createCommand()->insert('vtiger_seattachmentsrel', ['crmid' => $relatedId, 'attachmentsid' => $row['attachmentsid']])->execute();
+			$dbCommand->insert('vtiger_seattachmentsrel', ['crmid' => $relatedId, 'attachmentsid' => $row['attachmentsid']])->execute();
 		}
 		$dataReader->close();
 
