@@ -8,7 +8,7 @@
     "LBL_EMAIL": "E-mail",
     "LBL_CITY": "City",
     "LBL_COUNTRY": "Country",
-    "LBL_CONDITIONS_OF_REGISTRATION": "All data below must be true, it is an obligatory condition of registering the product that results from the license terms.  %s In the registration, there should be all companies involved in the implementation of the CRM system, e.g. \"Target user\" should always be filled in with the data of a company that uses this system. The \"Supplier\" entry type must exist when a company implementing CRM is different from the one that uses it. The \"Integrator\" entry type must exist when integration with a CRM system was performed and the data of the company that integrated the system needs to be submitted.",
+    "LBL_CONDITIONS_OF_REGISTRATION": "All data below must be true, it is an obligatory condition of registering the product that results from the license terms.  %s \nIn the registration, there should be all companies involved in the implementation of the CRM system, e.g. \"Target user\" should always be filled in with the data of a company that uses this system. \nThe \"Supplier\" entry type must exist when a company implementing CRM is different from the one that uses it. \nThe \"Integrator\" entry type must exist when integration with a CRM system was performed and the data of the company that integrated the system needs to be submitted.",
     "LBL_TYPE": "Type",
     "LBL_TYPE_TARGET_USER": "End user",
     "LBL_TYPE_INTEGRATOR": "Integrator",
