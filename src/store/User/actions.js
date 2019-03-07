@@ -32,14 +32,12 @@ export default {
    * @param   {object}  user
    */
   [actions.User.login]({ commit, rootGetters }, user) {
-    console.log(rootGetters[getters.Url.all].User.login)
     authAxios({
       url: rootGetters[getters.Url.all].User.login,
       data: user,
       method: 'POST'
     })
       .then(response => {
-        console.log(response)
         const data = response.data
         if (data.success) {
           commit(mutations.Global.update, data.env)
