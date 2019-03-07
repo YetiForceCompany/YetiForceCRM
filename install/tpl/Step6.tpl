@@ -33,7 +33,7 @@
 						{if $FIELD_NAME === "name"}
 							<div class="form-group row">
 								<label class="col-sm-2 col-form-label"
-									   for="company-name">{App\Language::translate('LBL_NAME', 'Settings:Companies')}
+									   for="company-name">{App\Language::translate('LBL_NAME', 'Install')}
 									&nbsp;<span class="no">*</span></label>
 								<div class="col-sm-10">
 									<input id="company-name" type="text" name="company_name" class="form-control"
@@ -43,7 +43,7 @@
 						{elseif $FIELD_NAME === "industry"}
 							<div class="form-group row">
 								<label class="col-sm-2 col-form-label"
-									   for="company-industry">{App\Language::translate('LBL_INDUSTRY', 'Settings:Companies')}
+									   for="company-industry">{App\Language::translate('LBL_INDUSTRY', 'Install')}
 									&nbsp;<span class="no">*</span></label>
 								<div class="col-sm-10">
 									<select class="select2 form-control" id="company-industry" name="company_industry"
@@ -58,7 +58,7 @@
 						{elseif $FIELD_NAME === "city"}
 							<div class="form-group row">
 								<label class="col-sm-2 col-form-label"
-									   for="company-city">{App\Language::translate('LBL_CITY', 'Settings:Companies')}
+									   for="company-city">{App\Language::translate('LBL_CITY', 'Install')}
 									&nbsp;<span class="no">*</span></label>
 								<div class="col-sm-10">
 									<input id="company-city" type="text" name="company_city" class="form-control"
@@ -68,7 +68,7 @@
 						{elseif $FIELD_NAME === "country"}
 							<div class="form-group row">
 								<label class="col-sm-2 col-form-label"
-									   for="company-country">{App\Language::translate('LBL_COUNTRY', 'Settings:Companies')}
+									   for="company-country">{App\Language::translate('LBL_COUNTRY', 'Install')}
 									&nbsp;<span class="no">*</span></label>
 								<div class="col-sm-10">
 									<select id="company-country" class="select2 form-control" name="company_country"
@@ -82,7 +82,7 @@
 						{elseif $FIELD_NAME === "companysize"}
 							<div class="form-group row">
 								<label class="col-sm-2 col-form-label"
-									   for="company-website">{App\Language::translate('LBL_COMPANYSIZE', 'Settings:Companies')}</label>
+									   for="company-website">{App\Language::translate('LBL_COMPANYSIZE', 'Install')}</label>
 								<div class="col-sm-10">
 									<input id="company-companysize" type="number" name="company_companysize"
 										   class="form-control"
@@ -92,7 +92,7 @@
 						{elseif $FIELD_NAME === "website"}
 							<div class="form-group row">
 								<label class="col-sm-2 col-form-label"
-									   for="company-website">{App\Language::translate('LBL_WEBSITE', 'Settings:Companies')}</label>
+									   for="company-website">{App\Language::translate('LBL_WEBSITE', 'Install')}</label>
 								<div class="col-sm-10">
 									<input id="company-website" type="text" name="company_website" class="form-control"
 										   data-validation-engine="validate[custom[url]]">
