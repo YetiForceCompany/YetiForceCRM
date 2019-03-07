@@ -48,6 +48,9 @@ Settings_Vtiger_List_Js("Settings_Mail_List_Js", {}, {
 						progressIndicatorElement.progressIndicator({
 							'mode': 'hide'
 						});
+						if (data && data.result && data.result.notify) {
+							Vtiger_Helper_Js.showMessage(data.result.notify);
+						}
 						listInstance.postMassDeleteRecords();
 						if (data.error) {
 							Vtiger_Helper_Js.showPnotify({

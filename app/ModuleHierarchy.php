@@ -88,8 +88,11 @@ class ModuleHierarchy
 			case 68:
 				$level = 2;
 				break;
-			case 65:
+			case 64:
 				$level = 3;
+				break;
+			case 65:
+				$level = 4;
 				break;
 			default:
 				break;
@@ -175,6 +178,9 @@ class ModuleHierarchy
 				$return = 68;
 				break;
 			case 3:
+				$return = 64;
+				break;
+			case 4:
 				$return = 65;
 				break;
 			default:
@@ -197,13 +203,13 @@ class ModuleHierarchy
 		switch (static::getModuleLevel($moduleName)) {
 			case 0:
 				$is1Level = in_array(1, $hierarchy);
-				$is3Level = in_array(3, $hierarchy);
-				if ($is1Level && $is3Level) {
-					$modules = array_keys(array_merge(static::getModulesByLevel(1), static::getModulesByLevel(3)));
+				$isLevel4 = in_array(4, $hierarchy);
+				if ($is1Level && $isLevel4) {
+					$modules = array_keys(array_merge(static::getModulesByLevel(1), static::getModulesByLevel(4)));
 				} elseif ($is1Level) {
 					$modules = array_keys(static::getModulesByLevel(1));
-				} elseif ($is3Level) {
-					$modules = array_keys(static::getModulesByLevel(3));
+				} elseif ($isLevel4) {
+					$modules = array_keys(static::getModulesByLevel(4));
 				}
 				break;
 			case 1:
@@ -321,7 +327,7 @@ class ModuleHierarchy
 								$queryGenerator = new QueryGenerator($subField['name']);
 								$queryGenerator->setFields(['id']);
 								$queryGenerator->addNativeCondition([$subField['tablename'] . '.' . $subField['columnname'] => clone $tempQuery]);
-								$queries[] =  $queryGenerator->createQuery();
+								$queries[] = $queryGenerator->createQuery();
 							}
 						}
 					}

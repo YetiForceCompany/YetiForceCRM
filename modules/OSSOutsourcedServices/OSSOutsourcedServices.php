@@ -92,17 +92,4 @@ class OSSOutsourcedServices extends Vtiger_CRMEntity
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['createdtime', 'modifiedtime', 'productname'];
-
-	/**
-	 * Invoked when special actions are performed on the module.
-	 *
-	 * @param string Module name
-	 * @param string Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
-	 */
-	public function moduleHandler($modulename, $event_type)
-	{
-		if ($event_type == 'module.postinstall') {
-			\App\Fields\RecordNumber::getInstance($modulename)->set('prefix', 'UO')->set('cur_id', 1)->save();
-		}
-	}
 }

@@ -1,5 +1,5 @@
 <?php
-/* +***********************************************************************************
+ /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -90,7 +90,15 @@ class Vtiger_Record_Model extends \App\Base
 
 		return $this;
 	}
-
+	/**
+	 * Set data for save
+	 *
+	 * @param   array  $array
+	 */
+	public function setDataForSave(array $array)
+	{
+		$this->dataForSave = array_merge($this->dataForSave, $array);
+	}
 	/**
 	 * Fuction to get the Name of the record.
 	 *
@@ -550,7 +558,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getEntityDataForSave()
 	{
-		$row = $this->dataForSave;
+		$row = [];
 		$time = date('Y-m-d H:i:s');
 		if ($this->isNew()) {
 			$row['setype'] = $this->getModuleName();
@@ -563,7 +571,7 @@ class Vtiger_Record_Model extends \App\Base
 		$row['modifiedby'] = $this->getPreviousValue('modifiedby') ? $this->get('modifiedby') : \App\User::getCurrentUserRealId();
 		$this->set('modifiedtime', $row['modifiedtime']);
 		$this->set('modifiedby', $row['modifiedby']);
-		return ['vtiger_crmentity' => $row];
+		return array_merge($this->dataForSave, ['vtiger_crmentity' => $row]);
 	}
 
 	/**
@@ -744,7 +752,7 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * Function check if record is createable.
 	 *
-	 * @return  bool
+	 * @return bool
 	 */
 	public function isCreateable()
 	{
@@ -1159,6 +1167,8 @@ class Vtiger_Record_Model extends \App\Base
 		\App\Log::trace('Entering ' . __METHOD__);
 		if (!isset($this->inventoryData) && $this->getId()) {
 			$this->inventoryData = \Vtiger_Inventory_Model::getInventoryDataById($this->getId(), $this->getModuleName());
+		} elseif (!isset($this->inventoryData) && $this->get('record_id')) {
+			$this->inventoryData = \Vtiger_Inventory_Model::getInventoryDataById($this->get('record_id'), $this->getModuleName());
 		} else {
 			$this->inventoryData = $this->inventoryData ?? [];
 		}

@@ -154,7 +154,7 @@ $.Class("Vtiger_Inventory_Js", {
 
 			parentRow.find(thisInstance.rowClass).each(function () {
 				let thisItem = $(this);
-				taxParam['globalTax'] = App.Fields.Double.formatToDisplay(thisItem.find('.js-tax').attr('data-default-tax'));
+				taxParam['globalTax'] = App.Fields.Double.formatToDb(thisItem.find('.js-tax').attr('data-default-tax'));
 				thisInstance.setTaxParam(thisItem, taxParam);
 			});
 		} else {

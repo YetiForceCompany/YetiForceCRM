@@ -18,7 +18,7 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model
 	 */
 	public function isAllowModules($moduleName)
 	{
-		return in_array($moduleName, AppConfig::module($this->getName(), 'ALLOW_MODULES'));
+		return in_array($moduleName, \App\Config::module($this->getName(), 'ALLOW_MODULES', []));
 	}
 
 	/**
@@ -28,7 +28,7 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getAllowedModules()
 	{
-		$allAllowedModules = AppConfig::module($this->getName(), 'ALLOW_MODULES');
+		$allAllowedModules = \App\Config::module($this->getName(), 'ALLOW_MODULES', []);
 		foreach ($allAllowedModules as $key => $moduleName) {
 			if (!\App\Privilege::isPermitted($moduleName)) {
 				unset($allAllowedModules[$key]);
