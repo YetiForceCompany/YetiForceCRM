@@ -89,10 +89,6 @@ module.exports = function(ctx) {
             ignored: [/node_modules/, /public_html/]
           }
         }
-        cfg.resolve.alias = {
-          ...cfg.resolve.alias,
-          '@': path.resolve(__dirname, './src')
-        }
         cfg.devtool = 'source-map'
       }
     },

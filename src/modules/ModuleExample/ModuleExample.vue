@@ -3,8 +3,8 @@
   <div class="ModuleExample"></div>
 </template>
 <script>
-import mutations from '../../store/mutations.js'
-import getters from '../../store/getters.js'
+import mutations from 'src/store/mutations.js'
+import getters from 'src/store/getters.js'
 import { mapGetters } from 'vuex'
 
 export default {

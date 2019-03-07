@@ -1,9 +1,9 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-import authAxios from '../../services/Auth.js'
-import apiAxios from '../../services/Api.js'
-import actions from '../actions.js'
-import mutations from '../mutations.js'
-import getters from '../../store/getters.js'
+import authAxios from 'src/services/Auth.js'
+import apiAxios from 'src/services/Api.js'
+import actions from 'src/store/actions.js'
+import mutations from 'src/store/mutations.js'
+import getters from 'src/store/getters.js'
 
 export default {
   /**
@@ -32,12 +32,14 @@ export default {
    * @param   {object}  user
    */
   [actions.User.login]({ commit, rootGetters }, user) {
+    console.log(rootGetters[getters.Url.all].User.login)
     authAxios({
       url: rootGetters[getters.Url.all].User.login,
       data: user,
       method: 'POST'
     })
       .then(response => {
+        console.log(response)
         const data = response.data
         if (data.success) {
           commit(mutations.Global.update, data.env)

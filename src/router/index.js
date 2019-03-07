@@ -3,8 +3,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import routes from './routes'
 import ModuleLoader from './ModuleLoader.js'
-import getters from '../store/getters.js'
-import actions from '../store/actions.js'
+import getters from 'src/store/getters.js'
+import actions from 'src/store/actions.js'
 
 import { Loading, QSpinnerGears } from 'quasar'
 

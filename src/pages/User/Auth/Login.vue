@@ -31,7 +31,7 @@
         :label="$t('LBL_CHOOSE_LANGUAGE')"
       >
         <template v-slot:prepend>
-          <q-icon name="translate"/>
+          <q-icon name="translate" />
         </template>
       </q-select>
       <q-select
@@ -41,26 +41,18 @@
         :label="$t('LBL_SELECT_LAYOUT')"
       >
         <template v-slot:prepend>
-          <q-icon name="looks"/>
+          <q-icon name="looks" />
         </template>
       </q-select>
-      <q-btn
-        size="lg"
-        :label="$t('LBL_SIGN_IN')"
-        type="submit"
-        color="secondary"
-        class="full-width q-mt-lg"
-      />
-      <router-link
-        v-if="CONFIG.FORGOT_PASSWORD"
-        class="text-secondary float-right"
-        :to="{ name: 'Reminder' }"
-      >{{ $t('ForgotPassword') }}</router-link>
+      <q-btn size="lg" :label="$t('LBL_SIGN_IN')" type="submit" color="secondary" class="full-width q-mt-lg" />
+      <router-link v-if="CONFIG.FORGOT_PASSWORD" class="text-secondary float-right" :to="{ name: 'Reminder' }">{{
+        $t('ForgotPassword')
+      }}</router-link>
     </form>
   </div>
 </template>
 <script>
-import actions from '@/store/actions.js'
+import actions from 'src/store/actions.js'
 /**
  * @vue-prop     {Object} CONFIG - view config
  * @vue-data     {String} user - form data
@@ -99,7 +91,11 @@ export default {
       if (this.$refs.user.hasError || this.$refs.password.hasError) {
         this.formHasError = true
       } else {
-        this.$store.dispatch(actions.User.login, { username: this.user, password: this.password, fingerPrint: '' })
+        this.$store.dispatch(actions.User.login, {
+          username: this.user,
+          password: this.password,
+          fingerPrint: ''
+        })
       }
     }
   }
