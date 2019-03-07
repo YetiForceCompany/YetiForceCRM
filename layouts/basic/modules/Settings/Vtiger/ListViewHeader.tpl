@@ -13,9 +13,19 @@
 <!-- tpl-Settings-ListViewHeader -->
 <div class="">
 	<div class="widget_header row">
-		<div class="col-12 d-flex">
+		<div class="{if  $QUALIFIED_MODULE eq 'Settings:Companies'}col-9 {else}col-12{/if}d-flex">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 		</div>
+		{if  $QUALIFIED_MODULE eq 'Settings:Companies'}
+			<div class="col-md-3 ml-2 ml-md-0 d-flex justify-content-end align-items-center">
+				<span class="mr-2">
+					<strong>{\App\Fields\DateTime::formatToViewDate(\App\YetiForce\Register::getDateRegistration())}</strong>
+				</span>
+				<span class="js-popover-tooltip u-cursor-pointer" data-js="popover" data-placement="top" data-content="{\App\Language::translate('LBL_LAST_SCAN_DATE', $QUALIFIED_MODULE)}">
+					<span class="fas fa-info-circle"></span>
+				</span>
+			</div>
+		{/if}
 	</div>
 	<div class="listViewActionsDiv row mt-2 mb-2">
 		<div class="{if !empty($SUPPORTED_MODULE_MODELS)}col-md-5{else}col-md-8{/if} btn-toolbar">
