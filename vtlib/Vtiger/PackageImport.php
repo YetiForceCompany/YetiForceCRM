@@ -760,6 +760,10 @@ class PackageImport extends PackageExport
 			$templateid = $fieldInstance->setTreeTemplate($fieldnode->tree_template, $moduleInstance);
 			$fieldInstance->fieldparams = $templateid;
 		}
+		if (!empty($fieldnode->numberInfo)) {
+			$numberInfo = $fieldnode->numberInfo;
+			\App\Fields\RecordNumber::getInstance($moduleInstance->id)->set('tabid', $moduleInstance->id)->set('prefix', $numberInfo->prefix)->set('leading_zeros', $numberInfo->leading_zeros)->set('postfix', $numberInfo->postfix)->set('start_id', $numberInfo->start_id)->set('cur_id', $numberInfo->cur_id)->set('reset_sequence', $numberInfo->reset_sequence)->set('cur_sequence', $numberInfo->cur_sequence)->save();
+		}
 
 		$blockInstance->addField($fieldInstance);
 

@@ -90,38 +90,31 @@ class Contacts extends CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = PearDatabase::getInstance();
-
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
-
-		$rel_table_arr = ['Products' => 'vtiger_seproductsrel', 'Documents' => 'vtiger_senotesrel',
+		$relTableArr = ['Products' => 'vtiger_seproductsrel', 'Documents' => 'vtiger_senotesrel',
 			'Attachments' => 'vtiger_seattachmentsrel', 'Campaigns' => 'vtiger_campaign_records',
 			'ServiceContracts' => 'vtiger_servicecontracts', 'Project' => 'vtiger_project', ];
-
-		$tbl_field_arr = ['vtiger_seproductsrel' => 'productid', 'vtiger_senotesrel' => 'notesid',
+		$tblFieldArr = ['vtiger_seproductsrel' => 'productid', 'vtiger_senotesrel' => 'notesid',
 			'vtiger_seattachmentsrel' => 'attachmentsid', 'vtiger_campaign_records' => 'campaignid',
 			'vtiger_servicecontracts' => 'servicecontractsid', 'vtiger_project' => 'projectid',
 			'vtiger_payments' => 'paymentsid', ];
-
-		$entity_tbl_field_arr = ['vtiger_seproductsrel' => 'crmid', 'vtiger_senotesrel' => 'crmid',
+		$entityTblFieldArr = ['vtiger_seproductsrel' => 'crmid', 'vtiger_senotesrel' => 'crmid',
 			'vtiger_seattachmentsrel' => 'crmid', 'vtiger_campaign_records' => 'crmid',
 			'vtiger_servicecontracts' => 'sc_related_to', 'vtiger_project' => 'linktoaccountscontacts',
 			'vtiger_payments' => 'relatedcontact', ];
-
 		foreach ($transferEntityIds as $transferId) {
-			foreach ($rel_table_arr as $rel_table) {
-				$id_field = $tbl_field_arr[$rel_table];
-				$entity_id_field = $entity_tbl_field_arr[$rel_table];
+			foreach ($relTableArr as $relTable) {
+				$idField = $tblFieldArr[$relTable];
+				$entityIdField = $entityTblFieldArr[$relTable];
 				// IN clause to avoid duplicate entries
-				$sel_result = $adb->pquery("select $id_field from $rel_table where $entity_id_field=? " .
-					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", [$transferId, $entityId]);
-				$res_cnt = $adb->numRows($sel_result);
-				if ($res_cnt > 0) {
-					for ($i = 0; $i < $res_cnt; ++$i) {
-						$id_field_value = $adb->queryResult($sel_result, $i, $id_field);
-						$adb->pquery("update $rel_table set $entity_id_field=? where $entity_id_field=? and $id_field=?", [$entityId, $transferId, $id_field_value]);
-					}
+				$subQuery = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $entityId]);
+				$query = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $transferId])->andWhere(['not in', $idField, $subQuery]);
+				$dataReader = $query->createCommand()->query();
+				while ($idFieldValue = $dataReader->readColumn(0)) {
+					$dbCommand->update($relTable, [$entityIdField => $entityId], [$entityIdField => $transferId, $idField => $idFieldValue])->execute();
 				}
+				$dataReader->close();
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
@@ -143,9 +136,10 @@ class Contacts extends CRMEntity
 			'Documents' => ['vtiger_senotesrel' => ['crmid', 'notesid'], 'vtiger_contactdetails' => 'contactid'],
 			'OSSMailView' => ['vtiger_ossmailview_relation' => ['crmid', 'ossmailviewid'], 'vtiger_contactdetails' => 'contactid'],
 		];
-		if ($secModule === false) {
+		if (false === $secModule) {
 			return $relTables;
 		}
+
 		return $relTables[$secModule];
 	}
 
@@ -155,11 +149,11 @@ class Contacts extends CRMEntity
 		if (empty($return_module) || empty($return_id)) {
 			return;
 		}
-		if ($return_module === 'Accounts') {
+		if ('Accounts' === $return_module) {
 			App\Db::getInstance()->createCommand()->update('vtiger_contactdetails', ['parentid' => 0], ['contactid' => $id])->execute();
-		} elseif ($return_module === 'Campaigns') {
+		} elseif ('Campaigns' === $return_module) {
 			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $return_id])->execute();
-		} elseif ($return_module === 'Vendors') {
+		} elseif ('Vendors' === $return_module) {
 			$db = App\Db::getInstance();
 			$db->createCommand()->update('vtiger_contactdetails', ['parentid' => 0], ['contactid' => $id])->execute();
 			$db->createCommand()->delete('vtiger_vendorcontactrel', ['vendorid' => $return_id, 'contactid' => $id])->execute();
@@ -177,13 +171,13 @@ class Contacts extends CRMEntity
 			parent::saveRelatedModule($module, $crmid, $withModule, $withCrmid, $relatedName);
 		} else {
 			foreach ($withCrmid as $id) {
-				if ($withModule === 'Campaigns') {
+				if ('Campaigns' === $withModule) {
 					App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
 						'campaignid' => $id,
 						'crmid' => $crmid,
 						'campaignrelstatusid' => 0,
 					])->execute();
-				} elseif ($withModule === 'Vendors') {
+				} elseif ('Vendors' === $withModule) {
 					App\Db::getInstance()->createCommand()->insert('vtiger_vendorcontactrel', [
 						'vendorid' => $id,
 						'contactid' => $crmid,
@@ -223,6 +217,7 @@ class Contacts extends CRMEntity
 		$rows[$baseId] = $this->getChild($baseId, $rows[$baseId], $rows[$baseId]['depth']);
 
 		$this->getHierarchyData($id, $rows[$baseId], $baseId, $listviewEntries, $getRawData, $getLinks);
+
 		return ['header' => $listviewHeader, 'entries' => $listviewEntries];
 	}
 
@@ -251,7 +246,7 @@ class Contacts extends CRMEntity
 		foreach ($listColumns as $colname) {
 			if (\App\Field::getFieldPermission('Contacts', $colname)) {
 				$data = \App\Purifier::encodeHtml($baseInfo[$colname]);
-				if ($getRawData === false && $colname === 'firstname') {
+				if (false === $getRawData && 'firstname' === $colname) {
 					if ($recordId != $id) {
 						if ($getLinks) {
 							if ($hasRecordViewAccess) {
@@ -265,7 +260,7 @@ class Contacts extends CRMEntity
 					}
 					$rowDepth = str_repeat(' .. ', $baseInfo['depth']);
 					$data = $rowDepth . $data;
-				} elseif ($colname === 'parent_id') {
+				} elseif ('parent_id' === $colname) {
 					$data = \App\Record::getLabel($data);
 				}
 			}
@@ -304,7 +299,7 @@ class Contacts extends CRMEntity
 		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
 		$row = (new App\Db\Query())->select([
 			'vtiger_contactdetails.*',
-			new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name"),
+			new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN ${userNameSql} ELSE vtiger_groups.groupname END as user_name"),
 		])->from('vtiger_contactdetails')
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_contactdetails.contactid')
 			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
@@ -313,7 +308,7 @@ class Contacts extends CRMEntity
 			->one();
 		if ($row) {
 			$parentid = $row['reportsto'];
-			if ($parentid !== '' && $parentid != 0 && !in_array($parentid, $encountered)) {
+			if ('' !== $parentid && 0 != $parentid && !in_array($parentid, $encountered)) {
 				$encountered[] = $parentid;
 				$this->getParent($parentid, $parent, $encountered, $depthBase + 1);
 			}
@@ -328,9 +323,9 @@ class Contacts extends CRMEntity
 				$listColumns = $this->list_fields_name;
 			}
 			foreach ($listColumns as $columnname) {
-				if ($columnname === 'assigned_user_id') {
+				if ('assigned_user_id' === $columnname) {
 					$parentInfo[$columnname] = $row['user_name'];
-				} elseif ($columnname === 'parent_id') {
+				} elseif ('parent_id' === $columnname) {
 					$parentInfo[$columnname] = $row['parentid'];
 				} else {
 					$parentInfo[$columnname] = $row[$columnname];
@@ -382,9 +377,9 @@ class Contacts extends CRMEntity
 				$childContactsInfo = [];
 				$childContactsInfo['depth'] = $depth;
 				foreach ($listColumns as $columnname) {
-					if ($columnname === 'assigned_user_id') {
+					if ('assigned_user_id' === $columnname) {
 						$childContactsInfo[$columnname] = $row['user_name'];
-					} elseif ($columnname === 'parent_id') {
+					} elseif ('parent_id' === $columnname) {
 						$childContactsInfo[$columnname] = $row['parentid'];
 					} else {
 						$childContactsInfo[$columnname] = $row[$columnname];

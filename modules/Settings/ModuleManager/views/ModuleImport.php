@@ -99,7 +99,6 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 				$viewer->assign('MODULEIMPORT_DEP_VTVERSION', $importModuleDepVtVersion);
 				$viewer->assign('MODULEIMPORT_LICENSE', $moduleLicence);
 				$viewer->assign('MODULEIMPORT_PARAMETERS', $package->getParameters());
-
 				if (!$package->isLanguageType() && !$package->isUpdateType() && !$package->isModuleBundle()) {
 					$moduleInstance = vtlib\Module::getInstance($importModuleName);
 					$moduleimport_exists = ($moduleInstance) ? 'true' : 'false';
@@ -108,6 +107,9 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 					$viewer->assign('MODULEIMPORT_EXISTS', $moduleimport_exists);
 					$viewer->assign('MODULEIMPORT_DIR', $moduleimport_dir_name);
 					$viewer->assign('MODULEIMPORT_DIR_EXISTS', $moduleimport_dir_exists);
+				} else {
+					$viewer->assign('MODULEIMPORT_EXISTS', false);
+					$viewer->assign('MODULEIMPORT_DIR_EXISTS', false);
 				}
 			}
 		}
@@ -125,20 +127,21 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		$uploadFileName = "$uploadDir/$uploadFile";
 		\vtlib\Deprecated::checkFileAccess($uploadFileName);
 
+		$importModuleType = false;
 		$importType = $request->getByType('module_import_type');
 		if (strtolower($importType) === 'language') {
 			$package = new vtlib\Language();
-			$viewer->assign('IMPORT_MODULE_TYPE', 'Language');
+			$importModuleType = 'Language';
 		} elseif (strtolower($importType) === 'layout') {
 			$package = new vtlib\Layout();
-			$viewer->assign('IMPORT_MODULE_TYPE', 'Layout');
+			$importModuleType = 'Layout';
 		} else {
 			$package = new vtlib\Package();
 		}
 		$package->initParameters($request);
 		$package->import($uploadFileName);
 		if ($package->packageType) {
-			$viewer->assign('IMPORT_MODULE_TYPE', $package->packageType);
+			$importModuleType = $package->packageType;
 		}
 		if ($package->_errorText != '') {
 			$viewer->assign('MODULEIMPORT_ERROR', $package->_errorText);
@@ -146,6 +149,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
 		unlink($uploadFileName);
 
+		$viewer->assign('IMPORT_MODULE_TYPE', $importModuleType);
 		$viewer->assign('IMPORT_MODULE_NAME', $importModuleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('ImportUserModuleStep3.tpl', $qualifiedModuleName);

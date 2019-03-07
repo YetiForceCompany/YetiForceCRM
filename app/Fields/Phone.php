@@ -17,15 +17,16 @@ class Phone
 	/**
 	 * Get phone details.
 	 *
-	 * @param string $phoneNumber
+	 * @param string      $phoneNumber
+	 * @param string|null $phoneCountry
 	 *
-	 * @return bool
+	 * @return bool|array
 	 */
-	public static function getDetails($phoneNumber)
+	public static function getDetails(string $phoneNumber, ?string $phoneCountry = null)
 	{
 		$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
 		try {
-			$swissNumberProto = $phoneUtil->parse($phoneNumber);
+			$swissNumberProto = $phoneUtil->parse($phoneNumber, $phoneCountry);
 			if ($phoneUtil->isValidNumber($swissNumberProto)) {
 				return [
 					'number' => $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::INTERNATIONAL),
@@ -73,5 +74,30 @@ class Phone
 			\App\Log::info($e->getMessage(), __CLASS__);
 		}
 		throw new \App\Exceptions\FieldException('LBL_INVALID_PHONE_NUMBER');
+	}
+
+	/**
+	 * Get proper number.
+	 *
+	 * @param string   $numberToCheck
+	 * @param int|null $userId
+	 *
+	 * @return string|false Return false if wrong number
+	 */
+	public static function getProperNumber(string $numberToCheck, ?int $userId = null)
+	{
+		if (is_null($userId)) {
+			$userId = \App\User::getCurrentUserId();
+		}
+		$returnVal = false;
+		if (static::getDetails($numberToCheck)) {
+			$returnVal = $numberToCheck;
+		} else {
+			$country = \App\User::getUserModel($userId)->getDetail('sync_carddav_default_country');
+			if (!empty($country) && ($phoneDetails = static::getDetails($numberToCheck, Country::getCountryCode($country)))) {
+				$returnVal = $phoneDetails['number'];
+			}
+		}
+		return $returnVal;
 	}
 }

@@ -12,8 +12,16 @@
 {strip}
 	<div class="d-flex flex-wrap flex-md-nowrap px-3 w-100">
 		<div class="u-min-w-md-70 w-100">
-			<div class="moduleIcon">
-				<span class="o-detail__icon js-detail__icon userIcon-{$MODULE}"></span>
+			<div class="float-left spanModuleIcon moduleIcon{$MODULE_NAME}">
+					<span class="moduleIcon">
+							<span class="pl-0 o-detail__icon js-detail__icon js-detail-hierarchy userIcon-{$MODULE_NAME}"
+								  data-js="click"></span>
+						{if \App\Config::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
+							<span class="hierarchy">
+								<span class="badge bgGreen"></span>
+							</span>
+						{/if}
+					</span>
 			</div>
 			<div class="pl-1">
 				<div class="d-flex flex-nowrap align-items-center js-popover-tooltip--ellipsis-icon" data-content="{\App\Purifier::encodeHtml($RECORD->getName())}" data-toggle="popover" data-js="popover | mouseenter">

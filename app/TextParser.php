@@ -1264,12 +1264,13 @@ class TextParser
 	 * @param          $html
 	 * @param int|bool $length
 	 * @param bool     $addDots
+	 * @param bool	   $isTruncated
 	 *
 	 * @throws \HTMLPurifier_Exception
 	 *
 	 * @return string
 	 */
-	public static function htmlTruncate($html, $length = false, $addDots = true)
+	public static function htmlTruncate($html, $length = false, $addDots = true, &$isTruncated = false)
 	{
 		if (!$length) {
 			$length = \AppConfig::main('listview_max_textlength');
@@ -1325,7 +1326,8 @@ class TextParser
 			}
 			return $matches[0];
 		}, $generator->generateFromTokens($truncated));
-		return $html . ($totalCount >= $length ? ($addDots ? '...' : '') : '');
+		$isTruncated = $totalCount >= $length;
+		return $html . ($isTruncated ? ($addDots ? '...' : '') : '');
 	}
 
 	/**

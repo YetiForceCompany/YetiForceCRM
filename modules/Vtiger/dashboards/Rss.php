@@ -32,7 +32,6 @@ class Vtiger_Rss_Dashboard extends Vtiger_IndexAjax_View
 			if (!empty($rssContent)) {
 				foreach ($rssContent->item as $item) {
 					if (!\App\Validator::url((string) $item->link)) {
-						\App\DebugerEx::log('url', (string) $item->link);
 						continue;
 					}
 					$date = new DateTime($item->pubDate);
