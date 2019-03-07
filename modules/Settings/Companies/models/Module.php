@@ -24,7 +24,7 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 		],
 		'type' => [
 			'label' => 'LBL_TYPE',
-			'registerView' => false
+			'registerView' => true
 		],
 		'industry' => [
 			'label' => 'LBL_INDUSTRY',
@@ -104,6 +104,7 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 		if ($tableSchema) {
 			return $tableSchema->getColumnNames();
 		}
+
 		return false;
 	}
 
@@ -137,6 +138,7 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 		usort($columnNames, function ($a, $b) use ($editFields) {
 			return array_search($a, $editFields) < array_search($b, $editFields) ? -1 : 1;
 		});
+
 		return $columnNames;
 	}
 }
