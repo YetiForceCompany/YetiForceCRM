@@ -34,31 +34,26 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 		]);
 		if (isset($order['0']['column'])) {
 			$column = \App\Log::$tableColumnMapping[$type][$order['0']['column']];
-			$dir = ($order['0']['dir'] === 'asc') ? \SORT_ASC : \SORT_DESC;
+			$dir = ('asc' === $order['0']['dir']) ? \SORT_ASC : \SORT_DESC;
 			$query->orderBy([$column => $dir]);
 		} else {
 			$query->orderBy(['id' => \SORT_DESC]);
 		}
 		$data = [];
 		foreach ($query->all() as $log) {
-			$tmp = [];
 			foreach (\App\Log::$tableColumnMapping[$type] as $column) {
-				if ($column === 'url' && ($urlParams = explode('?', $log['url'])) && isset($urlParams[1])) {
+				if ('url' === $column && ($urlParams = explode('?', $log['url'])) && isset($urlParams[1])) {
 					$url = $urlParams[1];
-					$tmp['url'] = $url;
-				} elseif ($column === 'agent') {
-					$tmp['agent'] = $log['agent'];
-				} elseif ($column === 'request') {
-					$requestArray = [];
+					$log['url'] = $url;
+				} elseif ('request' === $column) {
+					$requestArray = '';
 					foreach (\App\Json::decode($log[$column]) as $key => $val) {
-						$requestArray[$key] = $val;
+						$requestArray .= "$key => $val <br>";
 					}
-					$tmp['request'] = \App\Purifier::purify($requestArray);
-				} else {
-					$tmp[$column] = $log[$column];
+					$log['request'] = $requestArray;
 				}
 			}
-			$data[] = $tmp;
+			$data[] = $log;
 		}
 		$columns = [];
 		foreach (\App\Log::$tableColumnMapping[$type] as $column) {
