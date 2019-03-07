@@ -76,19 +76,14 @@ class Leads extends CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = PearDatabase::getInstance();
-
-		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
-
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		\App\Log::trace("Entering function transferRelatedRecords (${module}, ${transferEntityIds}, ${entityId})");
 		$relTableArr = ['Documents' => 'vtiger_senotesrel', 'Attachments' => 'vtiger_seattachmentsrel',
 			'Products' => 'vtiger_seproductsrel', 'Campaigns' => 'vtiger_campaign_records', ];
-
 		$tblFieldArr = ['vtiger_senotesrel' => 'notesid', 'vtiger_seattachmentsrel' => 'attachmentsid',
 			'vtiger_seproductsrel' => 'productid', 'vtiger_campaign_records' => 'campaignid', ];
-
 		$entityTblFieldArr = ['vtiger_senotesrel' => 'crmid', 'vtiger_seattachmentsrel' => 'crmid',
 			'vtiger_seproductsrel' => 'crmid', 'vtiger_campaign_records' => 'crmid', ];
-
 		foreach ($transferEntityIds as $transferId) {
 			foreach ($relTableArr as $relTable) {
 				$idField = $tblFieldArr[$relTable];
