@@ -31,8 +31,7 @@ class WebservicesConvertLead
 		$recordModel = Vtiger_Record_Model::getInstanceById($entityvalues['leadId']);
 		$leadInfo = $recordModel->getData();
 		$leadIdComponents = $entityvalues['leadId'];
-		$dataReader = (new \App\Db\Query())->select(['converted'])->from('vtiger_leaddetails')->where(['converted' => 1, 'leadid' => $leadIdComponents])->createCommand()->query();
-		if ($dataReader->count() > 0) {
+		if ((new \App\Db\Query())->select(['converted'])->from('vtiger_leaddetails')->where(['converted' => 1, 'leadid' => $leadIdComponents])->exists()) {
 			$translateAlreadyConvertedError = \App\Language::translate('LBL_' . WebServiceErrorCode::$LEAD_ALREADY_CONVERTED, 'Leads');
 			\App\Log::error('Error converting a lead: ' . $translateAlreadyConvertedError);
 			throw new WebServiceException(WebServiceErrorCode::$LEAD_ALREADY_CONVERTED, $translateAlreadyConvertedError);
@@ -58,13 +57,13 @@ class WebservicesConvertLead
 				$entityObjectValues = static::vtwsPopulateConvertLeadEntities($entityvalue, $entityObjectValues, $recordModel, $leadInfo);
 
 				//update the contacts relation
-				if ($entityvalue['name'] == 'Contacts' && !empty($entityIds['Accounts'])) {
+				if ('Contacts' == $entityvalue['name'] && !empty($entityIds['Accounts'])) {
 					$entityObjectValues['parent_id'] = $entityIds['Accounts'];
 				}
 
 				try {
 					$create = true;
-					if ($entityvalue['name'] == 'Accounts' && !empty($entityvalue['convert_to_id']) && is_int($entityvalue['convert_to_id'])) {
+					if ('Accounts' == $entityvalue['name'] && !empty($entityvalue['convert_to_id']) && is_int($entityvalue['convert_to_id'])) {
 						$entityIds[$entityName] = $entityvalue['convert_to_id'];
 						$create = false;
 					}
@@ -76,7 +75,7 @@ class WebservicesConvertLead
 								$recordModel->set($fieldName, $entityObjectValues[$fieldName]);
 							} else {
 								$defaultValue = $fieldModel->getDefaultFieldValue();
-								if ($defaultValue !== '') {
+								if ('' !== $defaultValue) {
 									$recordModel->set($fieldName, $defaultValue);
 								}
 							}
@@ -153,11 +152,11 @@ class WebservicesConvertLead
 			}
 			do {
 				$entityField = \WebservicesUtils::vtwsGetFieldfromFieldId($row[$column], $targetModuleModel);
-				if ($entityField === null) {
+				if (null === $entityField) {
 					continue;
 				}
 				$leadField = \WebservicesUtils::vtwsGetFieldfromFieldId($row['leadfid'], $recordModel->getModule());
-				if ($leadField === null) {
+				if (null === $leadField) {
 					continue;
 				}
 				$leadFieldName = $leadField->getFieldName();
@@ -188,7 +187,7 @@ class WebservicesConvertLead
 		$mandatoryFields = $targetModuleModel->getMandatoryFieldModels();
 		foreach ($mandatoryFields as $field => $fieldModel) {
 			if (empty($entity[$field])) {
-				if (($fieldModel->getFieldDataType() === 'picklist' || $fieldModel->getFieldDataType() === 'multipicklist' || $fieldModel->getFieldDataType() === 'date' || $fieldModel->getFieldDataType() === 'datetime') && $fieldModel->isEditable()) {
+				if (('picklist' === $fieldModel->getFieldDataType() || 'multipicklist' === $fieldModel->getFieldDataType() || 'date' === $fieldModel->getFieldDataType() || 'datetime' === $fieldModel->getFieldDataType()) && $fieldModel->isEditable()) {
 					$entity[$field] = $fieldModel->getDefaultFieldValue();
 				} else {
 					$entity[$field] = '????';
@@ -228,12 +227,12 @@ class WebservicesConvertLead
 	public static function vtwsUpdateConvertLeadStatus($entityIds, $leadId, Users_Record_Model $user)
 	{
 		$db = \App\Db::getInstance();
-		if ($entityIds['Accounts'] != '' || $entityIds['Contacts'] != '') {
+		if ('' != $entityIds['Accounts'] || '' != $entityIds['Contacts']) {
 			\App\Cache::delete('Leads.converted', $leadId);
 			$result = $db->createCommand()
 				->update('vtiger_leaddetails', ['converted' => 1], ['leadid' => $leadId])
 				->execute();
-			if ($result === false) {
+			if (false === $result) {
 				throw new WebServiceException(WebServiceErrorCode::$FAILED_TO_MARK_CONVERTED, 'Failed mark lead converted');
 			}
 			//update the modifiedtime and modified by information for the record
