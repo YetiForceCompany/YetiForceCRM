@@ -15,7 +15,9 @@
 	{assign var="NUMBER" value=$FIELD_MODEL->get('fieldvalue')}
 	<div class="tpl-Edit-Field-Phone">
 		{if \App\Config::main('phoneFieldAdvancedVerification',false)}
-			{assign var="PHONE_DETAIL" value=App\Fields\Phone::getDetails($NUMBER)}
+			{if $NUMBER}
+				{assign var="PHONE_DETAIL" value=App\Fields\Phone::getDetails($NUMBER)}
+			{/if}
 			{assign var="FIELD_NAME_EXTRA" value=$FIELD_MODEL->getFieldName()|cat:'_extra'}
 			{assign var="FIELD_MODEL_EXTRA" value=$FIELD_MODEL->getModule()->getFieldByName($FIELD_NAME_EXTRA)}
 			{assign var="ACTIVE_EXTRA_FIELD" value=($VIEW == 'Edit' || $VIEW == 'QuickCreateAjax') && $FIELD_MODEL_EXTRA && $FIELD_MODEL_EXTRA->isWritable()}
