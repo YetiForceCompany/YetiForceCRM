@@ -34,23 +34,24 @@ class WebservicesUtils
 	 */
 	public static function vtwsGetRelatedNotesAttachments($id, $relatedId)
 	{
-		$db = \App\Db::getInstance();
-		$dbConnection = (new \App\Db\Query());
-		$query = $dbConnection->select(['notesid'])->from('vtiger_senotesrel')->where(['crmid' => $id]);
-		if (!$query->createCommand()->query()->count()) {
+		$dbCommand = \App\Db::getInstance();
+		$dataReader = (new \App\Db\Query())->select(['notesid'])->from('vtiger_senotesrel')->where(['crmid' => $id])->createCommand()->query();
+		if (!$dataReader->count()) {
 			return false;
 		}
-		foreach ($query->createCommand()->queryAll() as $noteId) {
-			$db->createCommand()->insert('vtiger_senotesrel', ['crmid' => $relatedId, 'notesid' => $noteId['notesid']])->execute();
+		while ($row = $dataReader->read()) {
+			$dbCommand->createCommand()->insert('vtiger_senotesrel', ['crmid' => $relatedId, 'notesid' => $row['notesid']])->execute();
 		}
+		$dataReader->close();
 
-		$query = $dbConnection->select(['attachmentsid'])->from('vtiger_seattachmentsrel')->where(['crmid' => $id]);
-		if (!$query->createCommand()->query()->count()) {
+		$dataReader = (new \App\Db\Query())->select(['attachmentsid'])->from('vtiger_seattachmentsrel')->where(['crmid' => $id])->createCommand()->query();
+		if (!$dataReader->count()) {
 			return false;
 		}
-		foreach ($query->createCommand()->queryAll() as $attachmentId) {
-			$db->createCommand()->insert('vtiger_seattachmentsrel', ['crmid' => $relatedId, 'attachmentsid' => $attachmentId['attachmentsid']])->execute();
+		while ($row = $dataReader->read()) {
+			$dbCommand->createCommand()->insert('vtiger_seattachmentsrel', ['crmid' => $relatedId, 'attachmentsid' => $row['attachmentsid']])->execute();
 		}
+		$dataReader->close();
 
 		return true;
 	}
@@ -68,18 +69,18 @@ class WebservicesUtils
 			->from('vtiger_seproductsrel')
 			->where(['crmid' => $leadId])
 			->createCommand()->query();
-		if ($dataReader->count() === 0) {
+		if (0 === $dataReader->count()) {
 			return false;
 		}
 		while ($productId = $dataReader->readColumn(0)) {
 			$resultNew = $db->createCommand()->insert('vtiger_seproductsrel', [
-					'crmid' => $relatedId,
-					'productid' => $productId,
-					'setype' => $setype,
-					'rel_created_user' => \App\User::getCurrentUserId(),
-					'rel_created_time' => date('Y-m-d H:i:s'),
-				])->execute();
-			if ($resultNew === 0) {
+				'crmid' => $relatedId,
+				'productid' => $productId,
+				'setype' => $setype,
+				'rel_created_user' => \App\User::getCurrentUserId(),
+				'rel_created_time' => date('Y-m-d H:i:s'),
+			])->execute();
+			if (0 === $resultNew) {
 				return false;
 			}
 		}
@@ -99,34 +100,34 @@ class WebservicesUtils
 		$db = \App\Db::getInstance();
 		$dataReader = (new App\Db\Query())->from('vtiger_crmentityrel')->where(['crmid' => $leadId])
 			->createCommand()->query();
-		if ($dataReader->count() === 0) {
+		if (0 === $dataReader->count()) {
 			return false;
 		}
 		while ($row = $dataReader->read()) {
 			$resultNew = $db->createCommand()->insert('vtiger_crmentityrel', [
-					'crmid' => $relatedId,
-					'module' => $setype,
-					'relcrmid' => $row['relcrmid'],
-					'relmodule' => $row['relmodule'],
-				])->execute();
-			if ($resultNew === 0) {
+				'crmid' => $relatedId,
+				'module' => $setype,
+				'relcrmid' => $row['relcrmid'],
+				'relmodule' => $row['relmodule'],
+			])->execute();
+			if (0 === $resultNew) {
 				return false;
 			}
 		}
 		$dataReader->close();
 		$dataReader = (new App\Db\Query())->from('vtiger_crmentityrel')->where(['relcrmid' => $leadId])
 			->createCommand()->query();
-		if ($dataReader->count() === 0) {
+		if (0 === $dataReader->count()) {
 			return false;
 		}
 		while ($row = $dataReader->read()) {
 			$resultNew = $db->createCommand()->insert('vtiger_crmentityrel', [
-					'crmid' => $relatedId,
-					'module' => $setype,
-					'relcrmid' => $row['crmid'],
-					'relmodule' => $row['module'],
-				])->execute();
-			if ($resultNew === 0) {
+				'crmid' => $relatedId,
+				'module' => $setype,
+				'relcrmid' => $row['crmid'],
+				'relmodule' => $row['module'],
+			])->execute();
+			if (0 === $resultNew) {
 				return false;
 			}
 		}
@@ -150,6 +151,7 @@ class WebservicesUtils
 				return $field;
 			}
 		}
+
 		return null;
 	}
 
@@ -173,6 +175,7 @@ class WebservicesUtils
 		if (!empty($contactId)) {
 			$db->createCommand()->update('vtiger_activity', ['link' => $contactId], ['link' => $leadId])->execute();
 		}
+
 		return true;
 	}
 
@@ -188,12 +191,13 @@ class WebservicesUtils
 	{
 		$db = \App\Db::getInstance();
 		$rowCount = $db->createCommand()->update('vtiger_campaign_records', [
-				'crmid' => $relatedId,
-				], ['crmid' => $leadId]
+			'crmid' => $relatedId,
+		], ['crmid' => $leadId]
 			)->execute();
-		if ($rowCount == 0) {
+		if (0 == $rowCount) {
 			return false;
 		}
+
 		return true;
 	}
 
