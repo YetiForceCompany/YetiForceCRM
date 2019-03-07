@@ -14,7 +14,11 @@
         lazy-rules
         :rules="[val => (val && val.length > 0) || 'Please type something']"
         :autocomplete="CONFIG.LOGIN_PAGE_REMEMBER_CREDENTIALS ? 'on' : 'off'"
-      />
+      >
+        <template v-slot:prepend>
+          <q-icon name="person" />
+        </template>
+      </q-input>
       <q-input
         type="password"
         ref="password"
@@ -23,7 +27,11 @@
         lazy-rules
         :rules="[val => (val && val.length > 0) || 'Please type something']"
         :autocomplete="CONFIG.LOGIN_PAGE_REMEMBER_CREDENTIALS ? 'on' : 'off'"
-      />
+      >
+        <template v-slot:prepend>
+          <q-icon name="mdi-lock" />
+        </template>
+      </q-input>
       <q-select
         v-if="CONFIG.LANGUAGE_SELECTION"
         v-model="language"
@@ -31,7 +39,7 @@
         :label="$t('LBL_CHOOSE_LANGUAGE')"
       >
         <template v-slot:prepend>
-          <q-icon name="translate" />
+          <q-icon name="mdi-translate" />
         </template>
       </q-select>
       <q-select
@@ -41,7 +49,7 @@
         :label="$t('LBL_SELECT_LAYOUT')"
       >
         <template v-slot:prepend>
-          <q-icon name="looks" />
+          <q-icon name="mdi-looks" />
         </template>
       </q-select>
       <q-btn size="lg" :label="$t('LBL_SIGN_IN')" type="submit" color="secondary" class="full-width q-mt-lg" />
