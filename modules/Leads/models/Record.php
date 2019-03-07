@@ -38,7 +38,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 	public function save()
 	{
 		parent::save();
-		if( !$this->isNew() ){
+		if(!$this->isNew()){
 			\App\Cache::delete('Leads.converted', $this->getId());
 		}
 	}

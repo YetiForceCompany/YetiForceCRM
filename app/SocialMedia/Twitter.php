@@ -59,7 +59,9 @@ class Twitter extends Base
 	public static function isActive()
 	{
 		$configTitter = \App\SocialMedia::getInstance(static::$socialMediaType);
-		return !empty($configTitter->get('twitter_api_key')) && !empty($configTitter->get('twitter_api_secret'));
+		return class_exists('\Abraham\TwitterOAuth\TwitterOAuth') &&
+			!empty($configTitter->get('twitter_api_key')) &&
+			!empty($configTitter->get('twitter_api_secret'));
 	}
 
 	/**
@@ -93,6 +95,42 @@ class Twitter extends Base
 	}
 
 	/**
+	 * Get Twitter connection object.
+	 *
+	 * @return  \Abraham\TwitterOAuth\TwitterOAuth
+	 */
+	private static function getTwitterConnection()
+	{
+		if (!\is_object(static::$twitterConnection)) {
+			$configTitter = \App\SocialMedia::getInstance(static::$socialMediaType);
+			static::$twitterConnection = new \Abraham\TwitterOAuth\TwitterOAuth(
+				$configTitter->get('twitter_api_key'),
+				$configTitter->get('twitter_api_secret')
+			);
+			static::$twitterConnection->setDecodeJsonAsArray(true);
+		}
+		return static::$twitterConnection;
+	}
+
+	/**
+	 * Check if the user exists.
+	 *
+	 * @param   string  $userName
+	 *
+	 * @return  bool
+	 */
+	public static function isUserExists(string $userName) : bool
+	{
+		$response = static::getTwitterConnection()->get('users/lookup', ['screen_name'=>$userName]);
+		if (isset($response['errors'])){
+			$returnVal = false;
+		}else{
+			$returnVal = strtolower($response[0]['screen_name']) === strtolower($userName);
+		}
+		return $returnVal;
+	}
+
+	/**
 	 * Twitter constructor.
 	 *
 	 * @param string $userName
@@ -102,14 +140,17 @@ class Twitter extends Base
 	public function __construct(string $userName)
 	{
 		$this->userName = $userName;
-		if (!\is_object(static::$twitterConnection)) {
-			$configTitter = \App\SocialMedia::getInstance(static::$socialMediaType);
-			static::$twitterConnection = new \Abraham\TwitterOAuth\TwitterOAuth(
-				$configTitter->get('twitter_api_key'),
-				$configTitter->get('twitter_api_secret')
-			);
-			static::$twitterConnection->setDecodeJsonAsArray(true);
-		}
+		static::getTwitterConnection();
+	}
+
+	/**
+	 * Check if the current user exists.
+	 *
+	 * @return  bool
+	 */
+	public function isExists() : bool
+	{
+		return static::isUserExists($this->userName);
 	}
 
 	/**
@@ -144,6 +185,14 @@ class Twitter extends Base
 			$rowTwitter['id'] = \App\Purifier::encodeHtml($rowTwitter['id']);
 			$rowTwitter['created_at'] = \App\Purifier::encodeHtml($rowTwitter['created_at']);
 			$rowTwitter[$rowTwitter[$indexOfText]] = \App\Purifier::encodeHtml($rowTwitter[$indexOfText]);
+			$rowTwitter[$indexOfText] = \App\Utils::convertCharacterEncoding(
+				$rowTwitter[$indexOfText],
+				'ASCII',
+				'UTF-8'
+			);
+			if (empty($rowTwitter[$indexOfText])) {
+				continue;
+			}
 			if (!isset($rowTwitter['user']['name'])) {
 				throw new \App\Exceptions\AppException('ERR_NO_VALUE||"user name"');
 			}

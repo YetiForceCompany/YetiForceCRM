@@ -1324,7 +1324,8 @@
     "PLL_IN_PROGRESSING" : "In progressing",
     "PLL_IN_APPROVAL" : "In approval",
     "PLL_COMPLETED" : "Completed",
-    "PLL_CANCELLED" : "Cancelled"
+    "PLL_CANCELLED" : "Cancelled",
+    "LBL_SELECT_UP_TO_RECORDS": "Select up to %s records"
   },
   "js": {
     "JS_APPROVE": "Approve",

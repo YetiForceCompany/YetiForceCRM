@@ -11,7 +11,14 @@
 foreach (\App\SocialMedia::ALLOWED_UITYPE as $uiType => $socialMediaType) {
 	if (\App\SocialMedia::isActiveByType($uiType)) {
 		foreach (\App\SocialMedia::getSocialMediaAccount($socialMediaType) as $socialMedia) {
-			$socialMedia->retrieveDataFromApi();
+			if(!\App\RequestUtil::isNetConnection()){
+				continue;
+			}elseif(!$socialMedia->isExists()){
+				\App\SocialMedia::log($uiType, 'warning', "User does not exist");
+				continue;
+			}else{
+				$socialMedia->retrieveDataFromApi();
+			}
 		}
 	} else {
 		\App\SocialMedia::log($uiType, 'warning', 'Unconfigured API');

@@ -77,7 +77,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 			}
 		});
 		if (app.getMainParams('autoRefreshListOnChange') == '1') {
-			listViewContainer.find('.listViewEntriesTable select').on('change', () => {
+			listViewContainer.find('.listViewEntriesTable select, .searchInSubcategories').on('change', () => {
 				this.triggerListSearch();
 			});
 			listViewContainer.find('.listViewEntriesTable .picklistSearchField').on('apply.daterangepicker', () => {

@@ -236,7 +236,8 @@
     "LBL_CHECK_EMAIL_OPTOUT": "Verify if recipient agreed to receive e-mails",
     "LBL_SUMFIELDFROMDEPENDENT_SOURCE": "Field to be summed",
     "LBL_SUMFIELDFROMDEPENDENT_TARGET": "Field where summation will be saved",
-    "LBL_SUM_FIELD_FROM_DEPENDENT": "Sum filed values from related module fields"
+    "LBL_SUM_FIELD_FROM_DEPENDENT": "Sum filed values from related module fields",
+    "LBL_ATTACH_DOCS_FROM": "Attach documents from"
   },
   "js": {
     "JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE": "Same fields selected more than once",
