@@ -37,6 +37,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 			$fieldName = $relationModel->getRelationField()->getFieldName();
 			Vtiger_Cache::set('NameRelatedField', $refModuleName . '-Calendar', $fieldName);
 		}
+
 		return $fieldName;
 	}
 
@@ -80,6 +81,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		if (empty($name)) {
 			$name = parent::getName();
 		}
+
 		return $name;
 	}
 
@@ -137,7 +139,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 */
 	public function updateActivityReminder()
 	{
-		if (!$this->isNew() && $this->getPreviousValue('reminder_time') === false) {
+		if (!$this->isNew() && false === $this->getPreviousValue('reminder_time')) {
 			return false;
 		}
 		$db = \App\Db::getInstance();
@@ -248,21 +250,27 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		switch ($time) {
 			case '15m':
 				$datatime = date('Y-m-d H:i:s', strtotime('+15 min'));
+
 				break;
 			case '30m':
 				$datatime = date('Y-m-d H:i:s', strtotime('+30 min'));
+
 				break;
 			case '1h':
 				$datatime = date('Y-m-d H:i:s', strtotime('+60 min'));
+
 				break;
 			case '2h':
 				$datatime = date('Y-m-d H:i:s', strtotime('+120 min'));
+
 				break;
 			case '6h':
 				$datatime = date('Y-m-d H:i:s', strtotime('+6 hour'));
+
 				break;
 			case '1d':
 				$datatime = date('Y-m-d H:i:s', strtotime('+1 day'));
+
 				break;
 			default:
 				break;
@@ -293,9 +301,10 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	public function getActivityTypeIcon()
 	{
 		$icon = $this->get('activitytype');
-		if ($icon == 'Task') {
+		if ('Task' == $icon) {
 			$icon = 'Tasks';
 		}
+
 		return $icon . '.png';
 	}
 
@@ -319,12 +328,15 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		switch ($state) {
 			case 'Active':
 				$stateId = 0;
+
 				break;
 			case 'Trash':
 				$stateId = 1;
+
 				break;
 			case 'Archived':
 				$stateId = 2;
+
 				break;
 			default:
 				break;
@@ -364,6 +376,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
+
 		return $links;
 	}
 
@@ -394,6 +407,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 				]);
 			}
 		}
+
 		return $links;
 	}
 
@@ -410,7 +424,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Get invition status.
 	 *
-	 * @param int $status
+	 * @param false|int $status
 	 *
 	 * @return string
 	 */
@@ -418,7 +432,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	{
 		$statuses = [0 => 'LBL_NEEDS-ACTION', 1 => 'LBL_ACCEPTED', 2 => 'LBL_DECLINED'];
 
-		return $status !== false ? $statuses[$status] : $statuses;
+		return false !== $status ? $statuses[$status] ?? '' : $statuses;
 	}
 
 	/**

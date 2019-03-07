@@ -17,7 +17,7 @@ class Calendar_Invitees_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -26,13 +26,21 @@ class Calendar_Invitees_Action extends \App\Controller\Action
 		}
 	}
 
+	/**
+	 * Construct.
+	 */
 	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('find');
 	}
 
-	public function find(\App\Request $request)
+	/**
+	 * Find a records for invitations in CRM.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function find(App\Request $request)
 	{
 		$value = $request->getByType('value', 'Text');
 		$modules = array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(0), \App\ModuleHierarchy::getModulesByLevel(3)));
@@ -42,13 +50,13 @@ class Calendar_Invitees_Action extends \App\Controller\Action
 		$rows = (new \App\RecordSearch($value, $modules, 10))->search();
 		$matchingRecords = $leadIdsList = [];
 		foreach ($rows as $row) {
-			if ($row['setype'] === 'Leads') {
+			if ('Leads' === $row['setype']) {
 				$leadIdsList[] = $row['crmid'];
 			}
 		}
 		$convertedInfo = Leads_Module_Model::getConvertedInfo($leadIdsList);
 		foreach ($rows as $row) {
-			if ($row['setype'] === 'Leads' && $convertedInfo[$row['crmid']]) {
+			if ('Leads' === $row['setype'] && $convertedInfo[$row['crmid']]) {
 				continue;
 			}
 			if (\App\Privilege::isPermitted($row['setype'], 'DetailView', $row['crmid'])) {
