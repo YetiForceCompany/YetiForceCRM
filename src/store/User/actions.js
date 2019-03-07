@@ -12,17 +12,25 @@ export default {
    * @param {object} state
    */
   [actions.User.fetchViewData]({ commit }) {
-    commit(mutations.User.setViewData, {
-      LANGUAGES: ['polish', 'english', 'german'],
-      IS_BLOCKED_IP: false, //bruteforce check,
-      MESSAGE: '', //\App\Session::get('UserLoginMessageType'),
-      MESSAGE_TYPE: '',
-      LOGIN_PAGE_REMEMBER_CREDENTIALS: true, // AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')
-      FORGOT_PASSWORD: true, //{if AppConfig::security('RESET_LOGIN_PASSWORD') && App\Mail::getDefaultSmtp()}
-      LANGUAGE_SELECTION: true,
-      DEFAULT_LANGUAGE: 'polish',
-      LAYOUT_SELECTION: true,
-      LAYOUTS: ['material', 'ios'] //\App\Layout::getAllLayouts()
+    commit(mutations.Global.update, {
+      Env: {
+        layout: 'material',
+        layouts: ['material', 'ios']
+      },
+      Language: {
+        defaultLanguage: 'en-US',
+        lang: 'en-US',
+        langs: ['pl-PL', 'en-US']
+      },
+      User: {
+        isBlockedIp: false,
+        message: '',
+        messageType: '',
+        loginPageRememberCredentials: true,
+        forgotPassword: true,
+        languageSelection: true,
+        layoutSelection: true
+      }
     })
   },
   /**

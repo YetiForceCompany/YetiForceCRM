@@ -8,9 +8,9 @@
             <div class="col-auto self-center q-pb-lg">
               <img class :src="env.publicDir + '/statics/Logo/logo'" width="100" />
             </div>
-            <router-view :CONFIG="CONFIG" :params="CONFIG.IS_BLOCKED_IP" />
-            <q-banner v-if="CONFIG.MESSAGE" :class="[msgClass, 'q-mt-lg', 'text-white']">
-              <p>{{ CONFIG.MESSAGE }}</p>
+            <router-view />
+            <q-banner v-if="$store.state.User.message" :class="[msgClass, 'q-mt-lg', 'text-white']">
+              <p>{{ $store.state.User.message }}</p>
             </q-banner>
           </div>
         </div>
@@ -34,8 +34,8 @@ import { mapGetters } from 'vuex'
  * @vue-data     {String}    activeComponent - component name
  * @vue-data     {Boolean}   showReminderForm - form data
  * @vue-data     {Boolean}   showLoginForm - form data
- * @vue-data     {Object}    CONFIG - view data
  * @vue-computed {Object}    env - env variables
+ * @vue-computed {String} msgClass - additional message class
  * @vue-event    {Object}    openURL
  */
 export default {
@@ -44,25 +44,27 @@ export default {
     return {
       activeComponent: 'login-form',
       showReminderForm: false,
-      showLoginForm: true,
-      CONFIG: {}
+      showLoginForm: true
     }
   },
   computed: {
     ...mapGetters({
       env: getters.Env.all
-    })
+    }),
+    msgClass: function() {
+      return {
+        'bg-positive': this.$store.User.messageType === 'success',
+        'bg-negative': this.$store.User.messageType === 'error',
+        'bg-warning': this.$store.User.messageType === ''
+      }
+    }
   },
   methods: {
     openURL
   },
   created() {
+    this.$store.dispatch(actions.User.fetchViewData)
     this.$i18n.locale = 'Users'
-  },
-  mounted() {
-    this.$store.dispatch(actions.User.fetchViewData).then(() => {
-      this.CONFIG = this.$store.state.User.view
-    })
   }
 }
 </script>
