@@ -134,7 +134,7 @@ jQuery.Class('Settings_Module_Manager_Js', {
 	frameProgress: false,
 	deleteModule: function(container) {
 		const self = this;
-		container.on("click", ".deleteModule", function() {
+		container.on('click', '.deleteModule', function() {
 			let forModule = $(this).attr("name");
 			Vtiger_Helper_Js.showConfirmationBox({
 				message: app.vtranslate("JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE")
