@@ -567,7 +567,6 @@ class API_CalDAV_Model
 	protected function davSaveAttendee(array $record, Sabre\VObject\Component\VCalendar $vcalendar, Sabre\VObject\Component\VEvent $component)
 	{
 		$owner = Users_Privileges_Model::getInstanceById($record['assigned_user_id']);
-
 		$invities = [];
 		$query = (new App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => $record['id']]);
 		$dataReader = $query->createCommand()->query();
@@ -623,7 +622,6 @@ class API_CalDAV_Model
 	public function getAttendeeStatus($value, $toCrm = true)
 	{
 		$statuses = ['NEEDS-ACTION', 'ACCEPTED', 'DECLINED'];
-
 		if ($toCrm) {
 			$status = 0;
 			$statuses = array_flip($statuses);
@@ -633,7 +631,6 @@ class API_CalDAV_Model
 		if (isset($statuses[$value])) {
 			$status = $statuses[$value];
 		}
-
 		return $status;
 	}
 }

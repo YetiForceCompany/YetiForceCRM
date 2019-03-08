@@ -14,7 +14,7 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function preProcess(\App\Request $request, $display = true)
+	public function preProcess(App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('NO_SUMMARY', true);
@@ -24,7 +24,7 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function showModuleDetailView(\App\Request $request)
+	public function showModuleDetailView(App\Request $request)
 	{
 		$recordModel = $this->record->getRecord();
 		if (!$this->recordStructure) {
@@ -32,14 +32,14 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $this->recordStructure);
-		$viewer->assign('INVITIES_SELECTED', $recordModel->getInvities());
+		$viewer->assign('INVITIES_SELECTED', $recordModel->getInvitiesWithCRM());
 		return parent::showModuleDetailView($request);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function showModuleBasicView(\App\Request $request)
+	public function showModuleBasicView(App\Request $request)
 	{
 		return $this->showModuleDetailView($request);
 	}
