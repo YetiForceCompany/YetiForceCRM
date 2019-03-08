@@ -17,9 +17,9 @@ const routes = [
         component: () => import('pages/User/Auth/Login.vue')
       },
       {
-        name: 'Qr',
-        path: '/user/auth/qr',
-        component: () => import('pages/User/Auth/Qr.vue')
+        name: '2FA',
+        path: '/user/auth/2fa',
+        component: () => import('pages/User/Auth/2FA.vue')
       },
       {
         name: 'Reminder',
