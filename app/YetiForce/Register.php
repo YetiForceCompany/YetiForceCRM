@@ -135,7 +135,6 @@ class Register
 			\App\Log::warning($e->getMessage(), __METHOD__);
 		}
 		\App\Company::statusUpdate(1);
-
 		return $result;
 	}
 
@@ -278,6 +277,17 @@ class Register
 			return static::$config = [];
 		}
 		return static::$config = require static::REGISTRATION_FILE;
+	}
+
+	/**
+	 * Get last check time.
+	 *
+	 * @return mixed
+	 */
+	public static function getLastCheckTime()
+	{
+		$conf = static::getConf();
+		return $conf['last_check_time'] ?? false;
 	}
 
 	/**
