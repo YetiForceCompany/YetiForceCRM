@@ -35,8 +35,13 @@
     "LBL_VALUES_ASSIGNED_TO_A_ROLE": "Values assigned to a Role",
     "NO_PICKLIST_FIELDS": "do not have any picklist fields",
     "LBL_NEW_VALUE": "New value",
-    "LBL_CLOSES_RECORD": "Closes record",
-    "LBL_PREFIX": "Prefix"
+    "LBL_CLOSES_RECORD": "Is the record supposed to be block?",
+    "LBL_PREFIX": "Prefix",
+    "LBL_BLOCKED_RECORD_INFO": "Selecting this option will prevent the record from being edited. If you want to unblock the record you have to accept the assigned permissions in the profile",
+    "LBL_AUTOMATION_NO_CONCERN": "Not applicable",
+    "LBL_AUTOMATION_OPEN": "Open",
+    "LBL_AUTOMATION_CLOSED": "Closed",
+    "LBL_AUTOMATION_INFO": "This value might be taken into account in some automatic mechanisms"
   },
   "js": {
     "JS_ALL_ROLES_SELECTED": "All Roles selected",

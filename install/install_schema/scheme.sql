@@ -7861,8 +7861,9 @@ CREATE TABLE `vtiger_projectmilestone_status` (
   `presence` tinyint(1) DEFAULT 1,
   `picklist_valueid` int(10) DEFAULT 0,
   `sortorderid` smallint(5) DEFAULT 0,
+  `automation` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`projectmilestone_statusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_projectmilestonecf` */
 
@@ -7915,6 +7916,7 @@ CREATE TABLE `vtiger_projectstatus` (
   `picklist_valueid` int(10) NOT NULL DEFAULT 0,
   `sortorderid` int(10) DEFAULT 0,
   `color` varchar(25) DEFAULT '#E6FAD8',
+  `automation` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`projectstatusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
@@ -8001,8 +8003,9 @@ CREATE TABLE `vtiger_projecttaskstatus` (
   `presence` int(1) NOT NULL DEFAULT 1,
   `picklist_valueid` int(10) NOT NULL DEFAULT 0,
   `sortorderid` int(10) DEFAULT 0,
+  `automation` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`projecttaskstatusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_projecttaskstatus_seq` */
 
