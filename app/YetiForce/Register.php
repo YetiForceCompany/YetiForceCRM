@@ -282,12 +282,12 @@ class Register
 	/**
 	 * Get last check time.
 	 *
-	 * @return string
+	 * @return mixed
 	 */
-	public static function getLastCheckTime(): string
+	public static function getLastCheckTime()
 	{
 		$conf = static::getConf();
-		return $conf['last_check_time'];
+		return $conf['last_check_time'] ?? false;
 	}
 
 	/**

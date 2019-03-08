@@ -16,10 +16,11 @@
 		<div class="{if  $QUALIFIED_MODULE eq 'Settings:Companies'}col-9 {else}col-12{/if}d-flex">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 		</div>
-		{if  $QUALIFIED_MODULE eq 'Settings:Companies'}
+		{assign var=LAST_CHECK_TIME value=\App\YetiForce\Register::getLastCheckTime()}
+		{if  $QUALIFIED_MODULE eq 'Settings:Companies' && !empty($LAST_CHECK_TIME)}
 			<div class="col-md-3 ml-2 ml-md-0 d-flex justify-content-end align-items-center">
 				<span class="mr-2">
-					<strong>{\App\Fields\DateTime::formatToViewDate(\App\YetiForce\Register::getLastCheckTime())}</strong>
+					<strong>{\App\Fields\DateTime::formatToViewDate($LAST_CHECK_TIME)}</strong>
 				</span>
 				<span class="js-popover-tooltip u-cursor-pointer" data-js="popover" data-placement="top" data-content="{\App\Language::translate('LBL_LAST_SCAN_DATE', $QUALIFIED_MODULE)}">
 					<span class="fas fa-info-circle"></span>
