@@ -454,10 +454,11 @@ class Project_Gantt_Model
 		}
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
+			$projectName = $queryGenerator->getModuleField('projectname')->getDisplayValue($row['projectname'], $row['id']);
 			$project = [
 				'id' => $row['id'],
-				'name' => \App\Purifier::encodeHtml($queryGenerator->getModuleField('projectname')->getDisplayValue($row['projectname'], $row['id'])),
-				'label' => \App\Purifier::encodeHtml($queryGenerator->getModuleField('projectname')->getDisplayValue($row['projectname'], $row['id'])),
+				'name' => $projectName,
+				'label' => $projectName,
 				'url' => 'index.php?module=Project&view=Detail&record=' . $row['id'],
 				'parentId' => !empty($row['parentid']) ? $row['parentid'] : null,
 				'priority' => $queryGenerator->getModuleField('projectpriority')->getDisplayValue($row['projectpriority'], $row['id']),
@@ -472,7 +473,7 @@ class Project_Gantt_Model
 				'canDelete' => false,
 				'cantWriteOnParent' => false,
 				'canAdd' => false,
-				'description' => \App\Purifier::encodeHtml($queryGenerator->getModuleField('description')->getDisplayValue($row['description'], $row['id'])),
+				'description' => $queryGenerator->getModuleField('description')->getDisplayValue($row['description'], $row['id']),
 				'no' => $queryGenerator->getModuleField('project_no')->getDisplayValue($row['project_no'], $row['id']),
 				'normalized_status' => $queryGenerator->getModuleField('projectstatus')->getDisplayValue($row['projectstatus'], $row['id']),
 				'progress' => (int) $row['progress'],
@@ -608,10 +609,11 @@ class Project_Gantt_Model
 		while ($row = $dataReader->read()) {
 			$row['parentid'] = (int) $row['parentid'];
 			$row['projectid'] = (int) $row['projectid'];
+			$milestoneName = $queryGenerator->getModuleField('projectmilestonename')->getDisplayValue($row['projectmilestonename'], $row['id']);
 			$milestone = [
 				'id' => $row['id'],
-				'name' => \App\Purifier::encodeHtml($queryGenerator->getModuleField('projectmilestonename')->getDisplayValue($row['projectmilestonename'], $row['id'])),
-				'label' => \App\Purifier::encodeHtml($queryGenerator->getModuleField('projectmilestonename')->getDisplayValue($row['projectmilestonename'], $row['id'])),
+				'name' => $milestoneName,
+				'label' => $milestoneName,
 				'url' => 'index.php?module=ProjectMilestone&view=Detail&record=' . $row['id'],
 				'parentId' => !empty($row['parentid']) ? $row['parentid'] : $row['projectid'],
 				'module' => 'ProjectMilestone',
@@ -684,10 +686,11 @@ class Project_Gantt_Model
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		$ganttTasks = [];
 		while ($row = $dataReader->read()) {
+			$taskName = $queryGenerator->getModuleField('projecttaskname')->getDisplayValue($row['projecttaskname'], $row['id']);
 			$task = [
 				'id' => $row['id'],
-				'name' => \App\Purifier::encodeHtml($row['projecttaskname']),
-				'label' => \App\Purifier::encodeHtml($row['projecttaskname']),
+				'name' => $taskName,
+				'label' => $taskName,
 				'url' => 'index.php?module=ProjectTask&view=Detail&record=' . $row['id'],
 				'parentId' => (int) ($row['parentid'] ?? 0),
 				'canWrite' => false,
