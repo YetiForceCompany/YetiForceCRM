@@ -8,7 +8,9 @@
             <div class="col-auto self-center q-pb-lg">
               <img class :src="env.publicDir + '/statics/Logo/logo'" />
             </div>
-            <router-view />
+            <keep-alive>
+              <router-view />
+            </keep-alive>
             <q-banner v-if="$store.state.Users.message" :class="[msgClass, 'q-mt-lg', 'text-white']">
               <p>{{ $store.state.Users.message }}</p>
             </q-banner>
@@ -62,8 +64,7 @@ export default {
     openURL
   },
   created() {
-    this.$store.dispatch(actions.Users.fetchData)
-    this.$i18n.locale = 'Userss'
+    this.$i18n.locale = 'Users'
   }
 }
 </script>
