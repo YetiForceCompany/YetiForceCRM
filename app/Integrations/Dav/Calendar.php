@@ -260,7 +260,7 @@ class Calendar
 	private function parseStatus()
 	{
 		$davValue = null;
-		if (isset($component->STATUS)) {
+		if (isset($this->vcomponent->STATUS)) {
 			$davValue = strtoupper($this->vcomponent->STATUS->getValue());
 		}
 		if ((string) $this->vcomponent->name === 'VEVENT') {

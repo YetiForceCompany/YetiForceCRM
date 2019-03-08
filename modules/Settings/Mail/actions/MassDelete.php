@@ -32,6 +32,13 @@ class Settings_Mail_MassDelete_Action extends Vtiger_Mass_Action
 	public function process(\App\Request $request)
 	{
 		$recordIds = $this->getRecordsListFromRequest($request);
+		$configMaxMassDelete = App\Config::performance('maxMassDeleteRecords');
+		if (count($recordIds) > $configMaxMassDelete) {
+			$response = new Vtiger_Response();
+			$response->setResult(['notify' => ['text' => \App\Language::translateArgs('LBL_SELECT_UP_TO_RECORDS', '_Base', $configMaxMassDelete), 'type' => 'warning']]);
+			$response->emit();
+			return;
+		}
 		foreach ($recordIds as $recordId) {
 			$recordModel = Settings_Mail_Record_Model::getInstance($recordId);
 			$recordModel->delete();

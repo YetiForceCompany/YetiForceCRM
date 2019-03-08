@@ -113,7 +113,7 @@ class Owner
 			$currentUserRoleModel = \Settings_Roles_Record_Model::getInstanceById($this->currentUser->getRole());
 			$assignTypeValue = (int) $currentUserRoleModel->get($fieldType === 'sharedOwner' ? 'assignedmultiowner' : 'allowassignedrecordsto');
 			if ($assignTypeValue === 1 || $private === 'Public') {
-				$accessibleUser = $this->getUsers(false, 'Active', '', $private, true);
+				$accessibleUser = $this->getUsers(false, 'Active', '', 'Public', true);
 			} elseif ($assignTypeValue === 2) {
 				$currentUserRoleModel = \Settings_Roles_Record_Model::getInstanceById($this->currentUser->getRole());
 				$sameLevelRoles = array_keys($currentUserRoleModel->getSameLevelRoles());

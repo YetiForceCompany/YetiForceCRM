@@ -52,7 +52,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 		}
 		foreach (explode(',', $value) as $row) {
 			if ($row && (substr($row, 0, 1) !== 'T' || !is_numeric(substr($row, 1)))) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 			}
 		}
 		$this->validate[$value] = true;

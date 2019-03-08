@@ -494,6 +494,7 @@ window.App.Fields = {
 					{
 						feed: App.Fields.Text.getMentionData,
 						marker: '#',
+						pattern: /#[wа-я]{1,}|#\w{3,}$/,
 						itemTemplate: `<li data-id="{id}" class="row no-gutters">
 											<div class="col c-circle-icon mr-1">
 												<span class="userIcon-{module}"></span>

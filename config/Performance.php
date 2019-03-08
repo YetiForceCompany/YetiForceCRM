@@ -60,6 +60,12 @@ class Performance
 	/** Max number of exported records */
 	public static $MAX_NUMBER_EXPORT_RECORDS = 500;
 
+	/** Max number of mass deleted records */
+	public static $maxMassDeleteRecords = 1000;
+
+	/** Max number of mass deleted records */
+	public static $maxMassTransferOwnershipRecords = 1000;
+
 	/** Minimum number of characters to search for record owner */
 	public static $OWNER_MINIMUM_INPUT_LENGTH = 2;
 

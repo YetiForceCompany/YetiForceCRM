@@ -435,7 +435,6 @@ class PackageExport
 
 		$entityresult = $adb->pquery('SELECT * FROM vtiger_entityname WHERE tabid=?', [$moduleInstance->id]);
 		$entity_fieldname = $adb->queryResult($entityresult, 0, 'fieldname');
-
 		$this->openNode('fields');
 		for ($index = 0; $index < $fieldcount; ++$index) {
 			$this->openNode('field');
@@ -447,7 +446,6 @@ class PackageExport
 
 			$info_schema = $adb->pquery('SELECT column_name, column_type FROM INFORMATION_SCHEMA.COLUMNS WHERE table_schema = SCHEMA() && table_name = ? && column_name = ?', [$fieldresultrow['tablename'], $fieldresultrow['columnname']]);
 			$info_schemarow = $adb->fetchByAssoc($info_schema);
-
 			$this->outputNode($fieldname, 'fieldname');
 			$this->outputNode($uitype, 'uitype');
 			$this->outputNode($fieldresultrow['columnname'], 'columnname');
@@ -502,6 +500,19 @@ class PackageExport
 					}
 					$this->closeNode('relatedmodules');
 				}
+			}
+
+			if ($uitype == '4') {
+				$valueFieldNumber = \App\Fields\RecordNumber::getInstance($moduleInstance->id);
+				$this->openNode('numberInfo');
+				$this->outputNode($valueFieldNumber->get('prefix'), 'prefix');
+				$this->outputNode($valueFieldNumber->get('leading_zeros'), 'leading_zeros');
+				$this->outputNode($valueFieldNumber->get('postfix'), 'postfix');
+				$this->outputNode($valueFieldNumber->get('start_id'), 'start_id');
+				$this->outputNode($valueFieldNumber->get('cur_id'), 'cur_id');
+				$this->outputNode($valueFieldNumber->get('reset_sequence'), 'reset_sequence');
+				$this->outputNode($valueFieldNumber->get('cur_sequence'), 'cur_sequence');
+				$this->closeNode('numberInfo');
 			}
 			if ($uitype == '302') {
 				$this->outputNode('', 'fieldparams');

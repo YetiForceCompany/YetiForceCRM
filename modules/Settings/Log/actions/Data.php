@@ -45,20 +45,24 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 			foreach (\App\Log::$tableColumnMapping[$type] as $column) {
 				if ($column === 'url' && ($urlParams = explode('?', $log['url'])) && isset($urlParams[1])) {
 					$url = $urlParams[1];
-					$tmp[] = "<a href=\"index.php?$url\" title=\"index.php?$url\">" . substr($url, 0, 50) . '...</a>';
+					$tmp['url'] = $url;
 				} elseif ($column === 'agent') {
-					$tmp[] = "<span title=\"{$log['agent']}\">" . substr($log['agent'], 0, 50) . '...</span>';
+					$tmp['agent'] = $log['agent'];
 				} elseif ($column === 'request') {
-					$requestArray = '';
+					$requestArray = [];
 					foreach (\App\Json::decode($log[$column]) as $key => $val) {
-						$requestArray .= "$key => $val<br>";
+						$requestArray[$key] = $val;
 					}
-					$tmp[] = \App\Purifier::purifyHtml($requestArray);
+					$tmp['request'] = \App\Purifier::purify($requestArray);
 				} else {
-					$tmp[] = $log[$column];
+					$tmp[$column] = $log[$column];
 				}
 			}
 			$data[] = $tmp;
+		}
+		$columns = [];
+		foreach (\App\Log::$tableColumnMapping[$type] as $column) {
+			$columns[$column] = \App\Language::translate('LBL_' . strtoupper($column), $request->getModule(false));
 		}
 		$response = new Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSONTEXT);
@@ -66,7 +70,8 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 			'data' => $data,
 			'draw' => $request->getInteger('draw', 1),
 			'recordsFiltered' => $logsCount,
-			'recordsTotal' => $logsCountAll
+			'recordsTotal' => $logsCountAll,
+			'columns' => $columns
 		]));
 		$response->emit();
 	}
