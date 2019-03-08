@@ -272,7 +272,6 @@ class API_CalDAV_Model
 	public function recordCreate($cal)
 	{
 		\App\Log::trace(__METHOD__ . ' | Start Cal ID' . $cal['id']);
-		\App\DebugerEx::log('recordCreate', $cal['calendardata']);
 		$calendar = \App\Integrations\Dav\Calendar::loadFromContent($cal['calendardata']);
 		foreach ($calendar->getRecordInstance() as $recordModel) {
 			$component = $calendar->getComponent();
@@ -513,22 +512,21 @@ class API_CalDAV_Model
 		$dataReader->close();
 		$time = Sabre\VObject\DateTimeParser::parse($component->DTSTAMP);
 		$timeFormated = $time->format('Y-m-d H:i:s');
-		$db = \App\Db::getInstance();
-		$dbCommand = $db->createCommand();
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		$attendees = $component->select('ATTENDEE');
 		foreach ($attendees as &$attendee) {
-			$value = ltrim($attendee->getValue(), 'mailto:');
+			$value = preg_replace('/^mailto\:/i', '', $attendee->getValue());
 			if ('CHAIR' === $attendee['ROLE']->getValue()) {
-				$users = App\Fields\Email::findCrmidByEmail($value, ['Users']);
+				$users = \App\Fields\Email::findCrmidByEmail($value, ['Users']);
 				if (!empty($users)) {
 					continue;
 				}
 			}
 			$crmid = 0;
-			$records = App\Fields\Email::findCrmidByEmail($value, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(), \App\ModuleHierarchy::getModulesByLevel(3))));
+			$records = \App\Fields\Email::findCrmidByEmail($value, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(), \App\ModuleHierarchy::getModulesByLevel(3))));
 			if (!empty($records)) {
-				$record = reset($records);
-				$crmid = $record['id'];
+				$recordCrm = current($records);
+				$crmid = $recordCrm['crmid'];
 			}
 			$status = $this->getAttendeeStatus($attendee['PARTSTAT']->getValue());
 			if (isset($invities[$value])) {
