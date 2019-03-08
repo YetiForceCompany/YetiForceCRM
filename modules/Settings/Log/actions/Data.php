@@ -14,7 +14,7 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$type = $request->getByType('type', 1);
 		$range = $request->getByType('range', 'DateRangeUserFormat');
@@ -42,15 +42,17 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 		$data = [];
 		foreach ($query->all() as $log) {
 			foreach (\App\Log::$tableColumnMapping[$type] as $column) {
+				if (in_array($column, ['url', 'agent', 'referer'])) {
+					$log[$column] = \App\Purifier::encodeHtml($log[$column]);
+				}
 				if ('url' === $column && ($urlParams = explode('?', $log['url'])) && isset($urlParams[1])) {
-					$url = $urlParams[1];
-					$log['url'] = $url;
+					$log[$column] = $urlParams[1];
 				} elseif ('request' === $column) {
 					$requestArray = '';
 					foreach (\App\Json::decode($log[$column]) as $key => $val) {
-						$requestArray .= "$key => $val <br>";
+						$requestArray .= \App\Purifier::encodeHtml("$key => $val") . '<br>';
 					}
-					$log['request'] = $requestArray;
+					$log[$column] = $requestArray;
 				}
 			}
 			$data[] = $log;
