@@ -24,7 +24,7 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 	 * @param \App\Request $request
 	 * @param \App\User    $user
 	 */
-	public function __construct(\App\Request $request, \App\User $user)
+	public function __construct(App\Request $request, App\User $user)
 	{
 		parent::__construct($request, $user);
 		$csv = new \ParseCsv\Csv();
@@ -70,14 +70,14 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 		$isInventory = $this->moduleModel->isInventory();
 		$rowData = $headers = $standardData = $inventoryData = [];
 		foreach ($this->data as $currentRow => $data) {
-			if ($currentRow === 0 || ($currentRow === 1 && $hasHeader)) {
-				if ($hasHeader && $currentRow === 0) {
+			if (0 === $currentRow || (1 === $currentRow && $hasHeader)) {
+				if ($hasHeader && 0 === $currentRow) {
 					foreach ($data as $key => $value) {
-						if (!empty($isInventory) && strpos($value, 'Inventory::') === 0) {
+						if (!empty($isInventory) && 0 === strpos($value, 'Inventory::')) {
 							$value = substr($value, 11);
-							$inventoryHeaders[$key] = $value;
+							$inventoryHeaders[$key] = \App\Purifier::purify($value);
 						} else {
-							$headers[$key] = $value;
+							$headers[$key] = \App\Purifier::purify($value);
 						}
 					}
 				} else {
@@ -138,11 +138,11 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 		}
 		$skip = $importId = $skipData = false;
 		foreach ($this->data as $i => $data) {
-			if ($this->request->get('has_header') && $i === 0) {
+			if ($this->request->get('has_header') && 0 === $i) {
 				foreach ($data as $index => $fullName) {
-					if ($this->moduleModel->isInventory() && strpos($fullName, 'Inventory::') === 0) {
+					if ($this->moduleModel->isInventory() && 0 === strpos($fullName, 'Inventory::')) {
 						$name = substr($fullName, 11);
-						if ($name !== 'recordIteration') {
+						if ('recordIteration' !== $name) {
 							$inventoryNames[$index] = $name;
 						} else {
 							$skip = $index;
