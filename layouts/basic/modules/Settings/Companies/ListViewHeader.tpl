@@ -1,21 +1,22 @@
-{*<!--
-/*********************************************************************************
-** The contents of this file are subject to the vtiger CRM Public License Version 1.0
-* ("License"); You may not use this file except in compliance with the License
-* The Original Code is:  vtiger CRM Open Source
-* The Initial Developer of the Original Code is vtiger.
-* Portions created by vtiger are Copyright (C) vtiger.
-* All Rights Reserved.
-* Contributor(s): YetiForce.com
-********************************************************************************/
--->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<!-- tpl-Settings-ListViewHeader -->
+<!-- tpl-Settings-Companies-ListViewHeader -->
 <div class="">
 	<div class="widget_header row">
-		<div class="col-12 d-flex">
+		<div class="col-9 d-flex">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 		</div>
+		{assign var=LAST_CHECK_TIME value=\App\YetiForce\Register::getLastCheckTime()}
+		{if !empty($LAST_CHECK_TIME)}
+			<div class="col-md-3 ml-2 ml-md-0 d-flex justify-content-end align-items-center">
+				<span class="mr-2">
+					<strong>{\App\Fields\DateTime::formatToViewDate($LAST_CHECK_TIME)}</strong>
+				</span>
+				<span class="js-popover-tooltip u-cursor-pointer" data-js="popover" data-placement="top" data-content="{\App\Language::translate('LBL_LAST_SCAN_DATE', $QUALIFIED_MODULE)}">
+					<span class="fas fa-info-circle"></span>
+				</span>
+			</div>
+		{/if}
 	</div>
 	<div class="listViewActionsDiv row mt-2 mb-2">
 		<div class="{if !empty($SUPPORTED_MODULE_MODELS)}col-md-5{else}col-md-8{/if} btn-toolbar">
@@ -44,23 +45,6 @@
 				</button>
 			{/foreach}
 		</div>
-		{if !empty($SUPPORTED_MODULE_MODELS)}
-			<div class="col-md-3 btn-toolbar marginLeftZero">
-				<select class="select2 form-control" id="moduleFilter"
-						data-placeholder="{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}"
-						data-select="allowClear">
-					<optgroup class="p-0">
-						<option value="">{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}</option>
-					</optgroup>
-					{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
-						<option {if !empty($SOURCE_MODULE) && $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if}
-								value="{$TAB_ID}">
-							{App\Language::translate($MODULE_MODEL->getName(),$MODULE_MODEL->getName())}
-						</option>
-					{/foreach}
-				</select>
-			</div>
-		{/if}
 		<div class="col-12 col-sm-4 d-flex flex-row-reverse">
 			{include file=\App\Layout::getTemplatePath('ListViewActions.tpl', $QUALIFIED_MODULE)}
 		</div>
