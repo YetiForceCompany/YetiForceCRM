@@ -12,12 +12,12 @@
 {strip}
 	<!-- tpl-install-tpl-Step5 -->
 	{function SHOW_HELP_TEXT ITEM=[] KEY=''}
-		{if empty($ITEM['label'])}{$KEY}{else}{\App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Install')}{/if}
+		{if empty($ITEM['label'])}{$KEY}{else}{\App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'ConfReport')}{/if}
 		{if !$ITEM['status']}
 			{assign var="HELP_TEXT" value='LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY))}
-			{assign var="HELP_TEXT_TRANS" value=\App\Language::translateEncodeHtml($HELP_TEXT, 'Install')}
+			{assign var="HELP_TEXT_TRANS" value=\App\Language::translateEncodeHtml($HELP_TEXT, 'ConfReport')}
 			{if !empty($HELP_TEXT_TRANS) && $HELP_TEXT_TRANS!==$HELP_TEXT }
-			<a href="#" class="js-popover-tooltip float-right" data-js="popover"
+				<a href="#" class="js-popover-tooltip float-right" data-js="popover"
 				   data-trigger="focus hover" data-placement="right"
 				   data-content="{$HELP_TEXT_TRANS}">
 					<span class="fas fa-info-circle"></span>
@@ -59,13 +59,13 @@
 									<thead>
 									<tr>
 										<th colspan="1" scope="col" class="text-left">
-											{App\Language::translate('LBL_LIBRARY', 'Install')}
+											{App\Language::translate('LBL_LIBRARY', 'ConfReport')}
 										</th>
 										<th colspan="1" scope="col">
-											{App\Language::translate('LBL_MANDATORY', 'Install')}
+											{App\Language::translate('LBL_MANDATORY', 'ConfReport')}
 										</th>
 										<th colspan="1" scope="col">
-											{App\Language::translate('LBL_INSTALLED', 'Install')}
+											{App\Language::translate('LBL_INSTALLED', 'ConfReport')}
 										</th>
 									</tr>
 									</thead>
@@ -79,16 +79,16 @@
 											{if isset($ITEM['mandatory'])}
 											<td>
 												{if $ITEM['mandatory']}
-													{App\Language::translate('LBL_MANDATORY', 'Install')}
+													{App\Language::translate('LBL_MANDATORY', 'ConfReport')}
 												{else}
-													{App\Language::translate('LBL_OPTIONAL', 'Install')}
+													{App\Language::translate('LBL_OPTIONAL', 'ConfReport')}
 												{/if}
 											</td>
 											<td>
 												{else}
 											<td colspan="2" class="u-word-break-keep-all">
 												{/if}
-												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Install')}{/if}
+												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
 											</td>
 										</tr>
 									{/foreach}
@@ -114,13 +114,13 @@
 											</td>
 											<td>
 												{if isset($ITEM['recommended'])}
-													{App\Language::translate($ITEM['recommended'], 'Install')}
+													{App\Language::translate($ITEM['recommended'], 'ConfReport')}
 												{else}
 													-
 												{/if}
 											</td>
 											<td>
-												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Install')}{/if}
+												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
 											</td>
 										</tr>
 									{/foreach}
@@ -146,13 +146,13 @@
 											</td>
 											<td>
 												{if isset($ITEM['recommended'])}
-													{App\Language::translate($ITEM['recommended'], 'Install')}
+													{App\Language::translate($ITEM['recommended'], 'ConfReport')}
 												{else}
 													-
 												{/if}
 											</td>
 											<td colspan="2">
-												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Install')}{/if}
+												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
 											</td>
 										</tr>
 									{/foreach}
@@ -182,11 +182,11 @@
 														{$ITEM['recommended']}
 													</td>
 													<td>
-														{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Install')}{/if}
+														{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
 													</td>
 												{else}
 													<td colspan="2">
-														{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Install')}{/if}
+														{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
 													</td>
 												{/if}
 											</tr>
@@ -197,15 +197,15 @@
 								<br>
 								<table class="config-table table u-word-break-all">
 									<caption class="sr-only">
-								1234455		{App\Language::translate('LBL_PERFORMANCE_VERIFICATION', 'Install')}
+										{App\Language::translate('LBL_PERFORMANCE_VERIFICATION', 'ConfReport')}
 									</caption>
 									<thead>
 									<tr>
 										<th colspan="1" scope="col" class="text-left">
-											{App\Language::translate('LBL_PARAMETER', 'Install')}
+											{App\Language::translate('LBL_PARAMETER', 'ConfReport')}
 										</th>
 										<th colspan="1" scope="col">
-											{App\Language::translate('LBL_RECOMMENDED', 'Install')}
+											{App\Language::translate('LBL_RECOMMENDED', 'ConfReport')}
 										</th>
 										<th colspan="1" scope="col">
 											{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}
@@ -221,13 +221,13 @@
 											</td>
 											<td>
 												{if isset($ITEM['recommended'])}
-													{App\Language::translate($ITEM['recommended'], 'Install')}
+													{App\Language::translate($ITEM['recommended'], 'ConfReport')}
 												{else}
 													-
 												{/if}
 											</td>
 											<td>
-												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Install')}{/if}
+												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
 											</td>
 										</tr>
 									{/foreach}
@@ -236,15 +236,15 @@
 								<br>
 								<table class="config-table table u-word-break-all">
 									<caption class="sr-only">
-										{App\Language::translate('LBL_DENY_PUBLIC_DIR_TITLE', 'Install')}
+										{App\Language::translate('LBL_DENY_PUBLIC_DIR_TITLE', 'ConfReport')}
 									</caption>
 									<thead>
 									<tr>
 										<th colspan="1" scope="col" class="text-left">
-											{App\Language::translate('LBL_PUBLIC_DIR', 'Install')}
+											{App\Language::translate('LBL_PUBLIC_DIR', 'ConfReport')}
 										</th>
 										<th colspan="1" scope="col">
-											{App\Language::translate('LBL_DENY_PUBLIC_DIR_STATUS', 'Install')}
+											{App\Language::translate('LBL_DENY_PUBLIC_DIR_STATUS', 'ConfReport')}
 										</th>
 									</tr>
 									</thead>
@@ -257,9 +257,9 @@
 											</td>
 											<td colspan="2">
 												{if $ITEM.status}
-													{App\Language::translate('LBL_YES', 'Install')}
+													{App\Language::translate('LBL_YES', 'ConfReport')}
 												{else}
-													{App\Language::translate('LBL_NO', 'Install')}
+													{App\Language::translate('LBL_NO', 'ConfReport')}
 												{/if}
 											</td>
 										</tr>
@@ -269,12 +269,12 @@
 								<br>
 								<table class="config-table table u-word-break-all">
 									<caption class="sr-only">
-										{App\Language::translate('LBL_ENVIRONMENTAL_INFORMATION', 'Install')}
+										{App\Language::translate('LBL_ENVIRONMENTAL_INFORMATION', 'ConfReport')}
 									</caption>
 									<thead>
 									<tr>
 										<th colspan="1" scope="col" class="text-left">
-											{App\Language::translate('LBL_PARAMETER', 'Install')}
+											{App\Language::translate('LBL_PARAMETER', 'ConfReport')}
 										</th>
 										<th colspan="1" scope="col">
 											{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}
@@ -289,7 +289,7 @@
 												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 											</td>
 											<td>
-												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Install')}{/if}
+												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
 											</td>
 										</tr>
 									{/foreach}
@@ -304,10 +304,10 @@
 										<thead>
 										<tr class="blockHeader">
 											<th colspan="1" class="mediumWidthType">
-												<span>{App\Language::translate('LBL_PATH', 'Install')}</span>
+												<span>{App\Language::translate('LBL_PATH', 'ConfReport')}</span>
 											</th>
 											<th colspan="1" class="mediumWidthType">
-												<span>{App\Language::translate('LBL_PERMISSION', 'Install')}</span>
+												<span>{App\Language::translate('LBL_PERMISSION', 'ConfReport')}</span>
 											</th>
 										</tr>
 										</thead>
@@ -319,7 +319,7 @@
 													{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 												</td>
 												<td>
-													{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Install')}{/if}
+													{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
 												</td>
 											</tr>
 										{/foreach}
