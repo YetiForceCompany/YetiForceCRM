@@ -107,12 +107,12 @@
     "LBL_SETUP_WIZARD_HEADER": "YetiForce installation wizard",
     "LBL_VERSION": "Version",
     "LBL_ERROR_INSTALL": "Installation unsuccessful",
-    "LBL_NAME": "Full company name",
+    "LBL_NAME": "The name of your company",
     "LBL_INDUSTRY": "Industry",
     "LBL_CITY": "City",
     "LBL_COUNTRY": "Country",
-    "LBL_COMPANYSIZE": "Company size",
-    "LBL_WEBSITE": "Website"
+    "LBL_COMPANYSIZE": "The number of employees of the company",
+    "LBL_WEBSITE": "Your company's website"
   },
   "js": {
     "JS_ALL": "All",
