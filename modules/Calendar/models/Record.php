@@ -396,7 +396,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Get invitations with CRM metadata.
 	 *
-	 * @return void
+	 * @return array
 	 */
 	public function getInvities()
 	{
@@ -405,11 +405,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 				'u_#__activity_invitation.*',
 				'u_#__crmentity_label.label',
 				'vtiger_crmentity.setype',
-				'vtiger_crmentity.deleted',
-				'vtiger_crmentity.smcreatorid',
-				'vtiger_crmentity.smownerid',
-				'vtiger_crmentity.createdtime',
-				'vtiger_crmentity.private'
+				'vtiger_crmentity.deleted'
 			])->from('u_#__activity_invitation')
 			->leftJoin('u_#__crmentity_label', 'u_#__crmentity_label.crmid = u_#__activity_invitation.crmid')
 			->leftJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_#__activity_invitation.crmid')

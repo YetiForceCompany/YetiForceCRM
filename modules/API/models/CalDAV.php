@@ -505,7 +505,10 @@ class API_CalDAV_Model
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		$attendees = $component->select('ATTENDEE');
 		foreach ($attendees as &$attendee) {
-			$value = preg_replace('/^mailto\:/i', '', $attendee->getValue());
+			$value = $attendee->getValue();
+			if (0 === strpos($value, 'mailto:')) {
+				$value = substr($value, 7, strlen($value) - 7);
+			}
 			if ('CHAIR' === $attendee['ROLE']->getValue()) {
 				$users = \App\Fields\Email::findCrmidByEmail($value, ['Users']);
 				if (!empty($users)) {
@@ -513,7 +516,7 @@ class API_CalDAV_Model
 				}
 			}
 			$crmid = 0;
-			$records = \App\Fields\Email::findCrmidByEmail($value, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(), \App\ModuleHierarchy::getModulesByLevel(3))));
+			$records = \App\Fields\Email::findCrmidByEmail($value, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(), \App\ModuleHierarchy::getModulesByLevel(4))));
 			if (!empty($records)) {
 				$recordCrm = current($records);
 				$crmid = $recordCrm['crmid'];
@@ -593,7 +596,7 @@ class API_CalDAV_Model
 		}
 		foreach ($invities as &$row) {
 			$attendee = $vcalendar->createProperty('ATTENDEE', 'mailto:' . $row['email']);
-			$attendee->add('CN', vtlib\Functions::getCRMRecordLabel($row['crmid']));
+			$attendee->add('CN', \App\Record::getLabel($row['crmid']));
 			$attendee->add('ROLE', 'REQ-PARTICIPANT');
 			$attendee->add('PARTSTAT', $this->getAttendeeStatus($row['status'], false));
 			$attendee->add('RSVP', '0' == $row['status'] ? 'true' : 'false');
