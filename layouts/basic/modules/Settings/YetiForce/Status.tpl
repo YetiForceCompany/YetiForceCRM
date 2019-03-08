@@ -63,7 +63,7 @@
 							</div>
 						{else}
 							<input
-									value="{$CONF_FLAG['value']}"
+									value="{\App\Purifier::encodeHTML($CONF_FLAG['value'])}"
 									type="text"
 									class="form-control js-vars"
 									data-js="change|value"
