@@ -2,6 +2,7 @@
 export default {
   User: {
     fetchViewData: 'User/fetchViewData',
-    login: 'User/login'
+    login: 'User/login',
+    remind: 'User/remind'
   }
 }

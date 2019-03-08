@@ -37,12 +37,12 @@ export default {
    * Login action
    *
    * @param   {object}  store
-   * @param   {object}  user
+   * @param   {object}  formData
    */
-  [actions.User.login]({ commit, rootGetters }, user) {
+  [actions.User.login]({ commit, rootGetters }, formData) {
     authAxios({
       url: rootGetters[getters.Url.all].User.login,
-      data: user,
+      data: formData,
       method: 'POST'
     })
       .then(response => {
@@ -50,11 +50,31 @@ export default {
         if (data.result === true) {
           commit(mutations.Global.update, data.env)
           this.$router.replace('/')
-        } else if (data.result.multi !== undefined) {
-          this.$router.replace(`/user/auth/${data.result.multi}`)
+        } else if (data.result.step !== undefined) {
+          this.$router.replace(`/user/auth/${data.result.step}`)
         } else {
           return console.error('Server error', response)
         }
+      })
+      .catch(error => console.error(error))
+      .catch(err => {
+        reject(err)
+      })
+  },
+  /**
+   * Remind action
+   *
+   * @param   {object}  store
+   * @param   {object}  formData
+   */
+  [actions.User.remind]({ commit, rootGetters }, formData) {
+    authAxios({
+      url: rootGetters[getters.Url.all].User.remind,
+      data: formData,
+      method: 'POST'
+    })
+      .then(response => {
+        this.$router.replace('/user/auth/login')
       })
       .catch(error => console.error(error))
       .catch(err => {
