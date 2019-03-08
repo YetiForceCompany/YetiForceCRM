@@ -531,6 +531,9 @@ class Vtiger_Record_Model extends \App\Base
 				$forSave[$entityModel->customFieldTable[0]] = [];
 			}
 		}
+		foreach ($this->dataForSave as $tableName => $values) {
+			$forSave[$tableName] = array_merge($forSave[$tableName] ?? [], $values);
+		}
 		foreach ($saveFields as &$fieldName) {
 			$fieldModel = $moduleModel->getFieldByName($fieldName);
 			if ($fieldModel) {
@@ -571,7 +574,7 @@ class Vtiger_Record_Model extends \App\Base
 		$row['modifiedby'] = $this->getPreviousValue('modifiedby') ? $this->get('modifiedby') : \App\User::getCurrentUserRealId();
 		$this->set('modifiedtime', $row['modifiedtime']);
 		$this->set('modifiedby', $row['modifiedby']);
-		return array_merge($this->dataForSave, ['vtiger_crmentity' => $row]);
+		return ['vtiger_crmentity' => $row];
 	}
 
 	/**
@@ -800,6 +803,9 @@ class Vtiger_Record_Model extends \App\Base
 	public function isMandatorySave()
 	{
 		if ($this->getModule()->isInventory() && $this->getPreviousInventoryItems()) {
+			return true;
+		}
+		if (!empty($this->dataForSave)) {
 			return true;
 		}
 		return false;
