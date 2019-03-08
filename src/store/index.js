@@ -13,22 +13,21 @@ import Language from './Language'
 
 Vue.use(Vuex)
 
-export default function(/* { ssrContext } */) {
-  const modules = {
-    Env,
-    Menu,
-    Url,
-    Users,
-    Language
-  }
-
-  const Store = new Vuex.Store({
-    modules,
-    mutations: {
-      [mutations.Global.update](state, payload) {
-        state = Objects.mergeDeepReactive(state, payload)
-      }
-    }
-  })
-  return Store
+const modules = {
+  Env,
+  Menu,
+  Url,
+  Users,
+  Language
 }
+
+let store = new Vuex.Store({
+  modules,
+  mutations: {
+    [mutations.Global.update](state, payload) {
+      state = Objects.mergeDeepReactive(state, payload)
+    }
+  }
+})
+
+export default store
