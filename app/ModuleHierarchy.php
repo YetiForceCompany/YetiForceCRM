@@ -222,7 +222,6 @@ class ModuleHierarchy
 				}
 				break;
 			case 2:
-				$isLevel4 = in_array(3, $hierarchy);
 				if (in_array(3, $hierarchy)) {
 					$modules = array_keys(static::getModulesByLevel(3));
 				}
