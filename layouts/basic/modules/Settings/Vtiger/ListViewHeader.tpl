@@ -19,7 +19,7 @@
 		{if  $QUALIFIED_MODULE eq 'Settings:Companies'}
 			<div class="col-md-3 ml-2 ml-md-0 d-flex justify-content-end align-items-center">
 				<span class="mr-2">
-					<strong>{\App\Fields\DateTime::formatToViewDate(\App\YetiForce\Register::getDateRegistration())}</strong>
+					<strong>{\App\Fields\DateTime::formatToViewDate(\App\YetiForce\Register::getLastCheckTime())}</strong>
 				</span>
 				<span class="js-popover-tooltip u-cursor-pointer" data-js="popover" data-placement="top" data-content="{\App\Language::translate('LBL_LAST_SCAN_DATE', $QUALIFIED_MODULE)}">
 					<span class="fas fa-info-circle"></span>
