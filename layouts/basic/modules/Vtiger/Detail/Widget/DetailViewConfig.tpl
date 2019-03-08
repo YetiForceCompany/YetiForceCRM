@@ -10,7 +10,8 @@
 						<h5 id="massEditHeader" class="modal-title">
 							{\App\Language::translate('Add widget', $QUALIFIED_MODULE)}
 						</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}">
+						<button type="button" class="close" data-dismiss="modal"
+								aria-label="{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}">
 							<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}">&times;</span>
 						</button>
 					</div>
@@ -30,6 +31,7 @@
 								</label>
 								<div class="col-md-7 py-1">
 									<input name="label" class="form-control" type="text"
+										   data-validation-engine="validate[required]"
 										   value="{$WIDGETINFO['label']}"/>
 								</div>
 							</div>

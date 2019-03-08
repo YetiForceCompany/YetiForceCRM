@@ -27,8 +27,11 @@
 							<div class="form-group form-group-sm row">
 								<label class="col-md-4 col-form-label">{\App\Language::translate('Label', $QUALIFIED_MODULE)}
 									:</label>
-								<div class="col-md-7 py-1"><input name="label" class="form-control form-control-sm"
-																  type="text" value="{$WIDGETINFO['label']}"/></div>
+								<div class="col-md-7 py-1">
+									<input name="label" class="form-control form-control-sm"
+										   data-validation-engine="validate[required]"
+										   type="text" value="{$WIDGETINFO['label']}"/>
+								</div>
 							</div>
 							<div class="form-group form-group-sm row">
 								<label class="col-md-4 col-form-label">{\App\Language::translate('Related module', $QUALIFIED_MODULE)}
@@ -96,6 +99,7 @@
 												class="fas fa-info-circle"></i></a>:</label>
 								<div class="col-md-7 py-1">
 									<input name="limit" class="form-control form-control-sm" type="text"
+										   data-validation-engine="validate[required,custom[integer],min[1]]"
 										   value="{$WIDGETINFO['data']['limit']}"/>
 								</div>
 							</div>
