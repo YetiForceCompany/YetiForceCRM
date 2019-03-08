@@ -32,7 +32,7 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $this->recordStructure);
-		$viewer->assign('INVITIES_SELECTED', $recordModel->getInvitiesWithCRM());
+		$viewer->assign('INVITIES_SELECTED', $recordModel->getInvities());
 		return parent::showModuleDetailView($request);
 	}
 

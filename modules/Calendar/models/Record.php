@@ -394,21 +394,11 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Get invities.
-	 *
-	 * @return array
-	 */
-	public function getInvities()
-	{
-		return (new \App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => (int) $this->getId()])->all();
-	}
-
-	/**
 	 * Get invitations with CRM metadata.
 	 *
 	 * @return void
 	 */
-	public function getInvitiesWithCRM()
+	public function getInvities()
 	{
 		return (new \App\Db\Query())
 			->select([
