@@ -2,6 +2,7 @@
 export default {
   Users: {
     login: 'login.php',
-    remind: 'login.php&mode=remind'
+    remind: 'login.php&mode=remind',
+    getData: 'login.php&mode=getData'
   }
 }

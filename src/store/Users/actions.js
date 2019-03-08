@@ -11,7 +11,19 @@ export default {
    *
    * @param {object} state
    */
-  [actions.Users.fetchViewData]({ commit }) {
+  [actions.Users.fetchData]({ commit, rootGetters }) {
+    loginAxios({
+      url: rootGetters[getters.Url]('Users.getData'),
+      method: 'POST'
+    })
+      .then(response => {
+        commit(mutations.Global.update, response.data.env)
+      })
+      .catch(error => console.error(error))
+      .catch(err => {
+        reject(err)
+      })
+    //TODO commit to remove when rootGetters[getters.Url.all].Users.getData is ready
     commit(mutations.Global.update, {
       Env: {
         layout: 'material',
@@ -41,7 +53,7 @@ export default {
    */
   [actions.Users.login]({ commit, rootGetters }, formData) {
     loginAxios({
-      url: rootGetters[getters.Url.all].Users.login,
+      url: rootGetters[getters.Url]('Users.login'),
       data: formData,
       method: 'POST'
     })
@@ -69,7 +81,7 @@ export default {
    */
   [actions.Users.remind]({ commit, rootGetters }, formData) {
     loginAxios({
-      url: rootGetters[getters.Url.all].Users.remind,
+      url: rootGetters[getters.Url]('Users.remind'),
       data: formData,
       method: 'POST'
     })

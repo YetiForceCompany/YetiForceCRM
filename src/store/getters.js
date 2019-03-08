@@ -10,7 +10,5 @@ export default {
   Users: {
     isLoggedIn: 'Users/isLoggedIn'
   },
-  Url: {
-    all: 'Url/all'
-  }
+  Url: 'Url'
 }
