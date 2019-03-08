@@ -281,7 +281,6 @@ class API_CalDAV_Model
 				foreach ($exclusion as $key => $value) {
 					if ($recordModel->get($key) == $value) {
 						\App\Log::info(__METHOD__ . ' | End exclusion');
-
 						return false;
 					}
 				}
@@ -301,7 +300,6 @@ class API_CalDAV_Model
 			}
 		}
 		\App\Log::trace(__METHOD__ . ' | End');
-
 		return true;
 	}
 
@@ -325,7 +323,6 @@ class API_CalDAV_Model
 				foreach ($exclusion as $key => $value) {
 					if ($recordModel->get($key) == $value) {
 						\App\Log::info(__METHOD__ . ' | End exclusion');
-
 						return false;
 					}
 				}
@@ -345,7 +342,6 @@ class API_CalDAV_Model
 			}
 		}
 		\App\Log::trace(__METHOD__ . ' | End');
-
 		return true;
 	}
 
@@ -386,23 +382,19 @@ class API_CalDAV_Model
 		switch ($this->user->get('sync_caldav')) {
 			case 'PLL_OWNER_PERSON':
 				$isPermitted = (int) $cal['assigned_user_id'] === $userId || in_array($userId, \App\Fields\SharedOwner::getById($cal['id']));
-
 				break;
 			case 'PLL_OWNER_PERSON_GROUP':
 				$shownerIds = \App\Fields\SharedOwner::getById($cal['id']);
 				$isPermitted = (int) $cal['assigned_user_id'] === $userId || in_array($cal['assigned_user_id'], $this->user->get('groups')) || in_array($userId, $shownerIds) || count(array_intersect($shownerIds, $this->user->get('groups'))) > 0;
-
 				break;
 			default:
 			case 'PLL_OWNER':
 				$isPermitted = (int) $cal['assigned_user_id'] === $userId;
-
 				break;
 		}
 		if (!$isPermitted && 'Public' !== $cal['visibility']) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -434,7 +426,6 @@ class API_CalDAV_Model
 			if ('VTIMEZONE' !== $component->name) {
 				$componentType = $component->name;
 				$uid = (string) $component->UID;
-
 				break;
 			}
 		}
@@ -482,7 +473,6 @@ class API_CalDAV_Model
 		}
 		// Destroy circular references to PHP will GC the object.
 		$vObject->destroy();
-
 		return [
 			'etag' => md5($calendarData),
 			'size' => strlen($calendarData),

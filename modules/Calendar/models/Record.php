@@ -37,7 +37,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 			$fieldName = $relationModel->getRelationField()->getFieldName();
 			Vtiger_Cache::set('NameRelatedField', $refModuleName . '-Calendar', $fieldName);
 		}
-
 		return $fieldName;
 	}
 
@@ -81,7 +80,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		if (empty($name)) {
 			$name = parent::getName();
 		}
-
 		return $name;
 	}
 
@@ -102,9 +100,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getDetailViewUrl()
 	{
-		$module = $this->getModule();
-
-		return 'index.php?module=Calendar&view=' . $module->getDetailViewName() . '&record=' . $this->getId();
+		return 'index.php?module=Calendar&view=' . $this->getModule()->getDetailViewName() . '&record=' . $this->getId();
 	}
 
 	public function saveToDb()
@@ -130,7 +126,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 			$forSave['vtiger_activity']['smownerid'] = $forSave['vtiger_crmentity']['smownerid'];
 		}
 		unset($forSave['vtiger_activity_reminder']);
-
 		return $forSave;
 	}
 
@@ -172,7 +167,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	{
 		if (!\App\Request::_has('inviteesid')) {
 			\App\Log::info('No invitations in request, Exiting insertIntoInviteeTable method ...');
-
 			return;
 		}
 		\App\Log::trace('Entering ' . __METHOD__);
@@ -304,7 +298,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		if ('Task' == $icon) {
 			$icon = 'Tasks';
 		}
-
 		return $icon . '.png';
 	}
 
@@ -376,7 +369,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
@@ -407,7 +399,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 				]);
 			}
 		}
-
 		return $links;
 	}
 
@@ -455,7 +446,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	public static function getInvitionStatus($status = false)
 	{
 		$statuses = [0 => 'LBL_NEEDS-ACTION', 1 => 'LBL_ACCEPTED', 2 => 'LBL_DECLINED'];
-
 		return false !== $status ? $statuses[$status] ?? '' : $statuses;
 	}
 
