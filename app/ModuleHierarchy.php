@@ -156,7 +156,7 @@ class ModuleHierarchy
 	 */
 	public static function getRelationFieldByHierarchy($moduleName, $field = false)
 	{
-		if ($field !== false && isset(static::$hierarchy['modulesMapRelatedFields'][$moduleName][$field])) {
+		if (false !== $field && isset(static::$hierarchy['modulesMapRelatedFields'][$moduleName][$field])) {
 			return static::$hierarchy['modulesMapRelatedFields'][$moduleName][$field];
 		}
 		if (isset(static::$hierarchy['modulesMapRelatedFields'][$moduleName])) {
@@ -221,6 +221,11 @@ class ModuleHierarchy
 					}
 				}
 				break;
+			case 2:
+				if (in_array(3, $hierarchy)) {
+					$modules = array_keys(static::getModulesByLevel(3));
+				}
+				break;
 			default:
 				break;
 		}
@@ -253,10 +258,10 @@ class ModuleHierarchy
 			}
 		}
 		$level = static::getModuleLevel($moduleName);
-		if (!($level == 0 && !in_array(1, $hierarchy))) {
+		if (!(0 == $level && !in_array(1, $hierarchy))) {
 			$records = array_merge($records, $recordsLevel1);
 		}
-		if ($level === 0) {
+		if (0 === $level) {
 			if (in_array(2, $hierarchy)) {
 				$modules = static::getChildModules($moduleName, [1]);
 				if ($modules) {
@@ -298,43 +303,52 @@ class ModuleHierarchy
 	}
 
 	/**
-	 * Get related query by hierarchy.
+	 * Function to get array of queries. Quries are used to create union.
 	 *
-	 * @param int   $record
-	 * @param array $hierarchy
+	 * @param int      $record
+	 * @param string   $moduleName
+	 * @param array    $hierarchy
+	 * @param Db\Query $subQuery
 	 *
-	 * @return \App\Db\Query|null
+	 * @return array
 	 */
-	public static function getQueryRelatedRecords(int $record, array $hierarchy): ?\App\Db\Query
+	private static function getQueriesForRelatedRecords(int $record, string $moduleName, array $hierarchy, Db\Query $subQuery = null): array
 	{
-		$moduleName = Record::getType($record);
-		$queries = [];
 		$modules = static::getChildModules($moduleName, $hierarchy);
+		$queries = [];
 		if ($modules) {
 			$fields = Field::getRelatedFieldForModule(false, $moduleName);
 			foreach ($fields as $field) {
 				if (in_array($field['name'], $modules)) {
 					$queryGenerator = new QueryGenerator($field['name']);
 					$queryGenerator->setFields(['id']);
-					$queryGenerator->addNativeCondition([$field['tablename'] . '.' . $field['columnname'] => $record]);
+					if ($subQuery) {
+						$queryGenerator->addNativeCondition([$field['tablename'] . '.' . $field['columnname'] => $subQuery]);
+					} else {
+						$queryGenerator->addNativeCondition([$field['tablename'] . '.' . $field['columnname'] => $record]);
+					}
 					$tempQuery = $queryGenerator->createQuery();
 					$queries[] = $tempQuery;
-					$modulesNextLevels = static::getChildModules($field['name'], $hierarchy);
-					if ($modulesNextLevels) {
-						$subFields = Field::getRelatedFieldForModule(false, $field['name']);
-						foreach ($subFields as $subField) {
-							if (in_array($subField['name'], $modulesNextLevels)) {
-								$queryGenerator = new QueryGenerator($subField['name']);
-								$queryGenerator->setFields(['id']);
-								$queryGenerator->addNativeCondition([$subField['tablename'] . '.' . $subField['columnname'] => clone $tempQuery]);
-								$queries[] = $queryGenerator->createQuery();
-							}
-						}
-					}
+					$queries = array_merge($queries, static::getQueriesForRelatedRecords($record, $field['name'], $hierarchy, clone $tempQuery));
 				}
 			}
 		}
-		if (count($queries) === 0) {
+		return $queries;
+	}
+
+	/**
+	 * Get related query by hierarchy.
+	 *
+	 * @param int   $record
+	 * @param array $hierarchy
+	 *
+	 * @return null|Db\Query
+	 */
+	public static function getQueryRelatedRecords(int $record, array $hierarchy): ?Db\Query
+	{
+		$moduleName = Record::getType($record);
+		$queries = static::getQueriesForRelatedRecords($record, $moduleName, $hierarchy);
+		if (0 === count($queries)) {
 			return null;
 		}
 		$subQuery = $queries[0];

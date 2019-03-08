@@ -73,6 +73,7 @@ var Settings_Picklist_Js = {
 			var data = jQuery('#createViewContents').find('.modal');
 			var clonedCreateView = data.clone(true, true).removeClass('basicCreateView').addClass('createView');
 			clonedCreateView.find('.rolesList').addClass('select2');
+			clonedCreateView.find('.automation-list').addClass('select2');
 			var callBackFunction = function (data) {
 				jQuery('[name="addItemForm"]', data).validationEngine();
 				Settings_Picklist_Js.registerAddItemSaveEvent(data);
@@ -647,4 +648,3 @@ Vtiger_Base_Validator_Js("Vtiger_FieldLabel_Validator_Js", {
 		return true;
 	}
 });
-

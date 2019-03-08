@@ -11,6 +11,25 @@
 
 class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 {
+	/**
+	 * Variable using in picklist automation.
+	 *
+	 * @var int
+	 */
+	const AUTOMATION_NO_CONCERN = 0;
+	/**
+	 * Variable using in picklist automation.
+	 *
+	 * @var int
+	 */
+	const AUTOMATION_OPEN = 1;
+	/**
+	 * Variable using in picklist automation.
+	 *
+	 * @var int
+	 */
+	const AUTOMATION_CLOSED = 2;
+
 	public function getPickListTableName($fieldName)
 	{
 		if (empty($fieldName) || !preg_match('/^[_a-zA-Z0-9]+$/', $fieldName)) {
@@ -46,10 +65,12 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	 * @param string             $newValue
 	 * @param int[]              $rolesSelected
 	 * @param string             $description
+	 * @param string             $prefix
+	 * @param int                $automation
 	 *
 	 * @return int[]
 	 */
-	public function addPickListValues($fieldModel, $newValue, $rolesSelected = [], $description = '', $prefix = '')
+	public function addPickListValues($fieldModel, $newValue, $rolesSelected = [], $description = '', $prefix = '', $automation = self::AUTOMATION_NO_CONCERN)
 	{
 		$db = App\Db::getInstance();
 		$pickListFieldName = $fieldModel->getName();
@@ -82,6 +103,14 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				$this->addDescriptionColumn($tableName);
 			}
 			$row['description'] = $description;
+		}
+		$automationColumnExists = $this->checkColumn($tableName, 'automation');
+		if ($automation !== self::AUTOMATION_NO_CONCERN && !$automationColumnExists) {
+			$this->addAutomationColumn($tableName);
+			$row['automation'] = $automation;
+		}
+		if ($automationColumnExists) {
+			$row['automation'] = $automation;
 		}
 		if (in_array('color', $db->getTableSchema($tableName)->getColumnNames())) {
 			$row['color'] = '#E6FAD8';
@@ -120,10 +149,11 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	 * @param int                           $id
 	 * @param string                        $description
 	 * @param string                        $prefix
+	 * @param int                           $automation
 	 *
 	 * @return bool
 	 */
-	public function renamePickListValues($fieldModel, $oldValue, $newValue, $id, $description = '', $prefix = '')
+	public function renamePickListValues($fieldModel, $oldValue, $newValue, $id, $description = '', $prefix = '', $automation = self::AUTOMATION_NO_CONCERN)
 	{
 		$db = App\Db::getInstance();
 		$pickListFieldName = $fieldModel->getName();
@@ -144,6 +174,15 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			}
 			$newData['prefix'] = $prefix;
 		}
+		$automationColumnExists = $this->checkColumn($tableName, 'automation');
+		if ($automation !== self::AUTOMATION_NO_CONCERN && !$automationColumnExists) {
+			$this->addAutomationColumn($tableName);
+			$newData['automation'] = $automation;
+		}
+		if ($automationColumnExists) {
+			$newData['automation'] = $automation;
+		}
+
 		$result = $db->createCommand()->update($tableName, $newData, [$primaryKey => $id])->execute();
 		if ($result) {
 			$dataReader = (new \App\Db\Query())->select(['tablename', 'columnname', 'tabid'])
@@ -195,6 +234,20 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	public function addDescriptionColumn(string $tableName)
 	{
 		return App\Db::getInstance()->createCommand()->addColumn($tableName, 'description', 'text')->execute();
+	}
+
+	/**
+	 * Add automation column to picklist.
+	 *
+	 * @param string $tableName
+	 *
+	 * @return bool
+	 */
+	public function addAutomationColumn(string $tableName)
+	{
+		$db = App\Db::getInstance();
+		$schema = $db->getSchema();
+		$db->createCommand()->addColumn($tableName, 'automation', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TINYINT, 1))->execute();
 	}
 
 	/**
@@ -361,8 +414,8 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				['vtiger_field.presence' => [0, 2]],
 				['<>', 'vtiger_field.columnname', 'taxtype'],
 			])->orderBy(['vtiger_tab.tabid' => SORT_ASC])
-				->distinct()
-				->createCommand()->query();
+			->distinct()
+			->createCommand()->query();
 		$modulesModelsList = [];
 		while ($row = $dataReader->read()) {
 			$moduleLabel = $row['tablabel'];
@@ -426,5 +479,15 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		\App\Cache::delete("getValuesByAutomation$fieldName", self::AUTOMATION_OPEN);
 		\App\Cache::delete("getValuesByAutomation$fieldName", self::AUTOMATION_CLOSED);
 		\App\Cache::delete("getValuesByAutomation$fieldName", self::AUTOMATION_NO_CONCERN);
+	}
+
+	/**
+	 * Get all automation status
+	 *
+	 * @return int[]
+	 */
+	public static function getAutomationStatus(): array
+	{
+		return [self::AUTOMATION_NO_CONCERN => 'LBL_AUTOMATION_NO_CONCERN', self::AUTOMATION_OPEN => 'LBL_AUTOMATION_OPEN', self::AUTOMATION_CLOSED => 'LBL_AUTOMATION_CLOSED'];
 	}
 }

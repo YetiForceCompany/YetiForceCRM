@@ -64,21 +64,17 @@ class API_CardDAV_Model
 				switch ($user->get('sync_carddav')) {
 					case 'PLL_BASED_CREDENTIALS':
 						$isPermitted = \App\Privilege::isPermitted($moduleName, 'DetailView', $record['crmid']);
-
 						break;
 					case 'PLL_OWNER_PERSON':
 						$isPermitted = (int) $record['smownerid'] === $userId || in_array($userId, \App\Fields\SharedOwner::getById($record['crmid']));
-
 						break;
 					case 'PLL_OWNER_PERSON_GROUP':
 						$shownerIds = \App\Fields\SharedOwner::getById($record['crmid']);
 						$isPermitted = (int) $record['smownerid'] === $userId || in_array($record['smownerid'], $user->get('groups')) || in_array($userId, $shownerIds) || count(array_intersect($shownerIds, $user->get('groups'))) > 0;
-
 						break;
-					default:
 					case 'PLL_OWNER':
+					default:
 						$isPermitted = (int) $record['smownerid'] === $userId;
-
 						break;
 				}
 				if ($isPermitted) {
@@ -131,21 +127,17 @@ class API_CardDAV_Model
 				switch ($this->user->get('sync_carddav')) {
 					case 'PLL_BASED_CREDENTIALS':
 						$isPermitted = \App\Privilege::isPermitted($card['setype'], 'DetailView', $card['crmid']);
-
 						break;
 					case 'PLL_OWNER_PERSON':
 						$isPermitted = (int) $card['smownerid'] === $userId || in_array($userId, \App\Fields\SharedOwner::getById($card['crmid']));
-
 						break;
 					case 'PLL_OWNER_PERSON_GROUP':
 						$shownerIds = \App\Fields\SharedOwner::getById($card['crmid']);
 						$isPermitted = (int) $card['smownerid'] === $userId || in_array($card['smownerid'], $this->user->get('groups')) || in_array($userId, $shownerIds) || count(array_intersect($shownerIds, $this->user->get('groups'))) > 0;
-
 						break;
-					default:
 					case 'PLL_OWNER':
+					default:
 						$isPermitted = (int) $card['smownerid'] === $userId;
-
 						break;
 				}
 				if (!\App\Record::isExists($card['crmid']) || !$isPermitted) {
@@ -397,7 +389,8 @@ class API_CardDAV_Model
 				->innerJoin('vtiger_crmentity', 'vtiger_contactdetails.contactid = vtiger_crmentity.crmid')
 				->innerJoin('vtiger_contactaddress', 'vtiger_contactdetails.contactid = vtiger_contactaddress.contactaddressid')
 				->where(['vtiger_contactdetails.dav_status' => 1, 'vtiger_crmentity.deleted' => 0]);
-		}elseif ('OSSEmployees' == $moduleName) {
+		}
+		if ('OSSEmployees' == $moduleName) {
 			return (new App\Db\Query())->select([
 				'vtiger_crmentity.crmid', 'vtiger_crmentity.smownerid', 'vtiger_ossemployees.name', 'vtiger_ossemployees.last_name',
 				'vtiger_ossemployees.business_phone', 'vtiger_ossemployees.private_phone', 'vtiger_ossemployees.business_mail',
@@ -435,7 +428,6 @@ class API_CardDAV_Model
 		\App\Log::trace(__METHOD__ . ' | Start | Type:' . $type);
 		if (!isset($vcard->TEL)) {
 			\App\Log::trace(__METHOD__ . ' | End | return: ""');
-
 			return '';
 		}
 		$type = strtoupper($type);
@@ -454,7 +446,6 @@ class API_CardDAV_Model
 			}
 		}
 		\App\Log::trace(__METHOD__ . ' | End | return: ""');
-
 		return '';
 	}
 
@@ -471,7 +462,6 @@ class API_CardDAV_Model
 		\App\Log::trace(__METHOD__ . ' | Start | Type:' . $type);
 		if (!isset($vcard->EMAIL)) {
 			\App\Log::trace(__METHOD__ . ' | End | return: ""');
-
 			return '';
 		}
 		foreach ($vcard->EMAIL as $e) {
@@ -487,7 +477,6 @@ class API_CardDAV_Model
 			}
 		}
 		\App\Log::trace(__METHOD__ . ' | End | return: ""');
-
 		return '';
 	}
 
@@ -570,7 +559,6 @@ class API_CardDAV_Model
 		if (!empty($adr2)) {
 			$vcard->add('ADR', $adr2, ['type' => 'HOME']);
 		}
-
 		return $vcard;
 	}
 
@@ -630,7 +618,6 @@ class API_CardDAV_Model
 		$vcard->TEL = null;
 		$vcard->EMAIL = null;
 		$vcard->ADR = null;
-
 		return $vcard;
 	}
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "be48c96e67941e46b53f89731f458eb3",
+    "content-hash": "1da9855b5d8ba277a1672e3e5bcaa2a8",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -2864,16 +2864,16 @@
         },
         {
             "name": "yetiforce/yetiforcepdf",
-            "version": "0.1.17",
+            "version": "0.1.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/YetiForcePDF.git",
-                "reference": "803670bde269366a09c4b30ce1774e3137241bb9"
+                "reference": "a9568a34f1d9ca9303c64f8a2687780641398565"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/803670bde269366a09c4b30ce1774e3137241bb9",
-                "reference": "803670bde269366a09c4b30ce1774e3137241bb9",
+                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/a9568a34f1d9ca9303c64f8a2687780641398565",
+                "reference": "a9568a34f1d9ca9303c64f8a2687780641398565",
                 "shasum": ""
             },
             "require": {
@@ -2910,7 +2910,7 @@
                 "html to pdf",
                 "pdf"
             ],
-            "time": "2019-03-07T13:09:36+00:00"
+            "time": "2019-03-07T15:03:03+00:00"
         },
         {
             "name": "yetiforce/yii2",
@@ -3275,6 +3275,57 @@
             ],
             "description": "Library for handling version information and constraints",
             "time": "2018-07-08T19:19:57+00:00"
+        },
+        {
+            "name": "php-console/php-console",
+            "version": "3.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/barbushin/php-console.git",
+                "reference": "c171ec62669d5c616cfa62de7a30df3c6237e831"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/barbushin/php-console/zipball/c171ec62669d5c616cfa62de7a30df3c6237e831",
+                "reference": "c171ec62669d5c616cfa62de7a30df3c6237e831",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "ext-mbstring": "*",
+                "phpunit/phpunit": "^4.8",
+                "psr/log": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PhpConsole\\": "src/PhpConsole"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Barbushin",
+                    "email": "barbushin@gmail.com",
+                    "homepage": "http://linkedin.com/in/barbushin"
+                }
+            ],
+            "description": "PHP library for Google Chrome extension \"PHP Console\".",
+            "homepage": "https://github.com/barbushin/php-console",
+            "keywords": [
+                "chrome",
+                "debug",
+                "error handler",
+                "errors",
+                "google chrome",
+                "php"
+            ],
+            "time": "2018-02-25T12:43:21+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -4487,7 +4538,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
+                    "email": "backendtea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",

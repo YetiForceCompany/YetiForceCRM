@@ -24,7 +24,7 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 		],
 		'type' => [
 			'label' => 'LBL_TYPE',
-			'registerView' => false
+			'registerView' => true
 		],
 		'industry' => [
 			'label' => 'LBL_INDUSTRY',

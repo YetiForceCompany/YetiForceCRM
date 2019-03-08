@@ -14,7 +14,7 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$type = $request->getByType('type', 1);
 		$range = $request->getByType('range', 'DateRangeUserFormat');
@@ -34,32 +34,31 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 		]);
 		if (isset($order['0']['column'])) {
 			$column = \App\Log::$tableColumnMapping[$type][$order['0']['column']];
-			$dir = ($order['0']['dir'] === 'asc') ? \SORT_ASC : \SORT_DESC;
+			$dir = ('asc' === $order['0']['dir']) ? \SORT_ASC : \SORT_DESC;
 			$query->orderBy([$column => $dir]);
 		} else {
 			$query->orderBy(['id' => \SORT_DESC]);
 		}
 		$data = [];
 		foreach ($query->all() as $log) {
-			$tmp = [];
 			foreach (\App\Log::$tableColumnMapping[$type] as $column) {
-				if ($column === 'url' && ($urlParams = explode('?', $log['url'])) && isset($urlParams[1])) {
-					$url = $urlParams[1];
-					$tmp['url'] = $url;
-				} elseif ($column === 'agent') {
-					$tmp['agent'] = $log['agent'];
-				} elseif ($column === 'request') {
-					$requestArray = [];
+				if (in_array($column, ['url', 'agent', 'referer'])) {
+					$log[$column] = \App\Purifier::encodeHtml($log[$column]);
+				}
+				if ('url' === $column && ($urlParams = explode('?', $log['url'])) && isset($urlParams[1])) {
+					$log[$column] = $urlParams[1];
+				} elseif ('request' === $column) {
+					$requestArray = '';
 					foreach (\App\Json::decode($log[$column]) as $key => $val) {
-						$requestArray[$key] = $val;
+						$val = (is_array($val)) ? var_export($val, true) : $val;
+						$requestArray .= \App\Purifier::encodeHtml("$key => $val") . PHP_EOL;
 					}
-					$tmp['request'] = \App\Purifier::purify($requestArray);
-				} else {
-					$tmp[$column] = $log[$column];
+					$log[$column] = "<pre>$requestArray</pre>";
 				}
 			}
-			$data[] = $tmp;
+			$data[] = $log;
 		}
+
 		$columns = [];
 		foreach (\App\Log::$tableColumnMapping[$type] as $column) {
 			$columns[$column] = \App\Language::translate('LBL_' . strtoupper($column), $request->getModule(false));

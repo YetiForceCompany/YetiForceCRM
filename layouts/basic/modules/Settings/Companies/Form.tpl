@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Settings-YetiForce-RegistrationForm card js-card-body" data-js="container">
+	<div class="tpl-Settings-YetiForce-RegistrationForm card js-card-body mb-3" data-js="container">
 		<div class="card-body">
 			{if !empty($COMPANY_ID)}
 				{assign var="RECORD" value=Settings_Companies_Record_Model::getInstance($COMPANY_ID)->set('source',$MODULE_NAME)}

@@ -58,7 +58,7 @@ class Vtiger_TransferOwnership_Action extends \App\Controller\Action
 			}
 		}
 		$response = new Vtiger_Response();
-		$response->setResult(['notify' => ['text' => \App\Language::translate('JS_RECORDS_TRANSFERRED_SUCCESSFULLY'), 'type' => 'info']]);
+		$response->setResult(['success' => true]);
 		$response->emit();
 	}
 

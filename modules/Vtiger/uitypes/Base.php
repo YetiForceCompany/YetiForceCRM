@@ -177,7 +177,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getEditViewValue($value, $recordModel = false)
 	{
-		return $this->getEditViewDisplayValue($value, $recordModel = false);
+		return $this->getEditViewDisplayValue($value, $recordModel);
 	}
 
 	/**
