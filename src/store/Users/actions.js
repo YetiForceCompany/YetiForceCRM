@@ -15,14 +15,9 @@ export default {
     loginAxios({
       url: rootGetters[getters.Url]('Users.getData'),
       method: 'POST'
+    }).then(response => {
+      commit(mutations.Global.update, response.data.env)
     })
-      .then(response => {
-        commit(mutations.Global.update, response.data.env)
-      })
-      .catch(error => console.error(error))
-      .catch(err => {
-        reject(err)
-      })
     //TODO commit to remove when rootGetters[getters.Url.all].Users.getData is ready
     commit(mutations.Global.update, {
       Env: {
@@ -56,22 +51,17 @@ export default {
       url: rootGetters[getters.Url]('Users.login'),
       data: formData,
       method: 'POST'
+    }).then(response => {
+      const data = response.data
+      if (data.result === true) {
+        commit(mutations.Global.update, data.env)
+        this.$router.replace('/')
+      } else if (data.result.step !== undefined) {
+        this.$router.replace(`/users/login/${data.result.step}`)
+      } else {
+        return console.error('Server error', response)
+      }
     })
-      .then(response => {
-        const data = response.data
-        if (data.result === true) {
-          commit(mutations.Global.update, data.env)
-          this.$router.replace('/')
-        } else if (data.result.step !== undefined) {
-          this.$router.replace(`/users/login/${data.result.step}`)
-        } else {
-          return console.error('Server error', response)
-        }
-      })
-      .catch(error => console.error(error))
-      .catch(err => {
-        reject(err)
-      })
   },
   /**
    * Remind action
@@ -84,13 +74,8 @@ export default {
       url: rootGetters[getters.Url]('Users.remind'),
       data: formData,
       method: 'POST'
+    }).then(response => {
+      this.$router.replace('/users/login/form')
     })
-      .then(response => {
-        this.$router.replace('/users/login/form')
-      })
-      .catch(error => console.error(error))
-      .catch(err => {
-        reject(err)
-      })
   }
 }
