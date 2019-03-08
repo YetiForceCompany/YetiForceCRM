@@ -4,7 +4,7 @@
     <form
       @submit.prevent.stop="onSubmit"
       class="col q-gutter-md q-mx-lg"
-      :autocomplete="$store.state.User.loginPageRememberCredentials ? 'on' : 'off'"
+      :autocomplete="$store.state.Users.loginPageRememberCredentials ? 'on' : 'off'"
     >
       <q-input
         type="text"
@@ -31,7 +31,7 @@
         </template>
       </q-input>
       <q-select
-        v-if="$store.state.User.languageSelection"
+        v-if="$store.state.Users.languageSelection"
         v-model="language"
         :options="$store.state.Language.langs"
         :label="$t('LBL_CHOOSE_LANGUAGE')"
@@ -41,7 +41,7 @@
         </template>
       </q-select>
       <q-select
-        v-if="$store.state.User.layoutSelection"
+        v-if="$store.state.Users.layoutSelection"
         v-model="layout"
         :options="$store.state.Env.layouts"
         :label="$t('LBL_SELECT_LAYOUT')"
@@ -52,7 +52,7 @@
       </q-select>
       <q-btn size="lg" :label="$t('LBL_SIGN_IN')" type="submit" color="secondary" class="full-width q-mt-lg" />
       <router-link
-        v-if="$store.state.User.forgotPassword"
+        v-if="$store.state.Users.forgotPassword"
         class="text-secondary float-right"
         :to="{ name: 'Reminder' }"
         >{{ $t('ForgotPassword') }}</router-link
@@ -86,7 +86,7 @@ export default {
       if (this.$refs.user.hasError || this.$refs.password.hasError) {
         this.formHasError = true
       } else {
-        this.$store.dispatch(actions.User.login, {
+        this.$store.dispatch(actions.Users.login, {
           username: this.user,
           password: this.password,
           fingerPrint: ''

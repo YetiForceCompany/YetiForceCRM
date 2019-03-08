@@ -7,8 +7,8 @@ export default {
   Menu: {
     items: 'Menu/items'
   },
-  User: {
-    isLoggedIn: 'User/isLoggedIn'
+  Users: {
+    isLoggedIn: 'Users/isLoggedIn'
   },
   Url: {
     all: 'Url/all'

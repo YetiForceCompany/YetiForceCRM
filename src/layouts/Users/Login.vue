@@ -9,8 +9,8 @@
               <img class :src="env.publicDir + '/statics/Logo/logo'" width="100" />
             </div>
             <router-view />
-            <q-banner v-if="$store.state.User.message" :class="[msgClass, 'q-mt-lg', 'text-white']">
-              <p>{{ $store.state.User.message }}</p>
+            <q-banner v-if="$store.state.Users.message" :class="[msgClass, 'q-mt-lg', 'text-white']">
+              <p>{{ $store.state.Users.message }}</p>
             </q-banner>
           </div>
         </div>
@@ -39,10 +39,9 @@ import { mapGetters } from 'vuex'
  * @vue-event    {Object}    openURL
  */
 export default {
-  name: 'User',
+  name: 'Users',
   data() {
     return {
-      activeComponent: 'login-form',
       showReminderForm: false,
       showLoginForm: true
     }
@@ -53,9 +52,9 @@ export default {
     }),
     msgClass: function() {
       return {
-        'bg-positive': this.$store.User.messageType === 'success',
-        'bg-negative': this.$store.User.messageType === 'error',
-        'bg-warning': this.$store.User.messageType === ''
+        'bg-positive': this.$store.Users.messageType === 'success',
+        'bg-negative': this.$store.Users.messageType === 'error',
+        'bg-warning': this.$store.Users.messageType === ''
       }
     }
   },
@@ -63,8 +62,8 @@ export default {
     openURL
   },
   created() {
-    this.$store.dispatch(actions.User.fetchViewData)
-    this.$i18n.locale = 'Users'
+    this.$store.dispatch(actions.Users.fetchViewData)
+    this.$i18n.locale = 'Userss'
   }
 }
 </script>

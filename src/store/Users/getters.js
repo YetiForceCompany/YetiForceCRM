@@ -9,7 +9,7 @@ export default {
    *
    * @return  {bool}
    */
-  [getters.User.isLoggedIn](state) {
+  [getters.Users.isLoggedIn](state) {
     return state.isLoggedIn !== false
   }
 }

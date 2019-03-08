@@ -45,7 +45,7 @@ export default {
       if (this.$refs.user_code.hasError) {
         this.formHasError = true
       } else {
-        this.$store.dispatch(actions.User.login, {
+        this.$store.dispatch(actions.Users.login, {
           user_code: this.user_code
         })
       }

@@ -38,10 +38,10 @@ export default function({ store }) {
     Loading.show({
       spinner: QSpinnerGears
     })
-    if (store.getters[getters.User.isLoggedIn] || routeTo.path.startsWith('/user/auth')) {
+    if (store.getters[getters.Users.isLoggedIn] || routeTo.path.startsWith('/users/login')) {
       next()
     } else {
-      next({ name: 'Login' })
+      next({ name: 'Form' })
     }
   })
   Router.afterEach(() => {
