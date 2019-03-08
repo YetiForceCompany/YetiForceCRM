@@ -35,7 +35,7 @@ import { mapGetters } from 'vuex'
  * @vue-data     {Boolean}   showReminderForm - form data
  * @vue-data     {Boolean}   showLoginForm - form data
  * @vue-computed {Object}    env - env variables
- * @vue-computed {String} msgClass - additional message class
+ * @vue-computed {String}    msgClass - additional message class
  * @vue-event    {Object}    openURL
  */
 export default {
