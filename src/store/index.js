@@ -6,7 +6,7 @@ import Objects from 'src/utilities/Objects.js'
 import mutations from './mutations.js'
 // modules
 import Env from './Env'
-import User from './User'
+import Users from './Users'
 import Menu from './Menu'
 import Url from './Url'
 import Language from './Language'
@@ -18,7 +18,7 @@ export default function(/* { ssrContext } */) {
     Env,
     Menu,
     Url,
-    User,
+    Users,
     Language
   }
 

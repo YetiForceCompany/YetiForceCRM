@@ -1,5 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-import authAxios from 'src/services/Auth.js'
+import loginAxios from 'src/services/Login.js'
 import apiAxios from 'src/services/Api.js'
 import actions from 'src/store/actions.js'
 import mutations from 'src/store/mutations.js'
@@ -11,7 +11,7 @@ export default {
    *
    * @param {object} state
    */
-  [actions.User.fetchViewData]({ commit }) {
+  [actions.Users.fetchViewData]({ commit }) {
     commit(mutations.Global.update, {
       Env: {
         layout: 'material',
@@ -22,7 +22,7 @@ export default {
         lang: 'en-US',
         langs: ['pl-PL', 'en-US']
       },
-      User: {
+      Users: {
         isBlockedIp: false,
         message: '',
         messageType: '',
@@ -39,9 +39,9 @@ export default {
    * @param   {object}  store
    * @param   {object}  formData
    */
-  [actions.User.login]({ commit, rootGetters }, formData) {
-    authAxios({
-      url: rootGetters[getters.Url.all].User.login,
+  [actions.Users.login]({ commit, rootGetters }, formData) {
+    loginAxios({
+      url: rootGetters[getters.Url.all].Users.login,
       data: formData,
       method: 'POST'
     })
@@ -51,7 +51,7 @@ export default {
           commit(mutations.Global.update, data.env)
           this.$router.replace('/')
         } else if (data.result.step !== undefined) {
-          this.$router.replace(`/user/auth/${data.result.step}`)
+          this.$router.replace(`/users/login/${data.result.step}`)
         } else {
           return console.error('Server error', response)
         }
@@ -67,14 +67,14 @@ export default {
    * @param   {object}  store
    * @param   {object}  formData
    */
-  [actions.User.remind]({ commit, rootGetters }, formData) {
-    authAxios({
-      url: rootGetters[getters.Url.all].User.remind,
+  [actions.Users.remind]({ commit, rootGetters }, formData) {
+    loginAxios({
+      url: rootGetters[getters.Url.all].Users.remind,
       data: formData,
       method: 'POST'
     })
       .then(response => {
-        this.$router.replace('/user/auth/login')
+        this.$router.replace('/users/login/form')
       })
       .catch(error => console.error(error))
       .catch(err => {

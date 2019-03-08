@@ -11,8 +11,8 @@ export default {
   Url: {
     addUrl: 'Url/addUrl'
   },
-  User: {
-    setViewData: 'User/setViewData',
-    isLoggedIn: 'User/isLoggedIn'
+  Users: {
+    setViewData: 'Users/setViewData',
+    isLoggedIn: 'Users/isLoggedIn'
   }
 }

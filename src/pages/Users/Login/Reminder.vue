@@ -1,10 +1,10 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
-<template v-if="$store.state.User.forgotPassword && showReminderForm">
+<template v-if="$store.state.Users.forgotPassword && showReminderForm">
   <form class="col q-gutter-md q-mx-lg" @submit.prevent.stop="onSubmit">
     <q-input
       type="text"
-      ref="reminderUser"
-      v-model="reminderUser"
+      ref="reminderUsers"
+      v-model="reminderUsers"
       :label="$t('LBL_USER')"
       autocomplete="off"
       lazy-rules
@@ -35,33 +35,33 @@
 import actions from 'src/store/actions.js'
 /**
  * @vue-data     {String} reminderEmail
- * @vue-data     {String} reminderUser
+ * @vue-data     {String} reminderUsers
  */
 export default {
   name: 'Reminder',
   data() {
     return {
-      reminderUser: '',
+      reminderUsers: '',
       reminderEmail: ''
     }
   },
   methods: {
     onSubmit() {
-      this.$refs.reminderUser.validate()
+      this.$refs.reminderUsers.validate()
       this.$refs.reminderEmail.validate()
-      if (this.$refs.reminderUser.hasError || this.$refs.reminderEmail.hasError) {
+      if (this.$refs.reminderUsers.hasError || this.$refs.reminderEmail.hasError) {
         this.formHasError = true
       } else {
-        this.$store.dispatch(actions.User.remind, {
-          reminderUser: this.reminderUser,
+        this.$store.dispatch(actions.Users.remind, {
+          reminderUsers: this.reminderUsers,
           reminderEmail: this.reminderEmail
         })
       }
     }
   },
   mounted() {
-    if (!this.$store.state.User.forgotPassword || this.$store.state.User.isBlockedIp) {
-      this.$router.replace('/User/login')
+    if (!this.$store.state.Users.forgotPassword || this.$store.state.Users.isBlockedIp) {
+      this.$router.replace('/users/login/form')
     }
   }
 }

@@ -6,19 +6,20 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 $lang = \App\Language::getLanguage();
 $env = [
-	'Env' => [
-		'baseURL' => \App\Config::main('site_URL'),
-		'publicDir' => '/dist',
-		'routerMode' => 'hash',
-	],
-	'User' => ['isLoggedIn' => true],
-	'Language' => [
-		'lang' => $lang,
-		'translations' => \App\Language::getLanguageData($lang),
-	],
+    'Env' => [
+        'baseURL' => \App\Config::main('site_URL'),
+        'publicDir' => '/dist',
+        'routerMode' => 'hash',
+    ],
+    'Users' => ['isLoggedIn' => true],
+    'Language' => [
+        'lang' => $lang,
+        'translations' => \App\Language::getLanguageData($lang),
+    ],
 ];
 
 ?>

@@ -6,25 +6,25 @@ const routes = [
     component: () => import('layouts/Basic.vue')
   },
   {
-    name: 'Auth',
-    path: '/user/auth',
-    redirect: '/user/auth/login',
-    component: () => import('layouts/User/Auth.vue'),
+    name: 'Login',
+    path: '/users/login',
+    redirect: '/users/login/form',
+    component: () => import('layouts/Users/Login.vue'),
     children: [
       {
-        name: 'Login',
-        path: '/user/auth/login',
-        component: () => import('pages/User/Auth/Login.vue')
+        name: 'Form',
+        path: '/users/login/form',
+        component: () => import('pages/Users/Login/Form.vue')
       },
       {
         name: '2FA',
-        path: '/user/auth/2fa',
-        component: () => import('pages/User/Auth/2FA.vue')
+        path: '/users/login/2fa',
+        component: () => import('pages/Users/Login/2FA.vue')
       },
       {
         name: 'Reminder',
-        path: '/user/auth/reminder',
-        component: () => import('pages/User/Auth/Reminder.vue')
+        path: '/users/login/reminder',
+        component: () => import('pages/Users/Login/Reminder.vue')
       }
     ]
   }
