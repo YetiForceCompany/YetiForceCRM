@@ -244,27 +244,21 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		switch ($time) {
 			case '15m':
 				$datatime = date('Y-m-d H:i:s', strtotime('+15 min'));
-
 				break;
 			case '30m':
 				$datatime = date('Y-m-d H:i:s', strtotime('+30 min'));
-
 				break;
 			case '1h':
 				$datatime = date('Y-m-d H:i:s', strtotime('+60 min'));
-
 				break;
 			case '2h':
 				$datatime = date('Y-m-d H:i:s', strtotime('+120 min'));
-
 				break;
 			case '6h':
 				$datatime = date('Y-m-d H:i:s', strtotime('+6 hour'));
-
 				break;
 			case '1d':
 				$datatime = date('Y-m-d H:i:s', strtotime('+1 day'));
-
 				break;
 			default:
 				break;
@@ -321,15 +315,12 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		switch ($state) {
 			case 'Active':
 				$stateId = 0;
-
 				break;
 			case 'Trash':
 				$stateId = 1;
-
 				break;
 			case 'Archived':
 				$stateId = 2;
-
 				break;
 			default:
 				break;
