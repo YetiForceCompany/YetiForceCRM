@@ -22,7 +22,7 @@ class Phone
 	 *
 	 * @return array|bool
 	 */
-	public static function getDetails(?string $phoneNumber, ?string $phoneCountry = null)
+	public static function getDetails(string $phoneNumber, ?string $phoneCountry = null)
 	{
 		$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
 		try {
