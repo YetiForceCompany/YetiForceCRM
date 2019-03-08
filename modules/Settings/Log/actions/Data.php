@@ -50,13 +50,15 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 				} elseif ('request' === $column) {
 					$requestArray = '';
 					foreach (\App\Json::decode($log[$column]) as $key => $val) {
-						$requestArray .= \App\Purifier::encodeHtml("$key => $val") . '<br>';
+						$val = (is_array($val)) ? \App\Purifier::encodeHtml(var_export($val, true)) : \App\Purifier::encodeHtml($val);
+						$requestArray .= \App\Purifier::encodeHtml($key) . " => $val" . PHP_EOL;
 					}
-					$log[$column] = $requestArray;
+					$log[$column] = "<pre>$requestArray</pre>";
 				}
 			}
 			$data[] = $log;
 		}
+
 		$columns = [];
 		foreach (\App\Log::$tableColumnMapping[$type] as $column) {
 			$columns[$column] = \App\Language::translate('LBL_' . strtoupper($column), $request->getModule(false));
