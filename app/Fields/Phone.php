@@ -18,11 +18,11 @@ class Phone
 	 * Get phone details.
 	 *
 	 * @param string      $phoneNumber
-	 * @param string|null $phoneCountry
+	 * @param null|string $phoneCountry
 	 *
-	 * @return bool|array
+	 * @return array|bool
 	 */
-	public static function getDetails(string $phoneNumber, ?string $phoneCountry = null)
+	public static function getDetails(?string $phoneNumber, ?string $phoneCountry = null)
 	{
 		$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
 		try {
@@ -45,7 +45,7 @@ class Phone
 	 * Verify phone number.
 	 *
 	 * @param string      $phoneNumber
-	 * @param string|null $phoneCountry
+	 * @param null|string $phoneCountry
 	 *
 	 * @throws \App\Exceptions\FieldException
 	 *
@@ -80,13 +80,13 @@ class Phone
 	 * Get proper number.
 	 *
 	 * @param string   $numberToCheck
-	 * @param int|null $userId
+	 * @param null|int $userId
 	 *
-	 * @return string|false Return false if wrong number
+	 * @return false|string Return false if wrong number
 	 */
 	public static function getProperNumber(string $numberToCheck, ?int $userId = null)
 	{
-		if (is_null($userId)) {
+		if (null === $userId) {
 			$userId = \App\User::getCurrentUserId();
 		}
 		$returnVal = false;
