@@ -12,7 +12,6 @@ export default {
     addUrl: 'Url/addUrl'
   },
   Users: {
-    setViewData: 'Users/setViewData',
     isLoggedIn: 'Users/isLoggedIn'
   }
 }

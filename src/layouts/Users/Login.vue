@@ -6,7 +6,7 @@
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 fixed-center">
           <div class="card-shadow q-pa-xl column">
             <div class="col-auto self-center q-pb-lg">
-              <img class :src="env.publicDir + '/statics/Logo/logo'" width="100" />
+              <img class :src="env.publicDir + '/statics/Logo/logo'" />
             </div>
             <router-view />
             <q-banner v-if="$store.state.Users.message" :class="[msgClass, 'q-mt-lg', 'text-white']">
@@ -62,7 +62,7 @@ export default {
     openURL
   },
   created() {
-    this.$store.dispatch(actions.Users.fetchViewData)
+    this.$store.dispatch(actions.Users.fetchData)
     this.$i18n.locale = 'Userss'
   }
 }
