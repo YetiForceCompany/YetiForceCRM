@@ -135,7 +135,6 @@ class Register
 			\App\Log::warning($e->getMessage(), __METHOD__);
 		}
 		\App\Company::statusUpdate(1);
-
 		return $result;
 	}
 
@@ -186,7 +185,6 @@ class Register
 		} catch (\Throwable $e) {
 			\App\Log::warning($e->getMessage(), __METHOD__);
 		}
-
 		return $status ?? false;
 	}
 
@@ -210,7 +208,6 @@ class Register
 		if ($timer && !empty($conf['register_time']) && strtotime('+14 days', strtotime($conf['register_time'])) > time()) {
 			$status = true;
 		}
-
 		return $status;
 	}
 
@@ -250,7 +247,6 @@ class Register
 			'insKey' => static::getInstanceKey(),
 			'serialKey' => $serial
 		]);
-
 		return true;
 	}
 
@@ -264,7 +260,6 @@ class Register
 	public static function verifySerial(string $serial): bool
 	{
 		$key = substr($serial, 0, 20) . substr(crc32(substr($serial, 0, 20)), 2, 5);
-
 		return 0 === strcmp($serial, $key . substr(sha1($key), 5, 15));
 	}
 
@@ -281,19 +276,17 @@ class Register
 		if (!\file_exists(static::REGISTRATION_FILE)) {
 			return static::$config = [];
 		}
-
 		return static::$config = require static::REGISTRATION_FILE;
 	}
 
 	/**
-	 * Get registration date.
+	 * Get last check time.
 	 *
 	 * @return string
 	 */
-	public static function getDateRegistration(): string
+	public static function getLastCheckTime(): string
 	{
 		$conf = static::getConf();
-
 		return $conf['last_check_time'];
 	}
 
@@ -305,7 +298,6 @@ class Register
 	public static function getStatus(): int
 	{
 		$conf = static::getConf();
-
 		return (int) ($conf['status'] ?? 0);
 	}
 
