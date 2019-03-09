@@ -5,7 +5,7 @@
 	{if !isset($INVITIE)}
 		{assign var=INVITIE value=['crmid'=>'','inviteesid'=>'','email'=>'','status'=>'','time'=>'']}
 	{/if}
-	<div class="tpl-Calendar-InviteRow inviteRow" data-crmid="{$INVITIE['crmid']}" data-ivid="{$INVITIE['inviteesid']}" data-email="{$INVITIE['email']}">
+	<div class="inviteRow" data-crmid="{$INVITIE['crmid']}" data-ivid="{$INVITIE['inviteesid']}" data-email="{$INVITIE['email']}">
 		<div class="input-group input-group-sm">
 			<span class="input-group-prepend inviteIcon">
 				<span class="input-group-text">

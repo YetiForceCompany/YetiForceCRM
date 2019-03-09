@@ -161,6 +161,14 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function isMandatorySave()
+	{
+		return true;
+	}
+
+	/**
 	 * Function to insert values in u_yf_activity_invitation table for the specified module,tablename ,invitees_array.
 	 */
 	public function insertIntoInviteTable()
@@ -185,7 +193,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 				} else {
 					$db->createCommand()->insert('u_#__activity_invitation', [
 						'email' => $invitation[0],
-						'crmid' => $invitation[1],
+						'crmid' => (int) $invitation[1],
 						'activityid' => $this->getId(),
 					])->execute();
 				}

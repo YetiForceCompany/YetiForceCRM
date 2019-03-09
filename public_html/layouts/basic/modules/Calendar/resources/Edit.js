@@ -284,22 +284,22 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 			});
 		}
 		form.on('submit', function (e) {
-			var recurringCheck = form.find('input[name="reapeat"]').is(':checked');
+			const recurringCheck = form.find('input[name="reapeat"]').is(':checked');
 			if (recurringCheck) {
 				if (app.getRecordId() && lockSave) {
 					e.preventDefault();
 				}
 				form.find('[name="recurrence"]').val(thisInstance.getRule());
 			}
-			var rows = form.find(".inviteesContent .inviteRow");
-			var invitees = [];
+			let rows = form.find(".inviteesContent .inviteRow");
+			let invitees = [];
 			rows.each(function (index, domElement) {
-				var row = jQuery(domElement);
-				if (row.data('crmid') != '') {
+				let row = $(domElement);
+				if (row.data('email')) {
 					invitees.push([row.data('email'), row.data('crmid'), row.data('ivid')]);
 				}
 			});
-			jQuery('<input type="hidden" name="inviteesid" />').appendTo(form).val(JSON.stringify(invitees));
+			$('<input type="hidden" name="inviteesid" />').appendTo(form).val(JSON.stringify(invitees));
 		});
 	},
 	getFreeTime: function (container) {
@@ -427,6 +427,18 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 			return Vtiger_Helper_Js.getDateInstance(endDate + ' ' + endTime, dateFormat);
 		}
 	},
+	registerAddInvitation(){
+		this.getForm().find('.js-btn-add-invitation').on('click', (e)=>{
+			let inviteesContent = this.getForm().find('.inviteesContent');
+			var inviteRow = inviteesContent.find('.d-none .inviteRow').clone(true, true);
+			inviteRow.data('crmid', 0);
+			inviteRow.data('email', 'testemm@gm.com.pl');
+			inviteRow.find('.inviteName').data('content', 'NEW').text('NEW');
+			//inviteRow.find('.inviteIcon .c-badge__icon').removeClass('fas fa-envelope').addClass('userIcon-' + selected.module);
+			inviteesContent.append(inviteRow);
+		});
+		//
+	},
 	registerInviteEvent: function (editViewForm) {
 		this.registerRow(editViewForm);
 		let inviteesContent = editViewForm.find('.inviteesContent');
@@ -478,20 +490,19 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 				});
 			},
 			select: function (event, ui) {
-				var selected = ui.item;
-
+				let selected = ui.item;
 				//To stop selection if no results is selected
 				if (typeof selected.type !== "undefined" && selected.type == "no results") {
 					return false;
 				}
-				var recordExist = true;
+				let recordExist = true;
 				inviteesContent.find('.inviteRow').each(function (index) {
 					if ($(this).data('crmid') == selected.id) {
 						recordExist = false;
 					}
 				});
 				if (recordExist) {
-					var inviteRow = inviteesContent.find('.d-none .inviteRow').clone(true, true);
+					let inviteRow = inviteesContent.find('.d-none .inviteRow').clone(true, true);
 					Vtiger_Index_Js.getEmailFromRecord(selected.id, selected.module).done(function (email) {
 						inviteRow.data('crmid', selected.id);
 						inviteRow.data('email', email);
@@ -499,6 +510,8 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 						inviteRow.find('.inviteIcon .c-badge__icon').removeClass('fas fa-envelope').addClass('userIcon-' + selected.module);
 						inviteesContent.append(inviteRow);
 					});
+				}else{
+
 				}
 			},
 			close: function (event, ui) {
@@ -574,7 +587,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		this.registerFormSubmitEvent();
 		this.registerRecurringTypeChangeEvent();
 		this.registerInviteEvent(editViewForm);
+		this.registerAddInvitation();
 		this._super();
 	}
 });
-
