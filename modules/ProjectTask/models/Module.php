@@ -24,7 +24,7 @@ class ProjectTask_Module_Model extends Vtiger_Module_Model
 	{
 		$query = new \App\Db\Query();
 		if (!$user) {
-			$user = (int) App\User::getCurrentUserModel()->getId();
+			$user = \App\User::getCurrentUserId();
 		}
 		$query->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.smownerid', 'vtiger_crmentity.setype', 'vtiger_projecttask.*'])
 			->from('vtiger_projecttask')

@@ -9,20 +9,19 @@
 
 /**
  * UpcomingProjectTasks class.
+ *
+ * @package Dashboards
  */
 class ProjectTask_UpcomingProjectTasks_Dashboard extends Vtiger_IndexAjax_View
 {
 	/**
-	 * Process.
-	 *
-	 * @param \App\Request $request
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
-		$currentUser = App\User::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), $currentUser->getId());
+		$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), \App\User::getCurrentUserId());
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $request->getInteger('page'));
 		$pagingModel->set('limit', (int) $widget->get('limit'));
