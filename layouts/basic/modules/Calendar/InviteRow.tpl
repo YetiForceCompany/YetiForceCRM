@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Calendar-InviteRow -->
 	{assign var=LABEL value=''}
 	{if !isset($INVITIE)}
 		{assign var=INVITIE value=['crmid'=>'','inviteesid'=>'','email'=>'','status'=>'','time'=>'']}
@@ -9,12 +10,12 @@
 			<span class="input-group-prepend inviteIcon">
 				<span class="input-group-text">
 					{if $INVITIE['crmid']}
-						{assign var=INVITIE_RECORD value=vtlib\Functions::getCRMRecordMetadata($INVITIE['crmid'])}
-						{assign var=LABEL value=$INVITIE_RECORD['label']}
-						{assign var=TITLE value=\App\Language::translateSingularModuleName($INVITIE_RECORD['setype'])|cat:': '|cat:$LABEL|cat:' - '|cat:$INVITIE['email']}
-						<span class="userIcon-{$INVITIE_RECORD['setype']}"></span>
+						{assign var=LABEL value=$INVITIE['label']}
+						{assign var=TITLE value=\App\Language::translateSingularModuleName($INVITIE['setype'])|cat:': '|cat:$LABEL|cat:' - '|cat:$INVITIE['email']}
+						<span class="userIcon-{$INVITIE['setype']}"></span>
 					{else}
 						{assign var=LABEL value=$INVITIE['email']}
+						{assign var=TITLE value=''}
 						<span class="fas fa-envelope"></span>
 					{/if}
 				</span>
@@ -38,4 +39,5 @@
 			</span>
 		</div>
 	</div>
+	<!-- /tpl-Calendar-InviteRow -->
 {/strip}

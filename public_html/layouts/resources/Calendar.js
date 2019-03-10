@@ -94,6 +94,47 @@ window.Calendar_Js = class {
 	}
 
 	/**
+	 * Converts the date format.
+	 * @param {string} partOfDate
+	 */
+	parseDateFormat(partOfDate) {
+		let parseMonthFormat = {
+			'yyyy-mm-dd': 'YYYY-MMMM',
+			'mm-dd-yyyy': 'MMMM-YYYY',
+			'dd-mm-yyyy': 'MMMM-YYYY',
+			'yyyy.mm.dd': 'YYYY.MMMM',
+			'mm.dd.yyyy': 'MMMM.YYYY',
+			'dd.mm.yyyy': 'MMMM.YYYY',
+			'yyyy/mm/dd': 'YYYY/MMMM',
+			'mm/dd/yyyy': 'MMMM/YYYY',
+			'dd/mm/yyyy': 'MMMM/YYYY'
+		};
+		let parseWeekAndDayFormat = {
+			'yyyy-mm-dd': 'YYYY-MMM-D',
+			'mm-dd-yyyy': 'MMM-D-YYYY',
+			'dd-mm-yyyy': 'D-MMM-YYYY',
+			'yyyy.mm.dd': 'YYYY.MMM.D',
+			'mm.dd.yyyy': 'MMM.D.YYYY',
+			'dd.mm.yyyy': 'D.MMM.YYYY',
+			'yyyy/mm/dd': 'YYYY/MMM/D',
+			'mm/dd/yyyy': 'MMM/D/YYYY',
+			'dd/mm/yyyy': 'D/MMM/YYYY'
+		};
+		let formatDate = CONFIG.dateFormat;
+		switch (partOfDate) {
+			case 'month':
+				return parseMonthFormat[formatDate];
+				break;
+			case 'week':
+				return parseWeekAndDayFormat[formatDate];
+				break;
+			case 'day':
+				return parseWeekAndDayFormat[formatDate];
+				break;
+		}
+	}
+
+	/**
 	 * Set calendar's minimal options.
 	 * @returns {object}
 	 */
@@ -132,7 +173,16 @@ window.Calendar_Js = class {
 			views: {
 				basic: {
 					eventLimit: false,
-				}
+				},
+				month: {
+					titleFormat: this.parseDateFormat('month')
+				},
+				week: {
+					titleFormat: this.parseDateFormat('week')
+				},
+				day: {
+					titleFormat: this.parseDateFormat('day')
+				},
 			},
 			eventDrop: function (event, delta, revertFunc) {
 				self.updateEvent(event, delta, revertFunc);

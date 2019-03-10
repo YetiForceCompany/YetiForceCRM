@@ -1,5 +1,5 @@
 <?php
-/* +***********************************************************************************
+ /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -192,7 +192,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 				if (isset($file['error']) && $file['error'] === 0) {
 					$fileInstance = \App\Fields\File::loadFromRequest($file);
 					if ($fileInstance->validate()) {
-						$fileName = App\Purifier::purify($file['name']);
+						$fileName = \App\Purifier::decodeHtml(App\Purifier::purify($file['name']));
 						$fileType = $fileInstance->getMimeType();
 						$fileSize = $file['size'];
 						$fileLocationType = 'I';
@@ -225,7 +225,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 			->set('filedownloadcount', $fileDownloadCount);
 		parent::saveToDb();
 		$db->createCommand()->update('vtiger_notes', [
-			'filename' => App\Purifier::decodeHtml($fileName),
+			'filename' => $fileName,
 			'filesize' => $fileSize,
 			'filetype' => $fileType,
 			'filelocationtype' => $fileLocationType,

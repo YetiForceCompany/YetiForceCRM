@@ -52,7 +52,7 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 		}
 		foreach ($value as $id) {
 			if (!is_numeric($id)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $id, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $id, 406);
 			}
 		}
 		$this->validate[$hashValue] = true;

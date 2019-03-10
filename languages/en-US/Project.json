@@ -44,14 +44,6 @@
     "low": "low",
     "normal": "normal",
     "high": "high",
-    "prospecting": "Prospecting",
-    "initiated": "Initiated",
-    "in progress": "In progress",
-    "waiting for feedback": "Waiting for feedback",
-    "on hold": "On hold",
-    "completed": "Completed",
-    "delivered": "Delivered",
-    "archived": "Archived",
     "LBL_GANTT_FILTER": "Filter",
     "LBL_GANTT_NOW": "Center",
     "LBL_GANTT_ZOOM_X": "X axis zoom",
@@ -60,7 +52,8 @@
     "LBL_GANTT_TASKLIST": "List width",
     "LBL_GANTT_TASKLIST_VISIBLE": "Show list",
     "LBL_GANTT_TITLE": "Gantt chart",
-    "LBL_GANTT_TITLE_ALL_PROJECTS": "Gantt chart - all projects"
+    "LBL_GANTT_TITLE_ALL_PROJECTS": "Gantt chart - all projects",
+    "LBL_SHOW_HIERARCHY": "Project hierarchy"
   },
   "js": {
     "JS_NO.": "No.",

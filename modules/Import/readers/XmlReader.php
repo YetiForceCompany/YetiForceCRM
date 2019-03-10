@@ -50,7 +50,7 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 
 	public function getFilePath()
 	{
-		if ($this->filePath) {
+		if (isset($this->filePath)) {
 			return $this->filePath;
 		}
 		return parent::getFilePath();
@@ -82,7 +82,7 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 		$xmlToImport->open($this->getFilePath());
 
 		list($recordData, $recordsInventoryData) = $this->getRecordDataFromXML($xmlToImport, false);
-		$columnsName = $this->inventoryData['tags'];
+		$columnsName = $this->inventoryData['tags'] ?? [];
 		$mappedData = [];
 		$inventoryMappedData = [];
 		$allValuesEmpty = true;
@@ -137,7 +137,7 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 		$countKey = count($key);
 		for ($i = 0; $i < $countKey; ++$i) {
 			if (array_key_exists($key[$i], $combine)) {
-				if (!$dup[$key[$i]]) {
+				if (!isset($dup[$key[$i]])) {
 					$dup[$key[$i]] = 1;
 				}
 				$key[$i] = $key[$i] . ' (' . ++$dup[$key[$i]] . ')';
@@ -158,7 +158,7 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 		while ($xmlToImport->read()) {
 			if ($xmlToImport->nodeType == XMLReader::ELEMENT) {
 				if (!in_array($xmlToImport->localName, ['MODULE_FIELDS', 'INVENTORY_ITEM', 'INVENTORY_ITEMS'])) {
-					$labels[] = $xmlToImport->getAttribute('label');
+					$labels[] = \App\Purifier::purify($xmlToImport->getAttribute('label'));
 					$recordData[] = $xmlToImport->readString();
 				} elseif ($isInventory && $xmlToImport->localName == 'INVENTORY_ITEMS') {
 					$recordInventoryData = $this->getInventoryData($xmlToImport, $keyType);
@@ -184,7 +184,7 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 					++$index;
 					continue;
 				}
-				$label = $xmlToImport->getAttribute('label');
+				$label = \App\Purifier::purify($xmlToImport->getAttribute('label'));
 				if (empty($label)) {
 					$label = $xmlToImport->localName;
 				}

@@ -132,31 +132,33 @@ jQuery.Class('Settings_Module_Manager_Js', {
 		Vtiger_Helper_Js.showPnotify(params);
 	},
 	frameProgress: false,
-	deleteModule: function (container) {
-		container.on('click', '.deleteModule', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
-			var forModule = currentTarget.attr('name');
-			var params = {}
-			params.data = {
-				module: app.getModuleName(),
-				action: 'Basic',
-				parent: app.getParentModuleName(),
-				mode: 'deleteModule',
-				forModule: forModule
-			}
-			this.frameProgress = $.progressIndicator({
-				position: 'html',
-				message: app.vtranslate('JS_FRAME_IN_PROGRESS'),
-				blockInfo: {
-					enabled: true
-				}
-			});
-			AppConnector.request(params).done(function (data) {
-				Vtiger_Helper_Js.showPnotify({
-					title: app.vtranslate('JS_REMOVED_MODULE'),
-					type: 'info'
+	deleteModule: function(container) {
+		const self = this;
+		container.on('click', '.deleteModule', function() {
+			let forModule = $(this).attr("name");
+			Vtiger_Helper_Js.showConfirmationBox({
+				message: app.vtranslate("JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE")
+			}).done(function(e) {
+				self.frameProgress = $.progressIndicator({
+					position: "html",
+					message: app.vtranslate("JS_FRAME_IN_PROGRESS"),
+					blockInfo: {
+						enabled: true
+					}
 				});
-				window.location.href = 'index.php?module=ModuleManager&parent=Settings&view=List';
+				AppConnector.request({
+					module: app.getModuleName(),
+					action: "Basic",
+					parent: app.getParentModuleName(),
+					mode: "deleteModule",
+					forModule: forModule
+				}).done(function(data) {
+					Vtiger_Helper_Js.showPnotify({
+						title: app.vtranslate("JS_REMOVED_MODULE"),
+						type: "info"
+					});
+					app.openUrl("index.php?module=ModuleManager&parent=Settings&view=List");
+				});
 			});
 		});
 	},

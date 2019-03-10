@@ -283,7 +283,7 @@ abstract class View extends Base
 			'~libraries/popper.js/dist/umd/popper.js',
 			'~libraries/bootstrap/dist/js/bootstrap.js',
 			'~libraries/bootstrap-tabdrop/js/bootstrap-tabdrop.js',
-			'~libraries/bootbox/bootbox.js',
+			'~libraries/bootbox/dist/bootbox.min.js',
 			'~libraries/microplugin/src/microplugin.js',
 			'~libraries/sifter/sifter.js',
 			'~libraries/jQuery-Validation-Engine/js/jquery.validationEngine.js',

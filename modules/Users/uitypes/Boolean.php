@@ -32,7 +32,7 @@ class Users_Boolean_UIType extends Vtiger_Boolean_UIType
 	{
 		$currentModel = \App\User::getCurrentUserModel();
 		if ($this->getFieldModel()->getFieldName() === 'is_admin' && (!$currentModel->isAdmin() || $currentModel->getId() === $recordModel->getId())) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName(), 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName(), 406);
 		}
 		parent::setValueFromRequest($request, $recordModel, $requestFieldName);
 	}

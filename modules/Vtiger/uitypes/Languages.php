@@ -22,7 +22,7 @@ class Vtiger_Languages_UIType extends Vtiger_Picklist_UIType
 		parent::validate($value, $isUserFormat);
 		$this->validate = false;
 		if (\App\Language::getLanguageLabel($value) === false) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;
 	}

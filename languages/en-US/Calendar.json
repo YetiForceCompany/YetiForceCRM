@@ -185,7 +185,8 @@
     "LBL_REMAIND_HOURS": "Remind after the selected number of hours",
     "LBL_REMAIND_MINS": "Remind after the selected number of minutes",
     "LBL_WORK_DAYS": "Work days",
-    "LBL_EDIT_FROM_CALENDAR": "Edit from Calendar"
+    "LBL_EDIT_FROM_CALENDAR": "Edit from Calendar",
+    "FL_SUBPROCESS_SECOND_LEVEL": "Second level subprocess"
   },
   "js": {
     "JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY": "Calendar view added successfully",

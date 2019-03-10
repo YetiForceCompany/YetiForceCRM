@@ -116,7 +116,7 @@ class ServiceContracts extends CRMEntity
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($eventType === 'module.postinstall') {
+		if ('module.postinstall' === $eventType) {
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
 
 			$accModuleInstance = vtlib\Module::getInstance('Accounts');
@@ -129,15 +129,14 @@ class ServiceContracts extends CRMEntity
 			$helpDeskInstance->setRelatedList($moduleInstance, 'Service Contracts', ['ADD', 'SELECT']);
 
 			// Initialize module sequence for the module
-			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'SERCON')->set('cur_id', 1)->save();
 			$dbCommand = \App\Db::getInstance()->createCommand();
 			// Make the picklist value 'Complete' for status as non-editable
 			$dbCommand->update('vtiger_contract_status', ['presence' => 0], ['contract_status' => 'Complete'])->execute();
 			// Mark the module as Standard module
 			$dbCommand->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
-		} elseif ($eventType === 'module.disabled') {
+		} elseif ('module.disabled' === $eventType) {
 			App\EventHandler::setInActive('ServiceContracts_ServiceContractsHandler_Handler');
-		} elseif ($eventType === 'module.enabled') {
+		} elseif ('module.enabled' === $eventType) {
 			App\EventHandler::setActive('ServiceContracts_ServiceContractsHandler_Handler');
 		}
 	}
@@ -153,7 +152,7 @@ class ServiceContracts extends CRMEntity
 			$with_crmids = [$with_crmids];
 		}
 		foreach ($with_crmids as $with_crmid) {
-			if ($with_module == 'HelpDesk') {
+			if ('HelpDesk' == $with_module) {
 				parent::saveRelatedModule($module, $crmid, $with_module, $with_crmid);
 				$this->updateHelpDeskRelatedTo($crmid, $with_crmid);
 				$this->updateServiceContractState($crmid);
@@ -179,7 +178,7 @@ class ServiceContracts extends CRMEntity
 				->from('vtiger_servicecontracts')
 				->leftJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_servicecontracts.sc_related_to')
 				->where(['vtiger_servicecontracts.servicecontractsid' => $focusId])->one();
-			if ($serviceContractsInfo['setype'] === 'Accounts') {
+			if ('Accounts' === $serviceContractsInfo['setype']) {
 				App\Db::getInstance()->createCommand()->update('vtiger_troubletickets', ['parent_id' => $serviceContractsInfo['sc_related_to']], ['ticketid' => $ticketId])->execute();
 			}
 		}
@@ -203,7 +202,7 @@ class ServiceContracts extends CRMEntity
 			$ticketFocus->id = $ticketId;
 			if (\App\Record::isExists($ticketId)) {
 				$ticketFocus->retrieveEntityInfo($ticketId, 'HelpDesk');
-				if (strtolower($ticketFocus->column_fields['ticketstatus']) === 'closed') {
+				if ('closed' === strtolower($ticketFocus->column_fields['ticketstatus'])) {
 					$totalUsedUnits += $this->computeUsedUnits($ticketFocus->column_fields);
 				}
 			}
@@ -220,21 +219,22 @@ class ServiceContracts extends CRMEntity
 		$workingHoursPerDay = 24;
 
 		$usedUnits = 0;
-		if ($trackingUnit == 'incidents') {
+		if ('incidents' == $trackingUnit) {
 			$usedUnits = 1;
-		} elseif ($trackingUnit == 'days') {
+		} elseif ('days' == $trackingUnit) {
 			if (!empty($ticketData['days'])) {
 				$usedUnits = $ticketData['days'];
 			} elseif (!empty($ticketData['hours'])) {
 				$usedUnits = $ticketData['hours'] / $workingHoursPerDay;
 			}
-		} elseif ($trackingUnit == 'hours') {
+		} elseif ('hours' == $trackingUnit) {
 			if (!empty($ticketData['hours'])) {
 				$usedUnits = $ticketData['hours'];
 			} elseif (!empty($ticketData['days'])) {
 				$usedUnits = $ticketData['days'] * $workingHoursPerDay;
 			}
 		}
+
 		return $usedUnits;
 	}
 
@@ -268,7 +268,7 @@ class ServiceContracts extends CRMEntity
 
 		// Update the End date if the status is Complete or if the Used Units reaches/exceeds Total Units
 		// We need to do this first to make sure Actual duration is computed properly
-		if ($contractStatus === 'Complete' || (!empty($usedUnits) && !empty($totalUnits) && $usedUnits >= $totalUnits)) {
+		if ('Complete' === $contractStatus || (!empty($usedUnits) && !empty($totalUnits) && $usedUnits >= $totalUnits)) {
 			if (empty($endDate)) {
 				$endDate = date('Y-m-d');
 				$db->createCommand()->update($this->table_name, ['end_date' => $endDate], ['servicecontractsid' => $this->id])->execute();
@@ -310,7 +310,7 @@ class ServiceContracts extends CRMEntity
 	 */
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		if ($relatedName === 'getManyToMany') {
+		if ('getManyToMany' === $relatedName) {
 			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		} else {
 			parent::deleteRelatedFromDB($id, $returnModule, $returnId);
@@ -336,30 +336,23 @@ class ServiceContracts extends CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = PearDatabase::getInstance();
-
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
-
-		$rel_table_arr = ['Documents' => 'vtiger_senotesrel', 'Attachments' => 'vtiger_seattachmentsrel'];
-
-		$tbl_field_arr = ['vtiger_senotesrel' => 'notesid', 'vtiger_seattachmentsrel' => 'attachmentsid'];
-
-		$entity_tbl_field_arr = ['vtiger_senotesrel' => 'crmid', 'vtiger_seattachmentsrel' => 'crmid'];
-
+		$relTableArr = ['Documents' => 'vtiger_senotesrel', 'Attachments' => 'vtiger_seattachmentsrel'];
+		$tblFieldArr = ['vtiger_senotesrel' => 'notesid', 'vtiger_seattachmentsrel' => 'attachmentsid'];
+		$entityTblFieldArr = ['vtiger_senotesrel' => 'crmid', 'vtiger_seattachmentsrel' => 'crmid'];
 		foreach ($transferEntityIds as $transferId) {
-			foreach ($rel_table_arr as $rel_table) {
-				$id_field = $tbl_field_arr[$rel_table];
-				$entity_id_field = $entity_tbl_field_arr[$rel_table];
+			foreach ($relTableArr as $relTable) {
+				$idField = $tblFieldArr[$relTable];
+				$entityIdField = $entityTblFieldArr[$relTable];
 				// IN clause to avoid duplicate entries
-				$sel_result = $adb->pquery("select $id_field from $rel_table where $entity_id_field=? " .
-					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", [$transferId, $entityId]);
-				$res_cnt = $adb->numRows($sel_result);
-				if ($res_cnt > 0) {
-					for ($i = 0; $i < $res_cnt; ++$i) {
-						$id_field_value = $adb->queryResult($sel_result, $i, $id_field);
-						$adb->pquery("update $rel_table set $entity_id_field=? where $entity_id_field=? and $id_field=?", [$entityId, $transferId, $id_field_value]);
-					}
+				$subQuery = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $entityId]);
+				$query = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $transferId])->andWhere(['not in', $idField, $subQuery]);
+				$dataReader = $query->createCommand()->query();
+				while ($idFieldValue = $dataReader->readColumn(0)) {
+					$dbCommand->update($relTable, [$entityIdField => $entityId], [$entityIdField => $transferId, $idField => $idFieldValue])->execute();
 				}
+				$dataReader->close();
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);

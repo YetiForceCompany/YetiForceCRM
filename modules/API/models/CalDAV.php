@@ -33,7 +33,7 @@ class API_CalDAV_Model
 	/**
 	 * User.
 	 *
-	 * @var mixed|bool
+	 * @var bool|mixed
 	 */
 	public $user = false;
 
@@ -105,7 +105,7 @@ class API_CalDAV_Model
 			$isPermitted = !isset(self::$cache[$userId][$this->record['id']]) && !$this->toDelete($this->record);
 			if ($isPermitted) {
 				$exclusion = \App\Config::component('Dav', 'CALDAV_EXCLUSION_TO_DAV');
-				if ($exclusion !== false) {
+				if (false !== $exclusion) {
 					foreach ($exclusion as $key => $value) {
 						if ($this->record[$key] == $value) {
 							$isPermitted = false;
@@ -116,13 +116,13 @@ class API_CalDAV_Model
 					$orgUserId = App\User::getCurrentUserId();
 					App\User::setCurrentUserId($userId);
 					$event = $this->getDavDetail();
-					if ($event === false) {
+					if (false === $event) {
 						// Creating
 						$this->davCreate();
-						$create++;
+						++$create;
 					} elseif (strtotime($this->record['modifiedtime']) > $event['lastmodified']) { // Updating
 						$this->davUpdate($event);
-						$updates++;
+						++$updates;
 					}
 					App\User::setCurrentUserId($orgUserId);
 					self::$cache[$userId][$this->record['id']] = true;
@@ -145,7 +145,7 @@ class API_CalDAV_Model
 		$calendar = $instance->getVCalendar();
 		$uid = (string) $component->UID;
 		$calUri = $uid . '.ics';
-		if ((string) $component->name === 'VEVENT') {
+		if ('VEVENT' === (string) $component->name) {
 			$this->davSaveAttendee($this->record, $calendar, $component);
 		}
 		$calendarData = $calendar->serialize();
@@ -170,7 +170,7 @@ class API_CalDAV_Model
 	/**
 	 * Dav update.
 	 *
-	 * @param array $calendar
+	 * @param array $dav
 	 */
 	public function davUpdate($dav)
 	{
@@ -179,7 +179,7 @@ class API_CalDAV_Model
 		$component = $instance->getComponent();
 		$instance->updateComponent();
 		$calendar = $instance->getVCalendar();
-		if ((string) $component->name === 'VEVENT') {
+		if ('VEVENT' === (string) $component->name) {
 			$this->davSaveAttendee($this->record, $calendar, $component);
 		}
 		$calendarData = $calendar->serialize();
@@ -241,7 +241,7 @@ class API_CalDAV_Model
 		while ($row = $dataReader->read()) {
 			if (!$row['crmid']) { //Creating
 				if ($this->recordCreate($row)) {
-					$create++;
+					++$create;
 				} else {
 					++$skipped;
 				}
@@ -251,7 +251,7 @@ class API_CalDAV_Model
 			} else {
 				if (strtotime($row['modifiedtime']) < $row['lastmodified']) { // Updating
 					if ($this->recordUpdate(Vtiger_Record_Model::getInstanceById($row['crmid'], $row['setype']), $row)) {
-						$updates++;
+						++$updates;
 					} else {
 						++$skipped;
 					}
@@ -277,7 +277,7 @@ class API_CalDAV_Model
 			$component = $calendar->getComponent();
 			$recordModel->set('assigned_user_id', $this->user->get('id'));
 			$exclusion = \App\Config::component('Dav', 'CALDAV_EXCLUSION_FROM_DAV');
-			if ($exclusion !== false) {
+			if (false !== $exclusion) {
 				foreach ($exclusion as $key => $value) {
 					if ($recordModel->get($key) == $value) {
 						\App\Log::info(__METHOD__ . ' | End exclusion');
@@ -295,7 +295,7 @@ class API_CalDAV_Model
 				'modifiedtime' => date('Y-m-d H:i:s', $cal['lastmodified']),
 			], ['crmid' => $recordModel->getId()]
 			)->execute();
-			if ((string) $component->name === 'VEVENT') {
+			if ('VEVENT' === (string) $component->name) {
 				$this->recordSaveAttendee($recordModel, $component);
 			}
 		}
@@ -319,7 +319,7 @@ class API_CalDAV_Model
 			$component = $calendar->getComponent();
 			$recordModel->set('assigned_user_id', $this->user->get('id'));
 			$exclusion = \App\Config::component('Dav', 'CALDAV_EXCLUSION_FROM_DAV');
-			if ($exclusion !== false) {
+			if (false !== $exclusion) {
 				foreach ($exclusion as $key => $value) {
 					if ($recordModel->get($key) == $value) {
 						\App\Log::info(__METHOD__ . ' | End exclusion');
@@ -337,7 +337,7 @@ class API_CalDAV_Model
 				'modifiedtime' => date('Y-m-d H:i:s', $cal['lastmodified']),
 			], ['crmid' => $recordModel->getId()]
 			)->execute();
-			if ((string) $component->name === 'VEVENT') {
+			if ('VEVENT' === (string) $component->name) {
 				$this->recordSaveAttendee($recordModel, $component);
 			}
 		}
@@ -375,7 +375,7 @@ class API_CalDAV_Model
 	 */
 	protected function toDelete($cal)
 	{
-		if ($cal['assigned_user_id'] === '' || (int) $cal['deleted'] !== 0) {
+		if ('' === $cal['assigned_user_id'] || 0 !== (int) $cal['deleted']) {
 			return true;
 		}
 		$userId = (int) $this->user->getId();
@@ -392,7 +392,7 @@ class API_CalDAV_Model
 				$isPermitted = (int) $cal['assigned_user_id'] === $userId;
 				break;
 		}
-		if (!$isPermitted && $cal['visibility'] !== 'Public') {
+		if (!$isPermitted && 'Public' !== $cal['visibility']) {
 			return true;
 		}
 		return false;
@@ -423,7 +423,7 @@ class API_CalDAV_Model
 		$lastOccurence = null;
 		$uid = null;
 		foreach ($vObject->getComponents() as $component) {
-			if ($component->name !== 'VTIMEZONE') {
+			if ('VTIMEZONE' !== $component->name) {
 				$componentType = $component->name;
 				$uid = (string) $component->UID;
 				break;
@@ -432,7 +432,7 @@ class API_CalDAV_Model
 		if (!$componentType) {
 			throw new \Sabre\DAV\Exception\BadRequest('Calendar objects must have a VJOURNAL, VEVENT or VTODO component');
 		}
-		if ($componentType === 'VEVENT') {
+		if ('VEVENT' === $componentType) {
 			$firstOccurence = $component->DTSTART->getDateTime()->getTimeStamp();
 			// Finding the last occurence is a bit harder
 			if (!isset($component->RRULE)) {
@@ -473,7 +473,6 @@ class API_CalDAV_Model
 		}
 		// Destroy circular references to PHP will GC the object.
 		$vObject->destroy();
-
 		return [
 			'etag' => md5($calendarData),
 			'size' => strlen($calendarData),
@@ -503,22 +502,24 @@ class API_CalDAV_Model
 		$dataReader->close();
 		$time = Sabre\VObject\DateTimeParser::parse($component->DTSTAMP);
 		$timeFormated = $time->format('Y-m-d H:i:s');
-		$db = \App\Db::getInstance();
-		$dbCommand = $db->createCommand();
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		$attendees = $component->select('ATTENDEE');
 		foreach ($attendees as &$attendee) {
-			$value = ltrim($attendee->getValue(), 'mailto:');
-			if ($attendee['ROLE']->getValue() === 'CHAIR') {
-				$users = App\Fields\Email::findCrmidByEmail($value, ['Users']);
+			$value = $attendee->getValue();
+			if (0 === strpos($value, 'mailto:')) {
+				$value = substr($value, 7, strlen($value) - 7);
+			}
+			if ('CHAIR' === $attendee['ROLE']->getValue()) {
+				$users = \App\Fields\Email::findCrmidByEmail($value, ['Users']);
 				if (!empty($users)) {
 					continue;
 				}
 			}
 			$crmid = 0;
-			$records = App\Fields\Email::findCrmidByEmail($value, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(), \App\ModuleHierarchy::getModulesByLevel(3))));
+			$records = \App\Fields\Email::findCrmidByEmail($value, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(), \App\ModuleHierarchy::getModulesByLevel(4))));
 			if (!empty($records)) {
-				$record = reset($records);
-				$crmid = $record['id'];
+				$recordCrm = current($records);
+				$crmid = $recordCrm['crmid'];
 			}
 			$status = $this->getAttendeeStatus($attendee['PARTSTAT']->getValue());
 			if (isset($invities[$value])) {
@@ -559,7 +560,6 @@ class API_CalDAV_Model
 	protected function davSaveAttendee(array $record, Sabre\VObject\Component\VCalendar $vcalendar, Sabre\VObject\Component\VEvent $component)
 	{
 		$owner = Users_Privileges_Model::getInstanceById($record['assigned_user_id']);
-
 		$invities = [];
 		$query = (new App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => $record['id']]);
 		$dataReader = $query->createCommand()->query();
@@ -596,10 +596,10 @@ class API_CalDAV_Model
 		}
 		foreach ($invities as &$row) {
 			$attendee = $vcalendar->createProperty('ATTENDEE', 'mailto:' . $row['email']);
-			$attendee->add('CN', vtlib\Functions::getCRMRecordLabel($row['id']));
+			$attendee->add('CN', \App\Record::getLabel($row['crmid']));
 			$attendee->add('ROLE', 'REQ-PARTICIPANT');
 			$attendee->add('PARTSTAT', $this->getAttendeeStatus($row['status'], false));
-			$attendee->add('RSVP', $row['status'] == '0' ? 'true' : 'false');
+			$attendee->add('RSVP', '0' == $row['status'] ? 'true' : 'false');
 			$component->add($attendee);
 		}
 	}
@@ -615,7 +615,6 @@ class API_CalDAV_Model
 	public function getAttendeeStatus($value, $toCrm = true)
 	{
 		$statuses = ['NEEDS-ACTION', 'ACCEPTED', 'DECLINED'];
-
 		if ($toCrm) {
 			$status = 0;
 			$statuses = array_flip($statuses);
