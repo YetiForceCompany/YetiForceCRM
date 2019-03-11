@@ -25,10 +25,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 			->from('vtiger_leaddetails')
 			->innerJoin('vtiger_crmentity', 'vtiger_leaddetails.leadid = vtiger_crmentity.crmid')
 			->where(['deleted' => 0, 'converted' => 0]);
-		$securityParameter = \App\PrivilegeQuery::getAccessConditions($this->getName());
-		if ('' !== $securityParameter) {
-			$query->andWhere('1=1 ' . $securityParameter);
-		}
+		\App\PrivilegeQuery::getConditions($query, $this->getName());
 		if (!empty($owner)) {
 			$query->andWhere(['smownerid' => $owner]);
 		}
