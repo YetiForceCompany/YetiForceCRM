@@ -236,7 +236,7 @@ class PackageExport
 		foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('languages', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			// @var $item \SplFileInfo
 			if ($item->isFile() && $item->getFilename() === $module . '.json') {
-				$zip->addFile($item->getPath() . DIRECTORY_SEPARATOR . $item->getFilename());
+				$zip->addFile($item->getPath() . \DIRECTORY_SEPARATOR . $item->getFilename());
 			}
 		}
 	}
@@ -278,21 +278,13 @@ class PackageExport
 	 */
 	public function exportModule()
 	{
-		$adb = \PearDatabase::getInstance();
-
 		$moduleId = $this->moduleInstance->id;
-
-		$sqlresult = $adb->pquery('SELECT * FROM vtiger_tab WHERE tabid = ?', [$moduleId]);
-		$tabInfo = $adb->getRow($sqlresult);
-
-		$tabname = $tabInfo['name'];
-		$tablabel = $tabInfo['tablabel'];
-		$tabVersion = $tabInfo['version'] ?? false;
-
+		$dataReader = (new \App\Db\Query())->from('vtiger_tab')->where(['tabid' => $moduleId])->createCommand()->query()->read();
+		$tabVersion = $dataReader['version'] ?? false;
 		$this->openNode('module');
 		$this->outputNode(date('Y-m-d H:i:s'), 'exporttime');
-		$this->outputNode($tabname, 'name');
-		$this->outputNode($tablabel, 'label');
+		$this->outputNode($dataReader['name'], 'name');
+		$this->outputNode($dataReader['tablabel'], 'label');
 
 		if (!$this->moduleInstance->isentitytype) {
 			$type = 'extension';
