@@ -2,8 +2,8 @@
 import store from 'src/store'
 import actions from 'src/store/actions'
 
-function fetchParentRouteData(routeTo, routeFrom, next) {
-  store.dispatch(actions[routeTo.meta.module].fetchData).then(res => {
+function fetchChildRouteData(routeTo, routeFrom, next) {
+  store.dispatch(actions[routeTo.meta.module].fetchData, routeTo.meta.view).then(res => {
     next()
   })
 }
@@ -19,7 +19,7 @@ const routes = [
     path: '/users/login',
     redirect: '/users/login/form',
     component: () => import('layouts/Users/Login.vue'),
-    beforeEnter: fetchParentRouteData,
+    beforeEnter: fetchChildRouteData,
     children: [
       {
         name: 'LoginForm',
