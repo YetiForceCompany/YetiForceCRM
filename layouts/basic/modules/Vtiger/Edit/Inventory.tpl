@@ -76,7 +76,7 @@
 							{/foreach}
 						</div>
 					</th>
-					{assign var="ROW_NO" value=1}
+					{assign var="ROW_NO" value=0}
 					{if isset($FIELDS[0])}
 						{foreach item=FIELD from=$FIELDS[0]}
 							<th class="{if !$FIELD->isEditable()}d-none {/if} border-bottom-0">
