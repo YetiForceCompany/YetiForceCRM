@@ -399,85 +399,75 @@ class PackageExport
 	 */
 	public function exportFields(ModuleBasic $moduleInstance, $blockid)
 	{
-		$adb = \PearDatabase::getInstance();
-
-		$fieldresult = $adb->pquery('SELECT * FROM vtiger_field WHERE tabid=? && block=?', [$moduleInstance->id, $blockid]);
-		$fieldcount = $adb->numRows($fieldresult);
-
-		if (empty($fieldcount)) {
+		$dataReader = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $moduleInstance->id, 'block' => $blockid])->createCommand()->query();
+		if (0 === $dataReader->count()) {
 			return;
 		}
-
-		$entityresult = $adb->pquery('SELECT * FROM vtiger_entityname WHERE tabid=?', [$moduleInstance->id]);
-		$entity_fieldname = $adb->queryResult($entityresult, 0, 'fieldname');
+		$entityField = (new \App\Db\Query())->select(['fieldname', 'entityidfield', 'entityidcolumn'])->from('vtiger_entityname')->where(['tabid' => $moduleInstance->id])->all();
+		$entityFieldName = $entityField[0];
 		$this->openNode('fields');
-		for ($index = 0; $index < $fieldcount; ++$index) {
+		while ($row = $dataReader->read()) {
 			$this->openNode('field');
-			$fieldresultrow = $adb->fetchByAssoc($fieldresult);
-
-			$fieldname = $fieldresultrow['fieldname'];
-			$uitype = $fieldresultrow['uitype'];
-			$fieldid = $fieldresultrow['fieldid'];
-
-			$info_schema = $adb->pquery('SELECT column_name, column_type FROM INFORMATION_SCHEMA.COLUMNS WHERE table_schema = SCHEMA() && table_name = ? && column_name = ?', [$fieldresultrow['tablename'], $fieldresultrow['columnname']]);
-			$info_schemarow = $adb->fetchByAssoc($info_schema);
+			$fieldname = $row['fieldname'];
+			$uiType = $row['uitype'];
+			$tableName = $row['tablename'];
+			$columnName = $row['columnname'];
+			$fieldParams = $row['fieldparams'];
+			$infoSchema = \App\Db::getInstance()->getTableSchema($tableName);
 			$this->outputNode($fieldname, 'fieldname');
-			$this->outputNode($uitype, 'uitype');
-			$this->outputNode($fieldresultrow['columnname'], 'columnname');
+			$this->outputNode($uiType, 'uitype');
+			$this->outputNode($infoSchema->columns[$columnName]->dbType, 'columnname');
 			$this->outputNode($info_schemarow['column_type'], 'columntype');
-			$this->outputNode($fieldresultrow['tablename'], 'tablename');
-			$this->outputNode($fieldresultrow['generatedtype'], 'generatedtype');
-			$this->outputNode($fieldresultrow['fieldlabel'], 'fieldlabel');
-			$this->outputNode($fieldresultrow['readonly'], 'readonly');
-			$this->outputNode($fieldresultrow['presence'], 'presence');
-			$this->outputNode($fieldresultrow['defaultvalue'], 'defaultvalue');
-			$this->outputNode($fieldresultrow['sequence'], 'sequence');
-			$this->outputNode($fieldresultrow['maximumlength'], 'maximumlength');
-			$this->outputNode($fieldresultrow['typeofdata'], 'typeofdata');
-			$this->outputNode($fieldresultrow['quickcreate'], 'quickcreate');
-			$this->outputNode($fieldresultrow['quickcreatesequence'], 'quickcreatesequence');
-			$this->outputNode($fieldresultrow['displaytype'], 'displaytype');
-			$this->outputNode($fieldresultrow['info_type'], 'info_type');
-			$this->outputNode($fieldresultrow['fieldparams'], 'fieldparams');
-			$this->outputNode($fieldresultrow['helpinfo'], 'helpinfo');
+			$this->outputNode($tableName, 'tablename');
+			$this->outputNode($row['generatedtype'], 'generatedtype');
+			$this->outputNode($row['fieldlabel'], 'fieldlabel');
+			$this->outputNode($row['readonly'], 'readonly');
+			$this->outputNode($row['presence'], 'presence');
+			$this->outputNode($row['defaultvalue'], 'defaultvalue');
+			$this->outputNode($row['sequence'], 'sequence');
+			$this->outputNode($row['maximumlength'], 'maximumlength');
+			$this->outputNode($row['typeofdata'], 'typeofdata');
+			$this->outputNode($row['quickcreate'], 'quickcreate');
+			$this->outputNode($row['quickcreatesequence'], 'quickcreatesequence');
+			$this->outputNode($row['displaytype'], 'displaytype');
+			$this->outputNode($row['info_type'], 'info_type');
+			$this->outputNode($row['fieldparams'], 'fieldparams');
+			$this->outputNode($row['helpinfo'], 'helpinfo');
 
-			if (isset($fieldresultrow['masseditable'])) {
-				$this->outputNode($fieldresultrow['masseditable'], 'masseditable');
+			if (isset($row['masseditable'])) {
+				$this->outputNode($row['masseditable'], 'masseditable');
 			}
-			if (isset($fieldresultrow['summaryfield'])) {
-				$this->outputNode($fieldresultrow['summaryfield'], 'summaryfield');
+			if (isset($row['summaryfield'])) {
+				$this->outputNode($row['summaryfield'], 'summaryfield');
 			}
 			// Export Entity Identifier Information
-			if ($fieldname == $entity_fieldname) {
+			if ($fieldname == $entityFieldName['fieldname']) {
 				$this->openNode('entityidentifier');
-				$this->outputNode($adb->queryResult($entityresult, 0, 'entityidfield'), 'entityidfield');
-				$this->outputNode($adb->queryResult($entityresult, 0, 'entityidcolumn'), 'entityidcolumn');
+				$this->outputNode($entityFieldName['entityidfield'], 'entityidfield');
+				$this->outputNode($entityFieldName['entityidcolumn'], 'entityidcolumn');
 				$this->closeNode('entityidentifier');
 			}
-
 			// Export picklist values for picklist fields
-			if ('15' == $uitype || '16' == $uitype || '111' == $uitype || '33' == $uitype || '55' == $uitype) {
+			if ('15' == $uiType || '16' == $uiType || '111' == $uiType || '33' == $uiType || '55' == $uiType) {
 				$this->openNode('picklistvalues');
 				foreach (\App\Fields\Picklist::getValuesName($fieldname) as $picklistvalue) {
 					$this->outputNode($picklistvalue, 'picklistvalue');
 				}
 				$this->closeNode('picklistvalues');
 			}
-
 			// Export field to module relations
-			if ('10' == $uitype) {
-				$relatedmodres = $adb->pquery('SELECT * FROM vtiger_fieldmodulerel WHERE fieldid=?', [$fieldid]);
-				$relatedmodcount = $adb->numRows($relatedmodres);
-				if ($relatedmodcount) {
+			if ('10' == $uiType) {
+				$dataReader = (new \App\Db\Query())->from('vtiger_fieldmodulerel')->where(['fieldid' => $row['fieldid']])->createCommand()->query();
+				if (0 < $dataReader->count()) {
 					$this->openNode('relatedmodules');
-					for ($relmodidx = 0; $relmodidx < $relatedmodcount; ++$relmodidx) {
-						$this->outputNode($adb->queryResult($relatedmodres, $relmodidx, 'relmodule'), 'relatedmodule');
-					}
+						while($row = $dataReader->read()){
+							$this->outputNode($row['relmodule'], 'relatedmodule');
+						}
+						$dataReader->close();
 					$this->closeNode('relatedmodules');
 				}
 			}
-
-			if ('4' == $uitype) {
+			if ('4' == $uiType) {
 				$valueFieldNumber = \App\Fields\RecordNumber::getInstance($moduleInstance->id);
 				$this->openNode('numberInfo');
 				$this->outputNode($valueFieldNumber->get('prefix'), 'prefix');
@@ -489,32 +479,36 @@ class PackageExport
 				$this->outputNode($valueFieldNumber->get('cur_sequence'), 'cur_sequence');
 				$this->closeNode('numberInfo');
 			}
-			if ('302' == $uitype) {
+			if ('302' == $uiType) {
 				$this->outputNode('', 'fieldparams');
 				$this->openNode('tree_template');
-				$trees = $adb->pquery('SELECT * FROM vtiger_trees_templates WHERE templateid=?;', [$fieldresultrow['fieldparams']]);
-				if ($adb->numRows($trees) > 0) {
-					$this->outputNode($adb->queryResultRaw($trees, 0, 'name'), 'name');
-					$this->outputNode($adb->queryResultRaw($trees, 0, 'access'), 'access');
-					$treesData = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid=?;', [$fieldresultrow['fieldparams']]);
+				$treesExist = (new \App\Db\Query())->select(['name', 'access'])->from('vtiger_trees_templates')->where(['templateid' => $fieldParams]);
+				$treesValue = $treesExist->all();
+				if ($treesExist->exists()) {
+					$this->outputNode($treesValue[0]['name'], 'name');
+					$this->outputNode($treesValue[0]['access'], 'access');
+					$dataReader = (new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => $fieldParams])->createCommand()->query();
 					$this->openNode('tree_values');
-					$countTreesData = $adb->numRows($treesData);
-					for ($i = 0; $i < $countTreesData; ++$i) {
-						$this->openNode('tree_value');
-						$this->outputNode($adb->queryResultRaw($treesData, $i, 'name'), 'name');
-						$this->outputNode($adb->queryResultRaw($treesData, $i, 'tree'), 'tree');
-						$this->outputNode($adb->queryResultRaw($treesData, $i, 'parentTree'), 'parentTree');
-						$this->outputNode($adb->queryResultRaw($treesData, $i, 'depth'), 'depth');
-						$this->outputNode($adb->queryResultRaw($treesData, $i, 'label'), 'label');
-						$this->outputNode($adb->queryResultRaw($treesData, $i, 'state'), 'state');
-						$this->closeNode('tree_value');
+					if(0 < $dataReader->count()){
+						while($row = $dataReader->read()){
+							$this->openNode('tree_value');
+							$this->outputNode($row['name'], 'name');
+							$this->outputNode($row['tree'], 'tree');
+							$this->outputNode($row['parentTree'], 'parentTree');
+							$this->outputNode($row['depth'], 'depth');
+							$this->outputNode($row['label'], 'label');
+							$this->outputNode($row['state'], 'state');
+							$this->closeNode('tree_value');
+						}
 					}
+					$dataReader->close();
 					$this->closeNode('tree_values');
 				}
 				$this->closeNode('tree_template');
 			}
 			$this->closeNode('field');
 		}
+		$dataReader->close();
 		$this->closeNode('fields');
 	}
 
