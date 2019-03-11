@@ -41,6 +41,7 @@ return [
 			}
 			$saveValue = [];
 			foreach ($values as $value) {
+				$value = \App\Purifier::purify($value);
 				$saveValue[$value] = $value;
 			}
 			return $saveValue;
