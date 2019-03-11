@@ -1,5 +1,5 @@
 <?php
-/* +***********************************************************************************
+ /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -11,7 +11,7 @@
 /**
  * Class IcalLastImport.
  */
-class IcalLastImport
+class iCalLastImport
 {
 	/**
 	 * Table name.
@@ -67,21 +67,21 @@ class IcalLastImport
 	{
 		$adb = PearDatabase::getInstance();
 
-		if (count($this->fieldData) == 0) {
+		if (0 == count($this->fieldData)) {
 			return;
 		}
 
 		if (!vtlib\Utils::checkTable($this->tableName)) {
 			vtlib\Utils::createTable(
-				$this->tableName, '(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				$this->tableName,
+				'(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 					userid INT NOT NULL,
 					entitytype VARCHAR(200) NOT NULL,
-					crmid INT NOT NULL)', true);
+					crmid INT NOT NULL)',
+				true
+			);
 		}
-
-		$fieldNames = array_keys($this->fieldData);
-		$fieldValues = array_values($this->fieldData);
-		$adb->pquery('INSERT INTO ' . $this->tableName . '(' . implode(',', $fieldNames) . ') VALUES (' . $adb->generateQuestionMarks($fieldValues) . ')', [$fieldValues]);
+		\App\Db::getInstance()->createCommand()->insert($this->tableName, $this->fieldData)->execute();
 	}
 
 	/**
@@ -90,7 +90,7 @@ class IcalLastImport
 	 * @param string $moduleName
 	 * @param int    $userId
 	 *
-	 * @return int|bool
+	 * @return bool|int
 	 */
 	public function undo($moduleName, $userId)
 	{
