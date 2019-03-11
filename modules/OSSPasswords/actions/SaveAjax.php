@@ -33,7 +33,7 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 					$properPassword = (new \App\Db\Query())->select(['pass' => new \yii\db\Expression('AES_DECRYPT(`password`, :configKey)', [':configKey' => $config['key']])])->from('vtiger_osspasswords')->where(['osspasswordsid' => $recordId])->scalar();
 				} else {  // encryption mode is off
 					\App\Log::trace('Get plain text password.');
-					$properPassword = (new \App\Db\Query())->select(['pass' => 'password'])->from('vtiger_osspasswords')->where(['osspasswordsid' => $recordId])->createCommand()->query()->readColumn(0);
+					$properPassword = (new \App\Db\Query())->select(['pass' => 'password'])->from('vtiger_osspasswords')->where(['osspasswordsid' => $recordId])->scalar();
 					\App\Log::trace('Plain text pass: ' . $properPassword);
 				}
 			}
