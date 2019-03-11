@@ -3,7 +3,7 @@ import store from 'src/store'
 import actions from 'src/store/actions'
 
 function fetchParentRouteData(routeTo, routeFrom, next) {
-  store.dispatch(actions[routeTo.matched[0].name].fetchData).then(res => {
+  store.dispatch(actions[routeTo.meta.module].fetchData).then(res => {
     next()
   })
 }
@@ -15,7 +15,7 @@ const routes = [
     component: () => import('layouts/Basic.vue')
   },
   {
-    name: 'Users',
+    name: 'Login',
     path: '/users/login',
     redirect: '/users/login/form',
     component: () => import('layouts/Users/Login.vue'),
@@ -24,16 +24,19 @@ const routes = [
       {
         name: 'LoginForm',
         path: '/users/login/form',
+        meta: { module: 'Users', view: 'Login' },
         component: () => import('pages/Users/Login/Form.vue')
       },
       {
         name: '2FA',
         path: '/users/login/2fa',
+        meta: { module: 'Users', view: 'Login' },
         component: () => import('pages/Users/Login/2FA.vue')
       },
       {
         name: 'Reminder',
         path: '/users/login/reminder',
+        meta: { module: 'Users', view: 'Login' },
         component: () => import('pages/Users/Login/Reminder.vue')
       }
     ]
