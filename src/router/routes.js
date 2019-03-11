@@ -22,7 +22,7 @@ const routes = [
     beforeEnter: fetchParentRouteData,
     children: [
       {
-        name: 'Form',
+        name: 'LoginForm',
         path: '/users/login/form',
         component: () => import('pages/Users/Login/Form.vue')
       },
