@@ -11,9 +11,9 @@ export default {
    *
    * @param {object} state
    */
-  [actions.Users.fetchData]({ commit, rootGetters }) {
+  [actions.Users.fetchData]({ commit, rootGetters }, view) {
     loginAxios({
-      url: rootGetters[getters.Url]('Users.getData'),
+      url: rootGetters[getters.Url](`Users.${view}.getData`),
       method: 'POST'
     }).then(response => {
       commit(mutations.Global.update, response.data.env)
@@ -48,7 +48,7 @@ export default {
    */
   [actions.Users.login]({ commit, rootGetters }, formData) {
     loginAxios({
-      url: rootGetters[getters.Url]('Users.login'),
+      url: rootGetters[getters.Url]('Users.Login.login'),
       data: formData,
       method: 'POST'
     }).then(response => {
