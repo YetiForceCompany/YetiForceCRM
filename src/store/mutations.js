@@ -3,6 +3,9 @@ export default {
   Global: {
     update: 'update'
   },
+  Debug: {
+    pushError: 'Debug/pushError'
+  },
   Env: {},
   Language: {},
   Menu: {

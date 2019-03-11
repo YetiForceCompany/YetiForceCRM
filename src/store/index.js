@@ -5,6 +5,7 @@ import Vuex from 'vuex'
 import Objects from 'src/utilities/Objects.js'
 import mutations from './mutations.js'
 // modules
+import Debug from './Debug'
 import Env from './Env'
 import Users from './Users'
 import Menu from './Menu'
@@ -14,6 +15,7 @@ import Language from './Language'
 Vue.use(Vuex)
 
 const modules = {
+  Debug,
   Env,
   Menu,
   Url,
