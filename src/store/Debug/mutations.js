@@ -7,7 +7,7 @@ export default {
    * Push error to state
    *
    * @param   {object}  state
-   * @param   {object}  data
+   * @param   {object}  payload
    */
   [mutations.Debug.pushError](state, payload) {
     state.errors.push({ [payload.source]: Objects.mergeDeepReactive({}, payload.data) })
