@@ -19,6 +19,7 @@
  * be overloaded with module-specific methods and variables particular to the
  * module's base entity class.
  * ****************************************************************************** */
+require_once 'include/database/PearDatabase.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/fields/DateTimeField.php';
 require_once 'include/fields/DateTimeRange.php';
@@ -127,7 +128,15 @@ class CRMEntity
 				while ($row = $dataReader->read()) {
 					// Update cache
 					VTCacheUtils::updateFieldInfo(
-						(int) $tabid, $row['fieldname'], (int) $row['fieldid'], $row['fieldlabel'], $row['columnname'], $row['tablename'], (int) $row['uitype'], $row['typeofdata'], (int) $row['presence']
+						(int) $tabid,
+						$row['fieldname'],
+						(int) $row['fieldid'],
+						$row['fieldlabel'],
+						$row['columnname'],
+						$row['tablename'],
+						(int) $row['uitype'],
+						$row['typeofdata'],
+						(int) $row['presence']
 					);
 				}
 				// Get only active field information
@@ -169,22 +178,21 @@ class CRMEntity
 			$resultRow = $query->one();
 			if (empty($resultRow)) {
 				throw new \App\Exceptions\AppException('ERR_RECORD_NOT_FOUND||' . $record);
-			} else {
-				foreach ($cachedModuleFields as $fieldInfo) {
-					$fieldvalue = '';
-					$fieldkey = $this->createColumnAliasForField($fieldInfo);
-					//Note : value is retrieved with a tablename+fieldname as we are using alias while building query
-					if (isset($resultRow[$fieldkey])) {
-						$fieldvalue = $resultRow[$fieldkey];
-					}
-					if ($fieldInfo['uitype'] === 120) {
-						$fieldvalue = \App\Fields\SharedOwner::getById($record);
-						if (is_array($fieldvalue)) {
-							$fieldvalue = implode(',', $fieldvalue);
-						}
-					}
-					$this->column_fields[$fieldInfo['fieldname']] = $fieldvalue;
+			}
+			foreach ($cachedModuleFields as $fieldInfo) {
+				$fieldvalue = '';
+				$fieldkey = $this->createColumnAliasForField($fieldInfo);
+				//Note : value is retrieved with a tablename+fieldname as we are using alias while building query
+				if (isset($resultRow[$fieldkey])) {
+					$fieldvalue = $resultRow[$fieldkey];
 				}
+				if (120 === $fieldInfo['uitype']) {
+					$fieldvalue = \App\Fields\SharedOwner::getById($record);
+					if (is_array($fieldvalue)) {
+						$fieldvalue = implode(',', $fieldvalue);
+					}
+				}
+				$this->column_fields[$fieldInfo['fieldname']] = $fieldvalue;
 			}
 		}
 		$this->column_fields['record_id'] = $record;
@@ -193,6 +201,9 @@ class CRMEntity
 
 	/**
 	 * Function invoked during export of module record value.
+	 *
+	 * @param mixed $key
+	 * @param mixed $value
 	 */
 	public function transformExportValue($key, $value)
 	{
@@ -300,6 +311,11 @@ class CRMEntity
 	 * @param string Related module name
 	 * @param mixed Integer or Array of related module record number
 	 * @param string function name
+	 * @param mixed $module
+	 * @param mixed $crmid
+	 * @param mixed $withModule
+	 * @param mixed $withCrmid
+	 * @param mixed $relatedName
 	 */
 	public function saveRelatedModule($module, $crmid, $withModule, $withCrmid, $relatedName = false)
 	{
@@ -388,6 +404,9 @@ class CRMEntity
 	 * @param string This module name
 	 * @param array List of Entity Id's from which related records need to be transfered
 	 * @param int Id of the the Record to which the related records are to be moved
+	 * @param mixed $module
+	 * @param mixed $transferEntityIds
+	 * @param mixed $entityId
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
@@ -415,8 +434,6 @@ class CRMEntity
 				)->execute();
 			}
 			// Pick the records to which the entity to be transfered is related, but do not pick the once to which current entity is already related.
-			$parentRecords = $dbInstance->pquery('SELECT crmid, module FROM vtiger_crmentityrel WHERE relcrmid=? && relmodule=?' .
-				' && crmid NOT IN (SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid=? && relmodule=?)', [$transferId, $module, $entityId, $module]);
 			$parentRecords = (new App\Db\Query())->select(['crmid', 'module'])
 				->from('vtiger_crmentityrel')
 				->where(['relcrmid' => $transferId, 'relmodule' => $module])
@@ -514,7 +531,8 @@ class CRMEntity
 	{
 		if (strripos($tableName, 'rel') === (strlen($tableName) - 3)) {
 			return 'LEFT JOIN';
-		} elseif ($tableName == 'vtiger_entity_stats' || $tableName == 'u_yf_openstreetmap') {
+		}
+		if ('vtiger_entity_stats' == $tableName || 'u_yf_openstreetmap' == $tableName) {
 			return 'LEFT JOIN';
 		}
 		return 'INNER JOIN';
@@ -634,6 +652,8 @@ class CRMEntity
 
 	/**
 	 * Function to track when a new record is linked to a given record.
+	 *
+	 * @param mixed $crmId
 	 */
 	public static function trackLinkedInfo($crmId)
 	{
