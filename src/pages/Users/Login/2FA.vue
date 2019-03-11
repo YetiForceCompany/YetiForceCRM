@@ -17,7 +17,7 @@
         </template>
       </q-input>
       <q-btn size="lg" :label="$t('LBL_SIGN_IN')" type="submit" color="secondary" class="full-width q-mt-lg" />
-      <router-link :to="{ name: 'Login' }" class="text-secondary float-right">{{ $t('LBL_TO_CRM') }}</router-link>
+      <router-link :to="{ name: 'LoginForm' }" class="text-secondary float-right">{{ $t('LBL_TO_CRM') }}</router-link>
     </form>
   </div>
 </template>
