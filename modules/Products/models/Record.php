@@ -24,6 +24,8 @@ class Products_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function to get values of more currencies listprice.
 	 *
+	 * @param int $id
+	 *
 	 * @return array of listprice values
 	 */
 	public function getListPriceValues($id)
@@ -89,7 +91,8 @@ class Products_Record_Model extends Vtiger_Record_Model
 						$value = $unitPrice * $conversionrRate;
 					}
 				}
-				$priceDetails[] = array_merge($currency,
+				$priceDetails[] = array_merge(
+					$currency,
 					[
 						'curname' => 'curname' . $currency['id'],
 						'conversionrate' => $conversionrRate,
@@ -100,7 +103,8 @@ class Products_Record_Model extends Vtiger_Record_Model
 							'name' => 'curname' . $currency['id'],
 							'currency_symbol' => $currency['currency_symbol'],
 						]),
-					]);
+					]
+				);
 			}
 			$this->ext['priceDetails'] = $priceDetails;
 		}
@@ -138,50 +142,43 @@ class Products_Record_Model extends Vtiger_Record_Model
 	 * Static Function to get the list of records matching the search key.
 	 *
 	 * @param string $searchKey
+	 * @param mixed  $moduleName
+	 * @param mixed  $limit
+	 * @param mixed  $operator
 	 *
 	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
 	 */
 	public static function getSearchResult($searchKey, $moduleName = false, $limit = false, $operator = false)
 	{
 		$query = false;
-		if (false !== $moduleName && ('Products' == $moduleName || 'Services' == $moduleName)) {
-			$currentUser = \Users_Record_Model::getCurrentUserModel();
-			$adb = \PearDatabase::getInstance();
-			$params = ['%' . $currentUser->getId() . '%', "%$searchKey%"];
-			$queryFrom = 'SELECT u_yf_crmentity_search_label.`crmid`,u_yf_crmentity_search_label.`setype`,u_yf_crmentity_search_label.`searchlabel` FROM `u_yf_crmentity_search_label`';
-			$queryWhere = ' WHERE u_yf_crmentity_search_label.`userid` LIKE ? && u_yf_crmentity_search_label.`searchlabel` LIKE ?';
-			$orderWhere = '';
+		if (false !== $moduleName && ('Products' === $moduleName || 'Services' === $moduleName)) {
+			$currentUserId = \Users_Record_Model::getCurrentUserModel()->getId();
+			$query = (new App\Db\Query())->select(['u_#__crmentity_search_label.crmid', 'u_#__crmentity_search_label.setype', 'u_#__crmentity_search_label.searchlabel'])
+				->from('u_#__crmentity_search_label')
+				->where(['and', ['like', 'u_#__crmentity_search_label.userid', "%$currentUserId%"], ['like', 'u_#__crmentity_search_label.searchlabel', "%$searchKey%"]]);
 			if (false !== $moduleName) {
-				$multiMode = is_array($moduleName);
-				if ($multiMode) {
-					$queryWhere .= sprintf(' AND u_yf_crmentity_search_label.`setype` IN (%s)', $adb->generateQuestionMarks($moduleName));
-					$params = array_merge($params, $moduleName);
+				if (is_array($moduleName)) {
+					$query->andWhere(['in', 'u_#__crmentity_search_label.setype', $moduleName]);
 				} else {
-					$queryWhere .= ' && `setype` = ?';
-					$params[] = $moduleName;
+					$query->andWhere(['u_#__crmentity_search_label.setype' => $moduleName]);
 				}
-			} elseif (2 == \AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS')) {
-				$queryFrom .= ' LEFT JOIN vtiger_entityname ON vtiger_entityname.modulename = u_yf_crmentity_search_label.setype';
-				$queryWhere .= ' && vtiger_entityname.`turn_off` = 1 ';
-				$orderWhere = ' vtiger_entityname.sequence';
+			} elseif (2 === \AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS')) {
+				$query->leftJoin('vtiger_entityname', 'vtiger_entityname.modulename = u_#__crmentity_search_label.setype')
+					->andWhere(['vtiger_entityname.turn_off' => 1])
+					->orderBy('vtiger_entityname.sequence');
 			}
-			if ('Products' == $moduleName) {
-				$queryFrom .= ' INNER JOIN vtiger_products ON vtiger_products.productid = u_yf_crmentity_search_label.crmid';
-				$queryWhere .= ' && vtiger_products.discontinued = 1';
-			} elseif ('Services' == $moduleName) {
-				$queryFrom .= ' INNER JOIN vtiger_service ON vtiger_service.serviceid = u_yf_crmentity_search_label.crmid';
-				$queryWhere .= ' && vtiger_service.discontinued = 1';
-			}
-			$query = $queryFrom . $queryWhere;
-			if (!empty($orderWhere)) {
-				$query .= sprintf(' ORDER BY %s', $orderWhere);
+			if ('Products' === $moduleName) {
+				$query->innerJoin('vtiger_products', 'vtiger_products.productid = u_#__crmentity_search_label.crmid')
+					->andWhere(['vtiger_products.discontinued' => 1]);
+			} elseif ('Services' === $moduleName) {
+				$query->innerJoin('vtiger_service', 'vtiger_service.serviceid = u_#__crmentity_search_label.crmid')
+					->andWhere(['vtiger_service.discontinued' => 1]);
 			}
 			if (!$limit) {
 				$limit = AppConfig::search('GLOBAL_SEARCH_MODAL_MAX_NUMBER_RESULT');
 			}
 			if ($limit) {
-				$query .= ' LIMIT ';
-				$query .= $limit;
+				$query->limit($limit);
 			}
 		}
 
@@ -193,8 +190,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 			}
 			$rows = $recordSearch->search();
 		} else {
-			$result = $adb->pquery($query, $params);
-			while ($row = $adb->getRow($result)) {
+			while ($row = $query->createCommand()->read()) {
 				$rows[] = $row;
 			}
 		}
