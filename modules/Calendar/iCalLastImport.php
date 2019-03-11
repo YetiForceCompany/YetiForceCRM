@@ -9,9 +9,9 @@
  * *********************************************************************************** */
 
 /**
- * Class IcalLastImport.
+ * Class ICalLastImport.
  */
-class iCalLastImport
+class ICalLastImport
 {
 	/**
 	 * Table name.
@@ -65,9 +65,7 @@ class iCalLastImport
 	 */
 	public function save()
 	{
-		$adb = PearDatabase::getInstance();
-
-		if (0 == count($this->fieldData)) {
+		if (0 === count($this->fieldData)) {
 			return;
 		}
 
