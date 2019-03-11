@@ -29,8 +29,8 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 			->where(['osspasswordsid' => $recordId])
 			->limit(1);
 
-		if ($query->exists()) {
-			return $query->scalar();
+		if ($password = $query->scalar()) {
+			return $password;
 		}
 		return false;
 	}
