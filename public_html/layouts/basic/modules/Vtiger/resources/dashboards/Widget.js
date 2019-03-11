@@ -2922,3 +2922,23 @@ YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {
 		this.loadMultifilterData(false);
 	},
 });
+YetiForce_Widget_Js('YetiForce_UpcomingProjectTasks_Widget_Js', {}, {
+	postLoadWidget: function () {
+		this._super();
+		this.registerListViewButton();
+	},
+	registerListViewButton: function () {
+		const container = this.getContainer();
+		container.find('.goToListView').on('click', function () {
+			let url = 'index.php?module=ProjectTask&view=List&viewname=All';
+			url += '&search_params=[[';
+			let owner = container.find('.widgetFilter.owner option:selected');
+			if (owner.val() !== 'all') {
+				url += '["assigned_user_id","e","' + owner.val() + '"],';
+			}
+			url += '["projecttaskstatus","e","' + encodeURIComponent(container.find('[name="status"]').data('value')) + '"]]]';
+			app.openUrl(url)
+		});
+	}
+});
+YetiForce_UpcomingProjectTasks_Widget_Js('YetiForce_CompletedProjectTasks_Widget_Js', {}, {});

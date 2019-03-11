@@ -476,6 +476,9 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		\App\Cache::delete('getPickListFieldValuesRows', $fieldName);
 		\App\Cache::delete('getCloseStatesByName', \App\Module::getModuleId($moduleName));
 		\App\Cache::delete('getCloseStates', \App\Module::getModuleId($moduleName));
+		\App\Cache::delete("getValuesByAutomation$fieldName", self::AUTOMATION_OPEN);
+		\App\Cache::delete("getValuesByAutomation$fieldName", self::AUTOMATION_CLOSED);
+		\App\Cache::delete("getValuesByAutomation$fieldName", self::AUTOMATION_NO_CONCERN);
 	}
 
 	/**
