@@ -2,6 +2,8 @@
 /**
  * UpcomingProjectTasks chart class.
  *
+ * @package Dashboards
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Kon <a.kon@yetiforce.com>
@@ -9,8 +11,6 @@
 
 /**
  * UpcomingProjectTasks class.
- *
- * @package Dashboards
  */
 class ProjectTask_UpcomingProjectTasks_Dashboard extends Vtiger_IndexAjax_View
 {
