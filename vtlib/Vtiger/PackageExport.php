@@ -27,7 +27,7 @@ class PackageExport
 	 */
 	public function __construct()
 	{
-		if (is_dir($this->_export_tmpdir) === false) {
+		if (false === is_dir($this->_export_tmpdir)) {
 			mkdir($this->_export_tmpdir, 0755);
 		}
 	}
@@ -45,11 +45,11 @@ class PackageExport
 
 	public function outputNode($value, $node = '')
 	{
-		if ($node != '') {
+		if ('' != $node) {
 			$this->openNode($node, '');
 		}
 		$this->__write($value);
-		if ($node != '') {
+		if ('' != $node) {
 			$this->closeNode($node);
 		}
 	}
@@ -248,26 +248,26 @@ class PackageExport
 	 */
 	public function exportDependencies(ModuleBasic $moduleInstance)
 	{
-		$adb = \PearDatabase::getInstance();
 		$moduleId = $moduleInstance->id;
-
-		$sqlResult = $adb->pquery('SELECT * FROM vtiger_tab_info WHERE tabid = ?', [$moduleId]);
 		$minVersion = \App\Version::get();
 		$maxVersion = false;
-		$noOfPreferences = $adb->numRows($sqlResult);
-		for ($i = 0; $i < $noOfPreferences; ++$i) {
-			$prefName = $adb->queryResult($sqlResult, $i, 'prefname');
-			$prefValue = $adb->queryResult($sqlResult, $i, 'prefvalue');
-			if ($prefName == 'vtiger_min_version') {
-				$minVersion = $prefValue;
+		$dataReader = (new \App\Db\Query())->from('vtiger_tab_info')->where(['tabid' => $moduleId])->createCommand()->query();
+		if (0 < $dataReader->count()) {
+			while ($row = $dataReader->read()) {
+				$prefName = $row['prefname'];
+				$prefValue = $row['prefvalue'];
+				if ('vtiger_min_version' == $prefName) {
+					$minVersion = $prefValue;
+				}
+				if ('vtiger_max_version' == $prefName) {
+					$maxVersion = $prefValue;
+				}
 			}
-			if ($prefName == 'vtiger_max_version') {
-				$maxVersion = $prefValue;
-			}
+			$dataReader->close();
 		}
 		$this->openNode('dependencies');
 		$this->outputNode($minVersion, 'vtiger_version');
-		if ($maxVersion !== false) {
+		if (false !== $maxVersion) {
 			$this->outputNode($maxVersion, 'vtiger_max_version');
 		}
 		$this->closeNode('dependencies');
@@ -296,7 +296,7 @@ class PackageExport
 
 		if (!$this->moduleInstance->isentitytype) {
 			$type = 'extension';
-		} elseif ($tabInfo['type'] == 1) {
+		} elseif (1 == $tabInfo['type']) {
 			$type = 'inventory';
 		} else {
 			$type = 'entity';
@@ -320,7 +320,7 @@ class PackageExport
 		$this->exportCustomViews($this->moduleInstance);
 
 		// Export module inventory fields
-		if ($tabInfo['type'] == 1) {
+		if (1 == $tabInfo['type']) {
 			$this->exportInventory();
 		}
 
@@ -356,7 +356,7 @@ class PackageExport
 			// Setup required module variables which is need for vtlib API's
 			\VtlibUtils::vtlibSetupModulevars($modulename, $focus);
 			$tables = $focus->tab_name;
-			if (($key = array_search('vtiger_crmentity', $tables)) !== false) {
+			if (false !== ($key = array_search('vtiger_crmentity', $tables))) {
 				unset($tables[$key]);
 			}
 			foreach ($tables as $table) {
@@ -481,7 +481,7 @@ class PackageExport
 			}
 
 			// Export picklist values for picklist fields
-			if ($uitype == '15' || $uitype == '16' || $uitype == '111' || $uitype == '33' || $uitype == '55') {
+			if ('15' == $uitype || '16' == $uitype || '111' == $uitype || '33' == $uitype || '55' == $uitype) {
 				$this->openNode('picklistvalues');
 				foreach (\App\Fields\Picklist::getValuesName($fieldname) as $picklistvalue) {
 					$this->outputNode($picklistvalue, 'picklistvalue');
@@ -490,7 +490,7 @@ class PackageExport
 			}
 
 			// Export field to module relations
-			if ($uitype == '10') {
+			if ('10' == $uitype) {
 				$relatedmodres = $adb->pquery('SELECT * FROM vtiger_fieldmodulerel WHERE fieldid=?', [$fieldid]);
 				$relatedmodcount = $adb->numRows($relatedmodres);
 				if ($relatedmodcount) {
@@ -502,7 +502,7 @@ class PackageExport
 				}
 			}
 
-			if ($uitype == '4') {
+			if ('4' == $uitype) {
 				$valueFieldNumber = \App\Fields\RecordNumber::getInstance($moduleInstance->id);
 				$this->openNode('numberInfo');
 				$this->outputNode($valueFieldNumber->get('prefix'), 'prefix');
@@ -514,7 +514,7 @@ class PackageExport
 				$this->outputNode($valueFieldNumber->get('cur_sequence'), 'cur_sequence');
 				$this->closeNode('numberInfo');
 			}
-			if ($uitype == '302') {
+			if ('302' == $uitype) {
 				$this->outputNode('', 'fieldparams');
 				$this->openNode('tree_template');
 				$trees = $adb->pquery('SELECT * FROM vtiger_trees_templates WHERE templateid=?;', [$fieldresultrow['fieldparams']]);
@@ -557,8 +557,8 @@ class PackageExport
 		}
 		$this->openNode('customviews');
 		while ($row = $customViewDataReader->read()) {
-			$setdefault = ($row['setdefault'] == 1) ? 'true' : 'false';
-			$setmetrics = ($row['setmetrics'] == 1) ? 'true' : 'false';
+			$setdefault = (1 == $row['setdefault']) ? 'true' : 'false';
+			$setmetrics = (1 == $row['setmetrics']) ? 'true' : 'false';
 			$this->openNode('customview');
 			$this->outputNode($row['viewname'], 'viewname');
 			$this->outputNode($setdefault, 'setdefault');
@@ -611,16 +611,16 @@ class PackageExport
 			for ($index = 0; $index < $deforgshareCount; ++$index) {
 				$permission = $adb->queryResult($deforgshare, $index, 'permission');
 				$permissiontext = '';
-				if ($permission == '0') {
+				if ('0' == $permission) {
 					$permissiontext = 'public_readonly';
 				}
-				if ($permission == '1') {
+				if ('1' == $permission) {
 					$permissiontext = 'public_readwrite';
 				}
-				if ($permission == '2') {
+				if ('2' == $permission) {
 					$permissiontext = 'public_readwritedelete';
 				}
-				if ($permission == '3') {
+				if ('3' == $permission) {
 					$permissiontext = 'private';
 				}
 
@@ -789,7 +789,7 @@ class PackageExport
 		$tableName = \Vtiger_Inventory_Model::getInstance($this->moduleInstance->name)->getTableName();
 
 		$result = $db->query(sprintf('SELECT * FROM %s', $tableName));
-		if ($db->getRowCount($result) == 0) {
+		if (0 == $db->getRowCount($result)) {
 			return false;
 		}
 
