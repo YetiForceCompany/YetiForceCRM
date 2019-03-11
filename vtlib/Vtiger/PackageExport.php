@@ -368,44 +368,27 @@ class PackageExport
 	 */
 	public function exportBlocks(ModuleBasic $moduleInstance)
 	{
-		$adb = \PearDatabase::getInstance();
-		$sqlresult = $adb->pquery('SELECT * FROM vtiger_blocks WHERE tabid = ? order by sequence', [$moduleInstance->id]);
-		$resultrows = $adb->numRows($sqlresult);
-
-		if (empty($resultrows)) {
+		$dataReader = (new \App\Db\Query())->from('vtiger_blocks')->where(['tabid' => $moduleInstance->id])->orderBy(['sequence' => SORT_ASC])->createCommand()->query();
+		if (0 === $dataReader->count()) {
 			return;
 		}
-
 		$this->openNode('blocks');
-		for ($index = 0; $index < $resultrows; ++$index) {
-			$blockid = $adb->queryResult($sqlresult, $index, 'blockid');
-			$blocklabel = $adb->queryResult($sqlresult, $index, 'blocklabel');
-			$block_sequence = $adb->queryResult($sqlresult, $index, 'sequence');
-			$block_show_title = $adb->queryResult($sqlresult, $index, 'show_title');
-			$block_visible = $adb->queryResult($sqlresult, $index, 'visible');
-			$block_create_view = $adb->queryResult($sqlresult, $index, 'create_view');
-			$block_edit_view = $adb->queryResult($sqlresult, $index, 'edit_view');
-			$block_detail_view = $adb->queryResult($sqlresult, $index, 'detail_view');
-			$block_display_status = $adb->queryResult($sqlresult, $index, 'display_status');
-			$block_iscustom = $adb->queryResult($sqlresult, $index, 'iscustom');
-			$block_islist = $adb->queryResult($sqlresult, $index, 'islist');
-
+		while ($row = $dataReader->read()) {
 			$this->openNode('block');
-			$this->outputNode($blocklabel, 'label');
-			$this->outputNode($block_sequence, 'sequence');
-			$this->outputNode($block_show_title, 'show_title');
-			$this->outputNode($block_visible, 'visible');
-			$this->outputNode($block_create_view, 'create_view');
-			$this->outputNode($block_edit_view, 'edit_view');
-			$this->outputNode($block_detail_view, 'detail_view');
-			$this->outputNode($block_display_status, 'display_status');
-			$this->outputNode($block_iscustom, 'iscustom');
-			$this->outputNode($block_islist, 'islist');
-
+			$this->outputNode($row['blocklabel'], 'blocklabel');
+			$this->outputNode($row['sequence'], 'sequence');
+			$this->outputNode($row['show_title'], 'show_title');
+			$this->outputNode($row['visible'], 'visible');
+			$this->outputNode($row['create_view'], 'create_view');
+			$this->outputNode($row['edit_view'], 'edit_view');
+			$this->outputNode($row['detail_view'], 'detail_view');
+			$this->outputNode($row['display_status'], 'display_status');
+			$this->outputNode($row['iscustom'], 'iscustom');
 			// Export fields associated with the block
-			$this->exportFields($moduleInstance, $blockid);
+			$this->exportFields($moduleInstance, $row['blockid']);
 			$this->closeNode('block');
 		}
+		$dataReader->close();
 		$this->closeNode('blocks');
 	}
 
