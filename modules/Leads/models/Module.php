@@ -1,5 +1,5 @@
 <?php
-/* +***********************************************************************************
+ /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -14,35 +14,34 @@ class Leads_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function returns the Number of Leads created per week.
 	 *
-	 * @param type $data
+	 * @param type  $data
+	 * @param mixed $owner
+	 * @param mixed $dateFilter
 	 *
 	 * @return <Array>
 	 */
 	public function getLeadsCreated($owner, $dateFilter)
 	{
-		$db = PearDatabase::getInstance();
-		$module = $this->getName();
-		$securityParameter = \App\PrivilegeQuery::getAccessConditions($module);
+		$query = (new App\Db\Query())->select(['count' => 'COUNT(*)', 'time' => 'week(createdtime)'])
+			->from('vtiger_leaddetails')
+			->innerJoin('vtiger_crmentity', ['vtiger_leaddetails.leadid' => 'vtiger_crmentity.crmid'])
+			->where(['deleted' => 0, 'converted' => 0]);
+		$securityParameter = \App\PrivilegeQuery::getAccessConditions($this->getName());
+		if ('' !== $securityParameter) {
+			$query->andWhere('1=1 ' . $securityParameter);
+		}
 		if (!empty($owner)) {
-			$ownerSql = ' && smownerid = ' . $owner;
+			$query->andWhere(['smownerid' => $owner]);
 		}
-
-		$params = [];
 		if (!empty($dateFilter)) {
-			$dateFilterSql = ' && createdtime BETWEEN ? AND ? ';
-			//client is not giving time frame so we are appending it
-			$params[] = $dateFilter['start'] . ' 00:00:00';
-			$params[] = $dateFilter['end'] . ' 23:59:59';
+			$query->andWhere(['AND', ['BETWEEN', 'createdtime', $dateFilter['start'] . ' 00:00:00', $dateFilter['end'] . ' 23:59:59']]);
 		}
-
-		$sql = sprintf('SELECT COUNT(*) AS count, date(createdtime) AS time FROM vtiger_leaddetails
-		INNER JOIN vtiger_crmentity ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
-		WHERE deleted = 0 %s %s %s', $ownerSql, $dateFilterSql, $securityParameter);
-		$sql .= ' && converted = 0 GROUP BY week(createdtime)';
-		$result = $db->pquery($sql, $params);
+		$query->groupBy('week(createdtime)');
+		$dataReader = $query->createCommand()
+			->query();
 
 		$response = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$response[] = [
 				$row['count'],
 				$row['time']
@@ -78,7 +77,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 	 * @param string              $record         parent id
 	 * @param \App\QueryGenerator $queryGenerator
 	 */
-	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
+	public function getQueryByModuleField($sourceModule, $field, $record, App\QueryGenerator $queryGenerator)
 	{
 		if (!empty($record) && in_array($sourceModule, ['Campaigns', 'Products', 'Services'])) {
 			switch ($sourceModule) {
@@ -96,7 +95,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 					break;
 			}
 
-			if ($sourceModule === 'Services') {
+			if ('Services' === $sourceModule) {
 				$subQuery = (new App\Db\Query())
 					->select(['relcrmid'])
 					->from('vtiger_crmentityrel')
@@ -155,7 +154,8 @@ class Leads_Module_Model extends Vtiger_Module_Model
 				\App\Log::trace('End ' . __METHOD__);
 
 				return false;
-			} elseif ($numberRows === 1) {
+			}
+			if (1 === $numberRows) {
 				\App\Log::trace('End ' . __METHOD__);
 
 				return (int) $dataReader->readColumn(0);
@@ -191,8 +191,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 
 		if (empty($leadConfig['convert_status'])) {
 			return true;
-		} else {
-			return in_array($status, $leadConfig['convert_status']);
 		}
+		return in_array($status, $leadConfig['convert_status']);
 	}
 }
