@@ -354,7 +354,7 @@ class Project_Gantt_Model
 		foreach ($this->tasks as &$task) {
 			if (empty($task['duration']) && isset($task['start_date'], $task['end_date'])) {
 				$task['duration'] = $this->calculateDuration($task['start_date'], $task['end_date']);
-				$task['planned_duration'] = Vtiger_Module_Model::getInstance('Project')->getField('estimated_work_time')->getDisplayValue($task['estimated_work_time'], $task['id'], false, true);
+				$task['planned_duration'] = $task['estimated_work_time'];
 			}
 		}
 	}
@@ -733,6 +733,7 @@ class Project_Gantt_Model
 			unset($task['color']);
 			$endDate = strtotime(date('Y-m-d', strtotime($row['targetenddate'])) . ' +1 days');
 			$task['duration'] = $this->calculateDuration($task['start_date'], $task['end_date']);
+			//$task['planned_duration'] = $row['estimated_work_time'];
 			$task['planned_duration'] = $queryGenerator->getModuleField('estimated_work_time')->getDisplayValue($row['estimated_work_time'], $row['id'], false, true);
 			$taskTime += $row['estimated_work_time'];
 			$ganttTasks[] = $task;
