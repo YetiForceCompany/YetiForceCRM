@@ -13,6 +13,9 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_Basic_Action
 {
 	use \App\Controller\ExposeMethod;
 
+	/**
+	 * Construct.
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -22,9 +25,15 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_Basic_Action
 		$this->exposeMethod('deleteModule');
 	}
 
-	public function updateModuleStatus(\App\Request $request)
+	/**
+	 * The action enable / disable the module.
+	 *
+	 * @param App\Request $request
+	 * @return void
+	 */
+	public function updateModuleStatus(App\Request $request)
 	{
-		$moduleName = $request->getByType('forModule', 'Alnum');
+		$moduleName = $request->getByType('forModule', 'Standard');
 		$moduleManagerModel = new Settings_ModuleManager_Module_Model();
 		$response = new Vtiger_Response();
 		try {
@@ -44,15 +53,15 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function checkModuleName(\App\Request $request)
+	public function checkModuleName(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleName = ucfirst($request->getByType('moduleName', 'Alnum'));
+		$moduleName = ucfirst($request->getByType('moduleName', 'Standard'));
 		$module = vtlib\Module::getInstance($moduleName);
 		$paths = array_map('strtolower', array_keys(iterator_to_array((new \RecursiveDirectoryIterator('modules', FilesystemIterator::SKIP_DOTS)))));
 		if ($module || \in_array('modules' . DIRECTORY_SEPARATOR . strtolower($moduleName), $paths)) {
 			$result = ['success' => false, 'text' => \App\Language::translate('LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER', $qualifiedModuleName)];
-		} elseif (strpos($moduleName, 'Settings') !== false) {
+		} elseif (false !== strpos($moduleName, 'Settings')) {
 			$result = ['success' => false, 'text' => \App\Language::translate('LBL_ERROR_MODULE_NAME_CONTAINS_SETTINGS', $qualifiedModuleName)];
 		} elseif (Settings_ModuleManager_Module_Model::checkModuleName($moduleName)) {
 			$result = ['success' => false, 'text' => \App\Language::translate('LBL_INVALID_MODULE_NAME', $qualifiedModuleName)];
@@ -69,10 +78,10 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function createModule(\App\Request $request)
+	public function createModule(App\Request $request)
 	{
 		$formData = $request->getMultiDimensionArray('formData', [
-			'module_name' => 'Alnum',
+			'module_name' => 'Standard',
 			'module_label' => 'Text',
 			'entityfieldname' => 'Text',
 			'entityfieldlabel' => 'Text',
@@ -95,11 +104,18 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
-	public function deleteModule(\App\Request $request)
+	/**
+	 * Action delete module.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function deleteModule(App\Request $request)
 	{
-		$moduleName = $request->getByType('forModule', 'Alnum');
+		$moduleName = $request->getByType('forModule', 'Standard');
 		$moduleInstance = vtlib\Module::getInstance($moduleName);
-		if ($moduleInstance && (int) $moduleInstance->customized === 1) {
+		if ($moduleInstance && 1 === (int) $moduleInstance->customized) {
 			$moduleInstance->delete();
 			$result = ['success' => true];
 		} else {
