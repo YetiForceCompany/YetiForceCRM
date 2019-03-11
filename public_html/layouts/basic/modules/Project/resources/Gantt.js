@@ -76,7 +76,7 @@ class Gantt {
 				columns: [
 					{
 						id: 1,
-						label: app.vtranslate('JS_NO.', 'Project'),
+						label: app.vtranslate('JS_NO.'),
 						html: true,
 						value: 'number',
 						width: 65,
@@ -90,11 +90,11 @@ class Gantt {
 					{ id: 3, label: app.vtranslate('JS_STATUS'), value: 'status_label', width: 80 },
 					{
 						id: 4,
-						label: app.vtranslate('JS_DURATION_SHORT', 'Project'),
+						label: app.vtranslate('JS_DAYS'),
 						value: (task) => {
 							return task.duration / 24 / 60 / 60;
 						},
-						width: 45,
+						width: 75,
 						style: {
 							'task-list-header-label': {
 								'text-align': 'center',
@@ -106,9 +106,42 @@ class Gantt {
 							}
 						}
 					},
-					{ id: 5, label: app.vtranslate('JS_ASSIGNED', 'Project'), value: 'assigned_user_name', width: 110 },
 					{
-						id: 5, label: '%', value: 'progress', width: 35, style: {
+						id: 5,
+						label: app.vtranslate('JS_PLANNED'),
+						value: (task) => {
+							return task.planned_duration;
+						},
+						width: 85,
+						style: {
+							'task-list-header-label': {
+								'text-align': 'center',
+								'width': '100%'
+							},
+							'task-list-item-value-container': {
+								'text-align': 'center',
+								'width': '100%'
+							}
+						}
+					}, {
+						id: 6,
+						label: app.vtranslate('JS_REALISATION'),
+						value: 'sum_time',
+						width: 85,
+						style: {
+							'task-list-header-label': {
+								'text-align': 'center',
+								'width': '100%'
+							},
+							'task-list-item-value-container': {
+								'text-align': 'center',
+								'width': '100%'
+							}
+						}
+					},
+					{id: 7, label: app.vtranslate('JS_ASSIGNED', 'Project'), value: 'assigned_user_name', width: 110},
+					{
+						id: 8, label: '%', value: 'progress', width: 35, style: {
 							'task-list-header-label': {
 								'text-align': 'center',
 								'width': '100%'
