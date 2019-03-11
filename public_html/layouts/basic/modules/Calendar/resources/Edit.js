@@ -9,7 +9,18 @@
  *************************************************************************************/
 'use strict';
 
-Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
+Vtiger_Edit_Js("Calendar_Edit_Js", {
+	currencyInstance: false,
+	checkEmail(field, rules, i, options) {
+		if(Calendar_Edit_Js.currencyInstance.emailExists(field.val())){
+			return app.vtranslate('JS_DUPLICATE_RECORD') + ': ' + field.val();
+		}
+		return true;
+	}
+}, {
+	init(){
+		Calendar_Edit_Js.currencyInstance = this;
+	},
 	registerReminderFieldCheckBox: function () {
 		let element = this.getForm().find('.js-reminder-field-checkbox');
 		element.on('change', function (e) {
@@ -427,17 +438,38 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 			return Vtiger_Helper_Js.getDateInstance(endDate + ' ' + endTime, dateFormat);
 		}
 	},
+	emailExists(email){
+		let recordExist = false;
+		let inviteesContent = this.getForm().find('.inviteesContent');
+		inviteesContent.find('.inviteRow').each((index, element) => {
+			if ($(element).data('email') === email) {
+				recordExist = true;
+				return false;
+			}
+		});
+		return recordExist;
+	},
 	registerAddInvitation(){
 		this.getForm().find('.js-btn-add-invitation').on('click', (e)=>{
-			let inviteesContent = this.getForm().find('.inviteesContent');
-			var inviteRow = inviteesContent.find('.d-none .inviteRow').clone(true, true);
-			inviteRow.data('crmid', 0);
-			inviteRow.data('email', 'testemm@gm.com.pl');
-			inviteRow.find('.inviteName').data('content', 'NEW').text('NEW');
-			//inviteRow.find('.inviteIcon .c-badge__icon').removeClass('fas fa-envelope').addClass('userIcon-' + selected.module);
-			inviteesContent.append(inviteRow);
+			let progressIndicatorElement = $.progressIndicator();
+			app.showModalWindow(null, 'index.php?module=Calendar&view=InviteEmail', (data) => {
+				data.find('.js-modal__save').on('click', (e)=>{
+					let email = data.find('.js-invite-email-input').val();
+					let inviteesContent = this.getForm().find('.inviteesContent');
+					let formEmail = data.find('.js-form');
+					formEmail.validationEngine(app.validationEngineOptions);
+					if( formEmail.validationEngine('validate') ){
+						let inviteRow = inviteesContent.find('.d-none .inviteRow').clone(true, true);
+						inviteRow.data('crmid', 0);
+						inviteRow.data('email', email);
+						inviteRow.find('.inviteName').data('content', email).text(email);
+						inviteesContent.append(inviteRow);
+						app.hideModalWindow();
+					}
+				});
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			});
 		});
-		//
 	},
 	registerInviteEvent: function (editViewForm) {
 		this.registerRow(editViewForm);
@@ -511,7 +543,10 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 						inviteesContent.append(inviteRow);
 					});
 				}else{
-
+					Vtiger_Helper_Js.showPnotify({
+						text: app.vtranslate('JS_DUPLICATE_RECORD') + ': ' + selected.fullLabel,
+						type: 'info'
+					});
 				}
 			},
 			close: function (event, ui) {
