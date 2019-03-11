@@ -1,5 +1,5 @@
 <?php
-/* * *******************************************************************************
+ /* * *******************************************************************************
  * The contents of this file are subject to the SugarCRM Public License Version 1.1.2
  * ("License"); You may not use this file except in compliance with the
  * License. You may obtain a copy of the License at http://www.sugarcrm.com/SPL
@@ -19,7 +19,6 @@
  * be overloaded with module-specific methods and variables particular to the
  * module's base entity class.
  * ****************************************************************************** */
-require_once 'include/database/PearDatabase.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/fields/DateTimeField.php';
 require_once 'include/fields/DateTimeRange.php';
@@ -40,7 +39,6 @@ class CRMEntity
 	 */
 	public function __construct()
 	{
-		$this->db = PearDatabase::getInstance();
 		$this->column_fields = vtlib\Deprecated::getColumnFields(get_class($this));
 	}
 
@@ -118,7 +116,7 @@ class CRMEntity
 
 		// Lookup module field cache
 		$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
-		if ($cachedModuleFields === false) {
+		if (false === $cachedModuleFields) {
 			// Pull fields and cache for further use
 			$tabid = \App\Module::getModuleId($module);
 			$query = (new \App\Db\Query())
@@ -166,7 +164,7 @@ class CRMEntity
 				}
 			}
 			$query->where(['vtiger_crmentity.crmid' => $record]);
-			if ($module != '') {
+			if ('' != $module) {
 				$query->andWhere(['vtiger_crmentity.setype' => $module]);
 			}
 			$resultRow = $query->one();
@@ -280,7 +278,8 @@ class CRMEntity
 	 */
 	public function deleteRelatedFromDB($crmid, $withModule, $withCrmid)
 	{
-		App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', ['or',
+		App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', [
+			'or',
 			[
 				'crmid' => $crmid,
 				'relmodule' => $withModule,
@@ -358,7 +357,7 @@ class CRMEntity
 	public function saveRelatedToDB($module, $crmid, $withModule, $withCrmid)
 	{
 		foreach ($withCrmid as $relcrmid) {
-			if ($withModule === 'Documents') {
+			if ('Documents' === $withModule) {
 				$checkpresence = (new \App\Db\Query())->select(['crmid'])->from('vtiger_senotesrel')->where(['crmid' => $crmid, 'notesid' => $relcrmid])->exists();
 				if ($checkpresence) {
 					continue;
@@ -393,7 +392,7 @@ class CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$dbInstance = PearDatabase::getInstance();
+		$dbInstance = \App\Db::getInstance()->createCommand();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
@@ -403,47 +402,56 @@ class CRMEntity
 		}
 		foreach ($transferEntityIds as &$transferId) {
 			// Pick the records related to the entity to be transfered, but do not pick the once which are already related to the current entity.
-			$relatedRecords = $dbInstance->pquery('SELECT relcrmid, relmodule FROM vtiger_crmentityrel WHERE crmid=? && module=?' .
-				' && relcrmid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid=? && module=?)', [$transferId, $module, $entityId, $module]);
-			while ($row = $dbInstance->getRow($relatedRecords)) {
-				$where = 'relcrmid = ? && relmodule = ? && crmid = ? && module = ?';
-				$params = [$row['relcrmid'], $row['relmodule'], $transferId, $module];
-				$dbInstance->update('vtiger_crmentityrel', ['crmid' => $entityId], $where, $params);
+			$relatedRecords = (new App\Db\Query())->select(['relcrmid', 'relmodule'])
+				->from('vtiger_crmentityrel')
+				->where(['crmid' => $transferId, 'module' => $module])
+				->andWhere(['not in', 'relcrmid', (new App\Db\Query())->select('relcrmid')->from('vtiger_crmentityrel')->where(['crmid' => $entityId, 'module' => $module])])
+				->createCommand()
+				->query();
+			while ($row = $relatedRecords->read()) {
+				$dbInstance->update(
+					'vtiger_crmentityrel',
+					['crmid' => $entityId],
+					['relcrmid' => $row['relcrmid'], 'relmodule' => $row['relmodule'], 'crmid' => $transferId, 'module' => $module]
+				)->execute();
 			}
 			// Pick the records to which the entity to be transfered is related, but do not pick the once to which current entity is already related.
 			$parentRecords = $dbInstance->pquery('SELECT crmid, module FROM vtiger_crmentityrel WHERE relcrmid=? && relmodule=?' .
 				' && crmid NOT IN (SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid=? && relmodule=?)', [$transferId, $module, $entityId, $module]);
-			while ($row = $dbInstance->getRow($parentRecords)) {
-				$where = 'crmid = ? && module = ? && relcrmid = ? && relmodule = ?';
-				$params = [$row['crmid'], $row['module'], $transferId, $module];
-				$dbInstance->update('vtiger_crmentityrel', ['relcrmid' => $entityId], $where, $params);
+			$parentRecords = (new App\Db\Query())->select(['crmid', 'module'])
+				->from('vtiger_crmentityrel')
+				->where(['relcrmid' => $transferId, 'relmodule' => $module])
+				->andWhere(['not in', 'crmid', (new App\Db\Query())->select('crmid')->from('vtiger_crmentityrel')->where(['relcrmid' => $entityId, 'relmodule' => $module])])
+				->createCommand()
+				->query();
+			while ($row = $relatedRecords->read()) {
+				$dbInstance->update(
+					'vtiger_crmentityrel',
+					['relcrmid' => $entityId],
+					['crmid' => $row['crmid'], 'module' => $row['module'], 'relcrmid' => $transferId, 'relmodule' => $module]
+				)->execute();
 			}
 
-			$dbInstance->update('vtiger_modtracker_basic', ['crmid' => $entityId], 'crmid = ? && status <> ?', [$transferId, 7]);
+			$dbInstance->update('vtiger_modtracker_basic', ['crmid' => $entityId], ['AND', ['crmid' => $transferId], ['<>', 'status', 7]])->execute();
 			foreach ($relTables as &$relTable) {
 				$idField = current($relTable)[1];
 				$entityIdField = current($relTable)[0];
 				$relTableName = key($relTable);
 				// IN clause to avoid duplicate entries
-				$sql = "SELECT $idField FROM $relTableName WHERE $entityIdField = ? " .
-					" && $idField NOT IN ( SELECT $idField FROM $relTableName WHERE $entityIdField = ? )";
-				$selResult = $dbInstance->pquery($sql, [$transferId, $entityId]);
-				if ($dbInstance->getRowCount($selResult) > 0) {
-					while (($idFieldValue = $dbInstance->getSingleValue($selResult)) !== false) {
-						$dbInstance->update($relTableName, [
-							$entityIdField => $entityId,
-						], "$entityIdField = ? and $idField = ?", [$transferId, $idFieldValue]
-						);
-					}
+				$query = (new App\Db\Query())->select($idField)
+					->from($relTableName)
+					->where([$entityIdField => $transferId, 'module' => $module])
+					->andWhere(['not in', $idField, (new App\Db\Query())->select($idField)->from($relTableName)->where([$entityIdField => $entityId])])
+					->createCommand()
+					->query();
+				while ($row = $query->query()->read()) {
+					$dbInstance->update($relTableName, [$entityIdField => $entityId], [$entityIdField => $transferId, $idField => $row[$idField]])->execute();
 				}
 			}
 			$fields = App\Field::getRelatedFieldForModule(false, $module);
 			foreach ($fields as &$field) {
 				$columnName = $field['columnname'];
-				$dbInstance->update($field['tablename'], [
-					$columnName => $entityId,
-				], "$columnName = ?", [$transferId]
-				);
+				$dbInstance->update($field['tablename'], [$columnName => $entityId], [$columnName => $transferId])->execute();
 			}
 		}
 		\App\Log::trace('Exiting transferRelatedRecords...');
@@ -468,7 +476,7 @@ class CRMEntity
 		}
 		// Look for fields that has presence value NOT IN (0,2)
 		$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module, ['1']);
-		if ($cachedModuleFields === false) {
+		if (false === $cachedModuleFields) {
 			// Initialize the fields calling suitable API
 			vtlib\Deprecated::getColumnFields($module);
 			$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module, ['1']);
@@ -568,10 +576,10 @@ class CRMEntity
 		require 'user_privileges/sharing_privileges_' . $userId . '.php';
 		$tabId = \App\Module::getModuleId($module);
 		$sharingRuleInfoVariable = $module . '_share_read_permission';
-		$sharingRuleInfo = $$sharingRuleInfoVariable;
+		$sharingRuleInfo = ${$sharingRuleInfoVariable};
 		$query = '';
 		if (!empty($sharingRuleInfo) && (count($sharingRuleInfo['ROLE']) > 0 ||
-				count($sharingRuleInfo['GROUP']) > 0)) {
+			count($sharingRuleInfo['GROUP']) > 0)) {
 			$query = ' (SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per ' .
 				"WHERE userid=$userId && tabid=$tabId) UNION (SELECT " .
 				'vtiger_tmp_read_group_sharing_per.sharedgroupid FROM ' .
@@ -592,20 +600,21 @@ class CRMEntity
 		//make the module base table as left hand side table for the joins,
 		//as mysql query optimizer puts crmentity on the left side and considerably slow down
 		$query = preg_replace('/\s+/', ' ', $query);
-		if (strripos($query, ' WHERE ') !== false) {
+		if (false !== strripos($query, ' WHERE ')) {
 			\VtlibUtils::vtlibSetupModulevars($this->moduleName, $this);
 			$query = str_ireplace(' WHERE ', " WHERE $this->table_name.$this->table_index > 0  AND ", $query);
 		}
 		return $query;
 	}
 
-	/*
-	 * Function to get the relation tables for related modules
+	/**
+	 * Function to get the relation tables for related modules.
+	 *
 	 * @param string $secModule - $secmodule secondary module name
+	 *
 	 * @return array returns the array with table names and fieldnames storing relations
-	 * between module and this module
+	 *               between module and this module
 	 */
-
 	public function setRelationTables($secModule = false)
 	{
 		$relTables = [
@@ -618,7 +627,7 @@ class CRMEntity
 				$this->table_name => $this->table_index,
 			],
 		];
-		if ($secModule === false) {
+		if (false === $secModule) {
 			return $relTables;
 		}
 		return $relTables[$secModule] ?? [];
@@ -665,11 +674,11 @@ class CRMEntity
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($moduleName && $eventType === 'module.postinstall') {
-		} elseif ($eventType === 'module.disabled') {
-		} elseif ($eventType === 'module.preuninstall') {
-		} elseif ($eventType === 'module.preupdate') {
-		} elseif ($eventType === 'module.postupdate') {
+		if ($moduleName && 'module.postinstall' === $eventType) {
+		} elseif ('module.disabled' === $eventType) {
+		} elseif ('module.preuninstall' === $eventType) {
+		} elseif ('module.preupdate' === $eventType) {
+		} elseif ('module.postupdate' === $eventType) {
 		}
 	}
 }
