@@ -11,7 +11,7 @@ BaseService.interceptors.response.use(
     return response
   },
   function(error) {
-    store.commit(mutations.Global.update, { ERROR: error })
+    store.commit(mutations.Debug.pushError, { source: 'BaseService', data: error })
     return Promise.reject(error)
   }
 )
