@@ -14,9 +14,8 @@ class Leads_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function returns the Number of Leads created per week.
 	 *
-	 * @param type  $data
-	 * @param mixed $owner
-	 * @param mixed $dateFilter
+	 * @param int   $owner
+	 * @param array $dateFilter
 	 *
 	 * @return <Array>
 	 */
