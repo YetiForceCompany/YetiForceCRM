@@ -65,9 +65,6 @@ export default {
   },
   methods: {
     openURL
-  },
-  created() {
-    this.$i18n.locale = 'Users'
   }
 }
 </script>

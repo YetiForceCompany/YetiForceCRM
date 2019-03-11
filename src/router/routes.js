@@ -1,9 +1,11 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 import store from 'src/store'
 import actions from 'src/store/actions'
+import { i18n } from 'src/boot/i18n.js'
 
 function fetchChildRouteData(routeTo, routeFrom, next) {
   store.dispatch(actions[routeTo.meta.module].fetchData, routeTo.meta.view).then(res => {
+    i18n.locale = routeTo.meta.module
     next()
   })
 }

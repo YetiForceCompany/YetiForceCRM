@@ -2,6 +2,8 @@
 import VueI18n from 'vue-i18n'
 import messages from 'src/i18n'
 
+let i18n
+
 export default async ({ app, Vue }) => {
   Vue.use(VueI18n)
   // Set i18n instance on app
@@ -11,4 +13,7 @@ export default async ({ app, Vue }) => {
     silentTranslationWarn: true,
     messages
   })
+  i18n = app.i18n
 }
+
+export { i18n }
