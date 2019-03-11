@@ -32,7 +32,6 @@ require_once 'include/Webservices/Utils.php';
 
 class CRMEntity
 {
-	public $db;
 	public $ownedby;
 
 	/**    Constructor which will set the column_fields in this object
