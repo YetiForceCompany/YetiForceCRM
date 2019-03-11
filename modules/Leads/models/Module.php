@@ -21,9 +21,9 @@ class Leads_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getLeadsCreated($owner, $dateFilter)
 	{
-		$query = (new App\Db\Query())->select(['count' => 'COUNT(*)', 'time' => 'week(createdtime)'])
+		$query = (new App\Db\Query())->select(['count' => 'COUNT(*)', 'time' => 'date(createdtime)'])
 			->from('vtiger_leaddetails')
-			->innerJoin('vtiger_crmentity', ['vtiger_leaddetails.leadid' => 'vtiger_crmentity.crmid'])
+			->innerJoin('vtiger_crmentity', 'vtiger_leaddetails.leadid = vtiger_crmentity.crmid')
 			->where(['deleted' => 0, 'converted' => 0]);
 		$securityParameter = \App\PrivilegeQuery::getAccessConditions($this->getName());
 		if ('' !== $securityParameter) {
@@ -35,7 +35,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 		if (!empty($dateFilter)) {
 			$query->andWhere(['AND', ['BETWEEN', 'createdtime', $dateFilter['start'] . ' 00:00:00', $dateFilter['end'] . ' 23:59:59']]);
 		}
-		$query->groupBy('week(createdtime)');
+		$query->groupBy('date(createdtime)');
 		$dataReader = $query->createCommand()
 			->query();
 
