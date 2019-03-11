@@ -82,7 +82,6 @@ class Calendar extends CRMEntity
 
 	public function __construct()
 	{
-		$this->db = PearDatabase::getInstance();
 		$this->column_fields = vtlib\Deprecated::getColumnFields('Calendar');
 	}
 
@@ -93,7 +92,7 @@ class Calendar extends CRMEntity
 	 */
 	public function getJoinClause($tableName)
 	{
-		if ($tableName == 'vtiger_activity_reminder') {
+		if ('vtiger_activity_reminder' == $tableName) {
 			return 'LEFT JOIN';
 		}
 		return parent::getJoinClause($tableName);
