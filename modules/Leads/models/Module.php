@@ -33,10 +33,10 @@ class Leads_Module_Model extends Vtiger_Module_Model
 			$query->andWhere(['smownerid' => $owner]);
 		}
 		if (!empty($dateFilter)) {
-			$query->andWhere(['AND', ['BETWEEN', 'createdtime', $dateFilter['start'] . ' 00:00:00', $dateFilter['end'] . ' 23:59:59']]);
+			$query->andWhere(['between', 'createdtime', $dateFilter['start'] . ' 00:00:00', $dateFilter['end'] . ' 23:59:59']);
 		}
-		$query->groupBy('date(createdtime)');
-		$dataReader = $query->createCommand()
+		$dataReader = $query->groupBy('date(createdtime)')
+			->createCommand()
 			->query();
 
 		$response = [];
