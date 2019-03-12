@@ -29,6 +29,7 @@
     "ERR_AUTO_LOGOUT": "Logged out automatically due to no activity",
     "ERR_FIELD_NOT_FOUND": "Field not found",
     "ERR_NO_VALUE": "No value",
+    "ERR_BODY_IS_EMPTY": "Body is empty",
     "ERR_API": "Error in API",
     "ERR_MODULE_DOES_NOT_EXIST": "Module %s does not exist",
     "ERR_RECORD_NOT_FOUND": "There is no record with ID: %s",
