@@ -565,8 +565,7 @@ class PackageExport
 	 */
 	public function exportSharingAccess(ModuleBasic $moduleInstance)
 	{
-		$permission = (new \App\Db\Query())->select(['permission'])->from('vtiger_def_org_share')->where(['tabid' => $moduleInstance->id])
-			->column();
+		$permission = (new \App\Db\Query())->select(['permission'])->from('vtiger_def_org_share')->where(['tabid' => $moduleInstance->id])->column();
 		if (empty($permission)) {
 			return;
 		}
@@ -605,7 +604,7 @@ class PackageExport
 		if (!$moduleInstance->isentitytype) {
 			return;
 		}
-		$dataReader = (new \App\Db\Query())->select(['actionname'])->from('vtiger_profile2utility')->innerJoin('vtiger_actionmapping', 'vtiger_profile2utility.activityid=vtiger_actionmapping.actionid')->where(['tabid' => $moduleInstance->id])->distinct('actionname')->createCommand()->query();
+		$dataReader = (new \App\Db\Query())->select(['actionname'])->from('vtiger_profile2utility')->innerJoin('vtiger_actionmapping', 'vtiger_profile2utility.activityid = vtiger_actionmapping.actionid')->where(['tabid' => $moduleInstance->id])->distinct('actionname')->createCommand()->query();
 		if ($dataReader->count()) {
 			$this->openNode('actions');
 			while ($row = $dataReader->read()) {
