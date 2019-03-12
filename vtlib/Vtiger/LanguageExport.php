@@ -123,8 +123,8 @@ class LanguageExport extends Package
 				[
 					'name' => $name,
 					'lastupdated' => date('Y-m-d H:i:s'),
-					'isdefault' => (int)$isDefault,
-					'active' => (int)$isActive,
+					'isdefault' => (int) $isDefault,
+					'active' => (int) $isActive,
 					'progress' => $progress
 				],
 				['prefix' => $prefix]
@@ -135,8 +135,8 @@ class LanguageExport extends Package
 				[
 					'name' => $name,
 					'lastupdated' => date('Y-m-d H:i:s'),
-					'isdefault' => (int)$isDefault,
-					'active' => (int)$isActive,
+					'isdefault' => (int) $isDefault,
+					'active' => (int) $isActive,
 					'prefix' => $prefix,
 					'progress' => $progress
 				]
