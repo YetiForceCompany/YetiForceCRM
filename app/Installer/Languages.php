@@ -71,16 +71,38 @@ class Languages
 		$url = "https://github.com/YetiForceCompany/YetiForceCRMLanguages/raw/master/{$endpoint}/{$prefix}.zip";
 		$path = \App\Fields\File::getTmpPath() . $prefix . '.zip';
 		$status = false;
+		if (static::isFileExtist($url)) {
+			try {
+				(new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, ['sink' => $path]);
+				if (\file_exists($path)) {
+					(new \vtlib\Language())->import($path);
+					\unlink($path);
+					$status = true;
+				}
+			} catch (\Exception $ex) {
+				\App\Log::warning($ex->__toString(), __METHOD__);
+				static::$lastErrorMessage = $ex->getMessage();
+			}
+		} else {
+			static::$lastErrorMessage = 'ERR_CANNOT_PARSE_SERVER_RESPONSE';
+		}
+		return $status;
+	}
+
+	/**
+	 * Function to check is file exist
+	 * @param string $url
+	 * @return bool
+	 * @throws \GuzzleHttp\Exception\GuzzleException
+	 */
+	public static function isFileExtist(string $url): bool
+	{
+		$status = false;
 		try {
-			(new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, ['sink' => $path]);
-			if (\file_exists($path)) {
-				(new \vtlib\Language())->import($path);
-				\unlink($path);
+			if ((new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url)->getStatusCode() === 200) {
 				$status = true;
 			}
 		} catch (\Exception $ex) {
-			\App\Log::warning($ex->__toString(), __METHOD__);
-			static::$lastErrorMessage = $ex->getMessage();
 		}
 		return $status;
 	}
