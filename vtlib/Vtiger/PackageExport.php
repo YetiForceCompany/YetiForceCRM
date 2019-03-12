@@ -631,28 +631,21 @@ class PackageExport
 		if (!$moduleInstance->isentitytype) {
 			return;
 		}
-
-		$adb = \PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT * FROM vtiger_relatedlists WHERE tabid = ?', [$moduleInstance->id]);
-		if ($adb->numRows($result)) {
+		$moduleId = $moduleInstance->id;
+		$dataReader = (new \App\Db\Query())->from('vtiger_relatedlists')->where(['tabid' => $moduleId])->createCommand()->query();
+		if ($dataReader->count()) {
 			$this->openNode('relatedlists');
-
-			$countResult = $adb->numRows($result);
-			for ($index = 0; $index < $countResult; ++$index) {
-				$row = $adb->fetchArray($result);
+			while ($row = $dataReader->read()) {
 				$this->openNode('relatedlist');
-
-				$relModuleInstance = Module::getInstance($row['related_tabid']);
-				$this->outputNode($relModuleInstance->name, 'relatedmodule');
+				$this->outputNode(Module::getInstance($row['related_tabid'])->name, 'relatedmodule');
 				$this->outputNode($row['name'], 'function');
 				$this->outputNode($row['label'], 'label');
 				$this->outputNode($row['sequence'], 'sequence');
 				$this->outputNode($row['presence'], 'presence');
-
-				$action_text = $row['actions'];
-				if (!empty($action_text)) {
+				$actionText = $row['actions'];
+				if (!empty($actionText)) {
 					$this->openNode('actions');
-					$actions = explode(',', $action_text);
+					$actions = explode(',', $actionText);
 					foreach ($actions as $action) {
 						$this->outputNode($action, 'action');
 					}
@@ -660,38 +653,33 @@ class PackageExport
 				}
 				$this->closeNode('relatedlist');
 			}
-
+			$dataReader->close();
 			$this->closeNode('relatedlists');
 		}
 
 		// Relations in the opposite direction
-		$result = $adb->pquery('SELECT * FROM vtiger_relatedlists WHERE related_tabid = ?', [$moduleInstance->id]);
-		if ($adb->numRows($result)) {
+		$dataReaderRow = (new \App\Db\Query())->from('vtiger_relatedlists')->where(['related_tabid' => $moduleId])->createCommand()->query();
+		if ($dataReaderRow->count()) {
 			$this->openNode('inrelatedlists');
-
-			$countResult = $adb->numRows($result);
-			for ($index = 0; $index < $countResult; ++$index) {
-				$row = $adb->fetchArray($result);
+			while ($row = $dataReaderRow->read()) {
 				$this->openNode('inrelatedlist');
-
-				$relModuleInstance = Module::getInstance($row['tabid']);
-				$this->outputNode($relModuleInstance->name, 'inrelatedmodule');
+				$this->outputNode(Module::getInstance($row['tabid'])->name, 'inrelatedmodule');
 				$this->outputNode($row['name'], 'function');
 				$this->outputNode($row['label'], 'label');
 				$this->outputNode($row['sequence'], 'sequence');
 				$this->outputNode($row['presence'], 'presence');
-
-				$action_text = $row['actions'];
-				if (!empty($action_text)) {
+				$actionText = $row['actions'];
+				if (!empty($actionText)) {
 					$this->openNode('actions');
-					$actions = explode(',', $action_text);
+					$actions = explode(',', $actionText);
 					foreach ($actions as $action) {
 						$this->outputNode($action, 'action');
 					}
 					$this->closeNode('actions');
 				}
-				$this->closeNode('inrelatedlist');
+				$this->openNode('inrelatedlist');
 			}
+			$dataReaderRow->close();
 			$this->closeNode('inrelatedlists');
 		}
 	}
