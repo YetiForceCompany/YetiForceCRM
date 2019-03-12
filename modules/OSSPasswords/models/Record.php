@@ -8,47 +8,41 @@
  */
 class OSSPasswords_Record_Model extends Vtiger_Record_Model
 {
-	/*
-	 * Funkcja odszyfrowywująca i przekazująca dalej hasło
-	 * @recordId - numer id hasła
-	 * @return - odszyfrowane hasło lub false
+	/**
+	 * Function to decrypt password.
+	 *
+	 * @param int $recordId
+	 *
+	 * @return bool|string
 	 */
-
 	public function getPassword($recordId)
 	{
-		$db = PearDatabase::getInstance();
-
-		$sql = '';
+		$query = new App\Db\Query();
 		// check if passwords are encrypted
 		if (file_exists('modules/OSSPasswords/config.ini.php')) {
 			$config = parse_ini_file('modules/OSSPasswords/config.ini.php');
-			$sql = "SELECT AES_DECRYPT(`password`, '{$config['key']}') AS `password`
-                FROM `vtiger_osspasswords`
-                WHERE `osspasswordsid` = ? LIMIT 1;";
+			$query->select(['password' => new \yii\db\Expression("AES_DECRYPT(`password`, '{$config['key']}')")]);
 		} else {
-			$sql = 'SELECT `password`
-                FROM `vtiger_osspasswords`
-                WHERE `osspasswordsid` = ? LIMIT 1;';
+			$query->select(['password']);
 		}
+		$query->from('vtiger_osspasswords')
+			->where(['osspasswordsid' => $recordId])
+			->limit(1);
 
-		$params = [$recordId];
-		$result = $db->pquery($sql, $params, true);
-
-		if ($db->numRows($result) == 1) {
-			return $db->queryResult($result, 0, 'password');
-		} elseif ($db->numRows($result) == 0) {
-			return $db->queryResult($result, 0, '');
+		if ($password = $query->scalar()) {
+			return $password;
 		}
 		return false;
 	}
 
-	/*
-	 * Funkcja zapisująca plik konfiguracyjny ini
-	 * @array - tablica z konfiguracją
-	 * @file - ścieżka do pliku
-	 * @return - true/false
+	/**
+	 * Function to save config ini.
+	 *
+	 * @param array  $array
+	 * @param string $file
+	 *
+	 * @return bool
 	 */
-
 	public function writePhpIni($array, $file)
 	{
 		$res = [];
@@ -77,28 +71,28 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 		return true;
 	}
 
-	/*
-	 * Zwraca dane konfiguracyjne haseł
-	 * @return array|boolean
+	/**
+	 * Get configuration data.
+	 *
+	 * @return array|bool
 	 */
-
 	public function getConfiguration()
 	{
 		return (new \App\Db\Query())->from('vtiger_passwords_config')->one();
 	}
 
-	/*
-	 * Sprawdza poprawność hasła - długość, czy nie jest puste i czy nie zawiera samych gwiazdek
-	 * @password - nowe hasło
-	 * @return - error: true/false, message: komunikat błędu
+	/**
+	 * Check password length empty and chars.
 	 *
+	 * @param string $password
+	 *
+	 * @return array
 	 */
-
 	public function checkPassword($password)
 	{
 		$passLength = strlen($password);
 
-		if ($passLength == 0) {
+		if (0 == $passLength) {
 			return ['error' => true, 'message' => \App\Language::translate('LBL_NULLPASS', 'OSSPasswords')];
 		}
 
@@ -108,13 +102,14 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 
 		if ($passLength < $min) {
 			return ['error' => true, 'message' => \App\Language::translate('LBL_PASS_TOOSHORT', 'OSSPasswords')];
-		} elseif ($passLength > $max) {
+		}
+		if ($passLength > $max) {
 			return ['error' => true, 'message' => \App\Language::translate('LBL_PASS_TOOLONG', 'OSSPasswords')];
 		}
 
 		$onlyStars = true;
 		for ($i = 0; $i < $passLength; ++$i) {
-			if ($password[$i] != '*') {
+			if ('*' != $password[$i]) {
 				$onlyStars = false;
 				break;
 			}
