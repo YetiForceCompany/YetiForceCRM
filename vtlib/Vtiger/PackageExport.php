@@ -279,12 +279,12 @@ class PackageExport
 	public function exportModule()
 	{
 		$moduleId = $this->moduleInstance->id;
-		$dataQuery = (new \App\Db\Query())->select(['name', 'tablabel', 'version'])->from('vtiger_tab')->where(['tabid' => $moduleId])->createCommand()->queryOne();
-		$tabVersion = $dataQuery['version'] ?? false;
+		$row = (new \App\Db\Query())->select(['name', 'tablabel', 'version'])->from('vtiger_tab')->where(['tabid' => $moduleId])->one();
+		$tabVersion = $row['version'] ?? false;
 		$this->openNode('module');
 		$this->outputNode(date('Y-m-d H:i:s'), 'exporttime');
-		$this->outputNode($dataQuery['name'], 'name');
-		$this->outputNode($dataQuery['tablabel'], 'tablabel');
+		$this->outputNode($row['name'], 'name');
+		$this->outputNode($row['tablabel'], 'tablabel');
 
 		if (!$this->moduleInstance->isentitytype) {
 			$type = 'extension';
@@ -403,8 +403,7 @@ class PackageExport
 		if (0 === $dataReader->count()) {
 			return;
 		}
-		$entityField = (new \App\Db\Query())->select(['fieldname', 'entityidfield', 'entityidcolumn'])->from('vtiger_entityname')->where(['tabid' => $moduleInstance->id])->all();
-		$entityFieldName = $entityField[0];
+		$entityField = (new \App\Db\Query())->select(['fieldname', 'entityidfield', 'entityidcolumn'])->from('vtiger_entityname')->where(['tabid' => $moduleInstance->id])->one();
 		$this->openNode('fields');
 		while ($row = $dataReader->read()) {
 			$this->openNode('field');
@@ -416,8 +415,8 @@ class PackageExport
 			$infoSchema = \App\Db::getInstance()->getTableSchema($tableName);
 			$this->outputNode($fieldname, 'fieldname');
 			$this->outputNode($uiType, 'uitype');
-			$this->outputNode($infoSchema->columns[$columnName]->dbType, 'columnname');
-			$this->outputNode($info_schemarow['column_type'], 'columntype');
+			$this->outputNode($columnName, 'columnname');
+			$this->outputNode($infoSchema->columns[$columnName]->dbType, 'columntype');
 			$this->outputNode($tableName, 'tablename');
 			$this->outputNode($row['generatedtype'], 'generatedtype');
 			$this->outputNode($row['fieldlabel'], 'fieldlabel');
@@ -441,10 +440,10 @@ class PackageExport
 				$this->outputNode($row['summaryfield'], 'summaryfield');
 			}
 			// Export Entity Identifier Information
-			if ($fieldname == $entityFieldName['fieldname']) {
+			if ($fieldname == $entityField['fieldname']) {
 				$this->openNode('entityidentifier');
-				$this->outputNode($entityFieldName['entityidfield'], 'entityidfield');
-				$this->outputNode($entityFieldName['entityidcolumn'], 'entityidcolumn');
+				$this->outputNode($entityField['entityidfield'], 'entityidfield');
+				$this->outputNode($entityField['entityidcolumn'], 'entityidcolumn');
 				$this->closeNode('entityidentifier');
 			}
 			// Export picklist values for picklist fields
@@ -457,13 +456,12 @@ class PackageExport
 			}
 			// Export field to module relations
 			if ('10' == $uiType) {
-				$dataReader = (new \App\Db\Query())->from('vtiger_fieldmodulerel')->where(['fieldid' => $row['fieldid']])->createCommand()->query();
-				if (0 < $dataReader->count()) {
+				$fieldRelModule = (new \App\Db\Query())->select(['relmodule'])->from('vtiger_fieldmodulerel')->where(['fieldid' => $row['fieldid']])->column();
+				if ($fieldRelModule) {
 					$this->openNode('relatedmodules');
-						while($row = $dataReader->read()){
-							$this->outputNode($row['relmodule'], 'relatedmodule');
-						}
-						$dataReader->close();
+					foreach ($fieldRelModule as $row) {
+						$this->outputNode($row, 'relatedmodule');
+					}
 					$this->closeNode('relatedmodules');
 				}
 			}
@@ -482,15 +480,14 @@ class PackageExport
 			if ('302' == $uiType) {
 				$this->outputNode('', 'fieldparams');
 				$this->openNode('tree_template');
-				$treesExist = (new \App\Db\Query())->select(['name', 'access'])->from('vtiger_trees_templates')->where(['templateid' => $fieldParams]);
-				$treesValue = $treesExist->all();
-				if ($treesExist->exists()) {
-					$this->outputNode($treesValue[0]['name'], 'name');
-					$this->outputNode($treesValue[0]['access'], 'access');
-					$dataReader = (new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => $fieldParams])->createCommand()->query();
+				$treesExist = (new \App\Db\Query())->select(['name', 'access'])->from('vtiger_trees_templates')->where(['templateid' => $fieldParams])->one();
+				if ($treesExist) {
+					$this->outputNode($treesExist['name'], 'name');
+					$this->outputNode($treesExist['access'], 'access');
+					$dataReaderRow = (new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => $fieldParams])->createCommand()->query();
 					$this->openNode('tree_values');
-					if(0 < $dataReader->count()){
-						while($row = $dataReader->read()){
+					if (0 < $dataReaderRow->count()) {
+						while ($row = $dataReaderRow->read()) {
 							$this->openNode('tree_value');
 							$this->outputNode($row['name'], 'name');
 							$this->outputNode($row['tree'], 'tree');
@@ -501,7 +498,7 @@ class PackageExport
 							$this->closeNode('tree_value');
 						}
 					}
-					$dataReader->close();
+					$dataReaderRow->close();
 					$this->closeNode('tree_values');
 				}
 				$this->closeNode('tree_template');
