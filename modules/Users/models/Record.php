@@ -727,11 +727,10 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	public function getActiveAdminUsers()
 	{
-		$dataReader = (new App\Db\Query())->select('id')->from('vtiger_users')->where(['status' => 'ACTIVE', 'is_admin' => 'on'])->createCommand()->query();
+		$dataReader = (new App\Db\Query())->select(['id'])->from('vtiger_users')->where(['status' => 'ACTIVE', 'is_admin' => 'on'])->createCommand()->query();
 		$users = [];
-		while ($row = $dataReader->read()) {
-			$userModel = self::getInstanceFromUserObject(\App\User::getUserModel($row['id']));
-			$users[$userModel->getId()] = $userModel;
+		while ($id = $dataReader->readColumn(0)) {
+			$users[$id] = self::getInstanceFromUserObject(\App\User::getUserModel($id));
 		}
 		return $users;
 	}
