@@ -107,12 +107,13 @@ class LanguageExport extends Package
 	 *
 	 * @param string $prefix
 	 * @param string $name
-	 * @param bool   $isDefault
-	 * @param bool   $isActive
+	 * @param bool $isDefault
+	 * @param bool $isActive
+	 * @param int $progress
 	 *
 	 * @throws \yii\db\Exception
 	 */
-	public static function register(string $prefix, string $name = '', bool $isDefault = false, bool $isActive = true)
+	public static function register(string $prefix, string $name = '', bool $isDefault = false, bool $isActive = true, int $progress = 0)
 	{
 		$prefix = trim($prefix);
 		$dbCommand = \App\Db::getInstance()->createCommand();
@@ -122,8 +123,9 @@ class LanguageExport extends Package
 				[
 					'name' => $name,
 					'lastupdated' => date('Y-m-d H:i:s'),
-					'isdefault' => (int) $isDefault,
-					'active' => (int) $isActive
+					'isdefault' => (int)$isDefault,
+					'active' => (int)$isActive,
+					'progress' => $progress
 				],
 				['prefix' => $prefix]
 			)->execute();
@@ -133,9 +135,10 @@ class LanguageExport extends Package
 				[
 					'name' => $name,
 					'lastupdated' => date('Y-m-d H:i:s'),
-					'isdefault' => (int) $isDefault,
-					'active' => (int) $isActive,
-					'prefix' => $prefix
+					'isdefault' => (int)$isDefault,
+					'active' => (int)$isActive,
+					'prefix' => $prefix,
+					'progress' => $progress
 				]
 			)->execute();
 		}

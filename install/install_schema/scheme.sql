@@ -6240,6 +6240,7 @@ CREATE TABLE `vtiger_language` (
   `sequence` smallint(6) unsigned DEFAULT NULL,
   `isdefault` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `active` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `progress` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `prefix` (`prefix`),
   KEY `isdefault` (`isdefault`)
