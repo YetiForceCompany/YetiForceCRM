@@ -10,7 +10,7 @@ export default {
    *
    * @returns {object}
    */
-  [getters.Url]: state => path => {
+  [getters.Url.get]: state => path => {
     return Objects.get(state, path)
   }
 }

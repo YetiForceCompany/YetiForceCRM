@@ -31,7 +31,8 @@
     "@vue/cli-plugin-eslint": "^3.0.0",
     "@vue/eslint-config-prettier": "^3.0.0",
     "babel-plugin-webpack-chunkname": "^1.2.0",
-    "esm": "^3.2.15",
+    "esm": "^3.2.16",
+    "module-alias": "^2.2.0",
     "prettier": "^1.16.4",
     "serialize-javascript": "^1.6.1",
     "strip-ansi": "=3.0.1"

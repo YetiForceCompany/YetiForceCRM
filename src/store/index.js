@@ -31,7 +31,7 @@ if (typeof window.modules !== 'undefined') {
 let store = new Vuex.Store({
   modules,
   mutations: {
-    [mutations.Global.update](state, payload) {
+    ['Global/update'](state, payload) {
       state = Objects.mergeDeepReactive(state, payload)
     }
   }

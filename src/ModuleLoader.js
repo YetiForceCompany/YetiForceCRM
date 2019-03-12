@@ -137,7 +137,6 @@ const ModuleLoader = {
    */
   loadStores(stores, modules) {
     for (const module of modules) {
-      console.log('loading store for', module)
       stores = this.attachStore(stores, module)
     }
     return stores
