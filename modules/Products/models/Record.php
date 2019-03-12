@@ -155,7 +155,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 			$currentUserId = \Users_Record_Model::getCurrentUserModel()->getId();
 			$query = (new App\Db\Query())->select(['u_#__crmentity_search_label.crmid', 'u_#__crmentity_search_label.setype', 'u_#__crmentity_search_label.searchlabel'])
 				->from('u_#__crmentity_search_label')
-				->where(['and', ['like', 'u_#__crmentity_search_label.userid', "%$currentUserId%"], ['like', 'u_#__crmentity_search_label.searchlabel', "%$searchKey%"]]);
+				->where(['and', ['like', 'u_#__crmentity_search_label.userid', ",{$currentUserId},"], ['like', 'u_#__crmentity_search_label.searchlabel', $searchKey]]);
 			if (false !== $moduleName) {
 				if (is_array($moduleName)) {
 					$query->andWhere(['in', 'u_#__crmentity_search_label.setype', $moduleName]);
