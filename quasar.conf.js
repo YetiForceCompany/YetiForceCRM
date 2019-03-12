@@ -99,7 +99,7 @@ module.exports = function(ctx) {
               for (let i = 0; i < rule.use.length; i++) {
                 const ruleLoader = rule.use[i]
                 if (ruleLoader.loader === 'css-loader') {
-                  ruleLoader.options.localIdentName = '[path][name]_[local]'
+                  ruleLoader.options.localIdentName = '[path][name]__[local]'
                 }
               }
             }
