@@ -1,6 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 import loginAxios from 'src/services/Login.js'
-import apiAxios from 'src/services/Api.js'
 import actions from 'src/store/actions.js'
 import mutations from 'src/store/mutations.js'
 import getters from 'src/store/getters.js'
@@ -13,13 +12,13 @@ export default {
    */
   [actions.Users.fetchData]({ commit, rootGetters }, view) {
     loginAxios({
-      url: rootGetters[getters.Url](`Users.${view}.getData`),
+      url: rootGetters[getters.Url.get](`Users.${view}.getData`),
       method: 'POST'
     }).then(response => {
-      commit(mutations.Global.update, response.data.env)
+      commit('Global/update', response.data.env)
     })
     //TODO commit to remove when rootGetters[getters.Url.all].Users.getData is ready
-    commit(mutations.Global.update, {
+    commit('Global/update', {
       Env: {
         layout: 'material',
         layouts: ['material', 'ios']
@@ -48,13 +47,13 @@ export default {
    */
   [actions.Users.login]({ commit, rootGetters }, formData) {
     loginAxios({
-      url: rootGetters[getters.Url]('Users.Login.login'),
+      url: rootGetters[getters.Url.get]('Users.Login.login'),
       data: formData,
       method: 'POST'
     }).then(response => {
       const data = response.data
       if (data.result === true) {
-        commit(mutations.Global.update, data.env)
+        commit('Global/update', data.env)
         this.$router.replace('/')
       } else if (data.result.step !== undefined) {
         this.$router.replace(`/users/login/${data.result.step}`)
@@ -71,7 +70,7 @@ export default {
    */
   [actions.Users.remind]({ commit, rootGetters }, formData) {
     loginAxios({
-      url: rootGetters[getters.Url]('Users.remind'),
+      url: rootGetters[getters.Url.get]('Users.remind'),
       data: formData,
       method: 'POST'
     }).then(response => {

@@ -1,14 +1,23 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 export default {
-  Env: {
-    all: 'Env/all'
+  "Env": {
+    "all": "Env/all"
   },
-  Language: {},
-  Menu: {
-    items: 'Menu/items'
+  "Menu": {
+    "items": "Menu/items"
   },
-  Users: {
-    isLoggedIn: 'Users/isLoggedIn'
+  "Url": {
+    "get": "Url/get"
   },
-  Url: 'Url'
+  "Users": {
+    "isLoggedIn": "Users/isLoggedIn"
+  },
+  "App": {
+    "Home": {},
+    "ModuleExample": {
+      "testVariable": "App/ModuleExample/testVariable"
+    }
+  },
+  "Settings": {
+    "ModuleExample": {}
+  }
 }

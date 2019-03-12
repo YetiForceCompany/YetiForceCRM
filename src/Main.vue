@@ -30,7 +30,7 @@ export default {
     }
   },
   created() {
-    this.$store.commit(mutations.Global.update, window.env)
+    this.$store.commit('Global/update', window.env)
   },
   mounted() {
     this.$store.commit(mutations.Menu.updateItems, [

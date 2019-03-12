@@ -1,8 +1,17 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 export default {
-  Users: {
-    fetchData: 'Users/fetchData',
-    login: 'Users/login',
-    remind: 'Users/remind'
+  "Url": {},
+  "Users": {
+    "fetchData": "Users/fetchData",
+    "login": "Users/login",
+    "remind": "Users/remind"
+  },
+  "App": {
+    "Home": {},
+    "ModuleExample": {
+      "getData": "App/ModuleExample/getData"
+    }
+  },
+  "Settings": {
+    "ModuleExample": {}
   }
 }

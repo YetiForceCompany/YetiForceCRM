@@ -4,9 +4,10 @@
  * @author Rafal Pospiech <r.pospiech@yetiforce.com>
  */
 require = require('esm')(module)
-const { lstatSync, readdirSync, writeFileSync, watch } = require('fs')
+const moduleAlias = require('module-alias')
+moduleAlias.addAlias('src', `${__dirname}\\src`)
+const { lstatSync, readdirSync, readFileSync, writeFileSync, watch } = require('fs')
 const { join, resolve, sep, basename } = require('path')
-const Objects = require('./src/utilities/Objects.js').default
 
 const isDirectory = source => {
   try {
@@ -22,6 +23,43 @@ const isFile = source => {
     return false
   }
 }
+const oldRequire = require
+
+const appRequire = moduleName => {
+  if (isFile(resolve(moduleName))) {
+    moduleName = resolve(moduleName)
+  } else if (isFile(resolve(['node_modules', moduleName]))) {
+    moduleName = resolve(['node_modules', moduleName])
+  } else if (isFile(resolve(['node_modules', moduleName, 'index.js']))) {
+    moduleName = resolve(['node_modules', moduleName, 'index.js'])
+  } else if (isFile(resolve(['node_modules', '@' + moduleName, 'index.js']))) {
+    moduleName = resolve(['node_modules', moduleName, 'index.js'])
+  } else if (isFile(resolve(['node_modules', moduleName, 'package.json']))) {
+    const pkg = JSON.parse(readFileSync(resolve(['node_modules', moduleName, 'package.json']), { encoding: 'utf8' }))
+    if (typeof pkg.main !== 'undefined') {
+      moduleName = resolve(['node_modules', moduleName, pkg.main])
+    } else if (typeof pkg.module !== 'undefined') {
+      moduleName = resolve(['node_modules', moduleName, pkg.module])
+    }
+  }
+  const file = readFileSync(moduleName, { encoding: 'utf8' })
+    .replace(/export\sdefault\s/, 'module.exports = ')
+    .replace(/import\s(.*)\sfrom\s(\'|\")([^\n]+)(\'|\")/gi, `const $1 = appRequire('$3')`)
+    .replace(/export\s/gi, 'module.exports = ')
+  try {
+    return eval(file)
+  } catch (e) {
+    const loaded = oldRequire(moduleName)
+    if (typeof loaded.default !== 'undefined') {
+      return loaded.default
+    }
+    return loaded
+  }
+}
+global.appRequire = appRequire
+
+const Objects = appRequire('src/utilities/Objects.js')
+
 const getDirectories = source =>
   readdirSync(source)
     .map(name => join(source, name))
@@ -71,7 +109,7 @@ module.exports = {
       const dir = `${moduleConf.path}${sep}${RESERVED_DIRECTORIES.router}`
       getFiles(dir).forEach(file => {
         const path = `./${dir}${sep}${file}`
-        const routes = require(path).default
+        const routes = appRequire(path)
         if (typeof routes === 'function') {
           routes = routes(moduleConf)
         }
@@ -88,6 +126,86 @@ module.exports = {
   },
 
   /**
+   * Generate store names
+   *
+   * @param   {array}  modules
+   * @param   {string}  type
+   *
+   * @return  {object}
+   */
+  generateStoreNames(modules, type, result = {}) {
+    for (let module of modules) {
+      if (typeof module.store !== 'undefined' && typeof module.store[type] !== 'undefined') {
+        result[module.name] = module.store[type]
+      } else {
+        result[module.name] = {}
+      }
+      if (typeof module.modules !== 'undefined') {
+        this.generateStoreNames(module.modules, type, result[module.name])
+      }
+    }
+    return result
+  },
+
+  getNames(obj, names = {}) {
+    for (let name in obj) {
+      let shortName = name
+      if (shortName.indexOf('/') >= 0) {
+        shortName = name.substring(name.lastIndexOf('/') + 1)
+      }
+      if (typeof obj[name] === 'function') {
+        names[shortName] = name
+      } else if (typeof obj[name] === 'object') {
+        names[shortName] = this.getNames(obj[name])
+      } else {
+        names[shortName] = obj[name]
+      }
+    }
+    return names
+  },
+
+  /**
+   * Get basic store names (from store dir)
+   *
+   * @param   {string}  dir
+   *
+   * @return  {object}
+   */
+  getBasicStoreNames(dir, result = { getters: {}, mutations: {}, actions: {} }) {
+    getDirectories(join(__dirname, dir)).forEach(currentDir => {
+      const gettersFileName = `${dir}/${currentDir}/getters.js`
+      if (isFile(join(__dirname, gettersFileName))) {
+        result['getters'][currentDir] = this.getNames(appRequire(gettersFileName))
+      }
+      const mutationsFileName = `${dir}/${currentDir}/mutations.js`
+      if (isFile(join(__dirname, mutationsFileName))) {
+        result['mutations'][currentDir] = this.getNames(appRequire(mutationsFileName))
+      }
+      const actionsFileName = `${dir}/${currentDir}/actions.js`
+      if (isFile(join(__dirname, actionsFileName))) {
+        result['actions'][currentDir] = this.getNames(appRequire(actionsFileName))
+      }
+    })
+    return result
+  },
+
+  /**
+   * Save store names in getters, mutations, actions
+   *
+   * @param   {string}  dir
+   * @param   {array}  modules
+   */
+  saveStoreNames(dir, modules) {
+    const store = this.getBasicStoreNames(dir)
+    store.getters = this.generateStoreNames(modules, 'getters', store.getters)
+    store.mutations = this.generateStoreNames(modules, 'mutations', store.mutations)
+    store.actions = this.generateStoreNames(modules, 'actions', store.actions)
+    writeFileSync(`${dir}${sep}actions.js`, `export default ${JSON.stringify(store.actions, null, 2)}`)
+    writeFileSync(`${dir}${sep}mutations.js`, `export default ${JSON.stringify(store.mutations, null, 2)}`)
+    writeFileSync(`${dir}${sep}getters.js`, `export default ${JSON.stringify(store.getters, null, 2)}`)
+  },
+
+  /**
    * Load store from module
    *
    * @param   {object}  moduleConf
@@ -101,7 +219,7 @@ module.exports = {
       moduleConf.storeFiles = {}
       getFiles(dir).forEach(file => {
         const which = basename(file, '.js')
-        const storeLib = require(`./${dir}${sep}${file}`).default
+        const storeLib = appRequire(`./${dir}${sep}${file}`)
         let lib = {}
         if (which !== 'state') {
           Object.keys(storeLib).forEach(key => {
@@ -172,7 +290,8 @@ module.exports = {
    */
   saveModuleConfig(moduleConf) {
     const moduleConfiguration = `window.modules = ${Objects.serialize(moduleConf, { space: 2, unsafe: true })}`
-    writeFileSync(`src/statics/modules.js`, moduleConfiguration)
+    writeFileSync(`./src/statics/modules.js`, moduleConfiguration)
+    this.saveStoreNames('src/store', moduleConf)
     return moduleConf
   },
 
@@ -182,8 +301,14 @@ module.exports = {
    * @param   {string}  dir
    */
   watchDir(dir = './src') {
+    const exclude = [
+      `statics${sep}modules.js`,
+      `store${sep}getters.js`,
+      `store${sep}mutations.js`,
+      `store${sep}actions.js`
+    ]
     watch(dir, { recursive: true }, (eventType, fileName) => {
-      if (eventType === 'change' && fileName !== `statics${sep}modules.js`) {
+      if (eventType === 'change' && exclude.indexOf(fileName) === -1) {
         this.saveModuleConfig(this.loadModules('src'))
         console.log('Module configuration file updated.')
       }
