@@ -89,7 +89,22 @@ module.exports = function(ctx) {
             ignored: [/node_modules/, /public_html/]
           }
         }
-        cfg.devtool = 'source-map'
+        cfg.devtool = 'source-map' // for debugging purposes
+        //overwriting css-loader localIdentName
+        for (let i = 0; i < cfg.module.rules.length; i++) {
+          const moduleRule = cfg.module.rules[i]
+          if (moduleRule.oneOf !== undefined) {
+            for (let i = 0; i < moduleRule.oneOf.length; i++) {
+              const rule = moduleRule.oneOf[i]
+              for (let i = 0; i < rule.use.length; i++) {
+                const ruleLoader = rule.use[i]
+                if (ruleLoader.loader === 'css-loader') {
+                  ruleLoader.options.localIdentName = '[path][name]_[local]'
+                }
+              }
+            }
+          }
+        }
       }
     },
 
