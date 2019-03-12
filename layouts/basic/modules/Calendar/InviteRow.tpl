@@ -1,7 +1,9 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Calendar-InviteRow -->
-	{assign var=LABEL value=''}
+	{if !isset($IS_VIEW)}
+		{assign var=IS_VIEW value=false}
+	{/if}
 	{if !isset($INVITIE)}
 		{assign var=INVITIE value=['crmid'=>'','inviteesid'=>'','email'=>'','status'=>'','time'=>'']}
 	{/if}
@@ -40,11 +42,13 @@
 					{/if}
 				</span>
 			</span>
-			<span class="input-group-append">
-				<button class="btn btn-outline-secondary border inviteRemove" type="button">
-					<span class="fas fa-times"></span>
-				</button>
-			</span>
+			{if !$IS_VIEW}
+				<span class="input-group-append">
+					<button class="btn btn-outline-secondary border inviteRemove" type="button">
+						<span class="fas fa-times"></span>
+					</button>
+				</span>
+			{/if}
 		</div>
 	</div>
 	<!-- /tpl-Calendar-InviteRow -->

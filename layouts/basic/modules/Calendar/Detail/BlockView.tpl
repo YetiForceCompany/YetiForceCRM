@@ -17,29 +17,9 @@
 						<div class="fieldLabel u-border-bottom-label-md u-border-right-0-md c-panel__label col-lg-3 {$WIDTHTYPE} text-right">
 							<label class="u-text-small-bold">{\App\Language::translate('LBL_INVITE_RECORDS',$MODULE_NAME)}</label></td>
 						</div>
-						<div class="fieldValue col-sm-12 col-lg-9 {$WIDTHTYPE}">
+						<div class="fieldValue col-sm-12 col-lg-9 {$WIDTHTYPE} d-flex flex-wrap flex-row justify-content-start align-items-left">
 							{foreach key=KEY item=INVITIE from=$INVITIES_SELECTED}
-								{assign var=LABEL value=''}
-								{assign var=TITLE value=''}
-								{if $INVITIE['crmid']}
-									{assign var=LABEL value=$INVITIE['label']}
-									{assign var=TITLE value=\App\Language::translateSingularModuleName($INVITIE['setype'])|cat:': '|cat:$LABEL|cat:' - '|cat:$INVITIE['email']}
-									{assign var=ICON value='<span class="userIcon-'|cat:$INVITIE['setype']|cat:'"></span>'}
-								{else}
-									{assign var=LABEL value=$INVITIE['email']}
-									{assign var=ICON value='<span class="fas fa-envelope"></span>'}
-								{/if}
-								<div>
-									{assign var=STATUS_LABEL value=Calendar_Record_Model::getInvitionStatus($INVITIE['status'])}
-									{if $INVITIE['status'] == '1'}
-									<span class="fas fa-check-circle js-popover-tooltip" data-js="popover" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL,$MODULE_NAME)} {if $INVITIE['time']}({DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}"></span>
-									{elseif $INVITIE['status'] == '2'}
-									<span class="fas fa-minus-circle js-popover-tooltip" data-js="popover" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL,$MODULE_NAME)} {if $INVITIE['time']}({DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}"></span>
-									{else}
-									<span class="fas fa-question-circle js-popover-tooltip" data-js="popover" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL,$MODULE_NAME)}"></span>
-									{/if}&nbsp;
-									<span class="inviteName {if $TITLE}js-popover-tooltip{/if}" data-js="popover" data-content="{htmlentities($ICON)}&nbsp;{$TITLE}">{$LABEL}</span>
-								</div>
+								{include file=\App\Layout::getTemplatePath('InviteRow.tpl', $MODULE_NAME) IS_VIEW=true}
 							{/foreach}
 						</div>
 					</div>
