@@ -123,9 +123,6 @@ class PackageExport
 	 * @param Path Output directory path
 	 * @param string Zipfilename to use
 	 * @param bool True for sending the output as download
-	 * @param mixed $todir
-	 * @param mixed $zipFileName
-	 * @param mixed $directDownload
 	 */
 	public function export(\vtlib\Module $moduleInstance, $todir = '', $zipFileName = '', $directDownload = false)
 	{
@@ -282,8 +279,9 @@ class PackageExport
 	public function exportModule()
 	{
 		$moduleId = $this->moduleInstance->id;
-		$row = (new \App\Db\Query())->select(['name', 'tablabel', 'version'])->from('vtiger_tab')->where(['tabid' => $moduleId])->one();
+		$row = (new \App\Db\Query())->select(['name', 'tablabel', 'version', 'type'])->from('vtiger_tab')->where(['tabid' => $moduleId])->one();
 		$tabVersion = $row['version'] ?? false;
+		$tabType = $row['type'];
 		$this->openNode('module');
 		$this->outputNode(date('Y-m-d H:i:s'), 'exporttime');
 		$this->outputNode($row['name'], 'name');
@@ -291,7 +289,7 @@ class PackageExport
 
 		if (!$this->moduleInstance->isentitytype) {
 			$type = 'extension';
-		} elseif (1 == $tabInfo['type']) {
+		} elseif (1 == $tabType) {
 			$type = 'inventory';
 		} else {
 			$type = 'entity';
@@ -315,7 +313,7 @@ class PackageExport
 		$this->exportCustomViews($this->moduleInstance);
 
 		// Export module inventory fields
-		if (1 == $tabInfo['type']) {
+		if (1 == $tabType) {
 			$this->exportInventory();
 		}
 
@@ -737,19 +735,14 @@ class PackageExport
 	 */
 	public function exportInventory()
 	{
-		$db = \PearDatabase::getInstance();
-		$tableName = \Vtiger_Inventory_Model::getInstance($this->moduleInstance->name)->getTableName();
-
-		$result = $db->query(sprintf('SELECT * FROM %s', $tableName));
-		if (0 == $db->getRowCount($result)) {
+		$dataReader = (new \App\Db\Query())->from(\Vtiger_Inventory_Model::getInstance($this->moduleInstance->name)->getTableName())->createCommand()->query();
+		if (0 == $dataReader->count()) {
 			return false;
 		}
-
 		$this->openNode('inventory');
 		$this->openNode('fields');
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$this->openNode('field');
-
 			$this->outputNode($row['columnname'], 'columnname');
 			$this->outputNode($row['label'], 'label');
 			$this->outputNode($row['invtype'], 'invtype');
@@ -760,9 +753,9 @@ class PackageExport
 			$this->outputNode($row['displaytype'], 'displaytype');
 			$this->outputNode($row['params'], 'params');
 			$this->outputNode($row['colspan'], 'colspan');
-
 			$this->closeNode('field');
 		}
+		$dataReader->close();
 		$this->closeNode('fields');
 		$this->closeNode('inventory');
 	}
