@@ -4,6 +4,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Objects from 'src/utilities/Objects.js'
 import mutations from './mutations.js'
+import ModuleLoader from '../ModuleLoader.js'
 // modules
 import Debug from './Debug'
 import Env from './Env'
@@ -14,13 +15,18 @@ import Language from './Language'
 
 Vue.use(Vuex)
 
-const modules = {
+let modules = {
   Debug,
   Env,
   Menu,
   Url,
   Users,
   Language
+}
+
+if (typeof window.modules !== 'undefined') {
+  modules = ModuleLoader.loadStores(modules, window.modules)
+  console.log('stores', modules)
 }
 
 let store = new Vuex.Store({

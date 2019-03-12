@@ -1,6 +1,9 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 import Vue from 'vue'
 import { get, set } from 'dot-prop'
+import _serialize from 'serialize-javascript'
+import babylon from 'prettier/parser-babylon'
+import prettier from 'prettier/standalone'
 
 export default {
   /**
@@ -61,5 +64,12 @@ export default {
    */
   setReactive(target, path, value) {
     return this.mergeDeepReactive(target, this.set(target, path, value))
+  },
+
+  /**
+   * Serialize javascript
+   */
+  serialize(obj, options) {
+    return prettier.format(_serialize(obj, options), { parser: 'babel', plugins: [babylon] })
   }
 }

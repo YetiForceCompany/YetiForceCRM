@@ -8,7 +8,7 @@ import getters from 'src/store/getters.js'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'ModuleExample',
+  name: 'App.ModuleExample',
   computed: {
     ...mapGetters({
       menuItems: getters.Menu.items
@@ -19,9 +19,9 @@ export default {
     items.push({
       component: 'RoutePush',
       props: {
-        path: '/module-example',
+        path: '/app/module-example',
         icon: 'home',
-        label: 'Module Example'
+        label: 'App Example'
       }
     })
     this.$store.commit(mutations.Menu.updateItems, items)

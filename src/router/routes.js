@@ -14,7 +14,7 @@ const routes = [
   {
     name: 'Layout',
     path: '/',
-    component: () => import('layouts/Basic.vue')
+    component: () => import('src/layouts/Basic.vue')
   },
   {
     name: 'Login',
