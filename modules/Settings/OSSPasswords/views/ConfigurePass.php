@@ -24,7 +24,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 
 	public function process(App\Request $request)
 	{
-		$dbInstance = App\Db::getInstance();
+		$db = App\Db::getInstance();
 		// config
 		// check if password encode config exists
 		$config_path = 'modules/OSSPasswords/config.ini.php';
@@ -75,7 +75,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 
 			// update the configuration data
 			if (0 === strlen($error) && $post_min > 0 && $post_max > 0 && strlen($aChars) > 0) {
-				App\Db::getInstance()->createCommand()->update('vtiger_passwords_config', [
+				$db->createCommand()->update('vtiger_passwords_config', [
 					'pass_length_min' => $post_min,
 					'pass_length_max' => $post_max,
 					'pass_allow_chars' => $aChars,
@@ -106,17 +106,17 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 					$recordModel->writePhpIni($config, 'modules/OSSPasswords/config.ini.php');
 
 					// start transaction
-					$transaction = $dbInstance->beginTransaction();
+					$transaction = $db->beginTransaction();
 					try {
 						// now encrypt all osspasswords with given key
-						\App\Db::getInstance()->createCommand()
+						$db->createCommand()
 							->update('vtiger_osspasswords', [
 								'password' => new \yii\db\Expression('AES_ENCRYPT(`password`,:newPass)', [':newPass' => $newPassword])
 							])->execute();
 						$success = 'Encryption password has been successfully saved!';
 						// commit transaction
 						$transaction->commit();
-					} catch (\Exception $e) {
+					} catch (\Throwable  $e) {
 						$transaction->rollBack();
 						throw $e;
 					}
@@ -140,17 +140,17 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 
 				if ($pass_ok && false !== $configKey) {
 					// start transaction
-					$transaction = $dbInstance->beginTransaction();
+					$transaction = $db->beginTransaction();
 					try {
 						// first we are decrypting all the passwords
-						$decrypt_aff_rows = $dbInstance->createCommand()->update(
+						$decrypt_aff_rows = $db->createCommand()->update(
 							'vtiger_osspasswords',
 							['password' => new \yii\db\Expression('AES_DECRYPT(`password`, :param)', [':param' => $configKey])]
 						)->execute();
 
 						// then we are encrypting passwords using new password key
 						$newKey = hash('sha256', $newKey);
-						$encrypt_aff_rows = $dbInstance->createCommand()->update(
+						$encrypt_aff_rows = $db->createCommand()->update(
 							'vtiger_osspasswords',
 							['password' => new \yii\db\Expression('AES_ENCRYPT(`password`, :param)', [':param' => $newKey])]
 						)->execute();
@@ -168,7 +168,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 
 						// commit transaction
 						$transaction->commit();
-					} catch (\Exception $e) {
+					} catch (\Throwable  $e) {
 						$transaction->rollBack();
 						throw $e;
 					}
@@ -187,12 +187,12 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 
 				if ($pass_ok) {
 					// start transaction
-					$transaction = $dbInstance->beginTransaction();
+					$transaction = $db->beginTransaction();
 					try {
 						// decrypt all passwords
-						$result = $dbInstance->createCommand()->update(
+						$result = $db->createCommand()->update(
 							'vtiger_osspasswords',
-							['password' => new \yii\db\Expression('AES_DECRYPT(`password`, :param)', [':param' => $configKey])]
+							['password' => new \yii\db\Expression('AES_DECRYPT(`password`, :param)', [':param' => $passKey])]
 						)->execute();
 
 						// delete config file
@@ -206,7 +206,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 						// commit transaction
 						$transaction->commit();
 						$config = false;
-					} catch (\Exception $e) {
+					} catch (\Throwable  $e) {
 						$transaction->rollBack();
 						throw $e;
 					}
