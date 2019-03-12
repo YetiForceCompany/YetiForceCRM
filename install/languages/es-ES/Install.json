@@ -106,7 +106,13 @@
     "LBL_MIGRATION_IN_PROGRESS": "Migración en curso",
     "LBL_SETUP_WIZARD_HEADER": "YetiForce installation wizard",
     "LBL_VERSION": "Version",
-    "LBL_ERROR_INSTALL": "Installation unsuccessful"
+    "LBL_ERROR_INSTALL": "Installation unsuccessful",
+    "LBL_NAME": "The name of your company",
+    "LBL_INDUSTRY": "Industry",
+    "LBL_CITY": "City",
+    "LBL_COUNTRY": "Country",
+    "LBL_COMPANYSIZE": "The number of employees of the company",
+    "LBL_WEBSITE": "Your company's website"
   },
   "js": {
     "JS_ALL": "Todo",
@@ -123,6 +129,12 @@
     "LBL_PASS_REENTER_ERROR": "Vuelve a introducir las contraseñas. Los valores de Contraseña y Volver a escribir contraseña no coinciden.",
     "LBL_INVALID_EMAIL_ERROR": "¡Advertencia! Dirección de correo electrónico no válida.",
     "LBL_INVALID_USERNAME_ERROR": "Nombre de usuario inválido",
-    "LBL_RESOLVE_ERROR": "Resuelva el error antes de proceder con la instalación"
+    "LBL_RESOLVE_ERROR": "Resuelva el error antes de proceder con la instalación",
+    "JS_SELECT_AN_OPTION": "Select an option",
+    "JS_S_LENGTH_MENU": "Show _MENU_ entries",
+    "JS_SEARCH": "Search:",
+    "JS_S_INFO": "Showing _START_ to _END_ of _TOTAL_ entries",
+    "JS_S_PREVIOUS": "Last",
+    "JS_S_NEXT": "Siguiente"
   }
 }

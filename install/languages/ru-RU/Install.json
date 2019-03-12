@@ -106,7 +106,13 @@
     "LBL_MIGRATION_IN_PROGRESS": "Миграция в процессе",
     "LBL_SETUP_WIZARD_HEADER": "YetiForce installation wizard",
     "LBL_VERSION": "Version",
-    "LBL_ERROR_INSTALL": "Installation unsuccessful"
+    "LBL_ERROR_INSTALL": "Installation unsuccessful",
+    "LBL_NAME": "The name of your company",
+    "LBL_INDUSTRY": "Industry",
+    "LBL_CITY": "City",
+    "LBL_COUNTRY": "Country",
+    "LBL_COMPANYSIZE": "The number of employees of the company",
+    "LBL_WEBSITE": "Your company's website"
   },
   "js": {
     "JS_ALL": "Все",
@@ -123,6 +129,12 @@
     "LBL_PASS_REENTER_ERROR": "Внимание! Пароли не совпадают.",
     "LBL_INVALID_EMAIL_ERROR": "Внимание! Неверный адрес электронной почты.",
     "LBL_INVALID_USERNAME_ERROR": "Invalid username",
-    "LBL_RESOLVE_ERROR": "Пожалуйста, устраните ошибки перед продолжением установки"
+    "LBL_RESOLVE_ERROR": "Пожалуйста, устраните ошибки перед продолжением установки",
+    "JS_SELECT_AN_OPTION": "Select an option",
+    "JS_S_LENGTH_MENU": "Show _MENU_ entries",
+    "JS_SEARCH": "Search:",
+    "JS_S_INFO": "Showing _START_ to _END_ of _TOTAL_ entries",
+    "JS_S_PREVIOUS": "Last",
+    "JS_S_NEXT": "Далее"
   }
 }

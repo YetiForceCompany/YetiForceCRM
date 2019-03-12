@@ -106,7 +106,13 @@
     "LBL_MIGRATION_IN_PROGRESS": "Migration in Bearbeitung",
     "LBL_SETUP_WIZARD_HEADER": "YetiForce Installation Wizard",
     "LBL_VERSION": "Version",
-    "LBL_ERROR_INSTALL": "Installation fehlgeschlagen"
+    "LBL_ERROR_INSTALL": "Installation fehlgeschlagen",
+    "LBL_NAME": "Der Name Ihres Unternehmens",
+    "LBL_INDUSTRY": "Branche",
+    "LBL_CITY": "Ort",
+    "LBL_COUNTRY": "Land",
+    "LBL_COMPANYSIZE": "Die Anzahl der Mitarbeiter des Unternehmens",
+    "LBL_WEBSITE": "Ihre Firmen-Webseite"
   },
   "js": {
     "JS_ALL": "Alle",
@@ -123,6 +129,12 @@
     "LBL_PASS_REENTER_ERROR": "Bitte geben Sie erneut die Passwörter ein. Die beiden Passwörter stimmen nicht überein.",
     "LBL_INVALID_EMAIL_ERROR": "Achtung! Ungültige E-Mail-Adresse.",
     "LBL_INVALID_USERNAME_ERROR": "ungültiger Benutzername",
-    "LBL_RESOLVE_ERROR": "Bitte beheben Sie den Fehler, bevor Sie mit der Installation fortfahren"
+    "LBL_RESOLVE_ERROR": "Bitte beheben Sie den Fehler, bevor Sie mit der Installation fortfahren",
+    "JS_SELECT_AN_OPTION": "Wählen Sie eine Option",
+    "JS_S_LENGTH_MENU": "Zeige _MENU_ Einträge",
+    "JS_SEARCH": "Suche:",
+    "JS_S_INFO": "Zeige _START_ zu _END_ von _TOTAL_ Einträgen",
+    "JS_S_PREVIOUS": "Letzter",
+    "JS_S_NEXT": "Weiter"
   }
 }

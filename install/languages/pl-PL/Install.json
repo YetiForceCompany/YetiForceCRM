@@ -106,7 +106,13 @@
     "LBL_MIGRATION_IN_PROGRESS": "Trwa proces migracji",
     "LBL_SETUP_WIZARD_HEADER": "Kreator instalacji systemu YetiForce",
     "LBL_VERSION": "Wersja",
-    "LBL_ERROR_INSTALL": "Proces instalacji zakończył się niepowodzeniem"
+    "LBL_ERROR_INSTALL": "Proces instalacji zakończył się niepowodzeniem",
+    "LBL_NAME": "Nazwa twojej firmy",
+    "LBL_INDUSTRY": "Branża",
+    "LBL_CITY": "Miejscowość",
+    "LBL_COUNTRY": "Kraj",
+    "LBL_COMPANYSIZE": "Liczba pracowników firmy",
+    "LBL_WEBSITE": "Strona internetowa twojej firmy"
   },
   "js": {
     "JS_ALL": "Wszystkie",
@@ -123,6 +129,12 @@
     "LBL_PASS_REENTER_ERROR": "Należy ponownie wpisać hasło. Pole Hasło i Powtórz hasło nie zgadzają się.",
     "LBL_INVALID_EMAIL_ERROR": "Uwaga! Niepoprawny adres email.",
     "LBL_INVALID_USERNAME_ERROR": "Niedozwolona nazwa uzytkownika.",
-    "LBL_RESOLVE_ERROR": "Proszę naprawić błąd przed kontynuowaniem instalacji"
+    "LBL_RESOLVE_ERROR": "Proszę naprawić błąd przed kontynuowaniem instalacji",
+    "JS_SELECT_AN_OPTION": "Wybierz opcję",
+    "JS_S_LENGTH_MENU": "Pokaż _MENU_ pozycji",
+    "JS_SEARCH": "Szukaj:",
+    "JS_S_INFO": "Pozycje od _START_ do _END_ z _TOTAL_ łącznie",
+    "JS_S_PREVIOUS": "Poprzednia",
+    "JS_S_NEXT": "Dalej"
   }
 }

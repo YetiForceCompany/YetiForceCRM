@@ -106,7 +106,13 @@
     "LBL_MIGRATION_IN_PROGRESS": "Migration in progress",
     "LBL_SETUP_WIZARD_HEADER": "YetiForce installation wizard",
     "LBL_VERSION": "Version",
-    "LBL_ERROR_INSTALL": "Installation unsuccessful"
+    "LBL_ERROR_INSTALL": "Installation unsuccessful",
+    "LBL_NAME": "The name of your company",
+    "LBL_INDUSTRY": "Setor",
+    "LBL_CITY": "Cidade",
+    "LBL_COUNTRY": "País",
+    "LBL_COMPANYSIZE": "The number of employees of the company",
+    "LBL_WEBSITE": "Your company's website"
   },
   "js": {
     "JS_ALL": "Todas",
@@ -123,6 +129,12 @@
     "LBL_PASS_REENTER_ERROR": "Please re-enter passwords.  The Password and Re-type password values do not match.",
     "LBL_INVALID_EMAIL_ERROR": "Warning! Invalid email address.",
     "LBL_INVALID_USERNAME_ERROR": "Invalid username",
-    "LBL_RESOLVE_ERROR": "Please resolve the error before proceeding with the installation"
+    "LBL_RESOLVE_ERROR": "Please resolve the error before proceeding with the installation",
+    "JS_SELECT_AN_OPTION": "Seleccione uma opção",
+    "JS_S_LENGTH_MENU": "Mostrar _MENU_ entradas",
+    "JS_SEARCH": "Pesquisar:",
+    "JS_S_INFO": "Showing _START_ to _END_ of _TOTAL_ entries",
+    "JS_S_PREVIOUS": "Último",
+    "JS_S_NEXT": "Next"
   }
 }

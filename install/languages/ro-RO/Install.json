@@ -106,7 +106,13 @@
     "LBL_MIGRATION_IN_PROGRESS": "Migrare in curs",
     "LBL_SETUP_WIZARD_HEADER": "Expert instalare YetiForce",
     "LBL_VERSION": "Versiune",
-    "LBL_ERROR_INSTALL": "Installation unsuccessful"
+    "LBL_ERROR_INSTALL": "Installation unsuccessful",
+    "LBL_NAME": "The name of your company",
+    "LBL_INDUSTRY": "Industry",
+    "LBL_CITY": "City",
+    "LBL_COUNTRY": "Country",
+    "LBL_COMPANYSIZE": "The number of employees of the company",
+    "LBL_WEBSITE": "Your company's website"
   },
   "js": {
     "JS_ALL": "Toate",
@@ -123,6 +129,12 @@
     "LBL_PASS_REENTER_ERROR": "Reintroduceti parolele. Valorile parolei si Reintroducerea parolei nu se potrivesc",
     "LBL_INVALID_EMAIL_ERROR": "Avertizare! Adresa email invalida.",
     "LBL_INVALID_USERNAME_ERROR": "Utilizator invalid",
-    "LBL_RESOLVE_ERROR": "Va rugam sa rezolvati eroarea inainte de a incepe instalarea"
+    "LBL_RESOLVE_ERROR": "Va rugam sa rezolvati eroarea inainte de a incepe instalarea",
+    "JS_SELECT_AN_OPTION": "Select an option",
+    "JS_S_LENGTH_MENU": "Show _MENU_ entries",
+    "JS_SEARCH": "Search:",
+    "JS_S_INFO": "Showing _START_ to _END_ of _TOTAL_ entries",
+    "JS_S_PREVIOUS": "Last",
+    "JS_S_NEXT": "Urmatorul"
   }
 }
