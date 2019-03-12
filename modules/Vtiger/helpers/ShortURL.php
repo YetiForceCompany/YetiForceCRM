@@ -83,7 +83,7 @@ class Vtiger_ShortURL_Helper
 			}
 			call_user_func([$handler, $handlerFn], $handlerData);
 		}
-		if ($dataReader->count() === 0) {
+		if (0 === $dataReader->count()) {
 			echo '<h3>Link you have used is invalid or has expired. .</h3>';
 		}
 	}
@@ -91,7 +91,7 @@ class Vtiger_ShortURL_Helper
 	/**
 	 * Function will send tracker image of 1X1 pixel transparent Image.
 	 */
-	public static function sendTrackerImag e ()
+	public static function sendTrackerImage()
 	{
 		header('content-type: image/png');
 		echo base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII=');
@@ -104,7 +104,7 @@ class Vtiger_ShortURL_Helper
 	 *
 	 * @return Vtiger_ShortURL_Helper
 	 */
-	public static function getInst ance ($id)
+	public static function getInstance($id)
 	{
 		$self = new self();
 		$row = (new App\Db\Query())->from('vtiger_shorturls')->where(['uid' => $id])->one();
