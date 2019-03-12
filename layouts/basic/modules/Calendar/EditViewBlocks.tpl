@@ -11,31 +11,36 @@
 			<div class="col-md-7 form-row pl-1">
 				<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}" data-js="click" data-mode="hide"></span>
 				<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2 {if ($IS_HIDDEN)}d-none{/if}" data-js="click" data-mode="show"></span>
-				<h5>{\App\Language::translate('LBL_INVITE_RECORDS', $MODULE)}</h5>
+				<h5>{\App\Language::translate('LBL_INVITE_RECORDS', $MODULE_NAME)}</h5>
 			</div>
-			<div class="col-md-2 fieldRow">
-				<button type="button" class="js-btn-add-invitation btn btn-sm btn-success">
-					<span class="fa fa-plus mr-2" title="{\App\Language::translate('LBL_ADD_PARTICIPANT', $MODULE_NAME)}"></span>
-					{\App\Language::translate('LBL_ADD_PARTICIPANT', $MODULE_NAME)}
-				</button>
-			</div>
-			<div class="col-md-3 fieldRow">
-				<input type="text" title="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE)}" placeholder="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE)}" class="form-control form-control-sm inviteesSearch"/>
+			<div class="col-md-5 input-group js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}">
+				<div class="input-group-prepend">
+					<span class="input-group-text u-cursor-pointer">
+						<span class="fas fa-search"></span>
+					</span>
+				</div>
+				<input type="text" class="form-control inviteesSearch" title="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}"
+					placeholder="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}" />
+
+				<div class="input-group-append">
+					<button type="button" class="js-btn-add-invitation btn btn-light" title="{\App\Language::translate('LBL_ADD_PARTICIPANT', $MODULE_NAME)}">
+						<span class="fa fa-plus mr-2" title="{\App\Language::translate('LBL_ADD_PARTICIPANT', $MODULE_NAME)}"></span>
+					</button>
+				</div>
 			</div>
 		</div>
 		<div class="c-panel__body c-panel__body--edit blockContent js-block-content {if $IS_HIDDEN}d-none{/if}" data-js="display">
-			<div class="inviteesContent">
+			<div class="inviteesContent d-flex flex-wrap flex-row justify-content-start align-items-left">
 				<div class="d-none">
-					{include file=\App\Layout::getTemplatePath('InviteRow.tpl', $MODULE)}
+					{include file=\App\Layout::getTemplatePath('InviteRow.tpl', $MODULE_NAME)}
 				</div>
 				{if !empty($INVITIES_SELECTED)}
 					{foreach key=KEY item=INVITIE from=$INVITIES_SELECTED}
-						{include file=\App\Layout::getTemplatePath('InviteRow.tpl', $MODULE)}
+						{include file=\App\Layout::getTemplatePath('InviteRow.tpl', $MODULE_NAME)}
 					{/foreach}
 				{/if}
 			</div>
 		</div>
 	</div>
-	<br/>
 	<!-- /tpl-Calendar-EditViewBlocks -->
 {/strip}

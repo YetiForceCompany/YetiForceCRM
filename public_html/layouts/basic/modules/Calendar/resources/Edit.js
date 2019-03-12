@@ -307,7 +307,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			rows.each(function (index, domElement) {
 				let row = $(domElement);
 				if (row.data('email')) {
-					invitees.push([row.data('email'), row.data('crmid'), row.data('ivid')]);
+					invitees.push([row.data('email'), row.data('crmid'), row.data('ivid'), row.data('name')]);
 				}
 			});
 			$('<input type="hidden" name="inviteesid" />').appendTo(form).val(JSON.stringify(invitees));
@@ -455,6 +455,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			app.showModalWindow(null, 'index.php?module=Calendar&view=InviteEmail', (data) => {
 				data.find('.js-modal__save').on('click', (e)=>{
 					let email = data.find('.js-invite-email-input').val();
+					let nameAttendee = data.find('.js-invite-name-input').val();
 					let inviteesContent = this.getForm().find('.inviteesContent');
 					let formEmail = data.find('.js-form');
 					formEmail.validationEngine(app.validationEngineOptions);
@@ -462,7 +463,13 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 						let inviteRow = inviteesContent.find('.d-none .inviteRow').clone(true, true);
 						inviteRow.data('crmid', 0);
 						inviteRow.data('email', email);
-						inviteRow.find('.inviteName').data('content', email).text(email);
+						if( nameAttendee ){
+							inviteRow.find('.inviteName').data('content', nameAttendee).text(nameAttendee);
+							inviteRow.data('name', nameAttendee);
+						}else{
+							inviteRow.find('.inviteName').data('content', email).text(email);
+							inviteRow.data('name', '');
+						}
 						inviteesContent.append(inviteRow);
 						app.hideModalWindow();
 					}

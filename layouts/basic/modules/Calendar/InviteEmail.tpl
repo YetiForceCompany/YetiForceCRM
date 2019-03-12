@@ -3,11 +3,20 @@
 	<!-- tpl-Calendar-InviteEmail -->
 	<form class="js-form" data-js="validationEngine">
 		<div class="modal-body">
+			<div class="alert alert-info mb-0" role="alert">
+				{\App\Language::translate('LBL_ADD_PARTICIPANT', $MODULE_NAME)}
+			</div>
 			<div class="fieldLabel">
 				<span class="redColor">*</span> {\App\Language::translate('LBL_PARTICIPANTS_EMAIL', $MODULE_NAME)}:
 			</div>
 			<div class="fieldValue" >
-				<input type="text" class="js-invite-email-input form-control validate[required]" data-validation-engine="validate[required,custom[email],funcCall[Calendar_Edit_Js.checkEmail]]" />
+				<input type="text" class="js-invite-email-input form-control" data-validation-engine="validate[required,custom[email],funcCall[Calendar_Edit_Js.checkEmail]]" />
+			</div>
+			<div class="fieldLabel">
+				{\App\Language::translate('LBL_PARTICIPANTS_NAME', $MODULE_NAME)}:
+			</div>
+			<div class="fieldValue" >
+				<input type="text" class="js-invite-name-input form-control" />
 			</div>
 		</div>
 	</form>

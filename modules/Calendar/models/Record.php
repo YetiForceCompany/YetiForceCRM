@@ -197,6 +197,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 					$db->createCommand()->insert('u_#__activity_invitation', [
 						'email' => $invitation[0],
 						'crmid' => (int) $invitation[1],
+						'name' => $invitation[3],
 						'activityid' => $this->getId(),
 					])->execute();
 				}
