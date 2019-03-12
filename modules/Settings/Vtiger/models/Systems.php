@@ -43,9 +43,9 @@ class Settings_Vtiger_Systems_Model extends \App\Base
 		if (empty($id)) {
 			$id = $dbInstance->getUniqueID(self::TABLE_NAME);
 			$params['id'] = $id;
-			$query = $dbInstance->createCommand()->insert(self::TABLE_NAME, $params)->execute();
+			$dbInstance->createCommand()->insert(self::TABLE_NAME, $params)->execute();
 		} else {
-			$query = $dbInstance->createCommand()->update(self::TABLE_NAME, $params, ['id' => $id])->execute();
+			$dbInstance->createCommand()->update(self::TABLE_NAME, $params, ['id' => $id])->execute();
 		}
 
 		return $id;
