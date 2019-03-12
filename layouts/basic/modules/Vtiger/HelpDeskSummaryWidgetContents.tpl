@@ -21,7 +21,7 @@
 							</a>
 						</div>
 						<div>{\App\Language::translate('LBL_TICKET_PRIORITY',$MODULE)} : <strong>{$RELATED_RECORD->getDisplayValue('ticketpriorities')}</strong></div>
-						{assign var=DESCRIPTION value="{$RELATED_RECORD->getDescriptionValue()}"}
+						{assign var=DESCRIPTION value=$RELATED_RECORD->getDisplayValue('description')}
 						{if !empty($DESCRIPTION)}
 							<div class="row">
 								<span class="col-md-8 u-text-ellipsis width27em">{$DESCRIPTION}</span>
