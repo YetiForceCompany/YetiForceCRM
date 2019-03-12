@@ -1621,6 +1621,10 @@ $.Class("Vtiger_Inventory_Js", {
 				mode: 'getTableData',
 				record: recordId
 			}).done((response) => {
+				let activeModules = [];
+				this.getInventoryHeadContainer().find('.js-add-item').each((index, addBtn) => {
+					activeModules.push($(addBtn).data('module'));
+				});
 				progressLoader.progressIndicator({mode: 'hide'});
 				const oldCurrencyChangeAction = this.currencyChangeActions;
 				this.currencyChangeActions = function changeCurrencyActions(select, option) {
