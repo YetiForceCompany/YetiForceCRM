@@ -961,7 +961,7 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * Function to get Display value for RelatedList.
 	 *
-	 * @param string  $fieldName
+	 * @param string $fieldName
 	 *
 	 * @return string
 	 */
@@ -979,7 +979,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function getDescriptionValue()
 	{
 		if (empty($this->get('description'))) {
-			$this->set('description', (new \App\Db\Query())->select('description')->from('vtiger_crmentity')->where(['crmid' => $this->getId()])->scalar());
+			$this->set('description', (new \App\Db\Query())->select(['description'])->from('vtiger_crmentity')->where(['crmid' => $this->getId()])->scalar());
 		}
 		return $this->get('description');
 	}
