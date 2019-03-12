@@ -556,6 +556,7 @@ class PackageExport
 			}
 			$this->closeNode('customview');
 		}
+		$customViewDataReader->close();
 		$this->closeNode('customviews');
 	}
 
@@ -572,24 +573,26 @@ class PackageExport
 			return;
 		}
 		$this->openNode('sharingaccess');
-		foreach ($permission as $row) {
-			switch ($row) {
-				case '0':
-					$permissiontext = '';
-					break;
-				case '1':
-					$permissiontext = 'public_readwrite';
-					break;
-				case '2':
-					$permissiontext = 'public_readwritedelete';
-					break;
-				case '3':
-					$permissiontext = 'private';
-					break;
-				default:
-					break;
+		if ($permission) {
+			foreach ($permission as $row) {
+				switch ($row) {
+					case '0':
+						$permissiontext = '';
+						break;
+					case '1':
+						$permissiontext = 'public_readwrite';
+						break;
+					case '2':
+						$permissiontext = 'public_readwritedelete';
+						break;
+					case '3':
+						$permissiontext = 'private';
+						break;
+					default:
+						break;
+				}
+				$this->outputNode($permissiontext, 'default');
 			}
-			$this->outputNode($permissiontext, 'default');
 		}
 		$this->closeNode('sharingaccess');
 	}
@@ -604,19 +607,16 @@ class PackageExport
 		if (!$moduleInstance->isentitytype) {
 			return;
 		}
-
-		$adb = \PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT distinct(actionname) FROM vtiger_profile2utility, vtiger_actionmapping
-			WHERE vtiger_profile2utility.activityid=vtiger_actionmapping.actionid and tabid=?', [$moduleInstance->id]);
-
-		if ($adb->numRows($result)) {
+		$dataReader = (new \App\Db\Query())->select(['actionname'])->from('vtiger_profile2utility')->innerJoin('vtiger_actionmapping', 'vtiger_profile2utility.activityid=vtiger_actionmapping.actionid')->where(['tabid' => $moduleInstance->id])->distinct('actionname')->createCommand()->query();
+		if ($dataReader->count()) {
 			$this->openNode('actions');
-			while ($resultrow = $adb->fetchArray($result)) {
+			while ($row = $dataReader->read()) {
 				$this->openNode('action');
-				$this->outputNode('<![CDATA[' . $resultrow['actionname'] . ']]>', 'name');
+				$this->outputNode('<![CDATA[' . $row['actionname'] . ']]>', 'name');
 				$this->outputNode('enabled', 'status');
 				$this->closeNode('action');
 			}
+			$dataReader->close();
 			$this->closeNode('actions');
 		}
 	}
