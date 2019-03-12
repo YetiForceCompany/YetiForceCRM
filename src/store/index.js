@@ -25,8 +25,7 @@ let modules = {
 }
 
 if (typeof window.modules !== 'undefined') {
-  modules = ModuleLoader.loadStores(modules, window.modules)
-  console.log('stores', modules)
+  ModuleLoader.loadStores(modules, window.modules)
 }
 
 let store = new Vuex.Store({
