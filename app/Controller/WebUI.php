@@ -2,12 +2,14 @@
 /**
  * Web UI file.
  *
+ * @package   Controller
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-namespace App;
+namespace App\Controller;
 
 /**
  * WebUi class.
@@ -58,7 +60,7 @@ class WebUI
 		if (\App\Config::main('forceRedirect')) {
 			$request = \App\Request::init();
 			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $request->getServer('HTTP_HOST') . $request->getServer('REQUEST_URI');
-			if (stripos($requestUrl, \App\Config::main('site_URL')) !== 0) {
+			if (0 !== stripos($requestUrl, \App\Config::main('site_URL'))) {
 				header('location: ' . \App\Config::main('site_URL'), true, 301);
 			}
 		}
