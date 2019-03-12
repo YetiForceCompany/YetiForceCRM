@@ -225,6 +225,7 @@ class Register
 			'status' => $data['status'] ?? $conf['status'] ?? 0,
 			'text' => $data['text'] ?? $conf['text'] ?? '',
 			'serialKey' => $data['serialKey'] ?? $conf['serialKey'] ?? '',
+			'lastError' => $data['lastError'] ?? '',
 		];
 		file_put_contents(static::REGISTRATION_FILE, "<?php //Modifying this file will breach the licence terms. \n return " . \var_export(static::$config, true) . ';');
 	}
