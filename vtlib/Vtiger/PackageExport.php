@@ -123,6 +123,9 @@ class PackageExport
 	 * @param Path Output directory path
 	 * @param string Zipfilename to use
 	 * @param bool True for sending the output as download
+	 * @param mixed $todir
+	 * @param mixed $zipFileName
+	 * @param mixed $directDownload
 	 */
 	public function export(\vtlib\Module $moduleInstance, $todir = '', $zipFileName = '', $directDownload = false)
 	{
@@ -563,35 +566,30 @@ class PackageExport
 	 */
 	public function exportSharingAccess(ModuleBasic $moduleInstance)
 	{
-		$adb = \PearDatabase::getInstance();
-
-		$deforgshare = $adb->pquery('SELECT * FROM vtiger_def_org_share WHERE tabid=?', [$moduleInstance->id]);
-		$deforgshareCount = $adb->numRows($deforgshare);
-
-		if (empty($deforgshareCount)) {
+		$permission = (new \App\Db\Query())->select(['permission'])->from('vtiger_def_org_share')->where(['tabid' => $moduleInstance->id])
+			->column();
+		if (empty($permission)) {
 			return;
 		}
-
 		$this->openNode('sharingaccess');
-		if ($deforgshareCount) {
-			for ($index = 0; $index < $deforgshareCount; ++$index) {
-				$permission = $adb->queryResult($deforgshare, $index, 'permission');
-				$permissiontext = '';
-				if ('0' == $permission) {
-					$permissiontext = 'public_readonly';
-				}
-				if ('1' == $permission) {
+		foreach ($permission as $row) {
+			switch ($row) {
+				case '0':
+					$permissiontext = '';
+					break;
+				case '1':
 					$permissiontext = 'public_readwrite';
-				}
-				if ('2' == $permission) {
+					break;
+				case '2':
 					$permissiontext = 'public_readwritedelete';
-				}
-				if ('3' == $permission) {
+					break;
+				case '3':
 					$permissiontext = 'private';
-				}
-
-				$this->outputNode($permissiontext, 'default');
+					break;
+				default:
+					break;
 			}
+			$this->outputNode($permissiontext, 'default');
 		}
 		$this->closeNode('sharingaccess');
 	}
