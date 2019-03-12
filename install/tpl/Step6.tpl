@@ -82,7 +82,8 @@
 						{elseif $FIELD_NAME === "companysize"}
 							<div class="form-group row">
 								<label class="col-sm-2 col-form-label"
-									   for="company-website">{App\Language::translate('LBL_COMPANYSIZE', 'Install')}</label>
+									   for="company-website">{App\Language::translate('LBL_COMPANYSIZE', 'Install')}
+									<span class="no">*</span></label>
 								<div class="col-sm-10">
 									<input id="company-companysize" type="number" name="company_companysize"
 										   class="form-control"
