@@ -47,7 +47,7 @@ class Project_Gantt_Model
 	/**
 	 * Get parent nodes id as associative array [taskId]=>[parentId1,parentId2,...].
 	 *
-	 * @param string|int $parentId
+	 * @param int|string $parentId
 	 * @param array      $parents  initial value
 	 *
 	 * @return array
@@ -138,7 +138,7 @@ class Project_Gantt_Model
 	{
 		// not set parents are children of root node
 		foreach ($this->tasks as &$task) {
-			if (!isset($task['parent']) && $task['id'] !== 0) {
+			if (!isset($task['parent']) && 0 !== $task['id']) {
 				$task['parent'] = 0;
 			}
 		}
@@ -226,8 +226,8 @@ class Project_Gantt_Model
 	{
 		$clean = [];
 		foreach ($tasks as $task) {
-			if ($task['id'] !== 0) {
-				if ($task['parent'] === 0) {
+			if (0 !== $task['id']) {
+				if (0 === $task['parent']) {
 					unset($task['parent']);
 					$task['depends'] = '';
 				}
@@ -283,7 +283,7 @@ class Project_Gantt_Model
 	{
 		$maxTimeStampValue = 2147483647;
 		$firstDate = $this->iterateNodes($node, $maxTimeStampValue, function (&$child, $firstDate) {
-			if (!empty($child['start_date']) && $child['start_date'] !== '1970-01-01') {
+			if (!empty($child['start_date']) && '1970-01-01' !== $child['start_date']) {
 				$taskStartDate = strtotime($child['start_date']);
 				if ($taskStartDate < $firstDate && $taskStartDate > 0) {
 					return $taskStartDate;
@@ -291,7 +291,7 @@ class Project_Gantt_Model
 			}
 			return $firstDate;
 		});
-		if ($firstDate < 0 || date('Y-m-d', $firstDate) === '2038-01-19') {
+		if ($firstDate < 0 || '2038-01-19' === date('Y-m-d', $firstDate)) {
 			$firstDate = strtotime(date('Y-m-d'));
 			$node['duration'] = 1;
 		}
@@ -301,7 +301,7 @@ class Project_Gantt_Model
 		}
 		// iterate one more time setting up empty dates
 		$this->iterateNodes($node, $firstDate, function (&$child, $firstDate) {
-			if (empty($child['start_date']) || $child['start_date'] === '1970-01-01') {
+			if (empty($child['start_date']) || '1970-01-01' === $child['start_date']) {
 				$child['start_date'] = date('Y-m-d', $firstDate);
 				$child['start'] = date('Y-m-d H:i:s', $firstDate);
 			}
@@ -320,7 +320,7 @@ class Project_Gantt_Model
 	private function findOutEndDates(&$node)
 	{
 		$lastDate = $this->iterateNodes($node, 0, function (&$child, $lastDate) {
-			if (!empty($child['start_date']) && $child['start_date'] !== '1970-01-01') {
+			if (!empty($child['start_date']) && '1970-01-01' !== $child['start_date']) {
 				$taskDate = strtotime($child['end_date']);
 				if ($taskDate > $lastDate) {
 					return $taskDate;
@@ -328,7 +328,7 @@ class Project_Gantt_Model
 			}
 			return $lastDate;
 		});
-		if ($lastDate === 0) {
+		if (0 === $lastDate) {
 			$lastDate = strtotime(date('Y-m-d'));
 		}
 		if (empty($node['end_date'])) {
@@ -424,7 +424,8 @@ class Project_Gantt_Model
 	/**
 	 * Get project data.
 	 *
-	 * @param int|array $id project id
+	 * @param array|int  $id       project id
+	 * @param null|mixed $viewName
 	 *
 	 * @return array
 	 */
@@ -480,7 +481,7 @@ class Project_Gantt_Model
 				'status_label' => App\Language::translate($row['projectstatus'], 'Project'),
 				'assigned_user_id' => $row['assigned_user_id'],
 				'assigned_user_name' => \App\Fields\Owner::getUserLabel($row['assigned_user_id']),
-				'color' => $row['projectstatus'] ? $this->statusColors['Project']['projectstatus'][$row['projectstatus']] : \App\Colors::getRandomColor('projectstatus_' . $row['id']),
+				'color' => ($row['projectstatus'] && isset($this->statusColors['Project']['projectstatus'][$row['projectstatus']])) ? $this->statusColors['Project']['projectstatus'][$row['projectstatus']] : \App\Colors::getRandomColor('projectstatus_' . $row['id']),
 			];
 			$project['number'] = '<a class="showReferenceTooltip js-popover-tooltip--record" title="' . $project['no'] . '" href="' . $project['url'] . '" target="_blank" rel="noreferrer noopener">' . $project['no'] . '</a>';
 			if (empty($project['parentId'])) {
@@ -522,6 +523,8 @@ class Project_Gantt_Model
 
 	/**
 	 * Get all projects from the system.
+	 *
+	 * @param null|mixed $viewName
 	 *
 	 * @return array projects,milestones,tasks
 	 */
@@ -635,7 +638,7 @@ class Project_Gantt_Model
 				'assigned_user_id' => $row['assigned_user_id'],
 				'assigned_user_name' => \App\Fields\Owner::getUserLabel($row['assigned_user_id']),
 				'startIsMilestone' => true,
-				'color' => $row['projectmilestone_status'] ? $this->statusColors['ProjectMilestone']['projectmilestone_status'][$row['projectmilestone_status']] : App\Colors::getRandomColor('projectmilestone_status_' . $row['id']),
+				'color' => ($row['projectmilestone_status'] && isset($this->statusColors['ProjectMilestone']['projectmilestone_status'][$row['projectmilestone_status']])) ? $this->statusColors['ProjectMilestone']['projectmilestone_status'][$row['projectmilestone_status']] : App\Colors::getRandomColor('projectmilestone_status_' . $row['id']),
 			];
 			$milestone['number'] = '<a class="showReferenceTooltip js-popover-tooltip--record" title="' . $milestone['no'] . '" href="' . $milestone['url'] . '" target="_blank">' . $milestone['no'] . '</a>';
 			if (empty($milestone['parentId'])) {
@@ -704,7 +707,7 @@ class Project_Gantt_Model
 				'no' => $queryGenerator->getModuleField('projecttask_no')->getDisplayValue($row['projecttask_no'], $row['id'], false, true),
 				'normalized_status' => $queryGenerator->getModuleField('projecttaskstatus')->getDisplayValue($row['projecttaskstatus'], $row['id'], false, true),
 				'status_label' => App\Language::translate($row['projecttaskstatus'], 'ProjectTask'),
-				'color' => $row['projecttaskstatus'] ? $this->statusColors['ProjectTask']['projecttaskstatus'][$row['projecttaskstatus']] : App\Colors::getRandomColor('projecttaskstatus_' . $row['id']),
+				'color' => ($row['projecttaskstatus'] && isset($this->statusColors['ProjectTask']['projecttaskstatus'][$row['projecttaskstatus']])) ? $this->statusColors['ProjectTask']['projecttaskstatus'][$row['projecttaskstatus']] : App\Colors::getRandomColor('projecttaskstatus_' . $row['id']),
 				'start_date' => date('Y-m-d', strtotime($row['startdate'])),
 				'start' => date('Y-m-d H:i:s', strtotime($row['startdate'])),
 				'end_date' => $row['enddate'],
