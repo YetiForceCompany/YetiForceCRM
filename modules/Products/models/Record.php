@@ -157,11 +157,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 				->from('u_#__crmentity_search_label')
 				->where(['and', ['like', 'u_#__crmentity_search_label.userid', ",{$currentUserId},"], ['like', 'u_#__crmentity_search_label.searchlabel', $searchKey]]);
 			if (false !== $moduleName) {
-				if (is_array($moduleName)) {
-					$query->andWhere(['in', 'u_#__crmentity_search_label.setype', $moduleName]);
-				} else {
-					$query->andWhere(['u_#__crmentity_search_label.setype' => $moduleName]);
-				}
+				$query->andWhere(['u_#__crmentity_search_label.setype' => $moduleName]);
 			} elseif (2 === \AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS')) {
 				$query->leftJoin('vtiger_entityname', 'vtiger_entityname.modulename = u_#__crmentity_search_label.setype')
 					->andWhere(['vtiger_entityname.turn_off' => 1])
