@@ -147,7 +147,7 @@ class Register
 	{
 		if (!\App\RequestUtil::isNetConnection() || 'yetiforce.com' === gethostbyname('yetiforce.com')) {
 			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
-
+			static::updateMetaData(['lastError' => 'ERR_NO_INTERNET_CONNECTION']);
 			return false;
 		}
 		$conf = static::getConf();
@@ -179,11 +179,15 @@ class Register
 					];
 					$status = true;
 				}
+			} else {
+				\App\Log::warning('ERR_BODY_IS_EMPTY', __METHOD__);
+				static::updateMetaData(['lastError' => 'ERR_BODY_IS_EMPTY']);
 			}
 
 			static::updateMetaData($data);
 		} catch (\Throwable $e) {
 			\App\Log::warning($e->getMessage(), __METHOD__);
+			static::updateMetaData(['lastError' => $e->getMessage()]);
 		}
 		return $status ?? false;
 	}
@@ -289,6 +293,17 @@ class Register
 	{
 		$conf = static::getConf();
 		return $conf['last_check_time'] ?? false;
+	}
+
+	/**
+	 * Get last check error.
+	 *
+	 * @return mixed
+	 */
+	public static function getLastCheckError()
+	{
+		$conf = static::getConf();
+		return $conf['lastError'] ?? false;
 	}
 
 	/**
