@@ -143,7 +143,7 @@ class Register
 	 *
 	 * @return bool
 	 */
-	public static function check()
+	public static function check($force = false)
 	{
 		if (!\App\RequestUtil::isNetConnection() || 'yetiforce.com' === gethostbyname('yetiforce.com')) {
 			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
@@ -151,8 +151,10 @@ class Register
 			return false;
 		}
 		$conf = static::getConf();
-		if (!empty($conf['last_check_time']) && (($conf['status'] < 6 && strtotime('+6 hours', strtotime($conf['last_check_time'])) > time()) || ($conf['status'] > 6 && strtotime('+7 day', strtotime($conf['last_check_time'])) > time()))) {
-			return false;
+		if (!$force) {
+			if (!empty($conf['last_check_time']) && (($conf['status'] < 6 && strtotime('+6 hours', strtotime($conf['last_check_time'])) > time()) || ($conf['status'] > 6 && strtotime('+7 day', strtotime($conf['last_check_time'])) > time()))) {
+				return false;
+			}
 		}
 		$params = [
 			'version' => \App\Version::get(),

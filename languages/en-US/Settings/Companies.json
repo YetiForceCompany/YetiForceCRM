@@ -27,6 +27,7 @@
     "LBL_REGISTER_CRM_ONLINE": "Registration - OnLine",
     "LBL_ERROR_MESSAGE": "Error: %s",
     "LBL_REGISTER_CRM_SERIAL": "Registration - Key",
+    "LBL_REGISTER_CHECK": "Check status",
     "LBL_NOT_REGISTERED": "Not registered",
     "LBL_WAITING_FOR_ACCEPTANCE": "Pending approval",
     "LBL_INCORRECT_DATA": "Incorrect data",
