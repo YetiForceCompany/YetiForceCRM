@@ -2,12 +2,12 @@
 <template></template>
 <script>
 export default {
-  name: 'Home',
+  name: 'App.Home',
   mounted() {
     const menuItem = {
       component: 'RoutePush',
       props: {
-        path: '/home',
+        path: '/app/home',
         icon: 'home',
         label: 'Home'
       }

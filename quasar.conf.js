@@ -4,7 +4,10 @@ const exec = require('child_process').exec
 const axios = require('axios')
 const path = require('path')
 module.exports = function(ctx) {
-  ModuleLoader.loadModules()
+  ModuleLoader.saveModuleConfig(ModuleLoader.loadModules('src'))
+  if (ctx.dev) {
+    ModuleLoader.watchDir('./src')
+  }
   return {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
@@ -58,8 +61,8 @@ module.exports = function(ctx) {
     preFetch: true,
 
     sourceFiles: {
-      indexHtmlTemplate: ctx.dev ? 'src/index.template.dev.html' : 'src/index.template.php'
-      //rootComponent: 'src/App.vue',
+      indexHtmlTemplate: ctx.dev ? 'src/index.template.dev.html' : 'src/index.template.php',
+      rootComponent: 'src/Main.vue'
       //router: 'src/router',
       //store: 'src/store',
       //registerServiceWorker: 'src-pwa/register-service-worker.js',
