@@ -35,7 +35,7 @@ class Settings_ConfReport_Speed_View extends \App\Controller\Modal
 	{
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
-		$viewer->assign('TESTS', Settings_ConfReport_Module_Model::testSpeed());
+		$viewer->assign('TESTS', \App\Utils\ConfReport::testSpeed());
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->view('Speed.tpl', $qualifiedModule);
 	}
