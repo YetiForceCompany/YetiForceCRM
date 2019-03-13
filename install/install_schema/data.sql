@@ -5405,7 +5405,7 @@ insert  into `vtiger_knowledgebase_view`(`knowledgebase_viewid`,`knowledgebase_v
 
 /*Data for the table `vtiger_language` */
 
-insert  into `vtiger_language`(`id`,`name`,`prefix`,`lastupdated`,`sequence`,`isdefault`,`active`,`progress`) values (1,'English (United States)','en-US','2019-01-15 10:11:10',1,1,1,0);
+insert  into `vtiger_language`(`id`,`name`,`prefix`,`lastupdated`,`sequence`,`isdefault`,`active`,`progress`) values (1,'English (United States)','en-US','2019-01-15 10:11:10',1,1,1,100);
 
 /*Data for the table `vtiger_layout` */
 
