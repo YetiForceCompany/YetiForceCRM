@@ -125,7 +125,6 @@ class FieldBasic
 		$db = \App\Db::getInstance();
 		$this->block = $blockInstance;
 		$moduleInstance = $this->getModuleInstance();
-		$this->id = \App\Db::getInstance()->getUniqueID('vtiger_field', 'fieldid', false);
 		if (!$this->sequence) {
 			$this->sequence = $this->__getNextSequence();
 		}
@@ -173,7 +172,6 @@ class FieldBasic
 		}
 		$db->createCommand()->insert('vtiger_field', [
 			'tabid' => $this->getModuleId(),
-			'fieldid' => $this->id,
 			'columnname' => $this->column,
 			'tablename' => $this->table,
 			'generatedtype' => (int) ($this->generatedtype),
@@ -197,6 +195,7 @@ class FieldBasic
 			'masseditable' => $this->masseditable,
 			'visible' => $this->visible,
 		])->execute();
+		$this->id = (int) $db->getLastInsertID("vtiger_field_fieldid_seq");
 		Profile::initForField($this);
 		$this->clearCache();
 		\App\Log::trace("Creating field $this->name ... DONE", __METHOD__);
