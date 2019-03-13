@@ -1,5 +1,5 @@
 <?php
-/* +**********************************************************************************
+ /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -18,17 +18,9 @@ class LayoutExport extends Package
 	const TABLENAME = 'vtiger_layout';
 
 	/**
-	 * Generate unique id for insertion.
-	 */
-	public static function __getUniqueId()
-	{
-		$adb = \PearDatabase::getInstance();
-
-		return $adb->getUniqueID(self::TABLENAME);
-	}
-
-	/**
 	 * Initialize Export.
+	 *
+	 * @param string $layoutName
 	 */
 	public function __initExport($layoutName)
 	{
@@ -42,10 +34,10 @@ class LayoutExport extends Package
 	/**
 	 * Export Module as a zip file.
 	 *
-	 * @param Layout name to be export
-	 * @param Path Output directory path
-	 * @param string Zipfilename to use
-	 * @param bool True for sending the output as download
+	 * @param string $layoutName
+	 * @param string $todir
+	 * @param string $zipfilename
+	 * @param bool   $directDownload
 	 */
 	public function export($layoutName, $todir = '', $zipfilename = '', $directDownload = false)
 	{
@@ -57,7 +49,7 @@ class LayoutExport extends Package
 		$this->__finishExport();
 
 		// Export as Zip
-		if ($zipfilename == '') {
+		if ('' === $zipfilename) {
 			$zipfilename = "$layoutName-" . date('YmdHis') . '.zip';
 		}
 		$zipfilename = "$this->_export_tmpdir/$zipfilename";
@@ -80,13 +72,12 @@ class LayoutExport extends Package
 
 	/**
 	 * Export Layout Handler.
+	 *
+	 * @param string $layoutName
 	 */
 	public function exportLayout($layoutName)
 	{
-		$adb = \PearDatabase::getInstance();
-		$query = sprintf('SELECT * FROM %s WHERE name = ?', self::TABLENAME);
-		$sqlresult = $adb->pquery($query, [$layoutName]);
-		$layoutresultrow = $adb->fetchArray($sqlresult);
+		$layoutresultrow = (new \App\Db\Query())->from(self::TABLENAME)->where(['name' => $layoutName])->one();
 
 		$layoutname = \App\Purifier::decodeHtml($layoutresultrow['name']);
 		$layoutlabel = \App\Purifier::decodeHtml($layoutresultrow['label']);
@@ -110,7 +101,7 @@ class LayoutExport extends Package
 		$maxVersion = false;
 		$this->openNode('dependencies');
 		$this->outputNode(\App\Version::get(), 'vtiger_version');
-		if ($maxVersion !== false) {
+		if (false !== $maxVersion) {
 			$this->outputNode($maxVersion, 'vtiger_max_version');
 		}
 		$this->closeNode('dependencies');
@@ -118,53 +109,47 @@ class LayoutExport extends Package
 
 	/**
 	 * Register layout pack information.
+	 *
+	 * @param string $name
+	 * @param string $label
+	 * @param bool   $isdefault
+	 * @param bool   $isactive
+	 * @param bool   $overrideCore
 	 */
 	public static function register($name, $label = '', $isdefault = false, $isactive = true, $overrideCore = false)
 	{
 		$prefix = trim($prefix);
 		// We will not allow registering core layouts unless forced
-		if (strtolower($name) == 'basic' && $overrideCore === false) {
+		if ('basic' == strtolower($name) && false === $overrideCore) {
 			return;
 		}
 
-		$useisdefault = ($isdefault) ? 1 : 0;
-		$useisactive = ($isactive) ? 1 : 0;
-
-		$adb = \PearDatabase::getInstance();
-		$query = sprintf('SELECT id FROM %s WHERE name = ?', self::TABLENAME);
-		$checkres = $adb->pquery($query, [$name]);
-		$datetime = date('Y-m-d H:i:s');
-		if ($checkres->rowCount()) {
-			$adb->update(self::TABLENAME, [
-				'label' => $label,
-				'name' => $name,
-				'lastupdated' => $datetime,
-				'isdefault' => $useisdefault,
-				'active' => $useisactive,
-				], 'id=?', [$adb->getSingleValue($checkres)]
-			);
+		$resId = (new \App\Db\Query())->select(['id'])->from(self::TABLENAME)->where(['name' => $name])->scalar();
+		$db = \App\Db::getInstance()->createCommand();
+		$params = [
+			'label' => $label,
+			'name' => $name,
+			'lastupdated' => date('Y-m-d H:i:s'),
+			'isdefault' => ($isdefault) ? 1 : 0,
+			'active' => ($isactive) ? 1 : 0,
+		];
+		if ($resId) {
+			$db->update(self::TABLENAME, $params, ['id' => $resId])->execute();
 		} else {
-			$adb->insert(self::TABLENAME, [
-				'id' => self::__getUniqueId(),
-				'name' => $name,
-				'label' => $label,
-				'lastupdated' => $datetime,
-				'isdefault' => $useisdefault,
-				'active' => $useisactive,
-			]);
+			$params['id'] = \App\Db::getInstance()->getUniqueID(self::TABLENAME, 'id', false);
+			$db->insert(self::TABLENAME, $params)->execute();
 		}
 		\App\Log::trace("Registering Layout $name ... DONE", __METHOD__);
 	}
 
 	public static function deregister($name)
 	{
-		if (strtolower($name) == 'basic') {
+		if ('basic' == strtolower($name)) {
 			return;
 		}
 
-		$adb = \PearDatabase::getInstance();
-		$adb->delete(self::TABLENAME, 'name = ?', [$name]);
-		Functions::recurseDelete('layouts' . DIRECTORY_SEPARATOR . $name);
+		\App\Db::getInstance()->createCommand()->delete(self::TABLENAME, ['name' => $name])->execute();
+		Functions::recurseDelete('layouts' . \DIRECTORY_SEPARATOR . $name);
 		\App\Log::trace("Deregistering Layout $name ... DONE", __METHOD__);
 	}
 }

@@ -52,7 +52,7 @@ class Vtiger_ShortURL_Helper
 			'handler_path' => $handlerPath,
 			'handler_class' => $handlerClass,
 			'handler_function' => $handlerFn,
-			'handler_data' => json_encode($handlerData),
+			'handler_data' => \App\Json::encode($handlerData),
 			'onetime' => $options['onetime']
 		])->execute();
 

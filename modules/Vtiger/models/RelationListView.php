@@ -1,5 +1,5 @@
 <?php
-/* +***********************************************************************************
+ /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -126,7 +126,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 	 *
 	 * @param Vtiger_Module_Model $parentRecordModel
 	 * @param Vtiger_Module_Model $relationModuleName
-	 * @param string|bool         $label
+	 * @param bool|string         $label
 	 *
 	 * @return self
 	 */
@@ -155,6 +155,8 @@ class Vtiger_RelationListView_Model extends \App\Base
 
 	/**
 	 * Function to get Relation query.
+	 *
+	 * @param mixed $returnQueryGenerator
 	 *
 	 * @return \App\Db\Query|\App\QueryGenerator
 	 */
@@ -218,7 +220,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		$relationModuleModel = $this->getRelationModel()->getRelationModuleModel();
 		$pageLimit = $pagingModel->getPageLimit();
 		$query = $this->getRelationQuery();
-		if ($pagingModel->get('limit') !== 0) {
+		if (0 !== $pagingModel->get('limit')) {
 			$query->limit($pageLimit + 1)->offset($pagingModel->getStartIndex());
 		}
 		$rows = $query->all();
@@ -259,7 +261,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 			if ($field) {
 				$orderBy = $field->getName();
 			}
-			if ($field || $orderBy === 'id') {
+			if ($field || 'id' === $orderBy) {
 				return $this->getRelationModel()->getQueryGenerator()->setOrder($orderBy, $this->getForSql('sortorder'));
 			}
 			\App\Log::warning("[RelationListView] Incorrect value of sorting: '$orderBy'");
@@ -344,7 +346,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 			$tree = [
 				'id' => $row['tree'],
 				'name' => $parentName . App\Language::translate($row['name'], $relModuleName),
-				'parent' => $parent == 0 ? '#' : $parent,
+				'parent' => 0 == $parent ? '#' : $parent,
 			];
 			if ($showCreatorDetail) {
 				$tree['rel_created_user'] = \App\Fields\Owner::getLabel($row['rel_created_user']);
@@ -493,7 +495,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 			'linkicon' => 'fas fa-plus',
 		]];
 
-		if ($relatedModel->get('label') === 'Documents') {
+		if ('Documents' === $relatedModel->get('label')) {
 			$addLinkList[] = [
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => App\Language::translate('LBL_MASS_ADD', 'Documents'),
@@ -507,30 +509,6 @@ class Vtiger_RelationListView_Model extends \App\Base
 		return $addLinkModel;
 	}
 
-	public function getCurrencySymbol($recordId, $fieldModel)
-	{
-		$db = PearDatabase::getInstance();
-		$moduleName = $fieldModel->getModuleName();
-		$fieldName = $fieldModel->get('name');
-
-		if (($fieldName === 'currency_id') && ($moduleName === 'Products' || $moduleName === 'Services')) {
-			$query = 'SELECT currency_symbol FROM vtiger_currency_info WHERE id = (';
-			if ($moduleName === 'Products') {
-				$query .= 'SELECT currency_id FROM vtiger_products WHERE productid = ?)';
-			} elseif ($moduleName === 'Services') {
-				$query .= 'SELECT currency_id FROM vtiger_service WHERE serviceid = ?)';
-			}
-
-			$result = $db->pquery($query, [$recordId]);
-
-			return $db->queryResult($result, 0, 'currency_symbol');
-		} else {
-			$fieldInfo = $fieldModel->getFieldInfo();
-
-			return $fieldInfo['currency_symbol'];
-		}
-	}
-
 	public function getFavoriteRecords()
 	{
 		return (new App\Db\Query())->select(['relcrmid'])->from('u_#__favorites')
@@ -538,8 +516,9 @@ class Vtiger_RelationListView_Model extends \App\Base
 				'module' => $this->getParentRecordModel()->getModuleName(),
 				'relmodule' => $this->getRelatedModuleModel()->getName(),
 				'crmid' => $this->getParentRecordModel()->getId(),
-				'userid' => App\User::getCurrentUserId(), ])
-				->column();
+				'userid' => App\User::getCurrentUserId(),
+			])
+			->column();
 	}
 
 	/**
