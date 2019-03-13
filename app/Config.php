@@ -42,63 +42,61 @@ class Config
 	 */
 	public static function loadJsConfig()
 	{
+		self::setJsEnv('Env', [
+			'siteUrl' => Layout::getPublicUrl('', true),
+			'layoutPath' => Layout::getPublicUrl('layouts/' . Layout::getActiveLayout()),
+			'soundFilesPath' => Layout::getPublicUrl('layouts/resources/sounds/'),
+			'sounds' => self::sounds(),
+			'backgroundClosingModal' => self::main('backgroundClosingModal'),
+			'eventLimit' => self::module('Calendar', 'EVENT_LIMIT'),
+			'globalSearchAutocompleteActive' => self::search('GLOBAL_SEARCH_AUTOCOMPLETE'),
+			'globalSearchAutocompleteMinLength' => self::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH'),
+			'globalSearchAutocompleteAmountResponse' => self::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT'),
+			'globalSearchDefaultOperator' => self::search('GLOBAL_SEARCH_DEFAULT_OPERATOR'),
+			'intervalForNotificationNumberCheck' => self::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK'),
+			'recordPopoverDelay' => self::performance('RECORD_POPOVER_DELAY'),
+			'searchShowOwnerOnlyInList' => self::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST'),
+			'fieldsReferencesDependent' => self::security('FIELDS_REFERENCES_DEPENDENT'),
+			'debug' => (bool) self::debug('JS_DEBUG'),
+		]);
+		self::setJsEnv('Language', [
+			'langPrefix' => Language::getLanguage(),
+			'langKey' => Language::getShortLanguageName(),
+		]);
 		$userModel = User::getCurrentUserModel();
-		foreach ([
-					'Env' => [
-						'siteUrl' => Layout::getPublicUrl('', true),
-						'layoutPath' => Layout::getPublicUrl('layouts/'.Layout::getActiveLayout()),
-						'soundFilesPath' => Layout::getPublicUrl('layouts/resources/sounds/'),
-						'sounds' => self::sounds(),
-						'backgroundClosingModal' => self::main('backgroundClosingModal'),
-						'eventLimit' => self::module('Calendar', 'EVENT_LIMIT'),
-						'globalSearchAutocompleteActive' => self::search('GLOBAL_SEARCH_AUTOCOMPLETE'),
-						'globalSearchAutocompleteMinLength' => self::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH'),
-						'globalSearchAutocompleteAmountResponse' => self::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT'),
-						'globalSearchDefaultOperator' => self::search('GLOBAL_SEARCH_DEFAULT_OPERATOR'),
-						'intervalForNotificationNumberCheck' => self::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK'),
-						'recordPopoverDelay' => self::performance('RECORD_POPOVER_DELAY'),
-						'searchShowOwnerOnlyInList' => self::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST'),
-						'fieldsReferencesDependent' => self::security('FIELDS_REFERENCES_DEPENDENT'),
-						'debug' => (bool) self::debug('JS_DEBUG'),
-					],
-					'Language' => [
-						'langPrefix' => Language::getLanguage(),
-						'langKey' => Language::getShortLanguageName(),
-					],
-					'Users' => [
-						'userId' => $userModel->getId(),
-						'currencyId' => $userModel->getDetail('currency_id'),
-						'currencyName' => $userModel->getDetail('currency_name'),
-						'currencyCode' => $userModel->getDetail('currency_code'),
-						'currencySymbol' => $userModel->getDetail('currency_symbol'),
-						'currencyGroupingPattern' => $userModel->getDetail('currency_grouping_pattern'),
-						'currencyDecimalSeparator' => $userModel->getDetail('currency_decimal_separator'),
-						'currencyGroupingSeparator' => $userModel->getDetail('currency_grouping_separator'),
-						'currencySymbolPlacement' => $userModel->getDetail('currency_symbol_placement'),
-						'noOfCurrencyDecimals' => (int) $userModel->getDetail('no_of_currency_decimals'),
-						'truncateTrailingZeros' => $userModel->getDetail('truncate_trailing_zeros'),
-						'rowHeight' => $userModel->getDetail('rowheight'),
-						'dateFormat' => $userModel->getDetail('date_format'),
-						'dateFormatJs' => Fields\Date::currentUserJSDateFormat($userModel->getDetail('date_format')),
-						'hourFormat' => $userModel->getDetail('hour_format'),
-						'startHour' => $userModel->getDetail('start_hour'),
-						'endHour' => $userModel->getDetail('end_hour'),
-						'firstDayOfWeek' => $userModel->getDetail('dayoftheweek'),
-						'firstDayOfWeekNo' => Fields\Date::$dayOfWeek[$userModel->getDetail('dayoftheweek')] ?? false,
-						'timeZone' => $userModel->getDetail('time_zone'),
-					],
-				 ] as $key => $value) {
-			self::setJsEnv($key, $value);
+		if ($userModel->isActive()) {
+			self::setJsEnv('Users', [
+				'userId' => $userModel->getId(),
+				'currencyId' => $userModel->getDetail('currency_id'),
+				'currencyName' => $userModel->getDetail('currency_name'),
+				'currencyCode' => $userModel->getDetail('currency_code'),
+				'currencySymbol' => $userModel->getDetail('currency_symbol'),
+				'currencyGroupingPattern' => $userModel->getDetail('currency_grouping_pattern'),
+				'currencyDecimalSeparator' => $userModel->getDetail('currency_decimal_separator'),
+				'currencyGroupingSeparator' => $userModel->getDetail('currency_grouping_separator'),
+				'currencySymbolPlacement' => $userModel->getDetail('currency_symbol_placement'),
+				'noOfCurrencyDecimals' => (int) $userModel->getDetail('no_of_currency_decimals'),
+				'truncateTrailingZeros' => $userModel->getDetail('truncate_trailing_zeros'),
+				'rowHeight' => $userModel->getDetail('rowheight'),
+				'dateFormat' => $userModel->getDetail('date_format'),
+				'dateFormatJs' => Fields\Date::currentUserJSDateFormat($userModel->getDetail('date_format')),
+				'hourFormat' => $userModel->getDetail('hour_format'),
+				'startHour' => $userModel->getDetail('start_hour'),
+				'endHour' => $userModel->getDetail('end_hour'),
+				'firstDayOfWeek' => $userModel->getDetail('dayoftheweek'),
+				'firstDayOfWeekNo' => Fields\Date::$dayOfWeek[$userModel->getDetail('dayoftheweek')] ?? false,
+				'timeZone' => $userModel->getDetail('time_zone'),
+			]);
 		}
 		if (Session::has('ShowAuthy2faModal')) {
 			self::setJsEnv('ShowAuthy2faModal', Session::get('ShowAuthy2faModal'));
-			if (self::security('USER_AUTHY_MODE') === 'TOTP_OPTIONAL') {
+			if ('TOTP_OPTIONAL' === self::security('USER_AUTHY_MODE')) {
 				Session::delete('ShowAuthy2faModal');
 			}
 		}
 		if (Session::has('ShowUserPasswordChange')) {
 			self::setJsEnv('ShowUserPasswordChange', Session::get('ShowUserPasswordChange'));
-			if ((int) Session::get('ShowUserPasswordChange') === 1) {
+			if (1 === (int) Session::get('ShowUserPasswordChange')) {
 				Session::delete('ShowUserPasswordChange');
 			}
 		}
@@ -118,7 +116,7 @@ class Config
 	/**
 	 * Gets main configuration.
 	 *
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -130,7 +128,7 @@ class Config
 		if ($arg && isset($GLOBALS[$arg])) {
 			return $GLOBALS[$arg];
 		}
-		$class = "\Config\Main";
+		$class = '\\Config\\Main';
 		return self::get($class, $arg, $default);
 	}
 
@@ -138,7 +136,7 @@ class Config
 	 * Gets module configuration.
 	 *
 	 * @param string      $moduleName
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -147,7 +145,7 @@ class Config
 	 */
 	public static function module(string $moduleName, ?string $arg = null, $default = null)
 	{
-		$class = "\Config\Modules\\$moduleName";
+		$class = "\\Config\\Modules\\$moduleName";
 		return self::get($class, $arg, $default);
 	}
 
@@ -155,7 +153,7 @@ class Config
 	 * Gets component configuration.
 	 *
 	 * @param string      $component
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -164,14 +162,14 @@ class Config
 	 */
 	public static function component(string $component, ?string $arg = null, $default = null)
 	{
-		$class = "\Config\Components\\$component";
+		$class = "\\Config\\Components\\$component";
 		return self::get($class, $arg, $default);
 	}
 
 	/**
 	 * Gets performance configuration.
 	 *
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -180,14 +178,14 @@ class Config
 	 */
 	public static function performance(?string $arg = null, $default = null)
 	{
-		$class = "\Config\Performance";
+		$class = '\\Config\\Performance';
 		return self::get($class, $arg, $default);
 	}
 
 	/**
 	 * Gets api configuration.
 	 *
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -196,14 +194,14 @@ class Config
 	 */
 	public static function api(?string $arg = null, $default = null)
 	{
-		$class = "\Config\Api";
+		$class = '\\Config\\Api';
 		return self::get($class, $arg, $default);
 	}
 
 	/**
 	 * Gets debug configuration.
 	 *
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -212,14 +210,14 @@ class Config
 	 */
 	public static function debug(?string $arg = null, $default = null)
 	{
-		$class = "\Config\Debug";
+		$class = '\\Config\\Debug';
 		return self::get($class, $arg, $default);
 	}
 
 	/**
 	 * Gets developer configuration.
 	 *
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -228,14 +226,14 @@ class Config
 	 */
 	public static function developer(?string $arg = null, $default = null)
 	{
-		$class = "\Config\Developer";
+		$class = '\\Config\\Developer';
 		return self::get($class, $arg, $default);
 	}
 
 	/**
 	 * Gets security configuration.
 	 *
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -244,14 +242,14 @@ class Config
 	 */
 	public static function security(?string $arg = null, $default = null)
 	{
-		$class = "\Config\Security";
+		$class = '\\Config\\Security';
 		return self::get($class, $arg, $default);
 	}
 
 	/**
 	 * Gets search configuration.
 	 *
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -260,14 +258,14 @@ class Config
 	 */
 	public static function search(?string $arg = null, $default = null)
 	{
-		$class = "\Config\Search";
+		$class = '\\Config\\Search';
 		return self::get($class, $arg, $default);
 	}
 
 	/**
 	 * Gets sounds configuration.
 	 *
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -276,14 +274,14 @@ class Config
 	 */
 	public static function sounds(?string $arg = null, $default = null)
 	{
-		$class = "\Config\Sounds";
+		$class = '\\Config\\Sounds';
 		return self::get($class, $arg, $default);
 	}
 
 	/**
 	 * Gets relation configuration.
 	 *
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -292,14 +290,14 @@ class Config
 	 */
 	public static function relation(?string $arg = null, $default = null)
 	{
-		$class = "\Config\Relation";
+		$class = '\\Config\\Relation';
 		return self::get($class, $arg, $default);
 	}
 
 	/**
 	 * Gets security keys configuration.
 	 *
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -308,14 +306,14 @@ class Config
 	 */
 	public static function securityKeys(?string $arg = null, $default = null)
 	{
-		$class = "\Config\SecurityKeys";
+		$class = '\\Config\\SecurityKeys';
 		return self::get($class, $arg, $default);
 	}
 
 	/**
 	 * Gets database configuration.
 	 *
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -324,7 +322,7 @@ class Config
 	 */
 	public static function db(?string $arg = null, $default = null)
 	{
-		$class = "\Config\Db";
+		$class = '\\Config\\Db';
 		return self::get($class, $arg, $default);
 	}
 
@@ -332,7 +330,7 @@ class Config
 	 * Gets configuration for class.
 	 *
 	 * @param string      $class
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -343,14 +341,14 @@ class Config
 	{
 		$value = $default;
 		if (\class_exists($class)) {
-			if ($arg === null) {
+			if (null === $arg) {
 				$object = (new \ReflectionClass($class));
 				$value = $object->getStaticProperties();
 				foreach ($object->getMethods() as $method) {
 					$value[$method->getName()] = \call_user_func("{$class}::{$method->getName()}");
 				}
-			} elseif (isset($class::$$arg)) {
-				$value = $class::$$arg;
+			} elseif (isset($class::${$arg})) {
+				$value = $class::${$arg};
 			} elseif (\method_exists($class, $arg)) {
 				$value = \call_user_func("{$class}::{$arg}");
 			}
@@ -371,8 +369,8 @@ class Config
 			[$type, $key, $value] = func_get_args();
 		}
 		$class = '\Config\\' . (isset($component) ? ucfirst($component) . 's\\' : '') . ucfirst($type);
-		if ($result = (class_exists($class) && isset($class::$$key))) {
-			$class::$$key = $value;
+		if ($result = (class_exists($class) && isset($class::${$key}))) {
+			$class::${$key} = $value;
 		}
 		return $result;
 	}
