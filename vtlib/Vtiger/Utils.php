@@ -133,22 +133,17 @@ class Utils
 	 */
 	public static function createTable($tablename, $criteria, $suffixTableMeta = false)
 	{
-		$adb = \PearDatabase::getInstance();
-
-		$org_dieOnError = $adb->dieOnError;
-		$adb->dieOnError = false;
-		$sql = 'CREATE TABLE ' . $adb->quote($tablename, false) . ' ' . $criteria;
-		if ($suffixTableMeta !== false) {
-			if ($suffixTableMeta === true) {
-				if ($adb->isMySQL()) {
-					$suffixTableMeta = ' ENGINE=InnoDB DEFAULT CHARSET=utf8';
-				} else {
-				}
+		$orgDieOnError = self::$dieOnError;
+		self::$dieOnError = false;
+		$sql = 'CREATE TABLE `' . $tablename . '` ' . $criteria;
+		if (false !== $suffixTableMeta) {
+			if (true === $suffixTableMeta) {
+				$suffixTableMeta = ' ENGINE=InnoDB DEFAULT CHARSET=utf8';
 			}
 			$sql .= $suffixTableMeta;
 		}
-		$adb->query($sql);
-		$adb->dieOnError = $org_dieOnError;
+		\App\Db::getInstance()->createCommand($sql)->execute();
+		self::$dieOnError = $orgDieOnError;
 	}
 
 	/**
