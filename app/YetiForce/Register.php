@@ -75,7 +75,7 @@ class Register
 	 */
 	private static function getInstanceKey(): string
 	{
-		return sha1(\App\Config::main('application_unique_key') . \App\Config::main('site_URL') . ($_SERVER['SERVER_ADDR'] ?? $_SERVER['COMPUTERNAME'] ?? null));
+		return sha1(\App\Config::main('application_unique_key') . \App\Config::main('site_URL') . gethostname());
 	}
 
 	/**
@@ -109,7 +109,6 @@ class Register
 			return false;
 		}
 		$result = false;
-
 		try {
 			$response = (new \GuzzleHttp\Client())
 				->post(static::$registrationUrl . 'add',
