@@ -15,19 +15,12 @@
       :key="position.key"
       v-bind="position.props"
     ></component>
-    <q-item header bordered class="bg-grey-12 border-right text-black q-toolbar q-px-md absolute-bottom">
-      <q-item-section avatar>
-        <q-icon name="domain" />
-      </q-item-section>
-      <q-item-section>
-        <q-item-label>{{ companyName }}</q-item-label>
-      </q-item-section>
-    </q-item>
   </q-list>
 </template>
 
 <script>
 import RoutePush from './Positions/RoutePush'
+
 export default {
   data() {
     return {
@@ -46,8 +39,4 @@ export default {
   }
 }
 </script>
-<style>
-.border-right {
-  border-right: solid 1px #bdbdbd;
-}
-</style>
+<style module></style>
