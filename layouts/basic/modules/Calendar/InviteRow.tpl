@@ -23,13 +23,13 @@
 		{assign var=TITLE value=$INVITIE['name']|cat:': '|cat:$INVITIE['email']}
 		{assign var=ICON value='fas fa-envelope'}
 	{/if}
-	<div class="inviteRow" data-crmid="{$INVITIE['crmid']}" data-ivid="{$INVITIE['inviteesid']}" data-email="{$INVITIE['email']}" data-name="{\App\Purifier::encodeHtml($NAME)}">
+	<div class="inviteRow js-participant-row" data-crmid="{$INVITIE['crmid']}" data-ivid="{$INVITIE['inviteesid']}" data-email="{$INVITIE['email']}" data-name="{\App\Purifier::encodeHtml($NAME)}" data-js="clone|edit">
 		<div class="input-group input-group-sm">
-			<span class="input-group-prepend inviteIcon">
+			<span class="input-group-prepend js-participant-icon" data-js="change">
 				<span class="input-group-text">
 					<span class="{$ICON}"></span>
 				</span>
-				<span class="input-group-text u-w-125px u-max-w-150px text-truncate inviteName {if $TITLE}js-popover-tooltip{/if}" data-js="popover" data-content="{$TITLE}">{$LABEL}</span>
+				<span class="input-group-text u-w-125px u-max-w-150px text-truncate js-participant-name {if $TITLE}js-popover-tooltip{/if}" data-js="popover" data-content="{$TITLE}">{$LABEL}</span>
 				<span class="input-group-text inviteStatus">
 					{assign var=STATUS_LABEL value=Calendar_Record_Model::getInvitionStatus($INVITIE['status'])}
 					{if $INVITIE['status'] == '1'}
@@ -44,7 +44,7 @@
 			</span>
 			{if !$IS_VIEW}
 				<span class="input-group-append">
-					<button class="btn btn-outline-secondary border inviteRemove" type="button">
+					<button class="btn btn-outline-secondary border js-participant-remove" type="button" data-js="click">
 						<span class="fas fa-times"></span>
 					</button>
 				</span>

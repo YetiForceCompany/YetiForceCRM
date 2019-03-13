@@ -19,8 +19,8 @@
 						<span class="fas fa-search"></span>
 					</span>
 				</div>
-				<input type="text" class="form-control inviteesSearch" title="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}"
-					placeholder="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}" />
+				<input type="text" class="form-control js-participants-search" title="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}"
+					placeholder="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}" data-js="click" />
 
 				<div class="input-group-append">
 					<button type="button" class="js-btn-add-invitation btn btn-light" title="{\App\Language::translate('LBL_ADD_PARTICIPANT', $MODULE_NAME)}">
@@ -30,7 +30,7 @@
 			</div>
 		</div>
 		<div class="c-panel__body c-panel__body--edit blockContent js-block-content {if $IS_HIDDEN}d-none{/if}" data-js="display">
-			<div class="inviteesContent d-flex flex-wrap flex-row justify-content-start align-items-left">
+			<div class="js-participants-content d-flex flex-wrap flex-row justify-content-start align-items-left" data-js="container">
 				<div class="d-none">
 					{include file=\App\Layout::getTemplatePath('InviteRow.tpl', $MODULE_NAME)}
 				</div>

@@ -26,7 +26,7 @@ class Calendar_InviteEmail_View extends \App\Controller\Modal
 	 */
 	public function checkPermission(App\Request $request)
 	{
-		if (!\App\Privilege::isPermitted($request->getModule())) {
+		if (!\App\Privilege::isPermitted($request->getModule(), 'EditView')) {
 			throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 406);
 		}
 	}

@@ -302,7 +302,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 				}
 				form.find('[name="recurrence"]').val(thisInstance.getRule());
 			}
-			let rows = form.find(".inviteesContent .inviteRow");
+			let rows = form.find(".js-participants-content .js-participant-row");
 			let invitees = [];
 			rows.each(function (index, domElement) {
 				let row = $(domElement);
@@ -439,10 +439,10 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		}
 	},
 	emailExists(email){
+		email = email.toLowerCase();
 		let recordExist = false;
-		let inviteesContent = this.getForm().find('.inviteesContent');
-		inviteesContent.find('.inviteRow').each((index, element) => {
-			if ($(element).data('email') === email) {
+		this.getForm().find('.js-participants-content').find('.js-participant-row').each((index, element) => {
+			if ($(element).data('email').toLowerCase() === email) {
 				recordExist = true;
 				return false;
 			}
@@ -456,21 +456,21 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 				data.find('.js-modal__save').on('click', (e)=>{
 					let email = data.find('.js-invite-email-input').val();
 					let nameAttendee = data.find('.js-invite-name-input').val();
-					let inviteesContent = this.getForm().find('.inviteesContent');
+					let participantsContent = this.getForm().find('.js-participants-content');
 					let formEmail = data.find('.js-form');
 					formEmail.validationEngine(app.validationEngineOptions);
 					if( formEmail.validationEngine('validate') ){
-						let inviteRow = inviteesContent.find('.d-none .inviteRow').clone(true, true);
+						let inviteRow = participantsContent.find('.d-none .js-participant-row').clone(true, true);
 						inviteRow.data('crmid', 0);
 						inviteRow.data('email', email);
 						if( nameAttendee ){
-							inviteRow.find('.inviteName').data('content', nameAttendee).text(nameAttendee);
+							inviteRow.find('.js-participant-name').data('content', nameAttendee).text(nameAttendee);
 							inviteRow.data('name', nameAttendee);
 						}else{
-							inviteRow.find('.inviteName').data('content', email).text(email);
+							inviteRow.find('.js-participant-name').data('content', email).text(email);
 							inviteRow.data('name', '');
 						}
-						inviteesContent.append(inviteRow);
+						participantsContent.append(inviteRow);
 						app.hideModalWindow();
 					}
 				});
@@ -480,8 +480,8 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 	},
 	registerInviteEvent: function (editViewForm) {
 		this.registerRow(editViewForm);
-		let inviteesContent = editViewForm.find('.inviteesContent');
-		let inviteesSearch = editViewForm.find('input.inviteesSearch');
+		let participantsContent = editViewForm.find('.js-participants-content');
+		let participantsSearch = editViewForm.find('.js-participants-search');
 		$.widget("custom.ivAutocomplete", $.ui.autocomplete, {
 			_create: function () {
 				this._super();
@@ -507,17 +507,17 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 					.appendTo(ul);
 			},
 		});
-		inviteesSearch.ivAutocomplete({
+		participantsSearch.ivAutocomplete({
 			delay: '600',
 			minLength: '3',
-			source: function (request, response) {
+			source: (request, response) => {
 				AppConnector.request({
 					module: 'Calendar',
 					action: 'Invitees',
 					mode: 'find',
 					value: request.term
-				}).done(function (result) {
-					var reponseDataList = result.result;
+				}).done((result) => {
+					let reponseDataList = result.result;
 					if (reponseDataList.length <= 0) {
 						reponseDataList.push({
 							label: app.vtranslate('JS_NO_RESULTS_FOUND'),
@@ -528,26 +528,26 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 					response(reponseDataList);
 				});
 			},
-			select: function (event, ui) {
+			select: (event, ui) => {
 				let selected = ui.item;
 				//To stop selection if no results is selected
 				if (typeof selected.type !== "undefined" && selected.type == "no results") {
 					return false;
 				}
 				let recordExist = true;
-				inviteesContent.find('.inviteRow').each(function (index) {
+				participantsContent.find('.js-participant-row').each(function (index) {
 					if ($(this).data('crmid') == selected.id) {
 						recordExist = false;
 					}
 				});
 				if (recordExist) {
-					let inviteRow = inviteesContent.find('.d-none .inviteRow').clone(true, true);
-					Vtiger_Index_Js.getEmailFromRecord(selected.id, selected.module).done(function (email) {
+					let inviteRow = participantsContent.find('.d-none .js-participant-row').clone(true, true);
+					Vtiger_Index_Js.getEmailFromRecord(selected.id, selected.module).done((email) => {
 						inviteRow.data('crmid', selected.id);
 						inviteRow.data('email', email);
-						inviteRow.find('.inviteName').data('content', selected.fullLabel + email).text(selected.label);
-						inviteRow.find('.inviteIcon .c-badge__icon').removeClass('fas fa-envelope').addClass('userIcon-' + selected.module);
-						inviteesContent.append(inviteRow);
+						inviteRow.find('.js-participant-name').data('content', selected.fullLabel + email).text(selected.label);
+						inviteRow.find('.js-participant-icon .c-badge__icon').removeClass('fas fa-envelope').addClass('userIcon-' + selected.module);
+						participantsContent.append(inviteRow);
 					});
 				}else{
 					Vtiger_Helper_Js.showPnotify({
@@ -556,8 +556,8 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 					});
 				}
 			},
-			close: function (event, ui) {
-				inviteesSearch.val('');
+			close: (event, ui) => {
+				participantsSearch.val('');
 			}
 
 		});
@@ -613,22 +613,20 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			});
 		});
 	},
-	registerRow: function (row) {
-		row.on("click", '.inviteRemove', function (e) {
-			$(e.target).closest('.inviteRow').remove();
+	registerRow(row) {
+		row.on("click", '.js-participant-remove', (e) => {
+			$(e.target).closest('.js-participant-row').remove();
 		});
 	},
-	registerEvents: function () {
-		var statusToProceed = this.proceedRegisterEvents();
-		if (!statusToProceed) {
+	registerEvents() {
+		if (!this.proceedRegisterEvents()) {
 			return;
 		}
-		var editViewForm = this.getForm();
 		this.registerReminderFieldCheckBox();
 		this.registerRecurrenceFieldCheckBox();
 		this.registerFormSubmitEvent();
 		this.registerRecurringTypeChangeEvent();
-		this.registerInviteEvent(editViewForm);
+		this.registerInviteEvent(this.getForm());
 		this.registerAddInvitation();
 		this._super();
 	}

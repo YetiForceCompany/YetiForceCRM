@@ -528,17 +528,17 @@ class API_CalDAV_Model
 					$dbCommand->update('u_#__activity_invitation', [
 						'status' => $status,
 						'time' => $timeFormated,
-						'name' => $nameAttendee,
+						'name' => \App\TextParser::textTruncate($nameAttendee, 500, false),
 					], ['activityid' => $record->getId(), 'email' => $value]
 					)->execute();
 				}
 				unset($invities[$value]);
 			} else {
 				$params = [
-					'email' => $value,
+					'email' => \App\TextParser::textTruncate($value, 100, false),
 					'crmid' => $crmid,
 					'status' => $status,
-					'name' => $nameAttendee,
+					'name' => \App\TextParser::textTruncate($nameAttendee, 500, false),
 					'activityid' => $record->getId(),
 				];
 				if ($status) {

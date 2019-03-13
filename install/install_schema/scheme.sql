@@ -1112,7 +1112,7 @@ CREATE TABLE `u_yf_activity_invitation` (
   `activityid` int(10) NOT NULL,
   `crmid` int(10) NOT NULL DEFAULT 0,
   `email` varchar(100) NOT NULL DEFAULT '',
-  `name` varchar(255) DEFAULT NULL,
+  `name` varchar(500) DEFAULT NULL,
   `status` tinyint(1) DEFAULT 0,
   `time` datetime DEFAULT NULL,
   PRIMARY KEY (`inviteesid`),
