@@ -150,8 +150,9 @@
 				<tbody>
 				<tr>
 					<td>
-						{\App\Language::translate('LBL_RECORDS_NO_FOUND')}.{if $IS_MODULE_EDITABLE}
-						<a href="{$MODULE_MODEL->getCreateRecordUrl()}">{\App\Language::translate('LBL_CREATE_SINGLE_RECORD')}</a>{/if}
+						{\App\Language::translate('LBL_RECORDS_NO_FOUND')}. {if $IS_MODULE_EDITABLE}
+							<a href="{$MODULE_MODEL->getCreateRecordUrl()}">{\App\Language::translate('LBL_CREATE_SINGLE_RECORD')}</a>
+						{/if}
 					</td>
 				</tr>
 				</tbody>
@@ -160,4 +161,3 @@
 	</div>
 	<!-- /tpl-Base-ListViewContents -->
 {/strip}
-
