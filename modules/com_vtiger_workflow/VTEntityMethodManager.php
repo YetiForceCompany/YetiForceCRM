@@ -24,10 +24,8 @@ class VTEntityMethodManager
 	public function addEntityMethod($moduleName, $methodName, $functionPath, $functionName)
 	{
 		$db = \App\Db::getInstance();
-		$id = $db->getUniqueId('com_vtiger_workflowtasks_entitymethod');
 		$db->createCommand()
 			->insert('com_vtiger_workflowtasks_entitymethod', [
-				'workflowtasks_entitymethod_id' => $id,
 				'module_name' => $moduleName,
 				'function_path' => $functionPath,
 				'function_name' => $functionName,

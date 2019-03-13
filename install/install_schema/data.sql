@@ -95,10 +95,6 @@ insert  into `com_vtiger_workflow_tasktypes`(`id`,`tasktypename`,`label`,`classn
 insert  into `com_vtiger_workflow_tasktypes`(`id`,`tasktypename`,`label`,`classname`,`classpath`,`templatepath`,`modules`,`sourcemodule`) values (17,'VTAutoAssign','LBL_AUTO_ASSIGN','VTAutoAssign','modules/com_vtiger_workflow/tasks/VTAutoAssign.php','com_vtiger_workflow/taskforms/VTAutoAssign.tpl','{\"include\":[],\"exclude\":[]}',NULL);
 insert  into `com_vtiger_workflow_tasktypes`(`id`,`tasktypename`,`label`,`classname`,`classpath`,`templatepath`,`modules`,`sourcemodule`) values (18,'SumFieldFromDependent','LBL_SUM_FIELD_FROM_DEPENDENT','SumFieldFromDependent','modules/com_vtiger_workflow/tasks/SumFieldFromDependent.php','com_vtiger_workflow/taskforms/SumFieldFromDependent.tpl','{\"include\":[],\"exclude\":[]}','');
 
-/*Data for the table `com_vtiger_workflow_tasktypes_seq` */
-
-insert  into `com_vtiger_workflow_tasktypes_seq`(`id`) values (18);
-
 /*Data for the table `com_vtiger_workflows` */
 
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (14,'Calendar','Workflow for Calendar Todos when Send Notification is True','[{\"fieldname\":\"sendnotification\",\"operation\":\"is\",\"value\":\"1\",\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":\"and\",\"groupid\":\"0\"}]',4,1,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
@@ -155,10 +151,6 @@ insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod
 insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod_id`,`module_name`,`method_name`,`function_path`,`function_name`) values (16,'HelpDesk','helpDeskClosedNotifyContacts','modules/HelpDesk/workflows/HelpDeskWorkflow.php','HelpDeskWorkflow');
 insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod_id`,`module_name`,`method_name`,`function_path`,`function_name`) values (17,'ModComments','helpDeskNewCommentOwner','modules/HelpDesk/workflows/HelpDeskWorkflow.php','HelpDeskWorkflow');
 insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod_id`,`module_name`,`method_name`,`function_path`,`function_name`) values (18,'Users','newUser','modules/Users/workflows/UsersWorkflow.php','UsersWorkflow');
-
-/*Data for the table `com_vtiger_workflowtasks_entitymethod_seq` */
-
-insert  into `com_vtiger_workflowtasks_entitymethod_seq`(`id`) values (18);
 
 /*Data for the table `com_vtiger_workflowtemplates` */
 
@@ -5413,7 +5405,7 @@ insert  into `vtiger_knowledgebase_view`(`knowledgebase_viewid`,`knowledgebase_v
 
 /*Data for the table `vtiger_language` */
 
-insert  into `vtiger_language`(`id`,`name`,`prefix`,`lastupdated`,`sequence`,`isdefault`,`active`) values (1,'English (United States)','en-US','2019-01-15 10:11:10',1,1,1);
+insert  into `vtiger_language`(`id`,`name`,`prefix`,`lastupdated`,`sequence`,`isdefault`,`active`,`progress`) values (1,'English (United States)','en-US','2019-01-15 10:11:10',1,1,1,100);
 
 /*Data for the table `vtiger_layout` */
 

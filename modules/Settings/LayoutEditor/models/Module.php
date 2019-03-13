@@ -27,6 +27,8 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function that returns all the fields for the module.
 	 *
+	 * @param mixed $blockInstance
+	 *
 	 * @return Vtiger_Field_Model[] - list of field models
 	 */
 	public function getFields($blockInstance = false)
@@ -60,11 +62,11 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				if (!$block->get('label')) {
 					continue;
 				}
-				if ($this->getName() === 'HelpDesk' && $block->get('label') === 'LBL_COMMENTS') {
+				if ('HelpDesk' === $this->getName() && 'LBL_COMMENTS' === $block->get('label')) {
 					continue;
 				}
 
-				if ($block->get('label') != 'LBL_ITEM_DETAILS') {
+				if ('LBL_ITEM_DETAILS' != $block->get('label')) {
 					$blocksList[$block->get('label')] = $block;
 				}
 			}
@@ -103,27 +105,27 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			if (in_array($fieldType, $lengthSupportedFieldTypes)) {
 				$details['lengthsupported'] = true;
 			}
-			if ($fieldType === 'Editor') {
+			if ('Editor' === $fieldType) {
 				$details['noLimitForLength'] = true;
 			}
-			if ($fieldType === 'Decimal' || $fieldType === 'Currency') {
+			if ('Decimal' === $fieldType || 'Currency' === $fieldType) {
 				$details['decimalSupported'] = true;
 				$details['maxFloatingDigits'] = 5;
-				if ($fieldType === 'Currency') {
+				if ('Currency' === $fieldType) {
 					$details['decimalReadonly'] = true;
 				}
 				//including mantisaa and integer part
 				$details['maxLength'] = 64;
 			}
-			if ($fieldType === 'Picklist' || $fieldType === 'MultiSelectCombo') {
+			if ('Picklist' === $fieldType || 'MultiSelectCombo' === $fieldType) {
 				$details['preDefinedValueExists'] = true;
 				//text area value type , can give multiple values
 				$details['preDefinedValueType'] = 'text';
-				if ($fieldType === 'Picklist') {
+				if ('Picklist' === $fieldType) {
 					$details['picklistoption'] = true;
 				}
 			}
-			if ($fieldType === 'Related1M') {
+			if ('Related1M' === $fieldType) {
 				$details['ModuleListMultiple'] = true;
 			}
 			$fieldTypesInfo[$fieldType] = $details;
@@ -151,7 +153,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		if ($this->checkFieldLableExists($label)) {
 			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 513);
 		}
-		if ($type === 0) {
+		if (0 === $type) {
 			if ($this->checkFieldNameCharacters($name)) {
 				throw new \App\Exceptions\AppException(\App\Language::translate('LBL_INVALIDCHARACTER', 'Settings::LayoutEditor'), 512);
 			}
@@ -169,7 +171,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		if (!in_array($fieldType, $supportedFieldTypes)) {
 			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_WRONG_FIELD_TYPE', 'Settings::LayoutEditor'), 513);
 		}
-		if ($fieldType === 'Picklist' || $fieldType === 'MultiSelectCombo') {
+		if ('Picklist' === $fieldType || 'MultiSelectCombo' === $fieldType) {
 			$pickListValues = $params['pickListValues'];
 			if (is_string($pickListValues)) {
 				$pickListValues = [$pickListValues];
@@ -185,20 +187,20 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		}
 		$moduleName = $this->getName();
 		$focus = CRMEntity::getInstance($moduleName);
-		if ($type === 0) {
+		if (0 === $type) {
 			$columnName = $name;
 			$tableName = $focus->table_name;
-		} elseif ($type === 1) {
-			$columnName = 'cf_' . App\Db::getInstance()->getUniqueID('vtiger_field');
+		} elseif (1 === $type) {
+			$columnName = 'cf_' . App\Db::getInstance()->getUniqueID('vtiger_field', 'fieldid', false);
 			if (isset($focus->customFieldTable)) {
 				$tableName = $focus->customFieldTable[0];
 			} else {
 				$tableName = $focus->table_name . 'cf';
 			}
 		}
-		if ($fieldType === 'Tree' || $fieldType === 'CategoryMultipicklist') {
+		if ('Tree' === $fieldType || 'CategoryMultipicklist' === $fieldType) {
 			$fieldParams = (int) $params['tree'];
-		} elseif ($fieldType === 'MultiReferenceValue') {
+		} elseif ('MultiReferenceValue' === $fieldType) {
 			$fieldParams = [];
 			$fieldParams['module'] = $params['MRVModule'];
 			$fieldParams['field'] = $params['MRVField'];
@@ -220,7 +222,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			->set('quickcreate', 1)
 			->set('fieldparams', $fieldParams ? \App\Json::encode($fieldParams) : '')
 			->set('columntype', $dbType);
-		if ($fieldType === 'Editor') {
+		if ('Editor' === $fieldType) {
 			$fieldModel->set('maximumlength', $params['fieldLength'] ?? null);
 		}
 		if (isset($details['displayType'])) {
@@ -228,10 +230,10 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		}
 		$blockModel = Vtiger_Block_Model::getInstance($blockId, $moduleName);
 		$blockModel->addField($fieldModel);
-		if ($fieldType === 'Picklist' || $fieldType === 'MultiSelectCombo') {
+		if ('Picklist' === $fieldType || 'MultiSelectCombo' === $fieldType) {
 			$fieldModel->setPicklistValues($pickListValues);
 		}
-		if ($fieldType === 'Related1M') {
+		if ('Related1M' === $fieldType) {
 			if (!is_array($params['referenceModule'])) {
 				$moduleList[] = $params['referenceModule'];
 			} else {
@@ -435,7 +437,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		if (preg_match('#[^a-z0-9_]#is', $name) || !preg_match('/[a-z]/i', $name)) {
 			return true;
 		}
-		if (strpos($name, ' ') !== false) {
+		if (false !== strpos($name, ' ')) {
 			return true;
 		}
 		return false;
@@ -499,7 +501,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$objectProperties = get_object_vars($moduleInstance);
 		$selfInstance = new self();
 		foreach ($objectProperties as $properName => $propertyValue) {
-			$selfInstance->$properName = $propertyValue;
+			$selfInstance->{$properName} = $propertyValue;
 		}
 		return $selfInstance;
 	}
@@ -538,6 +540,8 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function to check fields are sortable for the block.
 	 *
+	 * @param mixed $blockName
+	 *
 	 * @return bool true/false
 	 */
 	public function isFieldsSortableAllowed($blockName)
@@ -561,19 +565,19 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	public function getRelations()
 	{
-		if ($this->relations === null) {
+		if (null === $this->relations) {
 			$this->relations = Vtiger_Relation_Model::getAllRelations($this, false);
 		}
 		// Contacts relation-tab is turned into custom block on DetailView.
-		if ($this->getName() === 'Calendar') {
+		if ('Calendar' === $this->getName()) {
 			$contactsIndex = false;
 			foreach ($this->relations as $index => $model) {
-				if ($model->getRelationModuleName() === 'Contacts') {
+				if ('Contacts' === $model->getRelationModuleName()) {
 					$contactsIndex = $index;
 					break;
 				}
 			}
-			if ($contactsIndex !== false) {
+			if (false !== $contactsIndex) {
 				array_splice($this->relations, $contactsIndex, 1);
 			}
 		}
