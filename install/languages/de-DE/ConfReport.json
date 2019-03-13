@@ -3,6 +3,8 @@
     "ConfReport": "Serverkonfiguration",
     "On": "Ein",
     "Off": "Aus",
+    "LBL_YES": "Yes",
+    "LBL_NO": "No",
     "NOT RECOMMENDED": "Nicht empfohlen",
     "LBL_CONFIGURATION": "Serverkonfiguration",
     "LBL_CONFREPORT_DESCRIPTION": "Zeigt die aktuelle Konfiguration des Servers im Vergleich zur empfohlenen Konfiguration.",

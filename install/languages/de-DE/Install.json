@@ -55,6 +55,8 @@
     "LBL_TRUE": "Wahr",
     "LBL_URL": "URL",
     "LBL_USERNAME": "Benutzername",
+    "LBL_FIRST_NAME": "First name",
+    "LBL_LAST_NAME": "Last name",
     "LBL_SETUP_WIZARD_DESCRIPTION_1": "YetiForce ist eine innovative und sichere, hochmoderne Anwendung, die verschiedene Geschäftsprozesse unterstützt, wie Marketing, Vertrieb, Projekte, Support, BuchHaltung, Logistik und GDPR. \r\nUnser System wurde in Capterra als \"günstigste CRM-Software\" bezeichnet und übertraf damit über 500 andere CRM-Lösungen. \r\nVoller Zugriff auf den Quellcode, unsere große und aktive GitHub-Community, und ihre Hilfe ist es, was uns erlaubt, ein noch besseres System zu schaffen. \r\nDanke für Ihr Interesse an YetiForce. Wenn Sie Probleme finden, melden Sie Sie bitte hier:",
     "LBL_SETUP_WIZARD_DESCRIPTION_2": "Wenn Sie auf der Suche nach Support sind, überlegen Sie bitte, eines unserer Support-Pakete zu kaufen. Wir bieten auch konfigurierte und optimierte Server (Hosting, VPS Public Cloud, VPS Private Cloud) an, die höchste Qualität und volle Kompatibilität mit dem YetiForce-System garantieren. Besuchen Sie unseren Shop für weitere Informationen.",
     "LBL_SETUP_WIZARD_BODY": "Willkommen zum YetiForce Installation Wizard",
@@ -112,7 +114,7 @@
     "LBL_CITY": "Ort",
     "LBL_COUNTRY": "Land",
     "LBL_COMPANYSIZE": "Die Anzahl der Mitarbeiter des Unternehmens",
-    "LBL_WEBSITE": "Ihre Firmen-Webseite"
+    "LBL_WEBSITE": "Webseite Ihres Unternehmens"
   },
   "js": {
     "JS_ALL": "Alle",

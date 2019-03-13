@@ -55,6 +55,8 @@
     "LBL_TRUE": "Ok",
     "LBL_URL": "Ścieżka",
     "LBL_USERNAME": "Nazwa użytkownika",
+    "LBL_FIRST_NAME": "Imię",
+    "LBL_LAST_NAME": "Nazwisko",
     "LBL_SETUP_WIZARD_DESCRIPTION_1": "System YetiForce to nowoczesna, innowacyjna i bezpieczna aplikacja, która wspiera różne procesy biznesowe m.in: Marketing, Sprzedaż, Projekty, Wsparcie, Księgowość, Logistykę, RODO. \r\nW rankingu Capterra system YetiForce zajął pierwsze miejsce w kategorii “Most Affordable CRM software” pokonując tym samym 500 innych systemów CRM. \r\nDzięki pełnemu dostępowi do kodu źródłowego oraz licznej i aktywnej społeczności GitHub razem z Tobą możemy tworzyć jeszcze lepszy system. \r\nDziękujemy, że zainteresowałeś się produktem YetiForce, jeżeli napotkasz jakiekolwiek problemy, zgłoś je tutaj:",
     "LBL_SETUP_WIZARD_DESCRIPTION_2": "Nasza firma udziela również płatnego wsparcia, które cechuje się szybszym czasem reakcji. W naszej ofercie dostępne są także serwery (Hosting, VPS w chmurze prywatnej, VPS w chmurze publicznej), dzięki czemu gwarantujemy najwyższą jakość i pełną zgodność z systemem YetiForce. Więcej informacji znajdziesz tutaj",
     "LBL_SETUP_WIZARD_BODY": "Witamy w kreatorze instalacji",

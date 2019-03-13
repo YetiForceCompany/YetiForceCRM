@@ -55,6 +55,8 @@
     "LBL_TRUE": "Adevarat",
     "LBL_URL": "URL",
     "LBL_USERNAME": "Utilizator",
+    "LBL_FIRST_NAME": "First name",
+    "LBL_LAST_NAME": "Last name",
     "LBL_SETUP_WIZARD_DESCRIPTION_1": "YetiForce este o aplicatie inovatoare si sigura de ultima generatie care suporta diverse procese de afaceri, cum ar fi Marketing, Vanzari, Proiecte, Asistenta, Contabilitate, Logistica si GDPR. \r\nSistemul a fost numit CRM-ul cel mai accesibil software in clasamentul Capterra, surclasand astfel peste 500 de solutii CRM. \r\nAccesul complet la codul sursa, comunitatea noastra mare si activa pe Github si ajutorul dvs. este ceea ce ne permite sa cream un sistem chiar mai bun.\r\nVa multumim pentru interesul dvs. pentru YetiForce. Daca intampinati probleme va rugam sa le raportati aici.",
     "LBL_SETUP_WIZARD_DESCRIPTION_2": "Daca sunteti in cautarea unui suport direct, va rugam sa luati in considerare achizitionarea unui pachet de asistenta. De asemenea, oferim servere configurate si optimizate (Hosting, VPS Public Cloud, VPS Private Cloud) care garanteaza cea mai inalta calitate si compatibilitate completa cu sistemul YetiForce. Vizitati magazinul nostru pentru mai multe informatii.",
     "LBL_SETUP_WIZARD_BODY": "Bine ati venit la expertul de instalare YetiForce",

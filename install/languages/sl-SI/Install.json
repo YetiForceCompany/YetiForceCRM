@@ -55,6 +55,8 @@
     "LBL_TRUE": "Pravilno",
     "LBL_URL": "URL naslov",
     "LBL_USERNAME": "Uporabniško ime",
+    "LBL_FIRST_NAME": "First name",
+    "LBL_LAST_NAME": "Last name",
     "LBL_SETUP_WIZARD_DESCRIPTION_1": "YetiForce je inovativna in varna aplikacija, ki podpira različne poslovne procese, kot so trženje, prodaja, projekti, podpora, računovodstvo, logistika in GDPR.\nSistem je bil v razvrstitvi Capterra imenovan za najbolj ugodno CRM programsko opremo, s čimer je premagal več kot 500 drugih CRM rešitev.\nPopoln dostop do izvorne kode, naše velike in aktivne skupnosti GitHub in vaša pomoč nam omogoča, da ustvarimo še boljši sistem.\nHvala za vaše zanimanje za YetiForce. Če naletite na težave, jih prijavite tukaj:",
     "LBL_SETUP_WIZARD_DESCRIPTION_2": "Če iščete neposredno podporo, razmislite o nakupu enega od naših paketov podpore. Ponujamo tudi konfigurirane in optimizirane strežnike (Hosting, VPS Public Cloud, VPS Private Cloud), ki zagotavljajo najvišjo kakovost in popolno združljivost s sistemom YetiForce. Za več informacij obiščite našo trgovino.",
     "LBL_SETUP_WIZARD_BODY": "Dobrodošli v čarovniku za namestitev YetiForce",

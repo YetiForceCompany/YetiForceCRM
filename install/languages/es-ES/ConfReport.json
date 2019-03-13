@@ -3,6 +3,8 @@
     "ConfReport": "Configuración del servidor",
     "On": "Encendido",
     "Off": "Apagado",
+    "LBL_YES": "Yes",
+    "LBL_NO": "No",
     "NOT RECOMMENDED": "No recomendado",
     "LBL_CONFIGURATION": "Configuración del servidor",
     "LBL_CONFREPORT_DESCRIPTION": "Le permite verificar que la configuración del servidor principal es compatible con los parámetros recomendados.",

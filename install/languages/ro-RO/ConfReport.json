@@ -3,6 +3,8 @@
     "ConfReport": "Configuratie server",
     "On": "Pornit",
     "Off": "Oprit",
+    "LBL_YES": "Yes",
+    "LBL_NO": "No",
     "NOT RECOMMENDED": "Nu este recomandat",
     "LBL_CONFIGURATION": "Configuratie server",
     "LBL_CONFREPORT_DESCRIPTION": "Allows you to verify that the main server settings are compatible with the recommended parameters.",

@@ -3,6 +3,8 @@
     "ConfReport": "Server configuration",
     "On": "On",
     "Off": "Off",
+    "LBL_YES": "Sim",
+    "LBL_NO": "Não",
     "NOT RECOMMENDED": "Not Recommended",
     "LBL_CONFIGURATION": "Server configuration",
     "LBL_CONFREPORT_DESCRIPTION": "Allows you to verify that the main server settings are compatible with the recommended parameters.",
