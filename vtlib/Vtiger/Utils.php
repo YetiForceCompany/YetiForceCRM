@@ -171,38 +171,6 @@ class Utils
 	}
 
 	/**
-	 * Get SQL query.
-	 *
-	 * @param string SQL query statement
-	 */
-	public static function executeQuery($sqlquery, $supressdie = false)
-	{
-		$adb = \PearDatabase::getInstance();
-		$old_dieOnError = $adb->dieOnError;
-
-		if ($supressdie) {
-			$adb->dieOnError = false;
-		}
-
-		$adb->pquery($sqlquery, []);
-
-		$adb->dieOnError = $old_dieOnError;
-	}
-
-	/**
-	 * Get CREATE SQL for given table.
-	 *
-	 * @param string tablename for which CREATE SQL is requried
-	 */
-	public static function createTableSql($tablename)
-	{
-		$adb = \PearDatabase::getInstance();
-		$result = $adb->query("SHOW CREATE TABLE $tablename");
-		$createTable = $adb->fetchArray($result);
-		return \App\Purifier::decodeHtml($createTable['Create Table']);
-	}
-
-	/**
 	 * Check if the given SQL is a CREATE statement.
 	 *
 	 * @param string SQL String

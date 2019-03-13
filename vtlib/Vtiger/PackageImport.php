@@ -632,8 +632,8 @@ class PackageImport extends PackageExport
 		if (empty($modulenode->tables) || empty($modulenode->tables->table)) {
 			return;
 		}
-		$adb = \PearDatabase::getInstance();
-		$adb->query('SET FOREIGN_KEY_CHECKS = 0;');
+		$db = \App\Db::getInstance();
+		$db->createCommand('SET FOREIGN_KEY_CHECKS = 0')->execute();
 
 		// Import the table via queries
 		foreach ($modulenode->tables->table as $tablenode) {
@@ -643,7 +643,7 @@ class PackageImport extends PackageExport
 			if (Utils::isCreateSql($sql)) {
 				if (!Utils::checkTable($tableName)) {
 					\App\Log::trace("SQL: $sql ... ", __METHOD__);
-					Utils::executeQuery($sql);
+					$db->createCommand($sql)->execute();
 					\App\Log::trace('DONE', __METHOD__);
 				}
 			} else {
@@ -652,11 +652,12 @@ class PackageImport extends PackageExport
 				} else {
 					\App\Log::trace("SQL: $sql ... ", __METHOD__);
 					Utils::executeQuery($sql);
+					$db->createCommand($sql)->execute();
 					\App\Log::trace('DONE', __METHOD__);
 				}
 			}
 		}
-		$adb->query('SET FOREIGN_KEY_CHECKS = 1;');
+		$db->createCommand('SET FOREIGN_KEY_CHECKS = 1')->execute();
 	}
 
 	/**
