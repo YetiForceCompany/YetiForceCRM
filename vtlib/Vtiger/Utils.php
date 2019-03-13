@@ -175,7 +175,7 @@ class Utils
 	 * Get SQL query.
 	 *
 	 * @param string $sqlQuery
-	 * @param mixed $supressDie 
+	 * @param mixed  $supressDie
 	 */
 	public static function executeQuery($sqlQuery, $supressDie = false)
 	{
@@ -183,7 +183,7 @@ class Utils
 		if ($supressDie) {
 			self::$dieOnError = false;
 		}
-		\App\Db::getInstance() > createCommand($sqlQuery)->execute();
+		\App\Db::getInstance()->createCommand($sqlQuery)->execute();
 		self::$dieOnError = $oldDieOnError;
 	}
 
