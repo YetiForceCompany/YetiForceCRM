@@ -16,7 +16,7 @@ class Settings_ConfReport_Check_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function process(\App\Request $request)
 	{
-		$newest = Settings_ConfReport_Module_Model::getNewestPhpVersion();
+		$newest = \App\Utils\ConfReport::getNewestPhpVersion();
 		$response = new Vtiger_Response();
 		if ($newest) {
 			$response->setResult([

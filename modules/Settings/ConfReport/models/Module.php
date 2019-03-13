@@ -749,31 +749,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Get actual version of PHP.
-	 *
-	 * @return string[]
-	 */
-	public static function getNewestPhpVersion()
-	{
-		if (!class_exists('Requests') || !\App\RequestUtil::isNetConnection()) {
-			return false;
-		}
-		$resonse = Requests::get('http://php.net/releases/index.php?json&max=7&version=7', [], ['timeout' => 1]);
-		$data = array_keys((array) \App\Json::decode($resonse->body));
-		natsort($data);
-		$ver = [];
-		foreach (array_reverse($data) as $row) {
-			$t = explode('.', $row);
-			array_pop($t);
-			$short = implode('.', $t);
-			if (!isset($ver[$short]) && version_compare($short, '7.0', '>') && version_compare($short, '7.3', '<')) {
-				$ver[$short] = $row;
-			}
-		}
-		return $ver;
-	}
-
-	/**
 	 * Get ini flag.
 	 *
 	 * @param mixed $val
