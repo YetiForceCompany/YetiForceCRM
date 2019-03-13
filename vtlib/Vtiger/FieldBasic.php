@@ -118,13 +118,14 @@ class FieldBasic
 	 * Create this field instance.
 	 *
 	 * @param vtlib\Block Instance of the block to use
+	 * @param mixed $blockInstance
 	 */
 	public function __create($blockInstance)
 	{
 		$db = \App\Db::getInstance();
 		$this->block = $blockInstance;
 		$moduleInstance = $this->getModuleInstance();
-		$this->id = \App\Db::getInstance()->getUniqueID('vtiger_field', 'id', false);
+		$this->id = \App\Db::getInstance()->getUniqueID('vtiger_field', 'fieldid', false);
 		if (!$this->sequence) {
 			$this->sequence = $this->__getNextSequence();
 		}
@@ -303,6 +304,7 @@ class FieldBasic
 	 * Save this field instance.
 	 *
 	 * @param vtlib\Block Instance of block to which this field should be added
+	 * @param mixed $blockInstance
 	 */
 	public function save($blockInstance = false)
 	{
@@ -326,6 +328,7 @@ class FieldBasic
 	 * Set Help Information for this instance.
 	 *
 	 * @param string Help text (content)
+	 * @param mixed $helptext
 	 */
 	public function setHelpInfo($helptext)
 	{
@@ -340,6 +343,7 @@ class FieldBasic
 	 * Set Masseditable information for this instance.
 	 *
 	 * @param int Masseditable value
+	 * @param mixed $value
 	 */
 	public function setMassEditable($value)
 	{
@@ -353,6 +357,7 @@ class FieldBasic
 	 * Set Summaryfield information for this instance.
 	 *
 	 * @param int Summaryfield value
+	 * @param mixed $value
 	 */
 	public function setSummaryField($value)
 	{
