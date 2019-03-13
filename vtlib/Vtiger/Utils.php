@@ -15,6 +15,8 @@ namespace vtlib;
  */
 class Utils
 {
+	public static $dieOnError = false;
+
 	/**
 	 * Check if given value is a number or not.
 	 *
@@ -66,7 +68,7 @@ class Utils
 		$relativeFilePath = str_replace($rootdirpath, '', $realfilepath);
 		$filePathParts = explode('/', $relativeFilePath);
 
-		if (stripos($realfilepath, $rootdirpath) !== 0 || in_array($filePathParts[0], $unsafeDirectories)) {
+		if (0 !== stripos($realfilepath, $rootdirpath) || in_array($filePathParts[0], $unsafeDirectories)) {
 			if ($dieOnFail) {
 				\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 				throw new \App\Exceptions\AppException('Sorry! Attempt to access restricted file.');
@@ -101,7 +103,7 @@ class Utils
 		$realfilepath = str_replace('\\', '/', $realfilepath);
 		$rootdirpath = str_replace('\\', '/', $rootdirpath);
 
-		if (stripos($realfilepath, $rootdirpath) !== 0) {
+		if (0 !== stripos($realfilepath, $rootdirpath)) {
 			if ($dieOnFail) {
 				\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 				throw new \App\Exceptions\AppException('Sorry! Attempt to access restricted file.');
@@ -138,11 +140,10 @@ class Utils
 		$org_dieOnError = $adb->dieOnError;
 		$adb->dieOnError = false;
 		$sql = 'CREATE TABLE ' . $adb->quote($tablename, false) . ' ' . $criteria;
-		if ($suffixTableMeta !== false) {
-			if ($suffixTableMeta === true) {
+		if (false !== $suffixTableMeta) {
+			if (true === $suffixTableMeta) {
 				if ($adb->isMySQL()) {
 					$suffixTableMeta = ' ENGINE=InnoDB DEFAULT CHARSET=utf8';
-				} else {
 				}
 			}
 			$sql .= $suffixTableMeta;
@@ -162,7 +163,7 @@ class Utils
 	{
 		$db = \App\Db::getInstance();
 		$tableSchema = $db->getSchema()->getTableSchema($tableName, true);
-		if (is_null($tableSchema->getColumn((string) $columnName))) {
+		if (null === $tableSchema->getColumn((string) $columnName)) {
 			if (is_array($criteria)) {
 				$criteria = $db->getSchema()->createColumnSchemaBuilder($criteria[0], $criteria[1]);
 			}
@@ -173,20 +174,17 @@ class Utils
 	/**
 	 * Get SQL query.
 	 *
-	 * @param string SQL query statement
+	 * @param string $sqlQuery
+	 * @param mixed $supressDie 
 	 */
-	public static function executeQuery($sqlquery, $supressdie = false)
+	public static function executeQuery($sqlQuery, $supressDie = false)
 	{
-		$adb = \PearDatabase::getInstance();
-		$old_dieOnError = $adb->dieOnError;
-
-		if ($supressdie) {
-			$adb->dieOnError = false;
+		$oldDieOnError = self::$dieOnError;
+		if ($supressDie) {
+			self::$dieOnError = false;
 		}
-
-		$adb->pquery($sqlquery, []);
-
-		$adb->dieOnError = $old_dieOnError;
+		\App\Db::getInstance() > createCommand($sqlQuery)->execute();
+		self::$dieOnError = $oldDieOnError;
 	}
 
 	/**
