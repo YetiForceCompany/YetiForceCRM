@@ -460,17 +460,17 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 					let formEmail = data.find('.js-form');
 					formEmail.validationEngine(app.validationEngineOptions);
 					if( formEmail.validationEngine('validate') ){
-						let inviteRow = participantsContent.find('.d-none .js-participant-row').clone(true, true);
-						inviteRow.data('crmid', 0);
-						inviteRow.data('email', email);
+						let participantRow = participantsContent.find('.d-none .js-participant-row').clone(true, true);
+						participantRow.data('crmid', 0);
+						participantRow.data('email', email);
 						if( nameAttendee ){
-							inviteRow.find('.js-participant-name').data('content', nameAttendee).text(nameAttendee);
-							inviteRow.data('name', nameAttendee);
+							participantRow.find('.js-participant-name').data('content', nameAttendee).text(nameAttendee);
+							participantRow.data('name', nameAttendee);
 						}else{
-							inviteRow.find('.js-participant-name').data('content', email).text(email);
-							inviteRow.data('name', '');
+							participantRow.find('.js-participant-name').data('content', email).text(email);
+							participantRow.data('name', '');
 						}
-						participantsContent.append(inviteRow);
+						participantsContent.append(participantRow);
 						app.hideModalWindow();
 					}
 				});
@@ -541,13 +541,13 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 					}
 				});
 				if (recordExist) {
-					let inviteRow = participantsContent.find('.d-none .js-participant-row').clone(true, true);
+					let participantRow = participantsContent.find('.d-none .js-participant-row').clone(true, true);
 					Vtiger_Index_Js.getEmailFromRecord(selected.id, selected.module).done((email) => {
-						inviteRow.data('crmid', selected.id);
-						inviteRow.data('email', email);
-						inviteRow.find('.js-participant-name').data('content', selected.fullLabel + email).text(selected.label);
-						inviteRow.find('.js-participant-icon .c-badge__icon').removeClass('fas fa-envelope').addClass('userIcon-' + selected.module);
-						participantsContent.append(inviteRow);
+						participantRow.data('crmid', selected.id);
+						participantRow.data('email', email);
+						participantRow.find('.js-participant-name').data('content', selected.fullLabel + email).text(selected.label);
+						participantRow.find('.js-participant-icon .c-badge__icon').removeClass('fas fa-envelope').addClass('userIcon-' + selected.module);
+						participantsContent.append(participantRow);
 					});
 				}else{
 					Vtiger_Helper_Js.showPnotify({
