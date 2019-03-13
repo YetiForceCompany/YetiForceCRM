@@ -252,19 +252,18 @@ class PackageExport
 		$minVersion = \App\Version::get();
 		$maxVersion = false;
 		$dataReader = (new \App\Db\Query())->from('vtiger_tab_info')->where(['tabid' => $moduleId])->createCommand()->query();
-		if (0 < $dataReader->count()) {
-			while ($row = $dataReader->read()) {
-				$prefName = $row['prefname'];
-				$prefValue = $row['prefvalue'];
-				if ('vtiger_min_version' == $prefName) {
-					$minVersion = $prefValue;
-				}
-				if ('vtiger_max_version' == $prefName) {
-					$maxVersion = $prefValue;
-				}
+		while ($row = $dataReader->read()) {
+			$prefName = $row['prefname'];
+			$prefValue = $row['prefvalue'];
+			if ('vtiger_min_version' == $prefName) {
+				$minVersion = $prefValue;
 			}
-			$dataReader->close();
+			if ('vtiger_max_version' == $prefName) {
+				$maxVersion = $prefValue;
+			}
 		}
+		$dataReader->close();
+
 		$this->openNode('dependencies');
 		$this->outputNode($minVersion, 'vtiger_version');
 		if (false !== $maxVersion) {
@@ -487,17 +486,15 @@ class PackageExport
 					$this->outputNode($treesExist['access'], 'access');
 					$dataReaderRow = (new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => $fieldParams])->createCommand()->query();
 					$this->openNode('tree_values');
-					if (0 < $dataReaderRow->count()) {
-						while ($row = $dataReaderRow->read()) {
-							$this->openNode('tree_value');
-							$this->outputNode($row['name'], 'name');
-							$this->outputNode($row['tree'], 'tree');
-							$this->outputNode($row['parentTree'], 'parentTree');
-							$this->outputNode($row['depth'], 'depth');
-							$this->outputNode($row['label'], 'label');
-							$this->outputNode($row['state'], 'state');
-							$this->closeNode('tree_value');
-						}
+					while ($row = $dataReaderRow->read()) {
+						$this->openNode('tree_value');
+						$this->outputNode($row['name'], 'name');
+						$this->outputNode($row['tree'], 'tree');
+						$this->outputNode($row['parentTree'], 'parentTree');
+						$this->outputNode($row['depth'], 'depth');
+						$this->outputNode($row['label'], 'label');
+						$this->outputNode($row['state'], 'state');
+						$this->closeNode('tree_value');
 					}
 					$dataReaderRow->close();
 					$this->closeNode('tree_values');
@@ -674,7 +671,7 @@ class PackageExport
 					}
 					$this->closeNode('actions');
 				}
-				$this->openNode('inrelatedlist');
+				$this->closeNode('inrelatedlist');
 			}
 			$dataReaderRow->close();
 			$this->closeNode('inrelatedlists');
