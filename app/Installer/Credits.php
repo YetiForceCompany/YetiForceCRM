@@ -43,7 +43,8 @@ class Credits
 	 *
 	 * @var array
 	 */
-	public static $libraries = ['YetiForce' => ['name' => 'Yetiforce', 'version' => '4.4', 'license' => 'YetiForce Public License v3', 'homepage' => 'https://yetiforce.com/en/', 'notPackageFile' => true, 'showLicenseModal' => true],
+	public static $libraries = [
+		'YetiForce' => ['name' => 'Yetiforce', 'version' => '4.4', 'license' => 'YetiForce Public License v3', 'homepage' => 'https://yetiforce.com/en/yetiforce/license', 'notPackageFile' => true, 'showLicenseModal' => true],
 		'Vtiger' => ['name' => 'Vtiger', 'version' => '6.4.0 rev. 14548', 'license' => 'VPL 1.1', 'homepage' => 'https://www.vtiger.com/', 'notPackageFile' => true, 'showLicenseModal' => true, 'description' => 'LBL_VTIGER_DESCRIPTION'],
 		'Sugar' => ['name' => 'Sugar CRM', 'version' => '', 'license' => 'SPL-1.1.2', 'homepage' => 'https://www.sugarcrm.com/', 'notPackageFile' => true, 'showLicenseModal' => true, 'description' => 'LBL_SUGAR_DESCRIPTION']];
 
@@ -61,7 +62,7 @@ class Credits
 			$composerLock = \App\Json::decode(file_get_contents(ROOT_DIRECTORY . '/composer.lock'), true);
 			if ($composerLock && $composerLock['packages']) {
 				foreach ($composerLock['packages'] as $package) {
-					$libraryDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR;
+					$libraryDir = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'vendor' . \DIRECTORY_SEPARATOR;
 					$libraries[$package['name']] = self::getLibraryValues($package['name'], $libraryDir);
 					if (!empty($package['version'])) {
 						$libraries[$package['name']]['version'] = $package['version'];
@@ -101,20 +102,20 @@ class Credits
 	public static function getPublicLibraries()
 	{
 		$libraries = [];
-		$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . 'libraries' . DIRECTORY_SEPARATOR;
+		$dir = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR . 'libraries' . \DIRECTORY_SEPARATOR;
 		if (file_exists($dir . '.yarn-integrity')) {
 			$yarnFile = \App\Json::decode(file_get_contents($dir . '.yarn-integrity'), true);
 			if ($yarnFile && $yarnFile['lockfileEntries']) {
-				$libraryDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . 'libraries' . DIRECTORY_SEPARATOR;
+				$libraryDir = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR . 'libraries' . \DIRECTORY_SEPARATOR;
 				foreach ($yarnFile['lockfileEntries'] as $nameWithVersion => $page) {
-					$isPrefix = strpos($nameWithVersion, '@') === 0;
+					$isPrefix = 0 === strpos($nameWithVersion, '@');
 					$name = $isPrefix ? '@' : '';
 					$tempName = explode('@', $isPrefix ? ltrim($nameWithVersion, '@') : $nameWithVersion);
 					$name .= array_shift($tempName);
 					if (\is_dir($libraryDir . $name)) {
 						$libraries[$name] = self::getLibraryValues($name, $libraryDir);
 						if (empty($libraries[$name]['homepage'])) {
-							$libraries[$name]['homepage'] = "https://yarnpkg.com/en/package/$name";
+							$libraries[$name]['homepage'] = "https://yarnpkg.com/en/package/${name}";
 						}
 					}
 				}
@@ -138,7 +139,7 @@ class Credits
 		$library = ['name' => $name, 'version' => '', 'license' => '', 'homepage' => ''];
 		$existJsonFiles = true;
 		foreach (self::$jsonFiles as $file) {
-			$packageFile = $dir . $name . DIRECTORY_SEPARATOR . $file;
+			$packageFile = $dir . $name . \DIRECTORY_SEPARATOR . $file;
 			if (file_exists($packageFile)) {
 				$existJsonFiles = false;
 				$packageFileContent = \App\Json::decode(file_get_contents($packageFile), true);
@@ -178,7 +179,7 @@ class Credits
 		$licenseToDisplay = '';
 		$showLicenseModal = true;
 		foreach (self::$jsonFiles as $file) {
-			$packageFile = $dir . $libraryName . DIRECTORY_SEPARATOR . $file;
+			$packageFile = $dir . $libraryName . \DIRECTORY_SEPARATOR . $file;
 			if (file_exists($packageFile)) {
 				$packageFileContent = \App\Json::decode(file_get_contents($packageFile), true);
 				$license = $packageFileContent['license'] ?? $packageFileContent['licenses'] ?? '';
@@ -197,12 +198,13 @@ class Credits
 						$returnLicense = $license;
 					}
 					if (isset(static::$licenses[$libraryName]) && $returnLicense) {
-						$returnLicense = static::$licenses[$libraryName] . " [$returnLicense]";
+						$returnLicense = static::$licenses[$libraryName] . " [${returnLicense}]";
 						$licenseToDisplay = static::$licenses[$libraryName];
 						$licenseError = false;
 						$showLicenseModal = self::checkIfLicenseFileExists($licenseToDisplay);
 						break;
-					} elseif ($returnLicense) {
+					}
+					if ($returnLicense) {
 						$showLicenseModal = self::checkIfLicenseFileExists($returnLicense);
 						break;
 					}
@@ -239,7 +241,7 @@ class Credits
 			$license = [$license];
 		}
 		foreach ($license as $value) {
-			if (stripos($value, 'and') || stripos($value, ' or ') || $value === null) {
+			if (stripos($value, 'and') || stripos($value, ' or ') || null === $value) {
 				$result = true;
 			}
 		}
@@ -255,7 +257,7 @@ class Credits
 	 */
 	public static function checkIfLicenseFileExists($license)
 	{
-		$filePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'licenses' . DIRECTORY_SEPARATOR . $license . '.txt';
+		$filePath = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'licenses' . \DIRECTORY_SEPARATOR . $license . '.txt';
 		return file_exists($filePath);
 	}
 

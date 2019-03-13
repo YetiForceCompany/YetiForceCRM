@@ -47,21 +47,20 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		if ($commentor) {
 			$customer = $this->get('customer');
 			$isMailConverterType = $this->get('from_mailconverter');
-			if (!empty($customer) && $isMailConverterType != 1) {
+			if (!empty($customer) && 1 != $isMailConverterType) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($customer);
 				$imageDetails = $recordModel->getImage();
 				if (!empty($imageDetails)) {
 					return $imageDetails;
-				} else {
-					return [];
 				}
-			} elseif ($isMailConverterType == 1) {
+				return [];
+			}
+			if (1 == $isMailConverterType) {
 				return \App\Layout::getImagePath('MailConverterComment.png');
-			} else {
-				$imagePath = $commentor->getImage();
-				if (!empty($imagePath)) {
-					return $imagePath;
-				}
+			}
+			$imagePath = $commentor->getImage();
+			if (!empty($imagePath)) {
+				return $imagePath;
 			}
 		}
 		return [];
@@ -112,23 +111,23 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function returns the commentor Model (Users Model).
 	 *
-	 * @return Vtiger_Record_Model|false
+	 * @return false|Vtiger_Record_Model
 	 */
 	public function getCommentedByModel()
 	{
 		$customer = $this->get('customer');
 		if (!empty($customer)) {
 			return Vtiger_Record_Model::getInstanceById($customer, 'Contacts');
-		} else {
-			$commentedBy = $this->get('assigned_user_id');
-			if ($commentedBy) {
-				$commentedByModel = Vtiger_Record_Model::getInstanceById($commentedBy, 'Users');
-				if (empty($commentedByModel->entity->column_fields['user_name'])) {
-					$commentedByModel = Vtiger_Record_Model::getInstanceById(Users::getActiveAdminId(), 'Users');
-				}
-				return $commentedByModel;
-			}
 		}
+		$commentedBy = $this->get('assigned_user_id');
+		if ($commentedBy) {
+			$commentedByModel = Vtiger_Record_Model::getInstanceById($commentedBy, 'Users');
+			if (empty($commentedByModel->entity->column_fields['user_name'])) {
+				$commentedByModel = Vtiger_Record_Model::getInstanceById(Users::getActiveAdminId(), 'Users');
+			}
+			return $commentedByModel;
+		}
+
 		return false;
 	}
 
@@ -170,7 +169,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		$where = ['or'];
 		$requireCount = 0;
 		$moduleLevel = \App\ModuleHierarchy::getModuleLevel($moduleName);
-		if ($moduleLevel === false || in_array($moduleLevel, $hierarchy)) {
+		if (false === $moduleLevel || in_array($moduleLevel, $hierarchy)) {
 			$where[] = ['related_to' => $parentId];
 			$requireCount = 1;
 		}
@@ -180,7 +179,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		$queryGenerator->addNativeCondition($where);
 		$queryGenerator->addNativeCondition(['parent_comments' => 0]);
 		$query = $queryGenerator->createQuery()->orderBy(['vtiger_crmentity.createdtime' => SORT_DESC]);
-		if ($pagingModel && $pagingModel->get('limit') !== 0) {
+		if ($pagingModel && 0 !== $pagingModel->get('limit')) {
 			$query->limit($pagingModel->getPageLimit())->offset($pagingModel->getStartIndex());
 		}
 		$dataReader = $query->createCommand()->query();
@@ -213,6 +212,8 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns all the comment count.
+	 *
+	 * @param mixed $recordId
 	 *
 	 * @return <int>
 	 */
@@ -290,6 +291,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	 * @param bool                $isWidget
 	 * @param int[]               $hierarchy
 	 * @param Vtiger_Paging_Model $pagingModel
+	 * @param mixed               $moduleName
 	 *
 	 * @return \ModComments_Record_Model[]
 	 */
@@ -303,7 +305,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		$requireCount = 0;
 		$moduleLevel = \App\ModuleHierarchy::getModuleLevel($moduleName);
 
-		if ($moduleLevel === false || in_array($moduleLevel, $hierarchy)) {
+		if (false === $moduleLevel || in_array($moduleLevel, $hierarchy)) {
 			$where[] = ['related_to' => $parentId];
 			$requireCount = 1;
 		}
@@ -313,7 +315,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		$queryGenerator->addNativeCondition($where);
 		$queryGenerator->addNativeCondition(['like', 'commentcontent', '%' . $searchValue . '%', false]);
 		$query = $queryGenerator->createQuery()->orderBy(['vtiger_crmentity.createdtime' => SORT_DESC]);
-		if ($pagingModel && $pagingModel->get('limit') !== 0) {
+		if ($pagingModel && 0 !== $pagingModel->get('limit')) {
 			$query->limit($pagingModel->getPageLimit())->offset($pagingModel->getStartIndex());
 		}
 		$dataReader = $query->createCommand()->query();
@@ -341,7 +343,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 					'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid', 'parents']);
 				$queryGeneratorParents->addNativeCondition(['in', 'modcommentsid', array_unique($commentsId)], false);
 				$parentQuery = $queryGeneratorParents->createQuery();
-				if ($pagingModel && $pagingModel->get('limit') !== 0) {
+				if ($pagingModel && 0 !== $pagingModel->get('limit')) {
 					$parentQuery->limit($pagingModel->getPageLimit())->offset($pagingModel->getStartIndex());
 				}
 				$dataReaderParents = $parentQuery->createCommand()->query();

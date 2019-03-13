@@ -88,8 +88,11 @@ class ModuleHierarchy
 			case 68:
 				$level = 2;
 				break;
-			case 65:
+			case 64:
 				$level = 3;
+				break;
+			case 65:
+				$level = 4;
 				break;
 			default:
 				break;
@@ -153,7 +156,7 @@ class ModuleHierarchy
 	 */
 	public static function getRelationFieldByHierarchy($moduleName, $field = false)
 	{
-		if ($field !== false && isset(static::$hierarchy['modulesMapRelatedFields'][$moduleName][$field])) {
+		if (false !== $field && isset(static::$hierarchy['modulesMapRelatedFields'][$moduleName][$field])) {
 			return static::$hierarchy['modulesMapRelatedFields'][$moduleName][$field];
 		}
 		if (isset(static::$hierarchy['modulesMapRelatedFields'][$moduleName])) {
@@ -175,6 +178,9 @@ class ModuleHierarchy
 				$return = 68;
 				break;
 			case 3:
+				$return = 64;
+				break;
+			case 4:
 				$return = 65;
 				break;
 			default:
@@ -197,13 +203,13 @@ class ModuleHierarchy
 		switch (static::getModuleLevel($moduleName)) {
 			case 0:
 				$is1Level = in_array(1, $hierarchy);
-				$is3Level = in_array(3, $hierarchy);
-				if ($is1Level && $is3Level) {
-					$modules = array_keys(array_merge(static::getModulesByLevel(1), static::getModulesByLevel(3)));
+				$isLevel4 = in_array(4, $hierarchy);
+				if ($is1Level && $isLevel4) {
+					$modules = array_keys(array_merge(static::getModulesByLevel(1), static::getModulesByLevel(4)));
 				} elseif ($is1Level) {
 					$modules = array_keys(static::getModulesByLevel(1));
-				} elseif ($is3Level) {
-					$modules = array_keys(static::getModulesByLevel(3));
+				} elseif ($isLevel4) {
+					$modules = array_keys(static::getModulesByLevel(4));
 				}
 				break;
 			case 1:
@@ -213,6 +219,11 @@ class ModuleHierarchy
 							$modules[] = $mod;
 						}
 					}
+				}
+				break;
+			case 2:
+				if (in_array(3, $hierarchy)) {
+					$modules = array_keys(static::getModulesByLevel(3));
 				}
 				break;
 			default:
@@ -247,10 +258,10 @@ class ModuleHierarchy
 			}
 		}
 		$level = static::getModuleLevel($moduleName);
-		if (!($level == 0 && !in_array(1, $hierarchy))) {
+		if (!(0 == $level && !in_array(1, $hierarchy))) {
 			$records = array_merge($records, $recordsLevel1);
 		}
-		if ($level === 0) {
+		if (0 === $level) {
 			if (in_array(2, $hierarchy)) {
 				$modules = static::getChildModules($moduleName, [1]);
 				if ($modules) {
@@ -292,43 +303,52 @@ class ModuleHierarchy
 	}
 
 	/**
-	 * Get related query by hierarchy.
+	 * Function to get array of queries. Quries are used to create union.
 	 *
-	 * @param int   $record
-	 * @param array $hierarchy
+	 * @param int      $record
+	 * @param string   $moduleName
+	 * @param array    $hierarchy
+	 * @param Db\Query $subQuery
 	 *
-	 * @return \App\Db\Query|null
+	 * @return array
 	 */
-	public static function getQueryRelatedRecords(int $record, array $hierarchy): ?\App\Db\Query
+	private static function getQueriesForRelatedRecords(int $record, string $moduleName, array $hierarchy, Db\Query $subQuery = null): array
 	{
-		$moduleName = Record::getType($record);
-		$queries = [];
 		$modules = static::getChildModules($moduleName, $hierarchy);
+		$queries = [];
 		if ($modules) {
 			$fields = Field::getRelatedFieldForModule(false, $moduleName);
 			foreach ($fields as $field) {
 				if (in_array($field['name'], $modules)) {
 					$queryGenerator = new QueryGenerator($field['name']);
 					$queryGenerator->setFields(['id']);
-					$queryGenerator->addNativeCondition([$field['tablename'] . '.' . $field['columnname'] => $record]);
+					if ($subQuery) {
+						$queryGenerator->addNativeCondition([$field['tablename'] . '.' . $field['columnname'] => $subQuery]);
+					} else {
+						$queryGenerator->addNativeCondition([$field['tablename'] . '.' . $field['columnname'] => $record]);
+					}
 					$tempQuery = $queryGenerator->createQuery();
 					$queries[] = $tempQuery;
-					$modulesNextLevels = static::getChildModules($field['name'], $hierarchy);
-					if ($modulesNextLevels) {
-						$subFields = Field::getRelatedFieldForModule(false, $field['name']);
-						foreach ($subFields as $subField) {
-							if (in_array($subField['name'], $modulesNextLevels)) {
-								$queryGenerator = new QueryGenerator($subField['name']);
-								$queryGenerator->setFields(['id']);
-								$queryGenerator->addNativeCondition([$subField['tablename'] . '.' . $subField['columnname'] => clone $tempQuery]);
-								$queries[] =  $queryGenerator->createQuery();
-							}
-						}
-					}
+					$queries = array_merge($queries, static::getQueriesForRelatedRecords($record, $field['name'], $hierarchy, clone $tempQuery));
 				}
 			}
 		}
-		if (count($queries) === 0) {
+		return $queries;
+	}
+
+	/**
+	 * Get related query by hierarchy.
+	 *
+	 * @param int   $record
+	 * @param array $hierarchy
+	 *
+	 * @return null|Db\Query
+	 */
+	public static function getQueryRelatedRecords(int $record, array $hierarchy): ?Db\Query
+	{
+		$moduleName = Record::getType($record);
+		$queries = static::getQueriesForRelatedRecords($record, $moduleName, $hierarchy);
+		if (0 === count($queries)) {
 			return null;
 		}
 		$subQuery = $queries[0];

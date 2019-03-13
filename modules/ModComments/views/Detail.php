@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com.
  * ********************************************************************************** */
 
 class ModComments_Detail_View extends Vtiger_Detail_View
@@ -14,6 +15,14 @@ class ModComments_Detail_View extends Vtiger_Detail_View
 	 * {@inheritdoc}
 	 */
 	public function isAjaxEnabled($recordModel)
+	{
+		return false;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function showBreadCrumbLine()
 	{
 		return false;
 	}

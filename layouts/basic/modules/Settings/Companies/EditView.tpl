@@ -13,6 +13,14 @@
 					<span class="adminIcon-company-detlis"
 						  aria-hidden="true"></span> {App\Language::translate('LBL_COMPANIES_DESCRIPTION', $QUALIFIED_MODULE)}
 				</div>
+				<div class="alert alert-info" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<span class="u-font-size-13px">
+						{\App\Language::translate('LBL_CHANGING_COMPANY_NAME', $QUALIFIED_MODULE)}
+					</span>
+				</div>
 				<div class="card-body">
 					<input type="hidden" name="module" value="Companies">
 					<input type="hidden" name="parent" value="Settings"/>

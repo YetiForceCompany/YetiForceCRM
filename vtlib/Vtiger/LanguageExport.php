@@ -1,5 +1,5 @@
 <?php
-/* +**********************************************************************************
+ /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -16,16 +16,6 @@ namespace vtlib;
 class LanguageExport extends Package
 {
 	const TABLENAME = 'vtiger_language';
-
-	/**
-	 * Generate unique id for insertion.
-	 */
-	public static function __getUniqueId()
-	{
-		$adb = \PearDatabase::getInstance();
-
-		return $adb->getUniqueID(self::TABLENAME);
-	}
 
 	/**
 	 * Initialize Export.
@@ -53,7 +43,7 @@ class LanguageExport extends Package
 		$this->generateLangMainfest($languageCode);
 		$this->__finishExport();
 		// Export as Zip
-		if ($zipfilename === '') {
+		if ('' === $zipfilename) {
 			$zipfilename = "$languageCode-" . date('YmdHis') . '.zip';
 		}
 		$zipfilename = "$this->_export_tmpdir/$zipfilename";
@@ -62,8 +52,8 @@ class LanguageExport extends Package
 		// Add manifest file
 		$zip->addFile($this->__getManifestFilePath(), 'manifest.xml');
 		// Copy module directory
-		foreach (['languages', 'custom' . DIRECTORY_SEPARATOR . 'languages'] as $dir) {
-			$path = $dir . DIRECTORY_SEPARATOR . $languageCode;
+		foreach (['languages', 'custom' . \DIRECTORY_SEPARATOR . 'languages'] as $dir) {
+			$path = $dir . \DIRECTORY_SEPARATOR . $languageCode;
 			if (file_exists($path)) {
 				$zip->addDirectory($path);
 			}
@@ -104,38 +94,43 @@ class LanguageExport extends Package
 
 	/**
 	 * Register language pack information.
+	 *
+	 * @param string $prefix
+	 * @param string $name
+	 * @param bool $isDefault
+	 * @param bool $isActive
+	 * @param int $progress
+	 *
+	 * @throws \yii\db\Exception
 	 */
-	public static function register($prefix, $name = '', $isdefault = false, $isactive = true, $overrideCore = false)
+	public static function register(string $prefix, string $name = '', bool $isDefault = false, bool $isActive = true, int $progress = 0)
 	{
 		$prefix = trim($prefix);
-		// We will not allow registering core language unless forced
-		if (strtolower($prefix) === strtolower(\App\Language::DEFAULT_LANG) && $overrideCore === false) {
-			return;
-		}
-
-		$useisdefault = ($isdefault) ? 1 : 0;
-		$useisactive = ($isactive) ? 1 : 0;
-
-		$adb = \PearDatabase::getInstance();
-		$checkres = $adb->pquery(sprintf('SELECT id FROM %s WHERE prefix = ?', self::TABLENAME), [$prefix]);
-		$datetime = date('Y-m-d H:i:s');
-		if ($adb->numRows($checkres)) {
-			$adb->update(self::TABLENAME, [
-				'name' => $name,
-				'lastupdated' => $datetime,
-				'isdefault' => $useisdefault,
-				'active' => $useisactive,
-			], 'id=?', [$adb->getSingleValue($checkres)]
-			);
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		if ((new \App\Db\Query())->from(static::TABLENAME)->where(['prefix' => $prefix])->exists()) {
+			$dbCommand->update(
+				static::TABLENAME,
+				[
+					'name' => $name,
+					'lastupdated' => date('Y-m-d H:i:s'),
+					'isdefault' => (int) $isDefault,
+					'active' => (int) $isActive,
+					'progress' => $progress
+				],
+				['prefix' => $prefix]
+			)->execute();
 		} else {
-			$adb->insert(self::TABLENAME, [
-				'id' => self::__getUniqueId(),
-				'name' => $name,
-				'prefix' => $prefix,
-				'lastupdated' => $datetime,
-				'isdefault' => $useisdefault,
-				'active' => $useisactive,
-			]);
+			$dbCommand->insert(
+				static::TABLENAME,
+				[
+					'name' => $name,
+					'lastupdated' => date('Y-m-d H:i:s'),
+					'isdefault' => (int) $isDefault,
+					'active' => (int) $isActive,
+					'prefix' => $prefix,
+					'progress' => $progress
+				]
+			)->execute();
 		}
 		\App\Log::trace("Registering Language $name [$prefix] ... DONE", __METHOD__);
 	}
@@ -153,8 +148,7 @@ class LanguageExport extends Package
 			return;
 		}
 
-		$adb = \PearDatabase::getInstance();
-		$adb->delete(self::TABLENAME, 'prefix=?', [$prefix]);
+		\App\Db::getInstance()->createCommand()->delete(self::TABLENAME, ['prefix' => $prefix])->execute();
 		\App\Log::trace("Deregistering Language $prefix ... DONE", __METHOD__);
 	}
 

@@ -547,6 +547,14 @@ return [
 			'description' => 'Max number of exported records',
 			'validation' => '\App\Validator::naturalNumber'
 		],
+		'maxMassDeleteRecords' => [
+			'default' => 1000,
+			'description' => 'Max number of mass deleted records',
+		],
+		'maxMassTransferOwnershipRecords' => [
+			'default' => 1000,
+			'description' => 'Max number of transfer ownership records',
+		],
 		'OWNER_MINIMUM_INPUT_LENGTH' => [
 			'default' => 2,
 			'description' => 'Minimum number of characters to search for record owner',
@@ -927,7 +935,7 @@ return [
 		],
 		'USER_AUTHY_MODE' => [
 			'default' => 'TOTP_OPTIONAL',
-			'description' => "User authentication mode.\n		@see \Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE Available values.",
+			'description' => "User authentication mode.\n@see \Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE Available values.",
 			'validation' => function () {
 				$arg = func_get_arg(0);
 				return in_array($arg, \Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE);

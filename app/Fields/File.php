@@ -396,7 +396,7 @@ class File
 				$returnVal = false;
 			}
 		} else {
-			$img = \imagecreatefromstring(\file_get_contents($this->path));
+			$img = \imagecreatefromstring($this->getContents());
 			if ($img !== false) {
 				$returnVal = true;
 				\imagedestroy($img);
@@ -728,6 +728,7 @@ class File
 		if ($fileInstance->validate()) {
 			return $fileInstance;
 		}
+		$fileInstance->delete();
 		return false;
 	}
 

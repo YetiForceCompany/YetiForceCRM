@@ -40,17 +40,30 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 		throw $t;
 	}
 
+	/**
+	 * Setup test.
+	 */
 	public function setUp()
 	{
 		parent::setUp();
-
-		$this->driver = RemoteWebDriver::create('http://localhost:4444/wd/hub', DesiredCapabilities::chrome(), 5000);
-		$this->login();
+		if (\is_null($this->driver)) {
+			$this->driver = RemoteWebDriver::create('http://localhost:4444/wd/hub', DesiredCapabilities::chrome(), 5000);
+		}
+		if (!static::$isLogin) {
+			$this->login();
+		}
 	}
 
-	public function url($url)
+	/**
+	 * Go to URL.
+	 *
+	 * @param string $url
+	 *
+	 * @throws \ReflectionException
+	 */
+	public function url(string $url)
 	{
-		$this->driver->get(\AppConfig::main('site_URL') . $url);
+		$this->driver->get(\App\Config::main('site_URL') . $url);
 	}
 
 	/**
@@ -58,7 +71,7 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 	 */
 	public function login()
 	{
-		$this->driver->get(\AppConfig::main('site_URL') . 'index.php?module=Users&view=Login');
+		$this->driver->get(\App\Config::main('site_URL') . 'index.php?module=Users&view=Login');
 		$this->driver->findElement(WebDriverBy::id('username'))->sendKeys('demo');
 		$this->driver->findElement(WebDriverBy::id('password'))->sendKeys(\Tests\Base\A_User::$defaultPassrowd);
 		$this->driver->findElement(WebDriverBy::tagName('form'))->submit();

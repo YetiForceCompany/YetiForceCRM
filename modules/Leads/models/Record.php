@@ -15,6 +15,68 @@
 class Leads_Record_Model extends Vtiger_Record_Model
 {
 	/**
+	 * Get converted column.
+	 *
+	 * @return  bool
+	 */
+	public function getConverted() : bool
+	{
+		if ($this->isNew()) {
+			$returnVal = false;
+		} elseif (\App\Cache::has('Leads.converted', $this->getId())) {
+			$returnVal = (bool) \App\Cache::get('Leads.converted', $this->getId());
+		} else {
+			$returnVal = (bool) (new \App\Db\Query())->select(['converted'])->from('vtiger_leaddetails')->where(['leadid'=>$this->getId()])->scalar();
+			\App\Cache::save('Leads.converted', $this->getId(), $returnVal);
+		}
+		return $returnVal;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function save()
+	{
+		parent::save();
+		if(!$this->isNew()){
+			\App\Cache::delete('Leads.converted', $this->getId());
+		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function delete()
+	{
+		parent::delete();
+		\App\Cache::delete('Leads.converted', $this->getId());
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isViewable()
+	{
+		return parent::isViewable() && !$this->getConverted();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isPermitted(string $action)
+	{
+		return parent::isPermitted($action) && !$this->getConverted();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isEditable()
+	{
+		return parent::isEditable() && !$this->getConverted();
+	}
+
+	/**
 	 * Function returns the url for converting lead.
 	 *
 	 * @return string

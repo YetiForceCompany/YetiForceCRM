@@ -76,7 +76,7 @@ class HelpDesk extends CRMEntity
 
 	public function saveRelatedModule($module, $crmid, $with_module, $with_crmid, $relatedName = false)
 	{
-		if ($with_module == 'ServiceContracts') {
+		if ('ServiceContracts' == $with_module) {
 			parent::saveRelatedModule($module, $crmid, $with_module, $with_crmid);
 			$serviceContract = CRMEntity::getInstance('ServiceContracts');
 			$serviceContract->updateHelpDeskRelatedTo($with_crmid, $crmid);
@@ -95,30 +95,23 @@ class HelpDesk extends CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = PearDatabase::getInstance();
-
-		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
-
-		$rel_table_arr = ['Attachments' => 'vtiger_seattachmentsrel', 'Documents' => 'vtiger_senotesrel'];
-
-		$tbl_field_arr = ['vtiger_seattachmentsrel' => 'attachmentsid', 'vtiger_senotesrel' => 'notesid'];
-
-		$entity_tbl_field_arr = ['vtiger_seattachmentsrel' => 'crmid', 'vtiger_senotesrel' => 'crmid'];
-
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		\App\Log::trace("Entering function transferRelatedRecords (${module}, ${transferEntityIds}, ${entityId})");
+		$relTableArr = ['Attachments' => 'vtiger_seattachmentsrel', 'Documents' => 'vtiger_senotesrel'];
+		$tblFieldArr = ['vtiger_seattachmentsrel' => 'attachmentsid', 'vtiger_senotesrel' => 'notesid'];
+		$entityTblFieldArr = ['vtiger_seattachmentsrel' => 'crmid', 'vtiger_senotesrel' => 'crmid'];
 		foreach ($transferEntityIds as $transferId) {
-			foreach ($rel_table_arr as $rel_table) {
-				$id_field = $tbl_field_arr[$rel_table];
-				$entity_id_field = $entity_tbl_field_arr[$rel_table];
+			foreach ($relTableArr as $relTable) {
+				$idField = $tblFieldArr[$relTable];
+				$entityIdField = $entityTblFieldArr[$relTable];
 				// IN clause to avoid duplicate entries
-				$sel_result = $adb->pquery("select $id_field from $rel_table where $entity_id_field=? " .
-					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", [$transferId, $entityId]);
-				$res_cnt = $adb->numRows($sel_result);
-				if ($res_cnt > 0) {
-					for ($i = 0; $i < $res_cnt; ++$i) {
-						$id_field_value = $adb->queryResult($sel_result, $i, $id_field);
-						$adb->pquery("update $rel_table set $entity_id_field=? where $entity_id_field=? and $id_field=?", [$entityId, $transferId, $id_field_value]);
-					}
+				$subQuery = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $entityId]);
+				$query = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $transferId])->andWhere(['not in', $idField, $subQuery]);
+				$dataReader = $query->createCommand()->query();
+				while ($idFieldValue = $dataReader->readColumn(0)) {
+					$dbCommand->update($relTable, [$entityIdField => $entityId], [$entityIdField => $transferId, $idField => $idFieldValue])->execute();
 				}
+				$dataReader->close();
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
@@ -139,9 +132,10 @@ class HelpDesk extends CRMEntity
 			'Services' => ['vtiger_crmentityrel' => ['crmid', 'relcrmid'], 'vtiger_troubletickets' => 'ticketid'],
 			'OSSMailView' => ['vtiger_ossmailview_relation' => ['crmid', 'ossmailviewid'], 'vtiger_troubletickets' => 'ticketid'],
 		];
-		if ($secModule === false) {
+		if (false === $secModule) {
 			return $relTables;
 		}
+
 		return $relTables[$secModule];
 	}
 
@@ -151,13 +145,13 @@ class HelpDesk extends CRMEntity
 		if (empty($returnModule) || empty($returnId)) {
 			return;
 		}
-		if ($returnModule === 'Accounts' || $returnModule === 'Vendors') {
+		if ('Accounts' === $returnModule || 'Vendors' === $returnModule) {
 			$dbCommand = App\Db::getInstance()->createCommand();
 			$dbCommand->update('vtiger_troubletickets', ['parent_id' => null], ['ticketid' => $id])->execute();
 			$dbCommand->delete('vtiger_seticketsrel', ['ticketid' => $id])->execute();
-		} elseif ($returnModule === 'Products') {
+		} elseif ('Products' === $returnModule) {
 			App\Db::getInstance()->createCommand()->update('vtiger_troubletickets', ['product_id' => null], ['ticketid' => $id])->execute();
-		} elseif ($returnModule === 'ServiceContracts' && $relatedName !== 'getManyToMany') {
+		} elseif ('ServiceContracts' === $returnModule && 'getManyToMany' !== $relatedName) {
 			parent::unlinkRelationship($id, $returnModule, $returnId);
 		} else {
 			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);

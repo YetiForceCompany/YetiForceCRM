@@ -13,7 +13,7 @@
     <div class="col-12 row">
         <div class="col-2 px-0">
             <strong>{\App\Language::translate('LBL_IMPORT_STEP_3', $MODULE)}:</strong>&nbsp;&nbsp;&nbsp;
-            <input type="checkbox" class="font-x-small" id="auto_merge" title="{\App\Language::translate('LBL_IMPORT_STEP_3', $MODULE)}" name="auto_merge" onclick="ImportJs.toogleMergeConfiguration();"/>
+            <input name="auto_merge" value="1" type="checkbox" class="font-x-small" id="auto_merge" title="{\App\Language::translate('LBL_IMPORT_STEP_3', $MODULE)}" onclick="ImportJs.toogleMergeConfiguration();"/>
         </div>
         <div class="col-10">
             <span>{\App\Language::translate('LBL_IMPORT_STEP_3_DESCRIPTION', $MODULE)}</span>

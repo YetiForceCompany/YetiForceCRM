@@ -124,26 +124,28 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$viewer->assign('SEARCH_MODULE', $moduleName);
 		} else {
 			$searchKey = $request->getByType('value', 'Text');
-			$limit = false;
-			if (!$request->isEmpty('limit', true) && $request->getBoolean('limit') !== false) {
-				$limit = $request->getInteger('limit');
-			}
-			$operator = (!$request->isEmpty('operator')) ? $request->getByType('operator', 1) : false;
-			$searchModule = false;
-			if (!$request->isEmpty('searchModule', true) && $request->getRaw('searchModule') !== '-') {
-				$searchModule = $request->getByType('searchModule', 2);
-			}
-			$viewer->assign('SEARCH_KEY', $searchKey);
-			$viewer->assign('SEARCH_MODULE', $searchModule);
-			$matchingRecords = Vtiger_Record_Model::getSearchResult($searchKey, $searchModule, $limit, $operator);
-			if (AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') === 1) {
-				$matchingRecordsList = [];
-				foreach (\App\Module::getAllEntityModuleInfo(true) as &$module) {
-					if (isset($matchingRecords[$module['modulename']]) && $module['turn_off'] == 1) {
-						$matchingRecordsList[$module['modulename']] = $matchingRecords[$module['modulename']];
-					}
+			if (\App\TextParser::getTextLength($searchKey) >= \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH')) {
+				$limit = false;
+				if (!$request->isEmpty('limit', true) && $request->getBoolean('limit') !== false) {
+					$limit = $request->getInteger('limit');
 				}
-				$matchingRecords = $matchingRecordsList;
+				$operator = (!$request->isEmpty('operator')) ? $request->getByType('operator', 1) : false;
+				$searchModule = false;
+				if (!$request->isEmpty('searchModule', true) && $request->getRaw('searchModule') !== '-') {
+					$searchModule = $request->getByType('searchModule', 2);
+				}
+				$viewer->assign('SEARCH_KEY', $searchKey);
+				$viewer->assign('SEARCH_MODULE', $searchModule);
+				$matchingRecords = Vtiger_Record_Model::getSearchResult($searchKey, $searchModule, $limit, $operator);
+				if (AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') === 1) {
+					$matchingRecordsList = [];
+					foreach (\App\Module::getAllEntityModuleInfo(true) as &$module) {
+						if (isset($matchingRecords[$module['modulename']]) && $module['turn_off'] == 1) {
+							$matchingRecordsList[$module['modulename']] = $matchingRecords[$module['modulename']];
+						}
+					}
+					$matchingRecords = $matchingRecordsList;
+				}
 			}
 		}
 		if (AppConfig::search('GLOBAL_SEARCH_CURRENT_MODULE_TO_TOP') && isset($matchingRecords[$moduleName])) {

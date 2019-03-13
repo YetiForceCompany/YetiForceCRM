@@ -145,10 +145,12 @@ class VTJsonCondition
 	public function checkCondition(Vtiger_Record_Model $recordModel, $cond, Vtiger_Record_Model $referredRecordModel = null)
 	{
 		$condition = $cond['operation'];
-		if (empty($condition)) {
+		$fieldInstance = $recordModel->getModule()->getFieldByName($cond['fieldname']);
+		if (empty($condition) || $fieldInstance === false) {
 			return false;
 		}
-		if ($cond['fieldname'] === 'date_start' || $cond['fieldname'] === 'due_date') {
+		$dataType = $fieldInstance->getFieldDataType();
+		if ($dataType === 'datetime' || $dataType === 'date') {
 			$fieldName = $cond['fieldname'];
 			$dateTimePair = ['date_start' => 'time_start', 'due_date' => 'time_end'];
 			if (!$recordModel->isEmpty($dateTimePair[$fieldName])) {
@@ -179,9 +181,7 @@ class VTJsonCondition
 				$value = $exprEvaluater->evaluate($recordModel);
 			}
 		}
-		$fieldInstance = $recordModel->getModule()->getFieldByName($cond['fieldname']);
-		if ($fieldInstance) {
-			switch ($fieldInstance->getFieldDataType()) {
+		switch ($dataType) {
 				case 'datetime':
 					$fieldValue = $recordModel->get($fieldInstance->getName());
 					break;
@@ -221,7 +221,6 @@ class VTJsonCondition
 				default:
 					break;
 			}
-		}
 		switch ($condition) {
 			case 'equal to':
 				return $fieldValue == $value;

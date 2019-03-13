@@ -97,33 +97,25 @@ class Services extends CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = PearDatabase::getInstance();
-
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
-
-		$rel_table_arr = ['PriceBooks' => 'vtiger_pricebookproductrel', 'Documents' => 'vtiger_senotesrel'];
-
-		$tbl_field_arr = ['vtiger_inventoryproductrel' => 'id', 'vtiger_pricebookproductrel' => 'pricebookid', 'vtiger_senotesrel' => 'notesid'];
-
-		$entity_tbl_field_arr = ['vtiger_inventoryproductrel' => 'productid', 'vtiger_pricebookproductrel' => 'productid', 'vtiger_senotesrel' => 'crmid'];
-
+		$relTableArr = ['PriceBooks' => 'vtiger_pricebookproductrel', 'Documents' => 'vtiger_senotesrel'];
+		$tblFieldArr = ['vtiger_inventoryproductrel' => 'id', 'vtiger_pricebookproductrel' => 'pricebookid', 'vtiger_senotesrel' => 'notesid'];
+		$entityTblFieldArr = ['vtiger_inventoryproductrel' => 'productid', 'vtiger_pricebookproductrel' => 'productid', 'vtiger_senotesrel' => 'crmid'];
 		foreach ($transferEntityIds as $transferId) {
-			foreach ($rel_table_arr as $rel_table) {
-				$id_field = $tbl_field_arr[$rel_table];
-				$entity_id_field = $entity_tbl_field_arr[$rel_table];
+			foreach ($relTableArr as $relTable) {
+				$idField = $tblFieldArr[$relTable];
+				$entityIdField = $entityTblFieldArr[$relTable];
 				// IN clause to avoid duplicate entries
-				$sel_result = $adb->pquery("select $id_field from $rel_table where $entity_id_field=? " .
-					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", [$transferId, $entityId]);
-				$res_cnt = $adb->numRows($sel_result);
-				if ($res_cnt > 0) {
-					for ($i = 0; $i < $res_cnt; ++$i) {
-						$id_field_value = $adb->queryResult($sel_result, $i, $id_field);
-						$adb->pquery("update $rel_table set $entity_id_field=? where $entity_id_field=? and $id_field=?", [$entityId, $transferId, $id_field_value]);
-					}
+				$subQuery = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $entityId]);
+				$query = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $transferId])->andWhere(['not in', $idField, $subQuery]);
+				$dataReader = $query->createCommand()->query();
+				while ($idFieldValue = $dataReader->readColumn(0)) {
+					$dbCommand->update($relTable, [$entityIdField => $entityId], [$entityIdField => $transferId, $idField => $idFieldValue])->execute();
 				}
+				$dataReader->close();
 			}
 		}
-
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
 		\App\Log::trace('Exiting transferRelatedRecords...');
 	}
@@ -140,9 +132,10 @@ class Services extends CRMEntity
 			'PriceBooks' => ['vtiger_pricebookproductrel' => ['productid', 'pricebookid'], 'vtiger_service' => 'serviceid'],
 			'Documents' => ['vtiger_senotesrel' => ['crmid', 'notesid'], 'vtiger_service' => 'serviceid'],
 		];
-		if ($secmodule === false) {
+		if (false === $secmodule) {
 			return $relTables;
 		}
+
 		return $relTables[$secmodule];
 	}
 
@@ -154,7 +147,7 @@ class Services extends CRMEntity
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($eventType === 'module.postinstall') {
+		if ('module.postinstall' === $eventType) {
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
 			$moduleInstance->allowSharing();
 
@@ -174,10 +167,9 @@ class Services extends CRMEntity
 			$pbModuleInstance->setRelatedList($moduleInstance, 'Services', ['select'], 'getPricebookServices');
 
 			// Initialize module sequence for the module
-			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'SER')->set('cur_id', 1)->save();
 			// Mark the module as Standard module
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
-		} elseif ($eventType === 'module.postupdate') {
+		} elseif ('module.postupdate' === $eventType) {
 			$ServicesModule = vtlib\Module::getInstance('Services');
 			vtlib\Access::setDefaultSharing($ServicesModule);
 		}
@@ -186,7 +178,7 @@ class Services extends CRMEntity
 	/** Function to unlink an entity with given Id from another entity */
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		if ($returnModule === 'Accounts') {
+		if ('Accounts' === $returnModule) {
 			$focus = CRMEntity::getInstance($returnModule);
 			$entityIds = $focus->getRelatedContactsIds($returnId);
 			array_push($entityIds, $returnId);
@@ -195,7 +187,7 @@ class Services extends CRMEntity
 			$entityIds = $returnId;
 			$returnModules = [$returnModule];
 		}
-		if ($relatedName && $relatedName !== 'getRelatedList') {
+		if ($relatedName && 'getRelatedList' !== $relatedName) {
 			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		} else {
 			App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', [
@@ -215,7 +207,7 @@ class Services extends CRMEntity
 			$withCrmIds = [$withCrmIds];
 		}
 		foreach ($withCrmIds as $withCrmId) {
-			if ($withModule === 'PriceBooks') {
+			if ('PriceBooks' === $withModule) {
 				if ((new App\Db\Query())->from('vtiger_pricebookproductrel')->where(['pricebookid' => $withCrmId, 'productid' => $crmid])->exists()) {
 					continue;
 				}

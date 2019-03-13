@@ -122,10 +122,6 @@ Vtiger_Edit_Js("Documents_Edit_Js", {}, {
 		//Using formData object to send data to server as a multipart/form-data form submit
 		var formData = new FormData(form[0]);
 		var fileLocationTypeElement = form.find('[name="filelocationtype"]');
-		if (typeof file !== "undefined" && thisInstance.isFileLocationInternalType(fileLocationTypeElement)) {
-			formData.append("filename", file);
-			file = false;
-		}
 		var params = {
 			url: "index.php",
 			type: "POST",

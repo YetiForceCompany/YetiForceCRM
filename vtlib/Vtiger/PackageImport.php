@@ -760,6 +760,10 @@ class PackageImport extends PackageExport
 			$templateid = $fieldInstance->setTreeTemplate($fieldnode->tree_template, $moduleInstance);
 			$fieldInstance->fieldparams = $templateid;
 		}
+		if (!empty($fieldnode->numberInfo)) {
+			$numberInfo = $fieldnode->numberInfo;
+			\App\Fields\RecordNumber::getInstance($moduleInstance->id)->set('tabid', $moduleInstance->id)->set('prefix', $numberInfo->prefix)->set('leading_zeros', $numberInfo->leading_zeros)->set('postfix', $numberInfo->postfix)->set('start_id', $numberInfo->start_id)->set('cur_id', $numberInfo->cur_id)->set('reset_sequence', $numberInfo->reset_sequence)->set('cur_sequence', $numberInfo->cur_sequence)->save();
+		}
 
 		$blockInstance->addField($fieldInstance);
 
@@ -1059,12 +1063,15 @@ class PackageImport extends PackageExport
 	 */
 	public function importInventory()
 	{
-		if (empty($this->_modulexml->inventory) || empty($this->_modulexml->inventory->fields->field)) {
+		if ($this->moduleInstance->type !== 1) {
 			return false;
 		}
 		$module = (string) $this->moduleInstance->name;
 		$inventory = \Vtiger_Inventory_Model::getInstance($module);
 		$inventory->createInventoryTables();
+		if(empty($this->_modulexml->inventory) || empty($this->_modulexml->inventory->fields->field)){
+			return false;
+		}
 		foreach ($this->_modulexml->inventory->fields->field as $fieldNode) {
 			$fieldModel = $inventory->getFieldCleanInstance((string) $fieldNode->invtype);
 			$fieldModel->setDefaultDataConfig();

@@ -244,7 +244,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 								threshold = chart.config.options.verticalBarLabelsThreshold;
 							}
 							if (dataItem._view.width + threshold < labelWidth || barHeight + threshold < labelHeight) {
-								dataItem.$datalabels._model = null;
+								dataItem.$datalabels._model.positioner = () => {
+									return false;
+								}
 							} else {
 								dataItem.$datalabels._model = model;
 							}
@@ -308,7 +310,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 								threshold = chart.config.options.horizontalBarLabelsThreshold;
 							}
 							if (dataItem._view.height + threshold < labelHeight || barWidth + threshold < labelWidth) {
-								dataItem.$datalabels._model = null;
+								dataItem.$datalabels._model.positioner = () => {
+									return false;
+								}
 							} else {
 								dataItem.$datalabels._model = model;
 							}
@@ -2918,3 +2922,23 @@ YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {
 		this.loadMultifilterData(false);
 	},
 });
+YetiForce_Widget_Js('YetiForce_UpcomingProjectTasks_Widget_Js', {}, {
+	postLoadWidget: function () {
+		this._super();
+		this.registerListViewButton();
+	},
+	registerListViewButton: function () {
+		const container = this.getContainer();
+		container.find('.goToListView').on('click', function () {
+			let url = 'index.php?module=ProjectTask&view=List&viewname=All';
+			url += '&search_params=[[';
+			let owner = container.find('.widgetFilter.owner option:selected');
+			if (owner.val() !== 'all') {
+				url += '["assigned_user_id","e","' + owner.val() + '"],';
+			}
+			url += '["projecttaskstatus","e","' + encodeURIComponent(container.find('[name="status"]').data('value')) + '"]]]';
+			app.openUrl(url)
+		});
+	}
+});
+YetiForce_UpcomingProjectTasks_Widget_Js('YetiForce_CompletedProjectTasks_Widget_Js', {}, {});

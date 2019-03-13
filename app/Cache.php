@@ -204,4 +204,14 @@ class Cache
 			\opcache_invalidate($path);
 		}
 	}
+
+	/**
+	 * Clear all cache.
+	 */
+	public static function clearAll()
+	{
+		static::clearOpcache();
+		static::clear();
+		clearstatcache();
+	}
 }

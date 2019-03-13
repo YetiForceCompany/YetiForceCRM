@@ -17,6 +17,11 @@ namespace App\Installer;
 class Languages
 {
 	/**
+	 * @var string
+	 */
+	private static $lastErrorMessage;
+
+	/**
 	 * Get all languages for the current version.
 	 *
 	 * @return string[]
@@ -59,22 +64,38 @@ class Languages
 	{
 		if (!\App\RequestUtil::isNetConnection()) {
 			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
+			static::$lastErrorMessage = 'ERR_NO_INTERNET_CONNECTION';
 			return false;
 		}
 		$endpoint = \App\Config::developer('LANGUAGES_UPDATE_DEV_MODE') ? 'Developer' : \App\Version::get();
 		$url = "https://github.com/YetiForceCompany/YetiForceCRMLanguages/raw/master/{$endpoint}/{$prefix}.zip";
 		$path = \App\Fields\File::getTmpPath() . $prefix . '.zip';
 		$status = false;
-		try {
-			(new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, ['sink' => $path]);
-			if (\file_exists($path)) {
-				(new \vtlib\Language())->import($path);
-				\unlink($path);
-				$status = true;
+		if (\App\Fields\File::isExistsUrl($url)) {
+			try {
+				(new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, ['sink' => $path]);
+				if (\file_exists($path)) {
+					(new \vtlib\Language())->import($path);
+					\unlink($path);
+					$status = true;
+				}
+			} catch (\Exception $ex) {
+				\App\Log::warning($ex->__toString(), __METHOD__);
+				static::$lastErrorMessage = $ex->getMessage();
 			}
-		} catch (\Exception $ex) {
-			\App\Log::warning($ex->__toString(), __METHOD__);
+		} else {
+			static::$lastErrorMessage = 'ERR_CANNOT_PARSE_SERVER_RESPONSE';
 		}
 		return $status;
+	}
+
+	/**
+	 * Get last error message.
+	 *
+	 * @return null|string
+	 */
+	public static function getLastErrorMessage(): ?string
+	{
+		return static::$lastErrorMessage;
 	}
 }

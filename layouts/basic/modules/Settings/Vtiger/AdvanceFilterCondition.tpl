@@ -99,9 +99,9 @@
 			{/if}
 			<input type="hidden" name="column_condition" value="{$CONDITION}"/>
 		</span>
-		<div class="col-md-1 btn">
-			<span class="deleteCondition fas fa-trash-alt alignMiddle"
-			      title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
-		</div>
+		<button type="button" class="btn btn-danger js-condition-delete float-right float-xl-left" data-js="click">
+			<span class="fas fa-trash-alt"
+				  title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
+		</button>
 	</div>
 {/strip}

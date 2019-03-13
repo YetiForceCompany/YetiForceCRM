@@ -40,7 +40,7 @@ class Register
 	 *
 	 * @var string
 	 */
-	private const REGISTRATION_FILE = \ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'user_privileges' . \DIRECTORY_SEPARATOR . 'registration.php';
+	private const REGISTRATION_FILE = \ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'registration.php';
 	/**
 	 * Status messages.
 	 *
@@ -102,12 +102,14 @@ class Register
 	 */
 	public function register(): bool
 	{
-		if (!\App\RequestUtil::isNetConnection() || gethostbyname('yetiforce.com') === 'yetiforce.com') {
+		if (!\App\RequestUtil::isNetConnection() || 'yetiforce.com' === gethostbyname('yetiforce.com')) {
 			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
 			$this->error = 'ERR_NO_INTERNET_CONNECTION';
+
 			return false;
 		}
 		$result = false;
+
 		try {
 			$response = (new \GuzzleHttp\Client())
 				->post(static::$registrationUrl . 'add',
@@ -117,7 +119,7 @@ class Register
 			$body = $response->getBody();
 			if (!\App\Json::isEmpty($body)) {
 				$body = \App\Json::decode($body);
-				if ($body['text'] === 'OK') {
+				if ('OK' === $body['text']) {
 					static::updateMetaData([
 						'register_time' => date('Y-m-d H:i:s'),
 						'status' => $body['status'],
@@ -141,14 +143,15 @@ class Register
 	 *
 	 * @return bool
 	 */
-	public static function check()
+	public static function check($force = false)
 	{
-		if (!\App\RequestUtil::isNetConnection() || gethostbyname('yetiforce.com') === 'yetiforce.com') {
+		if (!\App\RequestUtil::isNetConnection() || 'yetiforce.com' === gethostbyname('yetiforce.com')) {
 			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
+			static::updateMetaData(['lastError' => 'ERR_NO_INTERNET_CONNECTION']);
 			return false;
 		}
 		$conf = static::getConf();
-		if (!empty($conf['last_check_time']) && (($conf['status'] < 6 && strtotime('+1 day', strtotime($conf['last_check_time'])) > time()) || ($conf['status'] > 6 && strtotime('+7 day', strtotime($conf['last_check_time'])) > time()))) {
+		if (!$force && (!empty($conf['last_check_time']) && (($conf['status'] < 6 && strtotime('+6 hours', strtotime($conf['last_check_time'])) > time()) || ($conf['status'] > 6 && strtotime('+7 day', strtotime($conf['last_check_time'])) > time())))) {
 			return false;
 		}
 		$params = [
@@ -158,6 +161,7 @@ class Register
 			'serialKey' => $conf['serialKey'] ?? '',
 			'status' => $conf['status'] ?? 0,
 		];
+
 		try {
 			$data = ['last_check_time' => date('Y-m-d H:i:s')];
 			$response = (new \GuzzleHttp\Client())
@@ -165,7 +169,7 @@ class Register
 			$body = $response->getBody();
 			if (!\App\Json::isEmpty($body)) {
 				$body = \App\Json::decode($body);
-				if ($body['text'] === 'OK') {
+				if ('OK' === $body['text']) {
 					static::updateCompanies($body['companies']);
 					$data = [
 						'status' => $body['status'],
@@ -175,11 +179,15 @@ class Register
 					];
 					$status = true;
 				}
+			} else {
+				\App\Log::warning('ERR_BODY_IS_EMPTY', __METHOD__);
+				static::updateMetaData(['lastError' => 'ERR_BODY_IS_EMPTY']);
 			}
 
 			static::updateMetaData($data);
 		} catch (\Throwable $e) {
 			\App\Log::warning($e->getMessage(), __METHOD__);
+			static::updateMetaData(['lastError' => $e->getMessage()]);
 		}
 		return $status ?? false;
 	}
@@ -221,6 +229,7 @@ class Register
 			'status' => $data['status'] ?? $conf['status'] ?? 0,
 			'text' => $data['text'] ?? $conf['text'] ?? '',
 			'serialKey' => $data['serialKey'] ?? $conf['serialKey'] ?? '',
+			'lastError' => $data['lastError'] ?? '',
 		];
 		file_put_contents(static::REGISTRATION_FILE, "<?php //Modifying this file will breach the licence terms. \n return " . \var_export(static::$config, true) . ';');
 	}
@@ -256,7 +265,7 @@ class Register
 	public static function verifySerial(string $serial): bool
 	{
 		$key = substr($serial, 0, 20) . substr(crc32(substr($serial, 0, 20)), 2, 5);
-		return strcmp($serial, $key . substr(sha1($key), 5, 15)) === 0;
+		return 0 === strcmp($serial, $key . substr(sha1($key), 5, 15));
 	}
 
 	/**
@@ -273,6 +282,28 @@ class Register
 			return static::$config = [];
 		}
 		return static::$config = require static::REGISTRATION_FILE;
+	}
+
+	/**
+	 * Get last check time.
+	 *
+	 * @return mixed
+	 */
+	public static function getLastCheckTime()
+	{
+		$conf = static::getConf();
+		return $conf['last_check_time'] ?? false;
+	}
+
+	/**
+	 * Get last check error.
+	 *
+	 * @return mixed
+	 */
+	public static function getLastCheckError()
+	{
+		$conf = static::getConf();
+		return $conf['lastError'] ?? false;
 	}
 
 	/**

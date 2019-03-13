@@ -16,12 +16,10 @@
 			  enctype="multipart/form-data">
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 			{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
-				<input type="hidden" name="picklistDependency"
-					   value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
+				<input type="hidden" name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
 			{/if}
 			{if !empty($MAPPING_RELATED_FIELD)}
-				<input type="hidden" name="mappingRelatedField"
-					   value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'/>
+				<input type="hidden" name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'/>
 			{/if}
 			{assign var=QUALIFIED_MODULE_NAME value={$QUALIFIED_MODULE}}
 			{assign var=IS_PARENT_EXISTS value=strpos($MODULE,":")}
@@ -48,8 +46,7 @@
 				<input type="hidden" name="relationOperation" value="{$IS_RELATION_OPERATION}"/>
 			{/if}
 			{foreach from=$RECORD->getModule()->getFieldsByDisplayType(9) item=FIELD key=FIELD_NAME}
-				<input type="hidden" name="{$FIELD_NAME}"
-					   value="{$FIELD->getEditViewDisplayValue($RECORD->get($FIELD_NAME),$RECORD)}"/>
+				<input type="hidden" name="{$FIELD_NAME}" value="{$FIELD->getEditViewValue($RECORD->get($FIELD_NAME),$RECORD)}"/>
 			{/foreach}
 			<div class='widget_header row mb-3'>
 				<div class="col-md-8">

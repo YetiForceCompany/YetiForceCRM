@@ -342,13 +342,22 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		$this->clearCache();
 	}
 
-	public static function getChildren($fieldValue, $fieldName, $moduleModel)
+	/**
+	 * Gets elements of tree with given value.
+	 *
+	 * @param string               $fieldValue
+	 * @param string               $fieldName
+	 * @param \Vtiger_Module_Model $moduleMode
+	 *
+	 * @return string
+	 */
+	public static function getChildren(string $fieldValue, string $fieldName, \Vtiger_Module_Model $moduleModel)
 	{
 		$templateId = (new App\Db\Query())->select(['fieldparams'])
 			->from('vtiger_field')
 			->where(['tabid' => $moduleModel->getId(), 'columnname' => $fieldName, 'presence' => [0, 2]])
 			->scalar();
-		$values = explode(',', $fieldValue);
+		$values = explode('##', $fieldValue);
 		$dataReader = (new App\Db\Query())->from('vtiger_trees_templates_data')
 			->where(['templateid' => $templateId])
 			->createCommand()->query();
@@ -367,7 +376,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			}
 		}
 		$dataReader->close();
-		return implode(',', $values);
+		return implode('##', $values);
 	}
 
 	/**

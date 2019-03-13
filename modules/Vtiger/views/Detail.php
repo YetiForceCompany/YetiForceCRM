@@ -695,9 +695,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$level = \App\ModuleHierarchy::getModuleLevel($moduleName);
 		$hierarchyValue = $this->getHierarchyValue($request);
 		if (0 === $level) {
-			$hierarchy = in_array('related', $hierarchyValue) ? [1, 2] : [];
+			$hierarchy = in_array('related', $hierarchyValue) ? [1, 2, 3] : [];
 		} elseif (1 === $level) {
-			$hierarchy = in_array('related', $hierarchyValue) ? [2] : [];
+			$hierarchy = in_array('related', $hierarchyValue) ? [2, 3] : [];
 		}
 		if (in_array('current', $hierarchyValue)) {
 			$hierarchy[] = $level;

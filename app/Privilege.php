@@ -299,27 +299,21 @@ class Privilege
 		$othersPermissionId = $sharingPrivileges['defOrgShare'][$tabId];
 		//Checking for Default Org Sharing permission
 		if ($othersPermissionId == 0) {
-			if ($actionId == 1 || $actionId == 0) {
+			if ($actionId === 1 || $actionId === 0) {
 				return static::isReadWritePermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId);
-			} elseif ($actionId == 2) {
-				return false;
-			} else {
-				return true;
 			}
+			return $actionId !== 2;
 		} elseif ($othersPermissionId == 1) {
-			return $actionId == 2;
+			return $actionId !== 2;
 		} elseif ($othersPermissionId == 2) {
 			return true;
 		} elseif ($othersPermissionId == 3) {
-			if ($actionId == 3 || $actionId == 4) {
+			if ($actionId === 3 || $actionId === 4) {
 				return static::isReadPermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId);
-			} elseif ($actionId == 0 || $actionId == 1) {
+			} elseif ($actionId === 0 || $actionId === 1) {
 				return static::isReadWritePermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId);
-			} elseif ($actionId == 2) {
-				return false;
-			} else {
-				return true;
 			}
+			return $actionId !== 2;
 		} else {
 			return true;
 		}

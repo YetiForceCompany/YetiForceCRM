@@ -9,7 +9,18 @@
  *************************************************************************************/
 'use strict';
 
-Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
+Vtiger_Edit_Js("Calendar_Edit_Js", {
+	currencyInstance: false,
+	checkEmail(field, rules, i, options) {
+		if(Calendar_Edit_Js.currencyInstance.emailExists(field.val())){
+			return app.vtranslate('JS_DUPLICATE_RECORD') + ': ' + field.val();
+		}
+		return true;
+	}
+}, {
+	init(){
+		Calendar_Edit_Js.currencyInstance = this;
+	},
 	registerReminderFieldCheckBox: function () {
 		let element = this.getForm().find('.js-reminder-field-checkbox');
 		element.on('change', function (e) {
@@ -284,22 +295,22 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 			});
 		}
 		form.on('submit', function (e) {
-			var recurringCheck = form.find('input[name="reapeat"]').is(':checked');
+			const recurringCheck = form.find('input[name="reapeat"]').is(':checked');
 			if (recurringCheck) {
 				if (app.getRecordId() && lockSave) {
 					e.preventDefault();
 				}
 				form.find('[name="recurrence"]').val(thisInstance.getRule());
 			}
-			var rows = form.find(".inviteesContent .inviteRow");
-			var invitees = [];
+			let rows = form.find(".js-participants-content .js-participant-row");
+			let invitees = [];
 			rows.each(function (index, domElement) {
-				var row = jQuery(domElement);
-				if (row.data('crmid') != '') {
-					invitees.push([row.data('email'), row.data('crmid'), row.data('ivid')]);
+				let row = $(domElement);
+				if (row.data('email')) {
+					invitees.push([row.data('email'), row.data('crmid'), row.data('ivid'), row.data('name')]);
 				}
 			});
-			jQuery('<input type="hidden" name="inviteesid" />').appendTo(form).val(JSON.stringify(invitees));
+			$('<input type="hidden" name="inviteesid" />').appendTo(form).val(JSON.stringify(invitees));
 		});
 	},
 	getFreeTime: function (container) {
@@ -427,10 +438,50 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 			return Vtiger_Helper_Js.getDateInstance(endDate + ' ' + endTime, dateFormat);
 		}
 	},
+	emailExists(email){
+		email = email.toLowerCase();
+		let recordExist = false;
+		this.getForm().find('.js-participants-content').find('.js-participant-row').each((index, element) => {
+			if ($(element).data('email').toLowerCase() === email) {
+				recordExist = true;
+				return false;
+			}
+		});
+		return recordExist;
+	},
+	registerAddInvitation(){
+		this.getForm().find('.js-btn-add-invitation').on('click', (e)=>{
+			let progressIndicatorElement = $.progressIndicator();
+			app.showModalWindow(null, 'index.php?module=Calendar&view=InviteEmail', (data) => {
+				data.find('.js-modal__save').on('click', (e)=>{
+					let email = data.find('.js-invite-email-input').val();
+					let nameAttendee = data.find('.js-invite-name-input').val();
+					let participantsContent = this.getForm().find('.js-participants-content');
+					let formEmail = data.find('.js-form');
+					formEmail.validationEngine(app.validationEngineOptions);
+					if( formEmail.validationEngine('validate') ){
+						let participantRow = participantsContent.find('.d-none .js-participant-row').clone(true, true);
+						participantRow.data('crmid', 0);
+						participantRow.data('email', email);
+						if( nameAttendee ){
+							participantRow.find('.js-participant-name').data('content', nameAttendee).text(nameAttendee);
+							participantRow.data('name', nameAttendee);
+						}else{
+							participantRow.find('.js-participant-name').data('content', email).text(email);
+							participantRow.data('name', '');
+						}
+						participantsContent.append(participantRow);
+						app.hideModalWindow();
+					}
+				});
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			});
+		});
+	},
 	registerInviteEvent: function (editViewForm) {
 		this.registerRow(editViewForm);
-		let inviteesContent = editViewForm.find('.inviteesContent');
-		let inviteesSearch = editViewForm.find('input.inviteesSearch');
+		let participantsContent = editViewForm.find('.js-participants-content');
+		let participantsSearch = editViewForm.find('.js-participants-search');
 		$.widget("custom.ivAutocomplete", $.ui.autocomplete, {
 			_create: function () {
 				this._super();
@@ -456,17 +507,17 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 					.appendTo(ul);
 			},
 		});
-		inviteesSearch.ivAutocomplete({
+		participantsSearch.ivAutocomplete({
 			delay: '600',
 			minLength: '3',
-			source: function (request, response) {
+			source: (request, response) => {
 				AppConnector.request({
 					module: 'Calendar',
 					action: 'Invitees',
 					mode: 'find',
 					value: request.term
-				}).done(function (result) {
-					var reponseDataList = result.result;
+				}).done((result) => {
+					let reponseDataList = result.result;
 					if (reponseDataList.length <= 0) {
 						reponseDataList.push({
 							label: app.vtranslate('JS_NO_RESULTS_FOUND'),
@@ -477,32 +528,36 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 					response(reponseDataList);
 				});
 			},
-			select: function (event, ui) {
-				var selected = ui.item;
-
+			select: (event, ui) => {
+				let selected = ui.item;
 				//To stop selection if no results is selected
 				if (typeof selected.type !== "undefined" && selected.type == "no results") {
 					return false;
 				}
-				var recordExist = true;
-				inviteesContent.find('.inviteRow').each(function (index) {
+				let recordExist = true;
+				participantsContent.find('.js-participant-row').each(function (index) {
 					if ($(this).data('crmid') == selected.id) {
 						recordExist = false;
 					}
 				});
 				if (recordExist) {
-					var inviteRow = inviteesContent.find('.d-none .inviteRow').clone(true, true);
-					Vtiger_Index_Js.getEmailFromRecord(selected.id, selected.module).done(function (email) {
-						inviteRow.data('crmid', selected.id);
-						inviteRow.data('email', email);
-						inviteRow.find('.inviteName').data('content', selected.fullLabel + email).text(selected.label);
-						inviteRow.find('.inviteIcon .c-badge__icon').removeClass('fas fa-envelope').addClass('userIcon-' + selected.module);
-						inviteesContent.append(inviteRow);
+					let participantRow = participantsContent.find('.d-none .js-participant-row').clone(true, true);
+					Vtiger_Index_Js.getEmailFromRecord(selected.id, selected.module).done((email) => {
+						participantRow.data('crmid', selected.id);
+						participantRow.data('email', email);
+						participantRow.find('.js-participant-name').data('content', selected.fullLabel + email).text(selected.label);
+						participantRow.find('.js-participant-icon .c-badge__icon').removeClass('fas fa-envelope').addClass('userIcon-' + selected.module);
+						participantsContent.append(participantRow);
+					});
+				}else{
+					Vtiger_Helper_Js.showPnotify({
+						text: app.vtranslate('JS_DUPLICATE_RECORD') + ': ' + selected.fullLabel,
+						type: 'info'
 					});
 				}
 			},
-			close: function (event, ui) {
-				inviteesSearch.val('');
+			close: (event, ui) => {
+				participantsSearch.val('');
 			}
 
 		});
@@ -558,23 +613,21 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 			});
 		});
 	},
-	registerRow: function (row) {
-		row.on("click", '.inviteRemove', function (e) {
-			$(e.target).closest('.inviteRow').remove();
+	registerRow(row) {
+		row.on("click", '.js-participant-remove', (e) => {
+			$(e.target).closest('.js-participant-row').remove();
 		});
 	},
-	registerEvents: function () {
-		var statusToProceed = this.proceedRegisterEvents();
-		if (!statusToProceed) {
+	registerEvents() {
+		if (!this.proceedRegisterEvents()) {
 			return;
 		}
-		var editViewForm = this.getForm();
 		this.registerReminderFieldCheckBox();
 		this.registerRecurrenceFieldCheckBox();
 		this.registerFormSubmitEvent();
 		this.registerRecurringTypeChangeEvent();
-		this.registerInviteEvent(editViewForm);
+		this.registerInviteEvent(this.getForm());
+		this.registerAddInvitation();
 		this._super();
 	}
 });
-

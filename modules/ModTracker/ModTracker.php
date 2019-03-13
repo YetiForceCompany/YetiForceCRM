@@ -142,10 +142,11 @@ class ModTracker
 		} else {
 			$db->createCommand()->update('vtiger_modtracker_tabs', ['visible' => 0], ['tabid' => $tabid])->execute();
 		}
+		$moduleInstance = vtlib\Module::getInstance($tabid);
 		if (static::isModtrackerLinkPresent($tabid)) {
-			$moduleInstance = vtlib\Module::getInstance($tabid);
 			$moduleInstance->deleteLink('DETAIL_VIEW_ADDITIONAL', 'View History');
 		}
+		$moduleInstance->disableTools('ModTracker');
 		$db->createCommand()
 			->update('vtiger_field', ['presence' => 1], ['tabid' => $tabid, 'fieldname' => 'was_read'])
 			->execute();
@@ -165,10 +166,11 @@ class ModTracker
 			\App\Db::getInstance()->createCommand()->update('vtiger_modtracker_tabs', ['visible' => 1], ['tabid' => $tabid])->execute();
 		}
 		\App\Db::getInstance()->createCommand()->update('vtiger_field', ['presence' => 2], ['tabid' => $tabid, 'fieldname' => 'was_read'])->execute();
+		$moduleInstance = vtlib\Module::getInstance($tabid);
 		if (static::isModtrackerLinkPresent($tabid)) {
-			$moduleInstance = vtlib\Module::getInstance($tabid);
 			$moduleInstance->addLink('DETAIL_VIEW_ADDITIONAL', 'View History', "javascript:ModTrackerCommon.showhistory('\$RECORD\$')", '', '', ['path' => 'modules/ModTracker/ModTracker.php', 'class' => 'ModTracker', 'method' => 'isViewPermitted']);
 		}
+		$moduleInstance->enableTools('ModTracker');
 		App\Cache::save('isTrackingEnabledForModule', $tabid, true, App\Cache::LONG);
 	}
 

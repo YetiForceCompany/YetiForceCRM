@@ -186,7 +186,13 @@
 													<div class="float-left">
 														{if $FIELD_MODEL->isMandatory()}
 															<span class="redColor">*</span>
-														{/if} {\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
+														{/if}
+														<span class="mr-2">
+															{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME) }
+														</span>
+														<span class="text-muted align-text-top u-font-size-10px">
+															 ({\App\Language::translate($FIELD_MODEL->getBlockName(), $MODULE_NAME)})
+														 </span>
 													</div>
 												</div>
 												{if $smarty.foreach.fields.last OR ($COUNTER+1) % 3 == 0}

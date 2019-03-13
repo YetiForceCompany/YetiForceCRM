@@ -125,7 +125,6 @@ class ProjectTask extends CRMEntity
 					ModComments::addWidgetTo(['ProjectTask']);
 				}
 			}
-			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'PT')->set('cur_id', 1)->save();
 		} elseif ($eventType === 'module.postupdate') {
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
@@ -134,7 +133,6 @@ class ProjectTask extends CRMEntity
 					ModComments::addWidgetTo(['ProjectTask']);
 				}
 			}
-			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'PT')->set('cur_id', 1)->save();
 		}
 	}
 }
