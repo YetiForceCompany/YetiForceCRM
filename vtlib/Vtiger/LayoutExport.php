@@ -18,14 +18,6 @@ class LayoutExport extends Package
 	const TABLENAME = 'vtiger_layout';
 
 	/**
-	 * Generate unique id for insertion.
-	 */
-	public static function __getUniqueId()
-	{
-		return \App\Db::getInstance()->getUniqueID(self::TABLENAME);
-	}
-
-	/**
 	 * Initialize Export.
 	 *
 	 * @param string $layoutName
@@ -144,7 +136,7 @@ class LayoutExport extends Package
 		if ($resId) {
 			$db->update(self::TABLENAME, $params, ['id' => $resId])->execute();
 		} else {
-			$params['id'] = self::__getUniqueId();
+			$params['id'] = \App\Db::getInstance()->getUniqueID(self::TABLENAME, 'id', false);
 			$db->insert(self::TABLENAME, $params)->execute();
 		}
 		\App\Log::trace("Registering Layout $name ... DONE", __METHOD__);
