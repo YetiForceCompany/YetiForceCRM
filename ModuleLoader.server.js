@@ -25,13 +25,6 @@ const isFile = source => {
 }
 
 /**
- * Placeholder for old require function
- *
- * @var  {function}
- */
-const oldRequire = require
-
-/**
  * Helper function for reading esm modules in nodejs - because esm module is not perfect
  *
  * @param {string} moduleName
@@ -60,7 +53,7 @@ const appRequire = moduleName => {
   try {
     return eval(file)
   } catch (e) {
-    const loaded = oldRequire(moduleName)
+    const loaded = require(moduleName)
     if (typeof loaded.default !== 'undefined') {
       return loaded.default
     }
