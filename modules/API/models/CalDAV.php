@@ -509,6 +509,9 @@ class API_CalDAV_Model
 			if (0 === strpos($value, 'mailto:')) {
 				$value = substr($value, 7, strlen($value) - 7);
 			}
+			if (\App\TextParser::getTextLength($value) > 100 || !\App\Validator::email($value)) {
+				throw new \Sabre\DAV\Exception\BadRequest('Invalid email');
+			}
 			if ('CHAIR' === $attendee['ROLE']->getValue()) {
 				$users = \App\Fields\Email::findCrmidByEmail($value, ['Users']);
 				if (!empty($users)) {
@@ -535,7 +538,7 @@ class API_CalDAV_Model
 				unset($invities[$value]);
 			} else {
 				$params = [
-					'email' => \App\TextParser::textTruncate($value, 100, false),
+					'email' => $value,
 					'crmid' => $crmid,
 					'status' => $status,
 					'name' => \App\TextParser::textTruncate($nameAttendee, 500, false),
