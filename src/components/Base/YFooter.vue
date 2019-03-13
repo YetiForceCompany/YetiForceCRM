@@ -4,7 +4,7 @@
     <q-toolbar class="q-px-none">
       <q-toolbar-title :class="[$style.footerLeft, 'flex flex-center q-px-none']">
         <q-avatar>
-          <img :src="env.publicDir + 'statics/Logo/white_logo_yetiforce.png'" alt />
+          <img :src="env.publicDir + '/statics/Logo/white_logo_yetiforce.png'" alt />
         </q-avatar>
       </q-toolbar-title>
       <q-separator class="q-my-xs" dark vertical />
