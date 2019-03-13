@@ -1,5 +1,5 @@
 <?php
-/* +**********************************************************************************
+ /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -22,9 +22,7 @@ class LanguageExport extends Package
 	 */
 	public static function __getUniqueId()
 	{
-		$adb = \PearDatabase::getInstance();
-
-		return $adb->getUniqueID(self::TABLENAME);
+		return \App\Db::getInstance()->getUniqueID(self::TABLENAME);
 	}
 
 	/**
@@ -53,7 +51,7 @@ class LanguageExport extends Package
 		$this->generateLangMainfest($languageCode);
 		$this->__finishExport();
 		// Export as Zip
-		if ($zipfilename === '') {
+		if ('' === $zipfilename) {
 			$zipfilename = "$languageCode-" . date('YmdHis') . '.zip';
 		}
 		$zipfilename = "$this->_export_tmpdir/$zipfilename";
@@ -62,8 +60,8 @@ class LanguageExport extends Package
 		// Add manifest file
 		$zip->addFile($this->__getManifestFilePath(), 'manifest.xml');
 		// Copy module directory
-		foreach (['languages', 'custom' . DIRECTORY_SEPARATOR . 'languages'] as $dir) {
-			$path = $dir . DIRECTORY_SEPARATOR . $languageCode;
+		foreach (['languages', 'custom' . \DIRECTORY_SEPARATOR . 'languages'] as $dir) {
+			$path = $dir . \DIRECTORY_SEPARATOR . $languageCode;
 			if (file_exists($path)) {
 				$zip->addDirectory($path);
 			}
@@ -158,8 +156,7 @@ class LanguageExport extends Package
 			return;
 		}
 
-		$adb = \PearDatabase::getInstance();
-		$adb->delete(self::TABLENAME, 'prefix=?', [$prefix]);
+		\App\Db::getInstance()->createCommand()->delete(self::TABLENAME, ['prefix' => $prefix])->execute();
 		\App\Log::trace("Deregistering Language $prefix ... DONE", __METHOD__);
 	}
 
