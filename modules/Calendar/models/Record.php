@@ -100,9 +100,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getDetailViewUrl()
 	{
-		$module = $this->getModule();
-
-		return 'index.php?module=Calendar&view=' . $module->getDetailViewName() . '&record=' . $this->getId();
+		return 'index.php?module=Calendar&view=' . $this->getModule()->getDetailViewName() . '&record=' . $this->getId();
 	}
 
 	public function saveToDb()
@@ -128,7 +126,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 			$forSave['vtiger_activity']['smownerid'] = $forSave['vtiger_crmentity']['smownerid'];
 		}
 		unset($forSave['vtiger_activity_reminder']);
-
 		return $forSave;
 	}
 
@@ -137,7 +134,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 */
 	public function updateActivityReminder()
 	{
-		if (!$this->isNew() && $this->getPreviousValue('reminder_time') === false) {
+		if (!$this->isNew() && false === $this->getPreviousValue('reminder_time')) {
 			return false;
 		}
 		$db = \App\Db::getInstance();
@@ -164,13 +161,20 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function isMandatorySave()
+	{
+		return true;
+	}
+
+	/**
 	 * Function to insert values in u_yf_activity_invitation table for the specified module,tablename ,invitees_array.
 	 */
 	public function insertIntoInviteTable()
 	{
 		if (!\App\Request::_has('inviteesid')) {
 			\App\Log::info('No invitations in request, Exiting insertIntoInviteeTable method ...');
-
 			return;
 		}
 		\App\Log::trace('Entering ' . __METHOD__);
@@ -184,12 +188,16 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		$dataReader->close();
 		if (!empty($inviteesRequest)) {
 			foreach ($inviteesRequest as &$invitation) {
+				if (\App\TextParser::getTextLength($invitation[0]) > 100 || !\App\Validator::email($invitation[0])) {
+					throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||inviteesid||Calendar||' . $invitation[0], 406);
+				}
 				if (isset($invities[$invitation[2]])) {
 					unset($invities[$invitation[2]]);
 				} else {
 					$db->createCommand()->insert('u_#__activity_invitation', [
 						'email' => $invitation[0],
-						'crmid' => $invitation[1],
+						'crmid' => (int) $invitation[1],
+						'name' => $invitation[3],
 						'activityid' => $this->getId(),
 					])->execute();
 				}
@@ -293,7 +301,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	public function getActivityTypeIcon()
 	{
 		$icon = $this->get('activitytype');
-		if ($icon == 'Task') {
+		if ('Task' == $icon) {
 			$icon = 'Tasks';
 		}
 		return $icon . '.png';
@@ -398,27 +406,36 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Get invities.
+	 * Get invitations with CRM metadata.
 	 *
 	 * @return array
 	 */
 	public function getInvities()
 	{
-		return (new \App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => (int) $this->getId()])->all();
+		return (new \App\Db\Query())
+			->select([
+				'u_#__activity_invitation.*',
+				'u_#__crmentity_label.label',
+				'vtiger_crmentity.setype',
+				'vtiger_crmentity.deleted'
+			])->from('u_#__activity_invitation')
+			->leftJoin('u_#__crmentity_label', 'u_#__crmentity_label.crmid = u_#__activity_invitation.crmid')
+			->leftJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_#__activity_invitation.crmid')
+			->where(['activityid' => (int) $this->getId()])
+			->all();
 	}
 
 	/**
 	 * Get invition status.
 	 *
-	 * @param int $status
+	 * @param false|int $status
 	 *
 	 * @return string
 	 */
 	public static function getInvitionStatus($status = false)
 	{
 		$statuses = [0 => 'LBL_NEEDS-ACTION', 1 => 'LBL_ACCEPTED', 2 => 'LBL_DECLINED'];
-
-		return $status !== false ? $statuses[$status] : $statuses;
+		return false !== $status ? $statuses[$status] ?? '' : $statuses;
 	}
 
 	/**

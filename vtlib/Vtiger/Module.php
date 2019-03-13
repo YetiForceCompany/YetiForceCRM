@@ -217,6 +217,8 @@ class Module extends ModuleBasic
 	 * Get instance by id or name.
 	 *
 	 * @param mixed id or name of the module
+	 *
+	 * @return self
 	 */
 	public static function getInstance($value)
 	{

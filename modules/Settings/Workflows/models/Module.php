@@ -252,23 +252,58 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function importTaskMethod(array &$method, array &$messages)
 	{
-		$moduleName = $this->getName(true);
-		if (!file_exists($method['function_path'])) {
-			$scriptData = base64_decode($method['script_content']);
-			if (file_put_contents($method['function_path'], $scriptData) === false) {
-				$messages['error'][] = \App\Language::translateArgs('LBL_FAILED_TO_SAVE_SCRIPT', $moduleName, basename($method['function_path'], $method['function_path']));
-			}
+		$scriptData = base64_decode($method['script_content']);
+		$functionPath = $method['function_path'];
+		if (!$this->checkPathForImportMethod($functionPath)) {
+			throw new \App\Exceptions\Security('ERR_NOT_ALLOWED_VALUE||function_path', 406);
+		} elseif (!\preg_match("/^<\?php/", $scriptData)) {
+			throw new \App\Exceptions\Security('ERR_NOT_ALLOWED_VALUE||script_content', 406);
 		} else {
-			require_once $method['function_path'];
-			if (!function_exists($method['function_name'])) {
-				$messages['error'][] = \App\Language::translateArgs('LBL_SCRIPT_EXISTS_FUNCTION_NOT', $moduleName, $method['function_name'], $method['function_path']);
+			if (!file_exists($functionPath)) {
+				$workflowsExists = file_exists(dirname($functionPath));
+				if($workflowsExists && is_file(dirname($functionPath))){
+					throw new \App\Exceptions\Security('ERR_DIRECTORY_CANNOT_BE_CREATED||function_path', 406);
+				}elseif (!$workflowsExists) {
+					mkdir(dirname($functionPath));
+				}
+				if (file_put_contents($functionPath, $scriptData) === false) {
+					throw new \App\Exceptions\IllegalValue('ERR_FAILED_TO_SAVE_SCRIPT||function_path', 406);
+				}
+			} else {
+				require_once $functionPath;
+				if(!method_exists($method['function_name'], $method['method_name'])){
+					throw new \App\Exceptions\IllegalValue('ERR_SCRIPT_EXISTS_FUNCTION_NOT||function_path', 406);
+				}
+			}
+			$num = (new \App\Db\Query())
+				->from('com_vtiger_workflowtasks_entitymethod')
+				->where([
+					'module_name' => $method['module_name'],
+					'method_name' => $method['method_name'],
+					'function_path' => $functionPath,
+					'function_name' => $method['function_name']
+					])->exists();
+			if (!$num) {
+				require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.php';
+				$emm = new VTEntityMethodManager();
+				$emm->addEntityMethod($method['module_name'], $method['method_name'], $functionPath, $method['function_name']);
 			}
 		}
-		$num = (new \App\Db\Query())->from('com_vtiger_workflowtasks_entitymethod')->where(['module_name' => $method['module_name'], 'method_name' => $method['method_name'], 'function_path' => $method['function_path'], 'function_name' => $method['function_name']])->count();
-		if (!$num) {
-			require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.php';
-			$emm = new VTEntityMethodManager();
-			$emm->addEntityMethod($method['module_name'], $method['method_name'], $method['function_path'], $method['function_name']);
+	}
+
+	/**
+	 * Check the path for importing the method.
+	 *
+	 * @param string $path
+	 *
+	 * @return bool Returns true if success
+	 */
+	public function checkPathForImportMethod(string $path): bool
+	{
+		if ($returnVal = \preg_match("/^modules[\\\\|\/]([A-Z][a-z,A-Z]+)[\\\\|\/]workflows[\\\\|\/][A-Z][a-z,A-Z]+\.php$/", $path, $match)) {
+			//Check if the module exists
+			$returnVal = \vtlib\Module::getInstance($match[1]) !== false;
 		}
+		return $returnVal;
 	}
 }

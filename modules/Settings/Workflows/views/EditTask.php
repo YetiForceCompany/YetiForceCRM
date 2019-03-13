@@ -68,9 +68,29 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 				$taskObject->field_value_mapping = \App\Json::encode($fieldMapping);
 			}
 		}
-		if ($taskType === 'VTUpdateFieldsTask' && $sourceModule === 'Documents') {
-			$restrictFields = ['folderid', 'filename', 'filelocationtype'];
-			$viewer->assign('RESTRICTFIELDS', $restrictFields);
+		if ($taskType === 'VTUpdateFieldsTask') {
+			if ($sourceModule === 'Documents') {
+				$restrictFields = ['folderid', 'filename', 'filelocationtype'];
+				$viewer->assign('RESTRICTFIELDS', $restrictFields);
+			}
+		}
+		if ($taskType === 'VTEmailTemplateTask') {
+			$relations = \App\Field::getRelatedFieldForModule($sourceModule);
+			$documentsModel = Vtiger_Module_Model::getInstance('Documents');
+			$relationsWithDocuments = [];
+			foreach ($relations as $relatedModuleName => $info) {
+				$documentsRelations = Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance($relatedModuleName), $documentsModel);
+				if ($documentsRelations !== false) {
+					$relationsWithDocuments[$info['fieldname']][$info['relmod']]= Vtiger_Field_Model::getInstance($info['fieldid']);
+				}
+			}
+			$documentsRelations = Vtiger_Relation_Model::getInstance($moduleModel, $documentsModel);
+			$documents = false;
+			if ($documentsRelations !== false) {
+				$documents = true;
+			}
+			$viewer->assign('DOCUMENTS_RELATED_MODULLES', $relationsWithDocuments);
+			$viewer->assign('DOCUMENTS_MODULLES', $documents);
 		}
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('MODULE_MODEL', $moduleModel);

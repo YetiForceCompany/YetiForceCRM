@@ -21,8 +21,6 @@ class WebservicesConvertLead
 	 */
 	public static function vtwsConvertlead($entityvalues, Users_Record_Model $user)
 	{
-		$adb = PearDatabase::getInstance();
-
 		\App\Log::trace('Start ' . __METHOD__);
 		if (empty($entityvalues['assignedTo'])) {
 			$entityvalues['assignedTo'] = $user->id;
@@ -32,16 +30,8 @@ class WebservicesConvertLead
 		}
 		$recordModel = Vtiger_Record_Model::getInstanceById($entityvalues['leadId']);
 		$leadInfo = $recordModel->getData();
-		$sql = 'select converted from vtiger_leaddetails where converted = 1 and leadid=?';
 		$leadIdComponents = $entityvalues['leadId'];
-		$result = $adb->pquery($sql, [$leadIdComponents]);
-		if ($result === false) {
-			$translateDatabaseError = \App\Language::translate('LBL_' . WebServiceErrorCode::$DATABASEQUERYERROR, 'Webservices');
-			\App\Log::error('Error converting a lead: ' . $translateDatabaseError);
-			throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, $translateDatabaseError);
-		}
-		$rowCount = $adb->numRows($result);
-		if ($rowCount > 0) {
+		if ((new \App\Db\Query())->select(['converted'])->from('vtiger_leaddetails')->where(['converted' => 1, 'leadid' => $leadIdComponents])->exists()) {
 			$translateAlreadyConvertedError = \App\Language::translate('LBL_' . WebServiceErrorCode::$LEAD_ALREADY_CONVERTED, 'Leads');
 			\App\Log::error('Error converting a lead: ' . $translateAlreadyConvertedError);
 			throw new WebServiceException(WebServiceErrorCode::$LEAD_ALREADY_CONVERTED, $translateAlreadyConvertedError);
@@ -67,13 +57,13 @@ class WebservicesConvertLead
 				$entityObjectValues = static::vtwsPopulateConvertLeadEntities($entityvalue, $entityObjectValues, $recordModel, $leadInfo);
 
 				//update the contacts relation
-				if ($entityvalue['name'] == 'Contacts' && !empty($entityIds['Accounts'])) {
+				if ('Contacts' == $entityvalue['name'] && !empty($entityIds['Accounts'])) {
 					$entityObjectValues['parent_id'] = $entityIds['Accounts'];
 				}
 
 				try {
 					$create = true;
-					if ($entityvalue['name'] == 'Accounts' && !empty($entityvalue['convert_to_id']) && is_int($entityvalue['convert_to_id'])) {
+					if ('Accounts' == $entityvalue['name'] && !empty($entityvalue['convert_to_id']) && is_int($entityvalue['convert_to_id'])) {
 						$entityIds[$entityName] = $entityvalue['convert_to_id'];
 						$create = false;
 					}
@@ -85,7 +75,7 @@ class WebservicesConvertLead
 								$recordModel->set($fieldName, $entityObjectValues[$fieldName]);
 							} else {
 								$defaultValue = $fieldModel->getDefaultFieldValue();
-								if ($defaultValue !== '') {
+								if ('' !== $defaultValue) {
 									$recordModel->set($fieldName, $defaultValue);
 								}
 							}
@@ -138,11 +128,9 @@ class WebservicesConvertLead
 	public static function vtwsPopulateConvertLeadEntities($entityvalue, $entity, Vtiger_Record_Model $recordModel, $leadinfo)
 	{
 		$targetModuleModel = Vtiger_Module_Model::getInstance($entityvalue['name']);
-		$adb = PearDatabase::getInstance();
 		$entityName = $entityvalue['name'];
-		$sql = 'SELECT * FROM vtiger_convertleadmapping';
-		$result = $adb->pquery($sql, []);
-		if ($adb->numRows($result)) {
+		$dataReader = (new \App\Db\Query())->from('vtiger_convertleadmapping')->createCommand()->query();
+		if ($dataReader->count()) {
 			switch ($entityName) {
 				case 'Accounts':
 					$column = 'accountfid';
@@ -154,7 +142,7 @@ class WebservicesConvertLead
 					$column = 'leadfid';
 					break;
 			}
-			$row = $adb->fetchArray($result);
+			$row = $dataReader->read();
 			$count = 1;
 			foreach ($targetModuleModel->getFields() as $fieldname => $field) {
 				$defaultvalue = $field->getDefaultFieldValue();
@@ -164,19 +152,18 @@ class WebservicesConvertLead
 			}
 			do {
 				$entityField = \WebservicesUtils::vtwsGetFieldfromFieldId($row[$column], $targetModuleModel);
-				if ($entityField === null) {
+				if (null === $entityField) {
 					continue;
 				}
 				$leadField = \WebservicesUtils::vtwsGetFieldfromFieldId($row['leadfid'], $recordModel->getModule());
-				if ($leadField === null) {
+				if (null === $leadField) {
 					continue;
 				}
 				$leadFieldName = $leadField->getFieldName();
 				$entityFieldName = $entityField->getFieldName();
 				$entity[$entityFieldName] = $leadinfo[$leadFieldName];
 				++$count;
-			} while ($row = $adb->fetchArray($result));
-
+			} while ($row = $dataReader->read());
 			foreach ($entityvalue as $fieldname => $fieldvalue) {
 				if (!empty($fieldvalue)) {
 					$entity[$fieldname] = $fieldvalue;
@@ -200,7 +187,7 @@ class WebservicesConvertLead
 		$mandatoryFields = $targetModuleModel->getMandatoryFieldModels();
 		foreach ($mandatoryFields as $field => $fieldModel) {
 			if (empty($entity[$field])) {
-				if (($fieldModel->getFieldDataType() === 'picklist' || $fieldModel->getFieldDataType() === 'multipicklist' || $fieldModel->getFieldDataType() === 'date' || $fieldModel->getFieldDataType() === 'datetime') && $fieldModel->isEditable()) {
+				if (('picklist' === $fieldModel->getFieldDataType() || 'multipicklist' === $fieldModel->getFieldDataType() || 'date' === $fieldModel->getFieldDataType() || 'datetime' === $fieldModel->getFieldDataType()) && $fieldModel->isEditable()) {
 					$entity[$field] = $fieldModel->getDefaultFieldValue();
 				} else {
 					$entity[$field] = '????';
@@ -239,29 +226,28 @@ class WebservicesConvertLead
 	 */
 	public static function vtwsUpdateConvertLeadStatus($entityIds, $leadId, Users_Record_Model $user)
 	{
-		$adb = PearDatabase::getInstance();
-		if ($entityIds['Accounts'] != '' || $entityIds['Contacts'] != '') {
-			$sql = 'UPDATE vtiger_leaddetails SET converted = 1 where leadid=?';
-			$result = $adb->pquery($sql, [$leadId]);
-			if ($result === false) {
+		$db = \App\Db::getInstance();
+		if ('' != $entityIds['Accounts'] || '' != $entityIds['Contacts']) {
+			\App\Cache::delete('Leads.converted', $leadId);
+			$result = $db->createCommand()
+				->update('vtiger_leaddetails', ['converted' => 1], ['leadid' => $leadId])
+				->execute();
+			if (false === $result) {
 				throw new WebServiceException(WebServiceErrorCode::$FAILED_TO_MARK_CONVERTED, 'Failed mark lead converted');
 			}
 			//update the modifiedtime and modified by information for the record
-			$leadModifiedTime = $adb->formatDate(date('Y-m-d H:i:s'), true);
-			$crmentityUpdateSql = 'UPDATE vtiger_crmentity SET modifiedtime=?, modifiedby=? WHERE crmid=?';
-			$adb->pquery($crmentityUpdateSql, [$leadModifiedTime, $user->getId(), $leadId]);
+			$db->createCommand()
+				->update('vtiger_crmentity', ['modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => $user->getId()], ['crmid' => $leadId])
+				->execute();
 		}
 		$moduleArray = ['Accounts', 'Contacts'];
-
 		foreach ($moduleArray as $module) {
 			if (!empty($entityIds[$module])) {
-				$id = $entityIds[$module];
 				$moduleModel = Vtiger_Module_Model::getInstance($module);
-				$field = $moduleModel->getFieldByName('isconvertedfromlead');
-				$tablename = $field->getTableName();
-				$entity = $moduleModel->getEntityInstance();
-				$tableIndex = $entity->tab_name_index[$tablename];
-				$adb->pquery("UPDATE $tablename SET isconvertedfromlead = ? WHERE $tableIndex = ?", [1, $id]);
+				$tablename = $moduleModel->getFieldByName('isconvertedfromlead')->getTableName();
+				$db->createCommand()
+					->update($tablename, ['isconvertedfromlead' => 1], [$moduleModel->getEntityInstance()->tab_name_index[$tablename] => $entityIds[$module]])
+					->execute();
 			}
 		}
 	}

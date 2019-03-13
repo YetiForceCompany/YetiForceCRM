@@ -47,7 +47,7 @@ Steps to reproduce the behavior:
 Please include a screenshot of your configuration. Here is an example: https://public.yetiforce.com/gallery/#15336225417147/15336225686795 -->
 
 ### 📝 PHP/Apache/Nginx/Browser/CRM Logs
-<!--  Please send a part of logs that describes the circumstances when the error occurred to the following email address: github@yetiforce.com. 
+<!--  Please send a part of logs that describes the circumstances when the error occurred to the following email address: github@yetiforce.com. The subject of the email MUST include your issue number.
 DO NOT paste the logs in the issues, as they might contain sensitive info, such as credentials. 
 The more info you provide, the quicker we will be able to solve your problem. 
 Description how to enable logs can be found here: https://yetiforce.com/en/knowledge-base/documentation/developer-documentation/item/debugging 
@@ -77,4 +77,4 @@ ex.
 ### ❓ Additional context
 Add any other context about the problem here.
 
-<!-- Please check on your issue from time to time, in case we have questions or need some extra information. --->
+<!-- Please check on your issue from time to time, in case we have questions or need some extra information. Issues that don't have enough info and can't be reproduced will be closed.--->

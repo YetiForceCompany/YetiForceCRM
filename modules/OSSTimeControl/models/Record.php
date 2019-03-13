@@ -4,13 +4,11 @@
  * OSSTimeControl record model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 {
 	const RECALCULATE_STATUS = 'Accepted';
-
-	public static $referenceFieldsToTime = ['link', 'process', 'subprocess'];
 
 	public static function recalculateTimeControl($id, $name)
 	{
@@ -22,7 +20,7 @@ class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 		$moduleModel = Vtiger_Module_Model::getInstance($metaData['setype']);
 		$focus = $moduleModel->getEntityInstance();
 		if ($moduleModel->getFieldByColumn('sum_time')) {
-			App\Db::getInstance()->createCommand()->update($focus->table_name, ['sum_time' => number_format($sumTime, 2)], [$focus->table_index => $id])->execute();
+			App\Db::getInstance()->createCommand()->update($focus->table_name, ['sum_time' => round($sumTime, 2)], [$focus->table_index => $id])->execute();
 		}
 	}
 

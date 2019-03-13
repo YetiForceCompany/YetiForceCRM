@@ -2,6 +2,7 @@
 /cache/*/*/*
 !/cache/*/index.html
 !/cache/*/*/index.html
+/cache/registration.php
 
 /config/config_override.php
 /config/csrf_secret.php
@@ -64,3 +65,4 @@ yarn-error.log
 .settings/
 *.sublime-workspace
 .babelrc
+.sonarlint/

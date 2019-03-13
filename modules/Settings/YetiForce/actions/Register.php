@@ -24,6 +24,7 @@ class Settings_YetiForce_Register_Action extends Settings_Vtiger_Save_Action
 	{
 		$this->exposeMethod('serial');
 		$this->exposeMethod('online');
+		$this->exposeMethod('check');
 		parent::__construct();
 	}
 
@@ -77,6 +78,21 @@ class Settings_YetiForce_Register_Action extends Settings_Vtiger_Save_Action
 			'success' => $result,
 			'message' => $message,
 			'type' => $responseType
+		]);
+		$response->emit();
+	}
+
+	/**
+	 * Check register status
+	 *
+	 * @param \App\Request $request
+	 */
+	public function check(\App\Request $request)
+	{
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'success' => \App\YetiForce\Register::check(true),
+			'message' => App\Language::translate('LBL_REGISTRATION_PENDING', $request->getModule(false)),
 		]);
 		$response->emit();
 	}

@@ -173,29 +173,30 @@ jQuery.Class("Vtiger_List_Js", {
 		}
 	},
 	transferOwnershipSave: function (form) {
-		var listInstance = Vtiger_List_Js.getInstance();
-		var transferOwner = jQuery('#transferOwnerId').val();
-		var relatedModules = jQuery('#related_modules').val();
-		var params = {
-			'module': app.getModuleName(),
-			'action': 'TransferOwnership',
-			'transferOwnerId': transferOwner,
-			'related_modules': relatedModules
-		};
+		const listInstance = Vtiger_List_Js.getInstance();
+		let transferOwner = jQuery('#transferOwnerId').val(),
+			relatedModules = jQuery('#related_modules').val(),
+			params = {
+				'module': app.getModuleName(),
+				'action': 'TransferOwnership',
+				'transferOwnerId': transferOwner,
+				'related_modules': relatedModules
+			};
 		params = $.extend(params, listInstance.getSearchParams());
 		delete params.view;
 		AppConnector.request(params).done(
 			(response) => {
-				if (response.success) {
-					app.hideModalWindow();
-					var params = {
-						title: app.vtranslate('JS_MESSAGE'),
-						text: app.vtranslate('JS_RECORDS_TRANSFERRED_SUCCESSFULLY'),
-						type: 'info'
-					};
-					Vtiger_Helper_Js.showPnotify(params);
-					listInstance.getListViewRecords();
-					Vtiger_List_Js.clearList();
+				app.hideModalWindow();
+				listInstance.getListViewRecords();
+				Vtiger_List_Js.clearList();
+				 if (response.result.success) {
+					Vtiger_Helper_Js.showMessage({
+						title: app.vtranslate("JS_MESSAGE"),
+						text: app.vtranslate("JS_RECORDS_TRANSFERRED_SUCCESSFULLY"),
+						type: "info"
+					});
+				} else {
+					Vtiger_Helper_Js.showMessage(response.result.notify);
 				}
 			}
 		);
@@ -565,7 +566,6 @@ jQuery.Class("Vtiger_List_Js", {
 		self.registerFixedThead(container);
 		App.Fields.Picklist.showSelect2ElementView(container.find('select.select2'));
 		App.Fields.Picklist.changeSelectElementView(container);
-		self.registerListViewSpecialOption();
 		var searchInstance = self.getListSearchInstance();
 		if (searchInstance !== false) {
 			searchInstance.registerBasicEvents();
@@ -1594,11 +1594,13 @@ jQuery.Class("Vtiger_List_Js", {
 						params.message = target.html();
 					}
 					Vtiger_Helper_Js.showConfirmationBox(params).done(function (e) {
-						let progressIndicatorElement = jQuery.progressIndicator();
+						let progressIndicatorElement = jQuery.progressIndicator(),
+						dataParams =  self.getSearchParams();
+						delete dataParams.view;
 						AppConnector.request({
 							type: 'POST',
 							url: target.data('url'),
-							data: self.getSearchParams()
+							data: dataParams
 						}).done(function (data) {
 							progressIndicatorElement.progressIndicator({mode: 'hide'});
 							if (data && data.result && data.result.notify) {
@@ -2059,24 +2061,10 @@ jQuery.Class("Vtiger_List_Js", {
 		var listViewContainer = this.getListViewContentContainer();
 		listViewContainer.find('#listViewEntriesMainCheckBox,.listViewEntriesCheckBox').prop('checked', false);
 		this.getListSearchInstance(false);
-		this.registerListViewSpecialOption();
 		this.registerDesktopEvents(listViewContainer);
 		this.registerUnreviewedCountEvent();
 		this.registerLastRelationsEvent();
 		Vtiger_Index_Js.registerMailButtons(listViewContainer);
-	},
-	registerListViewSpecialOption: function () {
-		var thisInstance = this;
-		var listViewContainer = this.getListViewContentContainer();
-		var box = listViewContainer.find('.listViewEntriesTable input.searchInSubcategories');
-		box.on("change", function (e) {
-			var element = jQuery(e.currentTarget);
-			var searchContributorElement = jQuery('.listSearchContributor[name="' + element.data('columnname') + '"]');
-			var searchValue = searchContributorElement.val();
-			if (searchValue) {
-				thisInstance.getListSearchInstance().triggerListSearch();
-			}
-		})
 	},
 	/**
 	 * Function that executes after the mass delete action

@@ -32,20 +32,20 @@
 					{foreach key="FIELD_NAME" item="FIELD" from=$RECORD_MODEL->getModule()->getFormFields()}
 						{if $FIELD_NAME === "name"}
 							<div class="form-group row">
-								<label class="col-sm-2 col-form-label"
-									   for="company-name">{App\Language::translate('LBL_NAME', 'Settings:Companies')}
+								<label class="col-sm-3 col-form-label"
+									   for="company-name">{App\Language::translate('LBL_NAME', 'Install')}
 									&nbsp;<span class="no">*</span></label>
-								<div class="col-sm-10">
+								<div class="col-sm-9">
 									<input id="company-name" type="text" name="company_name" class="form-control"
 										   data-validation-engine="validate[required]">
 								</div>
 							</div>
 						{elseif $FIELD_NAME === "industry"}
 							<div class="form-group row">
-								<label class="col-sm-2 col-form-label"
-									   for="company-industry">{App\Language::translate('LBL_INDUSTRY', 'Settings:Companies')}
+								<label class="col-sm-3 col-form-label"
+									   for="company-industry">{App\Language::translate('LBL_INDUSTRY', 'Install')}
 									&nbsp;<span class="no">*</span></label>
-								<div class="col-sm-10">
+								<div class="col-sm-9">
 									<select class="select2 form-control" id="company-industry" name="company_industry"
 											data-validation-engine="validate[required]">
 										<option value="{$ITEM}">{App\Language::translate($ITEM)}</option>
@@ -57,20 +57,20 @@
 							</div>
 						{elseif $FIELD_NAME === "city"}
 							<div class="form-group row">
-								<label class="col-sm-2 col-form-label"
-									   for="company-city">{App\Language::translate('LBL_CITY', 'Settings:Companies')}
+								<label class="col-sm-3 col-form-label"
+									   for="company-city">{App\Language::translate('LBL_CITY', 'Install')}
 									&nbsp;<span class="no">*</span></label>
-								<div class="col-sm-10">
+								<div class="col-sm-9">
 									<input id="company-city" type="text" name="company_city" class="form-control"
 										   data-validation-engine="validate[required]">
 								</div>
 							</div>
 						{elseif $FIELD_NAME === "country"}
 							<div class="form-group row">
-								<label class="col-sm-2 col-form-label"
-									   for="company-country">{App\Language::translate('LBL_COUNTRY', 'Settings:Companies')}
+								<label class="col-sm-3 col-form-label"
+									   for="company-country">{App\Language::translate('LBL_COUNTRY', 'Install')}
 									&nbsp;<span class="no">*</span></label>
-								<div class="col-sm-10">
+								<div class="col-sm-9">
 									<select id="company-country" class="select2 form-control" name="company_country"
 											data-validation-engine="validate[required]">
 										{foreach from=Install_Utils_Model::getCountryList() item=ITEM}
@@ -81,9 +81,10 @@
 							</div>
 						{elseif $FIELD_NAME === "companysize"}
 							<div class="form-group row">
-								<label class="col-sm-2 col-form-label"
-									   for="company-website">{App\Language::translate('LBL_COMPANYSIZE', 'Settings:Companies')}</label>
-								<div class="col-sm-10">
+								<label class="col-sm-3 col-form-label"
+									   for="company-website">{App\Language::translate('LBL_COMPANYSIZE', 'Install')}
+									<span class="no">*</span></label>
+								<div class="col-sm-9">
 									<input id="company-companysize" type="number" name="company_companysize"
 										   class="form-control"
 										   data-validation-engine="validate[required,max[16777215]]">
@@ -91,9 +92,9 @@
 							</div>
 						{elseif $FIELD_NAME === "website"}
 							<div class="form-group row">
-								<label class="col-sm-2 col-form-label"
-									   for="company-website">{App\Language::translate('LBL_WEBSITE', 'Settings:Companies')}</label>
-								<div class="col-sm-10">
+								<label class="col-sm-3 col-form-label"
+									   for="company-website">{App\Language::translate('LBL_WEBSITE', 'Install')}</label>
+								<div class="col-sm-9">
 									<input id="company-website" type="text" name="company_website" class="form-control"
 										   data-validation-engine="validate[custom[url]]">
 								</div>

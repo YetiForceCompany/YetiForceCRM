@@ -114,7 +114,7 @@ return [
 	],
 	'CALENDAR_VIEW' => [
 		'default' => 'Extended',
-		'description' => 'Calendar view - allowed values: Extended, Standard',
+		'description' => 'Calendar view - allowed values: Extended, Standard, refresh menu files after you change this value',
 		'validation' => function () {
 			$arg = func_get_arg(0);
 			return $arg === 'Extended' || $arg === 'Standard';

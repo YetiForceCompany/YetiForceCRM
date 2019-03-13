@@ -106,8 +106,9 @@ class Session
 	{
 		if (empty(static::$pool)) {
 			\session_regenerate_id($deleteOldSession);
+		} else {
+			static::$pool->regenerateId($deleteOldSession);
 		}
-		static::$pool->regenerateId($deleteOldSession);
 	}
 
 	/**

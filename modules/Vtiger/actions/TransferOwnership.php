@@ -29,14 +29,20 @@ class Vtiger_TransferOwnership_Action extends \App\Controller\Action
 		$module = $request->getModule();
 		$transferOwnerId = $request->getInteger('transferOwnerId');
 		$record = $request->getInteger('record');
-		$relatedModules = $request->getByType('related_modules', 'Alnum');
+		$relatedModules = $request->getByType('related_modules', 'Text');
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TransferOwnership', $module);
 		$transferModel = new $modelClassName();
-
 		if (empty($record)) {
 			$recordIds = $this->getBaseModuleRecordIds($request);
 		} else {
 			$recordIds = [$record];
+		}
+		$configMaxTransferRecords = App\Config::performance('maxMassTransferOwnershipRecords');
+		if (count($recordIds) > $configMaxTransferRecords) {
+			$response = new Vtiger_Response();
+			$response->setResult(['notify' => ['text' => \App\Language::translateArgs('LBL_SELECT_UP_TO_RECORDS', '_Base', $configMaxTransferRecords), 'type' => 'error']]);
+			$response->emit();
+			return;
 		}
 		if (!empty($recordIds)) {
 			$transferModel->transferRecordsOwnership($module, $transferOwnerId, $recordIds);
@@ -52,7 +58,7 @@ class Vtiger_TransferOwnership_Action extends \App\Controller\Action
 			}
 		}
 		$response = new Vtiger_Response();
-		$response->setResult(true);
+		$response->setResult(['success' => true]);
 		$response->emit();
 	}
 

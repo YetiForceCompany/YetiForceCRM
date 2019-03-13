@@ -200,7 +200,7 @@ jQuery.Class('Settings_RecordAllocation_Index_Js', {}, {
 				baseData.find('tr').each(function () {
 					let mode = jQuery(this).data('type'),
 						id = jQuery(this).data('id');
-					if (jQuery.inArray(id.toString(), userData[mode]) != -1) {
+					if ($.inArray(id, userData[mode]) != -1 || $.inArray(id.toString(), userData[mode]) != -1) {
 						activeData.append(jQuery(this));
 					}
 				});

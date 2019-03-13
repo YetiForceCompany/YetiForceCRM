@@ -101,11 +101,11 @@
 								</thead>
 								<tbody>
 								<tr>
-									<td class="{if !$INFORMATION['firstname']}no{/if}">{\App\Language::translate('First Name','Install')}</td>
+									<td class="{if !$INFORMATION['firstname']}no{/if}">{\App\Language::translate('LBL_FIRST_NAME','Install')}</td>
 									<td>{$INFORMATION['firstname']}</td>
 								</tr>
 								<tr>
-									<td class="{if !$INFORMATION['lastname']}no{/if}">{\App\Language::translate('Last Name','Install')}</td>
+									<td class="{if !$INFORMATION['lastname']}no{/if}">{\App\Language::translate('LBL_LAST_NAME','Install')}</td>
 									<td>{$INFORMATION['lastname']}</td>
 								</tr>
 								<tr>

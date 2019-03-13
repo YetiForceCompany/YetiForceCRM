@@ -84,13 +84,12 @@ class Zip extends \ZipArchive
 	/**
 	 * Function to extract files.
 	 *
-	 * @param string $toDir Target directory
-	 *
-	 * @throws \App\Exceptions\AppException
+	 * @param      $toDir Target directory
+	 * @param bool $close
 	 *
 	 * @return string[]|string Unpacked files
 	 */
-	public function unzip($toDir)
+	public function unzip($toDir, bool $close = true)
 	{
 		if (\is_string($toDir)) {
 			$toDir = [$toDir];
@@ -124,7 +123,9 @@ class Zip extends \ZipArchive
 				}
 			}
 		}
-		$this->close();
+		if ($close) {
+			$this->close();
+		}
 		return $files;
 	}
 

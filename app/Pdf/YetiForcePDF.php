@@ -659,7 +659,7 @@ class YetiForcePDF extends PDF
 		}
 		header('accept-charset: utf-8');
 		header('content-type: application/pdf; charset=utf-8');
-		$basename = \App\Fields\File::sanitizeUploadFileName(basename($fileName));
+		$basename = \App\Fields\File::sanitizeUploadFileName($fileName);
 		header("content-disposition: attachment; filename=\"{$basename}\"");
 		echo $output;
 	}

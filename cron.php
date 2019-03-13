@@ -43,6 +43,7 @@ if (PHP_SAPI === 'cli' || $user || AppConfig::main('application_unique_key') ===
 	$response .= sprintf('---------------  %s | Start CRON  ----------', date('Y-m-d H:i:s')) . PHP_EOL;
 	foreach ($cronTasks as $cronTask) {
 		try {
+			$cronTask->refreshData();
 			$cronObj->log('Task start: ' . $cronTask->getName(), 'info', false);
 			$startTaskTime = microtime(true);
 			\App\Log::trace($cronTask->getName() . ' - Start', 'Cron');

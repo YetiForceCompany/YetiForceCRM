@@ -81,11 +81,37 @@
 							<div class="form-group row align-items-center">
 								<div class="col-md-3 col-form-label text-right">
 									{\App\Language::translate('LBL_CLOSES_RECORD',$QUALIFIED_MODULE)}
+									<div class="js-popover-tooltip ml-2 d-inline my-auto u-h-fit u-cursor-pointer" data-js="popover"
+										data-content="{\App\Language::translate('LBL_BLOCKED_RECORD_INFO',$QUALIFIED_MODULE)}">
+										<span class="fas fa-info-circle"></span>
+									</div>
 								</div>
 								<div class="col-md-9 controls">
 									<input class="form-control" type="checkbox" value="1"
 										   {if $PICKLIST_VALUE['close_state']}checked="checked"{/if}
 										   name="close_state">
+								</div>
+							</div>
+						{/if}
+						{if $FIELD_MODEL->getFieldDataType() eq 'picklist' }
+							<div class="form-group row align-items-center">
+								<div class="col-md-3 col-form-label text-right">
+									{\App\Language::translate('LBL_AUTOMATION',$QUALIFIED_MODULE)}
+									<div class="js-popover-tooltip ml-2 d-inline my-auto u-h-fit u-cursor-pointer" data-js="popover"
+										data-content="{\App\Language::translate('LBL_AUTOMATION_INFO',$QUALIFIED_MODULE)}">
+										<span class="fas fa-info-circle"></span>
+									</div>
+								</div>
+								<div class="col-md-9 controls">
+								<select class="select2 form-control" name="automation">
+									<option value=""></option>
+										{foreach item=$VALUE key=$KEY from=Settings_Picklist_Module_Model::getAutomationStatus()}
+									<option value="{$KEY}"
+									{if isset($PICKLIST_VALUE['automation']) && $PICKLIST_VALUE['automation'] === $KEY} selected
+									{elseif $KEY === Settings_Picklist_Module_Model::AUTOMATION_NO_CONCERN}selected {/if}
+									>{\App\Language::translate($VALUE,$QUALIFIED_MODULE)}</option>
+								{/foreach}
+								</select>
 								</div>
 							</div>
 						{/if}

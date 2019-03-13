@@ -21,13 +21,9 @@
     "low": "low",
     "normal": "normal",
     "high": "high",
-    "In Progress": "In Progress",
-    "Open": "Open",
-    "Completed": "Completed",
-    "Deferred": "Deferred",
-    "Cancelled": "Cancelled",
     "administrative": "Internal",
     "operative": "External",
-    "other": "Shared"
+    "other": "Shared",
+    "LBL_PROJECT": "Project"
   }
 }

@@ -58,9 +58,9 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$params = $request->getMultiDimensionArray('param', [
 			'mapping' => [
 				[
-					'source' => 'Integer',
+					'source' => 'Alnum',
 					'type' => 'Standard',
-					'target' => 'Integer',
+					'target' => 'Alnum',
 					'default' => 'Text'
 				]
 			],

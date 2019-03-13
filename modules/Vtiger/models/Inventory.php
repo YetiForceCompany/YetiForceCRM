@@ -211,6 +211,7 @@ class Vtiger_Inventory_Model
 	{
 		$fieldList = [];
 		switch ($view) {
+			case 'DetailPreview':
 			case 'Detail':
 				foreach ($this->getFields() as $fieldName => $fieldModel) {
 					if ($fieldModel->isVisibleInDetail()) {

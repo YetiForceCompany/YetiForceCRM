@@ -30,26 +30,25 @@ class Email
 			if (!$picklistPrefix) {
 				return '';
 			}
-			return '((' . implode($picklistPrefix, '|') . ')*)';
+			return '((' . implode('|', $picklistPrefix) . ')*)';
 		}, $redex);
 		preg_match($redex, $value, $match);
 		if (!empty($match)) {
 			return trim($match[0], '[,]');
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	/**
 	 * Find crm id by email.
 	 *
-	 * @param string|int $value
+	 * @param int|string $value
 	 * @param array      $allowedModules
 	 * @param array      $skipModules
 	 *
-	 * @return string
+	 * @return array
 	 */
-	public static function findCrmidByEmail($value, $allowedModules = [], $skipModules = [])
+	public static function findCrmidByEmail($value, array $allowedModules = [], array $skipModules = [])
 	{
 		$db = \App\Db::getInstance();
 		$rows = $fields = [];

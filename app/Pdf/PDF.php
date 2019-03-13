@@ -327,7 +327,7 @@ abstract class PDF
 	 */
 	public function setFileName(string $fileName)
 	{
-		$this->fileName = $fileName;
+		$this->fileName = \App\Fields\File::sanitizeUploadFileName($fileName);
 		return $this;
 	}
 

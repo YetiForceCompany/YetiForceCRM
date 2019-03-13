@@ -2,6 +2,8 @@
 /**
  * Tools for country class.
  *
+ * @package   App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -37,8 +39,19 @@ class Country
 		}
 		$rows = $query->createCommand()->queryAllByGroup(1);
 		\App\Cache::save('Country|getAll', $type, $rows);
-
 		return $rows;
+	}
+
+	/**
+	 * Get country code by name.
+	 *
+	 * @param string $countryName
+	 *
+	 * @return string|null Return null if not found.
+	 */
+	public static function getCountryCode(string $countryName): ?string
+	{
+		return static::getAll('uitype')[$countryName]['code'] ?? null;
 	}
 
 	/**

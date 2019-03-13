@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
-App.Fields = {
+window.App.Fields = {
 	'Date': {
 		months: ["JS_JAN", "JS_FEB", "JS_MAR", "JS_APR", "JS_MAY", "JS_JUN", "JS_JUL", "JS_AUG", "JS_SEP", "JS_OCT", "JS_NOV", "JS_DEC"],
 		monthsTranslated: ["JS_JAN", "JS_FEB", "JS_MAR", "JS_APR", "JS_MAY", "JS_JUN", "JS_JUL", "JS_AUG", "JS_SEP", "JS_OCT", "JS_NOV", "JS_DEC"].map((monthName) => app.vtranslate(monthName)),
@@ -494,6 +494,7 @@ App.Fields = {
 					{
 						feed: App.Fields.Text.getMentionData,
 						marker: '#',
+						pattern: /#[wа-я]{1,}|#\w{3,}$/,
 						itemTemplate: `<li data-id="{id}" class="row no-gutters">
 											<div class="col c-circle-icon mr-1">
 												<span class="userIcon-{module}"></span>
@@ -722,7 +723,7 @@ App.Fields = {
 			registerEmojiPanel(inputDiv, emojisContainer) {
 				new EmojiPanel({
 					container: '.js-completions__emojis',
-					json_url: '/libraries/emojipanel/dist/emojis.json',
+					json_url: CONFIG.siteUrl + 'libraries/emojipanel/dist/emojis.json',
 				});
 				emojisContainer.on('click', (e) => {
 					let element = $(e.target);

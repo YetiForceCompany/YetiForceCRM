@@ -49,13 +49,7 @@ class ProductsTableLongVTwoLang extends Base
 			$html .= '<table style="border-collapse:collapse;width:100%;"><thead><tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible() && $field->getColumnName() !== 'subunit') {
-					if ($field->getType() === 'Quantity' || $field->getType() === 'Value') {
-						$html .= '<th style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . ' / ' . \App\Language::translate($field->get('label'), $this->textParser->moduleName, \App\Language::DEFAULT_LANG) . '</th>';
-					} elseif ($field->getType() === 'Name') {
-						$html .= '<th style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . ' / ' . \App\Language::translate($field->get('label'), $this->textParser->moduleName, \App\Language::DEFAULT_LANG) . '</th>';
-					} else {
-						$html .= '<th style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . ' / ' . \App\Language::translate($field->get('label'), $this->textParser->moduleName, \App\Language::DEFAULT_LANG) . '</th>';
-					}
+					$html .= '<th style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . ' / ' . \App\Language::translate($field->get('label'), $this->textParser->moduleName, \App\Language::DEFAULT_LANG) . '</th>';
 				}
 			}
 			$html .= '</tr></thead><tbody>';
@@ -83,7 +77,7 @@ class ProductsTableLongVTwoLang extends Base
 									}
 								}
 							}
-						} elseif (\in_array($field->getType(), $fieldsWithCurrency, true)) {
+						} elseif (\in_array($field->getType(), $fieldsWithCurrency, true) && !empty($currencySymbol)) {
 							$html .= $field->getDisplayValue($itemValue, $inventoryRow) . ' ' . $currencySymbol;
 						} else {
 							$html .= $field->getDisplayValue($itemValue, $inventoryRow);
@@ -102,7 +96,11 @@ class ProductsTableLongVTwoLang extends Base
 						foreach ($inventoryRows as $inventoryRow) {
 							$sum += $inventoryRow[$field->getColumnName()];
 						}
-						$html .= \CurrencyField::convertToUserFormat($sum, null, true) . ' ' . $currencySymbol;
+						if (!empty($currencySymbol)) {
+							$html .= \CurrencyField::appendCurrencySymbol(\CurrencyField::convertToUserFormat($sum, null, true), $currencySymbol);
+						} else {
+							$html .= \CurrencyField::convertToUserFormat($sum, null, true);
+						}
 					}
 					$html .= '</th>';
 				}

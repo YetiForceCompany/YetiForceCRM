@@ -76,33 +76,26 @@ class Leads extends CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = PearDatabase::getInstance();
-
-		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
-
-		$rel_table_arr = ['Documents' => 'vtiger_senotesrel', 'Attachments' => 'vtiger_seattachmentsrel',
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		\App\Log::trace("Entering function transferRelatedRecords (${module}, ${transferEntityIds}, ${entityId})");
+		$relTableArr = ['Documents' => 'vtiger_senotesrel', 'Attachments' => 'vtiger_seattachmentsrel',
 			'Products' => 'vtiger_seproductsrel', 'Campaigns' => 'vtiger_campaign_records', ];
-
-		$tbl_field_arr = ['vtiger_senotesrel' => 'notesid', 'vtiger_seattachmentsrel' => 'attachmentsid',
+		$tblFieldArr = ['vtiger_senotesrel' => 'notesid', 'vtiger_seattachmentsrel' => 'attachmentsid',
 			'vtiger_seproductsrel' => 'productid', 'vtiger_campaign_records' => 'campaignid', ];
-
-		$entity_tbl_field_arr = ['vtiger_senotesrel' => 'crmid', 'vtiger_seattachmentsrel' => 'crmid',
+		$entityTblFieldArr = ['vtiger_senotesrel' => 'crmid', 'vtiger_seattachmentsrel' => 'crmid',
 			'vtiger_seproductsrel' => 'crmid', 'vtiger_campaign_records' => 'crmid', ];
-
 		foreach ($transferEntityIds as $transferId) {
-			foreach ($rel_table_arr as $rel_table) {
-				$id_field = $tbl_field_arr[$rel_table];
-				$entity_id_field = $entity_tbl_field_arr[$rel_table];
+			foreach ($relTableArr as $relTable) {
+				$idField = $tblFieldArr[$relTable];
+				$entityIdField = $entityTblFieldArr[$relTable];
 				// IN clause to avoid duplicate entries
-				$sel_result = $adb->pquery("select $id_field from $rel_table where $entity_id_field=? " .
-					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", [$transferId, $entityId]);
-				$res_cnt = $adb->numRows($sel_result);
-				if ($res_cnt > 0) {
-					for ($i = 0; $i < $res_cnt; ++$i) {
-						$id_field_value = $adb->queryResult($sel_result, $i, $id_field);
-						$adb->pquery("update $rel_table set $entity_id_field=? where $entity_id_field=? and $id_field=?", [$entityId, $transferId, $id_field_value]);
-					}
+				$subQuery = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $entityId]);
+				$query = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $transferId])->andWhere(['not in', $idField, $subQuery]);
+				$dataReader = $query->createCommand()->query();
+				while ($idFieldValue = $dataReader->readColumn(0)) {
+					$dbCommand->update($relTable, [$entityIdField => $entityId], [$entityIdField => $transferId, $idField => $idFieldValue])->execute();
 				}
+				$dataReader->close();
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
@@ -125,9 +118,10 @@ class Leads extends CRMEntity
 			'Services' => ['vtiger_crmentityrel' => ['crmid', 'relcrmid'], 'vtiger_leaddetails' => 'leadid'],
 			'OSSMailView' => ['vtiger_ossmailview_relation' => ['crmid', 'ossmailviewid'], 'vtiger_leaddetails' => 'leadid'],
 		];
-		if ($secModule === false) {
+		if (false === $secModule) {
 			return $relTables;
 		}
+
 		return $relTables[$secModule];
 	}
 
@@ -138,9 +132,9 @@ class Leads extends CRMEntity
 			return;
 		}
 
-		if ($return_module === 'Campaigns') {
+		if ('Campaigns' === $return_module) {
 			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $return_id])->execute();
-		} elseif ($return_module === 'Products') {
+		} elseif ('Products' === $return_module) {
 			App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['crmid' => $id, 'productid' => $return_id])->execute();
 		} else {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
@@ -153,7 +147,7 @@ class Leads extends CRMEntity
 			$withCrmids = [$withCrmids];
 		}
 		foreach ($withCrmids as $withCrmid) {
-			if ($withModule === 'Products') {
+			if ('Products' === $withModule) {
 				App\Db::getInstance()->createCommand()->insert('vtiger_seproductsrel', [
 					'crmid' => $crmid,
 					'productid' => $withCrmid,
@@ -161,7 +155,7 @@ class Leads extends CRMEntity
 					'rel_created_user' => App\User::getCurrentUserId(),
 					'rel_created_time' => date('Y-m-d H:i:s'),
 				])->execute();
-			} elseif ($withModule === 'Campaigns') {
+			} elseif ('Campaigns' === $withModule) {
 				App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
 					'campaignid' => $withCrmid,
 					'crmid' => $crmid,

@@ -42,11 +42,11 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		if (!is_string($value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$maximumLength = $this->getFieldModel()->get('maximumlength');
 		if ($maximumLength && strlen($value) > $maximumLength) {
-			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;
 	}
@@ -64,6 +64,9 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
+		if (empty($value)) {
+			return '';
+		}
 		if (is_int($length)) {
 			$value = \App\TextParser::htmlTruncate($value, $length);
 		}
@@ -72,7 +75,10 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 		} else {
 			$value = \App\Utils\Completions::decode(\App\Purifier::purifyHtml($value));
 		}
-		return nl2br($value);
+		if (300 !== $this->getFieldModel()->getUIType()) {
+			$value = nl2br($value);
+		}
+		return $value;
 	}
 
 	/**

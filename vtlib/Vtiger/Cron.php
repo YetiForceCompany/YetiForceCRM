@@ -43,7 +43,6 @@ class Cron
 	public function set($key, $value)
 	{
 		$this->data[$key] = $value;
-
 		return $this;
 	}
 
@@ -353,7 +352,7 @@ class Cron
 	public static function listAllActiveInstances()
 	{
 		$instances = [];
-		$query = (new \App\Db\Query())->from(self::$baseTable)->where(['<>', 'status', self::$STATUS_DISABLED])->orderBy(['sequence' => SORT_ASC]);
+		$query = (new \App\Db\Query())->select(['id','name'])->from(self::$baseTable)->where(['<>', 'status', self::$STATUS_DISABLED])->orderBy(['sequence' => SORT_ASC]);
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$instances[] = new self($row);
@@ -421,6 +420,17 @@ class Cron
 			$instances[] = new self($row);
 		}
 		return $instances;
+	}
+
+	/**
+	 * Function to refresh information about task.
+	 */
+	public function refreshData()
+	{
+		$data = (new \App\Db\Query())->from(self::$baseTable)->where(['id' => $this->getId()])->one();
+		if ($data) {
+			$this->data = $data;
+		}
 	}
 
 	public function unlockTask()

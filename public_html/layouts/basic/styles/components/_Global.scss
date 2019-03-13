@@ -541,3 +541,8 @@
 .c-gantt-header__option {
 	max-width: 200px;
 }
+
+input[type="checkbox"][readonly],
+input[type="checkbox"][disabled] {
+	background-color: material-color('grey', '200');
+}
