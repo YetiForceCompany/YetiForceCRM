@@ -244,21 +244,16 @@ CREATE TABLE `com_vtiger_workflow_activatedonce` (
 /*Table structure for table `com_vtiger_workflow_tasktypes` */
 
 CREATE TABLE `com_vtiger_workflow_tasktypes` (
-  `id` int(10) NOT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `tasktypename` varchar(255) NOT NULL,
   `label` varchar(255) DEFAULT NULL,
   `classname` varchar(255) DEFAULT NULL,
   `classpath` varchar(255) DEFAULT NULL,
   `templatepath` varchar(255) DEFAULT NULL,
   `modules` varchar(500) DEFAULT NULL,
-  `sourcemodule` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `com_vtiger_workflow_tasktypes_seq` */
-
-CREATE TABLE `com_vtiger_workflow_tasktypes_seq` (
-  `id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `sourcemodule` varchar(255) DEFAULT NULL,
+  KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflows` */
 
@@ -305,20 +300,14 @@ CREATE TABLE `com_vtiger_workflowtasks` (
 /*Table structure for table `com_vtiger_workflowtasks_entitymethod` */
 
 CREATE TABLE `com_vtiger_workflowtasks_entitymethod` (
-  `workflowtasks_entitymethod_id` int(10) NOT NULL,
+  `workflowtasks_entitymethod_id` int(10) NOT NULL AUTO_INCREMENT,
   `module_name` varchar(100) DEFAULT NULL,
   `method_name` varchar(100) DEFAULT NULL,
   `function_path` varchar(400) DEFAULT NULL,
   `function_name` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`workflowtasks_entitymethod_id`),
   UNIQUE KEY `com_vtiger_workflowtasks_entitymethod_idx` (`workflowtasks_entitymethod_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `com_vtiger_workflowtasks_entitymethod_seq` */
-
-CREATE TABLE `com_vtiger_workflowtasks_entitymethod_seq` (
-  `id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflowtemplates` */
 
