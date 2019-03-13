@@ -972,19 +972,6 @@ class Vtiger_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get Descrption value for this record.
-	 *
-	 * @return string Descrption
-	 */
-	public function getDescriptionValue()
-	{
-		if (empty($this->get('description'))) {
-			$this->set('description', (new \App\Db\Query())->select(['description'])->from('vtiger_crmentity')->where(['crmid' => $this->getId()])->scalar());
-		}
-		return $this->get('description');
-	}
-
-	/**
 	 * Function to transfer related records of parent records to this record.
 	 *
 	 * @param <Array> $recordIds
