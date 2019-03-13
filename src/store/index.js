@@ -3,7 +3,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Objects from 'src/utilities/Objects.js'
-import mutations from './mutations.js'
 import ModuleLoader from '../ModuleLoader.js'
 // modules
 import Debug from './Debug'
@@ -12,6 +11,9 @@ import Users from './Users'
 import Menu from './Menu'
 import Url from './Url'
 import Language from './Language'
+ModuleLoader.flattenModules(window.modules).modules.forEach(module => {
+  module.component()
+})
 
 Vue.use(Vuex)
 
@@ -23,11 +25,6 @@ let modules = {
   Users,
   Language
 }
-
-if (typeof window.modules !== 'undefined') {
-  ModuleLoader.loadStores(modules, window.modules)
-}
-
 let store = new Vuex.Store({
   modules,
   mutations: {
@@ -36,5 +33,4 @@ let store = new Vuex.Store({
     }
   }
 })
-
 export default store

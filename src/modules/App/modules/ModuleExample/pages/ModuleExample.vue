@@ -6,21 +6,21 @@
   </div>
 </template>
 
-<style>
-</style>
-
 <script>
+import getters from 'src/store/getters.js'
+import mutations from 'src/store/mutations.js'
+import { mapGetters } from 'vuex'
 export default {
   name: 'App.ModuleExample.Pages.ModuleExample',
   methods: {
     updateVariable() {
-      this.$store.commit('App/ModuleExample/updateTestVariable', 'changed!')
+      this.$store.commit(mutations.App.ModuleExample.updateTestVariable, 'changed!')
     }
   },
   computed: {
-    testVariable() {
-      return this.$store.getters['App/ModuleExample/testVariable']
-    }
+    ...mapGetters({
+      testVariable: getters.App.ModuleExample.testVariable
+    })
   }
 }
 </script>

@@ -82,7 +82,7 @@ module.exports = function(ctx) {
       // analyze: true,
       // extractCSS: false,
       extendWebpack(cfg) {
-        if (typeof cfg.output === 'object') {
+        if (typeof cfg.output === 'object' && !ctx.dev) {
           cfg.output.filename = 'js/[name].js'
           cfg.output.chunkFilename = 'js/[name].js'
         }
