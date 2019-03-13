@@ -15,6 +15,8 @@ namespace vtlib;
  */
 class Utils
 {
+	public static $dieOnError = false;
+
 	/**
 	 * Check if given value is a number or not.
 	 *
