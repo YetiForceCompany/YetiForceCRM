@@ -18,14 +18,6 @@ class LanguageExport extends Package
 	const TABLENAME = 'vtiger_language';
 
 	/**
-	 * Generate unique id for insertion.
-	 */
-	public static function __getUniqueId()
-	{
-		return \App\Db::getInstance()->getUniqueID(self::TABLENAME);
-	}
-
-	/**
 	 * Initialize Export.
 	 */
 	public function __initExport($languageCode, $moduleInstance = null)
