@@ -71,7 +71,7 @@ class Languages
 		$url = "https://github.com/YetiForceCompany/YetiForceCRMLanguages/raw/master/{$endpoint}/{$prefix}.zip";
 		$path = \App\Fields\File::getTmpPath() . $prefix . '.zip';
 		$status = false;
-		if (static::isFileExtist($url)) {
+		if (\App\Fields\File::isExistsUrl($url)) {
 			try {
 				(new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, ['sink' => $path]);
 				if (\file_exists($path)) {
@@ -85,24 +85,6 @@ class Languages
 			}
 		} else {
 			static::$lastErrorMessage = 'ERR_CANNOT_PARSE_SERVER_RESPONSE';
-		}
-		return $status;
-	}
-
-	/**
-	 * Function to check is file exist
-	 * @param string $url
-	 * @return bool
-	 * @throws \GuzzleHttp\Exception\GuzzleException
-	 */
-	public static function isFileExtist(string $url): bool
-	{
-		$status = false;
-		try {
-			if ((new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url)->getStatusCode() === 200) {
-				$status = true;
-			}
-		} catch (\Exception $ex) {
 		}
 		return $status;
 	}
