@@ -60,9 +60,9 @@ $.Class("Base_RecordConverter_JS", {}, {
 	 * Function listener to change convert type
 	 */
 	registerChangeConvertType: function () {
-		const thisInstance = this;
-		thisInstance.container.on('change', '.js-convert-type', function (e) {
-			thisInstance.loadModalWindow();
+		let self = this;
+		self.container.on('change', '.js-convert-type', function (e) {
+			self.loadModalWindow();
 		});
 	},
 	/**
@@ -70,11 +70,11 @@ $.Class("Base_RecordConverter_JS", {}, {
 	 * * @returns {object}
 	 */
 	registerSubmitForm: function () {
-		const thisInstance = this;
-		thisInstance.container.on('click', "[name='saveButton']", function (e) {
-			let convertType = thisInstance.container.find('.js-convert-type option:selected').val();
+		let self = this;
+		self.container.on('click', "[name='saveButton']", function (e) {
+			let convertType = self.container.find('.js-convert-type option:selected').val();
 			if (convertType) {
-				let formData = thisInstance.container.find('form').serializeFormData();
+				let formData = self.container.find('form').serializeFormData();
 				let postData = {};
 				if (app.getViewName() === 'List') {
 					let listInstance = Vtiger_List_Js.getInstance();
@@ -94,7 +94,7 @@ $.Class("Base_RecordConverter_JS", {}, {
 				const progressIndicatorElement = $.progressIndicator({
 					blockInfo: {
 						enabled: true,
-						elementToBlock: thisInstance.container.find('.modal-body')
+						elementToBlock: self.container.find('.modal-body')
 					}
 				});
 				AppConnector.request($.extend(formData, postData)).done(function (responseData) {
