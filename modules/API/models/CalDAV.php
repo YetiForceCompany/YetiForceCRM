@@ -101,7 +101,6 @@ class API_CalDAV_Model
 		foreach ($this->davUsers as $userId => $user) {
 			$this->calendarId = $user->get('calendarsid');
 			$this->user = $user;
-
 			$isPermitted = !isset(self::$cache[$userId][$this->record['id']]) && !$this->toDelete($this->record);
 			if ($isPermitted) {
 				$exclusion = \App\Config::component('Dav', 'CALDAV_EXCLUSION_TO_DAV');
@@ -505,9 +504,13 @@ class API_CalDAV_Model
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		$attendees = $component->select('ATTENDEE');
 		foreach ($attendees as &$attendee) {
+			$nameAttendee = isset($attendee->parameters['CN']) ? $attendee->parameters['CN']->getValue() : null;
 			$value = $attendee->getValue();
 			if (0 === strpos($value, 'mailto:')) {
 				$value = substr($value, 7, strlen($value) - 7);
+			}
+			if (\App\TextParser::getTextLength($value) > 100 || !\App\Validator::email($value)) {
+				throw new \Sabre\DAV\Exception\BadRequest('Invalid email');
 			}
 			if ('CHAIR' === $attendee['ROLE']->getValue()) {
 				$users = \App\Fields\Email::findCrmidByEmail($value, ['Users']);
@@ -524,10 +527,11 @@ class API_CalDAV_Model
 			$status = $this->getAttendeeStatus($attendee['PARTSTAT']->getValue());
 			if (isset($invities[$value])) {
 				$row = $invities[$value];
-				if ($row['status'] !== $status) {
+				if ($row['status'] !== $status || $row['name'] !== $nameAttendee) {
 					$dbCommand->update('u_#__activity_invitation', [
 						'status' => $status,
 						'time' => $timeFormated,
+						'name' => \App\TextParser::textTruncate($nameAttendee, 500, false),
 					], ['activityid' => $record->getId(), 'email' => $value]
 					)->execute();
 				}
@@ -537,6 +541,7 @@ class API_CalDAV_Model
 					'email' => $value,
 					'crmid' => $crmid,
 					'status' => $status,
+					'name' => \App\TextParser::textTruncate($nameAttendee, 500, false),
 					'activityid' => $record->getId(),
 				];
 				if ($status) {
@@ -596,7 +601,7 @@ class API_CalDAV_Model
 		}
 		foreach ($invities as &$row) {
 			$attendee = $vcalendar->createProperty('ATTENDEE', 'mailto:' . $row['email']);
-			$attendee->add('CN', \App\Record::getLabel($row['crmid']));
+			$attendee->add('CN', empty($row['crmid']) ? $row['name'] : \App\Record::getLabel($row['crmid']));
 			$attendee->add('ROLE', 'REQ-PARTICIPANT');
 			$attendee->add('PARTSTAT', $this->getAttendeeStatus($row['status'], false));
 			$attendee->add('RSVP', '0' == $row['status'] ? 'true' : 'false');

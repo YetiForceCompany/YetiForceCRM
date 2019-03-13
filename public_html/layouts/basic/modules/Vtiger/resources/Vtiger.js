@@ -73,8 +73,9 @@ var Vtiger_Index_Js = {
 			});
 		});
 	},
-	getEmailFromRecord: function (record, module, maxEmails) {
-		var aDeferred = $.Deferred();
+	getEmailFromRecord(record, module, maxEmails) {
+		const aDeferred = $.Deferred();
+		const progress = $.progressIndicator({position: 'html', blockInfo: {enabled: true}});
 		AppConnector.request({
 			dataType: 'html',
 			data: {
@@ -84,21 +85,30 @@ var Vtiger_Index_Js = {
 				sourceRecord: record,
 				maxEmails: maxEmails,
 			}
-		}).done(function (data) {
+		}).done((data) => {
+			progress.progressIndicator({'mode': 'hide'});
 			if (data.substring(0, 1) == '{') {
 				data = JSON.parse(data);
 				data = data['result'];
 				aDeferred.resolve(data);
 			} else {
-				app.showModalWindow(data, function (data) {
-					data.find('.selectButton').on('click', function (e) {
-						var email = data.find('input:checked').val();
-						app.hideModalWindow(data);
-						aDeferred.resolve(email);
+				app.showModalWindow(data, (data) => {
+					data.find('.selectButton').on('click', (e) => {
+						if( data.find('input:checked').length ){
+							let email = data.find('input:checked').val();
+							app.hideModalWindow();
+							aDeferred.resolve(email);
+						}else{
+							Vtiger_Helper_Js.showPnotify({
+								text: app.vtranslate('JS_SELECT_AN_OPTION'),
+								type: 'info'
+							});
+						}
 					});
 				});
 			}
-		}).fail(function (error, err) {
+		}).fail((error, err) => {
+			progress.progressIndicator({'mode': 'hide'});
 			aDeferred.reject(error);
 		})
 		return aDeferred.promise();

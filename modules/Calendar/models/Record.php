@@ -161,6 +161,14 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function isMandatorySave()
+	{
+		return true;
+	}
+
+	/**
 	 * Function to insert values in u_yf_activity_invitation table for the specified module,tablename ,invitees_array.
 	 */
 	public function insertIntoInviteTable()
@@ -180,12 +188,16 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		$dataReader->close();
 		if (!empty($inviteesRequest)) {
 			foreach ($inviteesRequest as &$invitation) {
+				if (\App\TextParser::getTextLength($invitation[0]) > 100 || !\App\Validator::email($invitation[0])) {
+					throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||inviteesid||Calendar||' . $invitation[0], 406);
+				}
 				if (isset($invities[$invitation[2]])) {
 					unset($invities[$invitation[2]]);
 				} else {
 					$db->createCommand()->insert('u_#__activity_invitation', [
 						'email' => $invitation[0],
-						'crmid' => $invitation[1],
+						'crmid' => (int) $invitation[1],
+						'name' => $invitation[3],
 						'activityid' => $this->getId(),
 					])->execute();
 				}
