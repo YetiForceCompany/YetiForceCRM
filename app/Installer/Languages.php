@@ -71,16 +71,20 @@ class Languages
 		$url = "https://github.com/YetiForceCompany/YetiForceCRMLanguages/raw/master/{$endpoint}/{$prefix}.zip";
 		$path = \App\Fields\File::getTmpPath() . $prefix . '.zip';
 		$status = false;
-		try {
-			(new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, ['sink' => $path]);
-			if (\file_exists($path)) {
-				(new \vtlib\Language())->import($path);
-				\unlink($path);
-				$status = true;
+		if (\App\Fields\File::isExistsUrl($url)) {
+			try {
+				(new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, ['sink' => $path]);
+				if (\file_exists($path)) {
+					(new \vtlib\Language())->import($path);
+					\unlink($path);
+					$status = true;
+				}
+			} catch (\Exception $ex) {
+				\App\Log::warning($ex->__toString(), __METHOD__);
+				static::$lastErrorMessage = $ex->getMessage();
 			}
-		} catch (\Exception $ex) {
-			\App\Log::warning($ex->__toString(), __METHOD__);
-			static::$lastErrorMessage = $ex->getMessage();
+		} else {
+			static::$lastErrorMessage = 'ERR_CANNOT_PARSE_SERVER_RESPONSE';
 		}
 		return $status;
 	}
