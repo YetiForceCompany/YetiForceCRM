@@ -103,43 +103,52 @@ const ModuleLoader = {
   },
 
   /**
-   * Attach module store
+   * Get concrete module from array of nested modules
    *
-   * @param   {object}  stores
-   * @param   {object}  module
-   *
-   * @return  {stores}
-   */
-  attachStore(stores, module) {
-    const store = {}
-    if (typeof module.storeFiles !== 'undefined') {
-      for (let name in module.storeFiles) {
-        store[name] = module.storeFiles[name]
-      }
-    }
-    if (typeof module.modules !== 'undefined') {
-      store.modules = {}
-      store.modules = this.loadStores(store.modules, module.modules)
-    }
-    if (Object.keys(store).length) {
-      stores[module.name] = store
-    }
-    return stores
-  },
-
-  /**
-   * Load stores from modules
-   *
-   * @param   {object}  stores
+   * @param   {string}  fullModuleName
    * @param   {array}  modules
    *
    * @return  {object}
    */
-  loadStores(stores, modules) {
-    for (const module of modules) {
-      stores = this.attachStore(stores, module)
+  getModule(fullModuleName, modules) {
+    for (let module of modules) {
+      if (module.fullName === fullModuleName) {
+        return module
+      }
+      if (typeof module.modules !== 'undefined') {
+        let found = null
+        if ((found = this.getModule(fullModuleName, module.modules))) {
+          return found
+        }
+      }
     }
-    return stores
+    return null
+  },
+
+  /**
+   * Prepare store names for easier store creation process
+   *
+   * @param   {string}  fullModuleName
+   * @param   {object}  store
+   *
+   * @return  {object} store with modified property names (full ones)
+   */
+  prepareStoreNames(fullModuleName, store) {
+    const module = this.getModule(fullModuleName, window.modules)
+    if (typeof module.store === 'undefined') {
+      return store
+    }
+    const updatedStore = { ...store }
+    for (let which in store) {
+      if (typeof module.store[which] === 'undefined') {
+        continue
+      }
+      updatedStore[which] = {}
+      for (let prop in store[which]) {
+        updatedStore[which][module.store[which][prop]] = store[which][prop]
+      }
+    }
+    return updatedStore
   },
 
   /**

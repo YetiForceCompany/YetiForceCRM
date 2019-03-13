@@ -2,7 +2,7 @@
 <template>
   <div id="q-app">
     <router-view/>
-    <div class="modules">
+    <div class="modules" style="display:none">
       <component v-for="module of modules" :is="module.component" :key="module.fullName"></component>
     </div>
   </div>

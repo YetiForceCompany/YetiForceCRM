@@ -6,7 +6,8 @@ window.modules = [
     path: "src\\modules\\App",
     level: 0,
     parent: "",
-    directories: ["layouts", "modules", "router"],
+    entry: "src\\modules\\App\\App.vue",
+    directories: ["layouts", "modules", "router", "store"],
     routes: [
       {
         name: "App",
@@ -15,6 +16,17 @@ window.modules = [
         componentPath: "layouts/App.vue"
       }
     ],
+    store: {
+      actions: {},
+      getters: {},
+      mutations: {}
+    },
+    storeFiles: {
+      actions: "src\\modules\\App\\store\\actions.js",
+      getters: "src\\modules\\App\\store\\getters.js",
+      mutations: "src\\modules\\App\\store\\mutations.js",
+      state: "src\\modules\\App\\store\\state.js"
+    },
     modules: [
       {
         parentHierarchy: "App",
@@ -70,24 +82,13 @@ window.modules = [
           }
         },
         storeFiles: {
-          actions: {
-            "App/ModuleExample/getData": function(state) {
-              console.log("get Data");
-            }
-          },
-          getters: {
-            "App/ModuleExample/testVariable": function(state) {
-              return state.testVariable;
-            }
-          },
-          mutations: {
-            "App/ModuleExample/updateTestVariable": function(state, value) {
-              state.testVariable = value;
-            }
-          },
-          state: {
-            testVariable: "test variable"
-          }
+          actions:
+            "src\\modules\\App\\modules\\ModuleExample\\store\\actions.js",
+          getters:
+            "src\\modules\\App\\modules\\ModuleExample\\store\\getters.js",
+          mutations:
+            "src\\modules\\App\\modules\\ModuleExample\\store\\mutations.js",
+          state: "src\\modules\\App\\modules\\ModuleExample\\store\\state.js"
         }
       }
     ]

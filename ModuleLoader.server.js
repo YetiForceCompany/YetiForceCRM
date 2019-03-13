@@ -23,8 +23,19 @@ const isFile = source => {
     return false
   }
 }
+
+/**
+ * Placeholder for old require function
+ *
+ * @var  {function}
+ */
 const oldRequire = require
 
+/**
+ * Helper function for reading esm modules in nodejs - because esm module is not perfect
+ *
+ * @param {string} moduleName
+ */
 const appRequire = moduleName => {
   if (isFile(resolve(moduleName))) {
     moduleName = resolve(moduleName)
@@ -56,20 +67,10 @@ const appRequire = moduleName => {
     return loaded
   }
 }
+// appRequire is a global function available from every js inside nodejs
 global.appRequire = appRequire
 
 const Objects = appRequire('src/utilities/Objects.js')
-
-const getDirectories = source =>
-  readdirSync(source)
-    .map(name => join(source, name))
-    .filter(isDirectory)
-    .map(name => name.substr(source.length + 1))
-const getFiles = source =>
-  readdirSync(source)
-    .map(name => join(source, name))
-    .filter(isFile)
-    .map(name => name.substr(source.length + 1))
 
 function getSpacing(level) {
   let levelSpacing = ''
@@ -79,6 +80,9 @@ function getSpacing(level) {
   return levelSpacing
 }
 
+/**
+ * Reserved directories inside modules
+ */
 const RESERVED_DIRECTORIES = {
   router: 'router',
   store: 'store',
@@ -95,7 +99,38 @@ const RESERVED_DIRECTORIES = {
   modules: 'modules'
 }
 
+/**
+ * Main object
+ */
 module.exports = {
+  /**
+   * Get directories from specified dir
+   *
+   * @param   {string}  source
+   *
+   * @return  {array}
+   */
+  getDirectories(source) {
+    return readdirSync(source)
+      .map(name => join(source, name))
+      .filter(isDirectory)
+      .map(name => name.substr(source.length + 1))
+  },
+
+  /**
+   * Get files from specified dir
+   *
+   * @param   {string}  source
+   *
+   * @return  {array}
+   */
+  getFiles(source) {
+    return readdirSync(source)
+      .map(name => join(source, name))
+      .filter(isFile)
+      .map(name => name.substr(source.length + 1))
+  },
+
   /**
    * Load routes from module
    *
@@ -107,7 +142,7 @@ module.exports = {
     if (moduleConf.directories.indexOf(RESERVED_DIRECTORIES.router) !== -1) {
       moduleConf.routes = []
       const dir = `${moduleConf.path}${sep}${RESERVED_DIRECTORIES.router}`
-      getFiles(dir).forEach(file => {
+      this.getFiles(dir).forEach(file => {
         const path = `./${dir}${sep}${file}`
         const routes = appRequire(path)
         if (typeof routes === 'function') {
@@ -147,6 +182,14 @@ module.exports = {
     return result
   },
 
+  /**
+   * Get names for getters / setters / actions
+   *
+   * @param   {object}  obj
+   * @param   {object}  names
+   *
+   * @return  {object}
+   */
   getNames(obj, names = {}) {
     for (let name in obj) {
       let shortName = name
@@ -172,7 +215,7 @@ module.exports = {
    * @return  {object}
    */
   getBasicStoreNames(dir, result = { getters: {}, mutations: {}, actions: {} }) {
-    getDirectories(join(__dirname, dir)).forEach(currentDir => {
+    this.getDirectories(join(__dirname, dir)).forEach(currentDir => {
       const gettersFileName = `${dir}/${currentDir}/getters.js`
       if (isFile(join(__dirname, gettersFileName))) {
         result['getters'][currentDir] = this.getNames(appRequire(gettersFileName))
@@ -217,18 +260,13 @@ module.exports = {
       const dir = `${moduleConf.path}${sep}${RESERVED_DIRECTORIES.store}`
       moduleConf.store = {}
       moduleConf.storeFiles = {}
-      getFiles(dir).forEach(file => {
+      this.getFiles(dir).forEach(file => {
         const which = basename(file, '.js')
-        const storeLib = appRequire(`./${dir}${sep}${file}`)
-        let lib = {}
-        if (which !== 'state') {
-          Object.keys(storeLib).forEach(key => {
-            lib[`${moduleConf.fullName.replace(/\./, '/')}/${key}`] = storeLib[key]
-          })
-        } else {
-          lib = storeLib
+        if (which === 'index') {
+          return
         }
-        moduleConf.storeFiles[which] = lib
+        const storeLib = appRequire(`./${dir}${sep}${file}`)
+        moduleConf.storeFiles[which] = `${dir}${sep}${file}`
         if (which !== 'state') {
           moduleConf.store[which] = {}
           Object.keys(storeLib).forEach(key => {
@@ -251,7 +289,7 @@ module.exports = {
   loadModules(baseDir, level = 0, parentHierarchy = '', parent = '') {
     const currentPath = join(__dirname, baseDir, RESERVED_DIRECTORIES.modules)
     console.info(`${getSpacing(level)} \u25FC Loading modules from ${currentPath}.`)
-    return getDirectories(currentPath).map(moduleName => {
+    return this.getDirectories(currentPath).map(moduleName => {
       console.info(`${getSpacing(level)}  \u25B6 Module ${moduleName} found.`)
       const moduleConf = {}
       moduleConf.parentHierarchy = parentHierarchy.replace(/^\.|\.$/i, '')
@@ -266,7 +304,7 @@ module.exports = {
       } else if (isFile(resolve(entry + '.js'))) {
         moduleConf.entry = entry + '.js'
       }
-      moduleConf.directories = getDirectories(moduleConf.path)
+      moduleConf.directories = this.getDirectories(moduleConf.path)
       this.loadRoutes(moduleConf)
       this.loadStore(moduleConf)
       if (moduleConf.directories.indexOf(RESERVED_DIRECTORIES.modules) !== -1) {
