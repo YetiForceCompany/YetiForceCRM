@@ -17,15 +17,6 @@ namespace App\Controller;
 class WebUI
 {
 	/**
-	 * Function to check if the User has logged in.
-	 */
-	protected function isLoggedIn()
-	{
-		return \App\Session::has('authenticated_user_id') && !empty($this->getLoggedUserId()) &&
-		\App\Config::main('application_unique_key') === \App\Session::get('app_unique_key');
-	}
-
-	/**
 	 * Gets user ID.
 	 *
 	 * @return int User ID

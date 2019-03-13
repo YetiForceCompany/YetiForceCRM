@@ -25,7 +25,7 @@ class WebApi extends WebUI
 		try {
 			$response = new \App\Response();
 			\App\Session::init();
-			if (!$this->isLoggedIn()) {
+			if (!\App\User::isLoggedIn()) {
 				throw new \App\Exceptions\Unauthorized('LBL_LOGIN_IS_REQUIRED', 401);
 			}
 			if (\App\Config::main('csrfProtection')) {

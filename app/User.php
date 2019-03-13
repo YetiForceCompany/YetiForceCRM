@@ -144,7 +144,7 @@ class User
 	/**
 	 * Clear user cache.
 	 *
-	 * @param int|bool $userId
+	 * @param bool|int $userId
 	 */
 	public static function clearCache($userId = false)
 	{
@@ -330,7 +330,7 @@ class User
 	 */
 	public function isActive()
 	{
-		return $this->privileges['details']['status'] === 'Active';
+		return 'Active' === $this->privileges['details']['status'];
 	}
 
 	/**
@@ -372,27 +372,26 @@ class User
 		$key = 'id';
 		if (Cache::has(__METHOD__, $key)) {
 			return Cache::get(__METHOD__, $key);
-		} else {
-			$adminId = 1;
-			if (\AppConfig::performance('ENABLE_CACHING_USERS')) {
-				$users = PrivilegeFile::getUser('id');
-				foreach ($users as $id => $user) {
-					if ($user['status'] === 'Active' && $user['is_admin'] === 'on') {
-						$adminId = $id;
-						break;
-					}
-				}
-			} else {
-				$adminId = (new Db\Query())->select(['id'])
-					->from('vtiger_users')
-					->where(['is_admin' => 'on', 'status' => 'Active'])
-					->orderBy(['id' => SORT_ASC])
-					->limit(1)->scalar();
-			}
-			Cache::save(__METHOD__, $key, $adminId, Cache::LONG);
-
-			return $adminId;
 		}
+		$adminId = 1;
+		if (\AppConfig::performance('ENABLE_CACHING_USERS')) {
+			$users = PrivilegeFile::getUser('id');
+			foreach ($users as $id => $user) {
+				if ('Active' === $user['status'] && 'on' === $user['is_admin']) {
+					$adminId = $id;
+					break;
+				}
+			}
+		} else {
+			$adminId = (new Db\Query())->select(['id'])
+				->from('vtiger_users')
+				->where(['is_admin' => 'on', 'status' => 'Active'])
+				->orderBy(['id' => SORT_ASC])
+				->limit(1)->scalar();
+		}
+		Cache::save(__METHOD__, $key, $adminId, Cache::LONG);
+
+		return $adminId;
 	}
 
 	/**
@@ -429,7 +428,7 @@ class User
 		if (empty($image) || !($imageData = \current($image))) {
 			return [];
 		}
-		$imageData['path'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $imageData['path'];
+		$imageData['path'] = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $imageData['path'];
 		$imageData['url'] = "file.php?module=Users&action=MultiImage&field=imagename&record={$this->getId()}&key={$imageData['key']}";
 		Cache::save('UserImageById', $this->getId(), $imageData);
 		return $imageData;
@@ -454,5 +453,14 @@ class User
 			return [];
 		}
 		return $userModel->getImage();
+	}
+
+	/**
+	 * Function to check if the User has logged in.
+	 */
+	public static function isLoggedIn()
+	{
+		return \App\Session::has('authenticated_user_id') && !empty(\App\Session::get('authenticated_user_id')) &&
+		\App\Config::main('application_unique_key') === \App\Session::get('app_unique_key');
 	}
 }

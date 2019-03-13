@@ -24,9 +24,6 @@ class Login extends WebUI
 	public function process()
 	{
 		parent::process();
-		if ($this->isLoggedIn()) {
-			header('location: ' . \App\Config::main('site_URL'), true, 301);
-		}
 		\App\Process::$processType = 'Action';
 		\App\Process::$processName = 'Login';
 		$handlerClass = \Vtiger_Loader::getComponentClassName(\App\Process::$processType, \App\Process::$processName, 'Users');
