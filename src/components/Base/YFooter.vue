@@ -1,5 +1,5 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
-<template functional>
+<template>
   <q-footer elevated class="bg-blue-grey-10 text-blue-grey-11 row no-wrap">
     <div :class="[$style.footerLeft, 'flex flex-center gt-xs q-px-none']">
       <q-avatar size="32px" class="q-mx-auto">
@@ -10,7 +10,7 @@
     <q-toolbar>
       <div class="flex wrap full-width items-center">
         <y-breadcrumbs />
-        <y-yeti-info class="q-ml-auto" />
+        <y-yeti-info containerClass="q-ml-auto" />
       </div>
     </q-toolbar>
   </q-footer>
