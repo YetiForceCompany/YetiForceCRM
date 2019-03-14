@@ -86,6 +86,20 @@ module.exports = function(ctx) {
           cfg.output.filename = 'js/[name].js'
           cfg.output.chunkFilename = 'js/[name].js'
         }
+        cfg.resolve.alias = {
+          ...cfg.resolve.alias,
+          src: path.resolve(__dirname, 'src'),
+          app: path.resolve(__dirname),
+          store: path.resolve(__dirname, 'src', 'store'),
+          components: path.resolve(__dirname, 'src', 'components'),
+          layouts: path.resolve(__dirname, 'src', 'layouts'),
+          modules: path.resolve(__dirname, 'src', 'modules'),
+          assets: path.resolve(__dirname, 'src', 'assets'),
+          statics: path.resolve(__dirname, 'src', 'statics'),
+          utilities: path.resolve(__dirname, 'src', 'utilities'),
+          services: path.resolve(__dirname, 'src', 'services'),
+          pages: path.resolve(__dirname, 'src', 'pages')
+        }
         if (process.argv.indexOf('--watch') >= 0) {
           cfg.watch = true
           cfg.watchOptions = {
