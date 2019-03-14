@@ -499,31 +499,27 @@ $.Class("Vtiger_Inventory_Js", {
 		});
 		element.text(App.Fields.Double.formatToDisplay(sum));
 	},
-	calculatMarginPSummary: function () {
-		var thisInstance = this;
-		var purchase = 0;
-		var totalOrNet = 0;
-		var sumRow = thisInstance.getInventoryItemsContainer().find('tfoot');
-		var total = App.Fields.Double.formatToDb(sumRow.find('[data-sumfield="totalPrice"]').text());
-		var netPrice = App.Fields.Double.formatToDb(sumRow.find('[data-sumfield="netPrice"]').text());
-		this.getInventoryItemsContainer().find(thisInstance.rowClass).each(function (index) {
-			var qty = $(this).find('.qty');
-			var purchasPrice = $(this).find('.purchase');
-			if ((qty.length > 0) && (purchasPrice.length > 0)) {
-				purchase += App.Fields.Double.formatToDb(qty.val()) * App.Fields.Double.formatToDb(purchasPrice.val());
+	calculatMarginPSummary: function() {
+		let sumRow = this.getInventoryItemsContainer().find("tfoot"),
+			totalPriceField = sumRow.find('[data-sumfield="totalPrice"]')
+				? sumRow.find('[data-sumfield="totalPrice"]')
+				: sumRow.find('[data-sumfield="netPrice"]'),
+			sumPrice = App.Fields.Double.formatToDb(totalPriceField.text()),
+			purchase = 0,
+			marginp = 0;
+		this.getInventoryItemsContainer().find(this.rowClass).each(function(index) {
+			let qty = App.Fields.Double.formatToDb($(this).find(".qty").val()),
+				purchasPrice = App.Fields.Double.formatToDb($(this).find(".purchase").val());
+			if (qty > 0 && purchasPrice > 0) {
+				purchase += qty * purchasPrice;
 			}
-		})
-		if (netPrice != total) {
-			totalOrNet += App.Fields.Double.formatToDb(netPrice);
-		} else {
-			totalOrNet += App.Fields.Double.formatToDb(total);
+		});
+
+		let subtraction = sumPrice - purchase;
+		if (purchase !== 0 && subtraction !== 0) {
+			marginp = (subtraction / purchase) * 100;
 		}
-		var marginp = '0';
-		if (purchase !== 0) {
-			var subtraction = (totalOrNet - purchase);
-			marginp = (subtraction / totalOrNet) * 100;
-		}
-		sumRow.find('[data-sumfield="marginP"]').text(App.Fields.Double.formatToDisplay(marginp))
+		sumRow.find('[data-sumfield="marginP"]').text(App.Fields.Double.formatToDisplay(marginp) + "%");
 	},
 	calculatDiscountSummary: function () {
 		var thisInstance = this;
