@@ -70,7 +70,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 	 *
 	 * @return array - List of records
 	 */
-	public static function getHistory(\App\Request $request, Vtiger_Paging_Model $pagingModel)
+	public static function getHistory(App\Request $request, Vtiger_Paging_Model $pagingModel)
 	{
 		$recordId = $request->getInteger('record');
 		if ($request->isEmpty('type')) {
@@ -97,7 +97,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 				$row['userModel'] = Users_Privileges_Model::getInstanceById($row['user']);
 			}
 			$row['class'] = self::$colors[$row['type']];
-			if (strpos($row['type'], 'OSSMailView') !== false) {
+			if (false !== strpos($row['type'], 'OSSMailView')) {
 				$row['type'] = 'OSSMailView';
 				$row['url'] = Vtiger_Module_Model::getInstance('OSSMailView')->getPreviewViewUrl($row['id']);
 			} else {
@@ -129,9 +129,8 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 	public static function getQuery($recordId, $moduleName, $type)
 	{
 		$queries = [];
-		$field = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
 		$db = App\Db::getInstance();
-		if (in_array('Calendar', $type)) {
+		if (in_array('Calendar', $type) && ($field = current(\Vtiger_Module_Model::getInstance('Calendar')->getReferenceFieldsForModule($moduleName)))) {
 			$query = (new \App\Db\Query())
 				->select([
 					'body' => new \yii\db\Expression($db->quoteValue('')),
@@ -145,7 +144,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 				->from('vtiger_activity a')
 				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = a.activityid')
 				->where(['vtiger_crmentity.deleted' => 0])
-				->andWhere(['=', 'a.' . $field, $recordId]);
+				->andWhere(['=', 'a.' . $field->getColumnName(), $recordId]);
 			\App\PrivilegeQuery::getConditions($query, 'Calendar', false, $recordId);
 			$queries[] = $query;
 		}
@@ -186,13 +185,13 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			\App\PrivilegeQuery::getConditions($query, 'OSSMailView', false, $recordId);
 			$queries[] = $query;
 		}
-		if (count($queries) == 1) {
+		if (1 == count($queries)) {
 			$sql = reset($queries);
 		} else {
 			$subQuery = reset($queries);
 			$index = 0;
 			foreach ($queries as $query) {
-				if ($index !== 0) {
+				if (0 !== $index) {
 					$subQuery->union($query, true);
 				}
 
