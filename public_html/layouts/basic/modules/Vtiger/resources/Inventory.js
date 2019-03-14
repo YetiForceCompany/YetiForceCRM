@@ -501,7 +501,7 @@ $.Class("Vtiger_Inventory_Js", {
 	},
 	calculatMarginPSummary: function() {
 		let sumRow = this.getInventoryItemsContainer().find('tfoot'),
-			totalPriceField = sumRow.find('[data-sumfield="netPrice"]')
+			totalPriceField = (sumRow.find('[data-sumfield="netPrice"]').length > 0)
 				? sumRow.find('[data-sumfield="netPrice"]')
 				: sumRow.find('[data-sumfield="totalPrice"]'),
 			sumPrice = App.Fields.Double.formatToDb(totalPriceField.text()),
