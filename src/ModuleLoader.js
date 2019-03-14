@@ -152,7 +152,7 @@ const ModuleLoader = {
   },
 
   /**
-   * Return flat array of all modules
+   * Private flat array of all modules
    *
    * @param   {array}  modules
    * @param   {object}  flat

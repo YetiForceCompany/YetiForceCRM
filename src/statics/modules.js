@@ -130,7 +130,7 @@ window.modules = [
         name: "Debug",
         path: "src\\modules\\Base\\modules\\Debug",
         level: 1,
-        priority: 100,
+        priority: 99,
         entry: "src\\modules\\Base\\modules\\Debug\\Debug.vue",
         directories: ["store"],
         store: {
@@ -149,7 +149,7 @@ window.modules = [
         name: "Env",
         path: "src\\modules\\Base\\modules\\Env",
         level: 1,
-        priority: 100,
+        priority: 99,
         entry: "src\\modules\\Base\\modules\\Env\\Env.vue",
         directories: ["store"],
         store: {
@@ -172,9 +172,9 @@ window.modules = [
         name: "Hooks",
         path: "src\\modules\\Base\\modules\\Hooks",
         level: 1,
-        priority: 100,
+        priority: 99,
         entry: "src\\modules\\Base\\modules\\Hooks\\Hooks.vue",
-        directories: ["store"],
+        directories: ["components", "store"],
         store: {
           getters: {
             get: "Base/Hooks/get"
@@ -196,7 +196,7 @@ window.modules = [
         name: "Language",
         path: "src\\modules\\Base\\modules\\Language",
         level: 1,
-        priority: 100,
+        priority: 99,
         entry: "src\\modules\\Base\\modules\\Language\\Language.vue",
         directories: ["store"],
         store: {
@@ -240,7 +240,7 @@ window.modules = [
         name: "Url",
         path: "src\\modules\\Base\\modules\\Url",
         level: 1,
-        priority: 100,
+        priority: 99,
         entry: "src\\modules\\Base\\modules\\Url\\Url.vue",
         directories: ["store"],
         store: {

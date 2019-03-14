@@ -5,16 +5,21 @@ export default {
    * Add component to specified hook
    *
    * @param   {object}  state
-   * @param   {string}  hookName
-   * @param   {object|function} component
+   * @param   {object|array}  payload
    */
-  add(state, { hookName, component }) {
-    let components = Objects.get(state, hookName)
-    if (typeof components === 'undefined' || !components || !Array.isArray(components)) {
-      Objects.setReactive(state, hookName, [])
-      components = Objects.get(state, hookName)
+  add(state, payload) {
+    if (!Array.isArray(payload)) {
+      payload = [payload]
     }
-    components.push(component)
+    for (let hook of payload) {
+      let { hookName, component } = hook
+      let components = Objects.get(state, hookName)
+      if (typeof components === 'undefined' || !components || !Array.isArray(components)) {
+        Objects.setReactive(state, hookName, [])
+        components = Objects.get(state, hookName)
+      }
+      components.push(component)
+    }
   },
 
   /**
