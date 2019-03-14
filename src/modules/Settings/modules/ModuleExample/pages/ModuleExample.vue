@@ -7,33 +7,10 @@
 </template>
 <script>
 import Hook from 'modules/Base/modules/Hooks/components/Hook.vue'
-import mutations from 'store/mutations.js'
 
 const moduleName = 'Settings.ModuleExample.Pages.ModuleExample'
 export default {
   name: moduleName,
-  components: { Hook },
-  beforeMount() {
-    this.$store.commit(mutations.Base.Hooks.add, [
-      {
-        hookName: moduleName + '.before',
-        component: {
-          name: 'test',
-          render(createElement, context) {
-            return createElement('div', null, ['Before hook works!'])
-          }
-        }
-      },
-      {
-        hookName: moduleName + '.after',
-        component: {
-          name: 'test2',
-          render(createElement, context) {
-            return createElement('div', null, ['After hook works!'])
-          }
-        }
-      }
-    ])
-  }
+  components: { Hook }
 }
 </script>

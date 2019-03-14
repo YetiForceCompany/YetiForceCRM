@@ -4,10 +4,10 @@
 </template>
 <script>
 import mutations from 'src/store/mutations.js'
-
+const moduleName = 'Settings.ModuleExample'
 export default {
-  name: 'Settings.ModuleExample',
-  mounted() {
+  name: moduleName,
+  beforeMount() {
     this.$store.commit(mutations.Base.Menu.addItem, {
       component: 'RoutePush',
       props: {
@@ -16,6 +16,26 @@ export default {
         label: 'Settings Example'
       }
     })
+    this.$store.commit(mutations.Base.Hooks.add, [
+      {
+        hookName: 'Settings.ModuleExample.Pages.ModuleExample.before',
+        component: {
+          name: 'test-before',
+          render(createElement, context) {
+            return createElement('div', null, ['Before hook works!'])
+          }
+        }
+      },
+      {
+        hookName: 'Settings.ModuleExample.Pages.ModuleExample.after',
+        component: {
+          name: 'test-after',
+          render(createElement, context) {
+            return createElement('div', null, ['After hook works!'])
+          }
+        }
+      }
+    ])
   }
 }
 </script>
