@@ -766,7 +766,7 @@ $.Class("Vtiger_Edit_Js", {
 				toElement.val(fromElement);
 				toElementLable.val(fromElementLabel);
 				if (toElement.is('[data-select2-id]')) {
-					if(toElement.val() !== fromElement) {
+					if (toElement.val() !== fromElement) {
 						toElement.val('');
 					}
 					toElement.trigger('change');
