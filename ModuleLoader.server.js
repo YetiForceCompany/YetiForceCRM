@@ -148,13 +148,19 @@ module.exports = {
       const dir = `${moduleConf.path}${sep}${RESERVED_DIRECTORIES.router}`
       this.getFiles(dir).forEach(file => {
         const path = `./${dir}${sep}${file}`
-        const routes = appRequire(path)
+        let routes = appRequire(path)
         if (typeof routes === 'function') {
           routes = routes(moduleConf)
         }
         if (Array.isArray(routes)) {
           routes.forEach(route => {
-            moduleConf.routes.push(route)
+            const routeProps = {}
+            for (let routeProp in route) {
+              if (typeof route[routeProp] !== 'function') {
+                routeProps[routeProp] = route[routeProp]
+              }
+            }
+            moduleConf.routes.push(routeProps)
           })
         } else {
           console.error(`  \u26D4  TypeError: routes should be an array, ${typeof routes} given.`)
@@ -194,14 +200,14 @@ module.exports = {
    *
    * @return  {object}
    */
-  getNames(obj, names = {}) {
+  getNames(obj, moduleName, names = {}) {
     for (let name in obj) {
       let shortName = name
       if (shortName.indexOf('/') >= 0) {
         shortName = name.substring(name.lastIndexOf('/') + 1)
       }
       if (typeof obj[name] === 'function') {
-        names[shortName] = name
+        names[shortName] = `${moduleName}/${name}`
       } else if (typeof obj[name] === 'object') {
         names[shortName] = this.getNames(obj[name])
       } else {
@@ -222,15 +228,15 @@ module.exports = {
     this.getDirectories(join(__dirname, dir)).forEach(currentDir => {
       const gettersFileName = `${dir}/${currentDir}/getters.js`
       if (isFile(join(__dirname, gettersFileName))) {
-        result['getters'][currentDir] = this.getNames(appRequire(gettersFileName))
+        result['getters'][currentDir] = this.getNames(appRequire(gettersFileName), currentDir)
       }
       const mutationsFileName = `${dir}/${currentDir}/mutations.js`
       if (isFile(join(__dirname, mutationsFileName))) {
-        result['mutations'][currentDir] = this.getNames(appRequire(mutationsFileName))
+        result['mutations'][currentDir] = this.getNames(appRequire(mutationsFileName), currentDir)
       }
       const actionsFileName = `${dir}/${currentDir}/actions.js`
       if (isFile(join(__dirname, actionsFileName))) {
-        result['actions'][currentDir] = this.getNames(appRequire(actionsFileName))
+        result['actions'][currentDir] = this.getNames(appRequire(actionsFileName), currentDir)
       }
     })
     return result
@@ -290,7 +296,7 @@ module.exports = {
    *
    * @return  {object}  modules structure
    */
-  loadModules(baseDir, level = 0, parentHierarchy = '', parent = '') {
+  loadModules(baseDir, level = 0, parentHierarchy = '', parent = null) {
     const currentPath = join(__dirname, baseDir, RESERVED_DIRECTORIES.modules)
     console.info(`${getSpacing(level)} \u25FC Loading modules from ${currentPath}.`)
     return this.getDirectories(currentPath).map(moduleName => {
@@ -301,7 +307,20 @@ module.exports = {
       moduleConf.name = moduleName
       moduleConf.path = `${baseDir}${sep}${RESERVED_DIRECTORIES.modules}${sep}${moduleName}`
       moduleConf.level = level
-      moduleConf.parent = parent
+      moduleConf.parent = ''
+      moduleConf.priority = 0
+      const configFile = join(__dirname, moduleConf.path, 'module.config.json')
+      if (isFile(configFile)) {
+        console.log(`${getSpacing(level + 1)} - module config found`)
+        const conf = JSON.parse(readFileSync(configFile, { encoding: 'utf8' }))
+        for (let prop in conf) {
+          moduleConf[prop] = conf[prop]
+        }
+      }
+      if (parent) {
+        moduleConf.parent = parent.moduleName
+        moduleConf.priority = parent.priority
+      }
       const entry = `${moduleConf.path}${sep}${moduleName}`
       if (isFile(resolve(entry + '.vue'))) {
         moduleConf.entry = entry + '.vue'
@@ -316,7 +335,7 @@ module.exports = {
           moduleConf.path,
           level + 1,
           parentHierarchy + '.' + moduleName,
-          moduleName
+          moduleConf
         )
       }
       return moduleConf

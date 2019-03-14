@@ -19,7 +19,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      menuItems: getters.Menu.items
+      menuItems: getters.Base.Menu.items
     })
   },
 
@@ -33,7 +33,7 @@ export default {
         label: 'App Example'
       }
     })
-    this.$store.commit(mutations.Menu.updateItems, items)
+    this.$store.commit(mutations.Base.Menu.updateItems, items)
   }
 }
 </script>

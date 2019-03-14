@@ -4,19 +4,11 @@
 </template>
 <script>
 import mutations from 'src/store/mutations.js'
-import getters from 'src/store/getters.js'
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'Settings.ModuleExample',
-  computed: {
-    ...mapGetters({
-      menuItems: getters.Menu.items
-    })
-  },
   mounted() {
-    const items = this.menuItems.map(item => item)
-    items.push({
+    this.$store.commit(mutations.Base.Menu.addItem, {
       component: 'RoutePush',
       props: {
         path: '/settings/module-example',
@@ -24,7 +16,6 @@ export default {
         label: 'Settings Example'
       }
     })
-    this.$store.commit(mutations.Menu.updateItems, items)
   }
 }
 </script>

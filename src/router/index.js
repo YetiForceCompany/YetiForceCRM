@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import routes from './routes'
+import routes from './routes.js'
 import ModuleLoader from '../ModuleLoader.js'
 import getters from 'src/store/getters.js'
 
@@ -35,10 +35,10 @@ export default function({ store }) {
     Loading.show({
       spinner: QSpinnerGears
     })
-    if (store.getters[getters.Users.isLoggedIn] || routeTo.path.startsWith('/users/login')) {
+    if (store.getters[getters.Base.Users.isLoggedIn] || routeTo.path.startsWith('/base/users/login')) {
       next()
     } else {
-      next({ name: 'Form' })
+      next({ name: 'Base.Users.Login' })
     }
   })
   Router.afterEach(() => {
