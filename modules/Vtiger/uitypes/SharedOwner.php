@@ -72,7 +72,8 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		$isAdmin = \App\User::getCurrentUserModel()->isAdmin();
 		if (empty($value)) {
 			return '';
-		} elseif (!is_array($value)) {
+		}
+		if (!is_array($value)) {
 			$values = explode(',', $value);
 		}
 		$displayValue = [];
@@ -87,9 +88,9 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 				case 'Users':
 					$userModel = Users_Privileges_Model::getInstanceById($shownerid);
 					$userModel->setModule('Users');
-					if ($userModel->get('status') === 'Inactive') {
+					if ('Inactive' === $userModel->get('status')) {
 						$ownerName = '<span class="redColor"><s>' . $ownerName . '</s></span>';
-					} elseif (\App\Privilege::isPermitted('Users', 'DetailView', $value)) {
+					} elseif (\App\Privilege::isPermitted('Users', 'DetailView', $value) && 'Active' === $userModel->get('status')) {
 						$detailViewUrl = 'index.php?module=Users&view=Detail&record=' . $shownerid;
 						$popoverRecordClass = 'class="js-popover-tooltip--record"';
 					}
@@ -106,12 +107,10 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					$ownerName = '<span class="redColor">---</span>';
 					break;
 			}
-			if (isset($detailViewUrl)) {
-				if ($userModel->get('status') === 'Active') {
-					$displayValue[] = "<a $popoverRecordClass href=\"$detailViewUrl\"> $ownerName </a>";
-				} else {
-					$displayValue[] = $ownerName;
-				}
+			if (!empty($detailViewUrl)) {
+				$displayValue[] = "<a $popoverRecordClass href=\"$detailViewUrl\"> $ownerName </a>";
+			} else {
+				$displayValue[] = $ownerName;
 			}
 		}
 		return implode(', ', $displayValue);
@@ -136,7 +135,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					$userModel = Users_Privileges_Model::getInstanceById($shownerid);
 					$userModel->setModule('Users');
 					$display[$key] = $name;
-					if ($userModel->get('status') === 'Inactive') {
+					if ('Inactive' === $userModel->get('status')) {
 						$shownerData[$key]['inactive'] = true;
 					} elseif (\App\Privilege::isPermitted('Users', 'DetailView', $shownerid) && !$rawText) {
 						$shownerData[$key]['link'] = 'index.php?module=Users&view=Detail&record=' . $shownerid;
@@ -188,7 +187,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 				continue;
 			}
 			$name = \App\Fields\Owner::getGroupName($id);
-			if ($name !== false) {
+			if (false !== $name) {
 				$group[$id] = $name;
 				continue;
 			}
