@@ -11,7 +11,7 @@ import Users from './Users/index.js'
 import Menu from './Menu/index.js'
 import Url from './Url/index.js'
 import Language from './Language/index.js'
-import getters from 'src/store/getters.js'
+
 ModuleLoader.flattenModules(window.modules).modules.forEach(module => {
   module.component()
 })
