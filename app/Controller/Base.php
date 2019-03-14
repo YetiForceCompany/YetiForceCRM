@@ -14,12 +14,20 @@ namespace App\Controller;
 abstract class Base
 {
 	/**
+	 * Request instance.
+	 *
+	 * @var \App\Request
+	 */
+	public $request;
+
+	/**
 	 * Construct.
 	 */
-	public function __construct()
+	public function init()
 	{
-		self::setHeaders();
-		if (\AppConfig::performance('CHANGE_LOCALE')) {
+		\App\Session::init();
+		$this->setHeaders();
+		if (\Config\Performance::$CHANGE_LOCALE) {
 			\App\Language::initLocale();
 		}
 	}
@@ -37,71 +45,45 @@ abstract class Base
 	/**
 	 * Function to check permission.
 	 *
-	 * @param \App\Request $request
-	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	abstract public function checkPermission(\App\Request $request);
+	abstract public function checkPermission();
 
 	/**
 	 * Process function.
-	 *
-	 * @param \App\Request $request
 	 */
-	abstract public function process(\App\Request $request);
-
-	/**
-	 * Function to validate request method.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @return bool
-	 */
-	public function validateRequest(\App\Request $request)
-	{
-		return $request->validateReadAccess();
-	}
-
-	/**
-	 * Pre process ajax function.
-	 *
-	 * @param \App\Request $request
-	 */
-	public function preProcessAjax(\App\Request $request)
-	{
-	}
+	abstract public function process();
 
 	/**
 	 * Pre process function.
 	 *
-	 * @param \App\Request $request
-	 * @param bool         $display
+	 * @param bool $display
 	 */
-	public function preProcess(\App\Request $request, $display = true)
+	public function preProcess()
 	{
 	}
 
 	/**
 	 * Post process function.
 	 *
-	 * @param \App\Request $request
-	 * @param bool         $display
+	 * @param bool $display
 	 */
-	public function postProcess(\App\Request $request, $display = true)
+	public function postProcess()
 	{
 	}
 
 	/**
-	 * Post process ajax function.
+	 * Gets user ID.
 	 *
-	 * @param \App\Request $request
+	 * @return int User ID
 	 */
-	public function postProcessAjax(\App\Request $request)
+	protected function getLoggedUserId()
 	{
+		return \App\Session::get('authenticated_user_id');
 	}
 
 	/**
-	 * Set HTTP Headers.
+	 * Sets headers.
 	 */
 	public function setHeaders()
 	{
@@ -127,25 +109,15 @@ abstract class Base
 		header('access-control-allow-methods: GET, POST, PUT, DELETE');
 		header('x-robots-tag: none');
 		header('x-permitted-cross-domain-policies: none');
-		if (\AppConfig::security('CSP_ACTIVE')) {
+		if (\Config\Security::$CSP_ACTIVE) {
 			// 'nonce-" . App\Session::get('CSP_TOKEN') . "'
-			$allowed = \implode(' ', \AppConfig::security('PURIFIER_ALLOWED_DOMAINS'));
+			$allowed = \implode(' ', \App\Config::security('PURIFIER_ALLOWED_DOMAINS'));
 			header("content-security-policy: default-src 'self' blob:; img-src 'self' data: a.tile.openstreetmap.org b.tile.openstreetmap.org c.tile.openstreetmap.org $allowed; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' blob:; form-action 'self' ;connect-src 'self';");
 		}
-		if ($keys = \AppConfig::security('HPKP_KEYS')) {
+		if ($keys = \Config\Security::$HPKP_KEYS) {
 			header('public-key-pins: pin-sha256="' . implode('"; pin-sha256="', $keys) . '"; max-age=10000;');
 		}
 		header_remove('x-powered-by');
 		header_remove('server');
-	}
-
-	/**
-	 * Function to check if session is extend.
-	 *
-	 * @return bool
-	 */
-	public function isSessionExtend()
-	{
-		return true;
 	}
 }

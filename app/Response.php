@@ -36,16 +36,15 @@ class Response
 	 * Set error data to send.
 	 *
 	 * @param int         $code
-	 * @param string|null $message
-	 * @param string|null $trace
+	 * @param null|string $message
+	 * @param null|string $trace
 	 */
 	public function setError(int $code, ?string $message = null, ?string $trace = null)
 	{
-		if ($message === null) {
+		if (null === $message) {
 			$message = $code;
 		}
-		$error = ['code' => $code, 'message' => $message, 'trace' => $trace];
-		$this->error = $error;
+		$this->error = ['code' => $code, 'message' => $message, 'trace' => $trace];
 	}
 
 	/**

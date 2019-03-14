@@ -14,20 +14,30 @@ namespace App\Controller;
 abstract class Action extends Base
 {
 	/**
+	 * Main WebApi controller instance.
+	 *
+	 * @var \App\Controller\WebApi
+	 */
+	protected $controller;
+
+	/**
+	 * Construct.
+	 *
+	 * @param WebApi $controller
+	 */
+	public function __construct(WebApi $controller)
+	{
+		$this->controller = $controller;
+		$this->request = $controller->request;
+		$this->init();
+	}
+
+	/**
 	 * Process action.
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process()
 	{
-		return true;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

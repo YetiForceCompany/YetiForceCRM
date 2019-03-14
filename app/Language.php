@@ -358,7 +358,6 @@ class Language
 				$langData[($folder ? "{$folder}:" : '') . $name] = self::getFromFile($folder . \DIRECTORY_SEPARATOR . $name, $language)['php'] ?? [];
 			}
 		}
-
 		return $langData;
 	}
 

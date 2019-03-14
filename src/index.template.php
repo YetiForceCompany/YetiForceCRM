@@ -9,20 +9,6 @@
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-$lang = \App\Language::getLanguage();
-$env = App\Json::encode([
-	'Env' => [
-		'baseURL' => \App\Config::main('site_URL'),
-		'publicDir' => '/dist',
-		'routerMode' => 'hash',
-	],
-	'Users' => ['isLoggedIn' => true],
-	'Language' => [
-		'lang' => $lang,
-		'translations' => \App\Language::getLanguageData($lang),
-	],
-]);
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -38,7 +24,7 @@ $env = App\Json::encode([
 
   <link rel="icon" type="image/png" sizes="32x32" href="/dist/statics/icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/dist/statics/icons/favicon-16x16.png">
-  <script>window.env = <?php echo $env; ?>;</script>
+  <script>window.env = <?php echo $webUI->getEnv(); ?>;</script>
   <script src="<%= htmlWebpackPlugin.options.modulesFile %>"></script>
 </head>
 
