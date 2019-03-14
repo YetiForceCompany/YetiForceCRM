@@ -26,13 +26,13 @@
 		{if !empty($MODULES_LEVEL_3)}
 			<input type="hidden" id="modulesLevel3" value="{\App\Purifier::encodeHtml(\App\Json::encode(array_keys($MODULES_LEVEL_3)))}"/>
 		{/if}
-		{if !empty($MODULES_LEVEL_3)}
-			<input type="hidden" id="modulesLevel4" value="{\App\Purifier::encodeHtml(\App\Json::encode(array_keys($MODULES_LEVEL_3)))}"/>
+		{if !empty($MODULES_LEVEL_4)}
+			<input type="hidden" id="modulesLevel4" value="{\App\Purifier::encodeHtml(\App\Json::encode(array_keys($MODULES_LEVEL_4)))}"/>
 		{/if}
 		<div class="flex-wrap action-bar">
 			<div class="action-bar__col">
 				<div class="action-bar__head js-data">
-					{if !empty($MODULES_LEVEL_0) || !empty($MODULES_LEVEL_3) || !empty($MODULES_LEVEL_1) || !empty($MODULES_LEVEL_2) || !empty($MODULES_LEVEL_3)}
+					{if !empty($MODULES_LEVEL_0) || !empty($MODULES_LEVEL_3) || !empty($MODULES_LEVEL_1) || !empty($MODULES_LEVEL_2) || !empty($MODULES_LEVEL_4)}
 						<div data-type="link" class="action-bar__head__container js-head-container" data-js="container">
 							{assign var="ACCESS_LEVEL_0" value=\App\ModuleHierarchy::accessModulesByLevel()}
 							{assign var="ACCESS_LEVEL_1" value=\App\ModuleHierarchy::accessModulesByLevel(1)}
