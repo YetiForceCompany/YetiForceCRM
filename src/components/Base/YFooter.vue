@@ -1,6 +1,6 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <q-footer elevated class="bg-blue-grey-10 text-grey-12">
+  <q-footer elevated class="bg-blue-grey-10 text-blue-grey-11">
     <q-toolbar class="q-pl-none">
       <q-toolbar-title :class="[$style.footerLeft, 'flex flex-center q-px-none']">
         <q-avatar>
@@ -9,7 +9,7 @@
       </q-toolbar-title>
       <q-separator class="q-my-xs" dark vertical />
       <y-breadcrumbs />
-      <y-yeti-info :class="[$style.footerRight, 'q-pl-auto text-blue-grey-11']" />
+      <y-yeti-info :class="[$style.footerRight, 'q-pl-auto']" />
       </div>
     </q-toolbar>
   </q-footer>
