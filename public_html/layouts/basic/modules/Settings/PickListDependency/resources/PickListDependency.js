@@ -424,27 +424,27 @@ jQuery.Class('Settings_PickListDependency_Js', {
 	savePickListDependency: function(form) {
 		const self = this;
 		let progressIndicatorElement = $.progressIndicator({
-				position: "html",
+				position: 'html',
 				blockInfo: {
 					enabled: true
 				}
 			}),
 			params = form.serializeFormData();
-		params["module"] = app.getModuleName();
-		params["parent"] = app.getParentModuleName();
-		params["action"] = "SaveAjax";
-		params["mapping"] = JSON.stringify(self.valueMapping);
+		params['module'] = app.getModuleName();
+		params['parent'] = app.getParentModuleName();
+		params['action'] = 'SaveAjax';
+		params['mapping'] = JSON.stringify(self.valueMapping);
 		AppConnector.request(params).done(function(data) {
-			if (data["success"]) {
-				progressIndicatorElement.progressIndicator({ mode: "hide" });
+			if (data['success']) {
+				progressIndicatorElement.progressIndicator({ mode: 'hide' });
 				Vtiger_Helper_Js.showMessage({
-					text: app.vtranslate("JS_PICKLIST_DEPENDENCY_SAVED"),
-					type: "success"
+					text: app.vtranslate('JS_PICKLIST_DEPENDENCY_SAVED'),
+					type: 'success'
 				});
-				self.loadListViewContents(params["sourceModule"]);
+				self.loadListViewContents(params['sourceModule']);
 			}
 		}).fail(function(error) {
-			progressIndicatorElement.progressIndicator({ mode: "hide" });
+			progressIndicatorElement.progressIndicator({ mode: 'hide' });
 		});
 	},
 	/**
