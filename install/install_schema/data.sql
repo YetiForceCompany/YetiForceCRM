@@ -18584,11 +18584,11 @@ insert  into `vtiger_time_zone_seq`(`id`) values (96);
 
 /*Data for the table `vtiger_timecontrol_type` */
 
-insert  into `vtiger_timecontrol_type`(`timecontrol_typeid`,`timecontrol_type`,`sortorderid`,`presence`,`color`) values (1,'PLL_WORKING_TIME',1,1,'EDC240');
-insert  into `vtiger_timecontrol_type`(`timecontrol_typeid`,`timecontrol_type`,`sortorderid`,`presence`,`color`) values (2,'PLL_BREAK_TIME',2,1,'AFD8F8');
-insert  into `vtiger_timecontrol_type`(`timecontrol_typeid`,`timecontrol_type`,`sortorderid`,`presence`,`color`) values (3,'PLL_HOLIDAY_TIME',3,1,'CB4B4B');
-insert  into `vtiger_timecontrol_type`(`timecontrol_typeid`,`timecontrol_type`,`sortorderid`,`presence`,`color`) values (4,'PLL_UNPAID_LEAVE',4,1,'#E6FAD8');
-insert  into `vtiger_timecontrol_type`(`timecontrol_typeid`,`timecontrol_type`,`sortorderid`,`presence`,`color`) values (5,'PLL_SICK_LEAVE',5,1,'#E6FAD8');
+insert  into `vtiger_timecontrol_type`(`timecontrol_typeid`,`timecontrol_type`,`sortorderid`,`presence`,`color`) values (1,'PLL_WORKING_TIME',1,1,'#EDC240');
+insert  into `vtiger_timecontrol_type`(`timecontrol_typeid`,`timecontrol_type`,`sortorderid`,`presence`,`color`) values (2,'PLL_BREAK_TIME',2,1,'#AFD8F8');
+insert  into `vtiger_timecontrol_type`(`timecontrol_typeid`,`timecontrol_type`,`sortorderid`,`presence`,`color`) values (3,'PLL_HOLIDAY_TIME',3,1,'#CB4B4B');
+insert  into `vtiger_timecontrol_type`(`timecontrol_typeid`,`timecontrol_type`,`sortorderid`,`presence`,`color`) values (4,'PLL_UNPAID_LEAVE',4,1,'#5E666C');
+insert  into `vtiger_timecontrol_type`(`timecontrol_typeid`,`timecontrol_type`,`sortorderid`,`presence`,`color`) values (5,'PLL_SICK_LEAVE',5,1,'#9900FF');
 
 /*Data for the table `vtiger_timecontrol_type_seq` */
 
