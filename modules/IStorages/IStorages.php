@@ -200,16 +200,16 @@ class IStorages extends Vtiger_CRMEntity
 
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 		$row = (new App\Db\Query())->select([
-			'u_yf_istorages.*',
-			'u_yf_istorages_address.*',
+			'u_#__istorages.*',
+			'u_#__istorages_address.*',
 			'user_name' => new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END")
 		])
-			->from('u_yf_istorages')
-			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_yf_istorages.istorageid')
-			->innerJoin('u_yf_istorages_address', 'u_yf_istorages.istorageid = u_yf_istorages_address.istorageaddressid')
+			->from('u_#__istorages')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_#__istorages.istorageid')
+			->innerJoin('u_#__istorages_address', 'u_#__istorages.istorageid = u_#__istorages_address.istorageaddressid')
 			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
 			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
-			->where(['vtiger_crmentity.deleted' => 0, 'u_yf_istorages.istorageid' => $id])
+			->where(['vtiger_crmentity.deleted' => 0, 'u_#__istorages.istorageid' => $id])
 			->one();
 		if ($row) {
 			$parentid = $row['parentid'];
@@ -269,13 +269,13 @@ class IStorages extends Vtiger_CRMEntity
 
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 		$dataReader = (new App\Db\Query())->select([
-			'u_yf_istorages.*',
-			'u_yf_istorages_address.*',
+			'u_#__istorages.*',
+			'u_#__istorages_address.*',
 			'user_name' => new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END")
 		])
-			->from('u_yf_istorages')
-			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_yf_istorages.istorageid')
-			->innerJoin('u_yf_istorages_address', 'u_yf_istorages.istorageid = u_yf_istorages_address.istorageaddressid')
+			->from('u_#__istorages')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_#__istorages.istorageid')
+			->innerJoin('u_#__istorages_address', 'u_#__istorages.istorageid = u_#__istorages_address.istorageaddressid')
 			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
 			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
 			->where(['vtiger_crmentity.deleted' => 0, 'parentid' => $id])
