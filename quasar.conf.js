@@ -89,7 +89,6 @@ module.exports = function(ctx) {
         cfg.resolve.alias = {
           ...cfg.resolve.alias,
           src: path.resolve(__dirname, 'src'),
-          app: path.resolve(__dirname),
           store: path.resolve(__dirname, 'src', 'store'),
           components: path.resolve(__dirname, 'src', 'components'),
           layouts: path.resolve(__dirname, 'src', 'layouts'),

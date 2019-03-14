@@ -2,15 +2,15 @@
 
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Objects from 'src/utilities/Objects.js'
+import Objects from 'utilities/Objects.js'
 import ModuleLoader from '../ModuleLoader.js'
 // modules
-import Debug from './Debug/index.js'
-import Env from './Env/index.js'
-import Users from './Users/index.js'
-import Menu from './Menu/index.js'
-import Url from './Url/index.js'
-import Language from './Language/index.js'
+import Debug from 'store/Debug/index.js'
+import Env from 'store/Env/index.js'
+import Users from 'store/Users/index.js'
+import Menu from 'store/Menu/index.js'
+import Url from 'store/Url/index.js'
+import Language from 'store/Language/index.js'
 
 ModuleLoader.flattenModules(window.modules).modules.forEach(module => {
   module.component()

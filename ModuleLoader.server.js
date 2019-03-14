@@ -7,7 +7,6 @@ require = require('esm')(module)
 const moduleAlias = require('module-alias')
 moduleAlias.addAliases({
   src: `${__dirname}/src`,
-  app: `${__dirname}`,
   store: `${__dirname}/src/store`,
   components: `${__dirname}/src/components`,
   layouts: `${__dirname}/src/layouts`,
