@@ -500,7 +500,7 @@ $.Class("Vtiger_Inventory_Js", {
 		element.text(App.Fields.Double.formatToDisplay(sum));
 	},
 	calculatMarginPSummary: function() {
-		let sumRow = this.getInventoryItemsContainer().find("tfoot"),
+		let sumRow = this.getInventoryItemsContainer().find('tfoot'),
 			totalPriceField = sumRow.find('[data-sumfield="totalPrice"]')
 				? sumRow.find('[data-sumfield="totalPrice"]')
 				: sumRow.find('[data-sumfield="netPrice"]'),
@@ -508,8 +508,8 @@ $.Class("Vtiger_Inventory_Js", {
 			purchase = 0,
 			marginp = 0;
 		this.getInventoryItemsContainer().find(this.rowClass).each(function(index) {
-			let qty = App.Fields.Double.formatToDb($(this).find(".qty").val()),
-				purchasPrice = App.Fields.Double.formatToDb($(this).find(".purchase").val());
+			let qty = App.Fields.Double.formatToDb($(this).find('.qty').val()),
+				purchasPrice = App.Fields.Double.formatToDb($(this).find('.purchase').val());
 			if (qty > 0 && purchasPrice > 0) {
 				purchase += qty * purchasPrice;
 			}
