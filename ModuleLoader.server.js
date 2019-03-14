@@ -5,7 +5,19 @@
  */
 require = require('esm')(module)
 const moduleAlias = require('module-alias')
-moduleAlias.addAlias('src', `${__dirname}\\src`)
+moduleAlias.addAliases({
+  src: `${__dirname}/src`,
+  app: `${__dirname}`,
+  store: `${__dirname}/src/store`,
+  components: `${__dirname}/src/components`,
+  layouts: `${__dirname}/src/layouts`,
+  modules: `${__dirname}/src/modules`,
+  assets: `${__dirname}/src/assets`,
+  statics: `${__dirname}/src/statics`,
+  utilities: `${__dirname}/src/utilities`,
+  services: `${__dirname}/src/services`,
+  pages: `${__dirname}/src/pages`
+})
 const { lstatSync, readdirSync, readFileSync, writeFileSync, watch } = require('fs')
 const { join, resolve, sep, basename } = require('path')
 

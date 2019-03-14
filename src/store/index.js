@@ -5,12 +5,13 @@ import Vuex from 'vuex'
 import Objects from 'src/utilities/Objects.js'
 import ModuleLoader from '../ModuleLoader.js'
 // modules
-import Debug from './Debug'
-import Env from './Env'
-import Users from './Users'
-import Menu from './Menu'
-import Url from './Url'
-import Language from './Language'
+import Debug from './Debug/index.js'
+import Env from './Env/index.js'
+import Users from './Users/index.js'
+import Menu from './Menu/index.js'
+import Url from './Url/index.js'
+import Language from './Language/index.js'
+import getters from 'src/store/getters.js'
 ModuleLoader.flattenModules(window.modules).modules.forEach(module => {
   module.component()
 })
