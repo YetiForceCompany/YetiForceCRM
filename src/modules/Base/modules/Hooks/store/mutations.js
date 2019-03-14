@@ -13,9 +13,7 @@ export default {
     if (typeof components === 'undefined' || !components || !Array.isArray(components)) {
       Objects.setReactive(state, hookName, [])
       components = Objects.get(state, hookName)
-      console.log(state, components)
     }
-    console.log(components)
     components.push(component)
   },
 

@@ -10,9 +10,7 @@ export default {
    * @returns {object}
    */
   get(state) {
-    console.log('get', state)
     return path => {
-      console.log('path', path, state)
       return Objects.get(state, path)
     }
   }
