@@ -2,16 +2,18 @@
 <template>
   <q-header elevated class="bg-white text-muted">
     <q-toolbar>
-      <div class="q-pl-md" style="min-width: 200px">
-        <q-select v-model="searchModule" :options="searchModules" placeholder="Placeholder" dense />
+      <q-btn class="lt-md" round :size="iconSize" flat icon="search" dense />
+      <div class="flex gt-sm">
+        <div :class="['q-pl-md', $style.headerField]">
+          <q-select v-model="searchModule" :options="searchModules" placeholder="Placeholder" dense />
+        </div>
+        <q-input :class="['q-pl-lg', $style.headerField]" v-model="searchText" placeholder="Placeholder" dense>
+          <template v-slot:after>
+            <q-btn round :size="iconSize" flat icon="mdi-format-text" dense />
+            <q-btn round :size="iconSize" flat icon="mdi-feature-search-outline" dense />
+          </template>
+        </q-input>
       </div>
-      <q-input class="q-pl-lg" v-model="searchText" placeholder="Placeholder" dense>
-        <template v-slot:after>
-          <q-btn round :size="iconSize" flat icon="search" dense />
-          <q-btn round :size="iconSize" flat icon="mdi-format-text" dense />
-          <q-btn round :size="iconSize" flat icon="mdi-feature-search-outline" dense />
-        </template>
-      </q-input>
       <div class="q-ml-auto">
         <q-btn round :size="iconSize" flat icon="mdi-plus" />
         <q-btn round :size="iconSize" flat icon="mdi-email-outline" />
@@ -39,4 +41,8 @@ export default {
 }
 </script>
 
-<style module lang="stylus"></style>
+<style module lang="stylus">
+.headerField {
+  min-width: 200px;
+}
+</style>
