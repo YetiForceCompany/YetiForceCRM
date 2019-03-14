@@ -30,6 +30,7 @@ class Settings_YetiForce_RegistrationSerialModal_View extends \App\Controller\Mo
 	public function preProcessAjax(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
+		$this->modalIcon = 'fas fa-receipt';
 		$this->pageTitle = \App\Language::translate('YetiForce', $qualifiedModuleName) . ' - ' . \App\Language::translate('LBL_REGISTRATION_OFFLINE_MODAL', $qualifiedModuleName);
 		parent::preProcessAjax($request);
 	}

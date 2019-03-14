@@ -1,5 +1,5 @@
 <?php
-/* +***********************************************************************************
+ /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -133,6 +133,9 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function to get export query.
 	 *
+	 * @param mixed $focus
+	 * @param mixed $where
+	 *
 	 * @return string query;
 	 */
 	public function getExportQuery($focus = '', $where = '')
@@ -184,6 +187,8 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get the url to view Details for the module.
+	 *
+	 * @param mixed $id
 	 *
 	 * @return string - url
 	 */
@@ -249,7 +254,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			$fieldType = $field->getFieldDataType();
 			if (in_array($fieldType, $type)) {
 				$fieldName = $field->getName();
-				if ($fieldType == 'picklist' && in_array($fieldName, $restrictedField[$fieldType])) {
+				if ('picklist' == $fieldType && in_array($fieldName, $restrictedField[$fieldType])) {
 				} else {
 					$fieldList[$fieldName] = $field;
 				}
@@ -286,10 +291,12 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get orderby sql from orderby field.
+	 *
+	 * @param mixed $orderBy
 	 */
 	public function getOrderBySql($orderBy)
 	{
-		if ($orderBy == 'status') {
+		if ('status' == $orderBy) {
 			return $orderBy;
 		}
 		return parent::getOrderBySql($orderBy);
@@ -373,9 +380,9 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 					break;
 			}
 		}
-		if ($key == 'current') {
+		if ('current' == $key) {
 			$componentsActivityState = ['PLL_PLANNED', 'PLL_IN_REALIZATION', 'PLL_OVERDUE'];
-		} elseif ($key == 'history') {
+		} elseif ('history' == $key) {
 			$componentsActivityState = ['PLL_COMPLETED', 'PLL_POSTPONED', 'PLL_CANCELLED'];
 		} elseif ($key) {
 			return $componentsActivityState[$key];
@@ -395,7 +402,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	public function importICS(string $filePath)
 	{
 		$userId = \App\User::getCurrentUserRealId();
-		$lastImport = new IcalLastImport();
+		$lastImport = new ICalLastImport();
 		$lastImport->clearRecords($userId);
 		$eventModule = 'Events';
 		$todoModule = 'Calendar';
@@ -404,14 +411,14 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		foreach ($calendar->getRecordInstance() as $recordModel) {
 			$recordModel->set('assigned_user_id', $userId);
 			$recordModel->save();
-			if ((string) $calendar->getComponent()->name === 'VEVENT') {
+			if ('VEVENT' === (string) $calendar->getComponent()->name) {
 				$module = $eventModule;
 			} else {
 				$module = $todoModule;
 			}
 			if ($recordModel->getId()) {
 				++$totalCount[$module];
-				$lastImport = new IcalLastImport();
+				$lastImport = new ICalLastImport();
 				$lastImport->setFields(['userid' => $userId, 'entitytype' => $this->getName(), 'crmid' => $recordModel->getId()]);
 				$lastImport->save();
 			} else {

@@ -77,7 +77,7 @@ class ProductsTableLongVTwoLang extends Base
 									}
 								}
 							}
-						} elseif (\in_array($field->getType(), $fieldsWithCurrency, true)) {
+						} elseif (\in_array($field->getType(), $fieldsWithCurrency, true) && !empty($currencySymbol)) {
 							$html .= $field->getDisplayValue($itemValue, $inventoryRow) . ' ' . $currencySymbol;
 						} else {
 							$html .= $field->getDisplayValue($itemValue, $inventoryRow);
@@ -96,7 +96,11 @@ class ProductsTableLongVTwoLang extends Base
 						foreach ($inventoryRows as $inventoryRow) {
 							$sum += $inventoryRow[$field->getColumnName()];
 						}
-						$html .= \CurrencyField::convertToUserFormat($sum, null, true) . ' ' . $currencySymbol;
+						if (!empty($currencySymbol)) {
+							$html .= \CurrencyField::appendCurrencySymbol(\CurrencyField::convertToUserFormat($sum, null, true), $currencySymbol);
+						} else {
+							$html .= \CurrencyField::convertToUserFormat($sum, null, true);
+						}
 					}
 					$html .= '</th>';
 				}

@@ -40,7 +40,7 @@
 											</span>
 										</span>
 										<span class="ml-1">
-											<input name="cur_{$ITEM['id']}_check" type="checkbox"
+											<input name="cur_{$ITEM['id']}_check" type="checkbox" value="1"
 												   {if $CHECK_VALUE}checked="checked"{/if}
 												   id="cur_{$ITEM['id']}_check"
 												   class="small float-right js-enable-currency" {if $CHECK_VALUE}title="{\App\Language::translate('LBL_ENABLE_CURRENCY')}"{else}title="{\App\Language::translate('LBL_DISABLE_CURRENCY')}"{/if}

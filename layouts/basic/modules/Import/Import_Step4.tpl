@@ -69,7 +69,7 @@
 							id="fieldIdentifier{$_COUNTER}" data-typename="{$TYPE_NAME}">
 							{if $HAS_HEADER eq true}
 								<td class="cellLabel">
-									<span name="header_name">{$_HEADER_NAME}</span>
+									<span name="header_name">{\App\Purifier::encodeHtml($_HEADER_NAME)}</span>
 								</td>
 							{/if}
 							<td class="cellLabel">

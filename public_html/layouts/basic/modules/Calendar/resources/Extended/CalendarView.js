@@ -78,19 +78,19 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 						}
 					},
 					month: {
-						titleFormat: 'YYYY MMMM',
+						titleFormat: this.parseDateFormat('month'),
 						loadView: function () {
 							self.loadCalendarData();
 						}
 					},
 					week: {
-						titleFormat: 'YYYY MMM D',
+						titleFormat: this.parseDateFormat('week'),
 						loadView: function () {
 							self.loadCalendarData();
 						}
 					},
 					day: {
-						titleFormat: 'YYYY MMM D',
+						titleFormat: this.parseDateFormat('day'),
 						loadView: function () {
 							self.loadCalendarData();
 						}

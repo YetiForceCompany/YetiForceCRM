@@ -91,7 +91,7 @@ class ConfReport
 		'session.name' => ['recommended' => 'YTSID', 'container' => 'php', 'type' => 'Equal', 'testCli' => false],
 		'expose_php' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session_regenerate_id' => ['recommended' => 'On', 'type' => 'SessionRegenerate', 'testCli' => true],
-		'disable_functions' => ['recommended' => 'shell_exec, exec, system, passthru', 'type' => 'In', 'container' => 'php', 'testCli' => false],
+		'disable_functions' => ['recommended' => 'shell_exec, exec, system, passthru, popen', 'type' => 'In', 'container' => 'php', 'testCli' => false],
 		'allow_url_include' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'Header: server' => ['recommended' => '', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: x-powered-by' => ['recommended' => '', 'type' => 'Header', 'contaiuse_only_cookiesner' => 'request', 'testCli' => false],
@@ -345,8 +345,8 @@ class ConfReport
 	private static function init(string $type)
 	{
 		$types = static::$container;
-		if (isset(static::$$type)) {
-			$types = \array_unique(\array_column(static::$$type, 'container'));
+		if (isset(static::${$type})) {
+			$types = \array_unique(\array_column(static::${$type}, 'container'));
 		}
 		$conf = static::getConfig();
 		foreach ($types as $item) {
@@ -398,7 +398,7 @@ class ConfReport
 			'php' => $php,
 			'env' => [
 				'phpVersion' => PHP_VERSION,
-				'sapi' => PHP_SAPI,
+				'sapi' => \PHP_SAPI,
 				'phpIni' => php_ini_loaded_file() ?: '-',
 				'phpIniAll' => php_ini_scanned_files() ?: '-',
 				'locale' => $locale,
@@ -408,7 +408,7 @@ class ConfReport
 				'crmVersion' => \App\Version::get(),
 				'crmDate' => \App\Version::get('patchVersion'),
 				'crmDir' => ROOT_DIRECTORY,
-				'operatingSystem' => \App\Config::main('systemMode') === 'demo' ? php_uname('s') : php_uname(),
+				'operatingSystem' => 'demo' === \App\Config::main('systemMode') ? php_uname('s') : php_uname(),
 				'serverSoftware' => $_SERVER['SERVER_SOFTWARE'] ?? '-',
 				'tempDir' => \App\Fields\File::getTmpPath(),
 				'spaceRoot' => '',
@@ -416,7 +416,7 @@ class ConfReport
 				'spaceTemp' => '',
 				'lastCronStart' => $lastCronStartText,
 				'lastCronStartDateTime' => $lastCronStart,
-				'protocolVersion' => $_SERVER['SERVER_PROTOCOL'] ? substr($_SERVER['SERVER_PROTOCOL'], strpos($_SERVER['SERVER_PROTOCOL'], '/') + 1) : '-'
+				'protocolVersion' => isset($_SERVER['SERVER_PROTOCOL']) ? substr($_SERVER['SERVER_PROTOCOL'], strpos($_SERVER['SERVER_PROTOCOL'], '/') + 1) : '-'
 			]
 		];
 	}
@@ -498,12 +498,12 @@ class ConfReport
 	{
 		$main = static::parse($type);
 		$cron = static::getCronVariables($type);
-		foreach (static::$$type as $key => &$item) {
+		foreach (static::${$type} as $key => &$item) {
 			$item['status'] = true;
 			if (isset($main[$key])) {
 				$item[static::$sapi] = $main[$key];
 			}
-			if ($item['testCli'] && static::$sapi === 'www') {
+			if ($item['testCli'] && 'www' === static::$sapi) {
 				if (isset($cron[$key]['cron'])) {
 					$item['cron'] = $cron[$key]['cron'];
 				}
@@ -511,7 +511,7 @@ class ConfReport
 			if (isset($item['type'])) {
 				$methodName = 'validate' . $item['type'];
 				if (\method_exists(__CLASS__, $methodName)) {
-					if (static::$sapi === 'www') {
+					if ('www' === static::$sapi) {
 						$item = static::$methodName($key, $item, 'www');
 					}
 					if ($item['testCli'] && !empty($cron)) {
@@ -519,11 +519,11 @@ class ConfReport
 					}
 				}
 				if (isset($item['skip'])) {
-					unset(static::$$type[$key]);
+					unset(static::${$type}[$key]);
 				}
 			}
 		}
-		return static::$$type;
+		return static::${$type};
 	}
 
 	/**
@@ -536,16 +536,16 @@ class ConfReport
 	private static function parse(string $type)
 	{
 		$values = [];
-		foreach (static::$$type as $key => $item) {
-			if (static::$sapi === 'cron' && !$item['testCli']) {
+		foreach (static::${$type} as $key => $item) {
+			if ('cron' === static::$sapi && !$item['testCli']) {
 				continue;
 			}
 			if (isset($item['type']) && ($methodName = 'parser' . $item['type']) && \method_exists(__CLASS__, $methodName)) {
 				$values[$key] = call_user_func_array([__CLASS__, $methodName], [$key, $item]);
 			} elseif (isset($item['container'])) {
 				$container = $item['container'];
-				if (isset(static::$$container[\strtolower($key)]) || isset(static::$$container[$key])) {
-					$values[$key] = static::$$container[\strtolower($key)] ?? static::$$container[$key];
+				if (isset(static::${$container}[\strtolower($key)]) || isset(static::${$container}[$key])) {
+					$values[$key] = static::${$container}[\strtolower($key)] ?? static::${$container}[$key];
 				}
 			}
 		}
@@ -611,8 +611,8 @@ class ConfReport
 	{
 		unset($name);
 		$current = $row[$sapi];
-		$errorReporting = stripos($current, '_') === false ? \App\ErrorHandler::error2string($current) : $current;
-		if ($row['recommended'] === 'E_ALL & ~E_NOTICE' && ((E_ALL & ~E_NOTICE) === (int) $current || 'E_ALL & ~E_NOTICE' === $errorReporting)) {
+		$errorReporting = false === stripos($current, '_') ? \App\ErrorHandler::error2string($current) : $current;
+		if ('E_ALL & ~E_NOTICE' === $row['recommended'] && ((E_ALL & ~E_NOTICE) === (int) $current || 'E_ALL & ~E_NOTICE' === $errorReporting)) {
 			$row[$sapi] = $row['recommended'];
 		} else {
 			$row['status'] = false;
@@ -635,7 +635,7 @@ class ConfReport
 	private static function validateOnOffInt(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		if ($sapi !== 'cron' && strtolower($row[$sapi]) !== 'on') {
+		if ('cron' !== $sapi && 'on' !== strtolower($row[$sapi])) {
 			$row['status'] = false;
 		}
 		return $row;
@@ -671,7 +671,7 @@ class ConfReport
 	private static function validateGreaterMb(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		if (isset($row[$sapi]) && $row[$sapi] !== '-1' && \vtlib\Functions::parseBytes($row[$sapi]) < \vtlib\Functions::parseBytes($row['recommended'])) {
+		if (isset($row[$sapi]) && '-1' !== $row[$sapi] && \vtlib\Functions::parseBytes($row[$sapi]) < \vtlib\Functions::parseBytes($row['recommended'])) {
 			$row['status'] = false;
 		}
 		$row[$sapi] = \vtlib\Functions::showBytes($row[$sapi]);
@@ -751,7 +751,7 @@ class ConfReport
 	private static function validateOnOff(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		if (isset($row[$sapi]) && $row[$sapi] !== $row['recommended'] && !(isset($row['demoMode']) && \App\Config::main('systemMode') !== 'prod')) {
+		if (isset($row[$sapi]) && $row[$sapi] !== $row['recommended'] && !(isset($row['demoMode']) && 'prod' !== \App\Config::main('systemMode'))) {
 			$row['status'] = false;
 		}
 		return $row;
@@ -822,7 +822,7 @@ class ConfReport
 	private static function validateHtaccess(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		if (isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'nginx') === false) {
+		if (isset($_SERVER['SERVER_SOFTWARE']) && false === strpos($_SERVER['SERVER_SOFTWARE'], 'nginx')) {
 			if (!isset($_SERVER['HTACCESS_TEST'])) {
 				$row['status'] = false;
 				$row[$sapi] = 'Off';
@@ -863,7 +863,7 @@ class ConfReport
 	private static function parserOnOff(string $name, array $row)
 	{
 		$container = $row['container'];
-		$current = static::$$container[\strtolower($name)] ?? '';
+		$current = static::${$container}[\strtolower($name)] ?? '';
 		static $map = ['on' => 'On', 'true' => 'On', 'off' => 'Off', 'false' => 'Off'];
 		return isset($map[strtolower($current)]) ? $map[strtolower($current)] : ($current ? 'On' : 'Off');
 	}
@@ -1003,7 +1003,7 @@ class ConfReport
 	 */
 	private static function validateSpace(string $name, array $row, string $sapi)
 	{
-		$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
+		$dir = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR;
 		switch ($name) {
 			case 'spaceRoot':
 				$dir .= 'storage';
@@ -1045,7 +1045,7 @@ class ConfReport
 		foreach (\explode(', ', $row['recommended']) as $type) {
 			try {
 				$response = (new \GuzzleHttp\Client())->request($type, $requestUrl, ['timeout' => 1, 'verify' => false]);
-				if ($response->getStatusCode() === 200 && 'No uid' === (string) $response->getBody()) {
+				if (200 === $response->getStatusCode() && 'No uid' === (string) $response->getBody()) {
 					$supported[] = $type;
 				}
 			} catch (\Throwable $e) {
@@ -1123,7 +1123,7 @@ class ConfReport
 			foreach ($params as $param => $data) {
 				if (!$data['status']) {
 					if (!isset($data['www']) && !isset($data['cron'])) {
-						if (!empty($data['type']) && $data['type'] === 'ExistsUrl') {
+						if (!empty($data['type']) && 'ExistsUrl' === $data['type']) {
 							$val = !$data['status'];
 						} else {
 							$val = $data['status'];
@@ -1152,7 +1152,7 @@ class ConfReport
 		foreach (static::get($type, true) as $param => $data) {
 			if (!$data['status']) {
 				if (!isset($data['www']) && !isset($data['cron'])) {
-					if (!empty($data['type']) && $data['type'] === 'ExistsUrl') {
+					if (!empty($data['type']) && 'ExistsUrl' === $data['type']) {
 						$val = !$data['status'];
 					} else {
 						$val = $data['status'];
@@ -1176,5 +1176,81 @@ class ConfReport
 			}
 		}
 		return $result;
+	}
+
+	/**
+	 * Get actual version of PHP.
+	 *
+	 * @return string[]
+	 */
+	public static function getNewestPhpVersion()
+	{
+		if (!\App\RequestUtil::isNetConnection()) {
+			return false;
+		}
+		$response = (new \GuzzleHttp\Client())->get('http://php.net/releases/index.php?json&max=7&version=7', \App\RequestHttp::getOptions());
+		$data = array_keys((array) \App\Json::decode($response->getBody()));
+		natsort($data);
+		$ver = [];
+		foreach (array_reverse($data) as $row) {
+			$t = explode('.', $row);
+			array_pop($t);
+			$short = implode('.', $t);
+			if (!isset($ver[$short]) && version_compare($short, '7.0', '>') && version_compare($short, '7.4', '<')) {
+				$ver[$short] = $row;
+			}
+		}
+		return $ver;
+	}
+
+	/**
+	 * Test server speed.
+	 *
+	 * @return array
+	 */
+	public static function testSpeed()
+	{
+		$dir = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'speed' . \DIRECTORY_SEPARATOR;
+		if (!is_dir($dir)) {
+			mkdir($dir, 0755);
+		}
+		$testStartTime = microtime(true);
+		$ram = $cpu = $filesWrite = 0;
+		while ((microtime(true) - $testStartTime) < 1) {
+			file_put_contents("{$dir}{$testStartTime}{$filesWrite}.txt", $testStartTime);
+			++$filesWrite;
+		}
+		$iterator = new \DirectoryIterator($dir);
+		$readS = microtime(true);
+		foreach ($iterator as $item) {
+			if ($item->isFile()) {
+				file_get_contents($item->getPathname());
+			}
+		}
+		$filesRead = $filesWrite / (microtime(true) - $readS);
+		$testStartTime = microtime(true);
+		while ((microtime(true) - $testStartTime) < 1) {
+			$cpuTmp = sha1($cpu);
+			unset($cpuTmp);
+			++$cpu;
+		}
+		$testStartTime = microtime(true);
+		$test = [];
+		while ((microtime(true) - $testStartTime) < 1) {
+			$test[] = [[[$ram]]];
+			unset($test);
+			++$ram;
+		}
+		\vtlib\Functions::recurseDelete('cache/speed');
+		$dbs = microtime(true);
+		\App\Db::getInstance()->createCommand('SELECT BENCHMARK(1000000,1+1);')->execute();
+		$dbe = microtime(true);
+		return [
+			'FilesRead' => (int) $filesRead,
+			'FilesWrite' => $filesWrite,
+			'CPU' => $cpu,
+			'RAM' => $ram,
+			'DB' => (int) (1000000 / ($dbe - $dbs))
+		];
 	}
 }

@@ -225,7 +225,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			'Delagated Events/To Dos', 'Delegated (overdue) Events/ToDos', 'Calendar',
 			'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'DW_SUMMATION_BY_MONTHS', 'LBL_ALL_TIME_CONTROL',
 			'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS', 'LBL_CLOSED_TICKETS_BY_PRIORITY', 'LBL_ACCOUNTS_BY_INDUSTRY',
-			'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS',
+			'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS', 'LBL_UPCOMING_PROJECT_TASKS', 'LBL_COMPLETED_PROJECT_TASKS'
 		];
 	}
 
@@ -507,11 +507,11 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			'mdw.size', 'mdw.limit', 'mdw.isdefault', 'mdw.owners', 'mdw.cache', 'mdw.date',
 			'vtiger_links.*', 'mdb.authorized',
 		])
-		->from('vtiger_module_dashboard AS mdw')
-		->innerJoin('vtiger_links', 'mdw.linkid = vtiger_links.linkid')
-		->innerJoin('vtiger_module_dashboard_blocks AS mdb', 'mdw.blockid = mdb.id AND vtiger_links.tabid = mdb.tabid')
-		->where(['vtiger_links.tabid' => $tabId])
-		->createCommand()->query();
+			->from('vtiger_module_dashboard AS mdw')
+			->innerJoin('vtiger_links', 'mdw.linkid = vtiger_links.linkid')
+			->innerJoin('vtiger_module_dashboard_blocks AS mdb', 'mdw.blockid = mdb.id AND vtiger_links.tabid = mdb.tabid')
+			->where(['vtiger_links.tabid' => $tabId])
+			->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			if ($row['linklabel'] == 'Mini List') {
 				$minilistWidget = Vtiger_Widget_Model::getInstanceFromValues($row);

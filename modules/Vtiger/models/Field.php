@@ -27,7 +27,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	protected $uitypeModel;
 
-	public static $referenceTypes = ['reference', 'referenceLink', 'referenceProcess', 'referenceSubProcess', 'referenceExtend'];
+	public static $referenceTypes = ['reference', 'referenceLink', 'referenceProcess', 'referenceSubProcess', 'referenceExtend', 'referenceSubProcessSL'];
 
 	const REFERENCE_TYPE = 'reference';
 	const OWNER_TYPE = 'owner';
@@ -252,6 +252,9 @@ class Vtiger_Field_Model extends vtlib\Field
 							$fieldDataType = 'salutation';
 						}
 						break;
+					case 64:
+						$fieldDataType = 'referenceSubProcessSL';
+						break;
 					case 65:
 						$fieldDataType = 'referenceExtend';
 						break;
@@ -327,6 +330,9 @@ class Vtiger_Field_Model extends vtlib\Field
 						break;
 					case 316:
 						$fieldDataType = 'smtp';
+						break;
+					case 317:
+						$fieldDataType = 'currencyInventory';
 						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
@@ -1121,6 +1127,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	{
 		return $this->getUITypeModel()->getEditViewDisplayValue($value, $recordModel);
 	}
+
 	/**
 	 * Function to retrieve user value in edit view.
 	 *
@@ -1133,6 +1140,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	{
 		return $this->getUITypeModel()->getEditViewValue($value, $recordModel);
 	}
+
 	/**
 	 * Function returns list of Currencies available in the system.
 	 *

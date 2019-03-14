@@ -31,6 +31,7 @@ class Settings_YetiForce_RegistrationOnlineModal_View extends \App\Controller\Mo
 	public function preProcessAjax(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
+		$this->modalIcon = 'fas fa-globe';
 		$this->pageTitle = \App\Language::translate('YetiForce', $qualifiedModuleName) . ' - ' . \App\Language::translate('LBL_REGISTRATION_ONLINE_MODAL', $qualifiedModuleName);
 		parent::preProcessAjax($request);
 	}

@@ -554,57 +554,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Test server speed.
-	 *
-	 * @return array
-	 */
-	public static function testSpeed()
-	{
-		$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'speed' . DIRECTORY_SEPARATOR;
-		if (!is_dir($dir)) {
-			mkdir($dir, 0755);
-		}
-		$testStartTime = microtime(true);
-		$ram = $cpu = $filesWrite = 0;
-		while ((microtime(true) - $testStartTime) < 1) {
-			file_put_contents("{$dir}{$testStartTime}{$filesWrite}.txt", $testStartTime);
-			$filesWrite++;
-		}
-		$iterator = new \DirectoryIterator($dir);
-		$readS = microtime(true);
-		foreach ($iterator as $item) {
-			if ($item->isFile()) {
-				file_get_contents($item->getPathname());
-			}
-		}
-		$filesRead = $filesWrite / (microtime(true) - $readS);
-		$testStartTime = microtime(true);
-		while ((microtime(true) - $testStartTime) < 1) {
-			$cpuTmp = sha1($cpu);
-			unset($cpuTmp);
-			$cpu++;
-		}
-		$testStartTime = microtime(true);
-		$test = [];
-		while ((microtime(true) - $testStartTime) < 1) {
-			$test[] = [[[$ram]]];
-			unset($test);
-			$ram++;
-		}
-		\vtlib\Functions::recurseDelete('cache/speed');
-		$dbs = microtime(true);
-		\App\Db::getInstance()->createCommand('SELECT BENCHMARK(1000000,1+1);')->execute();
-		$dbe = microtime(true);
-		return [
-			'FilesRead' => (int) $filesRead,
-			'FilesWrite' => $filesWrite,
-			'CPU' => $cpu,
-			'RAM' => $ram,
-			'DB' => (int) (1000000 / ($dbe - $dbs))
-		];
-	}
-
-	/**
 	 * Validate number greater than recommended.
 	 *
 	 * @param mixed $row
@@ -746,31 +695,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$row['current'] = implode(' | ', $errorReporting);
 		}
 		return $row;
-	}
-
-	/**
-	 * Get actual version of PHP.
-	 *
-	 * @return string[]
-	 */
-	public static function getNewestPhpVersion()
-	{
-		if (!class_exists('Requests') || !\App\RequestUtil::isNetConnection()) {
-			return false;
-		}
-		$resonse = Requests::get('http://php.net/releases/index.php?json&max=7&version=7', [], ['timeout' => 1]);
-		$data = array_keys((array) \App\Json::decode($resonse->body));
-		natsort($data);
-		$ver = [];
-		foreach (array_reverse($data) as $row) {
-			$t = explode('.', $row);
-			array_pop($t);
-			$short = implode('.', $t);
-			if (!isset($ver[$short]) && version_compare($short, '7.0', '>') && version_compare($short, '7.3', '<')) {
-				$ver[$short] = $row;
-			}
-		}
-		return $ver;
 	}
 
 	/**

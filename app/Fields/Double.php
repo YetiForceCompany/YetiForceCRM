@@ -57,7 +57,7 @@ class Double
 		}
 		$userModel = \App\User::getCurrentUserModel();
 		if ($fixed) {
-			$value = number_format($value, $userModel->getDetail('no_of_currency_decimals'), '.', '');
+			$value = number_format((float) $value, $userModel->getDetail('no_of_currency_decimals'), '.', '');
 		}
 		[$integer, $decimal] = array_pad(explode('.', $value, 2), 2, false);
 

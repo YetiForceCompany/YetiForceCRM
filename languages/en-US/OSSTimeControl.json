@@ -91,7 +91,8 @@
     "LBL_TIME_CONTROL_LIST": "Time Control List",
     "LBL_TIME_CONTROL_DETAILED_LIST": "Time Control Detailed List",
     "LBL_TIME_CONTROL_USER_GROUP": "Time Control List with additional information about users",
-    "LBL_TYPE": "Activity type"
+    "LBL_TYPE": "Activity type",
+    "FL_SUBPROCESS_SECOND_LEVEL": "Second level subprocess"
   },
   "js": {
     "MSG_ERROR_NUMBER": "Allowed characters: [0-9]",

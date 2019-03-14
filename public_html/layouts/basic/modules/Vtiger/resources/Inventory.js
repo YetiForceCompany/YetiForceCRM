@@ -115,11 +115,11 @@ $.Class("Vtiger_Inventory_Js", {
 	},
 	getTaxModeSelectElement: function (row) {
 		var items = this.getInventoryHeadContainer();
-		if (items.find('thead .taxMode').length > 0) {
-			return $('.taxMode');
+		if (items.find('thead .js-taxmode').length > 0) {
+			return $('.js-taxmode');
 		}
 		if (row) {
-			return row.find('.taxMode');
+			return row.find('.js-taxmode');
 		} else {
 			return false;
 		}
@@ -154,7 +154,7 @@ $.Class("Vtiger_Inventory_Js", {
 
 			parentRow.find(thisInstance.rowClass).each(function () {
 				let thisItem = $(this);
-				taxParam['globalTax'] = App.Fields.Double.formatToDisplay(thisItem.find('.js-tax').attr('data-default-tax'));
+				taxParam['globalTax'] = App.Fields.Double.formatToDb(thisItem.find('.js-tax').attr('data-default-tax'));
 				thisInstance.setTaxParam(thisItem, taxParam);
 			});
 		} else {
@@ -191,10 +191,10 @@ $.Class("Vtiger_Inventory_Js", {
 	},
 	getDiscountModeSelectElement: function (row) {
 		var items = this.getInventoryHeadContainer();
-		if (items.find('thead .discountMode').length > 0) {
-			return $('.discountMode');
+		if (items.find('thead .js-discountmode').length > 0) {
+			return $('.js-discountmode');
 		}
-		return row.find('.discountMode');
+		return row.find('.js-discountmode');
 	},
 	isIndividualDiscountMode: function (row) {
 		var discountModeElement = this.getDiscountModeSelectElement(row);
@@ -220,7 +220,7 @@ $.Class("Vtiger_Inventory_Js", {
 		thisInstance.rowsCalculations();
 	},
 	getCurrency: function () {
-		let currency = $('[name*="[currency]"]', this.getInventoryHeadContainer());
+		let currency = $('.js-currency', this.getInventoryHeadContainer());
 		return currency.find('option:selected').val();
 	},
 	getTax: function (row) {
@@ -276,28 +276,28 @@ $.Class("Vtiger_Inventory_Js", {
 	 * @param {int} val
 	 */
 	setCurrency(val) {
-		this.getInventoryHeadContainer().find('[name*="[currency]"]').val(val).trigger('change');
+		this.getInventoryHeadContainer().find('.js-currency').val(val).trigger('change');
 	},
 	/**
 	 * Set currency param
 	 * @param {string} val json string
 	 */
 	setCurrencyParam(val) {
-		this.getInventoryHeadContainer().find('[name*="[currencyparam]"]').val(val);
+		this.getInventoryHeadContainer().find('.js-currencyparam').val(val);
 	},
 	/**
 	 * Set discount mode
 	 * @param {int} val
 	 */
 	setDiscountMode(val) {
-		this.getInventoryHeadContainer().find('[name*="[discountmode]"]').val(val).trigger('change');
+		this.getInventoryHeadContainer().find('.js-discountmode').val(val).trigger('change');
 	},
 	/**
 	 * Set tax mode
 	 * @param {int} val
 	 */
 	setTaxMode(val) {
-		this.getInventoryHeadContainer().find('[name*="[taxmode]"]').val(val).trigger('change');
+		this.getInventoryHeadContainer().find('.js-taxmode').val(val).trigger('change');
 	},
 	/**
 	 * Set inventory id
@@ -542,8 +542,8 @@ $.Class("Vtiger_Inventory_Js", {
 	},
 	calculatCurrenciesSummary: function () {
 		let container = this.getInventorySummaryCurrenciesContainer(),
-			selected = $('[name*="[currency]"] option:selected', this.getInventoryHeadContainer()),
-			base = $('[name*="[currency]"] option[data-base-currency="1"]', this.getInventoryHeadContainer()),
+			selected = $('.js-currency option:selected', this.getInventoryHeadContainer()),
+			base = $('.js-currency option[data-base-currency="1"]', this.getInventoryHeadContainer()),
 			conversionRate = selected.data('conversionRate'),
 			baseConversionRate = base.data('conversionRate');
 		if (conversionRate == baseConversionRate) {
@@ -775,7 +775,7 @@ $.Class("Vtiger_Inventory_Js", {
 		let header = this.getInventoryHeadContainer();
 		this.getInventoryItemsContainer().find('.js-sync').each(function () {
 			let element = $(this);
-			element.val(header.find('[name*="[' + element.data('syncId') + ']"]').val());
+			element.val(header.find('.js-' + element.data('syncId')).val());
 		});
 	},
 	/**
@@ -1140,7 +1140,7 @@ $.Class("Vtiger_Inventory_Js", {
 		var modal = block.find('.modelContainer').clone();
 		app.showModalWindow(modal, function (data) {
 			var modal = $(data);
-			var currencyParam = JSON.parse(block.find('.currencyparam').val());
+			var currencyParam = JSON.parse(block.find('.js-currencyparam').val());
 
 			if (currencyParam != false) {
 				if (typeof currencyParam[option.val()] === "undefined") {
@@ -1165,7 +1165,7 @@ $.Class("Vtiger_Inventory_Js", {
 					value: value.toString(),
 					conversion: conversionRate.toString()
 				};
-				block.find('.currencyparam').val(JSON.stringify(currencyParam));
+				block.find('.js-currencyparam').val(JSON.stringify(currencyParam));
 
 				thisInstance.currencyConvertValues(select, option);
 				select.data('oldValue', select.val());
@@ -1333,12 +1333,12 @@ $.Class("Vtiger_Inventory_Js", {
 			this.quantityChangeActions(this.getClosestRow(element));
 		});
 		var headContainer = this.getInventoryHeadContainer();
-		headContainer.on('change', '.taxMode', (e) => {
+		headContainer.on('change', '.js-taxmode', (e) => {
 			let element = $(e.currentTarget);
 			this.showIndividualTax(this.getClosestRow(element));
 			this.rowsCalculations();
 		});
-		headContainer.on('change', '.discountMode', (e) => {
+		headContainer.on('change', '.js-discountmode', (e) => {
 			let element = $(e.currentTarget);
 			this.showIndividualDiscount(this.getClosestRow(element));
 			this.rowsCalculations();
@@ -1503,7 +1503,7 @@ $.Class("Vtiger_Inventory_Js", {
 	},
 	lockCurrencyChange: false,
 	registerChangeCurrency() {
-		this.getInventoryHeadContainer().on('change', 'select[name*="[currency]"]', (e) => {
+		this.getInventoryHeadContainer().on('change', '.js-currency', (e) => {
 			let element = $(e.currentTarget),
 				symbol = element.find('option:selected').data('conversionSymbol');
 			this.currencyChangeActions(element, element.find('option:selected'));
@@ -1621,6 +1621,10 @@ $.Class("Vtiger_Inventory_Js", {
 				mode: 'getTableData',
 				record: recordId
 			}).done((response) => {
+				let activeModules = [];
+				this.getInventoryHeadContainer().find('.js-add-item').each((index, addBtn) => {
+					activeModules.push($(addBtn).data('module'));
+				});
 				progressLoader.progressIndicator({mode: 'hide'});
 				const oldCurrencyChangeAction = this.currencyChangeActions;
 				this.currencyChangeActions = function changeCurrencyActions(select, option) {

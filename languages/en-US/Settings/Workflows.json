@@ -93,7 +93,7 @@
     "Sales stage - Order and Contract": "Sales stage - Order and Contract",
     "Sales stage - Verification of documents": "Sales stage - Verification of documents",
     "Sales stage - Sales winnings - waiting for projects": "Sales stage - Sales winnings - waiting for projects",
-    "Sales stage - Sales Win - performance of the contract \/ agreement": "Sales stage - Sales win - performance of the contract \/ agreement",
+    "Sales stage - Sales Win - performance of the contract / agreement": "Sales stage - Sales win - performance of the contract / agreement",
     "Sales stage - Sales Win - post sales activities": "Sales stage - Sales win - post sales activities",
     "Marketing process - Data Verification": "Marketing process - Data verification",
     "Marketing process - Preliminary analysis": "Marketing process - Preliminary analysis",
@@ -190,8 +190,6 @@
     "LBL_UPLOAD_OK": "Trigger XML file imported successfully.",
     "LBL_RETURN": "Return",
     "LBL_GO_TO_TEMPLATE": "Click to go to imported record.",
-    "LBL_SCRIPT_EXISTS_FUNCTION_NOT": "Script physically exists but doesn't contain imported function name. Manually add %s to %s.",
-    "LBL_FAILED_TO_SAVE_SCRIPT": "Failed to save workflow methods script file. Manually copy %s to %s.",
     "LBL_MESSAGES_FROM_USERS": "Messages from users",
     "LBL_WATCHDOG": "Track changes",
     "LBL_SKIP_CURRENT_USER": "Skip current user",
@@ -236,7 +234,8 @@
     "LBL_CHECK_EMAIL_OPTOUT": "Verify if recipient agreed to receive e-mails",
     "LBL_SUMFIELDFROMDEPENDENT_SOURCE": "Field to be summed",
     "LBL_SUMFIELDFROMDEPENDENT_TARGET": "Field where summation will be saved",
-    "LBL_SUM_FIELD_FROM_DEPENDENT": "Sum filed values from related module fields"
+    "LBL_SUM_FIELD_FROM_DEPENDENT": "Sum filed values from related module fields",
+    "LBL_ATTACH_DOCS_FROM": "Attach documents from"
   },
   "js": {
     "JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE": "Same fields selected more than once",

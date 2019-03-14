@@ -19,13 +19,13 @@ class Validator
 	/**
 	 * Function verifies if given value can be recognized as bool.
 	 *
-	 * @param string|bool|int $input
+	 * @param bool|int|string $input
 	 *
 	 * @return bool
 	 */
 	public static function bool($input): bool
 	{
-		return filter_var($input, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) !== null;
+		return null !== filter_var($input, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 	}
 
 	/**
@@ -43,7 +43,7 @@ class Validator
 	/**
 	 * Function verifies if given value contains only words or digits.
 	 *
-	 * @param string|int $input
+	 * @param int|string $input
 	 *
 	 * @return bool
 	 */
@@ -69,13 +69,13 @@ class Validator
 	 * Function verifies if given value is compatible with user’s date format.
 	 *
 	 * @param string   $input
-	 * @param int|null $userId
+	 * @param null|int $userId
 	 *
 	 * @return bool
 	 */
 	public static function dateInUserFormat(string $input, ?int $userId = null): bool
 	{
-		if ($userId === null) {
+		if (null === $userId) {
 			$userId = User::getCurrentUserId();
 		}
 		[$y, $m, $d] = Fields\Date::explode($input, User::getUserModel($userId)->getDetail('date_format'));
@@ -98,7 +98,7 @@ class Validator
 	 *  Function verifies if given value is compatible with user’s time format.
 	 *
 	 * @param string   $input
-	 * @param int|null $userId
+	 * @param null|int $userId
 	 *
 	 * @return bool
 	 */
@@ -107,7 +107,7 @@ class Validator
 		if (null === $userId) {
 			$userId = User::getCurrentUserId();
 		}
-		if (User::getUserModel($userId)->getDetail('hour_format') === '12') {
+		if ('12' === User::getUserModel($userId)->getDetail('hour_format')) {
 			$pattern = '/^([0][0-9]|1[0-2]):([0-5][0-9])([ ]PM|[ ]AM|PM|AM)$/';
 		} else {
 			$pattern = '/^(2[0-3]|[0][0-9]|1[0-9]):([0-5][0-9])$/';
@@ -138,7 +138,7 @@ class Validator
 	 * Function verifies if given value is compatible with user’s  date and time format.
 	 *
 	 * @param string   $input
-	 * @param int|null $userId
+	 * @param null|int $userId
 	 *
 	 * @return bool
 	 */
@@ -149,7 +149,7 @@ class Validator
 			$userModel = User::getUserModel($userId ?? User::getCurrentUserId());
 			[$dateInput, $timeInput] = $arrInput;
 			[$y, $m, $d] = Fields\Date::explode($dateInput, $userModel->getDetail('date_format'));
-			if ($userModel->getDetail('hour_format') === '12') {
+			if ('12' === $userModel->getDetail('hour_format')) {
 				$pattern = '/^(2[0-3]|[0][0-9]|1[0-9]):([0-5][0-9])(:([0-5][0-9]))?([ ]PM|[ ]AM|PM|AM)?$/';
 			} else {
 				$pattern = '/^(2[0-3]|[0][0-9]|1[0-9]):([0-5][0-9])(:([0-5][0-9]))?$/';
@@ -168,7 +168,7 @@ class Validator
 	 */
 	public static function integer($input): bool
 	{
-		return filter_var($input, FILTER_VALIDATE_INT) !== false;
+		return false !== filter_var($input, FILTER_VALIDATE_INT);
 	}
 
 	/**
@@ -204,7 +204,19 @@ class Validator
 	 */
 	public static function isMySQL(string $dbType): bool
 	{
-		return stripos($dbType, 'mysql') === 0;
+		return 0 === stripos($dbType, 'mysql');
+	}
+
+	/**
+	 *  Function checks if given value is email.
+	 *
+	 * @param string $email
+	 *
+	 * @return bool
+	 */
+	public static function email(string $email): bool
+	{
+		return false !== filter_var($email, FILTER_VALIDATE_EMAIL) && $email === filter_var($email, FILTER_SANITIZE_EMAIL);
 	}
 
 	/**
@@ -216,7 +228,7 @@ class Validator
 	 */
 	public static function url(string $url): bool
 	{
-		return filter_var($url, FILTER_VALIDATE_URL) !== false;
+		return false !== filter_var($url, FILTER_VALIDATE_URL);
 	}
 
 	/**
@@ -228,7 +240,7 @@ class Validator
 	 */
 	public static function domain(string $input): bool
 	{
-		return filter_var($input, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME) !== false;
+		return false !== filter_var($input, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME);
 	}
 
 	/**

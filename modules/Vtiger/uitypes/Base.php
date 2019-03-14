@@ -113,11 +113,11 @@ class Vtiger_Base_UIType extends \App\Base
 			$value = \App\Purifier::decodeHtml($value);
 		}
 		if (!is_numeric($value) && (is_string($value) && $value !== \App\Purifier::decodeHtml(\App\Purifier::purify($value)))) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$maximumLength = $this->getFieldModel()->get('maximumlength');
 		if ($maximumLength && App\TextParser::getTextLength($value) > $maximumLength) {
-			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;
 	}
@@ -170,15 +170,16 @@ class Vtiger_Base_UIType extends \App\Base
 	/**
 	 * Function to get the edit value.
 	 *
-	 * @param   mixed  $value
-	 * @param   Vtiger_Record_Model  $recordModel
+	 * @param mixed               $value
+	 * @param Vtiger_Record_Model $recordModel
 	 *
-	 * @return  mixed
+	 * @return mixed
 	 */
 	public function getEditViewValue($value, $recordModel = false)
 	{
-		return $this->getEditViewDisplayValue($value, $recordModel = false);
+		return $this->getEditViewDisplayValue($value, $recordModel);
 	}
+
 	/**
 	 * Function to get the list value in display view.
 	 *

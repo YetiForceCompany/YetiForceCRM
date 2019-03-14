@@ -36,14 +36,14 @@ class Vtiger_MultiDependField_UIType extends Vtiger_Base_UIType
 			$value = \App\Json::decode($value);
 		}
 		if (!is_array($value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$rawValue = \App\Json::encode($value);
 		if (!isset($this->validate[$rawValue])) {
 			$fieldsModel = $this->getFieldsModel();
 			foreach ($value as $item) {
 				if (!is_array($item) || array_diff_key($item, $fieldsModel)) {
-					throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . \App\Json::encode($value), 406);
+					throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . \App\Json::encode($value), 406);
 				}
 				foreach ($item as $fieldName => $val) {
 					$fieldsModel[$fieldName]->getUITypeModel()->validate($val, $isUserFormat);
