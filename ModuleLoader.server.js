@@ -319,7 +319,9 @@ module.exports = {
       }
       if (parent) {
         moduleConf.parent = parent.moduleName
-        moduleConf.priority = parent.priority
+        if (moduleConf.priority === 0) {
+          moduleConf.priority = parent.priority > 0 ? parent.priority - 1 : 0
+        }
       }
       const entry = `${moduleConf.path}${sep}${moduleName}`
       if (isFile(resolve(entry + '.vue'))) {
