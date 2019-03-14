@@ -3,13 +3,14 @@
   <div></div>
 </template>
 <script>
-import moduleStore from './store/index.js'
-import store from 'src/store/index.js'
+import ModuleLoader from 'src/ModuleLoader.js'
+import store from './store/index.js'
 
 export default {
   name: 'App',
+  priority: 1,
   created() {
-    this.$store.registerModule('App', moduleStore)
+    this.$store.registerModule('App', ModuleLoader.prepareStoreNames('App', store))
   }
 }
 </script>

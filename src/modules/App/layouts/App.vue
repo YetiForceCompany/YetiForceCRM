@@ -9,6 +9,6 @@
 
 <script>
 export default {
-  name: 'App.Pages.App'
+  name: 'App.Layouts.App'
 }
 </script>

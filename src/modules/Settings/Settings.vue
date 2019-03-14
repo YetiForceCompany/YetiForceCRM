@@ -3,13 +3,13 @@
   <div></div>
 </template>
 <script>
-import moduleStore from './store/index.js'
-import store from 'src/store/index.js'
+import ModuleLoader from 'src/ModuleLoader.js'
+import store from './store/index.js'
 
 export default {
   name: 'Settings',
   created() {
-    this.$store.registerModule('Settings', moduleStore)
+    this.$store.registerModule('Settings', ModuleLoader.prepareStoreNames('Settings', store))
   }
 }
 </script>

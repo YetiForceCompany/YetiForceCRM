@@ -159,20 +159,35 @@ const ModuleLoader = {
    *
    * @return  {array}
    */
-  flattenModules(modules, flat = { components: {}, modules: [] }) {
+  _flattenModules(modules, flat = { components: {}, modules: [] }) {
     for (const module of modules) {
       if (typeof module.entry !== 'undefined') {
         const modulePath = this.getPath(module.entry)
         flat.components[module.name] = () => import(`src/${modulePath}`)
         flat.modules.push({
-          name: module.name,
-          component: flat.components[module.name]
+          component: flat.components[module.name],
+          ...module
         })
       }
       if (typeof module.modules !== 'undefined') {
-        flat = this.flattenModules(module.modules, flat)
+        flat = this._flattenModules(module.modules, flat)
       }
     }
+    return flat
+  },
+
+  /**
+   * Flatten modules
+   *
+   * @param   {array}  modules
+   *
+   * @return  {array}
+   */
+  flattenModules(modules) {
+    const flat = this._flattenModules(modules)
+    flat.modules.sort((a, b) => {
+      return b.priority - a.priority
+    })
     return flat
   }
 }
