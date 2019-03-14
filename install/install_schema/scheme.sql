@@ -8941,7 +8941,7 @@ CREATE TABLE `vtiger_timecontrol_type` (
   `presence` int(10) NOT NULL DEFAULT 1,
   `color` varchar(25) DEFAULT '#E6FAD8',
   PRIMARY KEY (`timecontrol_typeid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_timecontrol_type_seq` */
 
