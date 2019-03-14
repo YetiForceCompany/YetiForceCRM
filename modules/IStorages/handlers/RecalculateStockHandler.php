@@ -26,7 +26,7 @@ class IStorages_RecalculateStockHandler_Handler
 			$relatedModuleRecordId = $recordModel->get($relatedModuleField);
 			$relatedModuleRecordModel = Vtiger_Record_Model::getInstanceById($relatedModuleRecordId);
 		}
-		if ($recordModel->get($status) === 'PLL_ACCEPTED') {
+		if ('PLL_ACCEPTED' === $recordModel->get($status)) {
 			if (isset($correctionModules[$moduleName])) {
 				$this->getInventoryDataAndSend($relatedModuleRecordModel, 'remove');
 			}
@@ -47,7 +47,7 @@ class IStorages_RecalculateStockHandler_Handler
 		$moduleName = $recordModel->getModuleName();
 		$inventoryData = $recordModel->getInventoryData();
 		if (!empty($inventoryData) && $recordModel->get('storageid')) {
-			IStorages_Module_Model::recalculateStock($moduleName, $inventoryData, $recordModel->get('storageid'), $action);
+			IStorages_Module_Model::setQtyInStock($moduleName, $inventoryData, $recordModel->get('storageid'), $action);
 		}
 	}
 }
