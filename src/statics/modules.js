@@ -100,7 +100,8 @@ window.modules = [
     path: "src\\modules\\Settings",
     level: 0,
     parent: "",
-    directories: ["layouts", "modules", "router"],
+    entry: "src\\modules\\Settings\\Settings.vue",
+    directories: ["layouts", "modules", "router", "store"],
     routes: [
       {
         name: "Settings",
@@ -109,7 +110,36 @@ window.modules = [
         componentPath: "layouts/Settings.vue"
       }
     ],
+    store: {
+      actions: {},
+      getters: {},
+      mutations: {}
+    },
+    storeFiles: {
+      actions: "src\\modules\\Settings\\store\\actions.js",
+      getters: "src\\modules\\Settings\\store\\getters.js",
+      mutations: "src\\modules\\Settings\\store\\mutations.js",
+      state: "src\\modules\\Settings\\store\\state.js"
+    },
     modules: [
+      {
+        parentHierarchy: "Settings",
+        fullName: "Settings.Menu",
+        name: "Menu",
+        path: "src\\modules\\Settings\\modules\\Menu",
+        level: 1,
+        parent: "Settings",
+        entry: "src\\modules\\Settings\\modules\\Menu\\Menu.vue",
+        directories: ["pages", "router"],
+        routes: [
+          {
+            name: "Settings.Menu",
+            parent: "Settings",
+            path: "menu",
+            componentPath: "pages/Menu"
+          }
+        ]
+      },
       {
         parentHierarchy: "Settings",
         fullName: "Settings.ModuleExample",
