@@ -519,7 +519,7 @@ class CustomView_Record_Model extends \App\Base
 			'index' => $index
 		])->execute();
 		$index = 0;
-		$parentId = $db->getLastInsertID('u_#__cv_condition_group_id_seq');
+		$parentId = $db->getLastInsertID('u_#__cv_condition_group');
 		foreach ($rule['rules'] as $ruleInfo) {
 			if (isset($ruleInfo['condition'])) {
 				$this->addGroup($ruleInfo, $parentId, $index);
@@ -576,7 +576,7 @@ class CustomView_Record_Model extends \App\Base
 			'color' => $this->get('color'),
 			'description' => $this->get('description'),
 		])->execute();
-		$this->set('cvid', $db->getLastInsertID('vtiger_customview_cvid_seq'));
+		$this->set('cvid', $db->getLastInsertID('vtiger_customview'));
 		$this->setColumnlist();
 		$this->setConditionsForFilter();
 		$this->setDuplicateFields();

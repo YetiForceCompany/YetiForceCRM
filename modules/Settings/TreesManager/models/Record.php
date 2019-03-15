@@ -243,7 +243,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			$db->createCommand()
 				->insert('vtiger_trees_templates', ['name' => $this->get('name'), 'module' => $this->get('module'), 'share' => $share])
 				->execute();
-			$this->set('templateid', $db->getLastInsertID('vtiger_trees_templates_templateid_seq'));
+			$this->set('templateid', $db->getLastInsertID('vtiger_trees_templates'));
 			foreach ($this->get('tree') as $tree) {
 				$this->insertData($tree, 0, '');
 			}

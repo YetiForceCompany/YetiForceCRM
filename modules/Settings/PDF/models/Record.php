@@ -126,7 +126,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 						$params[$field] = $pdfModel->get($field);
 					}
 					$db->createCommand()->insert('a_#__pdf', $params)->execute();
-					$pdfModel->set('pdfid', $db->getLastInsertID('a_#__pdf_pdfid_seq'));
+					$pdfModel->set('pdfid', $db->getLastInsertID('a_#__pdf'));
 				} else {
 					$fields = [];
 					foreach ($stepFields as $field) {
@@ -148,7 +148,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 					}
 				}
 				$db->createCommand()->insert('a_#__pdf', $params)->execute();
-				$pdfModel->set('pdfid', $db->getLastInsertID('a_#__pdf_pdfid_seq'));
+				$pdfModel->set('pdfid', $db->getLastInsertID('a_#__pdf'));
 
 				return $pdfModel->get('pdfid');
 			default:

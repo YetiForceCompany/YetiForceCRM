@@ -41,7 +41,7 @@ class Updater
 				$dbCommand->insert('vtiger_picklist', ['name' => $row['fieldname']])->execute();
 				$newPicklistId = (new \App\Db\Query())->select(['picklistid'])->from('vtiger_picklist')->where(['name' => $row['fieldname']])->scalar();
 				if (!$newPicklistId) {
-					$newPicklistId = $db->getLastInsertID('vtiger_picklist_picklistid_seq');
+					$newPicklistId = $db->getLastInsertID('vtiger_picklist');
 				}
 				$identifier = $row['fieldname'] . 'id';
 				$query2 = (new \App\Db\Query())->select([$identifier, 'sortorderid'])->from($picklistTable);

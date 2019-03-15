@@ -52,7 +52,7 @@ class Field extends FieldBasic
 				'sortorderid' => $importer->smallInteger(5)->defaultValue(0),
 			]);
 			$db->createCommand()->insert('vtiger_picklist', ['name' => $this->name])->execute();
-			$newPicklistId = $db->getLastInsertID('vtiger_picklist_picklistid_seq');
+			$newPicklistId = $db->getLastInsertID('vtiger_picklist');
 			\App\Log::trace("Creating table $picklistTable ... DONE", __METHOD__);
 		} else {
 			$newPicklistId = (new \App\Db\Query())->select(['picklistid'])->from('vtiger_picklist')->where(['name' => $this->name])->scalar();
@@ -278,7 +278,7 @@ class Field extends FieldBasic
 	{
 		$db = \App\Db::getInstance();
 		$db->createCommand()->insert('vtiger_trees_templates', ['name' => (string) $tree->name, 'module' => $moduleInstance->id, 'access' => $tree->access])->execute();
-		$templateId = $db->getLastInsertID('vtiger_trees_templates_templateid_seq');
+		$templateId = $db->getLastInsertID('vtiger_trees_templates');
 
 		foreach ($tree->tree_values->tree_value as $treeValue) {
 			$db->createCommand()->insert('vtiger_trees_templates_data', ['templateid' => $templateId, 'name' => $treeValue->name, 'tree' => $treeValue->tree,
