@@ -11,7 +11,8 @@
 <script>
 import ModuleLoader from 'src/ModuleLoader.js'
 import store from './store/index.js'
-import Debug from './modules/Debug/Debug.vue'
+import coreStore from './modules/Core/store/index.js'
+import Debug from './modules/Core/modules/Debug/Debug.vue'
 import mutations from 'store/mutations.js'
 import Objects from 'utilities/Objects.js'
 
@@ -53,7 +54,7 @@ export default {
   },
   created() {
     this.$store.registerModule(moduleName, ModuleLoader.prepareStoreNames(moduleName, store))
-
+    this.$store.registerModule(['App', 'Core'], ModuleLoader.prepareStoreNames('App.Core', coreStore))
     if (typeof window !== 'undefined') {
       this.$store.commit(mutations.App.setModules, Objects.mergeDeepReactive({}, window.modules))
       this.config.debug.levels = window.env.Debug.levels.map(level => level)

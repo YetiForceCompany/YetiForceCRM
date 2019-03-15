@@ -2,33 +2,35 @@ export default {
   "App": {
     "get": "App/get",
     "all": "App/all",
-    "Debug": {
-      "get": "App/Debug/get"
+    "Base": {
+      "Home": {},
+      "ModuleExample": {
+        "testVariable": "App/Base/ModuleExample/testVariable"
+      }
     },
-    "Env": {
-      "all": "App/Env/all"
+    "Core": {
+      "Debug": {
+        "get": "App/Core/Debug/get"
+      },
+      "Env": {
+        "all": "App/Core/Env/all"
+      },
+      "Hooks": {
+        "get": "App/Core/Hooks/get"
+      },
+      "Language": {},
+      "Menu": {
+        "items": "App/Core/Menu/items"
+      },
+      "Url": {
+        "get": "App/Core/Url/get"
+      },
+      "Users": {
+        "isLoggedIn": "App/Core/Users/isLoggedIn"
+      }
     },
-    "Hooks": {
-      "get": "App/Hooks/get"
-    },
-    "Language": {},
-    "Menu": {
-      "items": "App/Menu/items"
-    },
-    "Url": {
-      "get": "App/Url/get"
-    },
-    "Users": {
-      "isLoggedIn": "App/Users/isLoggedIn"
+    "Settings": {
+      "ModuleExample": {}
     }
-  },
-  "Base": {
-    "Home": {},
-    "ModuleExample": {
-      "testVariable": "Base/ModuleExample/testVariable"
-    }
-  },
-  "Settings": {
-    "ModuleExample": {}
   }
 }

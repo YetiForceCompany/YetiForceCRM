@@ -78,6 +78,7 @@ const appRequire = moduleName => {
 global.appRequire = appRequire
 
 const Objects = appRequire('src/utilities/Objects.js')
+const ClientModuleLoader = appRequire('src/ModuleLoader.js')
 
 function getSpacing(level) {
   let levelSpacing = ''
@@ -371,6 +372,7 @@ module.exports = {
           output[shortName].path = `${currentPath}/${route.path}`
         }
       }
+      console.log(output[shortName].path)
       if (typeof route.children !== 'undefined') {
         Objects.mergeDeep(output[shortName], {
           routes: this.prepareRoutes(route.children, output[shortName].path, output[shortName].routes)
@@ -391,7 +393,7 @@ module.exports = {
     for (let module of moduleConf) {
       routes[module.name] = { routes: {} }
       if (typeof module.routes !== 'undefined') {
-        routes[module.name].routes = this.prepareRoutes(module.routes)
+        routes[module.name].routes = this.prepareRoutes(module.routes, module.routes.path)
         if (typeof module.modules !== 'undefined') {
           routes[module.name].routes = this.prepareModuleRoutes(module.modules, routes[module.name].routes)
         }
@@ -407,8 +409,11 @@ module.exports = {
    * @param   {array}  moduleConf
    */
   saveRoutes(dir, moduleConf) {
-    const routes = this.prepareModuleRoutes(moduleConf)
-    writeFileSync(`${dir}${sep}routes.js`, `export default ${JSON.stringify(routes, null, 2)}`)
+    const routes = {}
+    //const moduleTree = Objects.arrayToAssoc(moduleConf, 'name', 'modules')
+    //console.log(moduleTree)
+    //const routes = this.prepareModuleRoutes(moduleConf)
+    //writeFileSync(`${dir}${sep}routes.js`, `export default ${JSON.stringify(routes, null, 2)}`)
   },
 
   /**

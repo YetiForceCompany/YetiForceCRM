@@ -1,37 +1,39 @@
 export default {
   "App": {
     "setModules": "App/setModules",
-    "Debug": {
-      "push": "App/Debug/push"
+    "Base": {
+      "Home": {},
+      "ModuleExample": {
+        "updateTestVariable": "App/Base/ModuleExample/updateTestVariable"
+      }
     },
-    "Env": {
-      "update": "App/Env/update"
+    "Core": {
+      "Debug": {
+        "push": "App/Core/Debug/push"
+      },
+      "Env": {
+        "update": "App/Core/Env/update"
+      },
+      "Hooks": {
+        "add": "App/Core/Hooks/add",
+        "remove": "App/Core/Hooks/remove"
+      },
+      "Language": {
+        "update": "App/Core/Language/update"
+      },
+      "Menu": {
+        "updateItems": "App/Core/Menu/updateItems",
+        "addItem": "App/Core/Menu/addItem"
+      },
+      "Url": {
+        "addUrl": "App/Core/Url/addUrl"
+      },
+      "Users": {
+        "isLoggedIn": "App/Core/Users/isLoggedIn"
+      }
     },
-    "Hooks": {
-      "add": "App/Hooks/add",
-      "remove": "App/Hooks/remove"
-    },
-    "Language": {
-      "update": "App/Language/update"
-    },
-    "Menu": {
-      "updateItems": "App/Menu/updateItems",
-      "addItem": "App/Menu/addItem"
-    },
-    "Url": {
-      "addUrl": "App/Url/addUrl"
-    },
-    "Users": {
-      "isLoggedIn": "App/Users/isLoggedIn"
+    "Settings": {
+      "ModuleExample": {}
     }
-  },
-  "Base": {
-    "Home": {},
-    "ModuleExample": {
-      "updateTestVariable": "Base/ModuleExample/updateTestVariable"
-    }
-  },
-  "Settings": {
-    "ModuleExample": {}
   }
 }

@@ -109,5 +109,24 @@ export default {
    */
   serialize(obj, options) {
     return prettier.format(_serialize(obj, options), { parser: 'babel', plugins: [babylon] })
+  },
+
+  /**
+   * Convert array of object with keys to associative array
+   *
+   * @param   {array}  array
+   * @param   {string} key
+   * @param   {string} nestedKey
+   *
+   * @return  {object}
+   */
+  arrayToAssoc(array, key, nestedKey, output = {}) {
+    for (let item of array) {
+      output[item[key]] = item
+      if (typeof item[nestedKey] !== 'undefined' && Array.isArray(item[nestedKey])) {
+        output[item[key]][nestedKey] = this.arrayToAssoc(item[nestedKey], key, nestedKey, output[item[key]][nestedKey])
+      }
+    }
+    return output
   }
 }
