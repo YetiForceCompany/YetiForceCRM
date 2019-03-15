@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import getters from 'src/store/getters.js'
+import getters from 'store/getters.js'
 import { mapGetters } from 'vuex'
 import YBreadcrumbs from 'components/Base/YBreadcrumbs'
 import YYetiInfo from 'components/Base/YYetiInfo'
@@ -35,7 +35,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      env: getters.Env.all
+      env: getters.Base.Env.all
     })
   }
 }
