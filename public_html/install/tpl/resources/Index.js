@@ -15,7 +15,7 @@ jQuery.Class('Install_Index_Js', {
 	],
 	checkUsername: function (field, rules, i, options) {
 		let fieldValue = field.val(),
-			negativeRegex = /^[a-zA-Z0-9_.@]{3,32}$/,
+			negativeRegex = /^[-_a-zA-Z]{3,32}$/,
 			result = negativeRegex.test(fieldValue),
 			logins = JSON.parse($("#not_allowed_logins").val());
 
