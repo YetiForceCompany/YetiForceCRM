@@ -10,7 +10,7 @@
     <q-toolbar>
       <div class="flex wrap full-width items-center">
         <y-breadcrumbs />
-        <y-yeti-info containerClass="q-ml-auto" />
+        <y-copyright containerClass="q-ml-auto" />
       </div>
     </q-toolbar>
   </q-footer>
@@ -20,11 +20,11 @@
 import getters from 'store/getters.js'
 import { mapGetters } from 'vuex'
 import YBreadcrumbs from 'components/Base/YBreadcrumbs'
-import YYetiInfo from 'components/Base/YYetiInfo'
+import YCopyright from 'components/Base/YCopyright'
 
 export default {
   name: 'YFooter',
-  components: { YBreadcrumbs, YYetiInfo },
+  components: { YBreadcrumbs, YCopyright },
   data() {
     return {
       searchModule: 'All records',
