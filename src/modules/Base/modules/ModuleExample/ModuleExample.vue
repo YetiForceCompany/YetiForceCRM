@@ -3,12 +3,12 @@
 <script>
 import ModuleLoader from 'src/ModuleLoader.js'
 import moduleStore from './store/index.js'
-import mutations from 'src/store/mutations.js'
+import mutations from 'store/mutations.js'
+import routes from 'store/routes.js'
 
 const moduleName = 'Base.ModuleExample'
 export default {
   name: moduleName,
-
   created() {
     this.$store.registerModule(moduleName.split('.'), ModuleLoader.prepareStoreNames(moduleName, moduleStore))
   },

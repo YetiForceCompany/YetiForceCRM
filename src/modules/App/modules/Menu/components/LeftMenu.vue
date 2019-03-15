@@ -21,7 +21,7 @@
 <script>
 import RoutePush from './Positions/RoutePush'
 
-const moduleName = 'Base.Left.Menu'
+const moduleName = 'App.Left.Menu'
 export default {
   name: moduleName,
   components: {

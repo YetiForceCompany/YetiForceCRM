@@ -6,6 +6,7 @@ import store from './store/index.js'
 const moduleName = 'App.Hooks'
 export default {
   name: moduleName,
+  inject: ['debug'],
   created() {
     this.$store.registerModule(moduleName.split('.'), ModuleLoader.prepareStoreNames(moduleName, store))
   }

@@ -188,6 +188,13 @@ const ModuleLoader = {
     flat.modules.sort((a, b) => {
       return b.priority - a.priority
     })
+    flat.modules = flat.modules.filter(module => {
+      if (!module.autoLoad) {
+        delete flat.components[module.fullName]
+        return false
+      }
+      return true
+    })
     return flat
   }
 }

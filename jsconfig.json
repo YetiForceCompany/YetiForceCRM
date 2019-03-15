@@ -11,7 +11,10 @@
       "statics/*": ["./src/statics/*"],
       "utilities/*": ["./src/utilities/*"],
       "services/*": ["./src/services/*"],
-      "pages/*": ["./src/pages/*"]
+      "pages/*": ["./src/pages/*"],
+      "App/*": ["./src/modules/App/*"],
+      "Base/*": ["./src/modules/Base/*"],
+      "Settings/*": ["./src/modules/Setting/*"]
     }
   },
   "include": ["./src/**/*"],

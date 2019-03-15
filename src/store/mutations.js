@@ -1,7 +1,8 @@
 export default {
   "App": {
+    "setModules": "App/setModules",
     "Debug": {
-      "pushError": "App/Debug/pushError"
+      "push": "App/Debug/push"
     },
     "Env": {
       "update": "App/Env/update"
