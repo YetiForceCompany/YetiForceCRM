@@ -1,3 +1,5 @@
 {
-  "priority": 100
+  "priority": 100,
+  "childrenPriority": 98,
+  "autoLoad": false
 }

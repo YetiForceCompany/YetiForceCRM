@@ -10,7 +10,7 @@ export default {
     this.$store.commit(mutations.App.Menu.addItem, {
       component: 'RoutePush',
       props: {
-        path: '/base/home',
+        path: '/app/base/home',
         icon: 'home',
         label: 'Home'
       }

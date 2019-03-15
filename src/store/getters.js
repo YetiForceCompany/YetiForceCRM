@@ -1,6 +1,10 @@
 export default {
   "App": {
-    "Debug": {},
+    "get": "App/get",
+    "all": "App/all",
+    "Debug": {
+      "get": "App/Debug/get"
+    },
     "Env": {
       "all": "App/Env/all"
     },

@@ -7,20 +7,27 @@ window.modules = [
     level: 0,
     parent: "",
     priority: 100,
+    autoLoad: false,
+    childrenPriority: 98,
     entry: "src\\modules\\App\\App.vue",
     directories: ["layouts", "modules", "router", "store"],
     routes: [
       {
         name: "App",
         parent: "Layout",
-        path: "/app",
+        path: "app",
         componentPath: "layouts/App.vue"
       }
     ],
     store: {
       actions: {},
-      getters: {},
-      mutations: {}
+      getters: {
+        get: "App/get",
+        all: "App/all"
+      },
+      mutations: {
+        setModules: "App/setModules"
+      }
     },
     storeFiles: {
       actions: "src\\modules\\App\\store\\actions.js",
@@ -35,15 +42,20 @@ window.modules = [
         name: "Debug",
         path: "src\\modules\\App\\modules\\Debug",
         level: 1,
-        priority: 99,
+        priority: 98,
+        autoLoad: false,
         entry: "src\\modules\\App\\modules\\Debug\\Debug.vue",
         directories: ["store"],
         store: {
+          getters: {
+            get: "App/Debug/get"
+          },
           mutations: {
-            pushError: "App/Debug/pushError"
+            push: "App/Debug/push"
           }
         },
         storeFiles: {
+          getters: "src\\modules\\App\\modules\\Debug\\store\\getters.js",
           mutations: "src\\modules\\App\\modules\\Debug\\store\\mutations.js",
           state: "src\\modules\\App\\modules\\Debug\\store\\state.js"
         }
@@ -54,7 +66,8 @@ window.modules = [
         name: "Env",
         path: "src\\modules\\App\\modules\\Env",
         level: 1,
-        priority: 99,
+        priority: 98,
+        autoLoad: true,
         entry: "src\\modules\\App\\modules\\Env\\Env.vue",
         directories: ["store"],
         store: {
@@ -77,7 +90,8 @@ window.modules = [
         name: "Hooks",
         path: "src\\modules\\App\\modules\\Hooks",
         level: 1,
-        priority: 99,
+        priority: 98,
+        autoLoad: true,
         entry: "src\\modules\\App\\modules\\Hooks\\Hooks.vue",
         directories: ["components", "store"],
         store: {
@@ -101,7 +115,8 @@ window.modules = [
         name: "Language",
         path: "src\\modules\\App\\modules\\Language",
         level: 1,
-        priority: 99,
+        priority: 98,
+        autoLoad: true,
         entry: "src\\modules\\App\\modules\\Language\\Language.vue",
         directories: ["store"],
         store: {
@@ -121,9 +136,10 @@ window.modules = [
         name: "Menu",
         path: "src\\modules\\App\\modules\\Menu",
         level: 1,
-        priority: 100,
+        priority: 99,
+        autoLoad: true,
         entry: "src\\modules\\App\\modules\\Menu\\Menu.vue",
-        directories: ["store"],
+        directories: ["components", "store"],
         store: {
           getters: {
             items: "App/Menu/items"
@@ -145,7 +161,8 @@ window.modules = [
         name: "Url",
         path: "src\\modules\\App\\modules\\Url",
         level: 1,
-        priority: 99,
+        priority: 98,
+        autoLoad: true,
         entry: "src\\modules\\App\\modules\\Url\\Url.vue",
         directories: ["store"],
         store: {
@@ -168,7 +185,8 @@ window.modules = [
         name: "Users",
         path: "src\\modules\\App\\modules\\Users",
         level: 1,
-        priority: 100,
+        priority: 98,
+        autoLoad: true,
         entry: "src\\modules\\App\\modules\\Users\\Users.vue",
         directories: ["layouts", "pages", "router", "store"],
         routes: [
@@ -239,12 +257,13 @@ window.modules = [
     level: 0,
     parent: "",
     priority: 0,
+    autoLoad: true,
     entry: "src\\modules\\Base\\Base.vue",
     directories: ["layouts", "modules", "router", "store"],
     routes: [
       {
         name: "Base",
-        parent: "Layout",
+        parent: "App",
         path: "base",
         componentPath: "layouts/Base.vue"
       }
@@ -268,6 +287,7 @@ window.modules = [
         path: "src\\modules\\Base\\modules\\Home",
         level: 1,
         priority: 0,
+        autoLoad: true,
         entry: "src\\modules\\Base\\modules\\Home\\Home.vue",
         directories: ["pages", "router"],
         routes: [
@@ -279,7 +299,7 @@ window.modules = [
             children: [
               {
                 name: "Base.HomeIndex.Home",
-                path: "/",
+                path: "",
                 componentPath: "pages/Home.vue"
               }
             ]
@@ -293,6 +313,7 @@ window.modules = [
         path: "src\\modules\\Base\\modules\\ModuleExample",
         level: 1,
         priority: 0,
+        autoLoad: true,
         entry: "src\\modules\\Base\\modules\\ModuleExample\\ModuleExample.vue",
         directories: ["pages", "router", "store"],
         routes: [
@@ -334,12 +355,13 @@ window.modules = [
     level: 0,
     parent: "",
     priority: 0,
+    autoLoad: true,
     entry: "src\\modules\\Settings\\Settings.vue",
     directories: ["layouts", "modules", "router", "store"],
     routes: [
       {
         name: "Settings",
-        parent: "Layout",
+        parent: "App",
         path: "settings",
         componentPath: "layouts/Settings.vue"
       }
@@ -363,6 +385,7 @@ window.modules = [
         path: "src\\modules\\Settings\\modules\\ModuleExample",
         level: 1,
         priority: 0,
+        autoLoad: true,
         entry:
           "src\\modules\\Settings\\modules\\ModuleExample\\ModuleExample.vue",
         directories: ["pages", "router"],

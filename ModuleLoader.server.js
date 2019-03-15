@@ -15,7 +15,10 @@ moduleAlias.addAliases({
   statics: `${__dirname}/src/statics`,
   utilities: `${__dirname}/src/utilities`,
   services: `${__dirname}/src/services`,
-  pages: `${__dirname}/src/pages`
+  pages: `${__dirname}/src/pages`,
+  App: `${__dirname}/src/modules/App}`,
+  Base: `${__dirname}/src/modules/Base`,
+  Settings: `${__dirname}/src/modules/Setting`
 })
 const { lstatSync, readdirSync, readFileSync, writeFileSync, watch } = require('fs')
 const { join, resolve, sep, basename } = require('path')
@@ -309,6 +312,7 @@ module.exports = {
       moduleConf.level = level
       moduleConf.parent = ''
       moduleConf.priority = 0
+      moduleConf.autoLoad = true
       const configFile = join(__dirname, moduleConf.path, 'module.config.json')
       if (isFile(configFile)) {
         console.log(`${getSpacing(level + 1)} - module config found`)
@@ -319,8 +323,8 @@ module.exports = {
       }
       if (parent) {
         moduleConf.parent = parent.moduleName
-        if (moduleConf.priority === 0) {
-          moduleConf.priority = parent.priority > 0 ? parent.priority - 1 : 0
+        if (moduleConf.priority === 0 && typeof parent.childrenPriority !== 'undefined') {
+          moduleConf.priority = parent.childrenPriority
         }
       }
       const entry = `${moduleConf.path}${sep}${moduleName}`
@@ -345,6 +349,69 @@ module.exports = {
   },
 
   /**
+   * Create object with route name as key recursively
+   *
+   * @param   {array}  routes
+   *
+   * @return  {object}
+   */
+  prepareRoutes(routes, currentPath = '', output = {}) {
+    for (let route of routes) {
+      const split = route.name.split('.')
+      const shortName = split[split.length - 1]
+      if (typeof output[shortName] === 'undefined') {
+        output[shortName] = {
+          path: '',
+          name: route.name,
+          routes: {}
+        }
+        if (route.path.substring(0, 1) === '/') {
+          output[shortName].path = route.path
+        } else {
+          output[shortName].path = `${currentPath}/${route.path}`
+        }
+      }
+      if (typeof route.children !== 'undefined') {
+        Objects.mergeDeep(output[shortName], {
+          routes: this.prepareRoutes(route.children, output[shortName].path, output[shortName].routes)
+        })
+      }
+    }
+    return output
+  },
+
+  /**
+   * Prepare routes for saving
+   *
+   * @param   {array}  moduleConf
+   *
+   * @return  {object}
+   */
+  prepareModuleRoutes(moduleConf, routes = {}) {
+    for (let module of moduleConf) {
+      routes[module.name] = { routes: {} }
+      if (typeof module.routes !== 'undefined') {
+        routes[module.name].routes = this.prepareRoutes(module.routes)
+        if (typeof module.modules !== 'undefined') {
+          routes[module.name].routes = this.prepareModuleRoutes(module.modules, routes[module.name].routes)
+        }
+      }
+    }
+    return routes
+  },
+
+  /**
+   * Save routes to file which will help us change route path in one place
+   *
+   * @param   {string}  dir
+   * @param   {array}  moduleConf
+   */
+  saveRoutes(dir, moduleConf) {
+    const routes = this.prepareModuleRoutes(moduleConf)
+    writeFileSync(`${dir}${sep}routes.js`, `export default ${JSON.stringify(routes, null, 2)}`)
+  },
+
+  /**
    * Save module configuration file
    *
    * @param   {object}  moduleConf
@@ -355,6 +422,7 @@ module.exports = {
     const moduleConfiguration = `window.modules = ${Objects.serialize(moduleConf, { space: 2, unsafe: true })}`
     writeFileSync(`./src/statics/modules.js`, moduleConfiguration)
     this.saveStoreNames('src/store', moduleConf)
+    this.saveRoutes('src/store', moduleConf)
     return moduleConf
   },
 
@@ -368,7 +436,8 @@ module.exports = {
       `statics${sep}modules.js`,
       `store${sep}getters.js`,
       `store${sep}mutations.js`,
-      `store${sep}actions.js`
+      `store${sep}actions.js`,
+      `store${sep}routes.js`
     ]
     watch(dir, { recursive: true }, (eventType, fileName) => {
       if (eventType === 'change' && exclude.indexOf(fileName) === -1) {

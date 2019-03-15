@@ -17,6 +17,44 @@ export default {
   },
 
   /**
+   * Helper function which will merge objects recursively - creating brand new one - like clone
+   *
+   * @param {object} target
+   * @params {object} sources
+   * @returns {object}
+   */
+  mergeDeep(target, ...sources) {
+    if (!sources.length) {
+      return target
+    }
+    const source = sources.shift()
+    if (this.isObject(target) && this.isObject(source)) {
+      for (const key in source) {
+        if (this.isObject(source[key])) {
+          if (typeof target[key] === 'undefined') {
+            Object.assign(target, { [key]: {} })
+          }
+          this.mergeDeep(target[key], source[key])
+        } else if (Array.isArray(source[key])) {
+          target[key] = source[key].map(item => {
+            if (this.isObject(item)) {
+              return this.mergeDeep({}, item)
+            }
+            return item
+          })
+        } else if (typeof source[key] === 'function') {
+          if (source[key].toString().indexOf('[native code]') === -1) {
+            target[key] = source[key]
+          }
+        } else {
+          Object.assign(target, { [key]: source[key] })
+        }
+      }
+    }
+    return this.mergeDeep(target, ...sources)
+  },
+
+  /**
    * Helper function to merge multiple objects with reactivity enabled
    *
    * @param   {object}  target target object

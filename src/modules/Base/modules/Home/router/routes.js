@@ -7,7 +7,7 @@ export default [
     children: [
       {
         name: 'Base.HomeIndex.Home',
-        path: '/',
+        path: '',
         componentPath: 'pages/Home.vue'
       }
     ]

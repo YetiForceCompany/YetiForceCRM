@@ -3,12 +3,12 @@
 <script>
 import ModuleLoader from 'src/ModuleLoader.js'
 import moduleStore from './store/index.js'
-import mutations from 'src/store/mutations.js'
+import mutations from 'store/mutations.js'
+import routes from 'store/routes.js'
 
 const moduleName = 'Base.ModuleExample'
 export default {
   name: moduleName,
-
   created() {
     this.$store.registerModule(moduleName.split('.'), ModuleLoader.prepareStoreNames(moduleName, moduleStore))
   },
@@ -16,7 +16,7 @@ export default {
     this.$store.commit(mutations.App.Menu.addItem, {
       component: 'RoutePush',
       props: {
-        path: '/base/module-example',
+        path: '/app/base/module-example',
         icon: 'home',
         label: 'Base Example'
       }

@@ -3,12 +3,14 @@ import Objects from 'utilities/Objects.js'
 
 export default {
   /**
-   * Push error to state
+   * Push log message
    *
    * @param   {object}  state
-   * @param   {object}  payload
+   * @param   {payload}  payload {moduleName:String, type:('log'|'info'|'notice'|'warning'|'error'), message:String, data:any}
    */
-  pushError(state, payload) {
-    state.errors.push({ [payload.source]: Objects.mergeDeepReactive({}, payload.data) })
+  push(state, payload) {
+    payload.date = new Date()
+    state.all.push(payload)
+    state[payload.type].push(payload)
   }
 }

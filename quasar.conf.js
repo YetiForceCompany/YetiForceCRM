@@ -97,7 +97,10 @@ module.exports = function(ctx) {
           statics: path.resolve(__dirname, 'src', 'statics'),
           utilities: path.resolve(__dirname, 'src', 'utilities'),
           services: path.resolve(__dirname, 'src', 'services'),
-          pages: path.resolve(__dirname, 'src', 'pages')
+          pages: path.resolve(__dirname, 'src', 'pages'),
+          App: path.resolve(__dirname, 'src', 'modules', 'App'),
+          Base: path.resolve(__dirname, 'src', 'modules', 'Base'),
+          Settings: path.resolve(__dirname, 'src', 'modules', 'Settings')
         }
         if (process.argv.indexOf('--watch') >= 0) {
           cfg.watch = true
