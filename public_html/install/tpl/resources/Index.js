@@ -17,13 +17,13 @@ jQuery.Class('Install_Index_Js', {
 		let fieldValue = field.val(),
 			negativeRegex = /^[-_a-zA-Z]{3,32}$/,
 			result = negativeRegex.test(fieldValue),
-			logins = JSON.parse($("#not_allowed_logins").val());
+			logins = JSON.parse($('#not_allowed_logins').val());
 
 		if (!result) {
-			return app.vtranslate("JS_CONTAINS_ILLEGAL_CHARACTERS");
+			return app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
 		}
 		if ($.inArray(fieldValue, logins) !== -1) {
-			return app.vtranslate("LBL_INVALID_USERNAME_ERROR");
+			return app.vtranslate('LBL_INVALID_USERNAME_ERROR');
 		}
 	},
 }, {
