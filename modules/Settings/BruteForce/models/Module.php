@@ -195,7 +195,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		])->execute();
 		$this->isBlocked = false;
 
-		return $this->blockedId = $db->getLastInsertID('a_#__bruteforce_blocked_id_seq');
+		return $this->blockedId = $db->getLastInsertID('a_#__bruteforce_blocked');
 	}
 
 	/**

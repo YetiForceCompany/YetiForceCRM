@@ -335,7 +335,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 		return [
 			'success' => true,
-			'id' => $db->getLastInsertID('vtiger_module_dashboard_blocks_id_seq'),
+			'id' => $db->getLastInsertID('vtiger_module_dashboard_blocks'),
 		];
 	}
 
@@ -423,7 +423,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				'date' => $data['default_date'] ?? null,
 				'dashboardid' => empty($data['dashboardId']) ? self::getDefaultDashboard() : $data['dashboardId'],
 			])->execute();
-			$widgetId = $db->getLastInsertID('vtiger_module_dashboard_widgets_id_seq');
+			$widgetId = $db->getLastInsertID('vtiger_module_dashboard_widgets');
 		}
 		\App\Log::trace('Exiting Settings_WidgetsManagement_Module_Model::addWidget() method ...');
 		return ['success' => true, 'id' => $templateId, 'wid' => $widgetId ?? '', 'status' => $status, 'text' => \App\Language::translate('LBL_WIDGET_ADDED', 'Settings::WidgetsManagement')];

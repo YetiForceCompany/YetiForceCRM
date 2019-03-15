@@ -146,7 +146,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 					'defaultid' => 0,
 					'deleted' => 0,
 				])->execute();
-			$id = $db->getLastInsertID('vtiger_currency_info_id_seq');
+			$id = $db->getLastInsertID('vtiger_currency_info');
 		}
 		self::clearCache();
 

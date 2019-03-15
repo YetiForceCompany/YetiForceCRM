@@ -36,7 +36,7 @@ class Settings_Vtiger_Tracker_Model
 			'action' => \App\Process::$processType . ':' . \App\Process::$processName,
 		])->execute();
 		if ($insertedInfo === 1) {
-			self::$id = $db->getLastInsertID('l_#__settings_tracker_basic_id_seq');
+			self::$id = $db->getLastInsertID('l_#__settings_tracker_basic');
 		}
 	}
 

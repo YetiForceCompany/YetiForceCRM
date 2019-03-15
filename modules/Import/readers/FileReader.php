@@ -171,7 +171,7 @@ class Import_FileReader_Reader
 		$db->createCommand()->insert($tableName, $data)->execute();
 		++$this->numberOfRecordsRead;
 
-		return $db->getLastInsertID($tableName . '_id_seq');
+		return $db->getLastInsertID($tableName);
 	}
 
 	/**

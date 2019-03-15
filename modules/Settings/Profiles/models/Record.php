@@ -565,7 +565,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 				'description' => $description,
 				'directly_related_to_role' => $isProfileDirectlyRelatedToRole,
 			])->execute();
-			$profileId = $db->getLastInsertID('vtiger_profile_profileid_seq');
+			$profileId = $db->getLastInsertID('vtiger_profile');
 			$this->setId($profileId);
 		} else {
 			$db->createCommand()->update('vtiger_profile', [

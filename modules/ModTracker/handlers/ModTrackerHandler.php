@@ -56,7 +56,7 @@ class ModTracker_ModTrackerHandler_Handler
 			'status' => $status,
 			'last_reviewed_users' => '#' . App\User::getCurrentUserRealId() . '#'
 		])->execute();
-		$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
+		$id = $db->getLastInsertID('vtiger_modtracker_basic');
 		if (!$recordModel->isNew()) {
 			ModTracker_Record_Model::unsetReviewed($recordId, App\User::getCurrentUserRealId(), $id);
 		}
@@ -225,7 +225,7 @@ class ModTracker_ModTrackerHandler_Handler
 			'status' => $status,
 			'last_reviewed_users' => '#' . \App\User::getCurrentUserRealId() . '#'
 		])->execute();
-		$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
+		$id = $db->getLastInsertID('vtiger_modtracker_basic');
 		ModTracker_Record_Model::unsetReviewed($recordId, \App\User::getCurrentUserRealId(), $id);
 		$isExists = (new \App\Db\Query())->from('vtiger_crmentity')->where(['crmid' => $recordId])->andWhere(['<>', 'smownerid', \App\User::getCurrentUserRealId()])->exists();
 		if ($isExists) {

@@ -649,7 +649,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$db = \App\Db::getInstance();
 		$db->createCommand()->insert('vtiger_ossmails_logs', ['status' => 1, 'user' => $array['user'], 'start_time' => date('Y-m-d H:i:s')])->execute();
 
-		return $db->getLastInsertID('vtiger_ossmails_logs_id_seq');
+		return $db->getLastInsertID('vtiger_ossmails_logs');
 	}
 
 	/**

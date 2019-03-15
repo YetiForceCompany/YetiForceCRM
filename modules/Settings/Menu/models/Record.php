@@ -351,7 +351,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				$menuItem['role'] = $toRole;
 				$menuItem['parentid'] = $related[$menuItem['parentid']] ?? $menuItem['parentid'];
 				$db->createCommand()->insert('yetiforce_menu', $menuItem)->execute();
-				$related[$menuId] = $db->getLastInsertID('yetiforce_menu_id_seq');
+				$related[$menuId] = $db->getLastInsertID('yetiforce_menu');
 			}
 			$this->generateFileMenu($toRole);
 		}

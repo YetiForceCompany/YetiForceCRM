@@ -97,7 +97,7 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 		}
 		if (!$recordId) {
 			$db->createCommand()->insert('a_#__adv_permission', $params)->execute();
-			$this->set('id', $db->getLastInsertID('a_#__adv_permission_id_seq'));
+			$this->set('id', $db->getLastInsertID('a_#__adv_permission'));
 		} else {
 			$db->createCommand()->update('a_#__adv_permission', $params, ['id' => $recordId])->execute();
 		}

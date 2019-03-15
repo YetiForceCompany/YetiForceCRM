@@ -193,7 +193,7 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		if ($params && empty($this->getId())) {
 			$db->createCommand()->insert('s_#__mail_smtp', $params)->execute();
-			$this->set('id', $db->getLastInsertID('s_#__mail_smtp_id_seq'));
+			$this->set('id', $db->getLastInsertID('s_#__mail_smtp'));
 		} elseif (!empty($this->getId())) {
 			$this->set('id', $this->getId());
 			$db->createCommand()->update('s_#__mail_smtp', $params, ['id' => $this->getId()])->execute();

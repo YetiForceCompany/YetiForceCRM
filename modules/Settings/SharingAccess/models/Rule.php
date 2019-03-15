@@ -353,7 +353,7 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 			$db->createCommand()->insert('vtiger_datashare_module_rel', [
 				'tabid' => $this->getModule()->getId(),
 			])->execute();
-			$ruleId = $db->getLastInsertID('vtiger_datashare_module_rel_shareid_seq');
+			$ruleId = $db->getLastInsertID('vtiger_datashare_module_rel');
 			$this->set('shareid', $ruleId);
 		} else {
 			$relationTypeComponents = explode('::', $this->get('relationtype'));

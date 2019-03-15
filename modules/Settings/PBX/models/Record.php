@@ -267,7 +267,7 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 		} else {
 			$seccess = $db->createCommand()->insert('s_#__pbx', $data)->execute();
 			if ($seccess) {
-				$this->set('pbxid', $db->getLastInsertID('s_#__pbx_pbxid_seq'));
+				$this->set('pbxid', $db->getLastInsertID('s_#__pbx'));
 			}
 		}
 		return $seccess;

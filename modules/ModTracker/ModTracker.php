@@ -255,7 +255,7 @@ class ModTracker
 			'status' => $type,
 			'last_reviewed_users' => '#' . $currentUser->getRealId() . '#'
 		])->execute();
-		$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
+		$id = $db->getLastInsertID('vtiger_modtracker_basic');
 		ModTracker_Record_Model::unsetReviewed($sourceId, $currentUser->getRealId(), $id);
 		$db->createCommand()->insert('vtiger_modtracker_relations', [
 			'id' => $id,

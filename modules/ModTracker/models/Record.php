@@ -497,7 +497,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			'status' => 6,
 			'last_reviewed_users' => '#' . App\User::getCurrentUserRealId() . '#',
 		])->execute();
-		$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
+		$id = $db->getLastInsertID('vtiger_modtracker_basic');
 		self::unsetReviewed($sourceId, \App\User::getCurrentUserRealId(), $id);
 	}
 

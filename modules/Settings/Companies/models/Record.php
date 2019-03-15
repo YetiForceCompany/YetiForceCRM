@@ -121,7 +121,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 			$db->createCommand()->update('s_#__companies', $params, ['id' => $recordId])->execute();
 		} else {
 			$db->createCommand()->insert('s_#__companies', $params)->execute();
-			$this->set('id', $db->getLastInsertID('s_#__companies_id_seq'));
+			$this->set('id', $db->getLastInsertID('s_#__companies'));
 		}
 		\App\Cache::clear();
 	}

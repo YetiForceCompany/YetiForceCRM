@@ -207,7 +207,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		$db = App\Db::getInstance();
 		$dbCommand = App\Db::getInstance()->createCommand();
 		$dbCommand->insert($this->getBaseTable(), $data['fields'])->execute();
-		$workflowId = $db->getLastInsertID('com_vtiger_workflows_workflow_id_seq');
+		$workflowId = $db->getLastInsertID('com_vtiger_workflows');
 		$messages = ['id' => $workflowId];
 		if (!empty($data['workflow_methods'])) {
 			foreach ($data['workflow_methods'] as $method) {
@@ -217,7 +217,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		if ($data['workflow_tasks']) {
 			foreach ($data['workflow_tasks'] as $task) {
 				$dbCommand->insert('com_vtiger_workflowtasks', ['workflow_id' => $workflowId, 'summary' => $task['summary']])->execute();
-				$taskId = $db->getLastInsertID('com_vtiger_workflowtasks_task_id_seq');
+				$taskId = $db->getLastInsertID('com_vtiger_workflowtasks');
 				include_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.php';
 				include_once 'modules/com_vtiger_workflow/tasks/VTEmailTemplateTask.php';
 				$taskObject = unserialize($task['task']);
@@ -261,9 +261,9 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		} else {
 			if (!file_exists($functionPath)) {
 				$workflowsExists = file_exists(dirname($functionPath));
-				if($workflowsExists && is_file(dirname($functionPath))){
+				if ($workflowsExists && is_file(dirname($functionPath))) {
 					throw new \App\Exceptions\Security('ERR_DIRECTORY_CANNOT_BE_CREATED||function_path', 406);
-				}elseif (!$workflowsExists) {
+				} elseif (!$workflowsExists) {
 					mkdir(dirname($functionPath));
 				}
 				if (file_put_contents($functionPath, $scriptData) === false) {
@@ -271,7 +271,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 				}
 			} else {
 				require_once $functionPath;
-				if(!method_exists($method['function_name'], $method['method_name'])){
+				if (!method_exists($method['function_name'], $method['method_name'])) {
 					throw new \App\Exceptions\IllegalValue('ERR_SCRIPT_EXISTS_FUNCTION_NOT||function_path', 406);
 				}
 			}
