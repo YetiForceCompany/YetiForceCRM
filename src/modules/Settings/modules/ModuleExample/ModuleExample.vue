@@ -8,7 +8,7 @@ const moduleName = 'Settings.ModuleExample'
 export default {
   name: moduleName,
   beforeMount() {
-    this.$store.commit(mutations.Base.Menu.addItem, {
+    this.$store.commit(mutations.App.Menu.addItem, {
       component: 'RoutePush',
       props: {
         path: '/settings/module-example',
@@ -16,7 +16,7 @@ export default {
         label: 'Settings Example'
       }
     })
-    this.$store.commit(mutations.Base.Hooks.add, [
+    this.$store.commit(mutations.App.Hooks.add, [
       {
         hookName: 'Settings.ModuleExample.Pages.ModuleExample.before',
         component: {

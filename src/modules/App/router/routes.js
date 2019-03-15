@@ -2,7 +2,7 @@ export default [
   {
     name: 'App',
     parent: 'Layout',
-    path: 'app',
+    path: '/app',
     componentPath: 'layouts/App.vue'
   }
 ]
