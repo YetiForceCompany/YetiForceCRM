@@ -3,13 +3,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Objects from 'utilities/Objects.js'
-import ModuleLoader from '../ModuleLoader.js'
 
-if (typeof window !== 'undefined' && typeof window.modules !== 'undefined') {
-  ModuleLoader.flattenModules(window.modules).modules.forEach(module => {
-    module.component()
-  })
-}
 Vue.use(Vuex)
 
 let store = new Vuex.Store({

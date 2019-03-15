@@ -22,6 +22,7 @@ if (typeof window.modules === 'object') {
   components = flat.components
   modules = flat.modules
 }
+modules.forEach(module => module.component())
 
 const moduleName = 'App'
 export default {
@@ -52,6 +53,7 @@ export default {
   },
   created() {
     this.$store.registerModule(moduleName, ModuleLoader.prepareStoreNames(moduleName, store))
+
     if (typeof window !== 'undefined') {
       this.$store.commit(mutations.App.setModules, Objects.mergeDeepReactive({}, window.modules))
       this.config.debug.levels = window.env.Debug.levels.map(level => level)
