@@ -16,7 +16,7 @@ export default {
     this.$store.commit(mutations.App.Menu.addItem, {
       component: 'RoutePush',
       props: {
-        path: '/base/module-example',
+        path: '/app/base/module-example',
         icon: 'home',
         label: 'Base Example'
       }

@@ -1,7 +1,7 @@
 export default [
   {
     name: 'Settings',
-    parent: 'Layout',
+    parent: 'App',
     path: 'settings',
     componentPath: 'layouts/Settings.vue'
   }
