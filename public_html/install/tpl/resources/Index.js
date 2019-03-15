@@ -14,9 +14,16 @@ jQuery.Class('Install_Index_Js', {
 		'dateformat', 'default_timezone'
 	],
 	checkUsername: function (field, rules, i, options) {
-		var logins = JSON.parse(jQuery('#not_allowed_logins').val());
-		if (jQuery.inArray(field.val(), logins) !== -1) {
-			return app.vtranslate('LBL_INVALID_USERNAME_ERROR');
+		let fieldValue = field.val(),
+			negativeRegex = /^[a-zA-Z0-9_.@]{3,32}$/,
+			result = negativeRegex.test(fieldValue),
+			logins = JSON.parse($("#not_allowed_logins").val());
+
+		if (!result) {
+			return app.vtranslate("JS_CONTAINS_ILLEGAL_CHARACTERS");
+		}
+		if ($.inArray(fieldValue, logins) !== -1) {
+			return app.vtranslate("LBL_INVALID_USERNAME_ERROR");
 		}
 	},
 }, {
