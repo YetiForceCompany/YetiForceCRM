@@ -3,7 +3,7 @@
   <q-list>
     <q-item header class="bg-black text-white q-toolbar q-px-md">
       <q-item-section avatar>
-        <q-icon name="person"/>
+        <q-icon name="person" />
       </q-item-section>
       <q-item-section>
         <q-item-label>{{ userName }}</q-item-label>
@@ -21,20 +21,21 @@
 <script>
 import RoutePush from './Positions/RoutePush'
 
+const moduleName = 'Base.Left.Menu'
 export default {
+  name: moduleName,
+  components: {
+    RoutePush
+  },
   data() {
     return {
       userName: 'User Name',
       companyName: 'Company Name'
     }
   },
-  name: 'BaseLeftMenu',
-  components: {
-    RoutePush
-  },
   computed: {
     positions() {
-      return this.$store.state.Base.Menu.items
+      return this.$store.state.App.Menu.items
     }
   }
 }

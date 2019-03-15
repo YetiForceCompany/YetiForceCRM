@@ -1,33 +1,33 @@
 export default {
   "App": {
-    "Home": {},
-    "ModuleExample": {
-      "updateTestVariable": "App/ModuleExample/updateTestVariable"
+    "Debug": {
+      "pushError": "App/Debug/pushError"
+    },
+    "Env": {
+      "update": "App/Env/update"
+    },
+    "Hooks": {
+      "add": "App/Hooks/add",
+      "remove": "App/Hooks/remove"
+    },
+    "Language": {
+      "update": "App/Language/update"
+    },
+    "Menu": {
+      "updateItems": "App/Menu/updateItems",
+      "addItem": "App/Menu/addItem"
+    },
+    "Url": {
+      "addUrl": "App/Url/addUrl"
+    },
+    "Users": {
+      "isLoggedIn": "App/Users/isLoggedIn"
     }
   },
   "Base": {
-    "Debug": {
-      "pushError": "Base/Debug/pushError"
-    },
-    "Env": {
-      "update": "Base/Env/update"
-    },
-    "Hooks": {
-      "add": "Base/Hooks/add",
-      "remove": "Base/Hooks/remove"
-    },
-    "Language": {
-      "update": "Base/Language/update"
-    },
-    "Menu": {
-      "updateItems": "Base/Menu/updateItems",
-      "addItem": "Base/Menu/addItem"
-    },
-    "Url": {
-      "addUrl": "Base/Url/addUrl"
-    },
-    "Users": {
-      "isLoggedIn": "Base/Users/isLoggedIn"
+    "Home": {},
+    "ModuleExample": {
+      "updateTestVariable": "Base/ModuleExample/updateTestVariable"
     }
   },
   "Settings": {

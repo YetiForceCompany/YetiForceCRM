@@ -1,11 +1,5 @@
 export default {
   "App": {
-    "Home": {},
-    "ModuleExample": {
-      "getData": "App/ModuleExample/getData"
-    }
-  },
-  "Base": {
     "Debug": {},
     "Env": {},
     "Hooks": {},
@@ -13,9 +7,15 @@ export default {
     "Menu": {},
     "Url": {},
     "Users": {
-      "fetchData": "Base/Users/fetchData",
-      "login": "Base/Users/login",
-      "remind": "Base/Users/remind"
+      "fetchData": "App/Users/fetchData",
+      "login": "App/Users/login",
+      "remind": "App/Users/remind"
+    }
+  },
+  "Base": {
+    "Home": {},
+    "ModuleExample": {
+      "getData": "Base/ModuleExample/getData"
     }
   },
   "Settings": {

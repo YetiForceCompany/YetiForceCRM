@@ -35,7 +35,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      env: getters.Base.Env.all
+      env: getters.App.Env.all
     })
   }
 }
