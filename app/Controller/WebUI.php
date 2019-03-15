@@ -72,9 +72,9 @@ class WebUI extends Base
 	/**
 	 * Get environment variables.
 	 *
-	 * @return array
+	 * @return string
 	 */
-	public function getEnv(): array
+	public function getEnv(): string
 	{
 		$lang = \App\Language::getLanguage();
 		return \App\Json::encode([
@@ -83,7 +83,6 @@ class WebUI extends Base
 				'publicDir' => '/dist',
 				'routerMode' => 'hash',
 			],
-			'Users' => ['isLoggedIn' => true],
 			'Language' => [
 				'lang' => $lang,
 				'translations' => \App\Language::getLanguageData($lang),
