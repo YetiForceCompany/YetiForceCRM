@@ -280,7 +280,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		];
 		$params['setype'] = $moduleName . ' Attachment';
 		$db->createCommand()->insert('vtiger_crmentity', $params)->execute();
-		$currentId = $db->getLastInsertID('vtiger_crmentity_crmid_seq');
+		$currentId = $db->getLastInsertID('vtiger_crmentity');
 		if ($fileInstance->moveFile(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $uploadFilePath . $currentId)) {
 			$db->createCommand()->insert('vtiger_attachments', [
 				'attachmentsid' => $currentId,

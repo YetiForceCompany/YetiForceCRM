@@ -73,7 +73,7 @@ class BatchMethod extends Base
 			}
 			$this->value['created_time'] = date('Y-m-d H:i:s');
 			$result = $db->createCommand()->insert('s_#__batchmethod', $this->getData())->execute();
-			$this->value['id'] = $db->getLastInsertID('s_#__batchmethod_id_seq');
+			$this->value['id'] = $db->getLastInsertID('s_#__batchmethod');
 		}
 		$this->previousStatus = $this->get('status');
 		return (bool) $result;

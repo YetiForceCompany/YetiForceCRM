@@ -52,7 +52,7 @@ class Vtiger_NoteBook_Action extends \App\Controller\Action
 			])->execute();
 		$result = [];
 		$result['success'] = true;
-		$result['widgetId'] = $db->getLastInsertID('vtiger_module_dashboard_id_seq');
+		$result['widgetId'] = $db->getLastInsertID('vtiger_module_dashboard');
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

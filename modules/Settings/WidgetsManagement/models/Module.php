@@ -403,7 +403,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			'cache' => $data['cache'] ?? null,
 			'date' => $data['default_date'] ?? null,
 		])->execute();
-		$templateId = $db->getLastInsertID('vtiger_module_dashboard_id_seq');
+		$templateId = $db->getLastInsertID('vtiger_module_dashboard');
 		if ($addToUser) {
 			$active = 0;
 			if ($data['isdefault']) {

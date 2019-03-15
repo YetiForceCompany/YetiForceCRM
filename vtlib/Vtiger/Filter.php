@@ -80,7 +80,7 @@ class Filter
 			'description' => $this->description,
 			'sort' => $this->sort,
 		])->execute();
-		$this->id = $db->getLastInsertID('vtiger_customview_cvid_seq');
+		$this->id = $db->getLastInsertID('vtiger_customview');
 		\App\Log::trace("Creating Filter $this->name ... DONE", __METHOD__);
 	}
 

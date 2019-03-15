@@ -91,7 +91,7 @@ class Rss_Record_Model extends Vtiger_Record_Model
 		$insert = $db->createCommand()->insert('vtiger_rss', ['rssurl' => $url, 'rsstitle' => $title])->execute();
 
 		if ($insert) {
-			$id = $db->getLastInsertID('vtiger_rss_rssid_seq');
+			$id = $db->getLastInsertID('vtiger_rss');
 			$this->setId($id);
 
 			return $id;

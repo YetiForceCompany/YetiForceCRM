@@ -36,7 +36,7 @@ class Profile
 			'profilename' => $this->name,
 			'description' => $this->desc,
 		])->execute();
-		$this->id = $db->getLastInsertID('vtiger_profile_profileid_seq');
+		$this->id = $db->getLastInsertID('vtiger_profile');
 		$dataReader = (new \App\Db\Query())->select(['tabid', 'fieldid'])->from('vtiger_field')
 			->createCommand()->query();
 		while ($row = $dataReader->read()) {
