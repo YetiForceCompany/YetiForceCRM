@@ -10,7 +10,7 @@ export default {
    */
   fetchData({ commit, rootGetters }, view) {
     loginAxios({
-      url: rootGetters[getters.App.Url.get](`Users.${view}.getData`),
+      url: rootGetters[getters.App.Core.Url.get](`Users.${view}.getData`),
       method: 'POST'
     }).then(response => {
       commit('Global/update', { App: response.data.env })
@@ -47,7 +47,7 @@ export default {
    */
   login({ commit, rootGetters }, formData) {
     loginAxios({
-      url: rootGetters[getters.App.Url.get]('Users.Login.login'),
+      url: rootGetters[getters.App.Core.Url.get]('Users.Login.login'),
       data: formData,
       method: 'POST'
     }).then(response => {
@@ -70,7 +70,7 @@ export default {
    */
   remind({ commit, rootGetters }, formData) {
     loginAxios({
-      url: rootGetters[getters.App.Url.get]('App.Users.remind'),
+      url: rootGetters[getters.App.Core.Url.get]('App.Users.remind'),
       data: formData,
       method: 'POST'
     }).then(response => {
