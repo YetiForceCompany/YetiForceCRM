@@ -320,7 +320,7 @@ class User
 	 */
 	public function get($key)
 	{
-		return $this->privileges[$key];
+		return $this->privileges[$key] ?? null;
 	}
 
 	/**
@@ -330,7 +330,7 @@ class User
 	 */
 	public function isActive()
 	{
-		return 'Active' === $this->privileges['details']['status'];
+		return 'Active' === ($this->privileges['details']['status'] ?? '');
 	}
 
 	/**

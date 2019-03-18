@@ -12,20 +12,6 @@
 class Users_Login_Action extends \App\Controller\Action
 {
 	/**
-	 * Users record model.
-	 *
-	 * @var Users_Record_Model
-	 */
-	private $userRecordModel;
-
-	/**
-	 * Base user model.
-	 *
-	 * @var \App\User
-	 */
-	private $userModel;
-
-	/**
 	 * {@inheritdoc}
 	 */
 	public function loginRequired()
@@ -36,179 +22,91 @@ class Users_Login_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(App\Request $request)
+	public function checkPermission()
 	{
 		return true;
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Process action.
 	 */
-	public function process(App\Request $request)
+	public function process()
 	{
+		$mode = $this->request->has('mode') ? $this->request->getMode() : 'login';
+		return $this->{$mode}();
+	}
+
+	/**
+	 * Login function.
+	 *
+	 * @return \App\Response
+	 */
+	public function login()
+	{
+		$response = new \App\Response();
 		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
 		if ($bfInstance->isActive() && $bfInstance->isBlockedIp()) {
 			$bfInstance->incAttempts();
-			Users_Module_Model::getInstance('Users')->saveLoginHistory(strtolower($request->getByType('username', 'Text')), 'Blocked IP');
-			header('location: index.php?module=Users&view=Login');
-			return false;
-		}
-		if ('2fa' === \App\Session::get('LoginAuthyMethod')) {
-			return $this->check2fa($request);
-		}
-		return $this->login($request);
-	}
-
-	/**
-	 * Check if 2FA verification is necessary.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\IllegalValue
-	 */
-	public function check2fa(App\Request $request)
-	{
-		$userId = \App\Session::get('2faUserId');
-		if (Users_Totp_Authmethod::verifyCode(\App\User::getUserModel($userId)->getDetail('authy_secret_totp'), $request->getByType('user_code', 'Digital'))) {
-			\App\Session::set('authenticated_user_id', $userId);
-			\App\Session::delete('2faUserId');
-			\App\Session::delete('LoginAuthyMethod');
-			\App\User::setCurrentUserId($userId);
-			$this->redirectUser();
+			\Users_Module_Model::getInstance('Users')->saveLoginHistory(strtolower($this->request->getByType('username', 'Text')), 'Blocked IP');
+			$response->setError(401, 'LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS');
 		} else {
-			\App\Session::set('UserLoginMessage', \App\Language::translate('LBL_2FA_WRONG_CODE', 'Users'));
-			\App\Session::set('UserLoginMessageType', 'error');
-			$this->failedLogin($request);
-		}
-	}
-
-	/**
-	 * Redirect the user to a different page.
-	 */
-	private function redirectUser()
-	{
-		if (isset($_SESSION['return_params'])) {
-			header('location: index.php?' . $_SESSION['return_params']);
-		} elseif (AppConfig::performance('SHOW_ADMIN_PANEL') && $this->userModel->isAdmin()) {
-			header('location: index.php?module=Vtiger&parent=Settings&view=Index');
-		} else {
-			header('location: index.php');
-		}
-	}
-
-	/**
-	 * User login to the system.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @return bool
-	 */
-	public function login(App\Request $request)
-	{
-		if (\App\User::isLoggedIn()) {
-			return true;
-		}
-		$userName = $request->getByType('username', 'Text');
-		$password = $request->getRaw('password');
-		if ('install' === $request->getMode()) {
-			$this->cleanInstallationFiles();
-		}
-		$this->userRecordModel = Users_Record_Model::getCleanInstance('Users')->set('user_name', $userName);
-		if (!empty($password) && $this->userRecordModel->doLogin($password)) {
-			$this->userModel = App\User::getUserModel($this->userRecordModel->getId());
-			if ('PASSWORD' === \App\Session::get('UserAuthMethod') && $this->userRecordModel->verifyPasswordChange($this->userModel)) {
-				\App\Session::set('UserLoginMessage', App\Language::translate('LBL_YOUR_PASSWORD_HAS_EXPIRED', 'Users'));
-				\App\Session::set('UserLoginMessageType', 'error');
-				header('location: index.php');
-				return true;
-			}
-			$this->afterLogin($request);
-			Users_Module_Model::getInstance('Users')->saveLoginHistory(strtolower($userName)); //Track the login History
-			if (Users_Totp_Authmethod::isActive($this->userRecordModel->getId()) && !Users_Totp_Authmethod::mustInit($this->userRecordModel->getId())) {
-				header('location: index.php?module=Users&view=Login');
-			}
-			// $this->redirectUser();
-
-			return true;
-		}
-		\App\Session::set('UserLoginMessage', App\Language::translate('LBL_INVALID_USER_OR_PASSWORD', 'Users'));
-		$this->failedLogin($request);
-	}
-
-	/**
-	 * After login function.
-	 *
-	 * @param \App\Request $request
-	 */
-	public function afterLogin(App\Request $request)
-	{
-		if (AppConfig::main('session_regenerate_id')) {
-			\App\Session::regenerateId(true); // to overcome session id reuse.
-		}
-		if (Users_Totp_Authmethod::isActive($this->userRecordModel->getId())) {
-			if (Users_Totp_Authmethod::mustInit($this->userRecordModel->getId())) {
-				\App\Session::set('authenticated_user_id', $this->userRecordModel->getId());
-				\App\User::setCurrentUserId($this->userRecordModel->getId());
-				\App\Session::set('ShowAuthy2faModal', true);
+			$userId = $this->getUser();
+			$userModel = \App\User::getUserModel($userId);
+			$method = $userModel->getDetail('login_method') ?? '';
+			$auth = \App\Auth\Base::getInstance($userId, $method, $this->request);
+			if ($result = $auth->verify()) {
+				$response->setResult($result);
+				$this->setSessionData($userModel, $result);
 			} else {
-				\App\Session::set('LoginAuthyMethod', '2fa');
-				\App\Session::set('2faUserId', $this->userRecordModel->getId());
-				if (\App\Session::has('UserLoginMessage')) {
-					\App\Session::delete('UserLoginMessage');
+				$response->setError(401, $auth->getMessage());
+				if ($bfInstance->isActive()) {
+					$bfInstance->updateBlockedIp();
+					if ($bfInstance->isBlockedIp()) {
+						$bfInstance->sendNotificationEmail();
+						$response->setError(401, 'LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS');
+					}
 				}
+				\Users_Module_Model::getInstance('Users')->saveLoginHistory(App\Purifier::encodeHtml($this->request->getRaw('username')), 'Failed login');
 			}
-		} else {
-			\App\Session::set('authenticated_user_id', $this->userRecordModel->getId());
-			\App\User::setCurrentUserId($this->userRecordModel->getId());
 		}
-		\App\Session::set('app_unique_key', AppConfig::main('application_unique_key'));
-		\App\Session::set('user_name', $this->userRecordModel->get('user_name'));
-		\App\Session::set('full_user_name', $this->userModel->getName());
-		\App\Session::set('fingerprint', $request->get('fingerprint'));
-		if ($request->has('loginLanguage') && AppConfig::main('langInLoginView')) {
-			\App\Session::set('language', $request->getByType('loginLanguage'));
-		}
-		if ($request->has('layout')) {
-			\App\Session::set('layout', $request->getByType('layout'));
-		}
+
+		return $response;
 	}
 
 	/**
-	 * Clean installation files.
-	 */
-	public function cleanInstallationFiles()
-	{
-		\vtlib\Functions::recurseDelete('install');
-		\vtlib\Functions::recurseDelete('public_html/install');
-		\vtlib\Functions::recurseDelete('tests');
-		\vtlib\Functions::recurseDelete('.github');
-		\vtlib\Functions::recurseDelete('.gitattributes');
-		\vtlib\Functions::recurseDelete('.gitignore');
-		\vtlib\Functions::recurseDelete('.travis.yml');
-		\vtlib\Functions::recurseDelete('.codecov.yml');
-		\vtlib\Functions::recurseDelete('.gitlab-ci.yml');
-		\vtlib\Functions::recurseDelete('.php_cs.dist');
-		\vtlib\Functions::recurseDelete('.scrutinizer.yml');
-		\vtlib\Functions::recurseDelete('.sensiolabs.yml');
-	}
-
-	/**
-	 * Failed login function.
+	 * Set session data.
 	 *
-	 * @param \App\Request $request
+	 * @param App\User $userModel
+	 * @param mixed    $result
 	 */
-	public function failedLogin(App\Request $request)
+	private function setSessionData(App\User $userModel, $result)
 	{
-		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
-		if ($bfInstance->isActive()) {
-			$bfInstance->updateBlockedIp();
-			if ($bfInstance->isBlockedIp()) {
-				$bfInstance->sendNotificationEmail();
-				\App\Session::set('UserLoginMessage', App\Language::translate('LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS', 'Users'));
-				\App\Session::set('UserLoginMessageType', 'error');
-			}
+		if (true === $result) {
+			\App\Session::set('authenticated_user_id', $userModel->getId());
+			\App\User::setCurrentUserId($userModel->getId());
+			\App\Session::set('app_unique_key', \App\Config::main('application_unique_key'));
+			\App\Session::set('user_name', $userModel->get('user_name'));
+			\App\Session::set('full_user_name', $userModel->getName());
 		}
-		Users_Module_Model::getInstance('Users')->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('username')), 'Failed login');
-		header('location: index.php?module=Users&view=Login');
+		\App\Session::set('fingerprint', $this->request->get('fingerprint'));
+		if ($this->request->has('loginLanguage') && \App\Config::main('langInLoginView')) {
+			\App\Session::set('language', $this->request->getByType('loginLanguage'));
+		}
+	}
+
+	/**
+	 * Gets user ID.
+	 *
+	 * @return int
+	 */
+	private function getUser(): int
+	{
+		if (\App\Session::has('2faUserId')) {
+			$userId = \App\Session::get('2faUserId');
+		} else {
+			$userName = $this->request->getByType('username', 'Text');
+			$userId = (new App\Db\Query())->select(['id'])->from('vtiger_users')->where(['or', ['user_name' => $userName], ['user_name' => strtolower($userName)]])->limit(1)->scalar();
+		}
+		return (int) $userId;
 	}
 }
