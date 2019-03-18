@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-layout view="lHh lpR fFf">
-      <template v-if="$store.state.App.Core.Users.isLoggedIn">
+      <template v-if="isLoggedIn">
         <y-header></y-header>
         <q-drawer
           v-model="leftDrawerOpen"
@@ -27,6 +27,8 @@
 
 <script>
 import { openURL } from 'quasar'
+import { mapGetters } from 'vuex'
+import getters from 'store/getters.js'
 import LeftMenu from 'App/modules/Core/modules/Menu/components/LeftMenu.vue'
 import YHeader from 'components/Base/YHeader.vue'
 import YFooter from 'components/Base/YFooter.vue'
@@ -44,6 +46,11 @@ export default {
       miniState: true,
       menuEvents: true
     }
+  },
+  computed: {
+    ...mapGetters({
+      isLoggedIn: getters.App.Core.Users.isLoggedIn
+    })
   },
   methods: {
     openURL

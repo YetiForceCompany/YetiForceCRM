@@ -18,16 +18,8 @@ export default {
   created() {
     this.$store.registerModule(moduleName.split('.'), ModuleLoader.prepareStoreNames(moduleName, store))
   },
-  mounted() {
-    this.$store.commit(mutations.App.Core.Users.isLoggedIn, window.env.isLoggedIn)
-    this.$store.commit(mutations.App.Core.Menu.addItem, {
-      component: 'RoutePush',
-      props: {
-        path: '/app/core/users/login/form',
-        icon: 'mdi-login-variant',
-        label: 'Login'
-      }
-    })
+  beforeMounted() {
+    this.$store.commit(mutations.App.Core.Users.isLoggedIn, window.env.Users.isLoggedIn)
   }
 }
 </script>
