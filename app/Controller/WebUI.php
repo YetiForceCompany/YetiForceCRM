@@ -57,7 +57,7 @@ class WebUI extends Base
 			header('location: install/Install.php');
 		}
 		if (\App\Config::main('forceSSL') && !\App\RequestUtil::getBrowserInfo()->https) {
-			header("location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
+			header("location: https://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}", true, 301);
 		}
 		if (\App\Config::main('forceRedirect')) {
 			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $this->request->getServer('HTTP_HOST') . $this->request->getServer('REQUEST_URI');
@@ -77,6 +77,7 @@ class WebUI extends Base
 	public function getEnv(): string
 	{
 		$lang = \App\Language::getLanguage();
+
 		return \App\Json::encode([
 			'Env' => [
 				'baseURL' => \App\Config::main('site_URL'),
@@ -86,6 +87,9 @@ class WebUI extends Base
 			'Language' => [
 				'lang' => $lang,
 				'translations' => \App\Language::getLanguageData($lang),
+			],
+			'Debug' => [
+				'levels' => ['error']
 			]
 		]);
 	}

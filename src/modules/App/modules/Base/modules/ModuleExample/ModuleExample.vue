@@ -4,7 +4,6 @@
 import ModuleLoader from 'src/ModuleLoader.js'
 import moduleStore from './store/index.js'
 import mutations from 'store/mutations.js'
-import routes from 'store/routes.js'
 
 const moduleName = 'App.Base.ModuleExample'
 export default {
