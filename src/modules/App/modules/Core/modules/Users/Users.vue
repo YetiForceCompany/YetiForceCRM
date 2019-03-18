@@ -23,7 +23,7 @@ export default {
     this.$store.commit(mutations.App.Core.Menu.addItem, {
       component: 'RoutePush',
       props: {
-        path: '/app/users/login/form',
+        path: '/app/core/users/login/form',
         icon: 'input',
         label: 'Login'
       }
