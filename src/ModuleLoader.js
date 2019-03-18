@@ -183,18 +183,20 @@ const ModuleLoader = {
    *
    * @return  {array}
    */
-  flattenModules(modules) {
+  flattenModules(modules, forAutoLoad = true) {
     const flat = this._flattenModules(modules)
     flat.modules.sort((a, b) => {
       return b.priority - a.priority
     })
-    flat.modules = flat.modules.filter(module => {
-      if (!module.autoLoad) {
-        delete flat.components[module.fullName]
-        return false
-      }
-      return true
-    })
+    if (forAutoLoad) {
+      flat.modules = flat.modules.filter(module => {
+        if (!module.autoLoad) {
+          delete flat.components[module.fullName]
+          return false
+        }
+        return true
+      })
+    }
     return flat
   }
 }

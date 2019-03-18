@@ -35,10 +35,10 @@ export default function({ store }) {
     Loading.show({
       spinner: QSpinnerGears
     })
-    if (store.getters[getters.App.Users.isLoggedIn] || routeTo.path.startsWith('/app/users/login')) {
+    if (store.getters[getters.App.Core.Users.isLoggedIn] || routeTo.path.startsWith('/app/core/users/login')) {
       next()
     } else {
-      next({ name: 'App.Users.Login' })
+      next({ name: 'App.Core.Users.Login' })
     }
   })
   Router.afterEach(() => {

@@ -26,7 +26,7 @@
 
 <script>
 import { openURL } from 'quasar'
-import LeftMenu from 'App/modules/Menu/components/LeftMenu.vue'
+import LeftMenu from 'App/modules/Core/modules/Menu/components/LeftMenu.vue'
 import YHeader from 'components/Base/YHeader.vue'
 import YFooter from 'components/Base/YFooter.vue'
 
