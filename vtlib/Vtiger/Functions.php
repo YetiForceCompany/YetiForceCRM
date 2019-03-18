@@ -497,7 +497,11 @@ class Functions
 				rmdir($filename);
 			}
 		}
-		rmdir($rootDir . $src);
+		if (is_file($rootDir . $src)) {
+			unlink($rootDir . $src);
+		} else {
+			rmdir($rootDir . $src);
+		}
 	}
 
 	/**
