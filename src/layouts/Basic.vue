@@ -1,25 +1,26 @@
 <template>
   <div>
     <q-layout view="lHh lpR fFf">
-      <y-header></y-header>
-      <q-drawer
-        v-model="leftDrawerOpen"
-        content-class="bg-blue-grey-10 text-white"
-        :mini="$q.platform.is.mobile ? !leftDrawerOpen : miniState"
-        @mouseover="miniState = false && menuEvents"
-        @mouseout="miniState = true && menuEvents"
-        :width="200"
-        :breakpoint="500"
-        show-if-above
-      >
-        <q-btn dense flat round icon="mdi-menu" @click="menuEvents = !menuEvents" class="q-ml-sm" />
-
-        <left-menu />
-      </q-drawer>
+      <template v-if="$store.state.App.Core.Users.isLoggedIn">
+        <y-header></y-header>
+        <q-drawer
+          v-model="leftDrawerOpen"
+          content-class="bg-blue-grey-10 text-white"
+          :mini="$q.platform.is.mobile ? !leftDrawerOpen : miniState"
+          @mouseover="miniState = false && menuEvents"
+          @mouseout="miniState = true && menuEvents"
+          :width="200"
+          :breakpoint="500"
+          show-if-above
+        >
+          <q-btn dense flat round icon="mdi-menu" @click="menuEvents = !menuEvents" class="q-ml-sm" />
+          <left-menu />
+        </q-drawer>
+        <y-footer></y-footer>
+      </template>
       <q-page-container>
         <router-view />
       </q-page-container>
-      <y-footer></y-footer>
     </q-layout>
   </div>
 </template>
