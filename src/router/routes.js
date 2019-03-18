@@ -4,6 +4,7 @@ const routes = [
   {
     name: 'Layout',
     path: '/',
+    redirect: '/app',
     component: () => import('src/layouts/Basic.vue')
   }
 ]

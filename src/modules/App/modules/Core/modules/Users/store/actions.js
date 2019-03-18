@@ -1,6 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-import loginAxios from 'src/services/Login.js'
-import getters from 'src/store/getters.js'
+import loginAxios from 'services/Login.js'
+import getters from 'store/getters.js'
+import mutations from 'store/mutations.js'
 
 export default {
   /**
@@ -10,7 +11,7 @@ export default {
    */
   fetchData({ commit, rootGetters }, view) {
     loginAxios({
-      url: rootGetters[getters.App.Url.get](`Users.${view}.getData`),
+      url: rootGetters[getters.App.Core.Url.get](`Users.${view}.getData`),
       method: 'POST'
     }).then(response => {
       commit('Global/update', { App: response.data.env })
@@ -47,7 +48,7 @@ export default {
    */
   login({ commit, rootGetters }, formData) {
     loginAxios({
-      url: rootGetters[getters.App.Url.get]('Users.Login.login'),
+      url: rootGetters[getters.App.Core.Url.get]('Users.Login.login'),
       data: formData,
       method: 'POST'
     }).then(response => {
@@ -63,6 +64,23 @@ export default {
     })
   },
   /**
+   * Logout action
+   *
+   * @param   {object}  store
+   */
+  logout({ commit, rootGetters }) {
+    loginAxios({
+      url: rootGetters[getters.App.Core.Url.get]('Users.Login.logout'),
+      method: 'POST'
+    }).then(response => {
+      const data = response.data
+      if (data.result === true) {
+        commit(mutations.App.Core.Users.isLoggedIn, false)
+        this.$router.replace('/app/core/users/login')
+      }
+    })
+  },
+  /**
    * Remind action
    *
    * @param   {object}  store
@@ -70,7 +88,7 @@ export default {
    */
   remind({ commit, rootGetters }, formData) {
     loginAxios({
-      url: rootGetters[getters.App.Url.get]('App.Users.remind'),
+      url: rootGetters[getters.App.Core.Url.get]('App.Users.remind'),
       data: formData,
       method: 'POST'
     }).then(response => {
