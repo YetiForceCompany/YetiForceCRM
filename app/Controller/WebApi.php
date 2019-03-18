@@ -15,7 +15,7 @@ namespace App\Controller;
 /**
  * WebApi class.
  */
-class WebApi extends Base
+class WebApi extends WebUI
 {
 	/**
 	 * Process.
@@ -40,11 +40,12 @@ class WebApi extends Base
 		if (!\App\Privilege::isPermitted($this->request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 403);
 		}
-		$handler = new $handlerClass($this);
+		$handler = new $handlerClass($this->request);
 		if (\App\Config::main('csrfProtection') && 'demo' !== \App\Config::main('systemMode')) {
 			$handler->validateRequest();
 		}
 		$handler->checkPermission();
+		$handler->process();
 		$response->setEnv(\App\Config::getJsEnv());
 		$response->setResult($handler->process());
 		$response->emit();

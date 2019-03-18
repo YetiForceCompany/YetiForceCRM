@@ -14,7 +14,7 @@ namespace App\Controller;
 /**
  * Login class.
  */
-class Login extends WebUI
+class Login extends Base
 {
 	/**
 	 * Process.
@@ -23,17 +23,15 @@ class Login extends WebUI
 	 */
 	public function process()
 	{
-		parent::process();
 		\App\Process::$processType = 'Action';
 		\App\Process::$processName = 'Login';
 		$handlerClass = \Vtiger_Loader::getComponentClassName(\App\Process::$processType, \App\Process::$processName, 'Users');
 		if (!class_exists($handlerClass)) {
 			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND', 405);
 		}
-		$request = \App\Request::init();
-		$handler = new $handlerClass();
-		$handler->checkPermission($request);
-		$result = $handler->process($request);
+		$handler = new $handlerClass($this->request);
+		$handler->checkPermission();
+		$result = $handler->process();
 		$response = new \App\Response();
 		$response->setEnv(\App\Config::getJsEnv());
 		$response->setResult($result);
