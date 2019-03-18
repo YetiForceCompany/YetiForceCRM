@@ -18,7 +18,7 @@ export default {
   created() {
     this.$store.registerModule(moduleName.split('.'), ModuleLoader.prepareStoreNames(moduleName, store))
   },
-  beforeMounted() {
+  mounted() {
     this.$store.commit(mutations.App.Core.Users.isLoggedIn, window.env.Users.isLoggedIn)
   }
 }

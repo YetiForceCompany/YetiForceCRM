@@ -1,6 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-import loginAxios from 'src/services/Login.js'
-import getters from 'src/store/getters.js'
+import loginAxios from 'services/Login.js'
+import getters from 'store/getters.js'
+import mutations from 'store/mutations.js'
 
 export default {
   /**
@@ -59,6 +60,23 @@ export default {
         this.$router.replace(`/app/users/login/${data.result.step}`)
       } else {
         return console.error('Server error', response)
+      }
+    })
+  },
+  /**
+   * Logout action
+   *
+   * @param   {object}  store
+   */
+  logout({ commit, rootGetters }) {
+    loginAxios({
+      url: rootGetters[getters.App.Core.Url.get]('Users.Login.logout'),
+      method: 'POST'
+    }).then(response => {
+      const data = response.data
+      if (data.result === true) {
+        commit(mutations.App.Core.Users.isLoggedIn, false)
+        this.$router.replace('/app/core/users/login')
       }
     })
   },

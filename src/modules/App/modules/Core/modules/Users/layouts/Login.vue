@@ -23,8 +23,8 @@
 
 <script>
 import { openURL } from 'quasar'
-import getters from 'src/store/getters.js'
 import { mapGetters } from 'vuex'
+import getters from 'src/store/getters.js'
 /**
  * @vue-data     {String}    activeComponent - component name
  * @vue-data     {Boolean}   showReminderForm - form data
@@ -56,6 +56,15 @@ export default {
   },
   methods: {
     openURL
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (vm.$store.getters[getters.App.Core.Users.isLoggedIn]) {
+        next('/')
+      } else {
+        next()
+      }
+    })
   }
 }
 </script>

@@ -16,6 +16,7 @@ export default {
       "Users": {
         "fetchData": "App/Core/Users/fetchData",
         "login": "App/Core/Users/login",
+        "logout": "App/Core/Users/logout",
         "remind": "App/Core/Users/remind"
       }
     },

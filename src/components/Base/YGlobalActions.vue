@@ -7,16 +7,23 @@
     <q-btn round :size="iconSize" flat icon="mdi-calendar-multiselect" />
     <q-btn round :size="iconSize" flat icon="mdi-history" />
     <q-btn round :size="iconSize" flat icon="mdi-settings-outline" />
-    <q-btn round :size="iconSize" flat icon="mdi-power-standby" />
+    <q-btn round :size="iconSize" flat icon="mdi-power-standby" @click="logout" />
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex'
+import actions from 'store/actions.js'
 export default {
   name: 'YGlobalActions',
   data() {
     return {
       iconSize: '.75rem'
     }
+  },
+  methods: {
+    ...mapActions({
+      logout: actions.App.Core.Users.logout
+    })
   }
 }
 </script>

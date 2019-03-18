@@ -3,6 +3,7 @@ export default {
   Users: {
     Login: {
       login: 'login.php',
+      logout: 'login.php&mode=logout',
       remind: 'login.php&mode=remind',
       getData: 'login.php&mode=getData'
     }
