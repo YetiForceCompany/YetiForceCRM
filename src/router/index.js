@@ -11,7 +11,7 @@ import { Loading, QSpinnerGears } from 'quasar'
 if (typeof window.modules === 'object') {
   ModuleLoader.loadRoutes(routes, window.modules)
 }
-console.log(routes)
+
 Vue.use(VueRouter)
 
 /*

@@ -403,20 +403,6 @@ module.exports = {
   },
 
   /**
-   * Save routes to file which will help us change route path in one place
-   *
-   * @param   {string}  dir
-   * @param   {array}  moduleConf
-   */
-  saveRoutes(dir, moduleConf) {
-    const routes = {}
-    //const moduleTree = Objects.arrayToAssoc(moduleConf, 'name', 'modules')
-    //console.log(moduleTree)
-    //const routes = this.prepareModuleRoutes(moduleConf)
-    //writeFileSync(`${dir}${sep}routes.js`, `export default ${JSON.stringify(routes, null, 2)}`)
-  },
-
-  /**
    * Save module configuration file
    *
    * @param   {object}  moduleConf
@@ -427,7 +413,6 @@ module.exports = {
     const moduleConfiguration = `window.modules = ${Objects.serialize(moduleConf, { space: 2, unsafe: true })}`
     writeFileSync(`./src/statics/modules.js`, moduleConfiguration)
     this.saveStoreNames('src/store', moduleConf)
-    this.saveRoutes('src/store', moduleConf)
     return moduleConf
   },
 
