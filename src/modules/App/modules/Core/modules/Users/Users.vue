@@ -24,7 +24,7 @@ export default {
       component: 'RoutePush',
       props: {
         path: '/app/core/users/login/form',
-        icon: 'input',
+        icon: 'mdi-login-variant',
         label: 'Login'
       }
     })

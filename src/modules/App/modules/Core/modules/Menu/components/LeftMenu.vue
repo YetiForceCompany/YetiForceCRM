@@ -3,7 +3,7 @@
   <q-list>
     <q-item header class="bg-black text-white q-toolbar q-px-md">
       <q-item-section avatar>
-        <q-icon name="person" />
+        <q-icon name="mdi-account" />
       </q-item-section>
       <q-item-section>
         <q-item-label>{{ userName }}</q-item-label>

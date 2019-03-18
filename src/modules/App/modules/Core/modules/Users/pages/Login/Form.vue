@@ -15,7 +15,7 @@
         :rules="[val => (val && val.length > 0) || 'Please type something']"
       >
         <template v-slot:prepend>
-          <q-icon name="person" />
+          <q-icon name="mdi-account" />
         </template>
       </q-input>
       <q-input

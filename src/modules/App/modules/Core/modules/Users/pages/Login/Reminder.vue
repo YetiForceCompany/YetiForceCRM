@@ -11,7 +11,7 @@
       :rules="[val => (val && val.length > 0) || 'Please type something']"
     >
       <template v-slot:prepend>
-        <q-icon name="person" />
+        <q-icon name="mdi-account"/>
       </template>
     </q-input>
     <q-input
@@ -24,11 +24,20 @@
       :rules="[val => (val && val.length > 0) || 'Please type something']"
     >
       <template v-slot:prepend>
-        <q-icon name="mail_outline" />
+        <q-icon name="mail_outline"/>
       </template>
     </q-input>
-    <q-btn size="lg" :label="$t('LBL_SEND')" type="submit" color="secondary" class="full-width q-mt-lg" />
-    <router-link :to="{ name: 'LoginForm' }" class="text-secondary float-right">{{ $t('LBL_TO_CRM') }}</router-link>
+    <q-btn
+      size="lg"
+      :label="$t('LBL_SEND')"
+      type="submit"
+      color="secondary"
+      class="full-width q-mt-lg"
+    />
+    <router-link
+      :to="{ name: 'LoginForm' }"
+      class="text-secondary float-right"
+    >{{ $t('LBL_TO_CRM') }}</router-link>
   </form>
 </template>
 <script>

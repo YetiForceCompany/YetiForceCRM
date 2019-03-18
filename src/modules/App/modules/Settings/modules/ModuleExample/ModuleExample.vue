@@ -12,7 +12,7 @@ export default {
       component: 'RoutePush',
       props: {
         path: '/app/settings/module-example',
-        icon: 'home',
+        icon: 'mdi-home-outline',
         label: 'Settings Example'
       }
     })
