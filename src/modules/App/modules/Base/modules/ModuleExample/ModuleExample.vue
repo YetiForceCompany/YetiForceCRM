@@ -16,7 +16,7 @@ export default {
       component: 'RoutePush',
       props: {
         path: '/app/base/module-example',
-        icon: 'home',
+        icon: 'mdi-home-outline',
         label: 'Base Example'
       }
     })

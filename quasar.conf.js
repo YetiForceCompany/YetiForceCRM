@@ -21,15 +21,15 @@ module.exports = function(ctx) {
 
     extras: [
       'roboto-font',
-      'material-icons', // optional, you are not bound to it
+      //'material-icons', // optional, you are not bound to it
       // 'ionicons-v4',
       'mdi-v3'
       // 'fontawesome-v5',
       // 'eva-icons'
     ],
 
-    framework: 'all', // --- includes everything; for dev only!
-    /*framework: {
+    // framework: 'all', // --- includes everything; for dev only!
+    framework: {
       components: [
         'QLayout',
         'QHeader',
@@ -44,17 +44,23 @@ module.exports = function(ctx) {
         'QItem',
         'QItemSection',
         'QItemLabel',
-        'QInput'
+        'QInput',
+        'QSelect',
+        'QFooter',
+        'QAvatar',
+        'QSeparator',
+        'QBreadcrumbs',
+        'QBreadcrumbsEl'
       ],
 
-      directives: ['Ripple'],
+      // directives: ['Ripple'],
 
       // Quasar plugins
-      plugins: ['Notify']
+      //plugins: ['Notify'],
 
-      // iconSet: 'ionicons-v4'
+      iconSet: 'mdi-v3'
       // lang: 'de' // Quasar language
-    },*/
+    },
 
     supportIE: true,
 

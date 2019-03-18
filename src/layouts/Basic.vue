@@ -12,7 +12,7 @@
         :breakpoint="500"
         show-if-above
       >
-        <q-btn dense flat round icon="menu" @click="menuEvents = !menuEvents" class="q-ml-sm" />
+        <q-btn dense flat round icon="mdi-menu" @click="menuEvents = !menuEvents" class="q-ml-sm" />
 
         <left-menu />
       </q-drawer>
