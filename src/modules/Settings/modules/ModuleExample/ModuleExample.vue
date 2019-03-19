@@ -9,12 +9,17 @@ export default {
   name: moduleName,
   beforeMount() {
     this.$store.commit(mutations.Core.Menu.addItem, {
-      component: 'RoutePush',
-      props: {
-        path: '/settings/module-example',
-        icon: 'mdi-home-outline',
-        label: 'Settings Example'
-      }
+      path: '',
+      icon: 'mdi-settings',
+      label: 'Settings',
+      children: [
+        {
+          path: '/settings/module-example',
+          icon: 'mdi-cube',
+          label: 'Example',
+          children: []
+        }
+      ]
     })
     this.$store.commit(mutations.Core.Hooks.add, [
       {

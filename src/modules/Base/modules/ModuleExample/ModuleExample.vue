@@ -13,12 +13,10 @@ export default {
   },
   beforeMount() {
     this.$store.commit(mutations.Core.Menu.addItem, {
-      component: 'RoutePush',
-      props: {
-        path: '/base/module-example',
-        icon: 'mdi-home-outline',
-        label: 'Base Example'
-      }
+      path: '/base/module-example',
+      icon: 'mdi-cube',
+      label: 'Base Example',
+      children: []
     })
   }
 }

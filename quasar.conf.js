@@ -50,7 +50,8 @@ module.exports = function(ctx) {
         'QAvatar',
         'QSeparator',
         'QBreadcrumbs',
-        'QBreadcrumbsEl'
+        'QBreadcrumbsEl',
+        'QExpansionItem'
       ],
 
       // directives: ['Ripple'],

@@ -128,5 +128,77 @@ export default {
       }
     }
     return output
+  },
+
+  /**
+   * Create array like tree structure from object
+   *
+   * @param   {object}  assoc
+   * @param   {array}  keep keep those keys
+   * @param   {string}  nestedKey
+   *
+   * @return  {array}
+   */
+  assocToArray(assoc, keep, nestedKey, array = []) {
+    const current = {}
+    for (let key of Object.keys(assoc)) {
+      if (keep.indexOf(key) === -1) {
+        if (typeof current[nestedKey] === 'undefined') {
+          current[nestedKey] = []
+        }
+        this.assocToArray(assoc[key], keep, nestedKey, current[nestedKey])
+      } else {
+        current[key] = assoc[key]
+      }
+    }
+    array.push(current)
+    return array
+  },
+
+  /**
+   * Convert object to flat array of items
+   *
+   * @param   {object}  assoc
+   * @param   {array}  keep keys to keep
+   *
+   * @return  {array}
+   */
+  assocToFlatArray(assoc, keep, array = []) {
+    const current = {}
+    const haveKeep = Object.keys(assoc).filter(key => keep.indexOf(key) !== -1)
+    if (haveKeep.length) {
+      array.push(current)
+    }
+    for (let key of Object.keys(assoc)) {
+      if (keep.indexOf(key) === -1) {
+        this.assocToFlatArray(assoc[key], keep, array)
+      } else {
+        current[key] = assoc[key]
+      }
+    }
+    return array
+  },
+
+  /**
+   * Convert flat one dimensional array into array with children arrays
+   *
+   * @param   {array}  flat
+   * @param   {string}  idKey id property for elements in array
+   * @param   {string}  parentKey parent id property
+   * @param   {string}  childrenKey where to store children
+   * @param   {any}  rootId root node id
+   *
+   * @return  {array}
+   */
+  flatArrayToAssocArray(flat, idKey, parentKey, childrenKey, rootId, assoc = { [idKey]: rootId, [childrenKey]: [] }) {
+    for (let item of flat) {
+      if (item[parentKey] === assoc[idKey]) {
+        const itemCopy = { ...item }
+        assoc[childrenKey].push(itemCopy)
+        itemCopy[childrenKey] = []
+        this.flatArrayToAssocArray(flat, idKey, parentKey, childrenKey, rootId, itemCopy)
+      }
+    }
+    return assoc
   }
 }

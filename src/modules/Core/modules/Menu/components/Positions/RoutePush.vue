@@ -10,8 +10,9 @@
 </template>
 
 <script>
+const moduleName = 'Core-Menu-Positions-RoutePush'
 export default {
-  name: 'MenuPositionRoutePush',
+  name: moduleName,
   props: ['path', 'icon', 'label']
 }
 </script>

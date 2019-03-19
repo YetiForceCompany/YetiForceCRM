@@ -8,12 +8,10 @@ export default {
   name: moduleName,
   mounted() {
     this.$store.commit(mutations.Core.Menu.addItem, {
-      component: 'RoutePush',
-      props: {
-        path: '/base/home',
-        icon: 'mdi-home-outline',
-        label: 'Home'
-      }
+      path: '/base/home',
+      icon: 'mdi-home',
+      label: 'Home',
+      children: []
     })
   }
 }
