@@ -1,27 +1,25 @@
 export default {
-  "App": {
-    "Base": {
-      "Home": {},
-      "ModuleExample": {
-        "getData": "App/Base/ModuleExample/getData"
-      }
-    },
-    "Core": {
-      "Debug": {},
-      "Env": {},
-      "Hooks": {},
-      "Language": {},
-      "Menu": {},
-      "Url": {},
-      "Users": {
-        "fetchData": "App/Core/Users/fetchData",
-        "login": "App/Core/Users/login",
-        "logout": "App/Core/Users/logout",
-        "remind": "App/Core/Users/remind"
-      }
-    },
-    "Settings": {
-      "ModuleExample": {}
+  "Base": {
+    "Home": {},
+    "ModuleExample": {
+      "getData": "Base/ModuleExample/getData"
     }
+  },
+  "Core": {
+    "Debug": {},
+    "Env": {},
+    "Hooks": {},
+    "Language": {},
+    "Menu": {},
+    "Url": {},
+    "Users": {
+      "fetchData": "Core/Users/fetchData",
+      "login": "Core/Users/login",
+      "logout": "Core/Users/logout",
+      "remind": "Core/Users/remind"
+    }
+  },
+  "Settings": {
+    "ModuleExample": {}
   }
 }

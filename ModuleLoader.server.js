@@ -16,7 +16,7 @@ moduleAlias.addAliases({
   utilities: `${__dirname}/src/utilities`,
   services: `${__dirname}/src/services`,
   pages: `${__dirname}/src/pages`,
-  App: `${__dirname}/src/modules/App}`,
+  Core: `${__dirname}/src/modules/Core}`,
   Base: `${__dirname}/src/modules/Base`,
   Settings: `${__dirname}/src/modules/Setting`
 })

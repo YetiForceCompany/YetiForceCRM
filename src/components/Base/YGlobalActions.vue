@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      logout: actions.App.Core.Users.logout
+      logout: actions.Core.Users.logout
     })
   }
 }

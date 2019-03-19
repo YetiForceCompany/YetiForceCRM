@@ -29,7 +29,7 @@
 import { openURL } from 'quasar'
 import { mapGetters } from 'vuex'
 import getters from 'store/getters.js'
-import LeftMenu from 'App/modules/Core/modules/Menu/components/LeftMenu.vue'
+import LeftMenu from 'Core/modules/Menu/components/LeftMenu.vue'
 import YHeader from 'components/Base/YHeader.vue'
 import YFooter from 'components/Base/YFooter.vue'
 
@@ -49,7 +49,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isLoggedIn: getters.App.Core.Users.isLoggedIn
+      isLoggedIn: getters.Core.Users.isLoggedIn
     })
   },
   methods: {
