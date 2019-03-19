@@ -43,32 +43,37 @@ const isFile = source => {
  *
  * @param {string} moduleName
  */
-const appRequire = moduleName => {
+const appRequire = (moduleName, getDefault = true) => {
   if (isFile(resolve(moduleName))) {
     moduleName = resolve(moduleName)
-  } else if (isFile(resolve(['node_modules', moduleName]))) {
+  } else if (isFile(resolve('node_modules', moduleName))) {
     moduleName = resolve(['node_modules', moduleName])
-  } else if (isFile(resolve(['node_modules', moduleName, 'index.js']))) {
+  } else if (isFile(resolve('node_modules', moduleName, 'index.js'))) {
+    moduleName = resolve('node_modules', moduleName, 'index.js')
+  } else if (isFile(resolve('node_modules', '@' + moduleName, 'index.js'))) {
     moduleName = resolve(['node_modules', moduleName, 'index.js'])
-  } else if (isFile(resolve(['node_modules', '@' + moduleName, 'index.js']))) {
-    moduleName = resolve(['node_modules', moduleName, 'index.js'])
-  } else if (isFile(resolve(['node_modules', moduleName, 'package.json']))) {
-    const pkg = JSON.parse(readFileSync(resolve(['node_modules', moduleName, 'package.json']), { encoding: 'utf8' }))
+  } else if (isFile(resolve('node_modules', moduleName, 'package.json'))) {
+    const pkg = JSON.parse(readFileSync(resolve('node_modules', moduleName, 'package.json'), { encoding: 'utf8' }))
     if (typeof pkg.main !== 'undefined') {
-      moduleName = resolve(['node_modules', moduleName, pkg.main])
+      moduleName = resolve('node_modules', moduleName, pkg.main)
     } else if (typeof pkg.module !== 'undefined') {
-      moduleName = resolve(['node_modules', moduleName, pkg.module])
+      moduleName = resolve('node_modules', moduleName, pkg.module)
     }
   }
-  const file = readFileSync(moduleName, { encoding: 'utf8' })
-    .replace(/export\sdefault\s/, 'module.exports = ')
+  let file = readFileSync(moduleName, { encoding: 'utf8' })
+    .replace(/export\sdefault\s/gi, 'module.exports = ')
+    .replace(/export\s([^\s]+)\s/gi, 'module.exports.$1 = ')
     .replace(/import\s(.*)\sfrom\s(\'|\")([^\n]+)(\'|\")/gi, `const $1 = appRequire('$3')`)
     .replace(/export\s/gi, 'module.exports = ')
+    .replace(
+      /const\s(\{[^\}]+\})\s\=\sappRequire\([\'\"']{1}([^\'\"]+)[\'\"']{1}\)/gi,
+      `const $1 = appRequire('$2',false)`
+    )
   try {
     return eval(file)
   } catch (e) {
     const loaded = require(moduleName)
-    if (typeof loaded.default !== 'undefined') {
+    if (typeof loaded.default !== 'undefined' && getDefault) {
       return loaded.default
     }
     return loaded
