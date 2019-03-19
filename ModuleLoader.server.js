@@ -47,11 +47,11 @@ const appRequire = (moduleName, getDefault = true) => {
   if (isFile(resolve(moduleName))) {
     moduleName = resolve(moduleName)
   } else if (isFile(resolve('node_modules', moduleName))) {
-    moduleName = resolve(['node_modules', moduleName])
+    moduleName = resolve('node_modules', moduleName)
   } else if (isFile(resolve('node_modules', moduleName, 'index.js'))) {
     moduleName = resolve('node_modules', moduleName, 'index.js')
   } else if (isFile(resolve('node_modules', '@' + moduleName, 'index.js'))) {
-    moduleName = resolve(['node_modules', moduleName, 'index.js'])
+    moduleName = resolve('node_modules', moduleName, 'index.js')
   } else if (isFile(resolve('node_modules', moduleName, 'package.json'))) {
     const pkg = JSON.parse(readFileSync(resolve('node_modules', moduleName, 'package.json'), { encoding: 'utf8' }))
     if (typeof pkg.main !== 'undefined') {
