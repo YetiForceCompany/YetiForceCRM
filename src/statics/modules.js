@@ -13,7 +13,7 @@ window.modules = [
     routes: [
       {
         name: "Base",
-        parent: "Main",
+        parent: "App",
         path: "base",
         componentPath: "layouts/Base.vue"
       }
@@ -112,7 +112,7 @@ window.modules = [
     routes: [
       {
         name: "Core",
-        parent: "Main",
+        parent: "App",
         path: "core",
         componentPath: "layouts/Core.vue"
       }
@@ -358,7 +358,7 @@ window.modules = [
     routes: [
       {
         name: "Settings",
-        parent: "Main",
+        parent: "App",
         path: "settings",
         componentPath: "layouts/Settings.vue"
       }

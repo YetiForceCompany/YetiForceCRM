@@ -68,7 +68,7 @@ module.exports = function(ctx) {
 
     sourceFiles: {
       indexHtmlTemplate: ctx.dev ? 'src/index.template.dev.html' : 'src/index.template.php',
-      rootComponent: 'src/Main.vue'
+      rootComponent: 'src/App.vue'
       //router: 'src/router',
       //store: 'src/store',
       //registerServiceWorker: 'src-pwa/register-service-worker.js',

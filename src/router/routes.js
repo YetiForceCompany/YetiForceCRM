@@ -3,7 +3,7 @@ import ModuleLoader from '../ModuleLoader.js'
 
 const routes = [
   {
-    name: 'Main',
+    name: 'App',
     path: '/',
     component: () => import('src/layouts/Basic.vue')
   }
