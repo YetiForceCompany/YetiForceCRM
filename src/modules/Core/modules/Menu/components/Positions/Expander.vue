@@ -5,7 +5,7 @@
   </q-expansion-item>
 </template>
 <script>
-const moduleName = 'Core-Menu-Positions-Expander'
+const moduleName = 'Core.Menu.Positions.Expander'
 export default {
   name: moduleName,
   components: {

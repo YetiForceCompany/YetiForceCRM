@@ -6,7 +6,7 @@
 import RoutePush from './RoutePush.vue'
 import Expander from './Expander.vue'
 
-const moduleName = 'Core-Menu-Position'
+const moduleName = 'Core.Menu.Position'
 export default {
   name: moduleName,
   components: {
