@@ -1,10 +1,13 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
-<template functional>
+<template>
   <q-breadcrumbs active-color="info" :class="[$style.breadcrumbs, '']">
-    <q-breadcrumbs-el icon="mdi-home" to="/" />
-    <q-breadcrumbs-el label="Docs" icon="mdi-widgets" to="/docs" />
-    <q-breadcrumbs-el label="Breadcrumbs" icon="mdi-navigation" to="/vue-components/breadcrumbs" />
-    <q-breadcrumbs-el label="Build" icon="mdi-build" />
+    <q-breadcrumbs-el
+      v-for="route in $route.matched"
+      :key="route.name"
+      v-if="route.path && route.path.split('/').pop()"
+      :label="route.path.split('/').pop()"
+      :to="route.path"
+    />
   </q-breadcrumbs>
 </template>
 
@@ -13,7 +16,6 @@ export default {
   name: 'YBreadcrumbs'
 }
 </script>
-
 <style module>
 .breadcrumbs * {
   flex-wrap: nowrap;
