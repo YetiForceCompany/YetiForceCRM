@@ -62,7 +62,7 @@ export default {
       if (vm.$store.getters[getters.Core.Users.isLoggedIn]) {
         next('/')
       } else {
-        next('')
+        next()
       }
     })
   }
