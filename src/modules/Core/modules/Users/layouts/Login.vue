@@ -40,7 +40,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      env: getters.App.Core.Env.all
+      env: getters.Core.Env.all
     })
   },
   methods: {
@@ -49,7 +49,7 @@ export default {
   beforeRouteEnter(to, from, next) {
     next(vm => {
       if (vm.$store.getters[getters.Core.Users.isLoggedIn]) {
-        next('/')
+        next()
       } else {
         next()
       }
