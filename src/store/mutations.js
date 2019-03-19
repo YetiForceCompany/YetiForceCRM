@@ -1,39 +1,36 @@
 export default {
-  "App": {
-    "setModules": "App/setModules",
-    "Base": {
-      "Home": {},
-      "ModuleExample": {
-        "updateTestVariable": "App/Base/ModuleExample/updateTestVariable"
-      }
-    },
-    "Core": {
-      "Debug": {
-        "push": "App/Core/Debug/push"
-      },
-      "Env": {
-        "update": "App/Core/Env/update"
-      },
-      "Hooks": {
-        "add": "App/Core/Hooks/add",
-        "remove": "App/Core/Hooks/remove"
-      },
-      "Language": {
-        "update": "App/Core/Language/update"
-      },
-      "Menu": {
-        "updateItems": "App/Core/Menu/updateItems",
-        "addItem": "App/Core/Menu/addItem"
-      },
-      "Url": {
-        "addUrl": "App/Core/Url/addUrl"
-      },
-      "Users": {
-        "isLoggedIn": "App/Core/Users/isLoggedIn"
-      }
-    },
-    "Settings": {
-      "ModuleExample": {}
+  "Base": {
+    "Home": {},
+    "ModuleExample": {
+      "updateTestVariable": "Base/ModuleExample/updateTestVariable"
     }
+  },
+  "Core": {
+    "Debug": {
+      "push": "Core/Debug/push"
+    },
+    "Env": {
+      "update": "Core/Env/update"
+    },
+    "Hooks": {
+      "add": "Core/Hooks/add",
+      "remove": "Core/Hooks/remove"
+    },
+    "Language": {
+      "update": "Core/Language/update"
+    },
+    "Menu": {
+      "updateItems": "Core/Menu/updateItems",
+      "addItem": "Core/Menu/addItem"
+    },
+    "Url": {
+      "addUrl": "Core/Url/addUrl"
+    },
+    "Users": {
+      "isLoggedIn": "Core/Users/isLoggedIn"
+    }
+  },
+  "Settings": {
+    "ModuleExample": {}
   }
 }

@@ -12,7 +12,7 @@
       "utilities/*": ["./src/utilities/*"],
       "services/*": ["./src/services/*"],
       "pages/*": ["./src/pages/*"],
-      "App/*": ["./src/modules/App/*"],
+      "Core/*": ["./src/modules/Core/*"],
       "Base/*": ["./src/modules/Base/*"],
       "Settings/*": ["./src/modules/Setting/*"]
     }

@@ -2,16 +2,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import routes from './routes.js'
-import ModuleLoader from '../ModuleLoader.js'
 import getters from 'src/store/getters.js'
-import mutations from 'src/store/mutations.js'
 
 import { Loading, QSpinnerGears } from 'quasar'
-
-// Load module routes
-if (typeof window.modules === 'object') {
-  ModuleLoader.loadRoutes(routes, window.modules)
-}
 
 Vue.use(VueRouter)
 
@@ -36,14 +29,14 @@ export default function({ store }) {
     Loading.show({
       spinner: QSpinnerGears
     })
-    let isLoggedIn = store.getters[getters.App.Core.Users.isLoggedIn]
+    let isLoggedIn = store.getters[getters.Core.Users.isLoggedIn]
     if (isLoggedIn === undefined) {
       isLoggedIn = window.env.Users.isLoggedIn
     }
     if (isLoggedIn || routeTo.path.startsWith('/app/core/users/login')) {
       next()
     } else {
-      next({ name: 'App.Core.Users.Login' })
+      next({ name: 'Core.Users.Login' })
     }
   })
   Router.afterEach(() => {
