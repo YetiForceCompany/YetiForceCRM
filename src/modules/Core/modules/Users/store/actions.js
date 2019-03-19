@@ -2,6 +2,7 @@
 import loginAxios from 'services/Login.js'
 import getters from 'store/getters.js'
 import mutations from 'store/mutations.js'
+import { Notify } from 'quasar'
 
 export default {
   /**
@@ -46,7 +47,7 @@ export default {
    * @param   {object}  store
    * @param   {object}  formData
    */
-  login({ commit, rootGetters }, formData) {
+  login({ commit, rootGetters }, { formData, vm }) {
     loginAxios({
       url: rootGetters[getters.Core.Url.get]('Users.Login.login'),
       data: formData,
@@ -56,8 +57,17 @@ export default {
       if (data.result === true) {
         commit('Global/update', { App: data.env })
         this.$router.replace('/')
-      } else if (data.result.step !== undefined) {
-        this.$router.replace(`/app/users/login/${data.result.step}`)
+      } else if (data.result === '2fa') {
+        this.$router.replace(`/app/users/login/2FA`)
+      } else if (data.error !== undefined) {
+        Notify.create({
+          color: 'negative',
+          icon: 'mdi-exclamation',
+          message: vm.$t(data.error.message),
+          position: 'top',
+          actions: [{ label: vm.$t('LBL_CLOSE'), color: 'white' }],
+          timeout: ''
+        })
       } else {
         return console.error('Server error', response)
       }

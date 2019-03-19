@@ -23,7 +23,8 @@ export default {
       "get": "Core/Url/get"
     },
     "Users": {
-      "isLoggedIn": "Core/Users/isLoggedIn"
+      "isLoggedIn": "Core/Users/isLoggedIn",
+      "getMessage": "Core/Users/getMessage"
     }
   },
   "Settings": {

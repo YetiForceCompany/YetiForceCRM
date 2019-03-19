@@ -11,9 +11,6 @@
             <keep-alive>
               <router-view />
             </keep-alive>
-            <q-banner v-if="$store.state.Core.Users.message" :class="[msgClass, 'q-mt-lg', 'text-white']">
-              <p>{{ $store.state.Core.Users.message }}</p>
-            </q-banner>
           </div>
         </div>
       </q-page>
@@ -30,7 +27,6 @@ import getters from 'src/store/getters.js'
  * @vue-data     {Boolean}   showReminderForm - form data
  * @vue-data     {Boolean}   showLoginForm - form data
  * @vue-computed {Object}    env - env variables
- * @vue-computed {String}    msgClass - additional message class
  * @vue-event    {Object}    openURL
  */
 const moduleName = 'Core.Users.Layouts.Login'
@@ -44,15 +40,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      env: getters.Core.Env.all
-    }),
-    msgClass: function() {
-      return {
-        'bg-positive': this.$store.Core.Users.messageType === 'success',
-        'bg-negative': this.$store.Core.Users.messageType === 'error',
-        'bg-warning': this.$store.Core.Users.messageType === ''
-      }
-    }
+      env: getters.App.Core.Env.all
+    })
   },
   methods: {
     openURL

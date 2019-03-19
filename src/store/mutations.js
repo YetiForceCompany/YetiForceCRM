@@ -27,7 +27,8 @@ export default {
       "addUrl": "Core/Url/addUrl"
     },
     "Users": {
-      "isLoggedIn": "Core/Users/isLoggedIn"
+      "isLoggedIn": "Core/Users/isLoggedIn",
+      "setMessage": "Core/Users/setMessage"
     }
   },
   "Settings": {

@@ -57,7 +57,7 @@ module.exports = function(ctx) {
       // directives: ['Ripple'],
 
       // Quasar plugins
-      //plugins: ['Notify'],
+      plugins: ['Notify'],
 
       iconSet: 'mdi-v3'
       // lang: 'de' // Quasar language

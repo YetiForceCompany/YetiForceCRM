@@ -3,8 +3,6 @@
 export default {
   isLoggedIn: false,
   isBlockedIp: null,
-  message: null,
-  messageType: null,
   loginPageRememberCredentials: null,
   forgotPassword: null,
   languageSelection: null,
