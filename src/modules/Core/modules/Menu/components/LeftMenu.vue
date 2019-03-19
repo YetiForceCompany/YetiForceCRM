@@ -9,18 +9,18 @@
         <q-item-label>{{ userName }}</q-item-label>
       </q-item-section>
     </q-item>
-    <position v-for="item in items" :item="item" :key="item.id" />
+    <menu-item v-for="item in items" :item="item" :key="item.id" />
   </q-list>
 </template>
 
 <script>
-import Position from './Positions/Position.vue'
+import MenuItem from './Items/Item.vue'
 
 const moduleName = 'Core.Left.Menu'
 export default {
   name: moduleName,
   components: {
-    Position
+    MenuItem
   },
   data() {
     return {
