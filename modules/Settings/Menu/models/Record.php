@@ -41,6 +41,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				'parent' => $row['parentid'] == 0 ? '#' : $row['parentid'],
 				'text' => Vtiger_Menu_Model::vtranslateMenu($settingsModel->getMenuName($row, true), $row['name']),
 				'icon' => 'menu-icon-' . $settingsModel->getMenuTypes($row['type']),
+				'type' => $row['type']
 			];
 		}
 		$dataReader->close();
@@ -112,9 +113,11 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				switch ($key) {
 					case 'role':
 						$role = $item = filter_var($item, FILTER_SANITIZE_NUMBER_INT);
+
 						break;
 					case 'type':
 						$item = $settingsModel->getMenuTypeKey($item);
+
 						break;
 					default:
 						break;
@@ -252,6 +255,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				$content .= var_export($key, true) . '=>' . var_export($item, true) . ',';
 			}
 		}
+
 		return trim($content, ',') . '],';
 	}
 
@@ -268,6 +272,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				$content .= $this->createParentList($child);
 			}
 		}
+
 		return $content;
 	}
 
@@ -285,6 +290,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				$content .= $this->createFilterList($child);
 			}
 		}
+
 		return $content;
 	}
 
@@ -321,6 +327,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				++$counter;
 			}
 		}
+
 		return $menu;
 	}
 

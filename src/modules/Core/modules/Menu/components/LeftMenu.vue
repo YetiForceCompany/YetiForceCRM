@@ -9,23 +9,18 @@
         <q-item-label>{{ userName }}</q-item-label>
       </q-item-section>
     </q-item>
-    <component
-      v-for="position in positions"
-      :is="position.component"
-      :key="position.key"
-      v-bind="position.props"
-    ></component>
+    <menu-item v-for="item in items" :item="item" :key="item.id" />
   </q-list>
 </template>
 
 <script>
-import RoutePush from './Positions/RoutePush'
+import MenuItem from './Items/Item.vue'
 
 const moduleName = 'Core.Left.Menu'
 export default {
   name: moduleName,
   components: {
-    RoutePush
+    MenuItem
   },
   data() {
     return {
@@ -34,7 +29,7 @@ export default {
     }
   },
   computed: {
-    positions() {
+    items() {
       return this.$store.state.Core.Menu.items
     }
   }
