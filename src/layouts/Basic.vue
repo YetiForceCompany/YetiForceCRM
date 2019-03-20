@@ -2,7 +2,7 @@
   <div>
     <q-layout view="lHh lpR fFf">
       <template v-if="isLoggedIn">
-        <y-header></y-header>
+        <yf-header></yf-header>
         <q-drawer
           v-model="leftDrawerOpen"
           content-class="bg-blue-grey-10 text-white"
@@ -16,7 +16,7 @@
           <q-btn dense flat round icon="mdi-menu" @click="menuEvents = !menuEvents" class="q-ml-sm" />
           <left-menu />
         </q-drawer>
-        <y-footer></y-footer>
+        <yf-footer></yf-footer>
       </template>
       <q-page-container>
         <router-view />
@@ -30,15 +30,15 @@ import { openURL } from 'quasar'
 import { mapGetters } from 'vuex'
 import getters from 'store/getters.js'
 import LeftMenu from 'Core/modules/Menu/components/LeftMenu.vue'
-import YHeader from 'components/Base/YHeader.vue'
-import YFooter from 'components/Base/YFooter.vue'
+import YfHeader from 'components/Base/YfHeader.vue'
+import YfFooter from 'components/Base/YfFooter.vue'
 
 export default {
   name: 'Basic',
   components: {
     LeftMenu,
-    YHeader,
-    YFooter
+    YfHeader,
+    YfFooter
   },
   data() {
     return {

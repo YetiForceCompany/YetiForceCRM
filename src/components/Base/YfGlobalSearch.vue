@@ -17,7 +17,7 @@
 </template>
 <script>
 export default {
-  name: 'YGlobalSearch',
+  name: 'YfGlobalSearch',
   data() {
     return {
       searchModule: 'All records',

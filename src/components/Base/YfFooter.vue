@@ -9,8 +9,8 @@
     </div>
     <q-toolbar>
       <div class="flex wrap full-width items-center">
-        <y-breadcrumbs />
-        <y-copyright containerClass="q-ml-auto" />
+        <yf-breadcrumbs />
+        <yf-copyright containerClass="q-ml-auto" />
       </div>
     </q-toolbar>
   </q-footer>
@@ -19,12 +19,12 @@
 <script>
 import getters from 'store/getters.js'
 import { mapGetters } from 'vuex'
-import YBreadcrumbs from 'components/Base/YBreadcrumbs'
-import YCopyright from 'components/Base/YCopyright'
+import YfBreadcrumbs from 'components/Base/YfBreadcrumbs'
+import YfCopyright from 'components/Base/YfCopyright'
 
 export default {
-  name: 'YFooter',
-  components: { YBreadcrumbs, YCopyright },
+  name: 'YfFooter',
+  components: { YfBreadcrumbs, YfCopyright },
   data() {
     return {
       searchModule: 'All records',

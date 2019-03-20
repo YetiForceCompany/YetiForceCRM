@@ -38,7 +38,7 @@
 
 <script>
 export default {
-  name: 'YCopyright'
+  name: 'YffCopyright'
 }
 </script>
 

@@ -2,17 +2,17 @@
 <template>
   <q-header elevated class="bg-white text-muted">
     <q-toolbar>
-      <y-global-search />
-      <y-global-actions class="q-ml-auto" />
+      <yf-global-search />
+      <yf-global-actions class="q-ml-auto" />
     </q-toolbar>
   </q-header>
 </template>
 <script>
-import YGlobalSearch from 'components/Base/YGlobalSearch.vue'
-import YGlobalActions from 'components/Base/YGlobalActions.vue'
+import YfGlobalSearch from 'components/Base/YfGlobalSearch.vue'
+import YfGlobalActions from 'components/Base/YfGlobalActions.vue'
 export default {
-  name: 'YHeader',
-  components: { YGlobalSearch, YGlobalActions },
+  name: 'YfHeader',
+  components: { YfGlobalSearch, YfGlobalActions },
   data() {
     return {
       iconSize: '.75rem'

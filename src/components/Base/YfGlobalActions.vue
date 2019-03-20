@@ -14,7 +14,7 @@
 import { mapActions } from 'vuex'
 import actions from 'store/actions.js'
 export default {
-  name: 'YGlobalActions',
+  name: 'YfGlobalActions',
   data() {
     return {
       iconSize: '.75rem'

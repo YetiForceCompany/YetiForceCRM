@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'YBreadcrumbs'
+  name: 'YffBreadcrumbs'
 }
 </script>
 <style module>
