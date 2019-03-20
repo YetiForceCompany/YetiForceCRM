@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Vtiger CreatedNotMineActivities dashboard class.
+ * Vtiger CreatedNotMineOverdueActivities dashboard class.
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
+class Vtiger_CreatedNotMineOverdueActivities_Dashboard extends Vtiger_IndexAjax_View
 {
 	public function process(\App\Request $request)
 	{
@@ -32,11 +32,7 @@ class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 		$pagingModel->set('orderby', $orderBy);
 		$pagingModel->set('sortorder', $sortOrder);
 
-		$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel();
-		$params = ['status' => [
-			$stateActivityLabels['not_started'],
-			$stateActivityLabels['in_realization'],
-		]];
+		$params = ['status' => Calendar_Module_Model::getComponentActivityStateLabel('overdue')];
 		$params['user'] = $currentUser->getId();
 		$conditions = [
 			'condition' => [
@@ -50,7 +46,7 @@ class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 			$params['activitytype'] = $request->getByType('activitytype');
 		}
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$overDueActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('createdByMeButNotMine', $pagingModel, $owner, false, $params);
+		$overDueActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('createdByMeButNotMineOverdue', $pagingModel, $owner, false, $params);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('SOURCE_MODULE', 'Calendar');
