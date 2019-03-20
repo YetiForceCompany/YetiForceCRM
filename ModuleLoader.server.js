@@ -5,7 +5,7 @@
  */
 require = require('esm')(module)
 const moduleAlias = require('module-alias')
-moduleAlias.addAliases({
+const aliases = {
   src: `${__dirname}/src`,
   store: `${__dirname}/src/store`,
   components: `${__dirname}/src/components`,
@@ -19,7 +19,8 @@ moduleAlias.addAliases({
   Core: `${__dirname}/src/modules/Core}`,
   Base: `${__dirname}/src/modules/Base`,
   Settings: `${__dirname}/src/modules/Setting`
-})
+}
+moduleAlias.addAliases(aliases)
 const { lstatSync, readdirSync, readFileSync, writeFileSync, watch } = require('fs')
 const { join, resolve, sep, basename } = require('path')
 
@@ -44,20 +45,35 @@ const isFile = source => {
  * @param {string} moduleName
  */
 const appRequire = (moduleName, getDefault = true) => {
-  if (isFile(resolve(moduleName))) {
+  const parts = moduleName.split('/')
+  if (isFile(moduleName)) {
     moduleName = resolve(moduleName)
-  } else if (isFile(resolve('node_modules', moduleName))) {
-    moduleName = resolve('node_modules', moduleName)
-  } else if (isFile(resolve('node_modules', moduleName, 'index.js'))) {
-    moduleName = resolve('node_modules', moduleName, 'index.js')
-  } else if (isFile(resolve('node_modules', '@' + moduleName, 'index.js'))) {
-    moduleName = resolve('node_modules', moduleName, 'index.js')
-  } else if (isFile(resolve('node_modules', moduleName, 'package.json'))) {
-    const pkg = JSON.parse(readFileSync(resolve('node_modules', moduleName, 'package.json'), { encoding: 'utf8' }))
+  } else if (isFile(join(__dirname, moduleName))) {
+    moduleName = join(__dirname, moduleName)
+  } else if (isFile(join(__dirname, 'node_modules', moduleName))) {
+    moduleName = join(__dirname, 'node_modules', moduleName)
+  } else if (isFile(join(__dirname, 'node_modules', moduleName, 'index.js'))) {
+    moduleName = join(__dirname, 'node_modules', moduleName, 'index.js')
+  } else if (parts.length > 1 && isFile(join('node_modules', parts[0], parts[1] + '.js'))) {
+    moduleName = join(__dirname, 'node_modules', parts[0], parts[1] + '.js')
+  } else if (parts.length > 1 && isFile(join('node_modules', parts[0], parts[1]))) {
+    moduleName = join(__dirname, 'node_modules', parts[0], parts[1])
+  } else if (isFile(join(__dirname, 'node_modules', '@' + moduleName, 'index.js'))) {
+    moduleName = join(__dirname, 'node_modules', moduleName, 'index.js')
+  } else if (isFile(join(__dirname, 'node_modules', moduleName, 'package.json'))) {
+    const pkg = JSON.parse(
+      readFileSync(join(__dirname, 'node_modules', moduleName, 'package.json'), { encoding: 'utf8' })
+    )
     if (typeof pkg.main !== 'undefined') {
-      moduleName = resolve('node_modules', moduleName, pkg.main)
+      moduleName = join(__dirname, 'node_modules', moduleName, pkg.main)
     } else if (typeof pkg.module !== 'undefined') {
-      moduleName = resolve('node_modules', moduleName, pkg.module)
+      moduleName = join(__dirname, 'node_modules', moduleName, pkg.module)
+    }
+  }
+  for (let alias in aliases) {
+    if (moduleName.substring(0, alias.length) === alias) {
+      moduleName = moduleName.replace(alias, aliases[alias])
+      break
     }
   }
   let file = readFileSync(moduleName, { encoding: 'utf8' })
@@ -67,7 +83,7 @@ const appRequire = (moduleName, getDefault = true) => {
     .replace(/export\s/gi, 'module.exports = ')
     .replace(
       /const\s(\{[^\}]+\})\s\=\sappRequire\([\'\"']{1}([^\'\"]+)[\'\"']{1}\)/gi,
-      `const $1 = appRequire('$2',false)`
+      `const $1 = appRequire('$2', false)`
     )
   try {
     return eval(file)
@@ -80,6 +96,7 @@ const appRequire = (moduleName, getDefault = true) => {
   }
 }
 // appRequire is a global function available from every js inside nodejs
+
 global.appRequire = appRequire
 
 const Objects = appRequire('src/utilities/Objects.js')
