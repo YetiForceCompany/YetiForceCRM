@@ -11,5 +11,8 @@ export default {
    */
   isLoggedIn(state) {
     return state.isLoggedIn !== false
+  },
+  getMessage(state) {
+    return state.message
   }
 }

@@ -87,9 +87,12 @@ export default {
         this.formHasError = true
       } else {
         this.$store.dispatch(actions.Core.Users.login, {
-          username: this.user,
-          password: this.password,
-          fingerPrint: ''
+          formData: {
+            username: this.user,
+            password: this.password,
+            fingerPrint: ''
+          },
+          vm: this
         })
       }
     }

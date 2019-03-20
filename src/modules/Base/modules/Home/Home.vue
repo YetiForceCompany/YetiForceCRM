@@ -8,7 +8,7 @@ export default {
   name: moduleName,
   mounted() {
     this.$store.commit(mutations.Core.Menu.addItem, {
-      path: '/base/home',
+      path: '/home',
       icon: 'mdi-home',
       label: 'Home',
       children: []

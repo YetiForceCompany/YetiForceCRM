@@ -14,7 +14,7 @@ window.modules = [
       {
         name: "Base",
         parent: "App",
-        path: "base",
+        path: "/",
         componentPath: "layouts/Base.vue"
       }
     ],
@@ -113,7 +113,7 @@ window.modules = [
       {
         name: "Core",
         parent: "App",
-        path: "core",
+        path: "/",
         componentPath: "layouts/Core.vue"
       }
     ],
@@ -329,10 +329,12 @@ window.modules = [
             remind: "Core/Users/remind"
           },
           getters: {
-            isLoggedIn: "Core/Users/isLoggedIn"
+            isLoggedIn: "Core/Users/isLoggedIn",
+            getMessage: "Core/Users/getMessage"
           },
           mutations: {
-            isLoggedIn: "Core/Users/isLoggedIn"
+            isLoggedIn: "Core/Users/isLoggedIn",
+            setMessage: "Core/Users/setMessage"
           }
         },
         storeFiles: {

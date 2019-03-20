@@ -1,6 +1,7 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <q-breadcrumbs active-color="info" :class="[$style.breadcrumbs, '']">
+    <q-breadcrumbs-el icon="mdi-home" :to="'/'" />
     <q-breadcrumbs-el
       v-for="route in $route.matched"
       :key="route.name"
@@ -13,7 +14,7 @@
 
 <script>
 export default {
-  name: 'YBreadcrumbs'
+  name: 'YfBreadcrumbs'
 }
 </script>
 <style module>

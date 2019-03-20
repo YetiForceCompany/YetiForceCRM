@@ -51,13 +51,20 @@ module.exports = function(ctx) {
         'QSeparator',
         'QBreadcrumbs',
         'QBreadcrumbsEl',
-        'QExpansionItem'
+        'QExpansionItem',
+        'QTable',
+        'QToggle'
       ],
-
+      cssAddon: true,
       // directives: ['Ripple'],
 
       // Quasar plugins
-      //plugins: ['Notify'],
+      plugins: ['Notify'],
+      config: {
+        notify: {
+          /* Notify defaults */
+        }
+      },
 
       iconSet: 'mdi-v3'
       // lang: 'de' // Quasar language

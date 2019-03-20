@@ -11,7 +11,7 @@
       :rules="[val => (val && val.length > 0) || 'Please type something']"
     >
       <template v-slot:prepend>
-        <q-icon name="mdi-account"/>
+        <q-icon name="mdi-account" />
       </template>
     </q-input>
     <q-input
@@ -24,20 +24,11 @@
       :rules="[val => (val && val.length > 0) || 'Please type something']"
     >
       <template v-slot:prepend>
-        <q-icon name="mail_outline"/>
+        <q-icon name="mail_outline" />
       </template>
     </q-input>
-    <q-btn
-      size="lg"
-      :label="$t('LBL_SEND')"
-      type="submit"
-      color="secondary"
-      class="full-width q-mt-lg"
-    />
-    <router-link
-      :to="{ name: 'LoginForm' }"
-      class="text-secondary float-right"
-    >{{ $t('LBL_TO_CRM') }}</router-link>
+    <q-btn size="lg" :label="$t('LBL_SEND')" type="submit" color="secondary" class="full-width q-mt-lg" />
+    <router-link :to="{ name: 'LoginForm' }" class="text-secondary float-right">{{ $t('LBL_TO_CRM') }}</router-link>
   </form>
 </template>
 <script>
@@ -70,7 +61,7 @@ export default {
   },
   mounted() {
     if (!this.$store.state.Core.Users.forgotPassword || this.$store.state.Core.Users.isBlockedIp) {
-      this.$router.replace('/app/users/login/form')
+      this.$router.replace('/users/login/form')
     }
   }
 }

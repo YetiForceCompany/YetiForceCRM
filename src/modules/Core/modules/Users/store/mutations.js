@@ -8,5 +8,9 @@ export default {
    */
   isLoggedIn(state, isLoggedIn) {
     state.isLoggedIn = isLoggedIn
+  },
+
+  setMessage(state, message) {
+    state.message = message
   }
 }

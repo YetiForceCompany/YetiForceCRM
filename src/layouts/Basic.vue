@@ -1,22 +1,39 @@
 <template>
   <div>
-    <q-layout view="lHh lpR fFf">
+    <q-layout view="hHh lpR fFf">
       <template v-if="isLoggedIn">
-        <y-header></y-header>
+        <yf-header>
+          <template slot="left">
+            <q-btn
+              dense
+              flat
+              round
+              icon="mdi-menu"
+              @click="leftDrawerOpen = !leftDrawerOpen"
+              v-show="!$q.platform.is.desktop"
+            />
+          </template>
+        </yf-header>
         <q-drawer
           v-model="leftDrawerOpen"
           content-class="bg-blue-grey-10 text-white"
-          :mini="$q.platform.is.mobile ? !leftDrawerOpen : miniState"
+          :mini="miniState ? miniState : false"
           @mouseover="miniState = false && menuEvents"
           @mouseout="miniState = true && menuEvents"
           :width="200"
           :breakpoint="500"
-          show-if-above
+          :show-if-above="miniState"
         >
-          <q-btn dense flat round icon="mdi-menu" @click="menuEvents = !menuEvents" class="q-ml-sm" />
+          <q-toggle
+            v-show="$q.platform.is.desktop"
+            v-model="menuEvents"
+            :true-value="false"
+            :false-value="true"
+            icon="mdi-pin"
+          />
           <left-menu />
         </q-drawer>
-        <y-footer></y-footer>
+        <yf-footer></yf-footer>
       </template>
       <q-page-container>
         <router-view />
@@ -30,20 +47,20 @@ import { openURL } from 'quasar'
 import { mapGetters } from 'vuex'
 import getters from 'store/getters.js'
 import LeftMenu from 'Core/modules/Menu/components/LeftMenu.vue'
-import YHeader from 'components/Base/YHeader.vue'
-import YFooter from 'components/Base/YFooter.vue'
+import YfHeader from 'components/Base/YfHeader.vue'
+import YfFooter from 'components/Base/YfFooter.vue'
 
 export default {
   name: 'Basic',
   components: {
     LeftMenu,
-    YHeader,
-    YFooter
+    YfHeader,
+    YfFooter
   },
   data() {
     return {
-      leftDrawerOpen: this.$q.platform.is.desktop,
-      miniState: true,
+      leftDrawerOpen: false,
+      miniState: this.$q.platform.is.desktop,
       menuEvents: true
     }
   },
