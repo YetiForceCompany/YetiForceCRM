@@ -63,7 +63,7 @@ export default {
         Notify.create({
           color: 'negative',
           icon: 'mdi-exclamation',
-          message: vm.$t(data.error.message),
+          message: vm.$t(data.error.message, 'Users'),
           position: 'top',
           actions: [{ label: vm.$t('LBL_CLOSE'), color: 'white' }],
           timeout: ''
