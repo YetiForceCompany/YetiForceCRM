@@ -183,7 +183,7 @@ window.modules = [
         name: "Hooks",
         path: "src\\modules\\Core\\modules\\Hooks",
         level: 1,
-        priority: 90,
+        priority: 96,
         autoLoad: true,
         entry: "src\\modules\\Core\\modules\\Hooks\\Hooks.vue",
         directories: ["components", "store"],
@@ -333,8 +333,7 @@ window.modules = [
             getMessage: "Core/Users/getMessage"
           },
           mutations: {
-            isLoggedIn: "Core/Users/isLoggedIn",
-            setMessage: "Core/Users/setMessage"
+            isLoggedIn: "Core/Users/isLoggedIn"
           }
         },
         storeFiles: {

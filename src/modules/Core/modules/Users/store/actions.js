@@ -56,6 +56,7 @@ export default {
       const data = response.data
       if (data.result === true) {
         commit('Global/update', { App: data.env })
+        commit(mutations.Core.Users.isLoggedIn, true)
         this.$router.replace('/')
       } else if (data.result === '2fa') {
         this.$router.replace(`/users/login/2FA`)
