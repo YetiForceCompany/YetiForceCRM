@@ -45,7 +45,7 @@
 						<div class="w-100 mx-1">
 							{\App\TextParser::textTruncate($ACTIVITY->getDisplayName(), $NAMELENGTH)}
 							{if $CONTRACTOR}
-								<br /><small class="small-a">{\App\Language::translate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('contractor')}</strong></small>, <strong><small class='small-a'><a href="{$CONTRACTOR->getDetailViewUrl()}">{\App\TextParser::textTruncate($CONTRACTOR->getDisplayName(), $HREFNAMELENGTH)}</a></small></strong>			
+								<br /><small class="small-a">{\App\Language::translate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('contractor')}</strong></small>, <strong><small class='small-a'><a href="{$CONTRACTOR->getDetailViewUrl()}">{\App\TextParser::textTruncate($CONTRACTOR->getDisplayName(), $HREFNAMELENGTH)}</a></small></strong>
 									{/if}
 									{if $LINK}
 								<br /><small class="small-a">{\App\Language::translate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('link')}</strong></small>
@@ -66,7 +66,7 @@
 						{/if}
 						<div class="ml-1">
 							<small>
-								{\App\Fields\DateTime::formatToViewDate("$DUE_DATE $DUE_TIME")}
+								{\App\Fields\DateTime::formatToViewDate("$START_DATE $START_TIME")}
 							</small>
 						</div>
 					</div>
