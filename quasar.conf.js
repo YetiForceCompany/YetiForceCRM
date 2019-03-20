@@ -58,6 +58,11 @@ module.exports = function(ctx) {
 
       // Quasar plugins
       plugins: ['Notify'],
+      config: {
+        notify: {
+          /* Notify defaults */
+        }
+      },
 
       iconSet: 'mdi-v3'
       // lang: 'de' // Quasar language

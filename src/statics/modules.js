@@ -14,7 +14,7 @@ window.modules = [
       {
         name: "Base",
         parent: "App",
-        path: "base",
+        path: "/",
         componentPath: "layouts/Base.vue"
       }
     ],
@@ -113,7 +113,7 @@ window.modules = [
       {
         name: "Core",
         parent: "App",
-        path: "core",
+        path: "/",
         componentPath: "layouts/Core.vue"
       }
     ],

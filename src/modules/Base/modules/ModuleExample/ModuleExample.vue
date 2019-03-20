@@ -13,7 +13,7 @@ export default {
   },
   beforeMount() {
     this.$store.commit(mutations.Core.Menu.addItem, {
-      path: '/base/module-example',
+      path: '/module-example',
       icon: 'mdi-cube',
       label: 'Base Example',
       children: []

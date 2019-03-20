@@ -86,7 +86,7 @@ export default {
       if (this.$refs.user.hasError || this.$refs.password.hasError) {
         this.formHasError = true
       } else {
-        this.$store.dispatch(actions.App.Core.Users.login, {
+        this.$store.dispatch(actions.Core.Users.login, {
           formData: {
             username: this.user,
             password: this.password,

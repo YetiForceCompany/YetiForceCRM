@@ -58,7 +58,7 @@ export default {
         commit('Global/update', { App: data.env })
         this.$router.replace('/')
       } else if (data.result === '2fa') {
-        this.$router.replace(`/app/users/login/2FA`)
+        this.$router.replace(`/users/login/2FA`)
       } else if (data.error !== undefined) {
         Notify.create({
           color: 'negative',
@@ -86,7 +86,7 @@ export default {
       const data = response.data
       if (data.result === true) {
         commit(mutations.Core.Users.isLoggedIn, false)
-        this.$router.replace('/app/core/users/login')
+        this.$router.replace('/users/login')
       }
     })
   },
@@ -102,7 +102,7 @@ export default {
       data: formData,
       method: 'POST'
     }).then(response => {
-      this.$router.replace('/app/users/login/form')
+      this.$router.replace('/users/login/form')
     })
   }
 }
