@@ -56,7 +56,7 @@
 										   data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}"
 										   data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'
 										   role="tooltip">
-											<span class="fas fa-info-circle small align-baseline"></span>
+											<span class="fas fa-info-circle fa-sm align-baseline"></span>
 										</a>
 									{/if}
 									{if $FIELD_MODEL->isMandatory() eq true}
