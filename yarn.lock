@@ -129,10 +129,10 @@ chartjs-color@^2.1.0:
     chartjs-color-string "^0.6.0"
     color-convert "^0.5.3"
 
-chartjs-plugin-datalabels@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/chartjs-plugin-datalabels/-/chartjs-plugin-datalabels-0.5.0.tgz#b9c7a99857b2a52b6db70f63fc9f3a65d887d523"
-  integrity sha512-R82bKXMXmtivrCgEHzSGkFmX2blFJtZh0AyDobEOpPtAIBAlDtMHOaMBw1sTRk0hytKdZuJgvsBaFnvzsgrjOw==
+chartjs-plugin-datalabels@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/chartjs-plugin-datalabels/-/chartjs-plugin-datalabels-0.6.0.tgz#cbbb4a3429c9fdfa88b974d46b5363b2d095f339"
+  integrity sha512-3APqqeqVHlxjusTO0hETfNjq9HWCISLkjxQfAKgbnTfjZe60knOzVxDAgLGnpRvnzQvZUtwSlnJX2MHIuIUe8w==
 
 chartjs-plugin-funnel@^1.1.2:
   version "1.1.2"
