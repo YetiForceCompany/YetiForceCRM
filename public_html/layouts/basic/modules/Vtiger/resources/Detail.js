@@ -2713,5 +2713,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.registerBasicEvents();
 		this.registerEventForTotalRecordsCount();
 		this.registerProgress();
+		Vtiger_List_Js.getInstance().registerEvents();
 	}
 });

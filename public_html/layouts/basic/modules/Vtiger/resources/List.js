@@ -703,24 +703,38 @@ jQuery.Class("Vtiger_List_Js", {
 			jQuery('#listViewEntriesMainCheckBox').prop('checked', false);
 		}
 	},
-	getRecordsCount: function () {
-		var aDeferred = jQuery.Deferred();
-		var recordCountVal = jQuery("#recordsCount").val();
-		if (recordCountVal != '') {
+	getRecordsCount: function() {
+		let aDeferred = $.Deferred(),
+			recordCountVal = $('#recordsCount').val();
+		if (recordCountVal != "") {
 			aDeferred.resolve(recordCountVal);
 		} else {
-			var count = '';
-			var params = this.getDefaultParams();
-			params.view = 'ListAjax';
-			params.mode = 'getRecordsCount';
-			AppConnector.request(params).done(function (data) {
-				var response = JSON.parse(data);
-				jQuery("#recordsCount").val(response['result']['count']);
-				count = response['result']['count'];
-				aDeferred.resolve(count);
-			});
+			if (app.getViewName() != 'Detail') {
+				let params = this.getDefaultParams();
+				params.view = 'ListAjax';
+				params.mode = 'getRecordsCount';
+				AppConnector.request(params).done(function(data) {
+					let response = JSON.parse(data);
+					$('#recordsCount').val(response["result"]["count"]);
+					aDeferred.resolve(response["result"]["count"]);
+				});
+			} else {
+				let detailInstance = Vtiger_Detail_Js.getInstance();
+				AppConnector.request({
+					module: app.getModuleName(),
+					parent: app.getParentModuleName(),
+					action: "DetailAjax",
+					viewname: $('#recordsFilter').val(),
+					mode: "getRecordsCount",
+					relatedModule: $('[name="relatedModuleName"]').val(),
+					record: app.getRecordId(),
+					tab_label: detailInstance.getSelectedTab().data("labelKey")
+				}).done(function(data) {
+					$("#recordsCount").val(data["result"]["count"]);
+					aDeferred.resolve(data["result"]["count"]);
+				});
+			}
 		}
-
 		return aDeferred.promise();
 	},
 	getSelectOptionFromChosenOption: function (liElement) {

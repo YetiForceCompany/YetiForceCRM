@@ -10,18 +10,21 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="RelatedList relatedContainer">
+	<div class="RelatedList relatedContainer listViewPageDiv listViewContentDiv">
 		{assign var=RELATED_MODULE_NAME value=$RELATED_MODULE->get('name')}
 		{assign var=INVENTORY_MODULE value=$RELATED_MODULE->isInventory()}
-		<input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}"/>
-		<input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}"/>
-		<input type="hidden" value="{$ORDER_BY}" id="orderBy"/>
+		<input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}">
+		<input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}">
+		<input type="hidden" value="{$ORDER_BY}" id="orderBy">
 		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder"/>
 		<input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries">
 		<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 		<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
-		<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
+		<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}">
 		<input type="hidden" class="relatedView" value="{$RELATED_VIEW}">
+		<input type="hidden" id="selectedIds" name="selectedIds" data-selected-ids="">
+		<input type="hidden" id="excludedIds" name="excludedIds" data-excluded-ids="">
+		<input type="hidden" id="recordsCount" value=""/>
 		<div class="relatedHeader my-1">
 			<div class="d-inline-flex flex-wrap w-100 justify-content-between">
 				<div class="u-w-sm-down-100 d-flex flex-wrap flex-sm-nowrap mb-1 mb-md-0">
@@ -52,6 +55,32 @@
 												<span class="{$RELATEDLIST_VIEW->get('linkicon')} mr-1"></span>
 											{/if}
 											{\App\Language::translate($RELATEDLIST_VIEW->getLabel(), $MODULE_NAME)}
+										</a>
+									</li>
+								{/foreach}
+							</ul>
+						</div>
+					{/if}
+					{if isset($RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'])}
+						<div class="btn-group mr-sm-1 relatedViewGroup c-btn-block-sm-down mb-1 mb-sm-0">
+							<button class="btn btn-light dropdown-toggle relatedViewBtn" data-toggle="dropdown">
+								<span class="fas fa-list mr-1"></span>
+								<span class="textHolder">{\App\Language::translate('LBL_ACTIONS', $MODULE)}</span>
+							</button>
+							<ul class="dropdown-menu">
+								{foreach item="LISTVIEW_MASSACTION" from=$RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'] name=actionCount}
+									<li>
+										<a class="dropdown-item" href="#"
+											{if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:') === 0}
+												onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'
+											{else}
+												onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"
+											{/if}
+											>
+												{if $LISTVIEW_MASSACTION->get('linkicon') neq ''}
+													<span class="{$LISTVIEW_MASSACTION->get('linkicon')} mr-1"></span>
+												{/if}
+												{\App\Language::translate($LISTVIEW_MASSACTION->getLabel(), $RELATED_MODULE_NAME)}
 										</a>
 									</li>
 								{/foreach}
