@@ -1,13 +1,14 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <div>
-    <q-btn class="lt-md" round :size="iconSize" flat icon="search" dense />
+    <q-btn class="lt-md" round :size="iconSize" flat icon="mdi-magnify" dense />
     <div class="flex gt-sm">
       <div :class="['q-pl-md', $style.headerField]">
         <q-select v-model="searchModule" :options="searchModules" placeholder="Placeholder" dense />
       </div>
       <q-input :class="['q-pl-lg', $style.headerField]" v-model="searchText" placeholder="Placeholder" dense>
         <template v-slot:after>
+          <q-btn round :size="iconSize" flat icon="mdi-magnify" dense />
           <q-btn round :size="iconSize" flat icon="mdi-format-text" dense />
           <q-btn round :size="iconSize" flat icon="mdi-feature-search-outline" dense />
         </template>
@@ -31,6 +32,6 @@ export default {
 
 <style module lang="stylus">
 .headerField {
-  min-width: 200px;
+  // min-width: 200px;
 }
 </style>

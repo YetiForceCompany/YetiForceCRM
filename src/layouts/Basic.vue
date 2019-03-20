@@ -1,19 +1,36 @@
 <template>
   <div>
-    <q-layout view="lHh lpR fFf">
+    <q-layout view="hHh lpR fFf">
       <template v-if="isLoggedIn">
-        <yf-header></yf-header>
+        <yf-header>
+          <template slot="left">
+            <q-btn
+              dense
+              flat
+              round
+              icon="mdi-menu"
+              @click="leftDrawerOpen = !leftDrawerOpen"
+              v-show="!$q.platform.is.desktop"
+            />
+          </template>
+        </yf-header>
         <q-drawer
           v-model="leftDrawerOpen"
           content-class="bg-blue-grey-10 text-white"
-          :mini="$q.platform.is.mobile ? !leftDrawerOpen : miniState"
+          :mini="miniState ? miniState : false"
           @mouseover="miniState = false && menuEvents"
           @mouseout="miniState = true && menuEvents"
           :width="200"
           :breakpoint="500"
-          show-if-above
+          :show-if-above="miniState"
         >
-          <q-btn dense flat round icon="mdi-menu" @click="menuEvents = !menuEvents" class="q-ml-sm" />
+          <q-toggle
+            v-show="$q.platform.is.desktop"
+            v-model="menuEvents"
+            :true-value="false"
+            :false-value="true"
+            icon="mdi-pin"
+          />
           <left-menu />
         </q-drawer>
         <yf-footer></yf-footer>
@@ -42,8 +59,8 @@ export default {
   },
   data() {
     return {
-      leftDrawerOpen: this.$q.platform.is.desktop,
-      miniState: true,
+      leftDrawerOpen: false,
+      miniState: this.$q.platform.is.desktop,
       menuEvents: true
     }
   },

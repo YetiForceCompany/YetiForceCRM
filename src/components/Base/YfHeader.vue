@@ -2,6 +2,7 @@
 <template>
   <q-header elevated class="bg-white text-muted">
     <q-toolbar>
+      <slot name="left" />
       <yf-global-search />
       <yf-global-actions class="q-ml-auto" />
     </q-toolbar>

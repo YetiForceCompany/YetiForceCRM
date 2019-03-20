@@ -1,7 +1,7 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template functional>
-  <div :class="props.containerClass">
-    <div class="text-right">&copy; YetiForce.com All rights reserved.</div>
+  <div>
+    <div>&copy; YetiForce.com All rights reserved.</div>
     <q-separator dark />
     <div class="flex no-wrap justify-between q-py-xs">
       <a class="q-link text-inherit" href="https://www.linkedin.com/groups/8177576" rel="noreferrer noopener">

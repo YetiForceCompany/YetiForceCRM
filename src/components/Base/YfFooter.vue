@@ -8,9 +8,9 @@
       <q-separator dark vertical class="q-my-xs" style="min-height: unset" />
     </div>
     <q-toolbar>
-      <div class="flex wrap full-width items-center">
+      <div class="flex wrap full-width items-center justify-between">
         <yf-breadcrumbs />
-        <yf-copyright containerClass="q-ml-auto" />
+        <yf-copyright />
       </div>
     </q-toolbar>
   </q-footer>
