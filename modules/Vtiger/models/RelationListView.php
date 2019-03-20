@@ -406,7 +406,9 @@ class Vtiger_RelationListView_Model extends \App\Base
 	{
 		$relationModelInstance = $this->getRelationModel();
 		$relatedModuleName = $relationModelInstance->getRelationModuleModel()->getName();
-		$id = $this->getParentRecordModel()->getId();
+		$parentRecordModel = $this->getParentRecordModel();
+		$id = $parentRecordModel->getId();
+		$parentRecordModuleName = $parentRecordModel->getModuleName();
 		$selectLinks = $this->getSelectRelationLinks();
 		foreach ($selectLinks as $selectLinkModel) {
 			$selectLinkModel->set('_selectRelation', true)->set('_module', $relationModelInstance->getRelationModuleModel());
@@ -425,7 +427,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 			'linkicon' => 'fas fa-desktop',
 		]);
 		$relatedLink['LISTVIEWBASIC'] = array_merge($selectLinks, $this->getAddRelationLinks());
-		if ('Campaigns' === $this->getParentRecordModel()->getModuleName()) {
+		if ('Campaigns' === $parentRecordModuleName) {
 			$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'RELATEDLIST_MASSACTIONS',
 				'linklabel' => 'LBL_MASS_DELETE',
@@ -445,7 +447,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 			$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'RELATEDLIST_MASSACTIONS',
 				'linklabel' => 'LBL_MASS_DOWNLOAD',
-				'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module=Documents&action=DownloadFile&src_record={$id}&sourceModule={$this->getParentRecordModel()->getModuleName()}','sendByForm')",
+				'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module=Documents&action=MassDownloadFile&src_record={$id}&sourceModule={$parentRecordModuleName}','sendByForm')",
 				'linkclass' => '',
 				'linkicon' => 'fas fa-download'
 			]);
