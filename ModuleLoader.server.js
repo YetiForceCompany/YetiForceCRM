@@ -72,7 +72,7 @@ const appRequire = (moduleName, getDefault = true) => {
   }
   for (let alias in aliases) {
     if (moduleName.substring(0, alias.length) === alias) {
-      moduleName = moduleName.replace(alias, aliases[alias])
+      moduleName = aliases[alias] + moduleName.substring(alias.length)
       break
     }
   }
