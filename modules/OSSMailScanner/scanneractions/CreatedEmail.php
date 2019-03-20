@@ -87,6 +87,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 	public function parseContent(OSSMail_Mail_Model $mail)
 	{
 		$html = $mail->get('body');
+		$html = vtlib\Functions::getHtmlOrPlainText($html);
 		$attachments = $mail->get('attachments');
 		if (count($attachments) < 2) {
 			foreach ($attachments as $key => $attachment) {
