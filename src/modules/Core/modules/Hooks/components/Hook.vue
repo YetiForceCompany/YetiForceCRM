@@ -7,12 +7,11 @@
 <script>
 import getters from 'store/getters.js'
 
-const moduleName = 'Hook'
+const moduleName = 'Core.Hooks.Hook'
 export default {
   name: moduleName,
   props: {
-    name: { type: String, required: true },
-    type: { type: String, required: false, default: 'hook', validator: value => ['hook', 'slot'].indexOf(value) !== -1 }
+    name: { type: String, required: true }
   },
   computed: {
     fullName() {

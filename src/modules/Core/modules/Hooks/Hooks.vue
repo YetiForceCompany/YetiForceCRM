@@ -3,6 +3,9 @@
 <script>
 import ModuleLoader from 'src/ModuleLoader.js'
 import store from './store/index.js'
+import Vue from 'vue'
+import HookWrapper from './components/HookWrapper.vue'
+
 const moduleName = 'Core.Hooks'
 export default {
   name: moduleName,
@@ -11,5 +14,7 @@ export default {
     this.$store.registerModule(moduleName.split('.'), ModuleLoader.prepareStoreNames(moduleName, store))
   }
 }
+// register this component globally
+Vue.component('hook-wrapper', HookWrapper)
 </script>
 <style></style>
