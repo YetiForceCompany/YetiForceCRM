@@ -447,7 +447,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 			$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'RELATEDLIST_MASSACTIONS',
 				'linklabel' => 'LBL_MASS_DOWNLOAD',
-				'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module=Documents&action=MassDownloadFile&src_record={$id}&sourceModule={$parentRecordModuleName}','sendByForm')",
+				'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module={$parentRecordModuleName}&action=RelationAjax&mode=massDownload&src_record={$id}&relatedModule=Documents','sendByForm')",
 				'linkclass' => '',
 				'linkicon' => 'fas fa-download'
 			]);
