@@ -1,5 +1,6 @@
 <?php
- /* +***********************************************************************************
+
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -54,11 +55,15 @@ class Vtiger_DetailAjax_Action extends App\Controller\Action
 		$label = $request->getByType('tab_label');
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
-		$count = $relationListView->getRelatedEntriesCount();
+		$searchParmams = $request->getArray('search_params');
+		if (!empty($searchParmams) && is_array($searchParmams)) {
+			$relationListView->set('search_params', $relationListView->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams));
+		}
+
 		$result = [];
 		$result['module'] = $moduleName;
 		$result['viewname'] = $request->getByType('viewname', 2);
-		$result['count'] = $count;
+		$result['count'] = $relationListView->getRelationQuery()->count();
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
