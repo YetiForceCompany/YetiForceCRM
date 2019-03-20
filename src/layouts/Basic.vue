@@ -24,14 +24,20 @@
           :breakpoint="500"
           :show-if-above="miniState"
         >
-          <q-toggle
-            v-show="$q.platform.is.desktop"
-            v-model="menuEvents"
-            :true-value="false"
-            :false-value="true"
-            icon="mdi-pin"
-          />
           <left-menu />
+          <q-item>
+            <q-item-section></q-item-section>
+            <q-item-section>
+              <q-toggle
+                class="col-shrink"
+                v-show="$q.platform.is.desktop"
+                v-model="menuEvents"
+                :true-value="false"
+                :false-value="true"
+                icon="mdi-pin"
+              />
+            </q-item-section>
+          </q-item>
         </q-drawer>
         <yf-footer></yf-footer>
       </template>
