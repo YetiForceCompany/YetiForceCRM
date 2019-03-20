@@ -17,13 +17,14 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	{
 		return [
 			'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES' => ['mine'],
+			'LBL_CREATED_BY_ME_BUT_NOT_MINE_OVERDUE_ACTIVITIES' => ['mine'],
 		];
 	}
 
 	public function getWidgetsWithLimit()
 	{
 		return ['History', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'Delagated Events/To Do', 'Delegated (overdue) Events/ToDos', 'LBL_EXPIRING_SOLD_PRODUCTS',
-			'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS', 'Multifilter'];
+			'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'LBL_CREATED_BY_ME_BUT_NOT_MINE_OVERDUE_ACTIVITIES', 'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS', 'Multifilter'];
 	}
 
 	public static function getWidgetSpecial()
@@ -62,7 +63,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		} else {
 			$timeStart = date('Y-m-d', strtotime('-1 month'));
 		}
-		return [$timeStart, date('Y-m-d', mktime(23, 59, 59, (int) date('n'), (int) date('j'), (int) date('Y')))];
+		return [$timeStart, date('Y-m-d', mktime(23, 59, 59, (int)date('n'), (int)date('j'), (int)date('Y')))];
 	}
 
 	/**
@@ -91,7 +92,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$allTypes = self::getDashboardTypes();
 		$dashboardId = 0;
 		foreach ($allTypes as $dashboard) {
-			if ((int) $dashboard['system'] === 1) {
+			if ((int)$dashboard['system'] === 1) {
 				$dashboardId = $dashboard['dashboard_id'];
 				break;
 			}
@@ -128,7 +129,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	public static function getDashboardInfo($dashboardId)
 	{
 		return (new App\Db\Query())->from('u_#__dashboard_type')
-			->where(['dashboard_id' => (int) $dashboardId])
+			->where(['dashboard_id' => (int)$dashboardId])
 			->one();
 	}
 
@@ -136,8 +137,8 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	 * Function appoints the proper owner.
 	 *
 	 * @param Vtiger_Widget_Model $widgetModel
-	 * @param string              $moduleName
-	 * @param mixed               $owner
+	 * @param string $moduleName
+	 * @param mixed $owner
 	 *
 	 * @return mixed
 	 */
@@ -223,7 +224,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			'Leads by Source', 'Leads by Status', 'Funnel', 'Upcoming Activities', 'Overdue Activities',
 			'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks',
 			'Delagated Events/To Dos', 'Delegated (overdue) Events/ToDos', 'Calendar',
-			'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'DW_SUMMATION_BY_MONTHS', 'LBL_ALL_TIME_CONTROL',
+			'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'LBL_CREATED_BY_ME_BUT_NOT_MINE_OVERDUE_ACTIVITIES', 'DW_SUMMATION_BY_MONTHS', 'LBL_ALL_TIME_CONTROL',
 			'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS', 'LBL_CLOSED_TICKETS_BY_PRIORITY', 'LBL_ACCOUNTS_BY_INDUSTRY',
 			'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS', 'LBL_UPCOMING_PROJECT_TASKS', 'LBL_COMPLETED_PROJECT_TASKS'
 		];
@@ -273,7 +274,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	/**
 	 * Save data.
 	 *
-	 * @param array  $data
+	 * @param array $data
 	 * @param string $moduleName
 	 *
 	 * @return Array(success:true/false)
@@ -342,9 +343,9 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	/**
 	 * Add widget.
 	 *
-	 * @param array  $data
+	 * @param array $data
 	 * @param string $moduleName
-	 * @param bool   $addToUser
+	 * @param bool $addToUser
 	 *
 	 * @return array
 	 */
