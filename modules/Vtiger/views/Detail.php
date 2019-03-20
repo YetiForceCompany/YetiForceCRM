@@ -218,8 +218,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$jsFileNames = [
 			'~libraries/split.js/dist/split.js',
-			'modules.Vtiger.resources.List',
-			"modules.$moduleName.resources.List",
 			'modules.Vtiger.resources.RelatedList',
 			"modules.$moduleName.resources.RelatedList",
 			'modules.Vtiger.resources.Widgets',
