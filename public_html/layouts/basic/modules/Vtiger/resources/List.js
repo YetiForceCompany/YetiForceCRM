@@ -1181,9 +1181,8 @@ jQuery.Class("Vtiger_List_Js", {
 	 * Function to register the click event for list view main check box.
 	 */
 	registerMainCheckBoxClickEvent: function () {
-		var listViewPageDiv = this.getListViewContainer();
 		var thisInstance = this;
-		listViewPageDiv.on('click', '#listViewEntriesMainCheckBox', function () {
+		$(document).on('click', '#listViewEntriesMainCheckBox', function () {
 			var selectedIds = thisInstance.readSelectedIds();
 			var excludedIds = thisInstance.readExcludedIds();
 			if (jQuery('#listViewEntriesMainCheckBox').is(":checked")) {
@@ -1226,9 +1225,8 @@ jQuery.Class("Vtiger_List_Js", {
 	 * Function  to register click event for list view check box.
 	 */
 	registerCheckBoxClickEvent: function () {
-		var listViewPageDiv = this.getListViewContainer();
 		var thisInstance = this;
-		listViewPageDiv.on('click', '.listViewEntriesCheckBox', function (e) {
+		$(document).on('click', '.listViewEntriesCheckBox', function (e) {
 			var selectedIds = thisInstance.readSelectedIds();
 			var excludedIds = thisInstance.readExcludedIds();
 			var elem = jQuery(e.currentTarget);
