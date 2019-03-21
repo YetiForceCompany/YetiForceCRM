@@ -87,7 +87,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 	public function parseContent(OSSMail_Mail_Model $mail)
 	{
 		$html = $mail->get('body');
-		if (!vtlib\Functions::isHtmlMessage($html)) {
+		if (!\App\Utils::isHtml($html)) {
 			$html = nl2br($html);
 		}
 		$attachments = $mail->get('attachments');

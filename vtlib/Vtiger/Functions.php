@@ -466,26 +466,12 @@ class Functions
 	 */
 	public static function getHtmlOrPlainText(string $content)
 	{
-		if (self::isHtmlMessage($content)) {
+		if (\App\Utils::isHtml($content)) {
 			$content = \App\Purifier::decodeHtml($content);
 		} else {
 			$content = nl2br($content);
 		}
 		return $content;
-	}
-
-	/**
-	 * Function to check is a html message
-	 * @param string $content
-	 * @return bool
-	 */
-	public static function isHtmlMessage(string $content): bool
-	{
-		$content = trim($content);
-		if (substr($content, 0, 1) === '<' && substr($content, -1) === '>') {
-			return true;
-		}
-		return false;
 	}
 
 	/**
