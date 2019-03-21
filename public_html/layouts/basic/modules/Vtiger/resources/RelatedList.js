@@ -1139,16 +1139,11 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		return Vtiger_Helper_Js.showPnotify({ text: app.vtranslate(text) });
 	},
 	getCurrentCvId: function() {
-		return $("#customFilter")
-			.find("option:selected")
-			.data("id");
+		return $("#customFilter").find("option:selected").data("id");
 	},
 	checkListRecordSelected: function(minNumberOfRecords = 1) {
 		let selectedIds = this.readSelectedIds();
-		if (
-			typeof selectedIds === "object" &&
-			selectedIds.length < minNumberOfRecords
-		) {
+		if (typeof selectedIds === "object" && selectedIds.length < minNumberOfRecords) {
 			return true;
 		}
 		return false;
@@ -1173,10 +1168,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		if (!Array.isArray(selectedIds)) {
 			selectedIds = [selectedIds];
 		}
-		$("#selectedIds").data(
-			this.getCurrentCvId() + "Selectedids",
-			selectedIds
-		);
+		$("#selectedIds").data(this.getCurrentCvId() + "Selectedids", selectedIds);
 	},
 	readExcludedIds: function(decode) {
 		let excludedIdsDataAttr = this.getCurrentCvId() + "Excludedids",
@@ -1195,10 +1187,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		return excludedIds;
 	},
 	writeExcludedIds: function(excludedIds) {
-		$("#excludedIds").data(
-			this.getCurrentCvId() + "Excludedids",
-			excludedIds
-		);
+		$("#excludedIds").data(this.getCurrentCvId() + "Excludedids", excludedIds);
 	},
 	checkSelectAll: function() {
 		let state = true;
@@ -1218,86 +1207,69 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	registerCheckBoxClickEvent: function() {
 		const self = this;
-		this.getRelatedContainer().on(
-			"click",
-			".listViewEntriesCheckBox",
-			function(e) {
-				let selectedIds = self.readSelectedIds(),
-					excludedIds = self.readExcludedIds(),
-					elem = $(e.currentTarget);
-				if (elem.is(":checked")) {
-					elem.closest("tr").addClass("highlightBackgroundColor");
-					if (selectedIds == "all") {
-						excludedIds.splice($.inArray(elem.val(), excludedIds), 1);
-					} else if ($.inArray(elem.val(), selectedIds) == -1) {
-						selectedIds.push(elem.val());
-					}
-				} else {
-					elem.closest("tr").removeClass("highlightBackgroundColor");
-					if (selectedIds == "all") {
-						excludedIds.push(elem.val());
-						selectedIds = "all";
-					} else {
-						selectedIds.splice($.inArray(elem.val(), selectedIds), 1);
-					}
+		this.getRelatedContainer().on("click", ".listViewEntriesCheckBox", function(e) {
+			let selectedIds = self.readSelectedIds(),
+				excludedIds = self.readExcludedIds(),
+				elem = $(e.currentTarget);
+			if (elem.is(":checked")) {
+				elem.closest("tr").addClass("highlightBackgroundColor");
+				if (selectedIds == "all") {
+					excludedIds.splice($.inArray(elem.val(), excludedIds), 1);
+				} else if ($.inArray(elem.val(), selectedIds) == -1) {
+					selectedIds.push(elem.val());
 				}
-				self.checkSelectAll();
-				self.writeSelectedIds(selectedIds);
-				self.writeExcludedIds(excludedIds);
+			} else {
+				elem.closest("tr").removeClass("highlightBackgroundColor");
+				if (selectedIds == "all") {
+					excludedIds.push(elem.val());
+					selectedIds = "all";
+				} else {
+					selectedIds.splice($.inArray(elem.val(), selectedIds), 1);
+				}
 			}
-		);
+			self.checkSelectAll();
+			self.writeSelectedIds(selectedIds);
+			self.writeExcludedIds(excludedIds);
+		});
 	},
 	registerMainCheckBoxClickEvent: function() {
 		const self = this;
-		this.getRelatedContainer().on(
-			"click",
-			"#listViewEntriesMainCheckBox",
-			function() {
-				let selectedIds = self.readSelectedIds(),
-					excludedIds = self.readExcludedIds();
-				if ($("#listViewEntriesMainCheckBox").is(":checked")) {
-					let recordCountObj = self.getRecordsCount();
-					recordCountObj.done(function(data) {
-						$("#totalRecordsCount").text(data);
-						if ($("#deSelectAllMsgDiv").css("display") == "none") {
-							$("#selectAllMsgDiv").show();
+		this.getRelatedContainer().on("click", "#listViewEntriesMainCheckBox", function() {
+			let selectedIds = self.readSelectedIds(),
+				excludedIds = self.readExcludedIds();
+			if ($("#listViewEntriesMainCheckBox").is(":checked")) {
+				let recordCountObj = self.getRecordsCount();
+				recordCountObj.done(function(data) {
+					$("#totalRecordsCount").text(data);
+					if ($("#deSelectAllMsgDiv").css("display") == "none") {
+						$("#selectAllMsgDiv").show();
+					}
+				});
+				$(".listViewEntriesCheckBox").each(function(index, element) {
+					$(this).prop("checked", true).closest("tr").addClass("highlightBackgroundColor");
+					if (selectedIds == "all") {
+						if ($.inArray($(element).val(), excludedIds) != -1) {
+							excludedIds.splice($.inArray($(element).val(), excludedIds), 1);
 						}
-					});
-					$(".listViewEntriesCheckBox").each(function(index, element) {
-						$(this)
-							.prop("checked", true)
-							.closest("tr")
-							.addClass("highlightBackgroundColor");
-						if (selectedIds == "all") {
-							if ($.inArray($(element).val(), excludedIds) != -1) {
-								excludedIds.splice(
-									$.inArray($(element).val(), excludedIds),
-									1
-								);
-							}
-						} else if ($.inArray($(element).val(), selectedIds) == -1) {
-							selectedIds.push($(element).val());
-						}
-					});
-				} else {
-					$("#selectAllMsgDiv").hide();
-					$(".listViewEntriesCheckBox").each(function(index, element) {
-						$(this)
-							.prop("checked", false)
-							.closest("tr")
-							.removeClass("highlightBackgroundColor");
-						if (selectedIds == "all") {
-							excludedIds.push($(element).val());
-							selectedIds = "all";
-						} else {
-							selectedIds.splice($.inArray($(element).val(), selectedIds), 1);
-						}
-					});
-				}
-				self.writeSelectedIds(selectedIds);
-				self.writeExcludedIds(excludedIds);
+					} else if ($.inArray($(element).val(), selectedIds) == -1) {
+						selectedIds.push($(element).val());
+					}
+				});
+			} else {
+				$("#selectAllMsgDiv").hide();
+				$(".listViewEntriesCheckBox").each(function(index, element) {
+					$(this).prop("checked", false).closest("tr").removeClass("highlightBackgroundColor");
+					if (selectedIds == "all") {
+						excludedIds.push($(element).val());
+						selectedIds = "all";
+					} else {
+						selectedIds.splice($.inArray($(element).val(), selectedIds), 1);
+					}
+				});
 			}
-		);
+			self.writeSelectedIds(selectedIds);
+			self.writeExcludedIds(excludedIds);
+		});
 	},
 	registerSelectAllClickEvent: function() {
 		const self = this;
@@ -1306,10 +1278,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			$("#deSelectAllMsgDiv").show();
 			$("#listViewEntriesMainCheckBox").prop("checked", true);
 			$(".listViewEntriesCheckBox").each(function(index, element) {
-				$(this)
-					.prop("checked", true)
-					.closest("tr")
-					.addClass("highlightBackgroundColor");
+				$(this).prop("checked", true).closest("tr").addClass("highlightBackgroundColor");
 			});
 			self.writeSelectedIds("all");
 		});
@@ -1320,10 +1289,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			$("#deSelectAllMsgDiv").hide();
 			$("#listViewEntriesMainCheckBox").prop("checked", false);
 			$(".listViewEntriesCheckBox").each(function(index, element) {
-				$(this)
-					.prop("checked", false)
-					.closest("tr")
-					.removeClass("highlightBackgroundColor");
+				$(this).prop("checked", false).closest("tr").removeClass("highlightBackgroundColor");
 			});
 			self.writeSelectedIds([]);
 			self.writeExcludedIds([]);
