@@ -5,7 +5,7 @@
       <q-toolbar>
         <q-toolbar-title class="col-auto">
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg" />
+            <img :src="env.publicDir + '/statics/Logo/blue_yetiforce_logo.png'" />
           </q-avatar>
         </q-toolbar-title>
         <yf-global-search />
@@ -17,6 +17,8 @@
 <script>
 import YfGlobalSearch from 'Core/components/YfGlobalSearch.vue'
 import YfGlobalActions from 'Core/components/YfGlobalActions.vue'
+import { mapGetters } from 'vuex'
+import getters from 'store/getters.js'
 export default {
   name: 'YfHeader',
   components: { YfGlobalSearch, YfGlobalActions },
@@ -24,6 +26,11 @@ export default {
     return {
       iconSize: '.75rem'
     }
+  },
+  computed: {
+    ...mapGetters({
+      env: getters.Core.Env.all
+    })
   }
 }
 </script>
