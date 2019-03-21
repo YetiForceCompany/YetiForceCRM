@@ -66,7 +66,11 @@
 						{/if}
 						<div class="ml-1">
 							<small>
-								{\App\Fields\DateTime::formatToViewDate("$START_DATE $START_TIME")}
+								{if $DATE_TYPE === 'DUE'}
+									{\App\Fields\DateTime::formatToViewDate("$DUE_DATE $DUE_TIME")}
+								{else}
+									{\App\Fields\DateTime::formatToViewDate("$START_DATE $START_TIME")}
+								{/if}
 							</small>
 						</div>
 					</div>
