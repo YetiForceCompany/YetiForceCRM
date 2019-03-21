@@ -24,10 +24,13 @@
           :breakpoint="500"
           :show-if-above="miniState"
         >
-          <left-menu />
-          <q-item>
+          <q-scroll-area :class="[$style.menuItemsContainer]">
+            <left-menu />
+          </q-scroll-area>
+          <q-separator dark />
+          <q-item class="fixed-bottom">
             <q-item-section></q-item-section>
-            <q-item-section>
+            <q-item-section class="justify-end">
               <q-toggle
                 class="col-shrink"
                 v-show="$q.platform.is.desktop"
@@ -81,4 +84,8 @@ export default {
 }
 </script>
 
-<style module lang="stylus"></style>
+<style module lang="stylus">
+.menuItemsContainer {
+  height: calc(100% - 56px);
+}
+</style>
