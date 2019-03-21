@@ -62,30 +62,7 @@
 						</div>
 					{/if}
 					{if isset($RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'])}
-						<div class="btn-group mr-sm-1 relatedViewGroup c-btn-block-sm-down mb-1 mb-sm-0">
-							<button class="btn btn-light dropdown-toggle relatedViewBtn" data-toggle="dropdown">
-								<span class="fas fa-list mr-1"></span>
-								<span class="textHolder">{\App\Language::translate('LBL_ACTIONS', $MODULE)}</span>
-							</button>
-							<ul class="dropdown-menu">
-								{foreach item="LISTVIEW_MASSACTION" from=$RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'] name=actionCount}
-									<li>
-										<a class="dropdown-item" href="#"
-											{if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:') === 0}
-												onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'
-											{else}
-												onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"
-											{/if}
-											>
-												{if $LISTVIEW_MASSACTION->get('linkicon') neq ''}
-													<span class="{$LISTVIEW_MASSACTION->get('linkicon')} mr-1"></span>
-												{/if}
-												{\App\Language::translate($LISTVIEW_MASSACTION->getLabel(), $RELATED_MODULE_NAME)}
-										</a>
-									</li>
-								{/foreach}
-							</ul>
-						</div>
+						{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'] TEXT_HOLDER='LBL_ACTIONS' BTN_ICON='fa fa-list' CLASS='btn-group mr-sm-1 relatedViewGroup c-btn-block-sm-down mb-1 mb-sm-0'}
 					{/if}
 					{foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
 						{if {\App\Privilege::isPermitted($RELATED_MODULE_NAME, 'CreateView')} }
