@@ -60,6 +60,7 @@ class Vtiger_CreatedNotMineOverdueActivities_Dashboard extends Vtiger_IndexAjax_
 		$viewer->assign('LISTVIEWLINKS', true);
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('DATA', $data);
+		$viewer->assign('DATE_TYPE', 'DUE');
 		$viewer->assign('USER_CONDITIONS', $conditions);
 		if ($request->has('content')) {
 			$viewer->view('dashboards/CalendarActivitiesContents.tpl', $moduleName);
