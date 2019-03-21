@@ -76,6 +76,7 @@
     "LBL_MINIMIZE_BAR": "Minimize bar",
     "LBL_CREATEMAIL": "Send email",
     "LBL_ADD_RELATION": "Add relation",
+    "LBL_ADD_DOCUMENTS": "Add documents",
     "LBL_ADD_TO_MY_CALENDAR": "Add to my calendar",
     "LBL_ERROR_OCCURRED_DURING_IMPORT": "An error occurred during import",
     "LBL_FILE_HAS_BEEN_IMPORTED": "The file has been imported %s"
@@ -83,6 +84,7 @@
   "js": {
     "NoFindEmailInRecord": "Record does not have email address",
     "AddFindEmailInRecord": "Downloaded email",
-    "StartedDownloadingEmail": "Started downloading email"
+    "StartedDownloadingEmail": "Started downloading email",
+    "JS_DOCUMENTS_ADDED": "Documents have been added"
   }
 }

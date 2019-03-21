@@ -33,7 +33,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$request->isEmpty('record', true) && !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
@@ -45,8 +45,8 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		if (!$request->isEmpty('related_module', true) && !$userPrivilegesModel->hasModulePermission($request->getByType('related_module', 2))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
 		}
-		if (!$request->isEmpty('relatedModule', true) && $request->getByType('relatedModule', 2) !== 'ProductsAndServices') {
-			if ($request->getByType('relatedModule', 2) === 'ModTracker') {
+		if (!$request->isEmpty('relatedModule', true) && 'ProductsAndServices' !== $request->getByType('relatedModule', 2)) {
+			if ('ModTracker' === $request->getByType('relatedModule', 2)) {
 				if (!$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'ModTracker')) {
 					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
 				}
@@ -63,10 +63,10 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 	 *
 	 * @return \App\QueryGenerator|bool
 	 */
-	public static function getQuery(\App\Request $request)
+	public static function getQuery(App\Request $request)
 	{
 		$selectedIds = $request->getArray('selected_ids', 2);
-		if ($selectedIds && $selectedIds[0] !== 'all') {
+		if ($selectedIds && 'all' !== $selectedIds[0]) {
 			$queryGenerator = new App\QueryGenerator($request->getByType('relatedModule', 2));
 			$queryGenerator->setFields(['id']);
 			$queryGenerator->addCondition('id', $selectedIds, 'e');
@@ -109,10 +109,10 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 	 *
 	 * @return array
 	 */
-	public static function getRecordsListFromRequest(\App\Request $request)
+	public static function getRecordsListFromRequest(App\Request $request)
 	{
 		$selectedIds = $request->getArray('selected_ids', 2);
-		if ($selectedIds && $selectedIds[0] !== 'all') {
+		if ($selectedIds && 'all' !== $selectedIds[0]) {
 			return $selectedIds;
 		}
 		$queryGenerator = static::getQuery($request);
@@ -127,7 +127,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function addRelation(\App\Request $request)
+	public function addRelation(App\Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->getInteger('src_record');
@@ -158,7 +158,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function deleteRelation(\App\Request $request)
+	public function deleteRelation(App\Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->getInteger('src_record');
@@ -185,7 +185,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function massDeleteRelation(\App\Request $request)
+	public function massDeleteRelation(App\Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$relatedModuleName = $request->getByType('relatedModule', 2);
@@ -214,7 +214,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			$relationListView->set('search_params', $transformedSearchParams);
 			$rows = array_keys($relationListView->getEntries($pagingModel));
 		} else {
-			$rows = $request->getRaw('selected_ids') === '[]' ? [] : $request->getArray('selected_ids', 'Integer');
+			$rows = '[]' === $request->getRaw('selected_ids') ? [] : $request->getArray('selected_ids', 'Integer');
 		}
 		$relationModel = $relationListView->getRelationModel();
 		foreach ($rows as $relatedRecordId) {
@@ -233,7 +233,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function exportToExcel(\App\Request $request)
+	public function exportToExcel(App\Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$relatedModuleName = $request->getByType('relatedModule', 2);
@@ -264,7 +264,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			$relationListView->set('search_params', $transformedSearchParams);
 			$rows = array_keys($relationListView->getEntries($pagingModel));
 		} else {
-			$rows = $request->getRaw('selected_ids') === '[]' ? [] : $request->getArray('selected_ids', 'Integer');
+			$rows = '[]' === $request->getRaw('selected_ids') ? [] : $request->getArray('selected_ids', 'Integer');
 		}
 		$workbook = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
 		$worksheet = $workbook->setActiveSheetIndex(0);
@@ -295,7 +295,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 					switch ($fieldsModel->getUIType()) {
 						case 25:
 						case 7:
-							if ($fieldsModel->getFieldName() === 'sum_time') {
+							if ('sum_time' === $fieldsModel->getFieldName()) {
 								$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 							} else {
 								$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
@@ -340,7 +340,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		header('content-length: ' . filesize($tempFileName));
 		$filename = \App\Language::translate($relatedModuleName, $relatedModuleName) . '.xls';
 		header("content-disposition: attachment; filename=\"$filename\"");
-		$fp = fopen($tempFileName, 'rb');
+		$fp = fopen($tempFileName, 'r');
 		fpassthru($fp);
 		fclose($fp);
 		unlink($tempFileName);
@@ -354,7 +354,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function updateRelation(\App\Request $request)
+	public function updateRelation(App\Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->getInteger('src_record');
@@ -406,7 +406,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function getRelatedListPageCount(\App\Request $request)
+	public function getRelatedListPageCount(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->getByType('relatedModule', 2);
@@ -417,14 +417,14 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$label = $request->getByType('tab_label', 'Text');
 		$totalCount = 0;
 		$pageCount = 0;
-		if ($relatedModuleName === 'ModComments') {
+		if ('ModComments' === $relatedModuleName) {
 			$totalCount = ModComments_Record_Model::getCommentsCount($parentId);
-		} elseif ($relatedModuleName === 'ModTracker') {
+		} elseif ('ModTracker' === $relatedModuleName) {
 			$count = (int) ($unreviewed = current(ModTracker_Record_Model::getUnreviewed($parentId, false, true))) ? array_sum($unreviewed) : '';
 			$totalCount = $count ? $count : '';
 		} else {
 			$relModules = !empty($relatedModuleName) ? [$relatedModuleName] : [];
-			if ($relatedModuleName === 'ProductsAndServices') {
+			if ('ProductsAndServices' === $relatedModuleName) {
 				$label = '';
 				$relModules = ['Products', 'OutsourcedProducts', 'Assets', 'Services', 'OSSOutsourcedServices', 'OSSSoldServices'];
 			}
@@ -440,10 +440,10 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 				if (!$relationListView) {
 					continue;
 				}
-				if ($relatedModuleName === 'ProductsAndServices' && in_array($relModule, $categoryCount)) {
+				if ('ProductsAndServices' === $relatedModuleName && in_array($relModule, $categoryCount)) {
 					$totalCount += (int) $relationListView->getRelatedTreeEntriesCount();
 				}
-				if ($relatedModuleName === 'Calendar' && \AppConfig::module($relatedModuleName, 'SHOW_ONLY_CURRENT_RECORDS_COUNT')) {
+				if ('Calendar' === $relatedModuleName && \AppConfig::module($relatedModuleName, 'SHOW_ONLY_CURRENT_RECORDS_COUNT')) {
 					$totalCount += (int) $relationListView->getRelationQuery()->andWhere(['vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('current')])->count();
 				} else {
 					$totalCount += (int) $relationListView->getRelatedEntriesCount();
@@ -452,7 +452,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 				$pageCount = ceil((int) $totalCount / (int) $pageLimit);
 			}
 		}
-		if ($pageCount == 0) {
+		if (0 == $pageCount) {
 			$pageCount = 1;
 		}
 		$result = [];
@@ -463,7 +463,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$response->emit();
 	}
 
-	public function updateFavoriteForRecord(\App\Request $request)
+	public function updateFavoriteForRecord(App\Request $request)
 	{
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($request->getModule());
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($request->getByType('relatedModule', 2));
@@ -486,7 +486,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 	 * @throws \App\Exceptions\Security
 	 * @throws \App\Exceptions\NotAllowedMethod
 	 */
-	public function calculate(\App\Request $request)
+	public function calculate(App\Request $request)
 	{
 		$queryGenerator = static::getQuery($request);
 		$fieldQueryModel = $queryGenerator->getQueryField($request->getByType('fieldName', 2));
@@ -498,7 +498,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			throw new \App\Exceptions\Security('ERR_NOT_SUPPORTED_FIELD', 406);
 		}
 		$columnName = $fieldQueryModel->getColumnName();
-		if ($request->getByType('calculateType') === 'sum') {
+		if ('sum' === $request->getByType('calculateType')) {
 			$value = $queryGenerator->createQuery()->sum($columnName);
 		} else {
 			throw new \App\Exceptions\NotAllowedMethod('LBL_PERMISSION_DENIED', 406);
