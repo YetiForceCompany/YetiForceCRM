@@ -95,9 +95,6 @@ class Utils
 	public static function isHtml(string $content): bool
 	{
 		$content = trim($content);
-		if (substr($content, 0, 1) === '<' && substr($content, -1) === '>') {
-			return true;
-		}
-		return false;
+		return substr($content, 0, 1) === '<' && substr($content, -1) === '>';
 	}
 }
