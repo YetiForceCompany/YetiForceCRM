@@ -3,7 +3,7 @@
   <div>
     <q-btn class="lt-md" round :size="iconSize" flat icon="mdi-magnify" dense />
     <div class="flex gt-sm">
-      <div :class="['q-pl-md', $style.headerField]">
+      <div :class="['q-pl-sm', $style.headerField]">
         <q-select v-model="searchModule" :options="searchModules" placeholder="Placeholder" dense />
       </div>
       <q-input :class="['q-pl-lg', $style.headerField]" v-model="searchText" placeholder="Placeholder" dense>
@@ -31,7 +31,7 @@ export default {
 </script>
 
 <style module lang="stylus">
-.headerField {
-  // min-width: 200px;
+.headerField, .headerField input {
+  min-width: 200px;
 }
 </style>

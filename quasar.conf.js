@@ -53,7 +53,8 @@ module.exports = function(ctx) {
         'QBreadcrumbsEl',
         'QExpansionItem',
         'QTable',
-        'QToggle'
+        'QToggle',
+        'QScrollArea'
       ],
       cssAddon: true,
       // directives: ['Ripple'],

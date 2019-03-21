@@ -2,7 +2,11 @@
 <template>
   <q-header elevated class="bg-white text-muted">
     <q-toolbar>
-      <slot name="left" />
+      <q-toolbar-title class="col-auto">
+        <q-avatar>
+          <img src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg" />
+        </q-avatar>
+      </q-toolbar-title>
       <yf-global-search />
       <yf-global-actions class="q-ml-auto" />
     </q-toolbar>
