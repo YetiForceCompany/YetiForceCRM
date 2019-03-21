@@ -47,14 +47,12 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		if (!$request->isEmpty('related_module', true) && !$userPrivilegesModel->hasModulePermission($request->getByType('related_module', 2))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
 		}
-		if (!$request->isEmpty('relatedModule', true) && 'ProductsAndServices' !== $request->getByType('relatedModule', 2)) {
-			if ('ModTracker' === $request->getByType('relatedModule', 2)) {
-				if (!$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'ModTracker')) {
-					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
-				}
-			} elseif (!$userPrivilegesModel->hasModulePermission($request->getByType('relatedModule', 2))) {
+		if ('ModTracker' === $request->getByType('relatedModule', 2)) {
+			if (!$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'ModTracker')) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
 			}
+		} elseif (!$userPrivilegesModel->hasModulePermission($request->getByType('relatedModule', 2))) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
 		}
 	}
 
@@ -195,6 +193,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModule);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
 		$excludedIds = $request->getArray('excluded_ids', 'Integer');
+
 		$rows = $this->getRecordsListFromRequest($request);
 		$relationModel = $relationListView->getRelationModel();
 		foreach ($rows as $relatedRecordId) {
