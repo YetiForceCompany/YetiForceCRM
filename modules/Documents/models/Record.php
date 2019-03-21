@@ -116,22 +116,16 @@ class Documents_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function downloadFiles($recordsIds)
 	{
-		//create the object
 		$zip = new ZipArchive();
-
-		mt_srand(time());
 		$postfix = time() . '_' . random_int(0, 1000);
 		$zipPath = 'storage/';
 		$zipName = "documentsZipFile_{$postfix}.zip";
 		$fileName = $zipPath . $zipName;
-
-		//create the file and throw the error if unsuccessful
 		if (true !== $zip->open($zipPath . $zipName, ZIPARCHIVE::CREATE)) {
 			\App\Log::error("cannot open <$zipPath.$zipName>\n");
 			throw new \App\Exceptions\NoPermitted("cannot open <$zipPath.$zipName>");
 		}
 
-		//add each files of $file_name array to archive
 		foreach ($recordsIds as $recordId) {
 			$documentModel = self::getInstanceById($recordId);
 			if ($fileDetails = $documentModel->getFileDetails()) {
@@ -150,15 +144,12 @@ class Documents_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		$zip->close();
-
-		header('expires: Sat, 26 Jul 1997 05:00:00 GMT');
 		header('content-type: ' . \App\Fields\File::getMimeContentType($fileName));
 		header('Content-Disposition: attachment; filename="' . basename($fileName) . '";');
 		header('accept-ranges: bytes');
 		header('content-length: ' . filesize($fileName));
 
 		readfile($fileName);
-		// delete temporary zip file and saved pdf files
 		unlink($fileName);
 	}
 
