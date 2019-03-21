@@ -108,7 +108,7 @@ window.modules = [
     autoLoad: true,
     childrenPriority: 90,
     entry: "src\\modules\\Core\\Core.vue",
-    directories: ["layouts", "modules", "router", "store"],
+    directories: ["components", "layouts", "modules", "router", "store"],
     routes: [
       {
         name: "Core",

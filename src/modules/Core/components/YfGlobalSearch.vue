@@ -1,6 +1,6 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <hook-wrapper>
+  <hook-wrapper class="Core-Component-YfGlobalSearch">
     <div>
       <q-btn class="lt-md" round :size="iconSize" flat icon="mdi-magnify" dense />
       <div class="flex gt-sm">

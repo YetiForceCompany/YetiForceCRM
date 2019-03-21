@@ -1,6 +1,6 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <hook-wrapper>
+  <hook-wrapper class="Core-Component-YfFooter">
     <q-footer elevated class="bg-blue-grey-10 text-blue-grey-11 row no-wrap">
       <q-toolbar>
         <div class="flex wrap full-width items-center justify-between">
@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import YfBreadcrumbs from 'components/Base/YfBreadcrumbs'
-import YfCopyright from 'components/Base/YfCopyright'
+import YfBreadcrumbs from 'Core/components/YfBreadcrumbs'
+import YfCopyright from 'Core/components/YfCopyright'
 
 export default {
   name: 'YfFooter',
