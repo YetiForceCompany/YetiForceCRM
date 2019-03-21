@@ -703,38 +703,24 @@ jQuery.Class("Vtiger_List_Js", {
 			jQuery('#listViewEntriesMainCheckBox').prop('checked', false);
 		}
 	},
-	getRecordsCount: function() {
-		let aDeferred = $.Deferred(),
-			recordCountVal = $('#recordsCount').val();
-		if (recordCountVal != "") {
+	getRecordsCount: function () {
+		var aDeferred = jQuery.Deferred();
+		var recordCountVal = jQuery("#recordsCount").val();
+		if (recordCountVal != '') {
 			aDeferred.resolve(recordCountVal);
 		} else {
-			if (app.getViewName() != 'Detail') {
-				let params = this.getDefaultParams();
-				params.view = 'ListAjax';
-				params.mode = 'getRecordsCount';
-				AppConnector.request(params).done(function(data) {
-					let response = JSON.parse(data);
-					$('#recordsCount').val(response["result"]["count"]);
-					aDeferred.resolve(response["result"]["count"]);
-				});
-			} else {
-				let detailInstance = Vtiger_Detail_Js.getInstance();
-				AppConnector.request({
-					module: app.getModuleName(),
-					parent: app.getParentModuleName(),
-					action: "DetailAjax",
-					viewname: $('#recordsFilter').val(),
-					mode: "getRecordsCount",
-					relatedModule: $('[name="relatedModuleName"]').val(),
-					record: app.getRecordId(),
-					tab_label: detailInstance.getSelectedTab().data("labelKey")
-				}).done(function(data) {
-					$("#recordsCount").val(data["result"]["count"]);
-					aDeferred.resolve(data["result"]["count"]);
-				});
-			}
+			var count = '';
+			var params = this.getDefaultParams();
+			params.view = 'ListAjax';
+			params.mode = 'getRecordsCount';
+			AppConnector.request(params).done(function (data) {
+				var response = JSON.parse(data);
+				jQuery("#recordsCount").val(response['result']['count']);
+				count = response['result']['count'];
+				aDeferred.resolve(count);
+			});
 		}
+
 		return aDeferred.promise();
 	},
 	getSelectOptionFromChosenOption: function (liElement) {
@@ -1181,8 +1167,9 @@ jQuery.Class("Vtiger_List_Js", {
 	 * Function to register the click event for list view main check box.
 	 */
 	registerMainCheckBoxClickEvent: function () {
+		var listViewPageDiv = this.getListViewContainer();
 		var thisInstance = this;
-		$(document).on('click', '#listViewEntriesMainCheckBox', function () {
+		listViewPageDiv.on('click', '#listViewEntriesMainCheckBox', function () {
 			var selectedIds = thisInstance.readSelectedIds();
 			var excludedIds = thisInstance.readExcludedIds();
 			if (jQuery('#listViewEntriesMainCheckBox').is(":checked")) {
@@ -1225,8 +1212,9 @@ jQuery.Class("Vtiger_List_Js", {
 	 * Function  to register click event for list view check box.
 	 */
 	registerCheckBoxClickEvent: function () {
+		var listViewPageDiv = this.getListViewContainer();
 		var thisInstance = this;
-		$(document).on('click', '.listViewEntriesCheckBox', function (e) {
+		listViewPageDiv.on('click', '.listViewEntriesCheckBox', function (e) {
 			var selectedIds = thisInstance.readSelectedIds();
 			var excludedIds = thisInstance.readExcludedIds();
 			var elem = jQuery(e.currentTarget);
