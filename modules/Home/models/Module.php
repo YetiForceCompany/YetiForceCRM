@@ -104,17 +104,9 @@ class Home_Module_Model extends Vtiger_Module_Model
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
 			->where(['vtiger_crmentity.deleted' => 0]);
 		\App\PrivilegeQuery::getConditions($query, 'Calendar');
-		if ($mode === 'upcoming') {
+		if ($mode === 'upcoming' || $mode === 'overdue') {
 			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
-		} elseif ($mode === 'overdue') {
-			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
-		} elseif ($mode === 'assigned_upcoming') {
-			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
-			$query->andWhere(['vtiger_crmentity.smcreatorid' => $paramsMore['user']]);
-		} elseif ($mode === 'assigned_over') {
-			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
-			$query->andWhere(['vtiger_crmentity.smcreatorid' => $paramsMore['user']]);
-		} elseif ($mode === 'createdByMeButNotMine') {
+		} elseif ($mode === 'createdByMeButNotMine' || $mode === 'createdByMeButNotMineOverdue') {
 			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
 			$query->andWhere(['and', ['vtiger_crmentity.smcreatorid' => $paramsMore['user']], ['NOT IN', 'vtiger_crmentity.smownerid', $paramsMore['user']]]);
 		}
