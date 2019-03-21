@@ -56,8 +56,8 @@ import { openURL } from 'quasar'
 import { mapGetters } from 'vuex'
 import getters from 'store/getters.js'
 import LeftMenu from 'Core/modules/Menu/components/LeftMenu.vue'
-import YfHeader from 'components/Base/YfHeader.vue'
-import YfFooter from 'components/Base/YfFooter.vue'
+import YfHeader from 'Core/components/YfHeader.vue'
+import YfFooter from 'Core/components/YfFooter.vue'
 
 export default {
   name: 'Basic',
