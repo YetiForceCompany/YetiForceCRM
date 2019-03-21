@@ -57,7 +57,6 @@ class Vtiger_CreatedNotMineOverdueActivities_Dashboard extends Vtiger_IndexAjax_
 		$viewer->assign('NAMELENGTH', AppConfig::main('title_max_length'));
 		$viewer->assign('HREFNAMELENGTH', AppConfig::main('href_max_length'));
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_RECORDS_MATCHED_THIS_CRITERIA');
-		$viewer->assign('LISTVIEWLINKS', true);
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('DATE_TYPE', 'DUE');
