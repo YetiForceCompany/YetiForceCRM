@@ -61,7 +61,6 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('ACTIVITYTYPE', $params['activitytype'] ?? '');
 		$viewer->assign('NODATAMSGLABLE', $msgLabel);
-		$viewer->assign('LISTVIEWLINKS', true);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('DATE_TYPE', 'START');
 		$viewer->assign('USER_CONDITIONS', ['condition' => ['vtiger_activity.status' => $params['status']]]);
