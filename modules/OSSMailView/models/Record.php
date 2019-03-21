@@ -25,10 +25,10 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 	public function get($key)
 	{
 		$value = parent::get($key);
-		if ($key === 'content' && \App\Request::_get('view') === 'Detail') {
+		if ('content' === $key && 'Detail' === \App\Request::_get('view')) {
 			return vtlib\Functions::getHtmlOrPlainText($value);
 		}
-		if ($key === 'uid' || $key === 'content') {
+		if ('uid' === $key || 'content' === $key) {
 			return App\Purifier::decodeHtml($value);
 		}
 		return $value;
@@ -56,15 +56,15 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 	 */
 	public function showEmailsList($srecord, $smodule, $config, $type, $filter = 'All')
 	{
-		if ($filter === 'All' || $filter === 'Contacts') {
+		if ('All' === $filter || 'Contacts' === $filter) {
 			$relatedId = (new \App\Db\Query())->select(['vtiger_contactdetails.contactid'])->from('vtiger_contactdetails')
 				->innerJoin('vtiger_crmentity', 'vtiger_contactdetails.contactid = vtiger_crmentity.crmid')
 				->where(['vtiger_contactdetails.parentid' => $srecord, 'deleted' => 0])->column();
 		}
-		if ($filter !== 'Contacts') {
+		if ('Contacts' !== $filter) {
 			$relatedId[] = $srecord;
 		}
-		if (!$relatedId || App\ModuleHierarchy::getModuleLevel($smodule) === false) {
+		if (!$relatedId || false === App\ModuleHierarchy::getModuleLevel($smodule)) {
 			return [];
 		}
 		$return = [];
@@ -72,20 +72,20 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		$query = (new \App\Db\Query())->select(['vtiger_ossmailview.*'])->from('vtiger_ossmailview')
 			->innerJoin('vtiger_crmentity', 'vtiger_ossmailview.ossmailviewid = vtiger_crmentity.crmid')
 			->where(['ossmailviewid' => $subQuery]);
-		if ($type !== 'All') {
+		if ('All' !== $type) {
 			$query->andWhere((['type' => $type]));
 		}
 		\App\PrivilegeQuery::getConditions($query, 'OSSMailView', false, $srecord);
 		$query->orderBy(['date' => SORT_DESC]);
-		if ($config['widget_limit'] !== '') {
+		if ('' !== $config['widget_limit']) {
 			$query->limit($config['widget_limit']);
 		}
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$from = $this->findRecordsById($row['from_id']);
-			$from = ($from && $from !== '') ? $from : $row['from_email'];
+			$from = ($from && '' !== $from) ? $from : $row['from_email'];
 			$to = $this->findRecordsById($row['to_id']);
-			$to = ($to && $to !== '') ? $to : $row['to_email'];
+			$to = ($to && '' !== $to) ? $to : $row['to_email'];
 			$content = \App\Purifier::purifyHtml(vtlib\Functions::getHtmlOrPlainText($row['content']));
 			if (\App\Privilege::isPermitted('OSSMailView', 'DetailView', $row['ossmailviewid'])) {
 				$subject = '<a href="index.php?module=OSSMailView&view=Preview&record=' . $row['ossmailviewid'] . '" target="' . $config['target'] . '"> ' . \App\Purifier::encodeHtml($row['subject']) . '</a>';
@@ -136,11 +136,11 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			}
 			foreach ($idsArray as $id) {
 				$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($id);
-				if (!$recordMetaData || $recordMetaData['deleted'] === 1) {
+				if (!$recordMetaData || 1 === $recordMetaData['deleted']) {
 					continue;
 				}
 				$module = $recordMetaData['setype'];
-				if ($module === 'Leads') {
+				if ('Leads' === $module) {
 					$isExists = (new \App\Db\Query())->from('vtiger_leaddetails')->where(['leadid' => $id, 'converted' => 0])->exists();
 					if (!$isExists) {
 						continue;
@@ -270,7 +270,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 	 * @param string $folder
 	 * @param int    $rcId
 	 *
-	 * @return int|bool
+	 * @return bool|int
 	 */
 	public function checkMailExist($uid, $folder, $rcId)
 	{
@@ -284,21 +284,22 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @return array
 	 */
-	public function getRelatedRecords($record)
+	public function getRelatedRecords($record): array
 	{
 		$relations = [];
 		$query = (new App\Db\Query())->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.setype'])->from('vtiger_ossmailview_relation')->innerJoin('vtiger_crmentity', 'vtiger_ossmailview_relation.crmid = vtiger_crmentity.crmid')->where(['ossmailviewid' => $record, 'vtiger_crmentity.deleted' => 0]);
 		$dataReader = $query->createCommand()->query();
+		$moduleDocuments = Vtiger_Module_Model::getInstance('Documents');
 		while ($row = $dataReader->read()) {
 			$module = $row['setype'];
 			$relations[$module][] = [
 				'id' => $row['crmid'],
 				'module' => $module,
 				'label' => \App\Record::getLabel($row['crmid']),
+				'is_related_to_documents' => false !== Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance($module), $moduleDocuments)
 			];
 		}
 		$dataReader->close();
-
 		return $relations;
 	}
 
@@ -315,7 +316,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$newModule = $params['newModule'];
 		$newCrmId = (int) $params['newCrmId'];
-		if ($newModule === 'Products') {
+		if ('Products' === $newModule) {
 			$dbCommand->insert('vtiger_seproductsrel', [
 				'crmid' => (int) $params['crmid'],
 				'productid' => $newCrmId,
@@ -323,7 +324,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				'rel_created_user' => $currentUser->getId(),
 				'rel_created_time' => date('Y-m-d H:i:s'),
 			])->execute();
-		} elseif ($newModule === 'Services') {
+		} elseif ('Services' === $newModule) {
 			$dbCommand->insert('vtiger_crmentityrel', [
 				'crmid' => (int) $params['crmid'],
 				'module' => $params['mod'],

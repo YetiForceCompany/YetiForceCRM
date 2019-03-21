@@ -12,7 +12,10 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 {
 	use App\Controller\ClearProcess;
 
-	public function process(\App\Request $request)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$uid = $request->getInteger('uid');
@@ -28,7 +31,7 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 		$folderDecode = \App\Purifier::decodeHtml($folderDecode);
 		$record = $mailViewModel->checkMailExist($uid, $folderDecode, $rcId);
 		$modelMailScanner = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
-		if (!($record) && !empty($account['actions']) && strpos($account['actions'], 'CreatedEmail') !== false &&
+		if (!($record) && !empty($account['actions']) && false !== strpos($account['actions'], 'CreatedEmail') &&
 			isset(array_column($modelMailScanner->getFolders($rcId), 'folder', 'folder')[$folderDecode])
 		) {
 			$folder = \App\Utils::convertCharacterEncoding($folderDecode, 'UTF-8', 'UTF7-IMAP');
