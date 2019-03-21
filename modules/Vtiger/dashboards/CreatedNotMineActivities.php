@@ -28,7 +28,7 @@ class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
-		$pagingModel->set('limit', (int)$widget->get('limit'));
+		$pagingModel->set('limit', (int) $widget->get('limit'));
 		$pagingModel->set('orderby', $orderBy);
 		$pagingModel->set('sortorder', $sortOrder);
 
