@@ -64,6 +64,7 @@ class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('LISTVIEWLINKS', true);
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('DATA', $data);
+		$viewer->assign('DATE_TYPE', 'START');
 		$viewer->assign('USER_CONDITIONS', $conditions);
 		if ($request->has('content')) {
 			$viewer->view('dashboards/CalendarActivitiesContents.tpl', $moduleName);

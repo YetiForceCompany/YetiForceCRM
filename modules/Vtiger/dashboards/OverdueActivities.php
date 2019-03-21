@@ -56,6 +56,7 @@ class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('ACTIVITYTYPE', $params['activitytype'] ?? '');
 		$viewer->assign('LISTVIEWLINKS', true);
 		$viewer->assign('DATA', $data);
+		$viewer->assign('DATE_TYPE', 'DUE');
 		$viewer->assign('USER_CONDITIONS', ['condition' => ['vtiger_activity.status' => $params['status']]]);
 		if ($request->has('content')) {
 			$viewer->view('dashboards/CalendarActivitiesContents.tpl', $moduleName);
