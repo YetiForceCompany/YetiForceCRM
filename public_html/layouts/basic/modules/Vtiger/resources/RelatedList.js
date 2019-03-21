@@ -10,67 +10,61 @@
 'use strict';
 
 jQuery.Class("Vtiger_RelatedList_Js", {
+	relatedListInstance: false,
 	getInstance: function (parentId, parentModule, selectedRelatedTabElement, relatedModuleName) {
-		let moduleClassName = app.getModuleName() + "_RelatedList_Js",
-			fallbackClassName = Vtiger_RelatedList_Js,
-			instance;
-		if (typeof window[moduleClassName] !== "undefined") {
-			instance = new window[moduleClassName]();
-		} else {
-			instance = new fallbackClassName();
-		}
-		instance.parentRecordId = parentId;
-		instance.parentModuleName = parentModule;
-		instance.selectedRelatedTabElement = selectedRelatedTabElement;
-		instance.moduleName = relatedModuleName;
-		instance.relatedTabsContainer = selectedRelatedTabElement.closest('div.related');
-		instance.content = $('div.contents', instance.relatedTabsContainer.closest('div.detailViewContainer'));
-		instance.relatedView = instance.content.find('input.relatedView').val();
-		return instance;
-	},
-	triggerMassAction: function (massActionUrl, type) {
-		var listInstance = Vtiger_List_Js.getInstance();
-		var validationResult = listInstance.checkListRecordSelected();
-		if (validationResult != true) {
-			var progressIndicatorElement = jQuery.progressIndicator();
-			// Compute selected ids, excluded ids values, along with cvid value and pass as url parameters
-			var selectedIds = listInstance.readSelectedIds(true);
-			var excludedIds = listInstance.readExcludedIds(true);
-			var cvId = listInstance.getCurrentCvId();
-			var postData = {
-				"viewname": cvId,
-				"selected_ids": selectedIds,
-				"excluded_ids": excludedIds
-			};
-			var listViewInstance = Vtiger_List_Js.getInstance();
-			if (listViewInstance.getListSearchInstance()) {
-				var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
-				postData.search_params = JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
-				if ((typeof searchValue !== "undefined") && (searchValue.length > 0)) {
-					postData['search_key'] = listViewInstance.getListSearchInstance().getAlphabetSearchField();
-					postData['search_value'] = searchValue;
-					postData['operator'] = 's';
-				}
-			}
-			var actionParams = {
-				"type": "POST",
-				"url": massActionUrl,
-				"data": postData
-			};
-			if (type === 'sendByForm') {
-				var form = $('<form method="POST" action="' + massActionUrl + '">');
-				if (typeof csrfMagicName !== "undefined") {
-					form.append($('<input />', {name: csrfMagicName, value: csrfMagicToken}));
-				}
-				$.each(postData, function (k, v) {
-					form.append($('<input />', {name: k, value: v}));
-				});
-				$('body').append(form);
-				form.submit();
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+		if (Vtiger_RelatedList_Js.relatedListInstance == false) {
+			let moduleClassName = app.getModuleName() + "_RelatedList_Js",
+				fallbackClassName = Vtiger_RelatedList_Js,
+				instance;
+			if (typeof window[moduleClassName] !== "undefined") {
+				instance = new window[moduleClassName]();
 			} else {
-				AppConnector.request(actionParams).done(function (responseData) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				instance = new fallbackClassName();
+			}
+			instance.parentRecordId = parentId;
+			instance.parentModuleName = parentModule;
+			instance.selectedRelatedTabElement = selectedRelatedTabElement;
+			instance.moduleName = relatedModuleName;
+			instance.relatedTabsContainer = selectedRelatedTabElement.closest('div.related');
+			instance.content = $('div.contents', instance.relatedTabsContainer.closest('div.detailViewContainer'));
+			instance.relatedView = instance.content.find('input.relatedView').val();
+			Vtiger_RelatedList_Js.relatedListInstance = instance;
+		}
+		return Vtiger_RelatedList_Js.relatedListInstance;
+	},
+	triggerMassAction: function(massActionUrl, type) {
+		const self = this.relatedListInstance;
+		let validationResult = self.checkListRecordSelected();
+		if (validationResult != true) {
+			let progressIndicatorElement = $.progressIndicator(),
+				selectedIds = self.readSelectedIds(true),
+				excludedIds = self.readExcludedIds(true),
+				cvId = self.getCurrentCvId(),
+				postData = self.getCompleteParams();
+			delete postData.mode;
+			delete postData.view;
+			postData.viewname = cvId;
+			postData.selected_ids = selectedIds;
+			postData.excluded_ids = excludedIds;
+			let actionParams = {
+				type: "POST",
+				url: massActionUrl,
+				data: postData
+			};
+			if (type === "sendByForm") {
+				let form = $('<form method="POST" action="' + massActionUrl + '">');
+				if (typeof csrfMagicName !== "undefined") {
+					form.append($("<input />", { name: csrfMagicName, value: csrfMagicToken }));
+				}
+				$.each(postData, function(k, v) {
+					form.append($("<input />", { name: k, value: v }));
+				});
+	 			$("body").append(form);
+				form.submit();
+				progressIndicatorElement.progressIndicator({ mode: "hide" });
+			} else {
+				AppConnector.request(actionParams).done(function(responseData) {
+					progressIndicatorElement.progressIndicator({ mode: "hide" });
 					if (responseData && responseData.result !== null) {
 						if (responseData.result.notify) {
 							Vtiger_Helper_Js.showMessage(responseData.result.notify);
@@ -79,20 +73,19 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 							Vtiger_Detail_Js.reloadRelatedList();
 						}
 						if (responseData.result.procesStop) {
-							progressIndicatorElement.progressIndicator({'mode': 'hide'});
+							progressIndicatorElement.progressIndicator({ mode: "hide" });
 							return false;
 						}
 					}
-				}).fail(function (error, err) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				}).fail(function(error, err) {
+						progressIndicatorElement.progressIndicator({ mode: "hide" });
 				});
 			}
 		} else {
-			listInstance.noRecordSelectedAlert();
+			self.noRecordSelectedAlert();
 		}
-
-	}
-}, {
+ 	}
+  },{
 	selectedRelatedTabElement: false,
 	parentRecordId: false,
 	parentModuleName: false,
@@ -103,6 +96,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	detailViewContentHolder: false,
 	relatedView: false,
 	frameProgress: false,
+	noEventsListSearch: false,
+	listViewContainer: false,
 	setSelectedTabElement: function (tabElement) {
 		this.selectedRelatedTabElement = tabElement;
 	},
@@ -1123,6 +1118,217 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			})
 		}
 	},
+	getRecordsCount: function() {
+			let aDeferred = $.Deferred(),
+				recordCountVal = $("#recordsCount").val();
+			if (recordCountVal != "") {
+			aDeferred.resolve(recordCountVal);
+		} else {
+			let params = this.getCompleteParams();
+			delete params.view;
+			params.action = "DetailAjax";
+			params.mode = "getRecordsCount";
+			AppConnector.request(params).done(function(data) {
+				$("#recordsCount").val(data["result"]["count"]);
+				aDeferred.resolve(data["result"]["count"]);
+			});
+		}
+		return aDeferred.promise();
+	},
+	noRecordSelectedAlert: function(text = "JS_PLEASE_SELECT_ONE_RECORD") {
+		return Vtiger_Helper_Js.showPnotify({ text: app.vtranslate(text) });
+	},
+	getCurrentCvId: function() {
+		return $("#customFilter")
+			.find("option:selected")
+			.data("id");
+	},
+	checkListRecordSelected: function(minNumberOfRecords = 1) {
+		let selectedIds = this.readSelectedIds();
+		if (
+			typeof selectedIds === "object" &&
+			selectedIds.length < minNumberOfRecords
+		) {
+			return true;
+		}
+		return false;
+	},
+	readSelectedIds: function(decode) {
+		let selectedIdsDataAttr = this.getCurrentCvId() + "Selectedids",
+			selectedIdsElementDataAttributes = $("#selectedIds").data(),
+			selectedIds = [];
+		if (!(selectedIdsDataAttr in selectedIdsElementDataAttributes)) {
+			this.writeSelectedIds(selectedIds);
+		} else {
+			selectedIds = selectedIdsElementDataAttributes[selectedIdsDataAttr];
+		}
+		if (decode == true) {
+			if (typeof selectedIds == "object") {
+				return JSON.stringify(selectedIds);
+			}
+		}
+		return selectedIds;
+	},
+	writeSelectedIds: function(selectedIds) {
+		if (!Array.isArray(selectedIds)) {
+			selectedIds = [selectedIds];
+		}
+		$("#selectedIds").data(
+			this.getCurrentCvId() + "Selectedids",
+			selectedIds
+		);
+	},
+	readExcludedIds: function(decode) {
+		let excludedIdsDataAttr = this.getCurrentCvId() + "Excludedids",
+			excludedIdsElementDataAttributes = $("#excludedIds").data(),
+			excludedIds = [];
+		if (!(excludedIdsDataAttr in excludedIdsElementDataAttributes)) {
+			this.writeExcludedIds(excludedIds);
+		} else {
+			excludedIds = excludedIdsElementDataAttributes[excludedIdsDataAttr];
+		}
+		if (decode == true) {
+			if (typeof excludedIds == "object") {
+				return JSON.stringify(excludedIds);
+			}
+		}
+		return excludedIds;
+	},
+	writeExcludedIds: function(excludedIds) {
+		$("#excludedIds").data(
+			this.getCurrentCvId() + "Excludedids",
+			excludedIds
+		);
+	},
+	checkSelectAll: function() {
+		let state = true;
+		$(".listViewEntriesCheckBox").each(function(index, element) {
+			if ($(element).is(":checked")) {
+				state = true; 
+			} else {
+				state = false;
+			}
+		});
+		if (state == true) {
+			$("#listViewEntriesMainCheckBox").prop("checked", true);
+		} else {
+			$("#listViewEntriesMainCheckBox").prop("checked", false);
+		}
+		return state;
+	},
+	registerCheckBoxClickEvent: function() {
+		const self = this;
+		this.getRelatedContainer().on(
+			"click",
+			".listViewEntriesCheckBox",
+			function(e) {
+				let selectedIds = self.readSelectedIds(),
+					excludedIds = self.readExcludedIds(),
+					elem = $(e.currentTarget);
+				if (elem.is(":checked")) {
+					elem.closest("tr").addClass("highlightBackgroundColor");
+					if (selectedIds == "all") {
+						excludedIds.splice($.inArray(elem.val(), excludedIds), 1);
+					} else if ($.inArray(elem.val(), selectedIds) == -1) {
+						selectedIds.push(elem.val());
+					}
+				} else {
+					elem.closest("tr").removeClass("highlightBackgroundColor");
+					if (selectedIds == "all") {
+						excludedIds.push(elem.val());
+						selectedIds = "all";
+					} else {
+						selectedIds.splice($.inArray(elem.val(), selectedIds), 1);
+					}
+				}
+				self.checkSelectAll();
+				self.writeSelectedIds(selectedIds);
+				self.writeExcludedIds(excludedIds);
+			}
+		);
+	},
+	registerMainCheckBoxClickEvent: function() {
+		const self = this;
+		this.getRelatedContainer().on(
+			"click",
+			"#listViewEntriesMainCheckBox",
+			function() {
+				let selectedIds = self.readSelectedIds(),
+					excludedIds = self.readExcludedIds();
+				if ($("#listViewEntriesMainCheckBox").is(":checked")) {
+					let recordCountObj = self.getRecordsCount();
+					recordCountObj.done(function(data) {
+						$("#totalRecordsCount").text(data);
+						if ($("#deSelectAllMsgDiv").css("display") == "none") {
+							$("#selectAllMsgDiv").show();
+						}
+					});
+					$(".listViewEntriesCheckBox").each(function(index, element) {
+						$(this)
+							.prop("checked", true)
+							.closest("tr")
+							.addClass("highlightBackgroundColor");
+						if (selectedIds == "all") {
+							if ($.inArray($(element).val(), excludedIds) != -1) {
+								excludedIds.splice(
+									$.inArray($(element).val(), excludedIds),
+									1
+								);
+							}
+						} else if ($.inArray($(element).val(), selectedIds) == -1) {
+							selectedIds.push($(element).val());
+						}
+					});
+				} else {
+					$("#selectAllMsgDiv").hide();
+					$(".listViewEntriesCheckBox").each(function(index, element) {
+						$(this)
+							.prop("checked", false)
+							.closest("tr")
+							.removeClass("highlightBackgroundColor");
+						if (selectedIds == "all") {
+							excludedIds.push($(element).val());
+							selectedIds = "all";
+						} else {
+							selectedIds.splice($.inArray($(element).val(), selectedIds), 1);
+						}
+					});
+				}
+				self.writeSelectedIds(selectedIds);
+				self.writeExcludedIds(excludedIds);
+			}
+		);
+	},
+	registerSelectAllClickEvent: function() {
+		const self = this;
+		self.getRelatedContainer().on("click", "#selectAllMsg", function() {
+			$("#selectAllMsgDiv").hide();
+			$("#deSelectAllMsgDiv").show();
+			$("#listViewEntriesMainCheckBox").prop("checked", true);
+			$(".listViewEntriesCheckBox").each(function(index, element) {
+				$(this)
+					.prop("checked", true)
+					.closest("tr")
+					.addClass("highlightBackgroundColor");
+			});
+			self.writeSelectedIds("all");
+		});
+	},
+	registerDeselectAllClickEvent: function() {
+		const self = this;
+		self.getRelatedContainer().on("click", "#deSelectAllMsg", function() {
+			$("#deSelectAllMsgDiv").hide();
+			$("#listViewEntriesMainCheckBox").prop("checked", false);
+			$(".listViewEntriesCheckBox").each(function(index, element) {
+				$(this)
+					.prop("checked", false)
+					.closest("tr")
+					.removeClass("highlightBackgroundColor");
+			});
+			self.writeSelectedIds([]);
+			self.writeExcludedIds([]);
+		});
+	},
 	registerRelatedEvents: function () {
 		this.registerUnreviewedCountEvent();
 		this.registerChangeEntityStateEvent();
@@ -1130,5 +1336,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		this.registerListEvents();
 		this.registerPostLoadEvents();
 		this.registerSummationEvent();
+		this.registerCheckBoxClickEvent();
+		this.registerMainCheckBoxClickEvent();
+		this.registerSelectAllClickEvent();
+		this.registerDeselectAllClickEvent();
 	},
 })
