@@ -63,7 +63,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		} else {
 			$timeStart = date('Y-m-d', strtotime('-1 month'));
 		}
-		return [$timeStart, date('Y-m-d', mktime(23, 59, 59, (int)date('n'), (int)date('j'), (int)date('Y')))];
+		return [$timeStart, date('Y-m-d', mktime(23, 59, 59, (int) date('n'), (int) date('j'), (int) date('Y')))];
 	}
 
 	/**
@@ -92,7 +92,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$allTypes = self::getDashboardTypes();
 		$dashboardId = 0;
 		foreach ($allTypes as $dashboard) {
-			if ((int)$dashboard['system'] === 1) {
+			if ((int) $dashboard['system'] === 1) {
 				$dashboardId = $dashboard['dashboard_id'];
 				break;
 			}
@@ -129,7 +129,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	public static function getDashboardInfo($dashboardId)
 	{
 		return (new App\Db\Query())->from('u_#__dashboard_type')
-			->where(['dashboard_id' => (int)$dashboardId])
+			->where(['dashboard_id' => (int) $dashboardId])
 			->one();
 	}
 
@@ -137,8 +137,8 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	 * Function appoints the proper owner.
 	 *
 	 * @param Vtiger_Widget_Model $widgetModel
-	 * @param string $moduleName
-	 * @param mixed $owner
+	 * @param string              $moduleName
+	 * @param mixed               $owner
 	 *
 	 * @return mixed
 	 */
@@ -274,7 +274,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	/**
 	 * Save data.
 	 *
-	 * @param array $data
+	 * @param array  $data
 	 * @param string $moduleName
 	 *
 	 * @return Array(success:true/false)
@@ -343,9 +343,9 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	/**
 	 * Add widget.
 	 *
-	 * @param array $data
+	 * @param array  $data
 	 * @param string $moduleName
-	 * @param bool $addToUser
+	 * @param bool   $addToUser
 	 *
 	 * @return array
 	 */
