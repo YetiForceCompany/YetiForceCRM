@@ -1119,9 +1119,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		}
 	},
 	getRecordsCount: function() {
-			let aDeferred = $.Deferred(),
-				recordCountVal = $("#recordsCount").val();
-			if (recordCountVal != "") {
+		let aDeferred = $.Deferred(),
+			recordCountVal = $("#recordsCount").val();
+		if (recordCountVal != "") {
 			aDeferred.resolve(recordCountVal);
 		} else {
 			let params = this.getCompleteParams();
@@ -1157,10 +1157,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		} else {
 			selectedIds = selectedIdsElementDataAttributes[selectedIdsDataAttr];
 		}
-		if (decode == true) {
-			if (typeof selectedIds == "object") {
-				return JSON.stringify(selectedIds);
-			}
+		if (decode == true && typeof selectedIds == "object") {
+			return JSON.stringify(selectedIds);
 		}
 		return selectedIds;
 	},
@@ -1179,10 +1177,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		} else {
 			excludedIds = excludedIdsElementDataAttributes[excludedIdsDataAttr];
 		}
-		if (decode == true) {
-			if (typeof excludedIds == "object") {
-				return JSON.stringify(excludedIds);
-			}
+		if (decode == true && typeof excludedIds == "object") {
+			return JSON.stringify(excludedIds);
 		}
 		return excludedIds;
 	},
@@ -1198,11 +1194,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				state = false;
 			}
 		});
-		if (state == true) {
-			$("#listViewEntriesMainCheckBox").prop("checked", true);
-		} else {
-			$("#listViewEntriesMainCheckBox").prop("checked", false);
-		}
+		$("#listViewEntriesMainCheckBox").prop("checked", state);
 		return state;
 	},
 	registerCheckBoxClickEvent: function() {
@@ -1247,10 +1239,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				});
 				$(".listViewEntriesCheckBox").each(function(index, element) {
 					$(this).prop("checked", true).closest("tr").addClass("highlightBackgroundColor");
-					if (selectedIds == "all") {
-						if ($.inArray($(element).val(), excludedIds) != -1) {
-							excludedIds.splice($.inArray($(element).val(), excludedIds), 1);
-						}
+					if (selectedIds == "all" && $.inArray($(element).val(), excludedIds) != -1) {
+						excludedIds.splice($.inArray($(element).val(), excludedIds), 1);
 					} else if ($.inArray($(element).val(), selectedIds) == -1) {
 						selectedIds.push($(element).val());
 					}
