@@ -1,19 +1,19 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div id="selectAllMsgDiv" class="alert-block msgDiv">
-			<strong>
-				<a href="#" id="selectAllMsg">
-					{\App\Language::translate('LBL_SELECT_ALL',$MODULE)} {\App\Language::translate($RELATED_MODULE->get('name'))} (<span id="totalRecordsCount"></span>)
-				</a>
-			</strong>
-		</div>
-		<div id="deSelectAllMsgDiv" class="alert-block msgDiv">
-			<strong>
-				<a id="deSelectAllMsg">
-					{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}
-				</a>
-			</strong>
-		</div>
+		<strong>
+			<a href="#" id="selectAllMsg">
+				{\App\Language::translate('LBL_SELECT_ALL',$MODULE)} {\App\Language::translate($RELATED_MODULE->get('name'))} (<span id="totalRecordsCount"></span>)
+			</a>
+		</strong>
+	</div>
+	<div id="deSelectAllMsgDiv" class="alert-block msgDiv">
+		<strong>
+			<a id="deSelectAllMsg">
+				{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}
+			</a>
+		</strong>
+	</div>
 	{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $RELATED_MODULE_NAME) MODULE_MODEL=$RELATED_MODULE}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	{assign var=IS_INVENTORY value=($RELATED_VIEW === 'List' && !empty($INVENTORY_MODULE) && !empty($INVENTORY_FIELDS))}
