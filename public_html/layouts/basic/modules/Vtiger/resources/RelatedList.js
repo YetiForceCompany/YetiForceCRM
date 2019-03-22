@@ -279,7 +279,7 @@ jQuery.Class('Vtiger_RelatedList_Js', {
 				const detail = Vtiger_Detail_Js.getInstance();
 				if (widget.length) {
 					detail.loadWidget(widget);
-					let updatesWidget = this.getContentHolder().find('[data-type='Updates']');
+					let updatesWidget = this.getContentHolder().find('[data-type="Updates"]');
 					if (updatesWidget.length > 0) {
 						detail.loadWidget(updatesWidget);
 					}
