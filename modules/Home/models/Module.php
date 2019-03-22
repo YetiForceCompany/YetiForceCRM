@@ -117,8 +117,8 @@ class Home_Module_Model extends Vtiger_Module_Model
 			if (\App\User::isExists($userId)) {
 				$userModel = \App\User::getUserModel($userId);
 				$userAndGroups = $userModel->getGroups();
-				$userAndGroups[] = $userId;
 			}
+			$userAndGroups[] = $userId;
 			$subQuery = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->innerJoin('vtiger_activity', 'u_#__crmentity_showners.crmid=vtiger_activity.activityid')->where(['userid' => $userAndGroups])->distinct('crmid');
 			$query->andWhere(['or', ['vtiger_crmentity.smownerid' => $userAndGroups], ['vtiger_crmentity.crmid' => $subQuery]]);
 		}

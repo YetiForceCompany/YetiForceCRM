@@ -33,11 +33,13 @@
 							   {/if}
 							   {' '}fa-lg fa-fw"></i>
 						</div>
-						{assign var=START_DATE value=$ACTIVITY->get('date_start')}
-						{assign var=START_TIME value=$ACTIVITY->get('time_start')}
-
-						{assign var=DUE_DATE value=$ACTIVITY->get('due_date')}
-						{assign var=DUE_TIME value=$ACTIVITY->get('time_end')}
+						{if $DATE_TYPE === 'DUE'}
+							{assign var=ACTIVITY_DATE value=$ACTIVITY->get('due_date')}
+							{assign var=ACTIVITY_TIME value=$ACTIVITY->get('time_end')}
+						{else}
+							{assign var=ACTIVITY_DATE value=$ACTIVITY->get('date_start')}
+							{assign var=ACTIVITY_TIME value=$ACTIVITY->get('time_start')}
+						{/if}
 						{assign var=LINK value=$ACTIVITY->get('link')}
 						{assign var=PROCESS value=$ACTIVITY->get('process')}
 						{assign var=SUBPROCESS value=$ACTIVITY->get('subprocess')}
@@ -66,11 +68,7 @@
 						{/if}
 						<div class="ml-1">
 							<small>
-								{if $DATE_TYPE === 'DUE'}
-									{\App\Fields\DateTime::formatToViewDate("$DUE_DATE $DUE_TIME")}
-								{else}
-									{\App\Fields\DateTime::formatToViewDate("$START_DATE $START_TIME")}
-								{/if}
+								{\App\Fields\DateTime::formatToViewDate("$ACTIVITY_DATE $ACTIVITY_TIME")}
 							</small>
 						</div>
 					</div>
