@@ -47,12 +47,15 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		if (!$request->isEmpty('related_module', true) && !$userPrivilegesModel->hasModulePermission($request->getByType('related_module', 2))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
 		}
-		if ('ModTracker' === $request->getByType('relatedModule', 2)) {
-			if (!$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'ModTracker')) {
-				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
+		if (!$request->isEmpty('relatedModule', true) && 'ProductsAndServices' !== $request->getByType('relatedModule', 2)) {
+			if ('ModTracker' === $request->getByType('relatedModule', 2)) {
+				if (!$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'ModTracker')) {
+					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
+				}
+				if (!$userPrivilegesModel->hasModulePermission($request->getByType('relatedModule', 2))) {
+					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
+				}
 			}
-		} elseif (!$userPrivilegesModel->hasModulePermission($request->getByType('relatedModule', 2))) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
 		}
 	}
 

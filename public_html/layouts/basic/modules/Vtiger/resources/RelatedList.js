@@ -78,7 +78,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 						}
 					}
 				}).fail(function(error, err) {
-						progressIndicatorElement.progressIndicator({ mode: "hide" });
+					progressIndicatorElement.progressIndicator({ mode: "hide" });
 				});
 			}
 		} else {
