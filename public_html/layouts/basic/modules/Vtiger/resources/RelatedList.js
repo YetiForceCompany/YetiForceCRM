@@ -1187,19 +1187,19 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	checkSelectAll: function() {
 		let state = true;
-		$(".listViewEntriesCheckBox").each(function(index, element) {
+		$(".relatedListViewEntriesCheckBox").each(function(index, element) {
 			if ($(element).is(":checked")) {
 				state = true; 
 			} else {
 				state = false;
 			}
 		});
-		$("#listViewEntriesMainCheckBox").prop("checked", state);
+		$("#relatedListViewEntriesMainCheckBox").prop("checked", state);
 		return state;
 	},
 	registerCheckBoxClickEvent: function() {
 		const self = this;
-		this.getRelatedContainer().on("click", ".listViewEntriesCheckBox", function(e) {
+		this.getRelatedContainer().on("click", ".relatedListViewEntriesCheckBox", function(e) {
 			let selectedIds = self.readSelectedIds(),
 				excludedIds = self.readExcludedIds(),
 				elem = $(e.currentTarget);
@@ -1226,10 +1226,10 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	registerMainCheckBoxClickEvent: function() {
 		const self = this;
-		this.getRelatedContainer().on("click", "#listViewEntriesMainCheckBox", function() {
+		this.getRelatedContainer().on("click", "#relatedListViewEntriesMainCheckBox", function() {
 			let selectedIds = self.readSelectedIds(),
 				excludedIds = self.readExcludedIds();
-			if ($("#listViewEntriesMainCheckBox").is(":checked")) {
+			if ($("#relatedListViewEntriesMainCheckBox").is(":checked")) {
 				let recordCountObj = self.getRecordsCount();
 				recordCountObj.done(function(data) {
 					$("#totalRecordsCount").text(data);
@@ -1237,7 +1237,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 						$("#selectAllMsgDiv").show();
 					}
 				});
-				$(".listViewEntriesCheckBox").each(function(index, element) {
+				$(".relatedListViewEntriesCheckBox").each(function(index, element) {
 					$(this).prop("checked", true).closest("tr").addClass("highlightBackgroundColor");
 					if (selectedIds == "all" && $.inArray($(element).val(), excludedIds) != -1) {
 						excludedIds.splice($.inArray($(element).val(), excludedIds), 1);
@@ -1247,7 +1247,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				});
 			} else {
 				$("#selectAllMsgDiv").hide();
-				$(".listViewEntriesCheckBox").each(function(index, element) {
+				$(".relatedListViewEntriesCheckBox").each(function(index, element) {
 					$(this).prop("checked", false).closest("tr").removeClass("highlightBackgroundColor");
 					if (selectedIds == "all") {
 						excludedIds.push($(element).val());
@@ -1266,8 +1266,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		self.getRelatedContainer().on("click", "#selectAllMsg", function() {
 			$("#selectAllMsgDiv").hide();
 			$("#deSelectAllMsgDiv").show();
-			$("#listViewEntriesMainCheckBox").prop("checked", true);
-			$(".listViewEntriesCheckBox").each(function(index, element) {
+			$("#relatedListViewEntriesMainCheckBox").prop("checked", true);
+			$(".relatedListViewEntriesCheckBox").each(function(index, element) {
 				$(this).prop("checked", true).closest("tr").addClass("highlightBackgroundColor");
 			});
 			self.writeSelectedIds("all");
@@ -1277,8 +1277,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		const self = this;
 		self.getRelatedContainer().on("click", "#deSelectAllMsg", function() {
 			$("#deSelectAllMsgDiv").hide();
-			$("#listViewEntriesMainCheckBox").prop("checked", false);
-			$(".listViewEntriesCheckBox").each(function(index, element) {
+			$("#relatedListViewEntriesMainCheckBox").prop("checked", false);
+			$(".relatedListViewEntriesCheckBox").each(function(index, element) {
 				$(this).prop("checked", false).closest("tr").removeClass("highlightBackgroundColor");
 			});
 			self.writeSelectedIds([]);

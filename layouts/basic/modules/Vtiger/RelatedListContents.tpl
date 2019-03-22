@@ -24,7 +24,7 @@
 				{assign var=COUNT value=0}
 				<th class="noWrap">
 					{if isset($RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'])}
-						<input type="checkbox" title="{\App\Language::translate('LBL_SELECT_ALL')}" id="listViewEntriesMainCheckBox"/>
+						<input type="checkbox" title="{\App\Language::translate('LBL_SELECT_ALL')}" id="relatedListViewEntriesMainCheckBox"/>
 					{/if}
 				</th>
 				{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
@@ -108,7 +108,7 @@
 							<div>
 								<input type="checkbox" value="{$RELATED_RECORD->getId()}"
 								title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}"
-								class="listViewEntriesCheckBox"/>
+								class="relatedListViewEntriesCheckBox"/>
 							</div>
 						{/if}
 						{include file=\App\Layout::getTemplatePath('RelatedListLeftSide.tpl', $RELATED_MODULE_NAME)}

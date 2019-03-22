@@ -195,12 +195,10 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$sourceRecordId = $request->getInteger('src_record');
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModule);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
-		$excludedIds = $request->getArray('excluded_ids', 'Integer');
-
 		$rows = $this->getRecordsListFromRequest($request);
 		$relationModel = $relationListView->getRelationModel();
 		foreach ($rows as $relatedRecordId) {
-			if (!in_array($relatedRecordId, $excludedIds) && \App\Privilege::isPermitted($relatedModuleName, 'DetailView', $relatedRecordId)) {
+			if (\App\Privilege::isPermitted($relatedModuleName, 'DetailView', $relatedRecordId)) {
 				$relationModel->deleteRelation((int) $sourceRecordId, (int) $relatedRecordId);
 			}
 		}
@@ -222,7 +220,6 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$sourceRecordId = $request->getInteger('src_record');
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModule);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
-		$excludedIds = $request->getArray('excluded_ids', 'Integer');
 		$rows = $this->getRecordsListFromRequest($request);
 		$workbook = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
 		$worksheet = $workbook->setActiveSheetIndex(0);
@@ -239,7 +236,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		}
 		++$row;
 		foreach ($rows as $id) {
-			if (!in_array($id, $excludedIds) && \App\Privilege::isPermitted($relatedModuleName, 'DetailView', $id)) {
+			if (\App\Privilege::isPermitted($relatedModuleName, 'DetailView', $id)) {
 				$col = 0;
 				$record = Vtiger_Record_Model::getInstanceById($id, $relatedModuleName);
 				if (!$record->isViewable()) {

@@ -63,7 +63,7 @@ class Vtiger_DetailAjax_Action extends App\Controller\Action
 		$result = [];
 		$result['module'] = $moduleName;
 		$result['viewname'] = $request->getByType('viewname', 2);
-		$result['count'] = $relationListView->getRelationQuery()->count();
+		$result['count'] = $relationListView->getRelatedEntriesCount();
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

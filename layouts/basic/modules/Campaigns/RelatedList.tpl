@@ -213,7 +213,7 @@
 					<tr class="listViewHeaders">
 						<th>
 							<input type="checkbox" title="{\App\Language::translate('LBL_SELECT_ALL')}"
-								   id="listViewEntriesMainCheckBox"/>
+								   id="relatedListViewEntriesMainCheckBox"/>
 						</th>
 						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 							<th nowrap>
@@ -272,7 +272,7 @@
 								<div>
 									<input type="checkbox" value="{$RELATED_RECORD->getId()}"
 										   title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}"
-										   class="listViewEntriesCheckBox"/>
+										   class="relatedListViewEntriesCheckBox"/>
 								</div>
 								{if !empty($IS_FAVORITES)}
 									{assign var=RECORD_IS_FAVORITE value=(int)in_array($RELATED_RECORD->getId(),$FAVORITES)}
