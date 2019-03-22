@@ -9,10 +9,12 @@
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
+namespace Modules\Users\Actions;
+
 /**
  * Login action class.
  */
-class Users_Login_Action extends \App\Controller\Action
+class Login extends \App\Controller\Action
 {
 	/**
 	 * {@inheritdoc}
@@ -47,7 +49,7 @@ class Users_Login_Action extends \App\Controller\Action
 	public function login()
 	{
 		$response = new \App\Response();
-		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
+		$bfInstance = \Settings_BruteForce_Module_Model::getCleanInstance();
 		if ($bfInstance->isActive() && $bfInstance->isBlockedIp()) {
 			$bfInstance->incAttempts();
 			\Users_Module_Model::getInstance('Users')->saveLoginHistory(strtolower($this->request->getByType('username', 'Text')), 'Blocked IP');
@@ -69,7 +71,7 @@ class Users_Login_Action extends \App\Controller\Action
 						$response->setError(401, 'LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS');
 					}
 				}
-				\Users_Module_Model::getInstance('Users')->saveLoginHistory(App\Purifier::encodeHtml($this->request->getRaw('username')), 'Failed login');
+				\Users_Module_Model::getInstance('Users')->saveLoginHistory(\App\Purifier::encodeHtml($this->request->getRaw('username')), 'Failed login');
 			}
 		}
 
@@ -82,7 +84,7 @@ class Users_Login_Action extends \App\Controller\Action
 	 * @param App\User $userModel
 	 * @param mixed    $result
 	 */
-	private function setSessionData(App\User $userModel, $result)
+	private function setSessionData(\App\User $userModel, $result)
 	{
 		if (true === $result) {
 			\App\Session::set('authenticated_user_id', $userModel->getId());
@@ -108,7 +110,7 @@ class Users_Login_Action extends \App\Controller\Action
 			$userId = \App\Session::get('2faUserId');
 		} else {
 			$userName = $this->request->getByType('username', 'Text');
-			$userId = (new App\Db\Query())->select(['id'])->from('vtiger_users')->where(['or', ['user_name' => $userName], ['user_name' => strtolower($userName)]])->limit(1)->scalar();
+			$userId = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['or', ['user_name' => $userName], ['user_name' => strtolower($userName)]])->limit(1)->scalar();
 		}
 		return (int) $userId;
 	}

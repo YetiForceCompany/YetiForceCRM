@@ -24,12 +24,9 @@ class Login extends WebUI
 	public function process()
 	{
 		$this->init();
-		\App\Process::$processType = 'Action';
+		\App\Process::$processType = 'Actions';
 		\App\Process::$processName = 'Login';
-		$handlerClass = \Vtiger_Loader::getComponentClassName(\App\Process::$processType, \App\Process::$processName, 'Users');
-		if (!class_exists($handlerClass)) {
-			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND', 405);
-		}
+		$handlerClass = \App\Loader::getComponentClassName(\App\Process::$processType, \App\Process::$processName, 'Users');
 
 		$handler = new $handlerClass($this->request);
 		$handler->checkPermission();
