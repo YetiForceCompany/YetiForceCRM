@@ -8,12 +8,14 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Users_Logout_Action extends \App\Controller\Action
+namespace Modules\Users\Actions;
+
+class Logout extends \App\Controller\Action
 {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission()
 	{
 		return true;
 	}
@@ -21,29 +23,29 @@ class Users_Logout_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process()
 	{
-		$eventHandler = new App\EventHandler();
+		$response = new \App\Response();
+		$eventHandler = new \App\EventHandler();
 		$eventHandler->trigger('UserLogoutBefore');
-		if (AppConfig::main('session_regenerate_id')) {
-			App\Session::regenerateId(true); // to overcome session id reuse.
+		if (\App\Config::main('session_regenerate_id')) {
+			\App\Session::regenerateId(true); // to overcome session id reuse.
 		}
-		OSSMail_Logout_Model::logoutCurrentUser();
-		App\Session::destroy();
+		\OSSMail_Logout_Model::logoutCurrentUser();
+		\App\Session::destroy();
 
-		//Track the logout History
-		$moduleName = $request->getModule();
-		$moduleModel = Users_Module_Model::getInstance($moduleName);
+		$moduleName = $this->request->getModule();
+		$moduleModel = \Users_Module_Model::getInstance($moduleName);
 		$moduleModel->saveLogoutHistory();
-		//End
-		header('location: index.php');
+		$response->setResult(!\App\Session::has('authenticated_user_id'));
+		return $response;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validateRequest(\App\Request $request)
+	public function validateRequest()
 	{
-		$request->validateReadAccess();
+		$this->request->validateReadAccess();
 	}
 }

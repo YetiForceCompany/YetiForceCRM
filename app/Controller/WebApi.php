@@ -22,6 +22,7 @@ class WebApi extends WebUI
 	 */
 	public function process()
 	{
+		$this->init();
 		$response = new \App\Response();
 		if (!\App\User::isLoggedIn()) {
 			throw new \App\Exceptions\Unauthorized('ERR_LOGIN_IS_REQUIRED', 401);
@@ -30,24 +31,17 @@ class WebApi extends WebUI
 			require_once 'config/csrf_config.php';
 			\CsrfMagic\Csrf::init();
 		}
-		\App\Process::$processType = 'Action';
+		\App\Process::$processType = 'Actions';
 		\App\Process::$processName = $this->request->getByType('action', \App\Purifier::ALNUM);
 
-		$handlerClass = \Vtiger_Loader::getComponentClassName(\App\Process::$processType, \App\Process::$processName, $this->request->getModule(false));
-		if (!class_exists($handlerClass)) {
-			throw new \App\Exceptions\AppException('ERR_HANDLER_NOT_FOUND', 405);
-		}
-		if (!\App\Privilege::isPermitted($this->request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 403);
-		}
+		$handlerClass = \App\Loader::getComponentClassName(\App\Process::$processType, \App\Process::$processName, $this->request->getModule(false));
 		$handler = new $handlerClass($this->request);
 		if (\App\Config::main('csrfProtection') && 'demo' !== \App\Config::main('systemMode')) {
 			$handler->validateRequest();
 		}
 		$handler->checkPermission();
-		$handler->process();
+		$response = $handler->process();
 		$response->setEnv(\App\Config::getJsEnv());
-		$response->setResult($handler->process());
 		$response->emit();
 	}
 }
