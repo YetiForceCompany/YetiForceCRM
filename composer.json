@@ -62,6 +62,7 @@
     "parsecsv/php-parsecsv": "^1.1.0",
     "guzzlehttp/guzzle": "^6.3.3",
     "nette/php-generator": "^3.2.1",
+    "nette/robot-loader": "^3.2.0",
     "yetiforce/csrf-magic": "^v1.0.8",
     "yetiforce/debugbar": "^1.13.1.1",
     "yetiforce/yii2": "2.0.15.3",
@@ -90,7 +91,7 @@
   },
   "autoload": {
     "files": [
-      "app/Loader.php"
+      "app/Logger.php"
     ],
     "psr-4": {
       "vtlib\\": "vtlib/Vtiger/",
@@ -98,6 +99,7 @@
       "App\\": "app/",
       "Api\\": "api/webservice/",
       "Config\\": "config/",
+      "Modules\\": "modules/",
       "Cron\\": "cron/",
       "Tests\\": "tests/",
       "Exception\\": "include/exceptions/"

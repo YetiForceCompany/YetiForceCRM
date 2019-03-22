@@ -27,6 +27,10 @@ class AppConfig
 
 	/**
 	 * @deprecated Use \App\Config::module()
+	 *
+	 * @param mixed      $module
+	 * @param null|mixed $key
+	 * @param null|mixed $defaultValue
 	 */
 	public static function module($module, $key = null, $defaultValue = null)
 	{
@@ -35,6 +39,9 @@ class AppConfig
 
 	/**
 	 * @deprecated Use \App\Config::api()
+	 *
+	 * @param mixed $key
+	 * @param mixed $defvalue
 	 */
 	public static function api($key, $defvalue = false)
 	{
@@ -43,6 +50,9 @@ class AppConfig
 
 	/**
 	 * @deprecated Use \App\Config::debug()
+	 *
+	 * @param mixed $key
+	 * @param mixed $defvalue
 	 */
 	public static function debug($key, $defvalue = false)
 	{
@@ -51,6 +61,9 @@ class AppConfig
 
 	/**
 	 * @deprecated Use \App\Config::developer()
+	 *
+	 * @param mixed $key
+	 * @param mixed $defvalue
 	 */
 	public static function developer($key, $defvalue = false)
 	{
@@ -59,6 +72,9 @@ class AppConfig
 
 	/**
 	 * @deprecated Use \App\Config::security()
+	 *
+	 * @param mixed $key
+	 * @param mixed $defvalue
 	 */
 	public static function security($key, $defvalue = false)
 	{
@@ -67,6 +83,9 @@ class AppConfig
 
 	/**
 	 * @deprecated Use \App\Config::securityKeys()
+	 *
+	 * @param mixed $key
+	 * @param mixed $defvalue
 	 */
 	public static function securityKeys($key, $defvalue = false)
 	{
@@ -75,6 +94,9 @@ class AppConfig
 
 	/**
 	 * @deprecated Use \App\Config::module()
+	 *
+	 * @param mixed $key
+	 * @param mixed $defvalue
 	 */
 	public static function performance($key, $defvalue = false)
 	{
@@ -83,6 +105,9 @@ class AppConfig
 
 	/**
 	 * @deprecated Use \App\Config::relation()
+	 *
+	 * @param mixed $key
+	 * @param mixed $defvalue
 	 */
 	public static function relation($key, $defvalue = false)
 	{
@@ -91,6 +116,8 @@ class AppConfig
 
 	/**
 	 * @deprecated Use \App\Config::sounds()
+	 *
+	 * @param null|mixed $default
 	 */
 	public static function sounds(?string $arg = null, $default = null)
 	{
@@ -99,6 +126,9 @@ class AppConfig
 
 	/**
 	 * @deprecated Use \App\Config::search()
+	 *
+	 * @param mixed $key
+	 * @param mixed $defvalue
 	 */
 	public static function search($key, $defvalue = false)
 	{
@@ -121,9 +151,11 @@ class AppConfig
 if (!defined('ROOT_DIRECTORY')) {
 	define('ROOT_DIRECTORY', str_replace(DIRECTORY_SEPARATOR . 'include', '', __DIR__));
 }
+
 require_once ROOT_DIRECTORY . '/vendor/autoload.php';
-require_once ROOT_DIRECTORY . '/include/Loader.php';
 require_once ROOT_DIRECTORY . '/include/CRMEntity.php';
+\App\Loader::register();
+
 session_save_path(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'session');
 if (!defined('IS_PUBLIC_DIR')) {
 	define('IS_PUBLIC_DIR', false);
