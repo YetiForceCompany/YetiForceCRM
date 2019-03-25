@@ -66,7 +66,7 @@
 									{if !empty($WIDGET['data']['action']) && \App\Privilege::isPermitted($RELATIONMODEL->getRelationModuleName(), 'CreateView')}
 										{assign var=RELATION_FIELD value=$RELATIONMODEL->getRelationField()}
 										{assign var=AUTOCOMPLETE_FIELD value=$RELATIONMODEL->getAutoCompleteField($VRM)}
-										<button class="btn btn-sm btn-light {if $WIDGET['isInventory']} createInventoryRecordFromFilter {else} createRecordFromFilter{/if} js-popover-tooltip"
+										<button class="btn btn-sm btn-light {if $WIDGET['isQuickCreateSupport']} createInventoryRecordFromFilter {else} createRecordFromFilter{/if} js-popover-tooltip"
 												type="button" data-url="{$WIDGET['actionURL']}"
 												{if $RELATION_FIELD} data-prf="{$RELATION_FIELD->getName()}" {/if} {if $AUTOCOMPLETE_FIELD} data-acf='{\App\Json::encode($AUTOCOMPLETE_FIELD)}'{/if}
 												data-placement="top"

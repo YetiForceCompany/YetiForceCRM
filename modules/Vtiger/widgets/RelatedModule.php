@@ -18,7 +18,7 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 		$fields = [];
 		if (!empty($this->Data['relatedfields'])) {
 			foreach ((array) $this->Data['relatedfields'] as $field) {
-				list(, $fieldName) = explode('::', $field);
+				[, $fieldName] = explode('::', $field);
 				$fields[] = $fieldName;
 			}
 		}
@@ -36,20 +36,20 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 			$whereCondition = [];
 			$this->Config['url'] = $this->getUrl();
 			$this->Config['tpl'] = 'Basic.tpl';
-			$isInventory = $model->isInventory();
-			$this->Config['isInventory'] = $isInventory;
-			if ($this->Data['action'] == 1) {
+			$isQuickCreateSupport = !$model->isQuickCreateSupported();
+			$this->Config['isQuickCreateSupport'] = $isQuickCreateSupport;
+			if (1 == $this->Data['action']) {
 				$createPermission = $model->isPermitted('CreateView');
-				$this->Config['action'] = ($createPermission === true) ? 1 : 0;
-				if ($isInventory) {
+				$this->Config['action'] = (true === $createPermission) ? 1 : 0;
+				if ($isQuickCreateSupport) {
 					$this->Config['actionURL'] = "{$model->getCreateRecordUrl()}&sourceRecord={$this->Record}&sourceModule={$this->Module}&relationOperation=true";
 				} else {
 					$this->Config['actionURL'] = "{$model->getQuickCreateUrl()}&sourceRecord={$this->Record}&sourceModule={$this->Module}";
 				}
 			}
-			if (isset($this->Data['switchHeader']) && $this->Data['switchHeader'] != '-') {
+			if (isset($this->Data['switchHeader']) && '-' != $this->Data['switchHeader']) {
 				$switchHeaderData = Settings_Widgets_Module_Model::getHeaderSwitch([$this->Data['relatedmodule'], $this->Data['switchHeader']]);
-				if ($switchHeaderData && $switchHeaderData['type'] === 1) {
+				if ($switchHeaderData && 1 === $switchHeaderData['type']) {
 					$whereConditionOff = [];
 					foreach ($switchHeaderData['value'] as $name => $value) {
 						$whereCondition[] = [$name, 'n', implode('##', $value)];
@@ -62,8 +62,8 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 				}
 			}
 			$this->Config['buttonHeader'] = Settings_Widgets_Module_Model::getHeaderButtons($this->Data['relatedmodule']);
-			if (isset($this->Data['checkbox']) && $this->Data['checkbox'] !== '-') {
-				if (strpos($this->Data['checkbox'], '.') !== false) {
+			if (isset($this->Data['checkbox']) && '-' !== $this->Data['checkbox']) {
+				if (false !== strpos($this->Data['checkbox'], '.')) {
 					$separateData = explode('.', $this->Data['checkbox']);
 					$columnName = $separateData[1];
 				} else {
