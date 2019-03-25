@@ -28,18 +28,6 @@ class ConfReport extends \Tests\Base
 	}
 
 	/**
-	 * Testing database configuration report.
-	 */
-	public function testDbConf()
-	{
-		$this->assertNotEmpty(\Settings_ConfReport_Module_Model::getDbConf(), 'Database configuration report should be not empty');
-		$this->assertIsArray(
-			\Settings_ConfReport_Module_Model::getDbConf(true),
-			'Database configuration report should be array even if empty'
-		);
-	}
-
-	/**
 	 * Testing security configuration report.
 	 */
 	public function testSecurityConf()
@@ -48,14 +36,6 @@ class ConfReport extends \Tests\Base
 			static::$confReportAll['security'] ?? null,
 			'Security configuration (normal mode, show all) report should be not empty'
 		);
-	}
-
-	/**
-	 * Testing system informations report.
-	 */
-	public function testSystemInfo()
-	{
-		$this->assertNotEmpty(\Settings_ConfReport_Module_Model::getSystemInfo(), 'System information report should be not empty');
 	}
 
 	/**
@@ -86,21 +66,6 @@ class ConfReport extends \Tests\Base
 		$this->assertIsArray(
 			\Settings_ConfReport_Module_Model::getDenyPublicDirState(),
 			'getDenyPublicDirState returned data type should be array even if empty'
-		);
-	}
-
-	/**
-	 * Testing getPermissionsFiles method.
-	 */
-	public function testGetPermissionsFiles()
-	{
-		$this->assertIsArray(
-			\Settings_ConfReport_Module_Model::getPermissionsFiles(false),
-			'getPermissionsFiles(show all) returned data type should be array even if empty'
-		);
-		$this->assertIsArray(
-			\Settings_ConfReport_Module_Model::getPermissionsFiles(true),
-			'getPermissionsFiles(show errors only) returned data type should be array even if empty'
 		);
 	}
 }
