@@ -73,7 +73,7 @@ class Register
 	 *
 	 * @return string
 	 */
-	private static function getInstanceKey(): string
+	public static function getInstanceKey(): string
 	{
 		return sha1(\App\Config::main('application_unique_key') . \App\Config::main('site_URL') . gethostname());
 	}
