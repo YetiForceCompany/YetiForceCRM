@@ -12,35 +12,17 @@
     "System CRM"
   ],
   "description": "An open and innovative CRM system. Our team created for you one of the most innovative CRM systems that supports mainly business processes and allows for customization according to your needs. Be ahead of your competition and implement YetiForce!",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/YetiForceCompany/YetiForceCRM.git"
-  },
+  "repository": "git+https://github.com/YetiForceCompany/YetiForceCRM.git",
   "author": "YetiForceCompany <info@yetiforce.com> (https://yetiforce.com)",
   "license": "YetiForce Public License v3",
   "dependencies": {
-    "@quasar/extras": "^1.0.0",
-    "axios": "^0.18.0",
-    "device-uuid": "^1.0.4",
-    "dot-prop": "^4.2.0",
-    "quasar": "^1.0.0-beta.4",
-    "vue-i18n": "^7.3.3"
+  },
+  "scripts": {
+    "libraries": "cd ./public_html && npm i -g gulp-cli && npm i && cd ..",
+    "dev": "cd ./public_html && gulp",
+    "build": "cd ./public_html && gulp vue"
   },
   "devDependencies": {
-    "@quasar/app": "^1.0.0-beta.8",
-    "@vue/cli-plugin-eslint": "^3.0.0",
-    "@vue/eslint-config-prettier": "^3.0.0",
-    "babel-plugin-webpack-chunkname": "^1.2.0",
-    "esm": "^3.2.16",
-    "module-alias": "^2.2.0",
-    "prettier": "^1.16.4",
-    "serialize-javascript": "^1.6.1",
-    "strip-ansi": "=3.0.1"
-  },
-  "engines": {
-    "node": ">= 8.9.0",
-    "npm": ">= 5.6.0",
-    "yarn": ">= 1.6.0"
   },
   "browserslist": [
     "> 1%",
@@ -53,5 +35,7 @@
   "bugs": {
     "url": "https://github.com/YetiForceCompany/YetiForceCRM/issues"
   },
-  "homepage": "https://github.com/YetiForceCompany/YetiForceCRM#readme"
+  "homepage": "https://github.com/YetiForceCompany/YetiForceCRM#readme",
+  "version": "0.1.0",
+  "main": "public_html/src/main.js"
 }

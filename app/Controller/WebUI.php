@@ -91,7 +91,7 @@ class WebUI extends Base
 			'Debug' => [
 				'levels' => ['error']
 			],
-			'Users' => ['isLoggedIn' => \App\User::isLoggedIn()]
+			'Users' => ['isLoggedIn' => true]
 		]);
 	}
 }

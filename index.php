@@ -15,4 +15,4 @@ require_once 'include/ConfigUtils.php';
 
 $webUI = new \App\Controller\WebUI();
 $webUI->process();
-require ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . 'dist' . DIRECTORY_SEPARATOR . 'index.php';
+require ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'index.php';

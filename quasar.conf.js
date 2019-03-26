@@ -4,7 +4,8 @@ const exec = require('child_process').exec
 const axios = require('axios')
 const path = require('path')
 module.exports = function(ctx) {
-  ModuleLoader.saveModuleConfig(ModuleLoader.loadModules('src'))
+  const modules = ModuleLoader.loadModules('src')
+  ModuleLoader.saveModuleConfig(modules)
   if (ctx.dev) {
     ModuleLoader.watchDir('./src')
   }
@@ -71,9 +72,9 @@ module.exports = function(ctx) {
       // lang: 'de' // Quasar language
     },
 
-    supportIE: true,
+    supportIE: false,
 
-    preFetch: true,
+    preFetch: false,
 
     sourceFiles: {
       indexHtmlTemplate: ctx.dev ? 'src/index.template.dev.html' : 'src/index.template.php',
@@ -88,7 +89,7 @@ module.exports = function(ctx) {
 
     build: {
       htmlFilename: ctx.dev ? '' : 'index.php',
-      scopeHoisting: true,
+      //scopeHoisting: true,
       publicPath: 'dist',
       distDir: 'public_html/dist',
       vueRouterMode: 'hash',
@@ -100,6 +101,8 @@ module.exports = function(ctx) {
         if (typeof cfg.output === 'object' && !ctx.dev) {
           cfg.output.filename = 'js/[name].js'
           cfg.output.chunkFilename = 'js/[name].js'
+          cfg.optimization.minimize = false
+          cfg.output.library = 'YetiForceCRM'
         }
         cfg.resolve.alias = {
           ...cfg.resolve.alias,
@@ -123,6 +126,14 @@ module.exports = function(ctx) {
             ignored: [/node_modules/, /public_html/]
           }
         }
+        const cacheGroups = ModuleLoader.configureCacheGroups({}, modules)
+        const vendors = cfg.optimization.splitChunks.cacheGroups.vendors
+        const common = cfg.optimization.splitChunks.cacheGroups.common
+        cfg.optimization.splitChunks.cacheGroups = { ...cacheGroups, vendors, common }
+        //cfg.optimization.splitChunks.cacheGroups.vendors.chunks = 'all'
+        //cfg.optimization.splitChunks.cacheGroups.common.chunks = 'all'
+        console.log(cfg.optimization.splitChunks.cacheGroups)
+        //ModuleLoader.cofigureWebpackEntries(cfg, modules)
         cfg.devtool = 'source-map' // for debugging purposes
         //overwriting css-loader localIdentName
         for (let i = 0; i < cfg.module.rules.length; i++) {
