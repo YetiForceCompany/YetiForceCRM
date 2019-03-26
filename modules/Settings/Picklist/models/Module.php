@@ -74,7 +74,8 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	{
 		$db = App\Db::getInstance();
 		$pickListFieldName = $fieldModel->getName();
-		$tableName = $this->getPickListTableName($pickListFieldName);
+		$primaryKey = App\Fields\Picklist::getPickListId($pickListFieldName);
+		$tableName = $this->getPickListTableName($pickListFieldName
 		$picklistValueId = $db->getUniqueID('vtiger_picklistvalues');
 		$sequence = (new \App\Db\Query())->from($tableName)->max('sortorderid');
 		$row = [
@@ -109,7 +110,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			$row['color'] = '#E6FAD8';
 		}
 		$db->createCommand()->insert($tableName, $row)->execute();
-		$picklistId = $db->getLastInsertID();
+		$picklistId = $db->getLastInsertID($tableName . '_' . $primaryKey . '_seq');
 		if ($fieldModel->isRoleBased() && !empty($rolesSelected)) {
 			$picklistid = (new \App\Db\Query())->select(['picklistid'])
 				->from('vtiger_picklist')
