@@ -15,8 +15,7 @@ namespace vtlib;
  */
 class Utils
 {
-	public static $dieOnError = false;
-
+	
 	/**
 	 * Check if given value is a number or not.
 	 *
@@ -135,17 +134,18 @@ class Utils
 	 */
 	public static function createTable($tablename, $criteria, $suffixTableMeta = false)
 	{
-		$orgDieOnError = self::$dieOnError;
-		self::$dieOnError = false;
 		$sql = 'CREATE TABLE `' . $tablename . '` ' . $criteria;
-		if (false !== $suffixTableMeta) {
-			if (true === $suffixTableMeta) {
-				$suffixTableMeta = ' ENGINE=InnoDB DEFAULT CHARSET=utf8';
+		try {
+			if (false !== $suffixTableMeta) {
+				if (true === $suffixTableMeta) {
+					$suffixTableMeta = ' ENGINE=InnoDB DEFAULT CHARSET=utf8';
+				}
+				$sql .= $suffixTableMeta;
 			}
-			$sql .= $suffixTableMeta;
+			\App\Db::getInstance()->createCommand($sql)->execute();
+		} catch (\Throwable $exc) {
+			return false;
 		}
-		\App\Db::getInstance()->createCommand($sql)->execute();
-		self::$dieOnError = $orgDieOnError;
 	}
 
 	/**

@@ -633,7 +633,7 @@ class PackageImport extends PackageExport
 			return;
 		}
 		$db = \App\Db::getInstance();
-		$db->createCommand('SET FOREIGN_KEY_CHECKS = 0')->execute();
+		$db->createCommand()->checkIntegrity(false)->execute();
 
 		// Import the table via queries
 		foreach ($modulenode->tables->table as $tablenode) {
@@ -657,7 +657,7 @@ class PackageImport extends PackageExport
 				}
 			}
 		}
-		$db->createCommand('SET FOREIGN_KEY_CHECKS = 1')->execute();
+		$db->createCommand()->checkIntegrity(true)->execute();
 	}
 
 	/**
