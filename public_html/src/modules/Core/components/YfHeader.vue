@@ -9,8 +9,8 @@
   </q-header>
 </template>
 <script>
-import YfGlobalSearch from '/components/Base/YfGlobalSearch.js'
-import YfGlobalActions from '/components/Base/YfGlobalActions.js'
+import YfGlobalSearch from './YfGlobalSearch.js'
+import YfGlobalActions from './YfGlobalActions.js'
 export default {
   name: 'YfHeader',
   components: { YfGlobalSearch, YfGlobalActions },

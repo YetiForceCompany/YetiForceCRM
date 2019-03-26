@@ -161,6 +161,7 @@ window.modules = [
     "childrenPriority": 90,
     "entry": "src\\modules\\Core\\Core.js",
     "directories": [
+      "components",
       "layouts",
       "modules",
       "router",
@@ -186,6 +187,19 @@ window.modules = [
       "state": "src\\modules\\Core\\store\\state.js"
     },
     "entries": [
+      "src/modules/Core/components",
+      "src/modules/Core/components/YfBreadcrumbs.js",
+      "src/modules/Core/components/YfBreadcrumbs.vue",
+      "src/modules/Core/components/YfCopyright.js",
+      "src/modules/Core/components/YfCopyright.vue",
+      "src/modules/Core/components/YfFooter.js",
+      "src/modules/Core/components/YfFooter.vue",
+      "src/modules/Core/components/YfGlobalActions.js",
+      "src/modules/Core/components/YfGlobalActions.vue",
+      "src/modules/Core/components/YfGlobalSearch.js",
+      "src/modules/Core/components/YfGlobalSearch.vue",
+      "src/modules/Core/components/YfHeader.js",
+      "src/modules/Core/components/YfHeader.vue",
       "src/modules/Core/Core.js",
       "src/modules/Core/Core.vue",
       "src/modules/Core/layouts",
@@ -503,8 +517,7 @@ window.modules = [
             "getMessage": "Core/Users/getMessage"
           },
           "mutations": {
-            "isLoggedIn": "Core/Users/isLoggedIn",
-            "setMessage": "Core/Users/setMessage"
+            "isLoggedIn": "Core/Users/isLoggedIn"
           }
         },
         "storeFiles": {

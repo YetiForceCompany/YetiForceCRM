@@ -18,8 +18,8 @@
 
 <script>
 import getters from '/store/getters.js'
-import YfBreadcrumbs from '/components/Base/YfBreadcrumbs.js'
-import YfCopyright from '/components/Base/YfCopyright.js'
+import YfBreadcrumbs from './YfBreadcrumbs.js'
+import YfCopyright from './YfCopyright.js'
 
 export default {
   name: 'YfFooter',

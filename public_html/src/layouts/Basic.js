@@ -43,8 +43,8 @@
 
 import getters from '/src/store/getters.js';
 import LeftMenu from '/src/modules/Core/modules/Menu/components/LeftMenu.js';
-import YfHeader from '/src/components/Base/YfHeader.js';
-import YfFooter from '/src/components/Base/YfFooter.js';
+import YfHeader from '/src/modules/Core/components/YfHeader.js';
+import YfFooter from '/src/modules/Core/components/YfFooter.js';
 
 var __script__ = {
   name: 'Basic',

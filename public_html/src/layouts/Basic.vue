@@ -43,8 +43,8 @@
 <script>
 import getters from '/store/getters.js'
 import LeftMenu from '/Core/modules/Menu/components/LeftMenu.js'
-import YfHeader from '/components/Base/YfHeader.js'
-import YfFooter from '/components/Base/YfFooter.js'
+import YfHeader from '/Core/components/YfHeader.js'
+import YfFooter from '/Core/components/YfFooter.js'
 
 export default {
   name: 'Basic',

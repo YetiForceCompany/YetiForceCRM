@@ -18,8 +18,8 @@
 //
 
 import getters from '/src/store/getters.js';
-import YfBreadcrumbs from '/src/components/Base/YfBreadcrumbs.js';
-import YfCopyright from '/src/components/Base/YfCopyright.js';
+import YfBreadcrumbs from './YfBreadcrumbs.js';
+import YfCopyright from './YfCopyright.js';
 
 var __script__ = {
   name: 'YfFooter',

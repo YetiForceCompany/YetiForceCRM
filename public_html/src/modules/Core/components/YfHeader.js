@@ -9,8 +9,8 @@
 //
 //
 
-import YfGlobalSearch from '/src/components/Base/YfGlobalSearch.js';
-import YfGlobalActions from '/src/components/Base/YfGlobalActions.js';
+import YfGlobalSearch from './YfGlobalSearch.js';
+import YfGlobalActions from './YfGlobalActions.js';
 var __script__ = {
   name: 'YfHeader',
   components: { YfGlobalSearch: YfGlobalSearch, YfGlobalActions: YfGlobalActions },
