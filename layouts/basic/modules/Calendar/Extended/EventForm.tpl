@@ -53,7 +53,7 @@
 								<label class="muted mt-0">
 									{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
 										<a href="#" class="js-popover-tooltip mr-1" data-toggle="popover"
-										   data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}"
+										   data-content="{\App\Purifier::decodeHtml(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}"
 										   data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'
 										   role="tooltip">
 											<span class="fas fa-info-circle fa-sm align-baseline"></span>
