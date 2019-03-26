@@ -508,7 +508,7 @@ $.Class("Vtiger_Inventory_Js", {
 			purchase = 0,
 			marginp = 0;
 		this.getInventoryItemsContainer().find(this.rowClass).each(function(index) {
-			let qty = App.Fields.Double.formatToDb($(this).find('.qty').val()),
+			let qty = $(this).find('.qty').getNumberFromValue(),
 				purchasPrice = $(this).find('.purchase').getNumberFromValue();
 			if (qty > 0 && purchasPrice > 0) {
 				purchase += qty * purchasPrice;
