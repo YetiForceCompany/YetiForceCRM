@@ -74,7 +74,7 @@ class ConfReport extends \Tests\Base
 	 */
 	public function testSpeed()
 	{
-		$this->assertNotEmpty(\Settings_ConfReport_Module_Model::testSpeed());
+		$this->assertNotEmpty(\App\Utils\ConfReport::testSpeed());
 	}
 
 	/**

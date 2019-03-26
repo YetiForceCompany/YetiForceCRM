@@ -935,6 +935,7 @@
     "LBL_ENTITY_STATE_TRASH": "In Recycle Bin",
     "LBL_ENTITY_STATE_ACTIVE": "Active",
     "LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES": "Matters delegated",
+    "LBL_CREATED_BY_ME_BUT_NOT_MINE_OVERDUE_ACTIVITIES": "Overdue matters delegated",
     "LBL_FILTERING": "Filtering",
     "LBL_ALL_PRIORITY": "All",
     "LBL_LOW_PRIORITY": "Low priority",
