@@ -1,5 +1,5 @@
 <?php
-/* +***********************************************************************************
+ /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -11,7 +11,8 @@
 
 class Vtiger_RelationAjax_Action extends \App\Controller\Action
 {
-	use \App\Controller\ExposeMethod,
+	use
+		\App\Controller\ExposeMethod,
 		App\Controller\ClearProcess;
 
 	/**
@@ -28,6 +29,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$this->exposeMethod('getRelatedListPageCount');
 		$this->exposeMethod('updateFavoriteForRecord');
 		$this->exposeMethod('calculate');
+		$this->exposeMethod('massDownload');
 	}
 
 	/**
@@ -50,8 +52,9 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 				if (!$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'ModTracker')) {
 					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
 				}
-			} elseif (!$userPrivilegesModel->hasModulePermission($request->getByType('relatedModule', 2))) {
-				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
+				if (!$userPrivilegesModel->hasModulePermission($request->getByType('relatedModule', 2))) {
+					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
+				}
 			}
 		}
 	}
@@ -190,35 +193,12 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$sourceModule = $request->getModule();
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$sourceRecordId = $request->getInteger('src_record');
-		$pagingModel = new Vtiger_Paging_Model();
-
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModule);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
-		$excludedIds = $request->getArray('excluded_ids', 'Integer');
-		if ('all' === $request->getRaw('selected_ids')) {
-			$operator = 's';
-			if (!$request->isEmpty('operator', true)) {
-				$operator = $request->getByType('operator');
-				$relationListView->set('operator', $operator);
-			}
-			if (!$request->isEmpty('search_key', true)) {
-				$searchKey = $request->getByType('search_key', 'Alnum');
-				$relationListView->set('search_key', $searchKey);
-				$relationListView->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $relatedModuleName, $searchKey, $operator));
-			}
-			$searchParmams = App\Condition::validSearchParams($relatedModuleName, $request->getArray('search_params'));
-			if (empty($searchParmams) || !is_array($searchParmams)) {
-				$searchParmams = [];
-			}
-			$transformedSearchParams = $relationListView->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
-			$relationListView->set('search_params', $transformedSearchParams);
-			$rows = array_keys($relationListView->getEntries($pagingModel));
-		} else {
-			$rows = '[]' === $request->getRaw('selected_ids') ? [] : $request->getArray('selected_ids', 'Integer');
-		}
+		$rows = $this->getRecordsListFromRequest($request);
 		$relationModel = $relationListView->getRelationModel();
 		foreach ($rows as $relatedRecordId) {
-			if (!in_array($relatedRecordId, $excludedIds) && \App\Privilege::isPermitted($relatedModuleName, 'DetailView', $relatedRecordId)) {
+			if (\App\Privilege::isPermitted($relatedModuleName, 'DetailView', $relatedRecordId)) {
 				$relationModel->deleteRelation((int) $sourceRecordId, (int) $relatedRecordId);
 			}
 		}
@@ -238,34 +218,9 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$sourceModule = $request->getModule();
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$sourceRecordId = $request->getInteger('src_record');
-		$pagingModel = new Vtiger_Paging_Model();
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModule);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
-		$excludedIds = $request->getArray('excluded_ids', 'Integer');
-		if ('all' === $request->getRaw('selected_ids')) {
-			if ($request->has('entityState')) {
-				$relationListView->set('entityState', $request->getByType('entityState'));
-			}
-			$operator = 's';
-			if (!$request->isEmpty('operator', true)) {
-				$operator = $request->getByType('operator');
-				$relationListView->set('operator', $operator);
-			}
-			if (!$request->isEmpty('search_key', true)) {
-				$searchKey = $request->getByType('search_key', 'Alnum');
-				$relationListView->set('search_key', $searchKey);
-				$relationListView->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $relatedModuleName, $searchKey, $operator));
-			}
-			$searchParmams = App\Condition::validSearchParams($relatedModuleName, $request->getArray('search_params'));
-			if (empty($searchParmams) || !is_array($searchParmams)) {
-				$searchParmams = [];
-			}
-			$transformedSearchParams = $relationListView->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
-			$relationListView->set('search_params', $transformedSearchParams);
-			$rows = array_keys($relationListView->getEntries($pagingModel));
-		} else {
-			$rows = '[]' === $request->getRaw('selected_ids') ? [] : $request->getArray('selected_ids', 'Integer');
-		}
+		$rows = $this->getRecordsListFromRequest($request);
 		$workbook = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
 		$worksheet = $workbook->setActiveSheetIndex(0);
 		$header_styles = [
@@ -281,7 +236,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		}
 		++$row;
 		foreach ($rows as $id) {
-			if (!in_array($id, $excludedIds) && \App\Privilege::isPermitted($relatedModuleName, 'DetailView', $id)) {
+			if (\App\Privilege::isPermitted($relatedModuleName, 'DetailView', $id)) {
 				$col = 0;
 				$record = Vtiger_Record_Model::getInstanceById($id, $relatedModuleName);
 				if (!$record->isViewable()) {
@@ -305,7 +260,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 						case 72:
 							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $record->get($fieldsModel->getFieldName()), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
 							break;
-						case 6://datetimes
+						case 6: //datetimes
 						case 23:
 						case 70:
 							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel(strtotime($record->get($fieldsModel->getFieldName()))), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
@@ -506,5 +461,23 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$response = new Vtiger_Response();
 		$response->setResult($fieldModel->getDisplayValue($value));
 		$response->emit();
+	}
+
+	/**
+	 * Mass download.
+	 *
+	 * @param App\Request $request
+	 */
+	public function massDownload(App\Request $request)
+	{
+		$relatedModuleName = $request->getByType('relatedModule', 2);
+		$records = $this->getRecordsListFromRequest($request);
+		if (1 === count($records)) {
+			$documentRecordModel = Vtiger_Record_Model::getInstanceById($records[0], $relatedModuleName);
+			$documentRecordModel->downloadFile();
+			$documentRecordModel->updateDownloadCount();
+		} else {
+			Documents_Record_Model::downloadFiles($records);
+		}
 	}
 }
