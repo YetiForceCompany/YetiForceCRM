@@ -565,7 +565,7 @@ jQuery.Class("Vtiger_List_Js", {
 		new PerfectScrollbar(container[0]).destroy();
 		container.find('.js-fixed-thead').floatThead('destroy');
 		container.siblings('.floatThead-container').remove();
-		app.showNewScrollbar(container, {});
+		new PerfectScrollbar(container[0]);
 		self.registerFixedThead(container);
 		App.Fields.Picklist.showSelect2ElementView(container.find('select.select2'));
 		App.Fields.Picklist.changeSelectElementView(container);
