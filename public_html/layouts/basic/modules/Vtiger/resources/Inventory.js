@@ -504,7 +504,7 @@ $.Class("Vtiger_Inventory_Js", {
 			totalPriceField = (sumRow.find('[data-sumfield="netPrice"]').length > 0)
 				? sumRow.find('[data-sumfield="netPrice"]')
 				: sumRow.find('[data-sumfield="totalPrice"]'),
-			sumPrice = App.Fields.Double.formatToDb(totalPriceField.text()),
+			sumPrice = totalPriceField.getNumberFromText(),
 			purchase = 0,
 			marginp = 0;
 		this.getInventoryItemsContainer().find(this.rowClass).each(function(index) {
