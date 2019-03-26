@@ -145,7 +145,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		}
 		$zip->close();
 		header('content-type: ' . \App\Fields\File::getMimeContentType($fileName));
-		header('Content-Disposition: attachment; filename="' . basename($fileName) . '";');
+		header('content-disposition: attachment; filename="' . basename($fileName) . '";');
 		header('accept-ranges: bytes');
 		header('content-length: ' . filesize($fileName));
 
