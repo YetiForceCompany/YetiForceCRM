@@ -10,6 +10,8 @@
 //
 //
 //
+//
+//
 
 import actions from '/src/store/actions.js';
 var __script__ = {
@@ -27,7 +29,9 @@ var __script__ = {
 
 var render = function render() {
   var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;
-  return _c('div', [_c('q-btn', {
+  return _c('hook-wrapper', {
+    staticClass: "Core-Component-YfGlobalActions"
+  }, [_c('div', [_c('q-btn', {
     attrs: {
       "round": "",
       "size": _vm.iconSize,
@@ -79,7 +83,7 @@ var render = function render() {
     on: {
       "click": _vm.logout
     }
-  })], 1);
+  })], 1)]);
 };
 var staticRenderFns = [];
 var __template__ = { render: render, staticRenderFns: staticRenderFns };

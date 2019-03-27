@@ -1,43 +1,55 @@
+<!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <q-layout view="hHh lpR fFf">
-    <template v-if="isLoggedIn">
-      <yf-header>
-        <template slot="left">
-          <q-btn
-            dense
-            flat
-            round
-            icon="mdi-menu"
-            @click="leftDrawerOpen = !leftDrawerOpen"
-            v-show="!$q.platform.is.desktop"
-          />
-        </template>
-      </yf-header>
-      <q-drawer
-        v-model="leftDrawerOpen"
-        content-class="bg-blue-grey-10 text-white"
-        :mini="miniState ? miniState : false"
-        @mouseover="miniState = false && menuEvents"
-        @mouseout="miniState = true && menuEvents"
-        :width="200"
-        :breakpoint="500"
-        :show-if-above="miniState"
-      >
-        <q-toggle
-          v-show="$q.platform.is.desktop"
-          v-model="menuEvents"
-          :true-value="false"
-          :false-value="true"
-          icon="mdi-pin"
-        />
-        <left-menu />
-      </q-drawer>
-      <yf-footer></yf-footer>
-    </template>
-    <q-page-container>
-      <router-view />
-    </q-page-container>
-  </q-layout>
+  <div>
+    <q-layout view="hHh lpR fFf">
+      <template v-if="isLoggedIn">
+        <yf-header>
+          <template slot="left">
+            <q-btn
+              dense
+              flat
+              round
+              icon="mdi-menu"
+              @click="leftDrawerOpen = !leftDrawerOpen"
+              v-show="!$q.platform.is.desktop"
+            />
+          </template>
+        </yf-header>
+        <q-drawer
+          v-model="leftDrawerOpen"
+          content-class="bg-blue-grey-10 text-white"
+          :mini="miniState ? miniState : false"
+          @mouseover="miniState = false && menuEvents"
+          @mouseout="miniState = true && menuEvents"
+          :width="200"
+          :breakpoint="500"
+          :show-if-above="miniState"
+        >
+          <q-scroll-area class="menuItemsContainer" style="height: calc(100% - 56px)">
+            <left-menu />
+          </q-scroll-area>
+          <q-separator dark />
+          <q-item class="fixed-bottom">
+            <q-item-section></q-item-section>
+            <q-item-section class="justify-end">
+              <q-toggle
+                class="col-shrink"
+                v-show="$q.platform.is.desktop"
+                v-model="menuEvents"
+                :true-value="false"
+                :false-value="true"
+                icon="mdi-pin"
+              />
+            </q-item-section>
+          </q-item>
+        </q-drawer>
+        <yf-footer></yf-footer>
+      </template>
+      <q-page-container>
+        <router-view />
+      </q-page-container>
+    </q-layout>
+  </div>
 </template>
 
 <script>
@@ -73,4 +85,8 @@ export default {
 }
 </script>
 
-<style module lang="stylus"></style>
+<style module lang="stylus">
+.menuItemsContainer {
+  height: calc(100% - 56px);
+}
+</style>

@@ -40,6 +40,18 @@
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 import getters from '/src/store/getters.js';
 import LeftMenu from '/src/modules/Core/modules/Menu/components/LeftMenu.js';
@@ -73,7 +85,7 @@ var __script__ = {
 
 var render = function render() {
   var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;
-  return _c('q-layout', {
+  return _c('div', [_c('q-layout', {
     attrs: {
       "view": "hHh lpR fFf"
     }
@@ -120,6 +132,19 @@ var render = function render() {
       },
       expression: "leftDrawerOpen"
     }
+  }, [_c('q-scroll-area', {
+    staticClass: "menuItemsContainer",
+    staticStyle: {
+      "height": "calc(100% - 56px)"
+    }
+  }, [_c('left-menu')], 1), _vm._v(" "), _c('q-separator', {
+    attrs: {
+      "dark": ""
+    }
+  }), _vm._v(" "), _c('q-item', {
+    staticClass: "fixed-bottom"
+  }, [_c('q-item-section'), _vm._v(" "), _c('q-item-section', {
+    staticClass: "justify-end"
   }, [_c('q-toggle', {
     directives: [{
       name: "show",
@@ -127,6 +152,7 @@ var render = function render() {
       value: _vm.$q.platform.is.desktop,
       expression: "$q.platform.is.desktop"
     }],
+    staticClass: "col-shrink",
     attrs: {
       "true-value": false,
       "false-value": true,
@@ -139,7 +165,7 @@ var render = function render() {
       },
       expression: "menuEvents"
     }
-  }), _vm._v(" "), _c('left-menu')], 1), _vm._v(" "), _c('yf-footer')] : _vm._e(), _vm._v(" "), _c('q-page-container', [_c('router-view')], 1)], 2);
+  })], 1)], 1)], 1), _vm._v(" "), _c('yf-footer')] : _vm._e(), _vm._v(" "), _c('q-page-container', [_c('router-view')], 1)], 2)], 1);
 };
 var staticRenderFns = [];
 var __template__ = { render: render, staticRenderFns: staticRenderFns };
