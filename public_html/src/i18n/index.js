@@ -3,4 +3,20 @@ let translations = {}
 if (typeof window !== 'undefined' && window.env !== 'undefined') {
   translations = window.env.Language.translations
 }
-export default translations
+
+let i18n = null
+function createI18n() {
+  if (i18n === null) {
+    Vue.use(VueI18n)
+    i18n = new VueI18n({
+      locale: '_Base',
+      fallbackLocale: '_Base',
+      silentTranslationWarn: true,
+      translations
+    })
+  }
+
+  return i18n
+}
+
+export default createI18n
