@@ -1,7 +1,8 @@
 const gulp = require('gulp')
 const browserSync = require('browser-sync').create()
-const vueCompiler = require('gulp-vue-compiler')
+const babel = require('gulp-babel')
 
+const vueEsCompiler = require('./gulp-vue-es-compiler')
 const ModuleLoader = require('./ModuleLoader.server')
 const modules = ModuleLoader.loadModules('src')
 ModuleLoader.saveModuleConfig(modules)
@@ -9,48 +10,47 @@ ModuleLoader.saveModuleConfig(modules)
 gulp.task('vue', function() {
   return gulp
     .src('src/**/*.vue')
+    .pipe(vueEsCompiler())
     .pipe(
-      vueCompiler({
-        newExtension: 'js',
-        babel: {
-          presets: [['vue-app', { useBuiltIns: true, targets: { uglify: true } }]],
-          plugins: [
-            [
-              'module-resolver',
-              {
-                root: ['./src/**'],
-                alias: {
-                  '^src/(.+)': '/src/\\1',
-                  '^store/(.+)': '/src/store/\\1',
-                  '^components/(.+)': '/src/components/\\1',
-                  '^layouts/(.+)': '/src/layouts/\\1',
-                  '^modules/(.+)': '/src/modules/\\1',
-                  '^assets/(.+)': '/src/assets/\\1',
-                  '^statics/(.+)': '/src/statics/\\1',
-                  '^utilities/(.+)': '/src/utilities/\\1',
-                  '^services/(.+)': '/src/services/\\1',
-                  '^pages/(.+)': '/src/pages/\\1',
-                  '^Core/(.+)': '/src/modules/Core/\\1',
-                  '^Base/(.+)': '/src/modules/Base/\\1',
-                  '^Settings/(.+)': '/src/modules/Setting/\\1',
-                  '^/src/(.+)': '/src/\\1',
-                  '^/store/(.+)': '/src/store/\\1',
-                  '^/components/(.+)': '/src/components/\\1',
-                  '^/layouts/(.+)': '/src/layouts/\\1',
-                  '^/modules/(.+)': '/src/modules/\\1',
-                  '^/assets/(.+)': '/src/assets/\\1',
-                  '^/statics/(.+)': '/src/statics/\\1',
-                  '^/utilities/(.+)': '/src/utilities/\\1',
-                  '^/services/(.+)': '/src/services/\\1',
-                  '^/pages/(.+)': '/src/pages/\\1',
-                  '^/Core/(.+)': '/src/modules/Core/\\1',
-                  '^/Base/(.+)': '/src/modules/Base/\\1',
-                  '^/Settings/(.+)': '/src/modules/Setting/\\1'
-                }
+      babel({
+        presets: [['@babel/preset-env', { modules: false }]],
+        plugins: [
+          ['@babel/plugin-syntax-dynamic-import'],
+          [
+            'module-resolver',
+            {
+              root: ['./src/**'],
+              alias: {
+                '^src/(.+)': '/src/\\1',
+                '^store/(.+)': '/src/store/\\1',
+                '^components/(.+)': '/src/components/\\1',
+                '^layouts/(.+)': '/src/layouts/\\1',
+                '^modules/(.+)': '/src/modules/\\1',
+                '^assets/(.+)': '/src/assets/\\1',
+                '^statics/(.+)': '/src/statics/\\1',
+                '^utilities/(.+)': '/src/utilities/\\1',
+                '^services/(.+)': '/src/services/\\1',
+                '^pages/(.+)': '/src/pages/\\1',
+                '^Core/(.+)': '/src/modules/Core/\\1',
+                '^Base/(.+)': '/src/modules/Base/\\1',
+                '^Settings/(.+)': '/src/modules/Setting/\\1',
+                '^/src/(.+)': '/src/\\1',
+                '^/store/(.+)': '/src/store/\\1',
+                '^/components/(.+)': '/src/components/\\1',
+                '^/layouts/(.+)': '/src/layouts/\\1',
+                '^/modules/(.+)': '/src/modules/\\1',
+                '^/assets/(.+)': '/src/assets/\\1',
+                '^/statics/(.+)': '/src/statics/\\1',
+                '^/utilities/(.+)': '/src/utilities/\\1',
+                '^/services/(.+)': '/src/services/\\1',
+                '^/pages/(.+)': '/src/pages/\\1',
+                '^/Core/(.+)': '/src/modules/Core/\\1',
+                '^/Base/(.+)': '/src/modules/Base/\\1',
+                '^/Settings/(.+)': '/src/modules/Setting/\\1'
               }
-            ]
+            }
           ]
-        }
+        ]
       })
     )
     .pipe(gulp.dest('./src/'))
