@@ -1,26 +1,29 @@
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
-import getters from '/src/store/getters.js';
-import mutations from '/src/store/mutations.js';
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+/* script */
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+import getters from "/src/store/getters.js";
+import mutations from "/src/store/mutations.js";
 var moduleName = 'Base.ModuleExample.Pages.ModuleExample';
-var __script__ = {
+var __vue_script__ = {
   name: moduleName,
   data: function data() {
     return {
@@ -34,10 +37,33 @@ var __script__ = {
           return row.name;
         },
         format: function format(val) {
-          return '' + val;
+          return "".concat(val);
         },
         sortable: true
-      }, { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true }, { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true }, { name: 'carbs', label: 'Carbs (g)', field: 'carbs' }, { name: 'protein', label: 'Protein (g)', field: 'protein' }, { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' }, {
+      }, {
+        name: 'calories',
+        align: 'center',
+        label: 'Calories',
+        field: 'calories',
+        sortable: true
+      }, {
+        name: 'fat',
+        label: 'Fat (g)',
+        field: 'fat',
+        sortable: true
+      }, {
+        name: 'carbs',
+        label: 'Carbs (g)',
+        field: 'carbs'
+      }, {
+        name: 'protein',
+        label: 'Protein (g)',
+        field: 'protein'
+      }, {
+        name: 'sodium',
+        label: 'Sodium (mg)',
+        field: 'sodium'
+      }, {
         name: 'calcium',
         label: 'Calcium (%)',
         field: 'calcium',
@@ -147,31 +173,37 @@ var __script__ = {
       }]
     };
   },
-
   methods: {
     updateVariable: function updateVariable() {
       this.$store.commit(mutations.Base.ModuleExample.updateTestVariable, 'changed!');
     },
     getSelectedString: function getSelectedString() {
-      return this.selected.length === 0 ? '' : this.selected.length + ' record' + (this.selected.length > 1 ? 's' : '') + ' selected of ' + this.data.length;
+      return this.selected.length === 0 ? '' : "".concat(this.selected.length, " record").concat(this.selected.length > 1 ? 's' : '', " selected of ").concat(this.data.length);
     }
   },
-  computed: Object.assign({}, Vuex.mapGetters({
+  computed: _objectSpread({}, Vuex.mapGetters({
     testVariable: getters.Base.ModuleExample.testVariable
   }))
+  /* template */
+
 };
 
-var render = function render() {
-  var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;
-  return _c('div', [_c('q-table', {
+var __vue_render__ = function __vue_render__() {
+  var _vm = this;
+
+  var _h = _vm.$createElement;
+
+  var _c = _vm._self._c || _h;
+
+  return _c("div", [_c("q-table", {
     attrs: {
-      "title": "Treats",
-      "data": _vm.data,
-      "columns": _vm.columns,
+      title: "Treats",
+      data: _vm.data,
+      columns: _vm.columns,
       "row-key": "name",
       "selected-rows-label": _vm.getSelectedString,
-      "selection": "multiple",
-      "selected": _vm.selected
+      selection: "multiple",
+      selected: _vm.selected
     },
     on: {
       "update:selected": function updateSelected($event) {
@@ -180,7 +212,98 @@ var render = function render() {
     }
   })], 1);
 };
-var staticRenderFns = [];
-var __template__ = { render: render, staticRenderFns: staticRenderFns };
 
-export default Object.assign({}, __script__, __template__);
+var __vue_staticRenderFns__ = [];
+__vue_render__._withStripped = true;
+/* style */
+
+var __vue_inject_styles__ = undefined;
+/* scoped */
+
+var __vue_scope_id__ = undefined;
+/* module identifier */
+
+var __vue_module_identifier__ = undefined;
+/* functional template */
+
+var __vue_is_functional_template__ = false;
+/* component normalizer */
+
+function __vue_normalize__(template, style, script, scope, functional, moduleIdentifier, createInjector, createInjectorSSR) {
+  var component = (typeof script === 'function' ? script.options : script) || {}; // For security concerns, we use only base name in production mode.
+
+  component.__file = "C:\\www\\YetiForceCRM\\public_html\\src\\modules\\Base\\modules\\ModuleExample\\pages\\ModuleExample.vue";
+
+  if (!component.render) {
+    component.render = template.render;
+    component.staticRenderFns = template.staticRenderFns;
+    component._compiled = true;
+    if (functional) component.functional = true;
+  }
+
+  component._scopeId = scope;
+
+  if (false) {
+    var hook;
+
+    if (false) {
+      // In SSR.
+      hook = function hook(context) {
+        // 2.3 injection
+        context = context || // cached call
+        this.$vnode && this.$vnode.ssrContext || // stateful
+        this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext; // functional
+        // 2.2 with runInNewContext: true
+
+        if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+          context = __VUE_SSR_CONTEXT__;
+        } // inject component styles
+
+
+        if (style) {
+          style.call(this, createInjectorSSR(context));
+        } // register component module identifier for async chunk inference
+
+
+        if (context && context._registeredComponents) {
+          context._registeredComponents.add(moduleIdentifier);
+        }
+      }; // used by ssr in case component is cached and beforeCreate
+      // never gets called
+
+
+      component._ssrRegister = hook;
+    } else if (style) {
+      hook = function hook(context) {
+        style.call(this, createInjector(context));
+      };
+    }
+
+    if (hook !== undefined) {
+      if (component.functional) {
+        // register for functional component in vue file
+        var originalRender = component.render;
+
+        component.render = function renderWithStyleInjection(h, context) {
+          hook.call(context);
+          return originalRender(h, context);
+        };
+      } else {
+        // inject component registration as beforeCreate hook
+        var existing = component.beforeCreate;
+        component.beforeCreate = existing ? [].concat(existing, hook) : [hook];
+      }
+    }
+  }
+
+  return component;
+}
+/* style inject */
+
+/* style inject SSR */
+
+
+export default __vue_normalize__({
+  render: __vue_render__,
+  staticRenderFns: __vue_staticRenderFns__
+}, __vue_inject_styles__, __vue_script__, __vue_scope_id__, __vue_is_functional_template__, __vue_module_identifier__, undefined, undefined);
