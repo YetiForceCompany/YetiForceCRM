@@ -48,7 +48,10 @@ var render = function render() {
       "src": "https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg"
     }
   })])], 1), _vm._v(" "), _c('yf-global-search'), _vm._v(" "), _c('yf-global-actions', {
-    staticClass: "q-ml-auto"
+    staticClass: "q-ml-auto",
+    staticStyle: {
+      "color": "rgba(0,0,0,.54)"
+    }
   })], 1)], 1)], 1);
 };
 var staticRenderFns = [];
