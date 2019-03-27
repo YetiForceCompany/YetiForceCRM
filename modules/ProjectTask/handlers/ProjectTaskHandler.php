@@ -15,7 +15,7 @@ class ProjectTask_ProjectTaskHandler_Handler
 	 *
 	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(\App\EventHandler $eventHandler)
+	public function entityAfterSave(App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		if ($recordModel->isNew()) {
@@ -24,15 +24,15 @@ class ProjectTask_ProjectTaskHandler_Handler
 			$delta = $recordModel->getPreviousValue();
 			$calculateMilestone = $calculateProject = [];
 			foreach ($delta as $name => $value) {
-				if ($name === 'projectmilestoneid' || $name === 'estimated_work_time' || $name === 'projecttaskprogress') {
-					if ($name === 'projectmilestoneid') {
+				if ('projectmilestoneid' === $name || 'estimated_work_time' === $name || 'projecttaskprogress' === $name) {
+					if ('projectmilestoneid' === $name) {
 						$calculateMilestone[$recordModel->get($name)] = true;
 						$calculateMilestone[$value] = true;
 					} else {
 						$calculateMilestone[$recordModel->get('projectmilestoneid')] = true;
 					}
 					$calculateProject[$recordModel->get('projectid')] = true;
-				} elseif ($name === 'projectid') {
+				} elseif ('projectid' === $name) {
 					$calculateProject[$recordModel->get($name)] = true;
 					$calculateProject[$value] = true;
 				}
@@ -44,6 +44,7 @@ class ProjectTask_ProjectTaskHandler_Handler
 				(new \App\BatchMethod(['method' => 'Project_Module_Model::updateProgress', 'params' => [$projectId]]))->save();
 			}
 		}
+		(new ProjectTask_SyncStatus_Model())->entityAfterSave($recordModel);
 	}
 
 	/**
@@ -51,9 +52,11 @@ class ProjectTask_ProjectTaskHandler_Handler
 	 *
 	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterDelete(\App\EventHandler $eventHandler)
+	public function entityAfterDelete(App\EventHandler $eventHandler)
 	{
-		(new \App\BatchMethod(['method' => 'ProjectMilestone_Module_Model::updateProgress', 'params' => [$eventHandler->getRecordModel()->get('projectmilestoneid')]]))->save();
+		$recordModel = $eventHandler->getRecordModel();
+		(new \App\BatchMethod(['method' => 'ProjectMilestone_Module_Model::updateProgress', 'params' => [$recordModel->get('projectmilestoneid')]]))->save();
+		(new ProjectTask_SyncStatus_Model())->entityAfterDelete($recordModel);
 	}
 
 	/**
@@ -61,8 +64,10 @@ class ProjectTask_ProjectTaskHandler_Handler
 	 *
 	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityChangeState(\App\EventHandler $eventHandler)
+	public function entityChangeState(App\EventHandler $eventHandler)
 	{
-		(new \App\BatchMethod(['method' => 'ProjectMilestone_Module_Model::updateProgress', 'params' => [$eventHandler->getRecordModel()->get('projectmilestoneid')]]))->save();
+		$recordModel = $eventHandler->getRecordModel();
+		(new \App\BatchMethod(['method' => 'ProjectMilestone_Module_Model::updateProgress', 'params' => [$recordModel->get('projectmilestoneid')]]))->save();
+		(new ProjectTask_SyncStatus_Model())->entityChangeState($recordModel);
 	}
 }
