@@ -56,7 +56,6 @@ const isFile = source => {
 }
 
 function addGlobals() {
-  console.log('glob')
   const globalLibs = {
     Vue: 'vue',
     Vuex: 'vuex',
