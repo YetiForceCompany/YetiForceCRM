@@ -348,6 +348,12 @@ class QueryGenerator
 		$fields = [];
 		$checkIds = [];
 		foreach ($this->relatedFields as $field) {
+			$joinTableName = $this->getModuleField($field['sourceField'])->getTableName();
+			$moduleTableIndexList = $this->entityModel->tab_name_index;
+			$baseTable = $this->entityModel->table_name;
+			if ($joinTableName !== $baseTable) {
+				$this->addJoin(['INNER JOIN', $joinTableName, "{$baseTable}.{$moduleTableIndexList[$baseTable]} = {$joinTableName}.{$moduleTableIndexList[$joinTableName]}"]);
+			}
 			$relatedFieldModel = $this->addRelatedJoin($field);
 			if (!isset($checkIds[$field['sourceField']][$field['relatedModule']])) {
 				$checkIds[$field['sourceField']][$field['relatedModule']] = $field['relatedModule'];
