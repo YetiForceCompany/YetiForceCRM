@@ -16,6 +16,14 @@
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 var __script__ = {
   name: 'YfGlobalSearch',
@@ -31,7 +39,9 @@ var __script__ = {
 
 var render = function render() {
   var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;
-  return _c('div', [_c('q-btn', {
+  return _c('hook-wrapper', {
+    staticClass: "Core-Component-YfGlobalSearch"
+  }, [_c('div', [_c('q-btn', {
     staticClass: "lt-md",
     attrs: {
       "round": "",
@@ -43,7 +53,10 @@ var render = function render() {
   }), _vm._v(" "), _c('div', {
     staticClass: "flex gt-sm"
   }, [_c('div', {
-    class: ['q-pl-md']
+    staticClass: "q-pl-sm headerField",
+    staticStyle: {
+      "min-width": "200px"
+    }
   }, [_c('q-select', {
     attrs: {
       "options": _vm.searchModules,
@@ -58,7 +71,10 @@ var render = function render() {
       expression: "searchModule"
     }
   })], 1), _vm._v(" "), _c('q-input', {
-    class: ['q-pl-lg'],
+    staticClass: "q-pl-lg headerField",
+    staticStyle: {
+      "min-width": "200px"
+    },
     attrs: {
       "placeholder": "Placeholder",
       "dense": ""
@@ -101,7 +117,7 @@ var render = function render() {
       },
       expression: "searchText"
     }
-  })], 1)], 1);
+  })], 1)], 1)]);
 };
 var staticRenderFns = [];
 var __template__ = { render: render, staticRenderFns: staticRenderFns };

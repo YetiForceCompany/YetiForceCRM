@@ -36,6 +36,19 @@
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var __script__ = {
   name: 'YfCopyright'
@@ -43,14 +56,18 @@ var __script__ = {
 
 var render = function render() {
   var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;
-  return _c('div', [_c('div', [_vm._v("© YetiForce.com All rights reserved.")]), _vm._v(" "), _c('q-separator', {
+  return _c('hook-wrapper', {
+    staticClass: "Core-Component-YfCopyright"
+  }, [_c('div', {
+    staticClass: "flex"
+  }, [_c('div', [_c('div', [_vm._v("© YetiForce.com All rights reserved.")]), _vm._v(" "), _c('q-separator', {
     attrs: {
       "dark": ""
     }
   }), _vm._v(" "), _c('div', {
     staticClass: "flex no-wrap justify-between q-py-xs"
   }, [_c('a', {
-    staticClass: "q-link text-inherit",
+    staticClass: "q-link text-blue-grey-11",
     attrs: {
       "href": "https://www.linkedin.com/groups/8177576",
       "rel": "noreferrer noopener"
@@ -68,7 +85,7 @@ var render = function render() {
       "vertical": ""
     }
   }), _vm._v(" "), _c('a', {
-    staticClass: "q-link text-inherit",
+    staticClass: "q-link text-blue-grey-11",
     attrs: {
       "href": "https://twitter.com/YetiForceEN",
       "rel": "noreferrer noopener"
@@ -86,7 +103,7 @@ var render = function render() {
       "vertical": ""
     }
   }), _vm._v(" "), _c('a', {
-    staticClass: "q-link text-inherit",
+    staticClass: "q-link text-blue-grey-11",
     attrs: {
       "href": "https://www.facebook.com/YetiForce-CRM-158646854306054/",
       "rel": "noreferrer noopener"
@@ -104,7 +121,7 @@ var render = function render() {
       "vertical": ""
     }
   }), _vm._v(" "), _c('a', {
-    staticClass: "q-link text-inherit",
+    staticClass: "q-link text-blue-grey-11",
     attrs: {
       "href": "https://github.com/YetiForceCompany/YetiForceCRM",
       "rel": "noreferrer noopener"
@@ -122,7 +139,7 @@ var render = function render() {
       "vertical": ""
     }
   }), _vm._v(" "), _c('a', {
-    staticClass: "q-link text-inherit",
+    staticClass: "q-link text-blue-grey-11",
     attrs: {
       "href": "https://yetiforce.shop",
       "rel": "noreferrer noopener"
@@ -140,7 +157,7 @@ var render = function render() {
       "vertical": ""
     }
   }), _vm._v(" "), _c('a', {
-    staticClass: "q-link text-inherit",
+    staticClass: "q-link text-blue-grey-11",
     attrs: {
       "href": "#",
       "role": "button"
@@ -151,7 +168,19 @@ var render = function render() {
       "name": "mdi-information-outline",
       "title": "YetiForceCRM"
     }
-  })], 1)], 1)], 1);
+  })], 1)], 1)], 1), _vm._v(" "), _c('div', {
+    staticClass: "flex flex-center gt-xs q-ml-sm"
+  }, [_c('q-avatar', {
+    staticClass: "q-mx-auto",
+    attrs: {
+      "size": "32px"
+    }
+  }, [_c('img', {
+    attrs: {
+      "src": "/src/statics/Logo/white_logo_yetiforce.png",
+      "alt": "yetiforce logo"
+    }
+  })])], 1)])]);
 };
 var staticRenderFns = [];
 var __template__ = { render: render, staticRenderFns: staticRenderFns };
