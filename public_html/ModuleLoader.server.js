@@ -177,10 +177,6 @@ const RESERVED_DIRECTORIES = {
  */
 module.exports = {
   /**
-   * Public path
-   */
-  publicPath: 'public_html',
-  /**
    * Helper function which will merge objects recursively - creating brand new one - like clone
    *
    * @param {object} target
@@ -216,22 +212,6 @@ module.exports = {
       }
     }
     return this.mergeDeep(target, ...sources)
-  },
-  /**
-   * Get relative path - from publicPath/src to src
-   *
-   * @param   {string}  path
-   *
-   * @return  {string}
-   */
-  getRelativePath(path) {
-    if (path.substring(0, this.publicPath.length) === this.publicPath) {
-      return path.substr(this.publicPath.length)
-    }
-    if (path.substring(0, `/${this.publicPath}`.length) === `/${this.publicPath}`) {
-      return path.substr(`/${this.publicPath}`.length)
-    }
-    return path
   },
 
   /**
@@ -272,7 +252,7 @@ module.exports = {
   loadRoutes(moduleConf) {
     if (moduleConf.directories.indexOf(RESERVED_DIRECTORIES.router) !== -1) {
       moduleConf.routes = []
-      const dir = `${moduleConf.fullPath}${sep}${RESERVED_DIRECTORIES.router}`
+      const dir = `${moduleConf.path}${sep}${RESERVED_DIRECTORIES.router}`
       this.getFiles(dir).forEach(file => {
         const path = `./${dir}${sep}${file}`
         let routes = appRequire(path)
@@ -394,7 +374,7 @@ module.exports = {
    */
   loadStore(moduleConf) {
     if (moduleConf.directories.indexOf(RESERVED_DIRECTORIES.store) !== -1) {
-      const dir = `${moduleConf.fullPath}${sep}${RESERVED_DIRECTORIES.store}`
+      const dir = `${moduleConf.path}${sep}${RESERVED_DIRECTORIES.store}`
       moduleConf.store = {}
       moduleConf.storeFiles = {}
       this.getFiles(dir).forEach(file => {
@@ -432,8 +412,7 @@ module.exports = {
       moduleConf.parentHierarchy = parentHierarchy.replace(/^\.|\.$/i, '')
       moduleConf.fullName = (moduleConf.parentHierarchy + '.' + moduleName).replace(/^\.|\.$/i, '')
       moduleConf.name = moduleName
-      moduleConf.path = this.getRelativePath(`${baseDir}${sep}${RESERVED_DIRECTORIES.modules}${sep}${moduleName}`)
-      moduleConf.fullPath = `${baseDir}${sep}${RESERVED_DIRECTORIES.modules}${sep}${moduleName}`
+      moduleConf.path = `${baseDir}${sep}${RESERVED_DIRECTORIES.modules}${sep}${moduleName}`
       moduleConf.level = level
       moduleConf.parent = ''
       moduleConf.priority = 0
@@ -456,18 +435,16 @@ module.exports = {
       if (isFile(resolve(entry + '.js'))) {
         moduleConf.entry = entry + '.js'
       }
-      moduleConf.directories = this.getDirectories(moduleConf.fullPath)
+      moduleConf.directories = this.getDirectories(moduleConf.path)
       this.loadRoutes(moduleConf)
       this.loadStore(moduleConf)
-      moduleConf.entries = glob
-        .sync(moduleConf.path + '/**/*', {
-          dot: true,
-          ignore: [moduleConf.fullPath + '/modules/**/*', moduleConf.fullPath + '/modules']
-        })
-        .map(path => this.getRelativePath(path))
+      moduleConf.entries = glob.sync(moduleConf.path + '/**/*', {
+        dot: true,
+        ignore: [moduleConf.path + '/modules/**/*', moduleConf.path + '/modules']
+      })
       if (moduleConf.directories.indexOf(RESERVED_DIRECTORIES.modules) !== -1) {
         moduleConf.modules = this.loadModules(
-          moduleConf.fullPath,
+          moduleConf.path,
           level + 1,
           parentHierarchy + '.' + moduleName,
           moduleConf
