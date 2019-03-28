@@ -60,7 +60,6 @@ const isNotMin = source => {
   return (
     ['routes.min', 'actions.min', 'state.min', 'mutations.min', 'getters.min', 'index.min'].indexOf(path.name) === -1
   )
-  //return source.substr(source.length - 7).toLowerCase() !== '.min.js'
 }
 
 function addGlobals() {
