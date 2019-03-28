@@ -44,7 +44,7 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getEditValue($value, ?string $name = '')
+	public function getEditValue($value)
 	{
 		return \App\Utils\Completions::encode(\App\Purifier::decodeHtml($value));
 	}
