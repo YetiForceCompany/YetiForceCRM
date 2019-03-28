@@ -63,14 +63,14 @@ const ModuleLoader = {
       }
       if (routeItem.componentPath.substring(0, 1) !== '/') {
         routeItem.component = () => {
-          if (typeof window.env.dev !== 'undefined') {
+          if (window.env.Env.dev) {
             console.log(`Loading ${this.getPath(module.path)}/${route.componentPath}.js`)
           }
           return import(`/src/${this.getPath(module.path)}/${route.componentPath}.js`)
         }
       } else {
         routeItem.component = () => {
-          if (typeof window.env.dev !== 'undefined') {
+          if (window.env.Env.dev) {
             console.log(`Loading /src/${route.componentPath.substring(1)}.js`)
           }
           return import(`/src/${route.componentPath.substring(1)}.js`)
@@ -181,7 +181,7 @@ const ModuleLoader = {
         flat.components[module.name] = {
           module: module,
           component() {
-            if (typeof window.env.dev !== 'undefined') {
+            if (window.env.Env.dev) {
               console.log(`importing /src/${modulePath}`)
             }
             return import(`/src/${modulePath}`)

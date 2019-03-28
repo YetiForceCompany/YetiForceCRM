@@ -59,7 +59,7 @@ var __vue_staticRenderFns__ = [];
 
 var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
   if (!inject) return;
-  inject("data-v-4a61e1f6_0", {
+  inject("data-v-0bd22324_0", {
     source: "",
     map: undefined,
     media: undefined

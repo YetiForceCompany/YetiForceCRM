@@ -70,8 +70,8 @@ var __vue_staticRenderFns__ = [];
 
 var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
   if (!inject) return;
-  inject("data-v-52dabc6e_0", {
-    source: ".card-shadow[data-v-52dabc6e]{box-shadow:0 1px 5px rgba(0,0,0,.2),0 2px 2px rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.12)}img[data-v-52dabc6e]{width:100px}",
+  inject("data-v-3c7b84f7_0", {
+    source: ".card-shadow[data-v-3c7b84f7]{box-shadow:0 1px 5px rgba(0,0,0,.2),0 2px 2px rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.12)}img[data-v-3c7b84f7]{width:100px}",
     map: undefined,
     media: undefined
   });
@@ -79,7 +79,7 @@ var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
 /* scoped */
 
 
-var __vue_scope_id__ = "data-v-52dabc6e";
+var __vue_scope_id__ = "data-v-3c7b84f7";
 /* module identifier */
 
 var __vue_module_identifier__ = undefined;

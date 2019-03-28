@@ -11,7 +11,7 @@ function createI18n({ app }) {
     app.i18n = new VueI18n({
       locale: '_Base',
       fallbackLocale: '_Base',
-      silentTranslationWarn: true,
+      silentTranslationWarn: typeof window.env.Env.dev === 'undefined',
       translations
     })
     i18n = app.i18n
