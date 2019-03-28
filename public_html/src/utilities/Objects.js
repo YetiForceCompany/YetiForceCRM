@@ -79,14 +79,23 @@ export default {
     return this.mergeDeepReactive(target, ...sources)
   },
   /**
-   * Get method from dot-prop
+   * Get data from object with path with dot notation
+   *
+   * @param {object} data
+   * @param {string} path
+   *
+   * @returns {any} value
    */
   get(data, path) {
     return _get(data, path).value
   },
 
   /**
-   * Set method from dot-prop
+   * Set data in object with path with dot notation
+   *
+   * @param {object} data
+   * @param {string} path
+   * @param {any} value
    */
   set(data, path, value) {
     return _set(data, path, value, { force: true, mut: true })

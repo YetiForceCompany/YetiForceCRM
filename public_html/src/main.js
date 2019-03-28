@@ -19,12 +19,15 @@ if (typeof window.modules === 'object') {
 }
 
 async function start() {
+  if (window.env.Env.dev) {
+    console.groupCollapsed('Loader logs')
+  }
   const store = createStore()
   const router = createRouter({ store })
   store.$router = router
   try {
-    if (typeof window.env.Env.dev !== 'undefined') {
-      console.info('initialize core modules')
+    if (window.env.Env.dev) {
+      console.groupCollapsed('Core modules')
     }
     for (let module of coreModules) {
       let component = await module.component()
@@ -32,9 +35,13 @@ async function start() {
         component.initialize({ store, router })
       }
       module.component = component.default
+      if (window.env.Env.dev) {
+        console.log(module.component)
+      }
     }
-    if (typeof window.env.Env.dev !== 'undefined') {
-      console.info('initialize standard modules')
+    if (window.env.Env.dev) {
+      console.groupEnd()
+      console.groupCollapsed('Standard modules')
     }
     for (let module of standardModules) {
       let component = await module.component()
@@ -42,20 +49,24 @@ async function start() {
         component.initialize({ store, router })
       }
       module.component = component.default
-      if (typeof window.env.Env.dev !== 'undefined') {
+      if (window.env.Env.dev) {
         console.log(module.component)
       }
     }
-    if (typeof window.dev !== 'undefined') {
-      console.info('initialize components')
+    if (window.env.Env.dev) {
+      console.groupEnd()
+      console.groupCollapsed('Components')
     }
     for (let componentName in components) {
       const component = components[componentName]
       const resolved = await component.component()
       component.component = resolved.default
-      if (typeof window.env.Env.dev !== 'undefined') {
+      if (window.env.Env.dev) {
         console.log(componentName, component)
       }
+    }
+    if (window.env.Env.dev) {
+      console.groupEnd()
     }
   } catch (e) {
     console.error(e)
@@ -69,6 +80,9 @@ async function start() {
   }
   createI18n({ app })
   new Vue(app)
+  if (window.env.Env.dev) {
+    console.groupEnd()
+  }
 }
 
 start()

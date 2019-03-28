@@ -177,6 +177,10 @@ const RESERVED_DIRECTORIES = {
  */
 module.exports = {
   /**
+   * Public path
+   */
+  publicPath: 'public_html',
+  /**
    * Helper function which will merge objects recursively - creating brand new one - like clone
    *
    * @param {object} target
@@ -214,18 +218,18 @@ module.exports = {
     return this.mergeDeep(target, ...sources)
   },
   /**
-   * Get relative path - from public_html/src to src
+   * Get relative path - from publicPath/src to src
    *
    * @param   {string}  path
    *
    * @return  {string}
    */
   getRelativePath(path) {
-    if (path.substring(0, 'public_html'.length) === 'public_html') {
-      return path.substr('public_html'.length)
+    if (path.substring(0, this.publicPath.length) === this.publicPath) {
+      return path.substr(this.publicPath.length)
     }
-    if (path.substring(0, '/public_html'.length) === '/public_html') {
-      return path.substr('/public_html'.length)
+    if (path.substring(0, `/${this.publicPath}`.length) === `/${this.publicPath}`) {
+      return path.substr(`/${this.publicPath}`.length)
     }
     return path
   },
@@ -555,7 +559,7 @@ module.exports = {
     ]
     watch(dir, { recursive: true }, (eventType, fileName) => {
       if (eventType === 'change' && exclude.indexOf(fileName) === -1) {
-        this.saveModuleConfig(this.loadModules('public_html/src'))
+        this.saveModuleConfig(this.loadModules(this.publicPath + '/src'))
         console.log('Module configuration file updated.')
       }
     })

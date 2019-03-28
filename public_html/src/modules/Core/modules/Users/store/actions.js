@@ -14,11 +14,11 @@ export default {
       url: rootGetters[getters.Core.Url.get](`Users.${view}.getData`),
       method: 'POST'
     }).then(response => {
-      commit('Global/update', { App: response.data.env })
+      commit('Global/update', { Core: response.data.env })
     })
     //TODO commit to remove when rootGetters[getters.Url.all].Users.getData is ready
     commit('Global/update', {
-      App: {
+      Core: {
         Env: {
           layout: 'material',
           layouts: ['material', 'ios']
@@ -54,7 +54,7 @@ export default {
     }).then(response => {
       const data = response.data
       if (data.result === true) {
-        commit('Global/update', { App: data.env })
+        commit('Global/update', { Core: data.env })
         commit(mutations.Core.Users.isLoggedIn, true)
         this.$router.replace('/')
       } else if (data.result === '2fa') {
