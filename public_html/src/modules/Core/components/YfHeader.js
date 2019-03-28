@@ -2,23 +2,9 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
 /* script */
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 import YfGlobalSearch from "./YfGlobalSearch.js";
 import YfGlobalActions from "./YfGlobalActions.js";
 import getters from "/src/store/getters.js";
@@ -47,42 +33,35 @@ var __vue_render__ = function __vue_render__() {
 
   var _c = _vm._self._c || _h;
 
-  return _c("hook-wrapper", {
+  return _c('hook-wrapper', {
     staticClass: "Core-Component-YfHeader"
-  }, [_c("q-header", {
+  }, [_c('q-header', {
     staticClass: "bg-white text-muted",
     attrs: {
-      elevated: ""
+      "elevated": ""
     }
-  }, [_c("q-toolbar", [_c("q-toolbar-title", {
+  }, [_c('q-toolbar', [_c('q-toolbar-title', {
     staticClass: "col-auto"
-  }, [_c("q-avatar", [_c("img", {
+  }, [_c('q-avatar', [_c('img', {
     attrs: {
-      src: "https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg"
+      "src": _vm.env.publicDir + '/statics/logo/blue_yetiforce_logo.png'
     }
-  })])], 1), _vm._v(" "), _c("yf-global-search"), _vm._v(" "), _c("yf-global-actions", {
+  })])], 1), _vm._v(" "), _c('yf-global-search'), _vm._v(" "), _c('yf-global-actions', {
     staticClass: "q-ml-auto",
     staticStyle: {
-      color: "rgba(0,0,0,.54)"
+      "color": "rgba(0,0,0,.54)"
     }
   })], 1)], 1)], 1);
 };
 
 var __vue_staticRenderFns__ = [];
-__vue_render__._withStripped = true;
 /* style */
 
 var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
   if (!inject) return;
-  inject("data-v-5414f323_0", {
+  inject("data-v-4a61e1f6_0", {
     source: "",
-    map: {
-      "version": 3,
-      "sources": [],
-      "names": [],
-      "mappings": "",
-      "file": "YfHeader.vue"
-    },
+    map: undefined,
     media: undefined
   });
   Object.defineProperty(this, "$style", {
@@ -104,7 +83,7 @@ var __vue_is_functional_template__ = false;
 function __vue_normalize__(template, style, script, scope, functional, moduleIdentifier, createInjector, createInjectorSSR) {
   var component = (typeof script === 'function' ? script.options : script) || {}; // For security concerns, we use only base name in production mode.
 
-  component.__file = "C:\\www\\YetiForceCRM\\public_html\\src\\modules\\Core\\components\\YfHeader.vue";
+  component.__file = "YfHeader.vue";
 
   if (!component.render) {
     component.render = template.render;
@@ -192,7 +171,7 @@ function __vue_create_injector__() {
       var index = style.ids.length;
       style.ids.push(id);
 
-      if (false && css.map) {
+      if (true && css.map) {
         // https://developer.chrome.com/devtools/docs/javascript-debugging
         // this makes source maps inside style tags work properly in Chrome
         code += '\n/*# sourceURL=' + css.map.sources[0] + ' */'; // http://stackoverflow.com/a/26603875

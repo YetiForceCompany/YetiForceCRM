@@ -5,7 +5,7 @@
       <q-toolbar>
         <q-toolbar-title class="col-auto">
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg" />
+            <img :src="env.publicDir + '/statics/logo/blue_yetiforce_logo.png'" />
           </q-avatar>
         </q-toolbar-title>
         <yf-global-search />

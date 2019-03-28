@@ -1,15 +1,6 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
 /* script */
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var moduleName = 'Core.Menu.Items.RoutePush';
 var __vue_script__ = {
   name: moduleName,
@@ -25,28 +16,27 @@ var __vue_render__ = function __vue_render__() {
 
   var _c = _vm._self._c || _h;
 
-  return _c("q-item", {
+  return _c('q-item', {
     attrs: {
-      clickable: ""
+      "clickable": ""
     },
     on: {
-      click: function click($event) {
+      "click": function click($event) {
         return _vm.$router.push(_vm.path);
       }
     }
-  }, [_c("q-item-section", {
+  }, [_c('q-item-section', {
     attrs: {
-      avatar: ""
+      "avatar": ""
     }
-  }, [_c("q-icon", {
+  }, [_c('q-icon', {
     attrs: {
-      name: _vm.icon
+      "name": _vm.icon
     }
-  })], 1), _vm._v(" "), _c("q-item-section", [_c("q-item-label", [_vm._v(_vm._s(_vm.label))])], 1)], 1);
+  })], 1), _vm._v(" "), _c('q-item-section', [_c('q-item-label', [_vm._v(_vm._s(_vm.label))])], 1)], 1);
 };
 
 var __vue_staticRenderFns__ = [];
-__vue_render__._withStripped = true;
 /* style */
 
 var __vue_inject_styles__ = undefined;
@@ -64,7 +54,7 @@ var __vue_is_functional_template__ = false;
 function __vue_normalize__(template, style, script, scope, functional, moduleIdentifier, createInjector, createInjectorSSR) {
   var component = (typeof script === 'function' ? script.options : script) || {}; // For security concerns, we use only base name in production mode.
 
-  component.__file = "C:\\www\\YetiForceCRM\\public_html\\src\\modules\\Core\\modules\\Menu\\components\\Items\\RoutePush.vue";
+  component.__file = "RoutePush.vue";
 
   if (!component.render) {
     component.render = template.render;

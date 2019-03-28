@@ -81,7 +81,7 @@ class WebUI extends Base
 		return \App\Json::encode([
 			'Env' => [
 				'baseURL' => \App\Config::main('site_URL'),
-				'publicDir' => '/dist',
+				'publicDir' => '/src',
 				'routerMode' => 'hash',
 			],
 			'Language' => [

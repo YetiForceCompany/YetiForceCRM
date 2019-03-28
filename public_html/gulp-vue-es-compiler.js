@@ -1,7 +1,7 @@
 const through = require('through2')
 const vueCompiler = require('@vue/component-compiler')
 
-let compiler = vueCompiler.createDefaultCompiler()
+let compiler = vueCompiler.createDefaultCompiler({ style: { trim: true }, template: { isProduction: true } })
 
 const defaultOptions = {
   extension: '.js'

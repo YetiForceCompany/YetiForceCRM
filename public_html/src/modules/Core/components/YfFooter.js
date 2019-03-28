@@ -1,18 +1,6 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
 /* script */
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 import YfBreadcrumbs from "./YfBreadcrumbs.js";
 import YfCopyright from "./YfCopyright.js";
 var __vue_script__ = {
@@ -39,33 +27,26 @@ var __vue_render__ = function __vue_render__() {
 
   var _c = _vm._self._c || _h;
 
-  return _c("hook-wrapper", {
+  return _c('hook-wrapper', {
     staticClass: "Core-Component-YfFooter"
-  }, [_c("q-footer", {
+  }, [_c('q-footer', {
     staticClass: "bg-blue-grey-10 text-blue-grey-11 row no-wrap",
     attrs: {
-      elevated: ""
+      "elevated": ""
     }
-  }, [_c("q-toolbar", [_c("div", {
+  }, [_c('q-toolbar', [_c('div', {
     staticClass: "flex wrap full-width items-center justify-between"
-  }, [_c("yf-breadcrumbs"), _vm._v(" "), _c("yf-copyright")], 1)])], 1)], 1);
+  }, [_c('yf-breadcrumbs'), _vm._v(" "), _c('yf-copyright')], 1)])], 1)], 1);
 };
 
 var __vue_staticRenderFns__ = [];
-__vue_render__._withStripped = true;
 /* style */
 
 var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
   if (!inject) return;
-  inject("data-v-10304872_0", {
+  inject("data-v-7cecb256_0", {
     source: "",
-    map: {
-      "version": 3,
-      "sources": [],
-      "names": [],
-      "mappings": "",
-      "file": "YfFooter.vue"
-    },
+    map: undefined,
     media: undefined
   });
   Object.defineProperty(this, "$style", {
@@ -87,7 +68,7 @@ var __vue_is_functional_template__ = false;
 function __vue_normalize__(template, style, script, scope, functional, moduleIdentifier, createInjector, createInjectorSSR) {
   var component = (typeof script === 'function' ? script.options : script) || {}; // For security concerns, we use only base name in production mode.
 
-  component.__file = "C:\\www\\YetiForceCRM\\public_html\\src\\modules\\Core\\components\\YfFooter.vue";
+  component.__file = "YfFooter.vue";
 
   if (!component.render) {
     component.render = template.render;
@@ -175,7 +156,7 @@ function __vue_create_injector__() {
       var index = style.ids.length;
       style.ids.push(id);
 
-      if (false && css.map) {
+      if (true && css.map) {
         // https://developer.chrome.com/devtools/docs/javascript-debugging
         // this makes source maps inside style tags work properly in Chrome
         code += '\n/*# sourceURL=' + css.map.sources[0] + ' */'; // http://stackoverflow.com/a/26603875

@@ -5,15 +5,16 @@ if (typeof window !== 'undefined' && window.env !== 'undefined') {
 }
 
 let i18n = null
-function createI18n() {
+function createI18n({ app }) {
   if (i18n === null) {
     Vue.use(VueI18n)
-    i18n = new VueI18n({
+    app.i18n = new VueI18n({
       locale: '_Base',
       fallbackLocale: '_Base',
       silentTranslationWarn: true,
       translations
     })
+    i18n = app.i18n
   }
 
   return i18n

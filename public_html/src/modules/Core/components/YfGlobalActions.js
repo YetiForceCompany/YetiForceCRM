@@ -2,21 +2,9 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
 /* script */
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 import actions from "/src/store/actions.js";
 var __vue_script__ = {
   name: 'YfGlobalActions',
@@ -39,78 +27,71 @@ var __vue_render__ = function __vue_render__() {
 
   var _c = _vm._self._c || _h;
 
-  return _c("hook-wrapper", {
+  return _c('hook-wrapper', {
     staticClass: "Core-Component-YfGlobalActions"
-  }, [_c("div", [_c("q-btn", {
+  }, [_c('div', [_c('q-btn', {
     attrs: {
-      round: "",
-      size: _vm.iconSize,
-      flat: "",
-      icon: "mdi-plus"
+      "round": "",
+      "size": _vm.iconSize,
+      "flat": "",
+      "icon": "mdi-plus"
     }
-  }), _vm._v(" "), _c("q-btn", {
+  }), _vm._v(" "), _c('q-btn', {
     attrs: {
-      round: "",
-      size: _vm.iconSize,
-      flat: "",
-      icon: "mdi-email-outline"
+      "round": "",
+      "size": _vm.iconSize,
+      "flat": "",
+      "icon": "mdi-email-outline"
     }
-  }), _vm._v(" "), _c("q-btn", {
+  }), _vm._v(" "), _c('q-btn', {
     attrs: {
-      round: "",
-      size: _vm.iconSize,
-      flat: "",
-      icon: "mdi-bell-ring-outline"
+      "round": "",
+      "size": _vm.iconSize,
+      "flat": "",
+      "icon": "mdi-bell-ring-outline"
     }
-  }), _vm._v(" "), _c("q-btn", {
+  }), _vm._v(" "), _c('q-btn', {
     attrs: {
-      round: "",
-      size: _vm.iconSize,
-      flat: "",
-      icon: "mdi-calendar-multiselect"
+      "round": "",
+      "size": _vm.iconSize,
+      "flat": "",
+      "icon": "mdi-calendar-multiselect"
     }
-  }), _vm._v(" "), _c("q-btn", {
+  }), _vm._v(" "), _c('q-btn', {
     attrs: {
-      round: "",
-      size: _vm.iconSize,
-      flat: "",
-      icon: "mdi-history"
+      "round": "",
+      "size": _vm.iconSize,
+      "flat": "",
+      "icon": "mdi-history"
     }
-  }), _vm._v(" "), _c("q-btn", {
+  }), _vm._v(" "), _c('q-btn', {
     attrs: {
-      round: "",
-      size: _vm.iconSize,
-      flat: "",
-      icon: "mdi-settings-outline"
+      "round": "",
+      "size": _vm.iconSize,
+      "flat": "",
+      "icon": "mdi-settings-outline"
     }
-  }), _vm._v(" "), _c("q-btn", {
+  }), _vm._v(" "), _c('q-btn', {
     attrs: {
-      round: "",
-      size: _vm.iconSize,
-      flat: "",
-      icon: "mdi-power-standby"
+      "round": "",
+      "size": _vm.iconSize,
+      "flat": "",
+      "icon": "mdi-power-standby"
     },
     on: {
-      click: _vm.logout
+      "click": _vm.logout
     }
   })], 1)]);
 };
 
 var __vue_staticRenderFns__ = [];
-__vue_render__._withStripped = true;
 /* style */
 
 var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
   if (!inject) return;
-  inject("data-v-53e8b14e_0", {
+  inject("data-v-091cca5f_0", {
     source: "",
-    map: {
-      "version": 3,
-      "sources": [],
-      "names": [],
-      "mappings": "",
-      "file": "YfGlobalActions.vue"
-    },
+    map: undefined,
     media: undefined
   });
   Object.defineProperty(this, "$style", {
@@ -132,7 +113,7 @@ var __vue_is_functional_template__ = false;
 function __vue_normalize__(template, style, script, scope, functional, moduleIdentifier, createInjector, createInjectorSSR) {
   var component = (typeof script === 'function' ? script.options : script) || {}; // For security concerns, we use only base name in production mode.
 
-  component.__file = "C:\\www\\YetiForceCRM\\public_html\\src\\modules\\Core\\components\\YfGlobalActions.vue";
+  component.__file = "YfGlobalActions.vue";
 
   if (!component.render) {
     component.render = template.render;
@@ -220,7 +201,7 @@ function __vue_create_injector__() {
       var index = style.ids.length;
       style.ids.push(id);
 
-      if (false && css.map) {
+      if (true && css.map) {
         // https://developer.chrome.com/devtools/docs/javascript-debugging
         // this makes source maps inside style tags work properly in Chrome
         code += '\n/*# sourceURL=' + css.map.sources[0] + ' */'; // http://stackoverflow.com/a/26603875

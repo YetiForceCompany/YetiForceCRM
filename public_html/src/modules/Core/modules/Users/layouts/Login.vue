@@ -42,7 +42,9 @@ export default {
     })
   },
   methods: {
-    openURL
+    openURL() {
+      return this.$router.openURL
+    }
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {

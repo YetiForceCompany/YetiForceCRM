@@ -1,30 +1,6 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
 /* script */
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var __vue_script__ = {
   name: 'YfGlobalSearch',
   data: function data() {
@@ -45,29 +21,29 @@ var __vue_render__ = function __vue_render__() {
 
   var _c = _vm._self._c || _h;
 
-  return _c("hook-wrapper", {
+  return _c('hook-wrapper', {
     staticClass: "Core-Component-YfGlobalSearch"
-  }, [_c("div", [_c("q-btn", {
+  }, [_c('div', [_c('q-btn', {
     staticClass: "lt-md",
     attrs: {
-      round: "",
-      size: _vm.iconSize,
-      flat: "",
-      icon: "mdi-magnify",
-      dense: ""
+      "round": "",
+      "size": _vm.iconSize,
+      "flat": "",
+      "icon": "mdi-magnify",
+      "dense": ""
     }
-  }), _vm._v(" "), _c("div", {
+  }), _vm._v(" "), _c('div', {
     staticClass: "flex gt-sm"
-  }, [_c("div", {
+  }, [_c('div', {
     staticClass: "q-pl-sm headerField",
     staticStyle: {
       "min-width": "200px"
     }
-  }, [_c("q-select", {
+  }, [_c('q-select', {
     attrs: {
-      options: _vm.searchModules,
-      placeholder: "Placeholder",
-      dense: ""
+      "options": _vm.searchModules,
+      "placeholder": "Placeholder",
+      "dense": ""
     },
     model: {
       value: _vm.searchModule,
@@ -76,41 +52,41 @@ var __vue_render__ = function __vue_render__() {
       },
       expression: "searchModule"
     }
-  })], 1), _vm._v(" "), _c("q-input", {
+  })], 1), _vm._v(" "), _c('q-input', {
     staticClass: "q-pl-lg headerField",
     staticStyle: {
       "min-width": "200px"
     },
     attrs: {
-      placeholder: "Placeholder",
-      dense: ""
+      "placeholder": "Placeholder",
+      "dense": ""
     },
     scopedSlots: _vm._u([{
       key: "after",
       fn: function fn() {
-        return [_c("q-btn", {
+        return [_c('q-btn', {
           attrs: {
-            round: "",
-            size: _vm.iconSize,
-            flat: "",
-            icon: "mdi-magnify",
-            dense: ""
+            "round": "",
+            "size": _vm.iconSize,
+            "flat": "",
+            "icon": "mdi-magnify",
+            "dense": ""
           }
-        }), _vm._v(" "), _c("q-btn", {
+        }), _vm._v(" "), _c('q-btn', {
           attrs: {
-            round: "",
-            size: _vm.iconSize,
-            flat: "",
-            icon: "mdi-format-text",
-            dense: ""
+            "round": "",
+            "size": _vm.iconSize,
+            "flat": "",
+            "icon": "mdi-format-text",
+            "dense": ""
           }
-        }), _vm._v(" "), _c("q-btn", {
+        }), _vm._v(" "), _c('q-btn', {
           attrs: {
-            round: "",
-            size: _vm.iconSize,
-            flat: "",
-            icon: "mdi-feature-search-outline",
-            dense: ""
+            "round": "",
+            "size": _vm.iconSize,
+            "flat": "",
+            "icon": "mdi-feature-search-outline",
+            "dense": ""
           }
         })];
       },
@@ -127,28 +103,20 @@ var __vue_render__ = function __vue_render__() {
 };
 
 var __vue_staticRenderFns__ = [];
-__vue_render__._withStripped = true;
 /* style */
 
 var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
   if (!inject) return;
-  inject("data-v-0a32a088_0", {
-    source: ".headerField[data-v-0a32a088],\n.headerField input[data-v-0a32a088] {\n  min-width: 200px;\n}\n",
-    map: {
-      "version": 3,
-      "sources": ["C:\\www\\YetiForceCRM\\public_html\\src\\modules\\Core\\components\\YfGlobalSearch.vue", "YfGlobalSearch.vue"],
-      "names": [],
-      "mappings": "AAyCA;;EACA,gBAAA;ACvCA",
-      "file": "YfGlobalSearch.vue",
-      "sourcesContent": ["<!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->\r\n<template>\r\n  <hook-wrapper class=\"Core-Component-YfGlobalSearch\">\r\n    <div>\r\n      <q-btn class=\"lt-md\" round :size=\"iconSize\" flat icon=\"mdi-magnify\" dense />\r\n      <div class=\"flex gt-sm\">\r\n        <div class=\"q-pl-sm headerField\" style=\"min-width: 200px\">\r\n          <q-select v-model=\"searchModule\" :options=\"searchModules\" placeholder=\"Placeholder\" dense />\r\n        </div>\r\n        <q-input\r\n          class=\"q-pl-lg headerField\"\r\n          style=\"min-width: 200px\"\r\n          v-model=\"searchText\"\r\n          placeholder=\"Placeholder\"\r\n          dense\r\n        >\r\n          <template v-slot:after>\r\n            <q-btn round :size=\"iconSize\" flat icon=\"mdi-magnify\" dense />\r\n            <q-btn round :size=\"iconSize\" flat icon=\"mdi-format-text\" dense />\r\n            <q-btn round :size=\"iconSize\" flat icon=\"mdi-feature-search-outline\" dense />\r\n          </template>\r\n        </q-input>\r\n      </div>\r\n    </div>\r\n  </hook-wrapper>\r\n</template>\r\n<script>\r\nexport default {\r\n  name: 'YfGlobalSearch',\r\n  data() {\r\n    return {\r\n      searchModule: 'All records',\r\n      searchModules: ['All records', 'acc', 'con'],\r\n      searchText: '',\r\n      iconSize: '.75rem'\r\n    }\r\n  }\r\n}\r\n</script>\r\n\r\n<style scoped lang=\"stylus\">\r\n.headerField, .headerField input {\r\n  min-width: 200px;\r\n}\r\n</style>\r\n", ".headerField,\n.headerField input {\n  min-width: 200px;\n}\n"]
-    },
+  inject("data-v-1f8d0b4d_0", {
+    source: ".headerField[data-v-1f8d0b4d],.headerField input[data-v-1f8d0b4d]{min-width:200px}",
+    map: undefined,
     media: undefined
   });
 };
 /* scoped */
 
 
-var __vue_scope_id__ = "data-v-0a32a088";
+var __vue_scope_id__ = "data-v-1f8d0b4d";
 /* module identifier */
 
 var __vue_module_identifier__ = undefined;
@@ -160,7 +128,7 @@ var __vue_is_functional_template__ = false;
 function __vue_normalize__(template, style, script, scope, functional, moduleIdentifier, createInjector, createInjectorSSR) {
   var component = (typeof script === 'function' ? script.options : script) || {}; // For security concerns, we use only base name in production mode.
 
-  component.__file = "C:\\www\\YetiForceCRM\\public_html\\src\\modules\\Core\\components\\YfGlobalSearch.vue";
+  component.__file = "YfGlobalSearch.vue";
 
   if (!component.render) {
     component.render = template.render;
@@ -248,7 +216,7 @@ function __vue_create_injector__() {
       var index = style.ids.length;
       style.ids.push(id);
 
-      if (false && css.map) {
+      if (true && css.map) {
         // https://developer.chrome.com/devtools/docs/javascript-debugging
         // this makes source maps inside style tags work properly in Chrome
         code += '\n/*# sourceURL=' + css.map.sources[0] + ' */'; // http://stackoverflow.com/a/26603875
