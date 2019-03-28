@@ -376,14 +376,12 @@ module.exports = {
     if (moduleConf.directories.indexOf(RESERVED_DIRECTORIES.store) !== -1) {
       const dir = `${moduleConf.path}${sep}${RESERVED_DIRECTORIES.store}`
       moduleConf.store = {}
-      moduleConf.storeFiles = {}
       this.getFiles(dir).forEach(file => {
         const which = basename(file, '.js')
         if (which === 'index') {
           return
         }
         const storeLib = appRequire(`./${dir}${sep}${file}`)
-        moduleConf.storeFiles[which] = `${dir}${sep}${file}`
         if (which !== 'state') {
           moduleConf.store[which] = {}
           Object.keys(storeLib).forEach(key => {
@@ -438,10 +436,6 @@ module.exports = {
       moduleConf.directories = this.getDirectories(moduleConf.path)
       this.loadRoutes(moduleConf)
       this.loadStore(moduleConf)
-      moduleConf.entries = glob.sync(moduleConf.path + '/**/*', {
-        dot: true,
-        ignore: [moduleConf.path + '/modules/**/*', moduleConf.path + '/modules']
-      })
       if (moduleConf.directories.indexOf(RESERVED_DIRECTORIES.modules) !== -1) {
         moduleConf.modules = this.loadModules(
           moduleConf.path,
