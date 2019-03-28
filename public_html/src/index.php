@@ -9,6 +9,7 @@
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+$dev = \App\Config::debug('JS_DEBUG');
 ?>
 <!DOCTYPE html>
 <html>
@@ -31,7 +32,11 @@
     <div id="app"></div>
 
     <script>window.env = <?php echo $webUI->getEnv(); ?>;</script>
-    <script src="/node_modules/vue/dist/vue.js"></script>
+    <?php if ($dev) { ?>
+      <script src="/node_modules/vue/dist/vue.js"></script>
+    <?php } else { ?>
+      <script src="/node_modules/vue/dist/vue.min.js"></script>
+    <?php } ?>
     <script src="/node_modules/vuex/dist/vuex.min.js"></script>
     <script src="/node_modules/vue-router/dist/vue-router.min.js"></script>
     <script src="/node_modules/quasar/dist/quasar.umd.min.js"></script>
