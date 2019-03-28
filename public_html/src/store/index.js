@@ -8,7 +8,6 @@ function createStore() {
       mutations: {
         ['Global/update'](state, payload) {
           state = Objects.mergeDeepReactive(state, payload)
-          console.log('Global/update', state)
         }
       }
     })
