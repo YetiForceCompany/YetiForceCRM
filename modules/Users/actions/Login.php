@@ -37,17 +37,6 @@ class Login extends \App\Controller\Action
 	 */
 	public function process()
 	{
-		$mode = $this->request->has('mode') ? $this->request->getMode() : 'login';
-		return $this->{$mode}();
-	}
-
-	/**
-	 * Login function.
-	 *
-	 * @return \App\Response
-	 */
-	public function login()
-	{
 		$response = new \App\Response();
 		$bfInstance = \Settings_BruteForce_Module_Model::getCleanInstance();
 		if ($bfInstance->isActive() && $bfInstance->isBlockedIp()) {
@@ -81,8 +70,8 @@ class Login extends \App\Controller\Action
 	/**
 	 * Set session data.
 	 *
-	 * @param App\User $userModel
-	 * @param mixed    $result
+	 * @param \App\User $userModel
+	 * @param mixed     $result
 	 */
 	private function setSessionData(\App\User $userModel, $result)
 	{
