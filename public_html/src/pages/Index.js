@@ -1,11 +1,6 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
 /* script */
-//
-//
-//
-//
-//
-//
-//
 var __vue_script__ = {
   name: 'Pages.Index'
   /* template */
@@ -19,13 +14,12 @@ var __vue_render__ = function __vue_render__() {
 
   var _c = _vm._self._c || _h;
 
-  return _c("q-page", {
+  return _c('q-page', {
     staticClass: "flex flex-center"
-  }, [_vm._v("Index ->\n  "), _c("router-view")], 1);
+  }, [_vm._v("Index ->\n  "), _c('router-view')], 1);
 };
 
 var __vue_staticRenderFns__ = [];
-__vue_render__._withStripped = true;
 /* style */
 
 var __vue_inject_styles__ = undefined;
@@ -43,7 +37,7 @@ var __vue_is_functional_template__ = false;
 function __vue_normalize__(template, style, script, scope, functional, moduleIdentifier, createInjector, createInjectorSSR) {
   var component = (typeof script === 'function' ? script.options : script) || {}; // For security concerns, we use only base name in production mode.
 
-  component.__file = "C:\\www\\YetiForceCRM\\public_html\\src\\pages\\Index.vue";
+  component.__file = "Index.vue";
 
   if (!component.render) {
     component.render = template.render;

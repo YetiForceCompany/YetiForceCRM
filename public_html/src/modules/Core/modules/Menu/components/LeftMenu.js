@@ -1,11 +1,6 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
 /* script */
-//
-//
-//
-//
-//
-//
-//
 import MenuItem from "./Items/Item.js";
 var moduleName = 'Core.Left.Menu';
 var __vue_script__ = {
@@ -35,31 +30,24 @@ var __vue_render__ = function __vue_render__() {
 
   var _c = _vm._self._c || _h;
 
-  return _c("q-list", _vm._l(_vm.items, function (item) {
-    return _c("menu-item", {
+  return _c('q-list', _vm._l(_vm.items, function (item) {
+    return _c('menu-item', {
       key: item.id,
       attrs: {
-        item: item
+        "item": item
       }
     });
   }), 1);
 };
 
 var __vue_staticRenderFns__ = [];
-__vue_render__._withStripped = true;
 /* style */
 
 var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
   if (!inject) return;
-  inject("data-v-04377783_0", {
-    source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
-    map: {
-      "version": 3,
-      "sources": [],
-      "names": [],
-      "mappings": "",
-      "file": "LeftMenu.vue"
-    },
+  inject("data-v-032c7b68_0", {
+    source: "",
+    map: undefined,
     media: undefined
   });
   Object.defineProperty(this, "$style", {
@@ -81,7 +69,7 @@ var __vue_is_functional_template__ = false;
 function __vue_normalize__(template, style, script, scope, functional, moduleIdentifier, createInjector, createInjectorSSR) {
   var component = (typeof script === 'function' ? script.options : script) || {}; // For security concerns, we use only base name in production mode.
 
-  component.__file = "C:\\www\\YetiForceCRM\\public_html\\src\\modules\\Core\\modules\\Menu\\components\\LeftMenu.vue";
+  component.__file = "LeftMenu.vue";
 
   if (!component.render) {
     component.render = template.render;
@@ -169,7 +157,7 @@ function __vue_create_injector__() {
       var index = style.ids.length;
       style.ids.push(id);
 
-      if (false && css.map) {
+      if (true && css.map) {
         // https://developer.chrome.com/devtools/docs/javascript-debugging
         // this makes source maps inside style tags work properly in Chrome
         code += '\n/*# sourceURL=' + css.map.sources[0] + ' */'; // http://stackoverflow.com/a/26603875

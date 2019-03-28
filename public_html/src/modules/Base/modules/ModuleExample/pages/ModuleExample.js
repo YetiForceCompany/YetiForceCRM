@@ -2,24 +2,9 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
 /* script */
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 import getters from "/src/store/getters.js";
 import mutations from "/src/store/mutations.js";
 var moduleName = 'Base.ModuleExample.Pages.ModuleExample';
@@ -195,15 +180,15 @@ var __vue_render__ = function __vue_render__() {
 
   var _c = _vm._self._c || _h;
 
-  return _c("div", [_c("q-table", {
+  return _c('div', [_c('q-table', {
     attrs: {
-      title: "Treats",
-      data: _vm.data,
-      columns: _vm.columns,
+      "title": "Treats",
+      "data": _vm.data,
+      "columns": _vm.columns,
       "row-key": "name",
       "selected-rows-label": _vm.getSelectedString,
-      selection: "multiple",
-      selected: _vm.selected
+      "selection": "multiple",
+      "selected": _vm.selected
     },
     on: {
       "update:selected": function updateSelected($event) {
@@ -214,7 +199,6 @@ var __vue_render__ = function __vue_render__() {
 };
 
 var __vue_staticRenderFns__ = [];
-__vue_render__._withStripped = true;
 /* style */
 
 var __vue_inject_styles__ = undefined;
@@ -232,7 +216,7 @@ var __vue_is_functional_template__ = false;
 function __vue_normalize__(template, style, script, scope, functional, moduleIdentifier, createInjector, createInjectorSSR) {
   var component = (typeof script === 'function' ? script.options : script) || {}; // For security concerns, we use only base name in production mode.
 
-  component.__file = "C:\\www\\YetiForceCRM\\public_html\\src\\modules\\Base\\modules\\ModuleExample\\pages\\ModuleExample.vue";
+  component.__file = "ModuleExample.vue";
 
   if (!component.render) {
     component.render = template.render;

@@ -29,7 +29,7 @@ export default function({ store }) {
     if (isLoggedIn === undefined) {
       isLoggedIn = window.env.Users.isLoggedIn
     }
-    if (isLoggedIn || routeTo.path.startsWith('/users/login')) {
+    if (isLoggedIn || routeTo.path.startsWith('/core/users/login')) {
       next()
     } else {
       next({ name: 'Core.Users.Login' })

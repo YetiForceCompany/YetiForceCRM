@@ -1,8 +1,6 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
 /* script */
-//
-//
-//
-//
 import mutations from "/src/store/mutations.js";
 var moduleName = 'Settings.ModuleExample';
 export function initialize(_ref) {
@@ -50,13 +48,12 @@ var __vue_render__ = function __vue_render__() {
 
   var _c = _vm._self._c || _h;
 
-  return _c("div", {
+  return _c('div', {
     staticClass: "ModuleExample"
   });
 };
 
 var __vue_staticRenderFns__ = [];
-__vue_render__._withStripped = true;
 /* style */
 
 var __vue_inject_styles__ = undefined;
@@ -74,7 +71,7 @@ var __vue_is_functional_template__ = false;
 function __vue_normalize__(template, style, script, scope, functional, moduleIdentifier, createInjector, createInjectorSSR) {
   var component = (typeof script === 'function' ? script.options : script) || {}; // For security concerns, we use only base name in production mode.
 
-  component.__file = "C:\\www\\YetiForceCRM\\public_html\\src\\modules\\Settings\\modules\\ModuleExample\\ModuleExample.vue";
+  component.__file = "ModuleExample.vue";
 
   if (!component.render) {
     component.render = template.render;

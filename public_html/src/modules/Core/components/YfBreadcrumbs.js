@@ -1,17 +1,6 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
 /* script */
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var __vue_script__ = {
   name: 'YfBreadcrumbs',
   computed: {
@@ -32,43 +21,35 @@ var __vue_render__ = function __vue_render__() {
 
   var _c = _vm._self._c || _h;
 
-  return _c("q-breadcrumbs", {
-    class: ["breadcrumbs", ""],
+  return _c('q-breadcrumbs', {
+    class: ['breadcrumbs', ''],
     attrs: {
       "active-color": "info"
     }
-  }, [_c("q-breadcrumbs-el", {
+  }, [_c('q-breadcrumbs-el', {
     attrs: {
-      icon: "mdi-home",
-      to: "/"
+      "icon": "mdi-home",
+      "to": '/'
     }
   }), _vm._v(" "), _vm._l(_vm.matched, function (route) {
-    return _c("q-breadcrumbs-el", {
+    return _c('q-breadcrumbs-el', {
       key: route.name,
       attrs: {
-        label: route.path.split("/").pop(),
-        to: route.path
+        "label": route.path.split('/').pop(),
+        "to": route.path
       }
     });
   })], 2);
 };
 
 var __vue_staticRenderFns__ = [];
-__vue_render__._withStripped = true;
 /* style */
 
 var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
   if (!inject) return;
-  inject("data-v-6bc036b2_0", {
-    source: "\n.src-modules-Core-components-breadcrumbs-1za- * {\r\n  flex-wrap: nowrap;\n}\r\n",
-    map: {
-      "version": 3,
-      "sources": ["C:\\www\\YetiForceCRM\\public_html\\src\\modules\\Core\\components\\YfBreadcrumbs.vue"],
-      "names": [],
-      "mappings": ";AAwBA;EACA,iBAAA;AACA",
-      "file": "YfBreadcrumbs.vue",
-      "sourcesContent": ["<!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->\r\n<template>\r\n  <q-breadcrumbs active-color=\"info\" :class=\"['breadcrumbs', '']\">\r\n    <q-breadcrumbs-el icon=\"mdi-home\" :to=\"'/'\" />\r\n    <q-breadcrumbs-el\r\n      v-for=\"route in matched\"\r\n      :key=\"route.name\"\r\n      :label=\"route.path.split('/').pop()\"\r\n      :to=\"route.path\"\r\n    />\r\n  </q-breadcrumbs>\r\n</template>\r\n\r\n<script>\r\nexport default {\r\n  name: 'YfBreadcrumbs',\r\n  computed: {\r\n    matched() {\r\n      return this.$route.matched.filter(route => route.path && route.path.split('/').pop())\r\n    }\r\n  }\r\n}\r\n</script>\r\n<style module>\r\n.breadcrumbs * {\r\n  flex-wrap: nowrap;\r\n}\r\n</style>\r\n"]
-    },
+  inject("data-v-756442b6_0", {
+    source: ".src-modules-Core-components-breadcrumbs-1za- *{flex-wrap:nowrap}",
+    map: undefined,
     media: undefined
   });
   Object.defineProperty(this, "$style", {
@@ -92,7 +73,7 @@ var __vue_is_functional_template__ = false;
 function __vue_normalize__(template, style, script, scope, functional, moduleIdentifier, createInjector, createInjectorSSR) {
   var component = (typeof script === 'function' ? script.options : script) || {}; // For security concerns, we use only base name in production mode.
 
-  component.__file = "C:\\www\\YetiForceCRM\\public_html\\src\\modules\\Core\\components\\YfBreadcrumbs.vue";
+  component.__file = "YfBreadcrumbs.vue";
 
   if (!component.render) {
     component.render = template.render;
@@ -180,7 +161,7 @@ function __vue_create_injector__() {
       var index = style.ids.length;
       style.ids.push(id);
 
-      if (false && css.map) {
+      if (true && css.map) {
         // https://developer.chrome.com/devtools/docs/javascript-debugging
         // this makes source maps inside style tags work properly in Chrome
         code += '\n/*# sourceURL=' + css.map.sources[0] + ' */'; // http://stackoverflow.com/a/26603875

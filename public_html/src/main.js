@@ -1,6 +1,7 @@
 import App from './App.js'
 import createStore from '/src/store/index.js'
 import createRouter from '/src/router/index.js'
+import createI18n from '/src/i18n/index.js'
 
 Quasar.iconSet.set(Quasar.iconSet.mdiV3)
 
@@ -22,7 +23,7 @@ async function start() {
   const router = createRouter({ store })
   store.$router = router
   try {
-    if (typeof window.env.dev !== 'undefined') {
+    if (typeof window.env.Env.dev !== 'undefined') {
       console.info('initialize core modules')
     }
     for (let module of coreModules) {
@@ -32,7 +33,7 @@ async function start() {
       }
       module.component = component.default
     }
-    if (typeof window.env.dev !== 'undefined') {
+    if (typeof window.env.Env.dev !== 'undefined') {
       console.info('initialize standard modules')
     }
     for (let module of standardModules) {
@@ -41,7 +42,7 @@ async function start() {
         component.initialize({ store, router })
       }
       module.component = component.default
-      if (typeof window.env.dev !== 'undefined') {
+      if (typeof window.env.Env.dev !== 'undefined') {
         console.log(module.component)
       }
     }
@@ -52,7 +53,7 @@ async function start() {
       const component = components[componentName]
       const resolved = await component.component()
       component.component = resolved.default
-      if (typeof window.env.dev !== 'undefined') {
+      if (typeof window.env.Env.dev !== 'undefined') {
         console.log(componentName, component)
       }
     }
@@ -60,12 +61,14 @@ async function start() {
     console.error(e)
   }
 
-  new Vue({
+  const app = {
     el: '#app',
     render: h => h(App),
     store,
     router
-  })
+  }
+  createI18n({ app })
+  new Vue(app)
 }
 
 start()

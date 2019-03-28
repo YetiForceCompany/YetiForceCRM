@@ -1,55 +1,6 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
 /* script */
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var __vue_script__ = {
   name: 'YfCopyright'
   /* template */
@@ -63,148 +14,141 @@ var __vue_render__ = function __vue_render__() {
 
   var _c = _vm._self._c || _h;
 
-  return _c("hook-wrapper", {
+  return _c('hook-wrapper', {
     staticClass: "Core-Component-YfCopyright"
-  }, [_c("div", {
+  }, [_c('div', {
     staticClass: "flex"
-  }, [_c("div", [_c("div", [_vm._v("© YetiForce.com All rights reserved.")]), _vm._v(" "), _c("q-separator", {
+  }, [_c('div', [_c('div', [_vm._v("© YetiForce.com All rights reserved.")]), _vm._v(" "), _c('q-separator', {
     attrs: {
-      dark: ""
+      "dark": ""
     }
-  }), _vm._v(" "), _c("div", {
+  }), _vm._v(" "), _c('div', {
     staticClass: "flex no-wrap justify-between q-py-xs"
-  }, [_c("a", {
+  }, [_c('a', {
     staticClass: "q-link text-blue-grey-11",
     attrs: {
-      href: "https://www.linkedin.com/groups/8177576",
-      rel: "noreferrer noopener"
+      "href": "https://www.linkedin.com/groups/8177576",
+      "rel": "noreferrer noopener"
     }
-  }, [_c("q-icon", {
+  }, [_c('q-icon', {
     attrs: {
-      size: "16px",
-      name: "mdi-linkedin",
-      title: "Linkedin"
+      "size": "16px",
+      "name": "mdi-linkedin",
+      "title": "Linkedin"
     }
-  })], 1), _vm._v(" "), _c("q-separator", {
+  })], 1), _vm._v(" "), _c('q-separator', {
     staticClass: "q-mx-sm",
     attrs: {
-      dark: "",
-      vertical: ""
+      "dark": "",
+      "vertical": ""
     }
-  }), _vm._v(" "), _c("a", {
+  }), _vm._v(" "), _c('a', {
     staticClass: "q-link text-blue-grey-11",
     attrs: {
-      href: "https://twitter.com/YetiForceEN",
-      rel: "noreferrer noopener"
+      "href": "https://twitter.com/YetiForceEN",
+      "rel": "noreferrer noopener"
     }
-  }, [_c("q-icon", {
+  }, [_c('q-icon', {
     attrs: {
-      size: "16px",
-      name: "mdi-twitter",
-      title: "Twitter"
+      "size": "16px",
+      "name": "mdi-twitter",
+      "title": "Twitter"
     }
-  })], 1), _vm._v(" "), _c("q-separator", {
+  })], 1), _vm._v(" "), _c('q-separator', {
     staticClass: "q-mx-sm",
     attrs: {
-      dark: "",
-      vertical: ""
+      "dark": "",
+      "vertical": ""
     }
-  }), _vm._v(" "), _c("a", {
+  }), _vm._v(" "), _c('a', {
     staticClass: "q-link text-blue-grey-11",
     attrs: {
-      href: "https://www.facebook.com/YetiForce-CRM-158646854306054/",
-      rel: "noreferrer noopener"
+      "href": "https://www.facebook.com/YetiForce-CRM-158646854306054/",
+      "rel": "noreferrer noopener"
     }
-  }, [_c("q-icon", {
+  }, [_c('q-icon', {
     attrs: {
-      size: "16px",
-      name: "mdi-facebook",
-      title: "Facebook"
+      "size": "16px",
+      "name": "mdi-facebook",
+      "title": "Facebook"
     }
-  })], 1), _vm._v(" "), _c("q-separator", {
+  })], 1), _vm._v(" "), _c('q-separator', {
     staticClass: "q-mx-sm",
     attrs: {
-      dark: "",
-      vertical: ""
+      "dark": "",
+      "vertical": ""
     }
-  }), _vm._v(" "), _c("a", {
+  }), _vm._v(" "), _c('a', {
     staticClass: "q-link text-blue-grey-11",
     attrs: {
-      href: "https://github.com/YetiForceCompany/YetiForceCRM",
-      rel: "noreferrer noopener"
+      "href": "https://github.com/YetiForceCompany/YetiForceCRM",
+      "rel": "noreferrer noopener"
     }
-  }, [_c("q-icon", {
+  }, [_c('q-icon', {
     attrs: {
-      size: "16px",
-      name: "mdi-github-circle",
-      title: "Github"
+      "size": "16px",
+      "name": "mdi-github-circle",
+      "title": "Github"
     }
-  })], 1), _vm._v(" "), _c("q-separator", {
+  })], 1), _vm._v(" "), _c('q-separator', {
     staticClass: "q-mx-sm",
     attrs: {
-      dark: "",
-      vertical: ""
+      "dark": "",
+      "vertical": ""
     }
-  }), _vm._v(" "), _c("a", {
+  }), _vm._v(" "), _c('a', {
     staticClass: "q-link text-blue-grey-11",
     attrs: {
-      href: "https://yetiforce.shop",
-      rel: "noreferrer noopener"
+      "href": "https://yetiforce.shop",
+      "rel": "noreferrer noopener"
     }
-  }, [_c("q-icon", {
+  }, [_c('q-icon', {
     attrs: {
-      size: "18px",
-      name: "mdi-cart-outline",
-      title: "yetiforce.shop"
+      "size": "18px",
+      "name": "mdi-cart-outline",
+      "title": "yetiforce.shop"
     }
-  })], 1), _vm._v(" "), _c("q-separator", {
+  })], 1), _vm._v(" "), _c('q-separator', {
     staticClass: "q-mx-sm",
     attrs: {
-      dark: "",
-      vertical: ""
+      "dark": "",
+      "vertical": ""
     }
-  }), _vm._v(" "), _c("a", {
+  }), _vm._v(" "), _c('a', {
     staticClass: "q-link text-blue-grey-11",
     attrs: {
-      href: "#",
-      role: "button"
+      "href": "#",
+      "role": "button"
     }
-  }, [_c("q-icon", {
+  }, [_c('q-icon', {
     attrs: {
-      size: "18px",
-      name: "mdi-information-outline",
-      title: "YetiForceCRM"
+      "size": "18px",
+      "name": "mdi-information-outline",
+      "title": "YetiForceCRM"
     }
-  })], 1)], 1)], 1), _vm._v(" "), _c("div", {
+  })], 1)], 1)], 1), _vm._v(" "), _c('div', {
     staticClass: "flex flex-center gt-xs q-ml-sm"
-  }, [_c("q-avatar", {
+  }, [_c('q-avatar', {
     staticClass: "q-mx-auto",
     attrs: {
-      size: "32px"
+      "size": "32px"
     }
-  }, [_c("img", {
+  }, [_c('img', {
     attrs: {
-      src: "/src/statics/Logo/white_logo_yetiforce.png",
-      alt: "yetiforce logo"
+      "src": "/src/statics/Logo/white_logo_yetiforce.png",
+      "alt": "yetiforce logo"
     }
   })])], 1)])]);
 };
 
 var __vue_staticRenderFns__ = [];
-__vue_render__._withStripped = true;
 /* style */
 
 var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
   if (!inject) return;
-  inject("data-v-afa5ad7e_0", {
+  inject("data-v-18b6b512_0", {
     source: "",
-    map: {
-      "version": 3,
-      "sources": [],
-      "names": [],
-      "mappings": "",
-      "file": "YfCopyright.vue"
-    },
+    map: undefined,
     media: undefined
   });
   Object.defineProperty(this, "$style", {
@@ -226,7 +170,7 @@ var __vue_is_functional_template__ = false;
 function __vue_normalize__(template, style, script, scope, functional, moduleIdentifier, createInjector, createInjectorSSR) {
   var component = (typeof script === 'function' ? script.options : script) || {}; // For security concerns, we use only base name in production mode.
 
-  component.__file = "C:\\www\\YetiForceCRM\\public_html\\src\\modules\\Core\\components\\YfCopyright.vue";
+  component.__file = "YfCopyright.vue";
 
   if (!component.render) {
     component.render = template.render;
@@ -314,7 +258,7 @@ function __vue_create_injector__() {
       var index = style.ids.length;
       style.ids.push(id);
 
-      if (false && css.map) {
+      if (true && css.map) {
         // https://developer.chrome.com/devtools/docs/javascript-debugging
         // this makes source maps inside style tags work properly in Chrome
         code += '\n/*# sourceURL=' + css.map.sources[0] + ' */'; // http://stackoverflow.com/a/26603875
