@@ -52,7 +52,7 @@ class Rules
 	 * @param array $config
 	 * @param mixed $defaultValue
 	 */
-	public function __construct(array $config, $defaultValue = 'UNDEFINED')
+	public function __construct(array $config, $defaultValue = false)
 	{
 		$this->config = $config;
 		$this->defaultValue = $defaultValue;

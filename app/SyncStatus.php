@@ -182,6 +182,16 @@ class SyncStatus
 	}
 
 	/**
+	 * Get default value.
+	 *
+	 * @return mixed
+	 */
+	private function getDefaultValue()
+	{
+		return \AppConfig::module($this->baseModuleName, 'STATUS_DEFAULT_VALUE', false);
+	}
+
+	/**
 	 * Check primary config.
 	 *
 	 * @return bool
@@ -220,8 +230,8 @@ class SyncStatus
 			return;
 		}
 		$itmes = array_merge($this->getCurrentRecordsStatus($recordId), $this->getChildrenStatus($recordId));
-		$status = (new Rules($this->getConfig(), 'UNDEFINED'))->getValue($itmes);
-		if ('UNDEFINED' === $status) {
+		$status = (new Rules($this->getConfig(), $this->getDefaultValue()))->getValue($itmes);
+		if (false === $status) {
 			Log::warning(
 				"There is no rule defined for this case recordId: {$recordId} module: {$this->baseModuleName}. Statuses:" .
 				implode(',', array_map(function ($item) {
@@ -251,13 +261,15 @@ class SyncStatus
 		$items = [];
 		if (!empty($this->baseColumnParentId)) {
 			$columnId = "{$this->baseTable}.{$this->baseTableId}";
-			$items = (new Db\Query())
-				->select(['id' => $columnId, 'status' => "{$this->baseTable}.{$this->baseColumnStatus}"])
-				->from($this->baseTable)
-				->innerJoin('vtiger_crmentity', "{$columnId} = vtiger_crmentity.crmid")
-				->where(['vtiger_crmentity.deleted' => [0, 2]])
-				->andWhere(["{$this->baseTable}.{$this->baseColumnParentId}" => $recordId])->all();
-			$items = $this->getStatusFromPicklist($items);
+			$items = $this->getStatusFromPicklist(
+				(new Db\Query())
+					->select(['id' => $columnId, 'status' => "{$this->baseTable}.{$this->baseColumnStatus}"])
+					->from($this->baseTable)
+					->innerJoin('vtiger_crmentity', "{$columnId} = vtiger_crmentity.crmid")
+					->where(['vtiger_crmentity.deleted' => [0, 2]])
+					->andWhere(["{$this->baseTable}.{$this->baseColumnParentId}" => $recordId])
+					->all()
+			);
 		}
 		return $items;
 	}

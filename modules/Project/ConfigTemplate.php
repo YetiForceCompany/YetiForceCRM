@@ -6,6 +6,10 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 return [
+	'STATUS_DEFAULT_VALUE' => [
+		'default' => 'PLL_PLANNED',
+		'description' => 'The default value is returned when no rule applies.',
+	],
 	'COLUMNS_IN_HIERARCHY' => [
 		'default' => [],
 		'description' => 'Columns visible in Project hierarchy [$label => $columnName]'
