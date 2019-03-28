@@ -39,7 +39,7 @@
     <script src="/node_modules/quasar/dist/icon-set/mdi-v3.umd.min.js"></script>
     <script src="/node_modules/axios/dist/axios.js"></script>
     <script src="/node_modules/vue-i18n/dist/vue-i18n.js"></script>
-    <script src="/src/statics/modules.js"></script>
-    <script src="/src/main.js" type="module"></script>
+    <script src="/src/statics/modules.min.js"></script>
+    <script src="/src/main.min.js" type="module"></script>
   </body>
 </html>

@@ -14,9 +14,22 @@
       "pages/*": ["./src/pages/*"],
       "Core/*": ["./src/modules/Core/*"],
       "Base/*": ["./src/modules/Base/*"],
-      "Settings/*": ["./src/modules/Setting/*"]
+      "Settings/*": ["./src/modules/Setting/*"],
+      "/src/*": ["./src/*"],
+      "/store/*": ["./src/store/*"],
+      "/components/*": ["./src/components/*"],
+      "/layouts/*": ["./scr/layouts/*"],
+      "/modules/*": ["./src/modules/*"],
+      "/assets/*": ["./src/assets/*"],
+      "/statics/*": ["./src/statics/*"],
+      "/utilities/*": ["./src/utilities/*"],
+      "/services/*": ["./src/services/*"],
+      "/pages/*": ["./src/pages/*"],
+      "/Core/*": ["./src/modules/Core/*"],
+      "/Base/*": ["./src/modules/Base/*"],
+      "/Settings/*": ["./src/modules/Setting/*"]
     }
   },
-  "include": ["./src/**/*"],
-  "exclude": ["./node_modules/**/*", "./cache/**/*", "./public_html/**/*"]
+  "include": ["./public_html/src/**/*"],
+  "exclude": ["./cache/**/*"]
 }
