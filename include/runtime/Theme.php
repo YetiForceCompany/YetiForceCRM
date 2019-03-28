@@ -1,5 +1,5 @@
 <?php
-/* +***********************************************************************************
+ /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -58,6 +58,10 @@ class Vtiger_Theme extends Vtiger_Viewer
 		$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $fallbackPath);
 		if (file_exists($completeFallBackThemePath)) {
 			return $basePath . $fallbackPath;
+		}
+		$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $imageFileName);
+		if (file_exists($completeFallBackThemePath)) {
+			return $basePath . $imageFileName;
 		}
 		return false;
 	}
@@ -126,6 +130,8 @@ class Vtiger_Theme extends Vtiger_Viewer
 
 	/**
 	 * Function to get the selected theme folder path.
+	 *
+	 * @param string $theme
 	 *
 	 * @return string -  selected theme path
 	 */
