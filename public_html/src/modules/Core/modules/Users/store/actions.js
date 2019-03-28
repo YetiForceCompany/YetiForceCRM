@@ -65,8 +65,7 @@ export default {
           icon: 'mdi-exclamation',
           message: vm.$t(data.error.message, 'Users'),
           position: 'top',
-          actions: [{ label: vm.$t('LBL_CLOSE'), color: 'white' }],
-          timeout: ''
+          actions: [{ label: vm.$t('LBL_CLOSE'), color: 'white' }]
         })
       } else {
         return console.error('Server error', response)
