@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-let translations = {}
+let messages = {}
 if (typeof window !== 'undefined' && window.env !== 'undefined') {
-  translations = window.env.Language.translations
+  messages = window.env.Language.translations
 }
 
 let i18n = null
@@ -12,7 +12,7 @@ function createI18n({ app }) {
       locale: '_Base',
       fallbackLocale: '_Base',
       silentTranslationWarn: typeof window.env.Env.dev === 'undefined',
-      translations
+      messages
     })
     i18n = app.i18n
   }
