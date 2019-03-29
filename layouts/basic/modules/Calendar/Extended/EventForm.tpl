@@ -83,9 +83,7 @@
 				<div class="d-flex flex-wrap{if empty($RECORD_ID)} justify-content-center{/if}">
 					{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}
 						{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
-							{if $LINK->get('linkhint') neq 'LBL_GO_TO_FULL_FORM'}
-								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='quickcreateViewHeader'}
-							{/if}
+							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='quickcreateViewHeader'}
 						{/foreach}
 					{/if}
 					<button type="submit" class="js-save-event btn btn-success"
