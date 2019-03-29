@@ -71,7 +71,9 @@
 							<div class="col-md-8 controls">
 								<select class="marginLeftZero form-control" name="fieldTypeList">
 									<option value="0">{App\Language::translate('LBL_FIELD_TYPE0', $QUALIFIED_MODULE)}</option>
-									<option value="1">{App\Language::translate('LBL_FIELD_TYPE1', $QUALIFIED_MODULE)}</option>
+									{if !empty($SELECTED_MODULE_MODEL->getEntityInstance()->customFieldTable)}
+										<option value="1">{App\Language::translate('LBL_FIELD_TYPE1', $QUALIFIED_MODULE)}</option>
+									{/if}
 								</select>
 							</div>
 						</div>

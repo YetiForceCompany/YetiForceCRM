@@ -573,7 +573,6 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 					tokenSeparators: [","]
 				});
 				thisInstance.registerFieldTypeChangeEvent(form);
-				thisInstance.registerTableTypeChangeEvent(form);
 				thisInstance.registerMultiReferenceFieldsChangeEvent(form);
 				thisInstance.registerMultiReferenceFilterFieldChangeEvent(form);
 
@@ -702,11 +701,6 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			aDeferred.reject(error);
 		});
 		return aDeferred.promise();
-	},
-	registerTableTypeChangeEvent: function (form) {
-		form.find('[name="fieldTypeList"]').on('change', function (e) {
-			form.find('[name="fieldName"]').closest('.form-group').toggleClass('d-none');
-		})
 	},
 	/**
 	 * Function to register change event for fieldType while adding custom field
