@@ -67,26 +67,28 @@ const ModuleLoader = {
         return routeItem
       }
       if (routeItem.componentPath.substring(0, 1) !== '/') {
+        let componentPath = `/src/${this.getPath(module.path)}/${route.componentPath}`
+        if (!componentPath.endsWith('.vue.js')) {
+          componentPath += '.vue.js'
+        }
         routeItem.component = () => {
           if (this.dev) {
-            console.log(
-              `Loading ${this.getPath(module.path)}/${route.componentPath}${
-                this.dev ? '?dev=' + new Date().getTime() : ''
-              }`
-            )
+            componentPath += '?dev=' + new Date().getTime()
+            console.log(`Loading ${componentPath}`)
           }
-          return import(`/src/${this.getPath(module.path)}/${route.componentPath}${
-            this.dev ? '?dev=' + new Date().getTime() : ''
-          }`)
+          return import(componentPath)
         }
       } else {
+        let componentPath = `/src/${route.componentPath.substring(1)}`
+        if (!componentPath.endsWith('.vue.js')) {
+          componentPath += '.vue.js'
+        }
         routeItem.component = () => {
           if (this.dev) {
-            console.log(
-              `Loading /src/${route.componentPath.substring(1)}${this.dev ? '?dev=' + new Date().getTime() : ''}`
-            )
+            componentPath += '?dev=' + new Date().getTime()
+            console.log(`Loading ${componentPath}`)
           }
-          return import(`/src/${route.componentPath.substring(1)}${this.dev ? '?dev=' + new Date().getTime() : ''}`)
+          return import(componentPath)
         }
       }
       if (typeof route.children !== 'undefined') {
@@ -191,13 +193,18 @@ const ModuleLoader = {
     for (const module of modules) {
       if (typeof module.entry !== 'undefined') {
         const modulePath = this.getPath(module.entry)
+        let componentPath = `/src/${modulePath}`
+        if (!componentPath.endsWith('.vue.js')) {
+          componentPath += '.vue.js'
+        }
         flat.components[module.name] = {
           module: module,
           component() {
             if (this.dev) {
-              console.log(`importing /src/${modulePath}${this.dev ? '?dev=' + new Date().getTime() : ''}`)
+              componentPath += '?dev=' + new Date().getTime()
+              console.log(`importing ${componentPath}`)
             }
-            return import(`/src/${modulePath}${this.dev ? '?dev=' + new Date().getTime() : ''}`)
+            return import(componentPath)
           }
         }
         flat.modules.push({

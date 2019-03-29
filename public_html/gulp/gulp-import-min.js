@@ -9,7 +9,7 @@ const defaultConfig = {
 function replace(contents, file, config) {
   let result = contents
     .replace(/(import\s.+\s(['"`]){1}(?!\/?node_modules)\.?\.?[^\.]+\.)js['"`]/gim, `$1${config.extension}$2`)
-    .replace(/import\(['"`]?(?!.*\/?node_modules)(.+)\.js(['"`]?)\)/gim, `import($2$1.${config.extension}$2)`)
+    .replace(/import\(['"`]?(?!.*\/?node_modules)(.+)(?<!\.vue)\.js(['"`]?)\)/gim, `import($2$1.${config.extension}$2)`)
   if (config.additionalRegs.length) {
     config.additionalRegs.forEach(reg => {
       result = result.replace(reg.regexp, reg.replace)

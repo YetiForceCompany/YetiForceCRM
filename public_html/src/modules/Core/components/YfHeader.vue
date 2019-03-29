@@ -15,8 +15,8 @@
   </hook-wrapper>
 </template>
 <script>
-import YfGlobalSearch from './YfGlobalSearch.js'
-import YfGlobalActions from './YfGlobalActions.js'
+import YfGlobalSearch from './YfGlobalSearch.vue.js'
+import YfGlobalActions from './YfGlobalActions.vue.js'
 import getters from 'store/getters.js'
 export default {
   name: 'YfHeader',

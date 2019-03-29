@@ -3,7 +3,7 @@
 <script>
 import ModuleLoader from '/src/ModuleLoader.js'
 import moduleStore from './store/index.js'
-import HookWrapper from './components/HookWrapper.js'
+import HookWrapper from './components/HookWrapper.vue.js'
 
 const moduleName = 'Core.Hooks'
 

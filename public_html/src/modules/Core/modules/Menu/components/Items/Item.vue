@@ -3,8 +3,8 @@
   <component :is="component" :icon="item.icon" :label="item.label" :path="item.path" :children="item.children" />
 </template>
 <script>
-import RoutePush from './RoutePush.js'
-import Expander from './Expander.js'
+import RoutePush from './RoutePush.vue.js'
+import Expander from './Expander.vue.js'
 
 const moduleName = 'Core.Menu.Items.Item'
 export default {

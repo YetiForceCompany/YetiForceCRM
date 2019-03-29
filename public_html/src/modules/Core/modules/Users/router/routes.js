@@ -6,25 +6,25 @@ export default [
     name: 'Core.Users.Login',
     path: 'users/login',
     redirect: 'users/login/form',
-    componentPath: 'layouts/Login.js',
+    componentPath: 'layouts/Login',
     children: [
       {
         name: 'Core.Users.Login.LoginForm',
         path: 'form',
         meta: { module: 'Core.Users', view: 'Login' },
-        componentPath: 'pages/Login/Form.js'
+        componentPath: 'pages/Login/Form'
       },
       {
         name: 'Core.Users.Login.2FA',
         path: '2fa',
         meta: { module: 'Core.Users', view: 'Login' },
-        componentPath: 'pages/Login/2FA.js'
+        componentPath: 'pages/Login/2FA'
       },
       {
         name: 'Core.Users.Login.Reminder',
         path: 'reminder',
         meta: { module: 'Core.Users', view: 'Login' },
-        componentPath: 'pages/Login/Reminder.js'
+        componentPath: 'pages/Login/Reminder'
       }
     ]
   }

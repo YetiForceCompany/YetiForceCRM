@@ -34,32 +34,27 @@ const license =
 
 const sourceDir = 'src'
 const vueSrc = 'src/**/*.vue'
-const minSrc = ['src/**/*.js', '!src/**/*.min.js']
-const modulesSrc = 'src/statics/modules.js'
+const minSrc = ['src/**/*.js', '!src/**/*.min.js', '!src/**/*.vue.js']
+const modulesConfigSrc = 'src/statics/modules.js'
 const generatedSrc = [
-  modulesSrc,
+  modulesConfigSrc,
   'src/store/mutations.js',
   'src/store/getters.js',
   'src/store/actions.js',
   'src/store/state.js'
 ]
+
 /**
  * Compile vue files into .min.js, replace directory aliases and internal imports to .min.js
  *
  * @param {string|array} src
- * @param {boolean} dev
  *
  * @returns {function} task function
  */
-function getVueTask(src, dev = false) {
+function getVueTask(src) {
   console.log('Getting vue Task', src)
-  const importMinConfig = {}
-  if (dev) {
-    const time = new Date().getTime()
-    importMinConfig.extension = 'min.js?' + time
-  }
   return function vueTask() {
-    let dest = sourceDir
+    let dest = `./${sourceDir}/`
     if (src !== vueSrc) {
       dest = './' + src.slice(0, src.lastIndexOf('/') + 1)
     }
@@ -67,7 +62,7 @@ function getVueTask(src, dev = false) {
       .src(src)
       .pipe(vueEsCompiler())
       .pipe(importAliases({ map: aliases }))
-      .pipe(importMin(importMinConfig))
+      .pipe(importMin())
       .pipe(
         terser({
           module: true
@@ -93,7 +88,7 @@ gulp.task('modules.js', function() {
   }
   ModuleLoader.saveModuleConfig(ModuleLoader.loadModules(sourceDir))
   return gulp
-    .src(modulesSrc)
+    .src(modulesConfigSrc)
     .pipe(importMin(importMinConfig))
     .pipe(
       terser({
@@ -125,25 +120,19 @@ gulp.task('modules.js', function() {
  * Minify .js files and replace directory aliases
  *
  * @param {string|array} src
- * @param {boolean} dev
  *
  * @returns {function} task
  */
-function getMinTask(src, dev = false) {
+function getMinTask(src) {
   return function minTask() {
-    let dest = sourceDir
-    if (src !== vueSrc) {
+    let dest = `./${sourceDir}/`
+    if (src !== minSrc) {
       dest = './' + src.slice(0, src.lastIndexOf('/') + 1)
-    }
-    const importMinConfig = {}
-    if (dev) {
-      const time = new Date().getTime()
-      importMinConfig.extension = 'min.js?dev=' + time
     }
     return gulp
       .src(src)
       .pipe(importAliases({ map: aliases }))
-      .pipe(importMin(importMinConfig))
+      .pipe(importMin())
       .pipe(
         terser({
           module: true
@@ -178,7 +167,7 @@ gulp.task('dev', function() {
   gulp.watch(vueSrc).on('all', (eventName, fileName) => {
     fileName = fileName.replace(/\\/gim, '/')
     console.log(eventName, fileName)
-    gulp.series([getVueTask(fileName, true)])(() => {
+    gulp.series([getVueTask(fileName)])(() => {
       console.log(eventName, fileName, 'done')
       browserSync.reload()
     })
@@ -190,7 +179,7 @@ gulp.task('dev', function() {
       ModuleLoader.saveModuleConfig(ModuleLoader.loadModules(sourceDir))
       console.log('Generated modules.js config.')
     }
-    gulp.series([getMinTask(fileName, true)])(() => {
+    gulp.series([getMinTask(fileName)])(() => {
       console.log(eventName, fileName, 'done')
       browserSync.reload(fileName)
     })

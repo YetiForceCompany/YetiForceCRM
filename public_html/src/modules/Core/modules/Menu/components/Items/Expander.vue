@@ -9,7 +9,7 @@ const moduleName = 'Core.Menu.Items.Expander'
 export default {
   name: moduleName,
   components: {
-    MenuItem: () => import('./Item.js')
+    MenuItem: () => import('./Item.vue.js')
   },
   props: ['icon', 'label', 'children']
 }
