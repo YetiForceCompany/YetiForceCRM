@@ -1,21 +1,5 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 const through = require('through2')
-const fs = require('fs')
-const path = require('path')
-
-const isDirectory = source => {
-  try {
-    return fs.lstatSync(source).isDirectory()
-  } catch (e) {
-    return false
-  }
-}
-const isFile = source => {
-  try {
-    return fs.lstatSync(source).isFile()
-  } catch (e) {
-    return false
-  }
-}
 
 function replace(contents, file, additionalRegs) {
   let result = contents

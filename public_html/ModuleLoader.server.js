@@ -183,6 +183,12 @@ const RESERVED_DIRECTORIES = {
  * Main object
  */
 module.exports = {
+
+  /**
+   * License string
+   */
+  license:'/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */',
+
   /**
    * Helper function which will merge objects recursively - creating brand new one - like clone
    *
@@ -368,9 +374,9 @@ module.exports = {
     store.getters = this.generateStoreNames(modules, 'getters', store.getters)
     store.mutations = this.generateStoreNames(modules, 'mutations', store.mutations)
     store.actions = this.generateStoreNames(modules, 'actions', store.actions)
-    writeFileSync(`${dir}${sep}actions.js`, `export default ${JSON.stringify(store.actions, null, 2)}`)
-    writeFileSync(`${dir}${sep}mutations.js`, `export default ${JSON.stringify(store.mutations, null, 2)}`)
-    writeFileSync(`${dir}${sep}getters.js`, `export default ${JSON.stringify(store.getters, null, 2)}`)
+    writeFileSync(`${dir}${sep}actions.js`, `${this.license}\nexport default ${JSON.stringify(store.actions, null, 2)}`)
+    writeFileSync(`${dir}${sep}mutations.js`, `${this.license}\nexport default ${JSON.stringify(store.mutations, null, 2)}`)
+    writeFileSync(`${dir}${sep}getters.js`, `${this.license}\nexport default ${JSON.stringify(store.getters, null, 2)}`)
   },
 
   /**
@@ -517,7 +523,7 @@ module.exports = {
    * @return  {object}  moduleConf
    */
   saveModuleConfig(moduleConf) {
-    const moduleConfiguration = `window.modules = ${JSON.stringify(moduleConf, null, 2)}`
+    const moduleConfiguration = `${this.license}\nwindow.modules = ${JSON.stringify(moduleConf, null, 2)}`
     writeFileSync(`./src/statics/modules.js`, moduleConfiguration)
     this.saveStoreNames('src/store', moduleConf)
     return moduleConf
@@ -534,7 +540,12 @@ module.exports = {
       `store${sep}getters.js`,
       `store${sep}mutations.js`,
       `store${sep}actions.js`,
-      `store${sep}routes.js`
+      `store${sep}routes.js`,
+      `statics${sep}modules.min.js`,
+      `store${sep}getters.min.js`,
+      `store${sep}mutations.min.js`,
+      `store${sep}actions.min.js`,
+      `store${sep}routes.min.js`
     ]
     watch(dir, { recursive: true }, (eventType, fileName) => {
       if (eventType === 'change' && exclude.indexOf(fileName) === -1) {
@@ -544,65 +555,4 @@ module.exports = {
     })
   },
 
-  getAllEntries(modules, entries = []) {
-    modules.forEach(module => {
-      if (typeof module.entries !== 'undefined' && Array.isArray(module.entries)) {
-        module.entries.forEach(entry => entries.push(entry))
-      }
-      if (typeof module.modules !== 'undefined' && Array.isArray(module.modules)) {
-        this.getAllEntries(module.modules, entries)
-      }
-    })
-    return entries
-  },
-
-  cofigureWebpackEntries(cfg, modules) {
-    modules.forEach(module => {
-      if (typeof module.entries !== 'undefined') {
-        cfg.entry[module.fullName.replace('.', '/')] = module.entries.map(entry => join(__dirname, entry))
-      }
-      if (typeof module.modules !== 'undefined') {
-        this.cofigureWebpackEntries(cfg, module.modules)
-      }
-    })
-  },
-
-  configureCacheGroups(cfg, modules, priority = 10) {
-    modules.forEach(module => {
-      const chunkName = module.fullName.replace(/\./g, '-').toLowerCase()
-      cfg[chunkName] = {
-        test(chunkModule, chunks) {
-          for (let chunk of chunks) {
-            const chunkName = chunk.name.substr(0, 4)
-            for (let entry of module.entries) {
-              const fileName = entry.replace('/', '-').substr(0, 4)
-              if (chunkName === fileName) {
-                console.log('--', chunkName)
-                return true
-              }
-            }
-          }
-          if (typeof chunkModule.context !== 'undefined') {
-            for (let entry of module.entries) {
-              const fileName = path.dirname(path.join(__dirname, entry))
-              let context = chunkModule.context
-              if (context === fileName) {
-                console.log(context)
-                return true
-              }
-            }
-          }
-          return false
-        },
-        priority,
-        name: chunkName,
-        enforce: true,
-        chunks: 'all'
-      }
-      if (typeof module.modules !== 'undefined') {
-        this.configureCacheGroups(cfg, module.modules, priority + 1)
-      }
-    })
-    return cfg
-  }
 }

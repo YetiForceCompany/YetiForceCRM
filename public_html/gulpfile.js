@@ -1,5 +1,4 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-
 const gulp = require('gulp')
 const browserSync = require('browser-sync').create()
 const terser = require('gulp-terser')
@@ -30,6 +29,9 @@ const aliases = {
   '/?Settings/': '/src/modules/Setting/'
 }
 
+const license =
+  '/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */'
+
 gulp.task('vue', function() {
   return gulp
     .src('src/**/*.vue')
@@ -41,12 +43,7 @@ gulp.task('vue', function() {
         module: true
       })
     )
-    .pipe(
-      gap.prependText(
-        '/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */',
-        '\n'
-      )
-    )
+    .pipe(gap.prependText(license,'\n'))
     .pipe(
       rename({
         extname: '.min.js'
@@ -76,6 +73,7 @@ gulp.task('modules.js', function() {
         }
       })
     )
+    .pipe(gap.prependText(license, '\n'))
     .pipe(
       rename({
         extname: '.min.js'
@@ -94,12 +92,7 @@ gulp.task('min', function() {
         module: true
       })
     )
-    .pipe(
-      gap.prependText(
-        '/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */',
-        '\n'
-      )
-    )
+    .pipe(gap.prependText(license,'\n'))
     .pipe(
       rename({
         extname: '.min.js'
