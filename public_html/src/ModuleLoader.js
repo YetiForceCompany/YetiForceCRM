@@ -64,6 +64,9 @@ const ModuleLoader = {
       const routeItem = { ...route }
       routeItem.children = []
       if (typeof routeItem.componentPath === 'undefined') {
+        if (typeof route.children !== 'undefined') {
+          this.prepareRoutes(module, route.children).forEach(route => routeItem.children.push(route))
+        }
         return routeItem
       }
       if (routeItem.componentPath.substring(0, 1) !== '/') {

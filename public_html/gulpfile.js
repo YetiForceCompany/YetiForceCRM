@@ -34,8 +34,8 @@ const license =
 
 const sourceDir = 'src'
 const vueSrc = 'src/**/*.vue'
-const minSrc = ['src/**/*.js', '!src/**/*.min.js', '!src/**/*.vue.js']
 const modulesConfigSrc = 'src/statics/modules.js'
+const minSrc = ['src/**/*.js', '!src/**/*.min.js', '!src/**/*.vue.js']
 const generatedSrc = [
   modulesConfigSrc,
   'src/store/mutations.js',
@@ -43,7 +43,6 @@ const generatedSrc = [
   'src/store/actions.js',
   'src/store/state.js'
 ]
-
 /**
  * Compile vue files into .min.js, replace directory aliases and internal imports to .min.js
  *
@@ -52,13 +51,14 @@ const generatedSrc = [
  * @returns {function} task function
  */
 function getVueTask(src = vueSrc, dev = false) {
-  console.log('Getting vue Task', src)
   return function vueTask() {
     let dest = `./${sourceDir}/`
     if (src !== vueSrc) {
       dest = './' + src.slice(0, src.lastIndexOf('/') + 1)
     }
-    const importMinConfig = {}
+    const importMinConfig = {
+      extension: 'vue.js'
+    }
     if (dev) {
       importMinConfig.postfix = '?dev=' + new Date().getTime()
     }
@@ -86,39 +86,45 @@ gulp.task('vue', getVueTask())
 /**
  * Minify module.js config file and replace .js internal paths to .min.js
  */
-gulp.task('modules.js', function() {
-  const importMinConfig = {
-    additionalRegs: [{ regexp: /("componentPath"\s?:\s?")(.+)(\.js")/gim, replace: '$1$2.min$3' }]
-  }
-  ModuleLoader.saveModuleConfig(ModuleLoader.loadModules(sourceDir))
-  return gulp
-    .src(modulesConfigSrc)
-    .pipe(importMin(importMinConfig))
-    .pipe(
-      terser({
-        module: false,
-        mangle: {
-          properties: {
-            keep_quoted: true
+function getModulesTask(src = modulesConfigSrc, dev = false) {
+  return function modulesTask(done) {
+    const importMinConfig = {}
+    if (generatedSrc.indexOf(src) === -1) {
+      ModuleLoader.saveModuleConfig(ModuleLoader.loadModules(sourceDir))
+    }
+    if (src !== modulesConfigSrc) {
+      return done()
+    }
+    return gulp
+      .src(src)
+      .pipe(importMin(importMinConfig))
+      .pipe(
+        terser({
+          module: false,
+          mangle: {
+            properties: {
+              keep_quoted: true
+            }
+          },
+          output: {
+            keep_quoted_props: true
+          },
+          compress: {
+            booleans_as_integers: false,
+            booleans: false
           }
-        },
-        output: {
-          keep_quoted_props: true
-        },
-        compress: {
-          booleans_as_integers: false,
-          booleans: false
-        }
-      })
-    )
-    .pipe(gap.prependText(license, '\n'))
-    .pipe(
-      rename({
-        extname: '.min.js'
-      })
-    )
-    .pipe(gulp.dest(sourceDir + '/statics/'))
-})
+        })
+      )
+      .pipe(gap.prependText(license, '\n'))
+      .pipe(
+        rename({
+          extname: '.min.js'
+        })
+      )
+      .pipe(gulp.dest(sourceDir + '/statics/'))
+  }
+}
+gulp.task('modules.js', getModulesTask())
 
 /**
  * Minify .js files and replace directory aliases
@@ -168,7 +174,7 @@ gulp.task('build', gulp.series(['vue', 'modules.js', 'min']))
 gulp.task('dev', function() {
   ModuleLoader.log = true
   ModuleLoader.dev = true
-  gulp.series([getVueTask(vueSrc, true), 'modules.js', getMinTask(minSrc, true)])(() => {
+  gulp.series([getVueTask(vueSrc, true), getModulesTask(modulesConfigSrc, true), getMinTask(minSrc, true)])(() => {
     ModuleLoader.log = false
     browserSync.init({
       proxy: process.env.LOCAL_URL,
@@ -185,11 +191,7 @@ gulp.task('dev', function() {
     gulp.watch(minSrc).on('all', (eventName, fileName) => {
       fileName = fileName.replace(/\\/gim, '/')
       console.log(eventName, fileName)
-      if (generatedSrc.indexOf(fileName) === -1) {
-        ModuleLoader.saveModuleConfig(ModuleLoader.loadModules(sourceDir))
-        console.log('Generated modules.js config.')
-      }
-      gulp.series([getMinTask(fileName, true)])(() => {
+      gulp.series([getMinTask(fileName, true), getModulesTask(fileName, true)])(() => {
         console.log(eventName, fileName, 'done')
         browserSync.reload()
       })
