@@ -33,7 +33,18 @@ const license =
 
 const sourceDir = 'src'
 const vueSrc = 'src/**/*.vue'
-const minSrc = ['src/**/*.js', '!src/**/*.min.js', '!src/statics/modules.js']
+const minSrc = [
+  'src/**/*.js',
+  '!src/**/*.min.js',
+  '!src/statics/modules.js',
+  '!src/statics/modules.min.js',
+  '!src/store/mutations.js',
+  '!src/store/mutations.min.js',
+  '!src/store/getters.js',
+  '!src/store/getters.min.js',
+  '!src/store/actions.js',
+  '!src/store/actions.min.js'
+]
 const modulesSrc = 'src/statics/modules.js'
 
 /**
@@ -155,7 +166,7 @@ gulp.task('dev', function() {
     fileName = fileName.replace('\\', '/')
     console.log(eventName, fileName)
     ModuleLoader.saveModuleConfig(ModuleLoader.loadModules(sourceDir))
-    gulp.series([getMinTask(fileName)])(() => {
+    gulp.series([getMinTask(fileName), 'modules.js'])(() => {
       console.log(eventName, fileName, 'done')
       browserSync.reload(fileName)
     })
