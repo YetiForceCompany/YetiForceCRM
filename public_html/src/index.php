@@ -9,7 +9,7 @@
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-$dev = \App\Config::debug('JS_DEBUG');
+$dev = \App\Config::main('systemMode') === 'test';
 ?>
 <!DOCTYPE html>
 <html>

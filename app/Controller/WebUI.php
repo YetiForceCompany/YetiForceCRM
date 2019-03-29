@@ -83,7 +83,7 @@ class WebUI extends Base
 				'baseURL' => \App\Config::main('site_URL'),
 				'publicDir' => '/src',
 				'routerMode' => 'hash',
-				'dev' => \App\Config::debug('JS_DEBUG')
+				'dev' => \App\Config::main('systemMode') === 'test'
 			],
 			'Language' => [
 				'lang' => $lang,
