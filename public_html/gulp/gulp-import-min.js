@@ -1,12 +1,17 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 const through = require('through2')
 
-function replace(contents, file, additionalRegs) {
+const defaultConfig = {
+  additionalRegs: [],
+  extension: 'min.js'
+}
+
+function replace(contents, file, config) {
   let result = contents
-    .replace(/(import\s.+\s([\'\"\`]){1}(?!\/?node_modules)\.?\.?[^\.]+\.)js[\'\"\`]/gim, '$1min.js$2')
-    .replace(/import\([\'\"\`]?(?!.*\/?node_modules)(.+)\.js([\'\"\`]?)\)/gim, 'import($2$1.min.js$2)')
-  if (additionalRegs.length) {
-    additionalRegs.forEach(reg => {
+    .replace(/(import\s.+\s(['"`]){1}(?!\/?node_modules)\.?\.?[^\.]+\.)js['"`]/gim, `$1${config.extension}$2`)
+    .replace(/import\(['"`]?(?!.*\/?node_modules)(.+)\.js(['"`]?)\)/gim, `import($2$1.${config.extension}$2)`)
+  if (config.additionalRegs.length) {
+    config.additionalRegs.forEach(reg => {
       result = result.replace(reg.regexp, reg.replace)
     })
   }
@@ -14,7 +19,8 @@ function replace(contents, file, additionalRegs) {
   return file
 }
 
-module.exports = function(additionalRegs = []) {
+module.exports = function(config) {
+  config = { ...config, ...defaultConfig }
   return through.obj(function(file, encoding, callback) {
     if (file.isNull()) {
       return callback(null, file)
@@ -25,6 +31,6 @@ module.exports = function(additionalRegs = []) {
     } else if (file.isBuffer()) {
       contents = file.contents.toString('utf8')
     }
-    return callback(null, replace(contents, file.clone(), additionalRegs))
+    return callback(null, replace(contents, file.clone(), config))
   })
 }

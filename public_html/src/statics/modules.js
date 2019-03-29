@@ -21,7 +21,7 @@ window.modules = [
         "name": "Base",
         "parent": "App",
         "path": "/base",
-        "componentPath": "layouts/Base.js"
+        "componentPath": "layouts/Base.min.js"
       }
     ],
     "store": {
@@ -48,7 +48,7 @@ window.modules = [
             "name": "Base.HomeIndex",
             "parent": "Base",
             "path": "home",
-            "componentPath": "/pages/Index.js",
+            "componentPath": "/pages/Index.min.js",
             "children": [
               {
                 "name": "Base.HomeIndex.Home",
@@ -78,7 +78,7 @@ window.modules = [
             "name": "Base.ModuleExample",
             "parent": "Base",
             "path": "module-example",
-            "componentPath": "pages/ModuleExample.js"
+            "componentPath": "pages/ModuleExample.min.js"
           }
         ],
         "store": {
@@ -118,7 +118,7 @@ window.modules = [
         "name": "Core",
         "parent": "App",
         "path": "/core",
-        "componentPath": "layouts/Core.js"
+        "componentPath": "layouts/Core.min.js"
       }
     ],
     "store": {
@@ -277,7 +277,7 @@ window.modules = [
             "name": "Core.Users.Login",
             "path": "users/login",
             "redirect": "users/login/form",
-            "componentPath": "layouts/Login.js",
+            "componentPath": "layouts/Login.min.js",
             "children": [
               {
                 "name": "Core.Users.Login.LoginForm",
@@ -348,7 +348,7 @@ window.modules = [
         "name": "Settings",
         "parent": "App",
         "path": "settings",
-        "componentPath": "layouts/Settings.js"
+        "componentPath": "layouts/Settings.min.js"
       }
     ],
     "store": {
@@ -375,7 +375,7 @@ window.modules = [
             "name": "Settings.ModuleExample",
             "parent": "Settings",
             "path": "module-example",
-            "componentPath": "pages/ModuleExample.js"
+            "componentPath": "pages/ModuleExample.min.js"
           }
         ]
       }

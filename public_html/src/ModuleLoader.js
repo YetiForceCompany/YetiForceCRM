@@ -1,6 +1,11 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 const ModuleLoader = {
   /**
+   * Developer mode
+   */
+  dev: window.env.Env.dev,
+
+  /**
    * All imported modules by moduleName
    */
   modules: {},
@@ -63,17 +68,25 @@ const ModuleLoader = {
       }
       if (routeItem.componentPath.substring(0, 1) !== '/') {
         routeItem.component = () => {
-          if (window.env.Env.dev) {
-            console.log(`Loading ${this.getPath(module.path)}/${route.componentPath}`)
+          if (this.dev) {
+            console.log(
+              `Loading ${this.getPath(module.path)}/${route.componentPath}${
+                this.dev ? '?dev=' + new Date().getTime() : ''
+              }`
+            )
           }
-          return import(`/src/${this.getPath(module.path)}/${route.componentPath}`)
+          return import(`/src/${this.getPath(module.path)}/${route.componentPath}${
+            this.dev ? '?dev=' + new Date().getTime() : ''
+          }`)
         }
       } else {
         routeItem.component = () => {
-          if (window.env.Env.dev) {
-            console.log(`Loading /src/${route.componentPath.substring(1)}`)
+          if (this.dev) {
+            console.log(
+              `Loading /src/${route.componentPath.substring(1)}${this.dev ? '?dev=' + new Date().getTime() : ''}`
+            )
           }
-          return import(`/src/${route.componentPath.substring(1)}`)
+          return import(`/src/${route.componentPath.substring(1)}${this.dev ? '?dev=' + new Date().getTime() : ''}`)
         }
       }
       if (typeof route.children !== 'undefined') {
@@ -181,10 +194,10 @@ const ModuleLoader = {
         flat.components[module.name] = {
           module: module,
           component() {
-            if (window.env.Env.dev) {
-              console.log(`importing /src/${modulePath}`)
+            if (this.dev) {
+              console.log(`importing /src/${modulePath}${this.dev ? '?dev=' + new Date().getTime() : ''}`)
             }
-            return import(`/src/${modulePath}`)
+            return import(`/src/${modulePath}${this.dev ? '?dev=' + new Date().getTime() : ''}`)
           }
         }
         flat.modules.push({
