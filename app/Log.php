@@ -13,9 +13,10 @@ use yii\log\Logger;
  */
 class Log extends Logger
 {
-	public static $logToConsole;
+	public static $logToConsole = false;
 	public static $logToFile;
 	public static $logToProfile;
+	public static $showLog = false;
 
 	/**
 	 * Column mapping by table.
@@ -35,7 +36,7 @@ class Log extends Logger
 	 * If [[traceLevel]] is greater than 0, additional call stack information about
 	 * the application code will be logged as well.
 	 *
-	 * @param string|array $message  the message to be logged. This can be a simple string or a more
+	 * @param array|string $message  the message to be logged. This can be a simple string or a more
 	 *                               complex data structure that will be handled by a [[Target|log target]]
 	 * @param int          $level    the level of the message. This must be one of the following:
 	 *                               `Logger::LEVEL_ERROR`, `Logger::LEVEL_WARNING`, `Logger::LEVEL_INFO`, `Logger::LEVEL_TRACE`,
@@ -52,6 +53,10 @@ class Log extends Logger
 			Debuger::addLogs($message, self::getLevelName($level), $traces);
 		}
 		$this->messages[] = [$message, $level, $category, microtime(true), $traces];
+		if (static::$showLog) {
+			$level = self::getLevelName($level);
+			echo date('Y-m-d H:i:s') . " [$level]$category - $message" . (empty($traces) ? '' : PHP_EOL . $traces) . PHP_EOL;
+		}
 		if ($this->flushInterval > 0 && count($this->messages) >= $this->flushInterval) {
 			$this->flush();
 		}
@@ -67,7 +72,7 @@ class Log extends Logger
 	 */
 	public static function trace($message, $category = '')
 	{
-		if (static::$logToFile) {
+		if (static::$logToFile || static::$showLog) {
 			\Yii::getLogger()->log($message, Logger::LEVEL_TRACE, $category);
 		}
 	}
@@ -82,7 +87,7 @@ class Log extends Logger
 	 */
 	public static function info($message, $category = '')
 	{
-		if (static::$logToFile) {
+		if (static::$logToFile || static::$showLog) {
 			\Yii::getLogger()->log($message, Logger::LEVEL_INFO, $category);
 		}
 	}
@@ -97,9 +102,7 @@ class Log extends Logger
 	 */
 	public static function warning($message, $category = '')
 	{
-		if (static::$logToFile) {
-			\Yii::getLogger()->log($message, Logger::LEVEL_WARNING, $category);
-		}
+		\Yii::getLogger()->log($message, Logger::LEVEL_WARNING, $category);
 	}
 
 	/**
@@ -170,17 +173,16 @@ class Log extends Logger
 	{
 		$db = \App\Db::getInstance('log');
 		$query = (new \App\Db\Query())->from('o_#__' . $type);
-		if ($mode === 'oneDay') {
+		if ('oneDay' === $mode) {
 			$query->where(['>=', 'date', date('Y-m-d H:i:s', strtotime('-1 day'))]);
 		} else {
 			$query->limit(100);
 		}
 		if ($countMode) {
 			return $query->count('*', $db);
-		} else {
-			$query->orderBy(['id' => SORT_DESC]);
-			return $query->all($db);
 		}
+		$query->orderBy(['id' => SORT_DESC]);
+		return $query->all($db);
 	}
 
 	/**
