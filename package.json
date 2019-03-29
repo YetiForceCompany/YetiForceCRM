@@ -18,9 +18,8 @@
   "dependencies": {
   },
   "scripts": {
-    "libraries": "cd ./public_html && npm i -g gulp-cli && npm i && cd ..",
-    "dev": "cd ./public_html && gulp",
-    "build": "cd ./public_html && gulp vue"
+    "dev": "cd ./public_html && gulp dev",
+    "build": "cd ./public_html && gulp build"
   },
   "devDependencies": {
   },

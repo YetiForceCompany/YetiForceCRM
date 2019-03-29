@@ -4,14 +4,13 @@ const browserSync = require('browser-sync').create()
 const terser = require('gulp-terser')
 const rename = require('gulp-rename')
 const gap = require('gulp-append-prepend')
+require('dotenv').config()
 
 const importAliases = require('./gulp/gulp-import-aliases')
 const importMin = require('./gulp/gulp-import-min')
 const vueEsCompiler = require('./gulp/gulp-vue-es-compiler')
 const logger = require('./gulp/gulp-log')
 const ModuleLoader = require('./ModuleLoader.server')
-const modules = ModuleLoader.loadModules('src')
-ModuleLoader.saveModuleConfig(modules)
 
 const aliases = {
   '/?src/': '/src/',
@@ -32,30 +31,50 @@ const aliases = {
 const license =
   '/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */'
 
-gulp.task('vue', function() {
-  return gulp
-    .src('src/**/*.vue')
-    .pipe(vueEsCompiler())
-    .pipe(importAliases({ map: aliases }))
-    .pipe(importMin())
-    .pipe(
-      terser({
-        module: true
-      })
-    )
-    .pipe(gap.prependText(license,'\n'))
-    .pipe(
-      rename({
-        extname: '.min.js'
-      })
-    )
-    .pipe(gulp.dest('./src/'))
-})
+const sourceDir = 'src'
+const vueSrc = 'src/**/*.vue'
+const minSrc = ['src/**/*.js', '!src/**/*.min.js', '!src/statics/modules.js']
+const modulesSrc = 'src/statics/modules.js'
 
+/**
+ * Compile vue files into .min.js, replace directory aliases and internal imports to .min.js
+ *
+ * @param {string|array} src
+ *
+ * @returns {function} task function
+ */
+function getVueTask(src) {
+  console.log('Getting vue Task', src)
+  return function vueTask() {
+    return gulp
+      .src(src)
+      .pipe(vueEsCompiler())
+      .pipe(importAliases({ map: aliases }))
+      .pipe(importMin())
+      .pipe(
+        terser({
+          module: true
+        })
+      )
+      .pipe(gap.prependText(license, '\n'))
+      .pipe(
+        rename({
+          extname: '.min.js'
+        })
+      )
+      .pipe(gulp.dest('./src/'))
+  }
+}
+gulp.task('vue', getVueTask('src/**/*.vue'))
+
+/**
+ * Minify module.js config file and replace .js internal paths to .min.js
+ */
 gulp.task('modules.js', function() {
+  ModuleLoader.saveModuleConfig(ModuleLoader.loadModules(sourceDir))
   return gulp
-    .src('src/statics/modules.js')
-    .pipe(importMin([{ regexp: /(\"componentPath\"\s?\:\s?\")(.+)(\.js\")/gim, replace: '$1$2.min$3' }]))
+    .src(modulesSrc)
+    .pipe(importMin([{ regexp: /("componentPath"\s?:\s?")(.+)(\.js")/gim, replace: '$1$2.min$3' }]))
     .pipe(
       terser({
         module: false,
@@ -79,40 +98,66 @@ gulp.task('modules.js', function() {
         extname: '.min.js'
       })
     )
-    .pipe(gulp.dest('src/statics/'))
+    .pipe(gulp.dest(sourceDir + '/statics/'))
 })
 
-gulp.task('min', function() {
-  return gulp
-    .src(['src/**/*.js', '!src/**/*.min.js', '!src/statics/modules.js'])
-    .pipe(importAliases({ map: aliases }))
-    .pipe(importMin())
-    .pipe(
-      terser({
-        module: true
-      })
-    )
-    .pipe(gap.prependText(license,'\n'))
-    .pipe(
-      rename({
-        extname: '.min.js'
-      })
-    )
-    .pipe(gulp.dest('src'))
-})
-
-gulp.task('build', gulp.series(['modules.js', 'vue', 'min']))
-
-gulp.task('default', function() {
-  browserSync.init({
-    proxy: 'http://yeti:80'
-  })
-  if (process.env.dev) {
-    ModuleLoader.watchDir('./src')
+/**
+ * Minify .js files and replace directory aliases
+ *
+ * @param {string|array} src
+ *
+ * @returns {function} task
+ */
+function getMinTask(src) {
+  return function minTask() {
+    return gulp
+      .src(src)
+      .pipe(importAliases({ map: aliases }))
+      .pipe(importMin())
+      .pipe(
+        terser({
+          module: true
+        })
+      )
+      .pipe(gap.prependText(license, '\n'))
+      .pipe(
+        rename({
+          extname: '.min.js'
+        })
+      )
+      .pipe(gulp.dest(sourceDir))
   }
-  gulp.watch(['./src/**/*.vue'], gulp.series('vue'))
-  gulp.watch(['./src/**/*.js'], done => {
-    browserSync.reload()
-    done()
+}
+gulp.task('min', getMinTask(minSrc))
+
+/**
+ * Build task
+ */
+gulp.task('build', gulp.series(['vue', 'modules.js', 'min']))
+
+/**
+ * Start dev environment with browser-sync
+ */
+gulp.task('dev', function() {
+  browserSync.init({
+    proxy: process.env.LOCAL_URL
+  })
+  ModuleLoader.log = false
+  gulp.watch(vueSrc).on('all', (eventName, fileName) => {
+    fileName = fileName.replace('\\', '/')
+    console.log(eventName, fileName)
+    gulp.series([getVueTask(fileName)])(() => {
+      console.log(eventName, fileName, 'done')
+      browserSync.reload()
+    })
+  })
+  gulp.watch(minSrc).on('all', (eventName, fileName) => {
+    fileName = fileName.replace('\\', '/')
+    console.log(eventName, fileName)
+    ModuleLoader.saveModuleConfig(ModuleLoader.loadModules(sourceDir))
+    gulp.series([getMinTask(fileName)])(() => {
+      console.log(eventName, fileName, 'done')
+      browserSync.reload(fileName)
+    })
   })
 })
