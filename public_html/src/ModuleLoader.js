@@ -197,11 +197,13 @@ const ModuleLoader = {
         if (!componentPath.endsWith('.vue.js')) {
           componentPath += '.vue.js'
         }
+        if (this.dev) {
+          componentPath += '?dev=' + new Date().getTime()
+        }
         flat.components[module.name] = {
           module: module,
           component() {
             if (this.dev) {
-              componentPath += '?dev=' + new Date().getTime()
               console.log(`importing ${componentPath}`)
             }
             return import(componentPath)
