@@ -9,7 +9,7 @@
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-$dev = \App\Config::main('systemMode') === 'test';
+$dev = 'test' === \App\Config::main('systemMode');
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,18 +25,22 @@ $dev = \App\Config::main('systemMode') === 'test';
     />
     <link href="/node_modules/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet" />
     <link href="/node_modules/animate.css/animate.min.css" rel="stylesheet" />
-    <link href="/node_modules/quasar/dist/quasar.min.css" rel="stylesheet" type="text/css" />
+    <link href="/src/css/app.css" rel="stylesheet" type="text/css" />
   </head>
 
   <body>
     <div id="app"></div>
 
     <script>window.env = <?php echo $webUI->getEnv(); ?>;</script>
-    <?php if ($dev) { ?>
+    <?php if ($dev) {
+	?>
       <script src="/node_modules/vue/dist/vue.js"></script>
-    <?php } else { ?>
+    <?php
+} else {
+		?>
       <script src="/node_modules/vue/dist/vue.min.js"></script>
-    <?php } ?>
+    <?php
+	} ?>
     <script src="/node_modules/vuex/dist/vuex.min.js"></script>
     <script src="/node_modules/vue-router/dist/vue-router.min.js"></script>
     <script src="/node_modules/quasar/dist/quasar.umd.min.js"></script>

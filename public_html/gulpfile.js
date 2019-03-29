@@ -132,18 +132,25 @@ function getMinTask(src) {
 }
 gulp.task('min', getMinTask(minSrc))
 
-function getStylTask() {
-  return function stylTask() {
+/**
+ * Compile .css file
+ *
+ * @param {string|array} src
+ *
+ * @returns {function} task
+ */
+function getCompileCssTask() {
+  return function compileCssTask() {
     return gulp
       .src('./src/css/app.styl')
       .pipe(stylus())
-      .pipe(gulp.dest('./src/css/build'))
+      .pipe(gulp.dest('./src/css'))
   }
 }
 /**
  * Styl task
  */
-gulp.task('styl', getStylTask())
+gulp.task('compileCss', getCompileCssTask())
 /**
  * Build task
  */
@@ -184,7 +191,7 @@ gulp.task('dev', function() {
     console.log('dev')
     fileName = fileName.replace('\\', '/')
     console.log(eventName, fileName)
-    gulp.series([getStylTask()])(() => {
+    gulp.series([getCompileCssTask()])(() => {
       console.log(eventName, fileName, 'done')
       browserSync.reload(fileName)
     })
