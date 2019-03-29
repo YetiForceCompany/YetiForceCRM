@@ -226,7 +226,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				->andWhere(['or', ['and', ['vtiger_activity_reminder_popup.status' => Calendar_Record_Model::REMNDER_POPUP_ACTIVE], ['<=', 'vtiger_activity_reminder_popup.datetime', $time]], ['and', ['vtiger_activity_reminder_popup.status' => Calendar_Record_Model::REMNDER_POPUP_WAIT], ['<=', 'vtiger_activity_reminder_popup.datetime', date('Y-m-d H:i:s')]]])
 				->orderBy(['vtiger_activity_reminder_popup.datetime' => SORT_DESC])
 				->distinct()
-				->limit(AppConfig::module($this->getName(), 'maxNumberCalendarNotifications'));
+				->limit(\App\Config::module($this->getName(), 'maxNumberCalendarNotifications', 20));
 			$dataReader = $query->createCommand()->query();
 			while ($recordId = $dataReader->readColumn(0)) {
 				$recordModels[] = Vtiger_Record_Model::getInstanceById($recordId, 'Calendar');
