@@ -44,6 +44,7 @@
     "@vue/component-compiler": "^3.6.0",
     "@vue/eslint-config-prettier": "^3.0.0",
     "browser-sync": "^2.26.3",
+    "dotenv": "^7.0.0",
     "esm": "^3.2.20",
     "express": "^4.16.4",
     "glob": "^7.1.3",

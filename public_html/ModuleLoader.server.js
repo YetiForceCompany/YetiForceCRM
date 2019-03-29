@@ -183,11 +183,15 @@ const RESERVED_DIRECTORIES = {
  * Main object
  */
 module.exports = {
-
+  /**
+   * Log to console
+   */
+  log: true,
   /**
    * License string
    */
-  license:'/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */',
+  license:
+    '/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */',
 
   /**
    * Helper function which will merge objects recursively - creating brand new one - like clone
@@ -375,7 +379,10 @@ module.exports = {
     store.mutations = this.generateStoreNames(modules, 'mutations', store.mutations)
     store.actions = this.generateStoreNames(modules, 'actions', store.actions)
     writeFileSync(`${dir}${sep}actions.js`, `${this.license}\nexport default ${JSON.stringify(store.actions, null, 2)}`)
-    writeFileSync(`${dir}${sep}mutations.js`, `${this.license}\nexport default ${JSON.stringify(store.mutations, null, 2)}`)
+    writeFileSync(
+      `${dir}${sep}mutations.js`,
+      `${this.license}\nexport default ${JSON.stringify(store.mutations, null, 2)}`
+    )
     writeFileSync(`${dir}${sep}getters.js`, `${this.license}\nexport default ${JSON.stringify(store.getters, null, 2)}`)
   },
 
@@ -417,9 +424,13 @@ module.exports = {
    */
   loadModules(baseDir, level = 0, parentHierarchy = '', parent = null) {
     const currentPath = join(__dirname, baseDir, RESERVED_DIRECTORIES.modules)
-    console.info(`${getSpacing(level)} \u25FC Loading modules from ${currentPath}.`)
+    if (this.log) {
+      console.info(`${getSpacing(level)} \u25FC Loading modules from ${currentPath}.`)
+    }
     return this.getDirectories(currentPath).map(moduleName => {
-      console.info(`${getSpacing(level)}  \u25B6 Module ${moduleName} found.`)
+      if (this.log) {
+        console.info(`${getSpacing(level)}  \u25B6 Module ${moduleName} found.`)
+      }
       const moduleConf = {}
       moduleConf.parentHierarchy = parentHierarchy.replace(/^\.|\.$/i, '')
       moduleConf.fullName = (moduleConf.parentHierarchy + '.' + moduleName).replace(/^\.|\.$/i, '')
@@ -431,7 +442,9 @@ module.exports = {
       moduleConf.autoLoad = true
       const configFile = join(__dirname, moduleConf.path, 'module.config.json')
       if (isFile(configFile)) {
-        console.log(`${getSpacing(level + 1)} - module config found`)
+        if (this.log) {
+          console.log(`${getSpacing(level + 1)} - module config found`)
+        }
         const conf = JSON.parse(readFileSync(configFile, { encoding: 'utf8' }))
         for (let prop in conf) {
           moduleConf[prop] = conf[prop]
@@ -485,7 +498,9 @@ module.exports = {
           output[shortName].path = `${currentPath}/${route.path}`
         }
       }
-      console.log(output[shortName].path)
+      if (this.log) {
+        console.log(output[shortName].path)
+      }
       if (typeof route.children !== 'undefined') {
         this.mergeDeep(output[shortName], {
           routes: this.prepareRoutes(route.children, output[shortName].path, output[shortName].routes)
@@ -527,32 +542,5 @@ module.exports = {
     writeFileSync(`./src/statics/modules.js`, moduleConfiguration)
     this.saveStoreNames('src/store', moduleConf)
     return moduleConf
-  },
-
-  /**
-   * Watch directory for changes and update modules.js configuration file
-   *
-   * @param   {string}  dir
-   */
-  watchDir(dir = './src') {
-    const exclude = [
-      `statics${sep}modules.js`,
-      `store${sep}getters.js`,
-      `store${sep}mutations.js`,
-      `store${sep}actions.js`,
-      `store${sep}routes.js`,
-      `statics${sep}modules.min.js`,
-      `store${sep}getters.min.js`,
-      `store${sep}mutations.min.js`,
-      `store${sep}actions.min.js`,
-      `store${sep}routes.min.js`
-    ]
-    watch(dir, { recursive: true }, (eventType, fileName) => {
-      if (eventType === 'change' && exclude.indexOf(fileName) === -1) {
-        this.saveModuleConfig(this.loadModules(this.publicPath + '/src'))
-        console.log('Module configuration file updated.')
-      }
-    })
-  },
-
+  }
 }

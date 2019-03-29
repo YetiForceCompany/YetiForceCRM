@@ -90,3 +90,6 @@ dev.php
 *.ntvs*
 *.njsproj
 *.sln
+
+# front end app local variables (for gulp for example)
+/public_html/.env
