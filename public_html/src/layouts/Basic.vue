@@ -25,7 +25,7 @@
           :breakpoint="500"
           :show-if-above="miniState"
         >
-          <q-scroll-area class="menuItemsContainer" style="height: calc(100% - 56px)">
+          <q-scroll-area :class="$style.menuItemsContainer">
             <left-menu />
           </q-scroll-area>
           <q-separator dark />
@@ -86,7 +86,8 @@ export default {
 </script>
 
 <style module lang="stylus">
-.menuItemsContainer {
-  height: calc(100% - 56px);
-}
+$menu-item-h = 56px;
+
+.menuItemsContainer
+  height 'calc(100% - %s)' % $menu-item-h
 </style>

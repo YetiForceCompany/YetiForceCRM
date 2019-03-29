@@ -9,7 +9,7 @@
           </q-avatar>
         </q-toolbar-title>
         <yf-global-search />
-        <yf-global-actions class="q-ml-auto" style="color: rgba(0,0,0,.54)" />
+        <yf-global-actions class="text-muted q-ml-auto" />
       </q-toolbar>
     </q-header>
   </hook-wrapper>
