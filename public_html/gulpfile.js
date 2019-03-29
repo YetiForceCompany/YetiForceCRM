@@ -1,5 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 const gulp = require('gulp')
+const stylus = require('gulp-stylus')
 const browserSync = require('browser-sync').create()
 const terser = require('gulp-terser')
 const rename = require('gulp-rename')
@@ -34,6 +35,7 @@ const license =
 const sourceDir = 'src'
 const vueSrc = 'src/**/*.vue'
 const minSrc = ['src/**/*.js', '!src/**/*.min.js', '!src/statics/modules.js']
+const stylusSrc = 'src/css/**/*.styl'
 const modulesSrc = 'src/statics/modules.js'
 
 /**
@@ -130,6 +132,18 @@ function getMinTask(src) {
 }
 gulp.task('min', getMinTask(minSrc))
 
+function getStylTask() {
+  return function stylTask() {
+    return gulp
+      .src('./src/css/app.styl')
+      .pipe(stylus())
+      .pipe(gulp.dest('./src/css/build'))
+  }
+}
+/**
+ * Styl task
+ */
+gulp.task('styl', getStylTask())
 /**
  * Build task
  */
@@ -139,11 +153,14 @@ gulp.task('build', gulp.series(['vue', 'modules.js', 'min']))
  * Start dev environment with browser-sync
  */
 gulp.task('dev', function() {
+  console.log('dev')
   browserSync.init({
     proxy: process.env.LOCAL_URL
   })
   ModuleLoader.log = false
   gulp.watch(vueSrc).on('all', (eventName, fileName) => {
+    console.log('dev')
+
     fileName = fileName.replace('\\', '/')
     console.log(eventName, fileName)
     gulp.series([getVueTask(fileName)])(() => {
@@ -152,10 +169,22 @@ gulp.task('dev', function() {
     })
   })
   gulp.watch(minSrc).on('all', (eventName, fileName) => {
+    console.log('dev')
+
     fileName = fileName.replace('\\', '/')
     console.log(eventName, fileName)
     ModuleLoader.saveModuleConfig(ModuleLoader.loadModules(sourceDir))
     gulp.series([getMinTask(fileName)])(() => {
+      console.log(eventName, fileName, 'done')
+      browserSync.reload(fileName)
+    })
+  })
+
+  gulp.watch(stylusSrc).on('all', (eventName, fileName) => {
+    console.log('dev')
+    fileName = fileName.replace('\\', '/')
+    console.log(eventName, fileName)
+    gulp.series([getStylTask()])(() => {
       console.log(eventName, fileName, 'done')
       browserSync.reload(fileName)
     })
