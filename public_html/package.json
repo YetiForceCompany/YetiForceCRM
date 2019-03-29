@@ -32,9 +32,8 @@
     "vuex": "^3.1.0"
   },
   "scripts": {
-    "libraries": "npm i -g gulp-cli gulp gulp-install browser-sync gulp-vue-compiler && npm link gulp gulp-install browser-sync gulp-vue-compiler && gulp install",
-    "dev": "gulp",
-    "build": "gulp vue"
+    "dev": "gulp dev",
+    "build": "gulp build"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
@@ -44,16 +43,13 @@
     "@vue/cli-plugin-eslint": "^3.0.0",
     "@vue/component-compiler": "^3.6.0",
     "@vue/eslint-config-prettier": "^3.0.0",
-    "babel-plugin-module-resolver": "^3.2.0",
     "browser-sync": "^2.26.3",
     "esm": "^3.2.20",
     "express": "^4.16.4",
     "glob": "^7.1.3",
     "gulp": "^4.0.0",
     "gulp-append-prepend": "^1.0.6",
-    "gulp-babel": "^8.0.0",
     "gulp-rename": "^1.4.0",
-    "gulp-replace": "^1.0.0",
     "gulp-serve": "^1.4.0",
     "gulp-terser": "^1.1.7",
     "module-alias": "^2.2.0",

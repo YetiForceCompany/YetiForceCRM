@@ -1,0 +1,2 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+export default(function(e,n,t,r,o,i,s,c){const d=("function"==typeof t?t.options:t)||{};return d.__file="Home.vue",d.render||(d.render=e.render,d.staticRenderFns=e.staticRenderFns,d._compiled=!0,o&&(d.functional=!0)),d._scopeId=r,d}({render:function(){var e=this.$createElement;return(this._self._c||e)("div",[this._v("Home page")])},staticRenderFns:[]},0,{name:"Base.Home.Pages.Home"},void 0,!1));

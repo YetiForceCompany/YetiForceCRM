@@ -64,16 +64,16 @@ const ModuleLoader = {
       if (routeItem.componentPath.substring(0, 1) !== '/') {
         routeItem.component = () => {
           if (window.env.Env.dev) {
-            console.log(`Loading ${this.getPath(module.path)}/${route.componentPath}.js`)
+            console.log(`Loading ${this.getPath(module.path)}/${route.componentPath}`)
           }
-          return import(`/src/${this.getPath(module.path)}/${route.componentPath}.js`)
+          return import(`/src/${this.getPath(module.path)}/${route.componentPath}`)
         }
       } else {
         routeItem.component = () => {
           if (window.env.Env.dev) {
-            console.log(`Loading /src/${route.componentPath.substring(1)}.js`)
+            console.log(`Loading /src/${route.componentPath.substring(1)}`)
           }
-          return import(`/src/${route.componentPath.substring(1)}.js`)
+          return import(`/src/${route.componentPath.substring(1)}`)
         }
       }
       if (typeof route.children !== 'undefined') {

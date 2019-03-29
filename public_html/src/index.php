@@ -9,6 +9,7 @@
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+$dev = \App\Config::debug('JS_DEBUG');
 ?>
 <!DOCTYPE html>
 <html>
@@ -31,15 +32,18 @@
     <div id="app"></div>
 
     <script>window.env = <?php echo $webUI->getEnv(); ?>;</script>
-    <script src="/node_modules/quasar/dist/quasar.ie.polyfills.umd.min.js"></script>
-    <script src="/node_modules/vue/dist/vue.js"></script>
-    <script src="/node_modules/vuex/dist/vuex.js"></script>
-    <script src="/node_modules/vue-router/dist/vue-router.js"></script>
+    <?php if ($dev) { ?>
+      <script src="/node_modules/vue/dist/vue.js"></script>
+    <?php } else { ?>
+      <script src="/node_modules/vue/dist/vue.min.js"></script>
+    <?php } ?>
+    <script src="/node_modules/vuex/dist/vuex.min.js"></script>
+    <script src="/node_modules/vue-router/dist/vue-router.min.js"></script>
     <script src="/node_modules/quasar/dist/quasar.umd.min.js"></script>
     <script src="/node_modules/quasar/dist/icon-set/mdi-v3.umd.min.js"></script>
-    <script src="/node_modules/axios/dist/axios.js"></script>
-    <script src="/node_modules/vue-i18n/dist/vue-i18n.js"></script>
-    <script src="/src/statics/modules.js"></script>
-    <script src="/src/main.js" type="module"></script>
+    <script src="/node_modules/axios/dist/axios.min.js"></script>
+    <script src="/node_modules/vue-i18n/dist/vue-i18n.min.js"></script>
+    <script src="/src/statics/modules.min.js"></script>
+    <script src="/src/main.min.js" type="module"></script>
   </body>
 </html>

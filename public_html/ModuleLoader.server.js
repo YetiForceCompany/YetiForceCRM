@@ -38,7 +38,7 @@ const aliases = {
 }
 moduleAlias.addAliases(aliases)
 const { lstatSync, readdirSync, readFileSync, writeFileSync, watch } = require('fs')
-const { join, resolve, sep, basename, normalize } = require('path')
+const { join, resolve, sep, basename, normalize, parse } = require('path')
 
 const isDirectory = source => {
   try {
@@ -53,6 +53,13 @@ const isFile = source => {
   } catch (e) {
     return false
   }
+}
+
+const isNotMin = source => {
+  const path = parse(source)
+  return (
+    ['routes.min', 'actions.min', 'state.min', 'mutations.min', 'getters.min', 'index.min'].indexOf(path.name) === -1
+  )
 }
 
 function addGlobals() {
@@ -239,6 +246,7 @@ module.exports = {
     return readdirSync(source)
       .map(name => join(source, name))
       .filter(isFile)
+      .filter(isNotMin)
       .map(name => name.substr(source.length + 1))
   },
 
@@ -430,8 +438,8 @@ module.exports = {
         }
       }
       const entry = `${moduleConf.path}${sep}${moduleName}`
-      if (isFile(resolve(entry + '.js'))) {
-        moduleConf.entry = entry + '.js'
+      if (isFile(resolve(entry + '.vue'))) {
+        moduleConf.entry = entry + '.min.js'
       }
       moduleConf.directories = this.getDirectories(moduleConf.path)
       this.loadRoutes(moduleConf)
