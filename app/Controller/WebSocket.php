@@ -132,6 +132,7 @@ class WebSocket
 		$this->container = substr($request->server['path_info'], 1);
 		if (!\class_exists($this->getContainerClass())) {
 			\App\Log::error('Web socket container does not exist: ' . $this->container, 'WebSocket');
+			$server->close($request->fd);
 		}
 	}
 
@@ -147,7 +148,10 @@ class WebSocket
 	{
 		try {
 			\App\Log::info("Request message | fd: {$frame->fd} | Content: {$frame->data}", 'WebSocket');
-			$this->getContainer($frame)->process();
+			$container = $this->getContainer($frame);
+			if ($container->checkPermission()) {
+				$container->process();
+			}
 		} catch (\Throwable $e) {
 			\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString(), 'WebSocket');
 		}

@@ -94,7 +94,7 @@ class Debug
 	public static $MAILER_DEBUG = true;
 
 	/** Show logs messages in WebSocket console */
-	public static $WEBSOCKET_SHOW_LOG = true;
+	public static $WEBSOCKET_SHOW_LOG = false;
 
 	/** Swoole WebSocket error logs location of the server */
 	public static $WEBSOCKET_LOG_FILE = 'cache/logs/WebSocket.log';

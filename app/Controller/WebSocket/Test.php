@@ -25,6 +25,14 @@ final class Test extends Base
 	public function process()
 	{
 		$this->pushRaw('Test OK');
-		$this->pushRaw('Request body: ' . $this->getFrame()->data);
+		$this->pushRaw('Request body: ' . $this->frame->data);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function checkPermission()
+	{
+		return true;
 	}
 }

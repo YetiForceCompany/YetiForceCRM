@@ -21,13 +21,13 @@ abstract class Base
 	 *
 	 * @var \App\Controller\WebSocket
 	 */
-	private $webSocket;
+	protected $webSocket;
 	/**
 	 * WebSocket Frame.
 	 *
 	 * @var \Swoole\WebSocket\Frame
 	 */
-	private $frame;
+	protected $frame;
 	/**
 	 * Request instance.
 	 *
@@ -56,14 +56,11 @@ abstract class Base
 	abstract public function process();
 
 	/**
-	 * Get frame function.
+	 * Check container permission function.
 	 *
-	 * @return \Swoole\WebSocket\Frame
+	 * @return bool
 	 */
-	public function getFrame(): \Swoole\WebSocket\Frame
-	{
-		return $this->frame;
-	}
+	abstract public function checkPermission();
 
 	/**
 	 * Push raw message function.
