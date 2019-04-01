@@ -8,10 +8,7 @@ const defaultOptions = {
   compiler: {
     style: { trim: true, postcssModulesOptions: { generateScopedName: '[path][name]__[local]' } },
     template: {
-      isProduction: true,
-      compilerOptions: {
-        //outputSourceRange: true
-      }
+      isProduction: true
     }
   }
 }
