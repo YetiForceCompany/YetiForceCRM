@@ -20,13 +20,16 @@ class Debug
 	/** Enable saving logs to file. Values: false/true */
 	public static $LOG_TO_FILE = true;
 
+	/** Real Time Logging. Available: false/true */
+	public static $realTimeLogging = false;
+
 	/** Enable displaying logs in debug console. Values: false/true */
 	public static $LOG_TO_CONSOLE = false;
 
 	/** Enable saving logs profiling.  Values: false/true */
 	public static $LOG_TO_PROFILE = false;
 
-	/** Level of saved/displayed logs. Values: false = All / 3 = error and warning / ["error", "warning", "info", "trace", "profile"] */
+	/** Level of saved/displayed logs. Values: false = All / 3 = error and warning / ['error', 'warning', 'info', 'trace', 'profile'] */
 	public static $LOG_LEVELS = ['error', 'warning'];
 
 	/** Level of saved/displayed tracerts. // Values: int */
@@ -106,7 +109,7 @@ class Debug
 	 * 2 => INFO
 	 * 3 => NOTICE
 	 * 4 => WARNING
-	 * 5 => ERROR.
+	 * 5 => ERROR
 	 */
 	public static $WEBSOCKET_LOG_LEVEL = 4;
 
