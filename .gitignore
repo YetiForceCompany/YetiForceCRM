@@ -68,21 +68,6 @@ yarn-error.log
 .babelrc
 .sonarlint/
 
-# QUASAR
-.quasar
-.DS_Store
-.thumbs.db
-node_modules
-/public_html/dist
-/src-cordova/node_modules
-/src-cordova/platforms
-/src-cordova/plugins
-/src-cordova/www
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-dev.php
-
 # Editor directories and files
 .idea
 .vscode
@@ -91,5 +76,8 @@ dev.php
 *.njsproj
 *.sln
 
-# front end app local variables (for gulp for example)
+# front end
 /public_html/.env
+/public_html/**/*.vue.js
+/public_html/**/*.min.js
+/public_html/node_modules

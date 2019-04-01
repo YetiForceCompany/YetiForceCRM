@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import YfBreadcrumbs from './YfBreadcrumbs.js'
-import YfCopyright from './YfCopyright.js'
+import YfBreadcrumbs from './YfBreadcrumbs.vue.js'
+import YfCopyright from './YfCopyright.vue.js'
 
 export default {
   name: 'YfFooter',

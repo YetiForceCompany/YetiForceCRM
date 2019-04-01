@@ -1,6 +1,11 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 const ModuleLoader = {
   /**
+   * Developer mode
+   */
+  dev: window.env.Env.dev,
+
+  /**
    * All imported modules by moduleName
    */
   modules: {},
@@ -59,21 +64,34 @@ const ModuleLoader = {
       const routeItem = { ...route }
       routeItem.children = []
       if (typeof routeItem.componentPath === 'undefined') {
+        if (typeof route.children !== 'undefined') {
+          this.prepareRoutes(module, route.children).forEach(route => routeItem.children.push(route))
+        }
         return routeItem
       }
       if (routeItem.componentPath.substring(0, 1) !== '/') {
+        let componentPath = `/src/${this.getPath(module.path)}/${route.componentPath}`
+        if (!componentPath.endsWith('.vue.js')) {
+          componentPath += '.vue.js'
+        }
         routeItem.component = () => {
-          if (window.env.Env.dev) {
-            console.log(`Loading ${this.getPath(module.path)}/${route.componentPath}`)
+          if (this.dev) {
+            componentPath += '?dev=' + new Date().getTime()
+            console.log(`Loading ${componentPath}`)
           }
-          return import(`/src/${this.getPath(module.path)}/${route.componentPath}`)
+          return import(componentPath)
         }
       } else {
+        let componentPath = `/src/${route.componentPath.substring(1)}`
+        if (!componentPath.endsWith('.vue.js')) {
+          componentPath += '.vue.js'
+        }
         routeItem.component = () => {
-          if (window.env.Env.dev) {
-            console.log(`Loading /src/${route.componentPath.substring(1)}`)
+          if (this.dev) {
+            componentPath += '?dev=' + new Date().getTime()
+            console.log(`Loading ${componentPath}`)
           }
-          return import(`/src/${route.componentPath.substring(1)}`)
+          return import(componentPath)
         }
       }
       if (typeof route.children !== 'undefined') {
@@ -178,13 +196,20 @@ const ModuleLoader = {
     for (const module of modules) {
       if (typeof module.entry !== 'undefined') {
         const modulePath = this.getPath(module.entry)
+        let componentPath = `/src/${modulePath}`
+        if (!componentPath.endsWith('.vue.js')) {
+          componentPath += '.vue.js'
+        }
+        if (this.dev) {
+          componentPath += '?dev=' + new Date().getTime()
+        }
         flat.components[module.name] = {
           module: module,
           component() {
-            if (window.env.Env.dev) {
-              console.log(`importing /src/${modulePath}`)
+            if (this.dev) {
+              console.log(`importing ${componentPath}`)
             }
-            return import(`/src/${modulePath}`)
+            return import(componentPath)
           }
         }
         flat.modules.push({

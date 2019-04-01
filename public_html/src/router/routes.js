@@ -5,7 +5,7 @@ const routes = [
   {
     name: 'App',
     path: '/',
-    component: () => import('/src/layouts/Basic.js')
+    component: () => import('/src/layouts/Basic.vue.js')
   }
 ]
 

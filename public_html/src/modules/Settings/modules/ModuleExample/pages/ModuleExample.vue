@@ -5,7 +5,7 @@
   </hook-wrapper>
 </template>
 <script>
-import HookWrapper from '/Core/modules/Hooks/components/HookWrapper.js'
+import HookWrapper from '/Core/modules/Hooks/components/HookWrapper.vue.js'
 
 const moduleName = 'Settings.ModuleExample.Pages.ModuleExample'
 export default {

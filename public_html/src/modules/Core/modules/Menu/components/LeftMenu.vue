@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import MenuItem from './Items/Item.js'
+import MenuItem from './Items/Item.vue.js'
 
 const moduleName = 'Core.Left.Menu'
 export default {
