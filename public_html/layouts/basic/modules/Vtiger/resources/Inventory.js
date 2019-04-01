@@ -409,7 +409,7 @@ $.Class("Vtiger_Inventory_Js", {
 	calculateDiscounts: function (row) {
 		var discountParams = row.find('.discountParam').val();
 		var aggregationType = $('.aggregationTypeDiscount').val();
-		if (discountParams == '' || discountParams == '[]' || discountParams == undefined)
+		if (discountParams == '' || discountParams == 'null' || discountParams == '[]' || discountParams == undefined)
 			return 0;
 		discountParams = JSON.parse(discountParams);
 		var valuePrices = this.getTotalPrice(row);
