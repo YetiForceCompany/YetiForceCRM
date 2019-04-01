@@ -29,8 +29,11 @@ export default function({ store }) {
     if (isLoggedIn === undefined) {
       isLoggedIn = window.env.Users.isLoggedIn
     }
-    if (isLoggedIn || routeTo.path.startsWith('/core/users/login')) {
+    if (isLoggedIn || routeTo.path.startsWith('/users/login')) {
       next()
+    } else if (routeFrom.path.startsWith('/users/login')) {
+      Quasar.plugins.Loading.hide()
+      next(false)
     } else {
       next({ name: 'Core.Users.Login' })
     }

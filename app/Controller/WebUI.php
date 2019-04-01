@@ -92,7 +92,15 @@ class WebUI extends Base
 			'Debug' => [
 				'levels' => ['error']
 			],
-			'Users' => ['isLoggedIn' => \App\User::isLoggedIn()]
+      'Users' => [
+        'isLoggedIn' => \App\User::isLoggedIn(),
+        'isBlockedIp' => \Settings_BruteForce_Module_Model::getCleanInstance()->isBlockedIp(),
+        'loginPageRememberCredentials' => \AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS'),
+        'resetLoginPassword' => \AppConfig::security('RESET_LOGIN_PASSWORD'),
+        'langInLoginView' => \App\Config::main('langInLoginView'),
+        'layoutInLoginView' => \App\Config::main('layoutInLoginView'),
+        'defaultLayout' => \App\Config::main('defaultLayout')
+        ]
 		]);
 	}
 }
