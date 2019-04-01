@@ -97,7 +97,6 @@ class Security
 
 	/**
 	 * User authentication mode.
-	 *
 	 * @see \Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE Available values.
 	 */
 	public static $USER_AUTHY_MODE = 'TOTP_OPTIONAL';

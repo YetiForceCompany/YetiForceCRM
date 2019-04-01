@@ -458,7 +458,7 @@ module.exports = {
       }
       const entry = `${moduleConf.path}${sep}${moduleName}`
       if (isFile(resolve(entry + '.vue'))) {
-        moduleConf.entry = entry + '.min.js'
+        moduleConf.entry = entry + '.vue.js'
       }
       moduleConf.directories = this.getDirectories(moduleConf.path)
       this.loadRoutes(moduleConf)

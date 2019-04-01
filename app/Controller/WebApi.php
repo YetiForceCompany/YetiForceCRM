@@ -31,6 +31,8 @@ class WebApi extends WebUI
 			require_once 'config/csrf_config.php';
 			\CsrfMagic\Csrf::init();
 		}
+
+		\App\Process::$requestMode = 'WebApi';
 		\App\Process::$processType = 'Actions';
 		\App\Process::$processName = $this->request->getByType('action', \App\Purifier::ALNUM);
 

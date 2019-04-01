@@ -4,7 +4,7 @@
  * Configuration file.
  * This file is auto-generated.
  *
- * @package   Config
+ * @package Config
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -92,6 +92,23 @@ class Debug
 
 	/** Mailer debug */
 	public static $MAILER_DEBUG = true;
+
+	/** Show logs messages in WebSocket console */
+	public static $WEBSOCKET_SHOW_LOG = false;
+
+	/** Swoole WebSocket error logs location of the server */
+	public static $WEBSOCKET_LOG_FILE = 'cache/logs/WebSocket.log';
+
+	/**
+	 * Swoole WebSocket log that is inferior to the log_level setted will not be recorded to log file.
+	 * 0 => DEBUG
+	 * 1 => TRACE
+	 * 2 => INFO
+	 * 3 => NOTICE
+	 * 4 => WARNING
+	 * 5 => ERROR.
+	 */
+	public static $WEBSOCKET_LOG_LEVEL = 4;
 
 	/** System error reporting, sum of: 1 = log; 4 = show, 8 = trace */
 	public static $ROUNDCUBE_DEBUG_LEVEL = 1;

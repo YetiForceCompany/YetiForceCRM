@@ -1,5 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-import App from './App.js'
+import App from './App.vue.js'
 import createStore from '/src/store/index.js'
 import createRouter from '/src/router/index.js'
 import createI18n from '/src/i18n/index.js'

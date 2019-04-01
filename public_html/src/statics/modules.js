@@ -9,7 +9,7 @@ window.modules = [
     "parent": "",
     "priority": 0,
     "autoLoad": true,
-    "entry": "src\\modules\\Base\\Base.min.js",
+    "entry": "src\\modules\\Base\\Base.vue.js",
     "directories": [
       "layouts",
       "modules",
@@ -21,7 +21,7 @@ window.modules = [
         "name": "Base",
         "parent": "App",
         "path": "/base",
-        "componentPath": "layouts/Base.js"
+        "componentPath": "layouts/Base"
       }
     ],
     "store": {
@@ -38,7 +38,7 @@ window.modules = [
         "level": 1,
         "priority": 0,
         "autoLoad": true,
-        "entry": "src\\modules\\Base\\modules\\Home\\Home.min.js",
+        "entry": "src\\modules\\Base\\modules\\Home\\Home.vue.js",
         "directories": [
           "pages",
           "router"
@@ -48,12 +48,12 @@ window.modules = [
             "name": "Base.HomeIndex",
             "parent": "Base",
             "path": "home",
-            "componentPath": "/pages/Index.js",
+            "componentPath": "/pages/Index",
             "children": [
               {
                 "name": "Base.HomeIndex.Home",
                 "path": "",
-                "componentPath": "pages/Home.js"
+                "componentPath": "pages/Home"
               }
             ]
           }
@@ -67,7 +67,7 @@ window.modules = [
         "level": 1,
         "priority": 0,
         "autoLoad": true,
-        "entry": "src\\modules\\Base\\modules\\ModuleExample\\ModuleExample.min.js",
+        "entry": "src\\modules\\Base\\modules\\ModuleExample\\ModuleExample.vue.js",
         "directories": [
           "pages",
           "router",
@@ -78,7 +78,7 @@ window.modules = [
             "name": "Base.ModuleExample",
             "parent": "Base",
             "path": "module-example",
-            "componentPath": "pages/ModuleExample.js"
+            "componentPath": "pages/ModuleExample"
           }
         ],
         "store": {
@@ -105,7 +105,7 @@ window.modules = [
     "priority": 100,
     "autoLoad": true,
     "childrenPriority": 90,
-    "entry": "src\\modules\\Core\\Core.min.js",
+    "entry": "src\\modules\\Core\\Core.vue.js",
     "directories": [
       "components",
       "layouts",
@@ -118,7 +118,7 @@ window.modules = [
         "name": "Core",
         "parent": "App",
         "path": "/core",
-        "componentPath": "layouts/Core.js"
+        "componentPath": "layouts/Core"
       }
     ],
     "store": {
@@ -135,7 +135,7 @@ window.modules = [
         "level": 1,
         "priority": 99,
         "autoLoad": true,
-        "entry": "src\\modules\\Core\\modules\\Debug\\Debug.min.js",
+        "entry": "src\\modules\\Core\\modules\\Debug\\Debug.vue.js",
         "directories": [
           "store"
         ],
@@ -156,7 +156,7 @@ window.modules = [
         "level": 1,
         "priority": 90,
         "autoLoad": true,
-        "entry": "src\\modules\\Core\\modules\\Env\\Env.min.js",
+        "entry": "src\\modules\\Core\\modules\\Env\\Env.vue.js",
         "directories": [
           "store"
         ],
@@ -177,7 +177,7 @@ window.modules = [
         "level": 1,
         "priority": 96,
         "autoLoad": true,
-        "entry": "src\\modules\\Core\\modules\\Hooks\\Hooks.min.js",
+        "entry": "src\\modules\\Core\\modules\\Hooks\\Hooks.vue.js",
         "directories": [
           "components",
           "store"
@@ -200,7 +200,7 @@ window.modules = [
         "level": 1,
         "priority": 90,
         "autoLoad": true,
-        "entry": "src\\modules\\Core\\modules\\Language\\Language.min.js",
+        "entry": "src\\modules\\Core\\modules\\Language\\Language.vue.js",
         "directories": [
           "store"
         ],
@@ -219,7 +219,7 @@ window.modules = [
         "priority": 99,
         "autoLoad": true,
         "childrenPriority": 98,
-        "entry": "src\\modules\\Core\\modules\\Menu\\Menu.min.js",
+        "entry": "src\\modules\\Core\\modules\\Menu\\Menu.vue.js",
         "directories": [
           "components",
           "store"
@@ -242,7 +242,7 @@ window.modules = [
         "level": 1,
         "priority": 90,
         "autoLoad": true,
-        "entry": "src\\modules\\Core\\modules\\Url\\Url.min.js",
+        "entry": "src\\modules\\Core\\modules\\Url\\Url.vue.js",
         "directories": [
           "store"
         ],
@@ -264,7 +264,7 @@ window.modules = [
         "priority": 90,
         "autoLoad": true,
         "childrenPriority": 85,
-        "entry": "src\\modules\\Core\\modules\\Users\\Users.min.js",
+        "entry": "src\\modules\\Core\\modules\\Users\\Users.vue.js",
         "directories": [
           "layouts",
           "pages",
@@ -277,7 +277,7 @@ window.modules = [
             "name": "Core.Users.Login",
             "path": "users/login",
             "redirect": "users/login/form",
-            "componentPath": "layouts/Login.js",
+            "componentPath": "layouts/Login",
             "children": [
               {
                 "name": "Core.Users.Login.LoginForm",
@@ -286,7 +286,7 @@ window.modules = [
                   "module": "Core.Users",
                   "view": "Login"
                 },
-                "componentPath": "pages/Login/Form.js"
+                "componentPath": "pages/Login/Form"
               },
               {
                 "name": "Core.Users.Login.2FA",
@@ -295,7 +295,7 @@ window.modules = [
                   "module": "Core.Users",
                   "view": "Login"
                 },
-                "componentPath": "pages/Login/2FA.js"
+                "componentPath": "pages/Login/2FA"
               },
               {
                 "name": "Core.Users.Login.Reminder",
@@ -304,7 +304,7 @@ window.modules = [
                   "module": "Core.Users",
                   "view": "Login"
                 },
-                "componentPath": "pages/Login/Reminder.js"
+                "componentPath": "pages/Login/Reminder"
               }
             ]
           }
@@ -336,7 +336,7 @@ window.modules = [
     "parent": "",
     "priority": 0,
     "autoLoad": true,
-    "entry": "src\\modules\\Settings\\Settings.min.js",
+    "entry": "src\\modules\\Settings\\Settings.vue.js",
     "directories": [
       "layouts",
       "modules",
@@ -348,7 +348,7 @@ window.modules = [
         "name": "Settings",
         "parent": "App",
         "path": "settings",
-        "componentPath": "layouts/Settings.js"
+        "componentPath": "layouts/Settings"
       }
     ],
     "store": {
@@ -365,7 +365,7 @@ window.modules = [
         "level": 1,
         "priority": 0,
         "autoLoad": true,
-        "entry": "src\\modules\\Settings\\modules\\ModuleExample\\ModuleExample.min.js",
+        "entry": "src\\modules\\Settings\\modules\\ModuleExample\\ModuleExample.vue.js",
         "directories": [
           "pages",
           "router"
@@ -375,7 +375,7 @@ window.modules = [
             "name": "Settings.ModuleExample",
             "parent": "Settings",
             "path": "module-example",
-            "componentPath": "pages/ModuleExample.js"
+            "componentPath": "pages/ModuleExample"
           }
         ]
       }

@@ -63,7 +63,7 @@ class Performance
 	/** Max number of mass deleted records */
 	public static $maxMassDeleteRecords = 1000;
 
-	/** Max number of mass deleted records */
+	/** Max number of transfer ownership records */
 	public static $maxMassTransferOwnershipRecords = 1000;
 
 	/** Minimum number of characters to search for record owner */

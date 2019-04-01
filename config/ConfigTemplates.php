@@ -49,7 +49,7 @@ return [
 			'default' => 'Basic',
 			'description' => 'Webservice config.',
 			'validation' => function () {
-				return func_get_arg(0) === 'Basic';
+				return 'Basic' === func_get_arg(0);
 			}
 		],
 		'PRIVATE_KEY' => [
@@ -70,11 +70,11 @@ return [
 			'default' => '',
 			'description' => 'Url for customer portal (Example: https://portal.yetiforce.com/)',
 		],
-//		'HELPDESK_SUPPORT_NAME' => [
-//			'default' => 'your-support name',
-//			'description' => 'Helpdesk support email id and support name (Example: "support@yetiforce.com" and "yetiforce support")',
-//			'validation' => ''
-//		],
+		//		'HELPDESK_SUPPORT_NAME' => [
+		//			'default' => 'your-support name',
+		//			'description' => 'Helpdesk support email id and support name (Example: "support@yetiforce.com" and "yetiforce support")',
+		//			'validation' => ''
+		//		],
 		'HELPDESK_SUPPORT_EMAIL_REPLY' => [
 			'default' => '',
 			'description' => 'Help desk support email reply',
@@ -132,14 +132,14 @@ return [
 			'description' => 'Default module: default value = Home',
 			'validation' => function () {
 				$arg = func_get_arg(0);
-				return \App\Module::isModuleActive($arg) === true;
+				return true === \App\Module::isModuleActive($arg);
 			}
 		],
 		'default_charset' => [
 			'default' => 'UTF-8',
 			'description' => 'Default charset:  default value = "UTF-8"',
 			'validation' => function () {
-				return func_get_arg(0) === 'UTF-8';
+				return 'UTF-8' === func_get_arg(0);
 			}
 		],
 		'default_language' => [
@@ -151,7 +151,7 @@ return [
 			'default' => '',
 			'description' => 'Unique Application Key',
 			'validation' => function () {
-				return !class_exists("\Config\Main");
+				return !class_exists('\\Config\\Main');
 			},
 			'sanitization' => function () {
 				return sha1(time() + random_int(1, 9999999));
@@ -314,7 +314,7 @@ return [
 		],
 		'LOG_LEVELS' => [
 			'default' => false,
-			'description' => 'Level of saved/displayed logs. Values: false = All / 3 = error and warning / ["error", "warning", "info", "trace", "profile"]',
+			'description' => "Level of saved/displayed logs. Values: false = All / 3 = error and warning / ['error', 'warning', 'info', 'trace', 'profile']",
 		],
 		'LOG_TRACE_LEVEL' => [
 			'default' => 0,
@@ -396,11 +396,22 @@ return [
 			'default' => false,
 			'description' => 'Mailer debug'
 		],
+		'WEBSOCKET_SHOW_LOG' => [
+			'default' => false,
+			'description' => 'Show logs messages in WebSocket console'
+		],
+		'WEBSOCKET_LOG_FILE' => [
+			'default' => 'cache/logs/WebSocket.log',
+			'description' => 'Swoole WebSocket error logs location of the server'
+		],
+		'WEBSOCKET_LOG_LEVEL' => [
+			'default' => 4,
+			'description' => "Swoole WebSocket log that is inferior to the log_level setted will not be recorded to log file. \n0 => DEBUG\n1 => TRACE\n2 => INFO\n3 => NOTICE\n4 => WARNING\n5 => ERROR"
+		],
 		'ROUNDCUBE_DEBUG_LEVEL' => [
 			'default' => 1,
 			'description' => 'System error reporting, sum of: 1 = log; 4 = show, 8 = trace'
 		],
-
 		'ROUNDCUBE_DEVEL_MODE' => [
 			'default' => false,
 			'description' => 'Devel_mode this will print real PHP memory usage into logs/console and do not compress JS libraries'
@@ -474,7 +485,7 @@ return [
 			'description' => 'Data caching is about storing some PHP variables in cache and retrieving it later from cache. Drivers: Base, Apcu',
 			'validation' => function () {
 				$arg = func_get_arg(0);
-				return $arg === 'Basic' || $arg === 'Apcu';
+				return 'Basic' === $arg || 'Apcu' === $arg;
 			}
 		],
 		'ENABLE_CACHING_USERS' => [
@@ -935,7 +946,7 @@ return [
 		],
 		'USER_AUTHY_MODE' => [
 			'default' => 'TOTP_OPTIONAL',
-			'description' => "User authentication mode.\n@see \Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE Available values.",
+			'description' => "User authentication mode.\n@see \\Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE Available values.",
 			'validation' => function () {
 				$arg = func_get_arg(0);
 				return in_array($arg, \Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE);
@@ -1022,5 +1033,16 @@ return [
 ];",
 			'description' => 'Basic database configuration'
 		],
+	],
+	'webSocket' => [
+		'host' => [
+			'default' => '0.0.0.0',
+			'description' => 'WebSocket ip address of the server',
+		],
+		'port' => [
+			'default' => 9000,
+			'description' => 'WebSocket port of the server (it needs root privileges if the port is litte than 1024)',
+			'validation' => '\App\Validator::port'
+		]
 	]
 ];

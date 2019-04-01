@@ -54,9 +54,9 @@
 
 <script>
 import getters from '/store/getters.js'
-import LeftMenu from '/Core/modules/Menu/components/LeftMenu.js'
-import YfHeader from '/Core/components/YfHeader.js'
-import YfFooter from '/Core/components/YfFooter.js'
+import LeftMenu from '/Core/modules/Menu/components/LeftMenu.vue.js'
+import YfHeader from '/Core/components/YfHeader.vue.js'
+import YfFooter from '/Core/components/YfFooter.vue.js'
 
 export default {
   name: 'Basic',
