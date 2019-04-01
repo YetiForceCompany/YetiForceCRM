@@ -1,21 +1,29 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 const through = require('through2')
 const vueCompiler = require('@vue/component-compiler')
+const extend = require('extend')
 
-let compiler = vueCompiler.createDefaultCompiler({
-  style: { trim: true, postcssModulesOptions: { generateScopedName: '[path][name]__[local]' } },
-  template: { isProduction: true }
-})
 const defaultOptions = {
-  extension: '.js'
+  extension: '.js',
+  compiler: {
+    style: { trim: true, postcssModulesOptions: { generateScopedName: '[path][name]__[local]' } },
+    template: {
+      isProduction: true,
+      compilerOptions: {
+        //outputSourceRange: true
+      }
+    }
+  }
 }
 
 function compile(contents, file, options) {
-  const opts = { ...defaultOptions, ...options }
+  const opts = extend(true, JSON.parse(JSON.stringify(defaultOptions)), options)
+  const compiler = vueCompiler.createDefaultCompiler(opts.compiler)
   const descriptor = compiler.compileToDescriptor(file.path, contents)
   const assemble = vueCompiler.assemble(compiler, file.path, descriptor)
-  file.contents = new Buffer.from(assemble.code.replace(/^\/\/\n/gim, ''))
+  file.contents = new Buffer.from(assemble.code)
   file.path = file.path.substr(0, file.path.lastIndexOf('.')) + opts.extension
+  file.sourceMap = { ...file.sourceMap, ...assemble.map }
   return file
 }
 

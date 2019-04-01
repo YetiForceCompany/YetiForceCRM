@@ -2,7 +2,6 @@
 const gulp = require('gulp')
 const stylus = require('gulp-stylus')
 const browserSync = require('browser-sync').create()
-const terser = require('gulp-terser')
 const rename = require('gulp-rename')
 const gap = require('gulp-append-prepend')
 const path = require('path')
@@ -10,6 +9,7 @@ require('dotenv').config()
 
 const importAliases = require('./gulp/gulp-import-aliases')
 const importMin = require('./gulp/gulp-import-min')
+const terser = require('./gulp/gulp-terser')
 const vueEsCompiler = require('./gulp/gulp-vue-es-compiler')
 const logger = require('./gulp/gulp-log')
 const ModuleLoader = require('./ModuleLoader.server')
@@ -38,13 +38,7 @@ const vueSrc = 'src/**/*.vue'
 const stylusSrc = 'src/css/**/*.styl'
 const modulesConfigSrc = 'src/statics/modules.js'
 const minSrc = ['src/**/*.js', '!src/**/*.min.js', '!src/**/*.vue.js']
-const generatedSrc = [
-  modulesConfigSrc,
-  'src/store/mutations.js',
-  'src/store/getters.js',
-  'src/store/actions.js',
-  'src/store/state.js'
-]
+const generatedSrc = ['src/store/mutations.js', 'src/store/getters.js', 'src/store/actions.js', 'src/store/state.js']
 /**
  * Compile vue files into .min.js, replace directory aliases and internal imports to .min.js
  *
@@ -58,17 +52,15 @@ function getVueTask(src = vueSrc, dev = false) {
     if (src !== vueSrc) {
       dest = './' + src.slice(0, src.lastIndexOf('/') + 1)
     }
-    const importMinConfig = {
-      extension: 'vue.js'
-    }
+    const importMinOptions = { extension: 'vue.js' }
     if (dev) {
-      importMinConfig.postfix = '?dev=' + new Date().getTime()
+      importMinOptions.postfix = '?dev=' + new Date().getTime()
     }
     return gulp
-      .src(src)
+      .src(src, { sourcemaps: true })
       .pipe(vueEsCompiler())
       .pipe(importAliases({ map: aliases }))
-      .pipe(importMin(importMinConfig))
+      .pipe(importMin(importMinOptions))
       .pipe(
         terser({
           module: true
@@ -98,7 +90,7 @@ function getModulesTask(src = modulesConfigSrc, dev = false) {
       return done()
     }
     return gulp
-      .src(src)
+      .src(src, { sourcemaps: true })
       .pipe(importMin(importMinConfig))
       .pipe(
         terser({
@@ -123,7 +115,7 @@ function getModulesTask(src = modulesConfigSrc, dev = false) {
           extname: '.min.js'
         })
       )
-      .pipe(gulp.dest(sourceDir + '/statics/'))
+      .pipe(gulp.dest(sourceDir + '/statics/', { sourcemaps: true }))
   }
 }
 gulp.task('modules.js', getModulesTask())
@@ -146,7 +138,7 @@ function getMinTask(src = minSrc, dev = false) {
       importMinConfig.postfix = '?dev=' + new Date().getTime()
     }
     return gulp
-      .src(src)
+      .src(src, { sourcemaps: true })
       .pipe(importAliases({ map: aliases }))
       .pipe(importMin(importMinConfig))
       .pipe(
@@ -194,11 +186,10 @@ gulp.task('build', gulp.series(['vue', 'modules.js', 'min']))
  */
 gulp.task('dev', function() {
   ModuleLoader.log = true
-  ModuleLoader.dev = true
   gulp.series([getVueTask(vueSrc, true), getModulesTask(modulesConfigSrc, true), getMinTask(minSrc, true)])(() => {
     ModuleLoader.log = false
     browserSync.init({
-      proxy: process.env.LOCAL_URL,
+      proxy: typeof process.env.LOCAL_URL !== 'undefined' ? process.env.LOCAL_URL : 'http://yeti',
       browser: 'chrome'
     })
     gulp.watch(vueSrc).on('all', (eventName, fileName) => {
