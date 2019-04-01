@@ -160,14 +160,11 @@ gulp.task('build', gulp.series(['vue', 'modules.js', 'min']))
  * Start dev environment with browser-sync
  */
 gulp.task('dev', function() {
-  console.log('dev')
   browserSync.init({
     proxy: process.env.LOCAL_URL
   })
   ModuleLoader.log = false
   gulp.watch(vueSrc).on('all', (eventName, fileName) => {
-    console.log('dev')
-
     fileName = fileName.replace('\\', '/')
     console.log(eventName, fileName)
     gulp.series([getVueTask(fileName)])(() => {
@@ -176,8 +173,6 @@ gulp.task('dev', function() {
     })
   })
   gulp.watch(minSrc).on('all', (eventName, fileName) => {
-    console.log('dev')
-
     fileName = fileName.replace('\\', '/')
     console.log(eventName, fileName)
     ModuleLoader.saveModuleConfig(ModuleLoader.loadModules(sourceDir))
@@ -188,7 +183,6 @@ gulp.task('dev', function() {
   })
 
   gulp.watch(stylusSrc).on('all', (eventName, fileName) => {
-    console.log('dev')
     fileName = fileName.replace('\\', '/')
     console.log(eventName, fileName)
     gulp.series([getCompileCssTask()])(() => {
