@@ -31,6 +31,9 @@ export default function({ store }) {
     }
     if (isLoggedIn || routeTo.path.startsWith('/core/users/login')) {
       next()
+    } else if (routeFrom.path.startsWith('/core/users/login')) {
+      Quasar.plugins.Loading.hide()
+      next(false)
     } else {
       next({ name: 'Core.Users.Login' })
     }
