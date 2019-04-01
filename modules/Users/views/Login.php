@@ -14,15 +14,12 @@ class Users_Login_View extends \App\Controller\View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function loginRequired()
-	{
-		return false;
-	}
+	public $loginRequired = false;
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		return true;
 	}
@@ -30,7 +27,7 @@ class Users_Login_View extends \App\Controller\View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function preProcess(\App\Request $request, $display = true)
+	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
@@ -49,14 +46,14 @@ class Users_Login_View extends \App\Controller\View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function postProcess(\App\Request $request, $display = true)
+	public function postProcess(App\Request $request, $display = true)
 	{
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $request->getModule());
@@ -67,7 +64,7 @@ class Users_Login_View extends \App\Controller\View
 			\App\Session::delete('UserLoginMessage');
 			\App\Session::delete('UserLoginMessageType');
 		}
-		if (\App\Session::get('LoginAuthyMethod') === '2fa') {
+		if ('2fa' === \App\Session::get('LoginAuthyMethod')) {
 			$viewer->view('Login2faTotp.tpl', 'Users');
 		} else {
 			$viewer->assign('LANGUAGE_SELECTION', AppConfig::main('langInLoginView'));
@@ -79,7 +76,7 @@ class Users_Login_View extends \App\Controller\View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getHeaderCss(\App\Request $request)
+	public function getHeaderCss(App\Request $request)
 	{
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
 			'modules.Users.Login'
@@ -89,7 +86,7 @@ class Users_Login_View extends \App\Controller\View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getHeaderScripts(\App\Request $request)
+	public function getHeaderScripts(App\Request $request)
 	{
 		return array_merge(parent::getHeaderScripts($request), $this->checkAndConvertJsScripts([
 			'~libraries/device-uuid/lib/device-uuid.js'

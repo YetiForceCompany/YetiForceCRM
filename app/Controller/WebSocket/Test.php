@@ -24,8 +24,8 @@ final class Test extends Base
 	 */
 	public function process()
 	{
-		$this->pushRaw('Test OK');
-		$this->pushRaw('Request body: ' . $this->frame->data);
+		$this->webSocket->server->push($this->frame->fd, 'Test OK');
+		$this->webSocket->server->push($this->frame->fd, $this->frame->data);
 	}
 
 	/**

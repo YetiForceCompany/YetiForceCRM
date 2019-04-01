@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\Controller;
@@ -17,21 +18,26 @@ namespace App\Controller;
 class Login extends WebUI
 {
 	/**
-	 * Process.
+	 * Process function.
 	 *
-	 * @throws \App\Exceptions\AppException
+	 * @return void
 	 */
 	public function process()
 	{
-		$this->init();
+		$this->requirementsValidation();
 		\App\Process::$processType = 'Actions';
 		\App\Process::$processName = 'Login';
-		$handlerClass = \App\Loader::getComponentClassName(\App\Process::$processType, \App\Process::$processName, 'Users');
 
-		$handler = new $handlerClass($this->request);
-		$handler->checkPermission();
-		$response = $handler->process();
-		$response->setEnv(\App\Config::getJsEnv());
-		$response->emit();
+		$handlerClass = \App\Loader::getComponentClassName(\App\Process::$processType, \App\Process::$processName, 'Users');
+		$handler = new $handlerClass($this->request, new \App\Response());
+		if (\App\Config::main('csrfProtection') && 'demo' !== \App\Config::main('systemMode')) {
+			$handler->validateRequest();
+		}
+		$handler->preProcess();
+		if ($handler->checkPermission()) {
+			$handler->process();
+		}
+		$handler->postProcess();
+		$handler->emit();
 	}
 }

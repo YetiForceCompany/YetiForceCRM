@@ -12,15 +12,12 @@ class Users_ForgotPassword_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function loginRequired()
-	{
-		return false;
-	}
+	public $loginRequired = false;
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		return true;
 	}
@@ -28,7 +25,7 @@ class Users_ForgotPassword_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userName = $request->getByType('user_name', 'Text');

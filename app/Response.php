@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App;
@@ -23,28 +24,47 @@ class Response
 	private $error;
 
 	/**
-	 * Result data.
+	 * Result variable.
+	 *
+	 * @var array
 	 */
-	private $result;
+	private $result = [];
 
 	/**
 	 * Environment data.
 	 */
 	private $env;
+	/**
+	 * Swoole websocket server instance.
+	 *
+	 * @see https://github.com/swoole/swoole-src
+	 *
+	 * @var null|\Swoole\WebSocket\Server
+	 */
+	private $webSocketServer;
+
+	/**
+	 * Set web socket server instance.
+	 *
+	 * @param \Swoole\WebSocket\Server $server
+	 *
+	 * @return void
+	 */
+	public function setWebSocketServer(\Swoole\WebSocket\Server $server)
+	{
+		$this->webSocketServer = $server;
+	}
 
 	/**
 	 * Set error data to send.
 	 *
-	 * @param int         $code
-	 * @param null|string $message
-	 * @param null|string $trace
+	 * @param \Throwable $e
+	 *
+	 * @return void
 	 */
-	public function setError(int $code, ?string $message = null, ?string $trace = null)
+	public function setError(\Throwable $e)
 	{
-		if (null === $message) {
-			$message = $code;
-		}
-		$this->error = ['code' => $code, 'message' => $message, 'trace' => $trace];
+		$this->error = ['code' => $e->getCode(), 'message' => $e->getMessage(), 'trace' => $e->getTraceAsString()];
 	}
 
 	/**
@@ -55,6 +75,19 @@ class Response
 	public function setResult($result)
 	{
 		$this->result = $result;
+	}
+
+	/**
+	 * Set key result data.
+	 *
+	 * @param string $key
+	 * @param mixed  $data
+	 *
+	 * @return void
+	 */
+	public function set(string $key, $data)
+	{
+		$this->result[$key] = $data;
 	}
 
 	/**

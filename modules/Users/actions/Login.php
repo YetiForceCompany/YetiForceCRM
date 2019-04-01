@@ -1,12 +1,13 @@
 <?php
 /**
- * Basic login action.
+ * Login action file.
  *
  * @package   Action
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace Modules\Users\Actions;
@@ -19,10 +20,7 @@ class Login extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function loginRequired()
-	{
-		return false;
-	}
+	public $loginRequired = false;
 
 	/**
 	 * {@inheritdoc}
@@ -33,38 +31,35 @@ class Login extends \App\Controller\Action
 	}
 
 	/**
-	 * Process action.
+	 * {@inheritdoc}
 	 */
 	public function process()
 	{
-		$response = new \App\Response();
 		$bfInstance = \Settings_BruteForce_Module_Model::getCleanInstance();
 		if ($bfInstance->isActive() && $bfInstance->isBlockedIp()) {
 			$bfInstance->incAttempts();
 			\Users_Module_Model::getInstance('Users')->saveLoginHistory(strtolower($this->request->getByType('username', 'Text')), 'Blocked IP');
-			$response->setError(401, 'LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS');
-		} else {
-			$userId = $this->getUser();
-			$userModel = \App\User::getUserModel($userId);
-			$method = $userModel->getDetail('login_method') ?? '';
-			$auth = \App\Auth\Base::getInstance($userId, $method, $this->request);
-			if ($result = $auth->verify()) {
-				$response->setResult($result);
-				$this->setSessionData($userModel, $result);
-			} else {
-				$response->setError(401, $auth->getMessage());
-				if ($bfInstance->isActive()) {
-					$bfInstance->updateBlockedIp();
-					if ($bfInstance->isBlockedIp()) {
-						$bfInstance->sendNotificationEmail();
-						$response->setError(401, 'LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS');
-					}
-				}
-				\Users_Module_Model::getInstance('Users')->saveLoginHistory(\App\Purifier::encodeHtml($this->request->getRaw('username')), 'Failed login');
-			}
+			$this->response->setError(401, 'LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS');
+			return false;
 		}
-
-		return $response;
+		$userId = $this->getLoggedUserId();
+		$userModel = \App\User::getUserModel($userId);
+		$method = $userModel->getDetail('login_method') ?? '';
+		$auth = \App\Auth\Base::getInstance($userId, $method, $this->request);
+		if ($result = $auth->verify()) {
+			$this->response->setResult($result);
+			$this->setSessionData($userModel, $result);
+		} else {
+			$this->response->setError(401, $auth->getMessage());
+			if ($bfInstance->isActive()) {
+				$bfInstance->updateBlockedIp();
+				if ($bfInstance->isBlockedIp()) {
+					$bfInstance->sendNotificationEmail();
+					$this->response->setError(401, 'LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS');
+				}
+			}
+			\Users_Module_Model::getInstance('Users')->saveLoginHistory(\App\Purifier::encodeHtml($this->request->getRaw('username')), 'Failed login');
+		}
 	}
 
 	/**
@@ -89,11 +84,9 @@ class Login extends \App\Controller\Action
 	}
 
 	/**
-	 * Gets user ID.
-	 *
-	 * @return int
+	 * {@inheritdoc}
 	 */
-	private function getUser(): int
+	private function getLoggedUserId(): int
 	{
 		if (\App\Session::has('2faUserId')) {
 			$userId = \App\Session::get('2faUserId');

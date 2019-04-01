@@ -18,13 +18,39 @@ namespace App\Controller;
 abstract class Action extends Base
 {
 	/**
+	 * Response instance.
+	 *
+	 * @var \App\Response
+	 */
+	public $response;
+	/**
+	 * Method call protocol
+	 * Values: http, socket, mix.
+	 *
+	 * @var string
+	 */
+	public $protocol = 'http';
+
+	/**
 	 * Construct.
 	 *
 	 * @param \App\Request $request
 	 */
-	public function __construct(\App\Request $request)
+	public function __construct(\App\Request $request, \App\Response  $response)
 	{
 		$this->request = $request;
+		$this->response = $response;
 		$this->init();
+	}
+
+	/**
+	 * Emit data function.
+	 *
+	 * @return void
+	 */
+	public function emit()
+	{
+		$this->response->setEnv(\App\Config::getJsEnv());
+		$this->response->emit();
 	}
 }

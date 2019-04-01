@@ -18,32 +18,36 @@ namespace App\Controller;
 class WebApi extends WebUI
 {
 	/**
-	 * Process.
+	 * Process function.
+	 *
+	 * @return void
 	 */
 	public function process()
 	{
-		$this->init();
-		$response = new \App\Response();
-		if (!\App\User::isLoggedIn()) {
-			throw new \App\Exceptions\Unauthorized('ERR_LOGIN_IS_REQUIRED', 401);
-		}
+		$this->requirementsValidation();
 		if (\App\Config::main('csrfProtection')) {
 			require_once 'config/csrf_config.php';
 			\CsrfMagic\Csrf::init();
 		}
-
-		\App\Process::$requestMode = 'WebApi';
 		\App\Process::$processType = 'Actions';
 		\App\Process::$processName = $this->request->getByType('action', \App\Purifier::ALNUM);
 
 		$handlerClass = \App\Loader::getComponentClassName(\App\Process::$processType, \App\Process::$processName, $this->request->getModule(false));
-		$handler = new $handlerClass($this->request);
+		$handler = new $handlerClass($this->request, new \App\Response());
+		if ('http' !== $handler->protocol && 'mix' !== $handler->protocol) {
+			throw new \App\Exceptions\InvalidProtocol('ERR_INVALID_PROTOCOL', 400);
+		}
 		if (\App\Config::main('csrfProtection') && 'demo' !== \App\Config::main('systemMode')) {
 			$handler->validateRequest();
 		}
-		$handler->checkPermission();
-		$response = $handler->process();
-		$response->setEnv(\App\Config::getJsEnv());
-		$response->emit();
+		if ($handler->loginRequired && !\App\User::isLoggedIn()) {
+			throw new \App\Exceptions\Unauthorized('ERR_LOGIN_IS_REQUIRED', 401);
+		}
+		$handler->preProcess();
+		if ($handler->checkPermission()) {
+			$handler->process();
+		}
+		$handler->postProcess();
+		$handler->emit();
 	}
 }

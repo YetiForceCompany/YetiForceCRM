@@ -19,6 +19,12 @@ abstract class Base
 	 * @var \App\Request
 	 */
 	public $request;
+	/**
+	 * Check login required permission variable.
+	 *
+	 * @var bool
+	 */
+	public $loginRequired = true;
 
 	/**
 	 * Construct.
@@ -30,16 +36,6 @@ abstract class Base
 		if (\Config\Performance::$CHANGE_LOCALE) {
 			\App\Language::initLocale();
 		}
-	}
-
-	/**
-	 * Function to check login required permission.
-	 *
-	 * @return bool
-	 */
-	public function loginRequired()
-	{
-		return true;
 	}
 
 	/**
@@ -56,8 +52,6 @@ abstract class Base
 
 	/**
 	 * Pre process function.
-	 *
-	 * @param bool $display
 	 */
 	public function preProcess()
 	{
@@ -65,8 +59,6 @@ abstract class Base
 
 	/**
 	 * Post process function.
-	 *
-	 * @param bool $display
 	 */
 	public function postProcess()
 	{
@@ -77,7 +69,7 @@ abstract class Base
 	 *
 	 * @return int User ID
 	 */
-	protected function getLoggedUserId()
+	protected function getLoggedUserId(): int
 	{
 		return \App\Session::get('authenticated_user_id');
 	}

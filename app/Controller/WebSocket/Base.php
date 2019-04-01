@@ -61,30 +61,4 @@ abstract class Base
 	 * @return bool
 	 */
 	abstract public function checkPermission();
-
-	/**
-	 * Push raw message function.
-	 *
-	 * @param mixed $message
-	 *
-	 * @return void
-	 */
-	public function pushRaw($message)
-	{
-		$this->webSocket->server->push($this->frame->fd, $message);
-		\App\Log::info("PushRaw response | fd: {$this->frame->fd} | Content: " . $message, 'WebSocket');
-	}
-
-	/**
-	 * Push message function.
-	 *
-	 * @param mixed $message
-	 *
-	 * @return void
-	 */
-	public function push($message)
-	{
-		$this->webSocket->server->push($this->frame->fd, \App\Json::encode($message));
-		\App\Log::info("Push response | fd: {$this->frame->fd} | Content: " . \App\Json::encode($message), 'WebSocket');
-	}
 }

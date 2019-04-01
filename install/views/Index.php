@@ -20,14 +20,13 @@ class Install_Index_View extends \App\Controller\View
 	 * @var Vtiger_Viewer
 	 */
 	protected $viewer;
+	/**
+	 * {@inheritdoc}
+	 */
+	public $loginRequired = false;
 
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
-	}
-
-	public function loginRequired()
-	{
-		return false;
 	}
 
 	/**
@@ -37,7 +36,7 @@ class Install_Index_View extends \App\Controller\View
 	 *
 	 * @return \App\Request
 	 */
-	public function setLanguage(\App\Request $request)
+	public function setLanguage(App\Request $request)
 	{
 		if (!$request->getByType('lang', 1)) {
 			$lang = '';
@@ -47,7 +46,7 @@ class Install_Index_View extends \App\Controller\View
 					$shortCode = Locale::getPrimaryLanguage($code);
 				});
 				foreach (explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']) as $code) {
-					if (isset($languages[$code]) || ($code = array_search(Locale::acceptFromHttp($code), $languages)) !== false) {
+					if (isset($languages[$code]) || false !== ($code = array_search(Locale::acceptFromHttp($code), $languages))) {
 						$lang = $code;
 						break;
 					}
@@ -73,16 +72,16 @@ class Install_Index_View extends \App\Controller\View
 		$this->exposeMethod('step7');
 	}
 
-	public function preProcess(\App\Request $request, $display = true)
+	public function preProcess(App\Request $request, $display = true)
 	{
-		if ($request->getMode() !== 'step5') {
+		if ('step5' !== $request->getMode()) {
 			date_default_timezone_set('UTC'); // to overcome the pre configuration settings
 		}
 		// Added to redirect to default module if already installed
 		$request->set('module', 'Install');
 		$request = $this->setLanguage($request);
 
-		if ($request->getMode() !== 'step7' && \App\Config::main('application_unique_key', false)) {
+		if ('step7' !== $request->getMode() && \App\Config::main('application_unique_key', false)) {
 			$defaultModule = \AppConfig::main('default_module');
 			$defaultModuleInstance = Vtiger_Module_Model::getInstance($defaultModule);
 			$defaultView = $defaultModuleInstance->getDefaultViewName();
@@ -105,22 +104,22 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->display('InstallPreProcess.tpl');
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode) && $this->isMethodExposed($mode)) {
-			return $this->$mode($request);
+			return $this->{$mode}($request);
 		}
 		$this->step1($request);
 	}
 
-	public function postProcess(\App\Request $request, $display = true)
+	public function postProcess(App\Request $request, $display = true)
 	{
 		$this->viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
 		$this->viewer->display('InstallPostProcess.tpl');
 	}
 
-	public function step1(\App\Request $request)
+	public function step1(App\Request $request)
 	{
 		$isMigrate = false;
 		if (is_dir(ROOT_DIRECTORY . '/install/migrate_schema/')) {
@@ -134,9 +133,9 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->display('Step1.tpl');
 	}
 
-	public function step2(\App\Request $request)
+	public function step2(App\Request $request)
 	{
-		if ($_SESSION['default_language'] === 'pl-PL') {
+		if ('pl-PL' === $_SESSION['default_language']) {
 			$license = file_get_contents('licenses/LicensePL.txt');
 		} else {
 			$license = file_get_contents('licenses/LicenseEN.txt');
@@ -146,7 +145,7 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->display('Step2.tpl');
 	}
 
-	public function step3(\App\Request $request)
+	public function step3(App\Request $request)
 	{
 		$this->viewer->assign('CURRENCIES', Install_Utils_Model::getCurrencyList());
 		require_once ROOT_DIRECTORY . '/modules/Users/UserTimeZonesArray.php';
@@ -166,7 +165,7 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->display('Step3.tpl');
 	}
 
-	public function step4(\App\Request $request)
+	public function step4(App\Request $request)
 	{
 		set_time_limit(60); // Override default limit to let install complete.
 		$error = false;
@@ -246,7 +245,7 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->display('Step4.tpl');
 	}
 
-	public function step5(\App\Request $request)
+	public function step5(App\Request $request)
 	{
 		if ($_SESSION['config_file_info']['db_server'] ?? false) {
 			$success = true;
@@ -279,7 +278,7 @@ class Install_Index_View extends \App\Controller\View
 	 *
 	 * @throws \SmartyException
 	 */
-	public function step6(\App\Request $request)
+	public function step6(App\Request $request)
 	{
 		$configFile = new \App\ConfigFile('main');
 		foreach ($configFile->getTemplate() as $name => $data) {
@@ -293,7 +292,7 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->display('Step6.tpl');
 	}
 
-	public function step7(\App\Request $request)
+	public function step7(App\Request $request)
 	{
 		set_time_limit(0);
 		if (\App\Config::main('application_unique_key', false)) {
@@ -320,11 +319,11 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->display('Step7.tpl');
 	}
 
-	protected function preProcessDisplay(\App\Request $request)
+	protected function preProcessDisplay(App\Request $request)
 	{
 	}
 
-	public function validateRequest(\App\Request $request)
+	public function validateRequest(App\Request $request)
 	{
 		return $request->validateWriteAccess(true);
 	}
@@ -336,7 +335,7 @@ class Install_Index_View extends \App\Controller\View
 	 *
 	 * @return Vtiger_CssScript_Model[]
 	 */
-	public function getHeaderCss(\App\Request $request)
+	public function getHeaderCss(App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
@@ -351,7 +350,7 @@ class Install_Index_View extends \App\Controller\View
 		return array_merge($headerCssInstances, $cssInstances);
 	}
 
-	public function getHeaderScripts(\App\Request $request)
+	public function getHeaderScripts(App\Request $request)
 	{
 		return $this->checkAndConvertJsScripts([
 			'libraries.jquery.dist.jquery'
@@ -365,9 +364,9 @@ class Install_Index_View extends \App\Controller\View
 	 *
 	 * @return Vtiger_JsScript_Model[]
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
-		if ($request->getMode() === 'step7') {
+		if ('step7' === $request->getMode()) {
 			return [];
 		}
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([

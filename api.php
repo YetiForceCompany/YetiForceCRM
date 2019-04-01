@@ -8,13 +8,14 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 require __DIR__ . '/include/ConfigUtils.php';
-
+\App\Process::$startTime = microtime(true);
+\App\Process::$requestMode = 'WebApi';
 try {
 	$api = new \App\Controller\WebApi();
 	$api->process();
 } catch (Throwable $e) {
-	\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
+	\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString(), 'WebApi');
 	$response = new \App\Response();
-	$response->setError($e->getCode(), $e->getMessage(), $e->getTraceAsString());
+	$response->setError($e);
 	$response->emit();
 }

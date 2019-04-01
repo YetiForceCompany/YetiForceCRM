@@ -65,8 +65,8 @@ class WebUI extends Base
 				header('location: ' . \App\Config::main('site_URL'), true, 301);
 			}
 		}
-		$this->init();
 		$this->requirementsValidation();
+		$this->init();
 	}
 
 	/**
@@ -83,7 +83,7 @@ class WebUI extends Base
 				'baseURL' => \App\Config::main('site_URL'),
 				'publicDir' => '/src',
 				'routerMode' => 'hash',
-				'dev' => \App\Config::main('systemMode') === 'test'
+				'dev' => 'test' === \App\Config::main('systemMode')
 			],
 			'Language' => [
 				'lang' => $lang,
