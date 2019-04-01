@@ -39,3 +39,6 @@ class Yii extends \yii\BaseYii
 
 Yii::$container = new \yii\di\Container();
 Yii::setLogger(Yii::createObject('App\Log'));
+if (\App\Config::debug('realTimeLogging', false)) {
+	Yii::getLogger()->flushInterval = 1;
+}

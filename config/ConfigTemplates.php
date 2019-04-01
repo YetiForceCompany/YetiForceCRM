@@ -304,6 +304,10 @@ return [
 			'default' => false,
 			'description' => 'Enable saving logs to file. Values: false/true'
 		],
+		'realTimeLogging' => [
+			'default' => false,
+			'description' => 'Real Time Logging. Available: false/true'
+		],
 		'LOG_TO_CONSOLE' => [
 			'default' => false,
 			'description' => 'Enable displaying logs in debug console. Values: false/true'
