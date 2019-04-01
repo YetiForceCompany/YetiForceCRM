@@ -404,6 +404,10 @@ $.Class("Vtiger_Edit_Js", {
 						reponseDataList.push(responseData);
 					}
 					response(reponseDataList);
+					app.event.trigger('EditView.AfterSearch', {
+						field: inputElement,
+						params: params
+					});
 				});
 			},
 			select: function (event, ui) {
