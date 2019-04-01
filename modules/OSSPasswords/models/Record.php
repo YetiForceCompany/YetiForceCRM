@@ -84,14 +84,18 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Check password length empty and chars.
 	 *
-	 * @param string $password
+	 * @param App\Request $request
 	 *
 	 * @return array
 	 */
-	public function checkPassword($password)
+	public function checkPassword(App\Request $request)
 	{
-		$passLength = strlen($password);
+		$password = $request->getByType('password', 'Text');
+		if ($password !== $request->getRaw('password')) {
+			return ['error' => true, 'message' => \App\Language::translate('LBL_WRONG_PASS', 'OSSPasswords')];
+		}
 
+		$passLength = strlen($password);
 		if (0 == $passLength) {
 			return ['error' => true, 'message' => \App\Language::translate('LBL_NULLPASS', 'OSSPasswords')];
 		}

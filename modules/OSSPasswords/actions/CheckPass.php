@@ -8,7 +8,7 @@
  */
 class OSSPasswords_CheckPass_Action extends \App\Controller\Action
 {
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
@@ -18,16 +18,13 @@ class OSSPasswords_CheckPass_Action extends \App\Controller\Action
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$password = $request->getByType('password', 'Text');
-
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+		$passOK = $recordModel->checkPassword($request);
 
-		$passOK = $recordModel->checkPassword($password);
-
-		if ($passOK['error'] === true) {
+		if (true === $passOK['error']) {
 			$result = ['success' => false, 'message' => $passOK['message']];
 		} else {
 			$result = ['success' => true, 'message' => ''];
