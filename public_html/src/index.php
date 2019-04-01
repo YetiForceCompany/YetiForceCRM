@@ -9,7 +9,7 @@
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-$dev = \App\Config::main('systemMode') === 'test';
+$dev = 'test' === \App\Config::main('systemMode');
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,7 +25,7 @@ $dev = \App\Config::main('systemMode') === 'test';
     />
     <link href="/node_modules/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet" />
     <link href="/node_modules/animate.css/animate.min.css" rel="stylesheet" />
-    <link href="/node_modules/quasar/dist/quasar.min.css" rel="stylesheet" type="text/css" />
+    <link href="/src/css/app.css" rel="stylesheet" type="text/css" />
   </head>
 
   <body>

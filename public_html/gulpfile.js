@@ -1,5 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 const gulp = require('gulp')
+const stylus = require('gulp-stylus')
 const browserSync = require('browser-sync').create()
 const terser = require('gulp-terser')
 const rename = require('gulp-rename')
@@ -34,6 +35,7 @@ const license =
 
 const sourceDir = 'src'
 const vueSrc = 'src/**/*.vue'
+const stylusSrc = 'src/css/**/*.styl'
 const modulesConfigSrc = 'src/statics/modules.js'
 const minSrc = ['src/**/*.js', '!src/**/*.min.js', '!src/**/*.vue.js']
 const generatedSrc = [
@@ -164,6 +166,25 @@ function getMinTask(src = minSrc, dev = false) {
 gulp.task('min', getMinTask())
 
 /**
+ * Compile .css file
+ *
+ * @param {string|array} src
+ *
+ * @returns {function} task
+ */
+function getCompileCssTask() {
+  return function compileCssTask() {
+    return gulp
+      .src('./src/css/app.styl')
+      .pipe(stylus())
+      .pipe(gulp.dest('./src/css'))
+  }
+}
+/**
+ * Styl task
+ */
+gulp.task('compileCss', getCompileCssTask())
+/**
  * Build task
  */
 gulp.task('build', gulp.series(['vue', 'modules.js', 'min']))
@@ -195,6 +216,15 @@ gulp.task('dev', function() {
         console.log(eventName, fileName, 'done')
         browserSync.reload()
       })
+    })
+  })
+
+  gulp.watch(stylusSrc).on('all', (eventName, fileName) => {
+    fileName = fileName.replace('\\', '/')
+    console.log(eventName, fileName)
+    gulp.series([getCompileCssTask()])(() => {
+      console.log(eventName, fileName, 'done')
+      browserSync.reload(fileName)
     })
   })
 })

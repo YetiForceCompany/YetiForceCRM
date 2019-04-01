@@ -4,16 +4,10 @@
     <div>
       <q-btn class="lt-md" round :size="iconSize" flat icon="mdi-magnify" dense />
       <div class="flex gt-sm">
-        <div class="q-pl-sm headerField" style="min-width: 200px">
+        <div :class="[$style.searchFieldWidth, 'q-pl-sm']">
           <q-select v-model="searchModule" :options="searchModules" placeholder="Placeholder" dense />
         </div>
-        <q-input
-          class="q-pl-lg headerField"
-          style="min-width: 200px"
-          v-model="searchText"
-          placeholder="Placeholder"
-          dense
-        >
+        <q-input :class="[$style.searchFieldWidth, 'q-ml-lg']" v-model="searchText" placeholder="Placeholder" dense>
           <template v-slot:after>
             <q-btn round :size="iconSize" flat icon="mdi-magnify" dense />
             <q-btn round :size="iconSize" flat icon="mdi-format-text" dense />
@@ -38,8 +32,10 @@ export default {
 }
 </script>
 
-<style scoped lang="stylus">
-.headerField, .headerField input {
-  min-width: 200px;
+<style module lang="stylus">
+$input-width = 200px;
+
+.searchFieldWidth, .searchFieldWidth input {
+  min-width: $input-width;
 }
 </style>

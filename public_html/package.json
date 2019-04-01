@@ -52,6 +52,7 @@
     "gulp-append-prepend": "^1.0.6",
     "gulp-rename": "^1.4.0",
     "gulp-serve": "^1.4.0",
+    "gulp-stylus": "^2.7.0",
     "gulp-terser": "^1.1.7",
     "module-alias": "^2.2.0",
     "prettier": "^1.16.4",
