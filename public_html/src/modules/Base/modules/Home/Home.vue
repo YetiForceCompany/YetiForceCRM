@@ -7,7 +7,7 @@ const moduleName = 'Base.Home'
 
 export function initialize({ store, router }) {
   store.commit(mutations.Core.Menu.addItem, {
-    path: '/base/home',
+    path: '/home',
     icon: 'mdi-home',
     label: 'Home',
     children: []

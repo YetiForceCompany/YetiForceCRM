@@ -20,7 +20,7 @@ window.modules = [
       {
         "name": "Base",
         "parent": "App",
-        "path": "/base",
+        "path": "/",
         "componentPath": "layouts/Base"
       }
     ],
@@ -117,7 +117,7 @@ window.modules = [
       {
         "name": "Core",
         "parent": "App",
-        "path": "/core",
+        "path": "/",
         "componentPath": "layouts/Core"
       }
     ],
