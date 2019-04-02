@@ -38,7 +38,13 @@ const vueSrc = 'src/**/*.vue'
 const stylusSrc = 'src/css/**/*.styl'
 const modulesConfigSrc = 'src/statics/modules.js'
 const minSrc = ['src/**/*.js', '!src/**/*.min.js', '!src/**/*.vue.js']
-const generatedSrc = ['src/store/mutations.js', 'src/store/getters.js', 'src/store/actions.js', 'src/store/state.js']
+const generatedSrc = [
+  modulesConfigSrc,
+  'src/store/mutations.js',
+  'src/store/getters.js',
+  'src/store/actions.js',
+  'src/store/state.js'
+]
 /**
  * Compile vue files into .min.js, replace directory aliases and internal imports to .min.js
  *
@@ -80,10 +86,9 @@ gulp.task('vue', getVueTask())
 function getModulesTask(src = modulesConfigSrc, dev = false) {
   return function modulesTask(done) {
     const importMinConfig = {}
-    if (generatedSrc.indexOf(src) === -1) {
+    if (!generatedSrc.includes(src)) {
       ModuleLoader.saveModuleConfig(ModuleLoader.loadModules(sourceDir))
-    }
-    if (src !== modulesConfigSrc) {
+    } else {
       return done()
     }
     return gulp
