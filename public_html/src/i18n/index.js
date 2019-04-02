@@ -21,3 +21,4 @@ function createI18n({ app }) {
 }
 
 export default createI18n
+export { i18n }

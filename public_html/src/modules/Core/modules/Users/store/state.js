@@ -3,7 +3,8 @@ export default {
   isLoggedIn: false,
   isBlockedIp: null,
   loginPageRememberCredentials: null,
-  forgotPassword: null,
-  languageSelection: null,
-  layoutSelection: null
+  resetLoginPassword: null,
+  langInLoginView: null,
+  layoutInLoginView: null,
+  is2fa: null
 }
