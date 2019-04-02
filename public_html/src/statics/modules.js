@@ -32,6 +32,30 @@ window.modules = [
     "modules": [
       {
         "parentHierarchy": "Base",
+        "fullName": "Base.Chat",
+        "name": "Chat",
+        "path": "src\\modules\\Base\\modules\\Chat",
+        "level": 1,
+        "priority": 0,
+        "autoLoad": true,
+        "directories": [
+          "components",
+          "store"
+        ],
+        "store": {
+          "actions": {
+            "getData": "Base/Chat/getData"
+          },
+          "getters": {
+            "testVariable": "Base/Chat/testVariable"
+          },
+          "mutations": {
+            "updateTestVariable": "Base/Chat/updateTestVariable"
+          }
+        }
+      },
+      {
+        "parentHierarchy": "Base",
         "fullName": "Base.Home",
         "name": "Home",
         "path": "src\\modules\\Base\\modules\\Home",
