@@ -490,17 +490,17 @@ class Functions
 		if (!file_exists($rootDir . $src)) {
 			return;
 		}
-		foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($rootDir . $src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST) as $filename => $file) {
-			if (is_file($filename)) {
-				unlink($filename);
-			} else {
-				rmdir($filename);
+		if (is_dir($rootDir . $src)) {
+			foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($rootDir . $src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST) as $filename => $file) {
+				if (is_file($filename)) {
+					unlink($filename);
+				} else {
+					rmdir($filename);
+				}
 			}
-		}
-		if (is_file($rootDir . $src)) {
-			unlink($rootDir . $src);
-		} else {
 			rmdir($rootDir . $src);
+		} else {
+			unlink($rootDir . $src);
 		}
 	}
 
