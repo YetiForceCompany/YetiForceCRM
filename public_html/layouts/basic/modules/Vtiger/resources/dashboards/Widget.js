@@ -2436,10 +2436,9 @@ YetiForce_Widget_Js('YetiForce_CalendarActivities_Widget_Js', {}, {
 		});
 	}
 });
-YetiForce_CalendarActivities_Widget_Js('YetiForce_AssignedUpcomingCalendarTasks_Widget_Js', {}, {});
 YetiForce_CalendarActivities_Widget_Js('YetiForce_CreatedNotMineActivities_Widget_Js', {}, {});
+YetiForce_CalendarActivities_Widget_Js('YetiForce_CreatedNotMineOverdueActivities_Widget_Js', {}, {});
 YetiForce_CalendarActivities_Widget_Js('YetiForce_OverDueActivities_Widget_Js', {}, {});
-YetiForce_CalendarActivities_Widget_Js('YetiForce_AssignedOverDueCalendarTasks_Widget_Js', {}, {});
 YetiForce_CalendarActivities_Widget_Js('YetiForce_OverdueActivities_Widget_Js', {}, {});
 YetiForce_Widget_Js('YetiForce_ProductsSoldToRenew_Widget_Js', {}, {
 	modalView: false,

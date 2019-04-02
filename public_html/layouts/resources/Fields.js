@@ -200,7 +200,7 @@ window.App.Fields = {
 				hourFormat = elementHourFormat;
 			}
 			let timePicker24Hour = true;
-			let timeFormat = 'hh:mm';
+			let timeFormat = 'HH:mm';
 			if (hourFormat !== 24) {
 				timePicker24Hour = false;
 				timeFormat = 'hh:mm A';

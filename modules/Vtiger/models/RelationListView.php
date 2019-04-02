@@ -406,7 +406,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 	{
 		$relationModelInstance = $this->getRelationModel();
 		$relatedModuleName = $relationModelInstance->getRelationModuleModel()->getName();
-		$id = $this->getParentRecordModel()->getId();
+		$parentRecordModel = $this->getParentRecordModel();
 		$selectLinks = $this->getSelectRelationLinks();
 		foreach ($selectLinks as $selectLinkModel) {
 			$selectLinkModel->set('_selectRelation', true)->set('_module', $relationModelInstance->getRelationModuleModel());
@@ -425,21 +425,15 @@ class Vtiger_RelationListView_Model extends \App\Base
 			'linkicon' => 'fas fa-desktop',
 		]);
 		$relatedLink['LISTVIEWBASIC'] = array_merge($selectLinks, $this->getAddRelationLinks());
-		$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
-			'linktype' => 'RELATEDLIST_MASSACTIONS',
-			'linklabel' => 'LBL_MASS_DELETE',
-			'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module=Campaigns&action=RelationAjax&mode=massDeleteRelation&src_record={$id}&relatedModule={$relatedModuleName}')",
-			'linkclass' => '',
-			'linkicon' => 'fas fa-eraser',
-		]);
-		$relatedLink['RELATEDLIST_MASSACTIONS_ADV'][] = Vtiger_Link_Model::getInstanceFromValues([
-			'linktype' => 'RELATEDLIST_MASSACTIONS_ADV',
-			'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
-			'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module=Campaigns&action=RelationAjax&mode=exportToExcel&src_record={$id}&relatedModule={$relatedModuleName}','sendByForm')",
-			'linkclass' => '',
-			'linkicon' => 'fas fa-file-excel',
-		]);
-
+		if ('Documents' === $relatedModuleName) {
+			$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'RELATEDLIST_MASSACTIONS',
+				'linklabel' => 'LBL_MASS_DOWNLOAD',
+				'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module={$parentRecordModel->getModuleName()}&action=RelationAjax&mode=massDownload&src_record={$parentRecordModel->getId()}&relatedModule=Documents','sendByForm')",
+				'linkclass' => '',
+				'linkicon' => 'fas fa-download'
+			]);
+		}
 		return $relatedLink;
 	}
 

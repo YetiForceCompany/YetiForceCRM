@@ -13,15 +13,18 @@
 	<div class="RelatedList relatedContainer">
 		{assign var=RELATED_MODULE_NAME value=$RELATED_MODULE->get('name')}
 		{assign var=INVENTORY_MODULE value=$RELATED_MODULE->isInventory()}
-		<input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}"/>
-		<input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}"/>
-		<input type="hidden" value="{$ORDER_BY}" id="orderBy"/>
+		<input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}">
+		<input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}">
+		<input type="hidden" value="{$ORDER_BY}" id="orderBy">
 		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder"/>
 		<input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries">
 		<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 		<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
-		<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
+		<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}">
 		<input type="hidden" class="relatedView" value="{$RELATED_VIEW}">
+		<input type="hidden" id="selectedIds" name="selectedIds" data-selected-ids="">
+		<input type="hidden" id="excludedIds" name="excludedIds" data-excluded-ids="">
+		<input type="hidden" id="recordsCount" value=""/>
 		<div class="relatedHeader my-1">
 			<div class="d-inline-flex flex-wrap w-100 justify-content-between">
 				<div class="u-w-sm-down-100 d-flex flex-wrap flex-sm-nowrap mb-1 mb-md-0">
@@ -57,6 +60,9 @@
 								{/foreach}
 							</ul>
 						</div>
+					{/if}
+					{if isset($RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'])}
+						{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'] TEXT_HOLDER='LBL_ACTIONS' BTN_ICON='fa fa-list' CLASS='btn-group mr-sm-1 relatedViewGroup c-btn-block-sm-down mb-1 mb-sm-0'}
 					{/if}
 					{foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
 						{if {\App\Privilege::isPermitted($RELATED_MODULE_NAME, 'CreateView')} }

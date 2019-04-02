@@ -1291,10 +1291,6 @@ insert  into `vtiger_accounttype`(`accounttypeid`,`accounttype`,`presence`,`pick
 insert  into `vtiger_accounttype`(`accounttypeid`,`accounttype`,`presence`,`picklist_valueid`,`sortorderid`) values (10,'Reseller',1,10,9);
 insert  into `vtiger_accounttype`(`accounttypeid`,`accounttype`,`presence`,`picklist_valueid`,`sortorderid`) values (11,'Other',1,11,10);
 
-/*Data for the table `vtiger_accounttype_seq` */
-
-insert  into `vtiger_accounttype_seq`(`id`) values (11);
-
 /*Data for the table `vtiger_actionmapping` */
 
 insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (0,'Save',0);
@@ -1378,10 +1374,6 @@ insert  into `vtiger_activity_view`(`activity_viewid`,`activity_view`,`sortorder
 insert  into `vtiger_activity_view`(`activity_viewid`,`activity_view`,`sortorderid`,`presence`) values (3,'This Month',2,1);
 insert  into `vtiger_activity_view`(`activity_viewid`,`activity_view`,`sortorderid`,`presence`) values (4,'This Year',3,1);
 
-/*Data for the table `vtiger_activity_view_seq` */
-
-insert  into `vtiger_activity_view_seq`(`id`) values (4);
-
 /*Data for the table `vtiger_activitycf` */
 
 /*Data for the table `vtiger_activityproductrel` */
@@ -1403,19 +1395,11 @@ insert  into `vtiger_activitystatus`(`activitystatusid`,`activitystatus`,`presen
 insert  into `vtiger_activitystatus`(`activitystatusid`,`activitystatus`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'PLL_CANCELLED',0,177,4);
 insert  into `vtiger_activitystatus`(`activitystatusid`,`activitystatus`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'PLL_COMPLETED',0,178,5);
 
-/*Data for the table `vtiger_activitystatus_seq` */
-
-insert  into `vtiger_activitystatus_seq`(`id`) values (6);
-
 /*Data for the table `vtiger_activitytype` */
 
 insert  into `vtiger_activitytype`(`activitytypeid`,`activitytype`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (1,'Call',0,12,0,'80B584');
 insert  into `vtiger_activitytype`(`activitytypeid`,`activitytype`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (2,'Meeting',0,13,1,'FFD500');
 insert  into `vtiger_activitytype`(`activitytypeid`,`activitytype`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (3,'Task',0,921,2,'00d4f5');
-
-/*Data for the table `vtiger_activitytype_seq` */
-
-insert  into `vtiger_activitytype_seq`(`id`) values (3);
 
 /*Data for the table `vtiger_announcementstatus` */
 
@@ -1445,10 +1429,6 @@ insert  into `vtiger_assetstatus`(`assetstatusid`,`assetstatus`,`presence`,`pick
 insert  into `vtiger_assetstatus`(`assetstatusid`,`assetstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'PLL_WAITING_FOR_ACCEPTANCE',1,510,5);
 insert  into `vtiger_assetstatus`(`assetstatusid`,`assetstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'PLL_ACCEPTED',0,511,6);
 insert  into `vtiger_assetstatus`(`assetstatusid`,`assetstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'PLL_CANCELLED',0,672,7);
-
-/*Data for the table `vtiger_assetstatus_seq` */
-
-insert  into `vtiger_assetstatus_seq`(`id`) values (7);
 
 /*Data for the table `vtiger_asterisk` */
 
@@ -1800,10 +1780,6 @@ insert  into `vtiger_callhistorytype`(`callhistorytypeid`,`callhistorytype`,`sor
 insert  into `vtiger_callhistorytype`(`callhistorytypeid`,`callhistorytype`,`sortorderid`,`presence`) values (4,'Missed',4,1);
 insert  into `vtiger_callhistorytype`(`callhistorytypeid`,`callhistorytype`,`sortorderid`,`presence`) values (5,'Voicemail',5,1);
 
-/*Data for the table `vtiger_callhistorytype_seq` */
-
-insert  into `vtiger_callhistorytype_seq`(`id`) values (5);
-
 /*Data for the table `vtiger_campaign` */
 
 /*Data for the table `vtiger_campaign_records` */
@@ -1817,10 +1793,6 @@ insert  into `vtiger_campaignstatus`(`campaignstatusid`,`campaignstatus`,`presen
 insert  into `vtiger_campaignstatus`(`campaignstatusid`,`campaignstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'Inactive',1,17,3);
 insert  into `vtiger_campaignstatus`(`campaignstatusid`,`campaignstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'Completed',1,18,4);
 insert  into `vtiger_campaignstatus`(`campaignstatusid`,`campaignstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'Cancelled',1,19,5);
-
-/*Data for the table `vtiger_campaignstatus_seq` */
-
-insert  into `vtiger_campaignstatus_seq`(`id`) values (6);
 
 /*Data for the table `vtiger_campaigntype` */
 
@@ -1836,10 +1808,6 @@ insert  into `vtiger_campaigntype`(`campaigntypeid`,`campaigntype`,`presence`,`p
 insert  into `vtiger_campaigntype`(`campaigntypeid`,`campaigntype`,`presence`,`picklist_valueid`,`sortorderid`) values (11,'Email',1,30,10);
 insert  into `vtiger_campaigntype`(`campaigntypeid`,`campaigntype`,`presence`,`picklist_valueid`,`sortorderid`) values (12,'Telemarketing',1,31,11);
 insert  into `vtiger_campaigntype`(`campaigntypeid`,`campaigntype`,`presence`,`picklist_valueid`,`sortorderid`) values (13,'Others',1,32,12);
-
-/*Data for the table `vtiger_campaigntype_seq` */
-
-insert  into `vtiger_campaigntype_seq`(`id`) values (13);
 
 /*Data for the table `vtiger_cmileage_logbook_status` */
 
@@ -1859,10 +1827,6 @@ insert  into `vtiger_cmileage_logbook_status`(`cmileage_logbook_statusid`,`cmile
 insert  into `vtiger_contactstatus`(`contactstatusid`,`contactstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Active',1,559,1);
 insert  into `vtiger_contactstatus`(`contactstatusid`,`contactstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Inactive',1,560,2);
 
-/*Data for the table `vtiger_contactstatus_seq` */
-
-insert  into `vtiger_contactstatus_seq`(`id`) values (2);
-
 /*Data for the table `vtiger_contactsubdetails` */
 
 /*Data for the table `vtiger_contract_priority` */
@@ -1870,10 +1834,6 @@ insert  into `vtiger_contactstatus_seq`(`id`) values (2);
 insert  into `vtiger_contract_priority`(`contract_priorityid`,`contract_priority`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Low',1,220,1);
 insert  into `vtiger_contract_priority`(`contract_priorityid`,`contract_priority`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Normal',1,221,2);
 insert  into `vtiger_contract_priority`(`contract_priorityid`,`contract_priority`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'High',1,222,3);
-
-/*Data for the table `vtiger_contract_priority_seq` */
-
-insert  into `vtiger_contract_priority_seq`(`id`) values (3);
 
 /*Data for the table `vtiger_contract_status` */
 
@@ -1884,19 +1844,11 @@ insert  into `vtiger_contract_status`(`contract_statusid`,`contract_status`,`pre
 insert  into `vtiger_contract_status`(`contract_statusid`,`contract_status`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'Complete',0,218,5);
 insert  into `vtiger_contract_status`(`contract_statusid`,`contract_status`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'Archived',1,219,6);
 
-/*Data for the table `vtiger_contract_status_seq` */
-
-insert  into `vtiger_contract_status_seq`(`id`) values (6);
-
 /*Data for the table `vtiger_contract_type` */
 
 insert  into `vtiger_contract_type`(`contract_typeid`,`contract_type`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Support',1,223,1);
 insert  into `vtiger_contract_type`(`contract_typeid`,`contract_type`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Services',1,224,2);
 insert  into `vtiger_contract_type`(`contract_typeid`,`contract_type`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'Administrative',1,225,3);
-
-/*Data for the table `vtiger_contract_type_seq` */
-
-insert  into `vtiger_contract_type_seq`(`id`) values (3);
 
 /*Data for the table `vtiger_convertleadmapping` */
 
@@ -2148,20 +2100,12 @@ insert  into `vtiger_currency_decimal_separator`(`currency_decimal_separatorid`,
 insert  into `vtiger_currency_decimal_separator`(`currency_decimal_separatorid`,`currency_decimal_separator`,`sortorderid`,`presence`) values (4,' ',3,1);
 insert  into `vtiger_currency_decimal_separator`(`currency_decimal_separatorid`,`currency_decimal_separator`,`sortorderid`,`presence`) values (5,'$',4,1);
 
-/*Data for the table `vtiger_currency_decimal_separator_seq` */
-
-insert  into `vtiger_currency_decimal_separator_seq`(`id`) values (5);
-
 /*Data for the table `vtiger_currency_grouping_pattern` */
 
 insert  into `vtiger_currency_grouping_pattern`(`currency_grouping_patternid`,`currency_grouping_pattern`,`sortorderid`,`presence`) values (1,'123,456,789',0,1);
 insert  into `vtiger_currency_grouping_pattern`(`currency_grouping_patternid`,`currency_grouping_pattern`,`sortorderid`,`presence`) values (2,'123456789',1,1);
 insert  into `vtiger_currency_grouping_pattern`(`currency_grouping_patternid`,`currency_grouping_pattern`,`sortorderid`,`presence`) values (3,'123456,789',2,1);
 insert  into `vtiger_currency_grouping_pattern`(`currency_grouping_patternid`,`currency_grouping_pattern`,`sortorderid`,`presence`) values (4,'12,34,56,789',3,1);
-
-/*Data for the table `vtiger_currency_grouping_pattern_seq` */
-
-insert  into `vtiger_currency_grouping_pattern_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_currency_grouping_separator` */
 
@@ -2171,10 +2115,6 @@ insert  into `vtiger_currency_grouping_separator`(`currency_grouping_separatorid
 insert  into `vtiger_currency_grouping_separator`(`currency_grouping_separatorid`,`currency_grouping_separator`,`sortorderid`,`presence`) values (4,' ',1,1);
 insert  into `vtiger_currency_grouping_separator`(`currency_grouping_separatorid`,`currency_grouping_separator`,`sortorderid`,`presence`) values (5,'$',5,1);
 
-/*Data for the table `vtiger_currency_grouping_separator_seq` */
-
-insert  into `vtiger_currency_grouping_separator_seq`(`id`) values (5);
-
 /*Data for the table `vtiger_currency_info` */
 
 insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł',1.00000,'Active',-11,0);
@@ -2183,10 +2123,6 @@ insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`curren
 
 insert  into `vtiger_currency_symbol_placement`(`currency_symbol_placementid`,`currency_symbol_placement`,`sortorderid`,`presence`) values (1,'$1.0',0,1);
 insert  into `vtiger_currency_symbol_placement`(`currency_symbol_placementid`,`currency_symbol_placement`,`sortorderid`,`presence`) values (2,'1.0$',1,1);
-
-/*Data for the table `vtiger_currency_symbol_placement_seq` */
-
-insert  into `vtiger_currency_symbol_placement_seq`(`id`) values (2);
 
 /*Data for the table `vtiger_customaction` */
 
@@ -2738,10 +2674,6 @@ insert  into `vtiger_date_format`(`date_formatid`,`date_format`,`sortorderid`,`p
 insert  into `vtiger_date_format`(`date_formatid`,`date_format`,`sortorderid`,`presence`) values (8,'mm/dd/yyyy',7,1);
 insert  into `vtiger_date_format`(`date_formatid`,`date_format`,`sortorderid`,`presence`) values (9,'yyyy/mm/dd',8,1);
 
-/*Data for the table `vtiger_date_format_seq` */
-
-insert  into `vtiger_date_format_seq`(`id`) values (9);
-
 /*Data for the table `vtiger_dayoftheweek` */
 
 insert  into `vtiger_dayoftheweek`(`dayoftheweekid`,`dayoftheweek`,`sortorderid`,`presence`) values (1,'Sunday',1,1);
@@ -2751,10 +2683,6 @@ insert  into `vtiger_dayoftheweek`(`dayoftheweekid`,`dayoftheweek`,`sortorderid`
 insert  into `vtiger_dayoftheweek`(`dayoftheweekid`,`dayoftheweek`,`sortorderid`,`presence`) values (5,'Thursday',5,1);
 insert  into `vtiger_dayoftheweek`(`dayoftheweekid`,`dayoftheweek`,`sortorderid`,`presence`) values (6,'Friday',6,1);
 insert  into `vtiger_dayoftheweek`(`dayoftheweekid`,`dayoftheweek`,`sortorderid`,`presence`) values (7,'Saturday',7,1);
-
-/*Data for the table `vtiger_dayoftheweek_seq` */
-
-insert  into `vtiger_dayoftheweek_seq`(`id`) values (7);
 
 /*Data for the table `vtiger_def_org_share` */
 
@@ -2837,18 +2765,10 @@ insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) 
 insert  into `vtiger_default_record_view`(`default_record_viewid`,`default_record_view`,`sortorderid`,`presence`) values (1,'Summary',1,1);
 insert  into `vtiger_default_record_view`(`default_record_viewid`,`default_record_view`,`sortorderid`,`presence`) values (2,'Detail',2,1);
 
-/*Data for the table `vtiger_default_record_view_seq` */
-
-insert  into `vtiger_default_record_view_seq`(`id`) values (2);
-
 /*Data for the table `vtiger_defaultactivitytype` */
 
 insert  into `vtiger_defaultactivitytype`(`defaultactivitytypeid`,`defaultactivitytype`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Call',1,325,1);
 insert  into `vtiger_defaultactivitytype`(`defaultactivitytypeid`,`defaultactivitytype`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Meeting',1,326,2);
-
-/*Data for the table `vtiger_defaultactivitytype_seq` */
-
-insert  into `vtiger_defaultactivitytype_seq`(`id`) values (2);
 
 /*Data for the table `vtiger_defaultcv` */
 
@@ -2857,20 +2777,12 @@ insert  into `vtiger_defaultactivitytype_seq`(`id`) values (2);
 insert  into `vtiger_defaulteventstatus`(`defaulteventstatusid`,`defaulteventstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Held',1,323,2);
 insert  into `vtiger_defaulteventstatus`(`defaulteventstatusid`,`defaulteventstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Not Held',1,324,3);
 
-/*Data for the table `vtiger_defaulteventstatus_seq` */
-
-insert  into `vtiger_defaulteventstatus_seq`(`id`) values (2);
-
 /*Data for the table `vtiger_duration_minutes` */
 
 insert  into `vtiger_duration_minutes`(`minutesid`,`duration_minutes`,`sortorderid`,`presence`) values (1,'00',0,1);
 insert  into `vtiger_duration_minutes`(`minutesid`,`duration_minutes`,`sortorderid`,`presence`) values (2,'15',1,1);
 insert  into `vtiger_duration_minutes`(`minutesid`,`duration_minutes`,`sortorderid`,`presence`) values (3,'30',2,1);
 insert  into `vtiger_duration_minutes`(`minutesid`,`duration_minutes`,`sortorderid`,`presence`) values (4,'45',3,1);
-
-/*Data for the table `vtiger_duration_minutes_seq` */
-
-insert  into `vtiger_duration_minutes_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_durationhrs` */
 
@@ -2899,19 +2811,11 @@ insert  into `vtiger_employee_education`(`employee_educationid`,`employee_educat
 insert  into `vtiger_employee_education`(`employee_educationid`,`employee_education`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Secondary',1,426,2);
 insert  into `vtiger_employee_education`(`employee_educationid`,`employee_education`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'Higher',1,427,3);
 
-/*Data for the table `vtiger_employee_education_seq` */
-
-insert  into `vtiger_employee_education_seq`(`id`) values (3);
-
 /*Data for the table `vtiger_employee_status` */
 
 insert  into `vtiger_employee_status`(`employee_statusid`,`employee_status`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Recruiting',1,422,1);
 insert  into `vtiger_employee_status`(`employee_statusid`,`employee_status`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Employee',1,423,2);
 insert  into `vtiger_employee_status`(`employee_statusid`,`employee_status`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'Inactive',1,424,3);
-
-/*Data for the table `vtiger_employee_status_seq` */
-
-insert  into `vtiger_employee_status_seq`(`id`) values (3);
 
 /*Data for the table `vtiger_end_hour` */
 
@@ -2939,10 +2843,6 @@ insert  into `vtiger_end_hour`(`end_hourid`,`end_hour`,`sortorderid`,`presence`)
 insert  into `vtiger_end_hour`(`end_hourid`,`end_hour`,`sortorderid`,`presence`) values (22,'21:00',22,1);
 insert  into `vtiger_end_hour`(`end_hourid`,`end_hour`,`sortorderid`,`presence`) values (23,'22:00',23,1);
 insert  into `vtiger_end_hour`(`end_hourid`,`end_hour`,`sortorderid`,`presence`) values (24,'23:00',24,1);
-
-/*Data for the table `vtiger_end_hour_seq` */
-
-insert  into `vtiger_end_hour_seq`(`id`) values (1);
 
 /*Data for the table `vtiger_entity_stats` */
 
@@ -3092,19 +2992,11 @@ insert  into `vtiger_expectedresponse`(`expectedresponseid`,`expectedresponse`,`
 insert  into `vtiger_expectedresponse`(`expectedresponseid`,`expectedresponse`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'Average',1,44,3);
 insert  into `vtiger_expectedresponse`(`expectedresponseid`,`expectedresponse`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'Poor',1,45,4);
 
-/*Data for the table `vtiger_expectedresponse_seq` */
-
-insert  into `vtiger_expectedresponse_seq`(`id`) values (5);
-
 /*Data for the table `vtiger_faq` */
 
 /*Data for the table `vtiger_faqcategories` */
 
 insert  into `vtiger_faqcategories`(`faqcategories_id`,`faqcategories`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'General',1,46,0);
-
-/*Data for the table `vtiger_faqcategories_seq` */
-
-insert  into `vtiger_faqcategories_seq`(`id`) values (1);
 
 /*Data for the table `vtiger_faqcf` */
 
@@ -3116,10 +3008,6 @@ insert  into `vtiger_faqstatus`(`faqstatus_id`,`faqstatus`,`presence`,`picklist_
 insert  into `vtiger_faqstatus`(`faqstatus_id`,`faqstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Reviewed',0,48,1);
 insert  into `vtiger_faqstatus`(`faqstatus_id`,`faqstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'Published',0,49,2);
 insert  into `vtiger_faqstatus`(`faqstatus_id`,`faqstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'Obsolete',0,50,3);
-
-/*Data for the table `vtiger_faqstatus_seq` */
-
-insert  into `vtiger_faqstatus_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_fcorectinginvoice_formpayment` */
 
@@ -5163,10 +5051,6 @@ insert  into `vtiger_glacct`(`glacctid`,`glacct`,`presence`,`picklist_valueid`,`
 insert  into `vtiger_glacct`(`glacctid`,`glacct`,`presence`,`picklist_valueid`,`sortorderid`) values (8,'307-Service-Hardware Labor',1,58,7);
 insert  into `vtiger_glacct`(`glacctid`,`glacct`,`presence`,`picklist_valueid`,`sortorderid`) values (9,'308-Sales-Books',1,59,8);
 
-/*Data for the table `vtiger_glacct_seq` */
-
-insert  into `vtiger_glacct_seq`(`id`) values (9);
-
 /*Data for the table `vtiger_group2grouprel` */
 
 /*Data for the table `vtiger_group2modules` */
@@ -5203,20 +5087,12 @@ insert  into `vtiger_holidaysentitlement_year`(`holidaysentitlement_yearid`,`hol
 insert  into `vtiger_holidaysentitlement_year`(`holidaysentitlement_yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (10,'2011',1,585,10);
 insert  into `vtiger_holidaysentitlement_year`(`holidaysentitlement_yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (11,'2010',1,586,11);
 
-/*Data for the table `vtiger_holidaysentitlement_year_seq` */
-
-insert  into `vtiger_holidaysentitlement_year_seq`(`id`) values (11);
-
 /*Data for the table `vtiger_holidaysentitlementcf` */
 
 /*Data for the table `vtiger_hour_format` */
 
 insert  into `vtiger_hour_format`(`hour_formatid`,`hour_format`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'12',1,295,1);
 insert  into `vtiger_hour_format`(`hour_formatid`,`hour_format`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'24',1,296,2);
-
-/*Data for the table `vtiger_hour_format_seq` */
-
-insert  into `vtiger_hour_format_seq`(`id`) values (2);
 
 /*Data for the table `vtiger_ideas` */
 
@@ -5226,10 +5102,6 @@ insert  into `vtiger_hour_format_seq`(`id`) values (2);
 
 insert  into `vtiger_ideasstatus`(`ideasstatusid`,`ideasstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Draft',1,564,1);
 insert  into `vtiger_ideasstatus`(`ideasstatusid`,`ideasstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Proposition',1,565,2);
-
-/*Data for the table `vtiger_ideasstatus_seq` */
-
-insert  into `vtiger_ideasstatus_seq`(`id`) values (2);
 
 /*Data for the table `vtiger_igdn_status` */
 
@@ -5318,10 +5190,6 @@ insert  into `vtiger_industry`(`industryid`,`industry`,`presence`,`picklist_valu
 insert  into `vtiger_industry`(`industryid`,`industry`,`presence`,`picklist_valueid`,`sortorderid`) values (41,'Uniformed Services',1,463,10);
 insert  into `vtiger_industry`(`industryid`,`industry`,`presence`,`picklist_valueid`,`sortorderid`) values (42,'Transport & Logistics',1,464,11);
 insert  into `vtiger_industry`(`industryid`,`industry`,`presence`,`picklist_valueid`,`sortorderid`) values (43,'Technologies',1,465,12);
-
-/*Data for the table `vtiger_industry_seq` */
-
-insert  into `vtiger_industry_seq`(`id`) values (43);
 
 /*Data for the table `vtiger_internal_tickets_status` */
 
@@ -5415,10 +5283,6 @@ insert  into `vtiger_lead_view`(`lead_viewid`,`lead_view`,`sortorderid`,`presenc
 insert  into `vtiger_lead_view`(`lead_viewid`,`lead_view`,`sortorderid`,`presence`) values (2,'Last 2 Days',1,1);
 insert  into `vtiger_lead_view`(`lead_viewid`,`lead_view`,`sortorderid`,`presence`) values (3,'Last Week',2,1);
 
-/*Data for the table `vtiger_lead_view_seq` */
-
-insert  into `vtiger_lead_view_seq`(`id`) values (3);
-
 /*Data for the table `vtiger_leadaddress` */
 
 /*Data for the table `vtiger_leaddetails` */
@@ -5427,10 +5291,6 @@ insert  into `vtiger_lead_view_seq`(`id`) values (3);
 
 insert  into `vtiger_leads_relation`(`leads_relationid`,`leads_relation`,`sortorderid`,`presence`) values (1,'PLL_B2C',1,1);
 insert  into `vtiger_leads_relation`(`leads_relationid`,`leads_relation`,`sortorderid`,`presence`) values (2,'PLL_B2B',2,1);
-
-/*Data for the table `vtiger_leads_relation_seq` */
-
-insert  into `vtiger_leads_relation_seq`(`id`) values (2);
 
 /*Data for the table `vtiger_leadscf` */
 
@@ -5444,10 +5304,6 @@ insert  into `vtiger_leadsource`(`leadsourceid`,`leadsource`,`presence`,`picklis
 insert  into `vtiger_leadsource`(`leadsourceid`,`leadsource`,`presence`,`picklist_valueid`,`sortorderid`) values (12,'Word of mouth',1,109,11);
 insert  into `vtiger_leadsource`(`leadsourceid`,`leadsource`,`presence`,`picklist_valueid`,`sortorderid`) values (13,'Other',1,110,12);
 
-/*Data for the table `vtiger_leadsource_seq` */
-
-insert  into `vtiger_leadsource_seq`(`id`) values (13);
-
 /*Data for the table `vtiger_leadstage` */
 
 /*Data for the table `vtiger_leadstatus` */
@@ -5459,10 +5315,6 @@ insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklis
 insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (21,'PLL_PENDING',0,720,1,'E6FAD8');
 insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (22,'PLL_IN_REALIZATION',1,721,3,'E6FAD8');
 insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (23,'PLL_INCORRECT',1,722,5,'E6FAD8');
-
-/*Data for the table `vtiger_leadstatus_seq` */
-
-insert  into `vtiger_leadstatus_seq`(`id`) values (23);
 
 /*Data for the table `vtiger_leadsubdetails` */
 
@@ -5488,10 +5340,6 @@ insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`pres
 insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (18,'PLL_EUROPEAN_ASSOCIATION',18,1);
 insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (19,'PLL_UFCIITS',19,1);
 
-/*Data for the table `vtiger_legal_form_seq` */
-
-insert  into `vtiger_legal_form_seq`(`id`) values (19);
-
 /*Data for the table `vtiger_lettersin` */
 
 /*Data for the table `vtiger_lettersincf` */
@@ -5505,10 +5353,6 @@ insert  into `vtiger_legal_form_seq`(`id`) values (19);
 insert  into `vtiger_lin_dimensions`(`lin_dimensionsid`,`lin_dimensions`,`sortorderid`,`presence`) values (1,'PLL_A',1,1);
 insert  into `vtiger_lin_dimensions`(`lin_dimensionsid`,`lin_dimensions`,`sortorderid`,`presence`) values (2,'PLL_B',2,1);
 
-/*Data for the table `vtiger_lin_dimensions_seq` */
-
-insert  into `vtiger_lin_dimensions_seq`(`id`) values (2);
-
 /*Data for the table `vtiger_lin_status` */
 
 insert  into `vtiger_lin_status`(`lin_statusid`,`lin_status`,`sortorderid`,`presence`,`picklist_valueid`) values (1,'PLL_IN_DEPARTMENT',1,1,845);
@@ -5517,10 +5361,6 @@ insert  into `vtiger_lin_status`(`lin_statusid`,`lin_status`,`sortorderid`,`pres
 insert  into `vtiger_lin_status`(`lin_statusid`,`lin_status`,`sortorderid`,`presence`,`picklist_valueid`) values (4,'PLL_DESTOYED_UPON_ADDRESSEES_REQUEST',4,1,911);
 insert  into `vtiger_lin_status`(`lin_statusid`,`lin_status`,`sortorderid`,`presence`,`picklist_valueid`) values (5,'PLL_DESTROYED_IN_ACCORDANCE_WITH_INTERNAL_PROCEDURES',5,1,912);
 insert  into `vtiger_lin_status`(`lin_statusid`,`lin_status`,`sortorderid`,`presence`,`picklist_valueid`) values (6,'PLL_RETURN_TO_SENDER',6,1,913);
-
-/*Data for the table `vtiger_lin_status_seq` */
-
-insert  into `vtiger_lin_status_seq`(`id`) values (6);
 
 /*Data for the table `vtiger_lin_type` */
 
@@ -5550,10 +5390,6 @@ insert  into `vtiger_lin_type_doc`(`lin_type_docid`,`lin_type_doc`,`presence`,`p
 insert  into `vtiger_lin_type_doc`(`lin_type_docid`,`lin_type_doc`,`presence`,`picklist_valueid`,`sortorderid`) values (14,'PLL_CORRECTION',1,606,14);
 insert  into `vtiger_lin_type_doc`(`lin_type_docid`,`lin_type_doc`,`presence`,`picklist_valueid`,`sortorderid`) values (15,'PLL_INVOICE',1,607,15);
 
-/*Data for the table `vtiger_lin_type_doc_seq` */
-
-insert  into `vtiger_lin_type_doc_seq`(`id`) values (15);
-
 /*Data for the table `vtiger_lin_type_ship` */
 
 insert  into `vtiger_lin_type_ship`(`lin_type_shipid`,`lin_type_ship`,`sortorderid`,`presence`) values (1,'PLL_LOCAL_PICKUP',1,1);
@@ -5570,10 +5406,6 @@ insert  into `vtiger_lin_type_ship`(`lin_type_shipid`,`lin_type_ship`,`sortorder
 insert  into `vtiger_lin_type_ship`(`lin_type_shipid`,`lin_type_ship`,`sortorderid`,`presence`) values (12,'PLL_COURIER_DHL',12,1);
 insert  into `vtiger_lin_type_ship`(`lin_type_shipid`,`lin_type_ship`,`sortorderid`,`presence`) values (13,'PLL_COURIER_UPS',13,1);
 insert  into `vtiger_lin_type_ship`(`lin_type_shipid`,`lin_type_ship`,`sortorderid`,`presence`) values (14,'PLL_COURIER_GLS',14,1);
-
-/*Data for the table `vtiger_lin_type_ship_seq` */
-
-insert  into `vtiger_lin_type_ship_seq`(`id`) values (14);
 
 /*Data for the table `vtiger_links` */
 
@@ -5616,8 +5448,6 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (188,54,'DASHBOARDWIDGET','Graf','index.php?module=OSSMailView&view=ShowWidget&name=Graf','',1,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (195,61,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',0,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (199,3,'DASHBOARDWIDGET','Mails List','index.php?module=Home&view=ShowWidget&name=MailsList','',NULL,NULL,NULL,NULL,NULL);
-insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (201,3,'DASHBOARDWIDGET','Delagated Events/To Dos','index.php?module=Home&view=ShowWidget&name=AssignedUpcomingCalendarTasks','',NULL,NULL,NULL,NULL,NULL);
-insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (202,3,'DASHBOARDWIDGET','Delegated (overdue) Events/ToDos','index.php?module=Home&view=ShowWidget&name=AssignedOverdueCalendarTasks','',NULL,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (203,3,'DASHBOARDWIDGET','Delegated project tasks','index.php?module=Home&view=ShowWidget&name=AssignedUpcomingProjectsTasks',NULL,NULL,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (204,3,'DASHBOARDWIDGET','Delegated (overdue) project tasks','index.php?module=Home&view=ShowWidget&name=AssignedOverdueProjectsTasks',NULL,NULL,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (205,7,'DASHBOARDWIDGET','Leads by Status Converted','index.php?module=Leads&view=ShowWidget&name=LeadsByStatusConverted',NULL,8,NULL,NULL,NULL,NULL);
@@ -5749,6 +5579,7 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (360,117,'DASHBOARDWIDGET','Mini List','index.php?module=Home&view=ShowWidget&name=MiniList','',0,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (361,3,'DASHBOARDWIDGET','LBL_UPCOMING_PROJECT_TASKS','index.php?module=ProjectTask&view=ShowWidget&name=UpcomingProjectTasks',NULL,26,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (362,3,'DASHBOARDWIDGET','LBL_COMPLETED_PROJECT_TASKS','index.php?module=ProjectTask&view=ShowWidget&name=CompletedProjectTasks',NULL,NULL,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (363,3,'DASHBOARDWIDGET','LBL_CREATED_BY_ME_BUT_NOT_MINE_OVERDUE_ACTIVITIES','index.php?module=Home&view=ShowWidget&name=CreatedNotMineOverdueActivities','',0,NULL,NULL,NULL,NULL);
 
 /*Data for the table `vtiger_locationregister_status` */
 
@@ -5771,18 +5602,10 @@ insert  into `vtiger_login_method`(`login_methodid`,`login_method`,`presence`,`s
 insert  into `vtiger_lout_dimensions`(`lout_dimensionsid`,`lout_dimensions`,`sortorderid`,`presence`) values (1,'A',1,1);
 insert  into `vtiger_lout_dimensions`(`lout_dimensionsid`,`lout_dimensions`,`sortorderid`,`presence`) values (2,'B',2,1);
 
-/*Data for the table `vtiger_lout_dimensions_seq` */
-
-insert  into `vtiger_lout_dimensions_seq`(`id`) values (2);
-
 /*Data for the table `vtiger_lout_status` */
 
 insert  into `vtiger_lout_status`(`lout_statusid`,`lout_status`,`sortorderid`,`presence`,`picklist_valueid`) values (1,'PLL_NEW',1,1,847);
 insert  into `vtiger_lout_status`(`lout_statusid`,`lout_status`,`sortorderid`,`presence`,`picklist_valueid`) values (2,'PLL_SETTLED',2,1,848);
-
-/*Data for the table `vtiger_lout_status_seq` */
-
-insert  into `vtiger_lout_status_seq`(`id`) values (2);
 
 /*Data for the table `vtiger_lout_type_doc` */
 
@@ -5802,10 +5625,6 @@ insert  into `vtiger_lout_type_doc`(`lout_type_docid`,`lout_type_doc`,`presence`
 insert  into `vtiger_lout_type_doc`(`lout_type_docid`,`lout_type_doc`,`presence`,`picklist_valueid`,`sortorderid`) values (14,'PLL_CORRECTION',1,621,14);
 insert  into `vtiger_lout_type_doc`(`lout_type_docid`,`lout_type_doc`,`presence`,`picklist_valueid`,`sortorderid`) values (15,'PLL_INVOICE',1,622,15);
 
-/*Data for the table `vtiger_lout_type_doc_seq` */
-
-insert  into `vtiger_lout_type_doc_seq`(`id`) values (15);
-
 /*Data for the table `vtiger_lout_type_ship` */
 
 insert  into `vtiger_lout_type_ship`(`lout_type_shipid`,`lout_type_ship`,`sortorderid`,`presence`) values (1,'PLL_LOCAL_PICKUP',1,1);
@@ -5823,10 +5642,6 @@ insert  into `vtiger_lout_type_ship`(`lout_type_shipid`,`lout_type_ship`,`sortor
 insert  into `vtiger_lout_type_ship`(`lout_type_shipid`,`lout_type_ship`,`sortorderid`,`presence`) values (13,'PLL_COURIER_UPS',13,1);
 insert  into `vtiger_lout_type_ship`(`lout_type_shipid`,`lout_type_ship`,`sortorderid`,`presence`) values (14,'PLL_COURIER_GLS',14,1);
 
-/*Data for the table `vtiger_lout_type_ship_seq` */
-
-insert  into `vtiger_lout_type_ship_seq`(`id`) values (14);
-
 /*Data for the table `vtiger_mail_accounts` */
 
 /*Data for the table `vtiger_manufacturer` */
@@ -5834,10 +5649,6 @@ insert  into `vtiger_lout_type_ship_seq`(`id`) values (14);
 insert  into `vtiger_manufacturer`(`manufacturerid`,`manufacturer`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'AltvetPet Inc.',1,124,1);
 insert  into `vtiger_manufacturer`(`manufacturerid`,`manufacturer`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'LexPon Inc.',1,125,2);
 insert  into `vtiger_manufacturer`(`manufacturerid`,`manufacturer`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'MetBeat Corp',1,126,3);
-
-/*Data for the table `vtiger_manufacturer_seq` */
-
-insert  into `vtiger_manufacturer_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_modcomments` */
 
@@ -6019,10 +5830,6 @@ insert  into `vtiger_no_of_currency_decimals`(`no_of_currency_decimalsid`,`no_of
 insert  into `vtiger_no_of_currency_decimals`(`no_of_currency_decimalsid`,`no_of_currency_decimals`,`sortorderid`,`presence`) values (5,'4',4,1);
 insert  into `vtiger_no_of_currency_decimals`(`no_of_currency_decimalsid`,`no_of_currency_decimals`,`sortorderid`,`presence`) values (6,'5',5,1);
 
-/*Data for the table `vtiger_no_of_currency_decimals_seq` */
-
-insert  into `vtiger_no_of_currency_decimals_seq`(`id`) values (6);
-
 /*Data for the table `vtiger_notebook_contents` */
 
 /*Data for the table `vtiger_notes` */
@@ -6045,10 +5852,6 @@ insert  into `vtiger_notification_type`(`notification_typeid`,`notification_type
 
 insert  into `vtiger_oproductstatus`(`oproductstatusid`,`oproductstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Active',1,419,1);
 insert  into `vtiger_oproductstatus`(`oproductstatusid`,`oproductstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Inactive',1,420,2);
-
-/*Data for the table `vtiger_oproductstatus_seq` */
-
-insert  into `vtiger_oproductstatus_seq`(`id`) values (3);
 
 /*Data for the table `vtiger_org_share_action2tab` */
 
@@ -6361,10 +6164,6 @@ insert  into `vtiger_org_share_action_mapping`(`share_action_id`,`share_action_n
 insert  into `vtiger_ossdc_status`(`ossdc_statusid`,`ossdc_status`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'None',1,401,1);
 insert  into `vtiger_ossdc_status`(`ossdc_statusid`,`ossdc_status`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Checked',1,402,2);
 
-/*Data for the table `vtiger_ossdc_status_seq` */
-
-insert  into `vtiger_ossdc_status_seq`(`id`) values (2);
-
 /*Data for the table `vtiger_ossemployees` */
 
 insert  into `vtiger_ossemployees`(`ossemployeesid`,`ossemployees_no`,`parentid`,`employee_status`,`name`,`last_name`,`pesel`,`id_card`,`employee_education`,`birth_date`,`business_phone`,`private_phone`,`business_mail`,`private_mail`,`street`,`code`,`city`,`state`,`country`,`ship_street`,`ship_code`,`ship_city`,`ship_state`,`ship_country`,`dav_status`,`sum_time`,`secondary_phone`,`position`,`rbh`,`business_phone_extra`,`private_phone_extra`,`secondary_phone_extra`,`multicompanyid`) values (2,'P1',0,'Employee','Administrator','Administrator','','','',NULL,'','','help@yetiforce.com','','','','','','','','','','','',1,0.00,'','',0.00000000,'','','',1);
@@ -6377,10 +6176,6 @@ insert  into `vtiger_ossemployeescf`(`ossemployeesid`) values (2);
 
 insert  into `vtiger_osservicesstatus`(`osservicesstatusid`,`osservicesstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Active',1,403,1);
 insert  into `vtiger_osservicesstatus`(`osservicesstatusid`,`osservicesstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Inactive',1,404,2);
-
-/*Data for the table `vtiger_osservicesstatus_seq` */
-
-insert  into `vtiger_osservicesstatus_seq`(`id`) values (3);
 
 /*Data for the table `vtiger_ossmails_logs` */
 
@@ -6411,10 +6206,6 @@ insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) val
 insert  into `vtiger_ossmailview_sendtype`(`ossmailview_sendtypeid`,`ossmailview_sendtype`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Sent',1,388,1);
 insert  into `vtiger_ossmailview_sendtype`(`ossmailview_sendtypeid`,`ossmailview_sendtype`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Received',1,389,2);
 insert  into `vtiger_ossmailview_sendtype`(`ossmailview_sendtypeid`,`ossmailview_sendtype`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'Internal',1,700,3);
-
-/*Data for the table `vtiger_ossmailview_sendtype_seq` */
-
-insert  into `vtiger_ossmailview_sendtype_seq`(`id`) values (3);
 
 /*Data for the table `vtiger_ossmailviewcf` */
 
@@ -6448,10 +6239,6 @@ insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldse
 insert  into `vtiger_osstimecontrol_status`(`osstimecontrol_statusid`,`osstimecontrol_status`,`sortorderid`,`presence`,`picklist_valueid`) values (8,'Accepted',1,0,849);
 insert  into `vtiger_osstimecontrol_status`(`osstimecontrol_statusid`,`osstimecontrol_status`,`sortorderid`,`presence`,`picklist_valueid`) values (13,'To approval',2,1,850);
 
-/*Data for the table `vtiger_osstimecontrol_status_seq` */
-
-insert  into `vtiger_osstimecontrol_status_seq`(`id`) values (13);
-
 /*Data for the table `vtiger_osstimecontrolcf` */
 
 /*Data for the table `vtiger_outsourcedproducts` */
@@ -6481,10 +6268,6 @@ insert  into `vtiger_paymentsin_status`(`paymentsin_statusid`,`paymentsin_status
 insert  into `vtiger_paymentsin_status`(`paymentsin_statusid`,`paymentsin_status`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Denied',1,588,2);
 insert  into `vtiger_paymentsin_status`(`paymentsin_statusid`,`paymentsin_status`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'Paid',1,589,3);
 
-/*Data for the table `vtiger_paymentsin_status_seq` */
-
-insert  into `vtiger_paymentsin_status_seq`(`id`) values (3);
-
 /*Data for the table `vtiger_paymentsincf` */
 
 /*Data for the table `vtiger_paymentsout` */
@@ -6494,10 +6277,6 @@ insert  into `vtiger_paymentsin_status_seq`(`id`) values (3);
 insert  into `vtiger_paymentsout_status`(`paymentsout_statusid`,`paymentsout_status`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Created',1,590,1);
 insert  into `vtiger_paymentsout_status`(`paymentsout_statusid`,`paymentsout_status`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Denied',1,591,2);
 insert  into `vtiger_paymentsout_status`(`paymentsout_statusid`,`paymentsout_status`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'Paid',1,592,3);
-
-/*Data for the table `vtiger_paymentsout_status_seq` */
-
-insert  into `vtiger_paymentsout_status_seq`(`id`) values (3);
 
 /*Data for the table `vtiger_paymentsoutcf` */
 
@@ -6631,7 +6410,7 @@ insert  into `vtiger_picklist_dependency_seq`(`id`) values (17);
 
 /*Data for the table `vtiger_picklistvalues_seq` */
 
-insert  into `vtiger_picklistvalues_seq`(`id`) values (924);
+insert  into `vtiger_picklistvalues_seq`(`id`) values (926);
 
 /*Data for the table `vtiger_portal` */
 
@@ -11397,10 +11176,6 @@ insert  into `vtiger_projectmilestone_priority`(`projectmilestone_priorityid`,`p
 insert  into `vtiger_projectmilestone_priority`(`projectmilestone_priorityid`,`projectmilestone_priority`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'PLL_NORMAL',1,660,2);
 insert  into `vtiger_projectmilestone_priority`(`projectmilestone_priorityid`,`projectmilestone_priority`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'PLL_HIGH',1,661,3);
 
-/*Data for the table `vtiger_projectmilestone_priority_seq` */
-
-insert  into `vtiger_projectmilestone_priority_seq`(`id`) values (3);
-
 /*Data for the table `vtiger_projectmilestone_status` */
 
 insert  into `vtiger_projectmilestone_status`(`projectmilestone_statusid`,`projectmilestone_status`,`presence`,`picklist_valueid`,`sortorderid`,`automation`) values (1,'PLL_PLANNED',0,914,1,1);
@@ -11418,19 +11193,11 @@ insert  into `vtiger_projectmilestonetype`(`projectmilestonetypeid`,`projectmile
 insert  into `vtiger_projectmilestonetype`(`projectmilestonetypeid`,`projectmilestonetype`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'PLL_EXTERNAL',1,239,3);
 insert  into `vtiger_projectmilestonetype`(`projectmilestonetypeid`,`projectmilestonetype`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'PLL_SHARED',1,240,4);
 
-/*Data for the table `vtiger_projectmilestonetype_seq` */
-
-insert  into `vtiger_projectmilestonetype_seq`(`id`) values (4);
-
 /*Data for the table `vtiger_projectpriority` */
 
 insert  into `vtiger_projectpriority`(`projectpriorityid`,`projectpriority`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'low',1,274,2);
 insert  into `vtiger_projectpriority`(`projectpriorityid`,`projectpriority`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'normal',1,275,3);
 insert  into `vtiger_projectpriority`(`projectpriorityid`,`projectpriority`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'high',1,276,4);
-
-/*Data for the table `vtiger_projectpriority_seq` */
-
-insert  into `vtiger_projectpriority_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_projectstatus` */
 
@@ -11441,10 +11208,6 @@ insert  into `vtiger_projectstatus`(`projectstatusid`,`projectstatus`,`presence`
 insert  into `vtiger_projectstatus`(`projectstatusid`,`projectstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`automation`) values (6,'PLL_COMPLETED',0,265,6,'E6FAD8',2);
 insert  into `vtiger_projectstatus`(`projectstatusid`,`projectstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`automation`) values (7,'PLL_CANCELLED',0,266,7,'E6FAD8',2);
 
-/*Data for the table `vtiger_projectstatus_seq` */
-
-insert  into `vtiger_projectstatus_seq`(`id`) values (9);
-
 /*Data for the table `vtiger_projecttask` */
 
 /*Data for the table `vtiger_projecttaskcf` */
@@ -11454,10 +11217,6 @@ insert  into `vtiger_projectstatus_seq`(`id`) values (9);
 insert  into `vtiger_projecttaskpriority`(`projecttaskpriorityid`,`projecttaskpriority`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'low',1,246,2);
 insert  into `vtiger_projecttaskpriority`(`projecttaskpriorityid`,`projecttaskpriority`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'normal',1,247,3);
 insert  into `vtiger_projecttaskpriority`(`projecttaskpriorityid`,`projecttaskpriority`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'high',1,248,4);
-
-/*Data for the table `vtiger_projecttaskpriority_seq` */
-
-insert  into `vtiger_projecttaskpriority_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_projecttaskprogress` */
 
@@ -11486,29 +11245,17 @@ insert  into `vtiger_projecttaskstatus`(`projecttaskstatusid`,`projecttaskstatus
 insert  into `vtiger_projecttaskstatus`(`projecttaskstatusid`,`projecttaskstatus`,`presence`,`picklist_valueid`,`sortorderid`,`automation`) values (7,'PLL_COMPLETED',0,922,7,2);
 insert  into `vtiger_projecttaskstatus`(`projecttaskstatusid`,`projecttaskstatus`,`presence`,`picklist_valueid`,`sortorderid`,`automation`) values (8,'PLL_CANCELLED',0,923,8,2);
 
-/*Data for the table `vtiger_projecttaskstatus_seq` */
-
-insert  into `vtiger_projecttaskstatus_seq`(`id`) values (8);
-
 /*Data for the table `vtiger_projecttasktype` */
 
 insert  into `vtiger_projecttasktype`(`projecttasktypeid`,`projecttasktype`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'administrative',1,242,2);
 insert  into `vtiger_projecttasktype`(`projecttasktypeid`,`projecttasktype`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'operative',1,243,3);
 insert  into `vtiger_projecttasktype`(`projecttasktypeid`,`projecttasktype`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'other',1,244,4);
 
-/*Data for the table `vtiger_projecttasktype_seq` */
-
-insert  into `vtiger_projecttasktype_seq`(`id`) values (4);
-
 /*Data for the table `vtiger_projecttype` */
 
 insert  into `vtiger_projecttype`(`projecttypeid`,`projecttype`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'PLL_INTERNAL',1,270,2);
 insert  into `vtiger_projecttype`(`projecttypeid`,`projecttype`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'PLL_EXTERNAL',1,271,3);
 insert  into `vtiger_projecttype`(`projecttypeid`,`projecttype`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'PLL_COMMON',1,272,4);
-
-/*Data for the table `vtiger_projecttype_seq` */
-
-insert  into `vtiger_projecttype_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_publicholiday` */
 
@@ -11540,10 +11287,6 @@ insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_fr
 insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (19,'first day of +3 months',18,1);
 insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (20,'last day of +3 months',19,1);
 
-/*Data for the table `vtiger_recurring_frequency_seq` */
-
-insert  into `vtiger_recurring_frequency_seq`(`id`) values (20);
-
 /*Data for the table `vtiger_rel_mod` */
 
 insert  into `vtiger_rel_mod`(`rel_modid`,`rel_mod`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Accounts',1,393,1);
@@ -11554,10 +11297,6 @@ insert  into `vtiger_rel_mod`(`rel_modid`,`rel_mod`,`presence`,`picklist_valueid
 insert  into `vtiger_rel_mod`(`rel_modid`,`rel_mod`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'Project',1,398,6);
 insert  into `vtiger_rel_mod`(`rel_modid`,`rel_mod`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'ServiceContracts',1,399,7);
 insert  into `vtiger_rel_mod`(`rel_modid`,`rel_mod`,`presence`,`picklist_valueid`,`sortorderid`) values (8,'Campaigns',1,400,8);
-
-/*Data for the table `vtiger_rel_mod_seq` */
-
-insert  into `vtiger_rel_mod_seq`(`id`) values (8);
 
 /*Data for the table `vtiger_relatedlists` */
 
@@ -11923,10 +11662,6 @@ insert  into `vtiger_reminder_interval`(`reminder_intervalid`,`reminder_interval
 insert  into `vtiger_reminder_interval`(`reminder_intervalid`,`reminder_interval`,`sortorderid`,`presence`) values (7,'1 Hour',6,1);
 insert  into `vtiger_reminder_interval`(`reminder_intervalid`,`reminder_interval`,`sortorderid`,`presence`) values (8,'1 Day',7,1);
 
-/*Data for the table `vtiger_reminder_interval_seq` */
-
-insert  into `vtiger_reminder_interval_seq`(`id`) values (8);
-
 /*Data for the table `vtiger_reservations` */
 
 /*Data for the table `vtiger_reservations_status` */
@@ -11935,10 +11670,6 @@ insert  into `vtiger_reservations_status`(`reservations_statusid`,`reservations_
 insert  into `vtiger_reservations_status`(`reservations_statusid`,`reservations_status`,`sortorderid`,`presence`,`picklist_valueid`) values (2,'PLL_TO_APPROVAL',3,1,852);
 insert  into `vtiger_reservations_status`(`reservations_statusid`,`reservations_status`,`sortorderid`,`presence`,`picklist_valueid`) values (3,'PLL_DRAFT',1,1,853);
 insert  into `vtiger_reservations_status`(`reservations_statusid`,`reservations_status`,`sortorderid`,`presence`,`picklist_valueid`) values (4,'PLL_CANCELLED',4,1,854);
-
-/*Data for the table `vtiger_reservations_status_seq` */
-
-insert  into `vtiger_reservations_status_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_reservationscf` */
 
@@ -17819,10 +17550,6 @@ insert  into `vtiger_rowheight`(`rowheightid`,`rowheight`,`sortorderid`,`presenc
 insert  into `vtiger_rowheight`(`rowheightid`,`rowheight`,`sortorderid`,`presence`) values (2,'medium',2,1);
 insert  into `vtiger_rowheight`(`rowheightid`,`rowheight`,`sortorderid`,`presence`) values (3,'narrow',3,1);
 
-/*Data for the table `vtiger_rowheight_seq` */
-
-insert  into `vtiger_rowheight_seq`(`id`) values (3);
-
 /*Data for the table `vtiger_rss` */
 
 /*Data for the table `vtiger_salesmanticketrel` */
@@ -17834,10 +17561,6 @@ insert  into `vtiger_salutationtype`(`salutationtypeid`,`salutationtype`,`presen
 insert  into `vtiger_salutationtype`(`salutationtypeid`,`salutationtype`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'Mrs.',1,163,3);
 insert  into `vtiger_salutationtype`(`salutationtypeid`,`salutationtype`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'Dr.',1,164,4);
 insert  into `vtiger_salutationtype`(`salutationtypeid`,`salutationtype`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'Prof.',1,165,5);
-
-/*Data for the table `vtiger_salutationtype_seq` */
-
-insert  into `vtiger_salutationtype_seq`(`id`) values (6);
 
 /*Data for the table `vtiger_scalculations_status` */
 
@@ -17860,10 +17583,6 @@ insert  into `vtiger_scalculations_status`(`scalculations_statusid`,`scalculatio
 insert  into `vtiger_service_usageunit`(`service_usageunitid`,`service_usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Hours',1,226,1);
 insert  into `vtiger_service_usageunit`(`service_usageunitid`,`service_usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Days',1,227,2);
 insert  into `vtiger_service_usageunit`(`service_usageunitid`,`service_usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'Incidents',1,228,3);
-
-/*Data for the table `vtiger_service_usageunit_seq` */
-
-insert  into `vtiger_service_usageunit_seq`(`id`) values (3);
 
 /*Data for the table `vtiger_servicecf` */
 
@@ -18102,10 +17821,6 @@ insert  into `vtiger_ssservicesstatus`(`ssservicesstatusid`,`ssservicesstatus`,`
 insert  into `vtiger_ssservicesstatus`(`ssservicesstatusid`,`ssservicesstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'PLL_ACCEPTED',0,689,4);
 insert  into `vtiger_ssservicesstatus`(`ssservicesstatusid`,`ssservicesstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'PLL_CANCELLED',0,690,5);
 
-/*Data for the table `vtiger_ssservicesstatus_seq` */
-
-insert  into `vtiger_ssservicesstatus_seq`(`id`) values (5);
-
 /*Data for the table `vtiger_start_hour` */
 
 insert  into `vtiger_start_hour`(`start_hourid`,`start_hour`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'00:00',1,297,1);
@@ -18133,27 +17848,15 @@ insert  into `vtiger_start_hour`(`start_hourid`,`start_hour`,`presence`,`picklis
 insert  into `vtiger_start_hour`(`start_hourid`,`start_hour`,`presence`,`picklist_valueid`,`sortorderid`) values (23,'22:00',1,319,23);
 insert  into `vtiger_start_hour`(`start_hourid`,`start_hour`,`presence`,`picklist_valueid`,`sortorderid`) values (24,'23:00',1,320,24);
 
-/*Data for the table `vtiger_start_hour_seq` */
-
-insert  into `vtiger_start_hour_seq`(`id`) values (24);
-
 /*Data for the table `vtiger_state` */
 
 insert  into `vtiger_state`(`stateid`,`state`,`sortorderid`,`presence`) values (1,'PLL_OPAQUE',1,1);
 insert  into `vtiger_state`(`stateid`,`state`,`sortorderid`,`presence`) values (2,'PLL_TRANSPARENT',2,1);
 
-/*Data for the table `vtiger_state_seq` */
-
-insert  into `vtiger_state_seq`(`id`) values (2);
-
 /*Data for the table `vtiger_status` */
 
 insert  into `vtiger_status`(`statusid`,`status`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Active',0,1,1);
 insert  into `vtiger_status`(`statusid`,`status`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Inactive',1,1,2);
-
-/*Data for the table `vtiger_status_seq` */
-
-insert  into `vtiger_status_seq`(`id`) values (2);
 
 /*Data for the table `vtiger_storage_status` */
 
@@ -18210,10 +17913,6 @@ insert  into `vtiger_subindustry`(`subindustryid`,`subindustry`,`sortorderid`,`p
 insert  into `vtiger_subindustry`(`subindustryid`,`subindustry`,`sortorderid`,`presence`) values (41,'Information Technology',41,1);
 insert  into `vtiger_subindustry`(`subindustryid`,`subindustry`,`sortorderid`,`presence`) values (42,'Telecommunication',42,1);
 insert  into `vtiger_subindustry`(`subindustryid`,`subindustry`,`sortorderid`,`presence`) values (43,'Media',43,1);
-
-/*Data for the table `vtiger_subindustry_seq` */
-
-insert  into `vtiger_subindustry_seq`(`id`) values (43);
 
 /*Data for the table `vtiger_subunit` */
 
@@ -18434,10 +18133,6 @@ insert  into `vtiger_taskpriority`(`taskpriorityid`,`taskpriority`,`presence`,`p
 insert  into `vtiger_taskpriority`(`taskpriorityid`,`taskpriority`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Medium',1,171,1);
 insert  into `vtiger_taskpriority`(`taskpriorityid`,`taskpriority`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'Low',1,172,2);
 
-/*Data for the table `vtiger_taskpriority_seq` */
-
-insert  into `vtiger_taskpriority_seq`(`id`) values (3);
-
 /*Data for the table `vtiger_ticketcf` */
 
 /*Data for the table `vtiger_ticketpriorities` */
@@ -18447,20 +18142,12 @@ insert  into `vtiger_ticketpriorities`(`ticketpriorities_id`,`ticketpriorities`,
 insert  into `vtiger_ticketpriorities`(`ticketpriorities_id`,`ticketpriorities`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (3,'High',1,184,2,'	#E6FAD8');
 insert  into `vtiger_ticketpriorities`(`ticketpriorities_id`,`ticketpriorities`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (4,'Urgent',1,185,3,'	#E6FAD8');
 
-/*Data for the table `vtiger_ticketpriorities_seq` */
-
-insert  into `vtiger_ticketpriorities_seq`(`id`) values (4);
-
 /*Data for the table `vtiger_ticketseverities` */
 
 insert  into `vtiger_ticketseverities`(`ticketseverities_id`,`ticketseverities`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Minor',1,186,0);
 insert  into `vtiger_ticketseverities`(`ticketseverities_id`,`ticketseverities`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Major',1,187,1);
 insert  into `vtiger_ticketseverities`(`ticketseverities_id`,`ticketseverities`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'Feature',1,188,2);
 insert  into `vtiger_ticketseverities`(`ticketseverities_id`,`ticketseverities`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'Critical',1,189,3);
-
-/*Data for the table `vtiger_ticketseverities_seq` */
-
-insert  into `vtiger_ticketseverities_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_ticketstatus` */
 
@@ -18473,10 +18160,6 @@ insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`
 insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (7,'PLL_SUBMITTED_COMMENTS',1,694,4,'fff500');
 insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (8,'PLL_FOR_APPROVAL',1,695,6,'8c4381');
 insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (9,'PLL_TO_CLOSE',1,696,7,'ffb0e7');
-
-/*Data for the table `vtiger_ticketstatus_seq` */
-
-insert  into `vtiger_ticketstatus_seq`(`id`) values (9);
 
 /*Data for the table `vtiger_time_zone` */
 
@@ -18578,19 +18261,13 @@ insert  into `vtiger_time_zone`(`time_zoneid`,`time_zone`,`sortorderid`,`presenc
 insert  into `vtiger_time_zone`(`time_zoneid`,`time_zone`,`sortorderid`,`presence`) values (96,'Pacific/Tongatapu',96,1);
 insert  into `vtiger_time_zone`(`time_zoneid`,`time_zone`,`sortorderid`,`presence`) values (97,'Etc/GMT-11',91,1);
 
-/*Data for the table `vtiger_time_zone_seq` */
-
-insert  into `vtiger_time_zone_seq`(`id`) values (96);
-
 /*Data for the table `vtiger_timecontrol_type` */
 
-insert  into `vtiger_timecontrol_type`(`timecontrol_typeid`,`timecontrol_type`,`sortorderid`,`presence`,`color`) values (1,'PLL_WORKING_TIME',1,1,'EDC240');
-insert  into `vtiger_timecontrol_type`(`timecontrol_typeid`,`timecontrol_type`,`sortorderid`,`presence`,`color`) values (2,'PLL_BREAK_TIME',2,1,'AFD8F8');
-insert  into `vtiger_timecontrol_type`(`timecontrol_typeid`,`timecontrol_type`,`sortorderid`,`presence`,`color`) values (3,'PLL_HOLIDAY_TIME',3,1,'CB4B4B');
-
-/*Data for the table `vtiger_timecontrol_type_seq` */
-
-insert  into `vtiger_timecontrol_type_seq`(`id`) values (3);
+insert  into `vtiger_timecontrol_type`(`timecontrol_typeid`,`timecontrol_type`,`sortorderid`,`presence`,`color`) values (1,'PLL_WORKING_TIME',1,1,'#EDC240');
+insert  into `vtiger_timecontrol_type`(`timecontrol_typeid`,`timecontrol_type`,`sortorderid`,`presence`,`color`) values (2,'PLL_BREAK_TIME',2,1,'#AFD8F8');
+insert  into `vtiger_timecontrol_type`(`timecontrol_typeid`,`timecontrol_type`,`sortorderid`,`presence`,`color`) values (3,'PLL_HOLIDAY_TIME',3,1,'#CB4B4B');
+insert  into `vtiger_timecontrol_type`(`timecontrol_typeid`,`timecontrol_type`,`sortorderid`,`presence`,`color`) values (4,'PLL_UNPAID_LEAVE',4,1,'#5E666C');
+insert  into `vtiger_timecontrol_type`(`timecontrol_typeid`,`timecontrol_type`,`sortorderid`,`presence`,`color`) values (5,'PLL_SICK_LEAVE',5,1,'#9900FF');
 
 /*Data for the table `vtiger_tmp_read_group_rel_sharing_per` */
 
@@ -18613,10 +18290,6 @@ insert  into `vtiger_timecontrol_type_seq`(`id`) values (3);
 insert  into `vtiger_tracking_unit`(`tracking_unitid`,`tracking_unit`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Hours',1,211,2);
 insert  into `vtiger_tracking_unit`(`tracking_unitid`,`tracking_unit`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'Days',1,212,3);
 insert  into `vtiger_tracking_unit`(`tracking_unitid`,`tracking_unit`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'Incidents',1,213,4);
-
-/*Data for the table `vtiger_tracking_unit_seq` */
-
-insert  into `vtiger_tracking_unit_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_trees_templates` */
 
@@ -18730,10 +18403,6 @@ insert  into `vtiger_usageunit`(`usageunitid`,`usageunit`,`presence`,`picklist_v
 insert  into `vtiger_usageunit`(`usageunitid`,`usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'m',1,197,3);
 insert  into `vtiger_usageunit`(`usageunitid`,`usageunit`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'l',1,198,4);
 
-/*Data for the table `vtiger_usageunit_seq` */
-
-insert  into `vtiger_usageunit_seq`(`id`) values (5);
-
 /*Data for the table `vtiger_user2mergefields` */
 
 /*Data for the table `vtiger_user2role` */
@@ -18772,10 +18441,6 @@ insert  into `vtiger_verification`(`verificationid`,`verification`,`presence`,`p
 insert  into `vtiger_verification`(`verificationid`,`verification`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'Contact details',1,444,2);
 insert  into `vtiger_verification`(`verificationid`,`verification`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'Registration details',1,445,3);
 
-/*Data for the table `vtiger_verification_seq` */
-
-insert  into `vtiger_verification_seq`(`id`) values (6);
-
 /*Data for the table `vtiger_version` */
 
 insert  into `vtiger_version`(`id`,`old_version`,`current_version`) values (1,'2.2.0','2.2.0');
@@ -18793,10 +18458,6 @@ insert  into `vtiger_view_date_format`(`view_date_formatid`,`view_date_format`,`
 
 insert  into `vtiger_visibility`(`visibilityid`,`visibility`,`sortorderid`,`presence`) values (1,'Private',0,1);
 insert  into `vtiger_visibility`(`visibilityid`,`visibility`,`sortorderid`,`presence`) values (2,'Public',1,1);
-
-/*Data for the table `vtiger_visibility_seq` */
-
-insert  into `vtiger_visibility_seq`(`id`) values (2);
 
 /*Data for the table `vtiger_widgets` */
 

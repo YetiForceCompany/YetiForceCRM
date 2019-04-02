@@ -138,6 +138,9 @@ class ModuleHierarchy
 				$return = 'subprocess';
 				break;
 			case 3:
+				$return = 'subprocess_sl';
+				break;
+			case 4:
 				$return = 'linkextend';
 				break;
 			default:

@@ -56,7 +56,7 @@
 										   data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}"
 										   data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'
 										   role="tooltip">
-											<span class="fas fa-info-circle small align-baseline"></span>
+											<span class="fas fa-info-circle fa-sm align-baseline"></span>
 										</a>
 									{/if}
 									{if $FIELD_MODEL->isMandatory() eq true}
@@ -83,9 +83,7 @@
 				<div class="d-flex flex-wrap{if empty($RECORD_ID)} justify-content-center{/if}">
 					{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}
 						{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
-							{if $LINK->get('linkhint') neq 'LBL_GO_TO_FULL_FORM'}
-								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='quickcreateViewHeader'}
-							{/if}
+							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='quickcreateViewHeader'}
 						{/foreach}
 					{/if}
 					<button type="submit" class="js-save-event btn btn-success"

@@ -12,7 +12,10 @@
     "System CRM"
   ],
   "description": "An open and innovative CRM system. Our team created for you one of the most innovative CRM systems that supports mainly business processes and allows for customization according to your needs. Be ahead of your competition and implement YetiForce!",
-  "repository": "git+https://github.com/YetiForceCompany/YetiForceCRM.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YetiForceCompany/YetiForceCRM.git"
+  },
   "author": "YetiForceCompany <info@yetiforce.com> (https://yetiforce.com)",
   "license": "YetiForce Public License v3",
   "dependencies": {

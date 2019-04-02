@@ -1,5 +1,5 @@
 <?php
-/* +***********************************************************************************
+ /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -20,13 +20,14 @@ class Install_Index_View extends \App\Controller\View
 	 * @var Vtiger_Viewer
 	 */
 	protected $viewer;
-	/**
-	 * {@inheritdoc}
-	 */
-	public $loginRequired = false;
 
 	public function checkPermission(App\Request $request)
 	{
+	}
+
+	public function loginRequired()
+	{
+		return false;
 	}
 
 	/**
@@ -225,11 +226,32 @@ class Install_Index_View extends \App\Controller\View
 							$_SESSION['config_file_info']['currency_symbol'] = $currencies[$value][1];
 						} else {
 							$value = '';
+							$error = true;
+						}
+						break;
+					case 'user_name':
+						$blacklist = require ROOT_DIRECTORY . '/config/username_blacklist.php';
+						$value = $request->get($name);
+						if (in_array($value, $blacklist) || !App\Validator::standard($value) || strlen($value) < 3 || strlen($value) > 32) {
+							$value = '';
+							$error = true;
+						}
+						break;
+					case 'admin_email':
+						$value = $request->get($name);
+						if (!App\Validator::email($value)) {
+							$value = '';
+							$error = true;
 						}
 						break;
 					case 'password':
 					case 'retype_password':
-						$value = $request->getRaw($name);
+						if ($request->getRaw('password') === $request->getRaw('retype_password')) {
+							$value = $request->getRaw($name);
+						} else {
+							$value = '';
+							$error = true;
+						}
 						break;
 					default:
 						$value = $request->get($name);
