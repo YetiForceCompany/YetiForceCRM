@@ -651,7 +651,6 @@ class PackageImport extends PackageExport
 					\App\Log::trace("SQL: $sql ... SKIPPED", __METHOD__);
 				} else {
 					\App\Log::trace("SQL: $sql ... ", __METHOD__);
-					Utils::executeQuery($sql);
 					$db->createCommand($sql)->execute();
 					\App\Log::trace('DONE', __METHOD__);
 				}
