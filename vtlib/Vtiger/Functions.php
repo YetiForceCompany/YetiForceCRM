@@ -492,7 +492,7 @@ class Functions
 		}
 		if (is_dir($rootDir . $src)) {
 			foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($rootDir . $src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST) as $filename => $file) {
-				if (is_file($filename)) {
+				if ($file->isFile()) {
 					unlink($filename);
 				} else {
 					rmdir($filename);
