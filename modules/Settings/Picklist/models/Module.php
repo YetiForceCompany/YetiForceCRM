@@ -75,7 +75,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$db = App\Db::getInstance();
 		$pickListFieldName = $fieldModel->getName();
 		$primaryKey = App\Fields\Picklist::getPickListId($pickListFieldName);
-		$tableName = $this->getPickListTableName($pickListFieldName
+		$tableName = $this->getPickListTableName($pickListFieldName);
 		$picklistValueId = $db->getUniqueID('vtiger_picklistvalues');
 		$sequence = (new \App\Db\Query())->from($tableName)->max('sortorderid');
 		$row = [
