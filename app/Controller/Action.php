@@ -53,4 +53,14 @@ abstract class Action extends Base
 		$this->response->setEnv(\App\Config::getJsEnv());
 		$this->response->emit();
 	}
+
+	/**
+	 * Validate request function.
+	 *
+	 * @return void
+	 */
+	public function validateRequest()
+	{
+		$this->request->validateWriteAccess();
+	}
 }

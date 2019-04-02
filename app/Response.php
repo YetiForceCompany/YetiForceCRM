@@ -19,10 +19,17 @@ namespace App;
 class Response
 {
 	/**
-	 * Error data.
+	 * Error data variable.
+	 *
+	 * @var array
 	 */
-	private $error;
-
+	private $error = [];
+	/**
+	 * Exception data variable.
+	 *
+	 * @var array
+	 */
+	private $exception = [];
 	/**
 	 * Result variable.
 	 *
@@ -59,12 +66,11 @@ class Response
 	 * Set error data to send.
 	 *
 	 * @param string $message
-	 * @param int    $code
 	 * @param mixed  $moduleName
 	 *
 	 * @return void
 	 */
-	public function setError(string $message, int $code = 500, $moduleName = 'Other.Exceptions')
+	public function setError(string $message, $moduleName = 'Other.Exceptions')
 	{
 		if (false === strpos($message, '||')) {
 			$message = Language::translateSingleMod($message, $moduleName);
@@ -73,10 +79,7 @@ class Response
 			$message = call_user_func_array('vsprintf', [Language::translateSingleMod(array_shift($params), $moduleName), $params]);
 		}
 		$this->error = [
-      'type' => 'error',
-			'code' => $code,
-			'message' => $message,
-			'trace' => false
+			'message' => $message
 		];
 	}
 
@@ -89,7 +92,7 @@ class Response
 	 */
 	public function setException(\Throwable $e)
 	{
-		$this->error = ErrorHandler::parseException($e);
+		$this->exception = ErrorHandler::parseException($e);
 	}
 
 	/**
@@ -132,12 +135,13 @@ class Response
 	 */
 	private function prepare(): array
 	{
-		$response = [];
-		if (null !== $this->error) {
+		$response = ['success' => true];
+		if ($this->exception) {
 			$response['success'] = false;
+			$response['exception'] = $this->exception;
+		} elseif ($this->error) {
 			$response['error'] = $this->error;
 		} else {
-			$response['success'] = true;
 			$response['result'] = $this->result;
 		}
 		if (null !== $this->env) {
@@ -154,14 +158,10 @@ class Response
 	public function emit(): void
 	{
 		$charset = Config::main('default_charset', 'UTF-8');
-		if ($this->error) {
-			$message = 'Internal Server Error';
-			if (isset(static::$httpStatusCodes[$this->error['code']])) {
-				$message = static::$httpStatusCodes[$this->error['code']];
-			}
-			header(Request::_getServer('SERVER_PROTOCOL') . ' ' . $this->error['code'] . ' ' . $message);
-		}
 		header("content-type: text/json; charset={$charset}");
+		if ($this->exception) {
+			http_response_code($this->exception['code']);
+		}
 		echo Json::encode($this->prepare());
 	}
 }

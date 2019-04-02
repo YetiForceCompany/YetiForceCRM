@@ -143,10 +143,10 @@ class ErrorHandler
 	 */
 	public static function parseException(\Throwable $e): array
 	{
-		$trace = Debug::$displayExceptionBacktrace ? str_replace(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $e->getTraceAsString()) : '';
+		$trace = \Config\Debug::$displayExceptionBacktrace ? str_replace(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $e->getTraceAsString()) : '';
 		$message = 'Internal Server Error';
-		$code = $e->getCode();
-		if (Debug::$displayExceptionMessage) {
+		$code = 0 === $e->getCode() ? 500 : $e->getCode();
+		if (\Config\Debug::$displayExceptionMessage) {
 			$message = $e->getMessage();
 			if (false === strpos($message, '||')) {
 				$message = Language::translateSingleMod($message, 'Other.Exceptions');
@@ -158,7 +158,6 @@ class ErrorHandler
 			$message = static::$httpStatusCodes[$code];
 		}
 		return [
-			'type' => 'exception',
 			'code' => $code,
 			'message' => $message,
 			'trace' => $trace
