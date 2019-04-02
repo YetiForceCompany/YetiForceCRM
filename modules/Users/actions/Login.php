@@ -50,7 +50,7 @@ class Login extends \App\Controller\Action
 			$this->response->setResult($result);
 			$this->setSessionData($userModel, $result);
 		} else {
-			$this->response->setError(401, $auth->getMessage());
+			$this->response->setError(new \Exception($auth->getMessage(), 401));
 			if ($bfInstance->isActive()) {
 				$bfInstance->updateBlockedIp();
 				if ($bfInstance->isBlockedIp()) {
@@ -86,7 +86,7 @@ class Login extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	private function getLoggedUserId(): int
+	protected function getLoggedUserId(): int
 	{
 		if (\App\Session::has('2faUserId')) {
 			$userId = \App\Session::get('2faUserId');

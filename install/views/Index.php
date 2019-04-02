@@ -20,14 +20,13 @@ class Install_Index_View extends \App\Controller\View
 	 * @var Vtiger_Viewer
 	 */
 	protected $viewer;
+	/**
+	 * {@inheritdoc}
+	 */
+	public $loginRequired = false;
 
 	public function checkPermission(App\Request $request)
 	{
-	}
-
-	public function loginRequired()
-	{
-		return false;
 	}
 
 	/**
