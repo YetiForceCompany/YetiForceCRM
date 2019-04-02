@@ -17,19 +17,24 @@ namespace App\Exceptions;
 class AppException extends \Exception
 {
 	/**
+	 * Construct function.
+	 *
+	 * @param string     $message
+	 * @param int        $code
+	 * @param \Throwable $previous
+	 */
+	public function __construct($message = '', $code = 500, \Throwable $previous = null)
+	{
+		parent::__construct($message, $code, $previous);
+	}
+
+	/**
 	 * Gets the display exception message.
 	 *
 	 * @return string
 	 */
 	public function getDisplayMessage()
 	{
-		$message = $this->getMessage();
-		if (strpos($message, '||') === false) {
-			$message = \App\Language::translateSingleMod($message, 'Other.Exceptions');
-		} else {
-			$params = explode('||', $message);
-			$message = call_user_func_array('vsprintf', [\App\Language::translateSingleMod(array_shift($params), 'Other.Exceptions'), $params]);
-		}
-		return $message;
+		return \App\ErrorHandler::parseException($this)['message'];
 	}
 }

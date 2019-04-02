@@ -16,6 +16,6 @@ try {
 } catch (Throwable $e) {
 	\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString(), 'WebApi');
 	$response = new \App\Response();
-	$response->setError($e);
+	$response->setException($e);
 	$response->emit();
 }

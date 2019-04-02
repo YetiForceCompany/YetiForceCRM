@@ -56,8 +56,8 @@ class WebSocket
 			'buffer_output_size' => 32 * 1024 * 1024,
 			'pipe_buffer_size' => 1024 * 1024 * 1024,
 			//'max_connection' => 1024,
-			'log_file' => ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . \App\Config::debug('WEBSOCKET_LOG_FILE'),
-			'log_level' => \App\Config::debug('WEBSOCKET_LOG_LEVEL'),
+			'log_file' => ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . \Config\Debug::$websocketLogFile,
+			'log_level' => \Config\Debug::$websocketLogLevel,
 		], $settings));
 	}
 

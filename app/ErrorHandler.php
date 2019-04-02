@@ -33,6 +33,37 @@ class ErrorHandler
 		E_USER_WARNING => 'E_USER_WARNING',
 		E_USER_NOTICE => 'E_USER_NOTICE',
 	];
+	/**
+	 * This is the list of currently registered HTTP status codes.
+	 *
+	 * @var array
+	 */
+	public static $httpStatusCodes = [
+		200 => 'OK',
+		400 => 'Bad Request',
+		401 => 'Unauthorized',
+		402 => 'Payment Required',
+		403 => 'Forbidden',
+		404 => 'Not Found',
+		405 => 'Method Not Allowed',
+		406 => 'Not Acceptable',
+		407 => 'Proxy Authentication Required',
+		408 => 'Request Timeout',
+		409 => 'Conflict',
+		410 => 'Gone',
+		411 => 'Length Required',
+		412 => 'Precondition failed',
+		413 => 'Request Entity Too Large',
+		414 => 'Request-URI Too Long',
+		415 => 'Unsupported Media Type',
+		500 => 'Internal Server Error',
+		501 => 'Not Implemented',
+		502 => 'Bad Gateway',
+		503 => 'Service Unavailable',
+		504 => 'Gateway Timeout',
+		505 => 'HTTP Version not supported',
+		511 => 'Network Authentication Required', // RFC 6585
+	];
 
 	/**
 	 * Error init.
@@ -65,7 +96,7 @@ class ErrorHandler
 	 * @param string $errfile
 	 * @param int    $errline
 	 *
-	 * @link https://secure.php.net/manual/en/function.set-error-handler.php
+	 * @see https://secure.php.net/manual/en/function.set-error-handler.php
 	 */
 	public static function errorHandler($errno, $errstr, $errfile, $errline)
 	{
@@ -91,7 +122,7 @@ class ErrorHandler
 	public static function error2string($value)
 	{
 		$levels = [];
-		if (($value & E_ALL) == E_ALL) {
+		if (E_ALL == ($value & E_ALL)) {
 			$levels[] = 'E_ALL';
 			$value &= ~E_ALL;
 		}
@@ -101,5 +132,36 @@ class ErrorHandler
 			}
 		}
 		return $levels;
+	}
+
+	/**
+	 * Parse exception data function.
+	 *
+	 * @param \Throwable $e
+	 *
+	 * @return array
+	 */
+	public static function parseException(\Throwable $e): array
+	{
+		$trace = Debug::$displayExceptionBacktrace ? str_replace(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $e->getTraceAsString()) : '';
+		$message = 'Internal Server Error';
+		$code = $e->getCode();
+		if (Debug::$displayExceptionMessage) {
+			$message = $e->getMessage();
+			if (false === strpos($message, '||')) {
+				$message = Language::translateSingleMod($message, 'Other.Exceptions');
+			} else {
+				$params = explode('||', $message);
+				$message = call_user_func_array('vsprintf', [Language::translateSingleMod(array_shift($params), 'Other.Exceptions'), $params]);
+			}
+		} elseif (isset(static::$httpStatusCodes[$code])) {
+			$message = static::$httpStatusCodes[$code];
+		}
+		return [
+			'type' => 'exception',
+			'code' => $code,
+			'message' => $message,
+			'trace' => $trace
+		];
 	}
 }

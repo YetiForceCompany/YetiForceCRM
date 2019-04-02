@@ -52,6 +52,13 @@ class PearDatabase
 
 	/**
 	 * Constructor.
+	 *
+	 * @param mixed $dbtype
+	 * @param mixed $host
+	 * @param mixed $dbname
+	 * @param mixed $username
+	 * @param mixed $passwd
+	 * @param mixed $port
 	 */
 	public function __construct($dbtype = '', $host = '', $dbname = '', $username = '', $passwd = '', $port = 3306)
 	{
@@ -66,18 +73,18 @@ class PearDatabase
 	 */
 	public static function &getInstance()
 	{
-		if (self::$dbCache !== false) {
+		if (false !== self::$dbCache) {
 			return self::$dbCache;
 		}
 		$db = new self(\Config\Db::$db_type, \Config\Db::$db_server, \Config\Db::$db_name, \Config\Db::$db_username, \Config\Db::$db_password, \Config\Db::$db_port);
-		if ($db->database === null) {
+		if (null === $db->database) {
 			\App\Log::error('Database getInstance: Error connecting to the database', 'error');
 			$db->checkError('Error connecting to the database');
 
 			return false;
-		} else {
-			self::$dbCache = $db;
 		}
+		self::$dbCache = $db;
+
 		return $db;
 	}
 
@@ -105,7 +112,7 @@ class PearDatabase
 
 	protected function loadDBConfig($dbtype, $host, $dbname, $username, $passwd, $port)
 	{
-		if ($host == '_SERVER_') {
+		if ('_SERVER_' == $host) {
 			\App\Log::error('No configuration for the database connection');
 		}
 		$this->dbType = $dbtype;
@@ -138,7 +145,7 @@ class PearDatabase
 		}
 		if ($this->dieOnError || $dieOnError) {
 			$backtrace = false;
-			if (AppConfig::debug('DISPLAY_EXCEPTION_BACKTRACE')) {
+			if (\Config\Debug::$displayExceptionBacktrace) {
 				$backtrace = \App\Debuger::getBacktrace();
 			}
 			$message = [
@@ -160,17 +167,17 @@ class PearDatabase
 
 	public function isMySQL()
 	{
-		return stripos($this->dbType, 'mysql') === 0;
+		return 0 === stripos($this->dbType, 'mysql');
 	}
 
 	public function isOracle()
 	{
-		return $this->dbType == 'oci8';
+		return 'oci8' == $this->dbType;
 	}
 
 	public function isPostgres()
 	{
-		return $this->dbType == 'pgsql';
+		return 'pgsql' == $this->dbType;
 	}
 
 	public function setDieOnError($value)
@@ -185,23 +192,22 @@ class PearDatabase
 
 	public function startTransaction()
 	{
-		$this->transCnt += 1;
+		++$this->transCnt;
 
 		if ($this->hasActiveTransaction) {
 			return $this->hasActiveTransaction;
-		} else {
-			$this->autoCommit = false;
-			$this->hasActiveTransaction = $this->database->beginTransaction();
-
-			return $this->hasActiveTransaction;
 		}
+		$this->autoCommit = false;
+		$this->hasActiveTransaction = $this->database->beginTransaction();
+
+		return $this->hasActiveTransaction;
 	}
 
 	public function completeTransaction()
 	{
-		$this->transCnt -= 1;
+		--$this->transCnt;
 
-		if ($this->transCnt == 0) {
+		if (0 == $this->transCnt) {
 			$this->database->commit();
 			$this->autoCommit = false;
 			$this->hasActiveTransaction = false;
@@ -219,7 +225,7 @@ class PearDatabase
 			$this->hasFailedTransaction = true;
 			$result = $this->database->rollback();
 			$this->autoCommit = false;
-			$this->transCnt -= 1;
+			--$this->transCnt;
 
 			return $result;
 		}
@@ -279,7 +285,7 @@ class PearDatabase
 	public function disconnect()
 	{
 		if (isset($this->database)) {
-			unset($this->database);
+			$this->database = null;
 		}
 	}
 
@@ -302,13 +308,13 @@ class PearDatabase
 		return $this->stmt;
 	}
 
-	/* Prepared statement Execution
+	/** Prepared statement Execution
 	 * @param $sql -- Prepared sql statement
 	 * @param $params -- Parameters for the prepared statement
 	 * @param $dieOnError -- Set to true, when query execution fails
 	 * @param $msg -- Error message on query execution failure
+	 * @param mixed $query
 	 */
-
 	public function pquery($query, $params = [], $dieOnError = false, $msg = '')
 	{
 		$this->stmt = false;
@@ -342,7 +348,7 @@ class PearDatabase
 
 	public function bind($param, $value, $type = null)
 	{
-		if (is_null($type)) {
+		if (null === $type) {
 			switch (true) {
 				case is_int($value):
 					$type = PDO::PARAM_INT;
@@ -350,7 +356,7 @@ class PearDatabase
 				case is_bool($value):
 					$type = PDO::PARAM_BOOL;
 					break;
-				case is_null($value):
+				case null === $value:
 					$type = PDO::PARAM_NULL;
 					break;
 				default:
@@ -388,7 +394,8 @@ class PearDatabase
 			$this->checkError('Missing table name');
 
 			return false;
-		} elseif (!is_array($data)) {
+		}
+		if (!is_array($data)) {
 			\App\Log::error('Missing data, data must be an array');
 			$this->checkError('Missing table name');
 
@@ -421,10 +428,10 @@ class PearDatabase
 
 			return false;
 		}
-		if ($where != '') {
+		if ('' != $where) {
 			$where = sprintf('WHERE %s', $where);
 		}
-		if (count($params) === 0) {
+		if (0 === count($params)) {
 			$this->query(sprintf('DELETE FROM %s %s', $table, $where));
 		} else {
 			$this->pquery(sprintf('DELETE FROM %s %s', $table, $where), $params);
@@ -450,7 +457,7 @@ class PearDatabase
 			$values[] = $value;
 		}
 		$query = trim($query, ',');
-		if ($where !== false) {
+		if (false !== $where) {
 			$query .= sprintf(' WHERE %s', $where);
 		}
 		$this->pquery(trim($query, ','), [array_merge($values, $params)]);
@@ -513,6 +520,9 @@ class PearDatabase
 	 * Example:
 	 * $input = array(10, 20, array(30, 40), array('key1' => '50', 'key2'=>array(60), 70));
 	 * returns array(10, 20, 30, 40, 50, 60, 70);.
+	 *
+	 * @param mixed      $input
+	 * @param null|mixed $output
 	 */
 	public function flattenArray($input, $output = null)
 	{
@@ -547,14 +557,14 @@ class PearDatabase
 		$query = $this->database->query('SHOW COLUMNS FROM ' . $tablename, PDO::FETCH_OBJ);
 		$columns = [];
 		foreach ($query as $col) {
-			if (strpos($col->Type, '(') !== false) {
+			if (false !== strpos($col->Type, '(')) {
 				$showType = explode('(', $col->Type); //PREG_SPLIT IS BETTER
 			}
 			$type = $showType[0];
 			$vals = explode(')', $showType[1]);
 			if (is_int((int) $vals[0])) {
 				$maxLength = $vals[0];
-			} elseif (strpos($vals[0], ',') !== false) {
+			} elseif (false !== strpos($vals[0], ',')) {
 				$vs = explode(',', $vals[0]);
 				$vs = array_map('str_replace', $vs, ['\'', '', $vs[0]]);
 				$maxLength = [];
@@ -564,10 +574,10 @@ class PearDatabase
 			}
 			$column = new stdClass();
 			$column->name = $col->Field;
-			$column->notNull = ($col->null == 'NO');
-			$column->primaryKey = ($col->Key == 'PRI');
-			$column->uniqueKey = ($col->Key == 'UNI');
-			$column->hasDefault = !($col->Default === null);
+			$column->notNull = ('NO' == $col->null);
+			$column->primaryKey = ('PRI' == $col->Key);
+			$column->uniqueKey = ('UNI' == $col->Key);
+			$column->hasDefault = !(null === $col->Default);
 			if ($column->hasDefault) {
 				$column->default = $col->Default;
 			}
@@ -604,12 +614,11 @@ class PearDatabase
 	{
 		if ($type) {
 			$search = ['\\', "\0", "\n", "\r", "\x1a", "'", '"'];
-			$replace = ['\\\\', '\\0', '\\n', '\\r', "\Z", "\'", '\"'];
+			$replace = ['\\\\', '\\0', '\\n', '\\r', '\\Z', "\\'", '\"'];
 
 			return str_replace($search, $replace, $str);
-		} else {
-			return $this->database->quote($str);
 		}
+		return $this->database->quote($str);
 	}
 
 	public function getUniqueID($seqname)
@@ -631,7 +640,7 @@ class PearDatabase
 	public function checkExistTable($tableName, $cache = true)
 	{
 		$tablePresent = Vtiger_Cache::get('checkExistTable', $tableName);
-		if ($tablePresent !== false && $cache) {
+		if (false !== $tablePresent && $cache) {
 			return $tablePresent;
 		}
 
@@ -641,7 +650,7 @@ class PearDatabase
 		$tablename = $this->sqlEscapeString($tableName);
 		$tableCheck = $this->query("SHOW TABLES LIKE $tablename");
 		$tablePresent = 1;
-		if (empty($tableCheck) || $this->getRowCount($tableCheck) === 0) {
+		if (empty($tableCheck) || 0 === $this->getRowCount($tableCheck)) {
 			$tablePresent = 0;
 		}
 		$this->dieOnError = $tmpDieOnError;
@@ -659,7 +668,7 @@ class PearDatabase
 	public function formatDate($datetime, $strip_quotes = false)
 	{
 		// remove single quotes to use the date as parameter for Prepared statement
-		if ($strip_quotes === true) {
+		if (true === $strip_quotes) {
 			return trim($datetime, "'");
 		}
 		return $datetime;
@@ -703,6 +712,8 @@ class PearDatabase
 
 	/**
 	 * Function to generate question marks for a given list of items.
+	 *
+	 * @param mixed $items
 	 */
 	public function generateQuestionMarks($items)
 	{
@@ -716,7 +727,7 @@ class PearDatabase
 	{
 		$concat = 'CONCAT(';
 		foreach ($columns as $key => $column) {
-			if ($key != 0 && $space) {
+			if (0 != $key && $space) {
 				$concat .= $space . ',';
 			}
 			$concat .= $column . ',';
@@ -751,7 +762,7 @@ class PearDatabase
 	{
 		$result = $this->pquery($sql, $params, $dieOnError, $msg);
 
-		if ($this->getRowCount($result) == 1) {
+		if (1 == $this->getRowCount($result)) {
 			return $result;
 		}
 		\App\Log::error('Rows Returned:' . $this->getRowCount($result) . ' More than 1 row returned for ' . $sql);
@@ -774,11 +785,11 @@ class PearDatabase
 	public function quote($input, $quote = true, $type = null)
 	{
 		// handle int directly for better performance
-		if ($type == 'integer' || $type == 'int') {
+		if ('integer' == $type || 'int' == $type) {
 			return (int) $input;
 		}
 
-		if (is_null($input)) {
+		if (null === $input) {
 			return 'NULL';
 		}
 
@@ -790,9 +801,8 @@ class PearDatabase
 		$type = $map[$type] ?? PDO::PARAM_STR;
 		if ($quote) {
 			return strtr($this->database->quote($input, $type), [self::DEFAULT_QUOTE => self::DEFAULT_QUOTE . self::DEFAULT_QUOTE]);
-		} else {
-			return self::DEFAULT_QUOTE . $input . self::DEFAULT_QUOTE;
 		}
+		return self::DEFAULT_QUOTE . $input . self::DEFAULT_QUOTE;
 	}
 
 	// SQLTime logging
@@ -811,7 +821,7 @@ class PearDatabase
 		$logTable = 'l_yf_sqltime';
 		$logQuery = 'INSERT INTO ' . $logTable . '(`id`, `type`, `qtime`, `content`, `date`, `group`) VALUES (?,?,?,?,?,?)';
 
-		if ($this->logSqlTimeID === false) {
+		if (false === $this->logSqlTimeID) {
 			$query = $db->database->query(sprintf('SELECT MAX(id) FROM %s', $logTable));
 			$this->logSqlTimeID = (int) $this->getSingleValue($query) + 1;
 
@@ -820,10 +830,10 @@ class PearDatabase
 			if (isset($_SERVER['REQUEST_METHOD'])) {
 				$uri = $_SERVER['REQUEST_URI'];
 				$qmarkIndex = strpos($_SERVER['REQUEST_URI'], '?');
-				if ($qmarkIndex !== false) {
+				if (false !== $qmarkIndex) {
 					$uri = substr($uri, 0, $qmarkIndex);
 				}
-				$data = $uri . '?' . http_build_query($_SERVER['REQUEST_METHOD'] == 'GET' ? $_GET : $_POST);
+				$data = $uri . '?' . http_build_query('GET' == $_SERVER['REQUEST_METHOD'] ? $_GET : $_POST);
 			}
 			$query = $db->database->prepare($logQuery);
 			$query->execute([$this->logSqlTimeID, $type, null, $data, $now, $group]);
@@ -842,7 +852,7 @@ class PearDatabase
 		$data = [];
 		$callers = debug_backtrace();
 		for ($calleridx = 0, $callerscount = count($callers); $calleridx < $callerscount; ++$calleridx) {
-			if ($calleridx == 0) {
+			if (0 == $calleridx) {
 				continue;
 			}
 			if ($calleridx < $callerscount) {
@@ -876,9 +886,8 @@ class PearDatabase
 		if (is_array($val)) {
 			if (count($val) > 1) {
 				return 'IN (\'' . implode("','", $val) . '\')';
-			} else {
-				$val = array_shift($val);
 			}
+			$val = array_shift($val);
 		}
 		return '=\'' . $val . '\'';
 	}

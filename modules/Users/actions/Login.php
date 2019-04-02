@@ -39,7 +39,7 @@ class Login extends \App\Controller\Action
 		if ($bfInstance->isActive() && $bfInstance->isBlockedIp()) {
 			$bfInstance->incAttempts();
 			\Users_Module_Model::getInstance('Users')->saveLoginHistory(strtolower($this->request->getByType('username', 'Text')), 'Blocked IP');
-			$this->response->setError(401, 'LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS');
+			$this->response->setError('LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS', 401, 'Users');
 			return false;
 		}
 		$userId = $this->getLoggedUserId();
@@ -50,12 +50,12 @@ class Login extends \App\Controller\Action
 			$this->response->setResult($result);
 			$this->setSessionData($userModel, $result);
 		} else {
-			$this->response->setError(new \Exception($auth->getMessage(), 401));
+			$this->response->setError($auth->getMessage(), 401, 'Users');
 			if ($bfInstance->isActive()) {
 				$bfInstance->updateBlockedIp();
 				if ($bfInstance->isBlockedIp()) {
 					$bfInstance->sendNotificationEmail();
-					$this->response->setError(401, 'LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS');
+					$this->response->setError('LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS', 401, 'Users');
 				}
 			}
 			\Users_Module_Model::getInstance('Users')->saveLoginHistory(\App\Purifier::encodeHtml($this->request->getRaw('username')), 'Failed login');

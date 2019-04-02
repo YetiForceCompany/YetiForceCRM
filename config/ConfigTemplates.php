@@ -356,9 +356,13 @@ return [
 			'default' => true,
 			'description' => 'Turn on/off debug errors javascript'
 		],
-		'DISPLAY_EXCEPTION_BACKTRACE' => [
+		'displayExceptionMessage' => [
 			'default' => false,
-			'description' => 'Displays information about the tracking code when an error occurs. Available only with the active SQL_DIE_ON_ERROR = true'
+			'description' => 'Displays information about the message when an error occurs.'
+		],
+		'displayExceptionBacktrace' => [
+			'default' => false,
+			'description' => 'Displays information about the tracking code when an error occurs.'
 		],
 		'DISPLAY_EXCEPTION_LOGS' => [
 			'default' => false,
@@ -400,15 +404,15 @@ return [
 			'default' => false,
 			'description' => 'Mailer debug'
 		],
-		'WEBSOCKET_SHOW_LOG' => [
+		'websocketShowLog' => [
 			'default' => false,
 			'description' => 'Show logs messages in WebSocket console'
 		],
-		'WEBSOCKET_LOG_FILE' => [
+		'websocketLogFile' => [
 			'default' => 'cache/logs/WebSocket.log',
 			'description' => 'Swoole WebSocket error logs location of the server'
 		],
-		'WEBSOCKET_LOG_LEVEL' => [
+		'websocketLogLevel' => [
 			'default' => 4,
 			'description' => "Swoole WebSocket log that is inferior to the log_level setted will not be recorded to log file. \n0 => DEBUG\n1 => TRACE\n2 => INFO\n3 => NOTICE\n4 => WARNING\n5 => ERROR"
 		],

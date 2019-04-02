@@ -58,13 +58,38 @@ class Response
 	/**
 	 * Set error data to send.
 	 *
+	 * @param string $message
+	 * @param int    $code
+	 * @param mixed  $moduleName
+	 *
+	 * @return void
+	 */
+	public function setError(string $message, int $code = 500, $moduleName = 'Other.Exceptions')
+	{
+		if (false === strpos($message, '||')) {
+			$message = Language::translateSingleMod($message, $moduleName);
+		} else {
+			$params = explode('||', $message);
+			$message = call_user_func_array('vsprintf', [Language::translateSingleMod(array_shift($params), $moduleName), $params]);
+		}
+		$this->error = [
+      'type' => 'error',
+			'code' => $code,
+			'message' => $message,
+			'trace' => false
+		];
+	}
+
+	/**
+	 * Set error data exception to send.
+	 *
 	 * @param \Throwable $e
 	 *
 	 * @return void
 	 */
-	public function setError(\Throwable $e)
+	public function setException(\Throwable $e)
 	{
-		$this->error = ['code' => $e->getCode(), 'message' => $e->getMessage(), 'trace' => $e->getTraceAsString()];
+		$this->error = ErrorHandler::parseException($e);
 	}
 
 	/**
@@ -101,9 +126,11 @@ class Response
 	}
 
 	/**
-	 * Prepare the response wrapper.
+	 * Prepare the response wrapper function.
+	 *
+	 * @return array
 	 */
-	private function getResponse()
+	private function prepare(): array
 	{
 		$response = [];
 		if (null !== $this->error) {
@@ -120,12 +147,21 @@ class Response
 	}
 
 	/**
-	 * Send response to client.
+	 * Send response to client function.
+	 *
+	 * @return void
 	 */
-	public function emit()
+	public function emit(): void
 	{
 		$charset = Config::main('default_charset', 'UTF-8');
+		if ($this->error) {
+			$message = 'Internal Server Error';
+			if (isset(static::$httpStatusCodes[$this->error['code']])) {
+				$message = static::$httpStatusCodes[$this->error['code']];
+			}
+			header(Request::_getServer('SERVER_PROTOCOL') . ' ' . $this->error['code'] . ' ' . $message);
+		}
 		header("content-type: text/json; charset={$charset}");
-		echo \App\Json::encode($this->getResponse());
+		echo Json::encode($this->prepare());
 	}
 }

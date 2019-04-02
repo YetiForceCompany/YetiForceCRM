@@ -9,7 +9,7 @@
 require __DIR__ . '/include/ConfigUtils.php';
 
 try {
-	\App\Log::$showLog = \App\Config::debug('WEBSOCKET_SHOW_LOG');
+	\App\Log::$showLog = \Config\Debug::$websocketShowLog;
 	(new \App\Controller\WebSocket())->process();
 } catch (Throwable $e) {
 	\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString(), 'WebSocket');

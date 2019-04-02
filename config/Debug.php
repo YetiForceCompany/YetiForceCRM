@@ -59,8 +59,11 @@ class Debug
 	/** Turn on/off debug errors javascript */
 	public static $JS_DEBUG = true;
 
-	/** Displays information about the tracking code when an error occurs. Available only with the active SQL_DIE_ON_ERROR = true */
-	public static $DISPLAY_EXCEPTION_BACKTRACE = true;
+	/** Displays information about the message when an error occurs. */
+	public static $displayExceptionMessage = true;
+
+	/** Displays information about the tracking code when an error occurs. */
+	public static $displayExceptionBacktrace = true;
 
 	/** Display logs when error exception occurs */
 	public static $DISPLAY_EXCEPTION_LOGS = true;
@@ -97,10 +100,10 @@ class Debug
 	public static $MAILER_DEBUG = true;
 
 	/** Show logs messages in WebSocket console */
-	public static $WEBSOCKET_SHOW_LOG = false;
+	public static $websocketShowLog = false;
 
 	/** Swoole WebSocket error logs location of the server */
-	public static $WEBSOCKET_LOG_FILE = 'cache/logs/WebSocket.log';
+	public static $websocketLogFile = 'cache/logs/WebSocket.log';
 
 	/**
 	 * Swoole WebSocket log that is inferior to the log_level setted will not be recorded to log file.
@@ -111,7 +114,7 @@ class Debug
 	 * 4 => WARNING
 	 * 5 => ERROR
 	 */
-	public static $WEBSOCKET_LOG_LEVEL = 4;
+	public static $websocketLogLevel = 4;
 
 	/** System error reporting, sum of: 1 = log; 4 = show, 8 = trace */
 	public static $ROUNDCUBE_DEBUG_LEVEL = 1;
