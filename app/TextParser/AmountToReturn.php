@@ -32,7 +32,7 @@ class AmountToReturn extends Base
 		$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($this->textParser->recordModel->get($this->relatedModulesFields[$this->textParser->recordModel->getModuleName()]));
 		$temp = $this->textParser->recordModel->getInventoryData();
 		$rows = reset($temp);
-		$currency = (new \App\Db\Query())->from('vtiger_currency_info')->where(['id' => $rows['currency']])->one();
+		$currency =\App\Fields\Currency::getById($rows['currency']);
 		return \App\Fields\Double::formatToDisplay($relatedRecordModel->get('sum_gross') - $this->textParser->recordModel->get('sum_gross')) . ' ' . $currency['currency_symbol'];
 	}
 }
