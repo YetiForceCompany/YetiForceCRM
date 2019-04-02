@@ -20,9 +20,7 @@
     "dev": "cd ./public_html && gulp dev",
     "build": "cd ./public_html && gulp build"
   },
-  "devDependencies": {
-    "gulp-header": "^2.0.7"
-  },
+  "devDependencies": {},
   "browserslist": [
     "> 1%",
     "last 2 versions",
