@@ -1,5 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-import App from './App.vue.js'
+import AppComponent from './App.vue.js'
 import createStore from '/src/store/index.js'
 import createRouter from '/src/router/index.js'
 import createI18n from '/src/i18n/index.js'
@@ -75,16 +75,17 @@ async function start() {
 
   const app = {
     el: '#app',
-    render: h => h(App, { props: { modules } }),
+    render: h => h(AppComponent, { props: { modules } }),
     store,
     router
   }
   createI18n({ app })
-  const Main = new Vue(app)
+  const App = new Vue(app)
   if (window.env.Env.dev) {
     console.groupEnd()
   }
-  return Main
+  window.App = App
+  return App
 }
 
 export default start()
