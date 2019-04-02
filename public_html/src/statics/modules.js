@@ -383,6 +383,20 @@ window.modules = [
     "modules": [
       {
         "parentHierarchy": "Settings",
+        "fullName": "Settings.Menu",
+        "name": "Menu",
+        "path": "src\\modules\\Settings\\modules\\Menu",
+        "level": 1,
+        "priority": 0,
+        "autoLoad": true,
+        "directories": [
+          "pages",
+          "router"
+        ],
+        "routes": []
+      },
+      {
+        "parentHierarchy": "Settings",
         "fullName": "Settings.ModuleExample",
         "name": "ModuleExample",
         "path": "src\\modules\\Settings\\modules\\ModuleExample",
