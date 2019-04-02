@@ -32,6 +32,7 @@ export default {
     }
   },
   "Settings": {
+    "Menu": {},
     "ModuleExample": {}
   }
 }
