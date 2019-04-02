@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./public_html",
     "paths": {
       "src/*": ["./src/*"],
       "store/*": ["./src/store/*"],
