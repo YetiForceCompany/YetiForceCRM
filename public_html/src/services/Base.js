@@ -10,13 +10,7 @@ const BaseService = axios.create({
 
 BaseService.interceptors.response.use(
   function(response) {
-    return response
-  },
-  function(error) {
-    console.log(error)
-    console.log(error.response)
-    const data = error.response.data
-    let type = 'error'
+    const data = response.data
     if (data.error) {
       Quasar.plugins.Notify.create({
         color: 'negative',
@@ -25,7 +19,13 @@ BaseService.interceptors.response.use(
         position: 'top',
         actions: [{ label: i18n.t('LBL_CLOSE'), color: 'white' }]
       })
-    } else if (data.exception) {
+    }
+    return response
+  },
+  function(error) {
+    const data = error.response.data
+    let type = 'error'
+    if (data.exception) {
       type = 'exception'
       Router.push('/error404')
     }
