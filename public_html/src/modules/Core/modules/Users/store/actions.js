@@ -59,14 +59,6 @@ export default {
         this.$router.replace('/')
       } else if (data.result === '2fa') {
         this.$router.replace(`/users/login/2FA`)
-      } else if (data.error !== undefined) {
-        Quasar.plugins.Notify.create({
-          color: 'negative',
-          icon: 'mdi-exclamation',
-          message: vm.$t(data.error.message, 'Users'),
-          position: 'top',
-          actions: [{ label: vm.$t('LBL_CLOSE'), color: 'white' }]
-        })
       } else {
         return console.error('Server error', response)
       }
