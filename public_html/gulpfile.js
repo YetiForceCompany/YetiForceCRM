@@ -3,7 +3,7 @@ const gulp = require('gulp')
 const stylus = require('gulp-stylus')
 const browserSync = require('browser-sync').create()
 const rename = require('gulp-rename')
-const gap = require('gulp-append-prepend')
+const header = require('gulp-header')
 const path = require('path')
 require('dotenv').config()
 
@@ -31,7 +31,7 @@ const aliases = {
 }
 
 const license =
-  '/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */'
+  '/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */\n'
 
 const sourceDir = 'src'
 const vueSrc = 'src/**/*.vue'
@@ -53,9 +53,6 @@ function getVueTask(src = vueSrc, dev = false) {
       dest = './' + src.slice(0, src.lastIndexOf('/') + 1)
     }
     const importMinOptions = { extension: 'vue.js' }
-    if (dev) {
-      importMinOptions.postfix = '?dev=' + new Date().getTime()
-    }
     return gulp
       .src(src, { sourcemaps: true })
       .pipe(vueEsCompiler())
@@ -66,7 +63,7 @@ function getVueTask(src = vueSrc, dev = false) {
           module: true
         })
       )
-      .pipe(gap.prependText(license, '\n'))
+      .pipe(header(license))
       .pipe(
         rename({
           extname: '.vue.js'
@@ -91,7 +88,6 @@ function getModulesTask(src = modulesConfigSrc, dev = false) {
     }
     return gulp
       .src(src, { sourcemaps: true })
-      .pipe(importMin(importMinConfig))
       .pipe(
         terser({
           module: false,
@@ -109,7 +105,8 @@ function getModulesTask(src = modulesConfigSrc, dev = false) {
           }
         })
       )
-      .pipe(gap.prependText(license, '\n'))
+      .pipe(importMin(importMinConfig))
+      .pipe(header(license))
       .pipe(
         rename({
           extname: '.min.js'
@@ -139,14 +136,14 @@ function getMinTask(src = minSrc, dev = false) {
     }
     return gulp
       .src(src, { sourcemaps: true })
-      .pipe(importAliases({ map: aliases }))
-      .pipe(importMin(importMinConfig))
       .pipe(
         terser({
           module: true
         })
       )
-      .pipe(gap.prependText(license, '\n'))
+      .pipe(importAliases({ map: aliases }))
+      .pipe(importMin(importMinConfig))
+      .pipe(header(license))
       .pipe(
         rename({
           extname: '.min.js'
@@ -167,15 +164,20 @@ gulp.task('min', getMinTask())
 function getCompileCssTask() {
   return function compileCssTask() {
     return gulp
-      .src('./src/css/app.styl')
+      .src('./src/css/app.styl', { sourcemaps: true })
       .pipe(stylus())
-      .pipe(gulp.dest('./src/css'))
+      .pipe(
+        gulp.dest('./src/css'),
+        { sourcemaps: true }
+      )
   }
 }
+
 /**
- * Styl task
+ * Compile css task
  */
 gulp.task('compileCss', getCompileCssTask())
+
 /**
  * Build task
  */

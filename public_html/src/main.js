@@ -80,10 +80,11 @@ async function start() {
     router
   }
   createI18n({ app })
-  new Vue(app)
+  const Main = new Vue(app)
   if (window.env.Env.dev) {
     console.groupEnd()
   }
+  return Main
 }
 
-start()
+export default start()

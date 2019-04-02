@@ -9,9 +9,9 @@ function replaceStatic(contents, options) {
   const opts = { ...defaultOptions, ...options }
   let result = contents
   for (let alias in opts.map) {
-    const regString = `(import\\s?.+s?from\\s?)([\'\"\`]{1})(${alias}([^\'\"\`]*))([\'\"\`])(\;?\\r?\\n\\r?)`
+    const regString = `(import\\s?[^'"\`]+\\s?from\\s?)(['"\`]{1})(\\/?${alias})([^'"\`]+)(['"\`]{1})`
     const reg = new RegExp(regString, 'gim')
-    result = result.replace(reg, `$1$2${opts.map[alias]}$4$5$6`)
+    result = result.replace(reg, `$1$2${opts.map[alias]}$4$5`)
   }
   return result
 }

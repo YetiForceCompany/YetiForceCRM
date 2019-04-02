@@ -2,14 +2,41 @@
 const through = require('through2')
 const terser = require('terser')
 const extend = require('extend')
+const path = require('path')
 
 function minify(file, contents, options) {
-  let opts = options
-  const sourceMapFile = file.sourceMap.file
-  opts = extend(true, opts, { sourceMap: { content: file.sourceMap } })
-  const mini = terser.minify(contents, opts)
-  file.sourceMap = JSON.parse(mini.map)
-  file.sourceMap.file = sourceMapFile
+  let opts = extend(true, {}, options)
+  let source = contents
+  let generateSourceMap = true
+  if (typeof options.sourceMap !== 'undefined' && options.sourceMap === false) {
+    generateSourceMap = false
+  }
+  const dirname = path.dirname(file.path)
+  let fileName = file.path
+  if (dirname.length > 1) {
+    fileName = file.path.substr(dirname.length + 1)
+  }
+  if (generateSourceMap && typeof file.sourceMap !== 'undefined') {
+    if (file.sourceMap.mappings.length) {
+      opts = extend(true, opts, { sourceMap: { content: JSON.stringify(file.sourceMap) } })
+    } else {
+      opts = extend(true, opts, { sourceMap: { filename: file.sourceMap.file } })
+      source = { [fileName]: contents }
+    }
+  } else if (generateSourceMap) {
+    opts = extend(true, opts, { sourceMap: { filename: fileName } })
+    source = { [fileName]: contents }
+  }
+  const mini = terser.minify(source, opts)
+  if ('error' in mini) {
+    throw new Error(mini.error.message)
+  }
+  if (generateSourceMap && typeof mini.map === 'string') {
+    const map = JSON.parse(mini.map)
+    map.sources[0] = fileName
+    map.file = file.path
+    file.sourceMap = map
+  }
   file.contents = new Buffer.from(mini.code)
   return file
 }
@@ -25,6 +52,6 @@ module.exports = function(options = {}) {
     } else if (file.isBuffer()) {
       contents = file.contents.toString('utf8')
     }
-    return callback(null, minify(file, contents, options))
+    return callback(null, minify(file.clone(), contents, options))
   })
 }

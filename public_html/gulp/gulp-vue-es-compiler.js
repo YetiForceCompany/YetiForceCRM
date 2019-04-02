@@ -4,7 +4,7 @@ const vueCompiler = require('@vue/component-compiler')
 const extend = require('extend')
 
 const defaultOptions = {
-  extension: '.js',
+  extension: '', // .js
   compiler: {
     style: { trim: true, postcssModulesOptions: { generateScopedName: '[path][name]__[local]' } },
     template: {
@@ -19,8 +19,13 @@ function compile(contents, file, options) {
   const descriptor = compiler.compileToDescriptor(file.path, contents)
   const assemble = vueCompiler.assemble(compiler, file.path, descriptor)
   file.contents = new Buffer.from(assemble.code)
-  file.path = file.path.substr(0, file.path.lastIndexOf('.')) + opts.extension
+  if (opts.extension) {
+    file.path = file.path.substr(0, file.path.lastIndexOf('.')) + opts.extension
+  }
   file.sourceMap = { ...file.sourceMap, ...assemble.map }
+  if (typeof file.sourceMap !== 'undefined' && typeof file.sourceMap.sourcesContent !== 'undefined') {
+    delete file.sourceMap.sourcesContent
+  }
   return file
 }
 

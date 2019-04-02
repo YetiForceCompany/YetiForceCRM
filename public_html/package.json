@@ -58,6 +58,7 @@
     "prettier": "^1.16.4",
     "strip-ansi": "=3.0.1",
     "terser": "^3.17.0",
+    "vinyl-sourcemaps-apply": "^0.2.1",
     "vue-template-compiler": "^2.6.10"
   },
   "engines": {
