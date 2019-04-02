@@ -118,12 +118,11 @@ class Documents_Record_Model extends Vtiger_Record_Model
 	{
 		$zip = new ZipArchive();
 		$postfix = time() . '_' . random_int(0, 1000);
-		$zipPath = 'cache/';
-		$zipName = "documentsZipFile_{$postfix}.zip";
-		$fileName = $zipPath . $zipName;
-		if (true !== $zip->open($zipName, ZIPARCHIVE::CREATE)) {
-			\App\Log::error("cannot open <$zipName>\n");
-			throw new \App\Exceptions\NoPermitted("cannot open <$zipName>");
+		$zipPath = ROOT_DIRECTORY . '/cache/';
+		$fileName = $zipPath . "documentsZipFile_{$postfix}.zip";
+		if (true !== $zip->open($fileName, ZIPARCHIVE::CREATE)) {
+			\App\Log::error("cannot open <$fileName>\n");
+			throw new \App\Exceptions\NoPermitted("cannot open <$fileName>");
 		}
 
 		foreach ($recordsIds as $recordId) {
