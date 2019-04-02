@@ -78,10 +78,6 @@ yarn-error.log
 
 # front end
 /public_html/.env
-/public_html/**/*.vue.js
-/public_html/**/*.min.js
-*.vue.js
-*.min.js
-*/*.vue.js
-*/*.min.js
-/public_html/node_modules
+**/*.vue.js
+**/*.min.js
+/public_html/node_modules/
