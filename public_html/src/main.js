@@ -75,15 +75,16 @@ async function start() {
 
   const app = {
     el: '#app',
-    render: h => h(App),
+    render: h => h(App, { props: { modules } }),
     store,
     router
   }
   createI18n({ app })
-  new Vue(app)
+  const Main = new Vue(app)
   if (window.env.Env.dev) {
     console.groupEnd()
   }
+  return Main
 }
 
-start()
+export default start()

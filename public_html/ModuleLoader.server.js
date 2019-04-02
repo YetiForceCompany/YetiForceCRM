@@ -180,18 +180,14 @@ const RESERVED_DIRECTORIES = {
 }
 
 /**
- * Main object
+ * ModuleLoader class
  */
-module.exports = {
-  /**
-   * Log to console
-   */
-  log: true,
-  /**
-   * License string
-   */
-  license:
-    '/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */',
+class ModuleLoader {
+  constructor() {
+    this.log = true
+    this.license =
+      '/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */'
+  }
 
   /**
    * Helper function which will merge objects recursively - creating brand new one - like clone
@@ -229,7 +225,7 @@ module.exports = {
       }
     }
     return this.mergeDeep(target, ...sources)
-  },
+  }
 
   /**
    * Get directories from specified dir
@@ -243,7 +239,7 @@ module.exports = {
       .map(name => join(source, name))
       .filter(isDirectory)
       .map(name => name.substr(source.length + 1))
-  },
+  }
 
   /**
    * Get files from specified dir
@@ -258,7 +254,7 @@ module.exports = {
       .filter(isFile)
       .filter(isNotMin)
       .map(name => name.substr(source.length + 1))
-  },
+  }
 
   /**
    * Load routes from module
@@ -293,7 +289,7 @@ module.exports = {
       })
     }
     return moduleConf
-  },
+  }
 
   /**
    * Generate store names
@@ -315,7 +311,7 @@ module.exports = {
       }
     }
     return result
-  },
+  }
 
   /**
    * Get names for getters / setters / actions
@@ -340,7 +336,7 @@ module.exports = {
       }
     }
     return names
-  },
+  }
 
   /**
    * Get basic store names (from store dir)
@@ -365,7 +361,7 @@ module.exports = {
       }
     })
     return result
-  },
+  }
 
   /**
    * Save store names in getters, mutations, actions
@@ -384,7 +380,7 @@ module.exports = {
       `${this.license}\nexport default ${JSON.stringify(store.mutations, null, 2)}`
     )
     writeFileSync(`${dir}${sep}getters.js`, `${this.license}\nexport default ${JSON.stringify(store.getters, null, 2)}`)
-  },
+  }
 
   /**
    * Load store from module
@@ -412,7 +408,7 @@ module.exports = {
       })
     }
     return moduleConf
-  },
+  }
 
   /**
    * Load modules, generate and save configuration file
@@ -473,7 +469,7 @@ module.exports = {
       }
       return moduleConf
     })
-  },
+  }
 
   /**
    * Create object with route name as key recursively
@@ -508,7 +504,7 @@ module.exports = {
       }
     }
     return output
-  },
+  }
 
   /**
    * Prepare routes for saving
@@ -528,7 +524,7 @@ module.exports = {
       }
     }
     return routes
-  },
+  }
 
   /**
    * Save module configuration file
@@ -544,3 +540,5 @@ module.exports = {
     return moduleConf
   }
 }
+
+module.exports = new ModuleLoader()

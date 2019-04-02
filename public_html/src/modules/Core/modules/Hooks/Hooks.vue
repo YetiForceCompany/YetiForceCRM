@@ -12,9 +12,7 @@ export function initialize({ store, router }) {
 }
 
 export default {
-  name: moduleName,
-  inject: ['debug'],
-  created() {}
+  name: moduleName
 }
 
 Vue.component('hook-wrapper', HookWrapper)

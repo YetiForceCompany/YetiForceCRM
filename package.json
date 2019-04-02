@@ -18,14 +18,12 @@
   },
   "author": "YetiForceCompany <info@yetiforce.com> (https://yetiforce.com)",
   "license": "YetiForce Public License v3",
-  "dependencies": {
-  },
+  "dependencies": {},
   "scripts": {
     "dev": "cd ./public_html && gulp dev",
     "build": "cd ./public_html && gulp build"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "browserslist": [
     "> 1%",
     "last 2 versions",
