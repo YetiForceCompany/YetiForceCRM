@@ -16,3 +16,4 @@ function createStore() {
 }
 
 export default createStore
+export { store }

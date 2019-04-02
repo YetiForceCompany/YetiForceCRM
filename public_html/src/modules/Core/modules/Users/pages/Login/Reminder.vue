@@ -1,5 +1,5 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
-<template v-if="$store.state.Core.Users.forgotPassword && showReminderForm">
+<template v-if="$store.state.Core.Users.resetLoginPassword && showReminderForm">
   <form class="col q-gutter-md q-mx-lg" @submit.prevent.stop="onSubmit">
     <q-input
       type="text"
@@ -60,7 +60,7 @@ export default {
     }
   },
   mounted() {
-    if (!this.$store.state.Core.Users.forgotPassword || this.$store.state.Core.Users.isBlockedIp) {
+    if (!this.$store.state.Core.Users.resetLoginPassword || this.$store.state.Core.Users.isBlockedIp) {
       this.$router.replace('/users/login/form')
     }
   }

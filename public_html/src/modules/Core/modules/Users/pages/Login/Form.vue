@@ -31,7 +31,7 @@
         </template>
       </q-input>
       <q-select
-        v-if="$store.state.Core.Users.languageSelection"
+        v-if="$store.state.Core.Users.langInLoginView"
         v-model="language"
         :options="$store.state.Core.Language.langs"
         :label="$t('LBL_CHOOSE_LANGUAGE')"
@@ -41,7 +41,7 @@
         </template>
       </q-select>
       <q-select
-        v-if="$store.state.Core.Users.layoutSelection"
+        v-if="$store.state.Core.Users.layoutInLoginView"
         v-model="layout"
         :options="$store.state.Env.layouts"
         :label="$t('LBL_SELECT_LAYOUT')"
@@ -52,7 +52,7 @@
       </q-select>
       <q-btn size="lg" :label="$t('LBL_SIGN_IN')" type="submit" color="secondary" class="full-width q-mt-lg" />
       <router-link
-        v-if="$store.state.Core.Users.forgotPassword"
+        v-if="$store.state.Core.Users.resetLoginPassword"
         class="text-secondary float-right"
         :to="{ name: 'Reminder' }"
         >{{ $t('ForgotPassword') }}</router-link

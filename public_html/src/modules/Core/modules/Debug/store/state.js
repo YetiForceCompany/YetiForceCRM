@@ -5,5 +5,6 @@ export default {
   info: [],
   notice: [],
   warning: [],
-  error: []
+  error: [],
+  exception: []
 }

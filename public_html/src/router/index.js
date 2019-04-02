@@ -8,9 +8,9 @@ Vue.use(VueRouter)
  * If not building with SSR mode, you can
  * directly export the Router instantiation
  */
-
+let Router = null
 export default function({ store }) {
-  const Router = new VueRouter({
+  Router = new VueRouter({
     scrollBehavior: () => ({ y: 0 }),
     routes,
 
@@ -29,7 +29,7 @@ export default function({ store }) {
     if (isLoggedIn === undefined) {
       isLoggedIn = window.env.Users.isLoggedIn
     }
-    if (isLoggedIn || routeTo.path.startsWith('/users/login')) {
+    if (isLoggedIn || routeTo.path.startsWith('/users/login') || routeTo.path.startsWith('/error404')) {
       next()
     } else if (routeFrom.path.startsWith('/users/login')) {
       Quasar.plugins.Loading.hide()
@@ -43,3 +43,4 @@ export default function({ store }) {
   })
   return Router
 }
+export { Router }

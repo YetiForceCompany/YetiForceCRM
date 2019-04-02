@@ -9,6 +9,6 @@ export default {
   push(state, payload) {
     payload.date = new Date()
     state.all.push(payload)
-    state[payload.type].push(payload)
+    state[payload.data.type].push(payload)
   }
 }
