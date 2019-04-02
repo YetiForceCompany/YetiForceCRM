@@ -352,9 +352,10 @@ class PackageExport
 				unset($tables[$key]);
 			}
 			foreach ($tables as $table) {
+				$createTable = \App\Db::getInstance()->createCommand('SHOW CREATE TABLE ' . $table)->queryOne();
 				$this->openNode('table');
 				$this->outputNode($table, 'name');
-				$this->outputNode('<![CDATA[' . Utils::createTableSql($table) . ']]>', 'sql');
+				$this->outputNode('<![CDATA[' . \App\Purifier::decodeHtml($createTable['Create Table']) . ']]>', 'sql');
 				$this->closeNode('table');
 			}
 		}

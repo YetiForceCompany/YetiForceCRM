@@ -15,6 +15,7 @@ namespace vtlib;
  */
 class Utils
 {
+	
 	/**
 	 * Check if given value is a number or not.
 	 *
@@ -133,22 +134,18 @@ class Utils
 	 */
 	public static function createTable($tablename, $criteria, $suffixTableMeta = false)
 	{
-		$adb = \PearDatabase::getInstance();
-
-		$org_dieOnError = $adb->dieOnError;
-		$adb->dieOnError = false;
-		$sql = 'CREATE TABLE ' . $adb->quote($tablename, false) . ' ' . $criteria;
-		if ($suffixTableMeta !== false) {
-			if ($suffixTableMeta === true) {
-				if ($adb->isMySQL()) {
+		$sql = 'CREATE TABLE `' . $tablename . '` ' . $criteria;
+		try {
+			if (false !== $suffixTableMeta) {
+				if (true === $suffixTableMeta) {
 					$suffixTableMeta = ' ENGINE=InnoDB DEFAULT CHARSET=utf8';
-				} else {
 				}
+				$sql .= $suffixTableMeta;
 			}
-			$sql .= $suffixTableMeta;
+			\App\Db::getInstance()->createCommand($sql)->execute();
+		} catch (\Throwable $exc) {
+			return false;
 		}
-		$adb->query($sql);
-		$adb->dieOnError = $org_dieOnError;
 	}
 
 	/**
@@ -168,38 +165,6 @@ class Utils
 			}
 			$db->createCommand()->addColumn($tableName, $columnName, $criteria)->execute();
 		}
-	}
-
-	/**
-	 * Get SQL query.
-	 *
-	 * @param string SQL query statement
-	 */
-	public static function executeQuery($sqlquery, $supressdie = false)
-	{
-		$adb = \PearDatabase::getInstance();
-		$old_dieOnError = $adb->dieOnError;
-
-		if ($supressdie) {
-			$adb->dieOnError = false;
-		}
-
-		$adb->pquery($sqlquery, []);
-
-		$adb->dieOnError = $old_dieOnError;
-	}
-
-	/**
-	 * Get CREATE SQL for given table.
-	 *
-	 * @param string tablename for which CREATE SQL is requried
-	 */
-	public static function createTableSql($tablename)
-	{
-		$adb = \PearDatabase::getInstance();
-		$result = $adb->query("SHOW CREATE TABLE $tablename");
-		$createTable = $adb->fetchArray($result);
-		return \App\Purifier::decodeHtml($createTable['Create Table']);
 	}
 
 	/**
