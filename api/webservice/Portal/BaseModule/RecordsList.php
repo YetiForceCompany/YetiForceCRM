@@ -31,7 +31,7 @@ class RecordsList extends \Api\Core\BaseAction
 			$record = ['recordLabel' => \App\Record::getLabel($row['id'])];
 			foreach ($fieldsModel as $fieldName => &$fieldModel) {
 				if (isset($row[$fieldName])) {
-					$record[$fieldName] = $fieldModel->getDisplayValue($row[$fieldName], $row['id'], false, true);
+					$record[$fieldName] = $fieldModel->getApiDisplayValue($row[$fieldName], $row['id'], false, true);
 				}
 			}
 			$records[$row['id']] = $record;
@@ -61,7 +61,7 @@ class RecordsList extends \Api\Core\BaseAction
 	{
 		$queryGenerator = new \App\QueryGenerator($this->controller->request->get('module'));
 		$queryGenerator->initForDefaultCustomView();
-		if ($this->getPermissionType() !== 1) {
+		if (1 !== $this->getPermissionType()) {
 			$this->getQueryByParentRecord($queryGenerator);
 		}
 		$limit = 1000;
@@ -104,7 +104,7 @@ class RecordsList extends \Api\Core\BaseAction
 		$parentModule = \App\Record::getType($parentId);
 		$fields = \App\Field::getRelatedFieldForModule($queryGenerator->getModule());
 		$foundField = true;
-		if (\App\ModuleHierarchy::getModuleLevel($queryGenerator->getModule()) === 0) {
+		if (0 === \App\ModuleHierarchy::getModuleLevel($queryGenerator->getModule())) {
 			$queryGenerator->addCondition('id', $parentId, 'e');
 		} elseif (isset($fields[$parentModule]) && $fields[$parentModule]['name'] !== $fields[$parentModule]['relmod']) {
 			$field = $fields[$parentModule];

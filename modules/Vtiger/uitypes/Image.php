@@ -14,4 +14,17 @@ class Vtiger_Image_UIType extends Vtiger_MultiImage_UIType
 	 * {@inheritdoc}
 	 */
 	public static $defaultLimit = 1;
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getApiDisplayValue($value, bool $record = false, $recordModel = false, bool $rawText = false, $length = false)
+	{
+		$value = \App\Json::decode($value);
+		$returnValue = '';
+		if ($value) {
+			$returnValue = \App\Json::encode(base64_encode(file_get_contents(current($value)['path'])));
+		}
+		return $returnValue;
+	}
 }
