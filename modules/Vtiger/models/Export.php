@@ -353,7 +353,7 @@ class Vtiger_Export_Model extends \App\Base
 					$values[] = \App\Fields\Owner::getLabel($owner);
 				}
 				$value = implode(',', $values);
-			} elseif ($type === 'reference') {
+			} elseif ($fieldInfo->isReferenceField()) {
 				$value = trim($value);
 				if (!empty($value)) {
 					$recordModule = \App\Record::getType($value);
