@@ -83,7 +83,7 @@ function getModulesTask(src = generatedSrc, dev = false) {
     if (dev) {
       if ((Array.isArray(src) && src !== generatedSrc) || !generatedSrc.includes(src)) {
         ModuleLoader.saveModuleConfig(ModuleLoader.loadModules(sourceDir))
-        return gulp.series(['generated'])(done)
+        return gulp.series(['generate-modules'])(done)
       }
     } else {
       ModuleLoader.saveModuleConfig(ModuleLoader.loadModules(sourceDir))
@@ -128,7 +128,7 @@ function getModulesTask(src = generatedSrc, dev = false) {
       )
   }
 }
-gulp.task('generated', getModulesTask())
+gulp.task('generate-modules', getModulesTask())
 
 /**
  * Minify .js files and replace directory aliases
@@ -194,7 +194,7 @@ gulp.task('compileCss', getCompileCssTask())
 /**
  * Build task
  */
-gulp.task('build', gulp.series(['vue', 'min', 'generated', 'compileCss']))
+gulp.task('build', gulp.series(['vue', 'min', 'generate-modules', 'compileCss']))
 
 /**
  * Start dev environment with browser-sync
@@ -210,7 +210,7 @@ gulp.task('dev', function() {
     gulp.watch(vueSrc).on('all', (eventName, fileName) => {
       fileName = fileName.replace(/\\/gim, '/')
       console.log(eventName, fileName)
-      gulp.series([getVueTask(fileName, true)])(() => {
+      gulp.series([getVueTask(fileName, true), getModulesTask(fileName, true)])(() => {
         console.log(eventName, fileName, 'done')
         browserSync.reload()
       })
@@ -224,7 +224,6 @@ gulp.task('dev', function() {
       })
     })
   })
-
   gulp.watch(stylusSrc).on('all', (eventName, fileName) => {
     fileName = fileName.replace('\\', '/')
     console.log(eventName, fileName)
