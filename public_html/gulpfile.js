@@ -56,7 +56,7 @@ function getVueTask(src = vueSrc, dev = false) {
   return function vueTask() {
     let dest = `./${sourceDir}/`
     if (src !== vueSrc) {
-      dest = './' + src.slice(0, src.lastIndexOf('/') + 1)
+      dest = src.slice(0, src.lastIndexOf('/') + 1)
     }
     const importMinOptions = { extension: 'vue.js' }
     return gulp
@@ -88,7 +88,8 @@ function getModulesTask(src = modulesConfigSrc, dev = false) {
     const importMinConfig = {}
     if (!generatedSrc.includes(src)) {
       ModuleLoader.saveModuleConfig(ModuleLoader.loadModules(sourceDir))
-    } else {
+    }
+    if (src !== modulesConfigSrc) {
       return done()
     }
     return gulp
@@ -131,14 +132,15 @@ gulp.task('modules.js', getModulesTask())
  */
 function getMinTask(src = minSrc, dev = false) {
   return function minTask() {
-    let dest = `./${sourceDir}/`
+    let dest = `${sourceDir}/`
     if (src !== minSrc) {
-      dest = './' + src.slice(0, src.lastIndexOf('/') + 1)
+      dest = src.slice(0, src.lastIndexOf('/') + 1)
     }
     const importMinConfig = {}
     if (dev) {
       importMinConfig.postfix = '?dev=' + new Date().getTime()
     }
+    console.log('dest starting task', dest, 'src', src)
     return gulp
       .src(src, { sourcemaps: true })
       .pipe(
