@@ -37,14 +37,8 @@ const sourceDir = 'src'
 const vueSrc = 'src/**/*.vue'
 const stylusSrc = 'src/css/**/*.styl'
 const modulesConfigSrc = 'src/statics/modules.js'
-const minSrc = ['src/**/*.js', '!src/**/*.min.js', '!src/**/*.vue.js']
-const generatedSrc = [
-  modulesConfigSrc,
-  'src/store/mutations.js',
-  'src/store/getters.js',
-  'src/store/actions.js',
-  'src/store/state.js'
-]
+const generatedSrc = [modulesConfigSrc, 'src/store/mutations.js', 'src/store/getters.js', 'src/store/actions.js']
+const minSrc = ['src/**/*.js', '!src/**/*.min.js', '!src/**/*.vue.js', ...generatedSrc.map(src => '!' + src)]
 /**
  * Compile vue files into .min.js, replace directory aliases and internal imports to .min.js
  *
@@ -86,17 +80,16 @@ gulp.task('vue', getVueTask())
 function getModulesTask(src = generatedSrc, dev = false) {
   return function modulesTask(done) {
     const importMinConfig = {}
-    if ((Array.isArray(src) && src !== generatedSrc) || !generatedSrc.includes(src)) {
-      console.log(
-        'src nie jest w generated src czyli zmieniły się inne pliki - generujemy modules i store i wychodzimy',
-        src
-      )
+    if (dev) {
+      if ((Array.isArray(src) && src !== generatedSrc) || !generatedSrc.includes(src)) {
+        ModuleLoader.saveModuleConfig(ModuleLoader.loadModules(sourceDir))
+        return gulp.series(['generated'])(done)
+      }
+    } else {
       ModuleLoader.saveModuleConfig(ModuleLoader.loadModules(sourceDir))
-      return done()
     }
-    console.log('tworzymy wersję min dla', src)
     return gulp
-      .src(src, { sourcemaps: true })
+      .src(src, { sourcemaps: false })
       .pipe(
         terser({
           module: false,
@@ -121,10 +114,21 @@ function getModulesTask(src = generatedSrc, dev = false) {
           extname: '.min.js'
         })
       )
-      .pipe(gulp.dest(sourceDir + '/statics/', { sourcemaps: true }))
+      .pipe(
+        gulp.dest(
+          function(file) {
+            let dest = `${sourceDir}/statics/`
+            if (file.path !== modulesConfigSrc) {
+              dest = path.dirname(file.path).replace(/\\/g, '/')
+            }
+            return dest
+          },
+          { sourcemaps: false }
+        )
+      )
   }
 }
-gulp.task('modules.js', getModulesTask())
+gulp.task('generated', getModulesTask())
 
 /**
  * Minify .js files and replace directory aliases
@@ -190,7 +194,7 @@ gulp.task('compileCss', getCompileCssTask())
 /**
  * Build task
  */
-gulp.task('build', gulp.series(['vue', 'modules.js', 'min', 'compileCss']))
+gulp.task('build', gulp.series(['vue', 'min', 'generated', 'compileCss']))
 
 /**
  * Start dev environment with browser-sync
