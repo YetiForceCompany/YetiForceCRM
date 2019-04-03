@@ -21,18 +21,7 @@ export default function({ store }) {
     Quasar.plugins.Loading.show({
       spinner: Quasar.components.QSpinnerGears
     })
-    let isLoggedIn = store.getters[getters.Core.Users.isLoggedIn]
-    if (isLoggedIn === undefined) {
-      isLoggedIn = window.env.Core.Users.isLoggedIn
-    }
-    if (isLoggedIn || routeTo.path.startsWith('/users/login') || routeTo.path.startsWith('/error404')) {
-      next()
-    } else if (routeFrom.path.startsWith('/users/login')) {
-      Quasar.plugins.Loading.hide()
-      next(false)
-    } else {
-      next({ name: 'Core.Users.Login' })
-    }
+    next()
   })
   Router.afterEach(() => {
     Quasar.plugins.Loading.hide()
