@@ -1,7 +1,7 @@
 export default [
   {
     name: 'Base',
-    parent: 'App',
+    parent: 'Basic',
     path: '/',
     componentPath: 'layouts/Base'
   }

@@ -20,6 +20,19 @@ export default {
       get: () => self
     })
     return provider
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.$i18n.locale = to.meta.module || '_Base'
+      vm.$store.commit('Global/update', window.env)
+      next()
+    })
+  },
+  beforeRouteUpdate(to, from, next) {
+    next(vm => {
+      vm.$i18n.locale = to.meta.module || '_Base'
+      next()
+    })
   }
 }
 </script>

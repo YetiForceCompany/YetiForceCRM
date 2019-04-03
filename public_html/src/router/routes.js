@@ -5,13 +5,22 @@ const routes = [
   {
     name: 'App',
     path: '/',
-    redirect: 'base/home',
-    component: () => import('/src/layouts/Basic.vue.js')
-  },
-  {
-    name: 'Error404',
-    path: '*',
-    component: () => import('../pages/Error404.vue.js')
+    component: () => import('/src/App.vue.js'),
+    children: [
+      {
+        parent: 'App',
+        name: 'Basic',
+        path: '/',
+        redirect: 'base/home',
+        component: () => import('/src/layouts/Basic.vue.js')
+      },
+      {
+        parent: 'App',
+        name: 'Error404',
+        path: '*',
+        component: () => import('../pages/Error404.vue.js')
+      }
+    ]
   }
 ]
 
