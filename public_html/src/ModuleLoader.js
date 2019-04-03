@@ -1,14 +1,13 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-const ModuleLoader = {
-  /**
-   * Developer mode
-   */
-  dev: window.env.Env.dev,
-
-  /**
-   * All imported modules by moduleName
-   */
-  modules: {},
+/**
+ * Class Module loader
+ * Prepare and load modules from window.modules config
+ */
+class ModuleLoader {
+  constructor() {
+    this.dev = typeof window !== 'undefined' ? window.env.Env.dev : false
+    this.modules = {}
+  }
 
   /**
    * Get path without '/src/' prefix
@@ -27,7 +26,7 @@ const ModuleLoader = {
       return path.replace(/\\/gi, '/')
     }
     console.error('unknown path', path)
-  },
+  }
 
   /**
    * Attach route - recursive
@@ -49,7 +48,7 @@ const ModuleLoader = {
         }
       }
     }
-  },
+  }
 
   /**
    * Prepare route - replace componentPath into component property with dynamic import
@@ -99,7 +98,7 @@ const ModuleLoader = {
       }
       return routeItem
     })
-  },
+  }
 
   /**
    * Attach routes to currently defined routes
@@ -116,7 +115,7 @@ const ModuleLoader = {
         currentRoutes.push(route)
       }
     })
-  },
+  }
 
   /**
    * Load routes
@@ -133,7 +132,7 @@ const ModuleLoader = {
       }
     }
     return routes
-  },
+  }
 
   /**
    * Get concrete module from array of nested modules
@@ -156,7 +155,7 @@ const ModuleLoader = {
       }
     }
     return null
-  },
+  }
 
   /**
    * Prepare store names for easier store creation process
@@ -182,7 +181,7 @@ const ModuleLoader = {
       }
     }
     return updatedStore
-  },
+  }
 
   /**
    * Private flat array of all modules
@@ -193,6 +192,7 @@ const ModuleLoader = {
    * @return  {array}
    */
   _flattenModules(modules, flat = { components: {}, modules: [] }) {
+    const self = this
     for (const module of modules) {
       if (typeof module.entry !== 'undefined') {
         const modulePath = this.getPath(module.entry)
@@ -206,7 +206,7 @@ const ModuleLoader = {
         flat.components[module.name] = {
           module: module,
           component() {
-            if (this.dev) {
+            if (self.dev) {
               console.log(`importing ${componentPath}`)
             }
             return import(componentPath)
@@ -222,7 +222,7 @@ const ModuleLoader = {
       }
     }
     return flat
-  },
+  }
 
   /**
    * Flatten modules
@@ -249,10 +249,11 @@ const ModuleLoader = {
   }
 }
 
+const moduleLoader = new ModuleLoader()
+
 if (typeof window !== 'undefined') {
-  window.ModuleLoader = ModuleLoader
+  window.ModuleLoader = moduleLoader
+} else if (typeof global !== 'undefined') {
+  global.ModuleLoader = moduleLoader
 }
-if (typeof global !== 'undefined') {
-  global.ModuleLoader = ModuleLoader
-}
-export default ModuleLoader
+export default moduleLoader

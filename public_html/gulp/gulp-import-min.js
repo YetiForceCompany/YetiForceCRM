@@ -10,7 +10,7 @@ const defaultConfig = {
 function replace(contents, file, config) {
   let result = contents
     .replace(
-      /(import\s+[^'"`]+\s?)(['"`]{1})(?!\.?\/?node_modules)([^'"`]+)(?<!\.?min|\.?vue)\.js['"`]{1}/gim,
+      /(import\s?[^'"`]+\s?)(['"`]{1})(?!\.?\/?node_modules)([^'"`]+)(?<!\.?min|\.?vue)\.js['"`]{1}/gim,
       `$1$2$3${config.extension}${config.postfix}$2`
     )
     .replace(/(import\(['"`]?)([^\)]+)(?<!\.min|\.vue)\.js(["'`]?\))/gim, `$1$2${config.extension}${config.postfix}$3`)
