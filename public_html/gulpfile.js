@@ -140,7 +140,6 @@ function getMinTask(src = minSrc, dev = false) {
     if (dev) {
       importMinConfig.postfix = '?dev=' + new Date().getTime()
     }
-    console.log('dest starting task', dest, 'src', src)
     return gulp
       .src(src, { sourcemaps: true })
       .pipe(
