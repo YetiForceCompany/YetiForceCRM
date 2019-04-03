@@ -3,7 +3,7 @@ const ModuleLoader = {
   /**
    * Developer mode
    */
-  dev: window.env.Env.dev,
+  dev: typeof window !== 'undefined' ? window.env.Env.dev : false,
 
   /**
    * All imported modules by moduleName
