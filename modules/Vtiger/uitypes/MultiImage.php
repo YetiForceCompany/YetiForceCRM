@@ -221,13 +221,11 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	public function getApiDisplayValue($value, bool $record = false, $recordModel = false, bool $rawText = false, $length = false)
 	{
 		$value = \App\Json::decode($value);
-		$returnValue = '';
+		$returnValue = [];
 		if ($value) {
-			$images = [];
 			foreach ($value as $item) {
-				$images[] = base64_encode(file_get_contents($item['path']));
+				$returnValue[] = base64_encode(file_get_contents($item['path']));
 			}
-			$returnValue = $images;
 		}
 		return $returnValue;
 	}
