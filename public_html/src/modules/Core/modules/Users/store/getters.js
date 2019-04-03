@@ -1,5 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-export default {
+import state from './state.js'
+
+let getters = {
   /**
    * Check if user is logged in
    *
@@ -9,8 +11,14 @@ export default {
    */
   isLoggedIn(state) {
     return state.isLoggedIn !== false
-  },
-  getMessage(state) {
-    return state.message
   }
 }
+
+function defaultGeters(state) {
+  return Object.keys(state).reduce((getters, key) => {
+    getters[key] = state => state[key]
+    return getters
+  }, {})
+}
+
+export default Object.assign(defaultGeters(state), getters)

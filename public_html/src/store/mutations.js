@@ -4,6 +4,9 @@ export default {
     "Home": {},
     "ModuleExample": {
       "updateTestVariable": "Base/ModuleExample/updateTestVariable"
+    },
+    "ModuleExample2": {
+      "updateTestVariable": "Base/ModuleExample2/updateTestVariable"
     }
   },
   "Core": {
