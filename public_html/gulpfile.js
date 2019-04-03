@@ -83,15 +83,18 @@ gulp.task('vue', getVueTask())
 /**
  * Minify module.js config file and replace .js internal paths to .min.js
  */
-function getModulesTask(src = modulesConfigSrc, dev = false) {
+function getModulesTask(src = generatedSrc, dev = false) {
   return function modulesTask(done) {
     const importMinConfig = {}
-    if (!generatedSrc.includes(src)) {
+    if ((Array.isArray(src) && src !== generatedSrc) || !generatedSrc.includes(src)) {
+      console.log(
+        'src nie jest w generated src czyli zmieniły się inne pliki - generujemy modules i store i wychodzimy',
+        src
+      )
       ModuleLoader.saveModuleConfig(ModuleLoader.loadModules(sourceDir))
-    }
-    if (src !== modulesConfigSrc) {
       return done()
     }
+    console.log('tworzymy wersję min dla', src)
     return gulp
       .src(src, { sourcemaps: true })
       .pipe(
@@ -167,10 +170,10 @@ gulp.task('min', getMinTask())
  *
  * @returns {function} task
  */
-function getCompileCssTask() {
+function getCompileCssTask(src = stylusSrc) {
   return function compileCssTask() {
     return gulp
-      .src('./src/css/app.styl', { sourcemaps: true })
+      .src(src, { sourcemaps: true })
       .pipe(stylus())
       .pipe(
         gulp.dest('./src/css'),
@@ -187,14 +190,14 @@ gulp.task('compileCss', getCompileCssTask())
 /**
  * Build task
  */
-gulp.task('build', gulp.series(['vue', 'modules.js', 'min']))
+gulp.task('build', gulp.series(['vue', 'modules.js', 'min', 'compileCss']))
 
 /**
  * Start dev environment with browser-sync
  */
 gulp.task('dev', function() {
   ModuleLoader.log = true
-  gulp.series([getVueTask(vueSrc, true), getModulesTask(modulesConfigSrc, true), getMinTask(minSrc, true)])(() => {
+  gulp.series(['build'])(() => {
     ModuleLoader.log = false
     browserSync.init({
       proxy: typeof process.env.LOCAL_URL !== 'undefined' ? process.env.LOCAL_URL : 'http://yeti',
