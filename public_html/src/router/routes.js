@@ -16,7 +16,7 @@ const routes = [
 ]
 
 // Load module routes
-if (typeof window.modules === 'object') {
+if (typeof window !== 'undefined' && typeof window.modules === 'object') {
   ModuleLoader.loadRoutes(routes, window.modules)
 }
 
