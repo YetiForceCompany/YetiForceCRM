@@ -60,7 +60,8 @@ function getVueTask(src = vueSrc, dev = false) {
       .pipe(importMin(importMinOptions))
       .pipe(
         terser({
-          module: true
+          module: true,
+          mangle: false
         })
       )
       .pipe(header(license))
@@ -93,11 +94,7 @@ function getModulesTask(src = generatedSrc, dev = false) {
       .pipe(
         terser({
           module: false,
-          mangle: {
-            properties: {
-              keep_quoted: true
-            }
-          },
+          mangle: false,
           output: {
             keep_quoted_props: true
           },
@@ -151,7 +148,8 @@ function getMinTask(src = minSrc, dev = false) {
       .src(src, { sourcemaps: true })
       .pipe(
         terser({
-          module: true
+          module: true,
+          mangle: false
         })
       )
       .pipe(importAliases({ map: aliases }))
