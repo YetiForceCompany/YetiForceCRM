@@ -23,7 +23,7 @@ class Vtiger_Image_UIType extends Vtiger_MultiImage_UIType
 		$value = \App\Json::decode($value);
 		$returnValue = '';
 		if ($value) {
-			$returnValue = \App\Json::encode(base64_encode(file_get_contents(current($value)['path'])));
+			$returnValue = base64_encode(file_get_contents(current($value)['path']));
 		}
 		return $returnValue;
 	}

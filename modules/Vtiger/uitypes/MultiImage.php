@@ -139,7 +139,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 			return $v['name'];
 		}, $value);
 		$result = implode(', ', $value);
-		return trim($result, "\n\\s\t, ");
+		return trim($result, "\n\t, ");
 	}
 
 	/**
@@ -197,7 +197,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 				$val = $value[$i];
 				$result .= $val['name'] . ', ';
 			}
-			return \App\Purifier::encodeHtml(trim($result, "\n\\s\t ,"));
+			return \App\Purifier::encodeHtml(trim($result, "\n\t ,"));
 		}
 		if (!is_array($value)) {
 			return '';
@@ -212,7 +212,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 				$result .= \App\Purifier::encodeHtml($value[$i]['name']) . ', ';
 			}
 		}
-		return trim($result, "\n\\s\t ") . '</div>';
+		return trim($result, "\n\t ") . '</div>';
 	}
 
 	/**
@@ -227,7 +227,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 			foreach ($value as $item) {
 				$images[] = base64_encode(file_get_contents($item['path']));
 			}
-			$returnValue = \App\Json::encode($images);
+			$returnValue = $images;
 		}
 		return $returnValue;
 	}
@@ -254,7 +254,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 				$val = $value[$i];
 				$result .= $val['name'] . ', ';
 			}
-			return \App\Purifier::encodeHtml(trim($result, "\n\\s\t ,"));
+			return \App\Purifier::encodeHtml(trim($result, "\n\t ,"));
 		}
 		if (!is_array($value)) {
 			return '';
