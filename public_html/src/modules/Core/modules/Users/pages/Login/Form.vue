@@ -43,7 +43,6 @@
       <q-select
         v-if="$store.state.Core.Users.layoutInLoginView"
         v-model="layout"
-        :options="$store.state.Env.layouts"
         :label="$t('LBL_SELECT_LAYOUT')"
       >
         <template v-slot:prepend>

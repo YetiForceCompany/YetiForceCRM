@@ -10,35 +10,13 @@ export default {
    * @param {object} state
    */
   fetchData({ commit, rootGetters }, view) {
-    loginAxios({
-      url: rootGetters[getters.Core.Url.get](`Users.${view}.getData`),
-      method: 'POST'
-    }).then(response => {
-      commit('Global/update', { Core: response.data.env })
-    })
-    //TODO commit to remove when rootGetters[getters.Url.all].Users.getData is ready
-    commit('Global/update', {
-      Core: {
-        Env: {
-          layout: 'material',
-          layouts: ['material', 'ios']
-        },
-        Language: {
-          defaultLanguage: 'en-US',
-          lang: 'en-US',
-          langs: ['pl-PL', 'en-US']
-        },
-        Users: {
-          isBlockedIp: false,
-          message: '',
-          messageType: '',
-          loginPageRememberCredentials: true,
-          forgotPassword: true,
-          languageSelection: true,
-          layoutSelection: true
-        }
-      }
-    })
+    // loginAxios({
+    //   url: rootGetters[getters.Core.Url.get](`Users.${view}.getData`),
+    //   method: 'POST'
+    // }).then(response => {
+    //   commit('Global/update', { Core: response.data.env })
+    // })
+    commit('Global/update', { Core: window.env.Core })
   },
   /**
    * Login action

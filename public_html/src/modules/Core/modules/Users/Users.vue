@@ -9,7 +9,7 @@ const moduleName = 'Core.Users'
 
 export function initialize({ store, router }) {
   store.registerModule(moduleName.split('.'), ModuleLoader.prepareStoreNames(moduleName, moduleStore))
-  store.commit(mutations.Core.Users.isLoggedIn, window.env.Users.isLoggedIn)
+  store.commit(mutations.Core.Users.isLoggedIn, window.env.Core.Users.isLoggedIn)
 }
 
 export default {

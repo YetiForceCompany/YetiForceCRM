@@ -13,10 +13,6 @@ export default function({ store }) {
   Router = new VueRouter({
     scrollBehavior: () => ({ y: 0 }),
     routes,
-
-    // Leave these as is and change from quasar.conf.js instead!
-    // quasar.conf.js -> build -> vueRouterMode
-    // quasar.conf.js -> build -> publicPath
     mode: 'hash',
     base: '/'
   })
@@ -27,7 +23,7 @@ export default function({ store }) {
     })
     let isLoggedIn = store.getters[getters.Core.Users.isLoggedIn]
     if (isLoggedIn === undefined) {
-      isLoggedIn = window.env.Users.isLoggedIn
+      isLoggedIn = window.env.Core.Users.isLoggedIn
     }
     if (isLoggedIn || routeTo.path.startsWith('/users/login') || routeTo.path.startsWith('/error404')) {
       next()

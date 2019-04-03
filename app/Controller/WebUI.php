@@ -79,27 +79,29 @@ class WebUI extends Base
 		$lang = \App\Language::getLanguage();
 		$bruteForceInstance = \Settings_BruteForce_Module_Model::getCleanInstance();
 		return \App\Json::encode([
-			'Env' => [
-				'baseURL' => \App\Config::main('site_URL'),
-				'publicDir' => '/src',
-				'routerMode' => 'hash',
-				'dev' => 'test' === \App\Config::main('systemMode')
-			],
-			'Language' => [
-				'lang' => $lang,
-				'translations' => \App\Language::getLanguageData($lang),
-			],
-			'Debug' => [
-				'levels' => ['error']
-			],
-			'Users' => [
-				'isLoggedIn' => \App\User::isLoggedIn(),
-				'isBlockedIp' => $bruteForceInstance->isActive() && $bruteForceInstance->isBlockedIp(),
-				'loginPageRememberCredentials' => \App\Config::security('LOGIN_PAGE_REMEMBER_CREDENTIALS'),
-				'resetLoginPassword' => \App\Config::security('RESET_LOGIN_PASSWORD'),
-				'langInLoginView' => \App\Config::main('langInLoginView'),
-				'layoutInLoginView' => \App\Config::main('layoutInLoginView'),
-				'defaultLayout' => \App\Config::main('defaultLayout')
+			'Core' => [
+				'Env' => [
+					'baseURL' => \App\Config::main('site_URL'),
+					'publicDir' => '/src',
+					'routerMode' => 'hash',
+					'dev' => 'test' === \App\Config::main('systemMode')
+				],
+				'Language' => [
+					'lang' => $lang,
+					'translations' => \App\Language::getLanguageData($lang),
+				],
+				'Debug' => [
+					'levels' => ['error']
+				],
+				'Users' => [
+					'isLoggedIn' => \App\User::isLoggedIn(),
+					'isBlockedIp' => $bruteForceInstance->isActive() && $bruteForceInstance->isBlockedIp(),
+					'loginPageRememberCredentials' => \App\Config::security('LOGIN_PAGE_REMEMBER_CREDENTIALS'),
+					'resetLoginPassword' => \App\Config::security('RESET_LOGIN_PASSWORD'),
+					'langInLoginView' => \App\Config::main('langInLoginView'),
+					'layoutInLoginView' => \App\Config::main('layoutInLoginView'),
+					'defaultLayout' => \App\Config::main('defaultLayout')
+				]
 			]
 		]);
 	}

@@ -20,14 +20,14 @@ if (typeof window.modules === 'object') {
 }
 
 async function start() {
-  if (window.env.Env.dev) {
+  if (window.env.Core.Env.dev) {
     console.groupCollapsed('Loader logs')
   }
   const store = createStore()
   const router = createRouter({ store })
   store.$router = router
   try {
-    if (window.env.Env.dev) {
+    if (window.env.Core.Env.dev) {
       console.groupCollapsed('Core modules')
     }
     for (let module of coreModules) {
@@ -36,11 +36,11 @@ async function start() {
         component.initialize({ store, router })
       }
       module.component = component.default
-      if (window.env.Env.dev) {
+      if (window.env.Core.Env.dev) {
         console.log(module.component)
       }
     }
-    if (window.env.Env.dev) {
+    if (window.env.Core.Env.dev) {
       console.groupEnd()
       console.groupCollapsed('Standard modules')
     }
@@ -50,11 +50,11 @@ async function start() {
         component.initialize({ store, router })
       }
       module.component = component.default
-      if (window.env.Env.dev) {
+      if (window.env.Core.Env.dev) {
         console.log(module.component)
       }
     }
-    if (window.env.Env.dev) {
+    if (window.env.Core.Env.dev) {
       console.groupEnd()
       console.groupCollapsed('Components')
     }
@@ -62,11 +62,11 @@ async function start() {
       const component = components[componentName]
       const resolved = await component.component()
       component.component = resolved.default
-      if (window.env.Env.dev) {
+      if (window.env.Core.Env.dev) {
         console.log(componentName, component)
       }
     }
-    if (window.env.Env.dev) {
+    if (window.env.Core.Env.dev) {
       console.groupEnd()
     }
   } catch (e) {
@@ -81,7 +81,7 @@ async function start() {
   }
   createI18n({ app })
   const App = new Vue(app)
-  if (window.env.Env.dev) {
+  if (window.env.Core.Env.dev) {
     console.groupEnd()
   }
   window.App = App
