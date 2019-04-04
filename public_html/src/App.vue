@@ -10,7 +10,6 @@
 import getters from '/src/store/getters.js'
 
 const moduleName = 'App'
-console.log(getters.Core.Env.template)
 export default {
   name: moduleName,
   props: ['modules'],
@@ -33,7 +32,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.template)
     this.templateLoader()
       .then(() => {
         this.templatePath = () => this.templateLoader()
