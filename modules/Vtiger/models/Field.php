@@ -1313,7 +1313,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isTreeField(): bool
 	{
-		return 'tree'===$this->getFieldDataType();
+		return in_array($this->getFieldDataType(), ['tree', 'categoryMultipicklist']);
 	}
 
 	public function isReferenceField()
