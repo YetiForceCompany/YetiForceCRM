@@ -19,7 +19,6 @@ window.modules = [
     "routes": [
       {
         "name": "Base",
-        "parent": "Basic",
         "path": "/",
         "componentPath": "layouts/Base"
       }
@@ -150,7 +149,6 @@ window.modules = [
     "routes": [
       {
         "name": "Core",
-        "parent": "Basic",
         "path": "/",
         "componentPath": "layouts/Core"
       }
@@ -171,7 +169,43 @@ window.modules = [
         "autoLoad": true,
         "entry": "src\\modules\\Core\\modules\\Debug\\Debug.vue.js",
         "directories": [
+          "router",
           "store"
+        ],
+        "routes": [
+          {
+            "parent": "Core",
+            "name": "Core.Users.Login",
+            "path": "users/login",
+            "redirect": "users/login/form",
+            "componentPath": "layouts/Login",
+            "children": [
+              {
+                "name": "Core.Users.Login.LoginForm",
+                "path": "form",
+                "meta": {
+                  "module": "Users"
+                },
+                "componentPath": "pages/Login/Form"
+              },
+              {
+                "name": "Core.Users.Login.2FA",
+                "path": "2fa",
+                "meta": {
+                  "module": "Users"
+                },
+                "componentPath": "pages/Login/2FA"
+              },
+              {
+                "name": "Core.Users.Login.Reminder",
+                "path": "reminder",
+                "meta": {
+                  "module": "Users"
+                },
+                "componentPath": "pages/Login/Reminder"
+              }
+            ]
+          }
         ],
         "store": {
           "getters": {
@@ -355,8 +389,7 @@ window.modules = [
             "resetLoginPassword": "Core/Users/resetLoginPassword",
             "langInLoginView": "Core/Users/langInLoginView",
             "layoutInLoginView": "Core/Users/layoutInLoginView",
-            "is2fa": "Core/Users/is2fa",
-            "getMessage": "Core/Users/getMessage"
+            "is2fa": "Core/Users/is2fa"
           },
           "mutations": {
             "isLoggedIn": "Core/Users/isLoggedIn"
@@ -394,8 +427,7 @@ window.modules = [
     "routes": [
       {
         "name": "Settings",
-        "parent": "Basic",
-        "path": "settings",
+        "path": "/settings",
         "componentPath": "layouts/Settings"
       }
     ],

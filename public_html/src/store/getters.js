@@ -33,8 +33,7 @@ export default {
       "resetLoginPassword": "Core/Users/resetLoginPassword",
       "langInLoginView": "Core/Users/langInLoginView",
       "layoutInLoginView": "Core/Users/layoutInLoginView",
-      "is2fa": "Core/Users/is2fa",
-      "getMessage": "Core/Users/getMessage"
+      "is2fa": "Core/Users/is2fa"
     }
   },
   "Settings": {

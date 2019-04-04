@@ -1,8 +1,7 @@
 export default [
   {
     name: 'Settings',
-    parent: 'Basic',
-    path: 'settings',
+    path: '/settings',
     componentPath: 'layouts/Settings'
   }
 ]
