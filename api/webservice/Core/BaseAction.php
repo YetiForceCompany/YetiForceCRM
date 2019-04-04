@@ -59,7 +59,14 @@ class BaseAction
 		$sessionTable = "w_#__{$apiType}_session";
 		$userTable = "w_#__{$apiType}_user";
 		$db = \App\Db::getInstance('webservice');
-		$row = (new \App\Db\Query())->select(["$userTable.*", "$sessionTable.id", 'sessionLanguage' => "$sessionTable.language", "$sessionTable.created", "$sessionTable.changed", "$sessionTable.params"])->from($userTable)
+		$row = (new \App\Db\Query())->select([
+			"$userTable.*",
+			"$sessionTable.id",
+			'sessionLanguage' => "$sessionTable.language",
+			"$sessionTable.created",
+			"$sessionTable.changed",
+			"$sessionTable.params"
+		])->from($userTable)
 			->innerJoin($sessionTable, "$sessionTable.user_id = $userTable.id")
 			->where(["$sessionTable.id" => $this->controller->headers['x-token'], "$userTable.status" => 1])
 			->one($db);
@@ -72,6 +79,7 @@ class BaseAction
 		$db->createCommand()
 			->update($sessionTable, ['changed' => date('Y-m-d H:i:s')], ['id' => $this->session->get('id')])
 			->execute();
+		return true;
 	}
 
 	/**
@@ -90,13 +98,14 @@ class BaseAction
 	 *
 	 * @return string
 	 */
-	public function getLanguage()
+	public function getLanguage(): string
 	{
 		$language = '';
-		if (!empty($this->controller->headers['Accept-Language'])) {
-			$language = $this->controller->headers['Accept-Language'];
-		}
-		if ($this->session && !$this->session->isEmpty('language')) {
+		if (!empty($this->controller->headers['accept-language'])) {
+			$language = $this->controller->headers['accept-language'];
+		} elseif ($this->session && !$this->session->isEmpty('sessionLanguage')) {
+			$language = $this->session->get('sessionLanguage');
+		} elseif ($this->session && !$this->session->isEmpty('language')) {
 			$language = $this->session->get('language');
 		}
 		return $language;
@@ -137,9 +146,8 @@ class BaseAction
 			$records = $hierarchy->get();
 			if (isset($records[$parentId])) {
 				return $parentId;
-			} else {
-				throw new \Api\Core\Exception('No permission to X-PARENT-ID', 403);
 			}
+			throw new \Api\Core\Exception('No permission to X-PARENT-ID', 403);
 		}
 		return \App\Record::getParentRecord($this->getUserCrmId());
 	}
