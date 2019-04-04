@@ -11,7 +11,7 @@ export default {
    */
   get(state) {
     return path => {
-      return Objects.get(state, path)
+      return Objects.get(state.url, path)
     }
   }
 }

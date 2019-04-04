@@ -13,7 +13,16 @@ export function initialize({ store, router }) {
 }
 
 export default {
-  name: moduleName
+  name: moduleName,
+  created() {
+    this.$store.commit(mutations.Core.Url.addUrl, { path: 'Users.Login.login', url: 'login.php' })
+    this.$store.commit(mutations.Core.Url.addUrl, {
+      path: 'Users.Login.logout',
+      url: 'api.php?module=Users&action=Logout'
+    })
+    this.$store.commit(mutations.Core.Url.addUrl, { path: 'Users.Login.remind', url: 'login.php?mode=remind' })
+    this.$store.commit(mutations.Core.Url.addUrl, { path: 'Users.Login.getData', url: 'login.php?mode=getData' })
+  }
 }
 </script>
 <style></style>
