@@ -47,6 +47,7 @@ window.modules = [
             "name": "Base.HomeIndex",
             "parent": "Base",
             "path": "home",
+            "alias": "",
             "componentPath": "/pages/Index",
             "children": [
               {
@@ -169,42 +170,15 @@ window.modules = [
         "autoLoad": true,
         "entry": "src\\modules\\Core\\modules\\Debug\\Debug.vue.js",
         "directories": [
+          "pages",
           "router",
           "store"
         ],
         "routes": [
           {
-            "parent": "Core",
-            "name": "Core.Users.Login",
-            "path": "users/login",
-            "redirect": "users/login/form",
-            "componentPath": "layouts/Login",
-            "children": [
-              {
-                "name": "Core.Users.Login.LoginForm",
-                "path": "form",
-                "meta": {
-                  "module": "Users"
-                },
-                "componentPath": "pages/Login/Form"
-              },
-              {
-                "name": "Core.Users.Login.2FA",
-                "path": "2fa",
-                "meta": {
-                  "module": "Users"
-                },
-                "componentPath": "pages/Login/2FA"
-              },
-              {
-                "name": "Core.Users.Login.Reminder",
-                "path": "reminder",
-                "meta": {
-                  "module": "Users"
-                },
-                "componentPath": "pages/Login/Reminder"
-              }
-            ]
+            "name": "404",
+            "path": "*",
+            "componentPath": "pages/404"
           }
         ],
         "store": {
@@ -230,7 +204,8 @@ window.modules = [
         ],
         "store": {
           "getters": {
-            "all": "Core/Env/all"
+            "all": "Core/Env/all",
+            "template": "Core/Env/template"
           },
           "mutations": {
             "update": "Core/Env/update"

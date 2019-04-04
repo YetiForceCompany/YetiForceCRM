@@ -14,7 +14,8 @@ export default {
       "get": "Core/Debug/get"
     },
     "Env": {
-      "all": "Core/Env/all"
+      "all": "Core/Env/all",
+      "template": "Core/Env/template"
     },
     "Hooks": {
       "get": "Core/Hooks/get"
