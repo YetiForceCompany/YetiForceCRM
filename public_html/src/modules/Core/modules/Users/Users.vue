@@ -4,12 +4,31 @@
 import moduleStore from './store/index.js'
 import ModuleLoader from '/src/ModuleLoader.js'
 import mutations from '/store/mutations.js'
+import getters from '/store/getters.js'
 
 const moduleName = 'Core.Users'
 
+function setLoginRouteGuard(store, router) {
+  router.beforeEach((routeTo, routeFrom, next) => {
+    let isLoggedIn = store.getters[getters.Core.Users.isLoggedIn]
+    if (isLoggedIn === undefined) {
+      isLoggedIn = window.env.Core.Users.isLoggedIn
+    }
+    if (isLoggedIn || routeTo.path.startsWith('/users/login') || routeTo.path.startsWith('/error404')) {
+      next()
+    } else if (routeFrom.path.startsWith('/users/login')) {
+      Quasar.plugins.Loading.hide()
+      next(false)
+    } else {
+      next({ name: 'Core.Users.Login' })
+    }
+  })
+}
+
 export function initialize({ store, router }) {
   store.registerModule(moduleName.split('.'), ModuleLoader.prepareStoreNames(moduleName, moduleStore))
-  store.commit(mutations.Core.Users.isLoggedIn, window.env.Users.isLoggedIn)
+  store.commit(mutations.Core.Users.isLoggedIn, window.env.Core.Users.isLoggedIn)
+  setLoginRouteGuard(store, router)
 }
 
 export default {

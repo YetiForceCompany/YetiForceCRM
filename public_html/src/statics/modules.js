@@ -19,7 +19,6 @@ window.modules = [
     "routes": [
       {
         "name": "Base",
-        "parent": "App",
         "path": "/",
         "componentPath": "layouts/Base"
       }
@@ -48,6 +47,7 @@ window.modules = [
             "name": "Base.HomeIndex",
             "parent": "Base",
             "path": "home",
+            "alias": "",
             "componentPath": "/pages/Index",
             "children": [
               {
@@ -92,6 +92,40 @@ window.modules = [
             "updateTestVariable": "Base/ModuleExample/updateTestVariable"
           }
         }
+      },
+      {
+        "parentHierarchy": "Base",
+        "fullName": "Base.ModuleExample2",
+        "name": "ModuleExample2",
+        "path": "src\\modules\\Base\\modules\\ModuleExample2",
+        "level": 1,
+        "priority": 0,
+        "autoLoad": true,
+        "entry": "src\\modules\\Base\\modules\\ModuleExample2\\ModuleExample2.vue.js",
+        "directories": [
+          "pages",
+          "router",
+          "store"
+        ],
+        "routes": [
+          {
+            "name": "Base.ModuleExample2",
+            "parent": "Base",
+            "path": "module-example2",
+            "componentPath": "pages/ModuleExample2"
+          }
+        ],
+        "store": {
+          "actions": {
+            "getData": "Base/ModuleExample2/getData"
+          },
+          "getters": {
+            "testVariable": "Base/ModuleExample2/testVariable"
+          },
+          "mutations": {
+            "updateTestVariable": "Base/ModuleExample2/updateTestVariable"
+          }
+        }
       }
     ]
   },
@@ -116,7 +150,6 @@ window.modules = [
     "routes": [
       {
         "name": "Core",
-        "parent": "App",
         "path": "/",
         "componentPath": "layouts/Core"
       }
@@ -137,7 +170,16 @@ window.modules = [
         "autoLoad": true,
         "entry": "src\\modules\\Core\\modules\\Debug\\Debug.vue.js",
         "directories": [
+          "pages",
+          "router",
           "store"
+        ],
+        "routes": [
+          {
+            "name": "404",
+            "path": "*",
+            "componentPath": "pages/404"
+          }
         ],
         "store": {
           "getters": {
@@ -162,7 +204,8 @@ window.modules = [
         ],
         "store": {
           "getters": {
-            "all": "Core/Env/all"
+            "all": "Core/Env/all",
+            "template": "Core/Env/template"
           },
           "mutations": {
             "update": "Core/Env/update"
@@ -269,7 +312,8 @@ window.modules = [
           "layouts",
           "pages",
           "router",
-          "store"
+          "store",
+          "url"
         ],
         "routes": [
           {
@@ -283,8 +327,7 @@ window.modules = [
                 "name": "Core.Users.Login.LoginForm",
                 "path": "form",
                 "meta": {
-                  "module": "Core.Users",
-                  "view": "Login"
+                  "langModule": "Users"
                 },
                 "componentPath": "pages/Login/Form"
               },
@@ -292,8 +335,7 @@ window.modules = [
                 "name": "Core.Users.Login.2FA",
                 "path": "2fa",
                 "meta": {
-                  "module": "Core.Users",
-                  "view": "Login"
+                  "langModule": "Users"
                 },
                 "componentPath": "pages/Login/2FA"
               },
@@ -301,8 +343,7 @@ window.modules = [
                 "name": "Core.Users.Login.Reminder",
                 "path": "reminder",
                 "meta": {
-                  "module": "Core.Users",
-                  "view": "Login"
+                  "langModule": "Users"
                 },
                 "componentPath": "pages/Login/Reminder"
               }
@@ -318,10 +359,25 @@ window.modules = [
           },
           "getters": {
             "isLoggedIn": "Core/Users/isLoggedIn",
-            "getMessage": "Core/Users/getMessage"
+            "isBlockedIp": "Core/Users/isBlockedIp",
+            "loginPageRememberCredentials": "Core/Users/loginPageRememberCredentials",
+            "resetLoginPassword": "Core/Users/resetLoginPassword",
+            "langInLoginView": "Core/Users/langInLoginView",
+            "layoutInLoginView": "Core/Users/layoutInLoginView",
+            "is2fa": "Core/Users/is2fa"
           },
           "mutations": {
             "isLoggedIn": "Core/Users/isLoggedIn"
+          },
+          "state.js.bak": {
+            "isLoggedIn": "Core/Users/isLoggedIn",
+            "isBlockedIp": "Core/Users/isBlockedIp",
+            "loginPageRememberCredentials": "Core/Users/loginPageRememberCredentials",
+            "resetLoginPassword": "Core/Users/resetLoginPassword",
+            "langInLoginView": "Core/Users/langInLoginView",
+            "layoutInLoginView": "Core/Users/layoutInLoginView",
+            "is2fa": "Core/Users/is2fa",
+            "url": "Core/Users/url"
           }
         }
       }
@@ -346,8 +402,7 @@ window.modules = [
     "routes": [
       {
         "name": "Settings",
-        "parent": "App",
-        "path": "settings",
+        "path": "/settings",
         "componentPath": "layouts/Settings"
       }
     ],

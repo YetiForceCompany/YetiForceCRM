@@ -14,7 +14,7 @@ export default {
   data() {
     return {
       config: {
-        debug: window.env.Debug.levels.map(level => level)
+        debug: window.env.Core.Debug.levels.map(level => level)
       }
     }
   }

@@ -5,13 +5,8 @@ const routes = [
   {
     name: 'App',
     path: '/',
-    redirect: 'base/home',
-    component: () => import('/src/layouts/Basic.vue.js')
-  },
-  {
-    name: 'Error404',
-    path: '*',
-    component: () => import('../pages/Error404.vue.js')
+    redirect: '/home',
+    component: () => import('/src/App.vue.js')
   }
 ]
 

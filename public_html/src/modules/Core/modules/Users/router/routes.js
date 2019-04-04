@@ -11,19 +11,19 @@ export default [
       {
         name: 'Core.Users.Login.LoginForm',
         path: 'form',
-        meta: { module: 'Core.Users', view: 'Login' },
+        meta: { langModule: 'Users' },
         componentPath: 'pages/Login/Form'
       },
       {
         name: 'Core.Users.Login.2FA',
         path: '2fa',
-        meta: { module: 'Core.Users', view: 'Login' },
+        meta: { langModule: 'Users' },
         componentPath: 'pages/Login/2FA'
       },
       {
         name: 'Core.Users.Login.Reminder',
         path: 'reminder',
-        meta: { module: 'Core.Users', view: 'Login' },
+        meta: { langModule: 'Users' },
         componentPath: 'pages/Login/Reminder'
       }
     ]

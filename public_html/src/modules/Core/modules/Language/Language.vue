@@ -9,7 +9,7 @@ const moduleName = 'Core.Language'
 
 export function initialize({ store, router }) {
   store.registerModule(moduleName.split('.'), ModuleLoader.prepareStoreNames(moduleName, moduleStore))
-  store.commit(mutations.Core.Language.update, window.env.Language)
+  store.commit(mutations.Core.Language.update, window.env.Core.Language)
 }
 
 export default {

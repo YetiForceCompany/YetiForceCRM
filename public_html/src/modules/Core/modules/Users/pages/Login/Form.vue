@@ -4,7 +4,7 @@
     <form
       @submit.prevent.stop="onSubmit"
       class="col q-gutter-md q-mx-lg"
-      :autocomplete="$store.state.Core.Users.loginPageRememberCredentials ? 'on' : 'off'"
+      :autocomplete="loginPageRememberCredentials ? 'on' : 'off'"
     >
       <q-input
         type="text"
@@ -31,7 +31,7 @@
         </template>
       </q-input>
       <q-select
-        v-if="$store.state.Core.Users.langInLoginView"
+        v-if="langInLoginView"
         v-model="language"
         :options="$store.state.Core.Language.langs"
         :label="$t('LBL_CHOOSE_LANGUAGE')"
@@ -40,21 +40,16 @@
           <q-icon name="mdi-translate" />
         </template>
       </q-select>
-      <q-select
-        v-if="$store.state.Core.Users.layoutInLoginView"
-        v-model="layout"
-        :options="$store.state.Env.layouts"
-        :label="$t('LBL_SELECT_LAYOUT')"
-      >
+      <q-select v-if="layoutInLoginView" v-model="layout" :label="$t('LBL_SELECT_LAYOUT')">
         <template v-slot:prepend>
           <q-icon name="mdi-looks" />
         </template>
       </q-select>
       <q-btn size="lg" :label="$t('LBL_SIGN_IN')" type="submit" color="secondary" class="full-width q-mt-lg" />
       <router-link
-        v-if="$store.state.Core.Users.resetLoginPassword"
+        v-if="resetLoginPassword"
         class="text-secondary float-right"
-        :to="{ name: 'Reminder' }"
+        :to="{ name: 'Core.Users.Login.Reminder' }"
         >{{ $t('ForgotPassword') }}</router-link
       >
     </form>
@@ -62,6 +57,7 @@
 </template>
 <script>
 import actions from '/src/store/actions.js'
+import getters from '/src/store/getters.js'
 /**
  * @vue-data     {String} user - form data
  * @vue-data     {String} password - form data
@@ -75,9 +71,18 @@ export default {
     return {
       user: '',
       password: '',
-      language: this.$store.state.Core.Language.defaultLanguage,
+      language: this.$store.state.Core.Language.lang,
       layout: ''
     }
+  },
+  computed: {
+    ...Vuex.mapGetters({
+      loginPageRememberCredentials: getters.Core.Users.loginPageRememberCredentials,
+      layoutInLoginView: getters.Core.Users.layoutInLoginView,
+      defaultLayout: getters.Core.Users.defaultLayout,
+      langInLoginView: getters.Core.Users.langInLoginView,
+      resetLoginPassword: getters.Core.Users.resetLoginPassword
+    })
   },
   methods: {
     onSubmit() {

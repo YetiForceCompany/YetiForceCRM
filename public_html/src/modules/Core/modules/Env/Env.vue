@@ -9,7 +9,7 @@ const moduleName = 'Core.Env'
 
 export function initialize({ store, router }) {
   store.registerModule(moduleName.split('.'), ModuleLoader.prepareStoreNames(moduleName, moduleStore))
-  store.commit(mutations.Core.Env.update, window.env.Env)
+  store.commit(mutations.Core.Env.update, window.env.Core.Env)
 }
 
 export default {

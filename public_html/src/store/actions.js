@@ -4,6 +4,9 @@ export default {
     "Home": {},
     "ModuleExample": {
       "getData": "Base/ModuleExample/getData"
+    },
+    "ModuleExample2": {
+      "getData": "Base/ModuleExample2/getData"
     }
   },
   "Core": {

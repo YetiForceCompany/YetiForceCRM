@@ -24,11 +24,13 @@
       :rules="[val => (val && val.length > 0) || 'Please type something']"
     >
       <template v-slot:prepend>
-        <q-icon name="mail_outline" />
+        <q-icon name="mdi-email-outline" />
       </template>
     </q-input>
     <q-btn size="lg" :label="$t('LBL_SEND')" type="submit" color="secondary" class="full-width q-mt-lg" />
-    <router-link :to="{ name: 'LoginForm' }" class="text-secondary float-right">{{ $t('LBL_TO_CRM') }}</router-link>
+    <router-link :to="{ name: 'Core.Users.Login.LoginForm' }" class="text-secondary float-right">{{
+      $t('LBL_TO_CRM')
+    }}</router-link>
   </form>
 </template>
 <script>
