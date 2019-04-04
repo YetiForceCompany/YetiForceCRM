@@ -259,7 +259,7 @@ Vtiger_Field_Js('Vtiger_Date_Field_Js', {}, {
 	 */
 	getUi: function () {
 		var html = '<div class="date input-group">' +
-			'<input class="dateField form-control" type="text" name="' + this.getName() + '"  data-date-format="' + this.getDateFormat() + '"  value="' + this.getValue() + '" />' +
+			'<input class="dateField form-control datepicker" type="text" name="' + this.getName() + '"  data-date-format="' + this.getDateFormat() + '"  value="' + this.getValue() + '" autocomplete="off"/>' +
 			'<div class="input-group-append"><span class="input-group-text u-cursor-pointer js-date__btn" data-js="click"><span class="fas fa-calendar-alt"></span></span></div>' +
 			'</div>';
 		var element = jQuery(html);
