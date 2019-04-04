@@ -2,20 +2,17 @@
 <template>
   <hook-wrapper class="App">
     <component v-for="module in modules" :key="module.fullName" :is="module.component"></component>
-    <component :is="template" v-if="template"></component>
+    <component :is="templateLoader" v-if="templateLoader"></component>
   </hook-wrapper>
 </template>
 
 <script>
-const moduleName = 'App'
+import getters from '/src/store/getters.js'
 
+const moduleName = 'App'
+console.log(getters.Core.Env.template)
 export default {
   name: moduleName,
-  data() {
-    return {
-      template: null
-    }
-  },
   props: ['modules'],
   provide() {
     const provider = {}
@@ -27,17 +24,22 @@ export default {
     return provider
   },
   computed: {
+    ...Vuex.mapGetters({
+      template: getters.Core.Env.template
+    }),
     templateLoader() {
-      return () => import(`/src/layouts/${window.env.Core.Env.template || 'Basic'}.vue.js`)
+      const template = this.template
+      return () => import(`/src/layouts/${template || 'Basic'}.vue.js`)
     }
   },
   mounted() {
+    console.log(this.template)
     this.templateLoader()
       .then(() => {
-        this.template = () => this.templateLoader()
+        this.templatePath = () => this.templateLoader()
       })
       .catch(() => {
-        this.template = () => import('/src/layouts/Basic.vue.js')
+        this.templatePath = () => import('/src/layouts/Basic.vue.js')
       })
   },
   beforeRouteEnter(to, from, next) {

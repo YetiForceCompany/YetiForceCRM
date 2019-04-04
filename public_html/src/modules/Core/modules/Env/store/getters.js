@@ -9,5 +9,8 @@ export default {
    */
   all(state) {
     return state
+  },
+  template(state) {
+    return state.template
   }
 }

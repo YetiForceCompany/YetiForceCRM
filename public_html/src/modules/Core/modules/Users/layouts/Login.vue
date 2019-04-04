@@ -1,21 +1,13 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <q-layout>
-    <q-page-container>
-      <q-page class="row">
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 fixed-center">
-          <div class="card-shadow q-pa-xl column">
-            <div class="col-auto self-center q-pb-lg">
-              <img class :src="env.publicDir + '/statics/Logo/logo'" />
-            </div>
-            <keep-alive>
-              <router-view />
-            </keep-alive>
-          </div>
-        </div>
-      </q-page>
-    </q-page-container>
-  </q-layout>
+  <div>
+    <div class="col-auto self-center q-pb-lg">
+      <img class :src="env.publicDir + '/statics/Logo/logo'" />
+    </div>
+    <keep-alive>
+      <router-view />
+    </keep-alive>
+  </div>
 </template>
 
 <script>
@@ -48,12 +40,17 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
+      vm.$store.commit('Global/update', { Core: { Env: { template: 'Card' } } })
       if (vm.$store.getters[getters.Core.Users.isLoggedIn]) {
         next('/')
       } else {
         next()
       }
     })
+  },
+  beforeRouteLeave(to, from, next) {
+    this.$store.commit('Global/update', { Core: { Env: { template: 'Basic' } } })
+    next()
   }
 }
 </script>
