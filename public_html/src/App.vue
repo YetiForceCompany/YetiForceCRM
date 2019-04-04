@@ -44,14 +44,14 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      vm.$i18n.locale = to.meta.module || '_Base'
+      vm.$i18n.locale = to.meta.langModule || '_Base'
       vm.$store.commit('Global/update', window.env)
       next()
     })
   },
   beforeRouteUpdate(to, from, next) {
     next(vm => {
-      vm.$i18n.locale = to.meta.module || '_Base'
+      vm.$i18n.locale = to.meta.langModule || '_Base'
       next()
     })
   }

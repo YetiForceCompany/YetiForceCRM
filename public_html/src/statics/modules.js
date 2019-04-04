@@ -327,7 +327,7 @@ window.modules = [
                 "name": "Core.Users.Login.LoginForm",
                 "path": "form",
                 "meta": {
-                  "module": "Users"
+                  "langModule": "Users"
                 },
                 "componentPath": "pages/Login/Form"
               },
@@ -335,7 +335,7 @@ window.modules = [
                 "name": "Core.Users.Login.2FA",
                 "path": "2fa",
                 "meta": {
-                  "module": "Users"
+                  "langModule": "Users"
                 },
                 "componentPath": "pages/Login/2FA"
               },
@@ -343,7 +343,7 @@ window.modules = [
                 "name": "Core.Users.Login.Reminder",
                 "path": "reminder",
                 "meta": {
-                  "module": "Users"
+                  "langModule": "Users"
                 },
                 "componentPath": "pages/Login/Reminder"
               }
