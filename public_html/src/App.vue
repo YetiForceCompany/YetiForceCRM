@@ -1,7 +1,6 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <hook-wrapper class="App">
-    <component v-for="module in modules" :key="module.fullName" :is="module.component"></component>
     <component :is="templateLoader" v-if="templateLoader"></component>
   </hook-wrapper>
 </template>
@@ -24,7 +23,6 @@ const setLangModule = (vm, to) => {
  */
 export default {
   name: moduleName,
-  props: ['modules'],
   computed: {
     ...Vuex.mapGetters({
       template: getters.Core.Env.template
@@ -41,7 +39,6 @@ export default {
       enumerable: true,
       get: () => self
     })
-    console.log(provider)
     return provider
   },
   mounted() {
