@@ -48,6 +48,7 @@ window.modules = [
             "name": "Base.HomeIndex",
             "parent": "Base",
             "path": "home",
+            "alias": "/",
             "componentPath": "/pages/Index",
             "children": [
               {
