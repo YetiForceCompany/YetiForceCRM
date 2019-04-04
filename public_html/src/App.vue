@@ -10,18 +10,21 @@
 import getters from '/src/store/getters.js'
 
 const moduleName = 'App'
+
+const setLangModule = (vm, to) => {
+  vm.$i18n.locale = to.meta.langModule || '_Base'
+}
+/**
+ * @vue-computed {String}   template - layout main template name
+ * @vue-computed {Function} templateLoader - dynamic import of the template
+ * @vue-event {Object}      provide - global components methods
+ * @vue-event {Function}    mounted - return template path function
+ * @vue-event {Function}    beforeRouteEnter - set current module lanuage and update vuex with window.env
+ * @vue-event {Function}    beforeRouteUpdate - setLangModule
+ */
 export default {
   name: moduleName,
   props: ['modules'],
-  provide() {
-    const provider = {}
-    const self = this
-    Object.defineProperty(provider, 'App', {
-      enumerable: true,
-      get: () => self
-    })
-    return provider
-  },
   computed: {
     ...Vuex.mapGetters({
       template: getters.Core.Env.template
@@ -30,6 +33,16 @@ export default {
       const template = this.template
       return () => import(`/src/layouts/${template || 'Basic'}.vue.js`)
     }
+  },
+  provide() {
+    const provider = {}
+    const self = this
+    Object.defineProperty(provider, 'App', {
+      enumerable: true,
+      get: () => self
+    })
+    console.log(provider)
+    return provider
   },
   mounted() {
     this.templateLoader()
@@ -42,13 +55,13 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      vm.$i18n.locale = to.meta.langModule || '_Base'
+      setLangModule(vm, to)
       vm.$store.commit('Global/update', window.env)
       next()
     })
   },
   beforeRouteUpdate(to, from, next) {
-    this.$i18n.locale = to.meta.langModule || '_Base'
+    setLangModule(this, to)
     next()
   }
 }
