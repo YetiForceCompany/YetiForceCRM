@@ -17,7 +17,6 @@ import getters from '/store/getters.js'
  * @vue-data     {Boolean}   showReminderForm - form data
  * @vue-data     {Boolean}   showLoginForm - form data
  * @vue-computed {Object}    env - env variables
- * @vue-event    {Object}    openURL
  */
 const moduleName = 'Core.Users.Layouts.Login'
 export default {
@@ -32,11 +31,6 @@ export default {
     ...Vuex.mapGetters({
       env: getters.Core.Env.all
     })
-  },
-  methods: {
-    openURL() {
-      return this.$router.openURL
-    }
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {

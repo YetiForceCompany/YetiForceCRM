@@ -48,10 +48,8 @@ export default {
     })
   },
   beforeRouteUpdate(to, from, next) {
-    next(vm => {
-      vm.$i18n.locale = to.meta.langModule || '_Base'
-      next()
-    })
+    this.$i18n.locale = to.meta.langModule || '_Base'
+    next()
   }
 }
 </script>

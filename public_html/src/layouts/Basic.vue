@@ -76,11 +76,6 @@ export default {
     ...Vuex.mapGetters({
       isLoggedIn: getters.Core.Users.isLoggedIn
     })
-  },
-  methods: {
-    openURL() {
-      this.route.openURL
-    }
   }
 }
 </script>
