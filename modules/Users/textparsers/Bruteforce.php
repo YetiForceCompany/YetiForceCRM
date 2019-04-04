@@ -23,7 +23,7 @@ class Users_Bruteforce_Textparser extends \App\TextParser\Base
 	public function process()
 	{
 		$html = '<table><tr><td>' . App\Language::translate('SINGLE_Users', 'Users') . '</td><td>' . App\Language::translate('LBL_IP', 'Settings:BruteForce') . '</td><td>' . App\Language::translate('LBL_DATE') . '</td><td>' . App\Language::translate('LBL_BROWSERS', 'Settings:BruteForce') . '</td></tr>';
-		$configBruteForce = Settings_BruteForce_Module_Model::getBruteForceSettings();
+		$configBruteForce = Settings\BruteForce\Models\Module::getBruteForceSettings();
 		$attemptsLogin = (new \App\Db\Query())->select(['user_name', 'user_ip', 'login_time', 'browser'])->from('vtiger_loginhistory')
 			->where([
 					'and',

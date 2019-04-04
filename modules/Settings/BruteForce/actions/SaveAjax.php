@@ -27,7 +27,7 @@ class Settings_BruteForce_SaveAjax_Action extends Settings_Vtiger_Index_Action
 	public function saveConfig(\App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
-		Settings_BruteForce_Module_Model::updateConfig($request->getArray('param', 'Integer'));
+		Settings\BruteForce\Models\Module::updateConfig($request->getArray('param', 'Integer'));
 		$response = new Vtiger_Response();
 		$response->setResult(['message' => \App\Language::translate('LBL_SAVE_SUCCESS', $moduleName)]);
 		$response->emit();
@@ -41,7 +41,7 @@ class Settings_BruteForce_SaveAjax_Action extends Settings_Vtiger_Index_Action
 	public function unBlock(\App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
-		if (!Settings_BruteForce_Module_Model::unBlock($request->getInteger('param'))) {
+		if (!Settings\BruteForce\Models\Module::unBlock($request->getInteger('param'))) {
 			$return = ['success' => false, 'message' => \App\Language::translate('LBL_UNBLOCK_FAIL', $moduleName)];
 		} else {
 			$return = ['success' => true, 'message' => \App\Language::translate('LBL_UNBLOCK_SUCCESS', $moduleName)];

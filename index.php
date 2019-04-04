@@ -12,7 +12,10 @@
 require_once 'include/ConfigUtils.php';
 \App\Process::$startTime = microtime(true);
 \App\Process::$requestMode = 'WebUI';
-
-$webUI = new \App\Controller\WebUI();
-$webUI->process();
+try {
+	$webUI = new \App\Controller\WebUI();
+	$webUI->process();
+} catch (Throwable $e) {
+	\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString(), 'WebUI');
+}
 require ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'index.php';

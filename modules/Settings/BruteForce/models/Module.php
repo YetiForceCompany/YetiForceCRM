@@ -7,7 +7,10 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    YetiForce.com
  */
-class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
+
+namespace Settings\BruteForce\Models;
+
+class Module extends \Settings_Vtiger_Module_Model
 {
 	const UNBLOCKED = 0;
 	const BLOCKED = 1;
@@ -19,7 +22,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Function includes class instances.
 	 *
-	 * @return Settings_BruteForce_Module_Model
+	 * @return self
 	 */
 	public static function getCleanInstance()
 	{
@@ -46,11 +49,11 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getBruteForceSettings()
 	{
-		if (App\Cache::has('BruteForce', 'Settings')) {
-			return App\Cache::get('BruteForce', 'Settings');
+		if (\App\Cache::has('BruteForce', 'Settings')) {
+			return \App\Cache::get('BruteForce', 'Settings');
 		}
-		$row = (new App\Db\Query())->from('a_#__bruteforce')->one();
-		App\Cache::save('BruteForce', 'Settings', $row, App\Cache::LONG);
+		$row = (new \App\Db\Query())->from('a_#__bruteforce')->one();
+		\App\Cache::save('BruteForce', 'Settings', $row, \App\Cache::LONG);
 
 		return $row;
 	}
@@ -63,7 +66,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	public function getBlockedIp()
 	{
 		$time = $this->get('timelock');
-		$blockDate = new DateTime();
+		$blockDate = new \DateTime();
 		$blockDate->modify("-$time minutes");
 
 		$query = (new \App\Db\Query())
@@ -113,7 +116,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 			return $this->isBlocked;
 		}
 		$time = $this->get('timelock');
-		$blockDate = new DateTime();
+		$blockDate = new \DateTime();
 		$blockDate->modify("-$time minutes");
 		$ip = \App\RequestUtil::getRemoteIP(true);
 		$this->blockedId = (new \App\Db\Query())
@@ -149,7 +152,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		\App\Log::trace('Start ' . __METHOD__);
 		$db = \App\Db::getInstance('admin');
 		$time = $this->get('timelock');
-		$date = new DateTime();
+		$date = new \DateTime();
 		$checkData = $date->modify("-$time minutes")->format('Y-m-d H:i:s');
 		$ip = \App\RequestUtil::getRemoteIP(true);
 
@@ -287,7 +290,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 			}
 			$emails = [];
 			foreach ($usersId as $id) {
-				$recordModel = Vtiger_Record_Model::getInstanceById($id, 'Users');
+				$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'Users');
 				$emails[] = $recordModel->get('email1');
 			}
 			\App\Mailer::sendFromTemplate([

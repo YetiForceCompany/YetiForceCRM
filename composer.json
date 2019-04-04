@@ -100,6 +100,7 @@
       "Api\\": "api/webservice/",
       "Config\\": "config/",
       "Modules\\": "modules/",
+      "Settings\\": "modules/Settings/",
       "Cron\\": "cron/",
       "Tests\\": "tests/",
       "Exception\\": "include/exceptions/"

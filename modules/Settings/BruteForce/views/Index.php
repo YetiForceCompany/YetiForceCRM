@@ -16,10 +16,10 @@ class Settings_BruteForce_Index_View extends Settings_Vtiger_Index_View
 	 */
 	public function process(\App\Request $request)
 	{
-		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
+		$bfInstance = Settings\BruteForce\Models\Module::getCleanInstance();
 		$viewer = $this->getViewer($request);
-		$adminUsers = Settings_BruteForce_Module_Model::getAdminUsers();
-		$usersForNotifications = Settings_BruteForce_Module_Model::getUsersForNotifications();
+		$adminUsers = Settings\BruteForce\Models\Module::getAdminUsers();
+		$usersForNotifications = Settings\BruteForce\Models\Module::getUsersForNotifications();
 
 		$viewer->assign('MODULE_MODEL', $bfInstance);
 		$viewer->assign('CONFIG', $bfInstance->getData());

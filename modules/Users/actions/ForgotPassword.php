@@ -31,7 +31,7 @@ class Users_ForgotPassword_Action extends \App\Controller\Action
 		$userName = $request->getByType('user_name', 'Text');
 		$email = $request->getByType('emailId', 'Text');
 		$moduleModel = Users_Module_Model::getInstance($moduleName);
-		$bruteForceInstance = Settings_BruteForce_Module_Model::getCleanInstance();
+		$bruteForceInstance = Settings\BruteForce\Models\Module::getCleanInstance();
 		if ($bruteForceInstance->isActive() && $bruteForceInstance->isBlockedIp()) {
 			$bruteForceInstance->incAttempts();
 			$moduleModel->saveLoginHistory(strtolower($userName), 'Blocked IP');

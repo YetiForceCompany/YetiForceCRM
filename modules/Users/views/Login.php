@@ -57,7 +57,7 @@ class Users_Login_View extends \App\Controller\View
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $request->getModule());
-		$viewer->assign('IS_BLOCKED_IP', Settings_BruteForce_Module_Model::getCleanInstance()->isBlockedIp());
+		$viewer->assign('IS_BLOCKED_IP', Settings\BruteForce\Models\Module::getCleanInstance()->isBlockedIp());
 		if (\App\Session::has('UserLoginMessage')) {
 			$viewer->assign('MESSAGE', \App\Session::get('UserLoginMessage'));
 			$viewer->assign('MESSAGE_TYPE', \App\Session::get('UserLoginMessageType'));

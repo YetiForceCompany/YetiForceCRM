@@ -77,7 +77,7 @@ class WebUI extends Base
 	public function getEnv(): string
 	{
 		$lang = \App\Language::getLanguage();
-		$bruteForceInstance = \Settings_BruteForce_Module_Model::getCleanInstance();
+		$bruteForceInstance = \Settings\BruteForce\Models\Module::getCleanInstance();
 		return \App\Json::encode([
 			'Env' => [
 				'baseURL' => \App\Config::main('site_URL'),

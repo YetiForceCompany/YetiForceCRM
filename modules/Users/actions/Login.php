@@ -35,7 +35,7 @@ class Login extends \App\Controller\Action
 	 */
 	public function process()
 	{
-		$bfInstance = \Settings_BruteForce_Module_Model::getCleanInstance();
+		$bfInstance = \Settings\BruteForce\Models\Module::getCleanInstance();
 		if ($bfInstance->isActive() && $bfInstance->isBlockedIp()) {
 			$bfInstance->incAttempts();
 			\Users_Module_Model::getInstance('Users')->saveLoginHistory(strtolower($this->request->getByType('username', 'Text')), 'Blocked IP');

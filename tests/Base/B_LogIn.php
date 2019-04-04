@@ -57,7 +57,7 @@ class B_LogIn extends \Tests\Base
 	 */
 	public function testBruteForce()
 	{
-		$bfInstance = \Settings_BruteForce_Module_Model::getCleanInstance();
+		$bfInstance = \Settings\BruteForce\Models\Module::getCleanInstance();
 		$this->assertFalse($bfInstance->isBlockedIp());
 		$bfInstance->updateBlockedIp();
 	}
