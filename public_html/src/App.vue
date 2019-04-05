@@ -41,14 +41,13 @@ export default {
     })
     return provider
   },
-  mounted() {
-    this.templateLoader()
-      .then(() => {
-        this.templatePath = () => this.templateLoader()
-      })
-      .catch(() => {
-        this.templatePath = () => import('/src/layouts/Basic.vue.js')
-      })
+  methods: {
+    loadScript(src) {
+      return this.$loadScript(src)
+    },
+    unloadScript(src) {
+      return this.$unloadScript(src)
+    }
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
