@@ -76,9 +76,7 @@ export default {
         return node
       })
     },
-    handlePan(event) {
-      console.log(event)
-    },
+    handlePan(event) {},
     onDown(node) {
       const children = node.parent.children.map(child => {
         return Objects.mergeDeepReactive(child)
@@ -93,7 +91,6 @@ export default {
       node.parent.children = children
     },
     onUp(node) {
-      console.log(node.index)
       const children = node.parent.children.map(child => {
         return Objects.mergeDeepReactive(child)
       })
@@ -106,24 +103,12 @@ export default {
       }
       node.parent.children = children
     },
-    onLeft(node) {
-      console.log(node)
-    },
-    onBottomRight(node) {
-      console.log(node)
-    },
-    onTopRight(node) {
-      console.log(node)
-    },
-    onPlus(node) {
-      console.log(node)
-    },
-    onMinus(node) {
-      console.log(node)
-    },
-    onEdit(node) {
-      console.log(node)
-    },
+    onLeft(node) {},
+    onBottomRight(node) {},
+    onTopRight(node) {},
+    onPlus(node) {},
+    onMinus(node) {},
+    onEdit(node) {},
     save() {
       this.$store.commit(mutations.Core.Menu.updateItems, this.cNodes)
     }
