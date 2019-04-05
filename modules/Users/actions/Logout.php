@@ -41,7 +41,7 @@ class Logout extends \App\Controller\Action
 		$moduleName = $this->request->getModule();
 		$moduleModel = \Users_Module_Model::getInstance($moduleName);
 		$moduleModel->saveLogoutHistory();
-		$this->response->setResult(!\App\Session::has('authenticated_user_id'));
+		$this->response->set(!\App\Session::has('authenticated_user_id'));
 	}
 
 	/**

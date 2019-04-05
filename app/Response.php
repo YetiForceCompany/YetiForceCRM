@@ -49,17 +49,25 @@ class Response
 	 * @var null|\Swoole\WebSocket\Server
 	 */
 	private $webSocketServer;
+	/**
+	 * Swoole websocket client ID.
+	 *
+	 * @var int
+	 */
+	private $webSocketClientId;
 
 	/**
 	 * Set web socket server instance.
 	 *
 	 * @param \Swoole\WebSocket\Server $server
+	 * @param int                      $webSocketFd
 	 *
 	 * @return void
 	 */
-	public function setWebSocketServer(\Swoole\WebSocket\Server $server)
+	public function setWebSocketServer(\Swoole\WebSocket\Server $server, int $fd)
 	{
 		$this->webSocketServer = $server;
+		$this->webSocketClientId = $fd;
 	}
 
 	/**
@@ -81,6 +89,9 @@ class Response
 		$this->error = [
 			'message' => $message
 		];
+		if ($this->isWebSocket()) {
+			$this->webSocketServer->server->push($this->webSocketClientId, Json::encode($this->prepare()));
+		}
 	}
 
 	/**
@@ -100,22 +111,20 @@ class Response
 	 *
 	 * @param mixed $result
 	 */
-	public function setResult($result)
+	public function set($result)
 	{
 		$this->result = $result;
 	}
 
+
 	/**
-	 * Set key result data.
+	 * Is there a connection to web socket server function.
 	 *
-	 * @param string $key
-	 * @param mixed  $data
-	 *
-	 * @return void
+	 * @return bool
 	 */
-	public function set(string $key, $data)
+	public function isWebSocket()
 	{
-		$this->result[$key] = $data;
+		return isset($this->webSocketServer);
 	}
 
 	/**
@@ -144,7 +153,7 @@ class Response
 		} else {
 			$response['result'] = $this->result;
 		}
-		if (null !== $this->env) {
+		if (!empty($this->env)) {
 			$response['env'] = $this->env;
 		}
 		return $response;
@@ -157,11 +166,16 @@ class Response
 	 */
 	public function emit(): void
 	{
-		$charset = Config::main('default_charset', 'UTF-8');
-		header("content-type: text/json; charset={$charset}");
-		if ($this->exception) {
-			http_response_code($this->exception['code']);
+		$response = Json::encode($this->prepare());
+		if ($this->isWebSocket()) {
+			$this->webSocketServer->server->push($this->webSocketClientId, $response);
+		} else {
+			$charset = Config::main('default_charset', 'UTF-8');
+			header("content-type: text/json; charset={$charset}");
+			if ($this->exception) {
+				http_response_code($this->exception['code']);
+			}
+			echo $response;
 		}
-		echo Json::encode($this->prepare());
 	}
 }

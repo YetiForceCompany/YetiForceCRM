@@ -24,8 +24,10 @@ final class Test extends Base
 	 */
 	public function process()
 	{
-		$this->webSocket->server->push($this->frame->fd, 'Test OK');
-		$this->webSocket->server->push($this->frame->fd, $this->frame->data);
+		$this->webSocket->server->push($this->frame->fd, 'The test is OK, I send to all clients');
+		foreach ($this->webSocket->server->connections as $fd) {
+			$this->webSocket->server->push($fd, $this->frame->data);
+		}
 	}
 
 	/**

@@ -24,12 +24,12 @@ abstract class Action extends Base
 	 */
 	public $response;
 	/**
-	 * Method call protocol
+	 * Allowed protocols to handle the current action
 	 * Values: http, socket, mix.
 	 *
 	 * @var string
 	 */
-	public $protocol = 'http';
+	public $allowedProtocol = 'http';
 
 	/**
 	 * Construct.
@@ -41,17 +41,6 @@ abstract class Action extends Base
 		$this->request = $request;
 		$this->response = $response;
 		$this->init();
-	}
-
-	/**
-	 * Emit data function.
-	 *
-	 * @return void
-	 */
-	public function emit()
-	{
-		$this->response->setEnv(\App\Config::getJsEnv());
-		$this->response->emit();
 	}
 
 	/**

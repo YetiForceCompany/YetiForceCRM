@@ -38,6 +38,6 @@ class Login extends WebUI
 			$handler->process();
 		}
 		$handler->postProcess();
-		$handler->emit();
+		$handler->response->emit();
 	}
 }

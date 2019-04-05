@@ -39,9 +39,9 @@ class Gui extends Base
 
 			$handlerClass = \App\Loader::getComponentClassName(Process::$processType, Process::$processName, $this->request->getModule(false));
 			$response = new \App\Response();
-			$response->setWebSocketServer($this->webSocket);
+			$response->setWebSocketServer($this->webSocket, $this->frame->fd);
 			$handler = new $handlerClass($this->request, $response);
-			if ('socket' !== $handler->protocol && 'mix' !== $handler->protocol) {
+			if ('socket' !== $handler->allowedProtocol && 'mix' !== $handler->allowedProtocol) {
 				throw new \App\Exceptions\InvalidProtocol('ERR_INVALID_PROTOCOL', 400);
 			}
 			if ($handler->loginRequired && !\App\User::isLoggedIn()) {
@@ -51,7 +51,8 @@ class Gui extends Base
 			if ($handler->checkPermission()) {
 				$handler->process();
 			}
-			$handler->postProcess();
+      $handler->postProcess();
+      $handler->response->emit();
 		} catch (\Throwable $e) {
 			echo $e->__toString();
 			\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());

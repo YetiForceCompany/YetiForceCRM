@@ -34,7 +34,7 @@ class WebApi extends WebUI
 
 		$handlerClass = \App\Loader::getComponentClassName(\App\Process::$processType, \App\Process::$processName, $this->request->getModule(false));
 		$handler = new $handlerClass($this->request, new \App\Response());
-		if ('http' !== $handler->protocol && 'mix' !== $handler->protocol) {
+		if ('http' !== $handler->allowedProtocol && 'mix' !== $handler->allowedProtocol) {
 			throw new \App\Exceptions\InvalidProtocol('ERR_INVALID_PROTOCOL', 400);
 		}
 		if (\App\Config::main('csrfProtection') && 'demo' !== \App\Config::main('systemMode')) {
@@ -48,6 +48,6 @@ class WebApi extends WebUI
 			$handler->process();
 		}
 		$handler->postProcess();
-		$handler->emit();
+		$handler->response->emit();
 	}
 }
