@@ -78,6 +78,7 @@ class WebUI extends Base
 	{
 		$lang = \App\Language::getLanguage();
 		$bruteForceInstance = \Settings\BruteForce\Models\Module::getCleanInstance();
+
 		return \App\Json::encode([
 			'Core' => [
 				'Env' => [

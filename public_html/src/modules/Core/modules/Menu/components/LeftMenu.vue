@@ -1,7 +1,7 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <q-list>
-    <menu-item v-for="item in items" :item="item" :key="item.id" />
+    <menu-item v-for="item in items" :item="item" :key="item.name" />
   </q-list>
 </template>
 

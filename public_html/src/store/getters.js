@@ -4,9 +4,6 @@ export default {
     "Home": {},
     "ModuleExample": {
       "testVariable": "Base/ModuleExample/testVariable"
-    },
-    "ModuleExample2": {
-      "testVariable": "Base/ModuleExample2/testVariable"
     }
   },
   "Core": {
@@ -38,6 +35,7 @@ export default {
     }
   },
   "Settings": {
+    "Menu": {},
     "ModuleExample": {}
   }
 }

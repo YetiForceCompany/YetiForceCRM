@@ -93,40 +93,6 @@ window.modules = [
             "updateTestVariable": "Base/ModuleExample/updateTestVariable"
           }
         }
-      },
-      {
-        "parentHierarchy": "Base",
-        "fullName": "Base.ModuleExample2",
-        "name": "ModuleExample2",
-        "path": "src\\modules\\Base\\modules\\ModuleExample2",
-        "level": 1,
-        "priority": 0,
-        "autoLoad": true,
-        "entry": "src\\modules\\Base\\modules\\ModuleExample2\\ModuleExample2.vue.js",
-        "directories": [
-          "pages",
-          "router",
-          "store"
-        ],
-        "routes": [
-          {
-            "name": "Base.ModuleExample2",
-            "parent": "Base",
-            "path": "module-example2",
-            "componentPath": "pages/ModuleExample2"
-          }
-        ],
-        "store": {
-          "actions": {
-            "getData": "Base/ModuleExample2/getData"
-          },
-          "getters": {
-            "testVariable": "Base/ModuleExample2/testVariable"
-          },
-          "mutations": {
-            "updateTestVariable": "Base/ModuleExample2/updateTestVariable"
-          }
-        }
       }
     ]
   },
@@ -270,6 +236,9 @@ window.modules = [
           "store"
         ],
         "store": {
+          "actions": {
+            "fetchData": "Core/Menu/fetchData"
+          },
           "getters": {
             "items": "Core/Menu/items"
           },
@@ -314,8 +283,7 @@ window.modules = [
           "layouts",
           "pages",
           "router",
-          "store",
-          "url"
+          "store"
         ],
         "routes": [
           {
@@ -370,16 +338,6 @@ window.modules = [
           },
           "mutations": {
             "isLoggedIn": "Core/Users/isLoggedIn"
-          },
-          "state.js.bak": {
-            "isLoggedIn": "Core/Users/isLoggedIn",
-            "isBlockedIp": "Core/Users/isBlockedIp",
-            "loginPageRememberCredentials": "Core/Users/loginPageRememberCredentials",
-            "resetLoginPassword": "Core/Users/resetLoginPassword",
-            "langInLoginView": "Core/Users/langInLoginView",
-            "layoutInLoginView": "Core/Users/layoutInLoginView",
-            "is2fa": "Core/Users/is2fa",
-            "url": "Core/Users/url"
           }
         }
       }
@@ -415,6 +373,28 @@ window.modules = [
       "mutations": {}
     },
     "modules": [
+      {
+        "parentHierarchy": "Settings",
+        "fullName": "Settings.Menu",
+        "name": "Menu",
+        "path": "src\\modules\\Settings\\modules\\Menu",
+        "level": 1,
+        "priority": 0,
+        "autoLoad": true,
+        "entry": "src\\modules\\Settings\\modules\\Menu\\Menu.vue.js",
+        "directories": [
+          "pages",
+          "router"
+        ],
+        "routes": [
+          {
+            "name": "Settings.Menu",
+            "path": "menu",
+            "parent": "Settings",
+            "componentPath": "pages/Index"
+          }
+        ]
+      },
       {
         "parentHierarchy": "Settings",
         "fullName": "Settings.ModuleExample",

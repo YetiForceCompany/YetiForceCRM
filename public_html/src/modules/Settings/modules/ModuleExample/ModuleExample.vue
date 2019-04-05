@@ -8,19 +8,6 @@ import mutations from '/src/store/mutations.js'
 const moduleName = 'Settings.ModuleExample'
 
 export function initialize({ store, router }) {
-  store.commit(mutations.Core.Menu.addItem, {
-    path: '',
-    icon: 'mdi-settings',
-    label: 'Settings',
-    children: [
-      {
-        path: '/settings/module-example',
-        icon: 'mdi-cube',
-        label: 'Example',
-        children: []
-      }
-    ]
-  })
   store.commit(mutations.Core.Hooks.add, [
     {
       hookName: 'Settings.ModuleExample.Pages.ModuleExample.before',
