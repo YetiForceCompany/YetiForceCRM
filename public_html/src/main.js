@@ -3,6 +3,9 @@ import AppComponent from './Main.vue.js'
 import createStore from '/src/store/index.js'
 import createRouter from '/src/router/index.js'
 import createI18n from '/src/i18n/index.js'
+import LoadScript from '/node_modules/vue-plugin-load-script/index.js'
+
+Vue.use(LoadScript)
 
 Quasar.iconSet.set(Quasar.iconSet.mdiV3)
 
