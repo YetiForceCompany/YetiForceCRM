@@ -4,9 +4,6 @@ export default {
     "Home": {},
     "ModuleExample": {
       "getData": "Base/ModuleExample/getData"
-    },
-    "ModuleExample2": {
-      "getData": "Base/ModuleExample2/getData"
     }
   },
   "Core": {
@@ -14,7 +11,9 @@ export default {
     "Env": {},
     "Hooks": {},
     "Language": {},
-    "Menu": {},
+    "Menu": {
+      "fetchData": "Core/Menu/fetchData"
+    },
     "Url": {},
     "Users": {
       "fetchData": "Core/Users/fetchData",
@@ -24,6 +23,7 @@ export default {
     }
   },
   "Settings": {
+    "Menu": {},
     "ModuleExample": {}
   }
 }
