@@ -5,7 +5,6 @@ const routes = [
   {
     name: 'App',
     path: '/',
-    redirect: '/home',
     component: () => import('/src/App.vue.js')
   }
 ]

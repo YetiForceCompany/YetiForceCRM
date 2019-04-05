@@ -1,26 +1,17 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <div class="q-pa-xl">
-    <q-layout>
-      <q-page-container class="row">
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 fixed-center">
-          <keep-alive>
-            <router-view class="card-shadow q-pa-xl column" style="min-height: unset" />
-          </keep-alive>
-        </div>
-      </q-page-container>
-    </q-layout>
-  </div>
+  <q-layout>
+    <q-page-container class="row">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 fixed-center">
+        <keep-alive>
+          <router-view class="card-shadow q-pa-xl column" style="min-height: unset" />
+        </keep-alive>
+      </div>
+    </q-page-container>
+  </q-layout>
 </template>
 
 <script>
-/**
- * @vue-data     {String}    activeComponent - component name
- * @vue-data     {Boolean}   showReminderForm - form data
- * @vue-data     {Boolean}   showLoginForm - form data
- * @vue-computed {Object}    env - env variables
- * @vue-event    {Object}    openURL
- */
 export default {
   name: 'Card'
 }

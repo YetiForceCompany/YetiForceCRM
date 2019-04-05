@@ -5,7 +5,7 @@
  */
 class ModuleLoader {
   constructor() {
-    this.dev = typeof window !== 'undefined' ? window.env.Env.dev : false
+    this.dev = typeof window !== 'undefined' ? window.env.Core.Env.dev : false
     this.modules = {}
   }
 

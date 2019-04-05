@@ -18,6 +18,7 @@ window.modules = [
     ],
     "routes": [
       {
+        "parent": "App",
         "name": "Base",
         "path": "/",
         "componentPath": "layouts/Base"
@@ -47,7 +48,7 @@ window.modules = [
             "name": "Base.HomeIndex",
             "parent": "Base",
             "path": "home",
-            "alias": "",
+            "alias": "/",
             "componentPath": "/pages/Index",
             "children": [
               {
@@ -150,6 +151,7 @@ window.modules = [
     "routes": [
       {
         "name": "Core",
+        "parent": "App",
         "path": "/",
         "componentPath": "layouts/Core"
       }
@@ -402,6 +404,7 @@ window.modules = [
     "routes": [
       {
         "name": "Settings",
+        "parent": "App",
         "path": "/settings",
         "componentPath": "layouts/Settings"
       }
