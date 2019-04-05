@@ -45,7 +45,7 @@ abstract class Base
 	{
 		$this->webSocket = $webSocket;
 		$this->frame = $frame;
-		$this->request = new \App\Request(\App\Json::decode($frame->data));
+		$this->request = \App\Request::init(\App\Json::decode($frame->data));
 	}
 
 	/**
