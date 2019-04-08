@@ -78,6 +78,7 @@
 import Objects from '/utilities/Objects.js'
 
 const moduleName = 'Core.Components.TreeEditor'
+const privatePrefix = moduleName.split('.').join('')
 
 export default {
   name: moduleName,
@@ -90,10 +91,10 @@ export default {
   data() {
     return {
       priv: {
-        index: '$_SettingsMenu_index',
-        parent: '$_SettingsMenu_parent',
-        next: '$_SettingsMenu_next',
-        previous: '$_SettingsMenu_previous'
+        index: `$_${privatePrefix}_index`,
+        parent: `$_${privatePrefix}_parent`,
+        next: `$_${privatePrefix}_next`,
+        previous: `$_${privatePrefix}_previous`
       },
       internalNodes: [],
       internalOptions: {
