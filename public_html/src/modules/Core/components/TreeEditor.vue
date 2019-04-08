@@ -7,7 +7,7 @@
         <hook-wrapper name="label" class="label">
           <slot name="label">{{ prop.node.label }}</slot>
         </hook-wrapper>
-        <hook-wrapper name="actions" class="q-ml-md text-grey actions" v-if="internalOptions.buttons.display">
+        <hook-wrapper name="actions" class="q-ml-md text-grey actions" v-if="prop.node.$_options.buttons.display">
           <slot name="move-actions">
             <q-btn-group outline>
               <q-btn
@@ -60,7 +60,11 @@
           <slot name="edit">
             <q-btn-group
               outline
-              v-if="internalOptions.buttons.add || internalOptions.buttons.remove || internalOptions.buttons.edit"
+              v-if="
+                prop.node.$_options.buttons.add ||
+                  prop.node.$_options.buttons.remove ||
+                  prop.node.$_options.buttons.edit
+              "
             >
               <q-btn
                 :ripple="false"
@@ -69,7 +73,7 @@
                 icon="mdi-plus"
                 size="sm"
                 @click.stop.prevent="onPlus(prop.node)"
-                v-if="internalOptions.buttons.add"
+                v-if="prop.node.$_options.buttons.add"
               />
               <q-btn
                 :ripple="false"
@@ -78,7 +82,7 @@
                 icon="mdi-minus"
                 size="sm"
                 @click.stop.prevent="onMinus(prop.node)"
-                v-if="internalOptions.buttons.remove"
+                v-if="prop.node.$_options.buttons.remove"
               />
               <q-btn
                 :ripple="false"
@@ -87,14 +91,14 @@
                 icon="mdi-square-edit-outline"
                 size="sm"
                 @click.stop.prevent="onEdit(prop.node)"
-                v-if="internalOptions.buttons.edit"
+                v-if="prop.node.$_options.buttons.edit"
               />
             </q-btn-group>
           </slot>
         </hook-wrapper>
       </div>
     </template>
-    <template v-slot:default-body="prop"> </template>
+    <template v-slot:default-body="prop"></template>
   </q-tree>
 </template>
 
@@ -117,11 +121,14 @@ export default {
       internalNodes: [],
       internalOptions: {
         nodeKey: 'name',
-        buttons: {
+        node: {
           display: true,
-          add: true,
-          remove: true,
-          edit: true
+          buttons: {
+            display: true,
+            add: true,
+            remove: true,
+            edit: true
+          }
         }
       },
       watchers: []
@@ -136,10 +143,28 @@ export default {
 
   methods: {
     /**
+     * Add node options
+     */
+    addNodeOptions(nodes) {
+      const clonedOptions = Objects.mergeDeep({}, this.internalOptions.node)
+      return nodes.map(node => {
+        this.$set(
+          node,
+          '$_options',
+          Objects.mergeDeep({}, clonedOptions, node.hasOwnProperty('options') ? node.options : {})
+        )
+        if (typeof node.children !== 'undefined' && Array.isArray(node.children) && node.children.length) {
+          node.children = this.addNodeOptions(node.children)
+        }
+        return node
+      })
+    },
+
+    /**
      * Add parent nodes to each node
      */
     addParents(nodes, parent = null) {
-      return nodes.map((node, index) => {
+      return nodes.map(node => {
         this.$set(node, '$_parent', parent)
         if (typeof node.children !== 'undefined' && Array.isArray(node.children) && node.children.length) {
           node.children = this.addParents(node.children, node)
@@ -199,7 +224,8 @@ export default {
      * Build tree with additional priv properties
      */
     buildTree(nodes) {
-      this.addParents(nodes)
+      nodes = this.addNodeOptions(nodes)
+      nodes = this.addParents(nodes)
       nodes = this.resolveIndexes(nodes)
       nodes = this.addNext(nodes)
       nodes = this.addPrevious(nodes)
@@ -227,7 +253,7 @@ export default {
           break
         }
       }
-      node['$_parent'].children = children
+      node.$_parent.children = children
     },
 
     /**

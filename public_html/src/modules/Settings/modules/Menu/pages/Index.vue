@@ -9,10 +9,20 @@
     <div class="q-pa-md row q-gutter-md">
       <div class="col">
         <tree-editor
-          :nodes="nodes"
-          :options="treeEditorOptions"
-          @nodes-changed="updateNodes"
-          @options-changed="updateOptions"
+          :nodes="menu.base"
+          :options="treeOptions.base"
+          @nodes-changed="updateBaseNodes"
+          @options-changed="updateBaseOptions"
+          @action-add="add"
+          @action-edit="edit"
+        />
+      </div>
+      <div class="col">
+        <tree-editor
+          :nodes="menu.settings"
+          :options="treeOptions.settings"
+          @nodes-changed="updateSettingsNodes"
+          @options-changed="updateSettingsOptions"
           @action-add="add"
           @action-edit="edit"
         />
@@ -37,31 +47,52 @@ export default {
   },
   data() {
     return {
-      nodes: [],
-      treeEditorOptions: {}
+      menu: {
+        base: [],
+        settings: []
+      },
+      treeOptions: {
+        base: {},
+        settings: {}
+      }
     }
   },
   methods: {
     /**
      * Update current instance nodes data when they was changed in child component
      */
-    updateNodes(nodes) {
-      this.nodes = nodes.map(node => Objects.mergeDeep({}, node))
+    updateBaseNodes(nodes) {
+      this.menu.base = nodes.map(node => Objects.mergeDeep({}, node))
     },
 
     /**
      * Update options when they was changed in child component
      */
-    updateOptions(options) {
-      this.options = Objects.mergeDeep({}, options)
+    updateBaseOptions(options) {
+      this.treeOptions.base = Objects.mergeDeep({}, options)
+    },
+
+    /**
+     * Update current instance nodes data when they was changed in child component
+     */
+    updateSettingsNodes(nodes) {
+      this.menu.settings = nodes.map(node => Objects.mergeDeep({}, node))
+    },
+
+    /**
+     * Update options when they was changed in child component
+     */
+    updateSettingsOptions(options) {
+      this.treeOptions.settings = Objects.mergeDeep({}, options)
     },
 
     /**
      * Save menu
      */
     save() {
-      const data = Objects.stripPrivate(this.nodes)
-      this.$store.commit(mutations.Core.Menu.updateItems, data)
+      const base = Objects.stripPrivate(this.menu.base)
+      const settings = Objects.stripPrivate(this.menu.settings)
+      this.$store.commit(mutations.Core.Menu.updateItems, base)
     },
 
     /**
@@ -84,14 +115,34 @@ export default {
   },
   created() {
     const children = this.$store.getters[getters.Core.Menu.items].map(item => Objects.mergeDeep({}, item))
-    this.nodes = [
+    this.menu.base = [
       {
         label: 'Base',
         icon: 'mdi-cube',
-        name: 'BaseMenu',
+        name: 'Base',
         position: 0,
         parent: null,
-        children
+        options: {
+          buttons: {
+            display: false
+          }
+        },
+        children: children.map(item => Objects.mergeDeep({}, item))
+      }
+    ]
+    this.menu.settings = [
+      {
+        label: 'Settings',
+        icon: 'mdi-settings',
+        name: 'Settings',
+        position: 0,
+        parent: null,
+        options: {
+          buttons: {
+            display: false
+          }
+        },
+        children: children.map(item => Objects.mergeDeep({}, item))
       }
     ]
   }
