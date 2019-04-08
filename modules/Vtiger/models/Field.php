@@ -1306,6 +1306,16 @@ class Vtiger_Field_Model extends vtlib\Field
 		return true;
 	}
 
+	/**
+	 * Check if it is a tree field.
+	 *
+	 * @return bool
+	 */
+	public function isTreeField(): bool
+	{
+		return in_array($this->getFieldDataType(), ['tree', 'categoryMultipicklist']);
+	}
+
 	public function isReferenceField()
 	{
 		return in_array($this->getFieldDataType(), self::$referenceTypes);

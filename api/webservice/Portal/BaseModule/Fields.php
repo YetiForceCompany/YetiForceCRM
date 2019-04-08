@@ -47,6 +47,9 @@ class Fields extends \Api\Core\BaseAction
 			if ($field->isReferenceField()) {
 				$fieldInfo['referenceList'] = $field->getReferenceList();
 			}
+			if ($field->isTreeField()) {
+				$fieldInfo['treeValues'] = \App\Fields\Tree::getTreeValues((int) $field->getFieldParams(), $moduleName);
+			}
 			$fields[$field->getId()] = $fieldInfo;
 		}
 		return ['fields' => $fields, 'blocks' => $blocks];
