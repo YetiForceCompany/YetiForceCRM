@@ -1818,7 +1818,6 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 				field: element.data('field-id')
 			}).done(function (data) {
 				app.showModalWindow(data, function (modalContainer) {
-					new App.Fields.Text.Editor(modalContainer, customConfig);
 					app.showPopoverElementView(modalContainer.find('.js-help-info'));
 					modalContainer.find('.js-lang').on('change', function (e) {
 						let previous = modalContainer.find('.js-editor:not([disabled])');
