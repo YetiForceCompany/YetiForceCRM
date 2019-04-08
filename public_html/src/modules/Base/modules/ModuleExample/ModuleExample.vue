@@ -9,12 +9,6 @@ const moduleName = 'Base.ModuleExample'
 
 export function initialize({ store, router }) {
   store.registerModule(moduleName.split('.'), ModuleLoader.prepareStoreNames(moduleName, moduleStore))
-  store.commit(mutations.Core.Menu.addItem, {
-    path: '/module-example',
-    icon: 'mdi-cube',
-    label: 'Base Example',
-    children: []
-  })
 }
 
 export default {

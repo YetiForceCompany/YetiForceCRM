@@ -100,7 +100,6 @@ class Vtiger_DependencyPicklist
 				], ['id' => $dependencyId])->execute();
 			} else {
 				$db->createCommand()->insert('vtiger_picklist_dependency', [
-					'id' => $db->getUniqueID('vtiger_picklist_dependency'),
 					'tabid' => $tabId,
 					'sourcefield' => $sourceField,
 					'targetfield' => $targetField,

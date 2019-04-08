@@ -20,7 +20,7 @@ class Products_Widget_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$fromModule = $request->getByType('fromModule');
-		$mod = $request->getByType('mod', 1);
+		$mod = current($request->getArray('mod', 'Alnum'));
 		$viewer = $this->getViewer($request);
 		$moduleModel = Products_SummaryWidget_Model::getCleanInstance();
 		$moduleModel->getProductsServices($request, $viewer);

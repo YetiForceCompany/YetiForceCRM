@@ -20,7 +20,7 @@ class Products_SummaryWidget_Model
 	{
 		$fromModule = $request->getByType('fromModule', 'Text');
 		$record = $request->getInteger('record');
-		$mod = $request->getByType('mod', 1);
+		$mod = current($request->getArray('mod', 'Alnum'));
 		if (!\App\Privilege::isPermitted($fromModule, 'DetailView', $record) || !\App\Privilege::isPermitted($mod)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
