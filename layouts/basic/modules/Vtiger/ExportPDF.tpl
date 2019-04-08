@@ -36,7 +36,9 @@
 		</div>
 		<div class="modal-footer">
 			<div class="btn-group mr-0">
-				<button id="generate_pdf" type="submit" class="btn btn-success"><span class="fas fa-file-pdf mr-1"></span>{\App\Language::translate('LBL_GENERATE', $MODULE_NAME)}</button>
+				<button id="generate_pdf" type="submit" class="btn btn-success">
+					<span class="fas fa-file-pdf mr-1"></span>{\App\Language::translate('LBL_GENERATE', $MODULE_NAME)}
+				</button>
 				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<span class="caret"></span>
 					<span class="sr-only">Toggle Dropdown</span>
@@ -47,15 +49,13 @@
 							{\App\Language::translate('LBL_GENERATE_SINGLE', $MODULE_NAME)}
 						</a>
 					</li>
-					{if \App\Privilege::isPermitted('OSSMail')}
-						<li>
-							<a class="dropdown-item" href="#" id="email_pdf">
-								{\App\Language::translate('LBL_SEND_EMAIL', $MODULE_NAME)}
-							</a>
-						</li>
-					{/if}
 				</ul>
 			</div>
+			{if \App\Privilege::isPermitted('OSSMail')}
+				<button id="email_pdf" type="submit" class="btn btn-info mr-0">
+					<span class="fas fa-envelope mr-1"></span>{\App\Language::translate('LBL_SEND_EMAIL', $MODULE_NAME)}
+				</button>
+			{/if}
 			<button class="btn btn-danger" type="reset" data-dismiss="modal"><strong><span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong></button>
 		</div>
 	</form>
