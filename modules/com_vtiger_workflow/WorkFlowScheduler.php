@@ -39,7 +39,7 @@ class WorkFlowScheduler
 	 *
 	 * @return \App\Db\Query
 	 */
-	public function getWorkflowQuery(\Workflow $workflow)
+	public function getWorkflowQuery(Workflow $workflow)
 	{
 		$conditions = \App\Json::decode(App\Purifier::decodeHtml($workflow->test));
 
@@ -93,12 +93,12 @@ class WorkFlowScheduler
 					foreach ($tasks as $task) {
 						if ($task->active) {
 							$trigger = $task->trigger;
-							if ($trigger !== null) {
+							if (null !== $trigger) {
 								$delay = strtotime($data[$trigger['field']]) + $trigger['days'] * 86400;
 							} else {
 								$delay = 0;
 							}
-							if ((bool) $task->executeImmediately === true) {
+							if (true === (bool) $task->executeImmediately) {
 								$task->doTask($recordModel);
 							} else {
 								$taskQueue->queueTask($task->id, $recordModel->getId(), $delay);
@@ -118,7 +118,7 @@ class WorkFlowScheduler
 	 * @param \App\QueryGenerator $queryGenerator
 	 * @param array               $conditions
 	 */
-	public function addWorkflowConditionsToQueryGenerator(\App\QueryGenerator $queryGenerator, $conditions)
+	public function addWorkflowConditionsToQueryGenerator(App\QueryGenerator $queryGenerator, $conditions)
 	{
 		$conditionMapping = [
 			'equal to' => 'e',
@@ -162,7 +162,7 @@ class WorkFlowScheduler
 				$sourceField = '';
 				$operation = $condition['operation'];
 				//Cannot handle this condition for scheduled workflows
-				if ($operation === 'has changed') {
+				if ('has changed' === $operation) {
 					continue;
 				}
 				$value = $condition['value'];
@@ -174,7 +174,7 @@ class WorkFlowScheduler
 				$fieldName = $condition['fieldname'];
 				$value = html_entity_decode($value);
 				preg_match('/(\w+) : \((\w+)\) (\w+)/', $condition['fieldname'], $matches);
-				if (count($matches) != 0) {
+				if (0 != count($matches)) {
 					$sourceField = $matches[1];
 					$relatedModule = $matches[2];
 					$relatedFieldName = $matches[3];
@@ -186,10 +186,10 @@ class WorkFlowScheduler
 						'relatedField' => $relatedFieldName,
 						'value' => $value,
 						'operator' => $operator,
-						'conditionGroup' => $groupJoin === 'and',
+						'conditionGroup' => 'and' === $groupJoin,
 					]);
 				} else {
-					$queryGenerator->addCondition($fieldName, $value, $operator, $groupJoin === 'and');
+					$queryGenerator->addCondition($fieldName, $value, $operator, 'and' === $groupJoin);
 				}
 			}
 		}
@@ -274,7 +274,8 @@ class WorkFlowScheduler
 		if (in_array($operation, ['less than hours before', 'less than hours later', 'more than hours later', 'more than hours before'])) {
 			$value = App\Fields\DateTime::formatToDisplay($value);
 		} else {
-			$value = App\Fields\Date::formatToDisplay($value);
+			$dates = explode(',', $value);
+			$value = implode(',', array_map('\App\Fields\Date::formatToDisplay', $dates));
 		}
 		date_default_timezone_set($default_timezone);
 		return $value;

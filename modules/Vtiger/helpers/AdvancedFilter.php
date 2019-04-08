@@ -96,7 +96,7 @@ class Vtiger_AdvancedFilter_Helper
 			'boolean' => ['is', 'is not', 'has changed'],
 			'reference' => ['has changed', 'is empty', 'is not empty'],
 			'owner' => ['has changed', 'is', 'is not', 'is Watching Record', 'is Not Watching Record'],
-			'sharedOwner' => ['has changed', 'is', 'is not'],
+			'sharedOwner' => ['has changed', 'is', 'is not', 'is not empty', 'is empty'],
 			'recurrence' => ['is', 'is not', 'has changed'],
 			'comment' => ['is added'],
 			'image' => ['is', 'is not', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty'],
@@ -117,6 +117,8 @@ class Vtiger_AdvancedFilter_Helper
 
 	/**
 	 * Functions transforms workflow filter to advanced filter.
+	 *
+	 * @param mixed $conditions
 	 *
 	 * @return <Array>
 	 */
@@ -148,7 +150,7 @@ class Vtiger_AdvancedFilter_Helper
 		if (!empty($conditions)) {
 			foreach ($conditions as $index => $condition) {
 				$columns = $condition['columns'];
-				if ($index == '1' && empty($columns)) {
+				if ('1' == $index && empty($columns)) {
 					$wfCondition[] = ['fieldname' => '', 'operation' => '', 'value' => '', 'valuetype' => '',
 						'joincondition' => '', 'groupid' => '0', ];
 				}
