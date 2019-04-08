@@ -6,11 +6,13 @@ import actions from '/src/store/actions.js'
 import Objects from '/utilities/Objects.js'
 
 let connection = null
-let SocketEmitter = new Vue({
+let Socket = new Vue({
   methods: {
     send(message) {
       if (1 === connection.readyState) {
         connection.send(message)
+      } else {
+        console.error('websocket disconnected, status:' + connection.readyState)
       }
     }
   }
@@ -18,24 +20,23 @@ let SocketEmitter = new Vue({
 /**
  * connect with websocket
  */
-function connect() {
-  if (connection === null) {
+function initSocket() {
+  if (connection === null || connection.readyState !== 1) {
     return new Promise(function(resolve, reject) {
       connection = new WebSocket(store.getters[getters.Core.Env.all]['webSocket'])
       connection.onmessage = message => {
-        console.log(JSON.parse(message.data))
-        SocketEmitter.$emit('message', message)
+        Socket.$emit('message', message)
         triggerAction(JSON.parse(message.data))
       }
       connection.onerror = err => {
-        SocketEmitter.$emit('error', err)
+        Socket.$emit('error', err)
         reject(err)
       }
       connection.onclose = err => {
         reject(err)
       }
       connection.onopen = () => {
-        resolve(connection)
+        resolve(Socket)
       }
     })
   } else {
@@ -48,9 +49,10 @@ function triggerAction(params) {
     const actionName = Objects.get(actions, params.action)
     store.dispatch(actionName, params.data)
   } catch (err) {
-    console.log('socket action doesnt exist', err)
+    console.error('socket action doesnt exist', err)
     return
   }
 }
-export default connect()
-export { SocketEmitter }
+
+export default Socket
+export { initSocket }
