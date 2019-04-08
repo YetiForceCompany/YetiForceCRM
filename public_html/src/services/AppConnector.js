@@ -4,20 +4,24 @@ import WebSocket from './WebSocket.js'
 // import { v1 } from '/node_modules/uuid/index.js'
 
 const AppConnector = {
+  /**
+   * Ajax request with axios
+   *
+   * @param   {Object}  params  ajax params
+   *
+   * @return  {Promise}          axios promise
+   */
   request(params) {
     return ApiService(params)
   },
-  webSocket(params, cb) {
-    WebSocket.then(connection => {
-      connection.send(JSON.stringify(params))
-      connection.onmessage = function(message) {
-        const json = JSON.parse(message.data)
-        if (json.action === params.action) {
-          cb(json)
-        }
-      }
-    })
-  },
+
+  /**
+   * Websocket analogy to ajax request
+   *
+   * @param   {Object}  params  ajax params
+   *
+   * @return  {Promise}          axios promise
+   */
   webSocketPromise(params) {
     let messageID = Math.random() * 1
     return new Promise(function(resolve, reject) {
@@ -25,11 +29,11 @@ const AppConnector = {
         connection.send(JSON.stringify({ id: messageID, params: params }))
         connection.onmessage = function(message) {
           try {
-            const json = JSON.parse(message.data)
-            if (json.id === messageID) {
-              resolve(json)
+            const data = JSON.parse(message.data)
+            if (data.id === messageID) {
+              resolve(data)
             } else {
-              reject(json)
+              reject(data)
             }
           } catch (e) {
             reject(e)
@@ -37,6 +41,24 @@ const AppConnector = {
           }
         }
       })
+    })
+  },
+
+  /**
+   * Create websocket event for specified action callback
+   *
+   * @param   {Object}  params  [params description]
+   * @param   {Function}  cb      [cb description]
+   */
+  webSocket(params, cb) {
+    WebSocket.then(connection => {
+      connection.send(JSON.stringify(params))
+      connection.onmessage = function(message) {
+        const data = JSON.parse(message.data)
+        if (data.action === params.action) {
+          cb(data)
+        }
+      }
     })
   }
 }
