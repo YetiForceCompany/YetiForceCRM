@@ -234,7 +234,7 @@ export default {
     onLeft(node) {
       const parent = node[this.priv.parent]
       let parentOfParentChildren = this.cNodes.map(item => item)
-      if (parent.$_SettingsMenu_parent !== null) {
+      if (parent[priv.parent] !== null) {
         parentOfParentChildren = parent[this.priv.parent].children.map(item => item)
       }
       parent.children = parent.children.filter(current => {
