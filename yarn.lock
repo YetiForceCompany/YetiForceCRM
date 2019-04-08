@@ -58,10 +58,10 @@ blueimp-tmpl@3.6.0:
   resolved "https://registry.yarnpkg.com/blueimp-tmpl/-/blueimp-tmpl-3.6.0.tgz#a4910975d042e2bc03ba77f0e62d04f1548a524c"
   integrity sha1-pJEJddBC4rwDunfw5i0E8VSKUkw=
 
-bootbox@^5.0.0:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/bootbox/-/bootbox-5.0.1.tgz#df1b5c42c9ae08fb007e16ed638f8b76282fcea2"
-  integrity sha512-SVA5uG38stpK3I1QV3Lw/HeQ1BhKVrEGVnwO0u4O52XSHEfSgWQcWp2K6+grGAxhCeXfBZI5Z8A9eKIQX7gHbQ==
+bootbox@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/bootbox/-/bootbox-5.1.0.tgz#34cd80ca20fc9103b66d7068119eb3dc5384e4fd"
+  integrity sha512-yclcgJGr56BOzY6an1+EmBxoCAnM+aEnmlo66CQaWUCenrcRBElCVOpsY4stjb0Z/X9oBx3Md0ynhCy7ZUx6aQ==
   dependencies:
     bootstrap ">=3.0.0"
     jquery ">=1.9.1"
