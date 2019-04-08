@@ -32,30 +32,6 @@ window.modules = [
     "modules": [
       {
         "parentHierarchy": "Base",
-        "fullName": "Base.Chat",
-        "name": "Chat",
-        "path": "src\\modules\\Base\\modules\\Chat",
-        "level": 1,
-        "priority": 0,
-        "autoLoad": true,
-        "directories": [
-          "components",
-          "store"
-        ],
-        "store": {
-          "actions": {
-            "getData": "Base/Chat/getData"
-          },
-          "getters": {
-            "dialog": "Base/Chat/dialog"
-          },
-          "mutations": {
-            "toggleDialog": "Base/Chat/toggleDialog"
-          }
-        }
-      },
-      {
-        "parentHierarchy": "Base",
         "fullName": "Base.Home",
         "name": "Home",
         "path": "src\\modules\\Base\\modules\\Home",
@@ -115,40 +91,6 @@ window.modules = [
           },
           "mutations": {
             "updateTestVariable": "Base/ModuleExample/updateTestVariable"
-          }
-        }
-      },
-      {
-        "parentHierarchy": "Base",
-        "fullName": "Base.ModuleExample2",
-        "name": "ModuleExample2",
-        "path": "src\\modules\\Base\\modules\\ModuleExample2",
-        "level": 1,
-        "priority": 0,
-        "autoLoad": true,
-        "entry": "src\\modules\\Base\\modules\\ModuleExample2\\ModuleExample2.vue.js",
-        "directories": [
-          "pages",
-          "router",
-          "store"
-        ],
-        "routes": [
-          {
-            "name": "Base.ModuleExample2",
-            "parent": "Base",
-            "path": "module-example2",
-            "componentPath": "pages/ModuleExample2"
-          }
-        ],
-        "store": {
-          "actions": {
-            "getData": "Base/ModuleExample2/getData"
-          },
-          "getters": {
-            "testVariable": "Base/ModuleExample2/testVariable"
-          },
-          "mutations": {
-            "updateTestVariable": "Base/ModuleExample2/updateTestVariable"
           }
         }
       }
@@ -341,8 +283,7 @@ window.modules = [
           "layouts",
           "pages",
           "router",
-          "store",
-          "url"
+          "store"
         ],
         "routes": [
           {
@@ -397,16 +338,6 @@ window.modules = [
           },
           "mutations": {
             "isLoggedIn": "Core/Users/isLoggedIn"
-          },
-          "state.js.bak": {
-            "isLoggedIn": "Core/Users/isLoggedIn",
-            "isBlockedIp": "Core/Users/isBlockedIp",
-            "loginPageRememberCredentials": "Core/Users/loginPageRememberCredentials",
-            "resetLoginPassword": "Core/Users/resetLoginPassword",
-            "langInLoginView": "Core/Users/langInLoginView",
-            "layoutInLoginView": "Core/Users/layoutInLoginView",
-            "is2fa": "Core/Users/is2fa",
-            "url": "Core/Users/url"
           }
         }
       }
