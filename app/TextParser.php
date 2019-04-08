@@ -618,9 +618,11 @@ class TextParser
 	protected function relatedRecord($params)
 	{
 		[$fieldName, $relatedField, $relatedModule] = array_pad(explode('|', $params), 3, '');
-		if (!isset($this->recordModel) ||
+		if (
+			!isset($this->recordModel) ||
 			!Privilege::isPermitted($this->moduleName, 'DetailView', $this->record) ||
-			$this->recordModel->isEmpty($fieldName)) {
+			$this->recordModel->isEmpty($fieldName)
+		) {
 			return '';
 		}
 		$relatedId = $this->recordModel->get($fieldName);
@@ -706,7 +708,7 @@ class TextParser
 	 */
 	protected function relatedRecordsList($params)
 	{
-		[$reletedModuleName, $columns, $conditions, $viewIdOrName, $limit] = array_pad(explode('|', $params), 5, '');
+		[$reletedModuleName, $columns, $conditions, $viewIdOrName, $limit, $maxLength] = array_pad(explode('|', $params), 6, '');
 		$relationListView = \Vtiger_RelationListView_Model::getInstance($this->recordModel, $reletedModuleName, '');
 		if (!$relationListView || !Privilege::isPermitted($reletedModuleName)) {
 			return '';
@@ -752,6 +754,9 @@ class TextParser
 			foreach ($fields as $fieldModel) {
 				$value = $this->getDisplayValueByField($fieldModel, $reletedRecordModel);
 				if (false !== $value) {
+					if ((int) $maxLength) {
+						$value = $this->textTruncate($value, (int) $maxLength);
+					}
 					$rows .= "<td>$value</td>";
 				}
 			}
@@ -769,7 +774,7 @@ class TextParser
 	 */
 	protected function recordsList($params)
 	{
-		[$moduleName, $columns, $conditions, $viewIdOrName, $limit] = array_pad(explode('|', $params), 5, '');
+		[$moduleName, $columns, $conditions, $viewIdOrName, $limit, $maxLength] = array_pad(explode('|', $params), 6, '');
 		$cvId = 0;
 		if ($viewIdOrName) {
 			if (!is_numeric($viewIdOrName)) {
@@ -820,6 +825,9 @@ class TextParser
 			foreach ($fields as $fieldModel) {
 				$value = $this->getDisplayValueByField($fieldModel, $reletedRecordModel);
 				if (false !== $value) {
+					if ((int) $maxLength) {
+						$value = $this->textTruncate($value, (int) $maxLength);
+					}
 					$rows .= "<td>$value</td>";
 				}
 			}
