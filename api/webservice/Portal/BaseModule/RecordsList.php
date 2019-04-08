@@ -31,7 +31,8 @@ class RecordsList extends \Api\Core\BaseAction
 			$record = ['recordLabel' => \App\Record::getLabel($row['id'])];
 			foreach ($fieldsModel as $fieldName => &$fieldModel) {
 				if (isset($row[$fieldName])) {
-					$record[$fieldName] = $fieldModel->getApiDisplayValue($row[$fieldName], $row['id'], false, true);
+					$fieldModel->setUiTypeModel();
+					$record[$fieldName] = $fieldModel->getDisplayValue($row[$fieldName], $row['id'], false, true);
 				}
 			}
 			$records[$row['id']] = $record;

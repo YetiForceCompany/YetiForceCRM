@@ -192,23 +192,6 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
-	 * Function to retieve display value for a API value.
-	 *
-	 * @param mixed                    $value          value which need to be converted to display value
-	 * @param bool|int                 $record
-	 * @param bool|Vtiger_Record_Model $recordInstance
-	 * @param bool                     $rawText
-	 * @param bool|int                 $length         Length of the text
-	 * @param mixed                    $recordModel
-	 *
-	 * @return mixed converted display value
-	 */
-	public function getApiDisplayValue($value, bool $record = false, $recordModel = false, bool $rawText = false, $length = false)
-	{
-		return $this->getUITypeModel()->getApiDisplayValue($value, $record, $recordModel, $rawText, $length);
-	}
-
-	/**
 	 * Function to retrieve display type of a field.
 	 *
 	 * @return int display type of the field
@@ -477,6 +460,28 @@ class Vtiger_Field_Model extends vtlib\Field
 			return $this->uitypeModel;
 		}
 		return $this->uitypeModel = Vtiger_Base_UIType::getInstanceFromField($this);
+	}
+
+	/**
+	 * Function to set the UI Type model for the uitype of the current field.
+	 *
+	 * @return void
+	 */
+	public function setUITypeModel()
+	{
+		$uiTypeClassSuffix = ucfirst($this->getFieldDataType());
+		$instance = false;
+		foreach([$this->getModuleName(), 'Vtiger'] as $moduleName){
+			$className = "\\Api\\Core\\Modules\\{$moduleName}\\uitypes\\{$uiTypeClassSuffix}";
+			if (class_exists($className)) {
+				$this->uitypeModel = $instance = new $className();
+				$instance->set('field', $this);
+				break;
+			}
+		}
+		if( !$instance){
+			$this->uitypeModel = Vtiger_Base_UIType::getInstanceFromField($this);
+		}
 	}
 
 	public function isRoleBased()

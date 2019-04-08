@@ -155,22 +155,6 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
-	 * Function to get the display value for API, for the current field type with given DB Insert Value.
-	 *
-	 * @param mixed                    $value
-	 * @param bool|int                 $record
-	 * @param bool|Vtiger_Record_Model $recordModel
-	 * @param bool                     $rawText
-	 * @param bool|int                 $length
-	 *
-	 * @return void
-	 */
-	public function getApiDisplayValue($value, bool $record = false, $recordModel = false, bool $rawText = false, $length = false)
-	{
-		return $this->getDisplayValue($value, $record, $recordModel, $rawText, $length);
-	}
-
-	/**
 	 * Function to get the edit value in display view.
 	 *
 	 * @param mixed               $value
