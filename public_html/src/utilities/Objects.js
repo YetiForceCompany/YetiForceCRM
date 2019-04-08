@@ -203,5 +203,47 @@ export default {
       }
     }
     return assoc
+  },
+
+  /**
+   * Strip private properties of the object - recursive
+   *
+   * @param {array|object} value
+   * @param {string} childrenProperty - where to find children - property name
+   * @param {string} private property prefix - to recognize it is private and should be striped
+   *
+   * @returns {object|array} without private properties
+   */
+  stripPrivate(value, childrenProperty = 'children', prefix = '$_', _cacheValue = [], _cacheResult = []) {
+    const cacheIndex = _cacheValue.indexOf(value)
+    if (cacheIndex >= 0) {
+      return _cacheResult[cacheIndex]
+    }
+    if (Array.isArray(value)) {
+      const result = value.map(node => {
+        return this.stripPrivate(node, childrenProperty, prefix, _cacheValue, _cacheResult)
+      })
+      _cacheValue.push(value)
+      _cacheResult.push(result)
+      return result
+    }
+    const result = {}
+    for (let key in value) {
+      if (key.substr(0, prefix.length) !== prefix && key !== childrenProperty) {
+        result[key] = value[key]
+      }
+    }
+    _cacheValue.push(value)
+    _cacheResult.push(result)
+    if (value.propertyIsEnumerable(childrenProperty)) {
+      result[childrenProperty] = this.stripPrivate(
+        value[childrenProperty],
+        childrenProperty,
+        prefix,
+        _cacheValue,
+        _cacheResult
+      )
+    }
+    return result
   }
 }
