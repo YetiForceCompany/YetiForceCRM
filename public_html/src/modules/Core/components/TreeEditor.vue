@@ -5,68 +5,92 @@
       <div class="row items-center" v-touch-pan.prevent.mouse.mousePrevent="handlePan">
         <q-icon :name="prop.node.icon || 'mdi-cube'" class="q-mr-sm" />
         <hook-wrapper name="label" class="label">
-          {{ prop.node.label }}
+          <slot name="label">{{ prop.node.label }}</slot>
         </hook-wrapper>
-        <hook-wrapper name="actions" class="q-ml-md text-grey actions" v-if="internalOptions.actionButtons">
-          <q-btn-group outline>
-            <q-btn
-              :ripple="false"
-              round
+        <hook-wrapper name="actions" class="q-ml-md text-grey actions" v-if="internalOptions.buttons.display">
+          <slot name="move-actions">
+            <q-btn-group outline>
+              <q-btn
+                :ripple="false"
+                round
+                outline
+                icon="mdi-arrow-down"
+                size="sm"
+                @click.stop.prevent="onDown(prop.node)"
+                v-if="prop.node.$_next"
+              />
+              <q-btn
+                :ripple="false"
+                round
+                outline
+                icon="mdi-arrow-up"
+                size="sm"
+                @click.stop.prevent="onUp(prop.node)"
+                v-if="prop.node.$_previous"
+              />
+              <q-btn
+                :ripple="false"
+                round
+                outline
+                icon="mdi-arrow-left"
+                size="sm"
+                @click.stop.prevent="onLeft(prop.node)"
+                v-if="prop.node.$_parent"
+              />
+              <q-btn
+                :ripple="false"
+                round
+                outline
+                icon="mdi-arrow-bottom-right"
+                size="sm"
+                @click.stop.prevent="onBottomRight(prop.node)"
+                v-if="prop.node.$_next"
+              />
+              <q-btn
+                :ripple="false"
+                round
+                outline
+                icon="mdi-arrow-top-right"
+                size="sm"
+                @click.stop.prevent="onTopRight(prop.node)"
+                v-if="prop.node.$_previous"
+              />
+            </q-btn-group>
+          </slot>
+          <slot name="edit">
+            <q-btn-group
               outline
-              icon="mdi-arrow-down"
-              size="sm"
-              @click.stop.prevent="onDown(prop.node)"
-              v-if="prop.node[priv.next]"
-            />
-            <q-btn
-              :ripple="false"
-              round
-              outline
-              icon="mdi-arrow-up"
-              size="sm"
-              @click.stop.prevent="onUp(prop.node)"
-              v-if="prop.node[priv.previous]"
-            />
-            <q-btn
-              :ripple="false"
-              round
-              outline
-              icon="mdi-arrow-left"
-              size="sm"
-              @click.stop.prevent="onLeft(prop.node)"
-              v-if="prop.node[priv.parent]"
-            />
-            <q-btn
-              :ripple="false"
-              round
-              outline
-              icon="mdi-arrow-bottom-right"
-              size="sm"
-              @click.stop.prevent="onBottomRight(prop.node)"
-              v-if="prop.node[priv.next]"
-            />
-            <q-btn
-              :ripple="false"
-              round
-              outline
-              icon="mdi-arrow-top-right"
-              size="sm"
-              @click.stop.prevent="onTopRight(prop.node)"
-              v-if="prop.node[priv.previous]"
-            />
-          </q-btn-group>
-          <q-btn-group outline>
-            <q-btn :ripple="false" round outline icon="mdi-plus" size="sm" @click.stop.prevent="onPlus(prop.node)" />
-            <q-btn :ripple="false" round outline icon="mdi-minus" size="sm" @click.stop.prevent="onMinus(prop.node)" />
-            <q-btn
-              :ripple="false"
-              round
-              outline
-              icon="mdi-square-edit-outline"
-              size="sm"
-              @click.stop.prevent="onEdit(prop.node)"
-            />
-          </q-btn-group>
+              v-if="internalOptions.buttons.add || internalOptions.buttons.remove || internalOptions.buttons.edit"
+            >
+              <q-btn
+                :ripple="false"
+                round
+                outline
+                icon="mdi-plus"
+                size="sm"
+                @click.stop.prevent="onPlus(prop.node)"
+                v-if="internalOptions.buttons.add"
+              />
+              <q-btn
+                :ripple="false"
+                round
+                outline
+                icon="mdi-minus"
+                size="sm"
+                @click.stop.prevent="onMinus(prop.node)"
+                v-if="internalOptions.buttons.remove"
+              />
+              <q-btn
+                :ripple="false"
+                round
+                outline
+                icon="mdi-square-edit-outline"
+                size="sm"
+                @click.stop.prevent="onEdit(prop.node)"
+                v-if="internalOptions.buttons.edit"
+              />
+            </q-btn-group>
+          </slot>
         </hook-wrapper>
       </div>
     </template>
@@ -90,16 +114,15 @@ export default {
 
   data() {
     return {
-      priv: {
-        index: `$_${privatePrefix}_index`,
-        parent: `$_${privatePrefix}_parent`,
-        next: `$_${privatePrefix}_next`,
-        previous: `$_${privatePrefix}_previous`
-      },
       internalNodes: [],
       internalOptions: {
         nodeKey: 'name',
-        actionButtons: true
+        buttons: {
+          display: true,
+          add: true,
+          remove: true,
+          edit: true
+        }
       },
       watchers: []
     }
@@ -117,7 +140,7 @@ export default {
      */
     addParents(nodes, parent = null) {
       return nodes.map((node, index) => {
-        this.$set(node, this.priv.parent, parent)
+        this.$set(node, '$_parent', parent)
         if (typeof node.children !== 'undefined' && Array.isArray(node.children) && node.children.length) {
           node.children = this.addParents(node.children, node)
         }
@@ -130,7 +153,7 @@ export default {
      */
     resolveIndexes(nodes) {
       return nodes.map((node, index) => {
-        this.$set(node, this.priv.index, index)
+        this.$set(node, '$_index', index)
         if (typeof node.children !== 'undefined' && Array.isArray(node.children) && node.children.length) {
           this.$set(node, 'children', this.resolveIndexes(node.children))
         }
@@ -144,9 +167,9 @@ export default {
     addNext(nodes) {
       return nodes.map((node, index) => {
         if (typeof nodes[index + 1] !== 'undefined') {
-          this.$set(node, this.priv.next, nodes[index + 1])
+          this.$set(node, '$_next', nodes[index + 1])
         } else {
-          this.$set(node, this.priv.next, null)
+          this.$set(node, '$_next', null)
         }
         if (typeof node.children !== 'undefined' && Array.isArray(node.children) && node.children.length) {
           this.$set(node, 'children', this.addNext(node.children))
@@ -161,9 +184,9 @@ export default {
     addPrevious(nodes) {
       return nodes.map((node, index) => {
         if (typeof nodes[index - 1] !== 'undefined') {
-          this.$set(node, this.priv.previous, nodes[index - 1])
+          this.$set(node, '$_previous', nodes[index - 1])
         } else {
-          this.$set(node, this.priv.previous, null)
+          this.$set(node, '$_previous', null)
         }
         if (typeof node.children !== 'undefined' && Array.isArray(node.children) && node.children.length) {
           this.$set(node, 'children', this.addPrevious(node.children))
@@ -194,7 +217,7 @@ export default {
      * @param {object} node
      */
     onDown(node) {
-      const children = node[this.priv.parent].children.map(child => {
+      const children = node.$_parent.children.map(child => {
         return Objects.mergeDeepReactive(child)
       })
       for (let [index, child] of children.entries()) {
@@ -204,7 +227,7 @@ export default {
           break
         }
       }
-      node[this.priv.parent].children = children
+      node['$_parent'].children = children
     },
 
     /**
@@ -213,7 +236,7 @@ export default {
      * @param {object} node
      */
     onUp(node) {
-      const children = node[this.priv.parent].children.map(child => {
+      const children = node.$_parent.children.map(child => {
         return Objects.mergeDeepReactive(child)
       })
       for (let [index, child] of children.entries()) {
@@ -223,7 +246,7 @@ export default {
           break
         }
       }
-      node[this.priv.parent].children = children
+      node.$_parent.children = children
     },
 
     /**
@@ -232,10 +255,10 @@ export default {
      * @param {object} node
      */
     onLeft(node) {
-      const parent = node[this.priv.parent]
+      const parent = node.$_parent
       let parentOfParentChildren = this.cNodes.map(item => item)
-      if (parent[priv.parent] !== null) {
-        parentOfParentChildren = parent[this.priv.parent].children.map(item => item)
+      if (parent.$_parent !== null) {
+        parentOfParentChildren = parent.$_parent.children.map(item => item)
       }
       parent.children = parent.children.filter(current => {
         return current !== node
@@ -249,8 +272,8 @@ export default {
           result.push(child)
         }
       }
-      if (parent[this.priv.parent] !== null) {
-        parent[this.priv.parent].children = result
+      if (parent.$_parent !== null) {
+        parent.$_parent.children = result
       } else {
         this.internalNodes = result
       }
@@ -260,20 +283,31 @@ export default {
      * Move node to next node children
      */
     onBottomRight(node) {
-      node[this.priv.parent].children = node[this.priv.parent].children.filter(current => current !== node)
-      node[this.priv.next].children.push(node)
+      node.$_parent.children = node.$_parent.children.filter(current => current !== node)
+      node.$_next.children.push(node)
     },
 
     /**
      * Move node to previous node children
      */
     onTopRight(node) {
-      node[this.priv.parent].children = node[this.priv.parent].children.filter(current => current !== node)
-      node[this.priv.previous].children.push(node)
+      node.$_parent.children = node.$_parent.children.filter(current => current !== node)
+      node.$_previous.children.push(node)
     },
-    onPlus(node) {},
-    onMinus(node) {},
-    onEdit(node) {}
+
+    /**
+     * Add node
+     */
+    onPlus(node) {
+      this.$emit('action-add', node)
+    },
+
+    /**
+     * Edit node
+     */
+    onEdit(node) {
+      this.$emit('action-edit', node)
+    }
   },
 
   created() {

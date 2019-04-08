@@ -13,6 +13,8 @@
           :options="treeEditorOptions"
           @nodes-changed="updateNodes"
           @options-changed="updateOptions"
+          @action-add="add"
+          @action-edit="edit"
         />
       </div>
     </div>
@@ -46,18 +48,38 @@ export default {
     updateNodes(nodes) {
       this.nodes = nodes.map(node => Objects.mergeDeep({}, node))
     },
+
     /**
      * Update options when they was changed in child component
      */
     updateOptions(options) {
       this.options = Objects.mergeDeep({}, options)
     },
+
     /**
      * Save menu
      */
     save() {
       const data = Objects.stripPrivate(this.nodes)
       this.$store.commit(mutations.Core.Menu.updateItems, data)
+    },
+
+    /**
+     * Add node
+     *
+     * @param {object} node
+     */
+    add(node) {
+      console.log('add', node)
+    },
+
+    /**
+     * Edit node
+     *
+     * @param {object} node
+     */
+    edit(node) {
+      console.log('edit', node)
     }
   },
   created() {
