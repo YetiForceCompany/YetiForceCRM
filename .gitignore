@@ -83,3 +83,9 @@ yarn-error.log
 **/*.vue.js
 **/*.min.js
 /public_html/node_modules/
+
+# generated files
+/public_html/src/statics/modules.js
+/public_html/src/store/actions.js
+/public_html/src/store/getters.js
+/public_html/src/store/mutations.js

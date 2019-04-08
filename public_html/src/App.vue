@@ -7,6 +7,7 @@
 
 <script>
 import getters from '/src/store/getters.js'
+import AppConnector from '/src/services/AppConnector.js'
 
 const moduleName = 'App'
 
@@ -48,6 +49,24 @@ export default {
     unloadScript(src) {
       return this.$unloadScript(src)
     }
+  },
+  mounted() {
+    let self = this
+    AppConnector.webSocketPromise().then(data => {
+      console.log('promiser resolved with' + data)
+    })
+    AppConnector.webSocket(
+      { module: 'Core', action: 'showNotification', params: { message: 'socket message!' } },
+      data => {
+        Quasar.plugins.Notify.create({
+          color: 'negative',
+          icon: 'mdi-exclamation',
+          message: data.params.message,
+          position: 'top',
+          actions: [{ label: self.$t('LBL_CLOSE'), color: 'white' }]
+        })
+      }
+    )
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
