@@ -66,10 +66,10 @@ bootbox@^5.1.0:
     bootstrap ">=3.0.0"
     jquery ">=1.9.1"
 
-bootstrap-colorpicker@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/bootstrap-colorpicker/-/bootstrap-colorpicker-3.0.3.tgz#9fb703e96254ba51c83e6a2274138bdcde1adaf6"
-  integrity sha512-xDVuG5ZLDKLoYdBodnrKo417eqFlNwpk6gNbv1mAFdFno0p0xnkYm9KQTiUqR4kva9t+hlJJc2UURZnD6fvn+Q==
+bootstrap-colorpicker@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/bootstrap-colorpicker/-/bootstrap-colorpicker-3.1.1.tgz#5cb559eeae8cdd1e4c86b705d36d81eb5fda0f8e"
+  integrity sha512-LgHvdXVzJ6O/Jbc/ngc33aX+CAnJ5WAx06L+psP2cYuwXSy0wHsGFrHrYYq+lJKScYRV9kIGAyqDkkeb5NZzhQ==
   dependencies:
     bootstrap "^4.0"
     jquery ">=2.1.0"
