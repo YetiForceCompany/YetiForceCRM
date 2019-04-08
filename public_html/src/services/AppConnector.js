@@ -1,6 +1,8 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 import ApiService from './Api.js'
 import WebSocket from './WebSocket.js'
+import { SocketEmitter } from './WebSocket.js'
+
 // import { v1 } from '/node_modules/uuid/index.js'
 
 const AppConnector = {
@@ -24,12 +26,15 @@ const AppConnector = {
    */
   webSocketPromise(params) {
     let messageID = Math.random() * 1
+    console.log(messageID)
+
     return new Promise(function(resolve, reject) {
       WebSocket.then(function(connection) {
-        connection.send(JSON.stringify({ id: messageID, params: params }))
-        connection.onmessage = function(message) {
+        SocketEmitter.send(JSON.stringify({ id: messageID, params: params }))
+        SocketEmitter.$on('message', message => {
           try {
             const data = JSON.parse(message.data)
+            console.log(data)
             if (data.id === messageID) {
               resolve(data)
             } else {
@@ -39,7 +44,7 @@ const AppConnector = {
             reject(e)
             return
           }
-        }
+        })
       })
     })
   },
@@ -52,13 +57,15 @@ const AppConnector = {
    */
   webSocket(params, cb) {
     WebSocket.then(connection => {
-      connection.send(JSON.stringify(params))
-      connection.onmessage = function(message) {
+      SocketEmitter.send(JSON.stringify(params))
+      console.log(SocketEmitter)
+      SocketEmitter.$on('message', message => {
         const data = JSON.parse(message.data)
+        console.log(data)
         if (data.action === params.action) {
           cb(data)
         }
-      }
+      })
     })
   }
 }

@@ -48,16 +48,18 @@ export default {
    * @param   {object}  store
    */
   logout({ commit, rootGetters }) {
-    loginAxios({
-      url: rootGetters[getters.Core.Url.get]('Users.Login.logout'),
-      method: 'POST'
-    }).then(response => {
-      const data = response.data
-      if (data.result === true) {
-        commit(mutations.Core.Users.isLoggedIn, false)
-        this.$router.replace('/users/login')
-      }
-    })
+    if (rootGetters[getters.Core.Users.isLoggedIn]) {
+      loginAxios({
+        url: rootGetters[getters.Core.Url.get]('Users.Login.logout'),
+        method: 'POST'
+      }).then(response => {
+        const data = response.data
+        if (data.result === true) {
+          commit(mutations.Core.Users.isLoggedIn, false)
+          this.$router.replace('/users/login')
+        }
+      })
+    }
   },
   /**
    * Remind action
