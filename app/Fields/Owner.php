@@ -268,12 +268,14 @@ class Owner
 				];
 			}
 			$query = (new \App\Db\Query())->select($selectFields)->from('vtiger_users')->where($where);
+			$where = false;
 			if ($this->showRoleName) {
 				$query->addSelect(['vtiger_role.rolename'])->innerJoin('vtiger_user2role', 'vtiger_user2role.userid = vtiger_users.id')
 					->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid');
 			}
 		} elseif ($roles !== false) {
 			$query = (new \App\Db\Query())->select($selectFields)->from('vtiger_users')->innerJoin('vtiger_user2role', 'vtiger_users.id = vtiger_user2role.userid');
+			$where[] = ['vtiger_user2role.roleid' => $roles];
 			if ($this->showRoleName) {
 				$query->addSelect(['rolename'])->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid');
 			}
@@ -287,7 +289,6 @@ class Owner
 					->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid');
 			}
 		}
-		$where = false;
 		if (!empty($this->searchValue)) {
 			$where[] = ['like', \App\Module::getSqlForNameInDisplayFormat('Users'), $this->searchValue];
 		}
