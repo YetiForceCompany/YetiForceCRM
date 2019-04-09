@@ -6,14 +6,24 @@
 </template>
 
 <script>
+import { store } from '/src/store/index.js'
 import getters from '/src/store/getters.js'
-import AppConnector from '/src/services/AppConnector.js'
+import { initSocket } from '/src/services/WebSocket.js'
 
 const moduleName = 'App'
 
 const setLangModule = (vm, to) => {
   vm.$i18n.locale = to.meta.langModule || '_Base'
 }
+
+const routeEnterCallback = (to, from, next) => {
+  next(vm => {
+    setLangModule(vm, to)
+    vm.$store.commit('Global/update', window.env)
+    next()
+  })
+}
+
 /**
  * @vue-computed {String}   template - layout main template name
  * @vue-computed {Function} templateLoader - dynamic import of the template
@@ -50,30 +60,14 @@ export default {
       return this.$unloadScript(src)
     }
   },
-  mounted() {
-    let self = this
-    AppConnector.webSocketPromise().then(data => {
-      console.log('promiser resolved with' + data)
-    })
-    AppConnector.webSocket(
-      { module: 'Core', action: 'showNotification', params: { message: 'socket message!' } },
-      data => {
-        Quasar.plugins.Notify.create({
-          color: 'negative',
-          icon: 'mdi-exclamation',
-          message: data.params.message,
-          position: 'top',
-          actions: [{ label: self.$t('LBL_CLOSE'), color: 'white' }]
-        })
-      }
-    )
-  },
   beforeRouteEnter(to, from, next) {
-    next(vm => {
-      setLangModule(vm, to)
-      vm.$store.commit('Global/update', window.env)
-      next()
-    })
+    if (store.getters[getters.Core.Users.isLoggedIn] && store.getters[getters.Core.Env.all]['webSocket']) {
+      initSocket().then(() => {
+        routeEnterCallback(to, from, next)
+      })
+    } else {
+      routeEnterCallback(to, from, next)
+    }
   },
   beforeRouteUpdate(to, from, next) {
     setLangModule(this, to)

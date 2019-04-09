@@ -2,24 +2,57 @@
 'use strict'
 import { store } from '/src/store/index.js'
 import getters from '/src/store/getters.js'
+import actions from '/src/store/actions.js'
+import Objects from '/utilities/Objects.js'
 
 let connection = null
-function connect() {
-  if (connection === null) {
+let Socket = new Vue({
+  methods: {
+    send(message) {
+      if (connection && 1 === connection.readyState) {
+        connection.send(message)
+      } else {
+        console.error('websocket disconnected, connection:', connection)
+      }
+    }
+  }
+})
+/**
+ * connect with websocket
+ */
+function initSocket() {
+  if (connection === null || connection.readyState !== 1) {
     return new Promise(function(resolve, reject) {
       connection = new WebSocket(store.getters[getters.Core.Env.all]['webSocket'])
-      connection.onopen = () => {
-        resolve(connection)
+      connection.onmessage = message => {
+        Socket.$emit('message', message)
+        triggerAction(JSON.parse(message.data))
       }
       connection.onerror = err => {
+        Socket.$emit('error', err)
         reject(err)
       }
       connection.onclose = err => {
         reject(err)
+      }
+      connection.onopen = () => {
+        resolve(Socket)
       }
     })
   } else {
     return connection
   }
 }
-export default connect()
+
+function triggerAction(params) {
+  try {
+    const actionName = Objects.get(actions, params.action)
+    store.dispatch(actionName, params.data)
+  } catch (err) {
+    console.error('socket action doesnt exist', err)
+    return
+  }
+}
+
+export default Socket
+export { initSocket }

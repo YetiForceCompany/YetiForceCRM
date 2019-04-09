@@ -2,6 +2,7 @@
 import loginAxios from '/src/services/Login.js'
 import getters from '/src/store/getters.js'
 import mutations from '/src/store/mutations.js'
+import { initSocket } from '/src/services/WebSocket.js'
 
 export default {
   /**
@@ -34,7 +35,13 @@ export default {
       if (data.result === true) {
         commit('Global/update', { Core: data.env })
         commit(mutations.Core.Users.isLoggedIn, true)
-        this.$router.replace('/')
+        if (rootGetters[getters.Core.Env.all]['webSocket']) {
+          initSocket().then(() => {
+            this.$router.replace('/')
+          })
+        } else {
+          this.$router.replace('/')
+        }
       } else if (data.result === '2fa') {
         this.$router.replace(`/users/login/2FA`)
       } else {
@@ -48,16 +55,21 @@ export default {
    * @param   {object}  store
    */
   logout({ commit, rootGetters }) {
-    loginAxios({
-      url: rootGetters[getters.Core.Url.get]('Users.Login.logout'),
-      method: 'POST'
-    }).then(response => {
-      const data = response.data
-      if (data.result === true) {
-        commit(mutations.Core.Users.isLoggedIn, false)
-        this.$router.replace('/users/login')
-      }
-    })
+    if (rootGetters[getters.Core.Users.isLoggedIn]) {
+      loginAxios({
+        url: rootGetters[getters.Core.Url.get]('Users.Login.logout'),
+        method: 'POST'
+      }).then(response => {
+        const data = response.data
+        if (data.result === true) {
+          commit(mutations.Core.Users.isLoggedIn, false)
+          if (rootGetters[getters.Core.Env.all]['webSocket']) {
+            initSocket().close()
+          }
+          this.$router.replace('/users/login')
+        }
+      })
+    }
   },
   /**
    * Remind action
