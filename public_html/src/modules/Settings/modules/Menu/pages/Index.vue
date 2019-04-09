@@ -8,23 +8,14 @@
     </div>
     <div class="q-pa-md row q-gutter-md">
       <div class="col">
-        <tree-editor
-          :nodes="menu.base"
-          :options="treeOptions.base"
-          @nodes-changed="updateBaseNodes"
-          @options-changed="updateBaseOptions"
-          @action-add="add"
-          @action-edit="edit"
-        />
+        <tree-editor :nodes.sync="menu.base" :options.sync="treeOptions.base" @action:add="add" @action:edit="edit" />
       </div>
       <div class="col">
         <tree-editor
-          :nodes="menu.settings"
-          :options="treeOptions.settings"
-          @nodes-changed="updateSettingsNodes"
-          @options-changed="updateSettingsOptions"
-          @action-add="add"
-          @action-edit="edit"
+          :nodes.sync="menu.settings"
+          :options.sync="treeOptions.settings"
+          @action:add="add"
+          @action:edit="edit"
         />
       </div>
     </div>
@@ -58,34 +49,6 @@ export default {
     }
   },
   methods: {
-    /**
-     * Update current instance nodes data when they was changed in child component
-     */
-    updateBaseNodes(nodes) {
-      this.menu.base = nodes.map(node => Objects.mergeDeep({}, node))
-    },
-
-    /**
-     * Update options when they was changed in child component
-     */
-    updateBaseOptions(options) {
-      this.treeOptions.base = Objects.mergeDeep({}, options)
-    },
-
-    /**
-     * Update current instance nodes data when they was changed in child component
-     */
-    updateSettingsNodes(nodes) {
-      this.menu.settings = nodes.map(node => Objects.mergeDeep({}, node))
-    },
-
-    /**
-     * Update options when they was changed in child component
-     */
-    updateSettingsOptions(options) {
-      this.treeOptions.settings = Objects.mergeDeep({}, options)
-    },
-
     /**
      * Save menu
      */

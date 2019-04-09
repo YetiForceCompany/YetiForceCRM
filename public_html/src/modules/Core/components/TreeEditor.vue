@@ -325,14 +325,14 @@ export default {
      * Add node
      */
     onPlus(node) {
-      this.$emit('action-add', node)
+      this.$emit('action:add', node)
     },
 
     /**
      * Edit node
      */
     onEdit(node) {
-      this.$emit('action-edit', node)
+      this.$emit('action:edit', node)
     }
   },
 
@@ -355,7 +355,7 @@ export default {
         internalNodes => {
           const striped = Objects.stripPrivate(this.internalNodes)
           if (!Objects.equalDeep(this.nodes, striped)) {
-            this.$emit('nodes-changed', striped)
+            this.$emit('update:nodes', striped.map(node => Objects.mergeDeep({}, node)))
           }
         },
         { deep: true }
@@ -379,7 +379,7 @@ export default {
         internalOptions => {
           const striped = Objects.stripPrivate(this.internalOptions)
           if (!Objects.equalDeep(this.options, striped)) {
-            this.$emit('options-changed', striped)
+            this.$emit('update:options', Objects.mergeDeep({}, striped))
           }
         },
         { deep: true }
