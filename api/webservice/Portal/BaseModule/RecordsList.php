@@ -21,6 +21,7 @@ class RecordsList extends \Api\Core\BaseAction
 	 */
 	public function get()
 	{
+		\Vtiger_Field_Model::setLoaderUiTypes("\\Api\\Core\\Modules\\Vtiger\\uitypes\\Base");
 		$moduleName = $this->controller->request->get('module');
 		$records = $headers = [];
 		$queryGenerator = $this->getQuery();
@@ -31,7 +32,6 @@ class RecordsList extends \Api\Core\BaseAction
 			$record = ['recordLabel' => \App\Record::getLabel($row['id'])];
 			foreach ($fieldsModel as $fieldName => &$fieldModel) {
 				if (isset($row[$fieldName])) {
-					$fieldModel->setUiTypeModel();
 					$record[$fieldName] = $fieldModel->getDisplayValue($row[$fieldName], $row['id'], false, true);
 				}
 			}

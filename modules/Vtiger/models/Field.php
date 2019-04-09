@@ -27,6 +27,13 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	protected $uitypeModel;
 
+	/**
+	 * UI type class name.
+	 *
+	 * @var string
+	 */
+	protected static $uiTypeClassName = 'Vtiger_Base_UIType';
+
 	public static $referenceTypes = ['reference', 'referenceLink', 'referenceProcess', 'referenceSubProcess', 'referenceExtend', 'referenceSubProcessSL'];
 
 	const REFERENCE_TYPE = 'reference';
@@ -459,29 +466,18 @@ class Vtiger_Field_Model extends vtlib\Field
 		if (isset($this->uitypeModel)) {
 			return $this->uitypeModel;
 		}
-		return $this->uitypeModel = Vtiger_Base_UIType::getInstanceFromField($this);
+		return $this->uitypeModel = (static::$uiTypeClassName)::getInstanceFromField($this);
 	}
 
 	/**
-	 * Function to set the UI Type model for the uitype of the current field.
+	 * Set loader UI types.
 	 *
+	 * @param string $uiTypeClassName
 	 * @return void
 	 */
-	public function setUITypeModel()
+	public static function setLoaderUiTypes(string $uiTypeClassName)
 	{
-		$uiTypeClassSuffix = ucfirst($this->getFieldDataType());
-		$instance = false;
-		foreach([$this->getModuleName(), 'Vtiger'] as $moduleName){
-			$className = "\\Api\\Core\\Modules\\{$moduleName}\\uitypes\\{$uiTypeClassSuffix}";
-			if (class_exists($className)) {
-				$this->uitypeModel = $instance = new $className();
-				$instance->set('field', $this);
-				break;
-			}
-		}
-		if( !$instance){
-			$this->uitypeModel = Vtiger_Base_UIType::getInstanceFromField($this);
-		}
+		static::$uiTypeClassName = $uiTypeClassName;
 	}
 
 	public function isRoleBased()
