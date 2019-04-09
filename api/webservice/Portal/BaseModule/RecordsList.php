@@ -21,7 +21,7 @@ class RecordsList extends \Api\Core\BaseAction
 	 */
 	public function get()
 	{
-		\Vtiger_Field_Model::setLoaderUiTypes("\\Api\\Core\\Modules\\Vtiger\\uitypes\\Base");
+		\Vtiger_Field_Model::setLoaderUiTypes('\\Api\\Core\\Modules\\Vtiger\\uitypes\\Base');
 		$moduleName = $this->controller->request->get('module');
 		$records = $headers = [];
 		$queryGenerator = $this->getQuery();
