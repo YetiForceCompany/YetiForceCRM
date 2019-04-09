@@ -35,9 +35,13 @@ export default {
       if (data.result === true) {
         commit('Global/update', { Core: data.env })
         commit(mutations.Core.Users.isLoggedIn, true)
-        initSocket().then(() => {
+        if (rootGetters[getters.Core.Env.all]['webSocket']) {
+          initSocket().then(() => {
+            this.$router.replace('/')
+          })
+        } else {
           this.$router.replace('/')
-        })
+        }
       } else if (data.result === '2fa') {
         this.$router.replace(`/users/login/2FA`)
       } else {
@@ -59,7 +63,9 @@ export default {
         const data = response.data
         if (data.result === true) {
           commit(mutations.Core.Users.isLoggedIn, false)
-          initSocket().close()
+          if (rootGetters[getters.Core.Env.all]['webSocket']) {
+            initSocket().close()
+          }
           this.$router.replace('/users/login')
         }
       })

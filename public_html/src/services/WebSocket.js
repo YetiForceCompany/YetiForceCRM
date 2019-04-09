@@ -9,10 +9,10 @@ let connection = null
 let Socket = new Vue({
   methods: {
     send(message) {
-      if (1 === connection.readyState) {
+      if (connection && 1 === connection.readyState) {
         connection.send(message)
       } else {
-        console.error('websocket disconnected, status:' + connection.readyState)
+        console.error('websocket disconnected, connection:', connection)
       }
     }
   }
