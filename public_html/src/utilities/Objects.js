@@ -203,5 +203,93 @@ export default {
       }
     }
     return assoc
+  },
+
+  /**
+   * Strip private properties of the object - recursive
+   *
+   * @param {array|object} value
+   * @param {string} childrenProperty - where to find children - property name
+   * @param {string} private property prefix - to recognize it is private and should be striped
+   *
+   * @returns {object|array} without private properties
+   */
+  stripPrivate(value, childrenProperty = 'children', prefix = '$_', _cacheValue = [], _cacheResult = []) {
+    const cacheIndex = _cacheValue.indexOf(value)
+    if (cacheIndex >= 0) {
+      return _cacheResult[cacheIndex]
+    }
+    if (Array.isArray(value)) {
+      const result = value.map(node => {
+        return this.stripPrivate(node, childrenProperty, prefix, _cacheValue, _cacheResult)
+      })
+      _cacheValue.push(value)
+      _cacheResult.push(result)
+      return result
+    }
+    const result = {}
+    for (let key in value) {
+      if (key.substr(0, prefix.length) !== prefix && key !== childrenProperty) {
+        result[key] = value[key]
+      }
+    }
+    _cacheValue.push(value)
+    _cacheResult.push(result)
+    if (typeof value[childrenProperty] !== 'undefined' && value.propertyIsEnumerable(childrenProperty)) {
+      result[childrenProperty] = this.stripPrivate(
+        value[childrenProperty],
+        childrenProperty,
+        prefix,
+        _cacheValue,
+        _cacheResult
+      )
+    }
+    return result
+  },
+
+  /**
+   * Check if objects or arrays are equal by comparing nested properties not objects itself
+   *
+   * @param {object|array} left
+   * @param {object|array} right
+   *
+   * @returns {boolean}
+   */
+  equalDeep(left, right, cache = []) {
+    if (typeof right !== typeof left) {
+      return false
+    } else if (Array.isArray(left) && !Array.isArray(right)) {
+      return false
+    } else if (Array.isArray(right) && !Array.isArray(left)) {
+      return false
+    } else if (Array.isArray(left) && Array.isArray(right)) {
+      if (left.length !== right.length) {
+        return false
+      }
+      for (let index = 0, len = left.length; index < len; index++) {
+        if (!this.equalDeep(left[index], right[index], cache)) {
+          return false
+        }
+      }
+    } else if (this.isObject(left) && !this.isObject(right)) {
+      return false
+    } else if (this.isObject(right) && !this.isObject(left)) {
+      return false
+    } else if (this.isObject(left) && this.isObject(right)) {
+      for (let key in left) {
+        if (!left.hasOwnProperty(key) || !left.propertyIsEnumerable(key)) {
+          continue
+        }
+        if (typeof right[key] === 'undefined') {
+          return false
+        }
+        if (!this.equalDeep(left[key], right[key], cache)) {
+          return false
+        }
+      }
+    } else if (left !== right) {
+      return false
+    }
+    return true
   }
 }
