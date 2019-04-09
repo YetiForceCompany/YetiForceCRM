@@ -6,6 +6,7 @@
       <q-btn round :size="iconSize" flat icon="mdi-email-outline" />
       <q-btn round :size="iconSize" flat icon="mdi-bell-ring-outline" />
       <q-btn round :size="iconSize" flat icon="mdi-calendar-multiselect" />
+      <chat-modal></chat-modal>
       <q-btn round :size="iconSize" flat icon="mdi-history" />
       <q-btn round :size="iconSize" flat icon="mdi-settings-outline" />
       <q-btn round :size="iconSize" flat icon="mdi-power-standby" @click="logout" />
@@ -14,8 +15,12 @@
 </template>
 <script>
 import actions from 'store/actions.js'
+import ChatModal from '/Base/modules/Chat/components/Modal.vue.js'
 export default {
-  name: 'YfGlobalActions',
+  name: 'Yf-GlobalActions',
+  components: {
+    ChatModal
+  },
   data() {
     return {
       iconSize: '.75rem'
