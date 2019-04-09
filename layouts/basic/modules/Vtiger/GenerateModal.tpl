@@ -41,12 +41,12 @@
 					data-template-selection="prependDataTemplate" data-js="select">
 				{foreach item=TEMPLATE from=$TEMPLATES}
 					{assign var=RELATED_MODEL value=$TEMPLATE->getRelatedModule()}
-					{assign var=RELATED_NAME value=$TEMPLATE->getRelatedName()}
+					{assign var=RELATED_MODULE_NAME value=\App\Language::translate($TEMPLATE->getRelatedName(), $TEMPLATE->getRelatedName())}
 					<option data-id="{$TEMPLATE->getId()}"
 							data-name="{$RELATED_MODEL->getName()}"
 							data-url="{$RELATED_MODEL->getCreateRecordUrl()|cat:"&reference_id=$RECORD"}"
-							data-template="<span><span class='userIcon-{$RELATED_NAME} mr-1'></span>{\App\Language::translate($RELATED_NAME, $RELATED_NAME)}</span>">
-						{\App\Language::translate($RELATED_NAME, $RELATED_NAME)}
+							data-template="<span><span class='userIcon-{$TEMPLATE->getRelatedName()} mr-1'></span>{$RELATED_MODULE_NAME}</span>">
+						{$RELATED_MODULE_NAME}
 					</option>
 				{/foreach}
 			</select>
