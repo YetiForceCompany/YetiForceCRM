@@ -32,7 +32,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 *
 	 * @var string
 	 */
-	protected static $uiTypeClassName = 'Vtiger_Base_UIType';
+	protected static $defaultUiTypeClassName = 'Vtiger_Base_UIType';
 
 	public static $referenceTypes = ['reference', 'referenceLink', 'referenceProcess', 'referenceSubProcess', 'referenceExtend', 'referenceSubProcessSL'];
 
@@ -466,18 +466,18 @@ class Vtiger_Field_Model extends vtlib\Field
 		if (isset($this->uitypeModel)) {
 			return $this->uitypeModel;
 		}
-		return $this->uitypeModel = (static::$uiTypeClassName)::getInstanceFromField($this);
+		return $this->uitypeModel = (static::$defaultUiTypeClassName)::getInstanceFromField($this);
 	}
 
 	/**
 	 * Set loader UI types.
 	 *
-	 * @param string $uiTypeClassName
+	 * @param string $defaultUiTypeClassName
 	 * @return void
 	 */
-	public static function setLoaderUiTypes(string $uiTypeClassName)
+	public static function setDefaultUiTypeClassName(string $defaultUiTypeClassName)
 	{
-		static::$uiTypeClassName = $uiTypeClassName;
+		static::$defaultUiTypeClassName = $defaultUiTypeClassName;
 	}
 
 	public function isRoleBased()
