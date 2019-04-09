@@ -24,7 +24,7 @@ class Base extends \Vtiger_Base_UIType
 		$uiTypeClassSuffix = ucfirst($fieldModel->getFieldDataType());
 		$instance = false;
 		foreach ([$fieldModel->getModuleName(), 'Vtiger'] as $moduleName) {
-			$className = "\\Api\\Core\\Modules\\{$moduleName}\\uitypes\\{$uiTypeClassSuffix}";
+			$className = "\\Api\\Core\\Modules\\{$moduleName}\\UiTypes\\{$uiTypeClassSuffix}";
 			if (class_exists($className)) {
 				$instance = new $className();
 				$instance->set('field', $fieldModel);
