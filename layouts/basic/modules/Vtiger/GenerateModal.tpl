@@ -37,13 +37,15 @@
 			</div>
 		{/if}
 		<div class="w-75 float-left">
-			<select class="select2 form-control" id="generateMapping" data-js="select">
+			<select class="select2 form-control" id="generateMapping" data-template-result="prependDataTemplate"
+					data-template-selection="prependDataTemplate" data-js="select">
 				{foreach item=TEMPLATE from=$TEMPLATES}
 					{assign var=RELATED_MODEL value=$TEMPLATE->getRelatedModule()}
 					<option data-id="{$TEMPLATE->getId()}"
 							data-name="{$RELATED_MODEL->getName()}"
-							data-url="{$RELATED_MODEL->getCreateRecordUrl()|cat:"&reference_id=$RECORD"}">
-						&nbsp;{\App\Language::translate($TEMPLATE->getRelatedName(), $TEMPLATE->getRelatedName())}
+							data-url="{$RELATED_MODEL->getCreateRecordUrl()|cat:"&reference_id=$RECORD"}"
+							data-template="<span><span class='userIcon-{$TEMPLATE->getRelatedName()} mr-1'></span>{\App\Language::translate($TEMPLATE->getRelatedName(), $TEMPLATE->getRelatedName())}</span>">
+						{\App\Language::translate($TEMPLATE->getRelatedName(), $TEMPLATE->getRelatedName())}
 					</option>
 				{/foreach}
 			</select>
