@@ -39,17 +39,20 @@
 				<button id="generate_pdf" type="submit" class="btn btn-success">
 					<span class="fas fa-file-pdf mr-1"></span>{\App\Language::translate('LBL_GENERATE', $MODULE_NAME)}
 				</button>
-				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<span class="caret"></span>
-					<span class="sr-only">Toggle Dropdown</span>
-				</button>
-				<ul class="dropdown-menu">
-					<li>
-						<a class="dropdown-item" href="#" id="single_pdf">
-							{\App\Language::translate('LBL_GENERATE_SINGLE', $MODULE_NAME)}
-						</a>
-					</li>
-				</ul>
+				{if count($ALL_RECORDS) > 1}
+					<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false">
+						<span class="caret"></span>
+						<span class="sr-only">Toggle Dropdown</span>
+					</button>
+					<ul class="dropdown-menu">
+						<li>
+							<a class="dropdown-item" href="#" id="single_pdf">
+								{\App\Language::translate('LBL_GENERATE_SINGLE', $MODULE_NAME)}
+							</a>
+						</li>
+					</ul>
+				{/if}
 			</div>
 			{if \App\Privilege::isPermitted('OSSMail')}
 				<button id="email_pdf" type="submit" class="btn btn-info mr-0">
