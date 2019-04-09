@@ -240,7 +240,8 @@ window.modules = [
             "fetchData": "Core/Menu/fetchData"
           },
           "getters": {
-            "items": "Core/Menu/items"
+            "items": "Core/Menu/items",
+            "types": "Core/Menu/types"
           },
           "mutations": {
             "updateItems": "Core/Menu/updateItems",
@@ -383,6 +384,7 @@ window.modules = [
         "autoLoad": true,
         "entry": "src\\modules\\Settings\\modules\\Menu\\Menu.vue.js",
         "directories": [
+          "components",
           "pages",
           "router"
         ],

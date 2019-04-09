@@ -9,5 +9,9 @@ export default {
    */
   items(state) {
     return state.items
+  },
+
+  types(state) {
+    return state.types
   }
 }

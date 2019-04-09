@@ -74,7 +74,9 @@
                 size="sm"
                 @click.stop.prevent="onPlus(prop.node)"
                 v-if="prop.node.$_options.buttons.add"
-              />
+              >
+                <slot name="addButton" />
+              </q-btn>
               <q-btn
                 :ripple="false"
                 round
@@ -83,7 +85,9 @@
                 size="sm"
                 @click.stop.prevent="onMinus(prop.node)"
                 v-if="prop.node.$_options.buttons.remove"
-              />
+              >
+                <slot name="removeButton" />
+              </q-btn>
               <q-btn
                 :ripple="false"
                 round
@@ -92,7 +96,9 @@
                 size="sm"
                 @click.stop.prevent="onEdit(prop.node)"
                 v-if="prop.node.$_options.buttons.edit"
-              />
+              >
+                <slot name="editButton" />
+              </q-btn>
             </q-btn-group>
           </slot>
         </hook-wrapper>
@@ -326,6 +332,13 @@ export default {
      */
     onPlus(node) {
       this.$emit('action:add', node)
+    },
+
+    /**
+     * Remove node
+     */
+    onMinus(node) {
+      console.log('remove')
     },
 
     /**

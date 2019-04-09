@@ -19,7 +19,8 @@ export default {
     },
     "Language": {},
     "Menu": {
-      "items": "Core/Menu/items"
+      "items": "Core/Menu/items",
+      "types": "Core/Menu/types"
     },
     "Url": {
       "get": "Core/Url/get"

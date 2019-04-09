@@ -5257,7 +5257,7 @@ input[type='search']::-webkit-search-decoration {
   border-radius: 0;
 }
 .q-badge {
-  background-color: #9c27b0;
+  background-color: #027be3;
   background-color: var(--q-color-primary);
   color: #fff;
   padding: 2px 6px;
@@ -5933,7 +5933,7 @@ a.q-btn {
 }
 .q-checkbox__inner--active,
 .q-checkbox__inner--indeterminate {
-  color: #9c27b0;
+  color: #027be3;
   color: var(--q-color-primary);
 }
 .q-checkbox__inner--active .q-checkbox__bg,
@@ -5966,7 +5966,7 @@ a.q-btn {
 }
 .q-checkbox--dark .q-checkbox__inner--active,
 .q-checkbox--dark .q-checkbox__inner--indeterminate {
-  color: #9c27b0;
+  color: #027be3;
   color: var(--q-color-primary);
 }
 .q-checkbox--dark.disabled .q-checkbox__inner,
@@ -6354,7 +6354,7 @@ body.desktop .q-chip--clickable:focus {
 .q-date__header {
   border-top-left-radius: inherit;
   color: #fff;
-  background-color: #9c27b0;
+  background-color: #027be3;
   background-color: var(--q-color-primary);
   padding: 16px;
 }
@@ -6534,7 +6534,7 @@ body.desktop .q-chip--clickable:focus {
 .q-time__header {
   border-top-left-radius: inherit;
   color: #fff;
-  background-color: #9c27b0;
+  background-color: #027be3;
   background-color: var(--q-color-primary);
   padding: 16px;
   font-weight: 300;
@@ -6604,7 +6604,7 @@ body.desktop .q-chip--clickable:focus {
   left: 50%;
   right: 0;
   bottom: 0;
-  color: #9c27b0;
+  color: #027be3;
   color: var(--q-color-primary);
   background: currentColor;
   transform: translate3d(-50%, 0, 0);
@@ -6644,7 +6644,7 @@ body.desktop .q-chip--clickable:focus {
   opacity: 0.4;
 }
 .q-time__clock-position--active {
-  background-color: #9c27b0;
+  background-color: #027be3;
   background-color: var(--q-color-primary);
   color: #fff;
 }
@@ -6793,7 +6793,7 @@ body.desktop .q-chip--clickable:focus {
   left: 50% /* rtl:ignore */;
 }
 .q-time__now-button {
-  background-color: #9c27b0;
+  background-color: #027be3;
   background-color: var(--q-color-primary);
   color: #fff;
   top: 12px;
@@ -7145,7 +7145,7 @@ body.desktop .q-chip--clickable:focus {
   height: inherit;
 }
 .q-field__control {
-  color: #9c27b0;
+  color: #027be3;
   color: var(--q-color-primary);
   height: 56px;
   max-width: 100%;
@@ -7457,7 +7457,7 @@ body.desktop .q-chip--clickable:focus {
   animation: q-field-label 0.36s;
 }
 .q-field--error .q-field__bottom {
-  color: #f44336;
+  color: #c10015;
   color: var(--q-color-negative);
 }
 .q-field--auto-height .q-field__control {
@@ -7687,7 +7687,7 @@ body.mobile .q-textarea .q-field__native,
   box-shadow: 0 0 10px 2px rgba(0,0,0,0.2), 0 0px 10px rgba(0,0,0,0.24);
 }
 .q-layout__section--marginal {
-  background-color: #9c27b0;
+  background-color: #027be3;
   background-color: var(--q-color-primary);
   color: #fff;
 }
@@ -7858,7 +7858,7 @@ body.q-ios-statusbar-x .modal:not(.minimized) .q-footer > .q-toolbar:last-child 
   width: 100%;
   overflow: hidden;
   height: 4px;
-  color: #9c27b0;
+  color: #027be3;
   color: var(--q-color-primary);
 }
 .q-linear-progress--reverse {
@@ -8165,7 +8165,7 @@ body.q-ios-statusbar-x .modal:not(.minimized) .q-footer > .q-toolbar:last-child 
 }
 .q-item.q-router-link--active,
 .q-item--active {
-  color: #9c27b0;
+  color: #027be3;
   color: var(--q-color-primary);
 }
 .q-slide-item {
@@ -8272,7 +8272,7 @@ body.q-ios-statusbar-x .modal:not(.minimized) .q-footer > .q-toolbar:last-child 
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  color: #9c27b0;
+  color: #027be3;
   color: var(--q-color-primary);
   background: #fff;
   box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.3);
@@ -8326,7 +8326,7 @@ body.q-ios-statusbar-x .modal:not(.minimized) .q-footer > .q-toolbar:last-child 
   color: rgba(0,0,0,0.54);
 }
 .q-radio__inner--active {
-  color: #9c27b0;
+  color: #027be3;
   color: var(--q-color-primary);
 }
 .q-radio__inner--active .q-radio__inner-circle {
@@ -8346,7 +8346,7 @@ body.q-ios-statusbar-x .modal:not(.minimized) .q-footer > .q-toolbar:last-child 
   opacity: 0.32 !important;
 }
 .q-radio--dark .q-radio__inner--active {
-  color: #9c27b0;
+  color: #027be3;
   color: var(--q-color-primary);
 }
 .q-radio--dark.disabled .q-radio__inner,
@@ -8513,7 +8513,7 @@ body.desktop .q-radio--dense:focus .q-radio__inner:before {
   position: relative;
   width: 100%;
   height: 40px;
-  color: #9c27b0;
+  color: #027be3;
   color: var(--q-color-primary);
   outline: 0;
 }
@@ -8898,7 +8898,7 @@ body.desktop .q-radio--dense:focus .q-radio__inner:before {
 }
 .q-stepper__tab--active,
 .q-stepper__tab--done {
-  color: #9c27b0;
+  color: #027be3;
 }
 .q-stepper__tab--active .q-stepper__dot,
 .q-stepper__tab--done .q-stepper__dot,
@@ -8913,7 +8913,7 @@ body.desktop .q-radio--dense:focus .q-radio__inner:before {
   color: rgba(0,0,0,0.32);
 }
 .q-stepper__tab--error {
-  color: #f44336;
+  color: #c10015;
 }
 .q-stepper__tab--error .q-stepper__dot {
   background: transparent !important;
@@ -9829,7 +9829,7 @@ body.mobile .q-tabs__arrow {
   padding: 13px 12px;
 }
 .q-toggle__inner--active {
-  color: #9c27b0;
+  color: #027be3;
   color: var(--q-color-primary);
 }
 .q-toggle__inner--active .q-toggle__track {
@@ -9866,7 +9866,7 @@ body.mobile .q-tabs__arrow {
   color: rgba(255,255,255,0.7);
 }
 .q-toggle--dark .q-toggle__inner--active {
-  color: #9c27b0;
+  color: #027be3;
   color: var(--q-color-primary);
 }
 .q-toggle--dark .q-toggle__thumb:before {
@@ -10108,7 +10108,7 @@ body.desktop .q-toggle:focus:not(.disabled) .q-toggle__thumb:before {
   position: relative;
   border-top-left-radius: inherit;
   border-top-right-radius: inherit;
-  background-color: #9c27b0;
+  background-color: #027be3;
   background-color: var(--q-color-primary);
   color: #fff;
   width: 100%;
@@ -10512,20 +10512,20 @@ body.q-ios-statusbar-x .q-notifications__list--bottom {
   }
 }
 :root {
-  --q-color-primary: #9c27b0;
+  --q-color-primary: #027be3;
   --q-color-secondary: #26a69a;
   --q-color-accent: #9c27b0;
   --q-color-positive: #21ba45;
-  --q-color-negative: #f44336;
+  --q-color-negative: #c10015;
   --q-color-info: #31ccec;
   --q-color-warning: #f2c037;
 }
 .text-primary {
-  color: #9c27b0 !important;
+  color: #027be3 !important;
   color: var(--q-color-primary) !important;
 }
 .bg-primary {
-  background: #9c27b0 !important;
+  background: #027be3 !important;
   background: var(--q-color-primary) !important;
 }
 .text-secondary {
@@ -10553,11 +10553,11 @@ body.q-ios-statusbar-x .q-notifications__list--bottom {
   background: var(--q-color-positive) !important;
 }
 .text-negative {
-  color: #f44336 !important;
+  color: #c10015 !important;
   color: var(--q-color-negative) !important;
 }
 .bg-negative {
-  background: #f44336 !important;
+  background: #c10015 !important;
   background: var(--q-color-negative) !important;
 }
 .text-info {
