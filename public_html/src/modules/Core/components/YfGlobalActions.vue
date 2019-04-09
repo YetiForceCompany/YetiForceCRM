@@ -2,7 +2,7 @@
 <template>
   <hook-wrapper class="Core-Component-YfGlobalActions">
     <div>
-      <q-btn round :size="iconSize" flat icon="mdi-plus" @click="setDialog(true)" />
+      <q-btn round :size="iconSize" flat icon="mdi-plus" />
       <q-btn round :size="iconSize" flat icon="mdi-email-outline" />
       <q-btn round :size="iconSize" flat icon="mdi-bell-ring-outline" />
       <q-btn round :size="iconSize" flat icon="mdi-calendar-multiselect" />
@@ -17,7 +17,7 @@
 import actions from 'store/actions.js'
 import ChatModal from '/Base/modules/Chat/components/Modal.vue.js'
 export default {
-  name: 'YfGlobalActions',
+  name: 'Yf-GlobalActions',
   components: {
     ChatModal
   },

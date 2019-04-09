@@ -1,85 +1,87 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template v-slot:chatMessages>
-  <q-page-container class="cyscys">
-    <div class="row col-12 q-px-sm">
-      <div class="col-12">
-        <q-input v-show="inputSearchVisible" borderless v-model="inputSearchSearch" :placeholder="placeholder">
-          <template v-slot:prepend>
-            <q-icon
-              v-show="visible"
-              name="close"
-              @click=";(inputSearchSearch = ''), (visible = false)"
-              class="cursor-pointer"
-            />
-          </template>
-          <template v-slot:append>
-            <i @click="visible = true" class="q-icon mdi mdi-magnify cursor-pointer"></i>
-          </template>
-        </q-input>
+  <q-page-container>
+    <q-page>
+      <div class="row col-12 q-px-sm">
+        <div class="col-12">
+          <q-input v-show="inputSearchVisible" borderless v-model="inputSearchSearch" :placeholder="placeholder">
+            <template v-slot:prepend>
+              <q-icon
+                v-show="visible"
+                name="close"
+                @click=";(inputSearchSearch = ''), (visible = false)"
+                class="cursor-pointer"
+              />
+            </template>
+            <template v-slot:append>
+              <i @click="visible = true" class="q-icon mdi mdi-magnify cursor-pointer"></i>
+            </template>
+          </q-input>
 
-        <div v-show="tabHistoryShow" class="row q-pb-sm">
-          <div class="col-12">
-            <q-tabs v-model="tabHistory" class="text-teal col-10">
-              <q-tab name="ulubiony" label="Ulubiony" />
-              <q-tab name="grupowy" label="Pokój grupy" />
-              <q-tab name="globalny" label="Pokoje globalne" />
-            </q-tabs>
+          <div v-show="tabHistoryShow" class="row q-pb-sm">
+            <div class="col-12">
+              <q-tabs v-model="tabHistory" class="text-teal col-10">
+                <q-tab name="ulubiony" label="Ulubiony" />
+                <q-tab name="grupowy" label="Pokój grupy" />
+                <q-tab name="globalny" label="Pokoje globalne" />
+              </q-tabs>
+            </div>
           </div>
         </div>
+        <div class="col-12">
+          <q-separator />
+        </div>
       </div>
-      <div class="col-12">
+      <div class="col-12 q-px-sm">
+        <q-scroll-area
+          :thumb-style="thumbStyle"
+          :content-style="contentStyle"
+          :content-active-style="contentActiveStyle"
+          style="height: 620px;"
+        >
+          <div class="text-center q-mt-xl">
+            <q-btn class="">
+              <i aria-hidden="true" class="q-icon mdi mdi-chevron-double-up"></i>
+              Więcej
+            </q-btn>
+          </div>
+          <div v-for="row in dataRow" :key="row.id">
+            <div class="q-pa-md row justify-center">
+              <q-chat-message
+                :name="row.user_name"
+                :avatar="row.img"
+                :text="[row.messages]"
+                :stamp="row.created"
+                class="col-12 "
+                size="8"
+                :bg-color="row.color"
+                v-if="row.user_name !== 'Administrator'"
+                sent
+              />
+              <q-chat-message
+                :name="row.user_name"
+                :stamp="row.created"
+                :avatar="row.img"
+                :text="[row.messages]"
+                class="col-12"
+                :bg-color="row.color"
+                size="8"
+                text-color="white"
+                v-if="row.user_name === 'Administrator'"
+              />
+            </div>
+          </div>
+        </q-scroll-area>
         <q-separator />
-      </div>
-    </div>
-    <div class="col-12 q-px-sm">
-      <q-scroll-area
-        :thumb-style="thumbStyle"
-        :content-style="contentStyle"
-        :content-active-style="contentActiveStyle"
-        style="height: 620px;"
-      >
-        <div class="text-center q-mt-xl">
-          <q-btn class="">
-            <i aria-hidden="true" class="q-icon mdi mdi-chevron-double-up"></i>
-            Więcej
-          </q-btn>
+        <div class="col-12">
+          <q-input borderless v-model="text" type="textarea" autogrow :placeholder="placeholderTexttera" :dense="dense">
+            <template v-slot:append>
+              <q-btn type="submit" :loading="submitting" round color="secondary" icon="mdi-send" />
+            </template>
+          </q-input>
         </div>
-        <div v-for="row in dataRow" :key="row.id">
-          <div class="q-pa-md row justify-center">
-            <q-chat-message
-              :name="row.user_name"
-              :avatar="row.img"
-              :text="[row.messages]"
-              :stamp="row.created"
-              class="col-12 "
-              size="8"
-              :bg-color="row.color"
-              v-if="row.user_name !== 'Administrator'"
-              sent
-            />
-            <q-chat-message
-              :name="row.user_name"
-              :stamp="row.created"
-              :avatar="row.img"
-              :text="[row.messages]"
-              class="col-12"
-              :bg-color="row.color"
-              size="8"
-              text-color="white"
-              v-if="row.user_name === 'Administrator'"
-            />
-          </div>
-        </div>
-      </q-scroll-area>
-      <q-separator />
-      <div class="col-12">
-        <q-input borderless v-model="text" type="textarea" autogrow :placeholder="placeholderTexttera" :dense="dense">
-          <template v-slot:append>
-            <q-btn type="submit" :loading="submitting" round color="secondary" icon="mdi-send" />
-          </template>
-        </q-input>
       </div>
-    </div>
+    </q-page>
   </q-page-container>
 </template>
 <script>
