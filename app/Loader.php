@@ -22,7 +22,7 @@ class Loader
 	 *
 	 * @var string
 	 */
-	private static $moduleBasic = 'Vtiger';
+	private static $moduleBasic = 'Base';
 	/**
 	 * Class map.
 	 *
@@ -107,6 +107,12 @@ class Loader
 			$moduleBasic = str_replace($moduleBase, self::$moduleBasic, $moduleName);
 			$class = "\\Modules\\{$moduleBasic}\\{$componentType}\\{$componentName}";
 		}
+		// deprecated
+		if (!class_exists($class) && 'Vtiger' !== $moduleBase) {
+			$moduleBasic = str_replace($moduleBase, 'Vtiger', $moduleName);
+			$class = "\\Modules\\{$moduleBasic}\\{$componentType}\\{$componentName}";
+		}
+
 		if ($throwException && !class_exists($class)) {
 			\App\Log::error("Error ({$componentType}, {$componentName}, {$moduleName}): Handler not found: {$class}");
 			throw new Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
