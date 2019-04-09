@@ -9,7 +9,7 @@
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
 
-namespace Api\Core\Modules\Vtiger\uitypes;
+namespace Api\Core\Modules\Vtiger\UiTypes;
 
 /**
  * UIType Image Field Class.
