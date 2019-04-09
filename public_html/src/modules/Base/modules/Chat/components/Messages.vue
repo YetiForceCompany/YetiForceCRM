@@ -1,6 +1,6 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template v-slot:chatMessages>
-  <q-page-container>
+  <q-page-container class="cyscys">
     <div class="row col-12 q-px-sm">
       <div class="col-12">
         <q-input v-show="inputSearchVisible" borderless v-model="inputSearchSearch" :placeholder="placeholder">
@@ -31,12 +31,12 @@
         <q-separator />
       </div>
     </div>
-    <div class="col-12  q-px-sm">
+    <div class="col-12 q-px-sm">
       <q-scroll-area
         :thumb-style="thumbStyle"
         :content-style="contentStyle"
         :content-active-style="contentActiveStyle"
-        style="height: 700px;"
+        style="height: 620px;"
       >
         <div class="text-center q-mt-xl">
           <q-btn class="">
@@ -75,7 +75,7 @@
       <div class="col-12">
         <q-input borderless v-model="text" type="textarea" autogrow :placeholder="placeholderTexttera" :dense="dense">
           <template v-slot:append>
-            <q-btn type="submit" :loading="submitting" round color="secondary" icon="send" />
+            <q-btn type="submit" :loading="submitting" round color="secondary" icon="mdi-send" />
           </template>
         </q-input>
       </div>

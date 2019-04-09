@@ -1,6 +1,6 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <q-drawer v-model="right" side="right" bordered>
+  <q-drawer :value="rightPanel" side="right" bordered>
     <div class="bg-grey-11 fit">
       <q-input v-model="inputSearchUsers.search" :placeholder="placeholderUsers" class="col-12 q-pb-sm q-px-sm">
         <template v-slot:prepend>
@@ -39,6 +39,7 @@
   </q-drawer>
 </template>
 <script>
+import getters from '/store/getters.js'
 export default {
   name: 'ChatRightPanel',
   data() {
@@ -70,6 +71,11 @@ export default {
         }
       }
     }
+  },
+  computed: {
+    ...Vuex.mapGetters({
+      rightPanel: getters.Base.Chat.rightPanel
+    })
   }
 }
 </script>

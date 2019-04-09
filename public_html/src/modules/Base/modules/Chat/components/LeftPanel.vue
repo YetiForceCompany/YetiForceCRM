@@ -1,6 +1,6 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <q-drawer v-model="left" side="left" bordered>
+  <q-drawer :value="leftPanel" side="left" bordered>
     <div class="bg-grey-9 fit">
       <div class="col-12 ">
         <q-input v-model="inputRoom" dark color="white" :placeholder="placeholderRoom" class="col-12 q-pb-sm q-px-sm">
@@ -56,6 +56,8 @@
   </q-drawer>
 </template>
 <script>
+import getters from '/store/getters.js'
+
 export default {
   name: 'ChatLeftPanel',
   props: {
@@ -66,6 +68,7 @@ export default {
     return {
       iconSize: '.75rem',
       maximizedToggle: true,
+      left: false,
       roomsByUser: {
         crm: {
           0: { roomid: 1, userid: 1, recordid: 167, name: 'Promax', cnt_new_message: 1, moduleName: 'Accounts' }
@@ -99,6 +102,11 @@ export default {
       moduleName: 'Chat',
       dense: false
     }
+  },
+  computed: {
+    ...Vuex.mapGetters({
+      leftPanel: getters.Base.Chat.leftPanel
+    })
   },
   methods: {
     footerGroup: function(groupName) {

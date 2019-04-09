@@ -1,6 +1,6 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <div>
+  <div class="inline-block">
     <q-btn round :size="iconSize" flat icon="mdi-forum-outline" @click="dialog = true" />
     <q-dialog
       v-model="dialog"
@@ -14,11 +14,9 @@
   </div>
 </template>
 <script>
-import Chat from '/Base/modules/Chat/Chat.vue.js'
+import Chat from '/Base/modules/Chat/components/Chat.vue.js'
 import getters from '/store/getters.js'
 import actions from '/store/actions.js'
-
-console.log(getters.Base.Chat.maximizedDialog)
 
 export default {
   name: 'Modal',

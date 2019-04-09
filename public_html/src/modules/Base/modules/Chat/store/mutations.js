@@ -2,5 +2,14 @@
 export default {
   dialog(state, idOpen) {
     state.dialog = idOpen
+  },
+  maximizedDialog(state, isMax) {
+    state.maximizedDialog = isMax
+  },
+  leftPanel(state, isOpen) {
+    state.leftPanel = isOpen
+  },
+  rightPanel(state, isOpen) {
+    state.rightPanel = isOpen
   }
 }

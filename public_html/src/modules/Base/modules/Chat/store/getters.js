@@ -5,5 +5,11 @@ export default {
   },
   maximizedDialog(state) {
     return state.maximizedDialog
+  },
+  leftPanel(state) {
+    return state.leftPanel
+  },
+  rightPanel(state) {
+    return state.rightPanel
   }
 }
