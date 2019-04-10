@@ -37,7 +37,7 @@
 			</div>
 		{/if}
 		<div class="w-75 float-left">
-			<select class="select2 form-control" id="generateMapping" data-template-result="prependDataTemplate"
+			<select class="select2 form-control js-generate-mapping" data-template-result="prependDataTemplate"
 					data-template-selection="prependDataTemplate" data-js="select">
 				{foreach item=TEMPLATE from=$TEMPLATES}
 					{assign var=RELATED_MODEL value=$TEMPLATE->getRelatedModule()}

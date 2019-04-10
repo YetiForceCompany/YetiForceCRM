@@ -12,9 +12,9 @@ jQuery.Class("Vtiger_GenerateModal_Js", {}, {
 					enabled: true
 				}
 			});
-			let currentTarget = container.find('#generateMapping option:selected'),
+			let currentTarget = container.find('.js-generate-mapping option:selected'),
 				actionUrl = currentTarget.data('url'),
-				method = $('[name="method"]:checked');
+				method = container.find('[name="method"]:checked');
 			if (method.length <= 0) {
 				window.location.href = actionUrl;
 			} else {
@@ -22,7 +22,7 @@ jQuery.Class("Vtiger_GenerateModal_Js", {}, {
 				params.data = {
 					module: app.getModuleName(),
 					action: 'GenerateRecords',
-					records: $('[name="all_records"]').val(),
+					records: container.find('[name="all_records"]').val(),
 					template: currentTarget.data('id'),
 					target: currentTarget.data('name'),
 					method: method.val()
