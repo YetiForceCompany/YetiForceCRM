@@ -23,10 +23,10 @@ export default {
         children: []
       },
       {
-        name: 'Settings',
+        name: 'Testing',
         path: '',
         icon: 'mdi-settings',
-        label: 'Settings',
+        label: 'Testing',
         children: [
           {
             name: 'Settings.ModuleExample',
