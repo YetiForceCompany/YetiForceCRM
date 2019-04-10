@@ -2435,11 +2435,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 							container.find('[name="page"]:last').val(dataObj.find('[name="page"]').val());
 							if (containerTable.length) {
 								containerTable.append(dataObj.find('tbody tr'));
+								if (dataObj.find('.moreRecentRecords').length) {
+									currentTarget.removeClass('d-none');
+								}
 							} else {
 								container.find('.js-detail-widget-content').append(dataObj);
-							}
-							if (dataObj.find('.moreSummaryElements').length) {
-								container.find('.moreSummaryElements').removeClass('d-none');
 							}
 						}
 					);
