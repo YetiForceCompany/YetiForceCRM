@@ -23,6 +23,9 @@ export default {
       "add": "Core/Hooks/add",
       "remove": "Core/Hooks/remove"
     },
+    "Icons": {
+      "setIcon": "Core/Icons/setIcon"
+    },
     "Language": {
       "update": "Core/Language/update"
     },

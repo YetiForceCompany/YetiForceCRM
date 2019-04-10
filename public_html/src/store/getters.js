@@ -23,6 +23,9 @@ export default {
     "Hooks": {
       "get": "Core/Hooks/get"
     },
+    "Icons": {
+      "get": "Core/Icons/get"
+    },
     "Language": {},
     "Menu": {
       "items": "Core/Menu/items",

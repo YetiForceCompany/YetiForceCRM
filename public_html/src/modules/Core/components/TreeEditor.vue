@@ -1,4 +1,12 @@
-<!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
+<!--
+/**
+ * TreeEditor component
+ *
+ * @description component for editing tree-like structures
+ * @license YetiForce Public License 3.0
+ * @author Rafal Pospiech <r.pospiech@yetiforce.com>
+ */
+-->
 <template>
   <q-tree :nodes="cNodes" :node-key="internalOptions.nodeKey">
     <template v-slot:default-header="prop">

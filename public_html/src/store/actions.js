@@ -16,6 +16,7 @@ export default {
     "Debug": {},
     "Env": {},
     "Hooks": {},
+    "Icons": {},
     "Language": {},
     "Menu": {
       "fetchData": "Core/Menu/fetchData"
