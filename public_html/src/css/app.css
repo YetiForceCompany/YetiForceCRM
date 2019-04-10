@@ -7457,7 +7457,7 @@ body.desktop .q-chip--clickable:focus {
   animation: q-field-label 0.36s;
 }
 .q-field--error .q-field__bottom {
-  color: #c10015;
+  color: #f44336;
   color: var(--q-color-negative);
 }
 .q-field--auto-height .q-field__control {
@@ -8913,7 +8913,7 @@ body.desktop .q-radio--dense:focus .q-radio__inner:before {
   color: rgba(0,0,0,0.32);
 }
 .q-stepper__tab--error {
-  color: #c10015;
+  color: #f44336;
 }
 .q-stepper__tab--error .q-stepper__dot {
   background: transparent !important;
@@ -10516,7 +10516,7 @@ body.q-ios-statusbar-x .q-notifications__list--bottom {
   --q-color-secondary: #26a69a;
   --q-color-accent: #9c27b0;
   --q-color-positive: #21ba45;
-  --q-color-negative: #c10015;
+  --q-color-negative: #f44336;
   --q-color-info: #31ccec;
   --q-color-warning: #f2c037;
 }
@@ -10553,11 +10553,11 @@ body.q-ios-statusbar-x .q-notifications__list--bottom {
   background: var(--q-color-positive) !important;
 }
 .text-negative {
-  color: #c10015 !important;
+  color: #f44336 !important;
   color: var(--q-color-negative) !important;
 }
 .bg-negative {
-  background: #c10015 !important;
+  background: #f44336 !important;
   background: var(--q-color-negative) !important;
 }
 .text-info {
