@@ -1,6 +1,12 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 export default {
   "Base": {
+    "Chat": {
+      "dialog": "Base/Chat/dialog",
+      "maximizedDialog": "Base/Chat/maximizedDialog",
+      "leftPanel": "Base/Chat/leftPanel",
+      "rightPanel": "Base/Chat/rightPanel"
+    },
     "Home": {},
     "ModuleExample": {
       "testVariable": "Base/ModuleExample/testVariable"

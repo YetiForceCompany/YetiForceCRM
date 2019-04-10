@@ -32,6 +32,40 @@ window.modules = [
     "modules": [
       {
         "parentHierarchy": "Base",
+        "fullName": "Base.Chat",
+        "name": "Chat",
+        "path": "src\\modules\\Base\\modules\\Chat",
+        "level": 1,
+        "priority": 0,
+        "autoLoad": true,
+        "entry": "src\\modules\\Base\\modules\\Chat\\Chat.vue.js",
+        "directories": [
+          "components",
+          "store"
+        ],
+        "store": {
+          "actions": {
+            "setDialog": "Base/Chat/setDialog",
+            "maximizedDialog": "Base/Chat/maximizedDialog",
+            "toggleLeftPanel": "Base/Chat/toggleLeftPanel",
+            "toggleRightPanel": "Base/Chat/toggleRightPanel"
+          },
+          "getters": {
+            "dialog": "Base/Chat/dialog",
+            "maximizedDialog": "Base/Chat/maximizedDialog",
+            "leftPanel": "Base/Chat/leftPanel",
+            "rightPanel": "Base/Chat/rightPanel"
+          },
+          "mutations": {
+            "dialog": "Base/Chat/dialog",
+            "maximizedDialog": "Base/Chat/maximizedDialog",
+            "leftPanel": "Base/Chat/leftPanel",
+            "rightPanel": "Base/Chat/rightPanel"
+          }
+        }
+      },
+      {
+        "parentHierarchy": "Base",
         "fullName": "Base.Home",
         "name": "Home",
         "path": "src\\modules\\Base\\modules\\Home",
