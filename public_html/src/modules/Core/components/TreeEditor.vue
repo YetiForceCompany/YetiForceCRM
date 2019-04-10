@@ -2,7 +2,7 @@
 <template>
   <q-tree :nodes="cNodes" :node-key="internalOptions.nodeKey">
     <template v-slot:default-header="prop">
-      <div class="row items-center" v-touch-pan.prevent.mouse.mousePrevent="handlePan">
+      <div class="row items-center">
         <q-icon :name="prop.node.icon || 'mdi-cube'" class="q-mr-sm" />
         <hook-wrapper name="label" class="label">
           <slot name="label">{{ prop.node.label }}</slot>
@@ -16,7 +16,7 @@
                 outline
                 icon="mdi-arrow-down"
                 size="sm"
-                @click.stop.prevent="onDown(prop.node)"
+                @click.stop="onDown(prop.node)"
                 v-if="prop.node.$_next"
               />
               <q-btn
@@ -25,7 +25,7 @@
                 outline
                 icon="mdi-arrow-up"
                 size="sm"
-                @click.stop.prevent="onUp(prop.node)"
+                @click.stop="onUp(prop.node)"
                 v-if="prop.node.$_previous"
               />
               <q-btn
@@ -34,7 +34,7 @@
                 outline
                 icon="mdi-arrow-left"
                 size="sm"
-                @click.stop.prevent="onLeft(prop.node)"
+                @click.stop="onLeft(prop.node)"
                 v-if="prop.node.$_parent"
               />
               <q-btn
@@ -43,7 +43,7 @@
                 outline
                 icon="mdi-arrow-bottom-right"
                 size="sm"
-                @click.stop.prevent="onBottomRight(prop.node)"
+                @click.stop="onBottomRight(prop.node)"
                 v-if="prop.node.$_next"
               />
               <q-btn
@@ -52,7 +52,7 @@
                 outline
                 icon="mdi-arrow-top-right"
                 size="sm"
-                @click.stop.prevent="onTopRight(prop.node)"
+                @click.stop="onTopRight(prop.node)"
                 v-if="prop.node.$_previous"
               />
             </q-btn-group>
@@ -72,7 +72,7 @@
                 outline
                 icon="mdi-plus"
                 size="sm"
-                @click.stop.prevent="onPlus(prop.node)"
+                @click.stop="onPlus(prop.node)"
                 v-if="prop.node.$_options.buttons.add"
               >
                 <slot name="addButton" />
@@ -83,7 +83,7 @@
                 outline
                 icon="mdi-minus"
                 size="sm"
-                @click.stop.prevent="onMinus(prop.node)"
+                @click.stop="onMinus(prop.node)"
                 v-if="prop.node.$_options.buttons.remove"
               >
                 <slot name="removeButton" />
@@ -94,7 +94,7 @@
                 outline
                 icon="mdi-square-edit-outline"
                 size="sm"
-                @click.stop.prevent="onEdit(prop.node)"
+                @click.stop="onEdit(prop.node)"
                 v-if="prop.node.$_options.buttons.edit"
               >
                 <slot name="editButton" />

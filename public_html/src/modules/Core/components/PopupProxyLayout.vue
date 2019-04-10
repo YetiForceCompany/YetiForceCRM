@@ -2,15 +2,14 @@
 <template>
   <q-popup-proxy>
     <hook-wrapper>
-      <q-layout style="min-height:10px">
+      <q-layout style="min-height:10px;">
         <q-header>
           <slot name="header">
-            <q-toolbar class="bg-blue-grey-10">
-              <q-avatar v-if="icon">
-                <q-icon :name="icon" />
-              </q-avatar>
-              <q-toolbar-title>{{ title }}</q-toolbar-title>
-            </q-toolbar>
+            <div class="row bg-primary q-pa-sm" v-if="title">
+              <div class="col">
+                <div class="text-caption text-truncate"><q-icon :name="icon" left v-if="icon" />{{ title }}</div>
+              </div>
+            </div>
           </slot>
         </q-header>
         <q-page-container>
