@@ -25,8 +25,9 @@ function initSocket() {
     return new Promise(function(resolve, reject) {
       connection = new WebSocket(store.getters[getters.Core.Env.all]['webSocket'])
       connection.onmessage = message => {
-        Socket.$emit('message', message)
-        triggerAction(JSON.parse(message.data))
+        const data = JSON.parse(message.data)
+        Socket.$emit('message', data)
+        triggerAction(data)
       }
       connection.onerror = err => {
         Socket.$emit('error', err)
@@ -46,7 +47,8 @@ function initSocket() {
 
 function triggerAction(params) {
   try {
-    const actionName = Objects.get(actions, params.action)
+    const vuexAction = `${params.parentModule}.${params.module}.${params.action}`
+    const actionName = Objects.get(actions, vuexAction)
     store.dispatch(actionName, params.data)
   } catch (err) {
     console.error('socket action doesnt exist', err)

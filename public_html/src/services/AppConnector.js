@@ -37,9 +37,8 @@ const AppConnector = {
    *
    * @return  {[type]}             [return description]
    */
-  _handleSocketResponse(resolve, reject, requestId, message) {
+  _handleSocketResponse(resolve, reject, requestId, data) {
     try {
-      const data = JSON.parse(message.data)
       if (data.id === requestId) {
         resolve(data)
         Socket.$off('message', this._handleSocket)
