@@ -178,24 +178,15 @@ export default {
   },
   mounted() {
     const vm = this
-    Socket.$on('message', data => {
-      // example listener for global websocket message event
+    AppConnector.socket({ module: 'Core', action: 'Core.Users.logout', params: { message: 'user logout!' } }, data => {
+      Quasar.plugins.Notify.create({
+        color: 'negative',
+        icon: 'mdi-exclamation',
+        message: data.params.message,
+        position: 'top',
+        actions: [{ label: vm.$t('LBL_CLOSE'), color: 'white' }]
+      })
     })
-    AppConnector.webSocketPromise().then(data => {
-      // console.log('promiser resolved with' + data)
-    })
-    AppConnector.webSocket(
-      { module: 'Core', action: 'Core.Users.logout', params: { message: 'user logout!' } },
-      data => {
-        Quasar.plugins.Notify.create({
-          color: 'negative',
-          icon: 'mdi-exclamation',
-          message: data.params.message,
-          position: 'top',
-          actions: [{ label: vm.$t('LBL_CLOSE'), color: 'white' }]
-        })
-      }
-    )
   }
 }
 </script>
