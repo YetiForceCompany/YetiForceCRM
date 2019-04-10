@@ -9,7 +9,6 @@
 -->
 <template>
   <hook-wrapper>
-    <!--<q-avatar :icon="choosenIcon.className" color="grey-10" text-color="white" />-->
     <q-btn :icon="choosenIcon.className" :label="$t('LBL_SELECT_ICON')">
       <popup-proxy-layout :title="$t('LBL_SELECT_ICON')" icon="mdi-emoticon-happy-outline">
         <template v-slot:page>
