@@ -76,6 +76,12 @@ class BaseAction
 		$this->session = new \App\Base();
 		$this->session->setData($row);
 		\App\User::setCurrentUserId($this->session->get('user_id'));
+		$userModel = \App\User::getCurrentUserModel();
+		$userModel->set('permission_type', $row['type']);
+		$userModel->set('permission_crmid', $row['crmid']);
+		\App\Privilege::setPermissionInterpreter("\\Api\\{$apiType}\\Privilege");
+		\App\PrivilegeQuery::setPermissionInterpreter("\\Api\\{$apiType}\\PrivilegeQuery");
+		\Vtiger_Field_Model::setDefaultUiTypeClassName('\\Api\\Core\\Modules\\Vtiger\\UiTypes\\Base');
 		$db->createCommand()
 			->update($sessionTable, ['changed' => date('Y-m-d H:i:s')], ['id' => $this->session->get('id')])
 			->execute();

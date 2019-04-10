@@ -59,12 +59,13 @@ class Hierarchy extends \Api\Core\BaseAction
 				throw new \Api\Core\Exception('No hierarchy', 405);
 			}
 			$field = $fields[$this->moduleName];
-			$entityFieldInfo = \App\Module::getEntityInfo($this->moduleName);
+				$entityFieldInfo = \App\Module::getEntityInfo($this->moduleName);
 			$queryGenerator = new \App\QueryGenerator($this->moduleName);
 			$this->mainFieldName = $entityFieldInfo['fieldname'];
 			$this->childField = $field['fieldname'];
 			$this->childColumn = "{$field['tablename']}.{$field['columnname']}";
 			$queryGenerator->setFields(['id', $this->childField, $this->mainFieldName]);
+			$queryGenerator->permissions = false;
 			$this->getRecords($queryGenerator, $parentCrmId);
 		}
 		if (!isset($this->records[$parentCrmId])) {
