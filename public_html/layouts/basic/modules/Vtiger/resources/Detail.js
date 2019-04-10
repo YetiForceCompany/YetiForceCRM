@@ -2429,13 +2429,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 					currentTarget.prop('disabled', true);
 					url = url.replace('&page=1', '&page=' + (++page));
 					AppConnector.request(url).done(function (data) {
-							let dataObj = $(data);
-							currentTarget.prop('disabled', false);
-							currentTarget.addClass('d-none');
-							container.find('[name="page"]').val(dataObj.find('[name="page"]').val());
-							let containerTable = container.find('.js-detail-widget-content table');
+							let dataObj = $(data),
+								containerTable = container.find('.js-detail-widget-content table');
+							currentTarget.prop('disabled', false).addClass('d-none');
+							container.find('[name="page"]:last').val(dataObj.find('[name="page"]').val());
 							if (containerTable.length) {
-								container.find('.js-detail-widget-content table').append(dataObj.find('tbody tr'));
+								containerTable.append(dataObj.find('tbody tr'));
 							} else {
 								container.find('.js-detail-widget-content').append(dataObj);
 							}
