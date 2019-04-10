@@ -1,4 +1,13 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/**
+ * App connector
+ *
+ * @description application connector
+ * @license YetiForce Public License 3.0
+ * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
+ */
+
+'use strict'
+
 import ApiService from './Api.js'
 import Socket from './WebSocket.js'
 

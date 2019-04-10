@@ -1,5 +1,13 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/**
+ * Websocket connection
+ *
+ * @description initialization and socket vue emitter
+ * @license YetiForce Public License 3.0
+ * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
+ */
+
 'use strict'
+
 import { store } from '/src/store/index.js'
 import getters from '/src/store/getters.js'
 import actions from '/src/store/actions.js'
@@ -27,7 +35,9 @@ function initSocket() {
       connection.onmessage = message => {
         const data = JSON.parse(message.data)
         Socket.$emit('message', data)
-        triggerAction(data)
+        if (!data.id) {
+          triggerAction(data)
+        }
       }
       connection.onerror = err => {
         Socket.$emit('error', err)
