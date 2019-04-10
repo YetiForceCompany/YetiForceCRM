@@ -2418,7 +2418,34 @@ jQuery.Class("Vtiger_Detail_Js", {
 		detailContentsHolder.on('click', '.moreRecentRecords', function (e) {
 			e.preventDefault();
 			var recentCommentsTab = thisInstance.getTabByModule($(this).data('label-key'));
-			recentCommentsTab.trigger('click');
+			if (recentCommentsTab.length) {
+				recentCommentsTab.trigger('click');
+			} else {
+				let currentTarget = $(e.currentTarget),
+					container = currentTarget.closest("[class^='widgetContainer_']");
+				if (container.length) {
+					let page = container.find('[name="page"]:last').val(),
+						url = container.data('url');
+					currentTarget.prop('disabled', true);
+					url = url.replace('&page=1', '&page=' + (++page));
+					AppConnector.request(url).done(function (data) {
+							let dataObj = $(data);
+							currentTarget.prop('disabled', false);
+							currentTarget.addClass('d-none');
+							container.find('[name="page"]').val(dataObj.find('[name="page"]').val());
+							let containerTable = container.find('.js-detail-widget-content table');
+							if (containerTable.length) {
+								container.find('.js-detail-widget-content table').append(dataObj.find('tbody tr'));
+							} else {
+								container.find('.js-detail-widget-content').append(dataObj);
+							}
+							if (dataObj.find('.moreSummaryElements').length) {
+								container.find('.moreSummaryElements').removeClass('d-none');
+							}
+						}
+					);
+				}
+			}
 		});
 		detailContentsHolder.on('change', '.relatedHistoryTypes', function (e) {
 			let widgetContent = jQuery(this).closest('.widgetContentBlock').find('.widgetContent'),
