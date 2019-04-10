@@ -12,6 +12,23 @@ namespace Api\Portal;
 class Privilege
 {
 	/**
+	 * Permissions based on user.
+	 */
+	const USER_PERMISSIONS = 1;
+	/**
+	 * All records of account assigned directly to contact.
+	 */
+	const ACCOUNTS_RELATED_RECORDS = 2;
+	/**
+	 * All related records of account assigned directly to contact and accounts lower in hierarchy.
+	 */
+	const ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY = 3;
+	/**
+	 * All related records of account assigned directly to contact and accounts from hierarchy.
+	 */
+	const ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY = 4;
+
+	/**
 	 * Function to check permission for a Module/Action/Record.
 	 *
 	 * @param string   $moduleName
@@ -27,12 +44,12 @@ class Privilege
 			$user = \App\User::getCurrentUserModel();
 		}
 		$permissionType = (int) $user->get('permission_type');
-		if (1 === $permissionType || empty($record)) {
+		if (static::USER_PERMISSIONS === $permissionType || empty($record)) {
 			return \App\Privilege::checkPermission($moduleName, $actionName, $record, $userId);
 		}
-		if (2 === $permissionType) {
+		if (static::ACCOUNTS_RELATED_RECORDS === $permissionType) {
 			$parentRecordId = \App\Record::getParentRecord($user->get('permission_crmid'));
-		} elseif (3 === $permissionType || 4 === $permissionType) {
+		} elseif (static::ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY === $permissionType || static::ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY === $permissionType) {
 			$parentRecordId = \App\Request::_getHeader('x-parent-id');
 			if (empty($parentRecordId)) {
 				$parentRecordId = \App\Record::getParentRecord($user->get('permission_crmid'));
