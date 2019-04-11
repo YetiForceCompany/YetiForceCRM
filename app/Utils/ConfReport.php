@@ -377,7 +377,7 @@ class ConfReport
 	 *
 	 * @return array
 	 */
-	private static function getConfig()
+	public static function getConfig()
 	{
 		$php = [];
 		foreach (ini_get_all() as $key => $value) {
@@ -461,7 +461,7 @@ class ConfReport
 	 *
 	 * @return mixed[]
 	 */
-	private static function getConfigDb()
+	public static function getConfigDb()
 	{
 		$pdo = false;
 		if (\class_exists('\App\Db')) {
