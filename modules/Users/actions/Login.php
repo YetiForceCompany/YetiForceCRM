@@ -47,7 +47,7 @@ class Login extends \App\Controller\Action
 		$method = $userModel->getDetail('login_method') ?? '';
 		$auth = \App\Auth\Base::getInstance($userId, $method, $this->request);
 		if ($result = $auth->verify()) {
-			$this->response->setEnv(\App\Config::getJsEnv());
+			$this->response->setEnv(\App\Layout\Env::getAll());
 			$this->response->set($result);
 			$this->setSessionData($userModel, $result);
 		} else {

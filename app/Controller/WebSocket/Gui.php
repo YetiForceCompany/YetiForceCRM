@@ -39,7 +39,7 @@ class Gui extends Base
 
 			$handlerClass = \App\Loader::getComponentClassName(Process::$processType, Process::$processName, $this->request->getModule(false));
 			$response = new \App\Response();
-			$response->setWebSocketServer($this->webSocket, $this->frame->fd);
+			$response->setWebSocketServer($this->webSocket->server, $this->frame->fd);
 			$handler = new $handlerClass($this->request, $response);
 			if ('socket' !== $handler->allowedProtocol && 'mix' !== $handler->allowedProtocol) {
 				throw new \App\Exceptions\InvalidProtocol('ERR_INVALID_PROTOCOL', 400);
