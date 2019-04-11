@@ -37,9 +37,9 @@ window.Calendar_CalendarModal_Js = class extends Calendar_CalendarExtended_Js {
 	* Register popover buttons click
 	*/
 	registerPopoverButtonsClickEvent() {
-		$(document).on("click", ".js-calendar-popover__button", e => {
+		$(document).on('click', '.js-calendar-popover__button', e => {
 			e.preventDefault();
-			let url = $(e.currentTarget).attr("href").replace("ActivityState", "Detail").replace("EventForm", "Edit");
+			let url = $(e.currentTarget).attr('href').replace('ActivityState', 'Detail').replace('EventForm', 'Edit');
 			app.openUrl(url);
 		});
 	}
