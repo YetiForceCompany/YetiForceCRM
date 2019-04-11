@@ -1051,6 +1051,10 @@ return [
 			'default' => 9000,
 			'description' => 'WebSocket port of the server (it needs root privileges if the port is litte than 1024)',
 			'validation' => '\App\Validator::port'
+		],
+		'url' => [
+			'default' => '',
+			'description' => 'WebSocket client url'
 		]
 	]
 ];

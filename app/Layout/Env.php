@@ -47,15 +47,16 @@ class Env
 	 */
 	public static function getEnv($mode = 'update'): array
 	{
-		if ('loginPage' === $mode) {
-			return [
-				'baseURL' => Config::main('site_URL'),
-				'publicDir' => '/src',
-				'routerMode' => 'hash',
-				'dev' => 'test' === Config::main('systemMode')
-			];
-		}
 		$env = [
+			'baseURL' => Config::main('site_URL'),
+			'publicDir' => '/src',
+			'routerMode' => 'hash',
+			'dev' => 'test' === Config::main('systemMode')
+		];
+		if ('loginPage' === $mode) {
+			return $env;
+		}
+		$env = \array_merge($env, [
 			'siteUrl' => \App\Layout::getPublicUrl('', true),
 			'layoutPath' => \App\Layout::getPublicUrl('layouts/' . \App\Layout::getActiveLayout()),
 			'soundFilesPath' => \App\Layout::getPublicUrl('layouts/resources/sounds/'),
@@ -71,19 +72,17 @@ class Env
 			'searchShowOwnerOnlyInList' => \Config\Performance::$SEARCH_SHOW_OWNER_ONLY_IN_LIST,
 			'fieldsReferencesDependent' => \Config\Security::$FIELDS_REFERENCES_DEPENDENT,
 			'webSocketUrl' => \Config\WebSocket::$url,
-		];
-		if ('loginPage' !== $mode) {
-			if (\App\Session::has('ShowAuthy2faModal')) {
-				$env['showAuthy2faModal'] = \App\Session::get('ShowAuthy2faModal');
-				if ('TOTP_OPTIONAL' === \Config\Security::$USER_AUTHY_MODE) {
-					\App\Session::delete('ShowAuthy2faModal');
-				}
+		]);
+		if (\App\Session::has('ShowAuthy2faModal')) {
+			$env['showAuthy2faModal'] = \App\Session::get('ShowAuthy2faModal');
+			if ('TOTP_OPTIONAL' === \Config\Security::$USER_AUTHY_MODE) {
+				\App\Session::delete('ShowAuthy2faModal');
 			}
-			if (\App\Session::has('ShowUserPasswordChange')) {
-				$env['showUserPasswordChange'] = \App\Session::get('ShowUserPasswordChange');
-				if (1 === (int) \App\Session::get('ShowUserPasswordChange')) {
-					\App\Session::delete('ShowUserPasswordChange');
-				}
+		}
+		if (\App\Session::has('ShowUserPasswordChange')) {
+			$env['showUserPasswordChange'] = \App\Session::get('ShowUserPasswordChange');
+			if (1 === (int) \App\Session::get('ShowUserPasswordChange')) {
+				\App\Session::delete('ShowUserPasswordChange');
 			}
 		}
 		return $env;
@@ -98,17 +97,18 @@ class Env
 	 */
 	public static function getLanguage($mode = 'update'): array
 	{
+		$lang = \App\Language::getLanguage();
+		$env = [
+			'lang' => $lang,
+			'translations' => \App\Language::getLanguageData($lang),
+		];
 		if ('loginPage' === $mode) {
-			$lang = \App\Language::getLanguage();
-			return [
-				'lang' => $lang,
-				'translations' => \App\Language::getLanguageData($lang),
-			];
+			return $env;
 		}
-		return [
+		return \array_merge($env, [
 			'langPrefix' => \App\Language::getLanguage(),
 			'langKey' => \App\Language::getShortLanguageName(),
-		];
+		]);
 	}
 
 	/**
@@ -135,22 +135,23 @@ class Env
 	 */
 	public static function getUser($mode = 'update'): array
 	{
+    $bruteForceInstance = \Settings\BruteForce\Models\Module::getCleanInstance();
+    $env = [
+      'isLoggedIn' => \App\User::isLoggedIn(),
+      'isBlockedIp' => $bruteForceInstance->isActive() && $bruteForceInstance->isBlockedIp(),
+      'loginPageRememberCredentials' => \Config\Security::$LOGIN_PAGE_REMEMBER_CREDENTIALS,
+      'resetLoginPassword' => \Config\Security::$RESET_LOGIN_PASSWORD,
+      'langInLoginView' => \App\Config::main('langInLoginView'),
+      'layoutInLoginView' => \App\Config::main('layoutInLoginView'),
+      'defaultLayout' => \App\Config::main('defaultLayout')
+		];
 		if ('loginPage' === $mode) {
-			$bruteForceInstance = \Settings\BruteForce\Models\Module::getCleanInstance();
-			return [
-				'isLoggedIn' => \App\User::isLoggedIn(),
-				'isBlockedIp' => $bruteForceInstance->isActive() && $bruteForceInstance->isBlockedIp(),
-				'loginPageRememberCredentials' => \Config\Security::$LOGIN_PAGE_REMEMBER_CREDENTIALS,
-				'resetLoginPassword' => \Config\Security::$RESET_LOGIN_PASSWORD,
-				'langInLoginView' => \App\Config::main('langInLoginView'),
-				'layoutInLoginView' => \App\Config::main('layoutInLoginView'),
-				'defaultLayout' => \App\Config::main('defaultLayout')
-			];
+			return $env;
 		}
 		$userModel = \App\User::getCurrentUserModel();
 		if ($userModel->isActive()) {
-			$details = $userModel->getDetails();
-			return [
+      $details = $userModel->getDetails();
+      $env =  \array_merge($env, [
 				'userId' => $userModel->getId(),
 				'currencyId' => $details['currency_id'],
 				'currencyName' => $details['currency_name'],
@@ -171,8 +172,8 @@ class Env
 				'firstDayOfWeek' => $details['dayoftheweek'],
 				'firstDayOfWeekNo' => \App\Fields\Date::$dayOfWeek[$details['dayoftheweek']] ?? false,
 				'timeZone' => $details['time_zone'],
-			];
+      ]);
 		}
-		return [];
+		return $env;
 	}
 }
