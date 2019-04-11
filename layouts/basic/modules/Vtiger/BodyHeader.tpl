@@ -13,21 +13,25 @@
 					</a>
 				</div>
 			</div>
-
-			{if AppConfig::performance('GLOBAL_SEARCH')}
+			{if \App\Config::performance('GLOBAL_SEARCH')}
 				<div class="js-global-search__input o-global-search__input o-global-search__input--desktop input-group input-group-sm d-none d-xl-flex"
 					 data-js="container">
 					<div class="input-group-prepend select2HeaderWidth">
+						{assign var="USER_DEFAULT_MODULE" value=$USER_MODEL->get('default_search_module')}
+						{assign var="DEFAULT_OVERRIDE" value=$USER_MODEL->get('default_search_override')}
+						{assign var="SELECTABLE_ACTUAL_MODULE" value="{array_key_exists($MODULE_NAME,$SEARCHABLE_MODULES)}"}
+						{assign var="SELECTABLE_USER_MODULE" value="{array_key_exists($USER_DEFAULT_MODULE,$SEARCHABLE_MODULES)}"}
 						<select class="select2 basicSearchModulesList form-control"
 								title="{\App\Language::translate('LBL_SEARCH_MODULE')}" data-dropdown-auto-width="true">
 							<option value="-">{\App\Language::translate('LBL_ALL_RECORDS')}</option>
 							{foreach key=SEARCHABLE_MODULE item=fieldObject from=$SEARCHABLE_MODULES}
-								{if isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $SEARCHABLE_MODULE && $SEARCHED_MODULE !== 'All'}
-									<option value="{$SEARCHABLE_MODULE}"
-											selected>{\App\Language::translate($SEARCHABLE_MODULE,$SEARCHABLE_MODULE)}</option>
-								{else}
-									<option value="{$SEARCHABLE_MODULE}">{\App\Language::translate($SEARCHABLE_MODULE,$SEARCHABLE_MODULE)}</option>
+								{assign var="SELECTED" value=""}
+								{if $SEARCHABLE_MODULE === $USER_DEFAULT_MODULE && ($DEFAULT_OVERRIDE || !$SELECTABLE_ACTUAL_MODULE) && $SELECTABLE_USER_MODULE}
+									{assign var="SELECTED" value="selected"}
+								{elseif !$USER_MODEL->get('default_override') && isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $SEARCHABLE_MODULE && $SEARCHED_MODULE !== 'All'}
+									{assign var="SELECTED" value="selected"}
 								{/if}
+								<option value="{$SEARCHABLE_MODULE}" {$SELECTED}>{\App\Language::translate($SEARCHABLE_MODULE,$SEARCHABLE_MODULE)}</option>
 							{/foreach}
 						</select>
 					</div>
@@ -317,7 +321,8 @@
 							{/if}
 							<div class="o-action-menu__item">
 								<a class="c-header__btn ml-2 btn btn js-popover-tooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-light {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}"
-								   role="button" data-js="popover" data-content="{\App\Language::translate($TITLE)}" data-placement="bottom"
+								   role="button" data-js="popover" data-content="{\App\Language::translate($TITLE)}"
+								   data-placement="bottom"
 								   href="{$HREF}"
 										{if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
 									{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
