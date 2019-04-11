@@ -57,8 +57,11 @@ function initSocket() {
 
 function triggerAction(params) {
   try {
-    const vuexAction = `${params.parentModule}.${params.module}.${params.action}`
-    const actionName = Objects.get(actions, vuexAction)
+    const vuexAction = `${params.module}.${params.action}`
+    let actionName = Objects.get(actions.Base, vuexAction)
+    if (!actionName) {
+      actionName = Objects.get(actions.Core, vuexAction)
+    }
     store.dispatch(actionName, params.data)
   } catch (err) {
     console.error('socket action doesnt exist', err)
