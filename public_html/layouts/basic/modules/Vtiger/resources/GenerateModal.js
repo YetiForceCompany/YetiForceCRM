@@ -3,39 +3,39 @@
 
 jQuery.Class("Vtiger_GenerateModal_Js", {}, {
 	registerGenetateButton: function (container) {
-		var thisInstance = this;
+		const thisInstance = this;
 		container.find('button.js-genetate-button').on('click', function (e) {
-			document.progressLoader = jQuery.progressIndicator({
+			document.progressLoader = $.progressIndicator({
 				message: app.vtranslate('JS_LOADING_PLEASE_WAIT'),
 				position: 'html',
 				blockInfo: {
 					enabled: true
 				}
 			});
-			var currentTarget = jQuery(e.currentTarget);
-			var actionUrl = currentTarget.data('url');
-			var method = jQuery('[name="method"]:checked');
+			let currentTarget = container.find('.js-generate-mapping option:selected'),
+				actionUrl = currentTarget.data('url'),
+				method = container.find('[name="method"]:checked');
 			if (method.length <= 0) {
 				window.location.href = actionUrl;
 			} else {
-				var params = {};
-				params.data = {
-					module: app.getModuleName(),
-					action: 'GenerateRecords',
-					records: jQuery('[name="all_records"]').val(),
-					template: currentTarget.data('id'),
-					target: currentTarget.data('name'),
-					method: method.val()
-				};
-				params.dataType = 'json';
-				AppConnector.request(params).done(function (data) {
-					var response = data['result'];
+				AppConnector.request({
+					data: {
+						module: app.getModuleName(),
+						action: 'GenerateRecords',
+						records: container.find('[name="all_records"]').val(),
+						template: currentTarget.data('id'),
+						target: currentTarget.data('name'),
+						method: method.val()
+					},
+					dataType: 'json'
+				}).done(function (data) {
+					let response = data['result'];
 					if (data['success']) {
-						var records = response.ok;
+						let records = response.ok;
 						thisInstance.summary(container, response);
 						document.progressLoader.progressIndicator({'mode': 'hide'});
-						if (method.val() == 1) {
-							for (var i in records) {
+						if (1 === method.val()) {
+							for (let i in records) {
 								window.open(actionUrl + records[i], '_blank');
 							}
 						}
