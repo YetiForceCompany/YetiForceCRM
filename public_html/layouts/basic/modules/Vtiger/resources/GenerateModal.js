@@ -18,17 +18,17 @@ jQuery.Class("Vtiger_GenerateModal_Js", {}, {
 			if (method.length <= 0) {
 				window.location.href = actionUrl;
 			} else {
-				let params = {};
-				params.data = {
-					module: app.getModuleName(),
-					action: 'GenerateRecords',
-					records: container.find('[name="all_records"]').val(),
-					template: currentTarget.data('id'),
-					target: currentTarget.data('name'),
-					method: method.val()
-				};
-				params.dataType = 'json';
-				AppConnector.request(params).done(function (data) {
+				AppConnector.request({
+					data: {
+						module: app.getModuleName(),
+						action: 'GenerateRecords',
+						records: container.find('[name="all_records"]').val(),
+						template: currentTarget.data('id'),
+						target: currentTarget.data('name'),
+						method: method.val()
+					},
+					dataType: 'json'
+				}).done(function (data) {
 					let response = data['result'];
 					if (data['success']) {
 						let records = response.ok;
