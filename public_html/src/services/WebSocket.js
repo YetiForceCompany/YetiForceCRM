@@ -41,10 +41,12 @@ function initSocket() {
       }
       connection.onerror = err => {
         Socket.$emit('error', err)
-        reject(err)
+        console.error(err)
+        resolve(err)
       }
       connection.onclose = err => {
-        reject(err)
+        console.error(err)
+        resolve(err)
       }
       connection.onopen = () => {
         resolve(Socket)
