@@ -22,7 +22,7 @@ class File
 				header('location: ' . \AppConfig::main('site_URL'), true, 301);
 			}
 		}
-		\App\Session::init();
+		\App\Session::start();
 		$this->getLogin();
 		$moduleName = $request->getModule();
 		$action = $request->getByType('action', 1);

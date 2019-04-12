@@ -6,7 +6,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-require __DIR__ . '/include/ConfigUtils.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 try {
 	\App\Log::$showLog = \Config\Debug::$websocketShowLog;

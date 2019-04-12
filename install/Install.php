@@ -23,7 +23,7 @@ require_once 'install/models/Utils.php';
 require_once 'install/models/InitSchema.php';
 
 \App\Config::set('performance', 'recursiveTranslate', true);
-App\Session::init();
+App\Session::start();
 \App\Language::$customDirectory = 'install';
 
 $request = App\Request::init();

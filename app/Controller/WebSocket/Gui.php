@@ -33,6 +33,8 @@ class Gui extends Base
 	public function process()
 	{
 		try {
+			require_once __DIR__ . '/../../../include/ConfigUtils.php';
+
 			Process::$requestMode = 'WebSocket';
 			Process::$processType = 'Actions';
 			Process::$processName = $this->request->getByType('action', 'Alnum');
@@ -51,8 +53,8 @@ class Gui extends Base
 			if ($handler->checkPermission()) {
 				$handler->process();
 			}
-      $handler->postProcess();
-      $handler->response->emit();
+			$handler->postProcess();
+			$handler->response->emit();
 		} catch (\Throwable $e) {
 			echo $e->__toString();
 			\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());

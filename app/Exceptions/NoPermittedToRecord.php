@@ -14,7 +14,7 @@ class NoPermittedToRecord extends NoPermitted
 	public function __construct($message = '', $code = 406, \Exception $previous = null)
 	{
 		parent::__construct($message, $code, $previous);
-		\App\Session::init();
+		\App\Session::start();
 
 		$request = \App\Request::init();
 		$record = $request->getInteger('record', 0);

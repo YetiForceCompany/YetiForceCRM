@@ -58,7 +58,7 @@ class System extends Base
 			'application_unique_key' => \Config\Main::$application_unique_key,
 			'action' => $name,
 			'arguments' => $arguments
-		]),true);
+		]), true);
 	}
 
 	/**
@@ -70,6 +70,17 @@ class System extends Base
 	{
 		$this->webSocket->server->shutdown();
 		$this->webSocket->server->push($this->frame->fd, 'Turning off');
+	}
+
+	/**
+	 * Web socket reload function.
+	 *
+	 * @return void
+	 */
+	public function _reload()
+	{
+		$this->webSocket->server->reload();
+		$this->webSocket->server->push($this->frame->fd, 'Resets all the workers');
 	}
 
 	/**

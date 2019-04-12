@@ -31,7 +31,7 @@ abstract class Base
 	 */
 	public function init()
 	{
-		\App\Session::init();
+		\App\Session::start();
 		$this->setHeaders();
 		if (\Config\Performance::$CHANGE_LOCALE) {
 			\App\Language::initLocale();

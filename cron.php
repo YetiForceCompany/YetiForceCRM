@@ -16,7 +16,7 @@ include_once __DIR__ . '/include/main/WebUI.php';
 \App\Process::$requestMode = 'Cron';
 \App\Utils\ConfReport::$sapi = 'cron';
 $cronObj = new \App\Cron();
-App\Session::init();
+App\Session::start();
 \App\Session::set('last_activity', microtime(true));
 $authenticatedUserId = App\Session::get('authenticated_user_id');
 $appUniqueKey = App\Session::get('app_unique_key');

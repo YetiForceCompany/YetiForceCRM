@@ -17,9 +17,21 @@ class Session
 	public static $pool;
 
 	/**
-	 * Initialize session class.
+	 * Initialize session.
 	 */
 	public static function init()
+	{
+
+    if (PHP_SESSION_ACTIVE !== \session_status() && !headers_sent()) {
+			session_save_path(__DIR__ . '/cache/session');
+    }
+  }
+  /**
+   * Start session.
+   *
+   * @return void
+   */
+	public static function start()
 	{
 		if (PHP_SESSION_ACTIVE === \session_status()) {
 			return;
@@ -31,7 +43,6 @@ class Session
 		}
 		\session_start();
 	}
-
 	/**
 	 * Returns a session Item representing the specified key.
 	 *

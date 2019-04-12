@@ -33,6 +33,12 @@ class WebSocket
 	 * @var string
 	 */
 	private $container;
+	/**
+	 * Connections.
+	 *
+	 * @var \Swoole\Table
+	 */
+	private $connections;
 
 	/**
 	 * Connect function.
@@ -56,7 +62,7 @@ class WebSocket
 			'buffer_output_size' => 32 * 1024 * 1024,
 			'pipe_buffer_size' => 1024 * 1024 * 1024,
 			//'max_connection' => 1024,
-			'log_file' => ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . \Config\Debug::$websocketLogFile,
+			'log_file' => __DIR__ . '/../../' . \Config\Debug::$websocketLogFile,
 			'log_level' => \Config\Debug::$websocketLogLevel,
 		], $settings));
 	}
@@ -87,7 +93,9 @@ class WebSocket
 	public function process()
 	{
 		$this->requirementsValidation();
+		\App\Session::init();
 		$this->connect();
+		$this->loadSharedMemory();
 
 		$this->server->on('start', [$this, 'onStart']);
 		$this->server->on('shutdown', [$this, 'onShutdown']);
@@ -102,6 +110,23 @@ class WebSocket
 		$this->server->on('close', [$this, 'onClose']);
 
 		$this->server->start();
+	}
+
+	/**
+	 * Load shared memory.
+	 *
+	 * @return void
+	 */
+	public function loadSharedMemory()
+	{
+		$this->connections = new \swoole_table(1024);
+		$this->connections->column('fd', \swoole_table::TYPE_INT, 6);
+		$this->connections->column('container', \swoole_table::TYPE_STRING, 10);
+		$this->connections->column('ip', \swoole_table::TYPE_STRING, 45);
+		$this->connections->column('user', \swoole_table::TYPE_INT, 4);
+		$this->connections->column('time', \swoole_table::TYPE_INT, 5);
+		$this->connections->column('activeRoute', \swoole_table::TYPE_STRING, 100);
+		$this->connections->create();
 	}
 
 	/**
@@ -130,10 +155,19 @@ class WebSocket
 	{
 		\App\Log::info("Open the connection | fd: {$request->fd} | path: {$request->server['path_info']}", 'WebSocket');
 		$this->container = substr($request->server['path_info'], 1);
-		if (!\class_exists($this->getContainerClass())) {
+		if (!\class_exists($this->getContainerClass($request->fd))) {
 			\App\Log::error('Web socket container does not exist: ' . $this->container, 'WebSocket');
 			$server->close($request->fd);
 		}
+		if ($request->cookie['YTSID']) {
+		}
+		$this->connections[$request->fd] = [
+			'fd' => $request->fd,
+			'container' => $this->container,
+			'ip' => $request->server['remote_addr'],
+			'user' => 0,
+			'time' => time()
+		];
 	}
 
 	/**
@@ -168,6 +202,7 @@ class WebSocket
 	 */
 	public function onClose(Server $server, int $fd, int $fromId)
 	{
+		unset($this->connections[$fd]);
 		\App\Log::info("Closing the connection | fd: {$fd} | fromId: $fromId", 'WebSocket');
 	}
 
@@ -242,9 +277,10 @@ class WebSocket
 	 *
 	 * @return string
 	 */
-	private function getContainerClass(): string
+	private function getContainerClass(int $fd): string
 	{
-		return "App\\Controller\\WebSocket\\{$this->container}";
+		$container = $this->container ?? $this->connections[$fd]['container'];
+		return 'App\\Controller\\WebSocket\\' . $container;
 	}
 
 	/**
@@ -256,7 +292,32 @@ class WebSocket
 	 */
 	public function getContainer(Frame $frame): WebSocket\Base
 	{
-		$class = $this->getContainerClass();
+		$class = $this->getContainerClass($frame->fd);
 		return new $class($this, $frame);
+	}
+
+	/**
+	 * Get connections list.
+	 *
+	 * @param string $type
+	 * @param mixed  $search
+	 *
+	 * @return array
+	 */
+	public function getConnections($type = null, $search = null): array
+	{
+		$return = $connections = [];
+		foreach ($this->connections as $key => $value) {
+			$connections[$key] = $value;
+		}
+		if ($type && $search) {
+			$column = array_column($connections, $type, 'fd');
+			while (false !== ($key = array_search($search, $column))) {
+				$return[$key] = $connections[$key];
+				unset($column[$key]);
+			}
+			return $return;
+		}
+		return $connections;
 	}
 }

@@ -99,7 +99,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			}
 		}
 		try {
-			App\Session::init();
+			App\Session::start();
 			// Better place this here as session get initiated
 			//skipping the csrf checking for the forgot(reset) password
 			if (AppConfig::main('csrfProtection') && 'reset' !== $request->getMode() && 'Login' !== $request->getByType('action', 1) && 'demo' !== AppConfig::main('systemMode')) {

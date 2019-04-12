@@ -38,7 +38,7 @@ ini_set('post_max_size', '200M');
 ini_set('upload_max_filesize', '200M');
 ini_set('max_input_vars', 10000);
 ini_set('xdebug.enable', 'On');
-App\Session::init();
+App\Session::start();
 
 if (IS_WINDOWS) {
 	App\User::setCurrentUserId(1);

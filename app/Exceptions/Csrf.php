@@ -14,7 +14,7 @@ class Csrf extends Security
 	public function __construct($message = '', $code = 0, \Exception $previous = null)
 	{
 		parent::__construct($message, $code, $previous);
-		\App\Session::init();
+		\App\Session::start();
 		$userName = \App\Session::get('full_user_name');
 		$userName = empty($userName) ? '-' : \App\TextParser::textTruncate($userName, 100, false);
 		\App\Db::getInstance('log')->createCommand()

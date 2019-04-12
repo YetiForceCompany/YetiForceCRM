@@ -17,7 +17,7 @@ class NoPermittedToApi extends Security
 	public function __construct($message = '', $code = 406, \Throwable $previous = null)
 	{
 		parent::__construct($message, $code, $previous);
-		\App\Session::init();
+		\App\Session::start();
 		$userName = \App\Session::get('full_user_name');
 		\App\Db::getInstance('log')->createCommand()
 			->insert('o_#__access_for_api', [
