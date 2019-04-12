@@ -27,9 +27,7 @@ export default {
     }
   },
   methods: {
-    changed(icon) {
-      console.log(icon.name, this.icon)
-    }
+    changed(icon) {}
   }
 }
 </script>
