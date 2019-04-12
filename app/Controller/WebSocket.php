@@ -59,12 +59,11 @@ class WebSocket
 		}
 		$this->server = new \Swoole\WebSocket\Server($host, $port);
 		$this->server->set(\array_merge([
-			'buffer_output_size' => 32 * 1024 * 1024,
-			'pipe_buffer_size' => 1024 * 1024 * 1024,
-			//'max_connection' => 1024,
+			'buffer_output_size' => \Config\WebSocket::$bufferOutputSize,
+			'pipe_buffer_size' => \Config\WebSocket::$pipeBufferSize,
 			'log_file' => __DIR__ . '/../../' . \Config\Debug::$websocketLogFile,
 			'log_level' => \Config\Debug::$websocketLogLevel,
-		], $settings));
+		],\Config\WebSocket::$customConfiguration, $settings));
 	}
 
 	/**
@@ -107,7 +106,7 @@ class WebSocket
 		$this->server->on('connect', [$this, 'onConnect']);
 		$this->server->on('open', [$this, 'onOpen']);
 		$this->server->on('message', [$this, 'onMessage']);
-		$this->server->on('close', [$this, 'onClose']);
+    $this->server->on('close', [$this, 'onClose']);
 
 		$this->server->start();
 	}
@@ -184,7 +183,7 @@ class WebSocket
 			\App\Log::info("Request message | fd: {$frame->fd} | Content: {$frame->data}", 'WebSocket');
 			$container = $this->getContainer($frame);
 			if ($container->checkPermission()) {
-				$container->process();
+			$container->process();
 			}
 		} catch (\Throwable $e) {
 			\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString(), 'WebSocket');

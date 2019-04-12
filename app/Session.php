@@ -21,9 +21,8 @@ class Session
 	 */
 	public static function init()
 	{
-
     if (PHP_SESSION_ACTIVE !== \session_status() && !headers_sent()) {
-			session_save_path(__DIR__ . '/cache/session');
+			session_save_path(__DIR__ . '/../cache/session');
     }
   }
   /**
@@ -33,7 +32,7 @@ class Session
    */
 	public static function start()
 	{
-		if (PHP_SESSION_ACTIVE === \session_status()) {
+    if (PHP_SESSION_ACTIVE === \session_status()) {
 			return;
 		}
 		if ($driver = \Config\Performance::$SESSION_DRIVER) {

@@ -1045,16 +1045,28 @@ return [
 	'webSocket' => [
 		'host' => [
 			'default' => '0.0.0.0',
-			'description' => 'WebSocket ip address of the server',
+			'description' => 'WebSocket ip address of the server.',
 		],
 		'port' => [
 			'default' => 9000,
-			'description' => 'WebSocket port of the server (it needs root privileges if the port is litte than 1024)',
+			'description' => 'WebSocket port of the server (it needs root privileges if the port is litte than 1024).',
 			'validation' => '\App\Validator::port'
 		],
 		'url' => [
-			'default' => '',
+			'default' => 'ws://v_vuep:9000',
 			'description' => 'WebSocket client url'
-		]
+		],
+		'bufferOutputSize' => [
+			'default' => 32 * 1024 * 1024,
+			'description' => "WebSocket output buffer size in the memory. \nDefault: 32 * 1024 * 1024. \n@see https://github.com/swoole/swoole-docs/blob/master/modules/swoole-server/configuration/buffer_output_size.md"
+		],
+		'pipeBufferSize' => [
+			'default' => 1024 * 1024 * 1024,
+			'description' => "WebSocket buffer size of pipe. \nDefault: 1024 * 1024 * 1024. \n@see https://github.com/swoole/swoole-docs/blob/master/modules/swoole-server/configuration/pipe_buffer_size.md"
+		],
+		'customConfiguration' => [
+			'default' => [],
+			'description' => "WebSocket custom configuration. \n@see https://github.com/swoole/swoole-docs/tree/master/modules/swoole-server/configuration"
+		],
 	]
 ];
