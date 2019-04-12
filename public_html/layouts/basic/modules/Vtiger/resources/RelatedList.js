@@ -12,7 +12,7 @@
 jQuery.Class('Vtiger_RelatedList_Js', {
 	relatedListInstance: false,
 	getInstance: function (parentId, parentModule, selectedRelatedTabElement, relatedModuleName) {
-		if (Vtiger_RelatedList_Js.relatedListInstance == false) {
+		if (Vtiger_RelatedList_Js.relatedListInstance === false || (Vtiger_RelatedList_Js.relatedListInstance.moduleName !== relatedModuleName)) {
 			let moduleClassName = app.getModuleName() + '_RelatedList_Js',
 				fallbackClassName = Vtiger_RelatedList_Js,
 				instance;
@@ -1189,7 +1189,7 @@ jQuery.Class('Vtiger_RelatedList_Js', {
 		let state = true;
 		$('.relatedListViewEntriesCheckBox').each(function(index, element) {
 			if ($(element).is(':checked')) {
-				state = true; 
+				state = true;
 			} else {
 				state = false;
 			}

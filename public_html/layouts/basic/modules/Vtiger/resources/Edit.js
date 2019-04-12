@@ -633,7 +633,7 @@ $.Class("Vtiger_Edit_Js", {
 					var data = {
 						'record': recordRelativeAccountId,
 						'selectedName': recordRelativeAccountName,
-						'source_module': "Contacts"
+						'module': "Contacts"
 					}
 					thisInstance.copyAddressDetails(from, to, data, element.closest('.js-toggle-panel'));
 					element.attr('checked', 'checked');
@@ -656,7 +656,7 @@ $.Class("Vtiger_Edit_Js", {
 					var data = {
 						'record': recordRelativeAccountId,
 						'selectedName': recordRelativeAccountName,
-						'source_module': "Leads"
+						'module': "Leads"
 					}
 					thisInstance.copyAddressDetails(from, to, data, element.closest('.js-toggle-panel'));
 					element.attr('checked', 'checked');
@@ -679,7 +679,7 @@ $.Class("Vtiger_Edit_Js", {
 					var data = {
 						'record': recordRelativeAccountId,
 						'selectedName': recordRelativeAccountName,
-						'source_module': "Vendors"
+						'module': "Vendors"
 					}
 					thisInstance.copyAddressDetails(from, to, data, element.closest('.js-toggle-panel'));
 					element.attr('checked', 'checked');

@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@fortawesome/fontawesome-free@^5.7.2":
-  version "5.7.2"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.7.2.tgz#1498c3eb78ee7c78c5488418707de90aaf58d5d7"
-  integrity sha512-Ha4HshKdCVKgu4TVCtG8XyPPYdzTzNW4/fvPnn+LT7AosRABryhlRv4cc4+o84dgpvVJN9reN7jo/c+nYujFug==
+"@fortawesome/fontawesome-free@^5.8.1":
+  version "5.8.1"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.8.1.tgz#cbafbfe8894c4e3e3c3a9da6774e249ac1f2da8b"
+  integrity sha512-GJtx6e55qLEOy2gPOsok2lohjpdWNGrYGtQx0FFT/++K4SYx+Z8LlPHdQBaFzKEwH5IbBB4fNgb//uyZjgYXoA==
 
 add@^2.0.6:
   version "2.0.6"
@@ -58,18 +58,18 @@ blueimp-tmpl@3.6.0:
   resolved "https://registry.yarnpkg.com/blueimp-tmpl/-/blueimp-tmpl-3.6.0.tgz#a4910975d042e2bc03ba77f0e62d04f1548a524c"
   integrity sha1-pJEJddBC4rwDunfw5i0E8VSKUkw=
 
-bootbox@^5.0.0:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/bootbox/-/bootbox-5.0.1.tgz#df1b5c42c9ae08fb007e16ed638f8b76282fcea2"
-  integrity sha512-SVA5uG38stpK3I1QV3Lw/HeQ1BhKVrEGVnwO0u4O52XSHEfSgWQcWp2K6+grGAxhCeXfBZI5Z8A9eKIQX7gHbQ==
+bootbox@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/bootbox/-/bootbox-5.1.0.tgz#34cd80ca20fc9103b66d7068119eb3dc5384e4fd"
+  integrity sha512-yclcgJGr56BOzY6an1+EmBxoCAnM+aEnmlo66CQaWUCenrcRBElCVOpsY4stjb0Z/X9oBx3Md0ynhCy7ZUx6aQ==
   dependencies:
     bootstrap ">=3.0.0"
     jquery ">=1.9.1"
 
-bootstrap-colorpicker@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/bootstrap-colorpicker/-/bootstrap-colorpicker-3.0.3.tgz#9fb703e96254ba51c83e6a2274138bdcde1adaf6"
-  integrity sha512-xDVuG5ZLDKLoYdBodnrKo417eqFlNwpk6gNbv1mAFdFno0p0xnkYm9KQTiUqR4kva9t+hlJJc2UURZnD6fvn+Q==
+bootstrap-colorpicker@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/bootstrap-colorpicker/-/bootstrap-colorpicker-3.1.1.tgz#5cb559eeae8cdd1e4c86b705d36d81eb5fda0f8e"
+  integrity sha512-LgHvdXVzJ6O/Jbc/ngc33aX+CAnJ5WAx06L+psP2cYuwXSy0wHsGFrHrYYq+lJKScYRV9kIGAyqDkkeb5NZzhQ==
   dependencies:
     bootstrap "^4.0"
     jquery ">=2.1.0"
@@ -415,10 +415,10 @@ pnotify@4.0.0-beta.2:
   resolved "https://registry.yarnpkg.com/pnotify/-/pnotify-4.0.0-beta.2.tgz#990e684429b5630d3ff68a9612cdba04ff387c9f"
   integrity sha512-r6HLfG+tB6BgTHqukLBFqMlSyLNqwgn2OaFHIGpgIAM+7VmxoWEbaF9tSArs3AGJ3bV9kNrqR/NLpp5iHyvDyw==
 
-popper.js@^1.14.4:
-  version "1.14.7"
-  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.14.7.tgz#e31ec06cfac6a97a53280c3e55e4e0c860e7738e"
-  integrity sha512-4q1hNvoUre/8srWsH7hnoSJ5xVmIL4qgz+s4qf2TnJIMyZFUFMGH+9vE7mXynAlHSZ/NdTmmow86muD0myUkVQ==
+popper.js@^1.15.0:
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.15.0.tgz#5560b99bbad7647e9faa475c6b8056621f5a4ff2"
+  integrity sha512-w010cY1oCUmI+9KwwlWki+r5jxKfTFDVoadl7MSrIujHU5MJ5OR6HTDj6Xo8aoR/QsA56x8jKjA59qGH4ELtrA==
 
 respond.js@^1.4.2:
   version "1.4.2"

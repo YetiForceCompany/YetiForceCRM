@@ -221,7 +221,7 @@
 						</span>
 						</div>
 						<input type="text"
-							   class="dateField form-control calendarUntil" {if isset($RECURRING_INFORMATION['UNTIL'])}
+							   class="dateField form-control calendarUntil datepicker" {if isset($RECURRING_INFORMATION['UNTIL'])}
 							   value="{$RECURRING_INFORMATION['UNTIL']}" {else} disabled="disabled"
 							   {/if}name="calendarUntil" data-date-format="{$USER_MODEL->get('date_format')}"
 							   title="{\App\Language::translate('LBL_UNTIL', $MODULE)}"
