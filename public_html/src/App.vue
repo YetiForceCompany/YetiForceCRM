@@ -61,7 +61,7 @@ export default {
     }
   },
   beforeRouteEnter(to, from, next) {
-    if (store.getters[getters.Core.Users.isLoggedIn] && store.getters[getters.Core.Env.all]['webSocket']) {
+    if (store.getters[getters.Core.Users.isLoggedIn] && store.getters[getters.Core.Env.all]['webSocketUrl']) {
       initSocket().then(() => {
         routeEnterCallback(to, from, next)
       })

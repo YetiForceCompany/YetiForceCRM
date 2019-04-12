@@ -31,7 +31,7 @@ let Socket = new Vue({
 function initSocket() {
   if (connection === null || connection.readyState !== 1) {
     return new Promise(function(resolve, reject) {
-      connection = new WebSocket(store.getters[getters.Core.Env.all]['webSocket'])
+      connection = new WebSocket(store.getters[getters.Core.Env.all]['webSocketUrl'])
       connection.onmessage = message => {
         const data = JSON.parse(message.data)
         Socket.$emit('message', data)
