@@ -63,7 +63,7 @@ class WebSocket
 			'pipe_buffer_size' => \Config\WebSocket::$pipeBufferSize,
 			'log_file' => __DIR__ . '/../../' . \Config\Debug::$websocketLogFile,
 			'log_level' => \Config\Debug::$websocketLogLevel,
-		],\Config\WebSocket::$customConfiguration, $settings));
+		], \Config\WebSocket::$customConfiguration, $settings));
 	}
 
 	/**
@@ -106,7 +106,8 @@ class WebSocket
 		$this->server->on('connect', [$this, 'onConnect']);
 		$this->server->on('open', [$this, 'onOpen']);
 		$this->server->on('message', [$this, 'onMessage']);
-    $this->server->on('close', [$this, 'onClose']);
+		$this->server->on('close', [$this, 'onClose']);
+		$this->server->on('request', [$this, 'onRequest']);
 
 		$this->server->start();
 	}
@@ -153,7 +154,8 @@ class WebSocket
 	public function onOpen(Server $server, \Swoole\Http\Request $request)
 	{
 		\App\Log::info("Open the connection | fd: {$request->fd} | path: {$request->server['path_info']}", 'WebSocket');
-		$this->container = substr($request->server['path_info'], 1);
+		$path = \explode('/', $request->server['path_info']);
+		$this->container = \array_pop($path);
 		if (!\class_exists($this->getContainerClass($request->fd))) {
 			\App\Log::error('Web socket container does not exist: ' . $this->container, 'WebSocket');
 			$server->close($request->fd);
@@ -163,7 +165,7 @@ class WebSocket
 		$this->connections[$request->fd] = [
 			'fd' => $request->fd,
 			'container' => $this->container,
-			'ip' => $request->server['remote_addr'],
+			'ip' => '127.0.0.1' !== $request->server['remote_addr'] ? $request->server['remote_addr'] : ($request->header['x-real-ip'] ?? $request->header['x-forwarded-for']),
 			'user' => 0,
 			'time' => time()
 		];
@@ -183,7 +185,7 @@ class WebSocket
 			\App\Log::info("Request message | fd: {$frame->fd} | Content: {$frame->data}", 'WebSocket');
 			$container = $this->getContainer($frame);
 			if ($container->checkPermission()) {
-			$container->process();
+				$container->process();
 			}
 		} catch (\Throwable $e) {
 			\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString(), 'WebSocket');
@@ -269,6 +271,20 @@ class WebSocket
 	public function onWorkerError(Server $server, int $workerId, $workerPid, $exitCode, $signalNo)
 	{
 		\App\Log::error("Swoole worker error [workerId=$workerId, workerPid=$workerPid, exitCode=$exitCode, signalNo=$signalNo]... | " . swoole_last_error(), 'WebSocket');
+	}
+
+	/**
+	 *  Swoole request function.
+	 *
+	 * @param \Swoole\Http\Request  $request
+	 * @param \Swoole\Http\Response $response
+	 *
+	 * @return void
+	 */
+	public function onRequest(\Swoole\Http\Request $request, \Swoole\Http\Response $response)
+	{
+		$response->status(405);
+		$response->end('<h1>Swoole websocket server is working properly :)</h1>');
 	}
 
 	/**

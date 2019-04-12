@@ -71,7 +71,7 @@ class Env
 			'recordPopoverDelay' => \Config\Performance::$RECORD_POPOVER_DELAY,
 			'searchShowOwnerOnlyInList' => \Config\Performance::$SEARCH_SHOW_OWNER_ONLY_IN_LIST,
 			'fieldsReferencesDependent' => \Config\Security::$FIELDS_REFERENCES_DEPENDENT,
-			'webSocketUrl' => \Config\WebSocket::$url,
+			'webSocketUrl' => \Config\WebSocket::$url . '/Gui',
 		]);
 		if (\App\Session::has('ShowAuthy2faModal')) {
 			$env['showAuthy2faModal'] = \App\Session::get('ShowAuthy2faModal');
@@ -135,23 +135,23 @@ class Env
 	 */
 	public static function getUser($mode = 'update'): array
 	{
-    $bruteForceInstance = \Settings\BruteForce\Models\Module::getCleanInstance();
-    $env = [
-      'isLoggedIn' => \App\User::isLoggedIn(),
-      'isBlockedIp' => $bruteForceInstance->isActive() && $bruteForceInstance->isBlockedIp(),
-      'loginPageRememberCredentials' => \Config\Security::$LOGIN_PAGE_REMEMBER_CREDENTIALS,
-      'resetLoginPassword' => \Config\Security::$RESET_LOGIN_PASSWORD,
-      'langInLoginView' => \App\Config::main('langInLoginView'),
-      'layoutInLoginView' => \App\Config::main('layoutInLoginView'),
-      'defaultLayout' => \App\Config::main('defaultLayout')
+		$bruteForceInstance = \Settings\BruteForce\Models\Module::getCleanInstance();
+		$env = [
+			'isLoggedIn' => \App\User::isLoggedIn(),
+			'isBlockedIp' => $bruteForceInstance->isActive() && $bruteForceInstance->isBlockedIp(),
+			'loginPageRememberCredentials' => \Config\Security::$LOGIN_PAGE_REMEMBER_CREDENTIALS,
+			'resetLoginPassword' => \Config\Security::$RESET_LOGIN_PASSWORD,
+			'langInLoginView' => \App\Config::main('langInLoginView'),
+			'layoutInLoginView' => \App\Config::main('layoutInLoginView'),
+			'defaultLayout' => \App\Config::main('defaultLayout')
 		];
 		if ('loginPage' === $mode) {
 			return $env;
 		}
 		$userModel = \App\User::getCurrentUserModel();
 		if ($userModel->isActive()) {
-      $details = $userModel->getDetails();
-      $env =  \array_merge($env, [
+			$details = $userModel->getDetails();
+			$env = \array_merge($env, [
 				'userId' => $userModel->getId(),
 				'currencyId' => $details['currency_id'],
 				'currencyName' => $details['currency_name'],
@@ -172,7 +172,7 @@ class Env
 				'firstDayOfWeek' => $details['dayoftheweek'],
 				'firstDayOfWeekNo' => \App\Fields\Date::$dayOfWeek[$details['dayoftheweek']] ?? false,
 				'timeZone' => $details['time_zone'],
-      ]);
+			]);
 		}
 		return $env;
 	}
