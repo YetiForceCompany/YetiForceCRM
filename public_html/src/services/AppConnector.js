@@ -1,4 +1,13 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/**
+ * App connector
+ *
+ * @description application connector
+ * @license YetiForce Public License 3.0
+ * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
+ */
+
+'use strict'
+
 import ApiService from './Api.js'
 import Socket from './WebSocket.js'
 
@@ -10,10 +19,9 @@ const AppConnector = {
    *
    * @return  {Promise}          axios promise
    */
-  request(params) {
+  http(params) {
     return ApiService(params)
   },
-
   /**
    * Websocket analogy to ajax request
    *
@@ -21,40 +29,35 @@ const AppConnector = {
    *
    * @return  {Promise}          axios promise
    */
-  webSocketPromise(params) {
-    let messageID = Math.random() * 1
-    return new Promise(function(resolve, reject) {
-      Socket.send(JSON.stringify({ id: messageID, params: params }))
-      Socket.$on('message', message => {
-        try {
-          const data = JSON.parse(message.data)
-          if (data.id === messageID) {
-            resolve(data)
-          } else {
-            reject(data)
-          }
-        } catch (e) {
-          reject(e)
-          return
-        }
-      })
+  socket(params) {
+    let requestId = Math.random() * 1
+    return new Promise((resolve, reject) => {
+      Socket.send(JSON.stringify({ id: requestId, params: params }))
+      Socket.$on('message', this._handleSocketResponse.bind(this, resolve, reject, requestId))
     })
   },
-
   /**
-   * Create websocket event for specified action callback
+   * Handle socket response
    *
-   * @param   {Object}  params  [params description]
-   * @param   {Function}  cb      [cb description]
+   * @param   {Function}  resolve    promise native code
+   * @param   {Function}  reject     promise native code
+   * @param   {Number}    requestId  request id
+   * @param   {Object}    message    socket message
+   *
+   * @return  {[type]}             [return description]
    */
-  webSocket(params, cb) {
-    Socket.send(JSON.stringify(params))
-    Socket.$on('message', message => {
-      const data = JSON.parse(message.data)
-      if (data.action === params.action) {
-        cb(data)
+  _handleSocketResponse(resolve, reject, requestId, data) {
+    try {
+      if (data.id === requestId) {
+        resolve(data)
+        Socket.$off('message', this._handleSocket)
+      } else {
+        reject(data)
       }
-    })
+    } catch (e) {
+      reject(e)
+      return
+    }
   }
 }
 export default AppConnector

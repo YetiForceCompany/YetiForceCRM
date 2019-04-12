@@ -1,5 +1,13 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/**
+ * Websocket connection
+ *
+ * @description initialization and socket vue emitter
+ * @license YetiForce Public License 3.0
+ * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
+ */
+
 'use strict'
+
 import { store } from '/src/store/index.js'
 import getters from '/src/store/getters.js'
 import actions from '/src/store/actions.js'
@@ -25,15 +33,20 @@ function initSocket() {
     return new Promise(function(resolve, reject) {
       connection = new WebSocket(store.getters[getters.Core.Env.all]['webSocket'])
       connection.onmessage = message => {
-        Socket.$emit('message', message)
-        triggerAction(JSON.parse(message.data))
+        const data = JSON.parse(message.data)
+        Socket.$emit('message', data)
+        if (!data.id) {
+          triggerAction(data)
+        }
       }
       connection.onerror = err => {
         Socket.$emit('error', err)
-        reject(err)
+        console.error(err)
+        resolve(err)
       }
       connection.onclose = err => {
-        reject(err)
+        console.error(err)
+        resolve(err)
       }
       connection.onopen = () => {
         resolve(Socket)
@@ -46,7 +59,11 @@ function initSocket() {
 
 function triggerAction(params) {
   try {
-    const actionName = Objects.get(actions, params.action)
+    const vuexAction = `${params.module}.${params.action}`
+    let actionName = Objects.get(actions.Base, vuexAction)
+    if (!actionName) {
+      actionName = Objects.get(actions.Core, vuexAction)
+    }
     store.dispatch(actionName, params.data)
   } catch (err) {
     console.error('socket action doesnt exist', err)

@@ -19,7 +19,6 @@
 import getters from '/src/store/getters.js'
 import mutations from '/src/store/mutations.js'
 import AppConnector from '/src/services/AppConnector.js'
-import Socket from '/src/services/WebSocket.js'
 
 const moduleName = 'Base.ModuleExample.Pages.ModuleExample'
 export default {
@@ -177,25 +176,14 @@ export default {
     })
   },
   mounted() {
-    const vm = this
-    Socket.$on('message', data => {
-      // example listener for global websocket message event
+    AppConnector.socket({
+      parentModule: 'Core',
+      module: 'Notification',
+      action: 'show',
+      params: { message: 'user logout!' }
+    }).then(() => {
+      console.log('send back socket data to get notification')
     })
-    AppConnector.webSocketPromise().then(data => {
-      // console.log('promiser resolved with' + data)
-    })
-    AppConnector.webSocket(
-      { module: 'Core', action: 'Core.Users.logout', params: { message: 'user logout!' } },
-      data => {
-        Quasar.plugins.Notify.create({
-          color: 'negative',
-          icon: 'mdi-exclamation',
-          message: data.params.message,
-          position: 'top',
-          actions: [{ label: vm.$t('LBL_CLOSE'), color: 'white' }]
-        })
-      }
-    )
   }
 }
 </script>
