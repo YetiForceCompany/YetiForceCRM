@@ -55,6 +55,7 @@
     "gulp-append-prepend": "^1.0.8",
     "gulp-header": "^2.0.7",
     "gulp-rename": "^1.4.0",
+    "gulp-sass-json": "^1.0.1",
     "gulp-serve": "^1.4.0",
     "gulp-stylus": "^2.7.0",
     "module-alias": "^2.2.0",

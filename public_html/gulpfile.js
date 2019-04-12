@@ -5,6 +5,7 @@ const browserSync = require('browser-sync').create()
 const rename = require('gulp-rename')
 const header = require('gulp-header')
 const path = require('path')
+const sassJson = require('gulp-sass-json')
 require('dotenv').config()
 
 const importAliases = require('./gulp/gulp-import-aliases')
@@ -13,6 +14,7 @@ const terser = require('./gulp/gulp-terser')
 const vueEsCompiler = require('./gulp/gulp-vue-es-compiler')
 const logger = require('./gulp/gulp-log')
 const ModuleLoader = require('./ModuleLoader.server')
+const saveIcons = require('./gulp/gulp-save-mdi-icons')
 
 const aliases = {
   '/?src/': '/src/',
@@ -189,10 +191,25 @@ function getCompileCssTask(src = stylusSrc) {
  */
 gulp.task('compileCss', getCompileCssTask())
 
+gulp.task('icons', () => {
+  return gulp
+    .src('./node_modules/@mdi/font/scss/_variables.scss')
+    .pipe(sassJson())
+    .pipe(saveIcons())
+    .pipe(header(license))
+    .pipe(
+      rename({
+        basename: 'Icons',
+        extname: '.js'
+      })
+    )
+    .pipe(gulp.dest('src/modules/Core/modules/Icons/assets'))
+})
+
 /**
  * Build task
  */
-gulp.task('build', gulp.series(['vue', 'min', 'generate-modules', 'compileCss']))
+gulp.task('build', gulp.series(['vue', 'icons', 'min', 'generate-modules', 'compileCss']))
 
 /**
  * Start dev environment with browser-sync
