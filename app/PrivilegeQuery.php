@@ -40,7 +40,7 @@ class PrivilegeQuery
 	 *
 	 * @return void
 	 */
-	public static function getConditions(Db\Query $query, $moduleName, $user = false, $relatedRecord = false)
+	public static function getConditions(Db\Query $query, string $moduleName, $user = false, $relatedRecord = false)
 	{
 		if (!empty(static::$interpreter) && class_exists(static::$interpreter)) {
 			return (static::$interpreter)::getConditions($query, $moduleName, $user, $relatedRecord);

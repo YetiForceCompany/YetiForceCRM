@@ -1,13 +1,15 @@
 <?php
-
-namespace Api\Portal;
-
 /**
  * Privilege file for client portal.
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
+ */
+namespace Api\Portal;
+
+/**
+ * Class to check permission for client portal
  */
 class Privilege
 {
@@ -38,22 +40,31 @@ class Privilege
 	 *
 	 * @return bool
 	 */
-	public static function isPermitted($moduleName, $actionName = null, $record = false, $userId = false)
+	public static function isPermitted(string $moduleName, $actionName = null, $record = false, $userId = false)
 	{
-		if (!($user && $user instanceof User)) {
-			$user = \App\User::getCurrentUserModel();
-		}
-		$permissionType = (int) $user->get('permission_type');
-		if (static::USER_PERMISSIONS === $permissionType || empty($record)) {
+		if (empty($record)) {
 			return \App\Privilege::checkPermission($moduleName, $actionName, $record, $userId);
 		}
-		if (static::ACCOUNTS_RELATED_RECORDS === $permissionType) {
-			$parentRecordId = \App\Record::getParentRecord($user->get('permission_crmid'));
-		} elseif (static::ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY === $permissionType || static::ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY === $permissionType) {
-			$parentRecordId = \App\Request::_getHeader('x-parent-id');
-			if (empty($parentRecordId)) {
+		if (!$userId) {
+			$user = \App\User::getCurrentUserModel();
+		} else {
+			$user = \App\User::getUserModel($userId);
+		}
+		switch ($user->get('permission_type')) {
+			case self::USER_PERMISSIONS:
+				return \App\Privilege::checkPermission($moduleName, $actionName, $record, $userId);
+			case self::ACCOUNTS_RELATED_RECORDS:
 				$parentRecordId = \App\Record::getParentRecord($user->get('permission_crmid'));
-			}
+				break;
+			case self::ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY:
+			case self::ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY:
+				$parentRecordId = (int) \App\Request::_getHeader('x-parent-id');
+				if (empty($parentRecordId)) {
+					$parentRecordId = \App\Record::getParentRecord($user->get('permission_crmid'));
+				}
+				break;
+			default:
+				throw new \Api\Core\Exception('Invalid permissions ', 400);
 		}
 		if (0 === \App\ModuleHierarchy::getModuleLevel($moduleName)) {
 			return $parentRecordId == $record;
@@ -63,7 +74,7 @@ class Privilege
 		$recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		if (isset($fields[$parentModule]) && $fields[$parentModule]['name'] !== $fields[$parentModule]['relmod']) {
 			$field = $fields[$parentModule];
-			return $recordModel->get($field['fieldname']) == $parentRecordId;
+			return ((int) $recordModel->get($field['fieldname'])) === $parentRecordId;
 		}
 		if (in_array($moduleName, ['Products', 'Services'])) {
 			return (bool) $recordModel->get('discontinued');
@@ -75,7 +86,7 @@ class Privilege
 				}
 				if ($relatedField = \App\Field::getRelatedFieldForModule($relatedModuleName, $parentModule)) {
 					$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($recordModel->get($field['fieldname'], $relatedModuleName));
-					return $relatedRecordModel->get($relatedField['fieldname']) == $parentRecordId;
+					return ((int) $relatedRecordModel->get($relatedField['fieldname'])) === $parentRecordId;
 				}
 			}
 		}

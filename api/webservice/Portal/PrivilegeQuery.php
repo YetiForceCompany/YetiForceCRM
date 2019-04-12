@@ -1,13 +1,16 @@
 <?php
-
-namespace Api\Portal;
-
 /**
  * Privilege File for client portal.
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
+ */
+
+namespace Api\Portal;
+
+/**
+ * Class to check permission for client portal.
  */
 class PrivilegeQuery
 {
@@ -21,7 +24,7 @@ class PrivilegeQuery
 	 *
 	 * @return void
 	 */
-	public static function getConditions(\App\Db\Query $query, $moduleName, $user = false, $relatedRecord = false)
+	public static function getConditions(\App\Db\Query $query, string $moduleName, $user = false, $relatedRecord = false)
 	{
 		if (!($user && $user instanceof User)) {
 			$user = \App\User::getCurrentUserModel();
