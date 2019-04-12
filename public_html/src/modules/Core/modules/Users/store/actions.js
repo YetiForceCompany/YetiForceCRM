@@ -35,7 +35,7 @@ export default {
       if (data.result === true) {
         commit('Global/update', { Core: data.env })
         commit(mutations.Core.Users.isLoggedIn, true)
-        if (rootGetters[getters.Core.Env.all]['webSocket']) {
+        if (rootGetters[getters.Core.Env.all]['webSocketUrl']) {
           initSocket().then(() => {
             this.$router.replace('/')
           })
@@ -63,7 +63,7 @@ export default {
         const data = response.data
         if (data.result === true) {
           commit(mutations.Core.Users.isLoggedIn, false)
-          if (rootGetters[getters.Core.Env.all]['webSocket']) {
+          if (rootGetters[getters.Core.Env.all]['webSocketUrl']) {
             initSocket().close()
           }
           this.$router.replace('/users/login')
