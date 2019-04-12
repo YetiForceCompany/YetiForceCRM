@@ -21,6 +21,9 @@ export default {
     "Menu": {
       "fetchData": "Core/Menu/fetchData"
     },
+    "Notification": {
+      "show": "Core/Notification/show"
+    },
     "Url": {},
     "Users": {
       "fetchData": "Core/Users/fetchData",

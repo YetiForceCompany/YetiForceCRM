@@ -3,41 +3,81 @@
 * IconSelector component
 *
 * @description icon selector - all icons included
+* @example <icon-selector v-model="icon" @change="changed" />
 * @license YetiForce Public License 3.0
 * @author Rafal Pospiech <r.pospiech@yetiforce.com>
 */
 -->
 <template>
   <hook-wrapper>
-    <q-btn :icon="choosenIcon.className" :label="$t('LBL_SELECT_ICON')">
-      <popup-proxy-layout :title="$t('LBL_SELECT_ICON')" icon="mdi-emoticon-happy-outline">
-        <template v-slot:page>
-          <div class="row" v-for="(row, index) in rows" :key="index">
-            <q-btn
-              flat
-              v-for="item in row"
-              :key="item.name"
-              :icon="item.icon.className"
-              @click="chooseIcon(item.icon)"
-              v-close-popup
-            />
+    <q-btn :icon="choosenIcon.className" :label="$t('LBL_SELECT_ICON')" @click="showIcons" />
+    <q-dialog v-model="iconsVisible" style="width:50hw">
+      <q-layout container class="bg-white">
+        <q-header class="bg-white">
+          <q-toolbar class="bg-grey-10">
+            <q-avatar>
+              <q-icon name="mdi-image-search" />
+            </q-avatar>
+            <q-toolbar-title>{{ $t('LBL_SELECT_ICON') }}</q-toolbar-title>
+            <q-btn flat v-close-popup round dense icon="mdi-close" />
+          </q-toolbar>
+          <div class="row q-pa-md">
+            <div class="col">
+              <q-input outlined :label="$t('LBL_SEARCH')" v-model="search">
+                <template v-slot:prepend>
+                  <q-icon name="mdi-magnify" />
+                </template>
+              </q-input>
+            </div>
           </div>
-        </template>
-      </popup-proxy-layout>
-    </q-btn>
+        </q-header>
+        <q-page-container>
+          <q-page style="height: 50vh" class="q-pa-md scroll" ref="page">
+            <q-scroll-area style="height:100%">
+              <div class="row q-mt-md" v-for="(row, index) in rows" :key="index">
+                <div
+                  v-ripple
+                  :class="[
+                    'col',
+                    'relative-position',
+                    'container',
+                    'text-lowercase',
+                    'text-caption',
+                    'text-center',
+                    'q-pa-sm',
+                    $style.icon
+                  ]"
+                  v-for="icon in row"
+                  :key="icon.name"
+                  @click.stop.prevent="chooseIcon(icon)"
+                >
+                  <q-icon top size="36px" :name="icon.className" />
+                  <div class="q-mt-sm">{{ icon.name }}</div>
+                </div>
+              </div>
+            </q-scroll-area>
+          </q-page>
+        </q-page-container>
+      </q-layout>
+    </q-dialog>
   </hook-wrapper>
 </template>
 
 <script>
 import getters from '/store/getters.js'
-import PopupProxyLayout from '/Core/components/PopupProxyLayout.vue.js'
 const moduleName = 'Core.Icons.Components.IconSelector'
 
+/**
+ * @vue-prop {number} columns
+ * @vue-model {string} icon
+ * @vue-computed {array} allIcons
+ * @vue-computed {array} rows
+ * @vue-data {boolean} iconsVisible
+ * @vue-data {string} search
+ * @vue-data {object} choosenIcon
+ */
 export default {
   name: moduleName,
-  components: {
-    PopupProxyLayout
-  },
   model: {
     prop: 'icon',
     event: 'change'
@@ -45,39 +85,52 @@ export default {
   props: {
     columns: {
       type: Number,
-      default: 8
+      default: Quasar.plugins.Screen.win ? 6 : 4
     }
   },
   data() {
     return {
+      iconsVisible: false,
+      search: '',
       choosenIcon: {
-        name: 'dots-horizontal',
-        className: 'mdi-dots-horizontal',
-        keywords: ['mdi-dots-horizontal']
+        name: 'image-search',
+        className: 'mdi-image-search',
+        keywords: ['image', 'search']
       }
     }
   },
   computed: {
-    allIconsAsArray() {
+    allIcons() {
       const icons = this.$store.getters[getters.Core.Icons.get]
-      const iconsAsArray = []
+      const filtered = []
       for (let name in icons) {
-        iconsAsArray.push({ name, icon: icons[name] })
+        const icon = icons[name]
+        if (this.search) {
+          const hasKeyWord = icon.keywords.filter(keyword => {
+            return keyword.indexOf(this.search) !== -1
+          })
+          if (hasKeyWord.length) {
+            filtered.push(icon)
+          }
+        } else {
+          filtered.push(icon)
+        }
       }
-      return iconsAsArray
+      return filtered
     },
+
     rows() {
       const rows = []
       let currentRowIndex = 0
       let currentRow = []
-      for (let i = 0, len = this.allIconsAsArray.length; i < len; i++) {
+      for (let i = 0, len = this.allIcons.length; i < len; i++) {
         let calculatedRowIndex = Math.floor(i / this.columns)
         if (calculatedRowIndex !== currentRowIndex) {
           currentRowIndex = calculatedRowIndex
           rows.push(currentRow)
           currentRow = []
         }
-        currentRow.push(this.allIconsAsArray[i])
+        currentRow.push(this.allIcons[i])
       }
       return rows
     }
@@ -86,6 +139,10 @@ export default {
     chooseIcon(icon) {
       this.choosenIcon = icon
       this.$emit('change', icon)
+      this.iconsVisible = false
+    },
+    showIcons() {
+      this.iconsVisible = true
     }
   },
   created() {
@@ -94,4 +151,14 @@ export default {
 }
 </script>
 
-<style></style>
+<style module lang="stylus">
+@import '../../../../../css/app.variables.styl';
+
+.icon {
+  cursor: pointer;
+
+  &:hover {
+    background: $grey-2;
+  }
+}
+</style>
