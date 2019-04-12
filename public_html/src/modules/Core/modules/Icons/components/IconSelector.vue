@@ -3,6 +3,7 @@
 * IconSelector component
 *
 * @description icon selector - all icons included
+* @example <icon-selector v-model="icon" @change="changed" />
 * @license YetiForce Public License 3.0
 * @author Rafal Pospiech <r.pospiech@yetiforce.com>
 */
@@ -66,6 +67,15 @@
 import getters from '/store/getters.js'
 const moduleName = 'Core.Icons.Components.IconSelector'
 
+/**
+ * @vue-prop {number} columns
+ * @vue-model {string} icon
+ * @vue-computed {array} allIcons
+ * @vue-computed {array} rows
+ * @vue-data {boolean} iconsVisible
+ * @vue-data {string} search
+ * @vue-data {object} choosenIcon
+ */
 export default {
   name: moduleName,
   model: {
@@ -82,7 +92,6 @@ export default {
     return {
       iconsVisible: false,
       search: '',
-      iconsHeight: '0px',
       choosenIcon: {
         name: 'image-search',
         className: 'mdi-image-search',
