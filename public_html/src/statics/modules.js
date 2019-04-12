@@ -239,6 +239,29 @@ window.modules = [
       },
       {
         "parentHierarchy": "Core",
+        "fullName": "Core.Icons",
+        "name": "Icons",
+        "path": "src\\modules\\Core\\modules\\Icons",
+        "level": 1,
+        "priority": 90,
+        "autoLoad": true,
+        "entry": "src\\modules\\Core\\modules\\Icons\\Icons.vue.js",
+        "directories": [
+          "assets",
+          "components",
+          "store"
+        ],
+        "store": {
+          "getters": {
+            "get": "Core/Icons/get"
+          },
+          "mutations": {
+            "setIcon": "Core/Icons/setIcon"
+          }
+        }
+      },
+      {
+        "parentHierarchy": "Core",
         "fullName": "Core.Language",
         "name": "Language",
         "path": "src\\modules\\Core\\modules\\Language",

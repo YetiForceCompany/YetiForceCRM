@@ -1,4 +1,12 @@
-<!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
+<!--
+/**
+ * Index page for Settings.Menu module
+ *
+ * @description Index page
+ * @license YetiForce Public License 3.0
+ * @author Rafal Pospiech <r.pospiech@yetiforce.com>
+ */
+-->
 <template>
   <hook-wrapper>
     <div class="q-pa-md row q-gutter-md">
@@ -46,7 +54,7 @@
           </q-page>
         </q-page-container>
         <q-footer bordered class="bg-white q-pa-sm" align="right">
-          <q-btn color="positive" :label="$t('LBL_ADD_MENU')" icon="mdi-plus" />
+          <q-btn unelevated color="positive" :label="$t('LBL_ADD_MENU')" icon="mdi-plus" />
           <q-btn flat color="negative" :label="$t('LBL_CANCEL')" icon="mdi-close" v-close-popup />
         </q-footer>
       </q-layout>
@@ -60,7 +68,9 @@ import mutations from '/store/mutations.js'
 import Objects from '/utilities/Objects.js'
 import TreeEditor from '/Core/components/TreeEditor.vue.js'
 import PopupProxyLayout from '/Core/components/PopupProxyLayout.vue.js'
+
 import ModuleEditor from '../components/Module.vue.js'
+import ShortcutEditor from '../components/Shortcut.vue.js'
 
 const moduleName = 'Settings.Menu.Pages.Index'
 
@@ -111,12 +121,17 @@ export default {
      * @param {object} node
      */
     add(option) {
+      this.editor.caption = this.$t('LBL_ADD_MENU')
       switch (option.value) {
         case 'module':
           this.editor.component = ModuleEditor
-          this.editor.caption = this.$t('LBL_ADD_MENU')
           this.editor.title = this.$t('LBL_MODULE')
           this.editor.icon = 'mdi-cube'
+          break
+        case 'shortcut':
+          this.editor.component = ShortcutEditor
+          this.editor.title = this.$t('LBL_SHORTCUT')
+          this.editor.icon = 'mdi-bullseye-arrow'
           break
       }
       this.editor.visible = true

@@ -1,22 +1,30 @@
-<!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
+<!--
+/**
+ * PopupProxyLayout
+ *
+ * @description This is automatic component chooser based on QPopupProxy,
+ * used to display context menu on large screens or dialog on mobile devices.
+ * @license YetiForce Public License 3.0
+ * @author Rafal Pospiech <r.pospiech@yetiforce.com>
+ */
+-->
 <template>
   <q-popup-proxy>
     <hook-wrapper>
-      <q-layout style="min-height:10px">
+      <q-layout style="min-height:10px;">
         <q-header>
           <slot name="header">
-            <q-toolbar class="bg-blue-grey-10">
-              <q-avatar v-if="icon">
-                <q-icon :name="icon" />
-              </q-avatar>
-              <q-toolbar-title>{{ title }}</q-toolbar-title>
-            </q-toolbar>
+            <div class="row bg-primary q-pa-sm" v-if="title">
+              <div class="col">
+                <div class="text-caption text-truncate"><q-icon :name="icon" left v-if="icon" />{{ title }}</div>
+              </div>
+            </div>
           </slot>
         </q-header>
         <q-page-container>
           <q-page style="min-height:10px">
-            <slot name="page">
-              <hook-wrapper name="page">
+            <hook-wrapper name="page">
+              <slot name="page">
                 <q-list class="bg-white" bordered separator>
                   <hook-wrapper name="items">
                     <q-item
@@ -35,8 +43,8 @@
                     </q-item>
                   </hook-wrapper>
                 </q-list>
-              </hook-wrapper>
-            </slot>
+              </slot>
+            </hook-wrapper>
           </q-page>
         </q-page-container>
         <q-footer>
@@ -49,6 +57,18 @@
 
 <script>
 const moduleName = 'Core.Components.PopupProxyLayout'
+/**
+ * PopupProxyLayout component
+ *
+ * @vue-prop {array} items [optional if you want just list]
+ * @vue-prop {string} itemKey [optional if you want just list]
+ * @vue-prop {string} title [optional]
+ * @vue-prop {string} icon [optional]
+ *
+ * @vue-slot header
+ * @vue-slot page
+ * @vue-slot footer
+ */
 export default {
   name: moduleName,
   props: {

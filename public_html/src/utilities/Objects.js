@@ -1,4 +1,10 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/**
+ * Objects
+ *
+ * @description Helper methods dedicated to objects
+ * @license YetiForce Public License 3.0
+ * @author Rafal Pospiech <r.pospiech@yetiforce.com>
+ */
 import _get from '/node_modules/dot-prop-wild/dist/es/index.js'
 import _set from '/node_modules/set-nested-prop/src/index.js'
 
