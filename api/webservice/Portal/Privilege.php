@@ -67,7 +67,7 @@ class Privilege
 				throw new \Api\Core\Exception('Invalid permissions ', 400);
 		}
 		if (0 === \App\ModuleHierarchy::getModuleLevel($moduleName)) {
-			return $parentRecordId == $record;
+			return $parentRecordId === $record;
 		}
 		$parentModule = \App\Record::getType($parentRecordId);
 		$fields = \App\Field::getRelatedFieldForModule($moduleName);
