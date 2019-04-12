@@ -308,6 +308,26 @@ window.modules = [
       },
       {
         "parentHierarchy": "Core",
+        "fullName": "Core.Notification",
+        "name": "Notification",
+        "path": "src\\modules\\Core\\modules\\Notification",
+        "level": 1,
+        "priority": 90,
+        "autoLoad": true,
+        "entry": "src\\modules\\Core\\modules\\Notification\\Notification.vue.js",
+        "directories": [
+          "store"
+        ],
+        "store": {
+          "actions": {
+            "show": "Core/Notification/show"
+          },
+          "getters": {},
+          "mutations": {}
+        }
+      },
+      {
+        "parentHierarchy": "Core",
         "fullName": "Core.Url",
         "name": "Url",
         "path": "src\\modules\\Core\\modules\\Url",

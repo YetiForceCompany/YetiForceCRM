@@ -33,6 +33,7 @@ export default {
       "updateItems": "Core/Menu/updateItems",
       "addItem": "Core/Menu/addItem"
     },
+    "Notification": {},
     "Url": {
       "addUrl": "Core/Url/addUrl"
     },

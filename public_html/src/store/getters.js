@@ -31,6 +31,7 @@ export default {
       "items": "Core/Menu/items",
       "types": "Core/Menu/types"
     },
+    "Notification": {},
     "Url": {
       "get": "Core/Url/get"
     },
