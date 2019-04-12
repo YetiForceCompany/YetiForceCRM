@@ -1,7 +1,7 @@
 /**
- * Gulp sass variables
+ * Gulp save mdi icons
  *
- * @description get sass variables from scss file
+ * @description get icon names from @mdi scss file
  * @license YetiForce Public License 3.0
  * @author Rafal Pospiech <r.pospiech@yetiforce.com>
  */
