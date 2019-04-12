@@ -66,7 +66,7 @@ class TableCorrectTaxSummary extends Base
 			if ($inventory->isField('tax') && $inventory->isField('taxmode')) {
 				$taxAmount = $relatedTaxAmount = 0;
 				$html .= '
-						<table style="width:100%;vertical-align:top;border-collapse:collapse;border:1px solid #ddd;">
+						<table class="tableCorrectTaxSummary" style="width:100%;vertical-align:top;border-collapse:collapse;border:1px solid #ddd;">
 						<thead>
 								<tr>
 									<th colspan="2" style="font-weight:bold;padding:0px 4px;">' . \App\Language::translate('LBL_TAX_CORRECT_SUMMARY', $this->textParser->moduleName) . '</th>

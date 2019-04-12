@@ -34,7 +34,7 @@ class TableTaxSTwoLang extends Base
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
 		$firstRow = current($inventoryRows);
 		if ($inventory->isField('currency')) {
-			if (!empty($firstRow) && $firstRow['currency'] !== null) {
+			if (!empty($firstRow) && null !== $firstRow['currency']) {
 				$currency = $firstRow['currency'];
 			} else {
 				$currency = $baseCurrency['id'];
@@ -53,7 +53,7 @@ class TableTaxSTwoLang extends Base
 				$taxAmount = 0;
 				$html .= '
 
-						<table style="width:100%;border-collapse:collapse;border:1px solid #ddd;">
+						<table class="tableTaxSTwoLang" style="width:100%;border-collapse:collapse;border:1px solid #ddd;">
 							<thead>
 								<tr>
 									<th colspan="2" style="padding:0px 4px;text-align:center;">' . \App\Language::translate('LBL_TAX_SUMMARY', $this->textParser->moduleName) . ' / ' . \App\Language::translate('LBL_TAX_SUMMARY', $this->textParser->moduleName, \App\Language::DEFAULT_LANG) . '</th>
@@ -67,7 +67,7 @@ class TableTaxSTwoLang extends Base
 								<td style="padding:0px 4px;text-align:right;">' . \CurrencyField::convertToUserFormat($tax, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
 							</tr>';
 				}
-				$html .= '<tr>
+				$html .= '<tr class="row-summary">
 							<td style="padding:0px 4px;text-align:left;">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . ' / ' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName, \App\Language::DEFAULT_LANG) . '</td>
 							<td style="text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($taxAmount, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
 						 </tr>

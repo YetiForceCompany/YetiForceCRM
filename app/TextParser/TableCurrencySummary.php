@@ -34,7 +34,7 @@ class TableCurrencySummary extends Base
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
 		$firstRow = current($inventoryRows);
 		if ($inventory->isField('currency')) {
-			if (!empty($firstRow) && $firstRow['currency'] !== null) {
+			if (!empty($firstRow) && null !== $firstRow['currency']) {
 				$currency = $firstRow['currency'];
 			} else {
 				$currency = $baseCurrency['id'];
@@ -51,7 +51,7 @@ class TableCurrencySummary extends Base
 			}
 			if (!empty($currency) && !empty($currencyData) && $baseCurrency['id'] !== $currency && $inventory->isField('tax') && $inventory->isField('taxmode') && $inventory->isField('currency')) {
 				$RATE = $baseCurrency['conversion_rate'] / $currencyData['conversion_rate'];
-				$html .= '<table style="border-collapse:collapse;width:100%;border:1px solid #ddd;">
+				$html .= '<table class="tableCurrencySummary" style="border-collapse:collapse;width:100%;border:1px solid #ddd;">
 								<thead>
 									<tr>
 
@@ -69,7 +69,7 @@ class TableCurrencySummary extends Base
 									<td style="text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($tax * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
 								</tr>';
 				}
-				$html .= '<tr>
+				$html .= '<tr class="row-summary">
 								<td style="padding:0px 4px;font-weight:bold;">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
 								<td style="text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($currencyAmount * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
 							</tr>

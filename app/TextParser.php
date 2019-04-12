@@ -743,9 +743,9 @@ class TextParser
 		foreach ($fields as $fieldModel) {
 			if ($fieldModel->isViewable()) {
 				if ($this->withoutTranslations) {
-					$headers .= "<th>$(translate : {$fieldModel->getFieldLabel()}|$reletedModuleName)$</th>";
+					$headers .= "<th class=\"col-type-{$fieldModel->getType()}\">$(translate : {$fieldModel->getFieldLabel()}|$reletedModuleName)$</th>";
 				} else {
-					$headers .= '<th>' . \App\Language::translate($fieldModel->getFieldLabel(), $reletedModuleName) . '</th>';
+					$headers .= "<th class=\"col-type-{$fieldModel->getType()}\">" . \App\Language::translate($fieldModel->getFieldLabel(), $reletedModuleName) . '</th>';
 				}
 			}
 		}
@@ -757,12 +757,12 @@ class TextParser
 					if ((int) $maxLength) {
 						$value = $this->textTruncate($value, (int) $maxLength);
 					}
-					$rows .= "<td>$value</td>";
+					$rows .= "<td class=\"col-type-{$fieldModel->getType()}\">{$value}</td>";
 				}
 			}
 			$rows .= '</tr>';
 		}
-		return empty($rows) ? '' : "<table><thead><tr>{$headers}</tr></thead><tbody>{$rows}</tbody></table>";
+		return empty($rows) ? '' : "<table class=\"relatedRecordsList\"><thead><tr>{$headers}</tr></thead><tbody>{$rows}</tbody></table>";
 	}
 
 	/**
@@ -815,9 +815,9 @@ class TextParser
 		$fields = $listView->getListViewHeaders();
 		foreach ($fields as $fieldModel) {
 			if ($this->withoutTranslations) {
-				$headers .= "<th>$(translate : {$fieldModel->getFieldLabel()}|$moduleName)$</th>";
+				$headers .= "<th class=\"col-type-{$fieldModel->getType()}\">$(translate : {$fieldModel->getFieldLabel()}|$moduleName)$</th>";
 			} else {
-				$headers .= '<th>' . \App\Language::translate($fieldModel->getFieldLabel(), $moduleName) . '</th>';
+				$headers .= "<th class=\"col-type-{$fieldModel->getType()}\">" . \App\Language::translate($fieldModel->getFieldLabel(), $moduleName) . '</th>';
 			}
 		}
 		foreach ($listView->getListViewEntries($pagingModel) as $reletedRecordModel) {
@@ -828,7 +828,7 @@ class TextParser
 					if ((int) $maxLength) {
 						$value = $this->textTruncate($value, (int) $maxLength);
 					}
-					$rows .= "<td>$value</td>";
+					$rows .= "<td class=\"col-type-{$fieldModel->getType()}\">{$value}</td>";
 				}
 			}
 			$rows .= '</tr>';
