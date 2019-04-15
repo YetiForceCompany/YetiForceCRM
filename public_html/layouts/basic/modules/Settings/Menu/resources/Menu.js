@@ -216,6 +216,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName();
 		params['action'] = 'SaveAjax';
+		params['source'] = $('.js-source').val();
 		params['mode'] = mode;
 		params['mdata'] = data;
 		AppConnector.request(params).done(function (data) {
