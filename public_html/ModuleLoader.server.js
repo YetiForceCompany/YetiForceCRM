@@ -66,6 +66,7 @@ function addGlobals() {
   const globalLibs = {
     Vue: 'vue',
     Vuex: 'vuex',
+    VuexClass: 'vuex-class.js',
     VueRouter: 'vue-router',
     VueI18n: 'vue-i18n',
     Quasar: 'quasar',
