@@ -53,9 +53,8 @@ class TableCurrencySummary extends Base
 				$RATE = $baseCurrency['conversion_rate'] / $currencyData['conversion_rate'];
 				$html .= '<table class="tableCurrencySummary" style="border-collapse:collapse;width:100%;border:1px solid #ddd;">
 								<thead>
-									<tr>
-
-										<th colspan="2" style="padding:0px 4px;text-align:center;">
+									<tr class="tableCurrencySummary-thead-row">
+										<th class="tableCurrencySummary-thead-col" colspan="2" style="padding:0px 4px;text-align:center;">
 											<strong>' . \App\Language::translate('LBL_CURRENCIES_SUMMARY', $this->textParser->moduleName) . '</strong>
 										</th>
 									</tr>
@@ -64,14 +63,14 @@ class TableCurrencySummary extends Base
 				$currencyAmount = 0;
 				foreach ($taxes as $key => &$tax) {
 					$currencyAmount += $tax;
-					$html .= '<tr>
-									<td style="padding:0px 4px;">' . $key . '%</td>
-									<td style="text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($tax * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
+					$html .= '<tr class="tableCurrencySummary-row">
+									<td class="tableCurrencySummary-col style="padding:0px 4px;">' . $key . '%</td>
+									<td class="tableCurrencySummary-col" style="text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($tax * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
 								</tr>';
 				}
-				$html .= '<tr class="row-summary">
-								<td style="padding:0px 4px;font-weight:bold;">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
-								<td style="text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($currencyAmount * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
+				$html .= '<tr class="tableCurrencySummary-row-summary">
+								<td class="tableCurrencySummary-summary-col" style="padding:0px 4px;font-weight:bold;">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
+								<td class="tableCurrencySummary-summary-col" style="text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($currencyAmount * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
 							</tr>
 						</tbody>
 					</table>';

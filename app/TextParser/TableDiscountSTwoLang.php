@@ -49,11 +49,13 @@ class TableDiscountSTwoLang extends Base
 			if ($inventory->isField('discount') && $inventory->isField('discountmode')) {
 				$html .= '<table class="tableDiscountSTwoLang" style="border-collapse:collapse;width:100%;">
 							<thead>
-								<tr><th style="padding:0px 4px;text-align:center;">' . \App\Language::translate('LBL_DISCOUNTS_SUMMARY', $this->textParser->moduleName) . ' / ' . \App\Language::translate('LBL_DISCOUNTS_SUMMARY', $this->textParser->moduleName, \App\Language::DEFAULT_LANG) . '</th></tr>
+								<tr class="tableDiscountSTwoLang-thead-row">
+									<th class="tableDiscountSTwoLang-thead-col" style="padding:0px 4px;text-align:center;">' . \App\Language::translate('LBL_DISCOUNTS_SUMMARY', $this->textParser->moduleName) . ' / ' . \App\Language::translate('LBL_DISCOUNTS_SUMMARY', $this->textParser->moduleName, \App\Language::DEFAULT_LANG) . '</th>
+								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td style="text-align:right;padding:0px 4px;border:1px solid #ddd;">' . \CurrencyField::convertToUserFormat($discount, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
+								<tr class="tableDiscountSTwoLang-row">
+									<td class="tableDiscountSTwoLang-col" style="text-align:right;padding:0px 4px;border:1px solid #ddd;">' . \CurrencyField::convertToUserFormat($discount, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
 								</tr>
 							</tbody>
 						</table>';

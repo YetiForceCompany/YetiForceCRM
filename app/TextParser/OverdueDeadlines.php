@@ -43,14 +43,14 @@ class OverdueDeadlines extends Base
 		$query = $queryGenerator->createQuery();
 		$query->limit(500);
 		$dataReader = $query->createCommand()->query();
-		$html = '<table class="overdueDeadlines" style="border-collapse:collapse;"><thead><tr>';
+		$html = '<table class="overdueDeadlines" style="border-collapse:collapse;"><thead><tr class="overdueDeadlines-thead-row">';
 		foreach ($this->columnNames as $column) {
 			$fieldModel = $fields[$column];
-			$html .= '<th class="col-type-' . $fieldModel->getType() . '"><span>' . \App\Language::translate($fieldModel->get('label'), $moduleName) . '</span></th>';
+			$html .= '<th class="overdueDeadlines-thead-col overdueDeadlines-thead-col-type-' . $fieldModel->getType() . '"><span>' . \App\Language::translate($fieldModel->get('label'), $moduleName) . '</span></th>';
 		}
 		$html .= '</tr></thead><tbody>';
 		while ($row = $dataReader->read()) {
-			$html .= '<tr>';
+			$html .= '<tr class="overdueDeadlines-row">';
 			foreach ($this->columnNames as $column) {
 				$recordId = $row['id'];
 				$recordModel = \Vtiger_Record_Model::getInstanceById($recordId);
@@ -71,7 +71,7 @@ class OverdueDeadlines extends Base
 					$value = $recordModel->getDisplayValue($fieldModel->getName(), $recordId, true);
 				}
 
-				$html .= '<td class="col-type-' . $fieldModel->getType() . '"><span>' . $style . '>' . $value . '</td>';
+				$html .= '<td class="overdueDeadlines-col overdueDeadlines-col-type-' . $fieldModel->getType() . '"><span>' . $style . '>' . $value . '</td>';
 			}
 			$html .= '</tr>';
 		}

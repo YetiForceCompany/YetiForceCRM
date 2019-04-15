@@ -48,27 +48,27 @@ class ProductsTableShortVersion extends Base
 			$fieldsWithCurrency = ['TotalPrice', 'GrossPrice', 'UnitPrice'];
 			$html .= '<table class="productsTableShortVersion" style="width:100%;border-collapse:collapse;">
 				<thead>
-					<tr>';
+					<tr class="productsTableShortVersion-thead-row">';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible() && in_array($field->getType(), $fieldsColumnQuotes)) {
-					$html .= '<th class="col-type-' . $field->getType() . '" style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
+					$html .= '<th class="productsTableShortVersion-thead-col productsTableShortVersion-thead-col-type-' . $field->getType() . '" style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 				}
 			}
 			$html .= '</tr></thead><tbody>';
 			foreach ($inventoryRows as $inventoryRow) {
-				$html .= '<tr>';
+				$html .= '<tr class="productsTableShortVersion-row">';
 				foreach ($fields[1] as $field) {
 					if (!$field->isVisible() || !in_array($field->getType(), $fieldsColumnQuotes)) {
 						continue;
 					}
 					if ('ItemNumber' === $field->getType()) {
-						$html .= '<td class="col-type-ItemNumber" style="padding:0px 4px;border:1px solid #ddd;font-weight:bold;">' . $inventoryRow['seq'] . '</td>';
+						$html .= '<td class="productsTableShortVersion-col productsTableShortVersion-col-type-ItemNumber" style="padding:0px 4px;border:1px solid #ddd;font-weight:bold;">' . $inventoryRow['seq'] . '</td>';
 					} elseif ('ean' === $field->getColumnName()) {
 						$code = $inventoryRow[$field->getColumnName()];
-						$html .= '<td class="col-type-barcode"><div data-barcode="EAN13" data-code="' . $code . '" data-size="1" data-height="16"></div></td>';
+						$html .= '<td class="productsTableShortVersion-col productsTableShortVersion-col-type-barcode"><div data-barcode="EAN13" data-code="' . $code . '" data-size="1" data-height="16"></div></td>';
 					} else {
 						$itemValue = $inventoryRow[$field->getColumnName()];
-						$html .= '<td class="col-type-' . $field->getType() . '" style="border:1px solid #ddd;padding:0px 4px;' . (in_array($field->getType(), $fieldsTextRight) ? 'text-align:right;' : '') . '">';
+						$html .= '<td class="productsTableShortVersion-col productsTableShortVersion-col-type-' . $field->getType() . '" style="border:1px solid #ddd;padding:0px 4px;' . (in_array($field->getType(), $fieldsTextRight) ? 'text-align:right;' : '') . '">';
 						if ('Name' === $field->getType()) {
 							$html .= '<strong>' . $field->getDisplayValue($itemValue, $inventoryRow) . '</strong>';
 							foreach ($inventory->getFieldsByType('Comment') as $commentField) {
@@ -89,10 +89,10 @@ class ProductsTableShortVersion extends Base
 				}
 				$html .= '</tr>';
 			}
-			$html .= '</tbody><tfoot><tr>';
+			$html .= '</tbody><tfoot><tr class="productsTableShortVersion-tfoot-row">';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible() && in_array($field->getType(), $fieldsColumnQuotes)) {
-					$html .= '<th class="col-type-' . $field->getType() . '" style="padding:0px 4px;text-align:right;">';
+					$html .= '<th class="productsTableShortVersion-tfoot-col productsTableShortVersion-tfoot-col-type-' . $field->getType() . '" style="padding:0px 4px;text-align:right;">';
 					if ($field->isSummary()) {
 						$sum = 0;
 						foreach ($inventoryRows as $inventoryRow) {

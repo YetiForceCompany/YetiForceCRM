@@ -68,8 +68,8 @@ class TableCorrectTaxSummary extends Base
 				$html .= '
 						<table class="tableCorrectTaxSummary" style="width:100%;vertical-align:top;border-collapse:collapse;border:1px solid #ddd;">
 						<thead>
-								<tr>
-									<th colspan="2" style="font-weight:bold;padding:0px 4px;">' . \App\Language::translate('LBL_TAX_CORRECT_SUMMARY', $this->textParser->moduleName) . '</th>
+								<tr class="tableCorrectTaxSummary-thead-row">
+									<th class="tableCorrectTaxSummary-thead-col" colspan="2" style="font-weight:bold;padding:0px 4px;">' . \App\Language::translate('LBL_TAX_CORRECT_SUMMARY', $this->textParser->moduleName) . '</th>
 								</tr>
 								</thead><tbody>';
 
@@ -79,9 +79,9 @@ class TableCorrectTaxSummary extends Base
 				foreach ($relatedTaxes as $tax) {
 					$relatedTaxAmount += $tax;
 				}
-				$html .= '<tr>
-									<td style="text-align:left;font-weight:bold;padding:0px 4px;">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
-									<td style="text-align:right;font-weight:bold;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($relatedTaxAmount - $taxAmount, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
+				$html .= '<tr class="tableCorrectTaxSummary-row">
+									<td class="tableCorrectTaxSummary-col" style="text-align:left;font-weight:bold;padding:0px 4px;">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
+									<td class="tableCorrectTaxSummary-col" style="text-align:right;font-weight:bold;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($relatedTaxAmount - $taxAmount, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
 								</tr>
 								</tbody>
 						</table>';

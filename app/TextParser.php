@@ -743,9 +743,9 @@ class TextParser
 		foreach ($fields as $fieldModel) {
 			if ($fieldModel->isViewable()) {
 				if ($this->withoutTranslations) {
-					$headers .= "<th class=\"col-type-{$fieldModel->getType()}\">$(translate : {$fieldModel->getFieldLabel()}|$reletedModuleName)$</th>";
+					$headers .= "<th class=\"relatedRecordsList-thead-col relatedRecordsList-thead-col-type-{$fieldModel->getType()}\">$(translate : {$fieldModel->getFieldLabel()}|$reletedModuleName)$</th>";
 				} else {
-					$headers .= "<th class=\"col-type-{$fieldModel->getType()}\">" . \App\Language::translate($fieldModel->getFieldLabel(), $reletedModuleName) . '</th>';
+					$headers .= "<th class=\"relatedRecordsList-thead-col relatedRecordsList-thead-col-type-{$fieldModel->getType()}\">" . \App\Language::translate($fieldModel->getFieldLabel(), $reletedModuleName) . '</th>';
 				}
 			}
 		}
@@ -757,12 +757,12 @@ class TextParser
 					if ((int) $maxLength) {
 						$value = $this->textTruncate($value, (int) $maxLength);
 					}
-					$rows .= "<td class=\"col-type-{$fieldModel->getType()}\">{$value}</td>";
+					$rows .= "<td class=\"relatedRecordsList-col relatedRecordsList-col-type-{$fieldModel->getType()}\">{$value}</td>";
 				}
 			}
 			$rows .= '</tr>';
 		}
-		return empty($rows) ? '' : "<table class=\"relatedRecordsList\"><thead><tr>{$headers}</tr></thead><tbody>{$rows}</tbody></table>";
+		return empty($rows) ? '' : "<table class=\"relatedRecordsList\"><thead><tr class=\"relatedRecordsList-thead-row\">{$headers}</tr></thead><tbody>{$rows}</tbody></table>";
 	}
 
 	/**
@@ -815,25 +815,25 @@ class TextParser
 		$fields = $listView->getListViewHeaders();
 		foreach ($fields as $fieldModel) {
 			if ($this->withoutTranslations) {
-				$headers .= "<th class=\"col-type-{$fieldModel->getType()}\">$(translate : {$fieldModel->getFieldLabel()}|$moduleName)$</th>";
+				$headers .= "<th class=\"recordsList-thead-col recordsList-thead-col-type-{$fieldModel->getType()}\">$(translate : {$fieldModel->getFieldLabel()}|$moduleName)$</th>";
 			} else {
-				$headers .= "<th class=\"col-type-{$fieldModel->getType()}\">" . \App\Language::translate($fieldModel->getFieldLabel(), $moduleName) . '</th>';
+				$headers .= "<th class=\"recordsList-thead-col recordsList-thead-col-type-{$fieldModel->getType()}\">" . \App\Language::translate($fieldModel->getFieldLabel(), $moduleName) . '</th>';
 			}
 		}
 		foreach ($listView->getListViewEntries($pagingModel) as $reletedRecordModel) {
-			$rows .= '<tr>';
+			$rows .= '<tr class="recordsList-row">';
 			foreach ($fields as $fieldModel) {
 				$value = $this->getDisplayValueByField($fieldModel, $reletedRecordModel);
 				if (false !== $value) {
 					if ((int) $maxLength) {
 						$value = $this->textTruncate($value, (int) $maxLength);
 					}
-					$rows .= "<td class=\"col-type-{$fieldModel->getType()}\">{$value}</td>";
+					$rows .= "<td class=\"recordsList-col recordsList-col-type-{$fieldModel->getType()}\">{$value}</td>";
 				}
 			}
 			$rows .= '</tr>';
 		}
-		return empty($rows) ? '' : "<table class=\"recordsList\"><thead><tr>{$headers}</tr></thead><tbody>{$rows}</tbody></table>";
+		return empty($rows) ? '' : "<table class=\"recordsList\"><thead><tr class=\"recordsList-thead-row\">{$headers}</tr></thead><tbody>{$rows}</tbody></table>";
 	}
 
 	/**
@@ -1457,11 +1457,11 @@ class TextParser
 		if (!empty($fields[1])) {
 			$fieldsTextAlignRight = ['Unit', 'TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'];
 			$fieldsWithCurrency = ['TotalPrice', 'Purchase', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Discount', 'Margin', 'Tax'];
-			$html .= '<table class="inventory-table" style="border-collapse:collapse;width:100%"><thead><tr>';
+			$html .= '<table class="inventoryTable" style="border-collapse:collapse;width:100%"><thead><tr class="inventoryTable-thead-row">';
 			$columns = [];
 			foreach ($configColumns as $name => $seq) {
 				if ('seq' === $name) {
-					$html .= '<th class="col-type-ItemNumber" style="border:1px solid #ddd">' . \App\Language::translate('LBL_ITEM_NUMBER', $this->moduleName) . '</th>';
+					$html .= '<th class="inventoryTable-thead-col tinventoryTable-thead-col-type-ItemNumber" style="border:1px solid #ddd">' . \App\Language::translate('LBL_ITEM_NUMBER', $this->moduleName) . '</th>';
 					$columns[$name] = false;
 					continue;
 				}
@@ -1472,23 +1472,23 @@ class TextParser
 				if (!$field->isVisible()) {
 					continue;
 				}
-				$html .= '<th class="col-type-' . $field->getType() . '" style="border:1px solid #ddd">' . \App\Language::translate($field->get('label'), $this->moduleName) . '</th>';
+				$html .= '<th class="inventoryTable-thead-col inventoryTable-thead-col-type-' . $field->getType() . '" style="border:1px solid #ddd">' . \App\Language::translate($field->get('label'), $this->moduleName) . '</th>';
 				$columns[$field->getColumnName()] = $field;
 			}
 			$html .= '</tr></thead><tbody>';
 			$counter = 0;
 			foreach ($inventoryRows as $inventoryRow) {
 				++$counter;
-				$html .= '<tr class="row row-' . $counter . '">';
+				$html .= '<tr class="inventoryTable-row inventoryTable-row-' . $counter . '">';
 				foreach ($columns as $name => $field) {
 					if ('seq' === $name || 'ItemNumber' === $field->getType()) {
-						$html .= '<td class="col-type-ItemNumber" style="border:1px solid #ddd;font-weight:bold;">' . $counter . '</td>';
+						$html .= '<td class="inventoryTable-col inventoryTable-col-type-ItemNumber" style="border:1px solid #ddd;font-weight:bold;">' . $counter . '</td>';
 					} elseif ('ean' === $name) {
 						$itemValue = $inventoryRow[$name];
-						$html .= '<td class="col-type-barcode"><div data-barcode="EAN13" data-code="' . $itemValue . '" data-size="1" data-height="16"></div></td>';
+						$html .= '<td class="inventoryTable-col inventoryTable-col-type-barcode"><div data-barcode="EAN13" data-code="' . $itemValue . '" data-size="1" data-height="16"></div></td>';
 					} else {
 						$itemValue = $inventoryRow[$name];
-						$html .= '<td class="col-type-' . $field->getType() . '" style="border:1px solid #ddd;padding:0px 4px;' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '">';
+						$html .= '<td class="inventoryTable-col inventoryTable-col-type-' . $field->getType() . '" style="border:1px solid #ddd;padding:0px 4px;' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '">';
 						if ('Name' === $field->getType()) {
 							$html .= '<strong>' . $field->getDisplayValue($itemValue, $inventoryRow, $rawText) . '</strong>';
 							foreach ($inventory->getFieldsByType('Comment') as $commentField) {
@@ -1509,7 +1509,7 @@ class TextParser
 				}
 				$html .= '</tr>';
 			}
-			$html .= '</tbody><tfoot><tr>';
+			$html .= '</tbody><tfoot><tr class="inventoryTable-tfoot-row">';
 			foreach ($columns as $name => $field) {
 				$tb = $style = '';
 				if ($field && $field->isSummary()) {
@@ -1520,7 +1520,7 @@ class TextParser
 					}
 					$tb = \CurrencyField::convertToUserFormat($sum, null, true) . ' ' . $currencySymbol;
 				}
-				$html .= '<th style="padding:0px 4px;text-align:right;' . $style . '">' . $tb . '</th>';
+				$html .= '<th class="inventoryTable-tfoot-col inventoryTable-tfoot-col-type-' . $field->getType() . '" style="padding:0px 4px;text-align:right;' . $style . '">' . $tb . '</th>';
 			}
 			$html .= '</tr></tfoot></table>';
 		}

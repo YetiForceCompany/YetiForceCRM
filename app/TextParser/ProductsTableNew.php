@@ -47,28 +47,28 @@ class ProductsTableNew extends Base
 			$fieldsWithCurrency = ['TotalPrice', 'Purchase', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Discount', 'Margin', 'Tax'];
 			$html .= '<table class="productsTableNew" style="border-collapse:collapse;width:100%">
 				<thead>
-					<tr>';
+					<tr class="productsTableNew-thead-row">';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible()) {
-					$html .= '<th class="col-type-' . $field->getType() . '">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
+					$html .= '<th class="productsTableNew-thead-col productsTableNew-thead-col-type-' . $field->getType() . '">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 				}
 			}
 			$html .= '</tr></thead><tbody>';
 			$counter = 1;
 			foreach ($inventoryRows as $inventoryRow) {
-				$html .= '<tr>';
+				$html .= '<tr class="productsTableNew-row">';
 				foreach ($fields[1] as $field) {
 					if (!$field->isVisible()) {
 						continue;
 					}
 					if ('ItemNumber' === $field->getType()) {
-						$html .= '<td class="col-type-ItemNumber" style="font-weight:bold;">' . $counter++ . '</td>';
+						$html .= '<td class="productsTableNew-col productsTableNew-col-type-ItemNumber" style="font-weight:bold;">' . $counter++ . '</td>';
 					} elseif ('ean' === $field->getColumnName()) {
 						$code = $inventoryRow[$field->getColumnName()];
-						$html .= '<td class="col-type-barcode"><div data-barcode="EAN13" data-code="' . $code . '" data-size="1" data-height="16"></div></td>';
+						$html .= '<td class="productsTableNew-col productsTableNew-col-type-barcode"><div data-barcode="EAN13" data-code="' . $code . '" data-size="1" data-height="16"></div></td>';
 					} else {
 						$itemValue = $inventoryRow[$field->getColumnName()];
-						$html .= '<td class="col-type-' . $field->getType() . '" style="font-size:8px;border:1px solid #ddd;padding:0px 4px;' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '">';
+						$html .= '<td class="productsTableNew-col productsTableNew-col-type-' . $field->getType() . '" style="font-size:8px;border:1px solid #ddd;padding:0px 4px;' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '">';
 						if ('Name' === $field->getType()) {
 							$html .= '<strong>' . $field->getDisplayValue($itemValue, $inventoryRow) . '</strong>';
 							foreach ($inventory->getFieldsByType('Comment') as $commentField) {
@@ -89,10 +89,10 @@ class ProductsTableNew extends Base
 				}
 				$html .= '</tr>';
 			}
-			$html .= '</tbody><tfoot><tr>';
+			$html .= '</tbody><tfoot><tr class="productsTableNew-tfoot-row">';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible()) {
-					$html .= '<th class="col-type-' . $field->getType() . '" style="padding:0px 4px;text-align:right;">';
+					$html .= '<th class="productsTableNew-tfoot-col productsTableNew-tfoot-col-type-' . $field->getType() . '" style="padding:0px 4px;text-align:right;">';
 					if ($field->isSummary()) {
 						$sum = 0;
 						foreach ($inventoryRows as $inventoryRow) {
