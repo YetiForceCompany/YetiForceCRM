@@ -1,6 +1,6 @@
 <?php
 /**
- * A class that supports rules for statuses, cooperating with picklist.
+ * A file that supports rules for statuses, cooperating with picklist.
  *
  * @package App
  *
@@ -12,7 +12,7 @@
 namespace App\Automatic;
 
 /**
- * Class RulesPicklist.
+ * A class that supports rules for statuses, cooperating with picklist.
  */
 class RulesPicklist extends Rules
 {
