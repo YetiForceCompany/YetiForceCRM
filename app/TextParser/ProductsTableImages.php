@@ -55,10 +55,10 @@ class ProductsTableImages extends Base
 			}
 			// header
 			$item = [];
-			$item['headerHtml'] = '<th class="col-th-type-' . $field->getType() . '" style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
+			$item['headerHtml'] = '<th class="productsTableImages-thead-col productsTableImages-thead-col-type-' . $field->getType() . '" style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 			$item['model'] = $field;
 			// footer
-			$footerHtml = '<th class="col-th-type-' . $field->getType() . '" style="padding:0px 4px;text-align:right;">';
+			$footerHtml = '<th class="productsTableImages-thead-col productsTableImages-thead-col-type-' . $field->getType() . '" style="padding:0px 4px;text-align:right;">';
 			if ($field->isSummary()) {
 				$sum = 0;
 				foreach ($inventoryRows as $inventoryRow) {
@@ -71,9 +71,9 @@ class ProductsTableImages extends Base
 			$displayFields[] = $item;
 		}
 		array_splice($displayFields, 1, 0, [[
-			'headerHtml' => '<th style="padding:0px 4px;text-align:center;">' . \App\Language::translate('PLL_IMAGE', 'Settings:PDF') . '</th>',
+			'headerHtml' => '<th class="productsTableImages-thead-col" style="padding:0px 4px;text-align:center;">' . \App\Language::translate('PLL_IMAGE', 'Settings:PDF') . '</th>',
 			'model' => 'image',
-			'footerHtml' => '<th></th>',
+			'footerHtml' => '<th class="productsTableImages-thead-col"></th>',
 		]]);
 		// content
 		$displayRows = [];

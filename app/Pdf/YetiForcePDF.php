@@ -518,7 +518,7 @@ class YetiForcePDF extends PDF
 	 */
 	private function loadCustomFonts()
 	{
-		$fontsDir = 'layouts' . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'fonts' . DIRECTORY_SEPARATOR;
+		$fontsDir = 'layouts' . \DIRECTORY_SEPARATOR . 'resources' . \DIRECTORY_SEPARATOR . 'fonts' . \DIRECTORY_SEPARATOR;
 		$resolvedDir = \Vtiger_Loader::resolveNameToPath('~' . $fontsDir, 'css');
 		$customFonts = \App\Json::read($resolvedDir . 'fonts.json');
 		foreach ($customFonts as &$font) {
@@ -554,11 +554,11 @@ class YetiForcePDF extends PDF
 	public function getTemplateWatermark(\Vtiger_PDF_Model $templateModel)
 	{
 		$watermark = '';
-		if ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_IMAGE && trim($templateModel->get('watermark_image')) !== '') {
+		if (self::WATERMARK_TYPE_IMAGE === $templateModel->get('watermark_type') && '' !== trim($templateModel->get('watermark_image'))) {
 			if ($templateModel->get('watermark_image')) {
 				$watermark = '<img src="' . $templateModel->get('watermark_image') . '" style="opacity:0.1;">';
 			}
-		} elseif ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_TEXT && trim($templateModel->get('watermark_text')) !== '') {
+		} elseif (self::WATERMARK_TYPE_TEXT === $templateModel->get('watermark_type') && '' !== trim($templateModel->get('watermark_text'))) {
 			$watermark = '<div style="opacity:0.1;display:inline-block;">' . $templateModel->get('watermark_text') . '</div>';
 		}
 		return $watermark;
@@ -596,10 +596,10 @@ class YetiForcePDF extends PDF
 	{
 		$template = \Vtiger_PDF_Model::getInstanceById($templateId, $moduleName);
 		$template->setMainRecordId($templateMainRecordId ? $templateMainRecordId : $recordId);
-		$pageOrientationValue = $template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L';
+		$pageOrientationValue = 'PLL_PORTRAIT' === $template->get('page_orientation') ? 'P' : 'L';
 		if ($this->isDefault) {
 			$charset = \AppConfig::main('default_charset') ?? 'UTF-8';
-			if ($template->get('margin_chkbox') === 1) {
+			if (1 === $template->get('margin_chkbox')) {
 				$self = new self($charset);
 				$self->setPageSize($template->get('page_format'), $pageOrientationValue);
 				$self->setFont($this->defaultFontFamily, $this->defaultFontSize);
@@ -627,7 +627,7 @@ class YetiForcePDF extends PDF
 		$self->setWatermark($template);
 		$self->setLanguage($template->get('language'));
 		$self->setFileName($self->parseVariables($template->get('filename')));
-		$self->parseParams($template->getParameters(), $template->get('margin_chkbox') !== 1);
+		$self->parseParams($template->getParameters(), 1 !== $template->get('margin_chkbox'));
 		$self->loadHtml($template->getBody());
 		$self->setHeader($template->getHeader());
 		$self->setFooter($template->getFooter());
@@ -654,7 +654,7 @@ class YetiForcePDF extends PDF
 		}
 		$this->writeHTML();
 		$output = $this->pdf->render();
-		if ($dest !== 'I') {
+		if ('I' !== $dest) {
 			return file_put_contents($fileName, $output);
 		}
 		header('accept-charset: utf-8');

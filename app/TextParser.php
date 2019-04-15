@@ -1461,7 +1461,7 @@ class TextParser
 			$columns = [];
 			foreach ($configColumns as $name => $seq) {
 				if ('seq' === $name) {
-					$html .= '<th class="inventoryTable-thead-col tinventoryTable-thead-col-type-ItemNumber" style="border:1px solid #ddd">' . \App\Language::translate('LBL_ITEM_NUMBER', $this->moduleName) . '</th>';
+					$html .= '<th class="inventoryTable-thead-col inventoryTable-thead-col-type-ItemNumber" style="border:1px solid #ddd">' . \App\Language::translate('LBL_ITEM_NUMBER', $this->moduleName) . '</th>';
 					$columns[$name] = false;
 					continue;
 				}

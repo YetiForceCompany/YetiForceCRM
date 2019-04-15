@@ -64,7 +64,7 @@ class TableCurrencySummary extends Base
 				foreach ($taxes as $key => &$tax) {
 					$currencyAmount += $tax;
 					$html .= '<tr class="tableCurrencySummary-row">
-									<td class="tableCurrencySummary-col style="padding:0px 4px;">' . $key . '%</td>
+									<td class="tableCurrencySummary-col" style="padding:0px 4px;">' . $key . '%</td>
 									<td class="tableCurrencySummary-col" style="text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($tax * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
 								</tr>';
 				}
