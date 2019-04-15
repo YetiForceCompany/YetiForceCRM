@@ -9,12 +9,12 @@
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
 
-namespace App\Rules;
+namespace App\Automatic;
 
 /**
  * Class RulesPicklist.
  */
-class RulesPicklist extends \App\Rules
+class RulesPicklist extends Rules
 {
 	/**
 	 * What value to choose from the plicklist for rules.
@@ -26,17 +26,17 @@ class RulesPicklist extends \App\Rules
 	 */
 	protected function check(array $items, array $params): bool
 	{
-		$condition = $params[static::CONDITION] ?? '';
+		$condition = $params['condition'] ?? '';
 		$b = false;
-		foreach ($params[static::RULES] as $rule) {
-			$val = $rule[static::VALUE] ?? '';
-			$operator = $rule[static::OPERATOR] ?? '';
+		foreach ($params['rules'] as $rule) {
+			$val = $rule['value'] ?? '';
+			$operator = $rule['operator'] ?? '';
 			$automation = $rule[static::AUTOMATION] ?? -1;
-			$b = $this->checkOperator($operator, $val, $this->filterItems($items, $automation));
-			if (static::OR === $condition && $b) {
+			$b = $this->checkOperator($operator, $this->filterItems($items, $automation), $val);
+			if ('or' === $condition && $b) {
 				break;
 			}
-			if (static::AND === $condition && !$b) {
+			if ('and' === $condition && !$b) {
 				break;
 			}
 		}

@@ -44,7 +44,6 @@ class ProjectTask_ProjectTaskHandler_Handler
 				(new \App\BatchMethod(['method' => 'Project_Module_Model::updateProgress', 'params' => [$projectId]]))->save();
 			}
 		}
-		(new ProjectTask_SyncStatus_Model())->entityAfterSave($recordModel);
 	}
 
 	/**
@@ -56,7 +55,6 @@ class ProjectTask_ProjectTaskHandler_Handler
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		(new \App\BatchMethod(['method' => 'ProjectMilestone_Module_Model::updateProgress', 'params' => [$recordModel->get('projectmilestoneid')]]))->save();
-		(new ProjectTask_SyncStatus_Model())->entityAfterDelete($recordModel);
 	}
 
 	/**
@@ -68,6 +66,5 @@ class ProjectTask_ProjectTaskHandler_Handler
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		(new \App\BatchMethod(['method' => 'ProjectMilestone_Module_Model::updateProgress', 'params' => [$recordModel->get('projectmilestoneid')]]))->save();
-		(new ProjectTask_SyncStatus_Model())->entityChangeState($recordModel);
 	}
 }

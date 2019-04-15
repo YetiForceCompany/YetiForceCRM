@@ -485,7 +485,7 @@ class Vtiger_Record_Model extends \App\Base
 			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $this->getModuleName(), $this);
 			$this->isNew = false;
 		}else{
-			\App\Cache::delete('RecordModel', $this->getId() . ':' . $this->getModuleName());
+			\App\Cache::staticDelete('RecordModel', $this->getId() . ':' . $this->getModuleName());
 		}
 		\App\Cache::delete('recordLabel', $this->getId());
 		\App\Cache::staticDelete('UnlockFields', $this->getId());

@@ -29,11 +29,6 @@ class Project_ProjectHandler_Handler
 				}
 			}
 		}
-		if ('ProjectMilestone' === $recordModel->getModuleName()) {
-			(new ProjectMilestone_SyncStatus_Model())->entityAfterSave($recordModel);
-		} elseif ('Project' === $recordModel->getModuleName()) {
-			(new Project_SyncStatus_Model())->entityAfterSave($recordModel);
-		}
 	}
 
 	/**
@@ -46,26 +41,6 @@ class Project_ProjectHandler_Handler
 		$recordModel = $eventHandler->getRecordModel();
 		if (!$recordModel->isEmpty('parentid')) {
 			(new \App\BatchMethod(['method' => 'Project_Module_Model::updateProgress', 'params' => [$recordModel->get('parentid')]]))->save();
-		}
-		if ('ProjectMilestone' === $recordModel->getModuleName()) {
-			(new ProjectMilestone_SyncStatus_Model())->entityChangeState($recordModel);
-		} elseif ('Project' === $recordModel->getModuleName()) {
-			(new Project_SyncStatus_Model())->entityChangeState($recordModel);
-		}
-	}
-
-	/**
-	 * EntityAfterDelete handler function.
-	 *
-	 * @param \App\EventHandler $eventHandler
-	 */
-	public function entityAfterDelete(App\EventHandler $eventHandler)
-	{
-		$recordModel = $eventHandler->getRecordModel();
-		if ('ProjectMilestone' === $recordModel->getModuleName()) {
-			(new ProjectMilestone_SyncStatus_Model())->entityAfterDelete($recordModel);
-		} elseif ('Project' === $recordModel->getModuleName()) {
-			(new Project_SyncStatus_Model())->entityAfterDelete($recordModel);
 		}
 	}
 }

@@ -253,6 +253,8 @@ insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (5,'k
 insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (7,'nominatim','opencage_data','0');
 insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (8,'result_num','global','10');
 
+/*Data for the table `s_yf_auto_record_flow_updater` */
+
 /*Data for the table `s_yf_automatic_assignment` */
 
 /*Data for the table `s_yf_batchmethod` */
@@ -3075,6 +3077,9 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_clas
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (70,'EntityChangeState','API_CardDAV_Handler',1,'Contacts,OSSEmployees','',3,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (71,'EntityAfterDelete','API_CalDAV_Handler',1,'Calendar','',3,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (72,'EntityChangeState','API_CalDAV_Handler',1,'Calendar','',3,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (73,'EntityAfterSave','Vtiger_RecordFlowUpdater_Handler',1,'','',6,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (74,'EntityAfterDelete','Vtiger_RecordFlowUpdater_Handler',1,'','',6,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (75,'EntityChangeState','Vtiger_RecordFlowUpdater_Handler',1,'','',6,0);
 
 /*Data for the table `vtiger_eventstatus` */
 

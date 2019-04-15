@@ -943,6 +943,26 @@ CREATE TABLE `s_yf_address_finder_config` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `s_yf_auto_record_flow_updater` */
+
+CREATE TABLE `s_yf_auto_record_flow_updater` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `source_module` smallint(5) NOT NULL,
+  `target_module` smallint(5) NOT NULL,
+  `source_field` varchar(50) NOT NULL,
+  `target_field` varchar(50) NOT NULL,
+  `default_value` varchar(255) NOT NULL,
+  `relation_field` varchar(50) NOT NULL,
+  `rules` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `source_module` (`source_module`),
+  KEY `target_module` (`target_module`),
+  KEY `status` (`status`),
+  CONSTRAINT `s_yf_auto_record_flow_updater_ibfk_1` FOREIGN KEY (`source_module`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE,
+  CONSTRAINT `s_yf_auto_record_flow_updater_ibfk_2` FOREIGN KEY (`target_module`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `s_yf_automatic_assignment` */
 
 CREATE TABLE `s_yf_automatic_assignment` (
@@ -5447,7 +5467,7 @@ CREATE TABLE `vtiger_eventhandlers` (
   `owner_id` smallint(5) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`eventhandler_id`),
   KEY `event_name_class` (`event_name`,`handler_class`)
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_eventstatus` */
 
