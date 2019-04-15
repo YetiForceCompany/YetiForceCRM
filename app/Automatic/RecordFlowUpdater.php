@@ -8,6 +8,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
+
 namespace App\Automatic;
 
 /**
@@ -154,6 +155,7 @@ class RecordFlowUpdater
 	 * Update field value.
 	 *
 	 * @param int $recordId
+	 *
 	 * @return void
 	 */
 	public function updateFieldValue(int $recordId)
@@ -228,6 +230,7 @@ class RecordFlowUpdater
 	 * Add to the queue when the source field has been modified.
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
+	 *
 	 * @return void
 	 */
 	private function addToQueueWhenSourceFieldHasBeenModified(\Vtiger_Record_Model $recordModel)
@@ -241,6 +244,7 @@ class RecordFlowUpdater
 	 * Add to the queue when the parent has been modified.
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
+	 *
 	 * @return void
 	 */
 	private function addToQueueWhenParentHasBeenModified(\Vtiger_Record_Model $recordModel)
@@ -259,12 +263,13 @@ class RecordFlowUpdater
 	 * Add to queue subordinate module.
 	 *
 	 * @param int $recordId
+	 *
 	 * @return void
 	 */
 	private function addToQueueSubordinateModule(int $recordId)
 	{
 		$config = $this->getConfig('target_module');
-		if( false!==$config ){
+		if (false !== $config) {
 			(new \App\BatchMethod([
 				'method' => static::class . '::update',
 				'params' => [\App\Module::getModuleName($config['source_module']), $recordId]
@@ -276,6 +281,7 @@ class RecordFlowUpdater
 	 * Add to queue.
 	 *
 	 * @param int $recordId
+	 *
 	 * @return void
 	 */
 	private function addToQueue(int $recordId)
@@ -287,19 +293,20 @@ class RecordFlowUpdater
 	 * Get config.
 	 *
 	 * @param string $column
-	 * @param mixed $value
+	 * @param mixed  $value
+	 *
 	 * @return array|false
 	 */
 	private function getConfig(string $column = 'source_module')
 	{
 		$config = false;
 		$cacheKey = "{$this->sourceModuleName}.{$column}";
-		if( \App\Cache::has('RecordFlowUpdater.getConfig', $cacheKey) ){
+		if (\App\Cache::has('RecordFlowUpdater.getConfig', $cacheKey)) {
 			$config = \App\Cache::get('RecordFlowUpdater.getConfig', $cacheKey);
-		}else{
+		} else {
 			$config = (new \App\Db\Query())
 				->from('s_#__auto_record_flow_updater')
-				->where(['status'=>1])
+				->where(['status' => 1])
 				->andWhere([$column => \App\Module::getModuleId($this->sourceModuleName)])
 				->one();
 			\App\Cache::save('RecordFlowUpdater.getConfig', $column, $cacheKey);
@@ -341,9 +348,9 @@ class RecordFlowUpdater
 		$items = [];
 		if (empty($this->targetColumnParentId)) {
 			$items = [];
-		}elseif( \App\Cache::staticHas('RecordFlowUpdater.getChildrenValues', $recordId) ){
+		} elseif (\App\Cache::staticHas('RecordFlowUpdater.getChildrenValues', $recordId)) {
 			$items = \App\Cache::staticGet('RecordFlowUpdater.getChildrenValues', $recordId);
-		}else{
+		} else {
 			$columnId = "{$this->targetTable}.{$this->targetTableId}";
 			$items = $this->getStatusFromPicklist(
 				(new \App\Db\Query())
@@ -369,9 +376,9 @@ class RecordFlowUpdater
 	private function getValuesFromSource(int $recordId): array
 	{
 		$items = [];
-		if(\App\Cache::staticHas('RecordFlowUpdater.getValuesFromSource', $recordId)){
+		if (\App\Cache::staticHas('RecordFlowUpdater.getValuesFromSource', $recordId)) {
 			$items = \App\Cache::staticGet('RecordFlowUpdater.getValuesFromSource', $recordId);
-		}else{
+		} else {
 			$columnId = "{$this->sourceTable}.{$this->sourceTableId}";
 			$items = $this->getStatusFromPicklist(
 				(new \App\Db\Query())
