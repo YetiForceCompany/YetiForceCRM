@@ -190,7 +190,7 @@ class Language
 			return static::translate($key, $moduleName, static::DEFAULT_LANG, $encode);
 		}
 		\App\Log::info("Cannot translate this: '$key' for module '$moduleName', lang: $language");
-		return $key;
+		return Purifier::encodeHtml($key);
 	}
 
 	/**
