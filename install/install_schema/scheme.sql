@@ -160,14 +160,6 @@ CREATE TABLE `a_yf_pdf` (
   KEY `module_name_2` (`module_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `a_yf_pdf_scheme` */
-
-CREATE TABLE `a_yf_pdf_scheme` (
-  `crmid` int(10) unsigned DEFAULT NULL,
-  `tabid` int(10) unsigned DEFAULT NULL,
-  `scheme` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `a_yf_record_converter` */
 
 CREATE TABLE `a_yf_record_converter` (
