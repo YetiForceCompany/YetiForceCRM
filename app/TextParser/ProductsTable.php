@@ -130,7 +130,7 @@ class ProductsTable extends Base
 						</table>';
 			}
 
-			$html .= '</td><td class="productsTableSummary-col" style="vertical-align:top">';
+			$html .= '</td><td style="vertical-align:top">';
 			if ($inventory->isField('tax') && $inventory->isField('taxmode')) {
 				$html .= '
 						<table class="productsTableSummaryTax" style="width:100%;border-collapse:collapse;">
