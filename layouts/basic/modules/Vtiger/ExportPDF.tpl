@@ -17,10 +17,18 @@
 			{foreach from=$EXPORT_VARS key=INDEX item=VALUE}
 				<input type="hidden" name="{$INDEX}" value="{$VALUE}" />
 			{/foreach}
-			<div class="card">
-				<div class="card-header"><strong>{\App\Language::translate('LBL_AVAILABLE_TEMPLATES', $MODULE_NAME)}</strong></div>
-				<div class="card-body">
-					{foreach from=$TEMPLATES item=TEMPLATE}
+			{if $DYNAMIC_TEMPLATES}
+				<ul class="nav nav-tabs" id="generate-pdf-tab" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link active" id="home-tab" data-toggle="tab" href="#standard" role="tab" aria-controls="standard" aria-selected="true">{\App\Language::translate('LBL_STANDARD_TEMPLATES', 'Settings:PDF')}</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="profile-tab" data-toggle="tab" href="#dynamic" role="tab" aria-controls="dynamic" aria-selected="false">{\App\Language::translate('LBL_DYNAMIC_TEMPLATES', 'Settings:PDF')}</a>
+					</li>
+				</ul>
+				<div class="tab-content p-3 border-left border-right border-bottom mb-4" id="generate-pdf-tab-content">
+					<div class="tab-pane fade show active" id="standard" role="tabpanel" aria-labelledby="standard-tab">
+					{foreach from=$STANDARD_TEMPLATES item=TEMPLATE}
 						<div class="form-group row">
 							<label class="col-sm-11 col-form-label text-left pt-0" for="pdfTpl{$TEMPLATE->getId()}">
 								{\App\Language::translate($TEMPLATE->get('primary_name'), $MODULE_NAME)} &nbsp;
@@ -31,9 +39,39 @@
 							</div>
 						</div>
 					{/foreach}
+					</div>
+					<div class="tab-pane fade" id="dynamic" role="tabpanel" aria-labelledby="dynamic-tab">
+					{foreach from=$DYNAMIC_TEMPLATES item=TEMPLATE}
+						<div class="form-group row">
+							<label class="col-sm-11 col-form-label text-left pt-0" for="pdfTpl{$TEMPLATE->getId()}">
+								{\App\Language::translate($TEMPLATE->get('primary_name'), $MODULE_NAME)} &nbsp;
+								[<span class="secondaryName">{\App\Language::translate($TEMPLATE->get('secondary_name'), $MODULE_NAME)}</span>]
+							</label>
+							<div class="col-sm-1">
+								<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} />
+							</div>
+						</div>
+					{/foreach}
+					</div>
 				</div>
-			</div>
-		</div>
+			{else}
+				<div class="card">
+				<div class="card-header">{\App\Language::translate('LBL_AVAILABLE_TEMPLATES', $MODULE_NAME)}</div>
+					<div class="card-body">
+					{foreach from=$STANDARD_TEMPLATES item=TEMPLATE}
+						<div class="form-group row">
+							<label class="col-sm-11 col-form-label text-left pt-0" for="pdfTpl{$TEMPLATE->getId()}">
+								{\App\Language::translate($TEMPLATE->get('primary_name'), $MODULE_NAME)} &nbsp;
+								[<span class="secondaryName">{\App\Language::translate($TEMPLATE->get('secondary_name'), $MODULE_NAME)}</span>]
+							</label>
+							<div class="col-sm-1">
+								<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} />
+							</div>
+						</div>
+					{/foreach}
+					</div>
+				</div>
+			{/if}
 		<div class="modal-footer">
 			<div class="btn-group mr-0">
 				<button id="generate_pdf" type="submit" class="btn btn-success">
@@ -57,7 +95,7 @@
 					<span class="fas fa-envelope mr-1"></span>{\App\Language::translate('LBL_SEND_EMAIL', $MODULE_NAME)}
 				</button>
 			{/if}
-			<button class="btn btn-danger" type="reset" data-dismiss="modal"><strong><span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong></button>
+			<button class="btn btn-danger" type="reset" data-dismiss="modal"><span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</button>
 		</div>
 	</form>
 {/strip}
