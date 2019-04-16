@@ -54,20 +54,20 @@ class TableTaxSummary extends Base
 				$html .= '
 						<table class="tableTaxSummary" style="width:100%;vertical-align:top;border-collapse:collapse;border:1px solid #ddd;">
 						<thead>
-								<tr class="tableTaxSummary-thead-row">
-									<th class="tableTaxSummary-thead-col" colspan="2" style="font-weight:bold;padding:0px 4px;">' . \App\Language::translate('LBL_TAX_SUMMARY', $this->textParser->moduleName) . '</th>
+								<tr>
+									<th colspan="2" style="font-weight:bold;padding:0px 4px;">' . \App\Language::translate('LBL_TAX_SUMMARY', $this->textParser->moduleName) . '</th>
 								</tr>
 								</thead><tbody>';
 				foreach ($taxes as $key => &$tax) {
 					$taxAmount += $tax;
-					$html .= '<tr class="tableTaxSummary-row">
-										<td class="tableTaxSummary-col" style="text-align:left;padding:0px 4px;">' . $key . '%</td>
-										<td class="tableTaxSummary-col" style="text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($tax, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
+					$html .= '<tr>
+										<td style="text-align:left;padding:0px 4px;">' . $key . '%</td>
+										<td style="text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($tax, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
 									</tr>';
 				}
-				$html .= '<tr class="tableTaxSummary-summary-row">
-									<td class="tableTaxSummary-summary-col" style="text-align:left;font-weight:bold;padding:0px 4px;">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
-									<td class="tableTaxSummary-summary-col" style="text-align:right;font-weight:bold;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($taxAmount, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
+				$html .= '<tr class="summary">
+									<td style="text-align:left;font-weight:bold;padding:0px 4px;">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
+									<td style="text-align:right;font-weight:bold;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($taxAmount, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
 								</tr>
 								</tbody>
 						</table>';

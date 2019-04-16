@@ -55,21 +55,21 @@ class TableTaxSTwoLang extends Base
 
 						<table class="tableTaxSTwoLang" style="width:100%;border-collapse:collapse;border:1px solid #ddd;">
 							<thead>
-								<tr class="tableTaxSTwoLang-thead-row">
-									<th class="tableTaxSTwoLang-thead-col" colspan="2" style="padding:0px 4px;text-align:center;">' . \App\Language::translate('LBL_TAX_SUMMARY', $this->textParser->moduleName) . ' / ' . \App\Language::translate('LBL_TAX_SUMMARY', $this->textParser->moduleName, \App\Language::DEFAULT_LANG) . '</th>
+								<tr>
+									<th colspan="2" style="padding:0px 4px;text-align:center;">' . \App\Language::translate('LBL_TAX_SUMMARY', $this->textParser->moduleName) . ' / ' . \App\Language::translate('LBL_TAX_SUMMARY', $this->textParser->moduleName, \App\Language::DEFAULT_LANG) . '</th>
 								</tr>
 							</thead>
 							<tbody>';
 				foreach ($taxes as $key => &$tax) {
 					$taxAmount += $tax;
-					$html .= '<tr class="tableTaxSTwoLang-row">
-								<td class="tableTaxSTwoLang-col" style="text-align:left;padding:0px 4px;">' . $key . '%</td>
-								<td class="tableTaxSTwoLang-col" style="padding:0px 4px;text-align:right;">' . \CurrencyField::convertToUserFormat($tax, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
+					$html .= '<tr>
+								<td style="text-align:left;padding:0px 4px;">' . $key . '%</td>
+								<td style="padding:0px 4px;text-align:right;">' . \CurrencyField::convertToUserFormat($tax, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
 							</tr>';
 				}
-				$html .= '<tr class="tableTaxSTwoLang-summary-row">
-							<td class="tableTaxSTwoLang-summary-col" style="padding:0px 4px;text-align:left;">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . ' / ' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName, \App\Language::DEFAULT_LANG) . '</td>
-							<td class="tableTaxSTwoLang-summary-col" style="text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($taxAmount, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
+				$html .= '<tr class="summary">
+							<td style="padding:0px 4px;text-align:left;">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . ' / ' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName, \App\Language::DEFAULT_LANG) . '</td>
+							<td style="text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($taxAmount, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
 						 </tr>
 						</tbody>
 					</table>';

@@ -55,10 +55,10 @@ class ProductsTableImages extends Base
 			}
 			// header
 			$item = [];
-			$item['headerHtml'] = '<th class="productsTableImages-thead-col productsTableImages-thead-col-type-' . $field->getType() . '" style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
+			$item['headerHtml'] = '<th class="col-type-' . $field->getType() . '" style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 			$item['model'] = $field;
 			// footer
-			$footerHtml = '<th class="productsTableImages-thead-col productsTableImages-thead-col-type-' . $field->getType() . '" style="padding:0px 4px;text-align:right;">';
+			$footerHtml = '<th class="col-type-' . $field->getType() . '" style="padding:0px 4px;text-align:right;">';
 			if ($field->isSummary()) {
 				$sum = 0;
 				foreach ($inventoryRows as $inventoryRow) {
@@ -71,9 +71,9 @@ class ProductsTableImages extends Base
 			$displayFields[] = $item;
 		}
 		array_splice($displayFields, 1, 0, [[
-			'headerHtml' => '<th class="productsTableImages-thead-col" style="padding:0px 4px;text-align:center;">' . \App\Language::translate('PLL_IMAGE', 'Settings:PDF') . '</th>',
+			'headerHtml' => '<th style="padding:0px 4px;text-align:center;">' . \App\Language::translate('PLL_IMAGE', 'Settings:PDF') . '</th>',
 			'model' => 'image',
-			'footerHtml' => '<th class="productsTableImages-thead-col"></th>',
+			'footerHtml' => '<th></th>',
 		]]);
 		// content
 		$displayRows = [];
@@ -93,15 +93,15 @@ class ProductsTableImages extends Base
 						$base64 = \App\Fields\File::getImageBaseData($imageData[0]['path']);
 						$image = '<img src="' . $base64 . '" style="width:80px;height:auto;">';
 					}
-					$columnHtml = "<td class=\"productsTableImages-col productsTableImages-col-type-image\" style=\"border:1px solid #ddd;padding:0px 4px;text-align:center;\">$image</td>";
+					$columnHtml = "<td class=\"col-type-image\" style=\"border:1px solid #ddd;padding:0px 4px;text-align:center;\">$image</td>";
 				} elseif ('ItemNumber' === $fieldModel->getType()) {
-					$columnHtml = '<td class="productsTableImages-col productsTableImages-col-type-ItemNumber" style="padding:0px 4px;border:1px solid #ddd;font-weight:bold;">' . $inventoryRow['seq'] . '</td>';
+					$columnHtml = '<td class="col-type-ItemNumber" style="padding:0px 4px;border:1px solid #ddd;font-weight:bold;">' . $inventoryRow['seq'] . '</td>';
 				} elseif ('ean' === $fieldModel->getColumnName()) {
 					$code = $inventoryRow[$fieldModel->getColumnName()];
-					$columnHtml = '<td class="productsTableImages-col productsTableImages-col-type-barcode"><div data-barcode="EAN13" data-code="' . $code . '" data-size="1" data-height="16"></div></td>';
+					$columnHtml = '<td class="col-type-barcode"><div data-barcode="EAN13" data-code="' . $code . '" data-size="1" data-height="16"></div></td>';
 				} else {
 					$itemValue = $inventoryRow[$fieldModel->getColumnName()];
-					$itemHtml = '<td class="productsTableImages-col productsTableImages-col-type-' . $field->getType() . '" style="border:1px solid #ddd;padding:0px 4px;' . (in_array($fieldModel->getType(), $fieldsTextRight) ? 'text-align:right;' : '') . '">';
+					$itemHtml = '<td class="col-type-' . $field->getType() . '" style="border:1px solid #ddd;padding:0px 4px;' . (in_array($fieldModel->getType(), $fieldsTextRight) ? 'text-align:right;' : '') . '">';
 					if ('Name' === $fieldModel->getType()) {
 						$itemHtml .= '<strong>' . $fieldModel->getDisplayValue($itemValue, $inventoryRow) . '</strong>';
 						foreach ($inventory->getFieldsByType('Comment') as $commentField) {
@@ -124,15 +124,17 @@ class ProductsTableImages extends Base
 			}
 			$displayRows[] = $rowHtml;
 		}
-		$html .= '<table class="productsTableImages" style="width:100%;border-collapse:collapse;"><thead><tr class="productsTableImages-thead-row">';
+		$html .= '<table class="productsTableImages" style="width:100%;border-collapse:collapse;"><thead><tr>';
 		foreach ($displayFields as $field) {
 			$html .= $field['headerHtml'];
 		}
 		$html .= '</tr></thead><tbody>';
+		$counter = 0;
 		foreach ($displayRows as $rowHtml) {
-			$html .= "<tr class=\"productsTableImages-row\">$rowHtml</tr>";
+			++$counter;
+			$html .= "<tr class=\"row-$counter\">$rowHtml</tr>";
 		}
-		$html .= '</tbody><tfoot><tr class="productsTableImages-tfoot-row">';
+		$html .= '</tbody><tfoot><tr>';
 		foreach ($displayFields as $field) {
 			$html .= $field['footerHtml'];
 		}
