@@ -160,6 +160,17 @@ CREATE TABLE `a_yf_pdf` (
   KEY `module_name_2` (`module_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 
+/*Table structure for table `a_yf_pdf_inv_col_scheme` */
+
+CREATE TABLE `a_yf_pdf_inv_col_scheme` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `crmid` int(10) NOT NULL,
+  `columns` text DEFAULT NULL,
+  KEY `crmid` (`crmid`),
+  KEY `id` (`id`),
+  CONSTRAINT `crmid` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `a_yf_record_converter` */
 
 CREATE TABLE `a_yf_record_converter` (
