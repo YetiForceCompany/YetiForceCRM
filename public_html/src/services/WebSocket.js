@@ -10,6 +10,7 @@
 
 import { store } from '/src/store/index.js'
 import getters from '/src/store/getters.js'
+import mutations from '/src/store/getters.js'
 import actions from '/src/store/actions.js'
 import Objects from '/utilities/Objects.js'
 
@@ -37,11 +38,6 @@ function initSocket() {
   if (connection === null || connection.readyState !== 1) {
     let hasReturned = false
     return new Promise(function(resolve, reject) {
-      if (!socketUrl) {
-        store.dispatch(actions.Core.Notification.show, { message: 'Socket is inactive', color: 'negative' })
-        reject()
-        return
-      }
       setTimeout(function() {
         if (!hasReturned) {
           rejectInternal('Opening websocket timed out: ' + socketUrl)
@@ -66,12 +62,14 @@ function initSocket() {
       }
       connection.onopen = () => {
         hasReturned = true
+        store.commit(mutations.Core.Env.isWebSocketConnected, true)
         resolve(Socket)
       }
       function rejectInternal(err) {
         if (numberOfRetries <= 0) {
           console.info(err)
           store.dispatch(actions.Core.Notification.show, { message: 'Socket is inactive', color: 'negative' })
+          store.commit(mutations.Core.Env.isWebSocketConnected, false)
           reject(err)
         } else if (!hasReturned) {
           hasReturned = true
@@ -84,7 +82,7 @@ function initSocket() {
       }
     })
   } else {
-    return connection
+    return Promise.resolve(connection)
   }
 }
 

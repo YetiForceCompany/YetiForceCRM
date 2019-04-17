@@ -32,24 +32,21 @@ export default {
       url: rootGetters[getters.Core.Url.get]('Users.Login.login'),
       data: formData,
       method: 'POST'
-    }).then(response => {
+    }).then(async response => {
       const data = response.data
       if (data.result === true) {
-        commit('Global/update', { Core: data.env })
+        console.log(data)
+        console.log(rootGetters[getters.Core.Env.all])
+        await dispatch('Global/update', { Core: data.env })
         commit(mutations.Core.Users.isLoggedIn, true)
-        if (rootGetters[getters.Core.Env.all]['webSocketUrl']) {
-          initSocket().then(
-            () => {
-              self.$router.replace('/')
-            },
-            function() {
-              self.$router.replace('/')
-            }
-          )
-        } else {
-          dispatch(actions.Core.Notification.show, { message: 'Socket is inactive', color: 'negative' })
-          self.$router.replace('/')
-        }
+        initSocket().then(
+          function() {
+            self.$router.replace('/')
+          },
+          function() {
+            self.$router.replace('/')
+          }
+        )
       } else if (data.result === '2fa') {
         self.$router.replace(`/users/login/2FA`)
       } else {
@@ -71,8 +68,11 @@ export default {
         const data = response.data
         if (data.result === true) {
           commit(mutations.Core.Users.isLoggedIn, false)
+          console.log(rootGetters[getters.Core.Env.isWebSocketConnected])
+
           if (rootGetters[getters.Core.Env.isWebSocketConnected]) {
-            initSocket().close()
+            console.log('close')
+            initSocket().then(connection => connection.close())
           }
           this.$router.replace('/users/login')
         }
