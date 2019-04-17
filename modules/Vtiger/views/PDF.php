@@ -18,7 +18,7 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 	 * @throws \App\Exceptions\NoPermitted
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -30,7 +30,7 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$this->preProcess($request);
 		$moduleName = $request->getModule();
@@ -41,11 +41,27 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		$pdfModel = new $handlerClass();
 
 		$viewer = $this->getViewer($request);
+		$templates = [];
 		if ($view === 'Detail') {
-			$viewer->assign('TEMPLATES', $pdfModel->getActiveTemplatesForRecord($recordId, $view, $moduleName));
+			$templates = $pdfModel->getActiveTemplatesForRecord($recordId, $view, $moduleName);
 		} elseif ($view === 'List') {
-			$viewer->assign('TEMPLATES', $pdfModel->getActiveTemplatesForModule($moduleName, $view));
+			$templates = $pdfModel->getActiveTemplatesForModule($moduleName, $view);
 		}
+
+		$standardTemplates = [];
+		$dynamicTemplates = [];
+		foreach ($templates as $template) {
+			if ($template->get('type') === 0) {
+				$standardTemplates[] = $template;
+			} elseif ($template->get('type') === 2) {
+				$dynamicTemplates[] = $template;
+			}
+		}
+		unset($templates);
+
+		$viewer->assign('STANDARD_TEMPLATES', $standardTemplates);
+		$viewer->assign('DYNAMIC_TEMPLATES', $dynamicTemplates);
+
 		$viewer->assign('ALL_RECORDS', $allRecords);
 		$viewer->assign('EXPORT_VARS', [
 			'record' => $recordId,

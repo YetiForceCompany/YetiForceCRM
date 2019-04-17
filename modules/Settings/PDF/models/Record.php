@@ -105,6 +105,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 			case 3:
 				$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);
 				$fields = [];
+				$fields['type'] = strpos($pdfModel->get('body_content'), '$(dynamic-inventory)$') === false ? 0 : 2;
 				foreach ($stepFields as $field) {
 					if ($field === 'conditions') {
 						$params = json_encode($pdfModel->get($field));
@@ -120,15 +121,14 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 				return $pdfModel->get('pdfid');
 			case 1:
 				$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);
+				$fields = [];
 				if (!$pdfModel->getId()) {
-					$params = [];
 					foreach ($stepFields as $field) {
-						$params[$field] = $pdfModel->get($field);
+						$fields[$field] = $pdfModel->get($field);
 					}
-					$db->createCommand()->insert('a_#__pdf', $params)->execute();
+					$db->createCommand()->insert('a_#__pdf', $fields)->execute();
 					$pdfModel->set('pdfid', $db->getLastInsertID('a_#__pdf_pdfid_seq'));
 				} else {
-					$fields = [];
 					foreach ($stepFields as $field) {
 						$fields[$field] = $pdfModel->get($field);
 					}

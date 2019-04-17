@@ -324,6 +324,20 @@ class User
 	}
 
 	/**
+	 * Set user parameters.
+	 *
+	 * @param string $key
+	 * @param mixed  $value
+	 *
+	 * @return mixed
+	 */
+	public function set(string $key, $value)
+	{
+		$this->privileges[$key] = $value;
+		return $this;
+	}
+
+	/**
 	 * Function checks if user is active.
 	 *
 	 * @return bool

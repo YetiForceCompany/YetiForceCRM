@@ -21,10 +21,10 @@
 	{else if $FIELD_NAME eq 'defaultactivitytype'}
 		{assign var=PICKLIST_VALUES value=Vtiger_Module_Model::getInstance('Calendar')->getField('activitytype')->getPicklistValues()}
 	{/if}
-	{assign var=PLACE_HOLDER value=($FIELD_MODEL->isEmptyPicklistOptionAllowed() || $FIELD_MODEL->getName() eq 'defaulteventstatus' || $FIELD_MODEL->getName() eq 'defaultactivitytype')}
+	{assign var=PLACE_HOLDER value=($FIELD_MODEL->isEmptyPicklistOptionAllowed() && !($FIELD_MODEL->isMandatory() eq true && $FIELD_VALUE neq ''))}
 	<select class="select2 form-control" name="{$FIELD_NAME}" data-fieldinfo='{$FIELD_INFO|escape}'
 			title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
-			data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+			data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true && !in_array($FIELD_NAME,['currency_decimal_separator','currency_grouping_separator','authy_methods'])} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 			{if !empty($SPECIAL_VALIDATOR)}data-validator="{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}"{/if}
 			data-selected-value='{$FIELD_VALUE}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} {if $PLACE_HOLDER}data-select="allowClear"{/if}>
 		{if $PLACE_HOLDER}

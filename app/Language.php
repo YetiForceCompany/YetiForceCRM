@@ -200,7 +200,7 @@ class Language
 		}
 		\App\Log::info("Cannot translate this: '{$key}' for module '{$moduleName}', lang: {$language}");
 
-		return $key;
+		return Purifier::encodeHtml($key);
 	}
 
 	/**

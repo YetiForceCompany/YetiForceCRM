@@ -9,6 +9,15 @@
 class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 {
 	/**
+	 * Menu for Roles.
+	 */
+	public const SRC_ROLE = 0;
+	/**
+	 * Menu for Api.
+	 */
+	public const SRC_API = 1;
+
+	/**
 	 * Function to get Id of this record instance.
 	 *
 	 * @return <Integer> Id
@@ -28,17 +37,25 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		return $this->get('name');
 	}
 
-	public function getAll($roleId)
+	/**
+	 * Returns all items for menus.
+	 *
+	 * @param int $roleId
+	 * @param int $source
+	 *
+	 * @return array
+	 */
+	public function getAll(int $roleId, int $source): array
 	{
 		$settingsModel = Settings_Menu_Module_Model::getInstance();
 		$query = (new \App\Db\Query())->select(['yetiforce_menu.*', 'vtiger_tab.name'])->from('yetiforce_menu')
-			->leftJoin('vtiger_tab', 'vtiger_tab.tabid = yetiforce_menu.module')->where(['role' => $roleId])->orderBy('yetiforce_menu.sequence, yetiforce_menu.parentid');
+			->leftJoin('vtiger_tab', 'vtiger_tab.tabid = yetiforce_menu.module')->where(['role' => $roleId, 'source' => $source])->orderBy('yetiforce_menu.sequence, yetiforce_menu.parentid');
 		$dataReader = $query->createCommand()->query();
 		$menu = [];
 		while ($row = $dataReader->read()) {
 			$menu[] = [
 				'id' => $row['id'],
-				'parent' => $row['parentid'] == 0 ? '#' : $row['parentid'],
+				'parent' => 0 == $row['parentid'] ? '#' : $row['parentid'],
 				'text' => Vtiger_Menu_Model::vtranslateMenu($settingsModel->getMenuName($row, true), $row['name']),
 				'icon' => 'menu-icon-' . $settingsModel->getMenuTypes($row['type']),
 				'type' => $row['type']
@@ -58,7 +75,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$query = (new \App\Db\Query())->from('yetiforce_menu')->where(['id' => $id]);
 		$row = $query->one();
-		if ($row === false) {
+		if (false === $row) {
 			return false;
 		}
 		$instance = new self();
@@ -90,7 +107,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				if (is_array($item)) {
 					$item = implode(',', $item);
 				}
-				if ($key != 'id' && $key != 'edit') {
+				if ('id' != $key && 'edit' != $key) {
 					$params[$key] = $item;
 				}
 			}
@@ -134,7 +151,9 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 			}
 			$db->createCommand()->insert('yetiforce_menu', $insertParams)->execute();
 		}
-		$this->generateFileMenu($this->get('role'));
+		if (self::SRC_ROLE === $this->get('source')) {
+			$this->generateFileMenu($this->get('role'));
+		}
 	}
 
 	public function saveSequence($data, $generate = false)
@@ -176,18 +195,20 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 			}
 			$dataReader->close();
 			$db->createCommand()->delete('yetiforce_menu', ['id' => $id])->execute();
-			$this->generateFileMenu($recordModel->get('role'));
+			if (self::SRC_ROLE === $recordModel->get('source')) {
+				$this->generateFileMenu($recordModel->get('role'));
+			}
 		}
 	}
 
-	public function getChildMenu($roleId, $parent)
+	public function getChildMenu($roleId, $parent, int $source = 0)
 	{
 		$settingsModel = Settings_Menu_Module_Model::getInstance();
 		$menu = [];
 		$query = (new \App\Db\Query())->select(('yetiforce_menu.*, vtiger_tab.name'))
 			->from('yetiforce_menu')
 			->leftJoin('vtiger_tab', 'vtiger_tab.tabid = yetiforce_menu.module')
-			->where(['role' => $roleId, 'parentid' => $parent])
+			->where(['role' => $roleId, 'parentid' => $parent, 'source' => $source])
 			->orderBy(' yetiforce_menu.sequence', 'yetiforce_menu.parentid');
 		$dataReader = $query->createCommand()->query();
 
@@ -242,7 +263,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		unset($menu['filters']);
 		$content = $menu['id'] . '=>[';
 		foreach ($menu as $key => $item) {
-			if ($key == 'childs') {
+			if ('childs' == $key) {
 				if (count($item) > 0) {
 					$childs = var_export($key, true) . '=>[';
 					foreach ($item as $child) {
@@ -320,7 +341,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		$menu = [];
 		$counter = 0;
 		foreach ($allRoles as $roleId => $value) {
-			$hasMenu = $this->getAll(filter_var($roleId, FILTER_SANITIZE_NUMBER_INT));
+			$hasMenu = $this->getAll(filter_var($roleId, FILTER_SANITIZE_NUMBER_INT), static::SRC_ROLE);
 			if ($hasMenu) {
 				$menu[$counter]['roleName'] = $allRoles[$roleId]->get('rolename');
 				$menu[$counter]['roleId'] = $roleId;

@@ -11,7 +11,8 @@ class Settings_Menu_Index_View extends Settings_Vtiger_Index_View
 	public function process(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$roleId = !$request->isEmpty('roleid', 'Alnum') ? $request->getByType('roleid', 'Alnum') : 0;
+		$roleId = !$request->isEmpty('roleid') ? $request->getByType('roleid', 'Alnum') : 0;
+		$source = ($roleId && strpos($roleId, 'H') === false) ? Settings_Menu_Record_Model::SRC_API : Settings_Menu_Record_Model::SRC_ROLE;
 		$settingsModel = Settings_Menu_Record_Model::getCleanInstance();
 		$rolesContainMenu = $settingsModel->getRolesContainMenu();
 		$viewer = $this->getViewer($request);
@@ -19,8 +20,9 @@ class Settings_Menu_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('ROLES_CONTAIN_MENU', $rolesContainMenu);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('ROLEID', $roleId);
-		$viewer->assign('DATA', $settingsModel->getAll(filter_var($roleId, FILTER_SANITIZE_NUMBER_INT)));
+		$viewer->assign('DATA', $settingsModel->getAll(filter_var($roleId, FILTER_SANITIZE_NUMBER_INT), $source));
 		$viewer->assign('LASTID', Settings_Menu_Module_Model::getLastId());
+		$viewer->assign('SOURCE', $source);
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
