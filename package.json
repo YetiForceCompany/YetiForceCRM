@@ -47,7 +47,7 @@
     "fontawesome-web": "^5.0.2",
     "footable": "^2.0.6",
     "fullcalendar": "3.10.0",
-    "gantt-elastic": "^0.9.3",
+    "gantt-elastic": "^0.13.9",
     "gridstack": "^0.4.0",
     "html2canvas": "^1.0.0-alpha.12",
     "html5shiv": "^3.7.3",
@@ -77,7 +77,8 @@
     "select2-theme-bootstrap4": "^0.2.0-beta.2",
     "split.js": "^1.5.10",
     "store": "^2.0.12",
-    "tributejs": "^3.6.0"
+    "tributejs": "^3.6.0",
+    "vue": "^2.6.10"
   },
   "resolutions": {},
   "bugs": {
