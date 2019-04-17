@@ -42,7 +42,7 @@ class FileTarget extends \yii\log\FileTarget
 	public function init()
 	{
 		if (null === $this->logFile) {
-			$this->logFile = ROOT_DIRECTORY . '/cache/logs/system.log';
+			$this->logFile = ROOT_DIRECTORY . '/cache/logs/system' . \App\Process::$requestMode ?? '' . '.log';
 		} else {
 			$this->logFile = Yii::getAlias($this->logFile);
 		}

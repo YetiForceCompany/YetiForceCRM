@@ -19,24 +19,24 @@ $dev = 'test' === \App\Config::main('systemMode');
     <meta charset="utf-8" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
-    <meta
-      name="viewport"
-      content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width"
-    />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
     <link href="/node_modules/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet" />
     <link href="/node_modules/animate.css/animate.min.css" rel="stylesheet" />
     <link href="/src/css/app.css" rel="stylesheet" type="text/css" />
   </head>
-
   <body>
     <div id="app"></div>
 
-    <script>window.env = <?php echo $webUI->getEnv(); ?>;</script>
-    <?php if ($dev) { ?>
+    <script>window.env = <?php echo $env; ?>;</script>
+    <?php if ($dev) {
+	?>
       <script src="/node_modules/vue/dist/vue.js"></script>
-    <?php } else { ?>
+    <?php
+} else {
+		?>
       <script src="/node_modules/vue/dist/vue.min.js"></script>
-    <?php } ?>
+    <?php
+	} ?>
     <script src="/node_modules/vuex/dist/vuex.min.js"></script>
     <script src="/node_modules/vue-router/dist/vue-router.min.js"></script>
     <script src="/node_modules/quasar/dist/quasar.umd.min.js"></script>

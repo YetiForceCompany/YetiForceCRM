@@ -55,7 +55,7 @@ class Log extends Logger
 		$this->messages[] = [$message, $level, $category, microtime(true), $traces];
 		if (static::$showLog) {
 			$level = self::getLevelName($level);
-			echo date('Y-m-d H:i:s') . " [$level]$category - $message" . (empty($traces) ? '' : PHP_EOL . $traces) . PHP_EOL;
+			echo date('H:i:s') . " [$level]$category - $message" . (empty($traces) ? '' : PHP_EOL . $traces) . PHP_EOL;
 		}
 		if ($this->flushInterval > 0 && count($this->messages) >= $this->flushInterval) {
 			$this->flush();

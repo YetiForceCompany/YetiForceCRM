@@ -447,21 +447,21 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.10.8",
+            "version": "8.10.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "cd9b87dce1d285247be490b2b8429956f7a5e78b"
+                "reference": "83eeda9ba183368b6f0a566a818696a08d9c1e6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/cd9b87dce1d285247be490b2b8429956f7a5e78b",
-                "reference": "cd9b87dce1d285247be490b2b8429956f7a5e78b",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/83eeda9ba183368b6f0a566a818696a08d9c1e6b",
+                "reference": "83eeda9ba183368b6f0a566a818696a08d9c1e6b",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "giggsey/locale": "^1.2",
+                "giggsey/locale": "^1.7",
                 "php": ">=5.3.2"
             },
             "require-dev": {
@@ -511,20 +511,20 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2019-03-20T13:47:01+00:00"
+            "time": "2019-04-15T18:42:51+00:00"
         },
         {
             "name": "giggsey/locale",
-            "version": "1.6",
+            "version": "1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/Locale.git",
-                "reference": "da6845720b5d104d319d7e84576f54e44dd9e4f5"
+                "reference": "fa3800e53c7a78cc00ca455367c550e61b9f5bd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/Locale/zipball/da6845720b5d104d319d7e84576f54e44dd9e4f5",
-                "reference": "da6845720b5d104d319d7e84576f54e44dd9e4f5",
+                "url": "https://api.github.com/repos/giggsey/Locale/zipball/fa3800e53c7a78cc00ca455367c550e61b9f5bd8",
+                "reference": "fa3800e53c7a78cc00ca455367c550e61b9f5bd8",
                 "shasum": ""
             },
             "require": {
@@ -560,7 +560,7 @@
                 }
             ],
             "description": "Locale functions required by libphonenumber-for-php",
-            "time": "2018-10-18T07:17:52+00:00"
+            "time": "2019-04-15T17:36:49+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -747,16 +747,16 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v5.8.9",
+            "version": "v5.8.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
-                "reference": "7224ed316427ae5f67c4888679bbf7f6e7773660"
+                "reference": "384b4daa2c738455f249c7f6f368197a5118ec43"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/contracts/zipball/7224ed316427ae5f67c4888679bbf7f6e7773660",
-                "reference": "7224ed316427ae5f67c4888679bbf7f6e7773660",
+                "url": "https://api.github.com/repos/illuminate/contracts/zipball/384b4daa2c738455f249c7f6f368197a5118ec43",
+                "reference": "384b4daa2c738455f249c7f6f368197a5118ec43",
                 "shasum": ""
             },
             "require": {
@@ -787,20 +787,20 @@
             ],
             "description": "The Illuminate Contracts package.",
             "homepage": "https://laravel.com",
-            "time": "2019-03-06T19:39:19+00:00"
+            "time": "2019-04-03T08:58:07+00:00"
         },
         {
             "name": "illuminate/support",
-            "version": "v5.8.9",
+            "version": "v5.8.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "e275519c58246cc4011c798f9b0a0f83aae2aab7"
+                "reference": "601ca709bb612482848a9f330aa66490b5d85fef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/e275519c58246cc4011c798f9b0a0f83aae2aab7",
-                "reference": "e275519c58246cc4011c798f9b0a0f83aae2aab7",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/601ca709bb612482848a9f330aa66490b5d85fef",
+                "reference": "601ca709bb612482848a9f330aa66490b5d85fef",
                 "shasum": ""
             },
             "require": {
@@ -848,7 +848,7 @@
             ],
             "description": "The Illuminate Support package.",
             "homepage": "https://laravel.com",
-            "time": "2019-04-01T19:02:05+00:00"
+            "time": "2019-04-08T12:54:41+00:00"
         },
         {
             "name": "markbaker/complex",
@@ -2629,16 +2629,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v4.2.5",
+            "version": "v4.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "24206aff3efe6962593297e57ef697ebb220e384"
+                "reference": "e2840bb38bddad7a0feaf85931e38fdcffdb2f81"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/24206aff3efe6962593297e57ef697ebb220e384",
-                "reference": "24206aff3efe6962593297e57ef697ebb220e384",
+                "url": "https://api.github.com/repos/symfony/console/zipball/e2840bb38bddad7a0feaf85931e38fdcffdb2f81",
+                "reference": "e2840bb38bddad7a0feaf85931e38fdcffdb2f81",
                 "shasum": ""
             },
             "require": {
@@ -2697,7 +2697,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2019-04-01T07:32:59+00:00"
+            "time": "2019-04-08T14:23:48+00:00"
         },
         {
             "name": "symfony/contracts",
@@ -2883,16 +2883,16 @@
         },
         {
             "name": "symfony/translation",
-            "version": "v4.2.5",
+            "version": "v4.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "e46933cc31b68f51f7fc5470fb55550407520f56"
+                "reference": "46c0dede1f925383d13dc783857be2c41efd0b24"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/e46933cc31b68f51f7fc5470fb55550407520f56",
-                "reference": "e46933cc31b68f51f7fc5470fb55550407520f56",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/46c0dede1f925383d13dc783857be2c41efd0b24",
+                "reference": "46c0dede1f925383d13dc783857be2c41efd0b24",
                 "shasum": ""
             },
             "require": {
@@ -2914,7 +2914,9 @@
                 "symfony/console": "~3.4|~4.0",
                 "symfony/dependency-injection": "~3.4|~4.0",
                 "symfony/finder": "~2.8|~3.0|~4.0",
+                "symfony/http-kernel": "~3.4|~4.0",
                 "symfony/intl": "~3.4|~4.0",
+                "symfony/var-dumper": "~3.4|~4.0",
                 "symfony/yaml": "~3.4|~4.0"
             },
             "suggest": {
@@ -2952,20 +2954,20 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
-            "time": "2019-04-01T14:13:08+00:00"
+            "time": "2019-04-10T16:20:36+00:00"
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v4.2.5",
+            "version": "v4.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "9f87189ac10b42edf7fb8edc846f1937c6d157cf"
+                "reference": "f42850fa32b8d7a35a75510810f6ef597674be74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/9f87189ac10b42edf7fb8edc846f1937c6d157cf",
-                "reference": "9f87189ac10b42edf7fb8edc846f1937c6d157cf",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/f42850fa32b8d7a35a75510810f6ef597674be74",
+                "reference": "f42850fa32b8d7a35a75510810f6ef597674be74",
                 "shasum": ""
             },
             "require": {
@@ -3028,7 +3030,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2019-02-23T15:17:42+00:00"
+            "time": "2019-04-11T11:27:41+00:00"
         },
         {
             "name": "yetiforce/csrf-magic",
@@ -3405,20 +3407,20 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.9.0",
+            "version": "1.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "78af75148f9fdd34ea727c8b529a9b4a8f7b740c"
+                "reference": "e6828efaba2c9b79f4499dae1d66ef8bfa7b2b72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/78af75148f9fdd34ea727c8b529a9b4a8f7b740c",
-                "reference": "78af75148f9fdd34ea727c8b529a9b4a8f7b740c",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/e6828efaba2c9b79f4499dae1d66ef8bfa7b2b72",
+                "reference": "e6828efaba2c9b79f4499dae1d66ef8bfa7b2b72",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2"
+                "php": "^7.1"
             },
             "replace": {
                 "myclabs/deep-copy": "self.version"
@@ -3426,8 +3428,6 @@
             "require-dev": {
                 "doctrine/collections": "^1.0",
                 "doctrine/common": "^2.6",
-                "phpstan/phpstan": "^0.9.2",
-                "phpstan/phpstan-phpunit": "^0.9.4",
                 "phpunit/phpunit": "^7.1"
             },
             "type": "library",
@@ -3451,7 +3451,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2018-10-30T00:14:44+00:00"
+            "time": "2019-04-07T13:18:21+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -4832,16 +4832,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v4.2.5",
+            "version": "v4.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "1e6cbb41dadcaf29e0db034d6ad0d039a9df06e6"
+                "reference": "8cf39fb4ccff793340c258ee7760fd40bfe745fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/1e6cbb41dadcaf29e0db034d6ad0d039a9df06e6",
-                "reference": "1e6cbb41dadcaf29e0db034d6ad0d039a9df06e6",
+                "url": "https://api.github.com/repos/symfony/process/zipball/8cf39fb4ccff793340c258ee7760fd40bfe745fe",
+                "reference": "8cf39fb4ccff793340c258ee7760fd40bfe745fe",
                 "shasum": ""
             },
             "require": {
@@ -4877,7 +4877,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2019-03-10T20:07:02+00:00"
+            "time": "2019-04-10T16:20:36+00:00"
         },
         {
             "name": "theseer/tokenizer",

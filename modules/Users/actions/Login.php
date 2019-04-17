@@ -47,9 +47,11 @@ class Login extends \App\Controller\Action
 		$method = $userModel->getDetail('login_method') ?? '';
 		$auth = \App\Auth\Base::getInstance($userId, $method, $this->request);
 		if ($result = $auth->verify()) {
-			$this->response->setEnv(\App\Layout\Env::getAll());
 			$this->response->set($result);
 			$this->setSessionData($userModel, $result);
+			if (true === $result) {
+				$this->afterLogin($userModel);
+			}
 		} else {
 			$this->response->setError($auth->getMessage(), 401, 'Users');
 			if ($bfInstance->isActive()) {
@@ -77,8 +79,11 @@ class Login extends \App\Controller\Action
 			\App\Session::set('app_unique_key', \App\Config::main('application_unique_key'));
 			\App\Session::set('user_name', $userModel->get('user_name'));
 			\App\Session::set('full_user_name', $userModel->getName());
+			\App\Session::set('full_user_name', $userModel->getName());
 		}
-		\App\Session::set('fingerprint', $this->request->get('fingerprint'));
+		if ($this->request->has('fingerprint')) {
+			\App\Session::set('fingerprint', $this->request->get('fingerprint'));
+		}
 		if ($this->request->has('loginLanguage') && \App\Config::main('langInLoginView')) {
 			\App\Session::set('language', $this->request->getByType('loginLanguage'));
 		}
@@ -96,5 +101,17 @@ class Login extends \App\Controller\Action
 			$userId = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['or', ['user_name' => $userName], ['user_name' => strtolower($userName)]])->limit(1)->scalar();
 		}
 		return (int) $userId;
+	}
+
+	/**
+	 * After login function.
+	 *
+	 * @param \App\User $userModel
+	 *
+	 * @return void
+	 */
+	private function afterLogin(\App\User $userModel)
+	{
+		$this->response->setEnv(\App\Layout\Env::getAll());
 	}
 }

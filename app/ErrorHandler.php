@@ -63,6 +63,7 @@ class ErrorHandler
 		504 => 'Gateway Timeout',
 		505 => 'HTTP Version not supported',
 		511 => 'Network Authentication Required', // RFC 6585
+		1001 => 'SQL Error',
 	];
 
 	/**
@@ -146,6 +147,9 @@ class ErrorHandler
 		$trace = \Config\Debug::$displayExceptionBacktrace ? str_replace(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $e->getTraceAsString()) : '';
 		$message = 'Internal Server Error';
 		$code = 0 === $e->getCode() ? 500 : $e->getCode();
+		if ($e instanceof \yii\db\Exception) {
+			$code = 1001;
+		}
 		if (\Config\Debug::$displayExceptionMessage) {
 			$message = $e->getMessage();
 			if (false === strpos($message, '||')) {

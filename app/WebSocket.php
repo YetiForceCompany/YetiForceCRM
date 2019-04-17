@@ -58,7 +58,7 @@ class WebSocket
 		}
 		$host = \Config\WebSocket::$host;
 		if ('0.0.0.0' === $host) {
-			$host = current(swoole_get_local_ip());
+			$host = current(\swoole_get_local_ip());
 		}
 		return self::$cache[$path] = new self($host, \Config\WebSocket::$port, '/' . $path);
 	}
