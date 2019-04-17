@@ -7,7 +7,6 @@ function createStore() {
     store = new Vuex.Store({
       mutations: {
         ['Global/update'](state, payload) {
-          console.log(state)
           state = Objects.mergeDeepReactive(state, payload)
         }
       },
