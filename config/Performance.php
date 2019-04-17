@@ -29,7 +29,7 @@ class Performance
 	/**
 	 * Should the caller information be captured in SQL Logging?
 	 * It adds little overhead for performance but will be useful to debug.
-	 * All data can be found in the table 'l_yf_sqltime'
+	 * All data can be found in the table 'l_yf_sqltime'.
 	 */
 	public static $SQL_LOG_INCLUDE_CALLER = false;
 
@@ -63,7 +63,7 @@ class Performance
 	/** Max number of mass deleted records */
 	public static $maxMassDeleteRecords = 1000;
 
-	/** Max number of mass deleted records */
+	/** Max number of transfer ownership records */
 	public static $maxMassTransferOwnershipRecords = 1000;
 
 	/** Minimum number of characters to search for record owner */
@@ -98,7 +98,7 @@ class Performance
 
 	/**
 	 * Parameter that allows to disable file overwriting.
-	 * After enabling it the system will additionally check whether the file exists in the custom directory. Ex. custom/modules/Assets/Assets.php
+	 * After enabling it the system will additionally check whether the file exists in the custom directory. Ex. custom/modules/Assets/Assets.php.
 	 */
 	public static $LOAD_CUSTOM_FILES = false;
 
