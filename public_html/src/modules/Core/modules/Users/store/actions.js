@@ -1,5 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 import loginAxios from '/src/services/Login.js'
+import actions from '/src/store/actions.js'
 import getters from '/src/store/getters.js'
 import mutations from '/src/store/mutations.js'
 import { initSocket } from '/src/services/WebSocket.js'
@@ -25,7 +26,8 @@ export default {
    * @param   {object}  store
    * @param   {object}  formData
    */
-  login({ commit, rootGetters }, { formData, vm }) {
+  login({ commit, rootGetters, dispatch }, { formData, vm }) {
+    const self = this
     loginAxios({
       url: rootGetters[getters.Core.Url.get]('Users.Login.login'),
       data: formData,
@@ -36,14 +38,20 @@ export default {
         commit('Global/update', { Core: data.env })
         commit(mutations.Core.Users.isLoggedIn, true)
         if (rootGetters[getters.Core.Env.all]['webSocketUrl']) {
-          initSocket().then(() => {
-            this.$router.replace('/')
-          })
+          initSocket().then(
+            () => {
+              self.$router.replace('/')
+            },
+            function() {
+              self.$router.replace('/')
+            }
+          )
         } else {
-          this.$router.replace('/')
+          dispatch(actions.Core.Notification.show, { message: 'Socket is inactive', color: 'negative' })
+          self.$router.replace('/')
         }
       } else if (data.result === '2fa') {
-        this.$router.replace(`/users/login/2FA`)
+        self.$router.replace(`/users/login/2FA`)
       } else {
         return console.error('Server error', response)
       }
@@ -63,7 +71,7 @@ export default {
         const data = response.data
         if (data.result === true) {
           commit(mutations.Core.Users.isLoggedIn, false)
-          if (rootGetters[getters.Core.Env.all]['webSocketUrl']) {
+          if (rootGetters[getters.Core.Env.isWebSocketConnected]) {
             initSocket().close()
           }
           this.$router.replace('/users/login')
