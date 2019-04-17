@@ -58,7 +58,11 @@ class WebSocket
 		}
 		$host = \Config\WebSocket::$host;
 		if ('0.0.0.0' === $host) {
-			$host = current(\swoole_get_local_ip());
+			if (\function_exists('swoole_get_local_ip')) {
+				$host = current(\swoole_get_local_ip());
+			} else {
+				$host = $_SERVER['SERVER_ADDR'] ?? $_SERVER['LOCAL_ADDR'];
+			}
 		}
 		return self::$cache[$path] = new self($host, \Config\WebSocket::$port, '/' . $path);
 	}
@@ -78,5 +82,26 @@ class WebSocket
 			return $this->client->recv();
 		}
 		return $send;
+	}
+
+	/**
+	 * Connection test function.
+	 *
+	 * @return bool
+	 */
+	public static function connectionTest(): bool
+	{
+		$response = false;
+		try {
+			$response = self::getInstance('System')->send(Json::encode([
+				'application_unique_key' => \Config\Main::$application_unique_key,
+				'action' => 'test'
+			]), true);
+		} catch (\Throwable $e) {
+			\var_dump($e);
+			return false;
+		}
+
+		return 'test' === $response;
 	}
 }

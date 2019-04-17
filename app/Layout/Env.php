@@ -56,6 +56,7 @@ class Env
 		if ('loginPage' === $mode) {
 			return $env;
 		}
+		$webSocketIsActive = App\WebSocket::connectionTest();
 		$env = \array_merge($env, [
 			'siteUrl' => \App\Layout::getPublicUrl('', true),
 			'layoutPath' => \App\Layout::getPublicUrl('layouts/' . \App\Layout::getActiveLayout()),
@@ -71,7 +72,8 @@ class Env
 			'recordPopoverDelay' => \Config\Performance::$RECORD_POPOVER_DELAY,
 			'searchShowOwnerOnlyInList' => \Config\Performance::$SEARCH_SHOW_OWNER_ONLY_IN_LIST,
 			'fieldsReferencesDependent' => \Config\Security::$FIELDS_REFERENCES_DEPENDENT,
-			'webSocketUrl' => \Config\WebSocket::$url . '/Gui',
+			'webSocketUrl' => $webSocketIsActive ? \Config\WebSocket::$url . '/Gui' : '',
+			'webSocketIsActive' => $webSocketIsActive,
 		]);
 		if (\App\Session::has('ShowAuthy2faModal')) {
 			$env['showAuthy2faModal'] = \App\Session::get('ShowAuthy2faModal');

@@ -116,6 +116,12 @@ class Response
 		$this->result = $result;
 	}
 
+	public function setForAll($result)
+	{
+		if ($this->isWebSocket()) {
+			$this->webSocketServer->server->push($this->webSocketClientId, Json::encode($this->prepare()));
+		}
+	}
 
 	/**
 	 * Is there a connection to web socket server function.

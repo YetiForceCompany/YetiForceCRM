@@ -1,13 +1,18 @@
 <?php
+/**
+ * Json class.
+ *
+ * @package App
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 
 namespace App;
 
 /**
  * Json class.
- *
- * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Json
 {
@@ -28,7 +33,7 @@ class Json
 	 * @param string $encodedValue     Encoded in JSON format
 	 * @param int    $objectDecodeType Optional; When TRUE, returned objects will be converted into associative arrays
 	 *
-	 * @link https://secure.php.net/manual/en/function.json-decode.php
+	 * @see https://secure.php.net/manual/en/function.json-decode.php
 	 *
 	 * @return mixed
 	 */
@@ -66,13 +71,13 @@ class Json
 	/**
 	 * Determine whether a variable is empty.
 	 *
-	 * @param string|null $value
+	 * @param null|string $value
 	 *
 	 * @return bool
 	 */
 	public static function isEmpty(?string $value)
 	{
-		return empty($value) || $value === '[]' || $value === '""';
+		return empty($value) || '[]' === $value || '""' === $value;
 	}
 
 	/**

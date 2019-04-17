@@ -84,37 +84,46 @@ class System extends Base
 	}
 
 	/**
-	 * Get all connections.
+	 *  Web socket test function.
 	 *
 	 * @return void
 	 */
-	public function _getConnections()
+	public function _test()
 	{
-		$connections = [];
-		foreach ($this->webSocket->server->connections as $fd) {
-			if ($this->frame->fd !== $fd) {
-				$connections[] = $fd;
-			}
-		}
-		$this->webSocket->server->push($fd, \App\Json::encode($connections));
+		$this->webSocket->server->push($this->frame->fd, 'test');
+	}
+
+	/**
+	 * Get all connections.
+	 *
+	 * @param string $container
+	 *
+	 * @return void
+	 */
+	public function _getConnections(string $container = 'Gui')
+	{
+		$connections = $this->webSocket->getConnections('container', $container);
+		unset($connections[$this->frame->fd]);
+		$this->webSocket->server->push($this->frame->fd, \App\Json::encode($connections));
 	}
 
 	/**
 	 * Send data to all connections.
 	 *
-	 * @param array $data
+	 * @param array  $data
+	 * @param string $container
 	 *
 	 * @return void
 	 */
-	public function _sendToAll(array $data)
+	public function _sendToAll(array $data, string $container = 'Gui')
 	{
 		$i = 0;
-		foreach ($this->webSocket->server->connections as $fd) {
-			if ($this->frame->fd !== $fd) {
-				++$i;
-				$this->webSocket->server->push($fd, \App\Json::encode($data));
-			}
+		$connections = $this->webSocket->getConnections('container', $container);
+		unset($connections[$this->frame->fd]);
+		foreach ($connections as $fd => $conn) {
+			++$i;
+			$this->webSocket->server->push($fd, \App\Json::encode($data));
 		}
-		$this->webSocket->server->push($fd, $i);
+		$this->webSocket->server->push($this->frame->fd, $i);
 	}
 }

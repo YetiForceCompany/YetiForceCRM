@@ -39,13 +39,23 @@ abstract class Base
 	 * Container constructor.
 	 *
 	 * @param \App\Controller\WebSocket $webSocket
-	 * @param \Swoole\WebSocket\Frame   $frame
 	 */
-	public function __construct(\App\Controller\WebSocket $webSocket, \Swoole\WebSocket\Frame $frame)
+	public function __construct(\App\Controller\WebSocket $webSocket)
 	{
 		$this->webSocket = $webSocket;
+	}
+
+	/**
+	 * Set frame.
+	 *
+	 * @param \Swoole\WebSocket\Frame $frame
+	 *
+	 * @return void
+	 */
+	public function setFrame(\Swoole\WebSocket\Frame $frame)
+	{
 		$this->frame = $frame;
-		$this->request = \App\Request::init(\App\Json::decode($frame->data));
+		$this->request = new \App\Request(\App\Json::decode($frame->data));
 	}
 
 	/**

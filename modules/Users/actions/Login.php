@@ -79,7 +79,6 @@ class Login extends \App\Controller\Action
 			\App\Session::set('app_unique_key', \App\Config::main('application_unique_key'));
 			\App\Session::set('user_name', $userModel->get('user_name'));
 			\App\Session::set('full_user_name', $userModel->getName());
-			\App\Session::set('full_user_name', $userModel->getName());
 		}
 		if ($this->request->has('fingerprint')) {
 			\App\Session::set('fingerprint', $this->request->get('fingerprint'));

@@ -160,8 +160,6 @@ class WebSocket
 			\App\Log::error('Web socket container does not exist: ' . $this->container, 'WebSocket');
 			$server->close($request->fd);
 		}
-		if ($request->cookie['YTSID']) {
-		}
 		$this->connections[$request->fd] = [
 			'fd' => $request->fd,
 			'container' => $this->container,
@@ -169,6 +167,10 @@ class WebSocket
 			'user' => 0,
 			'time' => time()
 		];
+		$container = $this->getContainer($request->fd);
+		if (\method_exists($container, 'onOpen')) {
+			$container->onOpen($request, $this->connections[$request->fd]);
+		}
 	}
 
 	/**
@@ -183,7 +185,11 @@ class WebSocket
 	{
 		try {
 			\App\Log::info("Request message | fd: {$frame->fd} | Content: {$frame->data}", 'WebSocket');
-			$container = $this->getContainer($frame);
+			require_once __DIR__ . '/../../include/ConfigUtils.php';
+			\App\Process::$requestMode = 'WebSocket';
+
+			$container = $this->getContainer($frame->fd);
+			$container->setFrame($frame);
 			if ($container->checkPermission()) {
 				$container->process();
 			}
@@ -301,14 +307,14 @@ class WebSocket
 	/**
 	 * Get container instance.
 	 *
-	 * @param \Swoole\WebSocket\Frame $frame
+	 * @param int $fd
 	 *
 	 * @return App\Controller\WebSocket\Base
 	 */
-	public function getContainer(Frame $frame): WebSocket\Base
+	public function getContainer(int $fd): WebSocket\Base
 	{
-		$class = $this->getContainerClass($frame->fd);
-		return new $class($this, $frame);
+		$class = $this->getContainerClass($fd);
+		return new $class($this);
 	}
 
 	/**
