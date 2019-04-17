@@ -493,7 +493,7 @@ class Vtiger_Inventory_Model
 	public function getCustomAutoComplete(string $sourceFieldName, \Vtiger_Record_Model $recordModel)
 	{
 		$values = [];
-		$inventoryMap = AppConfig::module($this->getModuleName(), 'INVENTORY_ON_SELECT_AUTO_COMPLETE');
+		$inventoryMap = App\Config::module($this->getModuleName(), 'INVENTORY_ON_SELECT_AUTO_COMPLETE');
 		if ($inventoryMap) {
 			foreach ($inventoryMap as $fieldToComplete => $mapping) {
 				if (isset($mapping[$sourceFieldName]) && method_exists($this, $mapping[$sourceFieldName])) {
@@ -776,7 +776,7 @@ class Vtiger_Inventory_Model
 				'charset' => 'utf8',
 			]];
 		$base = new \App\Db\Importer();
-		$base->dieOnError = AppConfig::debug('SQL_DIE_ON_ERROR');
+		$base->dieOnError = App\Config::debug('SQL_DIE_ON_ERROR');
 		foreach ($tables as $tableName => $data) {
 			if (!$db->isTableExists($tableName)) {
 				$importer->tables = [$tableName => $data];

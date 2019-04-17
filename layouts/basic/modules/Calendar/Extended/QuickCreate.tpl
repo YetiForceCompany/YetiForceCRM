@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Calendar-Extended-QuickCreate quick-calendar-modal">
-		<input value="{AppConfig::module($MODULE, 'CALENDAR_VIEW')}" type="hidden" class="js-calendar-type"
+		<input value="{App\Config::module($MODULE, 'CALENDAR_VIEW')}" type="hidden" class="js-calendar-type"
 			   data-js="value">
 		<input type="hidden" id="showType" value="current"/>
 		{foreach key=index item=cssModel from=$STYLES}
@@ -40,7 +40,7 @@
 					<div class="modal-body row no-gutters m-0 pt-0">
 						<div class="col-8 pt-2">
 							<input type="hidden" id="hiddenDays"
-								   value="{\App\Purifier::encodeHtml(\App\Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}"/>
+								   value="{\App\Purifier::encodeHtml(\App\Json::encode(App\Config::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}"/>
 							<input value="{$WEEK_COUNT}" type="hidden" id="weekCount"/>
 							<input value="{$WEEK_VIEW}" type="hidden" id="weekView"/>
 							<input value="{$DAY_VIEW}" type="hidden" id="dayView"/>

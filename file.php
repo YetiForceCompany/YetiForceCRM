@@ -18,7 +18,7 @@ try {
 	$response = new \Vtiger_Response();
 	$response->setEmitType(\Vtiger_Response::$EMIT_JSON);
 	$trace = '';
-	if (\AppConfig::debug('DISPLAY_EXCEPTION_BACKTRACE') && is_object($e)) {
+	if (\App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE') && is_object($e)) {
 		$trace = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
 	}
 	$response->setHeader(\App\Request::_getServer('SERVER_PROTOCOL') . ' ' . $e->getCode() . ' Internal Server Error');

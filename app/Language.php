@@ -86,7 +86,7 @@ class Language
 		} else {
 			$language = User::getCurrentUserModel()->getDetail('language');
 		}
-		return static::$language = empty($language) ? \AppConfig::main('default_language') : $language;
+		return static::$language = empty($language) ? \App\Config::main('default_language') : $language;
 	}
 
 	/**
@@ -713,9 +713,9 @@ class Language
 	public static function initLocale()
 	{
 		$original = explode(';', setlocale(LC_ALL, 0));
-		$defaultCharset = strtolower(\AppConfig::main('default_charset'));
+		$defaultCharset = strtolower(\App\Config::main('default_charset'));
 		setlocale(LC_ALL, \Locale::acceptFromHttp(self::getLanguage()) . '.' . $defaultCharset,
-			\Locale::acceptFromHttp(\AppConfig::main('default_language')) . '.' . $defaultCharset, \Locale::acceptFromHttp(self::DEFAULT_LANG) . ".$defaultCharset",
+			\Locale::acceptFromHttp(\App\Config::main('default_language')) . '.' . $defaultCharset, \Locale::acceptFromHttp(self::DEFAULT_LANG) . ".$defaultCharset",
 			\Locale::acceptFromHttp(self::DEFAULT_LANG) . '.utf8');
 		foreach ($original as $localeSetting) {
 			if (strpos($localeSetting, '=') !== false) {

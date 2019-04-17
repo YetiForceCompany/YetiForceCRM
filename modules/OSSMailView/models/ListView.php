@@ -13,7 +13,7 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 		$basicLinks = [];
 		$moduleModel = $this->getModule();
 		$createPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'CreateView');
-		if ($createPermission && AppConfig::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')) {
+		if ($createPermission && App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')) {
 			$basicLinks[] = [
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => 'LBL_CREATEMAIL',

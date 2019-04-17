@@ -17,7 +17,7 @@ class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = \App\User::getCurrentUserModel();
-		if ($currentUserModel->isAdmin() || ($currentUserModel->getId() === $request->getInteger('record') && AppConfig::security('SHOW_MY_PREFERENCES'))) {
+		if ($currentUserModel->isAdmin() || ($currentUserModel->getId() === $request->getInteger('record') && App\Config::security('SHOW_MY_PREFERENCES'))) {
 			return true;
 		} else {
 			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');

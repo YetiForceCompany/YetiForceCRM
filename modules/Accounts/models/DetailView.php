@@ -67,7 +67,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 			'linkicon' => '',
 			'related' => 'Details',
 		];
-		if (AppConfig::module($moduleName, 'SHOW_SUMMARY_PRODUCTS_SERVICES')) {
+		if (App\Config::module($moduleName, 'SHOW_SUMMARY_PRODUCTS_SERVICES')) {
 			$relations = \Vtiger_Relation_Model::getAllRelations($parentModuleModel, false);
 			if (isset($relations[\App\Module::getModuleId('OutsourcedProducts')]) ||
 				isset($relations[\App\Module::getModuleId('Products')]) ||
@@ -82,7 +82,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 					'linkicon' => '',
 					'linkKey' => 'LBL_RECORD_SUMMARY',
 					'related' => 'ProductsAndServices',
-					'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT'),
+					'countRelated' => App\Config::relation('SHOW_RECORDS_COUNT'),
 				];
 			}
 		}
@@ -94,7 +94,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments',
 				'linkicon' => '',
 				'related' => $modCommentsModel->getName(),
-				'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT'),
+				'countRelated' => App\Config::relation('SHOW_RECORDS_COUNT'),
 			];
 		}
 		if ($parentModuleModel->isTrackingEnabled() && $parentModuleModel->isPermitted('ModTracker')) {
@@ -104,7 +104,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRecentActivities&page=1',
 				'linkicon' => '',
 				'related' => 'ModTracker',
-				'countRelated' => AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
+				'countRelated' => App\Config::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
 				'badgeClass' => 'bgDanger',
 			];
 		}

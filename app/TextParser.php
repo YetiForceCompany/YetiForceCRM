@@ -506,14 +506,14 @@ class TextParser
 			case 'CurrentTime':
 				return \Vtiger_Util_Helper::convertTimeIntoUsersDisplayFormat(date('h:i:s'));
 			case 'SiteUrl':
-				return \AppConfig::main('site_URL');
+				return \App\Config::main('site_URL');
 			case 'PortalUrl':
-				return \AppConfig::main('PORTAL_URL');
+				return \App\Config::main('PORTAL_URL');
 			case 'BaseTimeZone':
 				return Fields\DateTime::getTimeZone();
 			case 'UserTimeZone':
 				$userModel = \App\User::getCurrentUserModel();
-				return ($userModel && $userModel->getDetail('time_zone')) ? $userModel->getDetail('time_zone') : \AppConfig::main('default_timezone');
+				return ($userModel && $userModel->getDetail('time_zone')) ? $userModel->getDetail('time_zone') : \App\Config::main('default_timezone');
 			default:
 				return $key;
 		}
@@ -542,7 +542,7 @@ class TextParser
 		}
 		switch ($key) {
 			case 'CrmDetailViewURL':
-				return \AppConfig::main('site_URL') . 'index.php?module=' . $this->moduleName . '&view=Detail&record=' . $this->record;
+				return \App\Config::main('site_URL') . 'index.php?module=' . $this->moduleName . '&view=Detail&record=' . $this->record;
 			case 'PortalDetailViewURL':
 				$recorIdName = 'id';
 				if ('HelpDesk' === $this->moduleName) {
@@ -552,7 +552,7 @@ class TextParser
 				} elseif ('Products' === $this->moduleName) {
 					$recorIdName = 'productid';
 				}
-				return \AppConfig::main('PORTAL_URL') . '/index.php?module=' . $this->moduleName . '&action=index&' . $recorIdName . '=' . $this->record;
+				return \App\Config::main('PORTAL_URL') . '/index.php?module=' . $this->moduleName . '&action=index&' . $recorIdName . '=' . $this->record;
 			case 'ModuleName':
 				return $this->moduleName;
 			case 'RecordId':
@@ -1286,9 +1286,9 @@ class TextParser
 	public static function htmlTruncate($html, $length = false, $addDots = true, &$isTruncated = false)
 	{
 		if (!$length) {
-			$length = \AppConfig::main('listview_max_textlength');
+			$length = \App\Config::main('listview_max_textlength');
 		}
-		$encoding = \AppConfig::main('default_charset');
+		$encoding = \App\Config::main('default_charset');
 		$config = \HTMLPurifier_Config::create(null);
 		$config->set('Cache.SerializerPath', ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'vtlib');
 		$lexer = \HTMLPurifier_Lexer::create($config);
@@ -1355,11 +1355,11 @@ class TextParser
 	public static function textTruncate($text, $length = false, $addDots = true)
 	{
 		if (!$length) {
-			$length = \AppConfig::main('listview_max_textlength');
+			$length = \App\Config::main('listview_max_textlength');
 		}
 		if (function_exists('mb_strlen')) {
 			if (mb_strlen($text) > $length) {
-				$text = mb_substr($text, 0, $length, \AppConfig::main('default_charset'));
+				$text = mb_substr($text, 0, $length, \App\Config::main('default_charset'));
 				if ($addDots) {
 					$text .= '...';
 				}

@@ -65,7 +65,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 		if (static::$cache === false) {
 			static::$cache = require static::$cacheFile;
 		}
-		if (AppConfig::module('ModTracker', 'WATCHDOG') === false) {
+		if (App\Config::module('ModTracker', 'WATCHDOG') === false) {
 			$instance->isActive = false;
 		}
 		\App\Cache::staticSave('WatchdogModel', $cacheName, $instance);

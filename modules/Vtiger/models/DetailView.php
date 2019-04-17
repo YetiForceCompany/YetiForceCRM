@@ -112,7 +112,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				];
 			}
 		}
-		if (AppConfig::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingRecords')) {
+		if (App\Config::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingRecords')) {
 			$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
 			$class = 'btn-outline-dark btn-sm';
 			$iconclass = 'fa-eye-slash';
@@ -173,7 +173,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				'linkhint' => 'BTN_RECORD_OPEN'
 			]);
 		}
-		$stateColors = AppConfig::search('LIST_ENTITY_STATE_COLOR');
+		$stateColors = App\Config::search('LIST_ENTITY_STATE_COLOR');
 		if ($recordModel->privilegeToActivate()) {
 			$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'DETAIL_VIEW_EXTENDED',
@@ -314,7 +314,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments',
 				'linkicon' => '',
 				'related' => $modCommentsModel->getName(),
-				'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT'),
+				'countRelated' => App\Config::relation('SHOW_RECORDS_COUNT'),
 			];
 		}
 		if ($parentModuleModel->isTrackingEnabled() && $parentModuleModel->isPermitted('ModTracker')) {
@@ -324,7 +324,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRecentActivities&page=1',
 				'linkicon' => '',
 				'related' => 'ModTracker',
-				'countRelated' => AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
+				'countRelated' => App\Config::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
 				'badgeClass' => 'bgDanger',
 			];
 		}

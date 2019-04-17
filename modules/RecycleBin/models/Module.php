@@ -51,7 +51,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 			}
 			App\User::setCurrentUserId($userId);
 			$modulesList = \vtlib\Functions::getAllModules(true, false, 0);
-			$deleteMaxCount = AppConfig::module('RecycleBin', 'DELETE_MAX_COUNT');
+			$deleteMaxCount = App\Config::module('RecycleBin', 'DELETE_MAX_COUNT');
 			$dataReader = (new \App\Db\Query())->select(['crmid', 'setype'])->from('vtiger_crmentity')
 				->where(
 					['and',

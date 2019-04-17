@@ -537,7 +537,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				if (is_resource($mbox)) {
 					$countEmails = $scannerModel->mailScan($mbox, $account, $folderRow['folder'], $scanId, $countEmails);
 					imap_close($mbox);
-					if ($countEmails >= AppConfig::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
+					if ($countEmails >= App\Config::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
 						\App\Log::info('Reached the maximum number of scanned mails');
 						self::updateScanHistory($scanId, ['status' => '0', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
 						$this->setCronStatus(1);

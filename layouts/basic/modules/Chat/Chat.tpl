@@ -69,9 +69,9 @@
 					<div class="js-chat_content js-completions__messages col-12 px-2 h-100 w-100 mb-4"
 						 data-current-room-type="{$CURRENT_ROOM['roomType']}"
 						 data-current-record-id="{$CURRENT_ROOM['recordId']}"
-						 data-message-timer="{AppConfig::module('Chat', 'REFRESH_MESSAGE_TIME')}"
-						 data-room-timer="{AppConfig::module('Chat', 'REFRESH_ROOM_TIME')}"
-						 data-max-length-message="{AppConfig::module('Chat', 'MAX_LENGTH_MESSAGE')}"
+						 data-message-timer="{App\Config::module('Chat', 'REFRESH_MESSAGE_TIME')}"
+						 data-room-timer="{App\Config::module('Chat', 'REFRESH_ROOM_TIME')}"
+						 data-max-length-message="{App\Config::module('Chat', 'MAX_LENGTH_MESSAGE')}"
 						 data-view-for-record="{if isset($VIEW_FOR_RECORD) && $VIEW_FOR_RECORD}true{else}false{/if}"
 						 data-js="append">
 						{include file=\App\Layout::getTemplatePath('Entries.tpl', 'Chat')}

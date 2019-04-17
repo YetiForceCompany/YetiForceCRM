@@ -51,7 +51,7 @@ class Yours extends Base
 		$coordinates = [];
 		$travel = $distance = 0;
 		$description = '';
-		$urlToRoute = \AppConfig::module('OpenStreetMap', 'ADDRESS_TO_ROUTE');
+		$urlToRoute = \App\Config::module('OpenStreetMap', 'ADDRESS_TO_ROUTE');
 		try {
 			foreach ($tracks as $track) {
 				$url = $urlToRoute . '?format=geojson&flat=' . $track['startLat'] . '&flon=' . $track['startLon'] . '&tlat=' . $track['endLat'] . '&tlon=' . $track['endLon'] . '&lang=' . \App\Language::getLanguage() . '&instructions=1';

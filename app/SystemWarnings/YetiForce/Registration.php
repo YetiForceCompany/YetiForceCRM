@@ -35,7 +35,7 @@ class Registration extends \App\SystemWarnings\Template
 	 */
 	public function process()
 	{
-		if (\App\YetiForce\Register::verify(true) || \AppConfig::main('systemMode') === 'demo') {
+		if (\App\YetiForce\Register::verify(true) || \App\Config::main('systemMode') === 'demo') {
 			$this->status = 1;
 		} else {
 			$this->status = 0;

@@ -283,7 +283,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			$worksheet->getColumnDimension($cell->getColumn())->setAutoSize(true);
 			++$col;
 		}
-		$tmpDir = \AppConfig::main('tmp_dir');
+		$tmpDir = \App\Config::main('tmp_dir');
 		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $tmpDir, 'xls');
 		$workbookWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($workbook, 'Xls');
 		$workbookWriter->save($tempFileName);
@@ -398,7 +398,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 				if ('ProductsAndServices' === $relatedModuleName && in_array($relModule, $categoryCount)) {
 					$totalCount += (int) $relationListView->getRelatedTreeEntriesCount();
 				}
-				if ('Calendar' === $relatedModuleName && \AppConfig::module($relatedModuleName, 'SHOW_ONLY_CURRENT_RECORDS_COUNT')) {
+				if ('Calendar' === $relatedModuleName && \App\Config::module($relatedModuleName, 'SHOW_ONLY_CURRENT_RECORDS_COUNT')) {
 					$totalCount += (int) $relationListView->getRelationQuery()->andWhere(['vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('current')])->count();
 				} else {
 					$totalCount += (int) $relationListView->getRelatedEntriesCount();

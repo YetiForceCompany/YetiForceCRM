@@ -399,7 +399,7 @@ class Project_Gantt_Model
 			}
 			$colors['ProjectTask']['projecttaskstatus'][$value['projecttaskstatus']] = \App\Colors::get($value['color'] ?? '', $value['projecttaskstatus']);
 		}
-		$configColors = \AppConfig::module('Project', 'defaultGanttColors');
+		$configColors = \App\Config::module('Project', 'defaultGanttColors');
 		if (!empty($configColors)) {
 			$this->statusColors = $configColors;
 		} else {

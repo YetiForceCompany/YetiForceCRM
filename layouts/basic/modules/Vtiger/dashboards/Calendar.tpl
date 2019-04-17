@@ -20,7 +20,7 @@
 			<hr class="widgetHr"/>
 			<div class="row no-gutters">
 				<div class="col-ceq-xsm-6">
-					{if AppConfig::module('Calendar','DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE') == 'list'}
+					{if App\Config::module('Calendar','DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE') == 'list'}
 						<div class="input-group input-group-sm">
 						<span class="input-group-prepend">
 							<span class="input-group-text">
@@ -42,7 +42,7 @@
 							</select>
 						</div>
 					{/if}
-					{if AppConfig::module('Calendar','DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE') == 'switch'}
+					{if App\Config::module('Calendar','DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE') == 'switch'}
 						{assign var=CURRENT_STATUS value=Calendar_Module_Model::getComponentActivityStateLabel('current')}
 						{assign var=HISTORY_STATUS value=Calendar_Module_Model::getComponentActivityStateLabel('history')}
 						<div class="btn-group btn-group-toggle" data-toggle="buttons">

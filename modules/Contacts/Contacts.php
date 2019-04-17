@@ -200,7 +200,7 @@ class Contacts extends CRMEntity
 	{
 		$listviewHeader = [];
 		$listviewEntries = [];
-		$listColumns = AppConfig::module('Contacts', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = App\Config::module('Contacts', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
@@ -238,7 +238,7 @@ class Contacts extends CRMEntity
 		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $recordId . ') method ...');
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 		$hasRecordViewAccess = $currentUser->isAdminUser() || \App\Privilege::isPermitted('Contacts', 'DetailView', $recordId);
-		$listColumns = AppConfig::module('Contacts', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = App\Config::module('Contacts', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
@@ -291,7 +291,7 @@ class Contacts extends CRMEntity
 	public function getParent(int $id, array &$parent, array &$encountered, int $depthBase = 0)
 	{
 		\App\Log::trace('Entering getParent(' . $id . ') method ...');
-		if ($depthBase == AppConfig::module('Contacts', 'MAX_HIERARCHY_DEPTH')) {
+		if ($depthBase == App\Config::module('Contacts', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting getParent method ... - exceeded maximum depth of hierarchy');
 
 			return $parent;
@@ -318,7 +318,7 @@ class Contacts extends CRMEntity
 				$depth = $parent[$parentid]['depth'] + 1;
 			}
 			$parentInfo['depth'] = $depth;
-			$listColumns = AppConfig::module('Contacts', 'COLUMNS_IN_HIERARCHY');
+			$listColumns = App\Config::module('Contacts', 'COLUMNS_IN_HIERARCHY');
 			if (empty($listColumns)) {
 				$listColumns = $this->list_fields_name;
 			}
@@ -351,7 +351,7 @@ class Contacts extends CRMEntity
 	public function getChild(int $id, array &$childRow, int $depthBase)
 	{
 		\App\Log::trace('Entering getChild(' . $id . ',' . $depthBase . ') method ...');
-		if (empty($id) || $depthBase == AppConfig::module('Contacts', 'MAX_HIERARCHY_DEPTH')) {
+		if (empty($id) || $depthBase == App\Config::module('Contacts', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting getChild method ... - exceeded maximum depth of hierarchy');
 
 			return $childRow;
@@ -366,7 +366,7 @@ class Contacts extends CRMEntity
 			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
 			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_contactdetails.reportsto' => $id])
 			->createCommand()->query();
-		$listColumns = AppConfig::module('Contacts', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = App\Config::module('Contacts', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}

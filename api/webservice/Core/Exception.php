@@ -22,7 +22,7 @@ class Exception extends \Exception
 		if (empty($this->code)) {
 			$this->code = $code;
 		}
-		if (!\AppConfig::debug('WEBSERVICE_SHOW_ERROR') && $code === 200) {
+		if (!\App\Config::debug('WEBSERVICE_SHOW_ERROR') && $code === 200) {
 			$message = 'Internal Server Error';
 			$code = 500;
 		}
@@ -33,7 +33,7 @@ class Exception extends \Exception
 				'code' => $code,
 			],
 		];
-		if (\AppConfig::debug('DISPLAY_EXCEPTION_BACKTRACE')) {
+		if (\App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE')) {
 			$body['error']['backtrace'] = \App\Debuger::getBacktrace();
 		}
 		$response = Response::getInstance();
@@ -44,7 +44,7 @@ class Exception extends \Exception
 
 	public function handleError()
 	{
-		if (\AppConfig::debug('WEBSERVICE_DEBUG')) {
+		if (\App\Config::debug('WEBSERVICE_DEBUG')) {
 			$request = \App\Request::init();
 			$error = "code: {$this->getCode()} | message: {$this->getMessage()}\n";
 			$error .= "file: {$this->getFile()} ({$this->getLine()})\n";

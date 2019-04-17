@@ -98,7 +98,7 @@ class Chat_Room_Action extends \App\Controller\Action
 	public function tracking(\App\Request $request)
 	{
 		$response = new Vtiger_Response();
-		if (AppConfig::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')) {
+		if (App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')) {
 			$response->setResult(\App\Chat::getNumberOfNewMessages());
 		} else {
 			$response->setResult(\App\Chat::isNewMessages() ? 1 : 0);

@@ -25,7 +25,7 @@ class Session
 			return;
 		}
 
-		$driver = \AppConfig::performance('SESSION_DRIVER');
+		$driver = \App\Config::performance('SESSION_DRIVER');
 		if ($driver) {
 			$className = '\App\Session\\' . $driver;
 			static::$pool = new $className();

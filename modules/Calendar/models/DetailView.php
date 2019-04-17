@@ -39,7 +39,7 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRecentActivities&page=1',
 				'linkicon' => '',
 				'related' => 'ModTracker',
-				'countRelated' => AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
+				'countRelated' => App\Config::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
 				'badgeClass' => 'bgDanger',
 			];
 		}
@@ -85,7 +85,7 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 			];
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
-		$stateColors = AppConfig::search('LIST_ENTITY_STATE_COLOR');
+		$stateColors = App\Config::search('LIST_ENTITY_STATE_COLOR');
 		if ($recordModel->privilegeToMoveToTrash() && $recordModel->get('reapeat') === 1) {
 			foreach ($linkModelList['DETAIL_VIEW_EXTENDED'] as $key => $linkObject) {
 				if ($linkObject->linklabel == 'LBL_MOVE_TO_TRASH') {

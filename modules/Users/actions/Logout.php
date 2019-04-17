@@ -25,7 +25,7 @@ class Users_Logout_Action extends \App\Controller\Action
 	{
 		$eventHandler = new App\EventHandler();
 		$eventHandler->trigger('UserLogoutBefore');
-		if (AppConfig::main('session_regenerate_id')) {
+		if (App\Config::main('session_regenerate_id')) {
 			App\Session::regenerateId(true); // to overcome session id reuse.
 		}
 		OSSMail_Logout_Model::logoutCurrentUser();

@@ -28,7 +28,7 @@ class Cache
 	 */
 	public static function init()
 	{
-		$driver = \AppConfig::performance('CACHING_DRIVER');
+		$driver = \App\Config::performance('CACHING_DRIVER');
 		static::$staticPool = new \App\Cache\Base();
 		if ($driver) {
 			$className = '\App\Cache\\' . $driver;

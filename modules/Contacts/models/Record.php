@@ -74,7 +74,7 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 	public function getRecordRelatedListViewLinksLeftSide(Vtiger_RelationListView_Model $viewModel)
 	{
 		$links = parent::getRecordRelatedListViewLinksLeftSide($viewModel);
-		if (AppConfig::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')) {
+		if (App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')) {
 			if (Users_Record_Model::getCurrentUserModel()->get('internal_mailer') == 1) {
 				$links['LBL_SEND_EMAIL'] = Vtiger_Link_Model::getInstanceFromValues([
 						'linklabel' => 'LBL_SEND_EMAIL',

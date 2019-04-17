@@ -20,7 +20,7 @@
 			{/if}
 			<input type="hidden" class="countActivities" value="{count($ACTIVITIES)}"/>
 			<input type="hidden" class="currentPage" value="{$PAGE_NUMBER}"/>
-			{assign var=SHOW_LINK_TO_CALENDAR value=AppConfig::module($MODULE_NAME, 'CALENDAR_VIEW') === 'Extended' && AppConfig::module($MODULE_NAME, 'SHOW_EDIT_FORM')}
+			{assign var=SHOW_LINK_TO_CALENDAR value=App\Config::module($MODULE_NAME, 'CALENDAR_VIEW') === 'Extended' && App\Config::module($MODULE_NAME, 'SHOW_EDIT_FORM')}
 			{foreach item=RECORD key=KEY from=$ACTIVITIES name=activities}
 				{if $PAGE_NUMBER neq 1 && $smarty.foreach.activities.first}
 					<hr>

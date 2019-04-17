@@ -156,7 +156,7 @@ class DateTime
 		if (!static::$databaseTimeZone) {
 			$defaultTimeZone = date_default_timezone_get();
 			if (empty($defaultTimeZone)) {
-				$defaultTimeZone = \AppConfig::main('default_timezone');
+				$defaultTimeZone = \App\Config::main('default_timezone');
 			}
 			static::$databaseTimeZone = $defaultTimeZone;
 		}

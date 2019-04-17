@@ -310,7 +310,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getDefaultViewName()
 	{
-		$viewName = AppConfig::module($this->getName(), 'defaultViewName');
+		$viewName = App\Config::module($this->getName(), 'defaultViewName');
 		if (!empty($viewName)) {
 			return $viewName;
 		}

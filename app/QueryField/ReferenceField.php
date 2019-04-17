@@ -52,7 +52,7 @@ class ReferenceField extends BaseField
 	 */
 	public function operatorA()
 	{
-		if (\AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
+		if (\App\Config::performance('SEARCH_REFERENCE_BY_AJAX')) {
 			if (strpos($this->value, '##') === false) {
 				return [$this->getColumnName() => $this->value];
 			}
