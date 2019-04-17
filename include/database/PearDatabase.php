@@ -63,8 +63,8 @@ class PearDatabase
 	public function __construct($dbtype = '', $host = '', $dbname = '', $username = '', $passwd = '', $port = 3306)
 	{
 		$this->loadDBConfig($dbtype, $host, $dbname, $username, $passwd, $port);
-		$this->isdb_default_utf8_charset = AppConfig::performance('DB_DEFAULT_CHARSET_UTF8');
-		$this->setDieOnError(AppConfig::debug('SQL_DIE_ON_ERROR'));
+		$this->isdb_default_utf8_charset = App\Config::performance('DB_DEFAULT_CHARSET_UTF8');
+		$this->setDieOnError(App\Config::debug('SQL_DIE_ON_ERROR'));
 		$this->connect();
 	}
 
@@ -812,7 +812,7 @@ class PearDatabase
 
 	public function logSqlTime($startat, $endat, $sql, $params = false)
 	{
-		if (!AppConfig::performance('SQL_LOG_INCLUDE_CALLER')) {
+		if (!App\Config::performance('SQL_LOG_INCLUDE_CALLER')) {
 			return;
 		}
 		$db = self::getInstance('log');

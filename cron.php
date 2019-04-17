@@ -20,10 +20,10 @@ App\Session::start();
 \App\Session::set('last_activity', microtime(true));
 $authenticatedUserId = App\Session::get('authenticated_user_id');
 $appUniqueKey = App\Session::get('app_unique_key');
-$user = (!empty($authenticatedUserId) && !empty($appUniqueKey) && $appUniqueKey === AppConfig::main('application_unique_key'));
+$user = (!empty($authenticatedUserId) && !empty($appUniqueKey) && $appUniqueKey === App\Config::main('application_unique_key'));
 $response = '';
 $cronObj->log('SAPI: ' . PHP_SAPI . ', User: ' . Users::getActiveAdminId(), 'info', false);
-if (PHP_SAPI === 'cli' || $user || AppConfig::main('application_unique_key') === \App\Request::_get('app_key')) {
+if (PHP_SAPI === 'cli' || $user || App\Config::main('application_unique_key') === \App\Request::_get('app_key')) {
 	$cronTasks = false;
 	$cronObj->log('Cron start', 'info', false);
 	$cronObj::$cronTimeStart = microtime(true);
@@ -52,7 +52,7 @@ if (PHP_SAPI === 'cli' || $user || AppConfig::main('application_unique_key') ===
 			if ($cronTask->hadTimeout()) {
 				$response .= sprintf('%s | %s - Cron task had timedout as it was not completed last time it run' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
 				$cronObj->log('Cron task had timedout as it was not completed last time it run');
-				if (AppConfig::main('unblockedTimeoutCronTasks')) {
+				if (App\Config::main('unblockedTimeoutCronTasks')) {
 					$cronTask->unlockTask();
 				}
 			}
@@ -96,7 +96,7 @@ if (PHP_SAPI === 'cli' || $user || AppConfig::main('application_unique_key') ===
 			echo $response;
 			echo sprintf('%s | ERROR: %s - Cron task execution throwed exception.', date('Y-m-d H:i:s'), $cronTask->getName()) . PHP_EOL;
 			echo $e->__toString() . PHP_EOL;
-			if (AppConfig::main('systemMode') === 'test') {
+			if (App\Config::main('systemMode') === 'test') {
 				throw $e;
 			}
 		}

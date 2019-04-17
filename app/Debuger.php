@@ -36,7 +36,7 @@ class Debuger
 		$debugbar->addCollector(new DataCollector\RequestDataCollector());
 		$debugbar->addCollector(new DataCollector\TimeDataCollector());
 		$debugbar->addCollector(new DataCollector\MemoryCollector());
-		if (\AppConfig::debug('LOG_TO_CONSOLE')) {
+		if (\App\Config::debug('LOG_TO_CONSOLE')) {
 			$debugbar->addCollector(new Debug\DebugBarLogs());
 		}
 		$debugbar->addCollector(new DataCollector\ExceptionsCollector());
@@ -86,12 +86,12 @@ class Debuger
 	 */
 	public static function init()
 	{
-		if (\AppConfig::debug('DISPLAY_DEBUG_CONSOLE') && static::checkIP()) {
+		if (\App\Config::debug('DISPLAY_DEBUG_CONSOLE') && static::checkIP()) {
 			static::initConsole();
 		}
 		$targets = [];
-		if (\AppConfig::debug('LOG_TO_FILE')) {
-			$levels = \AppConfig::debug('LOG_LEVELS');
+		if (\App\Config::debug('LOG_TO_FILE')) {
+			$levels = \App\Config::debug('LOG_LEVELS');
 			$target = [
 				'class' => 'App\Log\FileTarget',
 			];
@@ -100,8 +100,8 @@ class Debuger
 			}
 			$targets['file'] = $target;
 		}
-		if (\AppConfig::debug('LOG_TO_PROFILE')) {
-			$levels = \AppConfig::debug('LOG_LEVELS');
+		if (\App\Config::debug('LOG_TO_PROFILE')) {
+			$levels = \App\Config::debug('LOG_LEVELS');
 			$target = [
 				'class' => 'App\Log\Profiling',
 			];
@@ -112,7 +112,7 @@ class Debuger
 		}
 		\Yii::createObject([
 			'class' => 'yii\log\Dispatcher',
-			'traceLevel' => \AppConfig::debug('LOG_TRACE_LEVEL'),
+			'traceLevel' => \App\Config::debug('LOG_TRACE_LEVEL'),
 			'targets' => $targets,
 		]);
 	}
@@ -124,7 +124,7 @@ class Debuger
 	 */
 	public static function checkIP()
 	{
-		$ips = \AppConfig::debug('DEBUG_CONSOLE_ALLOWED_IPS');
+		$ips = \App\Config::debug('DEBUG_CONSOLE_ALLOWED_IPS');
 		if ($ips === false || (\is_string($ips) && RequestUtil::getRemoteIP(true) === $ips) || (\is_array($ips) && \in_array(RequestUtil::getRemoteIP(true), $ips))) {
 			return true;
 		}

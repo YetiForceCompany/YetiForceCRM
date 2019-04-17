@@ -145,7 +145,7 @@ abstract class View extends Base
 		$view = $this->getViewer($request);
 		$title = $this->getPageTitle($request);
 		$this->loadJsConfig($request);
-		if (\AppConfig::performance('BROWSING_HISTORY_WORKING')) {
+		if (\App\Config::performance('BROWSING_HISTORY_WORKING')) {
 			\Vtiger_BrowsingHistory_Helper::saveHistory($title);
 		}
 		$view->assign('PAGETITLE', $title);
@@ -559,7 +559,7 @@ abstract class View extends Base
 					 'endHour' => $userModel->getDetail('end_hour'),
 					 'firstDayOfWeek' => $userModel->getDetail('dayoftheweek'),
 					 'firstDayOfWeekNo' => \App\Fields\Date::$dayOfWeek[$userModel->getDetail('dayoftheweek')] ?? false,
-					 'eventLimit' => \AppConfig::module('Calendar', 'EVENT_LIMIT'),
+					 'eventLimit' => \App\Config::module('Calendar', 'EVENT_LIMIT'),
 					 'timeZone' => $userModel->getDetail('time_zone'),
 					 'currencyId' => $userModel->getDetail('currency_id'),
 					 'currencyName' => $userModel->getDetail('currency_name'),
@@ -573,24 +573,24 @@ abstract class View extends Base
 					 'truncateTrailingZeros' => $userModel->getDetail('truncate_trailing_zeros'),
 					 'rowHeight' => $userModel->getDetail('rowheight'),
 					 'userId' => $userModel->getId(),
-					 'backgroundClosingModal' => \AppConfig::main('backgroundClosingModal'),
-					 'globalSearchAutocompleteActive' => \AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE'),
-					 'globalSearchAutocompleteMinLength' => \AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH'),
-					 'globalSearchAutocompleteAmountResponse' => \AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT'),
-					 'globalSearchDefaultOperator' => \AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR'),
-					 'sounds' => \AppConfig::sounds(),
-					 'intervalForNotificationNumberCheck' => \AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK'),
-					 'recordPopoverDelay' => \AppConfig::performance('RECORD_POPOVER_DELAY'),
-					 'searchShowOwnerOnlyInList' => \AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST'),
-					 'fieldsReferencesDependent' => \AppConfig::security('FIELDS_REFERENCES_DEPENDENT'),
+					 'backgroundClosingModal' => \App\Config::main('backgroundClosingModal'),
+					 'globalSearchAutocompleteActive' => \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE'),
+					 'globalSearchAutocompleteMinLength' => \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH'),
+					 'globalSearchAutocompleteAmountResponse' => \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT'),
+					 'globalSearchDefaultOperator' => \App\Config::search('GLOBAL_SEARCH_DEFAULT_OPERATOR'),
+					 'sounds' => \App\Config::sounds(),
+					 'intervalForNotificationNumberCheck' => \App\Config::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK'),
+					 'recordPopoverDelay' => \App\Config::performance('RECORD_POPOVER_DELAY'),
+					 'searchShowOwnerOnlyInList' => \App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST'),
+					 'fieldsReferencesDependent' => \App\Config::security('FIELDS_REFERENCES_DEPENDENT'),
 					 'soundFilesPath' => \App\Layout::getPublicUrl('layouts/resources/sounds/'),
-					 'debug' => (bool) \AppConfig::debug('JS_DEBUG'),
+					 'debug' => (bool) \App\Config::debug('JS_DEBUG'),
 				 ] as $key => $value) {
 			\App\Config::setJsEnv($key, $value);
 		}
 		if (\App\Session::has('ShowAuthy2faModal')) {
 			\App\Config::setJsEnv('ShowAuthy2faModal', \App\Session::get('ShowAuthy2faModal'));
-			if (\AppConfig::security('USER_AUTHY_MODE') === 'TOTP_OPTIONAL') {
+			if (\App\Config::security('USER_AUTHY_MODE') === 'TOTP_OPTIONAL') {
 				\App\Session::delete('ShowAuthy2faModal');
 			}
 		}

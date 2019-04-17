@@ -30,7 +30,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 	 */
 	public function process(\App\Request $request)
 	{
-		$systemMode = \AppConfig::main('systemMode');
+		$systemMode = \App\Config::main('systemMode');
 		if ($systemMode == 'demo') {
 			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_ERROR_IMPORT_IN_DEMO'));
 		}

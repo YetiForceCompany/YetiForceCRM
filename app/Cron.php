@@ -56,7 +56,7 @@ class Cron
 		static::generateStatusFile();
 		YetiForce\Register::check();
 		YetiForce\Status::send();
-		if (!(static::$logActive = \AppConfig::debug('DEBUG_CRON'))) {
+		if (!(static::$logActive = \App\Config::debug('DEBUG_CRON'))) {
 			return;
 		}
 		if (!is_dir($this->logPath) && !mkdir($this->logPath, 0777, true) && !is_dir($this->logPath)) {

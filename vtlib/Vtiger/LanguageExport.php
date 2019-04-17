@@ -82,7 +82,7 @@ class LanguageExport extends Package
 		$this->outputNode(\App\Purifier::decodeHtml($langInfo['name']), 'name');
 		$this->outputNode($prefix, 'prefix');
 		$this->outputNode('language', 'type');
-		$this->outputNode(\AppConfig::main('default_charset'), 'encoding');
+		$this->outputNode(\App\Config::main('default_charset'), 'encoding');
 		$this->outputNode('YetiForce - yetiforce.com', 'author');
 		$this->outputNode('YetiForce - yetiforce.com', 'license');
 		// Export dependency information

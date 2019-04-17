@@ -162,8 +162,8 @@ class Calendar_Calendar_Model extends App\Base
 		$return = [];
 		$currentUser = \App\User::getCurrentUserModel();
 		$moduleModel = Vtiger_Module_Model::getInstance($this->getModuleName());
-		$extended = AppConfig::module('Calendar', 'CALENDAR_VIEW') === 'Extended';
-		$editForm = \AppConfig::module('Calendar', 'SHOW_EDIT_FORM');
+		$extended = App\Config::module('Calendar', 'CALENDAR_VIEW') === 'Extended';
+		$editForm = \App\Config::module('Calendar', 'SHOW_EDIT_FORM');
 		$dataReader = $this->getQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$item = [];

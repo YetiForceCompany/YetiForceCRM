@@ -562,7 +562,7 @@ final class Chat
 			->from(['GL' => static::TABLE_NAME['message'][$roomType]])
 			->where(['userid' => $this->userId])
 			->orderBy(['id' => \SORT_DESC])
-			->limit(\AppConfig::module('Chat', 'CHAT_ROWS_LIMIT') + 1);
+			->limit(\App\Config::module('Chat', 'CHAT_ROWS_LIMIT') + 1);
 		if (!\is_null($messageId)) {
 			$query->andWhere(['<=', 'id', $messageId]);
 		}
@@ -866,7 +866,7 @@ final class Chat
 			$query->andWhere(['LIKE', 'C.messages', $searchVal]);
 		}
 		if ($isLimit) {
-			$query->limit(\AppConfig::module('Chat', 'CHAT_ROWS_LIMIT') + 1);
+			$query->limit(\App\Config::module('Chat', 'CHAT_ROWS_LIMIT') + 1);
 		}
 		return $query->orderBy(['id' => \SORT_DESC]);
 	}

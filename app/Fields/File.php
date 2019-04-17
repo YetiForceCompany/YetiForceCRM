@@ -601,7 +601,7 @@ class File
 	public static function sanitizeUploadFileName($fileName, $badFileExtensions = false)
 	{
 		if (!$badFileExtensions) {
-			$badFileExtensions = \AppConfig::main('upload_badext');
+			$badFileExtensions = \App\Config::main('upload_badext');
 		}
 		$fileName = preg_replace('/\s+/', '_', \vtlib\Functions::slug($fileName)); //replace space with _ in filename
 		$fileName = rtrim($fileName, '\\/<>?*:"<>|');

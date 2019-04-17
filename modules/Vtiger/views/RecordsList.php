@@ -262,7 +262,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 			$nextSortOrder = 'ASC';
 			$sortImage = 'fas fa-chevron-up';
 		}
-		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') || ($request->getBoolean('showTotalCount') && !$totalCount)) {
+		if (App\Config::performance('LISTVIEW_COMPUTE_PAGE_COUNT') || ($request->getBoolean('showTotalCount') && !$totalCount)) {
 			if (method_exists($listViewModel, 'getListViewCount')) {
 				$totalCount = $listViewModel->getListViewCount();
 			} elseif (method_exists($listViewModel, 'getRelatedEntriesCount')) {

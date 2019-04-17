@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<div class="tpl-CalendarViewPostProcess {if $USER_MODEL->get('leftpanelhide')}c-menu--open {/if}siteBarRight calendarRightPanel col-12 hideSiteBar"
-		 data-showPanel="{if !AppConfig::module($MODULE, 'SHOW_RIGHT_PANEL')}0{else}1{/if}" id="rightPanel">
+		 data-showPanel="{if !App\Config::module($MODULE, 'SHOW_RIGHT_PANEL')}0{else}1{/if}" id="rightPanel">
 		<div class="btn btn-block toggleSiteBarRightButton hideToggleSiteBarRightButton d-none d-lg-block"
 			 title="{\App\Language::translate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
 			<span class="fas fa-chevron-left"></span>

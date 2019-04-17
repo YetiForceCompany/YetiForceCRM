@@ -110,7 +110,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 				$selectedTabLabel = 'LBL_RECORD_SUMMARY';
 			}
 		} elseif (empty($requestMode) && empty($mode)) {
-			$selectedTabLabel = AppConfig::module($moduleName, 'DEFAULT_VIEW_RECORD');
+			$selectedTabLabel = App\Config::module($moduleName, 'DEFAULT_VIEW_RECORD');
 			if (empty($selectedTabLabel)) {
 				if ('Detail' === $currentUserModel->get('default_record_view')) {
 					$selectedTabLabel = 'LBL_RECORD_DETAILS';
@@ -364,7 +364,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (!empty($limit)) {
 			$pagingModel->set('limit', $limit);
 		} else {
-			$limit = AppConfig::module('ModTracker', 'NUMBER_RECORDS_ON_PAGE');
+			$limit = App\Config::module('ModTracker', 'NUMBER_RECORDS_ON_PAGE');
 			$pagingModel->set('limit', $limit);
 		}
 		if (!empty($whereCondition)) {
@@ -394,7 +394,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('VIEW_MODEL', $this->record);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
-		$defaultView = AppConfig::module('ModTracker', 'DEFAULT_VIEW');
+		$defaultView = App\Config::module('ModTracker', 'DEFAULT_VIEW');
 		if ('List' == $defaultView) {
 			$tplName = 'RecentActivities.tpl';
 		} else {
@@ -671,7 +671,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			if (App\Session::has($cacheName)) {
 				$hierarchyValue = App\Session::get($cacheName);
 			} else {
-				$hierarchyValue = AppConfig::module('ModComments', 'DEFAULT_SOURCE');
+				$hierarchyValue = App\Config::module('ModComments', 'DEFAULT_SOURCE');
 			}
 		} else {
 			App\Session::set($cacheName, $hierarchyValue);
@@ -880,7 +880,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('RELATED_LIST_LINKS', $links);
 		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
 		$viewer->assign('RELATION_FIELD', $relationField);
-		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		if (App\Config::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
 		}
 		if (empty($totalCount)) {

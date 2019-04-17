@@ -117,7 +117,7 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 		$formattedDate = strtotime(date_format($date, 'H:i:s'));
 		if ($formattedDate > strtotime($endWorkHour) || $formattedDate < strtotime($startWorkHour)) {
 			$date->add(new DateInterval('P1D'));
-			while (in_array(date_format($date, 'w'), AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW'))) {
+			while (in_array(date_format($date, 'w'), App\Config::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW'))) {
 				$date->add(new DateInterval('P1D'));
 			}
 			return $this->getFreeTimeInDay(date_format($date, 'Y-m-d'), $activityType, $currentUser->getId());

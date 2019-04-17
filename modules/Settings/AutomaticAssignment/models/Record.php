@@ -565,7 +565,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	private function getCustomConditions($userModel)
 	{
 		if (!isset($this->customConditions)) {
-			$userContitions = \AppConfig::module('Users', 'AUTO_ASSIGN_CONDITIONS');
+			$userContitions = \App\Config::module('Users', 'AUTO_ASSIGN_CONDITIONS');
 			$this->customConditions = ($userContitions && isset($userContitions['modules'][$this->getSourceModuleName()])) ? $userContitions['modules'][$this->getSourceModuleName()] : [];
 		}
 		$result = true;

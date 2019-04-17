@@ -72,7 +72,7 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 	 */
 	public function read()
 	{
-		$defaultCharset = AppConfig::main('default_charset');
+		$defaultCharset = App\Config::main('default_charset');
 		$this->createTable();
 
 		$fieldMapping = $this->request->get('field_mapping');

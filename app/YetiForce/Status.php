@@ -393,7 +393,7 @@ class Status
 	 */
 	public function getDomain()
 	{
-		return \AppConfig::main('site_URL');
+		return \App\Config::main('site_URL');
 	}
 
 	/**

@@ -29,7 +29,7 @@
 			<input type="hidden" id="recordsCount" name="recordsCount"/>
 			<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'/>
 			<input type="hidden" id="autoRefreshListOnChange"
-				   value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
+				   value="{App\Config::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
 			<div class="relatedHeader">
 				<div class="btn-toolbar row">
 					<div class="col-lg-9">
@@ -139,7 +139,7 @@
 						<div class="float-right">
 							{if $VIEW_MODEL}
 								<div class="float-right pl-1">
-									{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
+									{assign var=COLOR value=App\Config::search('LIST_ENTITY_STATE_COLOR')}
 									<input type="hidden" class="entityState"
 										   value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}"/>
 									<div class="dropdown dropdownEntityState u-remove-dropdown-icon">

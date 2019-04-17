@@ -74,7 +74,7 @@ class ErrorHandler
 			return;
 		}
 		register_shutdown_function([__CLASS__, 'fatalHandler']);
-		set_error_handler([__CLASS__, 'errorHandler'], \AppConfig::debug('EXCEPTION_ERROR_LEVEL'));
+		set_error_handler([__CLASS__, 'errorHandler'], \App\Config::debug('EXCEPTION_ERROR_LEVEL'));
 	}
 
 	/**
@@ -102,12 +102,12 @@ class ErrorHandler
 	{
 		$errorString = static::error2string($errno);
 		$msg = reset($errorString) . ": $errstr in $errfile, line $errline";
-		if (\AppConfig::debug('EXCEPTION_ERROR_TO_FILE')) {
+		if (\App\Config::debug('EXCEPTION_ERROR_TO_FILE')) {
 			$file = ROOT_DIRECTORY . '/cache/logs/errors.log';
 			$content = print_r($msg, true) . PHP_EOL . \App\Debuger::getBacktrace(2) . PHP_EOL;
 			file_put_contents($file, $content, FILE_APPEND);
 		}
-		if (\AppConfig::debug('EXCEPTION_ERROR_TO_SHOW')) {
+		if (\App\Config::debug('EXCEPTION_ERROR_TO_SHOW')) {
 			\vtlib\Functions::throwNewException($msg, false);
 		}
 	}

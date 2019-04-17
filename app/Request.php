@@ -664,7 +664,7 @@ class Request
 	public function validateReadAccess()
 	{
 		// Referer check if present - to over come && Check for user post authentication.
-		if (isset($_SERVER['HTTP_REFERER']) && \App\User::getCurrentUserId() && (0 !== stripos($_SERVER['HTTP_REFERER'], \AppConfig::main('site_URL'))) && ('Install' !== $this->get('module'))) {
+		if (isset($_SERVER['HTTP_REFERER']) && \App\User::getCurrentUserId() && (0 !== stripos($_SERVER['HTTP_REFERER'], \App\Config::main('site_URL'))) && ('Install' !== $this->get('module'))) {
 			throw new \App\Exceptions\Csrf('Illegal request');
 		}
 	}

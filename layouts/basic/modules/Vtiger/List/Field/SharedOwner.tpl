@@ -12,7 +12,7 @@
 			{assign var=SEARCH_VALUES value=[]}
 		{/if}
 		{assign var=SEARCH_VALUES value=array_map("trim",$SEARCH_VALUES)}
-		{if !empty($VIEWID) && AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
+		{if !empty($VIEWID) && App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
 			{assign var=USERS_GROUP_LIST value=Vtiger_SharedOwner_UIType::getSearchViewList($MODULE, $VIEWID)}
 			{assign var=ALL_ACTIVEUSER_LIST value=$USERS_GROUP_LIST['users']}
 			{assign var=ALL_ACTIVEGROUP_LIST value=$USERS_GROUP_LIST['group']}
@@ -26,10 +26,10 @@
 					data-source-field-name="{$FIELD_MODEL->get('source_field_name')}"
 					data-module-name="{$FIELD_MODEL->getModuleName()}"
 				{/if}
-				{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
-			data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName={$ASSIGNED_USER_ID}" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
+				{if App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
+			data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName={$ASSIGNED_USER_ID}" data-minimum-input="{App\Config::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
 				{/if}>
-			{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
+			{if App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
 				{foreach from=$SEARCH_VALUES item=OWNER_ID}
 					{if !empty($OWNER_ID)}
 						{assign var=OWNER_NAME value=\App\Fields\Owner::getLabel($OWNER_ID)}

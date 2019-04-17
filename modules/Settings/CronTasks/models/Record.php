@@ -104,7 +104,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 			return true;
 		}
 
-		$maxExecutionTime = (int) \AppConfig::main('maxExecutionCronTime');
+		$maxExecutionTime = (int) \App\Config::main('maxExecutionCronTime');
 		$iniMaxExecutionTime = (int) ini_get('max_execution_time');
 		if ($maxExecutionTime > $iniMaxExecutionTime) {
 			$maxExecutionTime = $iniMaxExecutionTime;
@@ -303,7 +303,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function getMinimumFrequency()
 	{
-		$frequency = AppConfig::main('MINIMUM_CRON_FREQUENCY');
+		$frequency = App\Config::main('MINIMUM_CRON_FREQUENCY');
 		if (!empty($frequency)) {
 			return $frequency * 60;
 		}

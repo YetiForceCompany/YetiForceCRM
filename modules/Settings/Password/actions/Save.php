@@ -62,11 +62,11 @@ class Settings_Password_Save_Action extends Settings_Vtiger_Index_Action
 		if ($method && strlen($password) !== App\Encryption::getLengthVector($method)) {
 			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||password', 406);
 		}
-		\AppConfig::set('securityKeys', 'encryptionMethod', $method);
+		\App\Config::set('securityKeys', 'encryptionMethod', $method);
 		$instance = new App\Encryption();
 		$instance->set('method', $method);
 		$instance->set('vector', $password);
-		$instance->set('pass', \AppConfig::securityKeys('encryptionPass'));
+		$instance->set('pass', \App\Config::securityKeys('encryptionPass'));
 		$response = new Vtiger_Response();
 		$encryption = $instance->encrypt('test');
 		if (empty($encryption) || $encryption === 'test') {

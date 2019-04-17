@@ -118,7 +118,7 @@ class Accounts extends CRMEntity
 
 		$listViewHeader = [];
 		$listViewEntries = [];
-		$listColumns = $listColumns ? $listColumns : AppConfig::module('Accounts', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = $listColumns ? $listColumns : App\Config::module('Accounts', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
@@ -210,7 +210,7 @@ class Accounts extends CRMEntity
 	public function __getParentAccounts($id, &$parentAccounts, &$encounteredAccounts, $depthBase = 0)
 	{
 		\App\Log::trace('Entering __getParentAccounts(' . $id . ') method ...');
-		if ($depthBase == AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
+		if ($depthBase == App\Config::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting __getParentAccounts method ... - exceeded maximum depth of hierarchy');
 			return $parentAccounts;
 		}
@@ -266,7 +266,7 @@ class Accounts extends CRMEntity
 	public function __getChildAccounts($id, &$childAccounts, $depthBase)
 	{
 		\App\Log::trace('Entering __getChildAccounts(' . $id . ',' . $depthBase . ') method ...');
-		if (empty($id) || $depthBase == AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
+		if (empty($id) || $depthBase == App\Config::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting __getChildAccounts method ... - exceeded maximum depth of hierarchy');
 			return $childAccounts;
 		}

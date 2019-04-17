@@ -9,7 +9,7 @@
  */
 \App\Log::trace('Start create AddressBook');
 
-$limit = AppConfig::performance('CRON_MAX_NUMBERS_RECORD_ADDRESS_BOOK_UPDATER');
+$limit = App\Config::performance('CRON_MAX_NUMBERS_RECORD_ADDRESS_BOOK_UPDATER');
 $db = \App\Db::getInstance();
 $dbCommand = $db->createCommand();
 $currentUser = Users::getActiveAdminUser();

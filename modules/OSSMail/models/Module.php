@@ -100,7 +100,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		}
 		if (!empty($moduleName)) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
-			$moduleConfig = AppConfig::module($moduleName);
+			$moduleConfig = App\Config::module($moduleName);
 			if ($moduleConfig && isset($moduleConfig['SEND_IDENTITY'][$currentUser->get('roleid')])) {
 				$return['from'] = $moduleConfig['SEND_IDENTITY'][$currentUser->get('roleid')];
 			}
@@ -230,7 +230,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		}
 		include_once 'vendor/ezyang/htmlpurifier/library/HTMLPurifier.auto.php';
 		$config = HTMLPurifier_Config::createDefault();
-		$config->set('Core.Encoding', \AppConfig::main('default_charset'));
+		$config->set('Core.Encoding', \App\Config::main('default_charset'));
 		$config->set('Cache.SerializerPath', ROOT_DIRECTORY . '/cache/vtlib');
 		$config->set('CSS.AllowTricky', false);
 		$config->set('HTML.AllowedElements', 'div,p,br');
