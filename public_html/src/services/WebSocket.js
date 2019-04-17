@@ -10,10 +10,14 @@
 
 import { store } from '/src/store/index.js'
 import getters from '/src/store/getters.js'
+import mutations from '/src/store/getters.js'
 import actions from '/src/store/actions.js'
 import Objects from '/utilities/Objects.js'
 
 let connection = null
+let numberOfRetries = 3
+const timeout = 1500
+
 let Socket = new Vue({
   methods: {
     send(message) {
@@ -29,9 +33,17 @@ let Socket = new Vue({
  * connect with websocket
  */
 function initSocket() {
+  const socketUrl = store.getters[getters.Core.Env.all]['webSocketUrl']
+
   if (connection === null || connection.readyState !== 1) {
+    let hasReturned = false
     return new Promise(function(resolve, reject) {
-      connection = new WebSocket(store.getters[getters.Core.Env.all]['webSocketUrl'])
+      setTimeout(function() {
+        if (!hasReturned) {
+          rejectInternal('Opening websocket timed out: ' + socketUrl)
+        }
+      }, timeout)
+      connection = new WebSocket(socketUrl)
       connection.onmessage = message => {
         const data = JSON.parse(message.data)
         Socket.$emit('message', data)
@@ -41,19 +53,36 @@ function initSocket() {
       }
       connection.onerror = err => {
         Socket.$emit('error', err)
-        console.error(err)
-        resolve(err)
+        console.info('websocket error! url: ' + socketUrl)
+        rejectInternal(err)
       }
       connection.onclose = err => {
-        console.error(err)
-        resolve(err)
+        console.info('websocket closed! url: ' + socketUrl)
+        rejectInternal(err)
       }
       connection.onopen = () => {
+        hasReturned = true
+        store.commit(mutations.Core.Env.isWebSocketConnected, true)
         resolve(Socket)
+      }
+      function rejectInternal(err) {
+        if (numberOfRetries <= 0) {
+          console.info(err)
+          store.dispatch(actions.Core.Notification.show, { message: 'Socket is inactive', color: 'negative' })
+          store.commit(mutations.Core.Env.isWebSocketConnected, false)
+          reject(err)
+        } else if (!hasReturned) {
+          hasReturned = true
+          console.info(
+            err,
+            'Retrying connection to websocket! url: ' + socketUrl + ', remaining retries: ' + --numberOfRetries
+          )
+          initSocket().then(resolve, reject)
+        }
       }
     })
   } else {
-    return connection
+    return Promise.resolve(connection)
   }
 }
 

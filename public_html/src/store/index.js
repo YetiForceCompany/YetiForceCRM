@@ -9,6 +9,11 @@ function createStore() {
         ['Global/update'](state, payload) {
           state = Objects.mergeDeepReactive(state, payload)
         }
+      },
+      actions: {
+        ['Global/update']({ commit }, payload) {
+          commit('Global/update', payload)
+        }
       }
     })
   }

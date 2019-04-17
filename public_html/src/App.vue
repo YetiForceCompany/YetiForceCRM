@@ -8,6 +8,7 @@
 <script>
 import { store } from '/src/store/index.js'
 import getters from '/src/store/getters.js'
+import actions from '/src/store/actions.js'
 import { initSocket } from '/src/services/WebSocket.js'
 
 const moduleName = 'App'
@@ -61,10 +62,15 @@ export default {
     }
   },
   beforeRouteEnter(to, from, next) {
-    if (store.getters[getters.Core.Users.isLoggedIn] && store.getters[getters.Core.Env.all]['webSocketUrl']) {
-      initSocket().then(() => {
-        routeEnterCallback(to, from, next)
-      })
+    if (store.getters[getters.Core.Users.isLoggedIn]) {
+      initSocket().then(
+        () => {
+          routeEnterCallback(to, from, next)
+        },
+        function() {
+          routeEnterCallback(to, from, next)
+        }
+      )
     } else {
       routeEnterCallback(to, from, next)
     }

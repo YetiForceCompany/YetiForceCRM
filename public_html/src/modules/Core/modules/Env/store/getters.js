@@ -12,5 +12,8 @@ export default {
   },
   template(state) {
     return state.template
+  },
+  isWebSocketConnected(state) {
+    return state.isWebSocketConnected
   }
 }

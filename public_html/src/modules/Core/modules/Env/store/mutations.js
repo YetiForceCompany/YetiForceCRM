@@ -9,5 +9,9 @@ export default {
    */
   update(state, payload) {
     state = Objects.mergeDeepReactive(state, payload)
+  },
+
+  isWebSocketConnected(state, payload) {
+    state.isWebSocketConnected = payload
   }
 }
