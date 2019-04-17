@@ -46,7 +46,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 * @param array  $referenceIds
 	 * @param string $refModuleName
 	 */
-	public static function setCrmActivity($referenceIds, $refModuleName = false)
+	public static function setCrmActivity($referenceIds, $refModuleName = null)
 	{
 		$db = \App\Db::getInstance();
 		foreach ($referenceIds as $id => $fieldName) {
@@ -56,18 +56,15 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 			if (empty($fieldName)) {
 				continue;
 			}
-			$module = \App\Record::getType($id);
-			$moduleModel = Vtiger_Module_Model::getInstance($module);
+			$moduleModel = Vtiger_Module_Model::getInstance($refModuleName ?? \App\Record::getType($id));
 			$fieldModel = $moduleModel->getFieldByName('crmactivity');
-			if (false === $fieldModel || (int)$fieldModel->getFieldInfo()['presence'] === 1) {
+			if (false === $fieldModel || $fieldModel->isActiveField()) {
 				continue;
 			}
 			$row = (new \App\Db\Query())->select(['vtiger_activity.status', 'vtiger_activity.date_start'])
 				->from('vtiger_activity')
 				->innerJoin('vtiger_crmentity', 'vtiger_activity.activityid=vtiger_crmentity.crmid')
-				->innerJoin('vtiger_tab', 'vtiger_activity.activityid=vtiger_crmentity.crmid')
-				->innerJoin('vtiger_field', 'vtiger_tab.tabid = vtiger_field.tabid')
-				->where(['vtiger_crmentity.deleted' => 0, "vtiger_activity.$fieldName" => $id, 'vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('current'), ['not', 'vtiger_field.presence', 1]])
+				->where(['vtiger_crmentity.deleted' => 0, "vtiger_activity.$fieldName" => $id, 'vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('current')])
 				->orderBy(['vtiger_activity.date_start' => SORT_ASC])->one();
 			if ($row) {
 				$db->createCommand()->update('vtiger_entity_stats', ['crmactivity' => (int) \App\Fields\Date::getDiff(date('Y-m-d'), $row['date_start'], '%r%a')], ['crmid' => $id])->execute();
