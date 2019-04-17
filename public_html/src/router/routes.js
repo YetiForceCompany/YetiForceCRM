@@ -6,6 +6,11 @@ const routes = [
     name: 'App',
     path: '/',
     component: () => import('/src/App.vue.js')
+  },
+  {
+    name: '404',
+    path: '*',
+    component: () => import('/src/pages/errors/404.vue.js')
   }
 ]
 
