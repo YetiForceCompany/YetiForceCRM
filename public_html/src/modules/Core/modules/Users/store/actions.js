@@ -35,8 +35,6 @@ export default {
     }).then(async response => {
       const data = response.data
       if (data.result === true) {
-        console.log(data)
-        console.log(rootGetters[getters.Core.Env.all])
         await dispatch('Global/update', { Core: data.env })
         commit(mutations.Core.Users.isLoggedIn, true)
         initSocket().then(
@@ -68,10 +66,7 @@ export default {
         const data = response.data
         if (data.result === true) {
           commit(mutations.Core.Users.isLoggedIn, false)
-          console.log(rootGetters[getters.Core.Env.isWebSocketConnected])
-
           if (rootGetters[getters.Core.Env.isWebSocketConnected]) {
-            console.log('close')
             initSocket().then(connection => connection.close())
           }
           this.$router.replace('/users/login')
