@@ -12,7 +12,7 @@
 namespace Api\Core\Modules\Vtiger\UiTypes;
 
 /**
- * UIType Image Field Class.
+ * UIType Base Field Class.
  */
 class Base extends \Vtiger_Base_UIType
 {
