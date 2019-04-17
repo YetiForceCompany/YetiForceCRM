@@ -11,6 +11,11 @@ const routes = [
     name: '404',
     path: '*',
     component: () => import('/src/pages/errors/404.vue.js')
+  },
+  {
+    name: 'Exception',
+    path: '/exception',
+    component: () => import('/src/pages/errors/Exception.vue.js')
   }
 ]
 
