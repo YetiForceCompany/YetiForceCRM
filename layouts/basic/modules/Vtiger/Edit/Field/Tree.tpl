@@ -1,15 +1,16 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Base-Edit-Field-Tree -->
 	{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
 	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
 	{assign var=DISPLAY_VALUE value=$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'),false,$RECORD,true)}
-	<div class="tpl-Edit-Field-Tree">
+	<div class="js-tree-container" data-js="container">
 		<input name="{$FIELD_MODEL->getFieldName()}" type="hidden" value="{$FIELD_VALUE}" class="sourceField"
 			   data-displayvalue='{$DISPLAY_VALUE}' data-fieldinfo='{$FIELD_INFO}'
 			   data-multiple="{if $FIELD_MODEL->getUIType() == 309 }1{else}0{/if}"
-			   data-treetemplate="{$FIELD_MODEL->getFieldParams()}">
+			   data-treetemplate="{$FIELD_MODEL->getFieldParams()}" data-modulename="{$FIELD_MODEL->getModuleName()}">
 		{assign var="displayId" value=$FIELD_MODEL->get('fieldvalue')}
 		<div class="input-group">
 			{if $FIELD_MODEL->get('displaytype') != 10}
@@ -36,4 +37,5 @@
 			{/if}
 		</div>
 	</div>
+	<!-- /tpl-Base-Edit-Field-Tree -->
 {/strip}
