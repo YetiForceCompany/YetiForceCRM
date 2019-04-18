@@ -5,7 +5,7 @@
       <strong>{{ code }}</strong>
     </p>
     <p>{{ message }}</p>
-    <q-btn color="secondary" style="width:200px;" @click="$router.go()">Reload</q-btn>
+    <q-btn round color="secondary" icon="mdi-reload" @click="$router.go()"><q-tooltip>Reload</q-tooltip></q-btn>
   </div>
 </template>
 
