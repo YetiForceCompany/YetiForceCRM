@@ -31,18 +31,14 @@ class RecordsList extends \Api\Core\BaseAction
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$record = ['recordLabel' => \App\Record::getLabel($row['id'])];
-			$rawRecord = [];
 			foreach ($fieldsModel as $fieldName => &$fieldModel) {
 				if (isset($row[$fieldName])) {
 					$record[$fieldName] = $fieldModel->getDisplayValue($row[$fieldName], $row['id'], false, true);
-					if ($enableRawData) {
-						$rawRecord[$fieldName] = $row[$fieldName];
-					}
 				}
 			}
 			$records[$row['id']] = $record;
 			if ($enableRawData) {
-				$rawData[$row['id']] = $rawRecord;
+				$rawData[$row['id']] = $row;
 			}
 		}
 		$dataReader->close();
