@@ -4,7 +4,6 @@
     <component :is="templateLoader" v-if="templateLoader"></component>
   </hook-wrapper>
 </template>
-
 <script>
 import { store } from '/src/store/index.js'
 import getters from '/src/store/getters.js'
@@ -21,7 +20,6 @@ const routeEnterCallback = (to, from, next) => {
   next(vm => {
     setLangModule(vm, to)
     vm.$store.commit('Global/update', window.env)
-    next()
   })
 }
 

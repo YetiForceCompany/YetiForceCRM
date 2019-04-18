@@ -10,12 +10,21 @@
 </template>
 
 <script>
+import { Router } from '/src/router/index.js'
 export default {
   name: 'Exception',
   data: function() {
     return {
       code: window.env.exception.code,
       message: window.env.exception.message
+    }
+  },
+  beforeRouteEnter(to, from, next) {
+    if (window.env.exception !== undefined) {
+      next()
+    } else {
+      Router.afterHooks[0]()
+      next('/')
     }
   }
 }
