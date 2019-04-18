@@ -1095,6 +1095,66 @@ CREATE TABLE `s_yf_smsnotifier_queue` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_abandonedshoppingcarts` */
+
+CREATE TABLE `u_yf_abandonedshoppingcarts` (
+  `abandonedshoppingcartsid` int(10) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `number` varchar(32) DEFAULT NULL,
+  `shopping_carts_status` varchar(50) DEFAULT NULL,
+  `contact` int(11) unsigned DEFAULT 0,
+  PRIMARY KEY (`abandonedshoppingcartsid`),
+  KEY `u_yf_abandonedshoppingcarts_contact_idx` (`contact`),
+  CONSTRAINT `fk_1_u_yf_abandonedshoppingcartsabandonedshoppingcartsid` FOREIGN KEY (`abandonedshoppingcartsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_abandonedshoppingcarts_inventory` */
+
+CREATE TABLE `u_yf_abandonedshoppingcarts_inventory` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `crmid` int(10) DEFAULT NULL,
+  `seq` int(10) DEFAULT NULL,
+  `name` int(11) DEFAULT 0,
+  `price` decimal(28,8) DEFAULT 0.00000000,
+  PRIMARY KEY (`id`),
+  KEY `u_yf_abandonedshoppingcarts_inventory_crmid_idx` (`crmid`),
+  CONSTRAINT `u_yf_abandonedshoppingcarts_inventory_crmid_fk` FOREIGN KEY (`crmid`) REFERENCES `u_yf_abandonedshoppingcarts` (`abandonedshoppingcartsid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_abandonedshoppingcarts_invfield` */
+
+CREATE TABLE `u_yf_abandonedshoppingcarts_invfield` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `columnname` varchar(30) NOT NULL,
+  `label` varchar(50) NOT NULL,
+  `invtype` varchar(30) NOT NULL,
+  `presence` smallint(1) unsigned NOT NULL DEFAULT 0,
+  `defaultvalue` varchar(255) DEFAULT NULL,
+  `sequence` int(10) unsigned NOT NULL,
+  `block` smallint(1) unsigned NOT NULL,
+  `displaytype` smallint(1) unsigned NOT NULL DEFAULT 1,
+  `params` text DEFAULT NULL,
+  `colspan` smallint(1) unsigned NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_abandonedshoppingcarts_invmap` */
+
+CREATE TABLE `u_yf_abandonedshoppingcarts_invmap` (
+  `module` varchar(50) NOT NULL,
+  `field` varchar(50) NOT NULL,
+  `tofield` varchar(50) NOT NULL,
+  PRIMARY KEY (`module`,`field`,`tofield`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_abandonedshoppingcartscf` */
+
+CREATE TABLE `u_yf_abandonedshoppingcartscf` (
+  `abandonedshoppingcartsid` int(10) NOT NULL,
+  PRIMARY KEY (`abandonedshoppingcartsid`),
+  CONSTRAINT `fk_1_u_yf_abandonedshoppingcartscfabandonedshoppingcartsid` FOREIGN KEY (`abandonedshoppingcartsid`) REFERENCES `u_yf_abandonedshoppingcarts` (`abandonedshoppingcartsid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_activity_invitation` */
 
 CREATE TABLE `u_yf_activity_invitation` (
@@ -4346,7 +4406,7 @@ CREATE TABLE `vtiger_blocks` (
   KEY `block_tabid_idx` (`tabid`),
   KEY `block_sequence_idx` (`sequence`),
   CONSTRAINT `fk_1_vtiger_blocks` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=438 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=440 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_blocks_hide` */
 
@@ -4837,7 +4897,7 @@ CREATE TABLE `vtiger_customview` (
   KEY `setdefault` (`setdefault`,`entitytype`),
   KEY `customview_userid_idx` (`userid`),
   CONSTRAINT `fk_1_vtiger_customview` FOREIGN KEY (`entitytype`) REFERENCES `vtiger_tab` (`name`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_cvcolumnlist` */
 
@@ -5133,7 +5193,7 @@ CREATE TABLE `vtiger_def_org_share` (
   PRIMARY KEY (`ruleid`),
   KEY `fk_1_vtiger_def_org_share` (`permission`),
   CONSTRAINT `fk_1_vtiger_def_org_share` FOREIGN KEY (`permission`) REFERENCES `vtiger_org_share_action_mapping` (`share_action_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_default_record_view` */
 
@@ -5458,7 +5518,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2786 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2794 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6513,7 +6573,7 @@ CREATE TABLE `vtiger_modentity_num` (
   KEY `prefix` (`prefix`,`postfix`,`cur_id`),
   KEY `tabid` (`tabid`),
   KEY `tabid_2` (`tabid`,`cur_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_modtracker_basic` */
 
@@ -7720,7 +7780,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `tabid_2` (`tabid`,`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=599 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=600 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
@@ -8067,6 +8127,16 @@ CREATE TABLE `vtiger_sharedcalendar` (
   `sharedid` int(10) NOT NULL,
   PRIMARY KEY (`userid`,`sharedid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_shopping_carts_status` */
+
+CREATE TABLE `vtiger_shopping_carts_status` (
+  `shopping_carts_statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `shopping_carts_status` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT 1,
+  `sortorderid` smallint(6) DEFAULT 0,
+  PRIMARY KEY (`shopping_carts_statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_shorturls` */
 
