@@ -56,13 +56,13 @@
 						{/foreach}
 					</div>
 				</div>
-				<div class="card select-columns d-none">
-					<div class="card-header">{\App\Language::translate('LBL_SELECT_COLUMNS','Settings:PDF')}</div>
+				<div class="card select-columns">
+					<div class="card-header"><strong>{\App\Language::translate('LBL_SELECT_COLUMNS','Settings:PDF')}</strong></div>
 						<div class="card-body">
 							<div class="form-group row">
 								<div class="col">
 									<select class="select2" name="columns" multiple="multiple">
-									{foreach from=$TEMPLATE->getInventoryColumns() item=$LABEL key=$NAME}
+									{foreach from=$INVENTORY_COLUMNS item=$LABEL key=$NAME}
 										<option value="{$NAME}">{\App\Language::translate($LABEL, $MODULE_NAME)}</option>
 									{/foreach}
 									</select>

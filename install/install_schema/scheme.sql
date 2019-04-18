@@ -162,14 +162,12 @@ CREATE TABLE `a_yf_pdf` (
 
 /*Table structure for table `a_yf_pdf_inv_col_scheme` */
 
-CREATE TABLE `a_yf_pdf_inv_col_scheme` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `crmid` int(10) NOT NULL,
-  `columns` text DEFAULT NULL,
+CREATE TABLE `a_yf_pdf_inv_scheme` (
+  `crmid` INT(10) NOT NULL,
+  `columns` TEXT DEFAULT NULL,
   KEY `crmid` (`crmid`),
-  KEY `id` (`id`),
   CONSTRAINT `crmid` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_record_converter` */
 

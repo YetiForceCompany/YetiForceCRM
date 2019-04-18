@@ -250,9 +250,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$columns = $request->getArray('columns', 'String');
 
 		foreach ($records as $crmId) {
-			$schemeInstance = Vtiger_InventoryColumnScheme_Model::getInstanceByTargetId($crmId);
-			$schemeInstance->set('columns', json_encode($columns));
-			$schemeInstance->save();
+			Vtiger_PDF_Model::saveColumnsForRecord($crmId, $moduleName, $columns);
 		}
 
 		$output = [

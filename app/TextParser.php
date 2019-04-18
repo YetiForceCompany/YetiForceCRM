@@ -88,7 +88,7 @@ class TextParser
 	 *
 	 * @var string[]
 	 */
-	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList', 'recordsList', 'date', 'inventory', 'dynamicInventory'];
+	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList', 'recordsList', 'date', 'inventory'];
 
 	/**
 	 * List of source modules.
@@ -184,6 +184,13 @@ class TextParser
 	 * @var bool
 	 */
 	public $isHtml = true;
+
+	/**
+	 * Variable parser regex.
+	 *
+	 * @var string
+	 */
+	public const VARIABLE_REGEX = '/\$\((\w+)( : ([,"\+\%\.\=\-\[\]\&\w\s\|]+)|)\)\$/u';
 
 	/**
 	 * Get instanace by record id.
@@ -348,7 +355,7 @@ class TextParser
 	 */
 	public static function isVaribleToParse($text)
 	{
-		return (int) preg_match('/\$\((\w+)( : ([,"\+\%\.\=\-\[\]\&\w\s\|]+)|)\)\$/', $text);
+		return (int) preg_match(static::VARIABLE_REGEX, $text);
 	}
 
 	/**
@@ -364,8 +371,8 @@ class TextParser
 		if (isset($this->language)) {
 			Language::setTemporaryLanguage($this->language);
 		}
-		$this->content = preg_replace_callback('/\$\((\w+)( : ([,"\+\%\.\=\-\[\]\&\w\s\|]+)|)\)\$/u', function ($matches) {
-			[, $function, $wrapper,$params] = array_pad($matches, 4, '');
+		$this->content = preg_replace_callback(static::VARIABLE_REGEX, function ($matches) {
+			[, $function, $params] = array_pad($matches, 3, '');
 			if (in_array($function, static::$baseFunctions)) {
 				return $this->{$function}($params);
 			}
@@ -1421,9 +1428,15 @@ class TextParser
 			parse_str($value, $row);
 			$config += $row;
 		}
+		$columns = [];
+		if ($config['columns'] === 'dynamic') {
+			$columns = Vtiger_PDF_Model::getColumnsForRecord($this->recordModel()->getId(), $this->recordModel()->getModule()->getName());
+		} else {
+			$columns = explode(',', $config['columns']);
+		}
 		return [
 			'type' => $config['type'] ?? false,
-			'columns' => empty($config['columns']) ? [] : explode(',', $config['columns']),
+			'columns' => $columns,
 			'href' => empty($config['href']) ? false : 'yes' === $config['href'],
 		];
 	}
@@ -1527,30 +1540,4 @@ class TextParser
 		return $html;
 	}
 
-	/**
-	 * Parsing inventory.
-	 *
-	 * @param string $params
-	 *
-	 * @return string
-	 */
-	protected function dynamicInventory($params)
-	{
-		if (!$this->recordModel->getModule()->isInventory()) {
-			return '';
-		}
-		// TODO
-		$columns = \Vtiger_InventoryColumnScheme_Model::getInstanceById();
-
-		$config = [
-			'type' => 'table',
-			'columns' => $columns,
-			'href' => false,
-		];
-
-		if ('table' === $config['type']) {
-			return $this->getInventoryTable($config);
-		}
-		return '';
-	}
 }

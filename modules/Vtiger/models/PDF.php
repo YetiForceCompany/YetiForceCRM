@@ -554,54 +554,51 @@ class Vtiger_PDF_Model extends \App\Base
 	}
 
 	/**
-	 * Get template type.
+	 * Get column scheme for specified record.
 	 *
-	 * @return int template type
-	 */
-	public function getTemplateType()
-	{
-		return strpos($this->get('body_content'), '$(dynamicInventory)$') === false ? static::TEMPLATE_TYPE_STANDARD : static::TEMPLATE_TYPE_DYNAMIC;
-	}
-
-	/**
-	 * Get inventory columns.
+	 * @param int|string $recordId
 	 *
 	 * @return array
 	 */
-	public function getInventoryColumns()
+	public static function getColumnsForRecord($recordId, string $moduleName)
 	{
-		$inventory = Vtiger_Inventory_Model::getInstance($this->getModule()->getName());
-		$columns = [];
-		foreach ($inventory->getFields() as $name => $field) {
-			$columns[$name] = $field->getDefaultLabel();
-		}
-		return $columns;
-	}
-
-	public function getSchemesForRecord($recordId)
-	{
-		return (new App\Db\Query())
-			->select(['id', 'crmid', 'columns'])
-			->from('a_#_pdf_inv_col_scheme')
+		$columnsJSON = (new App\Db\Query())
+			->select('columns')
+			->from('a_#_pdf_inv_scheme')
 			->where(['crmid' => $recordId])
 			->createCommand()
-			->queryAll();
+			->queryScalar();
+		if ($columnsJSON) {
+			return json_decode($columnsJSON);
+		}
+		return array_keys(Vtiger_Inventory_Model::getInstance($moduleName)->getFields());
 	}
 
 	/**
-	 * Get column scheme.
+	 * Save column scheme for specified record.
 	 *
-	 * @param int|string $schemeId
+	 * @param int|string $recordId
+	 * @param array      $columns
 	 *
-	 * @return array
+	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public function getColumnScheme($schemeId)
+	public static function saveColumnsForRecord($recordId, string $moduleName, array $columns)
 	{
-		return (new App\Db\Query())
-			->select(['id', 'crmid', 'columns'])
-			->from('a_#_pdf_inv_col_scheme')
-			->where(['id' => $schemeId])
-			->createCommand()
-			->queryOne();
+		$availableColumns = array_keys(Vtiger_Inventory_Model::getInstance($moduleName)->getFields());
+		$invalid = array_diff($columns, $availableColumns);
+		if ($invalid) {
+			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
+		}
+		$db = \App\Db::getInstance();
+		$schemeExists = (new \App\Db\Query())
+			->select('crmid')
+			->from('a_yf_pdf_inv_scheme')
+			->where(['crmid' => $recordId])
+			->exists();
+		if ($schemeExists) {
+			$db->createCommand()->update('a_yf_pdf_inv_scheme', ['columns' => json_encode($columns)], ['crmid' => $recordId])->execute();
+		} else {
+			$db->createCommand()->insert('a_yf_pdf_inv_scheme', ['columns' => json_encode($columns), 'crmid' => $recordId])->execute();
+		}
 	}
 }

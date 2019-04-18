@@ -105,7 +105,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 			case 3:
 				$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);
 				$fields = [];
-				$fields['type'] = $pdfModel->getTemplateType();
+				$fields['type'] = Settings_PDF_Module_Model::getTemplateType($pdfModel);
 				foreach ($stepFields as $field) {
 					if ($field === 'conditions') {
 						$params = json_encode($pdfModel->get($field));

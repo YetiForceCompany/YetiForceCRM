@@ -51,16 +51,22 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		$standardTemplates = [];
 		$dynamicTemplates = [];
 		foreach ($templates as $template) {
-			if ($template->getTemplateType() === Vtiger_PDF_Model::TEMPLATE_TYPE_STANDARD) {
+			if ($template->get('type') === Vtiger_PDF_Model::TEMPLATE_TYPE_STANDARD) {
 				$standardTemplates[] = $template;
-			} elseif ($template->getTemplateType() === Vtiger_PDF_Model::TEMPLATE_TYPE_DYNAMIC) {
+			} elseif ($template->get('type') === Vtiger_PDF_Model::TEMPLATE_TYPE_DYNAMIC) {
 				$dynamicTemplates[] = $template;
 			}
 		}
 		unset($templates);
 
+		$inventoryColumns = [];
+		foreach (Vtiger_Inventory_Model::getInstance($moduleName)->getFields() as $name => $field) {
+			$inventoryColumns[$name] = $field->getDefaultLabel();
+		}
+
 		$viewer->assign('STANDARD_TEMPLATES', $standardTemplates);
 		$viewer->assign('DYNAMIC_TEMPLATES', $dynamicTemplates);
+		$viewer->assign('INVENTORY_COLUMNS', $inventoryColumns);
 
 		$viewer->assign('ALL_RECORDS', $allRecords);
 		$viewer->assign('EXPORT_VARS', [
