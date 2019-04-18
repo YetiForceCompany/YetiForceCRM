@@ -1806,12 +1806,12 @@ CREATE TABLE `u_yf_finvoice` (
   `finvoice_type` varchar(255) DEFAULT NULL,
   `pscategory` varchar(100) DEFAULT NULL,
   `issue_time` date DEFAULT NULL,
-  `ssalesprocesses` int(10) DEFAULT NULL,
-  `project` int(10) DEFAULT NULL,
+  `ssalesprocessesid` int(10) DEFAULT NULL,
+  `projectid` int(10) DEFAULT NULL,
   PRIMARY KEY (`finvoiceid`),
   KEY `accountid` (`accountid`),
-  KEY `u_yf_finvoice_ssalesprocesses_idx` (`ssalesprocesses`),
-  KEY `u_yf_finvoice_project_idx` (`project`),
+  KEY `u_yf_finvoice_ssalesprocessesid_idx` (`ssalesprocessesid`),
+  KEY `u_yf_finvoice_projectid_idx` (`projectid`),
   CONSTRAINT `fk_1_vtiger_finvoice` FOREIGN KEY (`finvoiceid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
