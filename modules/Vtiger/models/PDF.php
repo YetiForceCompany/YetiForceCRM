@@ -564,7 +564,7 @@ class Vtiger_PDF_Model extends \App\Base
 	{
 		$columnsJSON = (new App\Db\Query())
 			->select('columns')
-			->from('a_#_pdf_inv_scheme')
+			->from('a_yf_pdf_inv_scheme')
 			->where(['crmid' => $recordId])
 			->createCommand()
 			->queryScalar();

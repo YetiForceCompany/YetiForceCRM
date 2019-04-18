@@ -59,14 +59,19 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		}
 		unset($templates);
 
-		$inventoryColumns = [];
+		$allInventoryColumns = [];
 		foreach (Vtiger_Inventory_Model::getInstance($moduleName)->getFields() as $name => $field) {
-			$inventoryColumns[$name] = $field->getDefaultLabel();
+			$allInventoryColumns[$name] = $field->getDefaultLabel();
+		}
+		$selectedInventoryColumns = $allInventoryColumns;
+		if ($recordId) {
+			$selectedInventoryColumns = Vtiger_PDF_Model::getColumnsForRecord($recordId, $moduleName);
 		}
 
 		$viewer->assign('STANDARD_TEMPLATES', $standardTemplates);
 		$viewer->assign('DYNAMIC_TEMPLATES', $dynamicTemplates);
-		$viewer->assign('INVENTORY_COLUMNS', $inventoryColumns);
+		$viewer->assign('ALL_INVENTORY_COLUMNS', $allInventoryColumns);
+		$viewer->assign('SELECTED_INVENTORY_COLUMNS', $selectedInventoryColumns);
 
 		$viewer->assign('ALL_RECORDS', $allRecords);
 		$viewer->assign('EXPORT_VARS', [

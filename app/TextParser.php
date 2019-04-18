@@ -332,7 +332,7 @@ class TextParser
 	 */
 	public function setContent($content)
 	{
-		$this->rawContent = $this->content = str_replace('%20%3A%20', ' : ', $content);
+		$this->rawContent = $this->content = str_replace('&nbsp;', ' ', str_replace('%20%3A%20', ' : ', $content));
 		return $this;
 	}
 
@@ -1430,7 +1430,7 @@ class TextParser
 		}
 		$columns = [];
 		if ($config['columns'] === 'dynamic') {
-			$columns = Vtiger_PDF_Model::getColumnsForRecord($this->recordModel()->getId(), $this->recordModel()->getModule()->getName());
+			$columns = \Vtiger_PDF_Model::getColumnsForRecord($this->recordModel->getId(), $this->recordModel->getModule()->getName());
 		} else {
 			$columns = explode(',', $config['columns']);
 		}
