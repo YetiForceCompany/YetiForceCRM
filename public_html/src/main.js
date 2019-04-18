@@ -103,7 +103,7 @@ function createExceptionView() {
   }
   const App = new Vue(app)
   window.App = App
-  router.replace('/exception')
+  router.replace({ name: 'Exception' })
   return App
 }
 

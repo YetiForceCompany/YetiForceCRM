@@ -13,14 +13,12 @@
 import { Router } from '/src/router/index.js'
 export default {
   name: 'Exception',
-  data: function() {
-    return {
-      code: window.env.exception.code,
-      message: window.env.exception.message
-    }
+  props: {
+    code: { default: window.env.exception ? window.env.exception.code : 0, type: Number },
+    message: { default: window.env.exception ? window.env.exception.message : '', type: String }
   },
   beforeRouteEnter(to, from, next) {
-    if (window.env.exception !== undefined) {
+    if (to.params.code || window.env.exception !== undefined) {
       next()
     } else {
       Router.afterHooks[0]()

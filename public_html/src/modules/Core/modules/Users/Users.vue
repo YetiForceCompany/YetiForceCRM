@@ -14,10 +14,11 @@ function setLoginRouteGuard(store, router) {
     if (isLoggedIn === undefined) {
       isLoggedIn = window.env.Core.Users.isLoggedIn
     }
-    if (isLoggedIn || routeTo.path.startsWith('/users/login') || routeTo.path.startsWith('/error404')) {
+    if (isLoggedIn || routeTo.path.startsWith('/users/login') || routeTo.path.startsWith('/exception')) {
       next()
     } else if (routeFrom.path.startsWith('/users/login')) {
-      Quasar.plugins.Loading.hide()
+      router.afterHooks[0]()
+      store.commit('Global/update', { Core: { Env: { template: 'Card' } } })
       next(false)
     } else {
       next({ name: 'Core.Users.Login' })

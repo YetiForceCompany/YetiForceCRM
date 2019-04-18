@@ -15,6 +15,7 @@ const routes = [
   {
     name: 'Exception',
     path: '/exception',
+    props: true,
     component: () => import('/src/pages/errors/Exception.vue.js')
   }
 ]
