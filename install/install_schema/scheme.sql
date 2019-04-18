@@ -1806,8 +1806,12 @@ CREATE TABLE `u_yf_finvoice` (
   `finvoice_type` varchar(255) DEFAULT NULL,
   `pscategory` varchar(100) DEFAULT NULL,
   `issue_time` date DEFAULT NULL,
+  `ssalesprocesses` int(10) DEFAULT NULL,
+  `project` int(10) DEFAULT NULL,
   PRIMARY KEY (`finvoiceid`),
   KEY `accountid` (`accountid`),
+  KEY `u_yf_finvoice_ssalesprocesses_idx` (`ssalesprocesses`),
+  KEY `u_yf_finvoice_project_idx` (`project`),
   CONSTRAINT `fk_1_vtiger_finvoice` FOREIGN KEY (`finvoiceid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -5458,7 +5462,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2786 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2788 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -7720,7 +7724,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `tabid_2` (`tabid`,`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=599 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=601 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
