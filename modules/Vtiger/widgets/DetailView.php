@@ -15,7 +15,7 @@ class Vtiger_DetailView_Widget extends Vtiger_Basic_Widget
 	 */
 	public function getUrl()
 	{
-		return 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showModuleDetailView';
+		return 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showModuleDetailView&toWidget=true';
 	}
 
 	/**
