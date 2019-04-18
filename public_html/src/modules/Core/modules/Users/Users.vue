@@ -9,16 +9,16 @@ import getters from '/store/getters.js'
 const moduleName = 'Core.Users'
 
 function setLoginRouteGuard(store, router) {
-  router.beforeEach((routeTo, routeFrom, next) => {
+  router.beforeEach((to, from, next) => {
     let isLoggedIn = store.getters[getters.Core.Users.isLoggedIn]
     if (isLoggedIn === undefined) {
       isLoggedIn = window.env.Core.Users.isLoggedIn
     }
-    if (isLoggedIn || routeTo.path.startsWith('/users/login') || routeTo.path.startsWith('/exception')) {
+    setTemplate(isLoggedIn, store)
+    if (isLoggedIn || to.path.startsWith('/users/login') || to.path.startsWith('/exception')) {
       next()
-    } else if (routeFrom.path.startsWith('/users/login')) {
+    } else if (from.path.startsWith('/users/login')) {
       router.afterHooks[0]()
-      store.commit('Global/update', { Core: { Env: { template: 'Card' } } })
       next(false)
     } else {
       next({ name: 'Core.Users.Login' })
@@ -26,9 +26,18 @@ function setLoginRouteGuard(store, router) {
   })
 }
 
+function setTemplate(isLoggedIn, store) {
+  if (isLoggedIn) {
+    store.commit('Global/update', { Core: { Env: { template: 'Basic' } } })
+  } else {
+    store.commit('Global/update', { Core: { Env: { template: 'Card' } } })
+  }
+}
+
 export function initialize({ store, router }) {
   store.registerModule(moduleName.split('.'), ModuleLoader.prepareStoreNames(moduleName, moduleStore))
   store.commit(mutations.Core.Users.isLoggedIn, window.env.Core.Users.isLoggedIn)
+  console.log('setguarda')
   setLoginRouteGuard(store, router)
 }
 

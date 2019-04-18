@@ -31,20 +31,6 @@ export default {
     ...Vuex.mapGetters({
       env: getters.Core.Env.all
     })
-  },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      vm.$store.commit('Global/update', { Core: { Env: { template: 'Card' } } })
-      if (vm.$store.getters[getters.Core.Users.isLoggedIn]) {
-        next('/')
-      } else {
-        next()
-      }
-    })
-  },
-  beforeRouteLeave(to, from, next) {
-    this.$store.commit('Global/update', { Core: { Env: { template: 'Basic' } } })
-    next()
   }
 }
 </script>
