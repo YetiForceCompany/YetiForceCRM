@@ -35,6 +35,7 @@ class TextParser
 		'LBL_RELATED_RECORDS_LIST' => '$(relatedRecordsList : Contacts|firstname,lastname,email|[[["firstname","a","Tom"]]]||5)$',
 		'LBL_RECORDS_LIST' => '$(recordsList : Contacts|firstname,lastname,email|[[["firstname","a","Tom"]]]||5)$',
 		'LBL_INVENTORY_TABLE' => '$(inventory : type=table columns=seq,name,qty,unit,price,total,net href=no)$',
+		'LBL_DYNAMIC_INVENTORY_TABLE' => '$(inventory : type=table columns=dynamic href=no)$',
 	];
 
 	/**
