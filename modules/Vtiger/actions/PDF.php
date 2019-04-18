@@ -35,7 +35,6 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$this->exposeMethod('hasValidTemplate');
 		$this->exposeMethod('validateRecords');
 		$this->exposeMethod('generate');
-		$this->exposeMethod('saveColumnScheme');
 	}
 
 	public function validateRecords(App\Request $request)
@@ -233,30 +232,6 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$valid = $pdfModel->checkActiveTemplates($recordId, $moduleName, $view);
 		$output = ['valid' => $valid];
 
-		$response = new Vtiger_Response();
-		$response->setResult($output);
-		$response->emit();
-	}
-
-	/**
-	 * Save column scheme for records.
-	 *
-	 * @param \App\Request $request
-	 */
-	public function saveColumnScheme(App\Request $request)
-	{
-		$moduleName = $request->getModule();
-		$records = $request->getArray('records', 'Integer');
-		$columns = $request->getArray('columns', 'String');
-
-		foreach ($records as $crmId) {
-			Vtiger_PDF_Model::saveColumnsForRecord($crmId, $moduleName, $columns);
-		}
-
-		$output = [
-			'message' => \App\Language::translate('LBL_SCHEME_SAVED', 'Settings:PDF'),
-			'records' => $records
-		];
 		$response = new Vtiger_Response();
 		$response->setResult($output);
 		$response->emit();

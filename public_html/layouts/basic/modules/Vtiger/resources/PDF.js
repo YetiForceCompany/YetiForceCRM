@@ -65,26 +65,16 @@ $.Class('Vtiger_PDF_Js', {
 		const self = this;
 		container.find('#generate_pdf, #single_pdf, #email_pdf').on('click', function(e) {
 			const templateIds = [];
-			const dynamicTemplates = [];
 			container.find('[name="pdf_template[]"]').each(function() {
 				if ($(this).is(':checked')) {
-					const val = $(this).val();
-					templateIds.push(val);
-					if ($(this).data('dynamic')) {
-						dynamicTemplates.push(val);
-					}
+					templateIds.push($(this).val());
 				}
 			});
 			const view = app.getUrlVar('view');
 			if (view && view.replace('#', '') === 'List') {
 				container.find('[name="record"]').val(container.find('[name="validRecords"]').val());
 			}
-			if (dynamicTemplates.length) {
-				e.preventDefault();
-				e.stopPropagation();
-			} else {
-				self.proceedSubmit.apply(self, [templateIds]);
-			}
+			self.proceedSubmit.apply(self, [templateIds]);
 		});
 	},
 	registerValidateSubmit: function(container) {
@@ -143,24 +133,6 @@ $.Class('Vtiger_PDF_Js', {
 
 		return selectedRecords.length;
 	},
-	/**
-	 * Register dynamic template selection event to show or hide column settings
-	 */
-	registerDynamicTemplateSelection() {
-		const self = this;
-		this.container.find('.dynamic-template').on('change', function() {
-			if ($(this).is(':checked')) {
-				self.dynamicTemplatesCount++;
-			} else {
-				self.dynamicTemplatesCount--;
-			}
-			if (self.dynamicTemplatesCount) {
-				self.container.find('.select-columns').removeClass('d-none');
-			} else {
-				self.container.find('.select-columns').addClass('d-none');
-			}
-		});
-	},
 
 	/**
 	 * Register save scheme button click
@@ -184,12 +156,14 @@ $.Class('Vtiger_PDF_Js', {
 			const columns = this.container.find('[name="columns"]').val();
 			const params = {};
 			params.data = {
-				module: app.getModuleName(),
-				action: 'PDF',
-				mode: 'saveColumnScheme',
+				module: 'PDF',
+				parent: 'Settings',
+				target: app.getModuleName(),
+				action: 'ColumnScheme',
+				mode: 'save',
 				records,
-				columns,
-				view: app.getViewName()
+				columns
+				//view: app.getViewName()
 			};
 			params.dataType = 'json';
 			AppConnector.request(params)
@@ -215,7 +189,6 @@ $.Class('Vtiger_PDF_Js', {
 		const container = (this.container = $('div.modal-content'));
 		this.dynamicTemplatesCount = 0;
 		this.registerPreSubmitEvent(container);
-		this.registerDynamicTemplateSelection();
 		this.registerSaveSchemeClick();
 		if (app.getViewName() === 'Detail') {
 			this.registerValidateSubmit(container);
