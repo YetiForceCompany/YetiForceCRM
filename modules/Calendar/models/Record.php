@@ -57,7 +57,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 				continue;
 			}
 			$fieldModel = Vtiger_Module_Model::getInstance($refModuleName ?? \App\Record::getType($id))->getFieldByName('crmactivity');
-			if (false === $fieldModel || $fieldModel->isActiveField()) {
+			if (false === $fieldModel || !$fieldModel->isActiveField()) {
 				continue;
 			}
 			$row = (new \App\Db\Query())->select(['vtiger_activity.status', 'vtiger_activity.date_start'])
