@@ -65,9 +65,6 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 	public static $uploadPath = 'storage/Pdf/watermark/';
 	protected $viewToPicklistValue = ['Detail' => 'PLL_DETAILVIEW', 'List' => 'PLL_LISTVIEW'];
 
-	public const TEMPLATE_TYPE_STANDARD = 0;
-	public const TEMPLATE_TYPE_DYNAMIC = 2;
-
 	/**
 	 * Function to get the url for default view of the module.
 	 *

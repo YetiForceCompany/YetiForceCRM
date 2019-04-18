@@ -21,7 +21,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'ExportPdf')) {
@@ -35,9 +35,10 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$this->exposeMethod('hasValidTemplate');
 		$this->exposeMethod('validateRecords');
 		$this->exposeMethod('generate');
+		$this->exposeMethod('saveColumnScheme');
 	}
 
-	public function validateRecords(\App\Request $request)
+	public function validateRecords(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$records = $request->getArray('records', 'Integer');
@@ -72,7 +73,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 	 * @throws \App\Exceptions\NoPermitted
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function generate(\App\Request $request)
+	public function generate(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->getArray('record', 'Integer');
@@ -143,8 +144,8 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 						$pdf->setLanguage($template->get('language'));
 						$pdf->setTemplateId($templateId);
 						$pdf->setModuleName($moduleName);
-						$currentPage = '<div data-page-group 
-							data-format="' . $template->getFormat() . '" 
+						$currentPage = '<div data-page-group
+							data-format="' . $template->getFormat() . '"
 							data-orientation="' . $template->getOrientation() . '"
 							data-margin-left="' . $template->get('margin_left') . '"
 							data-margin-right="' . $template->get('margin_right') . '"
@@ -176,8 +177,8 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 						$template = Vtiger_PDF_Model::getInstanceById($templateId);
 						$template->setMainRecordId($record);
 						$template->getParameters();
-						$currentPage = '<div data-page-group 
-							data-format="' . $template->getFormat() . '" 
+						$currentPage = '<div data-page-group
+							data-format="' . $template->getFormat() . '"
 							data-orientation="' . $template->getOrientation() . '"
 							data-margin-left="' . $template->get('margin_left') . '"
 							data-margin-right="' . $template->get('margin_right') . '"
@@ -219,7 +220,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 	 *
 	 * @return bool true if valid template exists for this record
 	 */
-	public function hasValidTemplate(\App\Request $request)
+	public function hasValidTemplate(App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
@@ -232,6 +233,32 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$valid = $pdfModel->checkActiveTemplates($recordId, $moduleName, $view);
 		$output = ['valid' => $valid];
 
+		$response = new Vtiger_Response();
+		$response->setResult($output);
+		$response->emit();
+	}
+
+	/**
+	 * Save column scheme for records.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function saveColumnScheme(App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$records = $request->getArray('records', 'Integer');
+		$columns = $request->getArray('columns', 'String');
+
+		foreach ($records as $crmId) {
+			$schemeInstance = Vtiger_InventoryColumnScheme_Model::getInstanceByTargetId($crmId);
+			$schemeInstance->set('columns', json_encode($columns));
+			$schemeInstance->save();
+		}
+
+		$output = [
+			'message' => \App\Language::translate('LBL_SCHEME_SAVED', 'Settings:PDF'),
+			'records' => $records
+		];
 		$response = new Vtiger_Response();
 		$response->setResult($output);
 		$response->emit();

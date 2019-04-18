@@ -1,20 +1,25 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
-jQuery.Class("Vtiger_PDF_Js", {
-	validateSubmit: function (container) {
+$.Class('Vtiger_PDF_Js', {
+	validateSubmit: function(container) {
 		var templateIds = [];
 		var i = 0;
-		container.find('[name="pdf_template[]"]').each(function () {
-			if (jQuery(this).is(':checked')) {
-				templateIds[i] = jQuery(this).val();
+		container.find('[name="pdf_template[]"]').each(function() {
+			if ($(this).is(':checked')) {
+				templateIds[i] = $(this).val();
 				i++;
 			}
 		});
 		if (templateIds.length > 0) {
 			container.find('#generate_pdf').attr('disabled', false);
 			var view = app.getUrlVar('view');
-			if (templateIds.length > 1 || (view && view.replace('#', '') === 'List' && JSON.parse(container.find('[name="validRecords"]').val()).length > 0)) {
+			if (
+				templateIds.length > 1 ||
+				(view &&
+					view.replace('#', '') === 'List' &&
+					JSON.parse(container.find('[name="validRecords"]').val()).length > 0)
+			) {
 				container.find('#single_pdf').show();
 			} else {
 				container.find('#single_pdf').hide();
@@ -24,59 +29,75 @@ jQuery.Class("Vtiger_PDF_Js", {
 			container.find('#single_pdf').hide();
 		}
 	},
+
+	/**
+	 * Proceed form submission
+	 */
+	proceedSubmit(templateIds) {
+		const loader = $.progressIndicator({
+			message: app.vtranslate('JS_PDF_GENERATING'),
+			position: 'html',
+			blockInfo: {
+				enabled: true
+			}
+		});
+		this.container.find('[name="template"]').val(templateIds);
+		switch ($(this).attr('id')) {
+			case 'generate_pdf':
+				break;
+			case 'single_pdf':
+				this.container.find('[name="single_pdf"]').val(1);
+				this.container.find('#pdfExportModal').submit();
+				break;
+			case 'email_pdf':
+				this.container.find('[name="email_pdf"]').val(1);
+				this.container.find('#pdfExportModal').submit();
+				break;
+		}
+		loader.progressIndicator({ mode: 'hide' });
+		app.hideModalWindow();
+	},
+
 	/*
 	 * Function to register the click event for generate button
 	 */
-	registerPreSubmitEvent: function (container) {
-		container.find('#generate_pdf, #single_pdf, #email_pdf').on('click', function (e) {
-			document.progressLoader = jQuery.progressIndicator({
-				message: app.vtranslate('JS_PDF_GENERATING'),
-				position: 'html',
-				blockInfo: {
-					enabled: true
+	registerPreSubmitEvent: function(container) {
+		const self = this;
+		container.find('#generate_pdf, #single_pdf, #email_pdf').on('click', function(e) {
+			const templateIds = [];
+			const dynamicTemplates = [];
+			container.find('[name="pdf_template[]"]').each(function() {
+				if ($(this).is(':checked')) {
+					const val = $(this).val();
+					templateIds.push(val);
+					if ($(this).data('dynamic')) {
+						dynamicTemplates.push(val);
+					}
 				}
 			});
-			var templateIds = [];
-			var i = 0;
-			container.find('[name="pdf_template[]"]').each(function () {
-				if (jQuery(this).is(':checked')) {
-					templateIds[i] = jQuery(this).val();
-					i++;
-				}
-			});
-			var view = app.getUrlVar('view');
+			const view = app.getUrlVar('view');
 			if (view && view.replace('#', '') === 'List') {
 				container.find('[name="record"]').val(container.find('[name="validRecords"]').val());
 			}
-
-			container.find('[name="template"]').val(templateIds);
-			switch (jQuery(this).attr('id')) {
-				case 'generate_pdf':
-					break;
-				case 'single_pdf':
-					container.find('[name="single_pdf"]').val(1);
-					container.find('#pdfExportModal').submit();
-					break;
-				case 'email_pdf':
-					container.find('[name="email_pdf"]').val(1);
-					container.find('#pdfExportModal').submit();
-					break;
+			if (dynamicTemplates.length) {
+				e.preventDefault();
+				e.stopPropagation();
+			} else {
+				self.proceedSubmit.apply(self, [templateIds]);
 			}
-			document.progressLoader.progressIndicator({'mode': 'hide'});
-			app.hideModalWindow();
 		});
 	},
-	registerValidateSubmit: function (container) {
+	registerValidateSubmit: function(container) {
 		var thisInstance = this;
 		thisInstance.validateSubmit(container);
 
-		container.find('[name="pdf_template[]"]').on('change', function () {
+		container.find('[name="pdf_template[]"]').on('change', function() {
 			thisInstance.validateSubmit(container);
 		});
 	},
-	registerListViewCheckRecords: function (container) {
+	registerListViewCheckRecords: function(container) {
 		var thisInstance = this;
-		container.find('[name="pdf_template[]"]').on('change', function () {
+		container.find('[name="pdf_template[]"]').on('change', function() {
 			document.progressLoader = jQuery.progressIndicator({
 				message: app.vtranslate('JS_PDF_RECALCULATING'),
 				position: 'html',
@@ -86,7 +107,7 @@ jQuery.Class("Vtiger_PDF_Js", {
 			});
 			var selectedRecords = container.find('[name="selectedRecords"]').val();
 			var selectedTemplates = [];
-			container.find('[name="pdf_template[]"]:checked').each(function (i) {
+			container.find('[name="pdf_template[]"]:checked').each(function(i) {
 				selectedTemplates[i] = jQuery(this).val();
 			});
 
@@ -100,48 +121,122 @@ jQuery.Class("Vtiger_PDF_Js", {
 				templates: selectedTemplates
 			};
 			params.dataType = 'json';
-			AppConnector.request(params).done(function (data) {
-				var response = data['result'];
-				if (data['success']) {
-					container.find('[name="validRecords"]').val(JSON.stringify(response.valid_records));
-					container.find('#recordsInfo').text(response.message);
-					setTimeout(function () {
-						document.progressLoader.progressIndicator({'mode': 'hide'})
-					}, 500);
-					thisInstance.validateSubmit(container);
-				}
-			}).fail(function (data, err) {
-				app.errorLog(data, err);
-			});
+			AppConnector.request(params)
+				.done(function(data) {
+					var response = data['result'];
+					if (data['success']) {
+						container.find('[name="validRecords"]').val(JSON.stringify(response.valid_records));
+						container.find('#recordsInfo').text(response.message);
+						setTimeout(function() {
+							document.progressLoader.progressIndicator({ mode: 'hide' });
+						}, 500);
+						thisInstance.validateSubmit(container);
+					}
+				})
+				.fail(function(data, err) {
+					app.errorLog(data, err);
+				});
 		});
 	},
-	countSelectedRecords: function (container) {
+	countSelectedRecords: function(container) {
 		var selectedRecords = JSON.parse(container.find('[name="selectedRecords"]').val());
 
 		return selectedRecords.length;
 	},
-	registerEvents: function () {
-		var container = jQuery('div.modal-content');
-		this.registerPreSubmitEvent(container);
+	/**
+	 * Register dynamic template selection event to show or hide column settings
+	 */
+	registerDynamicTemplateSelection() {
+		const self = this;
+		this.container.find('.dynamic-template').on('change', function() {
+			if ($(this).is(':checked')) {
+				self.dynamicTemplatesCount++;
+			} else {
+				self.dynamicTemplatesCount--;
+			}
+			if (self.dynamicTemplatesCount) {
+				self.container.find('.select-columns').removeClass('d-none');
+			} else {
+				self.container.find('.select-columns').addClass('d-none');
+			}
+		});
+	},
 
+	/**
+	 * Register save scheme button click
+	 */
+	registerSaveSchemeClick() {
+		this.container.find('.save-scheme').on('click', e => {
+			e.preventDefault();
+			e.stopPropagation();
+			const loader = $.progressIndicator({
+				position: 'html',
+				blockInfo: {
+					enabled: true
+				}
+			});
+
+			const records = JSON.parse(this.container.find('[name="selectedRecords"]').val());
+			const record = parseInt(this.container.find('[name="record"]').val());
+			if (record) {
+				records.push(record);
+			}
+			const columns = this.container.find('[name="columns"]').val();
+			const params = {};
+			params.data = {
+				module: app.getModuleName(),
+				action: 'PDF',
+				mode: 'saveColumnScheme',
+				records,
+				columns,
+				view: app.getViewName()
+			};
+			params.dataType = 'json';
+			AppConnector.request(params)
+				.done(function(data) {
+					const response = data['result'];
+					if (data['success']) {
+						loader.progressIndicator({ mode: 'hide' });
+					}
+					if (response['message'] && data['success']) {
+						app.showNotify({
+							text: response['message'],
+							type: 'success'
+						});
+					}
+				})
+				.fail(function(data, err) {
+					app.errorLog(data, err);
+				});
+		});
+	},
+
+	registerEvents: function() {
+		const container = (this.container = $('div.modal-content'));
+		this.dynamicTemplatesCount = 0;
+		this.registerPreSubmitEvent(container);
+		this.registerDynamicTemplateSelection();
+		this.registerSaveSchemeClick();
 		if (app.getViewName() === 'Detail') {
 			this.registerValidateSubmit(container);
 		}
 		if (app.getViewName() === 'List') {
 			this.validateSubmit(container);
 			this.registerListViewCheckRecords(container);
-			var selectedRecords = JSON.parse(container.find('#all_records').val());
-			var recordsInput = container.find('[name="selectedRecords"]');
-			var validInput = container.find('[name="validRecords"]');
+			const selectedRecords = JSON.parse(container.find('#all_records').val());
+			const recordsInput = container.find('[name="selectedRecords"]');
+			const validInput = container.find('[name="validRecords"]');
 			container.find('div.modal-body').append('<p id="recordsInfo">' + app.vtranslate('JS_RECORD_INFO'), +'</p>');
 			recordsInput.val(JSON.stringify(selectedRecords));
 			validInput.val(JSON.stringify(selectedRecords));
-			jQuery('#recordsInfo').text(selectedRecords.length + ' from ' + selectedRecords.length + ' are valid for chosen template.');
+			$('#recordsInfo').text(
+				selectedRecords.length + ' from ' + selectedRecords.length + ' are valid for chosen template.'
+			);
 			this.validateSubmit(container);
 		}
 	}
 });
-jQuery(function () {
+jQuery(function() {
 	var instance = new Vtiger_PDF_Js();
 	instance.registerEvents();
 });

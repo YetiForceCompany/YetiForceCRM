@@ -105,7 +105,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 			case 3:
 				$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);
 				$fields = [];
-				$fields['type'] = strpos($pdfModel->get('body_content'), '$(dynamic-inventory)$') === false ? 0 : 2;
+				$fields['type'] = $pdfModel->getTemplateType();
 				foreach ($stepFields as $field) {
 					if ($field === 'conditions') {
 						$params = json_encode($pdfModel->get($field));
@@ -114,7 +114,9 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 					}
 					$fields[$field] = $params;
 				}
-
+				if ($fields['type'] === Vtiger_PDF_Model::TEMPLATE_TYPE_DYNAMIC) {
+					$fields['default'] = 0;
+				}
 				$db->createCommand()
 					->update('a_#__pdf', $fields, ['pdfid' => $pdfModel->getId()])
 					->execute();

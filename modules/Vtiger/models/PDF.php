@@ -13,6 +13,19 @@
 class Vtiger_PDF_Model extends \App\Base
 {
 	/**
+	 * Template type standard.
+	 *
+	 * @var int
+	 */
+	public const TEMPLATE_TYPE_STANDARD = 0;
+	/**
+	 * Template type dynamic.
+	 *
+	 * @var int
+	 */
+	public const TEMPLATE_TYPE_DYNAMIC = 2;
+
+	/**
 	 * Table name.
 	 *
 	 * @var string
@@ -90,9 +103,8 @@ class Vtiger_PDF_Model extends \App\Base
 	{
 		if ($key === 'conditions' && !is_array(parent::get($key))) {
 			return json_decode(parent::get($key), true);
-		} else {
-			return parent::get($key);
 		}
+		return parent::get($key);
 	}
 
 	/**
@@ -143,7 +155,7 @@ class Vtiger_PDF_Model extends \App\Base
 	/**
 	 * Return module instance or false.
 	 *
-	 * @return object|false
+	 * @return false|object
 	 */
 	public function getModule()
 	{
@@ -165,9 +177,8 @@ class Vtiger_PDF_Model extends \App\Base
 
 		if (count($templates) > 0) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	/**
@@ -245,7 +256,7 @@ class Vtiger_PDF_Model extends \App\Base
 	 * @param int    $recordId
 	 * @param string $moduleName
 	 *
-	 * @return Vtiger_PDF_Model|bool
+	 * @return bool|Vtiger_PDF_Model
 	 */
 	public static function getInstanceById($recordId, $moduleName = 'Vtiger')
 	{
@@ -270,6 +281,8 @@ class Vtiger_PDF_Model extends \App\Base
 
 	/**
 	 * Function returns valuetype of the field filter.
+	 *
+	 * @param mixed $fieldname
 	 *
 	 * @return string
 	 */
@@ -357,9 +370,11 @@ class Vtiger_PDF_Model extends \App\Base
 		}
 		if (in_array('Users:' . $currentUser->getId(), $permissions)) { // check user id
 			return true;
-		} elseif (in_array('Roles:' . $currentUser->getRole(), $permissions)) {
+		}
+		if (in_array('Roles:' . $currentUser->getRole(), $permissions)) {
 			return true;
-		} elseif (array_key_exists('Groups', $getTypes)) {
+		}
+		if (array_key_exists('Groups', $getTypes)) {
 			$accessibleGroups = array_keys(\App\Fields\Owner::getInstance($this->get('module_name'), $currentUser)->getAccessibleGroupForModule());
 			$groups = array_intersect($getTypes['Groups'], $currentUser->getGroups());
 			if (array_intersect($groups, $accessibleGroups)) {
@@ -433,9 +448,8 @@ class Vtiger_PDF_Model extends \App\Base
 		$orientation = $this->get('page_orientation');
 		if ($orientation === 'PLL_LANDSCAPE') {
 			return 'L';
-		} else {
-			return 'P';
 		}
+		return 'P';
 	}
 
 	/**
@@ -512,8 +526,8 @@ class Vtiger_PDF_Model extends \App\Base
 
 		//create the file and throw the error if unsuccessful
 		if ($zip->open($zipPath . $zipName, ZIPARCHIVE::CREATE) !== true) {
-			\App\Log::error("cannot open <$zipPath.$zipName>\n");
-			throw new \App\Exceptions\NoPermitted("cannot open <$zipPath.$zipName>");
+			\App\Log::error("cannot open <${zipPath}.${zipName}>\n");
+			throw new \App\Exceptions\NoPermitted("cannot open <${zipPath}.${zipName}>");
 		}
 
 		//add each files of $file_name array to archive
@@ -526,7 +540,7 @@ class Vtiger_PDF_Model extends \App\Base
 		$name = basename($fileName);
 
 		header('expires: Sat, 26 Jul 1997 05:00:00 GMT');
-		header("content-type: $mimeType");
+		header("content-type: ${mimeType}");
 		header('content-disposition: attachment; filename="' . $name . '";');
 		header('accept-ranges: bytes');
 		header('content-length: ' . $size);
@@ -537,5 +551,57 @@ class Vtiger_PDF_Model extends \App\Base
 		foreach ($fileNames as $file) {
 			unlink($file);
 		}
+	}
+
+	/**
+	 * Get template type.
+	 *
+	 * @return int template type
+	 */
+	public function getTemplateType()
+	{
+		return strpos($this->get('body_content'), '$(dynamicInventory)$') === false ? static::TEMPLATE_TYPE_STANDARD : static::TEMPLATE_TYPE_DYNAMIC;
+	}
+
+	/**
+	 * Get inventory columns.
+	 *
+	 * @return array
+	 */
+	public function getInventoryColumns()
+	{
+		$inventory = Vtiger_Inventory_Model::getInstance($this->getModule()->getName());
+		$columns = [];
+		foreach ($inventory->getFields() as $name => $field) {
+			$columns[$name] = $field->getDefaultLabel();
+		}
+		return $columns;
+	}
+
+	public function getSchemesForRecord($recordId)
+	{
+		return (new App\Db\Query())
+			->select(['id', 'crmid', 'columns'])
+			->from('a_#_pdf_inv_col_scheme')
+			->where(['crmid' => $recordId])
+			->createCommand()
+			->queryAll();
+	}
+
+	/**
+	 * Get column scheme.
+	 *
+	 * @param int|string $schemeId
+	 *
+	 * @return array
+	 */
+	public function getColumnScheme($schemeId)
+	{
+		return (new App\Db\Query())
+			->select(['id', 'crmid', 'columns'])
+			->from('a_#_pdf_inv_col_scheme')
+			->where(['id' => $schemeId])
+			->createCommand()
+			->queryOne();
 	}
 }

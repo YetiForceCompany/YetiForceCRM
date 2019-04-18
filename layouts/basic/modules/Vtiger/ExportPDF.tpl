@@ -26,49 +26,72 @@
 						<a class="nav-link" id="profile-tab" data-toggle="tab" href="#dynamic" role="tab" aria-controls="dynamic" aria-selected="false">{\App\Language::translate('LBL_DYNAMIC_TEMPLATES', 'Settings:PDF')}</a>
 					</li>
 				</ul>
-				<div class="tab-content p-3 border-left border-right border-bottom mb-4" id="generate-pdf-tab-content">
+				<div class="tab-content p-3 border-left border-right border-bottom mb-3" id="generate-pdf-tab-content">
 					<div class="tab-pane fade show active" id="standard" role="tabpanel" aria-labelledby="standard-tab">
-					{foreach from=$STANDARD_TEMPLATES item=TEMPLATE}
-						<div class="form-group row">
-							<label class="col-sm-11 col-form-label text-left pt-0" for="pdfTpl{$TEMPLATE->getId()}">
-								{\App\Language::translate($TEMPLATE->get('primary_name'), $MODULE_NAME)} &nbsp;
-								[<span class="secondaryName">{\App\Language::translate($TEMPLATE->get('secondary_name'), $MODULE_NAME)}</span>]
-							</label>
-							<div class="col-sm-1">
-								<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} />
+						{foreach from=$STANDARD_TEMPLATES item=TEMPLATE}
+							<div class="form-group row">
+								<label class="col-sm-11 col-form-label text-left pt-0" for="pdfTpl{$TEMPLATE->getId()}">
+									{\App\Language::translate($TEMPLATE->get('primary_name'), $MODULE_NAME)}
+									<span class="secondaryName ml-2">[ {\App\Language::translate($TEMPLATE->get('secondary_name'), $MODULE_NAME)} ]</span>
+								</label>
+								<div class="col-sm-1">
+									<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} />
+								</div>
 							</div>
-						</div>
-					{/foreach}
+						{/foreach}
 					</div>
 					<div class="tab-pane fade" id="dynamic" role="tabpanel" aria-labelledby="dynamic-tab">
-					{foreach from=$DYNAMIC_TEMPLATES item=TEMPLATE}
-						<div class="form-group row">
-							<label class="col-sm-11 col-form-label text-left pt-0" for="pdfTpl{$TEMPLATE->getId()}">
-								{\App\Language::translate($TEMPLATE->get('primary_name'), $MODULE_NAME)} &nbsp;
-								[<span class="secondaryName">{\App\Language::translate($TEMPLATE->get('secondary_name'), $MODULE_NAME)}</span>]
-							</label>
-							<div class="col-sm-1">
-								<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} />
+						{foreach from=$DYNAMIC_TEMPLATES item=TEMPLATE}
+							<div class="dynamic-template-container" data-js="container">
+								<div class="form-group row">
+									<label class="col-sm-11 col-form-label text-left pt-0" for="pdfTpl{$TEMPLATE->getId()}">
+										{\App\Language::translate($TEMPLATE->get('primary_name'), $MODULE_NAME)}
+										<span class="secondaryName ml-2">[ {\App\Language::translate($TEMPLATE->get('secondary_name'), $MODULE_NAME)} ]</span>
+									</label>
+									<div class="col-sm-1">
+										<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox dynamic-template" data-dynamic="1" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} data-js="change" />
+									</div>
+								</div>
+							</div>
+						{/foreach}
+					</div>
+				</div>
+				<div class="card select-columns d-none">
+					<div class="card-header">{\App\Language::translate('LBL_SELECT_COLUMNS','Settings:PDF')}</div>
+						<div class="card-body">
+							<div class="form-group row">
+								<div class="col">
+									<select class="select2" name="columns" multiple="multiple">
+									{foreach from=$TEMPLATE->getInventoryColumns() item=$LABEL key=$NAME}
+										<option value="{$NAME}">{\App\Language::translate($LABEL, $MODULE_NAME)}</option>
+									{/foreach}
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<button class="btn btn-success save-scheme w-100" data-js="click"><span class="fas fa-save"></span> {\App\Language::translate('LBL_SAVE_SCHEME','Settings:PDF')}</button>
+								</div>
 							</div>
 						</div>
-					{/foreach}
 					</div>
 				</div>
 			{else}
 				<div class="card">
-				<div class="card-header">{\App\Language::translate('LBL_AVAILABLE_TEMPLATES', $MODULE_NAME)}</div>
-					<div class="card-body">
-					{foreach from=$STANDARD_TEMPLATES item=TEMPLATE}
-						<div class="form-group row">
-							<label class="col-sm-11 col-form-label text-left pt-0" for="pdfTpl{$TEMPLATE->getId()}">
-								{\App\Language::translate($TEMPLATE->get('primary_name'), $MODULE_NAME)} &nbsp;
-								[<span class="secondaryName">{\App\Language::translate($TEMPLATE->get('secondary_name'), $MODULE_NAME)}</span>]
-							</label>
-							<div class="col-sm-1">
-								<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} />
-							</div>
+					<div class="card-header">{\App\Language::translate('LBL_AVAILABLE_TEMPLATES', $MODULE_NAME)}</div>
+						<div class="card-body">
+							{foreach from=$STANDARD_TEMPLATES item=TEMPLATE}
+								<div class="form-group row">
+									<label class="col-sm-11 col-form-label text-left pt-0" for="pdfTpl{$TEMPLATE->getId()}">
+										{\App\Language::translate($TEMPLATE->get('primary_name'), $MODULE_NAME)}
+										<span class="secondaryName ml-2">[ {\App\Language::translate($TEMPLATE->get('secondary_name'), $MODULE_NAME)} ]</span>
+									</label>
+									<div class="col-sm-1">
+										<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} />
+									</div>
+								</div>
+							{/foreach}
 						</div>
-					{/foreach}
 					</div>
 				</div>
 			{/if}
