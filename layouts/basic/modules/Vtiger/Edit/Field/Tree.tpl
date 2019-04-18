@@ -6,7 +6,7 @@
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
 	{assign var=DISPLAY_VALUE value=$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'),false,$RECORD,true)}
-	<div class="js-tree-container">
+	<div class="js-tree-container" data-js="container">
 		<input name="{$FIELD_MODEL->getFieldName()}" type="hidden" value="{$FIELD_VALUE}" class="sourceField"
 			   data-displayvalue='{$DISPLAY_VALUE}' data-fieldinfo='{$FIELD_INFO}'
 			   data-multiple="{if $FIELD_MODEL->getUIType() == 309 }1{else}0{/if}"
