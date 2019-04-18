@@ -46,7 +46,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 * @param array  $referenceIds
 	 * @param string $refModuleName
 	 */
-	public static function setCrmActivity($referenceIds, $refModuleName = false)
+	public static function setCrmActivity($referenceIds, $refModuleName = null)
 	{
 		$db = \App\Db::getInstance();
 		foreach ($referenceIds as $id => $fieldName) {
@@ -54,6 +54,10 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 				$fieldName = self::getNameByReference($refModuleName);
 			}
 			if (empty($fieldName)) {
+				continue;
+			}
+			$fieldModel = Vtiger_Module_Model::getInstance($refModuleName ?? \App\Record::getType($id))->getFieldByName('crmactivity');
+			if (false === $fieldModel || !$fieldModel->isActiveField()) {
 				continue;
 			}
 			$row = (new \App\Db\Query())->select(['vtiger_activity.status', 'vtiger_activity.date_start'])
