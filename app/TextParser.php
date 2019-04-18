@@ -190,7 +190,7 @@ class TextParser
 	 *
 	 * @var string
 	 */
-	public const VARIABLE_REGEX = '/\$\((\w+)( : ([,"\+\%\.\=\-\[\]\&\w\s\|]+)|)\)\$/u';
+	public const VARIABLE_REGEX = '/\$\((\w+) : ([,"\+\%\.\=\-\[\]\&\w\s\|]+)\)\$/u';
 
 	/**
 	 * Get instanace by record id.
@@ -355,7 +355,7 @@ class TextParser
 	 */
 	public static function isVaribleToParse($text)
 	{
-		return (int) preg_match(static::VARIABLE_REGEX, $text);
+		return (int) preg_match('/^\$\((\w+) : ([,"\+\%\.\=\-\[\]\&\w\s\|]+)\)\$$/', $text);
 	}
 
 	/**
@@ -1539,5 +1539,4 @@ class TextParser
 		}
 		return $html;
 	}
-
 }
