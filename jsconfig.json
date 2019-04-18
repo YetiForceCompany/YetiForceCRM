@@ -31,5 +31,5 @@
     }
   },
   "include": ["./public_html/src/**/*"],
-  "exclude": ["./cache/**/*"]
+  "exclude": ["./cache/**/*", "./public_html/libraries/**/*", ".history/**/*"]
 }
