@@ -657,7 +657,7 @@ class YetiForcePDF extends PDF
 				$fileName = $this->getFileName() . '.pdf';
 			} else {
 				$date = date('Y-m-d');
-				$fileName = "{$this->moduleName} {$this->recordId} ${date}.pdf";
+				$fileName = "{$this->moduleName} {$this->recordId} {$date}.pdf";
 			}
 			$dest = 'I';
 		}
