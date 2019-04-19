@@ -384,7 +384,7 @@ class ModuleLoader {
   }
 
   /**
-   * Load store from module
+   * Load store from module as vuex class or standard vuex module
    *
    * @param   {object}  moduleConf
    *
@@ -395,7 +395,7 @@ class ModuleLoader {
       const dir = `${moduleConf.path}${sep}${RESERVED_DIRECTORIES.store}`
       moduleConf.store = {}
       const files = this.getFiles(dir)
-      if (files.length === 1) {
+      if (files.includes('index.js') && 'function' === typeof appRequire(`./${dir}${sep}index.js`)) {
         const vuexClassReservedName = '_[vuex-class]_bind_class'
         let vuexClass = appRequire(`./${dir}${sep}${files[0]}`)
         vuexClass = new vuexClass()
