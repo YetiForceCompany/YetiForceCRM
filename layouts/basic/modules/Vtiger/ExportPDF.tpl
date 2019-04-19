@@ -61,7 +61,7 @@
 						<div class="card-body">
 							<div class="form-group row">
 								<div class="col">
-									<select class="select2" name="columns" multiple="multiple">
+									<select class="select2" name="columns" multiple="multiple" data-select-cb="registerSelectSortable" data-js="select2 | sortable">
 									{foreach from=$ALL_INVENTORY_COLUMNS item=$LABEL key=$NAME}
 										<option value="{$NAME}"{if in_array($NAME,$SELECTED_INVENTORY_COLUMNS)} selected="selected"{/if}>{\App\Language::translate($LABEL, $MODULE_NAME)}</option>
 									{/foreach}
