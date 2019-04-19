@@ -1,13 +1,21 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-import getters from './getters.js'
-import mutations from './mutations.js'
-import actions from './actions.js'
-import state from './state.js'
 
-export default {
-  namespaced: false,
-  getters,
-  actions,
-  mutations,
-  state
+export default class Basic extends VuexClass {
+	constructor() {
+		super()
+		this.state = {
+			testVariable: 'test variable',
+			menu: true,
+			moduleName: 'Basic'
+		}
+	}
+	set updateTestVariable(value) {
+		this.state.testVariable = value
+	}
+	get getTestVariable() {
+		return this.state.testVariable
+	}
+	getData() {
+		return 'test'
+	}
 }
