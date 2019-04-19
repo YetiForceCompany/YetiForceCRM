@@ -250,7 +250,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 	{
 		$moduleName = $request->get('module', 'String');
 		$records = $request->getArray('records', 'Integer');
-		$columns = $request->getArray('columns', 'String');
+		$columns = $request->getArray('inventoryColumns', 'String');
 		foreach ($records as $crmId) {
 			Vtiger_PDF_Model::saveInventoryColumnsForRecord($crmId, $moduleName, $columns);
 		}

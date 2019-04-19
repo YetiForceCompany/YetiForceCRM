@@ -52,28 +52,23 @@
 										<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox dynamic-template" data-dynamic="1" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} data-js="change" />
 									</div>
 								</div>
+								<h6 class="pt-4 border-top">{\App\Language::translate('LBL_SELECT_COLUMNS','Settings:PDF')}</h6>
+								<div class="form-group row">
+									<div class="col">
+										<select class="select2" name="inventoryColumns[]" multiple="multiple" data-select-cb="registerSelectSortable" data-js="select2 | sortable">
+										{foreach from=$ALL_INVENTORY_COLUMNS item=$LABEL key=$NAME}
+											<option value="{$NAME}"{if in_array($NAME,$SELECTED_INVENTORY_COLUMNS)} selected="selected"{/if}>{\App\Language::translate($LABEL, $MODULE_NAME)}</option>
+										{/foreach}
+										</select>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<button class="btn btn-success save-scheme w-100" data-js="click"><span class="fas fa-save"></span> {\App\Language::translate('LBL_SAVE_SCHEME','Settings:PDF')}</button>
+									</div>
+								</div>
 							</div>
 						{/foreach}
-					</div>
-				</div>
-				<div class="card select-columns">
-					<div class="card-header"><strong>{\App\Language::translate('LBL_SELECT_COLUMNS','Settings:PDF')}</strong></div>
-						<div class="card-body">
-							<div class="form-group row">
-								<div class="col">
-									<select class="select2" name="inventoryColumns[]" multiple="multiple" data-select-cb="registerSelectSortable" data-js="select2 | sortable">
-									{foreach from=$ALL_INVENTORY_COLUMNS item=$LABEL key=$NAME}
-										<option value="{$NAME}"{if in_array($NAME,$SELECTED_INVENTORY_COLUMNS)} selected="selected"{/if}>{\App\Language::translate($LABEL, $MODULE_NAME)}</option>
-									{/foreach}
-									</select>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col">
-									<button class="btn btn-success save-scheme w-100" data-js="click"><span class="fas fa-save"></span> {\App\Language::translate('LBL_SAVE_SCHEME','Settings:PDF')}</button>
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 			{else}

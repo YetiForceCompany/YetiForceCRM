@@ -35,7 +35,7 @@ class TextParser
 		'LBL_RELATED_RECORDS_LIST' => '$(relatedRecordsList : Contacts|firstname,lastname,email|[[["firstname","a","Tom"]]]||5)$',
 		'LBL_RECORDS_LIST' => '$(recordsList : Contacts|firstname,lastname,email|[[["firstname","a","Tom"]]]||5)$',
 		'LBL_INVENTORY_TABLE' => '$(inventory : type=table columns=seq,name,qty,unit,price,total,net href=no)$',
-		'LBL_DYNAMIC_INVENTORY_TABLE' => '$(inventory : type=table columns=dynamic href=no)$',
+		'LBL_DYNAMIC_INVENTORY_TABLE' => '$(custom : dynamicInventoryColumnsTable)$',
 	];
 
 	/**
@@ -82,11 +82,6 @@ class TextParser
 		'ChangesListChanges' => 'LBL_LIST_OF_CHANGES_IN_RECORD',
 		'ChangesListValues' => 'LBL_LIST_OF_NEW_VALUES_IN_RECORD',
 		'Comments' => 'LBL_RECORD_COMMENT',
-	];
-
-	public static $variableInventory = [
-		'LBL_INVENTORY_TABLE' => '$(inventory : type=table columns=seq,name,qty,unit,price,total,net href=no)$',
-		'LBL_DYNAMIC_INVENTORY_TABLE' => '$(inventory : type=table columns=dynamic href=no)$',
 	];
 
 	/**
@@ -1202,9 +1197,6 @@ class TextParser
 			}, array_flip(static::$variableGeneral)),
 		];
 		$variables['LBL_CUSTOM_VARIABLES'] = array_merge($this->getBaseGeneralVariable(), $this->getModuleGeneralVariable());
-		$variables['LBL_INVENTORY_VARIABLES'] = array_map(function ($value) {
-			return Language::translate($value, 'Other.TextParser');
-		}, array_flip(static::$variableInventory));
 		return $variables;
 	}
 
@@ -1444,16 +1436,7 @@ class TextParser
 			parse_str($value, $row);
 			$config += $row;
 		}
-		$columns = [];
-		if ($config['columns'] === 'dynamic') {
-			if (!empty($this->getInventoryColumns())) {
-				$columns = $this->getInventoryColumns();
-			} else {
-				$columns = \Vtiger_PDF_Model::getInventoryColumnsForRecord($this->recordModel->getId(), $this->recordModel->getModule()->getName());
-			}
-		} else {
-			$columns = explode(',', $config['columns']);
-		}
+		$columns = explode(',', $config['columns']);
 		return [
 			'type' => $config['type'] ?? false,
 			'columns' => $columns,
@@ -1468,7 +1451,7 @@ class TextParser
 	 *
 	 * @return string
 	 */
-	protected function getInventoryTable(array $config): string
+	public function getInventoryTable(array $config): string
 	{
 		$configColumns = array_flip($config['columns']);
 		$rawText = !$config['href'];

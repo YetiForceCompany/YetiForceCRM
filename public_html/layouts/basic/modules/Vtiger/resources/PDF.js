@@ -106,7 +106,7 @@ $.Class('Vtiger_PDF_Js', {
 			const selectedRecords = container.find('[name="selectedRecords"]').val();
 			const selectedTemplates = [];
 			container.find('[name="pdf_template[]"]:checked').each(() => {
-				selectedTemplates.pus($(this).val());
+				selectedTemplates.push($(this).val());
 			});
 			const params = {};
 			params.data = {
