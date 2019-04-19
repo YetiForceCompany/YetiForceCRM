@@ -27,7 +27,7 @@ BaseService.interceptors.response.use(
     let type = 'error'
     if (data.exception) {
       type = 'exception'
-      Router.push('/error404')
+      Router.push({ name: 'Exception', params: { code: data.exception.code, message: data.exception.message } })
     }
     data.type = data.type || type
     store.commit(mutations.Core.Debug.push, { source: 'BaseService', data: data })

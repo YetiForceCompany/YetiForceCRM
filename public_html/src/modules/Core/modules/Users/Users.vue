@@ -9,20 +9,29 @@ import getters from '/store/getters.js'
 const moduleName = 'Core.Users'
 
 function setLoginRouteGuard(store, router) {
-  router.beforeEach((routeTo, routeFrom, next) => {
+  router.beforeEach((to, from, next) => {
     let isLoggedIn = store.getters[getters.Core.Users.isLoggedIn]
     if (isLoggedIn === undefined) {
       isLoggedIn = window.env.Core.Users.isLoggedIn
     }
-    if (isLoggedIn || routeTo.path.startsWith('/users/login') || routeTo.path.startsWith('/error404')) {
+    setTemplate(isLoggedIn, store)
+    if (isLoggedIn || to.path.startsWith('/users/login') || to.path.startsWith('/exception')) {
       next()
-    } else if (routeFrom.path.startsWith('/users/login')) {
-      Quasar.plugins.Loading.hide()
+    } else if (from.path.startsWith('/users/login')) {
+      router.afterHooks[0]()
       next(false)
     } else {
       next({ name: 'Core.Users.Login' })
     }
   })
+}
+
+function setTemplate(isLoggedIn, store) {
+  if (isLoggedIn) {
+    store.commit('Global/update', { Core: { Env: { template: 'Basic' } } })
+  } else {
+    store.commit('Global/update', { Core: { Env: { template: 'Card' } } })
+  }
 }
 
 export function initialize({ store, router }) {

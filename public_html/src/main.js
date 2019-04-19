@@ -1,5 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 import AppComponent from './Main.vue.js'
+import ErrorComponent from '/src/pages/errors/Exception.vue.js'
 import createStore from '/src/store/index.js'
 import createRouter from '/src/router/index.js'
 import createI18n from '/src/i18n/index.js'
@@ -21,8 +22,10 @@ if (typeof window.modules === 'object') {
   coreModules = modules.filter(module => module.fullName.substring(0, 4) === 'Core')
   standardModules = modules.filter(module => module.fullName.substring(0, 4) !== 'Core')
 }
-
 async function start() {
+  if (window.env.Core === undefined) {
+    return createExceptionView()
+  }
   if (window.env.Core.Env.dev) {
     console.groupCollapsed('Loader logs')
   }
@@ -88,6 +91,19 @@ async function start() {
     console.groupEnd()
   }
   window.App = App
+  return App
+}
+
+function createExceptionView() {
+  const router = createRouter({})
+  const app = {
+    el: '#app',
+    render: h => h(ErrorComponent),
+    router
+  }
+  const App = new Vue(app)
+  window.App = App
+  router.replace({ name: 'Exception' })
   return App
 }
 

@@ -56,7 +56,7 @@ class Env
 		if ('loginPage' === $mode) {
 			return $env;
 		}
-		$webSocketIsActive = App\WebSocket::connectionTest();
+		$webSocketIsActive = \App\WebSocket::connectionTest();
 		$env = \array_merge($env, [
 			'siteUrl' => \App\Layout::getPublicUrl('', true),
 			'layoutPath' => \App\Layout::getPublicUrl('layouts/' . \App\Layout::getActiveLayout()),
