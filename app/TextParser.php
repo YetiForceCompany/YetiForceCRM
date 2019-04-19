@@ -192,6 +192,13 @@ class TextParser
 	public $isHtml = true;
 
 	/**
+	 * Inventory columns.
+	 *
+	 * @var array
+	 */
+	protected $inventoryColumns = [];
+
+	/**
 	 * Variable parser regex.
 	 *
 	 * @var string
@@ -1439,7 +1446,11 @@ class TextParser
 		}
 		$columns = [];
 		if ($config['columns'] === 'dynamic') {
-			$columns = \Vtiger_PDF_Model::getColumnsForRecord($this->recordModel->getId(), $this->recordModel->getModule()->getName());
+			if (!empty($this->getInventoryColumns())) {
+				$columns = $this->getInventoryColumns();
+			} else {
+				$columns = \Vtiger_PDF_Model::getInventoryColumnsForRecord($this->recordModel->getId(), $this->recordModel->getModule()->getName());
+			}
 		} else {
 			$columns = explode(',', $config['columns']);
 		}
@@ -1547,5 +1558,28 @@ class TextParser
 			$html .= '</tr></tfoot></table>';
 		}
 		return $html;
+	}
+
+	/**
+	 * Get inventory columns.
+	 *
+	 * @return array
+	 */
+	public function getInventoryColumns()
+	{
+		return $this->inventoryColumns;
+	}
+
+	/**
+	 * Set inventory columns.
+	 *
+	 * @param array $inventoryColumns Inventory columns.
+	 *
+	 * @return self
+	 */
+	public function setInventoryColumns(array $inventoryColumns)
+	{
+		$this->inventoryColumns = $inventoryColumns;
+		return $this;
 	}
 }

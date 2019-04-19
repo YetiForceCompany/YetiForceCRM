@@ -80,7 +80,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$templateIds = $request->getArray('pdf_template', 'Integer');
 		$singlePdf = $request->getInteger('single_pdf') === 1 ? true : false;
 		$emailPdf = $request->getInteger('email_pdf') === 1 ? true : false;
-
+		$inventoryColumns = $request->getArray('inventoryColumns', 'String');
 		$postfix = time() . '_' . random_int(0, 1000);
 		foreach ($recordId as $templateId) {
 			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $templateId)) {
@@ -97,20 +97,21 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		if ($selectedOneTemplate && $recordsAmount == 1) {
 			if ($emailPdf) {
 				$filePath = 'cache' . DIRECTORY_SEPARATOR . 'pdf' . DIRECTORY_SEPARATOR . $recordId[0] . '_' . time() . '.pdf';
-				Vtiger_PDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0], ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $filePath, 'F');
+				Vtiger_PDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0], ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $filePath, 'F', $inventoryColumns);
 				if (file_exists($filePath) && \App\Privilege::isPermitted('OSSMail')) {
 					header('location: index.php?module=OSSMail&view=Compose&pdf_path=' . $filePath);
 				} else {
 					throw new \App\Exceptions\AppException('LBL_EXPORT_ERROR');
 				}
 			} else {
-				Vtiger_PDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0]);
+				Vtiger_PDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0], null, null, $inventoryColumns);
 			}
 		} elseif ($selectedOneTemplate && $recordsAmount > 1 && $generateOnePdf) {
 			$pdf = new \App\Pdf\YetiForcePDF();
 			$pdf->setTemplateId($templateIds[0]);
 			$pdf->setRecordId($recordId[0]);
 			$pdf->setModuleName($moduleName);
+			$pdf->setInventoryColumns($inventoryColumns);
 			$html = '';
 			$last = count($recordId) - 1;
 			foreach ($recordId as $index => $record) {
@@ -144,6 +145,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 						$pdf->setLanguage($template->get('language'));
 						$pdf->setTemplateId($templateId);
 						$pdf->setModuleName($moduleName);
+						$pdf->setInventoryColumns($inventoryColumns);
 						$currentPage = '<div data-page-group
 							data-format="' . $template->getFormat() . '"
 							data-orientation="' . $template->getOrientation() . '"
@@ -174,6 +176,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 						$pdf->setTemplateId($templateId);
 						$pdf->setRecordId($record);
 						$pdf->setModuleName($moduleName);
+						$pdf->setInventoryColumns($inventoryColumns);
 						$template = Vtiger_PDF_Model::getInstanceById($templateId);
 						$template->setMainRecordId($record);
 						$template->getParameters();

@@ -485,15 +485,18 @@ class Vtiger_PDF_Model extends \App\Base
 	/**
 	 * Export record to PDF file.
 	 *
-	 * @param int    $recordId   - id of a record
-	 * @param string $moduleName - name of records module
-	 * @param int    $templateId - id of pdf template
-	 * @param string $filePath   - path name for saving pdf file
-	 * @param string $saveFlag   - save option flag
+	 * @param int    $recordId         - id of a record
+	 * @param string $moduleName       - name of records module
+	 * @param int    $templateId       - id of pdf template
+	 * @param string $filePath         - path name for saving pdf file
+	 * @param string $saveFlag         - save option flag
+	 * @param array  $inventoryColumns
 	 */
-	public static function exportToPdf($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '')
+	public static function exportToPdf($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '', array $inventoryColumns = [])
 	{
-		(new \App\Pdf\YetiForcePDF())->export($recordId, $moduleName, $templateId, $filePath, $saveFlag);
+		(new \App\Pdf\YetiForcePDF())
+			->setInventoryColumns($inventoryColumns)
+			->export($recordId, $moduleName, $templateId, $filePath, $saveFlag);
 	}
 
 	/**

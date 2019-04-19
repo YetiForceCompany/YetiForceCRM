@@ -77,16 +77,24 @@ $.Class('Vtiger_PDF_Js', {
 			self.proceedSubmit.apply(self, [templateIds]);
 		});
 	},
-	registerValidateSubmit: function(container) {
-		var thisInstance = this;
-		thisInstance.validateSubmit(container);
-
-		container.find('[name="pdf_template[]"]').on('change', function() {
-			thisInstance.validateSubmit(container);
+	/**
+	 * Register validate submit
+	 *
+	 * @param   {jQuery}  container
+	 */
+	registerValidateSubmit(container) {
+		this.validateSubmit(container);
+		container.find('[name="pdf_template[]"]').on('change', () => {
+			this.validateSubmit(container);
 		});
 	},
-	registerListViewCheckRecords: function(container) {
-		var thisInstance = this;
+	/**
+	 * Register list view check records
+	 *
+	 * @param   {jQuery}  container
+	 */
+	registerListViewCheckRecords(container) {
+		const thisInstance = this;
 		container.find('[name="pdf_template[]"]').on('change', function() {
 			document.progressLoader = jQuery.progressIndicator({
 				message: app.vtranslate('JS_PDF_RECALCULATING'),
@@ -95,13 +103,12 @@ $.Class('Vtiger_PDF_Js', {
 					enabled: true
 				}
 			});
-			var selectedRecords = container.find('[name="selectedRecords"]').val();
-			var selectedTemplates = [];
-			container.find('[name="pdf_template[]"]:checked').each(function(i) {
-				selectedTemplates[i] = jQuery(this).val();
+			const selectedRecords = container.find('[name="selectedRecords"]').val();
+			const selectedTemplates = [];
+			container.find('[name="pdf_template[]"]:checked').each(() => {
+				selectedTemplates.pus($(this).val());
 			});
-
-			var params = {};
+			const params = {};
 			params.data = {
 				module: app.getModuleName(),
 				action: 'PDF',
@@ -128,16 +135,21 @@ $.Class('Vtiger_PDF_Js', {
 				});
 		});
 	},
-	countSelectedRecords: function(container) {
-		var selectedRecords = JSON.parse(container.find('[name="selectedRecords"]').val());
-
-		return selectedRecords.length;
+	/**
+	 * Count selected records
+	 *
+	 * @param   {jQuery}  container
+	 *
+	 * @return  {number}
+	 */
+	countSelectedRecords(container) {
+		return JSON.parse(container.find('[name="selectedRecords"]').val()).length;
 	},
 
 	/**
 	 * Register save scheme button click
 	 */
-	registerSaveColumnSchemeClick() {
+	registerSaveInventoryColumnSchemeClick() {
 		this.container.find('.save-scheme').on('click', e => {
 			e.preventDefault();
 			e.stopPropagation();
@@ -153,14 +165,14 @@ $.Class('Vtiger_PDF_Js', {
 			if (record) {
 				records.push(record);
 			}
-			const columns = this.container.find('[name="columns"]').val();
+			const inventoryColumns = this.container.find('[name="inventoryColumns[]"]').val();
 			const params = {};
 			params.data = {
 				module: app.getModuleName(),
 				mode: 'saveInventoryColumnScheme',
 				action: 'PDF',
 				records,
-				columns
+				inventoryColumns
 			};
 			params.dataType = 'json';
 			AppConnector.request(params)
@@ -181,12 +193,14 @@ $.Class('Vtiger_PDF_Js', {
 				});
 		});
 	},
-
-	registerEvents: function() {
+	/**
+	 * Register events
+	 */
+	registerEvents() {
 		const container = (this.container = $('div.modal-content'));
 		this.dynamicTemplatesCount = 0;
 		this.registerPreSubmitEvent(container);
-		this.registerSaveColumnSchemeClick();
+		this.registerSaveInventoryColumnSchemeClick();
 		if (app.getViewName() === 'Detail') {
 			this.registerValidateSubmit(container);
 		}
@@ -206,7 +220,6 @@ $.Class('Vtiger_PDF_Js', {
 		}
 	}
 });
-jQuery(function() {
-	var instance = new Vtiger_PDF_Js();
-	instance.registerEvents();
+$(function() {
+	new Vtiger_PDF_Js().registerEvents();
 });

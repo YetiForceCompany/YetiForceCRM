@@ -114,6 +114,13 @@ class YetiForcePDF extends PDF
 	protected $moduleModel;
 
 	/**
+	 * Inventory columns for text parser.
+	 *
+	 * @var array
+	 */
+	protected $inventoryColumns = [];
+
+	/**
 	 * Returns pdf library object.
 	 */
 	public function pdf()
@@ -328,6 +335,7 @@ class YetiForcePDF extends PDF
 		$textParser = \App\TextParser::getInstanceById($this->recordId, $this->moduleName);
 		$textParser->setType('pdf');
 		$textParser->setParams(['pdf' => $this->moduleModel]);
+		$textParser->setInventoryColumns($this->getInventoryColumns());
 		if ($this->language) {
 			$textParser->setLanguage($this->language);
 		}
@@ -623,6 +631,7 @@ class YetiForcePDF extends PDF
 		$self->setTemplateId($templateId);
 		$self->setRecordId($recordId);
 		$self->setModuleName($moduleName);
+		$self->setInventoryColumns($this->getInventoryColumns());
 		\App\Language::setTemporaryLanguage($template->get('language'));
 		$self->setWatermark($template);
 		$self->setLanguage($template->get('language'));
@@ -648,7 +657,7 @@ class YetiForcePDF extends PDF
 				$fileName = $this->getFileName() . '.pdf';
 			} else {
 				$date = date('Y-m-d');
-				$fileName = "{$this->moduleName} {$this->recordId} $date.pdf";
+				$fileName = "{$this->moduleName} {$this->recordId} ${date}.pdf";
 			}
 			$dest = 'I';
 		}
@@ -676,5 +685,28 @@ class YetiForcePDF extends PDF
 	public function export($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '')
 	{
 		$this->generateContent($recordId, $moduleName, $templateId, $recordId)->output($filePath, $saveFlag);
+	}
+
+	/**
+	 * Get inventory columns for text parser.
+	 *
+	 * @return array
+	 */
+	public function getInventoryColumns()
+	{
+		return $this->inventoryColumns;
+	}
+
+	/**
+	 * Set inventory columns for text parser.
+	 *
+	 * @param array $inventoryColumns Inventory columns for text parser.
+	 *
+	 * @return self
+	 */
+	public function setInventoryColumns(array $inventoryColumns)
+	{
+		$this->inventoryColumns = $inventoryColumns;
+		return $this;
 	}
 }
