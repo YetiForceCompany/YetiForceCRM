@@ -394,19 +394,36 @@ class ModuleLoader {
     if (moduleConf.directories.indexOf(RESERVED_DIRECTORIES.store) !== -1) {
       const dir = `${moduleConf.path}${sep}${RESERVED_DIRECTORIES.store}`
       moduleConf.store = {}
-      this.getFiles(dir).forEach(file => {
-        const which = basename(file, '.js')
-        if (which === 'index') {
-          return
-        }
-        const storeLib = appRequire(`./${dir}${sep}${file}`)
-        if (which !== 'state') {
-          moduleConf.store[which] = {}
-          Object.keys(storeLib).forEach(key => {
-            moduleConf.store[which][key] = `${moduleConf.fullName.replace(/\./g, '/')}/${key}`
-          })
-        }
-      })
+      const files = this.getFiles(dir)
+      if (files.length === 1) {
+        const vuexClassReservedName = '_[vuex-class]_bind_class'
+        let vuexClass = appRequire(`./${dir}${sep}${files[0]}`)
+        vuexClass = new vuexClass()
+        Object.keys(vuexClass).forEach(vuexType => {
+          if (vuexType !== 'state') {
+            moduleConf.store[vuexType] = {}
+            Object.keys(vuexClass[vuexType]).forEach(key => {
+              if (key !== vuexClassReservedName) {
+                moduleConf.store[vuexType][key] = `${moduleConf.fullName.replace(/\./g, '/')}/${key}`
+              }
+            })
+          }
+        })
+      } else {
+        files.forEach(file => {
+          const which = basename(file, '.js')
+          if (which === 'index') {
+            return
+          }
+          const storeLib = appRequire(`./${dir}${sep}${file}`)
+          if (which !== 'state') {
+            moduleConf.store[which] = {}
+            Object.keys(storeLib).forEach(key => {
+              moduleConf.store[which][key] = `${moduleConf.fullName.replace(/\./g, '/')}/${key}`
+            })
+          }
+        })
+      }
     }
     return moduleConf
   }
