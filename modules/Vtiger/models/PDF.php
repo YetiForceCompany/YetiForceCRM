@@ -560,16 +560,15 @@ class Vtiger_PDF_Model extends \App\Base
 	 *
 	 * @return array
 	 */
-	public static function getColumnsForRecord($recordId, string $moduleName)
+	public static function getInventoryColumnsForRecord($recordId, string $moduleName)
 	{
 		$columnsJSON = (new App\Db\Query())
-			->select('columns')
-			->from('a_yf_pdf_inv_scheme')
+			->select(['columns'])
+			->from('u_#__pdf_inv_scheme')
 			->where(['crmid' => $recordId])
-			->createCommand()
-			->queryScalar();
+			->scalar();
 		if ($columnsJSON) {
-			return json_decode($columnsJSON);
+			return \App\Json::decode($columnsJSON);
 		}
 		return array_keys(Vtiger_Inventory_Model::getInstance($moduleName)->getFields());
 	}
@@ -582,7 +581,7 @@ class Vtiger_PDF_Model extends \App\Base
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public static function saveColumnsForRecord($recordId, string $moduleName, array $columns)
+	public static function saveInventoryColumnsForRecord($recordId, string $moduleName, array $columns)
 	{
 		$availableColumns = array_keys(Vtiger_Inventory_Model::getInstance($moduleName)->getFields());
 		$invalid = array_diff($columns, $availableColumns);
@@ -591,14 +590,14 @@ class Vtiger_PDF_Model extends \App\Base
 		}
 		$db = \App\Db::getInstance();
 		$schemeExists = (new \App\Db\Query())
-			->select('crmid')
-			->from('a_yf_pdf_inv_scheme')
+			->select(['crmid'])
+			->from('u_#__pdf_inv_scheme')
 			->where(['crmid' => $recordId])
 			->exists();
 		if ($schemeExists) {
-			$db->createCommand()->update('a_yf_pdf_inv_scheme', ['columns' => json_encode($columns)], ['crmid' => $recordId])->execute();
+			$db->createCommand()->update('u_#__pdf_inv_scheme', ['columns' => \App\Json::encode($columns)], ['crmid' => $recordId])->execute();
 		} else {
-			$db->createCommand()->insert('a_yf_pdf_inv_scheme', ['columns' => json_encode($columns), 'crmid' => $recordId])->execute();
+			$db->createCommand()->insert('u_#__pdf_inv_scheme', ['columns' => \App\Json::encode($columns), 'crmid' => $recordId])->execute();
 		}
 	}
 }

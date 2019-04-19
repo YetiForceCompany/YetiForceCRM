@@ -35,6 +35,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$this->exposeMethod('hasValidTemplate');
 		$this->exposeMethod('validateRecords');
 		$this->exposeMethod('generate');
+		$this->exposeMethod('saveInventoryColumnScheme');
 	}
 
 	public function validateRecords(App\Request $request)
@@ -232,6 +233,28 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$valid = $pdfModel->checkActiveTemplates($recordId, $moduleName, $view);
 		$output = ['valid' => $valid];
 
+		$response = new Vtiger_Response();
+		$response->setResult($output);
+		$response->emit();
+	}
+
+	/**
+	 * Save inventory column scheme.
+	 *
+	 * @param App\Request $request
+	 */
+	public function saveInventoryColumnScheme(App\Request $request)
+	{
+		$moduleName = $request->get('module', 'String');
+		$records = $request->getArray('records', 'Integer');
+		$columns = $request->getArray('columns', 'String');
+		foreach ($records as $crmId) {
+			Vtiger_PDF_Model::saveInventoryColumnsForRecord($crmId, $moduleName, $columns);
+		}
+		$output = [
+			'message' => \App\Language::translate('LBL_SCHEME_SAVED', 'Settings:PDF'),
+			'records' => $records
+		];
 		$response = new Vtiger_Response();
 		$response->setResult($output);
 		$response->emit();

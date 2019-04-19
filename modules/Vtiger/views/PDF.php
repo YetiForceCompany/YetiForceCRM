@@ -39,7 +39,6 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		$allRecords = Vtiger_Mass_Action::getRecordsListFromRequest($request);
 		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 		$pdfModel = new $handlerClass();
-
 		$viewer = $this->getViewer($request);
 		$templates = [];
 		if ($view === 'Detail') {
@@ -47,7 +46,6 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		} elseif ($view === 'List') {
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleName, $view);
 		}
-
 		$standardTemplates = [];
 		$dynamicTemplates = [];
 		foreach ($templates as $template) {
@@ -58,21 +56,18 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 			}
 		}
 		unset($templates);
-
 		$allInventoryColumns = [];
 		foreach (Vtiger_Inventory_Model::getInstance($moduleName)->getFields() as $name => $field) {
 			$allInventoryColumns[$name] = $field->getDefaultLabel();
 		}
 		$selectedInventoryColumns = $allInventoryColumns;
 		if ($recordId) {
-			$selectedInventoryColumns = Vtiger_PDF_Model::getColumnsForRecord($recordId, $moduleName);
+			$selectedInventoryColumns = Vtiger_PDF_Model::getInventoryColumnsForRecord($recordId, $moduleName);
 		}
-
 		$viewer->assign('STANDARD_TEMPLATES', $standardTemplates);
 		$viewer->assign('DYNAMIC_TEMPLATES', $dynamicTemplates);
 		$viewer->assign('ALL_INVENTORY_COLUMNS', $allInventoryColumns);
 		$viewer->assign('SELECTED_INVENTORY_COLUMNS', $selectedInventoryColumns);
-
 		$viewer->assign('ALL_RECORDS', $allRecords);
 		$viewer->assign('EXPORT_VARS', [
 			'record' => $recordId,

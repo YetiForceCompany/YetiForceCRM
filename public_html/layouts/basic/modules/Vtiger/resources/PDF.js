@@ -137,7 +137,7 @@ $.Class('Vtiger_PDF_Js', {
 	/**
 	 * Register save scheme button click
 	 */
-	registerSaveSchemeClick() {
+	registerSaveColumnSchemeClick() {
 		this.container.find('.save-scheme').on('click', e => {
 			e.preventDefault();
 			e.stopPropagation();
@@ -156,14 +156,11 @@ $.Class('Vtiger_PDF_Js', {
 			const columns = this.container.find('[name="columns"]').val();
 			const params = {};
 			params.data = {
-				module: 'PDF',
-				parent: 'Settings',
-				target: app.getModuleName(),
-				action: 'ColumnScheme',
-				mode: 'save',
+				module: app.getModuleName(),
+				mode: 'saveInventoryColumnScheme',
+				action: 'PDF',
 				records,
 				columns
-				//view: app.getViewName()
 			};
 			params.dataType = 'json';
 			AppConnector.request(params)
@@ -189,7 +186,7 @@ $.Class('Vtiger_PDF_Js', {
 		const container = (this.container = $('div.modal-content'));
 		this.dynamicTemplatesCount = 0;
 		this.registerPreSubmitEvent(container);
-		this.registerSaveSchemeClick();
+		this.registerSaveColumnSchemeClick();
 		if (app.getViewName() === 'Detail') {
 			this.registerValidateSubmit(container);
 		}

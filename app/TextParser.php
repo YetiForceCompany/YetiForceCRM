@@ -84,6 +84,11 @@ class TextParser
 		'Comments' => 'LBL_RECORD_COMMENT',
 	];
 
+	public static $variableInventory = [
+		'LBL_INVENTORY_TABLE' => '$(inventory : type=table columns=seq,name,qty,unit,price,total,net href=no)$',
+		'LBL_DYNAMIC_INVENTORY_TABLE' => '$(inventory : type=table columns=dynamic href=no)$',
+	];
+
 	/**
 	 * List of available functions.
 	 *
@@ -1190,6 +1195,9 @@ class TextParser
 			}, array_flip(static::$variableGeneral)),
 		];
 		$variables['LBL_CUSTOM_VARIABLES'] = array_merge($this->getBaseGeneralVariable(), $this->getModuleGeneralVariable());
+		$variables['LBL_INVENTORY_VARIABLES'] = array_map(function ($value) {
+			return Language::translate($value, 'Other.TextParser');
+		}, array_flip(static::$variableInventory));
 		return $variables;
 	}
 
