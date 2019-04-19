@@ -7,8 +7,6 @@ const moduleStoreInstance = new moduleStore()
 const fullModuleName = 'Base.' + moduleStoreInstance.state.moduleName
 
 export function initialize({ store, router }) {
-  console.log(fullModuleName)
-  console.log(moduleStoreInstance)
   store.registerModule(fullModuleName.split('.'), ModuleLoader.prepareStoreNames(fullModuleName, moduleStoreInstance))
 }
 

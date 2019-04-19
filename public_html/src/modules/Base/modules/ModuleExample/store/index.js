@@ -4,10 +4,5 @@ export default class ModuleExample extends Basic {
   constructor() {
     super()
     this.state.moduleName = 'ModuleExample'
-    // this.state = {
-    // 	testVariable: 'test variable',
-    // 	menu: true,
-    // 	moduleName: 'ModuleExample'
-    // }
   }
 }
