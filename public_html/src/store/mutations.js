@@ -1,6 +1,9 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 export default {
   "Base": {
+    "Basic": {
+      "updateTestVariable": "Base/Basic/updateTestVariable"
+    },
     "Chat": {
       "dialog": "Base/Chat/dialog",
       "maximizedDialog": "Base/Chat/maximizedDialog",
@@ -10,6 +13,9 @@ export default {
     "Home": {},
     "ModuleExample": {
       "updateTestVariable": "Base/ModuleExample/updateTestVariable"
+    },
+    "ModuleExample2": {
+      "updateTestVariable": "Base/ModuleExample2/updateTestVariable"
     }
   },
   "Core": {
@@ -17,7 +23,8 @@ export default {
       "push": "Core/Debug/push"
     },
     "Env": {
-      "update": "Core/Env/update"
+      "update": "Core/Env/update",
+      "isWebSocketConnected": "Core/Env/isWebSocketConnected"
     },
     "Hooks": {
       "add": "Core/Hooks/add",

@@ -66,6 +66,7 @@ function addGlobals() {
   const globalLibs = {
     Vue: 'vue',
     Vuex: 'vuex',
+    VuexClass: 'vuex-class.js',
     VueRouter: 'vue-router',
     VueI18n: 'vue-i18n',
     Quasar: 'quasar',
@@ -383,7 +384,7 @@ class ModuleLoader {
   }
 
   /**
-   * Load store from module
+   * Load store from module as vuex class or standard vuex module
    *
    * @param   {object}  moduleConf
    *
@@ -393,19 +394,35 @@ class ModuleLoader {
     if (moduleConf.directories.indexOf(RESERVED_DIRECTORIES.store) !== -1) {
       const dir = `${moduleConf.path}${sep}${RESERVED_DIRECTORIES.store}`
       moduleConf.store = {}
-      this.getFiles(dir).forEach(file => {
-        const which = basename(file, '.js')
-        if (which === 'index') {
-          return
-        }
-        const storeLib = appRequire(`./${dir}${sep}${file}`)
-        if (which !== 'state') {
+      const files = this.getFiles(dir)
+      if (files.includes('index.js') && 'function' === typeof appRequire(`./${dir}${sep}index.js`)) {
+        const vuexClassReservedName = '_[vuex-class]_bind_class'
+        let vuexClass = appRequire(`./${dir}${sep}index.js`)
+        vuexClass = new vuexClass()
+        Object.keys(vuexClass).forEach(vuexType => {
+          if (vuexType !== 'state') {
+            moduleConf.store[vuexType] = {}
+            Object.keys(vuexClass[vuexType]).forEach(key => {
+              if (key !== vuexClassReservedName) {
+                moduleConf.store[vuexType][key] = `${moduleConf.fullName.replace(/\./g, '/')}/${key}`
+              }
+            })
+          }
+        })
+      } else {
+        const storeFiles = ['actions', 'mutations', 'getters']
+        files.forEach(file => {
+          const which = basename(file, '.js')
+          if (!storeFiles.includes(which)) {
+            return
+          }
+          const storeLib = appRequire(`./${dir}${sep}${file}`)
           moduleConf.store[which] = {}
           Object.keys(storeLib).forEach(key => {
             moduleConf.store[which][key] = `${moduleConf.fullName.replace(/\./g, '/')}/${key}`
           })
-        }
-      })
+        })
+      }
     }
     return moduleConf
   }

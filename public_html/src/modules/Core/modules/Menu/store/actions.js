@@ -23,6 +23,13 @@ export default {
         children: []
       },
       {
+        name: 'Base.Basic',
+        path: '/basic',
+        icon: 'mdi-cube',
+        label: 'Basic',
+        children: []
+      },
+      {
         name: 'Testing',
         path: '',
         icon: 'mdi-settings',

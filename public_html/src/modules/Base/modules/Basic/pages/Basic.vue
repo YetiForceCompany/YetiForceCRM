@@ -18,7 +18,7 @@
 <script>
 import getters from '/src/store/getters.js'
 import mutations from '/src/store/mutations.js'
-const moduleName = 'Base.ModuleExample.Pages.ModuleExample'
+const moduleName = 'Base.Basic.Pages.Basic'
 export default {
   name: moduleName,
   data() {
@@ -160,7 +160,7 @@ export default {
   },
   methods: {
     updateVariable() {
-      this.$store.commit(mutations.Base.ModuleExample.updateTestVariable, 'changed!')
+      this.$store.commit(mutations.Base.Basic.updateTestVariable, 'changed!')
     },
     getSelectedString() {
       return this.selected.length === 0
@@ -170,8 +170,8 @@ export default {
   },
   computed: {
     ...Vuex.mapGetters({
-      testVariable: getters.Base.ModuleExample.getTestVariable,
-      moduleName: getters.Base.ModuleExample.getModuleName
+      testVariable: getters.Base.Basic.getTestVariable,
+      moduleName: getters.Base.Basic.getModuleName
     })
   }
 }

@@ -38,6 +38,7 @@ $dev = 'test' === \App\Config::main('systemMode');
     <?php
 	} ?>
     <script src="/node_modules/vuex/dist/vuex.min.js"></script>
+    <script src="/node_modules/vuex-class.js/dist/vuex-class.js"></script>
     <script src="/node_modules/vue-router/dist/vue-router.min.js"></script>
     <script src="/node_modules/quasar/dist/quasar.umd.min.js"></script>
     <script src="/node_modules/quasar/dist/icon-set/mdi-v3.umd.min.js"></script>

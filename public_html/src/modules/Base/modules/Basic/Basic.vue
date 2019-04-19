@@ -3,11 +3,21 @@
 <script>
 import ModuleLoader from '/src/ModuleLoader.js'
 import moduleStore from './store/index.js'
+import mutations from '/store/mutations.js'
 const moduleStoreInstance = new moduleStore()
+const moduleName = moduleStoreInstance.state.moduleName
 const fullModuleName = 'Base.' + moduleStoreInstance.state.moduleName
 
 export function initialize({ store, router }) {
   store.registerModule(fullModuleName.split('.'), ModuleLoader.prepareStoreNames(fullModuleName, moduleStoreInstance))
+  if (moduleStoreInstance.state.menu) {
+    store.commit(mutations.Core.Menu.addItem, {
+      path: `/${moduleName}`,
+      icon: 'mdi-cube',
+      label: moduleName,
+      children: []
+    })
+  }
 }
 
 export default {
