@@ -53,14 +53,15 @@ window.modules = [
           }
         ],
         "store": {
-          "actions": {
-            "getData": "Base/Basic/getData"
-          },
           "getters": {
-            "testVariable": "Base/Basic/testVariable"
+            "getTestVariable": "Base/Basic/getTestVariable",
+            "getModuleName": "Base/Basic/getModuleName"
           },
           "mutations": {
             "updateTestVariable": "Base/Basic/updateTestVariable"
+          },
+          "actions": {
+            "getData": "Base/Basic/getData"
           }
         }
       },
@@ -151,14 +152,15 @@ window.modules = [
           }
         ],
         "store": {
-          "actions": {
-            "getData": "Base/ModuleExample/getData"
-          },
           "getters": {
-            "testVariable": "Base/ModuleExample/testVariable"
+            "getTestVariable": "Base/ModuleExample/getTestVariable",
+            "getModuleName": "Base/ModuleExample/getModuleName"
           },
           "mutations": {
             "updateTestVariable": "Base/ModuleExample/updateTestVariable"
+          },
+          "actions": {
+            "getData": "Base/ModuleExample/getData"
           }
         }
       },
@@ -481,16 +483,6 @@ window.modules = [
           },
           "mutations": {
             "isLoggedIn": "Core/Users/isLoggedIn"
-          },
-          "state.js.bak": {
-            "isLoggedIn": "Core/Users/isLoggedIn",
-            "isBlockedIp": "Core/Users/isBlockedIp",
-            "loginPageRememberCredentials": "Core/Users/loginPageRememberCredentials",
-            "resetLoginPassword": "Core/Users/resetLoginPassword",
-            "langInLoginView": "Core/Users/langInLoginView",
-            "layoutInLoginView": "Core/Users/layoutInLoginView",
-            "is2fa": "Core/Users/is2fa",
-            "url": "Core/Users/url"
           }
         }
       }

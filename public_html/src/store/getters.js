@@ -2,7 +2,8 @@
 export default {
   "Base": {
     "Basic": {
-      "testVariable": "Base/Basic/testVariable"
+      "getTestVariable": "Base/Basic/getTestVariable",
+      "getModuleName": "Base/Basic/getModuleName"
     },
     "Chat": {
       "dialog": "Base/Chat/dialog",
@@ -12,7 +13,8 @@ export default {
     },
     "Home": {},
     "ModuleExample": {
-      "testVariable": "Base/ModuleExample/testVariable"
+      "getTestVariable": "Base/ModuleExample/getTestVariable",
+      "getModuleName": "Base/ModuleExample/getModuleName"
     },
     "ModuleExample2": {
       "testVariable": "Base/ModuleExample2/testVariable"
