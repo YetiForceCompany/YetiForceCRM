@@ -413,11 +413,7 @@ class ModuleLoader {
         const storeFiles = ['actions', 'mutations', 'getters']
         files.forEach(file => {
           const which = basename(file, '.js')
-          console.log(11, which)
-
           if (!storeFiles.includes(which)) {
-            console.log(which)
-
             return
           }
           const storeLib = appRequire(`./${dir}${sep}${file}`)
