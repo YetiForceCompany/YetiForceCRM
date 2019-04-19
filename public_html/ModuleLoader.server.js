@@ -410,18 +410,17 @@ class ModuleLoader {
           }
         })
       } else {
+        const storeFiles = ['actions', 'mutations', 'getters']
         files.forEach(file => {
           const which = basename(file, '.js')
-          if (which === 'index') {
+          if (!storeFiles.includes(which)) {
             return
           }
           const storeLib = appRequire(`./${dir}${sep}${file}`)
-          if (which !== 'state') {
-            moduleConf.store[which] = {}
-            Object.keys(storeLib).forEach(key => {
-              moduleConf.store[which][key] = `${moduleConf.fullName.replace(/\./g, '/')}/${key}`
-            })
-          }
+          moduleConf.store[which] = {}
+          Object.keys(storeLib).forEach(key => {
+            moduleConf.store[which][key] = `${moduleConf.fullName.replace(/\./g, '/')}/${key}`
+          })
         })
       }
     }
