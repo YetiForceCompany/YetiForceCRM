@@ -397,7 +397,7 @@ class ModuleLoader {
       const files = this.getFiles(dir)
       if (files.includes('index.js') && 'function' === typeof appRequire(`./${dir}${sep}index.js`)) {
         const vuexClassReservedName = '_[vuex-class]_bind_class'
-        let vuexClass = appRequire(`./${dir}${sep}${files[0]}`)
+        let vuexClass = appRequire(`./${dir}${sep}index.js`)
         vuexClass = new vuexClass()
         Object.keys(vuexClass).forEach(vuexType => {
           if (vuexType !== 'state') {

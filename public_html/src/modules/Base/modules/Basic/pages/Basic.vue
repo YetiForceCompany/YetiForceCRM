@@ -2,7 +2,7 @@
 <template>
   <div>
     <q-table
-      title="Treats"
+      :title="moduleName"
       :data="data"
       :columns="columns"
       row-key="name"
@@ -10,15 +10,14 @@
       selection="multiple"
       :selected.sync="selected"
     ></q-table>
-    Layout -> Base -> Basic page
-    <button @click="updateVariable">{{ testVariable }}</button>
+    Layout -> Base -> {{ moduleName }} page
+    <button @click="updateVariable">{{ testVariable + moduleName }}</button>
   </div>
 </template>
 
 <script>
 import getters from '/src/store/getters.js'
 import mutations from '/src/store/mutations.js'
-console.log(getters)
 const moduleName = 'Base.Basic.Pages.Basic'
 export default {
   name: moduleName,
@@ -171,7 +170,8 @@ export default {
   },
   computed: {
     ...Vuex.mapGetters({
-      testVariable: getters.Base.Basic.getTestVariable
+      testVariable: getters.Base.Basic.getTestVariable,
+      moduleName: getters.Base.Basic.getModuleName
     })
   }
 }

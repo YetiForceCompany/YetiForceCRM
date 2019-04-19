@@ -2,7 +2,7 @@
 <template>
   <div>
     <q-table
-      title="Treats"
+      :title="moduleName"
       :data="data"
       :columns="columns"
       row-key="name"
@@ -10,16 +10,14 @@
       selection="multiple"
       :selected.sync="selected"
     ></q-table>
-    <!-- Layout -> Base -> ModuleExample page
-    <button @click="updateVariable">{{ testVariable }}</button>-->
+    Layout -> Base -> {{ moduleName }} page
+    <button @click="updateVariable">{{ testVariable + moduleName }}</button>
   </div>
 </template>
 
 <script>
 import getters from '/src/store/getters.js'
 import mutations from '/src/store/mutations.js'
-import AppConnector from '/src/services/AppConnector.js'
-
 const moduleName = 'Base.ModuleExample.Pages.ModuleExample'
 export default {
   name: moduleName,
@@ -172,17 +170,8 @@ export default {
   },
   computed: {
     ...Vuex.mapGetters({
-      testVariable: getters.Base.ModuleExample.testVariable
-    })
-  },
-  mounted() {
-    AppConnector.socket({
-      parentModule: 'Core',
-      module: 'Notification',
-      action: 'show',
-      params: { message: 'user logout!' }
-    }).then(() => {
-      console.log('send back socket data to get notification')
+      testVariable: getters.Base.ModuleExample.getTestVariable,
+      moduleName: getters.Base.ModuleExample.getModuleName
     })
   }
 }

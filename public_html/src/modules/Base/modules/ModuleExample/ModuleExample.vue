@@ -3,15 +3,16 @@
 <script>
 import ModuleLoader from '/src/ModuleLoader.js'
 import moduleStore from './store/index.js'
-import mutations from '/store/mutations.js'
-
-const moduleName = 'Base.ModuleExample'
+const moduleStoreInstance = new moduleStore()
+const fullModuleName = 'Base.' + moduleStoreInstance.state.moduleName
 
 export function initialize({ store, router }) {
-  store.registerModule(moduleName.split('.'), ModuleLoader.prepareStoreNames(moduleName, moduleStore))
+  console.log(fullModuleName)
+  console.log(moduleStoreInstance)
+  store.registerModule(fullModuleName.split('.'), ModuleLoader.prepareStoreNames(fullModuleName, moduleStoreInstance))
 }
 
 export default {
-  name: moduleName
+  name: fullModuleName
 }
 </script>
