@@ -436,7 +436,7 @@ class TextParser
 	protected function translate($params)
 	{
 		if ($this->withoutTranslations) {
-			return "$(translate : ${params})$";
+			return "$(translate : $params)$";
 		}
 		if (false === strpos($params, '|')) {
 			return Language::translate($params);
@@ -589,10 +589,10 @@ class TextParser
 					$oldValue = $this->getDisplayValueByField($fieldModel, $oldValue);
 					$currentValue = $this->getDisplayValueByField($fieldModel);
 					if ($this->withoutTranslations) {
-						$value .= "\$(translate : {$this->moduleName}|{$fieldModel->getFieldLabel()})\$ \$(translate : LBL_FROM)\$ ${oldValue} \$(translate : LBL_TO)\$ " . $currentValue . ($this->isHtml ? '<br />' : PHP_EOL);
+						$value .= "\$(translate : {$this->moduleName}|{$fieldModel->getFieldLabel()})\$ \$(translate : LBL_FROM)\$ $oldValue \$(translate : LBL_TO)\$ " . $currentValue . ($this->isHtml ? '<br />' : PHP_EOL);
 					} else {
 						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ' ';
-						$value .= Language::translate('LBL_FROM') . " ${oldValue} " . Language::translate('LBL_TO') . " ${currentValue}" . ($this->isHtml ? '<br />' : PHP_EOL);
+						$value .= Language::translate('LBL_FROM') . " $oldValue " . Language::translate('LBL_TO') . " $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
 					}
 				}
 				return $value;
@@ -610,9 +610,9 @@ class TextParser
 					}
 					$currentValue = $this->getDisplayValueByField($fieldModel);
 					if ($this->withoutTranslations) {
-						$value .= "\$(translate : {$this->moduleName}|{$fieldModel->getFieldLabel()})\$: ${currentValue}" . ($this->isHtml ? '<br />' : PHP_EOL);
+						$value .= "\$(translate : {$this->moduleName}|{$fieldModel->getFieldLabel()})\$: $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
 					} else {
-						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ": ${currentValue}" . ($this->isHtml ? '<br />' : PHP_EOL);
+						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ": $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
 					}
 				}
 				return $value;
@@ -744,7 +744,7 @@ class TextParser
 					$viewIdOrName = $cvId;
 				} else {
 					$viewIdOrName = false;
-					Log::warning("No view found. Module: ${reletedModuleName}, view name: ${viewIdOrName}", 'TextParser');
+					Log::warning("No view found. Module: $reletedModuleName, view name: $viewIdOrName", 'TextParser');
 				}
 			}
 			if ($viewIdOrName) {
@@ -763,7 +763,7 @@ class TextParser
 		foreach ($fields as $fieldModel) {
 			if ($fieldModel->isViewable()) {
 				if ($this->withoutTranslations) {
-					$headers .= "<th>$(translate : {$fieldModel->getFieldLabel()}|${reletedModuleName})$</th>";
+					$headers .= "<th>$(translate : {$fieldModel->getFieldLabel()}|$reletedModuleName)$</th>";
 				} else {
 					$headers .= '<th>' . \App\Language::translate($fieldModel->getFieldLabel(), $reletedModuleName) . '</th>';
 				}
@@ -777,7 +777,7 @@ class TextParser
 					if ((int) $maxLength) {
 						$value = $this->textTruncate($value, (int) $maxLength);
 					}
-					$rows .= "<td>${value}</td>";
+					$rows .= "<td>$value</td>";
 				}
 			}
 			$rows .= '</tr>';
@@ -803,7 +803,7 @@ class TextParser
 					$viewIdOrName = $cvIdByName;
 				} else {
 					$viewIdOrName = false;
-					Log::warning("No view found. Module: ${moduleName}, view name: ${viewIdOrName}", 'TextParser');
+					Log::warning("No view found. Module: $moduleName, view name: $viewIdOrName", 'TextParser');
 				}
 			}
 			if ($viewIdOrName) {
@@ -835,7 +835,7 @@ class TextParser
 		$fields = $listView->getListViewHeaders();
 		foreach ($fields as $fieldModel) {
 			if ($this->withoutTranslations) {
-				$headers .= "<th>$(translate : {$fieldModel->getFieldLabel()}|${moduleName})$</th>";
+				$headers .= "<th>$(translate : {$fieldModel->getFieldLabel()}|$moduleName)$</th>";
 			} else {
 				$headers .= '<th>' . \App\Language::translate($fieldModel->getFieldLabel(), $moduleName) . '</th>';
 			}
@@ -848,7 +848,7 @@ class TextParser
 					if ((int) $maxLength) {
 						$value = $this->textTruncate($value, (int) $maxLength);
 					}
-					$rows .= "<td>${value}</td>";
+					$rows .= "<td>$value</td>";
 				}
 			}
 			$rows .= '</tr>';
@@ -904,7 +904,7 @@ class TextParser
 		switch ($fieldModel->getFieldDataType()) {
 			case 'boolean':
 				$value = (1 === $value) ? 'LBL_YES' : 'LBL_NO';
-				$value = "$(translate : ${value})$";
+				$value = "$(translate : $value)$";
 				break;
 			case 'multipicklist':
 				$value = explode(' |##| ', $value);
@@ -919,7 +919,7 @@ class TextParser
 				$value = str_ireplace(' |##| ', ', ', $trValue);
 				break;
 			case 'picklist':
-				$value = "$(translate : {$recordModel->getModuleName()}|${value})$";
+				$value = "$(translate : {$recordModel->getModuleName()}|$value)$";
 				break;
 			case 'time':
 				$userModel = \Users_Privileges_Model::getCurrentUserModel();
@@ -938,7 +938,7 @@ class TextParser
 							$hours = '12';
 							$format = '$(translate : AM)$';
 						}
-						$value = "${hours}:${minutes} ${format}";
+						$value = "$hours:$minutes $format";
 					} else {
 						$value = '';
 					}
@@ -1043,14 +1043,14 @@ class TextParser
 		if ($module) {
 			$handlerClass = \Vtiger_Loader::getComponentClassName('TextParser', $parserName, $module, false);
 			if (!$handlerClass) {
-				Log::error("Not found custom class: ${parserName}|{$module}");
+				Log::error("Not found custom class: $parserName|{$module}");
 				return '';
 			}
 			$instance = new $handlerClass($this, $params);
 		} else {
-			$className = "\\App\\TextParser\\${parserName}";
+			$className = "\\App\\TextParser\\$parserName";
 			if (!class_exists($className)) {
-				Log::error("Not found custom class ${parserName}");
+				Log::error("Not found custom class $parserName");
 				return '';
 			}
 			$instance = new $className($this, $aparams);
@@ -1070,7 +1070,7 @@ class TextParser
 	 */
 	public function getRecordVariable($fieldType = false)
 	{
-		$cacheKey = "{$this->moduleName}|${fieldType}";
+		$cacheKey = "{$this->moduleName}|$fieldType";
 		if (isset(static::$recordVariable[$cacheKey])) {
 			return static::$recordVariable[$cacheKey];
 		}
@@ -1078,8 +1078,8 @@ class TextParser
 		if (!$fieldType) {
 			foreach (static::$variableEntity as $key => $name) {
 				$variables[Language::translate('LBL_ENTITY_VARIABLES', 'Other.TextParser')][] = [
-					'var_value' => "$(record : ${key})$",
-					'var_label' => "$(translate : Other.TextParser|${name})$",
+					'var_value' => "$(record : $key)$",
+					'var_label' => "$(translate : Other.TextParser|$name)$",
 					'label' => Language::translate($name, 'Other.TextParser'),
 				];
 			}
@@ -1113,8 +1113,8 @@ class TextParser
 		$variables = [];
 		foreach (static::$variableEntity as $key => $name) {
 			$variables['LBL_ENTITY_VARIABLES'][] = [
-				'var_value' => "$(sourceRecord : ${key})$",
-				'var_label' => "$(translate : Other.TextParser|${name})$",
+				'var_value' => "$(sourceRecord : $key)$",
+				'var_label' => "$(translate : Other.TextParser|$name)$",
 				'label' => Language::translate($name, 'Other.TextParser'),
 			];
 		}
@@ -1125,7 +1125,7 @@ class TextParser
 					if ($fieldModel->isViewable()) {
 						$variables[$moduleName][$blockModel->get('label')][] = [
 							'var_value' => "$(sourceRecord : {$fieldModel->getName()})$",
-							'var_label' => "$(translate : ${moduleName}|{$fieldModel->getFieldLabel()})$",
+							'var_label' => "$(translate : $moduleName|{$fieldModel->getFieldLabel()})$",
 							'label' => Language::translate($fieldModel->getFieldLabel(), $moduleName),
 						];
 					}
@@ -1144,7 +1144,7 @@ class TextParser
 	 */
 	public function getRelatedVariable($fieldType = false)
 	{
-		$cacheKey = "{$this->moduleName}|${fieldType}";
+		$cacheKey = "{$this->moduleName}|$fieldType";
 		if (isset(static::$relatedVariable[$cacheKey])) {
 			return static::$relatedVariable[$cacheKey];
 		}
@@ -1160,9 +1160,9 @@ class TextParser
 			$parentFieldNameLabel = Language::translate($field->getFieldLabel(), $this->moduleName);
 			if (!$fieldType) {
 				foreach (static::$variableEntity as $key => $name) {
-					$variables[$parentFieldName]["${parentFieldNameLabel} - ${entityVariables}"][] = [
-						'var_value' => "$(relatedRecord : ${parentFieldName}|${key})$",
-						'var_label' => "$(translate : Other.TextParser|${key})$",
+					$variables[$parentFieldName]["$parentFieldNameLabel - $entityVariables"][] = [
+						'var_value' => "$(relatedRecord : $parentFieldName|$key)$",
+						'var_label' => "$(translate : Other.TextParser|$key)$",
 						'label' => $parentFieldNameLabel . ': ' . Language::translate($name, 'Other.TextParser'),
 					];
 				}
@@ -1173,11 +1173,11 @@ class TextParser
 				foreach ($moduleModel->getBlocks() as $blockModel) {
 					foreach ($blockModel->getFields() as $fieldName => $fieldModel) {
 						if ($fieldModel->isViewable() && !($fieldType && $fieldModel->getFieldDataType() !== $fieldType)) {
-							$labelGroup = "${parentFieldNameLabel}: (${relatedModuleLang}) " . Language::translate($blockModel->get('label'), $relatedModule);
+							$labelGroup = "$parentFieldNameLabel: ($relatedModuleLang) " . Language::translate($blockModel->get('label'), $relatedModule);
 							$variables[$parentFieldName][$labelGroup][] = [
-								'var_value' => "$(relatedRecord : ${parentFieldName}|${fieldName}|${relatedModule})$",
-								'var_label' => "$(translate : ${relatedModule}|{$fieldModel->getFieldLabel()})$",
-								'label' => "${parentFieldNameLabel}: (${relatedModuleLang}) " . Language::translate($fieldModel->getFieldLabel(), $relatedModule),
+								'var_value' => "$(relatedRecord : $parentFieldName|$fieldName|$relatedModule)$",
+								'var_label' => "$(translate : $relatedModule|{$fieldModel->getFieldLabel()})$",
+								'label' => "$parentFieldNameLabel: ($relatedModuleLang) " . Language::translate($fieldModel->getFieldLabel(), $relatedModule),
 							];
 						}
 					}
@@ -1228,7 +1228,7 @@ class TextParser
 				if (isset($this->type) && $this->type !== $instance->type) {
 					continue;
 				}
-				$variables["$(custom : ${fileName})$"] = Language::translate($instance->name, 'Other.TextParser');
+				$variables["$(custom : $fileName)$"] = Language::translate($instance->name, 'Other.TextParser');
 			}
 		}
 		return $variables;
@@ -1251,7 +1251,7 @@ class TextParser
 					if (isset($this->type) && $this->type !== $instanceClass->type) {
 						continue;
 					}
-					$variables["$(custom : ${fileName}|{$this->moduleName})$"] = Language::translate($instanceClass->name, $this->moduleName);
+					$variables["$(custom : $fileName|{$this->moduleName})$"] = Language::translate($instanceClass->name, $this->moduleName);
 				}
 			}
 		}

@@ -529,8 +529,8 @@ class Vtiger_PDF_Model extends \App\Base
 
 		//create the file and throw the error if unsuccessful
 		if ($zip->open($zipPath . $zipName, ZIPARCHIVE::CREATE) !== true) {
-			\App\Log::error("cannot open <${zipPath}.${zipName}>\n");
-			throw new \App\Exceptions\NoPermitted("cannot open <${zipPath}.${zipName}>");
+			\App\Log::error("cannot open <$zipPath.$zipName>\n");
+			throw new \App\Exceptions\NoPermitted("cannot open <$zipPath.$zipName>");
 		}
 
 		//add each files of $file_name array to archive
@@ -543,7 +543,7 @@ class Vtiger_PDF_Model extends \App\Base
 		$name = basename($fileName);
 
 		header('expires: Sat, 26 Jul 1997 05:00:00 GMT');
-		header("content-type: ${mimeType}");
+		header("content-type: $mimeType");
 		header('content-disposition: attachment; filename="' . $name . '";');
 		header('accept-ranges: bytes');
 		header('content-length: ' . $size);
