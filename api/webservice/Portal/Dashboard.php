@@ -77,9 +77,8 @@ class Dashboard
 		while ($row = $dataReader->read()) {
 			$row['linkid'] = $row['id'];
 			if ('Mini List' === $row['linklabel']) {
-				$minilistWidget = \Vtiger_Widget_Model::getInstanceFromValues($row);
 				$minilistWidgetModel = new \Vtiger_MiniList_Model();
-				$minilistWidgetModel->setWidgetModel($minilistWidget);
+				$minilistWidgetModel->setWidgetModel(\Vtiger_Widget_Model::getInstanceFromValues($row));
 				$headers = $records = [];
 				$headerFields = $minilistWidgetModel->getHeaders();
 				foreach ($headerFields as $fieldName => $fieldModel) {
@@ -97,6 +96,21 @@ class Dashboard
 						'modulename' => $minilistWidgetModel->getTargetModuleModel()->getName(),
 						'headers' => $headers,
 						'records' => $records
+					]
+				];
+			} elseif ('ChartFilter' == $row['linklabel']) {
+				$chartFilterWidgetModel = new \Vtiger_ChartFilter_Model();
+				$chartFilterWidgetModel->setWidgetModel(\Vtiger_Widget_Model::getInstanceFromValues($row));
+				$widgets[] = [
+					'type' => $row['linklabel'],
+					'data' => [
+						'title' => $chartFilterWidgetModel->getTitle(),
+						'modulename' => $chartFilterWidgetModel->getTargetModuleModel()->getName(),
+						'stacked' => $chartFilterWidgetModel->isStacked() ? 1 : 0,
+						'colorsFromDividingField' =>	$chartFilterWidgetModel->areColorsFromDividingField() ? 1 : 0,
+						'filterIds' => $chartFilterWidgetModel->getFilterIds(),
+						'typeChart' => $chartFilterWidgetModel->getType(),
+						'widgetData' => $chartFilterWidgetModel->getChartData(),
 					]
 				];
 			}

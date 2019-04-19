@@ -135,6 +135,8 @@ class CurrencyField
 	 * @param \App\User $user
 	 * @param bool      $skipConversion
 	 *
+	 * @deprecated    	Recommend using function \App\Fields\Currency::formatToDisplay
+	 *
 	 * @return string Formatted Currency
 	 */
 	public static function convertToUserFormat($value, $user = null, $skipConversion = false, $skipFormatting = false)
