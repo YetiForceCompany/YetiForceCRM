@@ -69,10 +69,10 @@
     "abraham/twitteroauth": "^1.0"
   },
   "require-dev": {
-    "facebook/webdriver": "^1.6.0",
-    "phpunit/phpunit": "7.*",
+    "facebook/webdriver": "1.6.0",
+    "phpunit/phpunit": "7.5.9",
     "seld/jsonlint": "*",
-    "php-console/php-console": "^3.1"
+    "php-console/php-console": "3.1.7"
   },
   "suggest": {
     "ext-apcu": "Cache meta data in apcu to improve system performance",
