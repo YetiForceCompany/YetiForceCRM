@@ -1,7 +1,7 @@
 {
 	"extends": ["config:base"],
 	"rangeStrategy": "update-lockfile",
-	"lockFileMaintenance": ["mariuszkrzaczkowski", "rskrzypczak", "TomaszQr"],
+	"assignees": ["mariuszkrzaczkowski", "rskrzypczak", "TomaszQr"],
 	"packageRules": [
 		{
 			"baseBranchList": ["developer", "quasar-gui"],
