@@ -2,7 +2,8 @@
 /**
  * DynamicInventoryColumnsTable class.
  *
- * @copyright YetiForce Sp. z o.o.
+ * @package   App
+ *
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Rafal Pospiech <r.pospiech@yetiforce.com>
  */
@@ -21,7 +22,7 @@ class DynamicInventoryColumnsTable extends Base
 	/** @var string Class name */
 	public $name = 'LBL_DYNAMIC_INVENTORY_TABLE';
 
-	/** @var mixed Parser type */
+	/** @var string Parser type */
 	public $type = 'pdf';
 
 	/**
