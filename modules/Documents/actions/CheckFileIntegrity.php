@@ -11,6 +11,14 @@
 
 class Documents_CheckFileIntegrity_Action extends \App\Controller\Action
 {
+	use \App\Controller\ExposeMethod;
+
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('multiple');
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -19,8 +27,11 @@ class Documents_CheckFileIntegrity_Action extends \App\Controller\Action
 		if ($request->isEmpty('record')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		$records = $request->getArray('record', 'Alnum');
+		foreach ($records as $record) {
+			if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $record)) {
+				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			}
 		}
 	}
 
@@ -29,10 +40,14 @@ class Documents_CheckFileIntegrity_Action extends \App\Controller\Action
 	 */
 	public function process(\App\Request $request)
 	{
+		$mode = $request->getMode();
+		if (!empty($mode)) {
+			$this->invokeExposedMethod($mode, $request);
+			return;
+		}
 		$moduleName = $request->getModule();
 		$documentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 		$resultVal = $documentRecordModel->checkFileIntegrity();
-
 		$result = ['success' => $resultVal];
 		if ($resultVal) {
 			$documentRecordModel->updateFileStatus(1);
@@ -42,6 +57,34 @@ class Documents_CheckFileIntegrity_Action extends \App\Controller\Action
 			$result['message'] = App\Language::translate('LBL_FILE_NOT_AVAILABLE', $moduleName);
 		}
 		$result['url'] = $documentRecordModel->getDetailViewUrl();
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
+	}
+
+	/**
+	 * Function to verify status for multiple files
+	 * @param \App\Request $request
+	 */
+	public function multiple(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$records = $request->getArray('record', 'Alnum');
+		$result = ['success' => true];
+		foreach ($records as $record) {
+			$documentRecordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$resultVal = $documentRecordModel->checkFileIntegrity();
+			if ($documentRecordModel->get('filestatus') !== (int)$resultVal) {
+				$documentRecordModel->updateFileStatus((int)$resultVal);
+			}
+			if (!$resultVal) {
+				$result = [
+					'success' => $resultVal,
+					'message' => App\Language::translate('LBL_FILE_NOT_AVAILABLE', $moduleName) . ": {$documentRecordModel->get('notes_title')}"
+				];
+				break;
+			}
+		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
