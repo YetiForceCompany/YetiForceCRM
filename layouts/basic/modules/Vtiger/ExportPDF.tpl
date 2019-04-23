@@ -52,7 +52,7 @@
 										<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox dynamic-template" data-dynamic="1" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} data-js="change" />
 									</div>
 								</div>
-								<h6 class="pt-4 border-top"><label><input type="checkbox" name="customColumns" class="mr-2 checkbox" value="0">{\App\Language::translate('LBL_SELECT_COLUMNS','Settings:PDF')}</label></h6>
+								<h6 class="pt-4 border-top"><label><input type="checkbox" name="isCustomMode" class="mr-2 checkbox" value="1">{\App\Language::translate('LBL_SELECT_COLUMNS','Settings:PDF')}</label></h6>
 								<div class="form-group row">
 									<div class="col">
 										<select class="select2" name="inventoryColumns[]" multiple="multiple" data-select-cb="registerSelectSortable" disabled="disabled" data-js="select2 | sortable">

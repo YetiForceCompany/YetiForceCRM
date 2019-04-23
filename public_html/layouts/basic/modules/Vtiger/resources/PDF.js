@@ -150,7 +150,7 @@ $.Class('Vtiger_PDF_Js', {
 	 * Register select custom columns change
 	 */
 	registerSelectCustomColumnsChange() {
-		this.container.find('[name="customColumns"]').on('change', ev => {
+		this.container.find('[name="isCustomMode"]').on('change', ev => {
 			if ($(ev.target).is(':checked')) {
 				this.container.find('[name="inventoryColumns[]"]').prop('disabled', null);
 				this.container.find('.js-save-scheme').prop('disabled', null);
@@ -187,7 +187,7 @@ $.Class('Vtiger_PDF_Js', {
 					action: 'PDF',
 					records,
 					inventoryColumns: this.container.find('[name="inventoryColumns[]"]').val(),
-					customColumns: this.container.find('[name="customColumns"]').is(':checked')
+					isCustomMode: this.container.find('[name="isCustomMode"]').is(':checked') ? 1 : 0
 				},
 				dataType: 'json'
 			})
