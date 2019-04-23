@@ -1,4 +1,5 @@
 {
+	"extends": ["config:base"],
 	"rangeStrategy": "update-lockfile",
 	"lockFileMaintenance": ["mariuszkrzaczkowski", "rskrzypczak", "TomaszQr"],
 	"packageRules": [
