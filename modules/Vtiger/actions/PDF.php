@@ -251,15 +251,16 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$moduleName = $request->getModule();
 		$records = $request->getArray('records', 'Integer');
 		$columns = $request->getArray('inventoryColumns', 'String');
-		foreach ($records as $crmId) {
-			Vtiger_PDF_Model::saveInventoryColumnsForRecord($crmId, $moduleName, $columns);
+		$save = [];
+		foreach ($records as $recordId) {
+			$save[$recordId] = $columns;
 		}
-		$output = [
+		Vtiger_PDF_Model::saveInventoryColumnsForRecords($moduleName, $save);
+		$response = new Vtiger_Response();
+		$response->setResult([
 			'message' => \App\Language::translate('LBL_SCHEME_SAVED', 'Settings:PDF'),
 			'records' => $records
-		];
-		$response = new Vtiger_Response();
-		$response->setResult($output);
+		]);
 		$response->emit();
 	}
 }

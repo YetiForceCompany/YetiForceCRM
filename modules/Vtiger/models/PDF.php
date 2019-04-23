@@ -490,7 +490,7 @@ class Vtiger_PDF_Model extends \App\Base
 	 * @param int    $templateId - id of pdf template
 	 * @param string $filePath   - path name for saving pdf file
 	 * @param string $saveFlag   - save option flag
-	 * @param array  $params
+	 * @param array  $params     - ['inventoryColumns'=>[...]]
 	 */
 	public static function exportToPdf($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '', array $params = [])
 	{
@@ -578,28 +578,43 @@ class Vtiger_PDF_Model extends \App\Base
 	/**
 	 * Save column scheme for specified record.
 	 *
-	 * @param int|string $recordId
-	 * @param string     $moduleName
-	 * @param array      $columns
+	 * @param string $moduleName
+	 * @param array  $records
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public static function saveInventoryColumnsForRecord($recordId, string $moduleName, array $columns)
+	public static function saveInventoryColumnsForRecords(string $moduleName, array $records)
 	{
 		$availableColumns = array_keys(Vtiger_Inventory_Model::getInstance($moduleName)->getFields());
-		if (array_diff($columns, $availableColumns)) {
-			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
+		foreach ($records as $columns) {
+			if (array_diff($columns, $availableColumns)) {
+				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
+			}
 		}
-		$db = \App\Db::getInstance();
-		$schemeExists = (new \App\Db\Query())
-			->select(['crmid'])
-			->from('u_#__pdf_inv_scheme')
-			->where(['crmid' => $recordId])
-			->exists();
-		if ($schemeExists) {
-			$db->createCommand()->update('u_#__pdf_inv_scheme', ['columns' => \App\Json::encode($columns)], ['crmid' => $recordId])->execute();
-		} else {
-			$db->createCommand()->insert('u_#__pdf_inv_scheme', ['columns' => \App\Json::encode($columns), 'crmid' => $recordId])->execute();
+		$table = 'u_#__pdf_inv_scheme';
+		$insertData = [];
+		$updateData = [];
+		foreach ($records as $recordId => $columns) {
+			$json = \App\Json::encode($columns);
+			$schemeExists = (new \App\Db\Query())
+				->select(['crmid'])
+				->from($table)
+				->where(['crmid' => $recordId])
+				->exists();
+			if (!$schemeExists) {
+				$insertData[] = [$recordId, $json];
+			} else {
+				$updateData[] = [$recordId, $json];
+			}
 		}
+		if (!empty($insertData)) {
+			\App\Db::getInstance()->createCommand()->batchInsert($table, ['crmid', 'columns'], $insertData)->execute();
+		}
+		if (!empty($updateData)) {
+			foreach ($updateData as $row) {
+				\App\Db::getInstance()->createCommand()->update($table, ['columns' => $row[1]], ['crmid' => $row[0]])->execute();
+			}
+		}
+		unset($insertData, $availableColumns, $updateData, $row, $table, $schemeExists);
 	}
 }
