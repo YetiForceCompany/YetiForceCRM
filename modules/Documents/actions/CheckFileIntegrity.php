@@ -13,6 +13,9 @@ class Documents_CheckFileIntegrity_Action extends \App\Controller\Action
 {
 	use \App\Controller\ExposeMethod;
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -22,13 +25,12 @@ class Documents_CheckFileIntegrity_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if ($request->isEmpty('record')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		$records = $request->getArray('record', 'Integer');
-		foreach ($records as $record) {
+		foreach ($request->getArray('record', 'Integer') as $record) {
 			if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $record)) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
@@ -38,7 +40,7 @@ class Documents_CheckFileIntegrity_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -63,18 +65,19 @@ class Documents_CheckFileIntegrity_Action extends \App\Controller\Action
 	}
 
 	/**
-	 * Function to verify status for multiple files
+	 * Function to verify status for multiple files.
+	 *
 	 * @param \App\Request $request
 	 */
-	public function multiple(\App\Request $request)
+	public function multiple(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$result = ['success' => true];
 		foreach ($request->getArray('record', 'Integer') as $record) {
 			$documentRecordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			$resultVal = $documentRecordModel->checkFileIntegrity();
-			if ($documentRecordModel->get('filestatus') !== (int)$resultVal) {
-				$documentRecordModel->updateFileStatus((int)$resultVal);
+			if ($documentRecordModel->get('filestatus') !== (int) $resultVal) {
+				$documentRecordModel->updateFileStatus((int) $resultVal);
 			}
 			if (!$resultVal) {
 				$result = [
