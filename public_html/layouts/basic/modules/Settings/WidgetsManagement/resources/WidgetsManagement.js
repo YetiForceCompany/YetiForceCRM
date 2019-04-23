@@ -156,7 +156,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 				if (typeof callBackFunction == 'function') {
 					callBackFunction(data);
 				}
-			}, {'width': '1000px'});
+			}, { 'width': '1000px' });
 		});
 	},
 	save: function (form, mode) {
@@ -177,10 +177,10 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		params['mode'] = mode;
 
 		AppConnector.request(params).done(function (data) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 			aDeferred.resolve(data);
 		}).fail(function (error) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 			aDeferred.reject(error);
 		});
 		return aDeferred.promise();
@@ -329,7 +329,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 				if (typeof callBackFunction == 'function') {
 					callBackFunction(data);
 				}
-			}, {'width': '1000px'});
+			}, { 'width': '1000px' });
 		});
 	},
 	/**
@@ -575,7 +575,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 							channels.push(jQuery(this).val());
 						})
 						var paramsForm = form.serializeFormData();
-						paramsForm.data = JSON.stringify({channels: channels});
+						paramsForm.data = JSON.stringify({ channels: channels });
 						thisInstance.save(paramsForm, 'save').done(
 							function (data) {
 								paramsForm.label = paramsForm.title;
@@ -729,6 +729,9 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 				paramsForm['label'] += ' - ' + fieldLabel;
 			}
 			paramsForm['name'] = 'ChartFilter';
+			if (Array.isArray(filterid)) {
+				filterid = filterid.join(',');
+			}
 			paramsForm['filterid'] = filterid;
 			paramsForm['title'] = form.find('[name="widgetTitle"]').val();
 			paramsForm['isdefault'] = 0;
@@ -794,7 +797,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 								app.hideModalWindow();
 								noteBookParams['id'] = widgetId;
 								noteBookParams['label'] = notePadName;
-								Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_WIDGET_ADDED')});
+								Settings_Vtiger_Index_Js.showMessage({ text: app.vtranslate('JS_WIDGET_ADDED') });
 								thisInstance.showCustomField(noteBookParams);
 							}
 						})
@@ -951,7 +954,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			paramsForm['action'] = 'removeWidget';
 			paramsForm['id'] = fieldId;
 			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
-			Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
+			Vtiger_Helper_Js.showConfirmationBox({ 'message': message }).done(function (e) {
 				thisInstance.save(paramsForm, 'delete').done(function (data) {
 					var field = currentTarget.closest('div.editFieldsWidget');
 					var blockId = field.data('block-id');
@@ -995,7 +998,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			paramsFrom['blockid'] = blockId;
 			paramsFrom['action'] = 'removeBlock';
 			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
-			Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
+			Vtiger_Helper_Js.showConfirmationBox({ 'message': message }).done(function (e) {
 				thisInstance.save(paramsFrom, 'delete').done(function (data) {
 					thisInstance.removeDeletedBlock(blockId, 'delete');
 					var params = {};
@@ -1056,10 +1059,10 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		params['sourceModule'] = selectedModule;
 		params['dashboardId'] = selectedDashboard;
 		AppConnector.requestPjax(params).done(function (data) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 			aDeferred.resolve(data);
 		}).fail(function (error) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 			aDeferred.reject();
 		});
 		return aDeferred.promise();
@@ -1091,4 +1094,3 @@ jQuery(document).ready(function () {
 	var instance = new Settings_WidgetsManagement_Js();
 	instance.registerEvents();
 })
-

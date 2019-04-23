@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5d4ee8ac3a181668ddf7bf9a4160b061",
+    "content-hash": "e04c3c013effb20f48d62ab91863c6eb",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -2908,16 +2908,16 @@
         },
         {
             "name": "yetiforce/yetiforcepdf",
-            "version": "0.1.21",
+            "version": "0.1.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/YetiForcePDF.git",
-                "reference": "223649eaf074c95dbc0c0aa1de98b511e26adb30"
+                "reference": "0562e3419e46bc39302b83172d5f3e0b5a1900fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/223649eaf074c95dbc0c0aa1de98b511e26adb30",
-                "reference": "223649eaf074c95dbc0c0aa1de98b511e26adb30",
+                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/0562e3419e46bc39302b83172d5f3e0b5a1900fb",
+                "reference": "0562e3419e46bc39302b83172d5f3e0b5a1900fb",
                 "shasum": ""
             },
             "require": {
@@ -2955,7 +2955,7 @@
                 "html to pdf",
                 "pdf"
             ],
-            "time": "2019-04-10T06:33:24+00:00"
+            "time": "2019-04-16T08:22:38+00:00"
         },
         {
             "name": "yetiforce/yii2",
