@@ -33,7 +33,7 @@ $.Class('Vtiger_PDF_Js', {
 	/**
 	 * Proceed form submission
 	 */
-	proceedSubmit(templateIds) {
+	proceedSubmit(templateIds, mode) {
 		const loader = $.progressIndicator({
 			message: app.vtranslate('JS_PDF_GENERATING'),
 			position: 'html',
@@ -42,7 +42,7 @@ $.Class('Vtiger_PDF_Js', {
 			}
 		});
 		this.container.find('[name="template"]').val(templateIds);
-		switch ($(this).attr('id')) {
+		switch (mode) {
 			case 'generate_pdf':
 				break;
 			case 'single_pdf':
@@ -74,7 +74,7 @@ $.Class('Vtiger_PDF_Js', {
 			if (view && view.replace('#', '') === 'List') {
 				container.find('[name="record"]').val(container.find('[name="validRecords"]').val());
 			}
-			self.proceedSubmit.apply(self, [templateIds]);
+			self.proceedSubmit.apply(self, [templateIds, $(this).attr('id')]);
 		});
 	},
 	/**
