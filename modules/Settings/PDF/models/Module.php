@@ -165,7 +165,7 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getTemplateType(Vtiger_PDF_Model $template)
 	{
 		$matches = [];
-		$content = str_replace('&nbsp;', ' ', $template->get('body_content'));
+		$content = $template->get('body_content');
 		preg_match_all(\App\TextParser::VARIABLE_REGEX, $content, $matches, PREG_SET_ORDER);
 		foreach ($matches as $match) {
 			if ($match[1] === 'custom' && strpos($match[2], 'DynamicInventoryColumnsTable') !== false) {
