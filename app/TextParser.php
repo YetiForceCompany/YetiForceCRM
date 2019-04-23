@@ -35,6 +35,7 @@ class TextParser
 		'LBL_RELATED_RECORDS_LIST' => '$(relatedRecordsList : Contacts|firstname,lastname,email|[[["firstname","a","Tom"]]]||5)$',
 		'LBL_RECORDS_LIST' => '$(recordsList : Contacts|firstname,lastname,email|[[["firstname","a","Tom"]]]||5)$',
 		'LBL_INVENTORY_TABLE' => '$(inventory : type=table columns=seq,name,qty,unit,price,total,net href=no)$',
+		'LBL_DYNAMIC_INVENTORY_TABLE' => '$(custom : dynamicInventoryColumnsTable)$',
 	];
 
 	/**
@@ -186,6 +187,13 @@ class TextParser
 	public $isHtml = true;
 
 	/**
+	 * Variable parser regex.
+	 *
+	 * @var string
+	 */
+	public const VARIABLE_REGEX = '/\$\((\w+) : ([,"\+\%\.\=\-\[\]\&\w\s\|]+)\)\$/u';
+
+	/**
 	 * Get instanace by record id.
 	 *
 	 * @param int    $record     Record id
@@ -302,6 +310,16 @@ class TextParser
 	}
 
 	/**
+	 * Get all params.
+	 *
+	 * @return array
+	 */
+	public function getParams()
+	{
+		return $this->params;
+	}
+
+	/**
 	 * Set source record.
 	 *
 	 * @param int         $record
@@ -364,7 +382,7 @@ class TextParser
 		if (isset($this->language)) {
 			Language::setTemporaryLanguage($this->language);
 		}
-		$this->content = preg_replace_callback('/\$\((\w+) : ([,"\+\%\.\=\-\[\]\&\w\s\|]+)\)\$/u', function ($matches) {
+		$this->content = preg_replace_callback(static::VARIABLE_REGEX, function ($matches) {
 			[, $function, $params] = array_pad($matches, 3, '');
 			if (in_array($function, static::$baseFunctions)) {
 				return $this->{$function}($params);
@@ -569,7 +587,7 @@ class TextParser
 					$oldValue = $this->getDisplayValueByField($fieldModel, $oldValue);
 					$currentValue = $this->getDisplayValueByField($fieldModel);
 					if ($this->withoutTranslations) {
-						$value .= "\$(translate : $this->moduleName|{$fieldModel->getFieldLabel()})\$ \$(translate : LBL_FROM)\$ $oldValue \$(translate : LBL_TO)\$ " . $currentValue . ($this->isHtml ? '<br />' : PHP_EOL);
+						$value .= "\$(translate : {$this->moduleName}|{$fieldModel->getFieldLabel()})\$ \$(translate : LBL_FROM)\$ $oldValue \$(translate : LBL_TO)\$ " . $currentValue . ($this->isHtml ? '<br />' : PHP_EOL);
 					} else {
 						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ' ';
 						$value .= Language::translate('LBL_FROM') . " $oldValue " . Language::translate('LBL_TO') . " $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
@@ -590,7 +608,7 @@ class TextParser
 					}
 					$currentValue = $this->getDisplayValueByField($fieldModel);
 					if ($this->withoutTranslations) {
-						$value .= "\$(translate : $this->moduleName|{$fieldModel->getFieldLabel()})\$: $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
+						$value .= "\$(translate : {$this->moduleName}|{$fieldModel->getFieldLabel()})\$: $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
 					} else {
 						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ": $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
 					}
@@ -1050,7 +1068,7 @@ class TextParser
 	 */
 	public function getRecordVariable($fieldType = false)
 	{
-		$cacheKey = "$this->moduleName|$fieldType";
+		$cacheKey = "{$this->moduleName}|$fieldType";
 		if (isset(static::$recordVariable[$cacheKey])) {
 			return static::$recordVariable[$cacheKey];
 		}
@@ -1124,7 +1142,7 @@ class TextParser
 	 */
 	public function getRelatedVariable($fieldType = false)
 	{
-		$cacheKey = "$this->moduleName|$fieldType";
+		$cacheKey = "{$this->moduleName}|$fieldType";
 		if (isset(static::$relatedVariable[$cacheKey])) {
 			return static::$relatedVariable[$cacheKey];
 		}
@@ -1421,9 +1439,10 @@ class TextParser
 			parse_str($value, $row);
 			$config += $row;
 		}
+		$columns = explode(',', $config['columns']);
 		return [
 			'type' => $config['type'] ?? false,
-			'columns' => empty($config['columns']) ? [] : explode(',', $config['columns']),
+			'columns' => $columns,
 			'href' => empty($config['href']) ? false : 'yes' === $config['href'],
 		];
 	}
@@ -1435,7 +1454,7 @@ class TextParser
 	 *
 	 * @return string
 	 */
-	protected function getInventoryTable(array $config): string
+	public function getInventoryTable(array $config): string
 	{
 		$configColumns = array_flip($config['columns']);
 		$rawText = !$config['href'];

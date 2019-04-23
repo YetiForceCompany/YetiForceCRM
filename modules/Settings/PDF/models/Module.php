@@ -154,4 +154,24 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		return Vtiger_PDF_Model::getTemplatesByModule($moduleName);
 	}
+
+	/**
+	 * Get template type.
+	 *
+	 * @param Vtiger_PDF_Model $template
+	 *
+	 * @return int template type
+	 */
+	public static function getTemplateType(Vtiger_PDF_Model $template)
+	{
+		$matches = [];
+		$content = $template->get('body_content');
+		preg_match_all(\App\TextParser::VARIABLE_REGEX, $content, $matches, PREG_SET_ORDER);
+		foreach ($matches as $match) {
+			if ($match[1] === 'custom' && strpos($match[2], 'DynamicInventoryColumnsTable') !== false) {
+				return Vtiger_PDF_Model::TEMPLATE_TYPE_DYNAMIC;
+			}
+		}
+		return Vtiger_PDF_Model::TEMPLATE_TYPE_STANDARD;
+	}
 }
