@@ -61,6 +61,20 @@ class Vtiger_PDF_Model extends \App\Base
 	protected $viewToPicklistValue = ['Detail' => 'PLL_DETAILVIEW', 'List' => 'PLL_LISTVIEW'];
 
 	/**
+	 * Inventory columns.
+	 *
+	 * @var array
+	 */
+	public static $inventoryColumns = [];
+
+	/**
+	 * Custom columns.
+	 *
+	 * @var bool
+	 */
+	public static $customColumns = false;
+
+	/**
 	 * Function to get watermark type.
 	 *
 	 * @return array
@@ -490,11 +504,10 @@ class Vtiger_PDF_Model extends \App\Base
 	 * @param int    $templateId - id of pdf template
 	 * @param string $filePath   - path name for saving pdf file
 	 * @param string $saveFlag   - save option flag
-	 * @param array  $params     - ['inventoryColumns'=>[...]]
 	 */
-	public static function exportToPdf($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '', array $params = [])
+	public static function exportToPdf($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '')
 	{
-		(new \App\Pdf\YetiForcePDF())->setParams($params)->export($recordId, $moduleName, $templateId, $filePath, $saveFlag);
+		(new \App\Pdf\YetiForcePDF())->export($recordId, $moduleName, $templateId, $filePath, $saveFlag);
 	}
 
 	/**

@@ -334,7 +334,7 @@ class YetiForcePDF extends PDF
 	{
 		$textParser = \App\TextParser::getInstanceById($this->recordId, $this->moduleName);
 		$textParser->setType('pdf');
-		$textParser->setParams(['pdf' => $this->moduleModel, 'inventoryColumns' => $this->getParam('inventoryColumns')]);
+		$textParser->setParams(['pdf' => $this->moduleModel]);
 		if ($this->language) {
 			$textParser->setLanguage($this->language);
 		}
@@ -630,7 +630,6 @@ class YetiForcePDF extends PDF
 		$self->setTemplateId($templateId);
 		$self->setRecordId($recordId);
 		$self->setModuleName($moduleName);
-		$self->setParams(['inventoryColumns' => $this->getParam('inventoryColumns')]);
 		\App\Language::setTemporaryLanguage($template->get('language'));
 		$self->setWatermark($template);
 		$self->setLanguage($template->get('language'));
@@ -684,43 +683,5 @@ class YetiForcePDF extends PDF
 	public function export($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '')
 	{
 		$this->generateContent($recordId, $moduleName, $templateId, $recordId)->output($filePath, $saveFlag);
-	}
-
-	/**
-	 * Get additional params.
-	 *
-	 * @return array
-	 */
-	public function getParams()
-	{
-		return $this->params;
-	}
-
-	/**
-	 * Get additional params.
-	 *
-	 * @param string $name
-	 *
-	 * @return any
-	 */
-	public function getParam(string $name)
-	{
-		if (isset($this->params[$name])) {
-			return $this->params[$name];
-		}
-		return null;
-	}
-
-	/**
-	 * Set additional params.
-	 *
-	 * @param array $params Additional params
-	 *
-	 * @return self
-	 */
-	public function setParams(array $params)
-	{
-		$this->params = array_merge($this->params, $params);
-		return $this;
 	}
 }

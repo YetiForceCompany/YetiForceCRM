@@ -310,16 +310,6 @@ class TextParser
 	}
 
 	/**
-	 * Get all params.
-	 *
-	 * @return array
-	 */
-	public function getParams()
-	{
-		return $this->params;
-	}
-
-	/**
 	 * Set source record.
 	 *
 	 * @param int         $record

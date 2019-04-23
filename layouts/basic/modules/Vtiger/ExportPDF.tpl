@@ -52,10 +52,10 @@
 										<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox dynamic-template" data-dynamic="1" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} data-js="change" />
 									</div>
 								</div>
-								<h6 class="pt-4 border-top">{\App\Language::translate('LBL_SELECT_COLUMNS','Settings:PDF')}</h6>
+								<h6 class="pt-4 border-top"><label><input type="checkbox" name="customColumns" class="mr-2 checkbox" value="0">{\App\Language::translate('LBL_SELECT_COLUMNS','Settings:PDF')}</label></h6>
 								<div class="form-group row">
 									<div class="col">
-										<select class="select2" name="inventoryColumns[]" multiple="multiple" data-select-cb="registerSelectSortable" data-js="select2 | sortable">
+										<select class="select2" name="inventoryColumns[]" multiple="multiple" data-select-cb="registerSelectSortable" disabled="disabled" data-js="select2 | sortable">
 										{foreach from=$ALL_INVENTORY_COLUMNS item=$LABEL key=$NAME}
 											<option value="{$NAME}"{if in_array($NAME,$SELECTED_INVENTORY_COLUMNS)} selected="selected"{/if}>{\App\Language::translate($LABEL, $MODULE_NAME)}</option>
 										{/foreach}
@@ -64,7 +64,7 @@
 								</div>
 								<div class="row">
 									<div class="col">
-										<button class="btn btn-success js-save-scheme w-100" data-js="click"><span class="fas fa-save"></span> {\App\Language::translate('LBL_SAVE_SCHEME','Settings:PDF')}</button>
+										<button class="btn btn-success js-save-scheme w-100" disabled="disabled" data-js="click"><span class="fas fa-save"></span> {\App\Language::translate('LBL_SAVE_SCHEME','Settings:PDF')}</button>
 									</div>
 								</div>
 							</div>
