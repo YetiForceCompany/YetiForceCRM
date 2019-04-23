@@ -36,7 +36,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		let authorization = [],
 			container = jQuery('#moduleBlocks');
 		container.find('.editFieldsTable').each(function () {
-			authorization.push(jQuery(this).data('code'));
+			authorization.push(jQuery(this).data('code').toString());
 		});
 		return authorization;
 	},

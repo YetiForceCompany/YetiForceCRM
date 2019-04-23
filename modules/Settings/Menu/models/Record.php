@@ -225,7 +225,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				'parent' => $row['parentid'],
 				'hotkey' => $row['hotkey'],
 				'filters' => $row['filters'],
-				'childs' => $this->getChildMenu($roleId, $row['id']),
+				'childs' => $this->getChildMenu($roleId, $row['id'], $source),
 			];
 		}
 		$dataReader->close();
