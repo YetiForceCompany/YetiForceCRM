@@ -1,0 +1,10 @@
+{
+	"rangeStrategy": "update-lockfile",
+	"lockFileMaintenance": ["mariuszkrzaczkowski", "rskrzypczak", "TomaszQr"],
+	"packageRules": [
+		{
+			"baseBranchList": ["developer", "quasar-gui"],
+			"enabled": true
+		}
+	]
+}
