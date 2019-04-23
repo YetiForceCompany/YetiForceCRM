@@ -4763,6 +4763,8 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (29,2783,'sync_carddav_default_country','vtiger_users',1,35,'sync_carddav_default_country','LBL_CARDDAV_DEFAULT_COUNTRY',0,2,'','255',19,83,1,'V~O',1,0,'BAS',1,'Edit,Detail,PreferenceDetail',0,'',NULL,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (29,2784,'default_search_module','vtiger_users',1,301,'default_search_module','FL_DEFAULT_SEARCH_MODULE',0,2,'',NULL,0,437,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (29,2785,'default_search_override','vtiger_users',1,56,'default_search_override','FL_OVERRIDE_SEARCH_MODULE',0,2,'',NULL,0,437,1,'V~O',1,0,'BAS',1,'Edit,Detail,PreferenceDetail',0,'',NULL,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (95,2786,'ssalesprocessesid','u_yf_finvoice',1,10,'ssalesprocessesid','FL_OPPORTUNITY',0,2,'',NULL,12,310,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (95,2787,'projectid','u_yf_finvoice',1,10,'projectid','FL_PROJECT',0,2,'',NULL,13,310,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
 
 /*Data for the table `vtiger_field_seq` */
 
@@ -4955,6 +4957,8 @@ insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`se
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (2772,'OSSEmployees','MultiCompany',NULL,0);
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (2775,'SQuoteEnquiries','Campaigns',NULL,0);
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (1769,'SQuoteEnquiries','Leads',NULL,0);
+insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (2786,'FInvoice','SSalesProcesses',NULL,0);
+insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (2787,'FInvoice','Project',NULL,0);
 
 /*Data for the table `vtiger_finvoice_formpayment` */
 
@@ -8176,6 +8180,8 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,29,2783,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,29,2784,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,29,2785,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,95,2786,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,95,2787,0,0);
 
 /*Data for the table `vtiger_profile2globalpermissions` */
 
@@ -11654,6 +11660,8 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`) values (596,91,51,'getDependentsList',5,'OSSTimeControl',0,'ADD',0,0,0,'RelatedTab');
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`) values (597,95,51,'getDependentsList',3,'OSSTimeControl',0,'ADD',0,0,0,'RelatedTab');
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`) values (598,117,51,'getDependentsList',4,'OSSTimeControl',0,'ADD',0,0,0,'RelatedTab');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`) values (599,86,95,'getDependentsList',24,'FInvoice',0,'ADD',0,0,0,'RelatedTab');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`) values (600,43,95,'getDependentsList',13,'FInvoice',0,'ADD',0,0,0,'RelatedTab');
 
 /*Data for the table `vtiger_relatedlists_fields` */
 
