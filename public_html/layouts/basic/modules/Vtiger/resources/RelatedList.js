@@ -87,7 +87,7 @@ jQuery.Class('Vtiger_RelatedList_Js', {
 	},
 	/**
 	 * Method to verify if selected files exist
-	 * @param selectedIds
+	 * @param {int} selectedIds
 	 * @return boolean
 	 */
 	verifyFileExist: function (selectedIds) {

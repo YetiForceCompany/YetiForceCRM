@@ -27,7 +27,7 @@ class Documents_CheckFileIntegrity_Action extends \App\Controller\Action
 		if ($request->isEmpty('record')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		$records = $request->getArray('record', 'Alnum');
+		$records = $request->getArray('record', 'Integer');
 		foreach ($records as $record) {
 			if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $record)) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -69,9 +69,8 @@ class Documents_CheckFileIntegrity_Action extends \App\Controller\Action
 	public function multiple(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$records = $request->getArray('record', 'Alnum');
 		$result = ['success' => true];
-		foreach ($records as $record) {
+		foreach ($request->getArray('record', 'Integer') as $record) {
 			$documentRecordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			$resultVal = $documentRecordModel->checkFileIntegrity();
 			if ($documentRecordModel->get('filestatus') !== (int)$resultVal) {
