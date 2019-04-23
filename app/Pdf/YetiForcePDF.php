@@ -114,11 +114,11 @@ class YetiForcePDF extends PDF
 	protected $moduleModel;
 
 	/**
-	 * Inventory columns for text parser.
+	 * Additional params.
 	 *
 	 * @var array
 	 */
-	protected $inventoryColumns = [];
+	protected $params = [];
 
 	/**
 	 * Returns pdf library object.
@@ -334,8 +334,7 @@ class YetiForcePDF extends PDF
 	{
 		$textParser = \App\TextParser::getInstanceById($this->recordId, $this->moduleName);
 		$textParser->setType('pdf');
-		$textParser->setParams(['pdf' => $this->moduleModel]);
-		$textParser->setInventoryColumns($this->getInventoryColumns());
+		$textParser->setParams(['pdf' => $this->moduleModel, 'inventoryColumns' => $this->getParam('inventoryColumns')]);
 		if ($this->language) {
 			$textParser->setLanguage($this->language);
 		}
@@ -631,7 +630,7 @@ class YetiForcePDF extends PDF
 		$self->setTemplateId($templateId);
 		$self->setRecordId($recordId);
 		$self->setModuleName($moduleName);
-		$self->setInventoryColumns($this->getInventoryColumns());
+		$self->setParams(['inventoryColumns' => $this->getParam('inventoryColumns')]);
 		\App\Language::setTemporaryLanguage($template->get('language'));
 		$self->setWatermark($template);
 		$self->setLanguage($template->get('language'));
@@ -688,25 +687,40 @@ class YetiForcePDF extends PDF
 	}
 
 	/**
-	 * Get inventory columns for text parser.
+	 * Get additional params.
 	 *
 	 * @return array
 	 */
-	public function getInventoryColumns()
+	public function getParams()
 	{
-		return $this->inventoryColumns;
+		return $this->params;
 	}
 
 	/**
-	 * Set inventory columns for text parser.
+	 * Get additional params.
 	 *
-	 * @param array $inventoryColumns Inventory columns for text parser.
+	 * @param string $name
+	 *
+	 * @return any
+	 */
+	public function getParam(string $name)
+	{
+		if (isset($this->params[$name])) {
+			return $this->params[$name];
+		}
+		return null;
+	}
+
+	/**
+	 * Set additional params.
+	 *
+	 * @param array $params Additional params
 	 *
 	 * @return self
 	 */
-	public function setInventoryColumns(array $inventoryColumns)
+	public function setParams(array $params)
 	{
-		$this->inventoryColumns = $inventoryColumns;
+		$this->params = array_merge($this->params, $params);
 		return $this;
 	}
 }

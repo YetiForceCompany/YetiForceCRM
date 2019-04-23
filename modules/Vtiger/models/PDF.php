@@ -485,18 +485,16 @@ class Vtiger_PDF_Model extends \App\Base
 	/**
 	 * Export record to PDF file.
 	 *
-	 * @param int    $recordId         - id of a record
-	 * @param string $moduleName       - name of records module
-	 * @param int    $templateId       - id of pdf template
-	 * @param string $filePath         - path name for saving pdf file
-	 * @param string $saveFlag         - save option flag
-	 * @param array  $inventoryColumns
+	 * @param int    $recordId   - id of a record
+	 * @param string $moduleName - name of records module
+	 * @param int    $templateId - id of pdf template
+	 * @param string $filePath   - path name for saving pdf file
+	 * @param string $saveFlag   - save option flag
+	 * @param array  $params
 	 */
-	public static function exportToPdf($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '', array $inventoryColumns = [])
+	public static function exportToPdf($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '', array $params = [])
 	{
-		(new \App\Pdf\YetiForcePDF())
-			->setInventoryColumns($inventoryColumns)
-			->export($recordId, $moduleName, $templateId, $filePath, $saveFlag);
+		(new \App\Pdf\YetiForcePDF())->setParams($params)->export($recordId, $moduleName, $templateId, $filePath, $saveFlag);
 	}
 
 	/**
@@ -560,6 +558,7 @@ class Vtiger_PDF_Model extends \App\Base
 	 * Get column scheme for specified record.
 	 *
 	 * @param int|string $recordId
+	 * @param string     $moduleName
 	 *
 	 * @return array
 	 */
@@ -580,6 +579,7 @@ class Vtiger_PDF_Model extends \App\Base
 	 * Save column scheme for specified record.
 	 *
 	 * @param int|string $recordId
+	 * @param string     $moduleName
 	 * @param array      $columns
 	 *
 	 * @throws \App\Exceptions\IllegalValue
@@ -587,8 +587,7 @@ class Vtiger_PDF_Model extends \App\Base
 	public static function saveInventoryColumnsForRecord($recordId, string $moduleName, array $columns)
 	{
 		$availableColumns = array_keys(Vtiger_Inventory_Model::getInstance($moduleName)->getFields());
-		$invalid = array_diff($columns, $availableColumns);
-		if ($invalid) {
+		if (array_diff($columns, $availableColumns)) {
 			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
 		}
 		$db = \App\Db::getInstance();

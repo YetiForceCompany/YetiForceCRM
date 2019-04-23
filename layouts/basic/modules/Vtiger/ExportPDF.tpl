@@ -64,7 +64,7 @@
 								</div>
 								<div class="row">
 									<div class="col">
-										<button class="btn btn-success save-scheme w-100" data-js="click"><span class="fas fa-save"></span> {\App\Language::translate('LBL_SAVE_SCHEME','Settings:PDF')}</button>
+										<button class="btn btn-success js-save-scheme w-100" data-js="click"><span class="fas fa-save"></span> {\App\Language::translate('LBL_SAVE_SCHEME','Settings:PDF')}</button>
 									</div>
 								</div>
 							</div>

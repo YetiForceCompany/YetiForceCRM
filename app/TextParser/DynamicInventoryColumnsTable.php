@@ -1,4 +1,11 @@
 <?php
+/**
+ * DynamicInventoryColumnsTable class.
+ *
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author Rafal Pospiech <r.pospiech@yetiforce.com>
+ */
 
 namespace App\TextParser;
 
@@ -29,8 +36,8 @@ class DynamicInventoryColumnsTable extends Base
 			return $html;
 		}
 		$columns = [];
-		if (!empty($this->textParser->getInventoryColumns())) {
-			$columns = $this->textParser->getInventoryColumns();
+		if (!empty($this->textParser->getParam('inventoryColumns'))) {
+			$columns = $this->textParser->getParam('inventoryColumns');
 		} else {
 			$columns = \Vtiger_PDF_Model::getInventoryColumnsForRecord($this->textParser->recordModel->getId(), $this->textParser->recordModel->getModule()->getName());
 		}

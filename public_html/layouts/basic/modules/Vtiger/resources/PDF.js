@@ -150,7 +150,7 @@ $.Class('Vtiger_PDF_Js', {
 	 * Register save scheme button click
 	 */
 	registerSaveInventoryColumnSchemeClick() {
-		this.container.find('.save-scheme').on('click', e => {
+		this.container.find('.js-save-scheme').on('click', e => {
 			e.preventDefault();
 			e.stopPropagation();
 			const loader = $.progressIndicator({
@@ -165,17 +165,16 @@ $.Class('Vtiger_PDF_Js', {
 			if (record) {
 				records.push(record);
 			}
-			const inventoryColumns = this.container.find('[name="inventoryColumns[]"]').val();
-			const params = {};
-			params.data = {
-				module: app.getModuleName(),
-				mode: 'saveInventoryColumnScheme',
-				action: 'PDF',
-				records,
-				inventoryColumns
-			};
-			params.dataType = 'json';
-			AppConnector.request(params)
+			AppConnector.request({
+				data: {
+					module: app.getModuleName(),
+					mode: 'saveInventoryColumnScheme',
+					action: 'PDF',
+					records,
+					inventoryColumns: this.container.find('[name="inventoryColumns[]"]').val()
+				},
+				dataType: 'json'
+			})
 				.done(function(data) {
 					const response = data['result'];
 					if (data['success']) {

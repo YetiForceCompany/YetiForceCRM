@@ -187,13 +187,6 @@ class TextParser
 	public $isHtml = true;
 
 	/**
-	 * Inventory columns.
-	 *
-	 * @var array
-	 */
-	protected $inventoryColumns = [];
-
-	/**
 	 * Variable parser regex.
 	 *
 	 * @var string
@@ -317,6 +310,16 @@ class TextParser
 	}
 
 	/**
+	 * Get all params.
+	 *
+	 * @return array
+	 */
+	public function getParams()
+	{
+		return $this->params;
+	}
+
+	/**
 	 * Set source record.
 	 *
 	 * @param int         $record
@@ -340,7 +343,7 @@ class TextParser
 	 */
 	public function setContent($content)
 	{
-		$this->rawContent = $this->content = str_replace('&nbsp;', ' ', str_replace('%20%3A%20', ' : ', $content));
+		$this->rawContent = $this->content = str_replace('%20%3A%20', ' : ', $content);
 		return $this;
 	}
 
@@ -1541,28 +1544,5 @@ class TextParser
 			$html .= '</tr></tfoot></table>';
 		}
 		return $html;
-	}
-
-	/**
-	 * Get inventory columns.
-	 *
-	 * @return array
-	 */
-	public function getInventoryColumns()
-	{
-		return $this->inventoryColumns;
-	}
-
-	/**
-	 * Set inventory columns.
-	 *
-	 * @param array $inventoryColumns Inventory columns.
-	 *
-	 * @return self
-	 */
-	public function setInventoryColumns(array $inventoryColumns)
-	{
-		$this->inventoryColumns = $inventoryColumns;
-		return $this;
 	}
 }

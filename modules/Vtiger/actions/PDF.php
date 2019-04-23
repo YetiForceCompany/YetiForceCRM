@@ -97,21 +97,21 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		if ($selectedOneTemplate && $recordsAmount == 1) {
 			if ($emailPdf) {
 				$filePath = 'cache' . DIRECTORY_SEPARATOR . 'pdf' . DIRECTORY_SEPARATOR . $recordId[0] . '_' . time() . '.pdf';
-				Vtiger_PDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0], ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $filePath, 'F', $inventoryColumns);
+				Vtiger_PDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0], ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $filePath, 'F', ['inventoryColumns' => $inventoryColumns]);
 				if (file_exists($filePath) && \App\Privilege::isPermitted('OSSMail')) {
 					header('location: index.php?module=OSSMail&view=Compose&pdf_path=' . $filePath);
 				} else {
 					throw new \App\Exceptions\AppException('LBL_EXPORT_ERROR');
 				}
 			} else {
-				Vtiger_PDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0], null, null, $inventoryColumns);
+				Vtiger_PDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0], null, null, ['inventoryColumns' => $inventoryColumns]);
 			}
 		} elseif ($selectedOneTemplate && $recordsAmount > 1 && $generateOnePdf) {
 			$pdf = new \App\Pdf\YetiForcePDF();
 			$pdf->setTemplateId($templateIds[0]);
 			$pdf->setRecordId($recordId[0]);
 			$pdf->setModuleName($moduleName);
-			$pdf->setInventoryColumns($inventoryColumns);
+			$pdf->setParams(['inventoryColumns' => $inventoryColumns]);
 			$html = '';
 			$last = count($recordId) - 1;
 			foreach ($recordId as $index => $record) {
@@ -145,7 +145,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 						$pdf->setLanguage($template->get('language'));
 						$pdf->setTemplateId($templateId);
 						$pdf->setModuleName($moduleName);
-						$pdf->setInventoryColumns($inventoryColumns);
+						$pdf->setParams(['inventoryColumns' => $inventoryColumns]);
 						$currentPage = '<div data-page-group
 							data-format="' . $template->getFormat() . '"
 							data-orientation="' . $template->getOrientation() . '"
@@ -176,7 +176,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 						$pdf->setTemplateId($templateId);
 						$pdf->setRecordId($record);
 						$pdf->setModuleName($moduleName);
-						$pdf->setInventoryColumns($inventoryColumns);
+						$pdf->setParams(['inventoryColumns' => $inventoryColumns]);
 						$template = Vtiger_PDF_Model::getInstanceById($templateId);
 						$template->setMainRecordId($record);
 						$template->getParameters();
@@ -248,7 +248,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 	 */
 	public function saveInventoryColumnScheme(App\Request $request)
 	{
-		$moduleName = $request->get('module', 'String');
+		$moduleName = $request->getModule();
 		$records = $request->getArray('records', 'Integer');
 		$columns = $request->getArray('inventoryColumns', 'String');
 		foreach ($records as $crmId) {
