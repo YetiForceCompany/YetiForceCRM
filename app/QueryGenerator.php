@@ -158,9 +158,9 @@ class QueryGenerator
 	/**
 	 * Get list view query fields.
 	 *
-	 * @return array
+	 * @return \Vtiger_Field_Model[]
 	 */
-	public function getListViewFields()
+	public function getListViewFields(): array
 	{
 		$headerFields = [];
 		foreach ($this->getFields() as $fieldName) {
