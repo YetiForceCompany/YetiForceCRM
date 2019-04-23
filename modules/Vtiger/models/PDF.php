@@ -557,8 +557,8 @@ class Vtiger_PDF_Model extends \App\Base
 	/**
 	 * Get column scheme for specified record.
 	 *
-	 * @param int|string $recordId
-	 * @param string     $moduleName
+	 * @param int    $recordId
+	 * @param string $moduleName
 	 *
 	 * @return array
 	 */
