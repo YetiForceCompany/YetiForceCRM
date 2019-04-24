@@ -80,7 +80,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$templateIds = $request->getArray('pdf_template', 'Integer');
 		$singlePdf = $request->getInteger('single_pdf') === 1 ? true : false;
 		$emailPdf = $request->getInteger('email_pdf') === 1 ? true : false;
-		\App\Pdf\InventoryColumns::$inventoryColumns = $request->getArray('inventoryColumns', 'String');
+		\App\Pdf\InventoryColumns::$inventoryColumns = $request->getArray('inventoryColumns', 'Alnum');
 		\App\Pdf\InventoryColumns::$isCustomMode = $request->getBoolean('isCustomMode');
 		$postfix = time() . '_' . random_int(0, 1000);
 		foreach ($recordId as $templateId) {
