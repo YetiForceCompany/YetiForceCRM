@@ -187,7 +187,7 @@ $.Class('Vtiger_PDF_Js', {
 					action: 'PDF',
 					records,
 					inventoryColumns: this.container.find('[name="inventoryColumns[]"]').val(),
-					isCustomMode: this.container.find('[name="isCustomMode"]').is(':checked') ? 1 : 0
+					isCustomMode: this.container.find('[name="isCustomMode"]').is(':checked')
 				},
 				dataType: 'json'
 			})

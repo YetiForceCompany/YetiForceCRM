@@ -81,7 +81,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$singlePdf = $request->getInteger('single_pdf') === 1 ? true : false;
 		$emailPdf = $request->getInteger('email_pdf') === 1 ? true : false;
 		\App\Pdf\InventoryColumns::$inventoryColumns = $request->getArray('inventoryColumns', 'String');
-		\App\Pdf\InventoryColumns::$isCustomMode = $request->getInteger('isCustomMode') === 1 ? true : false;
+		\App\Pdf\InventoryColumns::$isCustomMode = $request->getBoolean('isCustomMode');
 		$postfix = time() . '_' . random_int(0, 1000);
 		foreach ($recordId as $templateId) {
 			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $templateId)) {
