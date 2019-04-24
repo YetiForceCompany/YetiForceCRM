@@ -10,7 +10,7 @@
 		<tr>
 			<td>
 				<button class="btn btn-success js-run-cron" id="run_cron" type="button"
-						{if $STOP_BUTTON_STATUS !== 'false'}disabled {/if} data-button-status="{!$STOP_BUTTON_STATUS}"
+						{if $STOP_BUTTON_STATUS !== 'false'}disabled="disabled" {/if} data-button-status="{!$STOP_BUTTON_STATUS}"
 						data-js="change|value|data-button-status">
 					<span class="fa fa-caret-right u-mr-5px"></span>{\App\Language::translate('RunCron', 'OSSMailScanner')}
 				</button>
