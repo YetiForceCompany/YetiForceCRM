@@ -53,12 +53,25 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	protected $defaultLabel = '';
 	protected $purifyType = '';
 	protected $customPurifyType = [];
+	/**
+	 * Inventory array.
+	 *
+	 * @var array
+	 */
+	protected $item = [];
+
+	/**
+	 * Is set automatically.
+	 *
+	 * @var bool
+	 */
+	protected $isSetAutomatically = false;
 
 	/**
 	 * Gets inventory field instance.
 	 *
 	 * @param string      $moduleName
-	 * @param string|null $type
+	 * @param null|string $type
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
@@ -127,6 +140,16 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	}
 
 	/**
+	 * Get the automatic value.
+	 *
+	 * @return mixed
+	 */
+	public function getAutomaticValue()
+	{
+		return $this->item[$this->getColumnName()] ?? null;
+	}
+
+	/**
 	 * Getting all params values.
 	 *
 	 * @return array
@@ -183,6 +206,9 @@ class Vtiger_Basic_InventoryField extends \App\Base
 
 	/**
 	 * Getting template name.
+	 *
+	 * @param mixed $view
+	 * @param mixed $moduleName
 	 *
 	 * @return string templateName
 	 */
@@ -293,7 +319,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 */
 	public function getValue($value)
 	{
-		if ($value == '') {
+		if ('' == $value) {
 			$value = $this->getDefaultValue();
 		}
 		return $value;
@@ -381,7 +407,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return \Vtiger_Field_Model|bool
+	 * @return bool|\Vtiger_Field_Model
 	 */
 	public function getMapDetail(string $related)
 	{
@@ -404,7 +430,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 * Gets database value.
 	 *
 	 * @param mixed       $value
-	 * @param string|null $name
+	 * @param null|string $name
 	 *
 	 * @return mixed
 	 */
@@ -429,6 +455,20 @@ class Vtiger_Basic_InventoryField extends \App\Base
 		}
 		if (App\TextParser::getTextLength($value) > $this->maximumLength) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $columnName ?? $this->getColumnName() . '||' . $this->getModuleName() . '||' . $value, 406);
+		}
+		$this->validateIfAutomaticValue();
+	}
+
+	/**
+	 * Validate if the automatic value.
+	 *
+	 * @return void
+	 */
+	protected function validateIfAutomaticValue()
+	{
+		$columnName = $this->getColumnName();
+		if ($this->isSetAutomatically && isset($this->item[$columnName]) && $this->item[$columnName] !== $this->getAutomaticValue()) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $columnName ?? $this->getColumnName() . '||' . $this->getModuleName() . '||' . $value, 406);
 		}
 	}
 
@@ -466,10 +506,11 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 * @throws \App\Exceptions\AppException
 	 * @throws \App\Exceptions\Security
 	 */
-	public function setValueToRecord(\Vtiger_Record_Model $recordModel, array $item, bool $userFormat)
+	public function setValueToRecord(Vtiger_Record_Model $recordModel, array $item, bool $userFormat)
 	{
 		$column = $this->getColumnName();
-		$value = $item[$column];
+		$this->item = $item;
+		$value = $this->getAutomaticValue();
 		$this->validate($value, $column, $userFormat);
 		if ($userFormat) {
 			$value = $this->getDBValue($value, $column);
