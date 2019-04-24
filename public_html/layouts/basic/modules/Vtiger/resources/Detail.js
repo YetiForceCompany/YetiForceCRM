@@ -2418,7 +2418,33 @@ jQuery.Class("Vtiger_Detail_Js", {
 		detailContentsHolder.on('click', '.moreRecentRecords', function (e) {
 			e.preventDefault();
 			var recentCommentsTab = thisInstance.getTabByModule($(this).data('label-key'));
-			recentCommentsTab.trigger('click');
+			if (recentCommentsTab.length) {
+				recentCommentsTab.trigger('click');
+			} else {
+				let currentTarget = $(e.currentTarget),
+					container = currentTarget.closest("[class^='widgetContainer_']");
+				if (container.length) {
+					let page = container.find('[name="page"]:last').val(),
+						url = container.data('url');
+					currentTarget.prop('disabled', true);
+					url = url.replace('&page=1', '&page=' + (++page));
+					AppConnector.request(url).done(function (data) {
+							let dataObj = $(data),
+								containerTable = container.find('.js-detail-widget-content table');
+							currentTarget.prop('disabled', false).addClass('d-none');
+							container.find('[name="page"]:last').val(dataObj.find('[name="page"]').val());
+							if (containerTable.length) {
+								containerTable.append(dataObj.find('tbody tr'));
+								if (dataObj.find('.moreRecentRecords').length) {
+									currentTarget.removeClass('d-none');
+								}
+							} else {
+								container.find('.js-detail-widget-content').append(dataObj);
+							}
+						}
+					);
+				}
+			}
 		});
 		detailContentsHolder.on('change', '.relatedHistoryTypes', function (e) {
 			let widgetContent = jQuery(this).closest('.widgetContentBlock').find('.widgetContent'),

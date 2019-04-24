@@ -599,7 +599,7 @@ class File
 	public static function sanitizeUploadFileName($fileName, $badFileExtensions = false)
 	{
 		if (!$badFileExtensions) {
-			$badFileExtensions = \AppConfig::main('upload_badext');
+			$badFileExtensions = \App\Config::main('upload_badext');
 		}
 		$fileName = preg_replace('/\s+/', '_', \vtlib\Functions::slug($fileName)); //replace space with _ in filename
 		$fileName = rtrim($fileName, '\\/<>?*:"<>|');
@@ -1101,6 +1101,7 @@ class File
 		$value = static::parse($value);
 		$new = [];
 		$save = false;
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		foreach ($value as $key => $item) {
 			if (isset($previousValue[$item['key']])) {
 				$value[$item['key']] = $previousValue[$item['key']];
@@ -1116,10 +1117,10 @@ class File
 					'path' => $uploadFile['path'] . $item['key'],
 					'key' => $item['key'],
 				];
+				$dbCommand->delete('u_#__file_upload_temp', ['key' => $item['key']])->execute();
 				$save = true;
 			}
 		}
-		$dbCommand = \App\Db::getInstance()->createCommand();
 		foreach ($previousValue as $item) {
 			if (!isset($value[$item['key']])) {
 				$dbCommand->delete('u_#__file_upload_temp', ['key' => $item['key']])->execute();

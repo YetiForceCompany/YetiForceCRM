@@ -129,7 +129,7 @@ class RequestUtil
 	 */
 	public static function isNetConnection()
 	{
-		if (!\AppConfig::performance('ACCESS_TO_INTERNET')) {
+		if (!\App\Config::performance('ACCESS_TO_INTERNET')) {
 			return false;
 		}
 		if (isset(static::$connectionCache)) {

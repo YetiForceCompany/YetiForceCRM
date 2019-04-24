@@ -50,7 +50,7 @@ class Vtiger_Export_Model extends \App\Base
 	 */
 	public static function getSupportedFileFormats(string $moduleName): array
 	{
-		return AppConfig::module($moduleName, 'EXPORT_SUPPORTED_FILE_FORMATS') ?? ['LBL_CSV' => 'csv', 'LBL_XML' => 'xml'];
+		return App\Config::module($moduleName, 'EXPORT_SUPPORTED_FILE_FORMATS') ?? ['LBL_CSV' => 'csv', 'LBL_XML' => 'xml'];
 	}
 
 	/**
@@ -211,7 +211,7 @@ class Vtiger_Export_Model extends \App\Base
 		$this->accessibleFields = $queryGenerator->getFields();
 		switch ($this->queryOptions['mode']) {
 			case 'ExportAllData':
-				$query->limit(AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
+				$query->limit(App\Config::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				break;
 			case 'ExportCurrentPage':
 				$pagingModel = new Vtiger_Paging_Model();
@@ -237,7 +237,7 @@ class Vtiger_Export_Model extends \App\Base
 				} else {
 					$query->andWhere(['not in', "$baseTable.$baseTableColumnId", $this->queryOptions['excluded_ids']]);
 				}
-				$query->limit(AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
+				$query->limit(App\Config::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				break;
 			default:
 				break;
@@ -353,7 +353,7 @@ class Vtiger_Export_Model extends \App\Base
 					$values[] = \App\Fields\Owner::getLabel($owner);
 				}
 				$value = implode(',', $values);
-			} elseif ($type === 'reference') {
+			} elseif ($fieldInfo->isReferenceField()) {
 				$value = trim($value);
 				if (!empty($value)) {
 					$recordModule = \App\Record::getType($value);

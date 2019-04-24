@@ -35,7 +35,7 @@ class Newsletter extends \App\SystemWarnings\Template
 	 */
 	public function process()
 	{
-		if (static::emailProvided() && (\App\YetiForce\Register::verify(true) || \AppConfig::main('systemMode') === 'demo')) {
+		if (static::emailProvided() && (\App\YetiForce\Register::verify(true) || \App\Config::main('systemMode') === 'demo')) {
 			$this->status = 1;
 		} else {
 			$this->status = 0;

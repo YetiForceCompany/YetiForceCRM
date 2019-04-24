@@ -9,7 +9,7 @@
  */
 $dbCommand = \App\Db::getInstance()->createCommand();
 $query = (new \App\Db\Query())->select(['id', 'name', 'path', 'key'])->from('u_#__file_upload_temp')->where(['status' => 0]);
-$query->andWhere(['<', 'createdtime', date('Y-m-d H:i:s', strtotime('-1 day'))])->limit(AppConfig::performance('CRON_MAX_ATACHMENTS_DELETE'));
+$query->andWhere(['<', 'createdtime', date('Y-m-d H:i:s', strtotime('-1 day'))])->limit(App\Config::performance('CRON_MAX_ATACHMENTS_DELETE'));
 
 $dataReader = $query->createCommand()->query();
 while ($row = $dataReader->read()) {

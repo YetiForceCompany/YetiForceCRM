@@ -16,7 +16,7 @@ class Vtiger_MassState_Action extends Vtiger_Mass_Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$userPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		switch ($request->getByType('state')) {
@@ -48,7 +48,7 @@ class Vtiger_MassState_Action extends Vtiger_Mass_Action
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordIds = self::getRecordsListFromRequest($request);
@@ -59,19 +59,19 @@ class Vtiger_MassState_Action extends Vtiger_Mass_Action
 				case 'Archived':
 					if (!$recordModel->privilegeToArchive()) {
 						$skipped[] = $recordModel->getName();
-						continue;
+						continue 2;
 					}
 					break;
 				case 'Trash':
 					if (!$recordModel->privilegeToMoveToTrash()) {
 						$skipped[] = $recordModel->getName();
-						continue;
+						continue 2;
 					}
 					break;
 				case 'Active':
 					if (!$recordModel->privilegeToActivate()) {
 						$skipped[] = $recordModel->getName();
-						continue;
+						continue 2;
 					}
 					break;
 				default:

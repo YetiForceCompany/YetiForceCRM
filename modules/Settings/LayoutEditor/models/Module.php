@@ -188,10 +188,8 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$moduleName = $this->getName();
 		$focus = CRMEntity::getInstance($moduleName);
 		if (0 === $type) {
-			$columnName = $name;
 			$tableName = $focus->table_name;
 		} elseif (1 === $type) {
-			$columnName = 'cf_' . App\Db::getInstance()->getUniqueID('vtiger_field', 'fieldid', false);
 			if (isset($focus->customFieldTable)) {
 				$tableName = $focus->customFieldTable[0];
 			} else {
@@ -213,7 +211,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$typeofdata = $details['typeofdata'];
 		$dbType = $details['dbType'];
 		$fieldModel = new Settings_LayoutEditor_Field_Model();
-		$fieldModel->set('name', $columnName)
+		$fieldModel->set('name', $name)
 			->set('table', $tableName)
 			->set('generatedtype', 2)
 			->set('uitype', $uitype)

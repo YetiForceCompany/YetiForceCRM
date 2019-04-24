@@ -51,8 +51,8 @@ class Register
 		1 => 'LBL_WAITING_FOR_ACCEPTANCE',
 		2 => 'LBL_INCORRECT_DATA',
 		3 => 'LBL_INCOMPLETE_DATA',
-		4 => 'LBL_OFFLINE_SIGNED',
 		5 => 'LBL_OFFLINE_SERIAL_NOT_FOUND',
+		6 => 'LBL_OFFLINE_SIGNED',
 		7 => 'LBL_OFFLINE_SIGNED',
 		8 => 'LBL_SPECIAL_REGISTRATION',
 		9 => 'LBL_ACCEPTED',
@@ -73,7 +73,7 @@ class Register
 	 *
 	 * @return string
 	 */
-	private static function getInstanceKey(): string
+	public static function getInstanceKey(): string
 	{
 		return sha1(\App\Config::main('application_unique_key') . \App\Config::main('site_URL') . gethostname());
 	}
@@ -140,6 +140,8 @@ class Register
 	/**
 	 * Checking registration status.
 	 *
+	 * @param bool $force
+	 *
 	 * @return bool
 	 */
 	public static function check($force = false)
@@ -204,7 +206,7 @@ class Register
 		if (!$conf) {
 			return false;
 		}
-		$status = $conf['status'] > 6;
+		$status = $conf['status'] > 5;
 		if (!empty($conf['serialKey']) && $status && static::verifySerial($conf['serialKey'])) {
 			return true;
 		}
@@ -246,7 +248,8 @@ class Register
 			return false;
 		}
 		static::updateMetaData([
-			'status' => 4,
+			'register_time' => date('Y-m-d H:i:s'),
+			'status' => 6,
 			'text' => 'OK',
 			'insKey' => static::getInstanceKey(),
 			'serialKey' => $serial

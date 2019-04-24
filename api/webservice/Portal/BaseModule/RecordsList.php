@@ -21,6 +21,8 @@ class RecordsList extends \Api\Core\BaseAction
 	 */
 	public function get()
 	{
+		$enableRawData = 1 === (int) $this->controller->headers['x-raw-data'];
+		$rawData = [];
 		$moduleName = $this->controller->request->get('module');
 		$records = $headers = [];
 		$queryGenerator = $this->getQuery();
@@ -35,16 +37,19 @@ class RecordsList extends \Api\Core\BaseAction
 				}
 			}
 			$records[$row['id']] = $record;
+			if ($enableRawData) {
+				$rawData[$row['id']] = $row;
+			}
 		}
 		$dataReader->close();
 		foreach ($fieldsModel as $fieldName => &$fieldModel) {
 			$headers[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
 		}
 		$rowsCount = count($records);
-
 		return [
 			'headers' => $headers,
 			'records' => $records,
+			'rawData' => $rawData,
 			'count' => $rowsCount,
 			'isMorePages' => $rowsCount === $limit,
 		];
@@ -61,9 +66,6 @@ class RecordsList extends \Api\Core\BaseAction
 	{
 		$queryGenerator = new \App\QueryGenerator($this->controller->request->get('module'));
 		$queryGenerator->initForDefaultCustomView();
-		if ($this->getPermissionType() !== 1) {
-			$this->getQueryByParentRecord($queryGenerator);
-		}
 		$limit = 1000;
 		if ($requestLimit = $this->controller->request->getHeader('x-row-limit')) {
 			$limit = (int) $requestLimit;
@@ -89,47 +91,5 @@ class RecordsList extends \Api\Core\BaseAction
 			}
 		}
 		return $queryGenerator;
-	}
-
-	/**
-	 * Get query by parent record.
-	 *
-	 * @param \App\QueryGenerator $queryGenerator
-	 *
-	 * @throws \Api\Core\Exception
-	 */
-	public function getQueryByParentRecord(\App\QueryGenerator $queryGenerator)
-	{
-		$parentId = $this->getParentCrmId();
-		$parentModule = \App\Record::getType($parentId);
-		$fields = \App\Field::getRelatedFieldForModule($queryGenerator->getModule());
-		$foundField = true;
-		if (\App\ModuleHierarchy::getModuleLevel($queryGenerator->getModule()) === 0) {
-			$queryGenerator->addCondition('id', $parentId, 'e');
-		} elseif (isset($fields[$parentModule]) && $fields[$parentModule]['name'] !== $fields[$parentModule]['relmod']) {
-			$field = $fields[$parentModule];
-			$queryGenerator->addNativeCondition(["{$field['tablename']}.{$field['columnname']}" => $parentId]);
-		} elseif ($fields) {
-			$foundField = false;
-			foreach ($fields as $moduleName => $field) {
-				if ($moduleName === $parentModule) {
-					continue;
-				}
-				if ($relatedField = \App\Field::getRelatedFieldForModule($moduleName, $parentModule)) {
-					$queryGenerator->addRelatedCondition([
-						'sourceField' => $field['fieldname'],
-						'relatedModule' => $moduleName,
-						'relatedField' => $relatedField['fieldname'],
-						'value' => $parentId,
-						'operator' => 'e',
-						'conditionGroup' => true,
-					]);
-					$foundField = true;
-				}
-			}
-		}
-		if (!$foundField) {
-			throw new \Api\Core\Exception('Invalid module, no relationship', 400);
-		}
 	}
 }

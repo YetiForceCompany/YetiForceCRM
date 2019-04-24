@@ -562,7 +562,10 @@ jQuery.Class("Vtiger_List_Js", {
 	},
 	postLoadListViewRecordsEvents: function (container) {
 		const self = this;
-		self.registerListScroll(container);
+		new PerfectScrollbar(container[0]).destroy();
+		container.find('.js-fixed-thead').floatThead('destroy');
+		container.siblings('.floatThead-container').remove();
+		new PerfectScrollbar(container[0]);
 		self.registerFixedThead(container);
 		App.Fields.Picklist.showSelect2ElementView(container.find('select.select2'));
 		App.Fields.Picklist.changeSelectElementView(container);

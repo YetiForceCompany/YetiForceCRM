@@ -13,6 +13,19 @@
 class Vtiger_PDF_Model extends \App\Base
 {
 	/**
+	 * Template type standard.
+	 *
+	 * @var int
+	 */
+	public const TEMPLATE_TYPE_STANDARD = 0;
+	/**
+	 * Template type dynamic.
+	 *
+	 * @var int
+	 */
+	public const TEMPLATE_TYPE_DYNAMIC = 2;
+
+	/**
 	 * Table name.
 	 *
 	 * @var string
@@ -46,6 +59,20 @@ class Vtiger_PDF_Model extends \App\Base
 	 * @var array
 	 */
 	protected $viewToPicklistValue = ['Detail' => 'PLL_DETAILVIEW', 'List' => 'PLL_LISTVIEW'];
+
+	/**
+	 * Inventory columns.
+	 *
+	 * @var array
+	 */
+	public static $inventoryColumns = [];
+
+	/**
+	 * Custom columns.
+	 *
+	 * @var bool
+	 */
+	public static $customColumns = false;
 
 	/**
 	 * Function to get watermark type.
@@ -90,9 +117,8 @@ class Vtiger_PDF_Model extends \App\Base
 	{
 		if ($key === 'conditions' && !is_array(parent::get($key))) {
 			return json_decode(parent::get($key), true);
-		} else {
-			return parent::get($key);
 		}
+		return parent::get($key);
 	}
 
 	/**
@@ -143,7 +169,7 @@ class Vtiger_PDF_Model extends \App\Base
 	/**
 	 * Return module instance or false.
 	 *
-	 * @return object|false
+	 * @return false|object
 	 */
 	public function getModule()
 	{
@@ -165,9 +191,8 @@ class Vtiger_PDF_Model extends \App\Base
 
 		if (count($templates) > 0) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	/**
@@ -245,7 +270,7 @@ class Vtiger_PDF_Model extends \App\Base
 	 * @param int    $recordId
 	 * @param string $moduleName
 	 *
-	 * @return Vtiger_PDF_Model|bool
+	 * @return bool|Vtiger_PDF_Model
 	 */
 	public static function getInstanceById($recordId, $moduleName = 'Vtiger')
 	{
@@ -270,6 +295,8 @@ class Vtiger_PDF_Model extends \App\Base
 
 	/**
 	 * Function returns valuetype of the field filter.
+	 *
+	 * @param mixed $fieldname
 	 *
 	 * @return string
 	 */
@@ -357,9 +384,11 @@ class Vtiger_PDF_Model extends \App\Base
 		}
 		if (in_array('Users:' . $currentUser->getId(), $permissions)) { // check user id
 			return true;
-		} elseif (in_array('Roles:' . $currentUser->getRole(), $permissions)) {
+		}
+		if (in_array('Roles:' . $currentUser->getRole(), $permissions)) {
 			return true;
-		} elseif (array_key_exists('Groups', $getTypes)) {
+		}
+		if (array_key_exists('Groups', $getTypes)) {
 			$accessibleGroups = array_keys(\App\Fields\Owner::getInstance($this->get('module_name'), $currentUser)->getAccessibleGroupForModule());
 			$groups = array_intersect($getTypes['Groups'], $currentUser->getGroups());
 			if (array_intersect($groups, $accessibleGroups)) {
@@ -433,9 +462,8 @@ class Vtiger_PDF_Model extends \App\Base
 		$orientation = $this->get('page_orientation');
 		if ($orientation === 'PLL_LANDSCAPE') {
 			return 'L';
-		} else {
-			return 'P';
 		}
+		return 'P';
 	}
 
 	/**

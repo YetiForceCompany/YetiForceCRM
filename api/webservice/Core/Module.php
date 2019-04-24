@@ -25,8 +25,8 @@ class Module
 			return static::$permittedModules;
 		}
 		$modules = [];
-		foreach (\vtlib\Functions::getAllModules(true, false, 0) as $value) {
-			if (\App\Privilege::isPermitted($value['name'])) {
+		foreach (\vtlib\Functions::getAllModules(false, false, 0) as $value) {
+			if (\Api\Portal\Privilege::isPermitted($value['name'])) {
 				$modules[$value['name']] = \App\Language::translate($value['name'], $value['name']);
 			}
 		}
@@ -45,6 +45,6 @@ class Module
 		if (isset(static::$permittedModules)) {
 			return isset(static::$permittedModules[$moduleName]);
 		}
-		return \App\Privilege::isPermitted($moduleName);
+		return (\Api\Portal\Privilege::isPermitted($moduleName));
 	}
 }

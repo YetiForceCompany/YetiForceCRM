@@ -93,7 +93,7 @@ class IStorages extends Vtiger_CRMEntity
 		$listviewHeader = [];
 		$listviewEntries = [];
 
-		$listColumns = AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = App\Config::module('IStorages', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
@@ -136,7 +136,7 @@ class IStorages extends Vtiger_CRMEntity
 		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $iStorageId . ') method ...');
 
 		$hasRecordViewAccess = \App\Privilege::isPermitted('IStorages', 'DetailView', $iStorageId);
-		$listColumns = AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = App\Config::module('IStorages', 'COLUMNS_IN_HIERARCHY');
 
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
@@ -192,7 +192,7 @@ class IStorages extends Vtiger_CRMEntity
 	{
 		\App\Log::trace('Entering getParentIStorages(' . $id . ') method ...');
 
-		if ($depthBase === AppConfig::module('IStorages', 'MAX_HIERARCHY_DEPTH')) {
+		if ($depthBase === App\Config::module('IStorages', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting getParentIStorages method ... - exceeded maximum depth of hierarchy');
 
 			return $parentIStorages;
@@ -227,7 +227,7 @@ class IStorages extends Vtiger_CRMEntity
 			}
 
 			$parentIStorageInfo['depth'] = $depth;
-			$listColumns = AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
+			$listColumns = App\Config::module('IStorages', 'COLUMNS_IN_HIERARCHY');
 
 			if (empty($listColumns)) {
 				$listColumns = $this->list_fields_name;
@@ -261,7 +261,7 @@ class IStorages extends Vtiger_CRMEntity
 	{
 		\App\Log::trace('Entering getChildIStorages(' . $id . ',' . $depthBase . ') method ...');
 
-		if (empty($id) || $depthBase === AppConfig::module('IStorages', 'MAX_HIERARCHY_DEPTH')) {
+		if (empty($id) || $depthBase === App\Config::module('IStorages', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting getChildIStorages method ... - exceeded maximum depth of hierarchy');
 
 			return $childIStorages;
@@ -280,7 +280,7 @@ class IStorages extends Vtiger_CRMEntity
 			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
 			->where(['vtiger_crmentity.deleted' => 0, 'parentid' => $id])
 			->createCommand()->query();
-		$listColumns = AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = App\Config::module('IStorages', 'COLUMNS_IN_HIERARCHY');
 
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;

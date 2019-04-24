@@ -26,7 +26,8 @@ class Settings_WebserviceUsers_SaveAjax_Action extends Settings_Vtiger_Save_Acti
 			'popupReferenceModule' => $request->getByType('popupReferenceModule', 'Alnum'),
 			'crmid' => $request->isEmpty('crmid') ? '' : $request->getInteger('crmid'),
 			'crmid_display' => $request->getByType('crmid_display', 'Text'),
-			'user_id' => $request->getInteger('user_id')
+			'user_id' => $request->getInteger('user_id'),
+			'istorage' => $request->isEmpty('istorage') ? '' : $request->getInteger('istorage'),
 		];
 		$typeApi = $request->getByType('typeApi', 'Alnum');
 		if (!$request->isEmpty('record')) {

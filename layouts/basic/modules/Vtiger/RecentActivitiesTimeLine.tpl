@@ -4,7 +4,7 @@
 		<input type="hidden" id="updatesCurrentPage" value="{$PAGING_MODEL->get('page')}"/>
 		<input type="hidden" id="updatesPageLimit" value="{$PAGING_MODEL->getPageLimit()}"/>
 		{if !empty($RECENT_ACTIVITIES)}
-			{assign var=LIST_ENTITY_STATE_COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
+			{assign var=LIST_ENTITY_STATE_COLOR value=App\Config::search('LIST_ENTITY_STATE_COLOR')}
 			<div id="updates" class="w-100">
 				<div class="table-responsive">
 					<ul class="timeline">

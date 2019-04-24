@@ -36,7 +36,7 @@ class CronState extends \App\SystemWarnings\Template
 			->from('vtiger_cron_task')
 			->where(['status' => 1, 'lastend' => null])
 			->limit(1)->exists();
-		$timeOut = round((\AppConfig::main('maxExecutionCronTime') + 300) / 60);
+		$timeOut = round((\App\Config::main('maxExecutionCronTime') + 300) / 60);
 		if ($lastStart === 0 || $checkTasks || strtotime("-{$timeOut} minutes") > $lastStart) {
 			$this->status = 0;
 		} else {

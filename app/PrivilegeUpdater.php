@@ -210,7 +210,7 @@ class PrivilegeUpdater
 			static::setUpdater($module['name']);
 		}
 		PrivilegeAdvanced::reloadCache();
-		if (\AppConfig::module('ModTracker', 'WATCHDOG')) {
+		if (\App\Config::module('ModTracker', 'WATCHDOG')) {
 			\Vtiger_Watchdog_Model::reloadCache();
 		}
 		\App\Cache::clear();
@@ -223,7 +223,7 @@ class PrivilegeUpdater
 	 */
 	public static function updateOnRecordSave(\Vtiger_Record_Model $record)
 	{
-		if (!\AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
+		if (!\App\Config::security('CACHING_PERMISSION_TO_RECORD')) {
 			return false;
 		}
 		static::setUpdater($record->getModuleName(), $record->getId(), 6, 0);

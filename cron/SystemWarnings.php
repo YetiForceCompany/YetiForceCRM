@@ -18,7 +18,7 @@ foreach (\App\SystemWarnings::getWarnings('all') as $warning) {
 if (empty($html)) {
 	return;
 }
-$html .= '<hr>' . AppConfig::main('site_URL') . '<br>';
+$html .= '<hr>' . App\Config::main('site_URL') . '<br>';
 $company = \current(\App\MultiCompany::getAll() ?? [[]]);
 if (!empty($company['company_name'])) {
 	$html .= ' - ' . $company['company_name'];

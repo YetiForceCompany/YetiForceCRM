@@ -114,7 +114,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$queryGenerator = new \App\QueryGenerator($moduleName);
 			$queryGenerator->setFields(['id']);
 			$queryGenerator->parseAdvFilter($advFilterList);
-			$query = $queryGenerator->createQuery()->limit(AppConfig::search('GLOBAL_SERACH_AUTOCOMPLETE_LIMIT'));
+			$query = $queryGenerator->createQuery()->limit(App\Config::search('GLOBAL_SERACH_AUTOCOMPLETE_LIMIT'));
 			$dataReader = $query->createCommand()->query();
 			while ($recordId = $dataReader->readColumn()) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
@@ -137,7 +137,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 				$viewer->assign('SEARCH_KEY', $searchKey);
 				$viewer->assign('SEARCH_MODULE', $searchModule);
 				$matchingRecords = Vtiger_Record_Model::getSearchResult($searchKey, $searchModule, $limit, $operator);
-				if (AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') === 1) {
+				if (App\Config::search('GLOBAL_SEARCH_SORTING_RESULTS') === 1) {
 					$matchingRecordsList = [];
 					foreach (\App\Module::getAllEntityModuleInfo(true) as &$module) {
 						if (isset($matchingRecords[$module['modulename']]) && $module['turn_off'] == 1) {
@@ -148,7 +148,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 				}
 			}
 		}
-		if (AppConfig::search('GLOBAL_SEARCH_CURRENT_MODULE_TO_TOP') && isset($matchingRecords[$moduleName])) {
+		if (App\Config::search('GLOBAL_SEARCH_CURRENT_MODULE_TO_TOP') && isset($matchingRecords[$moduleName])) {
 			$pushTop = $matchingRecords[$moduleName];
 			unset($matchingRecords[$moduleName]);
 			$matchingRecords = [$moduleName => $pushTop] + $matchingRecords;

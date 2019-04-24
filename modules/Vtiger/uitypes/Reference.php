@@ -88,7 +88,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		if (is_int($length)) {
 			$name = \App\TextParser::textTruncate($name, $length);
 		} elseif ($length !== true) {
-			$name = App\TextParser::textTruncate($name, \AppConfig::main('href_max_length'));
+			$name = App\TextParser::textTruncate($name, \App\Config::main('href_max_length'));
 		}
 		if ($rawText || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
 			return $name;
@@ -129,7 +129,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		if ($fieldName === 'modifiedby') {
 			return 'List/Field/Owner.tpl';
 		}
-		if (AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
+		if (App\Config::performance('SEARCH_REFERENCE_BY_AJAX')) {
 			return 'List/Field/Reference.tpl';
 		}
 		return parent::getListSearchTemplateName();

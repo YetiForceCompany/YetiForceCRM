@@ -29,7 +29,7 @@
 			<input type="hidden" id="recordsCount" name="recordsCount"/>
 			<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'/>
 			<input type="hidden" id="autoRefreshListOnChange"
-				   value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
+				   value="{App\Config::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
 			<div class="relatedHeader">
 				<div class="btn-toolbar row">
 					<div class="col-lg-9">
@@ -42,8 +42,13 @@
 									{foreach item="LISTVIEW_MASSACTION" from=$RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'] name=actionCount}
 										<li id="{$MODULE}_listView_massAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}">
 											<a class="dropdown-item" href="javascript:void(0);"
-											   {if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'{else}
-											   onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"{/if} >{\App\Language::translate($LISTVIEW_MASSACTION->getLabel(), $MODULE)}</a>
+												{if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'{else}
+												onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"{/if} >
+												{if $LISTVIEW_MASSACTION->get('linkicon') neq ''}
+													<span class="{$LISTVIEW_MASSACTION->get('linkicon')} mr-1"></span>
+												{/if}
+												{\App\Language::translate($LISTVIEW_MASSACTION->getLabel(), $MODULE)}
+											</a>
 										</li>
 										{if $smarty.foreach.actionCount.last eq true}
 											<li class="dropdown-divider"></li>
@@ -53,18 +58,22 @@
 										{foreach item=LISTVIEW_ADVANCEDACTIONS from=$RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS_ADV']}
 											<li id="{$MODULE}_listView_advancedAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_ADVANCEDACTIONS->getLabel())}">
 												<a
-														{if stripos($LISTVIEW_ADVANCEDACTIONS->getUrl(), 'javascript:')===0}
-															href="javascript:void(0);" onclick='{$LISTVIEW_ADVANCEDACTIONS->getUrl()|substr:strlen("javascript:")};'
-														{else}
-															href='{$LISTVIEW_ADVANCEDACTIONS->getUrl()}'
-														{/if}
-														class="dropdown-item{if $LISTVIEW_ADVANCEDACTIONS->get('linkclass') neq ''} {$LISTVIEW_ADVANCEDACTIONS->get('linkclass')}{/if}"
-														{if isset($LISTVIEW_ADVANCEDACTIONS->get('linkdata'))}
-															{foreach from=$LISTVIEW_ADVANCEDACTIONS->get('linkdata') key=NAME item=DATA}
-																data-{$NAME}="{$DATA}"
-															{/foreach}
-														{/if}
-												>{\App\Language::translate($LISTVIEW_ADVANCEDACTIONS->getLabel(), $MODULE)}</a>
+													{if stripos($LISTVIEW_ADVANCEDACTIONS->getUrl(), 'javascript:')===0}
+														href="javascript:void(0);" onclick='{$LISTVIEW_ADVANCEDACTIONS->getUrl()|substr:strlen("javascript:")};'
+													{else}
+														href='{$LISTVIEW_ADVANCEDACTIONS->getUrl()}'
+													{/if}
+													class="dropdown-item{if $LISTVIEW_ADVANCEDACTIONS->get('linkclass') neq ''} {$LISTVIEW_ADVANCEDACTIONS->get('linkclass')}{/if}"
+													{if isset($LISTVIEW_ADVANCEDACTIONS->get('linkdata'))}
+														{foreach from=$LISTVIEW_ADVANCEDACTIONS->get('linkdata') key=NAME item=DATA}
+															data-{$NAME}="{$DATA}"
+														{/foreach}
+													{/if}
+												>
+												{if $LISTVIEW_ADVANCEDACTIONS->get('linkicon') neq ''}
+													<span class="{$LISTVIEW_ADVANCEDACTIONS->get('linkicon')} mr-1"></span>
+												{/if}
+												{\App\Language::translate($LISTVIEW_ADVANCEDACTIONS->getLabel(), $MODULE)}</a>
 											</li>
 										{/foreach}
 									{/if}
@@ -130,7 +139,7 @@
 						<div class="float-right">
 							{if $VIEW_MODEL}
 								<div class="float-right pl-1">
-									{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
+									{assign var=COLOR value=App\Config::search('LIST_ENTITY_STATE_COLOR')}
 									<input type="hidden" class="entityState"
 										   value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}"/>
 									<div class="dropdown dropdownEntityState u-remove-dropdown-icon">
@@ -204,7 +213,7 @@
 					<tr class="listViewHeaders">
 						<th>
 							<input type="checkbox" title="{\App\Language::translate('LBL_SELECT_ALL')}"
-								   id="listViewEntriesMainCheckBox"/>
+								   id="relatedListViewEntriesMainCheckBox"/>
 						</th>
 						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 							<th nowrap>
@@ -263,7 +272,7 @@
 								<div>
 									<input type="checkbox" value="{$RELATED_RECORD->getId()}"
 										   title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}"
-										   class="listViewEntriesCheckBox"/>
+										   class="relatedListViewEntriesCheckBox"/>
 								</div>
 								{if !empty($IS_FAVORITES)}
 									{assign var=RECORD_IS_FAVORITE value=(int)in_array($RELATED_RECORD->getId(),$FAVORITES)}

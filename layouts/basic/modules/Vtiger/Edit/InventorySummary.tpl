@@ -35,7 +35,7 @@
 				</div>
 			</div>
 		{/if}
-		{if $INVENTORY_MODEL->isField('tax') && $INVENTORY_MODEL->isField('taxmode')}
+		{if ($INVENTORY_MODEL->isField('tax') || $INVENTORY_MODEL->isField('tax_percent')) && $INVENTORY_MODEL->isField('taxmode')}
 			<div class="col-md-4">
 				<div class="card mb-3 mb-md-0 inventorySummaryContainer inventorySummaryTaxes">
 					<div class="card-header">

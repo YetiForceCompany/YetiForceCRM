@@ -158,9 +158,9 @@ class QueryGenerator
 	/**
 	 * Get list view query fields.
 	 *
-	 * @return array
+	 * @return \Vtiger_Field_Model[]
 	 */
-	public function getListViewFields()
+	public function getListViewFields(): array
 	{
 		$headerFields = [];
 		foreach ($this->getFields() as $fieldName) {
@@ -348,6 +348,12 @@ class QueryGenerator
 		$fields = [];
 		$checkIds = [];
 		foreach ($this->relatedFields as $field) {
+			$joinTableName = $this->getModuleField($field['sourceField'])->getTableName();
+			$moduleTableIndexList = $this->entityModel->tab_name_index;
+			$baseTable = $this->entityModel->table_name;
+			if ($joinTableName !== $baseTable) {
+				$this->addJoin(['INNER JOIN', $joinTableName, "{$baseTable}.{$moduleTableIndexList[$baseTable]} = {$joinTableName}.{$moduleTableIndexList[$joinTableName]}"]);
+			}
 			$relatedFieldModel = $this->addRelatedJoin($field);
 			if (!isset($checkIds[$field['sourceField']][$field['relatedModule']])) {
 				$checkIds[$field['sourceField']][$field['relatedModule']] = $field['relatedModule'];
@@ -945,7 +951,7 @@ class QueryGenerator
 		$this->query->andWhere(['and', array_merge(['and'], $this->conditionsAnd), array_merge(['or'], $this->conditionsOr)]);
 		$this->query->andWhere($this->parseConditions($this->conditions));
 		if ($this->permissions) {
-			if (\AppConfig::security('CACHING_PERMISSION_TO_RECORD') && $this->moduleName !== 'Users') {
+			if (\App\Config::security('CACHING_PERMISSION_TO_RECORD') && $this->moduleName !== 'Users') {
 				$userId = $this->user->getId();
 				$this->query->andWhere(['like', 'vtiger_crmentity.users', ",$userId,"]);
 			} else {
@@ -1235,7 +1241,7 @@ class QueryGenerator
 		}
 		foreach ($values as &$value) {
 			if ($value !== '') {
-				$value = function_exists('iconv') ? iconv('UTF-8', \AppConfig::main('default_charset'), $value) : $value; // search other characters like "|, ?, ?" by jagi
+				$value = function_exists('iconv') ? iconv('UTF-8', \App\Config::main('default_charset'), $value) : $value; // search other characters like "|, ?, ?" by jagi
 				if ($type === 'currency') {
 					// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion
 					if ($field->getUIType() === 72) {

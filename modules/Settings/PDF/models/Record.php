@@ -105,6 +105,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 			case 3:
 				$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);
 				$fields = [];
+				$fields['type'] = Settings_PDF_Module_Model::getTemplateType($pdfModel);
 				foreach ($stepFields as $field) {
 					if ($field === 'conditions') {
 						$params = json_encode($pdfModel->get($field));
@@ -113,22 +114,23 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 					}
 					$fields[$field] = $params;
 				}
-
+				if ($fields['type'] === Vtiger_PDF_Model::TEMPLATE_TYPE_DYNAMIC) {
+					$fields['default'] = 0;
+				}
 				$db->createCommand()
 					->update('a_#__pdf', $fields, ['pdfid' => $pdfModel->getId()])
 					->execute();
 				return $pdfModel->get('pdfid');
 			case 1:
 				$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);
+				$fields = [];
 				if (!$pdfModel->getId()) {
-					$params = [];
 					foreach ($stepFields as $field) {
-						$params[$field] = $pdfModel->get($field);
+						$fields[$field] = $pdfModel->get($field);
 					}
-					$db->createCommand()->insert('a_#__pdf', $params)->execute();
+					$db->createCommand()->insert('a_#__pdf', $fields)->execute();
 					$pdfModel->set('pdfid', $db->getLastInsertID('a_#__pdf_pdfid_seq'));
 				} else {
-					$fields = [];
 					foreach ($stepFields as $field) {
 						$fields[$field] = $pdfModel->get($field);
 					}

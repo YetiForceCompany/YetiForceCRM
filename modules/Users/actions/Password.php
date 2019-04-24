@@ -31,7 +31,7 @@ class Users_Password_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		if (AppConfig::main('systemMode') === 'demo') {
+		if (App\Config::main('systemMode') === 'demo') {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();

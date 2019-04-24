@@ -55,7 +55,7 @@ class Vtiger_Paging_Model extends \App\Base
 	{
 		$pageLimit = $this->get('limit');
 		if (empty($pageLimit)) {
-			$pageLimit = \AppConfig::main('list_max_entries_per_page');
+			$pageLimit = \App\Config::main('list_max_entries_per_page');
 			if (empty($pageLimit)) {
 				$pageLimit = self::PAGE_LIMIT;
 			}

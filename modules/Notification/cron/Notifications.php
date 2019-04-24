@@ -16,7 +16,7 @@ while ($row = $dataReader->read()) {
 	$notifications->executeScheduled($row);
 }
 $dataReader->close();
-if (\AppConfig::module('Notification', 'AUTO_MARK_NOTIFICATIONS_READ_AFTER_EMAIL_SEND')) {
+if (\App\Config::module('Notification', 'AUTO_MARK_NOTIFICATIONS_READ_AFTER_EMAIL_SEND')) {
 	$notifications->markAsRead();
 }
 
@@ -102,7 +102,7 @@ class Cron_Notification
 			->orderBy(['smownerid' => SORT_ASC, 'createdtime' => SORT_ASC])
 			->createCommand()->queryAllByGroup(2);
 		foreach ($notifications as $noticesByUser) {
-			$noticesByUser = array_slice($noticesByUser, 0, AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS'));
+			$noticesByUser = array_slice($noticesByUser, 0, App\Config::module('Home', 'MAX_NUMBER_NOTIFICATIONS'));
 			foreach ($noticesByUser as $noticeId) {
 				$notice = Vtiger_Record_Model::getInstanceById($noticeId);
 				$notice->setMarked();

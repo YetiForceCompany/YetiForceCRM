@@ -55,7 +55,7 @@ abstract class Vtiger_Header_View extends \App\Controller\View
 				'linkclass' => 'showModal',
 			];
 		}
-		if (AppConfig::security('SHOW_MY_PREFERENCES')) {
+		if (App\Config::security('SHOW_MY_PREFERENCES')) {
 			$headerLinks[] = [
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'LBL_MY_PREFERENCES',

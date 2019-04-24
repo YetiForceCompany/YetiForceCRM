@@ -1,0 +1,7 @@
+{
+	"compilerOptions": {
+		"baseUrl": "./public_html"
+	},
+	"include": ["./public_html/**/*"],
+	"exclude": ["./cache/**/*", "./public_html/libraries/**/*", ".history/**/*"]
+}

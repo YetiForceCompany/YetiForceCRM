@@ -470,7 +470,7 @@ class Functions
 	 */
 	public static function getHtmlOrPlainText(string $content)
 	{
-		if ('<' === substr($content, 0, 1) && '>' === substr($content, -1)) {
+		if (\App\Utils::isHtml($content)) {
 			$content = \App\Purifier::decodeHtml($content);
 		} else {
 			$content = nl2br($content);
@@ -596,10 +596,10 @@ class Functions
 	{
 		switch ($type) {
 			case 'js':
-				$return = \AppConfig::developer('MINIMIZE_JS');
+				$return = \App\Config::developer('MINIMIZE_JS');
 				break;
 			case 'css':
-				$return = \AppConfig::developer('MINIMIZE_CSS');
+				$return = \App\Config::developer('MINIMIZE_CSS');
 				break;
 			default:
 				break;

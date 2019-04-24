@@ -15,7 +15,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	 * @var string[]
 	 */
 	private $editFields = ['Portal' => [
-		'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'password_t' => 'FL_PASSWORD', 'type' => 'FL_TYPE', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER', ],
+		'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'password_t' => 'FL_PASSWORD', 'type' => 'FL_TYPE', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER', 'istorage' => 'FL_STORAGE'],
 	];
 
 	/**
@@ -78,6 +78,8 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function determines fields available in edition view.
 	 *
+	 * @param mixed $name
+	 *
 	 * @return string[]
 	 */
 	public function getFieldInstanceByName($name)
@@ -89,6 +91,10 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			case 'crmid':
 				$params['uitype'] = 10;
 				$params['referenceList'] = ['Contacts'];
+				break;
+			case 'istorage':
+				$params['uitype'] = 10;
+				$params['referenceList'] = ['IStorages'];
 				break;
 			case 'status':
 				$params['uitype'] = 16;
@@ -136,7 +142,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getInstanceById($id, $type)
 	{
-		$cacheName = get_class();
+		$cacheName = __CLASS__;
 		if (\App\Cache::staticHas($cacheName, $id)) {
 			return \App\Cache::staticGet($cacheName, $id);
 		}
@@ -307,10 +313,10 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	public function getTypeValues($value = false)
 	{
 		$data = [
-			1 => 'PLL_USER_PERMISSIONS',
-			2 => 'PLL_ACCOUNTS_RELATED_RECORDS',
-			3 => 'PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY',
-			4 => 'PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY',
+			\Api\Portal\Privilege::USER_PERMISSIONS => 'PLL_USER_PERMISSIONS',
+			\Api\Portal\Privilege::ACCOUNTS_RELATED_RECORDS => 'PLL_ACCOUNTS_RELATED_RECORDS',
+			\Api\Portal\Privilege::ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY => 'PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY',
+			\Api\Portal\Privilege::ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY => 'PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY',
 		];
 		if ($value) {
 			return $data[$value];

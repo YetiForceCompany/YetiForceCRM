@@ -200,7 +200,7 @@ window.App.Fields = {
 				hourFormat = elementHourFormat;
 			}
 			let timePicker24Hour = true;
-			let timeFormat = 'hh:mm';
+			let timeFormat = 'HH:mm';
 			if (hourFormat !== 24) {
 				timePicker24Hour = false;
 				timeFormat = 'hh:mm A';
@@ -1520,6 +1520,32 @@ window.App.Fields = {
 			value = value.replace(/\s/g, '').replace(CONFIG.currencyDecimalSeparator, '.');
 			return parseFloat(value);
 		}
-	}
+	},
+	Tree: {
+		register(container) {
+			container.on("click", '.js-tree-modal', function (e) {
+				let element = $(e.target),
+					parentElem = element.closest('.js-tree-container'),
+					sourceFieldElement = parentElem.find('input[class="sourceField"]'),
+					fieldDisplayElement = parentElem.find('input[name="' + sourceFieldElement.attr('name') + '_display"]');
+				AppConnector.request({
+					module: sourceFieldElement.data('modulename'),
+					view: 'TreeModal',
+					template: sourceFieldElement.data('treetemplate'),
+					fieldName: sourceFieldElement.attr('name'),
+					multiple: sourceFieldElement.data('multiple'),
+					value: sourceFieldElement.val()
+				}).done(function (requestData) {
+					app.modalEvents['treeModal'] = function (modal, instance) {
+						instance.setSelectEvent((responseData) => {
+							sourceFieldElement.val(responseData.id);
+							fieldDisplayElement.val(responseData.name).attr('readonly', true);
+						});
+					};
+					app.showModalWindow(requestData, {modalId: 'treeModal'});
+				});
+			});
+		}
+	},
 }
 ;

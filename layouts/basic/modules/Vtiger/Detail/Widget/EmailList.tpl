@@ -16,7 +16,7 @@
 								<span class="body-icon fas fa-search"
 									  title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAILS','OSSMailView')}"></span>
 							</button>
-							{if AppConfig::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
+							{if App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
 								{if $USER_MODEL->get('internal_mailer') == 1}
 									{assign var=URLDATA value=OSSMail_Module_Model::getComposeUrl($MODULE_NAME, $RECORD->getId(), 'Detail', 'new')}
 									<button type="button" class="btn btn-sm btn-light sendMailBtn" data-url="{$URLDATA}"

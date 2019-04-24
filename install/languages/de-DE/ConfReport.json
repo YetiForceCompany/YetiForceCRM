@@ -70,7 +70,7 @@
     "LBL_CRON_PHP_SAPI": "Cron - API Server",
     "LBL_LABEL_OPERATING_SYSTEM": "Betriebssystem",
     "LBL_LATEST_PHP_TITLE": "php.net",
-    "LBL_LATEST_PHP_VERSIONS_ARE": "Letzte PHP Versionen %s",
+    "LBL_LATEST_PHP_VERSIONS_ARE": "Neueste PHP-Versionen: %s",
     "BTN_CHECK_LATEST_VERSION": "Letzte PHP Version prüfen",
     "BTN_SERVER_SPEED_TEST": "Server Performance Test",
     "LBL_SERVER_SPEED_TEST": "Server Geschwindigkeit",

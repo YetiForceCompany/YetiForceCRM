@@ -45,7 +45,7 @@
 			{/if}
 		</div>
 	{/if}
-	{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $RELATED_MODULE->isPermitted('ReviewingUpdates') && $RELATED_MODULE->isTrackingEnabled() && $RELATED_RECORD->isViewable()}
+	{if App\Config::module('ModTracker', 'UNREVIEWED_COUNT') && $RELATED_MODULE->isPermitted('ReviewingUpdates') && $RELATED_MODULE->isTrackingEnabled() && $RELATED_RECORD->isViewable()}
 		<div>
 			<a href="{$RELATED_RECORD->getUpdatesUrl()}" class="unreviewed d-none">
 				<span class="badge badge-danger c-badge--md all"

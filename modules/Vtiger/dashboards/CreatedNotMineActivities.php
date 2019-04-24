@@ -32,8 +32,11 @@ class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 		$pagingModel->set('orderby', $orderBy);
 		$pagingModel->set('sortorder', $sortOrder);
 
-		$params = [];
-		$params['status'] = Calendar_Module_Model::getComponentActivityStateLabel('current');
+		$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel();
+		$params = ['status' => [
+			$stateActivityLabels['not_started'],
+			$stateActivityLabels['in_realization'],
+		]];
 		$params['user'] = $currentUser->getId();
 		$conditions = [
 			'condition' => [
@@ -55,12 +58,12 @@ class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('ACTIVITIES', $overDueActivities);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('CURRENTUSER', $currentUser);
-		$viewer->assign('NAMELENGTH', AppConfig::main('title_max_length'));
-		$viewer->assign('HREFNAMELENGTH', AppConfig::main('href_max_length'));
+		$viewer->assign('NAMELENGTH', \App\Config::main('title_max_length'));
+		$viewer->assign('HREFNAMELENGTH', \App\Config::main('href_max_length'));
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_RECORDS_MATCHED_THIS_CRITERIA');
-		$viewer->assign('LISTVIEWLINKS', true);
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('DATA', $data);
+		$viewer->assign('DATE_TYPE', 'START');
 		$viewer->assign('USER_CONDITIONS', $conditions);
 		if ($request->has('content')) {
 			$viewer->view('dashboards/CalendarActivitiesContents.tpl', $moduleName);

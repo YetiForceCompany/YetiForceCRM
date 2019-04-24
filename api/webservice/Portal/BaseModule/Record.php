@@ -99,6 +99,7 @@ class Record extends \Api\Core\BaseAction
 		}
 
 		$inventory = false;
+		$summaryInventory = [];
 		if ($model->getModule()->isInventory()) {
 			$rawInventory = $model->getInventoryData();
 			$inventory = [];
@@ -107,9 +108,14 @@ class Record extends \Api\Core\BaseAction
 			foreach ($rawInventory as $row) {
 				$inventoryRow = [];
 				foreach ($inventoryFields as $name => $field) {
-					$inventoryRow[$name] = $field->getDisplayValue($row[$name]);
+					$inventoryRow[$name] = $field->getDisplayValue($row[$name], $row, true);
 				}
 				$inventory[] = $inventoryRow;
+			}
+			foreach ($inventoryFields as $name => $field) {
+				if ($field->isSummary()) {
+					$summaryInventory[$name] = \CurrencyField::convertToUserFormat($field->getSummaryValuesFromData($rawInventory), null, true);
+				}
 			}
 		}
 		$resposne = [
@@ -118,8 +124,9 @@ class Record extends \Api\Core\BaseAction
 			'fields' => $fieldsLabel,
 			'data' => $displayData,
 			'inventory' => $inventory,
+			'summary_inventory' => $summaryInventory
 		];
-		if ((int) $this->controller->headers['x-raw-data'] === 1) {
+		if (1 === (int) $this->controller->headers['x-raw-data']) {
 			$resposne['rawData'] = $rawData;
 			$resposne['rawInventory'] = $rawInventory;
 		}

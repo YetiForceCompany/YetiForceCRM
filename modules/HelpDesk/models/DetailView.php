@@ -55,7 +55,7 @@ class HelpDesk_DetailView_Model extends Vtiger_DetailView_Model
 				'related' => 'Charts',
 			];
 		}
-		if (AppConfig::module($moduleName, 'SHOW_SUMMARY_PRODUCTS_SERVICES')) {
+		if (App\Config::module($moduleName, 'SHOW_SUMMARY_PRODUCTS_SERVICES')) {
 			$relations = \Vtiger_Relation_Model::getAllRelations($this->getModule(), false);
 			if (isset($relations[\App\Module::getModuleId('Products')]) ||
 				isset($relations[\App\Module::getModuleId('Services')]) ||
@@ -68,7 +68,7 @@ class HelpDesk_DetailView_Model extends Vtiger_DetailView_Model
 					'linkicon' => '',
 					'linkKey' => 'LBL_RECORD_SUMMARY',
 					'related' => 'ProductsAndServices',
-					'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT'),
+					'countRelated' => App\Config::relation('SHOW_RECORDS_COUNT'),
 				];
 			}
 		}

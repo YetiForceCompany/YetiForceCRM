@@ -105,10 +105,10 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 		$viewer->assign('HISTORY_PARAMS', $historyParams ?? '');
 		$viewer->assign('CURRENT_USER', $currentUserModel);
 		$viewer->assign('EVENT_CREATE', \App\Privilege::isPermitted($request->getModule(), 'CreateView'));
-		$viewer->assign('WEEK_COUNT', AppConfig::module('Calendar', 'WEEK_COUNT'));
-		$viewer->assign('WEEK_VIEW', AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');
-		$viewer->assign('DAY_VIEW', AppConfig::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basicDay');
-		$viewer->assign('ALL_DAY_SLOT', AppConfig::module('Calendar', 'ALL_DAY_SLOT'));
+		$viewer->assign('WEEK_COUNT', App\Config::module('Calendar', 'WEEK_COUNT'));
+		$viewer->assign('WEEK_VIEW', App\Config::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');
+		$viewer->assign('DAY_VIEW', App\Config::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basicDay');
+		$viewer->assign('ALL_DAY_SLOT', App\Config::module('Calendar', 'ALL_DAY_SLOT'));
 		$viewer->assign('ACTIVITY_STATE_LABELS', \App\Json::encode([
 			'current' => Calendar_Module_Model::getComponentActivityStateLabel('current'),
 			'history' => Calendar_Module_Model::getComponentActivityStateLabel('history'),

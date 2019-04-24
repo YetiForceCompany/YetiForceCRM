@@ -42,7 +42,7 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 		if ($rawText || ($value && !\App\Privilege::isPermitted($moduleName, 'DetailView', $value))) {
 			return $label;
 		}
-		$label = App\TextParser::textTruncate($label, \AppConfig::main('href_max_length'));
+		$label = App\TextParser::textTruncate($label, \App\Config::main('href_max_length'));
 		if (\App\Record::getState($value) !== 'Active') {
 			$label = '<s>' . $label . '</s>';
 		}

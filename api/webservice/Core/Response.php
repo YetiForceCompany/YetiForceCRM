@@ -56,7 +56,7 @@ class Response
 
 	public function send()
 	{
-		$encryptDataTransfer = \AppConfig::api('ENCRYPT_DATA_TRANSFER') ? 1 : 0;
+		$encryptDataTransfer = \App\Config::api('ENCRYPT_DATA_TRANSFER') ? 1 : 0;
 		if ($this->status !== 200) {
 			$encryptDataTransfer = 0;
 		}
@@ -93,14 +93,14 @@ class Response
 
 	public function encryptData($data)
 	{
-		openssl_public_encrypt($data, $encrypted, 'file://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \AppConfig::api('PUBLIC_KEY'), OPENSSL_PKCS1_OAEP_PADDING);
+		openssl_public_encrypt($data, $encrypted, 'file://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \App\Config::api('PUBLIC_KEY'), OPENSSL_PKCS1_OAEP_PADDING);
 
 		return $encrypted;
 	}
 
 	public function debugResponse()
 	{
-		if (\AppConfig::debug('WEBSERVICE_DEBUG')) {
+		if (\App\Config::debug('WEBSERVICE_DEBUG')) {
 			$log = '-------------  Response  -----  ' . date('Y-m-d H:i:s') . "  ------\n";
 			$log .= "Status: {$this->status}\n";
 			$log .= 'Headers: ' . PHP_EOL;

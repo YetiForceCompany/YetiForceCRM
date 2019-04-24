@@ -202,7 +202,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 				$db->createCommand()->update($tableName, $tableData, [$entityInstance->tab_name_index[$tableName] => $this->getId()])->execute();
 			}
 		}
-		if (AppConfig::module('Users', 'CHECK_LAST_USERNAME') && isset($valuesForSave['vtiger_users']['user_name'])) {
+		if (App\Config::module('Users', 'CHECK_LAST_USERNAME') && isset($valuesForSave['vtiger_users']['user_name'])) {
 			$db = \App\Db::getInstance('log');
 			$db->createCommand()->insert('l_#__username_history', ['user_name' => $valuesForSave['vtiger_users']['user_name'], 'user_id' => $this->getId()])->execute();
 		}
@@ -344,7 +344,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		}
 		\App\UserPrivilegesFile::createUserPrivilegesfile($this->getId());
 		\App\UserPrivilegesFile::createUserSharingPrivilegesfile($this->getId());
-		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+		if (App\Config::performance('ENABLE_CACHING_USERS')) {
 			\App\PrivilegeFile::createUsersFile();
 		}
 		if ($this->getPreviousValue('sync_caldav') || $this->isNew()) {
@@ -861,7 +861,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function encryptPassword($password)
 	{
-		return password_hash($password, PASSWORD_BCRYPT, ['cost' => AppConfig::security('USER_ENCRYPT_PASSWORD_COST')]);
+		return password_hash($password, PASSWORD_BCRYPT, ['cost' => App\Config::security('USER_ENCRYPT_PASSWORD_COST')]);
 	}
 
 	/**

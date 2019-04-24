@@ -228,30 +228,6 @@ $.Class("Vtiger_Edit_Js", {
 			return false;
 		}
 	},
-	treePopupRegisterEvent: function (container) {
-		container.on("click", '.js-tree-modal', function (e) {
-			let element = $(e.target);
-			let parentElem = element.closest('.fieldValue');
-			let sourceFieldElement = $('input[class="sourceField"]', parentElem);
-			let fieldDisplayElement = $('input[name="' + sourceFieldElement.attr('name') + '_display"]', parentElem);
-			AppConnector.request({
-				module: $('input[name="module"]', element.closest('form')).val(),
-				view: 'TreeModal',
-				template: sourceFieldElement.data('treetemplate'),
-				fieldName: sourceFieldElement.attr('name'),
-				multiple: sourceFieldElement.data('multiple'),
-				value: sourceFieldElement.val()
-			}).done(function (requestData) {
-				app.modalEvents['treeModal'] = function (modal, instance) {
-					instance.setSelectEvent((responseData) => {
-						sourceFieldElement.val(responseData.id);
-						fieldDisplayElement.val(responseData.name).attr('readonly', true);
-					});
-				};
-				app.showModalWindow(requestData, {modalId: 'treeModal'});
-			});
-		});
-	},
 	/**
 	 * Function which will register reference field clear event
 	 * @params - container <jQuery> - element in which auto complete fields needs to be searched
@@ -404,6 +380,10 @@ $.Class("Vtiger_Edit_Js", {
 						reponseDataList.push(responseData);
 					}
 					response(reponseDataList);
+					app.event.trigger('EditView.AfterSearch', {
+						field: inputElement,
+						params: params
+					});
 				});
 			},
 			select: function (event, ui) {
@@ -629,7 +609,7 @@ $.Class("Vtiger_Edit_Js", {
 					var data = {
 						'record': recordRelativeAccountId,
 						'selectedName': recordRelativeAccountName,
-						'source_module': "Contacts"
+						'module': "Contacts"
 					}
 					thisInstance.copyAddressDetails(from, to, data, element.closest('.js-toggle-panel'));
 					element.attr('checked', 'checked');
@@ -652,7 +632,7 @@ $.Class("Vtiger_Edit_Js", {
 					var data = {
 						'record': recordRelativeAccountId,
 						'selectedName': recordRelativeAccountName,
-						'source_module': "Leads"
+						'module': "Leads"
 					}
 					thisInstance.copyAddressDetails(from, to, data, element.closest('.js-toggle-panel'));
 					element.attr('checked', 'checked');
@@ -675,7 +655,7 @@ $.Class("Vtiger_Edit_Js", {
 					var data = {
 						'record': recordRelativeAccountId,
 						'selectedName': recordRelativeAccountName,
-						'source_module': "Vendors"
+						'module': "Vendors"
 					}
 					thisInstance.copyAddressDetails(from, to, data, element.closest('.js-toggle-panel'));
 					element.attr('checked', 'checked');
@@ -1311,7 +1291,6 @@ $.Class("Vtiger_Edit_Js", {
 	 *
 	 */
 	registerBasicEvents: function (container) {
-		this.treePopupRegisterEvent(container);
 		this.registerClearTreeSelectionEvent(container);
 		this.registerTreeAutoCompleteFields(container);
 		this.referenceModulePopupRegisterEvent(container);
@@ -1330,6 +1309,7 @@ $.Class("Vtiger_Edit_Js", {
 		this.registerMultiImageFields(container);
 		App.Fields.MultiEmail.register(container);
 		App.Fields.MultiDependField.register(container);
+		App.Fields.Tree.register(container);
 	},
 	registerEvents: function () {
 		var editViewForm = this.getForm();

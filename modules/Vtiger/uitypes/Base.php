@@ -28,10 +28,10 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		if ($value === '' && in_array($this->getFieldModel()->getFieldType(), ['I', 'N', 'NN'])) {
+		if ('' === $value && in_array($this->getFieldModel()->getFieldType(), ['I', 'N', 'NN'])) {
 			return 0;
 		}
-		if (is_null($value)) {
+		if (null === $value) {
 			return '';
 		}
 		return \App\Purifier::decodeHtml($value);
@@ -56,9 +56,9 @@ class Vtiger_Base_UIType extends \App\Base
 	 *
 	 * @param \App\Request        $request
 	 * @param Vtiger_Record_Model $recordModel
-	 * @param string|bool         $requestFieldName
+	 * @param bool|string         $requestFieldName
 	 */
-	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
+	public function setValueFromRequest(App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
 		$fieldName = $this->getFieldModel()->getFieldName();
 		if (!$requestFieldName) {
@@ -76,7 +76,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 *
 	 * @throws \App\Exceptions\Security
 	 */
-	public function setDefaultValueFromRequest(\App\Request $request)
+	public function setDefaultValueFromRequest(App\Request $request)
 	{
 		$fieldModel = $this->getFieldModel();
 		$recordModel = Vtiger_Record_Model::getCleanInstance($fieldModel->getModuleName());
@@ -139,10 +139,10 @@ class Vtiger_Base_UIType extends \App\Base
 	 * Function to get the display value, for the current field type with given DB Insert Value.
 	 *
 	 * @param mixed                    $value       Field value
-	 * @param int|bool                 $record      Record Id
-	 * @param Vtiger_Record_Model|bool $recordModel
+	 * @param bool|int                 $record      Record Id
+	 * @param bool|Vtiger_Record_Model $recordModel
 	 * @param bool                     $rawText     Return text or html
-	 * @param int|bool                 $length      Length of the text
+	 * @param bool|int                 $length      Length of the text
 	 *
 	 * @return mixed
 	 */
@@ -185,7 +185,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 *
 	 * @param mixed                    $value       Field value
 	 * @param int                      $record      |bool Record Id
-	 * @param Vtiger_Record_Model|bool $recordModel
+	 * @param bool|Vtiger_Record_Model $recordModel
 	 * @param bool                     $rawText     Return text or html
 	 *
 	 * @return mixed
@@ -200,7 +200,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 *
 	 * @param mixed                    $value       Field value
 	 * @param int                      $record      |bool Record Id
-	 * @param Vtiger_Record_Model|bool $recordModel
+	 * @param bool|Vtiger_Record_Model $recordModel
 	 * @param bool                     $rawText     Return text or html
 	 *
 	 * @return mixed

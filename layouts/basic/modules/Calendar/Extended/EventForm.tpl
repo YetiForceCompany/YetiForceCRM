@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Calendar-Extended-EventForm -->
-	<input value="{\App\Purifier::encodeHtml(\AppConfig::module('Calendar', 'AUTOFILL_TIME'))}"
+	<input value="{\App\Purifier::encodeHtml(\App\Config::module('Calendar', 'AUTOFILL_TIME'))}"
 		   type="hidden" id="autofillTime"/>
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
@@ -38,7 +38,7 @@
 						{\App\Language::translate('LBL_ADD',$MODULE_NAME)}
 					{/if}
 				</h6>
-				{if !empty(AppConfig::module('Calendar', 'SHOW_ACTIVITY_BUTTONS_IN_EDIT_FORM')) && empty($IS_POSTPONED) && !empty($RECORD_ID)}
+				{if !empty(App\Config::module('Calendar', 'SHOW_ACTIVITY_BUTTONS_IN_EDIT_FORM')) && empty($IS_POSTPONED) && !empty($RECORD_ID)}
 					{include file=\App\Layout::getTemplatePath('Extended/ActivityButtons.tpl', $MODULE_NAME)}
 				{/if}
 				<div class="fieldRow">
@@ -56,7 +56,7 @@
 										   data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}"
 										   data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'
 										   role="tooltip">
-											<span class="fas fa-info-circle small align-baseline"></span>
+											<span class="fas fa-info-circle fa-sm align-baseline"></span>
 										</a>
 									{/if}
 									{if $FIELD_MODEL->isMandatory() eq true}
@@ -83,9 +83,7 @@
 				<div class="d-flex flex-wrap{if empty($RECORD_ID)} justify-content-center{/if}">
 					{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}
 						{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
-							{if $LINK->get('linkhint') neq 'LBL_GO_TO_FULL_FORM'}
-								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='quickcreateViewHeader'}
-							{/if}
+							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='quickcreateViewHeader'}
 						{/foreach}
 					{/if}
 					<button type="submit" class="js-save-event btn btn-success"

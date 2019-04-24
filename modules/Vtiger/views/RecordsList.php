@@ -17,7 +17,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$request->isEmpty('related_parent_module') && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('related_parent_module', 2))) {
@@ -29,7 +29,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		if (!$request->isEmpty('related_parent_id', true) && !\App\Privilege::isPermitted($request->getByType('related_parent_module', 2), 'DetailView', $request->getInteger('related_parent_id'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		if (!$request->isEmpty('src_record', true) && $request->getByType('src_module', 2) !== 'Users' && !\App\Privilege::isPermitted($request->getByType('src_module', 2), 'DetailView', $request->getInteger('src_record'))) {
+		if (!$request->isEmpty('src_record', true) && !in_array($request->getByType('src_module', 2), ['Users', 'WebserviceUsers']) && !\App\Privilege::isPermitted($request->getByType('src_module', 2), 'DetailView', $request->getInteger('src_record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
@@ -37,7 +37,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function preProcessTplName(\App\Request $request)
+	protected function preProcessTplName(App\Request $request)
 	{
 		return 'Modals/RecordsListHeader.tpl';
 	}
@@ -45,7 +45,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function preProcessAjax(\App\Request $request)
+	public function preProcessAjax(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$this->modalIcon = "modCT_{$moduleName} userIcon-{$moduleName}";
@@ -56,11 +56,11 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('ONLY_BODY', $request->getBoolean('onlyBody'));
-		if ($request->getMode() === 'getPagination') {
+		if ('getPagination' === $request->getMode()) {
 			$viewer->assign('VIEWNAME', 'recordsList');
 			$viewer->view('Pagination.tpl', $request->getModule());
 		} else {
@@ -71,14 +71,14 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function postProcessAjax(\App\Request $request)
+	public function postProcessAjax(App\Request $request)
 	{
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getModalScripts(\App\Request $request)
+	public function getModalScripts(App\Request $request)
 	{
 		return array_merge(parent::getModalScripts($request), $this->checkAndConvertJsScripts([
 			'modules.Vtiger.resources.ListSearch',
@@ -94,7 +94,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	 * @throws \App\Exceptions\IllegalValue
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function initializeContent(\App\Request $request)
+	public function initializeContent(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule($request);
@@ -255,14 +255,14 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		if (empty($sortOrder)) {
 			$sortOrder = 'ASC';
 		}
-		if ($sortOrder === 'ASC') {
+		if ('ASC' === $sortOrder) {
 			$nextSortOrder = 'DESC';
 			$sortImage = 'fas fa-chevron-down';
 		} else {
 			$nextSortOrder = 'ASC';
 			$sortImage = 'fas fa-chevron-up';
 		}
-		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') || ($request->getBoolean('showTotalCount') && !$totalCount)) {
+		if (App\Config::performance('LISTVIEW_COMPUTE_PAGE_COUNT') || ($request->getBoolean('showTotalCount') && !$totalCount)) {
 			if (method_exists($listViewModel, 'getListViewCount')) {
 				$totalCount = $listViewModel->getListViewCount();
 			} elseif (method_exists($listViewModel, 'getRelatedEntriesCount')) {
@@ -302,5 +302,6 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$viewer->assign('LISTVIEW_ENTRIES', $listViewEntries);
 		$viewer->assign('MULTI_SELECT', $multiSelectMode);
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
+		$viewer->assign('RECORD_SELECTED', $request->getBoolean('record_selected', false));
 	}
 }

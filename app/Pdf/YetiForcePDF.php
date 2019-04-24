@@ -114,6 +114,13 @@ class YetiForcePDF extends PDF
 	protected $moduleModel;
 
 	/**
+	 * Additional params.
+	 *
+	 * @var array
+	 */
+	protected $params = [];
+
+	/**
 	 * Returns pdf library object.
 	 */
 	public function pdf()
@@ -127,7 +134,7 @@ class YetiForcePDF extends PDF
 	public function __construct()
 	{
 		$this->setLibraryName('YetiForcePDF');
-		$this->setInputCharset(\AppConfig::main('default_charset') ?? 'UTF-8');
+		$this->setInputCharset(\App\Config::main('default_charset') ?? 'UTF-8');
 		$this->pdf = (new Document())->init();
 	}
 
@@ -598,7 +605,7 @@ class YetiForcePDF extends PDF
 		$template->setMainRecordId($templateMainRecordId ? $templateMainRecordId : $recordId);
 		$pageOrientationValue = $template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L';
 		if ($this->isDefault) {
-			$charset = \AppConfig::main('default_charset') ?? 'UTF-8';
+			$charset = \App\Config::main('default_charset') ?? 'UTF-8';
 			if ($template->get('margin_chkbox') === 1) {
 				$self = new self($charset);
 				$self->setPageSize($template->get('page_format'), $pageOrientationValue);

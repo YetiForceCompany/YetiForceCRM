@@ -36,7 +36,7 @@ class ProjectTask_UpcomingProjectTasks_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PROJECTTASKS', $projectTasks);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
-		$viewer->assign('NAMELENGTH', \AppConfig::main('title_max_length'));
+		$viewer->assign('NAMELENGTH', \App\Config::main('title_max_length'));
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('TICKETPRIORITY', $params['projecttaskpriority'] ?? '');
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_UPCOMING_PROJECT_TASKS');

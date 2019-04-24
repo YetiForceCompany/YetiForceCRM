@@ -573,7 +573,6 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 					tokenSeparators: [","]
 				});
 				thisInstance.registerFieldTypeChangeEvent(form);
-				thisInstance.registerTableTypeChangeEvent(form);
 				thisInstance.registerMultiReferenceFieldsChangeEvent(form);
 				thisInstance.registerMultiReferenceFilterFieldChangeEvent(form);
 
@@ -702,11 +701,6 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			aDeferred.reject(error);
 		});
 		return aDeferred.promise();
-	},
-	registerTableTypeChangeEvent: function (form) {
-		form.find('[name="fieldTypeList"]').on('change', function (e) {
-			form.find('[name="fieldName"]').closest('.form-group').toggleClass('d-none');
-		})
 	},
 	/**
 	 * Function to register change event for fieldType while adding custom field
@@ -1473,6 +1467,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 				}
 			});
 		});
+		App.Fields.Tree.register(container);
 	},
 	/**
 	 * Function to register all the events for blocks
@@ -1824,7 +1819,6 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 				field: element.data('field-id')
 			}).done(function (data) {
 				app.showModalWindow(data, function (modalContainer) {
-					new App.Fields.Text.Editor(modalContainer, customConfig);
 					app.showPopoverElementView(modalContainer.find('.js-help-info'));
 					modalContainer.find('.js-lang').on('change', function (e) {
 						let previous = modalContainer.find('.js-editor:not([disabled])');

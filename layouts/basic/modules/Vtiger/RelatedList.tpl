@@ -13,15 +13,18 @@
 	<div class="RelatedList relatedContainer">
 		{assign var=RELATED_MODULE_NAME value=$RELATED_MODULE->get('name')}
 		{assign var=INVENTORY_MODULE value=$RELATED_MODULE->isInventory()}
-		<input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}"/>
-		<input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}"/>
-		<input type="hidden" value="{$ORDER_BY}" id="orderBy"/>
+		<input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}">
+		<input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}">
+		<input type="hidden" value="{$ORDER_BY}" id="orderBy">
 		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder"/>
 		<input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries">
 		<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 		<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
-		<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
+		<input type="hidden" id="autoRefreshListOnChange" value="{App\Config::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}">
 		<input type="hidden" class="relatedView" value="{$RELATED_VIEW}">
+		<input type="hidden" id="selectedIds" name="selectedIds" data-selected-ids="">
+		<input type="hidden" id="excludedIds" name="excludedIds" data-excluded-ids="">
+		<input type="hidden" id="recordsCount" value=""/>
 		<div class="relatedHeader my-1">
 			<div class="d-inline-flex flex-wrap w-100 justify-content-between">
 				<div class="u-w-sm-down-100 d-flex flex-wrap flex-sm-nowrap mb-1 mb-md-0">
@@ -58,6 +61,9 @@
 							</ul>
 						</div>
 					{/if}
+					{if isset($RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'])}
+						{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'] TEXT_HOLDER='LBL_ACTIONS' BTN_ICON='fa fa-list' CLASS='btn-group mr-sm-1 relatedViewGroup c-btn-block-sm-down mb-1 mb-sm-0'}
+					{/if}
 					{foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
 						{if {\App\Privilege::isPermitted($RELATED_MODULE_NAME, 'CreateView')} }
 							<div class="btn-group mr-md-1 c-btn-block-sm-down">
@@ -88,7 +94,7 @@
 					</div>
 					{if $VIEW_MODEL}
 						<div class="ml-1">
-							{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
+							{assign var=COLOR value=App\Config::search('LIST_ENTITY_STATE_COLOR')}
 							<input type="hidden" class="entityState" value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}">
 							<div class="dropdown dropdownEntityState u-remove-dropdown-icon">
 								<button class="btn btn-light dropdown-toggle" type="button" id="dropdownEntityState" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -129,7 +135,7 @@
 		{if $RELATED_VIEW === 'ListPreview'}
 			<div class="relatedContents">
 				<div class="d-flex">
-					<input type="hidden" id="defaultDetailViewName" value="{AppConfig::module($MODULE, 'defaultDetailViewName')}"/>
+					<input type="hidden" id="defaultDetailViewName" value="{App\Config::module($MODULE, 'defaultDetailViewName')}"/>
 					<div class="c-side-block c-side-block--left js-side-block js-fixed-scroll" data-js="css: height;/scroll">
 						<div class="u-rotate-90">
 							<div class="font-weight-bold text-center">{\App\Language::translate('LBL_VIEW_LIST')}</div>

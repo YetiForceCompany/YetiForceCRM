@@ -256,7 +256,7 @@ class Users extends CRMEntity
 		if ($cache->getAdminUserId()) {
 			return $cache->getAdminUserId();
 		} else {
-			if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+			if (App\Config::performance('ENABLE_CACHING_USERS')) {
 				$users = \App\PrivilegeFile::getUser('id');
 				foreach ($users as $id => $user) {
 					if ($user['status'] == 'Active' && $user['is_admin'] == 'on') {
