@@ -231,10 +231,9 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		\App\Log::trace('Entering Settings_LangManagement_Module_Model::setAsDefault(' . $prefix . ') method ...');
 		$db = \App\Db::getInstance();
 		$status = false;
-		$dataReader = (new \App\Db\Query())->select(['prefix'])
+		if ((new \App\Db\Query())->select(['prefix'])
 			->from('vtiger_language')
-			->where(['prefix' => $prefix]);
-		if ($dataReader->exists()) {
+			->where(['prefix' => $prefix])->exists()) {
 			$configFile = new \App\ConfigFile('main');
 			$configFile->set('default_language', $prefix);
 			$configFile->create();
@@ -246,10 +245,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				$prefixOld = $dataReader->readColumn(0);
 				$db->createCommand()->update('vtiger_language', ['isdefault' => 0], ['isdefault' => 1])->execute();
 			}
-			$status = $db->createCommand()->update('vtiger_language', ['isdefault' => 1], ['prefix' => $prefix])->execute();
-			if ($status) {
-				$status = true;
-			}
+			$status = (bool) $db->createCommand()->update('vtiger_language', ['isdefault' => 1], ['prefix' => $prefix])->execute();
 		}
 		\App\Cache::clear();
 		\App\Log::trace('Exiting Settings_LangManagement_Module_Model::setAsDefault() method ...');
