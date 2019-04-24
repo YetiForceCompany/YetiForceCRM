@@ -686,16 +686,16 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v5.8.12",
+            "version": "v5.8.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
-                "reference": "053c578b5a95fc50fa62266ff720ef74790e938e"
+                "reference": "0b3cbe19051c9a8c247091cc0867d3b65250d093"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/contracts/zipball/053c578b5a95fc50fa62266ff720ef74790e938e",
-                "reference": "053c578b5a95fc50fa62266ff720ef74790e938e",
+                "url": "https://api.github.com/repos/illuminate/contracts/zipball/0b3cbe19051c9a8c247091cc0867d3b65250d093",
+                "reference": "0b3cbe19051c9a8c247091cc0867d3b65250d093",
                 "shasum": ""
             },
             "require": {
@@ -726,7 +726,7 @@
             ],
             "description": "The Illuminate Contracts package.",
             "homepage": "https://laravel.com",
-            "time": "2019-04-16T12:47:20+00:00"
+            "time": "2019-04-21T18:51:09+00:00"
         },
         {
             "name": "illuminate/support",
