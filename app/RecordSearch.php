@@ -89,7 +89,7 @@ class RecordSearch
 		} elseif ($this->entityName) {
 			$where[] = ['vtiger_entityname.turn_off' => 1];
 			$query->innerJoin('vtiger_entityname', 'csl.setype = vtiger_entityname.modulename');
-			if (\AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') === 2) {
+			if (\App\Config::search('GLOBAL_SEARCH_SORTING_RESULTS') === 2) {
 				$query->orderBy('vtiger_entityname.sequence');
 			}
 		}

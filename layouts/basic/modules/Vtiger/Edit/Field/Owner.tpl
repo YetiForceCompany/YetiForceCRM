@@ -24,7 +24,7 @@
 		{if $FIELD_VALUE eq '' && isset($VIEW) && $VIEW neq 'MassEdit'}
 			{assign var=FIELD_VALUE value=$CURRENT_USER_ID}
 		{/if}
-		{assign var=SHOW_FAVORITE_OWNERS value=AppConfig::module('Users','FAVORITE_OWNERS') && $CURRENT_USER_ID === \App\User::getCurrentUserRealId()}
+		{assign var=SHOW_FAVORITE_OWNERS value=App\Config::module('Users','FAVORITE_OWNERS') && $CURRENT_USER_ID === \App\User::getCurrentUserRealId()}
 		{assign var=FAVORITE_OWNERS value=[]}
 		{function OPTGRUOP BLOCK_NAME='' OWNERS=[] ACTIVE='inactive'}
 			{if $OWNERS}
@@ -48,19 +48,19 @@
 					data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 					data-name="{$FIELD_NAME}" name="{$FIELD_NAME}" data-fieldinfo='{$FIELD_INFO}'
 					{if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} {if $USER_MODEL->isAdminUser() == false && $ROLE_RECORD_MODEL->get('changeowner') == 0}readonly="readonly"{/if}
-					{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
-				data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName={$FIELD_NAME}" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
+					{if App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
+				data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName={$FIELD_NAME}" data-minimum-input="{App\Config::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
 					{elseif $SHOW_FAVORITE_OWNERS}
 				data-select-cb="registerIconsEvents" data-template-result="prependDataTemplate" data-template-selection="prependDataTemplate" data-select-cb="mycb"
 					{/if}>
-				{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
+				{if !App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
 					{assign var=FOUND_SELECT_VALUE value=isset($ALL_ACTIVEUSER_LIST[$FIELD_VALUE]) || isset($ALL_ACTIVEGROUP_LIST[$FIELD_VALUE])}
 					{if isset($VIEW) && $VIEW eq 'MassEdit'}
 						<optgroup class="p-0">
 							<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
 						</optgroup>
 					{/if}
-					{if AppConfig::module('Users','FAVORITE_OWNERS')}
+					{if App\Config::module('Users','FAVORITE_OWNERS')}
 						{assign var=FAVORITE_OWNERS value=$OWNER_FIELD->getFavorites($FIELD_MODEL->getFieldDataType())}
 						{if $FAVORITE_OWNERS}
 							{assign var=FAVORITE_OWNERS value=array_intersect_key($ALL_ACTIVEUSER_LIST, $FAVORITE_OWNERS) + array_intersect_key($ALL_ACTIVEGROUP_LIST, $FAVORITE_OWNERS)}

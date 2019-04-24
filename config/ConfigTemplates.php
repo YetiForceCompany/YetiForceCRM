@@ -491,7 +491,7 @@ return [
 		],
 		'SQL_LOG_INCLUDE_CALLER' => [
 			'default' => false,
-			'description' => "Should the caller information be captured in SQL Logging?\nIt adds little overhead for performance but will be useful to debug.\nAll data can be found in the table 'l_yf_sqltime'",
+			'description' => "Should the caller information be captured in SQL Logging?\nIt adds little overhead for performance but will be useful to debug.\nAll data can be found in the table 'l_yf_sqltime'.",
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
@@ -607,7 +607,7 @@ return [
 		],
 		'LOAD_CUSTOM_FILES' => [
 			'default' => false,
-			'description' => "Parameter that allows to disable file overwriting.\nAfter enabling it the system will additionally check whether the file exists in the custom directory. Ex. custom/modules/Assets/Assets.php",
+			'description' => "Parameter that allows to disable file overwriting.\nAfter enabling it the system will additionally check whether the file exists in the custom directory. Ex. custom/modules/Assets/Assets.php.",
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],

@@ -173,7 +173,7 @@ class Vtiger_Util_Helper
 	 */
 	public static function getMaxUploadSize()
 	{
-		$upload_maxsize = \AppConfig::main('upload_maxsize');
+		$upload_maxsize = \App\Config::main('upload_maxsize');
 		return ceil($upload_maxsize / (1024 * 1024));
 	}
 
@@ -191,7 +191,7 @@ class Vtiger_Util_Helper
 
 	public static function getActiveAdminCurrentDateTime()
 	{
-		$default_timezone = \AppConfig::main('default_timezone');
+		$default_timezone = \App\Config::main('default_timezone');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
 		date_default_timezone_set($adminTimeZone);

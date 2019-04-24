@@ -83,7 +83,7 @@ class Install_Index_View extends \App\Controller\View
 		$request = $this->setLanguage($request);
 
 		if ('step7' !== $request->getMode() && \App\Config::main('application_unique_key', false)) {
-			$defaultModule = \AppConfig::main('default_module');
+			$defaultModule = \App\Config::main('default_module');
 			$defaultModuleInstance = Vtiger_Module_Model::getInstance($defaultModule);
 			$defaultView = $defaultModuleInstance->getDefaultViewName();
 			header('location: ../index.php?module=' . $defaultModule . '&view=' . $defaultView);

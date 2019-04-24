@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Settings OSSMailView index view class.
  *
@@ -368,16 +367,16 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			} elseif (is_array($data['filterid'])) {
 				$filters = $data['filterid'];
 			}
-			if (count($filters) > \AppConfig::performance('CHART_MULTI_FILTER_LIMIT')) {
+			if (count($filters) > \App\Config::performance('CHART_MULTI_FILTER_LIMIT')) {
 				throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||filterid||' . $data['filterid'], 406);
 			}
 			// if filters total length will be longer than database column
-			if (strlen(implode(',', $filters)) > \AppConfig::performance('CHART_MULTI_FILTER_STR_LEN')) {
+			if (strlen(implode(',', $filters)) > \App\Config::performance('CHART_MULTI_FILTER_STR_LEN')) {
 				throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||filterid||' . $data['filterid'], 406);
 			}
 		}
 		$data['data'] = App\Json::decode(\App\Purifier::decodeHtml($data['data'] ?? ''));
-		if (!empty($data['data']['additionalFiltersFields']) && count($data['data']['additionalFiltersFields']) > \AppConfig::performance('CHART_ADDITIONAL_FILTERS_LIMIT')) {
+		if (!empty($data['data']['additionalFiltersFields']) && count($data['data']['additionalFiltersFields']) > \App\Config::performance('CHART_ADDITIONAL_FILTERS_LIMIT')) {
 			throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||additionalFiltersFields||' . implode(',', $data['data']['additionalFiltersFields']), 406);
 		}
 		$data['data'] = App\Json::encode($data['data']);
@@ -428,14 +427,24 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		return ['success' => true, 'id' => $templateId, 'wid' => $widgetId ?? '', 'status' => $status, 'text' => \App\Language::translate('LBL_WIDGET_ADDED', 'Settings::WidgetsManagement')];
 	}
 
-	public function getBlocksId($dashboard)
+	/**
+	 * Gets blocks.
+	 *
+	 * @param int $dashboard
+	 *
+	 * @return array
+	 */
+	public function getBlocksId(int $dashboard): array
 	{
 		\App\Log::trace('Entering Settings_WidgetsManagement_Module_Model::getBlocksId() method ...');
 		$dataReader = (new App\Db\Query())->select(['vtiger_module_dashboard_blocks.*', 'vtiger_role.rolename'])
 			->from('vtiger_module_dashboard_blocks')
 			->innerJoin('vtiger_role', 'vtiger_module_dashboard_blocks.authorized = vtiger_role.roleid')
 			->where(['vtiger_module_dashboard_blocks.dashboard_id' => $dashboard])
-			->createCommand()->query();
+			->union((new App\Db\Query())->select(['vtiger_module_dashboard_blocks.*', 'rolename' => 'w_#__servers.name'])->from('vtiger_module_dashboard_blocks')
+			->innerJoin('w_#__servers', 'vtiger_module_dashboard_blocks.authorized = w_#__servers.id')
+			->where(['vtiger_module_dashboard_blocks.dashboard_id' => $dashboard])
+			)->createCommand()->query();
 		$data = [];
 		while ($row = $dataReader->read()) {
 			$blockId = $row['id'];

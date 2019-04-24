@@ -53,7 +53,7 @@ class Owner
 			if ($moduleName) {
 				$instance->moduleName = $moduleName;
 			}
-			$instance->showRoleName = \AppConfig::module('Users', 'SHOW_ROLE_NAME');
+			$instance->showRoleName = \App\Config::module('Users', 'SHOW_ROLE_NAME');
 			$instance->currentUser = $currentUser;
 			\Vtiger_Cache::set('App\Fields\Owner', $cacheKey, $instance);
 		}
@@ -331,7 +331,7 @@ class Owner
 			// Add in a blank row
 			$users[''] = '';
 		}
-		$adminInList = \AppConfig::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
+		$adminInList = \App\Config::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
 		$isAdmin = $this->currentUser->isAdmin();
 		foreach ($tempResult as $key => $row) {
 			if (!$onlyAdmin || $isAdmin || !(!$adminInList && 'on' == $row['is_admin'])) {
@@ -470,7 +470,7 @@ class Owner
 		$queryGenerator->setFields(['assigned_user_id']);
 		$ids = $queryGenerator->createQuery()->distinct()->createCommand()->queryColumn();
 		$users = $groups = [];
-		$adminInList = \AppConfig::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
+		$adminInList = \App\Config::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
 		foreach ($ids as $id) {
 			$userModel = \App\User::getUserModel($id);
 			$name = $userModel->getName();
@@ -521,7 +521,7 @@ class Owner
 	{
 		if (!isset(self::$usersIdsCache[$status])) {
 			$rows = [];
-			if (\AppConfig::performance('ENABLE_CACHING_USERS')) {
+			if (\App\Config::performance('ENABLE_CACHING_USERS')) {
 				$rows = \App\PrivilegeFile::getUser('id');
 			} else {
 				$instance = new self();
@@ -634,7 +634,7 @@ class Owner
 			return self::$userLabelCache[$id];
 		}
 
-		if (\AppConfig::performance('ENABLE_CACHING_USERS')) {
+		if (\App\Config::performance('ENABLE_CACHING_USERS')) {
 			$users = \App\PrivilegeFile::getUser('id');
 		} else {
 			$instance = new self();
@@ -755,7 +755,7 @@ class Owner
 		if (isset(self::$typeCache[$id])) {
 			return self::$typeCache[$id];
 		}
-		if (\AppConfig::performance('ENABLE_CACHING_USERS')) {
+		if (\App\Config::performance('ENABLE_CACHING_USERS')) {
 			$users = \App\PrivilegeFile::getUser('id');
 			$isExists = isset($users[$id]);
 		} else {

@@ -122,7 +122,7 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 		$viewer->assign('RELATED_MODULE', $relationModel->getRelationModuleModel());
 		$viewer->assign('RELATED_ENTIRES_COUNT', count($models));
 		$viewer->assign('RELATION_FIELD', $relationModel->getRelationField());
-		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		if (App\Config::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
 		}
 		if (empty($totalCount)) {

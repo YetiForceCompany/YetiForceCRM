@@ -47,7 +47,7 @@ class TableDiscountSTwoLang extends Base
 				$discount += $inventoryRow['discount'];
 			}
 			if ($inventory->isField('discount') && $inventory->isField('discountmode')) {
-				$html .= '<table class="tableDiscountSTwoLang" style="border-collapse:collapse;width:100%;">
+				$html .= '<table class="table-discount-s-two-lang" style="border-collapse:collapse;width:100%;">
 							<thead>
 								<tr>
 									<th style="padding:0px 4px;text-align:center;">' . \App\Language::translate('LBL_DISCOUNTS_SUMMARY', $this->textParser->moduleName) . ' / ' . \App\Language::translate('LBL_DISCOUNTS_SUMMARY', $this->textParser->moduleName, \App\Language::DEFAULT_LANG) . '</th>

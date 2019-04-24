@@ -50,7 +50,7 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 		}
 		\App\ModuleHierarchy::getModulesByLevel();
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('URL', AppConfig::main('site_URL'));
+		$viewer->assign('URL', App\Config::main('site_URL'));
 		$viewer->view('MailActionBar.tpl', $moduleName);
 	}
 }

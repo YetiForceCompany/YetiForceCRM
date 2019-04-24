@@ -46,7 +46,7 @@ class ProductsTableLongVersion extends Base
 			$visibleFields = ['Name', 'Value', 'Quantity', 'UnitPrice', 'TotalPrice', 'Discount', 'NetPrice', 'Tax', 'GrossPrice'];
 			$fieldsTextAlignRight = ['Value', 'Quantity', 'UnitPrice', 'TotalPrice', 'Discount', 'NetPrice', 'Tax', 'GrossPrice'];
 			$fieldsWithCurrency = ['TotalPrice', 'Purchase', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Discount', 'Margin', 'Tax'];
-			$html .= '<table class="productsTableLongVersion" style="width:100%;font-size:8px;border-collapse:collapse;">
+			$html .= '<table class="products-table-long-version" style="width:100%;font-size:8px;border-collapse:collapse;">
 				<thead>
 					<tr>';
 			foreach ($fields[1] as $field) {

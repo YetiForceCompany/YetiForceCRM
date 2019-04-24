@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Calendar-Extended-EventForm -->
-	<input value="{\App\Purifier::encodeHtml(\AppConfig::module('Calendar', 'AUTOFILL_TIME'))}"
+	<input value="{\App\Purifier::encodeHtml(\App\Config::module('Calendar', 'AUTOFILL_TIME'))}"
 		   type="hidden" id="autofillTime"/>
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
@@ -38,7 +38,7 @@
 						{\App\Language::translate('LBL_ADD',$MODULE_NAME)}
 					{/if}
 				</h6>
-				{if !empty(AppConfig::module('Calendar', 'SHOW_ACTIVITY_BUTTONS_IN_EDIT_FORM')) && empty($IS_POSTPONED) && !empty($RECORD_ID)}
+				{if !empty(App\Config::module('Calendar', 'SHOW_ACTIVITY_BUTTONS_IN_EDIT_FORM')) && empty($IS_POSTPONED) && !empty($RECORD_ID)}
 					{include file=\App\Layout::getTemplatePath('Extended/ActivityButtons.tpl', $MODULE_NAME)}
 				{/if}
 				<div class="fieldRow">

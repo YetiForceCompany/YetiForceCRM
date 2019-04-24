@@ -47,7 +47,7 @@ class Encryption extends Base
 			$instance->set('method', $row['method']);
 			$instance->set('vector', $row['pass']);
 		}
-		$instance->set('pass', \AppConfig::securityKeys('encryptionPass'));
+		$instance->set('pass', \App\Config::securityKeys('encryptionPass'));
 		Cache::save('Encryption', 'Instance', $instance, Cache::LONG);
 		return $instance;
 	}
@@ -198,7 +198,7 @@ class Encryption extends Base
 	 */
 	public function isActive()
 	{
-		if (!\function_exists('openssl_encrypt') || $this->isEmpty('method') || $this->get('method') !== \AppConfig::securityKeys('encryptionMethod') || !\in_array($this->get('method'), static::getMethods())) {
+		if (!\function_exists('openssl_encrypt') || $this->isEmpty('method') || $this->get('method') !== \App\Config::securityKeys('encryptionMethod') || !\in_array($this->get('method'), static::getMethods())) {
 			return false;
 		}
 		return true;
@@ -277,6 +277,6 @@ class Encryption extends Base
 	 */
 	public static function createHash($text)
 	{
-		return crypt($text, '$1$' . \AppConfig::main('application_unique_key'));
+		return crypt($text, '$1$' . \App\Config::main('application_unique_key'));
 	}
 }

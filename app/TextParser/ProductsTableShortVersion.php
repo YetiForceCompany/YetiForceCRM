@@ -46,7 +46,7 @@ class ProductsTableShortVersion extends Base
 			$fieldsColumnQuotes = ['Quantity', 'GrossPrice', 'Name', 'UnitPrice', 'TotalPrice'];
 			$fieldsTextRight = ['Quantity', 'GrossPrice', 'UnitPrice', 'TotalPrice'];
 			$fieldsWithCurrency = ['TotalPrice', 'GrossPrice', 'UnitPrice'];
-			$html .= '<table class="productsTableShortVersion" style="width:100%;border-collapse:collapse;">
+			$html .= '<table class="products-table-short-version" style="width:100%;border-collapse:collapse;">
 				<thead>
 					<tr>';
 			foreach ($fields[1] as $field) {

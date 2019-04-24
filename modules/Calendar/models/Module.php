@@ -32,7 +32,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	public function getCalendarViewName()
 	{
 		$returnView = 'Calendar';
-		if ('Standard' !== $calendarView = AppConfig::module('Calendar', 'CALENDAR_VIEW')) {
+		if ('Standard' !== $calendarView = App\Config::module('Calendar', 'CALENDAR_VIEW')) {
 			$returnView .= $calendarView;
 		}
 		return $returnView;
@@ -87,7 +87,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			'linkicon' => 'fas fa-list',
 		]);
 		if (isset($linkParams['ACTION']) && 'Calendar' === $linkParams['ACTION']) {
-			if (AppConfig::module('Calendar', 'SHOW_LIST_BUTTON')) {
+			if (App\Config::module('Calendar', 'SHOW_LIST_BUTTON')) {
 				$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'SIDEBARLINK',
 					'linklabel' => 'LBL_CALENDAR_LIST',

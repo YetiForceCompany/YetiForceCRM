@@ -17,7 +17,7 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (!AppConfig::security('SHOW_MY_PREFERENCES')) {
+		if (!App\Config::security('SHOW_MY_PREFERENCES')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		if ($currentUserModel->isAdminUser() === true || (int) $currentUserModel->get('id') === $request->getInteger('record')) {

@@ -84,8 +84,46 @@ jQuery.Class('Vtiger_RelatedList_Js', {
 		} else {
 			self.noRecordSelectedAlert();
 		}
- 	}
-  },{
+	},
+	/**
+	 * Method to verify if selected files exist
+	 * @param {int} selectedIds
+	 * @return boolean
+	 */
+	verifyFileExist: function (selectedIds) {
+		let aDeferred = jQuery.Deferred();
+		AppConnector.request({
+			module: 'Documents',
+			action: 'CheckFileIntegrity',
+			mode: 'multiple',
+			record: selectedIds,
+		}).done(function (responseData) {
+			if (responseData && responseData.result !== null) {
+				if (responseData.result.message) {
+					Vtiger_Helper_Js.showPnotify({text: responseData.result.message});
+					aDeferred.resolve(false);
+				} else {
+					aDeferred.resolve(true);
+				}
+			}
+		});
+		return aDeferred.promise();
+	},
+	/**
+	 * Method to trigger mass download action
+	 * @param massActionUrl
+	 * @param type
+	 */
+	triggerMassDownload: function (massActionUrl, type) {
+		const self = this.relatedListInstance,
+			thisInstance = this;
+		this.verifyFileExist(self.readSelectedIds(true)).done(function (data) {
+			if (true === data) {
+				thisInstance.triggerMassAction(massActionUrl.substring(0, massActionUrl.indexOf('&mode=multiple')), type);
+			}
+		});
+	},
+}, {
 	selectedRelatedTabElement: false,
 	parentRecordId: false,
 	parentModuleName: false,

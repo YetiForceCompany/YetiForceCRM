@@ -12,7 +12,7 @@
 			</select>
 		</div>
 	</div>
-	{if AppConfig::module('ModTracker', 'WATCHDOG')}
+	{if App\Config::module('ModTracker', 'WATCHDOG')}
 		<div class="row">
 			<div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3">
 				<div class="table-responsive padding10">

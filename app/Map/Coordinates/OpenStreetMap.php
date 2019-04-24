@@ -27,7 +27,7 @@ class OpenStreetMap extends Base
 		if (empty($addressInfo) || !\App\RequestUtil::isNetConnection()) {
 			return $coordinates;
 		}
-		$url = \AppConfig::module('OpenStreetMap', 'ADDRESS_TO_SEARCH') . '/?';
+		$url = \App\Config::module('OpenStreetMap', 'ADDRESS_TO_SEARCH') . '/?';
 		$data = [
 			'format' => 'json',
 			'addressdetails' => 1,

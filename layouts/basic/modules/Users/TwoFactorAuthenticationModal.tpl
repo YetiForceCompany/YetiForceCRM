@@ -38,7 +38,7 @@
 				 data-js="container|css:display">
 				{\App\Language::translate('LBL_2FA_WRONG_CODE', $MODULE_NAME)}
 			</div>
-			{if AppConfig::main('systemMode') === 'demo'}
+			{if App\Config::main('systemMode') === 'demo'}
 				<div class="alert alert-info alert-dismissible show mt-3 mb-0" role="alert">
 					<strong>{\App\Language::translate('LBL_2FA_TOTP_INFO_IN_DEMO', $MODULE_NAME)}</strong>
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -50,7 +50,7 @@
 		<div class="modal-footer">
 
 			<button class="btn btn-success" type="submit" name="saveButton"
-					{if AppConfig::main('systemMode') === 'demo'}disabled{/if}>
+					{if App\Config::main('systemMode') === 'demo'}disabled{/if}>
 				<span class="fas fa-edit mr-1"></span><strong>{\App\Language::translate('BTN_SAVE', $MODULE_NAME)}</strong>
 			</button>
 			{if !$LOCK_EXIT}

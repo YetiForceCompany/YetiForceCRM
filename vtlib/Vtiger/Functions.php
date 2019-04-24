@@ -597,10 +597,10 @@ class Functions
 	{
 		switch ($type) {
 			case 'js':
-				$return = \AppConfig::developer('MINIMIZE_JS');
+				$return = \App\Config::developer('MINIMIZE_JS');
 				break;
 			case 'css':
-				$return = \AppConfig::developer('MINIMIZE_CSS');
+				$return = \App\Config::developer('MINIMIZE_CSS');
 				break;
 			default:
 				break;

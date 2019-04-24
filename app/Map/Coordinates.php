@@ -38,7 +38,7 @@ class Coordinates
 		if (static::$instance) {
 			return static::$instance;
 		}
-		$type = \AppConfig::module('OpenStreetMap', 'COORDINATE_CONNECTOR');
+		$type = \App\Config::module('OpenStreetMap', 'COORDINATE_CONNECTOR');
 		$className = "\App\Map\Coordinates\\$type";
 		if (!class_exists($className)) {
 			throw new \App\Exceptions\AppException('ERR_CLASS_NOT_FOUND');

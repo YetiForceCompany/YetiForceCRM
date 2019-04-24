@@ -22,7 +22,7 @@
 			<div class="" id="loginDiv">
 				{if !$IS_BLOCKED_IP}
 					<form class="login-form" action="index.php?module=Users&action=Login" method="POST"
-						  {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if}>
+						  {if !App\Config::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if}>
 						<div class='fieldContainer mx-0 form-row col-md-12'>
 							<div class='mx-0 col-sm-10'>
 								<label for="username"
@@ -30,9 +30,9 @@
 								<div class="input-group form-group first-group">
 									<input name="username" type="text" id="username"
 										   class="form-control form-control-lg"
-										   {if \AppConfig::main('systemMode') === 'demo'}value="demo"{/if}
+										   {if \App\Config::main('systemMode') === 'demo'}value="demo"{/if}
 										   placeholder="{\App\Language::translate('LBL_USER',$MODULE)}"
-										   required="" {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if}
+										   required="" {if !App\Config::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if}
 										   autofocus="">
 									<div class="input-group-append">
 										<div class="input-group-text"><i class="fas fa-user"></i></div>
@@ -44,7 +44,7 @@
 									<input name="password" type="password" class="form-control form-control-lg"
 										   title="{\App\Language::translate('Password',$MODULE)}" id="password"
 										   name="password"
-										   {if \AppConfig::main('systemMode') === 'demo'}value="demo"{/if} {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if}
+										   {if \App\Config::main('systemMode') === 'demo'}value="demo"{/if} {if !App\Config::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if}
 										   placeholder="{\App\Language::translate('Password',$MODULE)}">
 									<div class="input-group-append">
 										<div class="input-group-text"><i class="fas fa-briefcase"></i></div>
@@ -53,7 +53,7 @@
 								{assign var=COUNTERFIELDS value=2}
 								{if $LANGUAGE_SELECTION}
 									{assign var=COUNTERFIELDS value=$COUNTERFIELDS+1}
-									{assign var=DEFAULT_LANGUAGE value=AppConfig::main('default_language')}
+									{assign var=DEFAULT_LANGUAGE value=App\Config::main('default_language')}
 									<div class="input-group input-group-lg form-group mb-0 {if $LAYOUT_SELECTION}first-group {/if}">
 										<select class="form-control-lg form-control"
 												title="{\App\Language::translate('LBL_CHOOSE_LANGUAGE',$MODULE)}"
@@ -90,7 +90,7 @@
 						</div>
 						<input name="fingerprint" type="hidden" id="fingerPrint" value="">
 					</form>
-					{if AppConfig::security('RESET_LOGIN_PASSWORD') && App\Mail::getDefaultSmtp()}
+					{if App\Config::security('RESET_LOGIN_PASSWORD') && App\Mail::getDefaultSmtp()}
 						<div class="form-group">
 							<div class="">
 								<a href="#" id="forgotpass">{\App\Language::translate('ForgotPassword',$MODULE)}?</a>
@@ -114,7 +114,7 @@
 					{/if}
 				</div>
 			</div>
-			{if AppConfig::security('RESET_LOGIN_PASSWORD') && App\Mail::getDefaultSmtp()}
+			{if App\Config::security('RESET_LOGIN_PASSWORD') && App\Mail::getDefaultSmtp()}
 				<div class="d-none" id="forgotPasswordDiv">
 					<form class="forgot-form" action="index.php?module=Users&action=ForgotPassword" method="POST">
 						<div class="fieldContainer mx-0 form-row col-md-12">

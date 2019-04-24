@@ -877,14 +877,14 @@ class Vtiger_Field_Model extends vtlib\Field
 			case 'owner':
 			case 'userCreator':
 			case 'sharedOwner':
-				if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || in_array(\App\Request::_get('module'), ['CustomView', 'Workflows', 'PDF', 'MappedFields']) || 'showAdvancedSearch' === \App\Request::_get('mode')) {
+				if (!App\Config::performance('SEARCH_OWNERS_BY_AJAX') || in_array(\App\Request::_get('module'), ['CustomView', 'Workflows', 'PDF', 'MappedFields']) || 'showAdvancedSearch' === \App\Request::_get('mode')) {
 					$userList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
 					$groupList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $fieldDataType);
 					$pickListValues = [];
 					$pickListValues[\App\Language::translate('LBL_USERS', $this->getModuleName())] = $userList;
 					$pickListValues[\App\Language::translate('LBL_GROUPS', $this->getModuleName())] = $groupList;
 					$this->fieldInfo['picklistvalues'] = $pickListValues;
-					if (AppConfig::performance('SEARCH_OWNERS_BY_AJAX')) {
+					if (App\Config::performance('SEARCH_OWNERS_BY_AJAX')) {
 						$this->fieldInfo['searchOperator'] = 'e';
 					}
 				} else {

@@ -10,11 +10,11 @@
 	<input value="{$WEEK_VIEW}" type="hidden" id="weekView"/>
 	<input value="{$DAY_VIEW}" type="hidden" id="dayView"/>
 	<input value="{$ALL_DAY_SLOT}" type="hidden" id="allDaySlot"/>
-	<input value="{\App\Purifier::encodeHtml(\App\Json::encode(\AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}"
+	<input value="{\App\Purifier::encodeHtml(\App\Json::encode(\App\Config::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}"
 		   type="hidden" id="hiddenDays"/>
 	<input value="{\App\Purifier::encodeHtml($ACTIVITY_STATE_LABELS)}" type="hidden" id="activityStateLabels"/>
 	<input value="{\App\Purifier::encodeHtml(\App\Json::encode($HISTORY_PARAMS))}" type="hidden" id="historyParams"/>
-	<input value="{\App\Purifier::encodeHtml(\AppConfig::module('Calendar', 'SHOW_EDIT_FORM'))}" type="hidden" id="showEditForm"/>
+	<input value="{\App\Purifier::encodeHtml(\App\Config::module('Calendar', 'SHOW_EDIT_FORM'))}" type="hidden" id="showEditForm"/>
 	<div class="calendarViewContainer rowContent js-css-element-queries" data-js="css-element-queries">
 		<div class="o-calendar__container mt-2" data-js="offset">
 			<div class="d-none js-calendar__header-buttons">

@@ -4,7 +4,7 @@
 	{if !empty($ALL_ACTIVEUSER_LIST)}
 		<div class="js-filter__container">
 			<h6 class="boxFilterTitle mt-2">{\App\Language::translate('LBL_SELECT_USER_CALENDAR',$MODULE_NAME)}</h6>
-			{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
+			{if !App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
 				<div class="input-group input-group-sm mb-3">
 					<div class="input-group-prepend">
 						<span class="input-group-text">
@@ -45,7 +45,7 @@
 						name="transferOwnerId" id="transferOwnerId" multiple="multiple"
 						data-ajax-search="1"
 						data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName=assigned_user_id&result[]=users"
-						data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}">
+						data-minimum-input="{App\Config::performance('OWNER_MINIMUM_INPUT_LENGTH')}">
 					<option value="{$USER_MODEL->get('id')}"
 							data-picklistvalue="{$USER_MODEL->getName()}">
 						{$USER_MODEL->getName()}
@@ -57,7 +57,7 @@
 	{if !empty($ALL_ACTIVEGROUP_LIST)}
 		<div class="js-filter__container">
 			<h6 class="boxFilterTitle mt-2">{\App\Language::translate('LBL_SELECT_GROUP_CALENDAR',$MODULE)}</h6>
-			{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
+			{if !App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
 				<div class="input-group input-group-sm mb-3">
 					<div class="input-group-prepend">
 						<span class="input-group-text">
@@ -91,7 +91,7 @@
 						name="transferRoleOwnerId" id="transferRoleOwnerId" multiple="multiple"
 						data-ajax-search="1"
 						data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName=assigned_user_id&result[]=groups"
-						data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}">
+						data-minimum-input="{App\Config::performance('OWNER_MINIMUM_INPUT_LENGTH')}">
 					<option value="{$USER_MODEL->get('id')}"
 							data-picklistvalue="{$USER_MODEL->getName()}">
 						{$USER_MODEL->getName()}

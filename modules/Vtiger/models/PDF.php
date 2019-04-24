@@ -13,6 +13,19 @@
 class Vtiger_PDF_Model extends \App\Base
 {
 	/**
+	 * Template type standard.
+	 *
+	 * @var int
+	 */
+	public const TEMPLATE_TYPE_STANDARD = 0;
+	/**
+	 * Template type dynamic.
+	 *
+	 * @var int
+	 */
+	public const TEMPLATE_TYPE_DYNAMIC = 2;
+
+	/**
 	 * Table name.
 	 *
 	 * @var string
@@ -90,9 +103,8 @@ class Vtiger_PDF_Model extends \App\Base
 	{
 		if ($key === 'conditions' && !is_array(parent::get($key))) {
 			return json_decode(parent::get($key), true);
-		} else {
-			return parent::get($key);
 		}
+		return parent::get($key);
 	}
 
 	/**
@@ -143,7 +155,7 @@ class Vtiger_PDF_Model extends \App\Base
 	/**
 	 * Return module instance or false.
 	 *
-	 * @return object|false
+	 * @return false|object
 	 */
 	public function getModule()
 	{
@@ -165,9 +177,8 @@ class Vtiger_PDF_Model extends \App\Base
 
 		if (count($templates) > 0) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	/**
@@ -245,7 +256,7 @@ class Vtiger_PDF_Model extends \App\Base
 	 * @param int    $recordId
 	 * @param string $moduleName
 	 *
-	 * @return Vtiger_PDF_Model|bool
+	 * @return bool|Vtiger_PDF_Model
 	 */
 	public static function getInstanceById($recordId, $moduleName = 'Vtiger')
 	{
@@ -270,6 +281,8 @@ class Vtiger_PDF_Model extends \App\Base
 
 	/**
 	 * Function returns valuetype of the field filter.
+	 *
+	 * @param mixed $fieldname
 	 *
 	 * @return string
 	 */
@@ -357,9 +370,11 @@ class Vtiger_PDF_Model extends \App\Base
 		}
 		if (in_array('Users:' . $currentUser->getId(), $permissions)) { // check user id
 			return true;
-		} elseif (in_array('Roles:' . $currentUser->getRole(), $permissions)) {
+		}
+		if (in_array('Roles:' . $currentUser->getRole(), $permissions)) {
 			return true;
-		} elseif (array_key_exists('Groups', $getTypes)) {
+		}
+		if (array_key_exists('Groups', $getTypes)) {
 			$accessibleGroups = array_keys(\App\Fields\Owner::getInstance($this->get('module_name'), $currentUser)->getAccessibleGroupForModule());
 			$groups = array_intersect($getTypes['Groups'], $currentUser->getGroups());
 			if (array_intersect($groups, $accessibleGroups)) {
@@ -433,9 +448,8 @@ class Vtiger_PDF_Model extends \App\Base
 		$orientation = $this->get('page_orientation');
 		if ($orientation === 'PLL_LANDSCAPE') {
 			return 'L';
-		} else {
-			return 'P';
 		}
+		return 'P';
 	}
 
 	/**
@@ -476,10 +490,11 @@ class Vtiger_PDF_Model extends \App\Base
 	 * @param int    $templateId - id of pdf template
 	 * @param string $filePath   - path name for saving pdf file
 	 * @param string $saveFlag   - save option flag
+	 * @param array  $params     - ['inventoryColumns'=>[...]]
 	 */
-	public static function exportToPdf($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '')
+	public static function exportToPdf($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '', array $params = [])
 	{
-		(new \App\Pdf\YetiForcePDF())->export($recordId, $moduleName, $templateId, $filePath, $saveFlag);
+		(new \App\Pdf\YetiForcePDF())->setParams($params)->export($recordId, $moduleName, $templateId, $filePath, $saveFlag);
 	}
 
 	/**
@@ -537,5 +552,69 @@ class Vtiger_PDF_Model extends \App\Base
 		foreach ($fileNames as $file) {
 			unlink($file);
 		}
+	}
+
+	/**
+	 * Get column scheme for specified record.
+	 *
+	 * @param int    $recordId
+	 * @param string $moduleName
+	 *
+	 * @return array
+	 */
+	public static function getInventoryColumnsForRecord($recordId, string $moduleName)
+	{
+		$columnsJSON = (new App\Db\Query())
+			->select(['columns'])
+			->from('u_#__pdf_inv_scheme')
+			->where(['crmid' => $recordId])
+			->scalar();
+		if ($columnsJSON) {
+			return \App\Json::decode($columnsJSON);
+		}
+		return array_keys(Vtiger_Inventory_Model::getInstance($moduleName)->getFields());
+	}
+
+	/**
+	 * Save column scheme for specified record.
+	 *
+	 * @param string $moduleName
+	 * @param array  $records
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 */
+	public static function saveInventoryColumnsForRecords(string $moduleName, array $records)
+	{
+		$availableColumns = array_keys(Vtiger_Inventory_Model::getInstance($moduleName)->getFields());
+		foreach ($records as $columns) {
+			if (array_diff($columns, $availableColumns)) {
+				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
+			}
+		}
+		$table = 'u_#__pdf_inv_scheme';
+		$insertData = [];
+		$updateData = [];
+		foreach ($records as $recordId => $columns) {
+			$json = \App\Json::encode($columns);
+			$schemeExists = (new \App\Db\Query())
+				->select(['crmid'])
+				->from($table)
+				->where(['crmid' => $recordId])
+				->exists();
+			if (!$schemeExists) {
+				$insertData[] = [$recordId, $json];
+			} else {
+				$updateData[] = [$recordId, $json];
+			}
+		}
+		if (!empty($insertData)) {
+			\App\Db::getInstance()->createCommand()->batchInsert($table, ['crmid', 'columns'], $insertData)->execute();
+		}
+		if (!empty($updateData)) {
+			foreach ($updateData as $row) {
+				\App\Db::getInstance()->createCommand()->update($table, ['columns' => $row[1]], ['crmid' => $row[0]])->execute();
+			}
+		}
+		unset($insertData, $availableColumns, $updateData, $row, $table, $schemeExists);
 	}
 }

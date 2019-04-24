@@ -94,7 +94,7 @@ class Utils
 	public static function checkFileAccess($filepath, $dieOnFail = true)
 	{
 		// Set the base directory to compare with
-		$use_root_directory = \AppConfig::main('root_directory');
+		$use_root_directory = \App\Config::main('root_directory');
 		if (empty($use_root_directory)) {
 			$use_root_directory = realpath(__DIR__ . '/../../.');
 		}

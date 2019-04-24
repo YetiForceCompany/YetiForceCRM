@@ -47,7 +47,7 @@ class TableDiscountSummary extends Base
 				$discount += $inventoryRow['discount'];
 			}
 			if ($inventory->isField('discount') && $inventory->isField('discountmode')) {
-				$html .= '<table class="tableDiscountSummary" style="width:100%;vertical-align:top;border-collapse:collapse;">
+				$html .= '<table class="table-discount-summary" style="width:100%;vertical-align:top;border-collapse:collapse;">
 				<thead>
 					<tr>
 						<th style="padding:0px 4px;font-weight:bold;">' . \App\Language::translate('LBL_DISCOUNTS_SUMMARY', $this->textParser->moduleName) . '</th>

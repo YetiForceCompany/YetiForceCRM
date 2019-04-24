@@ -29,6 +29,10 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	protected $customPurifyType = [
 		'taxparam' => \App\Purifier::TEXT
 	];
+	/**
+	 * @var array List of shared fields
+	 */
+	public $shared = ['taxparam' => 'tax_percent'];
 
 	/**
 	 * {@inheritdoc}
@@ -40,7 +44,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 
 	public function getClassName($data)
 	{
-		if (count($data) > 0 && $data[0]['taxmode'] == 0) {
+		if (count($data) > 0 && 0 == $data[0]['taxmode']) {
 			return 'hide';
 		}
 		return '';
@@ -70,6 +74,9 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	public function validate($value, string $columnName, bool $isUserFormat)
 	{
 		if ($columnName === $this->getColumnName()) {
+			if (!is_numeric($value)) {
+				throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
+			}
 			if ($this->maximumLength < $value || -$this->maximumLength > $value) {
 				throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 			}
@@ -85,7 +92,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	 *
 	 * @param string     $taxParam String parameters json encode
 	 * @param float      $net
-	 * @param array|null $return
+	 * @param null|array $return
 	 *
 	 * @return array
 	 */

@@ -46,7 +46,7 @@ class ProductsTableLongVTwoLang extends Base
 		if (!empty($fields[1])) {
 			$fieldsTextAlignRight = ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'];
 			$fieldsWithCurrency = ['TotalPrice', 'Purchase', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Discount', 'Margin', 'Tax'];
-			$html .= '<table class="productsTableLongVTwoLang" style="border-collapse:collapse;width:100%;"><thead><tr>';
+			$html .= '<table class="products-table-long-v-two-lang" style="border-collapse:collapse;width:100%;"><thead><tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible() && 'subunit' !== $field->getColumnName()) {
 					$html .= '<th class="col-type-' . $field->getType() . '" style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . ' / ' . \App\Language::translate($field->get('label'), $this->textParser->moduleName, \App\Language::DEFAULT_LANG) . '</th>';

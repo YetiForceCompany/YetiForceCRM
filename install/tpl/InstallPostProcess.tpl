@@ -13,7 +13,7 @@
 	<!-- tpl-install-tpl-InstallPostProcess -->
 	<br>
 	<footer class="noprint text-center fixed-bottom c-footer">
-		<p class="text-center text-center {if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}u-p-05per{/if}">
+		<p class="text-center text-center {if App\Config::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}u-p-05per{/if}">
 							<span class="d-none d-sm-inline ">Copyright &copy; YetiForce.com All rights reserved.
 								<br/>{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger','open source project')}
 							</span>

@@ -295,12 +295,12 @@ class PackageImport extends PackageExport
 					continue;
 				}
 			}
-			$pattern = '/languages[\/\\\]' . \AppConfig::main('default_language') . '[\/\\\]([^\/]+)\.json/';
+			$pattern = '/languages[\/\\\]' . \App\Config::main('default_language') . '[\/\\\]([^\/]+)\.json/';
 			preg_match($pattern, $fileName, $matches);
 			if (count($matches)) {
 				$language_modulename = $matches[1];
 			}
-			$settingsPattern = '/languages[\/\\\]' . \AppConfig::main('default_language') . '[\/\\\]Settings[\/\\\]([^\/]+)\.json/';
+			$settingsPattern = '/languages[\/\\\]' . \App\Config::main('default_language') . '[\/\\\]Settings[\/\\\]([^\/]+)\.json/';
 			preg_match($settingsPattern, $fileName, $matches);
 			if (count($matches)) {
 				$language_modulename = $matches[1];
@@ -311,7 +311,7 @@ class PackageImport extends PackageExport
 			$languagefile_found = true;
 		} elseif (!$fontfile_found && !$updatefile_found && !$layoutfile_found && !$languagefile_found) {
 			$errorText = \App\Language::translate('LBL_ERROR_NO_DEFAULT_LANGUAGE', 'Settings:ModuleManager');
-			$errorText = str_replace('__DEFAULTLANGUAGE__', \AppConfig::main('default_language'), $errorText);
+			$errorText = str_replace('__DEFAULTLANGUAGE__', \App\Config::main('default_language'), $errorText);
 			$this->_errorText = $errorText;
 		}
 		if (!empty($this->_modulexml) &&

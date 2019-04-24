@@ -53,7 +53,7 @@ class CRMEntity
 
 		// File access security check
 		if (!class_exists($module)) {
-			if (AppConfig::performance('LOAD_CUSTOM_FILES') && file_exists("custom/modules/$module/$module.php")) {
+			if (App\Config::performance('LOAD_CUSTOM_FILES') && file_exists("custom/modules/$module/$module.php")) {
 				\vtlib\Deprecated::checkFileAccessForInclusion("custom/modules/$module/$module.php");
 				require_once "custom/modules/$module/$module.php";
 			} else {

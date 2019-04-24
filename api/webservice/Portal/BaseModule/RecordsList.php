@@ -21,6 +21,8 @@ class RecordsList extends \Api\Core\BaseAction
 	 */
 	public function get()
 	{
+		$enableRawData = 1 === (int) $this->controller->headers['x-raw-data'];
+		$rawData = [];
 		$moduleName = $this->controller->request->get('module');
 		$records = $headers = [];
 		$queryGenerator = $this->getQuery();
@@ -35,16 +37,19 @@ class RecordsList extends \Api\Core\BaseAction
 				}
 			}
 			$records[$row['id']] = $record;
+			if ($enableRawData) {
+				$rawData[$row['id']] = $row;
+			}
 		}
 		$dataReader->close();
 		foreach ($fieldsModel as $fieldName => &$fieldModel) {
 			$headers[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
 		}
 		$rowsCount = count($records);
-
 		return [
 			'headers' => $headers,
 			'records' => $records,
+			'rawData' => $rawData,
 			'count' => $rowsCount,
 			'isMorePages' => $rowsCount === $limit,
 		];

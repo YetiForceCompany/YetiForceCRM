@@ -154,10 +154,20 @@ CREATE TABLE `a_yf_pdf` (
   `watermark_image` varchar(255) NOT NULL,
   `template_members` text NOT NULL,
   `one_pdf` tinyint(1) DEFAULT NULL,
+  `type` tinyint(1) unsigned DEFAULT 0,
   PRIMARY KEY (`pdfid`),
   KEY `module_name` (`module_name`,`status`),
   KEY `module_name_2` (`module_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `a_yf_pdf_inv_col_scheme` */
+
+CREATE TABLE `u_yf_pdf_inv_scheme` (
+  `crmid` INT(10) NOT NULL,
+  `columns` TEXT DEFAULT NULL,
+  KEY `crmid` (`crmid`),
+  CONSTRAINT `fk_u_yf_pdf_inv_scheme_crmid` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_record_converter` */
 
@@ -1805,8 +1815,12 @@ CREATE TABLE `u_yf_finvoice` (
   `finvoice_type` varchar(255) DEFAULT NULL,
   `pscategory` varchar(100) DEFAULT NULL,
   `issue_time` date DEFAULT NULL,
+  `ssalesprocessesid` int(10) DEFAULT NULL,
+  `projectid` int(10) DEFAULT NULL,
   PRIMARY KEY (`finvoiceid`),
   KEY `accountid` (`accountid`),
+  KEY `u_yf_finvoice_ssalesprocessesid_idx` (`ssalesprocessesid`),
+  KEY `u_yf_finvoice_projectid_idx` (`projectid`),
   CONSTRAINT `fk_1_vtiger_finvoice` FOREIGN KEY (`finvoiceid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -5457,7 +5471,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2786 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2788 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -7719,7 +7733,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `tabid_2` (`tabid`,`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=599 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=601 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
@@ -9140,6 +9154,7 @@ CREATE TABLE `yetiforce_menu` (
   `sizeicon` varchar(255) DEFAULT NULL,
   `hotkey` varchar(30) DEFAULT NULL,
   `filters` varchar(255) DEFAULT NULL,
+  `source` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parentid`),
   KEY `role` (`role`),

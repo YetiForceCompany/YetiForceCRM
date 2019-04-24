@@ -242,7 +242,7 @@ class DateTimeField
 		if (empty($user)) {
 			$user = $current_user;
 		}
-		$timeZone = is_object($user) ? $user->time_zone : AppConfig::main('default_timezone');
+		$timeZone = is_object($user) ? $user->time_zone : App\Config::main('default_timezone');
 		$return = self::convertTimeZone($value, App\Fields\DateTime::getTimeZone(), $timeZone);
 		\App\Log::trace('End ' . __METHOD__);
 		return $return;

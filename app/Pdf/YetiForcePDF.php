@@ -114,6 +114,13 @@ class YetiForcePDF extends PDF
 	protected $moduleModel;
 
 	/**
+	 * Additional params.
+	 *
+	 * @var array
+	 */
+	protected $params = [];
+
+	/**
 	 * Returns pdf library object.
 	 */
 	public function pdf()
@@ -127,7 +134,7 @@ class YetiForcePDF extends PDF
 	public function __construct()
 	{
 		$this->setLibraryName('YetiForcePDF');
-		$this->setInputCharset(\AppConfig::main('default_charset') ?? 'UTF-8');
+		$this->setInputCharset(\App\Config::main('default_charset') ?? 'UTF-8');
 		$this->pdf = (new Document())->init();
 	}
 
@@ -327,7 +334,7 @@ class YetiForcePDF extends PDF
 	{
 		$textParser = \App\TextParser::getInstanceById($this->recordId, $this->moduleName);
 		$textParser->setType('pdf');
-		$textParser->setParams(['pdf' => $this->moduleModel]);
+		$textParser->setParams(['pdf' => $this->moduleModel, 'inventoryColumns' => $this->getParam('inventoryColumns')]);
 		if ($this->language) {
 			$textParser->setLanguage($this->language);
 		}
@@ -518,7 +525,7 @@ class YetiForcePDF extends PDF
 	 */
 	private function loadCustomFonts()
 	{
-		$fontsDir = 'layouts' . \DIRECTORY_SEPARATOR . 'resources' . \DIRECTORY_SEPARATOR . 'fonts' . \DIRECTORY_SEPARATOR;
+		$fontsDir = 'layouts' . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'fonts' . DIRECTORY_SEPARATOR;
 		$resolvedDir = \Vtiger_Loader::resolveNameToPath('~' . $fontsDir, 'css');
 		$customFonts = \App\Json::read($resolvedDir . 'fonts.json');
 		foreach ($customFonts as &$font) {
@@ -554,11 +561,11 @@ class YetiForcePDF extends PDF
 	public function getTemplateWatermark(\Vtiger_PDF_Model $templateModel)
 	{
 		$watermark = '';
-		if (self::WATERMARK_TYPE_IMAGE === $templateModel->get('watermark_type') && '' !== trim($templateModel->get('watermark_image'))) {
+		if ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_IMAGE && trim($templateModel->get('watermark_image')) !== '') {
 			if ($templateModel->get('watermark_image')) {
 				$watermark = '<img src="' . $templateModel->get('watermark_image') . '" style="opacity:0.1;">';
 			}
-		} elseif (self::WATERMARK_TYPE_TEXT === $templateModel->get('watermark_type') && '' !== trim($templateModel->get('watermark_text'))) {
+		} elseif ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_TEXT && trim($templateModel->get('watermark_text')) !== '') {
 			$watermark = '<div style="opacity:0.1;display:inline-block;">' . $templateModel->get('watermark_text') . '</div>';
 		}
 		return $watermark;
@@ -596,10 +603,10 @@ class YetiForcePDF extends PDF
 	{
 		$template = \Vtiger_PDF_Model::getInstanceById($templateId, $moduleName);
 		$template->setMainRecordId($templateMainRecordId ? $templateMainRecordId : $recordId);
-		$pageOrientationValue = 'PLL_PORTRAIT' === $template->get('page_orientation') ? 'P' : 'L';
+		$pageOrientationValue = $template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L';
 		if ($this->isDefault) {
-			$charset = \AppConfig::main('default_charset') ?? 'UTF-8';
-			if (1 === $template->get('margin_chkbox')) {
+			$charset = \App\Config::main('default_charset') ?? 'UTF-8';
+			if ($template->get('margin_chkbox') === 1) {
 				$self = new self($charset);
 				$self->setPageSize($template->get('page_format'), $pageOrientationValue);
 				$self->setFont($this->defaultFontFamily, $this->defaultFontSize);
@@ -623,11 +630,12 @@ class YetiForcePDF extends PDF
 		$self->setTemplateId($templateId);
 		$self->setRecordId($recordId);
 		$self->setModuleName($moduleName);
+		$self->setParams(['inventoryColumns' => $this->getParam('inventoryColumns')]);
 		\App\Language::setTemporaryLanguage($template->get('language'));
 		$self->setWatermark($template);
 		$self->setLanguage($template->get('language'));
 		$self->setFileName($self->parseVariables($template->get('filename')));
-		$self->parseParams($template->getParameters(), 1 !== $template->get('margin_chkbox'));
+		$self->parseParams($template->getParameters(), $template->get('margin_chkbox') !== 1);
 		$self->loadHtml($template->getBody());
 		$self->setHeader($template->getHeader());
 		$self->setFooter($template->getFooter());
@@ -654,7 +662,7 @@ class YetiForcePDF extends PDF
 		}
 		$this->writeHTML();
 		$output = $this->pdf->render();
-		if ('I' !== $dest) {
+		if ($dest !== 'I') {
 			return file_put_contents($fileName, $output);
 		}
 		header('accept-charset: utf-8');
@@ -676,5 +684,43 @@ class YetiForcePDF extends PDF
 	public function export($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '')
 	{
 		$this->generateContent($recordId, $moduleName, $templateId, $recordId)->output($filePath, $saveFlag);
+	}
+
+	/**
+	 * Get additional params.
+	 *
+	 * @return array
+	 */
+	public function getParams()
+	{
+		return $this->params;
+	}
+
+	/**
+	 * Get additional params.
+	 *
+	 * @param string $name
+	 *
+	 * @return any
+	 */
+	public function getParam(string $name)
+	{
+		if (isset($this->params[$name])) {
+			return $this->params[$name];
+		}
+		return null;
+	}
+
+	/**
+	 * Set additional params.
+	 *
+	 * @param array $params Additional params
+	 *
+	 * @return self
+	 */
+	public function setParams(array $params)
+	{
+		$this->params = array_merge($this->params, $params);
+		return $this;
 	}
 }

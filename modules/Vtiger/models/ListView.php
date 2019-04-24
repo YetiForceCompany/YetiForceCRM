@@ -91,7 +91,7 @@ class Vtiger_ListView_Model extends \App\Base
 
 		$headerLinks = [];
 		$moduleModel = $this->getModule();
-		if (AppConfig::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingModule')) {
+		if (App\Config::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingModule')) {
 			$watchdog = Vtiger_Watchdog_Model::getInstance($moduleModel->getName());
 			$class = 'btn-outline-dark';
 			$iconclass = 'fa-eye-slash';
@@ -298,7 +298,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkicon' => 'fas fa-user'
 			];
 		}
-		if ($moduleModel->isTrackingEnabled() && AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $moduleModel->isPermitted('ReviewingUpdates') && $currentUser->getId() === $currentUser->getRealId()) {
+		if ($moduleModel->isTrackingEnabled() && App\Config::module('ModTracker', 'UNREVIEWED_COUNT') && $moduleModel->isPermitted('ReviewingUpdates') && $currentUser->getId() === $currentUser->getRealId()) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_REVIEW_CHANGES',

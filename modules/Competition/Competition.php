@@ -288,7 +288,7 @@ class Competition extends Vtiger_CRMEntity
 	{
 		$listviewHeader = [];
 		$listviewEntries = [];
-		$listColumns = AppConfig::module('Competition', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = App\Config::module('Competition', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
@@ -325,7 +325,7 @@ class Competition extends Vtiger_CRMEntity
 		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $recordId . ') method ...');
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 		$hasRecordViewAccess = $currentUser->isAdminUser() || \App\Privilege::isPermitted('Competition', 'DetailView', $recordId);
-		$listColumns = AppConfig::module('Competition', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = App\Config::module('Competition', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
@@ -375,7 +375,7 @@ class Competition extends Vtiger_CRMEntity
 	public function getParent(int $id, array &$parent, array &$encountered, int $depthBase = 0)
 	{
 		\App\Log::trace('Entering getParent(' . $id . ') method ...');
-		if ($depthBase == AppConfig::module('Competition', 'MAX_HIERARCHY_DEPTH')) {
+		if ($depthBase == App\Config::module('Competition', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting getParent method ... - exceeded maximum depth of hierarchy');
 
 			return $parent;
@@ -402,7 +402,7 @@ class Competition extends Vtiger_CRMEntity
 				$depth = $parent[$parentid]['depth'] + 1;
 			}
 			$parentInfo['depth'] = $depth;
-			$listColumns = AppConfig::module('Competition', 'COLUMNS_IN_HIERARCHY');
+			$listColumns = App\Config::module('Competition', 'COLUMNS_IN_HIERARCHY');
 			if (empty($listColumns)) {
 				$listColumns = $this->list_fields_name;
 			}
@@ -435,7 +435,7 @@ class Competition extends Vtiger_CRMEntity
 	public function getChild(int $id, array &$childRow, int $depthBase)
 	{
 		\App\Log::trace('Entering getChild(' . $id . ',' . $depthBase . ') method ...');
-		if (empty($id) || $depthBase == AppConfig::module('Competition', 'MAX_HIERARCHY_DEPTH')) {
+		if (empty($id) || $depthBase == App\Config::module('Competition', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting getChild method ... - exceeded maximum depth of hierarchy');
 
 			return $childRow;
@@ -450,7 +450,7 @@ class Competition extends Vtiger_CRMEntity
 			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
 			->where(['vtiger_crmentity.deleted' => 0, 'u_#__competition.parent_id' => $id])
 			->createCommand()->query();
-		$listColumns = AppConfig::module('Competition', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = App\Config::module('Competition', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}

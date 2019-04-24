@@ -62,7 +62,7 @@ class Api extends \Tests\Base
 	public function setUp()
 	{
 		parent::setUp();
-		static::$url = \AppConfig::main('site_URL') . 'webservice/';
+		static::$url = \App\Config::main('site_URL') . 'webservice/';
 	}
 
 	/**

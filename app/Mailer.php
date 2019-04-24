@@ -36,7 +36,7 @@ class Mailer
 	{
 		static::$error = [];
 		$this->mailer = new \PHPMailer\PHPMailer\PHPMailer(false);
-		if (\AppConfig::debug('MAILER_DEBUG')) {
+		if (\App\Config::debug('MAILER_DEBUG')) {
 			$this->mailer->SMTPDebug = 2;
 			$this->mailer->Debugoutput = function ($str, $level) {
 				if (strpos(strtolower($str), 'error') !== false || strpos(strtolower($str), 'failed') !== false) {
@@ -49,7 +49,7 @@ class Mailer
 		$this->mailer->XMailer = 'YetiForceCRM Mailer';
 		$this->mailer->Hostname = 'YetiForceCRM';
 		$this->mailer->FromName = 'YetiForce Mailer';
-		$this->mailer->CharSet = \AppConfig::main('default_charset');
+		$this->mailer->CharSet = \App\Config::main('default_charset');
 	}
 
 	/**
@@ -434,7 +434,7 @@ class Mailer
 	 */
 	public static function sendByRowQueue($rowQueue)
 	{
-		if (\AppConfig::main('systemMode') === 'demo') {
+		if (\App\Config::main('systemMode') === 'demo') {
 			return true;
 		}
 		$mailer = (new self())->loadSmtpByID($rowQueue['smtp_id'])->subject($rowQueue['subject'])->content($rowQueue['content']);

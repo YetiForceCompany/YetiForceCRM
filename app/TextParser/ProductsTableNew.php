@@ -45,7 +45,7 @@ class ProductsTableNew extends Base
 		if (!empty($fields[1])) {
 			$fieldsTextAlignRight = ['Unit', 'TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'];
 			$fieldsWithCurrency = ['TotalPrice', 'Purchase', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Discount', 'Margin', 'Tax'];
-			$html .= '<table class="productsTableNew" style="border-collapse:collapse;width:100%">
+			$html .= '<table class="products-table-new" style="border-collapse:collapse;width:100%">
 				<thead>
 					<tr>';
 			foreach ($fields[1] as $field) {

@@ -1467,6 +1467,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 				}
 			});
 		});
+		App.Fields.Tree.register(container);
 	},
 	/**
 	 * Function to register all the events for blocks

@@ -42,7 +42,7 @@ class ProductsTableRelatedModule extends Base
 		$inventoryRows = $relatedModuleRecordModel->getInventoryData();
 		if (!empty($fields[1])) {
 			$fieldsTextAlignRight = ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'];
-			$html .= '<table class="productsTableRelatedModule" style="width:100%;border-collapse:collapse;"><thead><tr class="productsTableRelatedModule-thead-row">';
+			$html .= '<table class="products-table-related-module" style="width:100%;border-collapse:collapse;"><thead><tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible()) {
 					$html .= '<th class="col-type-' . $field->getType() . '" style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';

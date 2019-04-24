@@ -82,7 +82,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 			$filePath = $fileDetails['path'];
 			$fileName = $fileDetails['name'];
 			if ('I' === $this->get('filelocationtype')) {
-				$fileName = html_entity_decode($fileName, ENT_QUOTES, \AppConfig::main('default_charset'));
+				$fileName = html_entity_decode($fileName, ENT_QUOTES, \App\Config::main('default_charset'));
 				if (file_exists($filePath . $fileDetails['attachmentsid'])) {
 					$savedFile = $fileDetails['attachmentsid'];
 				} else {
@@ -133,7 +133,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 					if (file_exists($filePath . $fileDetails['attachmentsid'])) {
 						$savedFile = $fileDetails['attachmentsid'];
 					} else {
-						$savedFile = $fileDetails['attachmentsid'] . '_' . html_entity_decode($fileDetails['name'], ENT_QUOTES, \AppConfig::main('default_charset'));
+						$savedFile = $fileDetails['attachmentsid'] . '_' . html_entity_decode($fileDetails['name'], ENT_QUOTES, \App\Config::main('default_charset'));
 					}
 					if (file_exists($filePath . $savedFile)) {
 						$zip->addFile($filePath . $savedFile, basename($documentModel->get('filename')));
