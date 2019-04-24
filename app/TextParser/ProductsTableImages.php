@@ -124,7 +124,7 @@ class ProductsTableImages extends Base
 			}
 			$displayRows[] = $rowHtml;
 		}
-		$html .= '<table class="productsTableImages" style="width:100%;border-collapse:collapse;"><thead><tr>';
+		$html .= '<table class="products-table-images" style="width:100%; border-collapse:collapse;"><thead><tr>';
 		foreach ($displayFields as $field) {
 			$html .= $field['headerHtml'];
 		}
