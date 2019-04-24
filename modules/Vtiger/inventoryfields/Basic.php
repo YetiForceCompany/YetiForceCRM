@@ -146,7 +146,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 */
 	public function getAutomaticValue()
 	{
-		return $this->item[$this->getColumnName()] ?? null;
+		return $this->item[$this->getColumnName()] ?? $this->getDefaultValue();
 	}
 
 	/**
