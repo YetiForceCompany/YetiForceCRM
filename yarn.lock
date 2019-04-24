@@ -200,7 +200,7 @@ datatables.net@1.10.19, datatables.net@^1.10.15, datatables.net@^1.10.19:
   dependencies:
     jquery ">=1.7"
 
-dayjs@^1.8.5:
+dayjs@^1.8.12:
   version "1.8.12"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.12.tgz#f9610fb9b115aa2fe2a07e742c130df418cee76a"
   integrity sha512-7keChCzzjU68sYJpk7kEI1Q9qbJyscyiW0STwEhqDFt+2js9pA/BSzmYE4PRxcMMoUMxNeY0TEMZHqV/JBR4OA==
@@ -253,12 +253,14 @@ fullcalendar@3.10.0:
   resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-3.10.0.tgz#cc5e87d518fd6550e142816a31dd191664847919"
   integrity sha512-0OtsHhmdYhtFmQwXzyo8VqHzYgamg+zVOoytv5N13gI+iF6CGjevpCi/yBaQs0O4wY3OAp8I688IxdNYe0iAvw==
 
-gantt-elastic@^0.9.3:
-  version "0.9.6"
-  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.9.6.tgz#b6034963c754fc40e5b854fca97ed61e53b78859"
-  integrity sha512-6kSknTB03aqWd4E1gAzZ22jRcqCmx/0Gs/k84W0bBH5mSt36AqrBFwin2JiftCJiSNtM1in4IOnG7suMtsDeFw==
+gantt-elastic@^0.13.9:
+  version "0.13.9"
+  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.13.9.tgz#e32f9626a329dfc8a2ff53792f44dd1b5c5d21d8"
+  integrity sha512-5cMCNpWgiqsRWGTL1xYGjkGa6l1MCllqiAEBf2QN6TCVRite3JbFexRF8IYQb0C8cGczK9b+gQ0LMQI5pm55FQ==
   dependencies:
-    dayjs "^1.8.5"
+    dayjs "^1.8.12"
+    resize-observer-polyfill "^1.5.1"
+    vue "^2.6.10"
 
 good-listener@^1.2.2:
   version "1.2.2"
@@ -289,9 +291,9 @@ html5shiv@^3.7.3:
   integrity sha1-14qEo2e8uacQEA1XgCw4ewhGMdI=
 
 inputmask@^4.0:
-  version "4.0.6"
-  resolved "https://registry.yarnpkg.com/inputmask/-/inputmask-4.0.6.tgz#ee8f9478ed4c06b38116e8d0ed55a5798b73bcb6"
-  integrity sha512-zHw2jO1RSTU/aoKjsVsBQF56m3SYA3IEsIZmb6anvoUBlPRMgXtKWtj/Pux7o/O8JNikGLLRN6LGBISzHRlabw==
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/inputmask/-/inputmask-4.0.7.tgz#862be5c24cd288d0f963f55df40253c8f6eabd15"
+  integrity sha512-ubxlOviapEbiyzrL2vxr2CU4MWYYiaajXsMyVjahE1+Ku1MY6E+n+Cxw/cKGFzQ4EBtNXb5IqBMzr9vdDzZKJg==
 
 "jQuery-Validation-Engine@https://github.com/YetiForceCompany/jQuery-Validation-Engine#master":
   version "0.0.0"
@@ -412,6 +414,11 @@ popper.js@^1.15.0:
   resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.15.0.tgz#5560b99bbad7647e9faa475c6b8056621f5a4ff2"
   integrity sha512-w010cY1oCUmI+9KwwlWki+r5jxKfTFDVoadl7MSrIujHU5MJ5OR6HTDj6Xo8aoR/QsA56x8jKjA59qGH4ELtrA==
 
+resize-observer-polyfill@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz#0e9020dd3d21024458d4ebd27e23e40269810464"
+  integrity sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==
+
 respond.js@^1.4.2:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/respond.js/-/respond.js-1.4.2.tgz#fd5c07450acce6090916d8d090b86b672dd9748b"
@@ -464,3 +471,8 @@ tributejs@^3.6.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/tributejs/-/tributejs-3.6.0.tgz#a4c42330ec7135d4e1fdbb985143adf18b87ca79"
   integrity sha512-OwBk4JWzbWTxW9ZBzeajlX4SGNXEj+5rUbW8rg84NJCszkj/22nhkJvcYTaHGU4qfKoz073nVYzqN3G0exzViw==
+
+vue@^2.6.10:
+  version "2.6.10"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
+  integrity sha512-ImThpeNU9HbdZL3utgMCq0oiMzAkt1mcgy3/E6zWC/G6AaQoeuFdsl9nDhTDU3X1R6FK7nsIUuRACVcjI+A2GQ==
