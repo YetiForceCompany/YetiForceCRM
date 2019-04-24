@@ -61,6 +61,7 @@ class InventoryColumns
 	 */
 	public static function saveInventoryColumnsForRecords(string $moduleName, array $records)
 	{
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		$availableColumns = array_keys(Vtiger_Inventory_Model::getInstance($moduleName)->getFields());
 		foreach ($records as $columns) {
 			if (array_diff($columns, $availableColumns)) {
@@ -80,11 +81,11 @@ class InventoryColumns
 			if (!$schemeExists) {
 				$insertData[] = [$recordId, $json];
 			} else {
-				\App\Db::getInstance()->createCommand()->update($table, ['columns' => $recordId], ['crmid' => $json])->execute();
+				$dbCommand->update($table, ['columns' => $recordId], ['crmid' => $json])->execute();
 			}
 		}
 		if (!empty($insertData)) {
-			\App\Db::getInstance()->createCommand()->batchInsert($table, ['crmid', 'columns'], $insertData)->execute();
+			$dbCommand->batchInsert($table, ['crmid', 'columns'], $insertData)->execute();
 		}
 		unset($insertData, $availableColumns, $updateData, $row, $table, $schemeExists);
 	}
