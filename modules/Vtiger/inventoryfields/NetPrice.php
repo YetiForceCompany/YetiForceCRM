@@ -24,6 +24,11 @@ class Vtiger_NetPrice_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
+	protected $isAutomatically = true;
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return \App\Fields\Double::formatToDisplay($value);
@@ -57,9 +62,19 @@ class Vtiger_NetPrice_InventoryField extends Vtiger_Basic_InventoryField
 			$value = $this->getDBValue($value, $columnName);
 		}
 		if (!is_numeric($value)) {
-			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
-		} elseif ($this->maximumLength < $value || -$this->maximumLength > $value) {
-			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
+			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||{$columnName}||{$value}", 406);
 		}
+		if ($this->maximumLength < $value || -$this->maximumLength > $value) {
+			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||{$columnName}||{$value}", 406);
+		}
+		$this->validateIfAutomaticValue();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAutomaticValue()
+	{
+		return $this->item['price'] * $this->item['qty'];
 	}
 }
