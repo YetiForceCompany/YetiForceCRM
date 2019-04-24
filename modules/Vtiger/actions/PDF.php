@@ -252,7 +252,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 	{
 		$moduleName = $request->getModule();
 		if (!\App\Privilege::isPermitted($moduleName, 'RecordPdfInventory')) {
-			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 		$records = $request->getArray('records', 'Integer');
 		$columns = $request->getArray('inventoryColumns', 'String');
