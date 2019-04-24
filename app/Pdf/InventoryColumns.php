@@ -80,16 +80,11 @@ class InventoryColumns
 			if (!$schemeExists) {
 				$insertData[] = [$recordId, $json];
 			} else {
-				$updateData[] = [$recordId, $json];
+				\App\Db::getInstance()->createCommand()->update($table, ['columns' => $recordId], ['crmid' => $json])->execute();
 			}
 		}
 		if (!empty($insertData)) {
 			\App\Db::getInstance()->createCommand()->batchInsert($table, ['crmid', 'columns'], $insertData)->execute();
-		}
-		if (!empty($updateData)) {
-			foreach ($updateData as $row) {
-				\App\Db::getInstance()->createCommand()->update($table, ['columns' => $row[1]], ['crmid' => $row[0]])->execute();
-			}
 		}
 		unset($insertData, $availableColumns, $updateData, $row, $table, $schemeExists);
 	}
