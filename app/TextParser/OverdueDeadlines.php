@@ -43,7 +43,7 @@ class OverdueDeadlines extends Base
 		$query = $queryGenerator->createQuery();
 		$query->limit(500);
 		$dataReader = $query->createCommand()->query();
-		$html = '<table class="overdueDeadlines" style="border-collapse:collapse;"><thead><tr>';
+		$html = '<table class="overdue-deadlines" style="border-collapse:collapse;"><thead><tr>';
 		foreach ($this->columnNames as $column) {
 			$fieldModel = $fields[$column];
 			$html .= '<th class="col-type-' . $fieldModel->getType() . '"><span>' . \App\Language::translate($fieldModel->get('label'), $moduleName) . '</span></th>';
