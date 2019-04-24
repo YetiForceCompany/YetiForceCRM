@@ -80,8 +80,12 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$templateIds = $request->getArray('pdf_template', 'Integer');
 		$singlePdf = $request->getInteger('single_pdf') === 1 ? true : false;
 		$emailPdf = $request->getInteger('email_pdf') === 1 ? true : false;
-		\App\Pdf\InventoryColumns::$inventoryColumns = $request->getArray('inventoryColumns', 'Alnum');
-		\App\Pdf\InventoryColumns::$isCustomMode = $request->getBoolean('isCustomMode');
+		if (\App\Privilege::isPermitted($moduleName, 'RecordPdfInventory')) {
+			\App\Pdf\InventoryColumns::$inventoryColumns = $request->getArray('inventoryColumns', 'Alnum');
+			\App\Pdf\InventoryColumns::$isCustomMode = $request->getBoolean('isCustomMode');
+		} else {
+			\App\Pdf\InventoryColumns::$isCustomMode = false;
+		}
 		$postfix = time() . '_' . random_int(0, 1000);
 		foreach ($recordId as $templateId) {
 			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $templateId)) {
@@ -247,13 +251,16 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 	public function saveInventoryColumnScheme(App\Request $request)
 	{
 		$moduleName = $request->getModule();
+		if (!\App\Privilege::isPermitted($moduleName, 'RecordPdfInventory')) {
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+		}
 		$records = $request->getArray('records', 'Integer');
 		$columns = $request->getArray('inventoryColumns', 'String');
 		$save = [];
 		foreach ($records as $recordId) {
 			$save[$recordId] = $columns;
 		}
-		Vtiger_PDF_Model::saveInventoryColumnsForRecords($moduleName, $save);
+		\App\Pdf\InventoryColumns::saveInventoryColumnsForRecords($moduleName, $save);
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'message' => \App\Language::translate('LBL_SCHEME_SAVED', 'Settings:PDF'),

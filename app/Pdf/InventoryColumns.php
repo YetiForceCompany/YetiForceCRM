@@ -28,23 +28,6 @@ class InventoryColumns
 	public static $isCustomMode = false;
 
 	/**
-	 * Current user can change scheme?
-	 *
-	 * @param string $moduleName
-	 *
-	 * @return bool
-	 */
-	public static function currentUserCanChange(string $moduleName)
-	{
-		foreach (\App\User::getCurrentUserModel()->getProfiles() as $profileId) {
-			if (\Settings_Profiles_Record_Model::getInstanceById($profileId)->hasModuleActionPermission($moduleName, 'RecordPdfInventory')) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
 	 * Get column scheme for specified record.
 	 *
 	 * @param int    $recordId
@@ -78,11 +61,8 @@ class InventoryColumns
 	 */
 	public static function saveInventoryColumnsForRecords(string $moduleName, array $records)
 	{
-		if (!static::currentUserCanChange($moduleName)) {
-			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
-		}
 		$dbCommand = \App\Db::getInstance()->createCommand();
-		$availableColumns = array_keys(Vtiger_Inventory_Model::getInstance($moduleName)->getFields());
+		$availableColumns = array_keys(\Vtiger_Inventory_Model::getInstance($moduleName)->getFields());
 		foreach ($records as $columns) {
 			if (array_diff($columns, $availableColumns)) {
 				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
