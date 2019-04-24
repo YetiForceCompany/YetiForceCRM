@@ -30,15 +30,9 @@ class DynamicInventoryColumnsTable extends Base
 		if (!$this->textParser->recordModel->getModule()->isInventory()) {
 			return $html;
 		}
-		$columns = [];
-		if (!empty($this->textParser->getParam('inventoryColumns'))) {
-			$columns = $this->textParser->getParam('inventoryColumns');
-		} else {
-			$columns = \Vtiger_PDF_Model::getInventoryColumnsForRecord($this->textParser->recordModel->getId(), $this->textParser->recordModel->getModule()->getName());
-		}
 		return $this->textParser->getInventoryTable([
 			'type' => 'table',
-			'columns' => $columns,
+			'columns' => \App\Pdf\InventoryColumns::getInventoryColumnsForRecord($this->textParser->recordModel->getId(), $this->textParser->recordModel->getModule()->getName()),
 			'href' => false,
 		]);
 	}

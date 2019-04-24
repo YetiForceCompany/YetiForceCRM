@@ -58,7 +58,7 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		unset($templates);
 		$allInventoryColumns = [];
 		foreach (Vtiger_Inventory_Model::getInstance($moduleName)->getFields() as $name => $field) {
-			$allInventoryColumns[$name] = $field->getDefaultLabel();
+			$allInventoryColumns[$name] = $field->get('label');
 		}
 		$selectedInventoryColumns = $allInventoryColumns;
 		if ($recordId) {
