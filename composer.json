@@ -1,110 +1,110 @@
 {
-	"name": "yetiforce/yetiforce-crm",
-	"description": "An open and innovative CRM system. Our team created for you one of the most innovative CRM systems that supports mainly business processes and allows for customization according to your needs. Be ahead of your competition and implement YetiForce!",
-	"keywords": [
-		"YetiForceCRM",
-		"CRM",
-		"open source crm",
-		"best crm",
-		"YetiForce",
-		"ERP",
-		"PHP",
-		"Customer Relation Management",
-		"System CRM"
-	],
-	"homepage": "https://yetiforce.com/",
-	"support": {
-		"issues": "https://github.com/YetiForceCompany/YetiForceCRM/issues",
-		"wiki": "https://yetiforce.com/en/documentation.html",
-		"source": "https://github.com/YetiForceCompany/YetiForceCRM"
-	},
-	"authors": [
-		{
-			"name": "YetiForceCompany",
-			"email": "info@yetiforce.com",
-			"homepage": "https://yetiforce.com/"
-		}
-	],
-	"require": {
-		"php": ">=7.1.0",
-		"ext-imap": "*",
-		"ext-openssl": "*",
-		"ext-mbstring": "*",
-		"ext-iconv": "*",
-		"ext-intl": "*",
-		"ext-spl": "*",
-		"ext-json": "*",
-		"ext-dom": "*",
-		"ext-zlib": "*",
-		"ext-pdo": "*",
-		"ext-pdo_mysql": "*",
-		"ext-curl": "*",
-		"ext-gd": "*",
-		"ext-pcre": "*",
-		"ext-session": "*",
-		"ext-soap": "*",
-		"ext-zip": "*",
-		"ext-xml": "*",
-		"composer/ca-bundle": "^1.1",
-		"sabre/dav": "3.2.3",
-		"rmccue/requests": "v1.7.0",
-		"smarty/smarty": "^v3.1.33",
-		"phpmailer/phpmailer": "^v6.0.6",
-		"ezyang/htmlpurifier": "v4.10.0",
-		"simshaun/recurr": "v4.0",
-		"sensiolabs/security-checker": "^v5.0.1",
-		"giggsey/libphonenumber-for-php": "^8.8.11",
-		"dg/rss-php": "^1.2",
-		"phpoffice/phpspreadsheet": "^1.3.1",
-		"sonata-project/google-authenticator": "^2.1.0",
-		"milon/barcode": "^5.3",
-		"ckeditor/ckeditor": "^4.9.2",
-		"parsecsv/php-parsecsv": "^1.1.0",
-		"guzzlehttp/guzzle": "^6.3.3",
-		"nette/php-generator": "^3.2.1",
-		"yetiforce/csrf-magic": "^v1.0.8",
-		"yetiforce/debugbar": "^1.13.1.1",
-		"yetiforce/yii2": "2.0.15.3",
-		"yetiforce/yetiforcepdf": "0.1.23",
-		"abraham/twitteroauth": "^1.0"
-	},
-	"require-dev": {
-		"facebook/webdriver": "^1.6.0",
-		"phpunit/phpunit": "7.*",
-		"seld/jsonlint": "*",
-		"php-console/php-console": "^3.1"
-	},
-	"suggest": {
-		"ext-apcu": "Cache meta data in apcu to improve system performance",
-		"ext-opcache": "Improve system performance"
-	},
-	"archive": {
-		"exclude": [
-			"tests"
-		]
-	},
-	"config": {
-		"autoloader-suffix": "YT",
-		"optimize-autoloader": true,
-		"classmap-authoritative": false
-	},
-	"autoload": {
-		"files": [
-			"app/Loader.php"
-		],
-		"psr-4": {
-			"vtlib\\": "vtlib/Vtiger/",
-			"includes\\": "include/",
-			"App\\": "app/",
-			"Api\\": "api/webservice/",
-			"Config\\": "config/",
-			"Cron\\": "cron/",
-			"Tests\\": "tests/",
-			"Exception\\": "include/exceptions/"
-		}
-	},
-	"scripts": {
-		"post-update-cmd": "App\\Installer\\Composer::install",
-		"post-install-cmd": "App\\Installer\\Composer::install"
-	}
+  "name": "yetiforce/yetiforce-crm",
+  "description": "An open and innovative CRM system. Our team created for you one of the most innovative CRM systems that supports mainly business processes and allows for customization according to your needs. Be ahead of your competition and implement YetiForce!",
+  "keywords": [
+    "YetiForceCRM",
+    "CRM",
+    "open source crm",
+    "best crm",
+    "YetiForce",
+    "ERP",
+    "PHP",
+    "Customer Relation Management",
+    "System CRM"
+  ],
+  "homepage": "https://yetiforce.com/",
+  "support": {
+    "issues": "https://github.com/YetiForceCompany/YetiForceCRM/issues",
+    "wiki": "https://yetiforce.com/en/documentation.html",
+    "source": "https://github.com/YetiForceCompany/YetiForceCRM"
+  },
+  "authors": [
+    {
+      "name": "YetiForceCompany",
+      "email": "info@yetiforce.com",
+      "homepage": "https://yetiforce.com/"
+    }
+  ],
+  "require": {
+    "php": ">=7.1.0",
+    "ext-imap": "*",
+    "ext-openssl": "*",
+    "ext-mbstring": "*",
+    "ext-iconv": "*",
+    "ext-intl": "*",
+    "ext-spl": "*",
+    "ext-json": "*",
+    "ext-dom": "*",
+    "ext-zlib": "*",
+    "ext-pdo": "*",
+    "ext-pdo_mysql": "*",
+    "ext-curl": "*",
+    "ext-gd": "*",
+    "ext-pcre": "*",
+    "ext-session": "*",
+    "ext-soap": "*",
+    "ext-zip": "*",
+    "ext-xml": "*",
+    "composer/ca-bundle": "^1.1",
+    "sabre/dav": "3.2.3",
+    "rmccue/requests": "v1.7.0",
+    "smarty/smarty": "^v3.1.33",
+    "phpmailer/phpmailer": "^v6.0.6",
+    "ezyang/htmlpurifier": "v4.10.0",
+    "simshaun/recurr": "v4.0",
+    "sensiolabs/security-checker": "^v5.0.1",
+    "giggsey/libphonenumber-for-php": "^8.8.11",
+    "dg/rss-php": "^1.2",
+    "phpoffice/phpspreadsheet": "^1.3.1",
+    "sonata-project/google-authenticator": "^2.1.0",
+    "milon/barcode": "^5.3",
+    "ckeditor/ckeditor": "^4.9.2",
+    "parsecsv/php-parsecsv": "^1.1.0",
+    "guzzlehttp/guzzle": "^6.3.3",
+    "nette/php-generator": "^3.2.1",
+    "yetiforce/csrf-magic": "^v1.0.8",
+    "yetiforce/debugbar": "^1.13.1.1",
+    "yetiforce/yii2": "2.0.15.3",
+    "yetiforce/yetiforcepdf": "0.1.23",
+    "abraham/twitteroauth": "^1.0"
+  },
+  "require-dev": {
+    "facebook/webdriver": "^1.6.0",
+    "phpunit/phpunit": "7.*",
+    "seld/jsonlint": "*",
+    "php-console/php-console": "^3.1"
+  },
+  "suggest": {
+    "ext-apcu": "Cache meta data in apcu to improve system performance",
+    "ext-opcache": "Improve system performance"
+  },
+  "archive": {
+    "exclude": [
+      "tests"
+    ]
+  },
+  "config": {
+    "autoloader-suffix": "YT",
+    "optimize-autoloader": true,
+    "classmap-authoritative": false
+  },
+  "autoload": {
+    "files": [
+      "app/Loader.php"
+    ],
+    "psr-4": {
+      "vtlib\\": "vtlib/Vtiger/",
+      "includes\\": "include/",
+      "App\\": "app/",
+      "Api\\": "api/webservice/",
+      "Config\\": "config/",
+      "Cron\\": "cron/",
+      "Tests\\": "tests/",
+      "Exception\\": "include/exceptions/"
+    }
+  },
+  "scripts": {
+    "post-update-cmd": "App\\Installer\\Composer::install",
+    "post-install-cmd": "App\\Installer\\Composer::install"
+  }
 }
