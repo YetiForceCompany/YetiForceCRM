@@ -20,10 +20,10 @@
 			{if $DYNAMIC_TEMPLATES}
 				<ul class="nav nav-tabs" id="generate-pdf-tab" role="tablist">
 					<li class="nav-item">
-						<a class="nav-link active" id="home-tab" data-toggle="tab" href="#standard" role="tab" aria-controls="standard" aria-selected="true">{\App\Language::translate('LBL_STANDARD_TEMPLATES', 'Settings:PDF')}</a>
+						<a class="nav-link active" id="home-tab" data-toggle="tab" href="#standard" role="tab" aria-controls="standard" aria-selected="true"><span class="mr-2 js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_STANDARD_TEMPLATES_DESC', 'Settings:PDF')}"><span class="fas fa-info-circle"></span></span>{\App\Language::translate('LBL_STANDARD_TEMPLATES', 'Settings:PDF')}</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" id="profile-tab" data-toggle="tab" href="#dynamic" role="tab" aria-controls="dynamic" aria-selected="false">{\App\Language::translate('LBL_DYNAMIC_TEMPLATES', 'Settings:PDF')}</a>
+						<a class="nav-link" id="profile-tab" data-toggle="tab" href="#dynamic" role="tab" aria-controls="dynamic" aria-selected="false"><span class="mr-2 js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_DYNAMIC_TEMPLATES_DESC', 'Settings:PDF')}"><span class="fas fa-info-circle"></span></span>{\App\Language::translate('LBL_DYNAMIC_TEMPLATES', 'Settings:PDF')}</a>
 					</li>
 				</ul>
 				<div class="tab-content p-3 border-left border-right border-bottom mb-3" id="generate-pdf-tab-content">
