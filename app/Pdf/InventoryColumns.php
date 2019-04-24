@@ -62,7 +62,7 @@ class InventoryColumns
 	public static function saveInventoryColumnsForRecords(string $moduleName, array $records)
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
-		$availableColumns = array_keys(Vtiger_Inventory_Model::getInstance($moduleName)->getFields());
+		$availableColumns = array_keys(\Vtiger_Inventory_Model::getInstance($moduleName)->getFields());
 		foreach ($records as $columns) {
 			if (array_diff($columns, $availableColumns)) {
 				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
@@ -70,7 +70,6 @@ class InventoryColumns
 		}
 		$table = 'u_#__pdf_inv_scheme';
 		$insertData = [];
-		$updateData = [];
 		foreach ($records as $recordId => $columns) {
 			$json = \App\Json::encode($columns);
 			$schemeExists = (new \App\Db\Query())
