@@ -52,7 +52,7 @@
 										<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox dynamic-template" data-dynamic="1" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} data-js="change" />
 									</div>
 								</div>
-								<h6 class="pt-4 border-top"><label><input type="checkbox" name="isCustomMode" class="mr-2 checkbox" value="1">{\App\Language::translate('LBL_SELECT_COLUMNS','Settings:PDF')}</label></h6>
+								<h6 class="pt-4 border-top"><label><input type="checkbox" name="isCustomMode" class="mr-2 checkbox" value="1"{if !$CAN_CHANGE_SCHEME} disabled="disabled"{/if}>{\App\Language::translate('LBL_SELECT_COLUMNS','Settings:PDF')}</label></h6>
 								<div class="form-group row">
 									<div class="col">
 										<select class="select2" name="inventoryColumns[]" multiple="multiple" data-select-cb="registerSelectSortable" disabled="disabled" data-js="select2 | sortable">
@@ -62,11 +62,13 @@
 										</select>
 									</div>
 								</div>
+								{if $CAN_CHANGE_SCHEME}
 								<div class="row">
 									<div class="col">
 										<button class="btn btn-success js-save-scheme w-100" disabled="disabled" data-js="click"><span class="fas fa-save"></span> {\App\Language::translate('LBL_SAVE_SCHEME','Settings:PDF')}</button>
 									</div>
 								</div>
+								{/if}
 							</div>
 						{/foreach}
 					</div>

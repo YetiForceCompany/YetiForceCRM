@@ -64,6 +64,7 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		if ($recordId) {
 			$selectedInventoryColumns = \App\Pdf\InventoryColumns::getInventoryColumnsForRecord($recordId, $moduleName);
 		}
+		$viewer->assign('CAN_CHANGE_SCHEME', \App\Pdf\InventoryColumns::currentUserCanChange($moduleName));
 		$viewer->assign('STANDARD_TEMPLATES', $standardTemplates);
 		$viewer->assign('DYNAMIC_TEMPLATES', $dynamicTemplates);
 		$viewer->assign('ALL_INVENTORY_COLUMNS', $allInventoryColumns);
