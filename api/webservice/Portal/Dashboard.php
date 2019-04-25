@@ -44,6 +44,7 @@ class Dashboard
 	 *
 	 * @param string $moduleName
 	 * @param int    $dashboardType
+	 * @param int    $application
 	 *
 	 * @return void
 	 */
