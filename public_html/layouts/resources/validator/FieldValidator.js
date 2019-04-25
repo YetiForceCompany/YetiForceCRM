@@ -1593,3 +1593,30 @@ Vtiger_Base_Validator_Js(
 		}
 	}
 );
+Vtiger_Base_Validator_Js(
+	'Vtiger_FieldName_Validator_Js',
+	{
+		invokeValidation(field, rules, i, options) {
+			const instance = new Vtiger_FieldName_Validator_Js();
+			instance.setElement(field);
+			if (instance.validate() != true) {
+				return instance.getError();
+			}
+		}
+	},
+	{
+		/**
+		 * Function to validate the field name
+		 * @return true if validation is successfull
+		 * @return false if validation error occurs
+		 */
+		validate: function() {
+			var fieldValue = this.getFieldValue();
+			if (fieldValue === 'data') {
+				this.setError(app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS'));
+				return false;
+			}
+			return true;
+		}
+	}
+);
