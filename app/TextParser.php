@@ -751,26 +751,28 @@ class TextParser
 		foreach ($fields as $fieldModel) {
 			if ($fieldModel->isViewable()) {
 				if ($this->withoutTranslations) {
-					$headers .= "<th>$(translate : {$fieldModel->getFieldLabel()}|$reletedModuleName)$</th>";
+					$headers .= "<th class=\"col-type-{$fieldModel->getType()}\">$(translate : {$fieldModel->getFieldLabel()}|$reletedModuleName)$</th>";
 				} else {
-					$headers .= '<th>' . \App\Language::translate($fieldModel->getFieldLabel(), $reletedModuleName) . '</th>';
+					$headers .= "<th class=\"col-type-{$fieldModel->getType()}\">" . \App\Language::translate($fieldModel->getFieldLabel(), $reletedModuleName) . '</th>';
 				}
 			}
 		}
+		$counter = 0;
 		foreach ($relationListView->getEntries($pagingModel) as $reletedRecordModel) {
-			$rows .= '<tr>';
+			++$counter;
+			$rows .= '<tr class="row-' . $counter . '">';
 			foreach ($fields as $fieldModel) {
 				$value = $this->getDisplayValueByField($fieldModel, $reletedRecordModel);
 				if (false !== $value) {
 					if ((int) $maxLength) {
 						$value = $this->textTruncate($value, (int) $maxLength);
 					}
-					$rows .= "<td>$value</td>";
+					$rows .= "<td class=\"col-type-{$fieldModel->getType()}\">{$value}</td>";
 				}
 			}
 			$rows .= '</tr>';
 		}
-		return empty($rows) ? '' : "<table><thead><tr>{$headers}</tr></thead><tbody>{$rows}</tbody></table>";
+		return empty($rows) ? '' : "<table class=\"related-records-list\"><thead><tr>{$headers}</tr></thead><tbody>{$rows}</tbody></table>";
 	}
 
 	/**
@@ -823,25 +825,27 @@ class TextParser
 		$fields = $listView->getListViewHeaders();
 		foreach ($fields as $fieldModel) {
 			if ($this->withoutTranslations) {
-				$headers .= "<th>$(translate : {$fieldModel->getFieldLabel()}|$moduleName)$</th>";
+				$headers .= "<th class=\"col-type-{$fieldModel->getType()}\">$(translate : {$fieldModel->getFieldLabel()}|$moduleName)$</th>";
 			} else {
-				$headers .= '<th>' . \App\Language::translate($fieldModel->getFieldLabel(), $moduleName) . '</th>';
+				$headers .= "<th class=\"col-type-{$fieldModel->getType()}\">" . \App\Language::translate($fieldModel->getFieldLabel(), $moduleName) . '</th>';
 			}
 		}
+		$counter = 0;
 		foreach ($listView->getListViewEntries($pagingModel) as $reletedRecordModel) {
-			$rows .= '<tr>';
+			++$counter;
+			$rows .= '<tr class="row-' . $counter . '">';
 			foreach ($fields as $fieldModel) {
 				$value = $this->getDisplayValueByField($fieldModel, $reletedRecordModel);
 				if (false !== $value) {
 					if ((int) $maxLength) {
 						$value = $this->textTruncate($value, (int) $maxLength);
 					}
-					$rows .= "<td>$value</td>";
+					$rows .= "<td class=\"col-type-{$fieldModel->getType()}\">{$value}</td>";
 				}
 			}
 			$rows .= '</tr>';
 		}
-		return empty($rows) ? '' : "<table class=\"recordsList\"><thead><tr>{$headers}</tr></thead><tbody>{$rows}</tbody></table>";
+		return empty($rows) ? '' : "<table class=\"records-list\"><thead><tr>{$headers}</tr></thead><tbody>{$rows}</tbody></table>";
 	}
 
 	/**
@@ -1488,7 +1492,7 @@ class TextParser
 			$counter = 0;
 			foreach ($inventoryRows as $inventoryRow) {
 				++$counter;
-				$html .= '<tr class="row row-' . $counter . '">';
+				$html .= '<tr class="row-' . $counter . '">';
 				foreach ($columns as $name => $field) {
 					if ('seq' === $name || 'ItemNumber' === $field->getType()) {
 						$html .= '<td class="col-type-ItemNumber" style="border:1px solid #ddd;font-weight:bold;">' . $counter . '</td>';
@@ -1529,7 +1533,7 @@ class TextParser
 					}
 					$tb = \CurrencyField::convertToUserFormat($sum, null, true) . ' ' . $currencySymbol;
 				}
-				$html .= '<th style="padding:0px 4px;text-align:right;' . $style . '">' . $tb . '</th>';
+				$html .= '<th class="col-type-' . $field->getType() . '" style="padding:0px 4px;text-align:right;' . $style . '">' . $tb . '</th>';
 			}
 			$html .= '</tr></tfoot></table>';
 		}
