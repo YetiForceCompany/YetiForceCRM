@@ -61,7 +61,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => 'fas fa-user',
 			];
 		}
-		if ($moduleModel->isPermitted('MassActive')) {
+		if ($moduleModel->isPermitted('EditView') && $moduleModel->isPermitted('MassActive')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ACTIVATE',
@@ -81,7 +81,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => 'fas fa-archive',
 			];
 		}
-		if ($moduleModel->isPermitted('MassTrash')) {
+		if ($moduleModel->isPermitted('Delete') && $moduleModel->isPermitted('MassTrash')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_MOVE_TO_TRASH',

@@ -943,7 +943,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function privilegeToActivate()
 	{
 		if (!isset($this->privileges['Activate'])) {
-			$this->privileges['Activate'] = 'Active' !== \App\Record::getState($this->getId()) && \App\Privilege::isPermitted($this->getModuleName(), 'ActiveRecord', $this->getId());
+			$this->privileges['Activate'] = 'Active' !== \App\Record::getState($this->getId()) && \App\Privilege::isPermitted($this->getModuleName(), 'EditView', $this->getId()) && \App\Privilege::isPermitted($this->getModuleName(), 'ActiveRecord', $this->getId());
 		}
 		return $this->privileges['Activate'];
 	}

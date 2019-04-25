@@ -61,7 +61,8 @@ class Vtiger_ListView_Model extends \App\Base
 	/**
 	 * Static Function to get the Instance of Vtiger ListView model for a given module and custom view.
 	 *
-	 * @param string $value - Module Name
+	 * @param string $value        - Module Name
+	 * @param mixed  $sourceModule
 	 *
 	 * @return Vtiger_ListView_Model instance
 	 */
@@ -168,7 +169,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkicon' => 'fas fa-upload'
 			];
 		}
-		if ($moduleModel->isPermitted('Merge')) {
+		if ($moduleModel->isPermitted('Delete') && $moduleModel->isPermitted('Merge')) {
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_MERGING',
@@ -229,7 +230,7 @@ class Vtiger_ListView_Model extends \App\Base
 		$moduleModel = $this->getModule();
 		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['LISTVIEWMASSACTION'], $linkParams);
 		$massActionLinks = [];
-		if ($moduleModel->isPermitted('MassEdit')) {
+		if ($moduleModel->isPermitted('EditView') && $moduleModel->isPermitted('MassEdit')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_EDIT',
@@ -237,7 +238,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkicon' => 'fas fa-edit'
 			];
 		}
-		if ($moduleModel->isPermitted('MassActive')) {
+		if ($moduleModel->isPermitted('EditView') && $moduleModel->isPermitted('MassActive')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ACTIVATE',
@@ -259,7 +260,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkicon' => 'fas fa-archive'
 			];
 		}
-		if ($moduleModel->isPermitted('MassTrash')) {
+		if ($moduleModel->isPermitted('Delete') && $moduleModel->isPermitted('MassTrash')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_MOVE_TO_TRASH',
@@ -480,7 +481,7 @@ class Vtiger_ListView_Model extends \App\Base
 		if ($operator = $this->get('operator')) {
 			$searchKey = $this->get('search_key');
 			$searchValue = $this->get('search_value');
-			if ($operator === 's' && strlen($searchValue) === 1) {
+			if ('s' === $operator && 1 === strlen($searchValue)) {
 				$searchValue = [$searchValue, strtolower($searchValue)];
 			}
 			$queryGenerator->addBaseSearchConditions($searchKey, $searchValue, $operator);
@@ -515,7 +516,7 @@ class Vtiger_ListView_Model extends \App\Base
 		$this->loadListViewOrderBy();
 		$pageLimit = $pagingModel->getPageLimit();
 		$query = $this->getQueryGenerator()->createQuery();
-		if ($pagingModel->get('limit') !== 0) {
+		if (0 !== $pagingModel->get('limit')) {
 			$query->limit($pageLimit + 1)->offset($pagingModel->getStartIndex());
 		}
 		$rows = $query->all();

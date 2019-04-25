@@ -29,12 +29,12 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function showMassEditForm(\App\Request $request)
+	public function showMassEditForm(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		if (!$moduleModel->isPermitted('MassEdit')) {
+		if (!($moduleModel->isPermitted('EditView') && $moduleModel->isPermitted('MassEdit'))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_MASSEDIT);
@@ -73,7 +73,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function showAddCommentForm(\App\Request $request)
+	public function showAddCommentForm(App\Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$moduleName = 'ModComments';
@@ -104,7 +104,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function showSendSMSForm(\App\Request $request)
+	public function showSendSMSForm(App\Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$moduleName = 'SMSNotifier';
@@ -118,7 +118,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$phoneFields = $moduleModel->getFieldsByType('phone');
 		$viewer = $this->getViewer($request);
 
-		if (is_array($selectedIds) && count($selectedIds) === 1 && $selectedIds[0] !== 'all') {
+		if (is_array($selectedIds) && 1 === count($selectedIds) && 'all' !== $selectedIds[0]) {
 			$recordId = current($selectedIds);
 			$selectedRecordModel = Vtiger_Record_Model::getInstanceById($recordId, $sourceModule);
 			$viewer->assign('SINGLE_RECORD', $selectedRecordModel);
@@ -144,7 +144,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function transferOwnership(\App\Request $request)
+	public function transferOwnership(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();

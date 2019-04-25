@@ -52,11 +52,11 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 		return $advancedLinks;
 	}
 
-	/*
-	 * Function to get Basic links
+	/**
+	 * Function to get Basic links.
+	 *
 	 * @return array of Basic links
 	 */
-
 	public function getBasicLinks()
 	{
 		$basicLinks = [];
@@ -91,7 +91,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 		$moduleModel = $this->getModule();
 		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['LISTVIEWMASSACTION'], $linkParams);
 		$massActionLink = [];
-		if ($moduleModel->isPermitted('MassActive')) {
+		if ($moduleModel->isPermitted('EditView') && $moduleModel->isPermitted('MassActive')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ACTIVATE',
@@ -111,7 +111,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => 'fas fa-archive',
 			];
 		}
-		if ($moduleModel->isPermitted('MassTrash')) {
+		if ($moduleModel->isPermitted('Delete') && $moduleModel->isPermitted('MassTrash')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_MOVE_TO_TRASH',

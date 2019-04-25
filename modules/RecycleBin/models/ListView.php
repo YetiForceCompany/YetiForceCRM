@@ -56,7 +56,7 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 	{
 		$massActionLinks = [];
 		$moduleModel = $this->getModule();
-		if ($moduleModel->isPermitted('MassActive')) {
+		if ($moduleModel->isPermitted('EditView') && $moduleModel->isPermitted('MassActive')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ACTIVATE',
