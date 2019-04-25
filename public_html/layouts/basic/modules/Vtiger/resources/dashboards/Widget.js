@@ -1466,17 +1466,6 @@ jQuery.Class(
 				anchor.click();
 			});
 		},
-		/**
-		 * register print image fields (html2canvas)
-		 */
-		registerPrintAndDownload() {
-			$('.js-print--download', this.getContainer()).on('click', e => {
-				this.downloadHtmlAsImage($(e.target));
-			});
-			$('.js-print', this.getContainer()).on('click', e => {
-				this.printHtml($(e.target));
-			});
-		},
 		//Place holdet can be extended by child classes and can use this to handle the post load
 		postLoadWidget: function postLoadWidget() {
 			if (!this.isEmptyData()) {
@@ -1493,7 +1482,6 @@ jQuery.Class(
 			this.registerChangeSorting();
 			this.registerLoadMore();
 			this.registerHeaderButtons();
-			this.registerPrintAndDownload();
 			this.loadScrollbar();
 		},
 		postRefreshWidget: function postRefreshWidget() {
