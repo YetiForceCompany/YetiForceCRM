@@ -1076,6 +1076,11 @@ jQuery.Class(
 				var saveHandler = function(e) {
 					thisInstance.registerNameAjaxEditEvent();
 					var element = jQuery(e.target);
+					if ($(e.currentTarget).find('.dateTimePickerField').length) {
+						if (element.closest('.drp-calendar').length || element.hasClass('drp-calendar')) {
+							return
+						}
+					}
 					if (
 						element.closest('.fieldValue').is(currentTdElement) ||
 						element.hasClass('select2-selection__choice__remove')
