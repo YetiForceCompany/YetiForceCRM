@@ -495,7 +495,6 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	public function setValueToRecord(Vtiger_Record_Model $recordModel, array $item, bool $userFormat)
 	{
 		$column = $this->getColumnName();
-		$this->item = $item;
 		$value = $this->getAutomaticValue($item);
 		$this->validate($value, $column, $userFormat, $item);
 		if ($userFormat) {
