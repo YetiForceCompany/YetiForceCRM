@@ -58,7 +58,7 @@
 							</div>
 							<div class="col-md-8 controls">
 								<input type="text" maxlength="30" name="fieldName" value=""
-									   data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+									   data-validation-engine="validate[required, funcCall[Vtiger_FieldName_Validator_Js.invokeValidation]]"
 									   class="form-control"
 									   data-validator={\App\Json::encode([['name'=>'fieldName']])}/>
 							</div>
