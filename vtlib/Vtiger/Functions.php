@@ -738,8 +738,8 @@ class Functions
 			$info['conversion'] = 1.0;
 		} else {
 			$value = $currencyUpdateModel->getCRMConversionRate($currencyId, $defaultCurrencyId, $date);
-			$info['value'] = 0 === $value ? 1.0 : round($value, 5);
-			$info['conversion'] = 0 === $value ? 1.0 : round(1 / $value, 5);
+			$info['value'] = empty($value) ? 1.0 : round($value, 5);
+			$info['conversion'] = empty($value) ? 1.0 : round(1 / $value, 5);
 		}
 		return $info;
 	}
