@@ -172,6 +172,18 @@ class Validator
 	}
 
 	/**
+	 * Function verifies if given value is float type.
+	 *
+	 * @param float|string $input
+	 *
+	 * @return bool
+	 */
+	public static function float($input): bool
+	{
+		return false !== filter_var($input, FILTER_VALIDATE_FLOAT);
+	}
+
+	/**
 	 * Function verifies if given value is a natural number.
 	 *
 	 * @param int|string $input

@@ -22,7 +22,7 @@ class Vtiger_Boolean_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, string $columnName, bool $isUserFormat)
+	protected function validate($value, string $columnName, bool $isUserFormat, array $item)
 	{
 		if (!in_array($value, [0, 1, '1', '0', 'on'])) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);

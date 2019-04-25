@@ -27,7 +27,7 @@ class Vtiger_TaxMode_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
-		return $value !== '' ? \App\Language::translate('LBL_' . strtoupper($this->values[$value]), $this->getModuleName()) : $value;
+		return '' !== $value ? \App\Language::translate('LBL_' . strtoupper($this->values[$value]), $this->getModuleName()) : $value;
 	}
 
 	/**
@@ -41,7 +41,7 @@ class Vtiger_TaxMode_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, string $columnName, bool $isUserFormat)
+	protected function validate($value, string $columnName, bool $isUserFormat, array $item)
 	{
 		if (!is_numeric($value) || !isset($this->values[$value])) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);

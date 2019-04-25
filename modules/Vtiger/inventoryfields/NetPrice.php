@@ -24,7 +24,7 @@ class Vtiger_NetPrice_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	protected $isAutomatically = true;
+	protected $isAutomaticValue = true;
 
 	/**
 	 * {@inheritdoc}
@@ -56,7 +56,7 @@ class Vtiger_NetPrice_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, string $columnName, bool $isUserFormat)
+	protected function validate($value, string $columnName, bool $isUserFormat, array $item)
 	{
 		if ($isUserFormat) {
 			$value = $this->getDBValue($value, $columnName);
@@ -67,14 +67,15 @@ class Vtiger_NetPrice_InventoryField extends Vtiger_Basic_InventoryField
 		if ($this->maximumLength < $value || -$this->maximumLength > $value) {
 			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||{$columnName}||{$value}", 406);
 		}
-		$this->validateIfAutomaticValue();
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getAutomaticValue()
+	public function getAutomaticValue(array $item)
 	{
-		return $this->item['price'] * $this->item['qty'];
+		return (new \App\Inventory($item))
+			->setPrecision((int) \App\User::getCurrentUserModel()->getDetail('no_of_currency_decimals'))
+			->getNetPrice();
 	}
 }

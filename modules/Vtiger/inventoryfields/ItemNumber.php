@@ -36,9 +36,9 @@ class Vtiger_ItemNumber_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, string $columnName, bool $isUserFormat)
+	protected function validate($value, string $columnName, bool $isUserFormat, array $item)
 	{
-		if (filter_var($value, FILTER_VALIDATE_INT) === false) {
+		if (false === filter_var($value, FILTER_VALIDATE_INT)) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
 		}
 	}

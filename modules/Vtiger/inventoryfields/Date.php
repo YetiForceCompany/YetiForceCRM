@@ -33,7 +33,7 @@ class Vtiger_Date_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, string $columnName, bool $isUserFormat)
+	protected function validate($value, string $columnName, bool $isUserFormat, array $item)
 	{
 		if ($value) {
 			if ($isUserFormat) {
@@ -64,13 +64,11 @@ class Vtiger_Date_InventoryField extends Vtiger_Basic_InventoryField
 	{
 		if (empty($value)) {
 			return '';
-		} else {
-			$dateValue = App\Fields\Date::formatToDisplay($value);
 		}
-		if ($dateValue === '--') {
+		$dateValue = App\Fields\Date::formatToDisplay($value);
+		if ('--' === $dateValue) {
 			return '';
-		} else {
-			return $dateValue;
 		}
+		return $dateValue;
 	}
 }

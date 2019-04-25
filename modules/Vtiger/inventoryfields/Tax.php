@@ -37,6 +37,11 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
+	protected $isAutomaticValue = true;
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return CurrencyField::convertToUserFormat($value, null, true);
@@ -71,7 +76,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, string $columnName, bool $isUserFormat)
+	protected function validate($value, string $columnName, bool $isUserFormat, array $item)
 	{
 		if ($columnName === $this->getColumnName()) {
 			if (!is_numeric($value)) {
@@ -118,5 +123,15 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 			}
 		}
 		return $return;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAutomaticValue(array $item)
+	{
+		return (new \App\Inventory($item))
+			->setPrecision((int) \App\User::getCurrentUserModel()->getDetail('no_of_currency_decimals'))
+			->getTax();
 	}
 }

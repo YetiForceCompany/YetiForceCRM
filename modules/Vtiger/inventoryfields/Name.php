@@ -43,7 +43,7 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 			return $label;
 		}
 		$label = App\TextParser::textTruncate($label, \App\Config::main('href_max_length'));
-		if (\App\Record::getState($value) !== 'Active') {
+		if ('Active' !== \App\Record::getState($value)) {
 			$label = '<s>' . $label . '</s>';
 		}
 		return "<a class=\"modCT_$moduleName showReferenceTooltip js-popover-tooltip--record\" href=\"index.php?module=$moduleName&view=Detail&record=$value\" title=\"" . App\Language::translateSingularModuleName($moduleName) . "\">$label</a>";
@@ -102,7 +102,7 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, string $columnName, bool $isUserFormat)
+	protected function validate($value, string $columnName, bool $isUserFormat, array $item)
 	{
 		if ((empty($value) && $this->isMandatory()) || ($value && !is_numeric($value))) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
@@ -119,6 +119,6 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	public function isRequired()
 	{
 		$config = $this->getParamsConfig();
-		return isset($config['mandatory']) ? $config['mandatory'] !== 'false' : true;
+		return isset($config['mandatory']) ? 'false' !== $config['mandatory'] : true;
 	}
 }

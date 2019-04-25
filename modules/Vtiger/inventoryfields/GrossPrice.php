@@ -24,6 +24,11 @@ class Vtiger_GrossPrice_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
+	protected $isAutomaticValue = true;
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return \App\Fields\Double::formatToDisplay($value);
@@ -51,15 +56,29 @@ class Vtiger_GrossPrice_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, string $columnName, bool $isUserFormat)
+	protected function validate($value, string $columnName, bool $isUserFormat, array $item)
 	{
 		if ($isUserFormat) {
 			$value = $this->getDBValue($value, $columnName);
 		}
 		if (!is_numeric($value)) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
-		} elseif ($this->maximumLength < $value || -$this->maximumLength > $value) {
+		}
+		if ($this->maximumLength < $value || -$this->maximumLength > $value) {
 			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 		}
+		if ($this->isAutomaticValue && isset($item[$columnName]) && (float) $item[$columnName] !== $this->getAutomaticValue($item)) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $columnName ?? $this->getColumnName() . '||' . $this->getModuleName() . '||' . $value, 406);
+		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAutomaticValue(array $item)
+	{
+		return (new \App\Inventory($item))
+			->setPrecision((int) \App\User::getCurrentUserModel()->getDetail('no_of_currency_decimals'))
+			->getGross();
 	}
 }
