@@ -144,7 +144,7 @@ class ProductsTable extends Base
 				foreach ($taxes as $key => &$tax) {
 					$tax_AMOUNT += $tax;
 					$html .= '<tr>
-										<td class="name" style="padding:0px 4px;">' . $key . '%</tdclass>
+										<td class="name" style="padding:0px 4px;">' . $key . '%</td>
 										<td class="value" style="padding:0px 4px;text-align:right;">' . \CurrencyField::convertToUserFormat($tax, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
 									</tr>';
 				}
