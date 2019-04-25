@@ -1867,6 +1867,7 @@ var app = (window.app = {
 						buttons: [
 							{
 								text: 'Ok',
+								promptTrigger: true,
 								primary: true,
 								click: function(notice) {
 									notice.close();
