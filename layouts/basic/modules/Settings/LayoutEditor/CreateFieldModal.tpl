@@ -60,7 +60,7 @@
 								<input type="text" maxlength="30" name="fieldName" value=""
 									   data-validation-engine="validate[required, funcCall[Vtiger_FieldName_Validator_Js.invokeValidation]]"
 									   class="form-control"
-									   data-validator={\App\Json::encode([['name'=>'fieldName']])}/>
+									   />
 							</div>
 						</div>
 						<div class="form-group row align-items-center">
