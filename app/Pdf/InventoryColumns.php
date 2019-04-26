@@ -48,7 +48,7 @@ class InventoryColumns
 		if ($columnsJSON) {
 			return \App\Json::decode($columnsJSON);
 		}
-		return array_keys(Vtiger_Inventory_Model::getInstance($moduleName)->getFields());
+		return array_keys(\Vtiger_Inventory_Model::getInstance($moduleName)->getFields());
 	}
 
 	/**
@@ -80,7 +80,7 @@ class InventoryColumns
 			if (!$schemeExists) {
 				$insertData[] = [$recordId, $json];
 			} else {
-				$dbCommand->update($table, ['columns' => $recordId], ['crmid' => $json])->execute();
+				$dbCommand->update($table, ['columns' => $json], ['crmid' => $recordId])->execute();
 			}
 		}
 		if (!empty($insertData)) {

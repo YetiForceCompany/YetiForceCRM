@@ -36,8 +36,8 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		$moduleName = $request->getModule();
 		$recordId = $request->getInteger('record');
 		$view = $request->getByType('fromview', 1);
-		$allRecords = Vtiger_Mass_Action::getRecordsListFromRequest($request);
-		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
+		$allRecords = \Vtiger_Mass_Action::getRecordsListFromRequest($request);
+		$handlerClass = \Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 		$pdfModel = new $handlerClass();
 		$viewer = $this->getViewer($request);
 		$templates = [];
@@ -49,15 +49,15 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		$standardTemplates = [];
 		$dynamicTemplates = [];
 		foreach ($templates as $template) {
-			if ($template->get('type') === Vtiger_PDF_Model::TEMPLATE_TYPE_STANDARD) {
+			if ($template->get('type') === \Vtiger_PDF_Model::TEMPLATE_TYPE_STANDARD) {
 				$standardTemplates[] = $template;
-			} elseif ($template->get('type') === Vtiger_PDF_Model::TEMPLATE_TYPE_DYNAMIC) {
+			} elseif ($template->get('type') === \Vtiger_PDF_Model::TEMPLATE_TYPE_DYNAMIC) {
 				$dynamicTemplates[] = $template;
 			}
 		}
 		unset($templates);
 		$allInventoryColumns = [];
-		foreach (Vtiger_Inventory_Model::getInstance($moduleName)->getFields() as $name => $field) {
+		foreach (\Vtiger_Inventory_Model::getInstance($moduleName)->getFields() as $name => $field) {
 			$allInventoryColumns[$name] = $field->get('label');
 		}
 		$selectedInventoryColumns = $allInventoryColumns;
