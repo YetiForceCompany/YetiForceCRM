@@ -1,7 +1,5 @@
 <?php
 
-namespace App;
-
 /**
  * Utils class.
  *
@@ -99,25 +97,31 @@ class Utils
 	}
 
 	/**
-	 * Function to save php file with cleaning file cache
-	 * @param string $fileDirectory
-	 * @param string $content
-	 * @param string $comment
-	 * @param bool   $flag
-	 * @param bool   $addReturn
+	 * Function to save php file with cleaning file cache.
+	 *
+	 * @param string       $pathDirectory
+	 * @param array|string $content
+	 * @param string       $comment
+	 * @param int          $flag
+	 * @param bool         $return
+	 *
+	 * @return bool|int $value
 	 */
-	public static function saveToFile(string $fileDirectory, string $content, string $comment = '', bool $flag = false, bool $return = false)
+	public static function saveToFile(string $pathDirectory, $content, string $comment = '', int $flag = 0, bool $return = false)
 	{
+		if (\is_array($content)) {
+			$content = \App\Json::encode($content);
+		}
 		if ($return) {
 			$content = "return $content;";
 		}
-		if (!empty($comment)) {
+		if ($comment) {
 			$content = "<?php //$comment \n $content" . PHP_EOL;
 		} else {
 			$content = "<?php $content" . PHP_EOL;
 		}
-		if (false !== $value = file_put_contents($fileDirectory, $content, $flag)) {
-			\App\Cache::resetFileCache($fileDirectory);
+		if (false !== $value = file_put_contents($pathDirectory, $content, $flag)) {
+			\App\Cache::resetFileCache($pathDirectory);
 		}
 		return $value;
 	}
