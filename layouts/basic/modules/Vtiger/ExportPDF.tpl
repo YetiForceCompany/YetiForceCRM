@@ -59,8 +59,13 @@
 								<div class="form-group row">
 									<div class="col">
 										<select class="select2" name="inventoryColumns[]" multiple="multiple" data-select-cb="registerSelectSortable" disabled="disabled" data-js="select2 | sortable">
+											{foreach from=$SELECTED_INVENTORY_COLUMNS item=$NAME}
+												<option value="{$NAME}" selected="selected">{\App\Language::translate($ALL_INVENTORY_COLUMNS[$NAME], $MODULE_NAME)}</option>
+											{/foreach}
 										{foreach from=$ALL_INVENTORY_COLUMNS item=$LABEL key=$NAME}
-											<option value="{$NAME}"{if in_array($NAME,$SELECTED_INVENTORY_COLUMNS)} selected="selected"{/if}>{\App\Language::translate($LABEL, $MODULE_NAME)}</option>
+											{if !in_array($NAME, $SELECTED_INVENTORY_COLUMNS)}
+												<option value="{$NAME}">{\App\Language::translate($LABEL, $MODULE_NAME)}</option>
+											{/if}
 										{/foreach}
 										</select>
 									</div>
