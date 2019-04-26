@@ -63,9 +63,10 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 			foreach (\Vtiger_Inventory_Model::getInstance($moduleName)->getFields() as $name => $field) {
 				$allInventoryColumns[$name] = $field->get('label');
 			}
-			$selectedInventoryColumns = $allInventoryColumns;
 			if ($recordId) {
 				$selectedInventoryColumns = \App\Pdf\InventoryColumns::getInventoryColumnsForRecord($recordId, $moduleName);
+			} else {
+				$selectedInventoryColumns = array_keys($allInventoryColumns);
 			}
 			$viewer->assign('ALL_INVENTORY_COLUMNS', $allInventoryColumns);
 			$viewer->assign('SELECTED_INVENTORY_COLUMNS', $selectedInventoryColumns);
