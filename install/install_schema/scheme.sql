@@ -4679,7 +4679,7 @@ CREATE TABLE `vtiger_crmentity` (
   `was_read` tinyint(1) DEFAULT 0,
   `private` tinyint(1) DEFAULT 0,
   `users` text DEFAULT NULL,
-  `portal_access` tinyint(1) unsigned DEFAULT 1,
+  `portal_access` tinyint(1) unsigned DEFAULT 0,
   PRIMARY KEY (`crmid`),
   KEY `crmentity_smcreatorid_idx` (`smcreatorid`),
   KEY `crmentity_modifiedby_idx` (`modifiedby`),
