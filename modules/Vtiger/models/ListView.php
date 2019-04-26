@@ -260,7 +260,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkicon' => 'fas fa-archive'
 			];
 		}
-		if ($moduleModel->isPermitted('Delete') && $moduleModel->isPermitted('MassTrash')) {
+		if ($moduleModel->isPermitted('EditView') && $moduleModel->isPermitted('MassTrash')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_MOVE_TO_TRASH',
@@ -291,7 +291,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkicon' => 'fas fa-comments'
 			];
 		}
-		if ($moduleModel->isPermitted('MassTransferOwnership')) {
+		if ($moduleModel->isPermitted('EditView') && $moduleModel->isPermitted('MassTransferOwnership')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',

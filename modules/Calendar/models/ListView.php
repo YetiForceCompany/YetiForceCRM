@@ -53,7 +53,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['LISTVIEWMASSACTION'], $linkParams);
 
 		$massActionLinks = [];
-		if ($moduleModel->isPermitted('MassTransferOwnership')) {
+		if ($moduleModel->isPermitted('EditView') && $moduleModel->isPermitted('MassTransferOwnership')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
@@ -81,7 +81,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => 'fas fa-archive',
 			];
 		}
-		if ($moduleModel->isPermitted('Delete') && $moduleModel->isPermitted('MassTrash')) {
+		if ($moduleModel->isPermitted('EditView') && $moduleModel->isPermitted('MassTrash')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_MOVE_TO_TRASH',
