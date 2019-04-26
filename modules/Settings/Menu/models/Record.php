@@ -237,7 +237,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$roleId = filter_var($roleId, FILTER_SANITIZE_NUMBER_INT);
 		$menu = $this->getChildMenu($roleId, 0);
-		$content = '<?php' . PHP_EOL . '$menus = [';
+		$content = '$menus = [';
 		foreach ($menu as $item) {
 			$content .= $this->createContentMenu($item);
 		}
@@ -251,8 +251,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		$content .= '];' . PHP_EOL;
 		$file = ROOT_DIRECTORY . '/user_privileges/menu_' . $roleId . '.php';
-		file_put_contents($file, $content);
-		\App\Cache::resetFileCache($file);
+		\App\Utils::saveToFile($file, $content);
 	}
 
 	public function createContentMenu($menu)

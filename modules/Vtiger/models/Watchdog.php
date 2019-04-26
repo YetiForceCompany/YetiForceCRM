@@ -466,8 +466,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 				}
 			}
 		}
-		$content = '<?php return ' . \App\Utils::varExport($cache) . ';' . PHP_EOL;
-		file_put_contents(static::$cacheFile, $content, LOCK_EX);
+		App\Utils::saveToFile(static::$cacheFile, \App\Utils::varExport($cache), '', LOCK_EX, true);
 	}
 
 	/**
