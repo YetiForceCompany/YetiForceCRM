@@ -1275,6 +1275,7 @@
     "LBL_INVALID_PHONE_NUMBER": "Entered invalid phone number",
     "LBL_VALUE_NOT_FOUND": "Value not found",
     "FL_PHONE_CUSTOM_INFORMATION": "Additional information",
+    "FL_IS_VISSIBLE_IN_PORTAL": "In Portal",
     "LBL_ARCHIVE_RECORD": "Archive record",
     "LBL_ARCHIVE_RECORD_DESC": "Moving a record to an archive only changes the record's state without changing the rest of information. Are you sure you want to move the record?",
     "LBL_ACTIVATE_RECORD": "Activate record",

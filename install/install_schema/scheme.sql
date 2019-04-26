@@ -160,15 +160,6 @@ CREATE TABLE `a_yf_pdf` (
   KEY `module_name_2` (`module_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `a_yf_pdf_inv_col_scheme` */
-
-CREATE TABLE `u_yf_pdf_inv_scheme` (
-  `crmid` INT(10) NOT NULL,
-  `columns` TEXT DEFAULT NULL,
-  KEY `crmid` (`crmid`),
-  CONSTRAINT `fk_u_yf_pdf_inv_scheme_crmid` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=INNODB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `a_yf_record_converter` */
 
 CREATE TABLE `a_yf_record_converter` (
@@ -3104,6 +3095,15 @@ CREATE TABLE `u_yf_partnerscf` (
   CONSTRAINT `fk_1_u_yf_partnerscf` FOREIGN KEY (`partnersid`) REFERENCES `u_yf_partners` (`partnersid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_pdf_inv_scheme` */
+
+CREATE TABLE `u_yf_pdf_inv_scheme` (
+  `crmid` int(10) NOT NULL,
+  `columns` text DEFAULT NULL,
+  KEY `crmid` (`crmid`),
+  CONSTRAINT `fk_u_yf_pdf_inv_scheme_crmid` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_picklist_close_state` */
 
 CREATE TABLE `u_yf_picklist_close_state` (
@@ -4679,6 +4679,7 @@ CREATE TABLE `vtiger_crmentity` (
   `was_read` tinyint(1) DEFAULT 0,
   `private` tinyint(1) DEFAULT 0,
   `users` text DEFAULT NULL,
+  `portal_access` tinyint(1) unsigned DEFAULT 1,
   PRIMARY KEY (`crmid`),
   KEY `crmentity_smcreatorid_idx` (`smcreatorid`),
   KEY `crmentity_modifiedby_idx` (`modifiedby`),
@@ -5471,7 +5472,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2788 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2859 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 

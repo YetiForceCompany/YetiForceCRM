@@ -49,6 +49,7 @@ class PrivilegeQuery
 		$fields = \App\Field::getRelatedFieldForModule($moduleName);
 		$foundField = true;
 		$where = ['and'];
+		$where[] = ['vtiger_crmentity.portal_access' => 1];
 		if (0 === \App\ModuleHierarchy::getModuleLevel($moduleName)) {
 			$entityInstance = \Vtiger_CRMEntity::getInstance($moduleName);
 			$where[] = [$entityInstance->table_name . '.' . $entityInstance->table_index => $parentId];
