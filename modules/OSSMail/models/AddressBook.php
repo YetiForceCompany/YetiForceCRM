@@ -54,11 +54,11 @@ class OSSMail_AddressBook_Model
 			}
 		}
 		$dataReader->close();
-		$fstart = '<?php $bookMails =';
+		$fstart = '$bookMails =';
 		if (!empty($mailsToFile)) {
 			foreach ($mailsToFile as $user => $file) {
 				$file = array_unique($file);
-				file_put_contents("cache/addressBook/mails_{$user}.php", $fstart . App\Utils::varExport($file) . ';');
+				\App\Utils::saveToFile("cache/addressBook/mails_{$user}.php", $fstart . App\Utils::varExport($file) . ';');
 			}
 		}
 	}
