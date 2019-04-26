@@ -227,10 +227,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 		if (!$this->isNew()) {
 			$saveFields = array_intersect($saveFields, array_keys($this->changes));
 		}
-		if ($this->isNew()) {
-			$this->setId(\App\Db::getInstance()->getUniqueID('vtiger_users'));
-			$forSave['vtiger_users']['date_entered'] = date('Y-m-d H:i:s');
-		}
 		if ($this->has('changeUserPassword') || $this->isNew()) {
 			$saveFields[] = 'user_password';
 		}
@@ -253,6 +249,12 @@ class Users_Record_Model extends Vtiger_Record_Model
 				}
 				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $uitypeModel->convertToSave($value, $this);
 			}
+		}
+		if ($this->isNew()) {
+			$this->setId(\App\Db::getInstance()->getUniqueID('vtiger_users'));
+			$now = date('Y-m-d H:i:s');
+			$forSave['vtiger_users']['date_entered'] = $now;
+			$forSave['vtiger_users']['date_password_change'] = $now;
 		}
 		return $forSave;
 	}
