@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "db6238382ffc543f2530c2c849201e33",
+    "content-hash": "09852a60171d6860b71a9ee159d5271e",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -2908,16 +2908,16 @@
         },
         {
             "name": "yetiforce/yetiforcepdf",
-            "version": "0.1.23",
+            "version": "0.1.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/YetiForcePDF.git",
-                "reference": "b35e4ddaa1ac9327a8238b1066576d01de14f751"
+                "reference": "23de27bc5be2f1e764c32c277b98331a0b04acb3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/b35e4ddaa1ac9327a8238b1066576d01de14f751",
-                "reference": "b35e4ddaa1ac9327a8238b1066576d01de14f751",
+                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/23de27bc5be2f1e764c32c277b98331a0b04acb3",
+                "reference": "23de27bc5be2f1e764c32c277b98331a0b04acb3",
                 "shasum": ""
             },
             "require": {
@@ -2955,7 +2955,7 @@
                 "html to pdf",
                 "pdf"
             ],
-            "time": "2019-04-24T08:08:57+00:00"
+            "time": "2019-04-25T07:51:56+00:00"
         },
         {
             "name": "yetiforce/yii2",
@@ -4092,16 +4092,16 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "4.1.0",
+            "version": "4.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "6fda8ce1974b62b14935adc02a9ed38252eca656"
+                "reference": "3095910f0f0fb155ac4021fc51a4a7a39ac04e8a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/6fda8ce1974b62b14935adc02a9ed38252eca656",
-                "reference": "6fda8ce1974b62b14935adc02a9ed38252eca656",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/3095910f0f0fb155ac4021fc51a4a7a39ac04e8a",
+                "reference": "3095910f0f0fb155ac4021fc51a4a7a39ac04e8a",
                 "shasum": ""
             },
             "require": {
@@ -4116,7 +4116,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.1-dev"
+                    "dev-master": "4.2-dev"
                 }
             },
             "autoload": {
@@ -4141,7 +4141,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2019-02-01T05:27:49+00:00"
+            "time": "2019-04-25T07:55:20+00:00"
         },
         {
             "name": "sebastian/exporter",
