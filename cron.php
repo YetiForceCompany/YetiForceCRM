@@ -12,7 +12,13 @@
  * Start the cron services configured.
  */
 chdir(__DIR__);
-include_once __DIR__ . '/include/main/WebUI.php';
+try {
+	require_once __DIR__ . '/include/RequirementsValidation.php';
+} catch (\Throwable $e) {
+	file_put_contents(__DIR__ . '/cache/logs/cron_error.log', date('Y-m-d H:i:s') . $e->getMessage() . PHP_EOL);
+	throw $e;
+}
+require_once __DIR__ . '/include/main/WebUI.php';
 \App\Process::$requestMode = 'Cron';
 \App\Utils\ConfReport::$sapi = 'cron';
 $cronObj = new \App\Cron();
@@ -81,7 +87,7 @@ if (PHP_SAPI === 'cli' || $user || App\Config::main('application_unique_key') ==
 			ob_end_clean();
 
 			$taskTime = round(microtime(true) - $startTaskTime, 2);
-			if ($taskResponse !== '') {
+			if ('' !== $taskResponse) {
 				$cronObj->log('The task returned a message: ' . PHP_EOL . $taskResponse, 'error');
 				\App\Log::warning($cronTask->getName() . ' - The task returned a message:' . PHP_EOL . $taskResponse, 'Cron');
 				$response .= 'Task response:' . PHP_EOL . $taskResponse . PHP_EOL;
@@ -91,12 +97,12 @@ if (PHP_SAPI === 'cli' || $user || App\Config::main('application_unique_key') ==
 			$response .= sprintf('%s | %s - End task (%s s)', date('Y-m-d H:i:s'), $cronTask->getName(), $taskTime) . PHP_EOL;
 			\App\Log::trace($cronTask->getName() . ' - End', 'Cron');
 			$cronObj->log('End task, time: ' . $taskTime);
-		} catch (Throwable $e) {
+		} catch (\Throwable $e) {
 			$cronObj->log('Cron task execution throwed exception: ' . PHP_EOL . $response . PHP_EOL . $e->__toString(), 'error');
 			echo $response;
 			echo sprintf('%s | ERROR: %s - Cron task execution throwed exception.', date('Y-m-d H:i:s'), $cronTask->getName()) . PHP_EOL;
 			echo $e->__toString() . PHP_EOL;
-			if (App\Config::main('systemMode') === 'test') {
+			if ('test' === App\Config::main('systemMode')) {
 				throw $e;
 			}
 		}

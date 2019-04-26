@@ -233,6 +233,7 @@ class Register
 			'lastError' => $data['lastError'] ?? '',
 		];
 		file_put_contents(static::REGISTRATION_FILE, "<?php //Modifying this file will breach the licence terms. \n return " . \var_export(static::$config, true) . ';');
+		\App\Cache::resetFileCache(static::REGISTRATION_FILE);
 	}
 
 	/**
