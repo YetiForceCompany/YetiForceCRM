@@ -17,6 +17,19 @@
 			{foreach from=$EXPORT_VARS key=INDEX item=VALUE}
 				<input type="hidden" name="{$INDEX}" value="{$VALUE}" />
 			{/foreach}
+			{function TEMPLATE_LIST STANDARD_TEMPLATES=[]}
+				{foreach from=$STANDARD_TEMPLATES item=TEMPLATE}
+					<div class="form-group row">
+						<label class="col-sm-11 col-form-label text-left pt-0" for="pdfTpl{$TEMPLATE->getId()}">
+							{\App\Language::translate($TEMPLATE->get('primary_name'), $MODULE_NAME)}
+							<span class="secondaryName ml-2">[ {\App\Language::translate($TEMPLATE->get('secondary_name'), $MODULE_NAME)} ]</span>
+						</label>
+						<div class="col-sm-1">
+							<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} />
+						</div>
+					</div>
+				{/foreach}
+			{/function}
 			{if $DYNAMIC_TEMPLATES}
 				<ul class="nav nav-tabs" id="generate-pdf-tab" role="tablist">
 					<li class="nav-item">
@@ -28,17 +41,7 @@
 				</ul>
 				<div class="tab-content p-3 border-left border-right border-bottom mb-3" id="generate-pdf-tab-content">
 					<div class="tab-pane fade show active" id="standard" role="tabpanel" aria-labelledby="standard-tab">
-						{foreach from=$STANDARD_TEMPLATES item=TEMPLATE}
-							<div class="form-group row">
-								<label class="col-sm-11 col-form-label text-left pt-0" for="pdfTpl{$TEMPLATE->getId()}">
-									{\App\Language::translate($TEMPLATE->get('primary_name'), $MODULE_NAME)}
-									<span class="secondaryName ml-2">[ {\App\Language::translate($TEMPLATE->get('secondary_name'), $MODULE_NAME)} ]</span>
-								</label>
-								<div class="col-sm-1">
-									<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} />
-								</div>
-							</div>
-						{/foreach}
+						{TEMPLATE_LIST STANDARD_TEMPLATES=$STANDARD_TEMPLATES}
 					</div>
 					<div class="tab-pane fade" id="dynamic" role="tabpanel" aria-labelledby="dynamic-tab">
 						{foreach from=$DYNAMIC_TEMPLATES item=TEMPLATE}
@@ -77,17 +80,7 @@
 				<div class="card">
 					<div class="card-header">{\App\Language::translate('LBL_AVAILABLE_TEMPLATES', $MODULE_NAME)}</div>
 						<div class="card-body">
-							{foreach from=$STANDARD_TEMPLATES item=TEMPLATE}
-								<div class="form-group row">
-									<label class="col-sm-11 col-form-label text-left pt-0" for="pdfTpl{$TEMPLATE->getId()}">
-										{\App\Language::translate($TEMPLATE->get('primary_name'), $MODULE_NAME)}
-										<span class="secondaryName ml-2">[ {\App\Language::translate($TEMPLATE->get('secondary_name'), $MODULE_NAME)} ]</span>
-									</label>
-									<div class="col-sm-1">
-										<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} />
-									</div>
-								</div>
-							{/foreach}
+							{TEMPLATE_LIST STANDARD_TEMPLATES=$STANDARD_TEMPLATES}
 						</div>
 					</div>
 				</div>

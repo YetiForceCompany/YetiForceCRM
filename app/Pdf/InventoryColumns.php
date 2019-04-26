@@ -35,20 +35,21 @@ class InventoryColumns
 	 *
 	 * @return array
 	 */
-	public static function getInventoryColumnsForRecord($recordId, string $moduleName)
+	public static function getInventoryColumnsForRecord(int $recordId, string $moduleName)
 	{
 		if (static::$isCustomMode && !empty(static::$inventoryColumns)) {
 			return static::$inventoryColumns;
 		}
+		$columns = array_keys(\Vtiger_Inventory_Model::getInstance($moduleName)->getFields());
 		$columnsJSON = (new \App\Db\Query())
 			->select(['columns'])
 			->from('u_#__pdf_inv_scheme')
 			->where(['crmid' => $recordId])
 			->scalar();
 		if ($columnsJSON) {
-			return \App\Json::decode($columnsJSON);
+			$columns = array_intersect(\App\Json::decode($columnsJSON), $columns);
 		}
-		return array_keys(\Vtiger_Inventory_Model::getInstance($moduleName)->getFields());
+		return $columns;
 	}
 
 	/**
