@@ -232,7 +232,7 @@ class Register
 			'serialKey' => $data['serialKey'] ?? $conf['serialKey'] ?? '',
 			'lastError' => $data['lastError'] ?? '',
 		];
-		file_put_contents(static::REGISTRATION_FILE, "<?php //Modifying this file will breach the licence terms. \n return " . \var_export(static::$config, true) . ';');
+		\App\Utils::saveToFile(static::REGISTRATION_FILE, \var_export(static::$config, true), 'Modifying this file will breach the licence terms', 0, true);
 	}
 
 	/**

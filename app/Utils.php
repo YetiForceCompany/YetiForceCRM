@@ -1,5 +1,7 @@
 <?php
 
+namespace App;
+
 /**
  * Utils class.
  *
@@ -116,12 +118,12 @@ class Utils
 			$content = "return $content;";
 		}
 		if ($comment) {
-			$content = "<?php //$comment \n $content" . PHP_EOL;
+			$content = "<?php \n //$comment \n $content" . PHP_EOL;
 		} else {
 			$content = "<?php $content" . PHP_EOL;
 		}
 		if (false !== $value = file_put_contents($pathDirectory, $content, $flag)) {
-			\App\Cache::resetFileCache($pathDirectory);
+			Cache::resetFileCache($pathDirectory);
 		}
 		return $value;
 	}
