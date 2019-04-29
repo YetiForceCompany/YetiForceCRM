@@ -751,9 +751,9 @@ class TextParser
 		foreach ($fields as $fieldModel) {
 			if ($fieldModel->isViewable()) {
 				if ($this->withoutTranslations) {
-					$headers .= "<th class=\"col-type-{$fieldModel->getType()}\">$(translate : {$fieldModel->getFieldLabel()}|$reletedModuleName)$</th>";
+					$headers .= "<th class=\"col-type-{$fieldModel->getFieldType()}\">$(translate : {$fieldModel->getFieldLabel()}|$reletedModuleName)$</th>";
 				} else {
-					$headers .= "<th class=\"col-type-{$fieldModel->getType()}\">" . \App\Language::translate($fieldModel->getFieldLabel(), $reletedModuleName) . '</th>';
+					$headers .= "<th class=\"col-type-{$fieldModel->getFieldType()}\">" . \App\Language::translate($fieldModel->getFieldLabel(), $reletedModuleName) . '</th>';
 				}
 			}
 		}
@@ -767,7 +767,7 @@ class TextParser
 					if ((int) $maxLength) {
 						$value = $this->textTruncate($value, (int) $maxLength);
 					}
-					$rows .= "<td class=\"col-type-{$fieldModel->getType()}\">{$value}</td>";
+					$rows .= "<td class=\"col-type-{$fieldModel->getFieldType()}\">{$value}</td>";
 				}
 			}
 			$rows .= '</tr>';
@@ -825,9 +825,9 @@ class TextParser
 		$fields = $listView->getListViewHeaders();
 		foreach ($fields as $fieldModel) {
 			if ($this->withoutTranslations) {
-				$headers .= "<th class=\"col-type-{$fieldModel->getType()}\">$(translate : {$fieldModel->getFieldLabel()}|$moduleName)$</th>";
+				$headers .= "<th class=\"col-type-{$fieldModel->getFieldType()}\">$(translate : {$fieldModel->getFieldLabel()}|$moduleName)$</th>";
 			} else {
-				$headers .= "<th class=\"col-type-{$fieldModel->getType()}\">" . \App\Language::translate($fieldModel->getFieldLabel(), $moduleName) . '</th>';
+				$headers .= "<th class=\"col-type-{$fieldModel->getFieldType()}\">" . \App\Language::translate($fieldModel->getFieldLabel(), $moduleName) . '</th>';
 			}
 		}
 		$counter = 0;
@@ -840,7 +840,7 @@ class TextParser
 					if ((int) $maxLength) {
 						$value = $this->textTruncate($value, (int) $maxLength);
 					}
-					$rows .= "<td class=\"col-type-{$fieldModel->getType()}\">{$value}</td>";
+					$rows .= "<td class=\"col-type-{$fieldModel->getFieldType()}\">{$value}</td>";
 				}
 			}
 			$rows .= '</tr>';
