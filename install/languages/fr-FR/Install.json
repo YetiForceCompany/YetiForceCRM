@@ -55,8 +55,8 @@
     "LBL_TRUE": "Vrai",
     "LBL_URL": "URL",
     "LBL_USERNAME": "Utilisateur",
-    "LBL_FIRST_NAME": "First name",
-    "LBL_LAST_NAME": "Last name",
+    "LBL_FIRST_NAME": "Prénom",
+    "LBL_LAST_NAME": "Nom de famille",
     "LBL_SETUP_WIZARD_DESCRIPTION_1": "YetiForce is an innovative and secure cutting-edge application that supports various business processes, like Marketing, Sales,, Projects, Support, Accounting, Logistics, and GDPR. \r\nThe system was named the “Most Affordable CRM software” in Capterra’s ranking, thus beating over 500 other CRM solutions. \r\nFull access to the source code, our large and active GitHub community, and your help is what allows us to create an even better system. \r\nThank you for your interest in YetiForce. If you find any problems, please report them here:",
     "LBL_SETUP_WIZARD_DESCRIPTION_2": "If you are looking for direct support please consider purchasing one of our support packages. We also offer configured and optimized servers (Hosting, VPS Public Cloud, VPS Private Cloud) that guarantee the highest quality and full compatibility with the YetiForce system. Visit our store for more information.",
     "LBL_SETUP_WIZARD_BODY": "Welcome to YetiForce installation wizard",
@@ -109,12 +109,12 @@
     "LBL_SETUP_WIZARD_HEADER": "YetiForce installation wizard",
     "LBL_VERSION": "Version",
     "LBL_ERROR_INSTALL": "Installation unsuccessful",
-    "LBL_NAME": "The name of your company",
-    "LBL_INDUSTRY": "Industry",
-    "LBL_CITY": "City",
-    "LBL_COUNTRY": "Country",
-    "LBL_COMPANYSIZE": "The number of employees of the company",
-    "LBL_WEBSITE": "Your company's website"
+    "LBL_NAME": "Le nom de votre entreprise",
+    "LBL_INDUSTRY": "Industrie",
+    "LBL_CITY": "Ville",
+    "LBL_COUNTRY": "Pays",
+    "LBL_COMPANYSIZE": "Le nombre d’employés de la société",
+    "LBL_WEBSITE": "Site Web de votre entreprise"
   },
   "js": {
     "JS_ALL": "Tous",
@@ -132,11 +132,11 @@
     "LBL_INVALID_EMAIL_ERROR": "Attention! Email adresse invalide.",
     "LBL_INVALID_USERNAME_ERROR": "Invalid username",
     "LBL_RESOLVE_ERROR": "Merci de résoudre les erreurs avant de continuer l'installation",
-    "JS_SELECT_AN_OPTION": "Select an option",
-    "JS_S_LENGTH_MENU": "Show _MENU_ entries",
-    "JS_SEARCH": "Search:",
+    "JS_SELECT_AN_OPTION": "Sélectionnez une option",
+    "JS_S_LENGTH_MENU": "Afficher les entrées _MENU_",
+    "JS_SEARCH": "Recherche :",
     "JS_S_INFO": "Showing _START_ to _END_ of _TOTAL_ entries",
-    "JS_S_PREVIOUS": "Last",
+    "JS_S_PREVIOUS": "Dernier",
     "JS_S_NEXT": "Next"
   }
 }
