@@ -55,7 +55,7 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => 'fas fa-undo-alt',
 			];
 		}
-		if ($moduleModel->isPermitted('MassArchived')) {
+		if ($moduleModel->isPermitted('EditView') && $moduleModel->isPermitted('MassArchived')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ARCHIVE',
@@ -75,7 +75,7 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => 'fas fa-trash-alt',
 			];
 		}
-		if ($moduleModel->isPermitted('MassDelete')) {
+		if ($moduleModel->isPermitted('Delete') && $moduleModel->isPermitted('MassDelete')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_DELETE',

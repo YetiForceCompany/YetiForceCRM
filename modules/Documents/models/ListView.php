@@ -43,7 +43,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 			}
 		}
 
-		if ($moduleModel->isPermitted('QuickExportToExcel')) {
+		if ($moduleModel->isPermitted('DetailView') && $moduleModel->isPermitted('QuickExportToExcel')) {
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
@@ -115,7 +115,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => 'adminIcon-document-templates',
 			];
 		}
-		if ($moduleModel->isPermitted('MassActive')) {
+		if ($moduleModel->isPermitted('EditView') && $moduleModel->isPermitted('MassActive')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ACTIVATE',
@@ -125,7 +125,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => 'fas fa-undo-alt',
 			];
 		}
-		if ($moduleModel->isPermitted('MassArchived')) {
+		if ($moduleModel->isPermitted('EditView') && $moduleModel->isPermitted('MassArchived')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ARCHIVE',
@@ -145,7 +145,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => 'fas fa-trash-alt',
 			];
 		}
-		if ($moduleModel->isPermitted('MassDelete')) {
+		if ($moduleModel->isPermitted('Delete') && $moduleModel->isPermitted('MassDelete')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_DELETE',

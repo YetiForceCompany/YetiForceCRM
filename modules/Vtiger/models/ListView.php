@@ -193,7 +193,7 @@ class Vtiger_ListView_Model extends \App\Base
 				];
 			}
 		}
-		if ($moduleModel->isPermitted('QuickExportToExcel')) {
+		if ($moduleModel->isPermitted('DetailView') && $moduleModel->isPermitted('QuickExportToExcel')) {
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
@@ -271,7 +271,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkicon' => 'fas fa-trash-alt'
 			];
 		}
-		if ($moduleModel->isPermitted('MassDelete')) {
+		if ($moduleModel->isPermitted('Delete') && $moduleModel->isPermitted('MassDelete')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_DELETE',

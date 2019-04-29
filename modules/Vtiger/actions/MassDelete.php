@@ -12,10 +12,10 @@ class Vtiger_MassDelete_Action extends Vtiger_Mass_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$userPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$userPriviligesModel->hasModuleActionPermission($request->getModule(), 'MassDelete')) {
+		if (!$userPriviligesModel->hasModuleActionPermission($request->getModule(), 'Delete') || !$userPriviligesModel->hasModuleActionPermission($request->getModule(), 'MassDelete')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
@@ -23,7 +23,7 @@ class Vtiger_MassDelete_Action extends Vtiger_Mass_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordIds = self::getRecordsListFromRequest($request);

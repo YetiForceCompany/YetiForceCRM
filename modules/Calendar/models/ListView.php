@@ -21,7 +21,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 	{
 		$moduleModel = $this->getModule();
 		$advancedLinks = [];
-		if ($moduleModel->isPermitted('CreateView') && $moduleModel->isPermitted('EditView') && $moduleModel->isPermitted('Import')) {
+		if ($moduleModel->isPermitted('CreateView') && $moduleModel->isPermitted('Import')) {
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_IMPORT',
@@ -71,7 +71,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => 'fas fa-undo-alt',
 			];
 		}
-		if ($moduleModel->isPermitted('MassArchived')) {
+		if ($moduleModel->isPermitted('EditView') && $moduleModel->isPermitted('MassArchived')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ARCHIVE',
@@ -91,7 +91,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => 'fas fa-trash-alt',
 			];
 		}
-		if ($moduleModel->isPermitted('MassDelete')) {
+		if ($moduleModel->isPermitted('Delete') && $moduleModel->isPermitted('MassDelete')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_DELETE',

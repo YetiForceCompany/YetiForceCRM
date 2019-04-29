@@ -17,10 +17,10 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'QuickExportToExcel')) {
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'DetailView') || !$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'QuickExportToExcel')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
@@ -30,7 +30,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		$this->exposeMethod('exportToExcel');
 	}
 
-	public function exportToExcel(\App\Request $request)
+	public function exportToExcel(App\Request $request)
 	{
 		$moduleName = $request->getModule(false); //this is the type of things in the current view
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -72,7 +72,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 				switch ($fieldModel->getUIType()) {
 					case 25:
 					case 7:
-						if ($fieldModel->getFieldName() === 'sum_time') {
+						if ('sum_time' === $fieldModel->getFieldName()) {
 							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 						} else {
 							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
@@ -96,7 +96,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 							$value = $record->get($fieldModel->getFieldName());
 						}
 						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($value), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
-						if ($moduleName === 'Reservations' || $moduleName === 'OSSTimeControl' || $moduleName === 'Calendar') {
+						if ('Reservations' === $moduleName || 'OSSTimeControl' === $moduleName || 'Calendar' === $moduleName) {
 							$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY'); //format the date to the users preference
 						} else {
 							$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY HH:MM:SS'); //format the date to the users preference

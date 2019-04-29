@@ -917,7 +917,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function privilegeToMoveToTrash()
 	{
 		if (!isset($this->privileges['MoveToTrash'])) {
-			$this->privileges['MoveToTrash'] = 'Trash' !== \App\Record::getState($this->getId()) && \App\Privilege::isPermitted($this->getModuleName(), 'MoveToTrash', $this->getId());
+			$this->privileges['MoveToTrash'] = 'Trash' !== \App\Record::getState($this->getId()) && \App\Privilege::isPermitted($this->getModuleName(), 'EditView', $this->getId()) && \App\Privilege::isPermitted($this->getModuleName(), 'MoveToTrash', $this->getId());
 		}
 		return $this->privileges['MoveToTrash'];
 	}
@@ -930,7 +930,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function privilegeToArchive()
 	{
 		if (!isset($this->privileges['Archive'])) {
-			$this->privileges['Archive'] = 'Archived' !== \App\Record::getState($this->getId()) && \App\Privilege::isPermitted($this->getModuleName(), 'ArchiveRecord', $this->getId());
+			$this->privileges['Archive'] = 'Archived' !== \App\Record::getState($this->getId()) && \App\Privilege::isPermitted($this->getModuleName(), 'EditView', $this->getId()) && \App\Privilege::isPermitted($this->getModuleName(), 'ArchiveRecord', $this->getId());
 		}
 		return $this->privileges['Archive'];
 	}
@@ -1521,7 +1521,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function isCanAssignToHimself()
 	{
-		return $this->isPermitted('AssignToYourself') && \App\PrivilegeUtil::MEMBER_TYPE_GROUPS === \App\Fields\Owner::getType($this->getValueByField('assigned_user_id')) &&
+		return $this->isPermitted('EditView') && $this->isPermitted('AssignToYourself') && \App\PrivilegeUtil::MEMBER_TYPE_GROUPS === \App\Fields\Owner::getType($this->getValueByField('assigned_user_id')) &&
 			array_key_exists(\App\User::getCurrentUserId(), \App\Fields\Owner::getInstance($this->getModuleName())->getAccessibleUsers('', 'owner'));
 	}
 

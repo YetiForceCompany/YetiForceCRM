@@ -64,7 +64,7 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => 'fas fa-undo-alt'
 			];
 		}
-		if ($moduleModel->isPermitted('MassDelete')) {
+		if ($moduleModel->isPermitted('Delete') && $moduleModel->isPermitted('MassDelete')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_DELETE',

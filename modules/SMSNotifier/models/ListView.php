@@ -41,7 +41,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 				];
 			}
 		}
-		if (\App\Privilege::isPermitted($moduleName, 'QuickExportToExcel')) {
+		if (\App\Privilege::isPermitted($moduleName, 'DetailView') && \App\Privilege::isPermitted($moduleName, 'QuickExportToExcel')) {
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
@@ -101,7 +101,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => 'fas fa-undo-alt',
 			];
 		}
-		if ($moduleModel->isPermitted('MassArchived')) {
+		if ($moduleModel->isPermitted('EditView') && $moduleModel->isPermitted('MassArchived')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ARCHIVE',
@@ -121,7 +121,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => 'fas fa-trash-alt',
 			];
 		}
-		if ($moduleModel->isPermitted('MassDelete')) {
+		if ($moduleModel->isPermitted('Delete') && $moduleModel->isPermitted('MassDelete')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_DELETE',

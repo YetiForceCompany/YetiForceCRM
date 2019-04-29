@@ -98,7 +98,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				];
 			}
 		}
-		if ($moduleModel->isPermitted('RecordMapping')) {
+		if ($moduleModel->isPermitted('CreateView') && $moduleModel->isPermitted('RecordMapping')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 			$mfModel = new $handlerClass();
 			if ($mfModel && $mfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {
@@ -233,7 +233,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				'linkclass' => 'btn-dark btn-sm',
 			]);
 		}
-		if ($moduleModel->isPermitted('DuplicateRecord')) {
+		if ($moduleModel->isPermitted('CreateView') && $moduleModel->isPermitted('DuplicateRecord')) {
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linklabel' => 'LBL_DUPLICATE',
@@ -331,7 +331,7 @@ class Vtiger_DetailView_Model extends \App\Base
 		if (
 			\App\User::getCurrentUserId() === \App\User::getCurrentUserRealId() &&
 			\App\Module::isModuleActive('Chat') &&
-			\App\ModuleHierarchy::getModuleLevel($parentModuleModel->getName()) !== false
+			false !== \App\ModuleHierarchy::getModuleLevel($parentModuleModel->getName())
 		) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
