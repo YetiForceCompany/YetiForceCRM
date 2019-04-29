@@ -44,10 +44,19 @@ class Condition
 				if (3 !== $count && 4 !== $count) {
 					throw new Exceptions\IllegalValue("ERR_NUMBER_OF_ARGUMENTS_NOT_ALLOWED||{$count}|| <> 3 or 4||" . Utils::varExport($param, true), 406);
 				}
-				if (!isset($fields[$param[0]])) {
-					throw new Exceptions\IllegalValue("ERR_FIELD_NOT_FOUND||{$param[0]}||" . Utils::varExport($param, true), 406);
+				[$relatedFieldName, $relatedModule, $referenceField] = explode(':', $param[0]);
+				if ($relatedModule) {
+					$relatedFields = \Vtiger_Module_Model::getInstance($relatedModule)->getFields();
+					if (!isset($fields[$referenceField], $relatedFields[$relatedFieldName])) {
+						throw new Exceptions\IllegalValue("ERR_FIELD_NOT_FOUND||{$param[0]}||" . Utils::varExport($param, true), 406);
+					}
+					$fieldModel = $relatedFields[$relatedFieldName];
+				} else {
+					if (!isset($fields[$param[0]])) {
+						throw new Exceptions\IllegalValue("ERR_FIELD_NOT_FOUND||{$param[0]}||" . Utils::varExport($param, true), 406);
+					}
+					$fieldModel = $fields[$param[0]];
 				}
-				$fieldModel = $fields[$param[0]];
 				$fieldModel->getUITypeModel()->getDbConditionBuilderValue($param[2], $param[1]);
 				$tempParam[] = $param;
 			}
