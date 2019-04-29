@@ -18,10 +18,10 @@ class Vtiger_Export_View extends Vtiger_Index_View
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Export')) {
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'DetailView') || !$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Export')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
@@ -29,7 +29,7 @@ class Vtiger_Export_View extends Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$viewId = $request->getByType('viewname', 2);

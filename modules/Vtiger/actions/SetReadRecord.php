@@ -18,16 +18,16 @@ class Vtiger_SetReadRecord_Action extends Vtiger_SaveAjax_Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		parent::checkPermission($request);
 		$userPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$userPriviligesModel->hasModuleActionPermission($request->getModule(), 'ReadRecord')) {
+		if (!$userPriviligesModel->hasModuleActionPermission($request->getModule(), 'DetailView') || !$userPriviligesModel->hasModuleActionPermission($request->getModule(), 'ReadRecord')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$this->saveRecord($request);

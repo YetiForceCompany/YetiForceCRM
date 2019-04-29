@@ -24,7 +24,7 @@ class Contacts_ListView_Model extends Vtiger_ListView_Model
 		$moduleModel = $this->getModule();
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$massActionLinks = [];
-		if ($moduleModel->isPermitted('MassComposeEmail') && App\Config::main('isActiveSendingMails') && App\Mail::getDefaultSmtp()) {
+		if ($moduleModel->isPermitted('DetailView') && $moduleModel->isPermitted('MassComposeEmail') && App\Config::main('isActiveSendingMails') && App\Mail::getDefaultSmtp()) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_SEND_EMAIL',
@@ -32,7 +32,7 @@ class Contacts_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => 'fas fa-envelope',
 			];
 		}
-		if ($currentUserModel->hasModulePermission('SMSNotifier') && $moduleModel->isPermitted('MassSendSMS') && SMSNotifier_Module_Model::checkServer()) {
+		if ($currentUserModel->hasModulePermission('SMSNotifier') && $moduleModel->isPermitted('DetailView') && $moduleModel->isPermitted('MassSendSMS') && SMSNotifier_Module_Model::checkServer()) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_SEND_SMS',

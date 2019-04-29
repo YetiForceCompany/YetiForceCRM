@@ -161,7 +161,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkicon' => 'fas fa-download'
 			];
 		}
-		if ($moduleModel->isPermitted('Export')) {
+		if ($moduleModel->isPermitted('DetailView') && $moduleModel->isPermitted('Export')) {
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
@@ -178,7 +178,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkclass' => 'js-mass-action--merge',
 			];
 		}
-		if ($moduleModel->isPermitted('ExportPdf')) {
+		if ($moduleModel->isPermitted('DetailView') && $moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
@@ -249,7 +249,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkicon' => 'fas fa-undo-alt'
 			];
 		}
-		if ($moduleModel->isPermitted('MassArchived')) {
+		if ($moduleModel->isPermitted('EditView') && $moduleModel->isPermitted('MassArchived')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ARCHIVE',
@@ -283,7 +283,7 @@ class Vtiger_ListView_Model extends \App\Base
 			];
 		}
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
-		if ($moduleModel->isCommentEnabled() && $modCommentsModel->isPermitted('EditView') && $moduleModel->isPermitted('MassAddComment')) {
+		if ($moduleModel->isCommentEnabled() && $modCommentsModel->isPermitted('DetailView') && $moduleModel->isPermitted('MassAddComment')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ADD_COMMENT',
@@ -299,7 +299,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkicon' => 'fas fa-user'
 			];
 		}
-		if ($moduleModel->isTrackingEnabled() && App\Config::module('ModTracker', 'UNREVIEWED_COUNT') && $moduleModel->isPermitted('ReviewingUpdates') && $currentUser->getId() === $currentUser->getRealId()) {
+		if ($moduleModel->isTrackingEnabled() && App\Config::module('ModTracker', 'UNREVIEWED_COUNT') && $moduleModel->isPermitted('DetailView') && $moduleModel->isPermitted('ReviewingUpdates') && $currentUser->getId() === $currentUser->getRealId()) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_REVIEW_CHANGES',
@@ -335,7 +335,7 @@ class Vtiger_ListView_Model extends \App\Base
 			];
 		}
 
-		if ($moduleModel->isPermitted('ExportPdf')) {
+		if ($moduleModel->isPermitted('DetailView') && $moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');

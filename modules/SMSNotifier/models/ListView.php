@@ -16,8 +16,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 		$moduleModel = $this->getModule();
 		$moduleName = $moduleModel->getName();
 		$advancedLinks = [];
-		$exportPermission = \App\Privilege::isPermitted($moduleName, 'Export');
-		if ($exportPermission) {
+		if (\App\Privilege::isPermitted($moduleName, 'DetailView') && \App\Privilege::isPermitted($moduleName, 'Export')) {
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
@@ -26,7 +25,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 			];
 		}
 
-		if (\App\Privilege::isPermitted($moduleName, 'ExportPdf')) {
+		if (\App\Privilege::isPermitted($moduleName, 'DetailView') && \App\Privilege::isPermitted($moduleName, 'ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleName, 'List');
@@ -62,7 +61,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 		$basicLinks = [];
 		$moduleModel = $this->getModule();
 		$moduleName = $moduleModel->getName();
-		if (\App\Privilege::isPermitted($moduleName, 'ExportPdf')) {
+		if (\App\Privilege::isPermitted($moduleName, 'DetailView') && \App\Privilege::isPermitted($moduleName, 'ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleName, 'List');

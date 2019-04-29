@@ -82,7 +82,7 @@ class Vtiger_DetailView_Model extends \App\Base
 		$moduleName = $moduleModel->getName();
 		$recordId = $recordModel->getId();
 		$linkModelList = $detailViewLinks = [];
-		if ($moduleModel->isPermitted('WorkflowTrigger') && $recordModel->isEditable()) {
+		if ($moduleModel->isPermitted('WorkflowTrigger') && $recordModel->isViewable()) {
 			Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
 			Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
 			$wfs = new VTWorkflowManager();
@@ -112,7 +112,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				];
 			}
 		}
-		if (App\Config::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingRecords')) {
+		if (App\Config::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('DetailView') && $moduleModel->isPermitted('WatchingRecords')) {
 			$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
 			$class = 'btn-outline-dark btn-sm';
 			$iconclass = 'fa-eye-slash';
@@ -243,7 +243,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				'title' => \App\Language::translate('LBL_DUPLICATE_RECORD'),
 			]);
 		}
-		if ($moduleModel->isPermitted('ExportPdf')) {
+		if ($moduleModel->isPermitted('DetailView') && $moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdfModel = new $handlerClass();
 			if ($pdfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {
@@ -317,7 +317,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				'countRelated' => App\Config::relation('SHOW_RECORDS_COUNT'),
 			];
 		}
-		if ($parentModuleModel->isTrackingEnabled() && $parentModuleModel->isPermitted('ModTracker')) {
+		if ($parentModuleModel->isTrackingEnabled() && $parentModuleModel->isPermitted('DetailView') && $parentModuleModel->isPermitted('ModTracker')) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'LBL_UPDATES',

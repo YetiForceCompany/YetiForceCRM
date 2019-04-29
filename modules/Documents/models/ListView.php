@@ -17,7 +17,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 		$moduleName = $moduleModel->getName();
 		$advancedLinks = [];
 
-		if ($moduleModel->isPermitted('Export')) {
+		if ($moduleModel->isPermitted('DetailView') && $moduleModel->isPermitted('Export')) {
 			$exportUrl = $this->getModule()->getExportUrl();
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEW',
@@ -27,7 +27,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 			];
 		}
 
-		if ($moduleModel->isPermitted('ExportPdf')) {
+		if ($moduleModel->isPermitted('DetailView') && $moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleName, 'List');

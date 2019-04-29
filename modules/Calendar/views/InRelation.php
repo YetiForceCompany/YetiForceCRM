@@ -10,7 +10,7 @@
 
 class Calendar_InRelation_View extends Vtiger_RelatedList_View
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->getByType('relatedModule', 2);
@@ -34,7 +34,7 @@ class Calendar_InRelation_View extends Vtiger_RelatedList_View
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
-		if ($sortOrder === 'ASC') {
+		if ('ASC' === $sortOrder) {
 			$nextSortOrder = 'DESC';
 			$sortImage = 'fas fa-chevron-down';
 		} else {
@@ -83,7 +83,7 @@ class Calendar_InRelation_View extends Vtiger_RelatedList_View
 				$searchParmams[$fieldName] = $fieldSearchInfo;
 			}
 		}
-		if ($relatedView === 'ListPreview') {
+		if ('ListPreview' === $relatedView) {
 			$relationListView->setFields(array_merge(['id'], $relationListView->getRelatedModuleModel()->getNameFields()));
 		}
 		$models = $relationListView->getEntries($pagingModel);
@@ -123,7 +123,7 @@ class Calendar_InRelation_View extends Vtiger_RelatedList_View
 		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
 		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
 		$isFavorites = false;
-		if ($relationModel->isFavorites() && \App\Privilege::isPermitted($moduleName, 'FavoriteRecords')) {
+		if ($relationModel->isFavorites() && \App\Privilege::isPermitted($moduleName, 'DetailView') && \App\Privilege::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
 			$viewer->assign('FAVORITES', $favorites);
 			$isFavorites = $relationModel->isFavorites();

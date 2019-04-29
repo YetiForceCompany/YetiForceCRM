@@ -349,7 +349,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (!\App\Privilege::isPermitted('ModTracker')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		if (!\App\Privilege::isPermitted($moduleName, 'ModTracker')) {
+		if (!\App\Privilege::isPermitted($moduleName, 'DetailView') || !\App\Privilege::isPermitted($moduleName, 'ModTracker')) {
 			return false;
 		}
 		include_once 'modules/ModTracker/ModTracker.php';
@@ -825,7 +825,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
 		$relationModel = $relationListView->getRelationModel();
-		if ($relationModel->isFavorites() && \App\Privilege::isPermitted($moduleName, 'FavoriteRecords')) {
+		if ($relationModel->isFavorites() && \App\Privilege::isPermitted($moduleName, 'DetailView') && \App\Privilege::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
 			if (!empty($favorites)) {
 				$relationListView->get('query_generator')->addNativeCondition(['vtiger_crmentity.crmid' => $favorites]);

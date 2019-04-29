@@ -25,7 +25,7 @@ class Leads_ListView_Model extends Vtiger_ListView_Model
 		$moduleModel = $this->getModule();
 
 		$massActionLinks = [];
-		if ($moduleModel->isPermitted('MassComposeEmail') && App\Config::main('isActiveSendingMails') && App\Mail::getDefaultSmtp()) {
+		if ($moduleModel->isPermitted('DetailView') && $moduleModel->isPermitted('MassComposeEmail') && App\Config::main('isActiveSendingMails') && App\Mail::getDefaultSmtp()) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_SEND_EMAIL',
@@ -34,7 +34,7 @@ class Leads_ListView_Model extends Vtiger_ListView_Model
 			];
 		}
 
-		if ($currentUserModel->hasModulePermission('SMSNotifier') && $currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassSendSMS') && SMSNotifier_Module_Model::checkServer()) {
+		if ($currentUserModel->hasModulePermission('SMSNotifier') && $currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'DetailView') && $currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassSendSMS') && SMSNotifier_Module_Model::checkServer()) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_SEND_SMS',
