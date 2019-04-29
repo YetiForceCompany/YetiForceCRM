@@ -31,7 +31,7 @@ class PrivilegeFile
 			$users['id'][$row['id']] = array_map('\App\Purifier::encodeHtml', $row);
 			$users['userName'][$row['user_name']] = $row['id'];
 		}
-		Utils::saveToFile(static::$usersFile, Utils::varExport($users), '', 0, true);
+		Utils::saveToFile(static::$usersFile, $users, '', 0, true);
 	}
 
 	/**

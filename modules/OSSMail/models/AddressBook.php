@@ -84,7 +84,7 @@ class OSSMail_AddressBook_Model
 	 */
 	public static function saveLastRecord($record, $module)
 	{
-		\App\Utils::saveToFile(self::LAST_RECORD_CACHE, "['module' => '$module','record' => $record]", '', 0, true);
+		\App\Utils::saveToFile(self::LAST_RECORD_CACHE, ['module' => $module, 'record' => $record], '', 0, true);
 	}
 
 	/**

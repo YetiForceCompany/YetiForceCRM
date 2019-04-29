@@ -705,7 +705,7 @@ class Language
 		if ($remove) {
 			unset($translations[$type][$label]);
 		}
-		if (false === \App\Json::save($fileDirectory, $translations)) {
+		if (false === Json::save($fileDirectory, $translations)) {
 			throw new Exceptions\AppException('ERR_CREATE_FILE_FAILURE');
 		}
 		Cache::delete('LanguageFiles', $language . str_replace('__', \DIRECTORY_SEPARATOR, $fileName));

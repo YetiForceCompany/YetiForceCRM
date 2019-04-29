@@ -107,12 +107,12 @@ class Utils
 	 * @param int          $flag
 	 * @param bool         $return
 	 *
-	 * @return bool|int $value
+	 * @return bool $value
 	 */
-	public static function saveToFile(string $pathDirectory, $content, string $comment = '', int $flag = 0, bool $return = false)
+	public static function saveToFile(string $pathDirectory, $content, string $comment = '', int $flag = 0, bool $return = false): bool
 	{
 		if (\is_array($content)) {
-			$content = \App\Json::encode($content);
+			$content = self::varExport($content);
 		}
 		if ($return) {
 			$content = "return $content;";
@@ -125,6 +125,6 @@ class Utils
 		if (false !== $value = file_put_contents($pathDirectory, $content, $flag)) {
 			Cache::resetFileCache($pathDirectory);
 		}
-		return $value;
+		return (bool) $value;
 	}
 }
