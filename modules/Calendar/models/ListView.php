@@ -29,7 +29,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => 'fas fa-download'
 			];
 		}
-		if ($moduleModel->isPermitted('Export')) {
+		if ($moduleModel->isPermitted('DetailView') && $moduleModel->isPermitted('Export')) {
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
