@@ -35,7 +35,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			$account = $mail->getAccount();
 			$record = Vtiger_Record_Model::getCleanInstance('OSSMailView');
 			$record->set('assigned_user_id', $mail->getAccountOwner());
-			$maxLengthSubject = $this->record->getField('subject')->get('maximumlength');
+			$maxLengthSubject = $record->getField('subject')->get('maximumlength');
 			$subject = $mail->isEmpty('subject') ? '-' : \App\Purifier::purify($mail->get('subject'));
 			$record->setFromUserValue('subject', $maxLengthSubject ? \App\TextParser::textTruncate($subject, $maxLengthSubject, false) : $subject);
 			$record->set('to_email', \App\Purifier::purify($mail->get('toaddress')));
@@ -44,7 +44,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			$record->set('cc_email', \App\Purifier::purify($mail->get('ccaddress')));
 			$record->set('bcc_email', \App\Purifier::purify($mail->get('bccaddress')));
 			$record->set('fromaddress', \App\Purifier::purify($mail->get('from')));
-			$maxLengthOrginal = $this->record->getField('orginal_mail')->get('maximumlength');
+			$maxLengthOrginal = $record->getField('orginal_mail')->get('maximumlength');
 			$orginal = \App\Purifier::purifyHtml($mail->get('clean'));
 			$record->set('orginal_mail', $maxLengthOrginal ? \App\TextParser::htmlTruncate($orginal, $maxLengthOrginal, false) : $orginal);
 			$record->set('uid', \App\Purifier::purify($mail->get('message_id')))->set('rc_user', $account['user_id']);
@@ -52,7 +52,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			$record->set('mbox', $mail->getFolder())->set('type', $type)->set('mid', $mail->get('id'));
 			$record->set('from_id', implode(',', array_unique($fromIds)))->set('to_id', implode(',', array_unique($toIds)));
 			$record->set('created_user_id', $mail->getAccountOwner())->set('createdtime', $mail->get('udate_formated'));
-			$maxLengthContent = $this->record->getField('content')->get('maximumlength');
+			$maxLengthContent = $record->getField('content')->get('maximumlength');
 			$content = $this->parseContent($mail);
 			$record->set('content', $maxLengthContent ? \App\TextParser::htmlTruncate($content, $maxLengthContent, false) : $content);
 			if ($mail->get('isAttachments') || $mail->get('attachments')) {

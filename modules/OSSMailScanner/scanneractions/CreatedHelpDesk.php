@@ -69,10 +69,10 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 		}
 		$accountOwner = $mail->getAccountOwner();
 		$record->set('assigned_user_id', $mail->getAccountOwner());
-		$maxLengthSubject = $this->record->getField('ticket_title')->get('maximumlength');
+		$maxLengthSubject = $record->getField('ticket_title')->get('maximumlength');
 		$subject = \App\Purifier::purify($mail->get('subject'));
 		$record->set('ticket_title', $maxLengthSubject ? \App\TextParser::textTruncate($subject, $maxLengthSubject, false) : $subject);
-		$maxLengthDescription = $this->record->getField('description')->get('maximumlength');
+		$maxLengthDescription = $record->getField('description')->get('maximumlength');
 		$description = \App\Purifier::purifyHtml($mail->get('body'));
 		$record->set('description', $maxLengthDescription ? \App\TextParser::htmlTruncate($description, $maxLengthDescription, false) : $description);
 		$record->set('ticketstatus', 'Open');
