@@ -1,5 +1,8 @@
 {
   "php": {
+    "SINGLE_FInvoice": "Sales invoice",
+    "SINGLE_FInvoiceProforma": "Proforma invoice",
+    "SINGLE_FCorectingInvoice": "Correcting Invoice",
     "PLL_TEXT": "Text",
     "PLL_IMAGE": "Image",
     "LBL_PDF": "PDF",
