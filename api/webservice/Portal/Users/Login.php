@@ -66,6 +66,7 @@ class Login extends \Api\Core\BaseAction
 			'lastLogoutTime' => $row['logout_time'],
 			'language' => $row['language'],
 			'type' => $row['type'],
+			'CompanyId' => ($row['type'] !== \Api\Portal\Privilege::USER_PERMISSIONS) ? \App\Record::getParentRecord($row['crmid']) : 0,
 			'logged' => true,
 			'preferences' => [
 				'activity_view' => $userModel->getDetail('activity_view'),

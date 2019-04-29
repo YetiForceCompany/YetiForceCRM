@@ -21,7 +21,7 @@ class Session
 	 */
 	public static function init()
 	{
-		if (\session_status() === PHP_SESSION_ACTIVE) {
+		if (PHP_SESSION_ACTIVE === \session_status()) {
 			return;
 		}
 
@@ -39,7 +39,7 @@ class Session
 	 *
 	 * @param string $key
 	 *
-	 * @return string|array
+	 * @return array|string
 	 */
 	public static function get($key)
 	{
@@ -98,7 +98,7 @@ class Session
 	/**
 	 * Update the current session id with a newly generated one.
 	 *
-	 * @link http://php.net/manual/en/function.session-regenerate-id.php
+	 * @see http://php.net/manual/en/function.session-regenerate-id.php
 	 *
 	 * @param bool $deleteOldSession
 	 */
@@ -114,12 +114,12 @@ class Session
 	/**
 	 * Destroys all data registered to a session.
 	 *
-	 * @link http://php.net/manual/en/function.session-destroy.php
+	 * @see http://php.net/manual/en/function.session-destroy.php
 	 */
 	public static function destroy()
 	{
 		$_SESSION = [];
-		if (PHP_SAPI !== 'cli' && !headers_sent()) {
+		if (\PHP_SAPI !== 'cli' && !headers_sent()) {
 			$params = session_get_cookie_params();
 			setcookie(session_name(), '', time() - 42000,
 				$params['path'], $params['domain'],

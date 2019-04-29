@@ -1635,9 +1635,7 @@ var app = (window.app = {
 			} else {
 				pinButton.addClass('u-opacity-muted');
 				baseContainer.removeClass('c-menu--open');
-				self.sidebar
-					.on('mouseenter', self.openSidebar.bind(self))
-					.on('mouseleave', self.closeSidebar.bind(self));
+				self.sidebar.on('mouseenter', self.openSidebar.bind(self)).on('mouseleave', self.closeSidebar.bind(self));
 				self.closeSidebar.bind(self);
 			}
 			AppConnector.request({
@@ -1867,6 +1865,7 @@ var app = (window.app = {
 						buttons: [
 							{
 								text: 'Ok',
+								promptTrigger: true,
 								primary: true,
 								click: function(notice) {
 									notice.close();
@@ -1973,10 +1972,7 @@ var app = (window.app = {
 					if (currentTarget.hasClass('js-popover-tooltip--record')) {
 						app.registerPopoverRecord(currentTarget);
 						currentTarget.trigger('mouseenter');
-					} else if (
-						!currentTarget.hasClass('js-popover-tooltip--record') &&
-						currentTarget.data('field-type')
-					) {
+					} else if (!currentTarget.hasClass('js-popover-tooltip--record') && currentTarget.data('field-type')) {
 						app.registerPopoverRecord(currentTarget.children('a')); //popoverRecord on children doesn't need triggering
 					} else if (
 						!currentTarget.hasClass('js-popover-tooltip--record') &&
@@ -2131,8 +2127,7 @@ $(document).ready(function() {
 	// Case-insensitive :icontains expression
 	$.expr[':'].icontains = function(obj, index, meta, stack) {
 		return (
-			(obj.textContent || obj.innerText || $(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) !==
-			-1
+			(obj.textContent || obj.innerText || $(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) !== -1
 		);
 	};
 	$.fn.removeTextNode = function() {

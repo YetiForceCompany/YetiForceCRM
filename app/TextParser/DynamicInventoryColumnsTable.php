@@ -27,19 +27,13 @@ class DynamicInventoryColumnsTable extends Base
 	public function process()
 	{
 		$html = '';
-		if (!$this->textParser->recordModel->getModule()->isInventory()) {
-			return $html;
+		if ($this->textParser->recordModel->getModule()->isInventory()) {
+			$html = $this->textParser->getInventoryTable([
+				'type' => 'table',
+				'columns' => \App\Pdf\InventoryColumns::getInventoryColumnsForRecord($this->textParser->recordModel->getId(), $this->textParser->recordModel->getModule()->getName()),
+				'href' => false,
+			]);
 		}
-		$columns = [];
-		if (!empty($this->textParser->getParam('inventoryColumns'))) {
-			$columns = $this->textParser->getParam('inventoryColumns');
-		} else {
-			$columns = \Vtiger_PDF_Model::getInventoryColumnsForRecord($this->textParser->recordModel->getId(), $this->textParser->recordModel->getModule()->getName());
-		}
-		return $this->textParser->getInventoryTable([
-			'type' => 'table',
-			'columns' => $columns,
-			'href' => false,
-		]);
+		return $html;
 	}
 }

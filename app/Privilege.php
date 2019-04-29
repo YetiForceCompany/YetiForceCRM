@@ -69,20 +69,20 @@ class Privilege
 		}
 		$userPrivileges = \App\User::getPrivilegesFile($userId);
 		$permission = false;
-		if ('Home' === $moduleName && 'Settings' !== Request::_get('parent')) {
-			//These modules dont have security right now
-			static::$isPermittedLevel = 'SEC_MODULE_DONT_HAVE_SECURITY_RIGHT';
-			\App\Log::trace('Exiting isPermitted method ... - yes');
-			return true;
-		}
-		if ('Users' === $moduleName && 'Settings' !== Request::_get('parent') && $record == \App\User::getCurrentUserId()) {
-			static::$isPermittedLevel = 'SEC_IS_CURRENT_USER';
-			\App\Log::trace('Exiting isPermitted method ... - yes');
-			return true;
-		}
 		$tabId = Module::getModuleId($moduleName);
-		//Checking the Access for the Settings Module
-		if ('Settings' === Request::_get('parent') && false === $tabId) {
+		if ('Settings' !== Request::_get('parent')) {
+			if ('Home' === $moduleName) {
+				//These modules dont have security right now
+				static::$isPermittedLevel = 'SEC_MODULE_DONT_HAVE_SECURITY_RIGHT';
+				\App\Log::trace('Exiting isPermitted method ... - yes');
+				return true;
+			}
+			if ('Users' === $moduleName && $record == \App\User::getCurrentUserId()) {
+				static::$isPermittedLevel = 'SEC_IS_CURRENT_USER';
+				\App\Log::trace('Exiting isPermitted method ... - yes');
+				return true;
+			}
+		} elseif (false === $tabId) {
 			$permission = $userPrivileges['is_admin'] ? true : false;
 			static::$isPermittedLevel = 'SEC_ADMINISTRATION_MODULE_' . ($permission ? 'YES' : 'NO');
 			\App\Log::trace('Exiting isPermitted method ... - ' . ($permission) ? 'YES' : 'NO');

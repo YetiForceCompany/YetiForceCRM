@@ -79,8 +79,9 @@ class BaseAction
 		$userModel = \App\User::getCurrentUserModel();
 		$userModel->set('permission_type', $row['type']);
 		$userModel->set('permission_crmid', $row['crmid']);
-		\App\Privilege::setPermissionInterpreter("\\Api\\{$apiType}\\Privilege");
-		\App\PrivilegeQuery::setPermissionInterpreter("\\Api\\{$apiType}\\PrivilegeQuery");
+		$namespace = ucfirst($apiType);
+		\App\Privilege::setPermissionInterpreter("\\Api\\{$namespace}\\Privilege");
+		\App\PrivilegeQuery::setPermissionInterpreter("\\Api\\{$namespace}\\PrivilegeQuery");
 		\Vtiger_Field_Model::setDefaultUiTypeClassName('\\Api\\Core\\Modules\\Vtiger\\UiTypes\\Base');
 		$db->createCommand()
 			->update($sessionTable, ['changed' => date('Y-m-d H:i:s')], ['id' => $this->session->get('id')])

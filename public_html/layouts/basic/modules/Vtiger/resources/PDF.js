@@ -147,6 +147,21 @@ $.Class('Vtiger_PDF_Js', {
 	},
 
 	/**
+	 * Register select custom columns change
+	 */
+	registerSelectCustomColumnsChange() {
+		this.container.find('[name="isCustomMode"]').on('change', ev => {
+			if ($(ev.target).is(':checked')) {
+				this.container.find('[name="inventoryColumns[]"]').prop('disabled', null);
+				this.container.find('.js-save-scheme').prop('disabled', null);
+			} else {
+				this.container.find('[name="inventoryColumns[]"]').prop('disabled', 'disabled');
+				this.container.find('.js-save-scheme').prop('disabled', 'disabled');
+			}
+		});
+	},
+
+	/**
 	 * Register save scheme button click
 	 */
 	registerSaveInventoryColumnSchemeClick() {
@@ -171,7 +186,8 @@ $.Class('Vtiger_PDF_Js', {
 					mode: 'saveInventoryColumnScheme',
 					action: 'PDF',
 					records,
-					inventoryColumns: this.container.find('[name="inventoryColumns[]"]').val()
+					inventoryColumns: this.container.find('[name="inventoryColumns[]"]').val(),
+					isCustomMode: this.container.find('[name="isCustomMode"]').is(':checked')
 				},
 				dataType: 'json'
 			})
@@ -200,6 +216,7 @@ $.Class('Vtiger_PDF_Js', {
 		this.dynamicTemplatesCount = 0;
 		this.registerPreSubmitEvent(container);
 		this.registerSaveInventoryColumnSchemeClick();
+		this.registerSelectCustomColumnsChange();
 		if (app.getViewName() === 'Detail') {
 			this.registerValidateSubmit(container);
 		}

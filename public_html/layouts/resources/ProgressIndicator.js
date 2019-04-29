@@ -8,85 +8,84 @@
  *************************************************************************************/
 'use strict';
 
-(function ($) {
-
-	var ProgressIndicatorHelper = function () {
+(function($) {
+	var ProgressIndicatorHelper = function() {
 		var thisInstance = this;
 
 		this.defaults = {
-			'position': 'append',
-			'mode': 'show',
-			'blockInfo': {
-				'elementToBlock': 'body'
+			position: 'append',
+			mode: 'show',
+			blockInfo: {
+				elementToBlock: 'body'
 			},
-			'message': ''
-		}
+			message: ''
+		};
 
 		this.imageContainerCss = {
 			'text-align': 'center'
-		}
+		};
 
 		this.blockOverlayCSS = {
-			'opacity': '0.2'
-		}
+			opacity: '0.2'
+		};
 
 		this.blockCss = {
-			'border': '',
-			'backgroundColor': '',
+			border: '',
+			backgroundColor: '',
 			'background-clip': 'border-box',
 			'border-radius': '2px'
-		}
+		};
 
 		this.showTopCSS = {
 			width: '25%',
-			'left': '37.5%',
-			'position': 'fixed',
-			'top': '4.5%',
+			left: '37.5%',
+			position: 'fixed',
+			top: '4.5%',
 			'z-index': '100000'
-		}
+		};
 
 		this.showOnTop = false;
 
-		this.init = function (element, options) {
-			if (typeof options === "undefined") {
+		this.init = function(element, options) {
+			if (typeof options === 'undefined') {
 				options = {};
 			}
 
 			thisInstance.options = $.extend(true, this.defaults, options);
 			thisInstance.container = element;
 			thisInstance.position = options.position;
-			if (typeof options.imageContainerCss !== "undefined") {
+			if (typeof options.imageContainerCss !== 'undefined') {
 				thisInstance.imageContainerCss = $.extend(true, this.imageContainerCss, options.imageContainerCss);
 			}
 			if (this.isBlockMode()) {
 				thisInstance.elementToBlock = $(thisInstance.options.blockInfo.elementToBlock);
 			}
 			return this;
-		}
+		};
 
-		this.initActions = function () {
+		this.initActions = function() {
 			if (this.options.mode == 'show') {
 				this.show();
 			} else if (this.options.mode == 'hide') {
 				this.hide();
 			}
-		}
+		};
 
-		this.isPageBlockMode = function () {
-			if ((typeof this.elementToBlock !== "undefined") && this.elementToBlock.is('body')) {
+		this.isPageBlockMode = function() {
+			if (typeof this.elementToBlock !== 'undefined' && this.elementToBlock.is('body')) {
 				return true;
 			}
 			return false;
-		}
+		};
 
-		this.isBlockMode = function () {
-			if ((typeof this.options.blockInfo !== "undefined") && (this.options.blockInfo.enabled == true)) {
+		this.isBlockMode = function() {
+			if (typeof this.options.blockInfo !== 'undefined' && this.options.blockInfo.enabled == true) {
 				return true;
 			}
 			return false;
-		}
+		};
 
-		this.show = function () {
+		this.show = function() {
 			var className = 'bigLoading';
 			if (this.options.smallLoadingImage == true) {
 				className = 'smallLoading';
@@ -94,7 +93,10 @@
 			if (this.isBlockMode()) {
 				className = className + ' blockProgressContainer';
 			}
-			var imageHtml = '<div class="imageHolder ' + className + '">' +
+			var imageHtml =
+				'<div class="imageHolder ' +
+				className +
+				'">' +
 				'<div class="sk-cube-grid"><div class="sk-cube sk-cube1"></div>' +
 				'<div class="sk-cube sk-cube2"></div>' +
 				'<div class="sk-cube sk-cube3"></div><div class="sk-cube sk-cube4"></div><div class="sk-cube sk-cube5"></div>' +
@@ -107,7 +109,7 @@
 				jQMessage = app.vtranslate('JS_LOADING_PLEASE_WAIT');
 			}
 			if (!(jQMessage instanceof jQuery)) {
-				jQMessage = jQuery('<span></span>').html(jQMessage)
+				jQMessage = jQuery('<span></span>').html(jQMessage);
 			}
 			var messageContainer = jQuery('<div class="message"></div>').append(jQMessage);
 			jQImageHtml.append(messageContainer);
@@ -116,13 +118,13 @@
 			}
 
 			switch (thisInstance.position) {
-				case "prepend":
+				case 'prepend':
 					thisInstance.container.prepend(jQImageHtml);
 					break;
-				case "html":
+				case 'html':
 					thisInstance.container.html(jQImageHtml);
 					break;
-				case "replace":
+				case 'replace':
 					thisInstance.container.replaceWith(jQImageHtml);
 					break;
 				default:
@@ -149,11 +151,11 @@
 			if (thisInstance.showOnTop) {
 				this.container.css(this.showTopCSS).appendTo('body');
 			}
-		}
+		};
 
-		this.hide = function () {
+		this.hide = function() {
 			$('.imageHolder', this.container).remove();
-			if (typeof this.blockedElement !== "undefined") {
+			if (typeof this.blockedElement !== 'undefined') {
 				if (this.isPageBlockMode()) {
 					$.unblockUI();
 				} else {
@@ -161,31 +163,28 @@
 				}
 			}
 			this.container.removeData('progressIndicator');
-		}
+		};
+	};
 
-	}
-
-	$.fn.progressIndicator = function (options) {
+	$.fn.progressIndicator = function(options) {
 		let element = this;
 		if (this.length <= 0) {
 			element = jQuery('body');
 		}
-		return element.each(function (index, element) {
+		return element.each(function(index, element) {
 			let jQueryObject = $(element),
 				progressIndicatorInstance;
-			if (typeof jQueryObject.data('progressIndicator') !== "undefined") {
+			if (typeof jQueryObject.data('progressIndicator') !== 'undefined') {
 				progressIndicatorInstance = jQueryObject.data('progressIndicator');
-
 			} else {
 				progressIndicatorInstance = new ProgressIndicatorHelper();
 				jQueryObject.data('progressIndicator', progressIndicatorInstance);
 			}
 			progressIndicatorInstance.init(jQueryObject, options).initActions();
 		});
-
 	};
 
-	$.progressIndicator = function (options) {
+	$.progressIndicator = function(options) {
 		var progressImageContainer = jQuery('<div></div>');
 		var progressIndicatorInstance = new ProgressIndicatorHelper();
 		progressIndicatorInstance.init(progressImageContainer, options);
@@ -194,9 +193,8 @@
 		}
 		progressIndicatorInstance.initActions();
 		return progressImageContainer.data('progressIndicator', progressIndicatorInstance);
-	}
+	};
 
 	//Change the z-index of the block overlay value
 	$.blockUI.defaults.baseZ = 10000;
 })(jQuery);
-

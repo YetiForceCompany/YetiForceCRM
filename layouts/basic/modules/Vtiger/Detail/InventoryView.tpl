@@ -32,7 +32,7 @@
 				</thead>
 			</table>
 		{/if}
-		{assign var="FIELDS_TEXT_ALIGN_RIGHT" value=['TotalPrice','Tax','MarginP','Margin','Purchase','Discount','NetPrice','GrossPrice','UnitPrice','Quantity','Unit']}
+		{assign var="FIELDS_TEXT_ALIGN_RIGHT" value=['TotalPrice','Tax','MarginP','Margin','Purchase','Discount','NetPrice','GrossPrice','UnitPrice','Quantity','Unit','TaxPercent']}
 		<div class="table-responsive">
 			<table class="table table-bordered inventoryItems">
 				<thead>

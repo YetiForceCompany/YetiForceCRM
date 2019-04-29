@@ -66,7 +66,7 @@ class TableCorrectTaxSummary extends Base
 			if ($inventory->isField('tax') && $inventory->isField('taxmode')) {
 				$taxAmount = $relatedTaxAmount = 0;
 				$html .= '
-						<table style="width:100%;vertical-align:top;border-collapse:collapse;border:1px solid #ddd;">
+						<table class="table-correct-tax-summary" style="width:100%;vertical-align:top;border-collapse:collapse;border:1px solid #ddd;">
 						<thead>
 								<tr>
 									<th colspan="2" style="font-weight:bold;padding:0px 4px;">' . \App\Language::translate('LBL_TAX_CORRECT_SUMMARY', $this->textParser->moduleName) . '</th>
@@ -80,8 +80,8 @@ class TableCorrectTaxSummary extends Base
 					$relatedTaxAmount += $tax;
 				}
 				$html .= '<tr>
-									<td style="text-align:left;font-weight:bold;padding:0px 4px;">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
-									<td style="text-align:right;font-weight:bold;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($relatedTaxAmount - $taxAmount, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
+									<td class="name" style="text-align:left;font-weight:bold;padding:0px 4px;">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
+									<td class="value" style="text-align:right;font-weight:bold;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($relatedTaxAmount - $taxAmount, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
 								</tr>
 								</tbody>
 						</table>';

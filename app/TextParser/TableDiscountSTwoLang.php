@@ -34,7 +34,7 @@ class TableDiscountSTwoLang extends Base
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
 		$firstRow = current($inventoryRows);
 		if ($inventory->isField('currency')) {
-			if (!empty($firstRow) && $firstRow['currency'] !== null) {
+			if (!empty($firstRow) && null !== $firstRow['currency']) {
 				$currency = $firstRow['currency'];
 			} else {
 				$currency = $baseCurrency['id'];
@@ -47,7 +47,7 @@ class TableDiscountSTwoLang extends Base
 				$discount += $inventoryRow['discount'];
 			}
 			if ($inventory->isField('discount') && $inventory->isField('discountmode')) {
-				$html .= '<table style="border-collapse:collapse;width:100%;">
+				$html .= '<table class="table-discount-s-two-lang" style="border-collapse:collapse;width:100%;">
 							<thead>
 								<tr><th style="padding:0px 4px;text-align:center;">' . \App\Language::translate('LBL_DISCOUNTS_SUMMARY', $this->textParser->moduleName) . ' / ' . \App\Language::translate('LBL_DISCOUNTS_SUMMARY', $this->textParser->moduleName, \App\Language::DEFAULT_LANG) . '</th></tr>
 							</thead>

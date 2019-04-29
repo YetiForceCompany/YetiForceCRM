@@ -31,7 +31,7 @@ class Company extends Base
 	 * Update company status.
 	 *
 	 * @param int         $status
-	 * @param string|null $name
+	 * @param null|string $name
 	 *
 	 * @throws \yii\db\Exception
 	 */
@@ -42,12 +42,11 @@ class Company extends Base
 				->update('s_#__companies', [
 					'status' => $status
 				], ['name' => $name])->execute();
-		} else {
-			\App\Db::getInstance('admin')->createCommand()
-				->update('s_#__companies', [
-					'status' => $status
-				])->execute();
 		}
+		\App\Db::getInstance('admin')->createCommand()
+			->update('s_#__companies', [
+				'status' => $status
+			])->execute();
 	}
 
 	/**
