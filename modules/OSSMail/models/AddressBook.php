@@ -54,11 +54,11 @@ class OSSMail_AddressBook_Model
 			}
 		}
 		$dataReader->close();
-		$fstart = '<?php $bookMails =';
+		$fstart = '$bookMails =';
 		if (!empty($mailsToFile)) {
 			foreach ($mailsToFile as $user => $file) {
 				$file = array_unique($file);
-				file_put_contents("cache/addressBook/mails_{$user}.php", $fstart . App\Utils::varExport($file) . ';');
+				\App\Utils::saveToFile("cache/addressBook/mails_{$user}.php", $fstart . App\Utils::varExport($file) . ';');
 			}
 		}
 	}
@@ -84,7 +84,7 @@ class OSSMail_AddressBook_Model
 	 */
 	public static function saveLastRecord($record, $module)
 	{
-		file_put_contents(self::LAST_RECORD_CACHE, "<?php return ['module' => '$module','record' => $record];");
+		\App\Utils::saveToFile(self::LAST_RECORD_CACHE, ['module' => $module, 'record' => $record], '', 0, true);
 	}
 
 	/**

@@ -97,4 +97,34 @@ class Utils
 		$content = trim($content);
 		return substr($content, 0, 1) === '<' && substr($content, -1) === '>';
 	}
+
+	/**
+	 * Function to save php file with cleaning file cache.
+	 *
+	 * @param string       $pathDirectory
+	 * @param array|string $content
+	 * @param string       $comment
+	 * @param int          $flag
+	 * @param bool         $return
+	 *
+	 * @return bool $value
+	 */
+	public static function saveToFile(string $pathDirectory, $content, string $comment = '', int $flag = 0, bool $return = false): bool
+	{
+		if (\is_array($content)) {
+			$content = self::varExport($content);
+		}
+		if ($return) {
+			$content = "return $content;";
+		}
+		if ($comment) {
+			$content = "<?php \n //$comment \n $content" . PHP_EOL;
+		} else {
+			$content = "<?php $content" . PHP_EOL;
+		}
+		if (false !== $value = file_put_contents($pathDirectory, $content, $flag)) {
+			Cache::resetFileCache($pathDirectory);
+		}
+		return (bool) $value;
+	}
 }

@@ -31,7 +31,7 @@ class PrivilegeFile
 			$users['id'][$row['id']] = array_map('\App\Purifier::encodeHtml', $row);
 			$users['userName'][$row['user_name']] = $row['id'];
 		}
-		file_put_contents(static::$usersFile, '<?php return ' . Utils::varExport($users) . ';');
+		Utils::saveToFile(static::$usersFile, $users, '', 0, true);
 	}
 
 	/**
@@ -43,7 +43,7 @@ class PrivilegeFile
 	 */
 	public static function getUser($type)
 	{
-		if (static::$usersFileCache === false) {
+		if (false === static::$usersFileCache) {
 			static::$usersFileCache = require static::$usersFile;
 		}
 		return static::$usersFileCache[$type] ?? false;
@@ -56,11 +56,11 @@ class PrivilegeFile
 	 */
 	public static function createUserPrivilegesFile($userId)
 	{
-		$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'user_privileges' . DIRECTORY_SEPARATOR . "user_privileges_$userId.php";
+		$file = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'user_privileges' . \DIRECTORY_SEPARATOR . "user_privileges_$userId.php";
 		$user = [];
 		$userInstance = \CRMEntity::getInstance('Users');
 		$userInstance->retrieveEntityInfo($userId, 'Users');
-		$userInstance->column_fields['is_admin'] = $userInstance->is_admin === 'on';
+		$userInstance->column_fields['is_admin'] = 'on' === $userInstance->is_admin;
 
 		$exclusionEncodeHtml = ['currency_symbol', 'date_format', 'currency_id', 'currency_decimal_separator', 'currency_grouping_separator', 'othereventduration', 'imagename'];
 		foreach ($userInstance->column_fields as $field => $value) {

@@ -93,10 +93,9 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 			asort($usersForSort);
 			$switchUsers[$user] = $usersForSort;
 		}
-		$content = '<?php' . PHP_EOL .
-			'$switchUsersRaw = ' . \App\Utils::varExport($switchUsersRaw) . ';' . PHP_EOL .
+		$content = '$switchUsersRaw = ' . \App\Utils::varExport($switchUsersRaw) . ';' . PHP_EOL .
 			'$switchUsers = ' . \App\Utils::varExport($switchUsers) . ';' . PHP_EOL;
-		file_put_contents('user_privileges/switchUsers.php', $content);
+		\App\Utils::saveToFile('user_privileges/switchUsers.php', $content);
 	}
 
 	/**
@@ -130,7 +129,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 		if (array_key_exists($data, self::$usersID)) {
 			return self::$usersID[$data];
 		}
-		if (substr($data, 0, 1) === 'H') {
+		if ('H' === substr($data, 0, 1)) {
 			$return = (new \App\Db\Query())->select(['userid'])
 				->from('vtiger_user2role')
 				->innerJoin('vtiger_users', 'vtiger_users.id = vtiger_user2role.userid')
@@ -204,10 +203,9 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 			asort($usersForSort);
 			$switchUsers[$user] = $usersForSort;
 		}
-		$content = '<?php' . PHP_EOL .
-			'$switchUsersRaw = ' . \App\Utils::varExport($switchUsersRaw) . ';' . PHP_EOL .
+		$content = '$switchUsersRaw = ' . \App\Utils::varExport($switchUsersRaw) . ';' . PHP_EOL .
 			'$switchUsers = ' . \App\Utils::varExport($switchUsers) . ';' . PHP_EOL;
-		file_put_contents('user_privileges/switchUsers.php', $content);
+		\App\Utils::saveToFile('user_privileges/switchUsers.php', $content);
 	}
 
 	/**
@@ -266,15 +264,14 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 				}
 			}
 		}
-		$content = '<?php' . PHP_EOL .
-			'$locksRaw = ' . \App\Utils::varExport($toSave) . ';' . PHP_EOL .
+		$content = '$locksRaw = ' . \App\Utils::varExport($toSave) . ';' . PHP_EOL .
 			'$locks = ' . \App\Utils::varExport($map) . ';';
-		file_put_contents('user_privileges/locks.php', $content);
+		\App\Utils::saveToFile('user_privileges/locks.php', $content);
 		$newValues = $this->getLocks();
 		$difference = vtlib\Functions::arrayDiffAssocRecursive($newValues, $oldValues);
 		if (!empty($difference)) {
 			foreach ($difference as $id => $locks) {
-				if (strpos($id, 'H') === false) {
+				if (false === strpos($id, 'H')) {
 					$name = Users_Record_Model::getInstanceById($id, 'Users');
 				} else {
 					$name = Settings_Roles_Record_Model::getInstanceById($id);
@@ -294,7 +291,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 		if (!empty($difference)) {
 			Settings_Vtiger_Tracker_Model::changeType('delete');
 			foreach ($difference as $id => $locks) {
-				if (strpos($id, 'H') === false) {
+				if (false === strpos($id, 'H')) {
 					$name = Users_Record_Model::getInstanceById($id, 'Users');
 				} else {
 					$name = Settings_Roles_Record_Model::getInstanceById($id);
