@@ -1044,6 +1044,8 @@ insert  into `u_yf_openstreetmap_address_updater`(`crmid`) values (0);
 
 /*Data for the table `u_yf_partnerscf` */
 
+/*Data for the table `u_yf_pdf_inv_scheme` */
+
 /*Data for the table `u_yf_picklist_close_state` */
 
 /*Data for the table `u_yf_recurring_info` */
@@ -11683,6 +11685,10 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`) values (598,117,51,'getDependentsList',4,'OSSTimeControl',0,'ADD',0,0,0,'RelatedTab');
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`) values (599,86,95,'getDependentsList',24,'FInvoice',0,'ADD',0,0,0,'RelatedTab');
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`) values (600,43,95,'getDependentsList',13,'FInvoice',0,'ADD',0,0,0,'RelatedTab');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`) values (601,34,37,'getRelatedList',8,'Assets',0,'SELECT',0,0,0,'RelatedTab');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`) values (602,34,58,'getRelatedList',9,'OSSSoldServices',0,'SELECT',0,0,0,'RelatedTab');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`) values (603,37,34,'getRelatedList',3,'ServiceContracts',0,'SELECT',0,0,0,'RelatedTab');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`) values (604,58,34,'getRelatedList',3,'ServiceContracts',0,'SELECT',0,0,0,'RelatedTab');
 
 /*Data for the table `vtiger_relatedlists_fields` */
 
