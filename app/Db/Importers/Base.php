@@ -166,6 +166,18 @@ class Base
 	}
 
 	/**
+	 * Creates a medium text column.
+	 *
+	 * @param null|string $length
+	 *
+	 * @return \yii\db\ColumnSchemaBuilder the column instance which can be further customized
+	 */
+	public function mediumText($length = null)
+	{
+		return $this->schema->createColumnSchemaBuilder('meduimtext', $length);
+	}
+
+	/**
 	 * Creates a tinyint column. Available only in MySql.
 	 *
 	 * @param int $length column size or precision definition
@@ -257,10 +269,10 @@ class Base
 	public function decimal($precision = null, $scale = null)
 	{
 		$length = [];
-		if ($precision !== null) {
+		if (null !== $precision) {
 			$length[] = $precision;
 		}
-		if ($scale !== null) {
+		if (null !== $scale) {
 			$length[] = $scale;
 		}
 		return $this->schema->createColumnSchemaBuilder(Schema::TYPE_DECIMAL, $length);
@@ -365,10 +377,10 @@ class Base
 	public function money($precision = null, $scale = null)
 	{
 		$length = [];
-		if ($precision !== null) {
+		if (null !== $precision) {
 			$length[] = $precision;
 		}
-		if ($scale !== null) {
+		if (null !== $scale) {
 			$length[] = $scale;
 		}
 		return $this->schema->createColumnSchemaBuilder(Schema::TYPE_MONEY, $length);
