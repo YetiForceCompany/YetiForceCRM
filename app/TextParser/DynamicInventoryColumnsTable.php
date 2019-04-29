@@ -27,13 +27,13 @@ class DynamicInventoryColumnsTable extends Base
 	public function process()
 	{
 		$html = '';
-		if (!$this->textParser->recordModel->getModule()->isInventory()) {
-			return $html;
+		if ($this->textParser->recordModel->getModule()->isInventory()) {
+			$html = $this->textParser->getInventoryTable([
+				'type' => 'table',
+				'columns' => \App\Pdf\InventoryColumns::getInventoryColumnsForRecord($this->textParser->recordModel->getId(), $this->textParser->recordModel->getModule()->getName()),
+				'href' => false,
+			]);
 		}
-		return $this->textParser->getInventoryTable([
-			'type' => 'table',
-			'columns' => \App\Pdf\InventoryColumns::getInventoryColumnsForRecord($this->textParser->recordModel->getId(), $this->textParser->recordModel->getModule()->getName()),
-			'href' => false,
-		]);
+		return $html;
 	}
 }
