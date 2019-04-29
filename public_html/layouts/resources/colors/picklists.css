@@ -126,3 +126,11 @@
 .picklistCBg_OSSTimeControl_timecontrol_type_PLL_HOLIDAY_TIME { background: #CB4B4B !important; font-weight: 500 !important; color: black !important;}
 .picklistCT_OSSTimeControl_timecontrol_type_PLL_HOLIDAY_TIME { color: #CB4B4B !important; }
 .picklistLb_OSSTimeControl_timecontrol_type_PLL_HOLIDAY_TIME { background: #CB4B4B; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
+.picklistCBr_OSSTimeControl_timecontrol_type_PLL_UNPAID_LEAVE { border-color: #5E666C !important; }
+.picklistCBg_OSSTimeControl_timecontrol_type_PLL_UNPAID_LEAVE { background: #5E666C !important; font-weight: 500 !important; color: white !important;}
+.picklistCT_OSSTimeControl_timecontrol_type_PLL_UNPAID_LEAVE { color: #5E666C !important; }
+.picklistLb_OSSTimeControl_timecontrol_type_PLL_UNPAID_LEAVE { background: #5E666C; color: white !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
+.picklistCBr_OSSTimeControl_timecontrol_type_PLL_SICK_LEAVE { border-color: #9900FF !important; }
+.picklistCBg_OSSTimeControl_timecontrol_type_PLL_SICK_LEAVE { background: #9900FF !important; font-weight: 500 !important; color: black !important;}
+.picklistCT_OSSTimeControl_timecontrol_type_PLL_SICK_LEAVE { color: #9900FF !important; }
+.picklistLb_OSSTimeControl_timecontrol_type_PLL_SICK_LEAVE { background: #9900FF; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
