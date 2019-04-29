@@ -31,7 +31,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				$action = $fileInfo->getFilename();
 				$action = rtrim($action, '.php');
 				$key = array_search($action, $accountsPriority);
-				if ($key === false) {
+				if (false === $key) {
 					$key = $i + 100;
 				}
 				$actions[$key] = $action;
@@ -75,7 +75,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	{
 		$return = [];
 		foreach ($data as $row) {
-			if ($row[0] == 'files') {
+			if ('files' == $row[0]) {
 				$return[] = [$row[1], $row[1]];
 			} else {
 				foreach ($row[2] as $row_dir) {
@@ -138,37 +138,36 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Return folders config.
 	 *
-	 * @param string|bool $folder
+	 * @param bool|string $folder
 	 *
-	 * @return string|array
+	 * @return array|string
 	 */
 	public static function getConfigFolderList($folder = false)
 	{
 		if ($folder) {
 			return (new \App\Db\Query())->select(['parameter'])->from('vtiger_ossmailscanner_config')->where(['and', ['conf_type' => 'folders'], ['like', 'value', $folder]])->orderBy('parameter')->scalar();
-		} else {
-			return (new \App\Db\Query())->select(['parameter', 'value'])->from('vtiger_ossmailscanner_config')->where(['conf_type' => 'folders'])->orderBy(['parameter' => SORT_DESC])->createCommand()->queryAllByGroup(0);
 		}
+		return (new \App\Db\Query())->select(['parameter', 'value'])->from('vtiger_ossmailscanner_config')->where(['conf_type' => 'folders'])->orderBy(['parameter' => SORT_DESC])->createCommand()->queryAllByGroup(0);
 	}
 
 	/**
 	 * Return mailscanner config.
 	 *
-	 * @param string|bool $confType
+	 * @param bool|string $confType
 	 *
 	 * @return array
 	 */
 	public static function getConfig($confType)
 	{
 		$query = (new \App\Db\Query())->from('vtiger_ossmailscanner_config');
-		if ($confType !== false) {
+		if (false !== $confType) {
 			$query->where(['conf_type' => $confType]);
 		}
 		$query->orderBy(['parameter' => SORT_DESC]);
 		$dataReader = $query->createCommand()->query();
 		$return = [];
 		while ($row = $dataReader->read()) {
-			if ($confType !== false) {
+			if (false !== $confType) {
 				$return[$row['parameter']] = $row['value'];
 			} else {
 				$return[$row['conf_type']][$row['parameter']] = $row['value'];
@@ -190,7 +189,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	 */
 	public function setConfigWidget($confType, $type, $value)
 	{
-		if ($value === null || $value === 'null') {
+		if (null === $value || 'null' === $value) {
 			$value = null;
 		}
 		App\Db::getInstance()->createCommand()->update('vtiger_ossmailscanner_config', ['value' => $value], ['conf_type' => $confType, 'parameter' => $type])->execute();
@@ -351,8 +350,8 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$msgno = imap_msgno($mbox, $lastScanUid);
 		$numMsg = imap_num_msg($mbox);
 		$getEmails = false;
-		if ($msgno === 0 && $numMsg !== 0) {
-			if ($lastScanUid === 0) {
+		if (0 === $msgno && 0 !== $numMsg) {
+			if (0 === $lastScanUid) {
 				$msgno = 1;
 				$getEmails = true;
 			} elseif (imap_uid($mbox, $numMsg) > $lastScanUid) {
@@ -430,7 +429,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	public static function getEmailSearchList()
 	{
 		$cache = Vtiger_Cache::get('Mail', 'EmailSearchList');
-		if ($cache !== false) {
+		if (false !== $cache) {
 			return $cache;
 		}
 		$return = [];
@@ -453,7 +452,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	public static function setEmailSearchList($value)
 	{
 		$dbCommand = App\Db::getInstance()->createCommand();
-		if ($value === null || $value == 'null') {
+		if (null === $value || 'null' == $value) {
 			$dbCommand->update('vtiger_ossmailscanner_config', ['value' => ''], ['conf_type' => 'emailsearch', 'parameter' => 'fields'])->execute();
 		} else {
 			$isExists = (new App\Db\Query())->from('vtiger_ossmailscanner_config')->where(['conf_type' => 'emailsearch', 'parameter' => 'fields'])->exists();
@@ -480,11 +479,11 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	public static function mergeArray($tab1, $tab2)
 	{
 		$return = [];
-		if (count($tab1) != 0 && count($tab2) != 0) {
+		if (0 != count($tab1) && 0 != count($tab2)) {
 			$return = array_unique(array_merge($tab1, $tab2));
-		} elseif (count($tab1) != 0) {
+		} elseif (0 != count($tab1)) {
 			$return = $tab1;
-		} elseif (count($tab2) != 0) {
+		} elseif (0 != count($tab2)) {
 			$return = $tab2;
 		}
 		return $return;
@@ -666,13 +665,13 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Return log status.
 	 *
-	 * @return timestamp|bool
+	 * @return bool|timestamp
 	 */
 	public function checkLogStatus()
 	{
 		$return = false;
 		$row = (new App\Db\Query())->from('vtiger_ossmails_logs')->orderBy(['id' => SORT_DESC])->one();
-		if ($row && (int) $row['status'] === 1) {
+		if ($row && 1 === (int) $row['status']) {
 			$config = self::getConfig('cron');
 			if (!empty($config['time']) && strtotime('now') > strtotime($row['start_time']) + ($config['time'] * 60)) {
 				$return = $row['start_time'];
@@ -694,7 +693,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Cron data.
 	 *
-	 * @return bool|array
+	 * @return array|bool
 	 */
 	public static function getCronStatus()
 	{
@@ -735,7 +734,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	public static function verificationCron()
 	{
 		$checkCronStatus = self::checkCronStatus();
-		if ($checkCronStatus !== false && !(new \App\Db\Query())->from('vtiger_ossmailscanner_log_cron')->where(['laststart' => $checkCronStatus])->createCommand()->query()->count()) {
+		if (false !== $checkCronStatus && !(new \App\Db\Query())->from('vtiger_ossmailscanner_log_cron')->where(['laststart' => $checkCronStatus])->createCommand()->query()->count()) {
 			$db = App\Db::getInstance();
 			$db->createCommand()->insert('vtiger_ossmailscanner_log_cron', ['laststart' => $checkCronStatus, 'status' => 0, 'created_time' => date('Y-m-d H:i:s')])->execute();
 			$config = self::getConfig('cron');

@@ -33,18 +33,18 @@ while ($relationRow = $dataReader->read()) {
 	if (in_array($moduleName, $bindByPrefix)) {
 		$bind = 'prefix';
 	}
-	if ($bind === false) {
+	if (false === $bind) {
 		continue;
 	}
 	$recordModel = Vtiger_Record_Model::getInstanceById($relationRow['crmid'], $moduleName);
 	$where = [];
-	if ($bind == 'prefix') {
+	if ('prefix' == $bind) {
 		$recordNumber = $recordModel->getRecordNumber();
 		if (empty($recordNumber)) {
 			continue;
 		}
 		$where = ['like', 'vtiger_ossmailview.subject', "[{$recordNumber}]"];
-	} elseif ($bind == 'email') {
+	} elseif ('email' == $bind) {
 		$where = ['or'];
 		$fieldModels = $recordModel->getModule()->getFieldsByType('email');
 		foreach ($fieldModels as $fieldName => $fieldModel) {

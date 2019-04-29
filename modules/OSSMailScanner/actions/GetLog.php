@@ -15,7 +15,7 @@ class OSSMailScanner_GetLog_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
@@ -23,7 +23,7 @@ class OSSMailScanner_GetLog_Action extends \App\Controller\Action
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$startNumber = $request->getInteger('start_number');
 		$moduleName = $request->getModule();

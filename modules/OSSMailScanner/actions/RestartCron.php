@@ -15,7 +15,7 @@ class OSSMailScanner_RestartCron_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
@@ -23,7 +23,7 @@ class OSSMailScanner_RestartCron_Action extends \App\Controller\Action
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		OSSMailScanner_Record_Model::runRestartCron();
 		$result = ['success' => true, 'data' => \App\Language::translate('JS_info_restart_ok', 'OSSMailScanner')];

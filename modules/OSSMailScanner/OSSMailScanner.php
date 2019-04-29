@@ -20,7 +20,7 @@ class OSSMailScanner
 	public function moduleHandler($moduleName, $eventType)
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
-		if ($eventType === 'module.postinstall') {
+		if ('module.postinstall' === $eventType) {
 			$this->turnOn();
 			$dbCommand->update('vtiger_tab', ['customized' => 0], ['name' => 'OSSMailScanner'])->execute();
 			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'folders', 'parameter' => 'Received'])->execute();
@@ -38,17 +38,17 @@ class OSSMailScanner
 			$Module = vtlib\Module::getInstance($moduleName);
 			$userId = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_InstallModule', 'info' => $moduleName . ' ' . $Module->version, 'user' => $userId])->execute();
-		} elseif ($eventType === 'module.disabled') {
+		} elseif ('module.disabled' === $eventType) {
 			$this->turnOff();
 			$dbCommand->update('vtiger_cron_task', ['status' => 0], ['module' => 'OSSMailScanner'])->execute();
 			$userId = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_DisabledModule', 'info' => $moduleName, 'user' => $userId, 'start_time' => date('Y-m-d H:i:s')])->execute();
-		} elseif ($eventType === 'module.enabled') {
+		} elseif ('module.enabled' === $eventType) {
 			$dbCommand->update('vtiger_cron_task', ['status' => 1], ['module' => 'OSSMailScanner'])->execute();
 			$this->turnOn();
 			$userId = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_EnabledModule', 'info' => $moduleName, 'user' => $userId, 'start_time' => date('Y-m-d H:i:s')])->execute();
-		} elseif ($eventType === 'module.postupdate') {
+		} elseif ('module.postupdate' === $eventType) {
 			$Module = vtlib\Module::getInstance($moduleName);
 			if (version_compare($Module->version, '1.21', '>')) {
 				$userId = Users_Record_Model::getCurrentUserModel()->get('user_name');
