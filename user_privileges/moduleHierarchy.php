@@ -124,6 +124,10 @@ return [
 			'Project' => ['fieldName' => 'linktoaccountscontacts', 'moduleName' => 'Accounts'],
 			'SSalesProcesses' => ['fieldName' => 'related_to', 'moduleName' => 'Accounts'],
 		],
+		'ServiceContracts' => [
+			'Assets' => ['fieldName' => 'parent_id', 'moduleName' => 'Accounts'],
+			'OSSSoldServices' => ['fieldName' => 'parent_id', 'moduleName' => 'Accounts'],
+		],
 		'Assets' => ['ServiceContracts' => ['fieldName' => 'sc_related_to', 'moduleName' => 'Accounts']],
 		'OSSSoldServices' => ['ServiceContracts' => ['fieldName' => 'sc_related_to', 'moduleName' => 'Accounts']],
 	]
