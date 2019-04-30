@@ -186,7 +186,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	public static function parseData($a, $b)
 	{
 		$resp = false;
-		if ($b != '' && stristr($b, $a) !== false) {
+		if ('' != $b && false !== stristr($b, $a)) {
 			$resp = true;
 		}
 		return $resp;
@@ -205,8 +205,8 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		if (!$fd) {
 			return false;
 		}
-		while (($file = readdir($fd)) !== false) {
-			if ($file === '.' || $file === '..') {
+		while (false !== ($file = readdir($fd))) {
+			if ('.' === $file || '..' === $file) {
 				continue;
 			}
 			if (is_dir($dir . '/' . $file)) {
@@ -230,29 +230,24 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		\App\Log::trace('Entering Settings_LangManagement_Module_Model::setAsDefault(' . $prefix . ') method ...');
 		$db = \App\Db::getInstance();
-
-		$configFile = new \App\ConfigFile('main');
-		$configFile->set('default_language', $prefix);
-		$configFile->create();
-
-		$dataReader = (new \App\Db\Query())->select(['prefix'])
-			->from('vtiger_language')
-			->where(['isdefault' => 1])
-			->createCommand()->query();
-		if ($dataReader->count() == 1) {
-			$prefixOld = $dataReader->readColumn(0);
-			$db->createCommand()->update('vtiger_language', ['isdefault' => 0], ['isdefault' => 1])->execute();
-		}
-		$status = $db->createCommand()->update('vtiger_language', ['isdefault' => 1], ['prefix' => $prefix])->execute();
-		if ($status) {
-			$status = true;
-		} else {
-			$status = false;
+		$status = false;
+		if (\App\Language::getLangInfo($prefix))
+			$configFile = new \App\ConfigFile('main');
+			$configFile->set('default_language', $prefix);
+			$configFile->create();
+			$dataReader = (new \App\Db\Query())->select(['prefix'])
+				->from('vtiger_language')
+				->where(['isdefault' => 1])
+				->createCommand()->query();
+			if (1 === $dataReader->count()) {
+				$prefixOld = $dataReader->readColumn(0);
+				$db->createCommand()->update('vtiger_language', ['isdefault' => 0], ['isdefault' => 1])->execute();
+			}
+			$status = (bool) $db->createCommand()->update('vtiger_language', ['isdefault' => 1], ['prefix' => $prefix])->execute();
 		}
 		\App\Cache::clear();
 		\App\Log::trace('Exiting Settings_LangManagement_Module_Model::setAsDefault() method ...');
-
-		return ['success' => $status, 'prefixOld' => $prefixOld];
+		return ['success' => $status, 'prefixOld' => $prefixOld ?? ''];
 	}
 
 	public function getStatsData($langBase, $langs, $byModule = false)
@@ -265,7 +260,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		$data = [];
 		foreach ($filesName as $gropu) {
 			foreach ($gropu as $mode => $name) {
-				if ($byModule === false || $byModule === $mode) {
+				if (false === $byModule || $byModule === $mode) {
 					$data[$mode] = $this->getStats($this->loadLangTranslation($langs, $mode), $langBase, $byModule);
 				}
 			}
@@ -288,7 +283,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 						continue;
 					}
 					if (!empty($langs[$langBase]) && ($value == $langs[$langBase] || empty($value))) {
-						if ($byModule !== false) {
+						if (false !== $byModule) {
 							$differences[$id][$key][$langBase] = $langs[$langBase];
 							$differences[$id][$key][$lang] = $value;
 						} else {
@@ -298,7 +293,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				}
 			}
 		}
-		if ($byModule === false) {
+		if (false === $byModule) {
 			array_unshift($differences, $i);
 		}
 		return $differences;
