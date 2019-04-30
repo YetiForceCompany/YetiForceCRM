@@ -231,7 +231,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		\App\Log::trace('Entering Settings_LangManagement_Module_Model::setAsDefault(' . $prefix . ') method ...');
 		$db = \App\Db::getInstance();
 		$status = false;
-		if (\App\Language::getLangInfo($prefix))
+		if (\App\Language::getLangInfo($prefix)) {
 			$configFile = new \App\ConfigFile('main');
 			$configFile->set('default_language', $prefix);
 			$configFile->create();
