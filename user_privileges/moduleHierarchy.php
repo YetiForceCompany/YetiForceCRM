@@ -119,11 +119,6 @@ return [
 			'Project' => ['fieldName' => 'linktoaccountscontacts', 'moduleName' => 'Accounts'],
 			'SSalesProcesses' => ['fieldName' => 'related_to', 'moduleName' => 'Accounts'],
 		],
-		'Contacts' => [
-			'HelpDesk' => ['fieldName' => 'parent_id', 'moduleName' => 'Accounts'],
-			'Project' => ['fieldName' => 'linktoaccountscontacts', 'moduleName' => 'Accounts'],
-			'SSalesProcesses' => ['fieldName' => 'related_to', 'moduleName' => 'Accounts'],
-		],
 		'ServiceContracts' => [
 			'Assets' => ['fieldName' => 'parent_id', 'moduleName' => 'Accounts'],
 			'OSSSoldServices' => ['fieldName' => 'parent_id', 'moduleName' => 'Accounts'],
