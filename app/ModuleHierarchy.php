@@ -61,6 +61,21 @@ class ModuleHierarchy
 		return false;
 	}
 
+	/**
+	 * Get records list filters.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return array|bool
+	 */
+	public static function getRecordsListFilter(string $moduleName)
+	{
+		if (isset(static::$hierarchy['recordsListFilter'][$moduleName])) {
+			return static::$hierarchy['recordsListFilter'][$moduleName];
+		}
+		return false;
+	}
+
 	public static function getModulesByLevel($level = 0)
 	{
 		if (isset(static::$modulesByLevels[$level])) {
