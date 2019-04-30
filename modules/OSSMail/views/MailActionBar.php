@@ -37,9 +37,13 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 			$folder = \App\Utils::convertCharacterEncoding($folderDecode, 'UTF-8', 'UTF7-IMAP');
 			$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
 			$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], $folder);
-			$return = OSSMailScanner_Record_Model::executeActions($account, $mailModel->getMail($mbox, $uid), $folderDecode, $params);
-			if (!empty($return['CreatedEmail'])) {
-				$record = $return['CreatedEmail']['mailViewId'];
+			if ($mail = $mailModel->getMail($mbox, $uid)) {
+				$return = OSSMailScanner_Record_Model::executeActions($account, $mail, $folderDecode, $params);
+				if (!empty($return['CreatedEmail'])) {
+					$record = $return['CreatedEmail']['mailViewId'];
+				}
+			} else {
+				App\Log::error("Email not found. username: {$account['username']}, folder: $folder, uid: $uid ", __METHOD__);
 			}
 		}
 		$viewer = $this->getViewer($request);
