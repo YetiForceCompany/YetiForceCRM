@@ -386,16 +386,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.10.10",
+            "version": "8.10.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "26504d0425bdb7051ff69eefbb20360c9a9c97f2"
+                "reference": "98f5983a33d704eafea7cc6e1cc2581883a51ddc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/26504d0425bdb7051ff69eefbb20360c9a9c97f2",
-                "reference": "26504d0425bdb7051ff69eefbb20360c9a9c97f2",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/98f5983a33d704eafea7cc6e1cc2581883a51ddc",
+                "reference": "98f5983a33d704eafea7cc6e1cc2581883a51ddc",
                 "shasum": ""
             },
             "require": {
@@ -450,20 +450,20 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2019-04-16T12:18:10+00:00"
+            "time": "2019-04-30T09:55:59+00:00"
         },
         {
             "name": "giggsey/locale",
-            "version": "1.7",
+            "version": "1.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/Locale.git",
-                "reference": "fa3800e53c7a78cc00ca455367c550e61b9f5bd8"
+                "reference": "b8030fc8df13cdfbecba318588de2d52b49c9b50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/Locale/zipball/fa3800e53c7a78cc00ca455367c550e61b9f5bd8",
-                "reference": "fa3800e53c7a78cc00ca455367c550e61b9f5bd8",
+                "url": "https://api.github.com/repos/giggsey/Locale/zipball/b8030fc8df13cdfbecba318588de2d52b49c9b50",
+                "reference": "b8030fc8df13cdfbecba318588de2d52b49c9b50",
                 "shasum": ""
             },
             "require": {
@@ -499,7 +499,7 @@
                 }
             ],
             "description": "Locale functions required by libphonenumber-for-php",
-            "time": "2019-04-15T17:36:49+00:00"
+            "time": "2019-04-26T07:28:50+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
