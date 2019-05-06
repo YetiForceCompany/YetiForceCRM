@@ -74,6 +74,7 @@ class Vtiger_NetPrice_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getAutomaticValue(array $item)
 	{
-		return (new \App\Inventory($item))->getNetPrice();
+		return Vtiger_Basic_InventoryField::getInstance($this->getModuleName(), 'TotalPrice')->getAutomaticValue($item) -
+			Vtiger_Basic_InventoryField::getInstance($this->getModuleName(), 'Discount')->getAutomaticValue($item);
 	}
 }

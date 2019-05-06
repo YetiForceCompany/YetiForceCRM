@@ -77,6 +77,6 @@ class Vtiger_Margin_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getAutomaticValue(array $item)
 	{
-		return (new \App\Inventory($item))->getMargin();
+		return Vtiger_Basic_InventoryField::getInstance($this->getModuleName(), 'NetPrice')->getAutomaticValue($item) - $item['purchase'] ?? 0;
 	}
 }

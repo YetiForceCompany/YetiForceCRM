@@ -87,6 +87,19 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getAutomaticValue(array $item)
 	{
-		return (new \App\Inventory($item))->getDiscount();
+		$returnVal = 0.0;
+		if (!\App\Json::isEmpty($item['discountparam'] ?? '')) {
+			$discountParam = \App\Json::decode($item['discountparam']);
+			$aggregationType = $discountParam['aggregationType'];
+			$discountType = $discountParam["{$aggregationType}DiscountType"] ?? 'percentage';
+			$discount = $discountParam["{$aggregationType}Discount"];
+			$totalPrice = Vtiger_TotalPrice_InventoryField::getInstance($this->getModuleName())->getAutomaticValue($item);
+			if ('amount' === $discountType) {
+				$returnVal = $totalPrice - $discount;
+			} elseif ('percentage' === $discountType) {
+				$returnVal = $totalPrice - ($totalPrice * $discount / 100.00);
+			}
+		}
+		return $returnVal;
 	}
 }

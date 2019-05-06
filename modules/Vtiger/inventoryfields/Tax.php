@@ -130,6 +130,11 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getAutomaticValue(array $item)
 	{
-		return (new \App\Inventory($item))->getTax();
+		$returnVal = 0.0;
+		if (!\App\Json::isEmpty($item['taxparam'] ?? '')) {
+			$aggregationType = $this->taxParam['aggregationType'];
+			$returnVal = Vtiger_Basic_InventoryField::getInstance($this->getModuleName(), 'NetPrice')->getAutomaticValue($item) * $this->taxParam["{$aggregationType}Tax"] / 100.00;
+		}
+		return $returnVal;
 	}
 }

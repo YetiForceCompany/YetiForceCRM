@@ -77,6 +77,7 @@ class Vtiger_GrossPrice_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getAutomaticValue(array $item)
 	{
-		return (new \App\Inventory($item))->getGross();
+		return Vtiger_Basic_InventoryField::getInstance($this->getModuleName(), 'NetPrice')->getAutomaticValue($item) +
+			Vtiger_Basic_InventoryField::getInstance($this->getModuleName(), 'Tax')->getAutomaticValue($item);
 	}
 }

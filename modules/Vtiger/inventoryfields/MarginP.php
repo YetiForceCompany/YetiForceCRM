@@ -98,6 +98,7 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getAutomaticValue(array $item)
 	{
-		return (new \App\Inventory($item))->getMarginPercent();
+		$purchase = $item['purchase'] ?? 0;
+		return empty($purchase) ? 0.0 : 100.0 * Vtiger_Basic_InventoryField::getInstance($this->getModuleName(), 'Margin')->getAutomaticValue($item) / $purchase;
 	}
 }
