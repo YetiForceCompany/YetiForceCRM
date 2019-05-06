@@ -77,6 +77,6 @@ class Vtiger_TotalPrice_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getAutomaticValue(array $item)
 	{
-		return ($item['qty'] ?? 0) * ($item['price'] ?? 0);
+		return (float) (($item['qty'] ?? 0) * ($item['price'] ?? 0));
 	}
 }

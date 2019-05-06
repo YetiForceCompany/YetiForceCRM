@@ -100,6 +100,6 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 				$returnVal = $totalPrice - ($totalPrice * $discount / 100.00);
 			}
 		}
-		return $returnVal;
+		return (float) $returnVal;
 	}
 }
