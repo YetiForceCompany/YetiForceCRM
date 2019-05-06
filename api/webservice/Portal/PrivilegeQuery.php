@@ -9,6 +9,8 @@
 
 namespace Api\Portal;
 
+use yii\db\Expression;
+
 /**
  * Class to check permission for client portal.
  */
@@ -45,10 +47,16 @@ class PrivilegeQuery
 			default:
 				throw new \Api\Core\Exception('Invalid permissions ', 400);
 		}
+		$fieldInfo = \Api\Core\Module::getFieldPermission($moduleName, $user->get('permission_app'));
+		if (!$fieldInfo) {
+			$query->andWhere(new Expression('0=1'));
+			return;
+		}
+		$where = ['and'];
+		$where[] = [$fieldInfo['tablename'] . '.' . $fieldInfo['columnname'] => 1];
 		$parentModule = \App\Record::getType($parentId);
 		$fields = \App\Field::getRelatedFieldForModule($moduleName);
 		$foundField = true;
-		$where = ['and'];
 		if (0 === \App\ModuleHierarchy::getModuleLevel($moduleName)) {
 			$entityInstance = \Vtiger_CRMEntity::getInstance($moduleName);
 			$where[] = [$entityInstance->table_name . '.' . $entityInstance->table_index => $parentId];

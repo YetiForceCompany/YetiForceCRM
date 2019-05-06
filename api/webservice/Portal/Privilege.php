@@ -50,6 +50,10 @@ class Privilege
 		} else {
 			$user = \App\User::getUserModel($userId);
 		}
+		$permissionFieldInfo = \Api\Core\Module::getFieldPermission($moduleName, $user->get('permission_app'));
+		if (!$permissionFieldInfo) {
+			return false;
+		}
 		switch ($user->get('permission_type')) {
 			case self::USER_PERMISSIONS:
 				return \App\Privilege::checkPermission($moduleName, $actionName, $record, $userId);
@@ -58,7 +62,7 @@ class Privilege
 				break;
 			case self::ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY:
 			case self::ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY:
-				$parentRecordId = (int) \App\Request::_getHeader('x-parent-id');
+				$parentRecordId = (int)\App\Request::_getHeader('x-parent-id');
 				if (empty($parentRecordId)) {
 					$parentRecordId = \App\Record::getParentRecord($user->get('permission_crmid'));
 				}
@@ -72,12 +76,15 @@ class Privilege
 		$parentModule = \App\Record::getType($parentRecordId);
 		$fields = \App\Field::getRelatedFieldForModule($moduleName);
 		$recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
+		if (!$recordModel->get($permissionFieldInfo['fieldname'])) {
+			return false;
+		}
 		if (isset($fields[$parentModule]) && $fields[$parentModule]['name'] !== $fields[$parentModule]['relmod']) {
 			$field = $fields[$parentModule];
-			return ((int) $recordModel->get($field['fieldname'])) === $parentRecordId;
+			return ((int)$recordModel->get($field['fieldname'])) === $parentRecordId;
 		}
 		if (in_array($moduleName, ['Products', 'Services'])) {
-			return (bool) $recordModel->get('discontinued');
+			return (bool)$recordModel->get('discontinued');
 		}
 		if ($fields) {
 			foreach ($fields as $relatedModuleName => $field) {
@@ -86,7 +93,7 @@ class Privilege
 				}
 				if ($relatedField = \App\Field::getRelatedFieldForModule($relatedModuleName, $parentModule)) {
 					$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($recordModel->get($field['fieldname'], $relatedModuleName));
-					return ((int) $relatedRecordModel->get($relatedField['fieldname'])) === $parentRecordId;
+					return ((int)$relatedRecordModel->get($relatedField['fieldname'])) === $parentRecordId;
 				}
 			}
 		}

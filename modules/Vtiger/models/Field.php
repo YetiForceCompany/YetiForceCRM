@@ -342,6 +342,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 317:
 						$fieldDataType = 'currencyInventory';
 						break;
+					case 318:
+						$fieldDataType = 'serverAccess';
+						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
 						if (isset($fieldsDataType[$uiType])) {

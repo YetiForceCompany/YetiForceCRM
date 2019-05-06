@@ -66,12 +66,12 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		params['sequence'] = sequence;
 
 		AppConnector.request(params).done(function (data) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 			var params = {};
 			params['text'] = app.vtranslate('JS_BLOCK_SEQUENCE_UPDATED');
 			Settings_Vtiger_Index_Js.showMessage(params);
 		}).fail(function (error) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 		});
 	},
 	/**
@@ -259,7 +259,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 				currentTarget.find('.fas').addClass('d-none');
 				currentTarget.find('.far').removeClass('d-none');
 			}
-			Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_SAVE_NOTIFY_OK')});
+			Settings_Vtiger_Index_Js.showMessage({ text: app.vtranslate('JS_SAVE_NOTIFY_OK') });
 		}).fail(function (error) {
 			var params = {};
 			params['text'] = error;
@@ -291,7 +291,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	},
 	removeRelation: function (relatedModule) {
 		var message = app.vtranslate('JS_DELETE_RELATION_CONFIRMATION');
-		Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
+		Vtiger_Helper_Js.showConfirmationBox({ 'message': message }).done(function (e) {
 			var params = {};
 			params['module'] = app.getModuleName();
 			params['parent'] = app.getParentModuleName();
@@ -326,7 +326,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		});
 		relatedModulesContainer.find('.relatedModule').each(function (index, domElement) {
 			var relationId = $(domElement).data('relationId');
-			modules.push({relationId: relationId, index: index});
+			modules.push({ relationId: relationId, index: index });
 		});
 
 		params['module'] = app.getModuleName();
@@ -336,12 +336,12 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		params['modules'] = modules;
 
 		AppConnector.request(params).done(function (data) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 			var params = {};
 			params['text'] = app.vtranslate('JS_UPDATE_SEQUENCE');
 			Settings_Vtiger_Index_Js.showMessage(params);
 		}).fail(function (error) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 			var params = {};
 			params['text'] = error;
 			Settings_Vtiger_Index_Js.showMessage(params);
@@ -371,12 +371,12 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		params['relationId'] = relatedModule.data('relation-id');
 		params['fields'] = selectedFields;
 		AppConnector.request(params).done(function () {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 			let params = {};
 			params['text'] = app.vtranslate('JS_UPDATED_FIELD_LIST_MODULE_RELATED');
 			Settings_Vtiger_Index_Js.showMessage(params);
 		}).fail(function (error) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 			let params = {};
 			params['text'] = error;
 			Settings_Vtiger_Index_Js.showMessage(params);
@@ -482,7 +482,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		var thisInstance = this;
 		var contents = $('#layoutEditorContainer').find('.contents');
 
-		for (var index in  thisInstance.updatedBlocksList) {
+		for (var index in thisInstance.updatedBlocksList) {
 			var updatedBlockId = thisInstance.updatedBlocksList[index];
 			var updatedBlock = contents.find('.block_' + updatedBlockId);
 			var firstBlockSortFields = updatedBlock.find('ul[name=sortable1]');
@@ -542,13 +542,13 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		params['updatedFields'] = thisInstance.updatedBlockFieldsList;
 
 		AppConnector.request(params).done(function (data) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 			window.location.reload();
 			var params = {};
 			params['text'] = app.vtranslate('JS_FIELD_SEQUENCE_UPDATED');
 			Settings_Vtiger_Index_Js.showMessage(params);
 		}).fail(function (error) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 		});
 	},
 	/**
@@ -564,7 +564,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			addFieldContainer.removeClass('d-none').show();
 			let callBackFunction = function (data) {
 				//register all select2 Elements
-				App.Fields.Picklist.showSelect2ElementView(data.find('select'), {width: '100%'});
+				App.Fields.Picklist.showSelect2ElementView(data.find('select'), { width: '100%' });
 
 				let form = data.find('.createCustomFieldForm');
 				form.attr('id', 'createFieldForm');
@@ -604,8 +604,8 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 								}
 							}
 							let lowerCasedpickListValuesArray = $.map(pickListValuesArray, function (item, index) {
-									return item.toLowerCase();
-								}),
+								return item.toLowerCase();
+							}),
 								uniqueLowerCasedpickListValuesArray = $.uniqueSort(lowerCasedpickListValuesArray),
 								uniqueLowerCasedpickListValuesArraySize = uniqueLowerCasedpickListValuesArray.length,
 								arrayDiffSize = pickListValuesArraySize - uniqueLowerCasedpickListValuesArraySize;
@@ -625,6 +625,14 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 								return false;
 							}
 
+						}
+						if (fieldTypeValue == 'ServerAccess') {
+							let serverListElement = form.find('select[name="server"]');
+							if (serverListElement.val() == '-') {
+								message = app.vtranslate('JS_FIELD_CAN_NOT_BE_EMPTY');
+								serverListElement.validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
+								return false;
+							}
 						}
 						let saveButton = form.find(':submit');
 						saveButton.attr('disabled', 'disabled');
@@ -657,7 +665,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 				if (typeof callBackFunction == 'function') {
 					callBackFunction(data);
 				}
-			}, {'width': '1000px'});
+			}, { 'width': '1000px' });
 		});
 	},
 	/**
@@ -682,7 +690,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 
 		modalHeader.progressIndicator({
 			smallLoadingImage: true,
-			imageContainerCss: {display: 'inline', 'margin-left': '18%', position: 'absolute'}
+			imageContainerCss: { display: 'inline', 'margin-left': '18%', position: 'absolute' }
 		});
 
 		var params = form.serializeFormData();
@@ -694,10 +702,10 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		params['sourceModule'] = $('#selectedModuleName').val();
 
 		AppConnector.request(params).done(function (data) {
-			modalHeader.progressIndicator({'mode': 'hide'});
+			modalHeader.progressIndicator({ 'mode': 'hide' });
 			aDeferred.resolve(data);
 		}).fail(function (error) {
-			modalHeader.progressIndicator({'mode': 'hide'});
+			modalHeader.progressIndicator({ 'mode': 'hide' });
 			aDeferred.reject(error);
 		});
 		return aDeferred.promise();
@@ -710,9 +718,9 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		var lengthInput = form.find('[name="fieldLength"]');
 
 		//special validators while adding new field
-		var lengthValidator = [{'name': 'DecimalMaxLength'}];
-		var maxLengthValidator = [{'name': 'MaxLength'}];
-		var decimalValidator = [{'name': 'FloatingDigits'}];
+		var lengthValidator = [{ 'name': 'DecimalMaxLength' }];
+		var maxLengthValidator = [{ 'name': 'MaxLength' }];
+		var decimalValidator = [{ 'name': 'FloatingDigits' }];
 
 		//By default add the max length validator
 		lengthInput.data('validator', maxLengthValidator);
@@ -730,7 +738,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 				if (!selectedOption.data('nolimitforlength')) {
 					lengthInput.data('validator', maxLengthValidator);
 				} else {
-					lengthInput.data('validator', [{'name': 'WholeNumberGreaterThanZero'}]);
+					lengthInput.data('validator', [{ 'name': 'WholeNumberGreaterThanZero' }]);
 				}
 			}
 			if (selectedOption.data('decimalsupported')) {
@@ -765,6 +773,9 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			}
 			if (selectedOption.val() == 'Tree' || selectedOption.val() == 'CategoryMultipicklist') {
 				form.find('.preDefinedTreeList').removeClass('d-none');
+			}
+			if (selectedOption.val() == 'ServerAccess') {
+				form.find('.js-server-access-list').removeClass('d-none');
 			}
 			if (selectedOption.val() == 'MultiReferenceValue') {
 				form.find('.preMultiReferenceValue').removeClass('d-none');
@@ -864,7 +875,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 				if (typeof callBackFunction == 'function') {
 					callBackFunction(data);
 				}
-			}, {'width': '1000px'});
+			}, { 'width': '1000px' });
 		});
 	},
 	/**
@@ -886,10 +897,10 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		params['mode'] = 'save';
 
 		AppConnector.request(params).done(function (data) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 			aDeferred.resolve(data);
 		}).fail(function (error) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 			aDeferred.reject(error);
 		});
 		return aDeferred.promise();
@@ -910,7 +921,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		}
 		beforeBlock.after(newBlockCloneCopy.removeClass('d-none newCustomBlockCopy').addClass('editFieldsTable block_' + result['id']));
 
-		newBlockCloneCopy.find('.blockFieldsList').sortable({'connectWith': '.blockFieldsList'});
+		newBlockCloneCopy.find('.blockFieldsList').sortable({ 'connectWith': '.blockFieldsList' });
 	},
 	/**
 	 * Function to update the sequence for all blocks after adding new Block
@@ -975,7 +986,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		params['display_status'] = blockStatus;
 
 		AppConnector.request(params).done(function (data) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 			var params = {};
 			if (blockStatus == '1') {
 				params['text'] = app.vtranslate('JS_BLOCK_VISIBILITY_SHOW');
@@ -986,8 +997,8 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			}
 			Settings_Vtiger_Index_Js.showMessage(params);
 		}).fail(function (error) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-			}
+			progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
+		}
 		);
 	},
 	/**
@@ -1027,7 +1038,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 					if (typeof callBackFunction == 'function') {
 						callBackFunction(data);
 					}
-				}, {'width': '1000px'});
+				}, { 'width': '1000px' });
 			}
 		});
 
@@ -1064,11 +1075,11 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	reActivateHiddenFields: function (currentBlock) {
 		const thisInstance = this;
 		let progressIndicatorElement = $.progressIndicator({
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true
-				}
-			}),
+			'position': 'html',
+			'blockInfo': {
+				'enabled': true
+			}
+		}),
 			params = {
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
@@ -1083,16 +1094,16 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 				for (let index in data.result) {
 					thisInstance.showCustomField(data.result[index]);
 				}
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 				messageParams.text = app.vtranslate('JS_SELECTED_FIELDS_REACTIVATED');
 				Settings_Vtiger_Index_Js.showMessage(messageParams);
 			}).fail(function (error) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 			});
 		} else {
 			messageParams.text = app.vtranslate('JS_NO_ITEM_SELECTED');
 			messageParams.type = 'error';
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 			Settings_Vtiger_Index_Js.showMessage(messageParams);
 		}
 	},
@@ -1108,7 +1119,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			var blockId = table.data('blockId');
 
 			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
-			Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
+			Vtiger_Helper_Js.showConfirmationBox({ 'message': message }).done(function (e) {
 				thisInstance.deleteCustomBlock(blockId);
 			}).fail(function (error, err) {
 
@@ -1135,7 +1146,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		params['blockid'] = blockId;
 
 		AppConnector.request(params).done(function (data) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 			var params = {};
 			if (data['success']) {
 				thisInstance.removeDeletedBlock(blockId);
@@ -1147,7 +1158,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			}
 			Settings_Vtiger_Index_Js.showMessage(params);
 		}).fail(function (error) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 		});
 	},
 	/**
@@ -1170,7 +1181,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			var currentTarget = $(e.currentTarget);
 			var fieldId = currentTarget.data('fieldId');
 			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
-			Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
+			Vtiger_Helper_Js.showConfirmationBox({ 'message': message }).done(function (e) {
 				thisInstance.deleteCustomField(fieldId).done(function (data) {
 					var field = currentTarget.closest('div.editFields');
 					var blockId = field.data('blockId');
@@ -1208,10 +1219,10 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		params['fieldid'] = fieldId;
 
 		AppConnector.request(params).done(function (data) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 			aDeferred.resolve(data);
 		}).fail(function (error) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 			aDeferred.reject();
 		});
 		return aDeferred.promise();
@@ -1301,10 +1312,10 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		params['sourceModule'] = selectedModule;
 
 		AppConnector.requestPjax(params).done(function (data) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 			aDeferred.resolve(data);
 		}).fail(function (error) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 			aDeferred.reject();
 		});
 		return aDeferred.promise();
@@ -1326,10 +1337,10 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		params['sourceModule'] = selectedModule;
 
 		AppConnector.requestPjax(params).done(function (data) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 			aDeferred.resolve(data);
 		}).fail(function (error) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 			aDeferred.reject();
 		});
 		return aDeferred.promise();
@@ -1556,7 +1567,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 					height: '300px'
 				});
 				thisInstance.registerStep1(modalContainer, blockId);
-				progress.progressIndicator({'mode': 'hide'});
+				progress.progressIndicator({ 'mode': 'hide' });
 			});
 		});
 	},
@@ -1575,7 +1586,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step2&sourceModule=" + selectedModule + '&type=' + editField.data('type') + "&fieldName=" + editField.data('name'), function (container) {
 				app.showPopoverElementView(container.find('.js-help-info'));
 				thisInstance.registerStep2(container, blockId);
-				progress.progressIndicator({'mode': 'hide'});
+				progress.progressIndicator({ 'mode': 'hide' });
 			});
 		});
 	},
@@ -1604,7 +1615,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 					});
 					app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step2&sourceModule=" + selectedModule + "&type=" + type, (modalContainer) => {
 						thisInstance.registerStep2(modalContainer, blockId);
-						progress.progressIndicator({'mode': 'hide'});
+						progress.progressIndicator({ 'mode': 'hide' });
 					});
 				});
 			}
@@ -1676,7 +1687,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			target.find('.editFields').each(function () {
 				fieldId.push($(this).data('id'));
 			})
-			app.saveAjax('saveSequence', null, {sourceModule: selectedModule, ids: fieldId}).done(function (data) {
+			app.saveAjax('saveSequence', null, { sourceModule: selectedModule, ids: fieldId }).done(function (data) {
 				button.addClass('invisible');
 			});
 		});
@@ -1692,7 +1703,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			var currentTarget = $(e.currentTarget);
 			var liElement = currentTarget.closest('li');
 			var message = app.vtranslate('JS_DELETE_INVENTORY_CONFIRMATION');
-			Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
+			Vtiger_Helper_Js.showConfirmationBox({ 'message': message }).done(function (e) {
 				var progressIndicatorElement = $.progressIndicator({
 					message: app.vtranslate('JS_SAVE_LOADER_INFO'),
 					position: 'html',
@@ -1708,15 +1719,15 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 					let param = {};
 					if (response.result) {
 						liElement.remove();
-						param = {type: 'success', text: app.vtranslate('JS_SAVE_CHANGES')};
+						param = { type: 'success', text: app.vtranslate('JS_SAVE_CHANGES') };
 					} else {
-						param = {type: 'error', text: app.vtranslate('JS_ERROR')};
+						param = { type: 'error', text: app.vtranslate('JS_ERROR') };
 					}
 					Settings_Vtiger_Index_Js.showMessage(param);
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 				});
 			}).fail(function (error, err) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 			});
 		});
 	},
@@ -1742,7 +1753,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			}
 		});
 
-		App.Fields.Picklist.showSelect2ElementView(form.find('[name="MRVField"],[name="MRVFilterField"]'), {width: '100%'});
+		App.Fields.Picklist.showSelect2ElementView(form.find('[name="MRVField"],[name="MRVFilterField"]'), { width: '100%' });
 	},
 	cacheMRVField: false,
 	cacheMRVFilter: false,
@@ -1779,7 +1790,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 						$('<option>').val(index).html(value)
 					);
 				});
-				App.Fields.Picklist.showSelect2ElementView(form.find('[name="MRVFilterValue"]'), {width: '100%'});
+				App.Fields.Picklist.showSelect2ElementView(form.find('[name="MRVFilterValue"]'), { width: '100%' });
 			});
 		});
 	},
@@ -1913,33 +1924,33 @@ Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_FloatingDigits_Validator_
 	}
 
 }, {
-	/**
-	 * Function to validate the decimals length
-	 * @return true if validation is successfull
-	 * @return false if validation error occurs
-	 */
-	validate: function () {
-		var response = this._super();
-		if (response != true) {
-			return response;
-		} else {
-			var fieldValue = this.getFieldValue();
-			if (fieldValue < 2 || fieldValue > 5) {
-				var errorInfo = app.vtranslate('JS_PLEASE_ENTER_NUMBER_IN_RANGE_2TO5');
-				this.setError(errorInfo);
-				return false;
-			}
+		/**
+		 * Function to validate the decimals length
+		 * @return true if validation is successfull
+		 * @return false if validation error occurs
+		 */
+		validate: function () {
+			var response = this._super();
+			if (response != true) {
+				return response;
+			} else {
+				var fieldValue = this.getFieldValue();
+				if (fieldValue < 2 || fieldValue > 5) {
+					var errorInfo = app.vtranslate('JS_PLEASE_ENTER_NUMBER_IN_RANGE_2TO5');
+					this.setError(errorInfo);
+					return false;
+				}
 
-			var specialChars = /^[+]/;
-			if (specialChars.test(fieldValue)) {
-				var error = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
-				this.setError(error);
-				return false;
+				var specialChars = /^[+]/;
+				if (specialChars.test(fieldValue)) {
+					var error = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
+					this.setError(error);
+					return false;
+				}
+				return true;
 			}
-			return true;
 		}
-	}
-});
+	});
 
 Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_DecimalMaxLength_Validator_Js", {
 	/**
@@ -1957,35 +1968,35 @@ Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_DecimalMaxLength_Validato
 	}
 
 }, {
-	/**
-	 * Function to validate the fieldLength
-	 * @return true if validation is successfull
-	 * @return false if validation error occurs
-	 */
-	validate: function () {
-		var response = this._super();
-		if (response != true) {
-			return response;
-		} else {
-			var fieldValue = this.getFieldValue();
-			var decimalFieldValue = $('#createFieldForm').find('[name="decimal"]').val();
-			var fieldLength = parseInt(64) - parseInt(decimalFieldValue);
-			if (fieldValue > fieldLength && !(fieldLength < 0) && fieldLength >= 59) {
-				var errorInfo = app.vtranslate('JS_LENGTH_SHOULD_BE_LESS_THAN_EQUAL_TO') + ' ' + fieldLength;
-				this.setError(errorInfo);
-				return false;
-			}
+		/**
+		 * Function to validate the fieldLength
+		 * @return true if validation is successfull
+		 * @return false if validation error occurs
+		 */
+		validate: function () {
+			var response = this._super();
+			if (response != true) {
+				return response;
+			} else {
+				var fieldValue = this.getFieldValue();
+				var decimalFieldValue = $('#createFieldForm').find('[name="decimal"]').val();
+				var fieldLength = parseInt(64) - parseInt(decimalFieldValue);
+				if (fieldValue > fieldLength && !(fieldLength < 0) && fieldLength >= 59) {
+					var errorInfo = app.vtranslate('JS_LENGTH_SHOULD_BE_LESS_THAN_EQUAL_TO') + ' ' + fieldLength;
+					this.setError(errorInfo);
+					return false;
+				}
 
-			var specialChars = /^[+]/;
-			if (specialChars.test(fieldValue)) {
-				var error = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
-				this.setError(error);
-				return false;
+				var specialChars = /^[+]/;
+				if (specialChars.test(fieldValue)) {
+					var error = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
+					this.setError(error);
+					return false;
+				}
+				return true;
 			}
-			return true;
 		}
-	}
-});
+	});
 
 Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_MaxLength_Validator_Js", {
 	/**
@@ -2003,33 +2014,33 @@ Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_MaxLength_Validator_Js", 
 	}
 
 }, {
-	/**
-	 * Function to validate the fieldLength
-	 * @return true if validation is successfull
-	 * @return false if validation error occurs
-	 */
-	validate: function () {
-		var response = this._super();
-		if (response != true) {
-			return response;
-		} else {
-			var fieldValue = this.getFieldValue();
-			if (fieldValue > 255) {
-				var errorInfo = app.vtranslate('JS_LENGTH_SHOULD_BE_LESS_THAN_EQUAL_TO') + ' 255';
-				this.setError(errorInfo);
-				return false;
-			}
+		/**
+		 * Function to validate the fieldLength
+		 * @return true if validation is successfull
+		 * @return false if validation error occurs
+		 */
+		validate: function () {
+			var response = this._super();
+			if (response != true) {
+				return response;
+			} else {
+				var fieldValue = this.getFieldValue();
+				if (fieldValue > 255) {
+					var errorInfo = app.vtranslate('JS_LENGTH_SHOULD_BE_LESS_THAN_EQUAL_TO') + ' 255';
+					this.setError(errorInfo);
+					return false;
+				}
 
-			var specialChars = /^[+]/;
-			if (specialChars.test(fieldValue)) {
-				var error = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
-				this.setError(error);
-				return false;
+				var specialChars = /^[+]/;
+				if (specialChars.test(fieldValue)) {
+					var error = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
+					this.setError(error);
+					return false;
+				}
+				return true;
 			}
-			return true;
 		}
-	}
-});
+	});
 
 Vtiger_Base_Validator_Js("Vtiger_FieldLabel_Validator_Js", {
 	/**
@@ -2047,26 +2058,26 @@ Vtiger_Base_Validator_Js("Vtiger_FieldLabel_Validator_Js", {
 	}
 
 }, {
-	/**
-	 * Function to validate the field label
-	 * @return true if validation is successfull
-	 * @return false if validation error occurs
-	 */
-	validate: function () {
-		var fieldValue = this.getFieldValue();
-		return this.validateValue(fieldValue);
-	},
-	validateValue: function (fieldValue) {
-		var specialChars = /[&\<\>\:\'\"\,]/;
+		/**
+		 * Function to validate the field label
+		 * @return true if validation is successfull
+		 * @return false if validation error occurs
+		 */
+		validate: function () {
+			var fieldValue = this.getFieldValue();
+			return this.validateValue(fieldValue);
+		},
+		validateValue: function (fieldValue) {
+			var specialChars = /[&\<\>\:\'\"\,]/;
 
-		if (specialChars.test(fieldValue)) {
-			var errorInfo = app.vtranslate('JS_SPECIAL_CHARACTERS') + " & < > ' \" : , " + app.vtranslate('JS_NOT_ALLOWED');
-			this.setError(errorInfo);
-			return false;
+			if (specialChars.test(fieldValue)) {
+				var errorInfo = app.vtranslate('JS_SPECIAL_CHARACTERS') + " & < > ' \" : , " + app.vtranslate('JS_NOT_ALLOWED');
+				this.setError(errorInfo);
+				return false;
+			}
+			return true;
 		}
-		return true;
-	}
-});
+	});
 
 Vtiger_Base_Validator_Js("Vtiger_PicklistFieldValues_Validator_Js", {
 	/**
@@ -2084,23 +2095,23 @@ Vtiger_Base_Validator_Js("Vtiger_PicklistFieldValues_Validator_Js", {
 	}
 
 }, {
-	/**
-	 * Function to validate the field label
-	 * @return true if validation is successfull
-	 * @return false if validation error occurs
-	 */
-	validate: function () {
-		return this.validateValue(this.getElement().val());
-	},
-	validateValue: function (fieldValue) {
-		let specialChars = /[\<\>\"\,\#]/;
-		let r = true;
-		$.each(fieldValue, (i, val) => {
-			if (specialChars.test(val)) {
-				this.setError(app.vtranslate('JS_SPECIAL_CHARACTERS') + " < > \" , # " + app.vtranslate('JS_NOT_ALLOWED'));
-				r = false;
-			}
-		});
-		return r;
-	}
-});
+		/**
+		 * Function to validate the field label
+		 * @return true if validation is successfull
+		 * @return false if validation error occurs
+		 */
+		validate: function () {
+			return this.validateValue(this.getElement().val());
+		},
+		validateValue: function (fieldValue) {
+			let specialChars = /[\<\>\"\,\#]/;
+			let r = true;
+			$.each(fieldValue, (i, val) => {
+				if (specialChars.test(val)) {
+					this.setError(app.vtranslate('JS_SPECIAL_CHARACTERS') + " < > \" , # " + app.vtranslate('JS_NOT_ALLOWED'));
+					r = false;
+				}
+			});
+			return r;
+		}
+	});
