@@ -6,10 +6,11 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
+
 namespace Api\Portal;
 
 /**
- * Class to check permission for client portal
+ * Class to check permission for client portal.
  */
 class Privilege
 {
@@ -50,6 +51,10 @@ class Privilege
 		} else {
 			$user = \App\User::getUserModel($userId);
 		}
+		$permissionFieldInfo = \Api\Core\Module::getFieldPermission($moduleName, $user->get('permission_app'));
+		if (!$permissionFieldInfo) {
+			return false;
+		}
 		switch ($user->get('permission_type')) {
 			case self::USER_PERMISSIONS:
 				return \App\Privilege::checkPermission($moduleName, $actionName, $record, $userId);
@@ -72,6 +77,9 @@ class Privilege
 		$parentModule = \App\Record::getType($parentRecordId);
 		$fields = \App\Field::getRelatedFieldForModule($moduleName);
 		$recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
+		if (!$recordModel->get($permissionFieldInfo['fieldname'])) {
+			return false;
+		}
 		if (isset($fields[$parentModule]) && $fields[$parentModule]['name'] !== $fields[$parentModule]['relmod']) {
 			$field = $fields[$parentModule];
 			return ((int) $recordModel->get($field['fieldname'])) === $parentRecordId;

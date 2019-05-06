@@ -215,6 +215,21 @@
 								</select>
 							</div>
 						</div>
+						<div class="form-group row align-items-center supportedType js-server-access-list d-none" data-js="removeClass:d-none">
+							<div class="col-md-3 col-form-label text-right">
+								<span class="redColor">*</span>&nbsp;
+								{App\Language::translate('CustomerPortal', $QUALIFIED_MODULE)}
+							</div>
+							<div class="col-md-8 controls">
+								<select class="form-control" name="server">
+									{foreach key=key item=SERVER from=Settings_WebserviceApps_Module_Model::getServers()}
+										<option value="{$key}">{App\Purifier::encodeHtml($SERVER['name'])}</option>
+									{foreachelse}
+										<option value="-">{App\Language::translate('LBL_NONE')}</option>
+									{/foreach}
+								</select>
+							</div>
+						</div>
 					</div>
 					{include file=App\Layout::getTemplatePath('Modals/Footer.tpl', 'Vtiger') BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 				</form>

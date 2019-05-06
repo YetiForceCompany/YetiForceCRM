@@ -86,7 +86,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			'Text', 'Decimal', 'Integer', 'Percent', 'Currency', 'Date', 'Email', 'Phone', 'Picklist', 'Country',
 			'URL', 'Checkbox', 'TextArea', 'MultiSelectCombo', 'Skype', 'Time', 'Related1M', 'Editor', 'Tree',
 			'MultiReferenceValue', 'CategoryMultipicklist', 'DateTime', 'Image', 'MultiImage', 'Twitter', 'MultiEmail',
-			'Smtp'
+			'Smtp', 'ServerAccess'
 		];
 	}
 
@@ -205,6 +205,8 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$fieldParams['filterField'] = $params['MRVFilterField'] ?? null;
 			$fieldParams['filterValue'] = $params['MRVFilterValue'] ?? null;
 			\App\Db::getInstance()->createCommand()->insert('s_#__multireference', ['source_module' => $moduleName, 'dest_module' => $params['MRVModule']])->execute();
+		} elseif ('ServerAccess' === $fieldType) {
+			$fieldParams = (int) $params['server'];
 		}
 		$details = $this->getTypeDetailsForAddField($fieldType, $params);
 		$uitype = $details['uitype'];
@@ -418,6 +420,11 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$uitype = 316;
 				$uichekdata = 'V~O';
 				$type = $importerType->integer()->defaultValue(null)->unsigned();
+				break;
+			case 'ServerAccess':
+				$uitype = 318;
+				$uichekdata = 'C~O';
+				$type = $importerType->boolean()->defaultValue(false);
 				break;
 			default:
 				break;

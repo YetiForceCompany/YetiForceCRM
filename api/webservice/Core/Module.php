@@ -45,6 +45,25 @@ class Module
 		if (isset(static::$permittedModules)) {
 			return isset(static::$permittedModules[$moduleName]);
 		}
-		return (\Api\Portal\Privilege::isPermitted($moduleName));
+		return \Api\Portal\Privilege::isPermitted($moduleName);
+	}
+
+	/**
+	 * Returns info about field to permission for record.
+	 *
+	 * @param string $moduleName
+	 * @param int    $serverId
+	 *
+	 * @return null|array
+	 */
+	public static function getFieldPermission(string $moduleName, int $serverId)
+	{
+		$cacheName = $moduleName . $serverId;
+		if (\App\Cache::has('API-FieldPermission', $cacheName)) {
+			return \App\Cache::get('API-FieldPermission', $cacheName);
+		}
+		$fieldInfo = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => \App\Module::getModuleId($moduleName), 'uitype' => 318, 'fieldparams' => $serverId])->one();
+		\App\Cache::save('API-FieldPermission', $cacheName, $fieldInfo, \App\Cache::LONG);
+		return $fieldInfo;
 	}
 }
