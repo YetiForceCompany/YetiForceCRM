@@ -1675,6 +1675,8 @@
     "JS_NO_DESKTOP_PERMISSION": "Failed to obtain consent for notifications, please check your browser settings.",
     "JS_MESSAGE_DOWNLOADED_ADDRESS_DATA": "Downloaded address data",
     "JS_UNEXPECTED_ERROR": "Unexpected error occurred",
+    "JS_ENTERED_VALUE_IS_TOO_SHORT": "Entered value is too short",
+    "JS_ENTERED_VALUE_IS_TOO_LONG": "Entered value is too long",
     "JS_NOT_ALLOWED_VALUE": "Entered invalid value"
   }
 }

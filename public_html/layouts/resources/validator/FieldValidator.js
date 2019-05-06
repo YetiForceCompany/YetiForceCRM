@@ -162,16 +162,18 @@ Vtiger_Base_Validator_Js(
 		validate: function() {
 			let fieldValue = this.getFieldValue();
 			let fieldData = this.getElement().data();
+			if (fieldValue.length < 3) {
+				this.setError(app.vtranslate('JS_ENTERED_VALUE_IS_TOO_SHORT'));
+				return false;
+			}
 			const maximumLength = typeof fieldData.fieldinfo !== 'undefined' ? fieldData.fieldinfo.maximumlength : null;
 			if (maximumLength && fieldValue.length > parseFloat(maximumLength)) {
-				errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
-				this.setError(errorInfo);
+				this.setError(app.vtranslate('JS_ENTERED_VALUE_IS_TOO_LONG'));
 				return false;
 			}
 			let negativeRegex = /^[a-zA-Z0-9_.@]$/;
 			if (!negativeRegex.test(fieldValue)) {
-				let errorInfo = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
-				this.setError(errorInfo);
+				this.setError(app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS'));
 				return false;
 			}
 			return true;
