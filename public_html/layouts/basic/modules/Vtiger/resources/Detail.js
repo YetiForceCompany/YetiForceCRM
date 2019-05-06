@@ -2921,44 +2921,30 @@ jQuery.Class(
 			});
 		},
 		updateRecordsPDFTemplateBtn: function(form) {
-			let thisInstance = this;
-			AppConnector.request({
-				data: {
-					module: app.getModuleName(),
-					action: 'PDF',
-					mode: 'hasValidTemplate',
-					record: app.getRecordId(),
-					view: app.getViewName()
-				},
-				dataType: 'json'
-			})
-				.done(function(data) {
-					let btnToolbar = jQuery('.js-btn-toolbar .btn-toolbar:eq(1)');
-					let btn;
-					if (data['result'].valid === false) {
-						btn = btnToolbar.find('.showModal');
-						if (btn.length) {
-							btn.remove();
-						}
-					} else {
-						let btnGroup = btnToolbar;
-						btn = btnToolbar.find('.showModal');
-						if (btn.length === 0) {
-							btnGroup.append(
-								'<div class="c-btn-link btn-group  c-btn-link--responsive"><button class="btn btn btn-outline-dark btn-sm showModal js-popover-tooltip" data-js="click|popover" data-placement="bottom" data-content="' +
-									app.vtranslate('LBL_EXPORT_PDF') +
-									'" data-target="focus hover" data-url="index.php?module=' +
-									app.getModuleName() +
-									'&view=PDF&fromview=Detail&record=' +
-									app.getRecordId() +
-									'" data-original-title="" title=""><span class="fas fa-file-pdf icon-in-button"></span></button></div>'
-							);
-						}
-					}
+			const thisInstance = this;
+			let btnToolbar = $(".js-btn-toolbar .js-pdf");
+			if (btnToolbar.length) {
+				AppConnector.request({
+					data: {
+						module: app.getModuleName(),
+						action: "PDF",
+						mode: "hasValidTemplate",
+						record: app.getRecordId(),
+						view: app.getViewName()
+					},
+					dataType: "json"
 				})
-				.fail(function(data, err) {
-					app.errorLog(data, err);
-				});
+					.done(function(data) {
+						if (data["result"].valid === false) {
+							btnToolbar.addClass("d-none");
+						} else {
+							btnToolbar.removeClass("d-none");
+						}
+					})
+					.fail(function(data, err) {
+						app.errorLog(data, err);
+					});
+			}
 		},
 		updateWindowHeight: function(currentHeight, frame) {
 			frame.height(currentHeight);
