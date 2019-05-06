@@ -215,7 +215,7 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group row align-items-center supportedType js-server-access-list d-none" data-js="">
+						<div class="form-group row align-items-center supportedType js-server-access-list d-none" data-js="removeClass:d-none">
 							<div class="col-md-3 col-form-label text-right">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('CustomerPortal', $QUALIFIED_MODULE)}

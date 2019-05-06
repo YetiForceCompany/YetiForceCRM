@@ -59,11 +59,11 @@ class Module
 	public static function getFieldPermission(string $moduleName, int $serverId)
 	{
 		$cacheName = $moduleName . $serverId;
-		if (\App\Cache::has('FieldPermission', $cacheName)) {
-			return \App\Cache::get('FieldPermission', $cacheName);
+		if (\App\Cache::has('API-FieldPermission', $cacheName)) {
+			return \App\Cache::get('API-FieldPermission', $cacheName);
 		}
 		$fieldInfo = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => \App\Module::getModuleId($moduleName), 'uitype' => 318, 'fieldparams' => $serverId])->one();
-		\App\Cache::save('FieldPermission', $cacheName, $fieldInfo, \App\Cache::LONG);
+		\App\Cache::save('API-FieldPermission', $cacheName, $fieldInfo, \App\Cache::LONG);
 		return $fieldInfo;
 	}
 }

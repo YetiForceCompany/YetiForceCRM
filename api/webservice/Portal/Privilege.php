@@ -6,10 +6,11 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
+
 namespace Api\Portal;
 
 /**
- * Class to check permission for client portal
+ * Class to check permission for client portal.
  */
 class Privilege
 {
@@ -62,7 +63,7 @@ class Privilege
 				break;
 			case self::ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY:
 			case self::ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY:
-				$parentRecordId = (int)\App\Request::_getHeader('x-parent-id');
+				$parentRecordId = (int) \App\Request::_getHeader('x-parent-id');
 				if (empty($parentRecordId)) {
 					$parentRecordId = \App\Record::getParentRecord($user->get('permission_crmid'));
 				}
@@ -81,10 +82,10 @@ class Privilege
 		}
 		if (isset($fields[$parentModule]) && $fields[$parentModule]['name'] !== $fields[$parentModule]['relmod']) {
 			$field = $fields[$parentModule];
-			return ((int)$recordModel->get($field['fieldname'])) === $parentRecordId;
+			return ((int) $recordModel->get($field['fieldname'])) === $parentRecordId;
 		}
 		if (in_array($moduleName, ['Products', 'Services'])) {
-			return (bool)$recordModel->get('discontinued');
+			return (bool) $recordModel->get('discontinued');
 		}
 		if ($fields) {
 			foreach ($fields as $relatedModuleName => $field) {
@@ -93,7 +94,7 @@ class Privilege
 				}
 				if ($relatedField = \App\Field::getRelatedFieldForModule($relatedModuleName, $parentModule)) {
 					$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($recordModel->get($field['fieldname'], $relatedModuleName));
-					return ((int)$relatedRecordModel->get($relatedField['fieldname'])) === $parentRecordId;
+					return ((int) $relatedRecordModel->get($relatedField['fieldname'])) === $parentRecordId;
 				}
 			}
 		}
