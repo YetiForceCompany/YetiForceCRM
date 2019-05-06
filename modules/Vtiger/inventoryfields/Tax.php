@@ -74,6 +74,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	public function validate($value, string $columnName, bool $isUserFormat)
 	{
 		if ($columnName === $this->getColumnName()) {
+			$value = $isUserFormat ? \App\Fields\Double::formatToDb($value) : $value;
 			if (!is_numeric($value)) {
 				throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
 			}
