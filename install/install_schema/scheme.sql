@@ -628,7 +628,7 @@ CREATE TABLE `l_yf_switch_users` (
 /*Table structure for table `l_yf_username_history` */
 
 CREATE TABLE `l_yf_username_history` (
-  `user_name` varchar(50) DEFAULT NULL,
+  `user_name` varchar(64) DEFAULT NULL,
   `user_id` int(10) unsigned DEFAULT NULL,
   `date` datetime DEFAULT NULL,
   KEY `user_id` (`user_id`),
@@ -6393,7 +6393,7 @@ CREATE TABLE `vtiger_login_method` (
 
 CREATE TABLE `vtiger_loginhistory` (
   `login_id` int(10) NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(50) DEFAULT NULL,
+  `user_name` varchar(64) DEFAULT NULL,
   `user_ip` varchar(100) DEFAULT NULL,
   `logout_time` timestamp NULL DEFAULT NULL,
   `login_time` timestamp NULL DEFAULT NULL,
@@ -8691,7 +8691,7 @@ CREATE TABLE `vtiger_user_module_preferences` (
 
 CREATE TABLE `vtiger_users` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(50) DEFAULT NULL,
+  `user_name` varchar(64) DEFAULT NULL,
   `first_name` varchar(30) DEFAULT NULL,
   `last_name` varchar(30) DEFAULT NULL,
   `email1` varchar(100) DEFAULT NULL,
