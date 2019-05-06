@@ -252,7 +252,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
 					'dataUrl' => 'index.php?module=' . $moduleName . '&view=PDF&fromview=Detail&record=' . $recordId,
 					'linkicon' => 'fas fa-file-pdf',
-					'linkclass' => 'btn-outline-dark btn-sm showModal',
+					'linkclass' => 'btn-outline-dark btn-sm showModal js-pdf',
 					'title' => \App\Language::translate('LBL_EXPORT_PDF'),
 				]);
 			}
@@ -331,7 +331,7 @@ class Vtiger_DetailView_Model extends \App\Base
 		if (
 			\App\User::getCurrentUserId() === \App\User::getCurrentUserRealId() &&
 			\App\Module::isModuleActive('Chat') &&
-			\App\ModuleHierarchy::getModuleLevel($parentModuleModel->getName()) !== false
+			false !== \App\ModuleHierarchy::getModuleLevel($parentModuleModel->getName())
 		) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
