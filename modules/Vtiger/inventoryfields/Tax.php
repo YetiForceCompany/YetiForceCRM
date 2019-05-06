@@ -130,8 +130,6 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getAutomaticValue(array $item)
 	{
-		return (new \App\Inventory($item))
-			->setPrecision((int) \App\User::getCurrentUserModel()->getDetail('no_of_currency_decimals'))
-			->getTax();
+		return (new \App\Inventory($item))->getTax();
 	}
 }

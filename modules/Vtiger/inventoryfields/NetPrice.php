@@ -74,8 +74,6 @@ class Vtiger_NetPrice_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getAutomaticValue(array $item)
 	{
-		return (new \App\Inventory($item))
-			->setPrecision((int) \App\User::getCurrentUserModel()->getDetail('no_of_currency_decimals'))
-			->getNetPrice();
+		return (new \App\Inventory($item))->getNetPrice();
 	}
 }

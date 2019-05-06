@@ -77,8 +77,6 @@ class Vtiger_GrossPrice_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getAutomaticValue(array $item)
 	{
-		return (new \App\Inventory($item))
-			->setPrecision((int) \App\User::getCurrentUserModel()->getDetail('no_of_currency_decimals'))
-			->getGross();
+		return (new \App\Inventory($item))->getGross();
 	}
 }

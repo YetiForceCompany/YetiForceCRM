@@ -77,8 +77,6 @@ class Vtiger_Margin_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getAutomaticValue(array $item)
 	{
-		return (new \App\Inventory($item))
-			->setPrecision((int) \App\User::getCurrentUserModel()->getDetail('no_of_currency_decimals'))
-			->getMargin();
+		return (new \App\Inventory($item))->getMargin();
 	}
 }

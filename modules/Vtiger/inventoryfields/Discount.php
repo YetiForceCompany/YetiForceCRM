@@ -87,8 +87,6 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getAutomaticValue(array $item)
 	{
-		return (new \App\Inventory($item))
-			->setPrecision((int) \App\User::getCurrentUserModel()->getDetail('no_of_currency_decimals'))
-			->getDiscount();
+		return (new \App\Inventory($item))->getDiscount();
 	}
 }
