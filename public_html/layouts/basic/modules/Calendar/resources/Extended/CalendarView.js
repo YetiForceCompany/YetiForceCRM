@@ -926,7 +926,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 	/**
 	 * Register popover buttons' click
 	 */
-	registetPopoverButtonsClickEvent() {
+	registerPopoverButtonsClickEvent() {
 		$(document).on('click', '.js-calendar-popover__button', (e) => {
 			e.preventDefault();
 			this.getCalendarSidebarData($(e.currentTarget).attr('href'));
@@ -941,7 +941,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 		this.registerAddForm();
 		this.registerSiteBarEvents();
 		this.registerFilterForm();
-		this.registetPopoverButtonsClickEvent();
+		this.registerPopoverButtonsClickEvent();
 		ElementQueries.listen();
 	}
 }

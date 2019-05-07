@@ -30,6 +30,7 @@ window.Calendar_CalendarModal_Js = class extends Calendar_CalendarExtended_Js {
 		this.registerSwitchEvents();
 		this.registerUsersChange();
 		this.registerAutofillTime();
+		this.registerPopoverButtonsClickEvent();
 	}
 
 	/**
@@ -133,6 +134,23 @@ window.Calendar_CalendarModal_Js = class extends Calendar_CalendarExtended_Js {
 			this.container.find('[name="time_start"]').val(moment(startDate).format(defaultTimeFormat));
 			this.container.find('[name="time_end"]').val(moment(endDate).format(defaultTimeFormat));
 		}
+	}
+
+	/** @inheritdoc */
+	registerEditForm(sideBar) {
+		let editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(sideBar.find('[name="module"]').val()),
+			headerInstance = new Vtiger_Header_Js(),
+			params = [];
+		let rightFormCreate = sideBar.find('form[name="QuickCreate"]');
+		editViewInstance.registerBasicEvents(rightFormCreate);
+		rightFormCreate.validationEngine(app.validationEngineOptions);
+		headerInstance.registerHelpInfo(rightFormCreate);
+		App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
+		sideBar.find('.js-summary-close-edit').on('click', () => {
+			this.getCalendarCreateView();
+		});
+		headerInstance.registerQuickCreatePostLoadEvents(rightFormCreate, params);
+		new App.Fields.Text.Editor(sideBar.find('.js-editor'), {height: '5em', toolbar: 'Min'});
 	}
 }
 
@@ -245,4 +263,3 @@ jQuery.Class("Calendar_QuickCreate_Js", {}, {
 		}
 	}
 });
-
