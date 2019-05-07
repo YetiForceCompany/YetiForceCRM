@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0cceb7be535d11b704188bb81b7de756",
+    "content-hash": "f9aa1793552daae618282b027c47bd65",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -2908,16 +2908,16 @@
         },
         {
             "name": "yetiforce/yetiforcepdf",
-            "version": "0.1.25",
+            "version": "0.1.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/YetiForcePDF.git",
-                "reference": "a4629eaa151d854c26f28509a69620afafe6b339"
+                "reference": "611122c27877e1d8b0fd8713c89816eaa2f6c22f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/a4629eaa151d854c26f28509a69620afafe6b339",
-                "reference": "a4629eaa151d854c26f28509a69620afafe6b339",
+                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/611122c27877e1d8b0fd8713c89816eaa2f6c22f",
+                "reference": "611122c27877e1d8b0fd8713c89816eaa2f6c22f",
                 "shasum": ""
             },
             "require": {
@@ -2955,7 +2955,7 @@
                 "html to pdf",
                 "pdf"
             ],
-            "time": "2019-04-26T13:05:12+00:00"
+            "time": "2019-05-06T08:25:18+00:00"
         },
         {
             "name": "yetiforce/yii2",
