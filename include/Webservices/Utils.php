@@ -9,7 +9,6 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-require_once 'include/database/PearDatabase.php';
 require_once 'modules/Users/Users.php';
 require_once 'include/Webservices/WebServiceError.php';
 require_once 'include/utils/CommonUtils.php';
