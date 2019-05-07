@@ -51,8 +51,10 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-4 pl-3">
-							{include file=\App\Layout::getTemplatePath('Extended/EventForm.tpl', $MODULE_NAME)}
+						<div id="rightPanel" class="col-4 pl-3">
+							<div class="js-qc-form">
+								{include file=\App\Layout::getTemplatePath('Extended/EventForm.tpl', $MODULE_NAME)}
+							</div>
 						</div>
 					</div>
 				</div>

@@ -343,7 +343,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 
 	getSidebarView() {
 		if (!this.sidebarView.length) {
-			this.sidebarView = $('#rightPanel');
+			this.sidebarView = this.container.find('#rightPanel');
 		}
 		return this.sidebarView;
 	}
