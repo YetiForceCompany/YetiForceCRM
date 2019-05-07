@@ -440,7 +440,7 @@ class CRMEntity
 				->andWhere(['not in', 'crmid', (new App\Db\Query())->select('crmid')->from('vtiger_crmentityrel')->where(['relcrmid' => $entityId, 'relmodule' => $module])])
 				->createCommand()
 				->query();
-			while ($row = $relatedRecords->read()) {
+			while ($row = $parentRecords->read()) {
 				$dbInstance->update(
 					'vtiger_crmentityrel',
 					['relcrmid' => $entityId],
