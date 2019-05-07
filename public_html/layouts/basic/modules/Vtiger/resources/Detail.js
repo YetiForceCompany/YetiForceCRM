@@ -2134,7 +2134,7 @@ jQuery.Class(
 			}
 			relationContainer.each((n, item) => {
 				item = $(item);
-				if (item.data('count') === 1 && !Array.isArray(item.data('reference'))) {
+				if (item.data('count') === 1) {
 					AppConnector.request({
 						module: app.getModuleName(),
 						action: 'RelationAjax',
