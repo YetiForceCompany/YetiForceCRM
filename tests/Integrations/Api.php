@@ -107,6 +107,18 @@ class Api extends \Tests\Base
 		$this->assertSame($row['user_name'], 'demo@yetiforce.com');
 		$this->assertSame($row['password_t'], 'demo');
 		$this->assertSame($row['language'], 'pl-PL');
+
+		$blockInstance = \vtlib\Block::getInstance('LBL_ACCOUNT_INFORMATION', 'Accounts');
+		$fieldInstance = new \Vtiger_Field_Model();
+		$fieldInstance->table = 'vtiger_account';
+		$fieldInstance->label = 'FL_IN_PORTAL';
+		$fieldInstance->name = 'in_portal';
+		$fieldInstance->column = 'in_portal';
+		$fieldInstance->columntype = 'tinyint(1)';
+		$fieldInstance->uitype = 318;
+		$fieldInstance->typeofdata = 'C~O';
+		$fieldInstance->fieldparams = static::$serverId;
+		$blockInstance->addField($fieldInstance);
 	}
 
 	/**
@@ -136,6 +148,7 @@ class Api extends \Tests\Base
 			'addresslevel8a' => 'Marszałkowska',
 			'buildingnumbera' => 111,
 			'legal_form' => 'PLL_GENERAL_PARTNERSHIP',
+			'in_portal' => 1
 		];
 		$request = \Requests::post(static::$url . 'Accounts/Record/', static::$requestHeaders, \App\Json::encode($recordData), static::$requestOptions);
 		$this->logs = $request->raw;
