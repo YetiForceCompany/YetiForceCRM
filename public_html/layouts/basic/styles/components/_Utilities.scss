@@ -118,6 +118,7 @@
 
 .u-hover-opacity:hover {
 	opacity: 0.5;
+
 	@include u-transition(opacity 275ms ease);
 }
 
@@ -463,6 +464,7 @@
 	.u-overflow-auto-lg-down {
 		overflow: auto !important;
 	}
+
 	.u-remove-dropdown-icon-down-lg {
 		.dropdown-toggle::after {
 			display: none;
@@ -593,6 +595,7 @@
 		.u-white-space#{$infix}-nowrap {
 			white-space: nowrap !important;
 		}
+
 		.u-white-space#{$infix}-normal {
 			white-space: normal !important;
 		}

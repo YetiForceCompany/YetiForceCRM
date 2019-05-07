@@ -107,9 +107,11 @@ $h-calendar-form-actions: calculate-rem(49px);
 		bottom: $h-footer;
 		z-index: 100;
 	}
+
 	.limited-footer--active .siteBarRight {
 		bottom: $h-footer-limited;
 	}
+
 	.user-info--active.limited-footer--active .siteBarRight {
 		bottom: $h-footer;
 	}
@@ -186,6 +188,7 @@ $h-calendar-form-actions: calculate-rem(49px);
 		&__clear-btn {
 			@extend %calendar-header-button;
 			$clear-btn-color: material-color('amber', '200');
+
 			background: $clear-btn-color;
 			border-color: $clear-btn-color;
 			padding: calculate-rem(4px) calculate-rem(8px);
@@ -207,6 +210,7 @@ $h-calendar-form-actions: calculate-rem(49px);
 
 		.sub-record {
 			$margin: calculate-rem(5px);
+
 			height: calculate-rem(30px);
 			font-size: calculate-rem(13px);
 			min-width: 80px;
@@ -374,12 +378,12 @@ $h-calendar-form-actions: calculate-rem(49px);
 			background: transparent;
 
 			.fc-button-content {
-				color: #ffffff;
+				color: #fff;
 			}
 		}
 
 		&.fc-state-active .fc-button-inner .fc-button-content, &:active .fc-button-inner .fc-button-content {
-			color: #000000 !important;
+			color: #000 !important;
 			background: transparent;
 			background-image: none;
 		}
@@ -407,7 +411,7 @@ $h-calendar-form-actions: calculate-rem(49px);
 	}
 
 	.fc-event-container .fc-event.fc-draggable {
-		margin: 0 0px 2px 0px;
+		margin: 0 0 2px 0;
 		border-radius: 0;
 	}
 
@@ -587,7 +591,7 @@ $h-calendar-form-actions: calculate-rem(49px);
 			}
 
 			.fc-day-number {
-				padding: 0px 2px;
+				padding: 0 2px;
 				height: 15px;
 				font-size: $year-month-font-size;
 			}
@@ -682,6 +686,7 @@ $h-calendar-form-actions: calculate-rem(49px);
 	.c-tab--small {
 		.nav-link {
 			@extend %calendar-header-button;
+
 			padding: calculate-rem(5px) calculate-rem(12px);
 
 			&.active {
@@ -701,6 +706,7 @@ $h-calendar-form-actions: calculate-rem(49px);
 			border-top: 1px solid #ddd;
 			z-index: 5;
 			padding: calculate-rem(6px) 0 calculate-rem(5px);
+
 			@at-root .tpl-Calendar-Extended-QuickCreate #{&} {
 				padding: calculate-rem(10px) 0 0;
 			}
@@ -726,9 +732,11 @@ $h-calendar-form-actions: calculate-rem(49px);
 			&__form,
 			&__tab--filters {
 				height: $h-main-viewport;
+
 				@at-root .limited-footer--active #{&} {
 					height: $h-main-viewport-limited-footer;
 				}
+
 				@at-root .user-info--active.limited-footer--active #{&} {
 					height: $h-main-viewport;
 				}
@@ -743,6 +751,7 @@ $h-calendar-form-actions: calculate-rem(49px);
 					overflow-x: hidden;
 					margin-top: 1rem;
 				}
+
 				label {
 					font-weight: 500;
 					color: #6c757d;

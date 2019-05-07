@@ -277,7 +277,7 @@ ul.ui-autocomplete {
 }
 
 #pdf_step2 .cke {
-	border: 0px;
+	border: 0;
 }
 
 .cke_autocomplete_panel {
@@ -403,8 +403,8 @@ ul.ui-autocomplete {
 //-------- tribute.js --------//
 //styles based on bootstrap dropdown
 .tribute-container {
-	border: 1px solid rgba(0, 0, 0, .15);
-	border-radius: .25rem;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	border-radius: 0.25rem;
 	min-width: 10rem;
 
 	ul {

@@ -14,6 +14,7 @@
 
 	&__btn-send {
 		@extend .m-1;
+
 		height: fit-content;
 		border-radius: 50% !important;
 		width: $chat-btn-width;
@@ -31,8 +32,8 @@
 
 	&__btn-favorite {
 		position: absolute;
-		bottom: 0px;
-		right: 0px;
+		bottom: 0;
+		right: 0;
 		z-index: 1000;
 		font-size: 15px;
 		color: #6c7591;
@@ -46,7 +47,7 @@
 	}
 
 	&__form-control {
-		border: 0px;
+		border: 0;
 
 		&:focus {
 			box-shadow: none;
@@ -58,6 +59,7 @@
 		height: calculate-rem(50px);
 		width: calc(100% - #{$chat-btn-width});
 		position: relative;
+
 		@extend .mt-1;
 	}
 
