@@ -47,10 +47,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		if (!$request->isEmpty('related_module', true) && !$userPrivilegesModel->hasModulePermission($request->getByType('related_module', 2))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
 		}
-		if (!$request->isEmpty('relatedModule', true)) {
-			$relatedModules = $request->getByType('relatedModule', 2);
-			$relatedModules = is_array($relatedModules) ? $relatedModules : [$relatedModules];
-			foreach ($relatedModules as $relatedModule) {
+		if (!$request->isEmpty('relatedModule', true) && !is_array($relatedModule = $request->getByType('relatedModule', 2))) {
 				if ('ProductsAndServices' !== $relatedModule) {
 					if (!$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'ModTracker')) {
 						throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
@@ -59,7 +56,6 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 						throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
 					}
 				}
-			}
 		}
 	}
 
@@ -361,15 +357,15 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 	}
 
 	/**
-	 * Function to get the page count for reltedlist.
+	 * Function to get the page count for related list.
 	 *
 	 * @param \App\Request $request
 	 */
 	public function getRelatedListPageCount(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$relatedModulesName = $request->getByType('relatedModule', 2);
-		$relatedModulesName = is_array($relatedModulesName) ? $relatedModulesName : [$relatedModulesName];
+		$relatedModuleName = $request->getArray('relatedModule', 'Alnum');
+		$firstRelatedModuleName = current($relatedModuleName);
 		$parentId = $request->getInteger('record');
 		if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $parentId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -377,41 +373,39 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$label = $request->getByType('tab_label', 'Text');
 		$totalCount = 0;
 		$pageCount = 0;
-		foreach ($relatedModulesName as $relatedModuleName) {
-			if ('ModComments' === $relatedModuleName) {
-				$totalCount = ModComments_Record_Model::getCommentsCount($parentId);
-			} elseif ('ModTracker' === $relatedModuleName) {
-				$count = (int) ($unreviewed = current(ModTracker_Record_Model::getUnreviewed($parentId, false, true))) ? array_sum($unreviewed) : '';
-				$totalCount = $count ? $count : '';
-			} else {
-				$relModules = !empty($relatedModuleName) ? [$relatedModuleName] : [];
-				if ('ProductsAndServices' === $relatedModuleName) {
-					$label = '';
-					$relModules = ['Products', 'OutsourcedProducts', 'Assets', 'Services', 'OSSOutsourcedServices', 'OSSSoldServices'];
+		if ('ModComments' === $firstRelatedModuleName) {
+			$totalCount = ModComments_Record_Model::getCommentsCount($parentId);
+		} elseif ('ModTracker' === $firstRelatedModuleName) {
+			$count = (int) ($unreviewed = current(ModTracker_Record_Model::getUnreviewed($parentId, false, true))) ? array_sum($unreviewed) : '';
+			$totalCount = $count ? $count : '';
+		} else {
+			$relModules = !empty($relatedModuleName) && is_array($relatedModuleName) ? $relatedModuleName : [];
+			if ('ProductsAndServices' === $firstRelatedModuleName) {
+				$label = '';
+				$relModules = ['Products', 'OutsourcedProducts', 'Assets', 'Services', 'OSSOutsourcedServices', 'OSSSoldServices'];
+			}
+			$categoryCount = ['Products', 'OutsourcedProducts', 'Services', 'OSSOutsourcedServices'];
+			$pagingModel = new Vtiger_Paging_Model();
+			$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
+			$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			foreach ($relModules as $relModule) {
+				if (!$currentUserPriviligesModel->hasModulePermission($relModule)) {
+					continue;
 				}
-				$categoryCount = ['Products', 'OutsourcedProducts', 'Services', 'OSSOutsourcedServices'];
-				$pagingModel = new Vtiger_Paging_Model();
-				$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
-				$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-				foreach ($relModules as $relModule) {
-					if (!$currentUserPriviligesModel->hasModulePermission($relModule)) {
-						continue;
-					}
-					$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relModule, $label);
-					if (!$relationListView) {
-						continue;
-					}
-					if ('ProductsAndServices' === $relatedModuleName && in_array($relModule, $categoryCount)) {
-						$totalCount += (int) $relationListView->getRelatedTreeEntriesCount();
-					}
-					if ('Calendar' === $relatedModuleName && \App\Config::module($relatedModuleName, 'SHOW_ONLY_CURRENT_RECORDS_COUNT')) {
-						$totalCount += (int) $relationListView->getRelationQuery()->andWhere(['vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('current')])->count();
-					} else {
-						$totalCount += (int) $relationListView->getRelatedEntriesCount();
-					}
-					$pageLimit = $pagingModel->getPageLimit();
-					$pageCount = ceil((int) $totalCount / (int) $pageLimit);
+				$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relModule, $label);
+				if (!$relationListView) {
+					continue;
 				}
+				if ('ProductsAndServices' === $relatedModuleName && in_array($relModule, $categoryCount)) {
+					$totalCount += (int) $relationListView->getRelatedTreeEntriesCount();
+				}
+				if ('Calendar' === $relatedModuleName && \App\Config::module($relatedModuleName, 'SHOW_ONLY_CURRENT_RECORDS_COUNT')) {
+					$totalCount += (int) $relationListView->getRelationQuery()->andWhere(['vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('current')])->count();
+				} else {
+					$totalCount += (int) $relationListView->getRelatedEntriesCount();
+				}
+				$pageLimit = $pagingModel->getPageLimit();
+				$pageCount = ceil((int) $totalCount / (int) $pageLimit);
 			}
 		}
 		if (0 == $pageCount) {
