@@ -492,30 +492,77 @@ class File
 		try {
 			$tokens = token_get_all($this->getContents(), TOKEN_PARSE);
 			foreach ($tokens as $token) {
-				if (is_array($token)) {
-					switch ($token[0]) {
-						case T_COMMENT:
-						case T_DOC_COMMENT:
-						case T_WHITESPACE:
-						case T_CURLY_OPEN:
-						case T_OPEN_TAG:
-						case T_CLOSE_TAG:
-						case T_INLINE_HTML:
-						case T_DOLLAR_OPEN_CURLY_BRACES:
+				switch (is_array($token) ? $token[0] : $token) {
+						case \T_COMMENT:
+						case \T_DOC_COMMENT:
+						case \T_WHITESPACE:
+						case \T_CURLY_OPEN:
+						case \T_OPEN_TAG:
+						case \T_CLOSE_TAG:
+						case \T_INLINE_HTML:
+						case \T_DOLLAR_OPEN_CURLY_BRACES:
 							continue 2;
-						case T_NAMESPACE:
-						case T_CLASS:
-						case T_INTERFACE:
-						case T_TRAIT:
-						case T_NEW:
-						case T_DOUBLE_COLON:
+						case \T_DOUBLE_COLON:
+						case \T_ABSTRACT:
+						case \T_ARRAY:
+						case \T_AS:
+						case \T_BREAK:
+						case \T_CALLABLE:
+						case \T_CASE:
+						case \T_CATCH:
+						case \T_CLASS:
+						case \T_CLONE:
+						case \T_CONTINUE:
+						case \T_DEFAULT:
+						case \T_ECHO:
+						case \T_ELSE:
+						case \T_ELSEIF:
+						case \T_EMPTY:
+						case \T_ENDIF:
+						case \T_ENDSWITCH:
+						case \T_ENDWHILE:
+						case \T_EXIT:
+						case \T_EXTENDS:
+						case \T_FINAL:
+						case \T_FINALLY:
+						case \T_FOREACH:
+						case \T_FUNCTION:
+						case \T_GLOBAL:
+						case \T_IF:
+						case \T_IMPLEMENTS:
+						case \T_INCLUDE:
+						case \T_INCLUDE_ONCE:
+						case \T_INSTANCEOF:
+						case \T_INSTEADOF:
+						case \T_INTERFACE:
+						case \T_ISSET:
+						case \T_LOGICAL_AND:
+						case \T_LOGICAL_OR:
+						case \T_LOGICAL_XOR:
+						case \T_NAMESPACE:
+						case \T_NEW:
+						case \T_PRIVATE:
+						case \T_PROTECTED:
+						case \T_PUBLIC:
+						case \T_REQUIRE:
+						case \T_REQUIRE_ONCE:
+						case \T_RETURN:
+						case \T_STATIC:
+						case \T_THROW:
+						case \T_TRAIT:
+						case \T_TRY:
+						case \T_UNSET:
+						case \T_USE:
+						case \T_VAR:
+						case \T_WHILE:
+						case \T_YIELD:
 							return true;
 						default:
-							if (function_exists($token[1]) || defined($token[1])) {
+							$text = is_array($token) ? $token[1] : $token;
+							if (function_exists($text) || defined($text)) {
 								return true;
 							}
 					}
-				}
 			}
 		} catch (\Throwable $e) {
 			trigger_error($e->getMessage(), E_USER_NOTICE);
