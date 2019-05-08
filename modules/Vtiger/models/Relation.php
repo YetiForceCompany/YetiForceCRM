@@ -522,7 +522,7 @@ class Vtiger_Relation_Model extends \App\Base
 					->where(['relation_id' => $this->getId()])
 					->orderBy('sequence')
 					->column();
-				$inventoryFields = Vtiger_Inventory_Model::getInstance($this->get('modulename'))->getFields();
+				$inventoryFields = Vtiger_Inventory_Model::getInstance($this->getRelationModuleModel()->getName())->getFields();
 				$fields = [];
 				foreach ($columns as &$column) {
 					if (!empty($inventoryFields[$column]) && $inventoryFields[$column]->isVisible()) {
