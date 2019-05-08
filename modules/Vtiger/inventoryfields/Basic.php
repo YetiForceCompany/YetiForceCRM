@@ -469,20 +469,22 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	public function setValueToRecord(\Vtiger_Record_Model $recordModel, array $item, bool $userFormat)
 	{
 		$column = $this->getColumnName();
-		$value = $item[$column];
-		$this->validate($value, $column, $userFormat);
-		if ($userFormat) {
-			$value = $this->getDBValue($value, $column);
-		}
-		$recordModel->setInventoryItemPart($item['id'], $column, $value);
-		if ($customColumn = $this->getCustomColumn()) {
-			foreach (array_keys($customColumn) as $column) {
-				$value = $item[$column];
-				$this->validate($value, $column, $userFormat);
-				if ($userFormat) {
-					$value = $this->getDBValue($value, $column);
+		if (isset($item[$column])) {
+			$value = $item[$column];
+			$this->validate($value, $column, $userFormat);
+			if ($userFormat) {
+				$value = $this->getDBValue($value, $column);
+			}
+			$recordModel->setInventoryItemPart($item['id'], $column, $value);
+			if ($customColumn = $this->getCustomColumn()) {
+				foreach (array_keys($customColumn) as $column) {
+					$value = $item[$column];
+					$this->validate($value, $column, $userFormat);
+					if ($userFormat) {
+						$value = $this->getDBValue($value, $column);
+					}
+					$recordModel->setInventoryItemPart($item['id'], $column, $value);
 				}
-				$recordModel->setInventoryItemPart($item['id'], $column, $value);
 			}
 		}
 	}
