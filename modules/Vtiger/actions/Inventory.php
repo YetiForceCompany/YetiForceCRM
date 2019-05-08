@@ -160,8 +160,6 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 		$autoFields = [];
 		$inventory = Vtiger_Inventory_Model::getInstance($moduleName);
 		if ($autoCompleteField = ($inventory->getAutoCompleteFields()[$recordModuleName] ?? [])) {
-			\App\DebugerEx::log('getRecordDetail', $autoCompleteField);
-
 			foreach ($autoCompleteField as $field) {
 				$fieldModel = Vtiger_Module_Model::getInstance($field['module'])->getFieldByName($field['field']);
 				if (($fieldValue = $recordModel->get($field['field'])) && $fieldModel) {

@@ -34,7 +34,7 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function validate($value, string $columnName, bool $isUserFormat, array $item)
+	protected function validate($value, string $columnName, bool $isUserFormat, $originalValue)
 	{
 		if (!is_string($value)) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);

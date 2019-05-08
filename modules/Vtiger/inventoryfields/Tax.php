@@ -64,7 +64,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 			$valid = $value ? \App\Json::decode($value) : [];
 			if (isset($valid['individualTax'])) {
 				$valid['individualTax'] = App\Fields\Double::formatToDb($valid['individualTax']);
-				$valid['globalTax'] = App\Fields\Double::formatToDb($valid['globalTax']);
+				$valid['globalTax'] = App\Fields\Double::formatToDb($valid['globalTax'] ?? 0);
 				$value = \App\Json::encode($valid);
 			}
 		} else {
@@ -76,7 +76,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function validate($value, string $columnName, bool $isUserFormat, array $item)
+	protected function validate($value, string $columnName, bool $isUserFormat, $originalValue)
 	{
 		if ($columnName === $this->getColumnName()) {
 			if (!is_numeric($value)) {
@@ -84,6 +84,9 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 			}
 			if ($this->maximumLength < $value || -$this->maximumLength > $value) {
 				throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
+			}
+			if (null !== $originalValue && !\App\Validator::floatIsEqual($value, $originalValue, (int) \App\User::getCurrentUserModel()->getDetail('no_of_currency_decimals'))) {
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $columnName ?? $this->getColumnName() . '||' . $this->getModuleName() . '||' . $value, 406);
 			}
 		} else {
 			if (App\TextParser::getTextLength($value) > $this->customMaximumLength[$columnName]) {
@@ -128,13 +131,14 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getAutomaticValue(array $item)
+	public function getAutomaticValue(array $item, bool $userFormat = false)
 	{
 		$returnVal = 0.0;
 		if (!\App\Json::isEmpty($item['taxparam'] ?? '')) {
-			$aggregationType = $this->taxParam['aggregationType'];
-			$returnVal = Vtiger_Basic_InventoryField::getInstance($this->getModuleName(), 'NetPrice')->getAutomaticValue($item) * $this->taxParam["{$aggregationType}Tax"] / 100.00;
+			$taxParam = \App\Json::decode($item['taxparam']);
+			$aggregationType = $taxParam['aggregationType'];
+			$returnVal = static::calculateFromField($this->getModuleName(), 'NetPrice', $item, $userFormat) * (float) ($taxParam["{$aggregationType}Tax"]) / 100.00;
 		}
-		return (float) $returnVal;
+		return static::roundMethod((float) $returnVal);
 	}
 }

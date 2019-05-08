@@ -83,7 +83,7 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function validate($value, string $columnName, bool $isUserFormat, array $item)
+	protected function validate($value, string $columnName, bool $isUserFormat, $originalValue)
 	{
 		if ($columnName === $this->getColumnName()) {
 			if (!is_numeric($value) || !isset(\App\Fields\Currency::getAll()[$value])) {

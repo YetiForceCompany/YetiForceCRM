@@ -86,6 +86,51 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	}
 
 	/**
+	 * Calculate from field.
+	 *
+	 * @param string $moduleName
+	 * @param string $type
+	 * @param array  $item
+	 *
+	 * @return float
+	 */
+	public static function calculateFromField(string $moduleName, string $type, array $item, bool $userFormat = false): float
+	{
+		return self::getInstance($moduleName, $type)->getAutomaticValue($item, $userFormat);
+	}
+
+	/**
+	 * Round method.
+	 *
+	 * @param float $value
+	 *
+	 * @return float
+	 */
+	public function roundMethod(float $value): float
+	{
+		return round($value, 8);
+	}
+
+	/**
+	 * Get value from item.
+	 *
+	 * @param array  $item
+	 * @param string $key
+	 * @param bool   $userFormat
+	 * @param mixed  $defaultValue
+	 *
+	 * @return mixed
+	 */
+	public function getValueFromItem(array $item, string $key, bool $userFormat, $defaultValue = null)
+	{
+		$value = ($item[$key] ?? $defaultValue);
+		if ($userFormat) {
+			$value = $this->getDBValue($value);
+		}
+		return $value;
+	}
+
+	/**
 	 * Function returns module name.
 	 *
 	 * @return string
@@ -93,6 +138,16 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	public function getModuleName(): string
 	{
 		return $this->moduleName;
+	}
+
+	/**
+	 * Is set automatically.
+	 *
+	 * @return bool
+	 */
+	public function getIsAutomaticValue(): bool
+	{
+		return $this->isAutomaticValue;
 	}
 
 	/**
@@ -140,7 +195,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 *
 	 * @return mixed
 	 */
-	public function getAutomaticValue(array $item)
+	public function getAutomaticValue(array $item, bool $userFormat = false)
 	{
 		return $item[$this->getColumnName()] ?? $this->getDefaultValue();
 	}
@@ -441,11 +496,11 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 * @param mixed  $value
 	 * @param string $columnName
 	 * @param bool   $isUserFormat
-	 * @param array  $item
+	 * @param mixed  $originalValue
 	 *
 	 * @throws \App\Exceptions\Security
 	 */
-	protected function validate($value, string $columnName, bool $isUserFormat, array $item)
+	protected function validate($value, string $columnName, bool $isUserFormat, $originalValue)
 	{
 		if (!is_numeric($value) && (is_string($value) && $value !== strip_tags($value))) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $columnName ?? $this->getColumnName() . '||' . $this->getModuleName() . '||' . $value, 406);
@@ -453,7 +508,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 		if (App\TextParser::getTextLength($value) > $this->maximumLength) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $columnName ?? $this->getColumnName() . '||' . $this->getModuleName() . '||' . $value, 406);
 		}
-		if ($this->isAutomaticValue && isset($item[$columnName]) && $item[$columnName] !== $this->getAutomaticValue($item)) {
+		if ($this->isAutomaticValue && $value !== $originalValue) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $columnName ?? $this->getColumnName() . '||' . $this->getModuleName() . '||' . $value, 406);
 		}
 	}
@@ -495,8 +550,8 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	public function setValueToRecord(Vtiger_Record_Model $recordModel, array $item, bool $userFormat)
 	{
 		$column = $this->getColumnName();
-		$value = $this->getAutomaticValue($item);
-		$this->validate($value, $column, $userFormat, $item);
+		$value = $this->getAutomaticValue($item, $userFormat);
+		$this->validate($value, $column, $userFormat, $item[$column] ?? null);
 		if ($userFormat) {
 			$value = $this->getDBValue($value, $column);
 		}

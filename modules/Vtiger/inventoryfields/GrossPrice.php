@@ -56,7 +56,7 @@ class Vtiger_GrossPrice_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function validate($value, string $columnName, bool $isUserFormat, array $item)
+	protected function validate($value, string $columnName, bool $isUserFormat, $originalValue)
 	{
 		if ($isUserFormat) {
 			$value = $this->getDBValue($value, $columnName);
@@ -67,7 +67,7 @@ class Vtiger_GrossPrice_InventoryField extends Vtiger_Basic_InventoryField
 		if ($this->maximumLength < $value || -$this->maximumLength > $value) {
 			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 		}
-		if ($this->isAutomaticValue && isset($item[$columnName]) && (float) $item[$columnName] !== $this->getAutomaticValue($item)) {
+		if (null !== $originalValue && !\App\Validator::floatIsEqual($value, $originalValue, (int) \App\User::getCurrentUserModel()->getDetail('no_of_currency_decimals'))) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $columnName ?? $this->getColumnName() . '||' . $this->getModuleName() . '||' . $value, 406);
 		}
 	}
@@ -75,9 +75,10 @@ class Vtiger_GrossPrice_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getAutomaticValue(array $item)
+	public function getAutomaticValue(array $item, bool $userFormat = false)
 	{
-		return Vtiger_Basic_InventoryField::getInstance($this->getModuleName(), 'NetPrice')->getAutomaticValue($item) +
-			Vtiger_Basic_InventoryField::getInstance($this->getModuleName(), 'Tax')->getAutomaticValue($item);
+		return static::roundMethod(
+			static::calculateFromField($this->getModuleName(), 'NetPrice', $item, $userFormat) + static::calculateFromField($this->getModuleName(), 'Tax', $item, $userFormat)
+		);
 	}
 }

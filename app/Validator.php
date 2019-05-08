@@ -184,6 +184,21 @@ class Validator
 	}
 
 	/**
+	 * Check if floating point numbers are equal.
+	 *
+	 * @see https://www.php.net/manual/en/language.types.float.php
+	 *
+	 * @param float $value1
+	 * @param float $value2
+	 *
+	 * @return bool
+	 */
+	public static function floatIsEqual(float $value1, float $value2, int $precision): bool
+	{
+		return abs(round($value1, $precision) - round($value2, $precision)) < (1 / pow(10, $precision));
+	}
+
+	/**
 	 * Function verifies if given value is a natural number.
 	 *
 	 * @param int|string $input
