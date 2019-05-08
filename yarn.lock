@@ -454,10 +454,10 @@ tiny-emitter@^2.0.0:
   resolved "https://registry.yarnpkg.com/tiny-emitter/-/tiny-emitter-2.1.0.tgz#1d1a56edfc51c43e863cbb5382a72330e3555423"
   integrity sha512-NB6Dk1A9xgQPMoGqC5CVXn123gWyte215ONT5Pp5a0yt4nlEoO1ZWeCwpncaekPHXO60i47ihFnZPiRPjRMq4Q==
 
-tributejs@^3.6.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/tributejs/-/tributejs-3.7.0.tgz#1a6f285412bf478d622fcce32781a7ce7f7a9314"
-  integrity sha512-NdLbx4D39GNY2gucEUPnSep/soDyjrVjADrd7sMRidfVHdlRU7nTbsqIPN6HeJVuql7m8nBCM26iQrYSk1jvBA==
+tributejs@^3.7.1:
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/tributejs/-/tributejs-3.7.1.tgz#af6529358810022bc90650b3ff2094344591a1dd"
+  integrity sha512-GsRnD7w7u4BgrzYm/9ZskuVpVTVtY83WrLA5PtBl2oOYTQFGVVVHS7vAGwgmO0iStXzEa6LlVUiB4dsEUYo2ug==
 
 vue@^2.6.10:
   version "2.6.10"
