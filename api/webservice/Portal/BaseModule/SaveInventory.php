@@ -49,7 +49,6 @@ class SaveInventory extends \Api\Core\BaseAction
 		$recordModel->save();
 		return [
 			'id' => $recordModel->getId(),
-			'subject' => $recordModel->get('subject')
 		];
 	}
 

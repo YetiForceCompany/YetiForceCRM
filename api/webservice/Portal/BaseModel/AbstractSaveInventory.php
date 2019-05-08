@@ -47,18 +47,18 @@ abstract class AbstractSaveInventory
 	 */
 	public function getInventoryData(): array
 	{
-		$defaultValues = $this->getDefaultValues();
 		$inventoryData = [];
 		foreach ($this->inventory as $inventoryKey => $inventoryItem) {
-			foreach ($defaultValues as $columnName => $defaultValue) {
-				if ($this->ignore($columnName)) {
+			foreach (\Vtiger_Inventory_Model::getInstance($this->moduleName)->getFields() as $columnName => $fieldModel) {
+				if ($this->ignore($fieldModel)) {
 					continue;
 				}
-				$item[$columnName] = $this->getValue($columnName, $inventoryKey) ?? $inventoryItem[$columnName] ?? $defaultValue;
+				$item[$columnName] = $this->getValue($columnName, $inventoryKey) ?? $inventoryItem[$columnName] ?? $fieldModel->getDefaultValue();
 			}
 			$inventoryData[] = $item;
 		}
 		return $inventoryData;
+		//return [];
 	}
 
 	/**
@@ -74,11 +74,11 @@ abstract class AbstractSaveInventory
 	/**
 	 * Ignore columns and do not set their values.
 	 *
-	 * @param string $columnName
+	 * @param Vtiger_Basic_InventoryField $fieldModel
 	 *
 	 * @return bool
 	 */
-	abstract protected function ignore(string $columnName): bool;
+	abstract protected function ignore(\Vtiger_Basic_InventoryField $fieldModel): bool;
 
 	/**
 	 * Get default values.
