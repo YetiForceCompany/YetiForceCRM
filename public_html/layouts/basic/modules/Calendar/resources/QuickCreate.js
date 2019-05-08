@@ -10,6 +10,9 @@ window.Calendar_CalendarModal_Js = class extends Calendar_CalendarExtended_Js {
 	constructor(container, readonly) {
 		super(container, readonly);
 		this.isSwitchAllDays = false;
+		this.sidebarName = 'add' //available: add, status, edit
+		this.eventCreate = true;
+		this.module = 'Calendar';
 		this.renderCalendar();
 		this.registerEvents();
 	}
@@ -87,6 +90,13 @@ window.Calendar_CalendarModal_Js = class extends Calendar_CalendarExtended_Js {
 	 * @param endDate
 	 */
 	selectDays(startDate, endDate) {
+		if (this.sidebarName === 'status') {
+			this.sidebarName = 'add';
+			this.getCalendarCreateView().done(() => {
+				this.selectDays(startDate, endDate)
+			})
+			return
+		}
 		let startHour = app.getMainParams('startHour'),
 			endHour = app.getMainParams('endHour'),
 			view = this.getCalendarView().fullCalendar('getView');
@@ -161,9 +171,12 @@ window.Calendar_CalendarModal_Js = class extends Calendar_CalendarExtended_Js {
 
 		modalTitles.addClass('d-none')
 		if(data.hasClass('js-edit-form')) {
-			modalTitles.filter('.js-modal-title--edit').removeClass('d-none')
+			let title = data.find('.js-sidebar-title ').data('title')
+			modalTitles.filter(`.js-modal-title--${title}`).removeClass('d-none')
+			this.sidebarName = title
 		} else if(data.hasClass('js-activity-state')) {
 			modalTitles.filter('.js-modal-title--status').removeClass('d-none')
+			this.sidebarName = 'status'
 		}
 		sidebar.find('.js-qc-form').html(data);
 	}

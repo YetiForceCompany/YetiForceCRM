@@ -32,11 +32,15 @@
 					data-js="perfectscrollbar">
 					<h6 class="boxEventTitle text-muted text-center mt-1">
 						{if !empty($RECORD_ID)}
-							<span class="fas fa-edit mr-1"></span>
-						{\App\Language::translate('LBL_EDIT_EVENT',$MODULE_NAME)}
+							<div class="js-sidebar-title" data-title="edit">
+								<span class="fas fa-edit mr-1"></span>
+								{\App\Language::translate('LBL_EDIT_EVENT',$MODULE_NAME)}
+							</div>
 						{else}
-							<span class="fas fa-plus mr-1"></span>
-							{\App\Language::translate('LBL_ADD',$MODULE_NAME)}
+							<div class="js-sidebar-title" data-title="add">
+								<span class="fas fa-plus mr-1"></span>
+								{\App\Language::translate('LBL_ADD',$MODULE_NAME)}
+							</div>
 						{/if}
 					</h6>
 					{if !empty(App\Config::module('Calendar', 'SHOW_ACTIVITY_BUTTONS_IN_EDIT_FORM')) && empty($IS_POSTPONED) && !empty($RECORD_ID)}

@@ -15,6 +15,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 		this.calendarContainer = false;
 		this.addCommonMethodsToYearView();
 		this.calendar = this.getCalendarView();
+		this.module = app.getModuleName();
 	}
 
 	/**
@@ -419,7 +420,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 		const progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
 		if ($.isNumeric(params)) {
 			params = {
-				module: app.getModuleName(),
+				module: this.module,
 				view: 'EventForm',
 				record: params
 			};
@@ -821,7 +822,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 				aDeferred.resolve(qcForm);
 			} else {
 				let progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
-				this.getCalendarSidebarData({'module': app.getModuleName(), 'view': 'EventForm',}).done(() => {
+				this.getCalendarSidebarData({'module': this.module, 'view': 'EventForm',}).done(() => {
 					progressInstance.progressIndicator({mode: 'hide'});
 					thisInstance.registerAutofillTime();
 					aDeferred.resolve(qcForm);
