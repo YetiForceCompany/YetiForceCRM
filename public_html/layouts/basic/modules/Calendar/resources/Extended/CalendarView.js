@@ -427,21 +427,20 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 		AppConnector.request(params).done((data) => {
 			thisInstance.openRightPanel();
 			progressInstance.progressIndicator({mode: 'hide'});
-			let sideBar = thisInstance.getSidebarView();
-			sideBar.find('.js-qc-form').html(data);
-			thisInstance.showRightPanelForm();
-			if (sideBar.find('form').length) {
-				thisInstance.registerEditForm(sideBar);
+			let sidebar = thisInstance.getSidebarView();
+			this.updateSidebar(sidebar, data);
+			if (sidebar.find('form').length) {
+				thisInstance.registerEditForm(sidebar);
 			} else {
-				app.showNewScrollbar(sideBar.find('.js-calendar__form__wrapper'), {suppressScrollX: true});
-				sideBar.find('.js-activity-state .js-summary-close-edit').on('click', function () {
+				app.showNewScrollbar(sidebar.find('.js-calendar__form__wrapper'), {suppressScrollX: true});
+				sidebar.find('.js-activity-state .js-summary-close-edit').on('click', function () {
 					thisInstance.getCalendarCreateView();
 				});
-				sideBar.find('.js-activity-state .editRecord').on('click', function () {
+				sidebar.find('.js-activity-state .editRecord').on('click', function () {
 					thisInstance.getCalendarSidebarData($(this).data('id'));
 				});
 			}
-			aDeferred.resolve(sideBar.find('.js-qc-form'));
+			aDeferred.resolve(sidebar.find('.js-qc-form'));
 		}).fail((error) => {
 			progressInstance.progressIndicator({mode: 'hide'});
 			app.errorLog(error);
@@ -449,6 +448,15 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 		return aDeferred.promise();
 	}
 
+	/**
+	 * Update sidebar
+	 * @param {jQuery} sidebar
+	 * @param {html} data
+	 */
+	updateSidebar(sidebar, data) {
+		sidebar.find('.js-qc-form').html(data);
+		this.showRightPanelForm();
+	}
 	loadCalendarData(view = this.getCalendarView().fullCalendar('getView')) {
 		const self = this;
 		let formatDate = CONFIG.dateFormat.toUpperCase(),

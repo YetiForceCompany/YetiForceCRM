@@ -152,6 +152,21 @@ window.Calendar_CalendarModal_Js = class extends Calendar_CalendarExtended_Js {
 		headerInstance.registerQuickCreatePostLoadEvents(rightFormCreate, params);
 		new App.Fields.Text.Editor(sideBar.find('.js-editor'), {height: '5em', toolbar: 'Min'});
 	}
+
+	/** @inheritdoc */
+	updateSidebar(sidebar, data) {
+		const modalTitleContainer = $('.js-modal-title__container'),
+			modalTitles = modalTitleContainer.find('[class*="js-modal-title"]');
+		data = $(data);
+
+		modalTitles.addClass('d-none')
+		if(data.hasClass('js-edit-form')) {
+			modalTitles.filter('.js-modal-title--edit').removeClass('d-none')
+		} else if(data.hasClass('js-activity-state')) {
+			modalTitles.filter('.js-modal-title--status').removeClass('d-none')
+		}
+		sidebar.find('.js-qc-form').html(data);
+	}
 }
 
 jQuery.Class("Calendar_QuickCreate_Js", {}, {
