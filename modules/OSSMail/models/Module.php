@@ -17,14 +17,11 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 	{
 		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
 		$settingsLinks = [];
-		$fieldId = (new App\Db\Query())->select(['fieldid'])
-			->from('vtiger_settings_field')
-			->where(['name' => 'OSSMail', 'description' => 'OSSMail'])
-			->scalar();
+		$menu = Settings_Vtiger_MenuItem_Model::getInstance('Mail');
 		$settingsLinks[] = [
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => 'LBL_MODULE_CONFIGURATION',
-			'linkurl' => 'index.php?module=OSSMail&parent=Settings&view=Index&block=4&fieldid=' . $fieldId,
+			'linkurl' => 'index.php?module=OSSMail&parent=Settings&view=Index&block=' . $menu->get('blockid').'&fieldid=' . $menu->get('fieldid'),
 			'linkicon' => 'adminIcon-mail-download-history',
 		];
 
