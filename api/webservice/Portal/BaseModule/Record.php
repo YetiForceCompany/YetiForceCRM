@@ -162,11 +162,7 @@ class Record extends \Api\Core\BaseAction
 	 */
 	public function post()
 	{
-		$moduleName = $this->controller->request->getModule();
-		$modelClassName = \Vtiger_Loader::getComponentClassName('Action', 'Save', $moduleName);
-		$saveClass = new $modelClassName();
-		$model = $saveClass->saveRecord($this->controller->request);
-
+		$model = (new \Api\Portal\Save($this->controller->app['id']))->saveRecord($this->controller->request);
 		return ['id' => $model->getId()];
 	}
 }
