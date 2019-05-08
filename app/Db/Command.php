@@ -18,7 +18,7 @@ class Command extends \yii\db\Command
 	 *
 	 * @throws Exception execution failed
 	 *
-	 * @return DataReader the reader object for fetching the query result
+	 * @return \yii\db\DataReader the reader object for fetching the query result
 	 */
 	public function query()
 	{
@@ -28,8 +28,9 @@ class Command extends \yii\db\Command
 	/**
 	 * Executes the SQL statement and returns ALL rows at once.
 	 *
-	 * @param int $fetchMode the result fetch mode. Please refer to [PHP manual](http://www.php.net/manual/en/function.PDOStatement-setFetchMode.php)
-	 *                       for valid fetch modes. If this parameter is null, the value set in [[fetchMode]] will be used
+	 * @param int   $fetchMode the result fetch mode. Please refer to [PHP manual](http://www.php.net/manual/en/function.PDOStatement-setFetchMode.php)
+	 *                         for valid fetch modes. If this parameter is null, the value set in [[fetchMode]] will be used
+	 * @param mixed $type
 	 *
 	 * @throws Exception execution failed
 	 *
