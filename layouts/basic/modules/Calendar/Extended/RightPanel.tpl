@@ -11,8 +11,7 @@
 							<span class="fas fa-search fa-fw"></span>
 						</span>
 					</div>
-					<input type="text" class="form-control js-filter__search" placeholder="Nazwa użytkownika"
-						   aria-describedby="search-icon">
+					<input type="text" class="form-control js-filter__search" placeholder="{\App\Language::translate('LBL_USER_NAME',$MODULE_NAME)}" aria-describedby="search-icon">
 				</div>
 				<ul class="nav form-row">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
@@ -64,8 +63,7 @@
 							<span class="fas fa-search fa-fw"></span>
 						</span>
 					</div>
-					<input type="text" class="form-control js-filter__search" placeholder="Nazwa grupy"
-						   aria-describedby="search-icon-group">
+					<input type="text" class="form-control js-filter__search" placeholder="{\App\Language::translate('LBL_GROUP_NAME',$MODULE_NAME)}" aria-describedby="search-icon-group">
 				</div>
 				<ul class="nav form-row">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
