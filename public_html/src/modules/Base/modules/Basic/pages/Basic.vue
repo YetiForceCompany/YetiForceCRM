@@ -18,7 +18,8 @@
 <script>
 import getters from '/src/store/getters.js'
 import mutations from '/src/store/mutations.js'
-const moduleName = 'Base.Basic.Pages.Basic'
+const moduleName = 'Basic.List'
+console.log(getters)
 export default {
   name: moduleName,
   data() {
@@ -170,9 +171,12 @@ export default {
   },
   computed: {
     ...Vuex.mapGetters({
-      testVariable: getters.Base.Basic.getTestVariable,
+      testVariable: getters.Base.Basic.List.getTestVariable,
       moduleName: getters.Base.Basic.getModuleName
     })
+  },
+  mounted() {
+    console.log(this)
   }
 }
 </script>
