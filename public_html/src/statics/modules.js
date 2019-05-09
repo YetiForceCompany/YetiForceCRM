@@ -94,6 +94,7 @@ window.modules = [
           "actions": {
             "getData": "Base/Accounts/getData",
             "List": {
+              "fetchData": "Base/Accounts/List/fetchData",
               "getData": "Base/Accounts/List/getData"
             },
             "Detail": {
@@ -171,6 +172,7 @@ window.modules = [
           "actions": {
             "getData": "Base/Basic/getData",
             "List": {
+              "fetchData": "Base/Basic/List/fetchData",
               "getData": "Base/Basic/List/getData"
             },
             "Detail": {
@@ -298,6 +300,7 @@ window.modules = [
           "actions": {
             "getData": "Base/ModuleExample/getData",
             "List": {
+              "fetchData": "Base/ModuleExample/List/fetchData",
               "getData": "Base/ModuleExample/List/getData"
             },
             "Detail": {

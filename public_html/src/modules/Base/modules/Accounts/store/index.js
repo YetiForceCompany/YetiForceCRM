@@ -4,7 +4,6 @@ export default class ModuleExample extends Basic {
   constructor() {
     super()
     this.state.moduleName = 'Accounts'
-    this.state.asdf = 'asdf'
   }
 
   get getHeaders() {
@@ -83,10 +82,8 @@ export default class ModuleExample extends Basic {
         fieldDataType: 'string'
       },
       {
-        required: true,
         align: 'left',
         field: 'website',
-        format: val => `${val}`,
         sortable: true,
         name: 'website',
         label: 'Website',
@@ -153,10 +150,8 @@ export default class ModuleExample extends Basic {
         fieldDataType: 'url'
       },
       {
-        required: true,
         align: 'left',
         field: 'phone',
-        format: val => `${val}`,
         sortable: true,
         picklistValues: null,
         id: 3,
@@ -223,10 +218,8 @@ export default class ModuleExample extends Basic {
         fieldDataType: 'phone'
       },
       {
-        required: true,
         align: 'left',
         field: 'assigned_user_id',
-        format: val => `${val}`,
         sortable: true,
         picklistValues: null,
         id: 20,
@@ -297,20 +290,65 @@ export default class ModuleExample extends Basic {
   get getEntries() {
     return [
       {
+        id: 1,
         name: 'YetiForce Sp. z o.o.',
         website: '',
         phone: '',
         assigned_user_id: 'YetiForce Demo'
       },
       {
+        id: 2,
         name: 'Ambrozja. Sklep cukierniczy. Pawluczuk J...',
         website: 'http://www.biznespolska.pl/?p=0#baza_fir...',
         phone: '+48 698 988 677',
         assigned_user_id: ' YetiForce Guest'
       },
       {
+        id: 3,
         name: 'Amtra. Sp. z o.o.',
         website: 'http://www.bazafirm24.pl/',
+        phone: '+48 796 384 765',
+        assigned_user_id: 'Administrator'
+      },
+      {
+        id: 4,
+        name: 'YetiForce Sp. z o.o.2',
+        website: '',
+        phone: '',
+        assigned_user_id: 'YetiForce Demo'
+      },
+      {
+        id: 5,
+        name: 'Ambrozja. Sklep cukierniczy. Pawluczuk J...2',
+        website: 'http://www.biznespolska.pl/?p=0#baza_fir...',
+        phone: '+48 698 988 677',
+        assigned_user_id: ' YetiForce Guest'
+      },
+      {
+        id: 6,
+        name: 'Amtra. Sp. z o.o.2',
+        website: 'http://www.bazafirm24.pl/',
+        phone: '+48 796 384 765',
+        assigned_user_id: 'Administrator'
+      },
+      {
+        id: 7,
+        name: 'YetiForce Sp. z o.o.3',
+        website: '',
+        phone: '',
+        assigned_user_id: 'YetiForce Demo'
+      },
+      {
+        id: 8,
+        name: 'Ambrozja. Sklep cukierniczy. Pawluczuk J...3',
+        website: 'http://www.biznespolska.pl/?p=0#baza_fir...',
+        phone: '+48 698 988 677',
+        assigned_user_id: ' YetiForce Guest'
+      },
+      {
+        id: 9,
+        name: 'Amtra. Sp. z o.o.3',
+        website: 'http://www.bazafirm34.pl/',
         phone: '+48 796 384 765',
         assigned_user_id: 'Administrator'
       }
