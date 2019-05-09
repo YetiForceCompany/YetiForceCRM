@@ -23,17 +23,17 @@ class Settings_Dav_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function addKey(\App\Request $request)
+	public function addKey(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleModel = Settings_Dav_Module_Model::getInstance($qualifiedModuleName);
 		$result = $moduleModel->addKey($request->getArray('type', 'Standard'), $request->getInteger('user'));
 		$success = true;
 		$message = \App\Language::translate('LBL_SUCCESS_SAVE_KEY', $request->getModule(false));
-		if ($result === 0) {
+		if (0 === $result) {
 			$success = false;
 			$message = \App\Language::translate('LBL_ERROR_SAVE_KEY', $request->getModule(false));
-		} elseif ($result === 1) {
+		} elseif (1 === $result) {
 			$success = false;
 			$message = \App\Language::translate('LBL_DUPLICATE_USER_SERVICES', $request->getModule(false));
 		}
@@ -51,7 +51,7 @@ class Settings_Dav_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function deleteKey(\App\Request $request)
+	public function deleteKey(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleModel = Settings_Dav_Module_Model::getInstance($qualifiedModuleName);
