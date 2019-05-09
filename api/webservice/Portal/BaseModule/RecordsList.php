@@ -15,36 +15,33 @@ class RecordsList extends \Api\Core\BaseAction
 	public $allowedMethod = ['GET'];
 
 	/**
+	 * Module name.
+	 *
+	 * @var string
+	 */
+	private $moduleName;
+
+	/**
 	 * Get method.
 	 *
 	 * @return array
 	 */
 	public function get()
 	{
-		$enableRawData = 1 === (int) $this->controller->headers['x-raw-data'];
-		$rawData = [];
-		$moduleName = $this->controller->request->get('module');
-		$records = $headers = [];
+		$this->moduleName = $this->controller->request->get('module');
+		$rawData = $records = $headers = [];
 		$queryGenerator = $this->getQuery();
 		$fieldsModel = $queryGenerator->getListViewFields();
 		$limit = $queryGenerator->getLimit();
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$record = ['recordLabel' => \App\Record::getLabel($row['id'])];
-			foreach ($fieldsModel as $fieldName => &$fieldModel) {
-				if (isset($row[$fieldName])) {
-					$record[$fieldName] = $fieldModel->getDisplayValue($row[$fieldName], $row['id'], false, true);
-				}
-			}
-			$records[$row['id']] = $record;
-			if ($enableRawData) {
-				$rawData[$row['id']] = $row;
+			$records[$row['id']] = $this->createRecordFromRow($row, $fieldsModel);
+			if ($this->isRawData()) {
+				$rawData[$row['id']] = $this->createRawDataFromRow($row);
 			}
 		}
 		$dataReader->close();
-		foreach ($fieldsModel as $fieldName => &$fieldModel) {
-			$headers[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
-		}
+		$headers = $this->createHeader($fieldsModel);
 		$rowsCount = count($records);
 		return [
 			'headers' => $headers,
@@ -91,5 +88,62 @@ class RecordsList extends \Api\Core\BaseAction
 			}
 		}
 		return $queryGenerator;
+	}
+
+	/**
+	 * Check if you send raw data.
+	 *
+	 * @return bool
+	 */
+	protected function isRawData(): bool
+	{
+		return 1 === (int) $this->controller->headers['x-raw-data'];
+	}
+
+	/**
+	 * Create record from row.
+	 *
+	 * @param array                 $row
+	 * @param \Vtiger_Field_Model[] $fieldsModel
+	 *
+	 * @return array
+	 */
+	protected function createRecordFromRow(array $row, array $fieldsModel): array
+	{
+		$record = ['recordLabel' => \App\Record::getLabel($row['id'])];
+		foreach ($fieldsModel as $fieldName => &$fieldModel) {
+			if (isset($row[$fieldName])) {
+				$record[$fieldName] = $fieldModel->getDisplayValue($row[$fieldName], $row['id'], false, true);
+			}
+		}
+		return $record;
+	}
+
+	/**
+	 * Create header.
+	 *
+	 * @param array $fieldsModel
+	 *
+	 * @return array
+	 */
+	protected function createHeader(array $fieldsModel): array
+	{
+		$headers = [];
+		foreach ($fieldsModel as $fieldName => &$fieldModel) {
+			$headers[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
+		}
+		return $headers;
+	}
+
+	/**
+	 * Create raw data from row.
+	 *
+	 * @param array $row
+	 *
+	 * @return array
+	 */
+	protected function createRawDataFromRow(array $row): array
+	{
+		return $row;
 	}
 }
