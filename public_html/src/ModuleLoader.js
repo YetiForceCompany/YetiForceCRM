@@ -167,39 +167,48 @@ class ModuleLoader {
    */
   prepareStoreNames(fullModuleName, store) {
     const module = this.getModule(fullModuleName, window.modules)
-    if (module === null) {
-      const updatedStore = { ...store }
-      for (let which in store) {
-        if (which === 'state' || which === 'namespaced') {
-          continue
-        }
-        updatedStore[which] = {}
-        for (let prop in store[which]) {
-          if (prop === '_[vuex-class]_bind_class') {
-            continue
-          }
-          updatedStore[which][fullModuleName.replace(/\./g, '/') + '/' + prop] = store[which][prop]
-        }
-      }
-      return updatedStore
-    } else {
-      if (typeof module.store === 'undefined') {
-        return store
-      }
-      const updatedStore = { ...store }
-      for (let which in store) {
-        if (typeof module.store[which] === 'undefined' || which === 'namespaced') {
-          continue
-        }
-        updatedStore[which] = {}
-        for (let prop in store[which]) {
-          updatedStore[which][module.store[which][prop]] = store[which][prop]
-        }
-      }
-      return updatedStore
+    if (typeof module.store === 'undefined') {
+      return store
     }
+    const updatedStore = { ...store }
+    for (let which in store) {
+      if (typeof module.store[which] === 'undefined' || which === 'namespaced') {
+        continue
+      }
+      updatedStore[which] = {}
+      for (let prop in store[which]) {
+        updatedStore[which][module.store[which][prop]] = store[which][prop]
+      }
+    }
+    return updatedStore
   }
+  prepareVuexClassStoreNames(fullModuleName, moduleStore, store) {
+    let subModules = moduleStore.modules
+    delete moduleStore.modules
+    store.registerModule(fullModuleName.split('.'), this.prepareStoreNames(fullModuleName, moduleStore))
+    Object.keys(subModules).forEach(key => {
+      let subModuleName = fullModuleName.split('.')
+      subModuleName.push(key)
+      store.registerModule(subModuleName, this.prepareVuexClassModule(fullModuleName + '.' + key, subModules[key]))
+    })
+  }
+  prepareVuexClassModule(fullModuleName, moduleStore) {
+    const updatedStore = { ...moduleStore }
 
+    for (let which in moduleStore) {
+      if (which === 'state' || which === 'namespaced') {
+        continue
+      }
+      updatedStore[which] = {}
+      for (let prop in moduleStore[which]) {
+        if (prop === '_[vuex-class]_bind_class') {
+          continue
+        }
+        updatedStore[which][fullModuleName.replace(/\./g, '/') + '/' + prop] = moduleStore[which][prop]
+      }
+    }
+    return updatedStore
+  }
   /**
    * Private flat array of all modules
    *
