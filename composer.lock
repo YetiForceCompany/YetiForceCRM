@@ -62,16 +62,16 @@
         },
         {
             "name": "ckeditor/ckeditor",
-            "version": "4.11.3",
+            "version": "4.11.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ckeditor/ckeditor-releases.git",
-                "reference": "7989de7731885bf36d8b6ac9fb43585963158ae5"
+                "reference": "b42e90185ed50054d3f4bd1b60446f21256ef1b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ckeditor/ckeditor-releases/zipball/7989de7731885bf36d8b6ac9fb43585963158ae5",
-                "reference": "7989de7731885bf36d8b6ac9fb43585963158ae5",
+                "url": "https://api.github.com/repos/ckeditor/ckeditor-releases/zipball/b42e90185ed50054d3f4bd1b60446f21256ef1b1",
+                "reference": "b42e90185ed50054d3f4bd1b60446f21256ef1b1",
                 "shasum": ""
             },
             "type": "library",
@@ -99,7 +99,7 @@
                 "text",
                 "wysiwyg"
             ],
-            "time": "2019-02-26T13:01:03+00:00"
+            "time": "2019-04-09T14:01:57+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -3843,16 +3843,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "7.5.9",
+            "version": "7.5.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "134669cf0eeac3f79bc7f0c793efbc158bffc160"
+                "reference": "d7d9cee051d03ed98df6023aad93f7902731a780"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/134669cf0eeac3f79bc7f0c793efbc158bffc160",
-                "reference": "134669cf0eeac3f79bc7f0c793efbc158bffc160",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/d7d9cee051d03ed98df6023aad93f7902731a780",
+                "reference": "d7d9cee051d03ed98df6023aad93f7902731a780",
                 "shasum": ""
             },
             "require": {
@@ -3923,7 +3923,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-04-19T15:50:46+00:00"
+            "time": "2019-05-09T05:06:47+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
