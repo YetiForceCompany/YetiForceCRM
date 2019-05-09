@@ -370,9 +370,9 @@ leaflet.markercluster@^1.4.1:
   integrity sha512-ZSEpE/EFApR0bJ1w/dUGwTSUvWlpalKqIzkaYdYB7jaftQA/Y2Jav+eT4CMtEYFj+ZK4mswP13Q2acnPBnhGOw==
 
 leaflet@^1.3.3:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.5.0.tgz#b8ed4643514f66737c2131252921a889c1ce3db1"
-  integrity sha512-6sVKn1GaeP01ofzPs2f62XgKEx4uYnHsgQK64zBZPN/6pAX53FNakYvtud+Wu3Z7C3vJpINkdQuR//hgCngOiA==
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.5.1.tgz#9afb9d963d66c870066b1342e7a06f92840f46bf"
+  integrity sha512-ekM9KAeG99tYisNBg0IzEywAlp0hYI5XRipsqRXyRTeuU8jcuntilpp+eFf5gaE0xubc9RuSNIVtByEKwqFV0w==
 
 lodash@^4.17.10:
   version "4.17.11"
