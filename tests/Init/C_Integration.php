@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Integration test class.
+ * Integration test file.
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -10,12 +10,15 @@
 
 namespace Tests\Init;
 
+/**
+ * Integration test class.
+ */
 class C_Integration extends \Tests\Base
 {
 	/**
-	 * Testing database installation from SQL file.
+	 * Testing add sample user to dav.
 	 */
-	public function testDavAddSampleUser()
+	public function testAddSampleUserToDav()
 	{
 		$moduleModel = Settings_Dav_Module_Model::getInstance('Settings:Dav');
 		$result = $moduleModel->addKey([
