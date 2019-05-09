@@ -4,6 +4,8 @@ export default {
     "Accounts": {
       "getTestVariable": "Base/Accounts/getTestVariable",
       "getModuleName": "Base/Accounts/getModuleName",
+      "getHeaders": "Base/Accounts/getHeaders",
+      "getEntries": "Base/Accounts/getEntries",
       "List": {
         "getTestVariable": "Base/Accounts/List/getTestVariable",
         "getModuleName": "Base/Accounts/List/getModuleName"

@@ -71,6 +71,8 @@ window.modules = [
           "getters": {
             "getTestVariable": "Base/Accounts/getTestVariable",
             "getModuleName": "Base/Accounts/getModuleName",
+            "getHeaders": "Base/Accounts/getHeaders",
+            "getEntries": "Base/Accounts/getEntries",
             "List": {
               "getTestVariable": "Base/Accounts/List/getTestVariable",
               "getModuleName": "Base/Accounts/List/getModuleName"
@@ -91,8 +93,6 @@ window.modules = [
           },
           "actions": {
             "getData": "Base/Accounts/getData",
-            "getHeaders": "Base/Accounts/getHeaders",
-            "getEntries": "Base/Accounts/getEntries",
             "List": {
               "getData": "Base/Accounts/List/getData"
             },

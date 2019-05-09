@@ -3,8 +3,6 @@ export default {
   "Base": {
     "Accounts": {
       "getData": "Base/Accounts/getData",
-      "getHeaders": "Base/Accounts/getHeaders",
-      "getEntries": "Base/Accounts/getEntries",
       "List": {
         "getData": "Base/Accounts/List/getData"
       },
