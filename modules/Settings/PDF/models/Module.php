@@ -171,8 +171,11 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		foreach ($matches as $match) {
 			if ('custom' === $match[1] && false !== strpos($match[2], 'DynamicInventoryColumnsTable')) {
 				$type = Vtiger_PDF_Model::TEMPLATE_TYPE_DYNAMIC;
-			} elseif ('custom' === $match[1] && in_array($match[2], ['UserGroup|OSSTimeControl', 'List|OSSTimeControl', 'DetailedList|OSSTimeControl'])) {
+				break;
+			}
+			if ('custom' === $match[1] && in_array($match[2], ['UserGroup|OSSTimeControl', 'List|OSSTimeControl', 'DetailedList|OSSTimeControl'])) {
 				$type = Vtiger_PDF_Model::TEMPLATE_TYPE_SUMMARY;
+				break;
 			}
 		}
 		return $type;
