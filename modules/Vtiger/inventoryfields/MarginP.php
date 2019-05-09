@@ -88,7 +88,7 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 		if ($this->maximumLength < $value || -$this->maximumLength > $value) {
 			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 		}
-		if (null !== $originalValue && !\App\Validator::floatIsEqual($value, $originalValue, (int) \App\User::getCurrentUserModel()->getDetail('no_of_currency_decimals'))) {
+		if (null !== $originalValue && !\App\Validator::floatIsEqualUserCurrencyDecimals($value, $originalValue)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $columnName ?? $this->getColumnName() . '||' . $this->getModuleName() . '||' . $value, 406);
 		}
 	}
@@ -101,7 +101,7 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 		$purchase = (float) $this->getValueFromItem($item, 'purchase', $userFormat, 0);
 		$quantity = (float) $this->getValueFromItem($item, 'qty', $userFormat, 0);
 		$totalPurchase = $purchase * $quantity;
-		return \App\Validator::floatIsEqual(0.0, $totalPurchase, 2) ? 0 : static::roundMethod(
+		return \App\Validator::floatIsEqual(0.0, $totalPurchase) ? 0 : static::roundMethod(
 			100.0 * static::calculateFromField($this->getModuleName(), 'Margin', $item, $userFormat) / $totalPurchase
 		);
 	}
