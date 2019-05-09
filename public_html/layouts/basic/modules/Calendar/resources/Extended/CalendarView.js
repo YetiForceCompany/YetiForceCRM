@@ -344,7 +344,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 
 	getSidebarView() {
 		if (!this.sidebarView.length) {
-			this.sidebarView = this.container.find('#rightPanel');
+			this.sidebarView = this.container.find('.js-calendar-right-panel');
 		}
 		return this.sidebarView;
 	}
