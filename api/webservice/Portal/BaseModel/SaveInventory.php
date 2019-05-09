@@ -12,8 +12,35 @@ namespace Api\Portal\BaseModel;
 /**
  * Class SaveInventory.
  */
-class SaveInventory extends AbstractSaveInventory
+class SaveInventory
 {
+	/**
+	 * Module name.
+	 *
+	 * @var string
+	 */
+	protected $moduleName;
+
+	/**
+	 * Inventory items passed from request.
+	 *
+	 * @var array
+	 */
+	protected $inventory;
+
+	/**
+	 * Construct.
+	 *
+	 * @param string $moduleName
+	 * @param array  $inventory
+	 */
+	public function __construct(string $moduleName, array $inventory)
+	{
+		$this->moduleName = $moduleName;
+		$this->inventory = $inventory;
+		$this->getProductsByInventory();
+	}
+
 	/**
 	 * Products.
 	 *
@@ -22,20 +49,11 @@ class SaveInventory extends AbstractSaveInventory
 	private $products = [];
 
 	/**
-	 * {@inheritdoc}
-	 */
-	public function __construct(string $moduleName, array $inventory)
-	{
-		parent::__construct($moduleName, $inventory);
-		$this->getProductsByInventory();
-	}
-
-	/**
 	 * Get inventory data.
 	 *
 	 * @return array
 	 */
-	/*public function getInventoryData(): array
+	public function getInventoryData(): array
 	{
 		$inventoryData = [];
 		foreach ($this->inventory as $inventoryKey => $inventoryItem) {
@@ -48,18 +66,15 @@ class SaveInventory extends AbstractSaveInventory
 			$inventoryData[] = $item;
 		}
 		return $inventoryData;
-	}*/
-
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function getDefaultValues(): array
-	{
-		return parent::getDefaultValues() + ['taxparam' => ''];
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Get the value for the column. Return null if it does not apply to this column.
+	 *
+	 * @param string $columnName
+	 * @param string $inventoryKey
+	 *
+	 * @return mixed
 	 */
 	protected function getValue(string $columnName, string $inventoryKey)
 	{
@@ -71,6 +86,11 @@ class SaveInventory extends AbstractSaveInventory
 		return $this->products[$inventoryKey][$fromRow[$columnName]];
 	}
 
+	/**
+	 * Get field mapping.
+	 *
+	 * @return array
+	 */
 	protected function getFieldMapping(): array
 	{
 		$fromRow = [
@@ -84,14 +104,22 @@ class SaveInventory extends AbstractSaveInventory
 		return $fromRow;
 	}
 
-	protected function getInventoryCurrency()
+	/**
+	 * Get currency.
+	 *
+	 * @return int
+	 */
+	protected function getInventoryCurrency(): int
 	{
-		\App\DebugerEx::log('getInventoryCurrency');
-		return 1;
+		return (int) \App\Fields\Currency::getDefault()['id'];
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Ignore columns and do not set their values.
+	 *
+	 * @param Vtiger_Basic_InventoryField $fieldModel
+	 *
+	 * @return bool
 	 */
 	protected function ignore(\Vtiger_Basic_InventoryField $fieldModel): bool
 	{
