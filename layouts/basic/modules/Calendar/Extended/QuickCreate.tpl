@@ -54,8 +54,8 @@
 								</div>
 							</div>
 						</div>
-						<div id="rightPanel" class="col-4 pl-3">
-							<div class="js-qc-form">
+						<div class="js-calendar-right-panel col-4 pl-3" data-js="container | html">
+							<div class="js-qc-form" >
 								{include file=\App\Layout::getTemplatePath('Extended/EventForm.tpl', $MODULE_NAME)}
 							</div>
 						</div>
