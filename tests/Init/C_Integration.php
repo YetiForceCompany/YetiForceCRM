@@ -20,7 +20,7 @@ class C_Integration extends \Tests\Base
 	 */
 	public function testAddSampleUserToDav()
 	{
-		$moduleModel = Settings_Dav_Module_Model::getInstance('Settings:Dav');
+		$moduleModel = \Settings_Dav_Module_Model::getInstance('Settings:Dav');
 		$result = $moduleModel->addKey([
 			'CalDav',
 			'CardDav',
