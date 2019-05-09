@@ -48,7 +48,7 @@ class OSSTimeControl_UserGroup_Textparser extends \App\TextParser\Base
 	protected function getUserList()
 	{
 		$users = [];
-		$ids = $this->textParser->getParam('pdf')->getRecordIds();
+		$ids = $this->textParser->getParam('pdf')->getVariable('recordsId');
 		if (!is_array($ids)) {
 			$ids = [$ids];
 		}

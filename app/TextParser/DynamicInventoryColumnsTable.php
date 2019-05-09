@@ -2,11 +2,12 @@
 /**
  * DynamicInventoryColumnsTable class.
  *
- * @package App
+ * @package 	App
  *
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Rafal Pospiech <r.pospiech@yetiforce.com>
+ * @copyright	YetiForce Sp. z o.o.
+ * @license		YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author 		Rafal Pospiech <r.pospiech@yetiforce.com>
+ * @author		Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\TextParser;
@@ -28,9 +29,10 @@ class DynamicInventoryColumnsTable extends Base
 	{
 		$html = '';
 		if ($this->textParser->recordModel->getModule()->isInventory()) {
+			$columns = $this->textParser->getParam('pdf')->getVariable('inventoryColumns');
 			$html = $this->textParser->getInventoryTable([
 				'type' => 'table',
-				'columns' => \App\Pdf\InventoryColumns::getInventoryColumnsForRecord($this->textParser->recordModel->getId(), $this->textParser->recordModel->getModule()->getName()),
+				'columns' => \App\Pdf\InventoryColumns::getInventoryColumnsForRecord($this->textParser->recordModel->getId(), $this->textParser->recordModel->getModuleName(), $columns),
 				'href' => false,
 			]);
 		}
