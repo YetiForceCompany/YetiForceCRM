@@ -3,17 +3,20 @@
 import List from '../views/List/store/index.js'
 import Detail from '../views/Detail/store/index.js'
 export default class Basic extends VuexClass {
-  constructor() {
-    super()
-    this.state = {
+  constructor(
+    state = {
       testVariable: 'test variable',
       menu: true,
       moduleName: 'Basic'
-    }
-    this.modules = {
+    },
+    modules = {
       List: new List(),
       Detail: new Detail()
     }
+  ) {
+    super()
+    this.state = state
+    this.modules = modules
     this.namespaced = false
   }
 
