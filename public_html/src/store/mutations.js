@@ -1,8 +1,23 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 export default {
   "Base": {
+    "Accounts": {
+      "updateTestVariable": "Base/Accounts/updateTestVariable",
+      "List": {
+        "updateTestVariable": "Base/Accounts/List/updateTestVariable"
+      },
+      "Detail": {
+        "updateTestVariable": "Base/Accounts/Detail/updateTestVariable"
+      }
+    },
     "Basic": {
-      "updateTestVariable": "Base/Basic/updateTestVariable"
+      "updateTestVariable": "Base/Basic/updateTestVariable",
+      "List": {
+        "updateTestVariable": "Base/Basic/List/updateTestVariable"
+      },
+      "Detail": {
+        "updateTestVariable": "Base/Basic/Detail/updateTestVariable"
+      }
     },
     "Chat": {
       "dialog": "Base/Chat/dialog",
@@ -12,7 +27,13 @@ export default {
     },
     "Home": {},
     "ModuleExample": {
-      "updateTestVariable": "Base/ModuleExample/updateTestVariable"
+      "updateTestVariable": "Base/ModuleExample/updateTestVariable",
+      "List": {
+        "updateTestVariable": "Base/ModuleExample/List/updateTestVariable"
+      },
+      "Detail": {
+        "updateTestVariable": "Base/ModuleExample/Detail/updateTestVariable"
+      }
     },
     "ModuleExample2": {
       "updateTestVariable": "Base/ModuleExample2/updateTestVariable"
