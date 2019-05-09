@@ -1006,6 +1006,14 @@ window.App.Fields = {
 				});
 			}
 			params = this.registerParams(selectElement, params);
+			const computeDropdownHeight = (e, dropdownContainer) => {
+				if (!dropdownContainer.find('.select2-dropdown--above').length) {
+					const dropdownList = dropdownContainer.find('.select2-results__options')
+					const marginBottom = 35
+					const selectOffsetTop = $(e.currentTarget).offset().top;
+					dropdownList.css({'max-height': $(window).height() - selectOffsetTop - marginBottom - (dropdownList.offset().top - selectOffsetTop)})
+				}
+			}
 			selectElement.each(function() {
 				let select = $(this);
 				let htmlBoolParams = select.data('select');
@@ -1018,6 +1026,7 @@ window.App.Fields = {
 				select
 					.select2(params)
 					.on('select2:open', e => {
+						computeDropdownHeight(e, $('.select2-container--open:not(.select2-container--below)'))
 						if (select.data('unselecting')) {
 							select.removeData('unselecting');
 							setTimeout(function() {
