@@ -23,10 +23,10 @@ export default {
         children: []
       },
       {
-        name: 'Base.Basic',
-        path: '/basic',
-        icon: 'mdi-cube',
-        label: 'Basic',
+        name: 'Base.Accounts',
+        path: '/accounts',
+        icon: 'mdi-account-group',
+        label: 'Accounts',
         children: []
       },
       {

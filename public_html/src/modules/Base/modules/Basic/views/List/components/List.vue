@@ -21,6 +21,12 @@ import mutations from '/src/store/mutations.js'
 const moduleName = 'Base.Basic.List'
 export default {
   name: moduleName,
+  props: {
+    moduleName: {
+      type: String,
+      default: 'Basic'
+    }
+  },
   data() {
     return {
       selected: [],
@@ -160,7 +166,7 @@ export default {
   },
   methods: {
     updateVariable() {
-      this.$store.commit(mutations.Base.Basic.updateTestVariable, 'changed!')
+      this.$store.commit(mutations.Base[this.moduleName].updateTestVariable, 'changed!')
     },
     getSelectedString() {
       return this.selected.length === 0
@@ -169,10 +175,9 @@ export default {
     }
   },
   computed: {
-    ...Vuex.mapGetters({
-      testVariable: getters.Base.Basic.getTestVariable,
-      moduleName: getters.Base.Basic.getModuleName
-    })
+    testVariable() {
+      return this.$store.getters[getters.Base[this.moduleName]['getTestVariable']]
+    }
   }
 }
 </script>

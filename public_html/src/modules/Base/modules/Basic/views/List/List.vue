@@ -1,13 +1,23 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <list></list>
+  <list :moduleName="moduleName"></list>
 </template>
 
 <script>
 import List from './components/List.vue.js'
-const moduleName = 'Base.Basic.Pages.Basic'
+const moduleName = 'Base.Basic.List'
 export default {
   name: moduleName,
-  components: { List }
+  data() {
+    return {
+      moduleName: 'Basic'
+    }
+  },
+  components: { List },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.moduleName = to.meta.moduleName ? to.meta.moduleName : vm.moduleName
+    })
+  }
 }
 </script>

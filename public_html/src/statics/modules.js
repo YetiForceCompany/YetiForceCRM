@@ -40,7 +40,6 @@ window.modules = [
         "autoLoad": true,
         "entry": "src\\modules\\Base\\modules\\Accounts\\Accounts.vue.js",
         "directories": [
-          "pages",
           "router",
           "store"
         ],
@@ -49,7 +48,23 @@ window.modules = [
             "name": "Base.Accounts",
             "parent": "Base",
             "path": "accounts",
-            "componentPath": "pages/Accounts"
+            "componentPath": "../Basic/layouts/Basic",
+            "redirect": "accounts/list",
+            "children": [
+              {
+                "name": "Base.Basic.List",
+                "path": "list",
+                "componentPath": "../Basic/views/List/List",
+                "meta": {
+                  "moduleName": "Accounts"
+                }
+              },
+              {
+                "name": "Base.Basic.Detail",
+                "path": "detail",
+                "componentPath": "../Basic/views/Detail/Detail"
+              }
+            ]
           }
         ],
         "store": {
@@ -106,7 +121,6 @@ window.modules = [
         "entry": "src\\modules\\Base\\modules\\Basic\\Basic.vue.js",
         "directories": [
           "layouts",
-          "pages",
           "router",
           "store",
           "views"
