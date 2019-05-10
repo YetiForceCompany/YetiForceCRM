@@ -32,6 +32,87 @@ window.modules = [
     "modules": [
       {
         "parentHierarchy": "Base",
+        "fullName": "Base.Accounts",
+        "name": "Accounts",
+        "path": "src\\modules\\Base\\modules\\Accounts",
+        "level": 1,
+        "priority": 0,
+        "autoLoad": true,
+        "entry": "src\\modules\\Base\\modules\\Accounts\\Accounts.vue.js",
+        "directories": [
+          "router",
+          "store"
+        ],
+        "routes": [
+          {
+            "name": "Base.Accounts",
+            "parent": "Base",
+            "path": "accounts",
+            "componentPath": "../Basic/layouts/Basic",
+            "redirect": "accounts/list",
+            "children": [
+              {
+                "name": "Base.Basic.List",
+                "path": "list",
+                "componentPath": "../Basic/views/List/List",
+                "meta": {
+                  "moduleName": "Accounts"
+                }
+              },
+              {
+                "name": "Base.Basic.Detail",
+                "path": "detail",
+                "componentPath": "../Basic/views/Detail/Detail"
+              }
+            ]
+          }
+        ],
+        "store": {
+          "getters": {
+            "getTestVariable": "Base/Accounts/getTestVariable",
+            "getModuleName": "Base/Accounts/getModuleName",
+            "getHeaders": "Base/Accounts/getHeaders",
+            "getEntries": "Base/Accounts/getEntries",
+            "List": {
+              "getTestVariable": "Base/Accounts/List/getTestVariable",
+              "getModuleName": "Base/Accounts/List/getModuleName"
+            },
+            "Detail": {
+              "getTestVariable": "Base/Accounts/Detail/getTestVariable",
+              "getModuleName": "Base/Accounts/Detail/getModuleName"
+            }
+          },
+          "mutations": {
+            "updateTestVariable": "Base/Accounts/updateTestVariable",
+            "List": {
+              "updateTestVariable": "Base/Accounts/List/updateTestVariable"
+            },
+            "Detail": {
+              "updateTestVariable": "Base/Accounts/Detail/updateTestVariable"
+            }
+          },
+          "actions": {
+            "getData": "Base/Accounts/getData",
+            "List": {
+              "fetchData": "Base/Accounts/List/fetchData",
+              "getData": "Base/Accounts/List/getData"
+            },
+            "Detail": {
+              "getData": "Base/Accounts/Detail/getData"
+            }
+          },
+          "modules": {
+            "List": "Base/Accounts/List",
+            "Detail": "Base/Accounts/Detail"
+          },
+          "namespaced": {
+            "List": {},
+            "Detail": {}
+          }
+        }
+      },
+      {
+        "parentHierarchy": "Base",
         "fullName": "Base.Basic",
         "name": "Basic",
         "path": "src\\modules\\Base\\modules\\Basic",
@@ -40,28 +121,71 @@ window.modules = [
         "autoLoad": true,
         "entry": "src\\modules\\Base\\modules\\Basic\\Basic.vue.js",
         "directories": [
-          "pages",
+          "layouts",
           "router",
-          "store"
+          "store",
+          "views"
         ],
         "routes": [
           {
             "name": "Base.Basic",
             "parent": "Base",
             "path": "basic",
-            "componentPath": "pages/Basic"
+            "componentPath": "layouts/Basic",
+            "redirect": "basic/list",
+            "children": [
+              {
+                "name": "Base.Basic.List",
+                "path": "list",
+                "componentPath": "views/List/List"
+              },
+              {
+                "name": "Base.Basic.Detail",
+                "path": "detail",
+                "componentPath": "views/Detail/Detail"
+              }
+            ]
           }
         ],
         "store": {
           "getters": {
             "getTestVariable": "Base/Basic/getTestVariable",
-            "getModuleName": "Base/Basic/getModuleName"
+            "getModuleName": "Base/Basic/getModuleName",
+            "List": {
+              "getTestVariable": "Base/Basic/List/getTestVariable",
+              "getModuleName": "Base/Basic/List/getModuleName"
+            },
+            "Detail": {
+              "getTestVariable": "Base/Basic/Detail/getTestVariable",
+              "getModuleName": "Base/Basic/Detail/getModuleName"
+            }
           },
           "mutations": {
-            "updateTestVariable": "Base/Basic/updateTestVariable"
+            "updateTestVariable": "Base/Basic/updateTestVariable",
+            "List": {
+              "updateTestVariable": "Base/Basic/List/updateTestVariable"
+            },
+            "Detail": {
+              "updateTestVariable": "Base/Basic/Detail/updateTestVariable"
+            }
           },
           "actions": {
-            "getData": "Base/Basic/getData"
+            "getData": "Base/Basic/getData",
+            "List": {
+              "fetchData": "Base/Basic/List/fetchData",
+              "getData": "Base/Basic/List/getData"
+            },
+            "Detail": {
+              "getData": "Base/Basic/Detail/getData"
+            }
+          },
+          "modules": {
+            "List": "Base/Basic/List",
+            "Detail": "Base/Basic/Detail"
+          },
+          "namespaced": {
+            "List": {},
+            "Detail": {}
           }
         }
       },
@@ -154,13 +278,42 @@ window.modules = [
         "store": {
           "getters": {
             "getTestVariable": "Base/ModuleExample/getTestVariable",
-            "getModuleName": "Base/ModuleExample/getModuleName"
+            "getModuleName": "Base/ModuleExample/getModuleName",
+            "List": {
+              "getTestVariable": "Base/ModuleExample/List/getTestVariable",
+              "getModuleName": "Base/ModuleExample/List/getModuleName"
+            },
+            "Detail": {
+              "getTestVariable": "Base/ModuleExample/Detail/getTestVariable",
+              "getModuleName": "Base/ModuleExample/Detail/getModuleName"
+            }
           },
           "mutations": {
-            "updateTestVariable": "Base/ModuleExample/updateTestVariable"
+            "updateTestVariable": "Base/ModuleExample/updateTestVariable",
+            "List": {
+              "updateTestVariable": "Base/ModuleExample/List/updateTestVariable"
+            },
+            "Detail": {
+              "updateTestVariable": "Base/ModuleExample/Detail/updateTestVariable"
+            }
           },
           "actions": {
-            "getData": "Base/ModuleExample/getData"
+            "getData": "Base/ModuleExample/getData",
+            "List": {
+              "fetchData": "Base/ModuleExample/List/fetchData",
+              "getData": "Base/ModuleExample/List/getData"
+            },
+            "Detail": {
+              "getData": "Base/ModuleExample/Detail/getData"
+            }
+          },
+          "modules": {
+            "List": "Base/ModuleExample/List",
+            "Detail": "Base/ModuleExample/Detail"
+          },
+          "namespaced": {
+            "List": {},
+            "Detail": {}
           }
         }
       },
