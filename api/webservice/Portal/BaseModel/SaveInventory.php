@@ -29,6 +29,13 @@ class SaveInventory
 	protected $inventory;
 
 	/**
+	 * Field mapping.
+	 *
+	 * @var null|array
+	 */
+	private $fieldMapping;
+
+	/**
 	 * Construct.
 	 *
 	 * @param string $moduleName
@@ -58,7 +65,7 @@ class SaveInventory
 		$inventoryData = [];
 		foreach ($this->inventory as $inventoryKey => $inventoryItem) {
 			foreach (\Vtiger_Inventory_Model::getInstance($this->moduleName)->getFields() as $columnName => $fieldModel) {
-				if ($this->ignore($fieldModel)) {
+				if ($fieldModel->getIsAutomaticValue()) {
 					continue;
 				}
 				$item[$columnName] = $this->getValue($columnName, $inventoryKey) ?? $inventoryItem[$columnName] ?? $fieldModel->getDefaultValue();
@@ -93,15 +100,17 @@ class SaveInventory
 	 */
 	protected function getFieldMapping(): array
 	{
-		$fromRow = [
-			'name' => 'id',
-			'comment1' => 'description',
-			'price' => 'unit_price'
-		];
-		foreach ((\Vtiger_Inventory_Model::getInstance($this->moduleName)->getAutoCompleteFields()['Products'] ?? []) as $row) {
-			$fromRow[$row['tofield']] = $row['field'];
+		if (empty($this->fieldMapping)) {
+			$this->fieldMapping = [
+				'name' => 'id',
+				'comment1' => 'description',
+				'price' => 'unit_price'
+			];
+			foreach ((\Vtiger_Inventory_Model::getInstance($this->moduleName)->getAutoCompleteFields()['Products'] ?? []) as $row) {
+				$this->fieldMapping[$row['tofield']] = $row['field'];
+			}
 		}
-		return $fromRow;
+		return $this->fieldMapping;
 	}
 
 	/**
@@ -112,19 +121,6 @@ class SaveInventory
 	protected function getInventoryCurrency(): int
 	{
 		return (int) \App\Fields\Currency::getDefault()['id'];
-	}
-
-	/**
-	 * Ignore columns and do not set their values.
-	 *
-	 * @param Vtiger_Basic_InventoryField $fieldModel
-	 *
-	 * @return bool
-	 */
-	protected function ignore(\Vtiger_Basic_InventoryField $fieldModel): bool
-	{
-		//return $fieldModel->getIsAutomaticValue();
-		return \in_array($fieldModel->getColumnName(), ['total', 'margin', 'marginp', 'net', 'gross', 'tax']);
 	}
 
 	/**

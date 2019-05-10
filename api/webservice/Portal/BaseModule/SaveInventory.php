@@ -19,17 +19,7 @@ class SaveInventory extends \Api\Core\BaseAction
 	/**
 	 * {@inheritdoc}
 	 */
-	public $allowedMethod = ['PUT', 'POST'];
-
-	/**
-	 * Create inventory record.
-	 *
-	 * @return array
-	 */
-	public function put(): array
-	{
-		return $this->post();
-	}
+	public $allowedMethod = ['POST'];
 
 	/**
 	 * Create inventory record.
@@ -39,7 +29,7 @@ class SaveInventory extends \Api\Core\BaseAction
 	public function post(): array
 	{
 		$moduleName = $this->controller->request->getModule();
-		$inventory = $this->controller->request->get('inventory');
+		$inventory = $this->controller->request->getArray('inventory');
 		$recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
 		$recordModel->set('subject', $moduleName . '/' . date('Y-m-d'));
 		$recordModel->initInventoryData(
