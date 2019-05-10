@@ -134,9 +134,19 @@ class BaseAction
 	 *
 	 * @return int
 	 */
-	public function getUserCrmId()
+	public function getUserCrmId(): int
 	{
 		return $this->session->get('crmid');
+	}
+
+	/**
+	 * Get user storage ID.
+	 *
+	 * @return int
+	 */
+	public function getUserStorageId(): int
+	{
+		return $this->session->get('istorage');
 	}
 
 	/**

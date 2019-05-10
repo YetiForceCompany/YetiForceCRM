@@ -22,11 +22,19 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	private $permissionType;
 
 	/**
+	 * Is user permissions.
+	 *
+	 * @var bool
+	 */
+	private $isUserPermissions;
+
+	/**
 	 * Construct.
 	 */
 	public function __construct()
 	{
 		$this->permissionType = (int) \App\User::getCurrentUserModel()->get('permission_type');
+		$this->isUserPermissions = \Api\Portal\Privilege::USER_PERMISSIONS === $this->permissionType;
 	}
 
 	/**
@@ -34,7 +42,7 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	 */
 	public function getQuery()
 	{
-		if (\Api\Portal\Privilege::USER_PERMISSIONS === $this->permissionType) {
+		if ($this->isUserPermissions) {
 			$queryGenerator = parent::getQuery();
 		} else {
 			$pricebookId = \Vtiger_Record_Model::getInstanceById($this->getParentCrmId(), 'Accounts')->get('pricebook_id');
@@ -50,6 +58,18 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 				);
 			}
 		}
+		$queryGenerator->setCustomColumn('u_yf_istorages_products.qtyinstock as storage_qtyinstock');
+		$queryGenerator->addJoin([
+			'LEFT JOIN',
+			'u_yf_istorages_products',
+			"u_yf_istorages_products.crmid={$this->getUserStorageId()} AND u_yf_istorages_products.relcrmid = vtiger_products.productid"]
+		);
+		$queryGenerator->setCustomColumn('a_yf_taxes_global.value as tax_value');
+		$queryGenerator->addJoin([
+			'LEFT JOIN',
+			'a_yf_taxes_global',
+			'a_yf_taxes_global.id = vtiger_products.taxes']
+		);
 		return $queryGenerator;
 	}
 
@@ -67,11 +87,12 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	protected function createRecordFromRow(array $row, array $fieldsModel): array
 	{
 		$listprice = $row['listprice'] ?? null;
-		$row = parent::createRecordFromRow($row, $fieldsModel);
-		if (\Api\Portal\Privilege::USER_PERMISSIONS !== $this->permissionType && !empty($listprice)) {
-			$row['unit_price'] = \CurrencyField::convertToUserFormat($listprice, null, true);
+		$record = parent::createRecordFromRow($row, $fieldsModel);
+		if (!$this->isUserPermissions && !empty($listprice)) {
+			$record['unit_price'] = \CurrencyField::convertToUserFormatSymbol($listprice);
 		}
-		return $row;
+		$record['unit_gross'] = \CurrencyField::convertToUserFormatSymbol($row['unit_price'] + ($row['unit_price'] * ($row['tax_value'] ?? 0)) / 100.00);
+		return $record;
 	}
 
 	/**
@@ -80,9 +101,21 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	protected function createRawDataFromRow(array $row): array
 	{
 		$row = parent::createRawDataFromRow($row, $fieldsModel);
-		if (\Api\Portal\Privilege::USER_PERMISSIONS !== $this->permissionType && !empty($row['listprice'])) {
+		if (!$this->isUserPermissions && !empty($row['listprice'])) {
 			$row['unit_price'] = $row['listprice'];
 		}
+		$row['qtyinstock'] = $row['storage_qtyinstock'] ?? 0;
+		$row['unit_gross'] = $row['unit_price'] + ($row['unit_price'] * ($row['tax_value'] ?? 0) / 100.0);
 		return $row;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function createHeader(array $fieldsModel): array
+	{
+		$headers = parent::createHeader($fieldsModel);
+		$headers['unit_gross'] = \App\Language::translate('LBL_GRAND_TOTAL');
+		return $headers;
 	}
 }
