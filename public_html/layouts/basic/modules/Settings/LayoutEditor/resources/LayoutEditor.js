@@ -707,7 +707,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		}).fail(function (err, error, errorObj) {
 			modalHeader.progressIndicator({ 'mode': 'hide' });
 			if (errorObj.responseText !== undefined) {
-				app.showNotify({ title: JSON.parse(errorObj.responseText).error.message, type: "error" });
+				app.showNotify({ title: JSON.parse(errorObj.responseText).error.message, type: 'error' });
 			}
 			aDeferred.reject(error);
 		});
