@@ -457,7 +457,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 *
 	 * @throws \App\Exceptions\Security
 	 */
-	public function validate($value, string $columnName, bool $isUserFormat, $originalValue)
+	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
 		if (!is_numeric($value) && (is_string($value) && $value !== strip_tags($value))) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $columnName ?? $this->getColumnName() . '||' . $this->getModuleName() . '||' . $value, 406);

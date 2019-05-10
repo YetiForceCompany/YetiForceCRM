@@ -60,7 +60,7 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, string $columnName, bool $isUserFormat, $originalValue)
+	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
 		if ($columnName === $this->getColumnName()) {
 			if ($isUserFormat) {

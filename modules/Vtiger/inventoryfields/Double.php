@@ -50,7 +50,7 @@ class Vtiger_Double_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, string $columnName, bool $isUserFormat, $originalValue)
+	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
 		if ($isUserFormat) {
 			$value = $this->getDBValue($value, $columnName);

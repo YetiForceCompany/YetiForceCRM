@@ -41,7 +41,7 @@ class Vtiger_DiscountMode_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, string $columnName, bool $isUserFormat, $originalValue)
+	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
 		if (!is_numeric($value) || !isset($this->values[$value])) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
