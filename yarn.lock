@@ -62,11 +62,11 @@ bootbox@^5.1.2:
     jquery ">=1.9.1"
 
 bootstrap-colorpicker@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/bootstrap-colorpicker/-/bootstrap-colorpicker-3.1.1.tgz#5cb559eeae8cdd1e4c86b705d36d81eb5fda0f8e"
-  integrity sha512-LgHvdXVzJ6O/Jbc/ngc33aX+CAnJ5WAx06L+psP2cYuwXSy0wHsGFrHrYYq+lJKScYRV9kIGAyqDkkeb5NZzhQ==
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/bootstrap-colorpicker/-/bootstrap-colorpicker-3.1.2.tgz#42737d7fb3f52b42ad9e33ac97f021252307dfae"
+  integrity sha512-yUWegXox8GYoXVtYdrEIN3QMOeEFbcSFGDadZu2pWmmMgTaw4ECX9T8GvYQzJkRusvK9uzi39FjE0W2k8lQECA==
   dependencies:
-    bootstrap "^4.0"
+    bootstrap ">=4.0"
     jquery ">=2.1.0"
 
 bootstrap-datepicker@^1.7.1:
@@ -88,7 +88,7 @@ bootstrap-daterangepicker@^3.0.4:
   version "0.0.0"
   resolved "https://github.com/jmschabdach/bootstrap-tabdrop#1eb8b8aeaa79d7ca211059daff7981c9908327a1"
 
-bootstrap@>=3.0.0, bootstrap@^4.0, bootstrap@^4.3.1:
+bootstrap@>=3.0.0, bootstrap@>=4.0, bootstrap@^4.3.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.3.1.tgz#280ca8f610504d99d7b6b4bfc4b68cec601704ac"
   integrity sha512-rXqOmH1VilAt2DyPzluTi2blhk17bO7ef+zLLPlWvG494pDxcM234pJ8wTc/6R40UWizAIIMgxjvxZg5kmsbag==
