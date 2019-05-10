@@ -32,8 +32,91 @@ Vtiger_Detail_Js("HelpDesk_Detail_Js", {
 			});
 		});
 	},
+	/**
+	 * Function to get response from hierarchy
+	 * @param {array} params
+	 * @returns {jQuery}
+	 */
+	getHierarchyResponseData: function (params) {
+		let thisInstance = this,
+			aDeferred = $.Deferred();
+		if (!($.isEmptyObject(thisInstance.hierarchyResponseCache))) {
+			aDeferred.resolve(thisInstance.hierarchyResponseCache);
+		} else {
+			AppConnector.request(params).then(
+				function (data) {
+					thisInstance.hierarchyResponseCache = data;
+					aDeferred.resolve(thisInstance.hierarchyResponseCache);
+				}
+			);
+		}
+		return aDeferred.promise();
+	},
+	/**
+	 * Function to display the hierarchy response data
+	 * @param {array} data
+	 */
+	displayHierarchyResponseData: function (data) {
+		let callbackFunction = function () {
+			app.showScrollBar($('#hierarchyScroll'), {
+				height: '300px',
+				railVisible: true,
+				size: '6px'
+			});
+		};
+		app.showModalWindow(data, function () {
+			if (typeof callbackFunction == 'function' && $("#hierarchyScroll").height() > 300) {
+				callbackFunction();
+			}
+		});
+	},
+	/**
+	 * Registers read count of hierarchy if it is possible
+	 */
+	registerHierarchyRecordCount: function () {
+		let hierarchyButton = $('.js-detail-hierarchy'),
+			params = {
+				module: app.getModuleName(),
+				action: 'RelationAjax',
+				record: app.getRecordId(),
+				mode: 'getHierarchyCount'
+			};
+		if (hierarchyButton.length) {
+			AppConnector.request(params).then(function (response) {
+				if (response.success) {
+					$('.hierarchy .badge').html(response.result);
+				}
+			});
+		}
+	},
+	/**
+	 * Shows hierarchy
+	 */
+	registerShowHierarchy: function () {
+		let thisInstance = this,
+			hierarchyButton = $('.detailViewTitle'),
+			params = {
+				module: app.getModuleName(),
+				view: 'Hierarchy',
+				record: app.getRecordId()
+			};
+		hierarchyButton.on('click', '.js-detail-hierarchy', function () {
+			let progressIndicatorElement = $.progressIndicator({
+				'position': 'html',
+				'blockInfo': {
+					'enabled': true
+				}
+			});
+			thisInstance.getHierarchyResponseData(params).then(function (data) {
+				thisInstance.displayHierarchyResponseData(data);
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			});
+		});
+	},
 	registerEvents: function () {
 		this._super();
 		this.registerSetServiceContracts();
+		this.registerHierarchyRecordCount();
+		this.registerShowHierarchy();
 	}
 });

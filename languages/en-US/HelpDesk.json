@@ -86,6 +86,7 @@
     "LBL_NOTICE_CLOSE": "Closed",
     "Services": "Services",
     "Support": "Support",
-    "Administrative": "administrative"
+    "Administrative": "administrative",
+    "LBL_SHOW_HIERARCHY": "Hierarchy"
   }
 }
