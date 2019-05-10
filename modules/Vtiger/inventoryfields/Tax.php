@@ -37,14 +37,6 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getIsValueForSave(): bool
-	{
-		return true;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return CurrencyField::convertToUserFormat($value, null, true);
@@ -139,7 +131,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 		$taxesConfig = Vtiger_Inventory_Model::getTaxesConfig();
 		$returnVal = 0.0;
 		if (1 === (int) $taxesConfig['active'] && !\App\Json::isEmpty($item['taxparam'] ?? '')) {
-			$netPrice = $this->valueFromField('NetPrice', $item, $userFormat);
+			$netPrice = static::getInstance($this->getModuleName(), 'NetPrice', $item, $userFormat)->getValueForSave($item, $userFormat);
 			$taxParam = \App\Json::decode($item['taxparam']);
 			$aggregationType = $taxParam['aggregationType'];
 			$method = 'calculateTax' . $this->getTaxMethod((int) $taxesConfig['aggregation'], $aggregationType);

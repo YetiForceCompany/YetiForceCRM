@@ -24,14 +24,6 @@ class Vtiger_NetPrice_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getIsValueForSave(): bool
-	{
-		return true;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return \App\Fields\Double::formatToDisplay($value);
@@ -80,6 +72,7 @@ class Vtiger_NetPrice_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getValueForSave(array $item, bool $userFormat = false)
 	{
-		return  $this->valueFromField('TotalPrice', $item, $userFormat) - $this->valueFromField('Discount', $item, $userFormat);
+		return  static::getInstance($this->getModuleName(), 'TotalPrice', $item, $userFormat)->getValueForSave($item, $userFormat)
+			- static::getInstance($this->getModuleName(), 'Discount', $item, $userFormat)->getValueForSave($item, $userFormat);
 	}
 }

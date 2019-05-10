@@ -24,14 +24,6 @@ class Vtiger_Margin_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getIsValueForSave(): bool
-	{
-		return true;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return \App\Fields\Double::formatToDisplay($value);
@@ -82,6 +74,6 @@ class Vtiger_Margin_InventoryField extends Vtiger_Basic_InventoryField
 	{
 		$purchase = (float) $this->getValueFromItem($item, 'purchase', $userFormat, 0);
 		$quantity = (float) $this->getValueFromItem($item, 'qty', $userFormat, 0);
-		return  $this->valueFromField('NetPrice', $item, $userFormat) - ($purchase * $quantity);
+		return static::getInstance($this->getModuleName(), 'NetPrice', $item, $userFormat)->getValueForSave($item, $userFormat) - ($purchase * $quantity);
 	}
 }

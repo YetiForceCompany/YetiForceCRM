@@ -79,20 +79,6 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	}
 
 	/**
-	 * Calculate value from field.
-	 *
-	 * @param string $type
-	 * @param array  $item
-	 * @param bool   $userFormat
-	 *
-	 * @return float
-	 */
-	protected function valueFromField(string $type, array $item, bool $userFormat = false): float
-	{
-		return static::getInstance($this->getModuleName(), $type)->getValueForSave($item, $userFormat);
-	}
-
-	/**
 	 * Get value from item.
 	 *
 	 * @param array  $item
@@ -119,16 +105,6 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	public function getModuleName(): string
 	{
 		return $this->moduleName;
-	}
-
-	/**
-	 * Is set automatically.
-	 *
-	 * @return bool
-	 */
-	public function getIsValueForSave(): bool
-	{
-		return false;
 	}
 
 	/**
@@ -178,7 +154,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 */
 	public function getValueForSave(array $item, bool $userFormat = false)
 	{
-		return $item[$this->getColumnName()] ?? $this->getDefaultValue();
+		return $item[$this->getColumnName()] ?? null;
 	}
 
 	/**
@@ -488,9 +464,6 @@ class Vtiger_Basic_InventoryField extends \App\Base
 		}
 		if (App\TextParser::getTextLength($value) > $this->maximumLength) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $columnName ?? $this->getColumnName() . '||' . $this->getModuleName() . '||' . $value, 406);
-		}
-		if ($this->getIsValueForSave() && $value !== $originalValue) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $columnName ?? $this->getColumnName() . '||' . $this->getModuleName() . '||' . $value, 406);
 		}
 	}
 

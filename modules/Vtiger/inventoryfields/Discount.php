@@ -33,14 +33,6 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getIsValueForSave(): bool
-	{
-		return true;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return \App\Fields\Double::formatToDisplay($value);
@@ -95,7 +87,7 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 		if (1 === (int) $discountsConfig['active'] && !\App\Json::isEmpty($item['discountparam'] ?? '')) {
 			$discountParam = \App\Json::decode($item['discountparam']);
 			$aggregationType = $discountParam['aggregationType'];
-			$totalPrice = $this->valueFromField('TotalPrice', $item, $userFormat);
+			$totalPrice = static::getInstance($this->getModuleName(), 'TotalPrice', $item, $userFormat)->getValueForSave($item, $userFormat);
 			$method = 'calculateDiscount' . $this->getDiscountMethod((int) $discountsConfig['aggregation'], $aggregationType);
 			$returnVal = $this->{$method}($totalPrice, $discountParam, $aggregationType);
 		}
