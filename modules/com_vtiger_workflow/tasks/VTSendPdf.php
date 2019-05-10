@@ -43,7 +43,7 @@ class VTSendPdf extends VTTask
 			if (empty($mailerContent['to'])) {
 				return false;
 			}
-			if ($recordModel->getModuleName() === 'Contacts' && !$recordModel->isEmpty('notifilanguage')) {
+			if ('Contacts' === $recordModel->getModuleName() && !$recordModel->isEmpty('notifilanguage')) {
 				$mailerContent['language'] = $recordModel->get('notifilanguage');
 			}
 			$mailerContent['template'] = $this->mailTemplate;
@@ -54,7 +54,7 @@ class VTSendPdf extends VTTask
 			$templateRecord = Vtiger_PDF_Model::getInstanceById($this->pdfTemplate);
 			$fileName = vtlib\Functions::slug($templateRecord->getName()) . '_' . time() . '.pdf';
 			$pdfFile = 'cache' . DIRECTORY_SEPARATOR . 'pdf' . DIRECTORY_SEPARATOR . $fileName;
-			Vtiger_PDF_Model::exportToPdf($recordModel->getId(), $recordModel->getModuleName(), $this->pdfTemplate, $pdfFile, 'F');
+			Vtiger_PDF_Model::exportToPdf($recordModel->getId(), $this->pdfTemplate, $pdfFile, 'F');
 			if (!file_exists($pdfFile)) {
 				App\Log::error('An error occurred while generating PFD file, the file doesn\'t exist. Sending email with PDF has been blocked.');
 				return false;
