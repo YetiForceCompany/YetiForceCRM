@@ -704,8 +704,11 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		AppConnector.request(params).done(function (data) {
 			modalHeader.progressIndicator({ 'mode': 'hide' });
 			aDeferred.resolve(data);
-		}).fail(function (error) {
+		}).fail(function (err, error, errorObj) {
 			modalHeader.progressIndicator({ 'mode': 'hide' });
+			if (errorObj.responseText !== undefined) {
+				app.showNotify({ title: JSON.parse(errorObj.responseText).error.message, type: "error" });
+			}
 			aDeferred.reject(error);
 		});
 		return aDeferred.promise();
