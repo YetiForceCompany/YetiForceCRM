@@ -37,7 +37,10 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	protected $isAutomaticValue = true;
+	public function getIsValueForSave(): bool
+	{
+		return true;
+	}
 
 	/**
 	 * {@inheritdoc}
@@ -76,7 +79,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function validate($value, string $columnName, bool $isUserFormat, $originalValue)
+	public function validate($value, string $columnName, bool $isUserFormat, $originalValue)
 	{
 		if ($columnName === $this->getColumnName()) {
 			if (!is_numeric($value)) {
@@ -131,18 +134,18 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getAutomaticValue(array $item, bool $userFormat = false)
+	public function getValueForSave(array $item, bool $userFormat = false)
 	{
 		$taxesConfig = Vtiger_Inventory_Model::getTaxesConfig();
 		$returnVal = 0.0;
 		if (1 === (int) $taxesConfig['active'] && !\App\Json::isEmpty($item['taxparam'] ?? '')) {
-			$netPrice = static::calculateFromField($this->getModuleName(), 'NetPrice', $item, $userFormat);
+			$netPrice = $this->valueFromField('NetPrice', $item, $userFormat);
 			$taxParam = \App\Json::decode($item['taxparam']);
 			$aggregationType = $taxParam['aggregationType'];
 			$method = 'calculateTax' . $this->getTaxMethod((int) $taxesConfig['aggregation'], $aggregationType);
 			$returnVal = $this->{$method}($netPrice, $taxParam, $aggregationType);
 		}
-		return static::roundMethod((float) $returnVal);
+		return (float) $returnVal;
 	}
 
 	/**

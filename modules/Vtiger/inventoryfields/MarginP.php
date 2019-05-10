@@ -25,7 +25,10 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	protected $isAutomaticValue = true;
+	public function getIsValueForSave(): bool
+	{
+		return true;
+	}
 
 	/**
 	 * {@inheritdoc}
@@ -77,7 +80,7 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function validate($value, string $columnName, bool $isUserFormat, $originalValue)
+	public function validate($value, string $columnName, bool $isUserFormat, $originalValue)
 	{
 		if ($isUserFormat) {
 			$value = $this->getDBValue($value, $columnName);
@@ -96,13 +99,11 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getAutomaticValue(array $item, bool $userFormat = false)
+	public function getValueForSave(array $item, bool $userFormat = false)
 	{
 		$purchase = (float) $this->getValueFromItem($item, 'purchase', $userFormat, 0);
 		$quantity = (float) $this->getValueFromItem($item, 'qty', $userFormat, 0);
 		$totalPurchase = $purchase * $quantity;
-		return \App\Validator::floatIsEqual(0.0, $totalPurchase) ? 0 : static::roundMethod(
-			100.0 * static::calculateFromField($this->getModuleName(), 'Margin', $item, $userFormat) / $totalPurchase
-		);
+		return \App\Validator::floatIsEqual(0.0, $totalPurchase) ? 0 : 100.0 * $this->valueFromField('Margin', $item, $userFormat) / $totalPurchase;
 	}
 }

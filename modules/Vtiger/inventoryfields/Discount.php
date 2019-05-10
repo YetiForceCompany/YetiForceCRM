@@ -33,7 +33,10 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	protected $isAutomaticValue = true;
+	public function getIsValueForSave(): bool
+	{
+		return true;
+	}
 
 	/**
 	 * {@inheritdoc}
@@ -65,7 +68,7 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function validate($value, string $columnName, bool $isUserFormat, $originalValue)
+	public function validate($value, string $columnName, bool $isUserFormat, $originalValue)
 	{
 		if ($columnName === $this->getColumnName()) {
 			if ($isUserFormat) {
@@ -85,18 +88,18 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getAutomaticValue(array $item, bool $userFormat = false)
+	public function getValueForSave(array $item, bool $userFormat = false)
 	{
 		$discountsConfig = Vtiger_Inventory_Model::getDiscountsConfig();
 		$returnVal = 0.0;
 		if (1 === (int) $discountsConfig['active'] && !\App\Json::isEmpty($item['discountparam'] ?? '')) {
 			$discountParam = \App\Json::decode($item['discountparam']);
 			$aggregationType = $discountParam['aggregationType'];
-			$totalPrice = static::calculateFromField($this->getModuleName(), 'TotalPrice', $item, $userFormat);
+			$totalPrice = $this->valueFromField('TotalPrice', $item, $userFormat);
 			$method = 'calculateDiscount' . $this->getDiscountMethod((int) $discountsConfig['aggregation'], $aggregationType);
 			$returnVal = $this->{$method}($totalPrice, $discountParam, $aggregationType);
 		}
-		return static::roundMethod((float) $returnVal);
+		return (float) $returnVal;
 	}
 
 	/**

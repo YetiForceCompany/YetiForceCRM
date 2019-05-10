@@ -24,7 +24,10 @@ class Vtiger_Margin_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	protected $isAutomaticValue = true;
+	public function getIsValueForSave(): bool
+	{
+		return true;
+	}
 
 	/**
 	 * {@inheritdoc}
@@ -56,7 +59,7 @@ class Vtiger_Margin_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function validate($value, string $columnName, bool $isUserFormat, $originalValue)
+	public function validate($value, string $columnName, bool $isUserFormat, $originalValue)
 	{
 		if ($isUserFormat) {
 			$value = $this->getDBValue($value, $columnName);
@@ -75,10 +78,10 @@ class Vtiger_Margin_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getAutomaticValue(array $item, bool $userFormat = false)
+	public function getValueForSave(array $item, bool $userFormat = false)
 	{
 		$purchase = (float) $this->getValueFromItem($item, 'purchase', $userFormat, 0);
 		$quantity = (float) $this->getValueFromItem($item, 'qty', $userFormat, 0);
-		return static::roundMethod(static::calculateFromField($this->getModuleName(), 'NetPrice', $item, $userFormat) - ($purchase * $quantity));
+		return  $this->valueFromField('NetPrice', $item, $userFormat) - ($purchase * $quantity);
 	}
 }
