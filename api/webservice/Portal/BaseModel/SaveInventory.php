@@ -65,7 +65,7 @@ class SaveInventory
 		$inventoryData = [];
 		foreach ($this->inventory as $inventoryKey => $inventoryItem) {
 			foreach (\Vtiger_Inventory_Model::getInstance($this->moduleName)->getFields() as $columnName => $fieldModel) {
-				if ($fieldModel->getIsAutomaticValue()) {
+				if (\in_array($fieldModel->getColumnName(), ['total', 'margin', 'marginp', 'net', 'gross', 'tax', 'discount'])) {
 					continue;
 				}
 				$item[$columnName] = $this->getValue($columnName, $inventoryKey) ?? $inventoryItem[$columnName] ?? $fieldModel->getDefaultValue();
