@@ -16,6 +16,22 @@
       :visible-columns="visibleColumns"
       binary-state-sort
     >
+      <template v-slot:body="props">
+        <q-tr :props="props">
+          <q-td auto-width>
+            <q-checkbox v-model="props.selected" />
+            <q-btn size="sm" dense round flat icon="mdi-wrench-outline" @click="props.expand = !props.expand" />
+          </q-td>
+          <q-td v-for="(col, i) in props.cols" :props="props" :key="col.name">
+            {{ props.row[col.field] }}
+          </q-td>
+        </q-tr>
+        <q-tr v-show="props.expand" :props="props">
+          <q-td colspan="100%">
+            <div class="text-left">This is expand slot for row above: {{ props.row.name }}.</div>
+          </q-td>
+        </q-tr>
+      </template>
       <template v-slot:top-right>
         <div v-if="$q.screen.gt.xs" class="col">
           <q-toggle v-model="visibleColumns" val="website" label="Website" />
@@ -61,7 +77,7 @@ export default {
     columns: {
       type: Array
     },
-    data: {
+    rows: {
       type: Array
     }
   },
@@ -77,7 +93,8 @@ export default {
         page: 1,
         rowsPerPage: 3,
         rowsNumber: 10
-      }
+      },
+      data: []
     }
   },
   methods: {
@@ -146,11 +163,6 @@ export default {
         }
       })
       return count
-    }
-  },
-  computed: {
-    rows() {
-      return this.$store.getters[getters.Base[this.moduleName].getEntries]
     }
   },
   mounted() {

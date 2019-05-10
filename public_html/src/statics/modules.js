@@ -122,6 +122,7 @@ window.modules = [
         "entry": "src\\modules\\Base\\modules\\Basic\\Basic.vue.js",
         "directories": [
           "layouts",
+          "pages",
           "router",
           "store",
           "views"
