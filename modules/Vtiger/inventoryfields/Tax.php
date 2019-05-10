@@ -59,7 +59,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 			$valid = $value ? \App\Json::decode($value) : [];
 			if (isset($valid['individualTax'])) {
 				$valid['individualTax'] = App\Fields\Double::formatToDb($valid['individualTax']);
-				$valid['globalTax'] = App\Fields\Double::formatToDb($valid['globalTax']);
+				$valid['globalTax'] = App\Fields\Double::formatToDb($valid['globalTax'] ?? 0);
 				$value = \App\Json::encode($valid);
 			}
 		} else {
@@ -71,7 +71,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, string $columnName, bool $isUserFormat)
+	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
 		if ($columnName === $this->getColumnName()) {
 			$value = $isUserFormat ? \App\Fields\Double::formatToDb($value) : $value;
@@ -80,6 +80,9 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 			}
 			if ($this->maximumLength < $value || -$this->maximumLength > $value) {
 				throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
+			}
+			if (null !== $originalValue && !\App\Validator::floatIsEqualUserCurrencyDecimals($value, $originalValue)) {
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $columnName ?? $this->getColumnName() . '||' . $this->getModuleName() . '||' . $value, 406);
 			}
 		} else {
 			if (App\TextParser::getTextLength($value) > $this->customMaximumLength[$columnName]) {
@@ -119,5 +122,102 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 			}
 		}
 		return $return;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getValueForSave(array $item, bool $userFormat = false)
+	{
+		$taxesConfig = Vtiger_Inventory_Model::getTaxesConfig();
+		$returnVal = 0.0;
+		if (1 === (int) $taxesConfig['active'] && !\App\Json::isEmpty($item['taxparam'] ?? '')) {
+			$netPrice = static::getInstance($this->getModuleName(), 'NetPrice', $item, $userFormat)->getValueForSave($item, $userFormat);
+			$taxParam = \App\Json::decode($item['taxparam']);
+			$aggregationType = $taxParam['aggregationType'];
+			$method = 'calculateTax' . $this->getTaxMethod((int) $taxesConfig['aggregation'], $aggregationType);
+			$returnVal = $this->{$method}($netPrice, $taxParam, $aggregationType);
+		}
+		return (float) $returnVal;
+	}
+
+	/**
+	 * Calculate the tax by the method - 'Cannot be combined'.
+	 *
+	 * @param float  $netPrice
+	 * @param array  $taxParam
+	 * @param string $aggregationType
+	 *
+	 * @return float
+	 */
+	private function calculateTaxCannotBeCombined(float $netPrice, array $taxParam, string $aggregationType): float
+	{
+		return $netPrice * (float) ($taxParam["{$aggregationType}Tax"]) / 100.00;
+	}
+
+	/**
+	 * Calculate the tax by the method - 'In total'.
+	 *
+	 * @param float $netPrice
+	 * @param array $taxParam
+	 * @param array $aggregationType
+	 *
+	 * @return float
+	 */
+	private function calculateTaxInTotal(float $netPrice, array $taxParam, array $aggregationType): float
+	{
+		$tax = 0.0;
+		foreach ($aggregationType as $aggregationType) {
+			$tax += (float) $taxParam["{$aggregationType}Tax"];
+		}
+		return $netPrice * $tax / 100.00;
+	}
+
+	/**
+	 * Calculate the tax by the method - 'Cascade'.
+	 *
+	 * @param float $netPrice
+	 * @param array $taxParam
+	 * @param array $aggregationType
+	 *
+	 * @return float
+	 */
+	private function calculateTaxCascade(float $netPrice, array $taxParam, array $aggregationType): float
+	{
+		$returnVal = 0.0;
+		$netPriceForTax = $netPrice;
+		foreach ($aggregationType as $aggregationType) {
+			$tax = $netPriceForTax * (float) $taxParam["{$aggregationType}Tax"] / 100.00;
+			$netPriceForTax += $tax;
+			$returnVal += $tax;
+		}
+		return $returnVal;
+	}
+
+	/**
+	 * Recognize the tax calculation method.
+	 *
+	 * @param int          $aggregation
+	 * @param array|string $aggregationType
+	 *
+	 * @return string
+	 */
+	private function getTaxMethod(int $aggregation, $aggregationType): string
+	{
+		if (!is_array($aggregationType)) {
+			return 'CannotBeCombined';
+		}
+		switch ($aggregation) {
+			case 0:
+			case 1:
+				$returnVal = 'Intotal';
+				break;
+			case 2:
+				$returnVal = 'Cascade';
+				break;
+			default:
+				throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||aggregation||$aggregation", 406);
+		}
+		return $returnVal;
 	}
 }

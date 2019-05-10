@@ -58,7 +58,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 * Gets inventory field instance.
 	 *
 	 * @param string      $moduleName
-	 * @param string|null $type
+	 * @param null|string $type
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
@@ -76,6 +76,25 @@ class Vtiger_Basic_InventoryField extends \App\Base
 			\App\Cache::save(__METHOD__, $cacheName, $instance);
 		}
 		return clone $instance;
+	}
+
+	/**
+	 * Get value from item.
+	 *
+	 * @param array  $item
+	 * @param string $key
+	 * @param bool   $userFormat
+	 * @param mixed  $defaultValue
+	 *
+	 * @return mixed
+	 */
+	public function getValueFromItem(array $item, string $key, bool $userFormat, $defaultValue = null)
+	{
+		$value = ($item[$key] ?? $defaultValue);
+		if ($userFormat) {
+			$value = $this->getDBValue($value);
+		}
+		return $value;
 	}
 
 	/**
@@ -124,6 +143,18 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	public function getDBType()
 	{
 		return $this->dbType;
+	}
+
+	/**
+	 * Get the automatic value for save.
+	 *
+	 * @param array $item
+	 *
+	 * @return mixed
+	 */
+	public function getValueForSave(array $item, bool $userFormat = false)
+	{
+		return $item[$this->getColumnName()] ?? null;
 	}
 
 	/**
@@ -183,6 +214,9 @@ class Vtiger_Basic_InventoryField extends \App\Base
 
 	/**
 	 * Getting template name.
+	 *
+	 * @param mixed $view
+	 * @param mixed $moduleName
 	 *
 	 * @return string templateName
 	 */
@@ -293,7 +327,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 */
 	public function getValue($value)
 	{
-		if ($value == '') {
+		if ('' == $value) {
 			$value = $this->getDefaultValue();
 		}
 		return $value;
@@ -381,7 +415,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return \Vtiger_Field_Model|bool
+	 * @return bool|\Vtiger_Field_Model
 	 */
 	public function getMapDetail(string $related)
 	{
@@ -404,7 +438,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 * Gets database value.
 	 *
 	 * @param mixed       $value
-	 * @param string|null $name
+	 * @param null|string $name
 	 *
 	 * @return mixed
 	 */
@@ -419,10 +453,11 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 * @param mixed  $value
 	 * @param string $columnName
 	 * @param bool   $isUserFormat
+	 * @param mixed  $originalValue
 	 *
 	 * @throws \App\Exceptions\Security
 	 */
-	public function validate($value, string $columnName, bool $isUserFormat)
+	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
 		if (!is_numeric($value) && (is_string($value) && $value !== strip_tags($value))) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $columnName ?? $this->getColumnName() . '||' . $this->getModuleName() . '||' . $value, 406);
@@ -466,11 +501,11 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 * @throws \App\Exceptions\AppException
 	 * @throws \App\Exceptions\Security
 	 */
-	public function setValueToRecord(\Vtiger_Record_Model $recordModel, array $item, bool $userFormat)
+	public function setValueToRecord(Vtiger_Record_Model $recordModel, array $item, bool $userFormat)
 	{
 		$column = $this->getColumnName();
-		$value = $item[$column];
-		$this->validate($value, $column, $userFormat);
+		$value = $this->getValueForSave($item, $userFormat);
+		$this->validate($value, $column, $userFormat, $item[$column] ?? null);
 		if ($userFormat) {
 			$value = $this->getDBValue($value, $column);
 		}
@@ -478,7 +513,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 		if ($customColumn = $this->getCustomColumn()) {
 			foreach (array_keys($customColumn) as $column) {
 				$value = $item[$column];
-				$this->validate($value, $column, $userFormat);
+				$this->validate($value, $column, $userFormat, $item);
 				if ($userFormat) {
 					$value = $this->getDBValue($value, $column);
 				}
