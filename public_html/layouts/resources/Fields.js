@@ -1709,23 +1709,28 @@ window.App.Fields = {
 			if (!value) {
 				value = 0;
 			}
+			let strDecimal = value.toString().split(".")[1];
+			let numberOfZerosAtTheEnd = 0;
+			if (typeof strDecimal !== "undefined") {
+				for (let i = strDecimal.length - 1; i > 0; --i) {
+					if (strDecimal[i] == "0") {
+						numberOfZerosAtTheEnd++;
+					} else {
+						break;
+					}
+				}
+			}
 			value = parseFloat(value);
 			if (fixed) {
 				value = value.toFixed(numberOfDecimal);
 			}
-			let a = value.toString().split('.');
-			let integer = App.Fields.Integer.formatToDisplay(a[0]);
-			let decimal = a[1];
+			let splittedFloat = value.toString().split(".");
+			let integer = App.Fields.Integer.formatToDisplay(splittedFloat[0]);
+			let decimal = splittedFloat[1];
 			if (numberOfDecimal) {
-				if (CONFIG.truncateTrailingZeros) {
-					if (decimal) {
-						let d = '';
-						for (var i = 0; i < decimal.length; i++) {
-							if (decimal[decimal.length - i - 1] !== '0') {
-								d = decimal[decimal.length - i - 1] + d;
-							}
-						}
-						decimal = d;
+				if (!CONFIG.truncateTrailingZeros && decimal) {
+					for (let i = 0; i < numberOfZerosAtTheEnd && decimal.length < numberOfDecimal; ++i) {
+						decimal += "0";
 					}
 				}
 				if (decimal) {
