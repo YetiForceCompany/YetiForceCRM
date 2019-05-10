@@ -61,7 +61,7 @@ class Controller
 	public function preProcess()
 	{
 		set_error_handler([$this, 'exceptionErrorHandler']);
-		if ($this->method === 'OPTIONS') {
+		if ('OPTIONS' === $this->method) {
 			$this->response->addHeader('Allow', strtoupper(implode(', ', static::$acceptableMethods)));
 
 			return false;
