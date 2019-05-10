@@ -67,12 +67,9 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 	/**
 	 * Generate pdf.
 	 *
-	 * @param \App\Request $request
+	 * @param App\Request $request
 	 *
-	 * @throws \App\Exceptions\AppException
-	 * @throws \App\Exceptions\IllegalValue
 	 * @throws \App\Exceptions\NoPermitted
-	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function generate(App\Request $request)
 	{
@@ -83,7 +80,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$emailPdf = 1 === $request->getInteger('email_pdf');
 		$key = 'inventoryColumns';
 		if (($emailPdf && !\App\Privilege::isPermitted('OSSMail')) || ($request->has($key) && !\App\Privilege::isPermitted($moduleName, 'RecordPdfInventory'))) {
-			throw new \App\Exceptions\AppException('LBL_EXPORT_ERROR');
+			throw new \App\Exceptions\NoPermitted('LBL_EXPORT_ERROR');
 		}
 		$increment = $skip = $pdfFiles = [];
 		$html = '';
@@ -112,7 +109,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 				}
 
 				$pdf->setPageSize($template->getFormat(), $template->getOrientation())
-					->setWatermark($pdf->getTemplateWatermark($template))
+					->setWatermark($watermark = $pdf->getTemplateWatermark($template))
 					->setFileName($template->parseVariables($template->get('filename')))
 					->parseParams($template->getParameters())
 					->loadHtml($template->parseVariables($template->getBody()))
@@ -140,7 +137,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 					data-margin-bottom="' . $pdf->defaultMargins['bottom'] . '"
 					data-header-top="' . $pdf->getHeaderMargin() . '"
 					data-footer-bottom="' . $pdf->getFooterMargin() . '"
-					></div>';
+					>' . $watermark ? "<div data-watermark style=\"text-align:center\">{$watermark}</div>" : '' . '</div>';
 					$html .= $pdf->getHtml() . '<div style="page-break-after: always;"></div>';
 				} else {
 					$pdf->output($filePath, $saveFlag);
@@ -151,7 +148,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 			}
 		}
 		if ($singlePdf) {
-			$pdf->setHeader('')->setFooter('');
+			$pdf->setHeader('')->setFooter('')->setWatermark('');
 			$pdf->loadHTML($html);
 			$pdf->setFileName(\App\Language::translate('LBL_PDF_MANY_IN_ONE'));
 			$pdf->output();
