@@ -1333,6 +1333,7 @@ $.Class(
 			let newRow = this.getBasicRow();
 			const sequenceNumber = this.getNextLineItemRowNumber();
 			const replaced = newRow.html().replace(/\_NUM_/g, sequenceNumber);
+			const inventorylbls = newRow.data('inventorylbls');
 			newRow.html(replaced);
 			newRow = newRow.children().appendTo(items.find('.js-inventory-items-body'));
 			newRow
@@ -1343,6 +1344,9 @@ $.Class(
 				.find('.js-module-icon')
 				.removeClass()
 				.addClass(`userIcon-${module}`);
+			newRow
+				.find('.rowName span.input-group-text')
+				.attr('data-content', inventorylbls['SINGLE_' + module]);
 			newRow.find('.colPicklistField select').each(function(index, select) {
 				select = $(select);
 				select.find('option').each(function(index, option) {
