@@ -23,7 +23,7 @@
     "LBL_MANDATORY": "Mandatory",
     "LBL_OPTIONAL": "Optional",
     "LBL_LIBRARY": "Support for libraries",
-    "LBL_INSTALLED": "Installed",
+    "LBL_INSTALLED": "Nameščeno",
     "LBL_LABEL_PHP": "PHP version",
     "LBL_LABEL_EXTENSIONS": "Extensions",
     "LBL_PDO_SUPPORT": "PDO",
