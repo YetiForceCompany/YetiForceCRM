@@ -26,7 +26,7 @@
     "blueimp-file-upload": "^9.30.0",
     "bootbox": "^5.1.2",
     "bootstrap": "^4.3.1",
-    "bootstrap-colorpicker": "^3.1.1",
+    "bootstrap-colorpicker": "^3.1.2",
     "bootstrap-datepicker": "^1.7.1",
     "bootstrap-daterangepicker": "^3.0.4",
     "bootstrap-tabdrop": "https://github.com/jmschabdach/bootstrap-tabdrop",
