@@ -75,7 +75,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 						if ($fieldModel->getFieldName() === 'sum_time') {
 							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 						} else {
-							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $record->get($fieldModel->getFieldName()), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
 						}
 						break;
 					case 71:

@@ -172,6 +172,47 @@ class Validator
 	}
 
 	/**
+	 * Function verifies if given value is float type.
+	 *
+	 * @param float|string $input
+	 *
+	 * @return bool
+	 */
+	public static function float($input): bool
+	{
+		return false !== filter_var($input, FILTER_VALIDATE_FLOAT);
+	}
+
+	/**
+	 * Check if floating point numbers are equal.
+	 *
+	 * @see https://www.php.net/manual/en/language.types.float.php
+	 *
+	 * @param float $value1
+	 * @param float $value2
+	 * @param int   $precision
+	 *
+	 * @return bool
+	 */
+	public static function floatIsEqual(float $value1, float $value2, int $precision = 2): bool
+	{
+		return abs(round($value1, $precision) - round($value2, $precision)) < (1 / pow(10, $precision));
+	}
+
+	/**
+	 * Check if floating point numbers are equal. Get the precision of the number from the user's settings.
+	 *
+	 * @param float $value1
+	 * @param float $value2
+	 *
+	 * @return bool
+	 */
+	public static function floatIsEqualUserCurrencyDecimals(float $value1, float $value2): bool
+	{
+		return static::floatIsEqual($value1, $value2, (int) \App\User::getCurrentUserModel()->getDetail('no_of_currency_decimals'));
+	}
+
+	/**
 	 * Function verifies if given value is a natural number.
 	 *
 	 * @param int|string $input

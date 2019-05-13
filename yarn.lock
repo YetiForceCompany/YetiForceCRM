@@ -61,12 +61,12 @@ bootbox@^5.1.2:
     bootstrap ">=3.0.0"
     jquery ">=1.9.1"
 
-bootstrap-colorpicker@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/bootstrap-colorpicker/-/bootstrap-colorpicker-3.1.1.tgz#5cb559eeae8cdd1e4c86b705d36d81eb5fda0f8e"
-  integrity sha512-LgHvdXVzJ6O/Jbc/ngc33aX+CAnJ5WAx06L+psP2cYuwXSy0wHsGFrHrYYq+lJKScYRV9kIGAyqDkkeb5NZzhQ==
+bootstrap-colorpicker@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/bootstrap-colorpicker/-/bootstrap-colorpicker-3.1.2.tgz#42737d7fb3f52b42ad9e33ac97f021252307dfae"
+  integrity sha512-yUWegXox8GYoXVtYdrEIN3QMOeEFbcSFGDadZu2pWmmMgTaw4ECX9T8GvYQzJkRusvK9uzi39FjE0W2k8lQECA==
   dependencies:
-    bootstrap "^4.0"
+    bootstrap ">=4.0"
     jquery ">=2.1.0"
 
 bootstrap-datepicker@^1.7.1:
@@ -88,7 +88,7 @@ bootstrap-daterangepicker@^3.0.4:
   version "0.0.0"
   resolved "https://github.com/jmschabdach/bootstrap-tabdrop#1eb8b8aeaa79d7ca211059daff7981c9908327a1"
 
-bootstrap@>=3.0.0, bootstrap@^4.0, bootstrap@^4.3.1:
+bootstrap@>=3.0.0, bootstrap@>=4.0, bootstrap@^4.3.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.3.1.tgz#280ca8f610504d99d7b6b4bfc4b68cec601704ac"
   integrity sha512-rXqOmH1VilAt2DyPzluTi2blhk17bO7ef+zLLPlWvG494pDxcM234pJ8wTc/6R40UWizAIIMgxjvxZg5kmsbag==
@@ -152,9 +152,9 @@ color-name@^1.0.0:
   integrity sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==
 
 css-element-queries@^1.0.5:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/css-element-queries/-/css-element-queries-1.1.1.tgz#129e104ecb277aa6337b7302cbb6d511c2d1633a"
-  integrity sha512-/PX6Bkk77ShgbOx/mpawHdEvS3PGgy1mmMktcztDPndWdMJxcorcQiivrs+nEljqtBpvNEhAmQky9tQR6FSm8Q==
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/css-element-queries/-/css-element-queries-1.2.0.tgz#081373d7f30302adad46b7c29b83b85f8ef8f62c"
+  integrity sha512-4gaxpioSFueMcp9yj1TJFCLjfooGv38y6ZdwFUS3GuS+9NIVijdeiExXKwSIHoQDADfpgnaYSTzmJs+bV+Hehg==
 
 css-line-break@1.0.1:
   version "1.0.1"
@@ -195,10 +195,10 @@ datatables.net@1.10.19, datatables.net@^1.10.15, datatables.net@^1.10.19:
   dependencies:
     jquery ">=1.7"
 
-dayjs@^1.8.12:
-  version "1.8.13"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.13.tgz#51b5cdad23ba508bcea939a853b492fefb7fdc47"
-  integrity sha512-JZ01l/PMU8OqwuUs2mOQ/CTekMtoXOUSylfjqjgDzbhRSxpFIrPnHn8Y8a0lfocNgAdBNZb8y0/gbzJ2riQ4WQ==
+dayjs@^1.8.14:
+  version "1.8.14"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.14.tgz#43e4f62830c2c3342c3fcd25934dc9162dbe6f38"
+  integrity sha512-AVhDmRTe541iWirnoeFSSDDGvCT6HWaNQ4z2WmmzXMGZj6ph6ydao2teKq/eUtR43GPJXlYFD+C/SotG1P9wUQ==
 
 delegate@^3.1.2:
   version "3.2.0"
@@ -248,12 +248,12 @@ fullcalendar@3.10.0:
   resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-3.10.0.tgz#cc5e87d518fd6550e142816a31dd191664847919"
   integrity sha512-0OtsHhmdYhtFmQwXzyo8VqHzYgamg+zVOoytv5N13gI+iF6CGjevpCi/yBaQs0O4wY3OAp8I688IxdNYe0iAvw==
 
-gantt-elastic@^0.13.9:
-  version "0.13.9"
-  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.13.9.tgz#e32f9626a329dfc8a2ff53792f44dd1b5c5d21d8"
-  integrity sha512-5cMCNpWgiqsRWGTL1xYGjkGa6l1MCllqiAEBf2QN6TCVRite3JbFexRF8IYQb0C8cGczK9b+gQ0LMQI5pm55FQ==
+gantt-elastic@^0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.14.0.tgz#7c472ced2d3ec0d93ad74e8c15878551059e90f4"
+  integrity sha512-j0mAPFvCLKzhHgvneRmut/EP9smNomlXzrYG/x0Zd+gHKjrp9sW0VXqXc9IQrJTeTcDuvDGyOr25gg0N7yTakw==
   dependencies:
-    dayjs "^1.8.12"
+    dayjs "^1.8.14"
     resize-observer-polyfill "^1.5.1"
     vue "^2.6.10"
 
@@ -369,10 +369,10 @@ leaflet.markercluster@^1.4.1:
   resolved "https://registry.yarnpkg.com/leaflet.markercluster/-/leaflet.markercluster-1.4.1.tgz#b53f2c4f2ca7306ddab1dbb6f1861d5e8aa6c5e5"
   integrity sha512-ZSEpE/EFApR0bJ1w/dUGwTSUvWlpalKqIzkaYdYB7jaftQA/Y2Jav+eT4CMtEYFj+ZK4mswP13Q2acnPBnhGOw==
 
-leaflet@^1.3.3:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.5.0.tgz#b8ed4643514f66737c2131252921a889c1ce3db1"
-  integrity sha512-6sVKn1GaeP01ofzPs2f62XgKEx4uYnHsgQK64zBZPN/6pAX53FNakYvtud+Wu3Z7C3vJpINkdQuR//hgCngOiA==
+leaflet@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.5.1.tgz#9afb9d963d66c870066b1342e7a06f92840f46bf"
+  integrity sha512-ekM9KAeG99tYisNBg0IzEywAlp0hYI5XRipsqRXyRTeuU8jcuntilpp+eFf5gaE0xubc9RuSNIVtByEKwqFV0w==
 
 lodash@^4.17.10:
   version "4.17.11"

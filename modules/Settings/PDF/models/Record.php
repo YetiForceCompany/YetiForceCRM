@@ -107,20 +107,21 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 				$fields = [];
 				$fields['type'] = Settings_PDF_Module_Model::getTemplateType($pdfModel);
 				foreach ($stepFields as $field) {
-					if ($field === 'conditions') {
+					if ('conditions' === $field) {
 						$params = json_encode($pdfModel->get($field));
 					} else {
 						$params = $pdfModel->get($field);
 					}
 					$fields[$field] = $params;
 				}
-				if ($fields['type'] === Vtiger_PDF_Model::TEMPLATE_TYPE_DYNAMIC) {
+				if (Vtiger_PDF_Model::TEMPLATE_TYPE_DYNAMIC === $fields['type']) {
 					$fields['default'] = 0;
 				}
 				$db->createCommand()
 					->update('a_#__pdf', $fields, ['pdfid' => $pdfModel->getId()])
 					->execute();
-				return $pdfModel->get('pdfid');
+					\App\Cache::delete(get_class($pdfModel), $pdfModel->getId());
+				return $pdfModel->getId();
 			case 1:
 				$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);
 				$fields = [];
@@ -136,6 +137,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 					}
 					$db->createCommand()->update('a_#__pdf', $fields, ['pdfid' => $pdfModel->getId()])
 						->execute();
+					\App\Cache::delete(get_class($pdfModel), $pdfModel->getId());
 				}
 
 				return $pdfModel->get('pdfid');
@@ -143,7 +145,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 				$allFields = Settings_PDF_Module_Model::$allFields;
 				$params = [];
 				foreach ($allFields as $field) {
-					if ($field === 'conditions') {
+					if ('conditions' === $field) {
 						$params[$field] = json_encode($pdfModel->get($field));
 					} else {
 						$params[$field] = $pdfModel->get($field);
@@ -182,6 +184,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 
 	public static function delete(Vtiger_PDF_Model $pdfModel)
 	{
+		\App\Cache::delete(get_class($pdfModel), $pdfModel->getId());
 		return App\Db::getInstance('admin')->createCommand()
 			->delete('a_#__pdf', ['pdfid' => $pdfModel->getId()])
 			->execute();
@@ -197,7 +200,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 		if (!empty($conditions)) {
 			foreach ($conditions as $index => $condition) {
 				$columns = $condition['columns'];
-				if ($index == '1' && empty($columns)) {
+				if ('1' == $index && empty($columns)) {
 					$wfCondition[] = ['fieldname' => '', 'operation' => '', 'value' => '', 'valuetype' => '',
 						'joincondition' => '', 'groupid' => '0', ];
 				}
