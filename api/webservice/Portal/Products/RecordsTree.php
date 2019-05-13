@@ -58,17 +58,17 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 				);
 			}
 		}
-		$queryGenerator->setCustomColumn('u_yf_istorages_products.qtyinstock as storage_qtyinstock');
+		$queryGenerator->setCustomColumn('u_#__istorages_products.qtyinstock as storage_qtyinstock');
 		$queryGenerator->addJoin([
 			'LEFT JOIN',
-			'u_yf_istorages_products',
-			"u_yf_istorages_products.crmid={$this->getUserStorageId()} AND u_yf_istorages_products.relcrmid = vtiger_products.productid"]
+			'u_#__istorages_products',
+			"u_#__istorages_products.crmid={$this->getUserStorageId()} AND u_#__istorages_products.relcrmid = vtiger_products.productid"]
 		);
-		$queryGenerator->setCustomColumn('a_yf_taxes_global.value as tax_value');
+		$queryGenerator->setCustomColumn('a_#__taxes_global.value as tax_value');
 		$queryGenerator->addJoin([
 			'LEFT JOIN',
-			'a_yf_taxes_global',
-			'a_yf_taxes_global.id = vtiger_products.taxes']
+			'a_#__taxes_global',
+			'a_#__taxes_global.id = vtiger_products.taxes']
 		);
 		return $queryGenerator;
 	}
