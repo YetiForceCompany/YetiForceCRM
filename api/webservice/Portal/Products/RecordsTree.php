@@ -29,12 +29,20 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	private $isUserPermissions;
 
 	/**
+	 * Global taxes.
+	 *
+	 * @var array
+	 */
+	private $globalTaxes;
+
+	/**
 	 * Construct.
 	 */
 	public function __construct()
 	{
 		$this->permissionType = (int) \App\User::getCurrentUserModel()->get('permission_type');
 		$this->isUserPermissions = \Api\Portal\Privilege::USER_PERMISSIONS === $this->permissionType;
+		$this->globalTaxes = \Vtiger_Inventory_Model::getGlobalTaxes();
 	}
 
 	/**
@@ -64,12 +72,6 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 			'u_#__istorages_products',
 			"u_#__istorages_products.crmid={$this->getUserStorageId()} AND u_#__istorages_products.relcrmid = vtiger_products.productid"]
 		);
-		$queryGenerator->setCustomColumn('a_#__taxes_global.value as tax_value');
-		$queryGenerator->addJoin([
-			'LEFT JOIN',
-			'a_#__taxes_global',
-			'a_#__taxes_global.id = vtiger_products.taxes']
-		);
 		return $queryGenerator;
 	}
 
@@ -87,11 +89,17 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	protected function createRecordFromRow(array $row, array $fieldsModel): array
 	{
 		$listprice = $row['listprice'] ?? null;
+		$taxValue = 0;
+		if (!empty($row['taxes'])) {
+			$taxId = explode(',', $row['taxes'])[0];
+			$taxValue = $this->globalTaxes[$taxId]['value'];
+		}
 		$record = parent::createRecordFromRow($row, $fieldsModel);
 		if (!$this->isUserPermissions && !empty($listprice)) {
 			$record['unit_price'] = \CurrencyField::convertToUserFormatSymbol($listprice);
 		}
-		$record['unit_gross'] = \CurrencyField::convertToUserFormatSymbol($row['unit_price'] + ($row['unit_price'] * ($row['tax_value'] ?? 0)) / 100.00);
+		$record['unit_gross'] = \CurrencyField::convertToUserFormatSymbol($row['unit_price'] + ($row['unit_price'] * $taxValue) / 100.00);
+		$record['tax_value'] = \CurrencyField::convertToUserFormatSymbol($taxValue);
 		return $record;
 	}
 
@@ -103,6 +111,11 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 		$row = parent::createRawDataFromRow($row, $fieldsModel);
 		if (!$this->isUserPermissions && !empty($row['listprice'])) {
 			$row['unit_price'] = $row['listprice'];
+		}
+		$row['tax_value'] = 0;
+		if (!empty($row['taxes'])) {
+			$taxId = explode(',', $row['taxes'])[0];
+			$row['tax_value'] = $this->globalTaxes[$taxId]['value'];
 		}
 		$row['qtyinstock'] = $row['storage_qtyinstock'] ?? 0;
 		$row['unit_gross'] = $row['unit_price'] + ($row['unit_price'] * ($row['tax_value'] ?? 0) / 100.0);
