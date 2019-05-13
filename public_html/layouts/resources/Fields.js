@@ -1709,11 +1709,11 @@ window.App.Fields = {
 			if (!value) {
 				value = 0;
 			}
-			let strDecimal = value.toString().split(".")[1];
+			let strDecimal = value.toString().split('.')[1];
 			let numberOfZerosAtTheEnd = 0;
-			if (typeof strDecimal !== "undefined") {
+			if (typeof strDecimal !== 'undefined') {
 				for (let i = strDecimal.length - 1; i > 0; --i) {
-					if (strDecimal[i] == "0") {
+					if (strDecimal[i] == '0') {
 						numberOfZerosAtTheEnd++;
 					} else {
 						break;
@@ -1724,13 +1724,13 @@ window.App.Fields = {
 			if (fixed) {
 				value = value.toFixed(numberOfDecimal);
 			}
-			let splittedFloat = value.toString().split(".");
+			let splittedFloat = value.toString().split('.');
 			let integer = App.Fields.Integer.formatToDisplay(splittedFloat[0]);
 			let decimal = splittedFloat[1];
 			if (numberOfDecimal) {
 				if (!CONFIG.truncateTrailingZeros && decimal) {
 					for (let i = 0; i < numberOfZerosAtTheEnd && decimal.length < numberOfDecimal; ++i) {
-						decimal += "0";
+						decimal += '0';
 					}
 				}
 				if (decimal) {
