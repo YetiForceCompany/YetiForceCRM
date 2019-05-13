@@ -129,7 +129,7 @@ class RecordsList extends \Api\Core\BaseAction
 	protected function getColumnNames(array $fieldsModel): array
 	{
 		$headers = [];
-		foreach ($fieldsModel as $fieldName => &$fieldModel) {
+		foreach ($fieldsModel as $fieldName => $fieldModel) {
 			$headers[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
 		}
 		return $headers;
