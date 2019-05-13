@@ -35,13 +35,13 @@ class RecordsList extends \Api\Core\BaseAction
 		$limit = $queryGenerator->getLimit();
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$records[$row['id']] = $this->createRecordFromRow($row, $fieldsModel);
+			$records[$row['id']] = $this->getRecordFromRow($row, $fieldsModel);
 			if ($this->isRawData()) {
-				$rawData[$row['id']] = $this->createRawDataFromRow($row);
+				$rawData[$row['id']] = $this->getRawDataFromRow($row);
 			}
 		}
 		$dataReader->close();
-		$headers = $this->createHeader($fieldsModel);
+		$headers = $this->getColumnNames($fieldsModel);
 		$rowsCount = count($records);
 		return [
 			'headers' => $headers,
@@ -101,14 +101,14 @@ class RecordsList extends \Api\Core\BaseAction
 	}
 
 	/**
-	 * Create record from row.
+	 * Get record from row.
 	 *
 	 * @param array                 $row
 	 * @param \Vtiger_Field_Model[] $fieldsModel
 	 *
 	 * @return array
 	 */
-	protected function createRecordFromRow(array $row, array $fieldsModel): array
+	protected function getRecordFromRow(array $row, array $fieldsModel): array
 	{
 		$record = ['recordLabel' => \App\Record::getLabel($row['id'])];
 		foreach ($fieldsModel as $fieldName => &$fieldModel) {
@@ -120,13 +120,13 @@ class RecordsList extends \Api\Core\BaseAction
 	}
 
 	/**
-	 * Create header.
+	 * Get column names.
 	 *
 	 * @param array $fieldsModel
 	 *
 	 * @return array
 	 */
-	protected function createHeader(array $fieldsModel): array
+	protected function getColumnNames(array $fieldsModel): array
 	{
 		$headers = [];
 		foreach ($fieldsModel as $fieldName => &$fieldModel) {
@@ -136,13 +136,13 @@ class RecordsList extends \Api\Core\BaseAction
 	}
 
 	/**
-	 * Create raw data from row.
+	 * Get raw data from row.
 	 *
 	 * @param array $row
 	 *
 	 * @return array
 	 */
-	protected function createRawDataFromRow(array $row): array
+	protected function getRawDataFromRow(array $row): array
 	{
 		return $row;
 	}

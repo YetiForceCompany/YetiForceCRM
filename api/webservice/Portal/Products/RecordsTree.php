@@ -86,7 +86,7 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function createRecordFromRow(array $row, array $fieldsModel): array
+	protected function getRecordFromRow(array $row, array $fieldsModel): array
 	{
 		$listprice = $row['listprice'] ?? null;
 		$taxValue = 0;
@@ -94,7 +94,7 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 			$taxId = explode(',', $row['taxes'])[0];
 			$taxValue = $this->globalTaxes[$taxId]['value'];
 		}
-		$record = parent::createRecordFromRow($row, $fieldsModel);
+		$record = parent::getRecordFromRow($row, $fieldsModel);
 		if (!$this->isUserPermissions && !empty($listprice)) {
 			$record['unit_price'] = \CurrencyField::convertToUserFormatSymbol($listprice);
 		}
@@ -106,9 +106,9 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function createRawDataFromRow(array $row): array
+	protected function getRawDataFromRow(array $row): array
 	{
-		$row = parent::createRawDataFromRow($row, $fieldsModel);
+		$row = parent::getRawDataFromRow($row, $fieldsModel);
 		if (!$this->isUserPermissions && !empty($row['listprice'])) {
 			$row['unit_price'] = $row['listprice'];
 		}
@@ -125,9 +125,9 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function createHeader(array $fieldsModel): array
+	protected function getColumnNames(array $fieldsModel): array
 	{
-		$headers = parent::createHeader($fieldsModel);
+		$headers = parent::getColumnNames($fieldsModel);
 		$headers['unit_gross'] = \App\Language::translate('LBL_GRAND_TOTAL');
 		return $headers;
 	}
