@@ -4,34 +4,31 @@ import Vue from 'vue';
 import Tree from './Tree.vue';
 import Quasar from 'quasar/dist/quasar.umd.js';
 import iconSet from 'quasar/icon-set/mdi-v3.js';
-const {
-	QLayout,
-	QPageContainer,
-	QPage,
-	QHeader,
-	QFooter,
-	QDrawer,
-	QPageSticky,
-	QPageScroller,
-	QTree
-} = Quasar.components;
-
+import BaseService from '../../services/Base.js';
+const componentsList = [
+	'QLayout',
+	'QPageContainer',
+	'QPage',
+	'QHeader',
+	'QFooter',
+	'QDrawer',
+	'QPageSticky',
+	'QPageScroller',
+	'QTree'
+];
+Vue.prototype.$axios = BaseService;
 Vue.use(Quasar, {
-	components: QLayout,
-	QPageContainer,
-	QPage,
-	QHeader,
-	QFooter,
-	QDrawer,
-	QPageSticky,
-	QPageScroller,
-	QTree
-});
+	components: Quasar.components[componentsList]
+	// plugins: Quasar.components['Notify']
+}).use(BaseService);
 Quasar.iconSet.set(iconSet);
+
+let VueInstance = null;
 window.KnowledgeBaseTree = {
 	component: Tree,
 	mount(config) {
-		return new Vue(Tree).$mount(config.el);
+		VueInstance = new Vue(Tree).$mount(config.el);
+		return VueInstance;
 	}
 };
-export default KnowledgeBaseTree;
+export default VueInstance;

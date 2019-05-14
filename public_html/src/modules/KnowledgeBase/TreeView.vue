@@ -81,6 +81,19 @@ export default {
         }
       ]
     }
+  },
+  mounted() {
+    console.log(this)
+    console.log(this.$axios)
+    this.$axios({
+      data: { module: 'Chat', action: 'Room', mode: 'tracking' },
+      responseType: 'json',
+      method: 'POST',
+      url: 'index.php'
+    }).then(response => {
+      console.log('asdfasdf', response)
+      this.$q.notify('Message')
+    })
   }
 }
 </script>
