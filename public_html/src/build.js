@@ -1,8 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 const rollup = require('rollup'),
-	babel = require('rollup-plugin-babel'),
-	finder = require('findit')('C:/www/YetiForceCRM/public_html/src/modules'),
+	finder = require('findit')('modules'),
 	path = require('path'),
 	sourcemaps = require('rollup-plugin-sourcemaps'),
 	vue = require('rollup-plugin-vue'),
@@ -22,29 +21,11 @@ async function build(filePath) {
 		plugins: [
 			alias({
 				vue: path.resolve('./node_modules/vue/dist/vue.js'),
-				quasar: path.resolve('./node_modules/quasar/dist/quasar.esm.js')
+				quasar: path.resolve('../libraries/quasar/')
 			}),
 			resolve(),
 			commonjs(),
 			vue({ compileTemplate: true }),
-			babel({
-				babelrc: false,
-				presets: [
-					[`babel-preset-env`, { modules: false }],
-					[
-						`babel-preset-minify`,
-						{
-							typeConstructors: false,
-							mangle: false
-						}
-					]
-				],
-				plugins: [
-					`babel-plugin-external-helpers`,
-					`babel-plugin-transform-object-rest-spread`,
-					`babel-plugin-transform-es2015-classes`
-				]
-			}),
 			sourcemaps(),
 			globals()
 		]

@@ -4,6 +4,7 @@
     "build": "node build.js"
   },
   "dependencies": {
+    "quasar": "^1.0.0-beta.23",
     "vue": "^2.6.10"
   },
   "devDependencies": {

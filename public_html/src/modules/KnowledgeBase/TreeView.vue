@@ -1,19 +1,34 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 <template>
-  <div>
-    <q-tree :nodes="simple" node-key="label"></q-tree>
+  <div class="q-pa-md myclass">
+    <q-layout view="hHh lpr fFf" container style="height: 500px" class="shadow-2 rounded-borders">
+      <q-header elevated class="bg-primary text-white">
+        <q-toolbar>
+          <q-btn dense flat round icon="mdi-menu" @click="left = !left"></q-btn>
+          <q-toolbar-title>
+            Title
+          </q-toolbar-title>
+        </q-toolbar>
+      </q-header>
+      <q-drawer v-model="left" side="left" bordered :width="200" :breakpoint="700">
+        <q-scroll-area class="fit">
+          <q-tree :nodes="testData" node-key="label"></q-tree>
+        </q-scroll-area>
+      </q-drawer>
+      <q-page-container>
+        <q-page style="padding-top: 60px" class="q-pa-md"> </q-page>
+      </q-page-container>
+    </q-layout>
   </div>
 </template>
 <script>
 export default {
   name: 'TreeView',
-  components: {
-    'q-tree': window.Quasar.components.QTree
-  },
   data() {
     return {
-      simple: [
+      left: true,
+      testData: [
         {
           label: 'Satisfied customers (with avatar)',
           children: [
@@ -43,3 +58,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+.myclass {
+  margin-right: 20px;
+}
+</style>

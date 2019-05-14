@@ -24,9 +24,6 @@ class KnowledgeBase_Tree_View extends Vtiger_Index_View
 	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
-			'~libraries/vue/dist/vue.min.js',
-			'~libraries/quasar/dist/quasar.umd.min.js',
-			'~libraries/quasar/dist/icon-set/mdi-v3.umd.min.js',
 			'~layouts/basic/modules/KnowledgeBase/Tree.vue.js'
 		]));
 	}
@@ -37,8 +34,6 @@ class KnowledgeBase_Tree_View extends Vtiger_Index_View
 			'~libraries/@mdi/font/css/materialdesignicons.min.css',
 			'~libraries/quasar/dist/quasar.min.css'
 		];
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-
-		return array_merge($headerCssInstances, $cssInstances);
+		return array_merge($headerCssInstances, $this->checkAndConvertCssStyles($cssFileNames));
 	}
 }

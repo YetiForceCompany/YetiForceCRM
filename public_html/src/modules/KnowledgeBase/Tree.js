@@ -2,7 +2,32 @@
 
 import Vue from 'vue';
 import Tree from './Tree.vue';
+import Quasar from 'quasar/dist/quasar.umd.js';
+import iconSet from 'quasar/icon-set/mdi-v3.js';
+const {
+	QLayout,
+	QPageContainer,
+	QPage,
+	QHeader,
+	QFooter,
+	QDrawer,
+	QPageSticky,
+	QPageScroller,
+	QTree
+} = Quasar.components;
 
+Vue.use(Quasar, {
+	components: QLayout,
+	QPageContainer,
+	QPage,
+	QHeader,
+	QFooter,
+	QDrawer,
+	QPageSticky,
+	QPageScroller,
+	QTree
+});
+Quasar.iconSet.set(iconSet);
 window.KnowledgeBaseTree = {
 	component: Tree,
 	mount(config) {
