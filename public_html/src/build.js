@@ -12,60 +12,53 @@ const rollup = require('rollup'),
 	alias = require('rollup-plugin-alias');
 
 let filesToMin = [];
-// const absoluteNodeModulesPath = 'C:/www/YetiForceCRM/dev_tools/node_modules/';
-
 async function build(filePath) {
 	let directiories = filePath.split('\\');
 	const fileName = directiories.pop().replace('.js', '.vue.js');
 	const moduleName = directiories.pop();
-
 	const outputFile = `../layouts/basic/modules/${moduleName}/${fileName}`;
-	//rollup input and output options
 	const inputOptions = {
-			input: filePath,
-			plugins: [
-				alias({
-					vue: path.resolve('./node_modules/vue/dist/vue.js'),
-					quasar: path.resolve('./node_modules/quasar/dist/quasar.esm.js')
-				}),
-				resolve(),
-				commonjs(),
-				vue({ compileTemplate: true }),
-				babel({
-					babelrc: false,
-					presets: [
-						[`babel-preset-env`, { modules: false }],
-						[
-							`babel-preset-minify`,
-							{
-								typeConstructors: false,
-								mangle: false
-							}
-						]
-					],
-					plugins: [
-						`babel-plugin-external-helpers`,
-						`babel-plugin-transform-object-rest-spread`,
-						`babel-plugin-transform-es2015-classes`
+		input: filePath,
+		plugins: [
+			alias({
+				vue: path.resolve('./node_modules/vue/dist/vue.js'),
+				quasar: path.resolve('./node_modules/quasar/dist/quasar.esm.js')
+			}),
+			resolve(),
+			commonjs(),
+			vue({ compileTemplate: true }),
+			babel({
+				babelrc: false,
+				presets: [
+					[`babel-preset-env`, { modules: false }],
+					[
+						`babel-preset-minify`,
+						{
+							typeConstructors: false,
+							mangle: false
+						}
 					]
-				}),
-				sourcemaps(),
-				globals()
-			]
-		},
-		outputOptions = {
-			sourcemap: true,
-			file: outputFile,
-			format: 'cjs'
-		};
-	// create a bundle
+				],
+				plugins: [
+					`babel-plugin-external-helpers`,
+					`babel-plugin-transform-object-rest-spread`,
+					`babel-plugin-transform-es2015-classes`
+				]
+			}),
+			sourcemaps(),
+			globals()
+		]
+	};
+	const outputOptions = {
+		sourcemap: true,
+		file: outputFile,
+		format: 'cjs'
+	};
 	const bundle = await rollup.rollup(inputOptions);
-	// generate code and a sourcemap
 	const { code, map } = await bundle.generate(outputOptions);
-	// or write the bundle to disk
 	await bundle.write(outputOptions);
 }
-// build();
+
 finder.on('directory', (dir, stat, stop) => {
 	const base = path.basename(dir);
 	if (base === 'node_modules' || base === 'libraries' || base === 'vendor' || base === '_private') stop();
@@ -79,7 +72,6 @@ finder.on('file', (file, stat) => {
 
 finder.on('end', () => {
 	filesToMin.forEach(file => {
-		//log files to minify
 		console.log(file);
 		build(file);
 	});
