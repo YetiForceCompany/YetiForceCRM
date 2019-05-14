@@ -38,7 +38,7 @@ class HelpDesk_Hierarchy_View extends \App\Controller\View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
-		$hierarchy = $recordModel->getHierarchy();
+		$hierarchy = $recordModel->getHierarchyDetails();
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('STATUS_PICKLIST', $recordModel->getField('ticketstatus')->getPickListValues());
 		$viewer->assign('HIERARCHY', $hierarchy);

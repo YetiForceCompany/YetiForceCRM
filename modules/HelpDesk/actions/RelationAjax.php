@@ -30,8 +30,8 @@ class HelpDesk_RelationAjax_Action extends Vtiger_RelationAjax_Action
 		if (!\App\Privilege::isPermitted($sourceModule, 'DetailView', $recordId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		$focus = CRMEntity::getInstance($sourceModule);
-		$hierarchy = $focus->getHierarchy($recordId);
+		$moduleModel = \Vtiger_Module_Model::getInstance($sourceModule);
+		$hierarchy = $moduleModel->getHierarchy($recordId);
 		$response = new Vtiger_Response();
 		$response->setResult(count($hierarchy['entries']) - 1);
 		$response->emit();

@@ -96,10 +96,10 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @return array
 	 */
-	public function getHierarchy(): array
+	public function getHierarchyDetails(): array
 	{
-		$focus = CRMEntity::getInstance($this->getModuleName());
-		$hierarchy = $focus->getHierarchy($this->getId());
+		$moduleModel = \Vtiger_Module_Model::getInstance($this->getModuleName());
+		$hierarchy = $moduleModel->getHierarchy($this->getId());
 		foreach ($hierarchy['entries'] as $id => $info) {
 			preg_match('/<a href="+/', $info[0], $matches);
 			if (!empty($matches)) {

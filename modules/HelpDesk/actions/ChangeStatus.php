@@ -34,7 +34,7 @@ class HelpDesk_ChangeStatus_Action extends \App\Controller\Action
 		$recordId = $request->getInteger('record');
 		$recordsType = $request->getByType('recordsType', 'Alnum');
 		$status = $request->getByType('status', 'Text');
-		$instance = CRMEntity::getInstance($moduleName);
+		$instance = \Vtiger_Module_Model::getInstance($moduleName);
 		$instance->massUpdateStatus($recordId, $recordsType, $status);
 		$response = new Vtiger_Response();
 		$response->setResult(['success' => 'true', 'data' => \App\Language::translate('LBL_MASS_STATUS_UPDATED', $moduleName)]);
