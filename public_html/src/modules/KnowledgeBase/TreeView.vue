@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 <template>
-  <div class="q-pa-md myclass">
+  <div class="q-pa-md">
     <q-layout view="hHh lpr fFf" container style="height: 500px" class="shadow-2 rounded-borders">
       <q-header elevated class="bg-primary text-white">
         <q-toolbar>
@@ -34,7 +34,33 @@ export default {
           children: [
             {
               label: 'Good food (with icon)',
-              children: [{ label: 'Quality ingredients' }, { label: 'Good recipe' }]
+              children: [
+                {
+                  label: 'Quality ingredients',
+                  children: [
+                    {
+                      label: 'Good food (with icon)',
+                      children: [{ label: 'Quality ingredients' }, { label: 'Good recipe' }]
+                    },
+                    {
+                      label: 'Good service (disabled node with icon)',
+                      disabled: true,
+                      children: [{ label: 'Prompt attention' }, { label: 'Professional waiter' }]
+                    },
+                    {
+                      label: 'Pleasant surroundings (with icon)',
+                      children: [
+                        {
+                          label: 'Happy atmosphere (with image)'
+                        },
+                        { label: 'Good table presentation' },
+                        { label: 'Pleasing decor' }
+                      ]
+                    }
+                  ]
+                },
+                { label: 'Good recipe' }
+              ]
             },
             {
               label: 'Good service (disabled node with icon)',
@@ -54,12 +80,9 @@ export default {
           ]
         }
       ]
-    };
+    }
   }
-};
+}
 </script>
 <style scoped>
-.myclass {
-  margin-right: 20px;
-}
 </style>

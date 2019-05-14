@@ -11911,7 +11911,33 @@ var script = {
           children: [
             {
               label: 'Good food (with icon)',
-              children: [{ label: 'Quality ingredients' }, { label: 'Good recipe' }]
+              children: [
+                {
+                  label: 'Quality ingredients',
+                  children: [
+                    {
+                      label: 'Good food (with icon)',
+                      children: [{ label: 'Quality ingredients' }, { label: 'Good recipe' }]
+                    },
+                    {
+                      label: 'Good service (disabled node with icon)',
+                      disabled: true,
+                      children: [{ label: 'Prompt attention' }, { label: 'Professional waiter' }]
+                    },
+                    {
+                      label: 'Pleasant surroundings (with icon)',
+                      children: [
+                        {
+                          label: 'Happy atmosphere (with image)'
+                        },
+                        { label: 'Good table presentation' },
+                        { label: 'Pleasing decor' }
+                      ]
+                    }
+                  ]
+                },
+                { label: 'Good recipe' }
+              ]
             },
             {
               label: 'Good service (disabled node with icon)',
@@ -11931,7 +11957,7 @@ var script = {
           ]
         }
       ]
-    };
+    }
   }
 };
 
@@ -12080,7 +12106,7 @@ var __vue_render__ = function() {
   var _c = _vm._self._c || _h;
   return _c(
     "div",
-    { staticClass: "q-pa-md myclass" },
+    { staticClass: "q-pa-md" },
     [
       _c(
         "q-layout",
@@ -12169,11 +12195,11 @@ __vue_render__._withStripped = true;
   /* style */
   const __vue_inject_styles__ = function (inject) {
     if (!inject) return
-    inject("data-v-1c1a5cf1_0", { source: "\n.myclass[data-v-1c1a5cf1] {\n  margin-right: 20px;\n}\n", map: {"version":3,"sources":["C:\\www\\YetiForceCRM\\public_html\\src\\modules\\KnowledgeBase\\TreeView.vue"],"names":[],"mappings":";AA6DA;EACA,kBAAA;AACA","file":"TreeView.vue","sourcesContent":["/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */\n\n<template>\n  <div class=\"q-pa-md myclass\">\n    <q-layout view=\"hHh lpr fFf\" container style=\"height: 500px\" class=\"shadow-2 rounded-borders\">\n      <q-header elevated class=\"bg-primary text-white\">\n        <q-toolbar>\n          <q-btn dense flat round icon=\"mdi-menu\" @click=\"left = !left\"></q-btn>\n          <q-toolbar-title>\n            Title\n          </q-toolbar-title>\n        </q-toolbar>\n      </q-header>\n      <q-drawer v-model=\"left\" side=\"left\" bordered :width=\"200\" :breakpoint=\"700\">\n        <q-scroll-area class=\"fit\">\n          <q-tree :nodes=\"testData\" node-key=\"label\"></q-tree>\n        </q-scroll-area>\n      </q-drawer>\n      <q-page-container>\n        <q-page style=\"padding-top: 60px\" class=\"q-pa-md\"> </q-page>\n      </q-page-container>\n    </q-layout>\n  </div>\n</template>\n<script>\nexport default {\n  name: 'TreeView',\n  data() {\n    return {\n      left: true,\n      testData: [\n        {\n          label: 'Satisfied customers (with avatar)',\n          children: [\n            {\n              label: 'Good food (with icon)',\n              children: [{ label: 'Quality ingredients' }, { label: 'Good recipe' }]\n            },\n            {\n              label: 'Good service (disabled node with icon)',\n              disabled: true,\n              children: [{ label: 'Prompt attention' }, { label: 'Professional waiter' }]\n            },\n            {\n              label: 'Pleasant surroundings (with icon)',\n              children: [\n                {\n                  label: 'Happy atmosphere (with image)'\n                },\n                { label: 'Good table presentation' },\n                { label: 'Pleasing decor' }\n              ]\n            }\n          ]\n        }\n      ]\n    };\n  }\n};\n</script>\n<style scoped>\n.myclass {\n  margin-right: 20px;\n}\n</style>\n"]}, media: undefined });
+    inject("data-v-0ce414da_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"TreeView.vue"}, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__ = "data-v-1c1a5cf1";
+  const __vue_scope_id__ = "data-v-0ce414da";
   /* module identifier */
   const __vue_module_identifier__ = undefined;
   /* functional template */
