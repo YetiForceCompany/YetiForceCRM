@@ -42,10 +42,11 @@ class HelpDesk extends CRMEntity
 	];
 	public $list_fields_name = [
 		'Ticket No' => 'ticket_no',
-		'Subject' => 'title',
+		'Subject' => 'ticket_title',
 		'Related To' => 'parent_id',
-		'Status' => 'status',
-		'Priority' => 'priority',
+		'Contact Name' => 'contact_id',
+		'Status' => 'ticketstatus',
+		'Priority' => 'ticketpriorities',
 		'Assigned To' => 'assigned_user_id',
 		'FL_TOTAL_TIME_H' => 'sum_time',
 	];
@@ -187,6 +188,26 @@ class HelpDesk extends CRMEntity
 		$rows[$baseId] = $this->getChild($baseId, $rows[$baseId], $rows[$baseId]['depth']);
 		$this->getHierarchyData($id, $rows[$baseId], $baseId, $listviewEntries, $getRawData, $getLinks);
 		return ['header' => $listviewHeader, 'entries' => $listviewEntries];
+	}
+
+	/**
+	 * Function to return hierarchy ids of given parent record.
+	 *
+	 * @param int    $id
+	 * @param string $selectedRecords
+	 *
+	 * @return array
+	 */
+	public function getHierarchyIds(int $id, string $selectedRecords = 'all'): array
+	{
+		$rows = $recordIds = [];
+		$encountered = [$id];
+		if ('all' === $selectedRecords) {
+			$id = key($this->getParent($id, $rows, $encountered));
+			$recordIds[] = $id;
+		}
+		$recordIds = array_merge($recordIds, $this->getChildIds($id));
+		return $recordIds ?? [];
 	}
 
 	/**
@@ -339,7 +360,7 @@ class HelpDesk extends CRMEntity
 				foreach ($listColumns as $columnname) {
 					if ('assigned_user_id' === $columnname) {
 						$childSalesProcessesInfo[$columnname] = $row['user_name'];
-					}else {
+					} else {
 						$childSalesProcessesInfo[$columnname] = $row[$columnname];
 					}
 				}
@@ -350,5 +371,62 @@ class HelpDesk extends CRMEntity
 		}
 		\App\Log::trace('Exiting getChild method ...');
 		return $childRow;
+	}
+
+	/**
+	 * Function to Recursively get all the child records id of a given record.
+	 *
+	 * @param int   $id
+	 * @param array $childRow
+	 * @param int   $depthBase
+	 * @param array $childIds
+	 *
+	 * @return array
+	 */
+	public function getChildIds(int $id, &$childIds = []): array
+	{
+		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
+		$recordsIds = (new App\Db\Query())->select([
+			'vtiger_troubletickets.ticketid'
+		])->from('vtiger_troubletickets')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_troubletickets.ticketid')
+			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
+			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
+			->where(['and', ['vtiger_crmentity.deleted' => 0], ['vtiger_troubletickets.parentid' => $id], ['not', ['vtiger_troubletickets.ticketid' => $id]]])
+			->column();
+		if (!empty($recordsIds)) {
+			if (is_array($recordsIds)) {
+				foreach ($recordsIds as $recordId) {
+					$childIds[] = $recordId;
+					$this->getChildIds($recordId, $childIds);
+				}
+			} else {
+				$childIds[] = $recordsIds;
+				$this->getChildIds($recordsIds, $childIds);
+			}
+		}
+		return is_array($childIds) ? $childIds : [$childIds];
+	}
+
+	/**
+	 * Function to mass update status for given parent record.
+	 *
+	 * @param int    $recordId
+	 * @param string $recordsType
+	 * @param string $status
+	 *
+	 * @return bool
+	 */
+	public function massUpdateStatus(int $recordId, string $recordsType, string $status): bool
+	{
+		$recordsId = $this->getHierarchyIds($recordId, $recordsType);
+		foreach ($recordsId as $recordId) {
+			if (\App\Privilege::isPermitted('HelpDesk', 'EditView', $recordId)) {
+				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, 'HelpDesk');
+				$recordModel->set('ticketstatus', $status);
+				$recordModel->save();
+			}
+		}
+		return true;
 	}
 }

@@ -51,7 +51,7 @@
 								<label class="my-0 fieldLabel text-lg-left text-xl-right u-text-small-bold" for="status">{\App\Language::translate('LBL_RECORDS', $MODULE_NAME)}</label>
 								<select class="select2 js-selected-records">
 									<option value="all">{\App\Language::translate('LBL_ALL')}</option>
-									<option value="child">{\App\Language::translate('LBL_CHILD_RECORDS')}</option>
+									<option value="child">{\App\Language::translate('LBL_CHILD_RECORDS', $MODULE_NAME)}</option>
 								</select>
 							</div>
 						</div>
