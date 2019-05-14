@@ -350,14 +350,24 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	public function sendEmail()
 	{
 		$moduleName = 'Contacts';
-		$recordModel = Vtiger_Record_Model::getInstanceById($this->get('crmid'), $moduleName);
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$emailsFields = $moduleModel->getFieldsByType('email');
-		$addressEmail = '';
-		foreach ($emailsFields as $fieldModel) {
-			if (!$recordModel->isEmpty($fieldModel->getFieldName())) {
-				$addressEmail = $recordModel->get($fieldModel->getFieldName());
-				break;
+		if (!empty($url = Settings_WebserviceApps_Module_Model::getServers())) {
+			foreach ($url as $key) {
+				if ('Portal' === $key['type']) {
+					$addressUrl = $key['acceptable_url'];
+					break;
+				}
+			}
+		}
+		if (!empty($this->get('crmid'))) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($this->get('crmid'), $moduleName);
+			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+			$emailsFields = $moduleModel->getFieldsByType('email');
+			$addressEmail = '';
+			foreach ($emailsFields as $fieldModel) {
+				if (!$recordModel->isEmpty($fieldModel->getFieldName())) {
+					$addressEmail = $recordModel->get($fieldModel->getFieldName());
+					break;
+				}
 			}
 		}
 		if (!empty($addressEmail)) {
@@ -368,6 +378,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 				'to' => $addressEmail,
 				'password' => $this->get('password_t'),
 				'login' => $this->get('user_name'),
+				'acceptable_url' => $addressUrl
 			]);
 		}
 	}

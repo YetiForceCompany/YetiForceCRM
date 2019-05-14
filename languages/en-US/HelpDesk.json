@@ -78,7 +78,6 @@
     "LBL_ACCOUNTS_NO_ACTIVE_SERVICE_CONTRACTS": "The Account has no active SLA",
     "LBL_SET_SERVICE_CONTRACTS_REFERENCE_DESC": "Pressing this button will relate this SLA to ticket.",
     "LBL_NOTICE_WELCOME": "Welcome to platform",
-    "LBL_NOTICE_WELCOME_TO_PORTAL": "Welcome to the YetiForce Client Portal!",
     "LBL_NOTICE_CREATED": "has been created by:",
     "LBL_NOTICE_CLOSED": "has been closed by:",
     "LBL_NOTICE_UPDATED": "has been updated by:",
