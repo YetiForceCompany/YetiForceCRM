@@ -182,12 +182,13 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return bool
 	 */
-	public function save($data)
+	public function save()
 	{
 		$db = App\Db::getInstance('webservice');
 		$table = $this->getModule()->getBaseTable();
 		$index = $this->getModule()->getTableIndex();
 		$fields = $this->getEditFields();
+		$data = $this->getData();
 		foreach ($data as $key => $value) {
 			if (isset($fields[$key])) {
 				$data[$key] = $this->getValueToSave($key, $value);
@@ -339,5 +340,35 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			$result = $db->createCommand()->delete($table, [$index => $recordId])->execute();
 		}
 		return !empty($result);
+	}
+
+	/**
+	 * Send mails with access.
+	 *
+	 * @return void
+	 */
+	public function sendEmail()
+	{
+		$moduleName = 'Contacts';
+		$recordModel = Vtiger_Record_Model::getInstanceById($this->get('crmid'), $moduleName);
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$emailsFields = $moduleModel->getFieldsByType('email');
+		$addressEmail = '';
+		foreach ($emailsFields as $fieldModel) {
+			if (!$recordModel->isEmpty($fieldModel->getFieldName())) {
+				$addressEmail = $recordModel->get($fieldModel->getFieldName());
+				break;
+			}
+		}
+		if (!empty($addressEmail)) {
+			\App\Mailer::sendFromTemplate([
+				'template' => 'YetiPortalRegister',
+				'moduleName' => $moduleName,
+				'recordId' => $this->get('crmid'),
+				'to' => $addressEmail,
+				'password' => $this->get('password_t'),
+				'login' => $this->get('user_name'),
+			]);
+		}
 	}
 }

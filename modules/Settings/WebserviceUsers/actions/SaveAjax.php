@@ -32,10 +32,17 @@ class Settings_WebserviceUsers_SaveAjax_Action extends Settings_Vtiger_Save_Acti
 		$typeApi = $request->getByType('typeApi', 'Alnum');
 		if (!$request->isEmpty('record')) {
 			$recordModel = Settings_WebserviceUsers_Record_Model::getInstanceById($request->getInteger('record'), $typeApi);
+			foreach ($data as $key => $value) {
+				$recordModel->set($key, $value);
+			}
 		} else {
 			$recordModel = Settings_WebserviceUsers_Record_Model::getCleanInstance($typeApi);
+			$recordModel->setData($data);
 		}
-		$result = $recordModel->save($data);
+		$result = $recordModel->save();
+		if ($request->isEmpty('record') && $result) {
+			$recordModel->sendEmail();
+		}
 		$responceToEmit = new Vtiger_Response();
 		$responceToEmit->setResult($result);
 		$responceToEmit->emit();
