@@ -31,4 +31,4 @@ var __vue_script__$1=script$1,__vue_render__$1=function(){var _vm=this,_h=_vm.$c
 window.KnowledgeBaseTree={component:Tree,mount:function mount(config){return new Vue(Tree).$mount(config.el)}};
 
 module.exports = KnowledgeBaseTree;
-//# sourceMappingURL=Tree.js.map
+//# sourceMappingURL=Tree.vue.js.map

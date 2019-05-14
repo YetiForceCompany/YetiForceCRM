@@ -34,7 +34,7 @@ class KnowledgeBase_Tree_View extends Vtiger_Index_View
 			'~libraries/vue/dist/vue.min.js',
 			'~libraries/quasar/dist/quasar.umd.min.js',
 			'~libraries/quasar/dist/icon-set/mdi-v3.umd.min.js',
-			'~layouts/basic/modules/KnowledgeBase/Tree.js'
+			'~layouts/basic/modules/KnowledgeBase/Tree.vue.js'
 		]));
 	}
 	public function getHeaderCss(App\Request $request)

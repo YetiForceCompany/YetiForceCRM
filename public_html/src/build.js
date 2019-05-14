@@ -16,8 +16,7 @@ let filesToMin = [];
 
 async function build(filePath) {
 	let directiories = filePath.split('\\');
-	console.log(directiories);
-	const fileName = directiories.pop();
+	const fileName = directiories.pop().replace('.js', '.vue.js');
 	const moduleName = directiories.pop();
 
 	const outputFile = `../layouts/basic/modules/${moduleName}/${fileName}`;
