@@ -2850,12 +2850,23 @@ CREATE TABLE `u_yf_knowledgebase` (
   `knowledgebaseid` int(10) NOT NULL,
   `subject` varchar(255) DEFAULT NULL,
   `number` varchar(32) DEFAULT NULL,
-  `content` text DEFAULT NULL,
+  `content` mediumtext DEFAULT NULL,
   `category` varchar(200) DEFAULT NULL,
   `knowledgebase_view` varchar(255) DEFAULT NULL,
   `knowledgebase_status` varchar(255) DEFAULT '',
   PRIMARY KEY (`knowledgebaseid`),
   CONSTRAINT `fk_1_vtiger_knowledgebase` FOREIGN KEY (`knowledgebaseid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_knowledgebase_knowledgebase` */
+
+CREATE TABLE `u_yf_knowledgebase_knowledgebase` (
+  `crmid` int(11) DEFAULT NULL,
+  `relcrmid` int(11) DEFAULT NULL,
+  KEY `u_yf_knowledgebase_knowledgebase_crmid_idx` (`crmid`),
+  KEY `u_yf_knowledgebase_knowledgebase_relcrmid_idx` (`relcrmid`),
+  CONSTRAINT `fk_1_u_yf_knowledgebase_knowledgebase` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,
+  CONSTRAINT `fk_2_u_yf_knowledgebase_knowledgebase` FOREIGN KEY (`relcrmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_knowledgebasecf` */
@@ -7734,7 +7745,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `tabid_2` (`tabid`,`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=605 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=606 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
