@@ -54,7 +54,7 @@ class Module
 	 * @param string $moduleName
 	 * @param int    $serverId
 	 *
-	 * @return null|array
+	 * @return array|false
 	 */
 	public static function getFieldPermission(string $moduleName, int $serverId)
 	{

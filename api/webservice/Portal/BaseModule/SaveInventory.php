@@ -44,10 +44,41 @@ class SaveInventory extends \Api\Core\BaseAction
 			(new \Api\Portal\BaseModel\SaveInventory($moduleName, $inventory))->getInventoryData(),
 			false
 		);
+		$this->setAddressForRecordModel($recordModel);
 		$recordModel->save();
 		return [
 			'id' => $recordModel->getId(),
 			'moduleName' => $moduleName
 		];
+	}
+
+	/**
+	 * Set address for record model.
+	 *
+	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return void
+	 */
+	private function setAddressForRecordModel(\Vtiger_Record_Model $recordModel)
+	{
+		$address = $this->controller->request->getArray('address');
+		$addressFields = [
+			'addresslevel1',
+			'addresslevel2',
+			'addresslevel3',
+			'addresslevel4',
+			'addresslevel5',
+			'addresslevel6',
+			'addresslevel7',
+			'addresslevel8',
+			'localnumber',
+			'buildingnumber',
+			'pobox'
+		];
+		foreach ($addressFields as $fieldName) {
+			if (isset($address[$fieldName])) {
+				$recordModel->set("{$fieldName}a", $address[$fieldName]);
+			}
+		}
 	}
 }
