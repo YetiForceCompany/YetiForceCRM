@@ -20,6 +20,7 @@
   "license": "YetiForce Public License v3",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.8.2",
+    "@mdi/font": "^3.6.95",
     "add": "^2.0.6",
     "animate.css": "^3.7",
     "block-ui": "^2.70.1",
@@ -71,6 +72,7 @@
     "perfect-scrollbar": "^1.3.0",
     "pnotify": "4.0.0",
     "popper.js": "^1.15.0",
+    "quasar": "^1.0.0-beta.23",
     "respond.js": "^1.4.2",
     "sass-material-colors": "^0.0.5",
     "select2": "^4.0.7-rc.0",

@@ -248,6 +248,19 @@
 							</a>
 						</div>
 					{/if}
+					{if \App\Privilege::isPermitted('KnowledgeBase')}
+						<div class="o-action-menu__item">
+							<a class="c-header__btn ml-2 btn-light btn showModal js-popover-tooltip js-header-knowledge-button"
+							   role="button"
+							   data-url="index.php?module=KnowledgeBase&view=Modal"
+							   data-js="popover|modal" data-content="{\App\Language::translate('BTN_KNOWLEDGE_BASE', 'KnowledgeBase')}"
+							   href="#">
+								<span class="userIcon-KnowledgeBase"
+									  title="{\App\Language::translate('BTN_KNOWLEDGE_BASE', 'KnowledgeBase')}"></span>
+								<span class="c-header__label--sm-down"> {\App\Language::translate('BTN_KNOWLEDGE_BASE', 'KnowledgeBase')}</span>
+							</a>
+						</div>
+					{/if}
 					{if \App\Privilege::isPermitted('Notification', 'DetailView')}
 						<div class="o-action-menu__item">
 							<a class="c-header__btn ml-2 btn btn-light btn isBadge notificationsNotice js-popover-tooltip {if App\Config::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}"

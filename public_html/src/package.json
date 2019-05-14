@@ -1,0 +1,30 @@
+{
+  "description": "",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "dependencies": {
+    "quasar": "^1.0.0-beta.23",
+    "vue": "^2.6.10"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-eslint": "^3.7.0",
+    "@vue/cli-service": "^3.7.0",
+    "@vue/eslint-config-prettier": "^4.0.1",
+    "css-loader": "^1.0.1",
+    "eslint": "^5.16.0",
+    "findit": "^2.0.0",
+    "rollup": "^0.62.0",
+    "rollup-plugin-alias": "^1.5.1",
+    "rollup-plugin-commonjs": "^9.3.4",
+    "rollup-plugin-node-globals": "^1.4.0",
+    "rollup-plugin-node-resolve": "^4.2.4",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup-plugin-vue": "^4.3.2",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
+    "vue-cli-plugin-quasar": "^1.0.0-beta.1",
+    "vue-loader": "^15.7.0",
+    "vue-template-compiler": "^2.6.10"
+  }
+}
