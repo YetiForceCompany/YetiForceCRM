@@ -2854,6 +2854,8 @@ CREATE TABLE `u_yf_knowledgebase` (
   `category` varchar(200) DEFAULT NULL,
   `knowledgebase_view` varchar(255) DEFAULT NULL,
   `knowledgebase_status` varchar(255) DEFAULT '',
+  `featured` tinyint(1) DEFAULT 0,
+  `introduction` text DEFAULT NULL,
   PRIMARY KEY (`knowledgebaseid`),
   CONSTRAINT `fk_1_vtiger_knowledgebase` FOREIGN KEY (`knowledgebaseid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -4372,7 +4374,7 @@ CREATE TABLE `vtiger_blocks` (
   KEY `block_tabid_idx` (`tabid`),
   KEY `block_sequence_idx` (`sequence`),
   CONSTRAINT `fk_1_vtiger_blocks` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=438 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=439 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_blocks_hide` */
 
@@ -5484,7 +5486,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2789 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2791 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
