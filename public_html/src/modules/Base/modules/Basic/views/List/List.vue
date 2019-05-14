@@ -1,6 +1,6 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <list :moduleName="moduleName" :columns="columns" :data="data"></list>
+  <list :moduleName="moduleName" :columns="columns" :rows="rows"></list>
 </template>
 
 <script>
@@ -25,7 +25,7 @@ export default {
     store.dispatch(actionName).then(data => {
       next(vm => {
         vm.columns = data.columns
-        vm.data = data.data
+        vm.rows = data.data
         vm.moduleName = storeModule
       })
     })
