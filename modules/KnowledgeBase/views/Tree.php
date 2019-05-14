@@ -1,50 +1,53 @@
 <?php
+/* +***********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.0
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is:  vtiger CRM Open Source
+ * The Initial Developer of the Original Code is vtiger.
+ * Portions created by vtiger are Copyright (C) vtiger.
+ * All Rights Reserved.
+ * *********************************************************************************** */
 
-/**
- * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Tomasz Kur <t.kur@yetiforce.com>
- */
 class KnowledgeBase_Tree_View extends Vtiger_Index_View
 {
+	/**
+	 * {@inheritdoc}
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view')];
-		$linkModels = $moduleModel->getSideBarLinks($linkParams);
 		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('QUICK_LINKS', $linkModels);
-		$viewer->view('TreeHeader.tpl', $moduleName);
+		$viewer->view('Tree.tpl', $moduleName);
 	}
-
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
-			'~libraries/jstree/dist/jstree.js',
-			'~libraries/datatables.net/js/jquery.dataTables.js',
-			'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
-			'~libraries/datatables.net-responsive/js/dataTables.responsive.js',
-			'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js'
+			'~libraries/vue/dist/vue.min.js',
+			'~libraries/quasar/dist/quasar.umd.min.js',
+			'~libraries/quasar/dist/icon-set/mdi-v3.umd.min.js',
+			'~layouts/basic/modules/KnowledgeBase/Tree.js'
 		]));
 	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getHeaderCss(\App\Request $request)
+	public function getHeaderCss(App\Request $request)
 	{
-		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
-			'~libraries/jstree-bootstrap-theme/dist/themes/proton/style.css',
-			'~libraries/datatables.net-bs4/css/dataTables.bootstrap4.css',
-			'~libraries/datatables.net-responsive-bs4/css/responsive.bootstrap4.css',
-		]));
+		$headerCssInstances = parent::getHeaderCss($request);
+		$cssFileNames = [
+			'~libraries/@mdi/font/css/materialdesignicons.min.css',
+			'~libraries/quasar/dist/quasar.min.css'
+		];
+		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
+
+		return array_merge($headerCssInstances, $cssInstances);
 	}
 }
