@@ -34,6 +34,37 @@
 							{/foreach}
 						</table>
 					</div>
+					<div class="c-panel c-panel--edit">
+						<div class="blockHeader c-panel__header align-items-center">
+							<h5 class="mb-0 ml-2">{\App\Language::translate('LBL_MASS_STATUS_CHANGE', $MODULE_NAME)}</h5>
+						</div>
+						<div class="row pt-2 pb-2">
+							<div class="col-6">
+								<label class="my-0 fieldLabel text-lg-left text-xl-right u-text-small-bold" for="status">{\App\Language::translate('LBL_STATUS', $MODULE_NAME)}</label>
+								<select id="status" class="select2 js-status">
+									{foreach key=VALUE item=STATUS from=$STATUS_PICKLIST}
+										<option value="{$VALUE}">{\App\Language::translate({$STATUS}, $MODULE_NAME)}</option>
+									{/foreach}
+								</select>
+							</div>
+							<div class="col-6">
+								<label class="my-0 fieldLabel text-lg-left text-xl-right u-text-small-bold" for="status">{\App\Language::translate('LBL_RECORDS', $MODULE_NAME)}</label>
+								<select class="select2 js-selected-records">
+									<option value="all">{\App\Language::translate('LBL_ALL')}</option>
+									<option value="child">{\App\Language::translate('LBL_CHILD_RECORDS')}</option>
+								</select>
+							</div>
+						</div>
+						<div class="row pb-2">
+							<div class="col-12">
+								<div class="float-right cancelLinkContainer">
+									<button class="btn btn-success js-update-hierarchy" data-js="click">
+										<strong>{\App\Language::translate('LBL_UPDATE', $MODULE_NAME)}</strong>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<div class="float-right cancelLinkContainer">

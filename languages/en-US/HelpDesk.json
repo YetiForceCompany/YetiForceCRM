@@ -87,6 +87,9 @@
     "Services": "Services",
     "Support": "Support",
     "Administrative": "administrative",
-    "LBL_SHOW_HIERARCHY": "Hierarchy"
+    "LBL_SHOW_HIERARCHY": "Hierarchy",
+    "LBL_MASS_STATUS_CHANGE": "Mass status change",
+    "LBL_RECORDS": "Records to change",
+    "LBL_CHILD_RECORDS": "Child records for actual"
   }
 }

@@ -39,7 +39,15 @@ return [
 		'sanitization' => '\App\Purifier::bool'
 	],
 	'COLUMNS_IN_HIERARCHY' => [
-		'default' => [],
+		'default' => [
+			'Ticket No' => 'ticket_no',
+			'Subject' => 'title',
+			'Related To' => 'parent_id',
+			'Status' => 'status',
+			'Priority' => 'priority',
+			'Assigned To' => 'assigned_user_id',
+			'FL_TOTAL_TIME_H' => 'sum_time',
+		],
 		'description' => 'Columns visible in HelpDesk hierarchy [$label => $columnName]'
 	],
 	'MAX_HIERARCHY_DEPTH' => [

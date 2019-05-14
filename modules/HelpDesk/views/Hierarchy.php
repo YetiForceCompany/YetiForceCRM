@@ -18,7 +18,7 @@ class HelpDesk_Hierarchy_View extends \App\Controller\View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if ($request->isEmpty('record')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -31,13 +31,14 @@ class HelpDesk_Hierarchy_View extends \App\Controller\View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 		$hierarchy = $recordModel->getHierarchy();
 		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('STATUS_PICKLIST', $recordModel->getField('ticketstatus')->getPickListValues());
 		$viewer->assign('HIERARCHY', $hierarchy);
 		$viewer->view('Hierarchy.tpl', $moduleName);
 	}
