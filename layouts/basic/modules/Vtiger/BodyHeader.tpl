@@ -253,11 +253,11 @@
 							<a class="c-header__btn ml-2 btn-light btn showModal js-popover-tooltip js-header-knowledge-button"
 							   role="button"
 							   data-url="index.php?module=KnowledgeBase&view=Modal"
-							   data-js="popover|modal" data-content="{\App\Language::translate('SINGLE_KnowledgeBase', 'KnowledgeBase')}"
+							   data-js="popover|modal" data-content="{\App\Language::translate('BTN_KNOWLEDGE_BASE', 'KnowledgeBase')}"
 							   href="#">
 								<span class="userIcon-KnowledgeBase"
-									  title="{\App\Language::translate('SINGLE_KnowledgeBase', 'KnowledgeBase')}"></span>
-								<span class="c-header__label--sm-down"> {\App\Language::translate('SINGLE_KnowledgeBase', 'KnowledgeBase')}</span>
+									  title="{\App\Language::translate('BTN_KNOWLEDGE_BASE', 'KnowledgeBase')}"></span>
+								<span class="c-header__label--sm-down"> {\App\Language::translate('BTN_KNOWLEDGE_BASE', 'KnowledgeBase')}</span>
 							</a>
 						</div>
 					{/if}

@@ -8,13 +8,6 @@
 
 class KnowledgeBase_Tree_View extends Vtiger_Index_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
 
 	/**
 	 * {@inheritdoc}
