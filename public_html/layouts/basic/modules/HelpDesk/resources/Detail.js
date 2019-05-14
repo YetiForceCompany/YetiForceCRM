@@ -125,8 +125,8 @@ Vtiger_Detail_Js("HelpDesk_Detail_Js", {
 		container.find('.js-update-hierarchy').on('click',function(){
 			let params = {
 				module: app.getModuleName(),
-				action: 'HelpDesk',
-				selectedRecords: container.find('.js-selected-records').val(),
+				action: 'ChangeStatus',
+				recordsType: container.find('.js-selected-records').val(),
 				status: container.find('.js-status').val(),
 				record: app.getRecordId()
 			};
