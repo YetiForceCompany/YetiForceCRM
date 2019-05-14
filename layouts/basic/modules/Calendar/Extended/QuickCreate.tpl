@@ -14,20 +14,23 @@
 					<div class="modal-header col-12 m-0 align-items-center form-row d-flex justify-content-between py-2 js-modal-header" data-js="height">
 						<div class="col-xl-6 col-12">
 							<h5 class="modal-title form-row text-center text-xl-left mb-2 mb-xl-0">
-								{if $RECORD}
-									<span class="col-12">
-										<span class="fas fa-edit mr-1"></span>
-										<strong class="mr-1">{$MODAL_TITLE}</strong>
-									</span>
-								{else}
-									<span class="col-12">
-										<span class="fas fa-plus mr-1"></span>
-										<strong class="mr-1">{$MODAL_TITLE}:</strong>
-										<strong class="text-uppercase">
-											<span class="userIcon-{$MODULE_NAME} mx-1"></span>{\App\Language::translate($SINGLE_MODULE, $MODULE_NAME)}
-										</strong>
-									</span>
-								{/if}
+									<div class="js-modal-title__container col-12">
+										<div class="js-modal-title--add {if $RECORD} d-none{/if}">
+											<span class="fas fa-plus mr-1"></span>
+											<strong class="mr-1">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE_NAME)}:</strong>
+											<strong class="text-uppercase">
+												<span class="userIcon-{$MODULE_NAME} mx-1"></span>{\App\Language::translate($SINGLE_MODULE, $MODULE_NAME)}
+											</strong>
+										</div>
+										<div class="js-modal-title--status d-none">
+											<span class="fas fa-question-circle mr-1"></span>
+											<strong class="mr-1">{\App\Language::translate('LBL_SET_RECORD_STATUS', $MODULE_NAME)}</strong>
+										</div>
+										<div class="js-modal-title--edit{if !$RECORD} d-none{/if}">
+											<span class="fas fa-edit mr-1"></span>
+											<strong class="mr-1">{\App\Language::translate('LBL_EDIT_EVENT',$MODULE_NAME)}</strong>
+										</div>
+									</div>
 							</h5>
 						</div>
 						<div class="col-xl-6 col-12 text-center text-xl-right">
@@ -51,8 +54,10 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-4 pl-3">
-							{include file=\App\Layout::getTemplatePath('Extended/EventForm.tpl', $MODULE_NAME)}
+						<div class="js-calendar-right-panel col-4 pl-3" data-js="container | html">
+							<div class="js-qc-form" >
+								{include file=\App\Layout::getTemplatePath('Extended/EventForm.tpl', $MODULE_NAME)}
+							</div>
 						</div>
 					</div>
 				</div>

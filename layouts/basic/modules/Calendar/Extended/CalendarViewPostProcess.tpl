@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Calendar-Extended-CalendarViewPostProcess js-calendar-right-panel {if $USER_MODEL->get('leftpanelhide')}leftPanelOpen {/if}siteBarRight calendarRightPanel col-xs-12 hideSiteBar"
-		 data-showPanel="{if !App\Config::module($MODULE, 'SHOW_RIGHT_PANEL')}0{else}1{/if}" id="rightPanel"
+		 data-showPanel="{if !App\Config::module($MODULE, 'SHOW_RIGHT_PANEL')}0{else}1{/if}"
 		 data-js="class: hideSiteBar">
 		<div class="o-calendar__panel__tabs">
 			<div class="btn btn-block js-toggle-site-bar-right-button toggleSiteBarRightButton hideToggleSiteBarRightButton d-none d-lg-block"
