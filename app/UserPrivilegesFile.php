@@ -31,7 +31,7 @@ class UserPrivilegesFile
 	 */
 	public static function createUserPrivilegesfile($userid)
 	{
-		$handle = fopen(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'user_privileges/user_privileges_' . $userid . '.php', 'w+');
+		$handle = fopen(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'user_privileges/user_privileges_' . $userid . '.php', 'w+');
 		if ($handle) {
 			$newBuf = '';
 			$newBuf .= "<?php\n";
@@ -41,15 +41,15 @@ class UserPrivilegesFile
 			$userFocus->column_fields['id'] = '';
 			$userFocus->id = $userid;
 			foreach ($userFocus->column_fields as $field => $value) {
-				if (isset($userFocus->$field)) {
-					if ($field === 'currency_symbol') {
-						$userInfo[$field] = $userFocus->$field;
+				if (isset($userFocus->{$field})) {
+					if ('currency_symbol' === $field) {
+						$userInfo[$field] = $userFocus->{$field};
 					} else {
-						$userInfo[$field] = is_numeric($userFocus->$field) ? $userFocus->$field : \App\Purifier::encodeHtml($userFocus->$field);
+						$userInfo[$field] = is_numeric($userFocus->{$field}) ? $userFocus->{$field} : \App\Purifier::encodeHtml($userFocus->{$field});
 					}
 				}
 			}
-			if ($userFocus->is_admin == 'on') {
+			if ('on' == $userFocus->is_admin) {
 				$newBuf .= "\$is_admin=true;\n";
 				$newBuf .= '$user_info=' . Utils::varExport($userInfo) . ";\n";
 			} else {
@@ -97,12 +97,12 @@ class UserPrivilegesFile
 	{
 		\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/user_privileges_' . $userid . '.php');
 		require 'user_privileges/user_privileges_' . $userid . '.php';
-		$handle = fopen(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'user_privileges/sharing_privileges_' . $userid . '.php', 'w+');
+		$handle = fopen(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'user_privileges/sharing_privileges_' . $userid . '.php', 'w+');
 		if ($handle) {
 			$newBuf = "<?php\n";
 			$userFocus = \CRMEntity::getInstance('Users');
 			$userFocus->retrieveEntityInfo($userid, 'Users');
-			if ($userFocus->is_admin == 'on') {
+			if ('on' == $userFocus->is_admin) {
 				fwrite($handle, $newBuf);
 				fclose($handle);
 			} else {
@@ -182,7 +182,7 @@ class UserPrivilegesFile
 		$modShareWritePermission['GROUP'] = [];
 		$parModId = Module::getModuleId($par_mod);
 		$shareModId = Module::getModuleId($share_mod);
-		if ($def_org_share[$shareModId] == 3 || $def_org_share[$shareModId] == 0) {
+		if (3 == $def_org_share[$shareModId] || 0 == $def_org_share[$shareModId]) {
 			$roleReadPer = [];
 			$roleWritePer = [];
 			$grpReadPer = [];
@@ -198,9 +198,9 @@ class UserPrivilegesFile
 					])->scalar();
 				foreach ($sharingInfoArr as $shareType => $shareEntArr) {
 					foreach ($shareEntArr as $shareEntId) {
-						if ($shareType == 'ROLE') {
-							if ($sharePermission == 1) {
-								if ($def_org_share[$shareModId] == 3 && !isset($roleReadPer[$shareEntId])) {
+						if ('ROLE' == $shareType) {
+							if (1 == $sharePermission) {
+								if (3 == $def_org_share[$shareModId] && !isset($roleReadPer[$shareEntId])) {
 									if (isset($mod_share_read_per['ROLE'][$shareEntId])) {
 										$shareRoleUsers = $mod_share_read_per['ROLE'][$shareEntId];
 									} elseif (isset($mod_share_write_per['ROLE'][$shareEntId])) {
@@ -220,7 +220,7 @@ class UserPrivilegesFile
 									}
 									$roleWritePer[$shareEntId] = $shareRoleUsers;
 								}
-							} elseif ($sharePermission == 0 && $def_org_share[$shareModId] == 3) {
+							} elseif (0 == $sharePermission && 3 == $def_org_share[$shareModId]) {
 								if (!isset($roleReadPer[$shareEntId])) {
 									if (isset($mod_share_read_per['ROLE'][$shareEntId])) {
 										$shareRoleUsers = $mod_share_read_per['ROLE'][$shareEntId];
@@ -232,9 +232,9 @@ class UserPrivilegesFile
 									$roleReadPer[$shareEntId] = $shareRoleUsers;
 								}
 							}
-						} elseif ($shareType == 'GROUP') {
-							if ($sharePermission == 1) {
-								if ($def_org_share[$shareModId] == 3 && !isset($grpReadPer[$shareEntId])) {
+						} elseif ('GROUP' == $shareType) {
+							if (1 == $sharePermission) {
+								if (3 == $def_org_share[$shareModId] && !isset($grpReadPer[$shareEntId])) {
 									if (isset($mod_share_read_per['GROUP'][$shareEntId])) {
 										$shareGrpUsers = $mod_share_read_per['GROUP'][$shareEntId];
 									} elseif (isset($mod_share_write_per['GROUP'][$shareEntId])) {
@@ -266,7 +266,7 @@ class UserPrivilegesFile
 									}
 									$grpWritePer[$shareEntId] = $shareGrpUsers;
 								}
-							} elseif ($sharePermission == 0 && $def_org_share[$shareModId] == 3) {
+							} elseif (0 == $sharePermission && 3 == $def_org_share[$shareModId]) {
 								if (!isset($grpReadPer[$shareEntId])) {
 									if (isset($mod_share_read_per['GROUP'][$shareEntId])) {
 										$shareGrpUsers = $mod_share_read_per['GROUP'][$shareEntId];
@@ -319,10 +319,10 @@ class UserPrivilegesFile
 		foreach ($sharingArray as $module) {
 			$moduleSharingReadPermvar = $module . '_share_read_permission';
 			$moduleSharingWritePermvar = $module . '_share_write_permission';
-			static::populateSharingPrivileges('USER', $userid, $module, 'read', $$moduleSharingReadPermvar);
-			static::populateSharingPrivileges('USER', $userid, $module, 'write', $$moduleSharingWritePermvar);
-			static::populateSharingPrivileges('GROUP', $userid, $module, 'read', $$moduleSharingReadPermvar);
-			static::populateSharingPrivileges('GROUP', $userid, $module, 'write', $$moduleSharingWritePermvar);
+			static::populateSharingPrivileges('USER', $userid, $module, 'read', ${$moduleSharingReadPermvar});
+			static::populateSharingPrivileges('USER', $userid, $module, 'write', ${$moduleSharingWritePermvar});
+			static::populateSharingPrivileges('GROUP', $userid, $module, 'read', ${$moduleSharingReadPermvar});
+			static::populateSharingPrivileges('GROUP', $userid, $module, 'write', ${$moduleSharingWritePermvar});
 		}
 		//Populating Values into the temp related sharing tables
 		foreach ($related_module_share as $relTabId => $tabIdArr) {
@@ -332,10 +332,10 @@ class UserPrivilegesFile
 					$tabName = Module::getModuleName($tabId);
 					$relmoduleSharingReadPermvar = $tabName . '_' . $relTabName . '_share_read_permission';
 					$relmoduleSharingWritePermvar = $tabName . '_' . $relTabName . '_share_write_permission';
-					static::populateRelatedSharingPrivileges('USER', $userid, $tabName, $relTabName, 'read', $$relmoduleSharingReadPermvar);
-					static::populateRelatedSharingPrivileges('USER', $userid, $tabName, $relTabName, 'write', $$relmoduleSharingWritePermvar);
-					static::populateRelatedSharingPrivileges('GROUP', $userid, $tabName, $relTabName, 'read', $$relmoduleSharingReadPermvar);
-					static::populateRelatedSharingPrivileges('GROUP', $userid, $tabName, $relTabName, 'write', $$relmoduleSharingWritePermvar);
+					static::populateRelatedSharingPrivileges('USER', $userid, $tabName, $relTabName, 'read', ${$relmoduleSharingReadPermvar});
+					static::populateRelatedSharingPrivileges('USER', $userid, $tabName, $relTabName, 'write', ${$relmoduleSharingWritePermvar});
+					static::populateRelatedSharingPrivileges('GROUP', $userid, $tabName, $relTabName, 'read', ${$relmoduleSharingReadPermvar});
+					static::populateRelatedSharingPrivileges('GROUP', $userid, $tabName, $relTabName, 'write', ${$relmoduleSharingWritePermvar});
 				}
 			}
 		}
@@ -357,10 +357,10 @@ class UserPrivilegesFile
 		if (empty($varArr)) {
 			return;
 		}
-		if ($enttype === 'USER') {
-			if ($pertype === 'read') {
+		if ('USER' === $enttype) {
+			if ('read' === $pertype) {
 				$tableName = 'vtiger_tmp_read_user_sharing_per';
-			} elseif ($pertype === 'write') {
+			} elseif ('write' === $pertype) {
 				$tableName = 'vtiger_tmp_write_user_sharing_per';
 			}
 			$useArrr = [];
@@ -384,10 +384,10 @@ class UserPrivilegesFile
 					}
 				}
 			}
-		} elseif ($enttype === 'GROUP') {
-			if ($pertype === 'read') {
+		} elseif ('GROUP' === $enttype) {
+			if ('read' === $pertype) {
 				$tableName = 'vtiger_tmp_read_group_sharing_per';
-			} elseif ($pertype === 'write') {
+			} elseif ('write' === $pertype) {
 				$tableName = 'vtiger_tmp_write_group_sharing_per';
 			}
 			$grpArr = [];
@@ -411,6 +411,7 @@ class UserPrivilegesFile
 	 * @param string $relmodule
 	 * @param string $pertype
 	 * @param bool   $varArr
+	 * @param mixed  $userId
 	 */
 	public static function populateRelatedSharingPrivileges($enttype, $userId, $module, $relmodule, $pertype, $varArr = false)
 	{
@@ -420,10 +421,10 @@ class UserPrivilegesFile
 		if (empty($varArr)) {
 			return;
 		}
-		if ($enttype === 'USER') {
-			if ($pertype === 'read') {
+		if ('USER' === $enttype) {
+			if ('read' === $pertype) {
 				$tableName = 'vtiger_tmp_read_user_rel_sharing_per';
-			} elseif ($pertype === 'write') {
+			} elseif ('write' === $pertype) {
 				$tableName = 'vtiger_tmp_write_user_rel_sharing_per';
 			}
 			$userArr = [];
@@ -447,10 +448,10 @@ class UserPrivilegesFile
 					}
 				}
 			}
-		} elseif ($enttype === 'GROUP') {
-			if ($pertype === 'read') {
+		} elseif ('GROUP' === $enttype) {
+			if ('read' === $pertype) {
 				$tableName = 'vtiger_tmp_read_group_rel_sharing_per';
-			} elseif ($pertype === 'write') {
+			} elseif ('write' === $pertype) {
 				$tableName = 'vtiger_tmp_write_group_rel_sharing_per';
 			}
 			$grpArr = [];

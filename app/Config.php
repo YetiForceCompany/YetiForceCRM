@@ -48,7 +48,7 @@ class Config
 	/**
 	 * Gets main configuration.
 	 *
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -60,7 +60,7 @@ class Config
 		if ($arg && isset($GLOBALS[$arg])) {
 			return $GLOBALS[$arg];
 		}
-		$class = "\Config\Main";
+		$class = '\\Config\\Main';
 		return self::get($class, $arg, $default);
 	}
 
@@ -68,7 +68,7 @@ class Config
 	 * Gets module configuration.
 	 *
 	 * @param string      $moduleName
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -77,7 +77,7 @@ class Config
 	 */
 	public static function module(string $moduleName, ?string $arg = null, $default = null)
 	{
-		$class = "\Config\Modules\\$moduleName";
+		$class = "\\Config\\Modules\\$moduleName";
 		return self::get($class, $arg, $default);
 	}
 
@@ -85,7 +85,7 @@ class Config
 	 * Gets component configuration.
 	 *
 	 * @param string      $component
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -94,14 +94,14 @@ class Config
 	 */
 	public static function component(string $component, ?string $arg = null, $default = null)
 	{
-		$class = "\Config\Components\\$component";
+		$class = "\\Config\\Components\\$component";
 		return self::get($class, $arg, $default);
 	}
 
 	/**
 	 * Gets performance configuration.
 	 *
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -110,14 +110,14 @@ class Config
 	 */
 	public static function performance(?string $arg = null, $default = null)
 	{
-		$class = "\Config\Performance";
+		$class = '\\Config\\Performance';
 		return self::get($class, $arg, $default);
 	}
 
 	/**
 	 * Gets api configuration.
 	 *
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -126,14 +126,14 @@ class Config
 	 */
 	public static function api(?string $arg = null, $default = null)
 	{
-		$class = "\Config\Api";
+		$class = '\\Config\\Api';
 		return self::get($class, $arg, $default);
 	}
 
 	/**
 	 * Gets debug configuration.
 	 *
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -142,14 +142,14 @@ class Config
 	 */
 	public static function debug(?string $arg = null, $default = null)
 	{
-		$class = "\Config\Debug";
+		$class = '\\Config\\Debug';
 		return self::get($class, $arg, $default);
 	}
 
 	/**
 	 * Gets developer configuration.
 	 *
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -158,14 +158,14 @@ class Config
 	 */
 	public static function developer(?string $arg = null, $default = null)
 	{
-		$class = "\Config\Developer";
+		$class = '\\Config\\Developer';
 		return self::get($class, $arg, $default);
 	}
 
 	/**
 	 * Gets security configuration.
 	 *
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -174,14 +174,14 @@ class Config
 	 */
 	public static function security(?string $arg = null, $default = null)
 	{
-		$class = "\Config\Security";
+		$class = '\\Config\\Security';
 		return self::get($class, $arg, $default);
 	}
 
 	/**
 	 * Gets search configuration.
 	 *
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -190,14 +190,14 @@ class Config
 	 */
 	public static function search(?string $arg = null, $default = null)
 	{
-		$class = "\Config\Search";
+		$class = '\\Config\\Search';
 		return self::get($class, $arg, $default);
 	}
 
 	/**
 	 * Gets sounds configuration.
 	 *
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -206,14 +206,14 @@ class Config
 	 */
 	public static function sounds(?string $arg = null, $default = null)
 	{
-		$class = "\Config\Sounds";
+		$class = '\\Config\\Sounds';
 		return self::get($class, $arg, $default);
 	}
 
 	/**
 	 * Gets relation configuration.
 	 *
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -222,14 +222,14 @@ class Config
 	 */
 	public static function relation(?string $arg = null, $default = null)
 	{
-		$class = "\Config\Relation";
+		$class = '\\Config\\Relation';
 		return self::get($class, $arg, $default);
 	}
 
 	/**
 	 * Gets security keys configuration.
 	 *
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -238,14 +238,14 @@ class Config
 	 */
 	public static function securityKeys(?string $arg = null, $default = null)
 	{
-		$class = "\Config\SecurityKeys";
+		$class = '\\Config\\SecurityKeys';
 		return self::get($class, $arg, $default);
 	}
 
 	/**
 	 * Gets database configuration.
 	 *
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -254,7 +254,7 @@ class Config
 	 */
 	public static function db(?string $arg = null, $default = null)
 	{
-		$class = "\Config\Db";
+		$class = '\\Config\\Db';
 		return self::get($class, $arg, $default);
 	}
 
@@ -262,7 +262,7 @@ class Config
 	 * Gets configuration for class.
 	 *
 	 * @param string      $class
-	 * @param string|null $arg
+	 * @param null|string $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -273,14 +273,14 @@ class Config
 	{
 		$value = $default;
 		if (\class_exists($class)) {
-			if ($arg === null) {
+			if (null === $arg) {
 				$object = (new \ReflectionClass($class));
 				$value = $object->getStaticProperties();
 				foreach ($object->getMethods() as $method) {
 					$value[$method->getName()] = \call_user_func("{$class}::{$method->getName()}");
 				}
-			} elseif (isset($class::$$arg)) {
-				$value = $class::$$arg;
+			} elseif (isset($class::${$arg})) {
+				$value = $class::${$arg};
 			} elseif (\method_exists($class, $arg)) {
 				$value = \call_user_func("{$class}::{$arg}");
 			}
@@ -301,8 +301,8 @@ class Config
 			[$type, $key, $value] = func_get_args();
 		}
 		$class = '\Config\\' . (isset($component) ? ucfirst($component) . 's\\' : '') . ucfirst($type);
-		if ($result = (class_exists($class) && isset($class::$$key))) {
-			$class::$$key = $value;
+		if ($result = (class_exists($class) && isset($class::${$key}))) {
+			$class::${$key} = $value;
 		}
 		return $result;
 	}
