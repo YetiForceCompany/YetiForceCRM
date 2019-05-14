@@ -32,6 +32,14 @@ class SaveInventory extends \Api\Core\BaseAction
 		$inventory = $this->controller->request->getArray('inventory');
 		$recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
 		$recordModel->set('subject', $moduleName . '/' . date('Y-m-d'));
+		$relatedFieldInfo = \App\Field::getRelatedFieldForModule($moduleName, 'Accounts');
+		if (!empty($relatedFieldInfo)) {
+			$recordModel->set($relatedFieldInfo['fieldname'], $this->getParentCrmId());
+		}
+		$fieldPermission = \Api\Core\Module::getFieldPermission($moduleName, $this->controller->app['id']);
+		if ($fieldPermission) {
+			$recordModel->setDataForSave([$fieldPermission['tablename'] => [$fieldPermission['columnname'] => 1]]);
+		}
 		$recordModel->initInventoryData(
 			(new \Api\Portal\BaseModel\SaveInventory($moduleName, $inventory))->getInventoryData(),
 			false
@@ -39,6 +47,7 @@ class SaveInventory extends \Api\Core\BaseAction
 		$recordModel->save();
 		return [
 			'id' => $recordModel->getId(),
+			'moduleName' => $moduleName
 		];
 	}
 }
