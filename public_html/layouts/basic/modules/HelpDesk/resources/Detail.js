@@ -57,6 +57,7 @@ Vtiger_Detail_Js("HelpDesk_Detail_Js", {
 	 * @param {array} data
 	 */
 	displayHierarchyResponseData: function (data) {
+		const thisInstance = this;
 		let callbackFunction = function () {
 			app.showScrollBar($('#hierarchyScroll'), {
 				height: '300px',
@@ -64,7 +65,8 @@ Vtiger_Detail_Js("HelpDesk_Detail_Js", {
 				size: '6px'
 			});
 		};
-		app.showModalWindow(data, function () {
+		app.showModalWindow(data, function (modal) {
+			thisInstance.registerChangeStatusInHierarchy(modal);
 			if (typeof callbackFunction == 'function' && $("#hierarchyScroll").height() > 300) {
 				callbackFunction();
 			}
@@ -110,6 +112,29 @@ Vtiger_Detail_Js("HelpDesk_Detail_Js", {
 			thisInstance.getHierarchyResponseData(params).then(function (data) {
 				thisInstance.displayHierarchyResponseData(data);
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			});
+		});
+	},
+
+	/**
+	 * Function to register events on update hierarchy button
+	 *
+	 * @param {jQuery} container
+	 */
+	registerChangeStatusInHierarchy: function(container) {
+		container.find('.js-update-hierarchy').on('click',function(){
+			let params = {
+				module: app.getModuleName(),
+				action: 'HelpDesk',
+				selectedRecords: container.find('.js-selected-records').val(),
+				status: container.find('.js-status').val(),
+				record: app.getRecordId()
+			};
+			AppConnector.request(params).done(function (data) {
+				if (data.success) {
+					Vtiger_Helper_Js.showPnotify({text: data.result.data, type: 'success'});
+				}
+				app.hideModalWindow();
 			});
 		});
 	},
