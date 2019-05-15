@@ -150,7 +150,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$type = (int) $params['fieldTypeList'];
 		$name = strtolower($params['fieldName']);
 		$fieldParams = '';
-		$db = \App\Db::getInstance();
 		if ($this->checkFieldLableExists($label)) {
 			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 513);
 		}
@@ -205,7 +204,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$fieldParams['field'] = $params['MRVField'];
 			$fieldParams['filterField'] = $params['MRVFilterField'] ?? null;
 			$fieldParams['filterValue'] = $params['MRVFilterValue'] ?? null;
-			$db->createCommand()->insert('s_#__multireference', ['source_module' => $moduleName, 'dest_module' => $params['MRVModule']])->execute();
+			\App\Db::getInstance()->createCommand()->insert('s_#__multireference', ['source_module' => $moduleName, 'dest_module' => $params['MRVModule']])->execute();
 		} elseif ('ServerAccess' === $fieldType) {
 			$fieldParams = (int) $params['server'];
 		}
