@@ -26,14 +26,18 @@ Vtiger_Edit_Js('Settings_WebserviceUsers_Edit_Js', {}, {
 			if (form.validationEngine('validate')) {
 				let formData = form.serializeFormData();
 				AppConnector.request(formData).done(function (data) {
-					if (data.result) {
-						Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_SAVE_SUCCESS')});
-						let listInstance = Settings_WebserviceUsers_List_Js.getInstance();
-						listInstance.reloadTab();
-					} else {
-						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
-					}
-					app.hideModalWindow();
+					if (data.result.success) {
+							Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_SAVE_SUCCESS')});
+							let listInstance = Settings_WebserviceUsers_List_Js.getInstance();
+							listInstance.reloadTab();
+							app.hideModalWindow();						
+						} else {
+							if (data.result.message) {
+								Vtiger_Helper_Js.showPnotify(data.result.message);
+							} else {
+								Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+							}
+						}
 				});
 			}
 		});

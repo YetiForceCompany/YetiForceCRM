@@ -45,8 +45,11 @@ class Settings_WebserviceUsers_SaveAjax_Action extends Settings_Vtiger_Save_Acti
 				$recordModel->sendEmail();
 			}
 		}
-		$responceToEmit = new Vtiger_Response();
-		$responceToEmit->setResult($result);
-		$responceToEmit->emit();
+		if ($result) {
+			$result = ['success' => true];
+			$responceToEmit = new Vtiger_Response();
+			$responceToEmit->setResult($result);
+			$responceToEmit->emit();
+		}
 	}
 }

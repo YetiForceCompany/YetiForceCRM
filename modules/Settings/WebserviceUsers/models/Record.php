@@ -196,15 +196,39 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 				unset($data[$key]);
 			}
 		}
-		if (empty($this->getId())) {
-			$seccess = $db->createCommand()->insert($table, $data)->execute();
-			if ($seccess) {
-				$this->set('id', $db->getLastInsertID("{$table}_{$index}_seq"));
+		if ($this->validate($data, $table)) {
+			if (empty($this->getId())) {
+				$success = $db->createCommand()->insert($table, $data)->execute();
+				if ($success) {
+					$this->set('id', $db->getLastInsertID("{$table}_{$index}_seq"));
+				}
+			} else {
+				$success = $db->createCommand()->update($table, $data, [$index => $this->getId()])->execute();
 			}
-		} else {
-			$seccess = $db->createCommand()->update($table, $data, [$index => $this->getId()])->execute();
+			return $success;
 		}
-		return $seccess;
+	}
+
+	/**
+	 * Function to validate.
+	 *
+	 * @param array $data
+	 * @param mixed $table
+	 *
+	 * @return bool
+	 */
+	public function validate($data, $table)
+	{
+		$response = new Vtiger_Response();
+		try {
+			if (true === (new \App\Db\Query())->select(['user_name'])->from($table)->where(['user_name' => $data['user_name']])->exists()) {
+				throw new \App\Exceptions\IllegalValue('ERR_DUPLICATE_LOGIN', 406);
+			}
+			return true;
+		} catch (\Exception $e) {
+			$response->setResult(['success' => false, 'message' => \App\Language::translate('LBL_DUPLICATE_LOGIN')]);
+			$response->emit();
+		}
 	}
 
 	/**
