@@ -1681,6 +1681,7 @@
     "JS_UNEXPECTED_ERROR": "Unexpected error occurred",
     "JS_ENTERED_VALUE_IS_TOO_SHORT": "Entered value is too short",
     "JS_ENTERED_VALUE_IS_TOO_LONG": "Entered value is too long",
-    "JS_NOT_ALLOWED_VALUE": "Entered invalid value"
+    "JS_NOT_ALLOWED_VALUE": "Entered invalid value",
+    "JS_PLEASE_SELECT_VALID_DOMAIN_NAMES": "Please select valid domain names."
   }
 }

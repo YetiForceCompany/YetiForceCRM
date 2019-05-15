@@ -486,6 +486,43 @@ Vtiger_Email_Validator_Js(
 	}
 );
 
+Vtiger_Base_Validator_Js(
+	'Vtiger_MultiDomain_Validator_Js',
+	{
+		invokeValidation: function(field, rules, i, options) {
+			var validatorInstance = new Vtiger_MultiDomain_Validator_Js();
+			validatorInstance.setElement(field);
+			var result = validatorInstance.validate();
+			if (result == true) {
+				return result;
+			} else {
+				return validatorInstance.getError();
+			}
+		}
+	},
+	{
+		/**
+		 * Function to validate the Multi Domain select
+		 * @return true if validation is successfull
+		 * @return false if validation error occurs
+		 */
+		validate: function() {
+			var fieldInstance = this.getElement();
+			var selectElementValue = fieldInstance.val();
+			if (Array.isArray(selectElementValue)) {
+				for (let value of selectElementValue) {
+					if (!/(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]/iu.test(value)) {
+						var errorInfo = app.vtranslate('JS_PLEASE_SELECT_VALID_DOMAIN_NAMES');
+						this.setError(errorInfo);
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+	}
+);
+
 Vtiger_Double_Validator_Js(
 	'Vtiger_GreaterThanZero_Validator_Js',
 	{

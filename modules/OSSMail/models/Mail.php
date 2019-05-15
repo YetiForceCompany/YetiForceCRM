@@ -253,6 +253,98 @@ class OSSMail_Mail_Model extends \App\Base
 	}
 
 	/**
+	 * Search crmids by emails.
+	 *
+	 * @param string[] $emails
+	 * @param string   $moduleName
+	 * @param string   $fieldName
+	 *
+	 * @return array crmids
+	 */
+	public function searchByEmails(array $emails, string $moduleName, string $fieldName)
+	{
+		$return = [];
+		foreach ($emails as $email) {
+			if (empty($email)) {
+				continue;
+			}
+			$name = 'MSFindEmail_' . $moduleName . '_' . $fieldName;
+			$cache = App\Cache::get($name, $email);
+			if ($cache !== false) {
+				if ($cache != 0) {
+					$return = array_merge($return, $cache);
+				}
+			} else {
+				$ids = [];
+				$queryGenerator = new \App\QueryGenerator($moduleName);
+				if ($queryGenerator->getModuleField($fieldName)) {
+					$queryGenerator->setFields(['id']);
+					$queryGenerator->addCondition($fieldName, $email, 'e');
+					$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+					while (($crmid = $dataReader->readColumn(0)) !== false) {
+						$ids[] = $crmid;
+					}
+					$dataReader->close();
+					$return = array_merge($return, $ids);
+				}
+				if (empty($ids)) {
+					$ids = 0;
+				}
+				App\Cache::save($name, $email, $ids);
+			}
+		}
+		return $return;
+	}
+
+	/**
+	 * Search crmids from domains.
+	 *
+	 * @param Vtiger_Field_Model $fieldModel
+	 * @param string[]           $emails
+	 *
+	 * @return array crmids
+	 */
+	public function searchByDomains(Vtiger_Field_Model $fieldModel, array $emails)
+	{
+		$fieldName = $fieldModel->getName();
+		$moduleName = $fieldModel->getModuleName();
+		$name = 'MSFindEmail_' . $moduleName . '_' . $fieldName;
+		$crmids = [];
+		foreach ($emails as $email) {
+			$domain = mb_strtolower(explode('@', $email)[1]);
+			$cache = App\Cache::get($name, $domain);
+			if ($cache !== false) {
+				if ($cache != 0) {
+					$crmids = array_merge($crmids, $cache);
+				}
+			} else {
+				$ids = [];
+				$queryGenerator = new \App\QueryGenerator($moduleName);
+				if ($queryGenerator->getModuleField($fieldName)) {
+					$queryGenerator->setFields(['id']);
+					$queryGenerator->addNativeCondition(['or',
+						['like', $fieldName, $domain],
+						['like', $fieldName, '%' . $domain . ' %'],
+						['like', $fieldName, '% ' . $domain . '%'],
+						['like', $fieldName, '% ' . $domain . ' %']
+					]);
+					$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+					while (($crmid = $dataReader->readColumn(0)) !== false) {
+						$ids[] = $crmid;
+					}
+					$dataReader->close();
+					$crmids = array_merge($crmids, $ids);
+				}
+				if (empty($ids)) {
+					$ids = 0;
+				}
+				App\Cache::save($name, $domain, $ids);
+			}
+		}
+		return $crmids;
+	}
+
+	/**
 	 * Find email address.
 	 *
 	 * @param string $field
@@ -265,8 +357,6 @@ class OSSMail_Mail_Model extends \App\Base
 	{
 		$return = [];
 		$emails = $this->get($field);
-		$emailSearchList = OSSMailScanner_Record_Model::getEmailSearchList();
-
 		if (empty($emails)) {
 			return [];
 		}
@@ -275,43 +365,21 @@ class OSSMail_Mail_Model extends \App\Base
 		} else {
 			$emails = (array) $emails;
 		}
+		$emailSearchList = OSSMailScanner_Record_Model::getEmailSearchList();
 		if (!empty($emailSearchList)) {
 			foreach ($emailSearchList as $field) {
 				$enableFind = true;
 				$row = explode('=', $field);
 				$moduleName = $row[1];
+				$fieldModel = Vtiger_Field_Model::getInstance($row[0], Vtiger_Module_Model::getInstance($moduleName));
 				if ($searchModule && $searchModule !== $moduleName) {
 					$enableFind = false;
 				}
 				if ($enableFind) {
-					foreach ($emails as $email) {
-						if (empty($email)) {
-							continue;
-						}
-						$name = 'MSFindEmail_' . $moduleName . '_' . $row[0];
-						$cache = Vtiger_Cache::get($name, $email);
-						if (false !== $cache) {
-							if (0 != $cache) {
-								$return = array_merge($return, $cache);
-							}
-						} else {
-							$ids = [];
-							$queryGenerator = new \App\QueryGenerator($moduleName);
-							if ($queryGenerator->getModuleField($row[0])) {
-								$queryGenerator->setFields(['id']);
-								$queryGenerator->addCondition($row[0], $email, 'e');
-								$dataReader = $queryGenerator->createQuery()->createCommand()->query();
-								while (false !== ($crmid = $dataReader->readColumn(0))) {
-									$ids[] = $crmid;
-								}
-								$dataReader->close();
-								$return = array_merge($return, $ids);
-							}
-							if (empty($ids)) {
-								$ids = 0;
-							}
-							Vtiger_Cache::set($name, $email, $ids);
-						}
+					if ($fieldModel->get('uitype') === 319) {
+						$return = $this->searchByDomains($fieldModel, $emails);
+					} else {
+						$return = $this->searchByEmails($emails, $moduleName, $row[0]);
 					}
 				}
 			}
