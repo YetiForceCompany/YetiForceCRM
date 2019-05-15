@@ -178,12 +178,11 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function to save.
 	 *
-	 * @param array $data
-	 *
 	 * @return bool
 	 */
 	public function save()
 	{
+		$this->validate();
 		$db = App\Db::getInstance('webservice');
 		$table = $this->getModule()->getBaseTable();
 		$index = $this->getModule()->getTableIndex();
@@ -196,39 +195,28 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 				unset($data[$key]);
 			}
 		}
-		if ($this->validate($data, $table)) {
-			if (empty($this->getId())) {
-				$success = $db->createCommand()->insert($table, $data)->execute();
-				if ($success) {
-					$this->set('id', $db->getLastInsertID("{$table}_{$index}_seq"));
-				}
-			} else {
-				$success = $db->createCommand()->update($table, $data, [$index => $this->getId()])->execute();
+		if (empty($this->getId())) {
+			$success = $db->createCommand()->insert($table, $data)->execute();
+			if ($success) {
+				$this->set('id', $db->getLastInsertID("{$table}_{$index}_seq"));
 			}
-			return $success;
+		} else {
+			$success = $db->createCommand()->update($table, $data, [$index => $this->getId()])->execute();
 		}
+		return $success;
 	}
 
 	/**
 	 * Function to validate.
 	 *
-	 * @param array $data
-	 * @param mixed $table
-	 *
 	 * @return bool
 	 */
-	public function validate($data, $table)
+	public function validate()
 	{
-		$response = new Vtiger_Response();
-		try {
-			if (true === (new \App\Db\Query())->select(['user_name'])->from($table)->where(['user_name' => $data['user_name']])->exists()) {
-				throw new \App\Exceptions\IllegalValue('ERR_DUPLICATE_LOGIN', 406);
-			}
-			return true;
-		} catch (\Exception $e) {
-			$response->setResult(['success' => false, 'message' => \App\Language::translate('LBL_DUPLICATE_LOGIN')]);
-			$response->emit();
+		if ((new \App\Db\Query())->from($this->getModule()->getBaseTable())->where(['server_id' => $this->get('server_id'), 'user_name' => $this->get('user_name')])->exists()) {
+			throw new \App\Exceptions\IllegalValue('ERR_DUPLICATE_LOGIN', 406);
 		}
+		return true;
 	}
 
 	/**

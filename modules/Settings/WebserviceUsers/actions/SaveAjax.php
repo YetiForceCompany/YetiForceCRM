@@ -39,17 +39,21 @@ class Settings_WebserviceUsers_SaveAjax_Action extends Settings_Vtiger_Save_Acti
 			$recordModel = Settings_WebserviceUsers_Record_Model::getCleanInstance($typeApi);
 			$recordModel->setData($data);
 		}
-		$result = $recordModel->save();
-		if (true == \App\Config::api('ENABLE_EMAIL_PORTAL')) {
-			if ($request->isEmpty('record') && $result) {
-				$recordModel->sendEmail();
+
+		try {
+			$recordSave = $recordModel->save();
+			if (true == \App\Config::api('ENABLE_EMAIL_PORTAL')) {
+				if ($request->isEmpty('record') && $recordSave) {
+					$recordModel->sendEmail();
+				}
 			}
-		}
-		if ($result) {
 			$result = ['success' => true];
-			$responceToEmit = new Vtiger_Response();
-			$responceToEmit->setResult($result);
-			$responceToEmit->emit();
+		} catch (\Exception $e) {
+			$result = ['success' => false, 'message' => \App\Language::translate('LBL_DUPLICATE_LOGIN')];
 		}
+
+		$responceToEmit = new Vtiger_Response();
+		$responceToEmit->setResult($result);
+		$responceToEmit->emit();
 	}
 }
