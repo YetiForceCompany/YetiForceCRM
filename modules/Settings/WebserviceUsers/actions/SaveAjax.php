@@ -40,8 +40,10 @@ class Settings_WebserviceUsers_SaveAjax_Action extends Settings_Vtiger_Save_Acti
 			$recordModel->setData($data);
 		}
 		$result = $recordModel->save();
-		if ($request->isEmpty('record') && $result) {
-			$recordModel->sendEmail();
+		if (true == \App\Config::api('enableEmailPortal')) {
+			if ($request->isEmpty('record') && $result) {
+				$recordModel->sendEmail();
+			}
 		}
 		$responceToEmit = new Vtiger_Response();
 		$responceToEmit->setResult($result);
