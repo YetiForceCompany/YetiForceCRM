@@ -25,6 +25,8 @@ class Vtiger_MultiDomain_UIType extends Vtiger_Multipicklist_UIType
 		if (!is_array($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
+		$fieldModel = $this->getFieldModel();
+		$fieldParams = $fieldModel->getFieldParams();
 		foreach ($value as $item) {
 			if (!is_string($item)) {
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
@@ -37,6 +39,32 @@ class Vtiger_MultiDomain_UIType extends Vtiger_Multipicklist_UIType
 			}
 		}
 		$this->validate[$hashValue] = true;
+	}
+
+	/**
+	 * Check if value is unique.
+	 *
+	 * @param mixed               $value
+	 * @param int                 $recordId
+	 * @param \Vtiger_Field_Model $fieldModel
+	 *
+	 * @return bool
+	 */
+	public function validateUnique($value, int $recordId, Vtiger_Field_Model $fieldModel)
+	{
+		if ($recordId) {
+			if (is_string($value)) {
+				$value = explode(' |##| ', $value);
+			}
+			foreach ($value as $domain) {
+				$crmIds = \App\Fields\MultiDomain::getCrmIds($domain, $fieldModel);
+				$count = count($crmIds);
+				if (!($count === 0 || ($count === 1 && $crmIds[0] === $recordId))) {
+					throw new \App\Exceptions\AppException(\App\Language::translateArgs('ERR_DUPLICATES_VALUES_FOUND', 'Other.Exceptions', $domain), 513);
+				}
+			}
+		}
+		return true;
 	}
 
 	/**

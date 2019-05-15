@@ -318,27 +318,8 @@ class OSSMail_Mail_Model extends \App\Base
 					$crmids = array_merge($crmids, $cache);
 				}
 			} else {
-				$ids = [];
-				$queryGenerator = new \App\QueryGenerator($moduleName);
-				if ($queryGenerator->getModuleField($fieldName)) {
-					$queryGenerator->setFields(['id']);
-					$queryGenerator->addNativeCondition(['or',
-						['like', $fieldName, $domain],
-						['like', $fieldName, '%' . $domain . ' %'],
-						['like', $fieldName, '% ' . $domain . '%'],
-						['like', $fieldName, '% ' . $domain . ' %']
-					]);
-					$dataReader = $queryGenerator->createQuery()->createCommand()->query();
-					while (($crmid = $dataReader->readColumn(0)) !== false) {
-						$ids[] = $crmid;
-					}
-					$dataReader->close();
-					$crmids = array_merge($crmids, $ids);
-				}
-				if (empty($ids)) {
-					$ids = 0;
-				}
-				App\Cache::save($name, $domain, $ids);
+				$crmids = App\Fields\MultiDomain::getCrmIds($domain, $fieldModel);
+				App\Cache::save($name, $domain, $crmids);
 			}
 		}
 		return $crmids;

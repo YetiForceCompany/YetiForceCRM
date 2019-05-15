@@ -1363,6 +1363,7 @@
     "JS_SAVE_LOADER_INFO": "Saving data...",
     "JS_SAVE_NOTIFY_OK": "Changes have been saved",
     "JS_SAVE_NOTIFY_SUCCESS": "Saved successfully",
+    "JS_SAVE_NOTIFY_FAIL": "Changes was not saved",
     "JS_SAVED_FROM": "from",
     "JS_SAVED_TO": "to",
     "JS_OF": "of",

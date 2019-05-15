@@ -555,9 +555,13 @@ jQuery.Class(
 			params.data = data;
 			params.async = false;
 			params.dataType = 'json';
-			AppConnector.request(params).done(function(reponseData) {
-				aDeferred.resolve(reponseData);
-			});
+			AppConnector.request(params)
+				.done(function(reponseData) {
+					aDeferred.resolve(reponseData);
+				})
+				.fail((jqXHR, textStatus, errorThrown) => {
+					aDeferred.reject(jqXHR, textStatus, errorThrown);
+				});
 
 			return aDeferred.promise();
 		},
@@ -1236,13 +1240,18 @@ jQuery.Class(
 								}
 								thisInstance.updateRecordsPDFTemplateBtn(thisInstance.getForm());
 							})
-							.fail(function(error) {
+							.fail(function(jqXHR, textStatus, errorThrown) {
 								editElement.addClass('d-none');
 								detailViewValue.removeClass('d-none');
 								actionElement.removeClass('d-none');
 								editElement.off('clickoutside');
 								readRecord.prop('disabled', false);
 								currentTdElement.progressIndicator({ mode: 'hide' });
+								Vtiger_Helper_Js.showPnotify({
+									type: 'error',
+									title: app.vtranslate('JS_SAVE_NOTIFY_FAIL'),
+									text: textStatus
+								});
 							});
 					}
 				};

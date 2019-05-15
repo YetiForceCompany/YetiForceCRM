@@ -100,10 +100,14 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$fieldTypesInfo = [];
 		$addFieldSupportedTypes = $this->getAddSupportedFieldTypes();
 		$lengthSupportedFieldTypes = ['Text', 'Decimal', 'Integer', 'Currency', 'Editor'];
+		$uniqueSupportedFieldTypes = ['MultiDomain'];
 		foreach ($addFieldSupportedTypes as $fieldType) {
 			$details = [];
 			if (in_array($fieldType, $lengthSupportedFieldTypes)) {
 				$details['lengthsupported'] = true;
+			}
+			if (in_array($fieldType, $uniqueSupportedFieldTypes)) {
+				$details['uniquesupported'] = true;
 			}
 			if ('Editor' === $fieldType) {
 				$details['noLimitForLength'] = true;
@@ -170,6 +174,10 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$supportedFieldTypes = $this->getAddSupportedFieldTypes();
 		if (!in_array($fieldType, $supportedFieldTypes)) {
 			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_WRONG_FIELD_TYPE', 'Settings::LayoutEditor'), 513);
+		}
+		$fieldTypeInfo = $this->getAddFieldTypeInfo()[$fieldType];
+		if (isset($fieldTypeInfo['uniquesupported']) && $fieldTypeInfo['uniquesupported'] === true) {
+			$fieldParams = ['unique' => (isset($params['unique']) && $params['unique'])];
 		}
 		if ('Picklist' === $fieldType || 'MultiSelectCombo' === $fieldType) {
 			$pickListValues = $params['pickListValues'];
