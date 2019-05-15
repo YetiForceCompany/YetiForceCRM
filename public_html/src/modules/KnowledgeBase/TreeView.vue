@@ -18,7 +18,17 @@
       </q-header>
       <q-drawer v-model="left" side="left" bordered :width="200" :breakpoint="700">
         <q-scroll-area class="fit">
-          <!-- <q-tree :nodes="testData" node-key="label"></q-tree> -->
+          <q-list v-for="(categoryValue, categoryKey) in mainCategories.categories" :key="categoryKey">
+            <q-item clickable :active="categoryValue.label === 'LBL_NONE'" v-ripple>
+              <q-item-section avatar>
+                <q-icon :name="categoryValue.icon" />
+              </q-item-section>
+              <q-item-section>
+                {{ categoryValue.label }}
+              </q-item-section>
+            </q-item>
+            <!-- <q-separator v-if="categoryValue.separator" /> -->
+          </q-list>
         </q-scroll-area>
       </q-drawer>
       <q-page-container>

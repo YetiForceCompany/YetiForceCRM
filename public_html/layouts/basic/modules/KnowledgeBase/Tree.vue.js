@@ -11923,6 +11923,16 @@ var Vue = unwrapExports(vue);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var script = {
   name: 'TreeView',
@@ -12211,7 +12221,56 @@ var __vue_render__ = function() {
                 expression: "left"
               }
             },
-            [_c("q-scroll-area", { staticClass: "fit" })],
+            [
+              _c(
+                "q-scroll-area",
+                { staticClass: "fit" },
+                _vm._l(_vm.mainCategories.categories, function(
+                  categoryValue,
+                  categoryKey
+                ) {
+                  return _c(
+                    "q-list",
+                    { key: categoryKey },
+                    [
+                      _c(
+                        "q-item",
+                        {
+                          directives: [{ name: "ripple", rawName: "v-ripple" }],
+                          attrs: {
+                            clickable: "",
+                            active: categoryValue.label === "LBL_NONE"
+                          }
+                        },
+                        [
+                          _c(
+                            "q-item-section",
+                            { attrs: { avatar: "" } },
+                            [
+                              _c("q-icon", {
+                                attrs: { name: categoryValue.icon }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("q-item-section", [
+                            _vm._v(
+                              "\n              " +
+                                _vm._s(categoryValue.label) +
+                                "\n            "
+                            )
+                          ])
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                }),
+                1
+              )
+            ],
             1
           ),
           _vm._v(" "),
@@ -12282,11 +12341,11 @@ __vue_render__._withStripped = true;
   /* style */
   const __vue_inject_styles__ = function (inject) {
     if (!inject) return
-    inject("data-v-df688938_0", { source: "\n.tree-search[data-v-df688938] {\n  width: 50%;\n}\n.home-card[data-v-df688938] {\n  width: 100%;\n  max-width: 250px;\n}\n", map: {"version":3,"sources":["C:\\www\\YetiForceCRM\\public_html\\src\\modules\\KnowledgeBase\\TreeView.vue"],"names":[],"mappings":";AA2GA;EACA,UAAA;AACA;AACA;EACA,WAAA;EACA,gBAAA;AACA","file":"TreeView.vue","sourcesContent":["/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */\n\n<template>\n  <div class=\"h-100\">\n    <q-layout view=\"hHh lpr fFf\" container class=\"absolute\">\n      <q-header elevated class=\"bg-primary text-white\">\n        <q-toolbar> </q-toolbar>\n        <q-toolbar class=\"justify-center q-py-md\">\n          <q-input v-model=\"search\" square outlined type=\"search\" bg-color=\"grey-1\" class=\"tree-search\">\n            <template v-slot:append>\n              <q-icon name=\"mdi-magnify\" />\n            </template>\n          </q-input>\n        </q-toolbar>\n        <q-toolbar>\n          <q-btn dense flat round icon=\"mdi-menu\" @click=\"left = !left\"></q-btn>\n        </q-toolbar>\n      </q-header>\n      <q-drawer v-model=\"left\" side=\"left\" bordered :width=\"200\" :breakpoint=\"700\">\n        <q-scroll-area class=\"fit\">\n          <!-- <q-tree :nodes=\"testData\" node-key=\"label\"></q-tree> -->\n        </q-scroll-area>\n      </q-drawer>\n      <q-page-container>\n        <q-page class=\"q-pa-md\">\n          <div class=\"q-pa-md row items-start q-gutter-md\">\n            <q-card\n              v-for=\"(categoryValue, categoryKey) in mainCategories.categories\"\n              :key=\"categoryKey\"\n              class=\"home-card\"\n            >\n              <q-card-section>\n                <div class=\"text-h6\">{{ categoryValue.label }}</div>\n                <div\n                  v-for=\"featuredValue in mainCategories.featured[categoryKey]\"\n                  :key=\"featuredValue.id\"\n                  class=\"text-subtitle2\"\n                >\n                  {{ featuredValue.subject }}\n                </div>\n              </q-card-section>\n            </q-card>\n          </div>\n        </q-page>\n      </q-page-container>\n    </q-layout>\n  </div>\n</template>\n<script>\nexport default {\n  name: 'TreeView',\n  data() {\n    return {\n      left: true,\n      search: 'test',\n      mainCategories: {\n        categories: {\n          T1: { tree: 'T1', parentTree: 'T1', parent: false, label: 'LBL_NONE', icon: '' },\n          T2: { tree: 'T2', parentTree: 'T2', parent: false, label: 'aaaaa', icon: 'fas fa-archive' },\n          T3: { tree: 'T3', parentTree: 'T3', parent: false, label: 'aaaaaa', icon: 'fas fa-adjust' },\n          T6: { tree: 'T6', parentTree: 'T6', parent: false, label: 'ffff', icon: 'AdditionalIcon-Matrixes' },\n          T7: { tree: 'T7', parentTree: 'T7', parent: false, label: 'gggg', icon: '' },\n          T14: { tree: 'T14', parentTree: 'T14', parent: false, label: 'mmmmmmmmmm', icon: '' }\n        },\n        featured: {\n          '0': [],\n          T1: [\n            { id: 306, category: 'T1', subject: 'Narz\\u0119dzia' },\n            { id: 307, category: 'T1', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' },\n            { id: 375, category: 'T1', subject: 'Narz\\u0119dzia' },\n            { id: 376, category: 'T1', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\n          ],\n          T14: [\n            { id: 372, category: 'T14', subject: 'Narz\\u0119dzia' },\n            { id: 373, category: 'T14', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\n          ]\n        },\n        records: []\n      },\n      records: {\n        categories: {\n          T12: { tree: 'T12', parentTree: 'T14::T12', parent: 'T14', label: 'bbbbbbbbbbbbb', icon: '' },\n          T11: { tree: 'T11', parentTree: 'T14::T11', parent: 'T14', label: 'pppppppppppp', icon: '' },\n          T10: { tree: 'T10', parentTree: 'T14::T10', parent: 'T14', label: 'oooooooooooo', icon: '' }\n        },\n        featured: [[]],\n        records: [\n          { id: 372, category: 'T14', subject: 'Narz\\u0119dzia' },\n          { id: 373, category: 'T14', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\n        ]\n      }\n    }\n  },\n  mounted() {\n    this.$axios({\n      data: { module: 'Chat', action: 'Room', mode: 'tracking' },\n      responseType: 'json',\n      method: 'POST',\n      url: 'index.php'\n    }).then(response => {\n      console.log('asdfasdf', response)\n      this.$q.notify('Message')\n    })\n  }\n}\n</script>\n<style scoped>\n.tree-search {\n  width: 50%;\n}\n.home-card {\n  width: 100%;\n  max-width: 250px;\n}\n</style>\n"]}, media: undefined });
+    inject("data-v-df542baa_0", { source: "\n.tree-search[data-v-df542baa] {\n  width: 50%;\n}\n.home-card[data-v-df542baa] {\n  width: 100%;\n  max-width: 250px;\n}\n", map: {"version":3,"sources":["C:\\www\\YetiForceCRM\\public_html\\src\\modules\\KnowledgeBase\\TreeView.vue"],"names":[],"mappings":";AAqHA;EACA,UAAA;AACA;AACA;EACA,WAAA;EACA,gBAAA;AACA","file":"TreeView.vue","sourcesContent":["/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */\n\n<template>\n  <div class=\"h-100\">\n    <q-layout view=\"hHh lpr fFf\" container class=\"absolute\">\n      <q-header elevated class=\"bg-primary text-white\">\n        <q-toolbar> </q-toolbar>\n        <q-toolbar class=\"justify-center q-py-md\">\n          <q-input v-model=\"search\" square outlined type=\"search\" bg-color=\"grey-1\" class=\"tree-search\">\n            <template v-slot:append>\n              <q-icon name=\"mdi-magnify\" />\n            </template>\n          </q-input>\n        </q-toolbar>\n        <q-toolbar>\n          <q-btn dense flat round icon=\"mdi-menu\" @click=\"left = !left\"></q-btn>\n        </q-toolbar>\n      </q-header>\n      <q-drawer v-model=\"left\" side=\"left\" bordered :width=\"200\" :breakpoint=\"700\">\n        <q-scroll-area class=\"fit\">\n          <q-list v-for=\"(categoryValue, categoryKey) in mainCategories.categories\" :key=\"categoryKey\">\n            <q-item clickable :active=\"categoryValue.label === 'LBL_NONE'\" v-ripple>\n              <q-item-section avatar>\n                <q-icon :name=\"categoryValue.icon\" />\n              </q-item-section>\n              <q-item-section>\n                {{ categoryValue.label }}\n              </q-item-section>\n            </q-item>\n            <!-- <q-separator v-if=\"categoryValue.separator\" /> -->\n          </q-list>\n        </q-scroll-area>\n      </q-drawer>\n      <q-page-container>\n        <q-page class=\"q-pa-md\">\n          <div class=\"q-pa-md row items-start q-gutter-md\">\n            <q-card\n              v-for=\"(categoryValue, categoryKey) in mainCategories.categories\"\n              :key=\"categoryKey\"\n              class=\"home-card\"\n            >\n              <q-card-section>\n                <div class=\"text-h6\">{{ categoryValue.label }}</div>\n                <div\n                  v-for=\"featuredValue in mainCategories.featured[categoryKey]\"\n                  :key=\"featuredValue.id\"\n                  class=\"text-subtitle2\"\n                >\n                  {{ featuredValue.subject }}\n                </div>\n              </q-card-section>\n            </q-card>\n          </div>\n        </q-page>\n      </q-page-container>\n    </q-layout>\n  </div>\n</template>\n<script>\nexport default {\n  name: 'TreeView',\n  data() {\n    return {\n      left: true,\n      search: 'test',\n      mainCategories: {\n        categories: {\n          T1: { tree: 'T1', parentTree: 'T1', parent: false, label: 'LBL_NONE', icon: '' },\n          T2: { tree: 'T2', parentTree: 'T2', parent: false, label: 'aaaaa', icon: 'fas fa-archive' },\n          T3: { tree: 'T3', parentTree: 'T3', parent: false, label: 'aaaaaa', icon: 'fas fa-adjust' },\n          T6: { tree: 'T6', parentTree: 'T6', parent: false, label: 'ffff', icon: 'AdditionalIcon-Matrixes' },\n          T7: { tree: 'T7', parentTree: 'T7', parent: false, label: 'gggg', icon: '' },\n          T14: { tree: 'T14', parentTree: 'T14', parent: false, label: 'mmmmmmmmmm', icon: '' }\n        },\n        featured: {\n          '0': [],\n          T1: [\n            { id: 306, category: 'T1', subject: 'Narz\\u0119dzia' },\n            { id: 307, category: 'T1', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' },\n            { id: 375, category: 'T1', subject: 'Narz\\u0119dzia' },\n            { id: 376, category: 'T1', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\n          ],\n          T14: [\n            { id: 372, category: 'T14', subject: 'Narz\\u0119dzia' },\n            { id: 373, category: 'T14', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\n          ]\n        },\n        records: []\n      },\n      records: {\n        categories: {\n          T12: { tree: 'T12', parentTree: 'T14::T12', parent: 'T14', label: 'bbbbbbbbbbbbb', icon: '' },\n          T11: { tree: 'T11', parentTree: 'T14::T11', parent: 'T14', label: 'pppppppppppp', icon: '' },\n          T10: { tree: 'T10', parentTree: 'T14::T10', parent: 'T14', label: 'oooooooooooo', icon: '' }\n        },\n        featured: [[]],\n        records: [\n          { id: 372, category: 'T14', subject: 'Narz\\u0119dzia' },\n          { id: 373, category: 'T14', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\n        ]\n      }\n    }\n  },\n  mounted() {\n    this.$axios({\n      data: { module: 'Chat', action: 'Room', mode: 'tracking' },\n      responseType: 'json',\n      method: 'POST',\n      url: 'index.php'\n    }).then(response => {\n      console.log('asdfasdf', response)\n      this.$q.notify('Message')\n    })\n  }\n}\n</script>\n<style scoped>\n.tree-search {\n  width: 50%;\n}\n.home-card {\n  width: 100%;\n  max-width: 250px;\n}\n</style>\n"]}, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__ = "data-v-df688938";
+  const __vue_scope_id__ = "data-v-df542baa";
   /* module identifier */
   const __vue_module_identifier__ = undefined;
   /* functional template */
@@ -42107,24 +42166,8 @@ BaseService.interceptors.response.use(
 );
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-const componentsList = [
-	'QLayout',
-	'QPageContainer',
-	'QPage',
-	'QHeader',
-	'QFooter',
-	'QDrawer',
-	'QPageSticky',
-	'QPageScroller',
-	'QTree',
-	'QInput',
-	'QIcon'
-];
 Vue.prototype.$axios = BaseService;
-Vue.use(quasar_umd, {
-	components: quasar_umd.components[componentsList]
-	// plugins: Quasar.components['Notify']
-}).use(BaseService);
+Vue.use(quasar_umd).use(BaseService);
 quasar_umd.iconSet.set(iconSet);
 
 let VueInstance = null;

@@ -5,24 +5,8 @@ import Tree from './Tree.vue'
 import Quasar from 'quasar/dist/quasar.umd.js'
 import iconSet from 'quasar/icon-set/mdi-v3.js'
 import BaseService from '../../services/Base.js'
-const componentsList = [
-	'QLayout',
-	'QPageContainer',
-	'QPage',
-	'QHeader',
-	'QFooter',
-	'QDrawer',
-	'QPageSticky',
-	'QPageScroller',
-	'QTree',
-	'QInput',
-	'QIcon'
-]
 Vue.prototype.$axios = BaseService
-Vue.use(Quasar, {
-	components: Quasar.components[componentsList]
-	// plugins: Quasar.components['Notify']
-}).use(BaseService)
+Vue.use(Quasar).use(BaseService)
 Quasar.iconSet.set(iconSet)
 
 let VueInstance = null
