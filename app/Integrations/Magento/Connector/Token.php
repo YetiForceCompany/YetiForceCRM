@@ -28,10 +28,7 @@ class Token implements ConnectorInterface
 	 */
 	public function authorize()
 	{
-		$response = (new \GuzzleHttp\Client())->post(\App\Config::component('Magento', 'ADDRESS_API') . '/rest/V1/integration/admin/token', [
-			'headers' => [
-				'user-agent' => 'YetiForceCRM/' . \App\Version::get(),
-			],
+		$response = (new \GuzzleHttp\Client())->post(\App\Config::component('Magento', 'ADDRESS_API') . '/rest/V1/integration/admin/token', \App\RequestHttp::getOptions() + [
 			'json' => ['username' => \App\Config::component('Magento', 'USERNAME'), 'password' => \App\Config::component('Magento', 'PASSWORD')]]);
 		if ($response->getStatusCode() !== 200) {
 			throw new AppException();
@@ -44,7 +41,7 @@ class Token implements ConnectorInterface
 	 */
 	public function request(string $method, string $action, array $params = []): string
 	{
-		$response = (new \GuzzleHttp\Client())->request($method, \App\Config::component('Magento', 'ADDRESS_API') . $action, [
+		$response = (new \GuzzleHttp\Client())->request($method, \App\Config::component('Magento', 'ADDRESS_API') . $action, \App\RequestHttp::getOptions() + [
 			'headers' => [
 				'user-agent' => 'YetiForceCRM/' . \App\Version::get(),
 				'authorization' => 'Bearer ' . $this->token
