@@ -32,13 +32,15 @@ class SaveInventory extends \Api\Core\BaseAction
 		$inventory = $this->controller->request->getArray('inventory');
 		$recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
 		$recordModel->set('subject', $moduleName . '/' . date('Y-m-d'));
-		$fields = \Vtiger_Module_Model::getInstance($moduleName)->getReferenceFieldsForModule('Accounts');
-		if ($fields) {
-			$recordModel->set(current($fields)->getFieldName(), $this->getParentCrmId());
+		$moduleModel = $recordModel->getModule();
+		$fields = $moduleModel->getReferenceFieldsForModule('Accounts');
+		if ($fieldModel = current($fields)) {
+			$recordModel->set($fieldModel->getFieldName(), $this->getParentCrmId());
 		}
-		$fieldPermission = \Api\Core\Module::getFieldPermission($moduleName, $this->controller->app['id']);
-		if ($fieldPermission) {
-			$recordModel->setDataForSave([$fieldPermission['tablename'] => [$fieldPermission['columnname'] => 1]]);
+		foreach ($moduleModel->getFieldsByType('serverAccess') as $fieldModel) {
+			if ((int) $this->controller->app['id'] === (int) $fieldModel->getFieldParams()) {
+				$recordModel->setDataForSave([$fieldModel->getTableName() => [$fieldModel->getColumnName() => 1]]);
+			}
 		}
 		$recordModel->initInventoryData(
 			(new \Api\Portal\BaseModel\SaveInventory($moduleName, $inventory))->getInventoryData(),
