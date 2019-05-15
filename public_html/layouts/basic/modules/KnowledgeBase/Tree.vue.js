@@ -11992,6 +11992,35 @@ var Vue = unwrapExports(vue);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var script = {
   name: 'TreeView',
@@ -11999,13 +12028,14 @@ var script = {
     return {
       left: true,
       filter: '',
+      record: false,
       columns: [
         {
           name: 'desc',
           required: true,
           label: 'Title',
           align: 'left',
-          field: row => row.name,
+          field: row => row.subject,
           format: val => `${val}`,
           sortable: true
         },
@@ -12045,8 +12075,34 @@ var script = {
           },
           featured: [[]],
           records: [
-            { id: 372, category: 'T14', subject: 'Narz\u0119dzia' },
-            { id: 373, category: 'T14', subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' }
+            { id: 372, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: 'Narz\u0119dzia' },
+            {
+              id: 373,
+              category: 'T14',
+              content: 'Lorem Ipsum dolor sit amet',
+              subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w'
+            },
+            { id: 3721, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '1111Narz\u0119dzia' },
+            {
+              id: 3731,
+              category: 'T14',
+              content: 'Lorem Ipsum dolor sit amet',
+              subject: '111111Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w'
+            },
+            { id: 3721, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '22222Narz\u0119dzia' },
+            {
+              id: 3731,
+              category: 'T14',
+              content: 'Lorem Ipsum dolor sit amet',
+              subject: '222222Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w'
+            },
+            { id: 37211, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '222221111Narz\u0119dzia' },
+            {
+              id: 37311,
+              category: 'T14',
+              content: 'Lorem Ipsum dolor sit amet',
+              subject: '22222222111111Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w'
+            }
           ]
         }
       }
@@ -12369,6 +12425,7 @@ var __vue_render__ = function() {
                                 _vm.tree[categoryKey] !== undefined
                                   ? (_vm.active = categoryKey)
                                   : "";
+                                _vm.record = false;
                               }
                             }
                           },
@@ -12398,6 +12455,51 @@ var __vue_render__ = function() {
                           ],
                           1
                         )
+                      }),
+                      _vm._v(" "),
+                      _vm.activeCategories.records.length
+                        ? _c("q-separator")
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm._l(_vm.activeCategories.records, function(
+                        recordValue,
+                        index
+                      ) {
+                        return _c(
+                          "q-item",
+                          {
+                            directives: [
+                              { name: "ripple", rawName: "v-ripple" }
+                            ],
+                            key: index,
+                            attrs: {
+                              clickable: "",
+                              active: _vm.record === recordValue
+                            },
+                            on: {
+                              click: function($event) {
+                                _vm.record = recordValue;
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "q-item-section",
+                              { attrs: { avatar: "" } },
+                              [_c("q-icon", { attrs: { name: "mdi-text" } })],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("q-item-section", [
+                              _vm._v(
+                                "\n              " +
+                                  _vm._s(recordValue.subject) +
+                                  "\n            "
+                              )
+                            ])
+                          ],
+                          1
+                        )
                       })
                     ],
                     2
@@ -12415,133 +12517,175 @@ var __vue_render__ = function() {
               _c("q-page", { staticClass: "q-pa-md" }, [
                 _c(
                   "div",
-                  { staticClass: "q-pa-md row items-start q-gutter-md" },
-                  _vm._l(_vm.activeCategories.categories, function(
-                    categoryValue,
-                    categoryKey
-                  ) {
-                    return _c(
-                      "q-card",
-                      { key: categoryKey, staticClass: "home-card" },
-                      [
-                        _c(
-                          "q-card-section",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !_vm.record,
+                        expression: "!record"
+                      }
+                    ]
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "q-pa-md row items-start q-gutter-md" },
+                      _vm._l(_vm.activeCategories.categories, function(
+                        categoryValue,
+                        categoryKey
+                      ) {
+                        return _c(
+                          "q-card",
+                          { key: categoryKey, staticClass: "home-card" },
                           [
-                            _c("div", { staticClass: "text-h6" }, [
-                              _vm._v(_vm._s(categoryValue.label))
-                            ]),
-                            _vm._v(" "),
-                            _vm._l(
-                              _vm.activeCategories.featured[categoryKey],
-                              function(featuredValue) {
-                                return _c(
-                                  "div",
-                                  {
-                                    key: featuredValue.id,
-                                    staticClass: "text-subtitle2"
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                " +
-                                        _vm._s(featuredValue.subject) +
-                                        "\n              "
+                            _c(
+                              "q-card-section",
+                              [
+                                _c("div", { staticClass: "text-h6" }, [
+                                  _vm._v(_vm._s(categoryValue.label))
+                                ]),
+                                _vm._v(" "),
+                                _vm._l(
+                                  _vm.activeCategories.featured[categoryKey],
+                                  function(featuredValue) {
+                                    return _c(
+                                      "div",
+                                      {
+                                        key: featuredValue.id,
+                                        staticClass: "text-subtitle2"
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                  " +
+                                            _vm._s(featuredValue.subject) +
+                                            "\n                "
+                                        )
+                                      ]
                                     )
-                                  ]
+                                  }
                                 )
-                              }
+                              ],
+                              2
                             )
                           ],
-                          2
+                          1
                         )
-                      ],
+                      }),
                       1
-                    )
-                  }),
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "q-pa-md row items-start q-gutter-md" },
-                  [
-                    _c("q-table", {
-                      attrs: {
-                        title: "Articles",
-                        data: _vm.activeCategories.records,
-                        columns: _vm.columns,
-                        "row-key": "subject",
-                        filter: _vm.filter,
-                        grid: "",
-                        "hide-header": ""
-                      },
-                      scopedSlots: _vm._u([
-                        {
-                          key: "item",
-                          fn: function(props) {
-                            return [
-                              _c(
-                                "div",
-                                { staticClass: "grid-style-transition" },
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "q-pa-md row items-start q-gutter-md" },
+                      [
+                        _vm.activeCategories.records.length
+                          ? _c("q-table", {
+                              attrs: {
+                                title: "Articles",
+                                data: _vm.activeCategories.records,
+                                columns: _vm.columns,
+                                "row-key": "subject",
+                                filter: _vm.filter,
+                                grid: "",
+                                "hide-header": ""
+                              },
+                              scopedSlots: _vm._u(
                                 [
-                                  _c(
-                                    "q-list",
-                                    { attrs: { padding: "" } },
-                                    _vm._l(
-                                      props.cols.filter(function(col) {
-                                        return col.name !== "desc"
-                                      }),
-                                      function(col) {
-                                        return _c(
-                                          "q-item",
-                                          { key: col.name },
+                                  {
+                                    key: "item",
+                                    fn: function(props) {
+                                      return [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass: "grid-style-transition"
+                                          },
                                           [
                                             _c(
-                                              "q-item-section",
+                                              "q-list",
+                                              { attrs: { padding: "" } },
                                               [
                                                 _c(
-                                                  "q-item-label",
-                                                  { attrs: { overline: "" } },
+                                                  "q-item",
                                                   [
-                                                    _vm._v(
-                                                      _vm._s(props.row.subject)
+                                                    _c(
+                                                      "q-item-section",
+                                                      [
+                                                        _c(
+                                                          "q-item-label",
+                                                          {
+                                                            attrs: {
+                                                              overline: ""
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                props.row
+                                                                  .subject
+                                                              )
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c("q-item-label", [
+                                                          _vm._v(
+                                                            "Single line item"
+                                                          )
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "q-item-label",
+                                                          {
+                                                            attrs: {
+                                                              caption: ""
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit."
+                                                            )
+                                                          ]
+                                                        )
+                                                      ],
+                                                      1
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "q-item-section",
+                                                      {
+                                                        attrs: {
+                                                          side: "",
+                                                          top: ""
+                                                        }
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "q-item-label",
+                                                          {
+                                                            attrs: {
+                                                              caption: ""
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                _vm.tree
+                                                                  .mainCategories
+                                                                  .categories[
+                                                                  props.row
+                                                                    .category
+                                                                ].label
+                                                              )
+                                                            )
+                                                          ]
+                                                        )
+                                                      ],
+                                                      1
                                                     )
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c("q-item-label", [
-                                                  _vm._v("Single line item")
-                                                ]),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "q-item-label",
-                                                  { attrs: { caption: "" } },
-                                                  [
-                                                    _vm._v(
-                                                      "Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit."
-                                                    )
-                                                  ]
-                                                )
-                                              ],
-                                              1
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "q-item-section",
-                                              { attrs: { side: "", top: "" } },
-                                              [
-                                                _c(
-                                                  "q-item-label",
-                                                  { attrs: { caption: "" } },
-                                                  [
-                                                    _vm._v(
-                                                      _vm._s(
-                                                        _vm.tree.mainCategories
-                                                          .categories[
-                                                          props.row.category
-                                                        ].label
-                                                      )
-                                                    )
-                                                  ]
+                                                  ],
+                                                  1
                                                 )
                                               ],
                                               1
@@ -12549,20 +12693,40 @@ var __vue_render__ = function() {
                                           ],
                                           1
                                         )
-                                      }
-                                    ),
-                                    1
-                                  )
+                                      ]
+                                    }
+                                  }
                                 ],
-                                1
+                                null,
+                                false,
+                                914555105
                               )
-                            ]
-                          }
-                        }
-                      ])
-                    })
-                  ],
-                  1
+                            })
+                          : _vm._e()
+                      ],
+                      1
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.record,
+                        expression: "record"
+                      }
+                    ]
+                  },
+                  [
+                    _c("h5", [_vm._v(_vm._s(_vm.record.subject))]),
+                    _vm._v(
+                      "\n          " + _vm._s(_vm.record.content) + "\n        "
+                    )
+                  ]
                 )
               ])
             ],
@@ -12581,11 +12745,11 @@ __vue_render__._withStripped = true;
   /* style */
   const __vue_inject_styles__ = function (inject) {
     if (!inject) return
-    inject("data-v-6d9b7b30_0", { source: "\n.tree-search[data-v-6d9b7b30] {\n  width: 50%;\n}\n.home-card[data-v-6d9b7b30] {\n  width: 100%;\n  max-width: 250px;\n}\n", map: {"version":3,"sources":["C:\\www\\YetiForceCRM\\public_html\\src\\modules\\KnowledgeBase\\TreeView.vue"],"names":[],"mappings":";AAyMA;EACA,UAAA;AACA;AACA;EACA,WAAA;EACA,gBAAA;AACA","file":"TreeView.vue","sourcesContent":["/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */\n\n<template>\n  <div class=\"h-100\">\n    <q-layout view=\"hHh lpr fFf\" container class=\"absolute\">\n      <q-header elevated class=\"bg-primary text-white\">\n        <q-toolbar class=\"justify-center\">\n          <q-toolbar-title>\n            Knowledge Base\n          </q-toolbar-title>\n        </q-toolbar>\n        <q-toolbar class=\"justify-center q-py-md\">\n          <q-input\n            v-model=\"filter\"\n            placeholder=\"Search\"\n            square\n            outlined\n            type=\"search\"\n            bg-color=\"grey-1\"\n            class=\"tree-search\"\n          >\n            <template v-slot:append>\n              <q-icon name=\"mdi-magnify\" />\n            </template>\n          </q-input>\n        </q-toolbar>\n        <q-toolbar>\n          <q-btn dense flat round icon=\"mdi-menu\" @click=\"left = !left\"></q-btn>\n        </q-toolbar>\n      </q-header>\n      <q-drawer v-model=\"left\" side=\"left\" bordered :width=\"200\" :breakpoint=\"700\">\n        <q-scroll-area class=\"fit\">\n          <q-list>\n            <q-item clickable :active=\"active === 'mainCategories'\" v-ripple @click=\"active = 'mainCategories'\">\n              <q-item-section avatar>\n                <q-icon name=\"mdi-home\" />\n              </q-item-section>\n              <q-item-section>\n                Home\n              </q-item-section>\n            </q-item>\n            <q-item\n              v-for=\"(categoryValue, categoryKey) in activeCategories.categories\"\n              :key=\"categoryKey\"\n              clickable\n              v-ripple\n              @click=\"tree[categoryKey] !== undefined ? (active = categoryKey) : ''\"\n            >\n              <q-item-section avatar>\n                <q-icon v-if=\"/^mdi|^fa/.test(categoryValue.icon)\" :name=\"categoryValue.icon\" />\n                <q-icon v-else :class=\"[categoryValue.icon, 'q-icon']\" />\n              </q-item-section>\n              <q-item-section>\n                {{ categoryValue.label }}\n              </q-item-section>\n            </q-item>\n            <!-- <q-separator v-if=\"categoryValue.separator\" /> -->\n          </q-list>\n        </q-scroll-area>\n      </q-drawer>\n      <q-page-container>\n        <q-page class=\"q-pa-md\">\n          <div class=\"q-pa-md row items-start q-gutter-md\">\n            <q-card\n              v-for=\"(categoryValue, categoryKey) in activeCategories.categories\"\n              :key=\"categoryKey\"\n              class=\"home-card\"\n            >\n              <q-card-section>\n                <div class=\"text-h6\">{{ categoryValue.label }}</div>\n                <div\n                  v-for=\"featuredValue in activeCategories.featured[categoryKey]\"\n                  :key=\"featuredValue.id\"\n                  class=\"text-subtitle2\"\n                >\n                  {{ featuredValue.subject }}\n                </div>\n              </q-card-section>\n            </q-card>\n          </div>\n          <div class=\"q-pa-md row items-start q-gutter-md\">\n            <q-table\n              title=\"Articles\"\n              :data=\"activeCategories.records\"\n              :columns=\"columns\"\n              row-key=\"subject\"\n              :filter=\"filter\"\n              grid\n              hide-header\n            >\n              <template v-slot:item=\"props\">\n                <div class=\"grid-style-transition\">\n                  <q-list padding>\n                    <q-item v-for=\"col in props.cols.filter(col => col.name !== 'desc')\" :key=\"col.name\">\n                      <q-item-section>\n                        <q-item-label overline>{{ props.row.subject }}</q-item-label>\n                        <q-item-label>Single line item</q-item-label>\n                        <q-item-label caption\n                          >Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label\n                        >\n                      </q-item-section>\n                      <q-item-section side top>\n                        <q-item-label caption>{{\n                          tree.mainCategories.categories[props.row.category].label\n                        }}</q-item-label>\n                      </q-item-section>\n                    </q-item>\n                  </q-list>\n                </div>\n              </template>\n            </q-table>\n          </div>\n        </q-page>\n      </q-page-container>\n    </q-layout>\n  </div>\n</template>\n<script>\nexport default {\n  name: 'TreeView',\n  data() {\n    return {\n      left: true,\n      filter: '',\n      columns: [\n        {\n          name: 'desc',\n          required: true,\n          label: 'Title',\n          align: 'left',\n          field: row => row.name,\n          format: val => `${val}`,\n          sortable: true\n        },\n        { name: 'category', align: 'center', label: 'Category', field: 'category', sortable: true }\n      ],\n      active: 'mainCategories',\n      tree: {\n        mainCategories: {\n          categories: {\n            T1: { tree: 'T1', parentTree: 'T1', parent: false, label: 'LBL_NONE', icon: '' },\n            T2: { tree: 'T2', parentTree: 'T2', parent: false, label: 'aaaaa', icon: 'fas fa-archive' },\n            T3: { tree: 'T3', parentTree: 'T3', parent: false, label: 'aaaaaa', icon: 'fas fa-adjust' },\n            T6: { tree: 'T6', parentTree: 'T6', parent: false, label: 'ffff', icon: 'AdditionalIcon-Matrixes' },\n            T7: { tree: 'T7', parentTree: 'T7', parent: false, label: 'gggg', icon: '' },\n            T14: { tree: 'T14', parentTree: 'T14', parent: false, label: 'mmmmmmmmmm', icon: '' }\n          },\n          featured: {\n            '0': [],\n            T1: [\n              { id: 306, category: 'T1', subject: 'Narz\\u0119dzia' },\n              { id: 307, category: 'T1', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' },\n              { id: 375, category: 'T1', subject: 'Narz\\u0119dzia' },\n              { id: 376, category: 'T1', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\n            ],\n            T14: [\n              { id: 372, category: 'T14', subject: 'Narz\\u0119dzia' },\n              { id: 373, category: 'T14', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\n            ]\n          },\n          records: []\n        },\n        T14: {\n          categories: {\n            T12: { tree: 'T12', parentTree: 'T14::T12', parent: 'T14', label: 'bbbbbbbbbbbbb', icon: '' },\n            T11: { tree: 'T11', parentTree: 'T14::T11', parent: 'T14', label: 'pppppppppppp', icon: '' },\n            T10: { tree: 'T10', parentTree: 'T14::T10', parent: 'T14', label: 'oooooooooooo', icon: '' }\n          },\n          featured: [[]],\n          records: [\n            { id: 372, category: 'T14', subject: 'Narz\\u0119dzia' },\n            { id: 373, category: 'T14', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\n          ]\n        }\n      }\n    }\n  },\n  computed: {\n    activeCategories: {\n      get: function() {\n        return this.tree[this.active]\n      },\n      set: function(newValue) {\n        this.active = newValue\n      }\n    }\n  },\n  mounted() {\n    this.$axios({\n      data: { module: 'Chat', action: 'Room', mode: 'tracking' },\n      responseType: 'json',\n      method: 'POST',\n      url: 'index.php'\n    }).then(response => {\n      console.log('asdfasdf', response)\n      this.$q.notify('Message')\n    })\n  }\n}\n</script>\n<style scoped>\n.tree-search {\n  width: 50%;\n}\n.home-card {\n  width: 100%;\n  max-width: 250px;\n}\n</style>\n"]}, media: undefined });
+    inject("data-v-699ca409_0", { source: "\n.tree-search[data-v-699ca409] {\n  width: 50%;\n}\n.home-card[data-v-699ca409] {\n  width: 100%;\n  max-width: 250px;\n}\n", map: {"version":3,"sources":["C:\\www\\YetiForceCRM\\public_html\\src\\modules\\KnowledgeBase\\TreeView.vue"],"names":[],"mappings":";AAiQA;EACA,UAAA;AACA;AACA;EACA,WAAA;EACA,gBAAA;AACA","file":"TreeView.vue","sourcesContent":["/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */\n\n<template>\n  <div class=\"h-100\">\n    <q-layout view=\"hHh lpr fFf\" container class=\"absolute\">\n      <q-header elevated class=\"bg-primary text-white\">\n        <q-toolbar class=\"justify-center\">\n          <q-toolbar-title>\n            Knowledge Base\n          </q-toolbar-title>\n        </q-toolbar>\n        <q-toolbar class=\"justify-center q-py-md\">\n          <q-input\n            v-model=\"filter\"\n            placeholder=\"Search\"\n            square\n            outlined\n            type=\"search\"\n            bg-color=\"grey-1\"\n            class=\"tree-search\"\n          >\n            <template v-slot:append>\n              <q-icon name=\"mdi-magnify\" />\n            </template>\n          </q-input>\n        </q-toolbar>\n        <q-toolbar>\n          <q-btn dense flat round icon=\"mdi-menu\" @click=\"left = !left\"></q-btn>\n        </q-toolbar>\n      </q-header>\n\n      <q-drawer v-model=\"left\" side=\"left\" bordered :width=\"200\" :breakpoint=\"700\">\n        <q-scroll-area class=\"fit\">\n          <q-list>\n            <q-item clickable :active=\"active === 'mainCategories'\" v-ripple @click=\"active = 'mainCategories'\">\n              <q-item-section avatar>\n                <q-icon name=\"mdi-home\" />\n              </q-item-section>\n              <q-item-section>\n                Home\n              </q-item-section>\n            </q-item>\n            <q-item\n              v-for=\"(categoryValue, categoryKey) in activeCategories.categories\"\n              :key=\"categoryKey\"\n              clickable\n              v-ripple\n              @click=\"\n                tree[categoryKey] !== undefined ? (active = categoryKey) : ''\n                record = false\n              \"\n            >\n              <q-item-section avatar>\n                <q-icon v-if=\"/^mdi|^fa/.test(categoryValue.icon)\" :name=\"categoryValue.icon\" />\n                <q-icon v-else :class=\"[categoryValue.icon, 'q-icon']\" />\n              </q-item-section>\n              <q-item-section>\n                {{ categoryValue.label }}\n              </q-item-section>\n            </q-item>\n\n            <q-separator v-if=\"activeCategories.records.length\" />\n            <q-item\n              v-for=\"(recordValue, index) in activeCategories.records\"\n              :key=\"index\"\n              clickable\n              v-ripple\n              :active=\"record === recordValue\"\n              @click=\"record = recordValue\"\n            >\n              <q-item-section avatar>\n                <q-icon name=\"mdi-text\" />\n              </q-item-section>\n              <q-item-section>\n                {{ recordValue.subject }}\n              </q-item-section>\n            </q-item>\n          </q-list>\n        </q-scroll-area>\n      </q-drawer>\n\n      <q-page-container>\n        <q-page class=\"q-pa-md\">\n          <div v-show=\"!record\">\n            <div class=\"q-pa-md row items-start q-gutter-md\">\n              <q-card\n                v-for=\"(categoryValue, categoryKey) in activeCategories.categories\"\n                :key=\"categoryKey\"\n                class=\"home-card\"\n              >\n                <q-card-section>\n                  <div class=\"text-h6\">{{ categoryValue.label }}</div>\n                  <div\n                    v-for=\"featuredValue in activeCategories.featured[categoryKey]\"\n                    :key=\"featuredValue.id\"\n                    class=\"text-subtitle2\"\n                  >\n                    {{ featuredValue.subject }}\n                  </div>\n                </q-card-section>\n              </q-card>\n            </div>\n\n            <div class=\"q-pa-md row items-start q-gutter-md\">\n              <q-table\n                v-if=\"activeCategories.records.length\"\n                title=\"Articles\"\n                :data=\"activeCategories.records\"\n                :columns=\"columns\"\n                row-key=\"subject\"\n                :filter=\"filter\"\n                grid\n                hide-header\n              >\n                <template v-slot:item=\"props\">\n                  <div class=\"grid-style-transition\">\n                    <q-list padding>\n                      <q-item>\n                        <q-item-section>\n                          <q-item-label overline>{{ props.row.subject }}</q-item-label>\n                          <q-item-label>Single line item</q-item-label>\n                          <q-item-label caption\n                            >Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label\n                          >\n                        </q-item-section>\n                        <q-item-section side top>\n                          <q-item-label caption>{{\n                            tree.mainCategories.categories[props.row.category].label\n                          }}</q-item-label>\n                        </q-item-section>\n                      </q-item>\n                    </q-list>\n                  </div>\n                </template>\n              </q-table>\n            </div>\n          </div>\n          <div v-show=\"record\">\n            <h5>{{ record.subject }}</h5>\n            {{ record.content }}\n          </div>\n        </q-page>\n      </q-page-container>\n    </q-layout>\n  </div>\n</template>\n<script>\nexport default {\n  name: 'TreeView',\n  data() {\n    return {\n      left: true,\n      filter: '',\n      record: false,\n      columns: [\n        {\n          name: 'desc',\n          required: true,\n          label: 'Title',\n          align: 'left',\n          field: row => row.subject,\n          format: val => `${val}`,\n          sortable: true\n        },\n        { name: 'category', align: 'center', label: 'Category', field: 'category', sortable: true }\n      ],\n      active: 'mainCategories',\n      tree: {\n        mainCategories: {\n          categories: {\n            T1: { tree: 'T1', parentTree: 'T1', parent: false, label: 'LBL_NONE', icon: '' },\n            T2: { tree: 'T2', parentTree: 'T2', parent: false, label: 'aaaaa', icon: 'fas fa-archive' },\n            T3: { tree: 'T3', parentTree: 'T3', parent: false, label: 'aaaaaa', icon: 'fas fa-adjust' },\n            T6: { tree: 'T6', parentTree: 'T6', parent: false, label: 'ffff', icon: 'AdditionalIcon-Matrixes' },\n            T7: { tree: 'T7', parentTree: 'T7', parent: false, label: 'gggg', icon: '' },\n            T14: { tree: 'T14', parentTree: 'T14', parent: false, label: 'mmmmmmmmmm', icon: '' }\n          },\n          featured: {\n            '0': [],\n            T1: [\n              { id: 306, category: 'T1', subject: 'Narz\\u0119dzia' },\n              { id: 307, category: 'T1', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' },\n              { id: 375, category: 'T1', subject: 'Narz\\u0119dzia' },\n              { id: 376, category: 'T1', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\n            ],\n            T14: [\n              { id: 372, category: 'T14', subject: 'Narz\\u0119dzia' },\n              { id: 373, category: 'T14', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\n            ]\n          },\n          records: []\n        },\n        T14: {\n          categories: {\n            T12: { tree: 'T12', parentTree: 'T14::T12', parent: 'T14', label: 'bbbbbbbbbbbbb', icon: '' },\n            T11: { tree: 'T11', parentTree: 'T14::T11', parent: 'T14', label: 'pppppppppppp', icon: '' },\n            T10: { tree: 'T10', parentTree: 'T14::T10', parent: 'T14', label: 'oooooooooooo', icon: '' }\n          },\n          featured: [[]],\n          records: [\n            { id: 372, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: 'Narz\\u0119dzia' },\n            {\n              id: 373,\n              category: 'T14',\n              content: 'Lorem Ipsum dolor sit amet',\n              subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\n            },\n            { id: 3721, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '1111Narz\\u0119dzia' },\n            {\n              id: 3731,\n              category: 'T14',\n              content: 'Lorem Ipsum dolor sit amet',\n              subject: '111111Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\n            },\n            { id: 3721, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '22222Narz\\u0119dzia' },\n            {\n              id: 3731,\n              category: 'T14',\n              content: 'Lorem Ipsum dolor sit amet',\n              subject: '222222Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\n            },\n            { id: 37211, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '222221111Narz\\u0119dzia' },\n            {\n              id: 37311,\n              category: 'T14',\n              content: 'Lorem Ipsum dolor sit amet',\n              subject: '22222222111111Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\n            }\n          ]\n        }\n      }\n    }\n  },\n  computed: {\n    activeCategories: {\n      get: function() {\n        return this.tree[this.active]\n      },\n      set: function(newValue) {\n        this.active = newValue\n      }\n    }\n  },\n  mounted() {\n    this.$axios({\n      data: { module: 'Chat', action: 'Room', mode: 'tracking' },\n      responseType: 'json',\n      method: 'POST',\n      url: 'index.php'\n    }).then(response => {\n      console.log('asdfasdf', response)\n      this.$q.notify('Message')\n    })\n  }\n}\n</script>\n<style scoped>\n.tree-search {\n  width: 50%;\n}\n.home-card {\n  width: 100%;\n  max-width: 250px;\n}\n</style>\n"]}, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__ = "data-v-6d9b7b30";
+  const __vue_scope_id__ = "data-v-699ca409";
   /* module identifier */
   const __vue_module_identifier__ = undefined;
   /* functional template */

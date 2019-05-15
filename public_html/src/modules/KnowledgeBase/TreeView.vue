@@ -28,6 +28,7 @@
           <q-btn dense flat round icon="mdi-menu" @click="left = !left"></q-btn>
         </q-toolbar>
       </q-header>
+
       <q-drawer v-model="left" side="left" bordered :width="200" :breakpoint="700">
         <q-scroll-area class="fit">
           <q-list>
@@ -44,7 +45,10 @@
               :key="categoryKey"
               clickable
               v-ripple
-              @click="tree[categoryKey] !== undefined ? (active = categoryKey) : ''"
+              @click="
+                tree[categoryKey] !== undefined ? (active = categoryKey) : ''
+                record = false
+              "
             >
               <q-item-section avatar>
                 <q-icon v-if="/^mdi|^fa/.test(categoryValue.icon)" :name="categoryValue.icon" />
@@ -54,61 +58,86 @@
                 {{ categoryValue.label }}
               </q-item-section>
             </q-item>
-            <!-- <q-separator v-if="categoryValue.separator" /> -->
+
+            <q-separator v-if="activeCategories.records.length" />
+            <q-item
+              v-for="(recordValue, index) in activeCategories.records"
+              :key="index"
+              clickable
+              v-ripple
+              :active="record === recordValue"
+              @click="record = recordValue"
+            >
+              <q-item-section avatar>
+                <q-icon name="mdi-text" />
+              </q-item-section>
+              <q-item-section>
+                {{ recordValue.subject }}
+              </q-item-section>
+            </q-item>
           </q-list>
         </q-scroll-area>
       </q-drawer>
+
       <q-page-container>
         <q-page class="q-pa-md">
-          <div class="q-pa-md row items-start q-gutter-md">
-            <q-card
-              v-for="(categoryValue, categoryKey) in activeCategories.categories"
-              :key="categoryKey"
-              class="home-card"
-            >
-              <q-card-section>
-                <div class="text-h6">{{ categoryValue.label }}</div>
-                <div
-                  v-for="featuredValue in activeCategories.featured[categoryKey]"
-                  :key="featuredValue.id"
-                  class="text-subtitle2"
-                >
-                  {{ featuredValue.subject }}
-                </div>
-              </q-card-section>
-            </q-card>
+          <div v-show="!record">
+            <div class="q-pa-md row items-start q-gutter-md">
+              <q-card
+                v-for="(categoryValue, categoryKey) in activeCategories.categories"
+                :key="categoryKey"
+                class="home-card"
+              >
+                <q-card-section>
+                  <div class="text-h6">{{ categoryValue.label }}</div>
+                  <div
+                    v-for="featuredValue in activeCategories.featured[categoryKey]"
+                    :key="featuredValue.id"
+                    class="text-subtitle2"
+                  >
+                    {{ featuredValue.subject }}
+                  </div>
+                </q-card-section>
+              </q-card>
+            </div>
+
+            <div class="q-pa-md row items-start q-gutter-md">
+              <q-table
+                v-if="activeCategories.records.length"
+                title="Articles"
+                :data="activeCategories.records"
+                :columns="columns"
+                row-key="subject"
+                :filter="filter"
+                grid
+                hide-header
+              >
+                <template v-slot:item="props">
+                  <div class="grid-style-transition">
+                    <q-list padding>
+                      <q-item>
+                        <q-item-section>
+                          <q-item-label overline>{{ props.row.subject }}</q-item-label>
+                          <q-item-label>Single line item</q-item-label>
+                          <q-item-label caption
+                            >Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label
+                          >
+                        </q-item-section>
+                        <q-item-section side top>
+                          <q-item-label caption>{{
+                            tree.mainCategories.categories[props.row.category].label
+                          }}</q-item-label>
+                        </q-item-section>
+                      </q-item>
+                    </q-list>
+                  </div>
+                </template>
+              </q-table>
+            </div>
           </div>
-          <div class="q-pa-md row items-start q-gutter-md">
-            <q-table
-              title="Articles"
-              :data="activeCategories.records"
-              :columns="columns"
-              row-key="subject"
-              :filter="filter"
-              grid
-              hide-header
-            >
-              <template v-slot:item="props">
-                <div class="grid-style-transition">
-                  <q-list padding>
-                    <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
-                      <q-item-section>
-                        <q-item-label overline>{{ props.row.subject }}</q-item-label>
-                        <q-item-label>Single line item</q-item-label>
-                        <q-item-label caption
-                          >Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label
-                        >
-                      </q-item-section>
-                      <q-item-section side top>
-                        <q-item-label caption>{{
-                          tree.mainCategories.categories[props.row.category].label
-                        }}</q-item-label>
-                      </q-item-section>
-                    </q-item>
-                  </q-list>
-                </div>
-              </template>
-            </q-table>
+          <div v-show="record">
+            <h5>{{ record.subject }}</h5>
+            {{ record.content }}
           </div>
         </q-page>
       </q-page-container>
@@ -122,13 +151,14 @@ export default {
     return {
       left: true,
       filter: '',
+      record: false,
       columns: [
         {
           name: 'desc',
           required: true,
           label: 'Title',
           align: 'left',
-          field: row => row.name,
+          field: row => row.subject,
           format: val => `${val}`,
           sortable: true
         },
@@ -168,8 +198,34 @@ export default {
           },
           featured: [[]],
           records: [
-            { id: 372, category: 'T14', subject: 'Narz\u0119dzia' },
-            { id: 373, category: 'T14', subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' }
+            { id: 372, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: 'Narz\u0119dzia' },
+            {
+              id: 373,
+              category: 'T14',
+              content: 'Lorem Ipsum dolor sit amet',
+              subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w'
+            },
+            { id: 3721, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '1111Narz\u0119dzia' },
+            {
+              id: 3731,
+              category: 'T14',
+              content: 'Lorem Ipsum dolor sit amet',
+              subject: '111111Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w'
+            },
+            { id: 3721, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '22222Narz\u0119dzia' },
+            {
+              id: 3731,
+              category: 'T14',
+              content: 'Lorem Ipsum dolor sit amet',
+              subject: '222222Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w'
+            },
+            { id: 37211, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '222221111Narz\u0119dzia' },
+            {
+              id: 37311,
+              category: 'T14',
+              content: 'Lorem Ipsum dolor sit amet',
+              subject: '22222222111111Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w'
+            }
           ]
         }
       }
@@ -184,17 +240,6 @@ export default {
         this.active = newValue
       }
     }
-  },
-  mounted() {
-    this.$axios({
-      data: { module: 'Chat', action: 'Room', mode: 'tracking' },
-      responseType: 'json',
-      method: 'POST',
-      url: 'index.php'
-    }).then(response => {
-      console.log('asdfasdf', response)
-      this.$q.notify('Message')
-    })
   }
 }
 </script>
