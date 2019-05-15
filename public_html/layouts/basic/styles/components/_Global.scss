@@ -1,5 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-.basePanel, .bodyContents, .mainContainer, .contentsDiv {
+.basePanel,
+.bodyContents,
+.mainContainer {
 	min-height: 100%;
 }
 
@@ -17,7 +19,8 @@
 }
 
 @include media-breakpoint-down(xs) {
-	.ps__rail-x, .ps__rail-y {
+	.ps__rail-x,
+	.ps__rail-y {
 		display: none !important;
 	}
 }
@@ -67,7 +70,8 @@
 		.c-panel__body--edit {
 			@extend .px-0, .pt-1;
 
-			[class^="col-"], [class*=" col-"] {
+			[class^='col-'],
+			[class*=' col-'] {
 				@extend .px-1;
 			}
 		}
@@ -240,12 +244,12 @@
 // improved table display on mobile
 @include media-breakpoint-down(xs) {
 	table {
-		td, th {
+		td,
+		th {
 			padding: 0.25rem !important;
 		}
 	}
 }
-
 
 .c-float-label {
 	&__container {
@@ -270,7 +274,7 @@
 	}
 
 	&__label::after {
-		content: " ";
+		content: ' ';
 		display: block;
 		position: absolute;
 		background: #fff;
@@ -297,7 +301,7 @@
 	&__completion {
 		width: inherit;
 
-		&[src=""] {
+		&[src=''] {
 			display: none;
 		}
 
@@ -307,7 +311,6 @@
 			margin: auto calculate-rem(5px) auto 0;
 		}
 	}
-
 }
 
 .c-popover--link {
@@ -354,10 +357,10 @@
 	align-items: center;
 	border-radius: 50%;
 
-	[class^="userIcon-"],
+	[class^='userIcon-'],
 	.adminIcon-user,
 	.adminIcon-user {
-		font-size: calculate-rem(20px);;
+		font-size: calculate-rem(20px);
 	}
 }
 
@@ -366,11 +369,14 @@
 	display: inline-block;
 	font-size: 0.75em;
 
-	&__left, &__right, &__top {
+	&__left,
+	&__right,
+	&__top {
 		position: relative;
 	}
 
-	&__left, &__right {
+	&__left,
+	&__right {
 		top: 5px;
 	}
 
@@ -388,7 +394,7 @@
 	}
 }
 
-[contenteditable=true] {
+[contenteditable='true'] {
 	&:empty:after {
 		content: attr(placeholder) !important;
 		color: #6c757d !important;
@@ -405,7 +411,7 @@
 	height: 0;
 	visibility: hidden;
 	position: relative;
-	top: calculate-rem(15px)
+	top: calculate-rem(15px);
 }
 
 .c-completions {
@@ -547,7 +553,7 @@
 	max-width: 200px;
 }
 
-input[type="checkbox"][readonly],
-input[type="checkbox"][disabled] {
+input[type='checkbox'][readonly],
+input[type='checkbox'][disabled] {
 	background-color: material-color('grey', '200');
 }

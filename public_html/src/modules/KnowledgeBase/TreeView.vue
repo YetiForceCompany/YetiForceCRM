@@ -4,6 +4,7 @@
   <div class="h-100">
     <q-layout view="hHh lpr fFf" container class="absolute">
       <q-header elevated class="bg-primary text-white">
+        <q-toolbar> </q-toolbar>
         <q-toolbar class="justify-center q-py-md">
           <q-input v-model="search" square outlined type="search" bg-color="grey-1" class="tree-search">
             <template v-slot:append>
