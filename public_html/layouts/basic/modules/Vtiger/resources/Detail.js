@@ -1049,7 +1049,7 @@ jQuery.Class(
 				var fieldName = jQuery(element).val();
 				var elementTarget = jQuery(element);
 				var elementName =
-					jQuery.inArray(elementTarget.data('type'), ['taxes', 'sharedOwner', 'multipicklist']) != -1
+					jQuery.inArray(elementTarget.data('type'), ['taxes', 'sharedOwner', 'multipicklist', 'multiDomain']) != -1
 						? fieldName + '[]'
 						: fieldName;
 				var fieldElement = jQuery('[name="' + elementName + '"]:not([type="hidden"])', editElement);
@@ -1078,7 +1078,7 @@ jQuery.Class(
 					var element = jQuery(e.target);
 					if ($(e.currentTarget).find('.dateTimePickerField').length) {
 						if (element.closest('.drp-calendar').length || element.hasClass('drp-calendar')) {
-							return
+							return;
 						}
 					}
 					if (
@@ -2923,23 +2923,23 @@ jQuery.Class(
 		},
 		updateRecordsPDFTemplateBtn: function(form) {
 			const thisInstance = this;
-			let btnToolbar = $(".js-btn-toolbar .js-pdf");
+			let btnToolbar = $('.js-btn-toolbar .js-pdf');
 			if (btnToolbar.length) {
 				AppConnector.request({
 					data: {
 						module: app.getModuleName(),
-						action: "PDF",
-						mode: "hasValidTemplate",
+						action: 'PDF',
+						mode: 'hasValidTemplate',
 						record: app.getRecordId(),
 						view: app.getViewName()
 					},
-					dataType: "json"
+					dataType: 'json'
 				})
 					.done(function(data) {
-						if (data["result"].valid === false) {
-							btnToolbar.addClass("d-none");
+						if (data['result'].valid === false) {
+							btnToolbar.addClass('d-none');
 						} else {
-							btnToolbar.removeClass("d-none");
+							btnToolbar.removeClass('d-none');
 						}
 					})
 					.fail(function(data, err) {
