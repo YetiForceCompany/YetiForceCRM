@@ -222,5 +222,27 @@ return [
 			'default' => [],
 			'description' => 'List of modules for which Twitter has been enabled.',
 		]
-	]
+	],
+	'Magento' => [
+		'CONNECTOR' => [
+			'default' => 'Token',
+			'description' => 'Type of connector for integration with magento.',
+		],
+		'ADDRESS_API' => [
+			'default' => '',
+			'description' => 'Address url magento',
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return empty($arg) || \App\Validator::url($arg);
+			}
+		],
+		'USERNAME' => [
+			'default' => '',
+			'description' => 'Username to account in magento.',
+		],
+		'PASSWORD' => [
+			'default' => '',
+			'description' => 'Password to account in magento.',
+		],
+	],
 ];

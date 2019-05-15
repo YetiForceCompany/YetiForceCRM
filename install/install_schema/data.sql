@@ -261,6 +261,10 @@ insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (8,'r
 
 insert  into `s_yf_companies`(`id`,`status`,`name`,`type`,`industry`,`city`,`country`,`companysize`,`website`,`logo`,`firstname`,`lastname`,`email`) values (1,0,'YetiForce Sp. z o.o. ',2,NULL,'Warszawa','Poland',0,'yetiforce.com','[]',NULL,NULL,NULL);
 
+/*Data for the table `s_yf_magento_config` */
+
+/*Data for the table `s_yf_magento_record` */
+
 /*Data for the table `s_yf_mail_queue` */
 
 /*Data for the table `s_yf_mail_relation_updater` */

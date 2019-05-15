@@ -992,6 +992,21 @@ CREATE TABLE `s_yf_companies` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
+/*Table structure for table `s_yf_magento_config` */
+
+CREATE TABLE `s_yf_magento_config` (
+  `name` varchar(15) DEFAULT NULL,
+  `value` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `s_yf_magento_record` */
+
+CREATE TABLE `s_yf_magento_record` (
+  `id` int(10) unsigned NOT NULL,
+  `crmid` int(10) unsigned NOT NULL,
+  `type` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `s_yf_mail_queue` */
 
 CREATE TABLE `s_yf_mail_queue` (
