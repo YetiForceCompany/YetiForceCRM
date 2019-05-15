@@ -4,9 +4,21 @@
   <div class="h-100">
     <q-layout view="hHh lpr fFf" container class="absolute">
       <q-header elevated class="bg-primary text-white">
-        <q-toolbar> </q-toolbar>
+        <q-toolbar class="justify-center">
+          <q-toolbar-title>
+            Knowledge Base
+          </q-toolbar-title>
+        </q-toolbar>
         <q-toolbar class="justify-center q-py-md">
-          <q-input v-model="search" square outlined type="search" bg-color="grey-1" class="tree-search">
+          <q-input
+            v-model="filter"
+            placeholder="Search"
+            square
+            outlined
+            type="search"
+            bg-color="grey-1"
+            class="tree-search"
+          >
             <template v-slot:append>
               <q-icon name="mdi-magnify" />
             </template>
@@ -67,20 +79,36 @@
             </q-card>
           </div>
           <div class="q-pa-md row items-start q-gutter-md">
-            <q-list padding>
-              <q-item v-for="(article, index) in activeCategories.records" :key="index">
-                <q-item-section>
-                  <q-item-label overline>{{ article.subject }}</q-item-label>
-                  <q-item-label>Single line item</q-item-label>
-                  <q-item-label caption
-                    >Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label
-                  >
-                </q-item-section>
-                <q-item-section side top>
-                  <q-item-label caption>{{ tree.mainCategories.categories[article.category].label }}</q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
+            <q-table
+              title="Articles"
+              :data="activeCategories.records"
+              :columns="columns"
+              row-key="subject"
+              :filter="filter"
+              grid
+              hide-header
+            >
+              <template v-slot:item="props">
+                <div class="grid-style-transition">
+                  <q-list padding>
+                    <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
+                      <q-item-section>
+                        <q-item-label overline>{{ props.row.subject }}</q-item-label>
+                        <q-item-label>Single line item</q-item-label>
+                        <q-item-label caption
+                          >Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label
+                        >
+                      </q-item-section>
+                      <q-item-section side top>
+                        <q-item-label caption>{{
+                          tree.mainCategories.categories[props.row.category].label
+                        }}</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </div>
+              </template>
+            </q-table>
           </div>
         </q-page>
       </q-page-container>
@@ -93,7 +121,19 @@ export default {
   data() {
     return {
       left: true,
-      search: 'test',
+      filter: '',
+      columns: [
+        {
+          name: 'desc',
+          required: true,
+          label: 'Title',
+          align: 'left',
+          field: row => row.name,
+          format: val => `${val}`,
+          sortable: true
+        },
+        { name: 'category', align: 'center', label: 'Category', field: 'category', sortable: true }
+      ],
       active: 'mainCategories',
       tree: {
         mainCategories: {
