@@ -11933,6 +11933,37 @@ var Vue = unwrapExports(vue);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var script = {
   name: 'TreeView',
@@ -11940,41 +11971,54 @@ var script = {
     return {
       left: true,
       search: 'test',
-      mainCategories: {
-        categories: {
-          T1: { tree: 'T1', parentTree: 'T1', parent: false, label: 'LBL_NONE', icon: '' },
-          T2: { tree: 'T2', parentTree: 'T2', parent: false, label: 'aaaaa', icon: 'fas fa-archive' },
-          T3: { tree: 'T3', parentTree: 'T3', parent: false, label: 'aaaaaa', icon: 'fas fa-adjust' },
-          T6: { tree: 'T6', parentTree: 'T6', parent: false, label: 'ffff', icon: 'AdditionalIcon-Matrixes' },
-          T7: { tree: 'T7', parentTree: 'T7', parent: false, label: 'gggg', icon: '' },
-          T14: { tree: 'T14', parentTree: 'T14', parent: false, label: 'mmmmmmmmmm', icon: '' }
+      active: 'mainCategories',
+      tree: {
+        mainCategories: {
+          categories: {
+            T1: { tree: 'T1', parentTree: 'T1', parent: false, label: 'LBL_NONE', icon: '' },
+            T2: { tree: 'T2', parentTree: 'T2', parent: false, label: 'aaaaa', icon: 'fas fa-archive' },
+            T3: { tree: 'T3', parentTree: 'T3', parent: false, label: 'aaaaaa', icon: 'fas fa-adjust' },
+            T6: { tree: 'T6', parentTree: 'T6', parent: false, label: 'ffff', icon: 'AdditionalIcon-Matrixes' },
+            T7: { tree: 'T7', parentTree: 'T7', parent: false, label: 'gggg', icon: '' },
+            T14: { tree: 'T14', parentTree: 'T14', parent: false, label: 'mmmmmmmmmm', icon: '' }
+          },
+          featured: {
+            '0': [],
+            T1: [
+              { id: 306, category: 'T1', subject: 'Narz\u0119dzia' },
+              { id: 307, category: 'T1', subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' },
+              { id: 375, category: 'T1', subject: 'Narz\u0119dzia' },
+              { id: 376, category: 'T1', subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' }
+            ],
+            T14: [
+              { id: 372, category: 'T14', subject: 'Narz\u0119dzia' },
+              { id: 373, category: 'T14', subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' }
+            ]
+          },
+          records: []
         },
-        featured: {
-          '0': [],
-          T1: [
-            { id: 306, category: 'T1', subject: 'Narz\u0119dzia' },
-            { id: 307, category: 'T1', subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' },
-            { id: 375, category: 'T1', subject: 'Narz\u0119dzia' },
-            { id: 376, category: 'T1', subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' }
-          ],
-          T14: [
+        T14: {
+          categories: {
+            T12: { tree: 'T12', parentTree: 'T14::T12', parent: 'T14', label: 'bbbbbbbbbbbbb', icon: '' },
+            T11: { tree: 'T11', parentTree: 'T14::T11', parent: 'T14', label: 'pppppppppppp', icon: '' },
+            T10: { tree: 'T10', parentTree: 'T14::T10', parent: 'T14', label: 'oooooooooooo', icon: '' }
+          },
+          featured: [[]],
+          records: [
             { id: 372, category: 'T14', subject: 'Narz\u0119dzia' },
             { id: 373, category: 'T14', subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' }
           ]
-        },
-        records: []
+        }
+      }
+    }
+  },
+  computed: {
+    activeCategories: {
+      get: function() {
+        return this.tree[this.active]
       },
-      records: {
-        categories: {
-          T12: { tree: 'T12', parentTree: 'T14::T12', parent: 'T14', label: 'bbbbbbbbbbbbb', icon: '' },
-          T11: { tree: 'T11', parentTree: 'T14::T11', parent: 'T14', label: 'pppppppppppp', icon: '' },
-          T10: { tree: 'T10', parentTree: 'T14::T10', parent: 'T14', label: 'oooooooooooo', icon: '' }
-        },
-        featured: [[]],
-        records: [
-          { id: 372, category: 'T14', subject: 'Narz\u0119dzia' },
-          { id: 373, category: 'T14', subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' }
-        ]
+      set: function(newValue) {
+        this.active = newValue;
       }
     }
   },
@@ -12225,13 +12269,9 @@ var __vue_render__ = function() {
               _c(
                 "q-scroll-area",
                 { staticClass: "fit" },
-                _vm._l(_vm.mainCategories.categories, function(
-                  categoryValue,
-                  categoryKey
-                ) {
-                  return _c(
+                [
+                  _c(
                     "q-list",
-                    { key: categoryKey },
                     [
                       _c(
                         "q-item",
@@ -12239,35 +12279,80 @@ var __vue_render__ = function() {
                           directives: [{ name: "ripple", rawName: "v-ripple" }],
                           attrs: {
                             clickable: "",
-                            active: categoryValue.label === "LBL_NONE"
+                            active: _vm.active === "mainCategories"
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.active = "mainCategories";
+                            }
                           }
                         },
                         [
                           _c(
                             "q-item-section",
                             { attrs: { avatar: "" } },
-                            [
-                              _c("q-icon", {
-                                attrs: { name: categoryValue.icon }
-                              })
-                            ],
+                            [_c("q-icon", { attrs: { name: "mdi-home" } })],
                             1
                           ),
                           _vm._v(" "),
                           _c("q-item-section", [
-                            _vm._v(
-                              "\n              " +
-                                _vm._s(categoryValue.label) +
-                                "\n            "
-                            )
+                            _vm._v("\n              Home\n            ")
                           ])
                         ],
                         1
-                      )
+                      ),
+                      _vm._v(" "),
+                      _vm._l(_vm.activeCategories.categories, function(
+                        categoryValue,
+                        categoryKey
+                      ) {
+                        return _c(
+                          "q-item",
+                          {
+                            directives: [
+                              { name: "ripple", rawName: "v-ripple" }
+                            ],
+                            key: categoryKey,
+                            attrs: { clickable: "" },
+                            on: {
+                              click: function($event) {
+                                _vm.tree[categoryKey] !== undefined
+                                  ? (_vm.active = categoryKey)
+                                  : "";
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "q-item-section",
+                              { attrs: { avatar: "" } },
+                              [
+                                /^mdi|^fa/.test(categoryValue.icon)
+                                  ? _c("q-icon", {
+                                      attrs: { name: categoryValue.icon }
+                                    })
+                                  : _c("q-icon", {
+                                      class: [categoryValue.icon, "q-icon"]
+                                    })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("q-item-section", [
+                              _vm._v(
+                                "\n              " +
+                                  _vm._s(categoryValue.label) +
+                                  "\n            "
+                              )
+                            ])
+                          ],
+                          1
+                        )
+                      })
                     ],
-                    1
+                    2
                   )
-                }),
+                ],
                 1
               )
             ],
@@ -12281,7 +12366,7 @@ var __vue_render__ = function() {
                 _c(
                   "div",
                   { staticClass: "q-pa-md row items-start q-gutter-md" },
-                  _vm._l(_vm.mainCategories.categories, function(
+                  _vm._l(_vm.activeCategories.categories, function(
                     categoryValue,
                     categoryKey
                   ) {
@@ -12297,7 +12382,7 @@ var __vue_render__ = function() {
                             ]),
                             _vm._v(" "),
                             _vm._l(
-                              _vm.mainCategories.featured[categoryKey],
+                              _vm.activeCategories.featured[categoryKey],
                               function(featuredValue) {
                                 return _c(
                                   "div",
@@ -12323,6 +12408,69 @@ var __vue_render__ = function() {
                     )
                   }),
                   1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "q-pa-md row items-start q-gutter-md" },
+                  [
+                    _c(
+                      "q-list",
+                      { attrs: { padding: "" } },
+                      _vm._l(_vm.activeCategories.records, function(
+                        article,
+                        index
+                      ) {
+                        return _c(
+                          "q-item",
+                          { key: index },
+                          [
+                            _c(
+                              "q-item-section",
+                              [
+                                _c(
+                                  "q-item-label",
+                                  { attrs: { overline: "" } },
+                                  [_vm._v(_vm._s(article.subject))]
+                                ),
+                                _vm._v(" "),
+                                _c("q-item-label", [
+                                  _vm._v("Single line item")
+                                ]),
+                                _vm._v(" "),
+                                _c("q-item-label", { attrs: { caption: "" } }, [
+                                  _vm._v(
+                                    "Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit."
+                                  )
+                                ])
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "q-item-section",
+                              { attrs: { side: "", top: "" } },
+                              [
+                                _c("q-item-label", { attrs: { caption: "" } }, [
+                                  _vm._v(
+                                    _vm._s(
+                                      _vm.tree.mainCategories.categories[
+                                        article.category
+                                      ].label
+                                    )
+                                  )
+                                ])
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      }),
+                      1
+                    )
+                  ],
+                  1
                 )
               ])
             ],
@@ -12341,11 +12489,11 @@ __vue_render__._withStripped = true;
   /* style */
   const __vue_inject_styles__ = function (inject) {
     if (!inject) return
-    inject("data-v-df542baa_0", { source: "\n.tree-search[data-v-df542baa] {\n  width: 50%;\n}\n.home-card[data-v-df542baa] {\n  width: 100%;\n  max-width: 250px;\n}\n", map: {"version":3,"sources":["C:\\www\\YetiForceCRM\\public_html\\src\\modules\\KnowledgeBase\\TreeView.vue"],"names":[],"mappings":";AAqHA;EACA,UAAA;AACA;AACA;EACA,WAAA;EACA,gBAAA;AACA","file":"TreeView.vue","sourcesContent":["/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */\n\n<template>\n  <div class=\"h-100\">\n    <q-layout view=\"hHh lpr fFf\" container class=\"absolute\">\n      <q-header elevated class=\"bg-primary text-white\">\n        <q-toolbar> </q-toolbar>\n        <q-toolbar class=\"justify-center q-py-md\">\n          <q-input v-model=\"search\" square outlined type=\"search\" bg-color=\"grey-1\" class=\"tree-search\">\n            <template v-slot:append>\n              <q-icon name=\"mdi-magnify\" />\n            </template>\n          </q-input>\n        </q-toolbar>\n        <q-toolbar>\n          <q-btn dense flat round icon=\"mdi-menu\" @click=\"left = !left\"></q-btn>\n        </q-toolbar>\n      </q-header>\n      <q-drawer v-model=\"left\" side=\"left\" bordered :width=\"200\" :breakpoint=\"700\">\n        <q-scroll-area class=\"fit\">\n          <q-list v-for=\"(categoryValue, categoryKey) in mainCategories.categories\" :key=\"categoryKey\">\n            <q-item clickable :active=\"categoryValue.label === 'LBL_NONE'\" v-ripple>\n              <q-item-section avatar>\n                <q-icon :name=\"categoryValue.icon\" />\n              </q-item-section>\n              <q-item-section>\n                {{ categoryValue.label }}\n              </q-item-section>\n            </q-item>\n            <!-- <q-separator v-if=\"categoryValue.separator\" /> -->\n          </q-list>\n        </q-scroll-area>\n      </q-drawer>\n      <q-page-container>\n        <q-page class=\"q-pa-md\">\n          <div class=\"q-pa-md row items-start q-gutter-md\">\n            <q-card\n              v-for=\"(categoryValue, categoryKey) in mainCategories.categories\"\n              :key=\"categoryKey\"\n              class=\"home-card\"\n            >\n              <q-card-section>\n                <div class=\"text-h6\">{{ categoryValue.label }}</div>\n                <div\n                  v-for=\"featuredValue in mainCategories.featured[categoryKey]\"\n                  :key=\"featuredValue.id\"\n                  class=\"text-subtitle2\"\n                >\n                  {{ featuredValue.subject }}\n                </div>\n              </q-card-section>\n            </q-card>\n          </div>\n        </q-page>\n      </q-page-container>\n    </q-layout>\n  </div>\n</template>\n<script>\nexport default {\n  name: 'TreeView',\n  data() {\n    return {\n      left: true,\n      search: 'test',\n      mainCategories: {\n        categories: {\n          T1: { tree: 'T1', parentTree: 'T1', parent: false, label: 'LBL_NONE', icon: '' },\n          T2: { tree: 'T2', parentTree: 'T2', parent: false, label: 'aaaaa', icon: 'fas fa-archive' },\n          T3: { tree: 'T3', parentTree: 'T3', parent: false, label: 'aaaaaa', icon: 'fas fa-adjust' },\n          T6: { tree: 'T6', parentTree: 'T6', parent: false, label: 'ffff', icon: 'AdditionalIcon-Matrixes' },\n          T7: { tree: 'T7', parentTree: 'T7', parent: false, label: 'gggg', icon: '' },\n          T14: { tree: 'T14', parentTree: 'T14', parent: false, label: 'mmmmmmmmmm', icon: '' }\n        },\n        featured: {\n          '0': [],\n          T1: [\n            { id: 306, category: 'T1', subject: 'Narz\\u0119dzia' },\n            { id: 307, category: 'T1', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' },\n            { id: 375, category: 'T1', subject: 'Narz\\u0119dzia' },\n            { id: 376, category: 'T1', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\n          ],\n          T14: [\n            { id: 372, category: 'T14', subject: 'Narz\\u0119dzia' },\n            { id: 373, category: 'T14', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\n          ]\n        },\n        records: []\n      },\n      records: {\n        categories: {\n          T12: { tree: 'T12', parentTree: 'T14::T12', parent: 'T14', label: 'bbbbbbbbbbbbb', icon: '' },\n          T11: { tree: 'T11', parentTree: 'T14::T11', parent: 'T14', label: 'pppppppppppp', icon: '' },\n          T10: { tree: 'T10', parentTree: 'T14::T10', parent: 'T14', label: 'oooooooooooo', icon: '' }\n        },\n        featured: [[]],\n        records: [\n          { id: 372, category: 'T14', subject: 'Narz\\u0119dzia' },\n          { id: 373, category: 'T14', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\n        ]\n      }\n    }\n  },\n  mounted() {\n    this.$axios({\n      data: { module: 'Chat', action: 'Room', mode: 'tracking' },\n      responseType: 'json',\n      method: 'POST',\n      url: 'index.php'\n    }).then(response => {\n      console.log('asdfasdf', response)\n      this.$q.notify('Message')\n    })\n  }\n}\n</script>\n<style scoped>\n.tree-search {\n  width: 50%;\n}\n.home-card {\n  width: 100%;\n  max-width: 250px;\n}\n</style>\n"]}, media: undefined });
+    inject("data-v-7954ea07_0", { source: "\n.tree-search[data-v-7954ea07] {\n  width: 50%;\n}\n.home-card[data-v-7954ea07] {\n  width: 100%;\n  max-width: 250px;\n}\n", map: {"version":3,"sources":["C:\\www\\YetiForceCRM\\public_html\\src\\modules\\KnowledgeBase\\TreeView.vue"],"names":[],"mappings":";AAiKA;EACA,UAAA;AACA;AACA;EACA,WAAA;EACA,gBAAA;AACA","file":"TreeView.vue","sourcesContent":["/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */\n\n<template>\n  <div class=\"h-100\">\n    <q-layout view=\"hHh lpr fFf\" container class=\"absolute\">\n      <q-header elevated class=\"bg-primary text-white\">\n        <q-toolbar> </q-toolbar>\n        <q-toolbar class=\"justify-center q-py-md\">\n          <q-input v-model=\"search\" square outlined type=\"search\" bg-color=\"grey-1\" class=\"tree-search\">\n            <template v-slot:append>\n              <q-icon name=\"mdi-magnify\" />\n            </template>\n          </q-input>\n        </q-toolbar>\n        <q-toolbar>\n          <q-btn dense flat round icon=\"mdi-menu\" @click=\"left = !left\"></q-btn>\n        </q-toolbar>\n      </q-header>\n      <q-drawer v-model=\"left\" side=\"left\" bordered :width=\"200\" :breakpoint=\"700\">\n        <q-scroll-area class=\"fit\">\n          <q-list>\n            <q-item clickable :active=\"active === 'mainCategories'\" v-ripple @click=\"active = 'mainCategories'\">\n              <q-item-section avatar>\n                <q-icon name=\"mdi-home\" />\n              </q-item-section>\n              <q-item-section>\n                Home\n              </q-item-section>\n            </q-item>\n            <q-item\n              v-for=\"(categoryValue, categoryKey) in activeCategories.categories\"\n              :key=\"categoryKey\"\n              clickable\n              v-ripple\n              @click=\"tree[categoryKey] !== undefined ? (active = categoryKey) : ''\"\n            >\n              <q-item-section avatar>\n                <q-icon v-if=\"/^mdi|^fa/.test(categoryValue.icon)\" :name=\"categoryValue.icon\" />\n                <q-icon v-else :class=\"[categoryValue.icon, 'q-icon']\" />\n              </q-item-section>\n              <q-item-section>\n                {{ categoryValue.label }}\n              </q-item-section>\n            </q-item>\n            <!-- <q-separator v-if=\"categoryValue.separator\" /> -->\n          </q-list>\n        </q-scroll-area>\n      </q-drawer>\n      <q-page-container>\n        <q-page class=\"q-pa-md\">\n          <div class=\"q-pa-md row items-start q-gutter-md\">\n            <q-card\n              v-for=\"(categoryValue, categoryKey) in activeCategories.categories\"\n              :key=\"categoryKey\"\n              class=\"home-card\"\n            >\n              <q-card-section>\n                <div class=\"text-h6\">{{ categoryValue.label }}</div>\n                <div\n                  v-for=\"featuredValue in activeCategories.featured[categoryKey]\"\n                  :key=\"featuredValue.id\"\n                  class=\"text-subtitle2\"\n                >\n                  {{ featuredValue.subject }}\n                </div>\n              </q-card-section>\n            </q-card>\n          </div>\n          <div class=\"q-pa-md row items-start q-gutter-md\">\n            <q-list padding>\n              <q-item v-for=\"(article, index) in activeCategories.records\" :key=\"index\">\n                <q-item-section>\n                  <q-item-label overline>{{ article.subject }}</q-item-label>\n                  <q-item-label>Single line item</q-item-label>\n                  <q-item-label caption\n                    >Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label\n                  >\n                </q-item-section>\n                <q-item-section side top>\n                  <q-item-label caption>{{ tree.mainCategories.categories[article.category].label }}</q-item-label>\n                </q-item-section>\n              </q-item>\n            </q-list>\n          </div>\n        </q-page>\n      </q-page-container>\n    </q-layout>\n  </div>\n</template>\n<script>\nexport default {\n  name: 'TreeView',\n  data() {\n    return {\n      left: true,\n      search: 'test',\n      active: 'mainCategories',\n      tree: {\n        mainCategories: {\n          categories: {\n            T1: { tree: 'T1', parentTree: 'T1', parent: false, label: 'LBL_NONE', icon: '' },\n            T2: { tree: 'T2', parentTree: 'T2', parent: false, label: 'aaaaa', icon: 'fas fa-archive' },\n            T3: { tree: 'T3', parentTree: 'T3', parent: false, label: 'aaaaaa', icon: 'fas fa-adjust' },\n            T6: { tree: 'T6', parentTree: 'T6', parent: false, label: 'ffff', icon: 'AdditionalIcon-Matrixes' },\n            T7: { tree: 'T7', parentTree: 'T7', parent: false, label: 'gggg', icon: '' },\n            T14: { tree: 'T14', parentTree: 'T14', parent: false, label: 'mmmmmmmmmm', icon: '' }\n          },\n          featured: {\n            '0': [],\n            T1: [\n              { id: 306, category: 'T1', subject: 'Narz\\u0119dzia' },\n              { id: 307, category: 'T1', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' },\n              { id: 375, category: 'T1', subject: 'Narz\\u0119dzia' },\n              { id: 376, category: 'T1', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\n            ],\n            T14: [\n              { id: 372, category: 'T14', subject: 'Narz\\u0119dzia' },\n              { id: 373, category: 'T14', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\n            ]\n          },\n          records: []\n        },\n        T14: {\n          categories: {\n            T12: { tree: 'T12', parentTree: 'T14::T12', parent: 'T14', label: 'bbbbbbbbbbbbb', icon: '' },\n            T11: { tree: 'T11', parentTree: 'T14::T11', parent: 'T14', label: 'pppppppppppp', icon: '' },\n            T10: { tree: 'T10', parentTree: 'T14::T10', parent: 'T14', label: 'oooooooooooo', icon: '' }\n          },\n          featured: [[]],\n          records: [\n            { id: 372, category: 'T14', subject: 'Narz\\u0119dzia' },\n            { id: 373, category: 'T14', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\n          ]\n        }\n      }\n    }\n  },\n  computed: {\n    activeCategories: {\n      get: function() {\n        return this.tree[this.active]\n      },\n      set: function(newValue) {\n        this.active = newValue\n      }\n    }\n  },\n  mounted() {\n    this.$axios({\n      data: { module: 'Chat', action: 'Room', mode: 'tracking' },\n      responseType: 'json',\n      method: 'POST',\n      url: 'index.php'\n    }).then(response => {\n      console.log('asdfasdf', response)\n      this.$q.notify('Message')\n    })\n  }\n}\n</script>\n<style scoped>\n.tree-search {\n  width: 50%;\n}\n.home-card {\n  width: 100%;\n  max-width: 250px;\n}\n</style>\n"]}, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__ = "data-v-df542baa";
+  const __vue_scope_id__ = "data-v-7954ea07";
   /* module identifier */
   const __vue_module_identifier__ = undefined;
   /* functional template */

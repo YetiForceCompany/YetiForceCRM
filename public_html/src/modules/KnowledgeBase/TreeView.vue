@@ -18,10 +18,25 @@
       </q-header>
       <q-drawer v-model="left" side="left" bordered :width="200" :breakpoint="700">
         <q-scroll-area class="fit">
-          <q-list v-for="(categoryValue, categoryKey) in mainCategories.categories" :key="categoryKey">
-            <q-item clickable :active="categoryValue.label === 'LBL_NONE'" v-ripple>
+          <q-list>
+            <q-item clickable :active="active === 'mainCategories'" v-ripple @click="active = 'mainCategories'">
               <q-item-section avatar>
-                <q-icon :name="categoryValue.icon" />
+                <q-icon name="mdi-home" />
+              </q-item-section>
+              <q-item-section>
+                Home
+              </q-item-section>
+            </q-item>
+            <q-item
+              v-for="(categoryValue, categoryKey) in activeCategories.categories"
+              :key="categoryKey"
+              clickable
+              v-ripple
+              @click="tree[categoryKey] !== undefined ? (active = categoryKey) : ''"
+            >
+              <q-item-section avatar>
+                <q-icon v-if="/^mdi|^fa/.test(categoryValue.icon)" :name="categoryValue.icon" />
+                <q-icon v-else :class="[categoryValue.icon, 'q-icon']" />
               </q-item-section>
               <q-item-section>
                 {{ categoryValue.label }}
@@ -35,14 +50,14 @@
         <q-page class="q-pa-md">
           <div class="q-pa-md row items-start q-gutter-md">
             <q-card
-              v-for="(categoryValue, categoryKey) in mainCategories.categories"
+              v-for="(categoryValue, categoryKey) in activeCategories.categories"
               :key="categoryKey"
               class="home-card"
             >
               <q-card-section>
                 <div class="text-h6">{{ categoryValue.label }}</div>
                 <div
-                  v-for="featuredValue in mainCategories.featured[categoryKey]"
+                  v-for="featuredValue in activeCategories.featured[categoryKey]"
                   :key="featuredValue.id"
                   class="text-subtitle2"
                 >
@@ -50,6 +65,22 @@
                 </div>
               </q-card-section>
             </q-card>
+          </div>
+          <div class="q-pa-md row items-start q-gutter-md">
+            <q-list padding>
+              <q-item v-for="(article, index) in activeCategories.records" :key="index">
+                <q-item-section>
+                  <q-item-label overline>{{ article.subject }}</q-item-label>
+                  <q-item-label>Single line item</q-item-label>
+                  <q-item-label caption
+                    >Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label
+                  >
+                </q-item-section>
+                <q-item-section side top>
+                  <q-item-label caption>{{ tree.mainCategories.categories[article.category].label }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
           </div>
         </q-page>
       </q-page-container>
@@ -63,41 +94,54 @@ export default {
     return {
       left: true,
       search: 'test',
-      mainCategories: {
-        categories: {
-          T1: { tree: 'T1', parentTree: 'T1', parent: false, label: 'LBL_NONE', icon: '' },
-          T2: { tree: 'T2', parentTree: 'T2', parent: false, label: 'aaaaa', icon: 'fas fa-archive' },
-          T3: { tree: 'T3', parentTree: 'T3', parent: false, label: 'aaaaaa', icon: 'fas fa-adjust' },
-          T6: { tree: 'T6', parentTree: 'T6', parent: false, label: 'ffff', icon: 'AdditionalIcon-Matrixes' },
-          T7: { tree: 'T7', parentTree: 'T7', parent: false, label: 'gggg', icon: '' },
-          T14: { tree: 'T14', parentTree: 'T14', parent: false, label: 'mmmmmmmmmm', icon: '' }
+      active: 'mainCategories',
+      tree: {
+        mainCategories: {
+          categories: {
+            T1: { tree: 'T1', parentTree: 'T1', parent: false, label: 'LBL_NONE', icon: '' },
+            T2: { tree: 'T2', parentTree: 'T2', parent: false, label: 'aaaaa', icon: 'fas fa-archive' },
+            T3: { tree: 'T3', parentTree: 'T3', parent: false, label: 'aaaaaa', icon: 'fas fa-adjust' },
+            T6: { tree: 'T6', parentTree: 'T6', parent: false, label: 'ffff', icon: 'AdditionalIcon-Matrixes' },
+            T7: { tree: 'T7', parentTree: 'T7', parent: false, label: 'gggg', icon: '' },
+            T14: { tree: 'T14', parentTree: 'T14', parent: false, label: 'mmmmmmmmmm', icon: '' }
+          },
+          featured: {
+            '0': [],
+            T1: [
+              { id: 306, category: 'T1', subject: 'Narz\u0119dzia' },
+              { id: 307, category: 'T1', subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' },
+              { id: 375, category: 'T1', subject: 'Narz\u0119dzia' },
+              { id: 376, category: 'T1', subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' }
+            ],
+            T14: [
+              { id: 372, category: 'T14', subject: 'Narz\u0119dzia' },
+              { id: 373, category: 'T14', subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' }
+            ]
+          },
+          records: []
         },
-        featured: {
-          '0': [],
-          T1: [
-            { id: 306, category: 'T1', subject: 'Narz\u0119dzia' },
-            { id: 307, category: 'T1', subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' },
-            { id: 375, category: 'T1', subject: 'Narz\u0119dzia' },
-            { id: 376, category: 'T1', subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' }
-          ],
-          T14: [
+        T14: {
+          categories: {
+            T12: { tree: 'T12', parentTree: 'T14::T12', parent: 'T14', label: 'bbbbbbbbbbbbb', icon: '' },
+            T11: { tree: 'T11', parentTree: 'T14::T11', parent: 'T14', label: 'pppppppppppp', icon: '' },
+            T10: { tree: 'T10', parentTree: 'T14::T10', parent: 'T14', label: 'oooooooooooo', icon: '' }
+          },
+          featured: [[]],
+          records: [
             { id: 372, category: 'T14', subject: 'Narz\u0119dzia' },
             { id: 373, category: 'T14', subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' }
           ]
-        },
-        records: []
+        }
+      }
+    }
+  },
+  computed: {
+    activeCategories: {
+      get: function() {
+        return this.tree[this.active]
       },
-      records: {
-        categories: {
-          T12: { tree: 'T12', parentTree: 'T14::T12', parent: 'T14', label: 'bbbbbbbbbbbbb', icon: '' },
-          T11: { tree: 'T11', parentTree: 'T14::T11', parent: 'T14', label: 'pppppppppppp', icon: '' },
-          T10: { tree: 'T10', parentTree: 'T14::T10', parent: 'T14', label: 'oooooooooooo', icon: '' }
-        },
-        featured: [[]],
-        records: [
-          { id: 372, category: 'T14', subject: 'Narz\u0119dzia' },
-          { id: 373, category: 'T14', subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' }
-        ]
+      set: function(newValue) {
+        this.active = newValue
       }
     }
   },
