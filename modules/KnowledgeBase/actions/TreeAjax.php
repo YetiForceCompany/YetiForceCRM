@@ -53,7 +53,8 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 		$treeModel = KnowledgeBase_Tree_Model::getInstance();
 		$categories = [];
 		foreach ($treeModel->getCategories() as $row) {
-			unset($row['templateid'],$row['depth'],$row['state']);
+			$row['parent'] = App\Fields\Tree::getParentIdx($row);
+			unset($row['templateid'],$row['depth'],$row['state'],$row['name']);
 			$row['parentTree'] = explode('::', $row['parentTree']);
 			$categories[$row['tree']] = $row;
 		}
