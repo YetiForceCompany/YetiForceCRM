@@ -4,12 +4,11 @@
   <div class="h-100">
     <q-layout view="hHh lpr fFf" container class="absolute">
       <q-header elevated class="bg-primary text-white">
-        <q-toolbar class="justify-center">
+        <q-toolbar>
+          <q-btn dense flat round icon="mdi-menu" @click="left = !left"></q-btn>
           <q-toolbar-title>
             Knowledge Base
           </q-toolbar-title>
-        </q-toolbar>
-        <q-toolbar class="justify-center q-py-md">
           <q-input
             v-model="filter"
             placeholder="Search"
@@ -24,9 +23,6 @@
             </template>
           </q-input>
         </q-toolbar>
-        <q-toolbar>
-          <q-btn dense flat round icon="mdi-menu" @click="left = !left"></q-btn>
-        </q-toolbar>
       </q-header>
 
       <q-drawer v-model="left" side="left" elevated :width="250" :breakpoint="700">
@@ -34,10 +30,10 @@
           <q-list>
             <q-item
               clickable
-              :active="active === 'mainCategories'"
+              :active="active === ''"
               v-ripple
               @click="
-                active = 'mainCategories'
+                getData()
                 record = false
               "
             >
@@ -49,27 +45,30 @@
               </q-item-section>
             </q-item>
             <q-item
-              v-for="(categoryValue, categoryKey) in activeCategories.categories"
+              v-for="(categoryValue, categoryKey) in tree.data.categories"
               :key="categoryKey"
               clickable
               v-ripple
               @click="
-                tree[categoryKey] !== undefined ? (active = categoryKey) : ''
+                getData(categoryValue)
                 record = false
               "
             >
               <q-item-section avatar>
-                <q-icon v-if="/^mdi|^fa/.test(categoryValue.icon)" :name="categoryValue.icon" />
-                <q-icon v-else :class="[categoryValue.icon, 'q-icon']" />
+                <q-icon
+                  v-if="/^mdi|^fa/.test(tree.categories[categoryValue].icon)"
+                  :name="tree.categories[categoryValue].icon"
+                />
+                <q-icon v-else :class="[tree.categories[categoryValue].icon, 'q-icon']" />
               </q-item-section>
               <q-item-section>
-                {{ categoryValue.label }}
+                {{ tree.categories[categoryValue].label }}
               </q-item-section>
             </q-item>
 
-            <q-separator v-if="activeCategories.records.length" />
+            <q-separator v-if="tree.data.records.length" />
             <q-item
-              v-for="(recordValue, index) in activeCategories.records"
+              v-for="(recordValue, index) in tree.data.records"
               :key="index"
               clickable
               v-ripple
@@ -95,15 +94,15 @@
                 bordered
                 padding
                 dense
-                v-for="(categoryValue, categoryKey) in activeCategories.categories"
+                v-for="(categoryValue, categoryKey) in tree.data.categories"
                 :key="categoryKey"
                 class="home-card"
               >
-                <q-item-label header>{{ categoryValue.label }}</q-item-label>
+                <q-item-label header>{{ tree.categories[categoryValue].label }}</q-item-label>
 
                 <q-item
                   clickable
-                  v-for="featuredValue in activeCategories.featured[categoryKey]"
+                  v-for="featuredValue in tree.data.featured[categoryValue]"
                   :key="featuredValue.id"
                   class="text-subtitle2"
                   v-ripple
@@ -119,9 +118,8 @@
 
             <div class="q-pa-md row items-start q-gutter-md">
               <q-table
-                v-if="activeCategories.records.length"
-                title="Articles"
-                :data="activeCategories.records"
+                v-if="tree.data.records.length"
+                :data="tree.data.records"
                 :columns="columns"
                 row-key="subject"
                 :filter="filter"
@@ -139,9 +137,7 @@
                         >
                       </q-item-section>
                       <q-item-section side top>
-                        <q-item-label caption>{{
-                          tree.mainCategories.categories[props.row.category].label
-                        }}</q-item-label>
+                        <q-item-label caption></q-item-label>
                       </q-item-section>
                     </q-item>
                   </q-list>
@@ -166,32 +162,62 @@ export default {
       left: true,
       filter: '',
       record: false,
-      columns: [],
-      active: 'mainCategories',
+      columns: [
+        {
+          name: 'desc',
+          required: true,
+          label: 'Title',
+          align: 'left',
+          field: row => row.subject,
+          format: val => `${val}`,
+          sortable: true
+        },
+        { name: 'category', align: 'center', label: 'Category', field: 'category', sortable: true }
+      ],
+      active: '',
       tree: {
-        mainCategories: {
-          categories: {},
-          featured: {},
+        data: {
           records: []
-        }
+        },
+        categories: {}
       }
     }
   },
-  computed: {
-    activeCategories: {
-      get: function() {
-        return this.tree[this.active]
-      },
-      set: function(newValue) {
-        this.active = newValue
-      }
+  methods: {
+    getCategories() {
+      const aDeferred = $.Deferred()
+      return AppConnector.request({ module: 'KnowledgeBase', action: 'TreeAjax', mode: 'categories' }).done(data => {
+        this.tree.categories = data.result
+        aDeferred.resolve(data.result)
+      })
+    },
+    getData(category = '') {
+      const aDeferred = $.Deferred()
+      this.active = category
+      return AppConnector.request({
+        module: 'KnowledgeBase',
+        action: 'TreeAjax',
+        mode: 'data',
+        category: category
+      }).done(data => {
+        this.tree.data = data.result
+        aDeferred.resolve(data.result)
+      })
     }
+  },
+  created() {
+    this.getCategories()
+    this.getData()
   }
 }
 </script>
-<style scoped>
+<style>
 .tree-search {
   width: 50%;
+}
+.tree-search .q-field__control,
+.tree-search .q-field__marginal {
+  height: 40px;
 }
 .home-card {
   width: 100%;
