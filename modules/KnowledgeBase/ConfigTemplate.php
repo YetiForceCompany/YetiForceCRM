@@ -47,4 +47,12 @@ return [
 //		'default' => ['img', 'audio', 'video'],
 //		'description' => 'allowed File Types'
 //	],
+	'treeArticleLimit' => [
+		'default' => 12,
+		'description' => 'Article limit in the tree window',
+		'validation' => function () {
+			$arg = func_get_arg(0);
+			return $arg && \App\Validator::naturalNumber($arg);
+		}
+	],
 ];
