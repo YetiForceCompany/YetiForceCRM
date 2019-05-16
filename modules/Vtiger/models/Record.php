@@ -543,9 +543,6 @@ class Vtiger_Record_Model extends \App\Base
 				$value = $this->get($fieldName);
 				$uitypeModel = $fieldModel->getUITypeModel();
 				$uitypeModel->validate($value);
-				if (isset($fieldParams['unique']) && $fieldParams['unique'] === true && method_exists($uitypeModel, 'validateUnique')) {
-					$uitypeModel->validateUnique($value, $this->getId(), $fieldModel);
-				}
 				if ('' === $value || null === $value) {
 					$defaultValue = $fieldModel->getDefaultFieldValue();
 					if ('' !== $defaultValue) {

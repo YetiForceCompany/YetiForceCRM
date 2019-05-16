@@ -77,14 +77,6 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group row align-items-center supportedType uniquesupported d-none">
-							<div class="col-md-3 col-form-label text-right"></div>
-							<div class="col-md-8 controls">
-								<label class="checkbox">
-									<input type="checkbox" class="checkbox" name="unique" value="1"> {App\Language::translate('LBL_UNIQUE',$QUALIFIED_MODULE)}
-								</label>
-							</div>
-						</div>
 						<div class="form-group row align-items-center supportedType lengthsupported">
 							<div class="col-md-3 col-form-label text-right">
 								<span class="redColor">*</span>&nbsp;

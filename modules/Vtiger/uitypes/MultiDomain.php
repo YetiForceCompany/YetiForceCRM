@@ -42,32 +42,6 @@ class Vtiger_MultiDomain_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Check if value is unique.
-	 *
-	 * @param mixed               $value
-	 * @param int                 $recordId
-	 * @param \Vtiger_Field_Model $fieldModel
-	 *
-	 * @return bool
-	 */
-	public function validateUnique($value, int $recordId, Vtiger_Field_Model $fieldModel)
-	{
-		if ($recordId && $value) {
-			if (is_string($value)) {
-				$value = array_filter(explode(',', $value));
-			}
-			foreach ($value as $domain) {
-				$crmIds = \App\Fields\MultiDomain::getCrmIds($domain, $fieldModel);
-				$count = count($crmIds);
-				if (!($count === 0 || ($count === 1 && $crmIds[0] === $recordId))) {
-					throw new \App\Exceptions\AppException(\App\Language::translateArgs('ERR_DUPLICATES_VALUES_FOUND', 'Other.Exceptions', $domain), 513);
-				}
-			}
-		}
-		return true;
-	}
-
-	/**
 	 * {@inheritdoc}
 	 */
 	public function getDbConditionBuilderValue($value, string $operator)

@@ -811,9 +811,6 @@ $.Class(
 					var pickListOption = form.find('.picklistOption');
 					pickListOption.removeClass('d-none');
 				}
-				if (selectedOption.data('uniquesupported')) {
-					form.find('.uniquesupported').removeClass('d-none');
-				}
 				if (selectedOption.val() == 'Related1M') {
 					form.find('.preDefinedModuleList').removeClass('d-none');
 				}
