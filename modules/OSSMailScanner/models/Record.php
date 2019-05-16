@@ -431,7 +431,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$cacheKey = 'Mail';
 		$cacheValue = 'EmailSearchList';
 		if (\App\Cache::staticHas($cacheKey, $cacheValue)) {
-			return \App\Cache::get($cacheKey, $cacheValue);
+			return \App\Cache::staticGet($cacheKey, $cacheValue);
 		}
 		$return = [];
 		$value = (new \App\Db\Query())->select(['value'])->from('vtiger_ossmailscanner_config')
