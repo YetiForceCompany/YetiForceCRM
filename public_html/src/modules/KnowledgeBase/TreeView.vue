@@ -199,7 +199,6 @@ export default {
         category: category
       }).done(data => {
         this.tree.data = data.result
-        console.log(data)
         aDeferred.resolve(data.result)
       })
     }
