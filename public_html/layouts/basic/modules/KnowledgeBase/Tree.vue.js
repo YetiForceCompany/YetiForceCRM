@@ -12123,121 +12123,13 @@ var script = {
       left: true,
       filter: '',
       record: false,
-      columns: [
-        {
-          name: 'desc',
-          required: true,
-          label: 'Title',
-          align: 'left',
-          field: row => row.subject,
-          format: val => `${val}`,
-          sortable: true
-        },
-        { name: 'category', align: 'center', label: 'Category', field: 'category', sortable: true }
-      ],
+      columns: [],
       active: 'mainCategories',
       tree: {
         mainCategories: {
-          categories: {
-            T1: { tree: 'T1', parentTree: 'T1', parent: false, label: 'LBL_NONE', icon: '' },
-            T2: { tree: 'T2', parentTree: 'T2', parent: false, label: 'aaaaa', icon: 'fas fa-archive' },
-            T3: { tree: 'T3', parentTree: 'T3', parent: false, label: 'aaaaaa', icon: 'fas fa-adjust' },
-            T14: { tree: 'T14', parentTree: 'T14', parent: false, label: 'mmmmmmmmmm', icon: '' }
-          },
-          featured: {
-            T1: [
-              { id: 306, category: 'T1', subject: 'Narz\u0119dzia' },
-              { id: 307, category: 'T1', subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' },
-              { id: 375, category: 'T1', subject: 'Narz\u0119dzia' },
-              { id: 376, category: 'T1', subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' }
-            ],
-            T14: [
-              { id: 372, category: 'T14', subject: 'Narz\u0119dzia' },
-              { id: 373, category: 'T14', subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' }
-            ]
-          },
-          records: [
-            { id: 372, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: 'Narz\u0119dzia' },
-            {
-              id: 373,
-              category: 'T2',
-              content: 'Lorem Ipsum dolor sit amet',
-              subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w'
-            },
-            { id: 3721, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '1111Narz\u0119dzia' },
-            {
-              id: 3731,
-              category: 'T2',
-              content: 'Lorem Ipsum dolor sit amet',
-              subject: '111111Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w'
-            },
-            { id: 3721, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '22222Narz\u0119dzia' },
-            {
-              id: 3731,
-              category: 'T3',
-              content: 'Lorem Ipsum dolor sit amet',
-              subject: '222222Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w'
-            },
-            { id: 37211, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '222221111Narz\u0119dzia' },
-            {
-              id: 37311,
-              category: 'T3',
-              content: 'Lorem Ipsum dolor sit amet',
-              subject: '22222222111111Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w'
-            }
-          ]
-        },
-        T1: {
-          featured: [
-            { id: 306, category: 'T1', subject: 'Narz\u0119dzia' },
-            { id: 307, category: 'T1', subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' },
-            { id: 375, category: 'T1', subject: 'Narz\u0119dzia' },
-            { id: 376, category: 'T1', subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' }
-          ],
-          records: [
-            { id: 3046, category: 'T1', subject: '11Narz\u0119dzia' },
-            { id: 3057, category: 'T1', subject: '11Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' },
-            { id: 3735, category: 'T1', subject: '11Narz\u0119dzia' },
-            { id: 3726, category: 'T1', subject: '11Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' }
-          ]
-        },
-        T14: {
-          categories: {
-            T12: { tree: 'T12', parentTree: 'T14::T12', parent: 'T14', label: 'bbbbbbbbbbbbb', icon: '' },
-            T11: { tree: 'T11', parentTree: 'T14::T11', parent: 'T14', label: 'pppppppppppp', icon: '' },
-            T10: { tree: 'T10', parentTree: 'T14::T10', parent: 'T14', label: 'oooooooooooo', icon: '' }
-          },
-          featured: [[]],
-          records: [
-            { id: 372, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: 'Narz\u0119dzia' },
-            {
-              id: 373,
-              category: 'T14',
-              content: 'Lorem Ipsum dolor sit amet',
-              subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w'
-            },
-            { id: 3721, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '1111Narz\u0119dzia' },
-            {
-              id: 3731,
-              category: 'T14',
-              content: 'Lorem Ipsum dolor sit amet',
-              subject: '111111Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w'
-            },
-            { id: 3721, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '22222Narz\u0119dzia' },
-            {
-              id: 3731,
-              category: 'T14',
-              content: 'Lorem Ipsum dolor sit amet',
-              subject: '222222Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w'
-            },
-            { id: 37211, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '222221111Narz\u0119dzia' },
-            {
-              id: 37311,
-              category: 'T14',
-              content: 'Lorem Ipsum dolor sit amet',
-              subject: '22222222111111Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w'
-            }
-          ]
+          categories: {},
+          featured: {},
+          records: []
         }
       }
     }
@@ -12878,11 +12770,11 @@ __vue_render__._withStripped = true;
   /* style */
   const __vue_inject_styles__ = function (inject) {
     if (!inject) return
-    inject("data-v-bc3ab5f4_0", { source: "\n.tree-search[data-v-bc3ab5f4] {\r\n  width: 50%;\n}\n.home-card[data-v-bc3ab5f4] {\r\n  width: 100%;\r\n  max-width: 250px;\n}\r\n", map: {"version":3,"sources":["C:\\www\\YetiForceCRM\\public_html\\src\\modules\\KnowledgeBase\\TreeView.vue"],"names":[],"mappings":";AA4SA;EACA,UAAA;AACA;AACA;EACA,WAAA;EACA,gBAAA;AACA","file":"TreeView.vue","sourcesContent":["/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */\r\n\r\n<template>\r\n  <div class=\"h-100\">\r\n    <q-layout view=\"hHh lpr fFf\" container class=\"absolute\">\r\n      <q-header elevated class=\"bg-primary text-white\">\r\n        <q-toolbar class=\"justify-center\">\r\n          <q-toolbar-title>\r\n            Knowledge Base\r\n          </q-toolbar-title>\r\n        </q-toolbar>\r\n        <q-toolbar class=\"justify-center q-py-md\">\r\n          <q-input\r\n            v-model=\"filter\"\r\n            placeholder=\"Search\"\r\n            square\r\n            outlined\r\n            type=\"search\"\r\n            bg-color=\"grey-1\"\r\n            class=\"tree-search\"\r\n          >\r\n            <template v-slot:append>\r\n              <q-icon name=\"mdi-magnify\" />\r\n            </template>\r\n          </q-input>\r\n        </q-toolbar>\r\n        <q-toolbar>\r\n          <q-btn dense flat round icon=\"mdi-menu\" @click=\"left = !left\"></q-btn>\r\n        </q-toolbar>\r\n      </q-header>\r\n\r\n      <q-drawer v-model=\"left\" side=\"left\" elevated :width=\"250\" :breakpoint=\"700\">\r\n        <q-scroll-area class=\"fit\">\r\n          <q-list>\r\n            <q-item\r\n              clickable\r\n              :active=\"active === 'mainCategories'\"\r\n              v-ripple\r\n              @click=\"\r\n                active = 'mainCategories'\r\n                record = false\r\n              \"\r\n            >\r\n              <q-item-section avatar>\r\n                <q-icon name=\"mdi-home\" />\r\n              </q-item-section>\r\n              <q-item-section>\r\n                Home\r\n              </q-item-section>\r\n            </q-item>\r\n            <q-item\r\n              v-for=\"(categoryValue, categoryKey) in activeCategories.categories\"\r\n              :key=\"categoryKey\"\r\n              clickable\r\n              v-ripple\r\n              @click=\"\r\n                tree[categoryKey] !== undefined ? (active = categoryKey) : ''\r\n                record = false\r\n              \"\r\n            >\r\n              <q-item-section avatar>\r\n                <q-icon v-if=\"/^mdi|^fa/.test(categoryValue.icon)\" :name=\"categoryValue.icon\" />\r\n                <q-icon v-else :class=\"[categoryValue.icon, 'q-icon']\" />\r\n              </q-item-section>\r\n              <q-item-section>\r\n                {{ categoryValue.label }}\r\n              </q-item-section>\r\n            </q-item>\r\n\r\n            <q-separator v-if=\"activeCategories.records.length\" />\r\n            <q-item\r\n              v-for=\"(recordValue, index) in activeCategories.records\"\r\n              :key=\"index\"\r\n              clickable\r\n              v-ripple\r\n              :active=\"record === recordValue\"\r\n              @click=\"record = recordValue\"\r\n            >\r\n              <q-item-section avatar>\r\n                <q-icon name=\"mdi-text\" />\r\n              </q-item-section>\r\n              <q-item-section>\r\n                {{ recordValue.subject }}\r\n              </q-item-section>\r\n            </q-item>\r\n          </q-list>\r\n        </q-scroll-area>\r\n      </q-drawer>\r\n\r\n      <q-page-container>\r\n        <q-page class=\"q-pa-md\">\r\n          <div v-show=\"!record\">\r\n            <div class=\"q-pa-md row items-start q-gutter-md\">\r\n              <q-list\r\n                bordered\r\n                padding\r\n                dense\r\n                v-for=\"(categoryValue, categoryKey) in activeCategories.categories\"\r\n                :key=\"categoryKey\"\r\n                class=\"home-card\"\r\n              >\r\n                <q-item-label header>{{ categoryValue.label }}</q-item-label>\r\n\r\n                <q-item\r\n                  clickable\r\n                  v-for=\"featuredValue in activeCategories.featured[categoryKey]\"\r\n                  :key=\"featuredValue.id\"\r\n                  class=\"text-subtitle2\"\r\n                  v-ripple\r\n                  @click=\"record = featuredValue\"\r\n                >\r\n                  <q-item-section avatar>\r\n                    <q-icon name=\"mdi-text\"></q-icon>\r\n                  </q-item-section>\r\n                  <q-item-section> {{ featuredValue.subject }} </q-item-section>\r\n                </q-item>\r\n              </q-list>\r\n            </div>\r\n\r\n            <div class=\"q-pa-md row items-start q-gutter-md\">\r\n              <q-table\r\n                v-if=\"activeCategories.records.length\"\r\n                title=\"Articles\"\r\n                :data=\"activeCategories.records\"\r\n                :columns=\"columns\"\r\n                row-key=\"subject\"\r\n                :filter=\"filter\"\r\n                grid\r\n                hide-header\r\n              >\r\n                <template v-slot:item=\"props\">\r\n                  <q-list padding @click=\"record = props.row\">\r\n                    <q-item clickable>\r\n                      <q-item-section>\r\n                        <q-item-label overline>{{ props.row.subject }}</q-item-label>\r\n                        <q-item-label>Single line item</q-item-label>\r\n                        <q-item-label caption\r\n                          >Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label\r\n                        >\r\n                      </q-item-section>\r\n                      <q-item-section side top>\r\n                        <q-item-label caption>{{\r\n                          tree.mainCategories.categories[props.row.category].label\r\n                        }}</q-item-label>\r\n                      </q-item-section>\r\n                    </q-item>\r\n                  </q-list>\r\n                </template>\r\n              </q-table>\r\n            </div>\r\n          </div>\r\n          <div v-show=\"record\">\r\n            <h5>{{ record.subject }}</h5>\r\n            {{ (record.content + '').repeat(100) }}\r\n          </div>\r\n        </q-page>\r\n      </q-page-container>\r\n    </q-layout>\r\n  </div>\r\n</template>\r\n<script>\r\nexport default {\r\n  name: 'TreeView',\r\n  data() {\r\n    return {\r\n      left: true,\r\n      filter: '',\r\n      record: false,\r\n      columns: [\r\n        {\r\n          name: 'desc',\r\n          required: true,\r\n          label: 'Title',\r\n          align: 'left',\r\n          field: row => row.subject,\r\n          format: val => `${val}`,\r\n          sortable: true\r\n        },\r\n        { name: 'category', align: 'center', label: 'Category', field: 'category', sortable: true }\r\n      ],\r\n      active: 'mainCategories',\r\n      tree: {\r\n        mainCategories: {\r\n          categories: {\r\n            T1: { tree: 'T1', parentTree: 'T1', parent: false, label: 'LBL_NONE', icon: '' },\r\n            T2: { tree: 'T2', parentTree: 'T2', parent: false, label: 'aaaaa', icon: 'fas fa-archive' },\r\n            T3: { tree: 'T3', parentTree: 'T3', parent: false, label: 'aaaaaa', icon: 'fas fa-adjust' },\r\n            T14: { tree: 'T14', parentTree: 'T14', parent: false, label: 'mmmmmmmmmm', icon: '' }\r\n          },\r\n          featured: {\r\n            T1: [\r\n              { id: 306, category: 'T1', subject: 'Narz\\u0119dzia' },\r\n              { id: 307, category: 'T1', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' },\r\n              { id: 375, category: 'T1', subject: 'Narz\\u0119dzia' },\r\n              { id: 376, category: 'T1', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\r\n            ],\r\n            T14: [\r\n              { id: 372, category: 'T14', subject: 'Narz\\u0119dzia' },\r\n              { id: 373, category: 'T14', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\r\n            ]\r\n          },\r\n          records: [\r\n            { id: 372, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: 'Narz\\u0119dzia' },\r\n            {\r\n              id: 373,\r\n              category: 'T2',\r\n              content: 'Lorem Ipsum dolor sit amet',\r\n              subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\r\n            },\r\n            { id: 3721, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '1111Narz\\u0119dzia' },\r\n            {\r\n              id: 3731,\r\n              category: 'T2',\r\n              content: 'Lorem Ipsum dolor sit amet',\r\n              subject: '111111Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\r\n            },\r\n            { id: 3721, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '22222Narz\\u0119dzia' },\r\n            {\r\n              id: 3731,\r\n              category: 'T3',\r\n              content: 'Lorem Ipsum dolor sit amet',\r\n              subject: '222222Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\r\n            },\r\n            { id: 37211, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '222221111Narz\\u0119dzia' },\r\n            {\r\n              id: 37311,\r\n              category: 'T3',\r\n              content: 'Lorem Ipsum dolor sit amet',\r\n              subject: '22222222111111Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\r\n            }\r\n          ]\r\n        },\r\n        T1: {\r\n          featured: [\r\n            { id: 306, category: 'T1', subject: 'Narz\\u0119dzia' },\r\n            { id: 307, category: 'T1', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' },\r\n            { id: 375, category: 'T1', subject: 'Narz\\u0119dzia' },\r\n            { id: 376, category: 'T1', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\r\n          ],\r\n          records: [\r\n            { id: 3046, category: 'T1', subject: '11Narz\\u0119dzia' },\r\n            { id: 3057, category: 'T1', subject: '11Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' },\r\n            { id: 3735, category: 'T1', subject: '11Narz\\u0119dzia' },\r\n            { id: 3726, category: 'T1', subject: '11Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\r\n          ]\r\n        },\r\n        T14: {\r\n          categories: {\r\n            T12: { tree: 'T12', parentTree: 'T14::T12', parent: 'T14', label: 'bbbbbbbbbbbbb', icon: '' },\r\n            T11: { tree: 'T11', parentTree: 'T14::T11', parent: 'T14', label: 'pppppppppppp', icon: '' },\r\n            T10: { tree: 'T10', parentTree: 'T14::T10', parent: 'T14', label: 'oooooooooooo', icon: '' }\r\n          },\r\n          featured: [[]],\r\n          records: [\r\n            { id: 372, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: 'Narz\\u0119dzia' },\r\n            {\r\n              id: 373,\r\n              category: 'T14',\r\n              content: 'Lorem Ipsum dolor sit amet',\r\n              subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\r\n            },\r\n            { id: 3721, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '1111Narz\\u0119dzia' },\r\n            {\r\n              id: 3731,\r\n              category: 'T14',\r\n              content: 'Lorem Ipsum dolor sit amet',\r\n              subject: '111111Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\r\n            },\r\n            { id: 3721, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '22222Narz\\u0119dzia' },\r\n            {\r\n              id: 3731,\r\n              category: 'T14',\r\n              content: 'Lorem Ipsum dolor sit amet',\r\n              subject: '222222Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\r\n            },\r\n            { id: 37211, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '222221111Narz\\u0119dzia' },\r\n            {\r\n              id: 37311,\r\n              category: 'T14',\r\n              content: 'Lorem Ipsum dolor sit amet',\r\n              subject: '22222222111111Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\r\n            }\r\n          ]\r\n        }\r\n      }\r\n    }\r\n  },\r\n  computed: {\r\n    activeCategories: {\r\n      get: function() {\r\n        return this.tree[this.active]\r\n      },\r\n      set: function(newValue) {\r\n        this.active = newValue\r\n      }\r\n    }\r\n  }\r\n}\r\n</script>\r\n<style scoped>\r\n.tree-search {\r\n  width: 50%;\r\n}\r\n.home-card {\r\n  width: 100%;\r\n  max-width: 250px;\r\n}\r\n</style>\r\n"]}, media: undefined });
+    inject("data-v-612b4256_0", { source: "\n.tree-search[data-v-612b4256] {\n  width: 50%;\n}\n.home-card[data-v-612b4256] {\n  width: 100%;\n  max-width: 250px;\n}\n", map: {"version":3,"sources":["C:\\www\\YetiForceCRM\\public_html\\src\\modules\\KnowledgeBase\\TreeView.vue"],"names":[],"mappings":";AAgMA;EACA,UAAA;AACA;AACA;EACA,WAAA;EACA,gBAAA;AACA","file":"TreeView.vue","sourcesContent":["/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */\n\n<template>\n  <div class=\"h-100\">\n    <q-layout view=\"hHh lpr fFf\" container class=\"absolute\">\n      <q-header elevated class=\"bg-primary text-white\">\n        <q-toolbar class=\"justify-center\">\n          <q-toolbar-title>\n            Knowledge Base\n          </q-toolbar-title>\n        </q-toolbar>\n        <q-toolbar class=\"justify-center q-py-md\">\n          <q-input\n            v-model=\"filter\"\n            placeholder=\"Search\"\n            square\n            outlined\n            type=\"search\"\n            bg-color=\"grey-1\"\n            class=\"tree-search\"\n          >\n            <template v-slot:append>\n              <q-icon name=\"mdi-magnify\" />\n            </template>\n          </q-input>\n        </q-toolbar>\n        <q-toolbar>\n          <q-btn dense flat round icon=\"mdi-menu\" @click=\"left = !left\"></q-btn>\n        </q-toolbar>\n      </q-header>\n\n      <q-drawer v-model=\"left\" side=\"left\" elevated :width=\"250\" :breakpoint=\"700\">\n        <q-scroll-area class=\"fit\">\n          <q-list>\n            <q-item\n              clickable\n              :active=\"active === 'mainCategories'\"\n              v-ripple\n              @click=\"\n                active = 'mainCategories'\n                record = false\n              \"\n            >\n              <q-item-section avatar>\n                <q-icon name=\"mdi-home\" />\n              </q-item-section>\n              <q-item-section>\n                Home\n              </q-item-section>\n            </q-item>\n            <q-item\n              v-for=\"(categoryValue, categoryKey) in activeCategories.categories\"\n              :key=\"categoryKey\"\n              clickable\n              v-ripple\n              @click=\"\n                tree[categoryKey] !== undefined ? (active = categoryKey) : ''\n                record = false\n              \"\n            >\n              <q-item-section avatar>\n                <q-icon v-if=\"/^mdi|^fa/.test(categoryValue.icon)\" :name=\"categoryValue.icon\" />\n                <q-icon v-else :class=\"[categoryValue.icon, 'q-icon']\" />\n              </q-item-section>\n              <q-item-section>\n                {{ categoryValue.label }}\n              </q-item-section>\n            </q-item>\n\n            <q-separator v-if=\"activeCategories.records.length\" />\n            <q-item\n              v-for=\"(recordValue, index) in activeCategories.records\"\n              :key=\"index\"\n              clickable\n              v-ripple\n              :active=\"record === recordValue\"\n              @click=\"record = recordValue\"\n            >\n              <q-item-section avatar>\n                <q-icon name=\"mdi-text\" />\n              </q-item-section>\n              <q-item-section>\n                {{ recordValue.subject }}\n              </q-item-section>\n            </q-item>\n          </q-list>\n        </q-scroll-area>\n      </q-drawer>\n\n      <q-page-container>\n        <q-page class=\"q-pa-md\">\n          <div v-show=\"!record\">\n            <div class=\"q-pa-md row items-start q-gutter-md\">\n              <q-list\n                bordered\n                padding\n                dense\n                v-for=\"(categoryValue, categoryKey) in activeCategories.categories\"\n                :key=\"categoryKey\"\n                class=\"home-card\"\n              >\n                <q-item-label header>{{ categoryValue.label }}</q-item-label>\n\n                <q-item\n                  clickable\n                  v-for=\"featuredValue in activeCategories.featured[categoryKey]\"\n                  :key=\"featuredValue.id\"\n                  class=\"text-subtitle2\"\n                  v-ripple\n                  @click=\"record = featuredValue\"\n                >\n                  <q-item-section avatar>\n                    <q-icon name=\"mdi-text\"></q-icon>\n                  </q-item-section>\n                  <q-item-section> {{ featuredValue.subject }} </q-item-section>\n                </q-item>\n              </q-list>\n            </div>\n\n            <div class=\"q-pa-md row items-start q-gutter-md\">\n              <q-table\n                v-if=\"activeCategories.records.length\"\n                title=\"Articles\"\n                :data=\"activeCategories.records\"\n                :columns=\"columns\"\n                row-key=\"subject\"\n                :filter=\"filter\"\n                grid\n                hide-header\n              >\n                <template v-slot:item=\"props\">\n                  <q-list padding @click=\"record = props.row\">\n                    <q-item clickable>\n                      <q-item-section>\n                        <q-item-label overline>{{ props.row.subject }}</q-item-label>\n                        <q-item-label>Single line item</q-item-label>\n                        <q-item-label caption\n                          >Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label\n                        >\n                      </q-item-section>\n                      <q-item-section side top>\n                        <q-item-label caption>{{\n                          tree.mainCategories.categories[props.row.category].label\n                        }}</q-item-label>\n                      </q-item-section>\n                    </q-item>\n                  </q-list>\n                </template>\n              </q-table>\n            </div>\n          </div>\n          <div v-show=\"record\">\n            <h5>{{ record.subject }}</h5>\n            {{ (record.content + '').repeat(100) }}\n          </div>\n        </q-page>\n      </q-page-container>\n    </q-layout>\n  </div>\n</template>\n<script>\nexport default {\n  name: 'TreeView',\n  data() {\n    return {\n      left: true,\n      filter: '',\n      record: false,\n      columns: [],\n      active: 'mainCategories',\n      tree: {\n        mainCategories: {\n          categories: {},\n          featured: {},\n          records: []\n        }\n      }\n    }\n  },\n  computed: {\n    activeCategories: {\n      get: function() {\n        return this.tree[this.active]\n      },\n      set: function(newValue) {\n        this.active = newValue\n      }\n    }\n  }\n}\n</script>\n<style scoped>\n.tree-search {\n  width: 50%;\n}\n.home-card {\n  width: 100%;\n  max-width: 250px;\n}\n</style>\n"]}, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__ = "data-v-bc3ab5f4";
+  const __vue_scope_id__ = "data-v-612b4256";
   /* module identifier */
   const __vue_module_identifier__ = undefined;
   /* functional template */

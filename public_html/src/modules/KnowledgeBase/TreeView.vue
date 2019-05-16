@@ -166,121 +166,13 @@ export default {
       left: true,
       filter: '',
       record: false,
-      columns: [
-        {
-          name: 'desc',
-          required: true,
-          label: 'Title',
-          align: 'left',
-          field: row => row.subject,
-          format: val => `${val}`,
-          sortable: true
-        },
-        { name: 'category', align: 'center', label: 'Category', field: 'category', sortable: true }
-      ],
+      columns: [],
       active: 'mainCategories',
       tree: {
         mainCategories: {
-          categories: {
-            T1: { tree: 'T1', parentTree: 'T1', parent: false, label: 'LBL_NONE', icon: '' },
-            T2: { tree: 'T2', parentTree: 'T2', parent: false, label: 'aaaaa', icon: 'fas fa-archive' },
-            T3: { tree: 'T3', parentTree: 'T3', parent: false, label: 'aaaaaa', icon: 'fas fa-adjust' },
-            T14: { tree: 'T14', parentTree: 'T14', parent: false, label: 'mmmmmmmmmm', icon: '' }
-          },
-          featured: {
-            T1: [
-              { id: 306, category: 'T1', subject: 'Narz\u0119dzia' },
-              { id: 307, category: 'T1', subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' },
-              { id: 375, category: 'T1', subject: 'Narz\u0119dzia' },
-              { id: 376, category: 'T1', subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' }
-            ],
-            T14: [
-              { id: 372, category: 'T14', subject: 'Narz\u0119dzia' },
-              { id: 373, category: 'T14', subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' }
-            ]
-          },
-          records: [
-            { id: 372, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: 'Narz\u0119dzia' },
-            {
-              id: 373,
-              category: 'T2',
-              content: 'Lorem Ipsum dolor sit amet',
-              subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w'
-            },
-            { id: 3721, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '1111Narz\u0119dzia' },
-            {
-              id: 3731,
-              category: 'T2',
-              content: 'Lorem Ipsum dolor sit amet',
-              subject: '111111Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w'
-            },
-            { id: 3721, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '22222Narz\u0119dzia' },
-            {
-              id: 3731,
-              category: 'T3',
-              content: 'Lorem Ipsum dolor sit amet',
-              subject: '222222Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w'
-            },
-            { id: 37211, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '222221111Narz\u0119dzia' },
-            {
-              id: 37311,
-              category: 'T3',
-              content: 'Lorem Ipsum dolor sit amet',
-              subject: '22222222111111Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w'
-            }
-          ]
-        },
-        T1: {
-          featured: [
-            { id: 306, category: 'T1', subject: 'Narz\u0119dzia' },
-            { id: 307, category: 'T1', subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' },
-            { id: 375, category: 'T1', subject: 'Narz\u0119dzia' },
-            { id: 376, category: 'T1', subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' }
-          ],
-          records: [
-            { id: 3046, category: 'T1', subject: '11Narz\u0119dzia' },
-            { id: 3057, category: 'T1', subject: '11Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' },
-            { id: 3735, category: 'T1', subject: '11Narz\u0119dzia' },
-            { id: 3726, category: 'T1', subject: '11Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w' }
-          ]
-        },
-        T14: {
-          categories: {
-            T12: { tree: 'T12', parentTree: 'T14::T12', parent: 'T14', label: 'bbbbbbbbbbbbb', icon: '' },
-            T11: { tree: 'T11', parentTree: 'T14::T11', parent: 'T14', label: 'pppppppppppp', icon: '' },
-            T10: { tree: 'T10', parentTree: 'T14::T10', parent: 'T14', label: 'oooooooooooo', icon: '' }
-          },
-          featured: [[]],
-          records: [
-            { id: 372, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: 'Narz\u0119dzia' },
-            {
-              id: 373,
-              category: 'T14',
-              content: 'Lorem Ipsum dolor sit amet',
-              subject: 'Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w'
-            },
-            { id: 3721, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '1111Narz\u0119dzia' },
-            {
-              id: 3731,
-              category: 'T14',
-              content: 'Lorem Ipsum dolor sit amet',
-              subject: '111111Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w'
-            },
-            { id: 3721, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '22222Narz\u0119dzia' },
-            {
-              id: 3731,
-              category: 'T14',
-              content: 'Lorem Ipsum dolor sit amet',
-              subject: '222222Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w'
-            },
-            { id: 37211, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '222221111Narz\u0119dzia' },
-            {
-              id: 37311,
-              category: 'T14',
-              content: 'Lorem Ipsum dolor sit amet',
-              subject: '22222222111111Instrukcja dodawania kolor\u00f3w dla modu\u0142\u00f3w'
-            }
-          ]
+          categories: {},
+          featured: {},
+          records: []
         }
       }
     }
