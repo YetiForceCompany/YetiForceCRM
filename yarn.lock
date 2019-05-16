@@ -7,6 +7,11 @@
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.8.2.tgz#fae4112c4fb47086f6ae167e32524b280000abd5"
   integrity sha512-E4fDUF4fbu9AxKpaQQqCN3XBnNzb/5e0Gvd9OaQsYkK574LVI57v/EqqPfIm/mC7jYbxaPNrhvT5AF+Yzwyizg==
 
+"@mdi/font@^3.6.95":
+  version "3.6.95"
+  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-3.6.95.tgz#0bbde766ca2d94cfa0e469f25523b23d3112bdd3"
+  integrity sha512-wUbkF/RRCIh51TPzAL9qUeRSUFla9I3x1nGq62HkfWzIebRHbDY5HPaYCQuZO7398dWaLHTu4BwnBA58YbhfEA==
+
 add@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/add/-/add-2.0.6.tgz#248f0a9f6e5a528ef2295dbeec30532130ae2235"
@@ -340,7 +345,12 @@ jquery.class.js@^1.0.0:
   resolved "https://registry.yarnpkg.com/jquery.class.js/-/jquery.class.js-1.0.0.tgz#43616c36d76eff36caf2139ddacda621aa24ed30"
   integrity sha1-Q2FsNtdu/zbK8hOd2s2mIaok7TA=
 
-jquery@>3.0.0, "jquery@>= 1.7", jquery@>=1.10, jquery@>=1.4.4, jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.2, jquery@>=1.7.x, jquery@>=1.9.1, jquery@>=2.1.0, jquery@^3.1.0:
+jquery@3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
+  integrity sha512-Ubldcmxp5np52/ENotGxlLe6aGMvmF4R8S6tZjsP6Knsaxd/xp3Zrh50cG93lR6nPXyUFwzN3ZSOQI0wRJNdGg==
+
+"jquery@>= 1.7", jquery@>=1.10, jquery@>=1.4.4, jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.2, jquery@>=1.7.x, jquery@>=1.9.1, jquery@>=2.1.0, jquery@^3.1.0:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.4.1.tgz#714f1f8d9dde4bdfa55764ba37ef214630d80ef2"
   integrity sha512-36+AdBzCL+y6qjw5Tx7HgzeGCzC81MDDgaUP8ld2zhx58HdqXGoBd+tHdrBMiyjGQs0Hxs/MLZTu/eHNJJuWPw==
@@ -404,6 +414,11 @@ popper.js@^1.15.0:
   resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.15.0.tgz#5560b99bbad7647e9faa475c6b8056621f5a4ff2"
   integrity sha512-w010cY1oCUmI+9KwwlWki+r5jxKfTFDVoadl7MSrIujHU5MJ5OR6HTDj6Xo8aoR/QsA56x8jKjA59qGH4ELtrA==
 
+quasar@^1.0.0-beta.23:
+  version "1.0.0-beta.23"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.0.0-beta.23.tgz#4b704f546b13cc45176a7c66e51e9c5c180f6177"
+  integrity sha512-mXJovssdpURz3kSeblUuFDWAd/U8UE7Huuogb4uF/Tk0FwJO3d7Wz/ySb/TvZwdm8YhuBOCzm90Cs2b3JxXNlg==
+
 resize-observer-polyfill@^1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz#0e9020dd3d21024458d4ebd27e23e40269810464"
@@ -425,9 +440,9 @@ select2-theme-bootstrap4@^0.2.0-beta.2:
   integrity sha512-M/E+n6M5jLxG6gt2hcVntvhs5YP6cQtIeDU9DJRFYCB1egD25h62gD8SBeokf43S2traTdQriL1THy6vbfNepQ==
 
 select2@^4.0.7-rc.0:
-  version "4.0.7-rc.0"
-  resolved "https://registry.yarnpkg.com/select2/-/select2-4.0.7-rc.0.tgz#424cc9f48f9ca86836530c84bfafeb6b4f934c1e"
-  integrity sha512-2wuD/NAU0Oe3N5TusLwD1g5Hv2H7YA82b0ugHYxtJha21slaBLY7zRclezqo5QPJ4xS1GmSjpCOjQ+mzGj7RFw==
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/select2/-/select2-4.0.7.tgz#7b80473ef7900f4dc2b988623275fe569204ae8d"
+  integrity sha512-t46Z2nkEEYnBYdRpLNw5dj9qqO+YTiTlWKnpJ/B5e1Q3hPND00JRgcLJxYRzqpeLZd+ZkszkHEMagLKIfbTjVA==
 
 select@^1.1.2:
   version "1.1.2"
