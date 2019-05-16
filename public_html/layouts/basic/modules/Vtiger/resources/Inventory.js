@@ -1346,7 +1346,7 @@ $.Class(
 				.addClass(`userIcon-${module}`);
 			newRow
 				.find('.rowName span.input-group-text')
-				.attr('data-content', inventorylbls['SINGLE_' + module]);
+				.attr('data-content', moduleLbls[module]);
 			newRow.find('.colPicklistField select').each(function(index, select) {
 				select = $(select);
 				select.find('option').each(function(index, option) {
