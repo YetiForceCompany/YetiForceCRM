@@ -11,7 +11,7 @@
     "@vue/cli-plugin-eslint": "^3.7.0",
     "@vue/cli-service": "^3.7.0",
     "@vue/eslint-config-prettier": "^4.0.1",
-    "css-loader": "^1.0.1",
+    "css-loader": "^2.0.0",
     "eslint": "^5.16.0",
     "findit": "^2.0.0",
     "rollup": "^1.0.0",
