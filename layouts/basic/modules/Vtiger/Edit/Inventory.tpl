@@ -152,7 +152,7 @@
 		{include file=\App\Layout::getTemplatePath('Edit/InventorySummary.tpl', $MODULE_NAME)}
 		{assign var="ITEM_DATA" value=$RECORD->getInventoryDefaultDataFields()}
 		<table id="blackIthemTable" class="noValidate d-none">
-			{assign var="INVENTORYLBLS" value=[]}
+			{assign var="INVENTORY_LBLS" value=[]}
 			{foreach item=MAIN_MODULE from=$MAIN_PARAMS['modules']}
 				{assign var=STR value="SINGLE_"|cat:$MAIN_MODULE}
 				{$INVENTORYLBLS[$STR]=\App\Language::translate($STR, $MAIN_MODULE)}
