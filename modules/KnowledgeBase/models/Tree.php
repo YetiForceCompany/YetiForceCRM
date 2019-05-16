@@ -23,7 +23,7 @@ class KnowledgeBase_Tree_Model extends \App\Base
 	}
 
 	/**
-	 * Get categories by p arent.
+	 * Get categories by arent.
 	 *
 	 * @return void
 	 */
@@ -35,12 +35,7 @@ class KnowledgeBase_Tree_Model extends \App\Base
 		$categories = [[]];
 		foreach ($this->getCategories() as $row) {
 			$parent = App\Fields\Tree::getParentIdx($row);
-			$categories[$parent][$row['tree']] = [
-				'tree' => $row['tree'],
-				'parent' => false === $parent ? '' : $parent,
-				'label' => $row['label'],
-				'icon' => $row['icon'],
-			];
+			$categories[$parent][] = $row['tree'];
 		}
 		App\Cache::save('KnowledgeBase', 'CategoriesByParent', $categories);
 		return $categories;
@@ -82,7 +77,7 @@ class KnowledgeBase_Tree_Model extends \App\Base
 		$categories = $this->isEmpty('parentCategory') ? $allCategories[0] : $allCategories[$this->get('parentCategory')] ?? [];
 		$featured = [];
 		if ($categories) {
-			foreach ($this->getFeaturedRecords(array_keys($categories)) as $row) {
+			foreach ($this->getFeaturedRecords($categories) as $row) {
 				$featured[$row['category']][] = $row;
 			}
 		}
