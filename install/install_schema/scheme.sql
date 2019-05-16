@@ -2857,6 +2857,7 @@ CREATE TABLE `u_yf_knowledgebase` (
   `featured` tinyint(1) DEFAULT 0,
   `introduction` text DEFAULT NULL,
   PRIMARY KEY (`knowledgebaseid`),
+  FULLTEXT KEY `search` (`subject`,`content`,`introduction`),
   CONSTRAINT `fk_1_vtiger_knowledgebase` FOREIGN KEY (`knowledgebaseid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
