@@ -74,6 +74,17 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 				$viewer->assign('RESTRICTFIELDS', $restrictFields);
 			}
 		}
+		if ($taskType === 'SumFieldFromDependent') {
+			$recordStructureModulesField = [];
+			foreach ($moduleModel->getFieldsByReference() as $referenceField) {
+				foreach ($referenceField->getReferenceList() as $relatedModuleName) {
+					$recordStructureModulesField[$relatedModuleName][$referenceField->getFieldName()] = Vtiger_RecordStructure_Model::getInstanceForModule(Vtiger_Module_Model::getInstance($relatedModuleName))->getStructure();
+				}
+			}
+			$viewer->assign('ADVANCE_CRITERIA', $taskObject->conditions);
+			$viewer->assign('RECORD_STRUCTURE_RELATED_MODULES', $recordStructureModulesField);
+			$viewer->assign('RECORD_STRUCTURE', Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel)->getStructure());
+		}
 		if ($taskType === 'VTEmailTemplateTask') {
 			$relations = \App\Field::getRelatedFieldForModule($sourceModule);
 			$documentsModel = Vtiger_Module_Model::getInstance('Documents');
