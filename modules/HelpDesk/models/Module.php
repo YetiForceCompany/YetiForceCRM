@@ -291,8 +291,7 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model
 	 */
 	public function massUpdateStatus(int $recordId, string $recordsType, string $status): bool
 	{
-		$recordsId = $this->getHierarchyIds($recordId, $recordsType);
-		foreach ($recordsId as $recordId) {
+		foreach ($this->getHierarchyIds($recordId, $recordsType) as $recordId) {
 			if (\App\Privilege::isPermitted('HelpDesk', 'EditView', $recordId)) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, 'HelpDesk');
 				$recordModel->set('ticketstatus', $status);

@@ -19,8 +19,7 @@ class HelpDesk_ChangeStatus_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		if (!\App\Privilege::isPermitted($moduleName, 'EditView')) {
+		if (!\App\Privilege::isPermitted($request->getModule(), 'EditView')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
@@ -31,11 +30,8 @@ class HelpDesk_ChangeStatus_Action extends \App\Controller\Action
 	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->getInteger('record');
-		$recordsType = $request->getByType('recordsType', 'Alnum');
-		$status = $request->getByType('status', 'Text');
 		$instance = \Vtiger_Module_Model::getInstance($moduleName);
-		$instance->massUpdateStatus($recordId, $recordsType, $status);
+		$instance->massUpdateStatus($request->getInteger('record'), $request->getByType('recordsType', 'Alnum'), $request->getByType('status', 'Text'));
 		$response = new Vtiger_Response();
 		$response->setResult(['success' => 'true', 'data' => \App\Language::translate('LBL_MASS_STATUS_UPDATED', $moduleName)]);
 		$response->emit();
