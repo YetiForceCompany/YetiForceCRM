@@ -157,7 +157,7 @@
 				{assign var=STR value="SINGLE_"|cat:$MAIN_MODULE}
 				{$INVENTORY_LBLS[$MAIN_MODULE]=\App\Language::translateSingularModuleName($MAIN_MODULE)}
 			{/foreach}
-			<tbody class="js-inventory-base-item" data-inventorylbls="{App\Purifier::encodeHtml(\App\Json::encode($INVENTORYLBLS))}">
+			<tbody class="js-inventory-base-item" data-module-lbls="{App\Purifier::encodeHtml(\App\Json::encode($INVENTORY_LBLS))}">
 			{assign var="ROW_NO" value='_NUM_'}
 			{include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE_NAME)}
 			</tbody>
