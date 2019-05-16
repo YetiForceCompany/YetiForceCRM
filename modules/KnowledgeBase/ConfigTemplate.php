@@ -48,7 +48,7 @@ return [
 //		'description' => 'allowed File Types'
 //	],
 	'treeArticleLimit' => [
-		'default' => 12,
+		'default' => 50,
 		'description' => 'Article limit in the tree window',
 		'validation' => function () {
 			$arg = func_get_arg(0);
