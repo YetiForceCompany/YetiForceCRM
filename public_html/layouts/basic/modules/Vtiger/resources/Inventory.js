@@ -1644,9 +1644,12 @@ $.Class(
 					params.taxType = 1;
 				} else {
 					parentRow = element.closest(thisInstance.rowClass);
+					let sourceRecord = parentRow.find('.rowName .sourceField').val();
 					params.totalPrice = thisInstance.getNetPrice(parentRow);
 					params.taxType = 0;
-					params.record = parentRow.find('.rowName .sourceField').val();
+					if (sourceRecord) {
+						params.record = sourceRecord;
+					}
 					params.recordModule = parentRow.find('.rowName [name="popupReferenceModule"]').val();
 				}
 				var progressInstace = $.progressIndicator();
