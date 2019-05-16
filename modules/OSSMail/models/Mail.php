@@ -130,16 +130,16 @@ class OSSMail_Mail_Model extends \App\Base
 		}
 		if (0 == $fromEmailUser['notFound'] && 0 == $notFound) {
 			$key = 2;
-			$name = 'Internal';
+			$cacheKey = 'Internal';
 		} elseif ($type) {
 			$key = 0;
-			$name = 'Sent';
+			$cacheKey = 'Sent';
 		} else {
 			$key = 1;
-			$name = 'Received';
+			$cacheKey = 'Received';
 		}
 		if ($returnText) {
-			return $name;
+			return $cacheKey;
 		}
 		return $key;
 	}
@@ -229,16 +229,16 @@ class OSSMail_Mail_Model extends \App\Base
 	/**
 	 * Get email.
 	 *
-	 * @param string $name
+	 * @param string $cacheKey
 	 *
 	 * @return string
 	 */
-	public function getEmail($name)
+	public function getEmail($cacheKey)
 	{
 		$header = $this->get('header');
 		$text = '';
-		if (property_exists($header, $name)) {
-			$text = $header->{$name};
+		if (property_exists($header, $cacheKey)) {
+			$text = $header->{$cacheKey};
 		}
 		$return = '';
 		if (is_array($text)) {
@@ -268,9 +268,9 @@ class OSSMail_Mail_Model extends \App\Base
 			if (empty($email)) {
 				continue;
 			}
-			$name = 'MSFindEmail_' . $moduleName . '_' . $fieldName;
-			$cache = App\Cache::get($name, $email);
-			if ($cache !== false) {
+			$cacheKey = 'MailSearchByEmails' . $moduleName . '_' . $fieldName;
+			if (App\Cache::staticHas($cacheKey, $email)) {
+				$cache = App\Cache::staticGet($cacheKey, $email);
 				if ($cache != 0) {
 					$return = array_merge($return, $cache);
 				}
@@ -290,7 +290,7 @@ class OSSMail_Mail_Model extends \App\Base
 				if (empty($ids)) {
 					$ids = 0;
 				}
-				App\Cache::save($name, $email, $ids);
+				App\Cache::staticSave($cacheKey, $email, $ids);
 			}
 		}
 		return $return;
@@ -308,18 +308,18 @@ class OSSMail_Mail_Model extends \App\Base
 	{
 		$fieldName = $fieldModel->getName();
 		$moduleName = $fieldModel->getModuleName();
-		$name = 'MSFindEmail_' . $moduleName . '_' . $fieldName;
+		$cacheKey = 'MailSearchByDomains' . $moduleName . '_' . $fieldName;
 		$crmids = [];
 		foreach ($emails as $email) {
 			$domain = mb_strtolower(explode('@', $email)[1]);
-			$cache = App\Cache::get($name, $domain);
-			if ($cache !== false) {
+			if (App\Cache::staticHas($cacheKey, $domain)) {
+				$cache = App\Cache::staticGet($cacheKey, $domain);
 				if ($cache != 0) {
 					$crmids = array_merge($crmids, $cache);
 				}
 			} else {
-				$crmids = App\Fields\MultiDomain::getCrmIds($domain, $fieldModel);
-				App\Cache::save($name, $domain, $crmids);
+				$crmids = App\Fields\MultiDomain::findIdByDomain($domain, $fieldModel);
+				App\Cache::staticSave($cacheKey, $domain, $crmids);
 			}
 		}
 		return $crmids;
@@ -357,7 +357,7 @@ class OSSMail_Mail_Model extends \App\Base
 					$enableFind = false;
 				}
 				if ($enableFind) {
-					if ($fieldModel->get('uitype') === 319) {
+					if ($fieldModel->getUIType() === 319) {
 						$return = $this->searchByDomains($fieldModel, $emails);
 					} else {
 						$return = $this->searchByEmails($emails, $moduleName, $row[0]);

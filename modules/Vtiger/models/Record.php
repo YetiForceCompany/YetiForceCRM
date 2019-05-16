@@ -539,7 +539,6 @@ class Vtiger_Record_Model extends \App\Base
 		foreach ($saveFields as &$fieldName) {
 			$fieldModel = $moduleModel->getFieldByName($fieldName);
 			if ($fieldModel) {
-				$fieldParams = $fieldModel->getFieldParams();
 				$value = $this->get($fieldName);
 				$uitypeModel = $fieldModel->getUITypeModel();
 				$uitypeModel->validate($value);

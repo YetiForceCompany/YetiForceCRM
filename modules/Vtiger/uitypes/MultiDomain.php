@@ -1,13 +1,13 @@
 <?php
-
-/*
- * MultiDomain class
+/**
+ *  UIType multi domain Field Class.
+ *
+ * @package UIType
  *
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Rafal Pospiech <r.pospiech@yetiforce.com>
-*/
-
+ */
 class Vtiger_MultiDomain_UIType extends Vtiger_Base_UIType
 {
 	/**
@@ -25,8 +25,6 @@ class Vtiger_MultiDomain_UIType extends Vtiger_Base_UIType
 		if (!is_array($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
-		$fieldModel = $this->getFieldModel();
-		$fieldParams = $fieldModel->getFieldParams();
 		foreach ($value as $item) {
 			if (!is_string($item)) {
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $item, 406);
@@ -34,7 +32,7 @@ class Vtiger_MultiDomain_UIType extends Vtiger_Base_UIType
 			if ($item != strip_tags($item)) {
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $item, 406);
 			}
-			if (!preg_match('/(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]/ui', $item)) {
+			if (filter_var($item, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME) === false) {
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $item, 406);
 			}
 		}

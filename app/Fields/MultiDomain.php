@@ -10,6 +10,9 @@
 
 namespace App\Fields;
 
+/**
+ * MultiDomain class.
+ */
 class MultiDomain
 {
 	/**
@@ -20,12 +23,13 @@ class MultiDomain
 	 *
 	 * @return int[]
 	 */
-	public static function getCrmIds(string $domain, \Vtiger_Field_Model $fieldModel)
+	public static function findIdByDomain(string $domain, \Vtiger_Field_Model $fieldModel)
 	{
 		$crmids = [];
 		$fieldName = $fieldModel->getName();
 		$moduleName = $fieldModel->getModuleName();
 		$queryGenerator = new \App\QueryGenerator($moduleName);
+		$queryGenerator->permissions = false;
 		if ($queryGenerator->getModuleField($fieldName)) {
 			$queryGenerator->setFields(['id']);
 			$queryGenerator->addNativeCondition(['like', $fieldName, ",$domain,"]);

@@ -428,9 +428,10 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function getEmailSearchList()
 	{
-		$cache = \App\Cache::get('Mail', 'EmailSearchList');
-		if (false !== $cache) {
-			return $cache;
+		$cacheKey = 'Mail';
+		$cacheValue = 'EmailSearchList';
+		if (\App\Cache::staticHas($cacheKey, $cacheValue)) {
+			return \App\Cache::get($cacheKey, $cacheValue);
 		}
 		$return = [];
 		$value = (new \App\Db\Query())->select(['value'])->from('vtiger_ossmailscanner_config')
@@ -439,7 +440,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		if (!empty($value)) {
 			$return = explode(',', $value);
 		}
-		\App\Cache::save('Mail', 'EmailSearchList', $return);
+		\App\Cache::staticSave($cacheKey, $cacheValue, $return);
 
 		return $return;
 	}
