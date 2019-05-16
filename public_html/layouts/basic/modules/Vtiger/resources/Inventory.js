@@ -1027,25 +1027,37 @@ $.Class(
 		},
 		saveDiscountsParameters: function(parentRow, modal) {
 			var thisInstance = this;
-			var info = {};
-			var extend = ['aggregationType', 'groupCheckbox', 'individualDiscountType'];
-			$.each(thisInstance.discountModalFields, function(index, param) {
-				if ($.inArray(param, extend) >= 0) {
-					if (modal.find('[name="' + param + '"]:checked').length > 1) {
-						info[param] = [];
-						modal.find('[name="' + param + '"]:checked').each(function(index) {
-							info[param].push($(this).val());
-						});
-					} else {
-						info[param] = modal.find('[name="' + param + '"]:checked').val();
-					}
+			let info = {};
+			let typeName = 'aggregationType';
+			let panels = modal.find('[name="' + typeName + '"]:checked');
+			info[typeName] = [];
+			panels.each(function(i) {
+				let type = $(this).val(),
+					container = $(this).closest('.js-panel');
+				if (panels.length > 1) {
+					info[typeName].push(type);
 				} else {
-					var value = modal.find('[name="' + param + '"]').val();
-					if (param === 'individualDiscount') {
-						value = App.Fields.Double.formatToDb(modal.find('[name="' + param + '"]').val());
-					}
-					info[param] = value;
+					info[typeName] = type;
 				}
+				container.find('[name="' + type + 'Discount"]').each(function() {
+					let param = type + 'Discount';
+					let element = $(this);
+					if ('global' === type) {
+						info[param] = element.val();
+					} else if (
+						'group' === type &&
+						element
+							.closest('.input-group')
+							.find('.groupCheckbox')
+							.prop('checked')
+					) {
+						info[param] = App.Fields.Double.formatToDb(element.val());
+					} else if ('individual' === type) {
+						let name = 'individualDiscountType';
+						info[name] = container.find('[name="' + name + '"]:checked').val();
+						info[param] = App.Fields.Double.formatToDb(element.val());
+					}
+				});
 			});
 			thisInstance.setDiscountParam($('#blackIthemTable'), info);
 			thisInstance.setDiscountParam(parentRow, info);
@@ -1106,10 +1118,13 @@ $.Class(
 			}
 			parameters = JSON.parse(parameters);
 			$.each(thisInstance.discountModalFields, function(index, param) {
-				var parameter = parameters[param];
-				var field = modal.find('[name="' + param + '"]');
-
+				let parameter = parameters[param];
+				let field = modal.find('[name="' + param + '"]');
 				if (field.attr('type') == 'checkbox' || field.attr('type') == 'radio') {
+					if ('groupCheckbox' === param && parameters['groupDiscount'] !== undefined) {
+						field.prop('checked', true);
+						return true;
+					}
 					var array = parameter;
 					if (!$.isArray(array)) {
 						array = [array];
@@ -1130,7 +1145,7 @@ $.Class(
 						.prop('selected', 'selected')
 						.change();
 				} else if (!field.prop('readonly')) {
-					modal.find('[name="' + param + '"]').val(parameter);
+					field.val(parameter);
 				}
 			});
 
