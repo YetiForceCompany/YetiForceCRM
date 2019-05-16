@@ -16,7 +16,7 @@ namespace App\Fields;
 class MultiDomain
 {
 	/**
-	 * Get crm ids.
+	 * Find crm ids with specified domain.
 	 *
 	 * @param string              $domain
 	 * @param \Vtiger_Field_Model $fieldModel
