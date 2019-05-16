@@ -1333,7 +1333,7 @@ $.Class(
 			let newRow = this.getBasicRow();
 			const sequenceNumber = this.getNextLineItemRowNumber();
 			const replaced = newRow.html().replace(/\_NUM_/g, sequenceNumber);
-			const inventorylbls = newRow.data('inventorylbls');
+			const moduleLbls = newRow.data('moduleLbls');
 			newRow.html(replaced);
 			newRow = newRow.children().appendTo(items.find('.js-inventory-items-body'));
 			newRow
