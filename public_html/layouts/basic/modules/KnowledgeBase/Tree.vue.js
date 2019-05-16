@@ -638,7 +638,9 @@ var vue = createCommonjsModule(function (module, exports) {
     warn = function (msg, vm) {
       var trace = vm ? generateComponentTrace(vm) : '';
 
-      if (hasConsole && (!config.silent)) {
+      if (config.warnHandler) {
+        config.warnHandler.call(null, msg, vm, trace);
+      } else if (hasConsole && (!config.silent)) {
         console.error(("[Vue warn]: " + msg + trace));
       }
     };
@@ -743,6 +745,12 @@ var vue = createCommonjsModule(function (module, exports) {
   Dep.prototype.notify = function notify () {
     // stabilize the subscriber list first
     var subs = this.subs.slice();
+    if (!config.async) {
+      // subs aren't sorted in scheduler if not running async
+      // we need to sort them now to make sure they fire in correct
+      // order
+      subs.sort(function (a, b) { return a.id - b.id; });
+    }
     for (var i = 0, l = subs.length; i < l; i++) {
       subs[i].update();
     }
@@ -1876,6 +1884,17 @@ var vue = createCommonjsModule(function (module, exports) {
   }
 
   function globalHandleError (err, vm, info) {
+    if (config.errorHandler) {
+      try {
+        return config.errorHandler.call(null, err, vm, info)
+      } catch (e) {
+        // if the user intentionally throws the original error in the handler,
+        // do not log it twice
+        if (e !== err) {
+          logError(e, null, 'config.errorHandler');
+        }
+      }
+    }
     logError(err, vm, info);
   }
 
@@ -1997,6 +2016,11 @@ var vue = createCommonjsModule(function (module, exports) {
     }
   }
 
+  /*  */
+
+  var mark;
+  var measure;
+
   {
     var perf = inBrowser && window.performance;
     /* istanbul ignore if */
@@ -2006,7 +2030,15 @@ var vue = createCommonjsModule(function (module, exports) {
       perf.measure &&
       perf.clearMarks &&
       perf.clearMeasures
-    ) ;
+    ) {
+      mark = function (tag) { return perf.mark(tag); };
+      measure = function (name, startTag, endTag) {
+        perf.measure(name, startTag, endTag);
+        perf.clearMarks(startTag);
+        perf.clearMarks(endTag);
+        // perf.clearMeasures(name)
+      };
+    }
   }
 
   /* not type checking this file because flow doesn't play well with Proxy */
@@ -4017,7 +4049,24 @@ var vue = createCommonjsModule(function (module, exports) {
 
     var updateComponent;
     /* istanbul ignore if */
-    {
+    if (config.performance && mark) {
+      updateComponent = function () {
+        var name = vm._name;
+        var id = vm._uid;
+        var startTag = "vue-perf-start:" + id;
+        var endTag = "vue-perf-end:" + id;
+
+        mark(startTag);
+        var vnode = vm._render();
+        mark(endTag);
+        measure(("vue " + name + " render"), startTag, endTag);
+
+        mark(startTag);
+        vm._update(vnode, hydrating);
+        mark(endTag);
+        measure(("vue " + name + " patch"), startTag, endTag);
+      };
+    } else {
       updateComponent = function () {
         vm._update(vm._render(), hydrating);
       };
@@ -4350,6 +4399,11 @@ var vue = createCommonjsModule(function (module, exports) {
       // queue the flush
       if (!waiting) {
         waiting = true;
+
+        if (!config.async) {
+          flushSchedulerQueue();
+          return
+        }
         nextTick(flushSchedulerQueue);
       }
     }
@@ -4913,6 +4967,14 @@ var vue = createCommonjsModule(function (module, exports) {
       // a uid
       vm._uid = uid$3++;
 
+      var startTag, endTag;
+      /* istanbul ignore if */
+      if (config.performance && mark) {
+        startTag = "vue-perf-start:" + (vm._uid);
+        endTag = "vue-perf-end:" + (vm._uid);
+        mark(startTag);
+      }
+
       // a flag to avoid this being observed
       vm._isVue = true;
       // merge options
@@ -4942,6 +5004,13 @@ var vue = createCommonjsModule(function (module, exports) {
       initState(vm);
       initProvide(vm); // resolve provide after data/props
       callHook(vm, 'created');
+
+      /* istanbul ignore if */
+      if (config.performance && mark) {
+        vm._name = formatComponentName(vm, false);
+        mark(endTag);
+        measure(("vue " + (vm._name) + " init"), startTag, endTag);
+      }
 
       if (vm.$options.el) {
         vm.$mount(vm.$options.el);
@@ -8983,7 +9052,7 @@ var vue = createCommonjsModule(function (module, exports) {
   /* istanbul ignore next */
   if (inBrowser) {
     setTimeout(function () {
-      {
+      if (config.devtools) {
         if (devtools) {
           devtools.emit('init', Vue);
         } else {
@@ -8993,7 +9062,8 @@ var vue = createCommonjsModule(function (module, exports) {
           );
         }
       }
-      if (typeof console !== 'undefined'
+      if (config.productionTip !== false &&
+        typeof console !== 'undefined'
       ) {
         console[console.info ? 'info' : 'log'](
           "You are running Vue in development mode.\n" +
@@ -11835,6 +11905,10 @@ var vue = createCommonjsModule(function (module, exports) {
         template = getOuterHTML(el);
       }
       if (template) {
+        /* istanbul ignore if */
+        if (config.performance && mark) {
+          mark('compile');
+        }
 
         var ref = compileToFunctions(template, {
           outputSourceRange: "development" !== 'production',
@@ -11847,6 +11921,12 @@ var vue = createCommonjsModule(function (module, exports) {
         var staticRenderFns = ref.staticRenderFns;
         options.render = render;
         options.staticRenderFns = staticRenderFns;
+
+        /* istanbul ignore if */
+        if (config.performance && mark) {
+          mark('compile end');
+          measure(("vue " + (this._name) + " compile"), 'compile', 'compile end');
+        }
       }
     }
     return mount.call(this, el, hydrating)
@@ -12798,11 +12878,11 @@ __vue_render__._withStripped = true;
   /* style */
   const __vue_inject_styles__ = function (inject) {
     if (!inject) return
-    inject("data-v-66e8c77a_0", { source: "\n.tree-search[data-v-66e8c77a] {\n  width: 50%;\n}\n.home-card[data-v-66e8c77a] {\n  width: 100%;\n  max-width: 250px;\n}\n", map: {"version":3,"sources":["C:\\www\\YetiForceCRM\\public_html\\src\\modules\\KnowledgeBase\\TreeView.vue"],"names":[],"mappings":";AA4SA;EACA,UAAA;AACA;AACA;EACA,WAAA;EACA,gBAAA;AACA","file":"TreeView.vue","sourcesContent":["/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */\n\n<template>\n  <div class=\"h-100\">\n    <q-layout view=\"hHh lpr fFf\" container class=\"absolute\">\n      <q-header elevated class=\"bg-primary text-white\">\n        <q-toolbar class=\"justify-center\">\n          <q-toolbar-title>\n            Knowledge Base\n          </q-toolbar-title>\n        </q-toolbar>\n        <q-toolbar class=\"justify-center q-py-md\">\n          <q-input\n            v-model=\"filter\"\n            placeholder=\"Search\"\n            square\n            outlined\n            type=\"search\"\n            bg-color=\"grey-1\"\n            class=\"tree-search\"\n          >\n            <template v-slot:append>\n              <q-icon name=\"mdi-magnify\" />\n            </template>\n          </q-input>\n        </q-toolbar>\n        <q-toolbar>\n          <q-btn dense flat round icon=\"mdi-menu\" @click=\"left = !left\"></q-btn>\n        </q-toolbar>\n      </q-header>\n\n      <q-drawer v-model=\"left\" side=\"left\" elevated :width=\"250\" :breakpoint=\"700\">\n        <q-scroll-area class=\"fit\">\n          <q-list>\n            <q-item\n              clickable\n              :active=\"active === 'mainCategories'\"\n              v-ripple\n              @click=\"\n                active = 'mainCategories'\n                record = false\n              \"\n            >\n              <q-item-section avatar>\n                <q-icon name=\"mdi-home\" />\n              </q-item-section>\n              <q-item-section>\n                Home\n              </q-item-section>\n            </q-item>\n            <q-item\n              v-for=\"(categoryValue, categoryKey) in activeCategories.categories\"\n              :key=\"categoryKey\"\n              clickable\n              v-ripple\n              @click=\"\n                tree[categoryKey] !== undefined ? (active = categoryKey) : ''\n                record = false\n              \"\n            >\n              <q-item-section avatar>\n                <q-icon v-if=\"/^mdi|^fa/.test(categoryValue.icon)\" :name=\"categoryValue.icon\" />\n                <q-icon v-else :class=\"[categoryValue.icon, 'q-icon']\" />\n              </q-item-section>\n              <q-item-section>\n                {{ categoryValue.label }}\n              </q-item-section>\n            </q-item>\n\n            <q-separator v-if=\"activeCategories.records.length\" />\n            <q-item\n              v-for=\"(recordValue, index) in activeCategories.records\"\n              :key=\"index\"\n              clickable\n              v-ripple\n              :active=\"record === recordValue\"\n              @click=\"record = recordValue\"\n            >\n              <q-item-section avatar>\n                <q-icon name=\"mdi-text\" />\n              </q-item-section>\n              <q-item-section>\n                {{ recordValue.subject }}\n              </q-item-section>\n            </q-item>\n          </q-list>\n        </q-scroll-area>\n      </q-drawer>\n\n      <q-page-container>\n        <q-page class=\"q-pa-md\">\n          <div v-show=\"!record\">\n            <div class=\"q-pa-md row items-start q-gutter-md\">\n              <q-list\n                bordered\n                padding\n                dense\n                v-for=\"(categoryValue, categoryKey) in activeCategories.categories\"\n                :key=\"categoryKey\"\n                class=\"home-card\"\n              >\n                <q-item-label header>{{ categoryValue.label }}</q-item-label>\n\n                <q-item\n                  clickable\n                  v-for=\"featuredValue in activeCategories.featured[categoryKey]\"\n                  :key=\"featuredValue.id\"\n                  class=\"text-subtitle2\"\n                  v-ripple\n                  @click=\"record = featuredValue\"\n                >\n                  <q-item-section avatar>\n                    <q-icon name=\"mdi-text\"></q-icon>\n                  </q-item-section>\n                  <q-item-section> {{ featuredValue.subject }} </q-item-section>\n                </q-item>\n              </q-list>\n            </div>\n\n            <div class=\"q-pa-md row items-start q-gutter-md\">\n              <q-table\n                v-if=\"activeCategories.records.length\"\n                title=\"Articles\"\n                :data=\"activeCategories.records\"\n                :columns=\"columns\"\n                row-key=\"subject\"\n                :filter=\"filter\"\n                grid\n                hide-header\n              >\n                <template v-slot:item=\"props\">\n                  <q-list padding @click=\"record = props.row\">\n                    <q-item clickable>\n                      <q-item-section>\n                        <q-item-label overline>{{ props.row.subject }}</q-item-label>\n                        <q-item-label>Single line item</q-item-label>\n                        <q-item-label caption\n                          >Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label\n                        >\n                      </q-item-section>\n                      <q-item-section side top>\n                        <q-item-label caption>{{\n                          tree.mainCategories.categories[props.row.category].label\n                        }}</q-item-label>\n                      </q-item-section>\n                    </q-item>\n                  </q-list>\n                </template>\n              </q-table>\n            </div>\n          </div>\n          <div v-show=\"record\">\n            <h5>{{ record.subject }}</h5>\n            {{ (record.content + '').repeat(100) }}\n          </div>\n        </q-page>\n      </q-page-container>\n    </q-layout>\n  </div>\n</template>\n<script>\nexport default {\n  name: 'TreeView',\n  data() {\n    return {\n      left: true,\n      filter: '',\n      record: false,\n      columns: [\n        {\n          name: 'desc',\n          required: true,\n          label: 'Title',\n          align: 'left',\n          field: row => row.subject,\n          format: val => `${val}`,\n          sortable: true\n        },\n        { name: 'category', align: 'center', label: 'Category', field: 'category', sortable: true }\n      ],\n      active: 'mainCategories',\n      tree: {\n        mainCategories: {\n          categories: {\n            T1: { tree: 'T1', parentTree: 'T1', parent: false, label: 'LBL_NONE', icon: '' },\n            T2: { tree: 'T2', parentTree: 'T2', parent: false, label: 'aaaaa', icon: 'fas fa-archive' },\n            T3: { tree: 'T3', parentTree: 'T3', parent: false, label: 'aaaaaa', icon: 'fas fa-adjust' },\n            T14: { tree: 'T14', parentTree: 'T14', parent: false, label: 'mmmmmmmmmm', icon: '' }\n          },\n          featured: {\n            T1: [\n              { id: 306, category: 'T1', subject: 'Narz\\u0119dzia' },\n              { id: 307, category: 'T1', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' },\n              { id: 375, category: 'T1', subject: 'Narz\\u0119dzia' },\n              { id: 376, category: 'T1', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\n            ],\n            T14: [\n              { id: 372, category: 'T14', subject: 'Narz\\u0119dzia' },\n              { id: 373, category: 'T14', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\n            ]\n          },\n          records: [\n            { id: 372, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: 'Narz\\u0119dzia' },\n            {\n              id: 373,\n              category: 'T2',\n              content: 'Lorem Ipsum dolor sit amet',\n              subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\n            },\n            { id: 3721, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '1111Narz\\u0119dzia' },\n            {\n              id: 3731,\n              category: 'T2',\n              content: 'Lorem Ipsum dolor sit amet',\n              subject: '111111Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\n            },\n            { id: 3721, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '22222Narz\\u0119dzia' },\n            {\n              id: 3731,\n              category: 'T3',\n              content: 'Lorem Ipsum dolor sit amet',\n              subject: '222222Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\n            },\n            { id: 37211, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '222221111Narz\\u0119dzia' },\n            {\n              id: 37311,\n              category: 'T3',\n              content: 'Lorem Ipsum dolor sit amet',\n              subject: '22222222111111Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\n            }\n          ]\n        },\n        T1: {\n          featured: [\n            { id: 306, category: 'T1', subject: 'Narz\\u0119dzia' },\n            { id: 307, category: 'T1', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' },\n            { id: 375, category: 'T1', subject: 'Narz\\u0119dzia' },\n            { id: 376, category: 'T1', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\n          ],\n          records: [\n            { id: 3046, category: 'T1', subject: '11Narz\\u0119dzia' },\n            { id: 3057, category: 'T1', subject: '11Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' },\n            { id: 3735, category: 'T1', subject: '11Narz\\u0119dzia' },\n            { id: 3726, category: 'T1', subject: '11Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\n          ]\n        },\n        T14: {\n          categories: {\n            T12: { tree: 'T12', parentTree: 'T14::T12', parent: 'T14', label: 'bbbbbbbbbbbbb', icon: '' },\n            T11: { tree: 'T11', parentTree: 'T14::T11', parent: 'T14', label: 'pppppppppppp', icon: '' },\n            T10: { tree: 'T10', parentTree: 'T14::T10', parent: 'T14', label: 'oooooooooooo', icon: '' }\n          },\n          featured: [[]],\n          records: [\n            { id: 372, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: 'Narz\\u0119dzia' },\n            {\n              id: 373,\n              category: 'T14',\n              content: 'Lorem Ipsum dolor sit amet',\n              subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\n            },\n            { id: 3721, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '1111Narz\\u0119dzia' },\n            {\n              id: 3731,\n              category: 'T14',\n              content: 'Lorem Ipsum dolor sit amet',\n              subject: '111111Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\n            },\n            { id: 3721, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '22222Narz\\u0119dzia' },\n            {\n              id: 3731,\n              category: 'T14',\n              content: 'Lorem Ipsum dolor sit amet',\n              subject: '222222Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\n            },\n            { id: 37211, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '222221111Narz\\u0119dzia' },\n            {\n              id: 37311,\n              category: 'T14',\n              content: 'Lorem Ipsum dolor sit amet',\n              subject: '22222222111111Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\n            }\n          ]\n        }\n      }\n    }\n  },\n  computed: {\n    activeCategories: {\n      get: function() {\n        return this.tree[this.active]\n      },\n      set: function(newValue) {\n        this.active = newValue\n      }\n    }\n  }\n}\n</script>\n<style scoped>\n.tree-search {\n  width: 50%;\n}\n.home-card {\n  width: 100%;\n  max-width: 250px;\n}\n</style>\n"]}, media: undefined });
+    inject("data-v-bc3ab5f4_0", { source: "\n.tree-search[data-v-bc3ab5f4] {\r\n  width: 50%;\n}\n.home-card[data-v-bc3ab5f4] {\r\n  width: 100%;\r\n  max-width: 250px;\n}\r\n", map: {"version":3,"sources":["C:\\www\\YetiForceCRM\\public_html\\src\\modules\\KnowledgeBase\\TreeView.vue"],"names":[],"mappings":";AA4SA;EACA,UAAA;AACA;AACA;EACA,WAAA;EACA,gBAAA;AACA","file":"TreeView.vue","sourcesContent":["/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */\r\n\r\n<template>\r\n  <div class=\"h-100\">\r\n    <q-layout view=\"hHh lpr fFf\" container class=\"absolute\">\r\n      <q-header elevated class=\"bg-primary text-white\">\r\n        <q-toolbar class=\"justify-center\">\r\n          <q-toolbar-title>\r\n            Knowledge Base\r\n          </q-toolbar-title>\r\n        </q-toolbar>\r\n        <q-toolbar class=\"justify-center q-py-md\">\r\n          <q-input\r\n            v-model=\"filter\"\r\n            placeholder=\"Search\"\r\n            square\r\n            outlined\r\n            type=\"search\"\r\n            bg-color=\"grey-1\"\r\n            class=\"tree-search\"\r\n          >\r\n            <template v-slot:append>\r\n              <q-icon name=\"mdi-magnify\" />\r\n            </template>\r\n          </q-input>\r\n        </q-toolbar>\r\n        <q-toolbar>\r\n          <q-btn dense flat round icon=\"mdi-menu\" @click=\"left = !left\"></q-btn>\r\n        </q-toolbar>\r\n      </q-header>\r\n\r\n      <q-drawer v-model=\"left\" side=\"left\" elevated :width=\"250\" :breakpoint=\"700\">\r\n        <q-scroll-area class=\"fit\">\r\n          <q-list>\r\n            <q-item\r\n              clickable\r\n              :active=\"active === 'mainCategories'\"\r\n              v-ripple\r\n              @click=\"\r\n                active = 'mainCategories'\r\n                record = false\r\n              \"\r\n            >\r\n              <q-item-section avatar>\r\n                <q-icon name=\"mdi-home\" />\r\n              </q-item-section>\r\n              <q-item-section>\r\n                Home\r\n              </q-item-section>\r\n            </q-item>\r\n            <q-item\r\n              v-for=\"(categoryValue, categoryKey) in activeCategories.categories\"\r\n              :key=\"categoryKey\"\r\n              clickable\r\n              v-ripple\r\n              @click=\"\r\n                tree[categoryKey] !== undefined ? (active = categoryKey) : ''\r\n                record = false\r\n              \"\r\n            >\r\n              <q-item-section avatar>\r\n                <q-icon v-if=\"/^mdi|^fa/.test(categoryValue.icon)\" :name=\"categoryValue.icon\" />\r\n                <q-icon v-else :class=\"[categoryValue.icon, 'q-icon']\" />\r\n              </q-item-section>\r\n              <q-item-section>\r\n                {{ categoryValue.label }}\r\n              </q-item-section>\r\n            </q-item>\r\n\r\n            <q-separator v-if=\"activeCategories.records.length\" />\r\n            <q-item\r\n              v-for=\"(recordValue, index) in activeCategories.records\"\r\n              :key=\"index\"\r\n              clickable\r\n              v-ripple\r\n              :active=\"record === recordValue\"\r\n              @click=\"record = recordValue\"\r\n            >\r\n              <q-item-section avatar>\r\n                <q-icon name=\"mdi-text\" />\r\n              </q-item-section>\r\n              <q-item-section>\r\n                {{ recordValue.subject }}\r\n              </q-item-section>\r\n            </q-item>\r\n          </q-list>\r\n        </q-scroll-area>\r\n      </q-drawer>\r\n\r\n      <q-page-container>\r\n        <q-page class=\"q-pa-md\">\r\n          <div v-show=\"!record\">\r\n            <div class=\"q-pa-md row items-start q-gutter-md\">\r\n              <q-list\r\n                bordered\r\n                padding\r\n                dense\r\n                v-for=\"(categoryValue, categoryKey) in activeCategories.categories\"\r\n                :key=\"categoryKey\"\r\n                class=\"home-card\"\r\n              >\r\n                <q-item-label header>{{ categoryValue.label }}</q-item-label>\r\n\r\n                <q-item\r\n                  clickable\r\n                  v-for=\"featuredValue in activeCategories.featured[categoryKey]\"\r\n                  :key=\"featuredValue.id\"\r\n                  class=\"text-subtitle2\"\r\n                  v-ripple\r\n                  @click=\"record = featuredValue\"\r\n                >\r\n                  <q-item-section avatar>\r\n                    <q-icon name=\"mdi-text\"></q-icon>\r\n                  </q-item-section>\r\n                  <q-item-section> {{ featuredValue.subject }} </q-item-section>\r\n                </q-item>\r\n              </q-list>\r\n            </div>\r\n\r\n            <div class=\"q-pa-md row items-start q-gutter-md\">\r\n              <q-table\r\n                v-if=\"activeCategories.records.length\"\r\n                title=\"Articles\"\r\n                :data=\"activeCategories.records\"\r\n                :columns=\"columns\"\r\n                row-key=\"subject\"\r\n                :filter=\"filter\"\r\n                grid\r\n                hide-header\r\n              >\r\n                <template v-slot:item=\"props\">\r\n                  <q-list padding @click=\"record = props.row\">\r\n                    <q-item clickable>\r\n                      <q-item-section>\r\n                        <q-item-label overline>{{ props.row.subject }}</q-item-label>\r\n                        <q-item-label>Single line item</q-item-label>\r\n                        <q-item-label caption\r\n                          >Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label\r\n                        >\r\n                      </q-item-section>\r\n                      <q-item-section side top>\r\n                        <q-item-label caption>{{\r\n                          tree.mainCategories.categories[props.row.category].label\r\n                        }}</q-item-label>\r\n                      </q-item-section>\r\n                    </q-item>\r\n                  </q-list>\r\n                </template>\r\n              </q-table>\r\n            </div>\r\n          </div>\r\n          <div v-show=\"record\">\r\n            <h5>{{ record.subject }}</h5>\r\n            {{ (record.content + '').repeat(100) }}\r\n          </div>\r\n        </q-page>\r\n      </q-page-container>\r\n    </q-layout>\r\n  </div>\r\n</template>\r\n<script>\r\nexport default {\r\n  name: 'TreeView',\r\n  data() {\r\n    return {\r\n      left: true,\r\n      filter: '',\r\n      record: false,\r\n      columns: [\r\n        {\r\n          name: 'desc',\r\n          required: true,\r\n          label: 'Title',\r\n          align: 'left',\r\n          field: row => row.subject,\r\n          format: val => `${val}`,\r\n          sortable: true\r\n        },\r\n        { name: 'category', align: 'center', label: 'Category', field: 'category', sortable: true }\r\n      ],\r\n      active: 'mainCategories',\r\n      tree: {\r\n        mainCategories: {\r\n          categories: {\r\n            T1: { tree: 'T1', parentTree: 'T1', parent: false, label: 'LBL_NONE', icon: '' },\r\n            T2: { tree: 'T2', parentTree: 'T2', parent: false, label: 'aaaaa', icon: 'fas fa-archive' },\r\n            T3: { tree: 'T3', parentTree: 'T3', parent: false, label: 'aaaaaa', icon: 'fas fa-adjust' },\r\n            T14: { tree: 'T14', parentTree: 'T14', parent: false, label: 'mmmmmmmmmm', icon: '' }\r\n          },\r\n          featured: {\r\n            T1: [\r\n              { id: 306, category: 'T1', subject: 'Narz\\u0119dzia' },\r\n              { id: 307, category: 'T1', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' },\r\n              { id: 375, category: 'T1', subject: 'Narz\\u0119dzia' },\r\n              { id: 376, category: 'T1', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\r\n            ],\r\n            T14: [\r\n              { id: 372, category: 'T14', subject: 'Narz\\u0119dzia' },\r\n              { id: 373, category: 'T14', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\r\n            ]\r\n          },\r\n          records: [\r\n            { id: 372, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: 'Narz\\u0119dzia' },\r\n            {\r\n              id: 373,\r\n              category: 'T2',\r\n              content: 'Lorem Ipsum dolor sit amet',\r\n              subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\r\n            },\r\n            { id: 3721, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '1111Narz\\u0119dzia' },\r\n            {\r\n              id: 3731,\r\n              category: 'T2',\r\n              content: 'Lorem Ipsum dolor sit amet',\r\n              subject: '111111Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\r\n            },\r\n            { id: 3721, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '22222Narz\\u0119dzia' },\r\n            {\r\n              id: 3731,\r\n              category: 'T3',\r\n              content: 'Lorem Ipsum dolor sit amet',\r\n              subject: '222222Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\r\n            },\r\n            { id: 37211, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '222221111Narz\\u0119dzia' },\r\n            {\r\n              id: 37311,\r\n              category: 'T3',\r\n              content: 'Lorem Ipsum dolor sit amet',\r\n              subject: '22222222111111Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\r\n            }\r\n          ]\r\n        },\r\n        T1: {\r\n          featured: [\r\n            { id: 306, category: 'T1', subject: 'Narz\\u0119dzia' },\r\n            { id: 307, category: 'T1', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' },\r\n            { id: 375, category: 'T1', subject: 'Narz\\u0119dzia' },\r\n            { id: 376, category: 'T1', subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\r\n          ],\r\n          records: [\r\n            { id: 3046, category: 'T1', subject: '11Narz\\u0119dzia' },\r\n            { id: 3057, category: 'T1', subject: '11Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' },\r\n            { id: 3735, category: 'T1', subject: '11Narz\\u0119dzia' },\r\n            { id: 3726, category: 'T1', subject: '11Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w' }\r\n          ]\r\n        },\r\n        T14: {\r\n          categories: {\r\n            T12: { tree: 'T12', parentTree: 'T14::T12', parent: 'T14', label: 'bbbbbbbbbbbbb', icon: '' },\r\n            T11: { tree: 'T11', parentTree: 'T14::T11', parent: 'T14', label: 'pppppppppppp', icon: '' },\r\n            T10: { tree: 'T10', parentTree: 'T14::T10', parent: 'T14', label: 'oooooooooooo', icon: '' }\r\n          },\r\n          featured: [[]],\r\n          records: [\r\n            { id: 372, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: 'Narz\\u0119dzia' },\r\n            {\r\n              id: 373,\r\n              category: 'T14',\r\n              content: 'Lorem Ipsum dolor sit amet',\r\n              subject: 'Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\r\n            },\r\n            { id: 3721, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '1111Narz\\u0119dzia' },\r\n            {\r\n              id: 3731,\r\n              category: 'T14',\r\n              content: 'Lorem Ipsum dolor sit amet',\r\n              subject: '111111Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\r\n            },\r\n            { id: 3721, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '22222Narz\\u0119dzia' },\r\n            {\r\n              id: 3731,\r\n              category: 'T14',\r\n              content: 'Lorem Ipsum dolor sit amet',\r\n              subject: '222222Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\r\n            },\r\n            { id: 37211, category: 'T14', content: 'Lorem Ipsum dolor sit amet', subject: '222221111Narz\\u0119dzia' },\r\n            {\r\n              id: 37311,\r\n              category: 'T14',\r\n              content: 'Lorem Ipsum dolor sit amet',\r\n              subject: '22222222111111Instrukcja dodawania kolor\\u00f3w dla modu\\u0142\\u00f3w'\r\n            }\r\n          ]\r\n        }\r\n      }\r\n    }\r\n  },\r\n  computed: {\r\n    activeCategories: {\r\n      get: function() {\r\n        return this.tree[this.active]\r\n      },\r\n      set: function(newValue) {\r\n        this.active = newValue\r\n      }\r\n    }\r\n  }\r\n}\r\n</script>\r\n<style scoped>\r\n.tree-search {\r\n  width: 50%;\r\n}\r\n.home-card {\r\n  width: 100%;\r\n  max-width: 250px;\r\n}\r\n</style>\r\n"]}, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__ = "data-v-66e8c77a";
+  const __vue_scope_id__ = "data-v-bc3ab5f4";
   /* module identifier */
   const __vue_module_identifier__ = undefined;
   /* functional template */
@@ -13521,7 +13601,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
     });
   }
 
-  var version$$1 = "1.0.0-beta.23";
+  var version = "1.0.0-beta.23";
 
   var listenOpts = {
     hasPassive: false
@@ -14537,7 +14617,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
   };
 
   var $q = {
-    version: version$$1
+    version: version
   };
 
   function install (Vue, opts) {
@@ -15542,7 +15622,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
   var Ripple = {
     name: 'ripple',
 
-    inserted: function inserted (el, binding$$1) {
+    inserted: function inserted (el, binding) {
       var ctx = {
         modifiers: {},
 
@@ -15560,7 +15640,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
         }
       };
 
-      updateCtx(ctx, binding$$1);
+      updateCtx(ctx, binding);
 
       if (el.__qripple) {
         el.__qripple_old = el.__qripple;
@@ -15571,8 +15651,8 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
       el.addEventListener('keyup', ctx.keyup);
     },
 
-    update: function update (el, binding$$1) {
-      el.__qripple !== void 0 && updateCtx(el.__qripple, binding$$1);
+    update: function update (el, binding) {
+      el.__qripple !== void 0 && updateCtx(el.__qripple, binding);
     },
 
     unbind: function unbind (el) {
@@ -17159,11 +17239,11 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
       },
 
       __render: function __render (h) {
-        var on$$1 = Object.assign({}, this.$listeners,
+        var on = Object.assign({}, this.$listeners,
           {input: stop});
 
         if (this.autoClose === true) {
-          on$$1.click = this.__onAutoClose;
+          on.click = this.__onAutoClose;
         }
 
         return h('transition', {
@@ -17176,7 +17256,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
             style: this.contentStyle,
             attrs: Object.assign({}, {tabindex: -1},
               this.$attrs),
-            on: on$$1,
+            on: on,
             directives: this.persistent !== true ? [{
               name: 'click-outside',
               value: this.hide,
@@ -17607,14 +17687,14 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
   var TouchSwipe = {
     name: 'touch-swipe',
 
-    bind: function bind (el, binding$$1) {
-      var mouse = binding$$1.modifiers.mouse === true;
+    bind: function bind (el, binding) {
+      var mouse = binding.modifiers.mouse === true;
 
       var ctx = {
-        handler: binding$$1.value,
-        sensitivity: parseArg(binding$$1.arg),
-        mod: binding$$1.modifiers,
-        direction: getDirection(binding$$1.modifiers),
+        handler: binding.value,
+        sensitivity: parseArg(binding.arg),
+        mod: binding.modifiers,
+        direction: getDirection(binding.modifiers),
 
         mouseStart: function mouseStart (evt) {
           if (leftClick(evt)) {
@@ -17792,19 +17872,19 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
       el.addEventListener('touchend', ctx.end);
     },
 
-    update: function update (el, binding$$1) {
-      if (binding$$1.oldValue !== binding$$1.value) {
-        el.__qtouchswipe.handler = binding$$1.value;
+    update: function update (el, binding) {
+      if (binding.oldValue !== binding.value) {
+        el.__qtouchswipe.handler = binding.value;
       }
     },
 
-    unbind: function unbind (el, binding$$1) {
+    unbind: function unbind (el, binding) {
       var ctx = el.__qtouchswipe_old || el.__qtouchswipe;
       if (ctx !== void 0) {
         removeObserver(ctx);
         document.body.classList.remove('no-pointer-events');
 
-        if (binding$$1.modifiers.mouse === true) {
+        if (binding.modifiers.mouse === true) {
           el.removeEventListener('mousedown', ctx.mouseStart);
           document.removeEventListener('mousemove', ctx.move, true);
           document.removeEventListener('mouseup', ctx.mouseEnd, true);
@@ -19208,28 +19288,28 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
   var TouchPan = {
     name: 'touch-pan',
 
-    bind: function bind (el, binding$$1) {
+    bind: function bind (el, binding) {
       var
-        mouse = binding$$1.modifiers.mouse === true,
-        mouseEvtPassive = binding$$1.modifiers.mouseMightPrevent !== true && binding$$1.modifiers.mousePrevent !== true,
+        mouse = binding.modifiers.mouse === true,
+        mouseEvtPassive = binding.modifiers.mouseMightPrevent !== true && binding.modifiers.mousePrevent !== true,
         mouseEvtOpts = listenOpts.hasPassive === true ? { passive: mouseEvtPassive, capture: true } : true,
-        touchEvtPassive = binding$$1.modifiers.mightPrevent !== true && binding$$1.modifiers.prevent !== true,
+        touchEvtPassive = binding.modifiers.mightPrevent !== true && binding.modifiers.prevent !== true,
         touchEvtOpts = listenOpts[touchEvtPassive === true ? 'passive' : 'notPassive'];
 
       function handleEvent (evt, mouseEvent) {
         if (mouse && mouseEvent) {
-          binding$$1.modifiers.mouseStop && stop(evt);
-          binding$$1.modifiers.mousePrevent && prevent(evt);
+          binding.modifiers.mouseStop && stop(evt);
+          binding.modifiers.mousePrevent && prevent(evt);
         }
         else {
-          binding$$1.modifiers.stop && stop(evt);
-          binding$$1.modifiers.prevent && prevent(evt);
+          binding.modifiers.stop && stop(evt);
+          binding.modifiers.prevent && prevent(evt);
         }
       }
 
       var ctx = {
-        handler: binding$$1.value,
-        direction: getDirection$1(binding$$1.modifiers),
+        handler: binding.value,
+        direction: getDirection$1(binding.modifiers),
 
         mouseStart: function mouseStart (evt) {
           if (leftClick(evt)) {
@@ -19295,7 +19375,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
 
           ctx.event.detected = true;
 
-          if (ctx.direction.all === false && (ctx.event.mouse === false || binding$$1.modifiers.mouseAllDir !== true)) {
+          if (ctx.direction.all === false && (ctx.event.mouse === false || binding.modifiers.mouseAllDir !== true)) {
             ctx.event.abort = ctx.direction.vertical
               ? distX > distY
               : distX < distY;
@@ -19365,7 +19445,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
       }
     },
 
-    unbind: function unbind (el, binding$$1) {
+    unbind: function unbind (el, binding) {
       var ctx = el.__qtouchpan_old || el.__qtouchpan;
       if (ctx !== void 0) {
         removeObserver(ctx);
@@ -19375,10 +19455,10 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
         document.body.classList.remove('non-selectable');
 
         var
-          mouse = binding$$1.modifiers.mouse === true,
-          mouseEvtPassive = binding$$1.modifiers.mouseMightPrevent !== true && binding$$1.modifiers.mousePrevent !== true,
+          mouse = binding.modifiers.mouse === true,
+          mouseEvtPassive = binding.modifiers.mouseMightPrevent !== true && binding.modifiers.mousePrevent !== true,
           mouseEvtOpts = listenOpts.hasPassive === true ? { passive: mouseEvtPassive, capture: true } : true,
-          touchEvtPassive = binding$$1.modifiers.mightPrevent !== true && binding$$1.modifiers.prevent !== true,
+          touchEvtPassive = binding.modifiers.mightPrevent !== true && binding.modifiers.prevent !== true,
           touchEvtOpts = listenOpts[touchEvtPassive === true ? 'passive' : 'notPassive'];
 
         if (mouse === true) {
@@ -20263,7 +20343,8 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
     // TODO remove in v1 final
     mounted: function mounted () {
       if (this.topIndicator === true) {
-        {
+        var p = process.env;
+        if (p.PROD !== true) {
           console.info('\n\n[Quasar] QTabs info: please rename top-indicator to switch-indicator prop');
         }
       }
@@ -24012,11 +24093,11 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
       },
 
       __render: function __render (h) {
-        var on$$1 = Object.assign({}, this.$listeners,
+        var on = Object.assign({}, this.$listeners,
           {input: stop});
 
         if (this.autoClose === true) {
-          on$$1.click = this.__onAutoClose;
+          on.click = this.__onAutoClose;
         }
 
         return h('div', {
@@ -24045,7 +24126,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
               staticClass: 'q-dialog__inner flex no-pointer-events',
               class: this.classes,
               attrs: { tabindex: -1 },
-              on: on$$1
+              on: on
             }, slot(this, 'default')) : null
           ])
         ])
@@ -25003,13 +25084,13 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
       },
 
       __getControl: function __getControl (h) {
-        var on$$1 = Object.assign({}, this.$listeners,
+        var on = Object.assign({}, this.$listeners,
           {input: this.__onInput,
           focus: stop,
           blur: stop});
 
         if (this.hasMask === true) {
-          on$$1.keydown = this.__onMaskedKeydown;
+          on.keydown = this.__onMaskedKeydown;
         }
 
         var attrs = Object.assign({}, {tabindex: 0,
@@ -25032,7 +25113,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
           style: this.inputStyle,
           class: this.inputClass,
           attrs: attrs,
-          on: on$$1,
+          on: on,
           domProps: this.type !== 'file'
             ? {
               value: this.hasOwnProperty('tempValue') === true
@@ -26636,7 +26717,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
         this.validateIndex++;
 
         var components = getAllChildren(this);
-        var emit$$1 = function (res) {
+        var emit = function (res) {
           this$1.$emit('validation-' + (res === true ? 'success' : 'error'));
         };
 
@@ -26655,7 +26736,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
               );
             }
             else if (valid !== true) {
-              emit$$1(false);
+              emit(false);
               typeof comp.focus === 'function' && comp.focus();
               return { v: Promise.resolve(false) }
             }
@@ -26669,7 +26750,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
         }
 
         if (promises.length === 0) {
-          emit$$1(true);
+          emit(true);
           return Promise.resolve(true)
         }
 
@@ -26681,7 +26762,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
               var ref = res[0];
               var valid = ref.valid;
               var comp = ref.comp;
-              emit$$1(valid);
+              emit(valid);
               valid !== true && typeof comp.focus === 'function' && comp.focus();
               return valid
             }
@@ -30422,12 +30503,12 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
       __getContent: function __getContent (h) {
         var
           child = [].concat(slot(this, 'default')),
-          title$$1 = this.$scopedSlots.title !== void 0
+          title = this.$scopedSlots.title !== void 0
             ? this.$scopedSlots.title()
             : this.title;
 
-        title$$1 && child.unshift(
-          h('div', { staticClass: 'q-dialog__title q-mt-sm q-mb-sm' }, [ title$$1 ])
+        title && child.unshift(
+          h('div', { staticClass: 'q-dialog__title q-mt-sm q-mb-sm' }, [ title ])
         );
 
         this.buttons === true && child.push(
@@ -37280,9 +37361,9 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
         var this$1 = this;
 
         var target = this.innerExpanded;
-        var emit$$1 = this.expanded !== void 0;
+        var emit = this.expanded !== void 0;
 
-        if (emit$$1 === true) {
+        if (emit === true) {
           target = target.slice();
         }
 
@@ -37318,7 +37399,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
           target = target.filter(function (k) { return k !== key; });
         }
 
-        if (emit$$1 === true) {
+        if (emit === true) {
           this.$emit("update:expanded", target);
         }
         else {
@@ -37334,9 +37415,9 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
 
       setTicked: function setTicked (keys, state) {
         var target = this.innerTicked;
-        var emit$$1 = this.ticked !== void 0;
+        var emit = this.ticked !== void 0;
 
-        if (emit$$1 === true) {
+        if (emit === true) {
           target = target.slice();
         }
 
@@ -37348,7 +37429,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
           target = target.filter(function (k) { return !keys.includes(k); });
         }
 
-        if (emit$$1 === true) {
+        if (emit === true) {
           this.$emit("update:ticked", target);
         }
       },
@@ -38343,7 +38424,8 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
     // TODO remove in v1 final
     mounted: function mounted () {
       if (this.fields !== void 0) {
-        {
+        var p = process.env;
+        if (p.PROD !== true) {
           console.info('\n\n[Quasar] QUploader: please rename "fields" prop to "form-fields"');
         }
       }
@@ -38676,15 +38758,15 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
       el.__qscrollfire = ctx;
     },
 
-    inserted: function inserted (el, binding$$1) {
+    inserted: function inserted (el, binding) {
       var ctx = el.__qscrollfire;
       ctx.scrollTarget = getScrollTarget(el);
-      updateBinding(el, binding$$1);
+      updateBinding(el, binding);
     },
 
-    update: function update (el, binding$$1) {
-      if (binding$$1.value !== binding$$1.oldValue) {
-        updateBinding(el, binding$$1);
+    update: function update (el, binding) {
+      if (binding.value !== binding.oldValue) {
+        updateBinding(el, binding);
       }
     },
 
@@ -38735,15 +38817,15 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
       el.__qscroll = ctx;
     },
 
-    inserted: function inserted (el, binding$$1) {
+    inserted: function inserted (el, binding) {
       var ctx = el.__qscroll;
       ctx.scrollTarget = getScrollTarget(el);
-      updateBinding$1(el, binding$$1);
+      updateBinding$1(el, binding);
     },
 
-    update: function update (el, binding$$1) {
-      if (binding$$1.oldValue !== binding$$1.value) {
-        updateBinding$1(el, binding$$1);
+    update: function update (el, binding) {
+      if (binding.oldValue !== binding.value) {
+        updateBinding$1(el, binding);
       }
     },
 
@@ -38756,21 +38838,21 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
     }
   };
 
-  function updateBinding$2 (el, binding$$1) {
+  function updateBinding$2 (el, binding) {
     var ctx = el.__qtouchhold;
 
-    ctx.duration = parseInt(binding$$1.arg, 10) || 600;
+    ctx.duration = parseInt(binding.arg, 10) || 600;
 
-    if (binding$$1.oldValue !== binding$$1.value) {
-      ctx.handler = binding$$1.value;
+    if (binding.oldValue !== binding.value) {
+      ctx.handler = binding.value;
     }
   }
 
   var TouchHold = {
     name: 'touch-hold',
 
-    bind: function bind (el, binding$$1) {
-      var mouse = binding$$1.modifiers.mouse === true;
+    bind: function bind (el, binding) {
+      var mouse = binding.modifiers.mouse === true;
 
       var ctx = {
         mouseStart: function mouseStart (evt) {
@@ -38833,7 +38915,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
       }
 
       el.__qtouchhold = ctx;
-      updateBinding$2(el, binding$$1);
+      updateBinding$2(el, binding);
 
       if (mouse === true) {
         el.addEventListener('mousedown', ctx.mouseStart);
@@ -38844,18 +38926,18 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
       el.addEventListener('touchend', ctx.end);
     },
 
-    update: function update (el, binding$$1) {
-      updateBinding$2(el, binding$$1);
+    update: function update (el, binding) {
+      updateBinding$2(el, binding);
     },
 
-    unbind: function unbind (el, binding$$1) {
+    unbind: function unbind (el, binding) {
       var ctx = el.__qtouchhold_old || el.__qtouchhold;
       if (ctx !== void 0) {
         removeObserver(ctx);
         clearTimeout(ctx.timer);
         document.body.classList.remove('non-selectable');
 
-        if (binding$$1.modifiers.mouse === true) {
+        if (binding.modifiers.mouse === true) {
           el.removeEventListener('mousedown', ctx.mouseStart);
           document.removeEventListener('mousemove', ctx.mouseEnd, true);
           document.removeEventListener('click', ctx.mouseEnd, true);
@@ -38887,8 +38969,8 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
   var TouchRepeat = {
     name: 'touch-repeat',
 
-    bind: function bind (el, binding$$1) {
-      var keyboard = Object.keys(binding$$1.modifiers).reduce(function (acc, key) {
+    bind: function bind (el, binding) {
+      var keyboard = Object.keys(binding.modifiers).reduce(function (acc, key) {
         if (keyRegex.test(key)) {
           var keyCode = parseInt(key, 10);
           acc.push(keyCode || keyCodes$2[key.toLowerCase()]);
@@ -38897,15 +38979,15 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
         return acc
       }, []);
 
-      var durations = typeof binding$$1.arg === 'string' && binding$$1.arg.length
-        ? binding$$1.arg.split(':').map(function (val) { return parseInt(val, 10); })
+      var durations = typeof binding.arg === 'string' && binding.arg.length
+        ? binding.arg.split(':').map(function (val) { return parseInt(val, 10); })
         : [0, 600, 300];
 
       var durationsLast = durations.length - 1;
 
       var ctx = {
         keyboard: keyboard,
-        handler: binding$$1.value,
+        handler: binding.value,
 
         mouseStart: function mouseStart (evt) {
           if (leftClick(evt)) {
@@ -39017,7 +39099,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
 
       el.__qtouchrepeat = ctx;
 
-      if (binding$$1.modifiers.mouse === true) {
+      if (binding.modifiers.mouse === true) {
         el.addEventListener('mousedown', ctx.mouseStart);
       }
       if (keyboard.length > 0) {
@@ -39029,13 +39111,13 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
       el.addEventListener('touchend', ctx.end);
     },
 
-    update: function update (el, binding$$1) {
-      if (binding$$1.oldValue !== binding$$1.value) {
-        el.__qtouchrepeat.handler = binding$$1.value;
+    update: function update (el, binding) {
+      if (binding.oldValue !== binding.value) {
+        el.__qtouchrepeat.handler = binding.value;
       }
     },
 
-    unbind: function unbind (el, binding$$1) {
+    unbind: function unbind (el, binding) {
       var ctx = el.__qtouchrepeat_old || el.__qtouchrepeat;
       if (ctx !== void 0) {
         removeObserver(ctx);
@@ -39049,7 +39131,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
         ctx.timer = void 0;
         ctx.event = void 0;
 
-        if (binding$$1.modifiers.mouse === true) {
+        if (binding.modifiers.mouse === true) {
           el.removeEventListener('mousedown', ctx.mouseStart);
           document.removeEventListener('mousemove', ctx.mouseEnd, true);
           document.removeEventListener('click', ctx.mouseEnd, true);
@@ -39449,7 +39531,9 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
       // TODO remove in v1 final
       if (className !== void 0) {
         props.cardClass = className;
-        {
+
+        var p = process.env;
+        if (p.PROD !== true) {
           console.info('\n\n[Quasar] Dialog/BottomSheet Plugin info: please rename "className" to "class" prop');
         }
       }
@@ -39485,7 +39569,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
 
       var emittedOK = false;
 
-      var on$$1 = {
+      var on = {
         ok: function (data) {
           emittedOK = true;
           okFns.forEach(function (fn) { fn(data); });
@@ -39520,7 +39604,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
             ref: 'dialog',
             props: props,
             attrs: attrs,
-            on: on$$1
+            on: on
           })
         },
 
@@ -40483,10 +40567,10 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
     },
 
     methods: {
-      add: function add (config$$1) {
+      add: function add (config) {
         var this$1 = this;
 
-        if (!config$$1) {
+        if (!config) {
           console.error('Notify: parameter required');
           return false
         }
@@ -40494,9 +40578,9 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
         var notif = Object.assign(
           { textColor: 'white' },
           defaults$1,
-          typeof config$$1 === 'string'
-            ? { message: config$$1 }
-            : clone$1(config$$1)
+          typeof config === 'string'
+            ? { message: config }
+            : clone$1(config)
         );
 
         if (notif.position) {
@@ -40528,7 +40612,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
         };
 
         var actions =
-          (config$$1.actions || []).concat(defaults$1.actions || []);
+          (config.actions || []).concat(defaults$1.actions || []);
 
         if (actions.length > 0) {
           notif.actions = actions.map(function (item) {
@@ -40547,8 +40631,8 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
           });
         }
 
-        if (typeof config$$1.onDismiss === 'function') {
-          notif.onDismiss = config$$1.onDismiss;
+        if (typeof config.onDismiss === 'function') {
+          notif.onDismiss = config.onDismiss;
         }
 
         if (notif.closeBtn) {
@@ -40916,7 +41000,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
   });
 
   var index_umd = {
-    version: version$$1,
+    version: version,
     lang: lang,
     iconSet: iconSet,
     components: components$1,
@@ -41540,21 +41624,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * @param {Object} config The config specific for this request (merged with this.defaults)
 	 */
-	Axios.prototype.request = function request(config$$1) {
+	Axios.prototype.request = function request(config) {
 	  /*eslint no-param-reassign:0*/
 	  // Allow for axios('example/url'[, config]) a la fetch API
-	  if (typeof config$$1 === 'string') {
-	    config$$1 = utils.merge({
+	  if (typeof config === 'string') {
+	    config = utils.merge({
 	      url: arguments[0]
 	    }, arguments[1]);
 	  }
 	
-	  config$$1 = utils.merge(defaults, {method: 'get'}, this.defaults, config$$1);
-	  config$$1.method = config$$1.method.toLowerCase();
+	  config = utils.merge(defaults, {method: 'get'}, this.defaults, config);
+	  config.method = config.method.toLowerCase();
 	
 	  // Hook up interceptors middleware
 	  var chain = [dispatchRequest, undefined];
-	  var promise = Promise.resolve(config$$1);
+	  var promise = Promise.resolve(config);
 	
 	  this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
 	    chain.unshift(interceptor.fulfilled, interceptor.rejected);
@@ -41574,8 +41658,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	// Provide aliases for supported request methods
 	utils.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData(method) {
 	  /*eslint func-names:0*/
-	  Axios.prototype[method] = function(url, config$$1) {
-	    return this.request(utils.merge(config$$1 || {}, {
+	  Axios.prototype[method] = function(url, config) {
+	    return this.request(utils.merge(config || {}, {
 	      method: method,
 	      url: url
 	    }));
@@ -41584,8 +41668,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 	  /*eslint func-names:0*/
-	  Axios.prototype[method] = function(url, data, config$$1) {
-	    return this.request(utils.merge(config$$1 || {}, {
+	  Axios.prototype[method] = function(url, data, config) {
+	    return this.request(utils.merge(config || {}, {
 	      method: method,
 	      url: url,
 	      data: data
@@ -41724,10 +41808,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var createError = __webpack_require__(10);
 	var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(15);
 	
-	module.exports = function xhrAdapter(config$$1) {
+	module.exports = function xhrAdapter(config) {
 	  return new Promise(function dispatchXhrRequest(resolve, reject) {
-	    var requestData = config$$1.data;
-	    var requestHeaders = config$$1.headers;
+	    var requestData = config.data;
+	    var requestHeaders = config.headers;
 	
 	    if (utils.isFormData(requestData)) {
 	      delete requestHeaders['Content-Type']; // Let the browser set it
@@ -41742,7 +41826,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
 	    if (typeof window !== 'undefined' &&
 	        window.XDomainRequest && !('withCredentials' in request) &&
-	        !isURLSameOrigin(config$$1.url)) {
+	        !isURLSameOrigin(config.url)) {
 	      request = new window.XDomainRequest();
 	      loadEvent = 'onload';
 	      xDomain = true;
@@ -41751,16 +41835,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    // HTTP basic authentication
-	    if (config$$1.auth) {
-	      var username = config$$1.auth.username || '';
-	      var password = config$$1.auth.password || '';
+	    if (config.auth) {
+	      var username = config.auth.username || '';
+	      var password = config.auth.password || '';
 	      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
 	    }
 	
-	    request.open(config$$1.method.toUpperCase(), buildURL(config$$1.url, config$$1.params, config$$1.paramsSerializer), true);
+	    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
 	
 	    // Set the request timeout in MS
-	    request.timeout = config$$1.timeout;
+	    request.timeout = config.timeout;
 	
 	    // Listen for ready state
 	    request[loadEvent] = function handleLoad() {
@@ -41778,14 +41862,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      // Prepare the response
 	      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
-	      var responseData = !config$$1.responseType || config$$1.responseType === 'text' ? request.responseText : request.response;
+	      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
 	      var response = {
 	        data: responseData,
 	        // IE sends 1223 instead of 204 (https://github.com/axios/axios/issues/201)
 	        status: request.status === 1223 ? 204 : request.status,
 	        statusText: request.status === 1223 ? 'No Content' : request.statusText,
 	        headers: responseHeaders,
-	        config: config$$1,
+	        config: config,
 	        request: request
 	      };
 	
@@ -41799,7 +41883,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    request.onerror = function handleError() {
 	      // Real errors are hidden from us by the browser
 	      // onerror should only fire if it's a network error
-	      reject(createError('Network Error', config$$1, null, request));
+	      reject(createError('Network Error', config, null, request));
 	
 	      // Clean up request
 	      request = null;
@@ -41807,7 +41891,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    // Handle timeout
 	    request.ontimeout = function handleTimeout() {
-	      reject(createError('timeout of ' + config$$1.timeout + 'ms exceeded', config$$1, 'ECONNABORTED',
+	      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED',
 	        request));
 	
 	      // Clean up request
@@ -41821,12 +41905,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var cookies = __webpack_require__(16);
 	
 	      // Add xsrf header
-	      var xsrfValue = (config$$1.withCredentials || isURLSameOrigin(config$$1.url)) && config$$1.xsrfCookieName ?
-	          cookies.read(config$$1.xsrfCookieName) :
+	      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
+	          cookies.read(config.xsrfCookieName) :
 	          undefined;
 	
 	      if (xsrfValue) {
-	        requestHeaders[config$$1.xsrfHeaderName] = xsrfValue;
+	        requestHeaders[config.xsrfHeaderName] = xsrfValue;
 	      }
 	    }
 	
@@ -41844,36 +41928,36 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    // Add withCredentials to request if needed
-	    if (config$$1.withCredentials) {
+	    if (config.withCredentials) {
 	      request.withCredentials = true;
 	    }
 	
 	    // Add responseType to request if needed
-	    if (config$$1.responseType) {
+	    if (config.responseType) {
 	      try {
-	        request.responseType = config$$1.responseType;
+	        request.responseType = config.responseType;
 	      } catch (e) {
 	        // Expected DOMException thrown by browsers not compatible XMLHttpRequest Level 2.
 	        // But, this can be suppressed for 'json' type as it can be parsed by default 'transformResponse' function.
-	        if (config$$1.responseType !== 'json') {
+	        if (config.responseType !== 'json') {
 	          throw e;
 	        }
 	      }
 	    }
 	
 	    // Handle progress if needed
-	    if (typeof config$$1.onDownloadProgress === 'function') {
-	      request.addEventListener('progress', config$$1.onDownloadProgress);
+	    if (typeof config.onDownloadProgress === 'function') {
+	      request.addEventListener('progress', config.onDownloadProgress);
 	    }
 	
 	    // Not all browsers support upload events
-	    if (typeof config$$1.onUploadProgress === 'function' && request.upload) {
-	      request.upload.addEventListener('progress', config$$1.onUploadProgress);
+	    if (typeof config.onUploadProgress === 'function' && request.upload) {
+	      request.upload.addEventListener('progress', config.onUploadProgress);
 	    }
 	
-	    if (config$$1.cancelToken) {
+	    if (config.cancelToken) {
 	      // Handle cancellation
-	      config$$1.cancelToken.promise.then(function onCanceled(cancel) {
+	      config.cancelToken.promise.then(function onCanceled(cancel) {
 	        if (!request) {
 	          return;
 	        }
@@ -41941,9 +42025,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {Object} [response] The response.
 	 * @returns {Error} The created error.
 	 */
-	module.exports = function createError(message, config$$1, code, request, response) {
+	module.exports = function createError(message, config, code, request, response) {
 	  var error = new Error(message);
-	  return enhanceError(error, config$$1, code, request, response);
+	  return enhanceError(error, config, code, request, response);
 	};
 
 
@@ -41961,8 +42045,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {Object} [response] The response.
 	 * @returns {Error} The error.
 	 */
-	module.exports = function enhanceError(error, config$$1, code, request, response) {
-	  error.config = config$$1;
+	module.exports = function enhanceError(error, config, code, request, response) {
+	  error.config = config;
 	  if (code) {
 	    error.code = code;
 	  }
@@ -42338,9 +42422,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Throws a `Cancel` if cancellation has been requested.
 	 */
-	function throwIfCancellationRequested(config$$1) {
-	  if (config$$1.cancelToken) {
-	    config$$1.cancelToken.throwIfRequested();
+	function throwIfCancellationRequested(config) {
+	  if (config.cancelToken) {
+	    config.cancelToken.throwIfRequested();
 	  }
 	}
 	
@@ -42350,61 +42434,61 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {object} config The config that is to be used for the request
 	 * @returns {Promise} The Promise to be fulfilled
 	 */
-	module.exports = function dispatchRequest(config$$1) {
-	  throwIfCancellationRequested(config$$1);
+	module.exports = function dispatchRequest(config) {
+	  throwIfCancellationRequested(config);
 	
 	  // Support baseURL config
-	  if (config$$1.baseURL && !isAbsoluteURL(config$$1.url)) {
-	    config$$1.url = combineURLs(config$$1.baseURL, config$$1.url);
+	  if (config.baseURL && !isAbsoluteURL(config.url)) {
+	    config.url = combineURLs(config.baseURL, config.url);
 	  }
 	
 	  // Ensure headers exist
-	  config$$1.headers = config$$1.headers || {};
+	  config.headers = config.headers || {};
 	
 	  // Transform request data
-	  config$$1.data = transformData(
-	    config$$1.data,
-	    config$$1.headers,
-	    config$$1.transformRequest
+	  config.data = transformData(
+	    config.data,
+	    config.headers,
+	    config.transformRequest
 	  );
 	
 	  // Flatten headers
-	  config$$1.headers = utils.merge(
-	    config$$1.headers.common || {},
-	    config$$1.headers[config$$1.method] || {},
-	    config$$1.headers || {}
+	  config.headers = utils.merge(
+	    config.headers.common || {},
+	    config.headers[config.method] || {},
+	    config.headers || {}
 	  );
 	
 	  utils.forEach(
 	    ['delete', 'get', 'head', 'post', 'put', 'patch', 'common'],
 	    function cleanHeaderConfig(method) {
-	      delete config$$1.headers[method];
+	      delete config.headers[method];
 	    }
 	  );
 	
-	  var adapter = config$$1.adapter || defaults.adapter;
+	  var adapter = config.adapter || defaults.adapter;
 	
-	  return adapter(config$$1).then(function onAdapterResolution(response) {
-	    throwIfCancellationRequested(config$$1);
+	  return adapter(config).then(function onAdapterResolution(response) {
+	    throwIfCancellationRequested(config);
 	
 	    // Transform response data
 	    response.data = transformData(
 	      response.data,
 	      response.headers,
-	      config$$1.transformResponse
+	      config.transformResponse
 	    );
 	
 	    return response;
 	  }, function onAdapterRejection(reason) {
 	    if (!isCancel(reason)) {
-	      throwIfCancellationRequested(config$$1);
+	      throwIfCancellationRequested(config);
 	
 	      // Transform response data
 	      if (reason && reason.response) {
 	        reason.response.data = transformData(
 	          reason.response.data,
 	          reason.response.headers,
-	          config$$1.transformResponse
+	          config.transformResponse
 	        );
 	      }
 	    }
