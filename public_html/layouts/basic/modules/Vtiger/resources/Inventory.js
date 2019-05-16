@@ -1129,7 +1129,7 @@ $.Class(
 						.find('option[value="' + parameter + '"]')
 						.prop('selected', 'selected')
 						.change();
-				} else {
+				} else if (!field.prop('readonly')) {
 					modal.find('[name="' + param + '"]').val(parameter);
 				}
 			});
