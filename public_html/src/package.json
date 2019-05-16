@@ -14,7 +14,7 @@
     "css-loader": "^1.0.1",
     "eslint": "^5.16.0",
     "findit": "^2.0.0",
-    "rollup": "^0.62.0",
+    "rollup": "^1.0.0",
     "rollup-plugin-alias": "^1.5.1",
     "rollup-plugin-commonjs": "^10.0.0",
     "rollup-plugin-node-globals": "^1.4.0",
