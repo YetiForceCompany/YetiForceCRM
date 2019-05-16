@@ -155,7 +155,7 @@
 			{assign var="INVENTORY_LBLS" value=[]}
 			{foreach item=MAIN_MODULE from=$MAIN_PARAMS['modules']}
 				{assign var=STR value="SINGLE_"|cat:$MAIN_MODULE}
-				{$INVENTORYLBLS[$STR]=\App\Language::translate($STR, $MAIN_MODULE)}
+				{$INVENTORY_LBLS[$MAIN_MODULE]=\App\Language::translateSingularModuleName($MAIN_MODULE)}
 			{/foreach}
 			<tbody class="js-inventory-base-item" data-inventorylbls="{App\Purifier::encodeHtml(\App\Json::encode($INVENTORYLBLS))}">
 			{assign var="ROW_NO" value='_NUM_'}
