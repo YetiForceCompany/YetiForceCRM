@@ -31,7 +31,7 @@ class Domain extends \HTMLPurifier_URIFilter
 	 */
 	public function filter(&$uri, $config, $context)
 	{
-		if ($uri->scheme === 'data') {
+		if ('data' === $uri->scheme) {
 			return true;
 		}
 		if (!in_array($uri->host, $this->allowedDomains)) {

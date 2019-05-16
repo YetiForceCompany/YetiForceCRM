@@ -83,7 +83,7 @@ abstract class View extends Base
 			$this->viewer->assign('MODULE_NAME', $request->getModule());
 			if ($request->isAjax()) {
 				$this->viewer->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
-				if (!$request->isEmpty('parent', true) && $request->getByType('parent', 2) === 'Settings') {
+				if (!$request->isEmpty('parent', true) && 'Settings' === $request->getByType('parent', 2)) {
 					$this->viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 				}
 			}
@@ -104,7 +104,7 @@ abstract class View extends Base
 		$moduleNameArray = explode(':', $qualifiedModuleName);
 		$moduleName = end($moduleNameArray);
 		$prefix = '';
-		if ($moduleName !== 'Vtiger') {
+		if ('Vtiger' !== $moduleName) {
 			$prefix = \App\Language::translate($moduleName, $qualifiedModuleName) . ' ';
 		}
 		if (isset($this->pageTitle)) {
@@ -196,6 +196,7 @@ abstract class View extends Base
 	 * Post process function.
 	 *
 	 * @param \App\Request $request
+	 * @param mixed        $display
 	 */
 	public function postProcess(\App\Request $request, $display = true)
 	{
@@ -203,7 +204,7 @@ abstract class View extends Base
 		$currentUser = \Users_Record_Model::getCurrentUserModel();
 		$view->assign('ACTIVITY_REMINDER', $currentUser->getCurrentUserActivityReminderInSeconds());
 		$view->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
-		$view->assign('SHOW_FOOTER', $this->showFooter() && \App\YetiForce\Register::getStatus() !== 8);
+		$view->assign('SHOW_FOOTER', $this->showFooter() && 8 !== \App\YetiForce\Register::getStatus());
 		$view->view('Footer.tpl');
 	}
 
@@ -336,7 +337,7 @@ abstract class View extends Base
 		$fileExtension = 'js';
 		$jsScriptInstances = [];
 		$prefix = '';
-		if (!IS_PUBLIC_DIR && $fileExtension !== 'php') {
+		if (!IS_PUBLIC_DIR && 'php' !== $fileExtension) {
 			$prefix = 'public_html/';
 		}
 		foreach ($jsFileNames as $jsFileName) {
@@ -346,14 +347,14 @@ abstract class View extends Base
 				continue;
 			}
 			// external javascript source file handling
-			if (strpos($jsFileName, 'http://') === 0 || strpos($jsFileName, 'https://') === 0) {
+			if (0 === strpos($jsFileName, 'http://') || 0 === strpos($jsFileName, 'https://')) {
 				$jsScriptInstances[$jsFileName] = $jsScript->set('src', $jsFileName);
 				continue;
 			}
 			$completeFilePath = \Vtiger_Loader::resolveNameToPath($jsFileName, $fileExtension);
 			if (is_file($completeFilePath)) {
 				$jsScript->set('base', $completeFilePath);
-				if (strpos($jsFileName, '~') === 0) {
+				if (0 === strpos($jsFileName, '~')) {
 					$filePath = ltrim(ltrim($jsFileName, '~'), '/');
 				} else {
 					$filePath = str_replace('.', '/', $jsFileName) . '.' . $fileExtension;
@@ -366,7 +367,7 @@ abstract class View extends Base
 				$jsScriptInstances[$jsFileName] = $jsScript->set('src', $prefix . $filePath);
 			} else {
 				$preLayoutPath = '';
-				if (strpos($jsFileName, '~') === 0) {
+				if (0 === strpos($jsFileName, '~')) {
 					$jsFile = ltrim(ltrim($jsFileName, '~'), '/');
 					$preLayoutPath = '~';
 				} else {
@@ -435,7 +436,7 @@ abstract class View extends Base
 	public function checkAndConvertCssStyles($cssFileNames, $fileExtension = 'css')
 	{
 		$prefix = '';
-		if (!IS_PUBLIC_DIR && $fileExtension !== 'php') {
+		if (!IS_PUBLIC_DIR && 'php' !== $fileExtension) {
 			$prefix = 'public_html/';
 		}
 		$cssStyleInstances = [];
@@ -445,14 +446,14 @@ abstract class View extends Base
 				$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', \App\Cache::get('ConvertCssStyles', $cssFileName));
 				continue;
 			}
-			if (strpos($cssFileName, 'http://') === 0 || strpos($cssFileName, 'https://') === 0) {
+			if (0 === strpos($cssFileName, 'http://') || 0 === strpos($cssFileName, 'https://')) {
 				$cssStyleInstances[] = $cssScriptModel->set('href', $cssFileName);
 				continue;
 			}
 			$completeFilePath = \Vtiger_Loader::resolveNameToPath($cssFileName, $fileExtension);
 			if (file_exists($completeFilePath)) {
 				$cssScriptModel->set('base', $completeFilePath);
-				if (strpos($cssFileName, '~') === 0) {
+				if (0 === strpos($cssFileName, '~')) {
 					$filePath = $prefix . ltrim(ltrim($cssFileName, '~'), '/');
 				} else {
 					$filePath = $prefix . str_replace('.', '/', $cssFileName) . '.' . $fileExtension;
@@ -465,7 +466,7 @@ abstract class View extends Base
 				$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $filePath);
 			} else {
 				$preLayoutPath = '';
-				if (strpos($cssFileName, '~') === 0) {
+				if (0 === strpos($cssFileName, '~')) {
 					$cssFile = ltrim(ltrim($cssFileName, '~'), '/');
 					$preLayoutPath = '~';
 				} else {
@@ -531,7 +532,7 @@ abstract class View extends Base
 	public function getJSLanguageStrings(\App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
-		if ($moduleName === 'Settings:Users') {
+		if ('Settings:Users' === $moduleName) {
 			$moduleName = 'Users';
 		}
 		return \App\Language::getJsStrings($moduleName);
@@ -546,57 +547,57 @@ abstract class View extends Base
 	{
 		$userModel = \App\User::getCurrentUserModel();
 		foreach ([
-					 'skinPath' => \Vtiger_Theme::getCurrentUserThemePath(),
-					 'siteUrl' => \App\Layout::getPublicUrl('', true),
-					 'layoutPath' => \App\Layout::getPublicUrl('layouts/' . \App\Layout::getActiveLayout()),
-					 'langPrefix' => \App\Language::getLanguage(),
-					 'langKey' => \App\Language::getShortLanguageName(),
-					 'parentModule' => $request->getByType('parent', 2),
-					 'dateFormat' => $userModel->getDetail('date_format'),
-					 'dateFormatJs' => \App\Fields\Date::currentUserJSDateFormat($userModel->getDetail('date_format')),
-					 'hourFormat' => $userModel->getDetail('hour_format'),
-					 'startHour' => $userModel->getDetail('start_hour'),
-					 'endHour' => $userModel->getDetail('end_hour'),
-					 'firstDayOfWeek' => $userModel->getDetail('dayoftheweek'),
-					 'firstDayOfWeekNo' => \App\Fields\Date::$dayOfWeek[$userModel->getDetail('dayoftheweek')] ?? false,
-					 'eventLimit' => \App\Config::module('Calendar', 'EVENT_LIMIT'),
-					 'timeZone' => $userModel->getDetail('time_zone'),
-					 'currencyId' => $userModel->getDetail('currency_id'),
-					 'currencyName' => $userModel->getDetail('currency_name'),
-					 'currencyCode' => $userModel->getDetail('currency_code'),
-					 'currencySymbol' => $userModel->getDetail('currency_symbol'),
-					 'currencyGroupingPattern' => $userModel->getDetail('currency_grouping_pattern'),
-					 'currencyDecimalSeparator' => $userModel->getDetail('currency_decimal_separator'),
-					 'currencyGroupingSeparator' => $userModel->getDetail('currency_grouping_separator'),
-					 'currencySymbolPlacement' => $userModel->getDetail('currency_symbol_placement'),
-					 'noOfCurrencyDecimals' => (int) $userModel->getDetail('no_of_currency_decimals'),
-					 'truncateTrailingZeros' => $userModel->getDetail('truncate_trailing_zeros'),
-					 'rowHeight' => $userModel->getDetail('rowheight'),
-					 'userId' => $userModel->getId(),
-					 'backgroundClosingModal' => \App\Config::main('backgroundClosingModal'),
-					 'globalSearchAutocompleteActive' => \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE'),
-					 'globalSearchAutocompleteMinLength' => \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH'),
-					 'globalSearchAutocompleteAmountResponse' => \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT'),
-					 'globalSearchDefaultOperator' => \App\Config::search('GLOBAL_SEARCH_DEFAULT_OPERATOR'),
-					 'sounds' => \App\Config::sounds(),
-					 'intervalForNotificationNumberCheck' => \App\Config::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK'),
-					 'recordPopoverDelay' => \App\Config::performance('RECORD_POPOVER_DELAY'),
-					 'searchShowOwnerOnlyInList' => \App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST'),
-					 'fieldsReferencesDependent' => \App\Config::security('FIELDS_REFERENCES_DEPENDENT'),
-					 'soundFilesPath' => \App\Layout::getPublicUrl('layouts/resources/sounds/'),
-					 'debug' => (bool) \App\Config::debug('JS_DEBUG'),
-				 ] as $key => $value) {
+			'skinPath' => \Vtiger_Theme::getCurrentUserThemePath(),
+			'siteUrl' => \App\Layout::getPublicUrl('', true),
+			'layoutPath' => \App\Layout::getPublicUrl('layouts/' . \App\Layout::getActiveLayout()),
+			'langPrefix' => \App\Language::getLanguage(),
+			'langKey' => \App\Language::getShortLanguageName(),
+			'parentModule' => $request->getByType('parent', 2),
+			'dateFormat' => $userModel->getDetail('date_format'),
+			'dateFormatJs' => \App\Fields\Date::currentUserJSDateFormat($userModel->getDetail('date_format')),
+			'hourFormat' => $userModel->getDetail('hour_format'),
+			'startHour' => $userModel->getDetail('start_hour'),
+			'endHour' => $userModel->getDetail('end_hour'),
+			'firstDayOfWeek' => $userModel->getDetail('dayoftheweek'),
+			'firstDayOfWeekNo' => \App\Fields\Date::$dayOfWeek[$userModel->getDetail('dayoftheweek')] ?? false,
+			'eventLimit' => \App\Config::module('Calendar', 'EVENT_LIMIT'),
+			'timeZone' => $userModel->getDetail('time_zone'),
+			'currencyId' => $userModel->getDetail('currency_id'),
+			'currencyName' => $userModel->getDetail('currency_name'),
+			'currencyCode' => $userModel->getDetail('currency_code'),
+			'currencySymbol' => $userModel->getDetail('currency_symbol'),
+			'currencyGroupingPattern' => $userModel->getDetail('currency_grouping_pattern'),
+			'currencyDecimalSeparator' => $userModel->getDetail('currency_decimal_separator'),
+			'currencyGroupingSeparator' => $userModel->getDetail('currency_grouping_separator'),
+			'currencySymbolPlacement' => $userModel->getDetail('currency_symbol_placement'),
+			'noOfCurrencyDecimals' => (int) $userModel->getDetail('no_of_currency_decimals'),
+			'truncateTrailingZeros' => $userModel->getDetail('truncate_trailing_zeros'),
+			'rowHeight' => $userModel->getDetail('rowheight'),
+			'userId' => $userModel->getId(),
+			'backgroundClosingModal' => \App\Config::main('backgroundClosingModal'),
+			'globalSearchAutocompleteActive' => \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE'),
+			'globalSearchAutocompleteMinLength' => \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH'),
+			'globalSearchAutocompleteAmountResponse' => \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT'),
+			'globalSearchDefaultOperator' => \App\Config::search('GLOBAL_SEARCH_DEFAULT_OPERATOR'),
+			'sounds' => \App\Config::sounds(),
+			'intervalForNotificationNumberCheck' => \App\Config::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK'),
+			'recordPopoverDelay' => \App\Config::performance('RECORD_POPOVER_DELAY'),
+			'searchShowOwnerOnlyInList' => \App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST'),
+			'fieldsReferencesDependent' => \App\Config::security('FIELDS_REFERENCES_DEPENDENT'),
+			'soundFilesPath' => \App\Layout::getPublicUrl('layouts/resources/sounds/'),
+			'debug' => (bool) \App\Config::debug('JS_DEBUG'),
+		] as $key => $value) {
 			\App\Config::setJsEnv($key, $value);
 		}
 		if (\App\Session::has('ShowAuthy2faModal')) {
 			\App\Config::setJsEnv('ShowAuthy2faModal', \App\Session::get('ShowAuthy2faModal'));
-			if (\App\Config::security('USER_AUTHY_MODE') === 'TOTP_OPTIONAL') {
+			if ('TOTP_OPTIONAL' === \App\Config::security('USER_AUTHY_MODE')) {
 				\App\Session::delete('ShowAuthy2faModal');
 			}
 		}
 		if (\App\Session::has('ShowUserPasswordChange')) {
 			\App\Config::setJsEnv('ShowUserPasswordChange', \App\Session::get('ShowUserPasswordChange'));
-			if ((int) \App\Session::get('ShowUserPasswordChange') === 1) {
+			if (1 === (int) \App\Session::get('ShowUserPasswordChange')) {
 				\App\Session::delete('ShowUserPasswordChange');
 			}
 		}

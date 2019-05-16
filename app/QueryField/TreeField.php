@@ -18,7 +18,7 @@ class TreeField extends StringField
 	 */
 	public function getValue()
 	{
-		if (strpos($this->value, '##') === false) {
+		if (false === strpos($this->value, '##')) {
 			return $this->value;
 		}
 		return explode('##', $this->value);
@@ -27,15 +27,16 @@ class TreeField extends StringField
 	/**
 	 * Get order by.
 	 *
+	 * @param mixed $order
+	 *
 	 * @return array
 	 */
 	public function getOrderBy($order = false)
 	{
 		$this->queryGenerator->addJoin(['LEFT JOIN', 'vtiger_trees_templates_data', $this->getColumnName() . ' =  vtiger_trees_templates_data.tree AND vtiger_trees_templates_data.templateid = :template', [':template' => $this->fieldModel->getFieldParams()]]);
-		if ($order && strtoupper($order) === 'DESC') {
+		if ($order && 'DESC' === strtoupper($order)) {
 			return ['vtiger_trees_templates_data.name' => SORT_DESC];
-		} else {
-			return ['vtiger_trees_templates_data.name' => SORT_ASC];
 		}
+		return ['vtiger_trees_templates_data.name' => SORT_ASC];
 	}
 }

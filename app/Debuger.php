@@ -2,7 +2,7 @@
 
 namespace App;
 
-/**
+/*
  * Debuger basic class.
  *
  * @copyright YetiForce Sp. z o.o.
@@ -95,7 +95,7 @@ class Debuger
 			$target = [
 				'class' => 'App\Log\FileTarget',
 			];
-			if ($levels !== false) {
+			if (false !== $levels) {
 				$target['levels'] = $levels;
 			}
 			$targets['file'] = $target;
@@ -105,7 +105,7 @@ class Debuger
 			$target = [
 				'class' => 'App\Log\Profiling',
 			];
-			if ($levels !== false) {
+			if (false !== $levels) {
 				$target['levels'] = $levels;
 			}
 			$targets['profiling'] = $target;
@@ -125,7 +125,7 @@ class Debuger
 	public static function checkIP()
 	{
 		$ips = \App\Config::debug('DEBUG_CONSOLE_ALLOWED_IPS');
-		if ($ips === false || (\is_string($ips) && RequestUtil::getRemoteIP(true) === $ips) || (\is_array($ips) && \in_array(RequestUtil::getRemoteIP(true), $ips))) {
+		if (false === $ips || (\is_string($ips) && RequestUtil::getRemoteIP(true) === $ips) || (\is_array($ips) && \in_array(RequestUtil::getRemoteIP(true), $ips))) {
 			return true;
 		}
 		return false;
@@ -177,10 +177,10 @@ class Debuger
 			}
 			$trace .= '  >>  ' . (isset($v['class']) ? $v['class'] . '->' : '') . "{$v['function']}($args)" . PHP_EOL;
 			unset($args, $val, $v, $k, $a);
-			if ($maxLevel !== 0 && $l >= $maxLevel) {
+			if (0 !== $maxLevel && $l >= $maxLevel) {
 				break;
 			}
 		}
-		return rtrim(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $trace), PHP_EOL);
+		return rtrim(str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $trace), PHP_EOL);
 	}
 }

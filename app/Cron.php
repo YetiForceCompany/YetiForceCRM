@@ -81,7 +81,7 @@ class Cron
 		if (!static::$logActive) {
 			return;
 		}
-		if ($level === 'warning' || $level === 'error') {
+		if ('warning' === $level || 'error' === $level) {
 			static::$keepLogFile = true;
 		}
 		if ($indent) {
@@ -120,7 +120,7 @@ class Cron
 	/**
 	 * Calculate current object run time.
 	 *
-	 * @return float|null
+	 * @return null|float
 	 */
 	public function getCronExecutionTime()
 	{

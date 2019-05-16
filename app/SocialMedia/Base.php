@@ -63,7 +63,7 @@ abstract class Base
 	/**
 	 * Check if the current user exists.
 	 *
-	 * @return  bool
+	 * @return bool
 	 */
 	abstract public function isExists();
 

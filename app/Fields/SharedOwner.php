@@ -23,7 +23,7 @@ class SharedOwner
 	 *
 	 * @param int|int[] $crmId
 	 *
-	 * @return int[]|array
+	 * @return array|int[]
 	 */
 	public static function getById($crmId)
 	{

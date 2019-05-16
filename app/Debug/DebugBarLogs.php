@@ -45,7 +45,7 @@ class DebugBarLogs implements DataCollectorInterface, MessagesAggregateInterface
 	 */
 	public function getDataFormatter()
 	{
-		if ($this->dataFormater === null) {
+		if (null === $this->dataFormater) {
 			$this->dataFormater = DataCollector::getDefaultDataFormatter();
 		}
 		return $this->dataFormater;
@@ -58,6 +58,7 @@ class DebugBarLogs implements DataCollectorInterface, MessagesAggregateInterface
 	 *
 	 * @param mixed  $message
 	 * @param string $label
+	 * @param mixed  $traces
 	 */
 	public function addMessage($message, $label = 'info', $traces = [])
 	{

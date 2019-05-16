@@ -34,7 +34,7 @@ class Route
 			return static::$instance;
 		}
 		$type = \App\Config::module('OpenStreetMap', 'ROUTE_CONNECTOR');
-		$className = "\App\Map\Route\\$type";
+		$className = "\\App\\Map\\Route\\$type";
 		if (!class_exists($className)) {
 			throw new \App\Exceptions\AppException('ERR_CLASS_NOT_FOUND');
 		}

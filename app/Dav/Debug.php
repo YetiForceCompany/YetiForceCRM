@@ -118,7 +118,7 @@ class Debug extends DAV\ServerPlugin
 		return 'Yeti debug';
 	}
 
-	// @codeCoverageIgnoreEnd
+	/** @codeCoverageIgnoreEnd */
 
 	/**
 	 * Returns a bunch of meta-data about the plugin.

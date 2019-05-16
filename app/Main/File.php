@@ -18,7 +18,7 @@ class File
 		}
 		if (\App\Config::main('forceRedirect')) {
 			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-			if (stripos($requestUrl, \App\Config::main('site_URL')) !== 0) {
+			if (0 !== stripos($requestUrl, \App\Config::main('site_URL'))) {
 				header('location: ' . \App\Config::main('site_URL'), true, 301);
 			}
 		}
@@ -36,10 +36,10 @@ class File
 		if ($handler) {
 			$method = $request->getRequestMethod();
 			$permissionFunction = $method . 'CheckPermission';
-			if (!$handler->$permissionFunction($request)) {
+			if (!$handler->{$permissionFunction}($request)) {
 				throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 403);
 			}
-			$handler->$method($request);
+			$handler->{$method}($request);
 		}
 	}
 

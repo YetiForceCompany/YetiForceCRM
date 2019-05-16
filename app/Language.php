@@ -245,7 +245,7 @@ class Language
 		if (isset(static::$pluralizeCache[$count])) {
 			$postfix = static::$pluralizeCache[$count];
 		} else {
-			$postfix = static::getPluralized((int)$count);
+			$postfix = static::getPluralized((int) $count);
 		}
 		return vsprintf(static::translate($key . $postfix, $moduleName), [$count]);
 	}
@@ -643,7 +643,7 @@ class Language
 		$dataReader = (new Db\Query())->from('vtiger_language')->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$all[$row['prefix']] = $row;
-			if (1 === (int)$row['active']) {
+			if (1 === (int) $row['active']) {
 				$actives[$row['prefix']] = $row;
 			}
 			Cache::save('getLangInfo', $row['prefix'], $row);

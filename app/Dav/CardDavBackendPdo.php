@@ -54,6 +54,6 @@ class CardDavBackendPdo extends CardDAV\Backend\PDO
 
 		$this->addChange($addressBookId, $cardUri, 3);
 
-		return $stmt->rowCount() === 1;
+		return 1 === $stmt->rowCount();
 	}
 }

@@ -83,8 +83,8 @@ class GoogleGeocode extends Base
 		foreach ($rows as $row) {
 			switch ($row['types'][0]) {
 				case 'street_number':
-					if (strpos($row['long_name'], '/') !== false) {
-						list($address['buildingnumber'], $address['localnumber']) = explode('/', $row['long_name'], 2);
+					if (false !== strpos($row['long_name'], '/')) {
+						[$address['buildingnumber'], $address['localnumber']] = explode('/', $row['long_name'], 2);
 					} else {
 						$address['buildingnumber'] = $row['long_name'];
 					}

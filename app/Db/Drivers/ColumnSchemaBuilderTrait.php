@@ -78,11 +78,11 @@ trait ColumnSchemaBuilderTrait
 	 *
 	 * @param string $type
 	 *
-	 * @return mixed|null
+	 * @return null|mixed
 	 */
 	public function get($type)
 	{
-		return $this->$type ?? null;
+		return $this->{$type} ?? null;
 	}
 
 	/**
@@ -95,7 +95,7 @@ trait ColumnSchemaBuilderTrait
 	 */
 	public function set($type, $value)
 	{
-		$this->$type = $value;
+		$this->{$type} = $value;
 		return $this;
 	}
 

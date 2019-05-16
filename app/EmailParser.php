@@ -40,6 +40,8 @@ class EmailParser extends TextParser
 
 	/**
 	 * Get content parsed for emails.
+	 *
+	 * @param mixed $trim
 	 */
 	public function getContent($trim = false)
 	{
@@ -49,11 +51,11 @@ class EmailParser extends TextParser
 		$emails = [];
 		foreach (explode(',', $this->content) as $content) {
 			$content = trim($content);
-			if (empty($content) || $content === '-') {
+			if (empty($content) || '-' === $content) {
 				continue;
 			}
 			if (strpos($content, '&lt;') && strpos($content, '&gt;')) {
-				list($fromName, $fromEmail) = explode('&lt;', $content);
+				[$fromName, $fromEmail] = explode('&lt;', $content);
 				$fromEmail = rtrim($fromEmail, '&gt;');
 				$emails[$fromEmail] = $fromName;
 			} else {

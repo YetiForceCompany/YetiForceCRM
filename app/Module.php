@@ -65,9 +65,8 @@ class Module
 			if ($mixed) {
 				if (is_numeric($mixed)) {
 					return Cache::get('ModuleEntityById', $mixed);
-				} else {
-					return Cache::get('ModuleEntityByName', $mixed);
 				}
+				return Cache::get('ModuleEntityByName', $mixed);
 			}
 		}
 		return $entity;
@@ -103,7 +102,7 @@ class Module
 			return true;
 		}
 		$moduleId = static::getModuleId($moduleName);
-		$isActive = (isset(static::$tabdataCache['tabPresence'][$moduleId]) && static::$tabdataCache['tabPresence'][$moduleId] == 0);
+		$isActive = (isset(static::$tabdataCache['tabPresence'][$moduleId]) && 0 == static::$tabdataCache['tabPresence'][$moduleId]);
 		static::$isModuleActiveCache[$moduleName] = $isActive;
 
 		return $isActive;
@@ -114,7 +113,7 @@ class Module
 	 *
 	 * @param string $moduleName
 	 *
-	 * @return int|bool
+	 * @return bool|int
 	 */
 	public static function getModuleId($moduleName)
 	{
@@ -126,7 +125,7 @@ class Module
 	 *
 	 * @param int $tabId
 	 *
-	 * @return string|bool
+	 * @return bool|string
 	 */
 	public static function getModuleName($tabId)
 	{
@@ -194,7 +193,7 @@ class Module
 	 *
 	 * @param string $action
 	 *
-	 * @return int|null
+	 * @return null|int
 	 */
 	public static function getActionId($action)
 	{
@@ -238,7 +237,7 @@ class Module
 		while ($row = $dataReader->read()) {
 			$actionname = $row['actionname'];
 			$actionAll[$actionname] = $actionid = (int) $row['actionid'];
-			if ((int) $row['securitycheck'] === 0) {
+			if (0 === (int) $row['securitycheck']) {
 				$actionSecure[$actionid] = $actionname;
 			}
 		}

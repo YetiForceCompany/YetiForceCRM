@@ -20,23 +20,25 @@ class DateField extends BaseField
 	/**
 	 * Get order by.
 	 *
+	 * @param mixed $order
+	 *
 	 * @return array
 	 */
 	public function getOrderBy($order = false)
 	{
-		if ($order && strtoupper($order) === 'DESC') {
+		if ($order && 'DESC' === strtoupper($order)) {
 			$sort = SORT_DESC;
 		} else {
 			$sort = SORT_ASC;
 		}
 		$orderBy = [$this->getColumnName() => $sort];
-		if ($this->getModuleName() === 'Calendar') {
-			if ($this->fieldModel->getColumnName() === 'date_start') {
+		if ('Calendar' === $this->getModuleName()) {
+			if ('date_start' === $this->fieldModel->getColumnName()) {
 				$field = $this->queryGenerator->getModuleField('time_start');
 				if ($field) {
 					$orderBy[$field->getTableName() . '.' . $field->getColumnName()] = $sort;
 				}
-			} elseif ($this->fieldModel->getColumnName() === 'due_date') {
+			} elseif ('due_date' === $this->fieldModel->getColumnName()) {
 				$field = $this->queryGenerator->getModuleField('time_end');
 				if ($field) {
 					$orderBy[$field->getTableName() . '.' . $field->getColumnName()] = $sort;
@@ -49,7 +51,7 @@ class DateField extends BaseField
 	/**
 	 * Get condition.
 	 *
-	 * @return bool|array
+	 * @return array|bool
 	 */
 	public function getCondition()
 	{
@@ -58,10 +60,11 @@ class DateField extends BaseField
 			\App\Log::trace('Entering to getStdOperator in ' . __CLASS__);
 
 			return $this->getStdOperator();
-		} elseif (method_exists($this, $fn)) {
+		}
+		if (method_exists($this, $fn)) {
 			\App\Log::trace("Entering to $fn in " . __CLASS__);
 
-			return $this->$fn();
+			return $this->{$fn}();
 		}
 		\App\Log::error("Not found operator: $fn in  " . __CLASS__);
 
@@ -97,7 +100,7 @@ class DateField extends BaseField
 	 */
 	public function getStdValue()
 	{
-		if ($this->operator === 'custom') {
+		if ('custom' === $this->operator) {
 			$date = $this->getArrayValue();
 		} else {
 			$date = \DateTimeRange::getDateRangeByType($this->operator);

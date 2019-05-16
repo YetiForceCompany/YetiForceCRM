@@ -7,7 +7,6 @@ use Sabre\DAVACL;
 /**
  * PDO principal backend.
  *
- *
  * This backend assumes all principals are in a single collection. The default collection
  * is 'principals/', but this can be overriden.
  *

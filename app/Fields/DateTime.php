@@ -23,10 +23,10 @@ class DateTime
 	 */
 	public static function formatToDisplay($value)
 	{
-		if (empty($value) || $value === '0000-00-00' || $value === '0000-00-00 00:00:00') {
+		if (empty($value) || '0000-00-00' === $value || '0000-00-00 00:00:00' === $value) {
 			return '';
 		}
-		if ($value === 'now') {
+		if ('now' === $value) {
 			$value = null;
 		}
 		return (new \DateTimeField($value))->getDisplayDateTimeValue();
@@ -46,25 +46,25 @@ class DateTime
 			$delim = ['/', '.'];
 			foreach ($delim as $delimiter) {
 				$x = strpos($value, $delimiter);
-				if ($x !== false) {
+				if (false !== $x) {
 					$value = str_replace($delimiter, '-', $value);
 					break;
 				}
 			}
-			list($y, $m, $d) = explode('-', $value);
-			if (strlen($y) == 1) {
+			[$y, $m, $d] = explode('-', $value);
+			if (1 == strlen($y)) {
 				$y = '0' . $y;
 			}
-			if (strlen($m) == 1) {
+			if (1 == strlen($m)) {
 				$m = '0' . $m;
 			}
-			if (strlen($d) == 1) {
+			if (1 == strlen($d)) {
 				$d = '0' . $d;
 			}
 			$value = implode('-', [$y, $m, $d]);
 			$valueList = explode(' ', $value);
 			$dbTimeValue = $valueList[1];
-			if (!empty($dbTimeValue) && strpos($dbTimeValue, ':') === false) {
+			if (!empty($dbTimeValue) && false === strpos($dbTimeValue, ':')) {
 				$dbTimeValue = $dbTimeValue . ':';
 			}
 			if (!empty($dbTimeValue) && strrpos($dbTimeValue, ':') == (strlen($dbTimeValue) - 1)) {
@@ -127,7 +127,7 @@ class DateTime
 		$dateDay = Date::getDayFromDate($dateTime, false, true);
 		if (!$allday) {
 			$timeInUserFormat = explode(':', $timeInUserFormat);
-			if (\count($timeInUserFormat) === 3) {
+			if (3 === \count($timeInUserFormat)) {
 				[$hours, $minutes, $seconds] = $timeInUserFormat;
 			} else {
 				[$hours, $minutes] = $timeInUserFormat;

@@ -24,7 +24,7 @@ class AppException extends \Exception
 	public function getDisplayMessage()
 	{
 		$message = $this->getMessage();
-		if (strpos($message, '||') === false) {
+		if (false === strpos($message, '||')) {
 			$message = \App\Language::translateSingleMod($message, 'Other.Exceptions');
 		} else {
 			$params = explode('||', $message);

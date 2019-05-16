@@ -152,7 +152,7 @@ class Completions
 	public static function encodeRow(string $text): string
 	{
 		return \preg_replace_callback(
-			"/<a\s+[^>]*data-id=(?:\"|')(.)(\d+)(?:\"|')[^>]*>[^<]+<\/a>/i",
+			"/<a\\s+[^>]*data-id=(?:\"|')(.)(\\d+)(?:\"|')[^>]*>[^<]+<\\/a>/i",
 			function (array $matches) {
 				$type = $matches[1];
 				return "{$type}{$type}{$matches[2]}{$type}{$type}";

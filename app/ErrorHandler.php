@@ -65,7 +65,7 @@ class ErrorHandler
 	 * @param string $errfile
 	 * @param int    $errline
 	 *
-	 * @link https://secure.php.net/manual/en/function.set-error-handler.php
+	 * @see https://secure.php.net/manual/en/function.set-error-handler.php
 	 */
 	public static function errorHandler($errno, $errstr, $errfile, $errline)
 	{
@@ -91,7 +91,7 @@ class ErrorHandler
 	public static function error2string($value)
 	{
 		$levels = [];
-		if (($value & E_ALL) == E_ALL) {
+		if (E_ALL == ($value & E_ALL)) {
 			$levels[] = 'E_ALL';
 			$value &= ~E_ALL;
 		}

@@ -106,7 +106,7 @@ trait SchemaTrait
 	 */
 	public function getRawTableName($name)
 	{
-		if (strpos($name, '{{') !== false) {
+		if (false !== strpos($name, '{{')) {
 			$name = preg_replace('/\\{\\{(.*?)\\}\\}/', '\1', $name);
 			return str_replace('%', $this->db->tablePrefix, $name);
 		}

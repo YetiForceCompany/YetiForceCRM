@@ -52,9 +52,8 @@ class Date
 	{
 		if ($format) {
 			return static::$jsDateFormat[$format];
-		} else {
-			return static::$jsDateFormat[\App\User::getCurrentUserModel()->getDetail('date_format')] ?? false;
 		}
+		return static::$jsDateFormat[\App\User::getCurrentUserModel()->getDetail('date_format')] ?? false;
 	}
 
 	/**
@@ -71,10 +70,10 @@ class Date
 	 */
 	public static function formatToDisplay($value)
 	{
-		if (empty($value) || $value === '0000-00-00' || $value === '0000-00-00 00:00:00') {
+		if (empty($value) || '0000-00-00' === $value || '0000-00-00 00:00:00' === $value) {
 			return '';
 		}
-		if ($value === 'now') {
+		if ('now' === $value) {
 			$value = null;
 		}
 		return (new \DateTimeField($value))->getDisplayDate();
@@ -115,19 +114,19 @@ class Date
 			$delim = ['/', '.'];
 			foreach ($delim as $delimiter) {
 				$x = strpos($value, $delimiter);
-				if ($x !== false) {
+				if (false !== $x) {
 					$value = str_replace($delimiter, '-', $value);
 					break;
 				}
 			}
-			list($y, $m, $d) = explode('-', $value);
-			if (strlen($y) == 1) {
+			[$y, $m, $d] = explode('-', $value);
+			if (1 == strlen($y)) {
 				$y = '0' . $y;
 			}
-			if (strlen($m) == 1) {
+			if (1 == strlen($m)) {
 				$m = '0' . $m;
 			}
-			if (strlen($d) == 1) {
+			if (1 == strlen($d)) {
 				$d = '0' . $d;
 			}
 			$value = implode('-', [$y, $m, $d]);
@@ -139,7 +138,7 @@ class Date
 	 * Convert date to single items.
 	 *
 	 * @param string      $date
-	 * @param string|bool $format Date format
+	 * @param bool|string $format Date format
 	 *
 	 * @return array Array date list($y, $m, $d)
 	 */
@@ -150,31 +149,31 @@ class Date
 		}
 		switch ($format) {
 			case 'dd-mm-yyyy':
-				list($d, $m, $y) = explode('-', $date, 3);
+				[$d, $m, $y] = explode('-', $date, 3);
 				break;
 			case 'mm-dd-yyyy':
-				list($m, $d, $y) = explode('-', $date, 3);
+				[$m, $d, $y] = explode('-', $date, 3);
 				break;
 			case 'yyyy-mm-dd':
-				list($y, $m, $d) = explode('-', $date, 3);
+				[$y, $m, $d] = explode('-', $date, 3);
 				break;
 			case 'dd.mm.yyyy':
-				list($d, $m, $y) = explode('.', $date, 3);
+				[$d, $m, $y] = explode('.', $date, 3);
 				break;
 			case 'mm.dd.yyyy':
-				list($m, $d, $y) = explode('.', $date, 3);
+				[$m, $d, $y] = explode('.', $date, 3);
 				break;
 			case 'yyyy.mm.dd':
-				list($y, $m, $d) = explode('.', $date, 3);
+				[$y, $m, $d] = explode('.', $date, 3);
 				break;
 			case 'dd/mm/yyyy':
-				list($d, $m, $y) = explode('/', $date, 3);
+				[$d, $m, $y] = explode('/', $date, 3);
 				break;
 			case 'mm/dd/yyyy':
-				list($m, $d, $y) = explode('/', $date, 3);
+				[$m, $d, $y] = explode('/', $date, 3);
 				break;
 			case 'yyyy/mm/dd':
-				list($y, $m, $d) = explode('/', $date, 3);
+				[$y, $m, $d] = explode('/', $date, 3);
 				break;
 			default:
 				break;
@@ -189,10 +188,10 @@ class Date
 	 * @param string $end    ex. 2017-07-30 12:08:19
 	 * @param string $format Default %a
 	 *
-	 * @link https://secure.php.net/manual/en/class.dateinterval.php
-	 * @link https://secure.php.net/manual/en/dateinterval.format.php
+	 * @see https://secure.php.net/manual/en/class.dateinterval.php
+	 * @see https://secure.php.net/manual/en/dateinterval.format.php
 	 *
-	 * @return string|int difference in format
+	 * @return int|string difference in format
 	 */
 	public static function getDiff($start, $end, $format = '%a')
 	{
@@ -253,6 +252,7 @@ class Date
 	 *
 	 * @param string $date
 	 * @param bool   $shortName
+	 * @param mixed  $translated
 	 *
 	 * @return string
 	 */
