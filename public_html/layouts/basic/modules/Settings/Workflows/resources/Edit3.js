@@ -167,9 +167,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		$('[name="field_value_mapping"]').val(JSON.stringify(values));
 	},
 	preSaveSumFieldFromDependent: function (tasktype) {
-		let advfilterlist = this.conditionBuilderInstance.getConditions();
-		console.log(advfilterlist);
-		$('[name="conditions"]').val(JSON.stringify(advfilterlist));
+		$('[name="conditions"]').val(JSON.stringify(this.conditionBuilderInstance.getConditions()));
 	},
 	/**
 	 * Function to check if the field selected is empty field
