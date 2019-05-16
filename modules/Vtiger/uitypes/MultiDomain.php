@@ -8,7 +8,7 @@
  * @author Rafal Pospiech <r.pospiech@yetiforce.com>
 */
 
-class Vtiger_MultiDomain_UIType extends Vtiger_Multipicklist_UIType
+class Vtiger_MultiDomain_UIType extends Vtiger_Base_UIType
 {
 	/**
 	 * {@inheritdoc}
@@ -20,7 +20,7 @@ class Vtiger_MultiDomain_UIType extends Vtiger_Multipicklist_UIType
 			return;
 		}
 		if (is_string($value)) {
-			$value = explode(' |##| ', $value);
+			$value = array_filter(explode(',', $value));
 		}
 		if (!is_array($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
@@ -29,13 +29,13 @@ class Vtiger_MultiDomain_UIType extends Vtiger_Multipicklist_UIType
 		$fieldParams = $fieldModel->getFieldParams();
 		foreach ($value as $item) {
 			if (!is_string($item)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $item, 406);
 			}
 			if ($item != strip_tags($item)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $item, 406);
 			}
 			if (!preg_match('/(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]/ui', $item)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $item, 406);
 			}
 		}
 		$this->validate[$hashValue] = true;
@@ -52,9 +52,9 @@ class Vtiger_MultiDomain_UIType extends Vtiger_Multipicklist_UIType
 	 */
 	public function validateUnique($value, int $recordId, Vtiger_Field_Model $fieldModel)
 	{
-		if ($recordId) {
+		if ($recordId && $value) {
 			if (is_string($value)) {
-				$value = explode(' |##| ', $value);
+				$value = array_filter(explode(',', $value));
 			}
 			foreach ($value as $domain) {
 				$crmIds = \App\Fields\MultiDomain::getCrmIds($domain, $fieldModel);
@@ -65,6 +65,62 @@ class Vtiger_MultiDomain_UIType extends Vtiger_Multipicklist_UIType
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		$values = [];
+		if (!is_array($value)) {
+			$value = $value ? array_filter(explode(',', $value)) : [];
+		}
+		foreach ($value as $val) {
+			$values[] = parent::getDbConditionBuilderValue($val, $operator);
+		}
+		if (empty($values)) {
+			return null;
+		}
+		return implode(',', $values);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDBValue($value, $recordModel = false)
+	{
+		if (empty($value)) {
+			return null;
+		}
+		if (!is_array($value)) {
+			$value = [$value];
+		}
+		$value = ',' . implode(',', $value) . ',';
+		return \App\Purifier::decodeHtml($value);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	{
+		if (empty($value)) {
+			return null;
+		}
+		$value = str_ireplace(',', ', ', trim($value, ','));
+		if (is_int($length)) {
+			$value = \App\TextParser::textTruncate($value, $length);
+		}
+		return \App\Purifier::encodeHtml($value);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getEditViewDisplayValue($value, $recordModel = false)
+	{
+		return array_filter(explode(',', \App\Purifier::encodeHtml($value)));
 	}
 
 	/**
@@ -89,5 +145,13 @@ class Vtiger_MultiDomain_UIType extends Vtiger_Multipicklist_UIType
 	public function getAllowedColumnTypes()
 	{
 		return ['text'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperators()
+	{
+		return ['e', 'n', 'c', 'k', 'y', 'ny'];
 	}
 }

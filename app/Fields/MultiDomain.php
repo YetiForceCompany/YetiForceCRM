@@ -28,12 +28,7 @@ class MultiDomain
 		$queryGenerator = new \App\QueryGenerator($moduleName);
 		if ($queryGenerator->getModuleField($fieldName)) {
 			$queryGenerator->setFields(['id']);
-			$queryGenerator->addNativeCondition(['or',
-				['like', $fieldName, $domain],
-				['like', $fieldName, '%' . $domain . ' %'],
-				['like', $fieldName, '% ' . $domain . '%'],
-				['like', $fieldName, '% ' . $domain . ' %']
-			]);
+			$queryGenerator->addNativeCondition(['like', $fieldName, ",$domain,"]);
 			$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 			while (($crmid = $dataReader->readColumn(0)) !== false) {
 				$crmids[] = $crmid;
