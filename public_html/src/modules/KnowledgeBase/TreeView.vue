@@ -88,38 +88,39 @@
 
       <q-page-container>
         <q-page class="q-pa-md">
-          <div v-show="!record">
+          <div v-if="!record">
             <div class="q-pa-md row items-start q-gutter-md">
-              <q-list
-                bordered
-                padding
-                dense
-                v-for="(categoryValue, categoryKey) in tree.data.categories"
-                :key="categoryKey"
-                class="home-card"
-              >
-                <q-item-label header>{{ tree.categories[categoryValue].label }}</q-item-label>
-
-                <q-item
-                  clickable
-                  v-for="featuredValue in tree.data.featured[categoryValue]"
-                  :key="featuredValue.id"
-                  class="text-subtitle2"
-                  v-ripple
-                  @click="record = featuredValue"
+              <template v-for="(categoryValue, categoryKey) in tree.data.categories">
+                <q-list
+                  bordered
+                  padding
+                  dense
+                  v-if="tree.data.featured[categoryValue]"
+                  :key="categoryKey"
+                  class="home-card"
                 >
-                  <q-item-section avatar>
-                    <q-icon name="mdi-text"></q-icon>
-                  </q-item-section>
-                  <q-item-section> {{ featuredValue.subject }} </q-item-section>
-                </q-item>
-              </q-list>
-            </div>
+                  <q-item-label header>{{ tree.categories[categoryValue].label }}</q-item-label>
 
+                  <q-item
+                    clickable
+                    v-for="featuredValue in tree.data.featured[categoryValue]"
+                    :key="featuredValue.id"
+                    class="text-subtitle2"
+                    v-ripple
+                    @click="record = featuredValue"
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="mdi-text"></q-icon>
+                    </q-item-section>
+                    <q-item-section> {{ featuredValue.subject }} </q-item-section>
+                  </q-item>
+                </q-list>
+              </template>
+            </div>
             <div class="q-pa-md row items-start q-gutter-md">
               <q-table
-                v-if="tree.data.records.length"
-                :data="tree.data.records"
+                v-if="active !== ''"
+                :data="Object.values(tree.data.records)"
                 :columns="columns"
                 row-key="subject"
                 :filter="filter"
@@ -128,16 +129,13 @@
               >
                 <template v-slot:item="props">
                   <q-list padding @click="record = props.row">
-                    <q-item clickable>
+                    <q-item class="home-card" clickable>
                       <q-item-section>
                         <q-item-label overline>{{ props.row.subject }}</q-item-label>
-                        <q-item-label>Single line item</q-item-label>
-                        <q-item-label caption
-                          >Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label
-                        >
+                        <q-item-label caption>{{ props.row.introduction }}</q-item-label>
                       </q-item-section>
                       <q-item-section side top>
-                        <q-item-label caption></q-item-label>
+                        <q-item-label caption>{{ props.row.short_time }}</q-item-label>
                       </q-item-section>
                     </q-item>
                   </q-list>
@@ -145,9 +143,8 @@
               </q-table>
             </div>
           </div>
-          <div v-show="record">
+          <div v-if="record">
             <h5>{{ record.subject }}</h5>
-            {{ (record.content + '').repeat(100) }}
           </div>
         </q-page>
       </q-page-container>
@@ -172,7 +169,8 @@ export default {
           format: val => `${val}`,
           sortable: true
         },
-        { name: 'category', align: 'center', label: 'Category', field: 'category', sortable: true }
+        { name: 'short_time', align: 'center', label: 'Short time', field: 'short_time', sortable: true },
+        { name: 'introduction', align: 'center', label: 'Introduction', field: 'introduction', sortable: true }
       ],
       active: '',
       tree: {
@@ -201,6 +199,7 @@ export default {
         category: category
       }).done(data => {
         this.tree.data = data.result
+        console.log(data)
         aDeferred.resolve(data.result)
       })
     }
