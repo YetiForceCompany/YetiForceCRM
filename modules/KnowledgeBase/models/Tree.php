@@ -126,7 +126,7 @@ class KnowledgeBase_Tree_Model extends \App\Base
 	public function getListQuery(): App\Db\Query
 	{
 		$queryGenerator = new App\QueryGenerator('KnowledgeBase');
-		$queryGenerator->setFields(['id', 'assigned_user_id', 'subject', 'introduction', 'modifiedtime']);
+		$queryGenerator->setFields(['id', 'assigned_user_id', 'subject', 'introduction', 'modifiedtime', 'category']);
 		$queryGenerator->addNativeCondition(['knowledgebase_status' => 'PLL_ACCEPTED']);
 		if ($this->has('parentCategory')) {
 			$queryGenerator->addNativeCondition(['category' => $this->get('parentCategory')]);
@@ -150,6 +150,7 @@ class KnowledgeBase_Tree_Model extends \App\Base
 				'assigned_user_id' => App\Fields\Owner::getLabel($row['assigned_user_id']),
 				'subject' => $row['subject'],
 				'introduction' => $row['introduction'],
+				'category' => $row['category'],
 				'full_time' => App\Fields\DateTime::formatToDisplay($row['modifiedtime']),
 				'short_time' => \Vtiger_Util_Helper::formatDateDiffInStrings($row['modifiedtime']),
 			];
