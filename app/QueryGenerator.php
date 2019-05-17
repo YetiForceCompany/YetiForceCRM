@@ -13,7 +13,7 @@ namespace App;
 class QueryGenerator
 {
 	const STRING_TYPE = ['string', 'text', 'email', 'reference'];
-	const NUMERIC_TYPE = ['integer', 'double', 'currency'];
+	const NUMERIC_TYPE = ['integer', 'double', 'currency', 'currencyInventory'];
 	const DATE_TYPE = ['date', 'datetime'];
 	const EQUALITY_TYPES = ['currency', 'percentage', 'double', 'integer', 'number'];
 	const COMMA_TYPES = ['picklist', 'multipicklist', 'owner', 'date', 'datetime', 'time', 'tree', 'sharedOwner', 'sharedOwner'];
@@ -173,6 +173,16 @@ class QueryGenerator
 			}
 		}
 		return $headerFields;
+	}
+
+	/**
+	 * Sets conditions from ConditionBuilder.
+	 *
+	 * @param array $conditions
+	 */
+	public function setConditions(array $conditions)
+	{
+		$this->conditions = $conditions;
 	}
 
 	/**
@@ -1196,8 +1206,6 @@ class QueryGenerator
 	 * Set order for related module.
 	 *
 	 * @param string[] $orderDetail
-	 *
-	 * @return void
 	 */
 	public function setRelatedOrder(array $orderDetail)
 	{

@@ -17,7 +17,7 @@ class Vtiger_ConditionBuilder_Js {
 	 */
 	registerChangeConditions(container) {
 		let self = this;
-		container.find('.js-conditions-fields, .js-conditions-operator').on('change', function(e) {
+		container.find('.js-conditions-fields, .js-conditions-operator').on('change', function (e) {
 			let progress = $.progressIndicator({
 				position: 'html',
 				blockInfo: {
@@ -29,6 +29,7 @@ class Vtiger_ConditionBuilder_Js {
 			if (currentTarget.hasClass('js-conditions-fields')) {
 				requestParams = {
 					module: app.getModuleName(),
+					parent: app.getParentModuleName(),
 					view: 'ConditionBuilder',
 					sourceModuleName: self.sourceModuleName,
 					fieldname: currentTarget.val()
@@ -36,13 +37,14 @@ class Vtiger_ConditionBuilder_Js {
 			} else {
 				requestParams = {
 					module: app.getModuleName(),
+					parent: app.getParentModuleName(),
 					view: 'ConditionBuilder',
 					sourceModuleName: self.sourceModuleName,
 					fieldname: container.find('.js-conditions-fields').val(),
 					operator: currentTarget.val()
 				};
 			}
-			AppConnector.request(requestParams).done(function(data) {
+			AppConnector.request(requestParams).done(function (data) {
 				progress.progressIndicator({ mode: 'hide' });
 				container.html($(data).html());
 				self.registerChangeConditions(container);
@@ -67,7 +69,7 @@ class Vtiger_ConditionBuilder_Js {
 	 */
 	registerAddCondition() {
 		let self = this;
-		this.container.on('click', '.js-condition-add', function(e) {
+		this.container.on('click', '.js-condition-add', function (e) {
 			let progress = $.progressIndicator({
 				position: 'html',
 				blockInfo: {
@@ -79,9 +81,10 @@ class Vtiger_ConditionBuilder_Js {
 				.find('> .js-condition-builder-conditions-container');
 			AppConnector.request({
 				module: app.getModuleName(),
+				parent: app.getParentModuleName(),
 				view: 'ConditionBuilder',
 				sourceModuleName: self.sourceModuleName
-			}).done(function(data) {
+			}).done(function (data) {
 				progress.progressIndicator({ mode: 'hide' });
 				data = $(data);
 				App.Fields.Picklist.showSelect2ElementView(data.find('select.select2'));
@@ -96,7 +99,7 @@ class Vtiger_ConditionBuilder_Js {
 	 */
 	registerAddGroup() {
 		var self = this;
-		this.container.on('click', '.js-group-add', function(e) {
+		this.container.on('click', '.js-group-add', function (e) {
 			let template = self.container.find('.js-condition-builder-group-template').clone();
 			template.removeClass('hide');
 			$(this)
@@ -110,7 +113,7 @@ class Vtiger_ConditionBuilder_Js {
 	 * Register events to remove group
 	 */
 	registerDeleteGroup() {
-		this.container.on('click', '.js-group-delete', function(e) {
+		this.container.on('click', '.js-group-delete', function (e) {
 			$(this)
 				.closest('.js-condition-builder-group-container')
 				.remove();
@@ -121,7 +124,7 @@ class Vtiger_ConditionBuilder_Js {
 	 * Register events to remove condition
 	 */
 	registerDeleteCondition() {
-		this.container.on('click', '.js-condition-delete', function(e) {
+		this.container.on('click', '.js-condition-delete', function (e) {
 			$(this)
 				.closest('.js-condition-builder-conditions-row')
 				.remove();
@@ -132,7 +135,7 @@ class Vtiger_ConditionBuilder_Js {
 	 * Block submit on press enter key
 	 */
 	registerDisableSubmitOnEnter() {
-		this.container.find('.js-condition-builder-value').keydown(function(e) {
+		this.container.find('.js-condition-builder-value').keydown(function (e) {
 			if (e.keyCode === 13) {
 				e.preventDefault();
 			}
@@ -152,7 +155,7 @@ class Vtiger_ConditionBuilder_Js {
 		let arr = {};
 		arr['condition'] = condition;
 		let rules = [];
-		container.find('> .js-condition-builder-conditions-container >').each(function() {
+		container.find('> .js-condition-builder-conditions-container >').each(function () {
 			let element = $(this);
 			if (element.hasClass('js-condition-builder-conditions-row')) {
 				rules.push({
@@ -185,7 +188,7 @@ class Vtiger_ConditionBuilder_Js {
 		this.registerDeleteGroup();
 		this.registerDeleteCondition();
 		this.registerDisableSubmitOnEnter();
-		this.container.find('.js-condition-builder-conditions-row').each(function() {
+		this.container.find('.js-condition-builder-conditions-row').each(function () {
 			self.registerChangeConditions($(this));
 			self.registerField($(this));
 		});
