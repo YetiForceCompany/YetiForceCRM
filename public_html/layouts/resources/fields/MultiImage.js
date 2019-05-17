@@ -233,7 +233,7 @@ class MultiImage {
 				return this.uploadError(e, data);
 			}
 			if (typeof fileAttach.info !== 'undefined' && fileAttach.info) {
-				Vtiger_Helper_Js.showPnotify(fileAttach.info + ` [${fileAttach.name}]`);
+				Vtiger_Helper_Js.showPnotify({ type: 'notice', text: fileAttach.info + ` [${fileAttach.name}]` });
 			}
 			const fileInfo = this.getFileInfo(hash);
 			this.addFileInfoProperty(hash, 'key', fileAttach.key);
