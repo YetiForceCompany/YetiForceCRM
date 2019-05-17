@@ -212,7 +212,6 @@ class MultiImage {
 			this.deleteFile(file.hash, false);
 			Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_FILE_UPLOAD_ERROR') + ` [${file.name}]`);
 		});
-		this.elements.fileInput.val(null);
 		this.updateFormValues();
 	}
 
@@ -244,7 +243,6 @@ class MultiImage {
 			this.addPreviewPopover(fileInfo.file, fileInfo.previewElement, fileInfo.imageSrc);
 			App.Fields.MultiImage.currentFileUploads--;
 		});
-		this.elements.fileInput.val(null);
 		this.updateFormValues();
 	}
 
