@@ -152,7 +152,11 @@
 		{include file=\App\Layout::getTemplatePath('Edit/InventorySummary.tpl', $MODULE_NAME)}
 		{assign var="ITEM_DATA" value=$RECORD->getInventoryDefaultDataFields()}
 		<table id="blackIthemTable" class="noValidate d-none">
-			<tbody class="js-inventory-base-item">
+			{assign var="INVENTORY_LBLS" value=[]}
+			{foreach item=MAIN_MODULE from=$MAIN_PARAMS['modules']}
+				{$INVENTORY_LBLS[$MAIN_MODULE]=\App\Language::translateSingularModuleName($MAIN_MODULE)}
+			{/foreach}
+			<tbody class="js-inventory-base-item" data-module-lbls="{App\Purifier::encodeHtml(\App\Json::encode($INVENTORY_LBLS))}">
 			{assign var="ROW_NO" value='_NUM_'}
 			{include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE_NAME)}
 			</tbody>
