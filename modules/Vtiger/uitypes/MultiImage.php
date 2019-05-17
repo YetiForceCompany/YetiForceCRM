@@ -61,7 +61,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 				'path' => $path,
 				'name' => $item['name'],
 			]);
-			$validFormat = $file->validate('image');
+			$validFormat = $file->validateAndSecure('image');
 			$validExtension = false;
 			foreach ($fieldInfo['formats'] as $format) {
 				if ($file->getExtension(true) === strtolower($format)) {

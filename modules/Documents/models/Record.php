@@ -233,10 +233,10 @@ class Documents_Record_Model extends Vtiger_Record_Model
 			if (!empty($file['name'])) {
 				if (isset($file['error']) && 0 === $file['error']) {
 					$fileInstance = \App\Fields\File::loadFromRequest($file);
-					if ($fileInstance->validate()) {
+					if ($fileInstance->validateAndSecure()) {
 						$fileName = \App\Purifier::decodeHtml(App\Purifier::purify($file['name']));
 						$fileType = $fileInstance->getMimeType();
-						$fileSize = $file['size'];
+						$fileSize = $fileInstance->getSize();
 						$fileLocationType = 'I';
 					}
 				}
@@ -306,7 +306,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		$moduleName = $this->getModuleName();
 		\App\Log::trace("Entering into uploadAndSaveFile($id,$moduleName) method.");
 		$fileInstance = \App\Fields\File::loadFromRequest($fileDetails);
-		if (!$fileInstance->validate()) {
+		if (!$fileInstance->validateAndSecure()) {
 			\App\Log::trace('Skip the save attachment process.');
 			return false;
 		}

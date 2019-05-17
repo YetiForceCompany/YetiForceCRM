@@ -29,7 +29,7 @@ class OSSMail_Mail_Model extends \App\Base
 	/**
 	 * Mail crm id.
 	 *
-	 * @var int|bool
+	 * @var bool|int
 	 */
 	protected $mailCrmId = false;
 
@@ -111,7 +111,7 @@ class OSSMail_Mail_Model extends \App\Base
 	 *
 	 * @param bool $returnText
 	 *
-	 * @return string|int
+	 * @return int|string
 	 */
 	public function getTypeEmail($returnText = false)
 	{
@@ -128,7 +128,7 @@ class OSSMail_Mail_Model extends \App\Base
 				$type = true;
 			}
 		}
-		if ($fromEmailUser['notFound'] == 0 && $notFound == 0) {
+		if (0 == $fromEmailUser['notFound'] && 0 == $notFound) {
 			$key = 2;
 			$name = 'Internal';
 		} elseif ($type) {
@@ -140,9 +140,8 @@ class OSSMail_Mail_Model extends \App\Base
 		}
 		if ($returnText) {
 			return $name;
-		} else {
-			return $key;
 		}
+		return $key;
 	}
 
 	/**
@@ -202,7 +201,7 @@ class OSSMail_Mail_Model extends \App\Base
 	/**
 	 * Get mail crm id.
 	 *
-	 * @return int|bool
+	 * @return bool|int
 	 */
 	public function getMailCrmId()
 	{
@@ -239,12 +238,12 @@ class OSSMail_Mail_Model extends \App\Base
 		$header = $this->get('header');
 		$text = '';
 		if (property_exists($header, $name)) {
-			$text = $header->$name;
+			$text = $header->{$name};
 		}
 		$return = '';
 		if (is_array($text)) {
 			foreach ($text as $row) {
-				if ($return != '') {
+				if ('' != $return) {
 					$return .= ',';
 				}
 				$return .= $row->mailbox . '@' . $row->host;
@@ -260,7 +259,7 @@ class OSSMail_Mail_Model extends \App\Base
 	 * @param string $searchModule
 	 * @param bool   $returnArray
 	 *
-	 * @return string|array
+	 * @return array|string
 	 */
 	public function findEmailAdress($field, $searchModule = false, $returnArray = true)
 	{
@@ -270,7 +269,8 @@ class OSSMail_Mail_Model extends \App\Base
 
 		if (empty($emails)) {
 			return [];
-		} elseif (strpos($emails, ',')) {
+		}
+		if (strpos($emails, ',')) {
 			$emails = explode(',', $emails);
 		} else {
 			$emails = (array) $emails;
@@ -290,8 +290,8 @@ class OSSMail_Mail_Model extends \App\Base
 						}
 						$name = 'MSFindEmail_' . $moduleName . '_' . $row[0];
 						$cache = Vtiger_Cache::get($name, $email);
-						if ($cache !== false) {
-							if ($cache != 0) {
+						if (false !== $cache) {
+							if (0 != $cache) {
 								$return = array_merge($return, $cache);
 							}
 						} else {
@@ -301,7 +301,7 @@ class OSSMail_Mail_Model extends \App\Base
 								$queryGenerator->setFields(['id']);
 								$queryGenerator->addCondition($row[0], $email, 'e');
 								$dataReader = $queryGenerator->createQuery()->createCommand()->query();
-								while (($crmid = $dataReader->readColumn(0)) !== false) {
+								while (false !== ($crmid = $dataReader->readColumn(0))) {
 									$ids[] = $crmid;
 								}
 								$dataReader->close();
@@ -340,7 +340,7 @@ class OSSMail_Mail_Model extends \App\Base
 		if ($attachments = $this->get('attachments')) {
 			foreach ($attachments as $attachment) {
 				$fileInstance = \App\Fields\File::loadFromContent($attachment['attachment'], $attachment['filename'], ['validateAllCodeInjection' => true]);
-				if ($fileInstance && $fileInstance->validate() && ($id = App\Fields\File::saveFromContent($fileInstance, $params))) {
+				if ($fileInstance && $fileInstance->validateAndSecure() && ($id = App\Fields\File::saveFromContent($fileInstance, $params))) {
 					$files[] = $id;
 				} else {
 					\App\Log::error("Error downloading the file '{$attachment['filename']}' in mail: {$this->get('date')} | {$this->get('fromaddress')} | {$this->get('subject')}", __CLASS__);
