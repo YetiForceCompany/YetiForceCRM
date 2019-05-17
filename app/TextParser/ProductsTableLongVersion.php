@@ -84,7 +84,7 @@ class ProductsTableLongVersion extends Base
 								}
 							}
 						} elseif (\in_array($field->getType(), $fieldsWithCurrency, true) && !empty($currencySymbol)) {
-							$html .= $field->getDisplayValue($itemValue, $inventoryRow) . ' ' . $currencySymbol;
+							$html .= \CurrencyField::appendCurrencySymbol($field->getDisplayValue($itemValue, $inventoryRow), $currencySymbol);
 						} else {
 							$html .= $field->getDisplayValue($itemValue, $inventoryRow);
 						}
