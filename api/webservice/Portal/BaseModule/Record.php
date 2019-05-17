@@ -95,9 +95,11 @@ class Record extends \Api\Core\BaseAction
 					$refereneModule = $moduleField->getUITypeModel()->getReferenceModule($model->get($moduleField->getName()));
 					$rawData[$moduleField->getName() . '_module'] = $refereneModule ? $refereneModule->getName() : null;
 				}
+				if ($moduleField->getFieldDataType() === 'taxes') {
+					$rawData[$moduleField->getName() . '_info'] = \Vtiger_Taxes_UIType::getValues($rawData[$moduleField->getName()]);
+				}
 			}
 		}
-
 		$inventory = false;
 		$summaryInventory = [];
 		if ($model->getModule()->isInventory()) {
@@ -118,7 +120,7 @@ class Record extends \Api\Core\BaseAction
 				}
 			}
 		}
-		$resposne = [
+		$response = [
 			'name' => $model->getName(),
 			'id' => $model->getId(),
 			'fields' => $fieldsLabel,
@@ -127,10 +129,10 @@ class Record extends \Api\Core\BaseAction
 			'summary_inventory' => $summaryInventory
 		];
 		if (1 === (int) $this->controller->headers['x-raw-data']) {
-			$resposne['rawData'] = $rawData;
-			$resposne['rawInventory'] = $rawInventory;
+			$response['rawData'] = $rawData;
+			$response['rawInventory'] = $rawInventory;
 		}
-		return $resposne;
+		return $response;
 	}
 
 	/**

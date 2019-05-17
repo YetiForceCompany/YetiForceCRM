@@ -23,8 +23,6 @@ class PrivilegeQuery
 	 * @param string        $moduleName
 	 * @param mixed         $user
 	 * @param int           $relatedRecord
-	 *
-	 * @return void
 	 */
 	public static function getConditions(\App\Db\Query $query, string $moduleName, $user = false, $relatedRecord = false)
 	{
@@ -47,7 +45,7 @@ class PrivilegeQuery
 			default:
 				throw new \Api\Core\Exception('Invalid permissions ', 400);
 		}
-		$fieldInfo = \Api\Core\Module::getFieldPermission($moduleName, $user->get('permission_app'));
+		$fieldInfo = \Api\Core\Module::getApiFieldPermission($moduleName, $user->get('permission_app'));
 		if (!$fieldInfo) {
 			$query->andWhere(new Expression('0=1'));
 			return;

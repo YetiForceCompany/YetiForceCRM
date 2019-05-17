@@ -51,7 +51,7 @@ class Privilege
 		} else {
 			$user = \App\User::getUserModel($userId);
 		}
-		$permissionFieldInfo = \Api\Core\Module::getFieldPermission($moduleName, $user->get('permission_app'));
+		$permissionFieldInfo = \Api\Core\Module::getApiFieldPermission($moduleName, $user->get('permission_app'));
 		if (!$permissionFieldInfo) {
 			return false;
 		}

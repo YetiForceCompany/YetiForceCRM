@@ -144,7 +144,7 @@ class BaseAction
 	 *
 	 * @return int
 	 */
-	public function getUserStorageId(): int
+	public function getUserStorageId(): ?int
 	{
 		return $this->session->get('istorage');
 	}
