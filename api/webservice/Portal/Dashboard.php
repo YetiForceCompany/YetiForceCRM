@@ -2,6 +2,8 @@
 /**
  * Dashboard class.
  *
+ * @package Api
+ *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
@@ -45,8 +47,6 @@ class Dashboard
 	 * @param string $moduleName
 	 * @param int    $dashboardType
 	 * @param int    $application
-	 *
-	 * @return void
 	 */
 	public static function getInstance(string $moduleName, int $dashboardType, int $application): self
 	{
