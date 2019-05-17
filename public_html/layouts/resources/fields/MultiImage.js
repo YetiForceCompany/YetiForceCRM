@@ -212,6 +212,7 @@ class MultiImage {
 			this.deleteFile(file.hash, false);
 			Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_FILE_UPLOAD_ERROR') + ` [${file.name}]`);
 		});
+		this.elements.fileInput.val(null);
 		this.updateFormValues();
 	}
 
@@ -243,6 +244,7 @@ class MultiImage {
 			this.addPreviewPopover(fileInfo.file, fileInfo.previewElement, fileInfo.imageSrc);
 			App.Fields.MultiImage.currentFileUploads--;
 		});
+		this.elements.fileInput.val(null);
 		this.updateFormValues();
 	}
 
@@ -250,6 +252,7 @@ class MultiImage {
 	 * Update form input values
 	 */
 	updateFormValues() {
+		this.elements.fileInput.val(null);
 		const formValues = this.files.map(file => {
 			return { key: file.key, name: file.name, size: file.size };
 		});
@@ -500,6 +503,7 @@ class MultiImage {
 		const fileInfo = this.getFileInfo(hash);
 		fileInfo.previewElement.popover('dispose').remove();
 		this.files = this.files.filter(file => file.hash !== fileInfo.hash);
+		this.elements.fileInput.val(null);
 		this.updateFormValues();
 	}
 
