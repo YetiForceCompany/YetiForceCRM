@@ -501,7 +501,6 @@ class MultiImage {
 		const fileInfo = this.getFileInfo(hash);
 		fileInfo.previewElement.popover('dispose').remove();
 		this.files = this.files.filter(file => file.hash !== fileInfo.hash);
-		this.elements.fileInput.val(null);
 		this.updateFormValues();
 	}
 
