@@ -70,13 +70,13 @@ class Time
 	 *
 	 * @param float    $decTime     time in decimal format 1.5 = 1h 30m
 	 * @param string   $type        hour text format 'short' or 'full'
-	 * @param int|bool $withSeconds if is provided as int then will be displayed
+	 * @param bool|int $withSeconds if is provided as int then will be displayed
 	 *
 	 * @return string
 	 */
 	public static function formatToHourText($decTime, $type = 'short', $withSeconds = false)
 	{
-		$short = $type === 'short';
+		$short = 'short' === $type;
 
 		$hour = floor($decTime);
 		$min = floor(($decTime - $hour) * 60);
@@ -89,10 +89,10 @@ class Time
 		if ($hour || $min) {
 			$result .= $short ? " {$min}" . \App\Language::translate('LBL_M') : " {$min} " . \App\Language::translate('LBL_MINUTES');
 		}
-		if ($withSeconds !== false) {
+		if (false !== $withSeconds) {
 			$result .= $short ? " {$sec}" . \App\Language::translate('LBL_S') : " {$sec} " . \App\Language::translate('LBL_SECONDS');
 		}
-		if (!$hour && !$min && $withSeconds === false) {
+		if (!$hour && !$min && false === $withSeconds) {
 			$result = $short ? '0' . \App\Language::translate('LBL_M') : '0 ' . \App\Language::translate('LBL_MINUTES');
 		}
 		return trim($result);

@@ -53,7 +53,7 @@ class ReferenceField extends BaseField
 	public function operatorA()
 	{
 		if (\App\Config::performance('SEARCH_REFERENCE_BY_AJAX')) {
-			if (strpos($this->value, '##') === false) {
+			if (false === strpos($this->value, '##')) {
 				return [$this->getColumnName() => $this->value];
 			}
 			$condition = ['or'];
@@ -180,12 +180,14 @@ class ReferenceField extends BaseField
 	/**
 	 * Get order by.
 	 *
+	 * @param mixed $order
+	 *
 	 * @return array
 	 */
 	public function getOrderBy($order = false)
 	{
 		$condition = [];
-		if ($order && strtoupper($order) === 'DESC') {
+		if ($order && 'DESC' === strtoupper($order)) {
 			foreach ($this->getRelatedTableName() as $formattedName) {
 				$condition[(string) $formattedName] = SORT_DESC;
 			}

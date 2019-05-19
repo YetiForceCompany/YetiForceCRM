@@ -23,10 +23,9 @@ class SharedOwnerField extends BaseField
 		if ($this->related) {
 			$fieldModel = $this->queryGenerator->getModuleField($this->related['sourceField']);
 			return $this->fullColumnName = "{$fieldModel->getTableName()}.{$fieldModel->getColumnName()}";
-		} else {
-			$focus = $this->queryGenerator->getEntityModel();
-			return $this->fullColumnName = "{$focus->table_name}.{$focus->table_index}";
 		}
+		$focus = $this->queryGenerator->getEntityModel();
+		return $this->fullColumnName = "{$focus->table_name}.{$focus->table_index}";
 	}
 
 	/**

@@ -12,6 +12,7 @@
 Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	step3Container: false,
 	advanceFilterInstance: false,
+	conditionBuilderInstance: false,
 	ckEditorInstance: false,
 	fieldValueMap: false,
 	init: function () {
@@ -59,7 +60,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 					}
 				});
 			app.showModalWindow(null, params, function (data) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				progressIndicatorElement.progressIndicator({ 'mode': 'hide' });
 				if (data) {
 					let clipboard = App.Fields.Text.registerCopyClipboard(data);
 					container.one('hidden.bs.modal', () => {
@@ -77,6 +78,8 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				thisInstance.registerFillTaskFieldsEvent();
 				thisInstance.registerCheckSelectDateEvent();
 				App.Tools.VariablesPanel.registerRefreshCompanyVariables(data);
+				thisInstance.conditionBuilderInstance = new Vtiger_ConditionBuilder_Js(data.find('.js-condition-builder'), data.find('.js-source-module').val());
+				thisInstance.conditionBuilderInstance.registerEvents();
 			});
 
 		});
@@ -162,6 +165,9 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	preSaveVTUpdateRelatedFieldTask: function (tasktype) {
 		var values = this.getValues(tasktype);
 		$('[name="field_value_mapping"]').val(JSON.stringify(values));
+	},
+	preSaveSumFieldFromDependent: function (tasktype) {
+		$('[name="conditions"]').val(JSON.stringify(this.conditionBuilderInstance.getConditions()));
 	},
 	/**
 	 * Function to check if the field selected is empty field
@@ -283,7 +289,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		});
 		AppConnector.request(params).done(function (data) {
 			$('#taskListContainer').html(data);
-			progressIndicatorElement.progressIndicator({mode: 'hide'});
+			progressIndicatorElement.progressIndicator({ mode: 'hide' });
 		});
 	},
 	/**
@@ -320,7 +326,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 					};
 					Vtiger_Helper_Js.showPnotify(params);
 				}
-				progressIndicatorElement.progressIndicator({mode: 'hide'});
+				progressIndicatorElement.progressIndicator({ mode: 'hide' });
 			});
 			e.stopImmediatePropagation();
 		});
@@ -544,7 +550,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		} else if (fieldSpecificUi.is('input.dateField')) {
 			App.Fields.Date.register(fieldSpecificUi);
 		} else if (fieldSpecificUi.is('input.dateRangeField')) {
-			App.Fields.Date.registerRange(fieldSpecificUi, {ranges: false});
+			App.Fields.Date.registerRange(fieldSpecificUi, { ranges: false });
 		}
 		return this;
 	},
@@ -613,7 +619,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				}
 			});
 			AppConnector.request(params).done(function (data) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'})
+				progressIndicatorElement.progressIndicator({ 'mode': 'hide' })
 				var createEntityContainer = $('#addCreateEntityContainer');
 				createEntityContainer.html(data);
 				App.Fields.Picklist.changeSelectElementView(createEntityContainer);

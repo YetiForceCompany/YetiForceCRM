@@ -75,7 +75,7 @@ abstract class Base
 	 */
 	public function addIndirectPoint(float $lat, float $lon)
 	{
-		$this->indirectPoints[]= ['lat' => $lat, 'lon' => $lon];
+		$this->indirectPoints[] = ['lat' => $lat, 'lon' => $lon];
 	}
 
 	/**

@@ -4,7 +4,7 @@
 	"assignees": ["mariuszkrzaczkowski", "rskrzypczak", "TomaszQr"],
 	"packageRules": [
 		{
-			"baseBranchList": ["developer", "quasar-gui"],
+			"baseBranchList": ["developer"],
 			"enabled": true
 		}
 	]

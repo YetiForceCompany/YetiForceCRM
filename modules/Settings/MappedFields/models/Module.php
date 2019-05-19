@@ -119,6 +119,8 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Function to get instance.
 	 *
+	 * @param mixed $moduleName
+	 *
 	 * @return <Settings_MappedFields_Module_Model>
 	 */
 	public static function getCleanInstance($moduleName = 'Vtiger')
@@ -166,7 +168,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 			$objectProperties = get_object_vars($moduleModel);
 			$moduleModel = new self();
 			foreach ($objectProperties as $properName => $propertyValue) {
-				$moduleModel->$properName = $propertyValue;
+				$moduleModel->{$properName} = $propertyValue;
 			}
 		}
 		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
@@ -197,6 +199,8 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Function to set mapping details.
 	 *
+	 * @param mixed $mapp
+	 *
 	 * @return instance
 	 */
 	public function setMapping($mapp = [])
@@ -224,6 +228,8 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function returns fields of module.
+	 *
+	 * @param mixed $source
 	 *
 	 * @return <Array of vtlib\Field>
 	 */
@@ -337,7 +343,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		if (!empty($conditions)) {
 			foreach ($conditions as $index => $condition) {
 				$columns = $condition['columns'];
-				if ($index == '1' && empty($columns)) {
+				if ('1' == $index && empty($columns)) {
 					$wfCondition[] = ['fieldname' => '', 'operation' => '', 'value' => '', 'valuetype' => '',
 						'joincondition' => '', 'groupid' => '0', ];
 				}
@@ -358,10 +364,10 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$id = '';
 		$fileInstance = \App\Fields\File::loadFromRequest($_FILES['imported_xml']);
-		if (!$fileInstance->validate() || $fileInstance->getExtension(true) !== 'xml') {
+		if (!$fileInstance->validate() || 'xml' !== $fileInstance->getExtension(true)) {
 			$message = 'LBL_UPLOAD_ERROR';
 		} else {
-			list($id, $message) = $this->importDataFromXML($fileInstance->getPath());
+			[$id, $message] = $this->importDataFromXML($fileInstance->getPath());
 		}
 		return ['id' => $id, 'message' => \App\Language::translate($message, $qualifiedModuleName)];
 	}
@@ -380,13 +386,13 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 					break;
 				}
 				$instances[$combine[$fieldsKey]] = Vtiger_Module_Model::getInstance((string) $fieldsValue);
-			} elseif ($fieldsKey === 'fields') {
+			} elseif ('fields' === $fieldsKey) {
 				foreach ($fieldsValue as $fieldValue) {
 					foreach ($fieldValue as $columnKey => $columnValue) {
 						$columnKey = (string) $columnKey;
 						$columnValue = (string) $columnValue;
 						if (in_array($columnKey, ['default', 'type'])) {
-							$mapping[$i][$columnKey] = $columnKey === 'default' ? \App\Purifier::purify($columnValue) : $columnValue;
+							$mapping[$i][$columnKey] = 'default' === $columnKey ? \App\Purifier::purify($columnValue) : $columnValue;
 							continue;
 						}
 						$fieldObject = Settings_MappedFields_Field_Model::getInstance($columnValue, $instances[$columnKey], $mapping[$i]['type']);

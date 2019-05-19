@@ -42,7 +42,7 @@ class EventHandler
 		}
 		if ($active) {
 			foreach ($handlers as $key => &$handler) {
-				if ((int) $handler['is_active'] !== 1) {
+				if (1 !== (int) $handler['is_active']) {
 					unset($handlers[$key]);
 				}
 			}
@@ -54,6 +54,7 @@ class EventHandler
 	 * Get active event handlers by type (event_name).
 	 *
 	 * @param string $name
+	 * @param mixed  $moduleName
 	 *
 	 * @return array
 	 */
@@ -86,6 +87,7 @@ class EventHandler
 	 * @param string $excludeModules
 	 * @param int    $priority
 	 * @param bool   $isActive
+	 * @param mixed  $ownerId
 	 */
 	public static function registerHandler($eventName, $className, $includeModules = '', $excludeModules = '', $priority = 5, $isActive = true, $ownerId = 0)
 	{
@@ -198,6 +200,8 @@ class EventHandler
 	 * Add param.
 	 *
 	 * @param array $params
+	 * @param mixed $key
+	 * @param mixed $value
 	 */
 	public function addParams($key, $value)
 	{
@@ -293,7 +297,7 @@ class EventHandler
 			}
 			$function = lcfirst($name);
 			if (method_exists($handlerInstance, $function)) {
-				$handlerInstance->$function($this);
+				$handlerInstance->{$function}($this);
 			} else {
 				Log::error("Handler not found, class: {$handler['handler_class']} | $function");
 				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');

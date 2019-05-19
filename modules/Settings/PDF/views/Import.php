@@ -10,14 +10,14 @@
  */
 class Settings_PDF_Import_View extends Settings_Vtiger_Index_View
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		\App\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		if ($request->has('upload') && $request->getBoolean('upload')) {
 			$fileInstance = \App\Fields\File::loadFromRequest($_FILES['imported_xml']);
-			if (!$fileInstance->validate() || $fileInstance->getExtension(true) !== 'xml') {
+			if (!$fileInstance->validate() || 'xml' !== $fileInstance->getExtension(true)) {
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FILE');
 			}
 			$imagePath = '';
@@ -53,10 +53,9 @@ class Settings_PDF_Import_View extends Settings_Vtiger_Index_View
 					'content' => base64_decode($base64Image),
 					'path' => $imagePath,
 					'name' => 'watermark_image',
-					'size' => 1,
 					'validateAllCodeInjection' => true,
 				]);
-				if (!$imageInstance->validate('image')) {
+				if (!$imageInstance->validateAndSecure('image')) {
 					throw new \App\Exceptions\Security('ERR_ILLEGAL_WATERMARK_IMAGE');
 				}
 				$newFilePath = $targetDir . $pdfModel->getId() . '.' . $imageInstance->getExtension();
@@ -72,7 +71,7 @@ class Settings_PDF_Import_View extends Settings_Vtiger_Index_View
 		\App\Log::trace('End ' . __METHOD__);
 	}
 
-	public function getHeaderCss(\App\Request $request)
+	public function getHeaderCss(App\Request $request)
 	{
 		return array_merge($this->checkAndConvertCssStyles([
 			'modules.Settings.' . $request->getModule() . '.Edit',

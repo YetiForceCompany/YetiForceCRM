@@ -31,6 +31,9 @@ class Methods extends \Api\Core\BaseAction
 					continue;
 				}
 				$name = rtrim(array_shift($itemPathName), '.php');
+				if ('BaseModel' === $dir) {
+					continue;
+				}
 				$className = "Api\\Portal\\$dir\\$name";
 				$instance = new $className();
 				switch ($dir) {

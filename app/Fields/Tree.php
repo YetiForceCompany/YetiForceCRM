@@ -30,7 +30,6 @@ class Tree
 			->from('vtiger_trees_templates_data')
 			->where(['templateid' => $templateId])->indexBy('tree')->all();
 		\App\Cache::save('TreeValuesById', $templateId, $rows, \App\Cache::MEDIUM);
-
 		return $rows;
 	}
 
@@ -45,7 +44,6 @@ class Tree
 	public static function getValueByTreeId($templateId, $tree)
 	{
 		$rows = static::getValuesById($templateId);
-
 		return $rows[$tree];
 	}
 
@@ -110,7 +108,7 @@ class Tree
 	 *
 	 * @return flase|string
 	 */
-	private static function getParentIdx(array $itemTree)
+	public static function getParentIdx(array $itemTree)
 	{
 		$parentItem = explode('::', $itemTree['parentTree']);
 		$parentIdx = count($parentItem) - 2;

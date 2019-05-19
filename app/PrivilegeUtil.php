@@ -25,7 +25,7 @@ class PrivilegeUtil
 		$relTabName = Module::getModuleName($tabid);
 		$fnName = 'get' . $relTabName . 'Related' . $parentTabName;
 		$entId = static::$fnName($recordId);
-		if ($entId !== '') {
+		if ('' !== $entId) {
 			$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($entId);
 			if ($recordMetaData) {
 				$ownerId = $recordMetaData['smownerid'];
@@ -60,7 +60,7 @@ class PrivilegeUtil
 	 */
 	public static function getDatashareRelatedModules()
 	{
-		if (static::$datashareRelatedCache === false) {
+		if (false === static::$datashareRelatedCache) {
 			$relModSharArr = [];
 			$dataReader = (new \App\Db\Query())->from('vtiger_datashare_relatedmodules')->createCommand()->query();
 			while ($row = $dataReader->read()) {
@@ -88,7 +88,7 @@ class PrivilegeUtil
 	 */
 	public static function getAllDefaultSharingAction()
 	{
-		if (static::$defaultSharingActionCache === false) {
+		if (false === static::$defaultSharingActionCache) {
 			Log::trace('getAllDefaultSharingAction');
 			static::$defaultSharingActionCache = array_map('intval', (new \App\Db\Query())->select(['tabid', 'permission'])->from('vtiger_def_org_share')->createCommand()->queryAllByGroup(0));
 		}
@@ -222,7 +222,7 @@ class PrivilegeUtil
 	 */
 	public static function getMembers()
 	{
-		if (static::$membersCache === false) {
+		if (false === static::$membersCache) {
 			$members = [];
 			$owner = new \App\Fields\Owner();
 			foreach ($owner->initUsers() as $id => $user) {
@@ -252,7 +252,7 @@ class PrivilegeUtil
 		if (Cache::has('getUserByMember', $member)) {
 			return Cache::get('getUserByMember', $member);
 		}
-		list($type, $id) = explode(':', $member);
+		[$type, $id] = explode(':', $member);
 		$users = [];
 		switch ($type) {
 			case 'Users':
@@ -279,14 +279,14 @@ class PrivilegeUtil
 	 * Get list of users based on group id.
 	 *
 	 * @param int        $groupId
-	 * @param bool|array $subGroups
+	 * @param array|bool $subGroups
 	 * @param int        $i
 	 *
 	 * @return array
 	 */
 	public static function getUsersByGroup($groupId, $subGroups = false, $i = 0)
 	{
-		$cacheKey = $groupId . ($subGroups === false ? '' : '#');
+		$cacheKey = $groupId . (false === $subGroups ? '' : '#');
 		if (Cache::has('getUsersByGroup', $cacheKey)) {
 			return Cache::get('getUsersByGroup', $cacheKey);
 		}
@@ -305,7 +305,7 @@ class PrivilegeUtil
 			$users = array_merge($users, $roleUsers);
 		}
 		if ($i < 10) {
-			if ($subGroups === true) {
+			if (true === $subGroups) {
 				$subGroups = [];
 			}
 			//Retreving from group2group
@@ -313,7 +313,7 @@ class PrivilegeUtil
 			$containsGroups = [];
 			while ($containsGroupId = $dataReader->readColumn(0)) {
 				$roleUsers = static::getUsersByGroup($containsGroupId, $subGroups, $i++);
-				if ($subGroups === false) {
+				if (false === $subGroups) {
 					$containsGroups = array_merge($containsGroups, $roleUsers);
 				} else {
 					$containsGroups = array_merge($containsGroups, $roleUsers['users']);
@@ -334,7 +334,7 @@ class PrivilegeUtil
 			Log::warning('Exceeded the recursive limit, a loop might have been created. Group ID:' . $groupId);
 		}
 		$users = array_unique($users);
-		$return = ($subGroups === false ? $users : ['users' => $users, 'subGroups' => $subGroups]);
+		$return = (false === $subGroups ? $users : ['users' => $users, 'subGroups' => $subGroups]);
 		Cache::save('getUsersByGroup', $cacheKey, $return, Cache::LONG);
 		return $return;
 	}
@@ -402,6 +402,7 @@ class PrivilegeUtil
 	 * To retreive the parent vtiger_role of the specified vtiger_role.
 	 *
 	 * @param $roleid -- The Role Id:: Type varchar
+	 * @param mixed $roleId
 	 *
 	 * @return parent vtiger_role array in the following format:
 	 */
@@ -492,9 +493,9 @@ class PrivilegeUtil
 			foreach ($profArr as $profileId) {
 				$tempUserGlobalPerrArr = static::getProfileGlobalPermission($profileId);
 				foreach ($userGlobalPerrArr as $globalActionId => $globalActionPermission) {
-					if ($globalActionPermission === 1) {
+					if (1 === $globalActionPermission) {
 						$permission = $tempUserGlobalPerrArr[$globalActionId];
-						if ($permission === 0) {
+						if (0 === $permission) {
 							$userGlobalPerrArr[$globalActionId] = $permission;
 						}
 					}
@@ -524,9 +525,9 @@ class PrivilegeUtil
 			foreach ($profArr as $profileId) {
 				$tempUserTabPerrArr = static::getProfileTabsPermission($profileId);
 				foreach ($userTabPerrArr as $tabId => $tabPermission) {
-					if ($tabPermission === 1) {
+					if (1 === $tabPermission) {
 						$permission = $tempUserTabPerrArr[$tabId];
-						if ($permission === 0) {
+						if (0 === $permission) {
 							$userTabPerrArr[$tabId] = $permission;
 						}
 					}
@@ -622,9 +623,9 @@ class PrivilegeUtil
 				$tempActionPerrArr = static::getAllProfilePermissions($profileId);
 				foreach ($actionPermissions as $tabId => $permissionsInModule) {
 					foreach ($permissionsInModule as $actionId => $permission) {
-						if ($permission == 1) {
+						if (1 == $permission) {
 							$nowPermission = $tempActionPerrArr[$tabId][$actionId];
-							if ($nowPermission == 0 && $nowPermission != '') {
+							if (0 == $nowPermission && '' != $nowPermission) {
 								$actionPermissions[$tabId][$actionId] = $nowPermission;
 							}
 						}
@@ -657,8 +658,10 @@ class PrivilegeUtil
 	/**
 	 * Get data share.
 	 *
-	 * @param int $tabId
-	 * @param int $roleId
+	 * @param int   $tabId
+	 * @param int   $roleId
+	 * @param mixed $type
+	 * @param mixed $data
 	 *
 	 * @return array
 	 */
@@ -702,7 +705,7 @@ class PrivilegeUtil
 		}
 		$shareIdMembers = [];
 		//If Sharing of leads is Private
-		if ($modDefOrgShare === 3 || $modDefOrgShare === 0) {
+		if (3 === $modDefOrgShare || 0 === $modDefOrgShare) {
 			$roleWritePer = $roleWritePer = $grpReadPer = $grpWritePer = $roleReadPer = [];
 			//Retreiving from vtiger_role to vtiger_role
 			foreach (static::getDatashare('role2role', $modTabId, $currentUserRoles) as $row) {
@@ -710,14 +713,14 @@ class PrivilegeUtil
 				$shareIdRoles = [];
 				$shareIdRoles[] = $shareRoleId;
 				$shareIdMembers[$row['shareid']] = ['ROLE' => $shareIdRoles];
-				if ((int) $row['permission'] === 1) {
-					if ($modDefOrgShare === 3 && !isset($roleReadPer[$shareRoleId])) {
+				if (1 === (int) $row['permission']) {
+					if (3 === $modDefOrgShare && !isset($roleReadPer[$shareRoleId])) {
 						$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 					}
 					if (!isset($roleWritePer[$shareRoleId])) {
 						$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 					}
-				} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
+				} elseif (0 === (int) $row['permission'] && 3 === $modDefOrgShare) {
 					if (!isset($roleReadPer[$shareRoleId])) {
 						$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 					}
@@ -736,14 +739,14 @@ class PrivilegeUtil
 				$shareIdRoles = [];
 				$shareIdRoles[] = $shareRoleId;
 				$shareIdMembers[$row['shareid']] = ['ROLE' => $shareIdRoles];
-				if ((int) $row['permission'] === 1) {
-					if ($modDefOrgShare === 3 && !isset($roleReadPer[$shareRoleId])) {
+				if (1 === (int) $row['permission']) {
+					if (3 === $modDefOrgShare && !isset($roleReadPer[$shareRoleId])) {
 						$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 					}
 					if (!isset($roleWritePer[$shareRoleId])) {
 						$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 					}
-				} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
+				} elseif (0 === (int) $row['permission'] && 3 === $modDefOrgShare) {
 					if (!isset($roleReadPer[$shareRoleId])) {
 						$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 					}
@@ -760,14 +763,14 @@ class PrivilegeUtil
 					$shareIdRoles = [];
 					$shareIdRoles[] = $shareRoleId;
 					$shareIdMembers[$row['shareid']] = ['ROLE' => $shareIdRoles];
-					if ((int) $row['permission'] === 1) {
-						if ($modDefOrgShare === 3 && !isset($roleReadPer[$shareRoleId])) {
+					if (1 === (int) $row['permission']) {
+						if (3 === $modDefOrgShare && !isset($roleReadPer[$shareRoleId])) {
 							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 						if (!isset($roleWritePer[$shareRoleId])) {
 							$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
-					} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
+					} elseif (0 === (int) $row['permission'] && 3 === $modDefOrgShare) {
 						if (!isset($roleReadPer[$shareRoleId])) {
 							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
@@ -781,14 +784,14 @@ class PrivilegeUtil
 					$shareIdRoles = [];
 					$shareIdRoles[] = $shareRoleId;
 					$shareIdMembers[$row['shareid']] = ['ROLE' => $shareIdRoles];
-					if ((int) $row['permission'] === 1) {
-						if ($modDefOrgShare === 3 && !isset($roleReadPer[$shareRoleId])) {
+					if (1 === (int) $row['permission']) {
+						if (3 === $modDefOrgShare && !isset($roleReadPer[$shareRoleId])) {
 							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 						if (!isset($roleWritePer[$shareRoleId])) {
 							$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
-					} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3 && !isset($roleReadPer[$shareRoleId])) {
+					} elseif (0 === (int) $row['permission'] && 3 === $modDefOrgShare && !isset($roleReadPer[$shareRoleId])) {
 						$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 					}
 				}
@@ -798,14 +801,14 @@ class PrivilegeUtil
 				$shareRoleIds = static::getRoleSubordinates($row['share_roleandsubid']);
 				$shareRoleIds[] = $row['share_roleandsubid'];
 				foreach ($shareRoleIds as $shareRoleId) {
-					if ((int) $row['permission'] === 1) {
-						if ($modDefOrgShare === 3 && !isset($roleReadPer[$shareRoleId])) {
+					if (1 === (int) $row['permission']) {
+						if (3 === $modDefOrgShare && !isset($roleReadPer[$shareRoleId])) {
 							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 						if (!isset($roleWritePer[$shareRoleId])) {
 							$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
-					} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
+					} elseif (0 === (int) $row['permission'] && 3 === $modDefOrgShare) {
 						if (!isset($roleReadPer[$shareRoleId])) {
 							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
@@ -818,14 +821,14 @@ class PrivilegeUtil
 				$shareRoleIds = static::getRoleSubordinates($row['share_roleandsubid']);
 				$shareRoleIds[] = $row['share_roleandsubid'];
 				foreach ($shareRoleIds as $shareRoleId) {
-					if ((int) $row['permission'] === 1) {
-						if ($modDefOrgShare === 3 && !isset($roleReadPer[$shareRoleId])) {
+					if (1 === (int) $row['permission']) {
+						if (3 === $modDefOrgShare && !isset($roleReadPer[$shareRoleId])) {
 							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 						if (!isset($roleWritePer[$shareRoleId])) {
 							$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
-					} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
+					} elseif (0 === (int) $row['permission'] && 3 === $modDefOrgShare) {
 						if (!isset($roleReadPer[$shareRoleId])) {
 							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
@@ -838,14 +841,14 @@ class PrivilegeUtil
 				$shareRoleIds = static::getRoleSubordinates($row['share_roleandsubid']);
 				$shareRoleIds[] = $row['share_roleandsubid'];
 				foreach ($shareRoleIds as $shareRoleId) {
-					if ((int) $row['permission'] === 1) {
-						if ($modDefOrgShare === 3 && !isset($roleReadPer[$shareRoleId])) {
+					if (1 === (int) $row['permission']) {
+						if (3 === $modDefOrgShare && !isset($roleReadPer[$shareRoleId])) {
 							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 						if (!isset($roleWritePer[$shareRoleId])) {
 							$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
-					} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
+					} elseif (0 === (int) $row['permission'] && 3 === $modDefOrgShare) {
 						if (!isset($roleReadPer[$shareRoleId])) {
 							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
@@ -858,14 +861,14 @@ class PrivilegeUtil
 				$shareRoleIds = static::getRoleSubordinates($row['share_roleandsubid']);
 				$shareRoleIds[] = $row['share_roleandsubid'];
 				foreach ($shareRoleIds as $shareRoleId) {
-					if ((int) $row['permission'] === 1) {
-						if ($modDefOrgShare === 3 && !isset($roleReadPer[$shareRoleId])) {
+					if (1 === (int) $row['permission']) {
+						if (3 === $modDefOrgShare && !isset($roleReadPer[$shareRoleId])) {
 							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 						if (!isset($roleWritePer[$shareRoleId])) {
 							$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
-					} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
+					} elseif (0 === (int) $row['permission'] && 3 === $modDefOrgShare) {
 						if (!isset($roleReadPer[$shareRoleId])) {
 							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
@@ -881,8 +884,8 @@ class PrivilegeUtil
 				$shareGrpId = (int) $row['share_groupid'];
 				$shareIdGrps = [];
 				$shareIdGrps[] = $shareGrpId;
-				if ((int) $row['permission'] === 1) {
-					if ($modDefOrgShare === 3 && !isset($grpReadPer[$shareGrpId])) {
+				if (1 === (int) $row['permission']) {
+					if (3 === $modDefOrgShare && !isset($grpReadPer[$shareGrpId])) {
 						$usersByGroup = static::getUsersByGroup($shareGrpId, true);
 						$grpReadPer[$shareGrpId] = $usersByGroup['users'];
 						foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
@@ -906,7 +909,7 @@ class PrivilegeUtil
 							}
 						}
 					}
-				} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
+				} elseif (0 === (int) $row['permission'] && 3 === $modDefOrgShare) {
 					if (!isset($grpReadPer[$shareGrpId])) {
 						$usersByGroup = static::getUsersByGroup($shareGrpId, true);
 						$grpReadPer[$shareGrpId] = $usersByGroup['users'];
@@ -927,8 +930,8 @@ class PrivilegeUtil
 				$shareGrpId = (int) $row['share_groupid'];
 				$shareIdGrps = [];
 				$shareIdGrps[] = $shareGrpId;
-				if ((int) $row['permission'] === 1) {
-					if ($modDefOrgShare === 3 && !isset($grpReadPer[$shareGrpId])) {
+				if (1 === (int) $row['permission']) {
+					if (3 === $modDefOrgShare && !isset($grpReadPer[$shareGrpId])) {
 						$usersByGroup = static::getUsersByGroup($shareGrpId, true);
 						$grpReadPer[$shareGrpId] = $usersByGroup['users'];
 						foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
@@ -952,7 +955,7 @@ class PrivilegeUtil
 							}
 						}
 					}
-				} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
+				} elseif (0 === (int) $row['permission'] && 3 === $modDefOrgShare) {
 					if (!isset($grpReadPer[$shareGrpId])) {
 						$usersByGroup = static::getUsersByGroup($shareGrpId, true);
 						$grpReadPer[$shareGrpId] = $usersByGroup['users'];
@@ -973,8 +976,8 @@ class PrivilegeUtil
 				$shareGrpId = (int) $row['share_groupid'];
 				$shareIdGrps = [];
 				$shareIdGrps[] = $shareGrpId;
-				if ((int) $row['permission'] === 1) {
-					if ($modDefOrgShare === 3 && !isset($grpReadPer[$shareGrpId])) {
+				if (1 === (int) $row['permission']) {
+					if (3 === $modDefOrgShare && !isset($grpReadPer[$shareGrpId])) {
 						$usersByGroup = static::getUsersByGroup($shareGrpId, true);
 						$grpReadPer[$shareGrpId] = $usersByGroup['users'];
 						foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
@@ -998,7 +1001,7 @@ class PrivilegeUtil
 							}
 						}
 					}
-				} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
+				} elseif (0 === (int) $row['permission'] && 3 === $modDefOrgShare) {
 					if (!isset($grpReadPer[$shareGrpId])) {
 						$usersByGroup = static::getUsersByGroup($shareGrpId, true);
 						$grpReadPer[$shareGrpId] = $usersByGroup['users'];
@@ -1019,8 +1022,8 @@ class PrivilegeUtil
 				$shareGrpId = (int) $row['share_groupid'];
 				$shareIdGrps = [];
 				$shareIdGrps[] = $shareGrpId;
-				if ((int) $row['permission'] === 1) {
-					if ($modDefOrgShare === 3 && !isset($grpReadPer[$shareGrpId])) {
+				if (1 === (int) $row['permission']) {
+					if (3 === $modDefOrgShare && !isset($grpReadPer[$shareGrpId])) {
 						$usersByGroup = static::getUsersByGroup($shareGrpId, true);
 						$grpReadPer[$shareGrpId] = $usersByGroup['users'];
 						foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
@@ -1044,7 +1047,7 @@ class PrivilegeUtil
 							}
 						}
 					}
-				} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
+				} elseif (0 === (int) $row['permission'] && 3 === $modDefOrgShare) {
 					if (!isset($grpReadPer[$shareGrpId])) {
 						$usersByGroup = static::getUsersByGroup($shareGrpId, true);
 						$grpReadPer[$shareGrpId] = $usersByGroup['users'];
@@ -1065,14 +1068,14 @@ class PrivilegeUtil
 				$shareUserId = (int) $row['share_userid'];
 				$shareIdUsers = [];
 				$shareIdUsers[] = $shareUserId;
-				if ((int) $row['permission'] === 1) {
-					if ($modDefOrgShare === 3 && !isset($grpReadPer[$shareUserId])) {
+				if (1 === (int) $row['permission']) {
+					if (3 === $modDefOrgShare && !isset($grpReadPer[$shareUserId])) {
 						$grpReadPer[$shareUserId] = [$shareUserId];
 					}
 					if (!isset($grpWritePer[$shareUserId])) {
 						$grpWritePer[$shareUserId] = [$shareUserId];
 					}
-				} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
+				} elseif (0 === (int) $row['permission'] && 3 === $modDefOrgShare) {
 					if (!isset($grpReadPer[$shareUserId])) {
 						$grpReadPer[$shareUserId] = [$shareUserId];
 					}
@@ -1084,14 +1087,14 @@ class PrivilegeUtil
 				$shareUserId = (int) $row['share_userid'];
 				$shareIdUsers = [];
 				$shareIdUsers[] = $shareUserId;
-				if ((int) $row['permission'] === 1) {
-					if ($modDefOrgShare === 3 && !isset($grpReadPer[$shareUserId])) {
+				if (1 === (int) $row['permission']) {
+					if (3 === $modDefOrgShare && !isset($grpReadPer[$shareUserId])) {
 						$grpReadPer[$shareUserId] = [$shareUserId];
 					}
 					if (!isset($grpWritePer[$shareUserId])) {
 						$grpWritePer[$shareUserId] = [$shareUserId];
 					}
-				} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
+				} elseif (0 === (int) $row['permission'] && 3 === $modDefOrgShare) {
 					if (!isset($grpReadPer[$shareUserId])) {
 						$grpReadPer[$shareUserId] = [$shareUserId];
 					}
@@ -1103,14 +1106,14 @@ class PrivilegeUtil
 				$shareUserId = (int) $row['share_userid'];
 				$shareIdUsers = [];
 				$shareIdUsers[] = $shareUserId;
-				if ((int) $row['permission'] === 1) {
-					if ($modDefOrgShare === 3 && !isset($grpReadPer[$shareUserId])) {
+				if (1 === (int) $row['permission']) {
+					if (3 === $modDefOrgShare && !isset($grpReadPer[$shareUserId])) {
 						$grpReadPer[$shareUserId] = [$shareUserId];
 					}
 					if (!isset($grpWritePer[$shareUserId])) {
 						$grpWritePer[$shareUserId] = [$shareUserId];
 					}
-				} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
+				} elseif (0 === (int) $row['permission'] && 3 === $modDefOrgShare) {
 					if (!isset($grpReadPer[$shareUserId])) {
 						$grpReadPer[$shareUserId] = [$shareUserId];
 					}
@@ -1123,14 +1126,14 @@ class PrivilegeUtil
 				$shareUserId = (int) $row['share_userid'];
 				$shareIdUsers = [];
 				$shareIdUsers[] = $shareUserId;
-				if ((int) $row['permission'] === 1) {
-					if ($modDefOrgShare === 3 && !isset($grpReadPer[$shareUserId])) {
+				if (1 === (int) $row['permission']) {
+					if (3 === $modDefOrgShare && !isset($grpReadPer[$shareUserId])) {
 						$grpReadPer[$shareUserId] = [$shareUserId];
 					}
 					if (!isset($grpWritePer[$shareUserId])) {
 						$grpWritePer[$shareUserId] = [$shareUserId];
 					}
-				} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
+				} elseif (0 === (int) $row['permission'] && 3 === $modDefOrgShare) {
 					if (!isset($grpReadPer[$shareUserId])) {
 						$grpReadPer[$shareUserId] = [$shareUserId];
 					}

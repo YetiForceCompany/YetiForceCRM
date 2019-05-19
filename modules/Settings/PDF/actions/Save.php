@@ -30,7 +30,7 @@ class Settings_PDF_Save_Action extends Settings_Vtiger_Index_Action
 		$templateId = $pdfModel->getId();
 		$targetFile = $targetDir . (string) $templateId;
 		$fileInstance = \App\Fields\File::loadFromRequest($_FILES['watermark_image_file']);
-		if (!$fileInstance->validate('image')) {
+		if (!$fileInstance->validateAndSecure('image')) {
 			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||watermark_image_file', 406);
 		}
 		if (!$fileInstance->moveFile($targetFile)) {
@@ -53,7 +53,7 @@ class Settings_PDF_Save_Action extends Settings_Vtiger_Index_Action
 	 * @throws \App\Exceptions\IllegalValue
 	 * @throws \yii\db\Exception
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$step = $request->getByType('step', 2);
 		if ($request->isEmpty('record', true)) {
@@ -63,23 +63,23 @@ class Settings_PDF_Save_Action extends Settings_Vtiger_Index_Action
 		}
 		$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);
 		foreach ($stepFields as $field) {
-			if ($field === 'body_content' || $field === 'header_content' || $field === 'footer_content' || $field === 'watermark_text') {
+			if ('body_content' === $field || 'header_content' === $field || 'footer_content' === $field || 'watermark_text' === $field) {
 				$value = $request->getForHtml($field);
 			} else {
 				$value = $request->get($field);
 			}
 			if (is_array($value)) {
-				if ($field === 'conditions') {
+				if ('conditions' === $field) {
 					$value = json_encode($value);
 				} else {
 					$value = implode(',', $value);
 				}
 			}
-			if ($field === 'module_name' && $pdfModel->get('module_name') !== $value) {
+			if ('module_name' === $field && $pdfModel->get('module_name') !== $value) {
 				// change of main module, overwrite existing conditions
 				$pdfModel->deleteConditions();
 			}
-			if ($field === 'watermark_image') {
+			if ('watermark_image' === $field) {
 				$value = '';
 				if ($pdfModel->get('watermark_image')) {
 					$value = $pdfModel->get('watermark_image');

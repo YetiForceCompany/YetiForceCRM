@@ -34,7 +34,7 @@ class Picklist
 			->orderBy("vtiger_{$fieldName}.sortorderid")
 			->createCommand()->query();
 		$fldVal = [];
-		while (($val = $dataReader->readColumn(0)) !== false) {
+		while (false !== ($val = $dataReader->readColumn(0))) {
 			$fldVal[] = \App\Purifier::decodeHtml($val);
 		}
 		\App\Cache::save('getRoleBasedPicklistValues', $cacheKey, $fldVal);
@@ -80,7 +80,7 @@ class Picklist
 		$values = static::getValuesName($fieldName);
 		$nonEditableValues = static::getNonEditablePicklistValues($fieldName);
 		foreach ($values as $key => &$value) {
-			if ($value === '--None--' || isset($nonEditableValues[$key])) {
+			if ('--None--' === $value || isset($nonEditableValues[$key])) {
 				unset($values[$key]);
 			}
 		}
@@ -256,7 +256,7 @@ class Picklist
 			$criteria = \App\Purifier::decodeHtml($row['criteria']);
 			$unserializedCriteria = \App\Json::decode(html_entity_decode($criteria));
 
-			if (!empty($unserializedCriteria) && $unserializedCriteria['fieldname'] !== null) {
+			if (!empty($unserializedCriteria) && null !== $unserializedCriteria['fieldname']) {
 				$picklistDependencyDatasource[$sourceField][$sourceValue][$targetField][] = [
 					'condition' => [$unserializedCriteria['fieldname'] => $unserializedCriteria['fieldvalues']],
 					'values' => $unserializedTargetValues,
@@ -311,13 +311,15 @@ class Picklist
 	/**
 	 * Get colors for all fields or generate it if not exists.
 	 *
+	 * @param mixed $fieldName
+	 *
 	 * @return array [$id=>'#FF00FF']
 	 */
 	public static function getColors($fieldName)
 	{
 		$colors = [];
 		foreach (static::getValues($fieldName) as $id => &$value) {
-			$value['color'] = trim($value['color'] ?? '', " #\s\t\n\r");
+			$value['color'] = trim($value['color'] ?? '', " #\\s\t\n\r");
 			if (empty($value['color'])) {
 				$color = \App\Colors::getRandomColor($id);
 			} else {

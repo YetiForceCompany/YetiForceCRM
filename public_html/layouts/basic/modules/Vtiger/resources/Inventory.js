@@ -1027,25 +1027,37 @@ $.Class(
 		},
 		saveDiscountsParameters: function(parentRow, modal) {
 			var thisInstance = this;
-			var info = {};
-			var extend = ['aggregationType', 'groupCheckbox', 'individualDiscountType'];
-			$.each(thisInstance.discountModalFields, function(index, param) {
-				if ($.inArray(param, extend) >= 0) {
-					if (modal.find('[name="' + param + '"]:checked').length > 1) {
-						info[param] = [];
-						modal.find('[name="' + param + '"]:checked').each(function(index) {
-							info[param].push($(this).val());
-						});
-					} else {
-						info[param] = modal.find('[name="' + param + '"]:checked').val();
-					}
+			let info = {};
+			let typeName = 'aggregationType';
+			let panels = modal.find('[name="' + typeName + '"]:checked');
+			info[typeName] = [];
+			panels.each(function(i) {
+				let type = $(this).val(),
+					container = $(this).closest('.js-panel');
+				if (panels.length > 1) {
+					info[typeName].push(type);
 				} else {
-					var value = modal.find('[name="' + param + '"]').val();
-					if (param === 'individualDiscount') {
-						value = App.Fields.Double.formatToDb(modal.find('[name="' + param + '"]').val());
-					}
-					info[param] = value;
+					info[typeName] = type;
 				}
+				container.find('[name="' + type + 'Discount"]').each(function() {
+					let param = type + 'Discount';
+					let element = $(this);
+					if ('global' === type) {
+						info[param] = element.val();
+					} else if (
+						'group' === type &&
+						element
+							.closest('.input-group')
+							.find('.groupCheckbox')
+							.prop('checked')
+					) {
+						info[param] = App.Fields.Double.formatToDb(element.val());
+					} else if ('individual' === type) {
+						let name = 'individualDiscountType';
+						info[name] = container.find('[name="' + name + '"]:checked').val();
+						info[param] = App.Fields.Double.formatToDb(element.val());
+					}
+				});
 			});
 			thisInstance.setDiscountParam($('#blackIthemTable'), info);
 			thisInstance.setDiscountParam(parentRow, info);
@@ -1106,10 +1118,13 @@ $.Class(
 			}
 			parameters = JSON.parse(parameters);
 			$.each(thisInstance.discountModalFields, function(index, param) {
-				var parameter = parameters[param];
-				var field = modal.find('[name="' + param + '"]');
-
+				let parameter = parameters[param];
+				let field = modal.find('[name="' + param + '"]');
 				if (field.attr('type') == 'checkbox' || field.attr('type') == 'radio') {
+					if ('groupCheckbox' === param && parameters['groupDiscount'] !== undefined) {
+						field.prop('checked', true);
+						return true;
+					}
 					var array = parameter;
 					if (!$.isArray(array)) {
 						array = [array];
@@ -1129,8 +1144,8 @@ $.Class(
 						.find('option[value="' + parameter + '"]')
 						.prop('selected', 'selected')
 						.change();
-				} else {
-					modal.find('[name="' + param + '"]').val(parameter);
+				} else if (!field.prop('readonly')) {
+					field.val(parameter);
 				}
 			});
 
@@ -1333,6 +1348,7 @@ $.Class(
 			let newRow = this.getBasicRow();
 			const sequenceNumber = this.getNextLineItemRowNumber();
 			const replaced = newRow.html().replace(/\_NUM_/g, sequenceNumber);
+			const moduleLbls = newRow.data('moduleLbls');
 			newRow.html(replaced);
 			newRow = newRow.children().appendTo(items.find('.js-inventory-items-body'));
 			newRow
@@ -1343,6 +1359,9 @@ $.Class(
 				.find('.js-module-icon')
 				.removeClass()
 				.addClass(`userIcon-${module}`);
+			newRow
+				.find('.rowName span.input-group-text')
+				.attr('data-content', moduleLbls[module]);
 			newRow.find('.colPicklistField select').each(function(index, select) {
 				select = $(select);
 				select.find('option').each(function(index, option) {
@@ -1629,9 +1648,12 @@ $.Class(
 					params.taxType = 1;
 				} else {
 					parentRow = element.closest(thisInstance.rowClass);
+					let sourceRecord = parentRow.find('.rowName .sourceField').val();
 					params.totalPrice = thisInstance.getNetPrice(parentRow);
 					params.taxType = 0;
-					params.record = parentRow.find('.rowName .sourceField').val();
+					if (sourceRecord) {
+						params.record = sourceRecord;
+					}
 					params.recordModule = parentRow.find('.rowName [name="popupReferenceModule"]').val();
 				}
 				var progressInstace = $.progressIndicator();

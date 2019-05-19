@@ -1083,7 +1083,8 @@ jQuery.Class(
 					}
 					if (
 						element.closest('.fieldValue').is(currentTdElement) ||
-						element.hasClass('select2-selection__choice__remove')
+						element.hasClass('select2-selection__choice__remove') ||
+						element.closest('.select2-container--open').length
 					) {
 						return;
 					}
@@ -2134,7 +2135,7 @@ jQuery.Class(
 			}
 			relationContainer.each((n, item) => {
 				item = $(item);
-				if (item.data('count') === 1 && !Array.isArray(item.data('reference'))) {
+				if (item.data('count') === 1) {
 					AppConnector.request({
 						module: app.getModuleName(),
 						action: 'RelationAjax',

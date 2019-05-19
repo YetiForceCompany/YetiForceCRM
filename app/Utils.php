@@ -27,7 +27,7 @@ class Utils
 	/**
 	 * Outputs or returns a parsable string representation of a variable.
 	 *
-	 * @link http://php.net/manual/en/function.var-export.php
+	 * @see http://php.net/manual/en/function.var-export.php
 	 *
 	 * @param mixed $variable
 	 *
@@ -48,9 +48,8 @@ class Utils
 			}
 
 			return '[' . implode(',', $toImplode) . ']';
-		} else {
-			return var_export($variable, true);
 		}
+		return var_export($variable, true);
 	}
 
 	/**
@@ -88,14 +87,16 @@ class Utils
 	}
 
 	/**
-	 * Function to check is a html message
+	 * Function to check is a html message.
+	 *
 	 * @param string $content
+	 *
 	 * @return bool
 	 */
 	public static function isHtml(string $content): bool
 	{
 		$content = trim($content);
-		return substr($content, 0, 1) === '<' && substr($content, -1) === '>';
+		return '<' === substr($content, 0, 1) && '>' === substr($content, -1);
 	}
 
 	/**

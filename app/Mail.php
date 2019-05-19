@@ -71,8 +71,8 @@ class Mail
 	/**
 	 * Get templte list for module.
 	 *
-	 * @param string|bool $moduleName
-	 * @param string|bool $type
+	 * @param bool|string $moduleName
+	 * @param bool|string $type
 	 * @param bool        $hideSystem
 	 *
 	 * @return array
@@ -190,7 +190,7 @@ class Mail
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$name = Purifier::decodeHtml($row['name']);
-			$filePath = realpath(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $row['path'] . $row['attachmentsid']);
+			$filePath = realpath(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $row['path'] . $row['attachmentsid']);
 			if (is_file($filePath)) {
 				$attachments[$filePath] = $name;
 			}

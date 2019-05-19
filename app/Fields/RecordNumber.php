@@ -15,7 +15,7 @@ class RecordNumber extends \App\Base
 	/**
 	 * Function to get instance.
 	 *
-	 * @param string|int $tabId
+	 * @param int|string $tabId
 	 *
 	 * @return \App\Fields\RecordNumber
 	 */
@@ -148,14 +148,14 @@ class RecordNumber extends \App\Base
 	public function isNewSequence(): bool
 	{
 		return $this->getRecord()->isNew() ||
-			($this->getRecord()->getPreviousValue($this->getPicklistName()) !== false && !$this->getRecord()->isEmpty($this->getPicklistName()) && $this->getPicklistValue($this->getPicklistName()) !== $this->getPicklistValue($this->getPicklistName(), $this->getRecord()->getPreviousValue($this->getPicklistName())));
+			(false !== $this->getRecord()->getPreviousValue($this->getPicklistName()) && !$this->getRecord()->isEmpty($this->getPicklistName()) && $this->getPicklistValue($this->getPicklistName()) !== $this->getPicklistValue($this->getPicklistName(), $this->getRecord()->getPreviousValue($this->getPicklistName())));
 	}
 
 	/**
 	 * Returns prefix of picklist.
 	 *
 	 * @param string      $piclistName
-	 * @param string|null $recordValue
+	 * @param null|string $recordValue
 	 *
 	 * @return string
 	 */
@@ -220,7 +220,7 @@ class RecordNumber extends \App\Base
 						}
 						$dbCommand->update($fieldTable, [$fieldColumn => $this->parseNumber($seq)], [$moduleModel->getEntityInstance()->table_index => $recordinfo['id']])
 							->execute();
-						$returninfo['updatedrecords']++;
+						++$returninfo['updatedrecords'];
 					}
 					$dataReader->close();
 					if ($oldNumber != $sequenceNumber) {
@@ -248,7 +248,7 @@ class RecordNumber extends \App\Base
 	 */
 	public static function date($format, $time = null)
 	{
-		if ($time === null) {
+		if (null === $time) {
 			$time = time();
 		}
 		return date($format, $time);
@@ -294,16 +294,15 @@ class RecordNumber extends \App\Base
 				'reset_sequence' => $this->get('reset_sequence'),
 				'cur_sequence' => $this->get('cur_sequence')
 			])->execute();
-		} else {
-			return $dbCommand->update('vtiger_modentity_num', [
-				'cur_id' => $this->get('cur_id'),
-				'prefix' => $this->get('prefix'),
-				'leading_zeros' => $this->get('leading_zeros'),
-				'postfix' => $this->get('postfix'),
-				'reset_sequence' => $this->get('reset_sequence'),
-				'cur_sequence' => $this->get('cur_sequence')],
-				['tabid' => $this->get('tabid')])
-				->execute();
 		}
+		return $dbCommand->update('vtiger_modentity_num', [
+			'cur_id' => $this->get('cur_id'),
+			'prefix' => $this->get('prefix'),
+			'leading_zeros' => $this->get('leading_zeros'),
+			'postfix' => $this->get('postfix'),
+			'reset_sequence' => $this->get('reset_sequence'),
+			'cur_sequence' => $this->get('cur_sequence')],
+				['tabid' => $this->get('tabid')])
+			->execute();
 	}
 }

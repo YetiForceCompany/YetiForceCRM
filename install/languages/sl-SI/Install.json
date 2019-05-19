@@ -31,7 +31,7 @@
     "LBL_MORE_INFORMATION": "Več informacij",
     "LBL_LIBRARY": "Support for libraries",
     "LBL_LIBRARY_NAME": "Ime knjižnice",
-    "LBL_MANDATORY": "Mandatory",
+    "LBL_MANDATORY": "Obvezno",
     "LBL_PARAMETER": "Parameter",
     "LBL_INSTALLED": "Installed",
     "LBL_NEXT": "Naslednji",
@@ -119,7 +119,7 @@
   "js": {
     "JS_ALL": "Vsi",
     "JS_OK": "Ok",
-    "JS_CANCEL": "Cancel",
+    "JS_CANCEL": "Prekliči",
     "LBL_PASS_TO_SHORT": "Geslo je prekratko - najmanjša dolžina je 8 znakov",
     "LBL_PASS_TO_LONG": "Geslo je predolgo - največja dolžina je 32 znakov",
     "LBL_PASS_NO_NUM": "Geslo mora vsebovati številke",
@@ -137,6 +137,6 @@
     "JS_SEARCH": "Search:",
     "JS_S_INFO": "Showing _START_ to _END_ of _TOTAL_ entries",
     "JS_S_PREVIOUS": "Last",
-    "JS_S_NEXT": "Next"
+    "JS_S_NEXT": "Naslednji"
   }
 }

@@ -378,6 +378,30 @@ class File
 	}
 
 	/**
+	 * Validate and secure the file.
+	 *
+	 * @param bool|string $type
+	 *
+	 * @return bool
+	 */
+	public function validateAndSecure($type = false): bool
+	{
+		if ($this->validate($type)) {
+			return true;
+		}
+		$reValidate = false;
+		if ('image' === $this->getShortMimeType(0) && static::secureImage($this)) {
+			$this->size = filesize($this->path);
+			$this->content = file_get_contents($this->path);
+			$reValidate = true;
+		}
+		if ($reValidate && $this->validate($type)) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Validate image content.
 	 *
 	 * @throws \App\Exceptions\DangerousFile
@@ -609,7 +633,7 @@ class File
 				}
 			}
 		} else {
-			if (1 === preg_match('/(<\?php?(.*?))/i', $data) || 1 === preg_match('/(<?script(.*?)language(.*?)=(.*?)"(.*?)php(.*?)"(.*?))/i', $data) || false !== stripos($data, '<?=') || false !== stripos($data, '<%=') || false !== stripos($data, '<? ') || false !== stripos($data, '<% ')) {
+			if (1 === preg_match('/(<\?php?(.*?))/i', $data) || false !== stripos($data, '<?=') || false !== stripos($data, '<? ')) {
 				return false;
 			}
 		}
@@ -816,7 +840,7 @@ class File
 			return false;
 		}
 		$fileInstance = static::loadFromContent($rawData, false, ['mimeShortType' => $contentType]);
-		if ($fileInstance->validate()) {
+		if ($fileInstance->validateAndSecure()) {
 			return $fileInstance;
 		}
 		$fileInstance->delete();
@@ -837,7 +861,7 @@ class File
 		if (empty($url) || !$fileInstance) {
 			return false;
 		}
-		if ($fileInstance->validate() && ($id = static::saveFromContent($fileInstance, $params))) {
+		if ($fileInstance->validateAndSecure() && ($id = static::saveFromContent($fileInstance, $params))) {
 			return $id;
 		}
 		return false;
@@ -1134,10 +1158,11 @@ class File
 				$additionalNotes = '';
 				$file = static::loadFromRequest($fileDetails);
 				if (!$file->validate($type)) {
-					if (!static::removeForbiddenTags($file)) {
+					if (!static::secureImage($file)) {
 						$attach[] = ['name' => $file->getName(), 'error' => $file->validateError, 'hash' => $request->getByType('hash', 'Alnum')];
 						continue;
 					}
+					$fileDetails['size'] = filesize($fileDetails['tmp_name']);
 					$file = static::loadFromRequest($fileDetails);
 					if (!$file->validate($type)) {
 						$attach[] = ['name' => $file->getName(), 'error' => $file->validateError, 'hash' => $request->getByType('hash', 'Alnum')];
@@ -1226,13 +1251,13 @@ class File
 	}
 
 	/**
-	 * Remove the forbidden tags from image.
+	 * Secure image file.
 	 *
 	 * @param \App\Fields\File $file
 	 *
 	 * @return bool
 	 */
-	public static function removeForbiddenTags(self $file): bool
+	public static function secureImage(self $file): bool
 	{
 		$result = false;
 		if (extension_loaded('imagick')) {
@@ -1256,7 +1281,7 @@ class File
 				$result = false;
 			}
 		} else {
-			$img = \imagecreatefromstring(\file_get_contents($file->getPath()));
+			$img = \imagecreatefromstring($file->getContents());
 			if (false !== $img) {
 				switch ($file->getExtension()) {
 					case 'jpg':

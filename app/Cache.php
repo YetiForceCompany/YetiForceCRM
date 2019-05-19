@@ -42,7 +42,8 @@ class Cache
 	/**
 	 * Returns a Cache Item representing the specified key.
 	 *
-	 * @param string $key Cache ID
+	 * @param string $key       Cache ID
+	 * @param mixed  $nameSpace
 	 *
 	 * @return mixed
 	 */
@@ -67,9 +68,10 @@ class Cache
 	/**
 	 * Cache Save.
 	 *
-	 * @param string $key      Cache ID
-	 * @param mixed  $value    Data to store, supports string, array, objects
-	 * @param int    $duration Cache TTL (in seconds)
+	 * @param string $key       Cache ID
+	 * @param mixed  $value     Data to store, supports string, array, objects
+	 * @param int    $duration  Cache TTL (in seconds)
+	 * @param mixed  $nameSpace
 	 *
 	 * @return bool
 	 */
@@ -84,7 +86,8 @@ class Cache
 	/**
 	 * Removes the item from the cache.
 	 *
-	 * @param string $key Cache ID
+	 * @param string $key       Cache ID
+	 * @param mixed  $nameSpace
 	 *
 	 * @return bool
 	 */

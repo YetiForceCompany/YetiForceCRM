@@ -13,20 +13,15 @@
 class KnowledgeBase_Tree_Model extends \App\Base
 {
 	/**
-	 * Last id in tree.
+	 * Get instance.
 	 *
-	 * @var int
-	 */
-	private $lastIdinTree;
-
-	/**
-	 * Get module name.
+	 * @param string $moduleName
 	 *
-	 * @return string
+	 * @return \self
 	 */
-	public function getModuleName()
+	public static function getInstance()
 	{
-		return $this->get('moduleName');
+		return new self();
 	}
 
 	/**
@@ -34,35 +29,28 @@ class KnowledgeBase_Tree_Model extends \App\Base
 	 *
 	 * @return array
 	 */
-	public function getFolders()
+	public function getCategories()
 	{
-		$folders = [];
-		$lastId = 0;
-		$dataReader = (new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => $this->getTemplate()])->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$treeID = (int) ltrim($row['tree'], 'T');
-			$pieces = explode('::', $row['parentTree']);
-			end($pieces);
-			$parent = (int) ltrim(prev($pieces), 'T');
-			$tree = [
-				'id' => $treeID,
-				'type' => 'folder',
-				'record_id' => $row['tree'],
-				'parent' => $parent == 0 ? '#' : $parent,
-				'text' => \App\Language::translate($row['name'], $this->getModuleName()),
-			];
-			if (!empty($row['icon'])) {
-				$tree['icon'] = $row['icon'];
-			}
-			$folders[] = $tree;
-			if ($treeID > $lastId) {
-				$lastId = $treeID;
-			}
-		}
-		$dataReader->close();
-		$this->lastIdinTree = $lastId;
+		return App\Fields\Tree::getValuesById($this->getTemplate());
+	}
 
-		return $folders;
+	/**
+	 * Get categories by arent.
+	 *
+	 * @return void
+	 */
+	public function getCategoriesByParent()
+	{
+		if (App\Cache::has('KnowledgeBase', 'CategoriesByParent')) {
+			return App\Cache::get('KnowledgeBase', 'CategoriesByParent');
+		}
+		$categories = [[]];
+		foreach ($this->getCategories() as $row) {
+			$parent = App\Fields\Tree::getParentIdx($row);
+			$categories[$parent][] = $row['tree'];
+		}
+		App\Cache::save('KnowledgeBase', 'CategoriesByParent', $categories);
+		return $categories;
 	}
 
 	/**
@@ -82,65 +70,121 @@ class KnowledgeBase_Tree_Model extends \App\Base
 	 */
 	public function getTreeField()
 	{
-		if ($this->has('fieldTemp')) {
-			return $this->get('fieldTemp');
+		if (App\Cache::has('KnowledgeBase', 'TreeField')) {
+			return App\Cache::get('KnowledgeBase', 'TreeField');
 		}
-		$fieldTemp = (new \App\Db\Query())->select(['tablename', 'columnname', 'fieldname', 'fieldlabel', 'fieldparams'])->from('vtiger_field')->where(['uitype' => 302, 'tabid' => \App\Module::getModuleId($this->getModuleName())])->one();
-		$this->set('fieldTemp', $fieldTemp);
-
-		return $fieldTemp;
+		$field = (new \App\Db\Query())->select(['tablename', 'columnname', 'fieldname', 'fieldlabel', 'fieldparams'])->from('vtiger_field')->where(['uitype' => 302, 'tabid' => \App\Module::getModuleId('KnowledgeBase')])->one();
+		App\Cache::save('KnowledgeBase', 'TreeField', $field);
+		return $field;
 	}
 
 	/**
-	 * Get all records.
+	 * Get data form ajax.
+	 *
+	 * @return void
+	 */
+	public function getData()
+	{
+		$allCategories = $this->getCategoriesByParent();
+		$categories = $this->isEmpty('parentCategory') ? $allCategories[0] : $allCategories[$this->get('parentCategory')] ?? [];
+		$featured = [];
+		if ($categories) {
+			foreach ($this->getFeaturedRecords($categories) as $row) {
+				$featured[$row['category']][] = $row;
+			}
+		}
+		return [
+			'categories' => $categories,
+			'featured' => $featured,
+			'records' => $this->getRecordsByParentCategory(),
+		];
+	}
+
+	/**
+	 * Get featured records.
+	 *
+	 * @param string[] $categories
 	 *
 	 * @return array
 	 */
-	public function getAllRecords()
+	public function getFeaturedRecords(array $categories): array
 	{
-		$queryGenerator = new App\QueryGenerator($this->getModuleName());
-		$queryGenerator->setFields(['id', 'category', 'knowledgebase_view', 'subject']);
-
+		$queryGenerator = new App\QueryGenerator('KnowledgeBase');
+		$queryGenerator->setFields(['id', 'category', 'subject']);
+		$queryGenerator->addNativeCondition(['knowledgebase_status' => 'PLL_ACCEPTED']);
+		$queryGenerator->addNativeCondition(['category' => $categories]);
+		$queryGenerator->addNativeCondition(['featured' => 1]);
+		$queryGenerator->setLimit(50);
 		return $queryGenerator->createQuery()->all();
 	}
 
 	/**
-	 * Get documents.
+	 * Get record list query.
 	 *
-	 * @return array
+	 * @return App\Db\Query
 	 */
-	public function getDocuments()
+	public function getListQuery(): App\Db\Query
 	{
-		$records = $this->getAllRecords();
-		$fieldName = $this->getTreeField()['fieldname'];
-		foreach ($records as &$item) {
-			++$this->lastIdinTree;
-			$parent = (int) ltrim($item[$fieldName], 'T');
-			$tree[] = [
-				'id' => $this->lastIdinTree,
-				'type' => $item['knowledgebase_view'],
-				'record_id' => $item['id'],
-				'parent' => $parent == 0 ? '#' : $parent,
-				'text' => $item['subject'],
-				'icon' => 'fas fa-file',
-			];
+		$queryGenerator = new App\QueryGenerator('KnowledgeBase');
+		$queryGenerator->setFields(['id', 'assigned_user_id', 'subject', 'introduction', 'modifiedtime', 'category']);
+		$queryGenerator->addNativeCondition(['knowledgebase_status' => 'PLL_ACCEPTED']);
+		if ($this->has('parentCategory')) {
+			$queryGenerator->addNativeCondition(['category' => $this->get('parentCategory')]);
 		}
-		return $tree;
+		$queryGenerator->setLimit(Config\Modules\KnowledgeBase::$treeArticleLimit);
+		return $queryGenerator->createQuery();
 	}
 
 	/**
-	 * Get instance.
+	 * Parse record list for display.
 	 *
-	 * @param KnowledgeBase_Module_Model $moduleModel
+	 * @param yii\db\DataReader $dataReader
 	 *
-	 * @return \self
+	 * @return array
 	 */
-	public static function getInstance($moduleModel)
+	public function parseForDisplay(yii\db\DataReader $dataReader): array
 	{
-		$model = new self();
-		$moduleName = $moduleModel->get('name');
-		$model->set('module', $moduleModel)->set('moduleName', $moduleName);
+		$rows = [];
+		while ($row = $dataReader->read()) {
+			$rows[$row['id']] = [
+				'assigned_user_id' => App\Fields\Owner::getLabel($row['assigned_user_id']),
+				'subject' => $row['subject'],
+				'introduction' => $row['introduction'],
+				'category' => $row['category'],
+				'full_time' => App\Fields\DateTime::formatToDisplay($row['modifiedtime']),
+				'short_time' => \Vtiger_Util_Helper::formatDateDiffInStrings($row['modifiedtime']),
+			];
+		}
+		$dataReader->close();
+		return $rows;
+	}
 
-		return $model;
+	/**
+	 * Get records by parent category.
+	 *
+	 * @return array
+	 */
+	public function getRecordsByParentCategory(): array
+	{
+		if ($this->isEmpty('parentCategory')) {
+			return [];
+		}
+		return $this->parseForDisplay($this->getListQuery()->createCommand()->query());
+	}
+
+	/**
+	 * Article search.
+	 *
+	 * @return array
+	 */
+	public function search(): array
+	{
+		$query = $this->getListQuery();
+		$value = $this->get('value');
+		$query->addSelect(['matcher' => new \yii\db\Expression('MATCH(subject,content,introduction) AGAINST(:searchValue IN BOOLEAN MODE)', [':searchValue' => $value])]);
+		$query->andWhere('MATCH(subject,content,introduction) AGAINST(:findvalue IN BOOLEAN MODE)', [':findvalue' => $value]);
+		$query->addOrderBy(['matcher' => \SORT_DESC]);
+		$dataReader = $query->createCommand()->query();
+		return $this->parseForDisplay($dataReader);
 	}
 }

@@ -14,42 +14,26 @@ namespace App\Pdf;
 class InventoryColumns
 {
 	/**
-	 * Inventory columns.
-	 *
-	 * @var array
-	 */
-	public static $inventoryColumns = [];
-	/**
-	 * Is custom mode
-	 * Columns are from request ? or from db configuration?
-	 *
-	 * @var bool
-	 */
-	public static $isCustomMode = false;
-
-	/**
 	 * Get column scheme for specified record.
 	 *
-	 * @param int    $recordId
-	 * @param string $moduleName
+	 * @param int        $recordId
+	 * @param string     $moduleName
+	 * @param null|array $columns
 	 *
 	 * @return array
 	 */
-	public static function getInventoryColumnsForRecord(int $recordId, string $moduleName)
+	public static function getInventoryColumnsForRecord(int $recordId, string $moduleName, ?array $columns = null)
 	{
-		if (static::$isCustomMode && !empty(static::$inventoryColumns)) {
-			return static::$inventoryColumns;
+		$columnsAll = array_keys(\Vtiger_Inventory_Model::getInstance($moduleName)->getFields());
+		if (null === $columns) {
+			$columnsJSON = (new \App\Db\Query())
+				->select(['columns'])
+				->from('u_#__pdf_inv_scheme')
+				->where(['crmid' => $recordId])
+				->scalar();
+			$columns = $columnsJSON ? \App\Json::decode($columnsJSON) : $columnsAll;
 		}
-		$columns = array_keys(\Vtiger_Inventory_Model::getInstance($moduleName)->getFields());
-		$columnsJSON = (new \App\Db\Query())
-			->select(['columns'])
-			->from('u_#__pdf_inv_scheme')
-			->where(['crmid' => $recordId])
-			->scalar();
-		if ($columnsJSON) {
-			$columns = array_intersect(\App\Json::decode($columnsJSON), $columns);
-		}
-		return $columns;
+		return array_intersect($columns, $columnsAll);
 	}
 
 	/**
@@ -74,14 +58,13 @@ class InventoryColumns
 		foreach ($records as $recordId => $columns) {
 			$json = \App\Json::encode($columns);
 			$schemeExists = (new \App\Db\Query())
-				->select(['crmid'])
 				->from($table)
 				->where(['crmid' => $recordId])
 				->exists();
-			if (!$schemeExists) {
-				$insertData[] = [$recordId, $json];
-			} else {
+			if ($schemeExists) {
 				$dbCommand->update($table, ['columns' => $json], ['crmid' => $recordId])->execute();
+			} else {
+				$insertData[] = [$recordId, $json];
 			}
 		}
 		if (!empty($insertData)) {

@@ -38,6 +38,8 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function to get the Edit View Url.
 	 *
+	 * @param mixed $step
+	 *
 	 * @return string URL
 	 */
 	public function getEditViewUrl($step = false)
@@ -89,7 +91,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function get($key)
 	{
-		if ($key === 'newsletter' && !empty(parent::get('email'))) {
+		if ('newsletter' === $key && !empty(parent::get('email'))) {
 			return 1;
 		}
 		return parent::get($key);
@@ -190,7 +192,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 			'linkicon' => 'fas fa-edit',
 			'linkclass' => 'btn btn-xs btn-info',
 		];
-		if (is_null(Settings_Companies_ListView_Model::$recordsCount)) {
+		if (null === Settings_Companies_ListView_Model::$recordsCount) {
 			Settings_Companies_ListView_Model::$recordsCount = (new \App\Db\Query())->from('s_#__companies')->count();
 		}
 		if (Settings_Companies_ListView_Model::$recordsCount > 1) {
@@ -217,7 +219,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		if (!empty($_FILES['logo']['name'])) {
 			$fileInstance = \App\Fields\File::loadFromRequest($_FILES['logo']);
-			if ($fileInstance->validate('image')) {
+			if ($fileInstance->validateAndSecure('image')) {
 				$this->set('logo', \App\Fields\File::getImageBaseData($fileInstance->getPath()));
 			}
 		}
@@ -230,7 +232,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return bool
 	 */
-	public function isCompanyDuplicated(\App\Request $request)
+	public function isCompanyDuplicated(App\Request $request)
 	{
 		$db = App\Db::getInstance('admin');
 		$query = new \App\Db\Query();
@@ -257,7 +259,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 		$label = $label ? $label : ($labels[$name]['label'] ?? '');
 		$sourceModule = $this->get('source');
 		$companyId = $this->getId();
-		$fieldName = $sourceModule === 'YetiForce' ? "companies[$companyId][$name]" : $name;
+		$fieldName = 'YetiForce' === $sourceModule ? "companies[$companyId][$name]" : $name;
 		$params = ['uitype' => 1, 'column' => $name, 'name' => $fieldName, 'value' => '', 'label' => $label, 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => '', 'isEditableReadOnly' => false, 'maximumlength' => '255'];
 		switch ($name) {
 			case 'name':
