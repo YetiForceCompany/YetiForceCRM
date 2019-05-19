@@ -5487,7 +5487,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2791 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2792 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -7748,7 +7748,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `tabid_2` (`tabid`,`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=606 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=608 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
@@ -8649,6 +8649,7 @@ CREATE TABLE `vtiger_troubletickets` (
   `contracts_end_date` date DEFAULT NULL,
   `report_time` int(10) DEFAULT NULL,
   `response_time` datetime DEFAULT NULL,
+  `parentid` int(10) DEFAULT NULL,
   PRIMARY KEY (`ticketid`),
   KEY `troubletickets_ticketid_idx` (`ticketid`),
   KEY `troubletickets_status_idx` (`status`),
@@ -8657,6 +8658,7 @@ CREATE TABLE `vtiger_troubletickets` (
   KEY `servicecontractsid` (`servicecontractsid`),
   KEY `pssold_id` (`pssold_id`),
   KEY `ticket_no` (`ticket_no`),
+  KEY `vtiger_troubletickets_parentid_idx` (`parentid`),
   CONSTRAINT `fk_1_vtiger_troubletickets` FOREIGN KEY (`ticketid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
