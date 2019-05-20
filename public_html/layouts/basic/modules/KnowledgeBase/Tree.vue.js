@@ -11963,280 +11963,14 @@ var Vue = unwrapExports(vue);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 var script = {
-  name: 'TreeView',
-  data() {
-    return {
-      left: true,
-      filter: '',
-      record: false,
-      columns: [
-        {
-          name: 'desc',
-          required: true,
-          label: 'Title',
-          align: 'left',
-          field: row => row.subject,
-          format: val => `${val}`,
-          sortable: true
-        },
-        { name: 'short_time', align: 'center', label: 'Short time', field: 'short_time', sortable: true },
-        { name: 'introduction', align: 'center', label: 'Introduction', field: 'introduction', sortable: true }
-      ],
-      active: '',
-      tree: {
-        data: {
-          records: []
-        },
-        categories: {}
-      },
-      searchData: false
+  name: 'Icon',
+  props: {
+    icon: {
+      type: String,
+      required: true
     }
-  },
-  computed: {},
-  methods: {
-    getCategories() {
-      const aDeferred = $.Deferred();
-      return AppConnector.request({ module: 'KnowledgeBase', action: 'TreeAjax', mode: 'categories' }).done(data => {
-        this.tree.categories = data.result;
-        aDeferred.resolve(data.result);
-      })
-    },
-    getData(category = '') {
-      const aDeferred = $.Deferred();
-      this.active = category;
-      this.record = false;
-      console.log(category);
-      return AppConnector.request({
-        module: 'KnowledgeBase',
-        action: 'TreeAjax',
-        mode: 'data',
-        category: category
-      }).done(data => {
-        this.tree.data = data.result;
-        console.log(data.result);
-        aDeferred.resolve(data.result);
-      })
-    },
-    search(e) {
-      if (this.filter.length > 3) {
-        const aDeferred = $.Deferred();
-        AppConnector.request({
-          module: 'KnowledgeBase',
-          action: 'TreeAjax',
-          mode: 'search',
-          value: this.filter
-        }).done(data => {
-          this.searchData = data.result;
-          aDeferred.resolve(data.result);
-          return data.result
-        });
-      } else {
-        this.searchData = false;
-      }
-    }
-  },
-  created() {
-    this.getCategories();
-    this.getData();
   }
 };
 
@@ -12385,6 +12119,134 @@ var __vue_render__ = function() {
   var _c = _vm._self._c || _h;
   return _c(
     "div",
+    [
+      /^mdi|^fa/.test(_vm.icon)
+        ? _c("q-icon", { attrs: { name: _vm.icon } })
+        : _c("q-icon", { class: [_vm.icon, "q-icon"] })
+    ],
+    1
+  )
+};
+var __vue_staticRenderFns__ = [];
+__vue_render__._withStripped = true;
+
+  /* style */
+  const __vue_inject_styles__ = function (inject) {
+    if (!inject) return
+    inject("data-v-fc49fad8_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"Icon.vue"}, media: undefined });
+
+  };
+  /* scoped */
+  const __vue_scope_id__ = "data-v-fc49fad8";
+  /* module identifier */
+  const __vue_module_identifier__ = undefined;
+  /* functional template */
+  const __vue_is_functional_template__ = false;
+  /* style inject SSR */
+  
+
+  
+  var Icon = normalizeComponent_1(
+    { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
+    __vue_inject_styles__,
+    __vue_script__,
+    __vue_scope_id__,
+    __vue_is_functional_template__,
+    __vue_module_identifier__,
+    browser,
+    undefined
+  );
+
+//
+var script$1 = {
+  name: 'TreeView',
+  components: { Icon },
+  data() {
+    return {
+      left: true,
+      filter: '',
+      record: false,
+      teal: '',
+      columns: [
+        {
+          name: 'desc',
+          required: true,
+          label: 'Title',
+          align: 'left',
+          field: row => row.subject,
+          format: val => `${val}`,
+          sortable: true
+        },
+        { name: 'short_time', align: 'center', label: 'Short time', field: 'short_time', sortable: true },
+        { name: 'introduction', align: 'center', label: 'Introduction', field: 'introduction', sortable: true }
+      ],
+      active: '',
+      tree: {
+        data: {
+          records: []
+        },
+        categories: {}
+      },
+      searchData: false
+    }
+  },
+  computed: {},
+  methods: {
+    getCategories() {
+      const aDeferred = $.Deferred();
+      return AppConnector.request({ module: 'KnowledgeBase', action: 'TreeAjax', mode: 'categories' }).done(data => {
+        this.tree.categories = data.result;
+        aDeferred.resolve(data.result);
+      })
+    },
+    getData(category = '') {
+      const aDeferred = $.Deferred();
+      this.active = category;
+      this.record = false;
+      return AppConnector.request({
+        module: 'KnowledgeBase',
+        action: 'TreeAjax',
+        mode: 'data',
+        category: category
+      }).done(data => {
+        this.tree.data = data.result;
+        aDeferred.resolve(data.result);
+      })
+    },
+    search(e) {
+      if (this.filter.length > 3) {
+        const aDeferred = $.Deferred();
+        AppConnector.request({
+          module: 'KnowledgeBase',
+          action: 'TreeAjax',
+          mode: 'search',
+          value: this.filter
+        }).done(data => {
+          this.searchData = data.result;
+          aDeferred.resolve(data.result);
+          return data.result
+        });
+      } else {
+        this.searchData = false;
+      }
+    }
+  },
+  created() {
+    this.getCategories();
+    this.getData();
+  }
+};
+
+/* script */
+const __vue_script__$1 = script$1;
+
+/* template */
+var __vue_render__$1 = function() {
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c(
+    "div",
     { staticClass: "h-100" },
     [
       _c(
@@ -12410,14 +12272,30 @@ var __vue_render__ = function() {
                     }
                   }),
                   _vm._v(" "),
-                  _c("q-toolbar-title", [
-                    _vm._v("\n          Knowledge Base\n        ")
-                  ]),
-                  _vm._v(" "),
                   _c(
                     "q-breadcrumbs",
-                    { attrs: { "active-color": "info" } },
+                    {
+                      staticClass: "ml-2",
+                      attrs: { "active-color": "info" },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "separator",
+                          fn: function() {
+                            return [
+                              _c("q-icon", {
+                                attrs: {
+                                  size: "1.5em",
+                                  name: "mdi-chevron-right"
+                                }
+                              })
+                            ]
+                          },
+                          proxy: true
+                        }
+                      ])
+                    },
                     [
+                      _vm._v(" "),
                       _c("q-breadcrumbs-el", {
                         attrs: { icon: "mdi-home" },
                         on: {
@@ -12431,17 +12309,33 @@ var __vue_render__ = function() {
                         ? _vm._l(
                             _vm.tree.categories[this.active].parentTree,
                             function(category) {
-                              return _c("q-breadcrumbs-el", {
-                                key: _vm.tree.categories[category].label,
-                                attrs: {
-                                  label: _vm.tree.categories[category].label
-                                },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.getData(category)
+                              return _c(
+                                "q-breadcrumbs-el",
+                                {
+                                  key: _vm.tree.categories[category].label,
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.getData(category)
+                                    }
                                   }
-                                }
-                              })
+                                },
+                                [
+                                  _c("icon", {
+                                    staticClass: "q-mr-sm",
+                                    attrs: {
+                                      icon: _vm.tree.categories[category].icon
+                                    }
+                                  }),
+                                  _vm._v(
+                                    "\n              " +
+                                      _vm._s(
+                                        _vm.tree.categories[category].label
+                                      ) +
+                                      "\n            "
+                                  )
+                                ],
+                                1
+                              )
                             }
                           )
                         : _vm._e(),
@@ -12458,11 +12352,23 @@ var __vue_render__ = function() {
                     2
                   ),
                   _vm._v(" "),
+                  _c("q-checkbox", {
+                    staticClass: "ml-auto",
+                    attrs: { dark: "", label: "Search current category" },
+                    model: {
+                      value: _vm.teal,
+                      callback: function($$v) {
+                        _vm.teal = $$v;
+                      },
+                      expression: "teal"
+                    }
+                  }),
+                  _vm._v(" "),
                   _c("q-input", {
                     staticClass: "tree-search",
                     attrs: {
                       placeholder: "Search",
-                      square: "",
+                      rounded: "",
                       outlined: "",
                       type: "search",
                       "bg-color": "grey-1"
@@ -12572,21 +12478,11 @@ var __vue_render__ = function() {
                                 "q-item-section",
                                 { attrs: { avatar: "" } },
                                 [
-                                  /^mdi|^fa/.test(
-                                    _vm.tree.categories[_vm.active].icon
-                                  )
-                                    ? _c("q-icon", {
-                                        attrs: {
-                                          name:
-                                            _vm.tree.categories[_vm.active].icon
-                                        }
-                                      })
-                                    : _c("q-icon", {
-                                        class: [
-                                          _vm.tree.categories[_vm.active].icon,
-                                          "q-icon"
-                                        ]
-                                      })
+                                  _c("icon", {
+                                    attrs: {
+                                      icon: _vm.tree.categories[_vm.active].icon
+                                    }
+                                  })
                                 ],
                                 1
                               ),
@@ -12599,7 +12495,18 @@ var __vue_render__ = function() {
                                     ) +
                                     "\n            "
                                 )
-                              ])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "q-item-section",
+                                { attrs: { avatar: "" } },
+                                [
+                                  _c("q-icon", {
+                                    attrs: { name: "mdi-chevron-left" }
+                                  })
+                                ],
+                                1
+                              )
                             ],
                             1
                           )
@@ -12628,22 +12535,12 @@ var __vue_render__ = function() {
                               "q-item-section",
                               { attrs: { avatar: "" } },
                               [
-                                /^mdi|^fa/.test(
-                                  _vm.tree.categories[categoryValue].icon
-                                )
-                                  ? _c("q-icon", {
-                                      attrs: {
-                                        name:
-                                          _vm.tree.categories[categoryValue]
-                                            .icon
-                                      }
-                                    })
-                                  : _c("q-icon", {
-                                      class: [
-                                        _vm.tree.categories[categoryValue].icon,
-                                        "q-icon"
-                                      ]
-                                    })
+                                _c("icon", {
+                                  attrs: {
+                                    icon:
+                                      _vm.tree.categories[categoryValue].icon
+                                  }
+                                })
                               ],
                               1
                             ),
@@ -12656,7 +12553,18 @@ var __vue_render__ = function() {
                                   ) +
                                   "\n            "
                               )
-                            ])
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "q-item-section",
+                              { attrs: { avatar: "" } },
+                              [
+                                _c("q-icon", {
+                                  attrs: { name: "mdi-chevron-right" }
+                                })
+                              ],
+                              1
+                            )
                           ],
                           1
                         )
@@ -13062,63 +12970,63 @@ var __vue_render__ = function() {
     1
   )
 };
-var __vue_staticRenderFns__ = [];
-__vue_render__._withStripped = true;
-
-  /* style */
-  const __vue_inject_styles__ = function (inject) {
-    if (!inject) return
-    inject("data-v-48cae36c_0", { source: "\n.tree-search {\n  width: 50%;\n}\n.tree-search .q-field__control,\n.tree-search .q-field__marginal {\n  height: 40px;\n}\n.home-card {\n  width: 100%;\n  max-width: 250px;\n}\n.list-item {\n  width: 50%;\n  max-width: 100%;\n}\n", map: {"version":3,"sources":["C:\\www\\YetiForceCRM\\public_html\\src\\modules\\KnowledgeBase\\TreeView.vue"],"names":[],"mappings":";AA8RA;EACA,UAAA;AACA;AACA;;EAEA,YAAA;AACA;AACA;EACA,WAAA;EACA,gBAAA;AACA;AACA;EACA,UAAA;EACA,eAAA;AACA","file":"TreeView.vue","sourcesContent":["/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */\n\n<template>\n  <div class=\"h-100\">\n    <q-layout view=\"hHh lpr fFf\" container class=\"absolute\">\n      <q-header elevated class=\"bg-primary text-white\">\n        <q-toolbar>\n          <q-btn dense flat round icon=\"mdi-menu\" @click=\"left = !left\"></q-btn>\n          <q-toolbar-title>\n            Knowledge Base\n          </q-toolbar-title>\n\n          <q-breadcrumbs active-color=\"info\">\n            <q-breadcrumbs-el icon=\"mdi-home\" @click=\"getData()\" />\n            <template v-if=\"this.active !== ''\">\n              <q-breadcrumbs-el\n                v-for=\"category in tree.categories[this.active].parentTree\"\n                :key=\"tree.categories[category].label\"\n                :label=\"tree.categories[category].label\"\n                @click=\"getData(category)\"\n              />\n            </template>\n            <q-breadcrumbs-el v-if=\"record !== false\" icon=\"mdi-text\" :label=\"record.subject\" />\n          </q-breadcrumbs>\n          <q-input\n            v-model=\"filter\"\n            placeholder=\"Search\"\n            square\n            outlined\n            type=\"search\"\n            bg-color=\"grey-1\"\n            class=\"tree-search\"\n            @input=\"search\"\n          >\n            <template v-slot:append>\n              <q-icon name=\"mdi-magnify\" />\n            </template>\n          </q-input>\n        </q-toolbar>\n      </q-header>\n\n      <q-drawer v-model=\"left\" side=\"left\" elevated :width=\"250\" :breakpoint=\"700\">\n        <q-scroll-area class=\"fit\">\n          <q-list>\n            <q-item v-show=\"active === ''\" clickable active>\n              <q-item-section avatar>\n                <q-icon name=\"mdi-home\" />\n              </q-item-section>\n              <q-item-section>\n                Home\n              </q-item-section>\n            </q-item>\n            <q-item\n              v-if=\"active !== ''\"\n              clickable\n              :active=\"!record\"\n              @click=\"\n                getData(\n                  tree.categories[active].parentTree.length !== 1\n                    ? tree.categories[active].parentTree[tree.categories[active].parentTree.length - 2]\n                    : ''\n                )\n              \"\n            >\n              <q-item-section avatar>\n                <q-icon v-if=\"/^mdi|^fa/.test(tree.categories[active].icon)\" :name=\"tree.categories[active].icon\" />\n                <q-icon v-else :class=\"[tree.categories[active].icon, 'q-icon']\" />\n              </q-item-section>\n              <q-item-section>\n                {{ tree.categories[active].label }}\n              </q-item-section>\n            </q-item>\n            <q-item\n              v-for=\"(categoryValue, categoryKey) in tree.data.categories\"\n              :key=\"categoryKey\"\n              clickable\n              v-ripple\n              @click=\"getData(categoryValue)\"\n            >\n              <q-item-section avatar>\n                <q-icon\n                  v-if=\"/^mdi|^fa/.test(tree.categories[categoryValue].icon)\"\n                  :name=\"tree.categories[categoryValue].icon\"\n                />\n                <q-icon v-else :class=\"[tree.categories[categoryValue].icon, 'q-icon']\" />\n              </q-item-section>\n              <q-item-section>\n                {{ tree.categories[categoryValue].label }}\n              </q-item-section>\n            </q-item>\n\n            <q-separator v-if=\"tree.data.records.length\" />\n            <q-item\n              v-for=\"(recordValue, index) in tree.data.records\"\n              :key=\"index\"\n              clickable\n              v-ripple\n              :active=\"record === recordValue\"\n              @click=\"record = recordValue\"\n            >\n              <q-item-section avatar>\n                <q-icon name=\"mdi-text\" />\n              </q-item-section>\n              <q-item-section>\n                {{ recordValue.subject }}\n              </q-item-section>\n            </q-item>\n          </q-list>\n        </q-scroll-area>\n      </q-drawer>\n\n      <q-page-container>\n        <q-page class=\"q-pa-md\">\n          <div v-if=\"!record && !searchData\">\n            <div class=\"q-pa-md row items-start q-gutter-md\">\n              <template v-for=\"(categoryValue, categoryKey) in tree.data.categories\">\n                <q-list\n                  bordered\n                  padding\n                  dense\n                  v-if=\"tree.data.featured[categoryValue]\"\n                  :key=\"categoryKey\"\n                  class=\"home-card\"\n                >\n                  <q-item-label header>{{ tree.categories[categoryValue].label }}</q-item-label>\n\n                  <q-item\n                    clickable\n                    v-for=\"featuredValue in tree.data.featured[categoryValue]\"\n                    :key=\"featuredValue.id\"\n                    class=\"text-subtitle2\"\n                    v-ripple\n                    @click=\"record = featuredValue\"\n                  >\n                    <q-item-section avatar>\n                      <q-icon name=\"mdi-text\"></q-icon>\n                    </q-item-section>\n                    <q-item-section> {{ featuredValue.subject }} </q-item-section>\n                  </q-item>\n                </q-list>\n              </template>\n            </div>\n            <div class=\"q-pa-md row items-start q-gutter-md\">\n              <q-table\n                v-if=\"active !== ''\"\n                :data=\"Object.values(tree.data.records)\"\n                :columns=\"columns\"\n                row-key=\"subject\"\n                grid\n                hide-header\n              >\n                <template v-slot:item=\"props\">\n                  <q-list class=\"list-item\" padding @click=\"record = props.row\">\n                    <q-item clickable>\n                      <q-item-section>\n                        <q-item-label overline>{{ props.row.subject }}</q-item-label>\n                        <q-item-label caption>{{ props.row.introduction }}</q-item-label>\n                      </q-item-section>\n                      <q-item-section side top>\n                        <q-item-label caption>{{ props.row.short_time }}</q-item-label>\n                      </q-item-section>\n                    </q-item>\n                  </q-list>\n                </template>\n              </q-table>\n            </div>\n          </div>\n          <q-table\n            v-if=\"searchData\"\n            :data=\"Object.values(searchData)\"\n            :columns=\"columns\"\n            row-key=\"subject\"\n            grid\n            hide-header\n          >\n            <template v-slot:item=\"props\">\n              <q-list\n                class=\"list-item\"\n                padding\n                @click=\"\n                  record = props.row\n                  searchData = false\n                \"\n              >\n                <q-item clickable>\n                  <q-item-section>\n                    <q-item-label overline>{{ props.row.subject }}</q-item-label>\n                    <q-item-label caption>{{ props.row.introduction }}</q-item-label>\n                  </q-item-section>\n                  <q-item-section side top>\n                    <q-item-label caption>{{ props.row.short_time }}</q-item-label>\n                  </q-item-section>\n                </q-item>\n              </q-list>\n            </template>\n          </q-table>\n          <div v-if=\"record && !searchData\">\n            <h5>{{ record.subject }}</h5>\n            <p>{{ record.introduction }}</p>\n          </div>\n        </q-page>\n      </q-page-container>\n    </q-layout>\n  </div>\n</template>\n<script>\nexport default {\n  name: 'TreeView',\n  data() {\n    return {\n      left: true,\n      filter: '',\n      record: false,\n      columns: [\n        {\n          name: 'desc',\n          required: true,\n          label: 'Title',\n          align: 'left',\n          field: row => row.subject,\n          format: val => `${val}`,\n          sortable: true\n        },\n        { name: 'short_time', align: 'center', label: 'Short time', field: 'short_time', sortable: true },\n        { name: 'introduction', align: 'center', label: 'Introduction', field: 'introduction', sortable: true }\n      ],\n      active: '',\n      tree: {\n        data: {\n          records: []\n        },\n        categories: {}\n      },\n      searchData: false\n    }\n  },\n  computed: {},\n  methods: {\n    getCategories() {\n      const aDeferred = $.Deferred()\n      return AppConnector.request({ module: 'KnowledgeBase', action: 'TreeAjax', mode: 'categories' }).done(data => {\n        this.tree.categories = data.result\n        aDeferred.resolve(data.result)\n      })\n    },\n    getData(category = '') {\n      const aDeferred = $.Deferred()\n      this.active = category\n      this.record = false\n      console.log(category)\n      return AppConnector.request({\n        module: 'KnowledgeBase',\n        action: 'TreeAjax',\n        mode: 'data',\n        category: category\n      }).done(data => {\n        this.tree.data = data.result\n        console.log(data.result)\n        aDeferred.resolve(data.result)\n      })\n    },\n    search(e) {\n      if (this.filter.length > 3) {\n        const aDeferred = $.Deferred()\n        AppConnector.request({\n          module: 'KnowledgeBase',\n          action: 'TreeAjax',\n          mode: 'search',\n          value: this.filter\n        }).done(data => {\n          this.searchData = data.result\n          aDeferred.resolve(data.result)\n          return data.result\n        })\n      } else {\n        this.searchData = false\n      }\n    }\n  },\n  created() {\n    this.getCategories()\n    this.getData()\n  }\n}\n</script>\n<style>\n.tree-search {\n  width: 50%;\n}\n.tree-search .q-field__control,\n.tree-search .q-field__marginal {\n  height: 40px;\n}\n.home-card {\n  width: 100%;\n  max-width: 250px;\n}\n.list-item {\n  width: 50%;\n  max-width: 100%;\n}\n</style>\n"]}, media: undefined });
-
-  };
-  /* scoped */
-  const __vue_scope_id__ = undefined;
-  /* module identifier */
-  const __vue_module_identifier__ = undefined;
-  /* functional template */
-  const __vue_is_functional_template__ = false;
-  /* style inject SSR */
-  
-
-  
-  var TreeView = normalizeComponent_1(
-    { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
-    __vue_inject_styles__,
-    __vue_script__,
-    __vue_scope_id__,
-    __vue_is_functional_template__,
-    __vue_module_identifier__,
-    browser,
-    undefined
-  );
-
-//
-var script$1 = {
-  name: 'Tree',
-  components: { TreeView }
-};
-
-/* script */
-const __vue_script__$1 = script$1;
-
-/* template */
-var __vue_render__$1 = function() {
-  var _vm = this;
-  var _h = _vm.$createElement;
-  var _c = _vm._self._c || _h;
-  return _c("tree-view")
-};
 var __vue_staticRenderFns__$1 = [];
 __vue_render__$1._withStripped = true;
 
   /* style */
-  const __vue_inject_styles__$1 = undefined;
+  const __vue_inject_styles__$1 = function (inject) {
+    if (!inject) return
+    inject("data-v-e9ffbb76_0", { source: "\n.tree-search {\n  width: 50%;\n}\n.tree-search .q-field__control,\n.tree-search .q-field__marginal {\n  height: 40px;\n}\n.home-card {\n  width: 100%;\n  max-width: 250px;\n}\n.list-item {\n  width: 50%;\n  max-width: 100%;\n}\n", map: {"version":3,"sources":["C:\\www\\YetiForceCRM\\public_html\\src\\modules\\KnowledgeBase\\TreeView.vue"],"names":[],"mappings":";AAkSA;EACA,UAAA;AACA;AACA;;EAEA,YAAA;AACA;AACA;EACA,WAAA;EACA,gBAAA;AACA;AACA;EACA,UAAA;EACA,eAAA;AACA","file":"TreeView.vue","sourcesContent":["/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */\n\n<template>\n  <div class=\"h-100\">\n    <q-layout view=\"hHh lpr fFf\" container class=\"absolute\">\n      <q-header elevated class=\"bg-primary text-white\">\n        <q-toolbar>\n          <q-btn dense flat round icon=\"mdi-menu\" @click=\"left = !left\"></q-btn>\n          <q-breadcrumbs active-color=\"info\" class=\"ml-2\">\n            <template v-slot:separator>\n              <q-icon size=\"1.5em\" name=\"mdi-chevron-right\" />\n            </template>\n            <q-breadcrumbs-el icon=\"mdi-home\" @click=\"getData()\" />\n            <template v-if=\"this.active !== ''\">\n              <q-breadcrumbs-el\n                v-for=\"category in tree.categories[this.active].parentTree\"\n                :key=\"tree.categories[category].label\"\n                @click=\"getData(category)\"\n              >\n                <icon :icon=\"tree.categories[category].icon\" class=\"q-mr-sm\"></icon>\n                {{ tree.categories[category].label }}\n              </q-breadcrumbs-el>\n            </template>\n            <q-breadcrumbs-el v-if=\"record !== false\" icon=\"mdi-text\" :label=\"record.subject\" />\n          </q-breadcrumbs>\n          <q-checkbox dark v-model=\"teal\" label=\"Search current category\" class=\"ml-auto\" />\n          <q-input\n            v-model=\"filter\"\n            placeholder=\"Search\"\n            rounded\n            outlined\n            type=\"search\"\n            bg-color=\"grey-1\"\n            class=\"tree-search\"\n            @input=\"search\"\n          >\n            <template v-slot:append>\n              <q-icon name=\"mdi-magnify\" />\n            </template>\n          </q-input>\n        </q-toolbar>\n      </q-header>\n\n      <q-drawer v-model=\"left\" side=\"left\" elevated :width=\"250\" :breakpoint=\"700\">\n        <q-scroll-area class=\"fit\">\n          <q-list>\n            <q-item v-show=\"active === ''\" clickable active>\n              <q-item-section avatar>\n                <q-icon name=\"mdi-home\" />\n              </q-item-section>\n              <q-item-section>\n                Home\n              </q-item-section>\n            </q-item>\n            <q-item\n              v-if=\"active !== ''\"\n              clickable\n              :active=\"!record\"\n              @click=\"\n                getData(\n                  tree.categories[active].parentTree.length !== 1\n                    ? tree.categories[active].parentTree[tree.categories[active].parentTree.length - 2]\n                    : ''\n                )\n              \"\n            >\n              <q-item-section avatar>\n                <icon :icon=\"tree.categories[active].icon\" />\n              </q-item-section>\n              <q-item-section>\n                {{ tree.categories[active].label }}\n              </q-item-section>\n              <q-item-section avatar>\n                <q-icon name=\"mdi-chevron-left\" />\n              </q-item-section>\n            </q-item>\n            <q-item\n              v-for=\"(categoryValue, categoryKey) in tree.data.categories\"\n              :key=\"categoryKey\"\n              clickable\n              v-ripple\n              @click=\"getData(categoryValue)\"\n            >\n              <q-item-section avatar>\n                <icon :icon=\"tree.categories[categoryValue].icon\" />\n              </q-item-section>\n              <q-item-section>\n                {{ tree.categories[categoryValue].label }}\n              </q-item-section>\n              <q-item-section avatar>\n                <q-icon name=\"mdi-chevron-right\" />\n              </q-item-section>\n            </q-item>\n\n            <q-separator v-if=\"tree.data.records.length\" />\n            <q-item\n              v-for=\"(recordValue, index) in tree.data.records\"\n              :key=\"index\"\n              clickable\n              v-ripple\n              :active=\"record === recordValue\"\n              @click=\"record = recordValue\"\n            >\n              <q-item-section avatar>\n                <q-icon name=\"mdi-text\" />\n              </q-item-section>\n              <q-item-section>\n                {{ recordValue.subject }}\n              </q-item-section>\n            </q-item>\n          </q-list>\n        </q-scroll-area>\n      </q-drawer>\n\n      <q-page-container>\n        <q-page class=\"q-pa-md\">\n          <div v-if=\"!record && !searchData\">\n            <div class=\"q-pa-md row items-start q-gutter-md\">\n              <template v-for=\"(categoryValue, categoryKey) in tree.data.categories\">\n                <q-list\n                  bordered\n                  padding\n                  dense\n                  v-if=\"tree.data.featured[categoryValue]\"\n                  :key=\"categoryKey\"\n                  class=\"home-card\"\n                >\n                  <q-item-label header>{{ tree.categories[categoryValue].label }}</q-item-label>\n\n                  <q-item\n                    clickable\n                    v-for=\"featuredValue in tree.data.featured[categoryValue]\"\n                    :key=\"featuredValue.id\"\n                    class=\"text-subtitle2\"\n                    v-ripple\n                    @click=\"record = featuredValue\"\n                  >\n                    <q-item-section avatar>\n                      <q-icon name=\"mdi-text\"></q-icon>\n                    </q-item-section>\n                    <q-item-section> {{ featuredValue.subject }} </q-item-section>\n                  </q-item>\n                </q-list>\n              </template>\n            </div>\n            <div class=\"q-pa-md row items-start q-gutter-md\">\n              <q-table\n                v-if=\"active !== ''\"\n                :data=\"Object.values(tree.data.records)\"\n                :columns=\"columns\"\n                row-key=\"subject\"\n                grid\n                hide-header\n              >\n                <template v-slot:item=\"props\">\n                  <q-list class=\"list-item\" padding @click=\"record = props.row\">\n                    <q-item clickable>\n                      <q-item-section>\n                        <q-item-label overline>{{ props.row.subject }}</q-item-label>\n                        <q-item-label caption>{{ props.row.introduction }}</q-item-label>\n                      </q-item-section>\n                      <q-item-section side top>\n                        <q-item-label caption>{{ props.row.short_time }}</q-item-label>\n                      </q-item-section>\n                    </q-item>\n                  </q-list>\n                </template>\n              </q-table>\n            </div>\n          </div>\n          <q-table\n            v-if=\"searchData\"\n            :data=\"Object.values(searchData)\"\n            :columns=\"columns\"\n            row-key=\"subject\"\n            grid\n            hide-header\n          >\n            <template v-slot:item=\"props\">\n              <q-list\n                class=\"list-item\"\n                padding\n                @click=\"\n                  record = props.row\n                  searchData = false\n                \"\n              >\n                <q-item clickable>\n                  <q-item-section>\n                    <q-item-label overline>{{ props.row.subject }}</q-item-label>\n                    <q-item-label caption>{{ props.row.introduction }}</q-item-label>\n                  </q-item-section>\n                  <q-item-section side top>\n                    <q-item-label caption>{{ props.row.short_time }}</q-item-label>\n                  </q-item-section>\n                </q-item>\n              </q-list>\n            </template>\n          </q-table>\n          <div v-if=\"record && !searchData\">\n            <h5>{{ record.subject }}</h5>\n            <p>{{ record.introduction }}</p>\n          </div>\n        </q-page>\n      </q-page-container>\n    </q-layout>\n  </div>\n</template>\n<script>\nimport Icon from '../../components/Icon.vue'\nexport default {\n  name: 'TreeView',\n  components: { Icon },\n  data() {\n    return {\n      left: true,\n      filter: '',\n      record: false,\n      teal: '',\n      columns: [\n        {\n          name: 'desc',\n          required: true,\n          label: 'Title',\n          align: 'left',\n          field: row => row.subject,\n          format: val => `${val}`,\n          sortable: true\n        },\n        { name: 'short_time', align: 'center', label: 'Short time', field: 'short_time', sortable: true },\n        { name: 'introduction', align: 'center', label: 'Introduction', field: 'introduction', sortable: true }\n      ],\n      active: '',\n      tree: {\n        data: {\n          records: []\n        },\n        categories: {}\n      },\n      searchData: false\n    }\n  },\n  computed: {},\n  methods: {\n    getCategories() {\n      const aDeferred = $.Deferred()\n      return AppConnector.request({ module: 'KnowledgeBase', action: 'TreeAjax', mode: 'categories' }).done(data => {\n        this.tree.categories = data.result\n        aDeferred.resolve(data.result)\n      })\n    },\n    getData(category = '') {\n      const aDeferred = $.Deferred()\n      this.active = category\n      this.record = false\n      return AppConnector.request({\n        module: 'KnowledgeBase',\n        action: 'TreeAjax',\n        mode: 'data',\n        category: category\n      }).done(data => {\n        this.tree.data = data.result\n        aDeferred.resolve(data.result)\n      })\n    },\n    search(e) {\n      if (this.filter.length > 3) {\n        const aDeferred = $.Deferred()\n        AppConnector.request({\n          module: 'KnowledgeBase',\n          action: 'TreeAjax',\n          mode: 'search',\n          value: this.filter\n        }).done(data => {\n          this.searchData = data.result\n          aDeferred.resolve(data.result)\n          return data.result\n        })\n      } else {\n        this.searchData = false\n      }\n    }\n  },\n  created() {\n    this.getCategories()\n    this.getData()\n  }\n}\n</script>\n<style>\n.tree-search {\n  width: 50%;\n}\n.tree-search .q-field__control,\n.tree-search .q-field__marginal {\n  height: 40px;\n}\n.home-card {\n  width: 100%;\n  max-width: 250px;\n}\n.list-item {\n  width: 50%;\n  max-width: 100%;\n}\n</style>\n"]}, media: undefined });
+
+  };
   /* scoped */
   const __vue_scope_id__$1 = undefined;
   /* module identifier */
   const __vue_module_identifier__$1 = undefined;
   /* functional template */
   const __vue_is_functional_template__$1 = false;
+  /* style inject SSR */
+  
+
+  
+  var TreeView = normalizeComponent_1(
+    { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
+    __vue_inject_styles__$1,
+    __vue_script__$1,
+    __vue_scope_id__$1,
+    __vue_is_functional_template__$1,
+    __vue_module_identifier__$1,
+    browser,
+    undefined
+  );
+
+//
+var script$2 = {
+  name: 'Tree',
+  components: { TreeView }
+};
+
+/* script */
+const __vue_script__$2 = script$2;
+
+/* template */
+var __vue_render__$2 = function() {
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c("tree-view")
+};
+var __vue_staticRenderFns__$2 = [];
+__vue_render__$2._withStripped = true;
+
+  /* style */
+  const __vue_inject_styles__$2 = undefined;
+  /* scoped */
+  const __vue_scope_id__$2 = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$2 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$2 = false;
   /* style inject */
   
   /* style inject SSR */
@@ -13126,12 +13034,12 @@ __vue_render__$1._withStripped = true;
 
   
   var Tree = normalizeComponent_1(
-    { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
-    __vue_inject_styles__$1,
-    __vue_script__$1,
-    __vue_scope_id__$1,
-    __vue_is_functional_template__$1,
-    __vue_module_identifier__$1,
+    { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
+    __vue_inject_styles__$2,
+    __vue_script__$2,
+    __vue_scope_id__$2,
+    __vue_is_functional_template__$2,
+    __vue_module_identifier__$2,
     undefined,
     undefined
   );

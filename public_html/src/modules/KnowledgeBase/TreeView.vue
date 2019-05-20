@@ -6,26 +6,28 @@
       <q-header elevated class="bg-primary text-white">
         <q-toolbar>
           <q-btn dense flat round icon="mdi-menu" @click="left = !left"></q-btn>
-          <q-toolbar-title>
-            Knowledge Base
-          </q-toolbar-title>
-
-          <q-breadcrumbs active-color="info">
+          <q-breadcrumbs active-color="info" class="ml-2">
+            <template v-slot:separator>
+              <q-icon size="1.5em" name="mdi-chevron-right" />
+            </template>
             <q-breadcrumbs-el icon="mdi-home" @click="getData()" />
             <template v-if="this.active !== ''">
               <q-breadcrumbs-el
                 v-for="category in tree.categories[this.active].parentTree"
                 :key="tree.categories[category].label"
-                :label="tree.categories[category].label"
                 @click="getData(category)"
-              />
+              >
+                <icon :icon="tree.categories[category].icon" class="q-mr-sm"></icon>
+                {{ tree.categories[category].label }}
+              </q-breadcrumbs-el>
             </template>
             <q-breadcrumbs-el v-if="record !== false" icon="mdi-text" :label="record.subject" />
           </q-breadcrumbs>
+          <q-checkbox dark v-model="teal" label="Search current category" class="ml-auto" />
           <q-input
             v-model="filter"
             placeholder="Search"
-            square
+            rounded
             outlined
             type="search"
             bg-color="grey-1"
@@ -63,11 +65,13 @@
               "
             >
               <q-item-section avatar>
-                <q-icon v-if="/^mdi|^fa/.test(tree.categories[active].icon)" :name="tree.categories[active].icon" />
-                <q-icon v-else :class="[tree.categories[active].icon, 'q-icon']" />
+                <icon :icon="tree.categories[active].icon" />
               </q-item-section>
               <q-item-section>
                 {{ tree.categories[active].label }}
+              </q-item-section>
+              <q-item-section avatar>
+                <q-icon name="mdi-chevron-left" />
               </q-item-section>
             </q-item>
             <q-item
@@ -78,14 +82,13 @@
               @click="getData(categoryValue)"
             >
               <q-item-section avatar>
-                <q-icon
-                  v-if="/^mdi|^fa/.test(tree.categories[categoryValue].icon)"
-                  :name="tree.categories[categoryValue].icon"
-                />
-                <q-icon v-else :class="[tree.categories[categoryValue].icon, 'q-icon']" />
+                <icon :icon="tree.categories[categoryValue].icon" />
               </q-item-section>
               <q-item-section>
                 {{ tree.categories[categoryValue].label }}
+              </q-item-section>
+              <q-item-section avatar>
+                <q-icon name="mdi-chevron-right" />
               </q-item-section>
             </q-item>
 
@@ -204,13 +207,16 @@
   </div>
 </template>
 <script>
+import Icon from '../../components/Icon.vue'
 export default {
   name: 'TreeView',
+  components: { Icon },
   data() {
     return {
       left: true,
       filter: '',
       record: false,
+      teal: '',
       columns: [
         {
           name: 'desc',
@@ -247,7 +253,6 @@ export default {
       const aDeferred = $.Deferred()
       this.active = category
       this.record = false
-      console.log(category)
       return AppConnector.request({
         module: 'KnowledgeBase',
         action: 'TreeAjax',
@@ -255,7 +260,6 @@ export default {
         category: category
       }).done(data => {
         this.tree.data = data.result
-        console.log(data.result)
         aDeferred.resolve(data.result)
       })
     },
