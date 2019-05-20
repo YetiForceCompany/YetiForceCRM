@@ -11,9 +11,9 @@
               <q-icon size="1.5em" name="mdi-chevron-right" />
             </template>
             <q-breadcrumbs-el icon="mdi-home" @click="getData()" />
-            <template v-if="this.active !== ''">
+            <template v-if="this.activeCategory !== ''">
               <q-breadcrumbs-el
-                v-for="category in tree.categories[this.active].parentTree"
+                v-for="category in tree.categories[this.activeCategory].parentTree"
                 :key="tree.categories[category].label"
                 @click="getData(category)"
               >
@@ -23,7 +23,7 @@
             </template>
             <q-breadcrumbs-el v-if="record !== false" icon="mdi-text" :label="record.subject" />
           </q-breadcrumbs>
-          <q-checkbox dark v-model="teal" label="Search current category" class="ml-auto" />
+          <q-checkbox dark v-model="categorySearch" label="Search current category" class="ml-auto" />
           <q-input
             v-model="filter"
             placeholder="Search"
@@ -44,7 +44,7 @@
       <q-drawer v-model="left" side="left" elevated :width="250" :breakpoint="700">
         <q-scroll-area class="fit">
           <q-list>
-            <q-item v-show="active === ''" clickable active>
+            <q-item v-show="activeCategory === ''" clickable active>
               <q-item-section avatar>
                 <q-icon name="mdi-home" />
               </q-item-section>
@@ -53,22 +53,22 @@
               </q-item-section>
             </q-item>
             <q-item
-              v-if="active !== ''"
+              v-if="activeCategory !== ''"
               clickable
               :active="!record"
               @click="
                 getData(
-                  tree.categories[active].parentTree.length !== 1
-                    ? tree.categories[active].parentTree[tree.categories[active].parentTree.length - 2]
+                  tree.categories[activeCategory].parentTree.length !== 1
+                    ? tree.categories[activeCategory].parentTree[tree.categories[activeCategory].parentTree.length - 2]
                     : ''
                 )
               "
             >
               <q-item-section avatar>
-                <icon :icon="tree.categories[active].icon" />
+                <icon :icon="tree.categories[activeCategory].icon" />
               </q-item-section>
               <q-item-section>
-                {{ tree.categories[active].label }}
+                {{ tree.categories[activeCategory].label }}
               </q-item-section>
               <q-item-section avatar>
                 <q-icon name="mdi-chevron-left" />
@@ -115,7 +115,7 @@
       <q-page-container>
         <q-page class="q-pa-md">
           <div v-if="!record && !searchData">
-            <div class="q-pa-md row items-start q-gutter-md">
+            <div v-show="typeof tree.data.featured.length === 'undefined'" class="q-pa-md row items-start q-gutter-md">
               <template v-for="(categoryValue, categoryKey) in tree.data.categories">
                 <q-list
                   bordered
@@ -126,47 +126,54 @@
                   class="home-card"
                 >
                   <q-item-label header>{{ tree.categories[categoryValue].label }}</q-item-label>
-
                   <q-item
                     clickable
                     v-for="featuredValue in tree.data.featured[categoryValue]"
                     :key="featuredValue.id"
                     class="text-subtitle2"
                     v-ripple
-                    @click="record = featuredValue"
+                    @click.prevent="record = featuredValue"
                   >
                     <q-item-section avatar>
                       <q-icon name="mdi-text"></q-icon>
                     </q-item-section>
-                    <q-item-section> {{ featuredValue.subject }} </q-item-section>
+                    <q-item-section>
+                      <a
+                        class="js-popover-tooltip--record"
+                        :href="`index.php?module=KnowledgeBase&view=Detail&record=${featuredValue.id}`"
+                      >
+                        {{ featuredValue.subject }}</a
+                      >
+                    </q-item-section>
                   </q-item>
                 </q-list>
               </template>
             </div>
-            <div class="q-pa-md row items-start q-gutter-md">
-              <q-table
-                v-if="active !== ''"
-                :data="Object.values(tree.data.records)"
-                :columns="columns"
-                row-key="subject"
-                grid
-                hide-header
-              >
-                <template v-slot:item="props">
-                  <q-list class="list-item" padding @click="record = props.row">
-                    <q-item clickable>
-                      <q-item-section>
-                        <q-item-label overline>{{ props.row.subject }}</q-item-label>
-                        <q-item-label caption>{{ props.row.introduction }}</q-item-label>
-                      </q-item-section>
-                      <q-item-section side top>
-                        <q-item-label caption>{{ props.row.short_time }}</q-item-label>
-                      </q-item-section>
-                    </q-item>
-                  </q-list>
-                </template>
-              </q-table>
-            </div>
+            <q-table
+              v-if="activeCategory !== ''"
+              :data="Object.values(tree.data.records)"
+              :columns="columns"
+              row-key="subject"
+              grid
+              hide-header
+            >
+              <template v-slot:item="props">
+                <q-list class="list-item" padding @click="record = props.row">
+                  <q-item clickable>
+                    <q-item-section>
+                      <q-item-label overline>{{ props.row.subject }}</q-item-label>
+                      <q-item-label caption>{{ props.row.introduction }}</q-item-label>
+                    </q-item-section>
+                    <q-item-section side top>
+                      <q-item-label caption>{{ props.row.short_time }}</q-item-label>
+                      <q-tooltip>
+                        {{ props.row.full_time }}
+                      </q-tooltip>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </template>
+            </q-table>
           </div>
           <q-table
             v-if="searchData"
@@ -191,7 +198,12 @@
                     <q-item-label caption>{{ props.row.introduction }}</q-item-label>
                   </q-item-section>
                   <q-item-section side top>
-                    <q-item-label caption>{{ props.row.short_time }}</q-item-label>
+                    <q-item-label caption
+                      >{{ props.row.short_time }}
+                      <q-tooltip>
+                        {{ props.row.full_time }}
+                      </q-tooltip>
+                    </q-item-label>
                   </q-item-section>
                 </q-item>
               </q-list>
@@ -216,7 +228,7 @@ export default {
       left: true,
       filter: '',
       record: false,
-      teal: '',
+      categorySearch: false,
       columns: [
         {
           name: 'desc',
@@ -230,10 +242,11 @@ export default {
         { name: 'short_time', align: 'center', label: 'Short time', field: 'short_time', sortable: true },
         { name: 'introduction', align: 'center', label: 'Introduction', field: 'introduction', sortable: true }
       ],
-      active: '',
+      activeCategory: '',
       tree: {
         data: {
-          records: []
+          records: [],
+          featured: {}
         },
         categories: {}
       },
@@ -251,8 +264,11 @@ export default {
     },
     getData(category = '') {
       const aDeferred = $.Deferred()
-      this.active = category
+      this.activeCategory = category
       this.record = false
+      const progressIndicatorElement = $.progressIndicator({
+        blockInfo: { enabled: true }
+      })
       return AppConnector.request({
         module: 'KnowledgeBase',
         action: 'TreeAjax',
@@ -260,20 +276,26 @@ export default {
         category: category
       }).done(data => {
         this.tree.data = data.result
+        progressIndicatorElement.progressIndicator({ mode: 'hide' })
         aDeferred.resolve(data.result)
       })
     },
     search(e) {
       if (this.filter.length > 3) {
         const aDeferred = $.Deferred()
+        const progressIndicatorElement = $.progressIndicator({
+          blockInfo: { enabled: true }
+        })
         AppConnector.request({
           module: 'KnowledgeBase',
           action: 'TreeAjax',
           mode: 'search',
-          value: this.filter
+          value: this.filter,
+          category: this.categorySearch ? this.activeCategory : ''
         }).done(data => {
           this.searchData = data.result
           aDeferred.resolve(data.result)
+          progressIndicatorElement.progressIndicator({ mode: 'hide' })
           return data.result
         })
       } else {
@@ -281,9 +303,9 @@ export default {
       }
     }
   },
-  created() {
-    this.getCategories()
-    this.getData()
+  async created() {
+    await this.getCategories()
+    await this.getData()
   }
 }
 </script>
@@ -300,7 +322,7 @@ export default {
   max-width: 250px;
 }
 .list-item {
-  width: 50%;
-  max-width: 100%;
+  width: 100%;
+  max-width: 600px;
 }
 </style>

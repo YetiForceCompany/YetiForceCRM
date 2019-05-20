@@ -12166,7 +12166,7 @@ var script$1 = {
       left: true,
       filter: '',
       record: false,
-      teal: '',
+      categorySearch: false,
       columns: [
         {
           name: 'desc',
@@ -12180,10 +12180,11 @@ var script$1 = {
         { name: 'short_time', align: 'center', label: 'Short time', field: 'short_time', sortable: true },
         { name: 'introduction', align: 'center', label: 'Introduction', field: 'introduction', sortable: true }
       ],
-      active: '',
+      activeCategory: '',
       tree: {
         data: {
-          records: []
+          records: [],
+          featured: {}
         },
         categories: {}
       },
@@ -12201,8 +12202,11 @@ var script$1 = {
     },
     getData(category = '') {
       const aDeferred = $.Deferred();
-      this.active = category;
+      this.activeCategory = category;
       this.record = false;
+      const progressIndicatorElement = $.progressIndicator({
+        blockInfo: { enabled: true }
+      });
       return AppConnector.request({
         module: 'KnowledgeBase',
         action: 'TreeAjax',
@@ -12210,20 +12214,26 @@ var script$1 = {
         category: category
       }).done(data => {
         this.tree.data = data.result;
+        progressIndicatorElement.progressIndicator({ mode: 'hide' });
         aDeferred.resolve(data.result);
       })
     },
     search(e) {
       if (this.filter.length > 3) {
         const aDeferred = $.Deferred();
+        const progressIndicatorElement = $.progressIndicator({
+          blockInfo: { enabled: true }
+        });
         AppConnector.request({
           module: 'KnowledgeBase',
           action: 'TreeAjax',
           mode: 'search',
-          value: this.filter
+          value: this.filter,
+          category: this.categorySearch ? this.activeCategory : ''
         }).done(data => {
           this.searchData = data.result;
           aDeferred.resolve(data.result);
+          progressIndicatorElement.progressIndicator({ mode: 'hide' });
           return data.result
         });
       } else {
@@ -12231,9 +12241,9 @@ var script$1 = {
       }
     }
   },
-  created() {
-    this.getCategories();
-    this.getData();
+  async created() {
+    await this.getCategories();
+    await this.getData();
   }
 };
 
@@ -12305,9 +12315,9 @@ var __vue_render__$1 = function() {
                         }
                       }),
                       _vm._v(" "),
-                      this.active !== ""
+                      this.activeCategory !== ""
                         ? _vm._l(
-                            _vm.tree.categories[this.active].parentTree,
+                            _vm.tree.categories[this.activeCategory].parentTree,
                             function(category) {
                               return _c(
                                 "q-breadcrumbs-el",
@@ -12356,11 +12366,11 @@ var __vue_render__$1 = function() {
                     staticClass: "ml-auto",
                     attrs: { dark: "", label: "Search current category" },
                     model: {
-                      value: _vm.teal,
+                      value: _vm.categorySearch,
                       callback: function($$v) {
-                        _vm.teal = $$v;
+                        _vm.categorySearch = $$v;
                       },
-                      expression: "teal"
+                      expression: "categorySearch"
                     }
                   }),
                   _vm._v(" "),
@@ -12432,8 +12442,8 @@ var __vue_render__$1 = function() {
                             {
                               name: "show",
                               rawName: "v-show",
-                              value: _vm.active === "",
-                              expression: "active === ''"
+                              value: _vm.activeCategory === "",
+                              expression: "activeCategory === ''"
                             }
                           ],
                           attrs: { clickable: "", active: "" }
@@ -12453,7 +12463,7 @@ var __vue_render__$1 = function() {
                         1
                       ),
                       _vm._v(" "),
-                      _vm.active !== ""
+                      _vm.activeCategory !== ""
                         ? _c(
                             "q-item",
                             {
@@ -12461,12 +12471,13 @@ var __vue_render__$1 = function() {
                               on: {
                                 click: function($event) {
                                   return _vm.getData(
-                                    _vm.tree.categories[_vm.active].parentTree
-                                      .length !== 1
-                                      ? _vm.tree.categories[_vm.active]
+                                    _vm.tree.categories[_vm.activeCategory]
+                                      .parentTree.length !== 1
+                                      ? _vm.tree.categories[_vm.activeCategory]
                                           .parentTree[
-                                          _vm.tree.categories[_vm.active]
-                                            .parentTree.length - 2
+                                          _vm.tree.categories[
+                                            _vm.activeCategory
+                                          ].parentTree.length - 2
                                         ]
                                       : ""
                                   )
@@ -12480,7 +12491,9 @@ var __vue_render__$1 = function() {
                                 [
                                   _c("icon", {
                                     attrs: {
-                                      icon: _vm.tree.categories[_vm.active].icon
+                                      icon:
+                                        _vm.tree.categories[_vm.activeCategory]
+                                          .icon
                                     }
                                   })
                                 ],
@@ -12491,7 +12504,8 @@ var __vue_render__$1 = function() {
                                 _vm._v(
                                   "\n              " +
                                     _vm._s(
-                                      _vm.tree.categories[_vm.active].label
+                                      _vm.tree.categories[_vm.activeCategory]
+                                        .label
                                     ) +
                                     "\n            "
                                 )
@@ -12632,229 +12646,257 @@ var __vue_render__$1 = function() {
                 { staticClass: "q-pa-md" },
                 [
                   !_vm.record && !_vm.searchData
-                    ? _c("div", [
-                        _c(
-                          "div",
-                          {
-                            staticClass: "q-pa-md row items-start q-gutter-md"
-                          },
-                          [
-                            _vm._l(_vm.tree.data.categories, function(
-                              categoryValue,
-                              categoryKey
-                            ) {
-                              return [
-                                _vm.tree.data.featured[categoryValue]
-                                  ? _c(
-                                      "q-list",
-                                      {
-                                        key: categoryKey,
-                                        staticClass: "home-card",
-                                        attrs: {
-                                          bordered: "",
-                                          padding: "",
-                                          dense: ""
-                                        }
-                                      },
-                                      [
-                                        _c(
-                                          "q-item-label",
-                                          { attrs: { header: "" } },
-                                          [
-                                            _vm._v(
-                                              _vm._s(
-                                                _vm.tree.categories[
-                                                  categoryValue
-                                                ].label
-                                              )
-                                            )
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _vm._l(
-                                          _vm.tree.data.featured[categoryValue],
-                                          function(featuredValue) {
-                                            return _c(
-                                              "q-item",
-                                              {
-                                                directives: [
-                                                  {
-                                                    name: "ripple",
-                                                    rawName: "v-ripple"
-                                                  }
-                                                ],
-                                                key: featuredValue.id,
-                                                staticClass: "text-subtitle2",
-                                                attrs: { clickable: "" },
-                                                on: {
-                                                  click: function($event) {
-                                                    _vm.record = featuredValue;
-                                                  }
-                                                }
-                                              },
-                                              [
-                                                _c(
-                                                  "q-item-section",
-                                                  { attrs: { avatar: "" } },
-                                                  [
-                                                    _c("q-icon", {
-                                                      attrs: {
-                                                        name: "mdi-text"
-                                                      }
-                                                    })
-                                                  ],
-                                                  1
-                                                ),
-                                                _vm._v(" "),
-                                                _c("q-item-section", [
-                                                  _vm._v(
-                                                    " " +
-                                                      _vm._s(
-                                                        featuredValue.subject
-                                                      ) +
-                                                      " "
-                                                  )
-                                                ])
-                                              ],
-                                              1
-                                            )
+                    ? _c(
+                        "div",
+                        [
+                          _c(
+                            "div",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value:
+                                    typeof _vm.tree.data.featured.length ===
+                                    "undefined",
+                                  expression:
+                                    "typeof tree.data.featured.length === 'undefined'"
+                                }
+                              ],
+                              staticClass: "q-pa-md row items-start q-gutter-md"
+                            },
+                            [
+                              _vm._l(_vm.tree.data.categories, function(
+                                categoryValue,
+                                categoryKey
+                              ) {
+                                return [
+                                  _vm.tree.data.featured[categoryValue]
+                                    ? _c(
+                                        "q-list",
+                                        {
+                                          key: categoryKey,
+                                          staticClass: "home-card",
+                                          attrs: {
+                                            bordered: "",
+                                            padding: "",
+                                            dense: ""
                                           }
-                                        )
-                                      ],
-                                      2
-                                    )
-                                  : _vm._e()
-                              ]
-                            })
-                          ],
-                          2
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          {
-                            staticClass: "q-pa-md row items-start q-gutter-md"
-                          },
-                          [
-                            _vm.active !== ""
-                              ? _c("q-table", {
-                                  attrs: {
-                                    data: Object.values(_vm.tree.data.records),
-                                    columns: _vm.columns,
-                                    "row-key": "subject",
-                                    grid: "",
-                                    "hide-header": ""
-                                  },
-                                  scopedSlots: _vm._u(
-                                    [
-                                      {
-                                        key: "item",
-                                        fn: function(props) {
-                                          return [
-                                            _c(
-                                              "q-list",
-                                              {
-                                                staticClass: "list-item",
-                                                attrs: { padding: "" },
-                                                on: {
-                                                  click: function($event) {
-                                                    _vm.record = props.row;
+                                        },
+                                        [
+                                          _c(
+                                            "q-item-label",
+                                            { attrs: { header: "" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.tree.categories[
+                                                    categoryValue
+                                                  ].label
+                                                )
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm._l(
+                                            _vm.tree.data.featured[
+                                              categoryValue
+                                            ],
+                                            function(featuredValue) {
+                                              return _c(
+                                                "q-item",
+                                                {
+                                                  directives: [
+                                                    {
+                                                      name: "ripple",
+                                                      rawName: "v-ripple"
+                                                    }
+                                                  ],
+                                                  key: featuredValue.id,
+                                                  staticClass: "text-subtitle2",
+                                                  attrs: { clickable: "" },
+                                                  on: {
+                                                    click: function($event) {
+                                                      $event.preventDefault();
+                                                      _vm.record = featuredValue;
+                                                    }
                                                   }
-                                                }
-                                              },
-                                              [
-                                                _c(
-                                                  "q-item",
-                                                  { attrs: { clickable: "" } },
-                                                  [
-                                                    _c(
-                                                      "q-item-section",
-                                                      [
-                                                        _c(
-                                                          "q-item-label",
-                                                          {
-                                                            attrs: {
-                                                              overline: ""
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              _vm._s(
-                                                                props.row
-                                                                  .subject
-                                                              )
-                                                            )
-                                                          ]
-                                                        ),
-                                                        _vm._v(" "),
-                                                        _c(
-                                                          "q-item-label",
-                                                          {
-                                                            attrs: {
-                                                              caption: ""
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              _vm._s(
-                                                                props.row
-                                                                  .introduction
-                                                              )
-                                                            )
-                                                          ]
-                                                        )
-                                                      ],
-                                                      1
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "q-item-section",
-                                                      {
+                                                },
+                                                [
+                                                  _c(
+                                                    "q-item-section",
+                                                    { attrs: { avatar: "" } },
+                                                    [
+                                                      _c("q-icon", {
                                                         attrs: {
-                                                          side: "",
-                                                          top: ""
+                                                          name: "mdi-text"
+                                                        }
+                                                      })
+                                                    ],
+                                                    1
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c("q-item-section", [
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        staticClass:
+                                                          "js-popover-tooltip--record",
+                                                        attrs: {
+                                                          href:
+                                                            "index.php?module=KnowledgeBase&view=Detail&record=" +
+                                                            featuredValue.id
                                                         }
                                                       },
                                                       [
-                                                        _c(
-                                                          "q-item-label",
-                                                          {
-                                                            attrs: {
-                                                              caption: ""
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              _vm._s(
-                                                                props.row
-                                                                  .short_time
-                                                              )
+                                                        _vm._v(
+                                                          "\n                      " +
+                                                            _vm._s(
+                                                              featuredValue.subject
                                                             )
-                                                          ]
                                                         )
-                                                      ],
-                                                      1
+                                                      ]
                                                     )
-                                                  ],
-                                                  1
-                                                )
-                                              ],
-                                              1
-                                            )
-                                          ]
-                                        }
+                                                  ])
+                                                ],
+                                                1
+                                              )
+                                            }
+                                          )
+                                        ],
+                                        2
+                                      )
+                                    : _vm._e()
+                                ]
+                              })
+                            ],
+                            2
+                          ),
+                          _vm._v(" "),
+                          _vm.activeCategory !== ""
+                            ? _c("q-table", {
+                                attrs: {
+                                  data: Object.values(_vm.tree.data.records),
+                                  columns: _vm.columns,
+                                  "row-key": "subject",
+                                  grid: "",
+                                  "hide-header": ""
+                                },
+                                scopedSlots: _vm._u(
+                                  [
+                                    {
+                                      key: "item",
+                                      fn: function(props) {
+                                        return [
+                                          _c(
+                                            "q-list",
+                                            {
+                                              staticClass: "list-item",
+                                              attrs: { padding: "" },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.record = props.row;
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "q-item",
+                                                { attrs: { clickable: "" } },
+                                                [
+                                                  _c(
+                                                    "q-item-section",
+                                                    [
+                                                      _c(
+                                                        "q-item-label",
+                                                        {
+                                                          attrs: {
+                                                            overline: ""
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              props.row.subject
+                                                            )
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "q-item-label",
+                                                        {
+                                                          attrs: { caption: "" }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              props.row
+                                                                .introduction
+                                                            )
+                                                          )
+                                                        ]
+                                                      )
+                                                    ],
+                                                    1
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "q-item-section",
+                                                    {
+                                                      attrs: {
+                                                        side: "",
+                                                        top: ""
+                                                      }
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "q-item-label",
+                                                        {
+                                                          attrs: { caption: "" }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              props.row
+                                                                .short_time
+                                                            )
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c("q-tooltip", [
+                                                        _vm._v(
+                                                          "\n                      " +
+                                                            _vm._s(
+                                                              props.row
+                                                                .full_time
+                                                            ) +
+                                                            "\n                    "
+                                                        )
+                                                      ])
+                                                    ],
+                                                    1
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ]
                                       }
-                                    ],
-                                    null,
-                                    false,
-                                    1651330462
-                                  )
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ])
+                                    }
+                                  ],
+                                  null,
+                                  false,
+                                  1105385616
+                                )
+                              })
+                            : _vm._e()
+                        ],
+                        1
+                      )
                     : _vm._e(),
                   _vm._v(" "),
                   _vm.searchData
@@ -12926,9 +12968,21 @@ var __vue_render__$1 = function() {
                                                 { attrs: { caption: "" } },
                                                 [
                                                   _vm._v(
-                                                    _vm._s(props.row.short_time)
-                                                  )
-                                                ]
+                                                    _vm._s(
+                                                      props.row.short_time
+                                                    ) + "\n                    "
+                                                  ),
+                                                  _c("q-tooltip", [
+                                                    _vm._v(
+                                                      "\n                      " +
+                                                        _vm._s(
+                                                          props.row.full_time
+                                                        ) +
+                                                        "\n                    "
+                                                    )
+                                                  ])
+                                                ],
+                                                1
                                               )
                                             ],
                                             1
@@ -12945,7 +12999,7 @@ var __vue_render__$1 = function() {
                           ],
                           null,
                           false,
-                          1704772170
+                          1366854052
                         )
                       })
                     : _vm._e(),
@@ -12976,7 +13030,7 @@ __vue_render__$1._withStripped = true;
   /* style */
   const __vue_inject_styles__$1 = function (inject) {
     if (!inject) return
-    inject("data-v-e9ffbb76_0", { source: "\n.tree-search {\n  width: 50%;\n}\n.tree-search .q-field__control,\n.tree-search .q-field__marginal {\n  height: 40px;\n}\n.home-card {\n  width: 100%;\n  max-width: 250px;\n}\n.list-item {\n  width: 50%;\n  max-width: 100%;\n}\n", map: {"version":3,"sources":["C:\\www\\YetiForceCRM\\public_html\\src\\modules\\KnowledgeBase\\TreeView.vue"],"names":[],"mappings":";AAkSA;EACA,UAAA;AACA;AACA;;EAEA,YAAA;AACA;AACA;EACA,WAAA;EACA,gBAAA;AACA;AACA;EACA,UAAA;EACA,eAAA;AACA","file":"TreeView.vue","sourcesContent":["/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */\n\n<template>\n  <div class=\"h-100\">\n    <q-layout view=\"hHh lpr fFf\" container class=\"absolute\">\n      <q-header elevated class=\"bg-primary text-white\">\n        <q-toolbar>\n          <q-btn dense flat round icon=\"mdi-menu\" @click=\"left = !left\"></q-btn>\n          <q-breadcrumbs active-color=\"info\" class=\"ml-2\">\n            <template v-slot:separator>\n              <q-icon size=\"1.5em\" name=\"mdi-chevron-right\" />\n            </template>\n            <q-breadcrumbs-el icon=\"mdi-home\" @click=\"getData()\" />\n            <template v-if=\"this.active !== ''\">\n              <q-breadcrumbs-el\n                v-for=\"category in tree.categories[this.active].parentTree\"\n                :key=\"tree.categories[category].label\"\n                @click=\"getData(category)\"\n              >\n                <icon :icon=\"tree.categories[category].icon\" class=\"q-mr-sm\"></icon>\n                {{ tree.categories[category].label }}\n              </q-breadcrumbs-el>\n            </template>\n            <q-breadcrumbs-el v-if=\"record !== false\" icon=\"mdi-text\" :label=\"record.subject\" />\n          </q-breadcrumbs>\n          <q-checkbox dark v-model=\"teal\" label=\"Search current category\" class=\"ml-auto\" />\n          <q-input\n            v-model=\"filter\"\n            placeholder=\"Search\"\n            rounded\n            outlined\n            type=\"search\"\n            bg-color=\"grey-1\"\n            class=\"tree-search\"\n            @input=\"search\"\n          >\n            <template v-slot:append>\n              <q-icon name=\"mdi-magnify\" />\n            </template>\n          </q-input>\n        </q-toolbar>\n      </q-header>\n\n      <q-drawer v-model=\"left\" side=\"left\" elevated :width=\"250\" :breakpoint=\"700\">\n        <q-scroll-area class=\"fit\">\n          <q-list>\n            <q-item v-show=\"active === ''\" clickable active>\n              <q-item-section avatar>\n                <q-icon name=\"mdi-home\" />\n              </q-item-section>\n              <q-item-section>\n                Home\n              </q-item-section>\n            </q-item>\n            <q-item\n              v-if=\"active !== ''\"\n              clickable\n              :active=\"!record\"\n              @click=\"\n                getData(\n                  tree.categories[active].parentTree.length !== 1\n                    ? tree.categories[active].parentTree[tree.categories[active].parentTree.length - 2]\n                    : ''\n                )\n              \"\n            >\n              <q-item-section avatar>\n                <icon :icon=\"tree.categories[active].icon\" />\n              </q-item-section>\n              <q-item-section>\n                {{ tree.categories[active].label }}\n              </q-item-section>\n              <q-item-section avatar>\n                <q-icon name=\"mdi-chevron-left\" />\n              </q-item-section>\n            </q-item>\n            <q-item\n              v-for=\"(categoryValue, categoryKey) in tree.data.categories\"\n              :key=\"categoryKey\"\n              clickable\n              v-ripple\n              @click=\"getData(categoryValue)\"\n            >\n              <q-item-section avatar>\n                <icon :icon=\"tree.categories[categoryValue].icon\" />\n              </q-item-section>\n              <q-item-section>\n                {{ tree.categories[categoryValue].label }}\n              </q-item-section>\n              <q-item-section avatar>\n                <q-icon name=\"mdi-chevron-right\" />\n              </q-item-section>\n            </q-item>\n\n            <q-separator v-if=\"tree.data.records.length\" />\n            <q-item\n              v-for=\"(recordValue, index) in tree.data.records\"\n              :key=\"index\"\n              clickable\n              v-ripple\n              :active=\"record === recordValue\"\n              @click=\"record = recordValue\"\n            >\n              <q-item-section avatar>\n                <q-icon name=\"mdi-text\" />\n              </q-item-section>\n              <q-item-section>\n                {{ recordValue.subject }}\n              </q-item-section>\n            </q-item>\n          </q-list>\n        </q-scroll-area>\n      </q-drawer>\n\n      <q-page-container>\n        <q-page class=\"q-pa-md\">\n          <div v-if=\"!record && !searchData\">\n            <div class=\"q-pa-md row items-start q-gutter-md\">\n              <template v-for=\"(categoryValue, categoryKey) in tree.data.categories\">\n                <q-list\n                  bordered\n                  padding\n                  dense\n                  v-if=\"tree.data.featured[categoryValue]\"\n                  :key=\"categoryKey\"\n                  class=\"home-card\"\n                >\n                  <q-item-label header>{{ tree.categories[categoryValue].label }}</q-item-label>\n\n                  <q-item\n                    clickable\n                    v-for=\"featuredValue in tree.data.featured[categoryValue]\"\n                    :key=\"featuredValue.id\"\n                    class=\"text-subtitle2\"\n                    v-ripple\n                    @click=\"record = featuredValue\"\n                  >\n                    <q-item-section avatar>\n                      <q-icon name=\"mdi-text\"></q-icon>\n                    </q-item-section>\n                    <q-item-section> {{ featuredValue.subject }} </q-item-section>\n                  </q-item>\n                </q-list>\n              </template>\n            </div>\n            <div class=\"q-pa-md row items-start q-gutter-md\">\n              <q-table\n                v-if=\"active !== ''\"\n                :data=\"Object.values(tree.data.records)\"\n                :columns=\"columns\"\n                row-key=\"subject\"\n                grid\n                hide-header\n              >\n                <template v-slot:item=\"props\">\n                  <q-list class=\"list-item\" padding @click=\"record = props.row\">\n                    <q-item clickable>\n                      <q-item-section>\n                        <q-item-label overline>{{ props.row.subject }}</q-item-label>\n                        <q-item-label caption>{{ props.row.introduction }}</q-item-label>\n                      </q-item-section>\n                      <q-item-section side top>\n                        <q-item-label caption>{{ props.row.short_time }}</q-item-label>\n                      </q-item-section>\n                    </q-item>\n                  </q-list>\n                </template>\n              </q-table>\n            </div>\n          </div>\n          <q-table\n            v-if=\"searchData\"\n            :data=\"Object.values(searchData)\"\n            :columns=\"columns\"\n            row-key=\"subject\"\n            grid\n            hide-header\n          >\n            <template v-slot:item=\"props\">\n              <q-list\n                class=\"list-item\"\n                padding\n                @click=\"\n                  record = props.row\n                  searchData = false\n                \"\n              >\n                <q-item clickable>\n                  <q-item-section>\n                    <q-item-label overline>{{ props.row.subject }}</q-item-label>\n                    <q-item-label caption>{{ props.row.introduction }}</q-item-label>\n                  </q-item-section>\n                  <q-item-section side top>\n                    <q-item-label caption>{{ props.row.short_time }}</q-item-label>\n                  </q-item-section>\n                </q-item>\n              </q-list>\n            </template>\n          </q-table>\n          <div v-if=\"record && !searchData\">\n            <h5>{{ record.subject }}</h5>\n            <p>{{ record.introduction }}</p>\n          </div>\n        </q-page>\n      </q-page-container>\n    </q-layout>\n  </div>\n</template>\n<script>\nimport Icon from '../../components/Icon.vue'\nexport default {\n  name: 'TreeView',\n  components: { Icon },\n  data() {\n    return {\n      left: true,\n      filter: '',\n      record: false,\n      teal: '',\n      columns: [\n        {\n          name: 'desc',\n          required: true,\n          label: 'Title',\n          align: 'left',\n          field: row => row.subject,\n          format: val => `${val}`,\n          sortable: true\n        },\n        { name: 'short_time', align: 'center', label: 'Short time', field: 'short_time', sortable: true },\n        { name: 'introduction', align: 'center', label: 'Introduction', field: 'introduction', sortable: true }\n      ],\n      active: '',\n      tree: {\n        data: {\n          records: []\n        },\n        categories: {}\n      },\n      searchData: false\n    }\n  },\n  computed: {},\n  methods: {\n    getCategories() {\n      const aDeferred = $.Deferred()\n      return AppConnector.request({ module: 'KnowledgeBase', action: 'TreeAjax', mode: 'categories' }).done(data => {\n        this.tree.categories = data.result\n        aDeferred.resolve(data.result)\n      })\n    },\n    getData(category = '') {\n      const aDeferred = $.Deferred()\n      this.active = category\n      this.record = false\n      return AppConnector.request({\n        module: 'KnowledgeBase',\n        action: 'TreeAjax',\n        mode: 'data',\n        category: category\n      }).done(data => {\n        this.tree.data = data.result\n        aDeferred.resolve(data.result)\n      })\n    },\n    search(e) {\n      if (this.filter.length > 3) {\n        const aDeferred = $.Deferred()\n        AppConnector.request({\n          module: 'KnowledgeBase',\n          action: 'TreeAjax',\n          mode: 'search',\n          value: this.filter\n        }).done(data => {\n          this.searchData = data.result\n          aDeferred.resolve(data.result)\n          return data.result\n        })\n      } else {\n        this.searchData = false\n      }\n    }\n  },\n  created() {\n    this.getCategories()\n    this.getData()\n  }\n}\n</script>\n<style>\n.tree-search {\n  width: 50%;\n}\n.tree-search .q-field__control,\n.tree-search .q-field__marginal {\n  height: 40px;\n}\n.home-card {\n  width: 100%;\n  max-width: 250px;\n}\n.list-item {\n  width: 50%;\n  max-width: 100%;\n}\n</style>\n"]}, media: undefined });
+    inject("data-v-cd1ecb72_0", { source: "\n.tree-search {\n  width: 50%;\n}\n.tree-search .q-field__control,\n.tree-search .q-field__marginal {\n  height: 40px;\n}\n.home-card {\n  width: 100%;\n  max-width: 250px;\n}\n.list-item {\n  width: 100%;\n  max-width: 600px;\n}\n", map: {"version":3,"sources":["C:\\www\\YetiForceCRM\\public_html\\src\\modules\\KnowledgeBase\\TreeView.vue"],"names":[],"mappings":";AAwTA;EACA,UAAA;AACA;AACA;;EAEA,YAAA;AACA;AACA;EACA,WAAA;EACA,gBAAA;AACA;AACA;EACA,WAAA;EACA,gBAAA;AACA","file":"TreeView.vue","sourcesContent":["/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */\n\n<template>\n  <div class=\"h-100\">\n    <q-layout view=\"hHh lpr fFf\" container class=\"absolute\">\n      <q-header elevated class=\"bg-primary text-white\">\n        <q-toolbar>\n          <q-btn dense flat round icon=\"mdi-menu\" @click=\"left = !left\"></q-btn>\n          <q-breadcrumbs active-color=\"info\" class=\"ml-2\">\n            <template v-slot:separator>\n              <q-icon size=\"1.5em\" name=\"mdi-chevron-right\" />\n            </template>\n            <q-breadcrumbs-el icon=\"mdi-home\" @click=\"getData()\" />\n            <template v-if=\"this.activeCategory !== ''\">\n              <q-breadcrumbs-el\n                v-for=\"category in tree.categories[this.activeCategory].parentTree\"\n                :key=\"tree.categories[category].label\"\n                @click=\"getData(category)\"\n              >\n                <icon :icon=\"tree.categories[category].icon\" class=\"q-mr-sm\"></icon>\n                {{ tree.categories[category].label }}\n              </q-breadcrumbs-el>\n            </template>\n            <q-breadcrumbs-el v-if=\"record !== false\" icon=\"mdi-text\" :label=\"record.subject\" />\n          </q-breadcrumbs>\n          <q-checkbox dark v-model=\"categorySearch\" label=\"Search current category\" class=\"ml-auto\" />\n          <q-input\n            v-model=\"filter\"\n            placeholder=\"Search\"\n            rounded\n            outlined\n            type=\"search\"\n            bg-color=\"grey-1\"\n            class=\"tree-search\"\n            @input=\"search\"\n          >\n            <template v-slot:append>\n              <q-icon name=\"mdi-magnify\" />\n            </template>\n          </q-input>\n        </q-toolbar>\n      </q-header>\n\n      <q-drawer v-model=\"left\" side=\"left\" elevated :width=\"250\" :breakpoint=\"700\">\n        <q-scroll-area class=\"fit\">\n          <q-list>\n            <q-item v-show=\"activeCategory === ''\" clickable active>\n              <q-item-section avatar>\n                <q-icon name=\"mdi-home\" />\n              </q-item-section>\n              <q-item-section>\n                Home\n              </q-item-section>\n            </q-item>\n            <q-item\n              v-if=\"activeCategory !== ''\"\n              clickable\n              :active=\"!record\"\n              @click=\"\n                getData(\n                  tree.categories[activeCategory].parentTree.length !== 1\n                    ? tree.categories[activeCategory].parentTree[tree.categories[activeCategory].parentTree.length - 2]\n                    : ''\n                )\n              \"\n            >\n              <q-item-section avatar>\n                <icon :icon=\"tree.categories[activeCategory].icon\" />\n              </q-item-section>\n              <q-item-section>\n                {{ tree.categories[activeCategory].label }}\n              </q-item-section>\n              <q-item-section avatar>\n                <q-icon name=\"mdi-chevron-left\" />\n              </q-item-section>\n            </q-item>\n            <q-item\n              v-for=\"(categoryValue, categoryKey) in tree.data.categories\"\n              :key=\"categoryKey\"\n              clickable\n              v-ripple\n              @click=\"getData(categoryValue)\"\n            >\n              <q-item-section avatar>\n                <icon :icon=\"tree.categories[categoryValue].icon\" />\n              </q-item-section>\n              <q-item-section>\n                {{ tree.categories[categoryValue].label }}\n              </q-item-section>\n              <q-item-section avatar>\n                <q-icon name=\"mdi-chevron-right\" />\n              </q-item-section>\n            </q-item>\n\n            <q-separator v-if=\"tree.data.records.length\" />\n            <q-item\n              v-for=\"(recordValue, index) in tree.data.records\"\n              :key=\"index\"\n              clickable\n              v-ripple\n              :active=\"record === recordValue\"\n              @click=\"record = recordValue\"\n            >\n              <q-item-section avatar>\n                <q-icon name=\"mdi-text\" />\n              </q-item-section>\n              <q-item-section>\n                {{ recordValue.subject }}\n              </q-item-section>\n            </q-item>\n          </q-list>\n        </q-scroll-area>\n      </q-drawer>\n\n      <q-page-container>\n        <q-page class=\"q-pa-md\">\n          <div v-if=\"!record && !searchData\">\n            <div v-show=\"typeof tree.data.featured.length === 'undefined'\" class=\"q-pa-md row items-start q-gutter-md\">\n              <template v-for=\"(categoryValue, categoryKey) in tree.data.categories\">\n                <q-list\n                  bordered\n                  padding\n                  dense\n                  v-if=\"tree.data.featured[categoryValue]\"\n                  :key=\"categoryKey\"\n                  class=\"home-card\"\n                >\n                  <q-item-label header>{{ tree.categories[categoryValue].label }}</q-item-label>\n                  <q-item\n                    clickable\n                    v-for=\"featuredValue in tree.data.featured[categoryValue]\"\n                    :key=\"featuredValue.id\"\n                    class=\"text-subtitle2\"\n                    v-ripple\n                    @click.prevent=\"record = featuredValue\"\n                  >\n                    <q-item-section avatar>\n                      <q-icon name=\"mdi-text\"></q-icon>\n                    </q-item-section>\n                    <q-item-section>\n                      <a\n                        class=\"js-popover-tooltip--record\"\n                        :href=\"`index.php?module=KnowledgeBase&view=Detail&record=${featuredValue.id}`\"\n                      >\n                        {{ featuredValue.subject }}</a\n                      >\n                    </q-item-section>\n                  </q-item>\n                </q-list>\n              </template>\n            </div>\n            <q-table\n              v-if=\"activeCategory !== ''\"\n              :data=\"Object.values(tree.data.records)\"\n              :columns=\"columns\"\n              row-key=\"subject\"\n              grid\n              hide-header\n            >\n              <template v-slot:item=\"props\">\n                <q-list class=\"list-item\" padding @click=\"record = props.row\">\n                  <q-item clickable>\n                    <q-item-section>\n                      <q-item-label overline>{{ props.row.subject }}</q-item-label>\n                      <q-item-label caption>{{ props.row.introduction }}</q-item-label>\n                    </q-item-section>\n                    <q-item-section side top>\n                      <q-item-label caption>{{ props.row.short_time }}</q-item-label>\n                      <q-tooltip>\n                        {{ props.row.full_time }}\n                      </q-tooltip>\n                    </q-item-section>\n                  </q-item>\n                </q-list>\n              </template>\n            </q-table>\n          </div>\n          <q-table\n            v-if=\"searchData\"\n            :data=\"Object.values(searchData)\"\n            :columns=\"columns\"\n            row-key=\"subject\"\n            grid\n            hide-header\n          >\n            <template v-slot:item=\"props\">\n              <q-list\n                class=\"list-item\"\n                padding\n                @click=\"\n                  record = props.row\n                  searchData = false\n                \"\n              >\n                <q-item clickable>\n                  <q-item-section>\n                    <q-item-label overline>{{ props.row.subject }}</q-item-label>\n                    <q-item-label caption>{{ props.row.introduction }}</q-item-label>\n                  </q-item-section>\n                  <q-item-section side top>\n                    <q-item-label caption\n                      >{{ props.row.short_time }}\n                      <q-tooltip>\n                        {{ props.row.full_time }}\n                      </q-tooltip>\n                    </q-item-label>\n                  </q-item-section>\n                </q-item>\n              </q-list>\n            </template>\n          </q-table>\n          <div v-if=\"record && !searchData\">\n            <h5>{{ record.subject }}</h5>\n            <p>{{ record.introduction }}</p>\n          </div>\n        </q-page>\n      </q-page-container>\n    </q-layout>\n  </div>\n</template>\n<script>\nimport Icon from '../../components/Icon.vue'\nexport default {\n  name: 'TreeView',\n  components: { Icon },\n  data() {\n    return {\n      left: true,\n      filter: '',\n      record: false,\n      categorySearch: false,\n      columns: [\n        {\n          name: 'desc',\n          required: true,\n          label: 'Title',\n          align: 'left',\n          field: row => row.subject,\n          format: val => `${val}`,\n          sortable: true\n        },\n        { name: 'short_time', align: 'center', label: 'Short time', field: 'short_time', sortable: true },\n        { name: 'introduction', align: 'center', label: 'Introduction', field: 'introduction', sortable: true }\n      ],\n      activeCategory: '',\n      tree: {\n        data: {\n          records: [],\n          featured: {}\n        },\n        categories: {}\n      },\n      searchData: false\n    }\n  },\n  computed: {},\n  methods: {\n    getCategories() {\n      const aDeferred = $.Deferred()\n      return AppConnector.request({ module: 'KnowledgeBase', action: 'TreeAjax', mode: 'categories' }).done(data => {\n        this.tree.categories = data.result\n        aDeferred.resolve(data.result)\n      })\n    },\n    getData(category = '') {\n      const aDeferred = $.Deferred()\n      this.activeCategory = category\n      this.record = false\n      const progressIndicatorElement = $.progressIndicator({\n        blockInfo: { enabled: true }\n      })\n      return AppConnector.request({\n        module: 'KnowledgeBase',\n        action: 'TreeAjax',\n        mode: 'data',\n        category: category\n      }).done(data => {\n        this.tree.data = data.result\n        progressIndicatorElement.progressIndicator({ mode: 'hide' })\n        aDeferred.resolve(data.result)\n      })\n    },\n    search(e) {\n      if (this.filter.length > 3) {\n        const aDeferred = $.Deferred()\n        const progressIndicatorElement = $.progressIndicator({\n          blockInfo: { enabled: true }\n        })\n        AppConnector.request({\n          module: 'KnowledgeBase',\n          action: 'TreeAjax',\n          mode: 'search',\n          value: this.filter,\n          category: this.categorySearch ? this.activeCategory : ''\n        }).done(data => {\n          this.searchData = data.result\n          aDeferred.resolve(data.result)\n          progressIndicatorElement.progressIndicator({ mode: 'hide' })\n          return data.result\n        })\n      } else {\n        this.searchData = false\n      }\n    }\n  },\n  async created() {\n    await this.getCategories()\n    await this.getData()\n  }\n}\n</script>\n<style>\n.tree-search {\n  width: 50%;\n}\n.tree-search .q-field__control,\n.tree-search .q-field__marginal {\n  height: 40px;\n}\n.home-card {\n  width: 100%;\n  max-width: 250px;\n}\n.list-item {\n  width: 100%;\n  max-width: 600px;\n}\n</style>\n"]}, media: undefined });
 
   };
   /* scoped */
