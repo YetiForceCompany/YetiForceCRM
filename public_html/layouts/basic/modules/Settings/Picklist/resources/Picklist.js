@@ -394,68 +394,45 @@ var Settings_Picklist_Js = {
 	/**
 	 * Register process status item save evet
 	 *
-	 * @param   {jQuery}  container
+	 * @param   {jQuery}  form
 	 */
-	registerProcessStatusItemSaveEvent(container) {
-		$(container)
-			.find('#processStatusItemForm')
-			.on('submit', e => {
-				e.preventDefault();
-				let form = $(e.currentTarget);
-				if (form.validationEngine('validate')) {
-					let newValue,
-						oldValue = form.find('[name="oldValue"]').val(),
-						id = form.find('[name="primaryKeyId"]').val(),
-						params = $(e.currentTarget).serializeFormData();
-					if (form.find('[name="newValue"]').length > 0) {
-						newValue = $.trim(form.find('[name="newValue"]').val());
-						params.newValue = newValue;
-					}
-					if (form.data('jqv').InvalidFields.length === 0) {
-						form.find('[name="saveButton"]').attr('disabled', 'disabled');
-					}
-					const progress = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
-					AppConnector.request(params)
-						.done(data => {
-							progress.progressIndicator({ mode: 'hide' });
-							if (typeof data.result !== 'undefined') {
-								app.hideModalWindow();
-								Vtiger_Helper_Js.showPnotify({
-									title: app.vtranslate('JS_MESSAGE'),
-									text: app.vtranslate('JS_ITEM_RENAMED_SUCCESSFULLY'),
-									type: 'success'
-								});
-								if (newValue !== '') {
-									let encodedOldValue = oldValue.replace(/"/g, '\\"'),
-										dragImagePath = $('#dragImagePath').val(),
-										renamedElement =
-											'<tr class="pickListValue u-cursor-pointer">' +
-											'<td class="u-text-ellipsis"><img class="alignMiddle" src="' +
-											dragImagePath +
-											'" />&nbsp;&nbsp;' +
-											data.result.newValue +
-											'</td></tr>';
-									$('[data-key="' + encodedOldValue + '"]').replaceWith(
-										$(renamedElement)
-											.attr('data-key', newValue)
-											.attr('data-key-id', id)
-									);
-									//update the new item in the hidden picklist values array
-									let pickListValuesEle = $('[name="pickListValues"]'),
-										pickListValuesArray = JSON.parse(pickListValuesEle.val());
-									pickListValuesArray[id] = newValue;
-									pickListValuesEle.val(JSON.stringify(pickListValuesArray));
-								}
-							} else {
-								form.find('[name="saveButton"]').attr('disabled', false);
-							}
-						})
-						.fail(function(data, err) {
-							app.errorLog(data, err);
-							progress.progressIndicator({ mode: 'hide' });
-						});
+	registerProcessStatusItemSaveEvent(form) {
+		form.on('submit', e => {
+			e.preventDefault();
+			let form = $(e.currentTarget);
+			if (form.validationEngine('validate')) {
+				let newValue,
+					oldValue = form.find('[name="oldValue"]').val(),
+					id = form.find('[name="primaryKeyId"]').val(),
+					params = $(e.currentTarget).serializeFormData();
+				if (form.find('[name="newValue"]').length > 0) {
+					newValue = $.trim(form.find('[name="newValue"]').val());
+					params.newValue = newValue;
 				}
-			});
+				if (form.data('jqv').InvalidFields.length === 0) {
+					form.find('[name="saveButton"]').attr('disabled', 'disabled');
+				}
+				const progress = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
+				AppConnector.request(params)
+					.done(data => {
+						progress.progressIndicator({ mode: 'hide' });
+						if (typeof data.result !== 'undefined' && data.result === true) {
+							app.hideModalWindow();
+							Vtiger_Helper_Js.showPnotify({
+								title: app.vtranslate('JS_MESSAGE'),
+								text: app.vtranslate('JS_ITEM_SAVED_SUCCESSFULLY'),
+								type: 'success'
+							});
+						} else {
+							form.find('[name="saveButton"]').attr('disabled', false);
+						}
+					})
+					.fail(function(data, err) {
+						app.errorLog(data, err);
+						progress.progressIndicator({ mode: 'hide' });
+					});
+			}
+		});
 	},
 
 	/**
@@ -492,7 +469,7 @@ var Settings_Picklist_Js = {
 					let form = $('#processStatusItemForm');
 					this.registerScrollForNonEditablePicklistValues(form);
 					form.validationEngine();
-					Settings_Picklist_Js.registerProcessStatusItemSaveEvent();
+					Settings_Picklist_Js.registerProcessStatusItemSaveEvent(form);
 				});
 			}
 		});
