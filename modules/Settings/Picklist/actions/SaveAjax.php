@@ -121,7 +121,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	}
 
 	/**
-	 * Rename picklist value.
+	 * Update process status.
 	 *
 	 * @param \App\Request $request
 	 */
