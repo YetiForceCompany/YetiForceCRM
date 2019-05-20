@@ -1513,7 +1513,7 @@ class TextParser
 								}
 							}
 						} elseif (\in_array($field->getType(), $fieldsWithCurrency, true)) {
-							$html .= $field->getDisplayValue($itemValue, $inventoryRow, $rawText) . ' ' . $currencySymbol;
+							$html .= \CurrencyField::appendCurrencySymbol($field->getDisplayValue($itemValue, $inventoryRow, $rawText), $currencySymbol);
 						} else {
 							$html .= $field->getDisplayValue($itemValue, $inventoryRow, $rawText);
 						}
@@ -1522,6 +1522,7 @@ class TextParser
 				}
 				$html .= '</tr>';
 			}
+
 			$html .= '</tbody><tfoot><tr>';
 			foreach ($columns as $name => $field) {
 				$tb = $style = '';
@@ -1531,7 +1532,7 @@ class TextParser
 					foreach ($inventoryRows as $inventoryRow) {
 						$sum += $inventoryRow[$name];
 					}
-					$tb = \CurrencyField::convertToUserFormat($sum, null, true) . ' ' . $currencySymbol;
+					$tb = \CurrencyField::appendCurrencySymbol(\CurrencyField::convertToUserFormat($sum, null, true), $currencySymbol);
 				}
 				$html .= '<th class="col-type-' . $field->getType() . '" style="padding:0px 4px;text-align:right;' . $style . '">' . $tb . '</th>';
 			}

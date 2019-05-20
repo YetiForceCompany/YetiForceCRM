@@ -56,7 +56,7 @@ class Card
 		$dbCommand->update('dav_addressbooks', [
 			'synctoken' => ((int) $addressBook['synctoken']) + 1
 		], ['id' => $addressBookId])
-		->execute();
+			->execute();
 	}
 
 	/**

@@ -19,7 +19,7 @@ class Dependency
 	/**
 	 * Cache file name.
 	 */
-	const CACHE_FILE_NAME = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'security' . DIRECTORY_SEPARATOR . 'dependency.json';
+	const CACHE_FILE_NAME = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'security' . \DIRECTORY_SEPARATOR . 'dependency.json';
 
 	/**
 	 * SensioLabs security checker.

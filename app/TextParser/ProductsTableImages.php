@@ -64,7 +64,7 @@ class ProductsTableImages extends Base
 				foreach ($inventoryRows as $inventoryRow) {
 					$sum += $inventoryRow[$field->getColumnName()];
 				}
-				$footerHtml .= \CurrencyField::convertToUserFormat($sum, null, true) . ' ' . $currencySymbol;
+				$footerHtml .= \CurrencyField::appendCurrencySymbol(\CurrencyField::convertToUserFormat($sum, null, true), $currencySymbol);
 			}
 			$footerHtml .= '</th>';
 			$item['footerHtml'] = $footerHtml;
@@ -113,7 +113,7 @@ class ProductsTableImages extends Base
 							}
 						}
 					} elseif (\in_array($fieldModel->getType(), $fieldsWithCurrency, true)) {
-						$itemHtml .= $fieldModel->getDisplayValue($itemValue, $inventoryRow) . ' ' . $currencySymbol;
+						$itemHtml .= \CurrencyField::appendCurrencySymbol($fieldModel->getDisplayValue($itemValue, $inventoryRow), $currencySymbol);
 					} else {
 						$itemHtml .= $fieldModel->getDisplayValue($itemValue, $inventoryRow);
 					}

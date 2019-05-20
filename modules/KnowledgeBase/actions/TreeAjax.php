@@ -32,7 +32,11 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Get data for knowledge base.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
 	 */
 	public function data(App\Request $request)
 	{
@@ -46,7 +50,11 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Get categories for knowledge base.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
 	 */
 	public function categories(App\Request $request)
 	{
@@ -60,6 +68,29 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($categories);
+		$response->emit();
+	}
+
+	/**
+	 * Search for knowledge base.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function search(App\Request $request)
+	{
+		$rows = [];
+		if (!$request->isEmpty('value')) {
+			$treeModel = KnowledgeBase_Tree_Model::getInstance();
+			if (!$request->isEmpty('category')) {
+				$treeModel->set('parentCategory', $request->getByType('category', 'Alnum'));
+			}
+			$treeModel->set('value', $request->getByType('value', 'Text'));
+			$rows = $treeModel->search();
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($rows);
 		$response->emit();
 	}
 }

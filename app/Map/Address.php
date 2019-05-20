@@ -53,7 +53,7 @@ class Address
 		}
 		$dir = new \DirectoryIterator(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app/Map/Address');
 		foreach ($dir as $fileinfo) {
-			if ($fileinfo->getExtension() === 'php' && ($fileName = $fileinfo->getBasename('.php')) !== 'Base' && static::getInstance($fileName)->isActive()) {
+			if ('php' === $fileinfo->getExtension() && 'Base' !== ($fileName = $fileinfo->getBasename('.php')) && static::getInstance($fileName)->isActive()) {
 				self::$providersCache[] = $fileName;
 			}
 		}
@@ -72,7 +72,7 @@ class Address
 		if (isset(self::$providerInstanceCache[$type])) {
 			return self::$providerInstanceCache[$type];
 		}
-		$className = "\App\Map\Address\\$type";
+		$className = "\\App\\Map\\Address\\$type";
 		return self::$providerInstanceCache[$type] = new $className();
 	}
 

@@ -24,7 +24,7 @@ class IntegerField extends BaseField
 		$condition = ['and'];
 		$conditionFound = false;
 		foreach (static::$extendedOperators as $exo) {
-			if (strpos($value, $exo) !== false) {
+			if (false !== strpos($value, $exo)) {
 				$ev = explode($exo, $value);
 				$condition[] = [$exo, $this->getColumnName(), (int) $ev[1]];
 				$value = str_replace($exo . (int) $ev[1], '', $value);

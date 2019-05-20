@@ -17,7 +17,7 @@ class Integer
 	/**
 	 * Function to display number in user format.
 	 *
-	 * @param string|null $value
+	 * @param null|string $value
 	 *
 	 * @return string
 	 */
@@ -51,7 +51,7 @@ class Integer
 	/**
 	 * Convert number to format for database.
 	 *
-	 * @param string|null $value
+	 * @param null|string $value
 	 *
 	 * @return int
 	 */

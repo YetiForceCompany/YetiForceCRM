@@ -93,7 +93,7 @@ class Record
 	 * Function gets labels for record data.
 	 *
 	 * @param string    $moduleName
-	 * @param int|array $ids
+	 * @param array|int $ids
 	 * @param bool      $search
 	 *
 	 * @return string[]
@@ -209,10 +209,10 @@ class Record
 					$searchRowCount = (new Db\Query())->from('u_#__crmentity_search_label')->where(['crmid' => $id])->count();
 				}
 			}
-			if (($insertMode || !$labelRowCount) && $updater !== 'searchlabel') {
+			if (($insertMode || !$labelRowCount) && 'searchlabel' !== $updater) {
 				$dbCommand->insert('u_#__crmentity_label', ['crmid' => $id, 'label' => $label])->execute();
 			}
-			if (($insertMode || !$searchRowCount) && $updater !== 'label') {
+			if (($insertMode || !$searchRowCount) && 'label' !== $updater) {
 				$dbCommand->insert('u_#__crmentity_search_label', ['crmid' => $id, 'searchlabel' => $search, 'setype' => $moduleName])->execute();
 			}
 			Cache::save('recordLabel', $id, $labelInfo[$id]['name']);
@@ -271,7 +271,7 @@ class Record
 	public static function isExists($recordId, $moduleName = false)
 	{
 		$recordMetaData = Functions::getCRMRecordMetadata($recordId);
-		return (isset($recordMetaData) && $recordMetaData['deleted'] === 0 && ($moduleName ? $recordMetaData['setype'] === $moduleName : true)) ? true : false;
+		return (isset($recordMetaData) && 0 === $recordMetaData['deleted'] && ($moduleName ? $recordMetaData['setype'] === $moduleName : true)) ? true : false;
 	}
 
 	/**
@@ -279,7 +279,7 @@ class Record
 	 *
 	 * @param int $recordId
 	 *
-	 * @return string|null
+	 * @return null|string
 	 */
 	public static function getType($recordId)
 	{
@@ -312,9 +312,9 @@ class Record
 	 * Get parent record.
 	 *
 	 * @param int         $recordId
-	 * @param string|bool $moduleName
+	 * @param bool|string $moduleName
 	 *
-	 * @return int|bool
+	 * @return bool|int
 	 */
 	public static function getParentRecord($recordId, $moduleName = false)
 	{

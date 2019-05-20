@@ -3,7 +3,6 @@
 /**
  * SocialMedia class.
  *
- *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
@@ -132,7 +131,7 @@ class SocialMedia extends Base
 	public static function createObjectByUiType(int $uiType, string $accountName)
 	{
 		$className = static::getClassNameByUiType($uiType);
-		if ($className === false) {
+		if (false === $className) {
 			return false;
 		}
 		return new $className($accountName);
@@ -234,7 +233,7 @@ class SocialMedia extends Base
 			->having(['=', 'count(*)', 1]);
 		if ($query->exists()) {
 			$socialMedia = static::createObjectByUiType($uiType, $accountName);
-			if ($socialMedia === false) {
+			if (false === $socialMedia) {
 				throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE');
 			}
 			$socialMedia->remove();
@@ -256,7 +255,7 @@ class SocialMedia extends Base
 			return;
 		}
 		$query = static::getSocialMediaQuery($socialMediaType);
-		if ($query === false) {
+		if (false === $query) {
 			return;
 		}
 		$dataReader = $query->createCommand()->query();
@@ -295,7 +294,7 @@ class SocialMedia extends Base
 				->from($field['tablename'])
 				->where(['not', [$field['columnname'] => null]])
 				->andWhere(['not', [$field['columnname'] => '']]);
-			if ($i === 0) {
+			if (0 === $i) {
 				$query = $subQuery;
 			} else {
 				$query->union($subQuery, true);

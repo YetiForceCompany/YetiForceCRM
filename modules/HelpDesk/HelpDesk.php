@@ -87,38 +87,6 @@ class HelpDesk extends CRMEntity
 	}
 
 	/**
-	 * Move the related records of the specified list of id's to the given record.
-	 *
-	 * @param string This module name
-	 * @param array List of Entity Id's from which related records need to be transfered
-	 * @param int Id of the the Record to which the related records are to be moved
-	 */
-	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
-	{
-		$dbCommand = \App\Db::getInstance()->createCommand();
-		\App\Log::trace("Entering function transferRelatedRecords (${module}, ${transferEntityIds}, ${entityId})");
-		$relTableArr = ['Attachments' => 'vtiger_seattachmentsrel', 'Documents' => 'vtiger_senotesrel'];
-		$tblFieldArr = ['vtiger_seattachmentsrel' => 'attachmentsid', 'vtiger_senotesrel' => 'notesid'];
-		$entityTblFieldArr = ['vtiger_seattachmentsrel' => 'crmid', 'vtiger_senotesrel' => 'crmid'];
-		foreach ($transferEntityIds as $transferId) {
-			foreach ($relTableArr as $relTable) {
-				$idField = $tblFieldArr[$relTable];
-				$entityIdField = $entityTblFieldArr[$relTable];
-				// IN clause to avoid duplicate entries
-				$subQuery = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $entityId]);
-				$query = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $transferId])->andWhere(['not in', $idField, $subQuery]);
-				$dataReader = $query->createCommand()->query();
-				while ($idFieldValue = $dataReader->readColumn(0)) {
-					$dbCommand->update($relTable, [$entityIdField => $entityId], [$entityIdField => $transferId, $idField => $idFieldValue])->execute();
-				}
-				$dataReader->close();
-			}
-		}
-		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		\App\Log::trace('Exiting transferRelatedRecords...');
-	}
-
-	/**
 	 * Function to get the relation tables for related modules.
 	 *
 	 * @param bool|string $secModule secondary module name

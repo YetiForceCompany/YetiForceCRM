@@ -13,6 +13,18 @@
 class KnowledgeBase_Tree_Model extends \App\Base
 {
 	/**
+	 * Get instance.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return \self
+	 */
+	public static function getInstance()
+	{
+		return new self();
+	}
+
+	/**
 	 * Get folders.
 	 *
 	 * @return array
@@ -107,6 +119,47 @@ class KnowledgeBase_Tree_Model extends \App\Base
 	}
 
 	/**
+	 * Get record list query.
+	 *
+	 * @return App\Db\Query
+	 */
+	public function getListQuery(): App\Db\Query
+	{
+		$queryGenerator = new App\QueryGenerator('KnowledgeBase');
+		$queryGenerator->setFields(['id', 'assigned_user_id', 'subject', 'introduction', 'modifiedtime', 'category']);
+		$queryGenerator->addNativeCondition(['knowledgebase_status' => 'PLL_ACCEPTED']);
+		if ($this->has('parentCategory')) {
+			$queryGenerator->addNativeCondition(['category' => $this->get('parentCategory')]);
+		}
+		$queryGenerator->setLimit(Config\Modules\KnowledgeBase::$treeArticleLimit);
+		return $queryGenerator->createQuery();
+	}
+
+	/**
+	 * Parse record list for display.
+	 *
+	 * @param yii\db\DataReader $dataReader
+	 *
+	 * @return array
+	 */
+	public function parseForDisplay(yii\db\DataReader $dataReader): array
+	{
+		$rows = [];
+		while ($row = $dataReader->read()) {
+			$rows[$row['id']] = [
+				'assigned_user_id' => App\Fields\Owner::getLabel($row['assigned_user_id']),
+				'subject' => $row['subject'],
+				'introduction' => $row['introduction'],
+				'category' => $row['category'],
+				'full_time' => App\Fields\DateTime::formatToDisplay($row['modifiedtime']),
+				'short_time' => \Vtiger_Util_Helper::formatDateDiffInStrings($row['modifiedtime']),
+			];
+		}
+		$dataReader->close();
+		return $rows;
+	}
+
+	/**
 	 * Get records by parent category.
 	 *
 	 * @return array
@@ -116,56 +169,22 @@ class KnowledgeBase_Tree_Model extends \App\Base
 		if ($this->isEmpty('parentCategory')) {
 			return [];
 		}
-		$queryGenerator = new App\QueryGenerator('KnowledgeBase');
-		$queryGenerator->setFields(['id', 'assigned_user_id', 'subject', 'introduction', 'modifiedtime']);
-		$queryGenerator->addNativeCondition(['knowledgebase_status' => 'PLL_ACCEPTED']);
-		$queryGenerator->addNativeCondition(['category' => $this->get('parentCategory')]);
-		$queryGenerator->setLimit(50);
-		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
-		$rows = [];
-		while ($row = $dataReader->read()) {
-			$rows[$row['id']] = [
-				'assigned_user_id' => App\Fields\Owner::getLabel($row['assigned_user_id']),
-				'subject' => $row['subject'],
-				'introduction' => $row['introduction'],
-				'full_time' => App\Fields\DateTime::formatToDisplay($row['modifiedtime']),
-				'short_time' => \Vtiger_Util_Helper::formatDateDiffInStrings($row['modifiedtime']),
-			];
-		}
-		return $rows;
+		return $this->parseForDisplay($this->getListQuery()->createCommand()->query());
 	}
 
 	/**
-	 * Get documents.
+	 * Article search.
 	 *
 	 * @return array
 	 */
-	public function getDocuments()
+	public function search(): array
 	{
-		$records = $this->getAllRecords();
-		$fieldName = $this->getTreeField()['fieldname'];
-		foreach ($records as &$item) {
-			$parent = (int) ltrim($item[$fieldName], 'T');
-			$tree[] = [
-				'type' => $item['knowledgebase_view'],
-				'record_id' => $item['id'],
-				'parent' => 0 == $parent ? '#' : $parent,
-				'text' => $item['subject'],
-				'icon' => 'fas fa-file',
-			];
-		}
-		return $tree;
-	}
-
-	/**
-	 * Get instance.
-	 *
-	 * @param string $moduleName
-	 *
-	 * @return \self
-	 */
-	public static function getInstance()
-	{
-		return new self();
+		$query = $this->getListQuery();
+		$value = $this->get('value');
+		$query->addSelect(['matcher' => new \yii\db\Expression('MATCH(subject,content,introduction) AGAINST(:searchValue IN BOOLEAN MODE)', [':searchValue' => $value])]);
+		$query->andWhere('MATCH(subject,content,introduction) AGAINST(:findvalue IN BOOLEAN MODE)', [':findvalue' => $value]);
+		$query->addOrderBy(['matcher' => \SORT_DESC]);
+		$dataReader = $query->createCommand()->query();
+		return $this->parseForDisplay($dataReader);
 	}
 }

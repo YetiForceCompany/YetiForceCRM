@@ -2857,6 +2857,7 @@ CREATE TABLE `u_yf_knowledgebase` (
   `featured` tinyint(1) DEFAULT 0,
   `introduction` text DEFAULT NULL,
   PRIMARY KEY (`knowledgebaseid`),
+  FULLTEXT KEY `search` (`subject`,`content`,`introduction`),
   CONSTRAINT `fk_1_vtiger_knowledgebase` FOREIGN KEY (`knowledgebaseid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -5936,38 +5937,6 @@ CREATE TABLE `vtiger_inventory_tandc` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_inventoryproductrel` */
-
-CREATE TABLE `vtiger_inventoryproductrel` (
-  `id` int(10) DEFAULT NULL,
-  `productid` int(10) DEFAULT NULL,
-  `sequence_no` int(4) DEFAULT NULL,
-  `quantity` decimal(25,3) DEFAULT NULL,
-  `listprice` decimal(28,8) DEFAULT NULL,
-  `discount_percent` decimal(7,3) DEFAULT NULL,
-  `discount_amount` decimal(28,8) DEFAULT NULL,
-  `comment` varchar(500) DEFAULT NULL,
-  `description` text DEFAULT NULL,
-  `incrementondel` int(10) NOT NULL DEFAULT 0,
-  `lineitem_id` int(10) NOT NULL AUTO_INCREMENT,
-  `tax` varchar(10) DEFAULT NULL,
-  `tax1` decimal(7,3) DEFAULT NULL,
-  `tax2` decimal(7,3) DEFAULT NULL,
-  `tax3` decimal(7,3) DEFAULT NULL,
-  `purchase` decimal(10,2) DEFAULT NULL,
-  `margin` decimal(10,2) DEFAULT NULL,
-  `marginp` decimal(10,2) DEFAULT NULL,
-  PRIMARY KEY (`lineitem_id`),
-  KEY `inventoryproductrel_id_idx` (`id`),
-  KEY `inventoryproductrel_productid_idx` (`productid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_inventoryproductrel_seq` */
-
-CREATE TABLE `vtiger_inventoryproductrel_seq` (
-  `id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_inventorysubproductrel` */
 
 CREATE TABLE `vtiger_inventorysubproductrel` (
@@ -7747,7 +7716,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `tabid_2` (`tabid`,`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=606 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=608 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 

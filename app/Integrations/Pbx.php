@@ -26,9 +26,9 @@ class Pbx extends \App\Base
 	public static function getConnectors()
 	{
 		$connectors = [];
-		foreach ((new \DirectoryIterator(__DIR__ . DIRECTORY_SEPARATOR . 'Pbx')) as $fileInfo) {
+		foreach ((new \DirectoryIterator(__DIR__ . \DIRECTORY_SEPARATOR . 'Pbx')) as $fileInfo) {
 			$fileName = $fileInfo->getBasename('.php');
-			if ($fileInfo->getType() !== 'dir' && $fileName !== 'Base' && $fileInfo->getExtension() === 'php') {
+			if ('dir' !== $fileInfo->getType() && 'Base' !== $fileName && 'php' === $fileInfo->getExtension()) {
 				$className = '\App\Integrations\Pbx\\' . $fileName;
 				if (!class_exists($className)) {
 					\App\Log::warning('Not found Pbx class');
@@ -105,7 +105,7 @@ class Pbx extends \App\Base
 	 *
 	 * @param string $name
 	 *
-	 * @return bool|\App\Integrations\className
+	 * @return \App\Integrations\className|bool
 	 */
 	public static function getConnectorInstance($name)
 	{

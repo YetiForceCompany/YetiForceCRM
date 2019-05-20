@@ -119,7 +119,7 @@ class DatetimeField extends DateField
 	 */
 	public function getStdValue()
 	{
-		if ($this->operator === 'custom') {
+		if ('custom' === $this->operator) {
 			$date = $this->getArrayValue();
 		} else {
 			$date = \DateTimeRange::getDateRangeByType($this->operator);

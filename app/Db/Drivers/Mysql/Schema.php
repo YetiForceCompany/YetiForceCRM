@@ -19,7 +19,7 @@ class Schema extends \yii\db\mysql\Schema
 	 * This method may be overridden by child classes to create a DBMS-specific column schema builder.
 	 *
 	 * @param string           $type   type of the column. See [[ColumnSchemaBuilder::$type]].
-	 * @param int|string|array $length length or precision of the column. See [[ColumnSchemaBuilder::$length]].
+	 * @param array|int|string $length length or precision of the column. See [[ColumnSchemaBuilder::$length]].
 	 *
 	 * @return ColumnSchemaBuilder column schema builder instance
 	 *

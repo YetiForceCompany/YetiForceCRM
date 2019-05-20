@@ -1348,6 +1348,7 @@ $.Class(
 			let newRow = this.getBasicRow();
 			const sequenceNumber = this.getNextLineItemRowNumber();
 			const replaced = newRow.html().replace(/\_NUM_/g, sequenceNumber);
+			const moduleLbls = newRow.data('moduleLbls');
 			newRow.html(replaced);
 			newRow = newRow.children().appendTo(items.find('.js-inventory-items-body'));
 			newRow
@@ -1358,6 +1359,9 @@ $.Class(
 				.find('.js-module-icon')
 				.removeClass()
 				.addClass(`userIcon-${module}`);
+			newRow
+				.find('.rowName span.input-group-text')
+				.attr('data-content', moduleLbls[module]);
 			newRow.find('.colPicklistField select').each(function(index, select) {
 				select = $(select);
 				select.find('option').each(function(index, option) {
@@ -1644,9 +1648,12 @@ $.Class(
 					params.taxType = 1;
 				} else {
 					parentRow = element.closest(thisInstance.rowClass);
+					let sourceRecord = parentRow.find('.rowName .sourceField').val();
 					params.totalPrice = thisInstance.getNetPrice(parentRow);
 					params.taxType = 0;
-					params.record = parentRow.find('.rowName .sourceField').val();
+					if (sourceRecord) {
+						params.record = sourceRecord;
+					}
 					params.recordModule = parentRow.find('.rowName [name="popupReferenceModule"]').val();
 				}
 				var progressInstace = $.progressIndicator();

@@ -221,13 +221,14 @@ class Db extends \yii\db\Connection
 	 * Creating a new DB table.
 	 *
 	 * @param string $tableName
+	 * @param mixed  $columns
 	 *
 	 * @return bool
 	 */
 	public function createTable($tableName, $columns)
 	{
 		$tableOptions = null;
-		if ($this->getDriverName() === 'mysql') {
+		if ('mysql' === $this->getDriverName()) {
 			$tableOptions = 'CHARACTER SET utf8 ENGINE=InnoDB';
 		}
 		$this->createCommand()->createTable($tableName, $columns, $tableOptions)->execute();
@@ -250,7 +251,7 @@ class Db extends \yii\db\Connection
 		}
 		$tableName = $this->quoteTableName(str_replace('#__', $this->tablePrefix, $tableName));
 		$keys = [];
-		if ($this->getDriverName() === 'mysql') {
+		if ('mysql' === $this->getDriverName()) {
 			$dataReader = $this->createCommand()->setSql('SHOW KEYS FROM ' . $tableName)->query();
 			while ($row = $dataReader->read()) {
 				$keys[$row['Key_name']][$row['Column_name']] = ['columnName' => $row['Column_name'], 'unique' => empty($row['Non_unique'])];
@@ -273,7 +274,7 @@ class Db extends \yii\db\Connection
 			return Cache::get('getPrimaryKey', $tableName);
 		}
 		$key = [];
-		if ($this->getDriverName() === 'mysql') {
+		if ('mysql' === $this->getDriverName()) {
 			$tableKeys = $this->getTableKeys($tableName);
 			$key = isset($tableKeys['PRIMARY']) ? ['PRIMARY' => array_keys($tableKeys['PRIMARY'])] : [];
 		}
