@@ -5329,23 +5329,6 @@ CREATE TABLE `vtiger_eventhandlers` (
   KEY `event_name_class` (`event_name`,`handler_class`)
 ) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_eventstatus` */
-
-CREATE TABLE `vtiger_eventstatus` (
-  `eventstatusid` int(10) NOT NULL AUTO_INCREMENT,
-  `eventstatus` varchar(200) NOT NULL,
-  `presence` int(1) NOT NULL DEFAULT 1,
-  `picklist_valueid` int(10) NOT NULL DEFAULT 0,
-  `sortorderid` int(10) DEFAULT NULL,
-  PRIMARY KEY (`eventstatusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_eventstatus_seq` */
-
-CREATE TABLE `vtiger_eventstatus_seq` (
-  `id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_expectedresponse` */
 
 CREATE TABLE `vtiger_expectedresponse` (

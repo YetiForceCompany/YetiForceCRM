@@ -2983,15 +2983,6 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_clas
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (71,'EntityAfterDelete','API_CalDAV_Handler',1,'Calendar','',3,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (72,'EntityChangeState','API_CalDAV_Handler',1,'Calendar','',3,0);
 
-/*Data for the table `vtiger_eventstatus` */
-
-insert  into `vtiger_eventstatus`(`eventstatusid`,`eventstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Held',0,39,1);
-insert  into `vtiger_eventstatus`(`eventstatusid`,`eventstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Not Held',0,40,2);
-
-/*Data for the table `vtiger_eventstatus_seq` */
-
-insert  into `vtiger_eventstatus_seq`(`id`) values (2);
-
 /*Data for the table `vtiger_expectedresponse` */
 
 insert  into `vtiger_expectedresponse`(`expectedresponseid`,`expectedresponse`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Excellent',1,42,1);
@@ -6313,7 +6304,6 @@ insert  into `vtiger_picklist`(`picklistid`,`name`) values (50,'defaultactivityt
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (49,'defaulteventstatus');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (66,'employee_education');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (65,'employee_status');
-insert  into `vtiger_picklist`(`picklistid`,`name`) values (6,'eventstatus');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (7,'expectedresponse');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (8,'faqcategories');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (9,'faqstatus');
