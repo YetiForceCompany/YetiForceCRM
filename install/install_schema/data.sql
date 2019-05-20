@@ -5225,12 +5225,6 @@ insert  into `vtiger_internal_tickets_status`(`internal_tickets_statusid`,`inter
 
 insert  into `vtiger_inventory_tandc`(`id`,`type`,`tandc`) values (1,'Inventory','');
 
-/*Data for the table `vtiger_inventoryproductrel` */
-
-/*Data for the table `vtiger_inventoryproductrel_seq` */
-
-insert  into `vtiger_inventoryproductrel_seq`(`id`) values (0);
-
 /*Data for the table `vtiger_inventorysubproductrel` */
 
 /*Data for the table `vtiger_ipreorder_status` */

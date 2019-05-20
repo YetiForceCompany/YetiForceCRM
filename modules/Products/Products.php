@@ -70,7 +70,6 @@ class Products extends CRMEntity
 	{
 		$relTables = [
 			'HelpDesk' => ['vtiger_troubletickets' => ['product_id', 'ticketid'], 'vtiger_products' => 'productid'],
-			'Quotes' => ['vtiger_inventoryproductrel' => ['productid', 'id'], 'vtiger_products' => 'productid'],
 			'Leads' => ['vtiger_seproductsrel' => ['productid', 'crmid'], 'vtiger_products' => 'productid'],
 			'Accounts' => ['vtiger_seproductsrel' => ['productid', 'crmid'], 'vtiger_products' => 'productid'],
 			'Contacts' => ['vtiger_seproductsrel' => ['productid', 'crmid'], 'vtiger_products' => 'productid'],
