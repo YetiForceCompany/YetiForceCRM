@@ -26,13 +26,7 @@ class Vtiger_MultiDomain_UIType extends Vtiger_Base_UIType
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		foreach ($value as $item) {
-			if (!is_string($item)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $item, 406);
-			}
-			if ($item != strip_tags($item)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $item, 406);
-			}
-			if (filter_var($item, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME) === false) {
+			if (!is_string($item) || $item !== strip_tags($item) || filter_var($item, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME) === false) {
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $item, 406);
 			}
 		}
