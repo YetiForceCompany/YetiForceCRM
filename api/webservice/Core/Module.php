@@ -56,7 +56,7 @@ class Module
 	 *
 	 * @return array|false
 	 */
-	public static function getFieldPermission(string $moduleName, int $serverId)
+	public static function getApiFieldPermission(string $moduleName, int $serverId)
 	{
 		$cacheName = $moduleName . $serverId;
 		if (\App\Cache::has('API-FieldPermission', $cacheName)) {

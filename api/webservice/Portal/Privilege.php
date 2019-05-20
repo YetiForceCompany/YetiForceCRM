@@ -2,6 +2,8 @@
 /**
  * Privilege file for client portal.
  *
+ * @package Api
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
@@ -51,7 +53,7 @@ class Privilege
 		} else {
 			$user = \App\User::getUserModel($userId);
 		}
-		$permissionFieldInfo = \Api\Core\Module::getFieldPermission($moduleName, $user->get('permission_app'));
+		$permissionFieldInfo = \Api\Core\Module::getApiFieldPermission($moduleName, $user->get('permission_app'));
 		if (!$permissionFieldInfo) {
 			return false;
 		}

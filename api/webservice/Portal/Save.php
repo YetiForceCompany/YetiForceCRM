@@ -2,6 +2,8 @@
 /**
  * Save record.
  *
+ * @package Api
+ *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
@@ -37,7 +39,7 @@ class Save extends \Vtiger_Save_Action
 	protected function getRecordModelFromRequest(\App\Request $request)
 	{
 		$record = parent::getRecordModelFromRequest($request);
-		$fieldInfo = \Api\Core\Module::getFieldPermission($request->getModule(), $this->appId);
+		$fieldInfo = \Api\Core\Module::getApiFieldPermission($request->getModule(), $this->appId);
 		if ($fieldInfo) {
 			$record->setDataForSave([$fieldInfo['tablename'] => [$fieldInfo['columnname'] => 1]]);
 		}
