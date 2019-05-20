@@ -9,6 +9,19 @@
           <q-toolbar-title>
             Knowledge Base
           </q-toolbar-title>
+
+          <q-breadcrumbs active-color="info">
+            <q-breadcrumbs-el icon="mdi-home" @click="getData()" />
+            <template v-if="this.active !== ''">
+              <q-breadcrumbs-el
+                v-for="category in tree.categories[this.active].parentTree"
+                :key="tree.categories[category].label"
+                :label="tree.categories[category].label"
+                @click="getData(category)"
+              />
+            </template>
+            <q-breadcrumbs-el v-if="record !== false" icon="mdi-text" :label="record.subject" />
+          </q-breadcrumbs>
           <q-input
             v-model="filter"
             placeholder="Search"
@@ -28,15 +41,7 @@
       <q-drawer v-model="left" side="left" elevated :width="250" :breakpoint="700">
         <q-scroll-area class="fit">
           <q-list>
-            <q-item
-              clickable
-              :active="active === ''"
-              v-ripple
-              @click="
-                getData()
-                record = false
-              "
-            >
+            <q-item clickable :active="active === ''" v-ripple @click="getData()">
               <q-item-section avatar>
                 <q-icon name="mdi-home" />
               </q-item-section>
@@ -49,10 +54,7 @@
               :key="categoryKey"
               clickable
               v-ripple
-              @click="
-                getData(categoryValue)
-                record = false
-              "
+              @click="getData(categoryValue)"
             >
               <q-item-section avatar>
                 <q-icon
@@ -181,6 +183,15 @@ export default {
       }
     }
   },
+  computed: {
+    // category: function() {
+    //   if (this.active === '') {
+    //     return this.active
+    //   } else {
+    //     tree.categories[this.active].parentTree
+    //   }
+    // }
+  },
   methods: {
     getCategories() {
       const aDeferred = $.Deferred()
@@ -192,6 +203,7 @@ export default {
     getData(category = '') {
       const aDeferred = $.Deferred()
       this.active = category
+      this.record = false
       return AppConnector.request({
         module: 'KnowledgeBase',
         action: 'TreeAjax',
