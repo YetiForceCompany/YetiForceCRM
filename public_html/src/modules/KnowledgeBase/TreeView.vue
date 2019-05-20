@@ -30,6 +30,7 @@
             type="search"
             bg-color="grey-1"
             class="tree-search"
+            @input="search"
           >
             <template v-slot:append>
               <q-icon name="mdi-magnify" />
@@ -41,12 +42,32 @@
       <q-drawer v-model="left" side="left" elevated :width="250" :breakpoint="700">
         <q-scroll-area class="fit">
           <q-list>
-            <q-item clickable :active="active === ''" v-ripple @click="getData()">
+            <q-item v-show="active === ''" clickable active>
               <q-item-section avatar>
                 <q-icon name="mdi-home" />
               </q-item-section>
               <q-item-section>
                 Home
+              </q-item-section>
+            </q-item>
+            <q-item
+              v-if="active !== ''"
+              clickable
+              :active="!record"
+              @click="
+                getData(
+                  tree.categories[active].parentTree.length !== 1
+                    ? tree.categories[active].parentTree[tree.categories[active].parentTree.length - 2]
+                    : ''
+                )
+              "
+            >
+              <q-item-section avatar>
+                <q-icon v-if="/^mdi|^fa/.test(tree.categories[active].icon)" :name="tree.categories[active].icon" />
+                <q-icon v-else :class="[tree.categories[active].icon, 'q-icon']" />
+              </q-item-section>
+              <q-item-section>
+                {{ tree.categories[active].label }}
               </q-item-section>
             </q-item>
             <q-item
@@ -90,7 +111,7 @@
 
       <q-page-container>
         <q-page class="q-pa-md">
-          <div v-if="!record">
+          <div v-if="!record && !searchData">
             <div class="q-pa-md row items-start q-gutter-md">
               <template v-for="(categoryValue, categoryKey) in tree.data.categories">
                 <q-list
@@ -125,13 +146,12 @@
                 :data="Object.values(tree.data.records)"
                 :columns="columns"
                 row-key="subject"
-                :filter="filter"
                 grid
                 hide-header
               >
                 <template v-slot:item="props">
-                  <q-list padding @click="record = props.row">
-                    <q-item class="home-card" clickable>
+                  <q-list class="list-item" padding @click="record = props.row">
+                    <q-item clickable>
                       <q-item-section>
                         <q-item-label overline>{{ props.row.subject }}</q-item-label>
                         <q-item-label caption>{{ props.row.introduction }}</q-item-label>
@@ -145,8 +165,38 @@
               </q-table>
             </div>
           </div>
-          <div v-if="record">
+          <q-table
+            v-if="searchData"
+            :data="Object.values(searchData)"
+            :columns="columns"
+            row-key="subject"
+            grid
+            hide-header
+          >
+            <template v-slot:item="props">
+              <q-list
+                class="list-item"
+                padding
+                @click="
+                  record = props.row
+                  searchData = false
+                "
+              >
+                <q-item clickable>
+                  <q-item-section>
+                    <q-item-label overline>{{ props.row.subject }}</q-item-label>
+                    <q-item-label caption>{{ props.row.introduction }}</q-item-label>
+                  </q-item-section>
+                  <q-item-section side top>
+                    <q-item-label caption>{{ props.row.short_time }}</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </template>
+          </q-table>
+          <div v-if="record && !searchData">
             <h5>{{ record.subject }}</h5>
+            <p>{{ record.introduction }}</p>
           </div>
         </q-page>
       </q-page-container>
@@ -180,18 +230,11 @@ export default {
           records: []
         },
         categories: {}
-      }
+      },
+      searchData: false
     }
   },
-  computed: {
-    // category: function() {
-    //   if (this.active === '') {
-    //     return this.active
-    //   } else {
-    //     tree.categories[this.active].parentTree
-    //   }
-    // }
-  },
+  computed: {},
   methods: {
     getCategories() {
       const aDeferred = $.Deferred()
@@ -204,6 +247,7 @@ export default {
       const aDeferred = $.Deferred()
       this.active = category
       this.record = false
+      console.log(category)
       return AppConnector.request({
         module: 'KnowledgeBase',
         action: 'TreeAjax',
@@ -211,8 +255,26 @@ export default {
         category: category
       }).done(data => {
         this.tree.data = data.result
+        console.log(data.result)
         aDeferred.resolve(data.result)
       })
+    },
+    search(e) {
+      if (this.filter.length > 3) {
+        const aDeferred = $.Deferred()
+        AppConnector.request({
+          module: 'KnowledgeBase',
+          action: 'TreeAjax',
+          mode: 'search',
+          value: this.filter
+        }).done(data => {
+          this.searchData = data.result
+          aDeferred.resolve(data.result)
+          return data.result
+        })
+      } else {
+        this.searchData = false
+      }
     }
   },
   created() {
@@ -232,5 +294,9 @@ export default {
 .home-card {
   width: 100%;
   max-width: 250px;
+}
+.list-item {
+  width: 50%;
+  max-width: 100%;
 }
 </style>
