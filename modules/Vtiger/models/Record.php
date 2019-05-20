@@ -593,10 +593,6 @@ class Vtiger_Record_Model extends \App\Base
 			$eventHandler->setModuleName($moduleName);
 			$eventHandler->trigger('EntityBeforeDelete');
 
-			$focus = $this->getModule()->getEntityInstance();
-			if (method_exists($focus, 'transferRelatedRecords') && $this->get('transferRecordIDs')) {
-				$focus->transferRelatedRecords($moduleName, $this->get('transferRecordIDs'), $this->getId());
-			}
 			Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
 			Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
 			$workflows = (new VTWorkflowManager())->getWorkflowsForModule($moduleName, VTWorkflowManager::$ON_DELETE);
@@ -969,25 +965,6 @@ class Vtiger_Record_Model extends \App\Base
 	{
 		$fieldModel = $this->getModule()->getField($fieldName);
 		return $fieldModel->getRelatedListDisplayValue($this->get($fieldName));
-	}
-
-	/**
-	 * Function to transfer related records of parent records to this record.
-	 *
-	 * @param <Array> $recordIds
-	 *
-	 * @return bool true/false
-	 */
-	public function transferRelationInfoOfRecords($recordIds = [])
-	{
-		if ($recordIds) {
-			$moduleName = $this->getModuleName();
-			$focus = CRMEntity::getInstance($moduleName);
-			if (method_exists($focus, 'transferRelatedRecords')) {
-				$focus->transferRelatedRecords($moduleName, $recordIds, $this->getId());
-			}
-		}
-		return true;
 	}
 
 	public function getSummaryInfo()
