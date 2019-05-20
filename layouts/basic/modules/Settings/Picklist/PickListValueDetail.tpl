@@ -66,8 +66,7 @@
 								{/if}
 								<button class="btn btn-info" id="addItem">{\App\Language::translate('LBL_ADD_VALUE',$QUALIFIED_MODULE)}</button>
 								<button class="btn btn-warning" id="renameItem">{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
-								{assign var="SELECTED_FIELDPARAMS" value=$SELECTED_PICKLIST_FIELDMODEL->getFieldParams()}
-								{if isset($SELECTED_FIELDPARAMS['isProcessStatusField']) && $SELECTED_FIELDPARAMS['isProcessStatusField']}
+								{if $SELECTED_PICKLIST_FIELDMODEL->isProcessStatusField()}
 								<button class="btn btn-secondary" id="processStatusItem">{\App\Language::translate('LBL_EDIT_PROCESS_STATUS',$QUALIFIED_MODULE)}</button>
 								{/if}
 								<button class="btn btn-danger" id="deleteItem">{\App\Language::translate('LBL_DELETE_VALUE',$QUALIFIED_MODULE)}</button>

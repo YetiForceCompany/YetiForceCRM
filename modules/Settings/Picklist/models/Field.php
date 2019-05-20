@@ -129,4 +129,14 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 			throw new \App\Exceptions\AppException(\App\Language::translateArgs('ERR_DUPLICATES_VALUES_FOUND', 'Other.Exceptions', $value), 513);
 		}
 	}
+
+	/**
+	 * Is process status field.
+	 *
+	 * @return bool
+	 */
+	public function isProcessStatusField(): bool
+	{
+		return $this->getFieldParams()['isProcessStatusField'] ?? false;
+	}
 }

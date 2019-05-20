@@ -290,7 +290,9 @@ class CustomView_Record_Model extends \App\Base
 	/**
 	 * Function which provides the records for the current view.
 	 *
-	 * @param bool $skipRecords - List of the RecordIds to be skipped
+	 * @param bool  $skipRecords - List of the RecordIds to be skipped
+	 * @param mixed $module
+	 * @param mixed $lockRecords
 	 *
 	 * @return int[] List of RecordsIds
 	 */
@@ -345,7 +347,7 @@ class CustomView_Record_Model extends \App\Base
 		}
 		if ($lockRecords) {
 			$lockFields = Vtiger_CRMEntity::getInstance($moduleName)->getLockFields();
-			$lockFields = array_merge_recursive($lockFields, \App\Fields\Picklist::getCloseStates(\App\Module::getModuleId($moduleName)));
+			$lockFields = array_merge_recursive($lockFields, \App\RecordStatus::getCloseStates(\App\Module::getModuleId($moduleName)));
 			foreach ($lockFields as $fieldName => $fieldValues) {
 				$queryGenerator->addNativeCondition(['not in', "$baseTableName.$fieldName", $fieldValues]);
 			}
@@ -497,7 +499,7 @@ class CustomView_Record_Model extends \App\Base
 	/**
 	 * Add group to database.
 	 *
-	 * @param array|null $rule
+	 * @param null|array $rule
 	 * @param int        $parentId
 	 * @param int        $index
 	 *
@@ -526,7 +528,7 @@ class CustomView_Record_Model extends \App\Base
 			} else {
 				$this->addCondition($ruleInfo, $parentId, $index);
 			}
-			$index++;
+			++$index;
 		}
 	}
 
@@ -658,10 +660,10 @@ class CustomView_Record_Model extends \App\Base
 			'vtiger_cvcolumnlist.module_name',
 			'vtiger_cvcolumnlist.source_field_name'
 		])
-		->from('vtiger_cvcolumnlist')
-		->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
-		->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
-		->createCommand()->queryAllByGroup(1);
+			->from('vtiger_cvcolumnlist')
+			->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
+			->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
+			->createCommand()->queryAllByGroup(1);
 		return array_map(function ($item) {
 			return "{$item['module_name']}:{$item['field_name']}" . ($item['source_field_name'] ? ":{$item['source_field_name']}" : '');
 		}, $selectedFields);
@@ -861,6 +863,7 @@ class CustomView_Record_Model extends \App\Base
 	 * Function to get all the custom views, of a given module if specified, grouped by their status.
 	 *
 	 * @param string $moduleName
+	 * @param mixed  $menuId
 	 *
 	 * @return <Array> - Associative array of Status label to an array of Vtiger_CustomView_Record models
 	 */

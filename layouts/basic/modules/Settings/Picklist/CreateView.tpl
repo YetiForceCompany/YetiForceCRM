@@ -93,16 +93,16 @@
 						{if $SELECTED_PICKLIST_FIELDMODEL->getFieldDataType() eq 'picklist' }
 							<div class="form-group row align-items-center">
 								<div class="col-md-3 col-form-label text-right">
-									{\App\Language::translate('LBL_AUTOMATION',$QUALIFIED_MODULE)}
+									{\App\Language::translate('LBL_RECORD_STATE',$QUALIFIED_MODULE)}
 									<div class="js-popover-tooltip ml-2 d-inline my-auto u-h-fit u-cursor-pointer" data-js="popover"
-										data-content="{\App\Language::translate('LBL_AUTOMATION_INFO',$QUALIFIED_MODULE)}">
+										data-content="{\App\Language::translate('LBL_RECORD_STATE_INFO',$QUALIFIED_MODULE)}">
 										<span class="fas fa-info-circle"></span>
 									</div>
 								</div>
 								<div class="col-md-9 controls">
-									<select name="automation" class="automation-list form-control">
-										{foreach item=$VALUE key=$KEY from=Settings_Picklist_Module_Model::getAutomationStatus()}
-											<option value="{$KEY}"{if $KEY === Settings_Picklist_Module_Model::AUTOMATION_NO_CONCERN} selected {/if} >{\App\Language::translate($VALUE,$QUALIFIED_MODULE)}</option>
+									<select name="record_state" class="record-state-list form-control">
+										{foreach item=$VALUE key=$KEY from=\App\RecordStatus::getRecordStates()}
+											<option value="{$KEY}"{if $KEY === \App\RecordStatus::RECORD_STATE_NO_CONCERN} selected {/if} >{\App\Language::translate($VALUE,$QUALIFIED_MODULE)}</option>
 										{/foreach}
 									</select>
 								</div>

@@ -25,6 +25,11 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('showAssignValueToRoleView');
 	}
 
+	/**
+	 * Show edit view.
+	 *
+	 * @param App\Request $request
+	 */
 	public function showEditView(App\Request $request)
 	{
 		$module = $request->getByType('source_module', 2);
@@ -32,7 +37,6 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$valueId = $request->getInteger('fieldValueId');
 		$qualifiedName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
-
 		$selectedFieldNonEditablePickListValues = App\Fields\Picklist::getNonEditablePicklistValues($fieldModel->getName());
 		$picklistValueRow = App\Fields\Picklist::getValues($fieldModel->getName())[$valueId];
 		$picklistValueRow['picklist_valueid'] = $picklistValueRow['picklist_valueid'] ?? '';
@@ -58,12 +62,11 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$valueId = $request->getInteger('fieldValueId');
 		$qualifiedName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
-
 		$selectedFieldNonEditablePickListValues = App\Fields\Picklist::getNonEditablePicklistValues($fieldModel->getName());
 		$picklistValueRow = App\Fields\Picklist::getValues($fieldModel->getName())[$valueId];
 		$picklistValueRow['picklist_valueid'] = $picklistValueRow['picklist_valueid'] ?? '';
-		$picklistValueRow['close_state'] = isset(\App\Fields\Picklist::getCloseStates($fieldModel->get('tabid'), false)[$picklistValueRow['picklist_valueid']]);
-		$picklistValueRow['time_counting'] = explode(',', trim($picklistValueRow['time_counting'], ','));
+		$picklistValueRow['close_state'] = isset(\App\RecordStatus::getCloseStates($fieldModel->get('tabid'), false)[$picklistValueRow['picklist_valueid']]);
+		$picklistValueRow['time_counting'] = \App\RecordStatus::getTimeCountingArrayValueFromString((string) $picklistValueRow['time_counting']);
 		$viewer->assign('EDITABLE', !isset($selectedFieldNonEditablePickListValues[$valueId]));
 		$viewer->assign('PICKLIST_VALUE', $picklistValueRow);
 		$viewer->assign('SOURCE_MODULE', $module);
@@ -74,6 +77,11 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		echo $viewer->view('ProcessStatusView.tpl', $qualifiedName, true);
 	}
 
+	/**
+	 * Show delete view.
+	 *
+	 * @param App\Request $request
+	 */
 	public function showDeleteView(App\Request $request)
 	{
 		$module = $request->getByType('source_module', 2);
@@ -103,14 +111,17 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		echo $viewer->view('DeleteView.tpl', $qualifiedName, true);
 	}
 
+	/**
+	 * Get picklist details for module.
+	 *
+	 * @param App\Request $request
+	 */
 	public function getPickListDetailsForModule(App\Request $request)
 	{
 		$sourceModule = $request->getByType('source_module', 2);
 		$moduleModel = Settings_Picklist_Module_Model::getInstance($sourceModule);
 		$pickListFields = $moduleModel->getFieldsByType(['picklist', 'multipicklist']);
-
 		$qualifiedName = $request->getModule(false);
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PICKLIST_FIELDS', $pickListFields);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
@@ -118,18 +129,21 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$viewer->view('ModulePickListDetail.tpl', $qualifiedName);
 	}
 
+	/**
+	 * Get picklist values for field.
+	 *
+	 * @param App\Request $request
+	 */
 	public function getPickListValueForField(App\Request $request)
 	{
 		$sourceModule = $request->getByType('source_module', 2);
 		$pickFieldId = $request->get('pickListFieldId');
 		$moduleName = $request->getModule();
 		$qualifiedName = $request->getModule(false);
-
 		if (!empty($pickFieldId)) {
 			$fieldModel = Settings_Picklist_Field_Model::getInstance($pickFieldId);
 			$selectedFieldAllPickListValues = App\Fields\Picklist::getValuesName($fieldModel->getName());
 		}
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_PICKLIST_FIELDMODEL', $fieldModel);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
@@ -140,6 +154,11 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$viewer->view('PickListValueDetail.tpl', $qualifiedName);
 	}
 
+	/**
+	 * Get picklist value by role.
+	 *
+	 * @param App\Request $request
+	 */
 	public function getPickListValueByRole(App\Request $request)
 	{
 		$sourceModule = $request->getByType('sourceModule', 2);
@@ -147,14 +166,11 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickFieldId);
 		$moduleName = $request->getModule();
 		$qualifiedName = $request->getModule(false);
-
 		$userSelectedRoleId = $request->get('rolesSelected');
-
 		$pickListValuesForRole = $fieldModel->getPicklistValuesForRole([$userSelectedRoleId], 'CONJUNCTION');
 		$pickListValuesForRole = array_map('\App\Purifier::encodeHtml', $pickListValuesForRole);
 		$allPickListValues = App\Fields\Picklist::getValuesName($fieldModel->getName());
 		$allPickListValues = array_map('\App\Purifier::encodeHtml', $allPickListValues);
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_PICKLIST_FIELDMODEL', $fieldModel);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
@@ -175,10 +191,8 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$sourceModule = $request->getByType('source_module', 2);
 		$pickFieldId = $request->get('pickListFieldId');
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickFieldId);
-
 		$moduleName = $request->getModule();
 		$qualifiedName = $request->getModule(false);
-
 		$selectedFieldAllPickListValues = App\Fields\Picklist::getValuesName($fieldModel->getName());
 		$selectedFieldAllPickListValues = array_map('\App\Purifier::encodeHtml', $selectedFieldAllPickListValues);
 		$viewer = $this->getViewer($request);

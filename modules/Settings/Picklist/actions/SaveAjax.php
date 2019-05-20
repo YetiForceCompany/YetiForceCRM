@@ -69,8 +69,8 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response = new Vtiger_Response();
 		try {
 			$fieldModel->validate($newValue);
-			$id = $moduleModel->addPickListValues($fieldModel, $newValue, $rolesSelected, $request->getForHtml('description'), $request->getByType('prefix', 'Text'), $request->getByType('automation', 'Integer'));
-			$moduleModel->updateCloseState($fieldModel, $id['picklistValueId'], $newValue, $request->getBoolean('close_state'));
+			$id = $moduleModel->addPickListValues($fieldModel, $newValue, $rolesSelected, $request->getForHtml('description'), $request->getByType('prefix', 'Text'), $request->getByType('record_state', 'Integer'));
+			\App\RecordStatus::updateCloseState($fieldModel, $id['picklistValueId'], $newValue, $request->getBoolean('close_state'));
 			$response->setResult(['id' => $id['id']]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
@@ -106,7 +106,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 				}
 				$status = $moduleModel->renamePickListValues($fieldModel, $oldValue, $newValue, $id, $request->getForHtml('description'), $request->getByType('prefix', 'Text'));
 				if ($fieldModel->getUIType() === 15) {
-					$moduleModel->updateCloseState($request->getInteger('picklist_valueid'), $fieldModel, $newValue);
+					\App\RecordStatus::updateCloseState($fieldModel, $request->getInteger('picklist_valueid'), $newValue);
 				}
 				$response->setResult([
 					'success',
@@ -135,11 +135,11 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$value = App\Fields\Picklist::getValue($fieldModel->getName(), $valueId);
 		$result = true;
 		try {
-			$result = $result && $moduleModel->updateAutomationValue($fieldModel, $id, $request->getInteger('automation'));
+			$result = $result && \App\RecordStatus::updateRecordStateValue($fieldModel, $id, $request->getInteger('record_state'));
 			if ($fieldModel->getUIType() === 15) {
-				$result = $result && $moduleModel->updateCloseState($fieldModel, $valueId, $value, $request->getBoolean('close_state'));
+				$result = $result && \App\RecordStatus::updateCloseState($fieldModel, $valueId, $value, $request->getBoolean('close_state'));
 			}
-			$result = $result && $moduleModel->updateTimeCountingValue($fieldModel, $id, $request->getArray('time_counting', 'Integer'));
+			$result = $result && \App\RecordStatus::updateTimeCountingValue($fieldModel, $id, $request->getArray('time_counting', 'Integer'));
 			$response->setResult($result);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());

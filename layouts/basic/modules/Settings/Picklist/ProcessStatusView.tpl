@@ -37,9 +37,9 @@
 							</div>
 							<div class="col-md-9 controls">
 								<select class="select2 form-control" multiple name="time_counting[]">
-									<option value="1"{if in_array('1',$PICKLIST_VALUE['time_counting'])} selected="selected"{/if}>{\App\Language::translate('LBL_TIME_COUNTING_REACTION',$QUALIFIED_MODULE)}</option>
-									<option value="2"{if in_array('2',$PICKLIST_VALUE['time_counting'])} selected="selected"{/if}>{\App\Language::translate('LBL_TIME_COUNTING_RESOLVE',$QUALIFIED_MODULE)}</option>
-									<option value="3"{if in_array('3',$PICKLIST_VALUE['time_counting'])} selected="selected"{/if}>{\App\Language::translate('LBL_TIME_COUNTING_IDLE',$QUALIFIED_MODULE)}</option>
+									<option value="{\App\RecordStatus::TIME_COUNTING_REACTION}"{if in_array(\App\RecordStatus::TIME_COUNTING_REACTION,$PICKLIST_VALUE['time_counting'])} selected="selected"{/if}>{\App\Language::translate('LBL_TIME_COUNTING_REACTION',$QUALIFIED_MODULE)}</option>
+									<option value="{\App\RecordStatus::TIME_COUNTING_RESOLVE}"{if in_array(\App\RecordStatus::TIME_COUNTING_RESOLVE,$PICKLIST_VALUE['time_counting'])} selected="selected"{/if}>{\App\Language::translate('LBL_TIME_COUNTING_RESOLVE',$QUALIFIED_MODULE)}</option>
+									<option value="{\App\RecordStatus::TIME_COUNTING_IDLE}"{if in_array(\App\RecordStatus::TIME_COUNTING_IDLE,$PICKLIST_VALUE['time_counting'])} selected="selected"{/if}>{\App\Language::translate('LBL_TIME_COUNTING_IDLE',$QUALIFIED_MODULE)}</option>
 								</select>
 							</div>
 						</div>
@@ -62,19 +62,19 @@
 						{if $FIELD_MODEL->getFieldDataType() eq 'picklist' }
 							<div class="form-group row align-items-center">
 								<div class="col-md-3 col-form-label text-right">
-									{\App\Language::translate('LBL_AUTOMATION',$QUALIFIED_MODULE)}
+									{\App\Language::translate('LBL_RECORD_STATE',$QUALIFIED_MODULE)}
 									<div class="js-popover-tooltip ml-2 d-inline my-auto u-h-fit u-cursor-pointer" data-js="popover"
-										data-content="{\App\Language::translate('LBL_AUTOMATION_INFO',$QUALIFIED_MODULE)}">
+										data-content="{\App\Language::translate('LBL_RECORD_STATE_INFO',$QUALIFIED_MODULE)}">
 										<span class="fas fa-info-circle"></span>
 									</div>
 								</div>
 								<div class="col-md-9 controls">
-								<select class="select2 form-control" name="automation">
+								<select class="select2 form-control" name="record_state">
 									<option value=""></option>
-										{foreach item=$VALUE key=$KEY from=Settings_Picklist_Module_Model::getAutomationStatus()}
+										{foreach item=$VALUE key=$KEY from=\App\RecordStatus::getRecordStates()}
 									<option value="{$KEY}"
-									{if isset($PICKLIST_VALUE['automation']) && $PICKLIST_VALUE['automation'] === $KEY} selected
-									{elseif $KEY === Settings_Picklist_Module_Model::AUTOMATION_NO_CONCERN}selected {/if}
+									{if isset($PICKLIST_VALUE['record_state']) && $PICKLIST_VALUE['record_state'] === $KEY} selected
+									{elseif $KEY === \App\RecordStatus::RECORD_STATE_NO_CONCERN}selected {/if}
 									>{\App\Language::translate($VALUE,$QUALIFIED_MODULE)}</option>
 								{/foreach}
 								</select>

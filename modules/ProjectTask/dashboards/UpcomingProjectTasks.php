@@ -17,7 +17,7 @@ class ProjectTask_UpcomingProjectTasks_Dashboard extends Vtiger_IndexAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -26,7 +26,7 @@ class ProjectTask_UpcomingProjectTasks_Dashboard extends Vtiger_IndexAjax_View
 		$pagingModel->set('page', $request->getInteger('page'));
 		$pagingModel->set('limit', (int) $widget->get('limit'));
 		$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'ProjectTask', $request->getByType('owner', 2));
-		$openStatus = \App\Fields\Picklist::getValuesByAutomation('projecttaskstatus', Settings_Picklist_Module_Model::AUTOMATION_OPEN);
+		$openStatus = \App\RecordStatus::getPicklistValuesByRecordState('projecttaskstatus', \App\RecordStatus::RECORD_STATE_OPEN);
 		$params = ['projecttaskstatus' => $openStatus];
 		if (!$request->isEmpty('projecttaskpriority') && $request->getByType('projecttaskpriority', 'Standard') !== 'all') {
 			$params['projecttaskpriority'] = $request->getByType('projecttaskpriority', 'Standard');
