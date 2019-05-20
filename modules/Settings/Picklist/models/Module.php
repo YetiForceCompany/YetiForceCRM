@@ -29,6 +29,24 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	 * @var int
 	 */
 	const AUTOMATION_CLOSED = 2;
+	/**
+	 * Variable used to count times in specified categories.
+	 *
+	 * @var int
+	 */
+	const TIME_COUNTING_REACTION = 1;
+	/**
+	 * Variable used to count times in specified categories.
+	 *
+	 * @var int
+	 */
+	const TIME_COUNTING_RESOLVE = 2;
+	/**
+	 * Variable used to count times in specified categories.
+	 *
+	 * @var int
+	 */
+	const TIME_COUNTING_IDLE = 3;
 
 	public function getPickListTableName($fieldName)
 	{
@@ -148,7 +166,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @return bool
 	 */
-	public function renamePickListValues($fieldModel, $oldValue, $newValue, $id, $description = '', $prefix = '', $automation = self::AUTOMATION_NO_CONCERN)
+	public function renamePickListValues($fieldModel, $oldValue, $newValue, $id, $description = '', $prefix = '')
 	{
 		$db = App\Db::getInstance();
 		$pickListFieldName = $fieldModel->getName();
@@ -169,15 +187,6 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			}
 			$newData['prefix'] = $prefix;
 		}
-		$automationColumnExists = $this->checkColumn($tableName, 'automation');
-		if ($automation !== self::AUTOMATION_NO_CONCERN && !$automationColumnExists) {
-			$this->addAutomationColumn($tableName);
-			$newData['automation'] = $automation;
-		}
-		if ($automationColumnExists) {
-			$newData['automation'] = $automation;
-		}
-
 		$result = $db->createCommand()->update($tableName, $newData, [$primaryKey => $id])->execute();
 		if ($result) {
 			$dataReader = (new \App\Db\Query())->select(['tablename', 'columnname', 'tabid'])
@@ -204,6 +213,174 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			\App\Colors::generate('picklist');
 		}
 		return !empty($result);
+	}
+
+	/**
+	 * Update automation value.
+	 *
+	 * @param Settings_Picklist_Field_Model $fieldModel
+	 * @param int                           $id
+	 * @param int                           $automation
+	 *
+	 * @return bool
+	 */
+	public function updateAutomationValue(Settings_Picklist_Field_Model $fieldModel, int $id, int $automation)
+	{
+		$pickListFieldName = $fieldModel->getName();
+		$primaryKey = App\Fields\Picklist::getPickListId($pickListFieldName);
+		$tableName = $this->getPickListTableName($pickListFieldName);
+		$automationColumnExists = $this->checkColumn($tableName, 'automation');
+		if ($automation !== self::AUTOMATION_NO_CONCERN && !$automationColumnExists) {
+			$this->addAutomationColumn($tableName);
+		}
+		$oldValue = (new \App\Db\Query())->select('automation')->from($tableName)->where([$primaryKey => $id])->scalar();
+		if ($automation === $oldValue) {
+			return true;
+		}
+		if (!$fieldModel->isEditable()) {
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_NON_EDITABLE_PICKLIST_VALUE', 'Settings:Picklist'), 406);
+		}
+		$result = App\Db::getInstance()->createCommand()->update($tableName, ['automation' => $automation], [$primaryKey => $id])->execute();
+		if ($result) {
+			$this->clearPicklistCache($pickListFieldName, $fieldModel->getModuleName());
+			$eventHandler = new App\EventHandler();
+			$eventHandler->setParams([
+				'fieldname' => $pickListFieldName,
+				'oldvalue' => $oldValue,
+				'newvalue' => $automation,
+				'module' => $fieldModel->getModuleName(),
+				'id' => $id,
+			]);
+			$eventHandler->trigger('PicklistAfterAutomationUpdate');
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Update close state table.
+	 *
+	 * @param \Settings_Picklist_Field_Model $fieldModel
+	 * @param int                            $valueId
+	 * @param string                         $value
+	 * @param null|bool                      $closeState
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	public function updateCloseState(Settings_Picklist_Field_Model $fieldModel, int $valueId, string $value, $closeState = null)
+	{
+		$dbCommand = App\Db::getInstance()->createCommand();
+		$oldValue = \App\Fields\Picklist::getCloseStates($fieldModel->get('tabid'), false)[$valueId] ?? false;
+		if ($closeState === null && $oldValue !== $value) {
+			$dbCommand->update('u_#__picklist_close_state', ['value' => $value], ['fieldid' => $fieldModel->getId(), 'valueid' => $valueId])->execute();
+		}
+		if ($closeState === false || ($oldValue !== false && $value !== $oldValue)) {
+			$dbCommand->delete('u_#__picklist_close_state', ['fieldid' => $fieldModel->getId(), 'valueid' => $valueId])->execute();
+		}
+		if ($closeState && $value !== $oldValue) {
+			$dbCommand->insert('u_#__picklist_close_state', ['fieldid' => $fieldModel->getId(), 'valueid' => $valueId, 'value' => $value])->execute();
+		}
+		\App\Cache::delete('getCloseStatesByName', $fieldModel->get('tabid'));
+		\App\Cache::delete('getCloseStates', $fieldModel->get('tabid'));
+		return true;
+	}
+
+	/**
+	 * Update time counting value.
+	 *
+	 * @param Settings_Picklist_Field_Model $fieldModel
+	 * @param int                           $id
+	 * @param int[]                         $timeCounting
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 *
+	 * @return bool
+	 */
+	public function updateTimeCountingValue(Settings_Picklist_Field_Model $fieldModel, int $id, array $timeCounting)
+	{
+		foreach ($timeCounting as $time) {
+			if (!is_int($time)) {
+				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $time, 406);
+			}
+		}
+		$pickListFieldName = $fieldModel->getName();
+		$primaryKey = App\Fields\Picklist::getPickListId($pickListFieldName);
+		$tableName = $this->getPickListTableName($pickListFieldName);
+		$columnExists = $this->checkColumn($tableName, 'time_counting');
+		if ($timeCounting !== 0 && !$columnExists) {
+			$this->addTimeCountingColumn($tableName);
+		}
+		$newValue = ',' . implode(',', $timeCounting) . ',';
+		$oldValue = $this->getTimeCountingValue($fieldModel, $id, false);
+		if ($newValue === $oldValue) {
+			return true;
+		}
+		$result = App\Db::getInstance()->createCommand()->update($tableName, ['time_counting' => $newValue], [$primaryKey => $id])->execute();
+		if ($result) {
+			$this->clearPicklistCache($pickListFieldName, $fieldModel->getModuleName());
+			$eventHandler = new App\EventHandler();
+			$eventHandler->setParams([
+				'fieldname' => $pickListFieldName,
+				'oldvalue' => $oldValue,
+				'newvalue' => $timeCounting,
+				'module' => $fieldModel->getModuleName(),
+				'id' => $id,
+			]);
+			$eventHandler->trigger('PicklistAfterTimeCountingUpdate');
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Get time counting value from field model.
+	 *
+	 * @param Settings_Picklist_Field_Model $fieldModel
+	 * @param int                           $id
+	 * @param bool                          $asArray
+	 *
+	 * @return null|int[]|string
+	 */
+	public function getTimeCountingValue(Settings_Picklist_Field_Model $fieldModel, int $id, bool $asArray = true)
+	{
+		$pickListFieldName = $fieldModel->getName();
+		$primaryKey = App\Fields\Picklist::getPickListId($pickListFieldName);
+		$tableName = $this->getPickListTableName($pickListFieldName);
+		if ($this->checkColumn($tableName, 'time_counting')) {
+			$value = (new \App\Db\Query())->select('time_counting')->from($tableName)->where([$primaryKey => $id])->scalar();
+			if (!$asArray) {
+				return $value;
+			}
+			if (is_string($value) && strpos($value, ',') !== -1) {
+				$values = array_filter(explode(',', $value));
+				$result = [];
+				foreach ($values as $value) {
+					$result[] = (int) $value;
+				}
+				return $result;
+			}
+			return [];
+		}
+		return null;
+	}
+
+	/**
+	 * Get automation value.
+	 *
+	 * @param Settings_Picklist_Field_Model $fieldModel
+	 * @param int                           $id
+	 *
+	 * @return null|int
+	 */
+	public function getAutomationValue(Settings_Picklist_Field_Model $fieldModel, int $id)
+	{
+		$pickListFieldName = $fieldModel->getName();
+		$primaryKey = App\Fields\Picklist::getPickListId($pickListFieldName);
+		$tableName = $this->getPickListTableName($pickListFieldName);
+		if ($this->checkColumn($tableName, 'automation')) {
+			return (new \App\Db\Query())->select('automation')->from($tableName)->where([$primaryKey => $id])->scalar();
+		}
+		return null;
 	}
 
 	/**
@@ -246,6 +423,20 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
+	 * Add time counting column to picklist.
+	 *
+	 * @param string $tableName
+	 *
+	 * @return bool
+	 */
+	public function addTimeCountingColumn(string $tableName)
+	{
+		$db = App\Db::getInstance();
+		$schema = $db->getSchema();
+		$db->createCommand()->addColumn($tableName, 'time_counting', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 7))->execute();
+	}
+
+	/**
 	 * Add description column to picklist.
 	 *
 	 * @param string $tableName
@@ -255,30 +446,6 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	public function addPrefixColumn(string $tableName)
 	{
 		return App\Db::getInstance()->createCommand()->addColumn($tableName, 'prefix', 'string(30)')->execute();
-	}
-
-	/**
-	 * Update close state table.
-	 *
-	 * @param int                            $valueId
-	 * @param \Settings_Picklist_Field_Model $fieldModel
-	 * @param string                         $value
-	 * @param bool                           $closeState
-	 *
-	 * @throws \yii\db\Exception
-	 */
-	public function updateCloseState(int $valueId, Settings_Picklist_Field_Model $fieldModel, string $value, bool $closeState)
-	{
-		$dbCommand = App\Db::getInstance()->createCommand();
-		$oldValue = \App\Fields\Picklist::getCloseStates($fieldModel->get('tabid'), false)[$valueId] ?? false;
-		if (!$closeState || ($oldValue !== false && $value !== $oldValue)) {
-			$dbCommand->delete('u_#__picklist_close_state', ['fieldid' => $fieldModel->getId(), 'valueid' => $valueId])->execute();
-		}
-		if ($closeState && $value !== $oldValue) {
-			$dbCommand->insert('u_#__picklist_close_state', ['fieldid' => $fieldModel->getId(), 'valueid' => $valueId, 'value' => $value])->execute();
-		}
-		\App\Cache::delete('getCloseStatesByName', $fieldModel->get('tabid'));
-		\App\Cache::delete('getCloseStates', $fieldModel->get('tabid'));
 	}
 
 	public function remove($pickListFieldName, $valueToDeleteId, $replaceValueId, $moduleName)
@@ -429,6 +596,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	 * Static Function to get the instance of Vtiger Module Model for the given id or name.
 	 *
 	 * @param mixed id or name of the module
+	 * @param mixed $value
 	 */
 	public static function getInstance($value)
 	{
@@ -452,7 +620,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$objectProperties = get_object_vars($moduleObj);
 		$moduleModel = new self();
 		foreach ($objectProperties as $properName => $propertyValue) {
-			$moduleModel->$properName = $propertyValue;
+			$moduleModel->{$properName} = $propertyValue;
 		}
 		return $moduleModel;
 	}
@@ -477,7 +645,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Get all automation status
+	 * Get all automation status.
 	 *
 	 * @return int[]
 	 */

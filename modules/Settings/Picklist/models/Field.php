@@ -100,7 +100,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		$objectProperties = get_object_vars($fieldObj);
 		$fieldModel = new self();
 		foreach ($objectProperties as $properName => $propertyValue) {
-			$fieldModel->$properName = $propertyValue;
+			$fieldModel->{$properName} = $propertyValue;
 		}
 		return $fieldModel;
 	}

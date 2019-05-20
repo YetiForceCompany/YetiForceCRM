@@ -308,6 +308,29 @@ class Picklist
 	}
 
 	/**
+	 * Function which will give the picklist value for a field and valueId.
+	 *
+	 * @param string $fieldName
+	 * @param int    $valueId
+	 *
+	 * @return string
+	 */
+	public static function getValue($fieldName, int $valueId)
+	{
+		if (\App\Cache::has('getPickListFieldValue', $fieldName)) {
+			return \App\Cache::get('getPickListFieldValue', $fieldName);
+		}
+		$value = (new \App\Db\Query())
+			->select($fieldName)
+			->from("vtiger_$fieldName")
+			->where(['picklist_valueid' => $valueId])
+			->orderBy('sortorderid')
+			->scalar();
+		\App\Cache::save('getPickListFieldValue', $fieldName, $value);
+		return $value;
+	}
+
+	/**
 	 * Get colors for all fields or generate it if not exists.
 	 *
 	 * @param mixed $fieldName

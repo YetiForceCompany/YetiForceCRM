@@ -14,7 +14,7 @@
     "LBL_DELETE_PICKLIST_ITEMS": "Delete pickList items",
     "LBL_DELETE_VALUE": "Delete value",
     "LBL_DRAG_ITEMS_TO_RESPOSITION": "Drag items to reposition them",
-    "LBL_ENABLE\/DISABLE_MESSGAE": "Click on value to enable\/disable it. Then click save",
+    "LBL_ENABLE/DISABLE_MESSGAE": "Click on value to enable/disable it. Then click save",
     "LBL_ENTER_NEW_NAME": "Enter new name",
     "LBL_CURRENT_VALUE": "Current value",
     "LBL_ITEMS_TO_DELETE": "Items to delete",
@@ -41,7 +41,13 @@
     "LBL_AUTOMATION_NO_CONCERN": "Not applicable",
     "LBL_AUTOMATION_OPEN": "Open",
     "LBL_AUTOMATION_CLOSED": "Closed",
-    "LBL_AUTOMATION_INFO": "This value might be taken into account in some automatic mechanisms"
+    "LBL_AUTOMATION_INFO": "This value might be taken into account in some automatic mechanisms",
+    "LBL_EDIT_PROCESS_STATUS": "Edit process status",
+    "LBL_TIME_COUNTING": "Time counting",
+    "LBL_TIME_COUNTING_INFO": "You can group several statuses into categories in which the system summarizes the times of these statuses. The system can then perform some action when the time is exceeded.",
+    "LBL_TIME_COUNTING_REACTION": "Reaction time",
+    "LBL_TIME_COUNTING_RESOLVE": "Resolve time",
+    "LBL_TIME_COUNTING_IDLE": "Idle time"
   },
   "js": {
     "JS_ALL_ROLES_SELECTED": "All Roles selected",
