@@ -63,6 +63,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$picklistValueRow = App\Fields\Picklist::getValues($fieldModel->getName())[$valueId];
 		$picklistValueRow['picklist_valueid'] = $picklistValueRow['picklist_valueid'] ?? '';
 		$picklistValueRow['close_state'] = isset(\App\Fields\Picklist::getCloseStates($fieldModel->get('tabid'), false)[$picklistValueRow['picklist_valueid']]);
+		$picklistValueRow['time_counting'] = explode(',', trim($picklistValueRow['time_counting'], ','));
 		$viewer->assign('EDITABLE', !isset($selectedFieldNonEditablePickListValues[$valueId]));
 		$viewer->assign('PICKLIST_VALUE', $picklistValueRow);
 		$viewer->assign('SOURCE_MODULE', $module);

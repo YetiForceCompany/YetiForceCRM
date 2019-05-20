@@ -352,7 +352,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				return $value;
 			}
 			if (is_string($value) && strpos($value, ',') !== -1) {
-				$values = array_filter(explode(',', $value));
+				$values = explode(',', trim($value, ','));
 				$result = [];
 				foreach ($values as $value) {
 					$result[] = (int) $value;

@@ -37,9 +37,9 @@
 							</div>
 							<div class="col-md-9 controls">
 								<select class="select2 form-control" multiple name="time_counting[]">
-									<option value="1">{\App\Language::translate('LBL_TIME_COUNTING_REACTION',$QUALIFIED_MODULE)}</option>
-									<option value="2">{\App\Language::translate('LBL_TIME_COUNTING_RESOLVE',$QUALIFIED_MODULE)}</option>
-									<option value="3">{\App\Language::translate('LBL_TIME_COUNTING_IDLE',$QUALIFIED_MODULE)}</option>
+									<option value="1"{if in_array('1',$PICKLIST_VALUE['time_counting'])} selected="selected"{/if}>{\App\Language::translate('LBL_TIME_COUNTING_REACTION',$QUALIFIED_MODULE)}</option>
+									<option value="2"{if in_array('2',$PICKLIST_VALUE['time_counting'])} selected="selected"{/if}>{\App\Language::translate('LBL_TIME_COUNTING_RESOLVE',$QUALIFIED_MODULE)}</option>
+									<option value="3"{if in_array('3',$PICKLIST_VALUE['time_counting'])} selected="selected"{/if}>{\App\Language::translate('LBL_TIME_COUNTING_IDLE',$QUALIFIED_MODULE)}</option>
 								</select>
 							</div>
 						</div>
