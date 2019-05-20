@@ -19,6 +19,7 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 		parent::__construct();
 		$this->exposeMethod('data');
 		$this->exposeMethod('categories');
+		$this->exposeMethod('search');
 	}
 
 	/**
@@ -62,7 +63,7 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 		$categories = [];
 		foreach ($treeModel->getCategories() as $row) {
 			$row['parent'] = App\Fields\Tree::getParentIdx($row);
-			unset($row['templateid'],$row['depth'],$row['state'],$row['name']);
+			unset($row['templateid'], $row['depth'], $row['state'], $row['name']);
 			$row['parentTree'] = explode('::', $row['parentTree']);
 			$categories[$row['tree']] = $row;
 		}
