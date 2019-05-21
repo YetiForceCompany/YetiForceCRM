@@ -17,8 +17,9 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('data');
+		$this->exposeMethod('list');
 		$this->exposeMethod('categories');
+		$this->exposeMethod('detail');
 	}
 
 	/**
@@ -29,6 +30,9 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
+		if (!$request->isEmpty('record') && !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
 	}
 
 	/**
@@ -38,7 +42,7 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 	 *
 	 * @return void
 	 */
-	public function data(App\Request $request)
+	public function list(App\Request $request)
 	{
 		$treeModel = KnowledgeBase_Tree_Model::getInstance();
 		if (!$request->isEmpty('category')) {
@@ -91,6 +95,35 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($rows);
+		$response->emit();
+	}
+
+	/**
+	 * Details knowledge base.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function detail(App\Request $request)
+	{
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
+		if ('PLL_PRESENTATION' === $recordModel->get('knowledgebase_view')) {
+			$content = explode('<div style="page-break-after:always;"><span style="display:none;"> </span></div>', $recordModel->get('content'));
+		} else {
+			$content = $recordModel->get('content');
+		}
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'content' => $content,
+			'introduction' => $recordModel->get('introduction'),
+			'subject' => $recordModel->get('subject'),
+			'knowledgebase_view' => $recordModel->getDisplayValue('knowledgebase_view'),
+			'assigned_user_id' => $recordModel->getDisplayValue('assigned_user_id'),
+			'category' => $recordModel->getDisplayValue('category'),
+			'createdtime' => $recordModel->getDisplayValue('createdtime'),
+			'modifiedtime' => $recordModel->getDisplayValue('modifiedtime'),
+		]);
 		$response->emit();
 	}
 }
