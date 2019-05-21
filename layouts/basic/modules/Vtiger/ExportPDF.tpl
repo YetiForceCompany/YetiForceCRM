@@ -70,42 +70,34 @@
 						{/foreach}
 			{/function}
 			{if $DYNAMIC_TEMPLATES && $STANDARD_TEMPLATES}
-			{assign var=STANDARD_DEFAULT value=$STANDARD_TEMPLATES[0]->get('default')}
-			{assign var=DYNAMIC_DEFAULT value=$DYNAMIC_TEMPLATES[0]->get('default')}
 				<ul class="nav nav-tabs" id="generate-pdf-tab" role="tablist">
 					<li class="nav-item">
-						<a class="nav-link {if $STANDARD_DEFAULT} active  {/if}"id="home-tab" data-toggle="tab" href="#standard" role="tab" aria-controls="standard" aria-selected="true"><span class="mr-2 js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_STANDARD_TEMPLATES_DESC',$MODULE_NAME)}"><span class="fas fa-info-circle"></span></span>{\App\Language::translate('LBL_STANDARD_TEMPLATES', $MODULE_NAME)}</a>
+						<a class="nav-link {if empty($ACTIVE_DYNAMIC)} active {/if}"id="home-tab" data-toggle="tab" href="#standard" role="tab" aria-controls="standard" aria-selected="true"><span class="mr-2 js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_STANDARD_TEMPLATES_DESC',$MODULE_NAME)}"><span class="fas fa-info-circle"></span></span>{\App\Language::translate('LBL_STANDARD_TEMPLATES', $MODULE_NAME)}</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link {if $DYNAMIC_DEFAULT} active  {/if}" id="profile-tab" data-toggle="tab" href="#dynamic" role="tab" aria-controls="dynamic" aria-selected="false"><span class="mr-2 js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_DYNAMIC_TEMPLATES_DESC', $MODULE_NAME)}"><span class="fas fa-info-circle"></span></span>{\App\Language::translate('LBL_DYNAMIC_TEMPLATES', $MODULE_NAME)}</a>
+						<a class="nav-link {$ACTIVE_DYNAMIC}" id="profile-tab" data-toggle="tab" href="#dynamic" role="tab" aria-controls="dynamic" aria-selected="false"><span class="mr-2 js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_DYNAMIC_TEMPLATES_DESC', $MODULE_NAME)}"><span class="fas fa-info-circle"></span></span>{\App\Language::translate('LBL_DYNAMIC_TEMPLATES', $MODULE_NAME)}</a>
 					</li>
 				</ul>
 				<div class="tab-content p-3 border-left border-right border-bottom mb-3" id="generate-pdf-tab-content">
-					<div class="tab-pane fade {if $STANDARD_DEFAULT} active show  {/if} js-content-templates-standard" id="standard" role="tabpanel" aria-labelledby="standard-tab">
+					<div class="tab-pane fade {if empty($ACTIVE_DYNAMIC)} active show  {/if} js-content-templates-standard" id="standard" role="tabpanel" aria-labelledby="standard-tab">
 						{TEMPLATE_LIST STANDARD_TEMPLATES=$STANDARD_TEMPLATES}
 					</div>
-					<div class="tab-pane fade {if $DYNAMIC_DEFAULT} active show {/if} js-content-templates-dynamic" id="dynamic" role="tabpanel" aria-labelledby="dynamic-tab">
+					<div class="tab-pane fade {if $ACTIVE_DYNAMIC} {$ACTIVE_DYNAMIC} show  {/if}  js-content-templates-dynamic" id="dynamic" role="tabpanel" aria-labelledby="dynamic-tab">
 						{TEMPLATE_LIST_DYNAMIC DYNAMIC_TEMPLATE=$DYNAMIC_TEMPLATE}
 					</div>
 				</div>
 			{else}
-				{if $STANDARD_TEMPLATES}
-					<div class="card">
-						<div class="card-header">{\App\Language::translate('LBL_AVAILABLE_TEMPLATES', $MODULE_NAME)}</div>
-							<div class="card-body">
-								{TEMPLATE_LIST STANDARD_TEMPLATES=$STANDARD_TEMPLATES}
-							</div>
+				<div class="card">
+					<div class="card-header">{\App\Language::translate('LBL_AVAILABLE_TEMPLATES', $MODULE_NAME)}</div>
+						<div class="card-body">
+							{if $STANDARD_TEMPLATES}
+									{TEMPLATE_LIST STANDARD_TEMPLATES=$STANDARD_TEMPLATES}
+							{else}
+									{TEMPLATE_LIST_DYNAMIC DYNAMIC_TEMPLATE=$DYNAMIC_TEMPLATE}
+							{/if}
 						</div>
 					</div>
-				{else}
-					<div class="card">
-						<div class="card-header">{\App\Language::translate('LBL_AVAILABLE_TEMPLATES', $MODULE_NAME)}</div>
-							<div class="card-body">
-								{TEMPLATE_LIST_DYNAMIC DYNAMIC_TEMPLATE=$DYNAMIC_TEMPLATE}
-							</div>
-						</div>
-					</div>
-				{/if}
+				</div>
 			{/if}
 		<div class="modal-footer">
 			<div class="btn-group mr-0">

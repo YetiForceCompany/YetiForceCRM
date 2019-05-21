@@ -56,6 +56,7 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 			foreach ($templates as $key => $template) {
 				if (\Vtiger_PDF_Model::TEMPLATE_TYPE_DYNAMIC === $template->get('type')) {
 					$dynamicTemplates[] = $template;
+					$active = $template->get('default') ? 'active' : '';
 					unset($templates[$key]);
 				}
 			}
@@ -75,6 +76,7 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		$viewer->assign('CAN_CHANGE_SCHEME', \App\Privilege::isPermitted($moduleName, 'RecordPdfInventory'));
 		$viewer->assign('STANDARD_TEMPLATES', $templates);
 		$viewer->assign('DYNAMIC_TEMPLATES', $dynamicTemplates);
+		$viewer->assign('ACTIVE_DYNAMIC', $active);
 		$viewer->assign('ALL_RECORDS', $allRecords);
 		$viewer->assign('EXPORT_VARS', [
 			'record' => $recordId,
