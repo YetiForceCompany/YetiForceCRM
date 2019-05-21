@@ -3950,6 +3950,7 @@ CREATE TABLE `vtiger_account` (
   `fax_extra` varchar(100) DEFAULT NULL,
   `otherphone_extra` varchar(100) DEFAULT NULL,
   `pricebook_id` int(10) DEFAULT NULL,
+  `check_stock_levels` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`accountid`),
   KEY `account_account_type_idx` (`account_type`),
   KEY `email_idx` (`email1`,`email2`),
@@ -4377,7 +4378,7 @@ CREATE TABLE `vtiger_blocks` (
   KEY `block_tabid_idx` (`tabid`),
   KEY `block_sequence_idx` (`sequence`),
   CONSTRAINT `fk_1_vtiger_blocks` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=439 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=442 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_blocks_hide` */
 
@@ -5472,7 +5473,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2793 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2794 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
