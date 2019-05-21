@@ -76,35 +76,38 @@ class Record extends \Api\Core\BaseAction
 	{
 		$moduleName = $this->controller->request->get('module');
 		$record = $this->controller->request->get('record');
-		$model = $this->recordModel;
-		$rawData = $model->getData();
-		$moduleModel = $model->getModule();
+		$rawData = $this->recordModel->getData();
 
 		$displayData = $fieldsLabel = [];
-		$moduleBlockFields = \Vtiger_Field_Model::getAllForModule($moduleModel);
-		foreach ($moduleBlockFields as $moduleFields) {
-			foreach ($moduleFields as $moduleField) {
-				$block = $moduleField->get('block');
-				if (empty($block)) {
-					continue;
-				}
-				$fieldLabel = \App\Language::translate($moduleField->get('label'), $moduleName);
-				$displayData[$moduleField->getName()] = $model->getDisplayValue($moduleField->getName(), $record, true);
-				$fieldsLabel[$moduleField->getName()] = $fieldLabel;
-				if ($moduleField->isReferenceField()) {
-					$refereneModule = $moduleField->getUITypeModel()->getReferenceModule($model->get($moduleField->getName()));
-					$rawData[$moduleField->getName() . '_module'] = $refereneModule ? $refereneModule->getName() : null;
-				}
-				if ($moduleField->getFieldDataType() === 'taxes') {
-					$rawData[$moduleField->getName() . '_info'] = \Vtiger_Taxes_UIType::getValues($rawData[$moduleField->getName()]);
-				}
+		foreach ($this->recordModel->getModule()->getFields() as $moduleField) {
+			if (!$moduleField->isActiveField()) {
+				continue;
+			}
+			$displayData[$moduleField->getName()] = $this->recordModel->getDisplayValue($moduleField->getName(), $record, true);
+			$fieldsLabel[$moduleField->getName()] = \App\Language::translate($moduleField->get('label'), $moduleName);
+			if ($moduleField->isReferenceField()) {
+				$referenceModule = $moduleField->getUITypeModel()->getReferenceModule($this->recordModel->get($moduleField->getName()));
+				$rawData[$moduleField->getName() . '_module'] = $referenceModule ? $referenceModule->getName() : null;
+			}
+			if ('taxes' === $moduleField->getFieldDataType()) {
+				$rawData[$moduleField->getName() . '_info'] = \Vtiger_Taxes_UIType::getValues($rawData[$moduleField->getName()]);
 			}
 		}
-		$inventory = false;
-		$summaryInventory = [];
-		if ($model->getModule()->isInventory()) {
-			$rawInventory = $model->getInventoryData();
-			$inventory = [];
+
+		$response = [
+			'name' => $this->recordModel->getName(),
+			'id' => $this->recordModel->getId(),
+			'fields' => $fieldsLabel,
+			'data' => $displayData,
+			'privileges' => [
+				'isEditable' => $this->recordModel->isEditable(),
+				'MoveToTrash' => $this->recordModel->privilegeToMoveToTrash()
+			]
+		];
+
+		if ($this->recordModel->getModule()->isInventory()) {
+			$rawInventory = $this->recordModel->getInventoryData();
+			$inventory = $summaryInventory = [];
 			$inventoryModel = \Vtiger_Inventory_Model::getInstance($moduleName);
 			$inventoryFields = $inventoryModel->getFields();
 			foreach ($rawInventory as $row) {
@@ -119,15 +122,10 @@ class Record extends \Api\Core\BaseAction
 					$summaryInventory[$name] = \CurrencyField::convertToUserFormat($field->getSummaryValuesFromData($rawInventory), null, true);
 				}
 			}
+			$response['inventory'] = $inventory;
+			$response['summary_inventory'] = $summaryInventory;
 		}
-		$response = [
-			'name' => $model->getName(),
-			'id' => $model->getId(),
-			'fields' => $fieldsLabel,
-			'data' => $displayData,
-			'inventory' => $inventory,
-			'summary_inventory' => $summaryInventory
-		];
+
 		if (1 === (int) $this->controller->headers['x-raw-data']) {
 			$response['rawData'] = $rawData;
 			$response['rawInventory'] = $rawInventory;
