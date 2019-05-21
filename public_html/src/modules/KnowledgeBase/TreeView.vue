@@ -40,10 +40,10 @@
         </q-toolbar>
       </q-header>
 
-      <q-drawer v-model="left" side="left" elevated :width="250" :breakpoint="700">
+      <q-drawer v-model="left" side="left" elevated :width="250" :breakpoint="700" content-class="bg-yeti text-white">
         <q-scroll-area class="fit">
-          <q-list>
-            <q-item v-show="activeCategory === ''" clickable active>
+          <q-list dark>
+            <q-item v-show="activeCategory === ''" clickable active active-class="text-blue-2">
               <q-item-section avatar>
                 <q-icon name="mdi-home" />
               </q-item-section>
@@ -55,6 +55,7 @@
               v-if="activeCategory !== ''"
               clickable
               :active="!record"
+              active-class="text-blue-2"
               @click="
                 getData(
                   tree.categories[activeCategory].parentTree.length !== 1
