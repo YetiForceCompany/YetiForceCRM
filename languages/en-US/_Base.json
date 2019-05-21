@@ -1285,6 +1285,7 @@
     "LBL_MASS_ACTIVATE": "Mass activate",
     "LBL_MASS_MOVE_TO_TRASH": "Mass move to Recycle Bin",
     "LBL_DELETE_RECORD": "Delete record",
+    "LBL_DUPLICATE_LOGIN": "The specified login already exists.",
     "LBL_MOVE_TO_TRASH": "Move to Recycle Bin",
     "LBL_MOVE_TO_TRASH_DESC": "Moving a record to Recycle Bin only changes the record's state without changing the rest of information. Are you sure you want to move the record?.",
     "LBL_DELETE_RECORD_COMPLETELY": "Delete record from system",
