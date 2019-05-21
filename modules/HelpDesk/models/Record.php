@@ -91,4 +91,25 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 			CRMEntity::getInstance($forModule)->saveRelatedModule($forModule, $forCrmid, \App\Request::_get('module'), $this->getId());
 		}
 	}
+	/**
+	 * Function returns the details of Hierarchy.
+	 *
+	 * @return array
+	 */
+	public function getHierarchyDetails(): array
+	{
+		$moduleModel = \Vtiger_Module_Model::getInstance($this->getModuleName());
+		$hierarchy = $moduleModel->getHierarchy($this->getId());
+		foreach ($hierarchy['entries'] as $id => $info) {
+			preg_match('/<a href="+/', $info[0], $matches);
+			if (!empty($matches)) {
+				preg_match('/[.\s]+/', $info[0], $dashes);
+				preg_match("/<a(.*)>(.*)<\/a>/i", $info[0], $name);
+				$recordModel = Vtiger_Record_Model::getCleanInstance('HelpDesk');
+				$recordModel->setId($id);
+				$hierarchy['entries'][$id][0] = $dashes[0] . '<a href=' . $recordModel->getDetailViewUrl() . '>' . $name[2] . '</a>';
+			}
+		}
+		return $hierarchy;
+	}
 }
