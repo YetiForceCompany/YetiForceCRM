@@ -103,16 +103,6 @@
                 <q-icon name="mdi-chevron-right" />
               </q-item-section>
             </q-item>
-
-            <q-separator v-if="tree.data.records.length" />
-            <q-item v-for="(recordValue, id) in tree.data.records" :key="id" clickable v-ripple @click="getRecord(id)">
-              <q-item-section avatar>
-                <q-icon name="mdi-text" />
-              </q-item-section>
-              <q-item-section>
-                {{ recordValue.subject }}
-              </q-item-section>
-            </q-item>
           </q-list>
         </q-scroll-area>
       </q-drawer>
@@ -130,7 +120,11 @@
                   :key="categoryKey"
                   class="home-card"
                 >
-                  <q-item-label header>{{ tree.categories[categoryValue].label }}</q-item-label>
+                  <q-item-label header>
+                    <q-icon name="mdi-star"></q-icon>
+
+                    {{ tree.categories[categoryValue].label }}</q-item-label
+                  >
                   <q-item
                     clickable
                     v-for="featuredValue in tree.data.featured[categoryValue]"
