@@ -3,10 +3,10 @@
 <template>
   <div class="h-100">
     <q-layout view="hHh lpr fFf" container class="absolute">
-      <q-header elevated class="bg-primary text-white">
+      <q-header elevated class="bg-white text-primary">
         <q-toolbar>
           <q-btn dense flat round icon="mdi-menu" @click="left = !left"></q-btn>
-          <q-breadcrumbs active-color="info" class="ml-2">
+          <q-breadcrumbs class="ml-2">
             <template v-slot:separator>
               <q-icon size="1.5em" name="mdi-chevron-right" />
             </template>
@@ -23,14 +23,13 @@
             </template>
             <q-breadcrumbs-el v-if="record !== false" icon="mdi-text" :label="record.subject" />
           </q-breadcrumbs>
-          <q-checkbox dark v-model="categorySearch" label="Search current category" class="ml-auto" />
+          <q-checkbox v-model="categorySearch" label="Search current category" class="ml-auto" />
           <q-input
             v-model="filter"
             placeholder="Search"
             rounded
             outlined
             type="search"
-            bg-color="grey-1"
             class="tree-search"
             @input="search"
           >
@@ -150,7 +149,7 @@
               </template>
             </div>
             <q-table
-              v-if="activeCategory !== ''"
+              v-show="activeCategory !== ''"
               :data="Object.values(tree.data.records)"
               :columns="columns"
               row-key="subject"
