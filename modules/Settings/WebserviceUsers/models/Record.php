@@ -178,16 +178,16 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function to save.
 	 *
-	 * @param array $data
-	 *
 	 * @return bool
 	 */
-	public function save($data)
+	public function save()
 	{
+		$this->validate();
 		$db = App\Db::getInstance('webservice');
 		$table = $this->getModule()->getBaseTable();
 		$index = $this->getModule()->getTableIndex();
 		$fields = $this->getEditFields();
+		$data = $this->getData();
 		foreach ($data as $key => $value) {
 			if (isset($fields[$key])) {
 				$data[$key] = $this->getValueToSave($key, $value);
@@ -196,14 +196,27 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			}
 		}
 		if (empty($this->getId())) {
-			$seccess = $db->createCommand()->insert($table, $data)->execute();
-			if ($seccess) {
+			$success = $db->createCommand()->insert($table, $data)->execute();
+			if ($success) {
 				$this->set('id', $db->getLastInsertID("{$table}_{$index}_seq"));
 			}
 		} else {
-			$seccess = $db->createCommand()->update($table, $data, [$index => $this->getId()])->execute();
+			$success = $db->createCommand()->update($table, $data, [$index => $this->getId()])->execute();
 		}
-		return $seccess;
+		return $success;
+	}
+
+	/**
+	 * Function to validate.
+	 *
+	 * @return bool
+	 */
+	public function validate()
+	{
+		if ((new \App\Db\Query())->from($this->getModule()->getBaseTable())->where(['server_id' => $this->get('server_id'), 'user_name' => $this->get('user_name')])->exists()) {
+			throw new \App\Exceptions\IllegalValue('ERR_DUPLICATE_LOGIN', 406);
+		}
+		return true;
 	}
 
 	/**
@@ -339,5 +352,40 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			$result = $db->createCommand()->delete($table, [$index => $recordId])->execute();
 		}
 		return !empty($result);
+	}
+
+	/**
+	 * Send mails with access.
+	 *
+	 * @return void
+	 */
+	public function sendEmail()
+	{
+		if (empty($this->get('crmid'))) {
+			return;
+		}
+		$moduleName = 'Contacts';
+		$recordModel = Vtiger_Record_Model::getInstanceById($this->get('crmid'), $moduleName);
+		if ($recordModel->get('emailoptout')) {
+			$emailsFields = $recordModel->getModule()->getFieldsByType('email');
+			$addressEmail = '';
+			foreach ($emailsFields as $fieldModel) {
+				if (!$recordModel->isEmpty($fieldModel->getFieldName())) {
+					$addressEmail = $recordModel->get($fieldModel->getFieldName());
+					break;
+				}
+			}
+			if (!empty($addressEmail)) {
+				\App\Mailer::sendFromTemplate([
+					'template' => 'YetiPortalRegister',
+					'moduleName' => $moduleName,
+					'recordId' => $this->get('crmid'),
+					'to' => $addressEmail,
+					'password' => $this->get('password_t'),
+					'login' => $this->get('user_name'),
+					'acceptable_url' => Settings_WebserviceApps_Record_Model::getInstanceById($this->get('server_id'))->get('acceptable_url')
+				]);
+			}
+		}
 	}
 }
