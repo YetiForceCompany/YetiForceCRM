@@ -42,7 +42,7 @@ class Settings_WebserviceUsers_SaveAjax_Action extends Settings_Vtiger_Save_Acti
 
 		try {
 			$recordSave = $recordModel->save();
-			if (true == \App\Config::api('ENABLE_EMAIL_PORTAL')) {
+			if (true == \App\Config::api('enableEmailPortal')) {
 				if ($request->isEmpty('record') && $recordSave) {
 					$recordModel->sendEmail();
 				}

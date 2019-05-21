@@ -39,7 +39,7 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
-		'ENABLE_EMAIL_PORTAL' => [
+		'enableEmailPortal' => [
 			'default' => true,
 			'description' => 'Webservice config. Enabling contact notifications about the new account in the portal. Available: false, true',
 			'validation' => '\App\Validator::bool',
