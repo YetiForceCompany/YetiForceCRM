@@ -366,25 +366,26 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		$moduleName = 'Contacts';
 		$recordModel = Vtiger_Record_Model::getInstanceById($this->get('crmid'), $moduleName);
-		$emailsFields = $recordModel->getModule()->getFieldsByType('email');
-		$addressEmail = '';
-		foreach ($emailsFields as $fieldModel) {
-			if (!$recordModel->isEmpty($fieldModel->getFieldName())) {
-				$addressEmail = $recordModel->get($fieldModel->getFieldName());
-				break;
+		if ($recordModel->get('emailoptout')) {
+			$emailsFields = $recordModel->getModule()->getFieldsByType('email');
+			$addressEmail = '';
+			foreach ($emailsFields as $fieldModel) {
+				if (!$recordModel->isEmpty($fieldModel->getFieldName())) {
+					$addressEmail = $recordModel->get($fieldModel->getFieldName());
+					break;
+				}
 			}
-		}
-
-		if (!empty($addressEmail)) {
-			\App\Mailer::sendFromTemplate([
-				'template' => 'YetiPortalRegister',
-				'moduleName' => $moduleName,
-				'recordId' => $this->get('crmid'),
-				'to' => $addressEmail,
-				'password' => $this->get('password_t'),
-				'login' => $this->get('user_name'),
-				'acceptable_url' => Settings_WebserviceApps_Record_Model::getInstanceById($this->get('server_id'))->get('acceptable_url')
-			]);
+			if (!empty($addressEmail)) {
+				\App\Mailer::sendFromTemplate([
+					'template' => 'YetiPortalRegister',
+					'moduleName' => $moduleName,
+					'recordId' => $this->get('crmid'),
+					'to' => $addressEmail,
+					'password' => $this->get('password_t'),
+					'login' => $this->get('user_name'),
+					'acceptable_url' => Settings_WebserviceApps_Record_Model::getInstanceById($this->get('server_id'))->get('acceptable_url')
+				]);
+			}
 		}
 	}
 }
