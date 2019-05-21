@@ -132,9 +132,13 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($request->getForSql('picklistName'), $moduleModel);
 		$response = new Vtiger_Response();
 		$valueId = $request->getInteger('picklist_valueid');
-		$value = App\Fields\Picklist::getValue($fieldModel->getName(), $id);
+		$fieldName = $fieldModel->getName();
+		$value = App\Fields\Picklist::getValues($fieldName)[$id][$fieldName] ?? null;
 		$result = true;
 		try {
+			if ($value === null) {
+				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
+			}
 			$result = $result && \App\RecordStatus::updateRecordStateValue($fieldModel, $id, $request->getInteger('record_state'));
 			if ($fieldModel->getUIType() === 15) {
 				$result = $result && \App\RecordStatus::updateCloseState($fieldModel, $valueId, $value, $request->getBoolean('close_state'));
