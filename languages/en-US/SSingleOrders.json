@@ -35,6 +35,7 @@
     "LBL_SYNCHRONIZE_POS": "Synchronize POS",
     "FL_SOURCE": "Source",
     "PLL_MANUAL": "Manual",
-    "PLL_SHOP": "Shop"
+    "PLL_SHOP": "Shop",
+    "LBL_STORAGE": "Storage"
   }
 }
