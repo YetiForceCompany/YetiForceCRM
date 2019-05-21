@@ -179,6 +179,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			}
 			calendarView.fullCalendar('getCalendar').view.options.loadView();
 		});
+		$('label.active', switchShowType).find('input').filter(':first').change();
 		if (switchSwitchingDays.length) {
 			if (typeof isWorkDays !== 'undefined' && !isWorkDays) {
 				switchSwitchingDays.find('.js-switch--label-off').button('toggle');
@@ -200,6 +201,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 					this.registerViewRenderEvents(calendarView.fullCalendar('getView'));
 				}
 			});
+			$('label.active', switchSwitchingDays).find('input').filter(':first').change());
 		}
 	}
 
