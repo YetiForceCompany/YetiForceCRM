@@ -135,7 +135,7 @@ class RecordStatus
 	{
 		$primaryKey = \App\Fields\Picklist::getPickListId($fieldName);
 		$tableName = \Settings_Picklist_Module_Model::getPickListTableName($fieldName);
-		$rows = (new \App\Db\Query())->select([$primaryKey, 'time_counting'])->from($tableName)->createCommand()->queryAll();
+		$rows = (new \App\Db\Query())->select([$primaryKey, 'time_counting'])->from($tableName)->all();
 		$values = [];
 		foreach ($rows as $row) {
 			if ($asMultiArray) {
@@ -208,7 +208,7 @@ class RecordStatus
 	{
 		$tableName = \Settings_Picklist_Module_Model::getPickListTableName($fieldName);
 		$primaryKey = \App\Fields\Picklist::getPickListId($fieldName);
-		$rows = (new \App\Db\Query())->select([$primaryKey, 'record_state'])->from($tableName)->createCommand()->queryAll();
+		$rows = (new \App\Db\Query())->select([$primaryKey, 'record_state'])->from($tableName)->all();
 		if ($rows) {
 			return array_column($rows, 'record_state', $primaryKey);
 		}
