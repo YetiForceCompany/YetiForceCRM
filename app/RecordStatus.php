@@ -117,8 +117,10 @@ class RecordStatus
 			$fieldModel->save();
 		}
 		$tableName = \Settings_Picklist_Module_Model::getPicklistTableName($fieldName);
-		Utils::addColumn($tableName, 'record_state', Db::getInstance()->getSchema()->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TINYINT, 1));
-		Utils::addColumn($tableName, 'time_counting', Db::getInstance()->getSchema()->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 7));
+		$db = \App\Db::getInstance();
+		$schema = $db->getSchema();
+		$db->createCommand()->addColumn($tableName, 'record_state', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TINYINT, 1));
+		$db->createCommand()->addColumn($tableName, 'time_counting', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 7));
 		return $fieldModel ? true : false;
 	}
 

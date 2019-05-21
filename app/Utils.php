@@ -128,18 +128,4 @@ class Utils
 		}
 		return (bool) $value;
 	}
-
-	/**
-	 * Add column.
-	 *
-	 * @param string                      $tableName
-	 * @param string                      $columnName
-	 * @param \yii\db\ColumnSchemaBuilder $columnSchema
-	 *
-	 * @return bool
-	 */
-	public static function addColumn(string $tableName, string $columnName, \yii\db\ColumnSchemaBuilder $columnSchema)
-	{
-		return Db::getInstance()->createCommand()->addColumn($tableName, $columnName, $columnSchema)->execute();
-	}
 }
