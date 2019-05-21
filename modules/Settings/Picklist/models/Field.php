@@ -157,7 +157,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		}
 		$pickListFieldName = $this->getName();
 		$primaryKey = \App\Fields\Picklist::getPickListId($pickListFieldName);
-		$tableName = \Settings_Picklist_Module_Model::getPickListTableName($pickListFieldName);
+		$tableName = \App\Fields\Picklist::getPickListTableName($pickListFieldName);
 		$oldValue = \App\RecordStatus::getRecordStateValues($pickListFieldName)[$id];
 		if ($recordState === $oldValue) {
 			return true;
@@ -239,7 +239,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		$pickListFieldName = $this->getName();
 		$moduleName = $this->getModuleName();
 		$primaryKey = \App\Fields\Picklist::getPickListId($pickListFieldName);
-		$tableName = \Settings_Picklist_Module_Model::getPickListTableName($pickListFieldName);
+		$tableName = \App\Fields\Picklist::getPickListTableName($pickListFieldName);
 		$newValue = \App\RecordStatus::getTimeCountingStringValueFromArray($timeCounting);
 		if ($newValue === ',,') {
 			$newValue = null;

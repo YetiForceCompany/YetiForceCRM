@@ -328,4 +328,19 @@ class Picklist
 		}
 		return $colors;
 	}
+
+	/**
+	 * Get picklist table name.
+	 *
+	 * @param string $fieldName
+	 *
+	 * @return string
+	 */
+	public static function getPickListTableName(string $fieldName)
+	{
+		if (empty($fieldName) || !preg_match('/^[_a-zA-Z0-9]+$/', $fieldName)) {
+			throw new \App\Exceptions\AppException('Incorrect picklist name');
+		}
+		return 'vtiger_' . $fieldName;
+	}
 }

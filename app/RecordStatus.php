@@ -116,7 +116,7 @@ class RecordStatus
 			$fieldModel->set('fieldparams', \App\Json::encode(['isProcessStatusField' => true]));
 			$fieldModel->save();
 		}
-		$tableName = \Settings_Picklist_Module_Model::getPicklistTableName($fieldName);
+		$tableName = \App\Fields\Picklist::getPicklistTableName($fieldName);
 		$db = \App\Db::getInstance();
 		$schema = $db->getSchema();
 		$db->createCommand()->addColumn($tableName, 'record_state', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TINYINT, 1));
@@ -136,7 +136,7 @@ class RecordStatus
 	public static function getTimeCountingValues(string $fieldName, bool $asMultiArray = true)
 	{
 		$primaryKey = \App\Fields\Picklist::getPickListId($fieldName);
-		$tableName = \Settings_Picklist_Module_Model::getPickListTableName($fieldName);
+		$tableName = \App\Fields\Picklist::getPickListTableName($fieldName);
 		$rows = (new \App\Db\Query())->select([$primaryKey, 'time_counting'])->from($tableName)->all();
 		$values = [];
 		foreach ($rows as $row) {
@@ -208,7 +208,7 @@ class RecordStatus
 	 */
 	public static function getRecordStateValues(string $fieldName)
 	{
-		$tableName = \Settings_Picklist_Module_Model::getPickListTableName($fieldName);
+		$tableName = \App\Fields\Picklist::getPickListTableName($fieldName);
 		$primaryKey = \App\Fields\Picklist::getPickListId($fieldName);
 		$rows = (new \App\Db\Query())->select([$primaryKey, 'record_state'])->from($tableName)->all();
 		if ($rows) {
