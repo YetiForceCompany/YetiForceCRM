@@ -12166,7 +12166,10 @@ var script$1 = {
       left: true,
       filter: '',
       record: false,
+      dialog: false,
       categorySearch: false,
+      maximizedToggle: true,
+      slide: 0,
       pagination: {
         rowsPerPage: 0
       },
@@ -12194,7 +12197,6 @@ var script$1 = {
       searchData: false
     }
   },
-  computed: {},
   methods: {
     getCategories() {
       const aDeferred = $.Deferred();
@@ -12206,17 +12208,34 @@ var script$1 = {
     getData(category = '') {
       const aDeferred = $.Deferred();
       this.activeCategory = category;
-      this.record = false;
       const progressIndicatorElement = $.progressIndicator({
         blockInfo: { enabled: true }
       });
       return AppConnector.request({
         module: 'KnowledgeBase',
         action: 'TreeAjax',
-        mode: 'data',
+        mode: 'list',
         category: category
       }).done(data => {
         this.tree.data = data.result;
+        progressIndicatorElement.progressIndicator({ mode: 'hide' });
+        aDeferred.resolve(data.result);
+      })
+    },
+    getRecord(id) {
+      const aDeferred = $.Deferred();
+      const progressIndicatorElement = $.progressIndicator({
+        blockInfo: { enabled: true }
+      });
+      return AppConnector.request({
+        module: 'KnowledgeBase',
+        action: 'TreeAjax',
+        mode: 'detail',
+        record: id
+      }).done(data => {
+        this.record = data.result;
+        this.dialog = true;
+        console.log(this.record);
         progressIndicatorElement.progressIndicator({ mode: 'hide' });
         aDeferred.resolve(data.result);
       })
@@ -12350,15 +12369,6 @@ var __vue_render__$1 = function() {
                               )
                             }
                           )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _vm.record !== false
-                        ? _c("q-breadcrumbs-el", {
-                            attrs: {
-                              icon: "mdi-text",
-                              label: _vm.record.subject
-                            }
-                          })
                         : _vm._e()
                     ],
                     2
@@ -12487,7 +12497,7 @@ var __vue_render__$1 = function() {
                             {
                               attrs: {
                                 clickable: "",
-                                active: !_vm.record,
+                                active: "",
                                 "active-class": "text-blue-2"
                               },
                               on: {
@@ -12610,24 +12620,18 @@ var __vue_render__$1 = function() {
                         ? _c("q-separator")
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm._l(_vm.tree.data.records, function(
-                        recordValue,
-                        index
-                      ) {
+                      _vm._l(_vm.tree.data.records, function(recordValue, id) {
                         return _c(
                           "q-item",
                           {
                             directives: [
                               { name: "ripple", rawName: "v-ripple" }
                             ],
-                            key: index,
-                            attrs: {
-                              clickable: "",
-                              active: _vm.record === recordValue
-                            },
+                            key: id,
+                            attrs: { clickable: "" },
                             on: {
                               click: function($event) {
-                                _vm.record = recordValue;
+                                return _vm.getRecord(id)
                               }
                             }
                           },
@@ -12667,7 +12671,7 @@ var __vue_render__$1 = function() {
                 "q-page",
                 { staticClass: "q-pa-md" },
                 [
-                  !_vm.record && !_vm.searchData
+                  !_vm.searchData
                     ? _c(
                         "div",
                         [
@@ -12740,7 +12744,9 @@ var __vue_render__$1 = function() {
                                                   on: {
                                                     click: function($event) {
                                                       $event.preventDefault();
-                                                      _vm.record = featuredValue;
+                                                      return _vm.getRecord(
+                                                        featuredValue.id
+                                                      )
                                                     }
                                                   }
                                                 },
@@ -12830,7 +12836,7 @@ var __vue_render__$1 = function() {
                                           attrs: { padding: "" },
                                           on: {
                                             click: function($event) {
-                                              _vm.record = props.row;
+                                              return _vm.getRecord(props.row.id)
                                             }
                                           }
                                         },
@@ -12917,7 +12923,7 @@ var __vue_render__$1 = function() {
                               ],
                               null,
                               false,
-                              2673359325
+                              2199815998
                             )
                           })
                         ],
@@ -12947,8 +12953,7 @@ var __vue_render__$1 = function() {
                                       attrs: { padding: "" },
                                       on: {
                                         click: function($event) {
-                                          _vm.record = props.row;
-                                          _vm.searchData = false;
+                                          return _vm.getRecord(props.row.id)
                                         }
                                       }
                                     },
@@ -13031,18 +13036,190 @@ var __vue_render__$1 = function() {
                           ],
                           null,
                           false,
-                          28787049
+                          4059668670
                         )
                       })
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.record && !_vm.searchData
-                    ? _c("div", [
-                        _c("h5", [_vm._v(_vm._s(_vm.record.subject))]),
-                        _vm._v(" "),
-                        _c("p", [_vm._v(_vm._s(_vm.record.introduction))])
-                      ])
                     : _vm._e()
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "q-dialog",
+        {
+          attrs: {
+            persistent: "",
+            maximized: _vm.maximizedToggle,
+            "transition-show": "slide-up",
+            "transition-hide": "slide-down"
+          },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v;
+            },
+            expression: "dialog"
+          }
+        },
+        [
+          _c(
+            "q-card",
+            { staticClass: "quasar-reset" },
+            [
+              _c(
+                "q-bar",
+                [
+                  _c("q-space"),
+                  _vm._v(" "),
+                  _c(
+                    "q-btn",
+                    {
+                      attrs: {
+                        dense: "",
+                        flat: "",
+                        icon: "mdi-window-minimize",
+                        disable: !_vm.maximizedToggle
+                      },
+                      on: {
+                        click: function($event) {
+                          _vm.maximizedToggle = false;
+                        }
+                      }
+                    },
+                    [
+                      _vm.maximizedToggle
+                        ? _c(
+                            "q-tooltip",
+                            {
+                              attrs: {
+                                "content-class": "bg-white text-primary"
+                              }
+                            },
+                            [_vm._v("Minimize")]
+                          )
+                        : _vm._e()
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "q-btn",
+                    {
+                      attrs: {
+                        dense: "",
+                        flat: "",
+                        icon: "mdi-window-maximize",
+                        disable: _vm.maximizedToggle
+                      },
+                      on: {
+                        click: function($event) {
+                          _vm.maximizedToggle = true;
+                        }
+                      }
+                    },
+                    [
+                      !_vm.maximizedToggle
+                        ? _c(
+                            "q-tooltip",
+                            {
+                              attrs: {
+                                "content-class": "bg-white text-primary"
+                              }
+                            },
+                            [_vm._v("Maximize")]
+                          )
+                        : _vm._e()
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "q-btn",
+                    {
+                      directives: [
+                        { name: "close-popup", rawName: "v-close-popup" }
+                      ],
+                      attrs: { dense: "", flat: "", icon: "mdi-close" }
+                    },
+                    [
+                      _c(
+                        "q-tooltip",
+                        { attrs: { "content-class": "bg-white text-primary" } },
+                        [_vm._v("Close")]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("q-card-section", [
+                _c("div", { staticClass: "text-h6" }, [
+                  _vm._v(_vm._s(_vm.record.subject))
+                ])
+              ]),
+              _vm._v(" "),
+              _c("q-card-section", [
+                _vm._v(
+                  "\n        " + _vm._s(_vm.record.introduction) + "\n      "
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "q-card-section",
+                [
+                  _vm.record.knowledgebase_view === "PLL_PRESENTATION"
+                    ? _c(
+                        "q-carousel",
+                        {
+                          staticClass:
+                            "bg-white text-black shadow-1 rounded-borders",
+                          attrs: {
+                            "transition-prev": "scale",
+                            "transition-next": "scale",
+                            swipeable: "",
+                            animated: "",
+                            "control-color": "black",
+                            navigation: "",
+                            padding: "",
+                            arrows: "",
+                            height: "300px"
+                          },
+                          model: {
+                            value: _vm.slide,
+                            callback: function($$v) {
+                              _vm.slide = $$v;
+                            },
+                            expression: "slide"
+                          }
+                        },
+                        _vm._l(_vm.record.content, function(slide, index) {
+                          return _c(
+                            "q-carousel-slide",
+                            {
+                              key: index,
+                              staticClass: "column no-wrap flex-center",
+                              attrs: { name: index }
+                            },
+                            [
+                              _c("div", {
+                                domProps: { innerHTML: _vm._s(slide) }
+                              })
+                            ]
+                          )
+                        }),
+                        1
+                      )
+                    : _c("div", {
+                        domProps: { innerHTML: _vm._s(_vm.record.content) }
+                      })
                 ],
                 1
               )
@@ -13062,7 +13239,7 @@ __vue_render__$1._withStripped = true;
   /* style */
   const __vue_inject_styles__$1 = function (inject) {
     if (!inject) return
-    inject("data-v-1aa91480_0", { source: "\n.tree-search {\n  width: 50%;\n}\n.tree-search .q-field__control,\n.tree-search .q-field__marginal {\n  height: 40px;\n}\n.home-card {\n  width: 100%;\n  max-width: 250px;\n}\n.list-item {\n  width: 100%;\n  max-width: 600px;\n}\n", map: {"version":3,"sources":["C:\\www\\YetiForceCRM\\public_html\\src\\modules\\KnowledgeBase\\TreeView.vue"],"names":[],"mappings":";AAmUA;EACA,UAAA;AACA;AACA;;EAEA,YAAA;AACA;AACA;EACA,WAAA;EACA,gBAAA;AACA;AACA;EACA,WAAA;EACA,gBAAA;AACA","file":"TreeView.vue","sourcesContent":["/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */\n\n<template>\n  <div class=\"h-100\">\n    <q-layout view=\"hHh lpr fFf\" container class=\"absolute\">\n      <q-header elevated class=\"bg-white text-primary\">\n        <q-toolbar>\n          <q-btn dense flat round icon=\"mdi-menu\" @click=\"left = !left\"></q-btn>\n          <q-breadcrumbs class=\"ml-2\">\n            <template v-slot:separator>\n              <q-icon size=\"1.5em\" name=\"mdi-chevron-right\" />\n            </template>\n            <q-breadcrumbs-el icon=\"mdi-home\" @click=\"getData()\" />\n            <template v-if=\"this.activeCategory !== ''\">\n              <q-breadcrumbs-el\n                v-for=\"category in tree.categories[this.activeCategory].parentTree\"\n                :key=\"tree.categories[category].label\"\n                @click=\"getData(category)\"\n              >\n                <icon :icon=\"tree.categories[category].icon\" class=\"q-mr-sm\"></icon>\n                {{ tree.categories[category].label }}\n              </q-breadcrumbs-el>\n            </template>\n            <q-breadcrumbs-el v-if=\"record !== false\" icon=\"mdi-text\" :label=\"record.subject\" />\n          </q-breadcrumbs>\n          <q-input\n            v-model=\"filter\"\n            placeholder=\"Search\"\n            rounded\n            outlined\n            type=\"search\"\n            class=\"tree-search mx-auto\"\n            @input=\"search\"\n          >\n            <template v-slot:append>\n              <q-icon name=\"mdi-magnify\" />\n            </template>\n          </q-input>\n          <div>\n            <q-toggle v-model=\"categorySearch\" icon=\"mdi-file-tree\" />\n            <q-tooltip>\n              Search current category\n            </q-tooltip>\n          </div>\n        </q-toolbar>\n      </q-header>\n\n      <q-drawer v-model=\"left\" side=\"left\" elevated :width=\"250\" :breakpoint=\"700\" content-class=\"bg-yeti text-white\">\n        <q-scroll-area class=\"fit\">\n          <q-list dark>\n            <q-item v-show=\"activeCategory === ''\" clickable active active-class=\"text-blue-2\">\n              <q-item-section avatar>\n                <q-icon name=\"mdi-home\" />\n              </q-item-section>\n              <q-item-section>\n                Home\n              </q-item-section>\n            </q-item>\n            <q-item\n              v-if=\"activeCategory !== ''\"\n              clickable\n              :active=\"!record\"\n              active-class=\"text-blue-2\"\n              @click=\"\n                getData(\n                  tree.categories[activeCategory].parentTree.length !== 1\n                    ? tree.categories[activeCategory].parentTree[tree.categories[activeCategory].parentTree.length - 2]\n                    : ''\n                )\n              \"\n            >\n              <q-item-section avatar>\n                <icon :icon=\"tree.categories[activeCategory].icon\" />\n              </q-item-section>\n              <q-item-section>\n                {{ tree.categories[activeCategory].label }}\n              </q-item-section>\n              <q-item-section avatar>\n                <q-icon name=\"mdi-chevron-left\" />\n              </q-item-section>\n            </q-item>\n            <q-item\n              v-for=\"(categoryValue, categoryKey) in tree.data.categories\"\n              :key=\"categoryKey\"\n              clickable\n              v-ripple\n              @click=\"getData(categoryValue)\"\n            >\n              <q-item-section avatar>\n                <icon :icon=\"tree.categories[categoryValue].icon\" />\n              </q-item-section>\n              <q-item-section>\n                {{ tree.categories[categoryValue].label }}\n              </q-item-section>\n              <q-item-section avatar>\n                <q-icon name=\"mdi-chevron-right\" />\n              </q-item-section>\n            </q-item>\n\n            <q-separator v-if=\"tree.data.records.length\" />\n            <q-item\n              v-for=\"(recordValue, index) in tree.data.records\"\n              :key=\"index\"\n              clickable\n              v-ripple\n              :active=\"record === recordValue\"\n              @click=\"record = recordValue\"\n            >\n              <q-item-section avatar>\n                <q-icon name=\"mdi-text\" />\n              </q-item-section>\n              <q-item-section>\n                {{ recordValue.subject }}\n              </q-item-section>\n            </q-item>\n          </q-list>\n        </q-scroll-area>\n      </q-drawer>\n\n      <q-page-container>\n        <q-page class=\"q-pa-md\">\n          <div v-if=\"!record && !searchData\">\n            <div v-show=\"typeof tree.data.featured.length === 'undefined'\" class=\"q-pa-md row items-start q-gutter-md\">\n              <template v-for=\"(categoryValue, categoryKey) in tree.data.categories\">\n                <q-list\n                  bordered\n                  padding\n                  dense\n                  v-if=\"tree.data.featured[categoryValue]\"\n                  :key=\"categoryKey\"\n                  class=\"home-card\"\n                >\n                  <q-item-label header>{{ tree.categories[categoryValue].label }}</q-item-label>\n                  <q-item\n                    clickable\n                    v-for=\"featuredValue in tree.data.featured[categoryValue]\"\n                    :key=\"featuredValue.id\"\n                    class=\"text-subtitle2\"\n                    v-ripple\n                    @click.prevent=\"record = featuredValue\"\n                  >\n                    <q-item-section avatar>\n                      <q-icon name=\"mdi-text\"></q-icon>\n                    </q-item-section>\n                    <q-item-section>\n                      <a\n                        class=\"js-popover-tooltip--record\"\n                        :href=\"`index.php?module=KnowledgeBase&view=Detail&record=${featuredValue.id}`\"\n                      >\n                        {{ featuredValue.subject }}</a\n                      >\n                    </q-item-section>\n                  </q-item>\n                </q-list>\n              </template>\n            </div>\n            <q-table\n              v-show=\"activeCategory !== ''\"\n              :data=\"Object.values(tree.data.records)\"\n              :columns=\"columns\"\n              row-key=\"subject\"\n              grid\n              hide-header\n              :pagination.sync=\"pagination\"\n            >\n              <template v-slot:item=\"props\">\n                <q-list class=\"list-item\" padding @click=\"record = props.row\">\n                  <q-item clickable>\n                    <q-item-section>\n                      <q-item-label overline>{{ props.row.subject }}</q-item-label>\n                      <q-item-label caption>{{ props.row.introduction }}</q-item-label>\n                    </q-item-section>\n                    <q-item-section side top>\n                      <q-item-label caption>{{ props.row.short_time }}</q-item-label>\n                      <q-tooltip>\n                        {{ props.row.full_time }}\n                      </q-tooltip>\n                    </q-item-section>\n                  </q-item>\n                </q-list>\n              </template>\n              <template v-slot:bottom=\"props\"> </template>\n            </q-table>\n          </div>\n          <q-table\n            v-if=\"searchData\"\n            :data=\"Object.values(searchData)\"\n            :columns=\"columns\"\n            row-key=\"subject\"\n            grid\n            hide-header\n          >\n            <template v-slot:item=\"props\">\n              <q-list\n                class=\"list-item\"\n                padding\n                @click=\"\n                  record = props.row\n                  searchData = false\n                \"\n              >\n                <q-item clickable>\n                  <q-item-section>\n                    <q-item-label overline>{{ props.row.subject }}</q-item-label>\n                    <q-item-label caption>{{ props.row.introduction }}</q-item-label>\n                  </q-item-section>\n                  <q-item-section side top>\n                    <q-item-label caption\n                      >{{ props.row.short_time }}\n                      <q-tooltip>\n                        {{ props.row.full_time }}\n                      </q-tooltip>\n                    </q-item-label>\n                  </q-item-section>\n                </q-item>\n              </q-list>\n            </template>\n            <template v-slot:bottom=\"props\"> </template>\n          </q-table>\n          <div v-if=\"record && !searchData\">\n            <h5>{{ record.subject }}</h5>\n            <p>{{ record.introduction }}</p>\n          </div>\n        </q-page>\n      </q-page-container>\n    </q-layout>\n  </div>\n</template>\n<script>\nimport Icon from '../../components/Icon.vue'\nexport default {\n  name: 'TreeView',\n  components: { Icon },\n  data() {\n    return {\n      left: true,\n      filter: '',\n      record: false,\n      categorySearch: false,\n      pagination: {\n        rowsPerPage: 0\n      },\n      columns: [\n        {\n          name: 'desc',\n          required: true,\n          label: 'Title',\n          align: 'left',\n          field: row => row.subject,\n          format: val => `${val}`,\n          sortable: true\n        },\n        { name: 'short_time', align: 'center', label: 'Short time', field: 'short_time', sortable: true },\n        { name: 'introduction', align: 'center', label: 'Introduction', field: 'introduction', sortable: true }\n      ],\n      activeCategory: '',\n      tree: {\n        data: {\n          records: [],\n          featured: {}\n        },\n        categories: {}\n      },\n      searchData: false\n    }\n  },\n  computed: {},\n  methods: {\n    getCategories() {\n      const aDeferred = $.Deferred()\n      return AppConnector.request({ module: 'KnowledgeBase', action: 'TreeAjax', mode: 'categories' }).done(data => {\n        this.tree.categories = data.result\n        aDeferred.resolve(data.result)\n      })\n    },\n    getData(category = '') {\n      const aDeferred = $.Deferred()\n      this.activeCategory = category\n      this.record = false\n      const progressIndicatorElement = $.progressIndicator({\n        blockInfo: { enabled: true }\n      })\n      return AppConnector.request({\n        module: 'KnowledgeBase',\n        action: 'TreeAjax',\n        mode: 'data',\n        category: category\n      }).done(data => {\n        this.tree.data = data.result\n        progressIndicatorElement.progressIndicator({ mode: 'hide' })\n        aDeferred.resolve(data.result)\n      })\n    },\n    search(e) {\n      if (this.filter.length > 3) {\n        const aDeferred = $.Deferred()\n        const progressIndicatorElement = $.progressIndicator({\n          blockInfo: { enabled: true }\n        })\n        AppConnector.request({\n          module: 'KnowledgeBase',\n          action: 'TreeAjax',\n          mode: 'search',\n          value: this.filter,\n          category: this.categorySearch ? this.activeCategory : ''\n        }).done(data => {\n          this.searchData = data.result\n          aDeferred.resolve(data.result)\n          progressIndicatorElement.progressIndicator({ mode: 'hide' })\n          return data.result\n        })\n      } else {\n        this.searchData = false\n      }\n    }\n  },\n  async created() {\n    await this.getCategories()\n    await this.getData()\n  }\n}\n</script>\n<style>\n.tree-search {\n  width: 50%;\n}\n.tree-search .q-field__control,\n.tree-search .q-field__marginal {\n  height: 40px;\n}\n.home-card {\n  width: 100%;\n  max-width: 250px;\n}\n.list-item {\n  width: 100%;\n  max-width: 600px;\n}\n</style>\n"]}, media: undefined });
+    inject("data-v-7971cdc7_0", { source: "\n.tree-search {\n  width: 50%;\n}\n.tree-search .q-field__control,\n.tree-search .q-field__marginal {\n  height: 40px;\n}\n.home-card {\n  width: 100%;\n  max-width: 250px;\n}\n.list-item {\n  width: 100%;\n  max-width: 600px;\n}\n", map: {"version":3,"sources":["C:\\www\\YetiForceCRM\\public_html\\src\\modules\\KnowledgeBase\\TreeView.vue"],"names":[],"mappings":";AA0XA;EACA,UAAA;AACA;AACA;;EAEA,YAAA;AACA;AACA;EACA,WAAA;EACA,gBAAA;AACA;AACA;EACA,WAAA;EACA,gBAAA;AACA","file":"TreeView.vue","sourcesContent":["/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */\n\n<template>\n  <div class=\"h-100\">\n    <q-layout view=\"hHh lpr fFf\" container class=\"absolute\">\n      <q-header elevated class=\"bg-white text-primary\">\n        <q-toolbar>\n          <q-btn dense flat round icon=\"mdi-menu\" @click=\"left = !left\"></q-btn>\n          <q-breadcrumbs class=\"ml-2\">\n            <template v-slot:separator>\n              <q-icon size=\"1.5em\" name=\"mdi-chevron-right\" />\n            </template>\n            <q-breadcrumbs-el icon=\"mdi-home\" @click=\"getData()\" />\n            <template v-if=\"this.activeCategory !== ''\">\n              <q-breadcrumbs-el\n                v-for=\"category in tree.categories[this.activeCategory].parentTree\"\n                :key=\"tree.categories[category].label\"\n                @click=\"getData(category)\"\n              >\n                <icon :icon=\"tree.categories[category].icon\" class=\"q-mr-sm\"></icon>\n                {{ tree.categories[category].label }}\n              </q-breadcrumbs-el>\n            </template>\n          </q-breadcrumbs>\n          <q-input\n            v-model=\"filter\"\n            placeholder=\"Search\"\n            rounded\n            outlined\n            type=\"search\"\n            class=\"tree-search mx-auto\"\n            @input=\"search\"\n          >\n            <template v-slot:append>\n              <q-icon name=\"mdi-magnify\" />\n            </template>\n          </q-input>\n          <div>\n            <q-toggle v-model=\"categorySearch\" icon=\"mdi-file-tree\" />\n            <q-tooltip>\n              Search current category\n            </q-tooltip>\n          </div>\n        </q-toolbar>\n      </q-header>\n\n      <q-drawer v-model=\"left\" side=\"left\" elevated :width=\"250\" :breakpoint=\"700\" content-class=\"bg-yeti text-white\">\n        <q-scroll-area class=\"fit\">\n          <q-list dark>\n            <q-item v-show=\"activeCategory === ''\" clickable active active-class=\"text-blue-2\">\n              <q-item-section avatar>\n                <q-icon name=\"mdi-home\" />\n              </q-item-section>\n              <q-item-section>\n                Home\n              </q-item-section>\n            </q-item>\n            <q-item\n              v-if=\"activeCategory !== ''\"\n              clickable\n              active\n              active-class=\"text-blue-2\"\n              @click=\"\n                getData(\n                  tree.categories[activeCategory].parentTree.length !== 1\n                    ? tree.categories[activeCategory].parentTree[tree.categories[activeCategory].parentTree.length - 2]\n                    : ''\n                )\n              \"\n            >\n              <q-item-section avatar>\n                <icon :icon=\"tree.categories[activeCategory].icon\" />\n              </q-item-section>\n              <q-item-section>\n                {{ tree.categories[activeCategory].label }}\n              </q-item-section>\n              <q-item-section avatar>\n                <q-icon name=\"mdi-chevron-left\" />\n              </q-item-section>\n            </q-item>\n            <q-item\n              v-for=\"(categoryValue, categoryKey) in tree.data.categories\"\n              :key=\"categoryKey\"\n              clickable\n              v-ripple\n              @click=\"getData(categoryValue)\"\n            >\n              <q-item-section avatar>\n                <icon :icon=\"tree.categories[categoryValue].icon\" />\n              </q-item-section>\n              <q-item-section>\n                {{ tree.categories[categoryValue].label }}\n              </q-item-section>\n              <q-item-section avatar>\n                <q-icon name=\"mdi-chevron-right\" />\n              </q-item-section>\n            </q-item>\n\n            <q-separator v-if=\"tree.data.records.length\" />\n            <q-item v-for=\"(recordValue, id) in tree.data.records\" :key=\"id\" clickable v-ripple @click=\"getRecord(id)\">\n              <q-item-section avatar>\n                <q-icon name=\"mdi-text\" />\n              </q-item-section>\n              <q-item-section>\n                {{ recordValue.subject }}\n              </q-item-section>\n            </q-item>\n          </q-list>\n        </q-scroll-area>\n      </q-drawer>\n\n      <q-page-container>\n        <q-page class=\"q-pa-md\">\n          <div v-if=\"!searchData\">\n            <div v-show=\"typeof tree.data.featured.length === 'undefined'\" class=\"q-pa-md row items-start q-gutter-md\">\n              <template v-for=\"(categoryValue, categoryKey) in tree.data.categories\">\n                <q-list\n                  bordered\n                  padding\n                  dense\n                  v-if=\"tree.data.featured[categoryValue]\"\n                  :key=\"categoryKey\"\n                  class=\"home-card\"\n                >\n                  <q-item-label header>{{ tree.categories[categoryValue].label }}</q-item-label>\n                  <q-item\n                    clickable\n                    v-for=\"featuredValue in tree.data.featured[categoryValue]\"\n                    :key=\"featuredValue.id\"\n                    class=\"text-subtitle2\"\n                    v-ripple\n                    @click.prevent=\"getRecord(featuredValue.id)\"\n                  >\n                    <q-item-section avatar>\n                      <q-icon name=\"mdi-text\"></q-icon>\n                    </q-item-section>\n                    <q-item-section>\n                      <a\n                        class=\"js-popover-tooltip--record\"\n                        :href=\"`index.php?module=KnowledgeBase&view=Detail&record=${featuredValue.id}`\"\n                      >\n                        {{ featuredValue.subject }}</a\n                      >\n                    </q-item-section>\n                  </q-item>\n                </q-list>\n              </template>\n            </div>\n            <q-table\n              v-show=\"activeCategory !== ''\"\n              :data=\"Object.values(tree.data.records)\"\n              :columns=\"columns\"\n              row-key=\"subject\"\n              grid\n              hide-header\n              :pagination.sync=\"pagination\"\n            >\n              <template v-slot:item=\"props\">\n                <q-list class=\"list-item\" padding @click=\"getRecord(props.row.id)\">\n                  <q-item clickable>\n                    <q-item-section>\n                      <q-item-label overline>{{ props.row.subject }}</q-item-label>\n                      <q-item-label caption>{{ props.row.introduction }}</q-item-label>\n                    </q-item-section>\n                    <q-item-section side top>\n                      <q-item-label caption>{{ props.row.short_time }}</q-item-label>\n                      <q-tooltip>\n                        {{ props.row.full_time }}\n                      </q-tooltip>\n                    </q-item-section>\n                  </q-item>\n                </q-list>\n              </template>\n              <template v-slot:bottom=\"props\"> </template>\n            </q-table>\n          </div>\n          <q-table\n            v-if=\"searchData\"\n            :data=\"Object.values(searchData)\"\n            :columns=\"columns\"\n            row-key=\"subject\"\n            grid\n            hide-header\n          >\n            <template v-slot:item=\"props\">\n              <q-list class=\"list-item\" padding @click=\"getRecord(props.row.id)\">\n                <q-item clickable>\n                  <q-item-section>\n                    <q-item-label overline>{{ props.row.subject }}</q-item-label>\n                    <q-item-label caption>{{ props.row.introduction }}</q-item-label>\n                  </q-item-section>\n                  <q-item-section side top>\n                    <q-item-label caption\n                      >{{ props.row.short_time }}\n                      <q-tooltip>\n                        {{ props.row.full_time }}\n                      </q-tooltip>\n                    </q-item-label>\n                  </q-item-section>\n                </q-item>\n              </q-list>\n            </template>\n            <template v-slot:bottom=\"props\"> </template>\n          </q-table>\n        </q-page>\n      </q-page-container>\n    </q-layout>\n    <q-dialog\n      v-model=\"dialog\"\n      persistent\n      :maximized=\"maximizedToggle\"\n      transition-show=\"slide-up\"\n      transition-hide=\"slide-down\"\n    >\n      <q-card class=\"quasar-reset\">\n        <q-bar>\n          <q-space />\n          <q-btn dense flat icon=\"mdi-window-minimize\" @click=\"maximizedToggle = false\" :disable=\"!maximizedToggle\">\n            <q-tooltip v-if=\"maximizedToggle\" content-class=\"bg-white text-primary\">Minimize</q-tooltip>\n          </q-btn>\n          <q-btn dense flat icon=\"mdi-window-maximize\" @click=\"maximizedToggle = true\" :disable=\"maximizedToggle\">\n            <q-tooltip v-if=\"!maximizedToggle\" content-class=\"bg-white text-primary\">Maximize</q-tooltip>\n          </q-btn>\n          <q-btn dense flat icon=\"mdi-close\" v-close-popup>\n            <q-tooltip content-class=\"bg-white text-primary\">Close</q-tooltip>\n          </q-btn>\n        </q-bar>\n\n        <q-card-section>\n          <div class=\"text-h6\">{{ record.subject }}</div>\n        </q-card-section>\n        <q-card-section>\n          {{ record.introduction }}\n        </q-card-section>\n        <q-card-section>\n          <q-carousel\n            v-if=\"record.knowledgebase_view === 'PLL_PRESENTATION'\"\n            v-model=\"slide\"\n            transition-prev=\"scale\"\n            transition-next=\"scale\"\n            swipeable\n            animated\n            control-color=\"black\"\n            navigation\n            padding\n            arrows\n            height=\"300px\"\n            class=\"bg-white text-black shadow-1 rounded-borders\"\n          >\n            <q-carousel-slide\n              v-for=\"(slide, index) in record.content\"\n              :name=\"index\"\n              :key=\"index\"\n              class=\"column no-wrap flex-center\"\n            >\n              <div v-html=\"slide\"></div>\n            </q-carousel-slide>\n          </q-carousel>\n          <div v-else v-html=\"record.content\"></div>\n        </q-card-section>\n      </q-card>\n    </q-dialog>\n  </div>\n</template>\n<script>\nimport Icon from '../../components/Icon.vue'\nexport default {\n  name: 'TreeView',\n  components: { Icon },\n  data() {\n    return {\n      left: true,\n      filter: '',\n      record: false,\n      dialog: false,\n      categorySearch: false,\n      maximizedToggle: true,\n      slide: 0,\n      pagination: {\n        rowsPerPage: 0\n      },\n      columns: [\n        {\n          name: 'desc',\n          required: true,\n          label: 'Title',\n          align: 'left',\n          field: row => row.subject,\n          format: val => `${val}`,\n          sortable: true\n        },\n        { name: 'short_time', align: 'center', label: 'Short time', field: 'short_time', sortable: true },\n        { name: 'introduction', align: 'center', label: 'Introduction', field: 'introduction', sortable: true }\n      ],\n      activeCategory: '',\n      tree: {\n        data: {\n          records: [],\n          featured: {}\n        },\n        categories: {}\n      },\n      searchData: false\n    }\n  },\n  methods: {\n    getCategories() {\n      const aDeferred = $.Deferred()\n      return AppConnector.request({ module: 'KnowledgeBase', action: 'TreeAjax', mode: 'categories' }).done(data => {\n        this.tree.categories = data.result\n        aDeferred.resolve(data.result)\n      })\n    },\n    getData(category = '') {\n      const aDeferred = $.Deferred()\n      this.activeCategory = category\n      const progressIndicatorElement = $.progressIndicator({\n        blockInfo: { enabled: true }\n      })\n      return AppConnector.request({\n        module: 'KnowledgeBase',\n        action: 'TreeAjax',\n        mode: 'list',\n        category: category\n      }).done(data => {\n        this.tree.data = data.result\n        progressIndicatorElement.progressIndicator({ mode: 'hide' })\n        aDeferred.resolve(data.result)\n      })\n    },\n    getRecord(id) {\n      const aDeferred = $.Deferred()\n      const progressIndicatorElement = $.progressIndicator({\n        blockInfo: { enabled: true }\n      })\n      return AppConnector.request({\n        module: 'KnowledgeBase',\n        action: 'TreeAjax',\n        mode: 'detail',\n        record: id\n      }).done(data => {\n        this.record = data.result\n        this.dialog = true\n        console.log(this.record)\n        progressIndicatorElement.progressIndicator({ mode: 'hide' })\n        aDeferred.resolve(data.result)\n      })\n    },\n    search(e) {\n      if (this.filter.length > 3) {\n        const aDeferred = $.Deferred()\n        const progressIndicatorElement = $.progressIndicator({\n          blockInfo: { enabled: true }\n        })\n        AppConnector.request({\n          module: 'KnowledgeBase',\n          action: 'TreeAjax',\n          mode: 'search',\n          value: this.filter,\n          category: this.categorySearch ? this.activeCategory : ''\n        }).done(data => {\n          this.searchData = data.result\n          aDeferred.resolve(data.result)\n          progressIndicatorElement.progressIndicator({ mode: 'hide' })\n          return data.result\n        })\n      } else {\n        this.searchData = false\n      }\n    }\n  },\n  async created() {\n    await this.getCategories()\n    await this.getData()\n  }\n}\n</script>\n<style>\n.tree-search {\n  width: 50%;\n}\n.tree-search .q-field__control,\n.tree-search .q-field__marginal {\n  height: 40px;\n}\n.home-card {\n  width: 100%;\n  max-width: 250px;\n}\n.list-item {\n  width: 100%;\n  max-width: 600px;\n}\n</style>\n"]}, media: undefined });
 
   };
   /* scoped */

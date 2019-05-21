@@ -124,9 +124,9 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'content' => $content,
-			'introduction' => $recordModel->get('introduction'),
+			'introduction' => $recordModel->getDisplayValue('introduction'),
 			'subject' => $recordModel->get('subject'),
-			'knowledgebase_view' => $recordModel->getDisplayValue('knowledgebase_view'),
+			'knowledgebase_view' => $recordModel->get('knowledgebase_view'),
 			'assigned_user_id' => $recordModel->getDisplayValue('assigned_user_id'),
 			'category' => $recordModel->getDisplayValue('category'),
 			'createdtime' => $recordModel->getDisplayValue('createdtime'),

@@ -21,7 +21,6 @@
                 {{ tree.categories[category].label }}
               </q-breadcrumbs-el>
             </template>
-            <q-breadcrumbs-el v-if="record !== false" icon="mdi-text" :label="record.subject" />
           </q-breadcrumbs>
           <q-input
             v-model="filter"
@@ -59,7 +58,7 @@
             <q-item
               v-if="activeCategory !== ''"
               clickable
-              :active="!record"
+              active
               active-class="text-blue-2"
               @click="
                 getData(
@@ -98,14 +97,7 @@
             </q-item>
 
             <q-separator v-if="tree.data.records.length" />
-            <q-item
-              v-for="(recordValue, index) in tree.data.records"
-              :key="index"
-              clickable
-              v-ripple
-              :active="record === recordValue"
-              @click="record = recordValue"
-            >
+            <q-item v-for="(recordValue, id) in tree.data.records" :key="id" clickable v-ripple @click="getRecord(id)">
               <q-item-section avatar>
                 <q-icon name="mdi-text" />
               </q-item-section>
@@ -119,7 +111,7 @@
 
       <q-page-container>
         <q-page class="q-pa-md">
-          <div v-if="!record && !searchData">
+          <div v-if="!searchData">
             <div v-show="typeof tree.data.featured.length === 'undefined'" class="q-pa-md row items-start q-gutter-md">
               <template v-for="(categoryValue, categoryKey) in tree.data.categories">
                 <q-list
@@ -137,7 +129,7 @@
                     :key="featuredValue.id"
                     class="text-subtitle2"
                     v-ripple
-                    @click.prevent="record = featuredValue"
+                    @click.prevent="getRecord(featuredValue.id)"
                   >
                     <q-item-section avatar>
                       <q-icon name="mdi-text"></q-icon>
@@ -164,7 +156,7 @@
               :pagination.sync="pagination"
             >
               <template v-slot:item="props">
-                <q-list class="list-item" padding @click="record = props.row">
+                <q-list class="list-item" padding @click="getRecord(props.row.id)">
                   <q-item clickable>
                     <q-item-section>
                       <q-item-label overline>{{ props.row.subject }}</q-item-label>
@@ -191,14 +183,7 @@
             hide-header
           >
             <template v-slot:item="props">
-              <q-list
-                class="list-item"
-                padding
-                @click="
-                  record = props.row
-                  searchData = false
-                "
-              >
+              <q-list class="list-item" padding @click="getRecord(props.row.id)">
                 <q-item clickable>
                   <q-item-section>
                     <q-item-label overline>{{ props.row.subject }}</q-item-label>
@@ -217,13 +202,64 @@
             </template>
             <template v-slot:bottom="props"> </template>
           </q-table>
-          <div v-if="record && !searchData">
-            <h5>{{ record.subject }}</h5>
-            <p>{{ record.introduction }}</p>
-          </div>
         </q-page>
       </q-page-container>
     </q-layout>
+    <q-dialog
+      v-model="dialog"
+      persistent
+      :maximized="maximizedToggle"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+    >
+      <q-card class="quasar-reset">
+        <q-bar>
+          <q-space />
+          <q-btn dense flat icon="mdi-window-minimize" @click="maximizedToggle = false" :disable="!maximizedToggle">
+            <q-tooltip v-if="maximizedToggle" content-class="bg-white text-primary">Minimize</q-tooltip>
+          </q-btn>
+          <q-btn dense flat icon="mdi-window-maximize" @click="maximizedToggle = true" :disable="maximizedToggle">
+            <q-tooltip v-if="!maximizedToggle" content-class="bg-white text-primary">Maximize</q-tooltip>
+          </q-btn>
+          <q-btn dense flat icon="mdi-close" v-close-popup>
+            <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
+          </q-btn>
+        </q-bar>
+
+        <q-card-section>
+          <div class="text-h6">{{ record.subject }}</div>
+        </q-card-section>
+        <q-card-section>
+          {{ record.introduction }}
+        </q-card-section>
+        <q-card-section>
+          <q-carousel
+            v-if="record.knowledgebase_view === 'PLL_PRESENTATION'"
+            v-model="slide"
+            transition-prev="scale"
+            transition-next="scale"
+            swipeable
+            animated
+            control-color="black"
+            navigation
+            padding
+            arrows
+            height="300px"
+            class="bg-white text-black shadow-1 rounded-borders"
+          >
+            <q-carousel-slide
+              v-for="(slide, index) in record.content"
+              :name="index"
+              :key="index"
+              class="column no-wrap flex-center"
+            >
+              <div v-html="slide"></div>
+            </q-carousel-slide>
+          </q-carousel>
+          <div v-else v-html="record.content"></div>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 <script>
@@ -236,7 +272,10 @@ export default {
       left: true,
       filter: '',
       record: false,
+      dialog: false,
       categorySearch: false,
+      maximizedToggle: true,
+      slide: 0,
       pagination: {
         rowsPerPage: 0
       },
@@ -264,7 +303,6 @@ export default {
       searchData: false
     }
   },
-  computed: {},
   methods: {
     getCategories() {
       const aDeferred = $.Deferred()
@@ -276,17 +314,34 @@ export default {
     getData(category = '') {
       const aDeferred = $.Deferred()
       this.activeCategory = category
-      this.record = false
       const progressIndicatorElement = $.progressIndicator({
         blockInfo: { enabled: true }
       })
       return AppConnector.request({
         module: 'KnowledgeBase',
         action: 'TreeAjax',
-        mode: 'data',
+        mode: 'list',
         category: category
       }).done(data => {
         this.tree.data = data.result
+        progressIndicatorElement.progressIndicator({ mode: 'hide' })
+        aDeferred.resolve(data.result)
+      })
+    },
+    getRecord(id) {
+      const aDeferred = $.Deferred()
+      const progressIndicatorElement = $.progressIndicator({
+        blockInfo: { enabled: true }
+      })
+      return AppConnector.request({
+        module: 'KnowledgeBase',
+        action: 'TreeAjax',
+        mode: 'detail',
+        record: id
+      }).done(data => {
+        this.record = data.result
+        this.dialog = true
+        console.log(this.record)
         progressIndicatorElement.progressIndicator({ mode: 'hide' })
         aDeferred.resolve(data.result)
       })
