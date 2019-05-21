@@ -47,7 +47,7 @@ class Record extends \Api\Core\BaseAction
 			$this->recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			switch ($method) {
 				case 'DELETE':
-					if (!$this->recordModel->privilegeToDelete()) {
+					if (!$this->recordModel->privilegeToMoveToTrash()) {
 						throw new \Api\Core\Exception('No permissions to remove record', 401);
 					}
 					break;
@@ -101,7 +101,7 @@ class Record extends \Api\Core\BaseAction
 			'data' => $displayData,
 			'privileges' => [
 				'isEditable' => $this->recordModel->isEditable(),
-				'MoveToTrash' => $this->recordModel->privilegeToMoveToTrash()
+				'moveToTrash' => $this->recordModel->privilegeToDelete()
 			]
 		];
 
@@ -123,7 +123,7 @@ class Record extends \Api\Core\BaseAction
 				}
 			}
 			$response['inventory'] = $inventory;
-			$response['summary_inventory'] = $summaryInventory;
+			$response['summaryInventory'] = $summaryInventory;
 		}
 
 		if (1 === (int) $this->controller->headers['x-raw-data']) {
@@ -140,7 +140,7 @@ class Record extends \Api\Core\BaseAction
 	 */
 	public function delete()
 	{
-		$this->recordModel->delete();
+		$this->recordModel->changeState('Trash');
 
 		return true;
 	}
