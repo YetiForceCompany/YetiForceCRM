@@ -32,7 +32,7 @@ class KnowledgeBase_Tree_View extends Vtiger_Index_View
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
 			'~libraries/@mdi/font/css/materialdesignicons.min.css',
-			'~libraries/quasar/dist/quasar.min.css'
+			'~src/css/app.css'
 		];
 		return array_merge($headerCssInstances, $this->checkAndConvertCssStyles($cssFileNames));
 	}

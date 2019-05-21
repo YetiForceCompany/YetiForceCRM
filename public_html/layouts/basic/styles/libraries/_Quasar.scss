@@ -1,4 +1,14 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-.row {
-	margin: unset;
+.quasar-reset {
+	.row {
+		margin: unset;
+	}
+	.col {
+		padding: unset;
+	}
+}
+.quasar-container {
+	height: calc(100% - #{calculate-rem(45px)});
+	margin-left: -0.5rem;
+	margin-right: -0.5rem;
 }
