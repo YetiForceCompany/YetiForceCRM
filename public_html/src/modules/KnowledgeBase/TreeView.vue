@@ -161,6 +161,7 @@
               row-key="subject"
               grid
               hide-header
+              :pagination.sync="pagination"
             >
               <template v-slot:item="props">
                 <q-list class="list-item" padding @click="record = props.row">
@@ -178,6 +179,7 @@
                   </q-item>
                 </q-list>
               </template>
+              <template v-slot:bottom="props"> </template>
             </q-table>
           </div>
           <q-table
@@ -213,6 +215,7 @@
                 </q-item>
               </q-list>
             </template>
+            <template v-slot:bottom="props"> </template>
           </q-table>
           <div v-if="record && !searchData">
             <h5>{{ record.subject }}</h5>
@@ -234,6 +237,9 @@ export default {
       filter: '',
       record: false,
       categorySearch: false,
+      pagination: {
+        rowsPerPage: 0
+      },
       columns: [
         {
           name: 'desc',
