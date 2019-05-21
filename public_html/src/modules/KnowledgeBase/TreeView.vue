@@ -23,20 +23,25 @@
             </template>
             <q-breadcrumbs-el v-if="record !== false" icon="mdi-text" :label="record.subject" />
           </q-breadcrumbs>
-          <q-checkbox v-model="categorySearch" label="Search current category" class="ml-auto" />
           <q-input
             v-model="filter"
             placeholder="Search"
             rounded
             outlined
             type="search"
-            class="tree-search"
+            class="tree-search mx-auto"
             @input="search"
           >
             <template v-slot:append>
               <q-icon name="mdi-magnify" />
             </template>
           </q-input>
+          <div>
+            <q-toggle v-model="categorySearch" icon="mdi-file-tree" />
+            <q-tooltip>
+              Search current category
+            </q-tooltip>
+          </div>
         </q-toolbar>
       </q-header>
 
