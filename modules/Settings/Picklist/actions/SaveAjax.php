@@ -132,7 +132,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($request->getForSql('picklistName'), $moduleModel);
 		$response = new Vtiger_Response();
 		$valueId = $request->getInteger('picklist_valueid');
-		$value = App\Fields\Picklist::getValue($fieldModel->getName(), $valueId);
+		$value = App\Fields\Picklist::getValue($fieldModel->getName(), $id);
 		$result = true;
 		try {
 			$result = $result && \App\RecordStatus::updateRecordStateValue($fieldModel, $id, $request->getInteger('record_state'));

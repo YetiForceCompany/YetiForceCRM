@@ -311,11 +311,11 @@ class Picklist
 	 * Function which will give the picklist value for a field and valueId.
 	 *
 	 * @param string $fieldName
-	 * @param int    $valueId
+	 * @param int    $id
 	 *
 	 * @return string
 	 */
-	public static function getValue($fieldName, int $valueId)
+	public static function getValue($fieldName, int $id)
 	{
 		if (\App\Cache::has('getPickListFieldValue', $fieldName)) {
 			return \App\Cache::get('getPickListFieldValue', $fieldName);
@@ -323,7 +323,7 @@ class Picklist
 		$value = (new \App\Db\Query())
 			->select($fieldName)
 			->from("vtiger_$fieldName")
-			->where(['picklist_valueid' => $valueId])
+			->where([static::getPickListId($fieldName) => $valueId])
 			->orderBy('sortorderid')
 			->scalar();
 		\App\Cache::save('getPickListFieldValue', $fieldName, $value);
@@ -351,5 +351,4 @@ class Picklist
 		}
 		return $colors;
 	}
-
 }

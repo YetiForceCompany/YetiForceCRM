@@ -117,8 +117,8 @@ class RecordStatus
 			$fieldModel->save();
 		}
 		$tableName = \Settings_Picklist_Module_Model::getPicklistTableName($fieldName);
-		static::addRecordStateColumn($tableName);
-		static::addTimeCountingColumn($tableName);
+		static::addColumn($tableName, 'record_state');
+		static::addColumn($tableName, 'time_counting');
 		return $fieldModel ? true : false;
 	}
 
@@ -126,26 +126,14 @@ class RecordStatus
 	 * Add record state column to picklist.
 	 *
 	 * @param string $tableName
+	 * @param string $columnName
 	 *
 	 * @return bool
 	 */
-	public static function addRecordStateColumn(string $tableName)
+	public static function addColumn(string $tableName, string $columnName)
 	{
 		$db = Db::getInstance();
-		$db->createCommand()->addColumn($tableName, 'record_state', $db->getSchema()->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TINYINT, 1))->execute();
-	}
-
-	/**
-	 * Add time counting column to picklist.
-	 *
-	 * @param string $tableName
-	 *
-	 * @return bool
-	 */
-	public static function addTimeCountingColumn(string $tableName)
-	{
-		$db = Db::getInstance();
-		$db->createCommand()->addColumn($tableName, 'time_counting', $db->getSchema()->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 7))->execute();
+		$db->createCommand()->addColumn($tableName, $columnName, $db->getSchema()->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TINYINT, 1))->execute();
 	}
 
 	/**
