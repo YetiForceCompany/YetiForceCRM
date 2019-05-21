@@ -99,9 +99,6 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			}
 			$row['description'] = $description;
 		}
-		if ($fieldModel->isProcessStatusField()) {
-			$row['record_state'] = $record_state;
-		}
 		if (in_array('color', $db->getTableSchema($tableName)->getColumnNames())) {
 			$row['color'] = '#E6FAD8';
 		}

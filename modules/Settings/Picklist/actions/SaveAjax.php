@@ -70,7 +70,6 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		try {
 			$fieldModel->validate($newValue);
 			$id = $moduleModel->addPickListValues($fieldModel, $newValue, $rolesSelected, $request->getForHtml('description'), $request->getByType('prefix', 'Text'), $request->getByType('record_state', 'Integer'));
-			\App\RecordStatus::updateCloseState($fieldModel, $id['picklistValueId'], $newValue, $request->getBoolean('close_state'));
 			$response->setResult(['id' => $id['id']]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
@@ -106,7 +105,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 				}
 				$status = $moduleModel->renamePickListValues($fieldModel, $oldValue, $newValue, $id, $request->getForHtml('description'), $request->getByType('prefix', 'Text'));
 				if ($fieldModel->getUIType() === 15) {
-					\App\RecordStatus::updateCloseState($fieldModel, $request->getInteger('picklist_valueid'), $newValue);
+					$fieldModel->updateCloseState($request->getInteger('picklist_valueid'), $newValue);
 				}
 				$response->setResult([
 					'success',
@@ -139,11 +138,11 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			if ($value === null) {
 				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
 			}
-			$result = $result && \App\RecordStatus::updateRecordStateValue($fieldModel, $id, $request->getInteger('record_state'));
+			$result = $result && $fieldModel->updateRecordStateValue($id, $request->getInteger('record_state'));
 			if ($fieldModel->getUIType() === 15) {
-				$result = $result && \App\RecordStatus::updateCloseState($fieldModel, $valueId, $value, $request->getBoolean('close_state'));
+				$result = $result && $fieldModel->updateCloseState($valueId, $value, $request->getBoolean('close_state'));
 			}
-			$result = $result && \App\RecordStatus::updateTimeCountingValue($fieldModel, $id, $request->getArray('time_counting', 'Integer'));
+			$result = $result && $fieldModel->updateTimeCountingValue($id, $request->getArray('time_counting', 'Integer'));
 			$response->setResult($result);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());

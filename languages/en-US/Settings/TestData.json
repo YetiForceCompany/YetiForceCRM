@@ -1,0 +1,26 @@
+{
+  "php": {
+    "LBL_TESTDATA": "Generowanie danych testowych",
+    "LBL_VIEW_INDEX": "Konfiguracja",
+    "LBL_TESTDATA_DESCRIPTION": "zzz",
+    "LBL_ALERT_CRON_NOT_ACTIVE_TITLE": "Harmonogram - Generowanie danych nie jest aktywne",
+    "LBL_ALERT_CRON_NOT_ACTIVE_DESC": "Generowanie danych nie b\u0119dzie mo\u017cliwe, aby w\u0142\u0105czy\u0107 nale\u017cy przej\u015b\u0107 do Harmonogram i aktywowa\u0107 zadanie \"Generowanie danych testowych\".",
+    "LBL_GENERAL_PROGRESS": "Post\u0119p ca\u0142kowity",
+    "LBL_STOP_TESTDATA": "Wyczy\u015b\u0107 aktualne zadania",
+    "LBL_EDIT_TESTDATA": "Edytuj list\u0119 zada\u0144",
+    "LBL_DELETE_TESTDATA": "Usu\u0144 testowe dane",
+    "LBL_ADD_TESTDATA": "Dodaj",
+    "LBL_LANGUAGE": "Wybierz j\u0119zyk",
+    "LBL_LIMIT": "Wprowad\u017a ilo\u015b\u0107 danych do wygenerowania",
+    "LBL_MODULES": "Wybierz modu\u0142y",
+    "LBL_ADD_TESTDATA_TITLE": "Dodawanie danych do wygenerowania",
+    "LBL_TESTDATA_ADDED": "Dodano nowe dane do wygenerowania",
+    "LBL_SELECT_ALL_MODULES": "Wybierz wszystkie modu\u0142y",
+    "LBL_EDIT_TESTDATA_TITLE": "Edycja danych do wygenerowania",
+    "LBL_TESTDATA_SAVED": "Zapisano zmiany",
+    "LBL_TESTDATA_DELETED": "Usuni\u0119to testowe dane"
+  },
+  "js": {
+    "JS_DELETE_CONFIRMATION": "Ilo\u015b\u0107 usuni\u0119tych rekord\u00f3w zale\u017cy od parametr\u00f3w serwera, po przerwaniu akcji nale\u017cy ponownie wykona\u0107 procedur\u0119 usuwania. Czy napewno chcesz usun\u0105\u0107 rekordy?"
+  }
+}

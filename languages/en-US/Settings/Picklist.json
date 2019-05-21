@@ -48,7 +48,8 @@
     "LBL_TIME_COUNTING_INFO": "You can group several statuses into categories in which the system summarizes the times of these statuses. The system can then perform some action when the time is exceeded.",
     "LBL_TIME_COUNTING_REACTION": "Reaction time",
     "LBL_TIME_COUNTING_RESOLVE": "Resolve time",
-    "LBL_TIME_COUNTING_IDLE": "Idle time"
+    "LBL_TIME_COUNTING_IDLE": "Idle time",
+    "LBL_IS_NOT_A_PROCESS_STATUS_FIELD": "Field is not a process status field."
   },
   "js": {
     "JS_ALL_ROLES_SELECTED": "All Roles selected",

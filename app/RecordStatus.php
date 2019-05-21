@@ -123,27 +123,28 @@ class RecordStatus
 	}
 
 	/**
-	 * Get time counting value from field model.
+	 * Get time counting values grouped by id from field name.
 	 *
-	 * @param \Settings_Picklist_Field_Model $fieldModel
-	 * @param int                            $id
-	 * @param bool                           $asArray
+	 * @param string $fieldName
+	 * @param bool   $asMultiArray time counting could have multiple values separated by comma
+	 *                             we can return array of strings with commas or as array of arrays
 	 *
-	 * @return null|int[]|string
+	 * @return array
 	 */
-	public static function getTimeCountingValue(\Settings_Picklist_Field_Model $fieldModel, int $id, bool $asArray = true)
+	public static function getTimeCountingValues(string $fieldName, bool $asMultiArray = true)
 	{
-		if (!$fieldModel->isProcessStatusField()) {
-			return null;
+		$primaryKey = \App\Fields\Picklist::getPickListId($fieldName);
+		$tableName = \Settings_Picklist_Module_Model::getPickListTableName($fieldName);
+		$rows = (new \App\Db\Query())->select([$primaryKey, 'time_counting'])->from($tableName)->createCommand()->queryAll();
+		$values = [];
+		foreach ($rows as $row) {
+			if ($asMultiArray) {
+				$values[$row[$primaryKey]] = static::getTimeCountingArrayValueFromString($row['time_counting']);
+			} else {
+				$values[$row[$primaryKey]] = $row['time_counting'];
+			}
 		}
-		$pickListFieldName = $fieldModel->getName();
-		$primaryKey = \App\Fields\Picklist::getPickListId($pickListFieldName);
-		$tableName = \Settings_Picklist_Module_Model::getPickListTableName($pickListFieldName);
-		$value = (new \App\Db\Query())->select('time_counting')->from($tableName)->where([$primaryKey => $id])->scalar();
-		if (!$asArray) {
-			return $value;
-		}
-		return static::getTimeCountingArrayValueFromString($value);
+		return $values;
 	}
 
 	/**
@@ -197,22 +198,21 @@ class RecordStatus
 	}
 
 	/**
-	 * Get record state value.
+	 * Get record state values grouped by id.
 	 *
-	 * @param \Settings_Picklist_Field_Model $fieldModel
-	 * @param int                            $id
+	 * @param string $fieldName
 	 *
-	 * @return null|int
+	 * @return array
 	 */
-	public static function getRecordStateValue(\Settings_Picklist_Field_Model $fieldModel, int $id)
+	public static function getRecordStateValues(string $fieldName)
 	{
-		if (!$fieldModel->isProcessStatusField()) {
-			return null;
+		$tableName = \Settings_Picklist_Module_Model::getPickListTableName($fieldName);
+		$primaryKey = \App\Fields\Picklist::getPickListId($fieldName);
+		$rows = (new \App\Db\Query())->select([$primaryKey, 'record_state'])->from($tableName)->createCommand()->queryAll();
+		if ($rows) {
+			return array_column($rows, 'record_state', $primaryKey);
 		}
-		$pickListFieldName = $fieldModel->getName();
-		$primaryKey = \App\Fields\Picklist::getPickListId($pickListFieldName);
-		$tableName = \Settings_Picklist_Module_Model::getPickListTableName($pickListFieldName);
-		return (new \App\Db\Query())->select('record_state')->from($tableName)->where([$primaryKey => $id])->scalar();
+		return [];
 	}
 
 	/**
@@ -236,119 +236,6 @@ class RecordStatus
 			->createCommand()->queryAllByGroup($byName ? 2 : 0);
 		\App\Cache::staticSave($cacheName, $tabId, $values);
 		return $values;
-	}
-
-	/**
-	 * Update record state value.
-	 *
-	 * @param Settings_Picklist_Field_Model $fieldModel
-	 * @param int                           $id
-	 * @param int                           $recordState
-	 *
-	 * @return bool
-	 */
-	public static function updateRecordStateValue(\Settings_Picklist_Field_Model $fieldModel, int $id, int $recordState)
-	{
-		if (!$fieldModel->isProcessStatusField()) {
-			return false;
-		}
-		$pickListFieldName = $fieldModel->getName();
-		$primaryKey = \App\Fields\Picklist::getPickListId($pickListFieldName);
-		$tableName = \Settings_Picklist_Module_Model::getPickListTableName($pickListFieldName);
-		$oldValue = static::getRecordStateValue($fieldModel, $id);
-		if ($recordState === $oldValue) {
-			return true;
-		}
-		if (!$fieldModel->isEditable()) {
-			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_NON_EDITABLE_PICKLIST_VALUE', 'Settings:Picklist'), 406);
-		}
-		$result = Db::getInstance()->createCommand()->update($tableName, ['record_state' => $recordState], [$primaryKey => $id])->execute();
-		if ($result) {
-			\Settings_Picklist_Module_Model::clearPicklistCache($pickListFieldName, $fieldModel->getModuleName());
-			$eventHandler = new EventHandler();
-			$eventHandler->setParams([
-				'fieldname' => $pickListFieldName,
-				'oldvalue' => $oldValue,
-				'newvalue' => $recordState,
-				'module' => $fieldModel->getModuleName(),
-				'id' => $id,
-			]);
-			$eventHandler->trigger('PicklistAfterRecordStateUpdate');
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Update close state table.
-	 *
-	 * @param \Settings_Picklist_Field_Model $fieldModel
-	 * @param int                            $valueId
-	 * @param string                         $value
-	 * @param null|bool                      $closeState
-	 *
-	 * @throws \yii\db\Exception
-	 */
-	public static function updateCloseState(\Settings_Picklist_Field_Model $fieldModel, int $valueId, string $value, $closeState = null)
-	{
-		$dbCommand = Db::getInstance()->createCommand();
-		$oldValue = static::getCloseStates($fieldModel->get('tabid'), false)[$valueId] ?? false;
-		if ($closeState === null && $oldValue !== $value) {
-			$dbCommand->update('u_#__picklist_close_state', ['value' => $value], ['fieldid' => $fieldModel->getId(), 'valueid' => $valueId])->execute();
-		} elseif ($closeState === false && $oldValue !== false) {
-			$dbCommand->delete('u_#__picklist_close_state', ['fieldid' => $fieldModel->getId(), 'valueid' => $valueId])->execute();
-		} elseif ($closeState && $oldValue === false) {
-			$dbCommand->insert('u_#__picklist_close_state', ['fieldid' => $fieldModel->getId(), 'valueid' => $valueId, 'value' => $value])->execute();
-		}
-		\App\Cache::staticDelete('getCloseStatesByName', $fieldModel->get('tabid'));
-		\App\Cache::staticDelete('getCloseStates', $fieldModel->get('tabid'));
-		return true;
-	}
-
-	/**
-	 * Update time counting value.
-	 *
-	 * @param \Settings_Picklist_Field_Model $fieldModel
-	 * @param int                            $id
-	 * @param int[]                          $timeCounting
-	 *
-	 * @throws \App\Exceptions\IllegalValue
-	 *
-	 * @return bool
-	 */
-	public static function updateTimeCountingValue(\Settings_Picklist_Field_Model $fieldModel, int $id, array $timeCounting): bool
-	{
-		foreach ($timeCounting as $time) {
-			if (!is_int($time)) {
-				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $time, 406);
-			}
-		}
-		$pickListFieldName = $fieldModel->getName();
-		$primaryKey = \App\Fields\Picklist::getPickListId($pickListFieldName);
-		$tableName = \Settings_Picklist_Module_Model::getPickListTableName($pickListFieldName);
-		$newValue = static::getTimeCountingStringValueFromArray($timeCounting);
-		if ($newValue === ',,') {
-			$newValue = null;
-		}
-		$oldValue = static::getTimeCountingValue($fieldModel, $id, false);
-		if ($newValue === $oldValue) {
-			return true;
-		}
-		$result = Db::getInstance()->createCommand()->update($tableName, ['time_counting' => $newValue], [$primaryKey => $id])->execute();
-		if ($result) {
-			\Settings_Picklist_Module_Model::clearPicklistCache($pickListFieldName, $fieldModel->getModuleName());
-			$eventHandler = new EventHandler();
-			$eventHandler->setParams([
-				'fieldname' => $pickListFieldName,
-				'oldvalue' => $oldValue,
-				'newvalue' => $timeCounting,
-				'module' => $fieldModel->getModuleName(),
-				'id' => $id,
-			]);
-			$eventHandler->trigger('PicklistAfterTimeCountingUpdate');
-			return true;
-		}
-		return false;
 	}
 
 	/**

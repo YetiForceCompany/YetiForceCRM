@@ -76,38 +76,6 @@
 									   value="">
 							</div>
 						</div>
-						{if $SELECTED_PICKLIST_FIELDMODEL->get('uitype') === 15}
-							<div class="form-group row align-items-center">
-								<div class="col-md-3 col-form-label text-right">
-									{\App\Language::translate('LBL_CLOSES_RECORD',$QUALIFIED_MODULE)}
-									<div class="js-popover-tooltip ml-2 d-inline my-auto u-h-fit u-cursor-pointer" data-js="popover"
-										data-content="{\App\Language::translate('LBL_BLOCKED_RECORD_INFO',$QUALIFIED_MODULE)}">
-										<span class="fas fa-info-circle"></span>
-									</div>
-								</div>
-								<div class="col-md-9 controls">
-									<input class="form-control" type="checkbox" value="1" name="close_state">
-								</div>
-							</div>
-						{/if}
-						{if $SELECTED_PICKLIST_FIELDMODEL->getFieldDataType() eq 'picklist' }
-							<div class="form-group row align-items-center">
-								<div class="col-md-3 col-form-label text-right">
-									{\App\Language::translate('LBL_RECORD_STATE',$QUALIFIED_MODULE)}
-									<div class="js-popover-tooltip ml-2 d-inline my-auto u-h-fit u-cursor-pointer" data-js="popover"
-										data-content="{\App\Language::translate('LBL_RECORD_STATE_INFO',$QUALIFIED_MODULE)}">
-										<span class="fas fa-info-circle"></span>
-									</div>
-								</div>
-								<div class="col-md-9 controls">
-									<select name="record_state" class="record-state-list form-control">
-										{foreach item=$VALUE key=$KEY from=\App\RecordStatus::getRecordStates()}
-											<option value="{$KEY}"{if $KEY === \App\RecordStatus::RECORD_STATE_NO_CONCERN} selected {/if} >{\App\Language::translate($VALUE,$QUALIFIED_MODULE)}</option>
-										{/foreach}
-									</select>
-								</div>
-							</div>
-						{/if}
 					</div>
 					{include file=App\Layout::getTemplatePath('Modals/Footer.tpl', $QUALIFIED_MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 				</form>
