@@ -50,7 +50,7 @@
         side="left"
         elevated
         :width="searchData ? 0 : 250"
-        breakpoint="700"
+        :breakpoint="700"
         content-class="bg-yeti text-white"
       >
         <q-scroll-area class="fit">
@@ -166,8 +166,24 @@
               <template v-slot:item="props">
                 <q-list class="list-item" padding @click="getRecord(props.row.id)">
                   <q-item clickable>
+                    <q-item-section avatar>
+                      <q-icon name="mdi-text" />
+                    </q-item-section>
                     <q-item-section>
-                      <q-item-label overline>{{ props.row.subject }}</q-item-label>
+                      <q-item-label class="text-primary"> {{ props.row.subject }}</q-item-label>
+                      <q-item-label class="flex" overline>
+                        <q-breadcrumbs class="mr-2 text-grey-8" active-color="grey-8">
+                          <q-breadcrumbs-el
+                            v-for="category in tree.categories[props.row.category].parentTree"
+                            :key="tree.categories[category].label"
+                          >
+                            <icon :icon="tree.categories[category].icon" class="q-mr-sm" />
+                            {{ tree.categories[category].label }}
+                          </q-breadcrumbs-el>
+                        </q-breadcrumbs>
+
+                        | Authored by: {{ props.row.assigned_user_id }}</q-item-label
+                      >
                       <q-item-label caption>{{ props.row.introduction }}</q-item-label>
                     </q-item-section>
                     <q-item-section side top>
@@ -193,17 +209,31 @@
             <template v-slot:item="props">
               <q-list class="list-item" padding @click="getRecord(props.row.id)">
                 <q-item clickable>
+                  <q-item-section avatar>
+                    <q-icon name="mdi-text" />
+                  </q-item-section>
                   <q-item-section>
-                    <q-item-label overline>{{ props.row.subject }}</q-item-label>
+                    <q-item-label class="text-primary"> {{ props.row.subject }}</q-item-label>
+                    <q-item-label class="flex" overline>
+                      <q-breadcrumbs class="mr-2 text-grey-8" active-color="grey-8">
+                        <q-breadcrumbs-el
+                          v-for="category in tree.categories[props.row.category].parentTree"
+                          :key="tree.categories[category].label"
+                        >
+                          <icon :icon="tree.categories[category].icon" class="q-mr-sm" />
+                          {{ tree.categories[category].label }}
+                        </q-breadcrumbs-el>
+                      </q-breadcrumbs>
+
+                      | Authored by: {{ props.row.assigned_user_id }}</q-item-label
+                    >
                     <q-item-label caption>{{ props.row.introduction }}</q-item-label>
                   </q-item-section>
                   <q-item-section side top>
-                    <q-item-label caption
-                      >{{ props.row.short_time }}
-                      <q-tooltip>
-                        {{ props.row.full_time }}
-                      </q-tooltip>
-                    </q-item-label>
+                    <q-item-label caption>{{ props.row.short_time }}</q-item-label>
+                    <q-tooltip>
+                      {{ props.row.full_time }}
+                    </q-tooltip>
                   </q-item-section>
                 </q-item>
               </q-list>
@@ -401,6 +431,5 @@ export default {
 }
 .list-item {
   width: 100%;
-  max-width: 600px;
 }
 </style>
