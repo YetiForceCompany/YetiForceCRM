@@ -5329,23 +5329,6 @@ CREATE TABLE `vtiger_eventhandlers` (
   KEY `event_name_class` (`event_name`,`handler_class`)
 ) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_eventstatus` */
-
-CREATE TABLE `vtiger_eventstatus` (
-  `eventstatusid` int(10) NOT NULL AUTO_INCREMENT,
-  `eventstatus` varchar(200) NOT NULL,
-  `presence` int(1) NOT NULL DEFAULT 1,
-  `picklist_valueid` int(10) NOT NULL DEFAULT 0,
-  `sortorderid` int(10) DEFAULT NULL,
-  PRIMARY KEY (`eventstatusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_eventstatus_seq` */
-
-CREATE TABLE `vtiger_eventstatus_seq` (
-  `id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_expectedresponse` */
 
 CREATE TABLE `vtiger_expectedresponse` (
@@ -5487,7 +5470,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2791 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2792 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -8617,6 +8600,7 @@ CREATE TABLE `vtiger_troubletickets` (
   `contracts_end_date` date DEFAULT NULL,
   `report_time` int(10) DEFAULT NULL,
   `response_time` datetime DEFAULT NULL,
+  `parentid` int(10) DEFAULT NULL,
   PRIMARY KEY (`ticketid`),
   KEY `troubletickets_ticketid_idx` (`ticketid`),
   KEY `troubletickets_status_idx` (`status`),
@@ -8625,6 +8609,7 @@ CREATE TABLE `vtiger_troubletickets` (
   KEY `servicecontractsid` (`servicecontractsid`),
   KEY `pssold_id` (`pssold_id`),
   KEY `ticket_no` (`ticket_no`),
+  KEY `vtiger_troubletickets_parentid_idx` (`parentid`),
   CONSTRAINT `fk_1_vtiger_troubletickets` FOREIGN KEY (`ticketid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

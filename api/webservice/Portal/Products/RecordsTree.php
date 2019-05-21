@@ -2,6 +2,8 @@
 /**
  * The file contains: Description class.
  *
+ * @package Api
+ *
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Arkadiusz Adach <a.adach@yetiforce.com>
@@ -54,6 +56,7 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 			$queryGenerator = parent::getQuery();
 		} else {
 			$pricebookId = \Vtiger_Record_Model::getInstanceById($this->getParentCrmId(), 'Accounts')->get('pricebook_id');
+
 			if (empty($pricebookId)) {
 				$queryGenerator = parent::getQuery();
 			} else {
@@ -66,12 +69,16 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 				);
 			}
 		}
-		$queryGenerator->setCustomColumn('u_#__istorages_products.qtyinstock as storage_qtyinstock');
-		$queryGenerator->addJoin([
-			'LEFT JOIN',
-			'u_#__istorages_products',
-			"u_#__istorages_products.crmid={$this->getUserStorageId()} AND u_#__istorages_products.relcrmid = vtiger_products.productid"]
-		);
+		$storage = $this->getUserStorageId();
+		if ($storage) {
+			$queryGenerator->setCustomColumn('u_#__istorages_products.qtyinstock as storage_qtyinstock');
+			$queryGenerator->addJoin([
+				'LEFT JOIN',
+				'u_#__istorages_products',
+				"u_#__istorages_products.crmid={$storage} AND u_#__istorages_products.relcrmid = vtiger_products.productid"]
+			);
+		}
+
 		return $queryGenerator;
 	}
 

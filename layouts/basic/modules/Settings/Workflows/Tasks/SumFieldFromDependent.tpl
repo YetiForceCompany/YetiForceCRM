@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Settings-Workflows-Tasks-SumFieldFromDependent -->
 	<input type="hidden" class="js-source-module" value="{$SOURCE_MODULE}" data-js="val">
 	<div class="tpl-Settings-Workflows-Tasks-SumFieldFromDependent">
 		<div class="row w-100 mb-2">
@@ -48,4 +49,5 @@
 				{include file=\App\Layout::getTemplatePath('ConditionBuilder.tpl') MODULE_NAME=$SOURCE_MODULE}
 		</div>
 	</div>
+	<!-- /tpl-Settings-Workflows-Tasks-SumFieldFromDependent -->
 {/strip}

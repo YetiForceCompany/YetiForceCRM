@@ -2,17 +2,19 @@
 /**
  * The file contains: SaveInventory class.
  *
+ * @package Api
+ *
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Arkadiusz Adach <a.adach@yetiforce.com>
  */
 
-namespace Api\Portal\BaseModel;
+namespace Api\Portal;
 
 /**
  * Class SaveInventory.
  */
-class SaveInventory
+class Inventory
 {
 	/**
 	 * Module name.
@@ -65,11 +67,24 @@ class SaveInventory
 		$inventoryData = [];
 		foreach ($this->inventory as $inventoryKey => $inventoryItem) {
 			foreach (\Vtiger_Inventory_Model::getInstance($this->moduleName)->getFields() as $columnName => $fieldModel) {
-				if (\in_array($fieldModel->getColumnName(), ['total', 'margin', 'marginp', 'net', 'gross', 'tax', 'discount'])) {
+				if ($columnName === 'tax') {
+					$taxes = 	explode(',', $this->products[$inventoryKey]['taxes']);
+					$taxes = current($taxes);
+					if ($taxes) {
+						$allTaxes = \Vtiger_Inventory_Model::getGlobalTaxes();
+						$item['taxparam'] = \App\Json::encode([
+							'aggregationType' => 'individual',
+							'individualTax' => $allTaxes[$taxes]['value']
+						]);
+					}
+					continue;
+				}
+				if (\in_array($fieldModel->getColumnName(), ['total', 'margin', 'marginp', 'net', 'gross', 'discount'])) {
 					continue;
 				}
 				$item[$columnName] = $this->getValue($columnName, $inventoryKey) ?? $inventoryItem[$columnName] ?? $fieldModel->getDefaultValue();
 			}
+
 			$inventoryData[] = $item;
 		}
 		return $inventoryData;
@@ -79,16 +94,16 @@ class SaveInventory
 	 * Get the value for the column. Return null if it does not apply to this column.
 	 *
 	 * @param string $columnName
-	 * @param string $inventoryKey
+	 * @param int    $inventoryKey
 	 *
 	 * @return mixed
 	 */
-	protected function getValue(string $columnName, string $inventoryKey)
+	protected function getValue(string $columnName, int $inventoryKey)
 	{
 		$fromRow = $this->getFieldMapping();
 		if (!isset($fromRow[$columnName])) {
 			$method = 'getInventory' . ucfirst($columnName);
-			return \method_exists($this, $method) ? $this->{$method}() : null;
+			return \method_exists($this, $method) ? $this->{$method}($inventoryKey) : null;
 		}
 		return $this->products[$inventoryKey][$fromRow[$columnName]];
 	}
@@ -118,15 +133,23 @@ class SaveInventory
 	 *
 	 * @return int
 	 */
-	protected function getInventoryCurrency(): int
+	protected function getInventoryCurrency(int $inventoryKey): int
 	{
 		return (int) \App\Fields\Currency::getDefault()['id'];
 	}
 
+	protected function getInventoryPurchase(int $inventoryKey)
+	{
+		return $this->products[$inventoryKey]['unit_price'];
+	}
+
+	protected function getInventoryTaxmode(int $inventoryKey)
+	{
+		return 1;
+	}
+
 	/**
 	 * Get products by inventory.
-	 *
-	 * @return void
 	 */
 	private function getProductsByInventory()
 	{
@@ -135,7 +158,7 @@ class SaveInventory
 		$queryService = (new \App\Db\Query())
 			->select([
 				'module' => new \yii\db\Expression("'Service'"), 'id' => 'serviceid', 'service_usageunit',
-				'subunit' => new \yii\db\Expression("''"), 'currency_id', 'description', 'unit_price'
+				'subunit' => new \yii\db\Expression("''"), 'currency_id', 'description', 'unit_price', 'taxes'
 			])
 			->from('vtiger_service')
 			->innerJoin('vtiger_crmentity', 'vtiger_service.serviceid = vtiger_crmentity.crmid')
@@ -145,7 +168,7 @@ class SaveInventory
 		$dataReader = (new \App\Db\Query())
 			->select([
 				'module' => new \yii\db\Expression("'Products'"), 'id' => 'productid', 'usageunit',
-				'subunit', 'currency_id', 'description', 'unit_price'
+				'subunit', 'currency_id', 'description', 'unit_price', 'taxes'
 			])
 			->from('vtiger_products')
 			->innerJoin('vtiger_crmentity', 'vtiger_products.productid = vtiger_crmentity.crmid')

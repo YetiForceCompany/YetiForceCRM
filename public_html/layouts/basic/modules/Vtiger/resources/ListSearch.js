@@ -219,7 +219,8 @@ jQuery.Class(
 						'fileLocationType',
 						'userRole',
 						'companySelect',
-						'multiReferenceValue'
+						'multiReferenceValue',
+						'inventoryLimit'
 					]) >= 0
 				) {
 					searchOperator = 'e';
