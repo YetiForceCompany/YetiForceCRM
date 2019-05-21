@@ -117,23 +117,9 @@ class RecordStatus
 			$fieldModel->save();
 		}
 		$tableName = \Settings_Picklist_Module_Model::getPicklistTableName($fieldName);
-		static::addColumn($tableName, 'record_state');
-		static::addColumn($tableName, 'time_counting');
+		Utils::addColumn($tableName, 'record_state', Db::getInstance()->getSchema()->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TINYINT, 1));
+		Utils::addColumn($tableName, 'time_counting', Db::getInstance()->getSchema()->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 7));
 		return $fieldModel ? true : false;
-	}
-
-	/**
-	 * Add record state column to picklist.
-	 *
-	 * @param string $tableName
-	 * @param string $columnName
-	 *
-	 * @return bool
-	 */
-	public static function addColumn(string $tableName, string $columnName)
-	{
-		$db = Db::getInstance();
-		$db->createCommand()->addColumn($tableName, $columnName, $db->getSchema()->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TINYINT, 1))->execute();
 	}
 
 	/**
