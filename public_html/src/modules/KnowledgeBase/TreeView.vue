@@ -6,7 +6,7 @@
       <q-header elevated class="bg-white text-primary">
         <q-toolbar>
           <q-btn dense flat round icon="mdi-menu" @click="left = !left"></q-btn>
-          <q-breadcrumbs class="ml-2">
+          <q-breadcrumbs v-show="!searchData" class="ml-2">
             <template v-slot:separator>
               <q-icon size="1.5em" name="mdi-chevron-right" />
             </template>
@@ -44,7 +44,15 @@
         </q-toolbar>
       </q-header>
 
-      <q-drawer v-model="left" side="left" elevated :width="250" :breakpoint="700" content-class="bg-yeti text-white">
+      <q-drawer
+        v-show="!searchData"
+        v-model="left"
+        side="left"
+        elevated
+        :width="searchData ? 0 : 250"
+        breakpoint="700"
+        content-class="bg-yeti text-white"
+      >
         <q-scroll-area class="fit">
           <q-list dark>
             <q-item v-show="activeCategory === ''" clickable active active-class="text-blue-2">
@@ -148,7 +156,7 @@
             </div>
             <q-table
               v-show="activeCategory !== ''"
-              :data="Object.values(tree.data.records)"
+              :data="getTableArray(tree.data.records)"
               :columns="columns"
               row-key="subject"
               grid
@@ -176,7 +184,7 @@
           </div>
           <q-table
             v-if="searchData"
-            :data="Object.values(searchData)"
+            :data="getTableArray(searchData)"
             :columns="columns"
             row-key="subject"
             grid
@@ -304,6 +312,11 @@ export default {
     }
   },
   methods: {
+    getTableArray(tableObject) {
+      return Object.keys(tableObject).map(function(key) {
+        return { ...tableObject[key], id: key }
+      })
+    },
     getCategories() {
       const aDeferred = $.Deferred()
       return AppConnector.request({ module: 'KnowledgeBase', action: 'TreeAjax', mode: 'categories' }).done(data => {
@@ -341,7 +354,6 @@ export default {
       }).done(data => {
         this.record = data.result
         this.dialog = true
-        console.log(this.record)
         progressIndicatorElement.progressIndicator({ mode: 'hide' })
         aDeferred.resolve(data.result)
       })
