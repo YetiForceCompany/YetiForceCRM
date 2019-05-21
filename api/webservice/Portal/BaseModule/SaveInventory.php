@@ -41,11 +41,15 @@ class SaveInventory extends \Api\Core\BaseAction
 			}
 		}
 		$moduleModel = $recordModel->getModule();
-		if ($this->getPermissionType() !== \Api\Portal\Privilege::USER_PERMISSIONS) {
+		if (\Api\Portal\Privilege::USER_PERMISSIONS !== $this->getPermissionType()) {
 			$fields = $moduleModel->getReferenceFieldsForModule('Accounts');
 			if ($fieldModel = current($fields)) {
 				$recordModel->set($fieldModel->getFieldName(), $this->getParentCrmId());
 			}
+		}
+		$fields = $moduleModel->getReferenceFieldsForModule('IStorages');
+		if ($fieldModel = current($fields)) {
+			$recordModel->set($fieldModel->getFieldName(), $this->getUserStorageId());
 		}
 		$fieldPermission = \Api\Core\Module::getApiFieldPermission($moduleName, (int) $this->controller->app['id']);
 		if ($fieldPermission) {
