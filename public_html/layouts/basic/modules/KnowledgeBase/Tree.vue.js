@@ -43242,14 +43242,13 @@ const BaseService = axios.create({
 
 BaseService.interceptors.response.use(
 	function(response) {
-		console.log(response);
-		return response;
+		return response
 	},
 	function(error) {
 		const data = error.response.data;
 		let type = 'error';
 		data.type = data.type || type;
-		return Promise.reject(error);
+		return Promise.reject(error)
 	}
 );
 
