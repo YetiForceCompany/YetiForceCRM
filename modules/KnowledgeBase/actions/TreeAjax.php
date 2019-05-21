@@ -110,7 +110,14 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 	{
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
 		if ('PLL_PRESENTATION' === $recordModel->get('knowledgebase_view')) {
-			$content = explode('<div style="page-break-after:always;"><span style="display:none;"> </span></div>', $recordModel->get('content'));
+			$content = [];
+			foreach (explode('<div style="page-break-after:always;"><span style="display:none;">', $recordModel->get('content')) as $key => $value) {
+				if (0 === $key) {
+					$content[] = $value;
+				} else {
+					$content[] = substr($value, 16);
+				}
+			}
 		} else {
 			$content = $recordModel->get('content');
 		}

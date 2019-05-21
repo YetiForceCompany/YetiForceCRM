@@ -3679,10 +3679,12 @@ CREATE TABLE `u_yf_ssingleorders` (
   `sum_gross` decimal(28,8) DEFAULT NULL,
   `sum_discount` decimal(28,8) DEFAULT NULL,
   `ssingleorders_source` varchar(255) DEFAULT '',
+  `istorageaddressid` int(10) DEFAULT NULL,
   PRIMARY KEY (`ssingleordersid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `squotesid` (`squotesid`),
   KEY `accountid` (`accountid`),
+  KEY `u_yf_ssingleorders_istorageaddressid_idx` (`istorageaddressid`),
   CONSTRAINT `fk_1_u_yf_ssingleorders` FOREIGN KEY (`ssingleordersid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -5470,7 +5472,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2792 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2793 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 

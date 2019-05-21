@@ -253,10 +253,10 @@ fullcalendar@3.10.0:
   resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-3.10.0.tgz#cc5e87d518fd6550e142816a31dd191664847919"
   integrity sha512-0OtsHhmdYhtFmQwXzyo8VqHzYgamg+zVOoytv5N13gI+iF6CGjevpCi/yBaQs0O4wY3OAp8I688IxdNYe0iAvw==
 
-gantt-elastic@^0.14.0:
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.14.0.tgz#7c472ced2d3ec0d93ad74e8c15878551059e90f4"
-  integrity sha512-j0mAPFvCLKzhHgvneRmut/EP9smNomlXzrYG/x0Zd+gHKjrp9sW0VXqXc9IQrJTeTcDuvDGyOr25gg0N7yTakw==
+gantt-elastic@^0.14.3:
+  version "0.14.3"
+  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.14.3.tgz#fcb3879a160d1f5a9bf5f32bd81516c3ac96a4e4"
+  integrity sha512-cXOumHp5iBPRYVCjgBsTnWEd9KCIaPxC3Ra7a5YgQlIxp0qJZfpOi9GzHfqzCLaSzB39eTzp9ynUrTcSH9r4JA==
   dependencies:
     dayjs "^1.8.14"
     resize-observer-polyfill "^1.5.1"
@@ -414,10 +414,10 @@ popper.js@^1.15.0:
   resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.15.0.tgz#5560b99bbad7647e9faa475c6b8056621f5a4ff2"
   integrity sha512-w010cY1oCUmI+9KwwlWki+r5jxKfTFDVoadl7MSrIujHU5MJ5OR6HTDj6Xo8aoR/QsA56x8jKjA59qGH4ELtrA==
 
-quasar@^1.0.0-beta.23:
-  version "1.0.0-beta.23"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.0.0-beta.23.tgz#4b704f546b13cc45176a7c66e51e9c5c180f6177"
-  integrity sha512-mXJovssdpURz3kSeblUuFDWAd/U8UE7Huuogb4uF/Tk0FwJO3d7Wz/ySb/TvZwdm8YhuBOCzm90Cs2b3JxXNlg==
+quasar@^1.0.0-beta.24:
+  version "1.0.0-beta.24"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.0.0-beta.24.tgz#771cb30d5211d06a8dba4a9608fb7addd77bec29"
+  integrity sha512-jsit0qXXh4QkB9/Zj7yYEzgk8X3djLKdiG81fhbdysTkCaEIEh8XVJStCG2Ghfkm9u0EUHc8vbEsvR7dRFfATA==
 
 resize-observer-polyfill@^1.5.1:
   version "1.5.1"
