@@ -638,7 +638,9 @@ var vue = createCommonjsModule(function (module, exports) {
     warn = function (msg, vm) {
       var trace = vm ? generateComponentTrace(vm) : '';
 
-      if (hasConsole && (!config.silent)) {
+      if (config.warnHandler) {
+        config.warnHandler.call(null, msg, vm, trace);
+      } else if (hasConsole && (!config.silent)) {
         console.error(("[Vue warn]: " + msg + trace));
       }
     };
@@ -743,6 +745,12 @@ var vue = createCommonjsModule(function (module, exports) {
   Dep.prototype.notify = function notify () {
     // stabilize the subscriber list first
     var subs = this.subs.slice();
+    if (!config.async) {
+      // subs aren't sorted in scheduler if not running async
+      // we need to sort them now to make sure they fire in correct
+      // order
+      subs.sort(function (a, b) { return a.id - b.id; });
+    }
     for (var i = 0, l = subs.length; i < l; i++) {
       subs[i].update();
     }
@@ -1876,6 +1884,17 @@ var vue = createCommonjsModule(function (module, exports) {
   }
 
   function globalHandleError (err, vm, info) {
+    if (config.errorHandler) {
+      try {
+        return config.errorHandler.call(null, err, vm, info)
+      } catch (e) {
+        // if the user intentionally throws the original error in the handler,
+        // do not log it twice
+        if (e !== err) {
+          logError(e, null, 'config.errorHandler');
+        }
+      }
+    }
     logError(err, vm, info);
   }
 
@@ -1997,6 +2016,11 @@ var vue = createCommonjsModule(function (module, exports) {
     }
   }
 
+  /*  */
+
+  var mark;
+  var measure;
+
   {
     var perf = inBrowser && window.performance;
     /* istanbul ignore if */
@@ -2006,7 +2030,15 @@ var vue = createCommonjsModule(function (module, exports) {
       perf.measure &&
       perf.clearMarks &&
       perf.clearMeasures
-    ) ;
+    ) {
+      mark = function (tag) { return perf.mark(tag); };
+      measure = function (name, startTag, endTag) {
+        perf.measure(name, startTag, endTag);
+        perf.clearMarks(startTag);
+        perf.clearMarks(endTag);
+        // perf.clearMeasures(name)
+      };
+    }
   }
 
   /* not type checking this file because flow doesn't play well with Proxy */
@@ -4017,7 +4049,24 @@ var vue = createCommonjsModule(function (module, exports) {
 
     var updateComponent;
     /* istanbul ignore if */
-    {
+    if (config.performance && mark) {
+      updateComponent = function () {
+        var name = vm._name;
+        var id = vm._uid;
+        var startTag = "vue-perf-start:" + id;
+        var endTag = "vue-perf-end:" + id;
+
+        mark(startTag);
+        var vnode = vm._render();
+        mark(endTag);
+        measure(("vue " + name + " render"), startTag, endTag);
+
+        mark(startTag);
+        vm._update(vnode, hydrating);
+        mark(endTag);
+        measure(("vue " + name + " patch"), startTag, endTag);
+      };
+    } else {
       updateComponent = function () {
         vm._update(vm._render(), hydrating);
       };
@@ -4350,6 +4399,11 @@ var vue = createCommonjsModule(function (module, exports) {
       // queue the flush
       if (!waiting) {
         waiting = true;
+
+        if (!config.async) {
+          flushSchedulerQueue();
+          return
+        }
         nextTick(flushSchedulerQueue);
       }
     }
@@ -4913,6 +4967,14 @@ var vue = createCommonjsModule(function (module, exports) {
       // a uid
       vm._uid = uid$3++;
 
+      var startTag, endTag;
+      /* istanbul ignore if */
+      if (config.performance && mark) {
+        startTag = "vue-perf-start:" + (vm._uid);
+        endTag = "vue-perf-end:" + (vm._uid);
+        mark(startTag);
+      }
+
       // a flag to avoid this being observed
       vm._isVue = true;
       // merge options
@@ -4942,6 +5004,13 @@ var vue = createCommonjsModule(function (module, exports) {
       initState(vm);
       initProvide(vm); // resolve provide after data/props
       callHook(vm, 'created');
+
+      /* istanbul ignore if */
+      if (config.performance && mark) {
+        vm._name = formatComponentName(vm, false);
+        mark(endTag);
+        measure(("vue " + (vm._name) + " init"), startTag, endTag);
+      }
 
       if (vm.$options.el) {
         vm.$mount(vm.$options.el);
@@ -8983,7 +9052,7 @@ var vue = createCommonjsModule(function (module, exports) {
   /* istanbul ignore next */
   if (inBrowser) {
     setTimeout(function () {
-      {
+      if (config.devtools) {
         if (devtools) {
           devtools.emit('init', Vue);
         } else {
@@ -8993,7 +9062,8 @@ var vue = createCommonjsModule(function (module, exports) {
           );
         }
       }
-      if (typeof console !== 'undefined'
+      if (config.productionTip !== false &&
+        typeof console !== 'undefined'
       ) {
         console[console.info ? 'info' : 'log'](
           "You are running Vue in development mode.\n" +
@@ -11835,6 +11905,10 @@ var vue = createCommonjsModule(function (module, exports) {
         template = getOuterHTML(el);
       }
       if (template) {
+        /* istanbul ignore if */
+        if (config.performance && mark) {
+          mark('compile');
+        }
 
         var ref = compileToFunctions(template, {
           outputSourceRange: "development" !== 'production',
@@ -11847,6 +11921,12 @@ var vue = createCommonjsModule(function (module, exports) {
         var staticRenderFns = ref.staticRenderFns;
         options.render = render;
         options.staticRenderFns = staticRenderFns;
+
+        /* istanbul ignore if */
+        if (config.performance && mark) {
+          mark('compile end');
+          measure(("vue " + (this._name) + " compile"), 'compile', 'compile end');
+        }
       }
     }
     return mount.call(this, el, hydrating)
@@ -11883,80 +11963,13 @@ var Vue = unwrapExports(vue);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 var script = {
-  name: 'TreeView',
-  data() {
-    return {
-      left: true,
-      testData: [
-        {
-          label: 'Satisfied customers (with avatar)',
-          children: [
-            {
-              label: 'Good food (with icon)',
-              children: [
-                {
-                  label: 'Quality ingredients',
-                  children: [
-                    {
-                      label: 'Good food (with icon)',
-                      children: [{ label: 'Quality ingredients' }, { label: 'Good recipe' }]
-                    },
-                    {
-                      label: 'Good service (disabled node with icon)',
-                      disabled: true,
-                      children: [{ label: 'Prompt attention' }, { label: 'Professional waiter' }]
-                    },
-                    {
-                      label: 'Pleasant surroundings (with icon)',
-                      children: [
-                        {
-                          label: 'Happy atmosphere (with image)'
-                        },
-                        { label: 'Good table presentation' },
-                        { label: 'Pleasing decor' }
-                      ]
-                    }
-                  ]
-                },
-                { label: 'Good recipe' }
-              ]
-            },
-            {
-              label: 'Good service (disabled node with icon)',
-              disabled: true,
-              children: [{ label: 'Prompt attention' }, { label: 'Professional waiter' }]
-            },
-            {
-              label: 'Pleasant surroundings (with icon)',
-              children: [
-                {
-                  label: 'Happy atmosphere (with image)'
-                },
-                { label: 'Good table presentation' },
-                { label: 'Pleasing decor' }
-              ]
-            }
-          ]
-        }
-      ]
+  name: 'Icon',
+  props: {
+    icon: {
+      type: String,
+      required: true
     }
   }
 };
@@ -12106,19 +12119,182 @@ var __vue_render__ = function() {
   var _c = _vm._self._c || _h;
   return _c(
     "div",
-    { staticClass: "q-pa-md" },
+    [
+      /^mdi|^fa/.test(_vm.icon)
+        ? _c("q-icon", { attrs: { name: _vm.icon } })
+        : _c("q-icon", { class: [_vm.icon, "q-icon"] })
+    ],
+    1
+  )
+};
+var __vue_staticRenderFns__ = [];
+__vue_render__._withStripped = true;
+
+  /* style */
+  const __vue_inject_styles__ = function (inject) {
+    if (!inject) return
+    inject("data-v-4b146954_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"Icon.vue"}, media: undefined });
+
+  };
+  /* scoped */
+  const __vue_scope_id__ = "data-v-4b146954";
+  /* module identifier */
+  const __vue_module_identifier__ = undefined;
+  /* functional template */
+  const __vue_is_functional_template__ = false;
+  /* style inject SSR */
+  
+
+  
+  var Icon = normalizeComponent_1(
+    { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
+    __vue_inject_styles__,
+    __vue_script__,
+    __vue_scope_id__,
+    __vue_is_functional_template__,
+    __vue_module_identifier__,
+    browser,
+    undefined
+  );
+
+//
+var script$1 = {
+  name: 'TreeView',
+  components: { Icon },
+  data() {
+    return {
+      left: true,
+      filter: '',
+      record: false,
+      dialog: false,
+      categorySearch: false,
+      maximizedToggle: true,
+      slide: 0,
+      pagination: {
+        rowsPerPage: 0
+      },
+      columns: [
+        {
+          name: 'desc',
+          required: true,
+          label: 'Title',
+          align: 'left',
+          field: row => row.subject,
+          format: val => `${val}`,
+          sortable: true
+        },
+        { name: 'short_time', align: 'center', label: 'Short time', field: 'short_time', sortable: true },
+        { name: 'introduction', align: 'center', label: 'Introduction', field: 'introduction', sortable: true }
+      ],
+      activeCategory: '',
+      tree: {
+        data: {
+          records: [],
+          featured: {}
+        },
+        categories: {}
+      },
+      searchData: false
+    }
+  },
+  methods: {
+    getTableArray(tableObject) {
+      return Object.keys(tableObject).map(function(key) {
+        return { ...tableObject[key], id: key }
+      })
+    },
+    getCategories() {
+      const aDeferred = $.Deferred();
+      return AppConnector.request({ module: 'KnowledgeBase', action: 'TreeAjax', mode: 'categories' }).done(data => {
+        this.tree.categories = data.result;
+        aDeferred.resolve(data.result);
+      })
+    },
+    getData(category = '') {
+      const aDeferred = $.Deferred();
+      this.activeCategory = category;
+      const progressIndicatorElement = $.progressIndicator({
+        blockInfo: { enabled: true }
+      });
+      return AppConnector.request({
+        module: 'KnowledgeBase',
+        action: 'TreeAjax',
+        mode: 'list',
+        category: category
+      }).done(data => {
+        this.tree.data = data.result;
+        progressIndicatorElement.progressIndicator({ mode: 'hide' });
+        aDeferred.resolve(data.result);
+      })
+    },
+    getRecord(id) {
+      const aDeferred = $.Deferred();
+      const progressIndicatorElement = $.progressIndicator({
+        blockInfo: { enabled: true }
+      });
+      return AppConnector.request({
+        module: 'KnowledgeBase',
+        action: 'TreeAjax',
+        mode: 'detail',
+        record: id
+      }).done(data => {
+        this.record = data.result;
+        this.dialog = true;
+        progressIndicatorElement.progressIndicator({ mode: 'hide' });
+        aDeferred.resolve(data.result);
+      })
+    },
+    search(e) {
+      if (this.filter.length > 3) {
+        const aDeferred = $.Deferred();
+        const progressIndicatorElement = $.progressIndicator({
+          blockInfo: { enabled: true }
+        });
+        AppConnector.request({
+          module: 'KnowledgeBase',
+          action: 'TreeAjax',
+          mode: 'search',
+          value: this.filter,
+          category: this.categorySearch ? this.activeCategory : ''
+        }).done(data => {
+          this.searchData = data.result;
+          aDeferred.resolve(data.result);
+          progressIndicatorElement.progressIndicator({ mode: 'hide' });
+          return data.result
+        });
+      } else {
+        this.searchData = false;
+      }
+    }
+  },
+  async created() {
+    await this.getCategories();
+    await this.getData();
+  }
+};
+
+/* script */
+const __vue_script__$1 = script$1;
+
+/* template */
+var __vue_render__$1 = function() {
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c(
+    "div",
+    { staticClass: "h-100" },
     [
       _c(
         "q-layout",
         {
-          staticClass: "shadow-2 rounded-borders",
-          staticStyle: { height: "500px" },
+          staticClass: "absolute",
           attrs: { view: "hHh lpr fFf", container: "" }
         },
         [
           _c(
             "q-header",
-            { staticClass: "bg-primary text-white", attrs: { elevated: "" } },
+            { staticClass: "bg-white text-primary", attrs: { elevated: "" } },
             [
               _c(
                 "q-toolbar",
@@ -12132,7 +12308,135 @@ var __vue_render__ = function() {
                     }
                   }),
                   _vm._v(" "),
-                  _c("q-toolbar-title", [_vm._v("\n          Title\n        ")])
+                  _c(
+                    "q-breadcrumbs",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: !_vm.searchData,
+                          expression: "!searchData"
+                        }
+                      ],
+                      staticClass: "ml-2",
+                      scopedSlots: _vm._u([
+                        {
+                          key: "separator",
+                          fn: function() {
+                            return [
+                              _c("q-icon", {
+                                attrs: {
+                                  size: "1.5em",
+                                  name: "mdi-chevron-right"
+                                }
+                              })
+                            ]
+                          },
+                          proxy: true
+                        }
+                      ])
+                    },
+                    [
+                      _vm._v(" "),
+                      _c("q-breadcrumbs-el", {
+                        attrs: { icon: "mdi-home" },
+                        on: {
+                          click: function($event) {
+                            return _vm.getData()
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      this.activeCategory !== ""
+                        ? _vm._l(
+                            _vm.tree.categories[this.activeCategory].parentTree,
+                            function(category) {
+                              return _c(
+                                "q-breadcrumbs-el",
+                                {
+                                  key: _vm.tree.categories[category].label,
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.getData(category)
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("icon", {
+                                    staticClass: "q-mr-sm",
+                                    attrs: {
+                                      icon: _vm.tree.categories[category].icon
+                                    }
+                                  }),
+                                  _vm._v(
+                                    "\n              " +
+                                      _vm._s(
+                                        _vm.tree.categories[category].label
+                                      ) +
+                                      "\n            "
+                                  )
+                                ],
+                                1
+                              )
+                            }
+                          )
+                        : _vm._e()
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c("q-input", {
+                    staticClass: "tree-search mx-auto",
+                    attrs: {
+                      placeholder: "Search",
+                      rounded: "",
+                      outlined: "",
+                      type: "search"
+                    },
+                    on: { input: _vm.search },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "append",
+                        fn: function() {
+                          return [
+                            _c("q-icon", { attrs: { name: "mdi-magnify" } })
+                          ]
+                        },
+                        proxy: true
+                      }
+                    ]),
+                    model: {
+                      value: _vm.filter,
+                      callback: function($$v) {
+                        _vm.filter = $$v;
+                      },
+                      expression: "filter"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    [
+                      _c("q-toggle", {
+                        attrs: { icon: "mdi-file-tree" },
+                        model: {
+                          value: _vm.categorySearch,
+                          callback: function($$v) {
+                            _vm.categorySearch = $$v;
+                          },
+                          expression: "categorySearch"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("q-tooltip", [
+                        _vm._v(
+                          "\n            Search current category\n          "
+                        )
+                      ])
+                    ],
+                    1
+                  )
                 ],
                 1
               )
@@ -12143,11 +12447,20 @@ var __vue_render__ = function() {
           _c(
             "q-drawer",
             {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: !_vm.searchData,
+                  expression: "!searchData"
+                }
+              ],
               attrs: {
                 side: "left",
-                bordered: "",
-                width: 200,
-                breakpoint: 700
+                elevated: "",
+                width: _vm.searchData ? 0 : 250,
+                breakpoint: 700,
+                "content-class": "bg-yeti text-white"
               },
               model: {
                 value: _vm.left,
@@ -12162,9 +12475,169 @@ var __vue_render__ = function() {
                 "q-scroll-area",
                 { staticClass: "fit" },
                 [
-                  _c("q-tree", {
-                    attrs: { nodes: _vm.testData, "node-key": "label" }
-                  })
+                  _c(
+                    "q-list",
+                    { attrs: { dark: "" } },
+                    [
+                      _c(
+                        "q-item",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.activeCategory === "",
+                              expression: "activeCategory === ''"
+                            }
+                          ],
+                          attrs: {
+                            clickable: "",
+                            active: "",
+                            "active-class": "text-blue-2"
+                          }
+                        },
+                        [
+                          _c(
+                            "q-item-section",
+                            { attrs: { avatar: "" } },
+                            [_c("q-icon", { attrs: { name: "mdi-home" } })],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("q-item-section", [
+                            _vm._v("\n              Home\n            ")
+                          ])
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _vm.activeCategory !== ""
+                        ? _c(
+                            "q-item",
+                            {
+                              attrs: {
+                                clickable: "",
+                                active: "",
+                                "active-class": "text-blue-2"
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.getData(
+                                    _vm.tree.categories[_vm.activeCategory]
+                                      .parentTree.length !== 1
+                                      ? _vm.tree.categories[_vm.activeCategory]
+                                          .parentTree[
+                                          _vm.tree.categories[
+                                            _vm.activeCategory
+                                          ].parentTree.length - 2
+                                        ]
+                                      : ""
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c(
+                                "q-item-section",
+                                { attrs: { avatar: "" } },
+                                [
+                                  _c("icon", {
+                                    attrs: {
+                                      icon:
+                                        _vm.tree.categories[_vm.activeCategory]
+                                          .icon
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("q-item-section", [
+                                _vm._v(
+                                  "\n              " +
+                                    _vm._s(
+                                      _vm.tree.categories[_vm.activeCategory]
+                                        .label
+                                    ) +
+                                    "\n            "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "q-item-section",
+                                { attrs: { avatar: "" } },
+                                [
+                                  _c("q-icon", {
+                                    attrs: { name: "mdi-chevron-left" }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm._l(_vm.tree.data.categories, function(
+                        categoryValue,
+                        categoryKey
+                      ) {
+                        return _c(
+                          "q-item",
+                          {
+                            directives: [
+                              { name: "ripple", rawName: "v-ripple" }
+                            ],
+                            key: categoryKey,
+                            attrs: { clickable: "" },
+                            on: {
+                              click: function($event) {
+                                return _vm.getData(categoryValue)
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "q-item-section",
+                              { attrs: { avatar: "" } },
+                              [
+                                _c("icon", {
+                                  attrs: {
+                                    icon:
+                                      _vm.tree.categories[categoryValue].icon
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("q-item-section", [
+                              _vm._v(
+                                "\n              " +
+                                  _vm._s(
+                                    _vm.tree.categories[categoryValue].label
+                                  ) +
+                                  "\n            "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "q-item-section",
+                              { attrs: { avatar: "" } },
+                              [
+                                _c("q-icon", {
+                                  attrs: { name: "mdi-chevron-right" }
+                                })
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      })
+                    ],
+                    2
+                  )
                 ],
                 1
               )
@@ -12175,10 +12648,733 @@ var __vue_render__ = function() {
           _c(
             "q-page-container",
             [
-              _c("q-page", {
-                staticClass: "q-pa-md",
-                staticStyle: { "padding-top": "60px" }
-              })
+              _c(
+                "q-page",
+                { staticClass: "q-pa-md" },
+                [
+                  !_vm.searchData
+                    ? _c(
+                        "div",
+                        [
+                          _c(
+                            "div",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value:
+                                    typeof _vm.tree.data.featured.length ===
+                                    "undefined",
+                                  expression:
+                                    "typeof tree.data.featured.length === 'undefined'"
+                                }
+                              ],
+                              staticClass: "q-pa-md row items-start q-gutter-md"
+                            },
+                            [
+                              _vm._l(_vm.tree.data.categories, function(
+                                categoryValue,
+                                categoryKey
+                              ) {
+                                return [
+                                  _vm.tree.data.featured[categoryValue]
+                                    ? _c(
+                                        "q-list",
+                                        {
+                                          key: categoryKey,
+                                          staticClass: "home-card",
+                                          attrs: {
+                                            bordered: "",
+                                            padding: "",
+                                            dense: ""
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "q-item-label",
+                                            { attrs: { header: "" } },
+                                            [
+                                              _c("q-icon", {
+                                                attrs: { name: "mdi-star" }
+                                              }),
+                                              _vm._v(
+                                                "\n\n                  " +
+                                                  _vm._s(
+                                                    _vm.tree.categories[
+                                                      categoryValue
+                                                    ].label
+                                                  )
+                                              )
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _vm._l(
+                                            _vm.tree.data.featured[
+                                              categoryValue
+                                            ],
+                                            function(featuredValue) {
+                                              return _c(
+                                                "q-item",
+                                                {
+                                                  directives: [
+                                                    {
+                                                      name: "ripple",
+                                                      rawName: "v-ripple"
+                                                    }
+                                                  ],
+                                                  key: featuredValue.id,
+                                                  staticClass: "text-subtitle2",
+                                                  attrs: { clickable: "" },
+                                                  on: {
+                                                    click: function($event) {
+                                                      $event.preventDefault();
+                                                      return _vm.getRecord(
+                                                        featuredValue.id
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "q-item-section",
+                                                    { attrs: { avatar: "" } },
+                                                    [
+                                                      _c("q-icon", {
+                                                        attrs: {
+                                                          name: "mdi-text"
+                                                        }
+                                                      })
+                                                    ],
+                                                    1
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c("q-item-section", [
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        staticClass:
+                                                          "js-popover-tooltip--record",
+                                                        attrs: {
+                                                          href:
+                                                            "index.php?module=KnowledgeBase&view=Detail&record=" +
+                                                            featuredValue.id
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\n                      " +
+                                                            _vm._s(
+                                                              featuredValue.subject
+                                                            )
+                                                        )
+                                                      ]
+                                                    )
+                                                  ])
+                                                ],
+                                                1
+                                              )
+                                            }
+                                          )
+                                        ],
+                                        2
+                                      )
+                                    : _vm._e()
+                                ]
+                              })
+                            ],
+                            2
+                          ),
+                          _vm._v(" "),
+                          _c("q-table", {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.activeCategory !== "",
+                                expression: "activeCategory !== ''"
+                              }
+                            ],
+                            attrs: {
+                              data: _vm.getTableArray(_vm.tree.data.records),
+                              columns: _vm.columns,
+                              "row-key": "subject",
+                              grid: "",
+                              "hide-header": "",
+                              pagination: _vm.pagination
+                            },
+                            on: {
+                              "update:pagination": function($event) {
+                                _vm.pagination = $event;
+                              }
+                            },
+                            scopedSlots: _vm._u(
+                              [
+                                {
+                                  key: "item",
+                                  fn: function(props) {
+                                    return [
+                                      _c(
+                                        "q-list",
+                                        {
+                                          staticClass: "list-item",
+                                          attrs: { padding: "" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.getRecord(props.row.id)
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "q-item",
+                                            { attrs: { clickable: "" } },
+                                            [
+                                              _c(
+                                                "q-item-section",
+                                                { attrs: { avatar: "" } },
+                                                [
+                                                  _c("q-icon", {
+                                                    attrs: { name: "mdi-text" }
+                                                  })
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "q-item-section",
+                                                [
+                                                  _c(
+                                                    "q-item-label",
+                                                    {
+                                                      staticClass:
+                                                        "text-primary"
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        " " +
+                                                          _vm._s(
+                                                            props.row.subject
+                                                          )
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "q-item-label",
+                                                    {
+                                                      staticClass: "flex",
+                                                      attrs: { overline: "" }
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "q-breadcrumbs",
+                                                        {
+                                                          staticClass:
+                                                            "mr-2 text-grey-8",
+                                                          attrs: {
+                                                            "active-color":
+                                                              "grey-8"
+                                                          }
+                                                        },
+                                                        _vm._l(
+                                                          _vm.tree.categories[
+                                                            props.row.category
+                                                          ].parentTree,
+                                                          function(category) {
+                                                            return _c(
+                                                              "q-breadcrumbs-el",
+                                                              {
+                                                                key:
+                                                                  _vm.tree
+                                                                    .categories[
+                                                                    category
+                                                                  ].label
+                                                              },
+                                                              [
+                                                                _c("icon", {
+                                                                  staticClass:
+                                                                    "q-mr-sm",
+                                                                  attrs: {
+                                                                    icon:
+                                                                      _vm.tree
+                                                                        .categories[
+                                                                        category
+                                                                      ].icon
+                                                                  }
+                                                                }),
+                                                                _vm._v(
+                                                                  "\n                          " +
+                                                                    _vm._s(
+                                                                      _vm.tree
+                                                                        .categories[
+                                                                        category
+                                                                      ].label
+                                                                    ) +
+                                                                    "\n                        "
+                                                                )
+                                                              ],
+                                                              1
+                                                            )
+                                                          }
+                                                        ),
+                                                        1
+                                                      ),
+                                                      _vm._v(
+                                                        "\n\n                      | Authored by: " +
+                                                          _vm._s(
+                                                            props.row
+                                                              .assigned_user_id
+                                                          )
+                                                      )
+                                                    ],
+                                                    1
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "q-item-label",
+                                                    { attrs: { caption: "" } },
+                                                    [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          props.row.introduction
+                                                        )
+                                                      )
+                                                    ]
+                                                  )
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "q-item-section",
+                                                {
+                                                  attrs: { side: "", top: "" }
+                                                },
+                                                [
+                                                  _c(
+                                                    "q-item-label",
+                                                    { attrs: { caption: "" } },
+                                                    [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          props.row.short_time
+                                                        )
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c("q-tooltip", [
+                                                    _vm._v(
+                                                      "\n                      " +
+                                                        _vm._s(
+                                                          props.row.full_time
+                                                        ) +
+                                                        "\n                    "
+                                                    )
+                                                  ])
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ]
+                                  }
+                                },
+                                {
+                                  key: "bottom",
+                                  fn: function(props) {
+                                    return undefined
+                                  }
+                                }
+                              ],
+                              null,
+                              false,
+                              1577001360
+                            )
+                          })
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.searchData
+                    ? _c("q-table", {
+                        attrs: {
+                          data: _vm.getTableArray(_vm.searchData),
+                          columns: _vm.columns,
+                          "row-key": "subject",
+                          grid: "",
+                          "hide-header": ""
+                        },
+                        scopedSlots: _vm._u(
+                          [
+                            {
+                              key: "item",
+                              fn: function(props) {
+                                return [
+                                  _c(
+                                    "q-list",
+                                    {
+                                      staticClass: "list-item",
+                                      attrs: { padding: "" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.getRecord(props.row.id)
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "q-item",
+                                        { attrs: { clickable: "" } },
+                                        [
+                                          _c(
+                                            "q-item-section",
+                                            { attrs: { avatar: "" } },
+                                            [
+                                              _c("q-icon", {
+                                                attrs: { name: "mdi-text" }
+                                              })
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "q-item-section",
+                                            [
+                                              _c(
+                                                "q-item-label",
+                                                { staticClass: "text-primary" },
+                                                [
+                                                  _vm._v(
+                                                    " " +
+                                                      _vm._s(props.row.subject)
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "q-item-label",
+                                                {
+                                                  staticClass: "flex",
+                                                  attrs: { overline: "" }
+                                                },
+                                                [
+                                                  _c(
+                                                    "q-breadcrumbs",
+                                                    {
+                                                      staticClass:
+                                                        "mr-2 text-grey-8",
+                                                      attrs: {
+                                                        "active-color": "grey-8"
+                                                      }
+                                                    },
+                                                    _vm._l(
+                                                      _vm.tree.categories[
+                                                        props.row.category
+                                                      ].parentTree,
+                                                      function(category) {
+                                                        return _c(
+                                                          "q-breadcrumbs-el",
+                                                          {
+                                                            key:
+                                                              _vm.tree
+                                                                .categories[
+                                                                category
+                                                              ].label
+                                                          },
+                                                          [
+                                                            _c("icon", {
+                                                              staticClass:
+                                                                "q-mr-sm",
+                                                              attrs: {
+                                                                icon:
+                                                                  _vm.tree
+                                                                    .categories[
+                                                                    category
+                                                                  ].icon
+                                                              }
+                                                            }),
+                                                            _vm._v(
+                                                              "\n                        " +
+                                                                _vm._s(
+                                                                  _vm.tree
+                                                                    .categories[
+                                                                    category
+                                                                  ].label
+                                                                ) +
+                                                                "\n                      "
+                                                            )
+                                                          ],
+                                                          1
+                                                        )
+                                                      }
+                                                    ),
+                                                    1
+                                                  ),
+                                                  _vm._v(
+                                                    "\n\n                    | Authored by: " +
+                                                      _vm._s(
+                                                        props.row
+                                                          .assigned_user_id
+                                                      )
+                                                  )
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "q-item-label",
+                                                { attrs: { caption: "" } },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      props.row.introduction
+                                                    )
+                                                  )
+                                                ]
+                                              )
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "q-item-section",
+                                            { attrs: { side: "", top: "" } },
+                                            [
+                                              _c(
+                                                "q-item-label",
+                                                { attrs: { caption: "" } },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(props.row.short_time)
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("q-tooltip", [
+                                                _vm._v(
+                                                  "\n                    " +
+                                                    _vm._s(
+                                                      props.row.full_time
+                                                    ) +
+                                                    "\n                  "
+                                                )
+                                              ])
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ]
+                              }
+                            },
+                            {
+                              key: "bottom",
+                              fn: function(props) {
+                                return undefined
+                              }
+                            }
+                          ],
+                          null,
+                          false,
+                          1641194384
+                        )
+                      })
+                    : _vm._e()
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "q-dialog",
+        {
+          attrs: {
+            persistent: "",
+            maximized: _vm.maximizedToggle,
+            "transition-show": "slide-up",
+            "transition-hide": "slide-down"
+          },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v;
+            },
+            expression: "dialog"
+          }
+        },
+        [
+          _c(
+            "q-card",
+            { staticClass: "quasar-reset" },
+            [
+              _c(
+                "q-bar",
+                [
+                  _c("q-space"),
+                  _vm._v(" "),
+                  _c(
+                    "q-btn",
+                    {
+                      attrs: {
+                        dense: "",
+                        flat: "",
+                        icon: "mdi-window-minimize",
+                        disable: !_vm.maximizedToggle
+                      },
+                      on: {
+                        click: function($event) {
+                          _vm.maximizedToggle = false;
+                        }
+                      }
+                    },
+                    [
+                      _vm.maximizedToggle
+                        ? _c(
+                            "q-tooltip",
+                            {
+                              attrs: {
+                                "content-class": "bg-white text-primary"
+                              }
+                            },
+                            [_vm._v("Minimize")]
+                          )
+                        : _vm._e()
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "q-btn",
+                    {
+                      attrs: {
+                        dense: "",
+                        flat: "",
+                        icon: "mdi-window-maximize",
+                        disable: _vm.maximizedToggle
+                      },
+                      on: {
+                        click: function($event) {
+                          _vm.maximizedToggle = true;
+                        }
+                      }
+                    },
+                    [
+                      !_vm.maximizedToggle
+                        ? _c(
+                            "q-tooltip",
+                            {
+                              attrs: {
+                                "content-class": "bg-white text-primary"
+                              }
+                            },
+                            [_vm._v("Maximize")]
+                          )
+                        : _vm._e()
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "q-btn",
+                    {
+                      directives: [
+                        { name: "close-popup", rawName: "v-close-popup" }
+                      ],
+                      attrs: { dense: "", flat: "", icon: "mdi-close" }
+                    },
+                    [
+                      _c(
+                        "q-tooltip",
+                        { attrs: { "content-class": "bg-white text-primary" } },
+                        [_vm._v("Close")]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("q-card-section", [
+                _c("div", { staticClass: "text-h6" }, [
+                  _vm._v(_vm._s(_vm.record.subject))
+                ])
+              ]),
+              _vm._v(" "),
+              _c("q-card-section", [
+                _vm._v(
+                  "\n        " + _vm._s(_vm.record.introduction) + "\n      "
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "q-card-section",
+                [
+                  _vm.record.knowledgebase_view === "PLL_PRESENTATION"
+                    ? _c(
+                        "q-carousel",
+                        {
+                          staticClass:
+                            "bg-white text-black shadow-1 rounded-borders",
+                          attrs: {
+                            "transition-prev": "scale",
+                            "transition-next": "scale",
+                            swipeable: "",
+                            animated: "",
+                            "control-color": "black",
+                            navigation: "",
+                            padding: "",
+                            arrows: "",
+                            height: "300px"
+                          },
+                          model: {
+                            value: _vm.slide,
+                            callback: function($$v) {
+                              _vm.slide = $$v;
+                            },
+                            expression: "slide"
+                          }
+                        },
+                        _vm._l(_vm.record.content, function(slide, index) {
+                          return _c(
+                            "q-carousel-slide",
+                            {
+                              key: index,
+                              staticClass: "column no-wrap flex-center",
+                              attrs: { name: index }
+                            },
+                            [
+                              _c("div", {
+                                domProps: { innerHTML: _vm._s(slide) }
+                              })
+                            ]
+                          )
+                        }),
+                        1
+                      )
+                    : _c("div", {
+                        domProps: { innerHTML: _vm._s(_vm.record.content) }
+                      })
+                ],
+                1
+              )
             ],
             1
           )
@@ -12189,63 +13385,63 @@ var __vue_render__ = function() {
     1
   )
 };
-var __vue_staticRenderFns__ = [];
-__vue_render__._withStripped = true;
-
-  /* style */
-  const __vue_inject_styles__ = function (inject) {
-    if (!inject) return
-    inject("data-v-0ce414da_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"TreeView.vue"}, media: undefined });
-
-  };
-  /* scoped */
-  const __vue_scope_id__ = "data-v-0ce414da";
-  /* module identifier */
-  const __vue_module_identifier__ = undefined;
-  /* functional template */
-  const __vue_is_functional_template__ = false;
-  /* style inject SSR */
-  
-
-  
-  var TreeView = normalizeComponent_1(
-    { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
-    __vue_inject_styles__,
-    __vue_script__,
-    __vue_scope_id__,
-    __vue_is_functional_template__,
-    __vue_module_identifier__,
-    browser,
-    undefined
-  );
-
-//
-var script$1 = {
-  name: 'Tree',
-  components: { TreeView }
-};
-
-/* script */
-const __vue_script__$1 = script$1;
-
-/* template */
-var __vue_render__$1 = function() {
-  var _vm = this;
-  var _h = _vm.$createElement;
-  var _c = _vm._self._c || _h;
-  return _c("tree-view")
-};
 var __vue_staticRenderFns__$1 = [];
 __vue_render__$1._withStripped = true;
 
   /* style */
-  const __vue_inject_styles__$1 = undefined;
+  const __vue_inject_styles__$1 = function (inject) {
+    if (!inject) return
+    inject("data-v-03abca79_0", { source: "\n.tree-search {\n  width: 50%;\n}\n.tree-search .q-field__control,\n.tree-search .q-field__marginal {\n  height: 40px;\n}\n.home-card {\n  width: 100%;\n  max-width: 250px;\n}\n.list-item {\n  width: 100%;\n}\n", map: {"version":3,"sources":["C:\\www\\YetiForceCRM\\public_html\\src\\modules\\KnowledgeBase\\TreeView.vue"],"names":[],"mappings":";AA8ZA;EACA,UAAA;AACA;AACA;;EAEA,YAAA;AACA;AACA;EACA,WAAA;EACA,gBAAA;AACA;AACA;EACA,WAAA;AACA","file":"TreeView.vue","sourcesContent":["/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */\n\n<template>\n  <div class=\"h-100\">\n    <q-layout view=\"hHh lpr fFf\" container class=\"absolute\">\n      <q-header elevated class=\"bg-white text-primary\">\n        <q-toolbar>\n          <q-btn dense flat round icon=\"mdi-menu\" @click=\"left = !left\"></q-btn>\n          <q-breadcrumbs v-show=\"!searchData\" class=\"ml-2\">\n            <template v-slot:separator>\n              <q-icon size=\"1.5em\" name=\"mdi-chevron-right\" />\n            </template>\n            <q-breadcrumbs-el icon=\"mdi-home\" @click=\"getData()\" />\n            <template v-if=\"this.activeCategory !== ''\">\n              <q-breadcrumbs-el\n                v-for=\"category in tree.categories[this.activeCategory].parentTree\"\n                :key=\"tree.categories[category].label\"\n                @click=\"getData(category)\"\n              >\n                <icon :icon=\"tree.categories[category].icon\" class=\"q-mr-sm\"></icon>\n                {{ tree.categories[category].label }}\n              </q-breadcrumbs-el>\n            </template>\n          </q-breadcrumbs>\n          <q-input\n            v-model=\"filter\"\n            placeholder=\"Search\"\n            rounded\n            outlined\n            type=\"search\"\n            class=\"tree-search mx-auto\"\n            @input=\"search\"\n          >\n            <template v-slot:append>\n              <q-icon name=\"mdi-magnify\" />\n            </template>\n          </q-input>\n          <div>\n            <q-toggle v-model=\"categorySearch\" icon=\"mdi-file-tree\" />\n            <q-tooltip>\n              Search current category\n            </q-tooltip>\n          </div>\n        </q-toolbar>\n      </q-header>\n\n      <q-drawer\n        v-show=\"!searchData\"\n        v-model=\"left\"\n        side=\"left\"\n        elevated\n        :width=\"searchData ? 0 : 250\"\n        :breakpoint=\"700\"\n        content-class=\"bg-yeti text-white\"\n      >\n        <q-scroll-area class=\"fit\">\n          <q-list dark>\n            <q-item v-show=\"activeCategory === ''\" clickable active active-class=\"text-blue-2\">\n              <q-item-section avatar>\n                <q-icon name=\"mdi-home\" />\n              </q-item-section>\n              <q-item-section>\n                Home\n              </q-item-section>\n            </q-item>\n            <q-item\n              v-if=\"activeCategory !== ''\"\n              clickable\n              active\n              active-class=\"text-blue-2\"\n              @click=\"\n                getData(\n                  tree.categories[activeCategory].parentTree.length !== 1\n                    ? tree.categories[activeCategory].parentTree[tree.categories[activeCategory].parentTree.length - 2]\n                    : ''\n                )\n              \"\n            >\n              <q-item-section avatar>\n                <icon :icon=\"tree.categories[activeCategory].icon\" />\n              </q-item-section>\n              <q-item-section>\n                {{ tree.categories[activeCategory].label }}\n              </q-item-section>\n              <q-item-section avatar>\n                <q-icon name=\"mdi-chevron-left\" />\n              </q-item-section>\n            </q-item>\n            <q-item\n              v-for=\"(categoryValue, categoryKey) in tree.data.categories\"\n              :key=\"categoryKey\"\n              clickable\n              v-ripple\n              @click=\"getData(categoryValue)\"\n            >\n              <q-item-section avatar>\n                <icon :icon=\"tree.categories[categoryValue].icon\" />\n              </q-item-section>\n              <q-item-section>\n                {{ tree.categories[categoryValue].label }}\n              </q-item-section>\n              <q-item-section avatar>\n                <q-icon name=\"mdi-chevron-right\" />\n              </q-item-section>\n            </q-item>\n          </q-list>\n        </q-scroll-area>\n      </q-drawer>\n\n      <q-page-container>\n        <q-page class=\"q-pa-md\">\n          <div v-if=\"!searchData\">\n            <div v-show=\"typeof tree.data.featured.length === 'undefined'\" class=\"q-pa-md row items-start q-gutter-md\">\n              <template v-for=\"(categoryValue, categoryKey) in tree.data.categories\">\n                <q-list\n                  bordered\n                  padding\n                  dense\n                  v-if=\"tree.data.featured[categoryValue]\"\n                  :key=\"categoryKey\"\n                  class=\"home-card\"\n                >\n                  <q-item-label header>\n                    <q-icon name=\"mdi-star\"></q-icon>\n\n                    {{ tree.categories[categoryValue].label }}</q-item-label\n                  >\n                  <q-item\n                    clickable\n                    v-for=\"featuredValue in tree.data.featured[categoryValue]\"\n                    :key=\"featuredValue.id\"\n                    class=\"text-subtitle2\"\n                    v-ripple\n                    @click.prevent=\"getRecord(featuredValue.id)\"\n                  >\n                    <q-item-section avatar>\n                      <q-icon name=\"mdi-text\"></q-icon>\n                    </q-item-section>\n                    <q-item-section>\n                      <a\n                        class=\"js-popover-tooltip--record\"\n                        :href=\"`index.php?module=KnowledgeBase&view=Detail&record=${featuredValue.id}`\"\n                      >\n                        {{ featuredValue.subject }}</a\n                      >\n                    </q-item-section>\n                  </q-item>\n                </q-list>\n              </template>\n            </div>\n            <q-table\n              v-show=\"activeCategory !== ''\"\n              :data=\"getTableArray(tree.data.records)\"\n              :columns=\"columns\"\n              row-key=\"subject\"\n              grid\n              hide-header\n              :pagination.sync=\"pagination\"\n            >\n              <template v-slot:item=\"props\">\n                <q-list class=\"list-item\" padding @click=\"getRecord(props.row.id)\">\n                  <q-item clickable>\n                    <q-item-section avatar>\n                      <q-icon name=\"mdi-text\" />\n                    </q-item-section>\n                    <q-item-section>\n                      <q-item-label class=\"text-primary\"> {{ props.row.subject }}</q-item-label>\n                      <q-item-label class=\"flex\" overline>\n                        <q-breadcrumbs class=\"mr-2 text-grey-8\" active-color=\"grey-8\">\n                          <q-breadcrumbs-el\n                            v-for=\"category in tree.categories[props.row.category].parentTree\"\n                            :key=\"tree.categories[category].label\"\n                          >\n                            <icon :icon=\"tree.categories[category].icon\" class=\"q-mr-sm\" />\n                            {{ tree.categories[category].label }}\n                          </q-breadcrumbs-el>\n                        </q-breadcrumbs>\n\n                        | Authored by: {{ props.row.assigned_user_id }}</q-item-label\n                      >\n                      <q-item-label caption>{{ props.row.introduction }}</q-item-label>\n                    </q-item-section>\n                    <q-item-section side top>\n                      <q-item-label caption>{{ props.row.short_time }}</q-item-label>\n                      <q-tooltip>\n                        {{ props.row.full_time }}\n                      </q-tooltip>\n                    </q-item-section>\n                  </q-item>\n                </q-list>\n              </template>\n              <template v-slot:bottom=\"props\"> </template>\n            </q-table>\n          </div>\n          <q-table\n            v-if=\"searchData\"\n            :data=\"getTableArray(searchData)\"\n            :columns=\"columns\"\n            row-key=\"subject\"\n            grid\n            hide-header\n          >\n            <template v-slot:item=\"props\">\n              <q-list class=\"list-item\" padding @click=\"getRecord(props.row.id)\">\n                <q-item clickable>\n                  <q-item-section avatar>\n                    <q-icon name=\"mdi-text\" />\n                  </q-item-section>\n                  <q-item-section>\n                    <q-item-label class=\"text-primary\"> {{ props.row.subject }}</q-item-label>\n                    <q-item-label class=\"flex\" overline>\n                      <q-breadcrumbs class=\"mr-2 text-grey-8\" active-color=\"grey-8\">\n                        <q-breadcrumbs-el\n                          v-for=\"category in tree.categories[props.row.category].parentTree\"\n                          :key=\"tree.categories[category].label\"\n                        >\n                          <icon :icon=\"tree.categories[category].icon\" class=\"q-mr-sm\" />\n                          {{ tree.categories[category].label }}\n                        </q-breadcrumbs-el>\n                      </q-breadcrumbs>\n\n                      | Authored by: {{ props.row.assigned_user_id }}</q-item-label\n                    >\n                    <q-item-label caption>{{ props.row.introduction }}</q-item-label>\n                  </q-item-section>\n                  <q-item-section side top>\n                    <q-item-label caption>{{ props.row.short_time }}</q-item-label>\n                    <q-tooltip>\n                      {{ props.row.full_time }}\n                    </q-tooltip>\n                  </q-item-section>\n                </q-item>\n              </q-list>\n            </template>\n            <template v-slot:bottom=\"props\"> </template>\n          </q-table>\n        </q-page>\n      </q-page-container>\n    </q-layout>\n    <q-dialog\n      v-model=\"dialog\"\n      persistent\n      :maximized=\"maximizedToggle\"\n      transition-show=\"slide-up\"\n      transition-hide=\"slide-down\"\n    >\n      <q-card class=\"quasar-reset\">\n        <q-bar>\n          <q-space />\n          <q-btn dense flat icon=\"mdi-window-minimize\" @click=\"maximizedToggle = false\" :disable=\"!maximizedToggle\">\n            <q-tooltip v-if=\"maximizedToggle\" content-class=\"bg-white text-primary\">Minimize</q-tooltip>\n          </q-btn>\n          <q-btn dense flat icon=\"mdi-window-maximize\" @click=\"maximizedToggle = true\" :disable=\"maximizedToggle\">\n            <q-tooltip v-if=\"!maximizedToggle\" content-class=\"bg-white text-primary\">Maximize</q-tooltip>\n          </q-btn>\n          <q-btn dense flat icon=\"mdi-close\" v-close-popup>\n            <q-tooltip content-class=\"bg-white text-primary\">Close</q-tooltip>\n          </q-btn>\n        </q-bar>\n\n        <q-card-section>\n          <div class=\"text-h6\">{{ record.subject }}</div>\n        </q-card-section>\n        <q-card-section>\n          {{ record.introduction }}\n        </q-card-section>\n        <q-card-section>\n          <q-carousel\n            v-if=\"record.knowledgebase_view === 'PLL_PRESENTATION'\"\n            v-model=\"slide\"\n            transition-prev=\"scale\"\n            transition-next=\"scale\"\n            swipeable\n            animated\n            control-color=\"black\"\n            navigation\n            padding\n            arrows\n            height=\"300px\"\n            class=\"bg-white text-black shadow-1 rounded-borders\"\n          >\n            <q-carousel-slide\n              v-for=\"(slide, index) in record.content\"\n              :name=\"index\"\n              :key=\"index\"\n              class=\"column no-wrap flex-center\"\n            >\n              <div v-html=\"slide\"></div>\n            </q-carousel-slide>\n          </q-carousel>\n          <div v-else v-html=\"record.content\"></div>\n        </q-card-section>\n      </q-card>\n    </q-dialog>\n  </div>\n</template>\n<script>\nimport Icon from '../../components/Icon.vue'\nexport default {\n  name: 'TreeView',\n  components: { Icon },\n  data() {\n    return {\n      left: true,\n      filter: '',\n      record: false,\n      dialog: false,\n      categorySearch: false,\n      maximizedToggle: true,\n      slide: 0,\n      pagination: {\n        rowsPerPage: 0\n      },\n      columns: [\n        {\n          name: 'desc',\n          required: true,\n          label: 'Title',\n          align: 'left',\n          field: row => row.subject,\n          format: val => `${val}`,\n          sortable: true\n        },\n        { name: 'short_time', align: 'center', label: 'Short time', field: 'short_time', sortable: true },\n        { name: 'introduction', align: 'center', label: 'Introduction', field: 'introduction', sortable: true }\n      ],\n      activeCategory: '',\n      tree: {\n        data: {\n          records: [],\n          featured: {}\n        },\n        categories: {}\n      },\n      searchData: false\n    }\n  },\n  methods: {\n    getTableArray(tableObject) {\n      return Object.keys(tableObject).map(function(key) {\n        return { ...tableObject[key], id: key }\n      })\n    },\n    getCategories() {\n      const aDeferred = $.Deferred()\n      return AppConnector.request({ module: 'KnowledgeBase', action: 'TreeAjax', mode: 'categories' }).done(data => {\n        this.tree.categories = data.result\n        aDeferred.resolve(data.result)\n      })\n    },\n    getData(category = '') {\n      const aDeferred = $.Deferred()\n      this.activeCategory = category\n      const progressIndicatorElement = $.progressIndicator({\n        blockInfo: { enabled: true }\n      })\n      return AppConnector.request({\n        module: 'KnowledgeBase',\n        action: 'TreeAjax',\n        mode: 'list',\n        category: category\n      }).done(data => {\n        this.tree.data = data.result\n        progressIndicatorElement.progressIndicator({ mode: 'hide' })\n        aDeferred.resolve(data.result)\n      })\n    },\n    getRecord(id) {\n      const aDeferred = $.Deferred()\n      const progressIndicatorElement = $.progressIndicator({\n        blockInfo: { enabled: true }\n      })\n      return AppConnector.request({\n        module: 'KnowledgeBase',\n        action: 'TreeAjax',\n        mode: 'detail',\n        record: id\n      }).done(data => {\n        this.record = data.result\n        this.dialog = true\n        progressIndicatorElement.progressIndicator({ mode: 'hide' })\n        aDeferred.resolve(data.result)\n      })\n    },\n    search(e) {\n      if (this.filter.length > 3) {\n        const aDeferred = $.Deferred()\n        const progressIndicatorElement = $.progressIndicator({\n          blockInfo: { enabled: true }\n        })\n        AppConnector.request({\n          module: 'KnowledgeBase',\n          action: 'TreeAjax',\n          mode: 'search',\n          value: this.filter,\n          category: this.categorySearch ? this.activeCategory : ''\n        }).done(data => {\n          this.searchData = data.result\n          aDeferred.resolve(data.result)\n          progressIndicatorElement.progressIndicator({ mode: 'hide' })\n          return data.result\n        })\n      } else {\n        this.searchData = false\n      }\n    }\n  },\n  async created() {\n    await this.getCategories()\n    await this.getData()\n  }\n}\n</script>\n<style>\n.tree-search {\n  width: 50%;\n}\n.tree-search .q-field__control,\n.tree-search .q-field__marginal {\n  height: 40px;\n}\n.home-card {\n  width: 100%;\n  max-width: 250px;\n}\n.list-item {\n  width: 100%;\n}\n</style>\n"]}, media: undefined });
+
+  };
   /* scoped */
   const __vue_scope_id__$1 = undefined;
   /* module identifier */
   const __vue_module_identifier__$1 = undefined;
   /* functional template */
   const __vue_is_functional_template__$1 = false;
+  /* style inject SSR */
+  
+
+  
+  var TreeView = normalizeComponent_1(
+    { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
+    __vue_inject_styles__$1,
+    __vue_script__$1,
+    __vue_scope_id__$1,
+    __vue_is_functional_template__$1,
+    __vue_module_identifier__$1,
+    browser,
+    undefined
+  );
+
+//
+var script$2 = {
+  name: 'Tree',
+  components: { TreeView }
+};
+
+/* script */
+const __vue_script__$2 = script$2;
+
+/* template */
+var __vue_render__$2 = function() {
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c("tree-view")
+};
+var __vue_staticRenderFns__$2 = [];
+__vue_render__$2._withStripped = true;
+
+  /* style */
+  const __vue_inject_styles__$2 = undefined;
+  /* scoped */
+  const __vue_scope_id__$2 = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$2 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$2 = false;
   /* style inject */
   
   /* style inject SSR */
@@ -12253,12 +13449,12 @@ __vue_render__$1._withStripped = true;
 
   
   var Tree = normalizeComponent_1(
-    { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
-    __vue_inject_styles__$1,
-    __vue_script__$1,
-    __vue_scope_id__$1,
-    __vue_is_functional_template__$1,
-    __vue_module_identifier__$1,
+    { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
+    __vue_inject_styles__$2,
+    __vue_script__$2,
+    __vue_scope_id__$2,
+    __vue_is_functional_template__$2,
+    __vue_module_identifier__$2,
     undefined,
     undefined
   );
@@ -12267,8 +13463,167 @@ var global$1 = (typeof global !== "undefined" ? global :
             typeof self !== "undefined" ? self :
             typeof window !== "undefined" ? window : {});
 
-if (typeof global$1.setTimeout === 'function') ;
-if (typeof global$1.clearTimeout === 'function') ;
+// shim for using process in browser
+// based off https://github.com/defunctzombie/node-process/blob/master/browser.js
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+var cachedSetTimeout = defaultSetTimout;
+var cachedClearTimeout = defaultClearTimeout;
+if (typeof global$1.setTimeout === 'function') {
+    cachedSetTimeout = setTimeout;
+}
+if (typeof global$1.clearTimeout === 'function') {
+    cachedClearTimeout = clearTimeout;
+}
+
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+function nextTick(fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+}
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+var title = 'browser';
+var platform = 'browser';
+var browser$1 = true;
+var env = {};
+var argv = [];
+var version = ''; // empty string to avoid regexp issues
+var versions = {};
+var release = {};
+var config = {};
+
+function noop() {}
+
+var on = noop;
+var addListener = noop;
+var once = noop;
+var off = noop;
+var removeListener = noop;
+var removeAllListeners = noop;
+var emit = noop;
+
+function binding(name) {
+    throw new Error('process.binding is not supported');
+}
+
+function cwd () { return '/' }
+function chdir (dir) {
+    throw new Error('process.chdir is not supported');
+}function umask() { return 0; }
 
 // from https://github.com/kumavis/browser-process-hrtime/blob/master/index.js
 var performance = global$1.performance || {};
@@ -12279,6 +13634,56 @@ var performanceNow =
   performance.oNow       ||
   performance.webkitNow  ||
   function(){ return (new Date()).getTime() };
+
+// generate timestamp or delta
+// see http://nodejs.org/api/process.html#process_process_hrtime
+function hrtime(previousTimestamp){
+  var clocktime = performanceNow.call(performance)*1e-3;
+  var seconds = Math.floor(clocktime);
+  var nanoseconds = Math.floor((clocktime%1)*1e9);
+  if (previousTimestamp) {
+    seconds = seconds - previousTimestamp[0];
+    nanoseconds = nanoseconds - previousTimestamp[1];
+    if (nanoseconds<0) {
+      seconds--;
+      nanoseconds += 1e9;
+    }
+  }
+  return [seconds,nanoseconds]
+}
+
+var startTime = new Date();
+function uptime() {
+  var currentTime = new Date();
+  var dif = currentTime - startTime;
+  return dif / 1000;
+}
+
+var process = {
+  nextTick: nextTick,
+  title: title,
+  browser: browser$1,
+  env: env,
+  argv: argv,
+  version: version,
+  versions: versions,
+  on: on,
+  addListener: addListener,
+  once: once,
+  off: off,
+  removeListener: removeListener,
+  removeAllListeners: removeAllListeners,
+  emit: emit,
+  binding: binding,
+  cwd: cwd,
+  chdir: chdir,
+  umask: umask,
+  hrtime: hrtime,
+  platform: platform,
+  release: release,
+  config: config,
+  uptime: uptime
+};
 
 var quasar_umd = createCommonjsModule(function (module, exports) {
 /*!
@@ -12709,7 +14114,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
     });
   }
 
-  var version$$1 = "1.0.0-beta.23";
+  var version = "1.0.0-beta.23";
 
   var listenOpts = {
     hasPassive: false
@@ -13725,7 +15130,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
   };
 
   var $q = {
-    version: version$$1
+    version: version
   };
 
   function install (Vue, opts) {
@@ -14730,7 +16135,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
   var Ripple = {
     name: 'ripple',
 
-    inserted: function inserted (el, binding$$1) {
+    inserted: function inserted (el, binding) {
       var ctx = {
         modifiers: {},
 
@@ -14748,7 +16153,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
         }
       };
 
-      updateCtx(ctx, binding$$1);
+      updateCtx(ctx, binding);
 
       if (el.__qripple) {
         el.__qripple_old = el.__qripple;
@@ -14759,8 +16164,8 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
       el.addEventListener('keyup', ctx.keyup);
     },
 
-    update: function update (el, binding$$1) {
-      el.__qripple !== void 0 && updateCtx(el.__qripple, binding$$1);
+    update: function update (el, binding) {
+      el.__qripple !== void 0 && updateCtx(el.__qripple, binding);
     },
 
     unbind: function unbind (el) {
@@ -16347,11 +17752,11 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
       },
 
       __render: function __render (h) {
-        var on$$1 = Object.assign({}, this.$listeners,
+        var on = Object.assign({}, this.$listeners,
           {input: stop});
 
         if (this.autoClose === true) {
-          on$$1.click = this.__onAutoClose;
+          on.click = this.__onAutoClose;
         }
 
         return h('transition', {
@@ -16364,7 +17769,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
             style: this.contentStyle,
             attrs: Object.assign({}, {tabindex: -1},
               this.$attrs),
-            on: on$$1,
+            on: on,
             directives: this.persistent !== true ? [{
               name: 'click-outside',
               value: this.hide,
@@ -16795,14 +18200,14 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
   var TouchSwipe = {
     name: 'touch-swipe',
 
-    bind: function bind (el, binding$$1) {
-      var mouse = binding$$1.modifiers.mouse === true;
+    bind: function bind (el, binding) {
+      var mouse = binding.modifiers.mouse === true;
 
       var ctx = {
-        handler: binding$$1.value,
-        sensitivity: parseArg(binding$$1.arg),
-        mod: binding$$1.modifiers,
-        direction: getDirection(binding$$1.modifiers),
+        handler: binding.value,
+        sensitivity: parseArg(binding.arg),
+        mod: binding.modifiers,
+        direction: getDirection(binding.modifiers),
 
         mouseStart: function mouseStart (evt) {
           if (leftClick(evt)) {
@@ -16980,19 +18385,19 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
       el.addEventListener('touchend', ctx.end);
     },
 
-    update: function update (el, binding$$1) {
-      if (binding$$1.oldValue !== binding$$1.value) {
-        el.__qtouchswipe.handler = binding$$1.value;
+    update: function update (el, binding) {
+      if (binding.oldValue !== binding.value) {
+        el.__qtouchswipe.handler = binding.value;
       }
     },
 
-    unbind: function unbind (el, binding$$1) {
+    unbind: function unbind (el, binding) {
       var ctx = el.__qtouchswipe_old || el.__qtouchswipe;
       if (ctx !== void 0) {
         removeObserver(ctx);
         document.body.classList.remove('no-pointer-events');
 
-        if (binding$$1.modifiers.mouse === true) {
+        if (binding.modifiers.mouse === true) {
           el.removeEventListener('mousedown', ctx.mouseStart);
           document.removeEventListener('mousemove', ctx.move, true);
           document.removeEventListener('mouseup', ctx.mouseEnd, true);
@@ -18396,28 +19801,28 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
   var TouchPan = {
     name: 'touch-pan',
 
-    bind: function bind (el, binding$$1) {
+    bind: function bind (el, binding) {
       var
-        mouse = binding$$1.modifiers.mouse === true,
-        mouseEvtPassive = binding$$1.modifiers.mouseMightPrevent !== true && binding$$1.modifiers.mousePrevent !== true,
+        mouse = binding.modifiers.mouse === true,
+        mouseEvtPassive = binding.modifiers.mouseMightPrevent !== true && binding.modifiers.mousePrevent !== true,
         mouseEvtOpts = listenOpts.hasPassive === true ? { passive: mouseEvtPassive, capture: true } : true,
-        touchEvtPassive = binding$$1.modifiers.mightPrevent !== true && binding$$1.modifiers.prevent !== true,
+        touchEvtPassive = binding.modifiers.mightPrevent !== true && binding.modifiers.prevent !== true,
         touchEvtOpts = listenOpts[touchEvtPassive === true ? 'passive' : 'notPassive'];
 
       function handleEvent (evt, mouseEvent) {
         if (mouse && mouseEvent) {
-          binding$$1.modifiers.mouseStop && stop(evt);
-          binding$$1.modifiers.mousePrevent && prevent(evt);
+          binding.modifiers.mouseStop && stop(evt);
+          binding.modifiers.mousePrevent && prevent(evt);
         }
         else {
-          binding$$1.modifiers.stop && stop(evt);
-          binding$$1.modifiers.prevent && prevent(evt);
+          binding.modifiers.stop && stop(evt);
+          binding.modifiers.prevent && prevent(evt);
         }
       }
 
       var ctx = {
-        handler: binding$$1.value,
-        direction: getDirection$1(binding$$1.modifiers),
+        handler: binding.value,
+        direction: getDirection$1(binding.modifiers),
 
         mouseStart: function mouseStart (evt) {
           if (leftClick(evt)) {
@@ -18483,7 +19888,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
 
           ctx.event.detected = true;
 
-          if (ctx.direction.all === false && (ctx.event.mouse === false || binding$$1.modifiers.mouseAllDir !== true)) {
+          if (ctx.direction.all === false && (ctx.event.mouse === false || binding.modifiers.mouseAllDir !== true)) {
             ctx.event.abort = ctx.direction.vertical
               ? distX > distY
               : distX < distY;
@@ -18553,7 +19958,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
       }
     },
 
-    unbind: function unbind (el, binding$$1) {
+    unbind: function unbind (el, binding) {
       var ctx = el.__qtouchpan_old || el.__qtouchpan;
       if (ctx !== void 0) {
         removeObserver(ctx);
@@ -18563,10 +19968,10 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
         document.body.classList.remove('non-selectable');
 
         var
-          mouse = binding$$1.modifiers.mouse === true,
-          mouseEvtPassive = binding$$1.modifiers.mouseMightPrevent !== true && binding$$1.modifiers.mousePrevent !== true,
+          mouse = binding.modifiers.mouse === true,
+          mouseEvtPassive = binding.modifiers.mouseMightPrevent !== true && binding.modifiers.mousePrevent !== true,
           mouseEvtOpts = listenOpts.hasPassive === true ? { passive: mouseEvtPassive, capture: true } : true,
-          touchEvtPassive = binding$$1.modifiers.mightPrevent !== true && binding$$1.modifiers.prevent !== true,
+          touchEvtPassive = binding.modifiers.mightPrevent !== true && binding.modifiers.prevent !== true,
           touchEvtOpts = listenOpts[touchEvtPassive === true ? 'passive' : 'notPassive'];
 
         if (mouse === true) {
@@ -19451,7 +20856,8 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
     // TODO remove in v1 final
     mounted: function mounted () {
       if (this.topIndicator === true) {
-        {
+        var p = process.env;
+        if (p.PROD !== true) {
           console.info('\n\n[Quasar] QTabs info: please rename top-indicator to switch-indicator prop');
         }
       }
@@ -23200,11 +24606,11 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
       },
 
       __render: function __render (h) {
-        var on$$1 = Object.assign({}, this.$listeners,
+        var on = Object.assign({}, this.$listeners,
           {input: stop});
 
         if (this.autoClose === true) {
-          on$$1.click = this.__onAutoClose;
+          on.click = this.__onAutoClose;
         }
 
         return h('div', {
@@ -23233,7 +24639,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
               staticClass: 'q-dialog__inner flex no-pointer-events',
               class: this.classes,
               attrs: { tabindex: -1 },
-              on: on$$1
+              on: on
             }, slot(this, 'default')) : null
           ])
         ])
@@ -24191,13 +25597,13 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
       },
 
       __getControl: function __getControl (h) {
-        var on$$1 = Object.assign({}, this.$listeners,
+        var on = Object.assign({}, this.$listeners,
           {input: this.__onInput,
           focus: stop,
           blur: stop});
 
         if (this.hasMask === true) {
-          on$$1.keydown = this.__onMaskedKeydown;
+          on.keydown = this.__onMaskedKeydown;
         }
 
         var attrs = Object.assign({}, {tabindex: 0,
@@ -24220,7 +25626,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
           style: this.inputStyle,
           class: this.inputClass,
           attrs: attrs,
-          on: on$$1,
+          on: on,
           domProps: this.type !== 'file'
             ? {
               value: this.hasOwnProperty('tempValue') === true
@@ -25824,7 +27230,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
         this.validateIndex++;
 
         var components = getAllChildren(this);
-        var emit$$1 = function (res) {
+        var emit = function (res) {
           this$1.$emit('validation-' + (res === true ? 'success' : 'error'));
         };
 
@@ -25843,7 +27249,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
               );
             }
             else if (valid !== true) {
-              emit$$1(false);
+              emit(false);
               typeof comp.focus === 'function' && comp.focus();
               return { v: Promise.resolve(false) }
             }
@@ -25857,7 +27263,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
         }
 
         if (promises.length === 0) {
-          emit$$1(true);
+          emit(true);
           return Promise.resolve(true)
         }
 
@@ -25869,7 +27275,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
               var ref = res[0];
               var valid = ref.valid;
               var comp = ref.comp;
-              emit$$1(valid);
+              emit(valid);
               valid !== true && typeof comp.focus === 'function' && comp.focus();
               return valid
             }
@@ -29610,12 +31016,12 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
       __getContent: function __getContent (h) {
         var
           child = [].concat(slot(this, 'default')),
-          title$$1 = this.$scopedSlots.title !== void 0
+          title = this.$scopedSlots.title !== void 0
             ? this.$scopedSlots.title()
             : this.title;
 
-        title$$1 && child.unshift(
-          h('div', { staticClass: 'q-dialog__title q-mt-sm q-mb-sm' }, [ title$$1 ])
+        title && child.unshift(
+          h('div', { staticClass: 'q-dialog__title q-mt-sm q-mb-sm' }, [ title ])
         );
 
         this.buttons === true && child.push(
@@ -36468,9 +37874,9 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
         var this$1 = this;
 
         var target = this.innerExpanded;
-        var emit$$1 = this.expanded !== void 0;
+        var emit = this.expanded !== void 0;
 
-        if (emit$$1 === true) {
+        if (emit === true) {
           target = target.slice();
         }
 
@@ -36506,7 +37912,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
           target = target.filter(function (k) { return k !== key; });
         }
 
-        if (emit$$1 === true) {
+        if (emit === true) {
           this.$emit("update:expanded", target);
         }
         else {
@@ -36522,9 +37928,9 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
 
       setTicked: function setTicked (keys, state) {
         var target = this.innerTicked;
-        var emit$$1 = this.ticked !== void 0;
+        var emit = this.ticked !== void 0;
 
-        if (emit$$1 === true) {
+        if (emit === true) {
           target = target.slice();
         }
 
@@ -36536,7 +37942,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
           target = target.filter(function (k) { return !keys.includes(k); });
         }
 
-        if (emit$$1 === true) {
+        if (emit === true) {
           this.$emit("update:ticked", target);
         }
       },
@@ -37531,7 +38937,8 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
     // TODO remove in v1 final
     mounted: function mounted () {
       if (this.fields !== void 0) {
-        {
+        var p = process.env;
+        if (p.PROD !== true) {
           console.info('\n\n[Quasar] QUploader: please rename "fields" prop to "form-fields"');
         }
       }
@@ -37864,15 +39271,15 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
       el.__qscrollfire = ctx;
     },
 
-    inserted: function inserted (el, binding$$1) {
+    inserted: function inserted (el, binding) {
       var ctx = el.__qscrollfire;
       ctx.scrollTarget = getScrollTarget(el);
-      updateBinding(el, binding$$1);
+      updateBinding(el, binding);
     },
 
-    update: function update (el, binding$$1) {
-      if (binding$$1.value !== binding$$1.oldValue) {
-        updateBinding(el, binding$$1);
+    update: function update (el, binding) {
+      if (binding.value !== binding.oldValue) {
+        updateBinding(el, binding);
       }
     },
 
@@ -37923,15 +39330,15 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
       el.__qscroll = ctx;
     },
 
-    inserted: function inserted (el, binding$$1) {
+    inserted: function inserted (el, binding) {
       var ctx = el.__qscroll;
       ctx.scrollTarget = getScrollTarget(el);
-      updateBinding$1(el, binding$$1);
+      updateBinding$1(el, binding);
     },
 
-    update: function update (el, binding$$1) {
-      if (binding$$1.oldValue !== binding$$1.value) {
-        updateBinding$1(el, binding$$1);
+    update: function update (el, binding) {
+      if (binding.oldValue !== binding.value) {
+        updateBinding$1(el, binding);
       }
     },
 
@@ -37944,21 +39351,21 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
     }
   };
 
-  function updateBinding$2 (el, binding$$1) {
+  function updateBinding$2 (el, binding) {
     var ctx = el.__qtouchhold;
 
-    ctx.duration = parseInt(binding$$1.arg, 10) || 600;
+    ctx.duration = parseInt(binding.arg, 10) || 600;
 
-    if (binding$$1.oldValue !== binding$$1.value) {
-      ctx.handler = binding$$1.value;
+    if (binding.oldValue !== binding.value) {
+      ctx.handler = binding.value;
     }
   }
 
   var TouchHold = {
     name: 'touch-hold',
 
-    bind: function bind (el, binding$$1) {
-      var mouse = binding$$1.modifiers.mouse === true;
+    bind: function bind (el, binding) {
+      var mouse = binding.modifiers.mouse === true;
 
       var ctx = {
         mouseStart: function mouseStart (evt) {
@@ -38021,7 +39428,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
       }
 
       el.__qtouchhold = ctx;
-      updateBinding$2(el, binding$$1);
+      updateBinding$2(el, binding);
 
       if (mouse === true) {
         el.addEventListener('mousedown', ctx.mouseStart);
@@ -38032,18 +39439,18 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
       el.addEventListener('touchend', ctx.end);
     },
 
-    update: function update (el, binding$$1) {
-      updateBinding$2(el, binding$$1);
+    update: function update (el, binding) {
+      updateBinding$2(el, binding);
     },
 
-    unbind: function unbind (el, binding$$1) {
+    unbind: function unbind (el, binding) {
       var ctx = el.__qtouchhold_old || el.__qtouchhold;
       if (ctx !== void 0) {
         removeObserver(ctx);
         clearTimeout(ctx.timer);
         document.body.classList.remove('non-selectable');
 
-        if (binding$$1.modifiers.mouse === true) {
+        if (binding.modifiers.mouse === true) {
           el.removeEventListener('mousedown', ctx.mouseStart);
           document.removeEventListener('mousemove', ctx.mouseEnd, true);
           document.removeEventListener('click', ctx.mouseEnd, true);
@@ -38075,8 +39482,8 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
   var TouchRepeat = {
     name: 'touch-repeat',
 
-    bind: function bind (el, binding$$1) {
-      var keyboard = Object.keys(binding$$1.modifiers).reduce(function (acc, key) {
+    bind: function bind (el, binding) {
+      var keyboard = Object.keys(binding.modifiers).reduce(function (acc, key) {
         if (keyRegex.test(key)) {
           var keyCode = parseInt(key, 10);
           acc.push(keyCode || keyCodes$2[key.toLowerCase()]);
@@ -38085,15 +39492,15 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
         return acc
       }, []);
 
-      var durations = typeof binding$$1.arg === 'string' && binding$$1.arg.length
-        ? binding$$1.arg.split(':').map(function (val) { return parseInt(val, 10); })
+      var durations = typeof binding.arg === 'string' && binding.arg.length
+        ? binding.arg.split(':').map(function (val) { return parseInt(val, 10); })
         : [0, 600, 300];
 
       var durationsLast = durations.length - 1;
 
       var ctx = {
         keyboard: keyboard,
-        handler: binding$$1.value,
+        handler: binding.value,
 
         mouseStart: function mouseStart (evt) {
           if (leftClick(evt)) {
@@ -38205,7 +39612,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
 
       el.__qtouchrepeat = ctx;
 
-      if (binding$$1.modifiers.mouse === true) {
+      if (binding.modifiers.mouse === true) {
         el.addEventListener('mousedown', ctx.mouseStart);
       }
       if (keyboard.length > 0) {
@@ -38217,13 +39624,13 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
       el.addEventListener('touchend', ctx.end);
     },
 
-    update: function update (el, binding$$1) {
-      if (binding$$1.oldValue !== binding$$1.value) {
-        el.__qtouchrepeat.handler = binding$$1.value;
+    update: function update (el, binding) {
+      if (binding.oldValue !== binding.value) {
+        el.__qtouchrepeat.handler = binding.value;
       }
     },
 
-    unbind: function unbind (el, binding$$1) {
+    unbind: function unbind (el, binding) {
       var ctx = el.__qtouchrepeat_old || el.__qtouchrepeat;
       if (ctx !== void 0) {
         removeObserver(ctx);
@@ -38237,7 +39644,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
         ctx.timer = void 0;
         ctx.event = void 0;
 
-        if (binding$$1.modifiers.mouse === true) {
+        if (binding.modifiers.mouse === true) {
           el.removeEventListener('mousedown', ctx.mouseStart);
           document.removeEventListener('mousemove', ctx.mouseEnd, true);
           document.removeEventListener('click', ctx.mouseEnd, true);
@@ -38637,7 +40044,9 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
       // TODO remove in v1 final
       if (className !== void 0) {
         props.cardClass = className;
-        {
+
+        var p = process.env;
+        if (p.PROD !== true) {
           console.info('\n\n[Quasar] Dialog/BottomSheet Plugin info: please rename "className" to "class" prop');
         }
       }
@@ -38673,7 +40082,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
 
       var emittedOK = false;
 
-      var on$$1 = {
+      var on = {
         ok: function (data) {
           emittedOK = true;
           okFns.forEach(function (fn) { fn(data); });
@@ -38708,7 +40117,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
             ref: 'dialog',
             props: props,
             attrs: attrs,
-            on: on$$1
+            on: on
           })
         },
 
@@ -39671,10 +41080,10 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
     },
 
     methods: {
-      add: function add (config$$1) {
+      add: function add (config) {
         var this$1 = this;
 
-        if (!config$$1) {
+        if (!config) {
           console.error('Notify: parameter required');
           return false
         }
@@ -39682,9 +41091,9 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
         var notif = Object.assign(
           { textColor: 'white' },
           defaults$1,
-          typeof config$$1 === 'string'
-            ? { message: config$$1 }
-            : clone$1(config$$1)
+          typeof config === 'string'
+            ? { message: config }
+            : clone$1(config)
         );
 
         if (notif.position) {
@@ -39716,7 +41125,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
         };
 
         var actions =
-          (config$$1.actions || []).concat(defaults$1.actions || []);
+          (config.actions || []).concat(defaults$1.actions || []);
 
         if (actions.length > 0) {
           notif.actions = actions.map(function (item) {
@@ -39735,8 +41144,8 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
           });
         }
 
-        if (typeof config$$1.onDismiss === 'function') {
-          notif.onDismiss = config$$1.onDismiss;
+        if (typeof config.onDismiss === 'function') {
+          notif.onDismiss = config.onDismiss;
         }
 
         if (notif.closeBtn) {
@@ -40104,7 +41513,7 @@ var quasar_umd = createCommonjsModule(function (module, exports) {
   });
 
   var index_umd = {
-    version: version$$1,
+    version: version,
     lang: lang,
     iconSet: iconSet,
     components: components$1,
@@ -40243,37 +41652,1586 @@ var iconSet = {
   }
 };
 
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-const {
-	QLayout,
-	QPageContainer,
-	QPage,
-	QHeader,
-	QFooter,
-	QDrawer,
-	QPageSticky,
-	QPageScroller,
-	QTree
-} = quasar_umd.components;
+var axios = createCommonjsModule(function (module, exports) {
+/* axios v0.18.0 | (c) 2018 by Matt Zabriskie */
+(function webpackUniversalModuleDefinition(root, factory) {
+	module.exports = factory();
+})(commonjsGlobal, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+/******/
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
 
-Vue.use(quasar_umd, {
-	components: QLayout,
-	QPageContainer,
-	QPage,
-	QHeader,
-	QFooter,
-	QDrawer,
-	QPageSticky,
-	QPageScroller,
-	QTree
+	module.exports = __webpack_require__(1);
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+	
+	var utils = __webpack_require__(2);
+	var bind = __webpack_require__(3);
+	var Axios = __webpack_require__(5);
+	var defaults = __webpack_require__(6);
+	
+	/**
+	 * Create an instance of Axios
+	 *
+	 * @param {Object} defaultConfig The default config for the instance
+	 * @return {Axios} A new instance of Axios
+	 */
+	function createInstance(defaultConfig) {
+	  var context = new Axios(defaultConfig);
+	  var instance = bind(Axios.prototype.request, context);
+	
+	  // Copy axios.prototype to instance
+	  utils.extend(instance, Axios.prototype, context);
+	
+	  // Copy context to instance
+	  utils.extend(instance, context);
+	
+	  return instance;
+	}
+	
+	// Create the default instance to be exported
+	var axios = createInstance(defaults);
+	
+	// Expose Axios class to allow class inheritance
+	axios.Axios = Axios;
+	
+	// Factory for creating new instances
+	axios.create = function create(instanceConfig) {
+	  return createInstance(utils.merge(defaults, instanceConfig));
+	};
+	
+	// Expose Cancel & CancelToken
+	axios.Cancel = __webpack_require__(23);
+	axios.CancelToken = __webpack_require__(24);
+	axios.isCancel = __webpack_require__(20);
+	
+	// Expose all/spread
+	axios.all = function all(promises) {
+	  return Promise.all(promises);
+	};
+	axios.spread = __webpack_require__(25);
+	
+	module.exports = axios;
+	
+	// Allow use of default import syntax in TypeScript
+	module.exports.default = axios;
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+	
+	var bind = __webpack_require__(3);
+	var isBuffer = __webpack_require__(4);
+	
+	/*global toString:true*/
+	
+	// utils is a library of generic helper functions non-specific to axios
+	
+	var toString = Object.prototype.toString;
+	
+	/**
+	 * Determine if a value is an Array
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is an Array, otherwise false
+	 */
+	function isArray(val) {
+	  return toString.call(val) === '[object Array]';
+	}
+	
+	/**
+	 * Determine if a value is an ArrayBuffer
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is an ArrayBuffer, otherwise false
+	 */
+	function isArrayBuffer(val) {
+	  return toString.call(val) === '[object ArrayBuffer]';
+	}
+	
+	/**
+	 * Determine if a value is a FormData
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is an FormData, otherwise false
+	 */
+	function isFormData(val) {
+	  return (typeof FormData !== 'undefined') && (val instanceof FormData);
+	}
+	
+	/**
+	 * Determine if a value is a view on an ArrayBuffer
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a view on an ArrayBuffer, otherwise false
+	 */
+	function isArrayBufferView(val) {
+	  var result;
+	  if ((typeof ArrayBuffer !== 'undefined') && (ArrayBuffer.isView)) {
+	    result = ArrayBuffer.isView(val);
+	  } else {
+	    result = (val) && (val.buffer) && (val.buffer instanceof ArrayBuffer);
+	  }
+	  return result;
+	}
+	
+	/**
+	 * Determine if a value is a String
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a String, otherwise false
+	 */
+	function isString(val) {
+	  return typeof val === 'string';
+	}
+	
+	/**
+	 * Determine if a value is a Number
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a Number, otherwise false
+	 */
+	function isNumber(val) {
+	  return typeof val === 'number';
+	}
+	
+	/**
+	 * Determine if a value is undefined
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if the value is undefined, otherwise false
+	 */
+	function isUndefined(val) {
+	  return typeof val === 'undefined';
+	}
+	
+	/**
+	 * Determine if a value is an Object
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is an Object, otherwise false
+	 */
+	function isObject(val) {
+	  return val !== null && typeof val === 'object';
+	}
+	
+	/**
+	 * Determine if a value is a Date
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a Date, otherwise false
+	 */
+	function isDate(val) {
+	  return toString.call(val) === '[object Date]';
+	}
+	
+	/**
+	 * Determine if a value is a File
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a File, otherwise false
+	 */
+	function isFile(val) {
+	  return toString.call(val) === '[object File]';
+	}
+	
+	/**
+	 * Determine if a value is a Blob
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a Blob, otherwise false
+	 */
+	function isBlob(val) {
+	  return toString.call(val) === '[object Blob]';
+	}
+	
+	/**
+	 * Determine if a value is a Function
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a Function, otherwise false
+	 */
+	function isFunction(val) {
+	  return toString.call(val) === '[object Function]';
+	}
+	
+	/**
+	 * Determine if a value is a Stream
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a Stream, otherwise false
+	 */
+	function isStream(val) {
+	  return isObject(val) && isFunction(val.pipe);
+	}
+	
+	/**
+	 * Determine if a value is a URLSearchParams object
+	 *
+	 * @param {Object} val The value to test
+	 * @returns {boolean} True if value is a URLSearchParams object, otherwise false
+	 */
+	function isURLSearchParams(val) {
+	  return typeof URLSearchParams !== 'undefined' && val instanceof URLSearchParams;
+	}
+	
+	/**
+	 * Trim excess whitespace off the beginning and end of a string
+	 *
+	 * @param {String} str The String to trim
+	 * @returns {String} The String freed of excess whitespace
+	 */
+	function trim(str) {
+	  return str.replace(/^\s*/, '').replace(/\s*$/, '');
+	}
+	
+	/**
+	 * Determine if we're running in a standard browser environment
+	 *
+	 * This allows axios to run in a web worker, and react-native.
+	 * Both environments support XMLHttpRequest, but not fully standard globals.
+	 *
+	 * web workers:
+	 *  typeof window -> undefined
+	 *  typeof document -> undefined
+	 *
+	 * react-native:
+	 *  navigator.product -> 'ReactNative'
+	 */
+	function isStandardBrowserEnv() {
+	  if (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
+	    return false;
+	  }
+	  return (
+	    typeof window !== 'undefined' &&
+	    typeof document !== 'undefined'
+	  );
+	}
+	
+	/**
+	 * Iterate over an Array or an Object invoking a function for each item.
+	 *
+	 * If `obj` is an Array callback will be called passing
+	 * the value, index, and complete array for each item.
+	 *
+	 * If 'obj' is an Object callback will be called passing
+	 * the value, key, and complete object for each property.
+	 *
+	 * @param {Object|Array} obj The object to iterate
+	 * @param {Function} fn The callback to invoke for each item
+	 */
+	function forEach(obj, fn) {
+	  // Don't bother if no value provided
+	  if (obj === null || typeof obj === 'undefined') {
+	    return;
+	  }
+	
+	  // Force an array if not already something iterable
+	  if (typeof obj !== 'object') {
+	    /*eslint no-param-reassign:0*/
+	    obj = [obj];
+	  }
+	
+	  if (isArray(obj)) {
+	    // Iterate over array values
+	    for (var i = 0, l = obj.length; i < l; i++) {
+	      fn.call(null, obj[i], i, obj);
+	    }
+	  } else {
+	    // Iterate over object keys
+	    for (var key in obj) {
+	      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+	        fn.call(null, obj[key], key, obj);
+	      }
+	    }
+	  }
+	}
+	
+	/**
+	 * Accepts varargs expecting each argument to be an object, then
+	 * immutably merges the properties of each object and returns result.
+	 *
+	 * When multiple objects contain the same key the later object in
+	 * the arguments list will take precedence.
+	 *
+	 * Example:
+	 *
+	 * ```js
+	 * var result = merge({foo: 123}, {foo: 456});
+	 * console.log(result.foo); // outputs 456
+	 * ```
+	 *
+	 * @param {Object} obj1 Object to merge
+	 * @returns {Object} Result of all merge properties
+	 */
+	function merge(/* obj1, obj2, obj3, ... */) {
+	  var result = {};
+	  function assignValue(val, key) {
+	    if (typeof result[key] === 'object' && typeof val === 'object') {
+	      result[key] = merge(result[key], val);
+	    } else {
+	      result[key] = val;
+	    }
+	  }
+	
+	  for (var i = 0, l = arguments.length; i < l; i++) {
+	    forEach(arguments[i], assignValue);
+	  }
+	  return result;
+	}
+	
+	/**
+	 * Extends object a by mutably adding to it the properties of object b.
+	 *
+	 * @param {Object} a The object to be extended
+	 * @param {Object} b The object to copy properties from
+	 * @param {Object} thisArg The object to bind function to
+	 * @return {Object} The resulting value of object a
+	 */
+	function extend(a, b, thisArg) {
+	  forEach(b, function assignValue(val, key) {
+	    if (thisArg && typeof val === 'function') {
+	      a[key] = bind(val, thisArg);
+	    } else {
+	      a[key] = val;
+	    }
+	  });
+	  return a;
+	}
+	
+	module.exports = {
+	  isArray: isArray,
+	  isArrayBuffer: isArrayBuffer,
+	  isBuffer: isBuffer,
+	  isFormData: isFormData,
+	  isArrayBufferView: isArrayBufferView,
+	  isString: isString,
+	  isNumber: isNumber,
+	  isObject: isObject,
+	  isUndefined: isUndefined,
+	  isDate: isDate,
+	  isFile: isFile,
+	  isBlob: isBlob,
+	  isFunction: isFunction,
+	  isStream: isStream,
+	  isURLSearchParams: isURLSearchParams,
+	  isStandardBrowserEnv: isStandardBrowserEnv,
+	  forEach: forEach,
+	  merge: merge,
+	  extend: extend,
+	  trim: trim
+	};
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+	
+	module.exports = function bind(fn, thisArg) {
+	  return function wrap() {
+	    var args = new Array(arguments.length);
+	    for (var i = 0; i < args.length; i++) {
+	      args[i] = arguments[i];
+	    }
+	    return fn.apply(thisArg, args);
+	  };
+	};
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+	/*!
+	 * Determine if an object is a Buffer
+	 *
+	 * @author   Feross Aboukhadijeh <https://feross.org>
+	 * @license  MIT
+	 */
+	
+	// The _isBuffer check is for Safari 5-7 support, because it's missing
+	// Object.prototype.constructor. Remove this eventually
+	module.exports = function (obj) {
+	  return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer)
+	};
+	
+	function isBuffer (obj) {
+	  return !!obj.constructor && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
+	}
+	
+	// For Node v0.10 support. Remove this eventually.
+	function isSlowBuffer (obj) {
+	  return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
+	}
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+	
+	var defaults = __webpack_require__(6);
+	var utils = __webpack_require__(2);
+	var InterceptorManager = __webpack_require__(17);
+	var dispatchRequest = __webpack_require__(18);
+	
+	/**
+	 * Create a new instance of Axios
+	 *
+	 * @param {Object} instanceConfig The default config for the instance
+	 */
+	function Axios(instanceConfig) {
+	  this.defaults = instanceConfig;
+	  this.interceptors = {
+	    request: new InterceptorManager(),
+	    response: new InterceptorManager()
+	  };
+	}
+	
+	/**
+	 * Dispatch a request
+	 *
+	 * @param {Object} config The config specific for this request (merged with this.defaults)
+	 */
+	Axios.prototype.request = function request(config) {
+	  /*eslint no-param-reassign:0*/
+	  // Allow for axios('example/url'[, config]) a la fetch API
+	  if (typeof config === 'string') {
+	    config = utils.merge({
+	      url: arguments[0]
+	    }, arguments[1]);
+	  }
+	
+	  config = utils.merge(defaults, {method: 'get'}, this.defaults, config);
+	  config.method = config.method.toLowerCase();
+	
+	  // Hook up interceptors middleware
+	  var chain = [dispatchRequest, undefined];
+	  var promise = Promise.resolve(config);
+	
+	  this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
+	    chain.unshift(interceptor.fulfilled, interceptor.rejected);
+	  });
+	
+	  this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
+	    chain.push(interceptor.fulfilled, interceptor.rejected);
+	  });
+	
+	  while (chain.length) {
+	    promise = promise.then(chain.shift(), chain.shift());
+	  }
+	
+	  return promise;
+	};
+	
+	// Provide aliases for supported request methods
+	utils.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData(method) {
+	  /*eslint func-names:0*/
+	  Axios.prototype[method] = function(url, config) {
+	    return this.request(utils.merge(config || {}, {
+	      method: method,
+	      url: url
+	    }));
+	  };
+	});
+	
+	utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+	  /*eslint func-names:0*/
+	  Axios.prototype[method] = function(url, data, config) {
+	    return this.request(utils.merge(config || {}, {
+	      method: method,
+	      url: url,
+	      data: data
+	    }));
+	  };
+	});
+	
+	module.exports = Axios;
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+	
+	var utils = __webpack_require__(2);
+	var normalizeHeaderName = __webpack_require__(7);
+	
+	var DEFAULT_CONTENT_TYPE = {
+	  'Content-Type': 'application/x-www-form-urlencoded'
+	};
+	
+	function setContentTypeIfUnset(headers, value) {
+	  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+	    headers['Content-Type'] = value;
+	  }
+	}
+	
+	function getDefaultAdapter() {
+	  var adapter;
+	  if (typeof XMLHttpRequest !== 'undefined') {
+	    // For browsers use XHR adapter
+	    adapter = __webpack_require__(8);
+	  } else if (typeof process !== 'undefined') {
+	    // For node use HTTP adapter
+	    adapter = __webpack_require__(8);
+	  }
+	  return adapter;
+	}
+	
+	var defaults = {
+	  adapter: getDefaultAdapter(),
+	
+	  transformRequest: [function transformRequest(data, headers) {
+	    normalizeHeaderName(headers, 'Content-Type');
+	    if (utils.isFormData(data) ||
+	      utils.isArrayBuffer(data) ||
+	      utils.isBuffer(data) ||
+	      utils.isStream(data) ||
+	      utils.isFile(data) ||
+	      utils.isBlob(data)
+	    ) {
+	      return data;
+	    }
+	    if (utils.isArrayBufferView(data)) {
+	      return data.buffer;
+	    }
+	    if (utils.isURLSearchParams(data)) {
+	      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+	      return data.toString();
+	    }
+	    if (utils.isObject(data)) {
+	      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+	      return JSON.stringify(data);
+	    }
+	    return data;
+	  }],
+	
+	  transformResponse: [function transformResponse(data) {
+	    /*eslint no-param-reassign:0*/
+	    if (typeof data === 'string') {
+	      try {
+	        data = JSON.parse(data);
+	      } catch (e) { /* Ignore */ }
+	    }
+	    return data;
+	  }],
+	
+	  /**
+	   * A timeout in milliseconds to abort a request. If set to 0 (default) a
+	   * timeout is not created.
+	   */
+	  timeout: 0,
+	
+	  xsrfCookieName: 'XSRF-TOKEN',
+	  xsrfHeaderName: 'X-XSRF-TOKEN',
+	
+	  maxContentLength: -1,
+	
+	  validateStatus: function validateStatus(status) {
+	    return status >= 200 && status < 300;
+	  }
+	};
+	
+	defaults.headers = {
+	  common: {
+	    'Accept': 'application/json, text/plain, */*'
+	  }
+	};
+	
+	utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+	  defaults.headers[method] = {};
+	});
+	
+	utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+	  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+	});
+	
+	module.exports = defaults;
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+	
+	var utils = __webpack_require__(2);
+	
+	module.exports = function normalizeHeaderName(headers, normalizedName) {
+	  utils.forEach(headers, function processHeader(value, name) {
+	    if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
+	      headers[normalizedName] = value;
+	      delete headers[name];
+	    }
+	  });
+	};
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+	
+	var utils = __webpack_require__(2);
+	var settle = __webpack_require__(9);
+	var buildURL = __webpack_require__(12);
+	var parseHeaders = __webpack_require__(13);
+	var isURLSameOrigin = __webpack_require__(14);
+	var createError = __webpack_require__(10);
+	var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(15);
+	
+	module.exports = function xhrAdapter(config) {
+	  return new Promise(function dispatchXhrRequest(resolve, reject) {
+	    var requestData = config.data;
+	    var requestHeaders = config.headers;
+	
+	    if (utils.isFormData(requestData)) {
+	      delete requestHeaders['Content-Type']; // Let the browser set it
+	    }
+	
+	    var request = new XMLHttpRequest();
+	    var loadEvent = 'onreadystatechange';
+	    var xDomain = false;
+	
+	    // For IE 8/9 CORS support
+	    // Only supports POST and GET calls and doesn't returns the response headers.
+	    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
+	    if (typeof window !== 'undefined' &&
+	        window.XDomainRequest && !('withCredentials' in request) &&
+	        !isURLSameOrigin(config.url)) {
+	      request = new window.XDomainRequest();
+	      loadEvent = 'onload';
+	      xDomain = true;
+	      request.onprogress = function handleProgress() {};
+	      request.ontimeout = function handleTimeout() {};
+	    }
+	
+	    // HTTP basic authentication
+	    if (config.auth) {
+	      var username = config.auth.username || '';
+	      var password = config.auth.password || '';
+	      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
+	    }
+	
+	    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
+	
+	    // Set the request timeout in MS
+	    request.timeout = config.timeout;
+	
+	    // Listen for ready state
+	    request[loadEvent] = function handleLoad() {
+	      if (!request || (request.readyState !== 4 && !xDomain)) {
+	        return;
+	      }
+	
+	      // The request errored out and we didn't get a response, this will be
+	      // handled by onerror instead
+	      // With one exception: request that using file: protocol, most browsers
+	      // will return status as 0 even though it's a successful request
+	      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
+	        return;
+	      }
+	
+	      // Prepare the response
+	      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
+	      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
+	      var response = {
+	        data: responseData,
+	        // IE sends 1223 instead of 204 (https://github.com/axios/axios/issues/201)
+	        status: request.status === 1223 ? 204 : request.status,
+	        statusText: request.status === 1223 ? 'No Content' : request.statusText,
+	        headers: responseHeaders,
+	        config: config,
+	        request: request
+	      };
+	
+	      settle(resolve, reject, response);
+	
+	      // Clean up request
+	      request = null;
+	    };
+	
+	    // Handle low level network errors
+	    request.onerror = function handleError() {
+	      // Real errors are hidden from us by the browser
+	      // onerror should only fire if it's a network error
+	      reject(createError('Network Error', config, null, request));
+	
+	      // Clean up request
+	      request = null;
+	    };
+	
+	    // Handle timeout
+	    request.ontimeout = function handleTimeout() {
+	      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED',
+	        request));
+	
+	      // Clean up request
+	      request = null;
+	    };
+	
+	    // Add xsrf header
+	    // This is only done if running in a standard browser environment.
+	    // Specifically not if we're in a web worker, or react-native.
+	    if (utils.isStandardBrowserEnv()) {
+	      var cookies = __webpack_require__(16);
+	
+	      // Add xsrf header
+	      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
+	          cookies.read(config.xsrfCookieName) :
+	          undefined;
+	
+	      if (xsrfValue) {
+	        requestHeaders[config.xsrfHeaderName] = xsrfValue;
+	      }
+	    }
+	
+	    // Add headers to the request
+	    if ('setRequestHeader' in request) {
+	      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
+	        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
+	          // Remove Content-Type if data is undefined
+	          delete requestHeaders[key];
+	        } else {
+	          // Otherwise add header to the request
+	          request.setRequestHeader(key, val);
+	        }
+	      });
+	    }
+	
+	    // Add withCredentials to request if needed
+	    if (config.withCredentials) {
+	      request.withCredentials = true;
+	    }
+	
+	    // Add responseType to request if needed
+	    if (config.responseType) {
+	      try {
+	        request.responseType = config.responseType;
+	      } catch (e) {
+	        // Expected DOMException thrown by browsers not compatible XMLHttpRequest Level 2.
+	        // But, this can be suppressed for 'json' type as it can be parsed by default 'transformResponse' function.
+	        if (config.responseType !== 'json') {
+	          throw e;
+	        }
+	      }
+	    }
+	
+	    // Handle progress if needed
+	    if (typeof config.onDownloadProgress === 'function') {
+	      request.addEventListener('progress', config.onDownloadProgress);
+	    }
+	
+	    // Not all browsers support upload events
+	    if (typeof config.onUploadProgress === 'function' && request.upload) {
+	      request.upload.addEventListener('progress', config.onUploadProgress);
+	    }
+	
+	    if (config.cancelToken) {
+	      // Handle cancellation
+	      config.cancelToken.promise.then(function onCanceled(cancel) {
+	        if (!request) {
+	          return;
+	        }
+	
+	        request.abort();
+	        reject(cancel);
+	        // Clean up request
+	        request = null;
+	      });
+	    }
+	
+	    if (requestData === undefined) {
+	      requestData = null;
+	    }
+	
+	    // Send the request
+	    request.send(requestData);
+	  });
+	};
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+	
+	var createError = __webpack_require__(10);
+	
+	/**
+	 * Resolve or reject a Promise based on response status.
+	 *
+	 * @param {Function} resolve A function that resolves the promise.
+	 * @param {Function} reject A function that rejects the promise.
+	 * @param {object} response The response.
+	 */
+	module.exports = function settle(resolve, reject, response) {
+	  var validateStatus = response.config.validateStatus;
+	  // Note: status is not exposed by XDomainRequest
+	  if (!response.status || !validateStatus || validateStatus(response.status)) {
+	    resolve(response);
+	  } else {
+	    reject(createError(
+	      'Request failed with status code ' + response.status,
+	      response.config,
+	      null,
+	      response.request,
+	      response
+	    ));
+	  }
+	};
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+	
+	var enhanceError = __webpack_require__(11);
+	
+	/**
+	 * Create an Error with the specified message, config, error code, request and response.
+	 *
+	 * @param {string} message The error message.
+	 * @param {Object} config The config.
+	 * @param {string} [code] The error code (for example, 'ECONNABORTED').
+	 * @param {Object} [request] The request.
+	 * @param {Object} [response] The response.
+	 * @returns {Error} The created error.
+	 */
+	module.exports = function createError(message, config, code, request, response) {
+	  var error = new Error(message);
+	  return enhanceError(error, config, code, request, response);
+	};
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports) {
+	
+	/**
+	 * Update an Error with the specified config, error code, and response.
+	 *
+	 * @param {Error} error The error to update.
+	 * @param {Object} config The config.
+	 * @param {string} [code] The error code (for example, 'ECONNABORTED').
+	 * @param {Object} [request] The request.
+	 * @param {Object} [response] The response.
+	 * @returns {Error} The error.
+	 */
+	module.exports = function enhanceError(error, config, code, request, response) {
+	  error.config = config;
+	  if (code) {
+	    error.code = code;
+	  }
+	  error.request = request;
+	  error.response = response;
+	  return error;
+	};
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+	
+	var utils = __webpack_require__(2);
+	
+	function encode(val) {
+	  return encodeURIComponent(val).
+	    replace(/%40/gi, '@').
+	    replace(/%3A/gi, ':').
+	    replace(/%24/g, '$').
+	    replace(/%2C/gi, ',').
+	    replace(/%20/g, '+').
+	    replace(/%5B/gi, '[').
+	    replace(/%5D/gi, ']');
+	}
+	
+	/**
+	 * Build a URL by appending params to the end
+	 *
+	 * @param {string} url The base of the url (e.g., http://www.google.com)
+	 * @param {object} [params] The params to be appended
+	 * @returns {string} The formatted url
+	 */
+	module.exports = function buildURL(url, params, paramsSerializer) {
+	  /*eslint no-param-reassign:0*/
+	  if (!params) {
+	    return url;
+	  }
+	
+	  var serializedParams;
+	  if (paramsSerializer) {
+	    serializedParams = paramsSerializer(params);
+	  } else if (utils.isURLSearchParams(params)) {
+	    serializedParams = params.toString();
+	  } else {
+	    var parts = [];
+	
+	    utils.forEach(params, function serialize(val, key) {
+	      if (val === null || typeof val === 'undefined') {
+	        return;
+	      }
+	
+	      if (utils.isArray(val)) {
+	        key = key + '[]';
+	      } else {
+	        val = [val];
+	      }
+	
+	      utils.forEach(val, function parseValue(v) {
+	        if (utils.isDate(v)) {
+	          v = v.toISOString();
+	        } else if (utils.isObject(v)) {
+	          v = JSON.stringify(v);
+	        }
+	        parts.push(encode(key) + '=' + encode(v));
+	      });
+	    });
+	
+	    serializedParams = parts.join('&');
+	  }
+	
+	  if (serializedParams) {
+	    url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
+	  }
+	
+	  return url;
+	};
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+	
+	var utils = __webpack_require__(2);
+	
+	// Headers whose duplicates are ignored by node
+	// c.f. https://nodejs.org/api/http.html#http_message_headers
+	var ignoreDuplicateOf = [
+	  'age', 'authorization', 'content-length', 'content-type', 'etag',
+	  'expires', 'from', 'host', 'if-modified-since', 'if-unmodified-since',
+	  'last-modified', 'location', 'max-forwards', 'proxy-authorization',
+	  'referer', 'retry-after', 'user-agent'
+	];
+	
+	/**
+	 * Parse headers into an object
+	 *
+	 * ```
+	 * Date: Wed, 27 Aug 2014 08:58:49 GMT
+	 * Content-Type: application/json
+	 * Connection: keep-alive
+	 * Transfer-Encoding: chunked
+	 * ```
+	 *
+	 * @param {String} headers Headers needing to be parsed
+	 * @returns {Object} Headers parsed into an object
+	 */
+	module.exports = function parseHeaders(headers) {
+	  var parsed = {};
+	  var key;
+	  var val;
+	  var i;
+	
+	  if (!headers) { return parsed; }
+	
+	  utils.forEach(headers.split('\n'), function parser(line) {
+	    i = line.indexOf(':');
+	    key = utils.trim(line.substr(0, i)).toLowerCase();
+	    val = utils.trim(line.substr(i + 1));
+	
+	    if (key) {
+	      if (parsed[key] && ignoreDuplicateOf.indexOf(key) >= 0) {
+	        return;
+	      }
+	      if (key === 'set-cookie') {
+	        parsed[key] = (parsed[key] ? parsed[key] : []).concat([val]);
+	      } else {
+	        parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
+	      }
+	    }
+	  });
+	
+	  return parsed;
+	};
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+	
+	var utils = __webpack_require__(2);
+	
+	module.exports = (
+	  utils.isStandardBrowserEnv() ?
+	
+	  // Standard browser envs have full support of the APIs needed to test
+	  // whether the request URL is of the same origin as current location.
+	  (function standardBrowserEnv() {
+	    var msie = /(msie|trident)/i.test(navigator.userAgent);
+	    var urlParsingNode = document.createElement('a');
+	    var originURL;
+	
+	    /**
+	    * Parse a URL to discover it's components
+	    *
+	    * @param {String} url The URL to be parsed
+	    * @returns {Object}
+	    */
+	    function resolveURL(url) {
+	      var href = url;
+	
+	      if (msie) {
+	        // IE needs attribute set twice to normalize properties
+	        urlParsingNode.setAttribute('href', href);
+	        href = urlParsingNode.href;
+	      }
+	
+	      urlParsingNode.setAttribute('href', href);
+	
+	      // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
+	      return {
+	        href: urlParsingNode.href,
+	        protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
+	        host: urlParsingNode.host,
+	        search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
+	        hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
+	        hostname: urlParsingNode.hostname,
+	        port: urlParsingNode.port,
+	        pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
+	                  urlParsingNode.pathname :
+	                  '/' + urlParsingNode.pathname
+	      };
+	    }
+	
+	    originURL = resolveURL(window.location.href);
+	
+	    /**
+	    * Determine if a URL shares the same origin as the current location
+	    *
+	    * @param {String} requestURL The URL to test
+	    * @returns {boolean} True if URL shares the same origin, otherwise false
+	    */
+	    return function isURLSameOrigin(requestURL) {
+	      var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
+	      return (parsed.protocol === originURL.protocol &&
+	            parsed.host === originURL.host);
+	    };
+	  })() :
+	
+	  // Non standard browser envs (web workers, react-native) lack needed support.
+	  (function nonStandardBrowserEnv() {
+	    return function isURLSameOrigin() {
+	      return true;
+	    };
+	  })()
+	);
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports) {
+	
+	// btoa polyfill for IE<10 courtesy https://github.com/davidchambers/Base64.js
+	
+	var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+	
+	function E() {
+	  this.message = 'String contains an invalid character';
+	}
+	E.prototype = new Error;
+	E.prototype.code = 5;
+	E.prototype.name = 'InvalidCharacterError';
+	
+	function btoa(input) {
+	  var str = String(input);
+	  var output = '';
+	  for (
+	    // initialize result and counter
+	    var block, charCode, idx = 0, map = chars;
+	    // if the next str index does not exist:
+	    //   change the mapping table to "="
+	    //   check if d has no fractional digits
+	    str.charAt(idx | 0) || (map = '=', idx % 1);
+	    // "8 - idx % 1 * 8" generates the sequence 2, 4, 6, 8
+	    output += map.charAt(63 & block >> 8 - idx % 1 * 8)
+	  ) {
+	    charCode = str.charCodeAt(idx += 3 / 4);
+	    if (charCode > 0xFF) {
+	      throw new E();
+	    }
+	    block = block << 8 | charCode;
+	  }
+	  return output;
+	}
+	
+	module.exports = btoa;
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+	
+	var utils = __webpack_require__(2);
+	
+	module.exports = (
+	  utils.isStandardBrowserEnv() ?
+	
+	  // Standard browser envs support document.cookie
+	  (function standardBrowserEnv() {
+	    return {
+	      write: function write(name, value, expires, path, domain, secure) {
+	        var cookie = [];
+	        cookie.push(name + '=' + encodeURIComponent(value));
+	
+	        if (utils.isNumber(expires)) {
+	          cookie.push('expires=' + new Date(expires).toGMTString());
+	        }
+	
+	        if (utils.isString(path)) {
+	          cookie.push('path=' + path);
+	        }
+	
+	        if (utils.isString(domain)) {
+	          cookie.push('domain=' + domain);
+	        }
+	
+	        if (secure === true) {
+	          cookie.push('secure');
+	        }
+	
+	        document.cookie = cookie.join('; ');
+	      },
+	
+	      read: function read(name) {
+	        var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+	        return (match ? decodeURIComponent(match[3]) : null);
+	      },
+	
+	      remove: function remove(name) {
+	        this.write(name, '', Date.now() - 86400000);
+	      }
+	    };
+	  })() :
+	
+	  // Non standard browser env (web workers, react-native) lack needed support.
+	  (function nonStandardBrowserEnv() {
+	    return {
+	      write: function write() {},
+	      read: function read() { return null; },
+	      remove: function remove() {}
+	    };
+	  })()
+	);
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+	
+	var utils = __webpack_require__(2);
+	
+	function InterceptorManager() {
+	  this.handlers = [];
+	}
+	
+	/**
+	 * Add a new interceptor to the stack
+	 *
+	 * @param {Function} fulfilled The function to handle `then` for a `Promise`
+	 * @param {Function} rejected The function to handle `reject` for a `Promise`
+	 *
+	 * @return {Number} An ID used to remove interceptor later
+	 */
+	InterceptorManager.prototype.use = function use(fulfilled, rejected) {
+	  this.handlers.push({
+	    fulfilled: fulfilled,
+	    rejected: rejected
+	  });
+	  return this.handlers.length - 1;
+	};
+	
+	/**
+	 * Remove an interceptor from the stack
+	 *
+	 * @param {Number} id The ID that was returned by `use`
+	 */
+	InterceptorManager.prototype.eject = function eject(id) {
+	  if (this.handlers[id]) {
+	    this.handlers[id] = null;
+	  }
+	};
+	
+	/**
+	 * Iterate over all the registered interceptors
+	 *
+	 * This method is particularly useful for skipping over any
+	 * interceptors that may have become `null` calling `eject`.
+	 *
+	 * @param {Function} fn The function to call for each interceptor
+	 */
+	InterceptorManager.prototype.forEach = function forEach(fn) {
+	  utils.forEach(this.handlers, function forEachHandler(h) {
+	    if (h !== null) {
+	      fn(h);
+	    }
+	  });
+	};
+	
+	module.exports = InterceptorManager;
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+	
+	var utils = __webpack_require__(2);
+	var transformData = __webpack_require__(19);
+	var isCancel = __webpack_require__(20);
+	var defaults = __webpack_require__(6);
+	var isAbsoluteURL = __webpack_require__(21);
+	var combineURLs = __webpack_require__(22);
+	
+	/**
+	 * Throws a `Cancel` if cancellation has been requested.
+	 */
+	function throwIfCancellationRequested(config) {
+	  if (config.cancelToken) {
+	    config.cancelToken.throwIfRequested();
+	  }
+	}
+	
+	/**
+	 * Dispatch a request to the server using the configured adapter.
+	 *
+	 * @param {object} config The config that is to be used for the request
+	 * @returns {Promise} The Promise to be fulfilled
+	 */
+	module.exports = function dispatchRequest(config) {
+	  throwIfCancellationRequested(config);
+	
+	  // Support baseURL config
+	  if (config.baseURL && !isAbsoluteURL(config.url)) {
+	    config.url = combineURLs(config.baseURL, config.url);
+	  }
+	
+	  // Ensure headers exist
+	  config.headers = config.headers || {};
+	
+	  // Transform request data
+	  config.data = transformData(
+	    config.data,
+	    config.headers,
+	    config.transformRequest
+	  );
+	
+	  // Flatten headers
+	  config.headers = utils.merge(
+	    config.headers.common || {},
+	    config.headers[config.method] || {},
+	    config.headers || {}
+	  );
+	
+	  utils.forEach(
+	    ['delete', 'get', 'head', 'post', 'put', 'patch', 'common'],
+	    function cleanHeaderConfig(method) {
+	      delete config.headers[method];
+	    }
+	  );
+	
+	  var adapter = config.adapter || defaults.adapter;
+	
+	  return adapter(config).then(function onAdapterResolution(response) {
+	    throwIfCancellationRequested(config);
+	
+	    // Transform response data
+	    response.data = transformData(
+	      response.data,
+	      response.headers,
+	      config.transformResponse
+	    );
+	
+	    return response;
+	  }, function onAdapterRejection(reason) {
+	    if (!isCancel(reason)) {
+	      throwIfCancellationRequested(config);
+	
+	      // Transform response data
+	      if (reason && reason.response) {
+	        reason.response.data = transformData(
+	          reason.response.data,
+	          reason.response.headers,
+	          config.transformResponse
+	        );
+	      }
+	    }
+	
+	    return Promise.reject(reason);
+	  });
+	};
+
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+	
+	var utils = __webpack_require__(2);
+	
+	/**
+	 * Transform the data for a request or a response
+	 *
+	 * @param {Object|String} data The data to be transformed
+	 * @param {Array} headers The headers for the request or response
+	 * @param {Array|Function} fns A single function or Array of functions
+	 * @returns {*} The resulting transformed data
+	 */
+	module.exports = function transformData(data, headers, fns) {
+	  /*eslint no-param-reassign:0*/
+	  utils.forEach(fns, function transform(fn) {
+	    data = fn(data, headers);
+	  });
+	
+	  return data;
+	};
+
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports) {
+	
+	module.exports = function isCancel(value) {
+	  return !!(value && value.__CANCEL__);
+	};
+
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports) {
+	
+	/**
+	 * Determines whether the specified URL is absolute
+	 *
+	 * @param {string} url The URL to test
+	 * @returns {boolean} True if the specified URL is absolute, otherwise false
+	 */
+	module.exports = function isAbsoluteURL(url) {
+	  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
+	  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
+	  // by any combination of letters, digits, plus, period, or hyphen.
+	  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+	};
+
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports) {
+	
+	/**
+	 * Creates a new URL by combining the specified URLs
+	 *
+	 * @param {string} baseURL The base URL
+	 * @param {string} relativeURL The relative URL
+	 * @returns {string} The combined URL
+	 */
+	module.exports = function combineURLs(baseURL, relativeURL) {
+	  return relativeURL
+	    ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '')
+	    : baseURL;
+	};
+
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports) {
+	
+	/**
+	 * A `Cancel` is an object that is thrown when an operation is canceled.
+	 *
+	 * @class
+	 * @param {string=} message The message.
+	 */
+	function Cancel(message) {
+	  this.message = message;
+	}
+	
+	Cancel.prototype.toString = function toString() {
+	  return 'Cancel' + (this.message ? ': ' + this.message : '');
+	};
+	
+	Cancel.prototype.__CANCEL__ = true;
+	
+	module.exports = Cancel;
+
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+	
+	var Cancel = __webpack_require__(23);
+	
+	/**
+	 * A `CancelToken` is an object that can be used to request cancellation of an operation.
+	 *
+	 * @class
+	 * @param {Function} executor The executor function.
+	 */
+	function CancelToken(executor) {
+	  if (typeof executor !== 'function') {
+	    throw new TypeError('executor must be a function.');
+	  }
+	
+	  var resolvePromise;
+	  this.promise = new Promise(function promiseExecutor(resolve) {
+	    resolvePromise = resolve;
+	  });
+	
+	  var token = this;
+	  executor(function cancel(message) {
+	    if (token.reason) {
+	      // Cancellation has already been requested
+	      return;
+	    }
+	
+	    token.reason = new Cancel(message);
+	    resolvePromise(token.reason);
+	  });
+	}
+	
+	/**
+	 * Throws a `Cancel` if cancellation has been requested.
+	 */
+	CancelToken.prototype.throwIfRequested = function throwIfRequested() {
+	  if (this.reason) {
+	    throw this.reason;
+	  }
+	};
+	
+	/**
+	 * Returns an object that contains a new `CancelToken` and a function that, when called,
+	 * cancels the `CancelToken`.
+	 */
+	CancelToken.source = function source() {
+	  var cancel;
+	  var token = new CancelToken(function executor(c) {
+	    cancel = c;
+	  });
+	  return {
+	    token: token,
+	    cancel: cancel
+	  };
+	};
+	
+	module.exports = CancelToken;
+
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports) {
+	
+	/**
+	 * Syntactic sugar for invoking a function and expanding an array for arguments.
+	 *
+	 * Common use case would be to use `Function.prototype.apply`.
+	 *
+	 *  ```js
+	 *  function f(x, y, z) {}
+	 *  var args = [1, 2, 3];
+	 *  f.apply(null, args);
+	 *  ```
+	 *
+	 * With `spread` this example can be re-written.
+	 *
+	 *  ```js
+	 *  spread(function(x, y, z) {})([1, 2, 3]);
+	 *  ```
+	 *
+	 * @param {Function} callback
+	 * @returns {Function}
+	 */
+	module.exports = function spread(callback) {
+	  return function wrap(arr) {
+	    return callback.apply(null, arr);
+	  };
+	};
+
+
+/***/ })
+/******/ ])
 });
+
+});
+
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+const BaseService = axios.create({
+	baseURL: '/'
+});
+
+BaseService.interceptors.response.use(
+	function(response) {
+		return response
+	},
+	function(error) {
+		const data = error.response.data;
+		let type = 'error';
+		data.type = data.type || type;
+		return Promise.reject(error)
+	}
+);
+
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+Vue.prototype.$axios = BaseService;
+Vue.use(quasar_umd).use(BaseService);
 quasar_umd.iconSet.set(iconSet);
+
+let VueInstance = null;
 window.KnowledgeBaseTree = {
 	component: Tree,
 	mount(config) {
-		return new Vue(Tree).$mount(config.el);
+		VueInstance = new Vue(Tree).$mount(config.el);
+		return VueInstance
 	}
 };
+var VueInstance$1 = VueInstance;
 
-module.exports = KnowledgeBaseTree;
+module.exports = VueInstance$1;
 //# sourceMappingURL=Tree.vue.js.map
