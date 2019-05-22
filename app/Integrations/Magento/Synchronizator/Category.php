@@ -20,11 +20,41 @@ use App\Db\Query;
  */
 class Category extends Base
 {
+	/**
+	 * Map with parents id.
+	 *
+	 * @var array
+	 */
 	public $parentsId = [];
+	/**
+	 * Categories YetiForce.
+	 *
+	 * @var array
+	 */
 	public $categoriesYF = [];
+	/**
+	 * Categories Magento.
+	 *
+	 * @var array
+	 */
 	public $categoriesMagento = [];
+	/**
+	 * Parsed Magento categories (id as array key).
+	 *
+	 * @var array
+	 */
 	public $categoriesMagentoParsed = [];
+	/**
+	 * Category Map (Magento id as key).
+	 *
+	 * @var array
+	 */
 	public $mapCategoryYF = [];
+	/**
+	 * Category Map (YetiForce id as key).
+	 *
+	 * @var array
+	 */
 	public $mapCategoryMagento = [];
 
 	/**
@@ -219,12 +249,7 @@ class Category extends Base
 	 */
 	public function getCategoriesYF(): array
 	{
-		$templateId = \Vtiger_Field_Model::getInstance('pscategory', \Vtiger_Module_Model::getInstance('Products'))->getFieldParams();
-		$categoriesYF = (new Query())
-			->where(['templateid' => $templateId])
-			->from('vtiger_trees_templates_data')
-			->createCommand()->queryAll();
-		foreach ($categoriesYF as $categoryYF) {
+		foreach ($this->getTemplatesData() as $categoryYF) {
 			$treeID = (int) str_replace('T', '', $categoryYF['tree']);
 			$parentTreeID = str_replace($categoryYF['tree'], '', $categoryYF['parentTree']);
 			$parentTreeID = array_filter(explode('::', str_replace('T', '', $parentTreeID)));
@@ -265,19 +290,29 @@ class Category extends Base
 	 */
 	public function getLastIdYF(): int
 	{
-		$templateId = \Vtiger_Field_Model::getInstance('pscategory', \Vtiger_Module_Model::getInstance('Products'))->getFieldParams();
-		$categoriesYF = (new Query())
-			->where(['templateid' => $templateId])
-			->from('vtiger_trees_templates_data')
-			->createCommand()->queryAll();
 		$maxId = 1;
-		foreach ($categoriesYF as $category) {
+		foreach ($this->getTemplatesData() as $category) {
 			$treeId = (int) str_replace('T', '', $category['tree']);
 			if ($treeId >= $maxId) {
 				$maxId = $treeId + 1;
 			}
 		}
 		return $maxId;
+	}
+
+	/**
+	 * Get templates data from YetiForce.
+	 *
+	 * @throws \yii\db\Exception
+	 *
+	 * @return array
+	 */
+	public function getTemplatesData()
+	{
+		return (new Query())
+			->where(['templateid' => $this->getTemplateId()])
+			->from('vtiger_trees_templates_data')
+			->createCommand()->queryAll();
 	}
 
 	/**
@@ -320,8 +355,8 @@ class Category extends Base
 	public function saveCategoryYF(array $category): int
 	{
 		$categoryId = $this->getLastIdYF();
-		$templateId = \Vtiger_Field_Model::getInstance('pscategory', \Vtiger_Module_Model::getInstance('Products'))->getFieldParams();
-		$result = (new Query())->createCommand()->insert('vtiger_trees_templates_data', [
+		$templateId = $this->getTemplateId();
+		$result = \App\Db::getInstance()->createCommand()->insert('vtiger_trees_templates_data', [
 			'templateid' => $templateId,
 			'tree' => 'T' . $categoryId,
 			'parentTree' => 'T' . $categoryId,
@@ -337,7 +372,7 @@ class Category extends Base
 			$category['parent_id'] = $categoryId;
 		}
 		$parentId = $this->parseParentYF($category);
-		(new Query())->createCommand()->update('vtiger_trees_templates_data', ['parentTree' => $parentId], ['tree' => 'T' . $categoryId, 'templateid' => $templateId])->execute();
+		\App\Db::getInstance()->createCommand()->update('vtiger_trees_templates_data', ['parentTree' => $parentId], ['tree' => 'T' . $categoryId, 'templateid' => $templateId])->execute();
 		$this->getCategoriesYF();
 		return $result;
 	}
@@ -381,9 +416,9 @@ class Category extends Base
 	 */
 	public function updateCategoryYF(array $categoryYF, array $categoryMagento): int
 	{
-		$templateId = \Vtiger_Field_Model::getInstance('pscategory', \Vtiger_Module_Model::getInstance('Products'))->getFieldParams();
+		$templateId = $this->getTemplateId();
 		$parentId = $this->parseParentYF($categoryMagento);
-		$result = (new Query())->createCommand()->update('vtiger_trees_templates_data', [
+		$result = \App\Db::getInstance()->createCommand()->update('vtiger_trees_templates_data', [
 			'parentTree' => $parentId,
 			'name' => $categoryMagento['name'],
 			'depth' => $categoryMagento['level'],
@@ -394,7 +429,7 @@ class Category extends Base
 			foreach ($categoryMagento['children_data'] as $categoryChild) {
 				$childParent = $this->categoriesYF[$this->mapCategoryYF[$categoryChild['parent_id']]];
 				$childParentId = str_replace('::', '::T', $childParent['full_parent_id'] . '::' . $this->mapCategoryYF[$categoryChild['id']]);
-				(new Query())->createCommand()->update('vtiger_trees_templates_data', [
+				\App\Db::getInstance()->createCommand()->update('vtiger_trees_templates_data', [
 					'parentTree' => $childParentId
 				], ['tree' => 'T' . $this->mapCategoryYF[$categoryChild['id']], 'templateid' => $templateId])->execute();
 			}
@@ -452,7 +487,7 @@ class Category extends Base
 	public function deleteCategoryYF(array $categoryYF)
 	{
 		\App\Db::getInstance()->createCommand()->delete('vtiger_trees_templates_data', ['tree' => 'T' . $categoryYF['id'], 'templateid' => \Vtiger_Field_Model::getInstance('pscategory', \Vtiger_Module_Model::getInstance('Products'))->getFieldParams()])->execute();
-		\App\Db::getInstance()->createCommand()->delete('s_#__magento_record', ['crmid' => $categoryYF['id']])->execute();
+		\App\Db::getInstance()->createCommand()->delete('i_#__magento_record', ['crmid' => $categoryYF['id']])->execute();
 	}
 
 	/**
@@ -463,7 +498,7 @@ class Category extends Base
 		$this->mapCategoryMagento = (new Query())
 			->select(['crmid', 'id'])
 			->where(['type' => 'category'])
-			->from('s_#__magento_record')
+			->from('i_#__magento_record')
 			->createCommand()->queryAllByGroup(0) ?? [];
 	}
 
@@ -475,7 +510,7 @@ class Category extends Base
 		$this->mapCategoryYF = (new Query())
 			->select(['id', 'crmid'])
 			->where(['type' => 'category'])
-			->from('s_#__magento_record')
+			->from('i_#__magento_record')
 			->createCommand()->queryAllByGroup(0) ?? [];
 	}
 
@@ -513,7 +548,7 @@ class Category extends Base
 		if (isset($this->mapCategoryYF[$categoryIdMagento]) || isset($this->mapCategoryMagento[$categoryIdYF])) {
 			$result = $this->updateCategoryMappingYF($categoryIdMagento, $categoryIdYF);
 		} else {
-			$result = (new Query())->createCommand()->insert('s_#__magento_record', [
+			$result = \App\Db::getInstance()->createCommand()->insert('i_#__magento_record', [
 				'id' => $categoryIdMagento,
 				'crmid' => $categoryIdYF,
 				'type' => 'category'
@@ -536,8 +571,24 @@ class Category extends Base
 	 */
 	public function updateCategoryMappingYF($categoryIdMagento, $categoryIdYF): int
 	{
-		return (new Query())->createCommand()->update('s_#__magento_record', [
+		return \App\Db::getInstance()->createCommand()->update('i_#__magento_record', [
 			'id' => $categoryIdMagento
 		], ['crmid' => $categoryIdYF])->execute();
+	}
+
+	/**
+	 * Method to return category template id.
+	 *
+	 * @return int
+	 */
+	public function getTemplateId()
+	{
+		if (\App\Cache::has('Integrations', 'categoryTemplateId')) {
+			$templateId = \App\Cache::get('Integrations', 'categoryTemplateId');
+		} else {
+			$templateId = \Vtiger_Field_Model::getInstance('pscategory', \Vtiger_Module_Model::getInstance('Products'))->getFieldParams();
+			\App\Cache::save('Integrations', 'categoryTemplateId', $templateId, \App\Cache::LONG);
+		}
+		return $templateId;
 	}
 }
