@@ -510,6 +510,21 @@ CREATE TABLE `dav_users` (
   UNIQUE KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+/*Table structure for table `i_yf_magento_config` */
+
+CREATE TABLE `i_yf_magento_config` (
+  `name` varchar(15) DEFAULT NULL,
+  `value` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `i_yf_magento_record` */
+
+CREATE TABLE `i_yf_magento_record` (
+  `id` int(10) unsigned NOT NULL,
+  `crmid` int(10) unsigned NOT NULL,
+  `type` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `l_yf_batchmethod` */
 
 CREATE TABLE `l_yf_batchmethod` (

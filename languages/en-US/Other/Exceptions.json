@@ -41,6 +41,7 @@
     "ERR_ITERATIONS_LIMIT_EXCEEDED": "Exceeded iteration limit.",
     "ERR_CANNOT_PARSE_SERVER_RESPONSE": "Error while parsing server responses",
     "ERR_CANNOT_CONNECT_TO_REMOTE": "Error while connecting to remote server",
-    "ERR_NO_INTERNET_CONNECTION": "No Internet connection"
+    "ERR_NO_INTERNET_CONNECTION": "No Internet connection",
+    "ERR_OBJECT_MUST_HAVE_INTERFACE": "The object must have an interface %s"
   }
 }

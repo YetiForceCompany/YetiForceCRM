@@ -180,6 +180,10 @@ insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod
 
 /*Data for the table `dav_users` */
 
+/*Data for the table `i_yf_magento_config` */
+
+/*Data for the table `i_yf_magento_record` */
+
 /*Data for the table `l_yf_batchmethod` */
 
 /*Data for the table `l_yf_mail` */
