@@ -12,11 +12,6 @@ class KnowledgeBase_Modal_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public $modalSize = 'modal-fullscreen';
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function checkPermission(App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView')) {
@@ -55,10 +50,27 @@ class KnowledgeBase_Modal_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
+
 	public function getModalScripts(App\Request $request)
 	{
 		return array_merge($this->checkAndConvertJsScripts([
-			'~layouts/basic/modules/KnowledgeBase/Tree.vue.js', parent::getModalScripts($request)
-		]));
+			'~layouts/basic/modules/KnowledgeBase/Tree.vue.js'
+		]), parent::getModalScripts($request));
+	}
+	public function getModalCss(\App\Request $request)
+	{
+		$headerCssInstances = parent::getHeaderCss($request);
+		$cssFileNames = [
+			'~libraries/@mdi/font/css/materialdesignicons.min.css',
+			'~src/css/app.css'
+		];
+		return array_merge($headerCssInstances, $this->checkAndConvertCssStyles($cssFileNames));
+	}
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function preProcessTplName(\App\Request $request)
+	{
+		return 'ModalHeader.tpl';
 	}
 }
