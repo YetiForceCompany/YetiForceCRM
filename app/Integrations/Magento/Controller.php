@@ -2,6 +2,8 @@
 /**
  * Main class to integration with magento.
  *
+ * @package Integration
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
@@ -16,7 +18,7 @@ use App\Integrations\Magento\Synchronizator\Category;
 /**
  * Magento class.
  */
-class Magento
+class Controller
 {
 	/**
 	 * Connector with magento.
@@ -31,7 +33,10 @@ class Magento
 	public function getConnector()
 	{
 		if (empty($this->connector)) {
-			$className = '\\App\\Integrations\\Magento\\Connector\\' . \App\Config::component('Magento', 'CONNECTOR', 'Token');
+			$className = '\\App\\Integrations\\Magento\\Connector\\' . \App\Config::component('Magento', 'connector', 'Token');
+			if (!class_exists($className)) {
+				throw new \App\Exceptions\AppException('ERR_CLASS_NOT_FOUND');
+			}
 			$this->connector = new $className();
 			if (!$this->connector instanceof ConnectorInterface) {
 				throw new AppException('ERR_CLASS_MUST_HAVE_INTERFACE||ConnectorInterface');
@@ -45,8 +50,7 @@ class Magento
 	 */
 	public function __construct()
 	{
-		$connector = $this->getConnector();
-		$connector->authorize();
+		$this->getConnector()->authorize();
 	}
 
 	/**

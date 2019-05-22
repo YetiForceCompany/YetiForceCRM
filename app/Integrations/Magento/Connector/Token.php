@@ -2,6 +2,8 @@
 /**
  * Connector based on session.
  *
+ * @package Integration
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
@@ -28,12 +30,12 @@ class Token implements ConnectorInterface
 	 */
 	public function authorize()
 	{
-		$response = (new \GuzzleHttp\Client())->post(\App\Config::component('Magento', 'ADDRESS_API') . '/rest/V1/integration/admin/token', \App\RequestHttp::getOptions() + [
-			'json' => ['username' => \App\Config::component('Magento', 'USERNAME'), 'password' => \App\Config::component('Magento', 'PASSWORD')]]);
-		if ($response->getStatusCode() !== 200) {
+		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post(\App\Config::component('Magento', 'addressApi') . '/rest/V1/integration/admin/token', [
+			'json' => ['username' => \App\Config::component('Magento', 'username'), 'password' => \App\Config::component('Magento', 'password')]]);
+		if (200 !== $response->getStatusCode()) {
 			throw new AppException();
 		}
-		$this->token =  str_replace('"', '', (string) $response->getBody());
+		$this->token = \App\Json::decode((string) $response->getBody());
 	}
 
 	/**
@@ -41,13 +43,13 @@ class Token implements ConnectorInterface
 	 */
 	public function request(string $method, string $action, array $params = []): string
 	{
-		$response = (new \GuzzleHttp\Client())->request($method, \App\Config::component('Magento', 'ADDRESS_API') . $action, \App\RequestHttp::getOptions() + [
+		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request($method, \App\Config::component('Magento', 'addressApi') . $action, [
 			'headers' => [
 				'user-agent' => 'YetiForceCRM/' . \App\Version::get(),
 				'authorization' => 'Bearer ' . $this->token
 			],
 			'json' => $params]);
-		if ($response->getStatusCode() !== 200) {
+		if (200 !== $response->getStatusCode()) {
 			throw new AppException();
 		}
 		return (string) $response->getBody();

@@ -43,7 +43,7 @@ return [
 			'description' => 'Backup catalog path.',
 			'validation' => function () {
 				$arg = func_get_arg(0);
-				return $arg === '' || \App\Fields\File::isAllowedDirectory($arg);
+				return '' === $arg || \App\Fields\File::isAllowedDirectory($arg);
 			}
 		],
 		'EXT_TO_SHOW' => [
@@ -224,11 +224,11 @@ return [
 		]
 	],
 	'Magento' => [
-		'CONNECTOR' => [
+		'connector' => [
 			'default' => 'Token',
 			'description' => 'Type of connector for integration with magento.',
 		],
-		'ADDRESS_API' => [
+		'addressApi' => [
 			'default' => '',
 			'description' => 'Address url magento',
 			'validation' => function () {
@@ -236,11 +236,11 @@ return [
 				return empty($arg) || \App\Validator::url($arg);
 			}
 		],
-		'USERNAME' => [
+		'username' => [
 			'default' => '',
 			'description' => 'Username to account in magento.',
 		],
-		'PASSWORD' => [
+		'password' => [
 			'default' => '',
 			'description' => 'Password to account in magento.',
 		],
