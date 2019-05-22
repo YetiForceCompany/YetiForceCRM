@@ -9,7 +9,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
-class KnowledgeBase_TreeModal_View extends \App\Controller\Modal
+class KnowledgeBase_KnowledgeBaseModal_View extends \App\Controller\Modal
 {
 	/**
 	 * {@inheritdoc}
@@ -27,7 +27,7 @@ class KnowledgeBase_TreeModal_View extends \App\Controller\Modal
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->view('TreeModal.tpl', $request->getModule(false));
+		$viewer->view('KnowledgeBaseModal.tpl', $request->getModule(false));
 	}
 
 	/**
@@ -59,6 +59,6 @@ class KnowledgeBase_TreeModal_View extends \App\Controller\Modal
 	 */
 	protected function preProcessTplName(\App\Request $request)
 	{
-		return 'TreeModalHeader.tpl';
+		return 'KnowledgeBaseModalHeader.tpl';
 	}
 }

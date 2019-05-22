@@ -10,36 +10,38 @@
             <template v-slot:separator>
               <q-icon size="1.5em" name="mdi-chevron-right" />
             </template>
-            <q-breadcrumbs-el icon="mdi-home" @click="getData()" />
+            <q-breadcrumbs-el icon="mdi-file-tree" @click="getData()" />
             <template v-if="this.activeCategory !== ''">
               <q-breadcrumbs-el
                 v-for="category in tree.categories[this.activeCategory].parentTree"
                 :key="tree.categories[category].label"
                 @click="getData(category)"
               >
-                <icon :icon="tree.categories[category].icon" class="q-mr-sm"></icon>
+                <icon :size="iconSize" :icon="tree.categories[category].icon" class="q-mr-sm"></icon>
                 {{ tree.categories[category].label }}
               </q-breadcrumbs-el>
             </template>
           </q-breadcrumbs>
-          <q-input
-            v-model="filter"
-            placeholder="Search"
-            rounded
-            outlined
-            type="search"
-            class="tree-search mx-auto"
-            @input="search"
-          >
-            <template v-slot:append>
-              <q-icon name="mdi-magnify" />
-            </template>
-          </q-input>
-          <div>
-            <q-toggle v-model="categorySearch" icon="mdi-file-tree" />
-            <q-tooltip>
-              Search current category
-            </q-tooltip>
+          <div class="mx-auto w-50 flex no-wrap">
+            <q-input
+              class="tree-search"
+              v-model="filter"
+              placeholder="Search"
+              rounded
+              outlined
+              type="search"
+              @input="search"
+            >
+              <template v-slot:append>
+                <q-icon name="mdi-magnify" />
+              </template>
+            </q-input>
+            <div>
+              <q-toggle v-model="categorySearch" icon="mdi-file-tree" />
+              <q-tooltip>
+                Search current category
+              </q-tooltip>
+            </div>
           </div>
         </q-toolbar>
       </q-header>
@@ -51,23 +53,22 @@
         elevated
         :width="searchData ? 0 : 250"
         :breakpoint="700"
-        content-class="bg-yeti text-white"
+        content-class="bg-white text-black"
       >
         <q-scroll-area class="fit">
-          <q-list dark>
-            <q-item v-show="activeCategory === ''" clickable active active-class="text-blue-2">
+          <q-list>
+            <q-item v-show="activeCategory === ''" clickable active>
               <q-item-section avatar>
-                <q-icon name="mdi-home" />
+                <q-icon name="mdi-file-tree" :size="iconSize" />
               </q-item-section>
               <q-item-section>
-                Home
+                Categories
               </q-item-section>
             </q-item>
             <q-item
               v-if="activeCategory !== ''"
               clickable
               active
-              active-class="text-blue-2"
               @click="
                 getData(
                   tree.categories[activeCategory].parentTree.length !== 1
@@ -77,7 +78,7 @@
               "
             >
               <q-item-section avatar>
-                <icon :icon="tree.categories[activeCategory].icon" />
+                <icon :size="iconSize" :icon="tree.categories[activeCategory].icon" />
               </q-item-section>
               <q-item-section>
                 {{ tree.categories[activeCategory].label }}
@@ -94,7 +95,7 @@
               @click="getData(categoryValue)"
             >
               <q-item-section avatar>
-                <icon :icon="tree.categories[categoryValue].icon" />
+                <icon :size="iconSize" :icon="tree.categories[categoryValue].icon" />
               </q-item-section>
               <q-item-section>
                 {{ tree.categories[categoryValue].label }}
@@ -120,11 +121,10 @@
                   :key="categoryKey"
                   class="home-card"
                 >
-                  <q-item-label header>
-                    <q-icon name="mdi-star"></q-icon>
-
-                    {{ tree.categories[categoryValue].label }}</q-item-label
-                  >
+                  <q-item-label header class="text-black flex" @click="getData(categoryValue)">
+                    <icon :icon="tree.categories[categoryValue].icon" :size="iconSize" class="mr-2"></icon>
+                    {{ tree.categories[categoryValue].label }}
+                  </q-item-label>
                   <q-item
                     clickable
                     v-for="featuredValue in tree.data.featured[categoryValue]"
@@ -134,7 +134,7 @@
                     @click.prevent="getRecord(featuredValue.id)"
                   >
                     <q-item-section avatar>
-                      <q-icon name="mdi-text"></q-icon>
+                      <q-icon name="mdi-star" :size="iconSize"></q-icon>
                     </q-item-section>
                     <q-item-section>
                       <a
@@ -171,7 +171,7 @@
                             v-for="category in tree.categories[props.row.category].parentTree"
                             :key="tree.categories[category].label"
                           >
-                            <icon :icon="tree.categories[category].icon" class="q-mr-sm" />
+                            <icon :size="iconSize" :icon="tree.categories[category].icon" class="q-mr-sm" />
                             {{ tree.categories[category].label }}
                           </q-breadcrumbs-el>
                         </q-breadcrumbs>
@@ -214,7 +214,7 @@
                           v-for="category in tree.categories[props.row.category].parentTree"
                           :key="tree.categories[category].label"
                         >
-                          <icon :icon="tree.categories[category].icon" class="q-mr-sm" />
+                          <icon :size="iconSize" :icon="tree.categories[category].icon" class="q-mr-sm" />
                           {{ tree.categories[category].label }}
                         </q-breadcrumbs-el>
                       </q-breadcrumbs>
@@ -301,6 +301,7 @@ export default {
   components: { Icon },
   data() {
     return {
+      iconSize: '18px',
       left: true,
       filter: '',
       record: false,
@@ -413,7 +414,7 @@ export default {
 </script>
 <style>
 .tree-search {
-  width: 50%;
+  width: 100%;
 }
 .tree-search .q-field__control,
 .tree-search .q-field__marginal {

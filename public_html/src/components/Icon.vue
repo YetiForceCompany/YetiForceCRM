@@ -1,8 +1,8 @@
 
 <template>
   <div>
-    <q-icon v-if="/^mdi|^fa/.test(icon)" :name="icon" />
-    <q-icon v-else :class="[icon, 'q-icon']" />
+    <q-icon v-if="/^mdi|^fa/.test(icon)" :name="icon" :size="size" dense />
+    <q-icon v-else :class="[icon, 'q-icon']" :style="{ 'font-size': size }" />
   </div>
 </template>
 
@@ -13,6 +13,10 @@ export default {
     icon: {
       type: String,
       required: true
+    },
+    size: {
+      type: String,
+      required: false
     }
   }
 }

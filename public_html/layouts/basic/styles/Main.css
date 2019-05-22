@@ -18841,14 +18841,22 @@ label.btn[class*=btn-outline-]:not(.active):hover {
 
 .quasar-modal {
   padding: unset !important;
+  top: 50px;
+  right: 32px;
+  left: 0;
+  max-width: calc(100% - 50px);
+  width: calc(100% - 50px);
+  margin-left: 50px;
+  margin-right: 0;
+  height: calc(100% - 80px);
 }
 
 .quasar-modal .modal-content {
-  height: 100vh;
+  height: 100%;
 }
 
 .quasar-modal .q-layout-container {
-  height: calc(100vh - 33px);
+  height: calc(100vh - 113px);
 }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */

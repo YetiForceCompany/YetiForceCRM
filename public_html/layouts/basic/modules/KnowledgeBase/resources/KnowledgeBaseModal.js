@@ -2,5 +2,5 @@
 
 'use strict';
 KnowledgeBaseTree.mount({
-	el: '#KnowledgeBaseTreeModal'
+	el: '#KnowledgeBaseModal'
 });
