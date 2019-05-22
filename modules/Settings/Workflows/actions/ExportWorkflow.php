@@ -9,7 +9,7 @@
  */
 class Settings_Workflows_ExportWorkflow_Action extends Settings_Vtiger_Index_Action
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$recordId = $request->getInteger('id');
 		$workflowModel = Settings_Workflows_Record_Model::getInstance($recordId);
@@ -40,8 +40,8 @@ class Settings_Workflows_ExportWorkflow_Action extends Settings_Vtiger_Index_Act
 					$value = $workflowModel->get($field);
 					$xmlColumn = $xml->createElement($field, html_entity_decode($value, ENT_COMPAT, 'UTF-8'));
 				}
-			} elseif (isset($workflowObject->$field)) {
-				$value = $workflowObject->$field;
+			} elseif (isset($workflowObject->{$field})) {
+				$value = $workflowObject->{$field};
 				$xmlColumn = $xml->createElement($field, html_entity_decode($value, ENT_COMPAT, 'UTF-8'));
 			}
 			$xmlField->appendChild($xmlColumn);
@@ -56,7 +56,7 @@ class Settings_Workflows_ExportWorkflow_Action extends Settings_Vtiger_Index_Act
 			$xmlColumn = $xml->createElement('summary', html_entity_decode($task['summary'], ENT_COMPAT, 'UTF-8'));
 			$xmlTask->appendChild($xmlColumn);
 
-			if (strpos($task['task'], 'VTEntityMethodTask') !== false) {
+			if (false !== strpos($task['task'], 'VTEntityMethodTask')) {
 				require_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.php';
 				$taskObject = unserialize(html_entity_decode($task['task']));
 				$method = Settings_Workflows_Module_Model::exportTaskMethod($taskObject->methodName);
@@ -67,7 +67,7 @@ class Settings_Workflows_ExportWorkflow_Action extends Settings_Vtiger_Index_Act
 			}
 
 			$name = $xmlTask->appendChild($xml->createElement('task'));
-			$name->appendChild($xml->createCDATASection(html_entity_decode($task['task'])));
+			$name->appendChild($xml->createCDATASection(base64_encode($task['task'])));
 
 			$xmlTasks->appendChild($xmlTask);
 			$xmlTemplate->appendChild($xmlTasks);
@@ -94,7 +94,7 @@ class Settings_Workflows_ExportWorkflow_Action extends Settings_Vtiger_Index_Act
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validateRequest(\App\Request $request)
+	public function validateRequest(App\Request $request)
 	{
 		$request->validateReadAccess();
 	}
