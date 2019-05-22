@@ -216,15 +216,17 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		if ($data['workflow_tasks']) {
 			foreach ($data['workflow_tasks'] as $task) {
-				$dbCommand->insert('com_vtiger_workflowtasks', ['workflow_id' => $workflowId, 'summary' => $task['summary']])->execute();
-				$taskId = $db->getLastInsertID('com_vtiger_workflowtasks_task_id_seq');
 				include_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.php';
 				include_once 'modules/com_vtiger_workflow/tasks/VTEmailTemplateTask.php';
 				$taskManager = new VTTaskManager();
 				$taskObject = $taskManager->unserializeTask(base64_decode($task['task']));
-				$taskObject->workflowId = (int) $workflowId;
-				$taskObject->id = (int) $taskId;
-				$dbCommand->update('com_vtiger_workflowtasks', ['task' => serialize($taskObject)], ['task_id' => $taskId])->execute();
+				if (!empty($taskObject)) {
+					$dbCommand->insert('com_vtiger_workflowtasks', ['workflow_id' => $workflowId, 'summary' => $task['summary']])->execute();
+					$taskId = $db->getLastInsertID('com_vtiger_workflowtasks_task_id_seq');
+					$taskObject->workflowId = (int) $workflowId;
+					$taskObject->id = (int) $taskId;
+					$dbCommand->update('com_vtiger_workflowtasks', ['task' => serialize($taskObject)], ['task_id' => $taskId])->execute();
+				}
 			}
 		}
 		return $messages;
