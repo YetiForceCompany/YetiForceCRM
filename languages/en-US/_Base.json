@@ -863,6 +863,8 @@
     "does not equal": "does not equal",
     "less than or equal to": "less than or equal to",
     "equal to": "Equal to",
+    "Record is open": "Record is open",
+    "Record is closed": "Record is closed",
     "None": "None",
     "greater than or equal to": "greater than or equal to",
     "before": "before",
