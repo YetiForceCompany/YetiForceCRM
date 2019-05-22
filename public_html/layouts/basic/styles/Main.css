@@ -18847,6 +18847,7 @@ label.btn[class*=btn-outline-]:not(.active):hover {
   padding-top: 50px;
   padding-bottom: 30px;
   padding-left: 50px;
+  padding-right: 0 !important;
 }
 
 .quasar-modal .modal-content {
