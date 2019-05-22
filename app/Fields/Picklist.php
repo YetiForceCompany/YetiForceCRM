@@ -304,7 +304,6 @@ class Picklist
 			$values[$row[$primaryKey]] = $row;
 		}
 		\App\Cache::save('getPickListFieldValuesRows', $fieldName, $values);
-
 		return $values;
 	}
 
