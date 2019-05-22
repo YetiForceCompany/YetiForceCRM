@@ -67,6 +67,8 @@ class Vtiger_AdvancedFilter_Helper
 			'None' => 'None',
 			'is Watching Record' => 'is Watching Record',
 			'is Not Watching Record' => 'is Not Watching Record',
+			'is record open' => 'Record is open',
+			'is record closed' => 'Record is closed',
 		];
 	}
 
@@ -87,7 +89,7 @@ class Vtiger_AdvancedFilter_Helper
 			'integer' => ['equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed'],
 			'double' => ['equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed'],
 			'currency' => ['equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed', 'is not empty'],
-			'picklist' => ['is', 'is not', 'has changed', 'has changed to', 'is empty', 'is not empty'],
+			'picklist' => ['is', 'is not', 'has changed', 'has changed to', 'is empty', 'is not empty', 'is record open', 'is record closed'],
 			'multipicklist' => ['is', 'is not', 'has changed', 'has changed to'],
 			'datetime' => ['is', 'is not', 'has changed', 'less than hours before', 'less than hours later', 'more than hours before', 'more than hours later', 'is not empty'],
 			'time' => ['is', 'is not', 'has changed', 'is not empty'],
