@@ -1,9 +1,9 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-KnowledgeBase-ModalHeader -->
-<div class="modal quasar-modal" tabindex="-1" data-js="data"
+<div class="modal js-modal-data quasar-modal " tabindex="-1" data-js="data"
 	 role="dialog" {foreach from=$MODAL_VIEW->modalData key=KEY item=VALUE} data-{$KEY}="{$VALUE}"{/foreach}>
-	<div class="quasar-reset" role="document">
+	<div class="quasar-reset h-100 w-100" role="document">
 		<div class="modal-content">
 		<div class="q-bar row no-wrap items-center q-bar--standard q-bar--light">
 			<div class="q-space"></div>

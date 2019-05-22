@@ -13,11 +13,19 @@
 	margin-right: -0.5rem;
 }
 .quasar-modal {
-	padding: unset !important;
 	.modal-content {
-		height: 100vh;
+		height: 100%;
 	}
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	padding-top: 50px;
+	padding-bottom: 30px;
+	padding-left: 50px;
+	padding-right: 0 !important;
+
 	.q-layout-container {
-		height: calc(100vh - 33px);
+		height: calc(100vh - 113px);
 	}
 }
