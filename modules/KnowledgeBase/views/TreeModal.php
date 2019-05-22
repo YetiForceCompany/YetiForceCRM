@@ -7,14 +7,14 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
-class KnowledgeBase_Modal_View extends \App\Controller\Modal
+class KnowledgeBase_TreeModal_View extends \App\Controller\Modal
 {
 	/**
 	 * {@inheritdoc}
 	 */
 	public function checkPermission(App\Request $request)
 	{
-		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView')) {
+		if (!\App\Privilege::isPermitted($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 406);
 		}
 	}
@@ -25,15 +25,7 @@ class KnowledgeBase_Modal_View extends \App\Controller\Modal
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->view('Modal.tpl', $request->getModule(false));
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getPageTitle(\App\Request $request)
-	{
-		return \App\Language::translate('LBL_UPLOAD_LOGO', $request->getModule(false));
+		$viewer->view('TreeModal.tpl', $request->getModule(false));
 	}
 
 	/**
@@ -65,6 +57,6 @@ class KnowledgeBase_Modal_View extends \App\Controller\Modal
 	 */
 	protected function preProcessTplName(\App\Request $request)
 	{
-		return 'ModalHeader.tpl';
+		return 'TreeModalHeader.tpl';
 	}
 }
