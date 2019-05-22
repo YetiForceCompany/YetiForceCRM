@@ -133,8 +133,8 @@ window.AppConnector = {
 			}
 			aDeferred.reject(textStatus, errorThrown, jqXHR);
 		};
-		if(params.data === '') {
-			app.showNotify({type: 'error', title: app.vtranslate('JS_ERROR')})
+		if (params.data === '') {
+			app.showNotify({ type: 'error', title: app.vtranslate('JS_ERROR') });
 			return aDeferred.reject();
 		}
 		jQuery.ajax(params);
