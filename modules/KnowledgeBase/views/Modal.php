@@ -51,12 +51,6 @@ class KnowledgeBase_Modal_View extends \App\Controller\Modal
 	 * {@inheritdoc}
 	 */
 
-	public function getModalScripts(App\Request $request)
-	{
-		return array_merge($this->checkAndConvertJsScripts([
-			'~layouts/basic/modules/KnowledgeBase/Tree.vue.js'
-		]), parent::getModalScripts($request));
-	}
 	public function getModalCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);

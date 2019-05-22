@@ -18,15 +18,10 @@ class KnowledgeBase_Tree_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->view('Tree.tpl', $moduleName);
 	}
+
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getFooterScripts(App\Request $request)
-	{
-		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
-			'~layouts/basic/modules/KnowledgeBase/Tree.vue.js'
-		]));
-	}
 	public function getHeaderCss(App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
