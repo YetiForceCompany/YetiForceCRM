@@ -56,15 +56,30 @@ class SaveInventory extends \Api\Core\BaseAction
 			$recordModel->setDataForSave([$fieldPermission['tablename'] => [$fieldPermission['columnname'] => 1]]);
 		}
 		if ($this->controller->request->has('inventory')) {
-			$recordModel->initInventoryData(
-				(new \Api\Portal\Inventory($moduleName, $this->controller->request->getArray('inventory')))->getInventoryData(),
-				false
-			);
+			$inventory = new \Api\Portal\Inventory($moduleName, $this->controller->request->getArray('inventory'), $this->getUserStorageId());
+			if ($inventory->validate()) {
+				$recordModel->initInventoryData(
+					$inventory->getInventoryData(),
+					false
+				);
+				$recordModel->save();
+				$result = [
+					'id' => $recordModel->getId(),
+					'moduleName' => $moduleName,
+				];
+			} else {
+				$result = [
+					'errors' => $inventory->getErrors()
+				];
+			}
+		} else {
+			$result = [
+				'errors' => [
+					'record' => 'There are no inventory records'
+				],
+			];
 		}
-		$recordModel->save();
-		return [
-			'id' => $recordModel->getId(),
-			'moduleName' => $moduleName
-		];
+
+		return $result;
 	}
 }

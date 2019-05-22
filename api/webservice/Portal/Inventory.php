@@ -38,24 +38,69 @@ class Inventory
 	private $fieldMapping;
 
 	/**
-	 * Construct.
+	 * Storage.
 	 *
-	 * @param string $moduleName
-	 * @param array  $inventory
+	 * @var int
 	 */
-	public function __construct(string $moduleName, array $inventory)
-	{
-		$this->moduleName = $moduleName;
-		$this->inventory = $inventory;
-		$this->getProductsByInventory();
-	}
+	protected $storage;
 
 	/**
 	 * Products.
 	 *
 	 * @var array
 	 */
-	private $products = [];
+	protected $products = [];
+
+	/**
+	 * Arrays with errors.
+	 *
+	 * @var array
+	 */
+	protected $errors = [];
+
+	/**
+	 * Construct.
+	 *
+	 * @param string $moduleName
+	 * @param array  $inventory
+	 */
+	public function __construct(string $moduleName, array $inventory, int $storage)
+	{
+		$this->moduleName = $moduleName;
+		$this->inventory = $inventory;
+		$this->storage = $storage;
+		$this->getProductsByInventory();
+	}
+
+	/**
+	 * Get errors.
+	 *
+	 * @return array
+	 */
+	public function getErrors(): array
+	{
+		return $this->errors;
+	}
+
+	/**
+	 * Validate inventory.
+	 *
+	 * @return bool
+	 */
+	public function validate(): bool
+	{
+		$inventoryErrors = [];
+		foreach ($this->inventory as $inventoryKey => $inventoryItem) {
+			$quantityInStorage = $this->products[$inventoryKey]['quantity'] ?? 0.0;
+			if ($quantityInStorage < (float) $inventoryItem['qty']) {
+				$inventoryErrors[$inventoryKey] = ['params' => ['quantity' => $quantityInStorage]];
+			}
+		}
+		if ($inventoryErrors) {
+			$this->errors['inventory'] = $inventoryErrors;
+		}
+		return !$inventoryErrors;
+	}
 
 	/**
 	 * Get inventory data.
@@ -67,8 +112,8 @@ class Inventory
 		$inventoryData = [];
 		foreach ($this->inventory as $inventoryKey => $inventoryItem) {
 			foreach (\Vtiger_Inventory_Model::getInstance($this->moduleName)->getFields() as $columnName => $fieldModel) {
-				if ($columnName === 'tax') {
-					$taxes = 	explode(',', $this->products[$inventoryKey]['taxes']);
+				if ('tax' === $columnName) {
+					$taxes = explode(',', $this->products[$inventoryKey]['taxes']);
 					$taxes = current($taxes);
 					if ($taxes) {
 						$allTaxes = \Vtiger_Inventory_Model::getGlobalTaxes();
@@ -158,7 +203,8 @@ class Inventory
 		$queryService = (new \App\Db\Query())
 			->select([
 				'module' => new \yii\db\Expression("'Service'"), 'id' => 'serviceid', 'service_usageunit',
-				'subunit' => new \yii\db\Expression("''"), 'currency_id', 'description', 'unit_price', 'taxes'
+				'subunit' => new \yii\db\Expression("''"), 'currency_id', 'description', 'unit_price', 'taxes',
+				'quantity' => new \yii\db\Expression('0')
 			])
 			->from('vtiger_service')
 			->innerJoin('vtiger_crmentity', 'vtiger_service.serviceid = vtiger_crmentity.crmid')
@@ -168,10 +214,11 @@ class Inventory
 		$dataReader = (new \App\Db\Query())
 			->select([
 				'module' => new \yii\db\Expression("'Products'"), 'id' => 'productid', 'usageunit',
-				'subunit', 'currency_id', 'description', 'unit_price', 'taxes'
+				'subunit', 'currency_id', 'description', 'unit_price', 'taxes', 'quantity' => 'u_yf_istorages_products.qtyinstock'
 			])
 			->from('vtiger_products')
 			->innerJoin('vtiger_crmentity', 'vtiger_products.productid = vtiger_crmentity.crmid')
+			->leftJoin('u_#__istorages_products', "u_#__istorages_products.crmid={$this->storage} AND u_#__istorages_products.relcrmid = vtiger_products.productid")
 			->where(['vtiger_crmentity.deleted' => 0])
 			->andWhere(['discontinued' => 1])
 			->andWhere(['vtiger_products.productid' => $crmIds])
