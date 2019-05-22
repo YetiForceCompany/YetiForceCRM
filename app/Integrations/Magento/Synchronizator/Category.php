@@ -3,6 +3,8 @@
 /**
  * Synchronize categories for products.
  *
+ * @package Integration
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
@@ -22,7 +24,6 @@ class Category extends Base
 	public $categoriesYF = [];
 	public $categoriesMagento = [];
 	public $categoriesMagentoParsed = [];
-	public $masterModule = [];
 	public $mapCategoryYF = [];
 	public $mapCategoryMagento = [];
 
@@ -35,8 +36,7 @@ class Category extends Base
 		$this->getCategoriesMagento();
 		$this->getCategoryMappingYF();
 		$this->getCategoryMappingMagento();
-		$this->masterModule = \App\Config::component('Magento', 'masterSource');
-		if ('magento' === $this->masterModule) {
+		if ('magento' === \App\Config::component('Magento', 'masterSource')) {
 			$this->updateCategoriesMagento(true);
 			$this->updateCategoriesYF(false, $this->categoriesMagento['children_data']);
 		} else {
