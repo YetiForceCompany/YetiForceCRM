@@ -308,13 +308,16 @@ abstract class View extends Base
 			'~layouts/resources/Tools.js',
 			'~layouts/resources/helper.js',
 			'~layouts/resources/Connector.js',
-			'~layouts/resources/ProgressIndicator.js',
+			'~layouts/resources/ProgressIndicator.js'
 		];
 		if (\App\Privilege::isPermitted('OSSMail')) {
 			$jsFileNames[] = '~layouts/basic/modules/OSSMail/resources/checkmails.js';
 		}
 		if (\App\Privilege::isPermitted('Chat')) {
 			$jsFileNames[] = '~layouts/basic/modules/Chat/resources/Chat.js';
+		}
+		if (\App\Privilege::isPermitted('KnowledgeBase')) {
+			$jsFileNames[] = '~layouts/basic/modules/KnowledgeBase/Tree.vue.js';
 		}
 		$languageHandlerShortName = \App\Language::getShortLanguageName();
 		$fileName = "~libraries/jQuery-Validation-Engine/js/languages/jquery.validationEngine-$languageHandlerShortName.js";
