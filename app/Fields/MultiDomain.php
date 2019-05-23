@@ -20,16 +20,15 @@ class MultiDomain
 	/**
 	 * Find crm ids with specified domain.
 	 *
-	 * @param string              $domain
-	 * @param \Vtiger_Field_Model $fieldModel
+	 * @param string $moduleName
+	 * @param string $fieldName
+	 * @param string $domain
 	 *
 	 * @return int[]
 	 */
-	public static function findIdByDomain(string $domain, \Vtiger_Field_Model $fieldModel)
+	public static function findIdByDomain(string $moduleName, string $fieldName, string $domain)
 	{
 		$crmids = [];
-		$fieldName = $fieldModel->getName();
-		$moduleName = $fieldModel->getModuleName();
 		$queryGenerator = new \App\QueryGenerator($moduleName);
 		$queryGenerator->permissions = false;
 		if ($queryGenerator->getModuleField($fieldName)) {

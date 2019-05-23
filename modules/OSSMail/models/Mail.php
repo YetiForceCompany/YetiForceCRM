@@ -255,13 +255,13 @@ class OSSMail_Mail_Model extends \App\Base
 	/**
 	 * Search crmids by emails.
 	 *
-	 * @param string[] $emails
 	 * @param string   $moduleName
 	 * @param string   $fieldName
+	 * @param string[] $emails
 	 *
 	 * @return array crmids
 	 */
-	public function searchByEmails(array $emails, string $moduleName, string $fieldName)
+	public function searchByEmails(string $moduleName, string $fieldName, array $emails)
 	{
 		$return = [];
 		$cacheKey = 'MailSearchByEmails' . $moduleName . '_' . $fieldName;
@@ -295,15 +295,14 @@ class OSSMail_Mail_Model extends \App\Base
 	/**
 	 * Search crmids from domains.
 	 *
-	 * @param Vtiger_Field_Model $fieldModel
-	 * @param string[]           $emails
+	 * @param string   $moduleName
+	 * @param string   $fieldName
+	 * @param string[] $emails
 	 *
-	 * @return array crmids
+	 * @return int[] crmids
 	 */
-	public function searchByDomains(Vtiger_Field_Model $fieldModel, array $emails)
+	public function searchByDomains(string $moduleName, string $fieldName, array $emails)
 	{
-		$fieldName = $fieldModel->getName();
-		$moduleName = $fieldModel->getModuleName();
 		$cacheKey = 'MailSearchByDomains' . $moduleName . '_' . $fieldName;
 		$crmids = [];
 		foreach ($emails as $email) {
@@ -314,7 +313,7 @@ class OSSMail_Mail_Model extends \App\Base
 					$crmids = array_merge($crmids, $cache);
 				}
 			} else {
-				$crmids = App\Fields\MultiDomain::findIdByDomain($domain, $fieldModel);
+				$crmids = App\Fields\MultiDomain::findIdByDomain($moduleName, $fieldName, $domain);
 				App\Cache::staticSave($cacheKey, $domain, $crmids);
 			}
 		}
@@ -348,15 +347,16 @@ class OSSMail_Mail_Model extends \App\Base
 				$enableFind = true;
 				$row = explode('=', $field);
 				$moduleName = $row[1];
+				$fieldName = $row[0];
 				$fieldModel = Vtiger_Field_Model::getInstance($row[0], Vtiger_Module_Model::getInstance($moduleName));
 				if ($searchModule && $searchModule !== $moduleName) {
 					$enableFind = false;
 				}
 				if ($enableFind) {
 					if ($fieldModel->getUIType() === 319) {
-						$return = $this->searchByDomains($fieldModel, $emails);
+						$return = $this->searchByDomains($moduleName, $fieldName, $emails);
 					} else {
-						$return = $this->searchByEmails($emails, $moduleName, $row[0]);
+						$return = $this->searchByEmails($moduleName, $fieldName, $emails);
 					}
 				}
 			}
