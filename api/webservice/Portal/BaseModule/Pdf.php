@@ -45,7 +45,7 @@ class Pdf extends \Api\Core\BaseAction
 	{
 		$file = $pdfFiles = $increment = [];
 		$recordId = $this->controller->request->getInteger('record');
-		foreach ($this->controller->request->getArray('templates') as $templateId) {
+		foreach ($this->controller->request->getArray('templates', 'Integer') as $templateId) {
 			$template = \Vtiger_PDF_Model::getInstanceById($templateId);
 			if (!$template || !$template->isVisible('Detail') || !$template->checkFiltersForRecord($recordId) || !$template->checkUserPermissions()) {
 				continue;
