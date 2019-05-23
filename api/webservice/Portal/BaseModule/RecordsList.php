@@ -28,7 +28,7 @@ class RecordsList extends \Api\Core\BaseAction
 	 */
 	public function get()
 	{
-		$this->moduleName = $this->controller->request->get('module');
+		$this->moduleName = $this->controller->request->getModule();
 		$rawData = $records = $headers = [];
 		$queryGenerator = $this->getQuery();
 		$fieldsModel = $queryGenerator->getListViewFields();
@@ -61,7 +61,7 @@ class RecordsList extends \Api\Core\BaseAction
 	 */
 	public function getQuery()
 	{
-		$queryGenerator = new \App\QueryGenerator($this->controller->request->get('module'));
+		$queryGenerator = new \App\QueryGenerator($this->controller->request->getModule());
 		$queryGenerator->initForDefaultCustomView();
 		$limit = 1000;
 		if ($requestLimit = $this->controller->request->getHeader('x-row-limit')) {
@@ -111,9 +111,11 @@ class RecordsList extends \Api\Core\BaseAction
 	protected function getRecordFromRow(array $row, array $fieldsModel): array
 	{
 		$record = ['recordLabel' => \App\Record::getLabel($row['id'])];
+		$recordModel = \Vtiger_Record_Model::getCleanInstance($this->controller->request->getModule());
 		foreach ($fieldsModel as $fieldName => &$fieldModel) {
 			if (isset($row[$fieldName])) {
-				$record[$fieldName] = $fieldModel->getDisplayValue($row[$fieldName], $row['id'], false, true);
+				$recordModel->set($fieldName, $row[$fieldName]);
+				$record[$fieldName] = $recordModel->getDisplayValue($fieldName, $row['id'], true);
 			}
 		}
 		return $record;
