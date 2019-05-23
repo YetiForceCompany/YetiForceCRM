@@ -36,6 +36,7 @@
   },
   "js": {
     "JS_TOP_CATEGORIES": "Top categories",
-    "JS_SEARCH_CURRENT_CATEGORY": "Search current category"
+    "JS_SEARCH_CURRENT_CATEGORY": "Search current category",
+    "JS_RELATED_ARTICLES": "Related Articles"
   }
 }

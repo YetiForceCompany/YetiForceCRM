@@ -303,6 +303,49 @@
           </q-carousel>
           <div v-else v-html="record.content"></div>
         </q-card-section>
+        <q-table
+          v-if="record.related"
+          :data="getTableArray(record.related)"
+          :columns="columns"
+          row-key="subject"
+          grid
+          hide-header
+          :title="translate('JS_RELATED_ARTICLES')"
+        >
+          <template v-slot:item="props">
+            <q-list class="list-item" padding @click="getRecord(props.row.id)">
+              <q-item clickable>
+                <q-item-section avatar>
+                  <q-icon name="mdi-text" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label class="text-primary"> {{ props.row.subject }}</q-item-label>
+                  <q-item-label class="flex" overline>
+                    <q-breadcrumbs class="mr-2 text-grey-8" active-color="grey-8">
+                      <q-breadcrumbs-el
+                        v-for="category in tree.categories[props.row.category].parentTree"
+                        :key="tree.categories[category].label"
+                      >
+                        <icon :size="iconSize" :icon="tree.categories[category].icon" class="q-mr-sm" />
+                        {{ tree.categories[category].label }}
+                      </q-breadcrumbs-el>
+                    </q-breadcrumbs>
+
+                    | Authored by: {{ props.row.assigned_user_id }}</q-item-label
+                  >
+                  <q-item-label caption>{{ props.row.introduction }}</q-item-label>
+                </q-item-section>
+                <q-item-section side top>
+                  <q-item-label caption>{{ props.row.short_time }}</q-item-label>
+                  <q-tooltip>
+                    {{ props.row.full_time }}
+                  </q-tooltip>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </template>
+          <template v-slot:bottom="props"> </template>
+        </q-table>
       </q-card>
     </q-dialog>
   </div>
