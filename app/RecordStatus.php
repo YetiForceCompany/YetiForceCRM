@@ -273,7 +273,9 @@ class RecordStatus
 			return \App\Cache::staticGet($cacheName, $recordState);
 		}
 		if ((bool) \App\Db::getInstance()->getTableSchema("vtiger_$fieldName", true)->getColumn('record_state')) {
-			$values = (new \App\Db\Query())->select([$fieldName])->from("vtiger_$fieldName")->where(['record_state' => $recordState])
+			$values = (new \App\Db\Query())->select([$fieldName])
+				->from("vtiger_$fieldName")
+				->where(['record_state' => $recordState])
 				->column();
 		} else {
 			$values = [];
