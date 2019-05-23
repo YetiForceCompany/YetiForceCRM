@@ -264,11 +264,11 @@ class OSSMail_Mail_Model extends \App\Base
 	public function searchByEmails(array $emails, string $moduleName, string $fieldName)
 	{
 		$return = [];
+		$cacheKey = 'MailSearchByEmails' . $moduleName . '_' . $fieldName;
 		foreach ($emails as $email) {
 			if (empty($email)) {
 				continue;
 			}
-			$cacheKey = 'MailSearchByEmails' . $moduleName . '_' . $fieldName;
 			if (App\Cache::staticHas($cacheKey, $email)) {
 				$cache = App\Cache::staticGet($cacheKey, $email);
 				if ($cache != 0) {
@@ -280,11 +280,7 @@ class OSSMail_Mail_Model extends \App\Base
 				if ($queryGenerator->getModuleField($fieldName)) {
 					$queryGenerator->setFields(['id']);
 					$queryGenerator->addCondition($fieldName, $email, 'e');
-					$dataReader = $queryGenerator->createQuery()->createCommand()->query();
-					while (($crmid = $dataReader->readColumn(0)) !== false) {
-						$ids[] = $crmid;
-					}
-					$dataReader->close();
+					$ids = $queryGenerator->createQuery()->column();
 					$return = array_merge($return, $ids);
 				}
 				if (empty($ids)) {

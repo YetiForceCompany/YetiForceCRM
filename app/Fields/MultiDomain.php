@@ -3,6 +3,8 @@
 /**
  * MultiDomain class.
  *
+ * @package   App
+ *
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Rafal Pospiech <r.pospiech@yetiforce.com>
@@ -33,11 +35,7 @@ class MultiDomain
 		if ($queryGenerator->getModuleField($fieldName)) {
 			$queryGenerator->setFields(['id']);
 			$queryGenerator->addNativeCondition(['like', $fieldName, ",$domain,"]);
-			$dataReader = $queryGenerator->createQuery()->createCommand()->query();
-			while (($crmid = $dataReader->readColumn(0)) !== false) {
-				$crmids[] = $crmid;
-			}
-			$dataReader->close();
+			$crmids = $queryGenerator->createQuery()->column();
 		}
 		return $crmids;
 	}
