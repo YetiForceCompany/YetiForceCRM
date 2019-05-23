@@ -91,9 +91,11 @@ class Inventory
 	{
 		$inventoryErrors = [];
 		foreach ($this->inventory as $inventoryKey => $inventoryItem) {
-			$quantityInStorage = $this->products[$inventoryKey]['quantity'] ?? 0.0;
-			if ($quantityInStorage < (float) $inventoryItem['qty']) {
-				$inventoryErrors[$inventoryKey] = ['params' => ['quantity' => $quantityInStorage]];
+			if ('Products' === $this->products[$inventoryKey]['module']) {
+				$quantityInStorage = $this->products[$inventoryKey]['quantity'] ?? 0.0;
+				if ($quantityInStorage < (float) $inventoryItem['qty']) {
+					$inventoryErrors[$inventoryKey] = ['params' => ['quantity' => $quantityInStorage]];
+				}
 			}
 		}
 		if ($inventoryErrors) {
