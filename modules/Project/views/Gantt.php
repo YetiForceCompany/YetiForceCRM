@@ -78,7 +78,7 @@ class Project_Gantt_View extends Vtiger_Index_View
 	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+		$jsFileNames = [
 			'~libraries/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js',
 			'modules.CustomView.resources.CustomView',
 			"modules.${moduleName}.resources.CustomView",
@@ -87,6 +87,10 @@ class Project_Gantt_View extends Vtiger_Index_View
 			'modules.Project.resources.Gantt',
 			'~libraries/gantt-elastic/dist/bundle.js',
 			'modules.Project.resources.GanttController',
-		]));
+		];
+		if (!\App\Privilege::isPermitted('KnowledgeBase')) {
+			array_unshift($jsFileNames, '~libraries/vue/dist/vue.min.js');
+		}
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 }
