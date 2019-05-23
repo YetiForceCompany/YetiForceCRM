@@ -67,6 +67,8 @@ class RecordStatus
 	 */
 	public static function activate(string $moduleName, string $fieldName): bool
 	{
+		$db = \App\Db::getInstance();
+		$schema = $db->getSchema();
 		$field = (new \App\Db\Query())
 			->from('vtiger_field')
 			->where(['tabid' => Module::getModuleId($moduleName), 'fieldname' => $fieldName])
@@ -74,10 +76,41 @@ class RecordStatus
 		if (!$field) {
 			return false;
 		}
-		if ($fieldModel = \Vtiger_Field_Model::getInstance($fieldName, \Vtiger_Module_Model::getInstance($moduleName))) {
+		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+		if ($fieldModel = \Vtiger_Field_Model::getInstance($fieldName, $moduleModel)) {
 			$fieldModel->set('fieldparams', \App\Json::encode(['isProcessStatusField' => true]));
 			$fieldModel->save();
+			$nameTableStatusHistory = $moduleModel->get('basetable') . '_record_status_history';
+			if (!$db->getTableSchema($nameTableStatusHistory)) {
+				$db->createTable($nameTableStatusHistory, [
+					'id' => \yii\db\Schema::TYPE_UPK,
+					'crmid' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_INTEGER, 11),
+					'after' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 255),
+					'before' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 255),
+					'data' => \yii\db\Schema::TYPE_TIMESTAMP
+				]);
+			}
 		}
 		return $fieldModel ? true : false;
+	}
+
+	/**
+	 * Add date history status to table.
+	 *
+	 * @param \Vtiger_Record_Model $recordModel
+	 */
+	public static function addHistory(\Vtiger_Record_Model $recordModel)
+	{
+		$db = \App\Db::getInstance();
+		$fieldStatusActive = self::getField(\App\Module::getModuleId($recordModel->getModuleName()));
+		$nameTableStatusHistory = $recordModel->getModule()->get('basetable') . '_record_status_history';
+		if ($db->getTableSchema($nameTableStatusHistory) && $fieldStatusActive) {
+			$db->createCommand()->insert($nameTableStatusHistory, [
+				'crmid' => $recordModel->getId(),
+				'after' => $recordModel->get($fieldStatusActive),
+				'before' => $recordModel->getPreviousValue($fieldStatusActive),
+				'data' => date('Y-m-d H:i:s')
+			])->execute();
+		}
 	}
 }

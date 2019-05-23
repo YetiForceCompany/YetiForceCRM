@@ -2987,6 +2987,7 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_clas
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (70,'EntityChangeState','API_CardDAV_Handler',1,'Contacts,OSSEmployees','',3,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (71,'EntityAfterDelete','API_CalDAV_Handler',1,'Calendar','',3,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (72,'EntityChangeState','API_CalDAV_Handler',1,'Calendar','',3,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (73,'EntityAfterSave','Vtiger_RecordStatusHistory_Handler',1,'','',5,0);
 
 /*Data for the table `vtiger_expectedresponse` */
 
