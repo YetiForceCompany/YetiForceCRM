@@ -399,7 +399,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$return = [];
 		$query = (new App\Db\Query())->from('vtiger_field')
 			->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
-			->where(['and', ['or', ['uitype' => 13], ['uitype' => 14]], ['<>', 'vtiger_field.presence', 1], ['<>', 'vtiger_tab.name', 'Users']]);
+			->where(['and', ['or', ['uitype' => 13], ['uitype' => 14], ['uitype' => 319]], ['<>', 'vtiger_field.presence', 1], ['<>', 'vtiger_tab.name', 'Users']]);
 		if ($module) {
 			$query->andWhere(['vtiger_tab.name' => $module]);
 		}
@@ -428,9 +428,10 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function getEmailSearchList()
 	{
-		$cache = Vtiger_Cache::get('Mail', 'EmailSearchList');
-		if (false !== $cache) {
-			return $cache;
+		$cacheKey = 'Mail';
+		$cacheValue = 'EmailSearchList';
+		if (\App\Cache::staticHas($cacheKey, $cacheValue)) {
+			return \App\Cache::staticGet($cacheKey, $cacheValue);
 		}
 		$return = [];
 		$value = (new \App\Db\Query())->select(['value'])->from('vtiger_ossmailscanner_config')
@@ -439,7 +440,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		if (!empty($value)) {
 			$return = explode(',', $value);
 		}
-		Vtiger_Cache::set('Mail', 'EmailSearchList', $return);
+		\App\Cache::staticSave($cacheKey, $cacheValue, $return);
 
 		return $return;
 	}

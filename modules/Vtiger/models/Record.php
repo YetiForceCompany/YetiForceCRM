@@ -695,6 +695,9 @@ class Vtiger_Record_Model extends \App\Base
 	 * Static Function to get the list of records matching the search key.
 	 *
 	 * @param string $searchKey
+	 * @param mixed  $module
+	 * @param mixed  $limit
+	 * @param mixed  $operator
 	 *
 	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
 	 */
