@@ -402,9 +402,7 @@ var Settings_Picklist_Js = {
 			let form = $(e.currentTarget);
 			if (form.validationEngine('validate')) {
 				let newValue,
-					oldValue = form.find('[name="oldValue"]').val(),
-					id = form.find('[name="primaryKeyId"]').val(),
-					params = $(e.currentTarget).serializeFormData();
+					params = form.serializeFormData();
 				if (form.find('[name="newValue"]').length > 0) {
 					newValue = $.trim(form.find('[name="newValue"]').val());
 					params.newValue = newValue;

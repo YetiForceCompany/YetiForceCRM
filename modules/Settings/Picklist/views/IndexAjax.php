@@ -47,7 +47,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$viewer->assign('FIELD_MODEL', $fieldModel);
 		$viewer->assign('MODULE', $request->getModule());
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedName);
-		echo $viewer->view('EditView.tpl', $qualifiedName, true);
+		$viewer->view('EditView.tpl', $qualifiedName, true);
 	}
 
 	/**
@@ -65,7 +65,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$selectedFieldNonEditablePickListValues = App\Fields\Picklist::getNonEditablePicklistValues($fieldModel->getName());
 		$picklistValueRow = App\Fields\Picklist::getValues($fieldModel->getName())[$valueId];
 		$picklistValueRow['picklist_valueid'] = $picklistValueRow['picklist_valueid'] ?? '';
-		$picklistValueRow['close_state'] = isset(\App\RecordStatus::getClosingStates($fieldModel->getModule()->getName(), false)[$picklistValueRow['picklist_valueid']]);
+		$picklistValueRow['close_state'] = isset(\App\RecordStatus::getCloseStates($fieldModel->getModule()->getName(), false)[$picklistValueRow['picklist_valueid']]);
 		$picklistValueRow['time_counting'] = \App\RecordStatus::getTimeCountingArrayValueFromString((string) $picklistValueRow['time_counting']);
 		$viewer->assign('EDITABLE', !isset($selectedFieldNonEditablePickListValues[$valueId]));
 		$viewer->assign('PICKLIST_VALUE', $picklistValueRow);
@@ -74,7 +74,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$viewer->assign('FIELD_MODEL', $fieldModel);
 		$viewer->assign('MODULE', $request->getModule());
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedName);
-		echo $viewer->view('ProcessStatusView.tpl', $qualifiedName, true);
+		$viewer->view('ProcessStatusView.tpl', $qualifiedName, true);
 	}
 
 	/**
@@ -108,7 +108,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$viewer->assign('SELECTED_PICKLISTFIELD_EDITABLE_VALUES', $selectedFieldEditablePickListValues);
 		$viewer->assign('SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES', $selectedFieldNonEditablePickListValues);
 		$viewer->assign('FIELD_VALUES', array_map('\App\Purifier::encodeHtml', $valueToDelete));
-		echo $viewer->view('DeleteView.tpl', $qualifiedName, true);
+		$viewer->view('DeleteView.tpl', $qualifiedName, true);
 	}
 
 	/**

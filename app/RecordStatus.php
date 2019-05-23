@@ -230,10 +230,10 @@ class RecordStatus
 	 *
 	 * @return string[]
 	 */
-	public static function getClosingStates(string $moduleName, bool $byName = true)
+	public static function getCloseStates(string $moduleName, bool $byName = true)
 	{
 		$tabId = \App\Module::getModuleId($moduleName);
-		$cacheName = 'RecordStatus::getClosingStates' . ($byName ? 'ByName' : '');
+		$cacheName = 'RecordStatus::getCloseStates' . ($byName ? 'ByName' : '');
 		if (\App\Cache::staticHas($cacheName, $tabId)) {
 			return \App\Cache::staticGet($cacheName, $tabId);
 		}

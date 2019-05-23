@@ -383,14 +383,13 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function clearPicklistCache(string $fieldName, string $moduleName)
 	{
-		\App\Cache::staticDelete('getValuesName', $fieldName);
-		\App\Cache::staticDelete('getNonEditablePicklistValues', $fieldName);
-		\App\Cache::staticDelete('getRoleBasedPicklistValues', $fieldName);
-		\App\Cache::staticDelete('getPickListFieldValuesRows', $fieldName);
-		\App\Cache::staticDelete('getCloseStatesByName', \App\Module::getModuleId($moduleName));
-		\App\Cache::staticDelete('getCloseStates', \App\Module::getModuleId($moduleName));
-		\App\Cache::staticDelete("getPicklistValuesByRecordState$fieldName", \App\RecordStatus::RECORD_STATE_OPEN);
-		\App\Cache::staticDelete("getPicklistValuesByRecordState$fieldName", \App\RecordStatus::RECORD_STATE_CLOSED);
-		\App\Cache::staticDelete("getPicklistValuesByRecordState$fieldName", \App\RecordStatus::RECORD_STATE_NO_CONCERN);
+		\App\Cache::delete('getValuesName', $fieldName);
+		\App\Cache::delete('getNonEditablePicklistValues', $fieldName);
+		\App\Cache::delete('getRoleBasedPicklistValues', $fieldName);
+		\App\Cache::delete('getPickListFieldValuesRows', $fieldName);
+		\App\Cache::delete('getCloseStates', \App\Module::getModuleId($moduleName));
+		\App\Cache::delete("getPicklistValuesByRecordState$fieldName", \App\RecordStatus::RECORD_STATE_OPEN);
+		\App\Cache::delete("getPicklistValuesByRecordState$fieldName", \App\RecordStatus::RECORD_STATE_CLOSED);
+		\App\Cache::delete("getPicklistValuesByRecordState$fieldName", \App\RecordStatus::RECORD_STATE_NO_CONCERN);
 	}
 }
