@@ -59,16 +59,16 @@ class RecordStatus
 	 *
 	 * @return string[]
 	 */
-	public static function getStatusStatesByModuleId(int $tabId, string $state = 'open')
+	public static function getStates(string $moduleName, string $state = 'open')
 	{
 		if (\App\Cache::has('RecordStatus::getStates', $tabId)) {
 			$values = \App\Cache::get('RecordStatus::getStates', $tabId);
 		} else {
-			$fieldName = static::getField($tabId);
+			$fieldName = static::getFieldName($moduleName);
 			$values = [];
 			foreach (Fields\Picklist::getValues($fieldName) as $value) {
-				if ($value['automation']) {
-					$values[$value['automation']][$value['ticketstatus_id']] = $value['picklistValue'];
+				if ($value['record_state']) {
+					$values[$value['record_state']][$value['ticketstatus_id']] = $value['picklistValue'];
 				}
 			}
 			\App\Cache::save('RecordStatus::getStates', $tabId, $values);
@@ -127,14 +127,18 @@ class RecordStatus
 	/**
 	 * Get time counting values grouped by id from field name.
 	 *
-	 * @param string $fieldName
+	 * @param string $moduleName
 	 * @param bool   $asMultiArray time counting could have multiple values separated by comma
 	 *                             we can return array of strings with commas or as array of arrays
 	 *
 	 * @return array
 	 */
-	public static function getTimeCountingValues(string $fieldName, bool $asMultiArray = true)
+	public static function getTimeCountingValues(string $moduleName, bool $asMultiArray = true)
 	{
+		$fieldName = static::getFieldName($moduleName);
+		if (!$fieldName) {
+			return [];
+		}
 		$primaryKey = \App\Fields\Picklist::getPickListId($fieldName);
 		$tableName = \App\Fields\Picklist::getPickListTableName($fieldName);
 		$rows = (new \App\Db\Query())->select([$primaryKey, 'time_counting'])->from($tableName)->all();
@@ -200,14 +204,15 @@ class RecordStatus
 	}
 
 	/**
-	 * Get record state values grouped by id.
+	 * Get record state values grouped by module id.
 	 *
-	 * @param string $fieldName
+	 * @param string $moduleName
 	 *
 	 * @return array
 	 */
-	public static function getRecordStateValues(string $fieldName)
+	public static function getRecordStateValues(string $moduleName)
 	{
+		$fieldName = static::getFieldName($moduleName);
 		$tableName = \App\Fields\Picklist::getPickListTableName($fieldName);
 		$primaryKey = \App\Fields\Picklist::getPickListId($fieldName);
 		$rows = (new \App\Db\Query())->select([$primaryKey, 'record_state'])->from($tableName)->all();
@@ -218,15 +223,17 @@ class RecordStatus
 	}
 
 	/**
-	 * Get closing state for all fields in module.
+	 * Get closing states for all fields in module.
 	 *
-	 * @param int $tabId
+	 * @param string $moduleName
+	 * @param bool   $byName
 	 *
 	 * @return string[]
 	 */
-	public static function getCloseStates(int $tabId, bool $byName = true)
+	public static function getClosingStates(string $moduleName, bool $byName = true)
 	{
-		$cacheName = 'getCloseStates' . ($byName ? 'ByName' : '');
+		$tabId = \App\Module::getModuleId($moduleName);
+		$cacheName = 'RecordStatus::getClosingStates' . ($byName ? 'ByName' : '');
 		if (\App\Cache::staticHas($cacheName, $tabId)) {
 			return \App\Cache::staticGet($cacheName, $tabId);
 		}
@@ -253,14 +260,15 @@ class RecordStatus
 	/**
 	 *  Get picklist values by record state value.
 	 *
-	 * @param string $fieldName
+	 * @param string $moduleName
 	 * @param int    $recordState
 	 *
 	 * @return array
 	 */
-	public static function getPicklistValuesByRecordState(string $fieldName, int $recordState = self::RECORD_STATE_NO_CONCERN): array
+	public static function getPicklistValuesByRecordState(string $moduleName, int $recordState = self::RECORD_STATE_NO_CONCERN): array
 	{
-		$cacheName = "getPicklistValuesByRecordState$fieldName";
+		$fieldName = static::getFieldName($moduleName);
+		$cacheName = "RecordStatus::getPicklistValuesByRecordState$fieldName";
 		if (\App\Cache::staticHas($cacheName, $recordState)) {
 			return \App\Cache::staticGet($cacheName, $recordState);
 		}
@@ -272,5 +280,32 @@ class RecordStatus
 		}
 		\App\Cache::staticSave($cacheName, $recordState, $values);
 		return $values;
+	}
+
+	/**
+	 * Get process status field names.
+	 *
+	 * @param string $moduleName optional if we need only one field name for specified module
+	 *
+	 * @return string|string[]
+	 */
+	public static function getFieldName(string $moduleName = '')
+	{
+		$cacheKey = 'RecordStatus::getFieldName';
+		if (\App\Cache::has($cacheKey, $moduleName)) {
+			return \App\Cache::get($cacheKey, $moduleName);
+		}
+		$query = (new \App\Db\Query())
+			->select(['vtiger_field.fieldname', 'vtiger_field.tabid'])
+			->from('vtiger_field')
+			->where(['fieldparams' => '{"isProcessStatusField":true}', 'presence' => [0, 2]]);
+		if ($moduleName) {
+			$result = $query->andWhere(['vtiger_field.tabid' => \App\Module::getModuleId($moduleName)])->scalar();
+		} else {
+			$rows = $query->orderBy(['vtiger_field.tabid' => SORT_ASC])->all();
+			$result = array_column($rows, 'fieldname', 'tabid');
+		}
+		\App\Cache::save($cacheKey, $moduleName, $result);
+		return $result;
 	}
 }

@@ -158,7 +158,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		$pickListFieldName = $this->getName();
 		$primaryKey = \App\Fields\Picklist::getPickListId($pickListFieldName);
 		$tableName = \App\Fields\Picklist::getPickListTableName($pickListFieldName);
-		$oldValue = \App\RecordStatus::getRecordStateValues($pickListFieldName)[$id];
+		$oldValue = \App\RecordStatus::getRecordStateValues($this->getModuleName())[$id];
 		if ($recordState === $oldValue) {
 			return true;
 		}
@@ -201,7 +201,11 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		}
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		$tabId = $this->get('tabid');
-		$oldValue = \App\RecordStatus::getCloseStates($tabId, false)[$valueId] ?? false;
+		$moduleName = \App\Module::getModuleName($tabId);
+		$oldValue = \App\RecordStatus::getClosingStates($moduleName, false)[$valueId] ?? false;
+		if ($closeState === $oldValue) {
+			return true;
+		}
 		if ($closeState === null && $oldValue !== $value) {
 			$dbCommand->update('u_#__picklist_close_state', ['value' => $value], ['fieldid' => $this->getId(), 'valueid' => $valueId])->execute();
 		} elseif ($closeState === false && $oldValue !== false) {
@@ -244,7 +248,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		if ($newValue === ',,') {
 			$newValue = null;
 		}
-		$oldValue = \App\RecordStatus::getTimeCountingValues($pickListFieldName, false)[$id];
+		$oldValue = \App\RecordStatus::getTimeCountingValues($moduleName, false)[$id];
 		if ($newValue === $oldValue) {
 			return true;
 		}

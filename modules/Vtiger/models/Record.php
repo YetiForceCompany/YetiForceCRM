@@ -885,7 +885,7 @@ class Vtiger_Record_Model extends \App\Base
 		if (\App\Cache::staticHas($cacheName, $this->getId())) {
 			return \App\Cache::staticGet($cacheName, $this->getId());
 		}
-		$lockFields = \App\RecordStatus::getCloseStates($this->getModule()->getId());
+		$lockFields = \App\RecordStatus::getClosingStates($this->getModule()->getName());
 		foreach ($lockFields as $fieldName => $values) {
 			if (!in_array($this->getValueByField($fieldName), $values) || !$this->getField($fieldName)->isAjaxEditable()) {
 				unset($lockFields[$fieldName]);
