@@ -33,7 +33,9 @@ import {
 	QCardSection,
 	QCarousel,
 	QCarouselSlide,
-	QCarouselControl
+	QCarouselControl,
+	QImg,
+	QAvatar
 } from 'quasar/src/components.js'
 import * as directives from 'quasar/src/directives.js'
 import * as plugins from 'quasar/src/plugins.js'
@@ -75,7 +77,9 @@ const Quasar = {
 				QCardSection,
 				QCarousel,
 				QCarouselSlide,
-				QCarouselControl
+				QCarouselControl,
+				QImg,
+				QAvatar
 			},
 			directives,
 			plugins: {},

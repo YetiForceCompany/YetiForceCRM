@@ -33,5 +33,9 @@
     "LBL_RELATED_KNOWLEDGE_BASES": "Related entries",
     "FL_INTRODUCTION": "Introduction",
     "ERR_NOT_ALLOWED": "The file has not the allowed extension type"
+  },
+  "js": {
+    "JS_TOP_CATEGORIES": "Top categories",
+    "JS_SEARCH_CURRENT_CATEGORY": "Search current category"
   }
 }

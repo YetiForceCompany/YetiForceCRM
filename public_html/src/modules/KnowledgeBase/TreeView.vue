@@ -10,14 +10,27 @@
             <template v-slot:separator>
               <q-icon size="1.5em" name="mdi-chevron-right" />
             </template>
-            <q-breadcrumbs-el icon="mdi-file-tree" @click="getData()" />
-            <template v-if="this.activeCategory !== ''">
+            <q-breadcrumbs-el
+              :icon="tree.topCategory.icon"
+              :label="translate(tree.topCategory.label)"
+              @click="activeCategory === '' ? '' : getData()"
+              :disabled="activeCategory === ''"
+              :class="[activeCategory === '' ? '' : 'cursor-pointer']"
+            />
+            <template v-if="activeCategory !== ''">
               <q-breadcrumbs-el
-                v-for="category in tree.categories[this.activeCategory].parentTree"
-                :key="tree.categories[category].label"
-                @click="getData(category)"
+                v-for="(category, index) in tree.categories[activeCategory].parentTree"
+                :key="index"
+                :disabled="index === tree.categories[activeCategory].parentTree.length - 1"
+                :class="[index === tree.categories[activeCategory].parentTree.length - 1 ? '' : 'cursor-pointer']"
+                @click="index === tree.categories[activeCategory].parentTree.length - 1 ? '' : getData(category)"
               >
-                <icon :size="iconSize" :icon="tree.categories[category].icon" class="q-mr-sm"></icon>
+                <icon
+                  v-if="tree.categories[category].icon"
+                  :size="iconSize"
+                  :icon="tree.categories[category].icon"
+                  class="q-mr-sm"
+                ></icon>
                 {{ tree.categories[category].label }}
               </q-breadcrumbs-el>
             </template>
@@ -39,7 +52,7 @@
             <div>
               <q-toggle v-model="categorySearch" icon="mdi-file-tree" />
               <q-tooltip>
-                Search current category
+                {{ translate('JS_SEARCH_CURRENT_CATEGORY') }}
               </q-tooltip>
             </div>
           </div>
@@ -59,10 +72,10 @@
           <q-list>
             <q-item v-show="activeCategory === ''" clickable active>
               <q-item-section avatar>
-                <q-icon name="mdi-file-tree" :size="iconSize" />
+                <q-icon :name="tree.topCategory.icon" :size="iconSize" />
               </q-item-section>
               <q-item-section>
-                Categories
+                {{ translate(tree.topCategory.label) }}
               </q-item-section>
             </q-item>
             <q-item
@@ -331,12 +344,19 @@ export default {
           records: [],
           featured: {}
         },
+        topCategory: {
+          icon: 'mdi-file-tree',
+          label: 'JS_TOP_CATEGORIES'
+        },
         categories: {}
       },
       searchData: false
     }
   },
   methods: {
+    translate(key) {
+      return app.vtranslate(key)
+    },
     getTableArray(tableObject) {
       return Object.keys(tableObject).map(function(key) {
         return { ...tableObject[key], id: key }
