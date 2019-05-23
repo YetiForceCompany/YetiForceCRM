@@ -318,6 +318,8 @@ abstract class View extends Base
 		}
 		if (\App\Privilege::isPermitted('KnowledgeBase')) {
 			$jsFileNames[] = '~layouts/basic/modules/KnowledgeBase/Tree.vue.js';
+		} elseif (\App\Privilege::isPermitted('Projects')) {
+			$jsFileNames[] = '~libraries/vue/dist/vue.min.js';
 		}
 		$languageHandlerShortName = \App\Language::getShortLanguageName();
 		$fileName = "~libraries/jQuery-Validation-Engine/js/languages/jquery.validationEngine-$languageHandlerShortName.js";
