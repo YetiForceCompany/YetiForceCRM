@@ -9,30 +9,33 @@
  */
 class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
+	/**
+	 * Constructor.
+	 */
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('setInventory');
+		$this->exposeMethod('changeModuleType');
 		$this->exposeMethod('saveInventoryField');
 		$this->exposeMethod('saveSequence');
 		$this->exposeMethod('delete');
 		$this->exposeMethod('contextHelp');
 	}
 
-	public function setInventory(\App\Request $request)
+	/**
+	 * Change module type.
+	 *
+	 * @param App\Request $request
+	 */
+	public function changeModuleType(App\Request $request)
 	{
-		$param = $request->get('param');
-		$moduleName = $param['module'];
-		$status = false;
-		$inventoryInstance = Vtiger_Inventory_Model::getInstance($moduleName);
-		$status = $inventoryInstance->setMode($param['status']);
-		if ($status) {
-			$status = true;
+		$type = $request->getInteger('type');
+		$moduleName = $request->getByType('sourceModule');
+		if ($result['success'] = (new \App\BatchMethod(['method' => '\App\Module::changeType', 'params' => ['module' => $moduleName, 'type' => $type]]))->save()) {
+			$result['message'] = \App\Language::translate('LBL_CHANGED_MODULE_TYPE_INFO', $request->getModule(true));
 		}
 		$response = new Vtiger_Response();
-		$response->setResult([
-				'success' => $status, ]
-		);
+		$response->setResult($result);
 		$response->emit();
 	}
 
@@ -41,7 +44,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function saveInventoryField(\App\Request $request)
+	public function saveInventoryField(App\Request $request)
 	{
 		$inventory = Vtiger_Inventory_Model::getInstance($request->getByType('sourceModule', 'Standard'));
 		if ($isNew = $request->isEmpty('id')) {
@@ -93,7 +96,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
-	public function saveSequence(\App\Request $request)
+	public function saveSequence(App\Request $request)
 	{
 		$inventoryField = Vtiger_Inventory_Model::getInstance($request->getByType('sourceModule', 'Standard'));
 		$status = $inventoryField->saveSequence($request->getArray('ids', 'Integer'));
@@ -102,7 +105,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
-	public function delete(\App\Request $request)
+	public function delete(App\Request $request)
 	{
 		$inventory = Vtiger_Inventory_Model::getInstance($request->getByType('sourceModule', 'Standard'));
 		$status = $inventory->deleteField($request->getByType('fieldName', 'Alnum'));
@@ -120,7 +123,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 * @throws \App\Exceptions\Security
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public function contextHelp(\App\Request $request)
+	public function contextHelp(App\Request $request)
 	{
 		$fieldModel = \Vtiger_Field_Model::getInstanceFromFieldId($request->getInteger('field'));
 		if (!\App\Privilege::isPermitted($fieldModel->getModuleName())) {

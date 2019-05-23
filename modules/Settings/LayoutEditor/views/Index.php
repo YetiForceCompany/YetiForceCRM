@@ -19,7 +19,7 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 		$this->exposeMethod('showRelatedListLayout');
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$mode = $request->getMode();
 		if ($this->isMethodExposed($mode)) {
@@ -30,7 +30,7 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 		}
 	}
 
-	public function showFieldLayout(\App\Request $request)
+	public function showFieldLayout(App\Request $request)
 	{
 		$sourceModule = $request->getByType('sourceModule', 2);
 		$supportedModulesList = Settings_LayoutEditor_Module_Model::getSupportedModules();
@@ -60,7 +60,8 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 		}
 
 		$qualifiedModule = $request->getModule(false);
-
+		$type = $moduleModel->isInventory() ? Vtiger_Module_Model::STANDARD_TYPE : Vtiger_Module_Model::ADVANCED_TYPE;
+		$batchMethod = (new \App\BatchMethod(['method' => '\App\Module::changeType', 'params' => ['module' => $sourceModule, 'type' => $type]]));
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->assign('SUPPORTED_MODULES', $supportedModulesList);
@@ -72,11 +73,12 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->assign('IN_ACTIVE_FIELDS', $inactiveFields);
 		$viewer->assign('IS_INVENTORY', $moduleModel->isInventory());
+		$viewer->assign('CHANGE_MODULE_TYPE_DISABLED', $batchMethod->isDuplicate());
 		$viewer->assign('INVENTORY_MODEL', Vtiger_Inventory_Model::getInstance($sourceModule));
 		$viewer->view('Index.tpl', $qualifiedModule);
 	}
 
-	public function showRelatedListLayout(\App\Request $request)
+	public function showRelatedListLayout(App\Request $request)
 	{
 		$sourceModule = $request->getByType('sourceModule', 2);
 		$supportedModulesList = Settings_LayoutEditor_Module_Model::getSupportedModules();
@@ -100,7 +102,7 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 		$viewer->view('RelatedList.tpl', $qualifiedModule);
 	}
 
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts(['libraries.clipboard.dist.clipboard']));
 	}

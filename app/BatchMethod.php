@@ -67,8 +67,7 @@ class BatchMethod extends Base
 		if ($this->get('id')) {
 			$result = $db->createCommand()->update('s_#__batchmethod', $this->getData(), ['id' => $this->get('id')])->execute();
 		} else {
-			$exists = (new Db\Query())->from('s_#__batchmethod')->where(['method' => $this->get('method'), 'params' => $this->get('params')])->exists();
-			if ($exists) {
+			if ($this->isDuplicate()) {
 				return false;
 			}
 			$this->value['created_time'] = date('Y-m-d H:i:s');
@@ -77,6 +76,16 @@ class BatchMethod extends Base
 		}
 		$this->previousStatus = $this->get('status');
 		return (bool) $result;
+	}
+
+	/**
+	 * Function verifies if a duplicate of the entry already exists.
+	 *
+	 * @return bool
+	 */
+	public function isDuplicate(): bool
+	{
+		return (new Db\Query())->from('s_#__batchmethod')->where(['method' => $this->get('method'), 'params' => $this->get('params')])->exists();
 	}
 
 	/**

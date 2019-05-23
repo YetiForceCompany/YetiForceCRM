@@ -279,6 +279,20 @@ class Module
 		}
 		static::init();
 	}
+
+	/**
+	 * Function changes the module type.
+	 *
+	 * @param string $moduleName
+	 * @param int    $type
+	 */
+	public static function changeType(string $moduleName, int $type)
+	{
+		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+		if ($moduleModel && $moduleModel->changeType($type) && PrivilegeUtil::modifyPermissions($moduleName, ['RecordPdfInventory'], $type === \Vtiger_Module_Model::ADVANCED_TYPE)) {
+			UserPrivilegesFile::recalculateAll();
+		}
+	}
 }
 
 Module::init();

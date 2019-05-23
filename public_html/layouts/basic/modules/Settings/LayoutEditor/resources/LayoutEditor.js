@@ -1526,7 +1526,8 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	registerSwitch: function () {
 		var container = $('#layoutEditorContainer');
-		container.find('.js-switch--inventory').on('change', function (event) {
+		container.find('.js-switch--inventory').on('click', function (event) {
+			event.preventDefault();
 			var switchBtn = $(event.currentTarget);
 			var state = switchBtn.data('value');
 			var message = app.vtranslate('JS_EXTENDED_MODULE');
@@ -1534,7 +1535,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 				'message': '<span class="message-medium">' + message + '</span>',
 				className: "test"
 			}).done(function (e) {
-				$.progressIndicator({
+				let progress = $.progressIndicator({
 					'message': app.vtranslate('JS_SAVE_LOADER_INFO'),
 					'position': 'html',
 					'blockInfo': {
@@ -1542,15 +1543,19 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 					}
 				});
 				var params = {};
-				params['module'] = container.find('[name="layoutEditorModules"]').val();
-				params['status'] = state === 'basic' ? 0 : 1;
-				app.saveAjax('setInventory', params).done(function (data) {
+				params['sourceModule'] = container.find('[name="layoutEditorModules"]').val();
+				params['type'] = state;
+				app.saveAjax('changeModuleType', null, params).done(function (data) {
 					if (data.result) {
-						//Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
-						window.location.reload();
+						if(data.result.success){
+							container.find('.js-switch--inventory').prop('disabled', true);
+							Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
+							progress.progressIndicator({ 'mode': 'hide' });
+						}else{
+							window.location.reload();
+						}
 					}
 				});
-				//window.location.reload();
 			});
 		});
 	},
