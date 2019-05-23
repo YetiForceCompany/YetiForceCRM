@@ -57,7 +57,7 @@ class SaveInventory extends \Api\Core\BaseAction
 		}
 		if ($this->controller->request->has('inventory')) {
 			$inventory = new \Api\Portal\Inventory($moduleName, $this->controller->request->getArray('inventory'), $this->getUserStorageId());
-			if ($inventory->validate()) {
+			if (!$this->getCheckStockLevels() || $inventory->validate()) {
 				$recordModel->initInventoryData(
 					$inventory->getInventoryData(),
 					false

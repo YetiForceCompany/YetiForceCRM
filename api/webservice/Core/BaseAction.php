@@ -150,6 +150,17 @@ class BaseAction
 	}
 
 	/**
+	 * Get information, whether to check inventory levels.
+	 *
+	 * @return bool
+	 */
+	public function getCheckStockLevels(): bool
+	{
+		$parentId = \Api\Portal\Privilege::USER_PERMISSIONS !== $this->getPermissionType() ? $this->getParentCrmId() : 0;
+		return empty($parentId) || (bool) \Vtiger_Record_Model::getInstanceById($parentId)->get('check_stock_levels');
+	}
+
+	/**
 	 * Get parent record.
 	 *
 	 * @return int
