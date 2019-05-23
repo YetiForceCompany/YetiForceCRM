@@ -79,7 +79,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	public function isInventory()
 	{
-		return 1 == $this->getModuleType();
+		return static::ADVANCED_TYPE === $this->getModuleType();
 	}
 
 	/**
