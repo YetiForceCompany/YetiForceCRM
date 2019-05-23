@@ -144,7 +144,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			}
 			$result = $result && $fieldModel->updateTimeCountingValue($id, $request->getArray('time_counting', 'Integer'));
 			$response->setResult($result);
-		} catch (Exception $e) {
+		} catch (\Throwable $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
 		$response->emit();
