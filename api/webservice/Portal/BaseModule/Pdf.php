@@ -2,6 +2,8 @@
 /**
  * Pdf file.
  *
+ * @package Api
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -27,7 +29,7 @@ class Pdf extends \Api\Core\BaseAction
 	public function checkPermission()
 	{
 		$result = parent::checkPermission();
-		$moduleName = $this->controller->request->getModule('module');
+		$moduleName = $this->controller->request->getModule();
 		if (!\Api\Portal\Privilege::isPermitted($moduleName, 'ExportPdf')) {
 			throw new \Api\Core\Exception("No permissions for action {$moduleName}:ExportPdf", 405);
 		}
@@ -41,17 +43,15 @@ class Pdf extends \Api\Core\BaseAction
 	 */
 	public function get()
 	{
-		$recordId = $this->controller->request->getInteger('record');
-		$templates = $this->controller->request->getArray('templates');
 		$file = $pdfFiles = $increment = [];
-		foreach ($templates as $templateId) {
-			$pdf = new \App\Pdf\YetiForcePDF();
+		$recordId = $this->controller->request->getInteger('record');
+		foreach ($this->controller->request->getArray('templates') as $templateId) {
 			$template = \Vtiger_PDF_Model::getInstanceById($templateId);
 			if (!$template || !$template->isVisible('Detail') || !$template->checkFiltersForRecord($recordId) || !$template->checkUserPermissions()) {
 				continue;
 			}
 			$template->setVariable('recordId', $recordId);
-
+			$pdf = new \App\Pdf\YetiForcePDF();
 			$pdf->setPageSize($template->getFormat(), $template->getOrientation())
 				->setWatermark($pdf->getTemplateWatermark($template))
 				->setFileName($template->parseVariables($template->get('filename')))
