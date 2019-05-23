@@ -39,11 +39,7 @@ import * as directives from 'quasar/src/directives.js'
 import * as plugins from 'quasar/src/plugins.js'
 import * as utils from 'quasar/src/utils.js'
 
-import Vue from 'vue'
 import Tree from './Tree.vue'
-import mdi from 'quasar/icon-set/mdi-v3.js'
-import BaseService from '../../services/Base.js'
-Vue.prototype.$axios = BaseService
 const Quasar = {
 	...VuePlugin,
 	install(Vue, opts) {
@@ -87,14 +83,13 @@ const Quasar = {
 		})
 	}
 }
-Vue.use(Quasar).use(BaseService)
-Quasar.iconSet.set(mdi)
+window.Vue.use(Quasar)
 
 let VueInstance = null
 window.KnowledgeBaseTree = {
 	component: Tree,
 	mount(config) {
-		VueInstance = new Vue(Tree).$mount(config.el)
+		VueInstance = new window.Vue(Tree).$mount(config.el)
 		return VueInstance
 	}
 }
