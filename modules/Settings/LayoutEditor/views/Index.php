@@ -73,7 +73,7 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->assign('IN_ACTIVE_FIELDS', $inactiveFields);
 		$viewer->assign('IS_INVENTORY', $moduleModel->isInventory());
-		$viewer->assign('CHANGE_MODULE_TYPE_DISABLED', $batchMethod->isDuplicate());
+		$viewer->assign('CHANGE_MODULE_TYPE_DISABLED', $batchMethod->isExists());
 		$viewer->assign('INVENTORY_MODEL', Vtiger_Inventory_Model::getInstance($sourceModule));
 		$viewer->view('Index.tpl', $qualifiedModule);
 	}

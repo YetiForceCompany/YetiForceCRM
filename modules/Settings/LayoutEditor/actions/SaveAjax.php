@@ -30,7 +30,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function changeModuleType(App\Request $request)
 	{
 		$type = $request->getInteger('type');
-		$moduleName = $request->getByType('sourceModule');
+		$moduleName = $request->getByType('sourceModule', 'Alnum');
 		if ($result['success'] = (new \App\BatchMethod(['method' => '\App\Module::changeType', 'params' => ['module' => $moduleName, 'type' => $type]]))->save()) {
 			$result['message'] = \App\Language::translate('LBL_CHANGED_MODULE_TYPE_INFO', $request->getModule(true));
 		}
