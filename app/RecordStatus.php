@@ -63,11 +63,11 @@ class RecordStatus
 	public static function getStates(string $moduleName, int $state = null)
 	{
 		$cacheKey = "RecordStatus::getStates::$moduleName";
-		if (\App\Cache::has($cacheKey, $state)) {
-			$values = \App\Cache::get($cacheKey, $state);
+		if (Cache::has($cacheKey, $state)) {
+			$values = Cache::get($cacheKey, $state);
 		} else {
 			$fieldName = static::getFieldName($moduleName);
-			$primaryKey = \App\Fields\Picklist::getPickListId($fieldName);
+			$primaryKey = Fields\Picklist::getPickListId($fieldName);
 			$values = [];
 			foreach (Fields\Picklist::getValues($fieldName) as $value) {
 				if (isset($value['record_state']) && $state === $value['record_state']) {
@@ -76,7 +76,7 @@ class RecordStatus
 					$values[$value[$primaryKey]] = $value['record_state'];
 				}
 			}
-			\App\Cache::save($cacheKey, $state, $values);
+			Cache::save($cacheKey, $state, $values);
 		}
 		return $values;
 	}
@@ -91,7 +91,7 @@ class RecordStatus
 	 */
 	public static function activate(string $moduleName, string $fieldName): bool
 	{
-		$field = (new \App\Db\Query())
+		$field = (new Db\Query())
 			->from('vtiger_field')
 			->where(['tabid' => Module::getModuleId($moduleName), 'fieldname' => $fieldName])
 			->one();
@@ -99,11 +99,11 @@ class RecordStatus
 			return false;
 		}
 		if ($fieldModel = \Vtiger_Field_Model::getInstance($fieldName, \Vtiger_Module_Model::getInstance($moduleName))) {
-			$fieldModel->set('fieldparams', \App\Json::encode(['isProcessStatusField' => true]));
+			$fieldModel->set('fieldparams', Json::encode(['isProcessStatusField' => true]));
 			$fieldModel->save();
 		}
-		$tableName = \App\Fields\Picklist::getPicklistTableName($fieldName);
-		$db = \App\Db::getInstance();
+		$tableName = Fields\Picklist::getPicklistTableName($fieldName);
+		$db = Db::getInstance();
 		$schema = $db->getSchema();
 		$db->createCommand()->addColumn($tableName, 'record_state', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TINYINT, 1));
 		$db->createCommand()->addColumn($tableName, 'time_counting', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 7));
@@ -125,7 +125,7 @@ class RecordStatus
 		if (!$fieldName) {
 			return [];
 		}
-		$primaryKey = \App\Fields\Picklist::getPickListId($fieldName);
+		$primaryKey = Fields\Picklist::getPickListId($fieldName);
 		$values = [];
 		foreach (Fields\Picklist::getValues($fieldName) as $row) {
 			if (isset($row['time_counting'])) {
@@ -144,7 +144,7 @@ class RecordStatus
 	 *
 	 * @param string $timeCountingStr
 	 *
-	 * @throws \App\Exceptions\IllegalValue
+	 * @throws Exceptions\IllegalValue
 	 *
 	 * @return int[]
 	 */
@@ -154,7 +154,7 @@ class RecordStatus
 			return [];
 		}
 		if (strpos($timeCountingStr, ',') === -1) {
-			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $timeCountingStr, 406);
+			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $timeCountingStr, 406);
 		}
 		$values = explode(',', trim($timeCountingStr, ','));
 		if (!$values) {
@@ -163,7 +163,7 @@ class RecordStatus
 		$result = [];
 		foreach ($values as $value) {
 			if (!is_numeric($value)) {
-				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $value, 406);
+				throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $value, 406);
 			}
 			$result[] = (int) $value;
 		}
@@ -175,7 +175,7 @@ class RecordStatus
 	 *
 	 * @param int[] $timeCountingArr
 	 *
-	 * @throws \App\Exceptions\IllegalValue
+	 * @throws Exceptions\IllegalValue
 	 *
 	 * @return string
 	 */
@@ -183,7 +183,7 @@ class RecordStatus
 	{
 		foreach ($timeCountingArr as $time) {
 			if (!is_int($time)) {
-				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $time, 406);
+				throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $time, 406);
 			}
 		}
 		return ',' . implode(',', $timeCountingArr) . ',';
@@ -199,18 +199,18 @@ class RecordStatus
 	 */
 	public static function getCloseStates(string $moduleName, bool $byName = true)
 	{
-		$tabId = \App\Module::getModuleId($moduleName);
+		$tabId = Module::getModuleId($moduleName);
 		$cacheName = 'RecordStatus::getCloseStates' . ($byName ? 'ByName' : '');
-		if (\App\Cache::staticHas($cacheName, $tabId)) {
-			return \App\Cache::staticGet($cacheName, $tabId);
+		if (Cache::staticHas($cacheName, $tabId)) {
+			return Cache::staticGet($cacheName, $tabId);
 		}
 		$field = $byName ? ['vtiger_field.fieldname', 'value'] : ['valueid', 'value'];
-		$values = (new \App\Db\Query())->select($field)
+		$values = (new Db\Query())->select($field)
 			->from('u_#__picklist_close_state')
 			->innerJoin('vtiger_field', 'u_#__picklist_close_state.fieldid = vtiger_field.fieldid')
 			->where(['tabid' => $tabId, 'presence' => [0, 2]])
 			->createCommand()->queryAllByGroup($byName ? 2 : 0);
-		\App\Cache::staticSave($cacheName, $tabId, $values);
+		Cache::staticSave($cacheName, $tabId, $values);
 		return $values;
 	}
 
@@ -233,19 +233,19 @@ class RecordStatus
 	 */
 	public static function getFieldName(string $moduleName = '')
 	{
-		if (\App\Cache::has('RecordStatus::getFieldName', $moduleName)) {
-			return \App\Cache::get('RecordStatus::getFieldName', $moduleName);
+		if (Cache::has('RecordStatus::getFieldName', $moduleName)) {
+			return Cache::get('RecordStatus::getFieldName', $moduleName);
 		}
-		$query = (new \App\Db\Query())
+		$query = (new Db\Query())
 			->select(['vtiger_field.fieldname', 'vtiger_field.tabid'])
 			->from('vtiger_field')
 			->where(['fieldparams' => '{"isProcessStatusField":true}', 'presence' => [0, 2]]);
 		if ($moduleName) {
-			$result = $query->andWhere(['vtiger_field.tabid' => \App\Module::getModuleId($moduleName)])->scalar();
+			$result = $query->andWhere(['vtiger_field.tabid' => Module::getModuleId($moduleName)])->scalar();
 		} else {
 			$result = array_column($query->all(), 'fieldname', 'tabid');
 		}
-		\App\Cache::save('RecordStatus::getFieldName', $moduleName, $result);
+		Cache::save('RecordStatus::getFieldName', $moduleName, $result);
 		return $result;
 	}
 }
