@@ -107,7 +107,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				])->execute();
 			}
 		}
-		\App\Fields\Picklist::clearPicklistCache($pickListFieldName, $fieldModel->getModuleName());
+		\App\Fields\Picklist::clearCache($pickListFieldName, $fieldModel->getModuleName());
 		\App\Colors::generate('picklist');
 		return ['picklistValueId' => $picklistValueId, 'id' => $picklistId];
 	}
@@ -158,7 +158,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				$db->createCommand()->update('vtiger_picklist_dependency', ['sourcevalue' => $newValue], ['sourcevalue' => $oldValue, 'sourcefield' => $pickListFieldName, 'tabid' => $row['tabid']])->execute();
 			}
 			$dataReader->close();
-			\App\Fields\Picklist::clearPicklistCache($pickListFieldName, $fieldModel->getModuleName());
+			\App\Fields\Picklist::clearCache($pickListFieldName, $fieldModel->getModuleName());
 			$eventHandler = new App\EventHandler();
 			$eventHandler->setParams([
 				'fieldname' => $pickListFieldName,
@@ -237,7 +237,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$dataReader->close();
 		$dbCommand->update('vtiger_field', ['defaultvalue' => $replaceValue], ['defaultvalue' => $pickListValues, 'columnname' => $columnName])
 			->execute();
-		\App\Fields\Picklist::clearPicklistCache($pickListFieldName, $moduleName);
+		\App\Fields\Picklist::clearCache($pickListFieldName, $moduleName);
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setParams([
 			'fieldname' => $pickListFieldName,

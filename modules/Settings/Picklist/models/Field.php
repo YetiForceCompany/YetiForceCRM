@@ -170,9 +170,6 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 			}
 		}
 		$newTimeCountingValue = \App\RecordStatus::getTimeCountingStringValueFromArray($timeCounting);
-		if ($newTimeCountingValue === ',,') {
-			$newTimeCountingValue = null;
-		}
 		$oldTimeCountingValue = \App\RecordStatus::getTimeCountingValues($moduleName, false)[$id];
 		$oldStateValue = \App\RecordStatus::getStates($moduleName)[$id];
 		if ($recordState === $oldStateValue && $newTimeCountingValue === $oldTimeCountingValue) {
@@ -180,7 +177,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		}
 		$result = \App\Db::getInstance()->createCommand()->update($tableName, ['record_state' => $recordState, 'time_counting' => $newTimeCountingValue], [$primaryKey => $id])->execute();
 		if ($result) {
-			\App\Fields\Picklist::clearPicklistCache($pickListFieldName, $moduleName);
+			\App\Fields\Picklist::clearCache($pickListFieldName, $moduleName);
 			return true;
 		}
 		return false;

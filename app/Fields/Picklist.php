@@ -358,7 +358,7 @@ class Picklist
 		\App\Cache::delete('getPickListFieldValuesRows', $fieldName);
 		\App\Cache::delete('getCloseStates', $moduleName);
 		$cacheKey = "RecordStatus::getStates::$moduleName";
-		\App\Cache::delete($cacheKey, null);
+		\App\Cache::delete($cacheKey, 'empty_state');
 		foreach (array_keys(\App\RecordStatus::getLabels()) as $state) {
 			\App\Cache::delete($cacheKey, $state);
 		}

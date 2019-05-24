@@ -63,8 +63,9 @@ class RecordStatus
 	public static function getStates(string $moduleName, int $state = null)
 	{
 		$cacheKey = "RecordStatus::getStates::$moduleName";
-		if (Cache::has($cacheKey, $state)) {
-			$values = Cache::get($cacheKey, $state);
+		$cacheValue = $state ?? 'empty_state';
+		if (Cache::has($cacheKey, $cacheValue)) {
+			$values = Cache::get($cacheKey, $cacheValue);
 		} else {
 			$fieldName = static::getFieldName($moduleName);
 			$primaryKey = Fields\Picklist::getPickListId($fieldName);
@@ -76,7 +77,7 @@ class RecordStatus
 					$values[$value[$primaryKey]] = $value['record_state'];
 				}
 			}
-			Cache::save($cacheKey, $state, $values);
+			Cache::save($cacheKey, $cacheValue, $values);
 		}
 		return $values;
 	}
@@ -177,16 +178,16 @@ class RecordStatus
 	 *
 	 * @throws Exceptions\IllegalValue
 	 *
-	 * @return string
+	 * @return null|string
 	 */
-	public static function getTimeCountingStringValueFromArray(array $timeCountingArr): string
+	public static function getTimeCountingStringValueFromArray(array $timeCountingArr)
 	{
 		foreach ($timeCountingArr as $time) {
 			if (!is_int($time)) {
 				throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $time, 406);
 			}
 		}
-		return ',' . implode(',', $timeCountingArr) . ',';
+		return empty($timeCountingArr) ? null : ',' . implode(',', $timeCountingArr) . ',';
 	}
 
 	/**
@@ -239,7 +240,8 @@ class RecordStatus
 		$query = (new Db\Query())
 			->select(['vtiger_field.fieldname', 'vtiger_field.tabid'])
 			->from('vtiger_field')
-			->where(['fieldparams' => '{"isProcessStatusField":true}', 'presence' => [0, 2]]);
+			->where(['LIKE', 'fieldparams', '"isProcessStatusField":true'])
+			->andWhere(['presence' => [0, 2]]);
 		if ($moduleName) {
 			$result = $query->andWhere(['vtiger_field.tabid' => Module::getModuleId($moduleName)])->scalar();
 		} else {
