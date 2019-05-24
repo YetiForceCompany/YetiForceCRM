@@ -367,7 +367,7 @@ export default {
         },
         topCategory: {
           icon: 'mdi-file-tree',
-          label: 'JS_TOP_CATEGORIES'
+          label: 'JS_MAIN_CATEGORIES'
         },
         categories: {}
       },
