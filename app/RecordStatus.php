@@ -104,7 +104,7 @@ class RecordStatus
 		$db = \App\Db::getInstance();
 		$fieldStatusActive = self::getFieldName($recordModel->getModuleName());
 		$nameTableStatusHistory = $recordModel->getModule()->get('basetable') . '_record_status_history';
-		if ($db->getTableSchema($nameTableStatusHistory) && $fieldStatusActive) {
+		if ($fieldStatusActive && $db->getTableSchema($nameTableStatusHistory)) {
 			$db->createCommand()->insert($nameTableStatusHistory, [
 				'crmid' => $recordModel->getId(),
 				'after' => $recordModel->get($fieldStatusActive),
