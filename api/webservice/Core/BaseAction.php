@@ -161,6 +161,16 @@ class BaseAction
 	}
 
 	/**
+	 * Get pricebook Id.
+	 *
+	 * @return null|int
+	 */
+	public function getPricebookId(): ?int
+	{
+		return \Vtiger_Record_Model::getInstanceById($this->getParentCrmId(), 'Accounts')->get('pricebook_id');
+	}
+
+	/**
 	 * Get parent record.
 	 *
 	 * @return int

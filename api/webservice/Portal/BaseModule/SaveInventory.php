@@ -23,63 +23,104 @@ class SaveInventory extends \Api\Core\BaseAction
 	public $allowedMethod = ['POST'];
 
 	/**
+	 * Module name.
+	 *
+	 * @var string
+	 */
+	private $moduleName;
+
+	/**
+	 * Module model.
+	 *
+	 * @var \Vtiger_Module_Model
+	 */
+	private $moduleModel;
+
+	/**
+	 * Record modle.
+	 *
+	 * @var \Vtiger_Record_Model
+	 */
+	private $recordModel;
+
+	/**
+	 * Inventory object.
+	 *
+	 * @var \Api\Portal\Inventory
+	 */
+	private $inventory;
+
+	/**
 	 * Create inventory record.
 	 *
 	 * @return array
 	 */
 	public function post(): array
 	{
-		$moduleName = $this->controller->request->getModule();
-		$recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
-		$fieldModelList = $recordModel->getModule()->getFields();
-		foreach ($fieldModelList as $fieldName => $fieldModel) {
-			if (!$fieldModel->isWritable()) {
-				continue;
+		$result = $this->checkBeforeSave();
+		if (empty($result)) {
+			foreach ($this->moduleModel->getFields() as $fieldName => $fieldModel) {
+				if (!$fieldModel->isWritable()) {
+					continue;
+				}
+				if ($this->controller->request->has($fieldName)) {
+					$fieldModel->getUITypeModel()->setValueFromRequest($this->controller->request, $this->recordModel);
+				}
 			}
-			if ($this->controller->request->has($fieldName)) {
-				$fieldModel->getUITypeModel()->setValueFromRequest($this->controller->request, $recordModel);
+			if (\Api\Portal\Privilege::USER_PERMISSIONS !== $this->getPermissionType()) {
+				$fieldModel = current($this->moduleModel->getReferenceFieldsForModule('Accounts'));
+				if ($fieldModel) {
+					$this->recordModel->set($fieldModel->getFieldName(), $this->getParentCrmId());
+				}
 			}
-		}
-		$moduleModel = $recordModel->getModule();
-		if (\Api\Portal\Privilege::USER_PERMISSIONS !== $this->getPermissionType()) {
-			$fields = $moduleModel->getReferenceFieldsForModule('Accounts');
-			if ($fieldModel = current($fields)) {
-				$recordModel->set($fieldModel->getFieldName(), $this->getParentCrmId());
+			$fieldModel = current($this->moduleModel->getReferenceFieldsForModule('IStorages'));
+			if ($fieldModel) {
+				$this->recordModel->set($fieldModel->getFieldName(), $this->getUserStorageId());
 			}
-		}
-		$fields = $moduleModel->getReferenceFieldsForModule('IStorages');
-		if ($fieldModel = current($fields)) {
-			$recordModel->set($fieldModel->getFieldName(), $this->getUserStorageId());
-		}
-		$fieldPermission = \Api\Core\Module::getApiFieldPermission($moduleName, (int) $this->controller->app['id']);
-		if ($fieldPermission) {
-			$recordModel->setDataForSave([$fieldPermission['tablename'] => [$fieldPermission['columnname'] => 1]]);
-		}
-		if ($this->controller->request->has('inventory')) {
-			$inventory = new \Api\Portal\Inventory($moduleName, $this->controller->request->getArray('inventory'), $this->getUserStorageId());
-			if (!$this->getCheckStockLevels() || $inventory->validate()) {
-				$recordModel->initInventoryData(
-					$inventory->getInventoryData(),
-					false
-				);
-				$recordModel->save();
-				$result = [
-					'id' => $recordModel->getId(),
-					'moduleName' => $moduleName,
-				];
-			} else {
-				$result = [
-					'errors' => $inventory->getErrors()
-				];
+			$fieldPermission = \Api\Core\Module::getApiFieldPermission($this->moduleName, (int) $this->controller->app['id']);
+			if ($fieldPermission) {
+				$this->recordModel->setDataForSave([$fieldPermission['tablename'] => [$fieldPermission['columnname'] => 1]]);
 			}
-		} else {
+			$this->recordModel->initInventoryData($this->inventory->getInventoryData(), false);
+			$this->recordModel->save();
 			$result = [
+				'id' => $this->recordModel->getId(),
+				'moduleName' => $this->moduleName,
+			];
+		}
+		return $result;
+	}
+
+	/**
+	 * Check the request before the save.
+	 *
+	 * @return array
+	 */
+	private function checkBeforeSave(): array
+	{
+		$this->moduleName = $this->controller->request->getModule();
+		if (!$this->controller->request->has('inventory')) {
+			return [
 				'errors' => [
 					'record' => 'There are no inventory records'
 				],
 			];
 		}
-
-		return $result;
+		$this->recordModel = \Vtiger_Record_Model::getCleanInstance($this->moduleName);
+		$this->moduleModel = $this->recordModel->getModule();
+		if (!$this->moduleModel->isInventory()) {
+			return [
+				'errors' => [
+					'record' => 'This is not an inventory module'
+				],
+			];
+		}
+		$this->inventory = new \Api\Portal\Inventory($this->moduleName, $this->controller->request->getArray('inventory'), $this->getUserStorageId(), $this->getPricebookId());
+		if ($this->getCheckStockLevels() && !$this->inventory->validate()) {
+			return [
+				'errors' => $this->inventory->getErrors()
+			];
+		}
+		return [];
 	}
 }
