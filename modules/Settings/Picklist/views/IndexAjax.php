@@ -47,7 +47,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$viewer->assign('FIELD_MODEL', $fieldModel);
 		$viewer->assign('MODULE', $request->getModule());
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedName);
-		$viewer->view('EditView.tpl', $qualifiedName, true);
+		$viewer->view('EditView.tpl', $qualifiedName);
 	}
 
 	/**
@@ -74,7 +74,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$viewer->assign('FIELD_MODEL', $fieldModel);
 		$viewer->assign('MODULE', $request->getModule());
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedName);
-		$viewer->view('ProcessStatusView.tpl', $qualifiedName, true);
+		$viewer->view('ProcessStatusView.tpl', $qualifiedName);
 	}
 
 	/**
@@ -108,7 +108,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$viewer->assign('SELECTED_PICKLISTFIELD_EDITABLE_VALUES', $selectedFieldEditablePickListValues);
 		$viewer->assign('SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES', $selectedFieldNonEditablePickListValues);
 		$viewer->assign('FIELD_VALUES', array_map('\App\Purifier::encodeHtml', $valueToDelete));
-		$viewer->view('DeleteView.tpl', $qualifiedName, true);
+		$viewer->view('DeleteView.tpl', $qualifiedName);
 	}
 
 	/**

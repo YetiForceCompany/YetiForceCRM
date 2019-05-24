@@ -53,46 +53,32 @@ class RecordStatus
 	const TIME_COUNTING_IDLE = 3;
 
 	/**
-	 * Get record state status by module id.
+	 * Get record state statuses by module name.
 	 *
-	 * @param int $tabId
+	 * @param string   $moduleName
+	 * @param null|int $state
 	 *
-	 * @return string[]
+	 * @return array if state is specified values are labels, if not values are record_states, key is always primary key
 	 */
-	public static function getStates(string $moduleName, string $state = 'open')
+	public static function getStates(string $moduleName, int $state = null)
 	{
-		if (\App\Cache::has('RecordStatus::getStates', $tabId)) {
-			$values = \App\Cache::get('RecordStatus::getStates', $tabId);
+		$cacheKey = "RecordStatus::getStates::$moduleName";
+		if (\App\Cache::has($cacheKey, $state)) {
+			$values = \App\Cache::get($cacheKey, $state);
 		} else {
 			$fieldName = static::getFieldName($moduleName);
+			$primaryKey = \App\Fields\Picklist::getPickListId($fieldName);
 			$values = [];
 			foreach (Fields\Picklist::getValues($fieldName) as $value) {
-				if ($value['record_state']) {
-					$values[$value['record_state']][$value['ticketstatus_id']] = $value['picklistValue'];
+				if (isset($value['record_state']) && $state === $value['record_state']) {
+					$values[$value[$primaryKey]] = $value['picklistValue'];
+				} elseif ($state === null) {
+					$values[$value[$primaryKey]] = $value['record_state'];
 				}
 			}
-			\App\Cache::save('RecordStatus::getStates', $tabId, $values);
+			\App\Cache::save($cacheKey, $state, $values);
 		}
-		return $values['open' === $state ? 1 : 2] ?? [];
-	}
-
-	/**
-	 * Get record status field name.
-	 *
-	 * @param int $tabId
-	 *
-	 * @return bool|string
-	 */
-	public static function getField(int $tabId)
-	{
-		if (\App\Cache::has('RecordStatus::getField', $tabId)) {
-			return \App\Cache::get('RecordStatus::getField', $tabId);
-		}
-		$fieldName = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_field')
-			->where(['tabid' => $tabId, 'presence' => [0, 2], 'fieldparams' => '{"isProcessStatusField":true}'])
-			->scalar();
-		\App\Cache::save('RecordStatus::getField', $tabId, $fieldName);
-		return $fieldName;
+		return $values;
 	}
 
 	/**
@@ -204,25 +190,6 @@ class RecordStatus
 	}
 
 	/**
-	 * Get record state values grouped by module id.
-	 *
-	 * @param string $moduleName
-	 *
-	 * @return array
-	 */
-	public static function getRecordStateValues(string $moduleName)
-	{
-		$fieldName = static::getFieldName($moduleName);
-		$tableName = \App\Fields\Picklist::getPickListTableName($fieldName);
-		$primaryKey = \App\Fields\Picklist::getPickListId($fieldName);
-		$rows = (new \App\Db\Query())->select([$primaryKey, 'record_state'])->from($tableName)->all();
-		if ($rows) {
-			return array_column($rows, 'record_state', $primaryKey);
-		}
-		return [];
-	}
-
-	/**
 	 * Get closing states for all fields in module.
 	 *
 	 * @param string $moduleName
@@ -252,36 +219,9 @@ class RecordStatus
 	 *
 	 * @return string[] [id=>label]
 	 */
-	public static function getRecordStates(): array
+	public static function getLabels(): array
 	{
 		return [self::RECORD_STATE_NO_CONCERN => 'LBL_RECORD_STATE_NO_CONCERN', self::RECORD_STATE_OPEN => 'LBL_RECORD_STATE_OPEN', self::RECORD_STATE_CLOSED => 'LBL_RECORD_STATE_CLOSED'];
-	}
-
-	/**
-	 *  Get picklist values by record state value.
-	 *
-	 * @param string $moduleName
-	 * @param int    $recordState
-	 *
-	 * @return array
-	 */
-	public static function getPicklistValuesByRecordState(string $moduleName, int $recordState = self::RECORD_STATE_NO_CONCERN): array
-	{
-		$fieldName = static::getFieldName($moduleName);
-		$cacheName = "RecordStatus::getPicklistValuesByRecordState$fieldName";
-		if (\App\Cache::staticHas($cacheName, $recordState)) {
-			return \App\Cache::staticGet($cacheName, $recordState);
-		}
-		if ((bool) \App\Db::getInstance()->getTableSchema("vtiger_$fieldName", true)->getColumn('record_state')) {
-			$values = (new \App\Db\Query())->select([$fieldName])
-				->from("vtiger_$fieldName")
-				->where(['record_state' => $recordState])
-				->column();
-		} else {
-			$values = [];
-		}
-		\App\Cache::staticSave($cacheName, $recordState, $values);
-		return $values;
 	}
 
 	/**
@@ -304,8 +244,7 @@ class RecordStatus
 		if ($moduleName) {
 			$result = $query->andWhere(['vtiger_field.tabid' => \App\Module::getModuleId($moduleName)])->scalar();
 		} else {
-			$rows = $query->orderBy(['vtiger_field.tabid' => SORT_ASC])->all();
-			$result = array_column($rows, 'fieldname', 'tabid');
+			$result = array_column($query->all(), 'fieldname', 'tabid');
 		}
 		\App\Cache::save($cacheKey, $moduleName, $result);
 		return $result;

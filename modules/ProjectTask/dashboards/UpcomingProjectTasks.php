@@ -26,7 +26,7 @@ class ProjectTask_UpcomingProjectTasks_Dashboard extends Vtiger_IndexAjax_View
 		$pagingModel->set('page', $request->getInteger('page'));
 		$pagingModel->set('limit', (int) $widget->get('limit'));
 		$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'ProjectTask', $request->getByType('owner', 2));
-		$openStatus = \App\RecordStatus::getPicklistValuesByRecordState('ProjectTask', \App\RecordStatus::RECORD_STATE_OPEN);
+		$openStatus = \App\RecordStatus::getStates('ProjectTask', \App\RecordStatus::RECORD_STATE_OPEN);
 		$params = ['projecttaskstatus' => $openStatus];
 		if (!$request->isEmpty('projecttaskpriority') && $request->getByType('projecttaskpriority', 'Standard') !== 'all') {
 			$params['projecttaskpriority'] = $request->getByType('projecttaskpriority', 'Standard');

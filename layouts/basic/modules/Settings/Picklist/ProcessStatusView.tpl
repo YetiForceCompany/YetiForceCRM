@@ -71,7 +71,7 @@
 								<div class="col-md-9 controls">
 								<select class="select2 form-control" name="record_state">
 									<option value=""></option>
-										{foreach item=$VALUE key=$KEY from=\App\RecordStatus::getRecordStates()}
+										{foreach item=$VALUE key=$KEY from=\App\RecordStatus::getLabels()}
 									<option value="{$KEY}"
 									{if isset($PICKLIST_VALUE['record_state']) && $PICKLIST_VALUE['record_state'] === $KEY} selected
 									{elseif $KEY === \App\RecordStatus::RECORD_STATE_NO_CONCERN}selected {/if}

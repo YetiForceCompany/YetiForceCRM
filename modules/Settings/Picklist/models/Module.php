@@ -387,9 +387,11 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		\App\Cache::delete('getNonEditablePicklistValues', $fieldName);
 		\App\Cache::delete('getRoleBasedPicklistValues', $fieldName);
 		\App\Cache::delete('getPickListFieldValuesRows', $fieldName);
-		\App\Cache::delete('getCloseStates', \App\Module::getModuleId($moduleName));
-		\App\Cache::delete("getPicklistValuesByRecordState$fieldName", \App\RecordStatus::RECORD_STATE_OPEN);
-		\App\Cache::delete("getPicklistValuesByRecordState$fieldName", \App\RecordStatus::RECORD_STATE_CLOSED);
-		\App\Cache::delete("getPicklistValuesByRecordState$fieldName", \App\RecordStatus::RECORD_STATE_NO_CONCERN);
+		\App\Cache::delete('getCloseStates', $moduleName);
+		$cacheKey = "RecordStatus::getStates::$moduleName";
+		\App\Cache::delete($cacheKey, null);
+		foreach (array_keys(\App\RecordStatus::getLabels()) as $state) {
+			\App\Cache::delete($cacheKey, $state);
+		}
 	}
 }

@@ -141,42 +141,46 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Update record state value.
+	 * Update record status.
 	 *
-	 * @param int $id
-	 * @param int $recordState
+	 * @param int   $id
+	 * @param int   $recordState
+	 * @param int[] $timeCounting
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return bool
 	 */
-	public function updateRecordStateValue(int $id, int $recordState): bool
+	public function updateRecordStatus(int $id, int $recordState, array $timeCounting): bool
 	{
 		if (!$this->isProcessStatusField()) {
 			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_IS_NOT_A_PROCESS_STATUS_FIELD', 'Settings:Picklist'), 406);
 		}
-		$pickListFieldName = $this->getName();
-		$primaryKey = \App\Fields\Picklist::getPickListId($pickListFieldName);
-		$tableName = \App\Fields\Picklist::getPickListTableName($pickListFieldName);
-		$oldValue = \App\RecordStatus::getRecordStateValues($this->getModuleName())[$id];
-		if ($recordState === $oldValue) {
-			return true;
-		}
 		if (!$this->isEditable()) {
 			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_NON_EDITABLE_PICKLIST_VALUE', 'Settings:Picklist'), 406);
 		}
-		$result = \App\Db::getInstance()->createCommand()->update($tableName, ['record_state' => $recordState], [$primaryKey => $id])->execute();
+		$pickListFieldName = $this->getName();
+		$primaryKey = \App\Fields\Picklist::getPickListId($pickListFieldName);
+		$tableName = \App\Fields\Picklist::getPickListTableName($pickListFieldName);
+		$tabId = $this->get('tabid');
+		$moduleName = \App\Module::getModuleName($tabId);
+		foreach ($timeCounting as $time) {
+			if (!is_int($time)) {
+				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $time, 406);
+			}
+		}
+		$newTimeCountingValue = \App\RecordStatus::getTimeCountingStringValueFromArray($timeCounting);
+		if ($newTimeCountingValue === ',,') {
+			$newTimeCountingValue = null;
+		}
+		$oldTimeCountingValue = \App\RecordStatus::getTimeCountingValues($moduleName, false)[$id];
+		$oldStateValue = \App\RecordStatus::getStates($moduleName)[$id];
+		if ($recordState === $oldStateValue && $newTimeCountingValue === $oldTimeCountingValue) {
+			return true;
+		}
+		$result = \App\Db::getInstance()->createCommand()->update($tableName, ['record_state' => $recordState, 'time_counting' => $newTimeCountingValue], [$primaryKey => $id])->execute();
 		if ($result) {
-			\Settings_Picklist_Module_Model::clearPicklistCache($pickListFieldName, $this->getModuleName());
-			$eventHandler = new \App\EventHandler();
-			$eventHandler->setParams([
-				'fieldname' => $pickListFieldName,
-				'oldvalue' => $oldValue,
-				'newvalue' => $recordState,
-				'module' => $this->getModuleName(),
-				'id' => $id,
-			]);
-			$eventHandler->trigger('PicklistAfterRecordStateUpdate');
+			\Settings_Picklist_Module_Model::clearPicklistCache($pickListFieldName, $moduleName);
 			return true;
 		}
 		return false;
@@ -215,56 +219,5 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		}
 		\App\Cache::delete('getCloseStates', $tabId);
 		return true;
-	}
-
-	/**
-	 * Update time counting value.
-	 *
-	 * @param \Settings_Picklist_Field_Model $fieldModel
-	 * @param int                            $id
-	 * @param int[]                          $timeCounting
-	 *
-	 * @throws \App\Exceptions\IllegalValue
-	 * @throws \App\Exceptions\AppException
-	 *
-	 * @return bool
-	 */
-	public function updateTimeCountingValue(int $id, array $timeCounting): bool
-	{
-		if (!$this->isProcessStatusField()) {
-			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_IS_NOT_A_PROCESS_STATUS_FIELD', 'Settings:Picklist'), 406);
-		}
-		foreach ($timeCounting as $time) {
-			if (!is_int($time)) {
-				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $time, 406);
-			}
-		}
-		$pickListFieldName = $this->getName();
-		$moduleName = $this->getModuleName();
-		$primaryKey = \App\Fields\Picklist::getPickListId($pickListFieldName);
-		$tableName = \App\Fields\Picklist::getPickListTableName($pickListFieldName);
-		$newValue = \App\RecordStatus::getTimeCountingStringValueFromArray($timeCounting);
-		if ($newValue === ',,') {
-			$newValue = null;
-		}
-		$oldValue = \App\RecordStatus::getTimeCountingValues($moduleName, false)[$id];
-		if ($newValue === $oldValue) {
-			return true;
-		}
-		$result = \App\Db::getInstance()->createCommand()->update($tableName, ['time_counting' => $newValue], [$primaryKey => $id])->execute();
-		if ($result) {
-			\Settings_Picklist_Module_Model::clearPicklistCache($pickListFieldName, $moduleName);
-			$eventHandler = new \App\EventHandler();
-			$eventHandler->setParams([
-				'fieldname' => $pickListFieldName,
-				'oldvalue' => $oldValue,
-				'newvalue' => $newValue,
-				'module' => $moduleName,
-				'id' => $id,
-			]);
-			$eventHandler->trigger('PicklistAfterTimeCountingUpdate');
-			return true;
-		}
-		return false;
 	}
 }
