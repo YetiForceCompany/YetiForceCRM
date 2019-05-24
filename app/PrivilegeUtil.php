@@ -1390,4 +1390,36 @@ class PrivilegeUtil
 			UserPrivilegesFile::createUserSharingPrivilegesfile($userId);
 		}
 	}
+
+	/**
+	 * Modify permissions for actions and views.
+	 *
+	 * @param string $moduleName
+	 * @param array  $actions
+	 * @param bool   $mode true: add, false: remove
+	 *
+	 * @return bool
+	 */
+	public static function modifyPermissions(string $moduleName, array $actions, bool $mode): bool
+	{
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$result = false;
+		$tabId = Module::getModuleId($moduleName);
+		$actions = array_diff($actions, array_merge(\Vtiger_Action_Model::$nonConfigurableActions, \Vtiger_Action_Model::$standardActions));
+		$actionIds = array_filter(array_map('\App\Module::getActionId', $actions));
+		if ($mode) {
+			$profilesByAction = (new Db\Query())->select(['profileid', 'activityid'])
+				->from('vtiger_profile2utility')
+				->where(['tabid' => $tabId, 'activityid' => $actionIds])->createCommand()->queryAllByGroup(2);
+			foreach (\vtlib\Profile::getAllIds() as $profileId) {
+				$add = !isset($profilesByAction[$profileId]) ? $actionIds : array_diff($actionIds, $profilesByAction[$profileId]);
+				foreach ($add as $actionId) {
+					$result = $dbCommand->insert('vtiger_profile2utility', ['profileid' => $profileId, 'tabid' => $tabId, 'activityid' => $actionId, 'permission' => 1])->execute() || $result;
+				}
+			}
+		} else {
+			$result = $dbCommand->delete('vtiger_profile2utility', ['tabid' => $tabId, 'activityid' => $actionIds])->execute();
+		}
+		return $result;
+	}
 }

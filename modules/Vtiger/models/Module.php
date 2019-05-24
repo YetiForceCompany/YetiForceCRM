@@ -14,6 +14,11 @@
  */
 class Vtiger_Module_Model extends \vtlib\Module
 {
+	/** Standard module type */
+	const STANDARD_TYPE = 0;
+	/** Advanced module type */
+	const ADVANCED_TYPE = 1;
+
 	protected $blocks;
 	protected $nameFields;
 	protected $moduleMeta;
@@ -74,7 +79,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	public function isInventory()
 	{
-		return 1 == $this->getModuleType();
+		return static::ADVANCED_TYPE === $this->getModuleType();
 	}
 
 	/**
@@ -1559,5 +1564,29 @@ class Vtiger_Module_Model extends \vtlib\Module
 			}
 		}
 		return $data;
+	}
+
+	/**
+	 * Function changes the module type.
+	 *
+	 * @param int $type
+	 * @return bool
+	 */
+	public function changeType(int $type): bool
+	{
+		$result = false;
+		if($type !== $this->getModuleType() && in_array($type, [static::ADVANCED_TYPE,static::STANDARD_TYPE])){
+			$result = \App\Db::getInstance()->createCommand()->update('vtiger_tab', ['type' => $type], ['name' => $this->getName()])->execute();
+			if($result && $type === static::ADVANCED_TYPE){
+				Vtiger_Inventory_Model::getInstance($this->getName())->createInventoryTables();
+			}
+			$tabId = \App\Module::getModuleId($this->getName());
+			\App\Cache::delete('moduleTabByName', $this->getName());
+			\App\Cache::delete('moduleTabById', $tabId);
+			\App\Cache::staticDelete('module', $this->getName());
+			\App\Cache::staticDelete('module', $tabId);
+			$this->type = $type;
+		}
+		return $result;
 	}
 }

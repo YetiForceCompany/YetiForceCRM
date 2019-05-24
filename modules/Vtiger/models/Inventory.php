@@ -554,11 +554,11 @@ class Vtiger_Inventory_Model
 	 */
 	public function getPurifyTemplate(): array
 	{
-		$tempalete = [];
+		$template = [];
 		foreach ($this->getFields() as $fieldModel) {
-			$tempalete += $fieldModel->getPurifyType();
+			$template += $fieldModel->getPurifyType();
 		}
-		return $tempalete;
+		return $template;
 	}
 
 	/**
@@ -701,31 +701,6 @@ class Vtiger_Inventory_Model
 			}
 		}
 		return ['taxs' => $accountTaxs, 'name' => $recordName];
-	}
-
-	/**
-	 * Active inventory blocks.
-	 *
-	 * @param int/bool $type
-	 *
-	 * @throws \yii\db\Exception
-	 *
-	 * @return $this|bool
-	 */
-	public function setMode($type)
-	{
-		$db = \App\Db::getInstance();
-		$moduleName = $this->moduleName;
-		$result = $db->createCommand()->update('vtiger_tab', ['type' => (int) $type], ['name' => $moduleName])->execute();
-		if (!$result) {
-			return false;
-		}
-		\App\Cache::delete('moduleTabByName', $moduleName);
-		\App\Cache::delete('moduleTabById', \App\Module::getModuleId($moduleName));
-		if ($type) {
-			$this->createInventoryTables();
-		}
-		return $this;
 	}
 
 	/**
