@@ -56,7 +56,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @return int[]
 	 */
-	public function addPickListValues($fieldModel, $newValue, $rolesSelected = [], $description = '', $prefix = '', $recordState = \App\RecordStatus::RECORD_STATE_NO_CONCERN)
+	public function addPickListValues($fieldModel, $newValue, $rolesSelected = [], $description = '', $prefix = '')
 	{
 		$db = App\Db::getInstance();
 		$pickListFieldName = $fieldModel->getName();
@@ -108,7 +108,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				])->execute();
 			}
 		}
-		static::clearPicklistCache($pickListFieldName, $fieldModel->getModuleName());
+		\App\Fields\Picklist::clearPicklistCache($pickListFieldName, $fieldModel->getModuleName());
 		\App\Colors::generate('picklist');
 		return ['picklistValueId' => $picklistValueId, 'id' => $picklistId];
 	}
@@ -159,7 +159,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				$db->createCommand()->update('vtiger_picklist_dependency', ['sourcevalue' => $newValue], ['sourcevalue' => $oldValue, 'sourcefield' => $pickListFieldName, 'tabid' => $row['tabid']])->execute();
 			}
 			$dataReader->close();
-			static::clearPicklistCache($pickListFieldName, $fieldModel->getModuleName());
+			\App\Fields\Picklist::clearPicklistCache($pickListFieldName, $fieldModel->getModuleName());
 			$eventHandler = new App\EventHandler();
 			$eventHandler->setParams([
 				'fieldname' => $pickListFieldName,
@@ -238,7 +238,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$dataReader->close();
 		$dbCommand->update('vtiger_field', ['defaultvalue' => $replaceValue], ['defaultvalue' => $pickListValues, 'columnname' => $columnName])
 			->execute();
-		static::clearPicklistCache($pickListFieldName, $moduleName);
+		\App\Fields\Picklist::clearPicklistCache($pickListFieldName, $moduleName);
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setParams([
 			'fieldname' => $pickListFieldName,
@@ -373,25 +373,5 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			$moduleModel->{$properName} = $propertyValue;
 		}
 		return $moduleModel;
-	}
-
-	/**
-	 * Clear cache.
-	 *
-	 * @param string $fieldName
-	 * @param string $moduleName
-	 */
-	public static function clearPicklistCache(string $fieldName, string $moduleName)
-	{
-		\App\Cache::delete('getValuesName', $fieldName);
-		\App\Cache::delete('getNonEditablePicklistValues', $fieldName);
-		\App\Cache::delete('getRoleBasedPicklistValues', $fieldName);
-		\App\Cache::delete('getPickListFieldValuesRows', $fieldName);
-		\App\Cache::delete('getCloseStates', $moduleName);
-		$cacheKey = "RecordStatus::getStates::$moduleName";
-		\App\Cache::delete($cacheKey, null);
-		foreach (array_keys(\App\RecordStatus::getLabels()) as $state) {
-			\App\Cache::delete($cacheKey, $state);
-		}
 	}
 }

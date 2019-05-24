@@ -343,4 +343,24 @@ class Picklist
 		}
 		return 'vtiger_' . $fieldName;
 	}
+
+	/**
+	 * Clear cache.
+	 *
+	 * @param string $fieldName
+	 * @param string $moduleName
+	 */
+	public static function clearPicklistCache(string $fieldName, string $moduleName)
+	{
+		\App\Cache::delete('getValuesName', $fieldName);
+		\App\Cache::delete('getNonEditablePicklistValues', $fieldName);
+		\App\Cache::delete('getRoleBasedPicklistValues', $fieldName);
+		\App\Cache::delete('getPickListFieldValuesRows', $fieldName);
+		\App\Cache::delete('getCloseStates', $moduleName);
+		$cacheKey = "RecordStatus::getStates::$moduleName";
+		\App\Cache::delete($cacheKey, null);
+		foreach (array_keys(\App\RecordStatus::getLabels()) as $state) {
+			\App\Cache::delete($cacheKey, $state);
+		}
+	}
 }

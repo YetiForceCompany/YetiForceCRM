@@ -180,7 +180,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		}
 		$result = \App\Db::getInstance()->createCommand()->update($tableName, ['record_state' => $recordState, 'time_counting' => $newTimeCountingValue], [$primaryKey => $id])->execute();
 		if ($result) {
-			\Settings_Picklist_Module_Model::clearPicklistCache($pickListFieldName, $moduleName);
+			\App\Fields\Picklist::clearPicklistCache($pickListFieldName, $moduleName);
 			return true;
 		}
 		return false;
