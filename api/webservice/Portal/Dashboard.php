@@ -85,9 +85,9 @@ class Dashboard
 				foreach ($headerFields as $fieldName => $fieldModel) {
 					$headers[$fieldName] = Language::translate($fieldModel->getFieldLabel(), $fieldModel->getModuleName());
 				}
-				foreach ($minilistWidgetModel->getRecords(null) as $recordModel) {
+				foreach ($minilistWidgetModel->getRecords('all') as $recordModel) {
 					foreach ($headerFields as $fieldName => $fieldModel) {
-						$records[$recordModel->getId()][$fieldName] = $recordModel->getListViewDisplayValue($fieldModel);
+						$records[$recordModel->getId()][$fieldName] = $recordModel->getDisplayValue($fieldName, $recordModel->getId(), true);
 					}
 				}
 				$widgets[] = [
@@ -108,7 +108,7 @@ class Dashboard
 						'title' => $chartFilterWidgetModel->getTitle(),
 						'modulename' => $chartFilterWidgetModel->getTargetModuleModel()->getName(),
 						'stacked' => $chartFilterWidgetModel->isStacked() ? 1 : 0,
-						'colorsFromDividingField' =>	$chartFilterWidgetModel->areColorsFromDividingField() ? 1 : 0,
+						'colorsFromDividingField' => $chartFilterWidgetModel->areColorsFromDividingField() ? 1 : 0,
 						'filterIds' => $chartFilterWidgetModel->getFilterIds(),
 						'typeChart' => $chartFilterWidgetModel->getType(),
 						'widgetData' => $chartFilterWidgetModel->getChartData(),
