@@ -115,7 +115,7 @@ class RecordStatus
 	 *
 	 * @param string $moduleName
 	 * @param bool   $asMultiArray time counting could have multiple values separated by comma
-	 *                             we can return array of strings with commas or as array of arrays
+	 *                             we can return array of strings with commas or as array of arrays with ints
 	 *
 	 * @return array
 	 */
