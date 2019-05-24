@@ -208,16 +208,19 @@ class Inventory
 	 */
 	private function getProductsByInventory()
 	{
+		$isUserPermissions = \Api\Portal\Privilege::USER_PERMISSIONS === $this->permissionType;
 		$this->products = [];
 		$crmIds = array_keys($this->inventory);
 		$queryService = (new \App\Db\Query())
 			->select([
 				'module' => new \yii\db\Expression("'Service'"), 'id' => 'serviceid', 'service_usageunit',
 				'subunit' => new \yii\db\Expression("''"), 'currency_id', 'description', 'unit_price', 'taxes',
-				'quantity' => new \yii\db\Expression('0'), 'listprice' => new \yii\db\Expression('NULL')
+				'quantity' => new \yii\db\Expression('0'),
+				'listprice'
 			])
 			->from('vtiger_service')
 			->innerJoin('vtiger_crmentity', 'vtiger_service.serviceid = vtiger_crmentity.crmid')
+			->leftJoin('vtiger_pricebookproductrel', "vtiger_pricebookproductrel.pricebookid={$this->pricebookId} AND vtiger_pricebookproductrel.productid = vtiger_service.serviceid")
 			->where(['vtiger_crmentity.deleted' => 0])
 			->andWhere(['discontinued' => 1])
 			->andWhere(['vtiger_service.serviceid' => $crmIds]);
@@ -237,7 +240,9 @@ class Inventory
 			->union($queryService, true)
 			->createCommand()->query();
 		foreach ($dataReader as $row) {
-			$row['unit_price'] = $row['listprice'] ?? $row['unit_price'];
+			if (!$isUserPermissions) {
+				$row['unit_price'] = $row['listprice'] ?? $row['unit_price'];
+			}
 			$this->products[$row['id']] = $row;
 		}
 		$dataReader->close();

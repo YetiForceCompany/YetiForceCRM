@@ -124,7 +124,7 @@ class BaseAction
 	 *
 	 * @return int
 	 */
-	public function getPermissionType()
+	public function getPermissionType(): int
 	{
 		return $this->session->get('type');
 	}
