@@ -105,11 +105,14 @@ class QueryGenerator
 	/** @var User */
 	private $user;
 
-	/** @var Limit */
+	/** @var null|int Limit */
 	private $limit;
 
-	/** @var Offset */
+	/** @var null|int Offset */
 	private $offset;
+
+	/** @var null|string Distinct field */
+	private $distinct;
 
 	/**
 	 * QueryGenerator construct.
@@ -195,7 +198,6 @@ class QueryGenerator
 	public function setFields($fields)
 	{
 		$this->fields = $fields;
-
 		return $this;
 	}
 
@@ -209,7 +211,6 @@ class QueryGenerator
 	public function setOffset($offset)
 	{
 		$this->offset = $offset;
-
 		return $this;
 	}
 
@@ -223,7 +224,6 @@ class QueryGenerator
 	public function setLimit($limit)
 	{
 		$this->limit = $limit;
-
 		return $this;
 	}
 
@@ -233,6 +233,19 @@ class QueryGenerator
 	public function getLimit()
 	{
 		return $this->limit;
+	}
+
+	/**
+	 * Set distinct column.
+	 *
+	 * @param string $columnName
+	 *
+	 * @return \self
+	 */
+	public function setDistinct($columnName)
+	{
+		$this->distinct = $columnName;
+		return $this;
 	}
 
 	/**
@@ -798,6 +811,9 @@ class QueryGenerator
 			}
 			if (!empty($this->offset)) {
 				$this->query->offset($this->offset);
+			}
+			if (isset($this->distinct)) {
+				$this->query->distinct($this->distinct);
 			}
 			$this->buildedQuery = $this->query;
 		}
