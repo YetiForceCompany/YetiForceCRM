@@ -139,7 +139,7 @@ class Category extends Base
 					}
 				}
 				if (!$deletedParent && !empty($categoryMagento['children_data'])) {
-					$this->updateCategoriesYF($master, $categoryMagento['children_data'], $this->rootCategory);
+					$this->updateCategoriesYF($master, $categoryMagento['children_data']);
 				}
 			}
 		}
@@ -180,15 +180,9 @@ class Category extends Base
 	 */
 	public function hasChanges(array $categoryYF, array $categoryMagento)
 	{
-		$changed = false;
-		if (
-			$categoryYF['name'] !== $categoryMagento['name'] ||
+		return $categoryYF['name'] !== $categoryMagento['name'] ||
 			(int) $categoryYF['is_active'] !== (int) $categoryMagento['is_active'] ||
-			$this->hasChangedCategory($categoryYF, $categoryMagento)
-		) {
-			$changed = true;
-		}
-		return $changed;
+			$this->hasChangedCategory($categoryYF, $categoryMagento);
 	}
 
 	/**
@@ -201,11 +195,7 @@ class Category extends Base
 	 */
 	public function hasChangedCategory(array $categoryYF, array $categoryMagento)
 	{
-		$changed = false;
-		if (isset($this->mapCategoryMagento[$categoryYF['parent_id']]) && $this->mapCategoryMagento[$categoryYF['parent_id']] !== $categoryMagento['parent_id']) {
-			$changed = true;
-		}
-		return $changed;
+		return isset($this->mapCategoryMagento[$categoryYF['parent_id']]) && $this->mapCategoryMagento[$categoryYF['parent_id']] !== $categoryMagento['parent_id'];
 	}
 
 	/**
@@ -254,10 +244,10 @@ class Category extends Base
 	{
 		try {
 			$categoriesList = $this->connector->request('GET', '/rest/all/V1/categories');
-			$this->categoriesMagento['children_data'] = [\json_decode($categoriesList, true)];
+			$this->categoriesMagento['children_data'] = [\App\Json::decode($categoriesList)];
 			$this->parseMagentoCategory($this->categoriesMagento);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			\App\Log::error('Error during saving magento category.');
+		} catch (\Throwable $ex) {
+			\App\Log::error('Error while getting categories from magento: ' . $ex->getMessage());
 		}
 
 		return $this->categoriesMagento;
@@ -351,7 +341,7 @@ class Category extends Base
 	{
 		$result = false;
 		try {
-			$categoryRequest = \json_decode($this->connector->request('POST', '/rest/V1/categories', [
+			$categoryRequest = \App\Json::decode($this->connector->request('POST', '/rest/V1/categories', [
 				'category' => [
 					'name' => $category['name'],
 					'parent_id' => $this->mapCategoryMagento[$category['parent_id']] ?? 0,
@@ -359,11 +349,11 @@ class Category extends Base
 					'include_in_menu' => '1',
 					'isActive' => 'true',
 					'level' => $category['level'] + 1,
-				]]), true);
+				]]));
 			$this->saveCategoryMappingYF($categoryRequest['id'], $category['id']);
 			$result = true;
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			\App\Log::error('Error during saving magento category.');
+		} catch (\Throwable $ex) {
+			\App\Log::error('Error during saving magento category: ' . $ex->getMessage());
 		}
 		return $result;
 	}
@@ -394,7 +384,7 @@ class Category extends Base
 			'name' => $category['name'],
 			'depth' => $category['level'] - 1,
 			'label' => $category['name'],
-			'state' => '{"loaded":true,"opened":false,"selected":false,"disabled":false}'
+			'state' => '{"loaded":true,"opened":false,"selected":false,"disabled":' . (bool) !$category['is_active'] . '}'
 		])->execute();
 		$this->getCategoriesYF();
 		return $result;
@@ -421,7 +411,8 @@ class Category extends Base
 				]
 			]);
 			$result = true;
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		} catch (\Throwable $ex) {
+			\App\Log::error('Error during updating magento category: ' . $ex->getMessage());
 			$result = false;
 		}
 		return $result;
@@ -446,7 +437,7 @@ class Category extends Base
 			'name' => $categoryMagento['name'],
 			'depth' => $categoryMagento['level'],
 			'label' => $categoryMagento['name'],
-			'state' => '{"loaded":true,"opened":false,"selected":false,"disabled":false}'
+			'state' => '{"loaded":true,"opened":false,"selected":false,"disabled":' . (bool) !$categoryMagento['is_active'] . '}'
 		], ['tree' => 'T' . $categoryYF['id'], 'templateid' => $this->templateId])->execute();
 		if (!empty($categoryMagento['children_data'])) {
 			foreach ($categoryMagento['children_data'] as $categoryChild) {
@@ -488,11 +479,13 @@ class Category extends Base
 	public function deleteCategoryMagento($categoryMagento): bool
 	{
 		$result = false;
+
 		if (!\in_array($categoryMagento['id'], static::$nonEditable)) {
 			try {
 				$this->connector->request('DELETE', '/rest/all/V1/categories/' . $categoryMagento['id'], []);
 				$result = true;
-			} catch (\GuzzleHttp\Exception\ClientException $e) {
+			} catch (\Throwable $ex) {
+				\App\Log::error('Error during deleting magento category: ' . $ex->getMessage());
 			}
 		}
 		return $result;
@@ -536,11 +529,12 @@ class Category extends Base
 	 */
 	public function updateCategoryParentMagento($categoryYF, $categoryMagento): bool
 	{
-		$result = false;
 		try {
 			$this->connector->request('PUT', '/rest/all/V1/categories/' . $categoryMagento['id'] . '/move', ['parentId' => $this->mapCategoryMagento[$categoryYF['parent_id']] ?? 0]);
 			$result = true;
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		} catch (\Throwable $ex) {
+			\App\Log::error('Error during moving magento category: ' . $ex->getMessage());
+			$result = false;
 		}
 		return $result;
 	}
