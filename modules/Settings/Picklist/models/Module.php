@@ -52,7 +52,6 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	 * @param int[]              $rolesSelected
 	 * @param string             $description
 	 * @param string             $prefix
-	 * @param int                $recordState
 	 *
 	 * @return int[]
 	 */
