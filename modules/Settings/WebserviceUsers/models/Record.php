@@ -213,10 +213,13 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function validate()
 	{
-		if ((new \App\Db\Query())->from($this->getModule()->getBaseTable())->where(['server_id' => $this->get('server_id'), 'user_name' => $this->get('user_name')])->exists()) {
+		$query = (new \App\Db\Query())->from($this->getModule()->getBaseTable())->where(['server_id' => $this->get('server_id'), 'user_name' => $this->get('user_name')]);
+		if ($this->getId()) {
+			$query->andWhere(['<>', 'id', $this->getId()]);
+		}
+		if ($query->exists()) {
 			throw new \App\Exceptions\IllegalValue('ERR_DUPLICATE_LOGIN', 406);
 		}
-		return true;
 	}
 
 	/**
