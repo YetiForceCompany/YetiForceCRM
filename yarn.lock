@@ -253,10 +253,10 @@ fullcalendar@3.10.0:
   resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-3.10.0.tgz#cc5e87d518fd6550e142816a31dd191664847919"
   integrity sha512-0OtsHhmdYhtFmQwXzyo8VqHzYgamg+zVOoytv5N13gI+iF6CGjevpCi/yBaQs0O4wY3OAp8I688IxdNYe0iAvw==
 
-gantt-elastic@^0.14.3:
-  version "0.14.3"
-  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.14.3.tgz#fcb3879a160d1f5a9bf5f32bd81516c3ac96a4e4"
-  integrity sha512-cXOumHp5iBPRYVCjgBsTnWEd9KCIaPxC3Ra7a5YgQlIxp0qJZfpOi9GzHfqzCLaSzB39eTzp9ynUrTcSH9r4JA==
+gantt-elastic@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-1.0.0.tgz#2633e934a30eba15bbd0fa046be16ef3954340ef"
+  integrity sha512-1cZJ2SJSH2JCDObfmL33FWDwRn4b8rCdOSiUmhxnoMuJLU2MNi9M8O24xTE81HWFiOXB5w5vjwfPvxEPOSBZxA==
   dependencies:
     dayjs "^1.8.14"
     resize-observer-polyfill "^1.5.1"
