@@ -35,7 +35,7 @@ class RecordStatus
 			}
 			\App\Cache::save('RecordStatus::getStates', $tabId, $values);
 		}
-		return $values['open' === $state ? 1 : 2];
+		return $values['open' === $state ? 1 : 2] ?? [];
 	}
 
 	/**
