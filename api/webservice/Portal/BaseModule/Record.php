@@ -72,7 +72,7 @@ class Record extends \Api\Core\BaseAction
 	 *
 	 * @return array
 	 */
-	public function get()
+	public function get(): array
 	{
 		$moduleName = $this->controller->request->get('module');
 		$record = $this->controller->request->get('record');
@@ -138,7 +138,7 @@ class Record extends \Api\Core\BaseAction
 	 *
 	 * @return bool
 	 */
-	public function delete()
+	public function delete(): bool
 	{
 		$this->recordModel->changeState('Trash');
 

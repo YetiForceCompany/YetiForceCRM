@@ -10,7 +10,7 @@
 
 class PriceBooks_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
-	public function saveRecord(\App\Request $request)
+	public function saveRecord(App\Request $request)
 	{
 		$recordModel = $this->getRecordModelFromRequest($request);
 		$recordModel->save();
@@ -25,7 +25,7 @@ class PriceBooks_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			$relationModel->addRelation($parentRecordId, $relatedRecordId);
 
 			//To store the relationship between Products/Services and PriceBooks
-			if ($parentRecordId && ($parentModuleName === 'Products' || $parentModuleName === 'Services')) {
+			if ($parentRecordId && ('Products' === $parentModuleName || 'Services' === $parentModuleName)) {
 				$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentRecordId, $parentModuleName);
 				$recordModel->updateListPrice($parentRecordId, $parentRecordModel->get('unit_price'));
 			}
