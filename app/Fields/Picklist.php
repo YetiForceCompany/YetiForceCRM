@@ -350,7 +350,7 @@ class Picklist
 	 * @param string $fieldName
 	 * @param string $moduleName
 	 */
-	public static function clearPicklistCache(string $fieldName, string $moduleName)
+	public static function clearCache(string $fieldName, string $moduleName)
 	{
 		\App\Cache::delete('getValuesName', $fieldName);
 		\App\Cache::delete('getNonEditablePicklistValues', $fieldName);
