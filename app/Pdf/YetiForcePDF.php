@@ -29,12 +29,6 @@ class YetiForcePDF extends PDF
 	 * @var string
 	 */
 	protected $charset = '';
-	/**
-	 * Are we fully configured or default params were given in constructor (not fully configured) ?
-	 *
-	 * @var bool
-	 */
-	private $isDefault = true;
 
 	/**
 	 * HTML content.
