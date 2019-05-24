@@ -71,7 +71,6 @@
           </div>
         </q-toolbar>
       </q-header>
-
       <q-drawer
         v-show="!searchData"
         v-model="left"
@@ -134,7 +133,6 @@
           </q-list>
         </q-scroll-area>
       </q-drawer>
-
       <q-page-container>
         <q-page class="q-pa-sm">
           <div v-if="!searchData">
@@ -206,7 +204,10 @@
                       <q-item-label caption>{{ props.row.introduction }}</q-item-label>
                     </q-item-section>
                     <q-item-section side top>
-                      <q-item-label caption>{{ props.row.short_time }}</q-item-label>
+                      <q-item-label caption>
+                        <q-icon name="mdi-calendar-clock" class="mr-1" size="15px"></q-icon>
+                        {{ props.row.short_time }}
+                      </q-item-label>
                       <q-tooltip anchor="center middle" self="top middle">
                         {{ translate('JS_CREATED') + ' :' + props.row.full_time }}
                       </q-tooltip>
