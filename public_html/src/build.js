@@ -19,7 +19,7 @@ async function build(filePath) {
 	const outputFile = `../layouts/basic/modules/${moduleName}/${fileName}`
 	const inputOptions = {
 		input: filePath,
-		plugins: [json(), resolve(), commonjs(), vue({ compileTemplate: true }), globals()]
+		plugins: [json(), resolve(), commonjs(), vue({ compileTemplate: true }), globals(), terser()]
 	}
 	const outputOptions = {
 		sourcemap: true,
