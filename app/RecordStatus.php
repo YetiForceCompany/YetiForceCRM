@@ -126,14 +126,14 @@ class RecordStatus
 			return [];
 		}
 		$primaryKey = \App\Fields\Picklist::getPickListId($fieldName);
-		$tableName = \App\Fields\Picklist::getPickListTableName($fieldName);
-		$rows = (new \App\Db\Query())->select([$primaryKey, 'time_counting'])->from($tableName)->all();
 		$values = [];
-		foreach ($rows as $row) {
-			if ($asMultiArray) {
-				$values[$row[$primaryKey]] = static::getTimeCountingArrayValueFromString($row['time_counting']);
-			} else {
-				$values[$row[$primaryKey]] = $row['time_counting'];
+		foreach (Fields\Picklist::getValues($fieldName) as $row) {
+			if (isset($row['time_counting'])) {
+				if ($asMultiArray) {
+					$values[$row[$primaryKey]] = static::getTimeCountingArrayValueFromString($row['time_counting']);
+				} else {
+					$values[$row[$primaryKey]] = $row['time_counting'];
+				}
 			}
 		}
 		return $values;
@@ -233,9 +233,8 @@ class RecordStatus
 	 */
 	public static function getFieldName(string $moduleName = '')
 	{
-		$cacheKey = 'RecordStatus::getFieldName';
-		if (\App\Cache::has($cacheKey, $moduleName)) {
-			return \App\Cache::get($cacheKey, $moduleName);
+		if (\App\Cache::has('RecordStatus::getFieldName', $moduleName)) {
+			return \App\Cache::get('RecordStatus::getFieldName', $moduleName);
 		}
 		$query = (new \App\Db\Query())
 			->select(['vtiger_field.fieldname', 'vtiger_field.tabid'])
@@ -246,7 +245,7 @@ class RecordStatus
 		} else {
 			$result = array_column($query->all(), 'fieldname', 'tabid');
 		}
-		\App\Cache::save($cacheKey, $moduleName, $result);
+		\App\Cache::save('RecordStatus::getFieldName', $moduleName, $result);
 		return $result;
 	}
 }
