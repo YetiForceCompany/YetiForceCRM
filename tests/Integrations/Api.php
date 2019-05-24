@@ -206,7 +206,7 @@ class Api extends \Tests\Base
 		$this->logs = $request->raw;
 		$response = \App\Json::decode($request->body, 1);
 		$this->assertSame($response['status'], 1, (string) $response['error']['message']);
-		$this->assertTrue(!empty($response['result']['standardActions']));
+		$this->assertTrue(!empty($response['result']));
 	}
 
 	/**
