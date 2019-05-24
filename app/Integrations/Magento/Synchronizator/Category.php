@@ -56,16 +56,42 @@ class Category extends Base
 	 * @var array
 	 */
 	public $mapCategoryMagento = [];
+	/**
+	 * Yetiforce category template id.
+	 *
+	 * @var int
+	 */
+	public $templateId;
+
+	/**
+	 * Last YetiForce category ID.
+	 *
+	 * @var int
+	 */
+	public $lastCategoryIdYF;
+
+	/**
+	 * Non editable magento categories id.
+	 *
+	 * @var array
+	 */
+	private static $nonEditable = [1, 2];
+	/**
+	 * Global root category.
+	 *
+	 * @var bool|int
+	 */
+	public $rootCategory = false;
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function process()
 	{
+		$this->templateId = \Vtiger_Field_Model::getInstance('pscategory', \Vtiger_Module_Model::getInstance('Products'))->getFieldParams();
 		$this->getCategoriesYF();
 		$this->getCategoriesMagento();
-		$this->getCategoryMappingYF();
-		$this->getCategoryMappingMagento();
+		$this->getCategoryMapping();
 		if ('magento' === \App\Config::component('Magento', 'masterSource')) {
 			$this->updateCategoriesMagento(true);
 			$this->updateCategoriesYF(false, $this->categoriesMagento['children_data']);
@@ -78,39 +104,31 @@ class Category extends Base
 	/**
 	 * Method to add/update in YF parsed Magento categories.
 	 *
-	 * @param bool     $master
-	 * @param array    $categoriesMagento
-	 * @param bool|int $globalParentId
+	 * @param bool  $master
+	 * @param array $categoriesMagento
+	 *
+	 * @throws \yii\db\Exception
 	 */
-	public function updateCategoriesYF(bool $master, array $categoriesMagento, $globalParentId = false): void
+	public function updateCategoriesYF(bool $master, array $categoriesMagento): void
 	{
 		if (!empty($categoriesMagento)) {
-			$rootCategory = $globalParentId;
 			$categoryData = $categoriesMagento;
-			if (false === $globalParentId) {
-				$rootCategory = current($categoriesMagento)['id'];
+			if (false === $this->rootCategory) {
+				$this->rootCategory = current($categoriesMagento)['id'];
 				$categoryData = current($categoriesMagento)['children_data'];
 			}
 			foreach ($categoryData as $categoryMagento) {
 				$deletedParent = false;
-				if (!empty($categoryMagento['parent_id']) && $rootCategory !== $categoryMagento['parent_id'] && isset($this->mapCategoryYF[$categoryMagento['parent_id']])) {
-					$this->addParentId($categoryMagento['id'], $categoryMagento['parent_id']);
-				} elseif (false !== $rootCategory && $rootCategory === $categoryMagento['parent_id']) {
-					$this->addParentId($categoryMagento['id'], 'root');
-				}
+				$this->addParentId($categoryMagento['id'], $categoryMagento['parent_id']);
 				if (isset($this->mapCategoryYF[$categoryMagento['id']])) {
 					if ($master) {
 						if (!isset($this->categoriesYF[$this->mapCategoryYF[$categoryMagento['id']]])) {
 							$deletedParent = $this->deleteCategoryMagento($categoryMagento);
 						}
 					} else {
-						if (isset($this->categoriesYF[$this->mapCategoryYF[$categoryMagento['id']]])) {
-							$categoryYF = $this->categoriesYF[$this->mapCategoryYF[$categoryMagento['id']]];
-							if ($this->hasChanges($categoryYF, $categoryMagento)) {
-								$this->updateCategoryYF($categoryYF, $categoryMagento);
-							}
-						} else {
-							$this->saveCategoryYF($categoryMagento);
+						$categoryYF = $this->categoriesYF[$this->mapCategoryYF[$categoryMagento['id']]];
+						if ($this->hasChanges($categoryYF, $categoryMagento)) {
+							$this->updateCategoryYF($categoryYF, $categoryMagento);
 						}
 					}
 				} else {
@@ -121,7 +139,7 @@ class Category extends Base
 					}
 				}
 				if (!$deletedParent && !empty($categoryMagento['children_data'])) {
-					$this->updateCategoriesYF($master, $categoryMagento['children_data'], $rootCategory);
+					$this->updateCategoriesYF($master, $categoryMagento['children_data'], $this->rootCategory);
 				}
 			}
 		}
@@ -184,7 +202,7 @@ class Category extends Base
 	public function hasChangedCategory(array $categoryYF, array $categoryMagento)
 	{
 		$changed = false;
-		if (1 !== $categoryMagento['parent_id'] && isset($this->mapCategoryMagento[$categoryYF['parent_id']]) && $this->mapCategoryMagento[$categoryYF['parent_id']] !== $categoryMagento['parent_id']) {
+		if (isset($this->mapCategoryMagento[$categoryYF['parent_id']]) && $this->mapCategoryMagento[$categoryYF['parent_id']] !== $categoryMagento['parent_id']) {
 			$changed = true;
 		}
 		return $changed;
@@ -212,15 +230,15 @@ class Category extends Base
 	{
 		$parent = [];
 		$recordCategory = $categoryId;
-		if (\is_array($this->parentsId)) {
+		if (\is_array($this->parentsId) && false !== $this->rootCategory) {
 			do {
-				if (!empty($this->parentsId[$recordCategory]) && 'root' !== $this->parentsId[$recordCategory]) {
+				if (!empty($this->parentsId[$recordCategory]) && $this->rootCategory !== $this->parentsId[$recordCategory]) {
 					$parent[] = $this->mapCategoryYF[$this->parentsId[$recordCategory]];
 					$recordCategory = $this->parentsId[$recordCategory];
 				} elseif (!empty($this->parentsId[$recordCategory])) {
 					$recordCategory = $this->parentsId[$recordCategory];
 				}
-			} while (!('root' === $recordCategory || 0 === $recordCategory || 1 === $recordCategory));
+			} while (!($this->rootCategory === $recordCategory));
 		}
 		$parent = array_reverse($parent);
 		$parent[] = $this->mapCategoryYF[$categoryId];
@@ -234,9 +252,14 @@ class Category extends Base
 	 */
 	public function getCategoriesMagento()
 	{
-		$categoriesList = $this->connector->request('GET', '/rest/all/V1/categories');
-		$this->categoriesMagento['children_data'] = [\json_decode($categoriesList, true)];
-		$this->parseMagentoCategory($this->categoriesMagento);
+		try {
+			$categoriesList = $this->connector->request('GET', '/rest/all/V1/categories');
+			$this->categoriesMagento['children_data'] = [\json_decode($categoriesList, true)];
+			$this->parseMagentoCategory($this->categoriesMagento);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			\App\Log::error('Error during saving magento category.');
+		}
+
 		return $this->categoriesMagento;
 	}
 
@@ -290,14 +313,16 @@ class Category extends Base
 	 */
 	public function getLastIdYF(): int
 	{
-		$maxId = 1;
-		foreach ($this->getTemplatesData() as $category) {
-			$treeId = (int) str_replace('T', '', $category['tree']);
-			if ($treeId >= $maxId) {
-				$maxId = $treeId + 1;
+		if (empty($this->lastCategoryIdYF)) {
+			$this->lastCategoryIdYF = 0;
+			foreach ($this->getTemplatesData() as $category) {
+				$treeId = (int) str_replace('T', '', $category['tree']);
+				if ($treeId >= $this->lastCategoryIdYF) {
+					$this->lastCategoryIdYF = $treeId;
+				}
 			}
 		}
-		return $maxId;
+		return ++$this->lastCategoryIdYF;
 	}
 
 	/**
@@ -310,7 +335,7 @@ class Category extends Base
 	public function getTemplatesData()
 	{
 		return (new Query())
-			->where(['templateid' => $this->getTemplateId()])
+			->where(['templateid' => $this->templateId])
 			->from('vtiger_trees_templates_data')
 			->createCommand()->queryAll();
 	}
@@ -326,19 +351,19 @@ class Category extends Base
 	{
 		$result = false;
 		try {
-			$categoryRequest = $this->connector->request('POST', '/rest/V1/categories', [
+			$categoryRequest = \json_decode($this->connector->request('POST', '/rest/V1/categories', [
 				'category' => [
 					'name' => $category['name'],
 					'parent_id' => $this->mapCategoryMagento[$category['parent_id']] ?? 0,
 					'is_active' => $category['is_active'],
 					'include_in_menu' => '1',
 					'isActive' => 'true',
-					'level' => $category['level'],
-				]]);
+					'level' => $category['level'] + 1,
+				]]), true);
 			$this->saveCategoryMappingYF($categoryRequest['id'], $category['id']);
 			$result = true;
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			\App\Log::error('Error during saving magento category: ' . $e->getResponse());
+			\App\Log::error('Error during saving magento category.');
 		}
 		return $result;
 	}
@@ -355,24 +380,22 @@ class Category extends Base
 	public function saveCategoryYF(array $category): int
 	{
 		$categoryId = $this->getLastIdYF();
-		$templateId = $this->getTemplateId();
-		$result = \App\Db::getInstance()->createCommand()->insert('vtiger_trees_templates_data', [
-			'templateid' => $templateId,
-			'tree' => 'T' . $categoryId,
-			'parentTree' => 'T' . $categoryId,
-			'name' => $category['name'],
-			'depth' => $category['level'] - 1,
-			'label' => $category['name'],
-			'state' => '{"loaded":true,"opened":false,"selected":false,"disabled":false}'
-		])->execute();
-		$this->saveCategoryMappingYF($category['id'], $categoryId);
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		if (isset($this->mapCategoryYF[$category['parent_id']])) {
 			$category['parent_id'] = $this->mapCategoryYF[$category['parent_id']];
 		} else {
 			$category['parent_id'] = $categoryId;
 		}
-		$parentId = $this->parseParentYF($category);
-		\App\Db::getInstance()->createCommand()->update('vtiger_trees_templates_data', ['parentTree' => $parentId], ['tree' => 'T' . $categoryId, 'templateid' => $templateId])->execute();
+		$this->saveCategoryMappingYF($category['id'], $categoryId);
+		$result = $dbCommand->insert('vtiger_trees_templates_data', [
+			'templateid' => $this->templateId,
+			'tree' => 'T' . $categoryId,
+			'parentTree' => $this->parseParentYF($category),
+			'name' => $category['name'],
+			'depth' => $category['level'] - 1,
+			'label' => $category['name'],
+			'state' => '{"loaded":true,"opened":false,"selected":false,"disabled":false}'
+		])->execute();
 		$this->getCategoriesYF();
 		return $result;
 	}
@@ -416,22 +439,20 @@ class Category extends Base
 	 */
 	public function updateCategoryYF(array $categoryYF, array $categoryMagento): int
 	{
-		$templateId = $this->getTemplateId();
 		$parentId = $this->parseParentYF($categoryMagento);
-		$result = \App\Db::getInstance()->createCommand()->update('vtiger_trees_templates_data', [
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$result = $dbCommand->update('vtiger_trees_templates_data', [
 			'parentTree' => $parentId,
 			'name' => $categoryMagento['name'],
 			'depth' => $categoryMagento['level'],
 			'label' => $categoryMagento['name'],
 			'state' => '{"loaded":true,"opened":false,"selected":false,"disabled":false}'
-		], ['tree' => 'T' . $categoryYF['id'], 'templateid' => $templateId])->execute();
+		], ['tree' => 'T' . $categoryYF['id'], 'templateid' => $this->templateId])->execute();
 		if (!empty($categoryMagento['children_data'])) {
 			foreach ($categoryMagento['children_data'] as $categoryChild) {
-				$childParent = $this->categoriesYF[$this->mapCategoryYF[$categoryChild['parent_id']]];
-				$childParentId = str_replace('::', '::T', $childParent['full_parent_id'] . '::' . $this->mapCategoryYF[$categoryChild['id']]);
-				\App\Db::getInstance()->createCommand()->update('vtiger_trees_templates_data', [
-					'parentTree' => $childParentId
-				], ['tree' => 'T' . $this->mapCategoryYF[$categoryChild['id']], 'templateid' => $templateId])->execute();
+				$dbCommand->update('vtiger_trees_templates_data', [
+					'parentTree' => str_replace('::', '::T', $this->categoriesYF[$this->mapCategoryYF[$categoryChild['parent_id']]]['full_parent_id'] . '::' . $this->mapCategoryYF[$categoryChild['id']])
+				], ['tree' => 'T' . $this->mapCategoryYF[$categoryChild['id']], 'templateid' => $this->templateId])->execute();
 			}
 		}
 		$this->getCategoriesYF();
@@ -467,7 +488,7 @@ class Category extends Base
 	public function deleteCategoryMagento($categoryMagento): bool
 	{
 		$result = false;
-		if (1 !== $categoryMagento['id'] && 2 !== $categoryMagento['id']) {
+		if (!\in_array($categoryMagento['id'], static::$nonEditable)) {
 			try {
 				$this->connector->request('DELETE', '/rest/all/V1/categories/' . $categoryMagento['id'], []);
 				$result = true;
@@ -486,32 +507,23 @@ class Category extends Base
 	 */
 	public function deleteCategoryYF(array $categoryYF)
 	{
-		\App\Db::getInstance()->createCommand()->delete('vtiger_trees_templates_data', ['tree' => 'T' . $categoryYF['id'], 'templateid' => \Vtiger_Field_Model::getInstance('pscategory', \Vtiger_Module_Model::getInstance('Products'))->getFieldParams()])->execute();
-		\App\Db::getInstance()->createCommand()->delete('i_#__magento_record', ['crmid' => $categoryYF['id']])->execute();
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$dbCommand->delete('vtiger_trees_templates_data', ['tree' => 'T' . $categoryYF['id'], 'templateid' => $this->templateId])->execute();
+		$dbCommand->delete('i_#__magento_record', ['crmid' => $categoryYF['id']])->execute();
 	}
 
 	/**
 	 * Method to return category mapping (as key is YF id).
 	 */
-	public function getCategoryMappingMagento()
+	public function getCategoryMapping()
 	{
 		$this->mapCategoryMagento = (new Query())
 			->select(['crmid', 'id'])
 			->where(['type' => 'category'])
 			->from('i_#__magento_record')
 			->createCommand()->queryAllByGroup(0) ?? [];
-	}
-
-	/**
-	 * Method to return category mapping (as key is Magento id).
-	 */
-	public function getCategoryMappingYF()
-	{
-		$this->mapCategoryYF = (new Query())
-			->select(['id', 'crmid'])
-			->where(['type' => 'category'])
-			->from('i_#__magento_record')
-			->createCommand()->queryAllByGroup(0) ?? [];
+		$this->mapCategoryMagento[0] = 0;
+		$this->mapCategoryYF = \array_flip($this->mapCategoryMagento);
 	}
 
 	/**
@@ -554,8 +566,8 @@ class Category extends Base
 				'type' => 'category'
 			])->execute();
 		}
-		$this->getCategoryMappingYF();
-		$this->getCategoryMappingMagento();
+		$this->mapCategoryMagento[$categoryIdYF] = $categoryIdMagento;
+		$this->mapCategoryYF[$categoryIdMagento] = $categoryIdYF;
 		return $result;
 	}
 
@@ -574,21 +586,5 @@ class Category extends Base
 		return \App\Db::getInstance()->createCommand()->update('i_#__magento_record', [
 			'id' => $categoryIdMagento
 		], ['crmid' => $categoryIdYF])->execute();
-	}
-
-	/**
-	 * Method to return category template id.
-	 *
-	 * @return int
-	 */
-	public function getTemplateId()
-	{
-		if (\App\Cache::has('Integrations', 'categoryTemplateId')) {
-			$templateId = \App\Cache::get('Integrations', 'categoryTemplateId');
-		} else {
-			$templateId = \Vtiger_Field_Model::getInstance('pscategory', \Vtiger_Module_Model::getInstance('Products'))->getFieldParams();
-			\App\Cache::save('Integrations', 'categoryTemplateId', $templateId, \App\Cache::LONG);
-		}
-		return $templateId;
 	}
 }
