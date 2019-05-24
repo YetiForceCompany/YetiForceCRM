@@ -57,7 +57,7 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 				if (\Vtiger_PDF_Model::TEMPLATE_TYPE_DYNAMIC === $template->get('type')) {
 					$dynamicTemplates[] = $template;
 					if ($template->get('default')) {
-						$active = $template->get('default') ? 'active' : '';
+						$active = $template->get('default') ? true : false;
 					}
 					unset($templates[$key]);
 				}
