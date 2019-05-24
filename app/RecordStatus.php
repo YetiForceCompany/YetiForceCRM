@@ -102,7 +102,7 @@ class RecordStatus
 	public static function addHistory(\Vtiger_Record_Model $recordModel)
 	{
 		$db = \App\Db::getInstance();
-		$fieldStatusActive = self::getField(\App\Module::getModuleId($recordModel->getModuleName()));
+		$fieldStatusActive = self::getFieldName($recordModel->getModuleName());
 		$nameTableStatusHistory = $recordModel->getModule()->get('basetable') . '_record_status_history';
 		if ($db->getTableSchema($nameTableStatusHistory) && $fieldStatusActive) {
 			$db->createCommand()->insert($nameTableStatusHistory, [
