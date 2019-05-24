@@ -42,6 +42,7 @@ import * as plugins from 'quasar/src/plugins.js'
 import * as utils from 'quasar/src/utils.js'
 
 import Tree from './Tree.vue'
+import mdi from 'quasar/icon-set/mdi-v3.js'
 const Quasar = {
 	...VuePlugin,
 	install(Vue, opts) {
@@ -88,6 +89,7 @@ const Quasar = {
 	}
 }
 window.Vue.use(Quasar)
+Quasar.iconSet.set(mdi)
 
 let VueInstance = null
 window.KnowledgeBaseTree = {
