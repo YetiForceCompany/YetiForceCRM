@@ -122,9 +122,9 @@
       </q-drawer>
 
       <q-page-container>
-        <q-page class="q-pa-md">
+        <q-page class="q-pa-sm">
           <div v-if="!searchData">
-            <div v-show="typeof tree.data.featured.length === 'undefined'" class="q-pa-md row items-start q-gutter-md">
+            <div v-show="typeof tree.data.featured.length === 'undefined'" class="q-pa-sm row items-start q-gutter-md">
               <template v-for="(categoryValue, categoryKey) in tree.data.categories">
                 <q-list
                   bordered
@@ -134,7 +134,7 @@
                   :key="categoryKey"
                   class="home-card"
                 >
-                  <q-item-label header class="text-black flex" @click="getData(categoryValue)">
+                  <q-item-label header class="text-black flex cursor-pointer" @click="getData(categoryValue)">
                     <icon :icon="tree.categories[categoryValue].icon" :size="iconSize" class="mr-2"></icon>
                     {{ tree.categories[categoryValue].label }}
                   </q-item-label>
@@ -146,16 +146,14 @@
                     v-ripple
                     @click.prevent="getRecord(featuredValue.id)"
                   >
-                    <q-item-section avatar>
-                      <q-icon name="mdi-star" :size="iconSize"></q-icon>
-                    </q-item-section>
-                    <q-item-section>
+                    <q-item-section class="align-items-center flex-row no-wrap justify-content-start">
+                      <q-icon name="mdi-star" :size="iconSize" class="mr-2"></q-icon>
                       <a
-                        class="js-popover-tooltip--record"
+                        class="js-popover-tooltip--record ellipsis"
                         :href="`index.php?module=KnowledgeBase&view=Detail&record=${featuredValue.id}`"
                       >
-                        {{ featuredValue.subject }}</a
-                      >
+                        {{ featuredValue.subject }}
+                      </a>
                     </q-item-section>
                   </q-item>
                 </q-list>
@@ -189,7 +187,7 @@
                           </q-breadcrumbs-el>
                         </q-breadcrumbs>
 
-                        | Authored by: {{ props.row.assigned_user_id }}</q-item-label
+                        | {{ translate('JS_AUTHORED_BY') }}: {{ props.row.assigned_user_id }}</q-item-label
                       >
                       <q-item-label caption>{{ props.row.introduction }}</q-item-label>
                     </q-item-section>
@@ -232,7 +230,7 @@
                         </q-breadcrumbs-el>
                       </q-breadcrumbs>
 
-                      | Authored by: {{ props.row.assigned_user_id }}</q-item-label
+                      | {{ translate('JS_AUTHORED_BY') }}: {{ props.row.assigned_user_id }}</q-item-label
                     >
                     <q-item-label caption>{{ props.row.introduction }}</q-item-label>
                   </q-item-section>
@@ -278,83 +276,64 @@
           {{ record.introduction }}
         </q-card-section>
         <q-card-section>
-          <q-carousel
-            v-if="record.knowledgebase_view === 'PLL_PRESENTATION'"
-            v-model="slide"
-            transition-prev="scale"
-            transition-next="scale"
-            swipeable
-            animated
-            control-color="black"
-            navigation
-            padding
-            arrows
-            height="300px"
-            class="bg-white text-black shadow-1 rounded-borders"
-          >
-            <q-carousel-slide
-              v-for="(slide, index) in record.content"
-              :name="index"
-              :key="index"
-              class="column no-wrap flex-center"
-            >
-              <div v-html="slide"></div>
-            </q-carousel-slide>
-          </q-carousel>
+          <carousel v-if="record.knowledgebase_view === 'PLL_PRESENTATION'" :record="record" />
           <div v-else v-html="record.content"></div>
         </q-card-section>
-        <q-table
-          v-if="record.related"
-          :data="getTableArray(record.related)"
-          :columns="columns"
-          row-key="subject"
-          grid
-          hide-header
-          :title="translate('JS_RELATED_ARTICLES')"
-        >
-          <template v-slot:item="props">
-            <q-list class="list-item" padding @click="getRecord(props.row.id)">
-              <q-item clickable>
-                <q-item-section avatar>
-                  <q-icon name="mdi-text" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label class="text-primary"> {{ props.row.subject }}</q-item-label>
-                  <q-item-label class="flex" overline>
-                    <q-breadcrumbs class="mr-2 text-grey-8" active-color="grey-8">
-                      <q-breadcrumbs-el
-                        v-for="category in tree.categories[props.row.category].parentTree"
-                        :key="tree.categories[category].label"
-                      >
-                        <icon :size="iconSize" :icon="tree.categories[category].icon" class="q-mr-sm" />
-                        {{ tree.categories[category].label }}
-                      </q-breadcrumbs-el>
-                    </q-breadcrumbs>
+        <q-card-section>
+          <q-table
+            v-if="record.related"
+            :data="getTableArray(record.related)"
+            :columns="columns"
+            row-key="subject"
+            grid
+            hide-header
+            :title="translate('JS_RELATED_ARTICLES')"
+          >
+            <template v-slot:item="props">
+              <q-list class="list-item" padding @click="getRecord(props.row.id)">
+                <q-item clickable>
+                  <q-item-section avatar>
+                    <q-icon name="mdi-text" />
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label class="text-primary"> {{ props.row.subject }}</q-item-label>
+                    <q-item-label class="flex" overline>
+                      <q-breadcrumbs class="mr-2 text-grey-8" active-color="grey-8">
+                        <q-breadcrumbs-el
+                          v-for="category in tree.categories[props.row.category].parentTree"
+                          :key="tree.categories[category].label"
+                        >
+                          <icon :size="iconSize" :icon="tree.categories[category].icon" class="q-mr-sm" />
+                          {{ tree.categories[category].label }}
+                        </q-breadcrumbs-el>
+                      </q-breadcrumbs>
 
-                    | Authored by: {{ props.row.assigned_user_id }}</q-item-label
-                  >
-                  <q-item-label caption>{{ props.row.introduction }}</q-item-label>
-                </q-item-section>
-                <q-item-section side top>
-                  <q-item-label caption>{{ props.row.short_time }}</q-item-label>
-                  <q-tooltip>
-                    {{ props.row.full_time }}
-                  </q-tooltip>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </template>
-          <template v-slot:bottom="props"> </template>
-        </q-table>
+                      | {{ translate('JS_AUTHORED_BY') }}: {{ props.row.assigned_user_id }}</q-item-label
+                    >
+                    <q-item-label caption>{{ props.row.introduction }}</q-item-label>
+                  </q-item-section>
+                  <q-item-section side top>
+                    <q-item-label caption>{{ props.row.short_time }}</q-item-label>
+                    <q-tooltip>
+                      {{ props.row.full_time }}
+                    </q-tooltip>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </template>
+            <template v-slot:bottom="props"> </template>
+          </q-table>
+        </q-card-section>
       </q-card>
     </q-dialog>
   </div>
 </template>
 <script>
 import Icon from '../../components/Icon.vue'
+import Carousel from '../../components/Carousel.vue'
 export default {
   name: 'TreeView',
-  components: { Icon },
+  components: { Icon, Carousel },
   data() {
     return {
       iconSize: '18px',
@@ -364,7 +343,6 @@ export default {
       dialog: false,
       categorySearch: false,
       maximizedToggle: true,
-      slide: 0,
       pagination: {
         rowsPerPage: 0
       },
