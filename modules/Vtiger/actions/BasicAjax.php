@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * *********************************************************************************** */
 
 class Vtiger_BasicAjax_Action extends \App\Controller\Action
@@ -17,18 +18,23 @@ class Vtiger_BasicAjax_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($request->getByType('search_module')) || !$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
+		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getByType('search_module')) || !$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
-	public function process(\App\Request $request)
+	/**
+	 * Process.
+	 *
+	 * @param App\Request $request
+	 */
+	public function process(App\Request $request)
 	{
-		$searchModuleModel = Vtiger_Module_Model::getInstance($request->getByType('search_module'));
-		$records = $searchModuleModel->searchRecord($request->getByType('search_value', 'Text'), $request->getInteger('parent_id'), $request->getByType('parent_module'), $request->getModule());
+		$searchModuleModel = \Vtiger_Module_Model::getInstance($request->getByType('search_module', 'Alnum'));
+		$records = $searchModuleModel->searchRecord($request->getByType('search_value', 'Text'), $request->getModule());
 		$result = [];
 		if (is_array($records)) {
 			foreach ($records as $recordModels) {

@@ -8862,17 +8862,6 @@ CREATE TABLE `vtiger_vendorcf` (
   CONSTRAINT `fk_1_vtiger_vendorcf` FOREIGN KEY (`vendorid`) REFERENCES `vtiger_vendor` (`vendorid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_vendorcontactrel` */
-
-CREATE TABLE `vtiger_vendorcontactrel` (
-  `vendorid` int(10) NOT NULL DEFAULT 0,
-  `contactid` int(10) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`vendorid`,`contactid`),
-  KEY `vendorcontactrel_vendorid_idx` (`vendorid`),
-  KEY `vendorcontactrel_contact_idx` (`contactid`),
-  CONSTRAINT `fk_2_vtiger_vendorcontactrel` FOREIGN KEY (`vendorid`) REFERENCES `vtiger_vendor` (`vendorid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_verification` */
 
 CREATE TABLE `vtiger_verification` (
