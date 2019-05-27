@@ -253,6 +253,7 @@
 							<a class="c-header__btn ml-2 btn-light btn showModal js-popover-tooltip js-header-knowledge-button"
 							   role="button"
 							   data-url="index.php?module=KnowledgeBase&view=KnowledgeBaseModal"
+								 data-cb="YetiForce_KnowledgeBaseModal_Js.showModalContent"
 							   data-js="popover|modal" data-content="{\App\Language::translate('BTN_KNOWLEDGE_BASE', 'KnowledgeBase')}"
 							   href="#">
 								<span class="userIcon-KnowledgeBase"
