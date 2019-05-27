@@ -8,7 +8,8 @@ const rollup = require('rollup'),
 	commonjs = require('rollup-plugin-commonjs'),
 	resolve = require('rollup-plugin-node-resolve'),
 	globals = require('rollup-plugin-node-globals'),
-	alias = require('rollup-plugin-alias')
+	json = require('rollup-plugin-json'),
+	{ terser } = require('rollup-plugin-terser')
 
 let filesToMin = []
 async function build(filePath) {
@@ -18,18 +19,7 @@ async function build(filePath) {
 	const outputFile = `../layouts/basic/modules/${moduleName}/${fileName}`
 	const inputOptions = {
 		input: filePath,
-		plugins: [
-			alias({
-				vue: path.resolve('./node_modules/vue/dist/vue.js'),
-				quasar: path.resolve('./node_modules/quasar/'),
-				axios: path.resolve('./node_modules/axios/dist/axios.js')
-			}),
-			resolve(),
-			commonjs(),
-			vue({ compileTemplate: true }),
-			sourcemaps(),
-			globals()
-		]
+		plugins: [json(), resolve(), commonjs(), vue({ compileTemplate: true }), globals(), terser()]
 	}
 	const outputOptions = {
 		sourcemap: true,

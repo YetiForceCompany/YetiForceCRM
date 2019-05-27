@@ -40,9 +40,9 @@ blueimp-canvas-to-blob@3.5.0:
   integrity sha1-VnmsMvaig1gh8MOtZhcZ/4WpI2s=
 
 blueimp-file-upload@^9.30.0:
-  version "9.30.0"
-  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-9.30.0.tgz#c6f255ce8cbfb21d6f22fabd8dddea6e704227f3"
-  integrity sha512-+xuYMzWREjm2MgQMRlftThDBdP4DklKjC++VihDNW0iwBLfziS4B/BAYGuQxMY8MsxAwVQk3ogxaczsaNVVVEg==
+  version "9.31.0"
+  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-9.31.0.tgz#54a68e40ac6670d566e1c80a95fbfe2627e9578a"
+  integrity sha512-/YYWY9DwRlqdUWoBqi/bW9+dzVVvCl+gIiRDJGAsT4fe4k2j2f0d11UfFM9P6iLWetQUWeTwH0pnhwlubYzDHA==
   optionalDependencies:
     blueimp-canvas-to-blob "3.5.0"
     blueimp-load-image "2.12.2"
@@ -253,10 +253,10 @@ fullcalendar@3.10.0:
   resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-3.10.0.tgz#cc5e87d518fd6550e142816a31dd191664847919"
   integrity sha512-0OtsHhmdYhtFmQwXzyo8VqHzYgamg+zVOoytv5N13gI+iF6CGjevpCi/yBaQs0O4wY3OAp8I688IxdNYe0iAvw==
 
-gantt-elastic@^0.14.3:
-  version "0.14.3"
-  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-0.14.3.tgz#fcb3879a160d1f5a9bf5f32bd81516c3ac96a4e4"
-  integrity sha512-cXOumHp5iBPRYVCjgBsTnWEd9KCIaPxC3Ra7a5YgQlIxp0qJZfpOi9GzHfqzCLaSzB39eTzp9ynUrTcSH9r4JA==
+gantt-elastic@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-1.0.1.tgz#04d4a76d8653245cf4455776ee44235064e148d3"
+  integrity sha512-nzLVglLl4NL8JAOM7oLlSWGUN0VJ6VpC/G0wamu3aB5dnuSZajqOS6ibfozENBENgXpU9btiDfvNxETW0rUFfw==
   dependencies:
     dayjs "^1.8.14"
     resize-observer-polyfill "^1.5.1"
@@ -415,9 +415,9 @@ popper.js@^1.15.0:
   integrity sha512-w010cY1oCUmI+9KwwlWki+r5jxKfTFDVoadl7MSrIujHU5MJ5OR6HTDj6Xo8aoR/QsA56x8jKjA59qGH4ELtrA==
 
 quasar@^1.0.0-beta.24:
-  version "1.0.0-beta.24"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.0.0-beta.24.tgz#771cb30d5211d06a8dba4a9608fb7addd77bec29"
-  integrity sha512-jsit0qXXh4QkB9/Zj7yYEzgk8X3djLKdiG81fhbdysTkCaEIEh8XVJStCG2Ghfkm9u0EUHc8vbEsvR7dRFfATA==
+  version "1.0.0-rc.2"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.0.0-rc.2.tgz#7569fa273b1834ece0a60eec473063d00127abfb"
+  integrity sha512-Gknx7NKM77kyOGGnJAKp60erUeUcOECESbCdVTAscg4A068ZrzCiWv5/GkEdsQP9jzf2ckQ470u5yobpeDswgA==
 
 resize-observer-polyfill@^1.5.1:
   version "1.5.1"

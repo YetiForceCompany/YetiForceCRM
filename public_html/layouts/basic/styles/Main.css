@@ -18839,6 +18839,25 @@ label.btn[class*=btn-outline-]:not(.active):hover {
   margin-right: -0.5rem;
 }
 
+.quasar-modal {
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  padding-top: 50px;
+  padding-bottom: 30px;
+  padding-left: 50px;
+  padding-right: 0 !important;
+}
+
+.quasar-modal .modal-content {
+  height: 100%;
+}
+
+.quasar-modal .q-layout-container {
+  height: calc(100vh - 113px);
+}
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 @media print {
   .noprint {
@@ -24157,7 +24176,8 @@ ul.tweets li {
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .basePanel,
 .bodyContents,
-.mainContainer {
+.mainContainer,
+.contentsDiv {
   min-height: 100%;
 }
 
@@ -25186,7 +25206,7 @@ input[type="radio"]:checked:before {
   overflow-x: hidden;
 }
 
-.contentsDiv {
+.KnowledgeBase_Tree .contentsDiv {
   min-height: calc(100vh - 3.125rem - 2rem);
 }
 
@@ -25194,7 +25214,7 @@ input[type="radio"]:checked:before {
   bottom: calc(2rem + 1rem);
 }
 
-.user-info--active .contentsDiv {
+.user-info--active .KnowledgeBase_Tree .contentsDiv {
   min-height: calc(100vh - 3.125rem - calc(2rem + 1rem));
 }
 
@@ -25202,7 +25222,7 @@ input[type="radio"]:checked:before {
   bottom: 1rem;
 }
 
-.limited-footer--active .contentsDiv {
+.limited-footer--active .KnowledgeBase_Tree .contentsDiv {
   min-height: calc(100vh - 3.125rem - 1rem);
 }
 
@@ -25210,7 +25230,7 @@ input[type="radio"]:checked:before {
   bottom: 2rem;
 }
 
-.user-info--active.limited-footer--active .contentsDiv {
+.user-info--active.limited-footer--active .KnowledgeBase_Tree .contentsDiv {
   min-height: calc(100vh - 3.125rem - 2rem);
 }
 
@@ -25218,13 +25238,13 @@ input[type="radio"]:checked:before {
   .mainBody {
     bottom: 1rem;
   }
-  .contentsDiv {
+  .KnowledgeBase_Tree .contentsDiv {
     min-height: calc(100vh - 3.125rem - 1rem);
   }
   .user-info--active .mainBody {
     bottom: 2rem;
   }
-  .user-info--active .contentsDiv {
+  .user-info--active .KnowledgeBase_Tree .contentsDiv {
     min-height: calc(100vh - 3.125rem - 2rem);
   }
 }

@@ -37,41 +37,75 @@ class Documents_Relation_Model extends Vtiger_Relation_Model
 	 */
 	public function deleteRelation($relatedRecordId, $sourceRecordId)
 	{
-		include_once 'modules/ModTracker/ModTracker.php';
-		$sourceModule = $this->getParentModuleModel();
-		$destinationModuleName = $sourceModule->get('name');
+		$destinationModuleName = $this->getParentModuleModel()->get('name');
 		$sourceModuleName = $this->getRelationModuleModel()->get('name');
-
-		if ($destinationModuleName == 'OSSMailView' || $sourceModuleName == 'OSSMailView') {
-			if ($destinationModuleName == 'OSSMailView') {
-				$mailId = $relatedRecordId;
-				$crmId = $sourceRecordId;
-			} else {
-				$mailId = $sourceRecordId;
-				$crmId = $relatedRecordId;
-			}
-
-			if (\App\Db::getInstance()->createCommand()->delete('vtiger_ossmailview_relation', ['crmid' => $crmId, 'ossmailviewid' => $mailId])->execute()) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			if ($destinationModuleName == 'ModComments') {
-				ModTracker::unLinkRelation($destinationModuleName, $relatedRecordId, $sourceModuleName, $sourceRecordId);
-
-				return true;
-			}
-			$relationFieldModel = $this->getRelationField();
-			if ($relationFieldModel && $relationFieldModel->isMandatory()) {
-				return false;
-			}
-			$destinationModuleFocus = CRMEntity::getInstance($destinationModuleName);
-			vtlib\Deprecated::deleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
+		if ('OSSMailView' == $destinationModuleName || 'OSSMailView' == $sourceModuleName) {
+			return $this->deleteRelationOSSMailView($relatedRecordId, $sourceRecordId);
+		}
+		if ('ModComments' == $destinationModuleName) {
+			include_once 'modules/ModTracker/ModTracker.php';
 			ModTracker::unLinkRelation($destinationModuleName, $relatedRecordId, $sourceModuleName, $sourceRecordId);
-
 			return true;
 		}
+		$relationFieldModel = $this->getRelationField();
+		if ($relationFieldModel && $relationFieldModel->isMandatory()) {
+			return false;
+		}
+		$return = true;
+		if (!empty($sourceModuleName) && !empty($sourceRecordId)) {
+			$destinationModuleFocus = $this->getParentModuleModel()->getEntityInstance();
+			$eventHandler = new \App\EventHandler();
+			$eventHandler->setModuleName($sourceModuleName);
+			$eventHandler->setParams([
+				'CRMEntity' => $destinationModuleFocus,
+				'sourceModule' => $sourceModuleName,
+				'sourceRecordId' => $sourceRecordId,
+				'destinationModule' => $destinationModuleName,
+				'destinationRecordId' => $relatedRecordId,
+			]);
+			$eventHandler->trigger('EntityBeforeUnLink');
+
+			$destinationModuleFocus->unlinkRelationship($relatedRecordId, $sourceModuleName, $sourceRecordId, $this->get('name'));
+			$destinationModuleFocus->trackUnLinkedInfo($sourceRecordId);
+
+			$eventHandler->trigger('EntityAfterUnLink');
+		} elseif ($relationFieldModel) {
+			$relationRecordModel = \Vtiger_Record_Model::getInstanceById($relatedRecordId, $destinationModuleName);
+			if ($relationRecordModel->isEditable()) {
+				$relationRecordModel->set($relationFieldModel->getName(), 0);
+				$relationRecordModel->ext['modificationType'] = \ModTracker_Record_Model::UNLINK;
+				$relationRecordModel->save();
+			} else {
+				$return = false;
+			}
+		} else {
+			\App\Log::warning("No link has been removed, improper relationship ($relatedRecordId, $sourceRecordId, $destinationModuleName, $sourceModuleName)");
+		}
+		return $return;
+	}
+
+	/**
+	 * Delete relation for OSSMailView module.
+	 *
+	 * @param int $sourceRecordId
+	 * @param int $relatedRecordId
+	 *
+	 * @return bool
+	 */
+	private function deleteRelationOSSMailView($relatedRecordId, $sourceRecordId)
+	{
+		$destinationModuleName = $this->getParentModuleModel()->get('name');
+		if ('OSSMailView' == $destinationModuleName) {
+			$mailId = $relatedRecordId;
+			$crmId = $sourceRecordId;
+		} else {
+			$mailId = $sourceRecordId;
+			$crmId = $relatedRecordId;
+		}
+		if (\App\Db::getInstance()->createCommand()->delete('vtiger_ossmailview_relation', ['crmid' => $crmId, 'ossmailviewid' => $mailId])->execute()) {
+			return true;
+		}
+		return false;
 	}
 
 	/**

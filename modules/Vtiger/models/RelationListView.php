@@ -181,7 +181,6 @@ class Vtiger_RelationListView_Model extends \App\Base
 			}
 			$query = $queryGenerator->createQuery();
 			$this->set('Query', $query);
-
 			return $query;
 		}
 		throw new \App\Exceptions\AppException('>>> No relationModel instance, requires verification 2 <<<');
@@ -225,7 +224,6 @@ class Vtiger_RelationListView_Model extends \App\Base
 		}
 		$rows = $query->all();
 		$count = count($rows);
-		$pagingModel->calculatePageRange($count);
 		if ($count > $pageLimit) {
 			array_pop($rows);
 			$pagingModel->set('nextPageExists', true);
@@ -233,11 +231,15 @@ class Vtiger_RelationListView_Model extends \App\Base
 			$pagingModel->set('nextPageExists', false);
 		}
 		$relatedRecordList = [];
+		$recordId = $this->getParentRecordModel()->getId();
 		foreach ($rows as $row) {
-			$recordModel = $relationModuleModel->getRecordFromArray($row);
-			$this->getEntryExtend($recordModel);
-			$relatedRecordList[$row['id']] = $recordModel;
+			if ($recordId !== $row['id']) {
+				$recordModel = $relationModuleModel->getRecordFromArray($row);
+				$this->getEntryExtend($recordModel);
+				$relatedRecordList[$row['id']] = $recordModel;
+			}
 		}
+		$pagingModel->calculatePageRange(count($relatedRecordList));
 		return $relatedRecordList;
 	}
 

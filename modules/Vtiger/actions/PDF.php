@@ -121,9 +121,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 					$increment[$fileName] = $increment[$fileName] ?? 0;
 					$fileName .= ($increment[$fileName]++ > 0 ? '_' . $increment[$fileName] : '') . '.pdf';
 
-					$filePath = 'cache' . DIRECTORY_SEPARATOR . 'pdf' . DIRECTORY_SEPARATOR;
-					$tmpFileName = tempnam($filePath, 'PDF' . time());
-					$filePath .= basename($tmpFileName);
+					$filePath = $template->getPath();
 					$saveFlag = 'F';
 					$pdfFiles[] = ['path' => $filePath,	'name' => $fileName];
 				}

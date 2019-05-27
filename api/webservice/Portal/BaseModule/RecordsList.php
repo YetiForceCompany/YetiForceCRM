@@ -15,20 +15,12 @@ class RecordsList extends \Api\Core\BaseAction
 	public $allowedMethod = ['GET'];
 
 	/**
-	 * Module name.
-	 *
-	 * @var string
-	 */
-	private $moduleName;
-
-	/**
 	 * Get method.
 	 *
 	 * @return array
 	 */
 	public function get()
 	{
-		$this->moduleName = $this->controller->request->get('module');
 		$rawData = $records = $headers = [];
 		$queryGenerator = $this->getQuery();
 		$fieldsModel = $queryGenerator->getListViewFields();
@@ -61,7 +53,7 @@ class RecordsList extends \Api\Core\BaseAction
 	 */
 	public function getQuery()
 	{
-		$queryGenerator = new \App\QueryGenerator($this->controller->request->get('module'));
+		$queryGenerator = new \App\QueryGenerator($this->controller->request->getModule());
 		$queryGenerator->initForDefaultCustomView();
 		$limit = 1000;
 		if ($requestLimit = $this->controller->request->getHeader('x-row-limit')) {
@@ -111,9 +103,11 @@ class RecordsList extends \Api\Core\BaseAction
 	protected function getRecordFromRow(array $row, array $fieldsModel): array
 	{
 		$record = ['recordLabel' => \App\Record::getLabel($row['id'])];
+		$recordModel = \Vtiger_Record_Model::getCleanInstance($this->controller->request->getModule());
 		foreach ($fieldsModel as $fieldName => &$fieldModel) {
 			if (isset($row[$fieldName])) {
-				$record[$fieldName] = $fieldModel->getDisplayValue($row[$fieldName], $row['id'], false, true);
+				$recordModel->set($fieldName, $row[$fieldName]);
+				$record[$fieldName] = $recordModel->getDisplayValue($fieldName, $row['id'], true);
 			}
 		}
 		return $record;
@@ -130,7 +124,7 @@ class RecordsList extends \Api\Core\BaseAction
 	{
 		$headers = [];
 		foreach ($fieldsModel as $fieldName => $fieldModel) {
-			$headers[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
+			$headers[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $fieldModel->getModuleName());
 		}
 		return $headers;
 	}

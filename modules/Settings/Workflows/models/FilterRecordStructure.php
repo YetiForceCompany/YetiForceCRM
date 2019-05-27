@@ -31,7 +31,7 @@ class Settings_Workflows_FilterRecordStructure_Model extends Settings_Workflows_
 				$values[$blockLabel] = [];
 				foreach ($fieldModelList as $fieldName => $fieldModel) {
 					if ($fieldModel->isViewable()) {
-						if ($moduleModel->getName() === 'Calendar' && $fieldModel->getDisplayType() == 3) {
+						if ('Calendar' === $moduleModel->getName() && 3 == $fieldModel->getDisplayType()) {
 							continue;
 						}
 						if (!empty($recordId)) {
@@ -39,6 +39,7 @@ class Settings_Workflows_FilterRecordStructure_Model extends Settings_Workflows_
 							$fieldValueType = $recordModel->getFieldFilterValueType($fieldName);
 							$fieldInfo = $fieldModel->getFieldInfo();
 							$fieldInfo['workflow_valuetype'] = $fieldValueType;
+							$fieldInfo['field_params'] = $fieldModel->getFieldParams();
 							$fieldModel->setFieldInfo($fieldInfo);
 						}
 						// This will be used during editing task like email, sms etc
@@ -62,7 +63,7 @@ class Settings_Workflows_FilterRecordStructure_Model extends Settings_Workflows_
 		foreach ($fields as $parentFieldName => $field) {
 			$type = $field->getFieldDataType();
 			$referenceModules = $field->getReferenceList();
-			if ($type == 'owner') {
+			if ('owner' == $type) {
 				$referenceModules = ['Users'];
 			}
 			foreach ($referenceModules as $refModule) {

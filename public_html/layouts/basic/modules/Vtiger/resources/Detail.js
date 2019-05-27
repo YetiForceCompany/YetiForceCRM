@@ -555,9 +555,13 @@ jQuery.Class(
 			params.data = data;
 			params.async = false;
 			params.dataType = 'json';
-			AppConnector.request(params).done(function(reponseData) {
-				aDeferred.resolve(reponseData);
-			});
+			AppConnector.request(params)
+				.done(function(reponseData) {
+					aDeferred.resolve(reponseData);
+				})
+				.fail((jqXHR, textStatus, errorThrown) => {
+					aDeferred.reject(jqXHR, textStatus, errorThrown);
+				});
 
 			return aDeferred.promise();
 		},
@@ -1049,7 +1053,7 @@ jQuery.Class(
 				var fieldName = jQuery(element).val();
 				var elementTarget = jQuery(element);
 				var elementName =
-					jQuery.inArray(elementTarget.data('type'), ['taxes', 'sharedOwner', 'multipicklist']) != -1
+					jQuery.inArray(elementTarget.data('type'), ['taxes', 'sharedOwner', 'multipicklist', 'multiDomain']) != -1
 						? fieldName + '[]'
 						: fieldName;
 				var fieldElement = jQuery('[name="' + elementName + '"]:not([type="hidden"])', editElement);
@@ -1078,7 +1082,7 @@ jQuery.Class(
 					var element = jQuery(e.target);
 					if ($(e.currentTarget).find('.dateTimePickerField').length) {
 						if (element.closest('.drp-calendar').length || element.hasClass('drp-calendar')) {
-							return
+							return;
 						}
 					}
 					if (
@@ -1236,13 +1240,18 @@ jQuery.Class(
 								}
 								thisInstance.updateRecordsPDFTemplateBtn(thisInstance.getForm());
 							})
-							.fail(function(error) {
+							.fail(function(jqXHR, textStatus, errorThrown) {
 								editElement.addClass('d-none');
 								detailViewValue.removeClass('d-none');
 								actionElement.removeClass('d-none');
 								editElement.off('clickoutside');
 								readRecord.prop('disabled', false);
 								currentTdElement.progressIndicator({ mode: 'hide' });
+								Vtiger_Helper_Js.showPnotify({
+									type: 'error',
+									title: app.vtranslate('JS_SAVE_NOTIFY_FAIL'),
+									text: textStatus
+								});
 							});
 					}
 				};
@@ -2923,23 +2932,23 @@ jQuery.Class(
 		},
 		updateRecordsPDFTemplateBtn: function(form) {
 			const thisInstance = this;
-			let btnToolbar = $(".js-btn-toolbar .js-pdf");
+			let btnToolbar = $('.js-btn-toolbar .js-pdf');
 			if (btnToolbar.length) {
 				AppConnector.request({
 					data: {
 						module: app.getModuleName(),
-						action: "PDF",
-						mode: "hasValidTemplate",
+						action: 'PDF',
+						mode: 'hasValidTemplate',
 						record: app.getRecordId(),
 						view: app.getViewName()
 					},
-					dataType: "json"
+					dataType: 'json'
 				})
 					.done(function(data) {
-						if (data["result"].valid === false) {
-							btnToolbar.addClass("d-none");
+						if (data['result'].valid === false) {
+							btnToolbar.addClass('d-none');
 						} else {
-							btnToolbar.removeClass("d-none");
+							btnToolbar.removeClass('d-none');
 						}
 					})
 					.fail(function(data, err) {

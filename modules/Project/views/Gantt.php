@@ -78,16 +78,19 @@ class Project_Gantt_View extends Vtiger_Index_View
 	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+		$jsFileNames = [
 			'~libraries/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js',
 			'modules.CustomView.resources.CustomView',
 			"modules.${moduleName}.resources.CustomView",
 			'~libraries/chart.js/dist/Chart.js',
 			'~libraries/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.js',
 			'modules.Project.resources.Gantt',
-			'~libraries/vue/dist/vue.min.js',
 			'~libraries/gantt-elastic/dist/bundle.js',
 			'modules.Project.resources.GanttController',
-		]));
+		];
+		if (!\App\Privilege::isPermitted('KnowledgeBase')) {
+			array_unshift($jsFileNames, '~libraries/vue/dist/vue.min.js');
+		}
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 }

@@ -88,7 +88,7 @@ class Controller
 			$handler->preProcess();
 			$return = call_user_func([$handler, strtolower($this->method)]);
 		}
-		if (!empty($return)) {
+		if (null !== $return) {
 			$return = [
 				'status' => 1,
 				'result' => $return,

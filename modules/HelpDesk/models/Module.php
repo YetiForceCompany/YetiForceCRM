@@ -45,7 +45,7 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model
 		$listviewEntries = [];
 		$listColumns = \App\Config::module('HelpDesk', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
-			$listColumns = $this->list_fields_name;
+			$listColumns = $this->getEntityInstance()->list_fields_name;
 		}
 		foreach ($listColumns as $fieldname => $colname) {
 			if (\App\Field::getFieldPermission('HelpDesk', $colname)) {
@@ -103,7 +103,7 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model
 		$hasRecordViewAccess = $currentUser->isAdminUser() || \App\Privilege::isPermitted('HelpDesk', 'DetailView', $recordId);
 		$listColumns = \App\Config::module('HelpDesk', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
-			$listColumns = $this->list_fields_name;
+			$listColumns = $this->getEntityInstance()->list_fields_name;
 		}
 		$infoData = [];
 		foreach ($listColumns as $colname) {
@@ -178,7 +178,7 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model
 			$parentInfo['depth'] = $depth;
 			$listColumns = \App\Config::module('HelpDesk', 'COLUMNS_IN_HIERARCHY');
 			if (empty($listColumns)) {
-				$listColumns = $this->list_fields_name;
+				$listColumns = $this->getEntityInstance()->list_fields_name;
 			}
 			foreach ($listColumns as $columnname) {
 				if ('assigned_user_id' === $columnname) {
@@ -221,7 +221,7 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model
 			->createCommand()->query();
 		$listColumns = \App\Config::module('HelpDesk', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
-			$listColumns = $this->list_fields_name;
+			$listColumns = $this->getEntityInstance()->list_fields_name;
 		}
 		if ($dataReader->count() > 0) {
 			$depth = $depthBase + 1;
@@ -257,7 +257,6 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getChildIds(int $id, &$childIds = []): array
 	{
-		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
 		$recordsIds = (new App\Db\Query())->select([
 			'vtiger_troubletickets.ticketid'
 		])->from('vtiger_troubletickets')

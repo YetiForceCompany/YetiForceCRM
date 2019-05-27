@@ -121,6 +121,21 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 		} else {
 			$content = $recordModel->get('content');
 		}
+		$pagingModel = new Vtiger_Paging_Model();
+		$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $request->getModule());
+		$relationListView->setFields(['id', 'subject', 'introduction', 'assigned_user_id', 'category', 'modifiedtime']);
+		$relationListView->getQueryGenerator()->addNativeCondition(['knowledgebase_status' => 'PLL_ACCEPTED']);
+		$related = [];
+		foreach ($relationListView->getEntries($pagingModel) as $key => $relatedRecordModel) {
+			$related[$key] = [
+				'assigned_user_id' => $relatedRecordModel->getDisplayValue('assigned_user_id'),
+				'subject' => $relatedRecordModel->get('subject'),
+				'introduction' => $relatedRecordModel->getDisplayValue('introduction'),
+				'category' => $relatedRecordModel->get('category'),
+				'full_time' => App\Fields\DateTime::formatToDisplay($relatedRecordModel->get('modifiedtime')),
+				'short_time' => \Vtiger_Util_Helper::formatDateDiffInStrings($relatedRecordModel->get('modifiedtime')),
+			];
+		}
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'content' => $content,
@@ -129,8 +144,11 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 			'knowledgebase_view' => $recordModel->get('knowledgebase_view'),
 			'assigned_user_id' => $recordModel->getDisplayValue('assigned_user_id'),
 			'category' => $recordModel->getDisplayValue('category'),
-			'createdtime' => $recordModel->getDisplayValue('createdtime'),
-			'modifiedtime' => $recordModel->getDisplayValue('modifiedtime'),
+			'full_createdtime' => $recordModel->getDisplayValue('createdtime'),
+			'short_createdtime' => \Vtiger_Util_Helper::formatDateDiffInStrings($recordModel->get('createdtime')),
+			'full_modifiedtime' => $recordModel->getDisplayValue('modifiedtime'),
+			'short_modifiedtime' => \Vtiger_Util_Helper::formatDateDiffInStrings($recordModel->get('modifiedtime')),
+			'related' => $related,
 		]);
 		$response->emit();
 	}
