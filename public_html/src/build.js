@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 const rollup = require('rollup'),
-	finder = require('findit')('modules'),
+	finder = require('findit')('layouts'),
 	path = require('path'),
 	sourcemaps = require('rollup-plugin-sourcemaps'),
 	vue = require('rollup-plugin-vue'),
@@ -13,10 +13,7 @@ const rollup = require('rollup'),
 
 let filesToMin = []
 async function build(filePath) {
-	let directiories = filePath.split('\\')
-	const fileName = directiories.pop().replace('.js', '.vue.js')
-	const moduleName = directiories.pop()
-	const outputFile = `../layouts/basic/modules/${moduleName}/${fileName}`
+	const outputFile = `../${filePath.replace('.js', '.vue.js')}`
 	const inputOptions = {
 		input: filePath,
 		plugins: [json(), resolve(), commonjs(), vue({ compileTemplate: true }), globals(), terser()]

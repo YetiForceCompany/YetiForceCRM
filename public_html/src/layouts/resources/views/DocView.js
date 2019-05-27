@@ -42,7 +42,7 @@ import {
 import * as directives from 'quasar/src/directives.js'
 import { AppFullscreen } from 'quasar/src/plugins.js'
 
-import Tree from './Tree.vue'
+import Doc from './DocView.vue'
 import mdi from 'quasar/icon-set/mdi-v3.js'
 const Quasar = {
 	...VuePlugin,
@@ -95,10 +95,10 @@ window.Vue.use(Quasar)
 Quasar.iconSet.set(mdi)
 
 let VueInstance = null
-window.KnowledgeBaseTree = {
-	component: Tree,
+window.DocView = {
+	component: Doc,
 	mount(config) {
-		VueInstance = new window.Vue(Tree).$mount(config.el)
+		VueInstance = new window.Vue(Doc).$mount(config.el)
 		return VueInstance
 	}
 }

@@ -370,8 +370,8 @@
   </div>
 </template>
 <script>
-import Icon from '../../components/Icon.vue'
-import Carousel from '../../components/Carousel.vue'
+import Icon from '../../../components/Icon.vue'
+import Carousel from '../../../components/Carousel.vue'
 export default {
   name: 'TreeView',
   components: { Icon, Carousel },

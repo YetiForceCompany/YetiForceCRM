@@ -4,7 +4,7 @@
 
 jQuery.Class('KnowledgeBase_Tree_Js', {
 	registerEvents: function() {
-		KnowledgeBaseTree.mount({
+		DocView.mount({
 			el: '#KnowledgeBaseTree'
 		});
 	}
