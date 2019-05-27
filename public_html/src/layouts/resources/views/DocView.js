@@ -98,6 +98,7 @@ let VueInstance = null
 window.DocView = {
 	component: Doc,
 	mount(config) {
+		Doc.moduleName = config.moduleName
 		VueInstance = new window.Vue(Doc).$mount(config.el)
 		return VueInstance
 	}

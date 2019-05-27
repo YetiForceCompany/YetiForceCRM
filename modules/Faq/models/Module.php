@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Faq_Module_Model extends Vtiger_Module_Model
+class Faq_Module_Model extends KnowledgeBase_Module_Model
 {
 	/**
 	 * Function to check whether the module is an entity type module or not.
