@@ -216,7 +216,7 @@ class Inventory
 				'module' => new \yii\db\Expression("'Service'"), 'id' => 'serviceid', 'service_usageunit',
 				'subunit' => new \yii\db\Expression("''"), 'currency_id', 'description', 'unit_price', 'taxes',
 				'quantity' => new \yii\db\Expression('0'),
-				'listprice'
+				'vtiger_pricebookproductrel.listprice'
 			])
 			->from('vtiger_service')
 			->innerJoin('vtiger_crmentity', 'vtiger_service.serviceid = vtiger_crmentity.crmid')
@@ -228,7 +228,7 @@ class Inventory
 			->select([
 				'module' => new \yii\db\Expression("'Products'"), 'id' => 'vtiger_products.productid', 'usageunit',
 				'subunit', 'currency_id', 'description', 'unit_price', 'taxes', 'quantity' => 'u_#__istorages_products.qtyinstock',
-				'listprice'
+				'vtiger_pricebookproductrel.listprice'
 			])
 			->from('vtiger_products')
 			->innerJoin('vtiger_crmentity', 'vtiger_products.productid = vtiger_crmentity.crmid')

@@ -1,14 +1,20 @@
 <?php
-
-namespace Api\Portal\BaseModule;
-
 /**
- * Get record detail class.
+ * The file contains: Get record detail class.
+ *
+ * @package Api
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author 		Arkadiusz Adach <a.adach@yetiforce.com>
+ */
+
+namespace Api\Portal\BaseModule;
+
+/**
+ * Get record detail class.
  */
 class Record extends \Api\Core\BaseAction
 {
