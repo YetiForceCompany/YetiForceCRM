@@ -19,7 +19,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 	public function isEditable()
 	{
 		$nonEditablePickListValues = ['duration_minutes', 'payment_duration', 'recurring_frequency', 'visibility'];
-		if ((!in_array($this->get('displaytype'), [1, 10]) && $this->getName() !== 'salutationtype') || !in_array($this->get('presence'), [0, 2]) || in_array($this->getName(), $nonEditablePickListValues) || ($this->getFieldDataType() !== 'picklist' && $this->getFieldDataType() !== 'multipicklist') || $this->getModuleName() === 'Users') {
+		if ((!in_array($this->get('displaytype'), [1, 10]) && 'salutationtype' !== $this->getName()) || !in_array($this->get('presence'), [0, 2]) || in_array($this->getName(), $nonEditablePickListValues) || ('picklist' !== $this->getFieldDataType() && 'multipicklist' !== $this->getFieldDataType()) || 'Users' === $this->getModuleName()) {
 			return false;
 		}
 		return true;
@@ -41,7 +41,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 			return $fieldModel->getPicklistValues();
 		}
 		$intersectionMode = false;
-		if ($groupMode == 'INTERSECTION') {
+		if ('INTERSECTION' == $groupMode) {
 			$intersectionMode = true;
 		}
 		$fieldName = $this->getName();
@@ -170,7 +170,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 			}
 		}
 		$newTimeCountingValue = \App\RecordStatus::getTimeCountingStringValueFromArray($timeCounting);
-		$oldTimeCountingValue = \App\RecordStatus::getTimeCountingValues($moduleName, false)[$id];
+		$oldTimeCountingValue = \App\RecordStatus::getTimeCountingValues($moduleName, false)[$id] ?? '';
 		$oldStateValue = \App\RecordStatus::getStates($moduleName)[$id];
 		if ($recordState === $oldStateValue && $newTimeCountingValue === $oldTimeCountingValue) {
 			return true;
@@ -207,11 +207,11 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		if ($closeState === $oldValue) {
 			return true;
 		}
-		if ($closeState === null && $oldValue !== $value) {
+		if (null === $closeState && $oldValue !== $value) {
 			$dbCommand->update('u_#__picklist_close_state', ['value' => $value], ['fieldid' => $this->getId(), 'valueid' => $valueId])->execute();
-		} elseif ($closeState === false && $oldValue !== false) {
+		} elseif (false === $closeState && false !== $oldValue) {
 			$dbCommand->delete('u_#__picklist_close_state', ['fieldid' => $this->getId(), 'valueid' => $valueId])->execute();
-		} elseif ($closeState && $oldValue === false) {
+		} elseif ($closeState && false === $oldValue) {
 			$dbCommand->insert('u_#__picklist_close_state', ['fieldid' => $this->getId(), 'valueid' => $valueId, 'value' => $value])->execute();
 		}
 		\App\Cache::delete('getLockStatus', $tabId);

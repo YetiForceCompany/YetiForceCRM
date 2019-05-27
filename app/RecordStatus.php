@@ -94,8 +94,6 @@ class RecordStatus
 	 */
 	public static function activate(string $moduleName, string $fieldName): bool
 	{
-		$db = Db::getInstance();
-		$schema = $db->getSchema();
 		$field = (new Db\Query())
 			->from('vtiger_field')
 			->where(['tabid' => Module::getModuleId($moduleName), 'fieldname' => $fieldName])
@@ -103,7 +101,10 @@ class RecordStatus
 		if (!$field) {
 			return false;
 		}
-		if ($fieldModel = \Vtiger_Field_Model::getInstance($fieldName, \Vtiger_Module_Model::getInstance($moduleName))) {
+		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+		if ($fieldModel = \Vtiger_Field_Model::getInstance($fieldName, $moduleModel)) {
+			$db = Db::getInstance();
+			$schema = $db->getSchema();
 			$dbCommand = $db->createCommand();
 			$fieldModel->set('fieldparams', Json::encode(['isProcessStatusField' => true]));
 			$fieldModel->save();
@@ -114,14 +115,19 @@ class RecordStatus
 					'crmid' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_INTEGER, 11),
 					'after' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 255),
 					'before' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 255),
-					'data' => \yii\db\Schema::TYPE_TIMESTAMP
+					'date' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TIMESTAMP)->null(),
 				]);
 				$dbCommand->createIndex($tableStatusHistory . '_crmid_idx', $tableStatusHistory, 'crmid')->execute();
 				$dbCommand->addForeignKey('fk_1_' . $tableStatusHistory, $tableStatusHistory, 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT')->execute();
 			}
-			$tableName = Fields\Picklist::getPicklistTableName($fieldName);
-			$dbCommand->addColumn($tableName, 'record_state', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TINYINT, 1));
-			$dbCommand->addColumn($tableName, 'time_counting', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 7));
+		}
+		$tableName = Fields\Picklist::getPicklistTableName($fieldName);
+		$tableSchema = $db->getTableSchema($tableName);
+		if (!isset($tableSchema->columns['record_state'])) {
+			$dbCommand->addColumn($tableName, 'record_state', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TINYINT, 1)->notNull()->defaultValue(0))->execute();
+		}
+		if (!isset($tableSchema->columns['time_counting'])) {
+			$dbCommand->addColumn($tableName, 'time_counting', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 7))->execute();
 		}
 		return $fieldModel ? true : false;
 	}
