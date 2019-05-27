@@ -10,7 +10,8 @@ jQuery.Class(
 		 */
 		registerEvents() {
 			DocView.mount({
-				el: '#KnowledgeBaseModal'
+				el: '#KnowledgeBaseModal',
+				moduleName: 'KnowledgeBase'
 			});
 		},
 		showModalContent(container) {
