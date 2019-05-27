@@ -15,6 +15,7 @@ class Faq_Record_Model extends Vtiger_Record_Model
 	 * Function to get Instance of Faq Record Model using TroubleTicket RecordModel.
 	 *
 	 * @param  HelpDesk_Record_Model
+	 * @param mixed $parentRecordModel
 	 *
 	 * @return Faq_Record_Model
 	 */
@@ -63,7 +64,6 @@ class Faq_Record_Model extends Vtiger_Record_Model
 			['ticketField' => 'ticket_title', 'faqField' => 'question', 'defaultValue' => ''],
 			['ticketField' => 'product_id', 'faqField' => 'product_id', 'defaultValue' => ''],
 			['ticketField' => 'solution', 'faqField' => 'faq_answer', 'defaultValue' => ''],
-			['ticketField' => '', 'faqField' => 'faqcategories', 'defaultValue' => 'General'],
 			['ticketField' => '', 'faqField' => 'faqstatus', 'defaultValue' => 'Draft'],
 		];
 	}
