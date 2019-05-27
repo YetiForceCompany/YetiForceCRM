@@ -175,6 +175,7 @@
               grid
               hide-header
               :pagination.sync="pagination"
+              :title="translate('JS_ARTICLES')"
             >
               <template v-slot:item="props">
                 <q-list class="list-item" padding @click="getRecord(props.row.id)">
@@ -209,7 +210,7 @@
                         {{ props.row.short_time }}
                       </q-item-label>
                       <q-tooltip anchor="center middle" self="top middle">
-                        {{ translate('JS_CREATED') + ' :' + props.row.full_time }}
+                        {{ translate('JS_CREATED') + ': ' + props.row.full_time }}
                       </q-tooltip>
                     </q-item-section>
                   </q-item>
@@ -225,6 +226,7 @@
             row-key="subject"
             grid
             hide-header
+            :title="translate('JS_ARTICLES')"
           >
             <template v-slot:item="props">
               <q-list class="list-item" padding @click="getRecord(props.row.id)">
@@ -271,7 +273,38 @@
       transition-hide="slide-down"
     >
       <q-card class="quasar-reset">
-        <q-bar>
+        <q-bar dark class="bg-yeti text-white">
+          <div class="flex items-center">
+            <div class="">{{ record.subject }}</div>
+            <div class="flex items-center q-ml-sm-sm text-grey-4 small">
+              <div class="flex items-center">
+                <q-icon name="mdi-file-tree" size="15px"></q-icon>
+                <q-icon size="1.5em" name="mdi-chevron-right" />
+                <span v-html="record.category" class="flex items-center"></span>
+                <q-tooltip>
+                  {{ translate('JS_CATEGORY') }}
+                </q-tooltip>
+              </div>
+              <q-separator dark vertical inset spaced />
+              <div>
+                <q-icon name="mdi-calendar-clock" size="15px"></q-icon>
+                {{ record.short_createdtime }}
+                <q-tooltip>
+                  {{ translate('JS_CREATED') + ': ' + record.full_createdtime }}
+                </q-tooltip>
+              </div>
+              <template v-if="record.short_modifiedtime">
+                <q-separator dark vertical inset spaced />
+                <div>
+                  <q-icon name="mdi-square-edit-outline" size="15px"></q-icon>
+                  {{ record.short_modifiedtime }}
+                  <q-tooltip>
+                    {{ translate('JS_MODIFIED') + ': ' + record.full_modifiedtime }}
+                  </q-tooltip>
+                </div>
+              </template>
+            </div>
+          </div>
           <q-space />
           <q-btn dense flat icon="mdi-window-minimize" @click="maximizedToggle = false" :disable="!maximizedToggle">
             <q-tooltip v-if="maximizedToggle" content-class="bg-white text-primary">Minimize</q-tooltip>
@@ -283,12 +316,8 @@
             <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
           </q-btn>
         </q-bar>
-
         <q-card-section>
-          <div class="text-h6">{{ record.subject }}</div>
-        </q-card-section>
-        <q-card-section>
-          {{ record.introduction }}
+          <div class="text-subtitle2 text-bold">{{ record.introduction }}</div>
         </q-card-section>
         <q-card-section>
           <carousel v-if="record.knowledgebase_view === 'PLL_PRESENTATION'" :record="record" />
