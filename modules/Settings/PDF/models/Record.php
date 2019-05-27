@@ -114,9 +114,6 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 					}
 					$fields[$field] = $params;
 				}
-				if (Vtiger_PDF_Model::TEMPLATE_TYPE_DYNAMIC === $fields['type']) {
-					$fields['default'] = 0;
-				}
 				$db->createCommand()
 					->update('a_#__pdf', $fields, ['pdfid' => $pdfModel->getId()])
 					->execute();

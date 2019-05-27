@@ -30,23 +30,27 @@ class Deprecated
 	 * @param2 $fieldsName - fieldname with respect to module (ex : 'Accounts' - 'accountname', 'Contacts' - 'lastname','firstname')
 	 * @param3 $fieldValues - array of fieldname and its value
 	 *
+	 * @param mixed $module
+	 * @param mixed $fieldsName
+	 * @param mixed $fieldValues
+	 *
 	 * @return string $fieldConcatName - the entity field name for the module
 	 */
 	public static function getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $fieldValues)
 	{
-		if (strpos($fieldsName, ',') === false) {
+		if (false === strpos($fieldsName, ',')) {
 			return $fieldValues[$fieldsName];
-		} else {
-			$accessibleFieldNames = [];
-			foreach (explode(',', $fieldsName) as $field) {
-				if ($module === 'Users' || \App\Field::getColumnPermission($module, $field)) {
-					$accessibleFieldNames[] = $fieldValues[$field];
-				}
-			}
-			if (count($accessibleFieldNames) > 0) {
-				return implode(' ', $accessibleFieldNames);
+		}
+		$accessibleFieldNames = [];
+		foreach (explode(',', $fieldsName) as $field) {
+			if ('Users' === $module || \App\Field::getColumnPermission($module, $field)) {
+				$accessibleFieldNames[] = $fieldValues[$field];
 			}
 		}
+		if (count($accessibleFieldNames) > 0) {
+			return implode(' ', $accessibleFieldNames);
+		}
+
 		return '';
 	}
 
@@ -58,7 +62,7 @@ class Deprecated
 
 		/** Replace all \\ with \ first */
 		$realfilepath = str_replace('\\\\', '\\', $realfilepath);
-		$rootdirpath = str_replace('\\\\', '\\', ROOT_DIRECTORY . DIRECTORY_SEPARATOR);
+		$rootdirpath = str_replace('\\\\', '\\', ROOT_DIRECTORY . \DIRECTORY_SEPARATOR);
 
 		/** Replace all \ with / now */
 		$realfilepath = str_replace('\\', '/', $realfilepath);
@@ -67,7 +71,7 @@ class Deprecated
 		$relativeFilePath = str_replace($rootdirpath, '', $realfilepath);
 		$filePathParts = explode('/', $relativeFilePath);
 
-		if (stripos($realfilepath, $rootdirpath) !== 0 || in_array($filePathParts[0], $unsafeDirectories)) {
+		if (0 !== stripos($realfilepath, $rootdirpath) || in_array($filePathParts[0], $unsafeDirectories)) {
 			\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 			throw new \App\Exceptions\AppException('Sorry! Attempt to access restricted file.');
 		}
@@ -81,7 +85,7 @@ class Deprecated
 
 		/** Replace all \\ with \ first */
 		$realfilepath = str_replace('\\\\', '\\', $realfilepath);
-		$rootdirpath = str_replace('\\\\', '\\', ROOT_DIRECTORY . DIRECTORY_SEPARATOR);
+		$rootdirpath = str_replace('\\\\', '\\', ROOT_DIRECTORY . \DIRECTORY_SEPARATOR);
 
 		/** Replace all \ with / now */
 		$realfilepath = str_replace('\\', '/', $realfilepath);
@@ -90,7 +94,7 @@ class Deprecated
 		$relativeFilePath = str_replace($rootdirpath, '', $realfilepath);
 		$filePathParts = explode('/', $relativeFilePath);
 
-		if (stripos($realfilepath, $rootdirpath) !== 0 || !in_array($filePathParts[0], $safeDirectories)) {
+		if (0 !== stripos($realfilepath, $rootdirpath) || !in_array($filePathParts[0], $safeDirectories)) {
 			\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 			throw new \App\Exceptions\AppException('Sorry! Attempt to access restricted file.');
 		}
@@ -119,13 +123,13 @@ class Deprecated
 
 		/** Replace all \\ with \ first */
 		$realfilepath = str_replace('\\\\', '\\', $realfilepath);
-		$rootdirpath = str_replace('\\\\', '\\', ROOT_DIRECTORY . DIRECTORY_SEPARATOR);
+		$rootdirpath = str_replace('\\\\', '\\', ROOT_DIRECTORY . \DIRECTORY_SEPARATOR);
 
 		/** Replace all \ with / now */
 		$realfilepath = str_replace('\\', '/', $realfilepath);
 		$rootdirpath = str_replace('\\', '/', $rootdirpath);
 
-		if (stripos($realfilepath, $rootdirpath) !== 0) {
+		if (0 !== stripos($realfilepath, $rootdirpath)) {
 			return false;
 		}
 		return true;
@@ -145,7 +149,7 @@ class Deprecated
 			->from('vtiger_settings_blocks')
 			->where(['label' => $label])
 			->createCommand()->query();
-		if ($dataReader->count() === 1) {
+		if (1 === $dataReader->count()) {
 			$blockId = $dataReader->readColumn(0);
 		}
 		$dataReader->close();
@@ -169,40 +173,13 @@ class Deprecated
 	}
 
 	/**
-	 * This function returns no value but handles the delete functionality of each entity.
-	 * Input Parameter are $module - module name, $return_module - return module name, $focus - module object, $record - entity id, $return_id - return entity id.
-	 */
-	public static function deleteEntity($destinationModule, $sourceModule, \CRMEntity $focus, $destinationRecordId, $sourceRecordId, $relatedName = false)
-	{
-		\App\Log::trace("Entering deleteEntity method ($destinationModule, $sourceModule, $destinationRecordId, $sourceRecordId)");
-		if ($destinationModule != $sourceModule && !empty($sourceModule) && !empty($sourceRecordId)) {
-			$eventHandler = new \App\EventHandler();
-			$eventHandler->setModuleName($sourceModule);
-			$eventHandler->setParams([
-				'CRMEntity' => $focus,
-				'sourceModule' => $sourceModule,
-				'sourceRecordId' => $sourceRecordId,
-				'destinationModule' => $destinationModule,
-				'destinationRecordId' => $destinationRecordId,
-			]);
-			$eventHandler->trigger('EntityBeforeUnLink');
-
-			$focus->unlinkRelationship($destinationRecordId, $sourceModule, $sourceRecordId, $relatedName);
-			$focus->trackUnLinkedInfo($sourceRecordId);
-
-			$eventHandler->trigger('EntityAfterUnLink');
-		} else {
-			$currentUserPrivilegesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
-			if (!$currentUserPrivilegesModel->isPermitted($destinationModule, 'Delete', $destinationRecordId)) {
-				throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
-			}
-			\Vtiger_Record_Model::getInstanceById($destinationRecordId, $destinationModule)->delete();
-		}
-		\App\Log::trace('Exiting deleteEntity method ...');
-	}
-
-	/**
 	 * Function to related two records of different entity types.
+	 *
+	 * @param mixed $sourceModule
+	 * @param mixed $sourceRecordId
+	 * @param mixed $destinationModule
+	 * @param mixed $destinationRecordIds
+	 * @param mixed $relatedName
 	 */
 	public static function relateEntities(\CRMEntity $focus, $sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds, $relatedName = false)
 	{
@@ -237,7 +214,7 @@ class Deprecated
 		// Lookup in cache for information
 		$cachedModuleFields = \VTCacheUtils::lookupFieldInfoModule($module);
 
-		if ($cachedModuleFields === false) {
+		if (false === $cachedModuleFields) {
 			$fieldsInfo = Functions::getModuleFieldInfos($module);
 			if (!empty($fieldsInfo)) {
 				foreach ($fieldsInfo as $resultrow) {
@@ -276,16 +253,16 @@ class Deprecated
 		require 'user_privileges/user_privileges_' . \App\User::getCurrentUserId() . '.php';
 		include 'user_privileges/tabdata.php';
 
-		if ($is_admin === false && $profileGlobalPermission[1] == 1 &&
-			$profileGlobalPermission[2] == 1) {
+		if (false === $is_admin && 1 == $profileGlobalPermission[1] &&
+			1 == $profileGlobalPermission[2]) {
 			foreach ($tab_seq_array as $tabid => $seq_value) {
-				if ($seq_value === 0 && isset($profileTabsPermission[$tabid]) && $profileTabsPermission[$tabid] === 0) {
+				if (0 === $seq_value && isset($profileTabsPermission[$tabid]) && 0 === $profileTabsPermission[$tabid]) {
 					$permittedModules[] = ($tabid);
 				}
 			}
 		} else {
 			foreach ($tab_seq_array as $tabid => $seq_value) {
-				if ($seq_value === 0) {
+				if (0 === $seq_value) {
 					$permittedModules[] = ($tabid);
 				}
 			}

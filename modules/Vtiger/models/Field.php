@@ -345,6 +345,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 318:
 						$fieldDataType = 'serverAccess';
 						break;
+					case 319:
+					$fieldDataType = 'multiDomain';
+						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
 						if (isset($fieldsDataType[$uiType])) {
@@ -476,6 +479,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 * Set loader UI types.
 	 *
 	 * @param string $defaultUiTypeClassName
+	 *
 	 * @return void
 	 */
 	public static function setDefaultUiTypeClassName(string $defaultUiTypeClassName)

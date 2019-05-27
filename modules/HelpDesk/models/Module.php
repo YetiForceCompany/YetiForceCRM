@@ -257,7 +257,6 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getChildIds(int $id, &$childIds = []): array
 	{
-		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
 		$recordsIds = (new App\Db\Query())->select([
 			'vtiger_troubletickets.ticketid'
 		])->from('vtiger_troubletickets')

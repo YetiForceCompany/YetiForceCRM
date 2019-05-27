@@ -88,7 +88,7 @@ class Api extends \Tests\Base
 		static::$requestHeaders['x-api-key'] = $row['api_key'];
 
 		$webserviceUsers = \Settings_WebserviceUsers_Record_Model::getCleanInstance('Portal');
-		$webserviceUsers->save([
+		$webserviceUsers->setData([
 			'server_id' => static::$serverId,
 			'status' => '1',
 			'user_name' => 'demo@yetiforce.com',
@@ -100,6 +100,7 @@ class Api extends \Tests\Base
 			'crmid_display' => '',
 			'user_id' => \App\User::getActiveAdminId(),
 		]);
+		$webserviceUsers->save();
 		static::$apiUserId = $webserviceUsers->getId();
 		$row = (new \App\Db\Query())->from('w_#__portal_user')->where(['id' => static::$apiUserId])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$apiUserId);
@@ -205,7 +206,7 @@ class Api extends \Tests\Base
 		$this->logs = $request->raw;
 		$response = \App\Json::decode($request->body, 1);
 		$this->assertSame($response['status'], 1, (string) $response['error']['message']);
-		$this->assertTrue(!empty($response['result']['standardActions']));
+		$this->assertTrue(!empty($response['result']));
 	}
 
 	/**

@@ -276,8 +276,15 @@ class CRMEntity
 	 */
 	public function deleteRelatedM2M($crmid, $withModule, $withCrmid)
 	{
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($this->moduleName, $withModule);
-		\App\Db::getInstance()->createCommand()->delete($referenceInfo['table'], [$referenceInfo['base'] => $withCrmid, $referenceInfo['rel'] => $crmid])->execute();
+		if ($this->moduleName === $withModule) {
+			$dbCommand->delete($referenceInfo['table'], [$referenceInfo['base'] => $withCrmid, $referenceInfo['rel'] => $crmid])->execute();
+			$dbCommand->delete($referenceInfo['table'], [$referenceInfo['base'] => $crmid, $referenceInfo['rel'] => $withCrmid])->execute();
+		} else {
+			$dbCommand->delete($referenceInfo['table'], [$referenceInfo['base'] => $withCrmid, $referenceInfo['rel'] => $crmid])->execute();
+		}
+
 	}
 
 	/**
@@ -346,9 +353,17 @@ class CRMEntity
 	public function saveRelatedM2M($module, $crmid, $withModule, $withCrmid)
 	{
 		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($module, $withModule);
+		$isTheSame = $module === $withModule;
 		foreach ($withCrmid as $relcrmid) {
 			// Relation already exists? No need to add again
-			if ((new App\Db\Query())->from($referenceInfo['table'])
+			if ($isTheSame && (new App\Db\Query())->from($referenceInfo['table'])
+				->where(['or',
+					[$referenceInfo['base'] => $relcrmid, $referenceInfo['rel'] => $crmid],
+					[$referenceInfo['base'] => $crmid, $referenceInfo['rel'] => $relcrmid]
+				])->exists()) {
+				continue;
+			}
+			if (!$isTheSame && (new App\Db\Query())->from($referenceInfo['table'])
 				->where([$referenceInfo['base'] => $relcrmid, $referenceInfo['rel'] => $crmid])
 				->exists()) {
 				continue;

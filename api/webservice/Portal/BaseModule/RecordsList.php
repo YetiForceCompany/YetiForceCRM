@@ -15,20 +15,12 @@ class RecordsList extends \Api\Core\BaseAction
 	public $allowedMethod = ['GET'];
 
 	/**
-	 * Module name.
-	 *
-	 * @var string
-	 */
-	private $moduleName;
-
-	/**
 	 * Get method.
 	 *
 	 * @return array
 	 */
 	public function get()
 	{
-		$this->moduleName = $this->controller->request->getModule();
 		$rawData = $records = $headers = [];
 		$queryGenerator = $this->getQuery();
 		$fieldsModel = $queryGenerator->getListViewFields();
@@ -132,7 +124,7 @@ class RecordsList extends \Api\Core\BaseAction
 	{
 		$headers = [];
 		foreach ($fieldsModel as $fieldName => $fieldModel) {
-			$headers[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
+			$headers[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $fieldModel->getModuleName());
 		}
 		return $headers;
 	}

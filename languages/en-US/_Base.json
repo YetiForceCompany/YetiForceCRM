@@ -1363,6 +1363,7 @@
     "JS_SAVE_LOADER_INFO": "Saving data...",
     "JS_SAVE_NOTIFY_OK": "Changes have been saved",
     "JS_SAVE_NOTIFY_SUCCESS": "Saved successfully",
+    "JS_SAVE_NOTIFY_FAIL": "Changes were not saved",
     "JS_SAVED_FROM": "from",
     "JS_SAVED_TO": "to",
     "JS_OF": "of",
@@ -1681,6 +1682,10 @@
     "JS_UNEXPECTED_ERROR": "Unexpected error occurred",
     "JS_ENTERED_VALUE_IS_TOO_SHORT": "Entered value is too short",
     "JS_ENTERED_VALUE_IS_TOO_LONG": "Entered value is too long",
-    "JS_NOT_ALLOWED_VALUE": "Entered invalid value"
+    "JS_NOT_ALLOWED_VALUE": "Entered invalid value",
+    "JS_PLEASE_SELECT_VALID_DOMAIN_NAMES": "Please select valid domain names.",
+    "JS_MAIN_CATEGORIES": "Main categories",
+    "JS_SEARCH_CURRENT_CATEGORY": "Search current category",
+    "JS_RELATED_ARTICLES": "Related Articles"
   }
 }

@@ -115,7 +115,7 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	 */
 	protected function getRawDataFromRow(array $row): array
 	{
-		$row = parent::getRawDataFromRow($row, $fieldsModel);
+		$row = parent::getRawDataFromRow($row);
 		if (!$this->isUserPermissions && !empty($row['listprice'])) {
 			$row['unit_price'] = $row['listprice'];
 		}

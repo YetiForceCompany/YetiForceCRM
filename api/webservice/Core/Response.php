@@ -57,7 +57,7 @@ class Response
 	public function send()
 	{
 		$encryptDataTransfer = \App\Config::api('ENCRYPT_DATA_TRANSFER') ? 1 : 0;
-		if ($this->status !== 200) {
+		if (200 !== $this->status) {
 			$encryptDataTransfer = 0;
 		}
 		$requestContentType = strtolower(\App\Request::_getServer('HTTP_ACCEPT'));
@@ -75,10 +75,10 @@ class Response
 				header('content-disposition: attachment; filename="api.json"');
 				$response = $this->encryptData($this->body);
 			} else {
-				if (strpos($requestContentType, 'text/html') !== false) {
+				if (false !== strpos($requestContentType, 'text/html')) {
 					header('content-disposition: attachment; filename="api.html"');
 					$response = $this->encodeHtml($this->body);
-				} elseif (strpos($requestContentType, 'application/xml') !== false) {
+				} elseif (false !== strpos($requestContentType, 'application/xml')) {
 					header('content-disposition: attachment; filename="api.xml"');
 					$response = $this->encodeXml($this->body);
 				} else {
@@ -93,7 +93,7 @@ class Response
 
 	public function encryptData($data)
 	{
-		openssl_public_encrypt($data, $encrypted, 'file://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \App\Config::api('PUBLIC_KEY'), OPENSSL_PKCS1_OAEP_PADDING);
+		openssl_public_encrypt($data, $encrypted, 'file://' . ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . \App\Config::api('PUBLIC_KEY'), OPENSSL_PKCS1_OAEP_PADDING);
 
 		return $encrypted;
 	}
