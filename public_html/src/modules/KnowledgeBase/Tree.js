@@ -36,10 +36,11 @@ import {
 	QCarouselControl,
 	QImg,
 	QAvatar,
-	QResizeObserver
+	QResizeObserver,
+	QSeparator
 } from 'quasar/src/components.js'
 import * as directives from 'quasar/src/directives.js'
-import * as plugins from 'quasar/src/plugins.js'
+import { AppFullscreen } from 'quasar/src/plugins.js'
 
 import Tree from './Tree.vue'
 import mdi from 'quasar/icon-set/mdi-v3.js'
@@ -81,10 +82,11 @@ const Quasar = {
 				QCarouselControl,
 				QImg,
 				QAvatar,
-				QResizeObserver
+				QResizeObserver,
+				QSeparator
 			},
 			directives,
-			// plugins: plugins,
+			plugins: { AppFullscreen },
 			...opts
 		})
 	}
