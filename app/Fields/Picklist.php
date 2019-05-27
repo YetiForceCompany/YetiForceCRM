@@ -16,7 +16,7 @@ class Picklist
 	 * Function to get role based picklist values.
 	 *
 	 * @param string $fieldName
-	 * @param string    $roleId
+	 * @param string $roleId
 	 *
 	 * @return array list of role based picklist values
 	 */
@@ -132,7 +132,6 @@ class Picklist
 			'ticketstatus' => 'ticketstatus_id',
 			'salutationtype' => 'salutationtypeid',
 			'faqstatus' => 'faqstatus_id',
-			'faqcategories' => 'faqcategories_id',
 			'recurring_frequency' => 'recurring_frequency_id',
 			'payment_duration' => 'payment_duration_id',
 			'language' => 'id',
@@ -357,8 +356,8 @@ class Picklist
 		\App\Cache::delete('Picklist::getNonEditableValues', $fieldName);
 		\App\Cache::delete('Picklist::getRoleBasedValues', $fieldName);
 		\App\Cache::delete('Picklist::getValues', $fieldName);
-		\App\Cache::delete("RecordStatus::getLockStatus::$moduleName",true);
-		\App\Cache::delete("RecordStatus::getLockStatus::$moduleName",false);
+		\App\Cache::delete("RecordStatus::getLockStatus::$moduleName", true);
+		\App\Cache::delete("RecordStatus::getLockStatus::$moduleName", false);
 		$cacheKey = "RecordStatus::getStates::$moduleName";
 		\App\Cache::delete($cacheKey, 'empty_state');
 		foreach (array_keys(\App\RecordStatus::getLabels()) as $state) {

@@ -144,7 +144,7 @@ clipboard@>=2.0.0:
 
 "clockpicker@https://github.com/YetiForceCompany/clockpicker#master":
   version "0.0.7"
-  resolved "https://github.com/YetiForceCompany/clockpicker#70df989d12d1e84455255ecfde24ccda821dafd7"
+  resolved "https://github.com/YetiForceCompany/clockpicker#3e0cafce699640f0060d445d8a76038ae63e7b63"
 
 color-convert@^0.5.3:
   version "0.5.3"
