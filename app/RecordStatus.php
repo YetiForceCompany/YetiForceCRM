@@ -2,6 +2,8 @@
 /**
  * Record status service file.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o.
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -73,7 +75,7 @@ class RecordStatus
 			foreach (Fields\Picklist::getValues($fieldName) as $value) {
 				if (isset($value['record_state']) && $state === $value['record_state']) {
 					$values[$value[$primaryKey]] = $value['picklistValue'];
-				} elseif ($state === null) {
+				} elseif (null === $state) {
 					$values[$value[$primaryKey]] = $value['record_state'];
 				}
 			}
@@ -101,31 +103,30 @@ class RecordStatus
 		if (!$field) {
 			return false;
 		}
-
 		if ($fieldModel = \Vtiger_Field_Model::getInstance($fieldName, \Vtiger_Module_Model::getInstance($moduleName))) {
+			$dbCommand = $db->createCommand();
 			$fieldModel->set('fieldparams', Json::encode(['isProcessStatusField' => true]));
 			$fieldModel->save();
-			$nameTableStatusHistory = $moduleModel->get('basetable') . '_record_status_history';
-			if (!$db->getTableSchema($nameTableStatusHistory)) {
-				$db->createTable($nameTableStatusHistory, [
+			$tableStatusHistory = $moduleModel->get('basetable') . '_status_history';
+			if (!$db->getTableSchema($tableStatusHistory)) {
+				$db->createTable($tableStatusHistory, [
 					'id' => \yii\db\Schema::TYPE_UPK,
 					'crmid' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_INTEGER, 11),
 					'after' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 255),
 					'before' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 255),
 					'data' => \yii\db\Schema::TYPE_TIMESTAMP
 				]);
+				$dbCommand->createIndex($tableStatusHistory . '_crmid_idx', $tableStatusHistory, 'crmid')->execute();
+				$dbCommand->addForeignKey('fk_1_' . $tableStatusHistory, $tableStatusHistory, 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT')->execute();
 			}
+			$tableName = Fields\Picklist::getPicklistTableName($fieldName);
+			$dbCommand->addColumn($tableName, 'record_state', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TINYINT, 1));
+			$dbCommand->addColumn($tableName, 'time_counting', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 7));
 		}
-		$tableName = Fields\Picklist::getPicklistTableName($fieldName);
-		$db = Db::getInstance();
-		$schema = $db->getSchema();
-		$db->createCommand()->addColumn($tableName, 'record_state', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TINYINT, 1));
-		$db->createCommand()->addColumn($tableName, 'time_counting', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 7));
 		return $fieldModel ? true : false;
 	}
 
 	/**
-
 	 * Add date history status to table.
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
@@ -134,8 +135,8 @@ class RecordStatus
 	{
 		$db = \App\Db::getInstance();
 		$fieldStatusActive = self::getFieldName($recordModel->getModuleName());
-		$nameTableStatusHistory = $recordModel->getModule()->get('basetable') . '_record_status_history';
-		if ($fieldStatusActive && $db->getTableSchema($nameTableStatusHistory)) {
+		$nameTableStatusHistory = $recordModel->getModule()->get('basetable') . '_status_history';
+		if ($fieldStatusActive) {
 			$db->createCommand()->insert($nameTableStatusHistory, [
 				'crmid' => $recordModel->getId(),
 				'after' => $recordModel->get($fieldStatusActive),
@@ -143,7 +144,9 @@ class RecordStatus
 				'data' => date('Y-m-d H:i:s')
 			])->execute();
 		}
+	}
 
+	/**
 	 * Get time counting values grouped by id from field name.
 	 *
 	 * @param string $moduleName
@@ -183,10 +186,10 @@ class RecordStatus
 	 */
 	public static function getTimeCountingArrayValueFromString(string $timeCountingStr): array
 	{
-		if ($timeCountingStr === '' || $timeCountingStr === ',,') {
+		if ('' === $timeCountingStr || ',,' === $timeCountingStr) {
 			return [];
 		}
-		if (strpos($timeCountingStr, ',') === -1) {
+		if (-1 === strpos($timeCountingStr, ',')) {
 			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $timeCountingStr, 406);
 		}
 		$values = explode(',', trim($timeCountingStr, ','));
@@ -230,10 +233,10 @@ class RecordStatus
 	 *
 	 * @return string[]
 	 */
-	public static function getCloseStates(string $moduleName, bool $byName = true)
+	public static function getLockStatus(string $moduleName, bool $byName = true)
 	{
 		$tabId = Module::getModuleId($moduleName);
-		$cacheName = 'RecordStatus::getCloseStates' . ($byName ? 'ByName' : '');
+		$cacheName = 'RecordStatus::getLockStatus' . ($byName ? 'ByName' : '');
 		if (Cache::staticHas($cacheName, $tabId)) {
 			return Cache::staticGet($cacheName, $tabId);
 		}

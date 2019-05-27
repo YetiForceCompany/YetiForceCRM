@@ -203,7 +203,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		$tabId = $this->get('tabid');
 		$moduleName = \App\Module::getModuleName($tabId);
-		$oldValue = \App\RecordStatus::getCloseStates($moduleName, false)[$valueId] ?? false;
+		$oldValue = \App\RecordStatus::getLockStatus($moduleName, false)[$valueId] ?? false;
 		if ($closeState === $oldValue) {
 			return true;
 		}
@@ -214,7 +214,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		} elseif ($closeState && $oldValue === false) {
 			$dbCommand->insert('u_#__picklist_close_state', ['fieldid' => $this->getId(), 'valueid' => $valueId, 'value' => $value])->execute();
 		}
-		\App\Cache::delete('getCloseStates', $tabId);
+		\App\Cache::delete('getLockStatus', $tabId);
 		return true;
 	}
 }
