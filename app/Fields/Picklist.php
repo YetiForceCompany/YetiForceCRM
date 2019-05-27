@@ -16,11 +16,11 @@ class Picklist
 	 * Function to get role based picklist values.
 	 *
 	 * @param string $fieldName
-	 * @param int    $roleId
+	 * @param string    $roleId
 	 *
 	 * @return array list of role based picklist values
 	 */
-	public static function getRoleBasedValues(string $fieldName, int $roleId)
+	public static function getRoleBasedValues(string $fieldName, string $roleId)
 	{
 		if (\App\Cache::has('Picklist::getRoleBasedValues', $fieldName)) {
 			$allValues = \App\Cache::get('Picklist::getRoleBasedValues', $fieldName);
