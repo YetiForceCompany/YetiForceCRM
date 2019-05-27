@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-KnowledgeBase-ModalHeader -->
-<div class="modal js-modal-data quasar-modal " tabindex="-1" data-js="data"
+<div class="modal js-modal-data quasar-modal d-none" tabindex="-1" data-js="data"
 	 role="dialog" {foreach from=$MODAL_VIEW->modalData key=KEY item=VALUE} data-{$KEY}="{$VALUE}"{/foreach}>
 	<div class="quasar-reset h-100 w-100" role="document">
 		<div class="modal-content">
@@ -16,8 +16,10 @@
 			</button>
 		</div>
 			{foreach item=MODEL from=$MODAL_CSS}
-				<link rel="{$MODEL->getRel()}" href="{$MODEL->getHref()}"/>
+				<link  rel="{$MODEL->getRel()}" href="{$MODEL->getHref()}"/>
 			{/foreach}
+			<link rel="stylesheet" href="{\App\Layout::getPublicUrl('libraries/@mdi/font/css/materialdesignicons.min.css')}">
+			<link id="quasar-css" rel="stylesheet" href="{\App\Layout::getPublicUrl('src/css/app.css')}">
 			{foreach item=MODEL from=$MODAL_SCRIPTS}
 				<script type="{$MODEL->getType()}" src="{$MODEL->getSrc()}"></script>
 			{/foreach}

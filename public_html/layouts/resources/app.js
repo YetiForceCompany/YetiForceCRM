@@ -89,7 +89,7 @@ var app = (window.app = {
 	mousePosition: { x: 0, y: 0 },
 	childFrame: false,
 	touchDevice: false,
-	event: new function() {
+	event: new (function() {
 		this.el = $({});
 		this.trigger = function() {
 			this.el.trigger(arguments[0], Array.prototype.slice.call(arguments, 1));
@@ -103,7 +103,7 @@ var app = (window.app = {
 		this.off = function() {
 			this.el.off.apply(this.el, arguments);
 		};
-	}(),
+	})(),
 	/**
 	 * Function to get the module name. This function will get the value from element which has id module
 	 * @return : string - module name
@@ -1480,7 +1480,7 @@ var app = (window.app = {
 							if (typeof call !== 'undefined') {
 								if (call.indexOf('.') !== -1) {
 									var callerArray = call.split('.');
-									if (typeof window[callerArray[0]] === 'object') {
+									if (typeof window[callerArray[0]] === 'object' || typeof window[callerArray[0]] === 'function') {
 										window[callerArray[0]][callerArray[1]](container);
 									}
 								} else {
