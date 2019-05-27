@@ -23,9 +23,23 @@
         :name="index"
         :key="index"
         class="column no-wrap flex-center"
+        :fullscreen.sync="fullscreen"
       >
         <div v-html="slide"></div>
       </q-carousel-slide>
+      <template v-slot:control>
+        <q-carousel-control position="bottom-right" :offset="[18, 18]">
+          <q-btn
+            push
+            round
+            dense
+            color="white"
+            text-color="primary"
+            :icon="fullscreen ? 'mdi-fullscreen-exit' : 'mdi-fullscreen'"
+            @click="fullscreen = !fullscreen"
+          />
+        </q-carousel-control>
+      </template>
     </q-carousel>
   </div>
 </template>
@@ -39,13 +53,23 @@ export default {
     return {
       slide: 0,
       height: '300px',
-      report: 0
+      report: 0,
+      fullscreen: false
     }
   },
   props: {
     record: {
       type: Object,
       required: true
+    }
+  },
+  watch: {
+    fullscreen: function(val) {
+      if (val) {
+        this.$q.fullscreen.request()
+      } else {
+        this.$q.fullscreen.exit()
+      }
     }
   },
   methods: {
