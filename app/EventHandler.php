@@ -133,6 +133,20 @@ class EventHandler
 	}
 
 	/**
+	 * Update an event handler.
+	 *
+	 * @param array $params
+	 * @param int   $id
+	 *
+	 * @return void
+	 */
+	public static function update(array $params, int $id)
+	{
+		Db::getInstance()->createCommand()->update(self::$baseTable, $params, ['eventhandler_id' => $id])->execute();
+		static::clearCache();
+	}
+
+	/**
 	 * Set an event handler as inactive.
 	 *
 	 * @param string      $className

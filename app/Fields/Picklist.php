@@ -357,7 +357,8 @@ class Picklist
 		\App\Cache::delete('Picklist::getNonEditableValues', $fieldName);
 		\App\Cache::delete('Picklist::getRoleBasedValues', $fieldName);
 		\App\Cache::delete('Picklist::getValues', $fieldName);
-		\App\Cache::delete("RecordStatus::getLockStatus::$moduleName");
+		\App\Cache::delete("RecordStatus::getLockStatus::$moduleName",true);
+		\App\Cache::delete("RecordStatus::getLockStatus::$moduleName",false);
 		$cacheKey = "RecordStatus::getStates::$moduleName";
 		\App\Cache::delete($cacheKey, 'empty_state');
 		foreach (array_keys(\App\RecordStatus::getLabels()) as $state) {

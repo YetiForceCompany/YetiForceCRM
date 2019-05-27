@@ -94,32 +94,26 @@ class RecordStatus
 	 */
 	public static function activate(string $moduleName, string $fieldName): bool
 	{
-		$field = (new Db\Query())
-			->from('vtiger_field')
-			->where(['tabid' => Module::getModuleId($moduleName), 'fieldname' => $fieldName])
-			->one();
-		if (!$field) {
+		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+		if (!($fieldModel = \Vtiger_Field_Model::getInstance($fieldName, $moduleModel))) {
 			return false;
 		}
-		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
-		if ($fieldModel = \Vtiger_Field_Model::getInstance($fieldName, $moduleModel)) {
-			$db = Db::getInstance();
-			$schema = $db->getSchema();
-			$dbCommand = $db->createCommand();
-			$fieldModel->set('fieldparams', Json::encode(['isProcessStatusField' => true]));
-			$fieldModel->save();
-			$tableStatusHistory = $moduleModel->get('basetable') . '_status_history';
-			if (!$db->getTableSchema($tableStatusHistory)) {
-				$db->createTable($tableStatusHistory, [
-					'id' => \yii\db\Schema::TYPE_UPK,
-					'crmid' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_INTEGER, 11),
-					'after' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 255),
-					'before' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 255),
-					'date' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TIMESTAMP)->null(),
-				]);
-				$dbCommand->createIndex($tableStatusHistory . '_crmid_idx', $tableStatusHistory, 'crmid')->execute();
-				$dbCommand->addForeignKey('fk_1_' . $tableStatusHistory, $tableStatusHistory, 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT')->execute();
-			}
+		$db = Db::getInstance();
+		$schema = $db->getSchema();
+		$dbCommand = $db->createCommand();
+		$fieldModel->set('fieldparams', Json::encode(['isProcessStatusField' => true]));
+		$fieldModel->save();
+		$tableStatusHistory = $moduleModel->get('basetable') . '_status_history';
+		if (!$db->getTableSchema($tableStatusHistory)) {
+			$db->createTable($tableStatusHistory, [
+				'id' => \yii\db\Schema::TYPE_UPK,
+				'crmid' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_INTEGER, 11),
+				'after' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 255),
+				'before' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 255),
+				'date' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TIMESTAMP)->null(),
+			]);
+			$dbCommand->createIndex($tableStatusHistory . '_crmid_idx', $tableStatusHistory, 'crmid')->execute();
+			$dbCommand->addForeignKey('fk_1_' . $tableStatusHistory, $tableStatusHistory, 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT')->execute();
 		}
 		$tableName = Fields\Picklist::getPicklistTableName($fieldName);
 		$tableSchema = $db->getTableSchema($tableName);
@@ -129,6 +123,36 @@ class RecordStatus
 		if (!isset($tableSchema->columns['time_counting'])) {
 			$dbCommand->addColumn($tableName, 'time_counting', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 7))->execute();
 		}
+		foreach (EventHandler::getAll(false) as $handler) {
+			if ('Vtiger_RecordStatusHistory_Handler' === $handler['handler_class']) {
+				$modules = $handler['include_modules'] ? \explode(',', $handler['include_modules']) : [];
+				if (!\in_array($moduleName, $modules)) {
+					$modules[] = $moduleName;
+				}
+				EventHandler::update([
+					'is_active' => 1,
+					'include_modules' => \implode(',', $modules)
+				], $handler['eventhandler_id']);
+			}
+		}
+		return $fieldModel ? true : false;
+	}
+
+	/**
+	 * Deactivate of the record status mechanism.
+	 *
+	 * @param string $moduleName
+	 * @param string $fieldName
+	 *
+	 * @return bool
+	 */
+	public static function seactivate(string $moduleName, string $fieldName): bool
+	{
+		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+		if (!($fieldModel = \Vtiger_Field_Model::getInstance($fieldName, $moduleModel))) {
+			return false;
+		}
+
 		return $fieldModel ? true : false;
 	}
 
