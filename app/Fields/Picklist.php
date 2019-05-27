@@ -16,28 +16,29 @@ class Picklist
 	 * Function to get role based picklist values.
 	 *
 	 * @param string $fieldName
-	 * @param string $roleId
+	 * @param int    $roleId
 	 *
 	 * @return array list of role based picklist values
 	 */
-	public static function getRoleBasedPicklistValues($fieldName, $roleId)
+	public static function getRoleBasedValues(string $fieldName, int $roleId)
 	{
-		$cacheKey = $fieldName . $roleId;
-		if (\App\Cache::has('getRoleBasedPicklistValues', $cacheKey)) {
-			return \App\Cache::get('getRoleBasedPicklistValues', $cacheKey);
+		if (\App\Cache::has('Picklist::getRoleBasedValues', $fieldName)) {
+			$allValues = \App\Cache::get('Picklist::getRoleBasedValues', $fieldName);
+		} else {
+			$allValues = (new \App\Db\Query())->select([$fieldName, 'roleid'])
+				->from("vtiger_$fieldName")
+				->innerJoin('vtiger_role2picklist', "vtiger_role2picklist.picklistvalueid = vtiger_$fieldName.picklist_valueid")
+				->innerJoin('vtiger_picklist', 'vtiger_picklist.picklistid = vtiger_role2picklist.picklistid')
+				->orderBy("vtiger_{$fieldName}.sortorderid")
+				->all();
+			\App\Cache::save('Picklist::getRoleBasedValues', $fieldName, $allValues);
 		}
-		$dataReader = (new \App\Db\Query())->select($fieldName)
-			->from("vtiger_$fieldName")
-			->innerJoin('vtiger_role2picklist', "vtiger_role2picklist.picklistvalueid = vtiger_$fieldName.picklist_valueid")
-			->innerJoin('vtiger_picklist', 'vtiger_picklist.picklistid = vtiger_role2picklist.picklistid')
-			->where(['vtiger_role2picklist.roleid' => $roleId])
-			->orderBy("vtiger_{$fieldName}.sortorderid")
-			->createCommand()->query();
 		$fldVal = [];
-		while (false !== ($val = $dataReader->readColumn(0))) {
-			$fldVal[] = \App\Purifier::decodeHtml($val);
+		foreach ($allValues as $row) {
+			if ($row['roleid'] === $roleId) {
+				$fldVal[] = \App\Purifier::decodeHtml($row[$fieldName]);
+			}
 		}
-		\App\Cache::save('getRoleBasedPicklistValues', $cacheKey, $fldVal);
 
 		return $fldVal;
 	}
@@ -51,8 +52,8 @@ class Picklist
 	 */
 	public static function getValuesName($fieldName)
 	{
-		if (\App\Cache::has('getValuesName', $fieldName)) {
-			return \App\Cache::get('getValuesName', $fieldName);
+		if (\App\Cache::has('Picklist::getValuesName', $fieldName)) {
+			return \App\Cache::get('Picklist::getValuesName', $fieldName);
 		}
 		$primaryKey = static::getPickListId($fieldName);
 		$dataReader = (new \App\Db\Query())->select([$primaryKey, $fieldName])
@@ -63,7 +64,7 @@ class Picklist
 		while ($row = $dataReader->read()) {
 			$values[$row[$primaryKey]] = \App\Purifier::decodeHtml(\App\Purifier::decodeHtml($row[$fieldName]));
 		}
-		\App\Cache::save('getValuesName', $fieldName, $values);
+		\App\Cache::save('Picklist::getValuesName', $fieldName, $values);
 
 		return $values;
 	}
@@ -75,10 +76,10 @@ class Picklist
 	 *
 	 * @return array -- array of values
 	 */
-	public static function getEditablePicklistValues($fieldName)
+	public static function getEditableValues($fieldName)
 	{
 		$values = static::getValuesName($fieldName);
-		$nonEditableValues = static::getNonEditablePicklistValues($fieldName);
+		$nonEditableValues = static::getNonEditableValues($fieldName);
 		foreach ($values as $key => &$value) {
 			if ('--None--' === $value || isset($nonEditableValues[$key])) {
 				unset($values[$key]);
@@ -94,10 +95,10 @@ class Picklist
 	 *
 	 * @return array -- array of values
 	 */
-	public static function getNonEditablePicklistValues($fieldName)
+	public static function getNonEditableValues($fieldName)
 	{
-		if (\App\Cache::has('getNonEditablePicklistValues', $fieldName)) {
-			return \App\Cache::get('getNonEditablePicklistValues', $fieldName);
+		if (\App\Cache::has('Picklist::getNonEditableValues', $fieldName)) {
+			return \App\Cache::get('Picklist::getNonEditableValues', $fieldName);
 		}
 		$primaryKey = static::getPickListId($fieldName);
 		$dataReader = (new \App\Db\Query())->select([$primaryKey, $fieldName])
@@ -108,7 +109,7 @@ class Picklist
 		while ($row = $dataReader->read()) {
 			$values[$row[$primaryKey]] = \App\Purifier::decodeHtml(\App\Purifier::decodeHtml($row[$fieldName]));
 		}
-		\App\Cache::save('getNonEditablePicklistValues', $fieldName, $values);
+		\App\Cache::save('Picklist::getNonEditableValues', $fieldName, $values);
 
 		return $values;
 	}
@@ -289,8 +290,8 @@ class Picklist
 	 */
 	public static function getValues($fieldName)
 	{
-		if (\App\Cache::has('getPickListFieldValuesRows', $fieldName)) {
-			return \App\Cache::get('getPickListFieldValuesRows', $fieldName);
+		if (\App\Cache::has('Picklist::getValues', $fieldName)) {
+			return \App\Cache::get('Picklist::getValues', $fieldName);
 		}
 		$primaryKey = static::getPickListId($fieldName);
 		$dataReader = (new \App\Db\Query())
@@ -303,7 +304,7 @@ class Picklist
 			$row['picklistValueId'] = $row[static::getPickListId($fieldName)];
 			$values[$row[$primaryKey]] = $row;
 		}
-		\App\Cache::save('getPickListFieldValuesRows', $fieldName, $values);
+		\App\Cache::save('Picklist::getValues', $fieldName, $values);
 		return $values;
 	}
 
@@ -352,11 +353,11 @@ class Picklist
 	 */
 	public static function clearCache(string $fieldName, string $moduleName)
 	{
-		\App\Cache::delete('getValuesName', $fieldName);
-		\App\Cache::delete('getNonEditablePicklistValues', $fieldName);
-		\App\Cache::delete('getRoleBasedPicklistValues', $fieldName);
-		\App\Cache::delete('getPickListFieldValuesRows', $fieldName);
-		\App\Cache::delete('getLockStatus', $moduleName);
+		\App\Cache::delete('Picklist::getValuesName', $fieldName);
+		\App\Cache::delete('Picklist::getNonEditableValues', $fieldName);
+		\App\Cache::delete('Picklist::getRoleBasedValues', $fieldName);
+		\App\Cache::delete('Picklist::getValues', $fieldName);
+		\App\Cache::delete("RecordStatus::getLockStatus::$moduleName");
 		$cacheKey = "RecordStatus::getStates::$moduleName";
 		\App\Cache::delete($cacheKey, 'empty_state');
 		foreach (array_keys(\App\RecordStatus::getLabels()) as $state) {

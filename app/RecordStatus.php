@@ -242,9 +242,9 @@ class RecordStatus
 	public static function getLockStatus(string $moduleName, bool $byName = true)
 	{
 		$tabId = Module::getModuleId($moduleName);
-		$cacheName = 'RecordStatus::getLockStatus' . ($byName ? 'ByName' : '');
-		if (Cache::staticHas($cacheName, $tabId)) {
-			return Cache::staticGet($cacheName, $tabId);
+		$cacheName = "RecordStatus::getLockStatus::$moduleName";
+		if (Cache::has($cacheName, $byName)) {
+			return Cache::get($cacheName, $byName);
 		}
 		$field = $byName ? ['vtiger_field.fieldname', 'value'] : ['valueid', 'value'];
 		$values = (new Db\Query())->select($field)
@@ -252,7 +252,7 @@ class RecordStatus
 			->innerJoin('vtiger_field', 'u_#__picklist_close_state.fieldid = vtiger_field.fieldid')
 			->where(['tabid' => $tabId, 'presence' => [0, 2]])
 			->createCommand()->queryAllByGroup($byName ? 2 : 0);
-		Cache::staticSave($cacheName, $tabId, $values);
+		Cache::save($cacheName, $byName, $values);
 		return $values;
 	}
 
