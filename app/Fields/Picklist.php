@@ -330,49 +330,37 @@ class Picklist
 	}
 
 	/**
-	 * Get closing state for all fields in module.
+	 * Get picklist table name.
 	 *
-	 * @param int $tabId
+	 * @param string $fieldName
 	 *
-	 * @return string[]
+	 * @return string
 	 */
-	public static function getCloseStates(int $tabId, bool $byName = true)
+	public static function getPickListTableName(string $fieldName)
 	{
-		$cacheName = 'getCloseStates' . ($byName ? 'ByName' : '');
-		if (\App\Cache::has($cacheName, $tabId)) {
-			return \App\Cache::get($cacheName, $tabId);
+		if (empty($fieldName) || !preg_match('/^[_a-zA-Z0-9]+$/', $fieldName)) {
+			throw new \App\Exceptions\AppException('Incorrect picklist name');
 		}
-		$field = $byName ? ['vtiger_field.fieldname', 'value'] : ['valueid', 'value'];
-		$values = (new \App\Db\Query())->select($field)
-			->from('u_#__picklist_close_state')
-			->innerJoin('vtiger_field', 'u_#__picklist_close_state.fieldid = vtiger_field.fieldid')
-			->where(['tabid' => $tabId, 'presence' => [0, 2]])
-			->createCommand()->queryAllByGroup($byName ? 2 : 0);
-		\App\Cache::save($cacheName, $tabId, $values);
-		return $values;
+		return 'vtiger_' . $fieldName;
 	}
 
 	/**
-	 *  Get picklist values by automation value.
+	 * Clear cache.
 	 *
 	 * @param string $fieldName
-	 * @param int    $automation
-	 *
-	 * @return array
+	 * @param string $moduleName
 	 */
-	public static function getValuesByAutomation(string $fieldName, int $automation = 0): array
+	public static function clearCache(string $fieldName, string $moduleName)
 	{
-		$cacheName = "getValuesByAutomation$fieldName";
-		if (\App\Cache::has($cacheName, $automation)) {
-			return \App\Cache::get($cacheName, $automation);
+		\App\Cache::delete('getValuesName', $fieldName);
+		\App\Cache::delete('getNonEditablePicklistValues', $fieldName);
+		\App\Cache::delete('getRoleBasedPicklistValues', $fieldName);
+		\App\Cache::delete('getPickListFieldValuesRows', $fieldName);
+		\App\Cache::delete('getCloseStates', $moduleName);
+		$cacheKey = "RecordStatus::getStates::$moduleName";
+		\App\Cache::delete($cacheKey, 'empty_state');
+		foreach (array_keys(\App\RecordStatus::getLabels()) as $state) {
+			\App\Cache::delete($cacheKey, $state);
 		}
-		if ((bool) \App\Db::getInstance()->getTableSchema("vtiger_$fieldName", true)->getColumn('automation')) {
-			$values = (new \App\Db\Query())->select([$fieldName])->from("vtiger_$fieldName")->where(['automation' => $automation])
-				->column();
-		} else {
-			$values = [];
-		}
-		\App\Cache::save($cacheName, $automation, $values);
-		return $values;
 	}
 }

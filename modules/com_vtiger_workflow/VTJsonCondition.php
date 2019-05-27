@@ -446,16 +446,16 @@ class VTJsonCondition
 				return true;
 			case 'is record open':
 				if (
-					($fieldName = App\RecordStatus::getField($recordModel->getModule()->getId())) &&
-				in_array($recordModel->get($fieldName), App\RecordStatus::getStatusStatesByModuleId($recordModel->getModule()->getId()))
+					($fieldName = App\RecordStatus::getFieldName($recordModel->getModule()->getName())) &&
+				in_array($recordModel->get($fieldName), App\RecordStatus::getStates($recordModel->getModule()->getName()), \App\RecordStatus::RECORD_STATE_OPEN)
 				) {
 					return true;
 				}
 				return false;
 			case 'is record closed':
 				if (
-					($fieldName = App\RecordStatus::getField($recordModel->getModule()->getId())) &&
-				in_array($recordModel->get($fieldName), App\RecordStatus::getStatusStatesByModuleId($recordModel->getModule()->getId(),'close'))
+					($fieldName = App\RecordStatus::getFieldName($recordModel->getModule()->getName())) &&
+				in_array($recordModel->get($fieldName), App\RecordStatus::getStates($recordModel->getModule()->getName(), \App\RecordStatus::RECORD_STATE_CLOSED))
 				) {
 					return false;
 				}
