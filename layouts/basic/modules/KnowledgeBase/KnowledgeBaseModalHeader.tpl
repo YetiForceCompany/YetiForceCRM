@@ -18,8 +18,8 @@
 			{foreach item=MODEL from=$MODAL_CSS}
 				<link  rel="{$MODEL->getRel()}" href="{$MODEL->getHref()}"/>
 			{/foreach}
-			<link rel="stylesheet" href="libraries/@mdi/font/css/materialdesignicons.min.css">
-			<link id="quasar-css" rel="stylesheet" href="src/css/app.css">
+			<link rel="stylesheet" href="{\App\Layout::getPublicUrl('libraries/@mdi/font/css/materialdesignicons.min.css')}">
+			<link id="quasar-css" rel="stylesheet" href="{\App\Layout::getPublicUrl('src/css/app.css')}">
 			{foreach item=MODEL from=$MODAL_SCRIPTS}
 				<script type="{$MODEL->getType()}" src="{$MODEL->getSrc()}"></script>
 			{/foreach}
