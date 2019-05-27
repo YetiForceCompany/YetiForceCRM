@@ -92,6 +92,8 @@ class RecordStatus
 	 */
 	public static function activate(string $moduleName, string $fieldName): bool
 	{
+		$db = Db::getInstance();
+		$schema = $db->getSchema();
 		$field = (new Db\Query())
 			->from('vtiger_field')
 			->where(['tabid' => Module::getModuleId($moduleName), 'fieldname' => $fieldName])
@@ -99,9 +101,20 @@ class RecordStatus
 		if (!$field) {
 			return false;
 		}
+
 		if ($fieldModel = \Vtiger_Field_Model::getInstance($fieldName, \Vtiger_Module_Model::getInstance($moduleName))) {
 			$fieldModel->set('fieldparams', Json::encode(['isProcessStatusField' => true]));
 			$fieldModel->save();
+			$nameTableStatusHistory = $moduleModel->get('basetable') . '_record_status_history';
+			if (!$db->getTableSchema($nameTableStatusHistory)) {
+				$db->createTable($nameTableStatusHistory, [
+					'id' => \yii\db\Schema::TYPE_UPK,
+					'crmid' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_INTEGER, 11),
+					'after' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 255),
+					'before' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 255),
+					'data' => \yii\db\Schema::TYPE_TIMESTAMP
+				]);
+			}
 		}
 		$tableName = Fields\Picklist::getPicklistTableName($fieldName);
 		$db = Db::getInstance();
@@ -112,6 +125,25 @@ class RecordStatus
 	}
 
 	/**
+
+	 * Add date history status to table.
+	 *
+	 * @param \Vtiger_Record_Model $recordModel
+	 */
+	public static function addHistory(\Vtiger_Record_Model $recordModel)
+	{
+		$db = \App\Db::getInstance();
+		$fieldStatusActive = self::getFieldName($recordModel->getModuleName());
+		$nameTableStatusHistory = $recordModel->getModule()->get('basetable') . '_record_status_history';
+		if ($fieldStatusActive && $db->getTableSchema($nameTableStatusHistory)) {
+			$db->createCommand()->insert($nameTableStatusHistory, [
+				'crmid' => $recordModel->getId(),
+				'after' => $recordModel->get($fieldStatusActive),
+				'before' => $recordModel->getPreviousValue($fieldStatusActive),
+				'data' => date('Y-m-d H:i:s')
+			])->execute();
+		}
+
 	 * Get time counting values grouped by id from field name.
 	 *
 	 * @param string $moduleName
