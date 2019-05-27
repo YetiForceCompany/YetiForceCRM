@@ -150,11 +150,30 @@ class RecordStatus
 	 */
 	public static function deactivate(string $moduleName, string $fieldName): bool
 	{
-		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
-		if (!($fieldModel = $moduleModel->getFieldByName($fieldName))) {
+		if (!($fieldModel = \Vtiger_Module_Model::getInstance($moduleName)->getFieldByName($fieldName))) {
 			return false;
 		}
-
+		$db = Db::getInstance();
+		$dbCommand = $db->createCommand();
+		$params = $fieldModel->getFieldParams();
+		$params['isProcessStatusField'] = false;
+		$fieldModel->set('fieldparams', Json::encode($params));
+		$fieldModel->save();
+		$tableName = Fields\Picklist::getPicklistTableName($fieldName);
+		$tableSchema = $db->getTableSchema($tableName);
+		if (isset($tableSchema->columns['record_state'])) {
+			$dbCommand->dropColumn($tableName, 'record_state')->execute();
+		}
+		if (isset($tableSchema->columns['time_counting'])) {
+			$dbCommand->dropColumn($tableName, 'time_counting')->execute();
+		}
+		foreach (EventHandler::getAll() as $handler) {
+			if ('Vtiger_RecordStatusHistory_Handler' === $handler['handler_class']) {
+				EventHandler::update([
+					'is_active' => 0,
+				], $handler['eventhandler_id']);
+			}
+		}
 		return (bool) $fieldModel;
 	}
 
