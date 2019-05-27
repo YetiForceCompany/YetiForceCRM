@@ -95,13 +95,15 @@ class RecordStatus
 	public static function activate(string $moduleName, string $fieldName): bool
 	{
 		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
-		if (!($fieldModel = \Vtiger_Field_Model::getInstance($fieldName, $moduleModel))) {
+		if (!($fieldModel = $moduleModel->getFieldByName($fieldName))) {
 			return false;
 		}
 		$db = Db::getInstance();
 		$schema = $db->getSchema();
 		$dbCommand = $db->createCommand();
-		$fieldModel->set('fieldparams', Json::encode(['isProcessStatusField' => true]));
+		$params = $fieldModel->getFieldParams();
+		$params['isProcessStatusField'] = true;
+		$fieldModel->set('fieldparams', Json::encode($params));
 		$fieldModel->save();
 		$tableStatusHistory = $moduleModel->get('basetable') . '_status_history';
 		if (!$db->getTableSchema($tableStatusHistory)) {
@@ -135,7 +137,7 @@ class RecordStatus
 				], $handler['eventhandler_id']);
 			}
 		}
-		return $fieldModel ? true : false;
+		return (bool) $fieldModel;
 	}
 
 	/**
@@ -146,14 +148,14 @@ class RecordStatus
 	 *
 	 * @return bool
 	 */
-	public static function seactivate(string $moduleName, string $fieldName): bool
+	public static function deactivate(string $moduleName, string $fieldName): bool
 	{
 		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
-		if (!($fieldModel = \Vtiger_Field_Model::getInstance($fieldName, $moduleModel))) {
+		if (!($fieldModel = $moduleModel->getFieldByName($fieldName))) {
 			return false;
 		}
 
-		return $fieldModel ? true : false;
+		return (bool) $fieldModel;
 	}
 
 	/**
@@ -171,7 +173,7 @@ class RecordStatus
 				'crmid' => $recordModel->getId(),
 				'after' => $recordModel->get($fieldStatusActive),
 				'before' => $recordModel->getPreviousValue($fieldStatusActive),
-				'data' => date('Y-m-d H:i:s')
+				'date' => date('Y-m-d H:i:s')
 			])->execute();
 		}
 	}
