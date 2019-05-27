@@ -37,14 +37,18 @@ class KnowledgeBase extends Vtiger_CRMEntity
 		// Format: Field Label => Array(tablename, columnname)
 		// tablename should not have prefix 'vtiger_'
 		'subject' => ['knowledgebase', 'subject'],
+		'FL_CATEGORY' => ['knowledgebase', 'category'],
 		'Assigned To' => ['crmentity', 'smownerid'],
+		'FL_INTRODUCTION' => ['knowledgebase', 'introduction'],
+		'FL_STATUS' => ['knowledgebase', 'knowledgebase_status'],
 	];
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
 		'subject' => 'subject',
 		'FL_CATEGORY' => 'category',
 		'Assigned To' => 'assigned_user_id',
-		'FL_INTRODUCTION' => 'introduction'
+		'FL_INTRODUCTION' => 'introduction',
+		'FL_STATUS' => 'knowledgebase_status',
 	];
 	// Make the field link to detail view
 	public $list_link_field = 'subject';
@@ -53,12 +57,18 @@ class KnowledgeBase extends Vtiger_CRMEntity
 		// Format: Field Label => Array(tablename, columnname)
 		// tablename should not have prefix 'vtiger_'
 		'subject' => ['knowledgebase', 'subject'],
-		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],
+		'FL_CATEGORY' => ['knowledgebase', 'category'],
+		'Assigned To' => ['crmentity', 'smownerid'],
+		'FL_INTRODUCTION' => ['knowledgebase', 'introduction'],
+		'FL_STATUS' => ['knowledgebase', 'knowledgebase_status'],
 	];
 	public $search_fields_name = [
 		// Format: Field Label => fieldname
 		'subject' => 'subject',
+		'FL_CATEGORY' => 'category',
 		'Assigned To' => 'assigned_user_id',
+		'FL_INTRODUCTION' => 'introduction',
+		'FL_STATUS' => 'knowledgebase_status',
 	];
 
 	/**

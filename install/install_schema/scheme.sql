@@ -1613,6 +1613,17 @@ CREATE TABLE `u_yf_emailtemplates` (
   CONSTRAINT `fk_1_vtiger_emailtemplatesemailtemplatesid` FOREIGN KEY (`emailtemplatesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_faq_faq` */
+
+CREATE TABLE `u_yf_faq_faq` (
+  `crmid` int(11) DEFAULT NULL,
+  `relcrmid` int(11) DEFAULT NULL,
+  KEY `u_yf_faq_faq_crmid_idx` (`crmid`),
+  KEY `u_yf_faq_faq_relcrmid_idx` (`relcrmid`),
+  CONSTRAINT `fk_1_u_yf_faq_faq` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,
+  CONSTRAINT `fk_2_u_yf_faq_faq` FOREIGN KEY (`relcrmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_favorite_owners` */
 
 CREATE TABLE `u_yf_favorite_owners` (
@@ -4393,7 +4404,7 @@ CREATE TABLE `vtiger_blocks` (
   KEY `block_tabid_idx` (`tabid`),
   KEY `block_sequence_idx` (`sequence`),
   CONSTRAINT `fk_1_vtiger_blocks` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=442 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=443 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_blocks_hide` */
 
@@ -5365,25 +5376,17 @@ CREATE TABLE `vtiger_faq` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `faq_no` varchar(100) NOT NULL,
   `product_id` int(11) DEFAULT NULL,
-  `question` text DEFAULT NULL,
-  `answer` text DEFAULT NULL,
-  `category` varchar(200) NOT NULL,
   `status` varchar(200) NOT NULL,
+  `subject` varchar(255) DEFAULT '',
+  `content` mediumtext DEFAULT NULL,
+  `category` varchar(30) DEFAULT '',
+  `featured` tinyint(1) DEFAULT 0,
+  `introduction` text DEFAULT NULL,
+  `knowledgebase_view` varchar(255) DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `faq_id_idx` (`id`),
   CONSTRAINT `fk_1_vtiger_faq` FOREIGN KEY (`id`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_faqcategories` */
-
-CREATE TABLE `vtiger_faqcategories` (
-  `faqcategories_id` int(10) NOT NULL AUTO_INCREMENT,
-  `faqcategories` varchar(200) DEFAULT NULL,
-  `presence` int(1) NOT NULL DEFAULT 1,
-  `picklist_valueid` int(10) NOT NULL DEFAULT 0,
-  `sortorderid` int(10) DEFAULT NULL,
-  PRIMARY KEY (`faqcategories_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_faqcf` */
 
@@ -5391,18 +5394,6 @@ CREATE TABLE `vtiger_faqcf` (
   `faqid` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`faqid`),
   CONSTRAINT `fk_1_vtiger_faqcf` FOREIGN KEY (`faqid`) REFERENCES `vtiger_faq` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_faqcomments` */
-
-CREATE TABLE `vtiger_faqcomments` (
-  `commentid` int(10) NOT NULL AUTO_INCREMENT,
-  `faqid` int(10) DEFAULT NULL,
-  `comments` text DEFAULT NULL,
-  `createdtime` datetime NOT NULL,
-  PRIMARY KEY (`commentid`),
-  KEY `faqcomments_faqid_idx` (`faqid`),
-  CONSTRAINT `fk_1_vtiger_faqcomments` FOREIGN KEY (`faqid`) REFERENCES `vtiger_faq` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_faqstatus` */
@@ -5488,7 +5479,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2794 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2800 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -7717,7 +7708,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `tabid_2` (`tabid`,`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=608 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=609 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
@@ -8575,7 +8566,7 @@ CREATE TABLE `vtiger_trees_templates` (
   `share` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`templateid`),
   KEY `module` (`module`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_trees_templates_data` */
 
