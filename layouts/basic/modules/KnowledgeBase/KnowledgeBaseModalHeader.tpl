@@ -7,7 +7,7 @@
 		<div class="modal-content">
 		<div class="q-bar row no-wrap items-center q-bar--standard q-bar--light">
 		<span class="userIcon-KnowledgeBase mr-2"></span>
-		{\App\Language::translate('SINGLE_KnowledgeBase',$MODULE_NAME)}
+		{\App\Language::translateSingularModuleName($MODULE_NAME)}
 			<div class="q-space"></div>
 			<button tabindex="0" type="button" data-dismiss="modal" class="q-btn inline q-btn-item non-selectable q-btn--flat q-btn--rectangle q-focusable q-hoverable q-btn--dense">
 				<div class="q-btn__content text-center col items-center q-anchor--skip justify-center row">
