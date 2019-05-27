@@ -265,20 +265,17 @@
         </q-page>
       </q-page-container>
     </q-layout>
-    <q-dialog
-      v-model="dialog"
-      persistent
-      :maximized="maximizedToggle"
-      transition-show="slide-up"
-      transition-hide="slide-down"
-    >
+    <q-dialog v-model="dialog" :maximized="maximizedToggle" transition-show="slide-up" transition-hide="slide-down">
       <q-card class="quasar-reset">
-        <q-bar dark class="bg-yeti text-white">
+        <q-bar dark class="bg-yeti text-white dialog-header">
           <div class="flex items-center">
-            <div class="">{{ record.subject }}</div>
-            <div class="flex items-center q-ml-sm-sm text-grey-4 small">
+            <div class="flex items-center no-wrap ellipsis q-mr-sm-sm">
+              <q-icon name="mdi-text" class="q-mr-sm" />
+              {{ record.subject }}
+            </div>
+            <div class="flex items-center text-grey-4 small">
               <div class="flex items-center">
-                <q-icon name="mdi-file-tree" size="15px"></q-icon>
+                <q-icon :name="tree.topCategory.icon" size="15px"></q-icon>
                 <q-icon size="1.5em" name="mdi-chevron-right" />
                 <span v-html="record.category" class="flex items-center"></span>
                 <q-tooltip>
@@ -516,5 +513,11 @@ export default {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   grid-auto-flow: dense;
+}
+
+.dialog-header {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  height: unset !important;
 }
 </style>
