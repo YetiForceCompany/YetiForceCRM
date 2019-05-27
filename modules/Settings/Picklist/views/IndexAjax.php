@@ -37,7 +37,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$valueId = $request->getInteger('fieldValueId');
 		$qualifiedName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
-		$selectedFieldNonEditablePickListValues = App\Fields\Picklist::getNonEditablePicklistValues($fieldModel->getName());
+		$selectedFieldNonEditablePickListValues = App\Fields\Picklist::getNonEditableValues($fieldModel->getName());
 		$picklistValueRow = App\Fields\Picklist::getValues($fieldModel->getName())[$valueId];
 		$picklistValueRow['picklist_valueid'] = $picklistValueRow['picklist_valueid'] ?? '';
 		$viewer->assign('EDITABLE', !isset($selectedFieldNonEditablePickListValues[$valueId]));
@@ -62,7 +62,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$valueId = $request->getInteger('fieldValueId');
 		$qualifiedName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
-		$selectedFieldNonEditablePickListValues = App\Fields\Picklist::getNonEditablePicklistValues($fieldModel->getName());
+		$selectedFieldNonEditablePickListValues = App\Fields\Picklist::getNonEditableValues($fieldModel->getName());
 		$picklistValueRow = App\Fields\Picklist::getValues($fieldModel->getName())[$valueId];
 		$picklistValueRow['picklist_valueid'] = $picklistValueRow['picklist_valueid'] ?? '';
 		$picklistValueRow['close_state'] = isset(\App\RecordStatus::getLockStatus($fieldModel->getModule()->getName(), false)[$picklistValueRow['picklist_valueid']]);
@@ -89,8 +89,8 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldId);
 		$valueToDelete = $request->get('fieldValue');
 
-		$selectedFieldEditablePickListValues = App\Fields\Picklist::getEditablePicklistValues($fieldModel->getName());
-		$selectedFieldNonEditablePickListValues = App\Fields\Picklist::getNonEditablePicklistValues($fieldModel->getName());
+		$selectedFieldEditablePickListValues = App\Fields\Picklist::getEditableValues($fieldModel->getName());
+		$selectedFieldNonEditablePickListValues = App\Fields\Picklist::getNonEditableValues($fieldModel->getName());
 		$selectedFieldEditablePickListValues = array_map('\App\Purifier::encodeHtml', $selectedFieldEditablePickListValues);
 		if (!empty($selectedFieldNonEditablePickListValues)) {
 			$selectedFieldNonEditablePickListValues = array_map('\App\Purifier::encodeHtml', $selectedFieldNonEditablePickListValues);
