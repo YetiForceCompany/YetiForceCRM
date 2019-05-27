@@ -1686,6 +1686,10 @@
     "JS_PLEASE_SELECT_VALID_DOMAIN_NAMES": "Please select valid domain names.",
     "JS_MAIN_CATEGORIES": "Main categories",
     "JS_SEARCH_CURRENT_CATEGORY": "Search current category",
-    "JS_RELATED_ARTICLES": "Related Articles"
+    "JS_RELATED_ARTICLES": "Related Articles",
+    "JS_AUTHORED_BY": "Authored by",
+    "JS_TOGGLE_MENU": "Toggle menu",
+    "JS_CATEGORY": "Category",
+    "JS_CREATED": "Created"
   }
 }

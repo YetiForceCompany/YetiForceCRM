@@ -35,11 +35,11 @@ import {
 	QCarouselSlide,
 	QCarouselControl,
 	QImg,
-	QAvatar
+	QAvatar,
+	QResizeObserver
 } from 'quasar/src/components.js'
 import * as directives from 'quasar/src/directives.js'
 import * as plugins from 'quasar/src/plugins.js'
-import * as utils from 'quasar/src/utils.js'
 
 import Tree from './Tree.vue'
 import mdi from 'quasar/icon-set/mdi-v3.js'
@@ -80,10 +80,11 @@ const Quasar = {
 				QCarouselSlide,
 				QCarouselControl,
 				QImg,
-				QAvatar
+				QAvatar,
+				QResizeObserver
 			},
 			directives,
-			plugins: {},
+			// plugins: plugins,
 			...opts
 		})
 	}
