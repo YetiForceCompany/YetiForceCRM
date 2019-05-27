@@ -25,7 +25,7 @@ class Record
 	public static function getPriceFromPricebook(int $accountId, int $productId): ?float
 	{
 		$returnVal = (new \App\Db\Query())
-			->select(['listprice'])
+			->select(['vtiger_pricebookproductrel.listprice'])
 			->from('vtiger_account')
 			->leftJoin('vtiger_pricebookproductrel', 'vtiger_pricebookproductrel.pricebookid = vtiger_account.pricebook_id')
 			->where(['vtiger_account.accountid' => $accountId])
