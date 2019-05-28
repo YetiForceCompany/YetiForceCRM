@@ -200,6 +200,9 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 	 */
 	public function getRelatedRecords(Vtiger_Record_Model $recordModel, string $moduleName): array
 	{
+		if (!\App\Privilege::isPermitted($moduleName)) {
+			return [];
+		}
 		$pagingModel = new Vtiger_Paging_Model();
 		$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $moduleName);
 		$relationListView->setFields(array_merge(['id'], $this->retatedFields[$moduleName]));
@@ -221,6 +224,9 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 	 */
 	public function getRelatedComments(int $recordId): array
 	{
+		if (!\App\Privilege::isPermitted('ModComments')) {
+			return [];
+		}
 		$queryGenerator = new \App\QueryGenerator('ModComments');
 		$queryGenerator->setFields(['modifiedtime', 'id',	'assigned_user_id', 'commentcontent']);
 		$queryGenerator->setSourceRecord($recordId);
@@ -237,6 +243,6 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 				'short' => \Vtiger_Util_Helper::formatDateDiffInStrings($row['modifiedtime']),
 			];
 		}
-		return  $related;
+		return $related;
 	}
 }
