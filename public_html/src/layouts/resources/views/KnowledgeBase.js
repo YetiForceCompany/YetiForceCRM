@@ -36,7 +36,6 @@ import {
 	QCarouselControl,
 	QImg,
 	QAvatar,
-	QResizeObserver,
 	QSeparator
 } from 'quasar/src/components.js'
 import * as directives from 'quasar/src/directives.js'
@@ -82,7 +81,6 @@ const Quasar = {
 				QCarouselControl,
 				QImg,
 				QAvatar,
-				QResizeObserver,
 				QSeparator
 			},
 			directives,

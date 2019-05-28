@@ -185,32 +185,33 @@
                     </q-item-section>
                     <q-item-section>
                       <q-item-label class="text-primary"> {{ props.row.subject }}</q-item-label>
-                      <q-item-label class="flex" overline>
+                      <q-item-label class="flex items-center" overline>
                         <q-breadcrumbs class="mr-2 text-grey-8" active-color="grey-8">
                           <q-breadcrumbs-el
                             v-for="category in tree.categories[props.row.category].parentTree"
                             :key="tree.categories[category].label"
                           >
-                            <icon :size="iconSize" :icon="tree.categories[category].icon" class="q-mr-sm" />
+                            <icon
+                              v-if="tree.categories[category].icon"
+                              :size="iconSize"
+                              :icon="tree.categories[category].icon"
+                              class="q-mr-sm"
+                            />
                             {{ tree.categories[category].label }}
                           </q-breadcrumbs-el>
                           <q-tooltip>
                             {{ translate('JS_CATEGORY') }}
                           </q-tooltip>
                         </q-breadcrumbs>
-                        <div class="flex items-center no-wrap">
-                          | {{ translate('JS_AUTHORED_BY') }}: {{ props.row.assigned_user_id }}
-                        </div>
+                        | {{ translate('JS_AUTHORED_BY') }}:
+                        <span v-html="props.row.assigned_user_id" class="q-ml-sm"></span>
                       </q-item-label>
                       <q-item-label caption>{{ props.row.introduction }}</q-item-label>
                     </q-item-section>
                     <q-item-section side top>
-                      <q-item-label caption>
-                        <q-icon name="mdi-calendar-clock" class="mr-1" size="15px"></q-icon>
-                        {{ props.row.short_time }}
-                      </q-item-label>
-                      <q-tooltip anchor="center middle" self="top middle">
-                        {{ translate('JS_CREATED') + ': ' + props.row.full_time }}
+                      <q-item-label caption>{{ props.row.short_time }}</q-item-label>
+                      <q-tooltip>
+                        {{ props.row.full_time }}
                       </q-tooltip>
                     </q-item-section>
                   </q-item>
@@ -236,19 +237,27 @@
                   </q-item-section>
                   <q-item-section>
                     <q-item-label class="text-primary"> {{ props.row.subject }}</q-item-label>
-                    <q-item-label class="flex" overline>
+                    <q-item-label class="flex items-center" overline>
                       <q-breadcrumbs class="mr-2 text-grey-8" active-color="grey-8">
                         <q-breadcrumbs-el
                           v-for="category in tree.categories[props.row.category].parentTree"
                           :key="tree.categories[category].label"
                         >
-                          <icon :size="iconSize" :icon="tree.categories[category].icon" class="q-mr-sm" />
+                          <icon
+                            v-if="tree.categories[category].icon"
+                            :size="iconSize"
+                            :icon="tree.categories[category].icon"
+                            class="q-mr-sm"
+                          />
                           {{ tree.categories[category].label }}
                         </q-breadcrumbs-el>
+                        <q-tooltip>
+                          {{ translate('JS_CATEGORY') }}
+                        </q-tooltip>
                       </q-breadcrumbs>
-
-                      | {{ translate('JS_AUTHORED_BY') }}: {{ props.row.assigned_user_id }}</q-item-label
-                    >
+                      | {{ translate('JS_AUTHORED_BY') }}:
+                      <span v-html="props.row.assigned_user_id" class="q-ml-sm"></span>
+                    </q-item-label>
                     <q-item-label caption>{{ props.row.introduction }}</q-item-label>
                   </q-item-section>
                   <q-item-section side top>
@@ -352,8 +361,10 @@
                           />
                           {{ tree.categories[category].label }}
                         </q-breadcrumbs-el>
+                        <q-tooltip>
+                          {{ translate('JS_CATEGORY') }}
+                        </q-tooltip>
                       </q-breadcrumbs>
-
                       | {{ translate('JS_AUTHORED_BY') }}:
                       <span v-html="props.row.assigned_user_id" class="q-ml-sm"></span>
                     </q-item-label>
@@ -368,7 +379,7 @@
                 </q-item>
               </q-list>
             </template>
-            <template v-slot:bottom="props"> </template>
+            <template v-slot:bottom="props"></template>
           </q-table>
         </q-card-section>
         <q-card-section v-if="hasRelatedRecords">
