@@ -21,7 +21,7 @@ class Vtiger_BasicAjax_Action extends \App\Controller\Action
 	public function checkPermission(App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPrivilegesModel->hasModulePermission($request->getByType('search_module')) || !$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getByType('search_module', 'Alnum')) || !$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
