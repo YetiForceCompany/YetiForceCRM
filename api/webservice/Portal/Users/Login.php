@@ -54,20 +54,25 @@ class Login extends \Api\Core\BaseAction
 		if (\App\Encryption::getInstance()->decrypt($row['password_t']) !== $this->controller->request->get('password')) {
 			throw new \Api\Core\Exception('Invalid user password', 401);
 		}
+		if (\Api\Portal\Privilege::USER_PERMISSIONS !== $row['type'] && (empty($row['crmid']) || !\App\Record::isExists($row['crmid']))) {
+			throw new \Api\Core\Exception('No crmid', 401);
+		}
 		$db->createCommand()->update('w_#__portal_user', ['login_time' => date(static::DATE_TIME_FORMAT)], ['id' => $row['id']])->execute();
 		$row = $this->updateSession($row);
 		$userModel = \App\User::getUserModel($row['user_id']);
-
+		$parentId = \Api\Portal\Privilege::USER_PERMISSIONS !== $row['type'] ? \App\Record::getParentRecord($row['crmid']) : 0;
+		$checkStockLevels = empty($parentId) || (bool) \Vtiger_Record_Model::getInstanceById($parentId)->get('check_stock_levels');
 		return [
 			'token' => $row['token'],
 			'name' => \App\Record::getLabel($row['crmid']),
-			'parentName' => \App\Record::getLabel(\App\Record::getParentRecord($row['crmid'])),
+			'parentName' => empty($parentId) ? '' : \App\Record::getLabel($parentId),
 			'lastLoginTime' => $row['login_time'],
 			'lastLogoutTime' => $row['logout_time'],
 			'language' => $row['language'],
 			'type' => $row['type'],
-			'CompanyId' => ($row['type'] !== \Api\Portal\Privilege::USER_PERMISSIONS) ? \App\Record::getParentRecord($row['crmid']) : 0,
+			'CompanyId' => (\Api\Portal\Privilege::USER_PERMISSIONS !== $row['type']) ? $parentId : 0,
 			'logged' => true,
+			'checkStockLevels' => $checkStockLevels,
 			'preferences' => [
 				'activity_view' => $userModel->getDetail('activity_view'),
 				'hour_format' => $userModel->getDetail('hour_format'),

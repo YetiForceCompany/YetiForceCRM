@@ -56,7 +56,6 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 			$queryGenerator = parent::getQuery();
 		} else {
 			$pricebookId = \Vtiger_Record_Model::getInstanceById($this->getParentCrmId(), 'Accounts')->get('pricebook_id');
-
 			if (empty($pricebookId)) {
 				$queryGenerator = parent::getQuery();
 			} else {
@@ -78,7 +77,6 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 				"u_#__istorages_products.crmid={$storage} AND u_#__istorages_products.relcrmid = vtiger_products.productid"]
 			);
 		}
-
 		return $queryGenerator;
 	}
 
@@ -102,10 +100,12 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 			$taxValue = $this->globalTaxes[$taxId]['value'];
 		}
 		$record = parent::getRecordFromRow($row, $fieldsModel);
+		$unitPrice = $row['unit_price'];
 		if (!$this->isUserPermissions && !empty($listprice)) {
 			$record['unit_price'] = \CurrencyField::convertToUserFormatSymbol($listprice);
+			$unitPrice = $listprice;
 		}
-		$record['unit_gross'] = \CurrencyField::convertToUserFormatSymbol($row['unit_price'] + ($row['unit_price'] * $taxValue) / 100.00);
+		$record['unit_gross'] = \CurrencyField::convertToUserFormatSymbol($unitPrice + ($unitPrice * $taxValue) / 100.00);
 		$record['tax_value'] = \CurrencyField::convertToUserFormatSymbol($taxValue);
 		return $record;
 	}
@@ -115,9 +115,10 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	 */
 	protected function getRawDataFromRow(array $row): array
 	{
-		$row = parent::getRawDataFromRow($row);
+		$row = parent::getRawDataFromRow($row, $fieldsModel);
+		$unitPrice = $row['unit_price'];
 		if (!$this->isUserPermissions && !empty($row['listprice'])) {
-			$row['unit_price'] = $row['listprice'];
+			$unitPrice = $row['unit_price'] = $row['listprice'];
 		}
 		$row['tax_value'] = 0;
 		if (!empty($row['taxes'])) {
@@ -125,7 +126,7 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 			$row['tax_value'] = $this->globalTaxes[$taxId]['value'];
 		}
 		$row['qtyinstock'] = $row['storage_qtyinstock'] ?? 0;
-		$row['unit_gross'] = $row['unit_price'] + ($row['unit_price'] * ($row['tax_value'] ?? 0) / 100.0);
+		$row['unit_gross'] = $unitPrice + ($unitPrice * ($row['tax_value'] ?? 0) / 100.0);
 		return $row;
 	}
 
