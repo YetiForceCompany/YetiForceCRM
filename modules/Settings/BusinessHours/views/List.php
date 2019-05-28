@@ -18,6 +18,9 @@ class Settings_BusinessHours_List_View extends Settings_Vtiger_List_View
 		return \App\Language::translate('LBL_BUSINESS_HOURS', $moduleName);
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function initializeListViewContents(App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$listViewModel = Settings_Vtiger_ListView_Model::getInstance($request->getModule(false));

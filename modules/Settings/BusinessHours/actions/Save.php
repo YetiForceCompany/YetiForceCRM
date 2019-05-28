@@ -10,7 +10,7 @@
 class Settings_BusinessHours_Save_Action extends Settings_Vtiger_Basic_Action
 {
 	/**
-	 * Save tree.
+	 * Save business hours entry.
 	 *
 	 * @param \App\Request $request
 	 */

@@ -10,6 +10,11 @@
 Settings_Vtiger_List_Js(
 	'Settings_BusinessHours_List_Js',
 	{
+		/**
+		 * Delete list item by id
+		 *
+		 * @param   {number}  id
+		 */
 		deleteById(id) {
 			Vtiger_Helper_Js.showConfirmationBox({ message: app.vtranslate('JS_BUSINESSHOURS_DELETE_CONFIRMATION') }).done(
 				e => {
@@ -27,9 +32,17 @@ Settings_Vtiger_List_Js(
 		}
 	},
 	{
+		/**
+		 * Calculate pages - noop - not needed inside business hours list view
+		 *
+		 * @returns {jQuery.Deferred}
+		 */
 		calculatePages() {
 			return jQuery.Deferred().resolve();
 		},
+		/**
+		 * Mass update pagination - noop - not needed inside business hours list view
+		 */
 		massUpdatePagination() {}
 	}
 );
