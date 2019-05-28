@@ -25206,7 +25206,7 @@ input[type="radio"]:checked:before {
   overflow-x: hidden;
 }
 
-.KnowledgeBase_Tree .contentsDiv {
+.basePanel[class$="_KnowledgeBase"] .contentsDiv {
   min-height: calc(100vh - 3.125rem - 2rem);
 }
 
@@ -25214,7 +25214,7 @@ input[type="radio"]:checked:before {
   bottom: calc(2rem + 1rem);
 }
 
-.user-info--active .KnowledgeBase_Tree .contentsDiv {
+.user-info--active .basePanel[class$="_KnowledgeBase"] .contentsDiv {
   min-height: calc(100vh - 3.125rem - calc(2rem + 1rem));
 }
 
@@ -25222,7 +25222,7 @@ input[type="radio"]:checked:before {
   bottom: 1rem;
 }
 
-.limited-footer--active .KnowledgeBase_Tree .contentsDiv {
+.limited-footer--active .basePanel[class$="_KnowledgeBase"] .contentsDiv {
   min-height: calc(100vh - 3.125rem - 1rem);
 }
 
@@ -25230,7 +25230,7 @@ input[type="radio"]:checked:before {
   bottom: 2rem;
 }
 
-.user-info--active.limited-footer--active .KnowledgeBase_Tree .contentsDiv {
+.user-info--active.limited-footer--active .basePanel[class$="_KnowledgeBase"] .contentsDiv {
   min-height: calc(100vh - 3.125rem - 2rem);
 }
 
@@ -25238,13 +25238,13 @@ input[type="radio"]:checked:before {
   .mainBody {
     bottom: 1rem;
   }
-  .KnowledgeBase_Tree .contentsDiv {
+  .basePanel[class$="_KnowledgeBase"] .contentsDiv {
     min-height: calc(100vh - 3.125rem - 1rem);
   }
   .user-info--active .mainBody {
     bottom: 2rem;
   }
-  .user-info--active .KnowledgeBase_Tree .contentsDiv {
+  .user-info--active .basePanel[class$="_KnowledgeBase"] .contentsDiv {
     min-height: calc(100vh - 3.125rem - 2rem);
   }
 }

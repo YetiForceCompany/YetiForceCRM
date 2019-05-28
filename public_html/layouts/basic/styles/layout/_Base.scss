@@ -7,14 +7,14 @@
 	width: 100%;
 	overflow-x: hidden;
 }
-.KnowledgeBase_Tree .contentsDiv {
+.basePanel[class$="_KnowledgeBase"] .contentsDiv {
 	min-height: calc(100vh - #{$h-header} - #{$h-footer});
 }
 .user-info--active {
 	.mainBody {
 		bottom: $h-footer-user-info;
 	}
-	.KnowledgeBase_Tree .contentsDiv {
+	.basePanel[class$="_KnowledgeBase"] .contentsDiv {
 		min-height: calc(100vh - #{$h-header} - #{$h-footer-user-info});
 	}
 }
@@ -22,7 +22,7 @@
 	.mainBody {
 		bottom: $h-footer-limited;
 	}
-	.KnowledgeBase_Tree .contentsDiv {
+	.basePanel[class$="_KnowledgeBase"] .contentsDiv {
 		min-height: calc(100vh - #{$h-header} - #{$h-footer-limited});
 	}
 }
@@ -31,7 +31,7 @@
 	.mainBody {
 		bottom: $h-footer;
 	}
-	.KnowledgeBase_Tree .contentsDiv {
+	.basePanel[class$="_KnowledgeBase"] .contentsDiv {
 		min-height: calc(100vh - #{$h-header} - #{$h-footer});
 	}
 }
@@ -40,14 +40,14 @@
 	.mainBody {
 		bottom: $h-footer-limited;
 	}
-	.KnowledgeBase_Tree .contentsDiv {
+	.basePanel[class$="_KnowledgeBase"] .contentsDiv {
 		min-height: calc(100vh - #{$h-header} - #{$h-footer-limited});
 	}
 	.user-info--active {
 		.mainBody {
 			bottom: $h-footer;
 		}
-		.KnowledgeBase_Tree .contentsDiv {
+		.basePanel[class$="_KnowledgeBase"] .contentsDiv {
 			min-height: calc(100vh - #{$h-header} - #{$h-footer});
 		}
 	}

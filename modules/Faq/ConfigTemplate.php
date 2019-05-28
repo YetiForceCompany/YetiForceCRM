@@ -6,9 +6,9 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 return [
-	'treeArticleLimit' => [
+	'knowledgeBaseArticleLimit' => [
 		'default' => 50,
-		'description' => 'Article limit in the tree window',
+		'description' => 'Article limit in the knowledge base window',
 		'validation' => function () {
 			$arg = func_get_arg(0);
 			return $arg && \App\Validator::naturalNumber($arg);

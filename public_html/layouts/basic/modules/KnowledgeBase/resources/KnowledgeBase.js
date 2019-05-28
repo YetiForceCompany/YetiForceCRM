@@ -2,10 +2,10 @@
 
 'use strict';
 
-jQuery.Class('KnowledgeBase_Tree_Js', {
+jQuery.Class('KnowledgeBase_KnowledgeBase_Js', {
 	registerEvents: function() {
-		DocView.mount({
-			el: '#KnowledgeDocView',
+		KnowledgeBase.mount({
+			el: '#KnowledgeBaseContainer',
 			moduleName: 'KnowledgeBase'
 		});
 	}

@@ -13,17 +13,17 @@ class Faq_Module_Model extends Vtiger_Module_Model
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getTreeViewName()
+	public function getKnowledgeBaseViewName()
 	{
-		return 'Tree';
+		return 'KnowledgeBase';
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getTreeViewUrl()
+	public function getKnowledgeBaseViewUrl()
 	{
-		return 'index.php?module=' . $this->get('name') . '&view=' . $this->getTreeViewName();
+		return 'index.php?module=' . $this->get('name') . '&view=' . $this->getKnowledgeBaseViewName();
 	}
 
 	/**
@@ -34,9 +34,9 @@ class Faq_Module_Model extends Vtiger_Module_Model
 		$links = parent::getSideBarLinks($linkParams);
 		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 			'linktype' => 'SIDEBARLINK',
-			'linklabel' => 'LBL_VIEW_TREE',
-			'linkurl' => $this->getTreeViewUrl(),
-			'linkicon' => 'fas fa-tree',
+			'linklabel' => 'LBL_VIEW_KNOWLEDGE_BASE',
+			'linkurl' => $this->getKnowledgeBaseViewUrl(),
+			'linkicon' => 'far fa-file-alt',
 		]);
 		return $links;
 	}

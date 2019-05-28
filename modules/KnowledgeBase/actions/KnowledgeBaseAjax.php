@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Action to get data of tree.
+ * Action to get data of KnowledgeBase.
  *
  * @package Action
  *
@@ -9,7 +9,7 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
+class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 {
 	use \App\Controller\ExposeMethod;
 	/**
@@ -56,7 +56,7 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 	}
 
 	/**
-	 * Get tree model instance.
+	 * Get KnowledgeBase model instance.
 	 *
 	 * @param App\Request $request
 	 *
@@ -64,7 +64,7 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 	 */
 	public function getModel(App\Request $request)
 	{
-		return KnowledgeBase_Tree_Model::getInstance($request->getModule());
+		return KnowledgeBase_KnowledgeBase_Model::getInstance($request->getModule());
 	}
 
 	/**

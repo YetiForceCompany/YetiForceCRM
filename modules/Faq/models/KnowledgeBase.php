@@ -1,6 +1,6 @@
 <?php
 /**
- * Model of tree.
+ * Model of KnowledgeBase.
  *
  * @package Model
  *
@@ -10,9 +10,9 @@
  */
 
 /**
- * Class tree model for module faq.
+ * Class KnowledgeBase model for module faq.
  */
-class Faq_Tree_Model extends KnowledgeBase_Tree_Model
+class Faq_KnowledgeBase_Model extends KnowledgeBase_KnowledgeBase_Model
 {
 	/**
 	 * Get featured records.
@@ -45,7 +45,7 @@ class Faq_Tree_Model extends KnowledgeBase_Tree_Model
 		if ($this->has('parentCategory')) {
 			$queryGenerator->addNativeCondition(['category' => $this->get('parentCategory')]);
 		}
-		$queryGenerator->setLimit(Config\Modules\Faq::$treeArticleLimit);
+		$queryGenerator->setLimit(Config\Modules\Faq::$knowledgeBaseArticleLimit);
 		return $queryGenerator->createQuery();
 	}
 }
