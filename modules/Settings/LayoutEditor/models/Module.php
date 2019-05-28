@@ -86,7 +86,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			'Text', 'Decimal', 'Integer', 'Percent', 'Currency', 'Date', 'Email', 'Phone', 'Picklist', 'Country',
 			'URL', 'Checkbox', 'TextArea', 'MultiSelectCombo', 'Skype', 'Time', 'Related1M', 'Editor', 'Tree',
 			'MultiReferenceValue', 'CategoryMultipicklist', 'DateTime', 'Image', 'MultiImage', 'Twitter', 'MultiEmail',
-			'Smtp', 'ServerAccess', 'MultiDomain'
+			'Smtp', 'ServerAccess', 'MultiDomain', 'RangeTime'
 		];
 	}
 
@@ -215,7 +215,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$fieldModel = new Settings_LayoutEditor_Field_Model();
 		$fieldModel->set('name', $name)
 			->set('table', $tableName)
-			->set('generatedtype', 2)
+			->set('generatedtype', $params['generatedtype'] ?? 2)
 			->set('uitype', $uitype)
 			->set('label', $label)
 			->set('typeofdata', $typeofdata)
@@ -225,8 +225,8 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		if ('Editor' === $fieldType) {
 			$fieldModel->set('maximumlength', $params['fieldLength'] ?? null);
 		}
-		if (isset($details['displayType'])) {
-			$fieldModel->set('displaytype', $details['displayType']);
+		if (isset($details['displayType']) || isset($params['displayType'])) {
+			$fieldModel->set('displaytype', $details['displayType']|| $params['displayType']);
 		}
 		$blockModel = Vtiger_Block_Model::getInstance($blockId, $moduleName);
 		$blockModel->addField($fieldModel);
@@ -430,6 +430,11 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$uitype = 319;
 				$uichekdata = 'V~O';
 				$type = $importerType->text();
+				break;
+			case 'RangeTime':
+				$uitype = 308;
+				$uichekdata = 'I~O';
+				$type = $importerType->integer()->null();
 				break;
 			default:
 				break;
