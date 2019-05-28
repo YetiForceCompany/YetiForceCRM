@@ -533,7 +533,7 @@ class Category extends Base
 			$this->connector->request('PUT', '/rest/all/V1/categories/' . $categoryMagento['id'] . '/move', ['parentId' => $this->mapCategoryMagento[$categoryYF['parent_id']] ?? 0]);
 			$result = true;
 		} catch (\Throwable $ex) {
-			\App\Log::error('Error during moving magento category: ' . $ex->getMessage());
+			\App\Log::error('Error during moving magento category: ' . $ex->getMessage(), 'Integrations/Magento');
 			$result = false;
 		}
 		return $result;
