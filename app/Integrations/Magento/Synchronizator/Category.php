@@ -247,7 +247,7 @@ class Category extends Base
 			$this->categoriesMagento['children_data'] = [\App\Json::decode($categoriesList)];
 			$this->parseMagentoCategory($this->categoriesMagento);
 		} catch (\Throwable $ex) {
-			\App\Log::error('Error while getting categories from magento: ' . $ex->getMessage());
+			\App\Log::error('Error while getting categories from magento: ' . $ex->getMessage(), 'Integrations/Magento');
 		}
 
 		return $this->categoriesMagento;
