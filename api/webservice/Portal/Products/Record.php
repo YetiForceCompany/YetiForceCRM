@@ -22,7 +22,6 @@ class Record extends \Api\Portal\BaseModule\Record
 	public function get(): array
 	{
 		$response = parent::get();
-		$recordId = $this->controller->request->getInteger('record');
 		$tax = (float) current($response['rawData']['taxes_info'])['value'] ?? 0.0;
 		$unitPrice = \Api\Portal\Record::getPriceFromPricebook($this->getParentCrmId(), $this->controller->request->getInteger('record'));
 		if (\Api\Portal\Privilege::USER_PERMISSIONS !== $this->getPermissionType()) {
