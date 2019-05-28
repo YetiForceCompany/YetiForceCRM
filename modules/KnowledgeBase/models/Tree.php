@@ -2,6 +2,8 @@
 /**
  * Model of tree.
  *
+ * @package Model
+ *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
@@ -19,9 +21,9 @@ class KnowledgeBase_Tree_Model extends \App\Base
 	 *
 	 * @return \self
 	 */
-	public static function getInstance()
+	public static function getInstance($moduleName)
 	{
-		return new self();
+		return new self(['moduleName' => $moduleName]);
 	}
 
 	/**
@@ -41,15 +43,15 @@ class KnowledgeBase_Tree_Model extends \App\Base
 	 */
 	public function getCategoriesByParent()
 	{
-		if (App\Cache::has('KnowledgeBase', 'CategoriesByParent')) {
-			return App\Cache::get('KnowledgeBase', 'CategoriesByParent');
+		if (App\Cache::has(__CLASS__, 'CategoriesByParent')) {
+			return App\Cache::get(__CLASS__, 'CategoriesByParent');
 		}
 		$categories = [[]];
 		foreach ($this->getCategories() as $row) {
 			$parent = App\Fields\Tree::getParentIdx($row);
 			$categories[$parent][] = $row['tree'];
 		}
-		App\Cache::save('KnowledgeBase', 'CategoriesByParent', $categories);
+		App\Cache::save(__CLASS__, 'CategoriesByParent', $categories);
 		return $categories;
 	}
 
@@ -70,11 +72,11 @@ class KnowledgeBase_Tree_Model extends \App\Base
 	 */
 	public function getTreeField()
 	{
-		if (App\Cache::has('KnowledgeBase', 'TreeField')) {
-			return App\Cache::get('KnowledgeBase', 'TreeField');
+		if (App\Cache::has(__CLASS__, 'TreeField')) {
+			return App\Cache::get(__CLASS__, 'TreeField');
 		}
-		$field = (new \App\Db\Query())->select(['tablename', 'columnname', 'fieldname', 'fieldlabel', 'fieldparams'])->from('vtiger_field')->where(['uitype' => 302, 'tabid' => \App\Module::getModuleId('KnowledgeBase')])->one();
-		App\Cache::save('KnowledgeBase', 'TreeField', $field);
+		$field = (new \App\Db\Query())->select(['tablename', 'columnname', 'fieldname', 'fieldlabel', 'fieldparams'])->from('vtiger_field')->where(['uitype' => 302, 'tabid' => \App\Module::getModuleId($this->get('moduleName'))])->one();
+		App\Cache::save(__CLASS__, 'TreeField', $field);
 		return $field;
 	}
 

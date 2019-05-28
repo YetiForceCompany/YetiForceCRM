@@ -12,6 +12,12 @@
 class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 {
 	use \App\Controller\ExposeMethod;
+	/**
+	 * Detail query conditions.
+	 *
+	 * @var string[]
+	 */
+	protected $queryCondition = ['knowledgebase_status' => 'PLL_ACCEPTED'];
 
 	/**
 	 * Constructor.
@@ -39,6 +45,18 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 	}
 
 	/**
+	 * Get tree model instance.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function getModel(App\Request $request)
+	{
+		return KnowledgeBase_Tree_Model::getInstance($request->getModule());
+	}
+
+	/**
 	 * Get data for knowledge base.
 	 *
 	 * @param App\Request $request
@@ -47,7 +65,7 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 	 */
 	public function list(App\Request $request)
 	{
-		$treeModel = KnowledgeBase_Tree_Model::getInstance();
+		$treeModel = $this->getModel($request);
 		if (!$request->isEmpty('category')) {
 			$treeModel->set('parentCategory', $request->getByType('category', 'Alnum'));
 		}
@@ -65,7 +83,7 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 	 */
 	public function categories(App\Request $request)
 	{
-		$treeModel = KnowledgeBase_Tree_Model::getInstance();
+		$treeModel = $this->getModel($request);
 		$categories = [];
 		foreach ($treeModel->getCategories() as $row) {
 			$row['parent'] = App\Fields\Tree::getParentIdx($row);
@@ -89,7 +107,7 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 	{
 		$rows = [];
 		if (!$request->isEmpty('value')) {
-			$treeModel = KnowledgeBase_Tree_Model::getInstance();
+			$treeModel = $this->getModel($request);
 			if (!$request->isEmpty('category')) {
 				$treeModel->set('parentCategory', $request->getByType('category', 'Alnum'));
 			}
@@ -126,7 +144,7 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 		$pagingModel = new Vtiger_Paging_Model();
 		$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $request->getModule());
 		$relationListView->setFields(['id', 'subject', 'introduction', 'assigned_user_id', 'category', 'modifiedtime']);
-		$relationListView->getQueryGenerator()->addNativeCondition(['knowledgebase_status' => 'PLL_ACCEPTED']);
+		$relationListView->getQueryGenerator()->addNativeCondition($this->queryCondition);
 		$related = [];
 		foreach ($relationListView->getEntries($pagingModel) as $key => $relatedRecordModel) {
 			$related[$key] = [
@@ -143,7 +161,7 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 			'content' => $content,
 			'introduction' => $recordModel->getDisplayValue('introduction'),
 			'subject' => $recordModel->get('subject'),
-			'knowledgebase_view' => $recordModel->get('knowledgebase_view'),
+			'view' => $recordModel->get('knowledgebase_view'),
 			'assigned_user_id' => $recordModel->getDisplayValue('assigned_user_id'),
 			'category' => $recordModel->getDisplayValue('category'),
 			'full_createdtime' => $recordModel->getDisplayValue('createdtime'),
