@@ -322,8 +322,6 @@ class Functions
 			'vtiger_seproductsrel:productid' => 'V',
 			'vtiger_seticketsrel:crmid' => 'V',
 			'vtiger_seticketsrel:ticketid' => 'V',
-			'vtiger_vendorcontactrel:vendorid' => 'V',
-			'vtiger_vendorcontactrel:contactid' => 'V',
 			'vtiger_pricebook:currency_id' => 'V',
 		];
 

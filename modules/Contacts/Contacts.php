@@ -103,33 +103,30 @@ class Contacts extends CRMEntity
 		return $relTables[$secModule];
 	}
 
-	// Function to unlink an entity with given Id from another entity
-	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		if (empty($return_module) || empty($return_id)) {
+		if (empty($returnModule) || empty($returnId)) {
 			return;
 		}
-		if ('Accounts' === $return_module) {
-			App\Db::getInstance()->createCommand()->update('vtiger_contactdetails', ['parentid' => 0], ['contactid' => $id])->execute();
-		} elseif ('Campaigns' === $return_module) {
-			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $return_id])->execute();
-		} elseif ('Vendors' === $return_module) {
-			$db = App\Db::getInstance();
-			$db->createCommand()->update('vtiger_contactdetails', ['parentid' => 0], ['contactid' => $id])->execute();
-			$db->createCommand()->delete('vtiger_vendorcontactrel', ['vendorid' => $return_id, 'contactid' => $id])->execute();
+		if ('Campaigns' === $returnModule) {
+			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $returnId])->execute();
 		} else {
-			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
+			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		}
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function saveRelatedModule($module, $crmid, $withModule, $withCrmid, $relatedName = false)
 	{
 		if (!is_array($withCrmid)) {
 			$withCrmid = [$withCrmid];
 		}
-		if (!in_array($withModule, ['Products', 'Campaigns', 'Vendors'])) {
-			parent::saveRelatedModule($module, $crmid, $withModule, $withCrmid, $relatedName);
-		} else {
+		if ('Campaigns' === $withModule) {
 			foreach ($withCrmid as $id) {
 				if ('Campaigns' === $withModule) {
 					App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
@@ -137,13 +134,10 @@ class Contacts extends CRMEntity
 						'crmid' => $crmid,
 						'campaignrelstatusid' => 0,
 					])->execute();
-				} elseif ('Vendors' === $withModule) {
-					App\Db::getInstance()->createCommand()->insert('vtiger_vendorcontactrel', [
-						'vendorid' => $id,
-						'contactid' => $crmid,
-					])->execute();
 				}
 			}
+		} else {
+			parent::saveRelatedModule($module, $crmid, $withModule, $withCrmid, $relatedName);
 		}
 	}
 

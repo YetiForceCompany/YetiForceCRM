@@ -1304,54 +1304,15 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Function returns query for module record's search.
-	 *
-	 * @param string $searchValue  part of record name (label column of crmentity table)
-	 * @param int    $parentId     parent record id
-	 * @param string $parentModule parent module name
-	 *
-	 * @return App\Db\Query
-	 */
-	public function getSearchRecordsQuery($searchValue, $parentId = false, $parentModule = false)
-	{
-		return (new App\Db\Query())->select(['crmid', 'setype', 'searchlabel'])
-			->from('u_#__crmentity_search_label')->where(['and', ['like', 'userid', ',' . App\User::getCurrentUserId() . ','], ['like', 'searchlabel', $searchValue]]);
-	}
-
-	/**
-	 * Function searches the records in the module, if parentId & parentModule
-	 * is given then searches only those records related to them.
+	 * Function searches the records in the module
 	 *
 	 * @param string $searchValue   Search value
-	 * @param int    $parentId      parent recordId
-	 * @param string $parentModule  parent module name
-	 * @param mixed  $relatedModule
 	 *
 	 * @return Vtiger_Record_Model[]
 	 */
-	public function searchRecord($searchValue, $parentId = false, $parentModule = false, $relatedModule = false)
+	public function searchRecord(string $searchValue): array
 	{
-		if (empty($searchValue)) {
-			return [];
-		}
-		if (empty($parentId) || empty($parentModule)) {
-			$matchingRecords = Vtiger_Record_Model::getSearchResult($searchValue, $this->getName());
-		} elseif ($parentId && $parentModule) {
-			$dataReader = $this->getSearchRecordsQuery($searchValue, $parentId, $parentModule)
-				->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				$recordMeta = \vtlib\Functions::getCRMRecordMetadata($row['crmid']);
-				$row['id'] = $row['crmid'];
-				$row['smownerid'] = $recordMeta['smownerid'];
-				$row['createdtime'] = $recordMeta['createdtime'];
-				$moduleName = $recordMeta['setype'];
-				$moduleModel = self::getInstance($moduleName);
-				$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
-				$recordInstance = new $modelClassName();
-				$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);
-			}
-		}
-		return $matchingRecords;
+		return empty($searchValue) ? [] : Vtiger_Record_Model::getSearchResult($searchValue, $this->getName());
 	}
 
 	/**
