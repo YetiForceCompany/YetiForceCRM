@@ -3,9 +3,11 @@
 /**
  * Action to get data of tree.
  *
+ * @package Action
+ *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 {

@@ -55,7 +55,7 @@ class Faq extends CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['subject', 'category', 'introduction', 'faqstatus'];
+	public $relationFields = ['subject', 'category', 'introduction', 'faqstatus', 'assigned_user_id'];
 	public $list_link_field = 'subject';
 	public $search_fields = [
 		// Format: Field Label => Array(tablename, columnname)
@@ -64,7 +64,7 @@ class Faq extends CRMEntity
 		'FL_CATEGORY' => ['faq', 'category'],
 		'Assigned To' => ['crmentity', 'smownerid'],
 		'FL_INTRODUCTION' => ['faq', 'introduction'],
-		'FL_STATUS' => ['faq', 'faqstatus'],
+		'FL_STATUS' => ['faq', 'status'],
 	];
 	public $search_fields_name = [
 		// Format: Field Label => fieldname

@@ -58,12 +58,25 @@ class HelpDesk extends CRMEntity
 	public $list_link_field = 'ticket_title';
 	public $search_fields = [
 		//'Ticket ID' => Array('vtiger_crmentity'=>'crmid'),
-		'Ticket No' => ['vtiger_troubletickets' => 'ticket_no'],
-		'Title' => ['vtiger_troubletickets' => 'title'],
+		'Ticket No' => ['troubletickets' => 'ticket_no'],
+		// END
+		'Subject' => ['troubletickets' => 'title'],
+		'Related To' => ['troubletickets' => 'parent_id'],
+		'Contact Name' => ['troubletickets' => 'contact_id'],
+		'Status' => ['troubletickets' => 'status'],
+		'Priority' => ['troubletickets' => 'priority'],
+		'Assigned To' => ['crmentity', 'smownerid'],
+		'FL_TOTAL_TIME_H' => ['troubletickets', 'sum_time'],
 	];
 	public $search_fields_name = [
 		'Ticket No' => 'ticket_no',
-		'Title' => 'ticket_title',
+		'Subject' => 'ticket_title',
+		'Related To' => 'parent_id',
+		'Contact Name' => 'contact_id',
+		'Status' => 'ticketstatus',
+		'Priority' => 'ticketpriorities',
+		'Assigned To' => 'assigned_user_id',
+		'FL_TOTAL_TIME_H' => 'sum_time',
 	];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.

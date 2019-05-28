@@ -5384,7 +5384,7 @@ CREATE TABLE `vtiger_faq` (
   `introduction` text DEFAULT NULL,
   `knowledgebase_view` varchar(255) DEFAULT '',
   PRIMARY KEY (`id`),
-  KEY `faq_id_idx` (`id`),
+  FULLTEXT KEY `search` (`subject`,`content`,`introduction`),
   CONSTRAINT `fk_1_vtiger_faq` FOREIGN KEY (`id`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

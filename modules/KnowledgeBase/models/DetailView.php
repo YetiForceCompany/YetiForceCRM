@@ -6,6 +6,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class KnowledgeBase_DetailView_Model extends Vtiger_DetailView_Model
 {
@@ -17,14 +18,6 @@ class KnowledgeBase_DetailView_Model extends Vtiger_DetailView_Model
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();
 		$relatedLinkEntries = [
-			[
-				'linktype' => 'DETAILVIEWTAB',
-				'linklabel' => \App\Language::translate('LBL_RECORD_PREVIEW', $moduleName),
-				'linkKey' => 'LBL_RECORD_PREVIEW',
-				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showPreview',
-				'linkicon' => '',
-				'related' => 'Summary',
-			],
 			[
 				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linkurl' => 'javascript:KnowledgeBase_Detail_Js.showPresentation();',
