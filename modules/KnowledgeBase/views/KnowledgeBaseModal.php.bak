@@ -46,7 +46,14 @@ class KnowledgeBase_KnowledgeBaseModal_View extends \App\Controller\Modal
 	 */
 
 	public function getModalCss(\App\Request $request)
-	{ }
+	{
+		$headerCssInstances = parent::getHeaderCss($request);
+		$cssFileNames = [
+			// '~libraries/@mdi/font/css/materialdesignicons.min.css',
+			// '~src/css/app.css'
+		];
+		return array_merge($headerCssInstances, $this->checkAndConvertCssStyles($cssFileNames));
+	}
 	/**
 	 * {@inheritdoc}
 	 */

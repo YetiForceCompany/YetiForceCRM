@@ -9,6 +9,6 @@
 		</div>
 	</div>
 <div class="quasar-container quasar-reset absolute w-100">
-	<div id="DocView"></div>
+	<div id="KnowledgeBaseTree"></div>
 </div>
 {/strip}
