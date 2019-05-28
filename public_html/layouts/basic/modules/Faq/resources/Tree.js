@@ -4,9 +4,8 @@
 
 jQuery.Class('Faq_Tree_Js', {
 	registerEvents: function() {
-		console.log('asdfasdf');
 		DocView.mount({
-			el: '#FaqTree',
+			el: '#FaqDocView',
 			moduleName: 'Faq'
 		});
 	}
