@@ -169,8 +169,13 @@ class RecordStatus
 		}
 		foreach (EventHandler::getAll() as $handler) {
 			if ('Vtiger_RecordStatusHistory_Handler' === $handler['handler_class']) {
+				$modules = $handler['include_modules'] ? \explode(',', $handler['include_modules']) : [];
+				if (in_array($moduleName, $modules)) {
+					unset($modules[array_search($moduleName, $modules)]);
+				}
 				EventHandler::update([
-					'is_active' => 0,
+					'is_active' => $modules ? 1 : 0,
+					'include_modules' => \implode(',', $modules)
 				], $handler['eventhandler_id']);
 			}
 		}
