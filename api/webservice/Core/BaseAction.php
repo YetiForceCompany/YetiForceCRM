@@ -124,7 +124,7 @@ class BaseAction
 	 *
 	 * @return int
 	 */
-	public function getPermissionType()
+	public function getPermissionType(): int
 	{
 		return $this->session->get('type');
 	}
@@ -147,6 +147,27 @@ class BaseAction
 	public function getUserStorageId(): ?int
 	{
 		return $this->session->get('istorage');
+	}
+
+	/**
+	 * Get information, whether to check inventory levels.
+	 *
+	 * @return bool
+	 */
+	public function getCheckStockLevels(): bool
+	{
+		$parentId = \Api\Portal\Privilege::USER_PERMISSIONS !== $this->getPermissionType() ? $this->getParentCrmId() : 0;
+		return empty($parentId) || (bool) \Vtiger_Record_Model::getInstanceById($parentId)->get('check_stock_levels');
+	}
+
+	/**
+	 * Get pricebook Id.
+	 *
+	 * @return null|int
+	 */
+	public function getPricebookId(): ?int
+	{
+		return \Vtiger_Record_Model::getInstanceById($this->getParentCrmId(), 'Accounts')->get('pricebook_id');
 	}
 
 	/**
