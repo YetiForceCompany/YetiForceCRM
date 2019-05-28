@@ -485,7 +485,7 @@ class Category extends Base
 				$this->connector->request('DELETE', '/rest/all/V1/categories/' . $categoryMagento['id'], []);
 				$result = true;
 			} catch (\Throwable $ex) {
-				\App\Log::error('Error during deleting magento category: ' . $ex->getMessage());
+				\App\Log::error('Error during deleting magento category: ' . $ex->getMessage(), 'Integrations/Magento');
 			}
 		}
 		return $result;
