@@ -55,6 +55,29 @@ class RecordStatus
 	const TIME_COUNTING_IDLE = 3;
 
 	/**
+	 * State time fields.
+	 *
+	 * @var array
+	 */
+	private static $stateTimeFields = [
+		'RangeTime' => [
+			'response_range_time' => 'FL_RESPONSE_RANGE_TIME',
+			'solution_range_time' => 'FL_SOLUTION_RANGE_TIME',
+			'idle_range_time' => 'FL_IDLE_RANGE_TIME',
+			'closing_range_time' => 'FL_CLOSING_RANGE_TIME',
+		],
+		'DateTime' => [
+			'response_datatime' => 'FL_RESPONSE_DATE_TIME',
+			'solution_datatime' => 'FL_SOLUTION_DATE_TIME',
+			'idle_datatime' => 'FL_IDLE_DATE_TIME',
+			'closing_datatime' => 'FL_CLOSING_DATE_TIME',
+			'response_expected' => 'FL_RESPONSE_EXPECTED',
+			'solution_expected' => 'FL_SOLUTION_EXPECTED',
+			'idle_expected' => 'FL_IDLE_DATE_EXPECTED',
+		]
+	];
+
+	/**
 	 * Get record state statuses by module name.
 	 *
 	 * @param string   $moduleName
@@ -137,7 +160,35 @@ class RecordStatus
 				], $handler['eventhandler_id']);
 			}
 		}
+		static::addFieldsAndBlok($moduleName);
 		return (bool) $fieldModel;
+	}
+
+	/**
+	 * Add block and fields.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return void
+	 */
+	public static function addFieldsAndBlock(string $moduleName)
+	{
+		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName($moduleName);
+		$blockInstance = new \Settings_LayoutEditor_Block_Model();
+		$blockInstance->set('label', 'BL_RECORD_STATE_TIMES');
+		$blockInstance->set('iscustom', 1);
+		$blockId = $blockInstance->save($moduleModel);
+		foreach (static::$stateTimeFields as $type => $fields) {
+			foreach ($fields as $name => $label) {
+				$moduleModel->addField($type, $blockId, [
+					'fieldLabel' => $label,
+					'fieldName' => $name,
+					'fieldTypeList' => 0,
+					'generatedtype' => 1,
+					'displayType' => 9,
+				]);
+			}
+		}
 	}
 
 	/**
@@ -150,15 +201,17 @@ class RecordStatus
 	 */
 	public static function deactivate(string $moduleName, string $fieldName): bool
 	{
-		if (!($fieldModel = \Vtiger_Module_Model::getInstance($moduleName)->getFieldByName($fieldName))) {
+		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+		if (!($fieldModel = $moduleModel->getFieldByName($fieldName))) {
 			return false;
 		}
 		$db = Db::getInstance();
 		$dbCommand = $db->createCommand();
 		$params = $fieldModel->getFieldParams();
-		$params['isProcessStatusField'] = false;
+		unset($params['isProcessStatusField']);
 		$fieldModel->set('fieldparams', Json::encode($params));
 		$fieldModel->save();
+		$dbCommand->dropTable($moduleModel->get('basetable') . '_status_history')->execute();
 		$tableName = Fields\Picklist::getPicklistTableName($fieldName);
 		$tableSchema = $db->getTableSchema($tableName);
 		if (isset($tableSchema->columns['record_state'])) {
