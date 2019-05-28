@@ -18,6 +18,17 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 	 * @var string[]
 	 */
 	protected $queryCondition = ['knowledgebase_status' => 'PLL_ACCEPTED'];
+	/**
+	 * Retated fields.
+	 *
+	 * @var array
+	 */
+	protected $retatedFields = [
+		'ModComments' => [],
+		'HelpDesk' => ['ticket_title'],
+		'Project' => ['projectname'],
+		'Documents' => ['notes_title'],
+	];
 
 	/**
 	 * Constructor.
@@ -169,7 +180,61 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 			'full_modifiedtime' => $recordModel->getDisplayValue('modifiedtime'),
 			'short_modifiedtime' => \Vtiger_Util_Helper::formatDateDiffInStrings($recordModel->get('modifiedtime')),
 			'related' => $related,
+			'HelpDesk' => $this->getRelatedRecords($recordModel, 'HelpDesk'),
+			'Project' => $this->getRelatedRecords($recordModel, 'Project'),
+			'Documents' => $this->getRelatedRecords($recordModel, 'Documents'),
+			'ModComments' => $this->getRelatedComments($recordModel->getId()),
 		]);
 		$response->emit();
+	}
+
+	/**
+	 * Get related records.
+	 *
+	 * @param Vtiger_Record_Model $recordModel
+	 * @param string              $moduleName
+	 *
+	 * @return array
+	 */
+	public function getRelatedRecords(Vtiger_Record_Model $recordModel, string $moduleName): array
+	{
+		$pagingModel = new Vtiger_Paging_Model();
+		$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $moduleName);
+		$relationListView->setFields(array_merge(['id'], $this->retatedFields[$moduleName]));
+		$related = [];
+		foreach ($relationListView->getEntries($pagingModel) as $key => $relatedRecordModel) {
+			foreach ($this->retatedFields[$moduleName] as $fieldName) {
+				$related[$key] = $relatedRecordModel->get($fieldName);
+			}
+		}
+		return  $related;
+	}
+
+	/**
+	 * Get related comments.
+	 *
+	 * @param int $recordId
+	 *
+	 * @return array
+	 */
+	public function getRelatedComments(int $recordId): array
+	{
+		$queryGenerator = new \App\QueryGenerator('ModComments');
+		$queryGenerator->setFields(['modifiedtime', 'id',	'assigned_user_id', 'commentcontent']);
+		$queryGenerator->setSourceRecord($recordId);
+		$queryGenerator->addNativeCondition(['related_to' => $recordId]);
+		$query = $queryGenerator->createQuery()->orderBy(['id' => SORT_DESC]);
+		$query->limit(50);
+		$dataReader = $query->createCommand()->query();
+		$related = [];
+		while ($row = $dataReader->read()) {
+			$related[$row['id']] = [
+				'assigned_user_id' => App\Fields\Owner::getLabel($row['assigned_user_id']),
+				'comment' => $row['commentcontent'],
+				'full' => App\Fields\DateTime::formatToDisplay($row['modifiedtime']),
+				'short' => \Vtiger_Util_Helper::formatDateDiffInStrings($row['modifiedtime']),
+			];
+		}
+		return  $related;
 	}
 }
