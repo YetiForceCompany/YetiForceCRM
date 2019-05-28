@@ -8,5 +8,5 @@
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 
-class Faq_Tree_View extends KnowledgeBase_Tree_View
+class Faq_KnowledgeBase_View extends KnowledgeBase_KnowledgeBase_View
 { }

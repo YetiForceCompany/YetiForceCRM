@@ -9,7 +9,7 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Faq_TreeAjax_Action extends KnowledgeBase_TreeAjax_Action
+class Faq_KnowledgeBaseAjax_Action extends KnowledgeBase_KnowledgeBaseAjax_Action
 {
 	/**
 	 * Detail query conditions.
@@ -27,6 +27,6 @@ class Faq_TreeAjax_Action extends KnowledgeBase_TreeAjax_Action
 	 */
 	public function getModel(App\Request $request)
 	{
-		return Faq_Tree_Model::getInstance($request->getModule());
+		return Faq_KnowledgeBase_Model::getInstance($request->getModule());
 	}
 }

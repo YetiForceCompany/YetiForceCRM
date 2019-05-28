@@ -9,7 +9,7 @@ jQuery.Class(
 		 * Register events
 		 */
 		registerEvents() {
-			DocView.mount({
+			KnowledgeBase.mount({
 				el: '#KnowledgeBaseModal',
 				moduleName: 'KnowledgeBase'
 			});

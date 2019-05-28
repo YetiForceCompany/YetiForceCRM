@@ -2,10 +2,10 @@
 
 'use strict';
 
-jQuery.Class('Faq_Tree_Js', {
+jQuery.Class('Faq_KnowledgeBase_Js', {
 	registerEvents: function() {
-		DocView.mount({
-			el: '#FaqDocView',
+		KnowledgeBase.mount({
+			el: '#FaqKnowledgeBaseContainer',
 			moduleName: 'Faq'
 		});
 	}

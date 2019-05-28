@@ -47,9 +47,9 @@ return [
 //		'default' => ['img', 'audio', 'video'],
 //		'description' => 'allowed File Types'
 //	],
-	'docArticleLimit' => [
+	'knowledgeBaseArticleLimit' => [
 		'default' => 50,
-		'description' => 'Article limit in the doc window',
+		'description' => 'Article limit in the knowledge base window',
 		'validation' => function () {
 			$arg = func_get_arg(0);
 			return $arg && \App\Validator::naturalNumber($arg);

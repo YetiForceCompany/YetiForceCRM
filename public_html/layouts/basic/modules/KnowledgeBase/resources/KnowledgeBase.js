@@ -4,8 +4,8 @@
 
 jQuery.Class('KnowledgeBase_KnowledgeBase_Js', {
 	registerEvents: function() {
-		DocView.mount({
-			el: '#KnowledgeContainer',
+		KnowledgeBase.mount({
+			el: '#KnowledgeBaseContainer',
 			moduleName: 'KnowledgeBase'
 		});
 	}
