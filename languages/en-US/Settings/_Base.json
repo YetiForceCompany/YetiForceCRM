@@ -367,7 +367,8 @@
     "LBL_YETIFORCE_ISSUES": "Free support",
     "LBL_YETIFORCE_ASSISTANCE": "Paid support",
     "LBL_PICKLIST_VARIABLES": "Picklist variables",
-    "LBL_PICKLIST_VARIABLES_INFO": "Using this variable will result in separate numbering for each picklist value, and a short value will replace the variable."
+    "LBL_PICKLIST_VARIABLES_INFO": "Using this variable will result in separate numbering for each picklist value, and a short value will replace the variable.",
+    "LBL_BUSINESS_HOURS": "Business hours"
   },
   "js": {
     "JS_AUTHORIZATION_COMPLETE": "Authorization successful",

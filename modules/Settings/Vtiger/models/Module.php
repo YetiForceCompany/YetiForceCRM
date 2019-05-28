@@ -101,6 +101,8 @@ class Settings_Vtiger_Module_Model extends \App\Base
 	/**
 	 * Function to get all the Settings menu items for the given menu.
 	 *
+	 * @param mixed $menu
+	 *
 	 * @return <Array> - List of Settings_Vtiger_MenuItem_Model instances
 	 */
 	public function getMenuItems($menu = false)
@@ -119,6 +121,8 @@ class Settings_Vtiger_Module_Model extends \App\Base
 
 	/**
 	 * Function to get the instance of Settings module model.
+	 *
+	 * @param mixed $name
 	 *
 	 * @return Settings_Vtiger_Module_Model instance
 	 */
@@ -149,12 +153,21 @@ class Settings_Vtiger_Module_Model extends \App\Base
 				$selectedMenu = Settings_Vtiger_Menu_Model::getInstanceById($fieldItem->get('blockid'));
 				$fieldId = $fieldItem->get('fieldid');
 			} else {
-				reset($menuModels);
-				$firstKey = key($menuModels);
-				$selectedMenu = $menuModels[$firstKey];
+				foreach ($menuModels as $menuModel) {
+					$menuModuleName = Vtiger_Menu_Model::getModuleNameFromUrl($menuModel->get('linkto'));
+					if (substr($menuModuleName, 0, 9) === 'Settings:') {
+						$menuModuleName = substr($menuModuleName, 9);
+					}
+					if ($menuModuleName === $moduleName) {
+						$selectedMenu = $menuModel;
+						break;
+					}
+				}
 			}
-		} else {
-			$selectedMenu = false;
+		}
+		if (empty($selectedMenu)) {
+			reset($menuModels);
+			$selectedMenu = $menuModels[key($menuModels)];
 		}
 
 		$menu = [];
