@@ -74,7 +74,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 
 		$userTime = [
 			'labels' => [],
-			'title' => \App\Language::translate('LBL_SUM', $this->getName()) . ': ' . \App\Fields\Time::formatToHourText($totalTime, 'full'),
+			'title' => \App\Language::translate('LBL_SUM', $this->getName()) . ': ' . \App\Fields\RangeTime::formatHourToDisplay($totalTime, 'full'),
 			'datasets' => [
 				[
 					'data' => [],

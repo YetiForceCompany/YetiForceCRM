@@ -75,7 +75,7 @@ class OSSTimeControl_DetailedList_Textparser extends \App\TextParser\Base
 		foreach ($this->columnNames as $column) {
 			$class = $content = '';
 			if ('sum_time' === $column) {
-				$content = '<strong>' . \App\Fields\Time::formatToHourText($summary['sum_time'], 'short') . '</strong>';
+				$content = '<strong>' . \App\Fields\RangeTime::formatHourToDisplay($summary['sum_time'], 'short') . '</strong>';
 				$class = 'center';
 			} elseif ('name' === $column) {
 				$content = '<strong>' . \App\Language::translate('LBL_SUMMARY', $this->textParser->moduleName) . ':' . '</strong>';

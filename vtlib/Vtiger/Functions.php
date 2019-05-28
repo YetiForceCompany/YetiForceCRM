@@ -332,65 +332,9 @@ class Functions
 		return $type_of_data;
 	}
 
-	public static function getRangeTime($timeMinutesRange, $showEmptyValue = true)
-	{
-		$short = [];
-		$full = [];
-		$years = ((int) $timeMinutesRange) / (60 * 24 * 365);
-		$years = floor($years);
-		if (!empty($years)) {
-			$short[] = 1 === $years ? $years . \App\Language::translate('LBL_Y') : $years . \App\Language::translate('LBL_YRS');
-			$full[] = 1 === $years ? $years . \App\Language::translate('LBL_YEAR') : $years . \App\Language::translate('LBL_YEARS');
-		}
-		$days = self::myBcmod(($timeMinutesRange), (60 * 24 * 365));
-		$days = ($days) / (24 * 60);
-		$days = floor($days);
-		if (!empty($days)) {
-			$short[] = $days . \App\Language::translate('LBL_D');
-			$full[] = 1 === $days ? $days . \App\Language::translate('LBL_DAY') : $days . \App\Language::translate('LBL_DAYS');
-		}
-		$hours = self::myBcmod(($timeMinutesRange), (24 * 60));
-		$hours = ($hours) / (60);
-		$hours = floor($hours);
-		if (!empty($hours)) {
-			$short[] = $hours . \App\Language::translate('LBL_H');
-			$full[] = 1 === $hours ? $hours . \App\Language::translate('LBL_HOUR') : $hours . \App\Language::translate('LBL_HOURS');
-		}
-		$minutes = self::myBcmod(($timeMinutesRange), (60));
-		$minutes = floor($minutes);
-		if (!empty($timeMinutesRange) || $showEmptyValue) {
-			$short[] = $minutes . \App\Language::translate('LBL_M');
-			$full[] = 1 === $minutes ? $minutes . \App\Language::translate('LBL_MINUTE') : $minutes . \App\Language::translate('LBL_MINUTES');
-		}
-		return [
-			'short' => implode(' ', $short),
-			'full' => implode(' ', $full),
-		];
-	}
 
-	/**
-	 * myBcmod - get modulus (substitute for bcmod)
-	 * string my_bcmod ( string left_operand, int modulus )
-	 * left_operand can be really big, but be carefull with modulus :(
-	 * by Andrius Baranauskas and Laurynas Butkus :) Vilnius, Lithuania.
-	 *
-	 * @param mixed $x
-	 * @param mixed $y
-	 * */
-	public static function myBcmod($x, $y)
-	{
-		// how many numbers to take at once? carefull not to exceed (int)
-		$take = 5;
-		$mod = '';
 
-		do {
-			$a = (int) $mod . substr($x, 0, $take);
-			$x = substr($x, $take);
-			$mod = $a % $y;
-		} while (strlen($x));
 
-		return (int) $mod;
-	}
 
 	public static function getArrayFromValue($values)
 	{

@@ -163,7 +163,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 		} elseif ($this->hadTimedout()) {
 			return 'timeout';
 		}
-		return \App\Fields\Time::formatToHourText(\App\Fields\Time::secondsToDecimal((int) $this->get('lastend') - $lastStart), $type, true);
+		return \App\Fields\RangeTime::formatHourToDisplay(\App\Fields\Time::secondsToDecimal((int) $this->get('lastend') - $lastStart), $type, true);
 	}
 
 	/**
