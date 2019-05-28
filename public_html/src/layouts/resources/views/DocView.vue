@@ -430,7 +430,7 @@ export default {
     },
     getCategories() {
       const aDeferred = $.Deferred()
-      return AppConnector.request({ module: this.$options.moduleName, action: 'TreeAjax', mode: 'categories' }).done(
+      return AppConnector.request({ module: this.$options.moduleName, action: 'KnowledgeBaseAjax', mode: 'categories' }).done(
         data => {
           this.tree.categories = data.result
           aDeferred.resolve(data.result)
@@ -445,7 +445,7 @@ export default {
       })
       return AppConnector.request({
         module: this.$options.moduleName,
-        action: 'TreeAjax',
+        action: 'KnowledgeBaseAjax',
         mode: 'list',
         category: category
       }).done(data => {
@@ -461,7 +461,7 @@ export default {
       })
       return AppConnector.request({
         module: this.$options.moduleName,
-        action: 'TreeAjax',
+        action: 'KnowledgeBaseAjax',
         mode: 'detail',
         record: id
       }).done(data => {
@@ -479,7 +479,7 @@ export default {
         })
         AppConnector.request({
           module: this.$options.moduleName,
-          action: 'TreeAjax',
+          action: 'KnowledgeBaseAjax',
           mode: 'search',
           value: this.filter,
           category: this.categorySearch ? this.activeCategory : ''

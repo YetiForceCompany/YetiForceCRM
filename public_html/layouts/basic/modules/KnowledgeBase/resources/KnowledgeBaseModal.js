@@ -3,14 +3,14 @@
 'use strict';
 
 jQuery.Class(
-	'YetiForce_DocViewModal_Js',
+	'YetiForce_KnowledgeBaseModal_Js',
 	{
 		/**
 		 * Register events
 		 */
 		registerEvents() {
 			DocView.mount({
-				el: '#DocViewModal',
+				el: '#KnowledgeBaseModal',
 				moduleName: 'KnowledgeBase'
 			});
 		},
@@ -22,4 +22,4 @@ jQuery.Class(
 	},
 	{}
 );
-YetiForce_DocViewModal_Js.registerEvents();
+YetiForce_KnowledgeBaseModal_Js.registerEvents();

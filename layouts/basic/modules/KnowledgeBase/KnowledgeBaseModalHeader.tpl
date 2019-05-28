@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<!-- tpl-KnowledgeBase-DocViewModalHeader -->
+	<!-- tpl-KnowledgeBase-KnowledgeBaseModalHeader -->
 <div class="modal js-modal-data quasar-modal d-none" tabindex="-1" data-js="data"
 	 role="dialog" {foreach from=$MODAL_VIEW->modalData key=KEY item=VALUE} data-{$KEY}="{$VALUE}"{/foreach}>
 	<div class="quasar-reset h-100 w-100" role="document">
@@ -24,5 +24,5 @@
 				<script type="{$MODEL->getType()}" src="{$MODEL->getSrc()}"></script>
 			{/foreach}
 			<script type="text/javascript">app.registerModalController();</script>
-	<!-- /tpl-KnowledgeBase-DocViewModalHeader -->
+	<!-- /tpl-KnowledgeBase-KnowledgeBaseModalHeader -->
 			{/strip}

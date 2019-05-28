@@ -9,7 +9,7 @@
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 
-class KnowledgeBase_Tree_View extends Vtiger_Index_View
+class KnowledgeBase_KnowledgeBase_View extends Vtiger_Index_View
 {
 
 	/**
@@ -19,7 +19,7 @@ class KnowledgeBase_Tree_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$viewer->view('Tree.tpl', $moduleName);
+		$viewer->view('KnowledgeBase.tpl', $moduleName);
 	}
 
 	/**

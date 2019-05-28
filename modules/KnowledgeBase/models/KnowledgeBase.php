@@ -12,7 +12,7 @@
 /**
  * Class tree model for module knowledge base.
  */
-class KnowledgeBase_Tree_Model extends \App\Base
+class KnowledgeBase_KnowledgeBase_Model extends \App\Base
 {
 	/**
 	 * Get instance.
@@ -133,7 +133,7 @@ class KnowledgeBase_Tree_Model extends \App\Base
 		if ($this->has('parentCategory')) {
 			$queryGenerator->addNativeCondition(['category' => $this->get('parentCategory')]);
 		}
-		$queryGenerator->setLimit(Config\Modules\KnowledgeBase::$treeArticleLimit);
+		$queryGenerator->setLimit(Config\Modules\KnowledgeBase::$knowledgeBaseArticleLimit);
 		return $queryGenerator->createQuery();
 	}
 
