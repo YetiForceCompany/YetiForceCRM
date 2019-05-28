@@ -38,41 +38,41 @@ class Faq extends CRMEntity
 	public $list_fields = [
 		// Format: Field Label => Array(tablename, columnname)
 		// tablename should not have prefix 'vtiger_'
-		'subject' => ['faq', 'subject'],
+		'FL_SUBJECT' => ['faq', 'subject'],
 		'FL_CATEGORY' => ['faq', 'category'],
 		'Assigned To' => ['crmentity', 'smownerid'],
 		'FL_INTRODUCTION' => ['faq', 'introduction'],
-		'FL_STATUS' => ['faq', 'knowledgebase_status'],
+		'FL_STATUS' => ['faq', 'faqstatus'],
 	];
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
-		'subject' => 'subject',
+		'FL_SUBJECT' => 'subject',
 		'FL_CATEGORY' => 'category',
 		'Assigned To' => 'assigned_user_id',
 		'FL_INTRODUCTION' => 'introduction',
-		'FL_STATUS' => 'knowledgebase_status',
+		'FL_STATUS' => 'faqstatus',
 	];
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['subject', 'category', 'introduction', 'knowledgebase_status'];
+	public $relationFields = ['subject', 'category', 'introduction', 'faqstatus'];
 	public $list_link_field = 'subject';
 	public $search_fields = [
 		// Format: Field Label => Array(tablename, columnname)
 		// tablename should not have prefix 'vtiger_'
-		'subject' => ['faq', 'subject'],
+		'FL_SUBJECT' => ['faq', 'subject'],
 		'FL_CATEGORY' => ['faq', 'category'],
 		'Assigned To' => ['crmentity', 'smownerid'],
 		'FL_INTRODUCTION' => ['faq', 'introduction'],
-		'FL_STATUS' => ['faq', 'knowledgebase_status'],
+		'FL_STATUS' => ['faq', 'faqstatus'],
 	];
 	public $search_fields_name = [
 		// Format: Field Label => fieldname
-		'subject' => 'subject',
+		'FL_SUBJECT' => 'subject',
 		'FL_CATEGORY' => 'category',
 		'Assigned To' => 'assigned_user_id',
 		'FL_INTRODUCTION' => 'introduction',
-		'FL_STATUS' => 'knowledgebase_status',
+		'FL_STATUS' => 'faqstatus',
 	];
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
