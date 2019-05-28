@@ -24,7 +24,7 @@ class Record extends \Api\Portal\BaseModule\Record
 		$response = parent::get();
 		$recordId = $this->controller->request->getInteger('record');
 		$tax = (float) current($response['rawData']['taxes_info'])['value'] ?? 0.0;
-		$unitPrice = \Api\Portal\Record::getPriceFromPricebook($this->getParentCrmId(), $recordId);
+		$unitPrice = \Api\Portal\Record::getPriceFromPricebook($this->getParentCrmId(), $this->controller->request->getInteger('record'));
 		if (\Api\Portal\Privilege::USER_PERMISSIONS !== $this->getPermissionType()) {
 			$response['ext']['unit_price'] = $unitPrice;
 			$response['ext']['unit_gross'] = $unitPrice + ($unitPrice * $tax / 100.00);
