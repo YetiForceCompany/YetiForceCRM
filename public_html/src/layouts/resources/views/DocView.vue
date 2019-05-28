@@ -158,7 +158,7 @@
                       <q-icon name="mdi-star" :size="iconSize" class="mr-2"></q-icon>
                       <a
                         class="js-popover-tooltip--record ellipsis"
-                        :href="`index.php?module=KnowledgeBase&view=Detail&record=${featuredValue.id}`"
+                        :href="`index.php?module=${$options.moduleName}&view=Detail&record=${featuredValue.id}`"
                       >
                         {{ featuredValue.subject }}
                       </a>
@@ -317,7 +317,7 @@
           <div class="text-subtitle2 text-bold">{{ record.introduction }}</div>
         </q-card-section>
         <q-card-section>
-          <carousel v-if="record.knowledgebase_view === 'PLL_PRESENTATION'" :record="record" />
+          <carousel v-if="record.view === 'PLL_PRESENTATION'" :record="record" />
           <div v-else v-html="record.content"></div>
         </q-card-section>
         <q-card-section>
@@ -370,13 +370,14 @@
   </div>
 </template>
 <script>
-import Icon from '../../components/Icon.vue'
-import Carousel from '../../components/Carousel.vue'
+import Icon from '../../../components/Icon.vue'
+import Carousel from '../../../components/Carousel.vue'
 export default {
   name: 'TreeView',
   components: { Icon, Carousel },
   data() {
     return {
+      moduleName: '',
       defaultTreeIcon: 'mdi-subdirectory-arrow-right',
       showing: false,
       miniState: false,
@@ -429,10 +430,12 @@ export default {
     },
     getCategories() {
       const aDeferred = $.Deferred()
-      return AppConnector.request({ module: 'KnowledgeBase', action: 'TreeAjax', mode: 'categories' }).done(data => {
-        this.tree.categories = data.result
-        aDeferred.resolve(data.result)
-      })
+      return AppConnector.request({ module: this.$options.moduleName, action: 'TreeAjax', mode: 'categories' }).done(
+        data => {
+          this.tree.categories = data.result
+          aDeferred.resolve(data.result)
+        }
+      )
     },
     getData(category = '') {
       const aDeferred = $.Deferred()
@@ -441,7 +444,7 @@ export default {
         blockInfo: { enabled: true }
       })
       return AppConnector.request({
-        module: 'KnowledgeBase',
+        module: this.$options.moduleName,
         action: 'TreeAjax',
         mode: 'list',
         category: category
@@ -457,7 +460,7 @@ export default {
         blockInfo: { enabled: true }
       })
       return AppConnector.request({
-        module: 'KnowledgeBase',
+        module: this.$options.moduleName,
         action: 'TreeAjax',
         mode: 'detail',
         record: id
@@ -475,7 +478,7 @@ export default {
           blockInfo: { enabled: true }
         })
         AppConnector.request({
-          module: 'KnowledgeBase',
+          module: this.$options.moduleName,
           action: 'TreeAjax',
           mode: 'search',
           value: this.filter,

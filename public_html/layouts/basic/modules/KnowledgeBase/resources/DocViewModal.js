@@ -3,14 +3,15 @@
 'use strict';
 
 jQuery.Class(
-	'YetiForce_KnowledgeBaseModal_Js',
+	'YetiForce_DocViewModal_Js',
 	{
 		/**
 		 * Register events
 		 */
 		registerEvents() {
-			KnowledgeBaseTree.mount({
-				el: '#KnowledgeBaseModal'
+			DocView.mount({
+				el: '#DocViewModal',
+				moduleName: 'KnowledgeBase'
 			});
 		},
 		showModalContent(container) {
@@ -21,4 +22,4 @@ jQuery.Class(
 	},
 	{}
 );
-YetiForce_KnowledgeBaseModal_Js.registerEvents();
+YetiForce_DocViewModal_Js.registerEvents();
