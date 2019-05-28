@@ -412,7 +412,7 @@ class Category extends Base
 			]);
 			$result = true;
 		} catch (\Throwable $ex) {
-			\App\Log::error('Error during updating magento category: ' . $ex->getMessage());
+			\App\Log::error('Error during updating magento category: ' . $ex->getMessage(), 'Integrations/Magento');
 			$result = false;
 		}
 		return $result;
