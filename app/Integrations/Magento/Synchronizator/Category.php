@@ -353,7 +353,7 @@ class Category extends Base
 			$this->saveCategoryMappingYF($categoryRequest['id'], $category['id']);
 			$result = true;
 		} catch (\Throwable $ex) {
-			\App\Log::error('Error during saving magento category: ' . $ex->getMessage());
+			\App\Log::error('Error during saving magento category: ' . $ex->getMessage(), 'Integrations/Magento');
 		}
 		return $result;
 	}
