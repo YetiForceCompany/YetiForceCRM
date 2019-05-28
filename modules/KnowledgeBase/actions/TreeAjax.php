@@ -173,17 +173,19 @@ class KnowledgeBase_TreeAjax_Action extends \App\Controller\Action
 			'introduction' => $recordModel->getDisplayValue('introduction'),
 			'subject' => $recordModel->get('subject'),
 			'view' => $recordModel->get('knowledgebase_view'),
-			'assigned_user_id' => $recordModel->getDisplayValue('assigned_user_id'),
+			'assigned_user_id' => $recordModel->getDisplayValue('assigned_user_id', false, true),
 			'category' => $recordModel->getDisplayValue('category'),
 			'full_createdtime' => $recordModel->getDisplayValue('createdtime'),
 			'short_createdtime' => \Vtiger_Util_Helper::formatDateDiffInStrings($recordModel->get('createdtime')),
 			'full_modifiedtime' => $recordModel->getDisplayValue('modifiedtime'),
 			'short_modifiedtime' => \Vtiger_Util_Helper::formatDateDiffInStrings($recordModel->get('modifiedtime')),
-			'related' => $related,
-			'HelpDesk' => $this->getRelatedRecords($recordModel, 'HelpDesk'),
-			'Project' => $this->getRelatedRecords($recordModel, 'Project'),
-			'Documents' => $this->getRelatedRecords($recordModel, 'Documents'),
-			'ModComments' => $this->getRelatedComments($recordModel->getId()),
+			'related' => [
+				'Articles' => $related,
+				'HelpDesk' => $this->getRelatedRecords($recordModel, 'HelpDesk'),
+				'Project' => $this->getRelatedRecords($recordModel, 'Project'),
+				'Documents' => $this->getRelatedRecords($recordModel, 'Documents'),
+				'ModComments' => $this->getRelatedComments($recordModel->getId()),
+			],
 		]);
 		$response->emit();
 	}
