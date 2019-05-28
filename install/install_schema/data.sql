@@ -17634,13 +17634,14 @@ insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (6,'LBL_PROCESSES',13,'adminIcon-processes',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (7,'LBL_SECURITY_MANAGEMENT',7,'adminIcon-security',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (8,'LBL_MAIL_TOOLS',11,'adminIcon-mail-tools',0,NULL,NULL);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (9,'LBL_About_YetiForce',15,'adminIcon-about-yetiforce',0,NULL,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (9,'LBL_About_YetiForce',16,'adminIcon-about-yetiforce',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (11,'LBL_ADVANCED_MODULES',4,'adminIcon-advenced-modules',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (12,'LBL_CALENDAR_LABELS_COLORS',5,'adminIcon-calendar-labels-colors',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (13,'LBL_SEARCH_AND_FILTERS',6,'adminIcon-search-and-filtres',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (14,'LBL_LOGS',8,'adminIcon-logs',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (15,'LBL_AUTOMATION',10,'adminIcon-automation',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (16,'LBL_MENU_SUMMARRY',0,'userIcon-Home',1,'index.php?module=Vtiger&parent=Settings&view=Index',NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (17,'LBL_BUSINESS_HOURS',15,'fas fa-user-clock',1,'index.php?module=BusinessHours&parent=Settings&view=List',NULL);
 
 /*Data for the table `vtiger_settings_blocks_seq` */
 
