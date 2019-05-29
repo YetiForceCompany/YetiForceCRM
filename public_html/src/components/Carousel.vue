@@ -2,9 +2,7 @@
 
 <template>
   <div>
-    <q-resize-observer @resize="onResize" />
     <q-carousel
-      v-if="record.knowledgebase_view === 'PLL_PRESENTATION'"
       v-model="slide"
       transition-prev="scale"
       transition-next="scale"
@@ -14,9 +12,9 @@
       navigation
       padding
       arrows
-      :style="{ height: height }"
-      class="bg-white text-black shadow-1 rounded-borders"
-      ref="carousel"
+      :height="height"
+      class="quasar-reset shadow-1 rounded-borders"
+      :fullscreen.sync="fullscreen"
     >
       <q-carousel-slide
         v-for="(slide, index) in record.content"
@@ -52,7 +50,7 @@ export default {
   data() {
     return {
       slide: 0,
-      height: '300px',
+      height: '90vh',
       report: 0,
       fullscreen: false
     }
@@ -70,12 +68,6 @@ export default {
       } else {
         this.$q.fullscreen.exit()
       }
-    }
-  },
-  methods: {
-    setHeight() {},
-    onResize(size) {
-      this.height = `${this.$q.screen.height - offset(this.$refs.carousel.$el).top}px`
     }
   }
 }
