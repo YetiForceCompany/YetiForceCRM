@@ -104,7 +104,7 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
-		if ((empty($value) && $this->isMandatory()) || ($value && !is_numeric($value))) {
+		if ((empty($value) && $this->isMandatory()) || ($value && !is_numeric($value)) || !\App\Record::isExists($value)) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
 		}
 		$rangeValues = explode(',', $this->maximumLength);

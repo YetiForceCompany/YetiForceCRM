@@ -63,4 +63,12 @@ class Vtiger_Purchase_InventoryField extends Vtiger_Basic_InventoryField
 			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 		}
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getValueForSave(array $item, bool $userFormat, string $column = null)
+	{
+		return (float) ($userFormat ? $this->getDBValue($item[$column] ?? 0.0) : $item[$column]);
+	}
 }

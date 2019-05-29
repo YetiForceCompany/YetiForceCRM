@@ -79,25 +79,6 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	}
 
 	/**
-	 * Get value from item.
-	 *
-	 * @param array  $item
-	 * @param string $key
-	 * @param bool   $userFormat
-	 * @param mixed  $defaultValue
-	 *
-	 * @return mixed
-	 */
-	public function getValueFromItem(array $item, string $key, bool $userFormat, $defaultValue = null)
-	{
-		$value = ($item[$key] ?? $defaultValue);
-		if ($userFormat) {
-			$value = $this->getDBValue($value);
-		}
-		return $value;
-	}
-
-	/**
 	 * Function returns module name.
 	 *
 	 * @return string
@@ -146,15 +127,20 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	}
 
 	/**
-	 * Get the automatic value for save.
+	 * Gets value value for save.
 	 *
-	 * @param array $item
+	 * @param array  $item
+	 * @param bool   $userFormat
+	 * @param string $column
 	 *
 	 * @return mixed
 	 */
-	public function getValueForSave(array $item, bool $userFormat = false)
+	public function getValueForSave(array $item, bool $userFormat, string $column = null)
 	{
-		return $item[$this->getColumnName()] ?? null;
+		if (null === $column) {
+			$column = $this->getColumnName();
+		}
+		return $userFormat ? $this->getDBValue($item[$column]) : $item[$column];
 	}
 
 	/**
@@ -275,7 +261,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	/**
 	 * Getting column name.
 	 *
-	 * @return string customColumn
+	 * @return string[] customColumn
 	 */
 	public function getCustomColumn()
 	{
@@ -504,19 +490,17 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	public function setValueToRecord(Vtiger_Record_Model $recordModel, array $item, bool $userFormat)
 	{
 		$column = $this->getColumnName();
-		$value = $this->getValueForSave($item, $userFormat);
-		$this->validate($value, $column, $userFormat, $item[$column] ?? null);
-		if ($userFormat) {
-			$value = $this->getDBValue($value, $column);
+		$baseValue = $item[$column] ?? null;
+		$value = $this->getValueForSave($item, $userFormat, $column);
+		if ($userFormat && $baseValue) {
+			$baseValue = $this->getDBValue($baseValue, $column);
 		}
+		$this->validate($value, $column, false, $baseValue);
 		$recordModel->setInventoryItemPart($item['id'], $column, $value);
 		if ($customColumn = $this->getCustomColumn()) {
 			foreach (array_keys($customColumn) as $column) {
-				$value = $item[$column];
-				$this->validate($value, $column, $userFormat, $item);
-				if ($userFormat) {
-					$value = $this->getDBValue($value, $column);
-				}
+				$value = $this->getValueForSave($item, $userFormat, $column);
+				$this->validate($value, $column, false);
 				$recordModel->setInventoryItemPart($item['id'], $column, $value);
 			}
 		}

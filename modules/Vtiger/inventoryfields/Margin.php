@@ -70,10 +70,11 @@ class Vtiger_Margin_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getValueForSave(array $item, bool $userFormat = false)
+	public function getValueForSave(array $item, bool $userFormat = false, string $column = null)
 	{
-		$purchase = (float) $this->getValueFromItem($item, 'purchase', $userFormat, 0);
-		$quantity = (float) $this->getValueFromItem($item, 'qty', $userFormat, 0);
-		return static::getInstance($this->getModuleName(), 'NetPrice', $item, $userFormat)->getValueForSave($item, $userFormat) - ($purchase * $quantity);
+		$quantity = static::getInstance($this->getModuleName(), 'Quantity')->getValueForSave($item, $userFormat);
+		$purchase = static::getInstance($this->getModuleName(), 'Purchase')->getValueForSave($item, $userFormat);
+		$netPrice = static::getInstance($this->getModuleName(), 'NetPrice')->getValueForSave($item, $userFormat);
+		return $netPrice - ($purchase * $quantity);
 	}
 }
