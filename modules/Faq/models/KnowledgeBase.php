@@ -25,7 +25,7 @@ class Faq_KnowledgeBase_Model extends KnowledgeBase_KnowledgeBase_Model
 	{
 		$queryGenerator = new App\QueryGenerator('Faq');
 		$queryGenerator->setFields(['id', 'category', 'subject']);
-		$queryGenerator->addNativeCondition(['faqstatus' => 'Published']);
+		$queryGenerator->addNativeCondition(['vtiger_faq.status' => 'Published']);
 		$queryGenerator->addNativeCondition(['category' => $categories]);
 		$queryGenerator->addNativeCondition(['featured' => 1]);
 		$queryGenerator->setLimit(50);
@@ -41,7 +41,7 @@ class Faq_KnowledgeBase_Model extends KnowledgeBase_KnowledgeBase_Model
 	{
 		$queryGenerator = new App\QueryGenerator('Faq');
 		$queryGenerator->setFields(['id', 'assigned_user_id', 'subject', 'introduction', 'modifiedtime', 'category']);
-		$queryGenerator->addNativeCondition(['faqstatus' => 'Published']);
+		$queryGenerator->addNativeCondition(['vtiger_faq.status' => 'Published']);
 		if ($this->has('parentCategory')) {
 			$queryGenerator->addNativeCondition(['category' => $this->get('parentCategory')]);
 		}

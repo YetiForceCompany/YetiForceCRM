@@ -175,7 +175,7 @@ class RecordStatus
 	{
 		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName($moduleName);
 		$blockInstance = new \Settings_LayoutEditor_Block_Model();
-		$blockInstance->set('label', 'BL_RECORD_STATE_TIMES');
+		$blockInstance->set('label', 'BL_RECORD_STATUS_TIMES');
 		$blockInstance->set('iscustom', 1);
 		$blockId = $blockInstance->save($moduleModel);
 		foreach (static::$stateTimeFields as $type => $fields) {

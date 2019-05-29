@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 /**
@@ -23,7 +24,7 @@ class KnowledgeBase_KnowledgeBase_Model extends \App\Base
 	 */
 	public static function getInstance($moduleName)
 	{
-		return new self(['moduleName' => $moduleName]);
+		return new static(['moduleName' => $moduleName]);
 	}
 
 	/**
@@ -43,15 +44,15 @@ class KnowledgeBase_KnowledgeBase_Model extends \App\Base
 	 */
 	public function getCategoriesByParent()
 	{
-		if (App\Cache::has(__CLASS__, 'CategoriesByParent')) {
-			return App\Cache::get(__CLASS__, 'CategoriesByParent');
+		if (App\Cache::has(static::class, 'CategoriesByParent')) {
+			return App\Cache::get(static::class, 'CategoriesByParent');
 		}
 		$categories = [[]];
 		foreach ($this->getCategories() as $row) {
 			$parent = App\Fields\Tree::getParentIdx($row);
 			$categories[$parent][] = $row['tree'];
 		}
-		App\Cache::save(__CLASS__, 'CategoriesByParent', $categories);
+		App\Cache::save(static::class, 'CategoriesByParent', $categories);
 		return $categories;
 	}
 
@@ -72,11 +73,11 @@ class KnowledgeBase_KnowledgeBase_Model extends \App\Base
 	 */
 	public function getTreeField()
 	{
-		if (App\Cache::has(__CLASS__, 'TreeField')) {
-			return App\Cache::get(__CLASS__, 'TreeField');
+		if (App\Cache::has(static::class, 'TreeField')) {
+			return App\Cache::get(static::class, 'TreeField');
 		}
 		$field = (new \App\Db\Query())->select(['tablename', 'columnname', 'fieldname', 'fieldlabel', 'fieldparams'])->from('vtiger_field')->where(['uitype' => 302, 'tabid' => \App\Module::getModuleId($this->get('moduleName'))])->one();
-		App\Cache::save(__CLASS__, 'TreeField', $field);
+		App\Cache::save(static::class, 'TreeField', $field);
 		return $field;
 	}
 
