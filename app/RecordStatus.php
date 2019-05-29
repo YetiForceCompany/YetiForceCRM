@@ -160,7 +160,7 @@ class RecordStatus
 				], $handler['eventhandler_id']);
 			}
 		}
-		static::addFieldsAndBlok($moduleName);
+		static::addFieldsAndBlock($moduleName);
 		return (bool) $fieldModel;
 	}
 
@@ -174,19 +174,24 @@ class RecordStatus
 	public static function addFieldsAndBlock(string $moduleName)
 	{
 		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName($moduleName);
-		$blockInstance = new \Settings_LayoutEditor_Block_Model();
-		$blockInstance->set('label', 'BL_RECORD_STATUS_TIMES');
-		$blockInstance->set('iscustom', 1);
-		$blockId = $blockInstance->save($moduleModel);
+		$blockId = (new \App\Db\Query())->select(['blockid'])->from('vtiger_blocks')->where(['blocklabel' => 'BL_RECORD_STATUS_TIMES', 'tabid' => $moduleModel->getId()])->scalar();
+		if (!$blockId) {
+			$blockInstance = new \Settings_LayoutEditor_Block_Model();
+			$blockInstance->set('label', 'BL_RECORD_STATUS_TIMES');
+			$blockId = $blockInstance->save($moduleModel);
+		}
+		$fields = $moduleModel->getFields();
 		foreach (static::$stateTimeFields as $type => $fields) {
 			foreach ($fields as $name => $label) {
-				$moduleModel->addField($type, $blockId, [
-					'fieldLabel' => $label,
-					'fieldName' => $name,
-					'fieldTypeList' => 0,
-					'generatedtype' => 1,
-					'displayType' => 9,
-				]);
+				if (!isset($fields[$name])) {
+					$moduleModel->addField($type, $blockId, [
+						'fieldLabel' => $label,
+						'fieldName' => $name,
+						'fieldTypeList' => 0,
+						'generatedtype' => 1,
+						'displayType' => 9,
+					]);
+				}
 			}
 		}
 	}

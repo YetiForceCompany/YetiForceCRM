@@ -78,7 +78,7 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model
 		$objectProperties = get_object_vars($blockObject);
 		$blockModel = new self();
 		foreach ($objectProperties as $properName => $propertyValue) {
-			$blockModel->$properName = $propertyValue;
+			$blockModel->{$properName} = $propertyValue;
 		}
 		return $blockModel;
 	}
