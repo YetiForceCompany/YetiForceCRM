@@ -16,7 +16,7 @@ class Faq_KnowledgeBaseAjax_Action extends KnowledgeBase_KnowledgeBaseAjax_Actio
 	 *
 	 * @var string[]
 	 */
-	protected $queryCondition = ['faqstatus' => 'Published'];
+	protected $queryCondition = ['vtiger_faq.status' => 'Published'];
 
 	/**
 	 * Get tree model instance.
