@@ -19,7 +19,7 @@ class Vtiger_RangeTime_UIType extends Vtiger_Base_UIType
 		if (empty($mode)) {
 			$mode = 'short';
 		}
-		return \App\Purifier::encodeHtml(App\Fields\RangeTime::formatToRangeText($value, $mode, null !== $value));
+		return \App\Purifier::encodeHtml(App\Fields\RangeTime::formatToRangeText($value, $mode, null !== $value, 'd'));
 	}
 
 	/**

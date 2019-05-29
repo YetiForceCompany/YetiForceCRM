@@ -57,23 +57,28 @@ class RangeTime
 	 *
 	 * @return string
 	 */
-	public static function formatToRangeText($value, $mode = 'short', $showEmptyValue = true, $unit = 'y')
+	public static function formatToRangeText($value, $mode = 'short', $showEmptyValue = true, $unit = 'h')
 	{
 		$full = $short = [];
-		$years = ((int) $value) / (60 * 24 * 365);
-		$years = floor($years);
-		if (!empty($years)) {
-			$short[] = 1 === $years ? $years . \App\Language::translate('LBL_Y') : $years . \App\Language::translate('LBL_YRS');
-			$full[] = 1 === $years ? $years . \App\Language::translate('LBL_YEAR') : $years . \App\Language::translate('LBL_YEARS');
+		$hours = $value;
+		if ('y' === $unit) {
+			$years = ((int) $value) / (60 * 24 * 365);
+			$years = floor($years);
+			if (!empty($years)) {
+				$short[] = 1 === $years ? $years . \App\Language::translate('LBL_Y') : $years . \App\Language::translate('LBL_YRS');
+				$full[] = 1 === $years ? $years . \App\Language::translate('LBL_YEAR') : $years . \App\Language::translate('LBL_YEARS');
+			}
 		}
-		$days = static::myBcmod(($value), (60 * 24 * 365));
-		$days = ($days) / (24 * 60);
-		$days = floor($days);
-		if (!empty($days)) {
-			$short[] = $days . \App\Language::translate('LBL_D');
-			$full[] = 1 === $days ? $days . \App\Language::translate('LBL_DAY') : $days . \App\Language::translate('LBL_DAYS');
+		if ('y' === $unit || 'd' === $unit) {
+			$days = static::myBcmod(($value), (60 * 24 * 365));
+			$days = ($days) / (24 * 60);
+			$days = floor($days);
+			if (!empty($days)) {
+				$short[] = $days . \App\Language::translate('LBL_D');
+				$full[] = 1 === $days ? $days . \App\Language::translate('LBL_DAY') : $days . \App\Language::translate('LBL_DAYS');
+			}
+			$hours = static::myBcmod(($value), (24 * 60));
 		}
-		$hours = static::myBcmod(($value), (24 * 60));
 		$hours = ($hours) / (60);
 		$hours = floor($hours);
 		if (!empty($hours)) {
