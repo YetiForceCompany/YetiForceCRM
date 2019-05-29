@@ -15,7 +15,7 @@ window.KnowledgeBase = {
 	},
 	store
 }
-window.KnowledgeBaseRecordPreview = {
+window.RecordPreview = {
 	component: RecordPreviewComponent,
 	mount(config) {
 		RecordPreviewComponent.options = config.options
