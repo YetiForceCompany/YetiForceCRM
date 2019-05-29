@@ -127,7 +127,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	}
 
 	/**
-	 * Gets value value for save.
+	 * Gets value for save.
 	 *
 	 * @param array  $item
 	 * @param bool   $userFormat

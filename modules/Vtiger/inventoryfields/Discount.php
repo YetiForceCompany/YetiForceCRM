@@ -65,6 +65,9 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 		if ($columnName === $this->getColumnName()) {
 			if ($isUserFormat) {
 				$value = $this->getDBValue($value, $columnName);
+				if (null !== $originalValue) {
+					$originalValue = $this->getDBValue($originalValue, $columnName);
+				}
 			}
 			if ($this->maximumLength < $value || -$this->maximumLength > $value) {
 				throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);

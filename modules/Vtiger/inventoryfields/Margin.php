@@ -55,6 +55,9 @@ class Vtiger_Margin_InventoryField extends Vtiger_Basic_InventoryField
 	{
 		if ($isUserFormat) {
 			$value = $this->getDBValue($value, $columnName);
+			if (null !== $originalValue) {
+				$originalValue = $this->getDBValue($originalValue, $columnName);
+			}
 		}
 		if (!is_numeric($value)) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
