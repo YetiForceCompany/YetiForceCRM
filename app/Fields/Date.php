@@ -29,6 +29,8 @@ class Date
 	/**
 	 * ISO-8601 numeric representation of the day of the week.
 	 *
+	 * @example date('N')
+	 *
 	 * @var array
 	 */
 	public static $dayOfWeek = [
@@ -39,6 +41,40 @@ class Date
 		'Friday' => 5,
 		'Saturday' => 6,
 		'Sunday' => 7,
+	];
+
+	/**
+	 * Native days of week.
+	 *
+	 * @example date('w')
+	 *
+	 * @var array
+	 */
+	public static $nativeDayOfWeek = [
+		'Sunday' => 0,
+		'Monday' => 1,
+		'Tuesday' => 2,
+		'Wednesday' => 3,
+		'Thursday' => 4,
+		'Friday' => 5,
+		'Saturday' => 6,
+	];
+
+	/**
+	 * Native days of week by id.
+	 *
+	 * @example date('w')
+	 *
+	 * @var array
+	 */
+	public static $nativeDayOfWeekById = [
+		0 => 'Sunday',
+		1 => 'Monday',
+		2 => 'Tuesday',
+		3 => 'Wednesday',
+		4 => 'Thursday',
+		5 => 'Friday',
+		6 => 'Saturday',
 	];
 
 	/**
@@ -262,5 +298,36 @@ class Date
 			return \App\Language::translate(date($shortName ? 'D' : 'l', strtotime($date)), $shortName ? 'Vtiger' : 'Calendar');
 		}
 		return date($shortName ? 'D' : 'l', strtotime($date));
+	}
+
+	/**
+	 * Get user native days of week - array of week days starting from user defined first day of the week.
+	 *
+	 * @param null|int $userId
+	 * @param bool     $byId
+	 *
+	 * @return array
+	 */
+	public static function getUserNativeDaysOfWeek(int $userId = null, bool $byId = true)
+	{
+		if ($userId === null) {
+			$userDayOfTheWeek = \App\User::getCurrentUserModel()->getDetail('dayoftheweek');
+		} else {
+			$userDayOfTheWeek = \App\User::getUserModel($userId)->getDetail('dayoftheweek');
+		}
+		$dayIndex = static::$nativeDayOfWeek[$userDayOfTheWeek];
+		$nativeDaysOfWeek = [];
+		for ($i = 0; $i < 7; ++$i) {
+			if ($byId) {
+				$nativeDaysOfWeek[$dayIndex] = static::$nativeDayOfWeekById[$dayIndex];
+			} else {
+				$nativeDaysOfWeek[static::$nativeDayOfWeekById[$dayIndex]] = $dayIndex;
+			}
+			++$dayIndex;
+			if ($dayIndex > 6) {
+				$dayIndex = 0;
+			}
+		}
+		return $nativeDaysOfWeek;
 	}
 }
