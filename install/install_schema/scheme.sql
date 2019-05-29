@@ -275,7 +275,7 @@ CREATE TABLE `com_vtiger_workflows` (
   `nexttrigger_time` datetime DEFAULT NULL,
   PRIMARY KEY (`workflow_id`),
   UNIQUE KEY `com_vtiger_workflows_idx` (`workflow_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflowtask_queue` */
 
@@ -296,7 +296,7 @@ CREATE TABLE `com_vtiger_workflowtasks` (
   PRIMARY KEY (`task_id`),
   KEY `workflow_id` (`workflow_id`),
   CONSTRAINT `com_vtiger_workflowtasks_ibfk_1` FOREIGN KEY (`workflow_id`) REFERENCES `com_vtiger_workflows` (`workflow_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=142 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflowtasks_entitymethod` */
 
@@ -3970,6 +3970,7 @@ CREATE TABLE `vtiger_account` (
   `otherphone_extra` varchar(100) DEFAULT NULL,
   `pricebook_id` int(10) DEFAULT NULL,
   `check_stock_levels` tinyint(1) DEFAULT NULL,
+  `sum_open_orders` decimal(28,8) DEFAULT NULL,
   PRIMARY KEY (`accountid`),
   KEY `account_account_type_idx` (`account_type`),
   KEY `email_idx` (`email1`,`email2`),
@@ -5472,7 +5473,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2800 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2801 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 

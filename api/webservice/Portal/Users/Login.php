@@ -61,6 +61,17 @@ class Login extends \Api\Core\BaseAction
 		$row = $this->updateSession($row);
 		$userModel = \App\User::getUserModel($row['user_id']);
 		$parentId = \Api\Portal\Privilege::USER_PERMISSIONS !== $row['type'] ? \App\Record::getParentRecord($row['crmid']) : 0;
+		$companyDetails = [];
+		if (!empty($parentId)) {
+			$parentRecordModel = \Vtiger_Record_Model::getInstanceById($parentId, 'Accounts');
+			$companyDetails['check_stock_levels'] = (bool) $parentRecordModel->get('check_stock_levels');
+			$companyDetails['sum_open_orders'] = $parentRecordModel->get('sum_open_orders');
+			$creditLimitId = $parentRecordModel->get('creditlimit');
+			if (!empty($creditLimitId)) {
+				$limits = \Vtiger_InventoryLimit_UIType::getLimits();
+				$companyDetails['creditlimit'] = $limits[$creditLimitId]['value'] ?? 0;
+			}
+		}
 		$checkStockLevels = empty($parentId) || (bool) \Vtiger_Record_Model::getInstanceById($parentId)->get('check_stock_levels');
 		return [
 			'token' => $row['token'],
@@ -70,7 +81,8 @@ class Login extends \Api\Core\BaseAction
 			'lastLogoutTime' => $row['logout_time'],
 			'language' => $row['language'],
 			'type' => $row['type'],
-			'CompanyId' => (\Api\Portal\Privilege::USER_PERMISSIONS !== $row['type']) ? $parentId : 0,
+			'companyId' => (\Api\Portal\Privilege::USER_PERMISSIONS !== $row['type']) ? $parentId : 0,
+			'companyDetails' => $companyDetails,
 			'logged' => true,
 			'checkStockLevels' => $checkStockLevels,
 			'preferences' => [
