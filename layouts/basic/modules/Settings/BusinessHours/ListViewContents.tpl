@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+<!-- tpl-Settings-BusinessHours-ListViewContents -->
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 	<input type="hidden" value="1" id="pageNumber">
 	<input type="hidden" value="0" id="totalCount">
@@ -72,4 +73,5 @@
 			</table>
 		{/if}
 	</div>
+<!-- /tpl-Settings-BusinessHours-ListViewContents -->
 {/strip}
