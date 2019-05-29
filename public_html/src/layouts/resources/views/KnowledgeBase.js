@@ -3,7 +3,7 @@
 import Quasar from '../../../libraries/quasar.js'
 import KnowledgeBaseComponent from './KnowledgeBase.vue'
 import RecordPreviewComponent from './RecordPreview.vue'
-import store from '../../../libraries/vuex.js'
+import store from '../../../store/index.js'
 
 let VueInstance = null
 window.KnowledgeBase = {
