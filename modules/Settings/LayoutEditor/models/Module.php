@@ -226,7 +226,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$fieldModel->set('maximumlength', $params['fieldLength'] ?? null);
 		}
 		if (isset($details['displayType']) || isset($params['displayType'])) {
-			$fieldModel->set('displaytype', $details['displayType'] || $params['displayType']);
+			$fieldModel->set('displaytype', $params['displayType'] ?? $details['displayType']);
 		}
 		$blockModel = Vtiger_Block_Model::getInstance($blockId, $moduleName);
 		$blockModel->addField($fieldModel);
