@@ -130,6 +130,33 @@ class Db extends \yii\db\Connection
 	}
 
 	/**
+	 * Get info database.
+	 *
+	 * @return array
+	 */
+	public static function getInfoDb()
+	{
+		$dbInfo = [];
+		$db = self::getInstance();
+		$conf = $db->createCommand('SHOW VARIABLES')->queryAllByGroup(0);
+		[$version] = explode('-', $conf['version']);
+		$versionComment = $conf['version_comment'];
+		if (0 === stripos($versionComment, 'MariaDb')) {
+			$nameDb = 'MariaDb';
+			$recommended = '10.0';
+		}
+		if (0 === stripos($versionComment, 'MySQL')) {
+			$nameDb = 'MySQL';
+			$recommended = '5.6';
+		}
+		$dbInfo['nameDb'] = $nameDb;
+		$dbInfo['versionDb'] = $version;
+		$dbInfo['recommendedVersion'] = $recommended;
+		$dbInfo['versionInnoDb'] = $conf['innodb_version'];
+		return $dbInfo;
+	}
+
+	/**
 	 * Processes a SQL statement by quoting table and column names that are enclosed within double brackets.
 	 * Tokens enclosed within double curly brackets are treated as table names, while
 	 * tokens enclosed within double square brackets are column names. They will be quoted accordingly.

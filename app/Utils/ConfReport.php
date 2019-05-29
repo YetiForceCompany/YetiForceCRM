@@ -146,8 +146,10 @@ class ConfReport
 	 */
 	public static $database = [
 		'driver' => ['recommended' => 'mysql', 'type' => 'Equal', 'container' => 'db', 'testCli' => false, 'label' => 'DB_DRIVER'],
-		'serverVersion' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_CLIENT_VERSION'],
-		'clientVersion' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_SERVER_VERSION'],
+		'typeDb' => [ 'container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION_TYPE'],
+		'versionDb' => ['recommended' => 'MariaDb: x >= 10.0 | MySQL: x >= 5.6', 'type' => 'VersionDb', 'container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION'],
+		'serverVersion' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_SERVER_VERSION'],
+		'clientVersion' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_CLIENT_VERSION'],
 		'connectionStatus' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_CONNECTION_STATUS'],
 		'serverInfo' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_SERVER_INFO'],
 		'innodb_lock_wait_timeout' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'db', 'testCli' => false],
@@ -466,6 +468,7 @@ class ConfReport
 		$pdo = false;
 		if (\class_exists('\App\Db')) {
 			$db = \App\Db::getInstance();
+			$infoDb = $db->getInfoDb();
 			$pdo = $db->getSlavePdo();
 			$driver = $db->getDriverName();
 		} elseif (!empty(static::$dbConfig['user'])) {
@@ -477,7 +480,9 @@ class ConfReport
 		}
 		$conf = [
 			'driver' => $driver,
-			'serverVersion' => $pdo->getAttribute(PDO::ATTR_SERVER_VERSION),
+			'typeDb' => $infoDb['nameDb'],
+			'versionDb' =>  $infoDb['versionDb'],
+			'serverVersion' => $infoDb['versionInnoDb'],
 			'clientVersion' => $pdo->getAttribute(PDO::ATTR_CLIENT_VERSION),
 			'connectionStatus' => $pdo->getAttribute(PDO::ATTR_CONNECTION_STATUS),
 			'serverInfo' => $pdo->getAttribute(PDO::ATTR_SERVER_INFO),
@@ -598,6 +603,25 @@ class ConfReport
 		return $row;
 	}
 
+	/**
+	 * Validate database version.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return bool
+	 */
+	private static function validateVersionDb(string $name, array $row, string $sapi)
+	{
+		unset($name);
+		$infoDb = \App\Db::getInstance()->getInfoDb();
+		$row['status'] = false;
+		if (!empty($row[$sapi]) && \App\Version::compare($row[$sapi], trim($infoDb['recommendedVersion']), '>=')) {
+				$row['status'] = true;
+		}
+		return $row;
+	}
 	/**
 	 * Validate error reporting.
 	 *
