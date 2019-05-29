@@ -69,6 +69,11 @@
               </q-tooltip>
             </div>
           </div>
+					<q-btn round dense color="white" text-color="primary" icon="mdi-plus" @click="openQuickCreateModal()">
+						<q-tooltip>
+							{{ translate('JS_QUICK_CREATE') }}
+						</q-tooltip>
+					</q-btn>
         </q-toolbar>
       </q-header>
       <q-drawer
@@ -564,7 +569,11 @@ export default {
       } else {
         this.searchData = false
       }
-    }
+		},
+		openQuickCreateModal() {
+			const headerInstance = new window.Vtiger_Header_Js
+			headerInstance.quickCreateModule(this.$options.moduleName)
+		}
   },
   async created() {
     await this.getCategories()

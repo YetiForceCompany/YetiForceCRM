@@ -1695,6 +1695,7 @@
     "JS_CREATED": "Created",
     "JS_MODIFIED": "Modified",
     "JS_MAXIMIZE": "Maximize",
-    "JS_MINIMIZE": "Minimize"
+    "JS_MINIMIZE": "Minimize",
+    "JS_QUICK_CREATE": "Quick create"
   }
 }
