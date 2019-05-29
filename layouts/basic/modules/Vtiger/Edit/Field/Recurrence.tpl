@@ -210,7 +210,9 @@
 						</div>
 						<input type="text" class="form-control countEvents"
 							   {if isset($RECURRING_INFORMATION['COUNT'])}value="{$RECURRING_INFORMATION['COUNT']}"
-							   {else}disabled="disabled" {/if}>
+							   {else}disabled="disabled" {/if}
+								 title="{\App\Language::translate('LBL_COUNT', $MODULE)}"
+								 data-validation-engine='validate[required,funcCall[Vtiger_Integer_Validator_Js.invokeValidation]]'/>
 					</div>
 					<div class="input-group mb-2 date">
 						<div class="input-group-prepend">
