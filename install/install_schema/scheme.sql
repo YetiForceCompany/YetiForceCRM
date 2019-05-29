@@ -992,7 +992,7 @@ CREATE TABLE `s_yf_batchmethod` (
 
 CREATE TABLE `s_yf_businesshours` (
   `businesshoursid` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `businesshoursname` text NOT NULL,
+  `businesshoursname` varchar(255) NOT NULL,
   `working_days` varchar(15) NOT NULL,
   `working_hours_from` varchar(8) NOT NULL DEFAULT '00:00:00',
   `working_hours_to` varchar(8) NOT NULL DEFAULT '00:00:00',
@@ -1000,9 +1000,8 @@ CREATE TABLE `s_yf_businesshours` (
   `default` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`businesshoursid`),
   KEY `businesshours_holidays_idx` (`holidays`),
-  KEY `businesshours_default_idx` (`default`),
-  FULLTEXT KEY `businesshours_working_days_idx` (`working_days`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+  KEY `businesshours_default_idx` (`default`)
+) ENGINE = InnoDB AUTO_INCREMENT = 28 DEFAULT CHARSET = utf8;
 
 /*Table structure for table `s_yf_companies` */
 
