@@ -6,8 +6,6 @@
 @import '../node_modules/quasar/src/css/flex-addon'
 @import '../node_modules/quasar/src/mixins/*'
 
-
-
 @import '../node_modules/quasar/src/components/layout/*'
 @import '../node_modules/quasar/src/components/toolbar/*'
 @import '../node_modules/quasar/src/components/btn/*'
@@ -28,9 +26,20 @@
 @import '../node_modules/quasar/src/components/avatar/*'
 @import '../node_modules/quasar/src/components/separator/*'
 
-
-
-
 @import '../node_modules/quasar/src/directives/*'
-// @import '../node_modules/quasar/src/plugins/*'
-@import '../node_modules/quasar/src/css/core/*'
+
+@import '../node_modules/quasar/src/css/core/size'
+@import '../node_modules/quasar/src/css/core/animations'
+@import '../node_modules/quasar/src/css/core/colors'
+@import '../node_modules/quasar/src/css/core/elevation'
+@import '../node_modules/quasar/src/css/core/helpers'
+@import '../node_modules/quasar/src/css/core/mouse'
+@import '../node_modules/quasar/src/css/core/orientation'
+@import '../node_modules/quasar/src/css/core/positioning'
+@import '../node_modules/quasar/src/css/core/touch'
+@import '../node_modules/quasar/src/css/core/transitions'
+@import '../node_modules/quasar/src/css/core/visibility'
+
+.quasar-reset
+	@import '../node_modules/quasar/src/css/core/typography'
+	@import './quasar.flex.styl'
