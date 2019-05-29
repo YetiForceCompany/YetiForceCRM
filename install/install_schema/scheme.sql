@@ -4709,7 +4709,6 @@ CREATE TABLE `vtiger_crmentity` (
   `createdtime` datetime NOT NULL,
   `modifiedtime` datetime NOT NULL,
   `viewedtime` datetime DEFAULT NULL,
-  `closedtime` datetime DEFAULT NULL,
   `status` varchar(50) DEFAULT NULL,
   `version` int(10) unsigned NOT NULL DEFAULT 0,
   `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,

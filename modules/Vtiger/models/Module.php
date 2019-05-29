@@ -664,7 +664,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		foreach (App\Field::getFieldsPermissions($this->getId(), false) as $field) {
 			$editFields[] = $field['fieldname'];
 		}
-		return array_diff($editFields, ['closedtime', 'shownerid', 'smcreatorid', 'modifiedtime', 'modifiedby']);
+		return array_diff($editFields, ['shownerid', 'smcreatorid', 'modifiedtime', 'modifiedby']);
 	}
 
 	/**
