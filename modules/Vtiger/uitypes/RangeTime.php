@@ -15,11 +15,16 @@ class Vtiger_RangeTime_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$mode = $this->getFieldModel()->getFieldParams();
-		if (empty($mode)) {
-			$mode = 'short';
+		$mode = 'short';
+		$unit = 'h';
+		$params = $this->getFieldModel()->getFieldParams();
+		if (isset($params['mode'])) {
+			$mode = $params['mode'];
 		}
-		return \App\Purifier::encodeHtml(App\Fields\RangeTime::formatToRangeText($value, $mode, null !== $value, 'd'));
+		if (isset($params['unit'])) {
+			$unit = $params['unit'];
+		}
+		return \App\Purifier::encodeHtml(App\Fields\RangeTime::formatToRangeText($value, $mode, null !== $value, $unit));
 	}
 
 	/**

@@ -1346,7 +1346,7 @@
     "LBL_STANDARD_TEMPLATES_DESC": "Standard templates are those that have static inventory columns.",
     "LBL_DYNAMIC_TEMPLATES_DESC": "Dynamic templates are those that contain dynamic inventory columns variable.\nWith dynamic columns, you can chose columns for selected record(s) each time you want to generate pdf or save these columns as a scheme for selected record(s).",
     "LBL_FOR_THE_PORTAL": "For the portal",
-    "BL_RECORD_STATE_TIMES": "Record state times",
+    "BL_RECORD_STATUS_TIMES": "Record status times",
     "FL_RESPONSE_RANGE_TIME": "Response range time",
     "FL_SOLUTION_RANGE_TIME": "Solution range time",
     "FL_IDLE_RANGE_TIME": "Idle range time",
