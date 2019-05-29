@@ -257,7 +257,6 @@
     "LBL_VIEW_SWITCHUSERS": "Switch users",
     "LBL_POPUP_TYPE": "Pop-up window type with record list.  1 - Normal, 2 - Expanded search",
     "LBL_SHOWING_BREADCRUMBS": "Show breadcrumbs menu",
-    "LBL_SHOW_RESPONSE_TIME": "Show or hide time to compose each page",
     "LBL_TITLE_MAX_LENGTH": "Maximum length of characters for title ",
     "LBL_MINIMUM_CRON_FREQUENCY": "Minimum cron frequency [min] ",
     "LBL_LIST_MAX_ENTRIES_MASSEDIT": "Maximum number of records in mass edition",
