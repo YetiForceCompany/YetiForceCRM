@@ -35,25 +35,6 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Update ticket range time field.
-	 *
-	 * @param Vtiger_Record_Model $recordModel
-	 * @param bool                $updateFieldImmediately
-	 */
-	public static function updateTicketRangeTimeField($recordModel, $updateFieldImmediately = false)
-	{
-		$closedTime = $recordModel->get('closedtime');
-		if (!empty($closedTime) && $recordModel->has('report_time')) {
-			$timeMinutesRange = round(\App\Fields\Date::getDiff($recordModel->get('createdtime'), $closedTime, 'minutes'));
-			if (!empty($timeMinutesRange)) {
-				App\Db::getInstance()->createCommand()
-					->update('vtiger_troubletickets', ['report_time' => $timeMinutesRange], ['ticketid' => $recordModel->getId()])
-					->execute();
-			}
-		}
-	}
-
-	/**
 	 * Get active service contracts.
 	 *
 	 * @return array
