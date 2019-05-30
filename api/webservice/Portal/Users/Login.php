@@ -72,7 +72,6 @@ class Login extends \Api\Core\BaseAction
 				$companyDetails['creditlimit'] = $limits[$creditLimitId]['value'] ?? 0;
 			}
 		}
-		$checkStockLevels = empty($parentId) || (bool) \Vtiger_Record_Model::getInstanceById($parentId)->get('check_stock_levels');
 		return [
 			'token' => $row['token'],
 			'name' => \App\Record::getLabel($row['crmid']),
@@ -84,7 +83,6 @@ class Login extends \Api\Core\BaseAction
 			'companyId' => (\Api\Portal\Privilege::USER_PERMISSIONS !== $row['type']) ? $parentId : 0,
 			'companyDetails' => $companyDetails,
 			'logged' => true,
-			'checkStockLevels' => $checkStockLevels,
 			'preferences' => [
 				'activity_view' => $userModel->getDetail('activity_view'),
 				'hour_format' => $userModel->getDetail('hour_format'),

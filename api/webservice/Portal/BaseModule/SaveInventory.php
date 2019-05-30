@@ -89,13 +89,13 @@ class SaveInventory extends \Api\Core\BaseAction
 				$inventoryData = $this->inventory->getInventoryData();
 			}
 			$this->recordModel->initInventoryData($inventoryData, false);
-			if ($this->recordModel->has('sum_gross') && !empty($parentRecordId)) {
-				$total = $this->recordModel->get('sum_gross');
+			if (!empty($parentRecordId)) {
 				$parentRecordModel = \Vtiger_Record_Model::getInstanceById($parentRecordId, 'Accounts');
 				$creditLimitId = $parentRecordModel->get('creditlimit');
 				if (!empty($creditLimitId)) {
+					$grossFieldModel = \Vtiger_Inventory_Model::getInstance($this->moduleName)->getField('gross');
 					$limits = \Vtiger_InventoryLimit_UIType::getLimits();
-					if ($total > (($limits[$creditLimitId]['value'] ?? 0) - $parentRecordModel->get('sum_open_orders'))) {
+					if ($grossFieldModel && $grossFieldModel->getSummaryValuesFromData($inventoryData) > (($limits[$creditLimitId]['value'] ?? 0) - $parentRecordModel->get('sum_open_orders'))) {
 						return [
 							'errors' => [
 								'limit' => 'Merchant limit was exceeded'

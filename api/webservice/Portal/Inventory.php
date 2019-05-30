@@ -124,11 +124,7 @@ class Inventory
 	{
 		$inventoryData = \Vtiger_Inventory_Model::getInventoryDataById($recordId, $moduleName);
 		foreach ($inventoryData as &$inventoryRow) {
-			foreach ($inventoryRow as $fieldName => $value) {
-				if ('name' === $fieldName) {
-					$inventoryRow['qty'] = $this->inventory[$value]['qty'];
-				}
-			}
+			$inventoryRow['qty'] = $this->inventory[$inventoryRow['name']]['qty'];
 		}
 		return $inventoryData;
 	}
