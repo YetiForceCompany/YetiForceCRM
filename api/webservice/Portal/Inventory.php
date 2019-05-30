@@ -113,6 +113,23 @@ class Inventory
 	}
 
 	/**
+	 * Get Inventory from record.
+	 *
+	 * @param int    $recordId
+	 * @param string $moduleName
+	 *
+	 * @return array
+	 */
+	public function getInventoryFromRecord(int $recordId, string $moduleName): array
+	{
+		$inventoryData = \Vtiger_Inventory_Model::getInventoryDataById($recordId, $moduleName);
+		foreach ($inventoryData as &$inventoryRow) {
+			$inventoryRow['qty'] = $this->inventory[$inventoryRow['name']]['qty'];
+		}
+		return $inventoryData;
+	}
+
+	/**
 	 * Get inventory data.
 	 *
 	 * @return array

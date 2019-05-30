@@ -29,7 +29,7 @@ class SumFieldFromDependent extends VTTask
 	 */
 	public function doTask($recordModel)
 	{
-		list($referenceField, $moduleName, $fieldName) = explode('::', $this->targetField);
+		[$referenceField, $moduleName, $fieldName] = explode('::', $this->targetField);
 		$relationFieldModel = $recordModel->getModule()->getFieldByName($referenceField);
 		$ids = [];
 		if (!$recordModel->isEmpty($referenceField)) {

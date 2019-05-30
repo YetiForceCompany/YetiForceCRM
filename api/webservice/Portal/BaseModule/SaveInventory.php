@@ -67,10 +67,11 @@ class SaveInventory extends \Api\Core\BaseAction
 					$fieldModel->getUITypeModel()->setValueFromRequest($this->controller->request, $this->recordModel);
 				}
 			}
+			$parentRecordId = $this->getParentCrmId();
 			if (\Api\Portal\Privilege::USER_PERMISSIONS !== $this->getPermissionType()) {
 				$fieldModel = current($this->moduleModel->getReferenceFieldsForModule('Accounts'));
 				if ($fieldModel) {
-					$this->recordModel->set($fieldModel->getFieldName(), $this->getParentCrmId());
+					$this->recordModel->set($fieldModel->getFieldName(), $parentRecordId);
 				}
 			}
 			$fieldModel = current($this->moduleModel->getReferenceFieldsForModule('IStorages'));
@@ -81,7 +82,28 @@ class SaveInventory extends \Api\Core\BaseAction
 			if ($fieldPermission) {
 				$this->recordModel->setDataForSave([$fieldPermission['tablename'] => [$fieldPermission['columnname'] => 1]]);
 			}
-			$this->recordModel->initInventoryData($this->inventory->getInventoryData(), false);
+			$inventoryData = [];
+			if ($this->controller->request->has('reference_id') && $this->controller->request->has('reference_module')) {
+				$inventoryData = $this->inventory->getInventoryFromRecord($this->controller->request->getInteger('reference_id'), $this->controller->request->getByType('reference_module', 'Alnum'));
+			} else {
+				$inventoryData = $this->inventory->getInventoryData();
+			}
+			$this->recordModel->initInventoryData($inventoryData, false);
+			if (!empty($parentRecordId)) {
+				$parentRecordModel = \Vtiger_Record_Model::getInstanceById($parentRecordId, 'Accounts');
+				$creditLimitId = $parentRecordModel->get('creditlimit');
+				if (!empty($creditLimitId)) {
+					$grossFieldModel = \Vtiger_Inventory_Model::getInstance($this->moduleName)->getField('gross');
+					$limits = \Vtiger_InventoryLimit_UIType::getLimits();
+					if ($grossFieldModel && $grossFieldModel->getSummaryValuesFromData($inventoryData) > (($limits[$creditLimitId]['value'] ?? 0) - $parentRecordModel->get('sum_open_orders'))) {
+						return [
+							'errors' => [
+								'limit' => 'Merchant limit was exceeded'
+							],
+						];
+					}
+				}
+			}
 			$this->recordModel->save();
 			$result = [
 				'id' => $this->recordModel->getId(),
