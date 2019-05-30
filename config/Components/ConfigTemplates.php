@@ -244,5 +244,9 @@ return [
 			'default' => '',
 			'description' => 'Password to account in magento.',
 		],
+		'masterSource' => [
+			'default' => 'magento',
+			'description' => 'Set master source: yetiforce or magento',
+		],
 	],
 ];
