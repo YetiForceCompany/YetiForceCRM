@@ -36,10 +36,10 @@
 								</div>
 							</div>
 							<div class="col-md-9 controls">
-								<select class="select2 form-control" multiple name="time_counting[]">
-									<option value="{\App\RecordStatus::TIME_COUNTING_REACTION}"{if in_array(\App\RecordStatus::TIME_COUNTING_REACTION,$PICKLIST_VALUE['time_counting'])} selected="selected"{/if}>{\App\Language::translate('LBL_TIME_COUNTING_REACTION',$QUALIFIED_MODULE)}</option>
-									<option value="{\App\RecordStatus::TIME_COUNTING_RESOLVE}"{if in_array(\App\RecordStatus::TIME_COUNTING_RESOLVE,$PICKLIST_VALUE['time_counting'])} selected="selected"{/if}>{\App\Language::translate('LBL_TIME_COUNTING_RESOLVE',$QUALIFIED_MODULE)}</option>
-									<option value="{\App\RecordStatus::TIME_COUNTING_IDLE}"{if in_array(\App\RecordStatus::TIME_COUNTING_IDLE,$PICKLIST_VALUE['time_counting'])} selected="selected"{/if}>{\App\Language::translate('LBL_TIME_COUNTING_IDLE',$QUALIFIED_MODULE)}</option>
+								<select class="select2 form-control" name="time_counting">
+									<option value="{\App\RecordStatus::TIME_COUNTING_REACTION}"{if \App\RecordStatus::TIME_COUNTING_REACTION===$PICKLIST_VALUE['time_counting']} selected="selected"{/if}>{\App\Language::translate('LBL_TIME_COUNTING_REACTION',$QUALIFIED_MODULE)}</option>
+									<option value="{\App\RecordStatus::TIME_COUNTING_RESOLVE}"{if \App\RecordStatus::TIME_COUNTING_RESOLVE===$PICKLIST_VALUE['time_counting']} selected="selected"{/if}>{\App\Language::translate('LBL_TIME_COUNTING_RESOLVE',$QUALIFIED_MODULE)}</option>
+									<option value="{\App\RecordStatus::TIME_COUNTING_IDLE}"{if \App\RecordStatus::TIME_COUNTING_IDLE===$PICKLIST_VALUE['time_counting']} selected="selected"{/if}>{\App\Language::translate('LBL_TIME_COUNTING_IDLE',$QUALIFIED_MODULE)}</option>
 								</select>
 							</div>
 						</div>

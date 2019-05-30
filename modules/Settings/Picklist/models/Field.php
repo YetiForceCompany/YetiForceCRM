@@ -143,15 +143,15 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 	/**
 	 * Update record status.
 	 *
-	 * @param int   $id
-	 * @param int   $recordState
-	 * @param int[] $timeCounting
+	 * @param int $id
+	 * @param int $recordState
+	 * @param int $timeCounting
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return bool
 	 */
-	public function updateRecordStatus(int $id, int $recordState, array $timeCounting): bool
+	public function updateRecordStatus(int $id, int $recordState, int $timeCounting): bool
 	{
 		if (!$this->isProcessStatusField()) {
 			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_IS_NOT_A_PROCESS_STATUS_FIELD', 'Settings:Picklist'), 406);
@@ -164,18 +164,12 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		$tableName = \App\Fields\Picklist::getPickListTableName($pickListFieldName);
 		$tabId = $this->get('tabid');
 		$moduleName = \App\Module::getModuleName($tabId);
-		foreach ($timeCounting as $time) {
-			if (!is_int($time)) {
-				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $time, 406);
-			}
-		}
-		$newTimeCountingValue = \App\RecordStatus::getTimeCountingStringValueFromArray($timeCounting);
 		$oldTimeCountingValue = \App\RecordStatus::getTimeCountingValues($moduleName, false)[$id] ?? '';
 		$oldStateValue = \App\RecordStatus::getStates($moduleName)[$id];
-		if ($recordState === $oldStateValue && $newTimeCountingValue === $oldTimeCountingValue) {
+		if ($recordState === $oldStateValue && $timeCounting === $oldTimeCountingValue) {
 			return true;
 		}
-		$result = \App\Db::getInstance()->createCommand()->update($tableName, ['record_state' => $recordState, 'time_counting' => $newTimeCountingValue], [$primaryKey => $id])->execute();
+		$result = \App\Db::getInstance()->createCommand()->update($tableName, ['record_state' => $recordState, 'time_counting' => $timeCounting], [$primaryKey => $id])->execute();
 		if ($result) {
 			\App\Fields\Picklist::clearCache($pickListFieldName, $moduleName);
 			return true;

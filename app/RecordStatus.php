@@ -146,7 +146,7 @@ class RecordStatus
 			$dbCommand->addColumn($tableName, 'record_state', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TINYINT, 1)->notNull()->defaultValue(0))->execute();
 		}
 		if (!isset($tableSchema->columns['time_counting'])) {
-			$dbCommand->addColumn($tableName, 'time_counting', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 7))->execute();
+			$dbCommand->addColumn($tableName, 'time_counting', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TINYINT, 1))->execute();
 		}
 		foreach (EventHandler::getAll(false) as $handler) {
 			if ('Vtiger_RecordStatusHistory_Handler' === $handler['handler_class']) {
@@ -264,12 +264,10 @@ class RecordStatus
 	 * Get time counting values grouped by id from field name.
 	 *
 	 * @param string $moduleName
-	 * @param bool   $asMultiArray time counting could have multiple values separated by comma
-	 *                             we can return array of strings with commas or as array of arrays with ints
 	 *
 	 * @return array
 	 */
-	public static function getTimeCountingValues(string $moduleName, bool $asMultiArray = true)
+	public static function getTimeCountingValues(string $moduleName)
 	{
 		$fieldName = static::getFieldName($moduleName);
 		if (!$fieldName) {
@@ -279,64 +277,10 @@ class RecordStatus
 		$values = [];
 		foreach (Fields\Picklist::getValues($fieldName) as $row) {
 			if (isset($row['time_counting'])) {
-				if ($asMultiArray) {
-					$values[$row[$primaryKey]] = static::getTimeCountingArrayValueFromString($row['time_counting']);
-				} else {
-					$values[$row[$primaryKey]] = $row['time_counting'];
-				}
+				$values[$row[$primaryKey]] = $row['time_counting'];
 			}
 		}
 		return $values;
-	}
-
-	/**
-	 * Get time counting value from string.
-	 *
-	 * @param string $timeCountingStr
-	 *
-	 * @throws Exceptions\IllegalValue
-	 *
-	 * @return int[]
-	 */
-	public static function getTimeCountingArrayValueFromString(string $timeCountingStr): array
-	{
-		if ('' === $timeCountingStr || ',,' === $timeCountingStr) {
-			return [];
-		}
-		if (-1 === strpos($timeCountingStr, ',')) {
-			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $timeCountingStr, 406);
-		}
-		$values = explode(',', trim($timeCountingStr, ','));
-		if (!$values) {
-			return [];
-		}
-		$result = [];
-		foreach ($values as $value) {
-			if (!is_numeric($value)) {
-				throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $value, 406);
-			}
-			$result[] = (int) $value;
-		}
-		return $result;
-	}
-
-	/**
-	 * Get time counting value from array.
-	 *
-	 * @param int[] $timeCountingArr
-	 *
-	 * @throws Exceptions\IllegalValue
-	 *
-	 * @return null|string
-	 */
-	public static function getTimeCountingStringValueFromArray(array $timeCountingArr)
-	{
-		foreach ($timeCountingArr as $time) {
-			if (!is_int($time)) {
-				throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $time, 406);
-			}
-		}
-		return empty($timeCountingArr) ? null : ',' . implode(',', $timeCountingArr) . ',';
 	}
 
 	/**
