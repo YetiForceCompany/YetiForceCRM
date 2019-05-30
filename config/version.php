@@ -1,7 +1,7 @@
 <?php
 
 return [
-	'appVersion' => '5.1.65',
+	'appVersion' => '5.1.66',
 	'patchVersion' => '2019.05.30',
 	'lib_roundcube' => '0.0.71'
 ];
