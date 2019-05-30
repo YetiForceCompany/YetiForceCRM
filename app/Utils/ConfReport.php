@@ -147,7 +147,7 @@ class ConfReport
 	public static $database = [
 		'driver' => ['recommended' => 'mysql', 'type' => 'Equal', 'container' => 'db', 'testCli' => false, 'label' => 'DB_DRIVER'],
 		'typeDb' => [ 'container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION_TYPE'],
-		'serverVersionShort' => ['recommended' => 'MariaDb: x >= 10.0 | MySQL: x >= 5.6', 'type' => 'VersionDb', 'container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION'],
+		'serverVersionShort' => ['recommended' => '10.0', 'type' => 'VersionDb', 'container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION'],
 		'serverVersionLong' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_SERVER_VERSION'],
 		'clientVersion' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_CLIENT_VERSION'],
 		'versionComment' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION_COMMENT'],
