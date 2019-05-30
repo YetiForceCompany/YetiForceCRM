@@ -212,7 +212,7 @@ class Calendar_Calendar_Model extends App\Base
 			$item['start_display'] = $startDateTimeDisplay;
 			$item['end_display'] = $endDateTimeDisplay;
 			$item['hour_start'] = $startTimeDisplay;
-			$hours = \App\Fields\Date::getDiff($item['start'], $item['end'], 'hours');
+			$hours = \App\Fields\DateTime::getDiff($item['start'], $item['end'], 'hours');
 			$item['hours'] = \App\Fields\RangeTime::formatHourToDisplay($hours, 'short');
 			$item['className'] = 'js-popover-tooltip--record ownerCBg_' . $row['assigned_user_id'] . ' picklistCBr_Calendar_activitytype_' . $row['activitytype'];
 			$return[] = $item;

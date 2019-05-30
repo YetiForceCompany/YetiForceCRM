@@ -60,7 +60,7 @@ class RangeTime
 	public static function formatToRangeText($value, $mode = 'short', $showEmptyValue = true, $unit = 'h')
 	{
 		$full = $short = [];
-		$hours = $value;
+		$hours = (int) $value;
 		if ('y' === $unit) {
 			$years = ((int) $value) / (60 * 24 * 365);
 			$years = floor($years);

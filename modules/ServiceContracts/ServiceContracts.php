@@ -278,14 +278,14 @@ class ServiceContracts extends CRMEntity
 
 		// Calculate the Planned Duration based on Due date and Start date. (in days)
 		if (!empty($dueDate) && !empty($startDate)) {
-			$params['planned_duration'] = \App\Fields\Date::getDiff($startDate, $dueDate, 'days');
+			$params['planned_duration'] = \App\Fields\DateTime::getDiff($startDate, $dueDate, 'days');
 		} else {
 			$params['planned_duration'] = '';
 		}
 
 		// Calculate the Actual Duration based on End date and Start date. (in days)
 		if (!empty($endDate) && !empty($startDate)) {
-			$params['actual_duration'] = \App\Fields\Date::getDiff($startDate, $endDate, 'days');
+			$params['actual_duration'] = \App\Fields\DateTime::getDiff($startDate, $endDate, 'days');
 		} else {
 			$params['actual_duration'] = '';
 		}
