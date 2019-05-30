@@ -143,9 +143,9 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 	/**
 	 * Update record status.
 	 *
-	 * @param int   $id
-	 * @param int   $recordState
-	 * @param int[] $timeCounting
+	 * @param int $id
+	 * @param int $recordState
+	 * @param int $timeCounting
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
