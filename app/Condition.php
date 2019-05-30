@@ -82,4 +82,33 @@ class Condition
 		}
 		return $value;
 	}
+
+	/**
+	 * Return condition from request.
+	 *
+	 * @param array $conditions
+	 *
+	 * @return array
+	 */
+	public static function getConditionsFromRequest(array $conditions): array
+	{
+		if (isset($conditions['rules'])) {
+			foreach ($conditions['rules'] as &$condition) {
+				if (isset($condition['condition'])) {
+					$condition = static::getConditionsFromRequest($condition);
+				} else {
+					$operator = $condition['operator'];
+					$value = $condition['value'] ?? '';
+					if (!in_array($operator, \App\CustomView::FILTERS_WITHOUT_VALUES + array_keys(\App\CustomView::DATE_FILTER_CONDITIONS))) {
+						[$fieldModuleName, $fieldName,] = array_pad(explode(':', $condition['fieldname']), 3, false);
+						$value = \Vtiger_Field_Model::getInstance($fieldName, \Vtiger_Module_Model::getInstance($fieldModuleName))
+							->getUITypeModel()
+							->getDbConditionBuilderValue($value, $operator);
+					}
+					$condition['value'] = $value;
+				}
+			}
+		}
+		return $conditions;
+	}
 }

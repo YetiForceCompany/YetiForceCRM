@@ -75,7 +75,7 @@ class Vtiger_NetPrice_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getValueForSave(array $item, bool $userFormat = false, string $column = null)
 	{
-		return  static::getInstance($this->getModuleName(), 'TotalPrice', $item, $userFormat)->getValueForSave($item, $userFormat)
-			- static::getInstance($this->getModuleName(), 'Discount', $item, $userFormat)->getValueForSave($item, $userFormat);
+		return  static::getInstance($this->getModuleName(), 'TotalPrice')->getValueForSave($item, $userFormat)
+			- static::getInstance($this->getModuleName(), 'Discount')->getValueForSave($item, $userFormat);
 	}
 }
