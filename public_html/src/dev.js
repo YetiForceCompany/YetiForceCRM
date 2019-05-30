@@ -3,30 +3,19 @@
 const rollup = require('rollup'),
 	finder = require('findit')('layouts'),
 	path = require('path'),
+	sourcemaps = require('rollup-plugin-sourcemaps'),
 	vue = require('rollup-plugin-vue'),
 	commonjs = require('rollup-plugin-commonjs'),
 	resolve = require('rollup-plugin-node-resolve'),
 	globals = require('rollup-plugin-node-globals'),
-	json = require('rollup-plugin-json'),
-	{ terser } = require('rollup-plugin-terser'),
-	replace = require('rollup-plugin-replace')
+	json = require('rollup-plugin-json')
 
 let filesToMin = []
 async function build(filePath) {
 	const outputFile = `../${filePath.replace('.js', '.vue.js')}`
 	const inputOptions = {
 		input: filePath,
-		plugins: [
-			json(),
-			resolve(),
-			commonjs(),
-			vue({ compileTemplate: true }),
-			globals(),
-			replace({
-				'process.env.NODE_ENV': JSON.stringify('production')
-			}),
-			terser()
-		]
+		plugins: [sourcemaps(), json(), resolve(), commonjs(), vue({ compileTemplate: true }), globals()]
 	}
 	const outputOptions = {
 		sourcemap: true,

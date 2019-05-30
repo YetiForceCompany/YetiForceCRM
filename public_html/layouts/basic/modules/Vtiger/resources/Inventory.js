@@ -564,32 +564,33 @@ $.Class(
 			element.text(App.Fields.Double.formatToDisplay(sum));
 		},
 		calculatMarginPSummary: function() {
-			var thisInstance = this;
-			var purchase = 0;
-			var totalOrNet = 0;
-			var sumRow = thisInstance.getInventoryItemsContainer().find('tfoot');
-			var total = App.Fields.Double.formatToDb(sumRow.find('[data-sumfield="totalPrice"]').text());
-			var netPrice = App.Fields.Double.formatToDb(sumRow.find('[data-sumfield="netPrice"]').text());
+			let sumRow = this.getInventoryItemsContainer().find('tfoot'),
+				totalPriceField =
+					sumRow.find('[data-sumfield="netPrice"]').length > 0
+						? sumRow.find('[data-sumfield="netPrice"]')
+						: sumRow.find('[data-sumfield="totalPrice"]'),
+				sumPrice = totalPriceField.getNumberFromText(),
+				purchase = 0,
+				marginp = 0;
 			this.getInventoryItemsContainer()
-				.find(thisInstance.rowClass)
+				.find(this.rowClass)
 				.each(function(index) {
-					var qty = $(this).find('.qty');
-					var purchasPrice = $(this).find('.purchase');
-					if (qty.length > 0 && purchasPrice.length > 0) {
-						purchase += App.Fields.Double.formatToDb(qty.val()) * App.Fields.Double.formatToDb(purchasPrice.val());
+					let qty = $(this)
+							.find('.qty')
+							.getNumberFromValue(),
+						purchasPrice = $(this)
+							.find('.purchase')
+							.getNumberFromValue();
+					if (qty > 0 && purchasPrice > 0) {
+						purchase += qty * purchasPrice;
 					}
 				});
-			if (netPrice != total) {
-				totalOrNet += App.Fields.Double.formatToDb(netPrice);
-			} else {
-				totalOrNet += App.Fields.Double.formatToDb(total);
+
+			let subtraction = sumPrice - purchase;
+			if (purchase !== 0 && subtraction !== 0) {
+				marginp = (subtraction / purchase) * 100;
 			}
-			var marginp = '0';
-			if (purchase !== 0) {
-				var subtraction = totalOrNet - purchase;
-				marginp = (subtraction / totalOrNet) * 100;
-			}
-			sumRow.find('[data-sumfield="marginP"]').text(App.Fields.Double.formatToDisplay(marginp));
+			sumRow.find('[data-sumfield="marginP"]').text(App.Fields.Double.formatToDisplay(marginp) + '%');
 		},
 		calculatDiscountSummary: function() {
 			var thisInstance = this;
@@ -1359,9 +1360,7 @@ $.Class(
 				.find('.js-module-icon')
 				.removeClass()
 				.addClass(`userIcon-${module}`);
-			newRow
-				.find('.rowName span.input-group-text')
-				.attr('data-content', moduleLbls[module]);
+			newRow.find('.rowName span.input-group-text').attr('data-content', moduleLbls[module]);
 			newRow.find('.colPicklistField select').each(function(index, select) {
 				select = $(select);
 				select.find('option').each(function(index, option) {

@@ -169,8 +169,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 	{
 		$notesId = $this->get('id');
 		$downloadCount = (new \App\Db\Query())->select(['filedownloadcount'])->from('vtiger_notes')->where(['notesid' => $notesId])->scalar();
-		++$downloadCount;
-		\App\Db::getInstance()->createCommand()->update('vtiger_notes', ['filedownloadcount' => $downloadCount], ['notesid' => $notesId]);
+		\App\Db::getInstance()->createCommand()->update('vtiger_notes', ['filedownloadcount' => ++$downloadCount], ['notesid' => $notesId])->execute();
 	}
 
 	/**

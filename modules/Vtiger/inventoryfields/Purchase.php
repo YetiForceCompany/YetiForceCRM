@@ -69,6 +69,7 @@ class Vtiger_Purchase_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getValueForSave(array $item, bool $userFormat, string $column = null)
 	{
+		$column = $this->getColumnName();
 		return (float) ($userFormat ? $this->getDBValue($item[$column] ?? 0.0) : $item[$column]);
 	}
 }

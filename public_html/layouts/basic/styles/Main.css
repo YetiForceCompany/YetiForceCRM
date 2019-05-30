@@ -18834,7 +18834,7 @@ label.btn[class*=btn-outline-]:not(.active):hover {
 }
 
 .quasar-container {
-  height: calc(100% - 2.8125rem);
+  height: calc(100% - 3rem);
   margin-left: -0.5rem;
   margin-right: -0.5rem;
 }
