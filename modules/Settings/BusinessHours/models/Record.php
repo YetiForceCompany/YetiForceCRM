@@ -13,9 +13,9 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function to get the Id.
 	 *
-	 * @return int Id
+	 * @return null|int Id
 	 */
-	public function getId(): int
+	public function getId()
 	{
 		return $this->get('businesshoursid');
 	}
@@ -36,9 +36,9 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function to get the Name.
 	 *
-	 * @return string
+	 * @return null|string
 	 */
-	public function getName(): string
+	public function getName()
 	{
 		return $this->get('businesshoursname');
 	}
