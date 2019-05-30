@@ -65,4 +65,42 @@ class Settings_BusinessHours_ListView_Model extends Settings_Vtiger_ListView_Mod
 		$instance = new $modelClassName();
 		return $instance->setModule($name);
 	}
+
+	/**
+	 * Function to get Basic links.
+	 *
+	 * @return array of Basic links
+	 */
+	public function getBasicLinks(): array
+	{
+		$basicLinks = [];
+		$moduleModel = $this->getModule();
+		if ($moduleModel->hasCreatePermissions()) {
+			$basicLinks[] = [
+				'linktype' => 'LISTVIEWBASIC',
+				'linklabel' => 'LBL_ADD_RECORD',
+				'linkurl' => $moduleModel->getEditViewUrl(),
+				'linkicon' => 'fas fa-plus',
+				'linkclass' => 'btn-light addRecord',
+				'showLabel' => 1,
+				'modalView' => false,
+			];
+		}
+		return $basicLinks;
+	}
+
+	/**
+	 * Get list view links.
+	 *
+	 * @return array
+	 */
+	public function getListViewLinks(): array
+	{
+		$links = ['LISTVIEWBASIC' => []];
+		$basicLinks = $this->getBasicLinks();
+		foreach ($basicLinks as $basicLink) {
+			$links['LISTVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
+		}
+		return $links;
+	}
 }

@@ -31,50 +31,15 @@ class Settings_BusinessHours_List_View extends Settings_Vtiger_List_View
 		if (!$this->listViewEntries) {
 			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
+		if (!isset($this->listViewLinks)) {
+			$this->listViewLinks = $listViewModel->getListViewLinks();
+		}
 		$module = $listViewModel->getModule();
-		$viewer->assign('LISTVIEW_LINKS', $this->getListViewLinks());
+		$viewer->assign('LISTVIEW_LINKS', $this->listViewLinks);
 		$viewer->assign('MODULE_MODEL', $module);
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
-	}
-
-	/**
-	 * Function to get Basic links.
-	 *
-	 * @return array of Basic links
-	 */
-	public function getBasicLinks(): array
-	{
-		$basicLinks = [];
-		$moduleModel = $this->getModule();
-		if ($moduleModel->hasCreatePermissions()) {
-			$basicLinks[] = [
-				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => 'LBL_ADD_RECORD',
-				'linkurl' => $moduleModel->getEditViewUrl(),
-				'linkicon' => 'fas fa-plus',
-				'linkclass' => 'btn-light addRecord',
-				'showLabel' => 1,
-				'modalView' => false,
-			];
-		}
-		return $basicLinks;
-	}
-
-	/**
-	 * Get list view links.
-	 *
-	 * @return array
-	 */
-	public function getListViewLinks(): array
-	{
-		$links = ['LISTVIEWBASIC' => []];
-		$basicLinks = $this->getBasicLinks();
-		foreach ($basicLinks as $basicLink) {
-			$links['LISTVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
-		}
-		return $links;
 	}
 }
