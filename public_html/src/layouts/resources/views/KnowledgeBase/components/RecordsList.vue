@@ -12,7 +12,7 @@
       :title="title"
     >
       <template v-slot:item="props">
-        <q-list class="RecordsList__item" padding @click="fetchRecord(props.row.id)">
+        <q-list class="full-width" padding @click="fetchRecord(props.row.id)">
           <q-item clickable>
             <q-item-section avatar>
               <q-icon name="mdi-text" />

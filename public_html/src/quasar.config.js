@@ -86,6 +86,7 @@ const Quasar = {
 		})
 	}
 }
+
 window.Vue.use(Quasar)
 Quasar.iconSet.set(mdi)
 

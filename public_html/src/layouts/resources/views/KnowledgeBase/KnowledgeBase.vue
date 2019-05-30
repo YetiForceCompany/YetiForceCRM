@@ -197,6 +197,8 @@ import Carousel from './components/Carousel.vue'
 import RecordsList from './components/RecordsList.vue'
 import RecordPreview from './components/RecordPreview.vue'
 import { createNamespacedHelpers } from 'vuex'
+import { debounce } from 'quasar'
+
 const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'KnowledgeBase',
@@ -217,24 +219,9 @@ export default {
     ...mapGetters(['tree', 'record', 'iconSize'])
   },
   methods: {
-    search(e) {
+    search() {
       if (this.filter.length >= 3) {
-        const aDeferred = $.Deferred()
-        const progressIndicatorElement = $.progressIndicator({
-          blockInfo: { enabled: true }
-        })
-        AppConnector.request({
-          module: store.getters['KnowledgeBase/moduleName'],
-          action: 'KnowledgeBaseAjax',
-          mode: 'search',
-          value: this.filter,
-          category: this.categorySearch ? this.tree.activeCategory : ''
-        }).done(data => {
-          this.searchData = data.result
-          aDeferred.resolve(data.result)
-          progressIndicatorElement.progressIndicator({ mode: 'hide' })
-          return data.result
-        })
+        this.debouncedSearch()
       } else {
         this.searchData = false
       }
@@ -249,6 +236,32 @@ export default {
     await this.initState(this.$options.state)
     await this.fetchCategories()
     await this.fetchData()
+  },
+  mounted() {
+    this.debouncedSearch = debounce(() => {
+      const aDeferred = $.Deferred()
+      const progressIndicatorElement = $.progressIndicator({
+        blockInfo: { enabled: true }
+      })
+      AppConnector.request({
+        module: this.$store.getters['KnowledgeBase/moduleName'],
+        action: 'KnowledgeBaseAjax',
+        mode: 'search',
+        value: this.filter,
+        category: this.categorySearch ? this.tree.activeCategory : ''
+      }).done(data => {
+        let listData = data.result
+        if (listData) {
+          listData = Object.keys(listData).map(function(key) {
+            return { ...listData[key], id: key }
+          })
+        }
+        this.searchData = listData
+        aDeferred.resolve(listData)
+        progressIndicatorElement.progressIndicator({ mode: 'hide' })
+        return listData
+      })
+    }, 500)
   }
 }
 </script>
