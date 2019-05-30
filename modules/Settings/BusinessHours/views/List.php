@@ -1,11 +1,12 @@
 <?php
-
 /**
  * List View Class for Business Hours Settings.
  *
+ * @package   View
+ *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Rafal Pospiech <r.pospiech@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
  */
 class Settings_BusinessHours_List_View extends Settings_Vtiger_List_View
 {
@@ -14,8 +15,7 @@ class Settings_BusinessHours_List_View extends Settings_Vtiger_List_View
 	 */
 	public function getBreadcrumbTitle(App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		return \App\Language::translate('LBL_BUSINESS_HOURS', $moduleName);
+		return \App\Language::translate('LBL_BUSINESS_HOURS', $request->getModule());
 	}
 
 	/**

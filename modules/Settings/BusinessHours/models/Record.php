@@ -1,12 +1,12 @@
 <?php
-
 /**
  * BusinessHours record model class.
  *
+ * @package   Model
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
  */
 class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -143,7 +143,7 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		$days = explode(',', trim($data['working_days'], ','));
 		foreach ($days as $day) {
-			if (!is_numeric($day) || (int) $day < 1 || (int) $day > 7) {
+			if (!is_numeric($day) || (int) $day < 0 || (int) $day > 6) {
 				throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE||' . $day, 406);
 			}
 		}
@@ -184,11 +184,7 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		if (!empty($data['default'])) {
 			$days = explode(',', trim($data['working_days'], ','));
-			$db->createCommand()->update('s_#__businesshours', ['default' => 0], [
-				'and',
-				['OR LIKE', 'working_days', $days],
-				['holidays' => $data['holidays']]
-			])->execute();
+			$db->createCommand()->update('s_#__businesshours', ['default' => 0], ['default' => 1])->execute();
 		}
 		if ($recordId) {
 			$db->createCommand()->update('s_#__businesshours', $data, ['businesshoursid' => $recordId])->execute();
@@ -209,12 +205,10 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$value = $this->get($key);
 		if ($key === 'working_days') {
-			$daysPicklistValues = \App\Fields\Picklist::getValues('dayoftheweek');
-			$daysArray = array_column($daysPicklistValues, 'picklistValue', 'dayoftheweekid');
 			$days = explode(',', trim($value, ','));
 			$value = [];
 			foreach ($days as $day) {
-				$value[] = \App\Language::translate($daysArray[$day], 'Calendar');
+				$value[] = \App\Language::translate(\App\Fields\Date::$nativeDayOfWeekById[$day], 'Calendar');
 			}
 			$value = implode(', ', $value);
 		} elseif ($key === 'working_hours_from' || $key === 'working_hours_to') {

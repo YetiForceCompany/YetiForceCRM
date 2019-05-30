@@ -2,9 +2,11 @@
 /**
  * BusinessHours ListView model class.
  *
+ * @package   Model
+ *
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Rafal Pospiech <r.pospiech@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
  */
 class Settings_BusinessHours_ListView_Model extends Settings_Vtiger_ListView_Model
 {

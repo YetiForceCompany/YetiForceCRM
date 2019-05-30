@@ -32,8 +32,8 @@
 						<div class="col-sm-12 col-md-6 col-lg-3 form-group">
 							<label>{\App\Language::translate('LBL_WORKING_DAYS', $QUALIFIED_MODULE)}</label>
 							<select class="select2" name="working_days[]" multiple="multiple" data-tags="true" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
-								{foreach item="DAY" from=$ALL_DAYS}
-									<option value="{$DAY['dayoftheweekid']}"{if strpos($RECORD_MODEL->get('working_days'),(string)$DAY['dayoftheweekid'])} selected="selected"{/if}>{\App\Language::translate($DAY['dayoftheweek'],'Calendar')}</option>
+								{foreach item="DAY_NAME" key="DAY_ID" from=$DAYS_OF_THE_WEEK}
+									<option value="{$DAY_ID}"{if strpos($RECORD_MODEL->get('working_days'),(string)$DAY_ID)!==false} selected="selected"{/if}>{\App\Language::translate($DAY_NAME,'Calendar')}</option>
 								{/foreach}
 							</select>
 						</div>
