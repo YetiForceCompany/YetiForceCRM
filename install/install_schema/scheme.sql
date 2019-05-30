@@ -7668,17 +7668,6 @@ CREATE TABLE `vtiger_recurring_frequency` (
   PRIMARY KEY (`recurring_frequency_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_rel_mod` */
-
-CREATE TABLE `vtiger_rel_mod` (
-  `rel_modid` int(10) NOT NULL AUTO_INCREMENT,
-  `rel_mod` varchar(200) NOT NULL,
-  `presence` int(1) NOT NULL DEFAULT 1,
-  `picklist_valueid` int(10) NOT NULL DEFAULT 0,
-  `sortorderid` int(10) DEFAULT 0,
-  PRIMARY KEY (`rel_modid`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_relatedlists` */
 
 CREATE TABLE `vtiger_relatedlists` (
