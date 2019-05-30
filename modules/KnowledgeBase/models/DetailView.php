@@ -7,6 +7,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 class KnowledgeBase_DetailView_Model extends Vtiger_DetailView_Model
 {
@@ -20,10 +21,13 @@ class KnowledgeBase_DetailView_Model extends Vtiger_DetailView_Model
 		$relatedLinkEntries = [
 			[
 				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
-				'linkdata' => ['url' => 'index.php?module=KnowledgeBase&view=RecordPreview'],
+				'linkdata' => [
+					'url' => "index.php?module={$moduleName}&view=RecordPreview",
+					'cb' => 'YetiForce_RecordPreview_Js.showRecordPreview'
+				],
 				'linkicon' => 'fas fa-expand',
-				'title' => \App\Language::translate('LBL_FULL_SCREEN', $moduleName),
-				'linkhint' => \App\Language::translate('LBL_FULL_SCREEN', $moduleName),
+				'title' => \App\Language::translate('LBL_GO_TO_PREVIEW', $moduleName),
+				'linkhint' => \App\Language::translate('LBL_GO_TO_PREVIEW', $moduleName),
 				'linkclass' => 'btn-outline-dark btn-sm showModal',
 			],
 		];
