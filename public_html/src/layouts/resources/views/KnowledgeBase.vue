@@ -13,7 +13,7 @@
               icon="mdi-menu"
               @click="$q.platform.is.desktop ? (miniState = !miniState) : (left = !left)"
             >
-              <q-tooltip>{{ translate('JS_TOGGLE_MENU') }}</q-tooltip>
+              <q-tooltip>{{ $root.translate('JS_TOGGLE_MENU') }}</q-tooltip>
             </q-btn>
             <q-breadcrumbs class="ml-2">
               <template v-slot:separator>
@@ -21,7 +21,7 @@
               </template>
               <q-breadcrumbs-el
                 :icon="tree.topCategory.icon"
-                :label="translate(tree.topCategory.label)"
+                :label="$root.translate(tree.topCategory.label)"
                 @click="activeCategory === '' ? '' : getData()"
                 :disabled="activeCategory === ''"
                 :class="[activeCategory === '' ? '' : 'cursor-pointer']"
@@ -59,21 +59,21 @@
                 <q-icon name="mdi-magnify" />
               </template>
               <q-tooltip anchor="top middle" self="center middle">{{
-                translate('JS_INPUT_TOO_SHORT').replace('_LENGTH_', '3')
+                $root.translate('JS_INPUT_TOO_SHORT').replace('_LENGTH_', '3')
               }}</q-tooltip>
             </q-input>
             <div>
               <q-toggle v-model="categorySearch" icon="mdi-file-tree" />
               <q-tooltip>
-                {{ translate('JS_SEARCH_CURRENT_CATEGORY') }}
+                {{ $root.translate('JS_SEARCH_CURRENT_CATEGORY') }}
               </q-tooltip>
             </div>
           </div>
-					<q-btn round dense color="white" text-color="primary" icon="mdi-plus" @click="openQuickCreateModal()">
-						<q-tooltip>
-							{{ translate('JS_QUICK_CREATE') }}
-						</q-tooltip>
-					</q-btn>
+          <q-btn round dense color="white" text-color="primary" icon="mdi-plus" @click="openQuickCreateModal()">
+            <q-tooltip>
+              {{ $root.translate('JS_QUICK_CREATE') }}
+            </q-tooltip>
+          </q-btn>
         </q-toolbar>
       </q-header>
       <q-drawer
@@ -93,7 +93,7 @@
                 <q-icon :name="tree.topCategory.icon" :size="iconSize" />
               </q-item-section>
               <q-item-section>
-                {{ translate(tree.topCategory.label) }}
+                {{ $root.translate(tree.topCategory.label) }}
               </q-item-section>
             </q-item>
             <q-item
@@ -180,7 +180,7 @@
               grid
               hide-header
               :pagination.sync="pagination"
-              :title="translate('JS_ARTICLES')"
+              :title="$root.translate('JS_ARTICLES')"
             >
               <template v-slot:item="props">
                 <q-list class="list-item" padding @click="getRecord(props.row.id)">
@@ -205,10 +205,10 @@
                             {{ tree.categories[category].label }}
                           </q-breadcrumbs-el>
                           <q-tooltip>
-                            {{ translate('JS_CATEGORY') }}
+                            {{ $root.translate('JS_CATEGORY') }}
                           </q-tooltip>
                         </q-breadcrumbs>
-                        | {{ translate('JS_AUTHORED_BY') }}:
+                        | {{ $root.translate('JS_AUTHORED_BY') }}:
                         <span v-html="props.row.assigned_user_id" class="q-ml-sm"></span>
                       </q-item-label>
                       <q-item-label caption>{{ props.row.introduction }}</q-item-label>
@@ -232,7 +232,7 @@
             row-key="subject"
             grid
             hide-header
-            :title="translate('JS_ARTICLES')"
+            :title="$root.translate('JS_ARTICLES')"
           >
             <template v-slot:item="props">
               <q-list class="list-item" padding @click="getRecord(props.row.id)">
@@ -257,10 +257,10 @@
                           {{ tree.categories[category].label }}
                         </q-breadcrumbs-el>
                         <q-tooltip>
-                          {{ translate('JS_CATEGORY') }}
+                          {{ $root.translate('JS_CATEGORY') }}
                         </q-tooltip>
                       </q-breadcrumbs>
-                      | {{ translate('JS_AUTHORED_BY') }}:
+                      | {{ $root.translate('JS_AUTHORED_BY') }}:
                       <span v-html="props.row.assigned_user_id" class="q-ml-sm"></span>
                     </q-item-label>
                     <q-item-label caption>{{ props.row.introduction }}</q-item-label>
@@ -293,7 +293,7 @@
                 <q-icon size="1.5em" name="mdi-chevron-right" />
                 <span v-html="record.category" class="flex items-center"></span>
                 <q-tooltip>
-                  {{ translate('JS_CATEGORY') }}
+                  {{ $root.translate('JS_CATEGORY') }}
                 </q-tooltip>
               </div>
               <q-separator dark vertical spaced />
@@ -301,7 +301,7 @@
                 <q-icon name="mdi-calendar-clock" size="15px"></q-icon>
                 {{ record.short_createdtime }}
                 <q-tooltip>
-                  {{ translate('JS_CREATED') + ': ' + record.full_createdtime }}
+                  {{ $root.translate('JS_CREATED') + ': ' + record.full_createdtime }}
                 </q-tooltip>
               </div>
               <template v-if="record.short_modifiedtime">
@@ -310,7 +310,7 @@
                   <q-icon name="mdi-square-edit-outline" size="15px"></q-icon>
                   {{ record.short_modifiedtime }}
                   <q-tooltip>
-                    {{ translate('JS_MODIFIED') + ': ' + record.full_modifiedtime }}
+                    {{ $root.translate('JS_MODIFIED') + ': ' + record.full_modifiedtime }}
                   </q-tooltip>
                 </div>
               </template>
@@ -318,13 +318,13 @@
           </div>
           <q-space />
           <q-btn dense flat icon="mdi-window-minimize" @click="maximizedToggle = false" :disable="!maximizedToggle">
-            <q-tooltip v-if="maximizedToggle">{{ translate('JS_MINIMIZE') }}</q-tooltip>
+            <q-tooltip v-if="maximizedToggle">{{ $root.translate('JS_MINIMIZE') }}</q-tooltip>
           </q-btn>
           <q-btn dense flat icon="mdi-window-maximize" @click="maximizedToggle = true" :disable="maximizedToggle">
-            <q-tooltip v-if="!maximizedToggle">{{ translate('JS_MAXIMIZE') }}</q-tooltip>
+            <q-tooltip v-if="!maximizedToggle">{{ $root.translate('JS_MAXIMIZE') }}</q-tooltip>
           </q-btn>
           <q-btn dense flat icon="mdi-close" v-close-popup>
-            <q-tooltip>{{ translate('JS_CLOSE') }}</q-tooltip>
+            <q-tooltip>{{ $root.translate('JS_CLOSE') }}</q-tooltip>
           </q-btn>
         </q-bar>
         <q-card-section v-show="record.introduction">
@@ -342,7 +342,7 @@
             row-key="subject"
             grid
             hide-header
-            :title="translate('JS_RELATED_ARTICLES')"
+            :title="$root.translate('JS_RELATED_ARTICLES')"
           >
             <template v-slot:item="props">
               <q-list class="list-item" padding @click="getRecord(props.row.id)">
@@ -367,10 +367,10 @@
                           {{ tree.categories[category].label }}
                         </q-breadcrumbs-el>
                         <q-tooltip>
-                          {{ translate('JS_CATEGORY') }}
+                          {{ $root.translate('JS_CATEGORY') }}
                         </q-tooltip>
                       </q-breadcrumbs>
-                      | {{ translate('JS_AUTHORED_BY') }}:
+                      | {{ $root.translate('JS_AUTHORED_BY') }}:
                       <span v-html="props.row.assigned_user_id" class="q-ml-sm"></span>
                     </q-item-label>
                     <q-item-label caption>{{ props.row.introduction }}</q-item-label>
@@ -388,7 +388,7 @@
           </q-table>
         </q-card-section>
         <q-card-section v-if="hasRelatedRecords">
-          <div class="q-pa-md q-table__title">{{ translate('JS_RELATED_RECORDS') }}</div>
+          <div class="q-pa-md q-table__title">{{ $root.translate('JS_RELATED_RECORDS') }}</div>
           <div v-if="record.related" class="q-pa-sm featured-container items-start q-gutter-md">
             <template v-for="(moduleRecords, moduleName) in record.related">
               <q-list
@@ -429,6 +429,10 @@
 <script>
 import Icon from '../../../components/Icon.vue'
 import Carousel from '../../../components/Carousel.vue'
+import store from '../../../store/index.js'
+// import { Vuex } from '../../../store/index.js'
+import { createNamespacedHelpers } from 'vuex'
+const { mapState, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'KnowledgeBase',
   components: { Icon, Carousel },
@@ -491,9 +495,6 @@ export default {
     }
   },
   methods: {
-    translate(key) {
-      return app.vtranslate(key)
-    },
     getTableArray(tableObject) {
       if (typeof tableObject === 'object') {
         return Object.keys(tableObject).map(function(key) {
@@ -506,7 +507,7 @@ export default {
     getCategories() {
       const aDeferred = $.Deferred()
       return AppConnector.request({
-        module: this.$options.moduleName,
+        module: store.getters['KnowledgeBase/moduleName'],
         action: 'KnowledgeBaseAjax',
         mode: 'categories'
       }).done(data => {
@@ -521,29 +522,12 @@ export default {
         blockInfo: { enabled: true }
       })
       return AppConnector.request({
-        module: this.$options.moduleName,
+        module: store.getters['KnowledgeBase/moduleName'],
         action: 'KnowledgeBaseAjax',
         mode: 'list',
         category: category
       }).done(data => {
         this.tree.data = data.result
-        progressIndicatorElement.progressIndicator({ mode: 'hide' })
-        aDeferred.resolve(data.result)
-      })
-    },
-    getRecord(id) {
-      const aDeferred = $.Deferred()
-      const progressIndicatorElement = $.progressIndicator({
-        blockInfo: { enabled: true }
-      })
-      return AppConnector.request({
-        module: this.$options.moduleName,
-        action: 'KnowledgeBaseAjax',
-        mode: 'detail',
-        record: id
-      }).done(data => {
-        this.record = data.result
-        this.dialog = true
         progressIndicatorElement.progressIndicator({ mode: 'hide' })
         aDeferred.resolve(data.result)
       })
@@ -555,7 +539,7 @@ export default {
           blockInfo: { enabled: true }
         })
         AppConnector.request({
-          module: this.$options.moduleName,
+          module: store.getters['KnowledgeBase/moduleName'],
           action: 'KnowledgeBaseAjax',
           mode: 'search',
           value: this.filter,
@@ -569,13 +553,15 @@ export default {
       } else {
         this.searchData = false
       }
-		},
-		openQuickCreateModal() {
-			const headerInstance = new window.Vtiger_Header_Js
-			headerInstance.quickCreateModule(this.$options.moduleName)
-		}
+    },
+    openQuickCreateModal() {
+      const headerInstance = new window.Vtiger_Header_Js()
+      headerInstance.quickCreateModule(store.getters['KnowledgeBase/moduleName'])
+    },
+    ...mapActions(['getRecord', 'initState'])
   },
   async created() {
+    await this.initState(this.$options.state)
     await this.getCategories()
     await this.getData()
   }

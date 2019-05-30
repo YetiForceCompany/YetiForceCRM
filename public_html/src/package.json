@@ -19,7 +19,8 @@
   "author": "YetiForceCompany <info@yetiforce.com> (https://yetiforce.com)",
   "license": "YetiForce Public License v3",
   "scripts": {
-    "build": "node build.js"
+    "build": "node build.js",
+    "dev": "node dev.js"
   },
   "dependencies": {
     "axios": "^0.18.0",

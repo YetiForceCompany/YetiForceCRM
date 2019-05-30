@@ -1,19 +1,27 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
-import Quasar from '../../../libraries/quasar.js'
+import Quasar from '../../../quasar.config.js'
 import KnowledgeBaseComponent from './KnowledgeBase.vue'
 import RecordPreviewComponent from './RecordPreview.vue'
 import store from '../../../store/index.js'
 
 let VueInstance = null
+window.Vue.component(KnowledgeBaseComponent)
 window.KnowledgeBase = {
 	component: KnowledgeBaseComponent,
 	mount(config) {
-		KnowledgeBaseComponent.moduleName = config.moduleName
-		VueInstance = new window.Vue(KnowledgeBaseComponent).$mount(config.el)
+		KnowledgeBaseComponent.state = config.state
+		VueInstance = new window.Vue({
+			store,
+			render: h => h(KnowledgeBaseComponent),
+			methods: {
+				translate(key) {
+					return app.vtranslate(key)
+				}
+			}
+		}).$mount(config.el)
 		return VueInstance
-	},
-	store
+	}
 }
 window.RecordPreview = {
 	component: RecordPreviewComponent,
