@@ -147,8 +147,7 @@ class ConfReport
 	public static $database = [
 		'driver' => ['recommended' => 'mysql', 'type' => 'Equal', 'container' => 'db', 'testCli' => false, 'label' => 'DB_DRIVER'],
 		'typeDb' => [ 'container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION_TYPE'],
-		'serverVersionShort' => ['recommended' => '10.x', 'type' => 'VersionDb', 'container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION'],
-		'serverVersionLong' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_SERVER_VERSION'],
+		'serverVersion' => ['recommended' => '10.x', 'type' => 'VersionDb', 'container' => 'db', 'testCli' => false, 'label' => 'DB_SERVER_VERSION'],
 		'clientVersion' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_CLIENT_VERSION'],
 		'versionComment' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION_COMMENT'],
 		'connectionStatus' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_CONNECTION_STATUS'],
@@ -482,8 +481,7 @@ class ConfReport
 		$conf = [
 			'driver' => $driver,
 			'typeDb' => $infoDb['nameDb'],
-			'serverVersionShort' => $infoDb['versionDb'],
-			'serverVersionLong' => $pdo->getAttribute(PDO::ATTR_SERVER_VERSION),
+			'serverVersion' => $infoDb['versionDb'],
 			'clientVersion' => $pdo->getAttribute(PDO::ATTR_CLIENT_VERSION),
 			'versionComment' => $infoDb['versionComment'],
 			'connectionStatus' => $pdo->getAttribute(PDO::ATTR_CONNECTION_STATUS),
@@ -622,7 +620,7 @@ class ConfReport
 		if($dbName === 'MariaDb'){
 			$recommendedVersion = '10.x';
 		}elseif($dbName === 'MySQL'){
-			$recommendedVersion = '5.6';
+			$recommendedVersion = '5.6.x';
 		}
 		$row['status'] = false;
 		if (!empty($row[$sapi]) && \App\Version::compare($row[$sapi], $recommendedVersion, '>=')) {
