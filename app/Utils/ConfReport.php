@@ -147,9 +147,10 @@ class ConfReport
 	public static $database = [
 		'driver' => ['recommended' => 'mysql', 'type' => 'Equal', 'container' => 'db', 'testCli' => false, 'label' => 'DB_DRIVER'],
 		'typeDb' => [ 'container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION_TYPE'],
-		'versionDb' => ['recommended' => 'MariaDb: x >= 10.0 | MySQL: x >= 5.6', 'type' => 'VersionDb', 'container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION'],
-		'serverVersion' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_SERVER_VERSION'],
+		'serverVersionShort' => ['recommended' => 'MariaDb: x >= 10.0 | MySQL: x >= 5.6', 'type' => 'VersionDb', 'container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION'],
+		'serverVersionLong' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_SERVER_VERSION'],
 		'clientVersion' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_CLIENT_VERSION'],
+		'versionComment' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION_COMMENT'],
 		'connectionStatus' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_CONNECTION_STATUS'],
 		'serverInfo' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_SERVER_INFO'],
 		'innodb_lock_wait_timeout' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'db', 'testCli' => false],
@@ -481,9 +482,10 @@ class ConfReport
 		$conf = [
 			'driver' => $driver,
 			'typeDb' => $infoDb['nameDb'],
-			'versionDb' =>  $infoDb['versionDb'],
-			'serverVersion' => $infoDb['versionInnoDb'],
+			'serverVersionShort' => $infoDb['versionDb'],
+			'serverVersionLong' => $pdo->getAttribute(PDO::ATTR_SERVER_VERSION),
 			'clientVersion' => $pdo->getAttribute(PDO::ATTR_CLIENT_VERSION),
+			'versionComment' => $infoDb['versionComment'],
 			'connectionStatus' => $pdo->getAttribute(PDO::ATTR_CONNECTION_STATUS),
 			'serverInfo' => $pdo->getAttribute(PDO::ATTR_SERVER_INFO),
 		];
@@ -616,12 +618,20 @@ class ConfReport
 	{
 		unset($name);
 		$infoDb = \App\Db::getInstance()->getInfoDb();
+		$dbName = $infoDb['nameDb'];
+		if($dbName === 'MariaDb'){
+			$recommendedVersion = '10.0';
+		}elseif($dbName === 'MySQL'){
+			$recommendedVersion = '5.6';
+		}
 		$row['status'] = false;
-		if (!empty($row[$sapi]) && \App\Version::compare($row[$sapi], trim($infoDb['recommendedVersion']), '>=')) {
+		if (!empty($row[$sapi]) && \App\Version::compare($row[$sapi], $recommendedVersion, '>=')) {
 				$row['status'] = true;
 		}
+		$row['recommended'] = $recommendedVersion;
 		return $row;
 	}
+
 	/**
 	 * Validate error reporting.
 	 *

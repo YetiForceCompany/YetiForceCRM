@@ -143,16 +143,14 @@ class Db extends \yii\db\Connection
 		$versionComment = $conf['version_comment'];
 		if (0 === stripos($versionComment, 'MariaDb')) {
 			$nameDb = 'MariaDb';
-			$recommended = '10.0';
 		}
 		if (0 === stripos($versionComment, 'MySQL')) {
 			$nameDb = 'MySQL';
-			$recommended = '5.6';
 		}
 		$dbInfo['nameDb'] = $nameDb;
 		$dbInfo['versionDb'] = $version;
-		$dbInfo['recommendedVersion'] = $recommended;
 		$dbInfo['versionInnoDb'] = $conf['innodb_version'];
+		$dbInfo['versionComment'] = $versionComment;
 		return $dbInfo;
 	}
 
