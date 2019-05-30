@@ -15,7 +15,7 @@
               <q-icon size="1.5em" name="mdi-chevron-right" />
               <span v-html="record.category" class="flex items-center"></span>
               <q-tooltip>
-                {{ translate('JS_CATEGORY') }}
+                {{ $root.translate('JS_CATEGORY') }}
               </q-tooltip>
             </div>
             <q-separator dark vertical spaced />
@@ -23,7 +23,7 @@
               <q-icon name="mdi-calendar-clock" size="15px"></q-icon>
               {{ record.short_createdtime }}
               <q-tooltip>
-                {{ translate('JS_CREATED') + ': ' + record.full_createdtime }}
+                {{ $root.translate('JS_CREATED') + ': ' + record.full_createdtime }}
               </q-tooltip>
             </div>
             <template v-if="record.short_modifiedtime">
@@ -32,7 +32,7 @@
                 <q-icon name="mdi-square-edit-outline" size="15px"></q-icon>
                 {{ record.short_modifiedtime }}
                 <q-tooltip>
-                  {{ translate('JS_MODIFIED') + ': ' + record.full_modifiedtime }}
+                  {{ $root.translate('JS_MODIFIED') + ': ' + record.full_modifiedtime }}
                 </q-tooltip>
               </div>
             </template>
@@ -40,7 +40,7 @@
         </div>
         <q-space />
         <q-btn dense flat icon="mdi-close" @click="hideModal()">
-          <q-tooltip>{{ translate('JS_CLOSE') }}</q-tooltip>
+          <q-tooltip>{{ $root.translate('JS_CLOSE') }}</q-tooltip>
         </q-btn>
       </q-bar>
       <q-card-section v-show="record.introduction">
@@ -58,7 +58,7 @@
           row-key="subject"
           grid
           hide-header
-          :title="translate('JS_RELATED_ARTICLES')"
+          :title="$root.translate('JS_RELATED_ARTICLES')"
         >
           <template v-slot:item="props">
             <q-list class="list-item" padding @click="getRecord(props.row.id)">
@@ -83,10 +83,10 @@
                         {{ tree.categories[category].label }}
                       </q-breadcrumbs-el>
                       <q-tooltip>
-                        {{ translate('JS_CATEGORY') }}
+                        {{ $root.translate('JS_CATEGORY') }}
                       </q-tooltip>
                     </q-breadcrumbs>
-                    | {{ translate('JS_AUTHORED_BY') }}:
+                    | {{ $root.translate('JS_AUTHORED_BY') }}:
                     <span v-html="props.row.assigned_user_id" class="q-ml-sm"></span>
                   </q-item-label>
                   <q-item-label caption>{{ props.row.introduction }}</q-item-label>
@@ -104,7 +104,7 @@
         </q-table>
       </q-card-section>
       <q-card-section v-if="hasRelatedRecords">
-        <div class="q-pa-md q-table__title">{{ translate('JS_RELATED_RECORDS') }}</div>
+        <div class="q-pa-md q-table__title">{{ $root.translate('JS_RELATED_RECORDS') }}</div>
         <div v-if="record.related" class="q-pa-sm featured-container items-start q-gutter-md">
           <template v-for="(moduleRecords, moduleName) in record.related">
             <q-list
@@ -196,9 +196,6 @@ export default {
     }
   },
   methods: {
-    translate(key) {
-      return app.vtranslate(key)
-    },
     getTableArray(tableObject) {
       if (typeof tableObject === 'object') {
         return Object.keys(tableObject).map(function(key) {

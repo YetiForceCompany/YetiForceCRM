@@ -15,7 +15,7 @@ async function build(filePath) {
 	const outputFile = `../${filePath.replace('.js', '.vue.js')}`
 	const inputOptions = {
 		input: filePath,
-		plugins: [json(), resolve(), commonjs(), vue({ compileTemplate: true }), globals()]
+		plugins: [sourcemaps(), json(), resolve(), commonjs(), vue({ compileTemplate: true }), globals()]
 	}
 	const outputOptions = {
 		sourcemap: true,

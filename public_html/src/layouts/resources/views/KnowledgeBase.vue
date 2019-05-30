@@ -22,17 +22,21 @@
               <q-breadcrumbs-el
                 :icon="tree.topCategory.icon"
                 :label="$root.translate(tree.topCategory.label)"
-                @click="activeCategory === '' ? '' : getData()"
-                :disabled="activeCategory === ''"
-                :class="[activeCategory === '' ? '' : 'cursor-pointer']"
+                @click="tree.activeCategory === '' ? '' : fetchData()"
+                :disabled="tree.activeCategory === ''"
+                :class="[tree.activeCategory === '' ? '' : 'cursor-pointer']"
               />
-              <template v-if="activeCategory !== ''">
+              <template v-if="tree.activeCategory !== ''">
                 <q-breadcrumbs-el
-                  v-for="(category, index) in tree.categories[activeCategory].parentTree"
+                  v-for="(category, index) in tree.categories[tree.activeCategory].parentTree"
                   :key="index"
-                  :disabled="index === tree.categories[activeCategory].parentTree.length - 1"
-                  :class="[index === tree.categories[activeCategory].parentTree.length - 1 ? '' : 'cursor-pointer']"
-                  @click="index === tree.categories[activeCategory].parentTree.length - 1 ? '' : getData(category)"
+                  :disabled="index === tree.categories[tree.activeCategory].parentTree.length - 1"
+                  :class="[
+                    index === tree.categories[tree.activeCategory].parentTree.length - 1 ? '' : 'cursor-pointer'
+                  ]"
+                  @click="
+                    index === tree.categories[tree.activeCategory].parentTree.length - 1 ? '' : fetchData(category)
+                  "
                 >
                   <icon
                     v-if="tree.categories[category].icon"
@@ -88,7 +92,7 @@
       >
         <q-scroll-area class="fit">
           <q-list>
-            <q-item v-show="activeCategory === ''" active>
+            <q-item v-show="tree.activeCategory === ''" active>
               <q-item-section avatar>
                 <q-icon :name="tree.topCategory.icon" :size="iconSize" />
               </q-item-section>
@@ -97,22 +101,24 @@
               </q-item-section>
             </q-item>
             <q-item
-              v-if="activeCategory !== ''"
+              v-if="tree.activeCategory !== ''"
               clickable
               active
               @click="
-                getData(
-                  tree.categories[activeCategory].parentTree.length !== 1
-                    ? tree.categories[activeCategory].parentTree[tree.categories[activeCategory].parentTree.length - 2]
+                fetchData(
+                  tree.categories[tree.activeCategory].parentTree.length !== 1
+                    ? tree.categories[tree.activeCategory].parentTree[
+                        tree.categories[tree.activeCategory].parentTree.length - 2
+                      ]
                     : ''
                 )
               "
             >
               <q-item-section avatar>
-                <icon :size="iconSize" :icon="tree.categories[activeCategory].icon || defaultTreeIcon" />
+                <icon :size="iconSize" :icon="tree.categories[tree.activeCategory].icon || defaultTreeIcon" />
               </q-item-section>
               <q-item-section>
-                {{ tree.categories[activeCategory].label }}
+                {{ tree.categories[tree.activeCategory].label }}
               </q-item-section>
               <q-item-section avatar>
                 <q-icon name="mdi-chevron-left" />
@@ -123,7 +129,7 @@
               :key="categoryKey"
               clickable
               v-ripple
-              @click="getData(categoryValue)"
+              @click="fetchData(categoryValue)"
             >
               <q-item-section avatar>
                 <icon :size="iconSize" :icon="tree.categories[categoryValue].icon || defaultTreeIcon" />
@@ -147,7 +153,7 @@
             >
               <template v-for="(categoryValue, categoryKey) in tree.data.categories">
                 <q-list bordered padding dense v-if="tree.data.featured[categoryValue]" :key="categoryKey">
-                  <q-item header clickable class="text-black flex" @click="getData(categoryValue)">
+                  <q-item header clickable class="text-black flex" @click="fetchData(categoryValue)">
                     <icon :icon="tree.categories[categoryValue].icon" :size="iconSize" class="mr-2"></icon>
                     {{ tree.categories[categoryValue].label }}
                   </q-item>
@@ -157,7 +163,7 @@
                     :key="featuredValue.id"
                     class="text-subtitle2"
                     v-ripple
-                    @click.prevent="getRecord(featuredValue.id)"
+                    @click.prevent="fetchRecord(featuredValue.id)"
                   >
                     <q-item-section class="align-items-center flex-row no-wrap justify-content-start">
                       <q-icon name="mdi-star" :size="iconSize" class="mr-2"></q-icon>
@@ -172,110 +178,17 @@
                 </q-list>
               </template>
             </div>
-            <q-table
-              v-show="activeCategory !== ''"
+            <records-list
+              v-show="tree.activeCategory !== ''"
               :data="getTableArray(tree.data.records)"
-              :columns="columns"
-              row-key="subject"
-              grid
-              hide-header
-              :pagination.sync="pagination"
               :title="$root.translate('JS_ARTICLES')"
-            >
-              <template v-slot:item="props">
-                <q-list class="list-item" padding @click="getRecord(props.row.id)">
-                  <q-item clickable>
-                    <q-item-section avatar>
-                      <q-icon name="mdi-text" />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label class="text-primary"> {{ props.row.subject }}</q-item-label>
-                      <q-item-label class="flex items-center" overline>
-                        <q-breadcrumbs class="mr-2 text-grey-8" active-color="grey-8">
-                          <q-breadcrumbs-el
-                            v-for="category in tree.categories[props.row.category].parentTree"
-                            :key="tree.categories[category].label"
-                          >
-                            <icon
-                              v-if="tree.categories[category].icon"
-                              :size="iconSize"
-                              :icon="tree.categories[category].icon"
-                              class="q-mr-sm"
-                            />
-                            {{ tree.categories[category].label }}
-                          </q-breadcrumbs-el>
-                          <q-tooltip>
-                            {{ $root.translate('JS_CATEGORY') }}
-                          </q-tooltip>
-                        </q-breadcrumbs>
-                        | {{ $root.translate('JS_AUTHORED_BY') }}:
-                        <span v-html="props.row.assigned_user_id" class="q-ml-sm"></span>
-                      </q-item-label>
-                      <q-item-label caption>{{ props.row.introduction }}</q-item-label>
-                    </q-item-section>
-                    <q-item-section side top>
-                      <q-item-label caption>{{ props.row.short_time }}</q-item-label>
-                      <q-tooltip>
-                        {{ props.row.full_time }}
-                      </q-tooltip>
-                    </q-item-section>
-                  </q-item>
-                </q-list>
-              </template>
-              <template v-slot:bottom="props"> </template>
-            </q-table>
+            />
           </div>
-          <q-table
+          <records-list
             v-if="getTableArray(searchData).length"
             :data="getTableArray(searchData)"
-            :columns="columns"
-            row-key="subject"
-            grid
-            hide-header
             :title="$root.translate('JS_ARTICLES')"
-          >
-            <template v-slot:item="props">
-              <q-list class="list-item" padding @click="getRecord(props.row.id)">
-                <q-item clickable>
-                  <q-item-section avatar>
-                    <q-icon name="mdi-text" />
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label class="text-primary"> {{ props.row.subject }}</q-item-label>
-                    <q-item-label class="flex items-center" overline>
-                      <q-breadcrumbs class="mr-2 text-grey-8" active-color="grey-8">
-                        <q-breadcrumbs-el
-                          v-for="category in tree.categories[props.row.category].parentTree"
-                          :key="tree.categories[category].label"
-                        >
-                          <icon
-                            v-if="tree.categories[category].icon"
-                            :size="iconSize"
-                            :icon="tree.categories[category].icon"
-                            class="q-mr-sm"
-                          />
-                          {{ tree.categories[category].label }}
-                        </q-breadcrumbs-el>
-                        <q-tooltip>
-                          {{ $root.translate('JS_CATEGORY') }}
-                        </q-tooltip>
-                      </q-breadcrumbs>
-                      | {{ $root.translate('JS_AUTHORED_BY') }}:
-                      <span v-html="props.row.assigned_user_id" class="q-ml-sm"></span>
-                    </q-item-label>
-                    <q-item-label caption>{{ props.row.introduction }}</q-item-label>
-                  </q-item-section>
-                  <q-item-section side top>
-                    <q-item-label caption>{{ props.row.short_time }}</q-item-label>
-                    <q-tooltip>
-                      {{ props.row.full_time }}
-                    </q-tooltip>
-                  </q-item-section>
-                </q-item>
-              </q-list>
-            </template>
-            <template v-slot:bottom="props"> </template>
-          </q-table>
+          />
         </q-page>
       </q-page-container>
     </q-layout>
@@ -335,57 +248,11 @@
           <div v-else v-html="record.content"></div>
         </q-card-section>
         <q-card-section v-if="hasRelatedArticles">
-          <q-table
+          <records-list
             v-if="record.related"
             :data="getTableArray(record.related.Articles)"
-            :columns="columns"
-            row-key="subject"
-            grid
-            hide-header
             :title="$root.translate('JS_RELATED_ARTICLES')"
-          >
-            <template v-slot:item="props">
-              <q-list class="list-item" padding @click="getRecord(props.row.id)">
-                <q-item clickable>
-                  <q-item-section avatar>
-                    <q-icon name="mdi-text" />
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label class="text-primary"> {{ props.row.subject }}</q-item-label>
-                    <q-item-label class="flex items-center" overline>
-                      <q-breadcrumbs class="mr-2 text-grey-8" active-color="grey-8">
-                        <q-breadcrumbs-el
-                          v-for="category in tree.categories[props.row.category].parentTree"
-                          :key="tree.categories[category].label"
-                        >
-                          <icon
-                            v-if="tree.categories[category].icon"
-                            :size="iconSize"
-                            :icon="tree.categories[category].icon"
-                            class="q-mr-sm"
-                          />
-                          {{ tree.categories[category].label }}
-                        </q-breadcrumbs-el>
-                        <q-tooltip>
-                          {{ $root.translate('JS_CATEGORY') }}
-                        </q-tooltip>
-                      </q-breadcrumbs>
-                      | {{ $root.translate('JS_AUTHORED_BY') }}:
-                      <span v-html="props.row.assigned_user_id" class="q-ml-sm"></span>
-                    </q-item-label>
-                    <q-item-label caption>{{ props.row.introduction }}</q-item-label>
-                  </q-item-section>
-                  <q-item-section side top>
-                    <q-item-label caption>{{ props.row.short_time }}</q-item-label>
-                    <q-tooltip>
-                      {{ props.row.full_time }}
-                    </q-tooltip>
-                  </q-item-section>
-                </q-item>
-              </q-list>
-            </template>
-            <template v-slot:bottom="props"></template>
-          </q-table>
+          />
         </q-card-section>
         <q-card-section v-if="hasRelatedRecords">
           <div class="q-pa-md q-table__title">{{ $root.translate('JS_RELATED_RECORDS') }}</div>
@@ -429,54 +296,22 @@
 <script>
 import Icon from '../../../components/Icon.vue'
 import Carousel from '../../../components/Carousel.vue'
-import store from '../../../store/index.js'
-// import { Vuex } from '../../../store/index.js'
+import RecordsList from './RecordsList.vue'
 import { createNamespacedHelpers } from 'vuex'
-const { mapState, mapActions } = createNamespacedHelpers('KnowledgeBase')
+const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'KnowledgeBase',
-  components: { Icon, Carousel },
+  components: { Icon, Carousel, RecordsList },
   data() {
     return {
       moduleName: '',
       defaultTreeIcon: 'mdi-subdirectory-arrow-right',
       showing: false,
       miniState: false,
-      iconSize: '18px',
       left: true,
       filter: '',
-      record: false,
-      dialog: false,
       categorySearch: false,
       maximizedToggle: true,
-      pagination: {
-        rowsPerPage: 0
-      },
-      columns: [
-        {
-          name: 'desc',
-          required: true,
-          label: 'Title',
-          align: 'left',
-          field: row => row.subject,
-          format: val => `${val}`,
-          sortable: true
-        },
-        { name: 'short_time', align: 'center', label: 'Short time', field: 'short_time', sortable: true },
-        { name: 'introduction', align: 'center', label: 'Introduction', field: 'introduction', sortable: true }
-      ],
-      activeCategory: '',
-      tree: {
-        data: {
-          records: [],
-          featured: {}
-        },
-        topCategory: {
-          icon: 'mdi-file-tree',
-          label: 'JS_MAIN_CATEGORIES'
-        },
-        categories: {}
-      },
       searchData: false
     }
   },
@@ -492,7 +327,16 @@ export default {
     },
     hasRelatedArticles() {
       return this.record ? this.record.related.Articles.length === undefined : false
-    }
+    },
+    dialog: {
+      set(val) {
+        this.$store.commit('KnowledgeBase/setDialog', val)
+      },
+      get() {
+        return this.$store.getters['KnowledgeBase/dialog']
+      }
+    },
+    ...mapGetters(['tree', 'record', 'iconSize'])
   },
   methods: {
     getTableArray(tableObject) {
@@ -503,34 +347,6 @@ export default {
       } else {
         return []
       }
-    },
-    getCategories() {
-      const aDeferred = $.Deferred()
-      return AppConnector.request({
-        module: store.getters['KnowledgeBase/moduleName'],
-        action: 'KnowledgeBaseAjax',
-        mode: 'categories'
-      }).done(data => {
-        this.tree.categories = data.result
-        aDeferred.resolve(data.result)
-      })
-    },
-    getData(category = '') {
-      const aDeferred = $.Deferred()
-      this.activeCategory = category
-      const progressIndicatorElement = $.progressIndicator({
-        blockInfo: { enabled: true }
-      })
-      return AppConnector.request({
-        module: store.getters['KnowledgeBase/moduleName'],
-        action: 'KnowledgeBaseAjax',
-        mode: 'list',
-        category: category
-      }).done(data => {
-        this.tree.data = data.result
-        progressIndicatorElement.progressIndicator({ mode: 'hide' })
-        aDeferred.resolve(data.result)
-      })
     },
     search(e) {
       if (this.filter.length >= 3) {
@@ -543,7 +359,7 @@ export default {
           action: 'KnowledgeBaseAjax',
           mode: 'search',
           value: this.filter,
-          category: this.categorySearch ? this.activeCategory : ''
+          category: this.categorySearch ? this.tree.activeCategory : ''
         }).done(data => {
           this.searchData = data.result
           aDeferred.resolve(data.result)
@@ -558,12 +374,12 @@ export default {
       const headerInstance = new window.Vtiger_Header_Js()
       headerInstance.quickCreateModule(store.getters['KnowledgeBase/moduleName'])
     },
-    ...mapActions(['getRecord', 'initState'])
+    ...mapActions(['fetchCategories', 'fetchData', 'fetchRecord', 'initState'])
   },
   async created() {
     await this.initState(this.$options.state)
-    await this.getCategories()
-    await this.getData()
+    await this.fetchCategories()
+    await this.fetchData()
   }
 }
 </script>
