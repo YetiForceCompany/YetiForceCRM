@@ -65,6 +65,9 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 		if ($columnName === $this->getColumnName()) {
 			if ($isUserFormat) {
 				$value = $this->getDBValue($value, $columnName);
+				if (null !== $originalValue) {
+					$originalValue = $this->getDBValue($originalValue, $columnName);
+				}
 			}
 			if ($this->maximumLength < $value || -$this->maximumLength > $value) {
 				throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
@@ -80,107 +83,71 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getValueForSave(array $item, bool $userFormat = false)
+	public function getValueForSave(array $item, bool $userFormat = false, string $column = null)
 	{
-		$discountsConfig = Vtiger_Inventory_Model::getDiscountsConfig();
-		$returnVal = 0.0;
-		if (1 === (int) $discountsConfig['active'] && !\App\Json::isEmpty($item['discountparam'] ?? '')) {
-			$discountParam = \App\Json::decode($item['discountparam']);
-			$aggregationType = $discountParam['aggregationType'];
-			$totalPrice = static::getInstance($this->getModuleName(), 'TotalPrice', $item, $userFormat)->getValueForSave($item, $userFormat);
-			$method = 'calculateDiscount' . $this->getDiscountMethod((int) $discountsConfig['aggregation'], $aggregationType);
-			$returnVal = $this->{$method}($totalPrice, $discountParam, $aggregationType);
+		if ($column === $this->getColumnName() || null === $column) {
+			$value = 0.0;
+			if (!\App\Json::isEmpty($item['discountparam'] ?? '') && ($discountsConfig = \Vtiger_Inventory_Model::getDiscountsConfig()) && 1 === (int) $discountsConfig['active']) {
+				$discountParam = \App\Json::decode($item['discountparam']);
+				$totalPrice = static::getInstance($this->getModuleName(), 'TotalPrice')->getValueForSave($item, $userFormat);
+				$value = $this->getDiscountValue($discountParam, $totalPrice, (int) $discountsConfig['aggregation']);
+			}
+		} else {
+			$value = $userFormat ? $this->getDBValue($item[$column]) : $item[$column];
 		}
-		return (float) $returnVal;
+		return $value;
 	}
 
 	/**
-	 * Calculate the discount using the 'Can not be combined' method.
+	 * Calculate the discount value.
 	 *
-	 * @param float  $totalPrice
 	 * @param array  $discountParam
-	 * @param string $aggregationType
+	 * @param float  $totalPrice
+	 * @param string $mode          0-can not be combined, 1-summary, 2-cascade
 	 *
 	 * @return float
 	 */
-	private function calculateDiscountCannotBeCombined(float $totalPrice, array $discountParam, string $aggregationType): float
+	private function getDiscountValue(array $discountParam, float $totalPrice, int $mode): float
 	{
-		$returnVal = 0.0;
+		$value = 0.0;
+		$types = $discountParam['aggregationType'];
+		if (!is_array($types)) {
+			$types = [$types];
+		}
+		foreach ($types as $type) {
+			$discountValue = $totalPrice * $this->getDiscountValueByType($type, $discountParam);
+			$value += $discountValue;
+			if (2 === $mode) {
+				$totalPrice -= $discountValue;
+			}
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Gets the discount by type.
+	 *
+	 * @param string $aggregationType
+	 * @param array  $discountParam
+	 *
+	 * @return float
+	 */
+	private function getDiscountValueByType(string $aggregationType, array $discountParam): float
+	{
 		$discountType = $discountParam["{$aggregationType}DiscountType"] ?? 'percentage';
 		$discount = $discountParam["{$aggregationType}Discount"];
-		if ('amount' === $discountType) {
-			$returnVal = $discount;
-		} elseif ('percentage' === $discountType) {
-			$returnVal = ($totalPrice * $discount / 100.00);
-		} else {
-			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||discountType||{$discountType}", 406);
-		}
-		return $returnVal;
-	}
-
-	/**
-	 * Calculate the discount using the 'In total' method.
-	 *
-	 * @param float $totalPrice
-	 * @param array $discountParam
-	 * @param array $aggregationType
-	 *
-	 * @return float
-	 */
-	private function calculateDiscountInTotal(float $totalPrice, array $discountParam, array $aggregationType): float
-	{
-		$returnVal = 0;
-		foreach ($aggregationType as $aggregationType) {
-			$returnVal += $this->calculateDiscountCannotBeCombined($totalPrice, $discountParam, $aggregationType);
-		}
-		return $returnVal;
-	}
-
-	/**
-	 * Calculate the discount using the 'Cascade' method.
-	 *
-	 * @param float $totalPrice
-	 * @param array $discountParam
-	 * @param array $aggregationType
-	 *
-	 * @return void
-	 */
-	private function calculateDiscountCascade(float $totalPrice, array $discountParam, array $aggregationType): float
-	{
-		$returnVal = 0.0;
-		$totalPriceForDiscount = $totalPrice;
-		foreach ($aggregationType as $aggregationType) {
-			$discount = $this->calculateDiscountCannotBeCombined($totalPriceForDiscount, $discountParam, $aggregationType);
-			$totalPriceForDiscount += $discount;
-			$returnVal += $discount;
-		}
-		return $returnVal;
-	}
-
-	/**
-	 * Recognize the discount counting method.
-	 *
-	 * @param int          $aggregation
-	 * @param array|string $aggregationType
-	 *
-	 * @return string
-	 */
-	private function getDiscountMethod(int $aggregation, $aggregationType): string
-	{
-		if (!is_array($aggregationType)) {
-			return 'CannotBeCombined';
-		}
-		switch ($aggregation) {
-			case 0:
-			case 1:
-				$returnVal = 'Intotal';
+		$value = 0.0;
+		switch ($discountType) {
+			case 'amount':
+			$value = $discount;
 				break;
-			case 2:
-				$returnVal = 'Cascade';
+			case 'percentage':
+			$value = $discount / 100.00;
 				break;
 			default:
-				throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||aggregation||$aggregation", 406);
+				throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||discountType||{$discountType}", 406);
 		}
-		return $returnVal;
+		return $value;
 	}
 }

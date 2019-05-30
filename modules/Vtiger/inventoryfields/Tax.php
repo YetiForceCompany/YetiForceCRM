@@ -74,7 +74,12 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
 		if ($columnName === $this->getColumnName()) {
-			$value = $isUserFormat ? \App\Fields\Double::formatToDb($value) : $value;
+			if ($isUserFormat) {
+				$value = $this->getDBValue($value, $columnName);
+				if (null !== $originalValue) {
+					$originalValue = $this->getDBValue($originalValue, $columnName);
+				}
+			}
 			if (!is_numeric($value)) {
 				throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
 			}
@@ -127,97 +132,45 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getValueForSave(array $item, bool $userFormat = false)
+	public function getValueForSave(array $item, bool $userFormat = false, string $column = null)
 	{
-		$taxesConfig = Vtiger_Inventory_Model::getTaxesConfig();
-		$returnVal = 0.0;
-		if (1 === (int) $taxesConfig['active'] && !\App\Json::isEmpty($item['taxparam'] ?? '')) {
-			$netPrice = static::getInstance($this->getModuleName(), 'NetPrice', $item, $userFormat)->getValueForSave($item, $userFormat);
-			$taxParam = \App\Json::decode($item['taxparam']);
-			$aggregationType = $taxParam['aggregationType'];
-			$method = 'calculateTax' . $this->getTaxMethod((int) $taxesConfig['aggregation'], $aggregationType);
-			$returnVal = $this->{$method}($netPrice, $taxParam, $aggregationType);
+		if ($column === $this->getColumnName() || null === $column) {
+			$value = 0.0;
+			if (!\App\Json::isEmpty($item['taxparam'] ?? '') && ($taxesConfig = \Vtiger_Inventory_Model::getTaxesConfig()) && 1 === (int) $taxesConfig['active']) {
+				$taxParam = \App\Json::decode($item['taxparam']);
+				$netPrice = static::getInstance($this->getModuleName(), 'NetPrice', $item, $userFormat)->getValueForSave($item, $userFormat);
+				$value = $this->getTaxValue($taxParam, $netPrice, (int) $taxesConfig['aggregation']);
+			}
+		} else {
+			$value = $userFormat ? $this->getDBValue($item[$column]) : $item[$column];
 		}
-		return (float) $returnVal;
+		return $value;
 	}
 
 	/**
-	 * Calculate the tax by the method - 'Cannot be combined'.
+	 * Calculate the tax value.
 	 *
-	 * @param float  $netPrice
 	 * @param array  $taxParam
-	 * @param string $aggregationType
+	 * @param float  $netPrice
+	 * @param string $mode     0-can not be combined, 1-summary, 2-cascade
 	 *
 	 * @return float
 	 */
-	private function calculateTaxCannotBeCombined(float $netPrice, array $taxParam, string $aggregationType): float
+	private function getTaxValue(array $taxParam, float $netPrice, int $mode): float
 	{
-		return $netPrice * (float) ($taxParam["{$aggregationType}Tax"]) / 100.00;
-	}
+		$value = 0.0;
+		$types = $taxParam['aggregationType'];
+		if (!is_array($types)) {
+			$types = [$types];
+		}
+		foreach ($types as $type) {
+			$taxValue = $netPrice * $taxParam["{$type}Tax"] / 100.00;
+			$value += $taxValue;
+			if (2 === $mode) {
+				$netPrice += $taxValue;
+			}
+		}
 
-	/**
-	 * Calculate the tax by the method - 'In total'.
-	 *
-	 * @param float $netPrice
-	 * @param array $taxParam
-	 * @param array $aggregationType
-	 *
-	 * @return float
-	 */
-	private function calculateTaxInTotal(float $netPrice, array $taxParam, array $aggregationType): float
-	{
-		$tax = 0.0;
-		foreach ($aggregationType as $aggregationType) {
-			$tax += (float) $taxParam["{$aggregationType}Tax"];
-		}
-		return $netPrice * $tax / 100.00;
-	}
-
-	/**
-	 * Calculate the tax by the method - 'Cascade'.
-	 *
-	 * @param float $netPrice
-	 * @param array $taxParam
-	 * @param array $aggregationType
-	 *
-	 * @return float
-	 */
-	private function calculateTaxCascade(float $netPrice, array $taxParam, array $aggregationType): float
-	{
-		$returnVal = 0.0;
-		$netPriceForTax = $netPrice;
-		foreach ($aggregationType as $aggregationType) {
-			$tax = $netPriceForTax * (float) $taxParam["{$aggregationType}Tax"] / 100.00;
-			$netPriceForTax += $tax;
-			$returnVal += $tax;
-		}
-		return $returnVal;
-	}
-
-	/**
-	 * Recognize the tax calculation method.
-	 *
-	 * @param int          $aggregation
-	 * @param array|string $aggregationType
-	 *
-	 * @return string
-	 */
-	private function getTaxMethod(int $aggregation, $aggregationType): string
-	{
-		if (!is_array($aggregationType)) {
-			return 'CannotBeCombined';
-		}
-		switch ($aggregation) {
-			case 0:
-			case 1:
-				$returnVal = 'Intotal';
-				break;
-			case 2:
-				$returnVal = 'Cascade';
-				break;
-			default:
-				throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||aggregation||$aggregation", 406);
-		}
-		return $returnVal;
+		return $value;
 	}
 }

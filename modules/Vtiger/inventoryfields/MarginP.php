@@ -43,7 +43,7 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 		$sum = $purchase = $totalOrNet = 0;
 		if (is_array($data)) {
 			foreach ($data as $row) {
-				$purchase += $row['qty'] * $row['purchase'];
+				$purchase += $row['qty'] * ($row['purchase'] ?? 0);
 				if (isset($row['net'])) {
 					$totalOrNet += $row['net'];
 				} else {
@@ -76,6 +76,9 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 	{
 		if ($isUserFormat) {
 			$value = $this->getDBValue($value, $columnName);
+			if (null !== $originalValue) {
+				$originalValue = $this->getDBValue($originalValue, $columnName);
+			}
 		}
 		if (!\App\Validator::float($value)) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
@@ -91,11 +94,15 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getValueForSave(array $item, bool $userFormat = false)
+	public function getValueForSave(array $item, bool $userFormat = false, string $column = null)
 	{
-		$purchase = (float) $this->getValueFromItem($item, 'purchase', $userFormat, 0);
-		$quantity = (float) $this->getValueFromItem($item, 'qty', $userFormat, 0);
+		$value = 0.0;
+		$quantity = static::getInstance($this->getModuleName(), 'Quantity')->getValueForSave($item, $userFormat);
+		$purchase = static::getInstance($this->getModuleName(), 'Purchase')->getValueForSave($item, $userFormat);
 		$totalPurchase = $purchase * $quantity;
-		return \App\Validator::floatIsEqual(0.0, $totalPurchase) ? 0 : 100.0 * static::getInstance($this->getModuleName(), 'Margin', $item, $userFormat)->getValueForSave($item, $userFormat) / $totalPurchase;
+		if (!empty($totalPurchase)) {
+			$value = 100.0 * static::getInstance($this->getModuleName(), 'Margin')->getValueForSave($item, $userFormat) / $totalPurchase;
+		}
+		return $value;
 	}
 }

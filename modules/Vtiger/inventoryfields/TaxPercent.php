@@ -35,4 +35,24 @@ class Vtiger_TaxPercent_InventoryField extends Vtiger_Tax_InventoryField
 	{
 		return App\Fields\Double::formatToDisplay($value);
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getValueForSave(array $item, bool $userFormat = false, string $column = null)
+	{
+		if ($column === $this->getColumnName() || null === $column) {
+			$value = 0.0;
+			if (!\App\Json::isEmpty($item['taxparam'] ?? '') && ($taxesConfig = \Vtiger_Inventory_Model::getTaxesConfig()) && 1 === (int) $taxesConfig['active']) {
+				$taxParam = \App\Json::decode($item['taxparam']);
+				$types = (array) $taxParam['aggregationType'];
+				foreach ($types as $type) {
+					$value += $taxParam["{$type}Tax"];
+				}
+			}
+		} else {
+			$value = $userFormat ? $this->getDBValue($item[$column]) : $item[$column];
+		}
+		return $value;
+	}
 }
