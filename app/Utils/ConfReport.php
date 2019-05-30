@@ -149,7 +149,7 @@ class ConfReport
 		'typeDb' => [ 'container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION_TYPE'],
 		'serverVersion' => ['recommended' => '10.x', 'type' => 'VersionDb', 'container' => 'db', 'testCli' => false, 'label' => 'DB_SERVER_VERSION'],
 		'clientVersion' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_CLIENT_VERSION'],
-		'versionComment' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION_COMMENT'],
+		'version_comment' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION_COMMENT'],
 		'connectionStatus' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_CONNECTION_STATUS'],
 		'serverInfo' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_SERVER_INFO'],
 		'innodb_lock_wait_timeout' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'db', 'testCli' => false],
@@ -468,7 +468,6 @@ class ConfReport
 		$pdo = false;
 		if (\class_exists('\App\Db')) {
 			$db = \App\Db::getInstance();
-			$infoDb = $db->getInfoDb();
 			$pdo = $db->getSlavePdo();
 			$driver = $db->getDriverName();
 		} elseif (!empty(static::$dbConfig['user'])) {
@@ -478,18 +477,9 @@ class ConfReport
 		if (!$pdo) {
 			return [];
 		}
-		$conf = [
-			'driver' => $driver,
-			'typeDb' => $infoDb['nameDb'],
-			'serverVersion' => $infoDb['versionDb'],
-			'clientVersion' => $pdo->getAttribute(PDO::ATTR_CLIENT_VERSION),
-			'versionComment' => $infoDb['versionComment'],
-			'connectionStatus' => $pdo->getAttribute(PDO::ATTR_CONNECTION_STATUS),
-			'serverInfo' => $pdo->getAttribute(PDO::ATTR_SERVER_INFO),
-		];
 		$statement = $pdo->prepare('SHOW VARIABLES');
 		$statement->execute();
-		return \array_merge($conf, $statement->fetchAll(PDO::FETCH_KEY_PAIR));
+		return \array_merge($db->getInfo(),['driver' => $driver], $statement->fetchAll(PDO::FETCH_KEY_PAIR));
 	}
 
 	/**
@@ -615,18 +605,12 @@ class ConfReport
 	private static function validateVersionDb(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		$infoDb = \App\Db::getInstance()->getInfoDb();
-		$dbName = $infoDb['nameDb'];
-		if($dbName === 'MariaDb'){
-			$recommendedVersion = '10.x';
-		}elseif($dbName === 'MySQL'){
-			$recommendedVersion = '5.6.x';
-		}
+		$infoDb = \App\Db::getInstance()->getInfo();
+		$row['recommended'] = $infoDb['recommendedVersion'][$infoDb['typeDb']];
 		$row['status'] = false;
-		if (!empty($row[$sapi]) && \App\Version::compare($row[$sapi], $recommendedVersion, '>=')) {
+		if (!empty($row[$sapi]) && \App\Version::compare($row[$sapi], $row['recommended'], '>=')) {
 				$row['status'] = true;
 		}
-		$row['recommended'] = $recommendedVersion;
 		return $row;
 	}
 

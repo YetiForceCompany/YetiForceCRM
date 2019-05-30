@@ -2,6 +2,8 @@
 
 namespace App;
 
+use PDO;
+
 /**
  * Database connection class.
  *
@@ -134,24 +136,31 @@ class Db extends \yii\db\Connection
 	 *
 	 * @return array
 	 */
-	public static function getInfoDb()
+	public static function getInfo()
 	{
-		$dbInfo = [];
-		$db = self::getInstance();
-		$conf = $db->createCommand('SHOW VARIABLES')->queryAllByGroup(0);
-		[$version] = explode('-', $conf['version']);
-		$versionComment = $conf['version_comment'];
-		if (0 === stripos($versionComment, 'MariaDb')) {
-			$nameDb = 'MariaDb';
+		if (\class_exists('\App\Db')) {
+			$db = self::getInstance();
+			$pdo = $db->getSlavePdo();
+			$statement = $pdo->prepare('SHOW VARIABLES');
+			$statement->execute();
+			$conf = $statement->fetchAll(PDO::FETCH_KEY_PAIR);
+			[$version] = explode('-', $conf['version']);
+			$versionComment = $conf['version_comment'];
+			if (0 === stripos($versionComment, 'MariaDb')) {
+				$nameDb = 'MariaDb';
+			}
+			if (0 === stripos($versionComment, 'MySQL')) {
+				$nameDb = 'MySQL';
+			}
+			return [
+				'typeDb' => $nameDb,
+				'serverVersion' => $version,
+				'recommendedVersion' => ['MariaDb' => '10.x', 'MySQL' => '5.6.x'],
+				'clientVersion' => $pdo->getAttribute(PDO::ATTR_CLIENT_VERSION),
+				'connectionStatus' => $pdo->getAttribute(PDO::ATTR_CONNECTION_STATUS),
+				'serverInfo' => $pdo->getAttribute(PDO::ATTR_SERVER_INFO),
+			];
 		}
-		if (0 === stripos($versionComment, 'MySQL')) {
-			$nameDb = 'MySQL';
-		}
-		$dbInfo['nameDb'] = $nameDb;
-		$dbInfo['versionDb'] = $version;
-		$dbInfo['versionInnoDb'] = $conf['innodb_version'];
-		$dbInfo['versionComment'] = $versionComment;
-		return $dbInfo;
 	}
 
 	/**
