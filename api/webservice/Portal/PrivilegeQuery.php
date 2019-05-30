@@ -28,7 +28,7 @@ class PrivilegeQuery
 	 */
 	public static function getConditions(\App\Db\Query $query, string $moduleName, $user = false, $relatedRecord = false)
 	{
-		if (!($user && $user instanceof User)) {
+		if (!($user && $user instanceof \App\User)) {
 			$user = \App\User::getCurrentUserModel();
 		}
 		switch ($user->get('permission_type')) {
