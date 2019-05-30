@@ -125,8 +125,6 @@ export default {
         return Object.keys(this.record.related).some(obj => {
           return obj !== 'Articles' && this.record.related[obj].length === undefined
         })
-      } else {
-        return false
       }
     },
     hasRelatedArticles() {
