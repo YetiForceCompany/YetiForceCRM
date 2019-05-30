@@ -11,7 +11,7 @@ jQuery.Class(
 		registerEvents() {
 			RecordPreview.mount({
 				el: '#RecordPreview',
-				options: {
+				state: {
 					moduleName: 'KnowledgeBase',
 					recordId: $('#recordId').val()
 				}

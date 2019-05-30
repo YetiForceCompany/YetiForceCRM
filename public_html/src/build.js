@@ -3,7 +3,6 @@
 const rollup = require('rollup'),
 	finder = require('findit')('layouts'),
 	path = require('path'),
-	sourcemaps = require('rollup-plugin-sourcemaps'),
 	vue = require('rollup-plugin-vue'),
 	commonjs = require('rollup-plugin-commonjs'),
 	resolve = require('rollup-plugin-node-resolve'),

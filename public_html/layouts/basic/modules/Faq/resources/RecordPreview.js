@@ -11,7 +11,7 @@ jQuery.Class(
 		registerEvents() {
 			RecordPreview.mount({
 				el: '#RecordPreview',
-				options: {
+				state: {
 					moduleName: 'Faq',
 					recordId: $('#recordId').val()
 				}

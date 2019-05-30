@@ -11,7 +11,5 @@ const vuexStore = new Vuex.Store({
 	},
 	strict: debug
 })
-console.log(window.Vue)
-console.log(vuexStore)
+
 export default vuexStore
-export { Vuex }

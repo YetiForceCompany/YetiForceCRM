@@ -10,7 +10,9 @@
   </record-preview>
 </template>
 <script>
-import RecordPreview from './RecordPreview.vue'
+import RecordPreview from './components/RecordPreview.vue'
+import { createNamespacedHelpers } from 'vuex'
+const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'RecordPreviewModal',
   components: { RecordPreview },
@@ -18,11 +20,13 @@ export default {
     hideModal() {
       app.hideModalWindow()
       this.$destroy()
-    }
+    },
+    ...mapActions(['fetchCategories', 'fetchRecord', 'initState'])
   },
   async created() {
-    await this.getCategories()
-    await this.getRecord(this.$options.options.recordId)
+    await this.initState(this.$options.state)
+    await this.fetchCategories()
+    await this.fetchRecord(this.$options.state.recordId)
   }
 }
 </script>

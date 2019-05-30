@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 <template>
-  <div class="Knowledge-Base h-100">
+  <div class="KnowledgeBase h-100">
     <q-layout view="hHh Lpr fFf" container class="absolute">
       <q-header elevated class="bg-white text-primary">
         <q-toolbar>
@@ -192,10 +192,10 @@
   </div>
 </template>
 <script>
-import Icon from '../../../components/Icon.vue'
-import Carousel from '../../../components/Carousel.vue'
-import RecordsList from './RecordsList.vue'
-import RecordPreview from './RecordPreview.vue'
+import Icon from '../../../../components/Icon.vue'
+import Carousel from './components/Carousel.vue'
+import RecordsList from './components/RecordsList.vue'
+import RecordPreview from './components/RecordPreview.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
@@ -260,24 +260,9 @@ export default {
 .tree-search .q-field__marginal {
   height: 40px;
 }
-
-.Knowledge-Base .q-table__bottom,
-.Knowledge-Base__dialog .q-table__bottom {
-  display: none;
-}
-
-.list-item {
-  width: 100%;
-}
 .featured-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   grid-auto-flow: dense;
-}
-
-.dialog-header {
-  padding-top: 3px;
-  padding-bottom: 3px;
-  height: unset !important;
 }
 </style>

@@ -1,8 +1,14 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 <template>
-  <q-dialog v-model="dialog" :maximized="maximized" transition-show="slide-up" transition-hide="slide-down">
-    <q-card class="quasar-reset Knowledge-Base__dialog">
+  <q-dialog
+    v-model="dialog"
+    :maximized="maximized"
+    transition-show="slide-up"
+    transition-hide="slide-down"
+    content-class="quasar-reset"
+  >
+    <q-card>
       <q-bar dark class="bg-yeti text-white dialog-header">
         <div class="flex items-center">
           <div class="flex items-center no-wrap ellipsis q-mr-sm-sm">
@@ -100,8 +106,8 @@
   </q-dialog>
 </template>
 <script>
-import Icon from '../../../components/Icon.vue'
-import Carousel from '../../../components/Carousel.vue'
+import Icon from '../../../../../components/Icon.vue'
+import Carousel from './Carousel.vue'
 import RecordsList from './RecordsList.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
