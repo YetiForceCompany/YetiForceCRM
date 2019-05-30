@@ -6,7 +6,9 @@ jQuery.Class('KnowledgeBase_KnowledgeBase_Js', {
 	registerEvents: function() {
 		KnowledgeBase.mount({
 			el: '#KnowledgeBaseContainer',
-			moduleName: 'KnowledgeBase'
+			state: {
+				moduleName: 'KnowledgeBase'
+			}
 		});
 	}
 });

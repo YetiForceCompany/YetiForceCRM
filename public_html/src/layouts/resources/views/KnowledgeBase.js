@@ -1,104 +1,35 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
-import VuePlugin from 'quasar/src/vue-plugin.js'
+import Quasar from '../../../quasar.config.js'
+import KnowledgeBaseComponent from './KnowledgeBase/KnowledgeBase.vue'
+import RecordPreviewComponent from './KnowledgeBase/RecordPreviewModal.vue'
+import store from '../../../store/index.js'
 
-import {
-	QLayout,
-	QPageContainer,
-	QPage,
-	QHeader,
-	QFooter,
-	QDrawer,
-	QPageSticky,
-	QPageScroller,
-	QToolbar,
-	QToolbarTitle,
-	QBtn,
-	QBreadcrumbs,
-	QBreadcrumbsEl,
-	QIcon,
-	QInput,
-	QToggle,
-	QTooltip,
-	QScrollArea,
-	QList,
-	QItem,
-	QItemLabel,
-	QItemSection,
-	QTable,
-	QDialog,
-	QCard,
-	QBar,
-	QSpace,
-	QCardSection,
-	QCarousel,
-	QCarouselSlide,
-	QCarouselControl,
-	QImg,
-	QAvatar,
-	QSeparator
-} from 'quasar/src/components.js'
-import * as directives from 'quasar/src/directives.js'
-import { AppFullscreen } from 'quasar/src/plugins.js'
-
-import KnowledgeBaseComponent from './KnowledgeBase.vue'
-import mdi from 'quasar/icon-set/mdi-v3.js'
-const Quasar = {
-	...VuePlugin,
-	install(Vue, opts) {
-		VuePlugin.install(Vue, {
-			components: {
-				QLayout,
-				QPageContainer,
-				QPage,
-				QHeader,
-				QFooter,
-				QDrawer,
-				QPageSticky,
-				QPageScroller,
-				QToolbar,
-				QToolbarTitle,
-				QBtn,
-				QBreadcrumbs,
-				QBreadcrumbsEl,
-				QIcon,
-				QInput,
-				QToggle,
-				QTooltip,
-				QScrollArea,
-				QList,
-				QItem,
-				QItemLabel,
-				QItemSection,
-				QTable,
-				QDialog,
-				QCard,
-				QBar,
-				QSpace,
-				QCardSection,
-				QCarousel,
-				QCarouselSlide,
-				QCarouselControl,
-				QImg,
-				QAvatar,
-				QSeparator
-			},
-			directives,
-			plugins: { AppFullscreen },
-			...opts
-		})
+window.Vue.component(KnowledgeBaseComponent)
+window.Vue.mixin({
+	methods: {
+		translate(key) {
+			return app.vtranslate(key)
+		}
 	}
-}
-window.Vue.use(Quasar)
-Quasar.iconSet.set(mdi)
-
-let VueInstance = null
+})
 window.KnowledgeBase = {
 	component: KnowledgeBaseComponent,
 	mount(config) {
-		KnowledgeBaseComponent.moduleName = config.moduleName
-		VueInstance = new window.Vue(KnowledgeBaseComponent).$mount(config.el)
-		return VueInstance
+		KnowledgeBaseComponent.state = config.state
+		return new window.Vue({
+			store,
+			render: h => h(KnowledgeBaseComponent)
+		}).$mount(config.el)
 	}
 }
-export default VueInstance
+window.RecordPreview = {
+	component: RecordPreviewComponent,
+	mount(config) {
+		RecordPreviewComponent.state = config.state
+		return new window.Vue({
+			store,
+			render: h => h(RecordPreviewComponent)
+		}).$mount(config.el)
+	}
+}
