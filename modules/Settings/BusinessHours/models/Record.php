@@ -15,7 +15,7 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return int Id
 	 */
-	public function getId()
+	public function getId(): int
 	{
 		return $this->get('businesshoursid');
 	}
@@ -23,14 +23,13 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function to get the Id.
 	 *
-	 * @param mixed $id
+	 * @param int $id
 	 *
-	 * @return int Profile Id
+	 * @return self
 	 */
-	protected function setId($id)
+	protected function setId(int $id): self
 	{
 		$this->set('businesshoursid', $id);
-
 		return $this;
 	}
 
@@ -39,7 +38,7 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return string
 	 */
-	public function getName()
+	public function getName(): string
 	{
 		return $this->get('businesshoursname');
 	}
@@ -51,7 +50,7 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return string URL
 	 */
-	public function getEditViewUrl($step = false)
+	public function getEditViewUrl($step = false): string
 	{
 		return '?module=BusinessHours&parent=Settings&view=Edit&record=' . $this->getId();
 	}
@@ -61,7 +60,7 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return string URL
 	 */
-	public function getDetailViewUrl()
+	public function getDetailViewUrl(): string
 	{
 		return '?module=BusinessHours&parent=Settings&view=Edit&record=' . $this->getId();
 	}
@@ -71,7 +70,7 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return string
 	 */
-	public function getDeleteActionUrl()
+	public function getDeleteActionUrl(): string
 	{
 		return '?module=BusinessHours&parent=Settings&view=DeleteAjax&record=' . $this->getId();
 	}
@@ -83,7 +82,7 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return \self instance, if exists
 	 */
-	public static function getInstanceById($id)
+	public static function getInstanceById(int $id)
 	{
 		$db = \App\Db::getInstance('admin');
 		$row = (new \App\Db\Query())->from('s_#__businesshours')->where(['businesshoursid' => $id])->one($db);
@@ -100,7 +99,7 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return \static
 	 */
-	public static function getCleanInstance()
+	public static function getCleanInstance(): self
 	{
 		return new static();
 	}
@@ -110,7 +109,7 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return Settings_BusinessHours_Module_Model
 	 */
-	public function getModule()
+	public function getModule(): Settings_BusinessHours_Module_Model
 	{
 		if (!isset($this->module)) {
 			$this->module = new Settings_BusinessHours_Module_Model();
@@ -201,7 +200,7 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return string
 	 */
-	public function getDisplayValue($key)
+	public function getDisplayValue(string $key): string
 	{
 		$value = $this->get($key);
 		if ($key === 'working_days') {
@@ -212,7 +211,7 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 			}
 			$value = implode(', ', $value);
 		} elseif ($key === 'working_hours_from' || $key === 'working_hours_to') {
-			$value = \App\Fields\Time::formatToDisplay($value);
+			$value = \App\Fields\Time::formatToDisplay($value, false);
 		} elseif ($key === 'default' || $key === 'holidays') {
 			$value = $value ? \App\Language::translate('LBL_YES', '_Base') : \App\Language::translate('LBL_NO', '_Base');
 		}
@@ -236,10 +235,9 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return array - Associate array of Vtiger_Link_Model instances
 	 */
-	public function getRecordLinks()
+	public function getRecordLinks(): array
 	{
 		$links = [];
-
 		$recordLinks = [
 			[
 				'linktype' => 'LISTVIEWRECORD',

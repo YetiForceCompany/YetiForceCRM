@@ -26,7 +26,7 @@ class Settings_BusinessHours_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getIndexViewUrl()
+	public function getIndexViewUrl(): string
 	{
 		return 'index.php?module=' . $this->getName() . '&parent=' . $this->getParentName() . '&view=List';
 	}
@@ -34,7 +34,7 @@ class Settings_BusinessHours_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getDefaultUrl()
+	public function getDefaultUrl(): string
 	{
 		return 'index.php?module=BusinessHours&parent=Settings&view=List';
 	}
@@ -42,7 +42,7 @@ class Settings_BusinessHours_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getListViewUrl()
+	public function getListViewUrl(): string
 	{
 		return 'index.php?module=BusinessHours&parent=Settings&view=List';
 	}
@@ -50,7 +50,7 @@ class Settings_BusinessHours_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getEditViewUrl()
+	public function getEditViewUrl(): string
 	{
 		return 'index.php?module=BusinessHours&parent=Settings&view=Edit';
 	}
@@ -58,7 +58,7 @@ class Settings_BusinessHours_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getCreateRecordUrl()
+	public function getCreateRecordUrl(): string
 	{
 		return 'index.php?module=BusinessHours&parent=Settings&view=Edit';
 	}
@@ -66,7 +66,7 @@ class Settings_BusinessHours_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isPagingSupported()
+	public function isPagingSupported(): bool
 	{
 		return false;
 	}

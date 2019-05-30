@@ -18,12 +18,13 @@ class Time
 	 * Returns time in user format.
 	 *
 	 * @param string $time
+	 * @param bool   $convertTimeZone
 	 *
 	 * @return string
 	 */
-	public static function formatToDisplay($time)
+	public static function formatToDisplay($time, bool $convertTimeZone = true): string
 	{
-		return (new \DateTimeField($time))->getDisplayTime();
+		return (new \DateTimeField($time))->getDisplayTime(null, $convertTimeZone);
 	}
 
 	/**
@@ -33,9 +34,9 @@ class Time
 	 *
 	 * @return mixed
 	 */
-	public static function formatToDB($time)
+	public static function formatToDB($time, bool $convertTimeZone = true)
 	{
-		return (new \DateTimeField(date(Date::currentUserJSDateFormat()) . ' ' . $time))->getDBInsertTimeValue();
+		return (new \DateTimeField(date(Date::currentUserJSDateFormat()) . ' ' . $time))->getDBInsertTimeValue($convertTimeZone);
 	}
 
 	/**
