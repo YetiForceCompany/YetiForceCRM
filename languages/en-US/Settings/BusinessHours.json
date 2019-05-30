@@ -1,6 +1,7 @@
 {
   "php": {
     "LBL_BUSINESS_HOURS": "Business hours",
+    "LBL_BUSINESS_HOURS_DESCRIPTION": "Business hours is a module where you can set working hours of your team.",
     "LBL_WORKING_HOURS_FROM": "From",
     "LBL_WORKING_HOURS_TO": "To",
     "LBL_WORKING_DAYS": "Working days",

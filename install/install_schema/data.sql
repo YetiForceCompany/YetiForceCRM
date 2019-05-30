@@ -17634,14 +17634,13 @@ insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (6,'LBL_PROCESSES',13,'adminIcon-processes',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (7,'LBL_SECURITY_MANAGEMENT',7,'adminIcon-security',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (8,'LBL_MAIL_TOOLS',11,'adminIcon-mail-tools',0,NULL,NULL);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (9,'LBL_About_YetiForce',16,'adminIcon-about-yetiforce',0,NULL,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (9,'LBL_About_YetiForce',15,'adminIcon-about-yetiforce',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (11,'LBL_ADVANCED_MODULES',4,'adminIcon-advenced-modules',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (12,'LBL_CALENDAR_LABELS_COLORS',5,'adminIcon-calendar-labels-colors',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (13,'LBL_SEARCH_AND_FILTERS',6,'adminIcon-search-and-filtres',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (14,'LBL_LOGS',8,'adminIcon-logs',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (15,'LBL_AUTOMATION',10,'adminIcon-automation',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (16,'LBL_MENU_SUMMARRY',0,'userIcon-Home',1,'index.php?module=Vtiger&parent=Settings&view=Index',NULL);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (17,'LBL_BUSINESS_HOURS',15,'fas fa-user-clock',1,'index.php?module=BusinessHours&parent=Settings&view=List',NULL);
 
 /*Data for the table `vtiger_settings_blocks_seq` */
 
@@ -17738,6 +17737,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (113,9,'LBL_YETIFORCE_STATUS_HEADER','fas fa-thermometer-half','LBL_YETIFORCE_STATUS_DESC','index.php?module=YetiForce&parent=Settings&view=Status',NULL,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (114,7,'LBL_LOGS','fas fa-exclamation-triangle','LBL_LOGS_DESC','index.php?module=Log&parent=Settings&view=Index',6,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (116,4,'LBL_BACKUP_MANAGER','fas fa-file-archive','LBL_BACKUP_MANAGER_DESCRIPTION','index.php?module=Backup&parent=Settings&view=Index',14,0,0,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (117,4,'LBL_BUSINESS_HOURS','fas fa-user-clock','LBL_BUSINESS_HOURS_DESCRIPTION','index.php?module=BusinessHours&parent=Settings&view=List\r\n',15,0,0,NULL);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
