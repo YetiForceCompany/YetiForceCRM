@@ -147,7 +147,7 @@ class ConfReport
 	public static $database = [
 		'driver' => ['recommended' => 'mysql', 'type' => 'Equal', 'container' => 'db', 'testCli' => false, 'label' => 'DB_DRIVER'],
 		'typeDb' => [ 'container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION_TYPE'],
-		'serverVersionShort' => ['recommended' => '10.0', 'type' => 'VersionDb', 'container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION'],
+		'serverVersionShort' => ['recommended' => '10.x', 'type' => 'VersionDb', 'container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION'],
 		'serverVersionLong' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_SERVER_VERSION'],
 		'clientVersion' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_CLIENT_VERSION'],
 		'versionComment' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION_COMMENT'],
@@ -620,7 +620,7 @@ class ConfReport
 		$infoDb = \App\Db::getInstance()->getInfoDb();
 		$dbName = $infoDb['nameDb'];
 		if($dbName === 'MariaDb'){
-			$recommendedVersion = '10.0';
+			$recommendedVersion = '10.x';
 		}elseif($dbName === 'MySQL'){
 			$recommendedVersion = '5.6';
 		}
