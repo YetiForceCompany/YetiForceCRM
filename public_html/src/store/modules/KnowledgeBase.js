@@ -44,18 +44,22 @@ const actions = {
 		const progressIndicatorElement = $.progressIndicator({
 			blockInfo: { enabled: true }
 		})
-		console.log(state)
-		console.log(getters)
 		return AppConnector.request({
 			module: getters.moduleName,
 			action: 'KnowledgeBaseAjax',
 			mode: 'detail',
 			record: id
 		}).done(data => {
-			commit('setRecord', data.result)
+			let recordData = data.result
+			if (recordData.related.Articles) {
+				recordData.related.Articles = Object.keys(recordData.related.Articles).map(function(key) {
+					return { ...recordData.related.Articles[key], id: key }
+				})
+			}
+			commit('setRecord', recordData)
 			commit('setDialog', true)
 			progressIndicatorElement.progressIndicator({ mode: 'hide' })
-			aDeferred.resolve(data.result)
+			aDeferred.resolve(recordData)
 		})
 	},
 	fetchCategories({ state, commit, getters }) {
@@ -65,8 +69,6 @@ const actions = {
 			action: 'KnowledgeBaseAjax',
 			mode: 'categories'
 		}).done(data => {
-			console.log(state)
-
 			commit('setTreeCategories', data.result)
 			aDeferred.resolve(data.result)
 		})
@@ -83,13 +85,18 @@ const actions = {
 			mode: 'list',
 			category: category
 		}).done(data => {
-			commit('setTreeData', data.result)
+			let listData = data.result
+			if (listData.records) {
+				listData.records = Object.keys(listData.records).map(function(key) {
+					return { ...listData.records[key], id: key }
+				})
+			}
+			commit('setTreeData', listData)
 			progressIndicatorElement.progressIndicator({ mode: 'hide' })
-			aDeferred.resolve(data.result)
+			aDeferred.resolve(listData)
 		})
 	},
 	initState({ state, commit }, data) {
-		console.log(data)
 		commit('setState', data)
 	}
 }
@@ -98,7 +105,6 @@ const actions = {
 const mutations = {
 	setState(state, payload) {
 		state = Object.assign(state, payload)
-		console.log(state, payload)
 	},
 	setRecord(state, payload) {
 		state.record = payload

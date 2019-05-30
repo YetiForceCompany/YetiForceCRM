@@ -13,7 +13,7 @@
               icon="mdi-menu"
               @click="$q.platform.is.desktop ? (miniState = !miniState) : (left = !left)"
             >
-              <q-tooltip>{{ $root.translate('JS_TOGGLE_MENU') }}</q-tooltip>
+              <q-tooltip>{{ translate('JS_TOGGLE_MENU') }}</q-tooltip>
             </q-btn>
             <q-breadcrumbs class="ml-2">
               <template v-slot:separator>
@@ -21,7 +21,7 @@
               </template>
               <q-breadcrumbs-el
                 :icon="tree.topCategory.icon"
-                :label="$root.translate(tree.topCategory.label)"
+                :label="translate(tree.topCategory.label)"
                 @click="tree.activeCategory === '' ? '' : fetchData()"
                 :disabled="tree.activeCategory === ''"
                 :class="[tree.activeCategory === '' ? '' : 'cursor-pointer']"
@@ -63,19 +63,19 @@
                 <q-icon name="mdi-magnify" />
               </template>
               <q-tooltip anchor="top middle" self="center middle">{{
-                $root.translate('JS_INPUT_TOO_SHORT').replace('_LENGTH_', '3')
+                translate('JS_INPUT_TOO_SHORT').replace('_LENGTH_', '3')
               }}</q-tooltip>
             </q-input>
             <div>
               <q-toggle v-model="categorySearch" icon="mdi-file-tree" />
               <q-tooltip>
-                {{ $root.translate('JS_SEARCH_CURRENT_CATEGORY') }}
+                {{ translate('JS_SEARCH_CURRENT_CATEGORY') }}
               </q-tooltip>
             </div>
           </div>
           <q-btn round dense color="white" text-color="primary" icon="mdi-plus" @click="openQuickCreateModal()">
             <q-tooltip>
-              {{ $root.translate('JS_QUICK_CREATE') }}
+              {{ translate('JS_QUICK_CREATE') }}
             </q-tooltip>
           </q-btn>
         </q-toolbar>
@@ -97,7 +97,7 @@
                 <q-icon :name="tree.topCategory.icon" :size="iconSize" />
               </q-item-section>
               <q-item-section>
-                {{ $root.translate(tree.topCategory.label) }}
+                {{ translate(tree.topCategory.label) }}
               </q-item-section>
             </q-item>
             <q-item
@@ -180,128 +180,27 @@
             </div>
             <records-list
               v-show="tree.activeCategory !== ''"
-              :data="getTableArray(tree.data.records)"
-              :title="$root.translate('JS_ARTICLES')"
+              :data="tree.data.records"
+              :title="translate('JS_ARTICLES')"
             />
           </div>
-          <records-list
-            v-if="getTableArray(searchData).length"
-            :data="getTableArray(searchData)"
-            :title="$root.translate('JS_ARTICLES')"
-          />
+          <records-list v-if="searchData" :data="searchData" :title="translate('JS_ARTICLES')" />
         </q-page>
       </q-page-container>
     </q-layout>
-    <q-dialog v-model="dialog" :maximized="maximizedToggle" transition-show="slide-up" transition-hide="slide-down">
-      <q-card class="quasar-reset Knowledge-Base__dialog">
-        <q-bar dark class="bg-yeti text-white dialog-header">
-          <div class="flex items-center">
-            <div class="flex items-center no-wrap ellipsis q-mr-sm-sm">
-              <q-icon name="mdi-text" class="q-mr-sm" />
-              {{ record.subject }}
-            </div>
-            <div class="flex items-center text-grey-4 small">
-              <div class="flex items-center">
-                <q-icon :name="tree.topCategory.icon" size="15px"></q-icon>
-                <q-icon size="1.5em" name="mdi-chevron-right" />
-                <span v-html="record.category" class="flex items-center"></span>
-                <q-tooltip>
-                  {{ $root.translate('JS_CATEGORY') }}
-                </q-tooltip>
-              </div>
-              <q-separator dark vertical spaced />
-              <div>
-                <q-icon name="mdi-calendar-clock" size="15px"></q-icon>
-                {{ record.short_createdtime }}
-                <q-tooltip>
-                  {{ $root.translate('JS_CREATED') + ': ' + record.full_createdtime }}
-                </q-tooltip>
-              </div>
-              <template v-if="record.short_modifiedtime">
-                <q-separator dark vertical spaced />
-                <div>
-                  <q-icon name="mdi-square-edit-outline" size="15px"></q-icon>
-                  {{ record.short_modifiedtime }}
-                  <q-tooltip>
-                    {{ $root.translate('JS_MODIFIED') + ': ' + record.full_modifiedtime }}
-                  </q-tooltip>
-                </div>
-              </template>
-            </div>
-          </div>
-          <q-space />
-          <q-btn dense flat icon="mdi-window-minimize" @click="maximizedToggle = false" :disable="!maximizedToggle">
-            <q-tooltip v-if="maximizedToggle">{{ $root.translate('JS_MINIMIZE') }}</q-tooltip>
-          </q-btn>
-          <q-btn dense flat icon="mdi-window-maximize" @click="maximizedToggle = true" :disable="maximizedToggle">
-            <q-tooltip v-if="!maximizedToggle">{{ $root.translate('JS_MAXIMIZE') }}</q-tooltip>
-          </q-btn>
-          <q-btn dense flat icon="mdi-close" v-close-popup>
-            <q-tooltip>{{ $root.translate('JS_CLOSE') }}</q-tooltip>
-          </q-btn>
-        </q-bar>
-        <q-card-section v-show="record.introduction">
-          <div class="text-subtitle2 text-bold">{{ record.introduction }}</div>
-        </q-card-section>
-        <q-card-section v-show="record.content">
-          <carousel v-if="record.view === 'PLL_PRESENTATION'" :record="record" />
-          <div v-else v-html="record.content"></div>
-        </q-card-section>
-        <q-card-section v-if="hasRelatedArticles">
-          <records-list
-            v-if="record.related"
-            :data="getTableArray(record.related.Articles)"
-            :title="$root.translate('JS_RELATED_ARTICLES')"
-          />
-        </q-card-section>
-        <q-card-section v-if="hasRelatedRecords">
-          <div class="q-pa-md q-table__title">{{ $root.translate('JS_RELATED_RECORDS') }}</div>
-          <div v-if="record.related" class="q-pa-sm featured-container items-start q-gutter-md">
-            <template v-for="(moduleRecords, moduleName) in record.related">
-              <q-list
-                bordered
-                padding
-                dense
-                v-if="moduleName !== 'Articles' && moduleRecords.length === undefined"
-                :key="moduleName"
-              >
-                <q-item header clickable class="text-black flex">
-                  <icon :icon="'userIcon-' + moduleName" :size="iconSize" class="mr-2"></icon>
-                  {{ moduleName }}
-                </q-item>
-                <q-item
-                  clickable
-                  v-for="(relatedRecord, relatedRecordId) in moduleRecords"
-                  :key="relatedRecordId"
-                  class="text-subtitle2"
-                  v-ripple
-                >
-                  <q-item-section class="align-items-center flex-row no-wrap justify-content-start">
-                    <a
-                      class="js-popover-tooltip--record ellipsis"
-                      :href="`index.php?module=${moduleName}&view=Detail&record=${relatedRecordId}`"
-                    >
-                      {{ relatedRecord }}
-                    </a>
-                  </q-item-section>
-                </q-item>
-              </q-list>
-            </template>
-          </div>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
+    <record-preview :maximizedToggle="true" />
   </div>
 </template>
 <script>
 import Icon from '../../../components/Icon.vue'
 import Carousel from '../../../components/Carousel.vue'
 import RecordsList from './RecordsList.vue'
+import RecordPreview from './RecordPreview.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'KnowledgeBase',
-  components: { Icon, Carousel, RecordsList },
+  components: { Icon, Carousel, RecordsList, RecordPreview },
   data() {
     return {
       moduleName: '',
@@ -311,43 +210,13 @@ export default {
       left: true,
       filter: '',
       categorySearch: false,
-      maximizedToggle: true,
       searchData: false
     }
   },
   computed: {
-    hasRelatedRecords() {
-      if (this.record) {
-        return Object.keys(this.record.related).some(obj => {
-          return obj !== 'Articles' && this.record.related[obj].length === undefined
-        })
-      } else {
-        return false
-      }
-    },
-    hasRelatedArticles() {
-      return this.record ? this.record.related.Articles.length === undefined : false
-    },
-    dialog: {
-      set(val) {
-        this.$store.commit('KnowledgeBase/setDialog', val)
-      },
-      get() {
-        return this.$store.getters['KnowledgeBase/dialog']
-      }
-    },
     ...mapGetters(['tree', 'record', 'iconSize'])
   },
   methods: {
-    getTableArray(tableObject) {
-      if (typeof tableObject === 'object') {
-        return Object.keys(tableObject).map(function(key) {
-          return { ...tableObject[key], id: key }
-        })
-      } else {
-        return []
-      }
-    },
     search(e) {
       if (this.filter.length >= 3) {
         const aDeferred = $.Deferred()

@@ -33,10 +33,10 @@
                   {{ tree.categories[category].label }}
                 </q-breadcrumbs-el>
                 <q-tooltip>
-                  {{ $root.translate('JS_CATEGORY') }}
+                  {{ translate('JS_CATEGORY') }}
                 </q-tooltip>
               </q-breadcrumbs>
-              | {{ $root.translate('JS_AUTHORED_BY') }}:
+              | {{ translate('JS_AUTHORED_BY') }}:
               <span v-html="props.row.assigned_user_id" class="q-ml-sm"></span>
             </q-item-label>
             <q-item-label caption>{{ props.row.introduction }}</q-item-label>
@@ -96,6 +96,10 @@ export default {
   },
   methods: {
     ...mapActions(['fetchRecord'])
+  },
+  mounted() {
+    console.log(111111111111111, this.$root)
+    console.log(111111111111111, this)
   }
 }
 </script>
