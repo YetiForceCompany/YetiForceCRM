@@ -138,7 +138,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 			$value = 0.0;
 			if (!\App\Json::isEmpty($item['taxparam'] ?? '') && ($taxesConfig = \Vtiger_Inventory_Model::getTaxesConfig()) && 1 === (int) $taxesConfig['active']) {
 				$taxParam = \App\Json::decode($item['taxparam']);
-				$netPrice = static::getInstance($this->getModuleName(), 'NetPrice', $item, $userFormat)->getValueForSave($item, $userFormat);
+				$netPrice = static::getInstance($this->getModuleName(), 'NetPrice')->getValueForSave($item, $userFormat);
 				$value = $this->getTaxValue($taxParam, $netPrice, (int) $taxesConfig['aggregation']);
 			}
 		} else {
