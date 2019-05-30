@@ -32,7 +32,7 @@ class Settings_BusinessHours_List_View extends Settings_Vtiger_List_View
 			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
 		$module = $listViewModel->getModule();
-		$viewer->assign('LISTVIEW_LINKS', $this->getListViewLinks($module));
+		$viewer->assign('LISTVIEW_LINKS', $this->getListViewLinks());
 		$viewer->assign('MODULE_MODEL', $module);
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 		$viewer->assign('PAGING_MODEL', $pagingModel);
@@ -43,14 +43,12 @@ class Settings_BusinessHours_List_View extends Settings_Vtiger_List_View
 	/**
 	 * Function to get Basic links.
 	 *
-	 * @param mixed $moduleModel
-	 * @param mixed $listViewModel
-	 *
 	 * @return array of Basic links
 	 */
-	public function getBasicLinks($moduleModel)
+	public function getBasicLinks(): array
 	{
 		$basicLinks = [];
+		$moduleModel = $this->getModule();
 		if ($moduleModel->hasCreatePermissions()) {
 			$basicLinks[] = [
 				'linktype' => 'LISTVIEWBASIC',
@@ -68,14 +66,12 @@ class Settings_BusinessHours_List_View extends Settings_Vtiger_List_View
 	/**
 	 * Get list view links.
 	 *
-	 * @param mixed $moduleModel
-	 *
 	 * @return array
 	 */
-	public function getListViewLinks($moduleModel)
+	public function getListViewLinks(): array
 	{
 		$links = ['LISTVIEWBASIC' => []];
-		$basicLinks = $this->getBasicLinks($moduleModel);
+		$basicLinks = $this->getBasicLinks();
 		foreach ($basicLinks as $basicLink) {
 			$links['LISTVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
 		}

@@ -1,9 +1,11 @@
 /**
  * Business Hours Edit
  *
+ * @package     Edit
+ *
  * @description Edit scripts for business hours
- * @license YetiForce Public License 3.0
- * @author Rafal Pospiech <r.pospiech@yetiforce.com>
+ * @license     YetiForce Public License 3.0
+ * @author      Rafal Pospiech <r.pospiech@yetiforce.com>
  */
 'use strict';
 

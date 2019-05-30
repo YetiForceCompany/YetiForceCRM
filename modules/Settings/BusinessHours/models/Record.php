@@ -120,20 +120,16 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Validate record data.
 	 *
+	 * @param array $data
+	 *
 	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
 	 */
-	public function validate()
+	public static function validate(array $data): array
 	{
-		$data = $this->getData();
-		if (isset($data['businesshoursid']) && !is_numeric($data['businesshoursid'])) {
-			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE', 406);
-		}
-		if (!is_string($data['businesshoursname'])) {
-			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE||' . $data['businesshoursname'], 406);
-		}
-		if (preg_match('/[\<\>\"\#\,]/', $data['businesshoursname'])) {
-			throw new \App\Exceptions\AppException(\App\Language::translateArgs('ERR_SPECIAL_CHARACTERS_NOT_ALLOWED', 'Other.Exceptions', '<>"#,'), 512);
-		}
+		$data['businesshoursid'] = \App\Purifier::purifyByType($data['businesshoursid'], 'Integer');
+		$data['businesshoursname'] = \App\Purifier::purifyByType($data['businesshoursname'], 'Text');
 		if (\App\TextParser::getTextLength($data['businesshoursname']) > 512) {
 			throw new \App\Exceptions\AppException(\App\Language::translate('ERR_EXCEEDED_NUMBER_CHARACTERS', 'Other.Exceptions'), 512);
 		}
@@ -141,29 +137,22 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE||' . $data['working_days'], 406);
 		}
 		$days = explode(',', trim($data['working_days'], ','));
-		foreach ($days as $day) {
-			if (!is_numeric($day) || (int) $day < 0 || (int) $day > 6) {
+		foreach ($days as $index => $day) {
+			$days[$index] = \App\Purifier::purifyByType($day, 'Integer');
+			if ((int) $day < 0 || (int) $day > 6) {
 				throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE||' . $day, 406);
 			}
 		}
-		if (!is_string($data['working_hours_from'])) {
-			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE||' . $data['working_hours_from'], 406);
-		}
-		if (!is_string($data['working_hours_to'])) {
-			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE||' . $data['working_hours_to'], 406);
-		}
-		if (!preg_match('/[0-9]{2}\:[0-9]{2}\:[0-9]{2}/', $data['working_hours_from'])) {
-			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE||' . $data['working_hours_from'], 406);
-		}
-		if (!preg_match('/[0-9]{2}\:[0-9]{2}\:[0-9]{2}/', $data['working_hours_to'])) {
-			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE||' . $data['working_hours_to'], 406);
-		}
+		$data['working_days'] = ',' . implode(',', $days) . ',';
+		$data['working_hours_from'] = \App\Purifier::purifyByType($data['working_hours_from'], 'Time');
+		$data['working_hours_to'] = \App\Purifier::purifyByType($data['working_hours_to'], 'Time');
 		if (isset($data['holidays']) && $data['holidays'] !== 0 && $data['holidays'] !== 1) {
 			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE||' . $data['holidays'], 406);
 		}
 		if (isset($data['default']) && $data['default'] !== 0 && $data['default'] !== 1) {
 			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE||' . $data['default'], 406);
 		}
+		return $data;
 	}
 
 	/**
@@ -171,10 +160,9 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function save()
 	{
-		$this->validate();
+		$data = static::validate($this->getData());
 		$db = \App\Db::getInstance('admin');
 		$recordId = $this->getId();
-		$data = $this->getData();
 		if (!isset($data['holidays'])) {
 			$data['holidays'] = 0;
 		}
@@ -182,7 +170,6 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 			$data['default'] = 0;
 		}
 		if (!empty($data['default'])) {
-			$days = explode(',', trim($data['working_days'], ','));
 			$db->createCommand()->update('s_#__businesshours', ['default' => 0], ['default' => 1])->execute();
 		}
 		if ($recordId) {
@@ -190,7 +177,6 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 		} else {
 			$db->createCommand()->insert('s_#__businesshours', $data)->execute();
 		}
-		\App\Cache::clear();
 	}
 
 	/**
@@ -227,7 +213,6 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 		$db->createCommand()
 			->delete('s_#__businesshours', ['businesshoursid' => $this->getId()])
 			->execute();
-		\App\Cache::clear();
 	}
 
 	/**

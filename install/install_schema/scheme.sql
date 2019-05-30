@@ -1001,7 +1001,7 @@ CREATE TABLE `s_yf_businesshours` (
   PRIMARY KEY (`businesshoursid`),
   KEY `businesshours_holidays_idx` (`holidays`),
   KEY `businesshours_default_idx` (`default`)
-) ENGINE = InnoDB AUTO_INCREMENT = 28 DEFAULT CHARSET = utf8;
+) ENGINE=InnoDB DEFAULT CHARSET = utf8;
 
 /*Table structure for table `s_yf_companies` */
 
