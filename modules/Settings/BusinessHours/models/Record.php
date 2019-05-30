@@ -134,7 +134,7 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 		if (preg_match('/[\<\>\"\#\,]/', $data['businesshoursname'])) {
 			throw new \App\Exceptions\AppException(\App\Language::translateArgs('ERR_SPECIAL_CHARACTERS_NOT_ALLOWED', 'Other.Exceptions', '<>"#,'), 512);
 		}
-		if (strlen($data['businesshoursname']) > 512) {
+		if (\App\TextParser::getTextLength($data['businesshoursname']) > 512) {
 			throw new \App\Exceptions\AppException(\App\Language::translate('ERR_EXCEEDED_NUMBER_CHARACTERS', 'Other.Exceptions'), 512);
 		}
 		if (!is_string($data['working_days'])) {
