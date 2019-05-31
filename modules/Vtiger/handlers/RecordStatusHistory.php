@@ -13,12 +13,36 @@
 class Vtiger_RecordStatusHistory_Handler
 {
 	/**
+	 * EntityBeforeSave function.
+	 *
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityBeforeSave(App\EventHandler $eventHandler)
+	{
+		$recordModel = $eventHandler->getRecordModel();
+		if (($fieldStatusName = App\RecordStatus::getFieldName($recordModel->getModuleName()))) {
+			if ($recordModel->isNew()) {
+				App\RecordStatus::updateExpectedTimes($recordModel);
+			} elseif ($recordModel->getPreviousValue($fieldStatusName)) {
+				App\RecordStatus::update($recordModel, $fieldStatusName);
+				if (in_array($recordModel->get($fieldStatusName), \App\RecordStatus::getStates($recordModel->getModuleName(), \App\RecordStatus::RECORD_STATE_CLOSED))) {
+					$recordModel->set('closing_range_time', App\RecordStatus::getDiff($recordModel->get('createdtime')));
+					$recordModel->set('closing_datatime', date('Y-m-d H:i:s'));
+				}
+			}
+		}
+	}
+
+	/**
 	 * EntityAfterSave function.
 	 *
 	 * @param App\EventHandler $eventHandler
 	 */
 	public function entityAfterSave(App\EventHandler $eventHandler)
 	{
-		App\RecordStatus::addHistory($eventHandler->getRecordModel());
+		$recordModel = $eventHandler->getRecordModel();
+		if (($fieldStatusName = App\RecordStatus::getFieldName($recordModel->getModuleName())) && ($recordModel->isNew() || $recordModel->getPreviousValue($fieldStatusName))) {
+			//App\RecordStatus::addHistory($recordModel, $fieldStatusName);
+		}
 	}
 }

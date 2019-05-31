@@ -264,7 +264,7 @@ insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (8,'r
 
 /*Data for the table `s_yf_companies` */
 
-insert  into `s_yf_companies`(`id`,`status`,`name`,`type`,`industry`,`city`,`country`,`companysize`,`website`,`logo`,`firstname`,`lastname`,`email`) values (1,0,'YetiForce Sp. z o.o. ',2,NULL,'Warszawa','Poland',0,'yetiforce.com','[]',NULL,NULL,NULL);
+insert  into `s_yf_companies`(`id`,`status`,`name`,`type`,`industry`,`city`,`country`,`companysize`,`website`,`logo`,`firstname`,`lastname`,`email`) values (1,0,'YetiForce Sp. z o.o. ',1,NULL,'Warszawa','Poland',0,'yetiforce.com','[]',NULL,NULL,NULL);
 
 /*Data for the table `s_yf_mail_queue` */
 
@@ -2992,7 +2992,8 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_clas
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (70,'EntityChangeState','API_CardDAV_Handler',1,'Contacts,OSSEmployees','',3,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (71,'EntityAfterDelete','API_CalDAV_Handler',1,'Calendar','',3,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (72,'EntityChangeState','API_CalDAV_Handler',1,'Calendar','',3,0);
-insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (73,'EntityAfterSave','Vtiger_RecordStatusHistory_Handler',0,'','',5,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (73,'EntityBeforeSave','Vtiger_RecordStatusHistory_Handler',0,'','',5,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (74,'EntityAfterSave','Vtiger_RecordStatusHistory_Handler',0,'','',5,0);
 
 /*Data for the table `vtiger_expectedresponse` */
 

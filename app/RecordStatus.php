@@ -53,6 +53,16 @@ class RecordStatus
 	 * @var int
 	 */
 	const TIME_COUNTING_IDLE = 3;
+	/**
+	 * Fields key by state time.
+	 *
+	 * @var string[]
+	 */
+	private static $fieldsByStateTime = [
+		self::TIME_COUNTING_REACTION => 'response',
+		self::TIME_COUNTING_RESOLVE => 'solution',
+		self::TIME_COUNTING_IDLE => 'idle',
+	];
 
 	/**
 	 * State time fields.
@@ -87,22 +97,15 @@ class RecordStatus
 	 */
 	public static function getStates(string $moduleName, int $state = null)
 	{
-		$cacheKey = "RecordStatus::getStates::$moduleName";
-		$cacheValue = $state ?? 'empty_state';
-		if (Cache::has($cacheKey, $cacheValue)) {
-			$values = Cache::get($cacheKey, $cacheValue);
-		} else {
-			$fieldName = static::getFieldName($moduleName);
-			$primaryKey = Fields\Picklist::getPickListId($fieldName);
-			$values = [];
-			foreach (Fields\Picklist::getValues($fieldName) as $value) {
-				if (isset($value['record_state']) && $state === $value['record_state']) {
-					$values[$value[$primaryKey]] = $value['picklistValue'];
-				} elseif (null === $state) {
-					$values[$value[$primaryKey]] = $value['record_state'];
-				}
+		$fieldName = static::getFieldName($moduleName);
+		$primaryKey = Fields\Picklist::getPickListId($fieldName);
+		$values = [];
+		foreach (Fields\Picklist::getValues($fieldName) as $value) {
+			if (isset($value['record_state']) && $state === $value['record_state']) {
+				$values[$value[$primaryKey]] = $value['picklistValue'];
+			} elseif (null === $state) {
+				$values[$value[$primaryKey]] = $value['record_state'];
 			}
-			Cache::save($cacheKey, $cacheValue, $values);
 		}
 		return $values;
 	}
@@ -133,8 +136,8 @@ class RecordStatus
 			$db->createTable($tableStatusHistory, [
 				'id' => \yii\db\Schema::TYPE_UPK,
 				'crmid' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_INTEGER, 11),
-				'after' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 255),
 				'before' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 255),
+				'after' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 255),
 				'date' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TIMESTAMP)->null(),
 			]);
 			$dbCommand->createIndex($tableStatusHistory . '_crmid_idx', $tableStatusHistory, 'crmid')->execute();
@@ -180,10 +183,10 @@ class RecordStatus
 			$blockInstance->set('label', 'BL_RECORD_STATUS_TIMES');
 			$blockId = $blockInstance->save($moduleModel);
 		}
-		$fields = $moduleModel->getFields();
+		$allFields = $moduleModel->getFields();
 		foreach (static::$stateTimeFields as $type => $fields) {
 			foreach ($fields as $name => $label) {
-				if (!isset($fields[$name])) {
+				if (!isset($allFields[$name])) {
 					$moduleModel->addField($type, $blockId, [
 						'fieldLabel' => $label,
 						'fieldName' => $name,
@@ -245,19 +248,83 @@ class RecordStatus
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
 	 */
-	public static function addHistory(\Vtiger_Record_Model $recordModel)
+	public static function addHistory(\Vtiger_Record_Model $recordModel, string $fieldName)
 	{
-		$db = \App\Db::getInstance();
-		$fieldStatusActive = self::getFieldName($recordModel->getModuleName());
-		$nameTableStatusHistory = $recordModel->getModule()->get('basetable') . '_status_history';
-		if ($fieldStatusActive && $recordModel->getPreviousValue($fieldStatusActive)) {
-			$db->createCommand()->insert($nameTableStatusHistory, [
+		\App\Db::getInstance()
+			->createCommand()
+			->insert($recordModel->getModule()->get('basetable') . '_status_history', [
 				'crmid' => $recordModel->getId(),
-				'after' => $recordModel->get($fieldStatusActive),
-				'before' => $recordModel->getPreviousValue($fieldStatusActive),
+				'before' => $recordModel->getPreviousValue($fieldName),
+				'after' => $recordModel->get($fieldName),
 				'date' => date('Y-m-d H:i:s')
 			])->execute();
+		Cache::save("RecordStatus::getFromHistory::{$recordModel->getId()}", $recordModel->get($fieldName), date('Y-m-d H:i:s'));
+	}
+
+	/**
+	 * Update status times.
+	 *
+	 * @param \Vtiger_Record_Model $recordModel
+	 */
+	public static function update(\Vtiger_Record_Model $recordModel, string $fieldName)
+	{
+	}
+
+	/**
+	 * Get date date from the status change history by status.
+	 *
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @param string               $value
+	 *
+	 * @return string
+	 */
+	public static function getStatusDate(\Vtiger_Record_Model $recordModel, string $state): string
+	{
+		$cacheName = "RecordStatus::getFromHistory::{$recordModel->getId()}";
+		if (Cache::has($cacheName, $value)) {
+			return Cache::get($cacheName, $value);
 		}
+		$date = (new Db\Query())->select(['date'])
+			->from($recordModel->getModule()->get('basetable') . '_status_history')
+			->where(['crmid' => $recordModel->getId(), 'after' => $value])->orderBy(['date' => SORT_DESC])
+			->scalar();
+		Cache::save($cacheName, $value, $date);
+		return $date;
+	}
+
+	/**
+	 * Function returning difference in format between date times.
+	 *
+	 * @param string $start
+	 * @param string $end
+	 *
+	 * @return int
+	 */
+	public static function getDiff(string $start, string $end = ''): int
+	{
+		if (!$end) {
+			$end = date('Y-m-d H:i:s');
+		}
+		// TODO   counting based on ServiceContracts
+		return round(Fields\DateTime::getDiff($start, $end, 'minutes'));
+	}
+
+	/**
+	 * Get time counting values grouped by id from field name.
+	 *
+	 * @param string $fieldName
+	 *
+	 * @return array
+	 */
+	public static function getTimeCountingValues(string $fieldName)
+	{
+		$values = [];
+		foreach (Fields\Picklist::getValues($fieldName) as $row) {
+			if (isset($row['time_counting'])) {
+				$values[$row[$fieldName]] = (int) $row['time_counting'];
+			}
+		}
+		return $values;
 	}
 
 	/**
@@ -267,7 +334,7 @@ class RecordStatus
 	 *
 	 * @return array
 	 */
-	public static function getTimeCountingValues(string $moduleName)
+	public static function getTimeCountingIds(string $moduleName)
 	{
 		$fieldName = static::getFieldName($moduleName);
 		if (!$fieldName) {
@@ -277,7 +344,7 @@ class RecordStatus
 		$values = [];
 		foreach (Fields\Picklist::getValues($fieldName) as $row) {
 			if (isset($row['time_counting'])) {
-				$values[$row[$primaryKey]] = $row['time_counting'];
+				$values[$row[$primaryKey]] = (int) $row['time_counting'];
 			}
 		}
 		return $values;
@@ -342,5 +409,33 @@ class RecordStatus
 		}
 		Cache::save('RecordStatus::getFieldName', $moduleName, $result);
 		return $result;
+	}
+
+	/**
+	 * Get expected times from ServiceContracts.
+	 *
+	 * @param int $id
+	 *
+	 * @return array
+	 */
+	public static function getExpectedTimes(int $id): array
+	{
+		// if (Cache::has('RecordStatus::getFieldName', $moduleName)) {
+		// 	return Cache::get('RecordStatus::getFieldName', $moduleName);
+		// }
+		// TODO   complete function
+		// Cache::save('RecordStatus::getFieldName', $moduleName, $result);
+		return [
+			'response' => 555,
+			'solution' => 555,
+			'idle' => 555,
+		];
+	}
+
+	public static function updateExpectedTimes(\Vtiger_Record_Model $recordModel)
+	{
+		if ($field = Field::getRelatedFieldForModule($recordModel->getModuleName(), 'ServiceContracts')) {
+			$id = $recordModel->get($field['fieldname']);
+		}
 	}
 }

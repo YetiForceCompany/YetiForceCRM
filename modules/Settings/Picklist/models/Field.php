@@ -164,9 +164,9 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		$tableName = \App\Fields\Picklist::getPickListTableName($pickListFieldName);
 		$tabId = $this->get('tabid');
 		$moduleName = \App\Module::getModuleName($tabId);
-		$oldTimeCountingValue = \App\RecordStatus::getTimeCountingValues($moduleName, false)[$id] ?? '';
+		$oldTimeCounting = \App\RecordStatus::getTimeCountingIds($moduleName, false)[$id] ?? '';
 		$oldStateValue = \App\RecordStatus::getStates($moduleName)[$id];
-		if ($recordState === $oldStateValue && $timeCounting === $oldTimeCountingValue) {
+		if ($recordState === $oldStateValue && $timeCounting === $oldTimeCounting) {
 			return true;
 		}
 		$result = \App\Db::getInstance()->createCommand()->update($tableName, ['record_state' => $recordState, 'time_counting' => $timeCounting], [$primaryKey => $id])->execute();
