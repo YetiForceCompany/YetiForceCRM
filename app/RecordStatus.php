@@ -40,6 +40,12 @@ class RecordStatus
 	 *
 	 * @var int
 	 */
+	const TIME_COUNTING_NONE = 0;
+	/**
+	 * Variable used to count times in specified categories.
+	 *
+	 * @var int
+	 */
 	const TIME_COUNTING_REACTION = 1;
 	/**
 	 * Variable used to count times in specified categories.
@@ -146,7 +152,7 @@ class RecordStatus
 			$dbCommand->addColumn($tableName, 'record_state', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TINYINT, 1)->notNull()->defaultValue(0))->execute();
 		}
 		if (!isset($tableSchema->columns['time_counting'])) {
-			$dbCommand->addColumn($tableName, 'time_counting', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TINYINT, 1))->execute();
+			$dbCommand->addColumn($tableName, 'time_counting', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TINYINT, 1)->notNull()->defaultValue(0))->execute();
 		}
 		foreach (EventHandler::getAll(false) as $handler) {
 			if ('Vtiger_RecordStatusHistory_Handler' === $handler['handler_class']) {
