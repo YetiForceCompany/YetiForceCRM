@@ -366,7 +366,7 @@ class ConfReport
 					static::$request = static::getRequest();
 					break;
 				case 'db':
-					static::$db = static::getConfigDb();
+					static::$db = \App\Db::getInstance()->getInfo();
 					break;
 				default:
 					break;
@@ -458,29 +458,6 @@ class ConfReport
 		return $request;
 	}
 
-	/**
-	 * Get database variables.
-	 *
-	 * @return mixed[]
-	 */
-	public static function getConfigDb()
-	{
-		$pdo = false;
-		if (\class_exists('\App\Db')) {
-			$db = \App\Db::getInstance();
-			$pdo = $db->getSlavePdo();
-			$driver = $db->getDriverName();
-		} elseif (!empty(static::$dbConfig['user'])) {
-			$pdo = new PDO(static::$dbConfig['dsn'], static::$dbConfig['user'], static::$dbConfig['password'], static::$dbConfig['options']);
-			$driver = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
-		}
-		if (!$pdo) {
-			return [];
-		}
-		$statement = $pdo->prepare('SHOW VARIABLES');
-		$statement->execute();
-		return \array_merge($db->getInfo(),['driver' => $driver], $statement->fetchAll(PDO::FETCH_KEY_PAIR));
-	}
 
 	/**
 	 * Validating configuration values.
@@ -605,8 +582,7 @@ class ConfReport
 	private static function validateVersionDb(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		$infoDb = \App\Db::getInstance()->getInfo();
-		$recommended =	$row['recommended'][$infoDb['typeDb']];
+		$recommended =	$row['recommended'][static::$db['typeDb']];
 		$row['status'] = false;
 		if (!empty($row[$sapi]) && \App\Version::compare($row[$sapi], $recommended, '>=')) {
 				$row['status'] = true;

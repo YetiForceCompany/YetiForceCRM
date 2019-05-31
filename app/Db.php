@@ -2,8 +2,6 @@
 
 namespace App;
 
-use PDO;
-
 /**
  * Database connection class.
  *
@@ -136,13 +134,13 @@ class Db extends \yii\db\Connection
 	 *
 	 * @return array
 	 */
-	public static function getInfo()
+	public function getInfo()
 	{
-		$db = self::getInstance();
-		$pdo = $db->getSlavePdo();
+		$pdo = $this->getSlavePdo();
+		$driver = $this->getDriverName();
 		$statement = $pdo->prepare('SHOW VARIABLES');
 		$statement->execute();
-		$conf = $statement->fetchAll(PDO::FETCH_KEY_PAIR);
+		$conf = $statement->fetchAll(\PDO::FETCH_KEY_PAIR);
 		[$version] = explode('-', $conf['version']);
 		$versionComment = $conf['version_comment'];
 		if (0 === stripos($versionComment, 'MariaDb')) {
@@ -152,11 +150,12 @@ class Db extends \yii\db\Connection
 			$nameDb = 'MySQL';
 		}
 		return \array_merge($conf, [
+			'driver' => $driver,
 			'typeDb' => $nameDb,
 			'serverVersion' => $version,
-			'clientVersion' => $pdo->getAttribute(PDO::ATTR_CLIENT_VERSION),
-			'connectionStatus' => $pdo->getAttribute(PDO::ATTR_CONNECTION_STATUS),
-			'serverInfo' => $pdo->getAttribute(PDO::ATTR_SERVER_INFO),
+			'clientVersion' => $pdo->getAttribute(\PDO::ATTR_CLIENT_VERSION),
+			'connectionStatus' => $pdo->getAttribute(\PDO::ATTR_CONNECTION_STATUS),
+			'serverInfo' => $pdo->getAttribute(\PDO::ATTR_SERVER_INFO),
 		]);
 	}
 
