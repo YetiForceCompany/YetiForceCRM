@@ -69,14 +69,17 @@
       </q-card-section>
       <q-card-section v-if="hasRelatedRecords">
         <div class="q-pa-md q-table__title">{{ translate('JS_RELATED_RECORDS') }}</div>
-        <div v-if="record.related" class="q-pa-sm featured-container items-start q-gutter-md">
-          <template v-for="(moduleRecords, parentModule) in record.related">
+        <div v-if="record.related">
+          <div
+            v-for="(moduleRecords, parentModule) in record.related"
+            :key="parentModule"
+            class="q-pa-sm featured-container items-start q-gutter-md"
+          >
             <q-list
               bordered
               padding
               dense
-              v-if="parentModule !== 'Articles' && moduleRecords.length === undefined"
-              :key="parentModule"
+              v-if="parentModule !== 'Articles' && parentModule !== 'ModComments' && moduleRecords.length === undefined"
             >
               <q-item header clickable class="text-black flex">
                 <icon :icon="'userIcon-' + parentModule" :size="iconSize" class="mr-2"></icon>
@@ -99,7 +102,18 @@
                 </q-item-section>
               </q-item>
             </q-list>
-          </template>
+          </div>
+          <q-list bordered padding>
+            <q-item>
+              <q-item-section>
+                <q-item-label overline>OVERLINE</q-item-label>
+                <q-item-label>Single line item</q-item-label>
+                <q-item-label caption
+                  >Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label
+                >
+              </q-item-section>
+            </q-item>
+          </q-list>
         </div>
       </q-card-section>
     </q-card>

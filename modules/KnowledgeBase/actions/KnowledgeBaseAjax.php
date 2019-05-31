@@ -235,12 +235,16 @@ class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 		$query->limit(50);
 		$dataReader = $query->createCommand()->query();
 		$related = [];
+
 		while ($row = $dataReader->read()) {
 			$related[$row['id']] = [
-				'assigned_user_id' => App\Fields\Owner::getLabel($row['assigned_user_id']),
+				'userid' => $row['assigned_user_id'],
+				'userName' => App\Fields\Owner::getLabel($row['assigned_user_id']),
+				'commentId' => $row['id'],
 				'comment' => $row['commentcontent'],
-				'full' => App\Fields\DateTime::formatToDisplay($row['modifiedtime']),
-				'short' => \Vtiger_Util_Helper::formatDateDiffInStrings($row['modifiedtime']),
+				'avatar' => Vtiger_Record_Model::getInstanceById($row['id'], 'ModComments')->getImage(),
+				'modifiedFull' => App\Fields\DateTime::formatToDisplay($row['modifiedtime']),
+				'modifiedShort' => \Vtiger_Util_Helper::formatDateDiffInStrings($row['modifiedtime']),
 			];
 		}
 		return $related;
