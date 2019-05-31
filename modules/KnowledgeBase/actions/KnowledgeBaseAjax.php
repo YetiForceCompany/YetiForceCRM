@@ -242,7 +242,7 @@ class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 				'userName' => App\Fields\Owner::getLabel($row['assigned_user_id']),
 				'commentId' => $row['id'],
 				'comment' => $row['commentcontent'],
-				'avatar' => Vtiger_Record_Model::getInstanceById($row['id'], 'ModComments')->getImage(),
+				'avatar' => \App\User::getImageById($row['assigned_user_id']),
 				'modifiedFull' => App\Fields\DateTime::formatToDisplay($row['modifiedtime']),
 				'modifiedShort' => \Vtiger_Util_Helper::formatDateDiffInStrings($row['modifiedtime']),
 			];
