@@ -40,12 +40,6 @@ class RecordStatus
 	 *
 	 * @var int
 	 */
-	const TIME_COUNTING_NONE = 0;
-	/**
-	 * Variable used to count times in specified categories.
-	 *
-	 * @var int
-	 */
 	const TIME_COUNTING_REACTION = 1;
 	/**
 	 * Variable used to count times in specified categories.
