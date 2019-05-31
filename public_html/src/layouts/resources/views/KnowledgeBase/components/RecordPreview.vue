@@ -8,7 +8,7 @@
     transition-hide="slide-down"
     content-class="quasar-reset"
   >
-    <q-card>
+    <q-card class="KnowledgeBase__RecordPreview">
       <q-bar dark class="bg-yeti text-white dialog-header">
         <div class="flex items-center">
           <div class="flex items-center no-wrap ellipsis q-mr-sm-sm">
@@ -69,16 +69,13 @@
       </q-card-section>
       <q-card-section v-if="hasRelatedRecords">
         <div class="q-pa-md q-table__title">{{ translate('JS_RELATED_RECORDS') }}</div>
-        <div v-if="record.related">
-          <div
-            v-for="(moduleRecords, parentModule) in record.related"
-            :key="parentModule"
-            class="q-pa-sm featured-container items-start q-gutter-md"
-          >
+        <div class="q-pa-sm featured-container items-start q-gutter-md">
+          <template v-for="(moduleRecords, parentModule) in record.related">
             <q-list
               bordered
               padding
               dense
+              :key="parentModule"
               v-if="parentModule !== 'Articles' && parentModule !== 'ModComments' && moduleRecords.length === undefined"
             >
               <q-item header clickable class="text-black flex">
@@ -102,19 +99,32 @@
                 </q-item-section>
               </q-item>
             </q-list>
-          </div>
-          <q-list bordered padding>
-            <q-item>
-              <q-item-section>
-                <q-item-label overline>OVERLINE</q-item-label>
-                <q-item-label>Single line item</q-item-label>
-                <q-item-label caption
-                  >Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label
-                >
-              </q-item-section>
-            </q-item>
-          </q-list>
+          </template>
         </div>
+      </q-card-section>
+      <q-card-section v-if="hasRelatedComments">
+        <q-card-separator />
+        <div class="q-pa-md q-table__title">{{ translate('JS_COMMENTS') }}</div>
+        <q-list padding>
+          <q-item v-for="(relatedRecord, relatedRecordId) in record.related.ModComments" :key="relatedRecordId">
+            <q-item-section avatar top>
+              <q-avatar size="iconSize">
+                <img v-if="relatedRecord.avatar.url !== undefined" :src="relatedRecord.avatar.url" />
+                <q-icon v-else name="mdi-account" />
+              </q-avatar>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label overline>{{ relatedRecord.userName }}</q-item-label>
+              <q-item-label><div v-html="relatedRecord.comment"></div></q-item-label>
+            </q-item-section>
+            <q-item-section side top>
+              <q-item-label caption>{{ relatedRecord.modifiedShort }}</q-item-label>
+              <q-tooltip anchor="top middle" self="center middle">
+                {{ translate('JS_MODIFIED') + ': ' + relatedRecord.modifiedFull }}
+              </q-tooltip>
+            </q-item-section>
+          </q-item>
+        </q-list>
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -137,12 +147,15 @@ export default {
     hasRelatedRecords() {
       if (this.record) {
         return Object.keys(this.record.related).some(obj => {
-          return obj !== 'Articles' && this.record.related[obj].length === undefined
+          return obj !== 'Articles' && obj !== 'ModComments' && this.record.related[obj].length === undefined
         })
       }
     },
     hasRelatedArticles() {
       return this.record ? this.record.related.Articles.length !== 0 : false
+    },
+    hasRelatedComments() {
+      return this.record ? this.record.related.ModComments.length !== 0 : false
     },
     ...mapGetters(['tree', 'record', 'iconSize']),
     dialog: {
@@ -160,10 +173,8 @@ export default {
 }
 </script>
 <style>
-.featured-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  grid-auto-flow: dense;
+.KnowledgeBase__RecordPreview .featured-container {
+  grid-template-columns: repeat(auto-fill, minmax(33.3%, 1fr));
 }
 
 .dialog-header {
