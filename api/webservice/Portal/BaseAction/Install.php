@@ -18,6 +18,14 @@ class Install extends \Api\Core\BaseAction
 	public $allowedMethod = ['POST'];
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function checkPermission()
+	{
+		return true;
+	}
+
+	/**
 	 * Get modules list.
 	 *
 	 * @return string[]
