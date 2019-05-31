@@ -62,12 +62,17 @@
       </q-card-section>
       <q-card-section v-show="record.content">
         <carousel v-if="record.view === 'PLL_PRESENTATION'" :record="record" />
-        <div v-else v-html="record.content"></div>
+        <div v-else>
+          <q-separator />
+          <div v-html="record.content"></div>
+        </div>
       </q-card-section>
       <q-card-section v-if="hasRelatedArticles">
+        <q-separator />
         <records-list v-if="record.related" :data="record.related.Articles" :title="translate('JS_RELATED_ARTICLES')" />
       </q-card-section>
       <q-card-section v-if="hasRelatedRecords">
+        <q-separator />
         <div class="q-pa-md q-table__title">{{ translate('JS_RELATED_RECORDS') }}</div>
         <div class="q-pa-sm featured-container items-start q-gutter-md">
           <template v-for="(moduleRecords, parentModule) in record.related">
@@ -103,6 +108,7 @@
         </div>
       </q-card-section>
       <q-card-section v-if="hasRelatedComments">
+        <q-separator />
         <div class="q-pa-md q-table__title">{{ translate('JS_COMMENTS') }}</div>
         <q-list padding>
           <q-item v-for="(relatedRecord, relatedRecordId) in record.related.ModComments" :key="relatedRecordId">
@@ -113,7 +119,13 @@
               </q-avatar>
             </q-item-section>
             <q-item-section>
-              <q-item-label overline>{{ relatedRecord.userName }}</q-item-label>
+              <q-item-label>
+                <a
+                  class="js-popover-tooltip--record"
+                  :href="`index.php?module=Users&view=Detail&record=${relatedRecord.userid}`"
+                  >{{ relatedRecord.userName }}
+                </a>
+              </q-item-label>
               <q-item-label><div v-html="relatedRecord.comment"></div></q-item-label>
             </q-item-section>
             <q-item-section side top>
