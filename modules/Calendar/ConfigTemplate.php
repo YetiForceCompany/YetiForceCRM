@@ -72,6 +72,14 @@ return [
 			return $arg === 'Extended' || $arg === 'Standard';
 		}
 	],
+	'DEFAULT_VIEW_RECORD' => [
+		'default' => 'LBL_RECORD_PREVIEW',
+		'description' => 'Default view for record detail view. Values: LBL_RECORD_DETAILS or LBL_RECORD_SUMMARY',
+		'validation' => function () {
+			$arg = func_get_arg(0);
+			return $arg === 'LBL_RECORD_PREVIEW' || $arg === 'LBL_RECORD_DETAILS';
+		}
+	],
 	'SEND_REMINDER_INVITATION' => [
 		'default' => true,
 		'description' => 'Send mail notification to participants',
