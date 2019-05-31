@@ -11,7 +11,9 @@ jQuery.Class(
 		registerEvents() {
 			KnowledgeBase.mount({
 				el: '#KnowledgeBaseModal',
-				moduleName: 'KnowledgeBase'
+				state: {
+					moduleName: 'KnowledgeBase'
+				}
 			});
 		},
 		showModalContent(container) {
