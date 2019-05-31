@@ -53,14 +53,17 @@
             <q-input
               class="tree-search"
               v-model="filter"
-              placeholder="Search"
+              :placeholder="translate('JS_SEARCH_PLACEHOLDER')"
               rounded
               outlined
               type="search"
               @input="search"
             >
-              <template v-slot:append>
+              <template v-slot:prepend>
                 <q-icon name="mdi-magnify" />
+              </template>
+              <template v-if="filter !== ''" v-slot:append>
+                <q-icon name="mdi-close" @click.stop="clearSearch()" class="cursor-pointer" />
               </template>
               <q-tooltip anchor="top middle" self="center middle">{{
                 translate('JS_INPUT_TOO_SHORT').replace('_LENGTH_', '3')
@@ -68,9 +71,7 @@
             </q-input>
             <div>
               <q-toggle v-model="categorySearch" icon="mdi-file-tree" />
-              <q-tooltip>
-                {{ translate('JS_SEARCH_CURRENT_CATEGORY') }}
-              </q-tooltip>
+              <q-tooltip> {{ translate('JS_SEARCH_CURRENT_CATEGORY') }} </q-tooltip>
             </div>
           </div>
           <q-btn round dense color="white" text-color="primary" icon="mdi-plus" @click="openQuickCreateModal()">
@@ -100,20 +101,7 @@
                 {{ translate(tree.topCategory.label) }}
               </q-item-section>
             </q-item>
-            <q-item
-              v-if="tree.activeCategory !== ''"
-              clickable
-              active
-              @click="
-                fetchData(
-                  tree.categories[tree.activeCategory].parentTree.length !== 1
-                    ? tree.categories[tree.activeCategory].parentTree[
-                        tree.categories[tree.activeCategory].parentTree.length - 2
-                      ]
-                    : ''
-                )
-              "
-            >
+            <q-item v-if="tree.activeCategory !== ''" clickable active @click="fetchParentCategoryData()">
               <q-item-section avatar>
                 <icon :size="iconSize" :icon="tree.categories[tree.activeCategory].icon || defaultTreeIcon" />
               </q-item-section>
@@ -224,6 +212,18 @@ export default {
       } else {
         this.searchData = false
       }
+    },
+    clearSearch() {
+      this.filter = ''
+      this.searchData = false
+    },
+    fetchParentCategoryData() {
+      let parentCategory = ''
+      const parentTreeArray = this.tree.categories[this.tree.activeCategory].parentTree
+      if (parentTreeArray.length !== 1) {
+        parentCategory = parentTreeArray[parentTreeArray.length - 2]
+      }
+      this.fetchData(parentCategory)
     },
     openQuickCreateModal() {
       const headerInstance = new window.Vtiger_Header_Js()

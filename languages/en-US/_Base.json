@@ -1708,6 +1708,7 @@
     "JS_MODIFIED": "Modified",
     "JS_MAXIMIZE": "Maximize",
     "JS_MINIMIZE": "Minimize",
-    "JS_QUICK_CREATE": "Quick create"
+    "JS_QUICK_CREATE": "Quick create",
+    "JS_SEARCH_PLACEHOLDER": "Search..."
   }
 }
