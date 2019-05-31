@@ -103,7 +103,6 @@
         </div>
       </q-card-section>
       <q-card-section v-if="hasRelatedComments">
-        <q-card-separator />
         <div class="q-pa-md q-table__title">{{ translate('JS_COMMENTS') }}</div>
         <q-list padding>
           <q-item v-for="(relatedRecord, relatedRecordId) in record.related.ModComments" :key="relatedRecordId">

@@ -176,7 +176,7 @@
         </q-page>
       </q-page-container>
     </q-layout>
-    <record-preview :maximizedToggle="true" />
+    <record-preview />
   </div>
 </template>
 <script>
@@ -194,7 +194,6 @@ export default {
   data() {
     return {
       defaultTreeIcon: 'mdi-subdirectory-arrow-right',
-      showing: false,
       miniState: false,
       left: true,
       filter: '',

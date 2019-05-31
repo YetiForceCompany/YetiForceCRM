@@ -56,8 +56,10 @@ const actions = {
 					return { ...recordData.related.Articles[key], id: key }
 				})
 			}
+			if (!getters.dialog) {
+				commit('setDialog', true)
+			}
 			commit('setRecord', recordData)
-			commit('setDialog', true)
 			progressIndicatorElement.progressIndicator({ mode: 'hide' })
 			aDeferred.resolve(recordData)
 		})
