@@ -147,7 +147,7 @@ class ConfReport
 	public static $database = [
 		'driver' => ['recommended' => 'mysql', 'type' => 'Equal', 'container' => 'db', 'testCli' => false, 'label' => 'DB_DRIVER'],
 		'typeDb' => [ 'container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION_TYPE'],
-		'serverVersion' => ['recommended' => '10.x', 'type' => 'VersionDb', 'container' => 'db', 'testCli' => false, 'label' => 'DB_SERVER_VERSION'],
+		'serverVersion' => ['recommended' => ['MariaDb' => '10.x', 'MySQL' => '5.6.x'], 'type' => 'VersionDb', 'container' => 'db', 'testCli' => false, 'label' => 'DB_SERVER_VERSION'],
 		'clientVersion' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_CLIENT_VERSION'],
 		'version_comment' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION_COMMENT'],
 		'connectionStatus' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_CONNECTION_STATUS'],
@@ -606,11 +606,12 @@ class ConfReport
 	{
 		unset($name);
 		$infoDb = \App\Db::getInstance()->getInfo();
-		$row['recommended'] = $infoDb['recommendedVersion'][$infoDb['typeDb']];
+		$recommended =	$row['recommended'][$infoDb['typeDb']];
 		$row['status'] = false;
-		if (!empty($row[$sapi]) && \App\Version::compare($row[$sapi], $row['recommended'], '>=')) {
+		if (!empty($row[$sapi]) && \App\Version::compare($row[$sapi], $recommended, '>=')) {
 				$row['status'] = true;
 		}
+		$row['recommended'] = $recommended;
 		return $row;
 	}
 
