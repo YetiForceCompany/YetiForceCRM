@@ -137,21 +137,20 @@ class Db extends \yii\db\Connection
 	public function getInfo()
 	{
 		$pdo = $this->getSlavePdo();
-		$driver = $this->getDriverName();
 		$statement = $pdo->prepare('SHOW VARIABLES');
 		$statement->execute();
 		$conf = $statement->fetchAll(\PDO::FETCH_KEY_PAIR);
 		[$version] = explode('-', $conf['version']);
 		$versionComment = $conf['version_comment'];
 		if (0 === stripos($versionComment, 'MariaDb')) {
-			$nameDb = 'MariaDb';
+			$typeDb = 'MariaDb';
 		}
 		if (0 === stripos($versionComment, 'MySQL')) {
-			$nameDb = 'MySQL';
+			$typeDb = 'MySQL';
 		}
 		return \array_merge($conf, [
-			'driver' => $driver,
-			'typeDb' => $nameDb,
+			'driver' => $this->getDriverName(),
+			'typeDb' => $typeDb,
 			'serverVersion' => $version,
 			'clientVersion' => $pdo->getAttribute(\PDO::ATTR_CLIENT_VERSION),
 			'connectionStatus' => $pdo->getAttribute(\PDO::ATTR_CONNECTION_STATUS),
