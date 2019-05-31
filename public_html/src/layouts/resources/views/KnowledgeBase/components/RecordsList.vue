@@ -12,13 +12,20 @@
       :title="title"
     >
       <template v-slot:item="props">
-        <q-list class="full-width" padding @click="fetchRecord(props.row.id)">
+        <q-list class="full-width" padding @click.prevent="fetchRecord(props.row.id)">
           <q-item clickable>
             <q-item-section avatar>
               <q-icon name="mdi-text" />
             </q-item-section>
             <q-item-section>
-              <q-item-label class="text-primary"> {{ props.row.subject }}</q-item-label>
+              <q-item-label class="text-primary">
+                <a
+                  class="js-popover-tooltip--record"
+                  :href="`index.php?module=${moduleName}&view=Detail&record=${props.row.id}`"
+                >
+                  {{ props.row.subject }}
+                </a>
+              </q-item-label>
               <q-item-label class="flex items-center" overline>
                 <q-breadcrumbs class="mr-2 text-grey-8" active-color="grey-8">
                   <q-breadcrumbs-el
@@ -74,7 +81,6 @@ export default {
   },
   data() {
     return {
-      moduleName: '',
       pagination: {
         rowsPerPage: 0
       },
@@ -94,7 +100,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['tree', 'iconSize'])
+    ...mapGetters(['tree', 'iconSize', 'moduleName'])
   },
   methods: {
     ...mapActions(['fetchRecord'])

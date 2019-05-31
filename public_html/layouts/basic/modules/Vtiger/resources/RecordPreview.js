@@ -12,11 +12,17 @@ jQuery.Class(
 			RecordPreview.mount({
 				el: '#RecordPreview',
 				state: {
-					moduleName: 'Faq',
-					recordId: $('#recordId').val()
+					moduleName: app.getModuleName(),
+					recordId: $('#recordId').val(),
+					dialog: true
 				}
 			});
 		},
+		/**
+		 * Show record preview when css is loaded
+		 *
+		 * @param   {jQuery}  container
+		 */
 		showRecordPreview(container) {
 			container.find('#quasar-css').on('load', function() {
 				container.removeClass('d-none');
