@@ -70,17 +70,17 @@
       <q-card-section v-if="hasRelatedRecords">
         <div class="q-pa-md q-table__title">{{ translate('JS_RELATED_RECORDS') }}</div>
         <div v-if="record.related" class="q-pa-sm featured-container items-start q-gutter-md">
-          <template v-for="(moduleRecords, moduleName) in record.related">
+          <template v-for="(moduleRecords, parentModule) in record.related">
             <q-list
               bordered
               padding
               dense
-              v-if="moduleName !== 'Articles' && moduleRecords.length === undefined"
-              :key="moduleName"
+              v-if="parentModule !== 'Articles' && moduleRecords.length === undefined"
+              :key="parentModule"
             >
               <q-item header clickable class="text-black flex">
-                <icon :icon="'userIcon-' + moduleName" :size="iconSize" class="mr-2"></icon>
-                {{ moduleName }}
+                <icon :icon="'userIcon-' + parentModule" :size="iconSize" class="mr-2"></icon>
+                {{ parentModule }}
               </q-item>
               <q-item
                 clickable
@@ -92,7 +92,7 @@
                 <q-item-section class="align-items-center flex-row no-wrap justify-content-start">
                   <a
                     class="js-popover-tooltip--record ellipsis"
-                    :href="`index.php?module=${moduleName}&view=Detail&record=${relatedRecordId}`"
+                    :href="`index.php?module=${parentModule}&view=Detail&record=${relatedRecordId}`"
                   >
                     {{ relatedRecord }}
                   </a>

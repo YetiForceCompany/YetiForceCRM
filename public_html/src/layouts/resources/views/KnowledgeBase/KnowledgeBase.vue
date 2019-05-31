@@ -169,7 +169,7 @@
                       <q-icon name="mdi-star" :size="iconSize" class="mr-2"></q-icon>
                       <a
                         class="js-popover-tooltip--record ellipsis"
-                        :href="`index.php?module=${$options.moduleName}&view=Detail&record=${featuredValue.id}`"
+                        :href="`index.php?module=${moduleName}&view=Detail&record=${featuredValue.id}`"
                       >
                         {{ featuredValue.subject }}
                       </a>
@@ -205,7 +205,6 @@ export default {
   components: { Icon, Carousel, RecordsList, RecordPreview },
   data() {
     return {
-      moduleName: '',
       defaultTreeIcon: 'mdi-subdirectory-arrow-right',
       showing: false,
       miniState: false,
@@ -216,7 +215,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['tree', 'record', 'iconSize'])
+    ...mapGetters(['tree', 'record', 'iconSize', 'moduleName'])
   },
   methods: {
     search() {
@@ -228,7 +227,7 @@ export default {
     },
     openQuickCreateModal() {
       const headerInstance = new window.Vtiger_Header_Js()
-      headerInstance.quickCreateModule(store.getters['KnowledgeBase/moduleName'])
+      headerInstance.quickCreateModule(this.moduleName)
     },
     ...mapActions(['fetchCategories', 'fetchData', 'fetchRecord', 'initState'])
   },
@@ -244,7 +243,7 @@ export default {
         blockInfo: { enabled: true }
       })
       AppConnector.request({
-        module: this.$store.getters['KnowledgeBase/moduleName'],
+        module: this.moduleName,
         action: 'KnowledgeBaseAjax',
         mode: 'search',
         value: this.filter,
