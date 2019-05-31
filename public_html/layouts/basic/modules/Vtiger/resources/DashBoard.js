@@ -802,6 +802,7 @@ $.Class(
 		 */
 		registerUpdatePredefinedWidgets: function() {
 			let container = $('.js-predefined-widgets');
+			container.off('click', '.js-widget-list__item');
 			container.on('click', '.js-widget-list__item', e => {
 				if (!$(e.target).hasClass('removeWidgetFromList')) {
 					this.addWidget($(e.currentTarget), $(e.currentTarget).data('widgetUrl'));
