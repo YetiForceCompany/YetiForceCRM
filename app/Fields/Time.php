@@ -30,7 +30,8 @@ class Time
 	/**
 	 * Returns time in database format.
 	 *
-	 * @param $time
+	 * @param null|string $time
+	 * @param bool        $convertTimeZone
 	 *
 	 * @return mixed
 	 */

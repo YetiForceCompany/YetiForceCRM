@@ -78,6 +78,21 @@ class Date
 	];
 
 	/**
+	 * Short days translations.
+	 *
+	 * @var array
+	 */
+	public static $shortDaysTranslations = [
+		'Sunday' => 'LBL_SM_SUN',
+		'Monday' => 'LBL_SM_MON',
+		'Tuesday' => 'LBL_SM_TUE',
+		'Wednesday' => 'LBL_SM_WED',
+		'Thursday' => 'LBL_SM_THU',
+		'Friday' => 'LBL_SM_FRI',
+		'Saturday' => 'LBL_SM_SAT',
+	];
+
+	/**
 	 * Current user JS date format.
 	 *
 	 * @param bool $format
@@ -305,10 +320,11 @@ class Date
 	 *
 	 * @param null|int $userId
 	 * @param bool     $byId
+	 * @param bool     $short
 	 *
 	 * @return array
 	 */
-	public static function getUserNativeDaysOfWeek(int $userId = null, bool $byId = true)
+	public static function getUserNativeDaysOfWeek(int $userId = null, bool $byId = true, bool $short = false)
 	{
 		if ($userId === null) {
 			$userDayOfTheWeek = \App\User::getCurrentUserModel()->getDetail('dayoftheweek');
@@ -326,6 +342,11 @@ class Date
 			++$dayIndex;
 			if ($dayIndex > 6) {
 				$dayIndex = 0;
+			}
+		}
+		if ($short) {
+			foreach ($nativeDaysOfWeek as $index => $day) {
+				$nativeDaysOfWeek[$index] = static::$shortDaysTranslations[$day];
 			}
 		}
 		return $nativeDaysOfWeek;

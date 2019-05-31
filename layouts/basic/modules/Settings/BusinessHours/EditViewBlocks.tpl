@@ -29,13 +29,12 @@
 							data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 							>
 						</div>
-						<div class="col-sm-12 col-md-6 col-lg-3 form-group">
-							<label>{\App\Language::translate('LBL_WORKING_DAYS', $QUALIFIED_MODULE)}</label>
-							<select class="select2" name="working_days[]" multiple="multiple" data-tags="true" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
+						<div class="col-sm-12 col-md-6 col-lg-4 form-group">
+							<label>{\App\Language::translate('LBL_WORKING_DAYS', $QUALIFIED_MODULE)}</label><br />
 								{foreach item="DAY_NAME" key="DAY_ID" from=$DAYS_OF_THE_WEEK}
-									<option value="{$DAY_ID}"{if strpos($RECORD_MODEL->get('working_days'),(string)$DAY_ID)!==false} selected="selected"{/if}>{\App\Language::translate($DAY_NAME,'Calendar')}</option>
+									<label class="mr-2"><input type="checkbox" name="working_days[]" value="{$DAY_ID}"{if strpos($RECORD_MODEL->get('working_days'),(string)$DAY_ID)!==false} checked="checked"{/if} class="checkbox mr-1">{\App\Language::translate($DAY_NAME,'Calendar')}</label>
 								{/foreach}
-							</select>
+								<label><input type="checkbox" name="holidays" value="1" class="mr-1"{if isset($RECORD_MODEL) && $RECORD_MODEL->get('holidays')==1} checked="checked"{/if}>{\App\Language::translate('LBL_HOLIDAYS', $QUALIFIED_MODULE)}</label>
 						</div>
 						<div class="col-sm-12 col-md-6 col-lg-2 form-group">
 							<label>{\App\Language::translate('LBL_WORKING_HOURS_FROM', $QUALIFIED_MODULE)}</label>
@@ -68,10 +67,6 @@
 									</span>
 								</div>
 							</div>
-						</div>
-						<div class="col-sm-12 col-md-6 col-lg-1 form-group">
-							<label>{\App\Language::translate('LBL_HOLIDAYS', $QUALIFIED_MODULE)}</label>
-							<input type="checkbox" name="holidays" value="1" class="form-control"{if isset($RECORD_MODEL) && $RECORD_MODEL->get('holidays')==1} checked="checked"{/if}>
 						</div>
 						<div class="col-sm-12 col-md-6 col-lg-1 form-group">
 							<label>{\App\Language::translate('LBL_DEFAULT', $QUALIFIED_MODULE)}</label>

@@ -42,7 +42,7 @@ class Settings_BusinessHours_Edit_View extends Settings_Vtiger_Index_View
 			$recordModel = new Settings_BusinessHours_Record_Model();
 			$viewer->assign('MODE', '');
 		}
-		$viewer->assign('DAYS_OF_THE_WEEK', \App\Fields\Date::getUserNativeDaysOfWeek());
+		$viewer->assign('DAYS_OF_THE_WEEK', \App\Fields\Date::getUserNativeDaysOfWeek(null, true, true));
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $recordId);
