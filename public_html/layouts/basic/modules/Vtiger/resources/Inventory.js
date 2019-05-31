@@ -578,17 +578,17 @@ $.Class(
 					let qty = $(this)
 							.find('.qty')
 							.getNumberFromValue(),
-						purchasPrice = $(this)
+						purchasePrice = $(this)
 							.find('.purchase')
 							.getNumberFromValue();
-					if (qty > 0 && purchasPrice > 0) {
-						purchase += qty * purchasPrice;
+					if (qty > 0 && purchasePrice > 0) {
+						purchase += qty * purchasePrice;
 					}
 				});
 
 			let subtraction = sumPrice - purchase;
-			if (purchase !== 0 && subtraction !== 0) {
-				marginp = (subtraction / purchase) * 100;
+			if (purchase !== 0 && sumPrice !== 0) {
+				marginp = (subtraction / sumPrice) * 100;
 			}
 			sumRow.find('[data-sumfield="marginP"]').text(App.Fields.Double.formatToDisplay(marginp) + '%');
 		},

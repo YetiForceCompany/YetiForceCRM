@@ -146,8 +146,10 @@ class ConfReport
 	 */
 	public static $database = [
 		'driver' => ['recommended' => 'mysql', 'type' => 'Equal', 'container' => 'db', 'testCli' => false, 'label' => 'DB_DRIVER'],
-		'serverVersion' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_CLIENT_VERSION'],
-		'clientVersion' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_SERVER_VERSION'],
+		'typeDb' => [ 'container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION_TYPE'],
+		'serverVersion' => ['recommended' => ['MariaDb' => '10.x', 'MySQL' => '5.6.x'], 'type' => 'VersionDb', 'container' => 'db', 'testCli' => false, 'label' => 'DB_SERVER_VERSION'],
+		'clientVersion' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_CLIENT_VERSION'],
+		'version_comment' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION_COMMENT'],
 		'connectionStatus' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_CONNECTION_STATUS'],
 		'serverInfo' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_SERVER_INFO'],
 		'innodb_lock_wait_timeout' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'db', 'testCli' => false],
@@ -364,7 +366,7 @@ class ConfReport
 					static::$request = static::getRequest();
 					break;
 				case 'db':
-					static::$db = static::getConfigDb();
+					static::$db = \App\Db::getInstance()->getInfo();
 					break;
 				default:
 					break;
@@ -456,36 +458,6 @@ class ConfReport
 		return $request;
 	}
 
-	/**
-	 * Get database variables.
-	 *
-	 * @return mixed[]
-	 */
-	public static function getConfigDb()
-	{
-		$pdo = false;
-		if (\class_exists('\App\Db')) {
-			$db = \App\Db::getInstance();
-			$pdo = $db->getSlavePdo();
-			$driver = $db->getDriverName();
-		} elseif (!empty(static::$dbConfig['user'])) {
-			$pdo = new PDO(static::$dbConfig['dsn'], static::$dbConfig['user'], static::$dbConfig['password'], static::$dbConfig['options']);
-			$driver = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
-		}
-		if (!$pdo) {
-			return [];
-		}
-		$conf = [
-			'driver' => $driver,
-			'serverVersion' => $pdo->getAttribute(PDO::ATTR_SERVER_VERSION),
-			'clientVersion' => $pdo->getAttribute(PDO::ATTR_CLIENT_VERSION),
-			'connectionStatus' => $pdo->getAttribute(PDO::ATTR_CONNECTION_STATUS),
-			'serverInfo' => $pdo->getAttribute(PDO::ATTR_SERVER_INFO),
-		];
-		$statement = $pdo->prepare('SHOW VARIABLES');
-		$statement->execute();
-		return \array_merge($conf, $statement->fetchAll(PDO::FETCH_KEY_PAIR));
-	}
 
 	/**
 	 * Validating configuration values.
@@ -595,6 +567,27 @@ class ConfReport
 				break;
 			}
 		}
+		return $row;
+	}
+
+	/**
+	 * Validate database version.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return bool
+	 */
+	private static function validateVersionDb(string $name, array $row, string $sapi)
+	{
+		unset($name);
+		$recommended =	$row['recommended'][static::$db['typeDb']];
+		$row['status'] = false;
+		if (!empty($row[$sapi]) && \App\Version::compare($row[$sapi], $recommended, '>=')) {
+				$row['status'] = true;
+		}
+		$row['recommended'] = $recommended;
 		return $row;
 	}
 
