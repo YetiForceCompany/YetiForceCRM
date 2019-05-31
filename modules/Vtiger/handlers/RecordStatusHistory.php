@@ -42,7 +42,7 @@ class Vtiger_RecordStatusHistory_Handler
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		if (($fieldStatusName = App\RecordStatus::getFieldName($recordModel->getModuleName())) && ($recordModel->isNew() || $recordModel->getPreviousValue($fieldStatusName))) {
-			//App\RecordStatus::addHistory($recordModel, $fieldStatusName);
+			App\RecordStatus::addHistory($recordModel, $fieldStatusName);
 		}
 	}
 }

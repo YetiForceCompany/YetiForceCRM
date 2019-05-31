@@ -131,13 +131,13 @@ class RecordStatus
 		$params['isProcessStatusField'] = true;
 		$fieldModel->set('fieldparams', Json::encode($params));
 		$fieldModel->save();
-		$tableStatusHistory = $moduleModel->get('basetable') . '_status_history';
+		$tableStatusHistory = $moduleModel->get('basetable') . '_state_history';
 		if (!$db->getTableSchema($tableStatusHistory)) {
 			$db->createTable($tableStatusHistory, [
 				'id' => \yii\db\Schema::TYPE_UPK,
 				'crmid' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_INTEGER, 11),
-				'before' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 255),
-				'after' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 255),
+				'before' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TINYINT, 1)->notNull()->defaultValue(0),
+				'after' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TINYINT, 1)->notNull()->defaultValue(0),
 				'date' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TIMESTAMP)->null(),
 			]);
 			$dbCommand->createIndex($tableStatusHistory . '_crmid_idx', $tableStatusHistory, 'crmid')->execute();
@@ -219,7 +219,7 @@ class RecordStatus
 		unset($params['isProcessStatusField']);
 		$fieldModel->set('fieldparams', Json::encode($params));
 		$fieldModel->save();
-		$dbCommand->dropTable($moduleModel->get('basetable') . '_status_history')->execute();
+		$dbCommand->dropTable($moduleModel->get('basetable') . '_state_history')->execute();
 		$tableName = Fields\Picklist::getPicklistTableName($fieldName);
 		$tableSchema = $db->getTableSchema($tableName);
 		if (isset($tableSchema->columns['record_state'])) {
@@ -250,15 +250,20 @@ class RecordStatus
 	 */
 	public static function addHistory(\Vtiger_Record_Model $recordModel, string $fieldName)
 	{
-		\App\Db::getInstance()
-			->createCommand()
-			->insert($recordModel->getModule()->get('basetable') . '_status_history', [
-				'crmid' => $recordModel->getId(),
-				'before' => $recordModel->getPreviousValue($fieldName),
-				'after' => $recordModel->get($fieldName),
-				'date' => date('Y-m-d H:i:s')
-			])->execute();
-		Cache::save("RecordStatus::getFromHistory::{$recordModel->getId()}", $recordModel->get($fieldName), date('Y-m-d H:i:s'));
+		$timeCountingValues = self::getTimeCountingValues($fieldName);
+		$before = $timeCountingValues[$recordModel->getPreviousValue($fieldName)] ?? 0;
+		$after = $timeCountingValues[$recordModel->get($fieldName)] ?? 0;
+		if ($before !== $after) {
+			\App\Db::getInstance()
+				->createCommand()
+				->insert($recordModel->getModule()->get('basetable') . '_state_history', [
+					'crmid' => $recordModel->getId(),
+					'before' => $before,
+					'after' => $after,
+					'date' => date('Y-m-d H:i:s')
+				])->execute();
+			Cache::save("RecordStatus::StateDates::{$recordModel->getId()}", $after, date('Y-m-d H:i:s'));
+		}
 	}
 
 	/**
@@ -268,27 +273,35 @@ class RecordStatus
 	 */
 	public static function update(\Vtiger_Record_Model $recordModel, string $fieldName)
 	{
+		$timeCountingValues = self::getTimeCountingValues($fieldName);
+		$previous = $recordModel->getPreviousValue($fieldName);
+		$current = $recordModel->get($fieldName);
+		if ($previous && isset($timeCountingValues[$previous]) && ($timeCountingValues[$current] ?? '') !== $timeCountingValues[$previous]
+		&& ($date = self::getStateDate($recordModel, $timeCountingValues[$previous])) && ($key = self::$fieldsByStateTime[$timeCountingValues[$previous]] ?? '')) {
+			$recordModel->set($key . '_range_time', self::getDiff($date));
+			$recordModel->set($key . '_datatime', date('Y-m-d H:i:s'));
+		}
 	}
 
 	/**
 	 * Get date date from the status change history by status.
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
-	 * @param string               $value
+	 * @param int                  $value
 	 *
 	 * @return string
 	 */
-	public static function getStatusDate(\Vtiger_Record_Model $recordModel, string $state): string
+	public static function getStateDate(\Vtiger_Record_Model $recordModel, int $state): string
 	{
-		$cacheName = "RecordStatus::getFromHistory::{$recordModel->getId()}";
-		if (Cache::has($cacheName, $value)) {
-			return Cache::get($cacheName, $value);
+		$cacheName = "RecordStatus::StateDates::{$recordModel->getId()}";
+		if (Cache::has($cacheName, $state)) {
+			return Cache::get($cacheName, $state);
 		}
 		$date = (new Db\Query())->select(['date'])
-			->from($recordModel->getModule()->get('basetable') . '_status_history')
-			->where(['crmid' => $recordModel->getId(), 'after' => $value])->orderBy(['date' => SORT_DESC])
-			->scalar();
-		Cache::save($cacheName, $value, $date);
+			->from($recordModel->getModule()->get('basetable') . '_state_history')
+			->where(['crmid' => $recordModel->getId(), 'after' => $state])->orderBy(['date' => SORT_DESC])
+			->limit(1)->scalar();
+		Cache::save($cacheName, $state, $date);
 		return $date;
 	}
 
@@ -411,6 +424,15 @@ class RecordStatus
 		return $result;
 	}
 
+	public static function updateExpectedTimes(\Vtiger_Record_Model $recordModel)
+	{
+		if ($field = Field::getRelatedFieldForModule($recordModel->getModuleName(), 'ServiceContracts')) {
+			foreach (self::getExpectedTimes($recordModel->get($field['fieldname'])) as $key => $time) {
+				$recordModel->set($key . '_datatime', $time);
+			}
+		}
+	}
+
 	/**
 	 * Get expected times from ServiceContracts.
 	 *
@@ -430,12 +452,5 @@ class RecordStatus
 			'solution' => 555,
 			'idle' => 555,
 		];
-	}
-
-	public static function updateExpectedTimes(\Vtiger_Record_Model $recordModel)
-	{
-		if ($field = Field::getRelatedFieldForModule($recordModel->getModuleName(), 'ServiceContracts')) {
-			$id = $recordModel->get($field['fieldname']);
-		}
 	}
 }
