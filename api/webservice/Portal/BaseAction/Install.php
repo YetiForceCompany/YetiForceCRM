@@ -15,7 +15,7 @@ namespace Api\Portal\BaseAction;
 class Install extends \Api\Core\BaseAction
 {
 	/** @var string[] Allowed request methods */
-	public $allowedMethod = ['POST'];
+	public $allowedMethod = ['PUT'];
 
 	/**
 	 * {@inheritdoc}
@@ -30,7 +30,7 @@ class Install extends \Api\Core\BaseAction
 	 *
 	 * @return string[]
 	 */
-	public function post()
+	public function put()
 	{
 		return $this->controller->request->getRaw('data');
 	}
