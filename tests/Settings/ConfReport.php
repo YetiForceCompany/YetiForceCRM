@@ -43,9 +43,9 @@ class ConfReport extends \Tests\Base
 	 */
 	public function testDbConf()
 	{
-		$this->assertNotEmpty(\App\Utils\ConfReport::getConfigDb(), 'Database configuration report should be not empty');
+		$this->assertNotEmpty(\App\Db::getInstance()->getInfo(), 'Database configuration report should be not empty');
 		$this->assertIsArray(
-			\App\Utils\ConfReport::getConfigDb(),
+			\App\Db::getInstance()->getInfo(),
 			'Database configuration report should be array even if empty'
 		);
 	}
@@ -57,7 +57,6 @@ class ConfReport extends \Tests\Base
 	{
 		$this->assertNotEmpty(\App\Utils\ConfReport::getConfig(), 'System information report should be not empty');
 	}
-
 
 	/**
 	 * Testing system stability configuration report.
@@ -77,5 +76,4 @@ class ConfReport extends \Tests\Base
 	{
 		$this->assertNotEmpty(\App\Utils\ConfReport::testSpeed());
 	}
-
 }
