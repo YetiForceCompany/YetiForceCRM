@@ -133,7 +133,7 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		$data['name'] = \App\Purifier::purifyByType($data['name'], 'Text');
 		if (\App\TextParser::getTextLength($data['name']) > 254) {
-			throw new \App\Exceptions\AppException('ERR_EXCEEDED_NUMBER_CHARACTERS||255', 512);
+			throw new \App\Exceptions\AppException('ERR_EXCEEDED_NUMBER_CHARACTERS||255', 406);
 		}
 		if (!is_string($data['working_days'])) {
 			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE||' . $data['working_days'], 406);
