@@ -10,17 +10,42 @@
  */
 class Settings_BusinessHours_Module_Model extends Settings_Vtiger_Module_Model
 {
-	public $baseTable = 's_#__businesshours';
-	public $baseIndex = 'businesshoursid';
+	/**
+	 * Base table.
+	 *
+	 * @var string
+	 */
+	public $baseTable = 's_#__business_hours';
+	/**
+	 * Base index.
+	 *
+	 * @var string
+	 */
+	public $baseIndex = 'id';
+	/**
+	 * List fields.
+	 *
+	 * @var array
+	 */
 	public $listFields = [
-		'businesshoursname' => 'LBL_NAME',
+		'name' => 'LBL_NAME',
 		'working_days' => 'LBL_WORKING_DAYS',
 		'working_hours_from' => 'LBL_WORKING_HOURS_FROM',
 		'working_hours_to' => 'LBL_WORKING_HOURS_TO',
 		'holidays' => 'LBL_HOLIDAYS',
 		'default' => 'LBL_DEFAULT'
 	];
-	public $nameFields = ['businesshoursname'];
+	/**
+	 * Name fields.
+	 *
+	 * @var array
+	 */
+	public $nameFields = ['name'];
+	/**
+	 * Module name.
+	 *
+	 * @var string
+	 */
 	public $name = 'BusinessHours';
 
 	/**

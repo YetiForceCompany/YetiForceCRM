@@ -22,9 +22,9 @@ class Settings_BusinessHours_Save_Action extends Settings_Vtiger_Basic_Action
 		if (!$request->isEmpty('record', true)) {
 			$recordModel = Settings_BusinessHours_Record_Model::getInstanceById($request->getInteger('record'));
 		} else {
-			$recordModel = new Settings_BusinessHours_Record_Model();
+			$recordModel = Settings_BusinessHours_Record_Model::getCleanInstance();
 		}
-		$recordModel->set('businesshoursname', $request->getByType('businesshoursname', 'Text'));
+		$recordModel->set('name', $request->getByType('name', 'Text'));
 		$recordModel->set('working_days', implode(',', $workingDays));
 		$recordModel->set('working_hours_from', \App\Fields\Time::formatToDB($request->getByType('working_hours_from', 'TimeInUserFormat'), false));
 		$recordModel->set('working_hours_to', \App\Fields\Time::formatToDB($request->getByType('working_hours_to', 'TimeInUserFormat'), false));

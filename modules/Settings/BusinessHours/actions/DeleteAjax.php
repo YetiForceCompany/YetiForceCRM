@@ -21,6 +21,7 @@ class Settings_BusinessHours_DeleteAjax_Action extends Settings_Vtiger_Delete_Ac
 			$result = $recordModel->delete();
 		} else {
 			$result = ['success' => false];
+			\App\Log::error('Settings_BusinessHours_DeleteAjax_Action: no record id', 'IllegalValue');
 		}
 		$response->setResult($result);
 		$response->emit();

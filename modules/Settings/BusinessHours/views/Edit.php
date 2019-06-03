@@ -39,7 +39,7 @@ class Settings_BusinessHours_Edit_View extends Settings_Vtiger_Index_View
 			$recordModel = Settings_BusinessHours_Record_Model::getInstanceById($recordId);
 			$viewer->assign('MODE', 'edit');
 		} else {
-			$recordModel = new Settings_BusinessHours_Record_Model();
+			$recordModel = Settings_BusinessHours_Record_Model::getCleanInstance();
 			$viewer->assign('MODE', '');
 		}
 		$viewer->assign('DAYS_OF_THE_WEEK', \App\Fields\Date::getUserNativeDaysOfWeek(null, true, true));

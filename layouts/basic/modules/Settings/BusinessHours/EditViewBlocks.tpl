@@ -24,7 +24,7 @@
 							<label>{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}</label>
 							<input
 							type="text"
-							name="businesshoursname"
+							name="name"
 							class="form-control w-100"{if isset($RECORD_MODEL)} value="{$RECORD_MODEL->getName()}"{/if}
 							data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 							>
