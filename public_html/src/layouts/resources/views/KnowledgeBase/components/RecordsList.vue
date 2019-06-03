@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 <template>
-  <div :class="[isTableBottomVisible]">
+  <div class="KnowledgeBase__RecordsList">
     <q-table
       :data="data"
       :columns="columns"
@@ -60,6 +60,10 @@
       </template>
       <template v-slot:bottom="props"> </template>
     </q-table>
+    <div :class="['flex', 'items-center', 'text-danger', isTableBottomVisible]">
+      <q-icon name="mdi-alert-outline" class="q-mr-sm"></q-icon>
+      {{ translate('JS_NO_RESULTS_FOUND') }}
+    </div>
   </div>
 </template>
 <script>
@@ -111,7 +115,8 @@ export default {
 }
 </script>
 <style>
-.hideTableBottom .q-table__bottom {
+.KnowledgeBase__RecordsList .q-table__bottom,
+.hideTableBottom {
   display: none;
 }
 </style>
