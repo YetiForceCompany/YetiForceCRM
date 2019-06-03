@@ -11,6 +11,13 @@
 class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 {
 	/**
+	 * Store old values here if they exists.
+	 *
+	 * @var array
+	 */
+	public $oldValues = [];
+
+	/**
 	 * Function to get the Id.
 	 *
 	 * @return null|int Id
@@ -41,6 +48,18 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 	public function getName()
 	{
 		return $this->get('name');
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function set($key, $value)
+	{
+		if ($oldValue = $this->get($key)) {
+			$this->oldValues[$key] = $oldValue;
+		}
+		parent::set($key, $value);
+		return $this;
 	}
 
 	/**
@@ -171,12 +190,16 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 		if (!isset($data['default'])) {
 			$data['default'] = 0;
 		}
-		if (!empty($data['default'])) {
-			$db->createCommand()->update('s_#__business_hours', ['default' => 0], ['default' => 1])->execute();
-		}
 		if ($recordId) {
+			if (!empty($data['default']) && empty($this->oldValues['default'])) {
+				$db->createCommand()->update('s_#__business_hours', ['default' => 0], ['default' => 1])->execute();
+			}
 			$db->createCommand()->update('s_#__business_hours', $data, ['id' => $recordId])->execute();
+			$this->oldValues = [];
 		} else {
+			if (!empty($data['default'])) {
+				$db->createCommand()->update('s_#__business_hours', ['default' => 0], ['default' => 1])->execute();
+			}
 			$db->createCommand()->insert('s_#__business_hours', $data)->execute();
 		}
 	}
