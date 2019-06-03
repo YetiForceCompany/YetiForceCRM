@@ -72,10 +72,10 @@ class RecordsList extends \Api\Core\BaseAction
 		if ($conditions = $this->controller->request->getHeader('x-condition')) {
 			$conditions = \App\Json::decode($conditions);
 			if (isset($conditions['fieldName'])) {
-				$queryGenerator->addCondition($conditions['fieldName'], $conditions['value'], $conditions['operator']);
+				$queryGenerator->addCondition($conditions['fieldName'], $conditions['value'], $conditions['operator'], $conditions['group'] ?? true);
 			} else {
 				foreach ($conditions as $condition) {
-					$queryGenerator->addCondition($condition['fieldName'], $condition['value'], $condition['operator']);
+					$queryGenerator->addCondition($condition['fieldName'], $condition['value'], $condition['operator'], $condition['group'] ?? true);
 				}
 			}
 		}
