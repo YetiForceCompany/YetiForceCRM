@@ -94,6 +94,8 @@ Vtiger_AdvanceFilter_Js(
 					if (
 						fieldInfo.type === 'picklist' &&
 						jQuery.inArray(conditionValue, ['is record open', 'is record closed']) !== -1 &&
+						'undefined' !== typeof fieldInfo.field_params &&
+						'undefined' !== typeof fieldInfo.field_params.isProcessStatusField &&
 						!fieldInfo.field_params.isProcessStatusField
 					) {
 						continue;
