@@ -39,9 +39,9 @@ class Settings_Workflows_FilterRecordStructure_Model extends Settings_Workflows_
 							$fieldValueType = $recordModel->getFieldFilterValueType($fieldName);
 							$fieldInfo = $fieldModel->getFieldInfo();
 							$fieldInfo['workflow_valuetype'] = $fieldValueType;
-							$fieldInfo['field_params'] = $fieldModel->getFieldParams();
 							$fieldModel->setFieldInfo($fieldInfo);
 						}
+						$fieldInfo['field_params'] = $fieldModel->getFieldParams();
 						// This will be used during editing task like email, sms etc
 						$fieldModel->set('workflow_columnname', $fieldName);
 						$values[$blockLabel][$fieldName] = clone $fieldModel;
