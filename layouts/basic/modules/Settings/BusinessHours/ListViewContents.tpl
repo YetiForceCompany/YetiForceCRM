@@ -8,10 +8,6 @@
 	<input type="hidden" id="nextPageExist" value="false"/>
 
 	<div class="listViewEntriesDiv u-overflow-scroll-xsm-down">
-		<span class="listViewLoadingImageBlock d-none modal" id="loadingListViewModal">
-			<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}" />
-			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
-		</span>
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<table class="table tableRWD table-bordered table-sm listViewEntriesTable">
 			<thead>

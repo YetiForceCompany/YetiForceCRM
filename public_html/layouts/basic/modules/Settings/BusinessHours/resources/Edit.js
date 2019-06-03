@@ -8,24 +8,23 @@
  * @author      Rafal Pospiech <r.pospiech@yetiforce.com>
  */
 'use strict';
-
-Settings_Vtiger_Edit_Js(
+$.Class(
 	'Settings_BusinessHours_Edit_Js',
 	{},
 	{
 		/**
 		 * Function to register form for validation
 		 */
-		registerFormForValidation() {
-			const editViewForm = this.getForm();
-			editViewForm.validationEngine(app.validationEngineOptions);
+		registerFormForValidation(container) {
+			container.validationEngine(app.validationEngineOptions);
 		},
 
 		/**
 		 * Function which will handle the registrations for the elements
 		 */
 		registerEvents() {
-			this.registerFormForValidation();
+			const container = $('#EditView');
+			this.registerFormForValidation(container);
 			app.registerEventForClockPicker();
 		}
 	}
