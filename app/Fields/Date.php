@@ -320,11 +320,11 @@ class Date
 	 *
 	 * @param null|int $userId
 	 * @param bool     $byId
-	 * @param bool     $short
+	 * @param bool     $shortLabel
 	 *
 	 * @return array
 	 */
-	public static function getUserNativeDaysOfWeek(int $userId = null, bool $byId = true, bool $short = false)
+	public static function getUserNativeDaysOfWeek(int $userId = null, bool $byId = true, bool $shortLabel = false)
 	{
 		if ($userId === null) {
 			$userDayOfTheWeek = \App\User::getCurrentUserModel()->getDetail('dayoftheweek');
@@ -344,7 +344,7 @@ class Date
 				$dayIndex = 0;
 			}
 		}
-		if ($short) {
+		if ($shortLabel) {
 			foreach ($nativeDaysOfWeek as $index => $day) {
 				$nativeDaysOfWeek[$index] = static::$shortDaysTranslations[$day];
 			}
