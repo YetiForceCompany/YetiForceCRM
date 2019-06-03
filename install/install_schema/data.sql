@@ -17737,7 +17737,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (113,9,'LBL_YETIFORCE_STATUS_HEADER','fas fa-thermometer-half','LBL_YETIFORCE_STATUS_DESC','index.php?module=YetiForce&parent=Settings&view=Status',NULL,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (114,7,'LBL_LOGS','fas fa-exclamation-triangle','LBL_LOGS_DESC','index.php?module=Log&parent=Settings&view=Index',6,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (116,4,'LBL_BACKUP_MANAGER','fas fa-file-archive','LBL_BACKUP_MANAGER_DESCRIPTION','index.php?module=Backup&parent=Settings&view=Index',14,0,0,NULL);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (117,4,'LBL_BUSINESS_HOURS','fas fa-user-clock','LBL_BUSINESS_HOURS_DESCRIPTION','index.php?module=BusinessHours&parent=Settings&view=List\r\n',15,0,0,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (117,4,'LBL_BUSINESS_HOURS','fas fa-business-time','LBL_BUSINESS_HOURS_DESCRIPTION','index.php?module=BusinessHours&parent=Settings&view=List\r\n',15,0,0,NULL);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
