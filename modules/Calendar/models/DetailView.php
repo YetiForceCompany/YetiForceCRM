@@ -24,7 +24,7 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 		//link which shows the summary information(generally detail of record)
 		$relatedLinks[] = [
 			'linktype' => 'DETAILVIEWTAB',
-			'linklabel' => \App\Language::translate('LBL_RECORD_DETAILS', $moduleName),
+			'linklabel' => 'LBL_RECORD_DETAILS',
 			'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=full',
 			'linkicon' => '',
 			'linkKey' => 'LBL_RECORD_DETAILS',
@@ -86,9 +86,9 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
 		$stateColors = App\Config::search('LIST_ENTITY_STATE_COLOR');
-		if ($recordModel->privilegeToMoveToTrash() && $recordModel->get('reapeat') === 1) {
+		if ($recordModel->privilegeToMoveToTrash() && 1 === $recordModel->get('reapeat')) {
 			foreach ($linkModelList['DETAIL_VIEW_EXTENDED'] as $key => $linkObject) {
-				if ($linkObject->linklabel == 'LBL_MOVE_TO_TRASH') {
+				if ('LBL_MOVE_TO_TRASH' == $linkObject->linklabel) {
 					unset($linkModelList['DETAIL_VIEW_EXTENDED'][$key]);
 				}
 			}
@@ -102,9 +102,9 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 				'title' => \App\Language::translate('LBL_MOVE_TO_TRASH'),
 			]);
 		}
-		if ($recordModel->privilegeToDelete() && $recordModel->get('reapeat') === 1) {
+		if ($recordModel->privilegeToDelete() && 1 === $recordModel->get('reapeat')) {
 			foreach ($linkModelList['DETAIL_VIEW_EXTENDED'] as $key => $linkObject) {
-				if ($linkObject->linklabel == 'LBL_DELETE_RECORD_COMPLETELY') {
+				if ('LBL_DELETE_RECORD_COMPLETELY' == $linkObject->linklabel) {
 					unset($linkModelList['DETAIL_VIEW_EXTENDED'][$key]);
 				}
 			}
