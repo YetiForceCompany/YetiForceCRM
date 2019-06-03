@@ -36,7 +36,7 @@ function showRelatedListPassword(record) {
 			var response = data['result'];
 			if (response['success']) {
 				// show password
-				element.html(response['password']);
+				element.text(response['password']);
 				// change button title to 'Hide Password'
 				btn.on('show.bs.popover', function () {
 					this.dataset.content = hidePassText;
@@ -76,4 +76,3 @@ new ClipboardJS('.copy_pass', {
 		return $('#' + trigger.getAttribute('data-id')).text();
 	}
 });
-
