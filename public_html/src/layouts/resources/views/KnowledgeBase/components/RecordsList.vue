@@ -117,6 +117,6 @@ export default {
 <style>
 .KnowledgeBase__RecordsList .q-table__bottom,
 .hideTableBottom {
-  display: none;
+  display: none !important;
 }
 </style>
