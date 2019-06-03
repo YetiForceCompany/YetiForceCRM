@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 <template>
-  <div class="KnowledgeBase__RecordsList">
+  <div :class="[isTableBottomVisible]">
     <q-table
       :data="data"
       :columns="columns"
@@ -100,7 +100,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['tree', 'iconSize', 'moduleName'])
+    ...mapGetters(['tree', 'iconSize', 'moduleName']),
+    isTableBottomVisible() {
+      return this.data.length ? 'hideTableBottom' : ''
+    }
   },
   methods: {
     ...mapActions(['fetchRecord'])
@@ -108,7 +111,7 @@ export default {
 }
 </script>
 <style>
-.KnowledgeBase__RecordsList .q-table__bottom {
+.hideTableBottom .q-table__bottom {
   display: none;
 }
 </style>
