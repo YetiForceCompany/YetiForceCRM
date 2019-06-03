@@ -988,19 +988,19 @@ CREATE TABLE `s_yf_batchmethod` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `s_yf_businesshours` */
+/*Table structure for table `s_yf_business_hours` */
 
-CREATE TABLE `s_yf_businesshours` (
-  `businesshoursid` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `businesshoursname` varchar(255) NOT NULL,
+CREATE TABLE `s_yf_business_hours` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
   `working_days` varchar(15) NOT NULL,
   `working_hours_from` varchar(8) NOT NULL DEFAULT '00:00:00',
   `working_hours_to` varchar(8) NOT NULL DEFAULT '00:00:00',
   `holidays` tinyint(1) NOT NULL DEFAULT 0,
   `default` tinyint(1) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`businesshoursid`),
-  KEY `businesshours_holidays_idx` (`holidays`),
-  KEY `businesshours_default_idx` (`default`)
+  PRIMARY KEY (`id`),
+  KEY `business_hours_holidays_idx` (`holidays`),
+  KEY `business_hours_default_idx` (`default`)
 ) ENGINE=InnoDB DEFAULT CHARSET = utf8;
 
 /*Table structure for table `s_yf_companies` */
