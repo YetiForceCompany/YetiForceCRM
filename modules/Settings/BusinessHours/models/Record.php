@@ -160,7 +160,7 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 		$days = explode(',', trim($data['working_days'], ','));
 		foreach ($days as $index => $day) {
 			$days[$index] = \App\Purifier::purifyByType($day, 'Integer');
-			if ((int) $day < 0 || (int) $day > 6) {
+			if ((int) $day < 1 || (int) $day > 7) {
 				throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE||' . $day, 406);
 			}
 		}
