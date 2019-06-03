@@ -29,6 +29,8 @@ class Date
 	/**
 	 * ISO-8601 numeric representation of the day of the week.
 	 *
+	 * @example date('N')
+	 *
 	 * @var array
 	 */
 	public static $dayOfWeek = [
@@ -39,6 +41,21 @@ class Date
 		'Friday' => 5,
 		'Saturday' => 6,
 		'Sunday' => 7,
+	];
+
+	/**
+	 * Short days translations.
+	 *
+	 * @var array
+	 */
+	public static $shortDaysTranslations = [
+		'Sunday' => 'LBL_SM_SUN',
+		'Monday' => 'LBL_SM_MON',
+		'Tuesday' => 'LBL_SM_TUE',
+		'Wednesday' => 'LBL_SM_WED',
+		'Thursday' => 'LBL_SM_THU',
+		'Friday' => 'LBL_SM_FRI',
+		'Saturday' => 'LBL_SM_SAT',
 	];
 
 	/**
@@ -196,5 +213,25 @@ class Date
 			return \App\Language::translate(date($shortName ? 'D' : 'l', strtotime($date)), $shortName ? 'Vtiger' : 'Calendar');
 		}
 		return date($shortName ? 'D' : 'l', strtotime($date));
+	}
+
+	/**
+	 * Get short days of week.
+	 *
+	 * @param bool $byId associative array by day id
+	 *
+	 * @return array
+	 */
+	public static function getShortDaysOfWeek(bool $byId = true)
+	{
+		$days = [];
+		foreach (static::$dayOfWeek as $day => $id) {
+			if ($byId) {
+				$days[$id] = static::$shortDaysTranslations[$day];
+			} else {
+				$days[static::$shortDaysTranslations[$day]] = $id;
+			}
+		}
+		return $days;
 	}
 }
