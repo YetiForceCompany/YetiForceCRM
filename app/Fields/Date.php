@@ -44,40 +44,6 @@ class Date
 	];
 
 	/**
-	 * Native days of week.
-	 *
-	 * @example date('w')
-	 *
-	 * @var array
-	 */
-	public static $nativeDayOfWeek = [
-		'Sunday' => 0,
-		'Monday' => 1,
-		'Tuesday' => 2,
-		'Wednesday' => 3,
-		'Thursday' => 4,
-		'Friday' => 5,
-		'Saturday' => 6,
-	];
-
-	/**
-	 * Native days of week by id.
-	 *
-	 * @example date('w')
-	 *
-	 * @var array
-	 */
-	public static $nativeDayOfWeekById = [
-		0 => 'Sunday',
-		1 => 'Monday',
-		2 => 'Tuesday',
-		3 => 'Wednesday',
-		4 => 'Thursday',
-		5 => 'Friday',
-		6 => 'Saturday',
-	];
-
-	/**
 	 * Short days translations.
 	 *
 	 * @var array
@@ -316,39 +282,22 @@ class Date
 	}
 
 	/**
-	 * Get user native days of week - array of week days starting from user defined first day of the week.
+	 * Get short days of week.
 	 *
-	 * @param null|int $userId
-	 * @param bool     $byId
-	 * @param bool     $shortLabel
+	 * @param bool $byId associative array by day id
 	 *
 	 * @return array
 	 */
-	public static function getUserNativeDaysOfWeek(int $userId = null, bool $byId = true, bool $shortLabel = false)
+	public static function getShortDaysOfWeek(bool $byId = true)
 	{
-		if ($userId === null) {
-			$userDayOfTheWeek = \App\User::getCurrentUserModel()->getDetail('dayoftheweek');
-		} else {
-			$userDayOfTheWeek = \App\User::getUserModel($userId)->getDetail('dayoftheweek');
-		}
-		$dayIndex = static::$nativeDayOfWeek[$userDayOfTheWeek];
-		$nativeDaysOfWeek = [];
-		for ($i = 0; $i < 7; ++$i) {
+		$days = [];
+		foreach (static::$dayOfWeek as $day => $id) {
 			if ($byId) {
-				$nativeDaysOfWeek[$dayIndex] = static::$nativeDayOfWeekById[$dayIndex];
+				$days[$id] = static::$shortDaysTranslations[$day];
 			} else {
-				$nativeDaysOfWeek[static::$nativeDayOfWeekById[$dayIndex]] = $dayIndex;
-			}
-			++$dayIndex;
-			if ($dayIndex > 6) {
-				$dayIndex = 0;
+				$days[static::$shortDaysTranslations[$day]] = $id;
 			}
 		}
-		if ($shortLabel) {
-			foreach ($nativeDaysOfWeek as $index => $day) {
-				$nativeDaysOfWeek[$index] = static::$shortDaysTranslations[$day];
-			}
-		}
-		return $nativeDaysOfWeek;
+		return $days;
 	}
 }

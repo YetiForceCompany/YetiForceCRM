@@ -195,13 +195,13 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 			$days = explode(',', trim($value, ','));
 			$value = [];
 			foreach ($days as $day) {
-				$value[] = \App\Language::translate(\App\Fields\Date::$nativeDayOfWeekById[$day], 'Calendar');
+				$value[] = \App\Language::translate(array_flip(\App\Fields\Date::$dayOfWeek)[$day], 'Calendar');
 			}
 			$value = implode(', ', $value);
 		} elseif ($key === 'working_hours_from' || $key === 'working_hours_to') {
 			$value = \App\Fields\Time::formatToDisplay($value, false);
 		} elseif ($key === 'default' || $key === 'holidays') {
-			$value = $value ? \App\Language::translate('LBL_YES', '_Base') : \App\Language::translate('LBL_NO', '_Base');
+			$value = $value ? \App\Language::translate('LBL_YES') : \App\Language::translate('LBL_NO');
 		}
 		return $value;
 	}
