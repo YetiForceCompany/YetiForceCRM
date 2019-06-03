@@ -12,16 +12,12 @@
 class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 {
 	/**
-	 * Function to get the detail view related links.
-	 *
-	 * @return <array> - list of links parameters
+	 * {@inheritdoc}
 	 */
 	public function getDetailViewRelatedLinks()
 	{
 		$recordModel = $this->getRecord();
-		$moduleName = $recordModel->getType();
 		$relatedLinks = [];
-		//link which shows the summary information(generally detail of record)
 		$relatedLinks[] = [
 			'linktype' => 'DETAILVIEWTAB',
 			'linklabel' => 'LBL_RECORD_DETAILS',
