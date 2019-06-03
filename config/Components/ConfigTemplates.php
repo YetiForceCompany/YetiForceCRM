@@ -246,7 +246,11 @@ return [
 		],
 		'masterSource' => [
 			'default' => 'magento',
-			'description' => 'Set master source: yetiforce or magento',
+			'description' => 'Set master source: yetiforce or magento.',
+		],
+		'productLimit' => [
+			'default' => 20,
+			'description' => 'Set how many records can be updated at once.',
 		],
 	],
 ];

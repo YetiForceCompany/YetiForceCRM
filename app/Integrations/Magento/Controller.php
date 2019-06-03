@@ -13,7 +13,6 @@ namespace App\Integrations\Magento;
 
 use App\Exceptions\AppException;
 use App\Integrations\Magento\Connector\ConnectorInterface;
-use App\Integrations\Magento\Synchronizator\Category;
 
 /**
  * Magento class.
@@ -60,7 +59,19 @@ class Controller
 	 */
 	public function synchronizeCategories()
 	{
-		$categorySynchronizator = new Category();
+		$categorySynchronizator = new Synchronizator\Category();
+		$categorySynchronizator->setConnector($this->getConnector());
+		$categorySynchronizator->process();
+	}
+
+	/**
+	 * Synchronize products.
+	 *
+	 * @return void
+	 */
+	public function synchronizeProducts()
+	{
+		$categorySynchronizator = new Synchronizator\Product();
 		$categorySynchronizator->setConnector($this->getConnector());
 		$categorySynchronizator->process();
 	}
