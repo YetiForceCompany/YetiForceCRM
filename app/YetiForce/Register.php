@@ -185,7 +185,7 @@ class Register
 			static::updateMetaData($data);
 		} catch (\Throwable $e) {
 			\App\Log::warning($e->getMessage(), __METHOD__);
-			static::updateMetaData(['lastError' => $e->getMessage()]);
+			static::updateMetaData(['lastError' => $e->getMessage(), 'last_check_time' => date('Y-m-d H:i:s')]);
 		}
 		return $status ?? false;
 	}
