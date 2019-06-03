@@ -2,6 +2,7 @@
 
 <template>
   <div>
+    <q-resize-observer @resize="onResize" />
     <q-carousel
       v-model="slide"
       transition-prev="scale"
@@ -15,6 +16,7 @@
       :height="height"
       class="quasar-reset shadow-1 rounded-borders"
       :fullscreen.sync="fullscreen"
+      ref="carousel"
     >
       <q-carousel-slide
         v-for="(slide, index) in record.content"
@@ -23,7 +25,7 @@
         class="column no-wrap flex-center"
         :fullscreen.sync="fullscreen"
       >
-        <div v-html="slide"></div>
+        <div class="full-height" v-html="slide"></div>
       </q-carousel-slide>
       <template v-slot:control>
         <q-carousel-control position="bottom-right" :offset="[18, 18]">
@@ -43,8 +45,6 @@
 </template>
 
 <script>
-import { dom } from 'quasar/src/utils.js'
-const { offset, ready, height } = dom
 export default {
   name: 'Carousel',
   data() {
@@ -67,6 +67,15 @@ export default {
         this.$q.fullscreen.request()
       } else {
         this.$q.fullscreen.exit()
+      }
+    }
+  },
+  methods: {
+    onResize(size) {
+      if (this.$refs.carousel !== undefined) {
+        $(this.$refs.carousel.$el)
+          .find('img')
+          .css('max-width', size.width - 17)
       }
     }
   }

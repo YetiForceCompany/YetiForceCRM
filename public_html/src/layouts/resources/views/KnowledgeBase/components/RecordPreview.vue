@@ -46,11 +46,13 @@
         </div>
         <q-space />
         <slot name="header-right">
-          <q-btn dense flat icon="mdi-window-minimize" @click="maximized = false" :disable="!maximized">
-            <q-tooltip v-if="maximized">{{ translate('JS_MINIMIZE') }}</q-tooltip>
-          </q-btn>
-          <q-btn dense flat icon="mdi-window-maximize" @click="maximized = true" :disable="maximized">
-            <q-tooltip v-if="!maximized">{{ translate('JS_MAXIMIZE') }}</q-tooltip>
+          <q-btn
+            dense
+            flat
+            :icon="maximized ? 'mdi-window-restore' : 'mdi-window-maximize'"
+            @click="maximized = !maximized"
+          >
+            <q-tooltip>{{ maximized ? translate('JS_MINIMIZE') : translate('JS_MAXIMIZE') }}</q-tooltip>
           </q-btn>
           <q-btn dense flat icon="mdi-close" v-close-popup>
             <q-tooltip>{{ translate('JS_CLOSE') }}</q-tooltip>
