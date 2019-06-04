@@ -1475,6 +1475,7 @@ $.Class(
 		 */
 		registerClearReferenceSelection() {
 			this.form.on('click', '.clearReferenceSelection', e => {
+				const referenceGroup = $(e.currentTarget).closest('div.referenceGroup');
 				if(referenceGroup.length) {
 					referenceGroup.find('input[id$="_display"]').val('').removeAttr('readonly');
 				} else {
