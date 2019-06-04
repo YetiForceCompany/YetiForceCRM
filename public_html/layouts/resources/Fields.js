@@ -1788,12 +1788,14 @@ window.App.Fields = {
 			this.container = container;
 			this.value = container.val();
 			if (this.value) {
-				const split = this.value.split('|');
+				const split = this.value.split(':');
 				this.time = Number(split[0]);
 				this.period = split[1];
 			} else {
 				this.time = 0;
 				this.period = 'm';
+				this.value = '00:m';
+				container.val(this.value);
 			}
 			this.injectContent();
 		}
@@ -1863,7 +1865,7 @@ window.App.Fields = {
 		onChange(event) {
 			this.time = this.input.val();
 			this.period = this.select.val();
-			this.value = this.input.val().padStart(2, '0') + '|' + this.select.val();
+			this.value = this.input.val().padStart(2, '0') + ':' + this.select.val();
 			this.container.val(this.value);
 		}
 	}

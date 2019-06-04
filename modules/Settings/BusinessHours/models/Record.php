@@ -164,7 +164,7 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 				throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE||' . $day, 406);
 			}
 		}
-		$data['working_days'] = ',' . implode(',', $days) . ',';
+		$data['working_days'] = implode(',', $days);
 		$data['working_hours_from'] = \App\Purifier::purifyByType($data['working_hours_from'], 'Time');
 		$data['working_hours_to'] = \App\Purifier::purifyByType($data['working_hours_to'], 'Time');
 		if (isset($data['holidays']) && 0 !== $data['holidays'] && 1 !== $data['holidays']) {

@@ -330,6 +330,9 @@ class Purifier
 				case 'Time':
 					$value = Validator::time($input) ? $input : null;
 					break;
+				case 'TimePeriod':
+					$value = Validator::timePeriod($input) ? $input : null;
+					break;
 				case 'TimeInUserFormat':
 					$value = Validator::timeInUserFormat($input) ? ($convert ? Fields\Time::formatToDB($input) : $input) : null;
 					break;
@@ -423,7 +426,7 @@ class Purifier
 	 *
 	 * @param int|string $value
 	 *
-	 * @return bool|null
+	 * @return null|bool
 	 */
 	public static function bool($value)
 	{
