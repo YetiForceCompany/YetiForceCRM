@@ -172,7 +172,7 @@ class Purifier extends \Tests\Base
 		if ($exception) {
 			$this->expectException($exception);
 		}
-		$this->{$assertion}($expected, \App\Purifier::purifyByType($text, $type), $message);
+		$this->{$assertion}($expected, \App\Purifier::purifyByType($text, $type), "$message | $expected | $type | $assertion | $text");
 	}
 
 	/**
