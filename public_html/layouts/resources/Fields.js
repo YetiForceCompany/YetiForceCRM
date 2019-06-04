@@ -1826,7 +1826,9 @@ window.App.Fields = {
 		 */
 		injectContent() {
 			let content = `<div class="input-group js-time-period" data-js="container">
-				<input type="number" class="form-control js-time-period-input" min="0" value="${this.time}">
+				<input type="number" class="form-control js-time-period-input" min="0" value="${
+					this.time
+				}" data-validation-engine="validate[required,funcCall[Vtiger_Integer_Validator_Js.invokeValidation]]">
 				<div class="input-group-append">
 					<select class="select2 time-period-${this.container.attr('name')}">
 						<option value="m"${this.period === 'm' ? 'selected="selected"' : ''}>${app.vtranslate('JS_MONTHS_FULL')}</option>
