@@ -79,11 +79,11 @@ abstract class Base
 	/**
 	 * Get record mapping.
 	 *
-	 * @param $type
-	 * @param bool $fromId
-	 * @param bool $limit
+	 * @param string   $type
+	 * @param bool|int $fromId
+	 * @param bool|int $limit
 	 */
-	public function getMapping($type, $fromId = false, $limit = false): void
+	public function getMapping(string $type, $fromId = false, $limit = false): void
 	{
 		$this->mapMagento = (new Query())
 			->select(['crmid', 'id'])

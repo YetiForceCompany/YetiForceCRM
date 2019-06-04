@@ -25,17 +25,18 @@ class Config extends \App\Base
 	 * @var self
 	 */
 	private static $instance;
+	private static $tableName = 'i_#__magento_config';
 
 	/**
 	 * Function to get object to read configuration.
 	 *
-	 * @return config
+	 * @return object
 	 */
 	public static function getInstance()
 	{
 		if (null === static::$instance) {
 			static::$instance = new static();
-			$data = (new Query())->select(['name', 'value'])->from('i_#__magento_config')->createCommand()->queryAllByGroup();
+			$data = (new Query())->select(['name', 'value'])->from(self::$tableName)->createCommand()->queryAllByGroup();
 			static::$instance->setData($data);
 		}
 		return static::$instance;
@@ -46,7 +47,7 @@ class Config extends \App\Base
 	 */
 	public static function updateData(): void
 	{
-		static::$instance->setData((new Query())->select(['name', 'value'])->from('i_#__magento_config')->createCommand()->queryAllByGroup());
+		static::$instance->setData((new Query())->select(['name', 'value'])->from('self::$tableName')->createCommand()->queryAllByGroup());
 	}
 
 	/**
@@ -65,12 +66,12 @@ class Config extends \App\Base
 			'name' => "{$type}_last_scan_{$name}",
 			'value' => $id
 		];
-		if (!(new Query())->from('i_#__magento_config')
+		if (!(new Query())->from(self::$tableName)
 			->where(['name' => $data['name']])
 			->exists()) {
-			$dbCommand->insert('i_#__magento_config', $data)->execute();
+			$dbCommand->insert(self::$tableName, $data)->execute();
 		} else {
-			$dbCommand->update('i_#__magento_config', $data, ['name' => $data['name']])->execute();
+			$dbCommand->update(self::$tableName, $data, ['name' => $data['name']])->execute();
 		}
 		static::updateData();
 	}
@@ -89,12 +90,12 @@ class Config extends \App\Base
 			'name' => $type . '_start_scan_date',
 			'value' => date('Y-m-d H:i:s')
 		];
-		if (!(new Query())->from('i_#__magento_config')
+		if (!(new Query())->from(self::$tableName)
 			->where(['name' => $data['name']])
 			->exists()) {
-			$dbCommand->insert('i_#__magento_config', $data)->execute();
+			$dbCommand->insert(self::$tableName, $data)->execute();
 		} else {
-			$dbCommand->update('i_#__magento_config', $data, ['name' => $data['name']])->execute();
+			$dbCommand->update(self::$tableName, $data, ['name' => $data['name']])->execute();
 		}
 		static::updateData();
 	}
@@ -129,12 +130,12 @@ class Config extends \App\Base
 			]
 		];
 		foreach ($saveData as $data) {
-			if (!(new Query())->from('i_#__magento_config')
+			if (!(new Query())->from(self::$tableName)
 				->where(['name' => $data['name']])
 				->exists()) {
-				$dbCommand->insert('i_#__magento_config', $data)->execute();
+				$dbCommand->insert(self::$tableName, $data)->execute();
 			} else {
-				$dbCommand->update('i_#__magento_config', $data, ['name' => $data['name']])->execute();
+				$dbCommand->update(self::$tableName, $data, ['name' => $data['name']])->execute();
 			}
 		}
 		static::updateData();
@@ -149,12 +150,13 @@ class Config extends \App\Base
 	 */
 	public static function getLastScan(string $type): array
 	{
+		$instance = self::getInstance();
 		return [
-			'id' => self::getInstance()->get($type . '_last_scan_id') ?? 0,
-			'idcrm' => self::getInstance()->get($type . '_last_scan_idcrm') ?? 0,
-			'idmap' => self::getInstance()->get($type . '_last_scan_idmap') ?? 0,
-			'start_date' => self::getInstance()->get($type . '_start_scan_date') ?? false,
-			'end_date' => self::getInstance()->get($type . '_end_scan_date') ?? false,
+			'id' => $instance->get($type . '_last_scan_id') ?? 0,
+			'idcrm' => $instance->get($type . '_last_scan_idcrm') ?? 0,
+			'idmap' => $instance->get($type . '_last_scan_idmap') ?? 0,
+			'start_date' => $instance->get($type . '_start_scan_date') ?? false,
+			'end_date' => $instance->get($type . '_end_scan_date') ?? false,
 		];
 	}
 }
