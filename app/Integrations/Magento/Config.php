@@ -25,7 +25,7 @@ class Config extends \App\Base
 	 * @var self
 	 */
 	private static $instance;
-	private static $tableName = 'i_#__magento_config';
+	private const TABLE_NAME = 'i_#__magento_config';
 
 	/**
 	 * Function to get object to read configuration.
@@ -36,7 +36,7 @@ class Config extends \App\Base
 	{
 		if (null === static::$instance) {
 			static::$instance = new static();
-			$data = (new Query())->select(['name', 'value'])->from(self::$tableName)->createCommand()->queryAllByGroup();
+			$data = (new Query())->select(['name', 'value'])->from(self::TABLE_NAME)->createCommand()->queryAllByGroup();
 			static::$instance->setData($data);
 		}
 		return static::$instance;
@@ -47,7 +47,7 @@ class Config extends \App\Base
 	 */
 	public static function updateData(): void
 	{
-		static::$instance->setData((new Query())->select(['name', 'value'])->from('self::$tableName')->createCommand()->queryAllByGroup());
+		static::$instance->setData((new Query())->select(['name', 'value'])->from(self::TABLE_NAME)->createCommand()->queryAllByGroup());
 	}
 
 	/**
@@ -66,12 +66,12 @@ class Config extends \App\Base
 			'name' => "{$type}_last_scan_{$name}",
 			'value' => $id
 		];
-		if (!(new Query())->from(self::$tableName)
+		if (!(new Query())->from(self::TABLE_NAME)
 			->where(['name' => $data['name']])
 			->exists()) {
-			$dbCommand->insert(self::$tableName, $data)->execute();
+			$dbCommand->insert(self::TABLE_NAME, $data)->execute();
 		} else {
-			$dbCommand->update(self::$tableName, $data, ['name' => $data['name']])->execute();
+			$dbCommand->update(self::TABLE_NAME, $data, ['name' => $data['name']])->execute();
 		}
 		static::updateData();
 	}
@@ -90,12 +90,12 @@ class Config extends \App\Base
 			'name' => $type . '_start_scan_date',
 			'value' => date('Y-m-d H:i:s')
 		];
-		if (!(new Query())->from(self::$tableName)
+		if (!(new Query())->from(self::TABLE_NAME)
 			->where(['name' => $data['name']])
 			->exists()) {
-			$dbCommand->insert(self::$tableName, $data)->execute();
+			$dbCommand->insert(self::TABLE_NAME, $data)->execute();
 		} else {
-			$dbCommand->update(self::$tableName, $data, ['name' => $data['name']])->execute();
+			$dbCommand->update(self::TABLE_NAME, $data, ['name' => $data['name']])->execute();
 		}
 		static::updateData();
 	}
@@ -130,12 +130,12 @@ class Config extends \App\Base
 			]
 		];
 		foreach ($saveData as $data) {
-			if (!(new Query())->from(self::$tableName)
+			if (!(new Query())->from(self::TABLE_NAME)
 				->where(['name' => $data['name']])
 				->exists()) {
-				$dbCommand->insert(self::$tableName, $data)->execute();
+				$dbCommand->insert(self::TABLE_NAME, $data)->execute();
 			} else {
-				$dbCommand->update(self::$tableName, $data, ['name' => $data['name']])->execute();
+				$dbCommand->update(self::TABLE_NAME, $data, ['name' => $data['name']])->execute();
 			}
 		}
 		static::updateData();

@@ -31,18 +31,18 @@ abstract class Magento extends \App\Integrations\Magento\Synchronizator\Record
 	/**
 	 * Method to update product in Magento.
 	 *
-	 * @param int   $productMagentoId
+	 * @param int   $productId
 	 * @param array $product
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return bool
 	 */
-	public function updateProductMagento(int $productMagentoId, array $product): bool
+	public function updateProduct(int $productId, array $product): bool
 	{
 		$this->getProductSkuMap();
 		$result = false;
-		if (!empty($this->mapSku[$productMagentoId])) {
+		if (!empty($this->mapSku[$productId])) {
 			try {
 				$data = [
 					'product' => [
@@ -50,11 +50,11 @@ abstract class Magento extends \App\Integrations\Magento\Synchronizator\Record
 					]
 				];
 				if (!empty($this->mappedFields)) {
-					foreach ($this->mappedFields as $fieldNameYF => $fieldNameMagento) {
-						$data['product'][$fieldNameMagento] = $product[$fieldNameYF];
+					foreach ($this->mappedFields as $fieldNameCrm => $fieldName) {
+						$data['product'][$fieldName] = $product[$fieldNameCrm];
 					}
 				}
-				$this->connector->request('PUT', 'rest/all/V1/products/' . $this->mapSku[$productMagentoId], $data);
+				$this->connector->request('PUT', 'rest/all/V1/products/' . $this->mapSku[$productId], $data);
 				$result = true;
 			} catch (\Throwable $ex) {
 				\App\Log::error('Error during updating magento product: ' . $ex->getMessage(), 'Integrations/Magento');
@@ -70,7 +70,7 @@ abstract class Magento extends \App\Integrations\Magento\Synchronizator\Record
 	 *
 	 * @return bool
 	 */
-	public function saveProductMagento(array $product): bool
+	public function saveProduct(array $product): bool
 	{
 		$data = [
 			'product' => [
@@ -80,8 +80,8 @@ abstract class Magento extends \App\Integrations\Magento\Synchronizator\Record
 			]
 		];
 		if (!empty($this->mappedFields)) {
-			foreach ($this->mappedFields as $fieldNameYF => $fieldNameMagento) {
-				$data['product'][$fieldNameMagento] = $product[$fieldNameYF];
+			foreach ($this->mappedFields as $fieldNameCrm => $fieldName) {
+				$data['product'][$fieldName] = $product[$fieldNameCrm];
 			}
 		}
 		try {
@@ -106,12 +106,12 @@ abstract class Magento extends \App\Integrations\Magento\Synchronizator\Record
 	 *
 	 * @return bool
 	 */
-	public function deleteProductMagento(int $productId): bool
+	public function deleteProduct(int $productId): bool
 	{
 		$this->getProductSkuMap();
 		try {
 			$this->connector->request('DELETE', '/rest/all/V1/products/' . $this->mapSku[$productId], []);
-			$this->deleteMapping($productId, $this->mapYF[$productId]);
+			$this->deleteMapping($productId, $this->mapCrm[$productId]);
 			$result = true;
 		} catch (\Throwable $ex) {
 			\App\Log::error('Error during deleting magento product: ' . $ex->getMessage(), 'Integrations/Magento');
@@ -147,7 +147,7 @@ abstract class Magento extends \App\Integrations\Magento\Synchronizator\Record
 	 *
 	 * @return array
 	 */
-	public function getProductsMagento(array $ids = []): array
+	public function getProducts(array $ids = []): array
 	{
 		$items = [];
 		$data = \App\Json::decode($this->connector->request('GET', 'rest/all/V1/products?' . $this->getSearchCriteria($ids)));

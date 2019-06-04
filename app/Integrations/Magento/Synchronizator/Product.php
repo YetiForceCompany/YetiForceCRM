@@ -29,10 +29,10 @@ class Product extends Maps\Magento
 			$this->lastScan = $this->config::getLastScan('product');
 		}
 		$this->getMapping('product');
-		$resultYF = $this->checkProductsYF();
-		$resultMagento = $this->checkProductsMagento();
+		$resultCrm = $this->checkProductsCrm();
+		$result = $this->checkProducts();
 		$resultMap = $this->checkProductsMap();
-		if ($resultYF && $resultMagento && $resultMap) {
+		if ($resultCrm && $result && $resultMap) {
 			$this->config::setEndScan('product', $this->lastScan['start_date']);
 		}
 	}
@@ -40,26 +40,26 @@ class Product extends Maps\Magento
 	/**
 	 * Method to save, update or delete products from YetiForce.
 	 */
-	public function checkProductsYF(): bool
+	public function checkProductsCrm(): bool
 	{
 		$result = false;
-		$productsYF = $this->getProductsYF();
-		$productsMagento = $this->getProductsMagento($this->getFormatedRecordsIds(array_keys($productsYF)));
-		if (!empty($productsYF)) {
-			foreach ($productsYF as $id => $productYF) {
-				$productYF['productid'] = $id;
-				if (isset($this->mapMagento[$id], $productsMagento[$this->mapMagento[$id]])) {
-					if ($this->hasChanges($productYF, $productsMagento[$this->mapMagento[$id]])) {
-						if ('magento' === $this->whichToUpdate($productYF, $productsMagento[$this->mapMagento[$id]])) {
-							$this->updateProductMagento($this->mapMagento[$id], $productYF);
+		$productsCrm = $this->getProductsCrm();
+		$products = $this->getProducts($this->getFormatedRecordsIds(array_keys($productsCrm)));
+		if (!empty($productsCrm)) {
+			foreach ($productsCrm as $id => $productCrm) {
+				$productCrm['productid'] = $id;
+				if (isset($this->map[$id], $products[$this->map[$id]])) {
+					if ($this->hasChanges($productCrm, $products[$this->map[$id]])) {
+						if ('magento' === $this->whichToUpdate($productCrm, $products[$this->map[$id]])) {
+							$this->updateProduct($this->map[$id], $productCrm);
 						} else {
-							$this->updateProductYF($id, $productsMagento[$this->mapMagento[$id]]);
+							$this->updateProductCrm($id, $products[$this->map[$id]]);
 						}
 					}
-				} elseif (isset($this->mapMagento[$id]) && !isset($productsMagento[$this->mapMagento[$id]])) {
-					$this->deleteProductYF($id);
+				} elseif (isset($this->map[$id]) && !isset($products[$this->map[$id]])) {
+					$this->deleteProductCrm($id);
 				} else {
-					$this->saveProductMagento($productYF);
+					$this->saveProduct($productCrm);
 				}
 				$this->config::setLastScanId('product', 'idcrm', $id);
 			}
@@ -74,26 +74,26 @@ class Product extends Maps\Magento
 	 *
 	 * @return bool
 	 */
-	public function checkProductsMagento(): bool
+	public function checkProducts(): bool
 	{
 		$allChecked = false;
 		try {
-			$productsMagento = $this->getProductsMagento();
-			$productsYF = $this->getProductsYF($this->getFormatedRecordsIds(array_keys($productsMagento), 'yetiforce'));
-			if (!empty($productsMagento)) {
-				foreach ($productsMagento as $id => $product) {
-					if (isset($this->mapYF[$id], $productsYF[$this->mapYF[$id]])) {
-						if ($this->hasChanges($productsYF[$this->mapYF[$id]], $product)) {
-							if ('magento' === $this->whichToUpdate($productsYF[$this->mapYF[$id]], $product)) {
-								$this->updateProductMagento($id, $productsYF[$this->mapYF[$id]]);
+			$products = $this->getProducts();
+			$productsCrm = $this->getProductsCrm($this->getFormatedRecordsIds(array_keys($products), 'yetiforce'));
+			if (!empty($products)) {
+				foreach ($products as $id => $product) {
+					if (isset($this->mapCrm[$id], $productsCrm[$this->mapCrm[$id]])) {
+						if ($this->hasChanges($productsCrm[$this->mapCrm[$id]], $product)) {
+							if ('magento' === $this->whichToUpdate($productsCrm[$this->mapCrm[$id]], $product)) {
+								$this->updateProduct($id, $productsCrm[$this->mapCrm[$id]]);
 							} else {
-								$this->updateProductYF($this->mapYF[$id], $product);
+								$this->updateProductCrm($this->mapCrm[$id], $product);
 							}
 						}
-					} elseif (isset($this->mapYF[$id]) && !isset($productsYF[$this->mapYF[$id]])) {
-						$this->deleteProductMagento($id);
+					} elseif (isset($this->mapCrm[$id]) && !isset($productsCrm[$this->mapCrm[$id]])) {
+						$this->deleteProduct($id);
 					} else {
-						$this->saveProductYF($product);
+						$this->saveProductCrm($product);
 					}
 					$this->config::setLastScanId('product', 'id', $id);
 				}
@@ -117,21 +117,21 @@ class Product extends Maps\Magento
 		$allChecked = false;
 		try {
 			$this->getMapping('product', $this->lastScan['idmap'], \App\Config::component('Magento', 'productLimit'));
-			$mapKeys = array_keys($this->mapMagento);
+			$mapKeys = array_keys($this->map);
 			if (!empty($mapKeys)) {
-				$productsYF = $this->getProductsYF($mapKeys);
-				$productsMagento = $this->getProductsMagento($this->getFormatedRecordsIds($mapKeys));
-				if ($diffedRecords = \array_diff_key($this->mapMagento, $productsYF)) {
-					foreach ($diffedRecords as $idYF => $idMagento) {
-						$this->deleteProductMagento($idMagento);
+				$productsCrm = $this->getProductsCrm($mapKeys);
+				$products = $this->getProducts($this->getFormatedRecordsIds($mapKeys));
+				if ($diffedRecords = \array_diff_key($this->map, $productsCrm)) {
+					foreach ($diffedRecords as $idCrm => $id) {
+						$this->deleteProduct($id);
 					}
 				}
-				if ($diffedRecords = \array_diff_key($this->mapYF, $productsMagento)) {
-					foreach ($diffedRecords as $idMagento => $idYF) {
-						$this->deleteProductYF($idYF);
+				if ($diffedRecords = \array_diff_key($this->mapCrm, $products)) {
+					foreach ($diffedRecords as $id => $idCrm) {
+						$this->deleteProductCrm($idCrm);
 					}
 				}
-				$this->config::setLastScanId('product', 'idmap', max(array_keys($this->mapYF)));
+				$this->config::setLastScanId('product', 'idmap', max(array_keys($this->mapCrm)));
 			} else {
 				$allChecked = true;
 			}
@@ -150,7 +150,7 @@ class Product extends Maps\Magento
 	 *
 	 * @return array
 	 */
-	public function getProductsYF(array $ids = []): array
+	public function getProductsCrm(array $ids = []): array
 	{
 		$queryGenerator = new \App\QueryGenerator('Products');
 		$query = $queryGenerator->createQuery();
@@ -174,7 +174,7 @@ class Product extends Maps\Magento
 	 *
 	 * @throws \Exception
 	 */
-	public function saveProductYF(array $data): void
+	public function saveProductCrm(array $data): void
 	{
 		$fields = $this->getData($data);
 		if (!empty($fields)) {
@@ -193,7 +193,7 @@ class Product extends Maps\Magento
 	 *
 	 * @throws \Exception
 	 */
-	public function updateProductYF(int $id, array $productData): void
+	public function updateProductCrm(int $id, array $productData): void
 	{
 		$fields = $this->getData($productData);
 		$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'Products');
@@ -210,12 +210,12 @@ class Product extends Maps\Magento
 	 *
 	 * @return bool
 	 */
-	public function deleteProductYF(int $id): bool
+	public function deleteProductCrm(int $id): bool
 	{
 		try {
 			$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'Products');
 			$recordModel->delete();
-			$this->deleteMapping($this->mapMagento[$id], $id);
+			$this->deleteMapping($this->map[$id], $id);
 			$result = true;
 		} catch (\Throwable $ex) {
 			\App\Log::error('Error during deleting yetiforce product: ' . $ex->getMessage(), 'Integrations/Magento');

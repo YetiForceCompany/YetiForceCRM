@@ -30,13 +30,13 @@ abstract class Base
 	 *
 	 * @var array
 	 */
-	public $mapMagento = [];
+	public $map = [];
 	/**
 	 * Records map from yetiforce.
 	 *
 	 * @var array
 	 */
-	public $mapYF = [];
+	public $mapCrm = [];
 	/**
 	 * Last scan config data.
 	 *
@@ -56,6 +56,12 @@ abstract class Base
 	 * @var array
 	 */
 	public $mappedFields = [];
+	/**
+	 * Mapped records table name.
+	 *
+	 * @var string
+	 */
+	public const TABLE_NAME = 'i_#__magento_record';
 
 	/**
 	 * Sets connector to communicate with system.
@@ -85,77 +91,77 @@ abstract class Base
 	 */
 	public function getMapping(string $type, $fromId = false, $limit = false): void
 	{
-		$this->mapMagento = (new Query())
+		$this->map = (new Query())
 			->select(['crmid', 'id'])
 			->where(['type' => $type]);
 		if (false !== $fromId) {
-			$this->mapMagento = $this->mapMagento->andWhere(['>', 'id', $fromId]);
+			$this->map = $this->map->andWhere(['>', 'id', $fromId]);
 		}
 		if (false !== $limit) {
-			$this->mapMagento = $this->mapMagento->limit($limit);
+			$this->map = $this->map->limit($limit);
 		}
-		$this->mapMagento = $this->mapMagento->from('i_#__magento_record')
+		$this->map = $this->map->from(self::TABLE_NAME)
 			->orderBy(['id' => SORT_ASC])
 			->createCommand()->queryAllByGroup(0) ?? [];
-		$this->mapYF = \array_flip($this->mapMagento);
+		$this->mapCrm = \array_flip($this->map);
 	}
 
 	/**
 	 * Update record mapping.
 	 *
-	 * @param int $recordIdMagento
-	 * @param int $recordIdYF
+	 * @param int $recordId
+	 * @param int $recordIdCrm
 	 *
 	 * @throws \yii\db\Exception
 	 *
 	 * @return int
 	 */
-	public function updateMapping(int $recordIdMagento, int $recordIdYF): int
+	public function updateMapping(int $recordId, int $recordIdCrm): int
 	{
-		return \App\Db::getInstance()->createCommand()->update('i_#__magento_record', [
-			'id' => $recordIdMagento
-		], ['crmid' => $recordIdYF])->execute();
+		return \App\Db::getInstance()->createCommand()->update(self::TABLE_NAME, [
+			'id' => $recordId
+		], ['crmid' => $recordIdCrm])->execute();
 	}
 
 	/**
 	 * Save record mapping.
 	 *
-	 * @param int    $recordIdMagento
-	 * @param int    $recordIdYF
+	 * @param int    $recordId
+	 * @param int    $recordIdCrm
 	 * @param string $type
 	 *
 	 * @throws \yii\db\Exception
 	 *
 	 * @return int
 	 */
-	public function saveMapping(int $recordIdMagento, int $recordIdYF, string $type): int
+	public function saveMapping(int $recordId, int $recordIdCrm, string $type): int
 	{
-		if (isset($this->mapYF[$recordIdMagento]) || isset($this->mapMagento[$recordIdYF])) {
-			$result = $this->updateMapping($recordIdMagento, $recordIdYF);
+		if (isset($this->mapCrm[$recordId]) || isset($this->map[$recordIdCrm])) {
+			$result = $this->updateMapping($recordId, $recordIdCrm);
 		} else {
-			$result = \App\Db::getInstance()->createCommand()->insert('i_#__magento_record', [
-				'id' => $recordIdMagento,
-				'crmid' => $recordIdYF,
+			$result = \App\Db::getInstance()->createCommand()->insert(self::TABLE_NAME, [
+				'id' => $recordId,
+				'crmid' => $recordIdCrm,
 				'type' => $type
 			])->execute();
 		}
-		$this->mapMagento[$recordIdYF] = $recordIdMagento;
-		$this->mapYF[$recordIdMagento] = $recordIdYF;
+		$this->map[$recordIdCrm] = $recordId;
+		$this->mapCrm[$recordId] = $recordIdCrm;
 		return $result;
 	}
 
 	/**
 	 * Method to delete mapping.
 	 *
-	 * @param int $recordIdMagento
-	 * @param int $recordIdYF
+	 * @param int $recordId
+	 * @param int $recordIdCrm
 	 *
 	 * @throws \yii\db\Exception
 	 */
-	public function deleteMapping(int $recordIdMagento, int $recordIdYF): void
+	public function deleteMapping(int $recordId, int $recordIdCrm): void
 	{
-		\App\Db::getInstance()->createCommand()->delete('i_#__magento_record', ['crmid' => $recordIdYF])->execute();
-		unset($this->mapMagento[$recordIdYF], $this->mapYF[$recordIdMagento]);
+		\App\Db::getInstance()->createCommand()->delete(self::TABLE_NAME, ['crmid' => $recordIdCrm])->execute();
+		unset($this->map[$recordIdCrm], $this->mapCrm[$recordId]);
 	}
 
 	/**
@@ -168,8 +174,8 @@ abstract class Base
 	public function getData(array $data): array
 	{
 		$fields = [];
-		foreach ($this->mappedFields as $fieldNameYF => $fieldNameMagento) {
-			$fields[$fieldNameYF] = $data[$fieldNameMagento];
+		foreach ($this->mappedFields as $fieldNameCrm => $fieldName) {
+			$fields[$fieldNameCrm] = $data[$fieldName];
 		}
 		return $fields;
 	}

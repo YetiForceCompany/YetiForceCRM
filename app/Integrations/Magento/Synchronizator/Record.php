@@ -27,9 +27,9 @@ abstract class Record extends Base
 	public function getFormatedRecordsIds($ids, $formatTo = 'magento'): array
 	{
 		$parsedIds = [];
-		$mapIds = $this->mapMagento;
+		$mapIds = $this->map;
 		if ('yetiforce' === $formatTo) {
-			$mapIds = $this->mapYF;
+			$mapIds = $this->mapCrm;
 		}
 		foreach ($ids as $id) {
 			if (isset($mapIds[$id])) {
@@ -42,16 +42,16 @@ abstract class Record extends Base
 	/**
 	 * Method to compare changes of given two records.
 	 *
-	 * @param array $recordYF
-	 * @param array $recordMagento
+	 * @param array $recordCrm
+	 * @param array $record
 	 *
 	 * @return bool
 	 */
-	public function hasChanges(array $recordYF, array $recordMagento): bool
+	public function hasChanges(array $recordCrm, array $record): bool
 	{
 		$hasChanges = false;
-		foreach ($this->mappedFields as $fieldYF => $fieldMagento) {
-			if (isset($recordYF[$fieldYF], $recordMagento[$fieldMagento]) && $recordYF[$fieldYF] !== $recordMagento[$fieldMagento]) {
+		foreach ($this->mappedFields as $fieldCrm => $field) {
+			if (isset($recordCrm[$fieldCrm], $record[$field]) && $recordCrm[$fieldCrm] !== $record[$field]) {
 				$hasChanges = true;
 			}
 		}
@@ -61,26 +61,26 @@ abstract class Record extends Base
 	/**
 	 * Method to get which record have to update.
 	 *
-	 * @param array $recordYF
-	 * @param array $recordMagento
+	 * @param array $recordCrm
+	 * @param array $record
 	 *
 	 * @throws \ReflectionException
 	 *
 	 * @return bool|string
 	 */
-	public function whichToUpdate(array $recordYF, array $recordMagento)
+	public function whichToUpdate(array $recordCrm, array $record)
 	{
 		$toUpdate = false;
-		$modifiedTimeYFEnd = strtotime($recordYF['modifiedtime']) > strtotime($this->lastScan['end_date']);
-		$modifiedTimeYFStart = strtotime($recordYF['modifiedtime']) < strtotime($this->lastScan['start_date']);
-		$modifiedTimeMagentoEnd = strtotime($recordMagento['updated_at']) > strtotime($this->getFormattedTime($this->lastScan['end_date']));
-		$modifiedTimeMagentoStart = strtotime($recordMagento['updated_at']) < strtotime($this->getFormattedTime($this->lastScan['start_date']));
-		if (($modifiedTimeYFEnd && $modifiedTimeYFStart) && ($modifiedTimeMagentoEnd && $modifiedTimeMagentoStart)) {
+		$modifiedTimeCrmEnd = strtotime($recordCrm['modifiedtime']) > strtotime($this->lastScan['end_date']);
+		$modifiedTimeCrmStart = strtotime($recordCrm['modifiedtime']) < strtotime($this->lastScan['start_date']);
+		$modifiedTimeEnd = strtotime($record['updated_at']) > strtotime($this->getFormattedTime($this->lastScan['end_date']));
+		$modifiedTimeStart = strtotime($record['updated_at']) < strtotime($this->getFormattedTime($this->lastScan['start_date']));
+		if (($modifiedTimeCrmEnd && $modifiedTimeCrmStart) && ($modifiedTimeEnd && $modifiedTimeStart)) {
 			$masterSource = \App\Config::component('Magento', 'masterSource');
 			$toUpdate = 'magento' === $masterSource ? 'yetiforce' : 'magento';
-		} elseif ($modifiedTimeYFEnd && $modifiedTimeYFStart) {
+		} elseif ($modifiedTimeCrmEnd && $modifiedTimeCrmStart) {
 			$toUpdate = 'magento';
-		} elseif ($modifiedTimeMagentoEnd && $modifiedTimeMagentoStart) {
+		} elseif ($modifiedTimeEnd && $modifiedTimeStart) {
 			$toUpdate = 'yetiforce';
 		}
 		return $toUpdate;
