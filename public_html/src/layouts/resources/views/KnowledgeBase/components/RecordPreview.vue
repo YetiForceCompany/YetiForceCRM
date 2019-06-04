@@ -227,7 +227,7 @@ export default {
       this.top = newRect.top
       this.left = newRect.left
     },
-    onActivated(el, el2, el3) {
+    onActivated() {
       $(this.$refs.resize.$el)
         .find('.vdr-stick')
         .addClass('mdi mdi-resize-bottom-right q-btn q-btn--dense q-btn--round q-icon contrast-50')
@@ -244,8 +244,8 @@ export default {
 </script>
 <style>
 .dialog-header {
-  padding-top: 3px;
-  padding-bottom: 3px;
+  padding-top: 3px !important;
+  padding-bottom: 3px !important;
   height: unset !important;
 }
 .modal-full-height {
@@ -270,6 +270,8 @@ export default {
   border: none;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2), 0 2px 2px rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
   display: none;
+  cursor: nwse-resize !important;
+  position: absolute !important;
 }
 .vdr.active {
   font-weight: unset;

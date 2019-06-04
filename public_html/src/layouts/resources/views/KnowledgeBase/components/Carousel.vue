@@ -67,6 +67,9 @@ export default {
       } else {
         this.$q.fullscreen.exit()
       }
+    },
+    '$q.fullscreen.isActive'(val) {
+      this.fullscreen = val
     }
   },
   methods: {
