@@ -167,11 +167,9 @@ class BaseField
 		$fn = 'operator' . ucfirst($this->operator);
 		if (method_exists($this, $fn)) {
 			Log::trace("Entering to $fn in " . __CLASS__);
-
 			return $this->{$fn}();
 		}
 		Log::error("Not found operator: $fn in  " . __CLASS__);
-
 		return false;
 	}
 

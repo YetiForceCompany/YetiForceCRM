@@ -58,16 +58,13 @@ class DateField extends BaseField
 		$fn = 'operator' . ucfirst($this->operator);
 		if (in_array($this->operator, \App\CustomView::STD_FILTER_CONDITIONS)) {
 			\App\Log::trace('Entering to getStdOperator in ' . __CLASS__);
-
 			return $this->getStdOperator();
 		}
 		if (method_exists($this, $fn)) {
 			\App\Log::trace("Entering to $fn in " . __CLASS__);
-
 			return $this->{$fn}();
 		}
 		\App\Log::error("Not found operator: $fn in  " . __CLASS__);
-
 		return false;
 	}
 

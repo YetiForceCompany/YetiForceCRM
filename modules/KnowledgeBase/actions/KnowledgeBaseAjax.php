@@ -186,6 +186,12 @@ class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 				'Documents' => $this->getRelatedRecords($recordModel, 'Documents'),
 				'ModComments' => $this->getRelatedComments($recordModel->getId()),
 			],
+			'translations' => [
+				'HelpDesk' => App\Language::translate('HelpDesk','HelpDesk'),
+				'Project' => App\Language::translate('Project','Project'),
+				'Documents' =>App\Language::translate('Documents','Documents'),
+				'ModComments' => App\Language::translate('ModComments','ModComments'),
+			],
 		]);
 		$response->emit();
 	}
