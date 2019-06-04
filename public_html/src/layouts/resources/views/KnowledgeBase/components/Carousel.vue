@@ -2,7 +2,6 @@
 
 <template>
   <div>
-    <q-resize-observer @resize="onResize" />
     <q-carousel
       v-model="slide"
       transition-prev="scale"
@@ -13,10 +12,10 @@
       navigation
       padding
       arrows
-      :height="height"
-      class="quasar-reset shadow-1 rounded-borders"
+      :class="['quasar-reset shadow-1 rounded-borders', !fullscreen ? 'carousel-height' : '']"
       :fullscreen.sync="fullscreen"
       ref="carousel"
+      @transition="onTransition"
     >
       <q-carousel-slide
         v-for="(slide, index) in record.content"
@@ -71,16 +70,19 @@ export default {
     }
   },
   methods: {
-    onResize(size) {
-      if (this.$refs.carousel !== undefined) {
-        $(this.$refs.carousel.$el)
-          .find('img')
-          .css('max-width', size.width - 17)
-      }
+    onTransition(size) {
+      const scrollbarWidth = 17
+      $(this.$refs.carousel.$el)
+        .find('img')
+        .css('max-width', $(this.$refs.carousel.$el).width() - scrollbarWidth)
     }
   }
 }
 </script>
 
 <style scoped>
+.carousel-height {
+  height: max-content;
+  min-height: calc(100vh - 31.14px);
+}
 </style>

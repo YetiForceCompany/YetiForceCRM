@@ -60,7 +60,7 @@
       </template>
       <template v-slot:bottom="props"> </template>
     </q-table>
-    <div :class="['flex', 'items-center', 'text-danger', isTableBottomVisible]">
+    <div :class="['flex items-center q-px-lg q-py-sm', hasData ? 'hidden' : '']">
       <q-icon name="mdi-alert-outline" class="q-mr-sm"></q-icon>
       {{ translate('JS_NO_RESULTS_FOUND') }}
     </div>
@@ -105,8 +105,8 @@ export default {
   },
   computed: {
     ...mapGetters(['tree', 'iconSize', 'moduleName']),
-    isTableBottomVisible() {
-      return this.data.length ? 'hideTableBottom' : ''
+    hasData() {
+      return this.data.length
     }
   },
   methods: {
@@ -115,8 +115,7 @@ export default {
 }
 </script>
 <style>
-.KnowledgeBase__RecordsList .q-table__bottom,
-.hideTableBottom {
+.KnowledgeBase__RecordsList .q-table__bottom {
   display: none !important;
 }
 </style>

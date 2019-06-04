@@ -24,7 +24,7 @@
       ref="resize"
     >
       <q-card class="KnowledgeBase__RecordPreview">
-        <q-bar dark class="bg-yeti text-white dialog-header js-drag">
+        <q-bar dark class="bg-yeti text-white dialog-header">
           <div class="flex items-center">
             <div class="flex items-center no-wrap ellipsis q-mr-sm-sm">
               <q-icon name="mdi-text" class="q-mr-sm" />
@@ -61,6 +61,9 @@
           </div>
           <q-space />
           <slot name="header-right">
+            <a v-show="!maximized" class="flex grabbable text-decoration-none text-white" href="#">
+              <q-icon class="js-drag" name="mdi-drag" size="19px" />
+            </a>
             <q-btn
               dense
               flat
@@ -82,10 +85,13 @@
             <div class="text-subtitle2 text-bold">{{ record.introduction }}</div>
           </div>
           <div v-show="record.content">
-            <carousel v-if="record.view === 'PLL_PRESENTATION'" :record="record" />
-            <div v-else>
-              <q-separator />
-              <div v-html="record.content"></div>
+            <q-resize-observer @resize="onResize" />
+            <div ref="content">
+              <carousel v-if="record.view === 'PLL_PRESENTATION' && record.content.length > 1" :record="record" />
+              <div v-else>
+                <q-separator />
+                <div v-html="typeof record.content === 'object' ? record.content[0] : record.content"></div>
+              </div>
             </div>
           </div>
           <div v-if="hasRelatedArticles">
@@ -182,6 +188,7 @@ export default {
   data() {
     return {
       maximized: true,
+      dragging: false,
       width: this.$q.screen.width - 100,
       height: this.$q.screen.height - 100,
       top: 0,
@@ -223,7 +230,14 @@ export default {
     onActivated(el, el2, el3) {
       $(this.$refs.resize.$el)
         .find('.vdr-stick')
-        .addClass('mdi mdi-resize-bottom-right q-btn q-btn--dense q-btn--round q-icon')
+        .addClass('mdi mdi-resize-bottom-right q-btn q-btn--dense q-btn--round q-icon contrast-50')
+    },
+    onResize(size) {
+      if (this.$refs.content !== undefined) {
+        $(this.$refs.content)
+          .find('img')
+          .css('max-width', size.width)
+      }
     }
   }
 }
@@ -262,5 +276,19 @@ export default {
 }
 .modal-mini .vdr-stick {
   display: inline-flex;
+}
+.grabbable:hover {
+  cursor: move;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+.grabbable:active {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
+.contrast-50 {
+  filter: contrast(50%);
 }
 </style>

@@ -6,7 +6,9 @@ jQuery.Class('Faq_KnowledgeBase_Js', {
 	registerEvents: function() {
 		KnowledgeBase.mount({
 			el: '#FaqKnowledgeBaseContainer',
-			moduleName: 'Faq'
+			state: {
+				moduleName: 'Faq'
+			}
 		});
 	}
 });
