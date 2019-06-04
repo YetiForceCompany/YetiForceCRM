@@ -134,7 +134,7 @@
       </q-drawer>
       <q-page-container>
         <q-page class="q-pa-sm">
-          <div v-if="!searchData">
+          <div v-show="!searchData">
             <div
               v-show="typeof tree.data.featured.length === 'undefined'"
               class="q-pa-sm featured-container items-start q-gutter-md"
@@ -172,7 +172,7 @@
               :title="translate('JS_ARTICLES')"
             />
           </div>
-          <records-list v-if="searchData" :data="searchData" :title="translate('JS_ARTICLES')" />
+          <records-list v-show="searchData" :data="searchDataArray" :title="translate('JS_ARTICLES')" />
         </q-page>
       </q-page-container>
     </q-layout>
@@ -202,7 +202,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['tree', 'record', 'iconSize', 'moduleName'])
+    ...mapGetters(['tree', 'record', 'iconSize', 'moduleName']),
+    searchDataArray() {
+      return this.searchData ? this.searchData : []
+    }
   },
   methods: {
     search() {
@@ -236,7 +239,11 @@ export default {
     await this.fetchData()
   },
   mounted() {
+    const debounceDelay = 1000
     this.debouncedSearch = debounce(() => {
+      if (this.filter.length < 3) {
+        return
+      }
       const aDeferred = $.Deferred()
       const progressIndicatorElement = $.progressIndicator({
         blockInfo: { enabled: true }
@@ -259,7 +266,7 @@ export default {
         progressIndicatorElement.progressIndicator({ mode: 'hide' })
         return listData
       })
-    }, 500)
+    }, debounceDelay)
   }
 }
 </script>
@@ -273,7 +280,7 @@ export default {
 }
 .featured-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(33.3%, 1fr));
   grid-auto-flow: dense;
 }
 </style>

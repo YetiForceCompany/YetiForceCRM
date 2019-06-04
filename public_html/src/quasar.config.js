@@ -34,7 +34,8 @@ import {
 	QCarouselControl,
 	QImg,
 	QAvatar,
-	QSeparator
+	QSeparator,
+	QResizeObserver
 } from 'quasar/src/components.js'
 import * as directives from 'quasar/src/directives.js'
 import { AppFullscreen } from 'quasar/src/plugins.js'
@@ -78,7 +79,8 @@ const Quasar = {
 				QCarouselControl,
 				QImg,
 				QAvatar,
-				QSeparator
+				QSeparator,
+				QResizeObserver
 			},
 			directives,
 			plugins: { AppFullscreen },
