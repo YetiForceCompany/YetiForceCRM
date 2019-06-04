@@ -118,7 +118,7 @@
                 >
                   <q-item header clickable class="text-black flex">
                     <icon :icon="'userIcon-' + parentModule" :size="iconSize" class="mr-2"></icon>
-                    {{ parentModule }}
+                    {{ record.translations[parentModule] }}
                   </q-item>
                   <q-item
                     clickable
