@@ -93,7 +93,6 @@
 								<input type="checkbox" name="default" value="1" class="form-control"{if isset($RECORD_MODEL) && $RECORD_MODEL->get('default')==1} checked="checked"{/if}>
 							</div>
 						</div>
-
 					</div>
 				</div>
 			</div>
