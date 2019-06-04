@@ -1001,7 +1001,7 @@ CREATE TABLE `s_yf_business_hours` (
   PRIMARY KEY (`id`),
   KEY `business_hours_holidays_idx` (`holidays`),
   KEY `business_hours_default_idx` (`default`)
-) ENGINE=InnoDB DEFAULT CHARSET = utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `s_yf_companies` */
 
@@ -5487,7 +5487,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2801 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2805 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -7134,7 +7134,13 @@ CREATE TABLE `vtiger_paymentsin` (
   `bank_account` varchar(128) DEFAULT NULL,
   `paymentsin_status` varchar(128) DEFAULT NULL,
   `relatedid` int(10) DEFAULT NULL,
+  `transaction_id` varchar(255) DEFAULT NULL,
+  `type_of_payment` varchar(50) DEFAULT NULL,
+  `finvoiceid` int(10) DEFAULT NULL,
+  `ssingleordersid` int(10) DEFAULT NULL,
   PRIMARY KEY (`paymentsinid`),
+  KEY `vtiger_paymentsin_finvoiceid_idx` (`finvoiceid`),
+  KEY `vtiger_paymentsin_ssingleordersid_idx` (`ssingleordersid`),
   CONSTRAINT `fk_1_vtiger_paymentsin` FOREIGN KEY (`paymentsinid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -8043,7 +8049,7 @@ CREATE TABLE `vtiger_settings_field` (
   PRIMARY KEY (`fieldid`),
   KEY `fk_1_vtiger_settings_field` (`blockid`),
   CONSTRAINT `fk_1_vtiger_settings_field` FOREIGN KEY (`blockid`) REFERENCES `vtiger_settings_blocks` (`blockid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_sharedcalendar` */
 
@@ -8616,6 +8622,16 @@ CREATE TABLE `vtiger_troubletickets` (
   KEY `vtiger_troubletickets_parentid_idx` (`parentid`),
   CONSTRAINT `fk_1_vtiger_troubletickets` FOREIGN KEY (`ticketid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_type_of_payment` */
+
+CREATE TABLE `vtiger_type_of_payment` (
+  `type_of_paymentid` int(11) NOT NULL AUTO_INCREMENT,
+  `type_of_payment` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT 1,
+  `sortorderid` smallint(6) DEFAULT 0,
+  PRIMARY KEY (`type_of_paymentid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_usageunit` */
 

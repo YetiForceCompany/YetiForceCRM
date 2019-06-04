@@ -262,6 +262,8 @@ insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (8,'r
 
 /*Data for the table `s_yf_batchmethod` */
 
+/*Data for the table `s_yf_business_hours` */
+
 /*Data for the table `s_yf_companies` */
 
 insert  into `s_yf_companies`(`id`,`status`,`name`,`type`,`industry`,`city`,`country`,`companysize`,`website`,`logo`,`firstname`,`lastname`,`email`) values (1,0,'YetiForce Sp. z o.o. ',1,NULL,'Warszawa','Poland',0,'yetiforce.com','[]',NULL,NULL,NULL);
@@ -4730,6 +4732,10 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (15,2798,'introduction','vtiger_faq',1,300,'introduction','FL_INTRODUCTION',0,2,'','65535',2,442,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (15,2799,'knowledgebase_view','vtiger_faq',1,16,'knowledgebase_view','FL_VIEWS',0,2,'','255',4,37,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (6,2800,'sum_open_orders','vtiger_account',1,71,'sum_open_orders','FL_SUM_ORDERS',0,2,'','9999999999999999999',2,439,2,'N~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (79,2801,'transaction_id','vtiger_paymentsin',1,1,'transaction_id','FL_TRANSACTION',1,2,'',NULL,5,251,10,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (79,2802,'type_of_payment','vtiger_paymentsin',1,16,'type_of_payment','FL_TYPE_OF_PAYMENT',1,2,'',NULL,6,251,10,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (79,2803,'finvoiceid','vtiger_paymentsin',1,10,'finvoiceid','FL_INVOICE',1,2,'',NULL,7,251,10,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (79,2804,'ssingleordersid','vtiger_paymentsin',1,10,'ssingleordersid','FL_ORDER',1,2,'',NULL,8,251,10,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
 
 /*Data for the table `vtiger_field_seq` */
 
@@ -4929,6 +4935,8 @@ insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`se
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (2788,'Accounts','PriceBooks',NULL,0);
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (2791,'HelpDesk','HelpDesk',NULL,0);
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (2792,'SSingleOrders','IStorages',NULL,0);
+insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (2803,'PaymentsIn','FInvoice',NULL,0);
+insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (2804,'PaymentsIn','SSingleOrders',NULL,0);
 
 /*Data for the table `vtiger_finvoice_formpayment` */
 
@@ -8105,6 +8113,10 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,15,2798,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,15,2799,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,6,2800,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,79,2801,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,79,2802,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,79,2803,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,79,2804,0,0);
 
 /*Data for the table `vtiger_profile2globalpermissions` */
 
@@ -18248,6 +18260,11 @@ insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parentTre
 insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parentTree`,`depth`,`label`,`state`,`icon`) values (29,'None','T1','T1',0,'None','{\"loaded\":\"1\",\"opened\":false,\"selected\":false,\"disabled\":false}','');
 
 /*Data for the table `vtiger_troubletickets` */
+
+/*Data for the table `vtiger_type_of_payment` */
+
+insert  into `vtiger_type_of_payment`(`type_of_paymentid`,`type_of_payment`,`presence`,`sortorderid`) values (1,'PLL_REDSYS',1,1);
+insert  into `vtiger_type_of_payment`(`type_of_paymentid`,`type_of_payment`,`presence`,`sortorderid`) values (2,'PLL_DOTPAY',1,2);
 
 /*Data for the table `vtiger_usageunit` */
 
