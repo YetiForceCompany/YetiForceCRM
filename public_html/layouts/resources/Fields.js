@@ -1783,6 +1783,14 @@ window.App.Fields = {
 			});
 		}
 	},
+	/**
+	 * TimePeriod class
+	 *
+	 * Save value as time period in 00:m format where '00' is a number with leading zero (02 or 232)
+	 * ':' is just separator
+	 * and 'm' is time scale/period in php date format  - available formats are [m, d, H, i, s]
+	 * @example 10:i = 10minutes, 2:m = 2months, 20:H = 20 hours and so on...
+	 */
 	TimePeriod: class TimePeriod {
 		constructor(container) {
 			this.container = container;
