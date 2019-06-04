@@ -5487,7 +5487,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2805 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2806 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -7138,6 +7138,7 @@ CREATE TABLE `vtiger_paymentsin` (
   `type_of_payment` varchar(50) DEFAULT NULL,
   `finvoiceid` int(10) DEFAULT NULL,
   `ssingleordersid` int(10) DEFAULT NULL,
+  `payment_system` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`paymentsinid`),
   KEY `vtiger_paymentsin_finvoiceid_idx` (`finvoiceid`),
   KEY `vtiger_paymentsin_ssingleordersid_idx` (`ssingleordersid`),
