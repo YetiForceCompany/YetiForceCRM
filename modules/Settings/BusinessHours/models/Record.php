@@ -173,27 +173,9 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 		if (isset($data['default']) && 0 !== $data['default'] && 1 !== $data['default']) {
 			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE||' . $data['default'], 406);
 		}
-		$data['reaction_time'] = \App\Purifier::purifyByType($data['reaction_time'], 'Text');
-		$data['idle_time'] = \App\Purifier::purifyByType($data['idle_time'], 'Text');
-		$data['resolve_time'] = \App\Purifier::purifyByType($data['resolve_time'], 'Text');
-		if (\App\TextParser::getTextLength($data['reaction_time']) > 20) {
-			throw new \App\Exceptions\AppException('ERR_EXCEEDED_NUMBER_CHARACTERS||20', 406);
-		}
-		if (\App\TextParser::getTextLength($data['idle_time']) > 20) {
-			throw new \App\Exceptions\AppException('ERR_EXCEEDED_NUMBER_CHARACTERS||20', 406);
-		}
-		if (\App\TextParser::getTextLength($data['resolve_time']) > 20) {
-			throw new \App\Exceptions\AppException('ERR_EXCEEDED_NUMBER_CHARACTERS||20', 406);
-		}
-		if (!\App\Validator::timePeriod($data['reaction_time'])) {
-			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE||' . $data['reaction_time'], 406);
-		}
-		if (!\App\Validator::timePeriod($data['idle_time'])) {
-			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE||' . $data['idle_time'], 406);
-		}
-		if (!\App\Validator::timePeriod($data['resolve_time'])) {
-			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE||' . $data['resolve_time'], 406);
-		}
+		$data['reaction_time'] = \App\Purifier::purifyByType($data['reaction_time'], 'TimePeriod');
+		$data['idle_time'] = \App\Purifier::purifyByType($data['idle_time'], 'TimePeriod');
+		$data['resolve_time'] = \App\Purifier::purifyByType($data['resolve_time'], 'TimePeriod');
 		return $data;
 	}
 

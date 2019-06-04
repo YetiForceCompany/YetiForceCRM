@@ -341,6 +341,6 @@ class Validator
 	 */
 	public static function timePeriod($input): bool
 	{
-		return preg_match('/^[0-9]{1,18}\:(m|d|H|i|s){1}$/', $input);
+		return preg_match('/^[0-9]{1,18}\:(m|d|H|i|s){1}$/', $input) && \App\TextParser::getTextLength($input) <= 20;
 	}
 }
