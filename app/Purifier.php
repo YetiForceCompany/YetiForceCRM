@@ -298,11 +298,12 @@ class Purifier
 	 * 2 - word and int
 	 *
 	 * @param mixed  $input
-	 * @param string $type  Data type that is only acceptable
+	 * @param string $type    Data type that is only acceptable
+	 * @param mixed  $convert
 	 *
 	 * @return mixed
 	 */
-	public static function purifyByType($input, $type)
+	public static function purifyByType($input, $type, $convert = false)
 	{
 		if (is_array($input)) {
 			$value = [];
@@ -330,7 +331,7 @@ class Purifier
 					$value = Validator::time($input) ? $input : null;
 					break;
 				case 'TimeInUserFormat':
-					$value = Validator::timeInUserFormat($input) ? Fields\Time::formatToDB($input) : null;
+					$value = Validator::timeInUserFormat($input) ? ($convert ? Fields\Time::formatToDB($input) : $input) : null;
 					break;
 				case 'DateRangeUserFormat': // date range user format
 					$dateFormat = User::getCurrentUserModel()->getDetail('date_format');

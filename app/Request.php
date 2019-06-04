@@ -150,15 +150,14 @@ class Request
 	 *
 	 * @return bool|mixed
 	 */
-	public function getByType($key, $type = 'Standard')
+	public function getByType($key, $type = 'Standard', $convert = false)
 	{
 		if (isset($this->purifiedValuesByType[$key][$type])) {
 			return $this->purifiedValuesByType[$key][$type];
 		}
 		if (isset($this->rawValues[$key])) {
-			return $this->purifiedValuesByType[$key][$type] = Purifier::purifyByType($this->rawValues[$key], $type);
+			return $this->purifiedValuesByType[$key][$type] = Purifier::purifyByType($this->rawValues[$key], $type, $convert);
 		}
-
 		return false;
 	}
 

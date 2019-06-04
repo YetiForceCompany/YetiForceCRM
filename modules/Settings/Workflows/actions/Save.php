@@ -13,7 +13,7 @@ class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$summary = $request->get('summary');
 		$moduleName = $request->getByType('module_name', 2);
@@ -31,10 +31,10 @@ class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action
 		$workflowModel->set('module_name', $moduleName);
 		$workflowModel->set('conditions', $conditions);
 		$workflowModel->set('execution_condition', $executionCondition);
-		if ($executionCondition == '6') {
+		if ('6' == $executionCondition) {
 			$schtime = null;
 			if (!$request->isEmpty('schtime')) {
-				$schtime = $request->getByType('schtime', 'TimeInUserFormat');
+				$schtime = $request->getByType('schtime', 'TimeInUserFormat', true);
 			}
 			$workflowModel->set('schtime', $schtime);
 			$workflowModel->set('schtypeid', $workflowScheduleType);
@@ -64,14 +64,14 @@ class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action
 			$workflowModel->set('schannualdates', $annualDates);
 		}
 		// Added to save the condition only when its changed from vtiger6
-		if ($filterSavedInNew == '6') {
+		if ('6' == $filterSavedInNew) {
 			//Added to change advanced filter condition to workflow
 			$workflowModel->transformAdvanceFilterToWorkFlowFilter();
 		}
 		$workflowModel->set('filtersavedinnew', $filterSavedInNew);
 		$workflowModel->save();
 		//Update only for scheduled workflows other than specific date
-		if ($workflowScheduleType != Workflow::$SCHEDULED_ON_SPECIFIC_DATE && $executionCondition == '6') {
+		if ($workflowScheduleType != Workflow::$SCHEDULED_ON_SPECIFIC_DATE && '6' == $executionCondition) {
 			$workflowModel->updateNextTriggerTime();
 		}
 		$response->setResult(['id' => $workflowModel->get('workflow_id')]);

@@ -165,12 +165,12 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 			}
 		}
 		$data['working_days'] = ',' . implode(',', $days) . ',';
-		$data['working_hours_from'] = \App\Purifier::purifyByType($data['working_hours_from'], 'Time');
-		$data['working_hours_to'] = \App\Purifier::purifyByType($data['working_hours_to'], 'Time');
-		if (isset($data['holidays']) && $data['holidays'] !== 0 && $data['holidays'] !== 1) {
+		$data['working_hours_from'] = \App\Purifier::purifyByType($data['working_hours_from'], 'TimeInUserFormat');
+		$data['working_hours_to'] = \App\Purifier::purifyByType($data['working_hours_to'], 'TimeInUserFormat');
+		if (isset($data['holidays']) && 0 !== $data['holidays'] && 1 !== $data['holidays']) {
 			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE||' . $data['holidays'], 406);
 		}
-		if (isset($data['default']) && $data['default'] !== 0 && $data['default'] !== 1) {
+		if (isset($data['default']) && 0 !== $data['default'] && 1 !== $data['default']) {
 			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE||' . $data['default'], 406);
 		}
 		return $data;
@@ -214,16 +214,16 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 	public function getDisplayValue(string $key): string
 	{
 		$value = $this->get($key);
-		if ($key === 'working_days') {
+		if ('working_days' === $key) {
 			$days = explode(',', trim($value, ','));
 			$value = [];
 			foreach ($days as $day) {
 				$value[] = \App\Language::translate(array_flip(\App\Fields\Date::$dayOfWeek)[$day], 'Calendar');
 			}
 			$value = implode(', ', $value);
-		} elseif ($key === 'working_hours_from' || $key === 'working_hours_to') {
+		} elseif ('working_hours_from' === $key || 'working_hours_to' === $key) {
 			$value = \App\Fields\Time::formatToDisplay($value, false);
-		} elseif ($key === 'default' || $key === 'holidays') {
+		} elseif ('default' === $key || 'holidays' === $key) {
 			$value = $value ? \App\Language::translate('LBL_YES') : \App\Language::translate('LBL_NO');
 		}
 		return $value;
