@@ -56,7 +56,7 @@
 		</table>
 
 		<!--added this div for Temporarily -->
-		{if $LISTVIEW_ENTRIES_COUNT eq '0'}
+		{if count($LISTVIEW_ENTRIES) eq '0'}
 			<table class="emptyRecordsDiv">
 				<tbody>
 					<tr>
