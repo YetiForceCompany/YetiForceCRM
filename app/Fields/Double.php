@@ -27,7 +27,7 @@ class Double
 		if (false === strpos($value, $seperator)) {
 			return $value;
 		}
-		for ($i = strlen($value) - 1; $i >= 0; --$i) {
+		for ($i = \strlen($value) - 1; $i >= 0; --$i) {
 			if ($value[$i] === $seperator) {
 				--$i;
 				break;
@@ -45,7 +45,7 @@ class Double
 	/**
 	 * Function to display number in user format.
 	 *
-	 * @param null|string $value
+	 * @param string|null $value
 	 * @param bool        $fixed
 	 *
 	 * @return string
@@ -74,7 +74,7 @@ class Double
 	/**
 	 * Convert number to format for database.
 	 *
-	 * @param null|string $value
+	 * @param string|null $value
 	 *
 	 * @return float
 	 */

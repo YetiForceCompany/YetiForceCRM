@@ -29,12 +29,12 @@ class MultipicklistField extends BaseField
 	 */
 	public function getCombinations($array, $tempString = '')
 	{
-		$countArray = count($array);
+		$countArray = \count($array);
 		for ($i = 0; $i < $countArray; ++$i) {
 			$splicedArray = $array;
 			$element = array_splice($splicedArray, $i, 1); // removes and returns the i'th element
-			if (count($splicedArray) > 0) {
-				if (!is_array($result)) {
+			if (\count($splicedArray) > 0) {
+				if (!\is_array($result)) {
 					$result = [];
 				}
 				$result = array_merge($result, $this->getCombinations($splicedArray, $tempString . $this->separator . $element[0]));
@@ -54,7 +54,7 @@ class MultipicklistField extends BaseField
 	{
 		$value = $this->value;
 		$valueArray = explode('##', $value);
-		if (in_array($this->operator, ['e', 'n'])) {
+		if (\in_array($this->operator, ['e', 'n'])) {
 			foreach ($this->getCombinations($valueArray) as $key => $value) {
 				$valueArray[$key] = ltrim($value, $this->separator);
 			}

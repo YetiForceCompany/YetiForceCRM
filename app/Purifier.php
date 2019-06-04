@@ -94,7 +94,7 @@ class Purifier
 			return $input;
 		}
 		$value = $input;
-		if (!is_array($input)) {
+		if (!\is_array($input)) {
 			$cacheKey = md5($input);
 			if (Cache::has('purify', $cacheKey)) {
 				return Cache::get('purify', $cacheKey);
@@ -111,12 +111,12 @@ class Purifier
 		}
 		if (static::$purifyInstanceCache) {
 			// Composite type
-			if (is_array($input)) {
+			if (\is_array($input)) {
 				$value = [];
 				foreach ($input as $k => $v) {
 					$value[$k] = static::purify($v);
 				}
-			} elseif (is_string($input)) {
+			} elseif (\is_string($input)) {
 				static::purifyHtmlEventAttributes($input);
 				$value = static::$purifyInstanceCache->purify(static::decodeHtml($input));
 				if ($loop) {
@@ -305,7 +305,7 @@ class Purifier
 	 */
 	public static function purifyByType($input, $type, $convert = false)
 	{
-		if (is_array($input)) {
+		if (\is_array($input)) {
 			$value = [];
 			foreach ($input as $k => $v) {
 				$value[$k] = static::purifyByType($v, $type);
@@ -395,7 +395,7 @@ class Purifier
 					$value = preg_match('/^(#[0-9a-fA-F]{6})$/', $input) ? $input : null;
 					break;
 				case 'Year': // 2018 etc
-					if (is_numeric($input) && (int) $input >= 0 && (int) $input <= 3000 && 4 === strlen((string) $input)) {
+					if (is_numeric($input) && (int) $input >= 0 && (int) $input <= 3000 && 4 === \strlen((string) $input)) {
 						$value = (string) $input;
 					}
 					break;
@@ -423,7 +423,7 @@ class Purifier
 	 *
 	 * @param int|string $value
 	 *
-	 * @return null|bool
+	 * @return bool|null
 	 */
 	public static function bool($value)
 	{

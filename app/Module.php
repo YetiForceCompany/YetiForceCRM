@@ -96,7 +96,7 @@ class Module
 		if (isset(static::$isModuleActiveCache[$moduleName])) {
 			return static::$isModuleActiveCache[$moduleName];
 		}
-		if (in_array($moduleName, ['CustomView', 'Users', 'Import', 'com_vtiger_workflow', 'PickList'])) {
+		if (\in_array($moduleName, ['CustomView', 'Users', 'Import', 'com_vtiger_workflow', 'PickList'])) {
 			static::$isModuleActiveCache[$moduleName] = true;
 
 			return true;
@@ -156,7 +156,7 @@ class Module
 		$modules = \vtlib\Functions::getAllModules(true, true, 0, false, 0);
 		$sharingModules = [];
 		foreach ($modules as $row) {
-			if (!$eliminateModules || !in_array($row['name'], $eliminateModules)) {
+			if (!$eliminateModules || !\in_array($row['name'], $eliminateModules)) {
 				$sharingModules[] = $row['name'];
 			}
 		}
@@ -175,7 +175,7 @@ class Module
 		$db = \App\Db::getInstance();
 		$entityFieldInfo = static::getEntityInfo($moduleName);
 		$fieldsName = $entityFieldInfo['fieldnameArr'];
-		if (count($fieldsName) > 1) {
+		if (\count($fieldsName) > 1) {
 			$sqlString = 'CONCAT(';
 			foreach ($fieldsName as &$column) {
 				$sqlString .= "{$db->quoteTableName($entityFieldInfo['tablename'])}.{$db->quoteColumnName($column)},' ',";
@@ -193,7 +193,7 @@ class Module
 	 *
 	 * @param string $action
 	 *
-	 * @return null|int
+	 * @return int|null
 	 */
 	public static function getActionId($action)
 	{
@@ -289,7 +289,7 @@ class Module
 	public static function changeType(string $moduleName, int $type)
 	{
 		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
-		if ($moduleModel && $moduleModel->changeType($type) && PrivilegeUtil::modifyPermissions($moduleName, ['RecordPdfInventory'], $type === \Vtiger_Module_Model::ADVANCED_TYPE)) {
+		if ($moduleModel && $moduleModel->changeType($type) && PrivilegeUtil::modifyPermissions($moduleName, ['RecordPdfInventory'], \Vtiger_Module_Model::ADVANCED_TYPE === $type)) {
 			UserPrivilegesFile::recalculateAll();
 		}
 	}

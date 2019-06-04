@@ -52,7 +52,7 @@ class Log extends Logger
 			Debuger::addLogs($message, self::getLevelName($level), $traces);
 		}
 		$this->messages[] = [$message, $level, $category, microtime(true), $traces];
-		if ($this->flushInterval > 0 && count($this->messages) >= $this->flushInterval) {
+		if ($this->flushInterval > 0 && \count($this->messages) >= $this->flushInterval) {
 			$this->flush();
 		}
 	}

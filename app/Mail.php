@@ -178,7 +178,7 @@ class Mail
 	 */
 	public static function getAttachmentsFromDocument($ids)
 	{
-		$cacheId = is_array($ids) ? implode(',', $ids) : $ids;
+		$cacheId = \is_array($ids) ? implode(',', $ids) : $ids;
 		if (Cache::has('MailAttachmentsFromDocument', $cacheId)) {
 			return Cache::get('MailAttachmentsFromDocument', $cacheId);
 		}

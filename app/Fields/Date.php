@@ -105,7 +105,7 @@ class Date
 	 */
 	public static function formatRangeToDisplay($range)
 	{
-		if (is_array($range)) {
+		if (\is_array($range)) {
 			if (!empty($range[0]) && !empty($range[1])) {
 				return [
 					static::formatToDisplay($range[0]),
@@ -137,13 +137,13 @@ class Date
 				}
 			}
 			[$y, $m, $d] = explode('-', $value);
-			if (1 == strlen($y)) {
+			if (1 == \strlen($y)) {
 				$y = '0' . $y;
 			}
-			if (1 == strlen($m)) {
+			if (1 == \strlen($m)) {
 				$m = '0' . $m;
 			}
-			if (1 == strlen($d)) {
+			if (1 == \strlen($d)) {
 				$d = '0' . $d;
 			}
 			$value = implode('-', [$y, $m, $d]);

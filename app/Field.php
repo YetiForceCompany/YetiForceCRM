@@ -265,7 +265,7 @@ class Field
 	 * @param int|string $mixed
 	 * @param int|string $module
 	 *
-	 * @return null|array
+	 * @return array|null
 	 */
 	public static function getFieldInfo($mixed, $module = false)
 	{

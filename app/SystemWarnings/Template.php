@@ -129,7 +129,7 @@ abstract class Template
 
 	public function getTpl()
 	{
-		if (!$this->tpl || is_string($this->tpl)) {
+		if (!$this->tpl || \is_string($this->tpl)) {
 			return $this->tpl;
 		}
 		$refClass = new \ReflectionClass($this);

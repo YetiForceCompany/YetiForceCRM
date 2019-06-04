@@ -18,7 +18,7 @@ class InventoryColumns
 	 *
 	 * @param int        $recordId
 	 * @param string     $moduleName
-	 * @param null|array $columns
+	 * @param array|null $columns
 	 *
 	 * @return array
 	 */

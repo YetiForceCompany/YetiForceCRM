@@ -23,7 +23,7 @@ class Record
 	 */
 	public static function getLabel($mixedId)
 	{
-		$multiMode = is_array($mixedId);
+		$multiMode = \is_array($mixedId);
 		$ids = $multiMode ? $mixedId : [$mixedId];
 		$missing = [];
 		foreach ($ids as $id) {
@@ -103,7 +103,7 @@ class Record
 		if (empty($moduleName) || empty($ids)) {
 			return [];
 		}
-		if (!is_array($ids)) {
+		if (!\is_array($ids)) {
 			$ids = [$ids];
 		}
 		$entityDisplay = [];
@@ -125,11 +125,11 @@ class Record
 			$query = new \App\Db\Query();
 			$focus = \CRMEntity::getInstance($moduleName);
 			foreach (array_filter($columns) as $column) {
-				if (array_key_exists($column, $moduleInfoExtend)) {
+				if (\array_key_exists($column, $moduleInfoExtend)) {
 					$otherTable = $moduleInfoExtend[$column]['tablename'];
 
 					$paramsCol[] = $otherTable . '.' . $column;
-					if ($otherTable !== $table && !in_array($otherTable, $leftJoinTables)) {
+					if ($otherTable !== $table && !\in_array($otherTable, $leftJoinTables)) {
 						$leftJoinTables[] = $otherTable;
 						$focusTables = $focus->tab_name_index;
 						$query->leftJoin($otherTable, "$table.$focusTables[$table] = $otherTable.$focusTables[$otherTable]");
@@ -156,9 +156,9 @@ class Record
 		while ($row = $dataReader->read()) {
 			$labelName = [];
 			foreach ($columnsName as $columnName) {
-				if (in_array($moduleInfoExtend[$columnName]['uitype'], [10, 51, 59, 75, 81, 66, 67, 68])) {
+				if (\in_array($moduleInfoExtend[$columnName]['uitype'], [10, 51, 59, 75, 81, 66, 67, 68])) {
 					$labelName[] = static::getLabel($row[$columnName]);
-				} elseif (in_array($moduleInfoExtend[$columnName]['uitype'], [53])) {
+				} elseif (\in_array($moduleInfoExtend[$columnName]['uitype'], [53])) {
 					$labelName[] = \App\Fields\Owner::getLabel($row[$columnName]);
 				} else {
 					$labelName[] = $row[$columnName];
@@ -167,9 +167,9 @@ class Record
 			if ($search) {
 				$labelSearch = [];
 				foreach ($columnsSearch as $columnName) {
-					if (in_array($moduleInfoExtend[$columnName]['uitype'], [10, 51, 59, 75, 81, 66, 67, 68])) {
+					if (\in_array($moduleInfoExtend[$columnName]['uitype'], [10, 51, 59, 75, 81, 66, 67, 68])) {
 						$labelSearch[] = static::getLabel($row[$columnName]);
-					} elseif (in_array($moduleInfoExtend[$columnName]['uitype'], [53])) {
+					} elseif (\in_array($moduleInfoExtend[$columnName]['uitype'], [53])) {
 						$labelSearch[] = \App\Fields\Owner::getLabel($row[$columnName]);
 					} else {
 						$labelSearch[] = $row[$columnName];
@@ -279,7 +279,7 @@ class Record
 	 *
 	 * @param int $recordId
 	 *
-	 * @return null|string
+	 * @return string|null
 	 */
 	public static function getType($recordId)
 	{

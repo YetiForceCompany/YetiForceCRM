@@ -31,7 +31,7 @@ class Company extends Base
 	 * Update company status.
 	 *
 	 * @param int         $status
-	 * @param null|string $name
+	 * @param string|null $name
 	 *
 	 * @throws \yii\db\Exception
 	 */

@@ -266,7 +266,7 @@ class Importer
 			$this->logs .= "  > add data to table: $tableName ... ";
 			try {
 				$keys = $table['columns'];
-				if (is_array($table['values']) && isset($table['values'][0])) {
+				if (\is_array($table['values']) && isset($table['values'][0])) {
 					if ((new \App\Db\Query())->from($tableName)->where(array_combine($keys, $table['values'][0]))->exists($importer->db)) {
 						$this->logs .= "| Error: skipped because it exist first row\n";
 					} else {
@@ -358,7 +358,7 @@ class Importer
 	{
 		$this->logs .= "> start drop tables\n";
 		$db = \App\Db::getInstance();
-		if (is_string($tables)) {
+		if (\is_string($tables)) {
 			$tables = [$tables];
 		}
 		foreach ($tables as $tableName) {
@@ -564,7 +564,7 @@ class Importer
 					try {
 						if (isset($dbIndexes[$index[0]])) {
 							$update = false;
-							if (is_string($index[1]) ? !isset($dbIndexes[$index[0]][$index[1]]) : array_diff($index[1], array_keys($dbIndexes[$index[0]]))) {
+							if (\is_string($index[1]) ? !isset($dbIndexes[$index[0]][$index[1]]) : array_diff($index[1], array_keys($dbIndexes[$index[0]]))) {
 								$update = true;
 							} else {
 								foreach ($dbIndexes[$index[0]] as $dbIndex) {
@@ -597,7 +597,7 @@ class Importer
 				foreach ($table['primaryKeys'] as $primaryKey) {
 					$status = true;
 					foreach ($dbPrimaryKeys as $dbPrimaryKey) {
-						if (is_string($primaryKey[1]) ? !(1 !== count($dbPrimaryKey) && $primaryKey[1] !== $dbPrimaryKey[0]) : !array_diff($primaryKey[1], $dbPrimaryKey)) {
+						if (\is_string($primaryKey[1]) ? !(1 !== \count($dbPrimaryKey) && $primaryKey[1] !== $dbPrimaryKey[0]) : !array_diff($primaryKey[1], $dbPrimaryKey)) {
 							$status = false;
 						}
 					}

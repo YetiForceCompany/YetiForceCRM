@@ -19,14 +19,14 @@ use App\Db\Query;
 class Config extends \App\Base
 {
 	/**
-	 * Instance class
+	 * Instance class.
 	 *
 	 * @var self
 	 */
 	private static $instance;
 
 	/**
-	 * Function to get object to read configuration
+	 * Function to get object to read configuration.
 	 *
 	 * @return void
 	 */

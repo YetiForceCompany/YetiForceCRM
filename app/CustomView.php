@@ -482,9 +482,9 @@ class CustomView
 	/**
 	 * Sorting conditions.
 	 *
-	 * @param null|array $array
+	 * @param array|null $array
 	 *
-	 * @return null|array
+	 * @return array|null
 	 */
 	private static function sortConditions(?array $arrayToSort): ?array
 	{
@@ -647,7 +647,7 @@ class CustomView
 							->where(['vtiger_customview.cvid' => $viewId, 'vtiger_customview.userid' => $subQuery]);
 						$userArray = $query->column();
 						if ($userArray) {
-							if (!in_array($this->user->getId(), $userArray)) {
+							if (!\in_array($this->user->getId(), $userArray)) {
 								$permission = false;
 							} else {
 								$permission = true;

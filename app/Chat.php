@@ -47,7 +47,7 @@ final class Chat
 	/**
 	 * ID record associated with the chat room.
 	 *
-	 * @var null|int
+	 * @var int|null
 	 */
 	private $recordId;
 
@@ -66,7 +66,7 @@ final class Chat
 	/**
 	 * Last message ID.
 	 *
-	 * @var null|int
+	 * @var int|null
 	 */
 	private $lastMessageId;
 
@@ -74,7 +74,7 @@ final class Chat
 	 * Set current room ID, type.
 	 *
 	 * @param string   $roomType
-	 * @param null|int $recordId
+	 * @param int|null $recordId
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 */
@@ -136,8 +136,8 @@ final class Chat
 	/**
 	 * Get instance \App\Chat.
 	 *
-	 * @param null|string $roomType
-	 * @param null|int    $recordId
+	 * @param string|null $roomType
+	 * @param int|null    $recordId
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 *
@@ -193,7 +193,7 @@ final class Chat
 	/**
 	 * List of chat room groups.
 	 *
-	 * @param null|int $userId
+	 * @param int|null $userId
 	 *
 	 * @return array
 	 */
@@ -229,7 +229,7 @@ final class Chat
 	/**
 	 * CRM list of chat rooms.
 	 *
-	 * @param null|int $userId
+	 * @param int|null $userId
 	 *
 	 * @return array
 	 */
@@ -266,7 +266,7 @@ final class Chat
 	/**
 	 * Get all chat rooms by user.
 	 *
-	 * @param null|int $userId
+	 * @param int|null $userId
 	 *
 	 * @return array
 	 */
@@ -419,8 +419,8 @@ final class Chat
 	/**
 	 * Chat constructor.
 	 *
-	 * @param null|string $roomType
-	 * @param null|int    $recordId
+	 * @param string|null $roomType
+	 * @param int|null    $recordId
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 */
@@ -446,7 +446,7 @@ final class Chat
 	/**
 	 * Get room type.
 	 *
-	 * @return null|string
+	 * @return string|null
 	 */
 	public function getRoomType(): ?string
 	{
@@ -456,7 +456,7 @@ final class Chat
 	/**
 	 * Get record ID.
 	 *
-	 * @return null|int
+	 * @return int|null
 	 */
 	public function getRecordId(): ?int
 	{
@@ -508,7 +508,7 @@ final class Chat
 	/**
 	 * Get entries function.
 	 *
-	 * @param null|int $messageId
+	 * @param int|null $messageId
 	 * @param string   $condition
 	 *
 	 * @throws \App\Exceptions\AppException
@@ -548,7 +548,7 @@ final class Chat
 	 * Get history by type.
 	 *
 	 * @param string   $roomType
-	 * @param null|int $messageId
+	 * @param int|null $messageId
 	 *
 	 * @return array
 	 */
@@ -823,7 +823,7 @@ final class Chat
 	/**
 	 * Get a query for chat messages.
 	 *
-	 * @param null|int $messageId
+	 * @param int|null $messageId
 	 * @param string   $condition
 	 * @param bool     $isLimit
 	 *

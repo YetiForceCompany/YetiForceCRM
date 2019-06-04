@@ -91,7 +91,7 @@ class RecordStatus
 	 * Get record state statuses by module name.
 	 *
 	 * @param string   $moduleName
-	 * @param null|int $state
+	 * @param int|null $state
 	 *
 	 * @return array if state is specified values are labels, if not values are record_states, key is always primary key
 	 */
@@ -231,7 +231,7 @@ class RecordStatus
 		foreach (EventHandler::getAll() as $handler) {
 			if ('Vtiger_RecordStatusHistory_Handler' === $handler['handler_class']) {
 				$modules = $handler['include_modules'] ? \explode(',', $handler['include_modules']) : [];
-				if (in_array($moduleName, $modules)) {
+				if (\in_array($moduleName, $modules)) {
 					unset($modules[array_search($moduleName, $modules)]);
 				}
 				EventHandler::update([
@@ -395,7 +395,11 @@ class RecordStatus
 	 */
 	public static function getLabels(): array
 	{
-		return [self::RECORD_STATE_NO_CONCERN => 'LBL_RECORD_STATE_NO_CONCERN', self::RECORD_STATE_OPEN => 'LBL_RECORD_STATE_OPEN', self::RECORD_STATE_CLOSED => 'LBL_RECORD_STATE_CLOSED'];
+		return [
+			self::RECORD_STATE_NO_CONCERN => 'LBL_RECORD_STATE_NO_CONCERN',
+			self::RECORD_STATE_OPEN => 'LBL_RECORD_STATE_OPEN',
+			self::RECORD_STATE_CLOSED => 'LBL_RECORD_STATE_CLOSED'
+		];
 	}
 
 	/**
@@ -448,9 +452,9 @@ class RecordStatus
 		// TODO   complete function
 		// Cache::save('RecordStatus::getFieldName', $moduleName, $result);
 		return [
-			'response' => 555,
-			'solution' => 555,
-			'idle' => 555,
+			'response' => '2019-01-01 11:11:11',
+			'solution' => '2019-05-05 22:22:22',
+			'idle' => '2019-11-11 00:00:00',
 		];
 	}
 }

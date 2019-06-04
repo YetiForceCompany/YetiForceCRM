@@ -30,7 +30,7 @@ class ReferenceField extends BaseField
 		foreach ($this->getTables() as $moduleName) {
 			$entityFieldInfo = \App\Module::getEntityInfo($moduleName);
 			$referenceTable = $entityFieldInfo['tablename'] . $this->fieldModel->getFieldName();
-			if (count($entityFieldInfo['fieldnameArr']) > 1) {
+			if (\count($entityFieldInfo['fieldnameArr']) > 1) {
 				$sqlString = 'CONCAT(';
 				foreach ($entityFieldInfo['fieldnameArr'] as $column) {
 					$sqlString .= "$referenceTable.$column,' ',";

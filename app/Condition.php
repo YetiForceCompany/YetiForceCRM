@@ -28,7 +28,7 @@ class Condition
 	 */
 	public static function validSearchParams(string $moduleName, array $searchParams): array
 	{
-		$searchParamsCount = count($searchParams);
+		$searchParamsCount = \count($searchParams);
 		if ($searchParamsCount > 2) {
 			throw new Exceptions\IllegalValue("ERR_NUMBER_OF_ARGUMENTS_NOT_ALLOWED||{$searchParamsCount}|| > 2||" . Utils::varExport($searchParams, true), 406);
 		}
@@ -40,7 +40,7 @@ class Condition
 				if (empty($param)) {
 					continue;
 				}
-				$count = count($param);
+				$count = \count($param);
 				if (3 !== $count && 4 !== $count) {
 					throw new Exceptions\IllegalValue("ERR_NUMBER_OF_ARGUMENTS_NOT_ALLOWED||{$count}|| <> 3 or 4||" . Utils::varExport($param, true), 406);
 				}
@@ -99,7 +99,7 @@ class Condition
 				} else {
 					$operator = $condition['operator'];
 					$value = $condition['value'] ?? '';
-					if (!in_array($operator, \App\CustomView::FILTERS_WITHOUT_VALUES + array_keys(\App\CustomView::DATE_FILTER_CONDITIONS))) {
+					if (!\in_array($operator, \App\CustomView::FILTERS_WITHOUT_VALUES + array_keys(\App\CustomView::DATE_FILTER_CONDITIONS))) {
 						[$fieldModuleName, $fieldName,] = array_pad(explode(':', $condition['fieldname']), 3, false);
 						$value = \Vtiger_Field_Model::getInstance($fieldName, \Vtiger_Module_Model::getInstance($fieldModuleName))
 							->getUITypeModel()

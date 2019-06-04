@@ -34,7 +34,7 @@ class Json
 	 */
 	public static function decode($encodedValue, $objectDecodeType = self::TYPE_ARRAY)
 	{
-		if (function_exists('json_decode')) {
+		if (\function_exists('json_decode')) {
 			return json_decode($encodedValue, $objectDecodeType);
 		}
 		throw new \App\Exceptions\AppException('ERR_NO_JSON_DECODE');
@@ -57,7 +57,7 @@ class Json
 	 */
 	public static function encode($valueToEncode, $options = 0)
 	{
-		if (function_exists('json_encode')) {
+		if (\function_exists('json_encode')) {
 			return json_encode($valueToEncode, $options);
 		}
 		throw new \App\Exceptions\AppException('ERR_NO_JSON_ENCODE');
@@ -66,7 +66,7 @@ class Json
 	/**
 	 * Determine whether a variable is empty.
 	 *
-	 * @param null|string $value
+	 * @param string|null $value
 	 *
 	 * @return bool
 	 */

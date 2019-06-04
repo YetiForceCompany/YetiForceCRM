@@ -18,7 +18,7 @@ class Currency
 	 * Function returns the currency in user specified format.
 	 *
 	 * @param string     $value          Date time
-	 * @param null|mixed $user
+	 * @param mixed|null $user
 	 * @param mixed      $skipConversion
 	 * @param mixed      $skipFormatting
 	 *

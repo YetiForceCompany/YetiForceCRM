@@ -50,7 +50,7 @@ class ProductsTableImages extends Base
 		$fieldsWithCurrency = ['TotalPrice', 'GrossPrice', 'UnitPrice'];
 		$displayFields = [];
 		foreach ($fields[1] as $field) {
-			if (!$field->isVisible() || !in_array($field->getType(), $fieldsColumnQuotes)) {
+			if (!$field->isVisible() || !\in_array($field->getType(), $fieldsColumnQuotes)) {
 				continue;
 			}
 			// header
@@ -101,7 +101,7 @@ class ProductsTableImages extends Base
 					$columnHtml = '<td class="col-type-barcode"><div data-barcode="EAN13" data-code="' . $code . '" data-size="1" data-height="16"></div></td>';
 				} else {
 					$itemValue = $inventoryRow[$fieldModel->getColumnName()];
-					$itemHtml = '<td class="col-type-' . $field->getType() . '" style="border:1px solid #ddd;padding:0px 4px;' . (in_array($fieldModel->getType(), $fieldsTextRight) ? 'text-align:right;' : '') . '">';
+					$itemHtml = '<td class="col-type-' . $field->getType() . '" style="border:1px solid #ddd;padding:0px 4px;' . (\in_array($fieldModel->getType(), $fieldsTextRight) ? 'text-align:right;' : '') . '">';
 					if ('Name' === $fieldModel->getType()) {
 						$itemHtml .= '<strong>' . $fieldModel->getDisplayValue($itemValue, $inventoryRow) . '</strong>';
 						foreach ($inventory->getFieldsByType('Comment') as $commentField) {

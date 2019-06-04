@@ -151,16 +151,16 @@ class Debuger
 			$args = '';
 			if (isset($v['args'])) {
 				foreach ($v['args'] as &$arg) {
-					if (!is_array($arg) && !is_object($arg) && !is_resource($arg)) {
+					if (!\is_array($arg) && !\is_object($arg) && !\is_resource($arg)) {
 						$args .= var_export($arg, true);
-					} elseif (is_array($arg)) {
+					} elseif (\is_array($arg)) {
 						$args .= '[';
 						foreach ($arg as &$a) {
 							$val = $a;
-							if (is_array($a) || is_object($a) || is_resource($a)) {
-								$val = gettype($a);
-								if (is_object($a)) {
-									$val .= '(' . get_class($a) . ')';
+							if (\is_array($a) || \is_object($a) || \is_resource($a)) {
+								$val = \gettype($a);
+								if (\is_object($a)) {
+									$val .= '(' . \get_class($a) . ')';
 								}
 							}
 							$args .= $val . ',';

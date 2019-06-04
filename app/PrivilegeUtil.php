@@ -65,7 +65,7 @@ class PrivilegeUtil
 			$dataReader = (new \App\Db\Query())->from('vtiger_datashare_relatedmodules')->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				$relTabId = $row['relatedto_tabid'];
-				if (isset($relModSharArr[$relTabId]) && is_array($relModSharArr[$relTabId])) {
+				if (isset($relModSharArr[$relTabId]) && \is_array($relModSharArr[$relTabId])) {
 					$temArr = $relModSharArr[$relTabId];
 					$temArr[] = $row['tabid'];
 				} else {
@@ -618,7 +618,7 @@ class PrivilegeUtil
 			$actionPermissions = static::getAllProfilePermissions($profiles[0]);
 			unset($profiles[0]);
 		}
-		if (is_array($profiles)) {
+		if (\is_array($profiles)) {
 			foreach ($profiles as $profileId) {
 				$tempActionPerrArr = static::getAllProfilePermissions($profileId);
 				foreach ($actionPermissions as $tabId => $permissionsInModule) {
@@ -667,7 +667,7 @@ class PrivilegeUtil
 	 */
 	public static function getDatashare($type, $tabId, $data)
 	{
-		$cacheKey = "$type|$tabId|" . (is_array($data) ? implode(',', $data) : $data);
+		$cacheKey = "$type|$tabId|" . (\is_array($data) ? implode(',', $data) : $data);
 		if (Cache::staticHas('getDatashare', $cacheKey)) {
 			return Cache::staticGet('getDatashare', $cacheKey);
 		}
@@ -728,7 +728,7 @@ class PrivilegeUtil
 			}
 			//Retreiving from role to rs
 			$parRoleList = [];
-			if (is_array($parentRoles)) {
+			if (\is_array($parentRoles)) {
 				foreach ($parentRoles as $par_role_id) {
 					array_push($parRoleList, $par_role_id);
 				}
@@ -892,7 +892,7 @@ class PrivilegeUtil
 							if (!isset($grpReadPer[$subgrpid])) {
 								$grpReadPer[$subgrpid] = $subgrpusers;
 							}
-							if (!in_array($subgrpid, $shareIdGrps)) {
+							if (!\in_array($subgrpid, $shareIdGrps)) {
 								$shareIdGrps[] = $subgrpid;
 							}
 						}
@@ -904,7 +904,7 @@ class PrivilegeUtil
 							if (!isset($grpWritePer[$subgrpid])) {
 								$grpWritePer[$subgrpid] = $subgrpusers;
 							}
-							if (!in_array($subgrpid, $shareIdGrps)) {
+							if (!\in_array($subgrpid, $shareIdGrps)) {
 								$shareIdGrps[] = $subgrpid;
 							}
 						}
@@ -917,7 +917,7 @@ class PrivilegeUtil
 							if (!isset($grpReadPer[$subgrpid])) {
 								$grpReadPer[$subgrpid] = $subgrpusers;
 							}
-							if (!in_array($subgrpid, $shareIdGrps)) {
+							if (!\in_array($subgrpid, $shareIdGrps)) {
 								$shareIdGrps[] = $subgrpid;
 							}
 						}
@@ -938,7 +938,7 @@ class PrivilegeUtil
 							if (!isset($grpReadPer[$subgrpid])) {
 								$grpReadPer[$subgrpid] = $subgrpusers;
 							}
-							if (!in_array($subgrpid, $shareIdGrps)) {
+							if (!\in_array($subgrpid, $shareIdGrps)) {
 								$shareIdGrps[] = $subgrpid;
 							}
 						}
@@ -950,7 +950,7 @@ class PrivilegeUtil
 							if (!isset($grpWritePer[$subgrpid])) {
 								$grpWritePer[$subgrpid] = $subgrpusers;
 							}
-							if (!in_array($subgrpid, $shareIdGrps)) {
+							if (!\in_array($subgrpid, $shareIdGrps)) {
 								$shareIdGrps[] = $subgrpid;
 							}
 						}
@@ -963,7 +963,7 @@ class PrivilegeUtil
 							if (!isset($grpReadPer[$subgrpid])) {
 								$grpReadPer[$subgrpid] = $subgrpusers;
 							}
-							if (!in_array($subgrpid, $shareIdGrps)) {
+							if (!\in_array($subgrpid, $shareIdGrps)) {
 								$shareIdGrps[] = $subgrpid;
 							}
 						}
@@ -984,7 +984,7 @@ class PrivilegeUtil
 							if (!isset($grpReadPer[$subgrpid])) {
 								$grpReadPer[$subgrpid] = $subgrpusers;
 							}
-							if (!in_array($subgrpid, $shareIdGrps)) {
+							if (!\in_array($subgrpid, $shareIdGrps)) {
 								$shareIdGrps[] = $subgrpid;
 							}
 						}
@@ -996,7 +996,7 @@ class PrivilegeUtil
 							if (!isset($grpWritePer[$subgrpid])) {
 								$grpWritePer[$subgrpid] = $subgrpusers;
 							}
-							if (!in_array($subgrpid, $shareIdGrps)) {
+							if (!\in_array($subgrpid, $shareIdGrps)) {
 								$shareIdGrps[] = $subgrpid;
 							}
 						}
@@ -1009,7 +1009,7 @@ class PrivilegeUtil
 							if (!isset($grpReadPer[$subgrpid])) {
 								$grpReadPer[$subgrpid] = $subgrpusers;
 							}
-							if (!in_array($subgrpid, $shareIdGrps)) {
+							if (!\in_array($subgrpid, $shareIdGrps)) {
 								$shareIdGrps[] = $subgrpid;
 							}
 						}
@@ -1030,7 +1030,7 @@ class PrivilegeUtil
 							if (!isset($grpReadPer[$subgrpid])) {
 								$grpReadPer[$subgrpid] = $subgrpusers;
 							}
-							if (!in_array($subgrpid, $shareIdGrps)) {
+							if (!\in_array($subgrpid, $shareIdGrps)) {
 								$shareIdGrps[] = $subgrpid;
 							}
 						}
@@ -1042,7 +1042,7 @@ class PrivilegeUtil
 							if (!isset($grpWritePer[$subgrpid])) {
 								$grpWritePer[$subgrpid] = $subgrpusers;
 							}
-							if (!in_array($subgrpid, $shareIdGrps)) {
+							if (!\in_array($subgrpid, $shareIdGrps)) {
 								$shareIdGrps[] = $subgrpid;
 							}
 						}
@@ -1055,7 +1055,7 @@ class PrivilegeUtil
 							if (!isset($grpReadPer[$subgrpid])) {
 								$grpReadPer[$subgrpid] = $subgrpusers;
 							}
-							if (!in_array($subgrpid, $shareIdGrps)) {
+							if (!\in_array($subgrpid, $shareIdGrps)) {
 								$shareIdGrps[] = $subgrpid;
 							}
 						}
@@ -1396,7 +1396,7 @@ class PrivilegeUtil
 	 *
 	 * @param string $moduleName
 	 * @param array  $actions
-	 * @param bool   $mode true: add, false: remove
+	 * @param bool   $mode       true: add, false: remove
 	 *
 	 * @return bool
 	 */

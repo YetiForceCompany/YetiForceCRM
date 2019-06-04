@@ -32,7 +32,7 @@ class XCache
 	 */
 	public static function isSupported()
 	{
-		return extension_loaded('xcache');
+		return \extension_loaded('xcache');
 	}
 
 	/**

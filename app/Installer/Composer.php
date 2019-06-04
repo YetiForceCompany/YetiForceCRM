@@ -159,7 +159,7 @@ class Composer
 		foreach (static::$publicPackage as $package => $method) {
 			$src = 'vendor' . \DIRECTORY_SEPARATOR . $package;
 			foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
-				if ($item->isFile() && in_array($item->getExtension(), $types) && !file_exists($rootDir . $item->getPathname())) {
+				if ($item->isFile() && \in_array($item->getExtension(), $types) && !file_exists($rootDir . $item->getPathname())) {
 					if (!is_dir($rootDir . $item->getPath())) {
 						mkdir($rootDir . $item->getPath(), 0755, true);
 					}

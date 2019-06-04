@@ -35,7 +35,7 @@ class ConfigFile extends Base
 
 	/** @var string Type of configuration file */
 	private $type;
-	/** @var null|string Component name */
+	/** @var string|null Component name */
 	private $component;
 	/** @var string Path to the configuration file */
 	private $path;
@@ -58,14 +58,14 @@ This file is auto-generated.
 	 * ConfigFile constructor.
 	 *
 	 * @param string      $type
-	 * @param null|string $component
+	 * @param string|null $component
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 */
 	public function __construct(string $type, ?string $component = '')
 	{
 		parent::__construct();
-		if (!in_array($type, self::TYPES)) {
+		if (!\in_array($type, self::TYPES)) {
 			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $type, 406);
 		}
 		$this->type = $type;
@@ -131,7 +131,7 @@ This file is auto-generated.
 	/**
 	 * Gets template data.
 	 *
-	 * @param null|string $key
+	 * @param string|null $key
 	 *
 	 * @return mixed
 	 */

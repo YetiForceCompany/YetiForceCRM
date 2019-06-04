@@ -110,7 +110,7 @@ class SocialMedia extends Base
 	{
 		$returnVal = false;
 		foreach (static::ALLOWED_UITYPE as $socialMediaType) {
-			if (in_array($moduleName, \App\Config::component('Social', \strtoupper("{$socialMediaType}_ENABLE_FOR_MODULES"), []))) {
+			if (\in_array($moduleName, \App\Config::component('Social', \strtoupper("{$socialMediaType}_ENABLE_FOR_MODULES"), []))) {
 				$returnVal = true;
 				break;
 			}
@@ -165,7 +165,7 @@ class SocialMedia extends Base
 	 */
 	public static function isActiveByType(int $uiType)
 	{
-		return call_user_func(static::getClassNameByUiType($uiType) . '::isActive');
+		return \call_user_func(static::getClassNameByUiType($uiType) . '::isActive');
 	}
 
 	/**
@@ -184,7 +184,7 @@ class SocialMedia extends Base
 			->select(['account_name'])
 			->where(['account_name' => $logins])
 			->having(['=', 'count(*)', 1])->column();
-		return call_user_func_array(static::getClassNameByUiType($uiType) . '::removeMass', [$loginsToRemove]);
+		return \call_user_func_array(static::getClassNameByUiType($uiType) . '::removeMass', [$loginsToRemove]);
 	}
 
 	/**
@@ -196,7 +196,7 @@ class SocialMedia extends Base
 	 */
 	public static function log(int $uiType, string $typeOfLog, string $message)
 	{
-		call_user_func(static::getClassNameByUiType($uiType) . '::log', $typeOfLog, $message);
+		\call_user_func(static::getClassNameByUiType($uiType) . '::log', $typeOfLog, $message);
 	}
 
 	/**

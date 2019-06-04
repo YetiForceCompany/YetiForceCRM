@@ -70,7 +70,7 @@ class EventHandler
 		$handlers = self::$handlerByType[$name] ?? [];
 		if ($moduleName) {
 			foreach ($handlers as $key => &$handler) {
-				if ((!empty($handler['include_modules']) && !in_array($moduleName, explode(',', $handler['include_modules']))) || (!empty($handler['exclude_modules']) && in_array($moduleName, explode(',', $handler['exclude_modules'])))) {
+				if ((!empty($handler['include_modules']) && !\in_array($moduleName, explode(',', $handler['include_modules']))) || (!empty($handler['exclude_modules']) && \in_array($moduleName, explode(',', $handler['exclude_modules'])))) {
 					unset($handlers[$key]);
 				}
 			}

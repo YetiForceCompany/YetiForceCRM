@@ -32,7 +32,7 @@ class Apcu
 	 */
 	public static function isSupported()
 	{
-		return function_exists('apcu_enabled') && apcu_enabled();
+		return \function_exists('apcu_enabled') && apcu_enabled();
 	}
 
 	/**

@@ -123,7 +123,7 @@ class Request
 		} else {
 			return $value;
 		}
-		if (is_string($value) && (0 === strpos($value, '[') || 0 === strpos($value, '{'))) {
+		if (\is_string($value) && (0 === strpos($value, '[') || 0 === strpos($value, '{'))) {
 			$decodeValue = Json::decode($value);
 			if (isset($decodeValue)) {
 				$value = $decodeValue;
@@ -145,8 +145,9 @@ class Request
 	 * Alnum - word and int
 	 * 2 - word and int
 	 *
-	 * @param string     $key  Key name
-	 * @param int|string $type Data type that is only acceptable, default only words 'Standard'
+	 * @param string     $key     Key name
+	 * @param int|string $type    Data type that is only acceptable, default only words 'Standard'
+	 * @param mixed      $convert
 	 *
 	 * @return bool|mixed
 	 */
@@ -172,7 +173,7 @@ class Request
 	public function getBoolean($key, $defaultValue = '')
 	{
 		$value = $this->get($key, $defaultValue);
-		if (is_bool($value)) {
+		if (\is_bool($value)) {
 			return $value;
 		}
 
@@ -221,7 +222,7 @@ class Request
 			if (!$value) {
 				return [];
 			}
-			if (is_string($value) && (0 === strpos($value, '[') || 0 === strpos($value, '{'))) {
+			if (\is_string($value) && (0 === strpos($value, '[') || 0 === strpos($value, '{'))) {
 				$decodeValue = Json::decode($value);
 				if (isset($decodeValue)) {
 					$value = $decodeValue;
@@ -281,10 +282,10 @@ class Request
 	 */
 	private function purifyMultiDimensionArray($values, $template)
 	{
-		if (is_array($template)) {
+		if (\is_array($template)) {
 			foreach ($values as $firstKey => $value) {
-				if (is_array($value)) {
-					if (1 === count($template)) {
+				if (\is_array($value)) {
+					if (1 === \count($template)) {
 						$template = current($template);
 					}
 					foreach ($value as $secondKey => $val) {
@@ -292,7 +293,7 @@ class Request
 						if (isset($template[$firstKey])) {
 							$tempTemplate = $template[$firstKey];
 						}
-						if (1 === count($tempTemplate)) {
+						if (1 === \count($tempTemplate)) {
 							$tempTemplate = current($tempTemplate);
 						} elseif (!isset($tempTemplate[$secondKey])) {
 							throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$secondKey}", 406);
@@ -302,7 +303,7 @@ class Request
 						$values[$firstKey][$secondKey] = $this->purifyMultiDimensionArray($val, $tempTemplate);
 					}
 				} else {
-					if (\is_array($template) && 1 === count($template)) {
+					if (\is_array($template) && 1 === \count($template)) {
 						$values[$firstKey] = $this->purifyMultiDimensionArray($value, current($template));
 					} elseif (isset($template[$firstKey])) {
 						$values[$firstKey] = $this->purifyMultiDimensionArray($value, $template[$firstKey]);
@@ -457,7 +458,7 @@ class Request
 			return $this->headers;
 		}
 		$data = [];
-		if (!function_exists('apache_request_headers')) {
+		if (!\function_exists('apache_request_headers')) {
 			foreach ($_SERVER as $key => $value) {
 				if ('HTTP_' === substr($key, 0, 5)) {
 					$key = str_replace(' ', '-', \strtolower(str_replace('_', ' ', substr($key, 5))));
@@ -706,7 +707,7 @@ class Request
 	 * Support static methods, all functions must start with "_".
 	 *
 	 * @param string     $name
-	 * @param null|array $arguments
+	 * @param array|null $arguments
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *

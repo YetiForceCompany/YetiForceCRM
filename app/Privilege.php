@@ -151,7 +151,7 @@ class Privilege
 			\App\Log::trace('Exiting isPermitted method ... - SEC_MODULE_NO_ACTION_TOOL');
 			return false;
 		}
-		if (strlen($userPrivileges['profile_action_permission'][$tabId][$actionId]) < 1 && '' === $userPrivileges['profile_action_permission'][$tabId][$actionId]) {
+		if (\strlen($userPrivileges['profile_action_permission'][$tabId][$actionId]) < 1 && '' === $userPrivileges['profile_action_permission'][$tabId][$actionId]) {
 			static::$isPermittedLevel = 'SEC_MODULE_RIGHTS_TO_ACTION';
 			\App\Log::trace('Exiting isPermitted method ... - SEC_MODULE_RIGHTS_TO_ACTION');
 			return true;
@@ -218,14 +218,14 @@ class Privilege
 					$isPermittedPrivateRecord = true;
 				}
 			} elseif ('Groups' === $recOwnType) {
-				if (in_array($recOwnId, $userPrivileges['groups'])) {
+				if (\in_array($recOwnId, $userPrivileges['groups'])) {
 					$level = 'SEC_PRIVATE_RECORD_OWNER_CURRENT_GROUP';
 					$isPermittedPrivateRecord = true;
 				}
 			}
 			if (!$isPermittedPrivateRecord) {
 				$shownerids = Fields\SharedOwner::getById($record);
-				if (in_array($userId, $shownerids) || count(array_intersect($shownerids, $userPrivileges['groups'])) > 0) {
+				if (\in_array($userId, $shownerids) || \count(array_intersect($shownerids, $userPrivileges['groups'])) > 0) {
 					$level = 'SEC_PRIVATE_RECORD_SHARED_OWNER';
 					$isPermittedPrivateRecord = true;
 				}
@@ -250,7 +250,7 @@ class Privilege
 		}
 		if (\App\Config::security('PERMITTED_BY_SHARED_OWNERS')) {
 			$shownerids = Fields\SharedOwner::getById($record);
-			if (in_array($userId, $shownerids) || count(array_intersect($shownerids, $userPrivileges['groups'])) > 0) {
+			if (\in_array($userId, $shownerids) || \count(array_intersect($shownerids, $userPrivileges['groups'])) > 0) {
 				static::$isPermittedLevel = 'SEC_RECORD_SHARED_OWNER';
 				\App\Log::trace('Exiting isPermitted method ... - SEC_RECORD_SHARED_OWNER');
 				return true;
@@ -269,7 +269,7 @@ class Privilege
 			if (\App\Config::security('PERMITTED_BY_ROLES')) {
 				//Checking if the Record Owner is the Subordinate User
 				foreach ($userPrivileges['subordinate_roles_users'] as &$userids) {
-					if (in_array($recOwnId, $userids)) {
+					if (\in_array($recOwnId, $userids)) {
 						static::$isPermittedLevel = 'SEC_RECORD_OWNER_SUBORDINATE_USER';
 						\App\Log::trace('Exiting isPermitted method ... - SEC_RECORD_OWNER_SUBORDINATE_USER');
 						return true;
@@ -278,7 +278,7 @@ class Privilege
 			}
 		} elseif ('Groups' === $recOwnType) {
 			//Checking if the record owner is the current user's group
-			if (in_array($recOwnId, $userPrivileges['groups'])) {
+			if (\in_array($recOwnId, $userPrivileges['groups'])) {
 				static::$isPermittedLevel = 'SEC_RECORD_OWNER_CURRENT_GROUP';
 				\App\Log::trace('Exiting isPermitted method ... - SEC_RECORD_OWNER_CURRENT_GROUP');
 				return true;
@@ -297,10 +297,10 @@ class Privilege
 					foreach ($permissionsRelatedField as $row) {
 						switch ($row) {
 							case 0:
-								$relatedPermission = $recordMetaData['smownerid'] == $userId || in_array($recordMetaData['smownerid'], $userPrivileges['groups']);
+								$relatedPermission = $recordMetaData['smownerid'] == $userId || \in_array($recordMetaData['smownerid'], $userPrivileges['groups']);
 								break;
 							case 1:
-								$relatedPermission = in_array($userId, Fields\SharedOwner::getById($parentRecord));
+								$relatedPermission = \in_array($userId, Fields\SharedOwner::getById($parentRecord));
 								break;
 							case 2:
 								if (\App\Config::security('PERMITTED_BY_SHARING')) {
@@ -387,7 +387,7 @@ class Privilege
 		if ('Users' == $ownerType) {
 			//Checking the Read Sharing Permission Array in Role Users
 			foreach ($read['ROLE'] as $userids) {
-				if (in_array($ownerId, $userids)) {
+				if (\in_array($ownerId, $userids)) {
 					\App\Log::trace('Exiting isReadPermittedBySharing method ...');
 
 					return true;
@@ -395,7 +395,7 @@ class Privilege
 			}
 			//Checking the Read Sharing Permission Array in Groups Users
 			foreach ($read['GROUP'] as $userids) {
-				if (in_array($ownerId, $userids)) {
+				if (\in_array($ownerId, $userids)) {
 					\App\Log::trace('Exiting isReadPermittedBySharing method ...');
 
 					return true;
@@ -414,10 +414,10 @@ class Privilege
 		if (isset($sharingPrivileges['relatedModuleShare'][$tabId])) {
 			$relatedModuleArray = $sharingPrivileges['relatedModuleShare'][$tabId];
 		}
-		if (is_array($relatedModuleArray)) {
+		if (\is_array($relatedModuleArray)) {
 			foreach ($relatedModuleArray as $parModId) {
 				$parRecordOwner = PrivilegeUtil::getParentRecordOwner($tabId, $parModId, $recordId);
-				if (count($parRecordOwner) > 0) {
+				if (\count($parRecordOwner) > 0) {
 					$parModName = Module::getModuleName($parModId);
 					if (isset($sharingPrivileges['permission'][$parModName . '_' . $moduleName])) {
 						$readRelated = $sharingPrivileges['permission'][$parModName . '_' . $moduleName]['read'];
@@ -431,7 +431,7 @@ class Privilege
 						if ('Users' == $relOwnerType) {
 							//Checking in Role Users
 							foreach ($readRelated['ROLE'] as $userids) {
-								if (in_array($relOwnerId, $userids)) {
+								if (\in_array($relOwnerId, $userids)) {
 									\App\Log::trace('Exiting isReadPermittedBySharing method ...');
 
 									return true;
@@ -439,7 +439,7 @@ class Privilege
 							}
 							//Checking in Group Users
 							foreach ($readRelated['GROUP'] as $userids) {
-								if (in_array($relOwnerId, $userids)) {
+								if (\in_array($relOwnerId, $userids)) {
 									\App\Log::trace('Exiting isReadPermittedBySharing method ...');
 
 									return true;
@@ -487,7 +487,7 @@ class Privilege
 		if ('Users' == $ownerType) {
 			//Checking the Write Sharing Permission Array in Role Users
 			foreach ($write['ROLE'] as $userids) {
-				if (in_array($ownerId, $userids)) {
+				if (\in_array($ownerId, $userids)) {
 					\App\Log::trace('Exiting isReadWritePermittedBySharing method ...');
 
 					return true;
@@ -495,7 +495,7 @@ class Privilege
 			}
 			//Checking the Write Sharing Permission Array in Groups Users
 			foreach ($write['GROUP'] as $userids) {
-				if (in_array($ownerId, $userids)) {
+				if (\in_array($ownerId, $userids)) {
 					\App\Log::trace('Exiting isReadWritePermittedBySharing method ...');
 
 					return true;
@@ -510,7 +510,7 @@ class Privilege
 		}
 		//Checking for the Related Sharing Permission
 		$relatedModuleArray = $sharingPrivileges['relatedModuleShare'][$tabId];
-		if (is_array($relatedModuleArray)) {
+		if (\is_array($relatedModuleArray)) {
 			foreach ($relatedModuleArray as $parModId) {
 				$parRecordOwner = PrivilegeUtil::getParentRecordOwner($tabId, $parModId, $recordId);
 				if (!empty($parRecordOwner)) {
@@ -526,7 +526,7 @@ class Privilege
 						if ('Users' == $relOwnerType) {
 							//Checking in Role Users
 							foreach ($writeRelated['ROLE'] as $userids) {
-								if (in_array($relOwnerId, $userids)) {
+								if (\in_array($relOwnerId, $userids)) {
 									\App\Log::trace('Exiting isReadWritePermittedBySharing method ...');
 
 									return true;
@@ -534,7 +534,7 @@ class Privilege
 							}
 							//Checking in Group Users
 							foreach ($writeRelated['GROUP'] as $userids) {
-								if (in_array($relOwnerId, $userids)) {
+								if (\in_array($relOwnerId, $userids)) {
 									\App\Log::trace('Exiting isReadWritePermittedBySharing method ...');
 
 									return true;

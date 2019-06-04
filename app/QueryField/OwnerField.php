@@ -19,7 +19,7 @@ class OwnerField extends BaseField
 	 */
 	public function operatorE()
 	{
-		if (!is_array($this->value)) {
+		if (!\is_array($this->value)) {
 			if (false === strpos($this->value, '##')) {
 				return [$this->getColumnName() => $this->value];
 			}

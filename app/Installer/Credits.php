@@ -68,7 +68,7 @@ class Credits
 						$libraries[$package['name']]['version'] = $package['version'];
 					}
 					if (!empty($package['license'])) {
-						if (count($package['license']) > 1) {
+						if (\count($package['license']) > 1) {
 							$libraries[$package['name']]['license'] = implode(', ', $package['license']);
 							$libraries[$package['name']]['licenseError'] = true;
 						} else {
@@ -184,13 +184,13 @@ class Credits
 				$packageFileContent = \App\Json::decode(file_get_contents($packageFile), true);
 				$license = $packageFileContent['license'] ?? $packageFileContent['licenses'] ?? '';
 				if ($license) {
-					if (is_array($license)) {
-						if (is_array($license[0]) && isset($license[0]['type'])) {
+					if (\is_array($license)) {
+						if (\is_array($license[0]) && isset($license[0]['type'])) {
 							$returnLicense = implode(', ', array_column($license, 'type'));
 						} else {
 							$returnLicense = implode(', ', $license);
 						}
-						if (count($license) > 1) {
+						if (\count($license) > 1) {
 							$licenseError = true;
 						}
 					} else {
@@ -237,7 +237,7 @@ class Credits
 			return true;
 		}
 		$result = false;
-		if (!is_array($license)) {
+		if (!\is_array($license)) {
 			$license = [$license];
 		}
 		foreach ($license as $value) {

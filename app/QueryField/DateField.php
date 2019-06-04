@@ -56,7 +56,7 @@ class DateField extends BaseField
 	public function getCondition()
 	{
 		$fn = 'operator' . ucfirst($this->operator);
-		if (in_array($this->operator, \App\CustomView::STD_FILTER_CONDITIONS)) {
+		if (\in_array($this->operator, \App\CustomView::STD_FILTER_CONDITIONS)) {
 			\App\Log::trace('Entering to getStdOperator in ' . __CLASS__);
 			return $this->getStdOperator();
 		}

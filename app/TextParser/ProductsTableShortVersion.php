@@ -50,7 +50,7 @@ class ProductsTableShortVersion extends Base
 				<thead>
 					<tr>';
 			foreach ($fields[1] as $field) {
-				if ($field->isVisible() && in_array($field->getType(), $fieldsColumnQuotes)) {
+				if ($field->isVisible() && \in_array($field->getType(), $fieldsColumnQuotes)) {
 					$html .= '<th class="col-type-' . $field->getType() . '" style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 				}
 			}
@@ -60,7 +60,7 @@ class ProductsTableShortVersion extends Base
 				++$counter;
 				$html .= '<tr class="row-' . $counter . '">';
 				foreach ($fields[1] as $field) {
-					if (!$field->isVisible() || !in_array($field->getType(), $fieldsColumnQuotes)) {
+					if (!$field->isVisible() || !\in_array($field->getType(), $fieldsColumnQuotes)) {
 						continue;
 					}
 					if ('ItemNumber' === $field->getType()) {
@@ -70,7 +70,7 @@ class ProductsTableShortVersion extends Base
 						$html .= '<td class="col-type-barcode"><div data-barcode="EAN13" data-code="' . $code . '" data-size="1" data-height="16"></div></td>';
 					} else {
 						$itemValue = $inventoryRow[$field->getColumnName()];
-						$html .= '<td class="col-type-' . $field->getType() . '" style="border:1px solid #ddd;padding:0px 4px;' . (in_array($field->getType(), $fieldsTextRight) ? 'text-align:right;' : '') . '">';
+						$html .= '<td class="col-type-' . $field->getType() . '" style="border:1px solid #ddd;padding:0px 4px;' . (\in_array($field->getType(), $fieldsTextRight) ? 'text-align:right;' : '') . '">';
 						if ('Name' === $field->getType()) {
 							$html .= '<strong>' . $field->getDisplayValue($itemValue, $inventoryRow) . '</strong>';
 							foreach ($inventory->getFieldsByType('Comment') as $commentField) {
@@ -93,7 +93,7 @@ class ProductsTableShortVersion extends Base
 			}
 			$html .= '</tbody><tfoot><tr>';
 			foreach ($fields[1] as $field) {
-				if ($field->isVisible() && in_array($field->getType(), $fieldsColumnQuotes)) {
+				if ($field->isVisible() && \in_array($field->getType(), $fieldsColumnQuotes)) {
 					$html .= '<th class="col-type-' . $field->getType() . '" style="padding:0px 4px;text-align:right;">';
 					if ($field->isSummary()) {
 						$sum = 0;

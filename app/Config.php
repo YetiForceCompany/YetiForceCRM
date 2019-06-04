@@ -48,7 +48,7 @@ class Config
 	/**
 	 * Gets main configuration.
 	 *
-	 * @param null|string $arg
+	 * @param string|null $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -68,7 +68,7 @@ class Config
 	 * Gets module configuration.
 	 *
 	 * @param string      $moduleName
-	 * @param null|string $arg
+	 * @param string|null $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -85,7 +85,7 @@ class Config
 	 * Gets component configuration.
 	 *
 	 * @param string      $component
-	 * @param null|string $arg
+	 * @param string|null $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -101,7 +101,7 @@ class Config
 	/**
 	 * Gets performance configuration.
 	 *
-	 * @param null|string $arg
+	 * @param string|null $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -117,7 +117,7 @@ class Config
 	/**
 	 * Gets api configuration.
 	 *
-	 * @param null|string $arg
+	 * @param string|null $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -133,7 +133,7 @@ class Config
 	/**
 	 * Gets debug configuration.
 	 *
-	 * @param null|string $arg
+	 * @param string|null $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -149,7 +149,7 @@ class Config
 	/**
 	 * Gets developer configuration.
 	 *
-	 * @param null|string $arg
+	 * @param string|null $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -165,7 +165,7 @@ class Config
 	/**
 	 * Gets security configuration.
 	 *
-	 * @param null|string $arg
+	 * @param string|null $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -181,7 +181,7 @@ class Config
 	/**
 	 * Gets search configuration.
 	 *
-	 * @param null|string $arg
+	 * @param string|null $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -197,7 +197,7 @@ class Config
 	/**
 	 * Gets sounds configuration.
 	 *
-	 * @param null|string $arg
+	 * @param string|null $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -213,7 +213,7 @@ class Config
 	/**
 	 * Gets relation configuration.
 	 *
-	 * @param null|string $arg
+	 * @param string|null $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -229,7 +229,7 @@ class Config
 	/**
 	 * Gets security keys configuration.
 	 *
-	 * @param null|string $arg
+	 * @param string|null $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -245,7 +245,7 @@ class Config
 	/**
 	 * Gets database configuration.
 	 *
-	 * @param null|string $arg
+	 * @param string|null $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -262,7 +262,7 @@ class Config
 	 * Gets configuration for class.
 	 *
 	 * @param string      $class
-	 * @param null|string $arg
+	 * @param string|null $arg
 	 * @param mixed       $default
 	 *
 	 * @throws \ReflectionException
@@ -295,10 +295,10 @@ class Config
 	 */
 	public static function set(): bool
 	{
-		if (4 === func_num_args()) {
-			[$component, $type, $key, $value] = func_get_args();
+		if (4 === \func_num_args()) {
+			[$component, $type, $key, $value] = \func_get_args();
 		} else {
-			[$type, $key, $value] = func_get_args();
+			[$type, $key, $value] = \func_get_args();
 		}
 		$class = '\Config\\' . (isset($component) ? ucfirst($component) . 's\\' : '') . ucfirst($type);
 		if ($result = (class_exists($class) && isset($class::${$key}))) {
