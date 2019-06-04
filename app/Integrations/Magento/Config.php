@@ -53,43 +53,26 @@ class Config extends \App\Base
 	/**
 	 * Save in db last scanned id.
 	 *
-	 * @param string $type
-	 * @param string $name
-	 * @param int    $id
+	 * @param string      $type
+	 * @param bool|string $name
+	 * @param bool|int    $id
 	 *
 	 * @throws \yii\db\Exception
 	 */
-	public static function setLastScanId(string $type, string $name, int $id): void
+	public static function setScan(string $type, $name = false, $id = false): void
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
-		$data = [
-			'name' => "{$type}_last_scan_{$name}",
-			'value' => $id
-		];
-		if (!(new Query())->from(self::TABLE_NAME)
-			->where(['name' => $data['name']])
-			->exists()) {
-			$dbCommand->insert(self::TABLE_NAME, $data)->execute();
+		if (false !== $name) {
+			$data = [
+				'name' => "{$type}_last_scan_{$name}",
+				'value' => $id
+			];
 		} else {
-			$dbCommand->update(self::TABLE_NAME, $data, ['name' => $data['name']])->execute();
+			$data = [
+				'name' => $type . '_start_scan_date',
+				'value' => date('Y-m-d H:i:s')
+			];
 		}
-		static::updateData();
-	}
-
-	/**
-	 * Set start scan.
-	 *
-	 * @param string $type
-	 *
-	 * @throws \yii\db\Exception
-	 */
-	public static function setStartScan(string $type): void
-	{
-		$dbCommand = \App\Db::getInstance()->createCommand();
-		$data = [
-			'name' => $type . '_start_scan_date',
-			'value' => date('Y-m-d H:i:s')
-		];
 		if (!(new Query())->from(self::TABLE_NAME)
 			->where(['name' => $data['name']])
 			->exists()) {

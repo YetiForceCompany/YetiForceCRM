@@ -25,7 +25,7 @@ class Product extends Maps\Magento
 		$this->config = \App\Integrations\Magento\Config::getInstance();
 		$this->lastScan = $this->config::getLastScan('product');
 		if (!$this->lastScan['start_date'] || (0 === (int) $this->lastScan['id'] && 0 === (int) $this->lastScan['idcrm'] && $this->lastScan['start_date'] === $this->lastScan['end_date'])) {
-			$this->config::setStartScan('product');
+			$this->config::setScan('product');
 			$this->lastScan = $this->config::getLastScan('product');
 		}
 		$this->getMapping('product');
@@ -61,7 +61,7 @@ class Product extends Maps\Magento
 				} else {
 					$this->saveProduct($productCrm);
 				}
-				$this->config::setLastScanId('product', 'idcrm', $id);
+				$this->config::setScan('product', 'idcrm', $id);
 			}
 		} else {
 			$result = true;
@@ -95,7 +95,7 @@ class Product extends Maps\Magento
 					} else {
 						$this->saveProductCrm($product);
 					}
-					$this->config::setLastScanId('product', 'id', $id);
+					$this->config::setScan('product', 'id', $id);
 				}
 			} else {
 				$allChecked = true;
@@ -131,7 +131,7 @@ class Product extends Maps\Magento
 						$this->deleteProductCrm($idCrm);
 					}
 				}
-				$this->config::setLastScanId('product', 'idmap', max(array_keys($this->mapCrm)));
+				$this->config::setScan('product', 'idmap', max(array_keys($this->mapCrm)));
 			} else {
 				$allChecked = true;
 			}
