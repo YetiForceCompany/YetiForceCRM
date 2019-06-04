@@ -1008,12 +1008,15 @@ window.App.Fields = {
 			params = this.registerParams(selectElement, params);
 			const computeDropdownHeight = (e, dropdownContainer) => {
 				if (!dropdownContainer.find('.select2-dropdown--above').length) {
-					const dropdownList = dropdownContainer.find('.select2-results__options')
-					const marginBottom = 35
+					const dropdownList = dropdownContainer.find('.select2-results__options');
+					const marginBottom = 35;
 					const selectOffsetTop = $(e.currentTarget).offset().top;
-					dropdownList.css({'max-height': $(window).height() - selectOffsetTop - marginBottom - (dropdownList.offset().top - selectOffsetTop)})
+					dropdownList.css({
+						'max-height':
+							$(window).height() - selectOffsetTop - marginBottom - (dropdownList.offset().top - selectOffsetTop)
+					});
 				}
-			}
+			};
 			selectElement.each(function() {
 				let select = $(this);
 				let htmlBoolParams = select.data('select');
@@ -1026,7 +1029,7 @@ window.App.Fields = {
 				select
 					.select2(params)
 					.on('select2:open', e => {
-						computeDropdownHeight(e, $('.select2-container--open:not(.select2-container--below)'))
+						computeDropdownHeight(e, $('.select2-container--open:not(.select2-container--below)'));
 						if (select.data('unselecting')) {
 							select.removeData('unselecting');
 							setTimeout(function() {
@@ -1778,6 +1781,88 @@ window.App.Fields = {
 					app.showModalWindow(requestData, { modalId: 'treeModal' });
 				});
 			});
+		}
+	},
+	TimePeriod: class TimePeriod {
+		constructor(container) {
+			this.container = container;
+			this.value = container.val();
+			if (this.value) {
+				const split = this.value.split('|');
+				this.time = Number(split[0]);
+				this.period = split[1];
+			} else {
+				this.time = 0;
+				this.period = 'm';
+			}
+			this.injectContent();
+		}
+
+		/**
+		 * Register time period field/s
+		 *
+		 * @param {jQuery} container it could be input type hidden with js-time-period class
+		 *                           or container that contains multiple js-time-period inputs
+		 *
+		 * @example <input type="hidden" name="field_name" class="js-time-period">
+		 *
+		 * @returns {TimePeriod|TimePeriod[]} instance/s
+		 */
+		static register(container) {
+			if (container.hasClass('js-time-period')) {
+				return new TimePeriod(container);
+			}
+			const instances = [];
+			container.find('.js-time-period').each((index, value) => {
+				instances.push(new TimePeriod($(value)));
+			});
+			return instances;
+		}
+
+		/**
+		 * Inject content next to container
+		 *
+		 * @returns  {jQuery}  created element with input and select
+		 */
+		injectContent() {
+			let content = `<div class="input-group js-time-period" data-js="container">
+				<input type="number" class="form-control js-time-period-input" min="0" value="${this.time}">
+				<div class="input-group-append">
+					<select class="select2 time-period-${this.container.attr('name')}">
+						<option value="m"${this.period === 'm' ? 'selected="selected"' : ''}>${app.vtranslate('JS_MONTHS_FULL')}</option>
+						<option value="d"${this.period === 'd' ? 'selected="selected"' : ''}>${app.vtranslate('JS_DAYS_FULL')}</option>
+						<option value="H"${this.period === 'H' ? 'selected="selected"' : ''}>${app.vtranslate('JS_HOURS_FULL')}</option>
+						<option value="i"${this.period === 'i' ? 'selected="selected"' : ''}>${app.vtranslate('JS_MINUTES_FULL')}</option>
+						<option value="s"${this.period === 's' ? 'selected="selected"' : ''}>${app.vtranslate('JS_SECONDS_FULL')}</option>
+					</select>
+				</div>
+			</div>`;
+			this.element = this.container.parent().append(content);
+			this.input = this.element.find('.js-time-period-input').eq(0);
+			this.select = this.element.find('.select2').eq(0);
+			App.Fields.Picklist.showSelect2ElementView(this.select, {});
+			this.registerEvents();
+			return this.element;
+		}
+
+		/**
+		 * Register events
+		 */
+		registerEvents() {
+			this.input.on('input', this.onChange.bind(this));
+			this.select.on('change', this.onChange.bind(this));
+		}
+
+		/**
+		 * On change event
+		 *
+		 * @param {Event} event
+		 */
+		onChange(event) {
+			this.time = this.input.val();
+			this.period = this.select.val();
+			this.value = this.input.val().padStart(2, '0') + '|' + this.select.val();
+			this.container.val(this.value);
 		}
 	}
 };

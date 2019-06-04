@@ -69,7 +69,7 @@ class Validator
 	 * Function verifies if given value is compatible with user’s date format.
 	 *
 	 * @param string   $input
-	 * @param int|null $userId
+	 * @param null|int $userId
 	 *
 	 * @return bool
 	 */
@@ -98,7 +98,7 @@ class Validator
 	 *  Function verifies if given value is compatible with user’s time format.
 	 *
 	 * @param string   $input
-	 * @param int|null $userId
+	 * @param null|int $userId
 	 *
 	 * @return bool
 	 */
@@ -138,7 +138,7 @@ class Validator
 	 * Function verifies if given value is compatible with user’s  date and time format.
 	 *
 	 * @param string   $input
-	 * @param int|null $userId
+	 * @param null|int $userId
 	 *
 	 * @return bool
 	 */
@@ -330,5 +330,17 @@ class Validator
 	public static function sql($input): bool
 	{
 		return preg_match('/^[_a-zA-Z0-9.,:]+$/', $input);
+	}
+
+	/**
+	 * Check if input is an time period value.
+	 *
+	 * @param string $input
+	 *
+	 * @return bool
+	 */
+	public static function timePeriod($input): bool
+	{
+		return preg_match('/^[0-9]{1,18}\|(m|d|H|i|s){1}$/', $input);
 	}
 }

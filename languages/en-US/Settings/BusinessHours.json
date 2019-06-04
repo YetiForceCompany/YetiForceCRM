@@ -10,7 +10,10 @@
     "LBL_NAME": "Name",
     "LBL_HOLIDAYS": "Holidays",
     "LBL_EDIT_BUSINESS_HOURS": "Edit business hours",
-    "LBL_ADD_BUSINESS_HOURS": "Add business hours entry"
+    "LBL_ADD_BUSINESS_HOURS": "Add business hours entry",
+    "LBL_DEFAULT_REACTION_TIME": "Default reaction time",
+    "LBL_DEFAULT_IDLE_TIME": "Default idle time",
+    "LBL_DEFAULT_RESOLVE_TIME": "Default resolve time"
   },
   "js": {
     "JS_BUSINESSHOURS_DELETE_CONFIRMATION": "Are your sure you want to delete this entry?"

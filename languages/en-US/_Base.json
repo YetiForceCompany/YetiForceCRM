@@ -1710,6 +1710,11 @@
     "JS_MINIMIZE": "Minimize",
     "JS_QUICK_CREATE": "Quick create",
     "JS_SEARCH_PLACEHOLDER": "Search...",
-    "JS_COMMENTS": "Comments"
+    "JS_COMMENTS": "Comments",
+    "JS_MONTHS_FULL": "Months",
+    "JS_DAYS_FULL": "Days",
+    "JS_HOURS_FULL": "Hours",
+    "JS_MINUTES_FULL": "Minutes",
+    "JS_SECONDS_FULL": "Seconds"
   }
 }
