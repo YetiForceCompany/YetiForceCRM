@@ -18,9 +18,9 @@ add@^2.0.6:
   integrity sha1-JI8Kn25aUo7yKV2+7DBTITCuIjU=
 
 animate.css@^3.7:
-  version "3.7.1"
-  resolved "https://registry.yarnpkg.com/animate.css/-/animate.css-3.7.1.tgz#07da14b94185b73f06fcb90faeddb97846b2d481"
-  integrity sha512-FglP5lfDn2hRefXxXkvqBH2YGJRDRCuytbRU2bD86TIPyVe6yFQIx/XDmijOVoYRvBGKz3B8Y7cgzvLez4pTjA==
+  version "3.7.2"
+  resolved "https://registry.yarnpkg.com/animate.css/-/animate.css-3.7.2.tgz#e73e0d50e92cb1cfef1597d9b38a9481020e08ea"
+  integrity sha512-0bE8zYo7C0KvgOYrSVfrzkbYk6IOTVPNqkiHg2cbyF4Pq/PXzilz4BRWA3hwEUBoMp5VBgrC29lQIZyhRWdBTw==
 
 base64-arraybuffer@^0.2.0:
   version "0.2.0"
