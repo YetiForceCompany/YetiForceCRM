@@ -50,7 +50,7 @@ class Product extends Maps\Magento
 				$productCrm['productid'] = $id;
 				if (isset($this->map[$id], $products[$this->map[$id]])) {
 					if ($this->hasChanges($productCrm, $products[$this->map[$id]])) {
-						if ('magento' === $this->whichToUpdate($productCrm, $products[$this->map[$id]])) {
+						if (self::MAGENTO === $this->whichToUpdate($productCrm, $products[$this->map[$id]])) {
 							$this->updateProduct($this->map[$id], $productCrm);
 						} else {
 							$this->updateProductCrm($id, $products[$this->map[$id]]);
@@ -79,12 +79,12 @@ class Product extends Maps\Magento
 		$allChecked = false;
 		try {
 			$products = $this->getProducts();
-			$productsCrm = $this->getProductsCrm($this->getFormatedRecordsIds(array_keys($products), 'yetiforce'));
+			$productsCrm = $this->getProductsCrm($this->getFormatedRecordsIds(array_keys($products), self::YETIFORCE));
 			if (!empty($products)) {
 				foreach ($products as $id => $product) {
 					if (isset($this->mapCrm[$id], $productsCrm[$this->mapCrm[$id]])) {
 						if ($this->hasChanges($productsCrm[$this->mapCrm[$id]], $product)) {
-							if ('magento' === $this->whichToUpdate($productsCrm[$this->mapCrm[$id]], $product)) {
+							if (self::MAGENTO === $this->whichToUpdate($productsCrm[$this->mapCrm[$id]], $product)) {
 								$this->updateProduct($id, $productsCrm[$this->mapCrm[$id]]);
 							} else {
 								$this->updateProductCrm($this->mapCrm[$id], $product);

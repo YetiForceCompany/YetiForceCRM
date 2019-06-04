@@ -49,7 +49,6 @@ abstract class Base
 	 * @var object
 	 */
 	public $config;
-
 	/**
 	 * Mapped fields.
 	 *
@@ -62,6 +61,18 @@ abstract class Base
 	 * @var string
 	 */
 	public const TABLE_NAME = 'i_#__magento_record';
+	/**
+	 * Magento variable value.
+	 *
+	 * @var string
+	 */
+	public const MAGENTO = 1;
+	/**
+	 * Yetiforce variable value.
+	 *
+	 * @var string
+	 */
+	public const YETIFORCE = 2;
 
 	/**
 	 * Sets connector to communicate with system.

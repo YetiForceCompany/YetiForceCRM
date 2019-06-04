@@ -19,16 +19,16 @@ abstract class Record extends Base
 	/**
 	 * Format records id to given source.
 	 *
-	 * @param $ids
+	 * @param array $ids
 	 * @param string $formatTo
 	 *
 	 * @return array
 	 */
-	public function getFormatedRecordsIds($ids, $formatTo = 'magento'): array
+	public function getFormatedRecordsIds(array $ids, $formatTo = self::MAGENTO): array
 	{
 		$parsedIds = [];
 		$mapIds = $this->map;
-		if ('yetiforce' === $formatTo) {
+		if (self::YETIFORCE === $formatTo) {
 			$mapIds = $this->mapCrm;
 		}
 		foreach ($ids as $id) {
@@ -71,17 +71,18 @@ abstract class Record extends Base
 	public function whichToUpdate(array $recordCrm, array $record)
 	{
 		$toUpdate = false;
-		$modifiedTimeCrmEnd = strtotime($recordCrm['modifiedtime']) > strtotime($this->lastScan['end_date']);
-		$modifiedTimeCrmStart = strtotime($recordCrm['modifiedtime']) < strtotime($this->lastScan['start_date']);
-		$modifiedTimeEnd = strtotime($record['updated_at']) > strtotime($this->getFormattedTime($this->lastScan['end_date']));
-		$modifiedTimeStart = strtotime($record['updated_at']) < strtotime($this->getFormattedTime($this->lastScan['start_date']));
-		if (($modifiedTimeCrmEnd && $modifiedTimeCrmStart) && ($modifiedTimeEnd && $modifiedTimeStart)) {
-			$masterSource = \App\Config::component('Magento', 'masterSource');
-			$toUpdate = 'magento' === $masterSource ? 'yetiforce' : 'magento';
+		$modifiedTimeCrm = strtotime($recordCrm['modifiedtime']);
+		$updatedTime = strtotime($record['updated_at']);
+		$modifiedTimeCrmEnd = $modifiedTimeCrm > strtotime($this->lastScan['end_date']);
+		$modifiedTimeCrmStart = $modifiedTimeCrm < strtotime($this->lastScan['start_date']);
+		$modifiedTimeEnd = $updatedTime > strtotime($this->getFormattedTime($this->lastScan['end_date']));
+		$modifiedTimeStart = $updatedTime < strtotime($this->getFormattedTime($this->lastScan['start_date']));
+		if ($modifiedTimeCrmEnd && $modifiedTimeCrmStart && $modifiedTimeEnd && $modifiedTimeStart) {
+			$toUpdate = 'magento' === \App\Config::component('Magento', 'masterSource') ? self::YETIFORCE : self::MAGENTO;
 		} elseif ($modifiedTimeCrmEnd && $modifiedTimeCrmStart) {
-			$toUpdate = 'magento';
+			$toUpdate = self::MAGENTO;
 		} elseif ($modifiedTimeEnd && $modifiedTimeStart) {
-			$toUpdate = 'yetiforce';
+			$toUpdate = self::YETIFORCE;
 		}
 		return $toUpdate;
 	}
