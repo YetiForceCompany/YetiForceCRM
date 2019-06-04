@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 <template>
-  <record-preview>
+  <record-preview :isDragResize="false">
     <template slot="header-right">
       <q-btn dense flat icon="mdi-close" @click="hideModal()">
         <q-tooltip>{{ translate('JS_CLOSE') }}</q-tooltip>

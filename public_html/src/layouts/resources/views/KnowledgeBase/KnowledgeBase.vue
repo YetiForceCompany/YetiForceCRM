@@ -176,7 +176,7 @@
         </q-page>
       </q-page-container>
     </q-layout>
-    <record-preview />
+    <record-preview :isDragResize="true" />
   </div>
 </template>
 <script>
