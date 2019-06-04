@@ -138,6 +138,8 @@ class WorkFlowScheduler
 			'before' => 'l',
 			'after' => 'g',
 			'between' => 'bw',
+			'smallerthannow' => 'smallerthannow',
+			'greaterthannow' => 'greaterthannow',
 			'less than days ago' => 'bw',
 			'more than days ago' => 'l',
 			'in less than' => 'bw',

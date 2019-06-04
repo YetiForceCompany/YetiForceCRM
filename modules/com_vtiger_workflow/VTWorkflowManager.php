@@ -93,7 +93,7 @@ class VTWorkflowManager
 	{
 		if (isset($workflow->id)) {
 			$wf = $workflow;
-			if (null === $wf->filtersavedinnew) {
+			if ($wf->filtersavedinnew === null) {
 				$wf->filtersavedinnew = 5;
 			}
 			App\Db::getInstance()->createCommand()->update('com_vtiger_workflows', [
@@ -113,7 +113,7 @@ class VTWorkflowManager
 		} else {
 			$db = App\Db::getInstance();
 			$wf = $workflow;
-			if (null === $wf->filtersavedinnew) {
+			if ($wf->filtersavedinnew === null) {
 				$wf->filtersavedinnew = 5;
 			}
 
@@ -256,7 +256,6 @@ class VTWorkflowManager
 	 * Returns null if the workflow doesn't exist.
 	 *
 	 * @param The id of the workflow
-	 * @param mixed $id
 	 *
 	 * @return A workflow object
 	 */
@@ -268,8 +267,9 @@ class VTWorkflowManager
 			$workflow->setup($data);
 
 			return $workflow;
+		} else {
+			return null;
 		}
-		return null;
 	}
 
 	/**

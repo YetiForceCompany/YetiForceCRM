@@ -91,7 +91,7 @@ class Vtiger_AdvancedFilter_Helper
 			'currency' => ['equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed', 'is not empty'],
 			'picklist' => ['is', 'is not', 'has changed', 'has changed to', 'is empty', 'is not empty', 'is record open', 'is record closed'],
 			'multipicklist' => ['is', 'is not', 'has changed', 'has changed to'],
-			'datetime' => ['is', 'is not', 'has changed', 'less than hours before', 'less than hours later', 'more than hours before', 'more than hours later', 'is not empty'],
+			'datetime' => ['is', 'is not', 'has changed', 'less than hours before', 'less than hours later', 'more than hours before', 'more than hours later', 'is not empty', 'smallerthannow', 'greaterthannow'],
 			'time' => ['is', 'is not', 'has changed', 'is not empty'],
 			'date' => ['is', 'is not', 'has changed', 'between', 'before', 'after', 'is today', 'less than days ago', 'more than days ago', 'in less than', 'in more than',
 				'days ago', 'days later', 'is not empty', ],
