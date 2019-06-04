@@ -12,9 +12,10 @@
       navigation
       padding
       arrows
-      :height="height"
-      class="quasar-reset shadow-1 rounded-borders"
+      :class="['quasar-reset shadow-1 rounded-borders', !fullscreen ? 'carousel-height' : '']"
       :fullscreen.sync="fullscreen"
+      ref="carousel"
+      @transition="onTransition"
     >
       <q-carousel-slide
         v-for="(slide, index) in record.content"
@@ -23,7 +24,7 @@
         class="column no-wrap flex-center"
         :fullscreen.sync="fullscreen"
       >
-        <div v-html="slide"></div>
+        <div class="full-height" v-html="slide"></div>
       </q-carousel-slide>
       <template v-slot:control>
         <q-carousel-control position="bottom-right" :offset="[18, 18]">
@@ -43,8 +44,6 @@
 </template>
 
 <script>
-import { dom } from 'quasar/src/utils.js'
-const { offset, ready, height } = dom
 export default {
   name: 'Carousel',
   data() {
@@ -69,9 +68,21 @@ export default {
         this.$q.fullscreen.exit()
       }
     }
+  },
+  methods: {
+    onTransition(size) {
+      const scrollbarWidth = 17
+      $(this.$refs.carousel.$el)
+        .find('img')
+        .css('max-width', $(this.$refs.carousel.$el).width() - scrollbarWidth)
+    }
   }
 }
 </script>
 
 <style scoped>
+.carousel-height {
+  height: max-content;
+  min-height: calc(100vh - 31.14px);
+}
 </style>

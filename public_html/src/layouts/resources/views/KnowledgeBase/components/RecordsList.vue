@@ -60,6 +60,10 @@
       </template>
       <template v-slot:bottom="props"> </template>
     </q-table>
+    <div :class="['flex items-center q-px-lg q-py-sm', hasData ? 'hidden' : '']">
+      <q-icon name="mdi-alert-outline" class="q-mr-sm"></q-icon>
+      {{ translate('JS_NO_RESULTS_FOUND') }}
+    </div>
   </div>
 </template>
 <script>
@@ -100,7 +104,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['tree', 'iconSize', 'moduleName'])
+    ...mapGetters(['tree', 'iconSize', 'moduleName']),
+    hasData() {
+      return this.data.length
+    }
   },
   methods: {
     ...mapActions(['fetchRecord'])
@@ -109,6 +116,6 @@ export default {
 </script>
 <style>
 .KnowledgeBase__RecordsList .q-table__bottom {
-  display: none;
+  display: none !important;
 }
 </style>
