@@ -157,17 +157,22 @@ class Purifier extends \Tests\Base
 
 	/**
 	 * @param string       $type
-	 * @param string|false $textOk
-	 * @param string|false $textBad
+	 * @param false|string $textOk
+	 * @param false|string $textBad
+	 * @param mixed        $assertion
+	 * @param mixed        $expected
+	 * @param mixed        $text
+	 * @param mixed        $message
+	 * @param mixed        $exception
 	 * @dataProvider dataProviderByType
 	 */
-	public function testPurifyByType($type, $assertion, $expected = 'NOT_SET', $text, $message, $exception)
+	public function testPurifyByType($type, $assertion, $expected, $text, $message, $exception)
 	{
 		$assertion = 'assert' . $assertion;
 		if ($exception) {
 			$this->expectException($exception);
 		}
-		$this->$assertion($expected, \App\Purifier::purifyByType($text, $type), $message);
+		$this->{$assertion}($expected, \App\Purifier::purifyByType($text, $type), $message);
 	}
 
 	/**
@@ -193,6 +198,10 @@ class Purifier extends \Tests\Base
 	 * Testing html purifier.
 	 *
 	 * @dataProvider purifyHtmlProvider
+	 *
+	 * @param mixed $text
+	 * @param mixed $expected
+	 * @param mixed $notThrowException
 	 */
 	public function testPurifyHtml($text, $expected, $notThrowException)
 	{
