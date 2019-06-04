@@ -67,8 +67,6 @@ class Vtiger_Record_Model extends \App\Base
 		if (!$this->isNew && !in_array($key, ['mode', 'id', 'newRecord', 'modifiedtime', 'modifiedby', 'createdtime']) && (isset($this->value[$key]) && $this->value[$key] != $value)) {
 			$this->changes[$key] = $this->get($key);
 		}
-		//var_dump('=====',$key, $value, !$this->isNew && !in_array($key, ['mode', 'id', 'newRecord', 'modifiedtime', 'modifiedby', 'createdtime']) && (isset($this->value[$key]) && $this->value[$key] != $value));
-		//var_dump(!$this->isNew , !in_array($key, ['mode', 'id', 'newRecord', 'modifiedtime', 'modifiedby', 'createdtime']) , isset($this->value[$key]) , $this->value[$key] != $value,'+++++');
 		$this->value[$key] = $value;
 
 		return $this;
@@ -500,7 +498,6 @@ class Vtiger_Record_Model extends \App\Base
 		$entityInstance = $this->getModule()->getEntityInstance();
 		$db = \App\Db::getInstance();
 		foreach ($this->getValuesForSave() as $tableName => $tableData) {
-			//var_dump($tableName,$tableData);
 			if ($this->isNew()) {
 				if ('vtiger_crmentity' === $tableName) {
 					$db->createCommand()->insert($tableName, $tableData)->execute();
@@ -557,8 +554,6 @@ class Vtiger_Record_Model extends \App\Base
 				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $uitypeModel->convertToSave($value, $this);
 			}
 		}
-		// var_dump('---',$this->changes);
-		// var_dump('+++',$forSave);
 		return $forSave;
 	}
 
