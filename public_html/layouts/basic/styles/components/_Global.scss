@@ -558,3 +558,21 @@ input[type='checkbox'][readonly],
 input[type='checkbox'][disabled] {
 	background-color: material-color('grey', '200');
 }
+
+/* -------- TIME PERIOD FIELD -------- */
+.js-time-period-input::-webkit-outer-spin-button,
+.js-time-period-input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+.js-time-period-input[type='number'] {
+	-moz-appearance: textfield;
+}
+.js-time-period .select2-selection,
+.js-time-period .select2 {
+	border-top-left-radius: 0 !important;
+	border-bottom-left-radius: 0 !important;
+}
+.js-time-period-input {
+	text-align: center;
+}

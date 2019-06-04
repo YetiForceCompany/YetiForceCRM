@@ -1836,11 +1836,14 @@ window.App.Fields = {
 		 */
 		injectContent() {
 			let content = `<div class="input-group js-time-period" data-js="container">
-				<input type="number" class="form-control js-time-period-input" min="0" value="${
-					this.time
-				}" data-validation-engine="validate[required,funcCall[Vtiger_Integer_Validator_Js.invokeValidation]]">
+				<div class="input-group-prepend">
+					<a href class="btn btn-default js-time-period-input-modifier js-time-period-input-modifier--minus-1"><span class="fas fa-minus"></span></a>
+				</div>
+				<input type="number" class="form-control js-time-period-input" min="0" value="${this.time}"
+					data-validation-engine="validate[required,funcCall[Vtiger_Integer_Validator_Js.invokeValidation]]">
 				<div class="input-group-append">
-					<select class="select2 time-period-${this.container.attr('name')}">
+					<a href class="btn btn-default js-time-period-input-modifier js-time-period-input-modifier--plus-1"><span class="fas fa-plus"></span></a>
+					<select class="select2 time-period-select time-period-${this.container.attr('name')}">
 						<option value="m"${this.period === 'm' ? 'selected="selected"' : ''}>${app.vtranslate('JS_MONTHS_FULL')}</option>
 						<option value="d"${this.period === 'd' ? 'selected="selected"' : ''}>${app.vtranslate('JS_DAYS_FULL')}</option>
 						<option value="H"${this.period === 'H' ? 'selected="selected"' : ''}>${app.vtranslate('JS_HOURS_FULL')}</option>
@@ -1852,7 +1855,9 @@ window.App.Fields = {
 			this.element = this.container.parent().append(content);
 			this.input = this.element.find('.js-time-period-input').eq(0);
 			this.select = this.element.find('.select2').eq(0);
-			App.Fields.Picklist.showSelect2ElementView(this.select, {});
+			this.plus1btn = this.element.find('.js-time-period-input-modifier--plus-1').eq(0);
+			this.minus1btn = this.element.find('.js-time-period-input-modifier--minus-1').eq(0);
+			App.Fields.Picklist.showSelect2ElementView(this.select, { width: '100px' });
 			this.registerEvents();
 			return this.element;
 		}
@@ -1863,6 +1868,8 @@ window.App.Fields = {
 		registerEvents() {
 			this.input.on('input', this.onChange.bind(this));
 			this.select.on('change', this.onChange.bind(this));
+			this.plus1btn.on('click', this.onPlus1Click.bind(this));
+			this.minus1btn.on('click', this.onMinus1Click.bind(this));
 		}
 
 		/**
@@ -1875,6 +1882,32 @@ window.App.Fields = {
 			this.period = this.select.val();
 			this.value = this.input.val().padStart(2, '0') + ':' + this.select.val();
 			this.container.val(this.value);
+		}
+
+		/**
+		 * Plus 1 button click event handler
+		 *
+		 * @param {Event} event
+		 */
+		onPlus1Click(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			this.input.val(Number(this.input.val()) + 1);
+			this.onChange();
+		}
+
+		/**
+		 * Minus 1 button click event handler
+		 *
+		 * @param {Event} event
+		 */
+		onMinus1Click(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			if (Number(this.input.val()) > 0) {
+				this.input.val(Number(this.input.val()) - 1);
+				this.onChange();
+			}
 		}
 	}
 };
