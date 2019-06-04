@@ -295,7 +295,7 @@ $.Class(
 							}
 						});
 						targetInstance.quickCreateSave(form).done(function(data) {
-							app.hideModalWindow();
+							app.hideModalWindow(false, form.closest('.modalContainer')[0].id);
 							var parentModule = app.getModuleName();
 							var viewname = app.getViewName();
 							if (module == parentModule && viewname == 'List') {
