@@ -226,7 +226,7 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 		} elseif ('working_hours_from' === $key || 'working_hours_to' === $key) {
 			$value = \App\Fields\Time::formatToDisplay($value, false);
 		} elseif ('default' === $key) {
-			$value = '<input type="checkbox" class="checkbox" readonly onclick="return false" ' . ($value ? 'checked="checked"' : '') . '>';
+			$value = $value ? \App\Language::translate('LBL_YES') : \App\Language::translate('LBL_NO');
 		} elseif ($key === 'reaction_time' || $key === 'idle_time' || $key === 'resolve_time') {
 			$time = explode(':', $value);
 			$value = $time[0] . ' ' . \App\Language::translate(static::$unitLabels[$time[1]]);
