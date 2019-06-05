@@ -1,4 +1,10 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/**
+ * build vue files in dev mode
+ *
+ * @description
+ * @license YetiForce Public License 3.0
+ * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
+ */
 
 const rollup = require('rollup'),
 	finder = require('findit')('layouts'),
