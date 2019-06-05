@@ -77,14 +77,35 @@ class Currency
 	/**
 	 * Get currency id by name.
 	 *
-	 * @param type $currencyName
+	 * @param string $currencyName
 	 *
-	 * @return type
+	 * @return int
 	 */
-	public static function getCurrencyIdByName($currencyName)
+	public static function getCurrencyIdByName(string $currencyName)
 	{
 		$currencyId = 1;
 		$row = (new \App\Db\Query())->select(['id'])->from('vtiger_currency_info')->where(['currency_name' => $currencyName, 'deleted' => 0])->scalar();
+		if ($row) {
+			$currencyId = $row;
+		}
+		return $currencyId;
+	}
+
+	/**
+	 * Get currency by code.
+	 *
+	 * @param string $currencyCode
+	 *
+	 * @return int|null
+	 */
+	public static function getCurrencyIdByCode(string $currencyCode): ?int
+	{
+		$currencyId = null;
+		$row = (new \App\Db\Query())
+			->select(['id'])
+			->from('vtiger_currency_info')
+			->where(['currency_code' => \strtoupper($currencyCode), 'deleted' => 0])
+			->scalar();
 		if ($row) {
 			$currencyId = $row;
 		}

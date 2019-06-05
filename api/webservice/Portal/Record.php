@@ -22,7 +22,7 @@ class Record
 	 * @param int $accountId
 	 * @param int $productId
 	 *
-	 * @return null|float
+	 * @return float|null
 	 */
 	public static function getPriceFromPricebook(int $accountId, int $productId): ?float
 	{
