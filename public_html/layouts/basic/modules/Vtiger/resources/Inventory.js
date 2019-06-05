@@ -1493,23 +1493,23 @@ $.Class(
 		 */
 		registerClearReferenceSelection() {
 			this.form.on('click', '.clearReferenceSelection', e => {
-				const row = this.getClosestRow($(e.currentTarget));
-				this.removeSubProducts(row);
-				row
-					.find('.unitPrice,.tax,.discount,.margin,.purchase,.js-tax-percent')
-					.val(App.Fields.Double.formatToDisplay(0));
-				row.find('.qty').val(1);
-				row.find('textarea,.valueVal').val('');
-				row.find('.valueText').text('');
-				row.find('.qtyParamInfo').addClass('d-none');
-				row
-					.find('.recordLabel')
-					.val('')
-					.removeAttr('readonly');
-				if (!this.isGroupTaxMode()) {
-					this.setTaxParam(row, []);
+				const referenceGroup = $(e.currentTarget).closest('div.referenceGroup');
+				if(referenceGroup.length) {
+					referenceGroup.find('input[id$="_display"]').val('').removeAttr('readonly');
+				} else {
+					const row = this.getClosestRow($(e.currentTarget));
+					this.removeSubProducts(row);
+					row.find('.unitPrice,.tax,.discount,.margin,.purchase,.js-tax-percent').val(App.Fields.Double.formatToDisplay(0));
+					row.find('.qty').val(1);
+					row.find('textarea,.valueVal').val('');
+					row.find('.valueText').text('');
+					row.find('.qtyParamInfo').addClass('d-none');
+					row.find('.recordLabel').val('').removeAttr('readonly');
+					if (!this.isGroupTaxMode()) {
+						this.setTaxParam(row, []);
+					}
+					this.quantityChangeActions(row);
 				}
-				this.quantityChangeActions(row);
 			});
 		},
 		registerDeleteLineItemEvent: function(container) {
