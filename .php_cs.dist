@@ -101,6 +101,9 @@ $config = PhpCsFixer\Config::create()
             'php_unit_construct' => [],
 						'php_unit_fqcn_annotation' => true,
             'php_unit_strict' => true,
+						'phpdoc_add_missing_param_annotation' => [
+							'only_untyped' => false,
+						],
             'phpdoc_align' => true,
             'phpdoc_annotation_without_dot' => false,
             'phpdoc_indent' => true,
