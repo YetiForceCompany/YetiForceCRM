@@ -1,21 +1,32 @@
+<!--
+/**
+ * DragResize component
+ *
+ * @description use of vue-drag-resize
+ * @license YetiForce Public License 3.0
+ * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
+ */
+-->
 <template>
-  <vue-drag-resize
-    @activated="onActivated"
-    :isResizable="true"
-    :isDraggable="!maximized"
-    v-on:resizing="resize"
-    v-on:dragging="resize"
-    dragHandle=".js-drag"
-    :sticks="['br']"
-    :x="left"
-    :y="top"
-    :w="width"
-    :h="height"
-    :class="[maximized ? 'fit position-sticky' : 'modal-mini', 'overflow-hidden']"
-    ref="resize"
-  >
-    <slot :height="height"></slot>
-  </vue-drag-resize>
+  <div>
+    <vue-drag-resize
+      @activated="onActivated"
+      :isResizable="true"
+      :isDraggable="!maximized"
+      v-on:resizing="resize"
+      v-on:dragging="resize"
+      dragHandle=".js-drag"
+      :sticks="['br']"
+      :x="coordinates.left"
+      :y="coordinates.top"
+      :w="coordinates.width"
+      :h="coordinates.height"
+      :class="[maximized ? 'fit position-sticky' : 'modal-mini', 'overflow-hidden']"
+      ref="resize"
+    >
+      <slot :height="coordinates.height"></slot>
+    </vue-drag-resize>
+  </div>
 </template>
 
 <script>
@@ -25,23 +36,25 @@ const { mapGetters } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'DragResize',
   components: { VueDragResize },
-  data() {
-    return {
-      width: this.$q.screen.width - 100,
-      height: this.$q.screen.height - 100,
-      top: 0,
-      left: this.$q.screen.width - (this.$q.screen.width - 100 / 2)
-    }
-  },
   computed: {
-    ...mapGetters(['maximized'])
+    ...mapGetters(['maximized']),
+    coordinates: {
+      set(val) {
+        this.$store.commit('KnowledgeBase/setCoordinates', val)
+      },
+      get() {
+        return this.$store.getters['KnowledgeBase/coordinates']
+      }
+    }
   },
   methods: {
     resize(newRect) {
-      this.width = newRect.width
-      this.height = newRect.height
-      this.top = newRect.top
-      this.left = newRect.left
+      this.coordinates = {
+        width: newRect.width,
+        height: newRect.height,
+        top: newRect.top,
+        left: newRect.left
+      }
     },
     onActivated() {
       $(this.$refs.resize.$el)
