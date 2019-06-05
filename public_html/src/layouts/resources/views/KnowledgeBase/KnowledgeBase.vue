@@ -2,7 +2,7 @@
 /**
  * KnowledgeBase component
  *
- * @description knowledge base view root component
+ * @description Knowledge base view root component
  * @license YetiForce Public License 3.0
  * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
@@ -11,8 +11,8 @@
   <div class="KnowledgeBase h-100">
     <q-layout view="hHh Lpr fFf" container class="absolute">
       <q-header elevated class="bg-white text-primary">
-        <q-toolbar>
-          <div v-show="!searchData" class="flex items-center no-wrap">
+        <q-toolbar class="q-py-xs flex-wrap flex-md-nowrap">
+          <div v-show="!searchData" class="flex items-center no-wrap q-mr-auto">
             <q-btn
               dense
               round
@@ -56,9 +56,9 @@
               </template>
             </q-breadcrumbs>
           </div>
-          <div class="mx-auto w-50 flex no-wrap">
+          <div class="mx-auto tree-search flex no-wrap order-sm-none order-xs-last q-pt-sm-none q-pt-xs-xs">
             <q-input
-              class="tree-search"
+              class="full-width"
               v-model="filter"
               :placeholder="translate('JS_SEARCH_PLACEHOLDER')"
               rounded
@@ -81,11 +81,13 @@
               <q-tooltip> {{ translate('JS_SEARCH_CURRENT_CATEGORY') }} </q-tooltip>
             </div>
           </div>
-          <q-btn round dense color="white" text-color="primary" icon="mdi-plus" @click="openQuickCreateModal()">
-            <q-tooltip>
-              {{ translate('JS_QUICK_CREATE') }}
-            </q-tooltip>
-          </q-btn>
+          <div class="q-ml-auto">
+            <q-btn round dense color="white" text-color="primary" icon="mdi-plus" @click="openQuickCreateModal()">
+              <q-tooltip>
+                {{ translate('JS_QUICK_CREATE') }}
+              </q-tooltip>
+            </q-btn>
+          </div>
         </q-toolbar>
       </q-header>
       <q-drawer
@@ -279,7 +281,8 @@ export default {
 </script>
 <style>
 .tree-search {
-  width: 100%;
+  min-width: 320px;
+  width: 50%;
 }
 .tree-search .q-field__control,
 .tree-search .q-field__marginal {
