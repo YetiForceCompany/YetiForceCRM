@@ -7135,7 +7135,6 @@ CREATE TABLE `vtiger_paymentsin` (
   `paymentsin_status` varchar(128) DEFAULT NULL,
   `relatedid` int(10) DEFAULT NULL,
   `transaction_id` varchar(255) DEFAULT NULL,
-  `type_of_payment` varchar(50) DEFAULT NULL,
   `finvoiceid` int(10) DEFAULT NULL,
   `ssingleordersid` int(10) DEFAULT NULL,
   `payment_system` varchar(64) DEFAULT NULL,
