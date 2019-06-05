@@ -43,24 +43,24 @@ class Settings_Mail_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get the url for attachment file.
+	 * Function to gets the file info for attachment file.
 	 *
 	 * @param int $id
 	 * @param int $selectedFile
 	 *
 	 * @return string URL
 	 */
-	public static function getAttachmentPath($id, $selectedFile)
+	public static function getAttachmentInfo($id, $selectedFile)
 	{
 		$path = '';
 		$attachments = (new \App\Db\Query())->select(['attachments'])->from('s_#__mail_queue')->where(['id' => $id])->scalar(\App\Db::getInstance('admin'));
 		$counter = 0;
 		foreach (\App\Json::decode($attachments) as $path => $name) {
 			if ($counter === $selectedFile) {
-				return $path;
+				return ['path' => $path, 'name' => $name];
 			}
 			++$counter;
 		}
-		return $path;
+		return ['path' => $path, 'name' => $name];
 	}
 }

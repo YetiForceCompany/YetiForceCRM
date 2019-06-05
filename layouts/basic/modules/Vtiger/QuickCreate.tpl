@@ -14,7 +14,7 @@
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-	<div class="tpl-QuickCreate modelContainer modal quickCreateContainer" tabindex="-1" role="dialog">
+	<div class="tpl-QuickCreate modal quickCreateContainer" tabindex="-1" role="dialog">
 		<div class="modal-dialog modal-lg modal-full" role="document">
 			<div class="modal-content">
 				<form class="form-horizontal recordEditView" name="QuickCreate" method="post" action="index.php">

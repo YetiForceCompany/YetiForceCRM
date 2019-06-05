@@ -47,8 +47,7 @@
 							<div class="welcome-div">
 								<div class="float-right">
 									<a class="helpBtn" target="_blank" rel="noreferrer noopener"
-									   href="https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation"
-									   aria-label="{\App\Language::translate('LBL_IMPLEMENTER_DOCUMENTATION','Install')}">
+									   href="https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation">
 										<span class="fas fa-info-circle"></span>
 									</a>
 								</div>

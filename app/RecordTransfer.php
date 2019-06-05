@@ -27,18 +27,17 @@ class RecordTransfer
 	{
 		if (!Record::isExists($recordId) || (($record = \Vtiger_Record_Model::getInstanceById($recordId)) && !$record->isViewable())) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		} else {
-			$transaction = Db::getInstance()->beginTransaction();
-			try {
-				static::recordData($record, $migrate);
-				$record->ext['modificationType'] = \ModTracker_Record_Model::TRANSFER_EDIT;
-				$record->save();
-				static::relations($recordId, array_keys($migrate));
-				$transaction->commit();
-			} catch (\Throwable $ex) {
-				$transaction->rollBack();
-				throw $ex;
-			}
+		}
+		$transaction = Db::getInstance()->beginTransaction();
+		try {
+			static::recordData($record, $migrate);
+			$record->ext['modificationType'] = \ModTracker_Record_Model::TRANSFER_EDIT;
+			$record->save();
+			static::relations($recordId, array_keys($migrate));
+			$transaction->commit();
+		} catch (\Throwable $ex) {
+			$transaction->rollBack();
+			throw $ex;
 		}
 	}
 

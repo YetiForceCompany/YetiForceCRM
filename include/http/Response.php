@@ -58,6 +58,8 @@ class Vtiger_Response
 
 	/**
 	 * Set headers to send.
+	 *
+	 * @param mixed $header
 	 */
 	public function setHeader($header)
 	{
@@ -66,18 +68,25 @@ class Vtiger_Response
 
 	/**
 	 * Set error data to send.
+	 *
+	 * @param mixed      $code
+	 * @param null|mixed $message
+	 * @param mixed      $trace
 	 */
 	public function setError($code, $message = null, $trace = false)
 	{
-		if ($message === null) {
+		if (null === $message) {
 			$message = $code;
 		}
 		$error = ['code' => $code, 'message' => $message, 'trace' => $trace];
 		$this->error = $error;
+		http_response_code($code);
 	}
 
 	/**
 	 * Set emit type.
+	 *
+	 * @param mixed $type
 	 */
 	public function setEmitType($type)
 	{
@@ -86,6 +95,8 @@ class Vtiger_Response
 
 	/**
 	 * Set padding method name for JSONP emit type.
+	 *
+	 * @param mixed $fn
 	 */
 	public function setEmitJSONP($fn)
 	{
@@ -114,11 +125,13 @@ class Vtiger_Response
 	 */
 	public function hasError()
 	{
-		return !is_null($this->error);
+		return null !== $this->error;
 	}
 
 	/**
 	 * Set the result data.
+	 *
+	 * @param mixed $result
 	 */
 	public function setResult($result)
 	{
@@ -127,6 +140,9 @@ class Vtiger_Response
 
 	/**
 	 * Update the result data.
+	 *
+	 * @param mixed $key
+	 * @param mixed $value
 	 */
 	public function updateResult($key, $value)
 	{
@@ -147,7 +163,7 @@ class Vtiger_Response
 	protected function prepareResponse()
 	{
 		$response = [];
-		if ($this->error !== null) {
+		if (null !== $this->error) {
 			$response['success'] = false;
 			$response['error'] = $this->error;
 		} else {
@@ -164,7 +180,7 @@ class Vtiger_Response
 	{
 		$contentTypeSent = false;
 		foreach ($this->headers as $header) {
-			if (!$contentTypeSent && stripos($header, 'content-type') === 0) {
+			if (!$contentTypeSent && 0 === stripos($header, 'content-type')) {
 				$contentTypeSent = true;
 			}
 			header($header);
@@ -214,7 +230,7 @@ class Vtiger_Response
 	 */
 	protected function emitText()
 	{
-		if ($this->result === null) {
+		if (null === $this->result) {
 			if (is_string($this->error)) {
 				echo $this->error;
 			} else {
@@ -234,7 +250,7 @@ class Vtiger_Response
 	 */
 	protected function emitRaw()
 	{
-		if ($this->result === null) {
+		if (null === $this->result) {
 			echo (is_string($this->error)) ? $this->error : var_export($this->error, true);
 		}
 		echo $this->result;

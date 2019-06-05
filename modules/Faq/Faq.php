@@ -28,60 +28,71 @@ class Faq extends CRMEntity
 	public $table_index = 'id';
 	//fix for Custom Field for FAQ
 	public $tab_name = ['vtiger_crmentity', 'vtiger_faq', 'vtiger_faqcf'];
-	public $tab_name_index = ['vtiger_crmentity' => 'crmid', 'vtiger_faq' => 'id', 'vtiger_faqcomments' => 'faqid', 'vtiger_faqcf' => 'faqid'];
+	public $tab_name_index = ['vtiger_crmentity' => 'crmid', 'vtiger_faq' => 'id',  'vtiger_faqcf' => 'faqid'];
 	public $customFieldTable = ['vtiger_faqcf', 'faqid'];
 	public $entity_table = 'vtiger_crmentity';
 	public $column_fields = [];
-	// This is the list of vtiger_fields that are in the lists.
+	/**
+	 * Mandatory for Listing (Related listview).
+	 */
 	public $list_fields = [
-		'FAQ Id' => ['faq' => 'id'],
-		'Question' => ['faq' => 'question'],
-		'Category' => ['faq' => 'category'],
-		'Product Name' => ['faq' => 'product_id'],
-		'Created Time' => ['crmentity' => 'createdtime'],
-		'Modified Time' => ['crmentity' => 'modifiedtime'],
+		// Format: Field Label => Array(tablename, columnname)
+		// tablename should not have prefix 'vtiger_'
+		'FL_SUBJECT' => ['faq', 'subject'],
+		'FL_CATEGORY' => ['faq', 'category'],
+		'Assigned To' => ['crmentity', 'smownerid'],
+		'FL_INTRODUCTION' => ['faq', 'introduction'],
+		'FL_STATUS' => ['faq', 'faqstatus'],
 	];
 	public $list_fields_name = [
-		'FAQ Id' => '',
-		'Question' => 'question',
-		'Category' => 'faqcategories',
-		'Product Name' => 'product_id',
-		'Created Time' => 'createdtime',
-		'Modified Time' => 'modifiedtime',
+		// Format: Field Label => fieldname
+		'FL_SUBJECT' => 'subject',
+		'FL_CATEGORY' => 'category',
+		'Assigned To' => 'assigned_user_id',
+		'FL_INTRODUCTION' => 'introduction',
+		'FL_STATUS' => 'faqstatus',
 	];
-
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['question', 'faqcategories', 'product_id', 'createdtime', 'modifiedtime'];
-	public $list_link_field = 'question';
+	public $relationFields = ['subject', 'category', 'introduction', 'faqstatus', 'assigned_user_id'];
+	public $list_link_field = 'subject';
 	public $search_fields = [
-		'Account Name' => ['account' => 'accountname'],
-		'City' => ['accountaddress' => 'addresslevel5a'],
+		// Format: Field Label => Array(tablename, columnname)
+		// tablename should not have prefix 'vtiger_'
+		'FL_SUBJECT' => ['faq', 'subject'],
+		'FL_CATEGORY' => ['faq', 'category'],
+		'Assigned To' => ['crmentity', 'smownerid'],
+		'FL_INTRODUCTION' => ['faq', 'introduction'],
+		'FL_STATUS' => ['faq', 'status'],
 	];
 	public $search_fields_name = [
-		'Account Name' => 'accountname',
-		'City' => 'addresslevel5a',
+		// Format: Field Label => fieldname
+		'FL_SUBJECT' => 'subject',
+		'FL_CATEGORY' => 'category',
+		'Assigned To' => 'assigned_user_id',
+		'FL_INTRODUCTION' => 'introduction',
+		'FL_STATUS' => 'faqstatus',
 	];
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
 	public $default_sort_order = 'DESC';
-	public $mandatory_fields = ['question', 'faq_answer', 'createdtime', 'modifiedtime'];
+	public $mandatory_fields = ['subject'];
 	// For Alphabetical search
-	public $def_basicsearch_col = 'question';
+	public $def_basicsearch_col = 'subject';
 
-	/*
-	 * Function to get the relation tables for related modules
+	/**
+	 * Function to get the relation tables for related modules.
+	 *
 	 * @param - $secmodule secondary module name
-	 * returns the array with table names and fieldnames storing relations between module and this module
+	 *                     returns the array with table names and fieldnames storing relations between module and this module
 	 */
-
 	public function setRelationTables($secmodule = false)
 	{
 		$relTables = [
 			'Documents' => ['vtiger_senotesrel' => ['crmid', 'notesid'], 'vtiger_faq' => 'id'],
 		];
-		if ($secmodule === false) {
+		if (false === $secmodule) {
 			return $relTables;
 		}
 		return $relTables[$secmodule];

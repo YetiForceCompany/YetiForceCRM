@@ -162,8 +162,8 @@ class Calendar_Calendar_Model extends App\Base
 		$return = [];
 		$currentUser = \App\User::getCurrentUserModel();
 		$moduleModel = Vtiger_Module_Model::getInstance($this->getModuleName());
-		$extended = AppConfig::module('Calendar', 'CALENDAR_VIEW') === 'Extended';
-		$editForm = \AppConfig::module('Calendar', 'SHOW_EDIT_FORM');
+		$extended = App\Config::module('Calendar', 'CALENDAR_VIEW') === 'Extended';
+		$editForm = \App\Config::module('Calendar', 'SHOW_EDIT_FORM');
 		$dataReader = $this->getQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$item = [];
@@ -212,8 +212,8 @@ class Calendar_Calendar_Model extends App\Base
 			$item['start_display'] = $startDateTimeDisplay;
 			$item['end_display'] = $endDateTimeDisplay;
 			$item['hour_start'] = $startTimeDisplay;
-			$hours = \App\Fields\Date::getDiff($item['start'], $item['end'], 'hours');
-			$item['hours'] = \App\Fields\Time::formatToHourText($hours, 'short');
+			$hours = \App\Fields\DateTime::getDiff($item['start'], $item['end'], 'hours');
+			$item['hours'] = \App\Fields\RangeTime::formatHourToDisplay($hours, 'short');
 			$item['className'] = 'js-popover-tooltip--record ownerCBg_' . $row['assigned_user_id'] . ' picklistCBr_Calendar_activitytype_' . $row['activitytype'];
 			$return[] = $item;
 		}

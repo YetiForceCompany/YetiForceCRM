@@ -51,8 +51,8 @@ class Register
 		1 => 'LBL_WAITING_FOR_ACCEPTANCE',
 		2 => 'LBL_INCORRECT_DATA',
 		3 => 'LBL_INCOMPLETE_DATA',
-		4 => 'LBL_OFFLINE_SIGNED',
 		5 => 'LBL_OFFLINE_SERIAL_NOT_FOUND',
+		6 => 'LBL_OFFLINE_SIGNED',
 		7 => 'LBL_OFFLINE_SIGNED',
 		8 => 'LBL_SPECIAL_REGISTRATION',
 		9 => 'LBL_ACCEPTED',
@@ -73,9 +73,9 @@ class Register
 	 *
 	 * @return string
 	 */
-	private static function getInstanceKey(): string
+	public static function getInstanceKey(): string
 	{
-		return sha1(\App\Config::main('application_unique_key') . \App\Config::main('site_URL') . ($_SERVER['SERVER_ADDR'] ?? $_SERVER['COMPUTERNAME'] ?? null));
+		return sha1(\App\Config::main('application_unique_key') . \App\Config::main('site_URL') . gethostname());
 	}
 
 	/**
@@ -109,7 +109,6 @@ class Register
 			return false;
 		}
 		$result = false;
-
 		try {
 			$response = (new \GuzzleHttp\Client())
 				->post(static::$registrationUrl . 'add',
@@ -141,6 +140,8 @@ class Register
 	/**
 	 * Checking registration status.
 	 *
+	 * @param bool $force
+	 *
 	 * @return bool
 	 */
 	public static function check($force = false)
@@ -161,16 +162,13 @@ class Register
 			'serialKey' => $conf['serialKey'] ?? '',
 			'status' => $conf['status'] ?? 0,
 		];
-
 		try {
 			$data = ['last_check_time' => date('Y-m-d H:i:s')];
-			$response = (new \GuzzleHttp\Client())
-				->post(static::$registrationUrl . 'check', \App\RequestHttp::getOptions() + ['form_params' => $params]);
+			$response = (new \GuzzleHttp\Client())->post(static::$registrationUrl . 'check', \App\RequestHttp::getOptions() + ['form_params' => $params]);
 			$body = $response->getBody();
 			if (!\App\Json::isEmpty($body)) {
 				$body = \App\Json::decode($body);
-				if ('OK' === $body['text']) {
-					static::updateCompanies($body['companies']);
+				if ('OK' === $body['text'] && static::updateCompanies($body['companies'])) {
 					$data = [
 						'status' => $body['status'],
 						'text' => $body['text'],
@@ -178,16 +176,16 @@ class Register
 						'last_check_time' => date('Y-m-d H:i:s')
 					];
 					$status = true;
+				} else {
+					$data['lastError'] = $body['text'];
 				}
 			} else {
-				\App\Log::warning('ERR_BODY_IS_EMPTY', __METHOD__);
-				static::updateMetaData(['lastError' => 'ERR_BODY_IS_EMPTY']);
+				throw new \App\Exceptions\AppException('ERR_BODY_IS_EMPTY');
 			}
-
 			static::updateMetaData($data);
 		} catch (\Throwable $e) {
 			\App\Log::warning($e->getMessage(), __METHOD__);
-			static::updateMetaData(['lastError' => $e->getMessage()]);
+			static::updateMetaData(['lastError' => $e->getMessage(), 'last_check_time' => date('Y-m-d H:i:s')]);
 		}
 		return $status ?? false;
 	}
@@ -205,7 +203,7 @@ class Register
 		if (!$conf) {
 			return false;
 		}
-		$status = $conf['status'] > 6;
+		$status = $conf['status'] > 5;
 		if (!empty($conf['serialKey']) && $status && static::verifySerial($conf['serialKey'])) {
 			return true;
 		}
@@ -231,7 +229,7 @@ class Register
 			'serialKey' => $data['serialKey'] ?? $conf['serialKey'] ?? '',
 			'lastError' => $data['lastError'] ?? '',
 		];
-		file_put_contents(static::REGISTRATION_FILE, "<?php //Modifying this file will breach the licence terms. \n return " . \var_export(static::$config, true) . ';');
+		\App\Utils::saveToFile(static::REGISTRATION_FILE, \var_export(static::$config, true), 'Modifying this file will breach the licence terms', 0, true);
 	}
 
 	/**
@@ -247,7 +245,8 @@ class Register
 			return false;
 		}
 		static::updateMetaData([
-			'status' => 4,
+			'register_time' => date('Y-m-d H:i:s'),
+			'status' => 6,
 			'text' => 'OK',
 			'insKey' => static::getInstanceKey(),
 			'serialKey' => $serial
@@ -322,14 +321,21 @@ class Register
 	 *
 	 * @param array $companies
 	 *
-	 * @throws \yii\db\Exception
+	 * @return bool
 	 */
-	private static function updateCompanies(array $companies)
+	private static function updateCompanies(array $companies): bool
 	{
+		$status = false;
+		$names = \array_column(\App\Company::getAll(), 'name', 'name');
 		foreach ($companies as $row) {
-			if (!empty($row['name'])) {
+			if (!empty($row['name']) && isset($names[$row['name']])) {
 				\App\Company::statusUpdate($row['status'], $row['name']);
+				$status = true;
 			}
 		}
+		if (!$status) {
+			throw new \App\Exceptions\AppException('ERR_COMPANY_DATA_IS_NOT_COMPATIBLE');
+		}
+		return $status;
 	}
 }

@@ -21,7 +21,7 @@ class B_LogIn extends \Tests\Base
 		$userRecordModel = \Users_Record_Model::getCleanInstance('Users')->set('user_name', $userName);
 		if ($userRecordModel->doLogin(A_User::$defaultPassrowd)) {
 			\App\Session::set('authenticated_user_id', \Tests\Base\A_User::createUsersRecord()->getId());
-			\App\Session::set('app_unique_key', \AppConfig::main('application_unique_key'));
+			\App\Session::set('app_unique_key', \App\Config::main('application_unique_key'));
 			\App\Session::set('user_name', $userName);
 			\App\Session::set('full_user_name', \App\Fields\Owner::getUserLabel(\Tests\Base\A_User::createUsersRecord()->getId()));
 			$this->assertInternalType('int', \Tests\Base\A_User::createUsersRecord()->getId());

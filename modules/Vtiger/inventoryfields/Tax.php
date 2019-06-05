@@ -29,6 +29,10 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	protected $customPurifyType = [
 		'taxparam' => \App\Purifier::TEXT
 	];
+	/**
+	 * @var array List of shared fields
+	 */
+	public $shared = ['taxparam' => 'tax_percent'];
 
 	/**
 	 * {@inheritdoc}
@@ -40,7 +44,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 
 	public function getClassName($data)
 	{
-		if (count($data) > 0 && $data[0]['taxmode'] == 0) {
+		if (count($data) > 0 && 0 == $data[0]['taxmode']) {
 			return 'hide';
 		}
 		return '';
@@ -55,7 +59,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 			$valid = $value ? \App\Json::decode($value) : [];
 			if (isset($valid['individualTax'])) {
 				$valid['individualTax'] = App\Fields\Double::formatToDb($valid['individualTax']);
-				$valid['globalTax'] = App\Fields\Double::formatToDb($valid['globalTax']);
+				$valid['globalTax'] = App\Fields\Double::formatToDb($valid['globalTax'] ?? 0);
 				$value = \App\Json::encode($valid);
 			}
 		} else {
@@ -67,11 +71,23 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, string $columnName, bool $isUserFormat)
+	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
 		if ($columnName === $this->getColumnName()) {
+			if ($isUserFormat) {
+				$value = $this->getDBValue($value, $columnName);
+				if (null !== $originalValue) {
+					$originalValue = $this->getDBValue($originalValue, $columnName);
+				}
+			}
+			if (!is_numeric($value)) {
+				throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
+			}
 			if ($this->maximumLength < $value || -$this->maximumLength > $value) {
 				throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
+			}
+			if (null !== $originalValue && !\App\Validator::floatIsEqualUserCurrencyDecimals($value, $originalValue)) {
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $columnName ?? $this->getColumnName() . '||' . $this->getModuleName() . '||' . $value, 406);
 			}
 		} else {
 			if (App\TextParser::getTextLength($value) > $this->customMaximumLength[$columnName]) {
@@ -85,7 +101,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	 *
 	 * @param string     $taxParam String parameters json encode
 	 * @param float      $net
-	 * @param array|null $return
+	 * @param null|array $return
 	 *
 	 * @return array
 	 */
@@ -111,5 +127,50 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 			}
 		}
 		return $return;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getValueForSave(array $item, bool $userFormat = false, string $column = null)
+	{
+		if ($column === $this->getColumnName() || null === $column) {
+			$value = 0.0;
+			if (!\App\Json::isEmpty($item['taxparam'] ?? '') && ($taxesConfig = \Vtiger_Inventory_Model::getTaxesConfig()) && 1 === (int) $taxesConfig['active']) {
+				$taxParam = \App\Json::decode($item['taxparam']);
+				$netPrice = static::getInstance($this->getModuleName(), 'NetPrice')->getValueForSave($item, $userFormat);
+				$value = $this->getTaxValue($taxParam, $netPrice, (int) $taxesConfig['aggregation']);
+			}
+		} else {
+			$value = $userFormat ? $this->getDBValue($item[$column]) : $item[$column];
+		}
+		return $value;
+	}
+
+	/**
+	 * Calculate the tax value.
+	 *
+	 * @param array  $taxParam
+	 * @param float  $netPrice
+	 * @param string $mode     0-can not be combined, 1-summary, 2-cascade
+	 *
+	 * @return float
+	 */
+	private function getTaxValue(array $taxParam, float $netPrice, int $mode): float
+	{
+		$value = 0.0;
+		$types = $taxParam['aggregationType'];
+		if (!is_array($types)) {
+			$types = [$types];
+		}
+		foreach ($types as $type) {
+			$taxValue = $netPrice * $taxParam["{$type}Tax"] / 100.00;
+			$value += $taxValue;
+			if (2 === $mode) {
+				$netPrice += $taxValue;
+			}
+		}
+
+		return $value;
 	}
 }

@@ -365,7 +365,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	public function getCommentLinks()
 	{
 		$links = [];
-		$stateColors = AppConfig::search('LIST_ENTITY_STATE_COLOR');
+		$stateColors = App\Config::search('LIST_ENTITY_STATE_COLOR');
 		if ($this->privilegeToArchive()) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'LBL_ARCHIVE_RECORD',

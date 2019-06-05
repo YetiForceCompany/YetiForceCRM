@@ -17,7 +17,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
+	public function setValueFromRequest(App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
 		$fieldName = $this->getFieldModel()->getFieldName();
 		if (!$requestFieldName) {
@@ -47,7 +47,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		}
 		$fieldInfo = $this->getFieldModel()->getFieldInfo();
 		foreach ($value as $index => $item) {
-			if ((empty($item['name']) && empty($item['baseContent'])) && (empty($item['key']) || empty($item['name']) || empty($item['size']) || App\TextParser::getTextLength($item['key']) !== 50)) {
+			if ((empty($item['name']) && empty($item['baseContent'])) && (empty($item['key']) || empty($item['name']) || empty($item['size']) || 50 !== App\TextParser::getTextLength($item['key']))) {
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . \App\Json::encode($value), 406);
 			}
 			if ($index > (int) $fieldInfo['limit']) {
@@ -61,7 +61,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 				'path' => $path,
 				'name' => $item['name'],
 			]);
-			$validFormat = $file->validate('image');
+			$validFormat = $file->validateAndSecure('image');
 			$validExtension = false;
 			foreach ($fieldInfo['formats'] as $format) {
 				if ($file->getExtension(true) === strtolower($format)) {
@@ -102,6 +102,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	 *
 	 * @param {string} $value
 	 * @param bool|int $length
+	 * @param mixed    $record
 	 *
 	 * @return string
 	 */
@@ -118,7 +119,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		if (empty($len)) {
 			$len = $imagesCount;
 		}
-		for ($i = 0; $i < $len; $i++) {
+		for ($i = 0; $i < $len; ++$i) {
 			$value[$i]['imageSrc'] = $this->getImageUrl($value[$i]['key'], $record);
 			unset($value[$i]['path']);
 		}
@@ -138,7 +139,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 			return $v['name'];
 		}, $value);
 		$result = implode(', ', $value);
-		return trim($result, "\n\s\t, ");
+		return trim($result, "\n\t, ");
 	}
 
 	/**
@@ -152,7 +153,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		}
 		$images = $style = '';
 		if ($params) {
-			list($width, $height) = explode('|', $params, 2);
+			[$width, $height] = explode('|', $params, 2);
 			if ($width) {
 				$style .= "width:$width;";
 			}
@@ -192,18 +193,18 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 			if (!is_array($value)) {
 				return '';
 			}
-			for ($i = 0; $i < $len; $i++) {
+			for ($i = 0; $i < $len; ++$i) {
 				$val = $value[$i];
 				$result .= $val['name'] . ', ';
 			}
-			return \App\Purifier::encodeHtml(trim($result, "\n\s\t ,"));
+			return \App\Purifier::encodeHtml(trim($result, "\n\t ,"));
 		}
 		if (!is_array($value)) {
 			return '';
 		}
 		$result = '<div class="c-multi-image__result" style="width:100%">';
 		$width = 1 / count($value) * 100;
-		for ($i = 0; $i < $len; $i++) {
+		for ($i = 0; $i < $len; ++$i) {
 			if ($record) {
 				$src = $this->getImageUrl($value[$i]['key'], $record);
 				$result .= '<div class="d-inline-block mr-1 c-multi-image__preview-img" style="background-image:url(' . $src . ')" style="width:' . $width . '%"></div>';
@@ -211,7 +212,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 				$result .= \App\Purifier::encodeHtml($value[$i]['name']) . ', ';
 			}
 		}
-		return trim($result, "\n\s\t ") . '</div>';
+		return trim($result, "\n\t ") . '</div>';
 	}
 
 	/**
@@ -232,11 +233,11 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 				return '';
 			}
 			$len = count($value);
-			for ($i = 0; $i < $len; $i++) {
+			for ($i = 0; $i < $len; ++$i) {
 				$val = $value[$i];
 				$result .= $val['name'] . ', ';
 			}
-			return \App\Purifier::encodeHtml(trim($result, "\n\s\t ,"));
+			return \App\Purifier::encodeHtml(trim($result, "\n\t ,"));
 		}
 		if (!is_array($value)) {
 			return '';
@@ -330,16 +331,16 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	 *
 	 * @throws \App\Exceptions\FieldException
 	 */
-	public function duplicateValueFromRecord(&$value, \App\Request $request)
+	public function duplicateValueFromRecord(&$value, App\Request $request)
 	{
 		$fieldName = $this->getFieldModel()->getFieldName();
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('_duplicateRecord'), $request->getModule());
 		$copyValue = $recordModel->get($fieldName);
 		$keyColumn = array_column($value, 'key');
-		if ($copyValue && $copyValue !== '[]' && $copyValue !== '""') {
+		if ($copyValue && '[]' !== $copyValue && '""' !== $copyValue) {
 			foreach (\App\Json::decode($copyValue) as $item) {
 				$key = array_search($item['key'], $keyColumn);
-				if ($key === false) {
+				if (false === $key) {
 					continue;
 				}
 				$file = \App\Fields\File::loadFromPath($item['path']);
@@ -371,7 +372,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	{
 		$value = [];
 		$copyValue = $recordModel->get($this->getFieldModel()->getFieldName());
-		if ($copyValue && $copyValue !== '[]' && $copyValue !== '""') {
+		if ($copyValue && '[]' !== $copyValue && '""' !== $copyValue) {
 			foreach (\App\Json::decode($copyValue) as $item) {
 				$file = \App\Fields\File::loadFromPath($item['path']);
 				$dirPath = $file->getDirectoryPath();
@@ -395,7 +396,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
 	 */
-	public static function deleteRecord(\Vtiger_Record_Model $recordModel)
+	public static function deleteRecord(Vtiger_Record_Model $recordModel)
 	{
 		foreach ($recordModel->getModule()->getFieldsByType(['multiImage', 'image']) as $fieldModel) {
 			if (!$recordModel->isEmpty($fieldModel->getName()) && !\App\Json::isEmpty($recordModel->get($fieldModel->getName()))) {

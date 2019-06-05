@@ -111,8 +111,8 @@ class ServiceContracts extends CRMEntity
 	/**
 	 * Invoked when special actions are performed on the module.
 	 *
-	 * @param string Module name
-	 * @param string Event Type
+	 * @param string $moduleName
+	 * @param string $eventType
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
@@ -142,9 +142,7 @@ class ServiceContracts extends CRMEntity
 	}
 
 	/**
-	 * Handle saving related module information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
+	 * {@inheritDoc}
 	 */
 	public function saveRelatedModule($module, $crmid, $with_module, $with_crmids, $relatedName = false)
 	{
@@ -280,14 +278,14 @@ class ServiceContracts extends CRMEntity
 
 		// Calculate the Planned Duration based on Due date and Start date. (in days)
 		if (!empty($dueDate) && !empty($startDate)) {
-			$params['planned_duration'] = \App\Fields\Date::getDiff($startDate, $dueDate, 'days');
+			$params['planned_duration'] = \App\Fields\DateTime::getDiff($startDate, $dueDate, 'days');
 		} else {
 			$params['planned_duration'] = '';
 		}
 
 		// Calculate the Actual Duration based on End date and Start date. (in days)
 		if (!empty($endDate) && !empty($startDate)) {
-			$params['actual_duration'] = \App\Fields\Date::getDiff($startDate, $endDate, 'days');
+			$params['actual_duration'] = \App\Fields\DateTime::getDiff($startDate, $endDate, 'days');
 		} else {
 			$params['actual_duration'] = '';
 		}
@@ -325,37 +323,5 @@ class ServiceContracts extends CRMEntity
 			}
 			$dataReader->close();
 		}
-	}
-
-	/**
-	 * Move the related records of the specified list of id's to the given record.
-	 *
-	 * @param string This module name
-	 * @param array List of Entity Id's from which related records need to be transfered
-	 * @param int Id of the the Record to which the related records are to be moved
-	 */
-	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
-	{
-		$dbCommand = \App\Db::getInstance()->createCommand();
-		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
-		$relTableArr = ['Documents' => 'vtiger_senotesrel', 'Attachments' => 'vtiger_seattachmentsrel'];
-		$tblFieldArr = ['vtiger_senotesrel' => 'notesid', 'vtiger_seattachmentsrel' => 'attachmentsid'];
-		$entityTblFieldArr = ['vtiger_senotesrel' => 'crmid', 'vtiger_seattachmentsrel' => 'crmid'];
-		foreach ($transferEntityIds as $transferId) {
-			foreach ($relTableArr as $relTable) {
-				$idField = $tblFieldArr[$relTable];
-				$entityIdField = $entityTblFieldArr[$relTable];
-				// IN clause to avoid duplicate entries
-				$subQuery = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $entityId]);
-				$query = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $transferId])->andWhere(['not in', $idField, $subQuery]);
-				$dataReader = $query->createCommand()->query();
-				while ($idFieldValue = $dataReader->readColumn(0)) {
-					$dbCommand->update($relTable, [$entityIdField => $entityId], [$entityIdField => $transferId, $idField => $idFieldValue])->execute();
-				}
-				$dataReader->close();
-			}
-		}
-		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		\App\Log::trace('Exiting transferRelatedRecords...');
 	}
 }

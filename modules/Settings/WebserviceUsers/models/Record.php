@@ -15,7 +15,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	 * @var string[]
 	 */
 	private $editFields = ['Portal' => [
-		'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'password_t' => 'FL_PASSWORD', 'type' => 'FL_TYPE', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER', ],
+		'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'password_t' => 'FL_PASSWORD', 'type' => 'FL_TYPE', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER', 'istorage' => 'FL_STORAGE'],
 	];
 
 	/**
@@ -78,6 +78,8 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function determines fields available in edition view.
 	 *
+	 * @param mixed $name
+	 *
 	 * @return string[]
 	 */
 	public function getFieldInstanceByName($name)
@@ -89,6 +91,10 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			case 'crmid':
 				$params['uitype'] = 10;
 				$params['referenceList'] = ['Contacts'];
+				break;
+			case 'istorage':
+				$params['uitype'] = 10;
+				$params['referenceList'] = ['IStorages'];
 				break;
 			case 'status':
 				$params['uitype'] = 16;
@@ -136,7 +142,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getInstanceById($id, $type)
 	{
-		$cacheName = get_class();
+		$cacheName = __CLASS__;
 		if (\App\Cache::staticHas($cacheName, $id)) {
 			return \App\Cache::staticGet($cacheName, $id);
 		}
@@ -172,16 +178,16 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function to save.
 	 *
-	 * @param array $data
-	 *
 	 * @return bool
 	 */
-	public function save($data)
+	public function save()
 	{
+		$this->validate();
 		$db = App\Db::getInstance('webservice');
 		$table = $this->getModule()->getBaseTable();
 		$index = $this->getModule()->getTableIndex();
 		$fields = $this->getEditFields();
+		$data = $this->getData();
 		foreach ($data as $key => $value) {
 			if (isset($fields[$key])) {
 				$data[$key] = $this->getValueToSave($key, $value);
@@ -190,14 +196,30 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			}
 		}
 		if (empty($this->getId())) {
-			$seccess = $db->createCommand()->insert($table, $data)->execute();
-			if ($seccess) {
+			$success = $db->createCommand()->insert($table, $data)->execute();
+			if ($success) {
 				$this->set('id', $db->getLastInsertID("{$table}_{$index}_seq"));
 			}
 		} else {
-			$seccess = $db->createCommand()->update($table, $data, [$index => $this->getId()])->execute();
+			$success = $db->createCommand()->update($table, $data, [$index => $this->getId()])->execute();
 		}
-		return $seccess;
+		return $success;
+	}
+
+	/**
+	 * Function to validate.
+	 *
+	 * @return bool
+	 */
+	public function validate()
+	{
+		$query = (new \App\Db\Query())->from($this->getModule()->getBaseTable())->where(['server_id' => $this->get('server_id'), 'user_name' => $this->get('user_name')]);
+		if ($this->getId()) {
+			$query->andWhere(['<>', 'id', $this->getId()]);
+		}
+		if ($query->exists()) {
+			throw new \App\Exceptions\IllegalValue('ERR_DUPLICATE_LOGIN', 406);
+		}
 	}
 
 	/**
@@ -307,10 +329,10 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	public function getTypeValues($value = false)
 	{
 		$data = [
-			1 => 'PLL_USER_PERMISSIONS',
-			2 => 'PLL_ACCOUNTS_RELATED_RECORDS',
-			3 => 'PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY',
-			4 => 'PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY',
+			\Api\Portal\Privilege::USER_PERMISSIONS => 'PLL_USER_PERMISSIONS',
+			\Api\Portal\Privilege::ACCOUNTS_RELATED_RECORDS => 'PLL_ACCOUNTS_RELATED_RECORDS',
+			\Api\Portal\Privilege::ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY => 'PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY',
+			\Api\Portal\Privilege::ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY => 'PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY',
 		];
 		if ($value) {
 			return $data[$value];
@@ -333,5 +355,40 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			$result = $db->createCommand()->delete($table, [$index => $recordId])->execute();
 		}
 		return !empty($result);
+	}
+
+	/**
+	 * Send mails with access.
+	 *
+	 * @return void
+	 */
+	public function sendEmail()
+	{
+		if (empty($this->get('crmid'))) {
+			return;
+		}
+		$moduleName = 'Contacts';
+		$recordModel = Vtiger_Record_Model::getInstanceById($this->get('crmid'), $moduleName);
+		if ($recordModel->get('emailoptout')) {
+			$emailsFields = $recordModel->getModule()->getFieldsByType('email');
+			$addressEmail = '';
+			foreach ($emailsFields as $fieldModel) {
+				if (!$recordModel->isEmpty($fieldModel->getFieldName())) {
+					$addressEmail = $recordModel->get($fieldModel->getFieldName());
+					break;
+				}
+			}
+			if (!empty($addressEmail)) {
+				\App\Mailer::sendFromTemplate([
+					'template' => 'YetiPortalRegister',
+					'moduleName' => $moduleName,
+					'recordId' => $this->get('crmid'),
+					'to' => $addressEmail,
+					'password' => $this->get('password_t'),
+					'login' => $this->get('user_name'),
+					'acceptable_url' => Settings_WebserviceApps_Record_Model::getInstanceById($this->get('server_id'))->get('acceptable_url')
+				]);
+			}
+		}
 	}
 }

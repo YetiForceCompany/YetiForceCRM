@@ -3,7 +3,6 @@
 /**
  * SocialMedia class.
  *
- *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
@@ -111,7 +110,7 @@ class SocialMedia extends Base
 	{
 		$returnVal = false;
 		foreach (static::ALLOWED_UITYPE as $socialMediaType) {
-			if (in_array($moduleName, \App\Config::component('Social', \strtoupper("{$socialMediaType}_ENABLE_FOR_MODULES"), []))) {
+			if (\in_array($moduleName, \App\Config::component('Social', \strtoupper("{$socialMediaType}_ENABLE_FOR_MODULES"), []))) {
 				$returnVal = true;
 				break;
 			}
@@ -132,7 +131,7 @@ class SocialMedia extends Base
 	public static function createObjectByUiType(int $uiType, string $accountName)
 	{
 		$className = static::getClassNameByUiType($uiType);
-		if ($className === false) {
+		if (false === $className) {
 			return false;
 		}
 		return new $className($accountName);
@@ -166,7 +165,7 @@ class SocialMedia extends Base
 	 */
 	public static function isActiveByType(int $uiType)
 	{
-		return call_user_func(static::getClassNameByUiType($uiType) . '::isActive');
+		return \call_user_func(static::getClassNameByUiType($uiType) . '::isActive');
 	}
 
 	/**
@@ -185,7 +184,7 @@ class SocialMedia extends Base
 			->select(['account_name'])
 			->where(['account_name' => $logins])
 			->having(['=', 'count(*)', 1])->column();
-		return call_user_func_array(static::getClassNameByUiType($uiType) . '::removeMass', [$loginsToRemove]);
+		return \call_user_func_array(static::getClassNameByUiType($uiType) . '::removeMass', [$loginsToRemove]);
 	}
 
 	/**
@@ -197,7 +196,7 @@ class SocialMedia extends Base
 	 */
 	public static function log(int $uiType, string $typeOfLog, string $message)
 	{
-		call_user_func(static::getClassNameByUiType($uiType) . '::log', $typeOfLog, $message);
+		\call_user_func(static::getClassNameByUiType($uiType) . '::log', $typeOfLog, $message);
 	}
 
 	/**
@@ -234,7 +233,7 @@ class SocialMedia extends Base
 			->having(['=', 'count(*)', 1]);
 		if ($query->exists()) {
 			$socialMedia = static::createObjectByUiType($uiType, $accountName);
-			if ($socialMedia === false) {
+			if (false === $socialMedia) {
 				throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE');
 			}
 			$socialMedia->remove();
@@ -256,7 +255,7 @@ class SocialMedia extends Base
 			return;
 		}
 		$query = static::getSocialMediaQuery($socialMediaType);
-		if ($query === false) {
+		if (false === $query) {
 			return;
 		}
 		$dataReader = $query->createCommand()->query();
@@ -295,7 +294,7 @@ class SocialMedia extends Base
 				->from($field['tablename'])
 				->where(['not', [$field['columnname'] => null]])
 				->andWhere(['not', [$field['columnname'] => '']]);
-			if ($i === 0) {
+			if (0 === $i) {
 				$query = $subQuery;
 			} else {
 				$query->union($subQuery, true);

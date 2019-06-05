@@ -45,7 +45,7 @@ class Base
 	 */
 	public function isActive()
 	{
-		if (isset($this->textParser->moduleName, $this->allowedModules) && !in_array($this->textParser->moduleName, $this->allowedModules)) {
+		if (isset($this->textParser->moduleName, $this->allowedModules) && !\in_array($this->textParser->moduleName, $this->allowedModules)) {
 			return false;
 		}
 		if (isset($this->textParser->type) && $this->textParser->type !== $this->type) {

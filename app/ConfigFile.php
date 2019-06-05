@@ -65,17 +65,17 @@ This file is auto-generated.
 	public function __construct(string $type, ?string $component = '')
 	{
 		parent::__construct();
-		if (!in_array($type, self::TYPES)) {
+		if (!\in_array($type, self::TYPES)) {
 			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $type, 406);
 		}
 		$this->type = $type;
 		if ($component) {
 			$this->component = $component;
 		}
-		if ($this->type === 'module') {
+		if ('module' === $this->type) {
 			$this->templatePath = 'modules' . \DIRECTORY_SEPARATOR . $component . \DIRECTORY_SEPARATOR . 'ConfigTemplate.php';
 			$this->path = 'config' . \DIRECTORY_SEPARATOR . 'Modules' . \DIRECTORY_SEPARATOR . "{$component}.php";
-		} elseif ($this->type === 'component') {
+		} elseif ('component' === $this->type) {
 			$this->templatePath = 'config' . \DIRECTORY_SEPARATOR . 'Components' . \DIRECTORY_SEPARATOR . 'ConfigTemplates.php';
 			$this->path = 'config' . \DIRECTORY_SEPARATOR . 'Components' . \DIRECTORY_SEPARATOR . "{$component}.php";
 		} else {
@@ -118,9 +118,9 @@ This file is auto-generated.
 	private function getClassName()
 	{
 		$className = 'Config\\';
-		if ($this->type === 'module') {
+		if ('module' === $this->type) {
 			$className .= 'Modules\\' . $this->component;
-		} elseif ($this->type === 'component') {
+		} elseif ('component' === $this->type) {
 			$className .= 'Components\\' . $this->component;
 		} else {
 			$className .= ucfirst($this->type);
@@ -155,7 +155,8 @@ This file is auto-generated.
 	{
 		if (!isset($this->template[$key])) {
 			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $key, 406);
-		} elseif (!isset($this->template[$key]['validation']) || !\is_callable($this->template[$key]['validation'])) {
+		}
+		if (!isset($this->template[$key]['validation']) || !\is_callable($this->template[$key]['validation'])) {
 			throw new Exceptions\AppException("ERR_CONTENTS_VARIABLE_CANT_CALLED_FUNCTION ||{$this->template[$key]['validation']}", 406);
 		}
 		return true === \call_user_func_array($this->template[$key]['validation'], [$value]);
@@ -176,7 +177,8 @@ This file is auto-generated.
 	{
 		if (!isset($this->template[$key])) {
 			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $key, 406);
-		} elseif (isset($this->template[$key]['sanitization'])) {
+		}
+		if (isset($this->template[$key]['sanitization'])) {
 			if (!\is_callable($this->template[$key]['sanitization'])) {
 				throw new Exceptions\AppException("ERR_CONTENTS_VARIABLE_CANT_CALLED_FUNCTION ||{$this->template[$key]['sanitization']}", 406);
 			}
@@ -232,8 +234,8 @@ This file is auto-generated.
 		Cache::resetFileCache($this->path);
 		if (\class_exists($className)) {
 			foreach ($class->getProperties() as $name => $property) {
-				if (isset($className::$$name)) {
-					$className::$$name = $property->getValue();
+				if (isset($className::${$name})) {
+					$className::${$name} = $property->getValue();
 				}
 			}
 		} else {

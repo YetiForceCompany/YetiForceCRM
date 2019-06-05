@@ -20,9 +20,9 @@ class CurrencyField extends IntegerField
 	{
 		$value = $this->value;
 		$uiType = $this->fieldModel->getUIType();
-		if ($uiType === 72) {
+		if (72 === $uiType) {
 			$value = \CurrencyField::convertToDBFormat($value, null, true);
-		} elseif ($uiType === 71) {
+		} elseif (71 === $uiType) {
 			$value = \CurrencyField::convertToDBFormat($value);
 		}
 		return $value;

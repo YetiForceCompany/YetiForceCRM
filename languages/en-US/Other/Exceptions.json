@@ -11,6 +11,7 @@
     "ERR_PASSWORD_HAS_ALREADY_BEEN_USED": "This password has already been used. The system does not allow to use the same password for security reasons.",
     "ERR_USER_EXISTS": "User with the same username and role already exists (%s)",
     "ERR_NOT_ACCESSIBLE": "Access denied",
+    "ERR_DUPLICATE_LOGIN": "The specified login already exists.",
     "ERR_NO_PERMISSIONS_FOR_THE_RECORD": "You don't have the permissions required to view/edit this record. Contact the administrator if you should have the permission to view it.",
     "ERR_CONTENTS_VARIABLE_CANT_CALLED_FUNCTION": "Variable (%s) content cannot be triggered as function",
     "ERR_DUPLICATES_VALUES_FOUND": "Duplicated %s values found",
@@ -28,6 +29,7 @@
     "ERR_DIRECTORY_CANNOT_BE_CREATED": "The directory cannot be created",
     "ERR_AUTO_LOGOUT": "Logged out automatically due to no activity",
     "ERR_FIELD_NOT_FOUND": "Field not found",
+    "ERR_NUMBER_OF_ARGUMENTS_NOT_ALLOWED": "Number of arguments not allowed (%d %s in %s)",
     "ERR_NO_VALUE": "No value",
     "ERR_BODY_IS_EMPTY": "Body is empty",
     "ERR_API": "Error in API",
@@ -39,6 +41,7 @@
     "ERR_ITERATIONS_LIMIT_EXCEEDED": "Exceeded iteration limit.",
     "ERR_CANNOT_PARSE_SERVER_RESPONSE": "Error while parsing server responses",
     "ERR_CANNOT_CONNECT_TO_REMOTE": "Error while connecting to remote server",
-    "ERR_NO_INTERNET_CONNECTION": "No Internet connection"
+    "ERR_NO_INTERNET_CONNECTION": "No Internet connection",
+    "ERR_OBJECT_MUST_HAVE_INTERFACE": "The object must have an interface %s"
   }
 }

@@ -43,7 +43,7 @@ class Zip extends \ZipArchive
 	 *
 	 * @throws Exceptions\AppException
 	 *
-	 * @return Zip|bool
+	 * @return bool|Zip
 	 */
 	public static function openFile($fileName = false, $options = [])
 	{
@@ -58,7 +58,7 @@ class Zip extends \ZipArchive
 			throw new \App\Exceptions\AppException('The content of the zip file is too large');
 		}
 		foreach ($options as $key => $value) {
-			$zip->$key = $value;
+			$zip->{$key} = $value;
 		}
 		return $zip;
 	}
@@ -75,7 +75,7 @@ class Zip extends \ZipArchive
 	public static function createFile($fileName)
 	{
 		$zip = new self();
-		if ($zip->open($fileName, self::CREATE | self::OVERWRITE) !== true) {
+		if (true !== $zip->open($fileName, self::CREATE | self::OVERWRITE)) {
 			throw new \App\Exceptions\AppException('Unable to create the zip file');
 		}
 		return $zip;
@@ -87,7 +87,7 @@ class Zip extends \ZipArchive
 	 * @param      $toDir Target directory
 	 * @param bool $close
 	 *
-	 * @return string[]|string Unpacked files
+	 * @return string|string[] Unpacked files
 	 */
 	public function unzip($toDir, bool $close = true)
 	{
@@ -99,12 +99,12 @@ class Zip extends \ZipArchive
 			for ($i = 0; $i < $this->numFiles; ++$i) {
 				$zipPath = $this->getNameIndex($i);
 				$path = \str_replace('\\', '/', $zipPath);
-				if ((!\is_numeric($dir) && strpos($path, $dir . '/') !== 0) || $this->validateFile($zipPath)) {
+				if ((!\is_numeric($dir) && 0 !== strpos($path, $dir . '/')) || $this->validateFile($zipPath)) {
 					continue;
 				}
 				$files[] = $zipPath;
-				$file = $target . '/' . (\is_numeric($dir) ? $path : substr($path, strlen($dir) + 1));
-				$fileDir = dirname($file);
+				$file = $target . '/' . (\is_numeric($dir) ? $path : substr($path, \strlen($dir) + 1));
+				$fileDir = \dirname($file);
 				if (!isset($created[$fileDir])) {
 					if (!is_dir($fileDir)) {
 						mkdir($fileDir, 0755, true);
@@ -144,7 +144,7 @@ class Zip extends \ZipArchive
 			throw new \App\Exceptions\AppException('Directory unable to create it');
 		}
 		$fileList = [];
-		for ($i = 0; $i < $this->numFiles; $i++) {
+		for ($i = 0; $i < $this->numFiles; ++$i) {
 			$path = $this->getNameIndex($i);
 			if ($this->validateFile(\str_replace('\\', '/', $path))) {
 				continue;
@@ -170,10 +170,10 @@ class Zip extends \ZipArchive
 		$validate = false;
 		if ($this->checkFiles && !$this->isDir($path)) {
 			$extension = pathinfo($path, PATHINFO_EXTENSION);
-			if (isset($this->onlyExtensions) && !in_array($extension, $this->onlyExtensions)) {
+			if (isset($this->onlyExtensions) && !\in_array($extension, $this->onlyExtensions)) {
 				$validate = true;
 			}
-			if (isset($this->illegalExtensions) && in_array($extension, $this->illegalExtensions)) {
+			if (isset($this->illegalExtensions) && \in_array($extension, $this->illegalExtensions)) {
 				$validate = true;
 			}
 			$stat = $this->statName($path);
@@ -200,7 +200,7 @@ class Zip extends \ZipArchive
 	 */
 	public function isDir($filePath)
 	{
-		if (substr($filePath, -1, 1) === '/') {
+		if ('/' === substr($filePath, -1, 1)) {
 			return true;
 		}
 		return false;
@@ -238,7 +238,7 @@ class Zip extends \ZipArchive
 	 */
 	public function checkFreeSpace()
 	{
-		$df = disk_free_space(ROOT_DIRECTORY . DIRECTORY_SEPARATOR);
+		$df = disk_free_space(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR);
 		$size = 0;
 		for ($i = 0; $i < $this->numFiles; ++$i) {
 			$stat = $this->statIndex($i);

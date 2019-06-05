@@ -19,8 +19,8 @@ class OwnerField extends BaseField
 	 */
 	public function operatorE()
 	{
-		if (!is_array($this->value)) {
-			if (strpos($this->value, '##') === false) {
+		if (!\is_array($this->value)) {
+			if (false === strpos($this->value, '##')) {
 				return [$this->getColumnName() => $this->value];
 			}
 			$this->value = explode('##', $this->value);
@@ -39,7 +39,7 @@ class OwnerField extends BaseField
 	 */
 	public function operatorN()
 	{
-		if (strpos($this->value, '##') === false) {
+		if (false === strpos($this->value, '##')) {
 			return ['<>', $this->getColumnName(), $this->value];
 		}
 		$values = explode('##', $this->value);
@@ -114,17 +114,18 @@ class OwnerField extends BaseField
 	/**
 	 * Get order by.
 	 *
+	 * @param mixed $order
+	 *
 	 * @return array
 	 */
 	public function getOrderBy($order = false)
 	{
 		$this->queryGenerator->addJoin(['LEFT JOIN', 'vtiger_users', 'vtiger_users.id = ' . $this->getColumnName()]);
 		$this->queryGenerator->addJoin(['LEFT JOIN', 'vtiger_groups', 'vtiger_groups.groupid = ' . $this->getColumnName()]);
-		if ($order && strtoupper($order) === 'DESC') {
+		if ($order && 'DESC' === strtoupper($order)) {
 			return ['vtiger_users.last_name' => SORT_DESC, 'vtiger_users.first_name' => SORT_DESC, 'vtiger_groups.groupname' => SORT_DESC];
-		} else {
-			return ['vtiger_users.last_name' => SORT_ASC, 'vtiger_users.first_name' => SORT_ASC, 'vtiger_groups.groupname' => SORT_ASC];
 		}
+		return ['vtiger_users.last_name' => SORT_ASC, 'vtiger_users.first_name' => SORT_ASC, 'vtiger_groups.groupname' => SORT_ASC];
 	}
 
 	/**

@@ -3,13 +3,13 @@
 	<div class="tpl-Modals-Footer modal-footer">
 		{if ($MODE === 'massReset' || $MODE === 'reset') &&  $ACTIVE_SMTP}
 			<button class="btn btn-success" type="submit" name="saveButton"
-					{if AppConfig::main('systemMode') === 'demo'}disabled="disabled"{/if}>
+					{if App\Config::main('systemMode') === 'demo'}disabled="disabled"{/if}>
 				<span class="fas fa-redo-alt mr-1"></span><strong>{\App\Language::translate('BTN_RESET_PASSWORD', $MODULE_NAME)}</strong>
 			</button>
 		{/if}
 		{if $MODE === 'change'}
 			<button class="btn btn-success" type="submit" name="saveButton"
-					{if AppConfig::main('systemMode') === 'demo'}disabled="disabled"{/if}>
+					{if App\Config::main('systemMode') === 'demo'}disabled="disabled"{/if}>
 				<span class="fas fa-redo-alt mr-1"></span><strong>{\App\Language::translate('LBL_CHANGE_PASSWORD', $MODULE_NAME)}</strong>
 			</button>
 		{/if}

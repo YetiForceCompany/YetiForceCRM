@@ -26,7 +26,7 @@ class Vtiger_ShortURL_Helper
 	 */
 	public static function generateURL(array $options)
 	{
-		$site_URL = AppConfig::main('site_URL');
+		$site_URL = App\Config::main('site_URL');
 		if (!isset($options['onetime'])) {
 			$options['onetime'] = 0;
 		}

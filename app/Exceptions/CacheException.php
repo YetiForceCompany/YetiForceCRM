@@ -2,7 +2,6 @@
 /**
  * CacheException represents a database error.
  *
- *
  * @package   Exceptions
  *
  * @copyright YetiForce Sp. z o.o

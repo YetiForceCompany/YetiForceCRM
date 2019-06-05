@@ -1,8 +1,9 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Settings-Workflows-Tasks-SumFieldFromDependent js-conditions-container" id="save_fieldvaluemapping"
-		 data-js="container">
-		<div class="row js-add-basic-field-container js-conditions-row w-100 mb-2" data-js="clone | container">
+	<!-- tpl-Settings-Workflows-Tasks-SumFieldFromDependent -->
+	<input type="hidden" class="js-source-module" value="{$SOURCE_MODULE}" data-js="val">
+	<div class="tpl-Settings-Workflows-Tasks-SumFieldFromDependent">
+		<div class="row w-100 mb-2">
 			<div class="col-md-3 align-self-md-center">
 				<strong>{\App\Language::translate('LBL_SUMFIELDFROMDEPENDENT_SOURCE',$QUALIFIED_MODULE)}</strong>
 			</div>
@@ -18,7 +19,7 @@
 				</select>
 			</div>
 		</div>
-		<div class="row js-add-basic-field-container js-conditions-row w-100" data-js="clone | container">
+		<div class="row w-100">
 			<div class="col-md-3 align-self-md-center">
 				<strong>{\App\Language::translate('LBL_SUMFIELDFROMDEPENDENT_TARGET',$QUALIFIED_MODULE)}</strong>
 			</div>
@@ -43,5 +44,10 @@
 				</select>
 			</div>
 		</div>
+		<div class="col-12">
+			<input type="hidden" name="conditions" value="">
+				{include file=\App\Layout::getTemplatePath('ConditionBuilder.tpl') MODULE_NAME=$SOURCE_MODULE}
+		</div>
 	</div>
+	<!-- /tpl-Settings-Workflows-Tasks-SumFieldFromDependent -->
 {/strip}

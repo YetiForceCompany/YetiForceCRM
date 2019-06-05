@@ -19,7 +19,6 @@
  * be overloaded with module-specific methods and variables particular to the
  * module's base entity class.
  * ****************************************************************************** */
-require_once 'include/database/PearDatabase.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/fields/DateTimeField.php';
 require_once 'include/fields/DateTimeRange.php';
@@ -53,7 +52,7 @@ class CRMEntity
 
 		// File access security check
 		if (!class_exists($module)) {
-			if (AppConfig::performance('LOAD_CUSTOM_FILES') && file_exists("custom/modules/$module/$module.php")) {
+			if (App\Config::performance('LOAD_CUSTOM_FILES') && file_exists("custom/modules/$module/$module.php")) {
 				\vtlib\Deprecated::checkFileAccessForInclusion("custom/modules/$module/$module.php");
 				require_once "custom/modules/$module/$module.php";
 			} else {
@@ -277,8 +276,15 @@ class CRMEntity
 	 */
 	public function deleteRelatedM2M($crmid, $withModule, $withCrmid)
 	{
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($this->moduleName, $withModule);
-		\App\Db::getInstance()->createCommand()->delete($referenceInfo['table'], [$referenceInfo['base'] => $withCrmid, $referenceInfo['rel'] => $crmid])->execute();
+		if ($this->moduleName === $withModule) {
+			$dbCommand->delete($referenceInfo['table'], [$referenceInfo['base'] => $withCrmid, $referenceInfo['rel'] => $crmid])->execute();
+			$dbCommand->delete($referenceInfo['table'], [$referenceInfo['base'] => $crmid, $referenceInfo['rel'] => $withCrmid])->execute();
+		} else {
+			$dbCommand->delete($referenceInfo['table'], [$referenceInfo['base'] => $withCrmid, $referenceInfo['rel'] => $crmid])->execute();
+		}
+
 	}
 
 	/**
@@ -347,9 +353,17 @@ class CRMEntity
 	public function saveRelatedM2M($module, $crmid, $withModule, $withCrmid)
 	{
 		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($module, $withModule);
+		$isTheSame = $module === $withModule;
 		foreach ($withCrmid as $relcrmid) {
 			// Relation already exists? No need to add again
-			if ((new App\Db\Query())->from($referenceInfo['table'])
+			if ($isTheSame && (new App\Db\Query())->from($referenceInfo['table'])
+				->where(['or',
+					[$referenceInfo['base'] => $relcrmid, $referenceInfo['rel'] => $crmid],
+					[$referenceInfo['base'] => $crmid, $referenceInfo['rel'] => $relcrmid]
+				])->exists()) {
+				continue;
+			}
+			if (!$isTheSame && (new App\Db\Query())->from($referenceInfo['table'])
 				->where([$referenceInfo['base'] => $relcrmid, $referenceInfo['rel'] => $crmid])
 				->exists()) {
 				continue;
@@ -398,80 +412,6 @@ class CRMEntity
 		}
 	}
 
-	/**
-	 * Move the related records of the specified list of id's to the given record.
-	 *
-	 * @param string This module name
-	 * @param array List of Entity Id's from which related records need to be transfered
-	 * @param int Id of the the Record to which the related records are to be moved
-	 * @param mixed $module
-	 * @param mixed $transferEntityIds
-	 * @param mixed $entityId
-	 */
-	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
-	{
-		$dbInstance = \App\Db::getInstance()->createCommand();
-
-		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
-
-		$relTables = $this->setRelationTables();
-		if (array_key_exists('Documents', $relTables)) {
-			$relTables['Attachments'] = ['vtiger_seattachmentsrel' => ['crmid', 'attachmentsid']];
-		}
-		foreach ($transferEntityIds as &$transferId) {
-			// Pick the records related to the entity to be transfered, but do not pick the once which are already related to the current entity.
-			$relatedRecords = (new App\Db\Query())->select(['relcrmid', 'relmodule'])
-				->from('vtiger_crmentityrel')
-				->where(['crmid' => $transferId, 'module' => $module])
-				->andWhere(['not in', 'relcrmid', (new App\Db\Query())->select('relcrmid')->from('vtiger_crmentityrel')->where(['crmid' => $entityId, 'module' => $module])])
-				->createCommand()
-				->query();
-			while ($row = $relatedRecords->read()) {
-				$dbInstance->update(
-					'vtiger_crmentityrel',
-					['crmid' => $entityId],
-					['relcrmid' => $row['relcrmid'], 'relmodule' => $row['relmodule'], 'crmid' => $transferId, 'module' => $module]
-				)->execute();
-			}
-			// Pick the records to which the entity to be transfered is related, but do not pick the once to which current entity is already related.
-			$parentRecords = (new App\Db\Query())->select(['crmid', 'module'])
-				->from('vtiger_crmentityrel')
-				->where(['relcrmid' => $transferId, 'relmodule' => $module])
-				->andWhere(['not in', 'crmid', (new App\Db\Query())->select('crmid')->from('vtiger_crmentityrel')->where(['relcrmid' => $entityId, 'relmodule' => $module])])
-				->createCommand()
-				->query();
-			while ($row = $relatedRecords->read()) {
-				$dbInstance->update(
-					'vtiger_crmentityrel',
-					['relcrmid' => $entityId],
-					['crmid' => $row['crmid'], 'module' => $row['module'], 'relcrmid' => $transferId, 'relmodule' => $module]
-				)->execute();
-			}
-
-			$dbInstance->update('vtiger_modtracker_basic', ['crmid' => $entityId], ['AND', ['crmid' => $transferId], ['<>', 'status', 7]])->execute();
-			foreach ($relTables as &$relTable) {
-				$idField = current($relTable)[1];
-				$entityIdField = current($relTable)[0];
-				$relTableName = key($relTable);
-				// IN clause to avoid duplicate entries
-				$query = (new App\Db\Query())->select($idField)
-					->from($relTableName)
-					->where([$entityIdField => $transferId, 'module' => $module])
-					->andWhere(['not in', $idField, (new App\Db\Query())->select($idField)->from($relTableName)->where([$entityIdField => $entityId])])
-					->createCommand()
-					->query();
-				while ($row = $query->query()->read()) {
-					$dbInstance->update($relTableName, [$entityIdField => $entityId], [$entityIdField => $transferId, $idField => $row[$idField]])->execute();
-				}
-			}
-			$fields = App\Field::getRelatedFieldForModule(false, $module);
-			foreach ($fields as &$field) {
-				$columnName = $field['columnname'];
-				$dbInstance->update($field['tablename'], [$columnName => $entityId], [$columnName => $transferId])->execute();
-			}
-		}
-		\App\Log::trace('Exiting transferRelatedRecords...');
-	}
 
 	/**
 	 * To keep track of action of field filtering and avoiding doing more than once.

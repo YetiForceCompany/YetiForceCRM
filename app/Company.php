@@ -42,12 +42,11 @@ class Company extends Base
 				->update('s_#__companies', [
 					'status' => $status
 				], ['name' => $name])->execute();
-		} else {
-			\App\Db::getInstance('admin')->createCommand()
-				->update('s_#__companies', [
-					'status' => $status
-				])->execute();
 		}
+		\App\Db::getInstance('admin')->createCommand()
+			->update('s_#__companies', [
+				'status' => $status
+			])->execute();
 	}
 
 	/**

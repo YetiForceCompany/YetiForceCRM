@@ -27,11 +27,11 @@ class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		if (AppConfig::security('USER_AUTHY_MODE') === 'TOTP_OFF') {
+		if (App\Config::security('USER_AUTHY_MODE') === 'TOTP_OFF') {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$mode = $request->getMode();
-		if ($mode === 'off' && AppConfig::security('USER_AUTHY_MODE') !== 'TOTP_OPTIONAL') {
+		if ($mode === 'off' && App\Config::security('USER_AUTHY_MODE') !== 'TOTP_OPTIONAL') {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		if ($mode === 'massOff' && !\App\User::getCurrentUserModel()->isAdmin()) {

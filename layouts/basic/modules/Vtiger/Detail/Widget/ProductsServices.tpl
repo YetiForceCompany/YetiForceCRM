@@ -1,32 +1,27 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="addRelatedRecordBtn">
-		{if $RELATED_MODULE eq 'Products' && \App\Privilege::isPermitted('Assets')}
+		{if $RELATED_MODULE eq 'Products' && \App\Privilege::isPermitted('Products')}
 			<button class="btn btn-sm btn-light showModal" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}" type="button" data-url="index.php?module=Products&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
 				<span class="fas fa-search-plus"></span>
 			</button>
-		{/if}
-		{if $RELATED_MODULE eq 'OutsourcedProducts' && \App\Privilege::isPermitted('Assets')}
+		{else if $RELATED_MODULE eq 'OutsourcedProducts' && \App\Privilege::isPermitted('OutsourcedProducts')}
 			<button class="btn btn-sm btn-light showModal" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}" type="button" data-module="OutsourcedProducts" data-url="index.php?module=OutsourcedProducts&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
 				<span class="fas fa-search-plus" ></span>
 			</button>
-		{/if}
-		{if $RELATED_MODULE eq 'Assets' && \App\Privilege::isPermitted('Assets', 'CreateView')}
+		{else if $RELATED_MODULE eq 'Assets' && \App\Privilege::isPermitted('Assets', 'CreateView')}
 			<button class="btn btn-sm btn-light" type="button" title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)}" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Assets')">
 				<span class="fas fa-plus-circle" ></span>
 			</button>
-		{/if}
-		{if $RELATED_MODULE eq 'Services' && \App\Privilege::isPermitted('Assets')}
+		{else if $RELATED_MODULE eq 'Services' && \App\Privilege::isPermitted('Services')}
 			<button class="btn btn-sm btn-light showModal" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}" type="button" data-url="index.php?module=Services&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
 				<span class="fas fa-search-plus"></span>
 			</button>
-		{/if}
-		{if $RELATED_MODULE eq 'OSSOutsourcedServices' && \App\Privilege::isPermitted('Assets')}
+		{else if $RELATED_MODULE eq 'OSSOutsourcedServices' && \App\Privilege::isPermitted('OSSOutsourcedServices')}
 			<button class="btn btn-sm btn-light showModal" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}" type="button" data-module="OSSOutsourcedServices" data-url="index.php?module=OSSOutsourcedServices&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
 				<span class="fas fa-search-plus" ></span>
 			</button>
-		{/if}
-		{if $RELATED_MODULE eq 'OSSSoldServices' && \App\Privilege::isPermitted('OSSSoldServices', 'CreateView')}
+		{else if $RELATED_MODULE eq 'OSSSoldServices' && \App\Privilege::isPermitted('OSSSoldServices', 'CreateView')}
 			<button class="btn btn-sm btn-light" type="button" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('OSSSoldServices')">
 				<span class="fas fa-plus-circle" ></span>
 			</button>
@@ -94,9 +89,9 @@
 		{/if}
 	</div>
 	{if $RECORD_PAGING_MODEL->isNextPageExists()}
-		<div class="row">
-			<div class="float-right">
-				<button type="button" class="btn btn-primary btn-sm marginRight10 marginTop10 moreProductsService">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
+		<div class="d-flex py-1">
+			<div class="ml-auto">
+				<button type="button" class="btn btn-primary btn-sm moreProductsService">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
 			</div>
 		</div>
 	{/if}

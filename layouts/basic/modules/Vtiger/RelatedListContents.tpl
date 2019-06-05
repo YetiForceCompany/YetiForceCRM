@@ -1,5 +1,19 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<div id="selectAllMsgDiv" class="alert-block msgDiv">
+		<strong>
+			<a href="#" id="selectAllMsg">
+				{\App\Language::translate('LBL_SELECT_ALL',$MODULE)} {\App\Language::translate($RELATED_MODULE->get('name'))} (<span id="totalRecordsCount"></span>)
+			</a>
+		</strong>
+	</div>
+	<div id="deSelectAllMsgDiv" class="alert-block msgDiv">
+		<strong>
+			<a id="deSelectAllMsg">
+				{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}
+			</a>
+		</strong>
+	</div>
 	{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $RELATED_MODULE_NAME) MODULE_MODEL=$RELATED_MODULE}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	{assign var=IS_INVENTORY value=($RELATED_VIEW === 'List' && !empty($INVENTORY_MODULE) && !empty($INVENTORY_FIELDS))}
@@ -8,7 +22,11 @@
 			<thead>
 			<tr class="listViewHeaders">
 				{assign var=COUNT value=0}
-				<th class="noWrap"></th>
+				<th class="noWrap">
+					{if isset($RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'])}
+						<input type="checkbox" title="{\App\Language::translate('LBL_SELECT_ALL')}" id="relatedListViewEntriesMainCheckBox"/>
+					{/if}
+				</th>
 				{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 					{if !empty($COLUMNS) && $COUNT == $COLUMNS }
 						{break}
@@ -79,13 +97,20 @@
 			{assign var="RELATED_HEADER_COUNT" value=count($RELATED_HEADERS)}
 			{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
 				{assign var="RECORD_COLORS" value=$RELATED_RECORD->getListViewColor()}
-				<tr class="listViewEntries js-list__row" data-js="each" data-id='{$RELATED_RECORD->getId()}'
-						{if $RELATED_RECORD->isViewable()}
-					data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
-						{/if}>
+				<tr class="listViewEntries js-list__row" data-js="each" data-id="{$RELATED_RECORD->getId()}"
+					{if $RELATED_RECORD->isViewable()}
+						data-recordUrl="{$RELATED_RECORD->getDetailViewUrl()}"
+					{/if}>
 					{assign var=COUNT value=0}
 					<td class="{$WIDTHTYPE} noWrap leftRecordActions"
 						{if $RECORD_COLORS['leftBorder']}style="border-left-color: {$RECORD_COLORS['leftBorder']};"{/if}>
+						{if isset($RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'])}
+							<div>
+								<input type="checkbox" value="{$RELATED_RECORD->getId()}"
+								title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}"
+								class="relatedListViewEntriesCheckBox"/>
+							</div>
+						{/if}
 						{include file=\App\Layout::getTemplatePath('RelatedListLeftSide.tpl', $RELATED_MODULE_NAME)}
 					</td>
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS name=listHeaderForeach}

@@ -16,7 +16,7 @@
 	<div class="tpl-Edit-Field-Date input-group date">
 		{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
 		<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text"
-			   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" class="dateField form-control"
+			   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" class="dateField form-control datepicker"
 			   name="{$FIELD_MODEL->getFieldName()}" data-date-format="{$dateFormat}" type="text"
 			   value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}"
 			   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"

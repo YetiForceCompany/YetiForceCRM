@@ -34,7 +34,7 @@ class BaseField
 	protected $tableName;
 
 	/**
-	 * @var string|array
+	 * @var array|string
 	 */
 	protected $value;
 
@@ -53,7 +53,7 @@ class BaseField
 	 *
 	 * @param \App\QueryGenerator $queryGenerator
 	 * @param \Vtiger_Field_Model $fieldModel
-	 * @param string|array        $value
+	 * @param array|string        $value
 	 * @param string              $operator
 	 */
 	public function __construct(\App\QueryGenerator $queryGenerator, $fieldModel = false)
@@ -105,15 +105,16 @@ class BaseField
 	/**
 	 * Get order by.
 	 *
+	 * @param mixed $order
+	 *
 	 * @return array
 	 */
 	public function getOrderBy($order = false)
 	{
-		if ($order && strtoupper($order) === 'DESC') {
+		if ($order && 'DESC' === strtoupper($order)) {
 			return [$this->getColumnName() => SORT_DESC];
-		} else {
-			return [$this->getColumnName() => SORT_ASC];
 		}
+		return [$this->getColumnName() => SORT_ASC];
 	}
 
 	/**
@@ -159,18 +160,16 @@ class BaseField
 	/**
 	 * Get condition.
 	 *
-	 * @return bool|array
+	 * @return array|bool
 	 */
 	public function getCondition()
 	{
 		$fn = 'operator' . ucfirst($this->operator);
 		if (method_exists($this, $fn)) {
 			Log::trace("Entering to $fn in " . __CLASS__);
-
-			return $this->$fn();
+			return $this->{$fn}();
 		}
 		Log::error("Not found operator: $fn in  " . __CLASS__);
-
 		return false;
 	}
 
@@ -181,10 +180,10 @@ class BaseField
 	 */
 	public function operatorA()
 	{
-		if (strpos($this->getValue(), '*') !== false) {
+		if (false !== strpos($this->getValue(), '*')) {
 			return ['like', $this->getColumnName(), str_replace('*', '%', "%{$this->getValue()}%"), false];
 		}
-		if (strpos($this->getValue(), '_') !== false) {
+		if (false !== strpos($this->getValue(), '_')) {
 			return ['like', $this->getColumnName(), "%{$this->getValue()}%", false];
 		}
 		return $this->operatorC();

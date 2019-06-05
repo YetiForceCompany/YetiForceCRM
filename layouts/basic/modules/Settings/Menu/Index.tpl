@@ -16,15 +16,25 @@
 			<div class="col-6 float-right">
 				<select class="select2 form-control" name="roleMenu">
 					<option value="0" {if $ROLEID eq 0} selected="" {/if}>{\App\Language::translate('LBL_DEFAULT_MENU', $QUALIFIED_MODULE)}</option>
-					{foreach item=ROLE key=KEY from=Settings_Roles_Record_Model::getAll()}
-						<option value="{$KEY}" {if $ROLEID === $KEY} selected="" {/if}>
-							{\App\Language::translate($ROLE->getName())}
-						</option>
-					{/foreach}
+					<optgroup label="{\App\Language::translate('LBL_ROLES', $QUALIFIED_MODULE)}">
+						{foreach item=ROLE key=KEY from=Settings_Roles_Record_Model::getAll()}
+							<option value="{$KEY}" {if $ROLEID === $KEY} selected="" {/if}>
+								{\App\Language::translate($ROLE->getName())}
+							</option>
+						{/foreach}
+					</optgroup>
+					<optgroup label="{\App\Language::translate('CustomerPortal', $QUALIFIED_MODULE)}">
+						{foreach item=SERVER key=KEY from=Settings_WebserviceApps_Module_Model::getServers()}
+							<option value="{$KEY}" {if $ROLEID eq $KEY} selected="" {/if}>
+								{App\Purifier::encodeHtml($SERVER['name'])}
+							</option>
+						{/foreach}
+					</optgroup>
 				</select>
 			</div>
 		</div>
 	</div>
+	<input type="hidden" class="js-source" value="{$SOURCE}" data-js="val">
 	<hr>
 	{if !$DATA}
 		<button class="btn btn-success copyMenu">

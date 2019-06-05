@@ -60,17 +60,94 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, string $columnName, bool $isUserFormat)
+	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
 		if ($columnName === $this->getColumnName()) {
 			if ($isUserFormat) {
 				$value = $this->getDBValue($value, $columnName);
+				if (null !== $originalValue) {
+					$originalValue = $this->getDBValue($originalValue, $columnName);
+				}
 			}
 			if ($this->maximumLength < $value || -$this->maximumLength > $value) {
 				throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 			}
+			if (null !== $originalValue && !\App\Validator::floatIsEqualUserCurrencyDecimals($value, $originalValue)) {
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $columnName ?? $this->getColumnName() . '||' . $this->getModuleName() . '||' . $value, 406);
+			}
 		} elseif (App\TextParser::getTextLength($value) > $this->customMaximumLength[$columnName]) {
 			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getValueForSave(array $item, bool $userFormat = false, string $column = null)
+	{
+		if ($column === $this->getColumnName() || null === $column) {
+			$value = 0.0;
+			if (!\App\Json::isEmpty($item['discountparam'] ?? '') && ($discountsConfig = \Vtiger_Inventory_Model::getDiscountsConfig()) && 1 === (int) $discountsConfig['active']) {
+				$discountParam = \App\Json::decode($item['discountparam']);
+				$totalPrice = static::getInstance($this->getModuleName(), 'TotalPrice')->getValueForSave($item, $userFormat);
+				$value = $this->getDiscountValue($discountParam, $totalPrice, (int) $discountsConfig['aggregation']);
+			}
+		} else {
+			$value = $userFormat ? $this->getDBValue($item[$column]) : $item[$column];
+		}
+		return $value;
+	}
+
+	/**
+	 * Calculate the discount value.
+	 *
+	 * @param array  $discountParam
+	 * @param float  $totalPrice
+	 * @param string $mode          0-can not be combined, 1-summary, 2-cascade
+	 *
+	 * @return float
+	 */
+	private function getDiscountValue(array $discountParam, float $totalPrice, int $mode): float
+	{
+		$value = 0.0;
+		$types = $discountParam['aggregationType'];
+		if (!is_array($types)) {
+			$types = [$types];
+		}
+		foreach ($types as $type) {
+			$discountValue = $totalPrice * $this->getDiscountValueByType($type, $discountParam);
+			$value += $discountValue;
+			if (2 === $mode) {
+				$totalPrice -= $discountValue;
+			}
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Gets the discount by type.
+	 *
+	 * @param string $aggregationType
+	 * @param array  $discountParam
+	 *
+	 * @return float
+	 */
+	private function getDiscountValueByType(string $aggregationType, array $discountParam): float
+	{
+		$discountType = $discountParam["{$aggregationType}DiscountType"] ?? 'percentage';
+		$discount = $discountParam["{$aggregationType}Discount"];
+		$value = 0.0;
+		switch ($discountType) {
+			case 'amount':
+			$value = $discount;
+				break;
+			case 'percentage':
+			$value = $discount / 100.00;
+				break;
+			default:
+				throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||discountType||{$discountType}", 406);
+		}
+		return $value;
 	}
 }

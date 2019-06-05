@@ -56,6 +56,9 @@
     "LBL_OVERDUE_DEADLINES": "Overdue events",
     "LBL_TABLE_TAX_SUMMARY": "Tax summary for advanced block",
     "LBL_ALL_PAGES": "All pages",
-    "LBL_CURRENT_PAGE": "Current page"
+    "LBL_CURRENT_PAGE": "Current page",
+    "LBL_INVENTORY_TABLE": "Inventory table with custom predefined columns",
+    "LBL_DYNAMIC_INVENTORY_TABLE": "Inventory table with dynamic columns",
+    "LBL_INVENTORY_VARIABLES": "Additional inventory variables"
   }
 }

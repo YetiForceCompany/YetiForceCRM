@@ -25,10 +25,16 @@ class Methods extends \Api\Core\BaseAction
 		$src = 'api/webservice/Portal/';
 		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			if (!$item->isDir()) {
-				$itemPathName = explode(DIRECTORY_SEPARATOR, $iterator->getSubPathName());
+				$itemPathName = explode(\DIRECTORY_SEPARATOR, $iterator->getSubPathName());
 				$dir = array_shift($itemPathName);
+				if (empty($itemPathName)) {
+					continue;
+				}
 				$name = rtrim(array_shift($itemPathName), '.php');
-				$className = "Api\Portal\\$dir\\$name";
+				if ('BaseModel' === $dir) {
+					continue;
+				}
+				$className = "Api\\Portal\\$dir\\$name";
 				$instance = new $className();
 				switch ($dir) {
 					case 'BaseAction':

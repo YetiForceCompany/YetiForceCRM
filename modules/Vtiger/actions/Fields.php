@@ -64,7 +64,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 */
 	public function getOwners(\App\Request $request)
 	{
-		if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX')) {
+		if (!App\Config::performance('SEARCH_OWNERS_BY_AJAX')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if ($this->fieldModel->getFieldDataType() !== 'owner' && $this->fieldModel->getFieldDataType() !== 'sharedOwner') {
@@ -117,7 +117,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 */
 	public function getUserRole(\App\Request $request)
 	{
-		if (!AppConfig::performance('SEARCH_ROLES_BY_AJAX')) {
+		if (!App\Config::performance('SEARCH_ROLES_BY_AJAX')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if ($this->fieldModel->getFieldDataType() !== 'userRole') {
@@ -144,7 +144,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 */
 	public function getReference(\App\Request $request)
 	{
-		if (!AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
+		if (!App\Config::performance('SEARCH_REFERENCE_BY_AJAX')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if (!$this->fieldModel->isReferenceField()) {
@@ -253,7 +253,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 */
 	public function changeFavoriteOwner(\App\Request $request)
 	{
-		if (!AppConfig::module('Users', 'FAVORITE_OWNERS') || (\App\User::getCurrentUserRealId() !== \App\User::getCurrentUserId())) {
+		if (!App\Config::module('Users', 'FAVORITE_OWNERS') || (\App\User::getCurrentUserRealId() !== \App\User::getCurrentUserId())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		$moduleName = $request->getModule();

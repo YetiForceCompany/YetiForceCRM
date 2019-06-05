@@ -29,7 +29,7 @@ class OSSMail_Mail_Model extends \App\Base
 	/**
 	 * Mail crm id.
 	 *
-	 * @var int|bool
+	 * @var bool|int
 	 */
 	protected $mailCrmId = false;
 
@@ -111,7 +111,7 @@ class OSSMail_Mail_Model extends \App\Base
 	 *
 	 * @param bool $returnText
 	 *
-	 * @return string|int
+	 * @return int|string
 	 */
 	public function getTypeEmail($returnText = false)
 	{
@@ -128,21 +128,20 @@ class OSSMail_Mail_Model extends \App\Base
 				$type = true;
 			}
 		}
-		if ($fromEmailUser['notFound'] == 0 && $notFound == 0) {
+		if (0 == $fromEmailUser['notFound'] && 0 == $notFound) {
 			$key = 2;
-			$name = 'Internal';
+			$cacheKey = 'Internal';
 		} elseif ($type) {
 			$key = 0;
-			$name = 'Sent';
+			$cacheKey = 'Sent';
 		} else {
 			$key = 1;
-			$name = 'Received';
+			$cacheKey = 'Received';
 		}
 		if ($returnText) {
-			return $name;
-		} else {
-			return $key;
+			return $cacheKey;
 		}
+		return $key;
 	}
 
 	/**
@@ -202,14 +201,14 @@ class OSSMail_Mail_Model extends \App\Base
 	/**
 	 * Get mail crm id.
 	 *
-	 * @return int|bool
+	 * @return bool|int
 	 */
 	public function getMailCrmId()
 	{
 		if ($this->mailCrmId) {
 			return $this->mailCrmId;
 		}
-		if (empty($this->get('message_id')) || AppConfig::module('OSSMailScanner', 'ONE_MAIL_FOR_MULTIPLE_RECIPIENTS')) {
+		if (empty($this->get('message_id')) || App\Config::module('OSSMailScanner', 'ONE_MAIL_FOR_MULTIPLE_RECIPIENTS')) {
 			$query = (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview')->where(['cid' => $this->getUniqueId()])->limit(1);
 		} else {
 			$query = (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview')->where(['uid' => $this->get('message_id'), 'rc_user' => $this->getAccountOwner()])->limit(1);
@@ -230,21 +229,21 @@ class OSSMail_Mail_Model extends \App\Base
 	/**
 	 * Get email.
 	 *
-	 * @param string $name
+	 * @param string $cacheKey
 	 *
 	 * @return string
 	 */
-	public function getEmail($name)
+	public function getEmail($cacheKey)
 	{
 		$header = $this->get('header');
 		$text = '';
-		if (property_exists($header, $name)) {
-			$text = $header->$name;
+		if (property_exists($header, $cacheKey)) {
+			$text = $header->{$cacheKey};
 		}
 		$return = '';
 		if (is_array($text)) {
 			foreach ($text as $row) {
-				if ($return != '') {
+				if ('' != $return) {
 					$return .= ',';
 				}
 				$return .= $row->mailbox . '@' . $row->host;
@@ -254,64 +253,110 @@ class OSSMail_Mail_Model extends \App\Base
 	}
 
 	/**
+	 * Search crmids by emails.
+	 *
+	 * @param string   $moduleName
+	 * @param string   $fieldName
+	 * @param string[] $emails
+	 *
+	 * @return array crmids
+	 */
+	public function searchByEmails(string $moduleName, string $fieldName, array $emails)
+	{
+		$return = [];
+		$cacheKey = 'MailSearchByEmails' . $moduleName . '_' . $fieldName;
+		foreach ($emails as $email) {
+			if (empty($email)) {
+				continue;
+			}
+			if (App\Cache::staticHas($cacheKey, $email)) {
+				$cache = App\Cache::staticGet($cacheKey, $email);
+				if ($cache != 0) {
+					$return = array_merge($return, $cache);
+				}
+			} else {
+				$ids = [];
+				$queryGenerator = new \App\QueryGenerator($moduleName);
+				if ($queryGenerator->getModuleField($fieldName)) {
+					$queryGenerator->setFields(['id']);
+					$queryGenerator->addCondition($fieldName, $email, 'e');
+					$ids = $queryGenerator->createQuery()->column();
+					$return = array_merge($return, $ids);
+				}
+				if (empty($ids)) {
+					$ids = 0;
+				}
+				App\Cache::staticSave($cacheKey, $email, $ids);
+			}
+		}
+		return $return;
+	}
+
+	/**
+	 * Search crmids from domains.
+	 *
+	 * @param string   $moduleName
+	 * @param string   $fieldName
+	 * @param string[] $emails
+	 *
+	 * @return int[] crmids
+	 */
+	public function searchByDomains(string $moduleName, string $fieldName, array $emails)
+	{
+		$cacheKey = 'MailSearchByDomains' . $moduleName . '_' . $fieldName;
+		$crmids = [];
+		foreach ($emails as $email) {
+			$domain = mb_strtolower(explode('@', $email)[1]);
+			if (App\Cache::staticHas($cacheKey, $domain)) {
+				$cache = App\Cache::staticGet($cacheKey, $domain);
+				if ($cache != 0) {
+					$crmids = array_merge($crmids, $cache);
+				}
+			} else {
+				$crmids = App\Fields\MultiDomain::findIdByDomain($moduleName, $fieldName, $domain);
+				App\Cache::staticSave($cacheKey, $domain, $crmids);
+			}
+		}
+		return $crmids;
+	}
+
+	/**
 	 * Find email address.
 	 *
 	 * @param string $field
 	 * @param string $searchModule
 	 * @param bool   $returnArray
 	 *
-	 * @return string|array
+	 * @return array|string
 	 */
 	public function findEmailAdress($field, $searchModule = false, $returnArray = true)
 	{
 		$return = [];
 		$emails = $this->get($field);
-		$emailSearchList = OSSMailScanner_Record_Model::getEmailSearchList();
-
 		if (empty($emails)) {
 			return [];
-		} elseif (strpos($emails, ',')) {
+		}
+		if (strpos($emails, ',')) {
 			$emails = explode(',', $emails);
 		} else {
 			$emails = (array) $emails;
 		}
+		$emailSearchList = OSSMailScanner_Record_Model::getEmailSearchList();
 		if (!empty($emailSearchList)) {
 			foreach ($emailSearchList as $field) {
 				$enableFind = true;
 				$row = explode('=', $field);
 				$moduleName = $row[1];
+				$fieldName = $row[0];
+				$fieldModel = Vtiger_Field_Model::getInstance($row[0], Vtiger_Module_Model::getInstance($moduleName));
 				if ($searchModule && $searchModule !== $moduleName) {
 					$enableFind = false;
 				}
 				if ($enableFind) {
-					foreach ($emails as $email) {
-						if (empty($email)) {
-							continue;
-						}
-						$name = 'MSFindEmail_' . $moduleName . '_' . $row[0];
-						$cache = Vtiger_Cache::get($name, $email);
-						if ($cache !== false) {
-							if ($cache != 0) {
-								$return = array_merge($return, $cache);
-							}
-						} else {
-							$ids = [];
-							$queryGenerator = new \App\QueryGenerator($moduleName);
-							if ($queryGenerator->getModuleField($row[0])) {
-								$queryGenerator->setFields(['id']);
-								$queryGenerator->addCondition($row[0], $email, 'e');
-								$dataReader = $queryGenerator->createQuery()->createCommand()->query();
-								while (($crmid = $dataReader->readColumn(0)) !== false) {
-									$ids[] = $crmid;
-								}
-								$dataReader->close();
-								$return = array_merge($return, $ids);
-							}
-							if (empty($ids)) {
-								$ids = 0;
-							}
-							Vtiger_Cache::set($name, $email, $ids);
-						}
+					if ($fieldModel->getUIType() === 319) {
+						$return = $this->searchByDomains($moduleName, $fieldName, $emails);
+					} else {
+						$return = $this->searchByEmails($moduleName, $fieldName, $emails);
 					}
 				}
 			}
@@ -340,7 +385,7 @@ class OSSMail_Mail_Model extends \App\Base
 		if ($attachments = $this->get('attachments')) {
 			foreach ($attachments as $attachment) {
 				$fileInstance = \App\Fields\File::loadFromContent($attachment['attachment'], $attachment['filename'], ['validateAllCodeInjection' => true]);
-				if ($fileInstance && $fileInstance->validate() && ($id = App\Fields\File::saveFromContent($fileInstance, $params))) {
+				if ($fileInstance && $fileInstance->validateAndSecure() && ($id = App\Fields\File::saveFromContent($fileInstance, $params))) {
 					$files[] = $id;
 				} else {
 					\App\Log::error("Error downloading the file '{$attachment['filename']}' in mail: {$this->get('date')} | {$this->get('fromaddress')} | {$this->get('subject')}", __CLASS__);

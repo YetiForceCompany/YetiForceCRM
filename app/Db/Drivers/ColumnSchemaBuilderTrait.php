@@ -82,7 +82,7 @@ trait ColumnSchemaBuilderTrait
 	 */
 	public function get($type)
 	{
-		return $this->$type ?? null;
+		return $this->{$type} ?? null;
 	}
 
 	/**
@@ -95,7 +95,7 @@ trait ColumnSchemaBuilderTrait
 	 */
 	public function set($type, $value)
 	{
-		$this->$type = $value;
+		$this->{$type} = $value;
 		return $this;
 	}
 

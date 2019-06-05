@@ -43,7 +43,7 @@ return [
 			'description' => 'Backup catalog path.',
 			'validation' => function () {
 				$arg = func_get_arg(0);
-				return $arg === '' || \App\Fields\File::isAllowedDirectory($arg);
+				return '' === $arg || \App\Fields\File::isAllowedDirectory($arg);
 			}
 		],
 		'EXT_TO_SHOW' => [
@@ -222,5 +222,31 @@ return [
 			'default' => [],
 			'description' => 'List of modules for which Twitter has been enabled.',
 		]
-	]
+	],
+	'Magento' => [
+		'connector' => [
+			'default' => 'Token',
+			'description' => 'Type of connector for integration with magento.',
+		],
+		'addressApi' => [
+			'default' => '',
+			'description' => 'Address url magento',
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return empty($arg) || \App\Validator::url($arg);
+			}
+		],
+		'username' => [
+			'default' => '',
+			'description' => 'Username to account in magento.',
+		],
+		'password' => [
+			'default' => '',
+			'description' => 'Password to account in magento.',
+		],
+		'masterSource' => [
+			'default' => 'magento',
+			'description' => 'Set master source: yetiforce or magento',
+		],
+	],
 ];

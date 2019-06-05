@@ -16,7 +16,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		if ($this->getFieldModel()->get('uitype') === 14) {
+		if (14 === $this->getFieldModel()->get('uitype')) {
 			return self::getDBTimeFromUserValue($value);
 		}
 		return \App\Purifier::decodeHtml($value);
@@ -32,7 +32,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
-		return \App\Purifier::purifyByType($value, 'TimeInUserFormat');
+		return \App\Purifier::purifyByType($value, 'TimeInUserFormat', true);
 	}
 
 	/**
@@ -61,7 +61,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$value = DateTimeField::convertToUserTimeZone(date('Y-m-d') . ' ' . $value)->format('H:i');
-		if (App\User::getCurrentUserModel()->getDetail('hour_format') === '12') {
+		if ('12' === App\User::getCurrentUserModel()->getDetail('hour_format')) {
 			return self::getTimeValueInAMorPM($value);
 		}
 		return $value;
@@ -100,6 +100,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	 * Function to get display value for time.
 	 *
 	 * @param string time
+	 * @param mixed $time
 	 *
 	 * @return string time
 	 */
@@ -120,7 +121,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	public static function getTimeValueInAMorPM($time)
 	{
 		if ($time) {
-			list($hours, $minutes) = explode(':', $time);
+			[$hours, $minutes] = explode(':', $time);
 			$format = \App\Language::translate('PM');
 
 			if ($hours > 12) {
@@ -130,17 +131,16 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 			}
 
 			//If hours zero then we need to make it as 12 AM
-			if ($hours == '00') {
+			if ('00' == $hours) {
 				$hours = '12';
 				$format = \App\Language::translate('AM');
 			}
-			if (strlen($hours) === 1) {
+			if (1 === strlen($hours)) {
 				$hours = "0$hours";
 			}
 			return "$hours:$minutes $format";
-		} else {
-			return '';
 		}
+		return '';
 	}
 
 	/**
@@ -154,14 +154,14 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	{
 		if ($time) {
 			$timeDetails = array_pad(explode(' ', $time), 2, '');
-			list($hours, $minutes, $seconds) = array_pad(explode(':', $timeDetails[0]), 3, 0);
+			[$hours, $minutes, $seconds] = array_pad(explode(':', $timeDetails[0]), 3, 0);
 
 			//If pm exists and if it not 12 then we need to make it to 24 hour format
-			if ($timeDetails[1] === 'PM' && $hours !== '12') {
+			if ('PM' === $timeDetails[1] && '12' !== $hours) {
 				$hours = $hours + 12;
 			}
 
-			if ($timeDetails[1] === 'AM' && $hours === '12') {
+			if ('AM' === $timeDetails[1] && '12' === $hours) {
 				$hours = '00';
 			}
 
@@ -170,9 +170,8 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 			}
 
 			return "$hours:$minutes:$seconds";
-		} else {
-			return '';
 		}
+		return '';
 	}
 
 	/**

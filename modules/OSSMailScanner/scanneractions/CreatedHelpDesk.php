@@ -27,7 +27,7 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 		if (!empty($exceptionsAll['crating_tickets'])) {
 			$exceptions = explode(',', $exceptionsAll['crating_tickets']);
 			foreach ($exceptions as $exception) {
-				if (strpos($mail->get('fromaddress'), $exception) !== false) {
+				if (false !== strpos($mail->get('fromaddress'), $exception)) {
 					return '';
 				}
 			}
@@ -69,8 +69,12 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 		}
 		$accountOwner = $mail->getAccountOwner();
 		$record->set('assigned_user_id', $mail->getAccountOwner());
-		$record->set('ticket_title', \App\Purifier::purify($mail->get('subject')));
-		$record->set('description', \App\Purifier::purifyHtml($mail->get('body')));
+		$maxLengthSubject = $record->getField('ticket_title')->get('maximumlength');
+		$subject = \App\Purifier::purify($mail->get('subject'));
+		$record->set('ticket_title', $maxLengthSubject ? \App\TextParser::textTruncate($subject, $maxLengthSubject, false) : $subject);
+		$maxLengthDescription = $record->getField('description')->get('maximumlength');
+		$description = \App\Purifier::purifyHtml($mail->get('body'));
+		$record->set('description', $maxLengthDescription ? \App\TextParser::htmlTruncate($description, $maxLengthDescription, false) : $description);
 		$record->set('ticketstatus', 'Open');
 		$record->save();
 		$id = $record->getId();
@@ -90,7 +94,6 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 			$dataReader->close();
 		}
 		$dbCommand->update('vtiger_crmentity', ['createdtime' => $mail->get('udate_formated'), 'smcreatorid' => $accountOwner, 'modifiedby' => $accountOwner], ['crmid' => $id])->execute();
-
 		return $id;
 	}
 }

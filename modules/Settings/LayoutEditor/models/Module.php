@@ -86,7 +86,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			'Text', 'Decimal', 'Integer', 'Percent', 'Currency', 'Date', 'Email', 'Phone', 'Picklist', 'Country',
 			'URL', 'Checkbox', 'TextArea', 'MultiSelectCombo', 'Skype', 'Time', 'Related1M', 'Editor', 'Tree',
 			'MultiReferenceValue', 'CategoryMultipicklist', 'DateTime', 'Image', 'MultiImage', 'Twitter', 'MultiEmail',
-			'Smtp'
+			'Smtp', 'ServerAccess', 'MultiDomain', 'RangeTime'
 		];
 	}
 
@@ -188,10 +188,8 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$moduleName = $this->getName();
 		$focus = CRMEntity::getInstance($moduleName);
 		if (0 === $type) {
-			$columnName = $name;
 			$tableName = $focus->table_name;
 		} elseif (1 === $type) {
-			$columnName = 'cf_' . App\Db::getInstance()->getUniqueID('vtiger_field', 'fieldid', false);
 			if (isset($focus->customFieldTable)) {
 				$tableName = $focus->customFieldTable[0];
 			} else {
@@ -207,15 +205,17 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$fieldParams['filterField'] = $params['MRVFilterField'] ?? null;
 			$fieldParams['filterValue'] = $params['MRVFilterValue'] ?? null;
 			\App\Db::getInstance()->createCommand()->insert('s_#__multireference', ['source_module' => $moduleName, 'dest_module' => $params['MRVModule']])->execute();
+		} elseif ('ServerAccess' === $fieldType) {
+			$fieldParams = (int) $params['server'];
 		}
 		$details = $this->getTypeDetailsForAddField($fieldType, $params);
 		$uitype = $details['uitype'];
 		$typeofdata = $details['typeofdata'];
 		$dbType = $details['dbType'];
 		$fieldModel = new Settings_LayoutEditor_Field_Model();
-		$fieldModel->set('name', $columnName)
+		$fieldModel->set('name', $name)
 			->set('table', $tableName)
-			->set('generatedtype', 2)
+			->set('generatedtype', $params['generatedtype'] ?? 2)
 			->set('uitype', $uitype)
 			->set('label', $label)
 			->set('typeofdata', $typeofdata)
@@ -225,8 +225,8 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		if ('Editor' === $fieldType) {
 			$fieldModel->set('maximumlength', $params['fieldLength'] ?? null);
 		}
-		if (isset($details['displayType'])) {
-			$fieldModel->set('displaytype', $details['displayType']);
+		if (isset($details['displayType']) || isset($params['displayType'])) {
+			$fieldModel->set('displaytype', $params['displayType'] ?? $details['displayType']);
 		}
 		$blockModel = Vtiger_Block_Model::getInstance($blockId, $moduleName);
 		$blockModel->addField($fieldModel);
@@ -420,6 +420,21 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$uitype = 316;
 				$uichekdata = 'V~O';
 				$type = $importerType->integer()->defaultValue(null)->unsigned();
+				break;
+			case 'ServerAccess':
+				$uitype = 318;
+				$uichekdata = 'C~O';
+				$type = $importerType->boolean()->defaultValue(false);
+				break;
+			case 'MultiDomain':
+				$uitype = 319;
+				$uichekdata = 'V~O';
+				$type = $importerType->text();
+				break;
+			case 'RangeTime':
+				$uitype = 308;
+				$uichekdata = 'I~O';
+				$type = $importerType->integer()->null();
 				break;
 			default:
 				break;

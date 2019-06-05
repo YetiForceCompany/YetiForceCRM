@@ -52,14 +52,14 @@ class Importer
 	/**
 	 * Load all files for import.
 	 *
-	 * @param string|bool $path
+	 * @param bool|string $path
 	 */
 	public function loadFiles($path = false)
 	{
 		$dir = new \DirectoryIterator($path ? $path : $this->path);
 		foreach ($dir as $fileinfo) {
-			if ($fileinfo->getType() !== 'dir' && $fileinfo->getExtension() === 'php') {
-				require $fileinfo->getPath() . DIRECTORY_SEPARATOR . $fileinfo->getFilename();
+			if ('dir' !== $fileinfo->getType() && 'php' === $fileinfo->getExtension()) {
+				require $fileinfo->getPath() . \DIRECTORY_SEPARATOR . $fileinfo->getFilename();
 				$className = 'Importers\\' . $fileinfo->getBasename('.php');
 				$instance = new $className();
 				if (method_exists($instance, 'scheme')) {
@@ -165,7 +165,7 @@ class Importer
 	public function getOptions(Base $importer, $table)
 	{
 		$options = null;
-		if ($importer->db->getDriverName() === 'mysql') {
+		if ('mysql' === $importer->db->getDriverName()) {
 			$options = "ENGINE={$table['engine']} DEFAULT CHARSET={$table['charset']}";
 			if (isset($table['collate'])) {
 				$options .= " COLLATE={$table['collate']}";
@@ -266,7 +266,7 @@ class Importer
 			$this->logs .= "  > add data to table: $tableName ... ";
 			try {
 				$keys = $table['columns'];
-				if (is_array($table['values']) && isset($table['values'][0])) {
+				if (\is_array($table['values']) && isset($table['values'][0])) {
 					if ((new \App\Db\Query())->from($tableName)->where(array_combine($keys, $table['values'][0]))->exists($importer->db)) {
 						$this->logs .= "| Error: skipped because it exist first row\n";
 					} else {
@@ -352,13 +352,13 @@ class Importer
 	/**
 	 * Drop table.
 	 *
-	 * @param string|array $tables
+	 * @param array|string $tables
 	 */
 	public function dropTable($tables)
 	{
 		$this->logs .= "> start drop tables\n";
 		$db = \App\Db::getInstance();
-		if (is_string($tables)) {
+		if (\is_string($tables)) {
 			$tables = [$tables];
 		}
 		foreach ($tables as $tableName) {
@@ -533,7 +533,7 @@ class Importer
 							if ($this->comperColumns($queryBuilder, $tableSchema->columns[$columnName], $column)) {
 								$primaryKey = false;
 								if ($column instanceof \yii\db\ColumnSchemaBuilder && (\in_array($column->get('type'), ['upk', 'pk']))) {
-									if ($column->get('type') == 'upk') {
+									if ('upk' == $column->get('type')) {
 										$column->unsigned();
 									}
 									$column->set('type', 'integer')->set('autoIncrement', true)->notNull();
@@ -564,7 +564,7 @@ class Importer
 					try {
 						if (isset($dbIndexes[$index[0]])) {
 							$update = false;
-							if (is_string($index[1]) ? !isset($dbIndexes[$index[0]][$index[1]]) : array_diff($index[1], array_keys($dbIndexes[$index[0]]))) {
+							if (\is_string($index[1]) ? !isset($dbIndexes[$index[0]][$index[1]]) : array_diff($index[1], array_keys($dbIndexes[$index[0]]))) {
 								$update = true;
 							} else {
 								foreach ($dbIndexes[$index[0]] as $dbIndex) {
@@ -597,7 +597,7 @@ class Importer
 				foreach ($table['primaryKeys'] as $primaryKey) {
 					$status = true;
 					foreach ($dbPrimaryKeys as $dbPrimaryKey) {
-						if (is_string($primaryKey[1]) ? !(count($dbPrimaryKey) !== 1 && $primaryKey[1] !== $dbPrimaryKey[0]) : !array_diff($primaryKey[1], $dbPrimaryKey)) {
+						if (\is_string($primaryKey[1]) ? !(1 !== \count($dbPrimaryKey) && $primaryKey[1] !== $dbPrimaryKey[0]) : !array_diff($primaryKey[1], $dbPrimaryKey)) {
 							$status = false;
 						}
 					}
@@ -638,7 +638,7 @@ class Importer
 		if (rtrim($baseColumn->dbType, ' unsigned') !== strtok($queryBuilder->getColumnType($targetColumn), ' ')) {
 			return true;
 		}
-		if (($baseColumn->allowNull !== (is_null($targetColumn->isNotNull))) || ($baseColumn->defaultValue !== $targetColumn->default) || ($baseColumn->unsigned !== $targetColumn->isUnsigned)) {
+		if (($baseColumn->allowNull !== (null === $targetColumn->isNotNull)) || ($baseColumn->defaultValue !== $targetColumn->default) || ($baseColumn->unsigned !== $targetColumn->isUnsigned)) {
 			return true;
 		}
 		return false;

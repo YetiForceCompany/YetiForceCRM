@@ -202,7 +202,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 				$db->createCommand()->update($tableName, $tableData, [$entityInstance->tab_name_index[$tableName] => $this->getId()])->execute();
 			}
 		}
-		if (AppConfig::module('Users', 'CHECK_LAST_USERNAME') && isset($valuesForSave['vtiger_users']['user_name'])) {
+		if (App\Config::module('Users', 'CHECK_LAST_USERNAME') && isset($valuesForSave['vtiger_users']['user_name'])) {
 			$db = \App\Db::getInstance('log');
 			$db->createCommand()->insert('l_#__username_history', ['user_name' => $valuesForSave['vtiger_users']['user_name'], 'user_id' => $this->getId()])->execute();
 		}
@@ -227,10 +227,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 		if (!$this->isNew()) {
 			$saveFields = array_intersect($saveFields, array_keys($this->changes));
 		}
-		if ($this->isNew()) {
-			$this->setId(\App\Db::getInstance()->getUniqueID('vtiger_users'));
-			$forSave['vtiger_users']['date_entered'] = date('Y-m-d H:i:s');
-		}
 		if ($this->has('changeUserPassword') || $this->isNew()) {
 			$saveFields[] = 'user_password';
 		}
@@ -253,6 +249,12 @@ class Users_Record_Model extends Vtiger_Record_Model
 				}
 				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $uitypeModel->convertToSave($value, $this);
 			}
+		}
+		if ($this->isNew()) {
+			$this->setId(\App\Db::getInstance()->getUniqueID('vtiger_users'));
+			$now = date('Y-m-d H:i:s');
+			$forSave['vtiger_users']['date_entered'] = $now;
+			$forSave['vtiger_users']['date_password_change'] = $now;
 		}
 		return $forSave;
 	}
@@ -344,7 +346,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		}
 		\App\UserPrivilegesFile::createUserPrivilegesfile($this->getId());
 		\App\UserPrivilegesFile::createUserSharingPrivilegesfile($this->getId());
-		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+		if (App\Config::performance('ENABLE_CACHING_USERS')) {
 			\App\PrivilegeFile::createUsersFile();
 		}
 		if ($this->getPreviousValue('sync_caldav') || $this->isNew()) {
@@ -861,7 +863,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function encryptPassword($password)
 	{
-		return password_hash($password, PASSWORD_BCRYPT, ['cost' => AppConfig::security('USER_ENCRYPT_PASSWORD_COST')]);
+		return password_hash($password, PASSWORD_BCRYPT, ['cost' => App\Config::security('USER_ENCRYPT_PASSWORD_COST')]);
 	}
 
 	/**

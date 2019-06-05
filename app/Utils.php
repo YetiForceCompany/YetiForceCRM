@@ -27,7 +27,7 @@ class Utils
 	/**
 	 * Outputs or returns a parsable string representation of a variable.
 	 *
-	 * @link http://php.net/manual/en/function.var-export.php
+	 * @see http://php.net/manual/en/function.var-export.php
 	 *
 	 * @param mixed $variable
 	 *
@@ -35,7 +35,7 @@ class Utils
 	 */
 	public static function varExport($variable)
 	{
-		if (is_array($variable)) {
+		if (\is_array($variable)) {
 			$toImplode = [];
 			if (static::isAssoc($variable)) {
 				foreach ($variable as $key => $value) {
@@ -48,9 +48,8 @@ class Utils
 			}
 
 			return '[' . implode(',', $toImplode) . ']';
-		} else {
-			return var_export($variable, true);
 		}
+		return var_export($variable, true);
 	}
 
 	/**
@@ -65,7 +64,7 @@ class Utils
 		if (empty($arr)) {
 			return false;
 		}
-		return array_keys($arr) !== range(0, count($arr) - 1);
+		return array_keys($arr) !== range(0, \count($arr) - 1);
 	}
 
 	/**
@@ -79,11 +78,54 @@ class Utils
 	 */
 	public static function convertCharacterEncoding($value, $fromCharset, $toCharset)
 	{
-		if (function_exists('mb_convert_encoding') && function_exists('mb_list_encodings') && in_array($fromCharset, mb_list_encodings()) && in_array($toCharset, mb_list_encodings())) {
+		if (\function_exists('mb_convert_encoding') && \function_exists('mb_list_encodings') && \in_array($fromCharset, mb_list_encodings()) && \in_array($toCharset, mb_list_encodings())) {
 			$value = mb_convert_encoding($value, $toCharset, $fromCharset);
 		} else {
 			$value = iconv($fromCharset, $toCharset, $value);
 		}
 		return $value;
+	}
+
+	/**
+	 * Function to check is a html message.
+	 *
+	 * @param string $content
+	 *
+	 * @return bool
+	 */
+	public static function isHtml(string $content): bool
+	{
+		$content = trim($content);
+		return '<' === substr($content, 0, 1) && '>' === substr($content, -1);
+	}
+
+	/**
+	 * Function to save php file with cleaning file cache.
+	 *
+	 * @param string       $pathDirectory
+	 * @param array|string $content
+	 * @param string       $comment
+	 * @param int          $flag
+	 * @param bool         $return
+	 *
+	 * @return bool $value
+	 */
+	public static function saveToFile(string $pathDirectory, $content, string $comment = '', int $flag = 0, bool $return = false): bool
+	{
+		if (\is_array($content)) {
+			$content = self::varExport($content);
+		}
+		if ($return) {
+			$content = "return $content;";
+		}
+		if ($comment) {
+			$content = "<?php \n //$comment \n $content" . PHP_EOL;
+		} else {
+			$content = "<?php $content" . PHP_EOL;
+		}
+		if (false !== $value = file_put_contents($pathDirectory, $content, $flag)) {
+			Cache::resetFileCache($pathDirectory);
+		}
+		return (bool) $value;
 	}
 }

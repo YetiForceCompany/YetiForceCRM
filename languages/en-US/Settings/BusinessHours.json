@@ -1,0 +1,26 @@
+{
+  "php": {
+    "LBL_BUSINESS_HOURS": "Business hours",
+    "LBL_BUSINESS_HOURS_DESCRIPTION": "Business hours is a module where you can set working hours of your team.",
+    "LBL_WORKING_HOURS_FROM": "From",
+    "LBL_WORKING_HOURS_TO": "To",
+    "LBL_WORKING_DAYS": "Working days",
+    "LBL_WORKING_HOURS": "Working hours",
+    "LBL_DEFAULT": "Default",
+    "LBL_NAME": "Name",
+    "LBL_HOLIDAYS": "Holidays",
+    "LBL_EDIT_BUSINESS_HOURS": "Edit business hours",
+    "LBL_ADD_BUSINESS_HOURS": "Add business hours entry",
+    "LBL_DEFAULT_TIMES": "Default times",
+    "LBL_DEFAULT_REACTION_TIME": "Default reaction time",
+    "LBL_DEFAULT_IDLE_TIME": "Default idle time",
+    "LBL_DEFAULT_RESOLVE_TIME": "Default resolve time",
+    "LBL_REACTION_TIME": "Reaction",
+    "LBL_IDLE_TIME": "Idle",
+    "LBL_RESOLVE_TIME": "Resolve",
+    "LBL_HOLIDAYS_DESCRIPTION": "Go to holidays settings"
+  },
+  "js": {
+    "JS_BUSINESSHOURS_DELETE_CONFIRMATION": "Are your sure you want to delete this entry?"
+  }
+}

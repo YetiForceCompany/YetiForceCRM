@@ -3,8 +3,7 @@
     "FL_SERVICE_CONTRACTS": "Service Level Agreement",
     "FL_SERVICE_CONTRACTS_TYPE": "SLA type",
     "FL_SERVICE_CONTRACTS_DATE": "SLA expiry date",
-    "FL_REPORT_TIME": "Report time",
-    "FL_RESPONSE_TIME": "Response time",
+    "FL_HELP_DESK_PARENT": "Parent ticket",
     "PLL_SUBMITTED_COMMENTS": "Submitted comments",
     "PLL_FOR_APPROVAL": "For approval",
     "PLL_TO_CLOSE": "To close",
@@ -70,7 +69,7 @@
     "LBL_CHARTS": "Charts",
     "Rejected": "Rejected",
     "Answered": "Awaiting realization",
-    "P&S Sold": "Product \/ Service Sold",
+    "P&S Sold": "Product / Service",
     "Record Id": "Record ID",
     "ticketpriorities": "priority",
     "LBL_NO_ACCOUNTS_IN_HELPDESK": "The ticket is not related to any Account. Please create a relation.",
@@ -86,6 +85,12 @@
     "LBL_NOTICE_CLOSE": "Closed",
     "Services": "Services",
     "Support": "Support",
-    "Administrative": "administrative"
+    "Administrative": "administrative",
+    "LBL_SHOW_HIERARCHY": "Hierarchy",
+    "LBL_MASS_STATUS_CHANGE": "Mass status change",
+    "LBL_RECORDS": "Records to change",
+    "LBL_CHILD_RECORDS": "Child records for actual",
+    "LBL_MASS_STATUS_UPDATED": "Status updated in selected records",
+    "LBL_UPDATE": "Update"
   }
 }

@@ -2,7 +2,7 @@
 
 namespace App;
 
-/**
+/*
  * Debuger basic class.
  *
  * @copyright YetiForce Sp. z o.o.
@@ -36,7 +36,7 @@ class Debuger
 		$debugbar->addCollector(new DataCollector\RequestDataCollector());
 		$debugbar->addCollector(new DataCollector\TimeDataCollector());
 		$debugbar->addCollector(new DataCollector\MemoryCollector());
-		if (\AppConfig::debug('LOG_TO_CONSOLE')) {
+		if (\App\Config::debug('LOG_TO_CONSOLE')) {
 			$debugbar->addCollector(new Debug\DebugBarLogs());
 		}
 		$debugbar->addCollector(new DataCollector\ExceptionsCollector());
@@ -86,33 +86,33 @@ class Debuger
 	 */
 	public static function init()
 	{
-		if (\AppConfig::debug('DISPLAY_DEBUG_CONSOLE') && static::checkIP()) {
+		if (\App\Config::debug('DISPLAY_DEBUG_CONSOLE') && static::checkIP()) {
 			static::initConsole();
 		}
 		$targets = [];
-		if (\AppConfig::debug('LOG_TO_FILE')) {
-			$levels = \AppConfig::debug('LOG_LEVELS');
+		if (\App\Config::debug('LOG_TO_FILE')) {
+			$levels = \App\Config::debug('LOG_LEVELS');
 			$target = [
 				'class' => 'App\Log\FileTarget',
 			];
-			if ($levels !== false) {
+			if (false !== $levels) {
 				$target['levels'] = $levels;
 			}
 			$targets['file'] = $target;
 		}
-		if (\AppConfig::debug('LOG_TO_PROFILE')) {
-			$levels = \AppConfig::debug('LOG_LEVELS');
+		if (\App\Config::debug('LOG_TO_PROFILE')) {
+			$levels = \App\Config::debug('LOG_LEVELS');
 			$target = [
 				'class' => 'App\Log\Profiling',
 			];
-			if ($levels !== false) {
+			if (false !== $levels) {
 				$target['levels'] = $levels;
 			}
 			$targets['profiling'] = $target;
 		}
 		\Yii::createObject([
 			'class' => 'yii\log\Dispatcher',
-			'traceLevel' => \AppConfig::debug('LOG_TRACE_LEVEL'),
+			'traceLevel' => \App\Config::debug('LOG_TRACE_LEVEL'),
 			'targets' => $targets,
 		]);
 	}
@@ -124,8 +124,8 @@ class Debuger
 	 */
 	public static function checkIP()
 	{
-		$ips = \AppConfig::debug('DEBUG_CONSOLE_ALLOWED_IPS');
-		if ($ips === false || (\is_string($ips) && RequestUtil::getRemoteIP(true) === $ips) || (\is_array($ips) && \in_array(RequestUtil::getRemoteIP(true), $ips))) {
+		$ips = \App\Config::debug('DEBUG_CONSOLE_ALLOWED_IPS');
+		if (false === $ips || (\is_string($ips) && RequestUtil::getRemoteIP(true) === $ips) || (\is_array($ips) && \in_array(RequestUtil::getRemoteIP(true), $ips))) {
 			return true;
 		}
 		return false;
@@ -151,16 +151,16 @@ class Debuger
 			$args = '';
 			if (isset($v['args'])) {
 				foreach ($v['args'] as &$arg) {
-					if (!is_array($arg) && !is_object($arg) && !is_resource($arg)) {
+					if (!\is_array($arg) && !\is_object($arg) && !\is_resource($arg)) {
 						$args .= var_export($arg, true);
-					} elseif (is_array($arg)) {
+					} elseif (\is_array($arg)) {
 						$args .= '[';
 						foreach ($arg as &$a) {
 							$val = $a;
-							if (is_array($a) || is_object($a) || is_resource($a)) {
-								$val = gettype($a);
-								if (is_object($a)) {
-									$val .= '(' . get_class($a) . ')';
+							if (\is_array($a) || \is_object($a) || \is_resource($a)) {
+								$val = \gettype($a);
+								if (\is_object($a)) {
+									$val .= '(' . \get_class($a) . ')';
 								}
 							}
 							$args .= $val . ',';
@@ -177,10 +177,10 @@ class Debuger
 			}
 			$trace .= '  >>  ' . (isset($v['class']) ? $v['class'] . '->' : '') . "{$v['function']}($args)" . PHP_EOL;
 			unset($args, $val, $v, $k, $a);
-			if ($maxLevel !== 0 && $l >= $maxLevel) {
+			if (0 !== $maxLevel && $l >= $maxLevel) {
 				break;
 			}
 		}
-		return rtrim(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $trace), PHP_EOL);
+		return rtrim(str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $trace), PHP_EOL);
 	}
 }

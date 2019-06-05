@@ -103,7 +103,7 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 		$dbCommand->delete('dav_users', ['userid' => $userId])->execute();
 		$dbCommand->delete('dav_principals', ['userid' => $userId])->execute();
 		$userName = App\User::getUserModel($userId)->getDetail('user_name');
-		$davStorageDir = AppConfig::main('davStorageDir');
+		$davStorageDir = App\Config::main('davStorageDir');
 		vtlib\Functions::recurseDelete($davStorageDir . '/' . $userName);
 	}
 
@@ -119,6 +119,6 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function createUserDirectory($userId)
 	{
-		@mkdir(AppConfig::main('davStorageDir') . '/' . App\User::getUserModel($userId)->getDetail('user_name') . '/', 0777, true);
+		@mkdir(App\Config::main('davStorageDir') . '/' . App\User::getUserModel($userId)->getDetail('user_name') . '/', 0777, true);
 	}
 }

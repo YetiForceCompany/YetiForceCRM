@@ -51,7 +51,7 @@ class Import_Utils_Helper
 
 	public static function getMaxUploadSize()
 	{
-		return \AppConfig::main('upload_maxsize');
+		return \App\Config::main('upload_maxsize');
 	}
 
 	/**

@@ -15,7 +15,7 @@
 		<input type="hidden" class="js-no-entries" data-js="value" value="{$LISTVIEW_ENTRIES_COUNT}">
 		<input type="hidden" class="js-additional-informations" data-js="value" value="{$ADDITIONAL_INFORMATIONS}">
 		<input type="hidden" id="autoRefreshListOnChange" data-js="value"
-			   value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
+			   value="{App\Config::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
 		<input type="hidden" class="js-filter-fields" data-js="value" value="{App\Purifier::encodeHtml(\App\Json::encode($FILTER_FIELDS))}">
 		<div class="table-responsive">
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
@@ -24,7 +24,7 @@
 				<tr class="listViewHeaders">
 					<th class="{$WIDTHTYPE} text-center">
 						{if $MULTI_SELECT}
-							<input type="checkbox" title="{App\Language::translate('LBL_SELECT_ALL_CURRENTPAGE')}"
+							<input type="checkbox" title="{App\Language::translate('LBL_SELECT_ALL_CURRENTPAGE')}"{if $RECORD_SELECTED} checked="checked"{/if}
 								   class="js-select-checkbox u-cursor-pointer" data-type="all" data-js="click"/>
 						{/if}
 					</th>
@@ -69,7 +69,7 @@
 						data-info='{App\Json::encode($LISTVIEW_ENTRY->getRawData())}'>
 						<td class="{$WIDTHTYPE} u-cursor-auto text-center">
 							{if $MULTI_SELECT}
-								<input class="js-select-checkbox" title="{App\Language::translate('LBL_SELECT_RECORD')}"
+								<input class="js-select-checkbox" title="{App\Language::translate('LBL_SELECT_RECORD')}"{if $RECORD_SELECTED} checked="checked"{/if}
 									   type="checkbox" data-type="row" data-js="click"/>
 							{/if}
 						</td>

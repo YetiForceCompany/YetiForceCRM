@@ -17,7 +17,10 @@ class Currency
 	/**
 	 * Function returns the currency in user specified format.
 	 *
-	 * @param string $value Date time
+	 * @param string     $value          Date time
+	 * @param mixed|null $user
+	 * @param mixed      $skipConversion
+	 * @param mixed      $skipFormatting
 	 *
 	 * @return string
 	 */
@@ -53,6 +56,8 @@ class Currency
 	 * Get currency by module name.
 	 *
 	 * @param bool|string $type
+	 * @param mixed       $record
+	 * @param mixed       $moduleName
 	 *
 	 * @return array
 	 */
@@ -103,7 +108,7 @@ class Currency
 		}
 		if ($onlyActive) {
 			foreach ($currencies as $id => $currency) {
-				if ($currency['currency_status'] !== 'Active') {
+				if ('Active' !== $currency['currency_status']) {
 					unset($currencies[$id]);
 				}
 			}
@@ -127,12 +132,12 @@ class Currency
 	/**
 	 * Get current default currency data.
 	 *
-	 * @return bool|array
+	 * @return array|bool
 	 */
 	public static function getDefault()
 	{
-		foreach (\App\Fields\Currency::getAll(true) as $currency) {
-			if ((int) $currency['defaultid'] === -11) {
+		foreach (self::getAll(true) as $currency) {
+			if (-11 === (int) $currency['defaultid']) {
 				return $currency;
 			}
 		}
