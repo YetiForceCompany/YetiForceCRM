@@ -55,7 +55,7 @@
     "vue-cli-plugin-quasar": "^1.0.0-beta.1",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.10",
-    "webpack": "^4.31.0"
+    "webpack": "^4.33.0"
   },
   "bugs": {
     "url": "https://github.com/YetiForceCompany/YetiForceCRM/issues"
