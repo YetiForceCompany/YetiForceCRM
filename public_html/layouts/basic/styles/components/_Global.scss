@@ -560,19 +560,19 @@ input[type='checkbox'][disabled] {
 }
 
 /* -------- TIME PERIOD FIELD -------- */
-.js-time-period-input::-webkit-outer-spin-button,
-.js-time-period-input::-webkit-inner-spin-button {
+.c-time-period-input::-webkit-outer-spin-button,
+.c-time-period-input::-webkit-inner-spin-button {
 	-webkit-appearance: none;
 	margin: 0;
 }
-.js-time-period-input[type='number'] {
+.c-time-period-input[type='number'] {
 	-moz-appearance: textfield;
 }
-.js-time-period .select2-selection,
-.js-time-period .select2 {
+.c-time-period .select2-selection,
+.c-time-period .select2 {
 	border-top-left-radius: 0 !important;
 	border-bottom-left-radius: 0 !important;
 }
-.js-time-period-input {
+.c-time-period-input {
 	text-align: center;
 }

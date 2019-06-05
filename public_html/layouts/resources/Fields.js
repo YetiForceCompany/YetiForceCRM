@@ -1819,11 +1819,11 @@ window.App.Fields = {
 		 * @returns {TimePeriod|TimePeriod[]} instance/s
 		 */
 		static register(container) {
-			if (container.hasClass('js-time-period')) {
+			if (container.hasClass('c-time-period')) {
 				return new TimePeriod(container);
 			}
 			const instances = [];
-			container.find('.js-time-period').each((index, value) => {
+			container.find('.c-time-period').each((index, value) => {
 				instances.push(new TimePeriod($(value)));
 			});
 			return instances;
@@ -1835,15 +1835,15 @@ window.App.Fields = {
 		 * @returns  {jQuery}  created element with input and select
 		 */
 		injectContent() {
-			let content = `<div class="input-group js-time-period" data-js="container">
+			let content = `<div class="input-group c-time-period" data-js="container">
 				<div class="input-group-prepend">
-					<a href class="btn btn-default js-time-period-input-modifier js-time-period-input-modifier--minus-1"><span class="fas fa-minus"></span></a>
+					<a href class="btn btn-default c-time-period-input-modifier c-time-period-input-modifier--minus-1"><span class="fas fa-minus"></span></a>
 				</div>
-				<input type="number" class="form-control js-time-period-input" min="0" value="${this.time}"
+				<input type="number" class="form-control c-time-period-input" min="0" value="${this.time}"
 					data-validation-engine="validate[required,funcCall[Vtiger_Integer_Validator_Js.invokeValidation]]">
 				<div class="input-group-append">
-					<a href class="btn btn-default js-time-period-input-modifier js-time-period-input-modifier--plus-1"><span class="fas fa-plus"></span></a>
-					<select class="select2 time-period-select time-period-${this.container.attr('name')}">
+					<a href class="btn btn-default c-time-period-input-modifier c-time-period-input-modifier--plus-1"><span class="fas fa-plus"></span></a>
+					<select class="select2 js-time-period-select time-period-${this.container.attr('name')}">
 						<option value="m"${this.period === 'm' ? 'selected="selected"' : ''}>${app.vtranslate('JS_MONTHS_FULL')}</option>
 						<option value="d"${this.period === 'd' ? 'selected="selected"' : ''}>${app.vtranslate('JS_DAYS_FULL')}</option>
 						<option value="H"${this.period === 'H' ? 'selected="selected"' : ''}>${app.vtranslate('JS_HOURS_FULL')}</option>
@@ -1853,10 +1853,10 @@ window.App.Fields = {
 				</div>
 			</div>`;
 			this.element = this.container.parent().append(content);
-			this.input = this.element.find('.js-time-period-input').eq(0);
+			this.input = this.element.find('.c-time-period-input').eq(0);
 			this.select = this.element.find('.select2').eq(0);
-			this.plus1btn = this.element.find('.js-time-period-input-modifier--plus-1').eq(0);
-			this.minus1btn = this.element.find('.js-time-period-input-modifier--minus-1').eq(0);
+			this.plus1btn = this.element.find('.c-time-period-input-modifier--plus-1').eq(0);
+			this.minus1btn = this.element.find('.c-time-period-input-modifier--minus-1').eq(0);
 			App.Fields.Picklist.showSelect2ElementView(this.select, { width: '100px' });
 			this.registerEvents();
 			return this.element;

@@ -79,19 +79,19 @@
 						<div class="col-12 form-group row">
 							<label class="col-6">{\App\Language::translate('LBL_DEFAULT_REACTION_TIME', $QUALIFIED_MODULE)}</label>
 							<div class="input-group time col-6">
-								<input type="hidden" name="reaction_time" class="js-time-period" value="{$RECORD_MODEL->get('reaction_time')}">
+								<input type="hidden" name="reaction_time" class="c-time-period" value="{$RECORD_MODEL->get('reaction_time')}">
 							</div>
 						</div>
 						<div class="col-12 form-group row">
 							<label class="col-6">{\App\Language::translate('LBL_DEFAULT_IDLE_TIME', $QUALIFIED_MODULE)}</label>
 							<div class="col-6">
-								<input type="hidden" name="idle_time" class="js-time-period" value="{$RECORD_MODEL->get('idle_time')}">
+								<input type="hidden" name="idle_time" class="c-time-period" value="{$RECORD_MODEL->get('idle_time')}">
 							</div>
 						</div>
 						<div class="col-12 form-group row">
 							<label class="col-6">{\App\Language::translate('LBL_DEFAULT_RESOLVE_TIME', $QUALIFIED_MODULE)}</label>
 							<div class="input-group time col-6">
-								<input type="hidden" name="resolve_time" class="js-time-period" value="{$RECORD_MODEL->get('resolve_time')}">
+								<input type="hidden" name="resolve_time" class="c-time-period" value="{$RECORD_MODEL->get('resolve_time')}">
 							</div>
 						</div>
 						<div class="col-12 form-group row">
