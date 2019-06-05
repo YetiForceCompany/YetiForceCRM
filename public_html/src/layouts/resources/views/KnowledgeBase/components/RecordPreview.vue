@@ -2,7 +2,7 @@
 /**
  * RecordPreview component
  *
- * @description record preview parent component
+ * @description Record preview parent component
  * @license YetiForce Public License 3.0
  * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */

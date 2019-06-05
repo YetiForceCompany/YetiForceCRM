@@ -2,7 +2,7 @@ RecordsList<!--
 /**
  * Carousel component
  *
- * @description carousel component for knowledge base view
+ * @description Carousel component for knowledge base view
  * @license YetiForce Public License 3.0
  * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */

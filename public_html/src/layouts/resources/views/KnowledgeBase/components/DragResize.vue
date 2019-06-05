@@ -2,7 +2,7 @@
 /**
  * DragResize component
  *
- * @description use of vue-drag-resize
+ * @description Use of vue-drag-resize
  * @license YetiForce Public License 3.0
  * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */

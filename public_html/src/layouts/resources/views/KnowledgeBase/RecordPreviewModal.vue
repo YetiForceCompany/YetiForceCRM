@@ -2,7 +2,7 @@
 /**
  * RecordPreviewModal component
  *
- * @description vue root component for record preview dialog
+ * @description Vue root component for record preview dialog
  * @license YetiForce Public License 3.0
  * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
