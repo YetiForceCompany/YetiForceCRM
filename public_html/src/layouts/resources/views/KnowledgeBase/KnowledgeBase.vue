@@ -1,11 +1,18 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-
+<!--
+/**
+ * KnowledgeBase component
+ *
+ * @description Knowledge base view root component
+ * @license YetiForce Public License 3.0
+ * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
+ */
+-->
 <template>
   <div class="KnowledgeBase h-100">
     <q-layout view="hHh Lpr fFf" container class="absolute">
       <q-header elevated class="bg-white text-primary">
-        <q-toolbar>
-          <div v-show="!searchData" class="flex items-center no-wrap">
+        <q-toolbar class="q-py-xs flex-wrap flex-md-nowrap">
+          <div v-show="!searchData" class="flex items-center no-wrap q-mr-auto">
             <q-btn
               dense
               round
@@ -49,9 +56,9 @@
               </template>
             </q-breadcrumbs>
           </div>
-          <div class="mx-auto w-50 flex no-wrap">
+          <div class="mx-auto tree-search flex no-wrap order-sm-none order-xs-last q-pt-sm-none q-pt-xs-xs">
             <q-input
-              class="tree-search"
+              class="full-width"
               v-model="filter"
               :placeholder="translate('JS_SEARCH_PLACEHOLDER')"
               rounded
@@ -69,16 +76,22 @@
                 translate('JS_INPUT_TOO_SHORT').replace('_LENGTH_', '3')
               }}</q-tooltip>
             </q-input>
+            <div class="flex items-center q-ml-xs">
+              <q-icon name="mdi-information-outline" size="iconSize" />
+              <q-tooltip> {{ translate('JS_SEARCH_INFO') }} </q-tooltip>
+            </div>
             <div>
               <q-toggle v-model="categorySearch" icon="mdi-file-tree" />
               <q-tooltip> {{ translate('JS_SEARCH_CURRENT_CATEGORY') }} </q-tooltip>
             </div>
           </div>
-          <q-btn round dense color="white" text-color="primary" icon="mdi-plus" @click="openQuickCreateModal()">
-            <q-tooltip>
-              {{ translate('JS_QUICK_CREATE') }}
-            </q-tooltip>
-          </q-btn>
+          <div class="q-ml-auto">
+            <q-btn round dense color="white" text-color="primary" icon="mdi-plus" @click="openQuickCreateModal()">
+              <q-tooltip>
+                {{ translate('JS_QUICK_CREATE') }}
+              </q-tooltip>
+            </q-btn>
+          </div>
         </q-toolbar>
       </q-header>
       <q-drawer
@@ -176,7 +189,7 @@
         </q-page>
       </q-page-container>
     </q-layout>
-    <record-preview />
+    <record-preview :isDragResize="true" />
   </div>
 </template>
 <script>
@@ -272,7 +285,8 @@ export default {
 </script>
 <style>
 .tree-search {
-  width: 100%;
+  min-width: 320px;
+  width: 50%;
 }
 .tree-search .q-field__control,
 .tree-search .q-field__marginal {
@@ -280,7 +294,7 @@ export default {
 }
 .featured-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(33.3%, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   grid-auto-flow: dense;
 }
 </style>

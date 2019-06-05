@@ -1,7 +1,17 @@
+/**
+ * Knowledge base module
+ *
+ * @description Knowledge base vuex module
+ * @license YetiForce Public License 3.0
+ * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
+ */
+
+import { Screen } from 'quasar'
 // initial state
 const state = {
 	record: false,
 	dialog: false,
+	maximized: true,
 	moduleName: '',
 	iconSize: '18px',
 	tree: {
@@ -15,6 +25,12 @@ const state = {
 			label: 'JS_MAIN_CATEGORIES'
 		},
 		categories: {}
+	},
+	coordinates: {
+		width: Screen.width - 100,
+		height: Screen.height - 100,
+		top: 0,
+		left: Screen.width - (Screen.width - 100 / 2)
 	}
 }
 
@@ -28,6 +44,12 @@ const getters = {
 	},
 	dialog(state) {
 		return state.dialog
+	},
+	maximized(state) {
+		return state.maximized
+	},
+	coordinates(state) {
+		return state.coordinates
 	},
 	iconSize(state) {
 		return state.iconSize
@@ -113,6 +135,12 @@ const mutations = {
 	},
 	setDialog(state, payload) {
 		state.dialog = payload
+	},
+	setMaximized(state, payload) {
+		state.maximized = payload
+	},
+	setCoordinates(state, payload) {
+		state.coordinates = payload
 	},
 	setTreeData(state, payload) {
 		state.tree.data = payload

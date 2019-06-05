@@ -254,7 +254,7 @@
 		-webkit-transition: right ease-in-out 0.35s;
 		transition: right ease-in-out 0.35s;
 
-		@media(max-width: 767px) {
+		@media (max-width: 767px) {
 			width: 100%;
 		}
 	}
@@ -353,11 +353,13 @@
 				display: block;
 				margin: 0 0 5px !important;
 
-				.fas {
+				.fas,
+				[class*='userIcon-'] {
 					margin: 0 5px 0 0;
 				}
 
-				.sr-only { //remove sr-only styles
+				.sr-only {
+					//remove sr-only styles
 					position: static;
 					width: auto;
 					height: auto;
@@ -399,7 +401,7 @@
 	display: flex;
 }
 
-.widget_header > div[class*="col-"]:first-child {
+.widget_header > div[class*='col-']:first-child {
 	display: flex;
 }
 

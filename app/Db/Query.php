@@ -109,4 +109,24 @@ class Query extends \yii\db\Query
 	{
 		return $this->limit(1)->createCommand($db)->queryScalar();
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function queryScalar($selectExpression, $db)
+	{
+		if ($this->emulateExecution || (!$this->distinct
+		&& empty($this->groupBy)
+		&& empty($this->having)
+		&& empty($this->union))) {
+			return	parent::queryScalar($selectExpression, $db);
+		}
+		$command = (new static())
+			->select([$selectExpression])
+			->from(['c' => $this])
+			->createCommand($db);
+		$this->setCommandCache($command);
+
+		return $command->queryScalar();
+	}
 }

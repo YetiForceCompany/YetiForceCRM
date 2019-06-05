@@ -505,6 +505,7 @@
     "LBL_VIEW_EXPORT": "Export",
     "LBL_VIEW_IMPORT": "Import",
     "LBL_VIEW_GANTT": "Gantt",
+    "LBL_VIEW_KNOWLEDGEBASE": "Knowledge base",
     "LBL_QUICK_ACCESS_MENU": "Quick access menu",
     "LBL_Wed": "Wed",
     "LBL_YEAR": "year",
@@ -1715,6 +1716,8 @@
     "JS_DAYS_FULL": "Days",
     "JS_HOURS_FULL": "Hours",
     "JS_MINUTES_FULL": "Minutes",
-    "JS_SECONDS_FULL": "Seconds"
+    "JS_SECONDS_FULL": "Seconds",
+    "JS_SEARCH_INFO": "Use full-text search syntax",
+    "JS_COMMENTS": "Comments"
   }
 }
