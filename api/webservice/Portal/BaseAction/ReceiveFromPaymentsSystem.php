@@ -70,7 +70,7 @@ class ReceiveFromPaymentsSystem extends \Api\Core\BaseAction
 		$recordModel->set('paymentsvalue', $request->getByType('paymentsvalue', 'Double'));
 		$recordModel->set('currency_id', \App\Fields\Currency::getCurrencyIdByCode($request->getByType('currency_id')));
 		$recordModel->set('paymentstitle', $request->getByType('paymentstitle', 'Text'));
-		$recordModel->set('payment_system', $paymentSystem);
+		$recordModel->set('payment_system', 'PLL_' . \strtoupper($paymentSystem));
 		$recordModel->save();
 		return ['id' => $recordModel->getId()];
 	}

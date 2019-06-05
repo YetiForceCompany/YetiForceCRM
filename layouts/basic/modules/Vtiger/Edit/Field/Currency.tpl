@@ -15,7 +15,7 @@
 		{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 		{assign var="FIELD_NAME" value=$FIELD_MODEL->getName()}
 		{assign var="SYMBOL_PLACEMENT" value=$USER_MODEL->currency_symbol_placement}
-		{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
+		{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD)}
 		{if $FIELD_MODEL->getUIType() eq '71'}
 			<div class="input-group" data-uitype="71">
 				{if $SYMBOL_PLACEMENT neq '1.0$'}
@@ -80,6 +80,24 @@
 			</div>
 			<input type="hidden" name="base_currency" value="{$BASE_CURRENCY_NAME}">
 			<input type="hidden" name="cur_{$BASE_CURRENCY_ID}_check" class="js-base-currency-check-id" data-js="attr:name" value="1">
+		{elseif ($FIELD_MODEL->getUIType() eq '72')}
+			<div class="input-group">
+				{assign var="DISPLAY_FIELD_VALUE" value=$FIELD_VALUE}
+				<input name="{$FIELD_MODEL->getFieldName()}" value="{$DISPLAY_FIELD_VALUE}" type="text"
+							   class="row-fluid currencyField form-control" data-fieldinfo='{$FIELD_INFO}'
+							   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+							   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
+							   {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} data-decimal-separator='{$USER_MODEL->get('currency_decimal_separator')}'
+							   data-group-separator='{$USER_MODEL->get('currency_grouping_separator')}'
+							   {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} />
+				{if $SYMBOL_PLACEMENT eq '1.0$'}
+					<span class="input-group-append">
+						<span class="input-group-text js-currency" data-js="text">
+							{$FIELD_MODEL->getUITypeModel()->getCurrencySymbolByRecordId($RECORD->getId())}
+						</span>
+					</span>
+				{/if}
+			</div>
 		{else}
 			<div class="input-group">
 				<div class="row">
