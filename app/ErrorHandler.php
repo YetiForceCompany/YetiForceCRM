@@ -43,7 +43,7 @@ class ErrorHandler
 			return;
 		}
 		register_shutdown_function([__CLASS__, 'fatalHandler']);
-		set_error_handler([__CLASS__, 'errorHandler'], \AppConfig::debug('EXCEPTION_ERROR_LEVEL'));
+		set_error_handler([__CLASS__, 'errorHandler'], \App\Config::debug('EXCEPTION_ERROR_LEVEL'));
 	}
 
 	/**
@@ -52,7 +52,7 @@ class ErrorHandler
 	public static function fatalHandler()
 	{
 		$error = error_get_last();
-		if (isset($error['type']) && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING])) {
+		if (isset($error['type']) && \in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING])) {
 			static::errorHandler($error['type'], $error['message'], $error['file'], $error['line']);
 		}
 	}
@@ -65,18 +65,18 @@ class ErrorHandler
 	 * @param string $errfile
 	 * @param int    $errline
 	 *
-	 * @link https://secure.php.net/manual/en/function.set-error-handler.php
+	 * @see https://secure.php.net/manual/en/function.set-error-handler.php
 	 */
 	public static function errorHandler($errno, $errstr, $errfile, $errline)
 	{
 		$errorString = static::error2string($errno);
 		$msg = reset($errorString) . ": $errstr in $errfile, line $errline";
-		if (\AppConfig::debug('EXCEPTION_ERROR_TO_FILE')) {
+		if (\App\Config::debug('EXCEPTION_ERROR_TO_FILE')) {
 			$file = ROOT_DIRECTORY . '/cache/logs/errors.log';
 			$content = print_r($msg, true) . PHP_EOL . \App\Debuger::getBacktrace(2) . PHP_EOL;
 			file_put_contents($file, $content, FILE_APPEND);
 		}
-		if (\AppConfig::debug('EXCEPTION_ERROR_TO_SHOW')) {
+		if (\App\Config::debug('EXCEPTION_ERROR_TO_SHOW')) {
 			\vtlib\Functions::throwNewException($msg, false);
 		}
 	}
@@ -91,7 +91,7 @@ class ErrorHandler
 	public static function error2string($value)
 	{
 		$levels = [];
-		if (($value & E_ALL) == E_ALL) {
+		if (E_ALL == ($value & E_ALL)) {
 			$levels[] = 'E_ALL';
 			$value &= ~E_ALL;
 		}

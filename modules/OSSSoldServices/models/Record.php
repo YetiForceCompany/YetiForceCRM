@@ -32,9 +32,9 @@ class OSSSoldServices_Record_Model extends Vtiger_Record_Model
 			return 'PLL_RENEWED_VERIFICATION';
 		}
 		$dateInService = strtotime($this->get('dateinservice'));
-		$renewalTime = AppConfig::module('OSSSoldServices', 'RENEWAL_TIME');
+		$renewalTime = App\Config::module('OSSSoldServices', 'RENEWAL_TIME');
 		$dateRenewable = strtotime('-' . $renewalTime, $dateInService);
-		$classFunction = AppConfig::module('Assets', 'RENEWAL_CUSTOMER_FUNCTION');
+		$classFunction = App\Config::module('Assets', 'RENEWAL_CUSTOMER_FUNCTION');
 		$methodExist = false;
 		if ($classFunction && class_exists($classFunction['class']) && method_exists($classFunction['class'], $classFunction['method'])) {
 			$methodExist = true;

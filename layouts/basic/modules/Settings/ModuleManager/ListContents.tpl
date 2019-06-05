@@ -23,7 +23,7 @@
 							<strong>{\App\Language::translate('LBL_CREATE_MODULE', $QUALIFIED_MODULE)}</strong>
 						</button>
 					</span>
-					{if \AppConfig::main('systemMode') !== 'demo'}
+					{if \App\Config::main('systemMode') !== 'demo'}
 						<span class="btn-group c-btn-block-md-down mt-1 mt-lg-0">
 							<button class="btn btn-primary c-btn-block-md-down" type="button" onclick='window.location.href = "{$IMPORT_USER_MODULE_URL}"'>
 								<span class="fas fa-download"></span>&nbsp;&nbsp;

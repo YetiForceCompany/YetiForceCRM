@@ -99,7 +99,7 @@ class CustomView
 	 */
 	public static function isMultiViewId($cvId)
 	{
-		return strpos($cvId, ',') !== false;
+		return false !== strpos($cvId, ',');
 	}
 
 	/**
@@ -525,6 +525,8 @@ class CustomView
 	/**
 	 * To get the customViewId of the specified module.
 	 *
+	 * @param mixed $noCache
+	 *
 	 * @return int|string
 	 */
 	public function getViewId($noCache = false)
@@ -545,7 +547,7 @@ class CustomView
 		} else {
 			$viewId = Request::_get('viewname');
 			if (!is_numeric($viewId)) {
-				if ($viewId === 'All') {
+				if ('All' === $viewId) {
 					$viewId = $this->getMandatoryFilter();
 				} else {
 					$viewId = $this->getViewIdByName($viewId);
@@ -605,7 +607,7 @@ class CustomView
 		}
 		$info = $this->getInfoFilter($this->moduleName);
 		foreach ($info as &$values) {
-			if ($values['setdefault'] === 1) {
+			if (1 === $values['setdefault']) {
 				Cache::save('GetDefaultCvId', $cacheName, $values['cvid']);
 				return $values['cvid'];
 			}
@@ -628,12 +630,12 @@ class CustomView
 			if ($statusUseridInfo) {
 				$status = $statusUseridInfo['status'];
 				$userId = $statusUseridInfo['userid'];
-				if ($status === self::CV_STATUS_DEFAULT || $this->user->isAdmin()) {
+				if (self::CV_STATUS_DEFAULT === $status || $this->user->isAdmin()) {
 					$permission = true;
-				} elseif (Request::_get('view') !== 'ChangeStatus') {
-					if ($status === self::CV_STATUS_PUBLIC || $userId === $this->user->getId()) {
+				} elseif ('ChangeStatus' !== Request::_get('view')) {
+					if (self::CV_STATUS_PUBLIC === $status || $userId === $this->user->getId()) {
 						$permission = true;
-					} elseif ($status === self::CV_STATUS_PRIVATE || $status === self::CV_STATUS_PENDING) {
+					} elseif (self::CV_STATUS_PRIVATE === $status || self::CV_STATUS_PENDING === $status) {
 						$subQuery = (new Db\Query())->select(['vtiger_user2role.userid'])->from('vtiger_user2role')
 							->innerJoin('vtiger_users', 'vtiger_user2role.userid = vtiger_users.id')
 							->innerJoin('vtiger_role', 'vtiger_user2role.userid = vtiger_role.roleid')
@@ -645,7 +647,7 @@ class CustomView
 							->where(['vtiger_customview.cvid' => $viewId, 'vtiger_customview.userid' => $subQuery]);
 						$userArray = $query->column();
 						if ($userArray) {
-							if (!in_array($this->user->getId(), $userArray)) {
+							if (!\in_array($this->user->getId(), $userArray)) {
 								$permission = false;
 							} else {
 								$permission = true;
@@ -701,10 +703,11 @@ class CustomView
 		$info = $this->getInfoFilter($this->moduleName);
 		$returnValue = '';
 		foreach ($info as $index => &$values) {
-			if ($values['presence'] === 0) {
+			if (0 === $values['presence']) {
 				$returnValue = $index;
 				break;
-			} elseif ($values['presence'] === 2) {
+			}
+			if (2 === $values['presence']) {
 				$returnValue = $index;
 			}
 		}

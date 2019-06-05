@@ -26,7 +26,7 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
@@ -39,7 +39,7 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function checkLimits(\App\Request $request)
+	public function checkLimits(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->getInteger('record');
@@ -99,7 +99,7 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 		$response->emit();
 	}
 
-	public function getUnitPrice(\App\Request $request)
+	public function getUnitPrice(App\Request $request)
 	{
 		$record = $request->getInteger('record');
 		$recordModule = $request->getByType('recordModule', 2);
@@ -116,7 +116,7 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 		$response->emit();
 	}
 
-	public function getDetails(\App\Request $request)
+	public function getDetails(App\Request $request)
 	{
 		$currencyId = $request->getInteger('currency_id');
 		$fieldName = $request->getByType('fieldname');
@@ -170,7 +170,7 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 		}
 		$info['autoFields'] = $autoFields;
 		if (!$recordModel->isEmpty('taxes')) {
-			if (strpos($recordModel->get('taxes'), ',') === false) {
+			if (false === strpos($recordModel->get('taxes'), ',')) {
 				$taxModel = Settings_Inventory_Record_Model::getInstanceById($recordModel->get('taxes'), 'Taxes');
 			} else {
 				$productTaxes = explode(',', $recordModel->get('taxes'));
@@ -193,7 +193,7 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 	 * @throws \App\Exceptions\IllegalValue
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function getTableData(\App\Request $request)
+	public function getTableData(App\Request $request)
 	{
 		if ($request->isEmpty('record', true)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);

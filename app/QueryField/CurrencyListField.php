@@ -22,10 +22,9 @@ class CurrencyListField extends PicklistField
 	public function getOrderBy($order = false)
 	{
 		$this->queryGenerator->addJoin(['LEFT JOIN', 'vtiger_currency_info', $this->getColumnName() . ' = vtiger_currency_info.id']);
-		if ($order && strtolower($order) === 'desc') {
+		if ($order && 'desc' === strtolower($order)) {
 			return ['vtiger_currency_info.currency_name' => SORT_DESC];
-		} else {
-			return ['vtiger_currency_info.currency_name' => SORT_ASC];
 		}
+		return ['vtiger_currency_info.currency_name' => SORT_ASC];
 	}
 }

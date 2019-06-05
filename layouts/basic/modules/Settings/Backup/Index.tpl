@@ -43,21 +43,23 @@
 							{/foreach}
 						{/if}
 					</table>
-					<table class="table table-striped table-bordered dataTable">
-						<tr class="c-tab--border-active listViewHeaders">
-							<th class="p-2">
-								{\App\Language::translate('LBL_FILE_NAME',$QUALIFIED_MODULE)}
-							</th>
-							<th class="p-2">
-								{\App\Language::translate('LBL_FILE_DATE',$QUALIFIED_MODULE)}
-							</th>
-							<th class="p-2">
-								{\App\Language::translate('LBL_FILE_SIZE',$QUALIFIED_MODULE)}
-							</th>
-							<th class="noWrap p-2">
-								{\App\Language::translate('LBL_DOWNLOAD',$QUALIFIED_MODULE)}
-							</th>
-						</tr>
+					<table class="table table-striped table-bordered js-data-table dataTable" data-j="DataTable">
+						<thead>
+							<tr class="c-tab--border-active listViewHeaders">
+								<th class="p-2">
+									{\App\Language::translate('LBL_FILE_NAME',$QUALIFIED_MODULE)}
+								</th>
+								<th class="p-2">
+									{\App\Language::translate('LBL_FILE_DATE',$QUALIFIED_MODULE)}
+								</th>
+								<th class="p-2">
+									{\App\Language::translate('LBL_FILE_SIZE',$QUALIFIED_MODULE)}
+								</th>
+								<th class="noWrap p-2">
+									{\App\Language::translate('LBL_DOWNLOAD',$QUALIFIED_MODULE)}
+								</th>
+							</tr>
+						</thead>
 						{foreach from=$STRUCTURE['files'] item=$file}
 							<tr class="listViewEntries">
 								<td>{\App\Purifier::encodeHtml($file['name'])}</td>

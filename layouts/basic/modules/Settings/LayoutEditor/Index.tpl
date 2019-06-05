@@ -25,21 +25,16 @@
 					</select>
 				</div>
 				<div class="form-group float-right">
-					<div class="btn-group btn-group-toggle" data-toggle="buttons">
-						<label class="btn btn-outline-primary {if !$IS_INVENTORY}active{/if}">
-							<input class="js-switch--inventory" type="radio" name="options" id="option1"
-								   data-js="change"
-								   data-value="basic" autocomplete="off"
-								   {if !$IS_INVENTORY}checked{/if}
+					<div class="btn-group">
+							<button class="js-switch--inventory btn btn-outline-primary{if !$IS_INVENTORY} active{/if}"
+									type="button"	data-js="click" {if $CHANGE_MODULE_TYPE_DISABLED}disabled="disabled"{/if}
+									data-value="{Vtiger_Module_Model::STANDARD_TYPE}" autocomplete="off"
 							> {App\Language::translate('LBL_BASIC_MODULE',$QUALIFIED_MODULE)}
-						</label>
-						<label class="btn btn-outline-primary {if $IS_INVENTORY}active{/if}">
-							<input class="js-switch--inventory" type="radio" name="options" id="option2"
-								   data-js="change"
-								   data-value="advanced" autocomplete="off"
-								   {if $IS_INVENTORY}checked{/if}
+							</button>
+							<button class="js-switch--inventory btn btn-outline-primary{if $IS_INVENTORY} active{/if}"
+									type="button" data-js="click" {if $CHANGE_MODULE_TYPE_DISABLED}disabled="disabled"{/if}
+									data-value="{Vtiger_Module_Model::ADVANCED_TYPE}" autocomplete="off"
 							> {App\Language::translate('LBL_ADVANCED_MODULE',$QUALIFIED_MODULE)}
-						</label>
 					</div>
 				</div>
 			</div>

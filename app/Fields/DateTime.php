@@ -23,10 +23,10 @@ class DateTime
 	 */
 	public static function formatToDisplay($value)
 	{
-		if (empty($value) || $value === '0000-00-00' || $value === '0000-00-00 00:00:00') {
+		if (empty($value) || '0000-00-00' === $value || '0000-00-00 00:00:00' === $value) {
 			return '';
 		}
-		if ($value === 'now') {
+		if ('now' === $value) {
 			$value = null;
 		}
 		return (new \DateTimeField($value))->getDisplayDateTimeValue();
@@ -46,28 +46,28 @@ class DateTime
 			$delim = ['/', '.'];
 			foreach ($delim as $delimiter) {
 				$x = strpos($value, $delimiter);
-				if ($x !== false) {
+				if (false !== $x) {
 					$value = str_replace($delimiter, '-', $value);
 					break;
 				}
 			}
-			list($y, $m, $d) = explode('-', $value);
-			if (strlen($y) == 1) {
+			[$y, $m, $d] = explode('-', $value);
+			if (1 == \strlen($y)) {
 				$y = '0' . $y;
 			}
-			if (strlen($m) == 1) {
+			if (1 == \strlen($m)) {
 				$m = '0' . $m;
 			}
-			if (strlen($d) == 1) {
+			if (1 == \strlen($d)) {
 				$d = '0' . $d;
 			}
 			$value = implode('-', [$y, $m, $d]);
 			$valueList = explode(' ', $value);
 			$dbTimeValue = $valueList[1];
-			if (!empty($dbTimeValue) && strpos($dbTimeValue, ':') === false) {
+			if (!empty($dbTimeValue) && false === strpos($dbTimeValue, ':')) {
 				$dbTimeValue = $dbTimeValue . ':';
 			}
-			if (!empty($dbTimeValue) && strrpos($dbTimeValue, ':') == (strlen($dbTimeValue) - 1)) {
+			if (!empty($dbTimeValue) && strrpos($dbTimeValue, ':') == (\strlen($dbTimeValue) - 1)) {
 				$dbTimeValue = $dbTimeValue . '00';
 			}
 
@@ -127,7 +127,7 @@ class DateTime
 		$dateDay = Date::getDayFromDate($dateTime, false, true);
 		if (!$allday) {
 			$timeInUserFormat = explode(':', $timeInUserFormat);
-			if (\count($timeInUserFormat) === 3) {
+			if (3 === \count($timeInUserFormat)) {
 				[$hours, $minutes, $seconds] = $timeInUserFormat;
 			} else {
 				[$hours, $minutes] = $timeInUserFormat;
@@ -156,10 +156,76 @@ class DateTime
 		if (!static::$databaseTimeZone) {
 			$defaultTimeZone = date_default_timezone_get();
 			if (empty($defaultTimeZone)) {
-				$defaultTimeZone = \AppConfig::main('default_timezone');
+				$defaultTimeZone = \App\Config::main('default_timezone');
 			}
 			static::$databaseTimeZone = $defaultTimeZone;
 		}
 		return static::$databaseTimeZone;
+	}
+
+	/**
+	 * Function returning difference in format between date times.
+	 *
+	 * @param string $start  ex. '2017-07-10 11:45:56
+	 * @param string $end    ex. 2017-07-30 12:08:19
+	 * @param string $format Default %a
+	 *
+	 * @see https://secure.php.net/manual/en/class.dateinterval.php
+	 * @see https://secure.php.net/manual/en/dateinterval.format.php
+	 *
+	 * @return int|string difference in format
+	 */
+	public static function getDiff($start, $end, $format = '%a')
+	{
+		$interval = (new \DateTime($start))->diff(new \DateTime($end));
+		switch ($format) {
+			case 'years':
+				return $interval->format('%Y');
+			case 'months':
+				$years = $interval->format('%Y');
+				$months = 0;
+				if ($years) {
+					$months += $years * 12;
+				}
+				return $months + $interval->format('%m');
+			case 'days':
+				return $interval->format('%a');
+			case 'hours':
+				$days = $interval->format('%a');
+				$hours = 0;
+				if ($days) {
+					$hours += 24 * $days;
+				}
+				return $hours + $interval->format('%H');
+			case 'minutes':
+				$days = $interval->format('%a');
+				$minutes = 0;
+				if ($days) {
+					$minutes += 24 * 60 * $days;
+				}
+				$hours = $interval->format('%H');
+				if ($hours) {
+					$minutes += 60 * $hours;
+				}
+				return $minutes + $interval->format('%i');
+			case 'seconds':
+				$days = $interval->format('%a');
+				$seconds = 0;
+				if ($days) {
+					$seconds += 24 * 60 * 60 * $days;
+				}
+				$hours = $interval->format('%H');
+				if ($hours) {
+					$seconds += 60 * 60 * $hours;
+				}
+				$minutes = $interval->format('%i');
+				if ($minutes) {
+					$seconds += 60 * $minutes;
+				}
+				return $seconds + $interval->format('%s');
+			default:
+				break;
+		}
+		return $interval->format($format);
 	}
 }

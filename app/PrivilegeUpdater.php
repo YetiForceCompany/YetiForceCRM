@@ -29,7 +29,7 @@ class PrivilegeUpdater
 		if (!isset(static::$globalSearchPermissionsCache[$userId][$moduleName])) {
 			$users = static::getGlobalSearchUsers();
 			$return = false;
-			if (isset($users[$userId]) && in_array($moduleName, $users[$userId])) {
+			if (isset($users[$userId]) && \in_array($moduleName, $users[$userId])) {
 				$return = true;
 			}
 
@@ -88,13 +88,13 @@ class PrivilegeUpdater
 		$db->createCommand()
 			->update('u_#__crmentity_search_label', [
 				'userid' => $searchUsers,
-				], 'crmid = ' . $record)
-				->execute();
+			], 'crmid = ' . $record)
+			->execute();
 		$db->createCommand()
 			->update('vtiger_crmentity', [
 				'users' => $recordAccessUsers,
-				], 'crmid = ' . $record)
-				->execute();
+			], 'crmid = ' . $record)
+			->execute();
 	}
 
 	/**
@@ -118,8 +118,8 @@ class PrivilegeUpdater
 		\App\Db::getInstance()->createCommand()
 			->update('u_#__crmentity_search_label', [
 				'userid' => $searchUsers,
-				], 'crmid = ' . $record)
-				->execute();
+			], 'crmid = ' . $record)
+			->execute();
 	}
 
 	/**
@@ -143,8 +143,8 @@ class PrivilegeUpdater
 		\App\Db::getInstance()->createCommand()
 			->update('vtiger_crmentity', [
 				'users' => $recordAccessUsers,
-				], 'crmid = ' . $record)
-				->execute();
+			], 'crmid = ' . $record)
+			->execute();
 	}
 
 	/**
@@ -171,22 +171,22 @@ class PrivilegeUpdater
 		$query = new \App\Db\Query();
 		$row = $query->from('s_#__privileges_updater')->where(['module' => $moduleName, 'type' => 1])->limit(1)->one();
 		if ($row) {
-			if ($record === false) {
-				if ($row['crmid'] != 0) {
+			if (false === $record) {
+				if (0 != $row['crmid']) {
 					$update = true;
 					$params['crmid'] = 0;
 				}
 			} elseif ($record < $row['crmid']) {
 				$row = $query->from('s_#__privileges_updater')->where(['module' => $moduleName, 'type' => 0, 'crmid' => $record])->limit(1)->one();
-				if ($row === false) {
+				if (false === $row) {
 					$insert = true;
 				}
 			}
-		} elseif ($record === false) {
+		} elseif (false === $record) {
 			$insert = true;
 		} else {
 			$row = $query->from('s_#__privileges_updater')->where(['module' => $moduleName, 'type' => 0, 'crmid' => $record])->limit(1)->one();
-			if ($row === false) {
+			if (false === $row) {
 				$insert = true;
 				$params['type'] = 0;
 			}
@@ -210,7 +210,7 @@ class PrivilegeUpdater
 			static::setUpdater($module['name']);
 		}
 		PrivilegeAdvanced::reloadCache();
-		if (\AppConfig::module('ModTracker', 'WATCHDOG')) {
+		if (\App\Config::module('ModTracker', 'WATCHDOG')) {
 			\Vtiger_Watchdog_Model::reloadCache();
 		}
 		\App\Cache::clear();
@@ -223,7 +223,7 @@ class PrivilegeUpdater
 	 */
 	public static function updateOnRecordSave(\Vtiger_Record_Model $record)
 	{
-		if (!\AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
+		if (!\App\Config::security('CACHING_PERMISSION_TO_RECORD')) {
 			return false;
 		}
 		static::setUpdater($record->getModuleName(), $record->getId(), 6, 0);

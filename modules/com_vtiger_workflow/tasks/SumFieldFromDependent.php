@@ -21,7 +21,7 @@ class SumFieldFromDependent extends VTTask
 	 */
 	public function getFieldNames()
 	{
-		return ['targetField', 'sourceField'];
+		return ['targetField', 'sourceField', 'conditions'];
 	}
 
 	/**
@@ -29,7 +29,7 @@ class SumFieldFromDependent extends VTTask
 	 */
 	public function doTask($recordModel)
 	{
-		list($referenceField, $moduleName, $fieldName) = explode('::', $this->targetField);
+		[$referenceField, $moduleName, $fieldName] = explode('::', $this->targetField);
 		$relationFieldModel = $recordModel->getModule()->getFieldByName($referenceField);
 		$ids = [];
 		if (!$recordModel->isEmpty($referenceField)) {
@@ -41,8 +41,10 @@ class SumFieldFromDependent extends VTTask
 		foreach ($ids as $id) {
 			$queryGenerator = new \App\QueryGenerator($recordModel->getModuleName());
 			$queryGenerator->setField($this->sourceField);
+			$queryGenerator->setConditions($this->conditions);
+			$queryGenerator->permissions = false;
 			$query = $queryGenerator->createQuery();
-			$query->where([$relationFieldModel->getTableName() . '.' . $relationFieldModel->getColumnName() => $id, 'vtiger_crmentity.deleted' => 0]);
+			$query->andWhere([$relationFieldModel->getTableName() . '.' . $relationFieldModel->getColumnName() => $id, 'vtiger_crmentity.deleted' => 0]);
 			$sourceFieldModel = $recordModel->getModule()->getFieldByName($this->sourceField);
 			$columnSumValue = $query->sum($sourceFieldModel->getTableName() . '.' . $sourceFieldModel->getColumnName());
 			$relatedModel = \Vtiger_Record_Model::getInstanceById($id, $moduleName);

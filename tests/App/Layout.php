@@ -16,9 +16,9 @@ class Layout extends \Tests\Base
 	 */
 	public function testGetActiveLayout()
 	{
-		$this->assertSame(\AppConfig::main('defaultLayout'), \App\Layout::getActiveLayout(), 'Expected default layout');
-		\App\Session::set('layout', \AppConfig::main('defaultLayout'));
-		$this->assertSame(\AppConfig::main('defaultLayout'), \App\Layout::getActiveLayout(), 'Expected default layout(session)');
+		$this->assertSame(\App\Config::main('defaultLayout'), \App\Layout::getActiveLayout(), 'Expected default layout');
+		\App\Session::set('layout', \App\Config::main('defaultLayout'));
+		$this->assertSame(\App\Config::main('defaultLayout'), \App\Layout::getActiveLayout(), 'Expected default layout(session)');
 	}
 
 	/**
@@ -51,7 +51,7 @@ class Layout extends \Tests\Base
 	 */
 	public function testGetPublicUrl()
 	{
-		$this->assertSame(\AppConfig::main('site_URL') . 'public_html/unitTest', \App\Layout::getPublicUrl('unitTest', true), 'Url differs from reference');
+		$this->assertSame(\App\Config::main('site_URL') . 'public_html/unitTest', \App\Layout::getPublicUrl('unitTest', true), 'Url differs from reference');
 	}
 
 	/**

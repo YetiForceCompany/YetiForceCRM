@@ -44,7 +44,7 @@ class Vtiger_Mail_Action extends \App\Controller\Action
 	public function checkSmtp(\App\Request $request)
 	{
 		$result = false;
-		if (AppConfig::main('isActiveSendingMails')) {
+		if (App\Config::main('isActiveSendingMails')) {
 			$result = !empty(App\Mail::getAll());
 		}
 		$response = new Vtiger_Response();

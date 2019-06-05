@@ -181,7 +181,7 @@ class PackageUpdate extends PackageImport
 						} else {
 							// Supress any SQL query failures
 							\App\Log::trace("SQL: $tablesql ... ", __METHOD__);
-							Utils::executeQuery($tablesql, true);
+							\App\Db::getInstance()->createCommand($tablesql)->execute();
 							\App\Log::trace('DONE', __METHOD__);
 						}
 					}

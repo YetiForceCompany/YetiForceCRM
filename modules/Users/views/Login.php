@@ -70,8 +70,8 @@ class Users_Login_View extends \App\Controller\View
 		if (\App\Session::get('LoginAuthyMethod') === '2fa') {
 			$viewer->view('Login2faTotp.tpl', 'Users');
 		} else {
-			$viewer->assign('LANGUAGE_SELECTION', AppConfig::main('langInLoginView'));
-			$viewer->assign('LAYOUT_SELECTION', AppConfig::main('layoutInLoginView'));
+			$viewer->assign('LANGUAGE_SELECTION', App\Config::main('langInLoginView'));
+			$viewer->assign('LAYOUT_SELECTION', App\Config::main('layoutInLoginView'));
 			$viewer->view('Login.tpl', 'Users');
 		}
 	}

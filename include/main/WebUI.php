@@ -9,7 +9,6 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 require_once 'include/ConfigUtils.php';
-require_once 'include/database/PearDatabase.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/fields/DateTimeField.php';
 require_once 'include/fields/DateTimeRange.php';
@@ -25,10 +24,10 @@ require_once 'include/Loader.php';
 Vtiger_Loader::includeOnce('include.runtime.EntryPoint');
 App\Debuger::init();
 App\Cache::init();
-App\Db::$connectCache = AppConfig::performance('ENABLE_CACHING_DB_CONNECTION');
-App\Log::$logToProfile = Yii::$logToProfile = AppConfig::debug('LOG_TO_PROFILE');
-App\Log::$logToConsole = AppConfig::debug('LOG_TO_CONSOLE');
-App\Log::$logToFile = AppConfig::debug('LOG_TO_FILE');
+App\Db::$connectCache = App\Config::performance('ENABLE_CACHING_DB_CONNECTION');
+App\Log::$logToProfile = Yii::$logToProfile = App\Config::debug('LOG_TO_PROFILE');
+App\Log::$logToConsole = App\Config::debug('LOG_TO_CONSOLE');
+App\Log::$logToFile = App\Config::debug('LOG_TO_FILE');
 
 class Vtiger_WebUI extends Vtiger_EntryPoint
 {
@@ -71,7 +70,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$user = parent::getLogin();
 		if (!$user && App\Session::has('authenticated_user_id')) {
 			$userId = App\Session::get('authenticated_user_id');
-			if ($userId && AppConfig::main('application_unique_key') === App\Session::get('app_unique_key')) {
+			if ($userId && App\Config::main('application_unique_key') === App\Session::get('app_unique_key')) {
 				\App\User::setCurrentUserId($userId);
 				$this->setLogin();
 			}
@@ -89,20 +88,20 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	 */
 	public function process(\App\Request $request)
 	{
-		if (AppConfig::main('forceSSL') && !\App\RequestUtil::getBrowserInfo()->https) {
+		if (App\Config::main('forceSSL') && !\App\RequestUtil::getBrowserInfo()->https) {
 			header("location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
 		}
-		if (AppConfig::main('forceRedirect')) {
+		if (App\Config::main('forceRedirect')) {
 			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $request->getServer('HTTP_HOST') . $request->getServer('REQUEST_URI');
-			if (stripos($requestUrl, AppConfig::main('site_URL')) !== 0) {
-				header('location: ' . AppConfig::main('site_URL'), true, 301);
+			if (stripos($requestUrl, App\Config::main('site_URL')) !== 0) {
+				header('location: ' . App\Config::main('site_URL'), true, 301);
 			}
 		}
 		try {
 			App\Session::init();
 			// Better place this here as session get initiated
 			//skipping the csrf checking for the forgot(reset) password
-			if (AppConfig::main('csrfProtection') && $request->getMode() !== 'reset' && $request->getByType('action', 1) !== 'Login' && AppConfig::main('systemMode') !== 'demo') {
+			if (App\Config::main('csrfProtection') && $request->getMode() !== 'reset' && $request->getByType('action', 1) !== 'Login' && App\Config::main('systemMode') !== 'demo') {
 				require_once 'config/csrf_config.php';
 				\CsrfMagic\Csrf::init();
 			}
@@ -115,7 +114,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$response = false;
 			if (empty($moduleName)) {
 				if ($this->hasLogin()) {
-					$defaultModule = AppConfig::main('default_module');
+					$defaultModule = App\Config::main('default_module');
 					if (!empty($defaultModule) && $defaultModule !== 'Home' && \App\Privilege::isPermitted($defaultModule)) {
 						$moduleName = $defaultModule;
 						$qualifiedModuleName = $defaultModule;
@@ -152,7 +151,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			\App\Process::$processType = $componentType;
 			\App\Config::setJsEnv('module', $moduleName);
 			if ($qualifiedModuleName && stripos($qualifiedModuleName, 'Settings') === 0 && empty(\App\User::getCurrentUserId())) {
-				header('location: ' . AppConfig::main('site_URL'), true);
+				header('location: ' . App\Config::main('site_URL'), true);
 			}
 
 			$handlerClass = Vtiger_Loader::getComponentClassName($componentType, $componentName, $qualifiedModuleName);
@@ -161,7 +160,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				\App\Log::error("HandlerClass: $handlerClass", 'Loader');
 				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND', 405);
 			}
-			if (AppConfig::main('csrfProtection') && AppConfig::main('systemMode') !== 'demo') { // Ensure handler validates the request
+			if (App\Config::main('csrfProtection') && App\Config::main('systemMode') !== 'demo') { // Ensure handler validates the request
 				$handler->validateRequest($request);
 			}
 			if ($handler->loginRequired()) {
@@ -194,16 +193,16 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			}
 			\vtlib\Functions::throwNewException($e, false, $messageHeader);
 			if (!$request->isAjax()) {
-				if (AppConfig::debug('DISPLAY_EXCEPTION_BACKTRACE')) {
+				if (App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE')) {
 					echo '<pre class="my-5 mx-auto card p-3 u-w-fit shadow">' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->__toString())) . '</pre>';
 					$response = false;
 				}
-				if (AppConfig::debug('DISPLAY_EXCEPTION_LOGS')) {
+				if (App\Config::debug('DISPLAY_EXCEPTION_LOGS')) {
 					echo '<pre class="my-5 mx-auto card p-3 u-w-fit shadow">' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', \App\Log::getlastLogs())) . '</pre>';
 					$response = false;
 				}
 			}
-			if (AppConfig::main('systemMode') === 'test') {
+			if (App\Config::main('systemMode') === 'test') {
 				file_put_contents('cache/logs/request.log', print_r($request->getAll(), true));
 				if (function_exists('apache_request_headers')) {
 					file_put_contents('cache/logs/request.log', print_r(apache_request_headers(), true));
@@ -285,7 +284,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	public function cspInitToken()
 	{
 		if (!App\Session::has('CSP_TOKEN') || App\Session::get('CSP_TOKEN_TIME') < time()) {
-			App\Session::set('CSP_TOKEN', sha1(AppConfig::main('application_unique_key') . time()));
+			App\Session::set('CSP_TOKEN', sha1(App\Config::main('application_unique_key') . time()));
 			App\Session::set('CSP_TOKEN_TIME', strtotime('+5 minutes'));
 		}
 	}

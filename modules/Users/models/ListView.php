@@ -68,7 +68,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 				'linkurl' => 'index.php?module=Users&view=PasswordModal&mode=massReset',
 				'linkicon' => 'fas fa-redo-alt',
 			];
-			if (AppConfig::security('USER_AUTHY_MODE') !== 'TOTP_OFF') {
+			if (App\Config::security('USER_AUTHY_MODE') !== 'TOTP_OFF') {
 				$massActionLinks[] = [
 					'linktype' => 'LISTVIEWMASSACTION',
 					'linklabel' => 'BTN_MASS_OFF_2FA',

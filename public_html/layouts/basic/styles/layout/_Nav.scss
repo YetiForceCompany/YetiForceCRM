@@ -148,7 +148,7 @@
 			}
 
 			&:not(.is-submenu-toggler) {
-				padding-right: .8rem !important;
+				padding-right: 0.8rem !important;
 			}
 		}
 
@@ -228,6 +228,7 @@
 
 		&--sub {
 			display: none;
+
 			@at-root .tpl-menu-SubMenu & {
 				display: inline-block;
 				margin-right: 0.4rem;
@@ -415,7 +416,7 @@
 	.nav-inverted-tabs {
 		.nav-item {
 			.nav-link {
-				border: 1px solid #ffffff;
+				border: 1px solid #fff;
 				border-top: 0;
 				border-radius: 0 0 0.25rem 0.25rem;
 				font-size: 0.85em;

@@ -63,7 +63,7 @@ class Fixer
 				if (!isset($exceptions[$row['tabid']]['allowed'][$row['activityid']])) {
 					continue;
 				}
-			} elseif (isset($exceptions[$row['tabid']]['notAllowed']) && ($exceptions[$row['tabid']]['notAllowed'] === false || isset($exceptions[$row['tabid']]['notAllowed'][$row['activityid']]))) {
+			} elseif (isset($exceptions[$row['tabid']]['notAllowed']) && (false === $exceptions[$row['tabid']]['notAllowed'] || isset($exceptions[$row['tabid']]['notAllowed'][$row['activityid']]))) {
 				continue;
 			}
 			$dbCommand->insert('vtiger_profile2utility', ['profileid' => $row['profileid'], 'tabid' => $row['tabid'], 'activityid' => $row['activityid'], 'permission' => 1])->execute();

@@ -87,7 +87,7 @@ class Calendar
 		$dbCommand->update('dav_calendars', [
 			'synctoken' => ((int) $calendar['synctoken']) + 1
 		], ['id' => $calendarId])
-		->execute();
+			->execute();
 	}
 
 	/**
@@ -206,7 +206,7 @@ class Calendar
 	{
 		foreach ($this->vcalendar->getBaseComponents() as $component) {
 			$type = (string) $component->name;
-			if ($type === 'VTODO' || $type === 'VEVENT') {
+			if ('VTODO' === $type || 'VEVENT' === $type) {
 				$this->vcomponent = $component;
 				$this->parseComponent();
 			}
@@ -247,7 +247,7 @@ class Calendar
 	{
 		$value = \str_replace([
 			'-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-'
-		], '', \App\Purifier::purify((string) $this->vcomponent->$davName));
+		], '', \App\Purifier::purify((string) $this->vcomponent->{$davName}));
 		if ($length = $this->record->getField($fieldName)->get('maximumlength')) {
 			$value = \App\TextParser::textTruncate($value, $length, false);
 		}
@@ -263,7 +263,7 @@ class Calendar
 		if (isset($this->vcomponent->STATUS)) {
 			$davValue = strtoupper($this->vcomponent->STATUS->getValue());
 		}
-		if ((string) $this->vcomponent->name === 'VEVENT') {
+		if ('VEVENT' === (string) $this->vcomponent->name) {
 			$values = [
 				'TENTATIVE' => 'PLL_PLANNED',
 				'CANCELLED' => 'PLL_CANCELLED',
@@ -351,7 +351,7 @@ class Calendar
 	private function parseType()
 	{
 		if ($this->record->isEmpty('activitytype')) {
-			$this->record->set('activitytype', (string) $this->vcomponent->name === 'VTODO' ? 'Task' : 'Meeting');
+			$this->record->set('activitytype', 'VTODO' === (string) $this->vcomponent->name ? 'Task' : 'Meeting');
 		}
 	}
 
@@ -362,7 +362,7 @@ class Calendar
 	{
 		$allDay = 0;
 		$endHasTime = $startHasTime = false;
-		$endField = ((string) $this->vcomponent->name) === 'VEVENT' ? 'DTEND' : 'DUE';
+		$endField = 'VEVENT' === ((string) $this->vcomponent->name) ? 'DTEND' : 'DUE';
 		if (isset($this->vcomponent->DTSTART)) {
 			$davStart = VObject\DateTimeParser::parse($this->vcomponent->DTSTART);
 			$dateStart = $davStart->format('Y-m-d');
@@ -373,9 +373,9 @@ class Calendar
 			$dateStart = $davStart->format('Y-m-d');
 			$timeStart = $davStart->format('H:i:s');
 		}
-		if (isset($this->vcomponent->$endField)) {
-			$davEnd = VObject\DateTimeParser::parse($this->vcomponent->$endField);
-			$endHasTime = $this->vcomponent->$endField->hasTime();
+		if (isset($this->vcomponent->{$endField})) {
+			$davEnd = VObject\DateTimeParser::parse($this->vcomponent->{$endField});
+			$endHasTime = $this->vcomponent->{$endField}->hasTime();
 			$dueDate = $davEnd->format('Y-m-d');
 			$timeEnd = $davEnd->format('H:i:s');
 			if (!$endHasTime) {
@@ -408,7 +408,7 @@ class Calendar
 	 */
 	public function createComponent()
 	{
-		$componentType = $this->record->get('activitytype') === 'Task' ? 'VTODO' : 'VEVENT';
+		$componentType = 'Task' === $this->record->get('activitytype') ? 'VTODO' : 'VEVENT';
 		$this->vcomponent = $this->vcalendar->createComponent($componentType);
 		$this->vcomponent->UID = \str_replace('sabre-vobject', 'YetiForceCRM', (string) $this->vcomponent->UID);
 		$this->updateComponent();
@@ -454,11 +454,11 @@ class Calendar
 	private function createText(string $fieldName, string $davName)
 	{
 		$empty = $this->record->isEmpty($fieldName);
-		if (isset($this->vcomponent->$davName)) {
+		if (isset($this->vcomponent->{$davName})) {
 			if ($empty) {
 				$this->vcomponent->remove($davName);
 			} else {
-				$this->vcomponent->$davName = $this->record->get($fieldName);
+				$this->vcomponent->{$davName} = $this->record->get($fieldName);
 			}
 		} elseif (!$empty) {
 			$this->vcomponent->add($this->vcalendar->createProperty($davName, $this->record->get($fieldName)));
@@ -471,7 +471,7 @@ class Calendar
 	private function createStatus()
 	{
 		$status = $this->record->get('activitystatus');
-		if ((string) $this->vcomponent->name === 'VEVENT') {
+		if ('VEVENT' === (string) $this->vcomponent->name) {
 			$values = [
 				'PLL_PLANNED' => 'TENTATIVE',
 				'PLL_OVERDUE' => 'CANCELLED',
@@ -515,7 +515,7 @@ class Calendar
 		if ($visibility && isset($values[$visibility])) {
 			$value = $values[$visibility];
 		}
-		if (\App\Config::component('Dav', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') !== false) {
+		if (false !== \App\Config::component('Dav', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV')) {
 			$value = \App\Config::component('Dav', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV');
 		}
 		if (isset($this->vcomponent->CLASS)) {
@@ -575,7 +575,7 @@ class Calendar
 	private function createDateTime()
 	{
 		$end = $this->record->get('due_date') . ' ' . $this->record->get('time_end');
-		$endField = (string) $this->vcomponent->name == 'VEVENT' ? 'DTEND' : 'DUE';
+		$endField = 'VEVENT' == (string) $this->vcomponent->name ? 'DTEND' : 'DUE';
 		$start = new \DateTime($this->record->get('date_start') . ' ' . $this->record->get('time_start'));
 		$startProperty = $this->vcalendar->createProperty('DTSTART', $start);
 		if ($this->record->get('allday')) {
@@ -594,7 +594,7 @@ class Calendar
 			}
 		}
 		$this->vcomponent->DTSTART = $startProperty;
-		$this->vcomponent->$endField = $endProperty;
+		$this->vcomponent->{$endField} = $endProperty;
 	}
 
 	/**
@@ -632,7 +632,7 @@ class Calendar
 		foreach ($transitions as $i => $trans) {
 			$cmp = null;
 			// skip the first entry...
-			if ($i == 0) { // ... but remember the offset for the next TZOFFSETFROM value
+			if (0 == $i) { // ... but remember the offset for the next TZOFFSETFROM value
 				$tzfrom = $trans['offset'] / 3600;
 				continue;
 			}
@@ -668,7 +668,7 @@ class Calendar
 		}
 		// add X-MICROSOFT-CDO-TZID if available
 		$microsoftExchangeMap = array_flip(VObject\TimeZoneUtil::$microsoftExchangeMap);
-		if (array_key_exists($tz->getName(), $microsoftExchangeMap)) {
+		if (\array_key_exists($tz->getName(), $microsoftExchangeMap)) {
 			$vt->add('X-MICROSOFT-CDO-TZID', $microsoftExchangeMap[$tz->getName()]);
 		}
 		return $vt;

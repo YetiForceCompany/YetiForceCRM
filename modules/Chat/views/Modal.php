@@ -42,7 +42,7 @@ class Chat_Modal_View extends \App\Controller\Modal
 		$chatEntries = $chat->getEntries();
 		$viewer->assign('CHAT_ENTRIES', $chatEntries);
 		$viewer->assign('CHAT', $chat);
-		$viewer->assign('SHOW_MORE_BUTTON', count($chatEntries) > \AppConfig::module('Chat', 'CHAT_ROWS_LIMIT'));
+		$viewer->assign('SHOW_MORE_BUTTON', count($chatEntries) > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT'));
 		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
 		$viewer->assign('IS_MODAL_VIEW', true);
 		$viewer->assign('IS_SOUND_NOTIFICATION', $this->isSoundNotification());
@@ -87,7 +87,7 @@ class Chat_Modal_View extends \App\Controller\Modal
 	{
 		return isset($_COOKIE['chat-isSoundNotification']) ?
 			filter_var($_COOKIE['chat-isSoundNotification'], FILTER_VALIDATE_BOOLEAN) :
-			\AppConfig::module('Chat', 'DEFAULT_SOUND_NOTIFICATION');
+			\App\Config::module('Chat', 'DEFAULT_SOUND_NOTIFICATION');
 	}
 
 	/**

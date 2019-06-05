@@ -4,6 +4,7 @@
 	&__row {
 		position: relative;
 		margin-left: calculate-rem(20px);
+
 		&::after,
 		&::before {
 			content: "";
@@ -21,6 +22,7 @@
 			height: calculate-rem(24px);
 			border-bottom: solid 1px $primary;
 		}
+
 		&:last-of-type::after {
 			height: calculate-rem(24px);
 		}
@@ -31,6 +33,7 @@
 			margin-left: calculate-rem(20px);
 			position: relative;
 			padding-left: 1rem;
+
 			&::after,
 			&::before {
 				content: "";
@@ -52,6 +55,7 @@
 				width: 20px;
 				top: calculate-rem(23px);
 			}
+
 			&:last-of-type::after {
 				height: calculate-rem(23px);
 			}

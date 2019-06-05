@@ -166,7 +166,7 @@
 														{assign var=SPECIFIC_DATE1 value=""}
 													{/if}
 												{/if}
-												<input type="text" class="dateField form-control" name="schdate"
+												<input type="text" class="dateField form-control datepicker" name="schdate"
 													   value="{if !empty($SPECIFIC_DATE1)}{$SPECIFIC_DATE1}{/if}"
 													   data-date-format="{$USER_MODEL->get('date_format')}"
 													   data-validation-engine="validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"/>

@@ -44,7 +44,7 @@ class OSSMailScanner_BindCampaigns_ScannerAction extends OSSMailScanner_PrefixSc
 	{
 		$this->mail = $mail;
 		$campaignIds = $this->findAndBind();
-		if ($mail->get('type') == 0 && $campaignIds !== false && $campaignIds != 0) {
+		if (0 == $mail->get('type') && false !== $campaignIds && 0 != $campaignIds) {
 			$crmIds = [];
 			$crmidsToaddress = $mail->findEmailAdress('toaddress', false, true);
 			$crmidsCcaddress = $mail->findEmailAdress('ccaddress', false, true);

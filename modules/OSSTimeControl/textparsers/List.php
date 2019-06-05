@@ -27,7 +27,7 @@ class OSSTimeControl_List_Textparser extends \App\TextParser\Base
 	{
 		$moduleModel = Vtiger_Module_Model::getInstance($this->textParser->moduleName);
 		$fields = $moduleModel->getFields();
-		$ids = $this->textParser->getParam('pdf')->getRecordIds();
+		$ids = $this->textParser->getParam('pdf')->getVariable('recordsId');
 		if (!is_array($ids)) {
 			$ids = [$ids];
 		}
@@ -57,7 +57,8 @@ class OSSTimeControl_List_Textparser extends \App\TextParser\Base
 					$class = 'class="center"';
 				}
 				$html .= '<td ' . $class . '>' . $recordModel->getDisplayValue($fieldModel->getName(), $recordId, true) . '</td>';
-				if ($column == 'sum_time') {
+				if ('sum_time' === $column) {
+					$summary['sum_time'] = $summary['sum_time'] ?? 0;
 					$summary['sum_time'] += $recordModel->get($fieldModel->getName());
 				}
 			}
@@ -66,10 +67,10 @@ class OSSTimeControl_List_Textparser extends \App\TextParser\Base
 		$html .= '</tbody><tfoot><tr>';
 		foreach ($this->columnNames as $column) {
 			$class = $content = '';
-			if ($column == 'sum_time') {
-				$content = '<strong>' . \App\Fields\Time::formatToHourText($summary['sum_time'], 'short') . '</strong>';
+			if ('sum_time' == $column) {
+				$content = '<strong>' . \App\Fields\RangeTime::formatHourToDisplay($summary['sum_time'], 'short') . '</strong>';
 				$class = 'center';
-			} elseif ($column == 'name') {
+			} elseif ('name' == $column) {
 				$content = '<strong>' . \App\Language::translate('LBL_SUMMARY', $this->textParser->moduleName) . ':' . '</strong>';
 			}
 			$html .= '<td class="summary ' . $class . '">' . $content . '</td>';

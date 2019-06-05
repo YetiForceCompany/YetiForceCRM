@@ -86,7 +86,7 @@ class Partners extends Vtiger_CRMEntity
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($eventType === 'module.postinstall') {
+		if ('module.postinstall' === $eventType) {
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => 'Partners'])->execute();
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
@@ -98,36 +98,6 @@ class Partners extends Vtiger_CRMEntity
 			}
 			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\App\Module::getModuleId($moduleName));
 		}
-	}
-
-	/**
-	 * Move the related records of the specified list of id's to the given record.
-	 *
-	 * @param string $module            This module name
-	 * @param array  $transferEntityIds List of Entity Id's from which related records need to be transfered
-	 * @param int    $entityId          Id of the the Record to which the related records are to be moved
-	 */
-	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
-	{
-		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
-		$relTableArr = ['Campaigns' => 'vtiger_campaign_records'];
-		$tblFieldArr = ['vtiger_campaign_records' => 'campaignid'];
-		$entityTblFieldArr = ['vtiger_campaign_records' => 'crmid'];
-		foreach ($transferEntityIds as $transferId) {
-			foreach ($relTableArr as $relTable) {
-				$idField = $tblFieldArr[$relTable];
-				$entityIdField = $entityTblFieldArr[$relTable];
-				// IN clause to avoid duplicate entries
-				$subQuery = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $entityId]);
-				$query = (new \App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $transferId])->andWhere(['not in', $idField, $subQuery]);
-				$dataReader = $query->createCommand()->query();
-				while ($idFieldValue = $dataReader->readColumn(0)) {
-					\App\Db::getInstance()->createCommand()->update($relTable, [$entityIdField => $entityId], [$entityIdField => $transferId, $idField => $idFieldValue])->execute();
-				}
-				$dataReader->close();
-			}
-		}
-		\App\Log::trace('Exiting transferRelatedRecords...');
 	}
 
 	/**
@@ -143,7 +113,7 @@ class Partners extends Vtiger_CRMEntity
 			'Campaigns' => ['vtiger_campaign_records' => ['crmid', 'campaignid'], 'u_yf_partners' => 'partnersid'],
 			'OSSMailView' => ['vtiger_ossmailview_relation' => ['crmid', 'ossmailviewid'], 'u_yf_partners' => 'partnersid'],
 		];
-		if ($secModule === false) {
+		if (false === $secModule) {
 			return $relTables;
 		}
 		return $relTables[$secModule];
@@ -155,7 +125,7 @@ class Partners extends Vtiger_CRMEntity
 		if (empty($returnModule) || empty($returnId)) {
 			return;
 		}
-		if ($returnModule === 'Campaigns') {
+		if ('Campaigns' === $returnModule) {
 			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $returnId])->execute();
 		} else {
 			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
@@ -167,7 +137,7 @@ class Partners extends Vtiger_CRMEntity
 		if (!is_array($withCrmids)) {
 			$withCrmids = [$withCrmids];
 		}
-		if ($withModule !== 'Campaigns') {
+		if ('Campaigns' !== $withModule) {
 			parent::saveRelatedModule($module, $crmid, $withModule, $withCrmids, $relatedName);
 		} else {
 			foreach ($withCrmids as $withCrmid) {

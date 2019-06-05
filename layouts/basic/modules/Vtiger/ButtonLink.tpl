@@ -4,6 +4,9 @@
 	{if empty($CLASS)}
 		{assign var='CLASS' value=''}
 	{/if}
+	{if !isset($BUTTON_VIEW) }
+		{assign var='BUTTON_VIEW' value=''}
+	{/if}
 	<div class="c-btn-link btn-group {if $BUTTON_VIEW|strrpos:'listView' !== false && $USER_MODEL->get('rowheight') eq 'narrow'}btn-group-sm{/if} {$CLASS}">
 		{assign var="LABEL" value=$LINK->getLabel()}
 		{assign var="ACTION_NAME" value=$LABEL}

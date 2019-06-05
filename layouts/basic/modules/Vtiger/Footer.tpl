@@ -21,9 +21,9 @@
 	</div>
 	<input class="tpl-Footer d-none noprint" type="hidden" id="activityReminder" value="{$ACTIVITY_REMINDER}"/>
 	{if $SHOW_FOOTER}
-		<footer class="c-footer fixed-bottom js-footer{if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')} c-footer--user-info-active{/if}{if AppConfig::performance('LIMITED_INFO_IN_FOOTER')} c-footer--limited{/if}"
+		<footer class="c-footer fixed-bottom js-footer{if App\Config::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')} c-footer--user-info-active{/if}{if App\Config::performance('LIMITED_INFO_IN_FOOTER')} c-footer--limited{/if}"
 				data-js="height">
-			{if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}
+			{if App\Config::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}
 				<div class="js-footer__user-info c-footer__user-info">
 					<p>
 						<span class="mr-1"> {$USER_MODEL->getName()}</span>(
@@ -35,7 +35,7 @@
 				</div>
 			{/if}
 			<div class="container-fluid px-0 px-md-1">
-				{if !\AppConfig::performance('LIMITED_INFO_IN_FOOTER')}
+				{if !\App\Config::performance('LIMITED_INFO_IN_FOOTER')}
 					<ul class="float-left pagination border-0">
 						<li class="page-item">
 							<a class="page-link" href="https://www.linkedin.com/groups/8177576"
@@ -84,7 +84,7 @@
 								</a>
 							</li>
 						{/if}
-						{if !\AppConfig::performance('LIMITED_INFO_IN_FOOTER')}
+						{if !\App\Config::performance('LIMITED_INFO_IN_FOOTER')}
 							<li class="page-item">
 								<a class="page-link mr-md-1" href="https://yetiforce.shop" rel="noreferrer noopener">
 									<span class="fas fa-shopping-cart fa-2x" title="yetiforce.shop"></span>
@@ -107,7 +107,7 @@
 						{assign var=FOOTOSP value= '<em><a class="u-text-underline" href="index.php?module=Vtiger&view=Credits&parent=Settings">open source project</a></em>'}
 						<p class="text-center text-center">
 							<span class="d-none d-sm-inline ">Copyright &copy; YetiForce.com All rights reserved. {$FOOTVR}
-								{if !\AppConfig::performance('LIMITED_INFO_IN_FOOTER')}
+								{if !\App\Config::performance('LIMITED_INFO_IN_FOOTER')}
 									<br/>
 									{\App\Language::translateArgs('LBL_FOOTER_CONTENT', '_Base',$FOOTOSP)}
 								{/if}
@@ -118,7 +118,7 @@
 						<p class="text-center">
 							<span class="d-none d-sm-inline">
 								Copyright &copy; YetiForce.com All rights reserved.
-								{if !\AppConfig::performance('LIMITED_INFO_IN_FOOTER')}
+								{if !\App\Config::performance('LIMITED_INFO_IN_FOOTER')}
 									[{\App\Language::translate('WEBLOADTIME')}: {$SCRIPT_TIME}s.]
 									<br/>
 									{\App\Language::translateArgs('LBL_FOOTER_CONTENT', '_Base', 'open source project')}

@@ -19,7 +19,7 @@ class StringField extends BaseField
 	public function operatorS()
 	{
 		$values = $this->getValue();
-		if (is_array($values)) { // Used only to filter the first letter of the name
+		if (\is_array($values)) { // Used only to filter the first letter of the name
 			$condition = ['or'];
 			foreach ($values as $value) {
 				$condition[] = ['like', $this->getColumnName(), $value . '%', false];

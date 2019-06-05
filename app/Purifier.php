@@ -57,14 +57,14 @@ class Purifier
 	/**
 	 * Cache for purify instance.
 	 *
-	 * @var \HTMLPurifier|bool
+	 * @var bool|\HTMLPurifier
 	 */
 	private static $purifyInstanceCache = false;
 
 	/**
 	 * Cache for Html purify instance.
 	 *
-	 * @var \HTMLPurifier|bool
+	 * @var bool|\HTMLPurifier
 	 */
 	private static $purifyHtmlInstanceCache = false;
 
@@ -94,7 +94,7 @@ class Purifier
 			return $input;
 		}
 		$value = $input;
-		if (!is_array($input)) {
+		if (!\is_array($input)) {
 			$cacheKey = md5($input);
 			if (Cache::has('purify', $cacheKey)) {
 				return Cache::get('purify', $cacheKey);
@@ -105,18 +105,18 @@ class Purifier
 			$config = \HTMLPurifier_Config::createDefault();
 			$config->set('Core.Encoding', static::$defaultCharset);
 			$config->set('Cache.SerializerPermissions', 0775);
-			$config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
+			$config->set('Cache.SerializerPath', ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'vtlib');
 			$config->set('HTML.Allowed', '');
 			static::$purifyInstanceCache = new \HTMLPurifier($config);
 		}
 		if (static::$purifyInstanceCache) {
 			// Composite type
-			if (is_array($input)) {
+			if (\is_array($input)) {
 				$value = [];
 				foreach ($input as $k => $v) {
 					$value[$k] = static::purify($v);
 				}
-			} elseif (is_string($input)) {
+			} elseif (\is_string($input)) {
 				static::purifyHtmlEventAttributes($input);
 				$value = static::$purifyInstanceCache->purify(static::decodeHtml($input));
 				if ($loop) {
@@ -165,7 +165,7 @@ class Purifier
 					$value = static::purifyHtml($value, false);
 				}
 			}
-			$value = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $value);
+			$value = preg_replace("/(^[\r\n]*|[\r\n]+)[\\s\t]*[\r\n]+/", "\n", $value);
 			Cache::save('purifyHtml', $cacheKey, $value, Cache::SHORT);
 		}
 		return $value;
@@ -178,7 +178,7 @@ class Purifier
 	 */
 	public static function purifyHtmlEventAttributes($value)
 	{
-		if (preg_match("#<([^><]+?)([^a-z_\-]on\w*|xmlns)(\s*=\s*[^><]*)([>]*)#i", $value) || preg_match("/\b(" . static::$htmlEventAttributes . ")\s*=/i", $value) || preg_match('/javascript:[\w\.]+\(/i', $value)) {
+		if (preg_match('#<([^><]+?)([^a-z_\\-]on\\w*|xmlns)(\\s*=\\s*[^><]*)([>]*)#i', $value) || preg_match('/\\b(' . static::$htmlEventAttributes . ')\\s*=/i', $value) || preg_match('/javascript:[\w\.]+\(/i', $value)) {
 			\App\Log::error('purifyHtmlEventAttributes: ' . $value, 'IllegalValue');
 			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $value, 406);
 		}
@@ -194,7 +194,7 @@ class Purifier
 		$config = \HTMLPurifier_Config::createDefault();
 		$config->set('Core.Encoding', static::$defaultCharset);
 		$config->set('Cache.SerializerPermissions', 0775);
-		$config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
+		$config->set('Cache.SerializerPath', ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'vtlib');
 		$config->set('HTML.Doctype', 'HTML 4.01 Transitional');
 		$config->set('CSS.AllowTricky', true);
 		$config->set('CSS.Proprietary', true);
@@ -277,7 +277,7 @@ class Purifier
 	 * @param string $input
 	 * @param bool   $skipEmpty Skip the check if string is empty
 	 *
-	 * @return string|bool
+	 * @return bool|string
 	 */
 	public static function purifySql($input, $skipEmpty = true)
 	{
@@ -298,13 +298,14 @@ class Purifier
 	 * 2 - word and int
 	 *
 	 * @param mixed  $input
-	 * @param string $type  Data type that is only acceptable
+	 * @param string $type    Data type that is only acceptable
+	 * @param mixed  $convert
 	 *
 	 * @return mixed
 	 */
-	public static function purifyByType($input, $type)
+	public static function purifyByType($input, $type, $convert = false)
 	{
-		if (is_array($input)) {
+		if (\is_array($input)) {
 			$value = [];
 			foreach ($input as $k => $v) {
 				$value[$k] = static::purifyByType($v, $type);
@@ -329,14 +330,17 @@ class Purifier
 				case 'Time':
 					$value = Validator::time($input) ? $input : null;
 					break;
+				case 'TimePeriod':
+					$value = Validator::timePeriod($input) ? $input : null;
+					break;
 				case 'TimeInUserFormat':
-					$value = Validator::timeInUserFormat($input) ? Fields\Time::formatToDB($input) : null;
+					$value = Validator::timeInUserFormat($input) ? ($convert ? Fields\Time::formatToDB($input) : $input) : null;
 					break;
 				case 'DateRangeUserFormat': // date range user format
 					$dateFormat = User::getCurrentUserModel()->getDetail('date_format');
 					$v = [];
 					foreach (explode(',', $input) as $i) {
-						list($y, $m, $d) = Fields\Date::explode($i, $dateFormat);
+						[$y, $m, $d] = Fields\Date::explode($i, $dateFormat);
 						if (checkdate((int) $m, (int) $d, (int) $y) && is_numeric($y) && is_numeric($m) && is_numeric($d)) {
 							$v[] = \DateTimeField::convertToDBFormat($i);
 						}
@@ -370,7 +374,7 @@ class Purifier
 					}
 					break;
 				case 'Double':
-					if (($input = filter_var($input, FILTER_VALIDATE_FLOAT)) !== false) {
+					if (false !== ($input = filter_var($input, FILTER_VALIDATE_FLOAT))) {
 						$value = $input;
 					}
 					break;
@@ -381,12 +385,12 @@ class Purifier
 					$value = self::purifyHtml($input);
 					break;
 				case 'Integer': // Integer
-					if (($input = filter_var($input, FILTER_VALIDATE_INT)) !== false) {
+					if (false !== ($input = filter_var($input, FILTER_VALIDATE_INT))) {
 						$value = $input;
 					}
 					break;
 				case 'Digital': // Digital - eg. 000523
-					if (($input = filter_var($input, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[0-9]+$/']])) !== false) {
+					if (false !== ($input = filter_var($input, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[0-9]+$/']]))) {
 						$value = $input;
 					}
 					break;
@@ -394,7 +398,7 @@ class Purifier
 					$value = preg_match('/^(#[0-9a-fA-F]{6})$/', $input) ? $input : null;
 					break;
 				case 'Year': // 2018 etc
-					if (is_numeric($input) && (int) $input >= 0 && (int) $input <= 3000 && strlen((string) $input) === 4) {
+					if (is_numeric($input) && (int) $input >= 0 && (int) $input <= 3000 && 4 === \strlen((string) $input)) {
 						$value = (string) $input;
 					}
 					break;
@@ -409,7 +413,7 @@ class Purifier
 					$value = self::purify($input);
 					break;
 			}
-			if ($value === null) {
+			if (null === $value) {
 				\App\Log::error('purifyByType: ' . $input, 'IllegalValue');
 				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $input, 406);
 			}
@@ -420,9 +424,9 @@ class Purifier
 	/**
 	 * Function to convert the given value to bool.
 	 *
-	 * @param string|int $value
+	 * @param int|string $value
 	 *
-	 * @return bool|null
+	 * @return null|bool
 	 */
 	public static function bool($value)
 	{

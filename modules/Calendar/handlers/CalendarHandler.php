@@ -76,7 +76,7 @@ class Calendar_CalendarHandler_Handler
 			$recordModel->set('time_start', $userModel->getDetail('start_hour') . ':00');
 			$recordModel->set('time_end', $userModel->getDetail('end_hour') . ':00');
 		}
-		$minutes = \App\Fields\Date::getDiff($recordModel->get('date_start') . ' ' . $recordModel->get('time_start'), $recordModel->get('due_date') . ' ' . $recordModel->get('time_end'), 'minutes');
+		$minutes = \App\Fields\DateTime::getDiff($recordModel->get('date_start') . ' ' . $recordModel->get('time_start'), $recordModel->get('due_date') . ' ' . $recordModel->get('time_end'), 'minutes');
 		$hours = floor($minutes / 60);
 		$recordModel->set('duration_hours', $hours);
 		$recordModel->set('duration_minutes', $minutes - ($hours * 60));

@@ -101,7 +101,7 @@ class MultiCompany extends Vtiger_CRMEntity
 	{
 		$listviewHeader = [];
 		$listviewEntries = [];
-		$listColumns = AppConfig::module('MultiCompany', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = App\Config::module('MultiCompany', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
@@ -136,7 +136,7 @@ class MultiCompany extends Vtiger_CRMEntity
 		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $recordId . ') method ...');
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 		$hasRecordViewAccess = $currentUser->isAdminUser() || \App\Privilege::isPermitted('MultiCompany', 'DetailView', $recordId);
-		$listColumns = AppConfig::module('MultiCompany', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = App\Config::module('MultiCompany', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
@@ -186,7 +186,7 @@ class MultiCompany extends Vtiger_CRMEntity
 	public function getParent($id, &$parent, &$encountered, $depthBase = 0)
 	{
 		\App\Log::trace('Entering getParent(' . $id . ') method ...');
-		if ($depthBase == AppConfig::module('MultiCompany', 'MAX_HIERARCHY_DEPTH')) {
+		if ($depthBase == App\Config::module('MultiCompany', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting getParent method ... - exceeded maximum depth of hierarchy');
 
 			return $parent;
@@ -213,7 +213,7 @@ class MultiCompany extends Vtiger_CRMEntity
 				$depth = $parent[$parentid]['depth'] + 1;
 			}
 			$parentInfo['depth'] = $depth;
-			$listColumns = AppConfig::module('MultiCompany', 'COLUMNS_IN_HIERARCHY');
+			$listColumns = App\Config::module('MultiCompany', 'COLUMNS_IN_HIERARCHY');
 			if (empty($listColumns)) {
 				$listColumns = $this->list_fields_name;
 			}
@@ -246,7 +246,7 @@ class MultiCompany extends Vtiger_CRMEntity
 	public function getChild($id, &$childRow, $depthBase)
 	{
 		\App\Log::trace('Entering getChild(' . $id . ',' . $depthBase . ') method ...');
-		if (empty($id) || $depthBase == AppConfig::module('MultiCompany', 'MAX_HIERARCHY_DEPTH')) {
+		if (empty($id) || $depthBase == App\Config::module('MultiCompany', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting getChild method ... - exceeded maximum depth of hierarchy');
 
 			return $childRow;
@@ -261,7 +261,7 @@ class MultiCompany extends Vtiger_CRMEntity
 			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
 			->where(['vtiger_crmentity.deleted' => 0, 'u_#__multicompany.parent_id' => $id])
 			->createCommand()->query();
-		$listColumns = AppConfig::module('MultiCompany', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = App\Config::module('MultiCompany', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}

@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Calendar-Extended-CalendarViewPostProcess js-calendar-right-panel {if $USER_MODEL->get('leftpanelhide')}leftPanelOpen {/if}siteBarRight calendarRightPanel col-xs-12 hideSiteBar"
-		 data-showPanel="{if !AppConfig::module($MODULE, 'SHOW_RIGHT_PANEL')}0{else}1{/if}" id="rightPanel"
+		 data-showPanel="{if !App\Config::module($MODULE, 'SHOW_RIGHT_PANEL')}0{else}1{/if}"
 		 data-js="class: hideSiteBar">
 		<div class="o-calendar__panel__tabs">
 			<div class="btn btn-block js-toggle-site-bar-right-button toggleSiteBarRightButton hideToggleSiteBarRightButton d-none d-lg-block"
@@ -31,7 +31,7 @@
 			<div class="tab-pane fade" id="rightPanelFilter" role="tabpanel" aria-labelledby="rightPanelFilter-tab">
 				<div class="o-calendar__tab--filters js-calendar__tab--filters d-flex flex-column">
 					<div>
-						{if \AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')}
+						{if \App\Config::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')}
 							{assign var=HIDDEN_DAYS value=$HISTORY_PARAMS eq '' || !empty($HISTORY_PARAMS['hiddenDays'])}
 							<div class="btn-group btn-group-toggle js-switch js-switch--switchingDays c-calendar-switch" data-toggle="buttons">
 								<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-on{if $HIDDEN_DAYS} active{/if}">

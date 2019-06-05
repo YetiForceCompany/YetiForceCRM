@@ -61,7 +61,7 @@ class Controller
 	public function preProcess()
 	{
 		set_error_handler([$this, 'exceptionErrorHandler']);
-		if ($this->method === 'OPTIONS') {
+		if ('OPTIONS' === $this->method) {
 			$this->response->addHeader('Allow', strtoupper(implode(', ', static::$acceptableMethods)));
 
 			return false;
@@ -88,7 +88,7 @@ class Controller
 			$handler->preProcess();
 			$return = call_user_func([$handler, strtolower($this->method)]);
 		}
-		if (!empty($return)) {
+		if (null !== $return) {
 			$return = [
 				'status' => 1,
 				'result' => $return,
@@ -126,7 +126,7 @@ class Controller
 
 	public function debugRequest()
 	{
-		if (\AppConfig::debug('WEBSERVICE_DEBUG')) {
+		if (\App\Config::debug('WEBSERVICE_DEBUG')) {
 			$log = '============ Request ======  ' . date('Y-m-d H:i:s') . "  ======\n";
 			$log .= 'REQUEST_METHOD: ' . $this->request->getRequestMethod() . PHP_EOL;
 			$log .= "Headers: \n";

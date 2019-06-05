@@ -37,5 +37,31 @@ return [
 		'description' => 'Check email opt-out',
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
-	]
+	],
+	'COLUMNS_IN_HIERARCHY' => [
+		'default' => [
+			'Ticket No' => 'ticket_no',
+			'Subject' => 'title',
+			'Related To' => 'parent_id',
+			'Status' => 'status',
+			'Priority' => 'priority',
+			'Assigned To' => 'assigned_user_id',
+			'FL_TOTAL_TIME_H' => 'sum_time',
+		],
+		'description' => 'Columns visible in HelpDesk hierarchy [$label => $columnName]'
+	],
+	'MAX_HIERARCHY_DEPTH' => [
+		'default' => 50,
+		'description' => 'Max depth of hierarchy',
+		'validation' => '\App\Validator::naturalNumber',
+		'sanitization' => function () {
+			return (int) func_get_arg(0);
+		}
+	],
+	'COUNT_IN_HIERARCHY' => [
+		'default' => true,
+		'description' => 'Count HelpDesk records in hierarchy',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
+	],
 ];

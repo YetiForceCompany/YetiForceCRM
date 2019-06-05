@@ -132,7 +132,7 @@ class Vtiger_Inventory_Model
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return \Vtiger_Basic_InventoryField|null
+	 * @return null|\Vtiger_Basic_InventoryField
 	 */
 	public function getField(string $fieldName): ?Vtiger_Basic_InventoryField
 	{
@@ -144,7 +144,7 @@ class Vtiger_Inventory_Model
 	 *
 	 * @param int $fieldId
 	 *
-	 * @return \Vtiger_Basic_InventoryField|null
+	 * @return null|\Vtiger_Basic_InventoryField
 	 */
 	public function getFieldById(int $fieldId): ?Vtiger_Basic_InventoryField
 	{
@@ -249,7 +249,7 @@ class Vtiger_Inventory_Model
 	 * @param \Vtiger_Basic_InventoryField $fieldModel
 	 * @param array                        $row
 	 */
-	public function setFieldData(\Vtiger_Basic_InventoryField $fieldModel, array $row)
+	public function setFieldData(Vtiger_Basic_InventoryField $fieldModel, array $row)
 	{
 		$fieldModel->set('id', (int) $row['id'])
 			->set('columnName', $row['columnname'])
@@ -286,7 +286,7 @@ class Vtiger_Inventory_Model
 	 *
 	 * @return \Vtiger_Basic_InventoryField
 	 */
-	public function getFieldCleanInstance(string $type): \Vtiger_Basic_InventoryField
+	public function getFieldCleanInstance(string $type): Vtiger_Basic_InventoryField
 	{
 		return \Vtiger_Basic_InventoryField::getInstance($this->getModuleName(), $type);
 	}
@@ -320,7 +320,7 @@ class Vtiger_Inventory_Model
 	 *
 	 * @return bool
 	 */
-	public function saveField(\Vtiger_Basic_InventoryField $fieldModel): bool
+	public function saveField(Vtiger_Basic_InventoryField $fieldModel): bool
 	{
 		$db = \App\Db::getInstance();
 		$tableName = $this->getTableName();
@@ -374,8 +374,15 @@ class Vtiger_Inventory_Model
 			$fieldModel = $this->getField($fieldName);
 			$columnsArray = array_keys($fieldModel->getCustomColumn());
 			$columnsArray[] = $fieldName;
+			if (isset($fieldModel->shared)) {
+				foreach ($fieldModel->shared as $column => $columnShared) {
+					if ($this->isField($columnShared) && false !== ($key = array_search($column, $columnsArray))) {
+						unset($columnsArray[$key]);
+					}
+				}
+			}
 			$dbCommand->delete($this->getTableName(), ['columnname' => $fieldName])->execute();
-			if ($fieldName !== 'seq') {
+			if ('seq' !== $fieldName) {
 				foreach ($columnsArray as $column) {
 					$dbCommand->dropColumn($this->getTableName(self::TABLE_POSTFIX_DATA), $column)->execute();
 				}
@@ -423,7 +430,7 @@ class Vtiger_Inventory_Model
 			$inventoryTypes = \App\Cache::get(__METHOD__, $moduleName);
 		} else {
 			$fieldPaths = ["modules/$moduleName/inventoryfields/"];
-			if ($moduleName !== 'Vtiger') {
+			if ('Vtiger' !== $moduleName) {
 				$fieldPaths[] = 'modules/Vtiger/inventoryfields/';
 			}
 			$inventoryTypes = [];
@@ -432,7 +439,7 @@ class Vtiger_Inventory_Model
 					continue;
 				}
 				foreach (new DirectoryIterator($fieldPath) as $object) {
-					if ($object->getExtension() === 'php' && ($type = $object->getBasename('.php')) !== 'Basic' && !isset($inventoryTypes[$type])) {
+					if ('php' === $object->getExtension() && 'Basic' !== ($type = $object->getBasename('.php')) && !isset($inventoryTypes[$type])) {
 						$inventoryTypes[$type] = Vtiger_Basic_InventoryField::getInstance($moduleName, $type);
 					}
 				}
@@ -490,15 +497,15 @@ class Vtiger_Inventory_Model
 	 *
 	 * @return array
 	 */
-	public function getCustomAutoComplete(string $sourceFieldName, \Vtiger_Record_Model $recordModel)
+	public function getCustomAutoComplete(string $sourceFieldName, Vtiger_Record_Model $recordModel)
 	{
 		$values = [];
-		$inventoryMap = AppConfig::module($this->getModuleName(), 'INVENTORY_ON_SELECT_AUTO_COMPLETE');
+		$inventoryMap = App\Config::module($this->getModuleName(), 'INVENTORY_ON_SELECT_AUTO_COMPLETE');
 		if ($inventoryMap) {
 			foreach ($inventoryMap as $fieldToComplete => $mapping) {
 				if (isset($mapping[$sourceFieldName]) && method_exists($this, $mapping[$sourceFieldName])) {
 					$methodName = $mapping[$sourceFieldName];
-					$values[$fieldToComplete] = $this->$methodName($recordModel);
+					$values[$fieldToComplete] = $this->{$methodName}($recordModel);
 				}
 			}
 		}
@@ -526,7 +533,7 @@ class Vtiger_Inventory_Model
 	 *
 	 * @return string
 	 */
-	public function getInventoryListName(\Vtiger_Record_Model $recodModel)
+	public function getInventoryListName(Vtiger_Record_Model $recodModel)
 	{
 		$field = $this->getField('name');
 		$html = '<ul>';
@@ -547,11 +554,11 @@ class Vtiger_Inventory_Model
 	 */
 	public function getPurifyTemplate(): array
 	{
-		$tempalete = [];
+		$template = [];
 		foreach ($this->getFields() as $fieldModel) {
-			$tempalete += $fieldModel->getPurifyType();
+			$template += $fieldModel->getPurifyType();
 		}
-		return $tempalete;
+		return $template;
 	}
 
 	/**
@@ -651,8 +658,9 @@ class Vtiger_Inventory_Model
 	/**
 	 * Get discount from the account.
 	 *
-	 * @param string $moduleName Module name
-	 * @param int    $record     Record ID
+	 * @param string $moduleName    Module name
+	 * @param int    $record        Record ID
+	 * @param mixed  $relatedRecord
 	 *
 	 * @return array
 	 */
@@ -693,31 +701,6 @@ class Vtiger_Inventory_Model
 			}
 		}
 		return ['taxs' => $accountTaxs, 'name' => $recordName];
-	}
-
-	/**
-	 * Active inventory blocks.
-	 *
-	 * @param int/bool $type
-	 *
-	 * @throws \yii\db\Exception
-	 *
-	 * @return $this|bool
-	 */
-	public function setMode($type)
-	{
-		$db = \App\Db::getInstance();
-		$moduleName = $this->moduleName;
-		$result = $db->createCommand()->update('vtiger_tab', ['type' => (int) $type], ['name' => $moduleName])->execute();
-		if (!$result) {
-			return false;
-		}
-		\App\Cache::delete('moduleTabByName', $moduleName);
-		\App\Cache::delete('moduleTabById', \App\Module::getModuleId($moduleName));
-		if ($type) {
-			$this->createInventoryTables();
-		}
-		return $this;
 	}
 
 	/**
@@ -776,7 +759,7 @@ class Vtiger_Inventory_Model
 				'charset' => 'utf8',
 			]];
 		$base = new \App\Db\Importer();
-		$base->dieOnError = AppConfig::debug('SQL_DIE_ON_ERROR');
+		$base->dieOnError = App\Config::debug('SQL_DIE_ON_ERROR');
 		foreach ($tables as $tableName => $data) {
 			if (!$db->isTableExists($tableName)) {
 				$importer->tables = [$tableName => $data];

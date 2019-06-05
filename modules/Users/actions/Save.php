@@ -23,7 +23,7 @@ class Users_Save_Action extends Vtiger_Save_Action
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
 
 			$allowed = \App\Privilege::isPermitted($moduleName, 'Save', $record);
-			if ($allowed && !$currentUserModel->isAdminUser() && AppConfig::security('SHOW_MY_PREFERENCES') && ((int) $currentUserModel->get('id') !== $this->record->getId())) {
+			if ($allowed && !$currentUserModel->isAdminUser() && App\Config::security('SHOW_MY_PREFERENCES') && ((int) $currentUserModel->get('id') !== $this->record->getId())) {
 				$allowed = false;
 			}
 			if (!$allowed) {

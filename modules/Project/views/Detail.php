@@ -28,7 +28,7 @@ class Project_Detail_View extends Vtiger_Detail_View
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public function showCharts(\App\Request $request)
+	public function showCharts(App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
@@ -50,7 +50,7 @@ class Project_Detail_View extends Vtiger_Detail_View
 	 * @throws \App\Exceptions\AppException
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public function showGantt(\App\Request $request)
+	public function showGantt(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -63,15 +63,18 @@ class Project_Detail_View extends Vtiger_Detail_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
-		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+		$jsFileNames = [
 			'~libraries/chart.js/dist/Chart.js',
 			'~libraries/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.js',
-			'~libraries/gantt-elastic/dist/Header.umd.js',
 			'~libraries/gantt-elastic/dist/bundle.js',
 			'modules.Project.resources.Gantt',
-			'modules.Project.resources.GanttController',
-		]));
+			'modules.Project.resources.GanttController'
+		];
+		if (!\App\Privilege::isPermitted('KnowledgeBase')) {
+			array_unshift($jsFileNames, '~libraries/vue/dist/vue.min.js');
+		}
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 }

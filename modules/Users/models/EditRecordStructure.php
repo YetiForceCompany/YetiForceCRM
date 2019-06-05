@@ -56,7 +56,7 @@ class Users_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 						} else {
 							$defaultValue = $fieldModel->getDefaultFieldValue();
 							if ($fieldName === 'time_zone' && empty($defaultValue)) {
-								$defaultValue = \AppConfig::main('default_timezone');
+								$defaultValue = \App\Config::main('default_timezone');
 							}
 							if ($defaultValue !== '' && !$recordId) {
 								$fieldModel->set('fieldvalue', $defaultValue);

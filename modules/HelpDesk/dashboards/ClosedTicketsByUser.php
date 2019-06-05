@@ -22,7 +22,7 @@ class HelpDesk_ClosedTicketsByUser_Dashboard extends Vtiger_IndexAjax_View
 		$listSearchParams = [];
 		$conditions = [];
 		if (!empty($time)) {
-			$conditions[] = ['closedtime', 'bw', implode(',', $time)];
+			$conditions[] = ['closing_datatime', 'bw', implode(',', $time)];
 		}
 		if (!empty($owner)) {
 			$conditions[] = ['assigned_user_id', 'e', $owner];
@@ -57,8 +57,8 @@ class HelpDesk_ClosedTicketsByUser_Dashboard extends Vtiger_IndexAjax_View
 		if (!empty($time)) {
 			$query->andWhere([
 				'and',
-				['>=', 'vtiger_crmentity.closedtime', $time[0] . ' 00:00:00'],
-				['<=', 'vtiger_crmentity.closedtime', $time[1] . ' 23:59:59'],
+				['>=', 'vtiger_troubletickets.closing_datatime', $time[0] . ' 00:00:00'],
+				['<=', 'vtiger_troubletickets.closing_datatime', $time[1] . ' 23:59:59'],
 			]);
 		}
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
@@ -95,7 +95,7 @@ class HelpDesk_ClosedTicketsByUser_Dashboard extends Vtiger_IndexAjax_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

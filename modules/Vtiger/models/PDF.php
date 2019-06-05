@@ -13,6 +13,25 @@
 class Vtiger_PDF_Model extends \App\Base
 {
 	/**
+	 * Template type standard.
+	 *
+	 * @var int
+	 */
+	public const TEMPLATE_TYPE_STANDARD = 0;
+	/**
+	 * Template type summary.
+	 *
+	 * @var int
+	 */
+	public const TEMPLATE_TYPE_SUMMARY = 1;
+	/**
+	 * Template type dynamic.
+	 *
+	 * @var int
+	 */
+	public const TEMPLATE_TYPE_DYNAMIC = 2;
+
+	/**
 	 * Table name.
 	 *
 	 * @var string
@@ -27,18 +46,11 @@ class Vtiger_PDF_Model extends \App\Base
 	public static $baseIndex = 'pdfid';
 
 	/**
-	 * Records cache.
+	 * Variables.
 	 *
 	 * @var array
 	 */
-	protected $recordCache = [];
-
-	/**
-	 * Current record id.
-	 *
-	 * @var int
-	 */
-	protected $recordId;
+	protected $variables = [];
 
 	/**
 	 * View to picklist assigment array.
@@ -46,6 +58,13 @@ class Vtiger_PDF_Model extends \App\Base
 	 * @var array
 	 */
 	protected $viewToPicklistValue = ['Detail' => 'PLL_DETAILVIEW', 'List' => 'PLL_LISTVIEW'];
+
+	/**
+	 * Custom columns.
+	 *
+	 * @var bool
+	 */
+	public static $customColumns = false;
 
 	/**
 	 * Function to get watermark type.
@@ -88,11 +107,10 @@ class Vtiger_PDF_Model extends \App\Base
 	 */
 	public function get($key)
 	{
-		if ($key === 'conditions' && !is_array(parent::get($key))) {
+		if ('conditions' === $key && !is_array(parent::get($key))) {
 			return json_decode(parent::get($key), true);
-		} else {
-			return parent::get($key);
 		}
+		return parent::get($key);
 	}
 
 	/**
@@ -108,42 +126,35 @@ class Vtiger_PDF_Model extends \App\Base
 	}
 
 	/**
-	 * Get record id for which template is generated.
+	 * Sets custom variable.
 	 *
-	 * @return <Integer> - id of a main module record
+	 * @param string $key
+	 * @param mixed  $value
+	 *
+	 * @return $this
 	 */
-	public function getMainRecordId()
+	public function setVariable(string $key, $value)
 	{
-		if (is_array($this->recordId)) {
-			return reset($this->recordId);
-		}
-		return $this->recordId;
+		$this->variables[$key] = $value;
+		return $this;
 	}
 
 	/**
-	 * Get records id for which template is generated.
+	 * Gets custom variable.
 	 *
-	 * @return <Array> - ids of a main module record
-	 */
-	public function getRecordIds()
-	{
-		return $this->recordId;
-	}
-
-	/**
-	 * Sets record id for which template will be generated.
+	 * @param string $key
 	 *
-	 * @param <Integer> $id
+	 * @return mixed
 	 */
-	public function setMainRecordId($id)
+	public function getVariable(string $key)
 	{
-		$this->recordId = $id;
+		return $this->variables[$key] ?? null;
 	}
 
 	/**
 	 * Return module instance or false.
 	 *
-	 * @return object|false
+	 * @return false|object
 	 */
 	public function getModule()
 	{
@@ -165,9 +176,8 @@ class Vtiger_PDF_Model extends \App\Base
 
 		if (count($templates) > 0) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	/**
@@ -190,7 +200,6 @@ class Vtiger_PDF_Model extends \App\Base
 
 		$templates = $this->getTemplatesByModule($moduleName);
 		foreach ($templates as $id => &$template) {
-			$template->setMainRecordId($recordId);
 			if (!$template->isVisible($view) || !$template->checkFiltersForRecord($recordId) || !$template->checkUserPermissions()) {
 				unset($templates[$id]);
 			}
@@ -242,34 +251,32 @@ class Vtiger_PDF_Model extends \App\Base
 	/**
 	 * Get PDF instance by id.
 	 *
-	 * @param int    $recordId
-	 * @param string $moduleName
+	 * @param int $recordId
 	 *
-	 * @return Vtiger_PDF_Model|bool
+	 * @return bool|Vtiger_PDF_Model
 	 */
-	public static function getInstanceById($recordId, $moduleName = 'Vtiger')
+	public static function getInstanceById(int $recordId)
 	{
-		$pdf = Vtiger_Cache::get('PDFModel', $recordId);
-		if ($pdf) {
-			return $pdf;
+		$pdf = false;
+		$cache = __CLASS__;
+		if (\App\Cache::has($cache, $recordId)) {
+			$pdf = \App\Cache::get($cache, $recordId);
+		} else {
+			$row = (new \App\Db\Query())->from(self::$baseTable)->where([self::$baseIndex => $recordId])->one();
+			if ($row) {
+				$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $row['module_name']);
+				$pdf = new $handlerClass();
+				$pdf->setData($row);
+			}
+			\App\Cache::save($cache, $recordId, $pdf);
 		}
-		$row = (new \App\Db\Query())->from(self::$baseTable)->where([self::$baseIndex => $recordId])->one();
-		if ($row === false) {
-			return false;
-		}
-		if ($moduleName == 'Vtiger' && isset($row['module_name'])) {
-			$moduleName = $row['module_name'];
-		}
-
-		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
-		$pdf = new $handlerClass();
-		$pdf->setData($row);
-		Vtiger_Cache::set('PDFModel', $recordId, $pdf);
 		return $pdf;
 	}
 
 	/**
 	 * Function returns valuetype of the field filter.
+	 *
+	 * @param mixed $fieldname
 	 *
 	 * @return string
 	 */
@@ -357,9 +364,11 @@ class Vtiger_PDF_Model extends \App\Base
 		}
 		if (in_array('Users:' . $currentUser->getId(), $permissions)) { // check user id
 			return true;
-		} elseif (in_array('Roles:' . $currentUser->getRole(), $permissions)) {
+		}
+		if (in_array('Roles:' . $currentUser->getRole(), $permissions)) {
 			return true;
-		} elseif (array_key_exists('Groups', $getTypes)) {
+		}
+		if (array_key_exists('Groups', $getTypes)) {
 			$accessibleGroups = array_keys(\App\Fields\Owner::getInstance($this->get('module_name'), $currentUser)->getAccessibleGroupForModule());
 			$groups = array_intersect($getTypes['Groups'], $currentUser->getGroups());
 			if (array_intersect($groups, $accessibleGroups)) {
@@ -379,18 +388,18 @@ class Vtiger_PDF_Model extends \App\Base
 	/**
 	 * Returns array of template parameters understood by the pdf engine.
 	 *
-	 * @return <Array> - array of parameters
+	 * @return array
 	 */
 	public function getParameters()
 	{
 		$parameters = [];
 		$parameters['page_format'] = $this->get('page_format');
-		$parameters['page_orientation'] = $this->get('page_orientation');
+		$parameters['page_orientation'] = $this->getOrientation();
 		$parameters['header_height'] = $this->get('header_height');
 		$parameters['footer_height'] = $this->get('footer_height');
 
 		// margins
-		if ($this->get('margin_chkbox') == 0) {
+		if (0 == $this->get('margin_chkbox')) {
 			$parameters['margin-top'] = $this->get('margin_top');
 			$parameters['margin-right'] = $this->get('margin_right');
 			$parameters['margin-bottom'] = $this->get('margin_bottom');
@@ -404,11 +413,11 @@ class Vtiger_PDF_Model extends \App\Base
 
 		// metadata
 		$parameters['creator'] = 'YetiForce CRM';
-		if ($this->get('metatags_status') == 1) {
-			$parameters['title'] = $this->get('meta_title');
-			$parameters['author'] = $this->get('meta_author');
-			$parameters['subject'] = $this->get('meta_subject');
-			$parameters['keywords'] = $this->get('meta_keywords');
+		if (1 === (int) $this->get('metatags_status')) {
+			$parameters['title'] = $this->parseVariables($this->get('meta_title'));
+			$parameters['author'] = $this->parseVariables($this->get('meta_author'));
+			$parameters['subject'] = $this->parseVariables($this->get('meta_subject'));
+			$parameters['keywords'] = $this->parseVariables($this->get('meta_keywords'));
 		}
 		return $parameters;
 	}
@@ -431,11 +440,10 @@ class Vtiger_PDF_Model extends \App\Base
 	public function getOrientation()
 	{
 		$orientation = $this->get('page_orientation');
-		if ($orientation === 'PLL_LANDSCAPE') {
+		if ('PLL_LANDSCAPE' === $orientation) {
 			return 'L';
-		} else {
-			return 'P';
 		}
+		return 'P';
 	}
 
 	/**
@@ -472,14 +480,62 @@ class Vtiger_PDF_Model extends \App\Base
 	 * Export record to PDF file.
 	 *
 	 * @param int    $recordId   - id of a record
-	 * @param string $moduleName - name of records module
 	 * @param int    $templateId - id of pdf template
 	 * @param string $filePath   - path name for saving pdf file
 	 * @param string $saveFlag   - save option flag
 	 */
-	public static function exportToPdf($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '')
+	public static function exportToPdf($recordId, $templateId, $filePath = '', $saveFlag = '')
 	{
-		(new \App\Pdf\YetiForcePDF())->export($recordId, $moduleName, $templateId, $filePath, $saveFlag);
+		$template = self::getInstanceById($templateId);
+		$template->setVariable('recordId', $recordId);
+
+		$pdf = new \App\Pdf\YetiForcePDF();
+		$pdf->setPageSize($template->getFormat(), $template->getOrientation());
+		$pdf->setWatermark($pdf->getTemplateWatermark($template));
+		$pdf->setFileName($template->parseVariables($template->get('filename')));
+		$pdf->parseParams($template->getParameters());
+		$pdf->loadHtml($template->parseVariables($template->getBody()));
+		$pdf->setHeader($template->parseVariables($template->getHeader()));
+		$pdf->setFooter($template->parseVariables($template->getFooter()));
+
+		$pdf->output($filePath, $saveFlag);
+	}
+
+	/**
+	 * Gets TextParser.
+	 *
+	 * @return \App\TextParser
+	 */
+	public function getParser()
+	{
+		if (!isset($this->textParser)) {
+			if (isset($this->variables['recordId'])) {
+				$this->textParser = \App\TextParser::getInstanceById($this->variables['recordId'], $this->get('module_name'));
+			} else {
+				$this->textParser = \App\TextParser::getInstance($this->get('module_name'));
+			}
+			if ($this->get('language')) {
+				$this->textParser->setLanguage($this->get('language'));
+			}
+			$this->textParser->setType('pdf');
+			$this->textParser->setParams(['pdf' => $this]);
+		} elseif (($this->variables['recordId'] ?? null) !== $this->textParser->record) {
+			$this->textParser = null;
+			$this->textParser = $this->getParser();
+		}
+		return $this->textParser;
+	}
+
+	/**
+	 * Parse variables.
+	 *
+	 * @param string $str
+	 *
+	 * @return string
+	 */
+	public function parseVariables(string $str)
+	{
+		return $str ? $this->getParser()->setContent($str)->parse()->getContent() : '';
 	}
 
 	/**
@@ -501,41 +557,32 @@ class Vtiger_PDF_Model extends \App\Base
 	 */
 	public static function zipAndDownload(array $fileNames)
 	{
-		//create the object
-		$zip = new ZipArchive();
+		$zipPath = 'cache' . DIRECTORY_SEPARATOR . 'pdf' . DIRECTORY_SEPARATOR;
+		$tmpFileName = tempnam($zipPath, 'PDFZIP' . time());
+		$zipPath .= basename($tmpFileName);
 
-		mt_srand(time());
-		$postfix = time() . '_' . random_int(0, 1000);
-		$zipPath = 'storage/';
-		$zipName = "pdfZipFile_{$postfix}.zip";
-		$fileName = $zipPath . $zipName;
-
-		//create the file and throw the error if unsuccessful
-		if ($zip->open($zipPath . $zipName, ZIPARCHIVE::CREATE) !== true) {
-			\App\Log::error("cannot open <$zipPath.$zipName>\n");
-			throw new \App\Exceptions\NoPermitted("cannot open <$zipPath.$zipName>");
-		}
-
-		//add each files of $file_name array to archive
+		$zip = \App\Zip::createFile($zipPath);
 		foreach ($fileNames as $file) {
-			$zip->addFile($file, basename($file));
+			$zip->addFile($file['path'], $file['name']);
 		}
-		$zip->close();
-		$mimeType = \App\Fields\File::getMimeContentType($fileName);
-		$size = filesize($fileName);
-		$name = basename($fileName);
 
-		header('expires: Sat, 26 Jul 1997 05:00:00 GMT');
-		header("content-type: $mimeType");
-		header('content-disposition: attachment; filename="' . $name . '";');
-		header('accept-ranges: bytes');
-		header('content-length: ' . $size);
-
-		readfile($fileName);
-		// delete temporary zip file and saved pdf files
-		unlink($fileName);
+		$zip->download('PdfZipFile_' . time() . '.zip');
 		foreach ($fileNames as $file) {
-			unlink($file);
+			unlink($file['path']);
 		}
+	}
+
+	/**
+	 * Gets path.
+	 *
+	 * @param string $prefix
+	 *
+	 * @return string
+	 */
+	public function getPath(string $prefix = '')
+	{
+		$filePath = \ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'pdf' . \DIRECTORY_SEPARATOR;
+		$tmpFileName = tempnam($filePath, 'PDF' . $prefix . time());
+		return $filePath .= basename($tmpFileName);
 	}
 }

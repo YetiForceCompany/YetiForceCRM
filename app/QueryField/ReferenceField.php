@@ -30,7 +30,7 @@ class ReferenceField extends BaseField
 		foreach ($this->getTables() as $moduleName) {
 			$entityFieldInfo = \App\Module::getEntityInfo($moduleName);
 			$referenceTable = $entityFieldInfo['tablename'] . $this->fieldModel->getFieldName();
-			if (count($entityFieldInfo['fieldnameArr']) > 1) {
+			if (\count($entityFieldInfo['fieldnameArr']) > 1) {
 				$sqlString = 'CONCAT(';
 				foreach ($entityFieldInfo['fieldnameArr'] as $column) {
 					$sqlString .= "$referenceTable.$column,' ',";
@@ -52,8 +52,8 @@ class ReferenceField extends BaseField
 	 */
 	public function operatorA()
 	{
-		if (\AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
-			if (strpos($this->value, '##') === false) {
+		if (\App\Config::performance('SEARCH_REFERENCE_BY_AJAX')) {
+			if (false === strpos($this->value, '##')) {
 				return [$this->getColumnName() => $this->value];
 			}
 			$condition = ['or'];
@@ -180,12 +180,14 @@ class ReferenceField extends BaseField
 	/**
 	 * Get order by.
 	 *
+	 * @param mixed $order
+	 *
 	 * @return array
 	 */
 	public function getOrderBy($order = false)
 	{
 		$condition = [];
-		if ($order && strtoupper($order) === 'DESC') {
+		if ($order && 'DESC' === strtoupper($order)) {
 			foreach ($this->getRelatedTableName() as $formattedName) {
 				$condition[(string) $formattedName] = SORT_DESC;
 			}

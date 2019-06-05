@@ -78,7 +78,7 @@
     "Tree": "Field of trees",
     "CategoryMultipicklist": "Tree field (multiple choice)",
     "LBL_FIELD_MASK": "Field Mask",
-    "LBL_FIELD_MASK_INFO": "Default masking definitions \r\n9: numeric\r\na: alphabetically\r\n*: Alphanumeric\r\n\r\nExample:\r\n(99) 9999-9999\r\n+48 999-999-999\r\naaa_999_aaa\r\ndd\/mm\/yyyy",
+    "LBL_FIELD_MASK_INFO": "Default masking definitions \r\n9: numeric\r\na: alphabetically\r\n*: Alphanumeric\r\n\r\nExample:\r\n(99) 9999-9999\r\n+48 999-999-999\r\naaa_999_aaa\r\ndd/mm/yyyy",
     "MultiReferenceValue": "Values from the related module",
     "LBL_MULTI_REFERENCE_VALUE_MODULES": "Related module",
     "LBL_MULTI_REFERENCE_VALUE_FIELDS": "Related field",
@@ -137,7 +137,7 @@
     "LBL_DOUBLE": "Decimal",
     "LBL_DOUBLE_DESC": "",
     "LBL_REFERENCE_DESC": "Additional field used to relate a given element with any record in the system.",
-    "LBL_PURCHASE_DESC": "Numeric field used to enter the purchase\/acquisition value of a given element.",
+    "LBL_PURCHASE_DESC": "Numeric field used to enter the purchase/acquisition value of a given element.",
     "LBL_MARGIN_DESC": "Non-editable field calculated automatically, contains the profit value for a given element (Price after discount – Purchase), does not include tax.",
     "LBL_MARGIN_PERCENT_DESC": "Non-editable field calculated automatically, contains the profit value, expressed as a percentage.",
     "LBL_ITEM_NUMBER": "Item number",
@@ -182,9 +182,12 @@
     "Image": "Image file",
     "MultiImage": "Multi image files",
     "DateTime": "Date and time file",
+    "RangeTime": "Range time",
     "LBL_HEADER_TYPE_VALUE": "Value",
     "LBL_HEADER_TYPE_PROGRESS": "Progress bar",
-    "LBL_EDIT_MANDATORY_INFO": "Applies to the entire record. If 'No' is selected, the record can be saved without any inventory lines."
+    "LBL_EDIT_MANDATORY_INFO": "Applies to the entire record. If 'No' is selected, the record can be saved without any inventory lines.",
+    "MultiDomain": "Domain multi select",
+    "LBL_CHANGED_MODULE_TYPE_INFO": "Module type change operation has been added to cron task queue."
   },
   "js": {
     "JS_BLOCK_NAME_EXISTS": "Block Name already exists",

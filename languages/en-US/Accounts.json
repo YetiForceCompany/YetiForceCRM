@@ -86,7 +86,10 @@
     "PLL_EUROPEAN_ASSOCIATION": "European association",
     "PLL_UFCIITS": "Undertakings for collective investment in transferable securities",
     "LBL_DEACTIVATED_BY": "Account deactivated by ",
-    "SINGLE_Vendors": "Vendor"
+    "SINGLE_Vendors": "Vendor",
+    "FL_CHECK_STOCK_LEVELS": "Check stock levels",
+    "FL_PRICEBOOK": "Pricebook",
+    "FL_SUM_ORDERS": "Sum of open sales orders"
   },
   "js": {
     "JS_DUPLICTAE_CREATION_CONFIRMATION": "Account name already exists. Do you want to create a duplicate record?",

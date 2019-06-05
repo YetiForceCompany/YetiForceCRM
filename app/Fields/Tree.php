@@ -30,7 +30,6 @@ class Tree
 			->from('vtiger_trees_templates_data')
 			->where(['templateid' => $templateId])->indexBy('tree')->all();
 		\App\Cache::save('TreeValuesById', $templateId, $rows, \App\Cache::MEDIUM);
-
 		return $rows;
 	}
 
@@ -45,7 +44,6 @@ class Tree
 	public static function getValueByTreeId($templateId, $tree)
 	{
 		$rows = static::getValuesById($templateId);
-
 		return $rows[$tree];
 	}
 
@@ -67,7 +65,7 @@ class Tree
 			$parentName = '';
 			if ($row['depth'] > 0) {
 				$parentTrre = $row['parentTree'];
-				$cut = strlen('::' . $tree);
+				$cut = \strlen('::' . $tree);
 				$parentTrre = substr($parentTrre, 0, -$cut);
 				$pieces = explode('::', $parentTrre);
 				$parent = end($pieces);
@@ -77,6 +75,44 @@ class Tree
 			$values[$row['tree']] = $parentName . \App\Language::translate($row['name'], $moduleName);
 		}
 		return $values;
+	}
+
+	/**
+	 * Get tree values for jstree.
+	 *
+	 * @param int    $templateId
+	 * @param string $moduleName
+	 *
+	 * @return array
+	 */
+	public static function getTreeValues(int $templateId, string $moduleName): array
+	{
+		$dataTree = static::getValuesById($templateId);
+		$tree = [];
+		foreach ($dataTree as $row) {
+			$parentIdx = static::getParentIdx($row);
+			$tree[] = [
+				'id' => (int) str_replace('T', '', $row['tree']),
+				'tree' => $row['tree'],
+				'parent' => false === $parentIdx ? '#' : (int) str_replace('T', '', $dataTree[$parentIdx]['tree']),
+				'text' => \App\Language::translate($row['name'], $moduleName),
+			];
+		}
+		return $tree;
+	}
+
+	/**
+	 * Get parent index.
+	 *
+	 * @param array $itemTree
+	 *
+	 * @return flase|string
+	 */
+	public static function getParentIdx(array $itemTree)
+	{
+		$parentItem = explode('::', $itemTree['parentTree']);
+		$parentIdx = \count($parentItem) - 2;
+		return $parentIdx < 0 ? false : $parentItem[$parentIdx];
 	}
 
 	/**
@@ -100,7 +136,7 @@ class Tree
 		$parentName = '';
 		if ($row['depth'] > 0) {
 			$parentTrre = $row['parentTree'];
-			$cut = strlen('::' . $treeId);
+			$cut = \strlen('::' . $treeId);
 			$parentTrre = substr($parentTrre, 0, -$cut);
 			$pieces = explode('::', $parentTrre);
 			$parent = end($pieces);
@@ -109,7 +145,7 @@ class Tree
 		}
 		$value['name'] = $parentName . \App\Language::translate($row['name'], $moduleName);
 		if ($row['icon']) {
-			if ($row['icon'] && strpos($row['icon'], 'layouts') === 0) {
+			if ($row['icon'] && 0 === strpos($row['icon'], 'layouts')) {
 				$basePath = '';
 				if (!IS_PUBLIC_DIR) {
 					$basePath = 'public_html/';

@@ -158,7 +158,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 				->where(['and', ['like', 'u_#__crmentity_search_label.userid', ",{$currentUserId},"], ['like', 'u_#__crmentity_search_label.searchlabel', $searchKey]]);
 			if (false !== $moduleName) {
 				$query->andWhere(['u_#__crmentity_search_label.setype' => $moduleName]);
-			} elseif (2 === \AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS')) {
+			} elseif (2 === \App\Config::search('GLOBAL_SEARCH_SORTING_RESULTS')) {
 				$query->leftJoin('vtiger_entityname', 'vtiger_entityname.modulename = u_#__crmentity_search_label.setype')
 					->andWhere(['vtiger_entityname.turn_off' => 1])
 					->orderBy('vtiger_entityname.sequence');
@@ -171,7 +171,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 					->andWhere(['vtiger_service.discontinued' => 1]);
 			}
 			if (!$limit) {
-				$limit = AppConfig::search('GLOBAL_SEARCH_MODAL_MAX_NUMBER_RESULT');
+				$limit = App\Config::search('GLOBAL_SEARCH_MODAL_MAX_NUMBER_RESULT');
 			}
 			if ($limit) {
 				$query->limit($limit);

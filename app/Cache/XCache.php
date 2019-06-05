@@ -32,15 +32,15 @@ class XCache
 	 */
 	public static function isSupported()
 	{
-		return extension_loaded('xcache');
+		return \extension_loaded('xcache');
 	}
 
 	/**
 	 * Returns a cache item representing the specified key.
 	 *
-	 * @param string|array $key Cache ID
+	 * @param array|string $key Cache ID
 	 *
-	 * @return string|array
+	 * @return array|string
 	 */
 	public function get($key)
 	{
@@ -50,7 +50,7 @@ class XCache
 	/**
 	 * Confirms if the cache contains specified cache item.
 	 *
-	 * @param string|array $key Cache ID
+	 * @param array|string $key Cache ID
 	 *
 	 * @return bool
 	 */
@@ -63,7 +63,7 @@ class XCache
 	 * Cache save.
 	 *
 	 * @param string       $key      Cache ID
-	 * @param string|array $value    Data to store
+	 * @param array|string $value    Data to store
 	 * @param int          $duration Cache TTL (in seconds)
 	 *
 	 * @return bool
@@ -76,7 +76,7 @@ class XCache
 	/**
 	 * Removes the item from the cache.
 	 *
-	 * @param string|array $key Cache ID
+	 * @param array|string $key Cache ID
 	 *
 	 * @return bool
 	 */
@@ -93,7 +93,7 @@ class XCache
 	public function clear()
 	{
 		for ($i = 0, $max = xcache_count(XC_TYPE_VAR); $i < $max; ++$i) {
-			if (xcache_clear_cache(XC_TYPE_VAR, $i) === false) {
+			if (false === xcache_clear_cache(XC_TYPE_VAR, $i)) {
 				return false;
 			}
 		}

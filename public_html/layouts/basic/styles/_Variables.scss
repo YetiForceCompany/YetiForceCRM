@@ -1,23 +1,24 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 @import '../../../libraries/sass-material-colors/sass/_sass-material-colors.scss';
-@import "../../../libraries/bootstrap/scss/_functions";
+@import '../../../libraries/bootstrap/scss/_functions';
 @import '../../../libraries/bootstrap/scss/_mixins';
 
 //-------- override libraries' variables --------//
 //bootstrap
 $link-color: #006cdf;
+$primary: #006cdf;
 $secondary: #5e666c;
 $blue: #337ab7;
 $pagination-color: $link-color;
 $grid-breakpoints: (
-		xs: 0,
-		xsm: 400px,
-		sm: 576px,
-		md: 768px,
-		lg: 992px,
-		xl: 1200px,
-		xxl:1300px,
-		xxxl:1800px
+	xs: 0,
+	xsm: 400px,
+	sm: 576px,
+	md: 768px,
+	lg: 992px,
+	xl: 1200px,
+	xxl: 1300px,
+	xxxl: 1800px
 );
 
 //flag-icons

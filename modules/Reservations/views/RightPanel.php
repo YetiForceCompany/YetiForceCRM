@@ -35,7 +35,7 @@ class Reservations_RightPanel_View extends Vtiger_IndexAjax_View
 				$users[$userModel->getId()] = $userModel->getName();
 				break;
 			case 3:
-				if (AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')) {
+				if (App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')) {
 					$usersAndGroup = \App\Fields\Owner::getInstance($moduleName, $userModel)->getUsersAndGroupForModuleList();
 					$users = $usersAndGroup['users'];
 					$groups = $usersAndGroup['group'];

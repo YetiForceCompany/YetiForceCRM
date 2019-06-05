@@ -36,9 +36,9 @@
 						{/if}
 						{if $SHOW_COMMENT}
 							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_comment" nowrap>
-								{if strlen($RECORD['rel_comment']) > AppConfig::relation('COMMENT_MAX_LENGTH')}
+								{if strlen($RECORD['rel_comment']) > App\Config::relation('COMMENT_MAX_LENGTH')}
 									<a class="js-popover-tooltip" data-js="popover" data-placement="top" data-content="{$RECORD['rel_comment']}">
-										{App\TextParser::textTruncate($RECORD['rel_comment'], AppConfig::relation('COMMENT_MAX_LENGTH'))}
+										{App\TextParser::textTruncate($RECORD['rel_comment'], App\Config::relation('COMMENT_MAX_LENGTH'))}
 									</a>
 								{else}
 									{$RECORD['rel_comment']}

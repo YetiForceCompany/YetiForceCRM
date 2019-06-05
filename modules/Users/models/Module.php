@@ -19,9 +19,9 @@ class Users_Module_Model extends Vtiger_Module_Model
 	 * @param string              $record         parent id
 	 * @param \App\QueryGenerator $queryGenerator
 	 */
-	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
+	public function getQueryByModuleField($sourceModule, $field, $record, App\QueryGenerator $queryGenerator)
 	{
-		if ($sourceModule === 'Users' && $field === 'reports_to_id' && !empty($record)) {
+		if ('Users' === $sourceModule && 'reports_to_id' === $field && !empty($record)) {
 			$queryGenerator->addNativeCondition(['<>', 'vtiger_users.id', $record]);
 		}
 	}
@@ -35,31 +35,23 @@ class Users_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function searches the records in the module, if parentId & parentModule
-	 * is given then searches only those records related to them.
-	 *
-	 * @param string    $searchValue  - Search value
-	 * @param <Integer> $parentId     - parent recordId
-	 * @param string    $parentModule - parent module name
-	 *
-	 * @return <Array of Users_Record_Model>
+	 * {@inheritdoc}
 	 */
-	public function searchRecord($searchValue, $parentId = false, $parentModule = false, $relatedModule = false)
+	public function searchRecord(string $searchValue): array
 	{
+		$matchingRecords = [];
 		if (!empty($searchValue)) {
+			$modelClassName = \Vtiger_Loader::getComponentClassName('Model', 'Record', 'Users');
 			$dataReader = (new App\Db\Query())->from('vtiger_users')
-				->where(['and', ['or', ['like', 'first_name', $searchValue], ['like', 'last_name', $searchValue]], ['status' => 'Active']])
+				->where(['and', ['status' => 'Active'], ['like', \App\Module::getSqlForNameInDisplayFormat('Users'), $searchValue]])
 				->createCommand()->query();
-			$matchingRecords = [];
 			while ($row = $dataReader->read()) {
-				$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', 'Users');
 				$recordInstance = new $modelClassName();
 				$matchingRecords['Users'][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($this);
 			}
 			$dataReader->close();
-
-			return $matchingRecords;
 		}
+		return $matchingRecords;
 	}
 
 	/**
@@ -95,7 +87,8 @@ class Users_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function to store the login history.
 	 *
-	 * @param type $userName
+	 * @param type  $userName
+	 * @param mixed $status
 	 */
 	public function saveLoginHistory($userName, $status = 'Signed in')
 	{
@@ -126,7 +119,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 			->from('vtiger_loginhistory')
 			->where(['user_name' => $userRecordModel->get('user_name'), 'user_ip' => $userIPAddress])
 			->limit(1)->orderBy('login_id DESC')->scalar();
-		if ($loginId !== false) {
+		if (false !== $loginId) {
 			\App\Db::getInstance()->createCommand()
 				->update('vtiger_loginhistory', [
 					'logout_time' => $outtime,
@@ -140,7 +133,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 	 * Check mail exist.
 	 *
 	 * @param string    $email
-	 * @param int|false $userId
+	 * @param false|int $userId
 	 *
 	 * @return bool
 	 */
@@ -157,7 +150,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 	 * Validation of user name.
 	 *
 	 * @param string    $userName
-	 * @param int|false $userId
+	 * @param false|int $userId
 	 *
 	 * @return bool
 	 */
@@ -170,7 +163,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 		if ($query->exists()) {
 			return \App\Language::translate('LBL_USER_NAME_EXISTS', 'Users');
 		}
-		if ($userId && AppConfig::module('Users', 'CHECK_LAST_USERNAME') && (new \App\Db\Query())->from('l_#__username_history')->where(['or', ['user_name' => $userName, 'user_name' => strtolower($userName)]])->exists()) {
+		if ($userId && App\Config::module('Users', 'CHECK_LAST_USERNAME') && (new \App\Db\Query())->from('l_#__username_history')->where(['or', ['user_name' => $userName, 'user_name' => strtolower($userName)]])->exists()) {
 			return \App\Language::translate('LBL_USER_NAME_HAS_ALREADY_BEEN_USED', 'Users');
 		}
 		$blacklist = require 'config/username_blacklist.php';
@@ -224,7 +217,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @return string[]
 	 */
-	public function getFieldsForSave(\Vtiger_Record_Model $recordModel)
+	public function getFieldsForSave(Vtiger_Record_Model $recordModel)
 	{
 		$editFields = [];
 		foreach (App\Field::getFieldsPermissions($this->getId(), false) as $field) {

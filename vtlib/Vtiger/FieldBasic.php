@@ -195,7 +195,7 @@ class FieldBasic
 			'masseditable' => $this->masseditable,
 			'visible' => $this->visible,
 		])->execute();
-		$this->id = (int) $db->getLastInsertID("vtiger_field_fieldid_seq");
+		$this->id = (int) $db->getLastInsertID('vtiger_field_fieldid_seq');
 		Profile::initForField($this);
 		$this->clearCache();
 		\App\Log::trace("Creating field $this->name ... DONE", __METHOD__);
