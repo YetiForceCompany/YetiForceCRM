@@ -997,14 +997,14 @@ CREATE TABLE `s_yf_business_hours` (
   `working_hours_from` varchar(8) NOT NULL DEFAULT '00:00:00',
   `working_hours_to` varchar(8) NOT NULL DEFAULT '00:00:00',
   `holidays` tinyint(1) NOT NULL DEFAULT 0,
-	`reaction_time` varchar(20) NOT NULL DEFAULT '0:m',
+  `reaction_time` varchar(20) NOT NULL DEFAULT '0:m',
   `idle_time` varchar(20) NOT NULL DEFAULT '0:m',
   `resolve_time` varchar(20) NOT NULL DEFAULT '0:m',
   `default` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `business_hours_holidays_idx` (`holidays`),
   KEY `business_hours_default_idx` (`default`)
-) ENGINE=InnoDB DEFAULT CHARSET = utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `s_yf_companies` */
 
@@ -8046,7 +8046,7 @@ CREATE TABLE `vtiger_settings_field` (
   PRIMARY KEY (`fieldid`),
   KEY `fk_1_vtiger_settings_field` (`blockid`),
   CONSTRAINT `fk_1_vtiger_settings_field` FOREIGN KEY (`blockid`) REFERENCES `vtiger_settings_blocks` (`blockid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_sharedcalendar` */
 

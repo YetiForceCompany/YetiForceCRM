@@ -262,6 +262,8 @@ insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (8,'r
 
 /*Data for the table `s_yf_batchmethod` */
 
+/*Data for the table `s_yf_business_hours` */
+
 /*Data for the table `s_yf_companies` */
 
 insert  into `s_yf_companies`(`id`,`status`,`name`,`type`,`industry`,`city`,`country`,`companysize`,`website`,`logo`,`firstname`,`lastname`,`email`) values (1,0,'YetiForce Sp. z o.o. ',1,NULL,'Warszawa','Poland',0,'yetiforce.com','[]',NULL,NULL,NULL);
