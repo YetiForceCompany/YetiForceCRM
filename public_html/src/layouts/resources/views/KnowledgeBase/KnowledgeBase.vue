@@ -12,7 +12,7 @@
     <q-layout view="hHh Lpr fFf" container class="absolute">
       <q-header elevated class="bg-white text-primary">
         <q-toolbar class="q-py-xs flex-wrap flex-md-nowrap">
-          <div v-show="!searchData" class="flex items-center no-wrap q-mr-auto">
+          <div v-show="!searchData" class="flex items-center no-wrap q-mr-auto q-mr-sm-sm">
             <q-btn
               dense
               round
@@ -20,7 +20,7 @@
               icon="mdi-menu"
               @click="$q.platform.is.desktop ? (miniState = !miniState) : (left = !left)"
             >
-              <q-tooltip>{{ translate('JS_TOGGLE_MENU') }}</q-tooltip>
+              <q-tooltip>{{ translate('JS_TOGGLE_CATEGORY_MENU') }}</q-tooltip>
             </q-btn>
             <q-breadcrumbs class="ml-2">
               <template v-slot:separator>
@@ -30,16 +30,16 @@
                 :icon="tree.topCategory.icon"
                 :label="translate(tree.topCategory.label)"
                 @click="tree.activeCategory === '' ? '' : fetchData()"
-                :disabled="tree.activeCategory === ''"
-                :class="[tree.activeCategory === '' ? '' : 'cursor-pointer']"
+                :class="[tree.activeCategory === '' ? 'text-black' : 'cursor-pointer']"
               />
               <template v-if="tree.activeCategory !== ''">
                 <q-breadcrumbs-el
                   v-for="(category, index) in tree.categories[tree.activeCategory].parentTree"
                   :key="index"
-                  :disabled="index === tree.categories[tree.activeCategory].parentTree.length - 1"
                   :class="[
-                    index === tree.categories[tree.activeCategory].parentTree.length - 1 ? '' : 'cursor-pointer'
+                    index === tree.categories[tree.activeCategory].parentTree.length - 1
+                      ? 'text-black'
+                      : 'cursor-pointer'
                   ]"
                   @click="
                     index === tree.categories[tree.activeCategory].parentTree.length - 1 ? '' : fetchData(category)
@@ -68,25 +68,25 @@
             >
               <template v-slot:prepend>
                 <q-icon name="mdi-magnify" />
+                <q-tooltip v-model="inputFocus" anchor="top middle" self="center middle">
+                  {{ translate('JS_INPUT_TOO_SHORT').replace('_LENGTH_', '3') }}
+                </q-tooltip>
               </template>
-              <template v-if="filter !== ''" v-slot:append>
-                <q-icon name="mdi-close" @click.stop="clearSearch()" class="cursor-pointer" />
+              <template v-slot:append>
+                <q-icon v-if="filter !== ''" name="mdi-close" @click.stop="clearSearch()" class="cursor-pointer" />
+                <div class="flex items-center q-ml-sm">
+                  <icon-info :customOptions="{ iconSize: '21px' }">
+                    <div style="white-space: pre-line;" v-html="translate('JS_SEARCH_INFO')"></div>
+                  </icon-info>
+                </div>
+                <div v-show="tree.activeCategory !== ''" class="flex">
+                  <q-toggle v-model="categorySearch" icon="mdi-file-tree" />
+                  <q-tooltip> {{ translate('JS_SEARCH_CURRENT_CATEGORY') }} </q-tooltip>
+                </div>
               </template>
-              <q-tooltip anchor="top middle" self="center middle">{{
-                translate('JS_INPUT_TOO_SHORT').replace('_LENGTH_', '3')
-              }}</q-tooltip>
             </q-input>
-            <div class="flex items-center q-ml-xs">
-              <icon-info :customOptions="{ iconSize: '21px' }">
-                <div style="white-space: pre-line;" v-html="translate('JS_SEARCH_INFO')"></div>
-              </icon-info>
-            </div>
-            <div>
-              <q-toggle v-model="categorySearch" icon="mdi-file-tree" />
-              <q-tooltip> {{ translate('JS_SEARCH_CURRENT_CATEGORY') }} </q-tooltip>
-            </div>
           </div>
-          <div class="q-ml-auto">
+          <div class="q-ml-auto q-ml-sm-sm">
             <q-btn round dense color="white" text-color="primary" icon="mdi-plus" @click="openQuickCreateModal()">
               <q-tooltip>
                 {{ translate('JS_QUICK_CREATE') }}
@@ -220,6 +220,14 @@ export default {
     ...mapGetters(['tree', 'record', 'iconSize', 'moduleName']),
     searchDataArray() {
       return this.searchData ? this.searchData : []
+    },
+    inputFocus: {
+      set(val) {
+        return false
+      },
+      get() {
+        return this.filter.length > 0
+      }
     }
   },
   methods: {
