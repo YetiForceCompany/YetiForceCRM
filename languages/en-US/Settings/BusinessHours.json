@@ -18,7 +18,7 @@
     "LBL_REACTION_TIME": "Reaction",
     "LBL_IDLE_TIME": "Idle",
     "LBL_RESOLVE_TIME": "Resolve",
-    "LBL_HOLIDAYS_DESCRIPTION": "Go to holidays settings"
+    "LBL_HOLIDAYS_LINK": "Go to holidays settings"
   },
   "js": {
     "JS_BUSINESSHOURS_DELETE_CONFIRMATION": "Are your sure you want to delete this entry?"

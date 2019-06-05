@@ -41,7 +41,7 @@
 									<label class="mr-5"><input type="checkbox" name="working_days[]" value="{$DAY_ID}"{if strpos($RECORD_MODEL->get('working_days'),(string)$DAY_ID)!==false} checked="checked"{/if} class="checkbox mr-1">{\App\Language::translate($DAY_NAME,'Calendar')}</label>
 								{/foreach}
 								<label class="mr-2"><input type="checkbox" name="holidays" value="1" class="mr-1"{if isset($RECORD_MODEL) && $RECORD_MODEL->get('holidays')==1} checked="checked"{/if}>{\App\Language::translate('LBL_HOLIDAYS', $QUALIFIED_MODULE)}</label>
-								<a class="js-popover-tooltip btn btn-sm btn-default rounded-circle" data-js="popover" data-content="{App\Language::translate('LBL_HOLIDAYS_DESCRIPTION',$QUALIFIED_MODULE)}" href="index.php?module=PublicHoliday&view=Configuration&parent=Settings"><span class="fas fa-link"></span></a>
+								<a class="js-popover-tooltip btn btn-sm btn-default rounded-circle" data-js="popover" data-content="{App\Language::translate('LBL_HOLIDAYS_LINK',$QUALIFIED_MODULE)}" href="index.php?module=PublicHoliday&view=Configuration&parent=Settings"><span class="fas fa-link"></span></a>
 							</div>
 						</div>
 						<div class="col-12 form-group row">
