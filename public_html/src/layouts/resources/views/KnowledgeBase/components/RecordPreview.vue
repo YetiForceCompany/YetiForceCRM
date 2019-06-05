@@ -1,5 +1,12 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-
+<!--
+/**
+ * RecordPreview component
+ *
+ * @description Record preview parent component
+ * @license YetiForce Public License 3.0
+ * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
+ */
+-->
 <template>
   <q-dialog
     v-model="dialog"
@@ -8,7 +15,7 @@
     transition-hide="slide-down"
     content-class="quasar-reset"
   >
-    <drag-resize v-if="isDragResize && !this.$q.platform.is.mobile">
+    <drag-resize v-if="isDragResize && !$q.platform.is.mobile">
       <template v-slot:default="slotProps">
         <record-preview-content :height="slotProps.height" />
       </template>

@@ -1,5 +1,12 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-
+RecordsList<!--
+/**
+ * Carousel component
+ *
+ * @description Carousel component for knowledge base view
+ * @license YetiForce Public License 3.0
+ * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
+ */
+-->
 <template>
   <div>
     <q-carousel

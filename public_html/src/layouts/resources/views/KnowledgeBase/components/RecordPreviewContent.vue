@@ -1,5 +1,12 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-
+<!--
+/**
+ * RecordPreviewContent component
+ *
+ * @description Part of q-dialog
+ * @license YetiForce Public License 3.0
+ * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
+ */
+-->
 <template>
   <q-card class="KnowledgeBase__RecordPreview">
     <q-bar dark class="bg-yeti text-white dialog-header">

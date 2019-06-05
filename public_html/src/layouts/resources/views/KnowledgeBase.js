@@ -1,4 +1,10 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/**
+ * KnowledgeBase components initializations
+ *
+ * @description KnowledgeBase views' instances
+ * @license YetiForce Public License 3.0
+ * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
+ */
 
 import Quasar from '../../../quasar.config.js'
 import KnowledgeBaseComponent from './KnowledgeBase/KnowledgeBase.vue'

@@ -1,3 +1,11 @@
+/**
+ * Vuex store
+ *
+ * @description Vuex store initialization
+ * @license YetiForce Public License 3.0
+ * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
+ */
+
 import Vuex from 'vuex'
 import KnowledgeBase from './modules/KnowledgeBase.js'
 

@@ -1,5 +1,12 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-
+<!--
+/**
+ * Icon component
+ *
+ * @description Global component
+ * @license YetiForce Public License 3.0
+ * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
+ */
+-->
 <template>
   <div>
     <q-icon v-if="/^mdi|^fa/.test(icon)" :name="icon" :size="size" dense />

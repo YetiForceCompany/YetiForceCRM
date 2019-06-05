@@ -1,4 +1,11 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/**
+ * gulpfile
+ *
+ * @description contains css tasks
+ * @license YetiForce Public License 3.0
+ * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
+ */
+
 const gulp = require('gulp')
 const stylus = require('gulp-stylus')
 const browserSync = require('browser-sync').create()
