@@ -1,0 +1,11 @@
+{
+  "php": {
+    "LBL_SLA_POLICY": "SLA Policy",
+    "LBL_NAME": "Policy name",
+    "LBL_OPERATIONAL_HOURS": "Operational hours",
+    "LBL_EDIT": "Edit",
+    "LBL_CREATE": "Create new SLA policy",
+    "LBL_CALENDAR_HOURS": "Calendar hours",
+    "LBL_BUSINESS_HOURS": "Business hours"
+  }
+}
