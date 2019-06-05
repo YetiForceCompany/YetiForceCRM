@@ -1786,10 +1786,10 @@ window.App.Fields = {
 	/**
 	 * TimePeriod class
 	 *
-	 * Save value as time period in 00:m format where '00' is a number with leading zero (02 or 232)
+	 * Save value as time period in 00:m format where '0' is a number of units
 	 * ':' is just separator
-	 * and 'm' is time scale/period in php date format  - available formats are [m, d, H, i, s]
-	 * @example 10:i = 10minutes, 2:m = 2months, 20:H = 20 hours and so on...
+	 * and 'm' is time scale/period in php date format - available formats are [m, d, H, i, s]
+	 * @example 10:i = 10 minutes, 2:m = 2 months, 20:H = 20 hours and so on...
 	 */
 	TimePeriod: class TimePeriod {
 		constructor(container) {
@@ -1802,7 +1802,7 @@ window.App.Fields = {
 			} else {
 				this.time = 0;
 				this.period = 'm';
-				this.value = '00:m';
+				this.value = '0:m';
 				container.val(this.value);
 			}
 			this.injectContent();
@@ -1880,7 +1880,7 @@ window.App.Fields = {
 		onChange(event) {
 			this.time = this.input.val();
 			this.period = this.select.val();
-			this.value = this.input.val().padStart(2, '0') + ':' + this.select.val();
+			this.value = this.input.val() + ':' + this.select.val();
 			this.container.val(this.value);
 		}
 

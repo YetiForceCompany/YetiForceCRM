@@ -11,11 +11,17 @@
 class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 {
 	/**
-	 * Store old values here if they exists.
+	 * Unit labels.
 	 *
 	 * @var array
 	 */
-	public $oldValues = [];
+	public static $unitLabels = [
+		'm' => 'LBL_MONTHS',
+		'd' => 'LBL_DAYS',
+		'H' => 'LBL_HOURS',
+		'i' => 'LBL_MINUTES',
+		's' => 'LBL_SECONDS'
+	];
 
 	/**
 	 * Function to get the Id.
@@ -194,15 +200,8 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 			$data['default'] = 0;
 		}
 		if ($recordId) {
-			if (!empty($data['default']) && empty($this->oldValues['default'])) {
-				$db->createCommand()->update('s_#__business_hours', ['default' => 0], ['default' => 1])->execute();
-			}
 			$db->createCommand()->update('s_#__business_hours', $data, ['id' => $recordId])->execute();
-			$this->oldValues = [];
 		} else {
-			if (!empty($data['default'])) {
-				$db->createCommand()->update('s_#__business_hours', ['default' => 0], ['default' => 1])->execute();
-			}
 			$db->createCommand()->insert('s_#__business_hours', $data)->execute();
 		}
 	}
@@ -226,8 +225,13 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 			$value = implode(', ', $value);
 		} elseif ('working_hours_from' === $key || 'working_hours_to' === $key) {
 			$value = \App\Fields\Time::formatToDisplay($value, false);
-		} elseif ('default' === $key || 'holidays' === $key) {
-			$value = $value ? \App\Language::translate('LBL_YES') : \App\Language::translate('LBL_NO');
+		} elseif ('default' === $key) {
+			$value = '<input type="checkbox" class="checkbox" readonly onclick="return false" ' . ($value ? 'checked="checked"' : '') . '>';
+		} elseif ($key === 'reaction_time' || $key === 'idle_time' || $key === 'resolve_time') {
+			$time = explode(':', $value);
+			$value = $time[0] . ' ' . \App\Language::translate(static::$unitLabels[$time[1]]);
+		} elseif ($key === 'holidays') {
+			$value = $value ? \App\Language::translate('LBL_HOLIDAYS', 'Settings:BusinessHours') : '';
 		}
 		return $value;
 	}

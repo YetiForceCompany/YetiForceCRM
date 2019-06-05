@@ -32,7 +32,7 @@ class Settings_BusinessHours_Module_Model extends Settings_Vtiger_Module_Model
 		'working_days' => 'LBL_WORKING_DAYS',
 		'working_hours_from' => 'LBL_WORKING_HOURS_FROM',
 		'working_hours_to' => 'LBL_WORKING_HOURS_TO',
-		'holidays' => 'LBL_HOLIDAYS',
+		'default_times' => 'LBL_DEFAULT_TIMES',
 		'default' => 'LBL_DEFAULT'
 	];
 	/**
