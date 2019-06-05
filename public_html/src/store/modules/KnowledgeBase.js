@@ -2,6 +2,7 @@
 const state = {
 	record: false,
 	dialog: false,
+	maximized: true,
 	moduleName: '',
 	iconSize: '18px',
 	tree: {
@@ -28,6 +29,9 @@ const getters = {
 	},
 	dialog(state) {
 		return state.dialog
+	},
+	maximized(state) {
+		return state.maximized
 	},
 	iconSize(state) {
 		return state.iconSize
@@ -113,6 +117,9 @@ const mutations = {
 	},
 	setDialog(state, payload) {
 		state.dialog = payload
+	},
+	setMaximized(state, payload) {
+		state.maximized = payload
 	},
 	setTreeData(state, payload) {
 		state.tree.data = payload

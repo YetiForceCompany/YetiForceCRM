@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 <template>
-  <record-preview>
+  <record-preview :isDragResize="false">
     <template slot="header-right">
       <q-btn dense flat icon="mdi-close" @click="hideModal()">
         <q-tooltip>{{ translate('JS_CLOSE') }}</q-tooltip>
@@ -27,6 +27,11 @@ export default {
     await this.initState(this.$options.state)
     await this.fetchCategories()
     await this.fetchRecord(this.$options.state.recordId)
+    document.addEventListener('keyup', evt => {
+      if (evt.keyCode === 27) {
+        this.hideModal()
+      }
+    })
   }
 }
 </script>

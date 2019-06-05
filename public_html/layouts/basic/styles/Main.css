@@ -25634,7 +25634,8 @@ input[type="radio"]:checked:before {
     display: block;
     margin: 0 0 5px !important;
   }
-  .actionMenu .o-action-menu__container .c-header__btn .fas {
+  .actionMenu .o-action-menu__container .c-header__btn .fas,
+  .actionMenu .o-action-menu__container .c-header__btn [class*='userIcon-'] {
     margin: 0 5px 0 0;
   }
   .actionMenu .o-action-menu__container .c-header__btn .sr-only {
@@ -25672,7 +25673,7 @@ input[type="radio"]:checked:before {
   display: flex;
 }
 
-.widget_header > div[class*="col-"]:first-child {
+.widget_header > div[class*='col-']:first-child {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
