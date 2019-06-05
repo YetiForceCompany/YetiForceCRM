@@ -2,9 +2,14 @@
 .quasar-reset {
 	.row {
 		margin: unset;
+		margin-right: unset;
+		margin-left: unset;
 	}
-	.col {
+	.col,
+	[class*='col-'] {
 		padding: unset;
+		padding-right: unset;
+		padding-left: unset;
 	}
 }
 .quasar-container {

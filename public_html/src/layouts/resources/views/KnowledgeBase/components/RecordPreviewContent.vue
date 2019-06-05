@@ -86,36 +86,36 @@
       <div v-if="hasRelatedRecords">
         <q-separator />
         <div class="q-pa-md q-table__title">{{ translate('JS_RELATED_RECORDS') }}</div>
-        <div class="q-pa-sm featured-container items-start q-gutter-md">
+        <div class="q-pa-sm row items-start q-col-gutter-md">
           <template v-for="(moduleRecords, parentModule) in record.related">
-            <q-list
-              bordered
-              padding
-              dense
-              :key="parentModule"
+            <div
               v-if="parentModule !== 'Articles' && parentModule !== 'ModComments' && moduleRecords.length === undefined"
+              :class="[relatedColClass]"
+              :key="parentModule"
             >
-              <q-item header clickable class="text-black flex">
-                <icon :icon="'userIcon-' + parentModule" :size="iconSize" class="mr-2"></icon>
-                {{ record.translations[parentModule] }}
-              </q-item>
-              <q-item
-                clickable
-                v-for="(relatedRecord, relatedRecordId) in moduleRecords"
-                :key="relatedRecordId"
-                class="text-subtitle2"
-                v-ripple
-              >
-                <q-item-section class="align-items-center flex-row no-wrap justify-content-start">
-                  <a
-                    class="js-popover-tooltip--record ellipsis"
-                    :href="`index.php?module=${parentModule}&view=Detail&record=${relatedRecordId}`"
-                  >
-                    {{ relatedRecord }}
-                  </a>
-                </q-item-section>
-              </q-item>
-            </q-list>
+              <q-list bordered padding dense>
+                <q-item header clickable class="text-black flex">
+                  <icon :icon="'userIcon-' + parentModule" :size="iconSize" class="mr-2"></icon>
+                  {{ record.translations[parentModule] }}
+                </q-item>
+                <q-item
+                  clickable
+                  v-for="(relatedRecord, relatedRecordId) in moduleRecords"
+                  :key="relatedRecordId"
+                  class="text-subtitle2"
+                  v-ripple
+                >
+                  <q-item-section class="align-items-center flex-row no-wrap justify-content-start">
+                    <a
+                      class="js-popover-tooltip--record ellipsis"
+                      :href="`index.php?module=${parentModule}&view=Detail&record=${relatedRecordId}`"
+                    >
+                      {{ relatedRecord }}
+                    </a>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </div>
           </template>
         </div>
       </div>
@@ -182,6 +182,23 @@ export default {
         return Object.keys(this.record.related).some(obj => {
           return obj !== 'Articles' && obj !== 'ModComments' && this.record.related[obj].length === undefined
         })
+      }
+    },
+    relatedColClass() {
+      if (this.record) {
+        let relatedModules = 0
+        let relatedColClass = 'col'
+        Object.keys(this.record.related).forEach(key => {
+          if (key !== 'Articles' && key !== 'ModComments' && this.record.related[key].length === undefined) {
+            relatedModules++
+          }
+        })
+        if (relatedModules === 2) {
+          relatedColClass = 'col-sm-6'
+        } else if (relatedModules === 3) {
+          relatedColClass = 'col-sm-6 col-md-4'
+        }
+        return relatedColClass
       }
     },
     hasRelatedArticles() {
