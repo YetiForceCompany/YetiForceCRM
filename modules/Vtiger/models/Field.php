@@ -435,18 +435,12 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * Function to check if the field is named field of the module.
 	 *
-	 * @return bool - True/False
+	 * @return bool
 	 */
 	public function isNameField()
 	{
 		$moduleModel = $this->getModule();
-		if (!$moduleModel) {
-			return false;
-		}
-		if (in_array($this->getFieldName(), $moduleModel->getNameFields())) {
-			return true;
-		}
-		return false;
+		return $moduleModel && !$this->isReferenceField() && in_array($this->getFieldName(), $moduleModel->getNameFields());
 	}
 
 	/**
