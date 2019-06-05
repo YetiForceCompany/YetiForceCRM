@@ -121,6 +121,7 @@ const actions = {
 		})
 	},
 	initState({ state, commit }, data) {
+		console.log(data)
 		commit('setState', data)
 	}
 }

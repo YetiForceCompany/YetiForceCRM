@@ -30,10 +30,11 @@ export default {
     },
     ...mapActions(['fetchCategories', 'fetchRecord', 'initState'])
   },
-  async created() {
-    await this.initState(this.$options.state)
-    await this.fetchCategories()
-    await this.fetchRecord(this.$options.state.recordId)
+  created() {
+    this.initState(this.$options.state).then(() => {
+      this.fetchCategories()
+      this.fetchRecord(this.$options.state.recordId)
+    })
     document.addEventListener('keyup', evt => {
       if (evt.keyCode === 27) {
         this.hideModal()

@@ -20,7 +20,11 @@
         <record-preview-content :height="slotProps.height" />
       </template>
     </drag-resize>
-    <record-preview-content v-else />
+    <record-preview-content v-else>
+      <template slot="header-right">
+        <slot name="header-right"></slot>
+      </template>
+    </record-preview-content>
   </q-dialog>
 </template>
 <script>

@@ -242,10 +242,11 @@ export default {
     },
     ...mapActions(['fetchCategories', 'fetchData', 'fetchRecord', 'initState'])
   },
-  async created() {
-    await this.initState(this.$options.state)
-    await this.fetchCategories()
-    await this.fetchData()
+  created() {
+    this.initState(this.$options.state).then(() => {
+      this.fetchCategories()
+      this.fetchData()
+    })
   },
   mounted() {
     const debounceDelay = 1000
