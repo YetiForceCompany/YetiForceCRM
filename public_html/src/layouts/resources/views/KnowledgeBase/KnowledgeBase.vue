@@ -77,8 +77,9 @@
               }}</q-tooltip>
             </q-input>
             <div class="flex items-center q-ml-xs">
-              <q-icon name="mdi-information-outline" size="iconSize" />
-              <q-tooltip> {{ translate('JS_SEARCH_INFO') }} </q-tooltip>
+              <icon-info :customOptions="{ iconSize: '21px' }">
+                <div style="white-space: pre-line;" v-html="translate('JS_SEARCH_INFO')"></div>
+              </icon-info>
             </div>
             <div>
               <q-toggle v-model="categorySearch" icon="mdi-file-tree" />
@@ -194,6 +195,7 @@
 </template>
 <script>
 import Icon from '../../../../components/Icon.vue'
+import IconInfo from '../../../../components/IconInfo.vue'
 import Carousel from './components/Carousel.vue'
 import RecordsList from './components/RecordsList.vue'
 import RecordPreview from './components/RecordPreview.vue'
@@ -203,7 +205,7 @@ import { debounce } from 'quasar'
 const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'KnowledgeBase',
-  components: { Icon, Carousel, RecordsList, RecordPreview },
+  components: { Icon, IconInfo, Carousel, RecordsList, RecordPreview },
   data() {
     return {
       defaultTreeIcon: 'mdi-subdirectory-arrow-right',
