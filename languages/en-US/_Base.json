@@ -1711,6 +1711,7 @@
     "JS_MINIMIZE": "Minimize",
     "JS_QUICK_CREATE": "Quick create",
     "JS_SEARCH_PLACEHOLDER": "Search...",
+    "JS_SEARCH_INFO": "Use full-text search syntax",
     "JS_COMMENTS": "Comments"
   }
 }

@@ -76,6 +76,10 @@
                 translate('JS_INPUT_TOO_SHORT').replace('_LENGTH_', '3')
               }}</q-tooltip>
             </q-input>
+            <div class="flex items-center q-ml-xs">
+              <q-icon name="mdi-information-outline" size="iconSize" />
+              <q-tooltip> {{ translate('JS_SEARCH_INFO') }} </q-tooltip>
+            </div>
             <div>
               <q-toggle v-model="categorySearch" icon="mdi-file-tree" />
               <q-tooltip> {{ translate('JS_SEARCH_CURRENT_CATEGORY') }} </q-tooltip>
@@ -242,11 +246,10 @@ export default {
     },
     ...mapActions(['fetchCategories', 'fetchData', 'fetchRecord', 'initState'])
   },
-  created() {
-    this.initState(this.$options.state).then(() => {
-      this.fetchCategories()
-      this.fetchData()
-    })
+  async created() {
+    await this.initState(this.$options.state)
+    await this.fetchCategories()
+    await this.fetchData()
   },
   mounted() {
     const debounceDelay = 1000
