@@ -78,7 +78,7 @@
             </q-input>
             <div class="flex items-center q-ml-xs">
               <q-icon name="mdi-information-outline" size="iconSize" />
-              <q-tooltip> {{ translate('JS_SEARCH_INFO') }} </q-tooltip>
+              <q-tooltip> {{ translate('JS_FULL_TEXT_SEARCH_INFO') }} </q-tooltip>
             </div>
             <div>
               <q-toggle v-model="categorySearch" icon="mdi-file-tree" />
