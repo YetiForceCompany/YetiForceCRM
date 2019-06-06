@@ -1384,7 +1384,8 @@ $.Class(
 		 */
 		registerAddItem() {
 			const thisInstance = this;
-			thisInstance.form.find('.js-add-item').on('click', function(e) {
+			const itemsHeader = thisInstance.getInventoryHeadContainer();
+			itemsHeader.find('.js-add-item').on('click', function(e) {
 				const btn = $(this);
 				thisInstance.addItem(btn.data('module'), btn.data('field'));
 			});
