@@ -17,12 +17,12 @@ class Notification_Reminders_View extends Vtiger_IndexAjax_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$entries = $moduleModel->getEntries(\App\Config::module($moduleName, 'MAX_NUMBER_NOTIFICATIONS'));
+		$entries = $moduleModel->getEntriesInstance(\App\Config::module($moduleName, 'MAX_NUMBER_NOTIFICATIONS'));
 		$colors = ['PLL_SYSTEM' => '#FF9800', 'PLL_USERS' => '#1baee2'];
 		$viewer->assign('RECORDS', $entries);
 		$viewer->assign('COLORS', $colors);
@@ -32,7 +32,7 @@ class Notification_Reminders_View extends Vtiger_IndexAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSessionExtend()
+	public function isSessionExtend(App\Request $request)
 	{
 		return false;
 	}

@@ -225,7 +225,7 @@ class Chat_Entries_View extends \App\Controller\View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSessionExtend()
+	public function isSessionExtend(\App\Request $request)
 	{
 		return false;
 	}
