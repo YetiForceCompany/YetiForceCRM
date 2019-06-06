@@ -6,6 +6,7 @@
     "LBL_EDIT": "Edit SLA policy",
     "LBL_CREATE": "Create new SLA policy",
     "LBL_CALENDAR_HOURS": "Calendar hours",
-    "LBL_BUSINESS_HOURS": "Business hours"
+    "LBL_BUSINESS_HOURS": "Business hours",
+    "LBL_SOURCE_MODULE": "Module"
   }
 }

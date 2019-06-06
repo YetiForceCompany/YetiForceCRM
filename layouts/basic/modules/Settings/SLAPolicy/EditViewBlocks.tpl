@@ -15,7 +15,6 @@
 		<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
 				<input type="hidden" name="module" value="{$MODULE}"/>
 				<input type="hidden" name="parent" value="{$PARENT_MODULE}"/>
-				<input type="hidden" name="sourceModuleName" value="{$SOURCE_MODULE}"/>
 				<input type="hidden" name="conditions" value="">
 				<input type="hidden" value="{$VIEW}" name="view"/>
 				<input type="hidden" name="action" value="Save"/>
@@ -39,26 +38,34 @@
 				</div>
 				<div class="card-body">
 					<div class="form-group row">
-						<div class="col-6 col-md-3">
+						<div class="col-6 col-md-2">
 							<label>{\App\Language::translate('LBL_NAME',$QUALIFIED_MODULE)}</label>
 						</div>
-						<div class="col-6 col-md-3">
+						<div class="col-6 col-md-2">
 							<input type="text" name="name" class="form-control"  value="{$RECORD->getName()}" data-validation-engine="validate[required,maxSize[255]]">
 						</div>
-						<div class="col-6 col-md-3">
+						<div class="col-6 col-md-2">
 							<label>{\App\Language::translate('LBL_OPERATIONAL_HOURS',$QUALIFIED_MODULE)}</label>
 						</div>
-						<div class="col-6 col-md-3">
+						<div class="col-6 col-md-2">
 							<select name="operational_hours" class="select2"  data-validation-engine="validate[required]">
 								<option value="0"{if $RECORD->get('operational_hours')===0}selected="selected"{/if}>{\App\Language::translate('LBL_CALENDAR_HOURS',$QUALIFIED_MODULE)}</option>
 								<option value="1"{if $RECORD->get('operational_hours')===1}selected="selected"{/if}>{\App\Language::translate('LBL_BUSINESS_HOURS',$QUALIFIED_MODULE)}</option>
 							</select>
 						</div>
+						<div class="col-6 col-md-2">
+							<label>{\App\Language::translate('LBL_SOURCE_MODULE',$QUALIFIED_MODULE)}</label>
+						</div>
+						<div class="col-6 col-md-2">
+							<select name="source_module" class="select2"  data-validation-engine="validate[required]">
+								{foreach item=MODULE_NAME from=$MODULES}
+									<option value="{$MODULE_NAME}"{if \App\Module::getModuleName($RECORD->get('tabid')) === $MODULE_NAME}selected="selected"{/if}>{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</option>
+								{/foreach}
+							</select>
+						</div>
 					</div>
 					<div class="form-group row">
-						<div class="col">
-							{include file=\App\Layout::getTemplatePath('ConditionBuilder.tpl', $QUALIFIED_MODULE)}
-						</div>
+						<div class="col js-condition-builder-view" data-js="container"></div>
 					</div>
 				</div>
 			</div>
