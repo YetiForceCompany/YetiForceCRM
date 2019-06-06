@@ -263,8 +263,9 @@
 					{/if}
 					{if \App\Privilege::isPermitted('Notification', 'DetailView')}
 						<div class="o-action-menu__item">
-							<a class="c-header__btn ml-2 btn btn-light btn isBadge notificationsNotice js-popover-tooltip {if App\Config::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}"
+							<a class="c-header__btn ml-2 btn btn-light btn showModal isBadge notificationsNotice js-popover-tooltip {if App\Config::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}"
 							   role="button" data-js="popover"
+							   data-url="index.php?module=Notification&view=NotificationModal"
 							   data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}" href="#">
 								<span class="fas fa-bell fa-fw"
 									  title="{\App\Language::translate('LBL_NOTIFICATIONS')}"> </span>

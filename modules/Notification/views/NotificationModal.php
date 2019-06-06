@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Knowledge Base modal class.
+ * Notification modal class.
  *
  * @package   View
  *
@@ -9,7 +9,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
-class KnowledgeBase_KnowledgeBaseModal_View extends \App\Controller\Modal
+class Notification_NotificationModal_View extends \App\Controller\Modal
 {
 	/**
 	 * {@inheritdoc}

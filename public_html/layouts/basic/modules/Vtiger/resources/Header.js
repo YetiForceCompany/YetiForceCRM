@@ -533,23 +533,6 @@ $.Class(
 				self.hideSearchMenu();
 			});
 		},
-		registerReminderNotification: function() {
-			var self = this;
-			$('#page').before('<div class="remindersNotificationContainer" tabindex="-1" role="dialog"></div>');
-			var block = $('.remindersNotificationContainer');
-			var remindersNotice = $('.notificationsNotice');
-			remindersNotice.on('click', function() {
-				if (!remindersNotice.hasClass('autoRefreshing')) {
-					Vtiger_Index_Js.getNotificationsForReminder();
-				}
-				self.hideActionMenu();
-				self.hideBreadcrumbActionMenu();
-				block.toggleClass('toggled');
-				self.hideReminderNotice();
-				app.closeSidebar();
-				self.hideSearchMenu();
-			});
-		},
 		toggleBreadcrumActions(container) {
 			let actionsContainer = container.find('.js-header-toggle__actions');
 			if (!actionsContainer.length) {
@@ -767,7 +750,6 @@ $.Class(
 
 			thisInstance.registerMobileEvents();
 			thisInstance.registerReminderNotice();
-			thisInstance.registerReminderNotification();
 			thisInstance.registerQuickCreateSearch();
 		}
 	}
