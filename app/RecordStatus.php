@@ -294,7 +294,7 @@ class RecordStatus
 		$current = $recordModel->get($fieldName);
 		if ($previous && isset($timeCountingValues[$previous]) && ($timeCountingValues[$current] ?? '') !== $timeCountingValues[$previous]
 		&& ($date = self::getStateDate($recordModel, $timeCountingValues[$previous])) && ($key = self::$fieldsByStateTime[$timeCountingValues[$previous]] ?? '')) {
-			$recordModel->set($key . '_range_time', self::getDiff($date));
+			$recordModel->set($key . '_range_time', self::getDiff($date,'',$recordModel));
 			$recordModel->set($key . '_datatime', date('Y-m-d H:i:s'));
 		}
 	}
@@ -331,7 +331,7 @@ class RecordStatus
 	 *
 	 * @return int
 	 */
-	public static function getDiff(string $start, string $end, \Vtiger_Record_Model $recordModel): int
+	public static function getDiff(string $start, string $end = '', \Vtiger_Record_Model $recordModel): int
 	{
 		if (!$end) {
 			$end = date('Y-m-d H:i:s');
@@ -486,7 +486,7 @@ class RecordStatus
 	 */
 	public static function getDiffFromServiceContracts(string $start, string $end, int $id): int
 	{
-		return 0;
+		return self::getDiffFromDefaultBusinessHours($start, $end);
 	}
 
 	/**
