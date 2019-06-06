@@ -295,7 +295,10 @@ $.Class(
 							}
 						});
 						targetInstance.quickCreateSave(form).done(function(data) {
-							app.hideModalWindow(false, form.closest('.modalContainer')[0].id);
+							let modalContainer = form.closest('.modalContainer');
+							if (modalContainer.length) {
+								app.hideModalWindow(false, modalContainer[0].id);
+							}
 							var parentModule = app.getModuleName();
 							var viewname = app.getViewName();
 							if (module == parentModule && viewname == 'List') {
