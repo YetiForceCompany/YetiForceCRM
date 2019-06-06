@@ -197,13 +197,17 @@ class Product extends Integrators\Product
 	 */
 	public function updateProductCrm(int $id, array $data): void
 	{
-		$productFields = new \App\Integrations\Magento\Synchronizator\Maps\Product();
-		$productFields->setData($data);
-		$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'Products');
-		foreach ($productFields->getDataCrm() as $key => $value) {
-			$recordModel->set($key, $value);
+		try {
+			$productFields = new \App\Integrations\Magento\Synchronizator\Maps\Product();
+			$productFields->setData($data);
+			$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'Products');
+			foreach ($productFields->getDataCrm() as $key => $value) {
+				$recordModel->set($key, $value);
+			}
+			$recordModel->save();
+		} catch (\Throwable $ex) {
+			\App\Log::error('Error during updating yetiforce product: ' . $ex->getMessage(), 'Integrations/Magento');
 		}
-		$recordModel->save();
 	}
 
 	/**

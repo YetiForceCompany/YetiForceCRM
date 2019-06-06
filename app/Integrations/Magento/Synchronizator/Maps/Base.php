@@ -130,7 +130,12 @@ abstract class Base
 	{
 		$data = [];
 		foreach ($this->getFields() as $fieldCrm => $field) {
-			$data[$fieldCrm] = $this->data[$field] ?? false;
+			$methodName = 'getCrm' . \ucfirst($fieldCrm);
+			if (!\method_exists($this, $methodName)) {
+				$data[$fieldCrm] = $this->data[$field] ?? false;
+			} else {
+				$data[$fieldCrm] = $this->{$methodName}();
+			}
 		}
 		return $data;
 	}
