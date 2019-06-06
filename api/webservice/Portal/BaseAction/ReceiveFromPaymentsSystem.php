@@ -37,7 +37,10 @@ class ReceiveFromPaymentsSystem extends \Api\Core\BaseAction
 	public function put()
 	{
 		$request = $this->controller->request;
-		$paymentSystem = 'PLL_' . \strtoupper($request->getByType('payment_system', 'Alnum'));
+		$paymentSystem = $request->getByType('payment_system', 'Alnum');
+		if (!\App\Fields\Picklist::isExists('payment_system', $paymentSystem)) {
+			throw new \Api\Core\Exception('Unknown payment system');
+		}
 		$transactionId = $request->getByType('transaction_id', 'Alnum');
 		$orderId = $request->getInteger('ssingleordersid');
 		$recordModelOrder = \Vtiger_Record_Model::getInstanceById($orderId, 'SSingleOrders');
@@ -56,7 +59,7 @@ class ReceiveFromPaymentsSystem extends \Api\Core\BaseAction
 			$recordModel->set('ssingleordersid', $orderId);
 			$recordModel->set('transaction_id', $transactionId);
 			$recordModel->set('paymentsvalue', $request->getByType('paymentsvalue', 'Double'));
-			$recordModel->set('currency_id', \App\Fields\Currency::getCurrencyIdByCode($request->getByType('currency_id')));
+			$recordModel->set('currency_id', \App\Fields\Currency::getIdByCode($request->getByType('currency_id')));
 			$recordModel->set('paymentstitle', $request->getByType('paymentstitle', 'Text'));
 			$recordModel->set('payment_system', $paymentSystem);
 		}

@@ -308,6 +308,19 @@ class Picklist
 	}
 
 	/**
+	 * Check if the value exists in the picklist.
+	 *
+	 * @param string $fieldName
+	 * @param string $value
+	 *
+	 * @return bool
+	 */
+	public static function isExists(string $fieldName, string $value): bool
+	{
+		return isset(array_column(static::getValues($fieldName), 'payment_systemid', 'picklistValue')[$value]);
+	}
+
+	/**
 	 * Get colors for all fields or generate it if not exists.
 	 *
 	 * @param mixed $fieldName
