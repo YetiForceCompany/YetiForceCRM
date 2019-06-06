@@ -17,14 +17,7 @@ try {
 	$controller->postProcess();
 } catch (\Api\Core\Exception $e) {
 	$e->handleError();
-} catch (\App\Exceptions\NoPermittedToApi $e) {
-	echo json_encode([
-		'status' => 0,
-		'error' => [
-			'message' => $e->getMessage(),
-		],
-	]);
-} catch (\Throwable $e) {
+} catch (\App\Exceptions\NoPermittedToApi | \Throwable $e) {
 	echo json_encode([
 		'status' => 0,
 		'error' => [
