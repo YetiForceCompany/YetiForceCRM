@@ -94,22 +94,14 @@ class Currency
 	/**
 	 * Get currency by code.
 	 *
-	 * @param string $currencyCode
+	 * @param string $code
+	 * @param bool   $active
 	 *
 	 * @return int|null
 	 */
-	public static function getCurrencyIdByCode(string $currencyCode): ?int
+	public static function getIdByCode(string $code, bool $active = true): ?int
 	{
-		$currencyId = null;
-		$row = (new \App\Db\Query())
-			->select(['id'])
-			->from('vtiger_currency_info')
-			->where(['currency_code' => \strtoupper($currencyCode), 'deleted' => 0])
-			->scalar();
-		if ($row) {
-			$currencyId = $row;
-		}
-		return $currencyId;
+		return array_column(static::getAll($active), 'id', 'currency_code')[\strtoupper($code)] ?? null;
 	}
 
 	/**
