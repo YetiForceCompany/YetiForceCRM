@@ -15,6 +15,8 @@
 		<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
 				<input type="hidden" name="module" value="{$MODULE}"/>
 				<input type="hidden" name="parent" value="{$PARENT_MODULE}"/>
+				<input type="hidden" name="sourceModuleName" value="{$SOURCE_MODULE}"/>
+				<input type="hidden" name="conditions" value="">
 				<input type="hidden" value="{$VIEW}" name="view"/>
 				<input type="hidden" name="action" value="Save"/>
 			{if !empty($RECORD_ID)}
@@ -27,10 +29,11 @@
 			</div>
 			<div class="card">
 				<div class="card-header">
-					<span class="fas fa-plus mr-2"></span>
 					{if !empty($RECORD->getId())}
+					<span class="fas fa-edit mr-2"></span>
 						{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)} - {$RECORD->getName()}
 					{else}
+						<span class="fas fa-plus mr-2"></span>
 						{\App\Language::translate('LBL_CREATE',$QUALIFIED_MODULE)}
 					{/if}
 				</div>
@@ -40,13 +43,13 @@
 							<label>{\App\Language::translate('LBL_NAME',$QUALIFIED_MODULE)}</label>
 						</div>
 						<div class="col-6 col-md-3">
-							<input type="text" name="name" class="form-control" required value="{$RECORD->getName()}" data-validation-engine="validate[required,maxSize[512], funcCall[Vtiger_InputMask_Validator_Js.invokeValidation]]">
+							<input type="text" name="name" class="form-control"  value="{$RECORD->getName()}" data-validation-engine="validate[required,maxSize[255]]">
 						</div>
 						<div class="col-6 col-md-3">
 							<label>{\App\Language::translate('LBL_OPERATIONAL_HOURS',$QUALIFIED_MODULE)}</label>
 						</div>
 						<div class="col-6 col-md-3">
-							<select name="operational_hours" class="select2"  data-validation-engine="validate[required, funcCall[Vtiger_Validator_Js.invokeValidation]]" >
+							<select name="operational_hours" class="select2"  data-validation-engine="validate[required]">
 								<option value="0"{if $RECORD->get('operational_hours')===0}selected="selected"{/if}>{\App\Language::translate('LBL_CALENDAR_HOURS',$QUALIFIED_MODULE)}</option>
 								<option value="1"{if $RECORD->get('operational_hours')===1}selected="selected"{/if}>{\App\Language::translate('LBL_BUSINESS_HOURS',$QUALIFIED_MODULE)}</option>
 							</select>
