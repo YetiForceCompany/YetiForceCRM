@@ -250,7 +250,7 @@
 					{/if}
 					{if \App\Privilege::isPermitted('KnowledgeBase')}
 						<div class="o-action-menu__item">
-							<a class="c-header__btn ml-2 btn-light btn js-popover-tooltip KnowledgeBaseModal"
+							<a class="c-header__btn ml-2 btn-light btn js-popover-tooltip js-knowledge-base-modal"
 							   role="button"
 							   data-js="popover|modal" data-content="{\App\Language::translate('BTN_KNOWLEDGE_BASE', 'KnowledgeBase')}"
 							   href="#">

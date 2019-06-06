@@ -25,12 +25,6 @@ const state = {
 			label: 'JS_MAIN_CATEGORIES'
 		},
 		categories: {}
-	},
-	coordinates: {
-		width: Quasar.plugins.Screen.width - 100,
-		height: Quasar.plugins.Screen.height - 100,
-		top: 0,
-		left: Quasar.plugins.Screen.width - (Quasar.plugins.Screen.width - 100 / 2)
 	}
 }
 

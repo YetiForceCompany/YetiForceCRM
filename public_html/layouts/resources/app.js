@@ -2043,19 +2043,6 @@ var app = (window.app = {
 });
 CKEDITOR.disableAutoInline = true;
 $(document).ready(function() {
-	$('.KnowledgeBaseModal').on('click', () => {
-		if (window.KnowledgeBaseModal.state === undefined) {
-			KnowledgeBaseModalVueComponent.mount({
-				el: '#KnowledgeBaseModal',
-				state: {
-					moduleName: 'KnowledgeBase'
-				}
-			});
-		} else {
-			vuexStore.commit('KnowledgeBase/setDialog', true)
-		}
-	});
-
 	Quasar.iconSet.set(Quasar.iconSet.mdiV3);
 	let document = $(this);
 	app.registerToggleIconClick(document);

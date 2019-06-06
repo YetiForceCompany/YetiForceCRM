@@ -10,6 +10,7 @@
 <template>
   <div>
     <vue-drag-resize
+      :isActive="active"
       @activated="onActivated"
       :isResizable="true"
       :isDraggable="!maximized"
@@ -40,16 +41,15 @@ export default {
     maximized: {
       type: Boolean,
       required: true
+    },
+    coordinates: {
+      type: Object,
+      required: true
     }
   },
-  computed: {
-    coordinates: {
-      set(val) {
-        this.$store.commit('KnowledgeBase/setCoordinates', val)
-      },
-      get() {
-        return this.$store.getters['KnowledgeBase/coordinates']
-      }
+  data() {
+    return {
+      active: false
     }
   },
   methods: {
@@ -60,12 +60,16 @@ export default {
         top: newRect.top,
         left: newRect.left
       }
+      this.$emit('onChangeCoordinates', this.coordinates)
     },
     onActivated() {
       $(this.$refs.resize.$el)
         .find('.vdr-stick')
         .addClass('mdi mdi-resize-bottom-right q-btn q-btn--dense q-btn--round q-icon contrast-50')
     }
+  },
+  mounted() {
+    this.active = true
   }
 }
 </script>
