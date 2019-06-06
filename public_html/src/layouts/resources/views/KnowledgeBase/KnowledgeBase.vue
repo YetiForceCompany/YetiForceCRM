@@ -24,7 +24,7 @@
             </q-btn>
             <q-breadcrumbs class="ml-2">
               <template v-slot:separator>
-                <q-icon size="1.5em" name="mdi-chevron-right" />
+                <q-icon size="1.5em" name="mdi-chevron-right"/>
               </template>
               <q-breadcrumbs-el
                 :icon="tree.topCategory.icon"
@@ -56,7 +56,9 @@
               </template>
             </q-breadcrumbs>
           </div>
-          <div class="mx-auto tree-search flex no-wrap order-sm-none order-xs-last q-pt-sm-none q-pt-xs-xs">
+          <div
+            class="mx-auto tree-search flex no-wrap order-sm-none order-xs-last q-pt-sm-none q-pt-xs-xs"
+          >
             <q-input
               class="full-width"
               v-model="filter"
@@ -67,30 +69,45 @@
               @input="search"
             >
               <template v-slot:prepend>
-                <q-icon name="mdi-magnify" />
-                <q-tooltip v-model="inputFocus" anchor="top middle" self="center middle">
-                  {{ translate('JS_INPUT_TOO_SHORT').replace('_LENGTH_', '3') }}
-                </q-tooltip>
+                <q-icon name="mdi-magnify"/>
+                <q-tooltip
+                  v-model="inputFocus"
+                  anchor="top middle"
+                  self="center middle"
+                >{{ translate('JS_INPUT_TOO_SHORT').replace('_LENGTH_', '3') }}</q-tooltip>
               </template>
               <template v-slot:append>
-                <q-icon v-if="filter !== ''" name="mdi-close" @click.stop="clearSearch()" class="cursor-pointer" />
+                <q-icon
+                  v-if="filter !== ''"
+                  name="mdi-close"
+                  @click.stop="clearSearch()"
+                  class="cursor-pointer"
+                />
                 <div class="flex items-center q-ml-sm">
                   <icon-info :customOptions="{ iconSize: '21px' }">
-                    <div style="white-space: pre-line;" v-html="translate('JS_SEARCH_INFO')"></div>
+                    <div
+                      style="white-space: pre-line;"
+                      v-html="translate('JS_FULL_TEXT_SEARCH_INFO')"
+                    ></div>
                   </icon-info>
                 </div>
                 <div v-show="tree.activeCategory !== ''" class="flex">
-                  <q-toggle v-model="categorySearch" icon="mdi-file-tree" />
-                  <q-tooltip> {{ translate('JS_SEARCH_CURRENT_CATEGORY') }} </q-tooltip>
+                  <q-toggle v-model="categorySearch" icon="mdi-file-tree"/>
+                  <q-tooltip>{{ translate('JS_SEARCH_CURRENT_CATEGORY') }}</q-tooltip>
                 </div>
               </template>
             </q-input>
           </div>
           <div class="q-ml-auto q-ml-sm-sm">
-            <q-btn round dense color="white" text-color="primary" icon="mdi-plus" @click="openQuickCreateModal()">
-              <q-tooltip>
-                {{ translate('JS_QUICK_CREATE') }}
-              </q-tooltip>
+            <q-btn
+              round
+              dense
+              color="white"
+              text-color="primary"
+              icon="mdi-plus"
+              @click="openQuickCreateModal()"
+            >
+              <q-tooltip>{{ translate('JS_QUICK_CREATE') }}</q-tooltip>
             </q-btn>
           </div>
         </q-toolbar>
@@ -109,21 +126,25 @@
           <q-list>
             <q-item v-show="tree.activeCategory === ''" active>
               <q-item-section avatar>
-                <q-icon :name="tree.topCategory.icon" :size="iconSize" />
+                <q-icon :name="tree.topCategory.icon" :size="iconSize"/>
               </q-item-section>
-              <q-item-section>
-                {{ translate(tree.topCategory.label) }}
-              </q-item-section>
+              <q-item-section>{{ translate(tree.topCategory.label) }}</q-item-section>
             </q-item>
-            <q-item v-if="tree.activeCategory !== ''" clickable active @click="fetchParentCategoryData()">
+            <q-item
+              v-if="tree.activeCategory !== ''"
+              clickable
+              active
+              @click="fetchParentCategoryData()"
+            >
               <q-item-section avatar>
-                <icon :size="iconSize" :icon="tree.categories[tree.activeCategory].icon || defaultTreeIcon" />
+                <icon
+                  :size="iconSize"
+                  :icon="tree.categories[tree.activeCategory].icon || defaultTreeIcon"
+                />
               </q-item-section>
-              <q-item-section>
-                {{ tree.categories[tree.activeCategory].label }}
-              </q-item-section>
+              <q-item-section>{{ tree.categories[tree.activeCategory].label }}</q-item-section>
               <q-item-section avatar>
-                <q-icon name="mdi-chevron-left" />
+                <q-icon name="mdi-chevron-left"/>
               </q-item-section>
             </q-item>
             <q-item
@@ -134,13 +155,14 @@
               @click="fetchData(categoryValue)"
             >
               <q-item-section avatar>
-                <icon :size="iconSize" :icon="tree.categories[categoryValue].icon || defaultTreeIcon" />
+                <icon
+                  :size="iconSize"
+                  :icon="tree.categories[categoryValue].icon || defaultTreeIcon"
+                />
               </q-item-section>
-              <q-item-section>
-                {{ tree.categories[categoryValue].label }}
-              </q-item-section>
+              <q-item-section>{{ tree.categories[categoryValue].label }}</q-item-section>
               <q-item-section avatar>
-                <q-icon name="mdi-chevron-right" />
+                <q-icon name="mdi-chevron-right"/>
               </q-item-section>
             </q-item>
           </q-list>
@@ -154,8 +176,19 @@
               class="q-pa-sm featured-container items-start q-gutter-md"
             >
               <template v-for="(categoryValue, categoryKey) in tree.data.categories">
-                <q-list bordered padding dense v-if="tree.data.featured[categoryValue]" :key="categoryKey">
-                  <q-item header clickable class="text-black flex" @click="fetchData(categoryValue)">
+                <q-list
+                  bordered
+                  padding
+                  dense
+                  v-if="tree.data.featured[categoryValue]"
+                  :key="categoryKey"
+                >
+                  <q-item
+                    header
+                    clickable
+                    class="text-black flex"
+                    @click="fetchData(categoryValue)"
+                  >
                     <icon :icon="tree.categories[categoryValue].icon" :size="iconSize" class="mr-2"></icon>
                     {{ tree.categories[categoryValue].label }}
                   </q-item>
@@ -167,14 +200,14 @@
                     v-ripple
                     @click.prevent="fetchRecord(featuredValue.id)"
                   >
-                    <q-item-section class="align-items-center flex-row no-wrap justify-content-start">
+                    <q-item-section
+                      class="align-items-center flex-row no-wrap justify-content-start"
+                    >
                       <q-icon name="mdi-star" :size="iconSize" class="mr-2"></q-icon>
                       <a
                         class="js-popover-tooltip--record ellipsis"
                         :href="`index.php?module=${moduleName}&view=Detail&record=${featuredValue.id}`"
-                      >
-                        {{ featuredValue.subject }}
-                      </a>
+                      >{{ featuredValue.subject }}</a>
                     </q-item-section>
                   </q-item>
                 </q-list>
@@ -186,11 +219,15 @@
               :title="translate('JS_ARTICLES')"
             />
           </div>
-          <records-list v-show="searchData" :data="searchDataArray" :title="translate('JS_ARTICLES')" />
+          <records-list
+            v-show="searchData"
+            :data="searchDataArray"
+            :title="translate('JS_ARTICLES')"
+          />
         </q-page>
       </q-page-container>
     </q-layout>
-    <record-preview :isDragResize="true" />
+    <record-preview :isDragResize="true"/>
   </div>
 </template>
 <script>
