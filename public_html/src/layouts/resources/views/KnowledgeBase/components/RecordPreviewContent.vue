@@ -46,16 +46,16 @@
       </div>
       <q-space />
       <slot name="header-right">
-        <a v-show="!maximized" class="flex grabbable text-decoration-none text-white" href="#">
+        <a v-show="!previewMaximized" class="flex grabbable text-decoration-none text-white" href="#">
           <q-icon class="js-drag" name="mdi-drag" size="19px" />
         </a>
         <q-btn
           dense
           flat
-          :icon="maximized ? 'mdi-window-restore' : 'mdi-window-maximize'"
-          @click="maximized = !maximized"
+          :icon="previewMaximized ? 'mdi-window-restore' : 'mdi-window-maximize'"
+          @click="previewMaximized = !previewMaximized"
         >
-          <q-tooltip>{{ maximized ? translate('JS_MINIMIZE') : translate('JS_MAXIMIZE') }}</q-tooltip>
+          <q-tooltip>{{ previewMaximized ? translate('JS_MINIMIZE') : translate('JS_MAXIMIZE') }}</q-tooltip>
         </q-btn>
         <q-btn dense flat icon="mdi-close" v-close-popup>
           <q-tooltip>{{ translate('JS_CLOSE') }}</q-tooltip>
@@ -63,7 +63,7 @@
       </slot>
     </q-bar>
     <q-card-section
-      :class="['scroll', maximized ? 'modal-full-height' : '']"
+      :class="['scroll', previewMaximized ? 'modal-full-height' : '']"
       :style="height ? { 'max-height': `${height - 31.14}px` } : {}"
     >
       <div v-show="record.introduction">
@@ -169,12 +169,12 @@ export default {
   },
   computed: {
     ...mapGetters(['tree', 'record', 'iconSize']),
-    maximized: {
+    previewMaximized: {
       set(val) {
-        this.$store.commit('KnowledgeBase/setMaximized', val)
+        this.$store.commit('KnowledgeBase/setPreviewMaximized', val)
       },
       get() {
-        return this.$store.getters['KnowledgeBase/maximized']
+        return this.$store.getters['KnowledgeBase/previewMaximized']
       }
     },
     hasRelatedRecords() {

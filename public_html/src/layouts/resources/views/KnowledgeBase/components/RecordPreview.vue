@@ -9,13 +9,13 @@
 -->
 <template>
   <q-dialog
-    v-model="dialog"
-    :maximized="maximized"
+    v-model="previewDialog"
+    :maximized="previewMaximized"
     transition-show="slide-up"
     transition-hide="slide-down"
     content-class="quasar-reset"
   >
-    <drag-resize v-if="isDragResize && !$q.platform.is.mobile">
+    <drag-resize v-if="isDragResize && !$q.platform.is.mobile" :maximized="previewMaximized">
       <template v-slot:default="slotProps">
         <record-preview-content :height="slotProps.height" />
       </template>
@@ -42,13 +42,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['maximized']),
-    dialog: {
+    ...mapGetters(['previewMaximized']),
+    previewDialog: {
       set(val) {
-        this.$store.commit('KnowledgeBase/setDialog', val)
+        this.$store.commit('KnowledgeBase/setPreviewDialog', val)
       },
       get() {
-        return this.$store.getters['KnowledgeBase/dialog']
+        return this.$store.getters['KnowledgeBase/previewDialog']
       }
     }
   }

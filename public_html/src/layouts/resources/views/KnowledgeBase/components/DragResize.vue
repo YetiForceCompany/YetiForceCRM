@@ -36,8 +36,13 @@ const { mapGetters } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'DragResize',
   components: { VueDragResize },
+  props: {
+    maximized: {
+      type: Boolean,
+      required: true
+    }
+  },
   computed: {
-    ...mapGetters(['maximized']),
     coordinates: {
       set(val) {
         this.$store.commit('KnowledgeBase/setCoordinates', val)

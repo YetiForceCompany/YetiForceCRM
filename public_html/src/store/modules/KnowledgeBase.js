@@ -8,8 +8,10 @@
 
 const state = {
 	record: false,
-	dialog: false,
+	dialog: true,
 	maximized: true,
+	previewDialog: false,
+	previewMaximized: true,
 	moduleName: '',
 	iconSize: '18px',
 	tree: {
@@ -46,6 +48,12 @@ const getters = {
 	maximized(state) {
 		return state.maximized
 	},
+	previewDialog(state) {
+		return state.previewDialog
+	},
+	previewMaximized(state) {
+		return state.previewMaximized
+	},
 	coordinates(state) {
 		return state.coordinates
 	},
@@ -76,8 +84,8 @@ const actions = {
 					return { ...recordData.related.Articles[key], id: key }
 				})
 			}
-			if (!getters.dialog) {
-				commit('setDialog', true)
+			if (!getters.previewDialog) {
+				commit('setPreviewDialog', true)
 			}
 			commit('setRecord', recordData)
 			progressIndicatorElement.progressIndicator({ mode: 'hide' })
@@ -136,6 +144,12 @@ const mutations = {
 	},
 	setMaximized(state, payload) {
 		state.maximized = payload
+	},
+	setPreviewDialog(state, payload) {
+		state.previewDialog = payload
+	},
+	setPreviewMaximized(state, payload) {
+		state.previewMaximized = payload
 	},
 	setCoordinates(state, payload) {
 		state.coordinates = payload
