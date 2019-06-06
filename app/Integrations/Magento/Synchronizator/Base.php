@@ -49,12 +49,7 @@ abstract class Base
 	 * @var object
 	 */
 	public $config;
-	/**
-	 * Mapped fields.
-	 *
-	 * @var array
-	 */
-	public $mappedFields = [];
+
 	/**
 	 * Mapped records table name.
 	 *
@@ -173,22 +168,6 @@ abstract class Base
 	{
 		\App\Db::getInstance()->createCommand()->delete(self::TABLE_NAME, ['crmid' => $recordIdCrm])->execute();
 		unset($this->map[$recordIdCrm], $this->mapCrm[$recordId]);
-	}
-
-	/**
-	 * Method to parse data with mapped fields.
-	 *
-	 * @param $data
-	 *
-	 * @return array
-	 */
-	public function getData(array $data): array
-	{
-		$fields = [];
-		foreach ($this->mappedFields as $fieldNameCrm => $fieldName) {
-			$fields[$fieldNameCrm] = $data[$fieldName];
-		}
-		return $fields;
 	}
 
 	/**

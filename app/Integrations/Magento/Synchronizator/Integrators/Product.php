@@ -10,17 +10,13 @@
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  */
 
-namespace App\Integrations\Magento\Synchronizator\Maps;
+namespace App\Integrations\Magento\Synchronizator\Integrators;
 
 /**
  * Magento Product map class.
  */
-abstract class Magento extends \App\Integrations\Magento\Synchronizator\Record
+abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	public $mappedFields = ['productname' => 'name', 'unit_price' => 'price'];
 	/**
 	 * Mapped magento sku.
 	 *
@@ -44,17 +40,9 @@ abstract class Magento extends \App\Integrations\Magento\Synchronizator\Record
 		$result = false;
 		if (!empty($this->mapSku[$productId])) {
 			try {
-				$data = [
-					'product' => [
-						'sku' => !empty($product['ean']) ? $product['ean'] : $product['productname'],
-					]
-				];
-				if (!empty($this->mappedFields)) {
-					foreach ($this->mappedFields as $fieldNameCrm => $fieldName) {
-						$data['product'][$fieldName] = $product[$fieldNameCrm];
-					}
-				}
-				$this->connector->request('PUT', 'rest/all/V1/products/' . $this->mapSku[$productId], $data);
+				$productFields = new \App\Integrations\Magento\Synchronizator\Maps\Product();
+				$productFields->setDataCrm($product);
+				$this->connector->request('PUT', 'rest/all/V1/products/' . $this->mapSku[$productId], ['product' => $productFields->getData()]);
 				$result = true;
 			} catch (\Throwable $ex) {
 				\App\Log::error('Error during updating magento product: ' . $ex->getMessage(), 'Integrations/Magento');
@@ -75,15 +63,12 @@ abstract class Magento extends \App\Integrations\Magento\Synchronizator\Record
 		$data = [
 			'product' => [
 				'type_id' => 'simple',
-				'sku' => !empty($product['ean']) ? $product['ean'] : $product['productname'],
 				'attribute_set_id' => 4,
 			]
 		];
-		if (!empty($this->mappedFields)) {
-			foreach ($this->mappedFields as $fieldNameCrm => $fieldName) {
-				$data['product'][$fieldName] = $product[$fieldNameCrm];
-			}
-		}
+		$productFields = new \App\Integrations\Magento\Synchronizator\Maps\Product();
+		$productFields->setDataCrm($product);
+		$data['product'] = \array_merge($data['product'], $productFields->getData());
 		try {
 			$productRequest = \App\Json::decode($this->connector->request('POST', '/rest/all/V1/products/',
 				$data

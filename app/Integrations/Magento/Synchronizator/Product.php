@@ -15,7 +15,7 @@ namespace App\Integrations\Magento\Synchronizator;
 /**
  * Product class.
  */
-class Product extends Maps\Magento
+class Product extends Integrators\Product
 {
 	/**
 	 * {@inheritdoc}
@@ -44,7 +44,7 @@ class Product extends Maps\Magento
 	{
 		$result = false;
 		$productsCrm = $this->getProductsCrm();
-		$products = $this->getProducts($this->getFormatedRecordsIds(array_keys($productsCrm)));
+		$products = $this->getProducts($this->getFormattedRecordsIds(array_keys($productsCrm)));
 		if (!empty($productsCrm)) {
 			foreach ($productsCrm as $id => $productCrm) {
 				$productCrm['productid'] = $id;
@@ -79,7 +79,7 @@ class Product extends Maps\Magento
 		$allChecked = false;
 		try {
 			$products = $this->getProducts();
-			$productsCrm = $this->getProductsCrm($this->getFormatedRecordsIds(array_keys($products), self::YETIFORCE));
+			$productsCrm = $this->getProductsCrm($this->getFormattedRecordsIds(array_keys($products), self::YETIFORCE));
 			if (!empty($products)) {
 				foreach ($products as $id => $product) {
 					if (isset($this->mapCrm[$id], $productsCrm[$this->mapCrm[$id]])) {
@@ -120,7 +120,7 @@ class Product extends Maps\Magento
 			$mapKeys = array_keys($this->map);
 			if (!empty($mapKeys)) {
 				$productsCrm = $this->getProductsCrm($mapKeys);
-				$products = $this->getProducts($this->getFormatedRecordsIds($mapKeys));
+				$products = $this->getProducts($this->getFormattedRecordsIds($mapKeys));
 				if ($diffedRecords = \array_diff_key($this->map, $productsCrm)) {
 					foreach ($diffedRecords as $idCrm => $id) {
 						$this->deleteProduct($id);
@@ -131,7 +131,7 @@ class Product extends Maps\Magento
 						$this->deleteProductCrm($idCrm);
 					}
 				}
-				$this->config::setScan('product', 'idmap', max(array_keys($this->mapCrm)));
+				$this->config::setScan('product', 'idmap', !empty($this->mapCrm) ? max(array_keys($this->mapCrm)) : 0);
 			} else {
 				$allChecked = true;
 			}
@@ -176,10 +176,12 @@ class Product extends Maps\Magento
 	 */
 	public function saveProductCrm(array $data): void
 	{
-		$fields = $this->getData($data);
-		if (!empty($fields)) {
+		$productFields = new \App\Integrations\Magento\Synchronizator\Maps\Product();
+		$productFields->setData($data);
+		$dataCrm = $productFields->getDataCrm();
+		if (!empty($dataCrm)) {
 			$recordModel = \Vtiger_Record_Model::getCleanInstance('Products');
-			$recordModel->setData($fields);
+			$recordModel->setData($dataCrm);
 			$recordModel->save();
 			$this->saveMapping($data['id'], $recordModel->getId(), 'product');
 		}
@@ -189,15 +191,16 @@ class Product extends Maps\Magento
 	 * Method to update product in YetiForce.
 	 *
 	 * @param int   $id
-	 * @param array $productData
+	 * @param array $data
 	 *
 	 * @throws \Exception
 	 */
-	public function updateProductCrm(int $id, array $productData): void
+	public function updateProductCrm(int $id, array $data): void
 	{
-		$fields = $this->getData($productData);
+		$productFields = new \App\Integrations\Magento\Synchronizator\Maps\Product();
+		$productFields->setData($data);
 		$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'Products');
-		foreach ($fields as $key => $value) {
+		foreach ($productFields->getDataCrm() as $key => $value) {
 			$recordModel->set($key, $value);
 		}
 		$recordModel->save();

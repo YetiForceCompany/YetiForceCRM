@@ -19,12 +19,12 @@ abstract class Record extends Base
 	/**
 	 * Format records id to given source.
 	 *
-	 * @param array $ids
+	 * @param array  $ids
 	 * @param string $formatTo
 	 *
 	 * @return array
 	 */
-	public function getFormatedRecordsIds(array $ids, $formatTo = self::MAGENTO): array
+	public function getFormattedRecordsIds(array $ids, $formatTo = self::MAGENTO): array
 	{
 		$parsedIds = [];
 		$mapIds = $this->map;
@@ -42,17 +42,23 @@ abstract class Record extends Base
 	/**
 	 * Method to compare changes of given two records.
 	 *
-	 * @param array $recordCrm
-	 * @param array $record
+	 * @param array $dataCrm
+	 * @param array $data
 	 *
 	 * @return bool
 	 */
-	public function hasChanges(array $recordCrm, array $record): bool
+	public function hasChanges(array $dataCrm, array $data): bool
 	{
 		$hasChanges = false;
-		foreach ($this->mappedFields as $fieldCrm => $field) {
+		$productFields = new \App\Integrations\Magento\Synchronizator\Maps\Product();
+		$productFields->setDataCrm($dataCrm);
+		$productFields->setData($data);
+		$recordCrm = $productFields->getDataCrm();
+		$record = $productFields->getData();
+		foreach ($productFields->getFields(true) as $fieldCrm => $field) {
 			if (isset($recordCrm[$fieldCrm], $record[$field]) && $recordCrm[$fieldCrm] !== $record[$field]) {
 				$hasChanges = true;
+				break;
 			}
 		}
 		return $hasChanges;

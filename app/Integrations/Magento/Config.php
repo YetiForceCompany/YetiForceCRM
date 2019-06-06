@@ -43,14 +43,6 @@ class Config extends \App\Base
 	}
 
 	/**
-	 * Method to update data after update in db.
-	 */
-	public static function updateData(): void
-	{
-		static::$instance->setData((new Query())->select(['name', 'value'])->from(self::TABLE_NAME)->createCommand()->queryAllByGroup());
-	}
-
-	/**
 	 * Save in db last scanned id.
 	 *
 	 * @param string      $type
@@ -77,10 +69,9 @@ class Config extends \App\Base
 			->where(['name' => $data['name']])
 			->exists()) {
 			$dbCommand->insert(self::TABLE_NAME, $data)->execute();
-		} else {
-			$dbCommand->update(self::TABLE_NAME, $data, ['name' => $data['name']])->execute();
 		}
-		static::updateData();
+		$dbCommand->update(self::TABLE_NAME, $data, ['name' => $data['name']])->execute();
+		static::$instance->set($data['name'], $data['value']);
 	}
 
 	/**
@@ -120,8 +111,8 @@ class Config extends \App\Base
 			} else {
 				$dbCommand->update(self::TABLE_NAME, $data, ['name' => $data['name']])->execute();
 			}
+			static::$instance->set($data['name'], $data['value']);
 		}
-		static::updateData();
 	}
 
 	/**
