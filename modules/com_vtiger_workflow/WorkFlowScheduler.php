@@ -168,7 +168,7 @@ class WorkFlowScheduler
 					continue;
 				}
 				$value = $condition['value'];
-				if (in_array($operation, $this->specialDateTimeOperator())) {
+				if (\in_array($operation, $this->specialDateTimeOperator())) {
 					$value = $this->parseValueForDate($condition);
 				}
 				$groupJoin = $condition['groupjoin'];
@@ -176,7 +176,7 @@ class WorkFlowScheduler
 				$fieldName = $condition['fieldname'];
 				$value = html_entity_decode($value);
 				preg_match('/(\w+) : \((\w+)\) (\w+)/', $condition['fieldname'], $matches);
-				if (0 != count($matches)) {
+				if (0 != \count($matches)) {
 					$sourceField = $matches[1];
 					$relatedModule = $matches[2];
 					$relatedFieldName = $matches[3];
@@ -273,7 +273,7 @@ class WorkFlowScheduler
 			default:
 				break;
 		}
-		if (in_array($operation, ['less than hours before', 'less than hours later', 'more than hours later', 'more than hours before'])) {
+		if (\in_array($operation, ['less than hours before', 'less than hours later', 'more than hours later', 'more than hours before'])) {
 			$value = App\Fields\DateTime::formatToDisplay($value);
 		} else {
 			$dates = explode(',', $value);

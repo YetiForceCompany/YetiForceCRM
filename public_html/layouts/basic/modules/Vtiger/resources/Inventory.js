@@ -1384,7 +1384,8 @@ $.Class(
 		 */
 		registerAddItem() {
 			const thisInstance = this;
-			thisInstance.form.find('.js-add-item').on('click', function(e) {
+			const itemsHeader = thisInstance.getInventoryHeadContainer();
+			itemsHeader.find('.js-inv-add-item').on('click', function(e) {
 				const btn = $(this);
 				thisInstance.addItem(btn.data('module'), btn.data('field'));
 			});
@@ -1494,17 +1495,25 @@ $.Class(
 		registerClearReferenceSelection() {
 			this.form.on('click', '.clearReferenceSelection', e => {
 				const referenceGroup = $(e.currentTarget).closest('div.referenceGroup');
-				if(referenceGroup.length) {
-					referenceGroup.find('input[id$="_display"]').val('').removeAttr('readonly');
+				if (referenceGroup.length) {
+					referenceGroup
+						.find('input[id$="_display"]')
+						.val('')
+						.removeAttr('readonly');
 				} else {
 					const row = this.getClosestRow($(e.currentTarget));
 					this.removeSubProducts(row);
-					row.find('.unitPrice,.tax,.discount,.margin,.purchase,.js-tax-percent').val(App.Fields.Double.formatToDisplay(0));
+					row
+						.find('.unitPrice,.tax,.discount,.margin,.purchase,.js-tax-percent')
+						.val(App.Fields.Double.formatToDisplay(0));
 					row.find('.qty').val(1);
 					row.find('textarea,.valueVal').val('');
 					row.find('.valueText').text('');
 					row.find('.qtyParamInfo').addClass('d-none');
-					row.find('.recordLabel').val('').removeAttr('readonly');
+					row
+						.find('.recordLabel')
+						.val('')
+						.removeAttr('readonly');
 					if (!this.isGroupTaxMode()) {
 						this.setTaxParam(row, []);
 					}
@@ -1813,7 +1822,7 @@ $.Class(
 					.done(response => {
 						let activeModules = [];
 						this.getInventoryHeadContainer()
-							.find('.js-add-item')
+							.find('.js-inv-add-item')
 							.each((index, addBtn) => {
 								activeModules.push($(addBtn).data('module'));
 							});

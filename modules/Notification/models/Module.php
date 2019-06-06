@@ -11,22 +11,6 @@
 class Notification_Module_Model extends Vtiger_Module_Model
 {
 	/**
-	 * Function create message contents.
-	 *
-	 * @return int
-	 */
-	public static function getNumberOfEntries()
-	{
-		$count = (new App\Db\Query())->from('u_#__notification')
-			->innerJoin('vtiger_crmentity', 'u_#__notification.notificationid = vtiger_crmentity.crmid')
-			->where(['vtiger_crmentity.smownerid' => Users_Record_Model::getCurrentUserModel()->getId(), 'vtiger_crmentity.deleted' => 0, 'notification_status' => 'PLL_UNREAD'])
-			->count();
-		$max = App\Config::module('Home', 'MAX_NUMBER_NOTIFICATIONS');
-
-		return $count > $max ? $max : $count;
-	}
-
-	/**
 	 * Function returns notifications list.
 	 *
 	 * @param int   $limit

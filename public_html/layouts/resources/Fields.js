@@ -1379,7 +1379,7 @@ window.App.Fields = {
 						});
 					});
 				$(element)
-					.find('.js-add-item')
+					.find('.js-multi-email-add-item')
 					.each((index, element) => {
 						$(element).on('click', e => {
 							App.Fields.MultiEmail.addEmail($(inputElement));
@@ -1508,7 +1508,7 @@ window.App.Fields = {
 			container.find('.js-multi-field').each((index, element) => {
 				const inputElement = $(element);
 				const fields = inputElement.find('.js-multi-field-val').data('fields');
-				inputElement.find('.js-add-item').on('click', e => {
+				inputElement.find('.js-multi-field-add-item').on('click', e => {
 					App.Fields.MultiDependField.addRow(inputElement, fields);
 				});
 				App.Fields.MultiDependField.registerRow(inputElement, fields);

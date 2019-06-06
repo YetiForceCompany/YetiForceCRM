@@ -325,7 +325,7 @@ class Purifier
 					if (!$input) {
 						return '';
 					}
-					$value = Validator::dateInUserFormat($input) ? $input : null;
+					$value = Validator::dateInUserFormat($input) ? ($convert ? Fields\Date::formatToDB($input) : $input) : null;
 					break;
 				case 'Time':
 					$value = Validator::time($input) ? $input : null;
@@ -426,7 +426,7 @@ class Purifier
 	 *
 	 * @param int|string $value
 	 *
-	 * @return null|bool
+	 * @return bool|null
 	 */
 	public static function bool($value)
 	{

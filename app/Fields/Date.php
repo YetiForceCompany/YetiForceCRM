@@ -234,4 +234,38 @@ class Date
 		}
 		return $days;
 	}
+
+	/**
+	 * Gets list of holidays.
+	 *
+	 * @param string $start
+	 * @param string $end
+	 *
+	 * @return void
+	 */
+	public static function getHolidays(string $start = '', string $end = '')
+	{
+		if (\App\Cache::has('Date::getHolidays', $start . $end)) {
+			return \App\Cache::get('Date::getHolidays', $start . $end);
+		}
+		$query = (new \App\Db\Query())->from('vtiger_publicholiday');
+		if ($start && $end) {
+			$query->where(['between', 'holidaydate', $start, $end]);
+		}
+		$query->orderBy(['holidaydate' => SORT_ASC]);
+		$holidays = [];
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$holidays[$row['holidaydate']] = [
+				'id' => $row['publicholidayid'],
+				'date' => $row['holidaydate'],
+				'name' => $row['holidayname'],
+				'type' => $row['holidaytype'],
+				'day' => \App\Language::translate(date('l', strtotime($row['holidaydate'])), 'PublicHoliday'),
+			];
+		}
+		$dataReader->close();
+		\App\Cache::save('Date::getHolidays', $start . $end, $holidays);
+		return $holidays;
+	}
 }

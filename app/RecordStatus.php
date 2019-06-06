@@ -88,6 +88,20 @@ class RecordStatus
 	];
 
 	/**
+	 * Get all record states.
+	 *
+	 * @return string[] [id=>label]
+	 */
+	public static function getLabels(): array
+	{
+		return [
+			self::RECORD_STATE_NO_CONCERN => 'LBL_RECORD_STATE_NO_CONCERN',
+			self::RECORD_STATE_OPEN => 'LBL_RECORD_STATE_OPEN',
+			self::RECORD_STATE_CLOSED => 'LBL_RECORD_STATE_CLOSED'
+		];
+	}
+
+	/**
 	 * Get record state statuses by module name.
 	 *
 	 * @param string   $moduleName
@@ -247,6 +261,7 @@ class RecordStatus
 	 * Add date history status to table.
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
+	 * @param string               $fieldName
 	 */
 	public static function addHistory(\Vtiger_Record_Model $recordModel, string $fieldName)
 	{
@@ -270,6 +285,7 @@ class RecordStatus
 	 * Update status times.
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
+	 * @param string               $fieldName
 	 */
 	public static function update(\Vtiger_Record_Model $recordModel, string $fieldName)
 	{
@@ -288,6 +304,7 @@ class RecordStatus
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
 	 * @param int                  $value
+	 * @param int                  $state
 	 *
 	 * @return string
 	 */
@@ -308,18 +325,25 @@ class RecordStatus
 	/**
 	 * Function returning difference in format between date times.
 	 *
-	 * @param string $start
-	 * @param string $end
+	 * @param string               $start
+	 * @param string               $end
+	 * @param \Vtiger_Record_Model $recordModel
 	 *
 	 * @return int
 	 */
-	public static function getDiff(string $start, string $end = ''): int
+	public static function getDiff(string $start, string $end, \Vtiger_Record_Model $recordModel): int
 	{
 		if (!$end) {
 			$end = date('Y-m-d H:i:s');
 		}
-		// TODO   counting based on ServiceContracts
-		return round(Fields\DateTime::getDiff($start, $end, 'minutes'));
+		if ($field = Field::getRelatedFieldForModule($recordModel->getModuleName(), 'ServiceContracts')) {
+			return self::getDiffFromServiceContracts($start, $end, $recordModel->get($field['fieldname']));
+		}
+		$diff = self::getDiffFromDefaultBusinessHours($start, $end);
+		if (!$diff) {
+			$diff = round(Fields\DateTime::getDiff($start, $end, 'minutes'));
+		}
+		return  $diff;
 	}
 
 	/**
@@ -389,20 +413,6 @@ class RecordStatus
 	}
 
 	/**
-	 * Get all record states.
-	 *
-	 * @return string[] [id=>label]
-	 */
-	public static function getLabels(): array
-	{
-		return [
-			self::RECORD_STATE_NO_CONCERN => 'LBL_RECORD_STATE_NO_CONCERN',
-			self::RECORD_STATE_OPEN => 'LBL_RECORD_STATE_OPEN',
-			self::RECORD_STATE_CLOSED => 'LBL_RECORD_STATE_CLOSED'
-		];
-	}
-
-	/**
 	 * Get process status field names.
 	 *
 	 * @param string $moduleName optional if we need only one field name for specified module
@@ -428,6 +438,13 @@ class RecordStatus
 		return $result;
 	}
 
+	/**
+	 * Update expected times.
+	 *
+	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return void
+	 */
 	public static function updateExpectedTimes(\Vtiger_Record_Model $recordModel)
 	{
 		if ($field = Field::getRelatedFieldForModule($recordModel->getModuleName(), 'ServiceContracts')) {
@@ -444,7 +461,7 @@ class RecordStatus
 	 *
 	 * @return array
 	 */
-	public static function getExpectedTimes(int $id): array
+	private static function getExpectedTimes(int $id): array
 	{
 		// if (Cache::has('RecordStatus::getFieldName', $moduleName)) {
 		// 	return Cache::get('RecordStatus::getFieldName', $moduleName);
@@ -456,5 +473,99 @@ class RecordStatus
 			'solution' => '2019-05-05 22:22:22',
 			'idle' => '2019-11-11 00:00:00',
 		];
+	}
+
+	/**
+	 * Get the amount of business time between the two dates in minutes based on the service contracts.
+	 *
+	 * @param string $start
+	 * @param string $end
+	 * @param int    $id Service contracts id
+	 *
+	 * @return int
+	 */
+	public static function getDiffFromServiceContracts(string $start, string $end, int $id): int
+	{
+		return 0;
+	}
+
+	/**
+	 * Get the amount of default business time between two dates in minutes.
+	 *
+	 * @param string $start
+	 * @param string $end
+	 *
+	 * @return int
+	 */
+	public static function getDiffFromDefaultBusinessHours(string $start, string $end): int
+	{
+		$businessHours = self::getDefaultBusinessHours();
+		if (!$businessHours) {
+			return false;
+		}
+		$time = 0;
+		foreach ($businessHours as $row) {
+			$days = explode(',', $row['working_days']);
+			$time += ($days ? self::businessTime($start, $end, $row['working_hours_from'], $row['working_hours_to'], $days, (bool) $row['holidays']) : 0);
+		}
+		return $time;
+	}
+
+	/**
+	 * Get the amount of business time between two dates in minutes.
+	 *
+	 * @param string $start
+	 * @param string $end
+	 * @param array  $days
+	 * @param string $startHour
+	 * @param string $endHour
+	 * @param bool   $holidays
+	 *
+	 * @return int
+	 */
+	public static function businessTime(string $start, string $end, string $startHour, string $endHour, array $days, bool $holidays): int
+	{
+		$start = new \DateTime($start);
+		$end = new \DateTime($end);
+		$holidaysDates = $dates = [];
+		$date = clone $start;
+		$days = array_flip($days);
+		if ($holidays) {
+			$holidaysDates = array_flip(array_keys(Fields\Date::getHolidays($start->format('Y-m-d'), $end->format('Y-m-d'))));
+		}
+		while ($date <= $end) {
+			$datesEnd = (clone $date)->setTime(23, 59, 59);
+			if (isset($days[$date->format('N')]) || ($holidays && isset($holidaysDates[$date->format('Y-m-d')]))) {
+				$dates[] = [
+					'start' => clone $date,
+					'end' => clone ($end < $datesEnd ? $end : $datesEnd),
+				];
+			}
+			$date->modify('+1 day')->setTime(0, 0, 0);
+		}
+		[$sh,$sm,$ss] = explode(':', $startHour);
+		[$eh,$em,$es] = explode(':', $endHour);
+		return array_reduce($dates, function ($carry, $item) use ($sh, $sm, $ss, $eh, $em, $es) {
+			$businessStart = (clone $item['start'])->setTime($sh, $sm, $ss);
+			$businessEnd = (clone $item['end'])->setTime($eh, $em, $es);
+			$start = ($item['start'] < $businessStart) ? $businessStart : $item['start'];
+			$end = ($item['end'] > $businessEnd) ? $businessEnd : $item['end'];
+			return $carry += max(0, $end->getTimestamp() - $start->getTimestamp());
+		}, 0) / 60;
+	}
+
+	/**
+	 * Get default business hours.
+	 *
+	 * @return array
+	 */
+	private static function getDefaultBusinessHours(): array
+	{
+		if (Cache::has('RecordStatus::getDefaultBusinessHours', '')) {
+			return Cache::get('RecordStatus::getDefaultBusinessHours', '');
+		}
+		$row = (new Db\Query())->from('s_#__business_hours')->where(['default' => 1])->all();
+		Cache::save('RecordStatus::getDefaultBusinessHours', '', $row);
+		return $row;
 	}
 }
