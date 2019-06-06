@@ -447,7 +447,7 @@ class RecordStatus
 	 */
 	public static function updateExpectedTimes(\Vtiger_Record_Model $recordModel)
 	{
-		if ($field = Field::getRelatedFieldForModule($recordModel->getModuleName(), 'ServiceContracts')) {
+		if (($field = Field::getRelatedFieldForModule($recordModel->getModuleName(), 'ServiceContracts') ) &&  $recordModel->get($field['fieldname'])) {
 			foreach (self::getExpectedTimes($recordModel->get($field['fieldname'])) as $key => $time) {
 				$recordModel->set($key . '_datatime', $time);
 			}
