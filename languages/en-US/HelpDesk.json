@@ -23,7 +23,7 @@
     "LBL_CONVERT_FAQ": "Convert to FAQ",
     "LBL_COULDNOT_CLOSED": "Ticket could not be",
     "LBL_CUSTOMER_COMMENTS": "Customer has provided the following additional information to your reply:",
-    "LBL_DETAIL": "the details are :",
+    "LBL_DETAIL": "the details are:",
     "LBL_GIVE_MAILID": "Please give your email id",
     "LBL_LOGIN_REVOKED": "Your login is revoked. Please contact your admin.",
     "LBL_MAIL_COULDNOT_SENT": "Mail could not be sent",
@@ -89,7 +89,7 @@
     "LBL_SHOW_HIERARCHY": "Hierarchy",
     "LBL_MASS_STATUS_CHANGE": "Mass status change",
     "LBL_RECORDS": "Records to change",
-    "LBL_CHILD_RECORDS": "Child records for actual",
+    "LBL_CHILD_RECORDS": "Child records to current one",
     "LBL_MASS_STATUS_UPDATED": "Status updated in selected records",
     "LBL_UPDATE": "Update"
   }
