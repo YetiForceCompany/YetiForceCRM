@@ -15,11 +15,6 @@ jQuery.Class(
 					moduleName: 'KnowledgeBase'
 				}
 			});
-		},
-		showModalContent(container) {
-			container.find('#quasar-css').on('load', function() {
-				container.removeClass('d-none');
-			});
 		}
 	},
 	{}

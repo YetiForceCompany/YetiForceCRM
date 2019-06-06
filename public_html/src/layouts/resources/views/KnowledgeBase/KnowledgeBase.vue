@@ -237,7 +237,6 @@ import Carousel from './components/Carousel.vue'
 import RecordsList from './components/RecordsList.vue'
 import RecordPreview from './components/RecordPreview.vue'
 import { createNamespacedHelpers } from 'vuex'
-import { debounce } from 'quasar'
 
 const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
@@ -300,7 +299,7 @@ export default {
   },
   mounted() {
     const debounceDelay = 1000
-    this.debouncedSearch = debounce(() => {
+    this.debouncedSearch = Quasar.utils.debounce(() => {
       if (this.filter.length < 3) {
         return
       }

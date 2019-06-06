@@ -9,7 +9,7 @@ jQuery.Class(
 		 * Register events
 		 */
 		registerEvents() {
-			RecordPreview.mount({
+			RecordPreviewVueComponent.mount({
 				el: '#RecordPreview',
 				state: {
 					moduleName: app.getModuleName(),
