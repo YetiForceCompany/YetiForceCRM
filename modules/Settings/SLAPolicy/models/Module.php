@@ -27,7 +27,7 @@ class Settings_SLAPolicy_Module_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @var array
 	 */
-	public $listFields = ['name' => 'LBL_NAME', 'operational_hours' => 'LBL_OPERATIONAL_HOURS'];
+	public $listFields = ['name' => 'LBL_NAME', 'operational_hours' => 'LBL_OPERATIONAL_HOURS', 'tabid' => 'LBL_SOURCE_MODULE'];
 	/**
 	 * Module name.
 	 *

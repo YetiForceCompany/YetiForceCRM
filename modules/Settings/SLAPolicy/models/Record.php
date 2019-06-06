@@ -105,6 +105,7 @@ class Settings_SLAPolicy_Record_Model extends Settings_Vtiger_Record_Model
 		if (\App\TextParser::getTextLength($data['name']) > 255) {
 			throw new \App\Exceptions\AppException('ERR_EXCEEDED_NUMBER_CHARACTERS||255', 406);
 		}
+		$data['tabid'] = \App\Purifier::purifyByType($data['tabid'], 'Integer');
 		return $data;
 	}
 
@@ -146,6 +147,9 @@ class Settings_SLAPolicy_Record_Model extends Settings_Vtiger_Record_Model
 		if ($key === 'operational_hours') {
 			$moduleName = $this->getModule()->getName();
 			$value = $value === 0 ? \App\Language::translate('LBL_CALENDAR_HOURS', $moduleName) : \App\Language::translate('LBL_BUSINESS_HOURS', $moduleName);
+		} elseif ($key === 'tabid') {
+			$moduleName = \App\Module::getModuleName($value);
+			$value = \App\Language::translate($moduleName, $moduleName);
 		}
 		return $value;
 	}
