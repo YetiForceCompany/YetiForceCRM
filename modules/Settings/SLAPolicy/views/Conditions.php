@@ -43,7 +43,7 @@ class Settings_SLAPolicy_Conditions_View extends Settings_Vtiger_Index_View
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->view('ConditionBuilderContainer.tpl', $qualifiedModuleName);
+		$viewer->view('ConditionBuilder.tpl', $qualifiedModuleName);
 	}
 
 	/**
