@@ -25,12 +25,6 @@ try {
 		],
 	]);
 } catch (\Throwable $e) {
-\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
-throw new \Api\Core\Exception($e->getMessage(),$e->getCode(),$e);
-	echo json_encode([
-		'status' => 0,
-		'error' => [
-			'message' => $e->getMessage(),
-		],
-	]);
+	\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
+	throw new \Api\Core\Exception($e->getMessage(), $e->getCode(), $e);
 }
