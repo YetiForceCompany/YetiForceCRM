@@ -317,7 +317,7 @@ class Picklist
 	 */
 	public static function isExists(string $fieldName, string $value): bool
 	{
-		return isset(array_column(static::getValues($fieldName), 'payment_systemid', 'picklistValue')[$value]);
+		return \in_array($value, static::getValuesName($fieldName));
 	}
 
 	/**
