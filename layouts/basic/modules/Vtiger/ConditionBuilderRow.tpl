@@ -54,7 +54,11 @@
 			{assign var=TEMPLATE_NAME value=$SELECTED_FIELD_MODEL->getOperatorTemplateName($SELECTED_OPERATOR)}
 			{if !empty($TEMPLATE_NAME)}
 				{if !empty($CONDITIONS_ROW['value'])}
-					{assign var=CONDITION_ROW_VALUE value=\App\Purifier::decodeHtml($CONDITIONS_ROW['value'])}
+					{if is_string($CONDITIONS_ROW['value'])}
+						{assign var=CONDITION_ROW_VALUE value=\App\Purifier::decodeHtml($CONDITIONS_ROW['value'])}
+					{else}
+						{assign var=CONDITION_ROW_VALUE value=\App\Purifier::decodeHtml(implode('##',$CONDITIONS_ROW['value']))}
+					{/if}
 				{else}
 					{assign var=CONDITION_ROW_VALUE value=''}
 				{/if}
