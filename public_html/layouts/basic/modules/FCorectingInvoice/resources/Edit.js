@@ -10,11 +10,13 @@ Vtiger_Edit_Js(
 		 */
 		loadInvoiceData(recordId = false) {
 			if (!recordId) {
-				recordId = this.getForm()
-					.find('input[name="finvoiceid"]')
-					.val();
+				recordId = parseInt(
+					this.getForm()
+						.find('input[name="finvoiceid"]')
+						.val()
+				);
 			}
-			if (recordId != false && 0 != recordId) {
+			if (recordId) {
 				const form = this.getForm();
 				const progressLoader = $.progressIndicator({ blockInfo: { enabled: true } });
 				AppConnector.request({
