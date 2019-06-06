@@ -6,8 +6,6 @@
  * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 
-import { Screen } from 'quasar'
-// initial state
 const state = {
 	record: false,
 	dialog: false,
@@ -27,10 +25,10 @@ const state = {
 		categories: {}
 	},
 	coordinates: {
-		width: Screen.width - 100,
-		height: Screen.height - 100,
+		width: Quasar.plugins.Screen.width - 100,
+		height: Quasar.plugins.Screen.height - 100,
 		top: 0,
-		left: Screen.width - (Screen.width - 100 / 2)
+		left: Quasar.plugins.Screen.width - (Quasar.plugins.Screen.width - 100 / 2)
 	}
 }
 

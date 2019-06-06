@@ -6,13 +6,10 @@
  * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 
-import Quasar from '../../../quasar.config.js'
 import KnowledgeBaseComponent from './KnowledgeBase/KnowledgeBase.vue'
 import RecordPreviewComponent from './KnowledgeBase/RecordPreviewModal.vue'
 import store from '../../../store/index.js'
-
-window.Vue.component(KnowledgeBaseComponent)
-window.Vue.mixin({
+Vue.mixin({
 	methods: {
 		translate(key) {
 			return app.vtranslate(key)
@@ -23,17 +20,17 @@ window.KnowledgeBase = {
 	component: KnowledgeBaseComponent,
 	mount(config) {
 		KnowledgeBaseComponent.state = config.state
-		return new window.Vue({
+		return new Vue({
 			store,
 			render: h => h(KnowledgeBaseComponent)
 		}).$mount(config.el)
 	}
 }
-window.RecordPreview = {
+window.RecordPreviewVueComponent = {
 	component: RecordPreviewComponent,
 	mount(config) {
 		RecordPreviewComponent.state = config.state
-		return new window.Vue({
+		return new Vue({
 			store,
 			render: h => h(RecordPreviewComponent)
 		}).$mount(config.el)

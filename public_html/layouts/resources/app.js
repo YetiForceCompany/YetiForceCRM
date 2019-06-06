@@ -2043,6 +2043,7 @@ var app = (window.app = {
 });
 CKEDITOR.disableAutoInline = true;
 $(document).ready(function() {
+	Quasar.iconSet.set(Quasar.iconSet.mdiV3);
 	let document = $(this);
 	app.registerToggleIconClick(document);
 	app.touchDevice = app.isTouchDevice();

@@ -9,7 +9,7 @@
 import Vuex from 'vuex'
 import KnowledgeBase from './modules/KnowledgeBase.js'
 
-window.Vue.use(Vuex)
+Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
 

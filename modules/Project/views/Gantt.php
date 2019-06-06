@@ -88,9 +88,6 @@ class Project_Gantt_View extends Vtiger_Index_View
 			'~libraries/gantt-elastic/dist/bundle.js',
 			'modules.Project.resources.GanttController',
 		];
-		if (!\App\Privilege::isPermitted('KnowledgeBase')) {
-			array_unshift($jsFileNames, '~libraries/vue/dist/vue.min.js');
-		}
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 }

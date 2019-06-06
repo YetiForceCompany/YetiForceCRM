@@ -72,9 +72,6 @@ class Project_Detail_View extends Vtiger_Detail_View
 			'modules.Project.resources.Gantt',
 			'modules.Project.resources.GanttController'
 		];
-		if (!\App\Privilege::isPermitted('KnowledgeBase')) {
-			array_unshift($jsFileNames, '~libraries/vue/dist/vue.min.js');
-		}
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 }
