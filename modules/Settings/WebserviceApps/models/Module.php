@@ -12,19 +12,31 @@ class Settings_WebserviceApps_Module_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @return string[]
 	 */
-	public static function getTypes()
+	public static function getTypes(): array
 	{
-		return ['Portal'];
+		return ['Portal', 'Payments'];
 	}
 
-	public static function getServers()
+	/**
+	 * Get all servers.
+	 *
+	 * @return array
+	 */
+	public static function getServers(): array
 	{
 		return (new \App\Db\Query())->from('w_#__servers')
 			->createCommand(\App\Db::getInstance('webservice'))
 			->queryAllByGroup(1);
 	}
 
-	public static function getActiveServers($type = '')
+	/**
+	 * Get active servers.
+	 *
+	 * @param string $type
+	 *
+	 * @return array
+	 */
+	public static function getActiveServers(string $type = ''): array
 	{
 		$query = (new \App\Db\Query())->from('w_#__servers')->andWhere(['status' => 1]);
 		if (!empty($type)) {
