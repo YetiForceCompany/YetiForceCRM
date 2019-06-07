@@ -92,6 +92,19 @@ class Currency
 	}
 
 	/**
+	 * Get currency by code.
+	 *
+	 * @param string $code
+	 * @param bool   $active
+	 *
+	 * @return int|null
+	 */
+	public static function getIdByCode(string $code, bool $active = true): ?int
+	{
+		return array_column(static::getAll($active), 'id', 'currency_code')[\strtoupper($code)] ?? null;
+	}
+
+	/**
 	 * Get all currencies.
 	 *
 	 * @param bool $onlyActive
