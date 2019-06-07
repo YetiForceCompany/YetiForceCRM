@@ -17,7 +17,7 @@ try {
 	$controller->postProcess();
 } catch (\Api\Core\Exception $e) {
 	$e->handleError();
-} catch (\App\Exceptions\NoPermittedToApi) {
+} catch (\App\Exceptions\NoPermittedToApi $e) {
 	echo json_encode([
 		'status' => 0,
 		'error' => [
