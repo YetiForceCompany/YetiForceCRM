@@ -9,16 +9,19 @@
 -->
 <template>
   <q-dialog
-    v-model="dialog"
-    :maximized="maximized"
+    v-model="previewDialog"
+    :maximized="previewMaximized"
     transition-show="slide-up"
     transition-hide="slide-down"
     content-class="quasar-reset"
   >
-    <drag-resize v-if="isDragResize && !$q.platform.is.mobile">
-      <template v-slot:default="slotProps">
-        <record-preview-content :height="slotProps.height" />
-      </template>
+    <drag-resize
+      v-if="isDragResize && !$q.platform.is.mobile"
+      :coordinates="coordinates"
+      v-on:onChangeCoordinates="onChangeCoordinates"
+      :maximized="previewMaximized"
+    >
+      <record-preview-content :height="coordinates.height" />
     </drag-resize>
     <record-preview-content v-else>
       <template slot="header-right">
@@ -41,15 +44,30 @@ export default {
       default: true
     }
   },
+  data() {
+    return {
+      coordinates: {
+        width: Quasar.plugins.Screen.width - 100,
+        height: Quasar.plugins.Screen.height - 100,
+        top: 0,
+        left: Quasar.plugins.Screen.width - (Quasar.plugins.Screen.width - 100 / 2)
+      }
+    }
+  },
   computed: {
-    ...mapGetters(['maximized']),
-    dialog: {
+    ...mapGetters(['previewMaximized']),
+    previewDialog: {
       set(val) {
-        this.$store.commit('KnowledgeBase/setDialog', val)
+        this.$store.commit('KnowledgeBase/setPreviewDialog', val)
       },
       get() {
-        return this.$store.getters['KnowledgeBase/dialog']
+        return this.$store.getters['KnowledgeBase/previewDialog']
       }
+    }
+  },
+  methods: {
+    onChangeCoordinates: function(coordinates) {
+      this.coordinates = coordinates
     }
   }
 }
