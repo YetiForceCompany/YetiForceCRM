@@ -5818,8 +5818,8 @@ insert  into `vtiger_notification_status`(`notification_statusid`,`notification_
 
 /*Data for the table `vtiger_notification_type` */
 
-insert  into `vtiger_notification_type`(`notification_typeid`,`notification_type`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'PLL_USERS',0,703,1);
-insert  into `vtiger_notification_type`(`notification_typeid`,`notification_type`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'PLL_SYSTEM',0,704,2);
+insert  into `vtiger_notification_type`(`notification_typeid`,`notification_type`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (1,'PLL_USERS',0,703,1,'1baee2');
+insert  into `vtiger_notification_type`(`notification_typeid`,`notification_type`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (2,'PLL_SYSTEM',0,704,2,'FF9800');
 
 /*Data for the table `vtiger_opportunitystage` */
 

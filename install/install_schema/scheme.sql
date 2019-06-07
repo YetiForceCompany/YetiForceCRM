@@ -6698,6 +6698,7 @@ CREATE TABLE `vtiger_notification_type` (
   `presence` int(1) NOT NULL DEFAULT 1,
   `picklist_valueid` int(10) NOT NULL DEFAULT 0,
   `sortorderid` int(10) DEFAULT 0,
+  `color` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`notification_typeid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 

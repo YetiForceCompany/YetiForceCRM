@@ -134,3 +134,11 @@
 .picklistCBg_OSSTimeControl_timecontrol_type_PLL_SICK_LEAVE { background: #9900FF !important; font-weight: 500 !important; color: black !important;}
 .picklistCT_OSSTimeControl_timecontrol_type_PLL_SICK_LEAVE { color: #9900FF !important; }
 .picklistLb_OSSTimeControl_timecontrol_type_PLL_SICK_LEAVE { background: #9900FF; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
+.picklistCBr_Notification_notification_type_PLL_USERS { border-color: #1baee2 !important; }
+.picklistCBg_Notification_notification_type_PLL_USERS { background: #1baee2 !important; font-weight: 500 !important; color: white !important;}
+.picklistCT_Notification_notification_type_PLL_USERS { color: #1baee2 !important; }
+.picklistLb_Notification_notification_type_PLL_USERS { background: #1baee2; color: white !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
+.picklistCBr_Notification_notification_type_PLL_SYSTEM { border-color: #FF9800 !important; }
+.picklistCBg_Notification_notification_type_PLL_SYSTEM { background: #FF9800 !important; font-weight: 500 !important; color: black !important;}
+.picklistCT_Notification_notification_type_PLL_SYSTEM { color: #FF9800 !important; }
+.picklistLb_Notification_notification_type_PLL_SYSTEM { background: #FF9800; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
