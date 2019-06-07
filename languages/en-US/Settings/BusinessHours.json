@@ -15,9 +15,9 @@
     "LBL_DEFAULT_REACTION_TIME": "Default reaction time",
     "LBL_DEFAULT_IDLE_TIME": "Default idle time",
     "LBL_DEFAULT_RESOLVE_TIME": "Default resolve time",
-    "LBL_REACTION_TIME": "Reaction",
-    "LBL_IDLE_TIME": "Idle",
-    "LBL_RESOLVE_TIME": "Resolve",
+    "LBL_REACTION_TIME": "Reaction time",
+    "LBL_IDLE_TIME": "Idle time",
+    "LBL_RESOLVE_TIME": "Resolve time",
     "LBL_HOLIDAYS_LINK": "Go to holidays settings"
   },
   "js": {

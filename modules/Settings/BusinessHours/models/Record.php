@@ -207,6 +207,15 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
+	 * Get time period display value.
+	 */
+	public static function getTimePeriodDisplayValue(string $value)
+	{
+		$time = explode(':', $value);
+		return $time[0] . ' ' . \App\Language::translate(static::$unitLabels[$time[1]]);
+	}
+
+	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value.
 	 *
 	 * @param string $key
@@ -228,8 +237,7 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 		} elseif ('default' === $key) {
 			$value = $value ? \App\Language::translate('LBL_YES') : \App\Language::translate('LBL_NO');
 		} elseif ($key === 'reaction_time' || $key === 'idle_time' || $key === 'resolve_time') {
-			$time = explode(':', $value);
-			$value = $time[0] . ' ' . \App\Language::translate(static::$unitLabels[$time[1]]);
+			$value = static::getTimePeriodDisplayValue($value);
 		} elseif ($key === 'holidays') {
 			$value = $value ? \App\Language::translate('LBL_HOLIDAYS', 'Settings:BusinessHours') : '';
 		}

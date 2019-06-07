@@ -105,6 +105,16 @@ class Settings_SLAPolicy_Record_Model extends Settings_Vtiger_Record_Model
 			throw new \App\Exceptions\AppException('ERR_EXCEEDED_NUMBER_CHARACTERS||255', 406);
 		}
 		$data['tabid'] = \App\Purifier::purifyByType($data['tabid'], 'Integer');
+		$data['reaction_time'] = \App\Purifier::purifyByType($data['reaction_time'], 'TimePeriod');
+		$data['idle_time'] = \App\Purifier::purifyByType($data['idle_time'], 'TimePeriod');
+		$data['resolve_time'] = \App\Purifier::purifyByType($data['resolve_time'], 'TimePeriod');
+		if ($data['business_hours']) {
+			$data['business_hours'] = explode(',', $data['business_hours']);
+			foreach ($data['business_hours'] as $index => $businessHoursId) {
+				$data['business_hours'][$index] = \App\Purifier::purifyByType($businessHoursId, 'Integer');
+			}
+			$data['business_hours'] = implode(',', $data['business_hours']);
+		}
 		return $data;
 	}
 
@@ -149,6 +159,11 @@ class Settings_SLAPolicy_Record_Model extends Settings_Vtiger_Record_Model
 		} elseif ($key === 'tabid') {
 			$moduleName = \App\Module::getModuleName($value);
 			$value = \App\Language::translate($moduleName, $moduleName);
+		} elseif ($key === 'business_hours') {
+			$rows = (new \App\Db\Query())->select('name')->from('s_#__business_hours')->where(['id' => explode(',', $value)])->column();
+			$value = implode(', ', $rows);
+		} elseif (in_array($key, ['reaction_time', 'idle_time', 'resolve_time'])) {
+			$value = Settings_BusinessHours_Record_Model::getTimePeriodDisplayValue($value);
 		}
 		return $value;
 	}

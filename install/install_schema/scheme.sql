@@ -1125,6 +1125,10 @@ CREATE TABLE `s_yf_sla_policy` (
   `operational_hours` tinyint(1) NOT NULL DEFAULT 0,
   `tabid` smallint(5) NOT NULL,
   `conditions` text NOT NULL,
+  `reaction_time` varchar(20) NOT NULL DEFAULT '0:m',
+  `idle_time` varchar(20) NOT NULL DEFAULT '0:m',
+  `resolve_time` varchar(20) NOT NULL DEFAULT '0:m',
+  `business_hours` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

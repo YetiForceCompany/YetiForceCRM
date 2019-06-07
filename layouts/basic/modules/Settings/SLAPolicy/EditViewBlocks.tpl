@@ -15,8 +15,9 @@
 		<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
 				<input type="hidden" name="module" value="{$MODULE}"/>
 				<input type="hidden" name="parent" value="{$PARENT_MODULE}"/>
-				<input type="hidden" name="conditions" value="">
+				<input type="hidden" name="conditions" value=""/>
 				<input type="hidden" name="action" value="Save"/>
+				<input type="hidden" name="business_hours" value="{$RECORD->get('business_hours')}"/>
 			{if !empty($RECORD_ID)}
 				<input type="hidden" name="record" id="recordId" value="{$RECORD_ID}"/>
 			{/if}
@@ -42,13 +43,6 @@
 							<input type="text" name="name" class="form-control"  value="{$RECORD->getName()}" data-validation-engine="validate[required,maxSize[255]]">
 						</div>
 						<div class="col-12 col-md-4">
-							<label>{\App\Language::translate('LBL_OPERATIONAL_HOURS',$QUALIFIED_MODULE)}</label>
-							<select name="operational_hours" class="select2"  data-validation-engine="validate[required]">
-								<option value="0"{if $RECORD->get('operational_hours')===0}selected="selected"{/if}>{\App\Language::translate('LBL_CALENDAR_HOURS',$QUALIFIED_MODULE)}</option>
-								<option value="1"{if $RECORD->get('operational_hours')===1}selected="selected"{/if}>{\App\Language::translate('LBL_BUSINESS_HOURS',$QUALIFIED_MODULE)}</option>
-							</select>
-						</div>
-						<div class="col-12 col-md-4">
 							<label>{\App\Language::translate('LBL_SOURCE_MODULE',$QUALIFIED_MODULE)}</label>
 							<select name="source_module" class="select2"  data-validation-engine="validate[required]">
 								{foreach item=MODULE_NAME from=$MODULES}
@@ -56,9 +50,39 @@
 								{/foreach}
 							</select>
 						</div>
+						<div class="col-12 col-md-4">
+							<label>{\App\Language::translate('LBL_OPERATIONAL_HOURS',$QUALIFIED_MODULE)}</label>
+							<select name="operational_hours" class="select2"  data-validation-engine="validate[required]">
+								<option value="0"{if $RECORD->get('operational_hours')===0}selected="selected"{/if}>{\App\Language::translate('LBL_CALENDAR_HOURS',$QUALIFIED_MODULE)}</option>
+								<option value="1"{if $RECORD->get('operational_hours')===1}selected="selected"{/if}>{\App\Language::translate('LBL_BUSINESS_HOURS',$QUALIFIED_MODULE)}</option>
+							</select>
+						</div>
 					</div>
-					<div class="form-group row">
-						<div class="col js-condition-builder-view" data-js="container"></div>
+					<div class="form-group row js-business-hours-container pt-2 d-none">
+							<div class="col-12 js-business-hours-container-content" data-js="container"></div>
+						</div>
+					<div class="form-group row border-top pt-2">
+						<div class="col-12 js-condition-builder-view" data-js="container"></div>
+					</div>
+					<div class="form-group row border-top pt-4">
+						<div class="col-12 col-md-4">
+							<label>{\App\Language::translate('LBL_REACTION_TIME','Settings:BusinessHours')}</label>
+							<div class="input-group time">
+								<input type="hidden" name="reaction_time" class="c-time-period" value="{$RECORD->get('reaction_time')}">
+							</div>
+						</div>
+						<div class="col-12 col-md-4">
+							<label>{\App\Language::translate('LBL_IDLE_TIME','Settings:BusinessHours')}</label>
+							<div class="input-group time">
+								<input type="hidden" name="idle_time" class="c-time-period" value="{$RECORD->get('idle_time')}">
+							</div>
+						</div>
+						<div class="col-12 col-md-4">
+							<label>{\App\Language::translate('LBL_RESOLVE_TIME','Settings:BusinessHours')}</label>
+							<div class="input-group time">
+								<input type="hidden" name="resolve_time" class="c-time-period" value="{$RECORD->get('resolve_time')}">
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
