@@ -10,13 +10,13 @@
 <template>
   <q-dialog
     v-model="previewDialog"
-    :maximized="previewMaximized"
+    :maximized="maximizedOnly ? true : previewMaximized"
     transition-show="slide-up"
     transition-hide="slide-down"
     content-class="quasar-reset"
   >
     <drag-resize
-      v-if="isDragResize && !$q.platform.is.mobile"
+      v-if="isDragResize"
       :coordinates="coordinates"
       v-on:onChangeCoordinates="onChangeCoordinates"
       :maximized="previewMaximized"
@@ -42,6 +42,10 @@ export default {
     isDragResize: {
       type: Boolean,
       default: true
+    },
+    maximizedOnly: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

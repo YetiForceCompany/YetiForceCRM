@@ -46,17 +46,19 @@
       </div>
       <q-space />
       <slot name="header-right">
-        <a v-show="!previewMaximized" class="flex grabbable text-decoration-none text-white" href="#">
-          <q-icon class="js-drag" name="mdi-drag" size="19px" />
-        </a>
-        <q-btn
-          dense
-          flat
-          :icon="previewMaximized ? 'mdi-window-restore' : 'mdi-window-maximize'"
-          @click="previewMaximized = !previewMaximized"
-        >
-          <q-tooltip>{{ previewMaximized ? translate('JS_MINIMIZE') : translate('JS_MAXIMIZE') }}</q-tooltip>
-        </q-btn>
+        <template v-if="$q.platform.is.desktop">
+          <a v-show="!previewMaximized" class="flex grabbable text-decoration-none text-white" href="#">
+            <q-icon class="js-drag" name="mdi-drag" size="19px" />
+          </a>
+          <q-btn
+            dense
+            flat
+            :icon="previewMaximized ? 'mdi-window-restore' : 'mdi-window-maximize'"
+            @click="previewMaximized = !previewMaximized"
+          >
+            <q-tooltip>{{ previewMaximized ? translate('JS_MINIMIZE') : translate('JS_MAXIMIZE') }}</q-tooltip>
+          </q-btn>
+        </template>
         <q-btn dense flat icon="mdi-close" v-close-popup>
           <q-tooltip>{{ translate('JS_CLOSE') }}</q-tooltip>
         </q-btn>

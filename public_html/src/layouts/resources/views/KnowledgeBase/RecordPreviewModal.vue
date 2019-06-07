@@ -8,7 +8,7 @@
  */
 -->
 <template>
-  <record-preview :isDragResize="false">
+  <record-preview :isDragResize="false" :maximizedOnly="true">
     <template slot="header-right">
       <q-btn dense flat icon="mdi-close" @click="hideModal()">
         <q-tooltip>{{ translate('JS_CLOSE') }}</q-tooltip>
@@ -26,6 +26,10 @@ export default {
   methods: {
     hideModal() {
       app.hideModalWindow()
+      this.initState({
+        previewDialog: false,
+        record: false
+      })
       this.$destroy()
     },
     ...mapActions(['fetchCategories', 'fetchRecord', 'initState'])

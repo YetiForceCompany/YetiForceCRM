@@ -13,18 +13,12 @@
       view="hHh Lpr fFf"
       container
       class="absolute"
-      :style="height && !maximized ? { 'max-height': `${height - 31.14}px` } : {}"
+      :style="coordinates.height && !maximized ? { 'max-height': `${coordinates.height - 31.14}px` } : {}"
     >
       <q-header elevated class="bg-white text-primary">
         <q-toolbar class="q-py-xs flex-wrap flex-md-nowrap">
           <div v-show="!searchData" class="flex items-center no-wrap q-mr-auto q-mr-sm-sm">
-            <q-btn
-              dense
-              round
-              push
-              icon="mdi-menu"
-              @click="$q.platform.is.desktop ? (miniState = !miniState) : (left = !left)"
-            >
+            <q-btn dense round push icon="mdi-menu" @click="toggleDrawer()">
               <q-tooltip>{{ translate('JS_TOGGLE_CATEGORY_MENU') }}</q-tooltip>
             </q-btn>
             <q-breadcrumbs class="ml-2">
@@ -70,6 +64,7 @@
               outlined
               type="search"
               @input="search"
+              autofocus
             >
               <template v-slot:prepend>
                 <q-icon name="mdi-magnify" />
@@ -107,6 +102,7 @@
         :width="searchData ? 0 : 250"
         :breakpoint="700"
         content-class="bg-white text-black"
+        ref="drawer"
       >
         <q-scroll-area class="fit">
           <q-list>
@@ -202,14 +198,22 @@ export default {
   name: 'KnowledgeBase',
   components: { Icon, IconInfo, Carousel, RecordsList, RecordPreview },
   props: {
-    height: {
-      type: Number,
-      default: 0
+    coordinates: {
+      type: Object,
+      default: () => {
+        return {
+          width: 0,
+          height: 0,
+          top: 0,
+          left: 0
+        }
+      }
     }
   },
   data() {
     return {
       defaultTreeIcon: 'mdi-subdirectory-arrow-right',
+      drawerBehaviour: 'desktop',
       miniState: false,
       left: true,
       filter: '',
@@ -254,6 +258,13 @@ export default {
     openQuickCreateModal() {
       const headerInstance = new window.Vtiger_Header_Js()
       headerInstance.quickCreateModule(this.moduleName)
+    },
+    toggleDrawer() {
+      if (this.$q.platform.is.desktop && (!this.coordinates.width || this.coordinates.width > 700)) {
+        this.miniState = !this.miniState
+      } else {
+        this.left = !this.left
+      }
     },
     ...mapActions(['fetchData', 'fetchRecord'])
   },

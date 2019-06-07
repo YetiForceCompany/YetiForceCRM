@@ -25,23 +25,25 @@
             </div>
           </div>
           <q-space />
-          <a v-show="!maximized" class="flex grabbable text-decoration-none text-white" href="#">
-            <q-icon class="js-drag" name="mdi-drag" size="19px" />
-          </a>
-          <q-btn
-            dense
-            flat
-            :icon="maximized ? 'mdi-window-restore' : 'mdi-window-maximize'"
-            @click="maximized = !maximized"
-          >
-            <q-tooltip>{{ maximized ? translate('JS_MINIMIZE') : translate('JS_MAXIMIZE') }}</q-tooltip>
-          </q-btn>
+          <template v-if="$q.platform.is.desktop">
+            <a v-show="!maximized" class="flex grabbable text-decoration-none text-white" href="#">
+              <q-icon class="js-drag" name="mdi-drag" size="19px" />
+            </a>
+            <q-btn
+              dense
+              flat
+              :icon="maximized ? 'mdi-window-restore' : 'mdi-window-maximize'"
+              @click="maximized = !maximized"
+            >
+              <q-tooltip>{{ maximized ? translate('JS_MINIMIZE') : translate('JS_MAXIMIZE') }}</q-tooltip>
+            </q-btn>
+          </template>
           <q-btn dense flat icon="mdi-close" v-close-popup>
             <q-tooltip>{{ translate('JS_CLOSE') }}</q-tooltip>
           </q-btn>
         </q-bar>
         <div>
-          <knowledge-base :height="coordinates.height" />
+          <knowledge-base :coordinates="coordinates" />
         </div>
       </q-card>
     </drag-resize>
