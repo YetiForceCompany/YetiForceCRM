@@ -14,14 +14,12 @@
       :name="searchInfoShow ? 'mdi-information' : 'mdi-information-outline'"
       :style="`font-size: ${options.iconSize};`"
       @click="searchInfoShow = !searchInfoShow"
-      @blur="searchInfoShow = false"
     />
     <div>
       <q-tooltip
         v-model="searchInfoShow"
         :content-style="`font-size: ${options.tooltipFont}`"
         :content-class="[options.backgroundClass, tooltipId, 'all-pointer-events']"
-        ref="tooltip"
       >
         <slot></slot>
       </q-tooltip>
