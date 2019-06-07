@@ -10,8 +10,6 @@ const state = {
 	record: false,
 	dialog: false,
 	maximized: true,
-	previewDialog: false,
-	previewMaximized: true,
 	moduleName: '',
 	iconSize: '18px',
 	tree: {
@@ -73,9 +71,6 @@ const actions = {
 					return { ...recordData.related.Articles[key], id: key }
 				})
 			}
-			if (!getters.previewDialog) {
-				commit('setPreviewDialog', true)
-			}
 			commit('setRecord', recordData)
 			progressIndicatorElement.progressIndicator({ mode: 'hide' })
 			aDeferred.resolve(recordData)
@@ -110,12 +105,6 @@ const mutations = {
 	},
 	setMaximized(state, payload) {
 		state.maximized = payload
-	},
-	setPreviewDialog(state, payload) {
-		state.previewDialog = payload
-	},
-	setPreviewMaximized(state, payload) {
-		state.previewMaximized = payload
 	},
 	setCoordinates(state, payload) {
 		state.coordinates = payload

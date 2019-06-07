@@ -19,7 +19,7 @@
       :title="title"
     >
       <template v-slot:item="props">
-        <q-list class="full-width" padding @click.prevent="fetchRecord(props.row.id)">
+        <q-list class="full-width" padding @click.prevent="onClickRecord(props.row.id)">
           <q-item clickable>
             <q-item-section avatar>
               <q-icon name="mdi-text" />
@@ -117,7 +117,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchRecord'])
+    ...mapActions(['fetchRecord']),
+    onClickRecord(id) {
+      this.fetchRecord(id).then(() => {
+        this.$emit('onClickRecord', id)
+      })
+    }
   }
 }
 </script>

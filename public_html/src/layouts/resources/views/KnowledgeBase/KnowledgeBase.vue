@@ -154,7 +154,7 @@
                     :key="featuredValue.id"
                     class="text-subtitle2"
                     v-ripple
-                    @click.prevent="fetchRecord(featuredValue.id)"
+                    @click.prevent="showRecordPreview(featuredValue.id)"
                   >
                     <q-item-section class="align-items-center flex-row no-wrap justify-content-start">
                       <q-icon name="mdi-star" :size="iconSize" class="mr-2"></q-icon>
@@ -168,13 +168,23 @@
                 </q-list>
               </template>
             </div>
-            <records-list v-show="activeCategory !== ''" :data="data.records" :title="translate('JS_ARTICLES')" />
+            <records-list
+              v-show="activeCategory !== ''"
+              :data="data.records"
+              :title="translate('JS_ARTICLES')"
+              @onClickRecord="previewDialog = true"
+            />
           </div>
-          <records-list v-show="searchData" :data="searchDataArray" :title="translate('JS_ARTICLES')" />
+          <records-list
+            v-show="searchData"
+            :data="searchDataArray"
+            :title="translate('JS_ARTICLES')"
+            @onClickRecord="previewDialog = true"
+          />
         </q-page>
       </q-page-container>
     </q-layout>
-    <record-preview :isDragResize="true" />
+    <record-preview :isDragResize="true" :previewDialog="previewDialog" @onDialogToggle="onDialogToggle" />
   </div>
 </template>
 <script>
@@ -212,6 +222,7 @@ export default {
       categorySearch: false,
       searchData: false,
       activeCategory: '',
+      previewDialog: false,
       data: {
         categories: [],
         records: [],
@@ -234,6 +245,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['fetchRecord', 'fetchCategories']),
     search() {
       if (this.filter.length >= 3) {
         this.debouncedSearch()
@@ -280,6 +292,11 @@ export default {
       const headerInstance = new window.Vtiger_Header_Js()
       headerInstance.quickCreateModule(this.moduleName)
     },
+    showRecordPreview(id) {
+      this.fetchRecord(id).then(() => {
+        this.previewDialog = true
+      })
+    },
     toggleDrawer() {
       if (this.$q.platform.is.desktop && (!this.coordinates.width || this.coordinates.width > 700)) {
         this.miniState = !this.miniState
@@ -287,7 +304,9 @@ export default {
         this.left = !this.left
       }
     },
-    ...mapActions(['fetchRecord', 'fetchCategories'])
+    onDialogToggle(val) {
+      this.previewDialog = val
+    }
   },
   async created() {
     await this.fetchCategories()

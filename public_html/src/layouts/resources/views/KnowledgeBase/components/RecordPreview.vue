@@ -21,7 +21,11 @@
       v-on:onChangeCoordinates="onChangeCoordinates"
       :maximized="previewMaximized"
     >
-      <record-preview-content :height="coordinates.height" />
+      <record-preview-content
+        :height="coordinates.height"
+        :previewMaximized="previewMaximized"
+        @onMaximizedToggle="onMaximizedToggle"
+      />
     </drag-resize>
     <record-preview-content v-else>
       <template slot="header-right">
@@ -46,6 +50,10 @@ export default {
     maximizedOnly: {
       type: Boolean,
       default: false
+    },
+    previewDialog: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -55,23 +63,21 @@ export default {
         height: Quasar.plugins.Screen.height - 100,
         top: 0,
         left: Quasar.plugins.Screen.width - (Quasar.plugins.Screen.width - 100 / 2)
-      }
+      },
+      previewMaximized: true
     }
   },
-  computed: {
-    ...mapGetters(['previewMaximized']),
-    previewDialog: {
-      set(val) {
-        this.$store.commit('KnowledgeBase/setPreviewDialog', val)
-      },
-      get() {
-        return this.$store.getters['KnowledgeBase/previewDialog']
-      }
+  watch: {
+    previewDialog() {
+      this.$emit('onDialogToggle', this.previewDialog)
     }
   },
   methods: {
     onChangeCoordinates: function(coordinates) {
       this.coordinates = coordinates
+    },
+    onMaximizedToggle(val) {
+      this.previewMaximized = val
     }
   }
 }

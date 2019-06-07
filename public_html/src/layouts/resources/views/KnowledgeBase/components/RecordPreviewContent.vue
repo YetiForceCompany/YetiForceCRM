@@ -167,18 +167,14 @@ export default {
     height: {
       type: Number,
       default: 0
+    },
+    previewMaximized: {
+      type: Boolean,
+      true: 0
     }
   },
   computed: {
     ...mapGetters(['tree', 'record', 'iconSize']),
-    previewMaximized: {
-      set(val) {
-        this.$store.commit('KnowledgeBase/setPreviewMaximized', val)
-      },
-      get() {
-        return this.$store.getters['KnowledgeBase/previewMaximized']
-      }
-    },
     hasRelatedRecords() {
       if (this.record) {
         return Object.keys(this.record.related).some(obj => {
@@ -208,6 +204,11 @@ export default {
     },
     hasRelatedComments() {
       return this.record ? this.record.related.ModComments.length !== 0 : false
+    }
+  },
+  watch: {
+    previewMaximized() {
+      this.$emit('onMaximizedToggle', this.previewMaximized)
     }
   },
   methods: {
