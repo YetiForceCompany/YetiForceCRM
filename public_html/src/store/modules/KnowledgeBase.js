@@ -66,9 +66,9 @@ const actions = {
 			record: id
 		}).done(data => {
 			let recordData = data.result
-			if (recordData.related.Articles) {
-				recordData.related.Articles = Object.keys(recordData.related.Articles).map(function(key) {
-					return { ...recordData.related.Articles[key], id: key }
+			if (recordData.related.base.Articles) {
+				recordData.related.base.Articles = Object.keys(recordData.related.base.Articles).map(function(key) {
+					return { ...recordData.related.base.Articles[key], id: key }
 				})
 			}
 			commit('setRecord', recordData)
