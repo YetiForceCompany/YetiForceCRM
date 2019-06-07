@@ -70,6 +70,7 @@
               outlined
               type="search"
               @input="search"
+              autofocus
             >
               <template v-slot:prepend>
                 <q-icon name="mdi-magnify" />

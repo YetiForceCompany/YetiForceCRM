@@ -25,7 +25,9 @@
       :class="[maximized ? 'fit position-sticky' : 'modal-mini', 'overflow-hidden']"
       ref="resize"
     >
-      <slot :height="coordinates.height"></slot>
+      <div class="full-height full-width" @mousedown="onFocusElement($event)" @touchstart="onFocusElement($event)">
+        <slot></slot>
+      </div>
     </vue-drag-resize>
   </div>
 </template>
@@ -66,6 +68,9 @@ export default {
       $(this.$refs.resize.$el)
         .find('.vdr-stick')
         .addClass('mdi mdi-resize-bottom-right q-btn q-btn--dense q-btn--round q-icon contrast-50')
+    },
+    onFocusElement(event) {
+      event.target.focus()
     }
   },
   mounted() {
