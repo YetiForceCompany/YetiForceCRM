@@ -51,7 +51,7 @@ class ReceiveFromPaymentsSystem extends \Api\Core\BaseAction
 		$queryGenerator->addCondition('payment_system', $paymentSystem, 'e');
 		$paymentsInId = $queryGenerator->createQuery()->limit(1)->scalar();
 		if ($paymentsInId) {
-			$recordModel = \Vtiger_Record_Model::getInstanceById($paymentsInId);
+			$recordModel = \Vtiger_Record_Model::getInstanceById($paymentsInId, 'PaymentsIn');
 		} else {
 			$recordModel = \Vtiger_Record_Model::getCleanInstance('PaymentsIn');
 			$recordModel->set('assigned_user_id', $userId);

@@ -7133,8 +7133,7 @@ CREATE TABLE `vtiger_payment_system` (
   `payment_systemid` int(11) NOT NULL AUTO_INCREMENT,
   `payment_system` varchar(255) DEFAULT NULL,
   `presence` tinyint(1) DEFAULT 1,
-  `picklist_valueid` int(10) DEFAULT 0,
-  `sortorderid` smallint(5) DEFAULT 0,
+  `sortorderid` smallint(6) DEFAULT 0,
   PRIMARY KEY (`payment_systemid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
@@ -7222,7 +7221,7 @@ CREATE TABLE `vtiger_picklist` (
   `name` varchar(200) NOT NULL,
   PRIMARY KEY (`picklistid`),
   UNIQUE KEY `picklist_name_idx` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=133 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=132 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_picklist_dependency` */
 
