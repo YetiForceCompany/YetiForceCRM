@@ -28,21 +28,17 @@
               <q-breadcrumbs-el
                 :icon="tree.topCategory.icon"
                 :label="translate(tree.topCategory.label)"
-                @click="tree.activeCategory === '' ? '' : fetchData()"
-                :class="[tree.activeCategory === '' ? 'text-black' : 'cursor-pointer']"
+                @click="activeCategory === '' ? '' : fetchData()"
+                :class="[activeCategory === '' ? 'text-black' : 'cursor-pointer']"
               />
-              <template v-if="tree.activeCategory !== ''">
+              <template v-if="activeCategory !== ''">
                 <q-breadcrumbs-el
-                  v-for="(category, index) in tree.categories[tree.activeCategory].parentTree"
+                  v-for="(category, index) in tree.categories[activeCategory].parentTree"
                   :key="index"
                   :class="[
-                    index === tree.categories[tree.activeCategory].parentTree.length - 1
-                      ? 'text-black'
-                      : 'cursor-pointer'
+                    index === tree.categories[activeCategory].parentTree.length - 1 ? 'text-black' : 'cursor-pointer'
                   ]"
-                  @click="
-                    index === tree.categories[tree.activeCategory].parentTree.length - 1 ? '' : fetchData(category)
-                  "
+                  @click="index === tree.categories[activeCategory].parentTree.length - 1 ? '' : fetchData(category)"
                 >
                   <icon
                     v-if="tree.categories[category].icon"
@@ -79,7 +75,7 @@
                     <div style="white-space: pre-line;" v-html="translate('JS_FULL_TEXT_SEARCH_INFO')"></div>
                   </icon-info>
                 </div>
-                <div v-show="tree.activeCategory !== ''" class="flex">
+                <div v-show="activeCategory !== ''" class="flex">
                   <q-toggle v-model="categorySearch" icon="mdi-file-tree" />
                   <q-tooltip>{{ translate('JS_SEARCH_CURRENT_CATEGORY') }}</q-tooltip>
                 </div>
@@ -106,23 +102,23 @@
       >
         <q-scroll-area class="fit">
           <q-list>
-            <q-item v-show="tree.activeCategory === ''" active>
+            <q-item v-show="activeCategory === ''" active>
               <q-item-section avatar>
                 <q-icon :name="tree.topCategory.icon" :size="iconSize" />
               </q-item-section>
               <q-item-section>{{ translate(tree.topCategory.label) }}</q-item-section>
             </q-item>
-            <q-item v-if="tree.activeCategory !== ''" clickable active @click="fetchParentCategoryData()">
+            <q-item v-if="activeCategory !== ''" clickable active @click="fetchParentCategoryData()">
               <q-item-section avatar>
-                <icon :size="iconSize" :icon="tree.categories[tree.activeCategory].icon || defaultTreeIcon" />
+                <icon :size="iconSize" :icon="tree.categories[activeCategory].icon || defaultTreeIcon" />
               </q-item-section>
-              <q-item-section>{{ tree.categories[tree.activeCategory].label }}</q-item-section>
+              <q-item-section>{{ tree.categories[activeCategory].label }}</q-item-section>
               <q-item-section avatar>
                 <q-icon name="mdi-chevron-left" />
               </q-item-section>
             </q-item>
             <q-item
-              v-for="(categoryValue, categoryKey) in tree.data.categories"
+              v-for="(categoryValue, categoryKey) in data.categories"
               :key="categoryKey"
               clickable
               v-ripple
@@ -143,18 +139,18 @@
         <q-page class="q-pa-sm">
           <div v-show="!searchData">
             <div
-              v-show="typeof tree.data.featured.length === 'undefined'"
+              v-if="typeof data.featured.length === 'undefined' && data.categories"
               class="q-pa-sm featured-container items-start q-gutter-md"
             >
-              <template v-for="(categoryValue, categoryKey) in tree.data.categories">
-                <q-list bordered padding dense v-if="tree.data.featured[categoryValue]" :key="categoryKey">
+              <template v-for="(categoryValue, categoryKey) in data.categories">
+                <q-list bordered padding dense v-if="data.featured[categoryValue]" :key="categoryKey">
                   <q-item header clickable class="text-black flex" @click="fetchData(categoryValue)">
                     <icon :icon="tree.categories[categoryValue].icon" :size="iconSize" class="mr-2"></icon>
                     {{ tree.categories[categoryValue].label }}
                   </q-item>
                   <q-item
                     clickable
-                    v-for="featuredValue in tree.data.featured[categoryValue]"
+                    v-for="featuredValue in data.featured[categoryValue]"
                     :key="featuredValue.id"
                     class="text-subtitle2"
                     v-ripple
@@ -172,11 +168,7 @@
                 </q-list>
               </template>
             </div>
-            <records-list
-              v-show="tree.activeCategory !== ''"
-              :data="tree.data.records"
-              :title="translate('JS_ARTICLES')"
-            />
+            <records-list v-show="activeCategory !== ''" :data="data.records" :title="translate('JS_ARTICLES')" />
           </div>
           <records-list v-show="searchData" :data="searchDataArray" :title="translate('JS_ARTICLES')" />
         </q-page>
@@ -218,7 +210,13 @@ export default {
       left: true,
       filter: '',
       categorySearch: false,
-      searchData: false
+      searchData: false,
+      activeCategory: '',
+      data: {
+        categories: [],
+        records: [],
+        featured: {}
+      }
     }
   },
   computed: {
@@ -249,11 +247,34 @@ export default {
     },
     fetchParentCategoryData() {
       let parentCategory = ''
-      const parentTreeArray = this.tree.categories[this.tree.activeCategory].parentTree
+      const parentTreeArray = this.tree.categories[this.activeCategory].parentTree
       if (parentTreeArray.length !== 1) {
         parentCategory = parentTreeArray[parentTreeArray.length - 2]
       }
       this.fetchData(parentCategory)
+    },
+    fetchData(category = '') {
+      const aDeferred = $.Deferred()
+      this.activeCategory = category
+      const progressIndicatorElement = $.progressIndicator({
+        blockInfo: { enabled: true }
+      })
+      return AppConnector.request({
+        module: this.moduleName,
+        action: 'KnowledgeBaseAjax',
+        mode: 'list',
+        category: category
+      }).done(data => {
+        let listData = data.result
+        if (listData.records) {
+          listData.records = Object.keys(listData.records).map(function(key) {
+            return { ...listData.records[key], id: key }
+          })
+        }
+        this.data = listData
+        progressIndicatorElement.progressIndicator({ mode: 'hide' })
+        aDeferred.resolve(listData)
+      })
     },
     openQuickCreateModal() {
       const headerInstance = new window.Vtiger_Header_Js()
@@ -266,7 +287,11 @@ export default {
         this.left = !this.left
       }
     },
-    ...mapActions(['fetchData', 'fetchRecord'])
+    ...mapActions(['fetchRecord', 'fetchCategories'])
+  },
+  async created() {
+    await this.fetchCategories()
+    await this.fetchData()
   },
   mounted() {
     const debounceDelay = 1000
@@ -283,7 +308,7 @@ export default {
         action: 'KnowledgeBaseAjax',
         mode: 'search',
         value: this.filter,
-        category: this.categorySearch ? this.tree.activeCategory : ''
+        category: this.categorySearch ? this.activeCategory : ''
       }).done(data => {
         let listData = data.result
         if (listData) {

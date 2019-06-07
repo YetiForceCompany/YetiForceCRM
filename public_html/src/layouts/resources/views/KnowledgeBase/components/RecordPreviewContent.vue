@@ -211,7 +211,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchCategories', 'fetchData', 'fetchRecord', 'initState']),
+    ...mapActions(['fetchCategories', 'fetchRecord', 'initState']),
     onResize(size) {
       if (this.$refs.content !== undefined) {
         $(this.$refs.content)

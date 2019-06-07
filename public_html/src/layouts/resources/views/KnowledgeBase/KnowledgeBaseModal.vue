@@ -87,15 +87,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchCategories', 'fetchData', 'initState']),
+    ...mapActions(['fetchCategories', 'initState']),
     onChangeCoordinates: function(coordinates) {
       this.coordinates = coordinates
     }
   },
   async created() {
     await this.initState(this.$options.state)
-    await this.fetchCategories()
-    await this.fetchData()
   }
 }
 </script>

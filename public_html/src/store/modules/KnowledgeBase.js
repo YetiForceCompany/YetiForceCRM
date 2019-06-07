@@ -8,18 +8,13 @@
 
 const state = {
 	record: false,
-	dialog: true,
+	dialog: false,
 	maximized: true,
 	previewDialog: false,
 	previewMaximized: true,
 	moduleName: '',
 	iconSize: '18px',
 	tree: {
-		activeCategory: '',
-		data: {
-			records: [],
-			featured: {}
-		},
 		topCategory: {
 			icon: 'mdi-file-tree',
 			label: 'JS_MAIN_CATEGORIES'
@@ -97,29 +92,6 @@ const actions = {
 			aDeferred.resolve(data.result)
 		})
 	},
-	fetchData({ state, commit, getters }, category = '') {
-		const aDeferred = $.Deferred()
-		commit('setActiveCategory', category)
-		const progressIndicatorElement = $.progressIndicator({
-			blockInfo: { enabled: true }
-		})
-		return AppConnector.request({
-			module: getters.moduleName,
-			action: 'KnowledgeBaseAjax',
-			mode: 'list',
-			category: category
-		}).done(data => {
-			let listData = data.result
-			if (listData.records) {
-				listData.records = Object.keys(listData.records).map(function(key) {
-					return { ...listData.records[key], id: key }
-				})
-			}
-			commit('setTreeData', listData)
-			progressIndicatorElement.progressIndicator({ mode: 'hide' })
-			aDeferred.resolve(listData)
-		})
-	},
 	initState({ state, commit }, data) {
 		commit('setState', data)
 	}
@@ -148,14 +120,8 @@ const mutations = {
 	setCoordinates(state, payload) {
 		state.coordinates = payload
 	},
-	setTreeData(state, payload) {
-		state.tree.data = payload
-	},
 	setTreeCategories(state, payload) {
 		state.tree.categories = payload
-	},
-	setActiveCategory(state, payload) {
-		state.tree.activeCategory = payload
 	}
 }
 

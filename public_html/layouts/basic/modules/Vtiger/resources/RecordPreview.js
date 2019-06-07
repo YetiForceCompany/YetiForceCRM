@@ -13,8 +13,7 @@ jQuery.Class(
 				el: '#RecordPreview',
 				state: {
 					moduleName: app.getModuleName(),
-					recordId: $('#recordId').val(),
-					dialog: false
+					recordId: $('#recordId').val()
 				}
 			});
 		},

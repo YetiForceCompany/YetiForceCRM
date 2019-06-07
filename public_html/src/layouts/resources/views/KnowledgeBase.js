@@ -27,12 +27,10 @@ window.KnowledgeBase = {
 			store,
 			render: h => h(KnowledgeBaseComponent),
 			methods: {
-				...mapActions(['fetchCategories', 'fetchData', 'initState'])
+				...mapActions(['fetchCategories', 'initState'])
 			},
 			async created() {
 				await this.initState(config.state)
-				await this.fetchCategories()
-				await this.fetchData()
 			}
 		}).$mount(config.el)
 	}
