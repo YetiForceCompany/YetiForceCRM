@@ -18,17 +18,6 @@ class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 	 * @var string[]
 	 */
 	protected $queryCondition = ['knowledgebase_status' => 'PLL_ACCEPTED'];
-	/**
-	 * Retated fields.
-	 *
-	 * @var array
-	 */
-	protected $retatedFields = [
-		'ModComments' => [],
-		'HelpDesk' => ['ticket_title'],
-		'Project' => ['projectname'],
-		'Documents' => ['notes_title'],
-	];
 
 	/**
 	 * Constructor.
@@ -152,20 +141,13 @@ class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 		} else {
 			$content = $recordModel->get('content');
 		}
-		$pagingModel = new Vtiger_Paging_Model();
-		$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $request->getModule());
-		$relationListView->setFields(['id', 'subject', 'introduction', 'assigned_user_id', 'category', 'modifiedtime']);
-		$relationListView->getQueryGenerator()->addNativeCondition($this->queryCondition);
-		$related = [];
-		foreach ($relationListView->getEntries($pagingModel) as $key => $relatedRecordModel) {
-			$related[$key] = [
-				'assigned_user_id' => $relatedRecordModel->getDisplayValue('assigned_user_id'),
-				'subject' => $relatedRecordModel->get('subject'),
-				'introduction' => $relatedRecordModel->getDisplayValue('introduction'),
-				'category' => $relatedRecordModel->get('category'),
-				'full_time' => App\Fields\DateTime::formatToDisplay($relatedRecordModel->get('modifiedtime')),
-				'short_time' => \Vtiger_Util_Helper::formatDateDiffInStrings($relatedRecordModel->get('modifiedtime')),
-			];
+		$relatedModules = $relatedRecords = [];
+		foreach ($recordModel->getModule()->getRelations() as $key => $value) {
+			$relatedModuleName = $value->get('relatedModuleName');
+			$relatedModules[] = App\Language::translate($relatedModuleName, $relatedModuleName);
+			if ('ModComments' !== $relatedModuleName) {
+				$relatedRecords[$relatedModuleName] = $this->getRelatedRecords($recordModel, $relatedModuleName);
+			}
 		}
 		$response = new Vtiger_Response();
 		$response->setResult([
@@ -180,18 +162,13 @@ class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 			'full_modifiedtime' => $recordModel->getDisplayValue('modifiedtime'),
 			'short_modifiedtime' => \Vtiger_Util_Helper::formatDateDiffInStrings($recordModel->get('modifiedtime')),
 			'related' => [
-				'Articles' => $related,
-				'HelpDesk' => $this->getRelatedRecords($recordModel, 'HelpDesk'),
-				'Project' => $this->getRelatedRecords($recordModel, 'Project'),
-				'Documents' => $this->getRelatedRecords($recordModel, 'Documents'),
-				'ModComments' => $this->getRelatedComments($recordModel->getId()),
+				'base' => [
+					'Articles' => $this->getRelated($recordModel),
+					'ModComments' => $this->getRelatedComments($recordModel->getId()),
+				],
+				'dynamic' => $relatedRecords
 			],
-			'translations' => [
-				'HelpDesk' => App\Language::translate('HelpDesk','HelpDesk'),
-				'Project' => App\Language::translate('Project','Project'),
-				'Documents' =>App\Language::translate('Documents','Documents'),
-				'ModComments' => App\Language::translate('ModComments','ModComments'),
-			],
+			'translations' => $relatedModules
 		]);
 		$response->emit();
 	}
@@ -200,25 +177,27 @@ class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 	 * Get related records.
 	 *
 	 * @param Vtiger_Record_Model $recordModel
-	 * @param string              $moduleName
 	 *
 	 * @return array
 	 */
-	public function getRelatedRecords(Vtiger_Record_Model $recordModel, string $moduleName): array
+	public function getRelated(Vtiger_Record_Model $recordModel): array
 	{
-		if (!\App\Privilege::isPermitted($moduleName)) {
-			return [];
-		}
 		$pagingModel = new Vtiger_Paging_Model();
-		$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $moduleName);
-		$relationListView->setFields(array_merge(['id'], $this->retatedFields[$moduleName]));
+		$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $recordModel->getModuleName());
+		$relationListView->setFields(['id', 'subject', 'introduction', 'assigned_user_id', 'category', 'modifiedtime']);
+		$relationListView->getQueryGenerator()->addNativeCondition($this->queryCondition);
 		$related = [];
 		foreach ($relationListView->getEntries($pagingModel) as $key => $relatedRecordModel) {
-			foreach ($this->retatedFields[$moduleName] as $fieldName) {
-				$related[$key] = $relatedRecordModel->get($fieldName);
-			}
+			$related[$key] = [
+				'assigned_user_id' => $relatedRecordModel->getDisplayValue('assigned_user_id'),
+				'subject' => $relatedRecordModel->get('subject'),
+				'introduction' => $relatedRecordModel->getDisplayValue('introduction'),
+				'category' => $relatedRecordModel->get('category'),
+				'full_time' => App\Fields\DateTime::formatToDisplay($relatedRecordModel->get('modifiedtime')),
+				'short_time' => \Vtiger_Util_Helper::formatDateDiffInStrings($relatedRecordModel->get('modifiedtime')),
+			];
 		}
-		return  $related;
+		return $related;
 	}
 
 	/**
@@ -241,7 +220,6 @@ class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 		$query->limit(50);
 		$dataReader = $query->createCommand()->query();
 		$related = [];
-
 		while ($row = $dataReader->read()) {
 			$related[$row['id']] = [
 				'userid' => $row['assigned_user_id'],
@@ -252,6 +230,34 @@ class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 				'modifiedFull' => App\Fields\DateTime::formatToDisplay($row['modifiedtime']),
 				'modifiedShort' => \Vtiger_Util_Helper::formatDateDiffInStrings($row['modifiedtime']),
 			];
+		}
+		return $related;
+	}
+
+	/**
+	 * Get related records.
+	 *
+	 * @param Vtiger_Record_Model $recordModel
+	 * @param string              $moduleName
+	 *
+	 * @return array
+	 */
+	public function getRelatedRecords(Vtiger_Record_Model $recordModel, string $moduleName): array
+	{
+		if (!\App\Privilege::isPermitted($moduleName)) {
+			return [];
+		}
+		$pagingModel = new Vtiger_Paging_Model();
+		$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $moduleName);
+		$fields = $relationListView->getRelatedModuleModel()->getNameFields();
+		$relationListView->setFields(array_merge(['id'], $fields));
+		$related = [];
+		foreach ($relationListView->getEntries($pagingModel) as $key => $relatedRecordModel) {
+			$name = [];
+			foreach ($fields as $fieldName) {
+				$name[] = $relatedRecordModel->getDisplayName($fieldName);
+			}
+			$related[$key] = implode(' | ', $name);
 		}
 		return $related;
 	}
