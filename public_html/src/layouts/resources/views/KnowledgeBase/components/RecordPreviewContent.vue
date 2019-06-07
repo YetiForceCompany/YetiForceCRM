@@ -83,18 +83,18 @@
       </div>
       <div v-if="hasRelatedArticles">
         <q-separator />
-        <records-list v-if="record.related" :data="record.related.Articles" :title="translate('JS_RELATED_ARTICLES')" />
+        <records-list
+          v-if="record.related"
+          :data="record.related.base.Articles"
+          :title="translate('JS_RELATED_ARTICLES')"
+        />
       </div>
       <div v-if="hasRelatedRecords">
         <q-separator />
         <div class="q-pa-md q-table__title">{{ translate('JS_RELATED_RECORDS') }}</div>
         <div class="q-pa-sm row items-start q-col-gutter-md">
-          <template v-for="(moduleRecords, parentModule) in record.related">
-            <div
-              v-if="parentModule !== 'Articles' && parentModule !== 'ModComments' && moduleRecords.length === undefined"
-              :class="[relatedColClass]"
-              :key="parentModule"
-            >
+          <template v-for="(moduleRecords, parentModule) in record.related.dynamic">
+            <div v-if="moduleRecords.length === undefined" :class="[relatedColClass]" :key="parentModule">
               <q-list bordered padding dense>
                 <q-item header clickable class="text-black flex">
                   <icon :icon="'userIcon-' + parentModule" :size="iconSize" class="mr-2"></icon>
@@ -125,7 +125,7 @@
         <q-separator />
         <div class="q-pa-md q-table__title">{{ translate('JS_COMMENTS') }}</div>
         <q-list padding>
-          <q-item v-for="(relatedRecord, relatedRecordId) in record.related.ModComments" :key="relatedRecordId">
+          <q-item v-for="(relatedRecord, relatedRecordId) in record.related.base.ModComments" :key="relatedRecordId">
             <q-item-section avatar top>
               <q-avatar size="iconSize">
                 <img v-if="relatedRecord.avatar.url !== undefined" :src="relatedRecord.avatar.url" />
@@ -177,8 +177,8 @@ export default {
     ...mapGetters(['tree', 'record', 'iconSize']),
     hasRelatedRecords() {
       if (this.record) {
-        return Object.keys(this.record.related).some(obj => {
-          return obj !== 'Articles' && obj !== 'ModComments' && this.record.related[obj].length === undefined
+        return Object.keys(this.record.related.dynamic).some(obj => {
+          return this.record.related.dynamic[obj].length === undefined
         })
       }
     },
@@ -186,8 +186,8 @@ export default {
       if (this.record) {
         let relatedModules = 0
         let relatedColClass = 'col'
-        Object.keys(this.record.related).forEach(key => {
-          if (key !== 'Articles' && key !== 'ModComments' && this.record.related[key].length === undefined) {
+        Object.keys(this.record.related.dynamic).forEach(key => {
+          if (this.record.related.dynamic[key].length === undefined) {
             relatedModules++
           }
         })
@@ -200,10 +200,10 @@ export default {
       }
     },
     hasRelatedArticles() {
-      return this.record ? this.record.related.Articles.length !== 0 : false
+      return this.record ? this.record.related.base.Articles.length !== 0 : false
     },
     hasRelatedComments() {
-      return this.record ? this.record.related.ModComments.length !== 0 : false
+      return this.record ? this.record.related.base.ModComments.length !== 0 : false
     }
   },
   watch: {
