@@ -115,7 +115,7 @@ $.Class(
 		/**
 		 * Remove business hours
 		 *
-		 * @param {int} businessHoursId
+		 * @param {Number} businessHoursId
 		 */
 		removeBusinessHours(businessHoursId = 0) {
 			if (this.businessHours.indexOf(businessHoursId) !== -1) {
@@ -127,7 +127,7 @@ $.Class(
 		/**
 		 * Add business hours
 		 *
-		 * @param {int} businessHoursId
+		 * @param {Number} businessHoursId
 		 */
 		addBusinessHours(businessHoursId) {
 			if (this.businessHours.indexOf(businessHoursId) === -1) {
@@ -227,7 +227,6 @@ $.Class(
 			if (hoursFromInput) {
 				this.businessHours = hoursFromInput.split(',').map(id => Number(id));
 			}
-			console.log(this.businessHours);
 			this.record = this.container.find('input[name="record"]').val();
 			this.registerSourceModuleChange();
 			this.loadConditionBuilderView(this.sourceModuleName);
