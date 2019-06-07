@@ -208,11 +208,10 @@ class RecordNumber extends \App\Base
 					$dbCommand = \App\Db::getInstance()->createCommand();
 					while ($recordinfo = $dataReader->read()) {
 						$this->setRecord($moduleModel->getRecordFromArray($recordinfo));
-						$picklistValue = $this->getPicklistValue($picklistName, $recordinfo[$picklistName]);
 						$seq = 0;
-						if ($picklistValue && isset($sequences[$picklistValue])) {
+						if ($picklistName && ($picklistValue = $this->getPicklistValue($picklistName, $recordinfo[$picklistName])) && isset($sequences[$picklistValue])) {
 							$seq = $sequences[$picklistValue]++;
-						} elseif ($picklistValue) {
+						} elseif ($picklistName && $picklistValue) {
 							$sequences[$picklistValue] = 1;
 							$seq = $sequences[$picklistValue]++;
 						} else {
