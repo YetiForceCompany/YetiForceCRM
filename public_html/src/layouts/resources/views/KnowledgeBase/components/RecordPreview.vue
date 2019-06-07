@@ -16,7 +16,7 @@
     content-class="quasar-reset"
   >
     <drag-resize
-      v-if="isDragResize && !$q.platform.is.mobile"
+      v-if="isDragResize"
       :coordinates="coordinates"
       v-on:onChangeCoordinates="onChangeCoordinates"
       :maximized="previewMaximized"

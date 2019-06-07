@@ -10,6 +10,7 @@
 <template>
   <div>
     <vue-drag-resize
+      v-if="$q.platform.is.desktop"
       :isActive="active"
       @activated="onActivated"
       :isResizable="true"
@@ -25,10 +26,13 @@
       :class="[maximized ? 'fit position-sticky' : 'modal-mini', 'overflow-hidden']"
       ref="resize"
     >
-      <div class="full-height full-width" @mousedown="onFocusElement($event)" @touchstart="onFocusElement($event)">
+      <div class="fit" @mousedown="onFocusElement($event)" @touchstart="onFocusElement($event)">
         <slot></slot>
       </div>
     </vue-drag-resize>
+    <div class="fit" v-else>
+      <slot></slot>
+    </div>
   </div>
 </template>
 
