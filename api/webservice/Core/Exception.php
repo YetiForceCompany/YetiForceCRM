@@ -11,7 +11,10 @@ namespace Api\Core;
  */
 class Exception extends \Exception
 {
-	public function __construct($message, $code = 200, self $previous = null)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function __construct($message, $code = 200, \Throwable $previous = null)
 	{
 		if (!empty($previous)) {
 			parent::__construct($message, $code, $previous);
@@ -22,7 +25,7 @@ class Exception extends \Exception
 		if (empty($this->code)) {
 			$this->code = $code;
 		}
-		if (!\App\Config::debug('WEBSERVICE_SHOW_ERROR') && $code === 200) {
+		if (!\App\Config::debug('WEBSERVICE_SHOW_ERROR') && 200 === $code) {
 			$message = 'Internal Server Error';
 			$code = 500;
 		}
