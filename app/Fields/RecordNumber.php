@@ -209,7 +209,7 @@ class RecordNumber extends \App\Base
 					while ($recordinfo = $dataReader->read()) {
 						$this->setRecord($moduleModel->getRecordFromArray($recordinfo));
 						$seq = 0;
-						if ($picklistName && $picklistValue = $this->getPicklistValue($picklistName, $recordinfo[$picklistName]) && isset($sequences[$picklistValue])) {
+						if ($picklistName && ($picklistValue = $this->getPicklistValue($picklistName, $recordinfo[$picklistName])) && isset($sequences[$picklistValue])) {
 							$seq = $sequences[$picklistValue]++;
 						} elseif ($picklistName && $picklistValue) {
 							$sequences[$picklistValue] = 1;
