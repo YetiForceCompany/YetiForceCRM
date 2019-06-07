@@ -10,17 +10,24 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-Base-Edit-Field-Currency">
+	<!-- tpl-Base-Edit-Field-Currency -->
+	{function FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL='' CLASS=''}
+		<span class="input-group-append {$CLASS}">
+			<span class="input-group-text js-currency" data-js="text">
+				{$CURRENCY_SYMBOL}
+			</span>
+		</span>
+	{/function}
+	<div>
 		{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 		{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 		{assign var="FIELD_NAME" value=$FIELD_MODEL->getName()}
 		{assign var="SYMBOL_PLACEMENT" value=$USER_MODEL->currency_symbol_placement}
-		{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
+		{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD)}
 		{if $FIELD_MODEL->getUIType() eq '71'}
 			<div class="input-group" data-uitype="71">
 				{if $SYMBOL_PLACEMENT neq '1.0$'}
-					<span class="input-group-append"><span class="input-group-text js-currency"
-														   data-js="text"> {$USER_MODEL->get('currency_symbol')}</span></span>
+					{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$USER_MODEL->get('currency_symbol')}
 				{/if}
 				<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text"
 					   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
@@ -32,21 +39,13 @@
 					   data-group-separator='{$USER_MODEL->get('currency_grouping_separator')}'
 					   data-number-of-decimal-places='{$USER_MODEL->get('no_of_currency_decimals')}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{else} data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {/if}/>
 				{if $SYMBOL_PLACEMENT eq '1.0$'}
-					<span class="input-group-append">
-						<span class="input-group-text js-currency" data-js="text">
-							{$USER_MODEL->get('currency_symbol')}
-						</span>
-					</span>
+					{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$USER_MODEL->get('currency_symbol')}
 				{/if}
 			</div>
 		{elseif ($FIELD_MODEL->getUIType() eq '72') && ($FIELD_MODEL->getName() eq 'unit_price')}
 			<div class="input-group" data-uitype="72|unit_price">
 				{if $SYMBOL_PLACEMENT neq '1.0$'}
-					<span class="input-group-append row">
-						<span class="input-group-text js-currency" data-js="text">
-							{$BASE_CURRENCY_SYMBOL}
-						</span>
-					</span>
+					{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$BASE_CURRENCY_SYMBOL CLASS='row'}
 				{/if}
 				{assign var="DISPLAY_FIELD_VALUE" value=$FIELD_VALUE}
 				<input name="{$FIELD_MODEL->getFieldName()}" id="{$MODULE}-editview-fieldname-{$FIELD_NAME}" type="text"
@@ -60,11 +59,7 @@
 					   data-number-of-decimal-places='{$USER_MODEL->get('no_of_currency_decimals')}'
 						{if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{else} data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {/if}/>
 				{if $SYMBOL_PLACEMENT eq '1.0$'}
-					<span class="input-group-append row">
-						<span class="input-group-text js-currency" data-js="text">
-							{$BASE_CURRENCY_SYMBOL}
-						</span>
-					</span>
+					{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$BASE_CURRENCY_SYMBOL CLASS='row'}
 				{/if}
 				{if $VIEW eq 'Edit'}
 					<div class="input-group-append row">
@@ -80,6 +75,23 @@
 			</div>
 			<input type="hidden" name="base_currency" value="{$BASE_CURRENCY_NAME}">
 			<input type="hidden" name="cur_{$BASE_CURRENCY_ID}_check" class="js-base-currency-check-id" data-js="attr:name" value="1">
+		{elseif ($FIELD_MODEL->getUIType() eq '72')}
+			<div class="input-group">
+				{assign var="DISPLAY_FIELD_VALUE" value=$FIELD_VALUE}
+				{if $SYMBOL_PLACEMENT neq '1.0$'}
+					{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$FIELD_MODEL->getUITypeModel()->getSymbolByRecordId($RECORD->getId())}
+				{/if}
+				<input name="{$FIELD_MODEL->getFieldName()}" value="{$DISPLAY_FIELD_VALUE}" type="text"
+							   class="row-fluid currencyField form-control" data-fieldinfo='{$FIELD_INFO}'
+							   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+							   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
+							   {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} data-decimal-separator='{$USER_MODEL->get('currency_decimal_separator')}'
+							   data-group-separator='{$USER_MODEL->get('currency_grouping_separator')}'
+							   {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} />
+				{if $SYMBOL_PLACEMENT eq '1.0$'}
+					{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$FIELD_MODEL->getUITypeModel()->getSymbolByRecordId($RECORD->getId())}
+				{/if}
+			</div>
 		{else}
 			<div class="input-group">
 				<div class="row">
@@ -101,4 +113,5 @@
 			</div>
 		{/if}
 	</div>
+	<!-- /tpl-Base-Edit-Field-Currency -->
 {/strip}
