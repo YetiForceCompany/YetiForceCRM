@@ -10348,7 +10348,7 @@ body.desktop .q-focusable:focus > .q-focus-helper,
 body.desktop .q-manual-focusable--focused > .q-focus-helper {
   opacity: 0.22;
 }
-#quasar-reset body {
+body .quasar-reset body {
   min-width: 100px;
   min-height: 100vh;
   font-family: 'Roboto', '-apple-system', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -10360,1827 +10360,1827 @@ body.desktop .q-manual-focusable--focused > .q-focus-helper {
   line-height: 1.5;
   font-size: 14px;
 }
-#quasar-reset h1 {
+body .quasar-reset h1 {
   font-size: 6rem;
   font-weight: 300;
   line-height: 6rem;
   letter-spacing: -0.01562em;
 }
-#quasar-reset h2 {
+body .quasar-reset h2 {
   font-size: 3.75rem;
   font-weight: 300;
   line-height: 3.75rem;
   letter-spacing: -0.00833em;
 }
-#quasar-reset h3 {
+body .quasar-reset h3 {
   font-size: 3rem;
   font-weight: 400;
   line-height: 3.125rem;
   letter-spacing: normal;
 }
-#quasar-reset h4 {
+body .quasar-reset h4 {
   font-size: 2.125rem;
   font-weight: 400;
   line-height: 2.5rem;
   letter-spacing: 0.00735em;
 }
-#quasar-reset h5 {
+body .quasar-reset h5 {
   font-size: 1.5rem;
   font-weight: 400;
   line-height: 2rem;
   letter-spacing: normal;
 }
-#quasar-reset h6 {
+body .quasar-reset h6 {
   font-size: 1.25rem;
   font-weight: 500;
   line-height: 2rem;
   letter-spacing: 0.0125em;
 }
-#quasar-reset p {
+body .quasar-reset p {
   margin: 0 0 16px;
 }
-#quasar-reset .text-h1 {
+body .quasar-reset .text-h1 {
   font-size: 6rem;
   font-weight: 300;
   line-height: 6rem;
   letter-spacing: -0.01562em;
 }
-#quasar-reset .text-h2 {
+body .quasar-reset .text-h2 {
   font-size: 3.75rem;
   font-weight: 300;
   line-height: 3.75rem;
   letter-spacing: -0.00833em;
 }
-#quasar-reset .text-h3 {
+body .quasar-reset .text-h3 {
   font-size: 3rem;
   font-weight: 400;
   line-height: 3.125rem;
   letter-spacing: normal;
 }
-#quasar-reset .text-h4 {
+body .quasar-reset .text-h4 {
   font-size: 2.125rem;
   font-weight: 400;
   line-height: 2.5rem;
   letter-spacing: 0.00735em;
 }
-#quasar-reset .text-h5 {
+body .quasar-reset .text-h5 {
   font-size: 1.5rem;
   font-weight: 400;
   line-height: 2rem;
   letter-spacing: normal;
 }
-#quasar-reset .text-h6 {
+body .quasar-reset .text-h6 {
   font-size: 1.25rem;
   font-weight: 500;
   line-height: 2rem;
   letter-spacing: 0.0125em;
 }
-#quasar-reset .text-subtitle1 {
+body .quasar-reset .text-subtitle1 {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.75rem;
   letter-spacing: 0.00937em;
 }
-#quasar-reset .text-subtitle2 {
+body .quasar-reset .text-subtitle2 {
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.375rem;
   letter-spacing: 0.00714em;
 }
-#quasar-reset .text-body1 {
+body .quasar-reset .text-body1 {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5rem;
   letter-spacing: 0.03125em;
 }
-#quasar-reset .text-body2 {
+body .quasar-reset .text-body2 {
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.25rem;
   letter-spacing: 0.01786em;
 }
-#quasar-reset .text-overline {
+body .quasar-reset .text-overline {
   font-size: 0.75rem;
   font-weight: 500;
   line-height: 2rem;
   letter-spacing: 0.16667em;
 }
-#quasar-reset .text-caption {
+body .quasar-reset .text-caption {
   font-size: 0.75rem;
   font-weight: 400;
   line-height: 1.25rem;
   letter-spacing: 0.03333em;
 }
-#quasar-reset .text-uppercase {
+body .quasar-reset .text-uppercase {
   text-transform: uppercase;
 }
-#quasar-reset .text-lowercase {
+body .quasar-reset .text-lowercase {
   text-transform: lowercase;
 }
-#quasar-reset .text-capitalize {
+body .quasar-reset .text-capitalize {
   text-transform: capitalize;
 }
-#quasar-reset .text-center {
+body .quasar-reset .text-center {
   text-align: center;
 }
-#quasar-reset .text-left {
+body .quasar-reset .text-left {
   text-align: left;
 }
-#quasar-reset .text-right {
+body .quasar-reset .text-right {
   text-align: right;
 }
-#quasar-reset .text-justify {
+body .quasar-reset .text-justify {
   text-align: justify;
   hyphens: auto;
 }
-#quasar-reset .text-italic {
+body .quasar-reset .text-italic {
   font-style: italic;
 }
-#quasar-reset .text-bold {
+body .quasar-reset .text-bold {
   font-weight: bold;
 }
-#quasar-reset .text-no-wrap {
+body .quasar-reset .text-no-wrap {
   white-space: nowrap;
 }
-#quasar-reset .text-weight-thin {
+body .quasar-reset .text-weight-thin {
   font-weight: 100;
 }
-#quasar-reset .text-weight-light {
+body .quasar-reset .text-weight-light {
   font-weight: 300;
 }
-#quasar-reset .text-weight-regular {
+body .quasar-reset .text-weight-regular {
   font-weight: 400;
 }
-#quasar-reset .text-weight-medium {
+body .quasar-reset .text-weight-medium {
   font-weight: 500;
 }
-#quasar-reset .text-weight-bold {
+body .quasar-reset .text-weight-bold {
   font-weight: 700;
 }
-#quasar-reset .text-weight-bolder {
+body .quasar-reset .text-weight-bolder {
   font-weight: 900;
 }
-#quasar-reset small {
+body .quasar-reset small {
   font-size: 80%;
 }
-#quasar-reset big {
+body .quasar-reset big {
   font-size: 170%;
 }
-#quasar-reset sub {
+body .quasar-reset sub {
   bottom: -0.25em;
 }
-#quasar-reset sup {
+body .quasar-reset sup {
   top: -0.5em;
 }
-#quasar-reset .row,
-#quasar-reset .column,
-#quasar-reset .flex {
+body .quasar-reset .row,
+body .quasar-reset .column,
+body .quasar-reset .flex {
   display: flex;
   flex-wrap: wrap;
 }
-#quasar-reset .row.inline,
-#quasar-reset .column.inline,
-#quasar-reset .flex.inline {
+body .quasar-reset .row.inline,
+body .quasar-reset .column.inline,
+body .quasar-reset .flex.inline {
   display: inline-flex;
 }
-#quasar-reset .row.reverse {
+body .quasar-reset .row.reverse {
   flex-direction: row-reverse;
 }
-#quasar-reset .column {
+body .quasar-reset .column {
   flex-direction: column;
 }
-#quasar-reset .column.reverse {
+body .quasar-reset .column.reverse {
   flex-direction: column-reverse;
 }
-#quasar-reset .wrap {
+body .quasar-reset .wrap {
   flex-wrap: wrap;
 }
-#quasar-reset .no-wrap {
+body .quasar-reset .no-wrap {
   flex-wrap: nowrap;
 }
-#quasar-reset .reverse-wrap {
+body .quasar-reset .reverse-wrap {
   flex-wrap: wrap-reverse;
 }
-#quasar-reset .order-first {
+body .quasar-reset .order-first {
   order: -10000;
 }
-#quasar-reset .order-last {
+body .quasar-reset .order-last {
   order: 10000;
 }
-#quasar-reset .order-none {
+body .quasar-reset .order-none {
   order: 0;
 }
-#quasar-reset .justify-start {
+body .quasar-reset .justify-start {
   justify-content: flex-start;
 }
-#quasar-reset .justify-end {
+body .quasar-reset .justify-end {
   justify-content: flex-end;
 }
-#quasar-reset .justify-center,
-#quasar-reset .flex-center {
+body .quasar-reset .justify-center,
+body .quasar-reset .flex-center {
   justify-content: center;
 }
-#quasar-reset .justify-between {
+body .quasar-reset .justify-between {
   justify-content: space-between;
 }
-#quasar-reset .justify-around {
+body .quasar-reset .justify-around {
   justify-content: space-around;
 }
-#quasar-reset .items-start {
+body .quasar-reset .items-start {
   align-items: flex-start;
 }
-#quasar-reset .items-end {
+body .quasar-reset .items-end {
   align-items: flex-end;
 }
-#quasar-reset .items-center,
-#quasar-reset .flex-center {
+body .quasar-reset .items-center,
+body .quasar-reset .flex-center {
   align-items: center;
 }
-#quasar-reset .items-baseline {
+body .quasar-reset .items-baseline {
   align-items: baseline;
 }
-#quasar-reset .items-stretch {
+body .quasar-reset .items-stretch {
   align-items: stretch;
 }
-#quasar-reset .content-start {
+body .quasar-reset .content-start {
   align-content: flex-start;
 }
-#quasar-reset .content-end {
+body .quasar-reset .content-end {
   align-content: flex-end;
 }
-#quasar-reset .content-center {
+body .quasar-reset .content-center {
   align-content: center;
 }
-#quasar-reset .content-stretch {
+body .quasar-reset .content-stretch {
   align-content: stretch;
 }
-#quasar-reset .content-between {
+body .quasar-reset .content-between {
   align-content: space-between;
 }
-#quasar-reset .content-around {
+body .quasar-reset .content-around {
   align-content: space-around;
 }
-#quasar-reset .self-start {
+body .quasar-reset .self-start {
   align-self: flex-start;
 }
-#quasar-reset .self-end {
+body .quasar-reset .self-end {
   align-self: flex-end;
 }
-#quasar-reset .self-center {
+body .quasar-reset .self-center {
   align-self: center;
 }
-#quasar-reset .self-baseline {
+body .quasar-reset .self-baseline {
   align-self: baseline;
 }
-#quasar-reset .self-stretch {
+body .quasar-reset .self-stretch {
   align-self: stretch;
 }
-#quasar-reset .q-gutter-x-none,
-#quasar-reset .q-gutter-none {
+body .quasar-reset .q-gutter-x-none,
+body .quasar-reset .q-gutter-none {
   margin-left: 0;
 }
-#quasar-reset .q-gutter-x-none > *,
-#quasar-reset .q-gutter-none > * {
+body .quasar-reset .q-gutter-x-none > *,
+body .quasar-reset .q-gutter-none > * {
   margin-left: 0;
 }
-#quasar-reset .q-gutter-y-none,
-#quasar-reset .q-gutter-none {
+body .quasar-reset .q-gutter-y-none,
+body .quasar-reset .q-gutter-none {
   margin-top: 0;
 }
-#quasar-reset .q-gutter-y-none > *,
-#quasar-reset .q-gutter-none > * {
+body .quasar-reset .q-gutter-y-none > *,
+body .quasar-reset .q-gutter-none > * {
   margin-top: 0;
 }
-#quasar-reset .q-col-gutter-x-none,
-#quasar-reset .q-col-gutter-none {
+body .quasar-reset .q-col-gutter-x-none,
+body .quasar-reset .q-col-gutter-none {
   margin-left: 0;
 }
-#quasar-reset .q-col-gutter-x-none > *,
-#quasar-reset .q-col-gutter-none > * {
+body .quasar-reset .q-col-gutter-x-none > *,
+body .quasar-reset .q-col-gutter-none > * {
   padding-left: 0;
 }
-#quasar-reset .q-col-gutter-y-none,
-#quasar-reset .q-col-gutter-none {
+body .quasar-reset .q-col-gutter-y-none,
+body .quasar-reset .q-col-gutter-none {
   margin-top: 0;
 }
-#quasar-reset .q-col-gutter-y-none > *,
-#quasar-reset .q-col-gutter-none > * {
+body .quasar-reset .q-col-gutter-y-none > *,
+body .quasar-reset .q-col-gutter-none > * {
   padding-top: 0;
 }
-#quasar-reset .q-gutter-x-xs,
-#quasar-reset .q-gutter-xs {
+body .quasar-reset .q-gutter-x-xs,
+body .quasar-reset .q-gutter-xs {
   margin-left: -4px;
 }
-#quasar-reset .q-gutter-x-xs > *,
-#quasar-reset .q-gutter-xs > * {
+body .quasar-reset .q-gutter-x-xs > *,
+body .quasar-reset .q-gutter-xs > * {
   margin-left: 4px;
 }
-#quasar-reset .q-gutter-y-xs,
-#quasar-reset .q-gutter-xs {
+body .quasar-reset .q-gutter-y-xs,
+body .quasar-reset .q-gutter-xs {
   margin-top: -4px;
 }
-#quasar-reset .q-gutter-y-xs > *,
-#quasar-reset .q-gutter-xs > * {
+body .quasar-reset .q-gutter-y-xs > *,
+body .quasar-reset .q-gutter-xs > * {
   margin-top: 4px;
 }
-#quasar-reset .q-col-gutter-x-xs,
-#quasar-reset .q-col-gutter-xs {
+body .quasar-reset .q-col-gutter-x-xs,
+body .quasar-reset .q-col-gutter-xs {
   margin-left: -4px;
 }
-#quasar-reset .q-col-gutter-x-xs > *,
-#quasar-reset .q-col-gutter-xs > * {
+body .quasar-reset .q-col-gutter-x-xs > *,
+body .quasar-reset .q-col-gutter-xs > * {
   padding-left: 4px;
 }
-#quasar-reset .q-col-gutter-y-xs,
-#quasar-reset .q-col-gutter-xs {
+body .quasar-reset .q-col-gutter-y-xs,
+body .quasar-reset .q-col-gutter-xs {
   margin-top: -4px;
 }
-#quasar-reset .q-col-gutter-y-xs > *,
-#quasar-reset .q-col-gutter-xs > * {
+body .quasar-reset .q-col-gutter-y-xs > *,
+body .quasar-reset .q-col-gutter-xs > * {
   padding-top: 4px;
 }
-#quasar-reset .q-gutter-x-sm,
-#quasar-reset .q-gutter-sm {
+body .quasar-reset .q-gutter-x-sm,
+body .quasar-reset .q-gutter-sm {
   margin-left: -8px;
 }
-#quasar-reset .q-gutter-x-sm > *,
-#quasar-reset .q-gutter-sm > * {
+body .quasar-reset .q-gutter-x-sm > *,
+body .quasar-reset .q-gutter-sm > * {
   margin-left: 8px;
 }
-#quasar-reset .q-gutter-y-sm,
-#quasar-reset .q-gutter-sm {
+body .quasar-reset .q-gutter-y-sm,
+body .quasar-reset .q-gutter-sm {
   margin-top: -8px;
 }
-#quasar-reset .q-gutter-y-sm > *,
-#quasar-reset .q-gutter-sm > * {
+body .quasar-reset .q-gutter-y-sm > *,
+body .quasar-reset .q-gutter-sm > * {
   margin-top: 8px;
 }
-#quasar-reset .q-col-gutter-x-sm,
-#quasar-reset .q-col-gutter-sm {
+body .quasar-reset .q-col-gutter-x-sm,
+body .quasar-reset .q-col-gutter-sm {
   margin-left: -8px;
 }
-#quasar-reset .q-col-gutter-x-sm > *,
-#quasar-reset .q-col-gutter-sm > * {
+body .quasar-reset .q-col-gutter-x-sm > *,
+body .quasar-reset .q-col-gutter-sm > * {
   padding-left: 8px;
 }
-#quasar-reset .q-col-gutter-y-sm,
-#quasar-reset .q-col-gutter-sm {
+body .quasar-reset .q-col-gutter-y-sm,
+body .quasar-reset .q-col-gutter-sm {
   margin-top: -8px;
 }
-#quasar-reset .q-col-gutter-y-sm > *,
-#quasar-reset .q-col-gutter-sm > * {
+body .quasar-reset .q-col-gutter-y-sm > *,
+body .quasar-reset .q-col-gutter-sm > * {
   padding-top: 8px;
 }
-#quasar-reset .q-gutter-x-md,
-#quasar-reset .q-gutter-md {
+body .quasar-reset .q-gutter-x-md,
+body .quasar-reset .q-gutter-md {
   margin-left: -16px;
 }
-#quasar-reset .q-gutter-x-md > *,
-#quasar-reset .q-gutter-md > * {
+body .quasar-reset .q-gutter-x-md > *,
+body .quasar-reset .q-gutter-md > * {
   margin-left: 16px;
 }
-#quasar-reset .q-gutter-y-md,
-#quasar-reset .q-gutter-md {
+body .quasar-reset .q-gutter-y-md,
+body .quasar-reset .q-gutter-md {
   margin-top: -16px;
 }
-#quasar-reset .q-gutter-y-md > *,
-#quasar-reset .q-gutter-md > * {
+body .quasar-reset .q-gutter-y-md > *,
+body .quasar-reset .q-gutter-md > * {
   margin-top: 16px;
 }
-#quasar-reset .q-col-gutter-x-md,
-#quasar-reset .q-col-gutter-md {
+body .quasar-reset .q-col-gutter-x-md,
+body .quasar-reset .q-col-gutter-md {
   margin-left: -16px;
 }
-#quasar-reset .q-col-gutter-x-md > *,
-#quasar-reset .q-col-gutter-md > * {
+body .quasar-reset .q-col-gutter-x-md > *,
+body .quasar-reset .q-col-gutter-md > * {
   padding-left: 16px;
 }
-#quasar-reset .q-col-gutter-y-md,
-#quasar-reset .q-col-gutter-md {
+body .quasar-reset .q-col-gutter-y-md,
+body .quasar-reset .q-col-gutter-md {
   margin-top: -16px;
 }
-#quasar-reset .q-col-gutter-y-md > *,
-#quasar-reset .q-col-gutter-md > * {
+body .quasar-reset .q-col-gutter-y-md > *,
+body .quasar-reset .q-col-gutter-md > * {
   padding-top: 16px;
 }
-#quasar-reset .q-gutter-x-lg,
-#quasar-reset .q-gutter-lg {
+body .quasar-reset .q-gutter-x-lg,
+body .quasar-reset .q-gutter-lg {
   margin-left: -24px;
 }
-#quasar-reset .q-gutter-x-lg > *,
-#quasar-reset .q-gutter-lg > * {
+body .quasar-reset .q-gutter-x-lg > *,
+body .quasar-reset .q-gutter-lg > * {
   margin-left: 24px;
 }
-#quasar-reset .q-gutter-y-lg,
-#quasar-reset .q-gutter-lg {
+body .quasar-reset .q-gutter-y-lg,
+body .quasar-reset .q-gutter-lg {
   margin-top: -24px;
 }
-#quasar-reset .q-gutter-y-lg > *,
-#quasar-reset .q-gutter-lg > * {
+body .quasar-reset .q-gutter-y-lg > *,
+body .quasar-reset .q-gutter-lg > * {
   margin-top: 24px;
 }
-#quasar-reset .q-col-gutter-x-lg,
-#quasar-reset .q-col-gutter-lg {
+body .quasar-reset .q-col-gutter-x-lg,
+body .quasar-reset .q-col-gutter-lg {
   margin-left: -24px;
 }
-#quasar-reset .q-col-gutter-x-lg > *,
-#quasar-reset .q-col-gutter-lg > * {
+body .quasar-reset .q-col-gutter-x-lg > *,
+body .quasar-reset .q-col-gutter-lg > * {
   padding-left: 24px;
 }
-#quasar-reset .q-col-gutter-y-lg,
-#quasar-reset .q-col-gutter-lg {
+body .quasar-reset .q-col-gutter-y-lg,
+body .quasar-reset .q-col-gutter-lg {
   margin-top: -24px;
 }
-#quasar-reset .q-col-gutter-y-lg > *,
-#quasar-reset .q-col-gutter-lg > * {
+body .quasar-reset .q-col-gutter-y-lg > *,
+body .quasar-reset .q-col-gutter-lg > * {
   padding-top: 24px;
 }
-#quasar-reset .q-gutter-x-xl,
-#quasar-reset .q-gutter-xl {
+body .quasar-reset .q-gutter-x-xl,
+body .quasar-reset .q-gutter-xl {
   margin-left: -48px;
 }
-#quasar-reset .q-gutter-x-xl > *,
-#quasar-reset .q-gutter-xl > * {
+body .quasar-reset .q-gutter-x-xl > *,
+body .quasar-reset .q-gutter-xl > * {
   margin-left: 48px;
 }
-#quasar-reset .q-gutter-y-xl,
-#quasar-reset .q-gutter-xl {
+body .quasar-reset .q-gutter-y-xl,
+body .quasar-reset .q-gutter-xl {
   margin-top: -48px;
 }
-#quasar-reset .q-gutter-y-xl > *,
-#quasar-reset .q-gutter-xl > * {
+body .quasar-reset .q-gutter-y-xl > *,
+body .quasar-reset .q-gutter-xl > * {
   margin-top: 48px;
 }
-#quasar-reset .q-col-gutter-x-xl,
-#quasar-reset .q-col-gutter-xl {
+body .quasar-reset .q-col-gutter-x-xl,
+body .quasar-reset .q-col-gutter-xl {
   margin-left: -48px;
 }
-#quasar-reset .q-col-gutter-x-xl > *,
-#quasar-reset .q-col-gutter-xl > * {
+body .quasar-reset .q-col-gutter-x-xl > *,
+body .quasar-reset .q-col-gutter-xl > * {
   padding-left: 48px;
 }
-#quasar-reset .q-col-gutter-y-xl,
-#quasar-reset .q-col-gutter-xl {
+body .quasar-reset .q-col-gutter-y-xl,
+body .quasar-reset .q-col-gutter-xl {
   margin-top: -48px;
 }
-#quasar-reset .q-col-gutter-y-xl > *,
-#quasar-reset .q-col-gutter-xl > * {
+body .quasar-reset .q-col-gutter-y-xl > *,
+body .quasar-reset .q-col-gutter-xl > * {
   padding-top: 48px;
 }
 @media (min-width: 0) {
-  #quasar-reset .row > .col,
-  #quasar-reset .row > .col-xs,
-  #quasar-reset .row > .col-auto,
-  #quasar-reset .row > .col-xs-auto,
-  #quasar-reset .row > .col-grow,
-  #quasar-reset .row > .col-xs-grow,
-  #quasar-reset .row > .col-shrink,
-  #quasar-reset .row > .col-xs-shrink,
-  #quasar-reset .row > .col-0,
-  #quasar-reset .row > .col-xs-0,
-  #quasar-reset .row > .col-1,
-  #quasar-reset .row > .col-xs-1,
-  #quasar-reset .row > .col-2,
-  #quasar-reset .row > .col-xs-2,
-  #quasar-reset .row > .col-3,
-  #quasar-reset .row > .col-xs-3,
-  #quasar-reset .row > .col-4,
-  #quasar-reset .row > .col-xs-4,
-  #quasar-reset .row > .col-5,
-  #quasar-reset .row > .col-xs-5,
-  #quasar-reset .row > .col-6,
-  #quasar-reset .row > .col-xs-6,
-  #quasar-reset .row > .col-7,
-  #quasar-reset .row > .col-xs-7,
-  #quasar-reset .row > .col-8,
-  #quasar-reset .row > .col-xs-8,
-  #quasar-reset .row > .col-9,
-  #quasar-reset .row > .col-xs-9,
-  #quasar-reset .row > .col-10,
-  #quasar-reset .row > .col-xs-10,
-  #quasar-reset .row > .col-11,
-  #quasar-reset .row > .col-xs-11,
-  #quasar-reset .row > .col-12,
-  #quasar-reset .row > .col-xs-12,
-  #quasar-reset .flex > .col,
-  #quasar-reset .flex > .col-xs,
-  #quasar-reset .flex > .col-auto,
-  #quasar-reset .flex > .col-xs-auto,
-  #quasar-reset .flex > .col-grow,
-  #quasar-reset .flex > .col-xs-grow,
-  #quasar-reset .flex > .col-shrink,
-  #quasar-reset .flex > .col-xs-shrink,
-  #quasar-reset .flex > .col-0,
-  #quasar-reset .flex > .col-xs-0,
-  #quasar-reset .flex > .col-1,
-  #quasar-reset .flex > .col-xs-1,
-  #quasar-reset .flex > .col-2,
-  #quasar-reset .flex > .col-xs-2,
-  #quasar-reset .flex > .col-3,
-  #quasar-reset .flex > .col-xs-3,
-  #quasar-reset .flex > .col-4,
-  #quasar-reset .flex > .col-xs-4,
-  #quasar-reset .flex > .col-5,
-  #quasar-reset .flex > .col-xs-5,
-  #quasar-reset .flex > .col-6,
-  #quasar-reset .flex > .col-xs-6,
-  #quasar-reset .flex > .col-7,
-  #quasar-reset .flex > .col-xs-7,
-  #quasar-reset .flex > .col-8,
-  #quasar-reset .flex > .col-xs-8,
-  #quasar-reset .flex > .col-9,
-  #quasar-reset .flex > .col-xs-9,
-  #quasar-reset .flex > .col-10,
-  #quasar-reset .flex > .col-xs-10,
-  #quasar-reset .flex > .col-11,
-  #quasar-reset .flex > .col-xs-11,
-  #quasar-reset .flex > .col-12,
-  #quasar-reset .flex > .col-xs-12 {
+  body .quasar-reset .row > .col,
+  body .quasar-reset .row > .col-xs,
+  body .quasar-reset .row > .col-auto,
+  body .quasar-reset .row > .col-xs-auto,
+  body .quasar-reset .row > .col-grow,
+  body .quasar-reset .row > .col-xs-grow,
+  body .quasar-reset .row > .col-shrink,
+  body .quasar-reset .row > .col-xs-shrink,
+  body .quasar-reset .row > .col-0,
+  body .quasar-reset .row > .col-xs-0,
+  body .quasar-reset .row > .col-1,
+  body .quasar-reset .row > .col-xs-1,
+  body .quasar-reset .row > .col-2,
+  body .quasar-reset .row > .col-xs-2,
+  body .quasar-reset .row > .col-3,
+  body .quasar-reset .row > .col-xs-3,
+  body .quasar-reset .row > .col-4,
+  body .quasar-reset .row > .col-xs-4,
+  body .quasar-reset .row > .col-5,
+  body .quasar-reset .row > .col-xs-5,
+  body .quasar-reset .row > .col-6,
+  body .quasar-reset .row > .col-xs-6,
+  body .quasar-reset .row > .col-7,
+  body .quasar-reset .row > .col-xs-7,
+  body .quasar-reset .row > .col-8,
+  body .quasar-reset .row > .col-xs-8,
+  body .quasar-reset .row > .col-9,
+  body .quasar-reset .row > .col-xs-9,
+  body .quasar-reset .row > .col-10,
+  body .quasar-reset .row > .col-xs-10,
+  body .quasar-reset .row > .col-11,
+  body .quasar-reset .row > .col-xs-11,
+  body .quasar-reset .row > .col-12,
+  body .quasar-reset .row > .col-xs-12,
+  body .quasar-reset .flex > .col,
+  body .quasar-reset .flex > .col-xs,
+  body .quasar-reset .flex > .col-auto,
+  body .quasar-reset .flex > .col-xs-auto,
+  body .quasar-reset .flex > .col-grow,
+  body .quasar-reset .flex > .col-xs-grow,
+  body .quasar-reset .flex > .col-shrink,
+  body .quasar-reset .flex > .col-xs-shrink,
+  body .quasar-reset .flex > .col-0,
+  body .quasar-reset .flex > .col-xs-0,
+  body .quasar-reset .flex > .col-1,
+  body .quasar-reset .flex > .col-xs-1,
+  body .quasar-reset .flex > .col-2,
+  body .quasar-reset .flex > .col-xs-2,
+  body .quasar-reset .flex > .col-3,
+  body .quasar-reset .flex > .col-xs-3,
+  body .quasar-reset .flex > .col-4,
+  body .quasar-reset .flex > .col-xs-4,
+  body .quasar-reset .flex > .col-5,
+  body .quasar-reset .flex > .col-xs-5,
+  body .quasar-reset .flex > .col-6,
+  body .quasar-reset .flex > .col-xs-6,
+  body .quasar-reset .flex > .col-7,
+  body .quasar-reset .flex > .col-xs-7,
+  body .quasar-reset .flex > .col-8,
+  body .quasar-reset .flex > .col-xs-8,
+  body .quasar-reset .flex > .col-9,
+  body .quasar-reset .flex > .col-xs-9,
+  body .quasar-reset .flex > .col-10,
+  body .quasar-reset .flex > .col-xs-10,
+  body .quasar-reset .flex > .col-11,
+  body .quasar-reset .flex > .col-xs-11,
+  body .quasar-reset .flex > .col-12,
+  body .quasar-reset .flex > .col-xs-12 {
     width: auto;
     min-width: 0;
     max-width: 100%;
   }
-  #quasar-reset .column > .col,
-  #quasar-reset .column > .col-xs,
-  #quasar-reset .column > .col-auto,
-  #quasar-reset .column > .col-xs-auto,
-  #quasar-reset .column > .col-grow,
-  #quasar-reset .column > .col-xs-grow,
-  #quasar-reset .column > .col-shrink,
-  #quasar-reset .column > .col-xs-shrink,
-  #quasar-reset .column > .col-0,
-  #quasar-reset .column > .col-xs-0,
-  #quasar-reset .column > .col-1,
-  #quasar-reset .column > .col-xs-1,
-  #quasar-reset .column > .col-2,
-  #quasar-reset .column > .col-xs-2,
-  #quasar-reset .column > .col-3,
-  #quasar-reset .column > .col-xs-3,
-  #quasar-reset .column > .col-4,
-  #quasar-reset .column > .col-xs-4,
-  #quasar-reset .column > .col-5,
-  #quasar-reset .column > .col-xs-5,
-  #quasar-reset .column > .col-6,
-  #quasar-reset .column > .col-xs-6,
-  #quasar-reset .column > .col-7,
-  #quasar-reset .column > .col-xs-7,
-  #quasar-reset .column > .col-8,
-  #quasar-reset .column > .col-xs-8,
-  #quasar-reset .column > .col-9,
-  #quasar-reset .column > .col-xs-9,
-  #quasar-reset .column > .col-10,
-  #quasar-reset .column > .col-xs-10,
-  #quasar-reset .column > .col-11,
-  #quasar-reset .column > .col-xs-11,
-  #quasar-reset .column > .col-12,
-  #quasar-reset .column > .col-xs-12,
-  #quasar-reset .flex > .col,
-  #quasar-reset .flex > .col-xs,
-  #quasar-reset .flex > .col-auto,
-  #quasar-reset .flex > .col-xs-auto,
-  #quasar-reset .flex > .col-grow,
-  #quasar-reset .flex > .col-xs-grow,
-  #quasar-reset .flex > .col-shrink,
-  #quasar-reset .flex > .col-xs-shrink,
-  #quasar-reset .flex > .col-0,
-  #quasar-reset .flex > .col-xs-0,
-  #quasar-reset .flex > .col-1,
-  #quasar-reset .flex > .col-xs-1,
-  #quasar-reset .flex > .col-2,
-  #quasar-reset .flex > .col-xs-2,
-  #quasar-reset .flex > .col-3,
-  #quasar-reset .flex > .col-xs-3,
-  #quasar-reset .flex > .col-4,
-  #quasar-reset .flex > .col-xs-4,
-  #quasar-reset .flex > .col-5,
-  #quasar-reset .flex > .col-xs-5,
-  #quasar-reset .flex > .col-6,
-  #quasar-reset .flex > .col-xs-6,
-  #quasar-reset .flex > .col-7,
-  #quasar-reset .flex > .col-xs-7,
-  #quasar-reset .flex > .col-8,
-  #quasar-reset .flex > .col-xs-8,
-  #quasar-reset .flex > .col-9,
-  #quasar-reset .flex > .col-xs-9,
-  #quasar-reset .flex > .col-10,
-  #quasar-reset .flex > .col-xs-10,
-  #quasar-reset .flex > .col-11,
-  #quasar-reset .flex > .col-xs-11,
-  #quasar-reset .flex > .col-12,
-  #quasar-reset .flex > .col-xs-12 {
+  body .quasar-reset .column > .col,
+  body .quasar-reset .column > .col-xs,
+  body .quasar-reset .column > .col-auto,
+  body .quasar-reset .column > .col-xs-auto,
+  body .quasar-reset .column > .col-grow,
+  body .quasar-reset .column > .col-xs-grow,
+  body .quasar-reset .column > .col-shrink,
+  body .quasar-reset .column > .col-xs-shrink,
+  body .quasar-reset .column > .col-0,
+  body .quasar-reset .column > .col-xs-0,
+  body .quasar-reset .column > .col-1,
+  body .quasar-reset .column > .col-xs-1,
+  body .quasar-reset .column > .col-2,
+  body .quasar-reset .column > .col-xs-2,
+  body .quasar-reset .column > .col-3,
+  body .quasar-reset .column > .col-xs-3,
+  body .quasar-reset .column > .col-4,
+  body .quasar-reset .column > .col-xs-4,
+  body .quasar-reset .column > .col-5,
+  body .quasar-reset .column > .col-xs-5,
+  body .quasar-reset .column > .col-6,
+  body .quasar-reset .column > .col-xs-6,
+  body .quasar-reset .column > .col-7,
+  body .quasar-reset .column > .col-xs-7,
+  body .quasar-reset .column > .col-8,
+  body .quasar-reset .column > .col-xs-8,
+  body .quasar-reset .column > .col-9,
+  body .quasar-reset .column > .col-xs-9,
+  body .quasar-reset .column > .col-10,
+  body .quasar-reset .column > .col-xs-10,
+  body .quasar-reset .column > .col-11,
+  body .quasar-reset .column > .col-xs-11,
+  body .quasar-reset .column > .col-12,
+  body .quasar-reset .column > .col-xs-12,
+  body .quasar-reset .flex > .col,
+  body .quasar-reset .flex > .col-xs,
+  body .quasar-reset .flex > .col-auto,
+  body .quasar-reset .flex > .col-xs-auto,
+  body .quasar-reset .flex > .col-grow,
+  body .quasar-reset .flex > .col-xs-grow,
+  body .quasar-reset .flex > .col-shrink,
+  body .quasar-reset .flex > .col-xs-shrink,
+  body .quasar-reset .flex > .col-0,
+  body .quasar-reset .flex > .col-xs-0,
+  body .quasar-reset .flex > .col-1,
+  body .quasar-reset .flex > .col-xs-1,
+  body .quasar-reset .flex > .col-2,
+  body .quasar-reset .flex > .col-xs-2,
+  body .quasar-reset .flex > .col-3,
+  body .quasar-reset .flex > .col-xs-3,
+  body .quasar-reset .flex > .col-4,
+  body .quasar-reset .flex > .col-xs-4,
+  body .quasar-reset .flex > .col-5,
+  body .quasar-reset .flex > .col-xs-5,
+  body .quasar-reset .flex > .col-6,
+  body .quasar-reset .flex > .col-xs-6,
+  body .quasar-reset .flex > .col-7,
+  body .quasar-reset .flex > .col-xs-7,
+  body .quasar-reset .flex > .col-8,
+  body .quasar-reset .flex > .col-xs-8,
+  body .quasar-reset .flex > .col-9,
+  body .quasar-reset .flex > .col-xs-9,
+  body .quasar-reset .flex > .col-10,
+  body .quasar-reset .flex > .col-xs-10,
+  body .quasar-reset .flex > .col-11,
+  body .quasar-reset .flex > .col-xs-11,
+  body .quasar-reset .flex > .col-12,
+  body .quasar-reset .flex > .col-xs-12 {
     height: auto;
     min-height: 0;
     max-height: 100%;
   }
-  #quasar-reset .col,
-  #quasar-reset .col-xs {
+  body .quasar-reset .col,
+  body .quasar-reset .col-xs {
     flex: 10000 1 0%;
   }
-  #quasar-reset .col-auto,
-  #quasar-reset .col-xs-auto,
-  #quasar-reset .col-0,
-  #quasar-reset .col-xs-0,
-  #quasar-reset .col-1,
-  #quasar-reset .col-xs-1,
-  #quasar-reset .col-2,
-  #quasar-reset .col-xs-2,
-  #quasar-reset .col-3,
-  #quasar-reset .col-xs-3,
-  #quasar-reset .col-4,
-  #quasar-reset .col-xs-4,
-  #quasar-reset .col-5,
-  #quasar-reset .col-xs-5,
-  #quasar-reset .col-6,
-  #quasar-reset .col-xs-6,
-  #quasar-reset .col-7,
-  #quasar-reset .col-xs-7,
-  #quasar-reset .col-8,
-  #quasar-reset .col-xs-8,
-  #quasar-reset .col-9,
-  #quasar-reset .col-xs-9,
-  #quasar-reset .col-10,
-  #quasar-reset .col-xs-10,
-  #quasar-reset .col-11,
-  #quasar-reset .col-xs-11,
-  #quasar-reset .col-12,
-  #quasar-reset .col-xs-12 {
+  body .quasar-reset .col-auto,
+  body .quasar-reset .col-xs-auto,
+  body .quasar-reset .col-0,
+  body .quasar-reset .col-xs-0,
+  body .quasar-reset .col-1,
+  body .quasar-reset .col-xs-1,
+  body .quasar-reset .col-2,
+  body .quasar-reset .col-xs-2,
+  body .quasar-reset .col-3,
+  body .quasar-reset .col-xs-3,
+  body .quasar-reset .col-4,
+  body .quasar-reset .col-xs-4,
+  body .quasar-reset .col-5,
+  body .quasar-reset .col-xs-5,
+  body .quasar-reset .col-6,
+  body .quasar-reset .col-xs-6,
+  body .quasar-reset .col-7,
+  body .quasar-reset .col-xs-7,
+  body .quasar-reset .col-8,
+  body .quasar-reset .col-xs-8,
+  body .quasar-reset .col-9,
+  body .quasar-reset .col-xs-9,
+  body .quasar-reset .col-10,
+  body .quasar-reset .col-xs-10,
+  body .quasar-reset .col-11,
+  body .quasar-reset .col-xs-11,
+  body .quasar-reset .col-12,
+  body .quasar-reset .col-xs-12 {
     flex: 0 0 auto;
   }
-  #quasar-reset .col-grow,
-  #quasar-reset .col-xs-grow {
+  body .quasar-reset .col-grow,
+  body .quasar-reset .col-xs-grow {
     flex: 1 0 auto;
   }
-  #quasar-reset .col-shrink,
-  #quasar-reset .col-xs-shrink {
+  body .quasar-reset .col-shrink,
+  body .quasar-reset .col-xs-shrink {
     flex: 0 1 auto;
   }
-  #quasar-reset .row > .col-0,
-  #quasar-reset .row > .col-xs-0 {
+  body .quasar-reset .row > .col-0,
+  body .quasar-reset .row > .col-xs-0 {
     height: auto;
     width: 0%;
   }
-  #quasar-reset .row > .offset-0,
-  #quasar-reset .row > .offset-xs-0 {
+  body .quasar-reset .row > .offset-0,
+  body .quasar-reset .row > .offset-xs-0 {
     margin-left: 0%;
   }
-  #quasar-reset .column > .col-0,
-  #quasar-reset .column > .col-xs-0 {
+  body .quasar-reset .column > .col-0,
+  body .quasar-reset .column > .col-xs-0 {
     height: 0%;
     width: auto;
   }
-  #quasar-reset .row > .col-1,
-  #quasar-reset .row > .col-xs-1 {
+  body .quasar-reset .row > .col-1,
+  body .quasar-reset .row > .col-xs-1 {
     height: auto;
     width: 8.3333%;
   }
-  #quasar-reset .row > .offset-1,
-  #quasar-reset .row > .offset-xs-1 {
+  body .quasar-reset .row > .offset-1,
+  body .quasar-reset .row > .offset-xs-1 {
     margin-left: 8.3333%;
   }
-  #quasar-reset .column > .col-1,
-  #quasar-reset .column > .col-xs-1 {
+  body .quasar-reset .column > .col-1,
+  body .quasar-reset .column > .col-xs-1 {
     height: 8.3333%;
     width: auto;
   }
-  #quasar-reset .row > .col-2,
-  #quasar-reset .row > .col-xs-2 {
+  body .quasar-reset .row > .col-2,
+  body .quasar-reset .row > .col-xs-2 {
     height: auto;
     width: 16.6667%;
   }
-  #quasar-reset .row > .offset-2,
-  #quasar-reset .row > .offset-xs-2 {
+  body .quasar-reset .row > .offset-2,
+  body .quasar-reset .row > .offset-xs-2 {
     margin-left: 16.6667%;
   }
-  #quasar-reset .column > .col-2,
-  #quasar-reset .column > .col-xs-2 {
+  body .quasar-reset .column > .col-2,
+  body .quasar-reset .column > .col-xs-2 {
     height: 16.6667%;
     width: auto;
   }
-  #quasar-reset .row > .col-3,
-  #quasar-reset .row > .col-xs-3 {
+  body .quasar-reset .row > .col-3,
+  body .quasar-reset .row > .col-xs-3 {
     height: auto;
     width: 25%;
   }
-  #quasar-reset .row > .offset-3,
-  #quasar-reset .row > .offset-xs-3 {
+  body .quasar-reset .row > .offset-3,
+  body .quasar-reset .row > .offset-xs-3 {
     margin-left: 25%;
   }
-  #quasar-reset .column > .col-3,
-  #quasar-reset .column > .col-xs-3 {
+  body .quasar-reset .column > .col-3,
+  body .quasar-reset .column > .col-xs-3 {
     height: 25%;
     width: auto;
   }
-  #quasar-reset .row > .col-4,
-  #quasar-reset .row > .col-xs-4 {
+  body .quasar-reset .row > .col-4,
+  body .quasar-reset .row > .col-xs-4 {
     height: auto;
     width: 33.3333%;
   }
-  #quasar-reset .row > .offset-4,
-  #quasar-reset .row > .offset-xs-4 {
+  body .quasar-reset .row > .offset-4,
+  body .quasar-reset .row > .offset-xs-4 {
     margin-left: 33.3333%;
   }
-  #quasar-reset .column > .col-4,
-  #quasar-reset .column > .col-xs-4 {
+  body .quasar-reset .column > .col-4,
+  body .quasar-reset .column > .col-xs-4 {
     height: 33.3333%;
     width: auto;
   }
-  #quasar-reset .row > .col-5,
-  #quasar-reset .row > .col-xs-5 {
+  body .quasar-reset .row > .col-5,
+  body .quasar-reset .row > .col-xs-5 {
     height: auto;
     width: 41.6667%;
   }
-  #quasar-reset .row > .offset-5,
-  #quasar-reset .row > .offset-xs-5 {
+  body .quasar-reset .row > .offset-5,
+  body .quasar-reset .row > .offset-xs-5 {
     margin-left: 41.6667%;
   }
-  #quasar-reset .column > .col-5,
-  #quasar-reset .column > .col-xs-5 {
+  body .quasar-reset .column > .col-5,
+  body .quasar-reset .column > .col-xs-5 {
     height: 41.6667%;
     width: auto;
   }
-  #quasar-reset .row > .col-6,
-  #quasar-reset .row > .col-xs-6 {
+  body .quasar-reset .row > .col-6,
+  body .quasar-reset .row > .col-xs-6 {
     height: auto;
     width: 50%;
   }
-  #quasar-reset .row > .offset-6,
-  #quasar-reset .row > .offset-xs-6 {
+  body .quasar-reset .row > .offset-6,
+  body .quasar-reset .row > .offset-xs-6 {
     margin-left: 50%;
   }
-  #quasar-reset .column > .col-6,
-  #quasar-reset .column > .col-xs-6 {
+  body .quasar-reset .column > .col-6,
+  body .quasar-reset .column > .col-xs-6 {
     height: 50%;
     width: auto;
   }
-  #quasar-reset .row > .col-7,
-  #quasar-reset .row > .col-xs-7 {
+  body .quasar-reset .row > .col-7,
+  body .quasar-reset .row > .col-xs-7 {
     height: auto;
     width: 58.3333%;
   }
-  #quasar-reset .row > .offset-7,
-  #quasar-reset .row > .offset-xs-7 {
+  body .quasar-reset .row > .offset-7,
+  body .quasar-reset .row > .offset-xs-7 {
     margin-left: 58.3333%;
   }
-  #quasar-reset .column > .col-7,
-  #quasar-reset .column > .col-xs-7 {
+  body .quasar-reset .column > .col-7,
+  body .quasar-reset .column > .col-xs-7 {
     height: 58.3333%;
     width: auto;
   }
-  #quasar-reset .row > .col-8,
-  #quasar-reset .row > .col-xs-8 {
+  body .quasar-reset .row > .col-8,
+  body .quasar-reset .row > .col-xs-8 {
     height: auto;
     width: 66.6667%;
   }
-  #quasar-reset .row > .offset-8,
-  #quasar-reset .row > .offset-xs-8 {
+  body .quasar-reset .row > .offset-8,
+  body .quasar-reset .row > .offset-xs-8 {
     margin-left: 66.6667%;
   }
-  #quasar-reset .column > .col-8,
-  #quasar-reset .column > .col-xs-8 {
+  body .quasar-reset .column > .col-8,
+  body .quasar-reset .column > .col-xs-8 {
     height: 66.6667%;
     width: auto;
   }
-  #quasar-reset .row > .col-9,
-  #quasar-reset .row > .col-xs-9 {
+  body .quasar-reset .row > .col-9,
+  body .quasar-reset .row > .col-xs-9 {
     height: auto;
     width: 75%;
   }
-  #quasar-reset .row > .offset-9,
-  #quasar-reset .row > .offset-xs-9 {
+  body .quasar-reset .row > .offset-9,
+  body .quasar-reset .row > .offset-xs-9 {
     margin-left: 75%;
   }
-  #quasar-reset .column > .col-9,
-  #quasar-reset .column > .col-xs-9 {
+  body .quasar-reset .column > .col-9,
+  body .quasar-reset .column > .col-xs-9 {
     height: 75%;
     width: auto;
   }
-  #quasar-reset .row > .col-10,
-  #quasar-reset .row > .col-xs-10 {
+  body .quasar-reset .row > .col-10,
+  body .quasar-reset .row > .col-xs-10 {
     height: auto;
     width: 83.3333%;
   }
-  #quasar-reset .row > .offset-10,
-  #quasar-reset .row > .offset-xs-10 {
+  body .quasar-reset .row > .offset-10,
+  body .quasar-reset .row > .offset-xs-10 {
     margin-left: 83.3333%;
   }
-  #quasar-reset .column > .col-10,
-  #quasar-reset .column > .col-xs-10 {
+  body .quasar-reset .column > .col-10,
+  body .quasar-reset .column > .col-xs-10 {
     height: 83.3333%;
     width: auto;
   }
-  #quasar-reset .row > .col-11,
-  #quasar-reset .row > .col-xs-11 {
+  body .quasar-reset .row > .col-11,
+  body .quasar-reset .row > .col-xs-11 {
     height: auto;
     width: 91.6667%;
   }
-  #quasar-reset .row > .offset-11,
-  #quasar-reset .row > .offset-xs-11 {
+  body .quasar-reset .row > .offset-11,
+  body .quasar-reset .row > .offset-xs-11 {
     margin-left: 91.6667%;
   }
-  #quasar-reset .column > .col-11,
-  #quasar-reset .column > .col-xs-11 {
+  body .quasar-reset .column > .col-11,
+  body .quasar-reset .column > .col-xs-11 {
     height: 91.6667%;
     width: auto;
   }
-  #quasar-reset .row > .col-12,
-  #quasar-reset .row > .col-xs-12 {
+  body .quasar-reset .row > .col-12,
+  body .quasar-reset .row > .col-xs-12 {
     height: auto;
     width: 100%;
   }
-  #quasar-reset .row > .offset-12,
-  #quasar-reset .row > .offset-xs-12 {
+  body .quasar-reset .row > .offset-12,
+  body .quasar-reset .row > .offset-xs-12 {
     margin-left: 100%;
   }
-  #quasar-reset .column > .col-12,
-  #quasar-reset .column > .col-xs-12 {
+  body .quasar-reset .column > .col-12,
+  body .quasar-reset .column > .col-xs-12 {
     height: 100%;
     width: auto;
   }
-  #quasar-reset .row > .col-all {
+  body .quasar-reset .row > .col-all {
     height: auto;
     flex: 0 0 100%;
   }
 }
 @media (min-width: 600px) {
-  #quasar-reset .row > .col-sm,
-  #quasar-reset .row > .col-sm-auto,
-  #quasar-reset .row > .col-sm-grow,
-  #quasar-reset .row > .col-sm-shrink,
-  #quasar-reset .row > .col-sm-0,
-  #quasar-reset .row > .col-sm-1,
-  #quasar-reset .row > .col-sm-2,
-  #quasar-reset .row > .col-sm-3,
-  #quasar-reset .row > .col-sm-4,
-  #quasar-reset .row > .col-sm-5,
-  #quasar-reset .row > .col-sm-6,
-  #quasar-reset .row > .col-sm-7,
-  #quasar-reset .row > .col-sm-8,
-  #quasar-reset .row > .col-sm-9,
-  #quasar-reset .row > .col-sm-10,
-  #quasar-reset .row > .col-sm-11,
-  #quasar-reset .row > .col-sm-12,
-  #quasar-reset .flex > .col-sm,
-  #quasar-reset .flex > .col-sm-auto,
-  #quasar-reset .flex > .col-sm-grow,
-  #quasar-reset .flex > .col-sm-shrink,
-  #quasar-reset .flex > .col-sm-0,
-  #quasar-reset .flex > .col-sm-1,
-  #quasar-reset .flex > .col-sm-2,
-  #quasar-reset .flex > .col-sm-3,
-  #quasar-reset .flex > .col-sm-4,
-  #quasar-reset .flex > .col-sm-5,
-  #quasar-reset .flex > .col-sm-6,
-  #quasar-reset .flex > .col-sm-7,
-  #quasar-reset .flex > .col-sm-8,
-  #quasar-reset .flex > .col-sm-9,
-  #quasar-reset .flex > .col-sm-10,
-  #quasar-reset .flex > .col-sm-11,
-  #quasar-reset .flex > .col-sm-12 {
+  body .quasar-reset .row > .col-sm,
+  body .quasar-reset .row > .col-sm-auto,
+  body .quasar-reset .row > .col-sm-grow,
+  body .quasar-reset .row > .col-sm-shrink,
+  body .quasar-reset .row > .col-sm-0,
+  body .quasar-reset .row > .col-sm-1,
+  body .quasar-reset .row > .col-sm-2,
+  body .quasar-reset .row > .col-sm-3,
+  body .quasar-reset .row > .col-sm-4,
+  body .quasar-reset .row > .col-sm-5,
+  body .quasar-reset .row > .col-sm-6,
+  body .quasar-reset .row > .col-sm-7,
+  body .quasar-reset .row > .col-sm-8,
+  body .quasar-reset .row > .col-sm-9,
+  body .quasar-reset .row > .col-sm-10,
+  body .quasar-reset .row > .col-sm-11,
+  body .quasar-reset .row > .col-sm-12,
+  body .quasar-reset .flex > .col-sm,
+  body .quasar-reset .flex > .col-sm-auto,
+  body .quasar-reset .flex > .col-sm-grow,
+  body .quasar-reset .flex > .col-sm-shrink,
+  body .quasar-reset .flex > .col-sm-0,
+  body .quasar-reset .flex > .col-sm-1,
+  body .quasar-reset .flex > .col-sm-2,
+  body .quasar-reset .flex > .col-sm-3,
+  body .quasar-reset .flex > .col-sm-4,
+  body .quasar-reset .flex > .col-sm-5,
+  body .quasar-reset .flex > .col-sm-6,
+  body .quasar-reset .flex > .col-sm-7,
+  body .quasar-reset .flex > .col-sm-8,
+  body .quasar-reset .flex > .col-sm-9,
+  body .quasar-reset .flex > .col-sm-10,
+  body .quasar-reset .flex > .col-sm-11,
+  body .quasar-reset .flex > .col-sm-12 {
     width: auto;
     min-width: 0;
     max-width: 100%;
   }
-  #quasar-reset .column > .col-sm,
-  #quasar-reset .column > .col-sm-auto,
-  #quasar-reset .column > .col-sm-grow,
-  #quasar-reset .column > .col-sm-shrink,
-  #quasar-reset .column > .col-sm-0,
-  #quasar-reset .column > .col-sm-1,
-  #quasar-reset .column > .col-sm-2,
-  #quasar-reset .column > .col-sm-3,
-  #quasar-reset .column > .col-sm-4,
-  #quasar-reset .column > .col-sm-5,
-  #quasar-reset .column > .col-sm-6,
-  #quasar-reset .column > .col-sm-7,
-  #quasar-reset .column > .col-sm-8,
-  #quasar-reset .column > .col-sm-9,
-  #quasar-reset .column > .col-sm-10,
-  #quasar-reset .column > .col-sm-11,
-  #quasar-reset .column > .col-sm-12,
-  #quasar-reset .flex > .col-sm,
-  #quasar-reset .flex > .col-sm-auto,
-  #quasar-reset .flex > .col-sm-grow,
-  #quasar-reset .flex > .col-sm-shrink,
-  #quasar-reset .flex > .col-sm-0,
-  #quasar-reset .flex > .col-sm-1,
-  #quasar-reset .flex > .col-sm-2,
-  #quasar-reset .flex > .col-sm-3,
-  #quasar-reset .flex > .col-sm-4,
-  #quasar-reset .flex > .col-sm-5,
-  #quasar-reset .flex > .col-sm-6,
-  #quasar-reset .flex > .col-sm-7,
-  #quasar-reset .flex > .col-sm-8,
-  #quasar-reset .flex > .col-sm-9,
-  #quasar-reset .flex > .col-sm-10,
-  #quasar-reset .flex > .col-sm-11,
-  #quasar-reset .flex > .col-sm-12 {
+  body .quasar-reset .column > .col-sm,
+  body .quasar-reset .column > .col-sm-auto,
+  body .quasar-reset .column > .col-sm-grow,
+  body .quasar-reset .column > .col-sm-shrink,
+  body .quasar-reset .column > .col-sm-0,
+  body .quasar-reset .column > .col-sm-1,
+  body .quasar-reset .column > .col-sm-2,
+  body .quasar-reset .column > .col-sm-3,
+  body .quasar-reset .column > .col-sm-4,
+  body .quasar-reset .column > .col-sm-5,
+  body .quasar-reset .column > .col-sm-6,
+  body .quasar-reset .column > .col-sm-7,
+  body .quasar-reset .column > .col-sm-8,
+  body .quasar-reset .column > .col-sm-9,
+  body .quasar-reset .column > .col-sm-10,
+  body .quasar-reset .column > .col-sm-11,
+  body .quasar-reset .column > .col-sm-12,
+  body .quasar-reset .flex > .col-sm,
+  body .quasar-reset .flex > .col-sm-auto,
+  body .quasar-reset .flex > .col-sm-grow,
+  body .quasar-reset .flex > .col-sm-shrink,
+  body .quasar-reset .flex > .col-sm-0,
+  body .quasar-reset .flex > .col-sm-1,
+  body .quasar-reset .flex > .col-sm-2,
+  body .quasar-reset .flex > .col-sm-3,
+  body .quasar-reset .flex > .col-sm-4,
+  body .quasar-reset .flex > .col-sm-5,
+  body .quasar-reset .flex > .col-sm-6,
+  body .quasar-reset .flex > .col-sm-7,
+  body .quasar-reset .flex > .col-sm-8,
+  body .quasar-reset .flex > .col-sm-9,
+  body .quasar-reset .flex > .col-sm-10,
+  body .quasar-reset .flex > .col-sm-11,
+  body .quasar-reset .flex > .col-sm-12 {
     height: auto;
     min-height: 0;
     max-height: 100%;
   }
-  #quasar-reset .col-sm {
+  body .quasar-reset .col-sm {
     flex: 10000 1 0%;
   }
-  #quasar-reset .col-sm-auto,
-  #quasar-reset .col-sm-0,
-  #quasar-reset .col-sm-1,
-  #quasar-reset .col-sm-2,
-  #quasar-reset .col-sm-3,
-  #quasar-reset .col-sm-4,
-  #quasar-reset .col-sm-5,
-  #quasar-reset .col-sm-6,
-  #quasar-reset .col-sm-7,
-  #quasar-reset .col-sm-8,
-  #quasar-reset .col-sm-9,
-  #quasar-reset .col-sm-10,
-  #quasar-reset .col-sm-11,
-  #quasar-reset .col-sm-12 {
+  body .quasar-reset .col-sm-auto,
+  body .quasar-reset .col-sm-0,
+  body .quasar-reset .col-sm-1,
+  body .quasar-reset .col-sm-2,
+  body .quasar-reset .col-sm-3,
+  body .quasar-reset .col-sm-4,
+  body .quasar-reset .col-sm-5,
+  body .quasar-reset .col-sm-6,
+  body .quasar-reset .col-sm-7,
+  body .quasar-reset .col-sm-8,
+  body .quasar-reset .col-sm-9,
+  body .quasar-reset .col-sm-10,
+  body .quasar-reset .col-sm-11,
+  body .quasar-reset .col-sm-12 {
     flex: 0 0 auto;
   }
-  #quasar-reset .col-sm-grow {
+  body .quasar-reset .col-sm-grow {
     flex: 1 0 auto;
   }
-  #quasar-reset .col-sm-shrink {
+  body .quasar-reset .col-sm-shrink {
     flex: 0 1 auto;
   }
-  #quasar-reset .row > .col-sm-0 {
+  body .quasar-reset .row > .col-sm-0 {
     height: auto;
     width: 0%;
   }
-  #quasar-reset .row > .offset-sm-0 {
+  body .quasar-reset .row > .offset-sm-0 {
     margin-left: 0%;
   }
-  #quasar-reset .column > .col-sm-0 {
+  body .quasar-reset .column > .col-sm-0 {
     height: 0%;
     width: auto;
   }
-  #quasar-reset .row > .col-sm-1 {
+  body .quasar-reset .row > .col-sm-1 {
     height: auto;
     width: 8.3333%;
   }
-  #quasar-reset .row > .offset-sm-1 {
+  body .quasar-reset .row > .offset-sm-1 {
     margin-left: 8.3333%;
   }
-  #quasar-reset .column > .col-sm-1 {
+  body .quasar-reset .column > .col-sm-1 {
     height: 8.3333%;
     width: auto;
   }
-  #quasar-reset .row > .col-sm-2 {
+  body .quasar-reset .row > .col-sm-2 {
     height: auto;
     width: 16.6667%;
   }
-  #quasar-reset .row > .offset-sm-2 {
+  body .quasar-reset .row > .offset-sm-2 {
     margin-left: 16.6667%;
   }
-  #quasar-reset .column > .col-sm-2 {
+  body .quasar-reset .column > .col-sm-2 {
     height: 16.6667%;
     width: auto;
   }
-  #quasar-reset .row > .col-sm-3 {
+  body .quasar-reset .row > .col-sm-3 {
     height: auto;
     width: 25%;
   }
-  #quasar-reset .row > .offset-sm-3 {
+  body .quasar-reset .row > .offset-sm-3 {
     margin-left: 25%;
   }
-  #quasar-reset .column > .col-sm-3 {
+  body .quasar-reset .column > .col-sm-3 {
     height: 25%;
     width: auto;
   }
-  #quasar-reset .row > .col-sm-4 {
+  body .quasar-reset .row > .col-sm-4 {
     height: auto;
     width: 33.3333%;
   }
-  #quasar-reset .row > .offset-sm-4 {
+  body .quasar-reset .row > .offset-sm-4 {
     margin-left: 33.3333%;
   }
-  #quasar-reset .column > .col-sm-4 {
+  body .quasar-reset .column > .col-sm-4 {
     height: 33.3333%;
     width: auto;
   }
-  #quasar-reset .row > .col-sm-5 {
+  body .quasar-reset .row > .col-sm-5 {
     height: auto;
     width: 41.6667%;
   }
-  #quasar-reset .row > .offset-sm-5 {
+  body .quasar-reset .row > .offset-sm-5 {
     margin-left: 41.6667%;
   }
-  #quasar-reset .column > .col-sm-5 {
+  body .quasar-reset .column > .col-sm-5 {
     height: 41.6667%;
     width: auto;
   }
-  #quasar-reset .row > .col-sm-6 {
+  body .quasar-reset .row > .col-sm-6 {
     height: auto;
     width: 50%;
   }
-  #quasar-reset .row > .offset-sm-6 {
+  body .quasar-reset .row > .offset-sm-6 {
     margin-left: 50%;
   }
-  #quasar-reset .column > .col-sm-6 {
+  body .quasar-reset .column > .col-sm-6 {
     height: 50%;
     width: auto;
   }
-  #quasar-reset .row > .col-sm-7 {
+  body .quasar-reset .row > .col-sm-7 {
     height: auto;
     width: 58.3333%;
   }
-  #quasar-reset .row > .offset-sm-7 {
+  body .quasar-reset .row > .offset-sm-7 {
     margin-left: 58.3333%;
   }
-  #quasar-reset .column > .col-sm-7 {
+  body .quasar-reset .column > .col-sm-7 {
     height: 58.3333%;
     width: auto;
   }
-  #quasar-reset .row > .col-sm-8 {
+  body .quasar-reset .row > .col-sm-8 {
     height: auto;
     width: 66.6667%;
   }
-  #quasar-reset .row > .offset-sm-8 {
+  body .quasar-reset .row > .offset-sm-8 {
     margin-left: 66.6667%;
   }
-  #quasar-reset .column > .col-sm-8 {
+  body .quasar-reset .column > .col-sm-8 {
     height: 66.6667%;
     width: auto;
   }
-  #quasar-reset .row > .col-sm-9 {
+  body .quasar-reset .row > .col-sm-9 {
     height: auto;
     width: 75%;
   }
-  #quasar-reset .row > .offset-sm-9 {
+  body .quasar-reset .row > .offset-sm-9 {
     margin-left: 75%;
   }
-  #quasar-reset .column > .col-sm-9 {
+  body .quasar-reset .column > .col-sm-9 {
     height: 75%;
     width: auto;
   }
-  #quasar-reset .row > .col-sm-10 {
+  body .quasar-reset .row > .col-sm-10 {
     height: auto;
     width: 83.3333%;
   }
-  #quasar-reset .row > .offset-sm-10 {
+  body .quasar-reset .row > .offset-sm-10 {
     margin-left: 83.3333%;
   }
-  #quasar-reset .column > .col-sm-10 {
+  body .quasar-reset .column > .col-sm-10 {
     height: 83.3333%;
     width: auto;
   }
-  #quasar-reset .row > .col-sm-11 {
+  body .quasar-reset .row > .col-sm-11 {
     height: auto;
     width: 91.6667%;
   }
-  #quasar-reset .row > .offset-sm-11 {
+  body .quasar-reset .row > .offset-sm-11 {
     margin-left: 91.6667%;
   }
-  #quasar-reset .column > .col-sm-11 {
+  body .quasar-reset .column > .col-sm-11 {
     height: 91.6667%;
     width: auto;
   }
-  #quasar-reset .row > .col-sm-12 {
+  body .quasar-reset .row > .col-sm-12 {
     height: auto;
     width: 100%;
   }
-  #quasar-reset .row > .offset-sm-12 {
+  body .quasar-reset .row > .offset-sm-12 {
     margin-left: 100%;
   }
-  #quasar-reset .column > .col-sm-12 {
+  body .quasar-reset .column > .col-sm-12 {
     height: 100%;
     width: auto;
   }
 }
 @media (min-width: 1024px) {
-  #quasar-reset .row > .col-md,
-  #quasar-reset .row > .col-md-auto,
-  #quasar-reset .row > .col-md-grow,
-  #quasar-reset .row > .col-md-shrink,
-  #quasar-reset .row > .col-md-0,
-  #quasar-reset .row > .col-md-1,
-  #quasar-reset .row > .col-md-2,
-  #quasar-reset .row > .col-md-3,
-  #quasar-reset .row > .col-md-4,
-  #quasar-reset .row > .col-md-5,
-  #quasar-reset .row > .col-md-6,
-  #quasar-reset .row > .col-md-7,
-  #quasar-reset .row > .col-md-8,
-  #quasar-reset .row > .col-md-9,
-  #quasar-reset .row > .col-md-10,
-  #quasar-reset .row > .col-md-11,
-  #quasar-reset .row > .col-md-12,
-  #quasar-reset .flex > .col-md,
-  #quasar-reset .flex > .col-md-auto,
-  #quasar-reset .flex > .col-md-grow,
-  #quasar-reset .flex > .col-md-shrink,
-  #quasar-reset .flex > .col-md-0,
-  #quasar-reset .flex > .col-md-1,
-  #quasar-reset .flex > .col-md-2,
-  #quasar-reset .flex > .col-md-3,
-  #quasar-reset .flex > .col-md-4,
-  #quasar-reset .flex > .col-md-5,
-  #quasar-reset .flex > .col-md-6,
-  #quasar-reset .flex > .col-md-7,
-  #quasar-reset .flex > .col-md-8,
-  #quasar-reset .flex > .col-md-9,
-  #quasar-reset .flex > .col-md-10,
-  #quasar-reset .flex > .col-md-11,
-  #quasar-reset .flex > .col-md-12 {
+  body .quasar-reset .row > .col-md,
+  body .quasar-reset .row > .col-md-auto,
+  body .quasar-reset .row > .col-md-grow,
+  body .quasar-reset .row > .col-md-shrink,
+  body .quasar-reset .row > .col-md-0,
+  body .quasar-reset .row > .col-md-1,
+  body .quasar-reset .row > .col-md-2,
+  body .quasar-reset .row > .col-md-3,
+  body .quasar-reset .row > .col-md-4,
+  body .quasar-reset .row > .col-md-5,
+  body .quasar-reset .row > .col-md-6,
+  body .quasar-reset .row > .col-md-7,
+  body .quasar-reset .row > .col-md-8,
+  body .quasar-reset .row > .col-md-9,
+  body .quasar-reset .row > .col-md-10,
+  body .quasar-reset .row > .col-md-11,
+  body .quasar-reset .row > .col-md-12,
+  body .quasar-reset .flex > .col-md,
+  body .quasar-reset .flex > .col-md-auto,
+  body .quasar-reset .flex > .col-md-grow,
+  body .quasar-reset .flex > .col-md-shrink,
+  body .quasar-reset .flex > .col-md-0,
+  body .quasar-reset .flex > .col-md-1,
+  body .quasar-reset .flex > .col-md-2,
+  body .quasar-reset .flex > .col-md-3,
+  body .quasar-reset .flex > .col-md-4,
+  body .quasar-reset .flex > .col-md-5,
+  body .quasar-reset .flex > .col-md-6,
+  body .quasar-reset .flex > .col-md-7,
+  body .quasar-reset .flex > .col-md-8,
+  body .quasar-reset .flex > .col-md-9,
+  body .quasar-reset .flex > .col-md-10,
+  body .quasar-reset .flex > .col-md-11,
+  body .quasar-reset .flex > .col-md-12 {
     width: auto;
     min-width: 0;
     max-width: 100%;
   }
-  #quasar-reset .column > .col-md,
-  #quasar-reset .column > .col-md-auto,
-  #quasar-reset .column > .col-md-grow,
-  #quasar-reset .column > .col-md-shrink,
-  #quasar-reset .column > .col-md-0,
-  #quasar-reset .column > .col-md-1,
-  #quasar-reset .column > .col-md-2,
-  #quasar-reset .column > .col-md-3,
-  #quasar-reset .column > .col-md-4,
-  #quasar-reset .column > .col-md-5,
-  #quasar-reset .column > .col-md-6,
-  #quasar-reset .column > .col-md-7,
-  #quasar-reset .column > .col-md-8,
-  #quasar-reset .column > .col-md-9,
-  #quasar-reset .column > .col-md-10,
-  #quasar-reset .column > .col-md-11,
-  #quasar-reset .column > .col-md-12,
-  #quasar-reset .flex > .col-md,
-  #quasar-reset .flex > .col-md-auto,
-  #quasar-reset .flex > .col-md-grow,
-  #quasar-reset .flex > .col-md-shrink,
-  #quasar-reset .flex > .col-md-0,
-  #quasar-reset .flex > .col-md-1,
-  #quasar-reset .flex > .col-md-2,
-  #quasar-reset .flex > .col-md-3,
-  #quasar-reset .flex > .col-md-4,
-  #quasar-reset .flex > .col-md-5,
-  #quasar-reset .flex > .col-md-6,
-  #quasar-reset .flex > .col-md-7,
-  #quasar-reset .flex > .col-md-8,
-  #quasar-reset .flex > .col-md-9,
-  #quasar-reset .flex > .col-md-10,
-  #quasar-reset .flex > .col-md-11,
-  #quasar-reset .flex > .col-md-12 {
+  body .quasar-reset .column > .col-md,
+  body .quasar-reset .column > .col-md-auto,
+  body .quasar-reset .column > .col-md-grow,
+  body .quasar-reset .column > .col-md-shrink,
+  body .quasar-reset .column > .col-md-0,
+  body .quasar-reset .column > .col-md-1,
+  body .quasar-reset .column > .col-md-2,
+  body .quasar-reset .column > .col-md-3,
+  body .quasar-reset .column > .col-md-4,
+  body .quasar-reset .column > .col-md-5,
+  body .quasar-reset .column > .col-md-6,
+  body .quasar-reset .column > .col-md-7,
+  body .quasar-reset .column > .col-md-8,
+  body .quasar-reset .column > .col-md-9,
+  body .quasar-reset .column > .col-md-10,
+  body .quasar-reset .column > .col-md-11,
+  body .quasar-reset .column > .col-md-12,
+  body .quasar-reset .flex > .col-md,
+  body .quasar-reset .flex > .col-md-auto,
+  body .quasar-reset .flex > .col-md-grow,
+  body .quasar-reset .flex > .col-md-shrink,
+  body .quasar-reset .flex > .col-md-0,
+  body .quasar-reset .flex > .col-md-1,
+  body .quasar-reset .flex > .col-md-2,
+  body .quasar-reset .flex > .col-md-3,
+  body .quasar-reset .flex > .col-md-4,
+  body .quasar-reset .flex > .col-md-5,
+  body .quasar-reset .flex > .col-md-6,
+  body .quasar-reset .flex > .col-md-7,
+  body .quasar-reset .flex > .col-md-8,
+  body .quasar-reset .flex > .col-md-9,
+  body .quasar-reset .flex > .col-md-10,
+  body .quasar-reset .flex > .col-md-11,
+  body .quasar-reset .flex > .col-md-12 {
     height: auto;
     min-height: 0;
     max-height: 100%;
   }
-  #quasar-reset .col-md {
+  body .quasar-reset .col-md {
     flex: 10000 1 0%;
   }
-  #quasar-reset .col-md-auto,
-  #quasar-reset .col-md-0,
-  #quasar-reset .col-md-1,
-  #quasar-reset .col-md-2,
-  #quasar-reset .col-md-3,
-  #quasar-reset .col-md-4,
-  #quasar-reset .col-md-5,
-  #quasar-reset .col-md-6,
-  #quasar-reset .col-md-7,
-  #quasar-reset .col-md-8,
-  #quasar-reset .col-md-9,
-  #quasar-reset .col-md-10,
-  #quasar-reset .col-md-11,
-  #quasar-reset .col-md-12 {
+  body .quasar-reset .col-md-auto,
+  body .quasar-reset .col-md-0,
+  body .quasar-reset .col-md-1,
+  body .quasar-reset .col-md-2,
+  body .quasar-reset .col-md-3,
+  body .quasar-reset .col-md-4,
+  body .quasar-reset .col-md-5,
+  body .quasar-reset .col-md-6,
+  body .quasar-reset .col-md-7,
+  body .quasar-reset .col-md-8,
+  body .quasar-reset .col-md-9,
+  body .quasar-reset .col-md-10,
+  body .quasar-reset .col-md-11,
+  body .quasar-reset .col-md-12 {
     flex: 0 0 auto;
   }
-  #quasar-reset .col-md-grow {
+  body .quasar-reset .col-md-grow {
     flex: 1 0 auto;
   }
-  #quasar-reset .col-md-shrink {
+  body .quasar-reset .col-md-shrink {
     flex: 0 1 auto;
   }
-  #quasar-reset .row > .col-md-0 {
+  body .quasar-reset .row > .col-md-0 {
     height: auto;
     width: 0%;
   }
-  #quasar-reset .row > .offset-md-0 {
+  body .quasar-reset .row > .offset-md-0 {
     margin-left: 0%;
   }
-  #quasar-reset .column > .col-md-0 {
+  body .quasar-reset .column > .col-md-0 {
     height: 0%;
     width: auto;
   }
-  #quasar-reset .row > .col-md-1 {
+  body .quasar-reset .row > .col-md-1 {
     height: auto;
     width: 8.3333%;
   }
-  #quasar-reset .row > .offset-md-1 {
+  body .quasar-reset .row > .offset-md-1 {
     margin-left: 8.3333%;
   }
-  #quasar-reset .column > .col-md-1 {
+  body .quasar-reset .column > .col-md-1 {
     height: 8.3333%;
     width: auto;
   }
-  #quasar-reset .row > .col-md-2 {
+  body .quasar-reset .row > .col-md-2 {
     height: auto;
     width: 16.6667%;
   }
-  #quasar-reset .row > .offset-md-2 {
+  body .quasar-reset .row > .offset-md-2 {
     margin-left: 16.6667%;
   }
-  #quasar-reset .column > .col-md-2 {
+  body .quasar-reset .column > .col-md-2 {
     height: 16.6667%;
     width: auto;
   }
-  #quasar-reset .row > .col-md-3 {
+  body .quasar-reset .row > .col-md-3 {
     height: auto;
     width: 25%;
   }
-  #quasar-reset .row > .offset-md-3 {
+  body .quasar-reset .row > .offset-md-3 {
     margin-left: 25%;
   }
-  #quasar-reset .column > .col-md-3 {
+  body .quasar-reset .column > .col-md-3 {
     height: 25%;
     width: auto;
   }
-  #quasar-reset .row > .col-md-4 {
+  body .quasar-reset .row > .col-md-4 {
     height: auto;
     width: 33.3333%;
   }
-  #quasar-reset .row > .offset-md-4 {
+  body .quasar-reset .row > .offset-md-4 {
     margin-left: 33.3333%;
   }
-  #quasar-reset .column > .col-md-4 {
+  body .quasar-reset .column > .col-md-4 {
     height: 33.3333%;
     width: auto;
   }
-  #quasar-reset .row > .col-md-5 {
+  body .quasar-reset .row > .col-md-5 {
     height: auto;
     width: 41.6667%;
   }
-  #quasar-reset .row > .offset-md-5 {
+  body .quasar-reset .row > .offset-md-5 {
     margin-left: 41.6667%;
   }
-  #quasar-reset .column > .col-md-5 {
+  body .quasar-reset .column > .col-md-5 {
     height: 41.6667%;
     width: auto;
   }
-  #quasar-reset .row > .col-md-6 {
+  body .quasar-reset .row > .col-md-6 {
     height: auto;
     width: 50%;
   }
-  #quasar-reset .row > .offset-md-6 {
+  body .quasar-reset .row > .offset-md-6 {
     margin-left: 50%;
   }
-  #quasar-reset .column > .col-md-6 {
+  body .quasar-reset .column > .col-md-6 {
     height: 50%;
     width: auto;
   }
-  #quasar-reset .row > .col-md-7 {
+  body .quasar-reset .row > .col-md-7 {
     height: auto;
     width: 58.3333%;
   }
-  #quasar-reset .row > .offset-md-7 {
+  body .quasar-reset .row > .offset-md-7 {
     margin-left: 58.3333%;
   }
-  #quasar-reset .column > .col-md-7 {
+  body .quasar-reset .column > .col-md-7 {
     height: 58.3333%;
     width: auto;
   }
-  #quasar-reset .row > .col-md-8 {
+  body .quasar-reset .row > .col-md-8 {
     height: auto;
     width: 66.6667%;
   }
-  #quasar-reset .row > .offset-md-8 {
+  body .quasar-reset .row > .offset-md-8 {
     margin-left: 66.6667%;
   }
-  #quasar-reset .column > .col-md-8 {
+  body .quasar-reset .column > .col-md-8 {
     height: 66.6667%;
     width: auto;
   }
-  #quasar-reset .row > .col-md-9 {
+  body .quasar-reset .row > .col-md-9 {
     height: auto;
     width: 75%;
   }
-  #quasar-reset .row > .offset-md-9 {
+  body .quasar-reset .row > .offset-md-9 {
     margin-left: 75%;
   }
-  #quasar-reset .column > .col-md-9 {
+  body .quasar-reset .column > .col-md-9 {
     height: 75%;
     width: auto;
   }
-  #quasar-reset .row > .col-md-10 {
+  body .quasar-reset .row > .col-md-10 {
     height: auto;
     width: 83.3333%;
   }
-  #quasar-reset .row > .offset-md-10 {
+  body .quasar-reset .row > .offset-md-10 {
     margin-left: 83.3333%;
   }
-  #quasar-reset .column > .col-md-10 {
+  body .quasar-reset .column > .col-md-10 {
     height: 83.3333%;
     width: auto;
   }
-  #quasar-reset .row > .col-md-11 {
+  body .quasar-reset .row > .col-md-11 {
     height: auto;
     width: 91.6667%;
   }
-  #quasar-reset .row > .offset-md-11 {
+  body .quasar-reset .row > .offset-md-11 {
     margin-left: 91.6667%;
   }
-  #quasar-reset .column > .col-md-11 {
+  body .quasar-reset .column > .col-md-11 {
     height: 91.6667%;
     width: auto;
   }
-  #quasar-reset .row > .col-md-12 {
+  body .quasar-reset .row > .col-md-12 {
     height: auto;
     width: 100%;
   }
-  #quasar-reset .row > .offset-md-12 {
+  body .quasar-reset .row > .offset-md-12 {
     margin-left: 100%;
   }
-  #quasar-reset .column > .col-md-12 {
+  body .quasar-reset .column > .col-md-12 {
     height: 100%;
     width: auto;
   }
 }
 @media (min-width: 1440px) {
-  #quasar-reset .row > .col-lg,
-  #quasar-reset .row > .col-lg-auto,
-  #quasar-reset .row > .col-lg-grow,
-  #quasar-reset .row > .col-lg-shrink,
-  #quasar-reset .row > .col-lg-0,
-  #quasar-reset .row > .col-lg-1,
-  #quasar-reset .row > .col-lg-2,
-  #quasar-reset .row > .col-lg-3,
-  #quasar-reset .row > .col-lg-4,
-  #quasar-reset .row > .col-lg-5,
-  #quasar-reset .row > .col-lg-6,
-  #quasar-reset .row > .col-lg-7,
-  #quasar-reset .row > .col-lg-8,
-  #quasar-reset .row > .col-lg-9,
-  #quasar-reset .row > .col-lg-10,
-  #quasar-reset .row > .col-lg-11,
-  #quasar-reset .row > .col-lg-12,
-  #quasar-reset .flex > .col-lg,
-  #quasar-reset .flex > .col-lg-auto,
-  #quasar-reset .flex > .col-lg-grow,
-  #quasar-reset .flex > .col-lg-shrink,
-  #quasar-reset .flex > .col-lg-0,
-  #quasar-reset .flex > .col-lg-1,
-  #quasar-reset .flex > .col-lg-2,
-  #quasar-reset .flex > .col-lg-3,
-  #quasar-reset .flex > .col-lg-4,
-  #quasar-reset .flex > .col-lg-5,
-  #quasar-reset .flex > .col-lg-6,
-  #quasar-reset .flex > .col-lg-7,
-  #quasar-reset .flex > .col-lg-8,
-  #quasar-reset .flex > .col-lg-9,
-  #quasar-reset .flex > .col-lg-10,
-  #quasar-reset .flex > .col-lg-11,
-  #quasar-reset .flex > .col-lg-12 {
+  body .quasar-reset .row > .col-lg,
+  body .quasar-reset .row > .col-lg-auto,
+  body .quasar-reset .row > .col-lg-grow,
+  body .quasar-reset .row > .col-lg-shrink,
+  body .quasar-reset .row > .col-lg-0,
+  body .quasar-reset .row > .col-lg-1,
+  body .quasar-reset .row > .col-lg-2,
+  body .quasar-reset .row > .col-lg-3,
+  body .quasar-reset .row > .col-lg-4,
+  body .quasar-reset .row > .col-lg-5,
+  body .quasar-reset .row > .col-lg-6,
+  body .quasar-reset .row > .col-lg-7,
+  body .quasar-reset .row > .col-lg-8,
+  body .quasar-reset .row > .col-lg-9,
+  body .quasar-reset .row > .col-lg-10,
+  body .quasar-reset .row > .col-lg-11,
+  body .quasar-reset .row > .col-lg-12,
+  body .quasar-reset .flex > .col-lg,
+  body .quasar-reset .flex > .col-lg-auto,
+  body .quasar-reset .flex > .col-lg-grow,
+  body .quasar-reset .flex > .col-lg-shrink,
+  body .quasar-reset .flex > .col-lg-0,
+  body .quasar-reset .flex > .col-lg-1,
+  body .quasar-reset .flex > .col-lg-2,
+  body .quasar-reset .flex > .col-lg-3,
+  body .quasar-reset .flex > .col-lg-4,
+  body .quasar-reset .flex > .col-lg-5,
+  body .quasar-reset .flex > .col-lg-6,
+  body .quasar-reset .flex > .col-lg-7,
+  body .quasar-reset .flex > .col-lg-8,
+  body .quasar-reset .flex > .col-lg-9,
+  body .quasar-reset .flex > .col-lg-10,
+  body .quasar-reset .flex > .col-lg-11,
+  body .quasar-reset .flex > .col-lg-12 {
     width: auto;
     min-width: 0;
     max-width: 100%;
   }
-  #quasar-reset .column > .col-lg,
-  #quasar-reset .column > .col-lg-auto,
-  #quasar-reset .column > .col-lg-grow,
-  #quasar-reset .column > .col-lg-shrink,
-  #quasar-reset .column > .col-lg-0,
-  #quasar-reset .column > .col-lg-1,
-  #quasar-reset .column > .col-lg-2,
-  #quasar-reset .column > .col-lg-3,
-  #quasar-reset .column > .col-lg-4,
-  #quasar-reset .column > .col-lg-5,
-  #quasar-reset .column > .col-lg-6,
-  #quasar-reset .column > .col-lg-7,
-  #quasar-reset .column > .col-lg-8,
-  #quasar-reset .column > .col-lg-9,
-  #quasar-reset .column > .col-lg-10,
-  #quasar-reset .column > .col-lg-11,
-  #quasar-reset .column > .col-lg-12,
-  #quasar-reset .flex > .col-lg,
-  #quasar-reset .flex > .col-lg-auto,
-  #quasar-reset .flex > .col-lg-grow,
-  #quasar-reset .flex > .col-lg-shrink,
-  #quasar-reset .flex > .col-lg-0,
-  #quasar-reset .flex > .col-lg-1,
-  #quasar-reset .flex > .col-lg-2,
-  #quasar-reset .flex > .col-lg-3,
-  #quasar-reset .flex > .col-lg-4,
-  #quasar-reset .flex > .col-lg-5,
-  #quasar-reset .flex > .col-lg-6,
-  #quasar-reset .flex > .col-lg-7,
-  #quasar-reset .flex > .col-lg-8,
-  #quasar-reset .flex > .col-lg-9,
-  #quasar-reset .flex > .col-lg-10,
-  #quasar-reset .flex > .col-lg-11,
-  #quasar-reset .flex > .col-lg-12 {
+  body .quasar-reset .column > .col-lg,
+  body .quasar-reset .column > .col-lg-auto,
+  body .quasar-reset .column > .col-lg-grow,
+  body .quasar-reset .column > .col-lg-shrink,
+  body .quasar-reset .column > .col-lg-0,
+  body .quasar-reset .column > .col-lg-1,
+  body .quasar-reset .column > .col-lg-2,
+  body .quasar-reset .column > .col-lg-3,
+  body .quasar-reset .column > .col-lg-4,
+  body .quasar-reset .column > .col-lg-5,
+  body .quasar-reset .column > .col-lg-6,
+  body .quasar-reset .column > .col-lg-7,
+  body .quasar-reset .column > .col-lg-8,
+  body .quasar-reset .column > .col-lg-9,
+  body .quasar-reset .column > .col-lg-10,
+  body .quasar-reset .column > .col-lg-11,
+  body .quasar-reset .column > .col-lg-12,
+  body .quasar-reset .flex > .col-lg,
+  body .quasar-reset .flex > .col-lg-auto,
+  body .quasar-reset .flex > .col-lg-grow,
+  body .quasar-reset .flex > .col-lg-shrink,
+  body .quasar-reset .flex > .col-lg-0,
+  body .quasar-reset .flex > .col-lg-1,
+  body .quasar-reset .flex > .col-lg-2,
+  body .quasar-reset .flex > .col-lg-3,
+  body .quasar-reset .flex > .col-lg-4,
+  body .quasar-reset .flex > .col-lg-5,
+  body .quasar-reset .flex > .col-lg-6,
+  body .quasar-reset .flex > .col-lg-7,
+  body .quasar-reset .flex > .col-lg-8,
+  body .quasar-reset .flex > .col-lg-9,
+  body .quasar-reset .flex > .col-lg-10,
+  body .quasar-reset .flex > .col-lg-11,
+  body .quasar-reset .flex > .col-lg-12 {
     height: auto;
     min-height: 0;
     max-height: 100%;
   }
-  #quasar-reset .col-lg {
+  body .quasar-reset .col-lg {
     flex: 10000 1 0%;
   }
-  #quasar-reset .col-lg-auto,
-  #quasar-reset .col-lg-0,
-  #quasar-reset .col-lg-1,
-  #quasar-reset .col-lg-2,
-  #quasar-reset .col-lg-3,
-  #quasar-reset .col-lg-4,
-  #quasar-reset .col-lg-5,
-  #quasar-reset .col-lg-6,
-  #quasar-reset .col-lg-7,
-  #quasar-reset .col-lg-8,
-  #quasar-reset .col-lg-9,
-  #quasar-reset .col-lg-10,
-  #quasar-reset .col-lg-11,
-  #quasar-reset .col-lg-12 {
+  body .quasar-reset .col-lg-auto,
+  body .quasar-reset .col-lg-0,
+  body .quasar-reset .col-lg-1,
+  body .quasar-reset .col-lg-2,
+  body .quasar-reset .col-lg-3,
+  body .quasar-reset .col-lg-4,
+  body .quasar-reset .col-lg-5,
+  body .quasar-reset .col-lg-6,
+  body .quasar-reset .col-lg-7,
+  body .quasar-reset .col-lg-8,
+  body .quasar-reset .col-lg-9,
+  body .quasar-reset .col-lg-10,
+  body .quasar-reset .col-lg-11,
+  body .quasar-reset .col-lg-12 {
     flex: 0 0 auto;
   }
-  #quasar-reset .col-lg-grow {
+  body .quasar-reset .col-lg-grow {
     flex: 1 0 auto;
   }
-  #quasar-reset .col-lg-shrink {
+  body .quasar-reset .col-lg-shrink {
     flex: 0 1 auto;
   }
-  #quasar-reset .row > .col-lg-0 {
+  body .quasar-reset .row > .col-lg-0 {
     height: auto;
     width: 0%;
   }
-  #quasar-reset .row > .offset-lg-0 {
+  body .quasar-reset .row > .offset-lg-0 {
     margin-left: 0%;
   }
-  #quasar-reset .column > .col-lg-0 {
+  body .quasar-reset .column > .col-lg-0 {
     height: 0%;
     width: auto;
   }
-  #quasar-reset .row > .col-lg-1 {
+  body .quasar-reset .row > .col-lg-1 {
     height: auto;
     width: 8.3333%;
   }
-  #quasar-reset .row > .offset-lg-1 {
+  body .quasar-reset .row > .offset-lg-1 {
     margin-left: 8.3333%;
   }
-  #quasar-reset .column > .col-lg-1 {
+  body .quasar-reset .column > .col-lg-1 {
     height: 8.3333%;
     width: auto;
   }
-  #quasar-reset .row > .col-lg-2 {
+  body .quasar-reset .row > .col-lg-2 {
     height: auto;
     width: 16.6667%;
   }
-  #quasar-reset .row > .offset-lg-2 {
+  body .quasar-reset .row > .offset-lg-2 {
     margin-left: 16.6667%;
   }
-  #quasar-reset .column > .col-lg-2 {
+  body .quasar-reset .column > .col-lg-2 {
     height: 16.6667%;
     width: auto;
   }
-  #quasar-reset .row > .col-lg-3 {
+  body .quasar-reset .row > .col-lg-3 {
     height: auto;
     width: 25%;
   }
-  #quasar-reset .row > .offset-lg-3 {
+  body .quasar-reset .row > .offset-lg-3 {
     margin-left: 25%;
   }
-  #quasar-reset .column > .col-lg-3 {
+  body .quasar-reset .column > .col-lg-3 {
     height: 25%;
     width: auto;
   }
-  #quasar-reset .row > .col-lg-4 {
+  body .quasar-reset .row > .col-lg-4 {
     height: auto;
     width: 33.3333%;
   }
-  #quasar-reset .row > .offset-lg-4 {
+  body .quasar-reset .row > .offset-lg-4 {
     margin-left: 33.3333%;
   }
-  #quasar-reset .column > .col-lg-4 {
+  body .quasar-reset .column > .col-lg-4 {
     height: 33.3333%;
     width: auto;
   }
-  #quasar-reset .row > .col-lg-5 {
+  body .quasar-reset .row > .col-lg-5 {
     height: auto;
     width: 41.6667%;
   }
-  #quasar-reset .row > .offset-lg-5 {
+  body .quasar-reset .row > .offset-lg-5 {
     margin-left: 41.6667%;
   }
-  #quasar-reset .column > .col-lg-5 {
+  body .quasar-reset .column > .col-lg-5 {
     height: 41.6667%;
     width: auto;
   }
-  #quasar-reset .row > .col-lg-6 {
+  body .quasar-reset .row > .col-lg-6 {
     height: auto;
     width: 50%;
   }
-  #quasar-reset .row > .offset-lg-6 {
+  body .quasar-reset .row > .offset-lg-6 {
     margin-left: 50%;
   }
-  #quasar-reset .column > .col-lg-6 {
+  body .quasar-reset .column > .col-lg-6 {
     height: 50%;
     width: auto;
   }
-  #quasar-reset .row > .col-lg-7 {
+  body .quasar-reset .row > .col-lg-7 {
     height: auto;
     width: 58.3333%;
   }
-  #quasar-reset .row > .offset-lg-7 {
+  body .quasar-reset .row > .offset-lg-7 {
     margin-left: 58.3333%;
   }
-  #quasar-reset .column > .col-lg-7 {
+  body .quasar-reset .column > .col-lg-7 {
     height: 58.3333%;
     width: auto;
   }
-  #quasar-reset .row > .col-lg-8 {
+  body .quasar-reset .row > .col-lg-8 {
     height: auto;
     width: 66.6667%;
   }
-  #quasar-reset .row > .offset-lg-8 {
+  body .quasar-reset .row > .offset-lg-8 {
     margin-left: 66.6667%;
   }
-  #quasar-reset .column > .col-lg-8 {
+  body .quasar-reset .column > .col-lg-8 {
     height: 66.6667%;
     width: auto;
   }
-  #quasar-reset .row > .col-lg-9 {
+  body .quasar-reset .row > .col-lg-9 {
     height: auto;
     width: 75%;
   }
-  #quasar-reset .row > .offset-lg-9 {
+  body .quasar-reset .row > .offset-lg-9 {
     margin-left: 75%;
   }
-  #quasar-reset .column > .col-lg-9 {
+  body .quasar-reset .column > .col-lg-9 {
     height: 75%;
     width: auto;
   }
-  #quasar-reset .row > .col-lg-10 {
+  body .quasar-reset .row > .col-lg-10 {
     height: auto;
     width: 83.3333%;
   }
-  #quasar-reset .row > .offset-lg-10 {
+  body .quasar-reset .row > .offset-lg-10 {
     margin-left: 83.3333%;
   }
-  #quasar-reset .column > .col-lg-10 {
+  body .quasar-reset .column > .col-lg-10 {
     height: 83.3333%;
     width: auto;
   }
-  #quasar-reset .row > .col-lg-11 {
+  body .quasar-reset .row > .col-lg-11 {
     height: auto;
     width: 91.6667%;
   }
-  #quasar-reset .row > .offset-lg-11 {
+  body .quasar-reset .row > .offset-lg-11 {
     margin-left: 91.6667%;
   }
-  #quasar-reset .column > .col-lg-11 {
+  body .quasar-reset .column > .col-lg-11 {
     height: 91.6667%;
     width: auto;
   }
-  #quasar-reset .row > .col-lg-12 {
+  body .quasar-reset .row > .col-lg-12 {
     height: auto;
     width: 100%;
   }
-  #quasar-reset .row > .offset-lg-12 {
+  body .quasar-reset .row > .offset-lg-12 {
     margin-left: 100%;
   }
-  #quasar-reset .column > .col-lg-12 {
+  body .quasar-reset .column > .col-lg-12 {
     height: 100%;
     width: auto;
   }
 }
 @media (min-width: 1920px) {
-  #quasar-reset .row > .col-xl,
-  #quasar-reset .row > .col-xl-auto,
-  #quasar-reset .row > .col-xl-grow,
-  #quasar-reset .row > .col-xl-shrink,
-  #quasar-reset .row > .col-xl-0,
-  #quasar-reset .row > .col-xl-1,
-  #quasar-reset .row > .col-xl-2,
-  #quasar-reset .row > .col-xl-3,
-  #quasar-reset .row > .col-xl-4,
-  #quasar-reset .row > .col-xl-5,
-  #quasar-reset .row > .col-xl-6,
-  #quasar-reset .row > .col-xl-7,
-  #quasar-reset .row > .col-xl-8,
-  #quasar-reset .row > .col-xl-9,
-  #quasar-reset .row > .col-xl-10,
-  #quasar-reset .row > .col-xl-11,
-  #quasar-reset .row > .col-xl-12,
-  #quasar-reset .flex > .col-xl,
-  #quasar-reset .flex > .col-xl-auto,
-  #quasar-reset .flex > .col-xl-grow,
-  #quasar-reset .flex > .col-xl-shrink,
-  #quasar-reset .flex > .col-xl-0,
-  #quasar-reset .flex > .col-xl-1,
-  #quasar-reset .flex > .col-xl-2,
-  #quasar-reset .flex > .col-xl-3,
-  #quasar-reset .flex > .col-xl-4,
-  #quasar-reset .flex > .col-xl-5,
-  #quasar-reset .flex > .col-xl-6,
-  #quasar-reset .flex > .col-xl-7,
-  #quasar-reset .flex > .col-xl-8,
-  #quasar-reset .flex > .col-xl-9,
-  #quasar-reset .flex > .col-xl-10,
-  #quasar-reset .flex > .col-xl-11,
-  #quasar-reset .flex > .col-xl-12 {
+  body .quasar-reset .row > .col-xl,
+  body .quasar-reset .row > .col-xl-auto,
+  body .quasar-reset .row > .col-xl-grow,
+  body .quasar-reset .row > .col-xl-shrink,
+  body .quasar-reset .row > .col-xl-0,
+  body .quasar-reset .row > .col-xl-1,
+  body .quasar-reset .row > .col-xl-2,
+  body .quasar-reset .row > .col-xl-3,
+  body .quasar-reset .row > .col-xl-4,
+  body .quasar-reset .row > .col-xl-5,
+  body .quasar-reset .row > .col-xl-6,
+  body .quasar-reset .row > .col-xl-7,
+  body .quasar-reset .row > .col-xl-8,
+  body .quasar-reset .row > .col-xl-9,
+  body .quasar-reset .row > .col-xl-10,
+  body .quasar-reset .row > .col-xl-11,
+  body .quasar-reset .row > .col-xl-12,
+  body .quasar-reset .flex > .col-xl,
+  body .quasar-reset .flex > .col-xl-auto,
+  body .quasar-reset .flex > .col-xl-grow,
+  body .quasar-reset .flex > .col-xl-shrink,
+  body .quasar-reset .flex > .col-xl-0,
+  body .quasar-reset .flex > .col-xl-1,
+  body .quasar-reset .flex > .col-xl-2,
+  body .quasar-reset .flex > .col-xl-3,
+  body .quasar-reset .flex > .col-xl-4,
+  body .quasar-reset .flex > .col-xl-5,
+  body .quasar-reset .flex > .col-xl-6,
+  body .quasar-reset .flex > .col-xl-7,
+  body .quasar-reset .flex > .col-xl-8,
+  body .quasar-reset .flex > .col-xl-9,
+  body .quasar-reset .flex > .col-xl-10,
+  body .quasar-reset .flex > .col-xl-11,
+  body .quasar-reset .flex > .col-xl-12 {
     width: auto;
     min-width: 0;
     max-width: 100%;
   }
-  #quasar-reset .column > .col-xl,
-  #quasar-reset .column > .col-xl-auto,
-  #quasar-reset .column > .col-xl-grow,
-  #quasar-reset .column > .col-xl-shrink,
-  #quasar-reset .column > .col-xl-0,
-  #quasar-reset .column > .col-xl-1,
-  #quasar-reset .column > .col-xl-2,
-  #quasar-reset .column > .col-xl-3,
-  #quasar-reset .column > .col-xl-4,
-  #quasar-reset .column > .col-xl-5,
-  #quasar-reset .column > .col-xl-6,
-  #quasar-reset .column > .col-xl-7,
-  #quasar-reset .column > .col-xl-8,
-  #quasar-reset .column > .col-xl-9,
-  #quasar-reset .column > .col-xl-10,
-  #quasar-reset .column > .col-xl-11,
-  #quasar-reset .column > .col-xl-12,
-  #quasar-reset .flex > .col-xl,
-  #quasar-reset .flex > .col-xl-auto,
-  #quasar-reset .flex > .col-xl-grow,
-  #quasar-reset .flex > .col-xl-shrink,
-  #quasar-reset .flex > .col-xl-0,
-  #quasar-reset .flex > .col-xl-1,
-  #quasar-reset .flex > .col-xl-2,
-  #quasar-reset .flex > .col-xl-3,
-  #quasar-reset .flex > .col-xl-4,
-  #quasar-reset .flex > .col-xl-5,
-  #quasar-reset .flex > .col-xl-6,
-  #quasar-reset .flex > .col-xl-7,
-  #quasar-reset .flex > .col-xl-8,
-  #quasar-reset .flex > .col-xl-9,
-  #quasar-reset .flex > .col-xl-10,
-  #quasar-reset .flex > .col-xl-11,
-  #quasar-reset .flex > .col-xl-12 {
+  body .quasar-reset .column > .col-xl,
+  body .quasar-reset .column > .col-xl-auto,
+  body .quasar-reset .column > .col-xl-grow,
+  body .quasar-reset .column > .col-xl-shrink,
+  body .quasar-reset .column > .col-xl-0,
+  body .quasar-reset .column > .col-xl-1,
+  body .quasar-reset .column > .col-xl-2,
+  body .quasar-reset .column > .col-xl-3,
+  body .quasar-reset .column > .col-xl-4,
+  body .quasar-reset .column > .col-xl-5,
+  body .quasar-reset .column > .col-xl-6,
+  body .quasar-reset .column > .col-xl-7,
+  body .quasar-reset .column > .col-xl-8,
+  body .quasar-reset .column > .col-xl-9,
+  body .quasar-reset .column > .col-xl-10,
+  body .quasar-reset .column > .col-xl-11,
+  body .quasar-reset .column > .col-xl-12,
+  body .quasar-reset .flex > .col-xl,
+  body .quasar-reset .flex > .col-xl-auto,
+  body .quasar-reset .flex > .col-xl-grow,
+  body .quasar-reset .flex > .col-xl-shrink,
+  body .quasar-reset .flex > .col-xl-0,
+  body .quasar-reset .flex > .col-xl-1,
+  body .quasar-reset .flex > .col-xl-2,
+  body .quasar-reset .flex > .col-xl-3,
+  body .quasar-reset .flex > .col-xl-4,
+  body .quasar-reset .flex > .col-xl-5,
+  body .quasar-reset .flex > .col-xl-6,
+  body .quasar-reset .flex > .col-xl-7,
+  body .quasar-reset .flex > .col-xl-8,
+  body .quasar-reset .flex > .col-xl-9,
+  body .quasar-reset .flex > .col-xl-10,
+  body .quasar-reset .flex > .col-xl-11,
+  body .quasar-reset .flex > .col-xl-12 {
     height: auto;
     min-height: 0;
     max-height: 100%;
   }
-  #quasar-reset .col-xl {
+  body .quasar-reset .col-xl {
     flex: 10000 1 0%;
   }
-  #quasar-reset .col-xl-auto,
-  #quasar-reset .col-xl-0,
-  #quasar-reset .col-xl-1,
-  #quasar-reset .col-xl-2,
-  #quasar-reset .col-xl-3,
-  #quasar-reset .col-xl-4,
-  #quasar-reset .col-xl-5,
-  #quasar-reset .col-xl-6,
-  #quasar-reset .col-xl-7,
-  #quasar-reset .col-xl-8,
-  #quasar-reset .col-xl-9,
-  #quasar-reset .col-xl-10,
-  #quasar-reset .col-xl-11,
-  #quasar-reset .col-xl-12 {
+  body .quasar-reset .col-xl-auto,
+  body .quasar-reset .col-xl-0,
+  body .quasar-reset .col-xl-1,
+  body .quasar-reset .col-xl-2,
+  body .quasar-reset .col-xl-3,
+  body .quasar-reset .col-xl-4,
+  body .quasar-reset .col-xl-5,
+  body .quasar-reset .col-xl-6,
+  body .quasar-reset .col-xl-7,
+  body .quasar-reset .col-xl-8,
+  body .quasar-reset .col-xl-9,
+  body .quasar-reset .col-xl-10,
+  body .quasar-reset .col-xl-11,
+  body .quasar-reset .col-xl-12 {
     flex: 0 0 auto;
   }
-  #quasar-reset .col-xl-grow {
+  body .quasar-reset .col-xl-grow {
     flex: 1 0 auto;
   }
-  #quasar-reset .col-xl-shrink {
+  body .quasar-reset .col-xl-shrink {
     flex: 0 1 auto;
   }
-  #quasar-reset .row > .col-xl-0 {
+  body .quasar-reset .row > .col-xl-0 {
     height: auto;
     width: 0%;
   }
-  #quasar-reset .row > .offset-xl-0 {
+  body .quasar-reset .row > .offset-xl-0 {
     margin-left: 0%;
   }
-  #quasar-reset .column > .col-xl-0 {
+  body .quasar-reset .column > .col-xl-0 {
     height: 0%;
     width: auto;
   }
-  #quasar-reset .row > .col-xl-1 {
+  body .quasar-reset .row > .col-xl-1 {
     height: auto;
     width: 8.3333%;
   }
-  #quasar-reset .row > .offset-xl-1 {
+  body .quasar-reset .row > .offset-xl-1 {
     margin-left: 8.3333%;
   }
-  #quasar-reset .column > .col-xl-1 {
+  body .quasar-reset .column > .col-xl-1 {
     height: 8.3333%;
     width: auto;
   }
-  #quasar-reset .row > .col-xl-2 {
+  body .quasar-reset .row > .col-xl-2 {
     height: auto;
     width: 16.6667%;
   }
-  #quasar-reset .row > .offset-xl-2 {
+  body .quasar-reset .row > .offset-xl-2 {
     margin-left: 16.6667%;
   }
-  #quasar-reset .column > .col-xl-2 {
+  body .quasar-reset .column > .col-xl-2 {
     height: 16.6667%;
     width: auto;
   }
-  #quasar-reset .row > .col-xl-3 {
+  body .quasar-reset .row > .col-xl-3 {
     height: auto;
     width: 25%;
   }
-  #quasar-reset .row > .offset-xl-3 {
+  body .quasar-reset .row > .offset-xl-3 {
     margin-left: 25%;
   }
-  #quasar-reset .column > .col-xl-3 {
+  body .quasar-reset .column > .col-xl-3 {
     height: 25%;
     width: auto;
   }
-  #quasar-reset .row > .col-xl-4 {
+  body .quasar-reset .row > .col-xl-4 {
     height: auto;
     width: 33.3333%;
   }
-  #quasar-reset .row > .offset-xl-4 {
+  body .quasar-reset .row > .offset-xl-4 {
     margin-left: 33.3333%;
   }
-  #quasar-reset .column > .col-xl-4 {
+  body .quasar-reset .column > .col-xl-4 {
     height: 33.3333%;
     width: auto;
   }
-  #quasar-reset .row > .col-xl-5 {
+  body .quasar-reset .row > .col-xl-5 {
     height: auto;
     width: 41.6667%;
   }
-  #quasar-reset .row > .offset-xl-5 {
+  body .quasar-reset .row > .offset-xl-5 {
     margin-left: 41.6667%;
   }
-  #quasar-reset .column > .col-xl-5 {
+  body .quasar-reset .column > .col-xl-5 {
     height: 41.6667%;
     width: auto;
   }
-  #quasar-reset .row > .col-xl-6 {
+  body .quasar-reset .row > .col-xl-6 {
     height: auto;
     width: 50%;
   }
-  #quasar-reset .row > .offset-xl-6 {
+  body .quasar-reset .row > .offset-xl-6 {
     margin-left: 50%;
   }
-  #quasar-reset .column > .col-xl-6 {
+  body .quasar-reset .column > .col-xl-6 {
     height: 50%;
     width: auto;
   }
-  #quasar-reset .row > .col-xl-7 {
+  body .quasar-reset .row > .col-xl-7 {
     height: auto;
     width: 58.3333%;
   }
-  #quasar-reset .row > .offset-xl-7 {
+  body .quasar-reset .row > .offset-xl-7 {
     margin-left: 58.3333%;
   }
-  #quasar-reset .column > .col-xl-7 {
+  body .quasar-reset .column > .col-xl-7 {
     height: 58.3333%;
     width: auto;
   }
-  #quasar-reset .row > .col-xl-8 {
+  body .quasar-reset .row > .col-xl-8 {
     height: auto;
     width: 66.6667%;
   }
-  #quasar-reset .row > .offset-xl-8 {
+  body .quasar-reset .row > .offset-xl-8 {
     margin-left: 66.6667%;
   }
-  #quasar-reset .column > .col-xl-8 {
+  body .quasar-reset .column > .col-xl-8 {
     height: 66.6667%;
     width: auto;
   }
-  #quasar-reset .row > .col-xl-9 {
+  body .quasar-reset .row > .col-xl-9 {
     height: auto;
     width: 75%;
   }
-  #quasar-reset .row > .offset-xl-9 {
+  body .quasar-reset .row > .offset-xl-9 {
     margin-left: 75%;
   }
-  #quasar-reset .column > .col-xl-9 {
+  body .quasar-reset .column > .col-xl-9 {
     height: 75%;
     width: auto;
   }
-  #quasar-reset .row > .col-xl-10 {
+  body .quasar-reset .row > .col-xl-10 {
     height: auto;
     width: 83.3333%;
   }
-  #quasar-reset .row > .offset-xl-10 {
+  body .quasar-reset .row > .offset-xl-10 {
     margin-left: 83.3333%;
   }
-  #quasar-reset .column > .col-xl-10 {
+  body .quasar-reset .column > .col-xl-10 {
     height: 83.3333%;
     width: auto;
   }
-  #quasar-reset .row > .col-xl-11 {
+  body .quasar-reset .row > .col-xl-11 {
     height: auto;
     width: 91.6667%;
   }
-  #quasar-reset .row > .offset-xl-11 {
+  body .quasar-reset .row > .offset-xl-11 {
     margin-left: 91.6667%;
   }
-  #quasar-reset .column > .col-xl-11 {
+  body .quasar-reset .column > .col-xl-11 {
     height: 91.6667%;
     width: auto;
   }
-  #quasar-reset .row > .col-xl-12 {
+  body .quasar-reset .row > .col-xl-12 {
     height: auto;
     width: 100%;
   }
-  #quasar-reset .row > .offset-xl-12 {
+  body .quasar-reset .row > .offset-xl-12 {
     margin-left: 100%;
   }
-  #quasar-reset .column > .col-xl-12 {
+  body .quasar-reset .column > .col-xl-12 {
     height: 100%;
     width: auto;
   }

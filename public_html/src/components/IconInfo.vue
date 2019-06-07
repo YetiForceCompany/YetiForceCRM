@@ -53,11 +53,11 @@ export default {
   },
   created() {
     this.options = Object.assign(this.options, this.customOptions)
-    $(document).on('click', e => {
+    document.addEventListener('click', e => {
       if (
         this.searchInfoShow &&
-        !$(e.target.offsetParent).hasClass(this.tooltipId) &&
-        !$(e.target).hasClass(this.tooltipId)
+        !e.target.offsetParent.classList.contains(this.tooltipId) &&
+        !e.target.classList.contains(this.tooltipId)
       ) {
         this.searchInfoShow = false
       }

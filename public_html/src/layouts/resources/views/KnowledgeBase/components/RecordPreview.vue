@@ -14,7 +14,7 @@
     transition-show="slide-up"
     transition-hide="slide-down"
     content-class="quasar-reset"
-    id="quasar-reset"
+
   >
     <drag-resize
       v-if="isDragResize"
