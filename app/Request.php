@@ -657,6 +657,16 @@ class Request
 	}
 
 	/**
+	 * Is json.
+	 *
+	 * @return bool
+	 */
+	public function isJSON()
+	{
+		return strpos($this->getHeader('accept'), 'application/json') !== false;
+	}
+
+	/**
 	 * Validating read access request.
 	 *
 	 * @throws \App\Exceptions\Csrf
@@ -707,7 +717,7 @@ class Request
 	 * Support static methods, all functions must start with "_".
 	 *
 	 * @param string     $name
-	 * @param array|null $arguments
+	 * @param null|array $arguments
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *

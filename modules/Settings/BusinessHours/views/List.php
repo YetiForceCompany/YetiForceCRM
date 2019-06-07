@@ -48,7 +48,7 @@ class Settings_BusinessHours_List_View extends Settings_Vtiger_List_View
 	 */
 	public function process(App\Request $request)
 	{
-		if (strpos($request->getHeader('accept'), 'application/json') !== false) {
+		if ($request->isJSON()) {
 			$response = new Vtiger_Response();
 			$listViewModel = Settings_Vtiger_ListView_Model::getInstance($request->getModule(false));
 			$rows = [];
