@@ -16,12 +16,11 @@
 				<input type="hidden" name="module" value="{$MODULE}"/>
 				<input type="hidden" name="parent" value="{$PARENT_MODULE}"/>
 				<input type="hidden" name="conditions" value="">
-				<input type="hidden" value="{$VIEW}" name="view"/>
 				<input type="hidden" name="action" value="Save"/>
 			{if !empty($RECORD_ID)}
 				<input type="hidden" name="record" id="recordId" value="{$RECORD_ID}"/>
 			{/if}
-			<div class='widget_header row mb-3'>
+			<div class="widget_header row mb-3">
 				<div class="col-md-8">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 				</div>

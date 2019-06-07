@@ -54,16 +54,11 @@
 			{assign var=TEMPLATE_NAME value=$SELECTED_FIELD_MODEL->getOperatorTemplateName($SELECTED_OPERATOR)}
 			{if !empty($TEMPLATE_NAME)}
 				{if !empty($CONDITIONS_ROW['value'])}
-					{if is_string($CONDITIONS_ROW['value'])}
-						{assign var=CONDITION_ROW_VALUE value=\App\Purifier::decodeHtml($CONDITIONS_ROW['value'])}
-					{else}
-						{assign var=CONDITION_ROW_VALUE value=\App\Purifier::decodeHtml(implode('##',$CONDITIONS_ROW['value']))}
-					{/if}
+					{assign var=CONDITION_ROW_VALUE value=\App\Purifier::decodeHtml($CONDITIONS_ROW['value'])}
 				{else}
 					{assign var=CONDITION_ROW_VALUE value=''}
 				{/if}
-				{include file=\App\Layout::getTemplatePath($TEMPLATE_NAME, $SOURCE_MODULE)
-			FIELD_MODEL=$SELECTED_FIELD_MODEL VALUE=$CONDITION_ROW_VALUE}
+				{include file=\App\Layout::getTemplatePath($TEMPLATE_NAME, $SOURCE_MODULE) FIELD_MODEL=$SELECTED_FIELD_MODEL VALUE=$CONDITION_ROW_VALUE}
 			{/if}
 		</div>
 		<div class="col-1 d-flex justify-content-end">

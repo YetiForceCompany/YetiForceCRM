@@ -56,8 +56,7 @@ class Settings_SLAPolicy_Conditions_View extends Settings_Vtiger_Index_View
 		return array_merge(
 			parent::getFooterScripts($request),
 			$this->checkAndConvertJsScripts([
-				'modules.Vtiger.resources.ConditionBuilder',
-				'modules.CustomView.resources.CustomView',
+				'modules.Vtiger.resources.ConditionBuilder'
 			])
 		);
 	}

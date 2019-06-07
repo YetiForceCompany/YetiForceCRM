@@ -31,7 +31,8 @@ class Settings_SLAPolicy_Save_Action extends Settings_Vtiger_Basic_Action
 		$recordModel->set('name', $request->getByType('name', 'Text'));
 		$recordModel->set('operational_hours', $request->getInteger('operational_hours'));
 		$recordModel->set('tabid', \App\Module::getModuleId($request->getByType('source_module', 2)));
-		$recordModel->set('conditions', $request->getByType('conditions', 'Text'));
+		$conditions = \App\Condition::getConditionsFromRequest(\App\Json::decode($request->getByType('conditions', 'Text')));
+		$recordModel->set('conditions', \App\Json::encode($conditions));
 		$recordModel->save();
 		header('location: ' . $moduleModel->getDefaultUrl());
 	}

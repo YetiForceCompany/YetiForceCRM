@@ -63,13 +63,12 @@ class Settings_SLAPolicy_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @param int $id
 	 *
-	 * @return \self instance, if exists
+	 * @return mixed
 	 */
-	public static function getInstanceById(int $id, string $qualifiedModuleName = 'Settings:SLAPolicy'): self
+	public static function getInstanceById(int $id, string $qualifiedModuleName = 'Settings:SLAPolicy')
 	{
-		$db = \App\Db::getInstance('admin');
-		$row = (new \App\Db\Query())->from('s_#__sla_policy')->where(['id' => $id])->one($db);
-		$instance = false;
+		$row = (new \App\Db\Query())->from('s_#__sla_policy')->where(['id' => $id])->one(\App\Db::getInstance('admin'));
+		$instance = null;
 		if ($row) {
 			$instance = new self();
 			$instance->setData($row)->setModule(Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName));

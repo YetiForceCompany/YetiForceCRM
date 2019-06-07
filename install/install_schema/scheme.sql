@@ -1123,7 +1123,7 @@ CREATE TABLE `s_yf_sla_policy` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `operational_hours` tinyint(1) NOT NULL DEFAULT 0,
-  `tabid` int(11) NOT NULL DEFAULT 13,
+  `tabid` smallint(5) NOT NULL,
   `conditions` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
