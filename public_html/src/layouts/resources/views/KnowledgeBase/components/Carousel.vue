@@ -19,6 +19,7 @@ RecordsList<!--
       navigation
       padding
       arrows
+
       :class="['quasar-reset shadow-1 rounded-borders', !fullscreen ? 'carousel-height' : '']"
       :fullscreen.sync="fullscreen"
       ref="carousel"

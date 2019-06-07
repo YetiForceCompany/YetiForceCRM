@@ -10,16 +10,18 @@
 <template>
   <div class="flex">
     <q-icon
-      class="cursor-pointer"
+      :class="['cursor-pointer', tooltipId]"
       :name="searchInfoShow ? 'mdi-information' : 'mdi-information-outline'"
       :style="`font-size: ${options.iconSize};`"
       @click="searchInfoShow = !searchInfoShow"
+      @blur="searchInfoShow = false"
     />
     <div>
       <q-tooltip
         v-model="searchInfoShow"
         :content-style="`font-size: ${options.tooltipFont}`"
-        :content-class="options.backgroundClass"
+        :content-class="[options.backgroundClass, tooltipId, 'all-pointer-events']"
+        ref="tooltip"
       >
         <slot></slot>
       </q-tooltip>
@@ -45,11 +47,21 @@ export default {
         iconSize: 'inherit',
         tooltipFont: '14px',
         backgroundClass: 'bg-primary'
-      }
+      },
+      tooltipId: `tooltip-id-${Quasar.utils.uid()}`
     }
   },
   created() {
     this.options = Object.assign(this.options, this.customOptions)
+    document.addEventListener('click', e => {
+      if (
+        this.searchInfoShow &&
+        !e.target.offsetParent.classList.contains(this.tooltipId) &&
+        !e.target.classList.contains(this.tooltipId)
+      ) {
+        this.searchInfoShow = false
+      }
+    })
   }
 }
 </script>

@@ -14,6 +14,7 @@
     transition-show="slide-up"
     transition-hide="slide-down"
     content-class="quasar-reset"
+
   >
     <drag-resize :coordinates="coordinates" v-on:onChangeCoordinates="onChangeCoordinates" :maximized="maximized">
       <q-card class="KnowledgeBaseModal full-height">
@@ -87,15 +88,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchCategories', 'fetchData', 'initState']),
+    ...mapActions(['fetchCategories', 'initState']),
     onChangeCoordinates: function(coordinates) {
       this.coordinates = coordinates
     }
   },
   async created() {
     await this.initState(this.$options.state)
-    await this.fetchCategories()
-    await this.fetchData()
   }
 }
 </script>

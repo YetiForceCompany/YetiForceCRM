@@ -8,7 +8,7 @@
 			</div>
 		</div>
 	</div>
-<div class="quasar-container quasar-reset absolute w-100">
+<div  class="quasar-container quasar-reset absolute w-100">
 	<div id="FaqKnowledgeBaseContainer"></div>
 </div>
 {/strip}

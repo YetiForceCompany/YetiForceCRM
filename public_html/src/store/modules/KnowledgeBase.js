@@ -8,18 +8,11 @@
 
 const state = {
 	record: false,
-	dialog: true,
+	dialog: false,
 	maximized: true,
-	previewDialog: false,
-	previewMaximized: true,
 	moduleName: '',
 	iconSize: '18px',
 	tree: {
-		activeCategory: '',
-		data: {
-			records: [],
-			featured: {}
-		},
 		topCategory: {
 			icon: 'mdi-file-tree',
 			label: 'JS_MAIN_CATEGORIES'
@@ -78,9 +71,6 @@ const actions = {
 					return { ...recordData.related.Articles[key], id: key }
 				})
 			}
-			if (!getters.previewDialog) {
-				commit('setPreviewDialog', true)
-			}
 			commit('setRecord', recordData)
 			progressIndicatorElement.progressIndicator({ mode: 'hide' })
 			aDeferred.resolve(recordData)
@@ -95,29 +85,6 @@ const actions = {
 		}).done(data => {
 			commit('setTreeCategories', data.result)
 			aDeferred.resolve(data.result)
-		})
-	},
-	fetchData({ state, commit, getters }, category = '') {
-		const aDeferred = $.Deferred()
-		commit('setActiveCategory', category)
-		const progressIndicatorElement = $.progressIndicator({
-			blockInfo: { enabled: true }
-		})
-		return AppConnector.request({
-			module: getters.moduleName,
-			action: 'KnowledgeBaseAjax',
-			mode: 'list',
-			category: category
-		}).done(data => {
-			let listData = data.result
-			if (listData.records) {
-				listData.records = Object.keys(listData.records).map(function(key) {
-					return { ...listData.records[key], id: key }
-				})
-			}
-			commit('setTreeData', listData)
-			progressIndicatorElement.progressIndicator({ mode: 'hide' })
-			aDeferred.resolve(listData)
 		})
 	},
 	initState({ state, commit }, data) {
@@ -139,23 +106,11 @@ const mutations = {
 	setMaximized(state, payload) {
 		state.maximized = payload
 	},
-	setPreviewDialog(state, payload) {
-		state.previewDialog = payload
-	},
-	setPreviewMaximized(state, payload) {
-		state.previewMaximized = payload
-	},
 	setCoordinates(state, payload) {
 		state.coordinates = payload
 	},
-	setTreeData(state, payload) {
-		state.tree.data = payload
-	},
 	setTreeCategories(state, payload) {
 		state.tree.categories = payload
-	},
-	setActiveCategory(state, payload) {
-		state.tree.activeCategory = payload
 	}
 }
 

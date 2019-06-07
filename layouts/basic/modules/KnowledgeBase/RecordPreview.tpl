@@ -2,7 +2,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-KnowledgeBase-RecordPreview -->
-<div class="modal js-modal-data quasar-modal quasar-reset" tabindex="-1" data-js="data" data-focus="false"
+<div  class="modal js-modal-data quasar-modal quasar-reset" tabindex="-1" data-js="data" data-focus="false"
 	 role="dialog" {foreach from=$MODAL_VIEW->modalData key=KEY item=VALUE} data-{$KEY}="{$VALUE}"{/foreach}>
 	{foreach item=MODEL from=$MODAL_CSS}
 		<link  rel="{$MODEL->getRel()}" href="{$MODEL->getHref()}"/>
