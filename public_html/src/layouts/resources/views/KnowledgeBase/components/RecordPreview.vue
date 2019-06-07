@@ -10,7 +10,7 @@
 <template>
   <q-dialog
     v-model="previewDialog"
-    :maximized="previewMaximized"
+    :maximized="maximizedOnly ? true : previewMaximized"
     transition-show="slide-up"
     transition-hide="slide-down"
     content-class="quasar-reset"
@@ -42,6 +42,10 @@ export default {
     isDragResize: {
       type: Boolean,
       default: true
+    },
+    maximizedOnly: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

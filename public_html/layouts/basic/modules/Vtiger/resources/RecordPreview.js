@@ -14,7 +14,7 @@ jQuery.Class(
 				state: {
 					moduleName: app.getModuleName(),
 					recordId: $('#recordId').val(),
-					dialog: true
+					dialog: false
 				}
 			});
 		},

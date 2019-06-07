@@ -718,7 +718,8 @@ $.Class(
 					KnowledgeBaseModalVueComponent.mount({
 						el: '#KnowledgeBaseModal',
 						state: {
-							moduleName: 'KnowledgeBase'
+							moduleName: 'KnowledgeBase',
+							dialog: true
 						}
 					});
 				} else {
