@@ -124,7 +124,6 @@ class Notification_Notification_Action extends \App\Controller\Action
 		}
 		$response = new Vtiger_Response();
 		$response->setResult([
-			'colors' => ['PLL_SYSTEM' => '#FF9800', 'PLL_USERS' => '#1baee2'],
 			'entries' => $moduleModel->getEntries()
 		]);
 		$response->emit();
