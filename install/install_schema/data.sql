@@ -280,6 +280,8 @@ insert  into `s_yf_companies`(`id`,`status`,`name`,`type`,`industry`,`city`,`cou
 
 /*Data for the table `s_yf_privileges_updater` */
 
+/*Data for the table `s_yf_sla_policy` */
+
 /*Data for the table `s_yf_smsnotifier_queue` */
 
 /*Data for the table `u_yf_activity_invitation` */
@@ -17559,6 +17561,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (114,7,'LBL_LOGS','fas fa-exclamation-triangle','LBL_LOGS_DESC','index.php?module=Log&parent=Settings&view=Index',6,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (116,4,'LBL_BACKUP_MANAGER','fas fa-file-archive','LBL_BACKUP_MANAGER_DESCRIPTION','index.php?module=Backup&parent=Settings&view=Index',14,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (117,12,'LBL_BUSINESS_HOURS','fas fa-business-time','LBL_BUSINESS_HOURS_DESCRIPTION','index.php?module=BusinessHours&parent=Settings&view=List',4,0,0,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (119,6,'LBL_SLA_POLICY','fas fa-door-open','LBL_SLA_POLICY','index.php?module=SLAPolicy&parent=Settings&view=List',8,0,0,NULL);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
