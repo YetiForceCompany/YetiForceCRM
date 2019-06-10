@@ -1779,6 +1779,7 @@ insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_tit
 insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (439,6,'LBL_FOR_THE_PORTAL',11,0,0,0,0,0,2,0);
 insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (442,15,'LBL_ARTICLE',2,0,0,0,0,0,2,0);
 insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (443,111,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,1);
+insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (444,13,'BL_RECORD_STATUS_TIMES',6,0,0,0,0,0,1,0);
 
 /*Data for the table `vtiger_blocks_hide` */
 
@@ -2995,8 +2996,8 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_clas
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (70,'EntityChangeState','API_CardDAV_Handler',1,'Contacts,OSSEmployees','',3,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (71,'EntityAfterDelete','API_CalDAV_Handler',1,'Calendar','',3,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (72,'EntityChangeState','API_CalDAV_Handler',1,'Calendar','',3,0);
-insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (73,'EntityBeforeSave','Vtiger_RecordStatusHistory_Handler',0,'','',5,0);
-insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (74,'EntityAfterSave','Vtiger_RecordStatusHistory_Handler',0,'','',5,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (73,'EntityBeforeSave','Vtiger_RecordStatusHistory_Handler',1,'HelpDesk','',5,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (74,'EntityAfterSave','Vtiger_RecordStatusHistory_Handler',1,'HelpDesk','',5,0);
 
 /*Data for the table `vtiger_expectedresponse` */
 
@@ -4738,6 +4739,17 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (79,2803,'transaction_id','vtiger_paymentsin',1,1,'transaction_id','FL_TRANSACTION',1,2,'','255',6,251,10,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (79,2804,'ssingleordersid','vtiger_paymentsin',1,10,'ssingleordersid','FL_ORDER',1,2,'','-2147483648,2147483647',7,251,10,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (79,2805,'finvoiceid','vtiger_paymentsin',1,10,'finvoiceid','FL_INVOICE',1,2,'','-2147483648,2147483647',8,251,10,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (13,2806,'response_range_time','vtiger_troubletickets',1,308,'response_range_time','FL_RESPONSE_RANGE_TIME',0,2,'',NULL,0,444,9,'I~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (13,2807,'solution_range_time','vtiger_troubletickets',1,308,'solution_range_time','FL_SOLUTION_RANGE_TIME',0,2,'',NULL,0,444,9,'I~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (13,2808,'idle_range_time','vtiger_troubletickets',1,308,'idle_range_time','FL_IDLE_RANGE_TIME',0,2,'',NULL,0,444,9,'I~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (13,2809,'closing_range_time','vtiger_troubletickets',1,308,'closing_range_time','FL_CLOSING_RANGE_TIME',0,2,'',NULL,0,444,9,'I~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (13,2810,'response_datatime','vtiger_troubletickets',1,79,'response_datatime','FL_RESPONSE_DATE_TIME',0,2,'',NULL,0,444,9,'DT~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (13,2811,'solution_datatime','vtiger_troubletickets',1,79,'solution_datatime','FL_SOLUTION_DATE_TIME',0,2,'',NULL,0,444,9,'DT~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (13,2812,'idle_datatime','vtiger_troubletickets',1,79,'idle_datatime','FL_IDLE_DATE_TIME',0,2,'',NULL,0,444,9,'DT~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (13,2813,'closing_datatime','vtiger_troubletickets',1,79,'closing_datatime','FL_CLOSING_DATE_TIME',0,2,'',NULL,0,444,9,'DT~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (13,2814,'response_expected','vtiger_troubletickets',1,79,'response_expected','FL_RESPONSE_EXPECTED',0,2,'',NULL,0,444,9,'DT~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (13,2815,'solution_expected','vtiger_troubletickets',1,79,'solution_expected','FL_SOLUTION_EXPECTED',0,2,'',NULL,0,444,9,'DT~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (13,2816,'idle_expected','vtiger_troubletickets',1,79,'idle_expected','FL_IDLE_DATE_EXPECTED',0,2,'',NULL,0,444,9,'DT~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
 
 /*Data for the table `vtiger_field_seq` */
 
@@ -8125,6 +8137,17 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,79,2803,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,79,2804,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,79,2805,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,13,2806,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,13,2807,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,13,2808,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,13,2809,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,13,2810,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,13,2811,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,13,2812,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,13,2813,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,13,2814,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,13,2815,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,13,2816,0,0);
 
 /*Data for the table `vtiger_profile2globalpermissions` */
 
@@ -18023,15 +18046,15 @@ insert  into `vtiger_ticketseverities`(`ticketseverities_id`,`ticketseverities`,
 
 /*Data for the table `vtiger_ticketstatus` */
 
-insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (1,'Open',0,190,1,'855000');
-insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (2,'In Progress',0,191,5,'42c6ff');
-insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (3,'Wait For Response',0,192,3,'ffa800');
-insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (4,'Closed',0,193,8,'00ff43');
-insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (5,'Answered',0,387,2,'0038ff');
-insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (6,'Rejected',0,557,9,'e33d3d');
-insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (7,'PLL_SUBMITTED_COMMENTS',1,694,4,'fff500');
-insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (8,'PLL_FOR_APPROVAL',1,695,6,'8c4381');
-insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (9,'PLL_TO_CLOSE',1,696,7,'ffb0e7');
+insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`record_state`,`time_counting`) values (1,'Open',0,190,1,'855000',0,1);
+insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`record_state`,`time_counting`) values (2,'In Progress',0,191,5,'42c6ff',0,2);
+insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`record_state`,`time_counting`) values (3,'Wait For Response',0,192,3,'ffa800',0,3);
+insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`record_state`,`time_counting`) values (4,'Closed',0,193,8,'00ff43',2,0);
+insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`record_state`,`time_counting`) values (5,'Answered',0,387,2,'0038ff',0,2);
+insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`record_state`,`time_counting`) values (6,'Rejected',0,557,9,'e33d3d',2,0);
+insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`record_state`,`time_counting`) values (7,'PLL_SUBMITTED_COMMENTS',1,694,4,'fff500',0,2);
+insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`record_state`,`time_counting`) values (8,'PLL_FOR_APPROVAL',1,695,6,'8c4381',0,2);
+insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`record_state`,`time_counting`) values (9,'PLL_TO_CLOSE',1,696,7,'ffb0e7',0,2);
 
 /*Data for the table `vtiger_time_zone` */
 
@@ -18270,6 +18293,8 @@ insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parentTre
 insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parentTree`,`depth`,`label`,`state`,`icon`) values (30,'Base','T1','T1',0,'Base','{\"loaded\":\"1\",\"opened\":false,\"selected\":false,\"disabled\":false}','');
 
 /*Data for the table `vtiger_troubletickets` */
+
+/*Data for the table `vtiger_troubletickets_state_history` */
 
 /*Data for the table `vtiger_usageunit` */
 

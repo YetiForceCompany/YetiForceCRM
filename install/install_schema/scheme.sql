@@ -4417,7 +4417,7 @@ CREATE TABLE `vtiger_blocks` (
   KEY `block_tabid_idx` (`tabid`),
   KEY `block_sequence_idx` (`sequence`),
   CONSTRAINT `fk_1_vtiger_blocks` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=444 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=445 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_blocks_hide` */
 
@@ -5491,7 +5491,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2806 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2817 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -8447,6 +8447,8 @@ CREATE TABLE `vtiger_ticketstatus` (
   `picklist_valueid` int(10) NOT NULL DEFAULT 0,
   `sortorderid` int(10) DEFAULT NULL,
   `color` varchar(25) DEFAULT '#E6FAD8',
+  `record_state` tinyint(1) NOT NULL DEFAULT 0,
+  `time_counting` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`ticketstatus_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
@@ -8626,6 +8628,17 @@ CREATE TABLE `vtiger_troubletickets` (
   `contract_type` varchar(255) DEFAULT NULL,
   `contracts_end_date` date DEFAULT NULL,
   `parentid` int(10) DEFAULT NULL,
+  `response_range_time` int(11) DEFAULT NULL,
+  `solution_range_time` int(11) DEFAULT NULL,
+  `idle_range_time` int(11) DEFAULT NULL,
+  `closing_range_time` int(11) DEFAULT NULL,
+  `response_datatime` datetime DEFAULT NULL,
+  `solution_datatime` datetime DEFAULT NULL,
+  `idle_datatime` datetime DEFAULT NULL,
+  `closing_datatime` datetime DEFAULT NULL,
+  `response_expected` datetime DEFAULT NULL,
+  `solution_expected` datetime DEFAULT NULL,
+  `idle_expected` datetime DEFAULT NULL,
   PRIMARY KEY (`ticketid`),
   KEY `troubletickets_ticketid_idx` (`ticketid`),
   KEY `troubletickets_status_idx` (`status`),
@@ -8636,6 +8649,19 @@ CREATE TABLE `vtiger_troubletickets` (
   KEY `ticket_no` (`ticket_no`),
   KEY `vtiger_troubletickets_parentid_idx` (`parentid`),
   CONSTRAINT `fk_1_vtiger_troubletickets` FOREIGN KEY (`ticketid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_troubletickets_state_history` */
+
+CREATE TABLE `vtiger_troubletickets_state_history` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `crmid` int(11) DEFAULT NULL,
+  `before` tinyint(1) NOT NULL DEFAULT 0,
+  `after` tinyint(1) NOT NULL DEFAULT 0,
+  `date` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `vtiger_troubletickets_state_history_crmid_idx` (`crmid`),
+  CONSTRAINT `fk_1_vtiger_troubletickets_state_history` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_usageunit` */

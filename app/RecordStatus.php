@@ -343,7 +343,7 @@ class RecordStatus
 		if (!$diff) {
 			$diff = round(Fields\DateTime::getDiff($start, $end, 'minutes'));
 		}
-		return  $diff;
+		return $diff;
 	}
 
 	/**
