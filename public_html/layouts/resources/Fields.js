@@ -1441,6 +1441,7 @@ window.App.Fields = {
 			newField.find('input.js-email').val('');
 			newField.find('input.js-checkbox').removeAttr('checked');
 			newField.find('label.js-label-checkbox').removeClass('active');
+			newField.find('span.far').removeClass('fa-check-square').addClass('fa-square');
 			newField
 				.find('.js-remove-item')
 				.eq(0)
@@ -1478,18 +1479,20 @@ window.App.Fields = {
 		 */
 		toggleCheckBox(element) {
 			if ($(element).is(':checked')) {
+				$(element).attr('checked', 'checked');
 				element
 					.closest('label.js-label-checkbox')
 					.eq(0)
-					.find('svg.svg-inline--fa')
+					.find('span.far')
 					.eq(0)
 					.removeClass('fa-square')
 					.addClass('fa-check-square');
 			} else {
+				$(element).removeAttr('checked');
 				element
 					.closest('label.js-label-checkbox')
 					.eq(0)
-					.find('svg.svg-inline--fa')
+					.find('span.far')
 					.eq(0)
 					.removeClass('fa-check-square')
 					.addClass('fa-square');
