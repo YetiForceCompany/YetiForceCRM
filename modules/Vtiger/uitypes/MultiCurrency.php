@@ -106,9 +106,10 @@ class Vtiger_MultiCurrency_UIType extends Vtiger_Base_UIType
 	public function getCurrencies()
 	{
 		$priceDetails = [];
-		$moduleName = $this->getFieldModel()->getModuleName();
 		$params = ['uitype' => 71, 'displaytype' => 1, 'typeofdata' => 'N~O', 'isEditableReadOnly' => false, 'maximumlength' => '99999999999999999'];
-		$fieldInfo = \Settings_Vtiger_Field_Model::init($moduleName, $params)->getFieldInfo();
+		$fieldModel = new \Vtiger_Field_Model();
+		$fieldModel->setModule($this->getFieldModel()->getModule());
+		$fieldInfo = $fieldModel->setData($params)->getFieldInfo();
 		foreach (\App\Fields\Currency::getAll(true) as $id => $currency) {
 			$name = "currencies[$id]['value']";
 			$fieldInfo['name'] = $name;

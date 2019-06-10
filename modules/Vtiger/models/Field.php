@@ -1528,4 +1528,18 @@ class Vtiger_Field_Model extends vtlib\Field
 		}
 		return $this->getUITypeModel()->getOperatorTemplateName($operator);
 	}
+
+	/**
+	 * Sets data.
+	 *
+	 * @param array $data
+	 * @return self
+	 */
+	public function setData(array $data = [])
+	{
+		foreach ($data as $key => $value) {
+			$this->set($key, $value);
+		}
+		return $this;
+	}
 }
