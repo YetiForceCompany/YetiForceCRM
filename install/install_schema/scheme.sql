@@ -1117,6 +1117,21 @@ CREATE TABLE `s_yf_privileges_updater` (
   KEY `crmid` (`crmid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `s_yf_sla_policy` */
+
+CREATE TABLE `s_yf_sla_policy` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `operational_hours` tinyint(1) NOT NULL DEFAULT 0,
+  `tabid` smallint(5) NOT NULL,
+  `conditions` text NOT NULL,
+  `reaction_time` varchar(20) NOT NULL DEFAULT '0:m',
+  `idle_time` varchar(20) NOT NULL DEFAULT '0:m',
+  `resolve_time` varchar(20) NOT NULL DEFAULT '0:m',
+  `business_hours` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `s_yf_smsnotifier_queue` */
 
 CREATE TABLE `s_yf_smsnotifier_queue` (
