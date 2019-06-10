@@ -138,19 +138,17 @@
       <q-page-container>
         <q-page class="q-pa-sm">
           <div v-show="!searchData">
-            <div
-              v-if="typeof data.featured.length === 'undefined' && data.categories"
-              class="q-pa-sm featured-container items-start q-gutter-md"
-            >
-              <template v-for="(categoryValue, categoryKey) in data.categories">
-                <q-list bordered padding dense v-if="data.featured[categoryValue]" :key="categoryKey">
-                  <q-item header clickable class="text-black flex" @click="fetchData(categoryValue)">
-                    <icon :icon="tree.categories[categoryValue].icon" :size="iconSize" class="mr-2"></icon>
-                    {{ tree.categories[categoryValue].label }}
+            {{ featuredCategories }}
+            <related-columns v-show="featuredCategories" :columnBlocks="featuredCategories" class="q-pa-sm">
+              <template v-slot:default="slotProps">
+                <q-list bordered padding dense>
+                  <q-item header clickable class="text-black flex" @click="fetchData(slotProps.relatedBlock)">
+                    <icon :icon="tree.categories[slotProps.relatedBlock].icon" :size="iconSize" class="mr-2"></icon>
+                    {{ tree.categories[slotProps.relatedBlock].label }}
                   </q-item>
                   <q-item
                     clickable
-                    v-for="featuredValue in data.featured[categoryValue]"
+                    v-for="featuredValue in data.featured[slotProps.relatedBlock]"
                     :key="featuredValue.id"
                     class="text-subtitle2"
                     v-ripple
@@ -167,13 +165,15 @@
                   </q-item>
                 </q-list>
               </template>
+            </related-columns>
+            <div v-show="activeCategory !== ''">
+              <q-separator />
+              <records-list
+                :data="data.records"
+                :title="translate('JS_ARTICLES')"
+                @onClickRecord="previewDialog = true"
+              />
             </div>
-            <records-list
-              v-show="activeCategory !== ''"
-              :data="data.records"
-              :title="translate('JS_ARTICLES')"
-              @onClickRecord="previewDialog = true"
-            />
           </div>
           <records-list
             v-show="searchData"
@@ -192,13 +192,14 @@ import Icon from '../../../../components/Icon.vue'
 import IconInfo from '../../../../components/IconInfo.vue'
 import Carousel from './components/Carousel.vue'
 import RecordsList from './components/RecordsList.vue'
+import RelatedColumns from './components/RelatedColumns.vue'
 import RecordPreview from './components/RecordPreview.vue'
 import { createNamespacedHelpers } from 'vuex'
 
 const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'KnowledgeBase',
-  components: { Icon, IconInfo, Carousel, RecordsList, RecordPreview },
+  components: { Icon, IconInfo, Carousel, RecordsList, RecordPreview, RelatedColumns },
   props: {
     coordinates: {
       type: Object,
@@ -234,6 +235,13 @@ export default {
     ...mapGetters(['tree', 'record', 'iconSize', 'moduleName', 'maximized']),
     searchDataArray() {
       return this.searchData ? this.searchData : []
+    },
+    featuredCategories() {
+      if (typeof this.data.featured.length === 'undefined' && this.data.categories) {
+        return this.data.categories.map(e => {
+          return this.data.featured[e] ? e : false
+        })
+      }
     },
     inputFocus: {
       set(val) {
@@ -352,10 +360,5 @@ export default {
 .tree-search .q-field__control,
 .tree-search .q-field__marginal {
   height: 40px;
-}
-.featured-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  grid-auto-flow: dense;
 }
 </style>
