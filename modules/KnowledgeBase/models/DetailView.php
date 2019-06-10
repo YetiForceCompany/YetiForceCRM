@@ -24,12 +24,14 @@ class KnowledgeBase_DetailView_Model extends Vtiger_DetailView_Model
 			[
 				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linkdata' => [
-					'url' => "index.php?module={$moduleName}&view=ArticlePreview",
+					'id' => $recordModel->getId(),
+					'module-name' => $moduleName
 				],
+				'vueId' => 'ArticlePreview',
 				'linkicon' => 'fas fa-expand',
 				'title' => \App\Language::translate('LBL_GO_TO_PREVIEW', $moduleName),
 				'linkhint' => \App\Language::translate('LBL_GO_TO_PREVIEW', $moduleName),
-				'linkclass' => 'btn-outline-dark btn-sm showModal',
+				'linkclass' => 'btn-outline-dark btn-sm js-show-article-preview',
 			],
 		];
 		$relatedLinks = [];
