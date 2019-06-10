@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Record preview for KnowledgeBase module.
+ * Article preview for KnowledgeBase module.
  *
  * @package   View
  *
@@ -9,7 +9,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
-class KnowledgeBase_RecordPreview_View extends \App\Controller\Modal
+class KnowledgeBase_ArticlePreview_View extends \App\Controller\Modal
 {
 	/**
 	 * {@inheritdoc}
@@ -27,7 +27,7 @@ class KnowledgeBase_RecordPreview_View extends \App\Controller\Modal
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->view('RecordPreview.tpl', $request->getModule(false));
+		$viewer->view('ArticlePreview.tpl', $request->getModule(false));
 	}
 
 	/**

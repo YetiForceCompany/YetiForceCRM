@@ -8,7 +8,7 @@
 
 import KnowledgeBaseComponent from './KnowledgeBase/KnowledgeBase.vue'
 import KnowledgeBaseModal from './KnowledgeBase/KnowledgeBaseModal.vue'
-import RecordPreviewComponent from './KnowledgeBase/RecordPreviewModal.vue'
+import ArticlePreviewComponent from './KnowledgeBase/ArticlePreviewModal.vue'
 import store from '../../../store/index.js'
 import { createNamespacedHelpers } from 'vuex'
 const { mapActions } = createNamespacedHelpers('KnowledgeBase')
@@ -35,13 +35,13 @@ window.KnowledgeBase = {
 		}).$mount(config.el)
 	}
 }
-window.RecordPreviewVueComponent = {
-	component: RecordPreviewComponent,
+window.ArticlePreviewVueComponent = {
+	component: ArticlePreviewComponent,
 	mount(config) {
-		RecordPreviewComponent.state = config.state
+		ArticlePreviewComponent.state = config.state
 		return new Vue({
 			store,
-			render: h => h(RecordPreviewComponent)
+			render: h => h(ArticlePreviewComponent)
 		}).$mount(config.el)
 	}
 }

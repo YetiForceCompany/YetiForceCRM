@@ -24,8 +24,7 @@ class KnowledgeBase_DetailView_Model extends Vtiger_DetailView_Model
 			[
 				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linkdata' => [
-					'url' => "index.php?module={$moduleName}&view=RecordPreview",
-					'cb' => 'YetiForce_RecordPreview_Js.showRecordPreview'
+					'url' => "index.php?module={$moduleName}&view=ArticlePreview",
 				],
 				'linkicon' => 'fas fa-expand',
 				'title' => \App\Language::translate('LBL_GO_TO_PREVIEW', $moduleName),

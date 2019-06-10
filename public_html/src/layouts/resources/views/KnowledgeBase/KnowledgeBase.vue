@@ -151,7 +151,7 @@
                     :key="featuredValue.id"
                     class="text-subtitle2"
                     v-ripple
-                    @click.prevent="showRecordPreview(featuredValue.id)"
+                    @click.prevent="showArticlePreview(featuredValue.id)"
                   >
                     <q-item-section class="align-items-center flex-row no-wrap justify-content-start">
                       <q-icon name="mdi-star" :size="iconSize" class="mr-2"></q-icon>
@@ -167,14 +167,14 @@
             </related-columns>
             <div v-show="activeCategory !== ''">
               <q-separator />
-              <records-list
+              <articles-list
                 :data="data.records"
                 :title="translate('JS_ARTICLES')"
                 @onClickRecord="previewDialog = true"
               />
             </div>
           </div>
-          <records-list
+          <articles-list
             v-show="searchData"
             :data="searchDataArray"
             :title="translate('JS_ARTICLES')"
@@ -183,22 +183,22 @@
         </q-page>
       </q-page-container>
     </q-layout>
-    <record-preview :isDragResize="true" :previewDialog="previewDialog" @onDialogToggle="onDialogToggle" />
+    <article-preview :isDragResize="true" :previewDialog="previewDialog" @onDialogToggle="onDialogToggle" />
   </div>
 </template>
 <script>
 import Icon from '../../../../components/Icon.vue'
 import IconInfo from '../../../../components/IconInfo.vue'
 import Carousel from './components/Carousel.vue'
-import RecordsList from './components/RecordsList.vue'
+import ArticlesList from './components/ArticlesList.vue'
 import RelatedColumns from './components/RelatedColumns.vue'
-import RecordPreview from './components/RecordPreview.vue'
+import ArticlePreview from './components/ArticlePreview.vue'
 import { createNamespacedHelpers } from 'vuex'
 
 const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'KnowledgeBase',
-  components: { Icon, IconInfo, Carousel, RecordsList, RecordPreview, RelatedColumns },
+  components: { Icon, IconInfo, Carousel, ArticlesList, ArticlePreview, RelatedColumns },
   props: {
     coordinates: {
       type: Object,
@@ -299,7 +299,7 @@ export default {
       const headerInstance = new window.Vtiger_Header_Js()
       headerInstance.quickCreateModule(this.moduleName)
     },
-    showRecordPreview(id) {
+    showArticlePreview(id) {
       this.fetchRecord(id).then(() => {
         this.previewDialog = true
       })

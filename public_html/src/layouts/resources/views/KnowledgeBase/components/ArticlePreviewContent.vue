@@ -1,6 +1,6 @@
 <!--
 /**
- * RecordPreviewContent component
+ * ArticlePreviewContent component
  *
  * @description Part of q-dialog
  * @license YetiForce Public License 3.0
@@ -8,7 +8,7 @@
  */
 -->
 <template>
-  <q-card class="KnowledgeBase__RecordPreview fit">
+  <q-card class="KnowledgeBase__ArticlePreview fit">
     <q-bar dark class="bg-yeti text-white dialog-header">
       <div class="flex items-center">
         <div class="flex items-center no-wrap ellipsis q-mr-sm-sm">
@@ -83,7 +83,7 @@
       </div>
       <div v-if="hasRelatedArticles">
         <q-separator />
-        <records-list
+        <articles-list
           v-if="record.related"
           :data="record.related.base.Articles"
           :title="translate('JS_RELATED_ARTICLES')"
@@ -155,14 +155,14 @@
 <script>
 import Icon from '../../../../../components/Icon.vue'
 import Carousel from './Carousel.vue'
-import RecordsList from './RecordsList.vue'
+import ArticlesList from './ArticlesList.vue'
 import RelatedColumns from './RelatedColumns.vue'
 
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
-  name: 'RecordPreviewContent',
-  components: { Icon, Carousel, RecordsList, RelatedColumns },
+  name: 'ArticlePreviewContent',
+  components: { Icon, Carousel, ArticlesList, RelatedColumns },
   props: {
     height: {
       type: Number,
@@ -183,23 +183,8 @@ export default {
         return arr.filter(function(item) {
           return typeof item === 'string'
         })
-      }
-    },
-    relatedColClass() {
-      if (this.record) {
-        let relatedModules = 0
-        let relatedColClass = 'col'
-        Object.keys(this.record.related.dynamic).forEach(key => {
-          if (this.record.related.dynamic[key].length === undefined) {
-            relatedModules++
-          }
-        })
-        if (relatedModules === 2) {
-          relatedColClass = 'col-sm-6'
-        } else if (relatedModules === 3) {
-          relatedColClass = 'col-sm-6 col-md-4'
-        }
-        return relatedColClass
+      } else {
+        return []
       }
     },
     hasRelatedArticles() {

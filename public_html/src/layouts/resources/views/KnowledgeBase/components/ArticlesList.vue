@@ -1,14 +1,14 @@
 <!--
 /**
- * RecordsList component
+ * ArticlesList component
  *
- * @description Records list component
+ * @description Articles list component
  * @license YetiForce Public License 3.0
  * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 -->
 <template>
-  <div class="KnowledgeBase__RecordsList">
+  <div class="KnowledgeBase__ArticlesList">
     <q-table
       :data="data"
       :columns="columns"
@@ -78,7 +78,7 @@ import Icon from '../../../../../components/Icon.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
-  name: 'RecordsList',
+  name: 'ArticlesList',
   components: { Icon },
   props: {
     data: {
@@ -127,7 +127,7 @@ export default {
 }
 </script>
 <style>
-.KnowledgeBase__RecordsList .q-table__bottom {
+.KnowledgeBase__ArticlesList .q-table__bottom {
   display: none !important;
 }
 </style>
