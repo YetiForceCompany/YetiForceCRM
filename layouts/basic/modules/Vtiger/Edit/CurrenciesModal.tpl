@@ -6,7 +6,7 @@
 				<div class="modal-header">
 					<h5 class="modal-title">
 						<span class="adminIcon-currencies mr-1"></span>
-						{\App\Language::translate($FIELD_MODEL->get('label'), $MODULE_NAME)}
+						{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
 					</h5>
 					<button type="button" class="close" data-dismiss="modal"
 							title="{\App\Language::translate('LBL_CLOSE')}">
@@ -28,7 +28,7 @@
 									<span class="d-flex justify-content-between align-items-center">
 										<span>
 											<span class="js-currency-name" data-js="text">
-												{\App\Language::translate($ITEM['currencyName'], 'Currency')}
+												{\App\Purifier::encodeHtml($ITEM['currencyName'])}
 												<span class="ml-1">({$ITEM['symbol']})</span>
 											</span>
 										</span>
