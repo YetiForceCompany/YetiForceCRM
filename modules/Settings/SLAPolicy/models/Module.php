@@ -70,4 +70,20 @@ class Settings_SLAPolicy_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		return 'index.php?module=SLAPolicy&parent=Settings&view=Edit&record=' . $recordId;
 	}
+
+	/**
+	 * Get modules name related to ServiceContracts.
+	 *
+	 * @return string[]
+	 */
+	public function getModules(): array
+	{
+		$modules = [];
+		foreach (\App\Field::getRelatedFieldForModule(false, 'ServiceContracts') as $moduleName => $value) {
+			if (App\RecordStatus::getFieldName($moduleName)) {
+				$modules[] = $moduleName;
+			}
+		}
+		return $modules;
+	}
 }

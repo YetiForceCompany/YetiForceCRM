@@ -52,7 +52,7 @@ class Settings_SLAPolicy_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return \self
 	 */
-	public function setModule($moduleModel)
+	public function setModule($moduleModel): self
 	{
 		$this->module = $moduleModel;
 		return $this;
@@ -61,7 +61,8 @@ class Settings_SLAPolicy_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function to get the instance of sla policy record model.
 	 *
-	 * @param int $id
+	 * @param int    $id
+	 * @param string $qualifiedModuleName
 	 *
 	 * @return mixed
 	 */
@@ -81,7 +82,7 @@ class Settings_SLAPolicy_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return \static
 	 */
-	public static function getCleanInstance()
+	public static function getCleanInstance(): self
 	{
 		$instance = new static();
 		$instance->setModule(Settings_Vtiger_Module_Model::getInstance('Settings:SLAPolicy'));
@@ -95,7 +96,7 @@ class Settings_SLAPolicy_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return array cleaned up data
 	 */
-	public static function validate(array $data)
+	public static function validate(array $data): array
 	{
 		if (isset($data['id'])) {
 			$data['id'] = \App\Purifier::purifyByType($data['id'], 'Integer');
@@ -153,16 +154,16 @@ class Settings_SLAPolicy_Record_Model extends Settings_Vtiger_Record_Model
 	public function getDisplayValue(string $key)
 	{
 		$value = $this->get($key);
-		if ($key === 'operational_hours') {
+		if ('operational_hours' === $key) {
 			$moduleName = $this->getModule()->getName();
-			$value = $value === 0 ? \App\Language::translate('LBL_CALENDAR_HOURS', $moduleName) : \App\Language::translate('LBL_BUSINESS_HOURS', $moduleName);
-		} elseif ($key === 'tabid') {
+			$value = 0 === $value ? \App\Language::translate('LBL_CALENDAR_HOURS', $moduleName) : \App\Language::translate('LBL_BUSINESS_HOURS', $moduleName);
+		} elseif ('tabid' === $key) {
 			$moduleName = \App\Module::getModuleName($value);
 			$value = \App\Language::translate($moduleName, $moduleName);
-		} elseif ($key === 'business_hours') {
+		} elseif ('business_hours' === $key) {
 			$rows = (new \App\Db\Query())->select('name')->from('s_#__business_hours')->where(['id' => explode(',', $value)])->column();
 			$value = implode(', ', $rows);
-		} elseif (in_array($key, ['reaction_time', 'idle_time', 'resolve_time'])) {
+		} elseif (\in_array($key, ['reaction_time', 'idle_time', 'resolve_time'])) {
 			$value = Settings_BusinessHours_Record_Model::getTimePeriodDisplayValue($value);
 		}
 		return $value;

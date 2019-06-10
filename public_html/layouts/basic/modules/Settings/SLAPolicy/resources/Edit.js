@@ -33,7 +33,7 @@ $.Class(
 		 *
 		 * @param   {String}  sourceModuleName
 		 */
-		loadConditionBuilderView(sourceModuleName = 'HelpDesk') {
+		loadConditionBuilderView(sourceModuleName) {
 			this.conditionBuilderView = this.container.find('.js-condition-builder-view').eq(0);
 			let progress = $.progressIndicator({
 				position: 'html',
@@ -63,9 +63,8 @@ $.Class(
 		registerSourceModuleChange() {
 			this.sourceModuleSelect = this.container.find('select[name="source_module"]');
 			this.sourceModuleSelect.on('change', e => {
-				const sourceModuleName = this.sourceModuleSelect.val();
-				this.loadConditionBuilderView(sourceModuleName);
-				this.sourceModuleName = sourceModuleName;
+				this.sourceModuleName = this.sourceModuleSelect.val();
+				this.loadConditionBuilderView(this.sourceModuleName);
 			});
 		},
 
