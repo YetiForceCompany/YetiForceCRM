@@ -151,6 +151,14 @@ class Vtiger_MultiCurrency_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getOperators()
+	{
+		return ['y', 'ny'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/MultiCurrency.tpl';
