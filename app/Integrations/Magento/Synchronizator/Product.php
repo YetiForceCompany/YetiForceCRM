@@ -43,17 +43,19 @@ class Product extends Integrators\Product
 	public function checkProductsCrm(): bool
 	{
 		$result = false;
+		$this->getProductSkuMap();
 		$productsCrm = $this->getProductsCrm();
 		$products = $this->getProducts($this->getFormattedRecordsIds(array_keys($productsCrm)));
 		if (!empty($productsCrm)) {
 			foreach ($productsCrm as $id => $productCrm) {
 				$productCrm['productid'] = $id;
 				if (isset($this->map[$id], $products[$this->map[$id]])) {
-					if ($this->hasChanges($productCrm, $products[$this->map[$id]])) {
-						if (self::MAGENTO === $this->whichToUpdate($productCrm, $products[$this->map[$id]])) {
+					$productData = $this->getProductFullData($this->mapSku[$this->map[$id]]);
+					if ($this->hasChanges($productCrm, $productData)) {
+						if (self::MAGENTO === $this->whichToUpdate($productCrm, $productData)) {
 							$this->updateProduct($this->map[$id], $productCrm);
 						} else {
-							$this->updateProductCrm($id, $products[$this->map[$id]]);
+							$this->updateProductCrm($id, $productData);
 						}
 					}
 				} elseif (isset($this->map[$id]) && !isset($products[$this->map[$id]])) {
@@ -82,18 +84,19 @@ class Product extends Integrators\Product
 			$productsCrm = $this->getProductsCrm($this->getFormattedRecordsIds(array_keys($products), self::YETIFORCE));
 			if (!empty($products)) {
 				foreach ($products as $id => $product) {
+					$productData = $this->getProductFullData($product['sku']);
 					if (isset($this->mapCrm[$id], $productsCrm[$this->mapCrm[$id]])) {
-						if ($this->hasChanges($productsCrm[$this->mapCrm[$id]], $product)) {
-							if (self::MAGENTO === $this->whichToUpdate($productsCrm[$this->mapCrm[$id]], $product)) {
+						if ($this->hasChanges($productsCrm[$this->mapCrm[$id]], $productData)) {
+							if (self::MAGENTO === $this->whichToUpdate($productsCrm[$this->mapCrm[$id]], $productData)) {
 								$this->updateProduct($id, $productsCrm[$this->mapCrm[$id]]);
 							} else {
-								$this->updateProductCrm($this->mapCrm[$id], $product);
+								$this->updateProductCrm($this->mapCrm[$id], $productData);
 							}
 						}
 					} elseif (isset($this->mapCrm[$id]) && !isset($productsCrm[$this->mapCrm[$id]])) {
 						$this->deleteProduct($id);
 					} else {
-						$this->saveProductCrm($product);
+						$this->saveProductCrm($productData);
 					}
 					$this->config::setScan('product', 'id', $id);
 				}
@@ -180,10 +183,14 @@ class Product extends Integrators\Product
 		$productFields->setData($data);
 		$dataCrm = $productFields->getDataCrm();
 		if (!empty($dataCrm)) {
-			$recordModel = \Vtiger_Record_Model::getCleanInstance('Products');
-			$recordModel->setData($dataCrm);
-			$recordModel->save();
-			$this->saveMapping($data['id'], $recordModel->getId(), 'product');
+			try {
+				$recordModel = \Vtiger_Record_Model::getCleanInstance('Products');
+				$recordModel->setData($dataCrm);
+				$recordModel->save();
+				$this->saveMapping($data['id'], $recordModel->getId(), 'product');
+			} catch (\Throwable $ex) {
+				\App\Log::error('Error during saving yetiforce product: ' . $ex->getMessage(), 'Integrations/Magento');
+			}
 		}
 	}
 
@@ -201,7 +208,7 @@ class Product extends Integrators\Product
 			$productFields = new \App\Integrations\Magento\Synchronizator\Maps\Product();
 			$productFields->setData($data);
 			$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'Products');
-			foreach ($productFields->getDataCrm() as $key => $value) {
+			foreach ($productFields->getDataCrm(true) as $key => $value) {
 				$recordModel->set($key, $value);
 			}
 			$recordModel->save();

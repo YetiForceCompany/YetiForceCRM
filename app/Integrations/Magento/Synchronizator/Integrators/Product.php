@@ -145,6 +145,24 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 	}
 
 	/**
+	 * Get full product data.
+	 *
+	 * @param string $sku
+	 *
+	 * @return array
+	 */
+	public function getProductFullData(string $sku): array
+	{
+		$data = [];
+		try {
+			$data = \App\Json::decode($this->connector->request('GET', "rest/all/V1/products/$sku"));
+		} catch (\Throwable $ex) {
+			\App\Log::error('Error during deleting magento product: ' . $ex->getMessage(), 'Integrations/Magento');
+		}
+		return $data;
+	}
+
+	/**
 	 * Method to get search criteria Magento products.
 	 *
 	 * @param array $ids
@@ -173,6 +191,7 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 			}
 			$searchCriteria[] = 'searchCriteria[pageSize]=' . $pageSize;
 		}
+		$searchCriteria[] = 'fields=items[id,sku]';
 		return implode('&', $searchCriteria);
 	}
 }

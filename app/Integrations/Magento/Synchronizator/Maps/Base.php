@@ -48,7 +48,8 @@ abstract class Base
 	 */
 	public function getFieldName(string $name)
 	{
-		return static::$mappedFields[$name] ?? '';
+		$fieldName = explode('|', static::$mappedFields[$name]);
+		return end($fieldName) ?? '';
 	}
 
 	/**
@@ -111,12 +112,7 @@ abstract class Base
 	{
 		$data = [];
 		foreach ($this->getFields($onEdit) as $fieldCrm => $field) {
-			$methodName = 'get' . \ucfirst($field);
-			if (!\method_exists($this, $methodName)) {
-				$data[$field] = $this->dataCrm[$fieldCrm] ?? false;
-			} else {
-				$data[$field] = $this->{$methodName}();
-			}
+			$data = \array_merge($data, $this->getFieldValueCrm($fieldCrm, true));
 		}
 		return $data;
 	}
@@ -124,19 +120,65 @@ abstract class Base
 	/**
 	 * Return parsed data in Yetiforce format.
 	 *
+	 * @param bool $onEdit
+	 *
 	 * @return array
 	 */
-	public function getDataCrm(): array
+	public function getDataCrm(bool $onEdit = false): array
 	{
 		$data = [];
-		foreach ($this->getFields() as $fieldCrm => $field) {
-			$methodName = 'getCrm' . \ucfirst($fieldCrm);
-			if (!\method_exists($this, $methodName)) {
-				$data[$fieldCrm] = $this->data[$field] ?? false;
-			} else {
-				$data[$fieldCrm] = $this->{$methodName}();
-			}
+		foreach ($this->getFields($onEdit) as $fieldCrm => $field) {
+			$data[$fieldCrm] = $this->getFieldValue($field, true) ?? false;
 		}
 		return $data;
+	}
+
+	/**
+	 * @param $fieldName
+	 * @param mixed $parsedStructure
+	 *
+	 * @return array
+	 */
+	public function getFieldValueCrm($fieldName, $parsedStructure = false): array
+	{
+		$methodName = 'get' . \ucfirst($this->getFieldName($fieldName));
+		if (!\method_exists($this, $methodName)) {
+			$fieldParsed = $this->dataCrm;
+			foreach (explode('|', $fieldName) as $fieldLevel) {
+				$fieldParsed = $fieldParsed[$fieldLevel];
+			}
+			if ($parsedStructure) {
+				$data[$this->getFieldName($fieldName)] = $fieldParsed;
+			} else {
+				$data = $fieldParsed;
+			}
+		} else {
+			$data = $this->{$methodName}($parsedStructure);
+		}
+		return $data ?? [];
+	}
+
+	/**
+	 * @param $fieldName
+	 * @param bool $parsedStructure
+	 *
+	 * @return array|mixed
+	 */
+	public function getFieldValue($fieldName, $parsedStructure = false)
+	{
+		$methodName = 'getCrm' . \ucfirst($this->getFieldNameCrm($fieldName));
+		if (!\method_exists($this, $methodName)) {
+			$fieldParsed = $this->data;
+			foreach (explode('|', $fieldName) as $fieldLevel) {
+				if (isset($fieldParsed[$fieldLevel])) {
+					$fieldParsed = $fieldParsed[$fieldLevel];
+				} else {
+					break;
+				}
+			}
+		} else {
+			$fieldParsed = $this->{$methodName}($parsedStructure);
+		}
+		return $fieldParsed ?? [];
 	}
 }
