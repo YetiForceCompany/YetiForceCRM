@@ -63,7 +63,6 @@ class Calendar_RecordPopover_Model extends Vtiger_RecordPopover_Model
 				'linkclass' => 'btn-sm btn-outline-secondary js-calendar-popover__button',
 			];
 		}
-		$linksModels = parent::getHeaderLinks();
 		foreach ($links as $link) {
 			$linksModels[] = Vtiger_Link_Model::getInstanceFromValues($link);
 		}
