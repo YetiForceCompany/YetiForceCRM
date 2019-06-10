@@ -34,3 +34,8 @@
 		height: calc(100vh - 113px);
 	}
 }
+
+select.form-control,
+select.select2 {
+	overflow: hidden;
+}
