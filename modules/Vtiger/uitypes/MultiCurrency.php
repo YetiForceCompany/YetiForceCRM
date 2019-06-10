@@ -19,7 +19,7 @@ class Vtiger_MultiCurrency_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		$data = $value ? \App\Json::decode($value) : [];
+		$data = \App\Json::isEmpty($value) ? [] : \App\Json::decode($value);
 		foreach ($data['currencies'] ?? [] as $key => $currency) {
 			$data['currencies'][$key]['price'] = App\Fields\Double::formatToDb($currency['price']);
 		}

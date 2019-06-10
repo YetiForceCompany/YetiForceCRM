@@ -44,8 +44,6 @@
 					</div>
 				{/if}
 			</div>
-			{* <input type="hidden" name="base_currency" value="{$BASE_CURRENCY_NAME}">
-			<input type="hidden" name="cur_{$BASE_CURRENCY_ID}_check" class="js-base-currency-check-id" data-js="attr:name" value="1"> *}
 	</div>
 	<!-- /tpl-Base-Edit-Field-MultiCurrency -->
 {/strip}
