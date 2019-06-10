@@ -92,7 +92,7 @@
       <div v-show="relatedRecords">
         <q-separator />
         <div class="q-pa-md q-table__title">{{ translate('JS_RELATED_RECORDS') }}</div>
-        <related-columns :columnBlocks="relatedRecords" class="q-pa-sm">
+        <related-columns :columnBlocks="relatedRecords">
           <template v-slot:default="slotProps">
             <q-list bordered padding dense>
               <q-item header clickable class="text-black flex">
