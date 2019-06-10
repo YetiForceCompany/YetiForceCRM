@@ -83,9 +83,13 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 		}
 		$emails = [];
 		foreach ($value as $item) {
-			$emails[] = parent::getDisplayValue($item['e'], $record, $recordModel, $rawText, $length);
+			if($item['o']) {
+				$emails[] = parent::getDisplayValue($item['e'], $record, $recordModel, $rawText, $length) . '<span class="fas fa-check" style="color: green; margin-left: 8px;" title="' . \App\Language::translate('LBL_CONSENT_TO_SEND') . '"></span>';
+			} else {
+				$emails[] = \App\Purifier::encodeHtml(App\TextParser::textTruncate($item['e'])) . '<span class="fas fa-lock" style="color: red; margin-left: 8px;"></span>';
+			}
 		}
-		return implode(',', $emails);
+		return implode('<br>', $emails);
 	}
 
 	/**
@@ -108,7 +112,7 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
-		return $this->getDisplayValue($value, $record, $recordModel, $rawText);
+		return strip_tags($this->getDisplayValue($value, $record, $recordModel, $rawText), '<br>');
 	}
 
 	/**
@@ -126,4 +130,10 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 	{
 		return ['c', 'k', 'y', 'ny'];
 	}
+	
+	public function isAjaxEditable()
+	{
+		return false;
+	}
+
 }
