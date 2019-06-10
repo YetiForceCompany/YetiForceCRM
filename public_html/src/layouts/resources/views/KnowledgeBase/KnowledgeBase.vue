@@ -16,8 +16,8 @@
       :style="coordinates.height && !maximized ? { 'max-height': `${coordinates.height - 31.14}px` } : {}"
     >
       <q-header elevated class="bg-white text-primary">
-        <q-toolbar class="q-py-xs flex-wrap flex-md-nowrap">
-          <div v-show="!searchData" class="flex items-center no-wrap q-mr-auto q-mr-sm-sm">
+        <q-toolbar class="flex-md-nowrap flex-wrap items-center q-gutter-x-md q-gutter-y-sm q-pl-md q-pr-none q-py-xs">
+          <div :class="['flex items-center no-wrap flex-md-grow-1 q-mr-sm-sm', searchData ? 'invisible' : '']">
             <q-btn dense round push icon="mdi-menu" @click="toggleDrawer()">
               <q-tooltip>{{ translate('JS_TOGGLE_CATEGORY_MENU') }}</q-tooltip>
             </q-btn>
@@ -51,7 +51,7 @@
               </template>
             </q-breadcrumbs>
           </div>
-          <div class="mx-auto tree-search flex no-wrap order-sm-none order-xs-last q-pt-sm-none q-pt-xs-xs">
+          <div class="tree-search flex flex-grow-1 no-wrap order-sm-none order-xs-last">
             <q-input
               class="full-width"
               v-model="filter"
@@ -82,7 +82,7 @@
               </template>
             </q-input>
           </div>
-          <div class="q-ml-auto q-ml-sm-sm">
+          <div class="flex-md-grow-1 flex justify-end q-ml-sm-sm">
             <q-btn round dense color="white" text-color="primary" icon="mdi-plus" @click="openQuickCreateModal()">
               <q-tooltip>{{ translate('JS_QUICK_CREATE') }}</q-tooltip>
             </q-btn>
