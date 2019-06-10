@@ -1,8 +1,8 @@
 <!--
 /**
- * RecordPreview component
+ * ArticlePreview component
  *
- * @description Record preview parent component
+ * @description Article preview parent component
  * @license YetiForce Public License 3.0
  * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
@@ -14,7 +14,6 @@
     transition-show="slide-up"
     transition-hide="slide-down"
     content-class="quasar-reset"
-
   >
     <drag-resize
       v-if="isDragResize"
@@ -22,27 +21,27 @@
       v-on:onChangeCoordinates="onChangeCoordinates"
       :maximized="previewMaximized"
     >
-      <record-preview-content
+      <article-preview-content
         :height="coordinates.height"
         :previewMaximized="previewMaximized"
         @onMaximizedToggle="onMaximizedToggle"
       />
     </drag-resize>
-    <record-preview-content v-else>
+    <article-preview-content v-else>
       <template slot="header-right">
         <slot name="header-right"></slot>
       </template>
-    </record-preview-content>
+    </article-preview-content>
   </q-dialog>
 </template>
 <script>
 import DragResize from './DragResize.vue'
-import RecordPreviewContent from './RecordPreviewContent.vue'
+import ArticlePreviewContent from './ArticlePreviewContent.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters } = createNamespacedHelpers('KnowledgeBase')
 export default {
-  name: 'RecordPreview',
-  components: { RecordPreviewContent, DragResize },
+  name: 'ArticlePreview',
+  components: { ArticlePreviewContent, DragResize },
   props: {
     isDragResize: {
       type: Boolean,

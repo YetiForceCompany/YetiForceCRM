@@ -1,6 +1,6 @@
 <!--
 /**
- * RecordPreviewContent component
+ * ArticlePreviewContent component
  *
  * @description Part of q-dialog
  * @license YetiForce Public License 3.0
@@ -8,7 +8,7 @@
  */
 -->
 <template>
-  <q-card class="KnowledgeBase__RecordPreview">
+  <q-card class="KnowledgeBase__ArticlePreview fit">
     <q-bar dark class="bg-yeti text-white dialog-header">
       <div class="flex items-center">
         <div class="flex items-center no-wrap ellipsis q-mr-sm-sm">
@@ -83,43 +83,41 @@
       </div>
       <div v-if="hasRelatedArticles">
         <q-separator />
-        <records-list
+        <articles-list
           v-if="record.related"
           :data="record.related.base.Articles"
           :title="translate('JS_RELATED_ARTICLES')"
         />
       </div>
-      <div v-if="hasRelatedRecords">
+      <div v-show="relatedRecords.length">
         <q-separator />
         <div class="q-pa-md q-table__title">{{ translate('JS_RELATED_RECORDS') }}</div>
-        <div class="q-pa-sm row items-start q-col-gutter-md">
-          <template v-for="(moduleRecords, parentModule) in record.related.dynamic">
-            <div v-if="moduleRecords.length === undefined" :class="[relatedColClass]" :key="parentModule">
-              <q-list bordered padding dense>
-                <q-item header clickable class="text-black flex">
-                  <icon :icon="'userIcon-' + parentModule" :size="iconSize" class="mr-2"></icon>
-                  {{ record.translations[parentModule] }}
-                </q-item>
-                <q-item
-                  clickable
-                  v-for="(relatedRecord, relatedRecordId) in moduleRecords"
-                  :key="relatedRecordId"
-                  class="text-subtitle2"
-                  v-ripple
-                >
-                  <q-item-section class="align-items-center flex-row no-wrap justify-content-start">
-                    <a
-                      class="js-popover-tooltip--record ellipsis"
-                      :href="`index.php?module=${parentModule}&view=Detail&record=${relatedRecordId}`"
-                    >
-                      {{ relatedRecord }}
-                    </a>
-                  </q-item-section>
-                </q-item>
-              </q-list>
-            </div>
+        <related-columns :columnBlocks="relatedRecords">
+          <template v-slot:default="slotProps">
+            <q-list bordered padding dense>
+              <q-item header clickable class="text-black flex">
+                <icon :icon="'userIcon-' + slotProps.relatedBlock" :size="iconSize" class="mr-2"></icon>
+                {{ record.translations[slotProps.relatedBlock] }}
+              </q-item>
+              <q-item
+                clickable
+                v-for="(relatedRecord, relatedRecordId) in record.related.dynamic[slotProps.relatedBlock]"
+                :key="relatedRecordId"
+                class="text-subtitle2"
+                v-ripple
+              >
+                <q-item-section class="align-items-center flex-row no-wrap justify-content-start">
+                  <a
+                    class="js-popover-tooltip--record ellipsis"
+                    :href="`index.php?module=${slotProps.relatedBlock}&view=Detail&record=${relatedRecordId}`"
+                  >
+                    {{ relatedRecord }}
+                  </a>
+                </q-item-section>
+              </q-item>
+            </q-list>
           </template>
-        </div>
+        </related-columns>
       </div>
       <div v-if="hasRelatedComments">
         <q-separator />
@@ -157,12 +155,14 @@
 <script>
 import Icon from '../../../../../components/Icon.vue'
 import Carousel from './Carousel.vue'
-import RecordsList from './RecordsList.vue'
+import ArticlesList from './ArticlesList.vue'
+import RelatedColumns from './RelatedColumns.vue'
+
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
-  name: 'RecordPreviewContent',
-  components: { Icon, Carousel, RecordsList },
+  name: 'ArticlePreviewContent',
+  components: { Icon, Carousel, ArticlesList, RelatedColumns },
   props: {
     height: {
       type: Number,
@@ -175,28 +175,16 @@ export default {
   },
   computed: {
     ...mapGetters(['tree', 'record', 'iconSize']),
-    hasRelatedRecords() {
+    relatedRecords() {
       if (this.record) {
-        return Object.keys(this.record.related.dynamic).some(obj => {
-          return this.record.related.dynamic[obj].length === undefined
+        let arr = Object.keys(this.record.related.dynamic).map(key => {
+          return this.record.related.dynamic[key].length !== 0 ? key : false
         })
-      }
-    },
-    relatedColClass() {
-      if (this.record) {
-        let relatedModules = 0
-        let relatedColClass = 'col'
-        Object.keys(this.record.related.dynamic).forEach(key => {
-          if (this.record.related.dynamic[key].length === undefined) {
-            relatedModules++
-          }
+        return arr.filter(function(item) {
+          return typeof item === 'string'
         })
-        if (relatedModules === 2) {
-          relatedColClass = 'col-sm-6'
-        } else if (relatedModules === 3) {
-          relatedColClass = 'col-sm-6 col-md-4'
-        }
-        return relatedColClass
+      } else {
+        return []
       }
     },
     hasRelatedArticles() {

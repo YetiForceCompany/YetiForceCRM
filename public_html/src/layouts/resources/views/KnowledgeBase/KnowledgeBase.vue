@@ -16,8 +16,8 @@
       :style="coordinates.height && !maximized ? { 'max-height': `${coordinates.height - 31.14}px` } : {}"
     >
       <q-header elevated class="bg-white text-primary">
-        <q-toolbar class="q-py-xs flex-wrap flex-md-nowrap">
-          <div v-show="!searchData" class="flex items-center no-wrap q-mr-auto q-mr-sm-sm">
+        <q-toolbar class="flex-md-nowrap flex-wrap items-center q-gutter-x-md q-gutter-y-sm q-pl-md q-pr-none q-py-xs">
+          <div :class="['flex items-center no-wrap flex-md-grow-1 q-mr-sm-sm', searchData ? 'invisible' : '']">
             <q-btn dense round push icon="mdi-menu" @click="toggleDrawer()">
               <q-tooltip>{{ translate('JS_TOGGLE_CATEGORY_MENU') }}</q-tooltip>
             </q-btn>
@@ -51,7 +51,7 @@
               </template>
             </q-breadcrumbs>
           </div>
-          <div class="mx-auto tree-search flex no-wrap order-sm-none order-xs-last q-pt-sm-none q-pt-xs-xs">
+          <div class="tree-search flex flex-grow-1 no-wrap order-sm-none order-xs-last">
             <q-input
               class="full-width"
               v-model="filter"
@@ -82,7 +82,7 @@
               </template>
             </q-input>
           </div>
-          <div class="q-ml-auto q-ml-sm-sm">
+          <div class="flex-md-grow-1 flex justify-end q-ml-sm-sm">
             <q-btn round dense color="white" text-color="primary" icon="mdi-plus" @click="openQuickCreateModal()">
               <q-tooltip>{{ translate('JS_QUICK_CREATE') }}</q-tooltip>
             </q-btn>
@@ -138,23 +138,20 @@
       <q-page-container>
         <q-page class="q-pa-sm">
           <div v-show="!searchData">
-            <div
-              v-if="typeof data.featured.length === 'undefined' && data.categories"
-              class="q-pa-sm featured-container items-start q-gutter-md"
-            >
-              <template v-for="(categoryValue, categoryKey) in data.categories">
-                <q-list bordered padding dense v-if="data.featured[categoryValue]" :key="categoryKey">
-                  <q-item header clickable class="text-black flex" @click="fetchData(categoryValue)">
-                    <icon :icon="tree.categories[categoryValue].icon" :size="iconSize" class="mr-2"></icon>
-                    {{ tree.categories[categoryValue].label }}
+            <related-columns v-show="featuredCategories.length" :columnBlocks="featuredCategories" class="q-pa-sm">
+              <template v-slot:default="slotProps">
+                <q-list bordered padding dense>
+                  <q-item header clickable class="text-black flex" @click="fetchData(slotProps.relatedBlock)">
+                    <icon :icon="tree.categories[slotProps.relatedBlock].icon" :size="iconSize" class="mr-2"></icon>
+                    {{ tree.categories[slotProps.relatedBlock].label }}
                   </q-item>
                   <q-item
                     clickable
-                    v-for="featuredValue in data.featured[categoryValue]"
+                    v-for="featuredValue in data.featured[slotProps.relatedBlock]"
                     :key="featuredValue.id"
                     class="text-subtitle2"
                     v-ripple
-                    @click.prevent="showRecordPreview(featuredValue.id)"
+                    @click.prevent="showArticlePreview(featuredValue.id)"
                   >
                     <q-item-section class="align-items-center flex-row no-wrap justify-content-start">
                       <q-icon name="mdi-star" :size="iconSize" class="mr-2"></q-icon>
@@ -167,15 +164,17 @@
                   </q-item>
                 </q-list>
               </template>
+            </related-columns>
+            <div v-show="activeCategory !== ''">
+              <q-separator v-show="featuredCategories.length" />
+              <articles-list
+                :data="data.records"
+                :title="translate('JS_ARTICLES')"
+                @onClickRecord="previewDialog = true"
+              />
             </div>
-            <records-list
-              v-show="activeCategory !== ''"
-              :data="data.records"
-              :title="translate('JS_ARTICLES')"
-              @onClickRecord="previewDialog = true"
-            />
           </div>
-          <records-list
+          <articles-list
             v-show="searchData"
             :data="searchDataArray"
             :title="translate('JS_ARTICLES')"
@@ -184,21 +183,22 @@
         </q-page>
       </q-page-container>
     </q-layout>
-    <record-preview :isDragResize="true" :previewDialog="previewDialog" @onDialogToggle="onDialogToggle" />
+    <article-preview :isDragResize="true" :previewDialog="previewDialog" @onDialogToggle="onDialogToggle" />
   </div>
 </template>
 <script>
 import Icon from '../../../../components/Icon.vue'
 import IconInfo from '../../../../components/IconInfo.vue'
 import Carousel from './components/Carousel.vue'
-import RecordsList from './components/RecordsList.vue'
-import RecordPreview from './components/RecordPreview.vue'
+import ArticlesList from './components/ArticlesList.vue'
+import RelatedColumns from './components/RelatedColumns.vue'
+import ArticlePreview from './components/ArticlePreview.vue'
 import { createNamespacedHelpers } from 'vuex'
 
 const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'KnowledgeBase',
-  components: { Icon, IconInfo, Carousel, RecordsList, RecordPreview },
+  components: { Icon, IconInfo, Carousel, ArticlesList, ArticlePreview, RelatedColumns },
   props: {
     coordinates: {
       type: Object,
@@ -234,6 +234,18 @@ export default {
     ...mapGetters(['tree', 'record', 'iconSize', 'moduleName', 'maximized']),
     searchDataArray() {
       return this.searchData ? this.searchData : []
+    },
+    featuredCategories() {
+      if (typeof this.data.featured.length === 'undefined' && this.data.categories) {
+        let arr = this.data.categories.map(e => {
+          return this.data.featured[e] ? e : false
+        })
+        return arr.filter(function(item) {
+          return typeof item === 'string'
+        })
+      } else {
+        return []
+      }
     },
     inputFocus: {
       set(val) {
@@ -292,7 +304,7 @@ export default {
       const headerInstance = new window.Vtiger_Header_Js()
       headerInstance.quickCreateModule(this.moduleName)
     },
-    showRecordPreview(id) {
+    showArticlePreview(id) {
       this.fetchRecord(id).then(() => {
         this.previewDialog = true
       })
@@ -352,10 +364,5 @@ export default {
 .tree-search .q-field__control,
 .tree-search .q-field__marginal {
   height: 40px;
-}
-.featured-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  grid-auto-flow: dense;
 }
 </style>
