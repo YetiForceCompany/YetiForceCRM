@@ -1953,7 +1953,8 @@ window.App.Fields = {
 							form.on('submit', e => {
 								e.preventDefault();
 								if (form.validationEngine('validate') && this.saveCurrencies(form)) {
-									app.hideModalWindow();
+									let id = form.closest('.js-modal-container').attr('id');
+									app.hideModalWindow(null, id);
 								}
 							});
 						}

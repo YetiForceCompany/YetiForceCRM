@@ -156,7 +156,7 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 			$info['price'] = (float) $recordModel->get('unit_price') * (float) $conversionRate;
 			$info['qtyPerUnit'] = $recordModel->getDisplayValue('qty_per_unit');
 			if (($fieldModel = $recordModel->getField('purchase')) && $fieldModel->isActiveField()) {
-				$info['purchase'] = $fieldModel->getUITypeModel()->getValueForCurrency($recordModel->get('purchase'), $currencyId);
+				$info['purchase'] = $fieldModel->getUITypeModel()->getValueForCurrency($recordModel->get($fieldModel->getName()), $currencyId);
 			}
 		}
 
