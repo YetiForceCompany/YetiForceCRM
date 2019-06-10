@@ -18863,6 +18863,11 @@ label.btn[class*=btn-outline-]:not(.active):hover {
   height: calc(100vh - 113px);
 }
 
+select.form-control,
+select.select2 {
+  overflow: hidden;
+}
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 @media print {
   .noprint {
