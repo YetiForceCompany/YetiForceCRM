@@ -827,7 +827,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * Function to get the field details.
 	 *
-	 * @return <Array> - array of field values
+	 * @return array - array of field values
 	 */
 	public function getFieldInfo()
 	{
@@ -1527,5 +1527,19 @@ class Vtiger_Field_Model extends vtlib\Field
 			return;
 		}
 		return $this->getUITypeModel()->getOperatorTemplateName($operator);
+	}
+
+	/**
+	 * Sets data.
+	 *
+	 * @param array $data
+	 * @return self
+	 */
+	public function setData(array $data = [])
+	{
+		foreach ($data as $key => $value) {
+			$this->set($key, $value);
+		}
+		return $this;
 	}
 }

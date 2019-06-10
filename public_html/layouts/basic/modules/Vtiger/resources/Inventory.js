@@ -469,6 +469,11 @@ $.Class(
 				.attr('title', val);
 			return this;
 		},
+		setPurchase: function(row, val) {
+			val = App.Fields.Double.formatToDisplay(val);
+			row.find('.purchase').val(val);
+			return this;
+		},
 		setNetPrice: function(row, val) {
 			val = App.Fields.Double.formatToDisplay(val);
 			$('.netPriceText', row).text(val);
@@ -960,6 +965,7 @@ $.Class(
 				if (recordData['taxes']) {
 					parentRow.find('.js-tax').attr('data-default-tax', App.Fields.Double.formatToDisplay(recordData.taxes.value));
 				}
+				thisInstance.setPurchase(parentRow, recordData.purchase);
 				thisInstance.setTaxParam(parentRow, taxParam);
 				thisInstance.setTax(parentRow, 0);
 				thisInstance.setTaxPercent(parentRow, 0);
