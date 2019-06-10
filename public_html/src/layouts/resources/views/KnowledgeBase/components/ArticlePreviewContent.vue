@@ -89,7 +89,7 @@
           :title="translate('JS_RELATED_ARTICLES')"
         />
       </div>
-      <div v-show="relatedRecords">
+      <div v-show="relatedRecords.length">
         <q-separator />
         <div class="q-pa-md q-table__title">{{ translate('JS_RELATED_RECORDS') }}</div>
         <related-columns :columnBlocks="relatedRecords">

@@ -138,7 +138,7 @@
       <q-page-container>
         <q-page class="q-pa-sm">
           <div v-show="!searchData">
-            <related-columns v-show="featuredCategories" :columnBlocks="featuredCategories" class="q-pa-sm">
+            <related-columns v-show="featuredCategories.length" :columnBlocks="featuredCategories" class="q-pa-sm">
               <template v-slot:default="slotProps">
                 <q-list bordered padding dense>
                   <q-item header clickable class="text-black flex" @click="fetchData(slotProps.relatedBlock)">
@@ -166,7 +166,7 @@
               </template>
             </related-columns>
             <div v-show="activeCategory !== ''">
-              <q-separator />
+              <q-separator v-show="featuredCategories.length" />
               <articles-list
                 :data="data.records"
                 :title="translate('JS_ARTICLES')"
@@ -237,9 +237,14 @@ export default {
     },
     featuredCategories() {
       if (typeof this.data.featured.length === 'undefined' && this.data.categories) {
-        return this.data.categories.map(e => {
+        let arr = this.data.categories.map(e => {
           return this.data.featured[e] ? e : false
         })
+        return arr.filter(function(item) {
+          return typeof item === 'string'
+        })
+      } else {
+        return []
       }
     },
     inputFocus: {
