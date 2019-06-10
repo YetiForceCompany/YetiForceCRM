@@ -142,7 +142,7 @@ class Notification_Module_Model extends Vtiger_Module_Model
 		$dataReader = $query->createCommand()->query();
 		$entries = [];
 		while ($row = $dataReader->read()) {
-			$recordModel = Vtiger_Record_Model::getCleanInstance($this->getName());
+			$recordModel = Vtiger_Record_Model::getCleanInstance('Notification');
 			$recordModel->setData($row);
 			$entries[$row['notification_type']][$row['notificationid']] = $recordModel;
 		}
