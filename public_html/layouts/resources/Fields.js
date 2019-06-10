@@ -1909,5 +1909,219 @@ window.App.Fields = {
 				this.onChange();
 			}
 		}
+	},
+	/**
+	 * Multi currency
+	 */
+	MultiCurrency: class MultiCurrency {
+		constructor(container) {
+			this.container = container;
+			this.init();
+		}
+		/**
+		 * Register function
+		 * @param {jQuery} container
+		 */
+		static register(container) {
+			if (container.hasClass('js-multicurrency-container')) {
+				return new MultiCurrency(container);
+			}
+			const instances = [];
+			container.find('.js-multicurrency-container').each((n, e) => {
+				instances.push(new MultiCurrency($(e)));
+			});
+			return instances;
+		}
+		/**
+		 * Initiation
+		 */
+		init() {
+			$('.js-multicurrency-event', this.container)
+				.off('click')
+				.on('click', () => {
+					let modal = $('<form>').append(this.container.find('.js-currencies-container .js-currencies-modal').clone());
+					this.registerEnableCurrencyEvent(modal);
+					this.registerResetCurrencyEvent(modal);
+					this.loadData(modal);
+					this.calculateConversionRate(modal);
+					app.showModalWindow({
+						data: modal,
+						css: {},
+						cb: data => {
+							let form = data.parent();
+							form.validationEngine(app.validationEngineOptionsForRecord);
+							form.on('submit', e => {
+								e.preventDefault();
+								if (form.validationEngine('validate') && this.saveCurrencies(form)) {
+									app.hideModalWindow();
+								}
+							});
+						}
+					});
+				});
+			this.getField().on('focusout', e => {
+				let element = $(e.currentTarget);
+				element.formatNumber();
+				this.setPrice(element.val());
+			});
+		}
+		/**
+		 * Loading data
+		 * @param {jQuery} modalContainer
+		 */
+		loadData(modalContainer) {
+			let values = JSON.parse(this.getFieldToSave().val());
+			let baseCurrencyId = values['currencyId'] || CONFIG.currencyId;
+			if (values['currencies'] === undefined) {
+				values['currencies'] = [];
+				values['currencies'][baseCurrencyId] = { price: 0 };
+			}
+			for (let i in values['currencies']) {
+				let row = modalContainer.find('[data-currency-id="' + i + '"]');
+				if (row.length) {
+					row.find('.js-enable-currency').prop('checked', true);
+					row.find('.js-currency-reset,.js-base-currency,[name^="currencies["]').prop('disabled', false);
+					row.find('.js-converted-price').val(values['currencies'][i]['price']);
+					if (i == baseCurrencyId) {
+						row.find('.js-base-currency').prop('checked', true);
+					}
+				}
+			}
+		}
+		/**
+		 * Set value
+		 * @param {number} value
+		 */
+		setPrice(value) {
+			let values = JSON.parse(this.getFieldToSave().val());
+			let baseCurrencyId = values['currencyId'] || CONFIG.currencyId;
+			values['currencies'] = values['currencies'] || {};
+			values['currencies'][baseCurrencyId] = { price: value };
+			values['currencyId'] = baseCurrencyId;
+			values = $.extend({}, values);
+			this.getFieldToSave().val(JSON.stringify($.extend({}, values)));
+		}
+		/**
+		 * Gets field
+		 */
+		getField() {
+			return this.container.find('.js-multicurrency-field');
+		}
+		/**
+		 * Gets field to save
+		 */
+		getFieldToSave() {
+			return this.container.find('.js-multicurrency-field-to-save');
+		}
+		/**
+		 * Save
+		 * @param {jQuery} modalContainer
+		 */
+		saveCurrencies(modalContainer) {
+			let enabledBaseCurrency = modalContainer.find('.js-enable-currency').filter(':checked');
+			if (enabledBaseCurrency.length < 1) {
+				Vtiger_Helper_Js.showMessage({
+					text: app.vtranslate('JS_PLEASE_SELECT_BASE_CURRENCY_FOR_PRODUCT'),
+					type: 'error'
+				});
+				return false;
+			}
+			let selectedBaseCurrency = modalContainer.find('.js-base-currency').filter(':checked');
+			if (selectedBaseCurrency.length < 1) {
+				Vtiger_Helper_Js.showMessage({
+					text: app.vtranslate('JS_PLEASE_ENABLE_BASE_CURRENCY_FOR_PRODUCT'),
+					type: 'error'
+				});
+				return false;
+			}
+
+			let selectedRow = selectedBaseCurrency.closest('tr');
+			let symbol = selectedRow.data('currency-symbol');
+			this.container.find('.js-currency').text(symbol);
+			let data = {};
+			data['currencies'] = {};
+			enabledBaseCurrency.closest('tr').each((n, e) => {
+				let row = $(e),
+					currencyId = row.data('currencyId');
+				data['currencies'][currencyId] = {};
+				data['currencies'][currencyId]['price'] = row.find('.js-converted-price').val();
+				if (row.find('.js-base-currency:checked').length) {
+					data['currencyId'] = currencyId;
+				}
+			});
+			this.getFieldToSave().val(JSON.stringify(data));
+			this.getField().val(selectedRow.find('.js-converted-price').val());
+			selectedBaseCurrency.prop('checked', false);
+			return true;
+		}
+		/**
+		 * Calculate
+		 * @param {jQuery} container
+		 */
+		calculateConversionRate(container) {
+			let baseCurrencyConversionRate = container
+				.find('.js-base-currency')
+				.filter(':checked')
+				.closest('tr')
+				.find('.js-conversion-rate');
+			if (baseCurrencyConversionRate.val() == '1') {
+				return;
+			}
+			let baseCurrencyRatePrevValue = baseCurrencyConversionRate.getNumberFromValue();
+			container.find('.js-conversion-rate').each(function(key, domElement) {
+				let element = $(domElement);
+				if (!element.is(baseCurrencyConversionRate)) {
+					element.val(
+						App.Fields.Double.formatToDisplay(element.getNumberFromValue() / baseCurrencyRatePrevValue, false)
+					);
+				}
+			});
+			baseCurrencyConversionRate.val('1');
+		}
+		/**
+		 * Function to register event for enabling currency on checkbox checked
+		 * @param {jQuery} container
+		 */
+		registerEnableCurrencyEvent(container) {
+			container.on('change', '.js-enable-currency', e => {
+				let element = $(e.currentTarget);
+				let parentRow = element.closest('tr');
+				if (element.is(':checked')) {
+					element.attr('checked', 'checked');
+					let price = this.getField().getNumberFromValue() * parentRow.find('.js-conversion-rate').getNumberFromValue();
+					$('input', parentRow).removeAttr('disabled');
+					parentRow.find('.js-currency-reset').removeAttr('disabled');
+					parentRow.find('.js-converted-price').val(App.Fields.Double.formatToDisplay(price));
+				} else {
+					if (parentRow.find('.js-base-currency').is(':checked')) {
+						Vtiger_Helper_Js.showPnotify({
+							type: 'error',
+							title:
+								'"' +
+								parentRow.find('.js-currency-name').text() +
+								'" ' +
+								app.vtranslate('JS_BASE_CURRENCY_CHANGED_TO_DISABLE_CURRENCY')
+						});
+						element.prop('checked', true);
+						return;
+					}
+					parentRow.find('input').attr('disabled', 'disabled');
+					parentRow.find('.js-currency-reset').attr('disabled', 'disabled');
+					element.removeAttr('disabled checked');
+				}
+			});
+		}
+
+		/**
+		 * Function to register event for reseting the currencies
+		 * @param {jQuery} container
+		 */
+		registerResetCurrencyEvent(container) {
+			container.on('click', '.js-currency-reset', e => {
+				let parentElem = $(e.currentTarget).closest('tr');
+				let price = this.getField().getNumberFromValue() * parentElem.find('.js-conversion-rate').getNumberFromValue();
+				$('.js-converted-price', parentElem).val(App.Fields.Double.formatToDisplay(price));
+			});
+		}
 	}
 };

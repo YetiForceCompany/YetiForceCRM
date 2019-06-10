@@ -827,7 +827,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * Function to get the field details.
 	 *
-	 * @return <Array> - array of field values
+	 * @return array - array of field values
 	 */
 	public function getFieldInfo()
 	{

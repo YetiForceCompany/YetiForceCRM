@@ -1387,6 +1387,7 @@ $.Class(
 			App.Fields.MultiEmail.register(container);
 			App.Fields.MultiDependField.register(container);
 			App.Fields.Tree.register(container);
+			App.Fields.MultiCurrency.register(container);
 		},
 		registerEvents: function() {
 			var editViewForm = this.getForm();

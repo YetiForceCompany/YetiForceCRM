@@ -107,7 +107,7 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$unitPriceValues = false;
-		if (in_array($recordModule, ['Products', 'Services'])) {
+		if (\in_array($recordModule, ['Products', 'Services'])) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $recordModule);
 			$unitPriceValues = $recordModel->getListPriceValues($record);
 		}
@@ -145,7 +145,7 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 			'name' => App\Purifier::decodeHtml($recordModel->getName()),
 			'description' => $recordModel->get('description'),
 		];
-		if (in_array($recordModuleName, ['Products', 'Services'])) {
+		if (\in_array($recordModuleName, ['Products', 'Services'])) {
 			$conversionRate = 1;
 			$info['unitPriceValues'] = $recordModel->getListPriceValues($recordModel->getId());
 			foreach ($recordModel->getPriceDetails() as $currencyDetails) {
@@ -155,6 +155,9 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 			}
 			$info['price'] = (float) $recordModel->get('unit_price') * (float) $conversionRate;
 			$info['qtyPerUnit'] = $recordModel->getDisplayValue('qty_per_unit');
+			if (($fieldModel = $recordModel->getField('purchase')) && $fieldModel->isActiveField()) {
+				$info['purchase'] = $fieldModel->getUITypeModel()->getValueForCurrency($recordModel->get('purchase'), $currencyId);
+			}
 		}
 
 		$autoFields = [];
