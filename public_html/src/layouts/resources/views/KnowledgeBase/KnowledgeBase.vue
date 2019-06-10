@@ -138,7 +138,6 @@
       <q-page-container>
         <q-page class="q-pa-sm">
           <div v-show="!searchData">
-            {{ featuredCategories }}
             <related-columns v-show="featuredCategories" :columnBlocks="featuredCategories" class="q-pa-sm">
               <template v-slot:default="slotProps">
                 <q-list bordered padding dense>

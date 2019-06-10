@@ -178,12 +178,8 @@ export default {
     relatedRecords() {
       if (this.record) {
         let arr = Object.keys(this.record.related.dynamic).map(key => {
-          console.log(this.record.related.dynamic[key], this.record.related.dynamic[key] === undefined)
-          if (this.record.related.dynamic[key].length !== 0) {
-            return typeof key !== 'string' ? false : key
-          }
+          return this.record.related.dynamic[key].length !== 0 ? key : false
         })
-        console.log(arr)
         return arr.filter(function(item) {
           return typeof item === 'string'
         })

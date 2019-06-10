@@ -2,7 +2,7 @@
 /**
  * RelatedColumns component
  *
- * @description Records list component
+ * @description Records columns component
  * @license YetiForce Public License 3.0
  * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
@@ -47,6 +47,5 @@ export default {
   -webkit-column-break-inside: avoid;
   page-break-inside: avoid;
   break-inside: avoid-column;
-  display: table;
 }
 </style>
