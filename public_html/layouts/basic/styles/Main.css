@@ -3211,8 +3211,8 @@ textarea.form-control {
     display: -ms-flexbox;
     display: flex;
     -webkit-box-flex: 0;
-        -ms-flex: 0 1 auto;
-            flex: 0 1 auto;
+        -ms-flex: 0 0 auto;
+            flex: 0 0 auto;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
         -ms-flex-flow: row wrap;
@@ -24329,19 +24329,15 @@ ul.tweets li {
   border-radius: 0.25rem;
 }
 
-.c-float-label__container {
-	top: 0.6em;
-}
-
 .c-float-label__label {
   position: absolute;
+	left: 0;
   cursor: text;
   font-size: 75%;
   top: -1.5em;
   z-index: 3;
   line-height: 1;
   color: #000;
-	white-space: nowrap;
   padding: 0 1px;
 }
 
