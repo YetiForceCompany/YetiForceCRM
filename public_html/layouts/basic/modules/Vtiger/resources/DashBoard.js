@@ -132,6 +132,8 @@ $.Class(
 			const self = this;
 			let urlParams = widgetContainer.data('url');
 			let mode = widgetContainer.data('mode');
+			let module = app.getModuleName();
+  		let sourceModule = $('a.active', 'ul.selectDashboradView').parent().data('module');
 			widgetContainer.progressIndicator();
 			if (mode === 'open') {
 				let name = widgetContainer.data('name');
@@ -150,6 +152,9 @@ $.Class(
 					self.getWidgetInstance(widgetContainer);
 					widgetContainer.trigger(Vtiger_Widget_Js.widgetPostLoadEvent);
 					self.adjustHeightWidget(widgetContainer);
+					if(module != sourceModule) {
+						$('a.js-widget-remove', widgetContainer).remove();
+					}
 				});
 			}
 		},
