@@ -3295,6 +3295,24 @@ CREATE TABLE `u_yf_scalculationscf` (
   CONSTRAINT `fk_1_u_yf_scalculationscf` FOREIGN KEY (`scalculationsid`) REFERENCES `u_yf_scalculations` (`scalculationsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_servicecontracts_sla_policy` */
+
+CREATE TABLE `u_yf_servicecontracts_sla_policy` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `crmid` int(11) NOT NULL,
+  `policy_from` tinyint(1) NOT NULL DEFAULT 0,
+  `operational_hours` tinyint(1) NOT NULL DEFAULT 0,
+  `tabid` int(11) NOT NULL,
+  `conditions` text NOT NULL,
+  `reaction_time` varchar(20) NOT NULL DEFAULT '0:m',
+  `idle_time` varchar(20) NOT NULL DEFAULT '0:m',
+  `resolve_time` varchar(20) NOT NULL DEFAULT '0:m',
+  `business_hours` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_crmentity_idx` (`crmid`),
+  CONSTRAINT `fk_crmentity_idx` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_social_media_config` */
 
 CREATE TABLE `u_yf_social_media_config` (
