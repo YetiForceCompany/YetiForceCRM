@@ -145,12 +145,4 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 		}
 		parent::getManyToMany();
 	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function transferDb(array $params)
-	{
-		return \App\Db::getInstance()->createCommand()->update('vtiger_seproductsrel', ['crmid' => $params['sourceRecordId'], 'productid' => $params['destinationRecordId']], ['crmid' => $params['fromRecordId'], 'productid' => $params['destinationRecordId'], 'setype' => ''])->execute() || parent::transferDb($params);
-	}
 }
