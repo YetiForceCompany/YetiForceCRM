@@ -3736,6 +3736,7 @@ CREATE TABLE `u_yf_ssingleorders` (
   `sum_discount` decimal(28,8) DEFAULT NULL,
   `ssingleorders_source` varchar(255) DEFAULT '',
   `istorageaddressid` int(10) DEFAULT NULL,
+  `ssingleorders_method_payments` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ssingleordersid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `squotesid` (`squotesid`),
@@ -5508,7 +5509,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2818 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2819 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -7162,7 +7163,7 @@ CREATE TABLE `vtiger_paymentsin` (
   `paymentsno` varchar(32) DEFAULT NULL,
   `paymentsname` varchar(128) DEFAULT NULL,
   `paymentstitle` text DEFAULT NULL,
-  `currency_id` varchar(32) DEFAULT NULL,
+  `currency_id` int(10) DEFAULT NULL,
   `bank_account` varchar(128) DEFAULT NULL,
   `paymentsin_status` varchar(128) DEFAULT NULL,
   `relatedid` int(10) DEFAULT NULL,
@@ -8219,6 +8220,16 @@ CREATE TABLE `vtiger_ssalesprocesses_type` (
   PRIMARY KEY (`ssalesprocesses_typeid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_ssingleorders_method_payments` */
+
+CREATE TABLE `vtiger_ssingleorders_method_payments` (
+  `ssingleorders_method_paymentsid` int(11) NOT NULL AUTO_INCREMENT,
+  `ssingleorders_method_payments` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT 1,
+  `sortorderid` smallint(6) DEFAULT 0,
+  PRIMARY KEY (`ssingleorders_method_paymentsid`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_ssingleorders_source` */
 
 CREATE TABLE `vtiger_ssingleorders_source` (
@@ -8227,7 +8238,7 @@ CREATE TABLE `vtiger_ssingleorders_source` (
   `sortorderid` int(10) DEFAULT NULL,
   `presence` int(10) NOT NULL DEFAULT 1,
   PRIMARY KEY (`ssingleorders_sourceid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ssingleorders_status` */
 
