@@ -4753,6 +4753,7 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (13,2815,'solution_expected','vtiger_troubletickets',1,79,'solution_expected','FL_SOLUTION_EXPECTED',0,2,'',NULL,0,444,9,'DT~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (13,2816,'idle_expected','vtiger_troubletickets',1,79,'idle_expected','FL_IDLE_DATE_EXPECTED',0,2,'',NULL,0,444,9,'DT~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (14,2817,'purchase','vtiger_products',1,360,'purchase','FL_PURCHASE',0,0,'',NULL,6,32,1,'V~O',2,3,'BAS',0,'',1,'',NULL,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (90,2818,'ssingleorders_method_payments','u_yf_ssingleorders',1,16,'ssingleorders_method_payments','FL_METHOD_PAYMENTS',0,2,'','255',16,284,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
 
 /*Data for the table `vtiger_field_seq` */
 
@@ -8152,6 +8153,7 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,13,2815,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,13,2816,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,14,2817,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,90,2818,0,0);
 
 /*Data for the table `vtiger_profile2globalpermissions` */
 
@@ -17698,11 +17700,19 @@ insert  into `vtiger_ssalesprocesses_type`(`ssalesprocesses_typeid`,`ssalesproce
 insert  into `vtiger_ssalesprocesses_type`(`ssalesprocesses_typeid`,`ssalesprocesses_type`,`sortorderid`,`presence`) values (3,'PLL_AFTERSALES',3,1);
 insert  into `vtiger_ssalesprocesses_type`(`ssalesprocesses_typeid`,`ssalesprocesses_type`,`sortorderid`,`presence`) values (4,'PLL_TENDER',4,1);
 
+/*Data for the table `vtiger_ssingleorders_method_payments` */
+
+insert  into `vtiger_ssingleorders_method_payments`(`ssingleorders_method_paymentsid`,`ssingleorders_method_payments`,`presence`,`sortorderid`) values (1,'PLL_REDSYS',1,1);
+insert  into `vtiger_ssingleorders_method_payments`(`ssingleorders_method_paymentsid`,`ssingleorders_method_payments`,`presence`,`sortorderid`) values (2,'PLL_DOTPAY',1,2);
+insert  into `vtiger_ssingleorders_method_payments`(`ssingleorders_method_paymentsid`,`ssingleorders_method_payments`,`presence`,`sortorderid`) values (3,'PLL_TRANSFER',1,3);
+insert  into `vtiger_ssingleorders_method_payments`(`ssingleorders_method_paymentsid`,`ssingleorders_method_payments`,`presence`,`sortorderid`) values (4,'PLL_CASH_ON_DELIVERY',1,4);
+
 /*Data for the table `vtiger_ssingleorders_source` */
 
 insert  into `vtiger_ssingleorders_source`(`ssingleorders_sourceid`,`ssingleorders_source`,`sortorderid`,`presence`) values (1,'PLL_MANUAL',1,0);
 insert  into `vtiger_ssingleorders_source`(`ssingleorders_sourceid`,`ssingleorders_source`,`sortorderid`,`presence`) values (2,'PLL_POS',2,0);
 insert  into `vtiger_ssingleorders_source`(`ssingleorders_sourceid`,`ssingleorders_source`,`sortorderid`,`presence`) values (3,'PLL_SHOP',3,0);
+insert  into `vtiger_ssingleorders_source`(`ssingleorders_sourceid`,`ssingleorders_source`,`sortorderid`,`presence`) values (4,'PLL_PORTAL',1,1);
 
 /*Data for the table `vtiger_ssingleorders_status` */
 
