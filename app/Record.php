@@ -288,6 +288,20 @@ class Record
 	}
 
 	/**
+	 * Get the currency ID for the inventory record.
+	 *
+	 * @param int    $recordId
+	 * @param string $moduleName
+	 *
+	 * @return int|null
+	 */
+	public static function getCurrencyIdFromInventory(int $recordId, string $moduleName): ?int
+	{
+		$invData = \Vtiger_Inventory_Model::getInventoryDataById($recordId, $moduleName);
+		return current($invData)['currency'] ?? Fields\Currency::getDefault()['id'] ?? null;
+	}
+
+	/**
 	 * Get record state.
 	 *
 	 * @param int $recordId

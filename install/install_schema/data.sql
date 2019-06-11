@@ -3000,6 +3000,7 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_clas
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (72,'EntityChangeState','API_CalDAV_Handler',1,'Calendar','',3,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (73,'EntityBeforeSave','Vtiger_RecordStatusHistory_Handler',1,'HelpDesk','',5,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (74,'EntityAfterSave','Vtiger_RecordStatusHistory_Handler',1,'HelpDesk','',5,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (75,'EntityAfterSave','PaymentsIn_PaymentsInHandler_Handler',1,'PaymentsIn','',5,0);
 
 /*Data for the table `vtiger_expectedresponse` */
 
@@ -4754,6 +4755,7 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (13,2816,'idle_expected','vtiger_troubletickets',1,79,'idle_expected','FL_IDLE_DATE_EXPECTED',0,2,'',NULL,0,444,9,'DT~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (14,2817,'purchase','vtiger_products',1,360,'purchase','FL_PURCHASE',0,0,'',NULL,6,32,1,'V~O',2,3,'BAS',0,'',1,'',NULL,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (90,2818,'ssingleorders_method_payments','u_yf_ssingleorders',1,16,'ssingleorders_method_payments','FL_METHOD_PAYMENTS',0,2,'','255',16,284,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (90,2819,'ssingleorders_payment_status','u_yf_ssingleorders',1,16,'ssingleorders_payment_status','FL_PAYMENT_STATUS',1,2,'PLL_NOT_PAID',NULL,17,284,10,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
 
 /*Data for the table `vtiger_field_seq` */
 
@@ -8154,6 +8156,7 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,13,2816,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,14,2817,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,90,2818,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,90,2819,0,0);
 
 /*Data for the table `vtiger_profile2globalpermissions` */
 
@@ -17706,6 +17709,13 @@ insert  into `vtiger_ssingleorders_method_payments`(`ssingleorders_method_paymen
 insert  into `vtiger_ssingleorders_method_payments`(`ssingleorders_method_paymentsid`,`ssingleorders_method_payments`,`presence`,`sortorderid`) values (2,'PLL_DOTPAY',1,2);
 insert  into `vtiger_ssingleorders_method_payments`(`ssingleorders_method_paymentsid`,`ssingleorders_method_payments`,`presence`,`sortorderid`) values (3,'PLL_TRANSFER',1,3);
 insert  into `vtiger_ssingleorders_method_payments`(`ssingleorders_method_paymentsid`,`ssingleorders_method_payments`,`presence`,`sortorderid`) values (4,'PLL_CASH_ON_DELIVERY',1,4);
+
+/*Data for the table `vtiger_ssingleorders_payment_status` */
+
+insert  into `vtiger_ssingleorders_payment_status`(`ssingleorders_payment_statusid`,`ssingleorders_payment_status`,`presence`,`sortorderid`) values (1,'PLL_NOT_PAID',1,1);
+insert  into `vtiger_ssingleorders_payment_status`(`ssingleorders_payment_statusid`,`ssingleorders_payment_status`,`presence`,`sortorderid`) values (2,'PLL_UNDERPAID',1,2);
+insert  into `vtiger_ssingleorders_payment_status`(`ssingleorders_payment_statusid`,`ssingleorders_payment_status`,`presence`,`sortorderid`) values (3,'PLL_PAID',1,3);
+insert  into `vtiger_ssingleorders_payment_status`(`ssingleorders_payment_statusid`,`ssingleorders_payment_status`,`presence`,`sortorderid`) values (4,'PLL_OVERPAID',1,4);
 
 /*Data for the table `vtiger_ssingleorders_source` */
 

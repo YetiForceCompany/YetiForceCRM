@@ -3737,6 +3737,7 @@ CREATE TABLE `u_yf_ssingleorders` (
   `ssingleorders_source` varchar(255) DEFAULT '',
   `istorageaddressid` int(10) DEFAULT NULL,
   `ssingleorders_method_payments` varchar(255) DEFAULT NULL,
+  `ssingleorders_payment_status` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`ssingleordersid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `squotesid` (`squotesid`),
@@ -5386,7 +5387,7 @@ CREATE TABLE `vtiger_eventhandlers` (
   `owner_id` smallint(5) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`eventhandler_id`),
   KEY `event_name_class` (`event_name`,`handler_class`)
-) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_expectedresponse` */
 
@@ -5509,7 +5510,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2819 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2820 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -8228,6 +8229,16 @@ CREATE TABLE `vtiger_ssingleorders_method_payments` (
   `presence` tinyint(1) DEFAULT 1,
   `sortorderid` smallint(6) DEFAULT 0,
   PRIMARY KEY (`ssingleorders_method_paymentsid`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_ssingleorders_payment_status` */
+
+CREATE TABLE `vtiger_ssingleorders_payment_status` (
+  `ssingleorders_payment_statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `ssingleorders_payment_status` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT 1,
+  `sortorderid` smallint(6) DEFAULT 0,
+  PRIMARY KEY (`ssingleorders_payment_statusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ssingleorders_source` */
