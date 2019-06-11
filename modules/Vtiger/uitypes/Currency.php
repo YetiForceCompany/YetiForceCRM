@@ -18,7 +18,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		return CurrencyField::convertToDBFormat($value, null, $this->getFieldModel()->get('uitype') === 72);
+		return CurrencyField::convertToDBFormat($value, null, 72 === $this->getFieldModel()->get('uitype'));
 	}
 
 	/**
@@ -51,7 +51,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 		}
 		$uiType = $this->getFieldModel()->get('uitype');
 		// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
-		$value = CurrencyField::convertToUserFormat($value, null, $uiType === 72);
+		$value = CurrencyField::convertToUserFormat($value, null, 72 === $uiType);
 		if (!$this->edit) {
 			$value = $this->getDetailViewDisplayValue($value, $record, $uiType);
 		}
@@ -81,7 +81,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDetailViewDisplayValue($value, $recordId, $uiType)
 	{
-		if ($uiType === 72 && $recordId) {
+		if (72 === $uiType && $recordId) {
 			$moduleName = $this->getFieldModel()->getModuleName();
 			if (!$moduleName) {
 				$moduleName = \App\Record::getType($recordId);
@@ -94,6 +94,19 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 			$currencySymbol = $currencyModal->currencySymbol;
 		}
 		return CurrencyField::appendCurrencySymbol($value, $currencySymbol);
+	}
+
+	/**
+	 * Get currency symbol by record ID.
+	 *
+	 * @param int $recordId
+	 *
+	 * @return string
+	 */
+	public function getSymbolByRecordId(int $recordId): string
+	{
+		$currencyId = \App\Fields\Currency::getCurrencyByModule($recordId, $this->getFieldModel()->getModuleName());
+		return \App\Fields\Currency::getById($currencyId)['currency_symbol'];
 	}
 
 	/**

@@ -59,7 +59,7 @@ class ReceiveFromPaymentsSystem extends \Api\Core\BaseAction
 			$recordModel->set('ssingleordersid', $orderId);
 			$recordModel->set('transaction_id', $transactionId);
 			$recordModel->set('paymentsvalue', $request->getByType('paymentsvalue', 'Double'));
-			$recordModel->set('paymentscurrency', \App\Fields\Currency::getIdByCode($request->getByType('currency_id')));
+			$recordModel->set('currency_id', \App\Fields\Currency::getIdByCode($request->getByType('currency_id')));
 			$recordModel->set('paymentstitle', $request->getByType('paymentstitle', 'Text'));
 			$recordModel->set('payment_system', $paymentSystem);
 		}
