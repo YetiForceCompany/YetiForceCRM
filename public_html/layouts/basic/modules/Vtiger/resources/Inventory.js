@@ -1452,7 +1452,7 @@ $.Class(
 		},
 		registerPriceBookModal: function(container) {
 			var thisInstance = this;
-			container.on('click', '.js-price-book-modal', function(e) {
+			container.find('.js-price-book-modal').on('click', function(e) {
 				var element = $(e.currentTarget);
 				var response = thisInstance.isRecordSelected(element);
 				if (response == true) {
