@@ -3300,7 +3300,7 @@ CREATE TABLE `u_yf_scalculationscf` (
 CREATE TABLE `u_yf_servicecontracts_sla_policy` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `crmid` int(11) NOT NULL,
-  `policy_from` tinyint(1) NOT NULL DEFAULT 0,
+  `policy_type` tinyint(1) NOT NULL DEFAULT 0,
   `operational_hours` tinyint(1) NOT NULL DEFAULT 0,
   `tabid` int(11) NOT NULL,
   `conditions` text NOT NULL,
