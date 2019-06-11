@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * *********************************************************************************** */
 
 class PriceBooks_ListView_Model extends Vtiger_ListView_Model
@@ -15,7 +16,9 @@ class PriceBooks_ListView_Model extends Vtiger_ListView_Model
 	 */
 	public function getListViewEntries(Vtiger_Paging_Model $pagingModel)
 	{
-		$this->getQueryGenerator()->currencyId = $this->get('currency_id');
+		if ($currencyId = $this->get('currency_id')) {
+			$this->getQueryGenerator()->currencyId = $currencyId;
+		}
 		return parent::getListViewEntries($pagingModel);
 	}
 
@@ -32,7 +35,6 @@ class PriceBooks_ListView_Model extends Vtiger_ListView_Model
 			$field->set('label', 'List Price');
 			$field->set('typeofdata', 'N~O');
 			$field->set('fromOutsideList', true);
-			$field->fieldDataType = 'currency';
 			$headerFields['listprice'] = $field;
 		}
 		return $headerFields;

@@ -5509,7 +5509,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2819 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2820 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -7331,16 +7331,6 @@ CREATE TABLE `vtiger_productcf` (
   CONSTRAINT `fk_1_vtiger_productcf` FOREIGN KEY (`productid`) REFERENCES `vtiger_products` (`productid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_productcurrencyrel` */
-
-CREATE TABLE `vtiger_productcurrencyrel` (
-  `productid` int(10) NOT NULL,
-  `currencyid` int(10) NOT NULL,
-  `converted_price` decimal(28,8) DEFAULT NULL,
-  `actual_price` decimal(28,8) DEFAULT NULL,
-  KEY `productid` (`productid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_products` */
 
 CREATE TABLE `vtiger_products` (
@@ -7351,7 +7341,7 @@ CREATE TABLE `vtiger_products` (
   `pscategory` varchar(200) DEFAULT NULL,
   `manufacturer` varchar(200) DEFAULT NULL,
   `qty_per_unit` decimal(11,2) DEFAULT 0.00,
-  `unit_price` decimal(25,8) DEFAULT NULL,
+  `unit_price` text DEFAULT NULL,
   `weight` decimal(11,3) DEFAULT NULL,
   `pack_size` int(10) DEFAULT NULL,
   `sales_start_date` date DEFAULT NULL,
@@ -7969,7 +7959,7 @@ CREATE TABLE `vtiger_service` (
   `servicename` varchar(255) NOT NULL,
   `pscategory` varchar(200) DEFAULT NULL,
   `qty_per_unit` decimal(11,2) DEFAULT 0.00,
-  `unit_price` decimal(25,8) DEFAULT NULL,
+  `unit_price` text DEFAULT NULL,
   `sales_start_date` date DEFAULT NULL,
   `sales_end_date` date DEFAULT NULL,
   `start_date` date DEFAULT NULL,
@@ -7981,6 +7971,7 @@ CREATE TABLE `vtiger_service` (
   `commissionrate` decimal(7,3) DEFAULT NULL,
   `renewable` tinyint(1) DEFAULT 0,
   `taxes` varchar(50) DEFAULT NULL,
+  `purchase` text DEFAULT NULL,
   PRIMARY KEY (`serviceid`),
   CONSTRAINT `fk_1_vtiger_service` FOREIGN KEY (`serviceid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

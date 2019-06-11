@@ -873,7 +873,7 @@ $.Class(
 					src_module: $('[name="popupReferenceModule"]', rowName).val(),
 					src_record: $('.sourceField', rowName).val(),
 					src_field: $('[name="popupReferenceModule"]', rowName).data('field'),
-					currency_id: thisInstance.getCurrency()
+					currency_id: thisInstance.getCurrency() || CONFIG.defaultCurrencyId
 				},
 				(modal, instance) => {
 					instance.setSelectEvent(responseData => {
