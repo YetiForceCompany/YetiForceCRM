@@ -3311,7 +3311,7 @@ CREATE TABLE `u_yf_servicecontracts_sla_policy` (
   PRIMARY KEY (`id`),
   KEY `fk_crmentity_idx` (`crmid`),
   CONSTRAINT `fk_crmentity_idx` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_social_media_config` */
 
