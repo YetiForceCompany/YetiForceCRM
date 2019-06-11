@@ -33,7 +33,7 @@
 					{FUNC_CURRENCY_SYMBOL_PLACEMENT CURRENCY_SYMBOL=$CURRENCY_SYMBOL}
 				{/if}
 				{if !$FIELD_MODEL->isEditableReadOnly()}
-					<div class="input-group-append row">
+					<div class="input-group-append">
 						<div class="hide js-currencies-container" data-js="container">
 							{include file=\App\Layout::getTemplatePath('Edit/CurrenciesModal.tpl', $MODULE_NAME) PRICE_DETAILS=$FIELD_MODEL->getUITypeModel()->getCurrencies()}
 						</div>

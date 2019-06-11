@@ -42,39 +42,6 @@
 					{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$USER_MODEL->get('currency_symbol')}
 				{/if}
 			</div>
-		{elseif ($FIELD_MODEL->getUIType() eq '72') && ($FIELD_MODEL->getName() eq 'unit_price')}
-			<div class="input-group" data-uitype="72|unit_price">
-				{if $SYMBOL_PLACEMENT neq '1.0$'}
-					{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$BASE_CURRENCY_SYMBOL CLASS='row'}
-				{/if}
-				{assign var="DISPLAY_FIELD_VALUE" value=$FIELD_VALUE}
-				<input name="{$FIELD_MODEL->getFieldName()}" id="{$MODULE}-editview-fieldname-{$FIELD_NAME}" type="text"
-					   value="{$DISPLAY_FIELD_VALUE}"
-					   class="col-md-12 unitPrice currencyField js-format-numer form-control {if $SYMBOL_PLACEMENT eq '1.0$'}textAlignRight{/if}"
-					   data-fieldinfo='{$FIELD_INFO}'
-					   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
-					   {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}
-					   data-decimal-separator='{$USER_MODEL->get('currency_decimal_separator')}'
-					   data-group-separator='{$USER_MODEL->get('currency_grouping_separator')}'
-					   data-number-of-decimal-places='{$USER_MODEL->get('no_of_currency_decimals')}'
-						{if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{else} data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {/if}/>
-				{if $SYMBOL_PLACEMENT eq '1.0$'}
-					{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$BASE_CURRENCY_SYMBOL CLASS='row'}
-				{/if}
-				{if $VIEW eq 'Edit'}
-					<div class="input-group-append row">
-						<div class="hide js-currencies-container" data-js="container">
-							{include file=\App\Layout::getTemplatePath('Edit/Currencies.tpl', $MODULE_NAME)}
-						</div>
-						<button type="button" class="btn btn-light js-more-currencies js-popover-tooltip"
-								data-content="{\App\Language::translate('LBL_MORE_CURRENCIES', $MODULE)}" data-js="click">
-							<span class="adminIcon-currencies" title=""></span>
-						</button>
-					</div>
-				{/if}
-			</div>
-			<input type="hidden" name="base_currency" value="{$BASE_CURRENCY_NAME}">
-			<input type="hidden" name="cur_{$BASE_CURRENCY_ID}_check" class="js-base-currency-check-id" data-js="attr:name" value="1">
 		{elseif ($FIELD_MODEL->getUIType() eq '72')}
 			<div class="input-group">
 				{assign var="DISPLAY_FIELD_VALUE" value=$FIELD_VALUE}
