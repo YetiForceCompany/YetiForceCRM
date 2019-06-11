@@ -3295,6 +3295,27 @@ CREATE TABLE `u_yf_scalculationscf` (
   CONSTRAINT `fk_1_u_yf_scalculationscf` FOREIGN KEY (`scalculationsid`) REFERENCES `u_yf_scalculations` (`scalculationsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_servicecontracts_sla_policy` */
+
+CREATE TABLE `u_yf_servicecontracts_sla_policy` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `crmid` int(11) NOT NULL,
+  `policy_type` tinyint(1) NOT NULL DEFAULT 0,
+  `sla_policy_id` int(11) DEFAULT NULL,
+  `operational_hours` tinyint(1) NOT NULL DEFAULT 0,
+  `tabid` smallint(5) NOT NULL,
+  `conditions` text NOT NULL,
+  `reaction_time` varchar(20) NOT NULL DEFAULT '0:m',
+  `idle_time` varchar(20) NOT NULL DEFAULT '0:m',
+  `resolve_time` varchar(20) NOT NULL DEFAULT '0:m',
+  `business_hours` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_crmentity_idx` (`crmid`),
+  KEY `fk_sla_policy_idx` (`sla_policy_id`),
+  CONSTRAINT `fk_crmentity_idx` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,
+  CONSTRAINT `fk_sla_policy_idx` FOREIGN KEY (`sla_policy_id`) REFERENCES `s_yf_sla_policy` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_social_media_config` */
 
 CREATE TABLE `u_yf_social_media_config` (
