@@ -60,13 +60,25 @@ class Vtiger_MultiCurrency_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		if ($value = (\App\Json::isEmpty($value) ? 0 : \App\Json::decode($value))) {
+		if (($value = (\App\Json::isEmpty($value) ? 0 : \App\Json::decode($value))) && \is_array($value)) {
 			$currencyId = $value['currencyId'];
 			$value = App\Fields\Double::formatToDisplay($value['currencies'][$currencyId]['price']);
 			$currencySymbol = \App\Fields\Currency::getById($currencyId)['currency_symbol'];
 			$value = CurrencyField::appendCurrencySymbol($value, $currencySymbol);
 		}
 		return \App\Purifier::encodeHtml($value);
+	}
+
+	/**
+	 * Gets base currency.
+	 *
+	 * @param string $value
+	 *
+	 * @return int|null
+	 */
+	public function getBaseCurrency($value): ?int
+	{
+		return \App\Json::isEmpty($value) ? null : \App\Json::decode($value)['currencyId'];
 	}
 
 	/**
@@ -154,6 +166,42 @@ class Vtiger_MultiCurrency_UIType extends Vtiger_Base_UIType
 	public function getOperators()
 	{
 		return ['y', 'ny'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getValueToExport($value)
+	{
+		$result = [];
+		$value = \App\Json::isEmpty($value) ? [] : \App\Json::decode($value);
+		foreach ($value['currencies'] ?? [] as $key => $currency) {
+			$currencyName = \App\Fields\Currency::getById($key)['currency_name'];
+			$result['currencies'][$currencyName]['price'] = $currency['price'];
+		}
+		if ($currencyId = $value['currencyId'] ?? 0) {
+			$currencyName = \App\Fields\Currency::getById($currencyId)['currency_name'];
+			$result['currencyId'] = $currencyName;
+		}
+		return $result ? \App\Json::encode($result) : '';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getValueFromImport($value)
+	{
+		$result = [];
+		$value = \App\Json::isEmpty($value) ? [] : \App\Json::decode($value);
+		foreach ($value['currencies'] ?? [] as $key => $currency) {
+			$currencyId = \App\Fields\Currency::getCurrencyIdByName($key);
+			$result['currencies'][$currencyId]['price'] = $currency['price'];
+		}
+		if ($currencyName = $value['currencyId'] ?? 0) {
+			$currencyId = \App\Fields\Currency::getCurrencyIdByName($currencyName);
+			$result['currencyId'] = $currencyId;
+		}
+		return \App\Json::encode($result);
 	}
 
 	/**
