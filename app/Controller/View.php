@@ -572,6 +572,7 @@ abstract class View extends Base
 			'eventLimit' => \App\Config::module('Calendar', 'EVENT_LIMIT'),
 			'timeZone' => $userModel->getDetail('time_zone'),
 			'currencyId' => $userModel->getDetail('currency_id'),
+			'defaultCurrencyId' => \App\Fields\Currency::getDefault()['id'],
 			'currencyName' => $userModel->getDetail('currency_name'),
 			'currencyCode' => $userModel->getDetail('currency_code'),
 			'currencySymbol' => $userModel->getDetail('currency_symbol'),

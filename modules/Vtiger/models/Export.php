@@ -56,6 +56,9 @@ class Vtiger_Export_Model extends \App\Base
 	/**
 	 * Get instance.
 	 *
+	 * @param string $moduleName
+	 * @param string $exportType
+	 *
 	 * @return \self
 	 */
 	public static function getInstance(string $moduleName, string $exportType = 'csv')
@@ -71,6 +74,8 @@ class Vtiger_Export_Model extends \App\Base
 
 	/**
 	 * Get instance from request.
+	 *
+	 * @param App\Request $request
 	 *
 	 * @return \self
 	 */
@@ -318,7 +323,7 @@ class Vtiger_Export_Model extends \App\Base
 				unset($arr[$fieldName]);
 				continue;
 			}
-			$value = trim(App\Purifier::decodeHtml($value), '"');
+			$value = $fieldInfo->getUITypeModel()->getValueToExport($value);
 			$uitype = $fieldInfo->get('uitype');
 			$fieldname = $fieldInfo->get('name');
 			if (empty($this->fieldDataTypeCache[$fieldName])) {
@@ -331,7 +336,7 @@ class Vtiger_Export_Model extends \App\Base
 				}
 				// If the value being exported is accessible to current user
 				// or the picklist is multiselect type.
-				if (33 === $uitype || 16 === $uitype || array_key_exists($value, $this->picklistValues[$fieldname])) {
+				if (33 === $uitype || 16 === $uitype || \array_key_exists($value, $this->picklistValues[$fieldname])) {
 					// NOTE: multipicklist (uitype=33) values will be concatenated with |# delim
 					$value = trim($value);
 				} else {
@@ -365,7 +370,7 @@ class Vtiger_Export_Model extends \App\Base
 				} else {
 					$value = '';
 				}
-			} elseif (in_array($uitype, [302, 309])) {
+			} elseif (\in_array($uitype, [302, 309])) {
 				$parts = explode(',', trim($value, ', '));
 				$values = \App\Fields\Tree::getValuesById((int) $fieldInfo->getFieldParams());
 				foreach ($parts as &$part) {
@@ -391,7 +396,7 @@ class Vtiger_Export_Model extends \App\Base
 		$inventoryEntries = [];
 		foreach ($inventoryFields as $columnName => $field) {
 			$value = $inventoryRow[$columnName];
-			if (in_array($field->getType(), ['Name', 'Reference'])) {
+			if (\in_array($field->getType(), ['Name', 'Reference'])) {
 				$value = trim($value);
 				if (!empty($value)) {
 					$recordModule = \App\Record::getType($value);
@@ -415,7 +420,7 @@ class Vtiger_Export_Model extends \App\Base
 				if ('currencyparam' === $customColumnName) {
 					$field = $inventoryFields['currency'];
 					$valueData = $field->getCurrencyParam([], $valueParam);
-					if (is_array($valueData)) {
+					if (\is_array($valueData)) {
 						$valueNewData = [];
 						foreach ($valueData as $currencyId => $data) {
 							$currencyName = \App\Fields\Currency::getById($currencyId)['currency_name'];

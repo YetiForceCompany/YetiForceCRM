@@ -61,7 +61,8 @@ class Vtiger_ListView_Model extends \App\Base
 	/**
 	 * Static Function to get the Instance of Vtiger ListView model for a given module and custom view.
 	 *
-	 * @param string $value - Module Name
+	 * @param string $value        - Module Name
+	 * @param mixed  $sourceModule
 	 *
 	 * @return Vtiger_ListView_Model instance
 	 */
@@ -181,7 +182,7 @@ class Vtiger_ListView_Model extends \App\Base
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
-			if (count($templates) > 0) {
+			if (\count($templates) > 0) {
 				$advancedLinks[] = [
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
@@ -204,7 +205,7 @@ class Vtiger_ListView_Model extends \App\Base
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleModel->getName());
 			$mfModel = new $handlerClass();
 			$templates = $mfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
-			if (count($templates) > 0) {
+			if (\count($templates) > 0) {
 				$advancedLinks[] = [
 					'linktype' => 'LISTVIEW',
 					'linklabel' => 'LBL_GENERATE_RECORDS',
@@ -338,7 +339,7 @@ class Vtiger_ListView_Model extends \App\Base
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
-			if (count($templates) > 0) {
+			if (\count($templates) > 0) {
 				$basicLinks[] = [
 					'linktype' => 'LISTVIEWBASIC',
 					'linkdata' => ['url' => 'index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List', 'type' => 'modal'],
@@ -455,9 +456,8 @@ class Vtiger_ListView_Model extends \App\Base
 					'relatedField' => $fieldName,
 					'relatedSortOrder' => $this->getForSql('sortorder')
 				]);
-			} else {
-				return $this->getQueryGenerator()->setOrder($orderBy, $this->getForSql('sortorder'));
 			}
+			return $this->getQueryGenerator()->setOrder($orderBy, $this->getForSql('sortorder'));
 		}
 	}
 
@@ -480,13 +480,13 @@ class Vtiger_ListView_Model extends \App\Base
 		if ($operator = $this->get('operator')) {
 			$searchKey = $this->get('search_key');
 			$searchValue = $this->get('search_value');
-			if ($operator === 's' && strlen($searchValue) === 1) {
+			if ('s' === $operator && 1 === \strlen($searchValue)) {
 				$searchValue = [$searchValue, strtolower($searchValue)];
 			}
 			$queryGenerator->addBaseSearchConditions($searchKey, $searchValue, $operator);
 		}
 		$searchResult = $this->get('searchResult');
-		if ($searchResult && is_array($searchResult)) {
+		if ($searchResult && \is_array($searchResult)) {
 			$queryGenerator->addNativeCondition(['vtiger_crmentity.crmid' => $searchResult]);
 		}
 		$sourceModule = $this->get('src_module');
@@ -515,11 +515,11 @@ class Vtiger_ListView_Model extends \App\Base
 		$this->loadListViewOrderBy();
 		$pageLimit = $pagingModel->getPageLimit();
 		$query = $this->getQueryGenerator()->createQuery();
-		if ($pagingModel->get('limit') !== 0) {
+		if (0 !== $pagingModel->get('limit')) {
 			$query->limit($pageLimit + 1)->offset($pagingModel->getStartIndex());
 		}
 		$rows = $query->all();
-		$count = count($rows);
+		$count = \count($rows);
 		$pagingModel->calculatePageRange($count);
 		if ($count > $pageLimit) {
 			array_pop($rows);

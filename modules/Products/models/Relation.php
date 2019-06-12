@@ -21,14 +21,14 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 	{
 		$sourceModuleName = $this->getParentModuleModel()->get('name');
 		$relatedModuleName = $this->getRelationModuleModel()->get('name');
-		if (($sourceModuleName == 'Products' || $sourceModuleName == 'Services') && $relatedModuleName == 'PriceBooks') {
+		if (('Products' == $sourceModuleName || 'Services' == $sourceModuleName) && 'PriceBooks' == $relatedModuleName) {
 			//Description: deleteListPrice function is deleting the relation between Pricebook and Product/Service
 			return Vtiger_Record_Model::getInstanceById($relatedRecordId, $relatedModuleName)->deleteListPrice($sourceRecordId);
-		} elseif ($sourceModuleName == $relatedModuleName) {
-			return $this->deleteProductToProductRelation($sourceRecordId, $relatedRecordId);
-		} else {
-			return parent::deleteRelation($sourceRecordId, $relatedRecordId);
 		}
+		if ($sourceModuleName == $relatedModuleName) {
+			return $this->deleteProductToProductRelation($sourceRecordId, $relatedRecordId);
+		}
+		return parent::deleteRelation($sourceRecordId, $relatedRecordId);
 	}
 
 	/**
@@ -89,10 +89,17 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 	public function getProductPricebooks()
 	{
 		$queryGenerator = $this->getQueryGenerator();
-		$queryGenerator->setCustomColumn('vtiger_pricebookproductrel.productid as prodid');
 		$queryGenerator->setCustomColumn('vtiger_pricebookproductrel.listprice');
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_pricebookproductrel', 'vtiger_pricebook.pricebookid = vtiger_pricebookproductrel.pricebookid']);
 		$queryGenerator->addNativeCondition(['vtiger_pricebookproductrel.productid' => $this->get('parentRecord')->getId()]);
+		$queryByProduct = new \App\QueryGenerator('Products');
+		if (($fieldModel = $queryByProduct->getModuleField('unit_price')) && $fieldModel->isActiveField()) {
+			$queryGenerator->addJoin(['INNER JOIN', $fieldModel->getTableName(), $queryByProduct->getColumnName('id') . ' = vtiger_pricebookproductrel.productid']);
+			$queryGenerator->setCustomColumn($queryByProduct->getColumnName($fieldModel->getName()));
+			$queryByProduct->setFields(['id']);
+			$queryByProduct->permissions = false;
+			$queryGenerator->addNativeCondition([$queryByProduct->getColumnName('id') => $queryByProduct->createQuery()]);
+		}
 	}
 
 	/**
@@ -132,7 +139,7 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 	 */
 	public function getManyToMany()
 	{
-		if ($this->getRelationModuleName() === 'IStorages') {
+		if ('IStorages' === $this->getRelationModuleName()) {
 			$queryGenerator = $this->getQueryGenerator();
 			$queryGenerator->setCustomColumn('u_#__istorages_products.qtyinstock');
 		}
