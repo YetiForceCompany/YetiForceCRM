@@ -1,6 +1,6 @@
 <?php
 /**
- * Multi currency Query Field Class.
+ * Advanced percentage query field.
  *
  * @package   App
  *
@@ -12,8 +12,8 @@
 namespace App\QueryField;
 
 /**
- * MultiCurrencyField Class.
+ * AdvPercentageField class.
  */
-class MultiCurrencyField extends BaseField
+class AdvPercentageField extends DoubleField
 {
 }
