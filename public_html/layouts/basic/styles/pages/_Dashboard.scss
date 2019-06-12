@@ -2,7 +2,9 @@
 
 .dashboardContainer {
 	padding: 0;
-
+	.widget_header {
+		box-shadow: 0px 0px 4px #4a5463;
+	}
 	.dashboardHeading hr {
 		border-bottom: 1px solid #ddd;
 	}
@@ -50,12 +52,11 @@
 		box-shadow: 0 0 3px -1px #ddd;
 
 		.dashboardWidgetHeader {
-			background-color: $light;
+			background-color: #fff;
 			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#f3f3f4', GradientType=0);
 			border-color: #f3f3f4 #f3f3f4 #cbcbcf;
 			text-shadow: 0 1px #fff;
 			border-top: 1px solid #fff;
-			border-bottom: 1px solid #ddd;
 			color: #444;
 			cursor: move;
 			padding: 7px 5px;
@@ -67,7 +68,6 @@
 
 		.widgetFooterContent .row:first-child {
 			position: relative;
-			background-color: #f5f5f5;
 			padding-top: 3px;
 			padding-bottom: 2px;
 		}
