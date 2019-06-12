@@ -9,6 +9,6 @@
 			   autocomplete="off"/>
 		<span class="input-group-append row">
 				<span class="input-group-text">%</span>
-			</span>
+		</span>
 	</div>
 {/strip}
