@@ -96,7 +96,7 @@
 									   for="company-website">{App\Language::translate('LBL_WEBSITE', 'Install')}</label>
 								<div class="col-sm-9">
 									<input id="company-website" type="text" name="company_website" class="form-control"
-										   data-validation-engine="validate[custom[url]]">
+										   data-validation-engine="validate[required,custom[url]]">
 								</div>
 							</div>
 						{/if}
