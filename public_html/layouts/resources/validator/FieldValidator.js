@@ -1683,3 +1683,4 @@ Vtiger_Base_Validator_Js(
 		}
 	}
 );
+Vtiger_Double_Validator_Js('Vtiger_Advpercentage_Validator_Js', {});
