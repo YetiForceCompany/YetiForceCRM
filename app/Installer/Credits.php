@@ -125,6 +125,37 @@ class Credits
 	}
 
 	/**
+	 * Function gets vue libraries name.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
+	 */
+	public static function getVueLibs()
+	{
+		$libraries = [];
+		$dir = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR . 'src' . \DIRECTORY_SEPARATOR;
+		if (file_exists($dir . 'libraries.json')) {
+			$yarnFile = \App\Json::decode(file_get_contents($dir . 'libraries.json'));
+			foreach ($yarnFile as $nameWithVersion) {
+				foreach ($nameWithVersion as $nameLibraries => $verisonWithLicence) {
+					$isPrefix = 0 === strpos($nameLibraries, '@');
+					$name = $isPrefix ? '@' : '';
+					$tempName = explode('@', $isPrefix ? ltrim($nameLibraries, '@') : $nameLibraries);
+					$name .= array_shift($tempName);
+					if ($name) {
+						$libraries[$name] = ['name' => $nameLibraries, 'version' => $verisonWithLicence['version'], 'license' => $verisonWithLicence['license']];
+						if (empty($libraries[$name]['homepage'])) {
+							$libraries[$name]['homepage'] = "https://yarnpkg.com/en/package/${name}";
+						}
+					}
+				}
+			}
+		}
+		return $libraries;
+	}
+
+	/**
 	 * Function return library values.
 	 *
 	 * @param string $name
@@ -160,6 +191,42 @@ class Credits
 		}
 		if ($existJsonFiles) {
 			$library['packageFileMissing'] = true;
+		}
+		return $library;
+	}
+
+	/**
+	 * Parse library vue values.
+	 *
+	 * @param string $name
+	 * @param string $dir
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
+	 */
+	public static function parseLibraryVueValues($name, $dir)
+	{
+		$library = ['name' => $name, 'version' => '', 'license' => '', 'homepage' => ''];
+		foreach (self::$jsonFiles as $file) {
+			$packageFile = $dir . $name . \DIRECTORY_SEPARATOR . $file;
+			if (file_exists($packageFile)) {
+				$packageFileContent = \App\Json::decode(file_get_contents($packageFile), true);
+				if (!empty($packageFileContent['version']) && empty($library['version'])) {
+					$library['version'] = $packageFileContent['version'];
+				}
+				if (\is_array($packageFileContent['license'])) {
+					if (!empty($packageFileContent['license']['type'])) {
+						$library['license'] = $packageFileContent['license']['type'];
+					}
+				}
+				if (!empty($packageFileContent['license']) && empty($library['license'])) {
+					$library['license'] = $packageFileContent['license'];
+				}
+				if (!empty($packageFileContent['homepage']) && empty($library['homepage'])) {
+					$library['homepage'] = $packageFileContent['homepage'];
+				}
+			}
 		}
 		return $library;
 	}
@@ -270,6 +337,6 @@ class Credits
 	 */
 	public static function getCredits()
 	{
-		return ['static' => static::$libraries, 'vendor' => self::getVendorLibraries(), 'public' => self::getPublicLibraries()];
+		return ['static' => static::$libraries, 'vendor' => self::getVendorLibraries(), 'public' => self::getPublicLibraries(), 'vue' => self::getVueLibs()];
 	}
 }

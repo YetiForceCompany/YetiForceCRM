@@ -174,6 +174,33 @@ class Composer
 				}
 			}
 		}
+		self::parseCreditsVue();
+	}
+
+	/**
+	 * Parse credits vue.
+	 */
+	public static function parseCreditsVue()
+	{
+		$rootDir = realpath(__DIR__ . '/../../') . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR;
+		$dirLibraries = $rootDir . 'src' . \DIRECTORY_SEPARATOR . 'node_modules' . \DIRECTORY_SEPARATOR;
+		$dataEncode = [];
+		foreach (new \DirectoryIterator($dirLibraries) as $level1) {
+			$fileName = $level1->getFilename();
+			if ('.' === $fileName || '..' === $fileName) {
+				continue;
+			}
+			$value = [];
+			try {
+				if ($getValues = Credits::parseLibraryVueValues($fileName, $dirLibraries)) {
+					$value[$getValues['name']] = ['version' => $getValues['version'], 'license' => $getValues['license'], 'homepage' => $getValues['homepage']];
+					$dataEncode[] = $value;
+				}
+			} catch (\Exception $ex) {
+				\App\Log::warning($ex->getMessage());
+			}
+		}
+		file_put_contents($rootDir . \DIRECTORY_SEPARATOR . 'src' . \DIRECTORY_SEPARATOR . 'libraries.json', \App\Json::encode($dataEncode));
 	}
 
 	/**
