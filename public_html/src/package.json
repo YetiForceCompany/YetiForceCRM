@@ -31,7 +31,7 @@
     "@vue/cli-service": "^3.7.0",
     "@vue/eslint-config-prettier": "^4.0.1",
     "browser-sync": "^2.26.5",
-    "css-loader": "^2.1.1",
+    "css-loader": "^3.0.0",
     "eslint": "^5.16.0",
     "findit": "^2.0.0",
     "gulp": "^4.0.2",
