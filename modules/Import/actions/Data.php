@@ -778,6 +778,8 @@ class Import_Data_Action extends \App\Controller\Action
 				$fieldData[$fieldName] = $this->transformDate($fieldValue);
 			} elseif ($fieldInstance->getFieldDataType() === 'country' && $fieldValue !== '') {
 				$fieldData[$fieldName] = \App\Fields\Country::findCountryName($fieldValue);
+			}else{
+				$fieldData[$fieldName] = $fieldInstance->getUITypeModel()->getValueFromImport($fieldValue);
 			}
 		}
 		return $fieldData;
