@@ -41,9 +41,9 @@ class PaymentsIn_Module_Model extends Vtiger_Module_Model
 	 */
 	private static function calculatePaymentStatus(float $sumOfGross, float $sumOfPayments): string
 	{
-		if (\App\Validator::floatIsEqual($sumOfGross, $sumOfPayments)) {
+		if (\App\Validator::floatIsEqual($sumOfGross, $sumOfPayments, 8)) {
 			$paymentStatus = 'PLL_PAID';
-		} elseif (\App\Validator::floatIsEqual(0.0, $sumOfPayments)) {
+		} elseif (\App\Validator::floatIsEqual(0.0, $sumOfPayments, 8)) {
 			$paymentStatus = 'PLL_NOT_PAID';
 		} elseif ($sumOfGross > $sumOfPayments) {
 			$paymentStatus = 'PLL_UNDERPAID';
