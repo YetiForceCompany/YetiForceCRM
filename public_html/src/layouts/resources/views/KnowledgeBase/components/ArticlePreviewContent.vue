@@ -45,6 +45,9 @@
         </div>
       </div>
       <q-space />
+      <q-badge v-if="record.account" color="white" class="q-mx-sm">
+        <div class="small ellipsis" v-html="record.account"></div>
+      </q-badge>
       <slot name="header-right">
         <template v-if="$q.platform.is.desktop">
           <a v-show="!previewMaximized" class="flex grabbable text-decoration-none text-white" href="#">
