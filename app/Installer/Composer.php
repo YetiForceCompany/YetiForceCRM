@@ -202,7 +202,7 @@ class Composer
 				}
 			}
 		}
-		file_put_contents($rootDir . 'cache' . \DIRECTORY_SEPARATOR . 'libraries.json', \App\Json::encode($dataEncode));
+		\App\Json::save($rootDir . 'cache' . \DIRECTORY_SEPARATOR . 'libraries.json', $dataEncode);
 	}
 
 	/**
