@@ -26,7 +26,7 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function to get the Id.
 	 *
-	 * @return null|int Id
+	 * @return int|null Id
 	 */
 	public function getId()
 	{
@@ -49,7 +49,7 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function to get the Name.
 	 *
-	 * @return null|string
+	 * @return string|null
 	 */
 	public function getName()
 	{
@@ -109,8 +109,7 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getInstanceById(int $id)
 	{
-		$db = \App\Db::getInstance('admin');
-		$row = (new \App\Db\Query())->from('s_#__business_hours')->where(['id' => $id])->one($db);
+		$row = (new \App\Db\Query())->from('s_#__business_hours')->where(['id' => $id])->one(\App\Db::getInstance('admin'));
 		$instance = false;
 		if ($row) {
 			$instance = new self();
@@ -160,7 +159,7 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 		if (\App\TextParser::getTextLength($data['name']) > 254) {
 			throw new \App\Exceptions\AppException('ERR_EXCEEDED_NUMBER_CHARACTERS||255', 406);
 		}
-		if (!is_string($data['working_days'])) {
+		if (!\is_string($data['working_days'])) {
 			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE||' . $data['working_days'], 406);
 		}
 		$days = explode(',', trim($data['working_days'], ','));
@@ -204,10 +203,13 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 		} else {
 			$db->createCommand()->insert('s_#__business_hours', $data)->execute();
 		}
+		\App\Cache::clear();
 	}
 
 	/**
 	 * Get time period display value.
+	 *
+	 * @param string $value
 	 */
 	public static function getTimePeriodDisplayValue(string $value)
 	{
@@ -236,9 +238,9 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 			$value = \App\Fields\Time::formatToDisplay($value, false);
 		} elseif ('default' === $key) {
 			$value = $value ? \App\Language::translate('LBL_YES') : \App\Language::translate('LBL_NO');
-		} elseif ($key === 'reaction_time' || $key === 'idle_time' || $key === 'resolve_time') {
+		} elseif ('reaction_time' === $key || 'idle_time' === $key || 'resolve_time' === $key) {
 			$value = static::getTimePeriodDisplayValue($value);
-		} elseif ($key === 'holidays') {
+		} elseif ('holidays' === $key) {
 			$value = $value ? \App\Language::translate('LBL_HOLIDAYS', 'Settings:BusinessHours') : '';
 		}
 		return $value;
@@ -252,6 +254,7 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 		\App\Db::getInstance('admin')->createCommand()
 			->delete('s_#__business_hours', ['id' => $this->getId()])
 			->execute();
+		\App\Cache::clear();
 	}
 
 	/**

@@ -111,4 +111,9 @@ class Condition
 		}
 		return $conditions;
 	}
+
+	public static function checkCondition($condition, \Vtiger_Record_Model $recordModel, \Vtiger_Record_Model $referredRecordModel = null): bool
+	{
+		return true;
+	}
 }
