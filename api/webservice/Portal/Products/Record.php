@@ -26,7 +26,7 @@ class Record extends \Api\Portal\BaseModule\Record
 		$unitPrice = \Api\Portal\Record::getPriceFromPricebook($this->getParentCrmId(), $this->controller->request->getInteger('record'));
 		if (\Api\Portal\Privilege::USER_PERMISSIONS !== $this->getPermissionType()) {
 			if (null === $unitPrice) {
-				$unitPrice = $response['rawData']['unit_price'] ?? 0;
+				$unitPrice = (new \Vtiger_MultiCurrency_UIType())->getValueForCurrency($response['rawData']['unit_price'] ?? [], \App\Fields\Currency::getDefault()['id']);
 			}
 			$response['ext']['unit_price'] = $unitPrice;
 			$response['ext']['unit_gross'] = $unitPrice + ($unitPrice * $tax / 100.00);
