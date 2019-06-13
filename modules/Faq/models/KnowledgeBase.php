@@ -28,6 +28,9 @@ class Faq_KnowledgeBase_Model extends KnowledgeBase_KnowledgeBase_Model
 		$queryGenerator->addNativeCondition(['vtiger_faq.status' => 'Published']);
 		$queryGenerator->addNativeCondition(['category' => $categories]);
 		$queryGenerator->addNativeCondition(['featured' => 1]);
+		if ($this->has('filterField') && $this->has('filterValue')) {
+			$queryGenerator->addNativeCondition([$this->get('filterField') => $this->get('filterValue')]);
+		}
 		$queryGenerator->setLimit(50);
 		return $queryGenerator->createQuery()->all();
 	}
@@ -45,7 +48,31 @@ class Faq_KnowledgeBase_Model extends KnowledgeBase_KnowledgeBase_Model
 		if ($this->has('parentCategory')) {
 			$queryGenerator->addNativeCondition(['category' => $this->get('parentCategory')]);
 		}
+		if ($this->has('filterField') && $this->has('filterValue')) {
+			$queryGenerator->addNativeCondition([$this->get('filterField') => $this->get('filterValue')]);
+		}
 		$queryGenerator->setLimit(Config\Modules\Faq::$knowledgeBaseArticleLimit);
 		return $queryGenerator->createQuery();
+	}
+
+	/**
+	 * Get accounts.
+	 *
+	 * @return string[]
+	 */
+	public function getAccounts(): array
+	{
+		$queryGenerator = new App\QueryGenerator('Faq');
+		$queryGenerator->setFields(['accountid']);
+		$queryGenerator->setDistinct('accountid');
+		$queryGenerator->setCustomColumn('vtiger_account.accountname');
+		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_account', 'vtiger_account.accountid = vtiger_faq.accountid']);
+		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+		$rows = [];
+		while ($row = $dataReader->read()) {
+			$rows[$row['id']] = $row['accountname'];
+		}
+		$dataReader->close();
+		return $rows;
 	}
 }
