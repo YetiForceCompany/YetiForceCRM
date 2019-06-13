@@ -30,7 +30,7 @@ class Debug
 	public static $LOG_LEVELS = false;
 
 	/** Level of saved/displayed tracerts. // Values: int */
-	public static $LOG_TRACE_LEVEL = 9;
+	public static $LOG_TRACE_LEVEL = 0;
 
 	/** Display main debug console */
 	public static $DISPLAY_DEBUG_CONSOLE = false;
