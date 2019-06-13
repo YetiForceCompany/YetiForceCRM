@@ -35,7 +35,7 @@ class PaymentsIn_PaymentsInHandler_Handler
 	private function canUpdatePaymentStatus(Vtiger_Record_Model $recordModel): bool
 	{
 		$fieldModel = $recordModel->getField('ssingleorders_payment_status');
-		$returnValue = null !== $fieldModel && $fieldModel->isActiveField() && !$recordModel->isEmpty('ssingleordersid');
+		$returnValue = $fieldModel && $fieldModel->isActiveField() && !$recordModel->isEmpty('ssingleordersid');
 		if ($returnValue && (int) $recordModel->get('currency_id') !== \App\Record::getCurrencyIdFromInventory($recordModel->get('ssingleordersid'), 'SSingleOrders')) {
 			\App\Log::warning('The payment is in a different currency than the order. SSingleOrdersId: ' . $recordModel->get('ssingleordersid'));
 			$returnValue = false;
