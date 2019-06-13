@@ -3758,7 +3758,6 @@ CREATE TABLE `u_yf_ssingleorders` (
   `ssingleorders_source` varchar(255) DEFAULT '',
   `istorageaddressid` int(10) DEFAULT NULL,
   `ssingleorders_method_payments` varchar(255) DEFAULT NULL,
-  `ssingleorders_payment_status` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`ssingleordersid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `squotesid` (`squotesid`),
@@ -5408,7 +5407,7 @@ CREATE TABLE `vtiger_eventhandlers` (
   `owner_id` smallint(5) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`eventhandler_id`),
   KEY `event_name_class` (`event_name`,`handler_class`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_expectedresponse` */
 
@@ -5531,7 +5530,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2821 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2820 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -7261,7 +7260,7 @@ CREATE TABLE `vtiger_picklist` (
   `name` varchar(200) NOT NULL,
   PRIMARY KEY (`picklistid`),
   UNIQUE KEY `picklist_name_idx` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=133 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=132 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_picklist_dependency` */
 
@@ -7371,7 +7370,7 @@ CREATE TABLE `vtiger_products` (
   `start_date` date DEFAULT NULL,
   `expiry_date` date DEFAULT NULL,
   `cost_factor` int(10) DEFAULT NULL,
-  `commissionrate` decimal(7,3) DEFAULT NULL,
+  `commissionrate` decimal(8,3) DEFAULT NULL,
   `commissionmethod` varchar(50) DEFAULT NULL,
   `discontinued` tinyint(1) NOT NULL DEFAULT 0,
   `usageunit` varchar(200) DEFAULT NULL,
@@ -7757,7 +7756,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `tabid_2` (`tabid`,`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=619 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=617 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
@@ -7990,7 +7989,7 @@ CREATE TABLE `vtiger_service` (
   `service_usageunit` varchar(200) DEFAULT NULL,
   `website` varchar(255) DEFAULT NULL,
   `currency_id` int(10) NOT NULL DEFAULT 1,
-  `commissionrate` decimal(7,3) DEFAULT NULL,
+  `commissionrate` decimal(8,3) DEFAULT NULL,
   `renewable` tinyint(1) DEFAULT 0,
   `taxes` varchar(50) DEFAULT NULL,
   `purchase` text DEFAULT NULL,
@@ -8241,17 +8240,6 @@ CREATE TABLE `vtiger_ssingleorders_method_payments` (
   `presence` tinyint(1) DEFAULT 1,
   `sortorderid` smallint(6) DEFAULT 0,
   PRIMARY KEY (`ssingleorders_method_paymentsid`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ssingleorders_payment_status` */
-
-CREATE TABLE `vtiger_ssingleorders_payment_status` (
-  `ssingleorders_payment_statusid` int(11) NOT NULL AUTO_INCREMENT,
-  `ssingleorders_payment_status` varchar(255) DEFAULT NULL,
-  `presence` tinyint(1) DEFAULT 1,
-  `picklist_valueid` int(10) DEFAULT 0,
-  `sortorderid` smallint(5) DEFAULT 0,
-  PRIMARY KEY (`ssingleorders_payment_statusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ssingleorders_source` */
@@ -9044,7 +9032,7 @@ CREATE TABLE `vtiger_ws_fieldtype` (
   `fieldtype` varchar(200) NOT NULL,
   PRIMARY KEY (`fieldtypeid`),
   UNIQUE KEY `uitype_idx` (`uitype`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_operation` */
 
