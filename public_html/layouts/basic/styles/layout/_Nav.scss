@@ -88,7 +88,8 @@
 			line-height: 1.2;
 			background: $bg-menu;
 
-			&:hover, &:focus {
+			&:hover,
+			&:focus {
 				background: lighten($bg-menu, 5%);
 			}
 
@@ -114,7 +115,8 @@
 				height: calculate-rem(20px);
 			}
 
-			.fa, &.hasIcon img {
+			.fa,
+			&.hasIcon img {
 				margin-right: calculate-rem(12px);
 				font-size: calculate-rem(20px);
 				padding-right: calculate-rem(7px);
@@ -163,7 +165,8 @@
 				background: $bg-sub-menu;
 				padding: 0.375rem 1.875rem 0.375rem 0.8rem;
 
-				&:hover, &:focus {
+				&:hover,
+				&:focus {
 					background: lighten($bg-sub-menu, 5%);
 				}
 
@@ -184,7 +187,8 @@
 				overflow: hidden;
 				text-overflow: ellipsis;
 
-				&:hover, &:focus {
+				&:hover,
+				&:focus {
 					color: $bg-sub-menu;
 					background: $color-navbar;
 				}
@@ -414,28 +418,18 @@
 
 .dashboardViewContainer {
 	.nav-inverted-tabs {
+		border-bottom: 6px solid #4a5463;
+		background-color: #4a5463;
 		.nav-item {
 			.nav-link {
-				border: 1px solid #fff;
 				border-top: 0;
-				border-radius: 0 0 0.25rem 0.25rem;
 				font-size: 0.85em;
-
-				&:hover {
-					border: 1px solid #dee2e6;
-					border-top: 0;
-				}
-
+				color: #fff;
 				&.active {
-					color: #495057;
-					background: #f8f9fa;
-					border: 1px solid #dee2e6;
+					color: #fff;
+					background: #4a5463;
+					font-weight: 400;
 					border-top: 0;
-					border-radius: 0 0 0.25rem 0.25rem;
-
-					&:hover {
-						background: #dee2e6;
-					}
 				}
 			}
 		}
