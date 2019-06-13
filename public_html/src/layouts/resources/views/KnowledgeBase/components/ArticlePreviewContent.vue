@@ -81,6 +81,36 @@
           </div>
         </div>
       </div>
+      <div v-if="hasRelatedComments">
+        <q-separator />
+        <div class="q-pa-md q-table__title">{{ translate('JS_COMMENTS') }}</div>
+        <q-list padding>
+          <q-item v-for="(relatedRecord, relatedRecordId) in record.related.base.ModComments" :key="relatedRecordId">
+            <q-item-section avatar top>
+              <q-avatar size="iconSize">
+                <img v-if="relatedRecord.avatar.url !== undefined" :src="relatedRecord.avatar.url" />
+                <q-icon v-else name="mdi-account" />
+              </q-avatar>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>
+                <a
+                  class="js-popover-tooltip--record"
+                  :href="`index.php?module=Users&view=Detail&record=${relatedRecord.userid}`"
+                  >{{ relatedRecord.userName }}
+                </a>
+              </q-item-label>
+              <q-item-label><div v-html="relatedRecord.comment"></div></q-item-label>
+            </q-item-section>
+            <q-item-section side top>
+              <q-item-label caption>{{ relatedRecord.modifiedShort }}</q-item-label>
+              <q-tooltip anchor="top middle" self="center middle">
+                {{ translate('JS_MODIFIED') + ': ' + relatedRecord.modifiedFull }}
+              </q-tooltip>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </div>
       <div v-if="hasRelatedArticles">
         <q-separator />
         <articles-list
@@ -118,36 +148,6 @@
             </q-list>
           </template>
         </related-columns>
-      </div>
-      <div v-if="hasRelatedComments">
-        <q-separator />
-        <div class="q-pa-md q-table__title">{{ translate('JS_COMMENTS') }}</div>
-        <q-list padding>
-          <q-item v-for="(relatedRecord, relatedRecordId) in record.related.base.ModComments" :key="relatedRecordId">
-            <q-item-section avatar top>
-              <q-avatar size="iconSize">
-                <img v-if="relatedRecord.avatar.url !== undefined" :src="relatedRecord.avatar.url" />
-                <q-icon v-else name="mdi-account" />
-              </q-avatar>
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>
-                <a
-                  class="js-popover-tooltip--record"
-                  :href="`index.php?module=Users&view=Detail&record=${relatedRecord.userid}`"
-                  >{{ relatedRecord.userName }}
-                </a>
-              </q-item-label>
-              <q-item-label><div v-html="relatedRecord.comment"></div></q-item-label>
-            </q-item-section>
-            <q-item-section side top>
-              <q-item-label caption>{{ relatedRecord.modifiedShort }}</q-item-label>
-              <q-tooltip anchor="top middle" self="center middle">
-                {{ translate('JS_MODIFIED') + ': ' + relatedRecord.modifiedFull }}
-              </q-tooltip>
-            </q-item-section>
-          </q-item>
-        </q-list>
       </div>
     </q-card-section>
   </q-card>
