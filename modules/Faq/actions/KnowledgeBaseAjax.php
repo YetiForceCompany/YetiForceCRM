@@ -12,7 +12,7 @@
 class Faq_KnowledgeBaseAjax_Action extends KnowledgeBase_KnowledgeBaseAjax_Action
 {
 	/**
-	 * Constructor.
+	 * {@inheritdoc}
 	 */
 	public function __construct()
 	{
@@ -21,22 +21,34 @@ class Faq_KnowledgeBaseAjax_Action extends KnowledgeBase_KnowledgeBaseAjax_Actio
 	}
 
 	/**
-	 * Detail query conditions.
-	 *
-	 * @var string[]
+	 * {@inheritdoc}
 	 */
 	protected $queryCondition = ['vtiger_faq.status' => 'Published'];
 
 	/**
-	 * Get tree model instance.
-	 *
-	 * @param App\Request $request
-	 *
-	 * @return void
+	 * {@inheritdoc}
 	 */
 	public function getModel(App\Request $request)
 	{
 		return Faq_KnowledgeBase_Model::getInstance($request->getModule());
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function list(App\Request $request)
+	{
+		$treeModel = $this->getModel($request);
+		if (!$request->isEmpty('category')) {
+			$treeModel->set('parentCategory', $request->getByType('category', 'Alnum'));
+		}
+		if (!$request->isEmpty('accountid')) {
+			$treeModel->set('filterField', 'accountid');
+			$treeModel->set('filterValue', $request->getInteger('accountid'));
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($treeModel->getData());
+		$response->emit();
 	}
 
 	/**
@@ -53,7 +65,7 @@ class Faq_KnowledgeBaseAjax_Action extends KnowledgeBase_KnowledgeBaseAjax_Actio
 			$treeModel->set('parentCategory', $request->getByType('category', 'Alnum'));
 		}
 		$response = new Vtiger_Response();
-		$response->setResult([]);
+		$response->setResult($treeModel->getAccounts());
 		$response->emit();
 	}
 }
