@@ -156,6 +156,8 @@ class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 			'subject' => $recordModel->get('subject'),
 			'view' => $recordModel->get('knowledgebase_view'),
 			'assigned_user_id' => $recordModel->getDisplayValue('assigned_user_id', false, true),
+			'accountName' => $recordModel->getDisplayValue('accountid', false, true),
+			'accountId' => $recordModel->get('accountid'),
 			'category' => $recordModel->getDisplayValue('category'),
 			'full_createdtime' => $recordModel->getDisplayValue('createdtime'),
 			'short_createdtime' => \Vtiger_Util_Helper::formatDateDiffInStrings($recordModel->get('createdtime')),

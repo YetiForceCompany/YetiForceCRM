@@ -97,6 +97,7 @@ class KnowledgeBase_KnowledgeBase_Model extends \App\Base
 			}
 		}
 		return [
+			'showAccounts' => 'Faq' === $this->get('moduleName'),
 			'categories' => $categories,
 			'featured' => $featured,
 			'records' => $this->getRecordsByParentCategory(),
