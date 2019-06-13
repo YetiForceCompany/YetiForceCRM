@@ -132,6 +132,7 @@ class Settings_SLAPolicy_Record_Model extends Settings_Vtiger_Record_Model
 		} else {
 			$db->createCommand()->insert('s_#__sla_policy', $data)->execute();
 		}
+		\App\Cache::clear();
 	}
 
 	/**
@@ -142,6 +143,7 @@ class Settings_SLAPolicy_Record_Model extends Settings_Vtiger_Record_Model
 		\App\Db::getInstance('admin')->createCommand()
 			->delete('s_#__sla_policy', ['id' => $this->getId()])
 			->execute();
+		\App\Cache::clear();
 	}
 
 	/**
@@ -161,8 +163,7 @@ class Settings_SLAPolicy_Record_Model extends Settings_Vtiger_Record_Model
 			$moduleName = \App\Module::getModuleName($value);
 			$value = \App\Language::translate($moduleName, $moduleName);
 		} elseif ('business_hours' === $key) {
-			$rows = (new \App\Db\Query())->select('name')->from('s_#__business_hours')->where(['id' => explode(',', $value)])->column();
-			$value = implode(', ', $rows);
+			$value = implode(', ', array_column(\App\Utils\ServiceContracts::getBusinessHoursByIds(explode(',', $value)), 'name'));
 		} elseif (\in_array($key, ['reaction_time', 'idle_time', 'resolve_time'])) {
 			$value = Settings_BusinessHours_Record_Model::getTimePeriodDisplayValue($value);
 		}

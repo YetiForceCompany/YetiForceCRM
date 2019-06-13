@@ -388,10 +388,8 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getRelatedListViewDisplayValue($fieldName)
 	{
-		$recordId = $this->getId();
 		$fieldModel = $this->getModule()->getFieldByName($fieldName);
-
-		return $fieldModel->getUITypeModel()->getRelatedListViewDisplayValue($this->get($fieldName), $recordId, $this);
+		return $fieldModel->getUITypeModel()->getRelatedListViewDisplayValue($this->get($fieldName), $this->getId(), $this);
 	}
 
 	/**
@@ -481,7 +479,7 @@ class Vtiger_Record_Model extends \App\Base
 		}
 		$eventHandler->trigger('EntityAfterSave');
 		if ($this->isNew()) {
-			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $this->getModuleName(), $this);
+			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $moduleName, $this);
 			$this->isNew = false;
 		}
 		\App\Cache::delete('recordLabel', $this->getId());

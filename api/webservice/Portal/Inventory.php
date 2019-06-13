@@ -33,7 +33,7 @@ class Inventory
 	/**
 	 * Field mapping.
 	 *
-	 * @var null|array
+	 * @var array|null
 	 */
 	private $fieldMapping;
 
@@ -61,15 +61,17 @@ class Inventory
 	/**
 	 * Pricebook id.
 	 *
-	 * @var null|int
+	 * @var int|null
 	 */
 	protected $pricebookId;
 
 	/**
 	 * Construct.
 	 *
-	 * @param string $moduleName
-	 * @param array  $inventory
+	 * @param string   $moduleName
+	 * @param array    $inventory
+	 * @param int      $storage
+	 * @param int|null $pricebookId
 	 */
 	public function __construct(string $moduleName, array $inventory, int $storage, ?int $pricebookId)
 	{
@@ -203,6 +205,8 @@ class Inventory
 	/**
 	 * Get currency.
 	 *
+	 * @param int $inventoryKey
+	 *
 	 * @return int
 	 */
 	protected function getInventoryCurrency(int $inventoryKey): int
@@ -256,9 +260,12 @@ class Inventory
 			->andWhere(['vtiger_products.productid' => $crmIds])
 			->union($queryService, true)
 			->createCommand()->query();
+		$multiCurrencyUiType = new \Vtiger_MultiCurrency_UIType();
 		foreach ($dataReader as $row) {
 			if (!$isUserPermissions) {
-				$row['unit_price'] = $row['listprice'] ?? $row['unit_price'];
+				$row['unit_price'] = $row['listprice'] ?? $multiCurrencyUiType->getValueForCurrency($row['unit_price'], \App\Fields\Currency::getDefault()['id']);
+			} else {
+				$row['unit_price'] = $multiCurrencyUiType->getValueForCurrency($row['unit_price'], \App\Fields\Currency::getDefault()['id']);
 			}
 			$this->products[$row['id']] = $row;
 		}

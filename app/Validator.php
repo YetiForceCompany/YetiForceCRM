@@ -69,7 +69,7 @@ class Validator
 	 * Function verifies if given value is compatible with user’s date format.
 	 *
 	 * @param string   $input
-	 * @param null|int $userId
+	 * @param int|null $userId
 	 *
 	 * @return bool
 	 */
@@ -98,7 +98,7 @@ class Validator
 	 *  Function verifies if given value is compatible with user’s time format.
 	 *
 	 * @param string   $input
-	 * @param null|int $userId
+	 * @param int|null $userId
 	 *
 	 * @return bool
 	 */
@@ -138,7 +138,7 @@ class Validator
 	 * Function verifies if given value is compatible with user’s  date and time format.
 	 *
 	 * @param string   $input
-	 * @param null|int $userId
+	 * @param int|null $userId
 	 *
 	 * @return bool
 	 */
@@ -196,7 +196,7 @@ class Validator
 	 */
 	public static function floatIsEqual(float $value1, float $value2, int $precision = 2): bool
 	{
-		return abs(round($value1, $precision) - round($value2, $precision)) < (1 / pow(10, $precision));
+		return abs(round(round($value1, $precision) - round($value2, $precision))) < (1 / pow(10, $precision));
 	}
 
 	/**

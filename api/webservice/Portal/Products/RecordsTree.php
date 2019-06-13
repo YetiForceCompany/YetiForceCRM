@@ -100,7 +100,7 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 			$taxValue = $this->globalTaxes[$taxId]['value'];
 		}
 		$record = parent::getRecordFromRow($row, $fieldsModel);
-		$unitPrice = $row['unit_price'];
+		$unitPrice = (new \Vtiger_MultiCurrency_UIType())->getValueForCurrency($row['unit_price'], \App\Fields\Currency::getDefault()['id']);
 		if (!$this->isUserPermissions && !empty($listprice)) {
 			$record['unit_price'] = \CurrencyField::convertToUserFormatSymbol($listprice);
 			$unitPrice = $listprice;
@@ -115,8 +115,8 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	 */
 	protected function getRawDataFromRow(array $row): array
 	{
-		$row = parent::getRawDataFromRow($row, $fieldsModel);
-		$unitPrice = $row['unit_price'];
+		$row = parent::getRawDataFromRow($row);
+		$unitPrice = $row['unit_price'] = (new \Vtiger_MultiCurrency_UIType())->getValueForCurrency($row['unit_price'], \App\Fields\Currency::getDefault()['id']);
 		if (!$this->isUserPermissions && !empty($row['listprice'])) {
 			$unitPrice = $row['unit_price'] = $row['listprice'];
 		}

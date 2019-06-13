@@ -58,7 +58,7 @@ class Products_Calculations_Handler
 	private function getValueField(int $currencyId, ?float $purchase = null, ?float $unitPrice = null, ?float $margin = null)
 	{
 		if (null === $margin) {
-			$value = empty($purchase) ? 0 : round(abs(100 * ($unitPrice - $purchase) / $purchase), 3);
+			$value = empty($purchase) ? 0 : round(100 * ($unitPrice - $purchase) / $purchase, 3);
 		} else {
 			if (null === $unitPrice) {
 				$value = empty($purchase) ? 0 : ($margin / 100) * $purchase + $purchase;
