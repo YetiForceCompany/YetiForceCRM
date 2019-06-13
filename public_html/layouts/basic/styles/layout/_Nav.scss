@@ -420,22 +420,22 @@
 	background-color: #fff;
 	margin-right: 0.5rem;
 	.nav-link.active {
-		background-color: #0072da !important;
+		background-color: $color-active-nav !important;
 	}
 }
 .dashboardViewContainer {
 	.nav-inverted-tabs {
 		background-color: #fff;
-		box-shadow: 0px 5px 12px -7px #4a5463;
+		box-shadow: 0px 5px 12px -7px $color-box-shadow;
 		margin-right: 0.5rem;
 		.nav-item {
 			.nav-link {
 				border-top: 0;
 				font-size: 0.85em;
-				color: #4a5463;
+				color: $color-nav-link;
 				&.active {
-					color: #0072da;
-					border-bottom: 2px solid #0072da;
+					color: $color-active-nav;
+					border-bottom: 2px solid $color-active-nav;
 					font-weight: 400;
 					border-top: 0;
 				}
