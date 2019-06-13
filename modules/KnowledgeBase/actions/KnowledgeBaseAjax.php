@@ -145,7 +145,7 @@ class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 		foreach ($recordModel->getModule()->getRelations() as $key => $value) {
 			$relatedModuleName = $value->get('relatedModuleName');
 			$relatedModules[$relatedModuleName] = App\Language::translate($relatedModuleName, $relatedModuleName);
-			if ('ModComments' !== $relatedModuleName) {
+			if ('ModComments' !== $relatedModuleName && $request->getModule() !== $relatedModuleName) {
 				$relatedRecords[$relatedModuleName] = $this->getRelatedRecords($recordModel, $relatedModuleName);
 			}
 		}
