@@ -415,19 +415,27 @@
 		display: none;
 	}
 }
-
+.nav-tabs {
+	border-bottom: 1px solid #ceced9;
+	background-color: #fff;
+	margin-right: 0.5rem;
+	.nav-link.active {
+		background-color: #0072da !important;
+	}
+}
 .dashboardViewContainer {
 	.nav-inverted-tabs {
-		border-bottom: 6px solid #4a5463;
-		background-color: #4a5463;
+		background-color: #fff;
+		box-shadow: 0px 5px 12px -7px #4a5463;
+		margin-right: 0.5rem;
 		.nav-item {
 			.nav-link {
 				border-top: 0;
 				font-size: 0.85em;
-				color: #fff;
+				color: #4a5463;
 				&.active {
-					color: #fff;
-					background: #4a5463;
+					color: #0072da;
+					border-bottom: 2px solid #0072da;
 					font-weight: 400;
 					border-top: 0;
 				}
