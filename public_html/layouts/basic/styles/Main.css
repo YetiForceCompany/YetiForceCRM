@@ -24331,8 +24331,8 @@ ul.tweets li {
 
 .c-float-label__label {
   position: absolute;
-	left: 0;
-	cursor: text;
+  left: 0;
+  cursor: text;
   font-size: 75%;
   top: -1.5em;
   z-index: 3;
