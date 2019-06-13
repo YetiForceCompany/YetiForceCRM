@@ -33,7 +33,7 @@ class Inventory
 	/**
 	 * Field mapping.
 	 *
-	 * @var null|array
+	 * @var array|null
 	 */
 	private $fieldMapping;
 
@@ -61,7 +61,7 @@ class Inventory
 	/**
 	 * Pricebook id.
 	 *
-	 * @var null|int
+	 * @var int|null
 	 */
 	protected $pricebookId;
 
@@ -70,6 +70,8 @@ class Inventory
 	 *
 	 * @param string $moduleName
 	 * @param array  $inventory
+	 * @param int    $storage
+	 * @param ?int   $pricebookId
 	 */
 	public function __construct(string $moduleName, array $inventory, int $storage, ?int $pricebookId)
 	{
@@ -203,6 +205,8 @@ class Inventory
 	/**
 	 * Get currency.
 	 *
+	 * @param int $inventoryKey
+	 *
 	 * @return int
 	 */
 	protected function getInventoryCurrency(int $inventoryKey): int
@@ -258,7 +262,9 @@ class Inventory
 			->createCommand()->query();
 		foreach ($dataReader as $row) {
 			if (!$isUserPermissions) {
-				$row['unit_price'] = $row['listprice'] ?? $row['unit_price'];
+				$row['unit_price'] = $row['listprice'] ?? (new \Vtiger_MultiCurrency_UIType())->getValueForCurrency($row['unit_price'], \App\Fields\Currency::getDefault()['id']);
+			} else {
+				$row['unit_price'] = (new \Vtiger_MultiCurrency_UIType())->getValueForCurrency($row['unit_price'], \App\Fields\Currency::getDefault()['id']);
 			}
 			$this->products[$row['id']] = $row;
 		}
