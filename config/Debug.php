@@ -18,7 +18,7 @@ namespace Config;
 class Debug
 {
 	/** Enable saving logs to file. Values: false/true */
-	public static $LOG_TO_FILE = false;
+	public static $LOG_TO_FILE = true;
 
 	/** Enable displaying logs in debug console. Values: false/true */
 	public static $LOG_TO_CONSOLE = false;
@@ -27,10 +27,10 @@ class Debug
 	public static $LOG_TO_PROFILE = false;
 
 	/** Level of saved/displayed logs. Values: false = All / 3 = error and warning / ["error", "warning", "info", "trace", "profile"] */
-	public static $LOG_LEVELS = false;
+	public static $LOG_LEVELS = 3;
 
 	/** Level of saved/displayed tracerts. // Values: int */
-	public static $LOG_TRACE_LEVEL = 0;
+	public static $LOG_TRACE_LEVEL = 9;
 
 	/** Display main debug console */
 	public static $DISPLAY_DEBUG_CONSOLE = false;
@@ -39,7 +39,7 @@ class Debug
 	public static $DEBUG_CONSOLE_ALLOWED_IPS = false;
 
 	/** Stop the running process of the system if there is and error in sql query */
-	public static $SQL_DIE_ON_ERROR = false;
+	public static $SQL_DIE_ON_ERROR = true;
 
 	/** Debug cron => cache/logs/cron/ */
 	public static $DEBUG_CRON = false;
@@ -51,13 +51,13 @@ class Debug
 	public static $DISPLAY_DEBUG_VIEWER = false;
 
 	/** Do not show Smarty Notice in phpError.log */
-	public static $SMARTY_ERROR_REPORTING = E_ALL & ~E_NOTICE;
+	public static $SMARTY_ERROR_REPORTING = 32767;
 
 	/** Turn on/off debug errors javascript */
 	public static $JS_DEBUG = true;
 
 	/** Displays information about the tracking code when an error occurs. Available only with the active SQL_DIE_ON_ERROR = true */
-	public static $DISPLAY_EXCEPTION_BACKTRACE = false;
+	public static $DISPLAY_EXCEPTION_BACKTRACE = true;
 
 	/** Display logs when error exception occurs */
 	public static $DISPLAY_EXCEPTION_LOGS = false;
@@ -76,7 +76,7 @@ class Debug
 	 * https://secure.php.net/manual/en/errorfunc.configuration.php#ini.error-reporting
 	 * All errors - E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED / Critical errors - E_ERROR | E_WARNING | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR
 	 */
-	public static $EXCEPTION_ERROR_LEVEL = E_ALL & ~E_NOTICE;
+	public static $EXCEPTION_ERROR_LEVEL = 32767;
 
 	/** API - Sabre dav - This is a flag that allow or not showing file, line and code of the exception in the returned XML */
 	public static $DAV_DEBUG_EXCEPTIONS = false;

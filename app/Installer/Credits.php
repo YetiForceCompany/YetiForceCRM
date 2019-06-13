@@ -134,15 +134,14 @@ class Credits
 	public static function getVueLibs()
 	{
 		$libraries = [];
-		$dir = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR . 'src' . \DIRECTORY_SEPARATOR;
+		$dir = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR;
 		if (file_exists($dir . 'libraries.json')) {
-			$yarnFile = \App\Json::decode(file_get_contents($dir . 'libraries.json'));
-			foreach ($yarnFile as $nameWithVersion) {
+			foreach (\App\Json::read($dir . 'libraries.json') as $nameWithVersion) {
 				foreach ($nameWithVersion as $nameLibraries => $verisonWithLicence) {
 					$isPrefix = 0 === strpos($nameLibraries, '@');
 					$name = $isPrefix ? '@' : '';
 					$tempName = explode('@', $isPrefix ? ltrim($nameLibraries, '@') : $nameLibraries);
-					$name .= array_shift($tempName);
+					$name .= current($tempName);
 					if ($name) {
 						$libraries[$name] = ['name' => $nameLibraries, 'version' => $verisonWithLicence['version'], 'license' => $verisonWithLicence['license']];
 						if (empty($libraries[$name]['homepage'])) {
@@ -211,7 +210,7 @@ class Credits
 		foreach (self::$jsonFiles as $file) {
 			$packageFile = $dir . $name . \DIRECTORY_SEPARATOR . $file;
 			if (file_exists($packageFile)) {
-				$packageFileContent = \App\Json::decode(file_get_contents($packageFile), true);
+				$packageFileContent = \App\Json::read($packageFile);
 				if (!empty($packageFileContent['version']) && empty($library['version'])) {
 					$library['version'] = $packageFileContent['version'];
 				}
