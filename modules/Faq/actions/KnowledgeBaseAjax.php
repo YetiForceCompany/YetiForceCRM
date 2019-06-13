@@ -12,6 +12,15 @@
 class Faq_KnowledgeBaseAjax_Action extends KnowledgeBase_KnowledgeBaseAjax_Action
 {
 	/**
+	 * Constructor.
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('getAccounts');
+	}
+
+	/**
 	 * Detail query conditions.
 	 *
 	 * @var string[]
@@ -28,5 +37,23 @@ class Faq_KnowledgeBaseAjax_Action extends KnowledgeBase_KnowledgeBaseAjax_Actio
 	public function getModel(App\Request $request)
 	{
 		return Faq_KnowledgeBase_Model::getInstance($request->getModule());
+	}
+
+	/**
+	 * Get accounts list.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function getAccounts(App\Request $request)
+	{
+		$treeModel = $this->getModel($request);
+		if (!$request->isEmpty('category')) {
+			$treeModel->set('parentCategory', $request->getByType('category', 'Alnum'));
+		}
+		$response = new Vtiger_Response();
+		$response->setResult([]);
+		$response->emit();
 	}
 }
