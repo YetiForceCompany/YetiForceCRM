@@ -34,14 +34,14 @@ class PaymentsIn_PaymentsInHandler_Handler
 	 */
 	private function canUpdatePaymentStatus(Vtiger_Record_Model $recordModel): bool
 	{
-		if ($recordModel->isEmpty('ssingleordersid')) {
-			return false;
-		}
+		$fieldModel = Vtiger_Module_Model::getInstance('SSingleOrders')->getFieldByColumn('ssingleorders_payment_status');
+		$returnValue = !(null === $fieldModel || !$fieldModel->isActiveField());
+		$returnValue = $returnValue && !$recordModel->isEmpty('ssingleordersid');
 		$ordersId = (int) $recordModel->get('ssingleordersid');
-		if ((int) $recordModel->get('currency_id') !== \App\Record::getCurrencyIdFromInventory($ordersId, 'SSingleOrders')) {
+		if ($returnValue && (int) $recordModel->get('currency_id') !== \App\Record::getCurrencyIdFromInventory($ordersId, 'SSingleOrders')) {
 			\App\Log::warning("The payment is in a different currency than the order. SSingleOrdersId: {$ordersId}");
-			return false;
+			$returnValue = false;
 		}
-		return $recordModel->isNew() || false !== $recordModel->getPreviousValue('paymentsin_status');
+		return $returnValue && ($recordModel->isNew() || false !== $recordModel->getPreviousValue('paymentsin_status'));
 	}
 }
