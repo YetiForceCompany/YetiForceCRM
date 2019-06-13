@@ -56,7 +56,7 @@ abstract class Record extends Base
 		foreach ($productFields->getFields(true) as $fieldCrm => $field) {
 			$fieldValueCrm = $productFields->getFieldValueCrm($fieldCrm);
 			$fieldValue = $productFields->getFieldValue($field);
-			if ($fieldValueCrm != $fieldValue) {
+			if ($fieldValueCrm != $fieldValue) { //todo:rebuild
 				$hasChanges = true;
 				break;
 			}
@@ -91,5 +91,48 @@ abstract class Record extends Base
 			$toUpdate = self::YETIFORCE;
 		}
 		return $toUpdate;
+	}
+
+	/**
+	 * Method to check has images changes.
+	 *
+	 * @param $images
+	 * @param $imagesCrmData
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
+	 */
+	public function checkImages($images, $imagesCrmData)
+	{
+		$imagesCrm = $imagesAdd = $imagesRemove = $imagesCrmNames = [];
+		$needUpdate = false;
+		$imagesCrmData = \App\Json::decode($imagesCrmData['imagename']);
+		if (!empty($imagesCrmData)) {
+			$imagesCrmNames = array_column($imagesCrmData, 'name');
+		}
+		$images = $images['media_gallery_entries'];
+		foreach ($images as &$image) {
+			$explodedPath = explode('/', $image['file']);
+			$image['filename'] = end($explodedPath);
+			if (empty($imagesCrmNames) || !\in_array($image['filename'], $imagesCrmNames)) {
+				$imagesCrm[] = $image;
+				$imagesRemove[] = $image;
+				$needUpdate = true;
+			}
+		}
+		if (!empty($imagesCrmData)) {
+			$imagesNames = array_column($images, 'filename');
+			foreach ($imagesCrmData as $imageCrm) {
+				if (!\in_array($imageCrm['name'], $imagesNames)) {
+					$imagesAdd[] = $imageCrm;
+					$imagesRemoveCrm[] = $imageCrm;
+					$needUpdate = true;
+				} else {
+					$imagesCrm[] = $imageCrm;
+				}
+			}
+		}
+		return $needUpdate ? ['addCrm' => $imagesCrm, 'add' => $imagesAdd, 'remove' => $imagesRemove] : [];
 	}
 }

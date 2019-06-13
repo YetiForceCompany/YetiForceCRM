@@ -63,7 +63,7 @@ abstract class Base
 	 */
 	public const MAGENTO = 1;
 	/**
-	 * Yetiforce variable value.
+	 * YetiForce variable value.
 	 *
 	 * @var string
 	 */

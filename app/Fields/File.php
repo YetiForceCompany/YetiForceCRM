@@ -1409,4 +1409,32 @@ class File
 			];
 		}
 	}
-}
+
+	/**
+	 * Save file from given url.
+	 *
+	 * @param $url
+	 * @param $moduleName
+	 *
+	 * @return array
+	 */
+	public static function saveImageFromUrl($url, $moduleName): array
+	{
+		$value = [];
+		$file = static::loadFromUrl($url);
+		if ($file && $file->validate('image')) {
+			$savePath = static::initStorageFileDirectory($moduleName);
+			$key = $file->generateHash(true, $savePath);
+			$size = $file->getSize();
+			if ($file->moveFile($savePath . $key)) {
+				$value = [
+					'name' => $file->getName(),
+					'size' => \vtlib\Functions::showBytes($size),
+					'key' => $key,
+					'hash' => \md5_file($savePath . $key),
+					'path' => $savePath . $key
+				];
+			}
+		}
+		return $value;
+	}

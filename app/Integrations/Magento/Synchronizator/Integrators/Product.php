@@ -73,6 +73,7 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 			$productRequest = \App\Json::decode($this->connector->request('POST', '/rest/all/V1/products/',
 				$data
 			));
+			$this->saveImages($productRequest['sku'], \App\Json::decode($product['imagename']));
 			$this->saveMapping($productRequest['id'], $product['productid'], 'product');
 			$result = true;
 		} catch (\Throwable $ex) {
@@ -193,5 +194,81 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 		}
 		$searchCriteria[] = 'fields=items[id,sku]';
 		return implode('&', $searchCriteria);
+	}
+
+	/**
+	 * Update product images.
+	 *
+	 * @param $sku
+	 * @param $imagesData
+	 */
+	public function updateImages($sku, $imagesData)
+	{
+		if (!empty($imagesData['add'])) {
+			$this->saveImages($sku, $imagesData['add']);
+		}
+		if (!empty($imagesData['remove'])) {
+			$this->deleteImages($sku, $imagesData['delete']);
+		}
+	}
+
+	/**
+	 * Save product images.
+	 *
+	 * @param $sku
+	 * @param $images
+	 */
+	public function saveImages($sku, $images)
+	{
+		if (!empty($images)) {
+			foreach ($images as $image) {
+				$imageBaseData = \App\Fields\File::getImageBaseData($image['path']);
+				$imageBaseData = explode(',', $imageBaseData);
+				$imageType = str_replace([';base64', 'data:'], '', $imageBaseData[0]);
+				$data = [
+					'entry' => [
+						'media_type' => 'image',
+						'label' => 'Image',
+						'disabled' => false,
+						'types' => [
+							'image',
+							'small_image',
+							'thumbnail'
+						],
+						'content' => [
+							'base64_encoded_data' => $imageBaseData[1],
+							'type' => $imageType,
+							'name' => $image['name']
+						],
+					]
+				];
+				try {
+					\App\Json::decode($this->connector->request('POST', "rest/V1/products/{$sku}/media",
+						$data
+					));
+				} catch (\Throwable $ex) {
+					\App\Log::error('Error during saving magento product images: ' . $ex->getMessage(), 'Integrations/Magento');
+				}
+			}
+		}
+	}
+
+	/**
+	 * Remove product images.
+	 *
+	 * @param $sku
+	 * @param $images
+	 */
+	public function removeImages($sku, $images)
+	{
+		if (!empty($images)) {
+			foreach ($images as $image) {
+				try {
+					\App\Json::decode($this->connector->request('DELETE', "rest/V1/products/{$sku}/media/{$image['id']}"));
+				} catch (\Throwable $ex) {
+					\App\Log::error('Error during removing magento product image: ' . $ex->getMessage(), 'Integrations/Magento');
+				}
+			}
+		}
 	}
 }

@@ -23,11 +23,24 @@ class Product extends Base
 		'unit_price' => 'price',
 		'qtyinstock' => 'extension_attributes|stock_item|qty',
 		'description' => 'custom_attributes|description',
+		'usageunit' => 'custom_attributes|rozmiar',
+		'weight' => 'weight',
 	];
 	/**
 	 * {@inheritdoc}
 	 */
 	public static $nonEditableFields = ['ean' => 'sku'];
+
+	/**
+	 * Usageunit value map.
+	 *
+	 * @var array
+	 */
+	public static $usageunit = [
+		'5' => 'pcs',
+		'6' => 'pack',
+		'7' => 'kg'
+	];
 
 	/**
 	 * Method to get sku or name if ean does not exist.
@@ -52,15 +65,7 @@ class Product extends Base
 	 */
 	public function getCrmDescription(): string
 	{
-		$customAttributes = $this->data['custom_attributes'];
-		if (!empty($customAttributes)) {
-			foreach ($customAttributes as $customAttribute) {
-				if ('description' === $customAttribute['attribute_code']) {
-					return $customAttribute['value'];
-				}
-			}
-		}
-		return '';
+		return $this->getCustomAttributeValue('description') ?? '';
 	}
 
 	/**
@@ -68,14 +73,11 @@ class Product extends Base
 	 *
 	 * @param mixed $parsedStructure
 	 *
-	 * @return array
+	 * @return array|string
 	 */
-	public function getDescription($parsedStructure = false): array
+	public function getDescription($parsedStructure = false)
 	{
-		if ($parsedStructure) {
-			$data = ['custom_attributes' => ['description' => $this->dataCrm['description']]];
-		}
-		return $data ?? $this->dataCrm['description'];
+		return $parsedStructure ? $this->getFieldStructure('description', $this->dataCrm['description']) : $this->dataCrm['description'];
 	}
 
 	/**
@@ -83,13 +85,34 @@ class Product extends Base
 	 *
 	 * @param mixed $parsedStructure
 	 *
+	 * @return array|int
+	 */
+	public function getQty($parsedStructure = false)
+	{
+		return $parsedStructure ? $this->getFieldStructure('qtyinstock', $this->dataCrm['qtyinstock']) : $this->dataCrm['qtyinstock'];
+	}
+
+	/**
+	 * Get usageunit parsed for CRM.
+	 *
+	 * @return mixed
+	 */
+	public function getCrmUsageunit()
+	{
+		return static::$usageunit[$this->getCustomAttributeValue('rozmiar')] ?? '';
+	}
+
+	/**
+	 * Get usageunit parsed for Magento.
+	 *
+	 * @param bool $parsedStructure
+	 *
 	 * @return array
 	 */
-	public function getQty($parsedStructure = false): array
+	public function getRozmiar($parsedStructure = false)
 	{
-		if ($parsedStructure) {
-			$data = ['extension_attributes' => ['stock_item' => ['qty' => $this->dataCrm['qtyinstock']]]];
-		}
-		return $data ?? $this->dataCrm['qtyinstock'];
+		$map = \array_flip(static::$usageunit);
+		$value = $map[$this->dataCrm['usageunit']] ?? 0;
+		return $parsedStructure ? $this->getFieldStructure('usageunit', $value) : $value;
 	}
 }

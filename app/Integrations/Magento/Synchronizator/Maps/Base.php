@@ -33,7 +33,7 @@ abstract class Base
 	 */
 	public $data = [];
 	/**
-	 * Data from Yetiforce.
+	 * Data from YetiForce.
 	 *
 	 * @var array
 	 */
@@ -53,7 +53,7 @@ abstract class Base
 	}
 
 	/**
-	 * Return Yetiforce field name.
+	 * Return YetiForce field name.
 	 *
 	 * @param string $name
 	 *
@@ -92,7 +92,7 @@ abstract class Base
 	}
 
 	/**
-	 * Set data Yetiforce.
+	 * Set data YetiForce.
 	 *
 	 * @param array $data
 	 */
@@ -118,7 +118,7 @@ abstract class Base
 	}
 
 	/**
-	 * Return parsed data in Yetiforce format.
+	 * Return parsed data in YetiForce format.
 	 *
 	 * @param bool $onEdit
 	 *
@@ -137,9 +137,9 @@ abstract class Base
 	 * @param $fieldName
 	 * @param mixed $parsedStructure
 	 *
-	 * @return array
+	 * @return array|mixed
 	 */
-	public function getFieldValueCrm($fieldName, $parsedStructure = false): array
+	public function getFieldValueCrm($fieldName, $parsedStructure = false)
 	{
 		$methodName = 'get' . \ucfirst($this->getFieldName($fieldName));
 		if (!\method_exists($this, $methodName)) {
@@ -155,7 +155,7 @@ abstract class Base
 		} else {
 			$data = $this->{$methodName}($parsedStructure);
 		}
-		return $data ?? [];
+		return $data ?? 0;
 	}
 
 	/**
@@ -169,16 +169,62 @@ abstract class Base
 		$methodName = 'getCrm' . \ucfirst($this->getFieldNameCrm($fieldName));
 		if (!\method_exists($this, $methodName)) {
 			$fieldParsed = $this->data;
-			foreach (explode('|', $fieldName) as $fieldLevel) {
-				if (isset($fieldParsed[$fieldLevel])) {
-					$fieldParsed = $fieldParsed[$fieldLevel];
-				} else {
-					break;
+			$fieldLevels = explode('|', $fieldName);
+			if (\count($fieldLevels) > 1) {
+				foreach ($fieldLevels as $fieldLevel) {
+					if (isset($fieldParsed[$fieldLevel])) {
+						$fieldParsed = $fieldParsed[$fieldLevel];
+					} else {
+						break;
+					}
 				}
+			} else {
+				$fieldParsed = $fieldParsed[$fieldName] ?? 0;
 			}
 		} else {
 			$fieldParsed = $this->{$methodName}($parsedStructure);
 		}
-		return $fieldParsed ?? [];
+		return $fieldParsed ?? 0;
+	}
+
+	/**
+	 * Get custom attribute value.
+	 *
+	 * @param $name
+	 *
+	 * @return mixed
+	 */
+	public function getCustomAttributeValue($name)
+	{
+		$value = '';
+		$customAttributes = $this->data['custom_attributes'];
+		if (!empty($customAttributes)) {
+			foreach ($customAttributes as $customAttribute) {
+				if ($name === $customAttribute['attribute_code']) {
+					$value = $customAttribute['value'];
+				}
+			}
+		}
+		return $value;
+	}
+
+	/**
+	 * Get field value in structure.
+	 *
+	 * @param $name
+	 * @param $value
+	 *
+	 * @return array
+	 */
+	public function getFieldStructure($name, $value): array
+	{
+		$fieldStructure = [];
+		$fieldLevels = array_reverse(explode('|', static::$mappedFields[$name]));
+		$fieldStructure[array_shift($fieldLevels)] = $value;
+		foreach ($fieldLevels as $level) {
+			$fieldStructure[$level] = $fieldStructure;
+			unset($fieldStructure[key($fieldStructure)]);
+		}
+		return $fieldStructure;
 	}
 }
