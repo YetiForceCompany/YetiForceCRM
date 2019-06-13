@@ -145,7 +145,7 @@ class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 		foreach ($recordModel->getModule()->getRelations() as $key => $value) {
 			$relatedModuleName = $value->get('relatedModuleName');
 			$relatedModules[$relatedModuleName] = App\Language::translate($relatedModuleName, $relatedModuleName);
-			if ('ModComments' !== $relatedModuleName) {
+			if ('ModComments' !== $relatedModuleName && $request->getModule() !== $relatedModuleName) {
 				$relatedRecords[$relatedModuleName] = $this->getRelatedRecords($recordModel, $relatedModuleName);
 			}
 		}
@@ -156,6 +156,8 @@ class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 			'subject' => $recordModel->get('subject'),
 			'view' => $recordModel->get('knowledgebase_view'),
 			'assigned_user_id' => $recordModel->getDisplayValue('assigned_user_id', false, true),
+			'accountName' => $recordModel->getDisplayValue('accountid', false, true),
+			'accountId' => $recordModel->get('accountid'),
 			'category' => $recordModel->getDisplayValue('category'),
 			'full_createdtime' => $recordModel->getDisplayValue('createdtime'),
 			'short_createdtime' => \Vtiger_Util_Helper::formatDateDiffInStrings($recordModel->get('createdtime')),

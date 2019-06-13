@@ -238,7 +238,7 @@ class Vtiger_Relation_Model extends \App\Base
 	 * @param Vtiger_Module_Model $relatedModuleModel
 	 * @param bool|string         $label
 	 *
-	 * @return bool|\self
+	 * @return self|false
 	 */
 	public static function getInstance($parentModuleModel, $relatedModuleModel, $label = false)
 	{
