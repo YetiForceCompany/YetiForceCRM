@@ -29,8 +29,10 @@ class PriceBooks_SpecifyMargin_Action extends Vtiger_RelationAjax_Action
 		while ($row = $dataReader->read()) {
 			if (!\App\Json::isEmpty($row['purchase'])) {
 				$purchase = \App\Json::decode($row['purchase']);
-				$price = ((100.00 + $margin) / 100.00) * (float) $purchase['currencies'][$currencyId]['price'];
-				$dbCommand->update('vtiger_pricebookproductrel', ['listprice' => $price], ['productid' => $row['id']])->execute();
+				if (isset($purchase['currencies'][$currencyId]['price'])) {
+					$price = ((100.00 + $margin) / 100.00) * (float) $purchase['currencies'][$currencyId]['price'];
+					$dbCommand->update('vtiger_pricebookproductrel', ['listprice' => $price], ['productid' => $row['id']])->execute();
+				}
 			}
 		}
 		$dataReader->close();
