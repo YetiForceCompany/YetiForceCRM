@@ -10,6 +10,7 @@
     "SINGLE_PriceBooks": "Price Book",
     "yes": "Yes",
     "no": "No",
-    "Unit Price": "Unit price"
+    "Unit Price": "Unit price",
+    "LBL_SPECIFY_THE_MARGIN": "Specify the margin"
   }
 }
