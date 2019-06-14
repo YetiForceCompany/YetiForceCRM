@@ -74,7 +74,7 @@
 					{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 					{assign var=IS_DYNAMIC value=$BLOCK->isDynamic()}
 					{if $BLOCKS_HIDE}
-					<div class="js-toggle-panel c-panel c-panel--edit row  mx-1 mb-3"
+					<div class="js-toggle-panel c-panel c-panel--edit mb-3"
 						 data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if}
 						 data-label="{$BLOCK_LABEL}">
 						<div class="blockHeader c-panel__header align-items-center">
