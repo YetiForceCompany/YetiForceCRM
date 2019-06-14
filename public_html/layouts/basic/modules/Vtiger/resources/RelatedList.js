@@ -54,7 +54,8 @@ jQuery.Class(
 								element.validationEngine('hideAll');
 								AppConnector.request({
 									module: app.getModuleName(),
-									action: 'SpecifyMargin',
+									action: 'RelationAjax',
+									mode: 'specifyMargin',
 									relatedModule: self.moduleName,
 									selected_ids: selectedIds,
 									record: self.getParentId(),
