@@ -33,7 +33,6 @@
             </q-tooltip>
           </div>
           <template v-if="record.short_modifiedtime">
-            <q-separator dark vertical spaced />
             <div>
               <q-icon name="mdi-square-edit-outline" size="15px"></q-icon>
               {{ record.short_modifiedtime }}
@@ -42,12 +41,18 @@
               </q-tooltip>
             </div>
           </template>
+          <template v-if="record.accountId">
+            <q-separator dark vertical spaced />
+            <icon icon="userIcon-Accounts" size="15px"></icon>
+            <a
+              class="js-popover-tooltip--record ellipsis q-ml-xs text-grey-4"
+              :href="`index.php?module=Accounts&view=Detail&record=${record.accountId}`"
+              >{{ record.accountName }}
+            </a>
+          </template>
         </div>
       </div>
       <q-space />
-      <q-badge v-if="record.account" color="white" class="q-mx-sm">
-        <div class="small ellipsis" v-html="record.account"></div>
-      </q-badge>
       <slot name="header-right">
         <template v-if="$q.platform.is.desktop">
           <a v-show="!previewMaximized" class="flex grabbable text-decoration-none text-white" href="#">

@@ -121,7 +121,6 @@
             <q-tab name="categories" :label="translate('JS_CATEGORIES')" />
             <q-tab name="accounts" :label="translate('JS_ACCOUNTS')" />
           </q-tabs>
-          <q-separator />
           <q-tab-panels v-model="tab" animated style="height: calc(100% - 36px)">
             <q-tab-panel name="categories">
               <q-scroll-area class="fit">
@@ -129,7 +128,7 @@
               </q-scroll-area>
             </q-tab-panel>
             <q-tab-panel name="accounts">
-              <div class="q-pa-sm">
+              <div class="q-px-sm">
                 <q-input v-model="accountSearch" :placeholder="translate('JS_SEARCH_PLACEHOLDER')" dense>
                   <template v-slot:append>
                     <q-icon
@@ -156,7 +155,12 @@
                   >
                     <q-item-section>{{ account.name }}</q-item-section>
                     <q-item-section avatar>
-                      <q-icon name="mdi-link" />
+                      <a
+                        class="js-popover-tooltip--record ellipsis"
+                        :href="`index.php?module=Accounts&view=Detail&record=${account.id}`"
+                      >
+                        <q-icon name="mdi-link" />
+                      </a>
                     </q-item-section>
                   </q-item>
                 </q-list>
