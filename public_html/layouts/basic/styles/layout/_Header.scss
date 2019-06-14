@@ -44,7 +44,9 @@
 }
 
 .widget_header {
+	@extend .mb-3;
 	background: $gray-100;
+	box-shadow: 0px 5px 6px -7px rgba(74, 84, 99, 1);
 }
 
 .summaryWidgetContainer .widget_header {
