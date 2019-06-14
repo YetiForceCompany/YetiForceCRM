@@ -2239,6 +2239,17 @@ span[name="existingImages"] img {
 }
 
 .inventorySummaryContainer {
+	@extend .my-3;
+	@extend .rounded-0;
+	button {
+		@extend .rounded-0;
+	}
+	.card-header {
+		@extend .bg-white;
+		@extend .text-uppercase;
+		@extend .border-0;
+	}
+	margin-bottom: 1rem !important;
 	.panel-body,
 	.panel-footer {
 		padding: 0;
