@@ -279,7 +279,7 @@ class Record
 	 *
 	 * @param int $recordId
 	 *
-	 * @return string|null
+	 * @return null|string
 	 */
 	public static function getType($recordId)
 	{

@@ -58,6 +58,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showSocialMedia');
 		$this->exposeMethod('showInventoryDetails');
 		$this->exposeMethod('showChat');
+		$this->exposeMethod('showSlaPolicyView');
 	}
 
 	/**
@@ -226,10 +227,13 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			'~libraries/leaflet/dist/leaflet.js',
 			'~libraries/leaflet.markercluster/dist/leaflet.markercluster.js',
 			'~libraries/leaflet.awesome-markers/dist/leaflet.awesome-markers.js',
-			'modules.OpenStreetMap.resources.Map'
+			'modules.OpenStreetMap.resources.Map',
+			'modules.SlaPolicy.resources.InRelation'
 		];
-
-		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
+		return array_merge(
+			parent::getFooterScripts($request),
+			$this->checkAndConvertJsScripts($jsFileNames)
+		);
 	}
 
 	public function showDetailViewByMode(App\Request $request)
@@ -477,7 +481,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		if ($targetControllerClass) {
 			$targetController = new $targetControllerClass();
-
 			return $targetController->process($request);
 		}
 	}
@@ -1104,5 +1107,89 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('VIEW', 'Detail');
 		return $viewer->view('Detail/InventoryView.tpl', $moduleName, true);
+	}
+
+	/**
+	 * Show SLA Policy.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 *
+	 * @return string
+	 */
+	public function showSlaPolicyView(App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$relatedModuleName = $request->getByType('target', 'Alnum');
+		$parentId = $request->getInteger('record');
+		$label = $request->getByType('tab_label', 'Text');
+		if ($request->isEmpty('relatedView', true)) {
+			$relatedView = empty($_SESSION['relatedView'][$moduleName][$relatedModuleName]) ? 'List' : $_SESSION['relatedView'][$moduleName][$relatedModuleName];
+		} else {
+			$relatedView = $request->getByType('relatedView');
+			$_SESSION['relatedView'][$moduleName][$relatedModuleName] = $relatedView;
+		}
+		$pageNumber = $request->isEmpty('page', true) ? 1 : $request->getInteger('page');
+		$totalCount = $request->isEmpty('totalCount', true) ? false : $request->getInteger('totalCount');
+		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel->set('page', $pageNumber);
+		if ($request->has('limit')) {
+			$pagingModel->set('limit', $request->getInteger('limit'));
+		}
+		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
+		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
+		$orderBy = $request->getForSql('orderby');
+		$sortOrder = $request->getForSql('sortorder');
+		if ($sortOrder === 'ASC') {
+			$nextSortOrder = 'DESC';
+			$sortImage = 'fas fa-chevron-down';
+		} else {
+			$nextSortOrder = 'ASC';
+			$sortImage = 'fas fa-chevron-up';
+		}
+		if (empty($orderBy) && empty($sortOrder)) {
+			$relatedInstance = CRMEntity::getInstance($relatedModuleName);
+			$orderBy = $relatedInstance->default_order_by;
+			$sortOrder = $relatedInstance->default_sort_order;
+		}
+		if (!empty($orderBy)) {
+			$relationListView->set('orderby', $orderBy);
+			$relationListView->set('sortorder', $sortOrder);
+		}
+		if ($request->has('entityState')) {
+			$relationListView->set('entityState', $request->getByType('entityState'));
+		}
+		$viewer = $this->getViewer($request);
+		if ($relatedView === 'ListPreview') {
+			$relationListView->setFields(array_merge(['id'], $relationListView->getRelatedModuleModel()->getNameFields()));
+		}
+		$models = $relationListView->getEntries($pagingModel);
+		$links = $relationListView->getLinks();
+		$header = $relationListView->getHeaders();
+		$relationModel = $relationListView->getRelationModel();
+		$viewer->assign('TARGET_MODULE', $relatedModuleName);
+		$viewer->assign('RELATED_VIEW', $relatedView);
+		$viewer->assign('RELATED_LIST_LINKS', $links);
+		$viewer->assign('RELATED_HEADERS', $header);
+		$viewer->assign('RELATED_MODULE', $relationModel->getRelationModuleModel());
+		$viewer->assign('RELATED_ENTIRES_COUNT', count($models));
+		$viewer->assign('RELATION_FIELD', $relationModel->getRelationField());
+		if (App\Config::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+			$totalCount = $relationListView->getRelatedEntriesCount();
+		}
+		if (empty($totalCount)) {
+			$totalCount = 0;
+		}
+
+		$viewer->assign('MODULE', $moduleName);
+		$isFavorites = false;
+		if ($relationModel->isFavorites() && \App\Privilege::isPermitted($moduleName, 'FavoriteRecords')) {
+			$favorites = $relationListView->getFavoriteRecords();
+			$viewer->assign('FAVORITES', $favorites);
+			$isFavorites = $relationModel->isFavorites();
+		}
+		$viewer->assign('VIEW', $request->getByType('view'));
+		return $viewer->view('Index.tpl', 'SlaPolicy', true);
 	}
 }

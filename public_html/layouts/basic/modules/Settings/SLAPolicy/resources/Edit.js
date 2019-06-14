@@ -1,16 +1,16 @@
 /**
- * SLAPolicy Edit Js class
+ * SlaPolicy Edit Js class
  *
  * @package     Edit
  *
- * @description SLAPolicy Edit View scripts
+ * @description SlaPolicy Edit View scripts
  * @license     YetiForce Public License 3.0
  * @author      Rafal Pospiech <r.pospiech@yetiforce.com>
  */
 'use strict';
 
 $.Class(
-	'Settings_SLAPolicy_Edit_Js',
+	'Settings_SlaPolicy_Edit_Js',
 	{},
 	{
 		/**

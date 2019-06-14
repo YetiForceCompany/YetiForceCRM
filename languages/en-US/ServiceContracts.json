@@ -31,6 +31,20 @@
     "LBL_SUMMARY": "Work time summary",
     "Due date": "Due date",
     "Related to": "Related to",
-    "LBL_ACTIVE_SERVICE_CONTRACTS": "Active SLA"
+    "LBL_ACTIVE_SERVICE_CONTRACTS": "Active SLA",
+    "LBL_SLA_POLICY": "SLA Policy",
+    "LBL_POLICY_FROM": "Policy from",
+    "LBL_POLICY_FROM_DEFAULT": "Default settings",
+    "LBL_POLICY_FROM_TEMPLATE": "Template",
+    "LBL_POLICY_FROM_CUSTOM": "Custom settings",
+    "LBL_POLICY_NAME": "Policy name",
+    "LBL_POLICY_MODULE": "Module"
+  },
+  "js": {
+    "JS_POLICY_NAME": "Name",
+    "JS_OPERATIONAL_HOURS": "Operational hours",
+    "JS_REACTION_TIME": "Reaction time",
+    "JS_IDLE_TIME": "Idle time",
+    "JS_RESOLVE_TIME": "Resolve time"
   }
 }

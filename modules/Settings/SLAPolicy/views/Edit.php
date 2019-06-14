@@ -1,6 +1,6 @@
 <?php
 /**
- * Settings SLAPolicy Edit View class.
+ * Settings SlaPolicy Edit View class.
  *
  * @package   View
  *
@@ -8,7 +8,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
  */
-class Settings_SLAPolicy_Edit_View extends Settings_Vtiger_Index_View
+class Settings_SlaPolicy_Edit_View extends Settings_Vtiger_Index_View
 {
 	/**
 	 * Process.
@@ -20,12 +20,12 @@ class Settings_SLAPolicy_Edit_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		if ($request->isEmpty('record')) {
-			$recordModel = Settings_SLAPolicy_Record_Model::getCleanInstance();
+			$recordModel = Settings_SlaPolicy_Record_Model::getCleanInstance();
 		} else {
 			$viewer->assign('RECORD_ID', $request->getInteger('record'));
-			$recordModel = Settings_SLAPolicy_Record_Model::getInstanceById($request->getInteger('record'));
+			$recordModel = Settings_SlaPolicy_Record_Model::getInstanceById($request->getInteger('record'));
 		}
-		$viewer->assign('MODULES', $recordModel->getModule()->getModules());
+		$viewer->assign('MODULES', $recordModel->getModule()::getModules());
 		$viewer->assign('SOURCE_MODULE', $request->getByType('sourceModule', 'Alnum'));
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('MODULE', $request->getModule());

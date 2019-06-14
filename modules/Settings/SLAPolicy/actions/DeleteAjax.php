@@ -1,6 +1,6 @@
 <?php
 /**
- * Settings SLAPolicy DeleteAjax class.
+ * Settings SlaPolicy DeleteAjax class.
  *
  * @package   Action
  *
@@ -8,14 +8,14 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
  */
-class Settings_SLAPolicy_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
+class Settings_SlaPolicy_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 {
 	/**
 	 * {@inheritdoc}
 	 */
 	public function process(App\Request $request)
 	{
-		$recordModel = Settings_SLAPolicy_Record_Model::getInstanceById($request->getInteger('record'));
+		$recordModel = Settings_SlaPolicy_Record_Model::getInstanceById($request->getInteger('record'));
 		if ($recordModel) {
 			$result = $recordModel->delete();
 		} else {

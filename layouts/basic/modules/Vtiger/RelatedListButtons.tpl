@@ -17,6 +17,22 @@
 					<li class="spaceRelatedList d-none">
 					<li>
 						{assign var="SHOW_RELATED_TAB_NAME" value=App\Config::relation('SHOW_RELATED_MODULE_NAME')}
+						{if $QUALIFIED_MODULE === 'ServiceContracts'}
+							{foreach item=SLA_POLICY_MODULE from=Settings_SlaPolicy_Module_Model::getModules()}
+								{assign var="SLA_POLICY_MODULE_URL" value={$RECORD->getDetailViewUrl()|cat:'&mode=showSlaPolicyView&target='|cat:$SLA_POLICY_MODULE} }
+								<li class="c-tab--small c-tab--hover c-tab--gray js-detail-tab nav-item baseLink d-none float-left relatedNav {if isset($TARGET_MODULE) && $TARGET_MODULE === $SLA_POLICY_MODULE}active{/if}"
+									data-url="{$SLA_POLICY_MODULE_URL}"
+									data-label-key=""
+									data-link-key=""
+									data-reference="">
+										<a href="javascript:void(0);" class="nav-link u-text-ellipsis" title="{\App\Language::translate('LBL_SLA_POLICY','SlaPolicy')} - {\App\Language::translate($SLA_POLICY_MODULE,$SLA_POLICY_MODULE)}">
+											{if App\Config::relation('SHOW_RELATED_ICON')}<span class="fas fa-door-open mr-2"></span>{/if}
+											<span class="{if !$SHOW_RELATED_TAB_NAME}c-tab__text d-none{/if}">{\App\Language::translate('LBL_SLA_POLICY','SlaPolicy')} - {\App\Language::translate($SLA_POLICY_MODULE,$SLA_POLICY_MODULE)}</span>
+										</a>
+								</li>
+							{/foreach}
+						{/if}
+
 						{foreach item=RELATED_LINK key=ITERATION from=$DETAILVIEW_LINKS['DETAILVIEWRELATED']}
 						{assign var="DETAILVIEWRELATEDLINKLBL" value= \App\Language::translate($RELATED_LINK->getLabel(), $RELATED_LINK->getRelatedModuleName())}
 					<li {if !$SHOW_RELATED_TAB_NAME}data-content="{$DETAILVIEWRELATEDLINKLBL}" data-placement="top"{/if} class="c-tab--small c-tab--hover c-tab--gray js-detail-tab nav-item baseLink d-none float-left relatedNav {if !$SHOW_RELATED_TAB_NAME}js-popover-tooltip{/if}{if $RELATED_LINK->getLabel()==$SELECTED_TAB_LABEL} active{/if}" data-js="popover | tabdrop" data-iteration="{$ITERATION}" data-url="{$RELATED_LINK->getUrl()}&tab_label={$RELATED_LINK->getLabel()}" data-label-key="{$RELATED_LINK->getLabel()}" data-reference='{$RELATED_LINK->getRelatedModuleName()}' data-count="{App\Config::relation('SHOW_RECORDS_COUNT')}">

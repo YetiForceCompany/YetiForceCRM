@@ -1,6 +1,6 @@
 <?php
 /**
- * Settings SLAPolicy Conditions View class.
+ * Settings SlaPolicy Conditions View class.
  *
  * @package   View
  *
@@ -8,7 +8,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
  */
-class Settings_SLAPolicy_Conditions_View extends Settings_Vtiger_Index_View
+class Settings_SlaPolicy_Conditions_View extends Settings_Vtiger_Index_View
 {
 	/**
 	 * Process.
@@ -21,9 +21,9 @@ class Settings_SLAPolicy_Conditions_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$record = $request->getByType('record', 'Alnum');
-		$recordModel = Settings_SLAPolicy_Record_Model::getCleanInstance();
+		$recordModel = Settings_SlaPolicy_Record_Model::getCleanInstance();
 		if (!empty($record)) {
-			$recordModel = Settings_SLAPolicy_Record_Model::getInstanceById($record);
+			$recordModel = Settings_SlaPolicy_Record_Model::getInstanceById($record);
 		}
 		$tabId = $recordModel->get('tabid');
 		$sourceModuleName = $tabId ? \App\Module::getModuleName($tabId) : 'HelpDesk';
