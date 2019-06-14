@@ -193,7 +193,8 @@ class Inventory
 			$this->fieldMapping = [
 				'name' => 'id',
 				'comment1' => 'description',
-				'price' => 'unit_price'
+				'price' => 'unit_price',
+				'purchase' => 'purchase'
 			];
 			foreach ((\Vtiger_Inventory_Model::getInstance($this->moduleName)->getAutoCompleteFields()['Products'] ?? []) as $row) {
 				$this->fieldMapping[$row['tofield']] = $row['field'];
@@ -214,11 +215,6 @@ class Inventory
 		return (int) \App\Fields\Currency::getDefault()['id'];
 	}
 
-	protected function getInventoryPurchase(int $inventoryKey)
-	{
-		return $this->products[$inventoryKey]['unit_price'];
-	}
-
 	protected function getInventoryTaxmode(int $inventoryKey)
 	{
 		return 1;
@@ -235,7 +231,7 @@ class Inventory
 		$queryService = (new \App\Db\Query())
 			->select([
 				'module' => new \yii\db\Expression("'Service'"), 'id' => 'serviceid', 'service_usageunit',
-				'subunit' => new \yii\db\Expression("''"), 'currency_id', 'description', 'unit_price', 'taxes',
+				'subunit' => new \yii\db\Expression("''"), 'currency_id', 'description', 'unit_price', 'purchase', 'taxes',
 				'quantity' => new \yii\db\Expression('0'),
 				'vtiger_pricebookproductrel.listprice'
 			])
@@ -248,7 +244,7 @@ class Inventory
 		$dataReader = (new \App\Db\Query())
 			->select([
 				'module' => new \yii\db\Expression("'Products'"), 'id' => 'vtiger_products.productid', 'usageunit',
-				'subunit', 'currency_id', 'description', 'unit_price', 'taxes', 'quantity' => 'u_#__istorages_products.qtyinstock',
+				'subunit', 'currency_id', 'description', 'unit_price', 'purchase', 'taxes', 'quantity' => 'u_#__istorages_products.qtyinstock',
 				'vtiger_pricebookproductrel.listprice'
 			])
 			->from('vtiger_products')
@@ -261,11 +257,13 @@ class Inventory
 			->union($queryService, true)
 			->createCommand()->query();
 		$multiCurrencyUiType = new \Vtiger_MultiCurrency_UIType();
+		$currencyId = \App\Fields\Currency::getDefault()['id'];
 		foreach ($dataReader as $row) {
+			$row['purchase'] = $multiCurrencyUiType->getValueForCurrency($row['purchase'], $currencyId);
 			if (!$isUserPermissions) {
-				$row['unit_price'] = $row['listprice'] ?? $multiCurrencyUiType->getValueForCurrency($row['unit_price'], \App\Fields\Currency::getDefault()['id']);
+				$row['unit_price'] = $row['listprice'] ?? $multiCurrencyUiType->getValueForCurrency($row['unit_price'], $currencyId);
 			} else {
-				$row['unit_price'] = $multiCurrencyUiType->getValueForCurrency($row['unit_price'], \App\Fields\Currency::getDefault()['id']);
+				$row['unit_price'] = $multiCurrencyUiType->getValueForCurrency($row['unit_price'], $currencyId);
 			}
 			$this->products[$row['id']] = $row;
 		}
