@@ -44,7 +44,7 @@ class Condition
 				if (3 !== $count && 4 !== $count) {
 					throw new Exceptions\IllegalValue("ERR_NUMBER_OF_ARGUMENTS_NOT_ALLOWED||{$count}|| <> 3 or 4||" . Utils::varExport($param, true), 406);
 				}
-				[$relatedFieldName, $relatedModule, $referenceField] = explode(':', $param[0]);
+				[$relatedFieldName, $relatedModule, $referenceField] = array_pad(explode(':', $param[0]), 3, null);
 				if ($relatedModule) {
 					$relatedFields = \Vtiger_Module_Model::getInstance($relatedModule)->getFields();
 					if (!isset($fields[$referenceField], $relatedFields[$relatedFieldName])) {
