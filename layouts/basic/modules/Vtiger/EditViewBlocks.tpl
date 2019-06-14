@@ -53,14 +53,14 @@
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 				</div>
 			</div>
-			<div class="row mb-3 mx-0">
+			<div class="row mb-3">
 				{if $EDIT_VIEW_LAYOUT}
 					{assign var=COLUMNS_SIZES value=['col-xl-4', 'col-xl-8']}
 				{else}
 					{assign var=COLUMNS_SIZES value=['col-md-12']}
 				{/if}
 				{foreach item=COLUMN_SIZE from=$COLUMNS_SIZES}
-				<div class="{$COLUMN_SIZE} px-2">
+				<div class="{$COLUMN_SIZE}">
 					{if $EDIT_VIEW_LAYOUT && 'col-xl-8' === $COLUMN_SIZE}
 						{include file=\App\Layout::getTemplatePath('Edit/Inventory.tpl', $MODULE)}
 						{assign var=RECORD_STRUCTURE value=$RECORD_STRUCTURE_RIGHT}
@@ -74,7 +74,7 @@
 					{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 					{assign var=IS_DYNAMIC value=$BLOCK->isDynamic()}
 					{if $BLOCKS_HIDE}
-					<div class="js-toggle-panel c-panel c-panel--edit mb-3"
+					<div class="js-toggle-panel c-panel c-panel--edit row mx-1 mb-3"
 						 data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if}
 						 data-label="{$BLOCK_LABEL}">
 						<div class="blockHeader c-panel__header align-items-center">
