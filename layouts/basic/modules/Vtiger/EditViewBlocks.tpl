@@ -53,14 +53,14 @@
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 				</div>
 			</div>
-			<div class="row mb-3">
+			<div class="row mb-3 mx-0">
 				{if $EDIT_VIEW_LAYOUT}
 					{assign var=COLUMNS_SIZES value=['col-xl-4', 'col-xl-8']}
 				{else}
 					{assign var=COLUMNS_SIZES value=['col-md-12']}
 				{/if}
 				{foreach item=COLUMN_SIZE from=$COLUMNS_SIZES}
-				<div class="{$COLUMN_SIZE}">
+				<div class="{$COLUMN_SIZE} px-2">
 					{if $EDIT_VIEW_LAYOUT && 'col-xl-8' === $COLUMN_SIZE}
 						{include file=\App\Layout::getTemplatePath('Edit/Inventory.tpl', $MODULE)}
 						{assign var=RECORD_STRUCTURE value=$RECORD_STRUCTURE_RIGHT}

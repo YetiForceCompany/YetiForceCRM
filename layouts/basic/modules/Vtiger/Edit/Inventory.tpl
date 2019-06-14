@@ -46,7 +46,7 @@
 		<input id="accountReferenceField" type="hidden" value="{if $RELATED_FIELD}{$RELATED_FIELD['fieldname']}{/if}"/>
 		<input id="inventoryLimit" type="hidden" value="{$MAIN_PARAMS['limit']}"/>
 		<input id="isRequiredInventory" type="hidden" value="{$IS_REQUIRED_INVENTORY}"/>
-		<div class="table-responsive mx-1">
+		<div class="table-responsive">
 			<table class="table inventoryHeader blockContainer mb-0 table-bordered">
 				<colgroup>
 					<col class="w-25">
@@ -98,7 +98,7 @@
 				</thead>
 			</table>
 		</div>
-		<div class="table-responsive mx-1">
+		<div class="table-responsive">
 			<table class="table table-bordered inventoryItems">
 				{if count($FIELDS[1]) neq 0}
 					<thead>
