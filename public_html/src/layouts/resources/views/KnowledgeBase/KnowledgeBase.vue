@@ -50,8 +50,8 @@
                 </q-breadcrumbs-el>
               </template>
             </q-breadcrumbs>
-            <q-breadcrumbs class="ml-2" v-show="tab === 'categories'">
-              <q-breadcrumbs-el v-if="activeAccount !== ''" v-show="tab === 'accounts'" class="text-black">
+            <q-breadcrumbs class="ml-2" v-show="tab === 'accounts'">
+              <q-breadcrumbs-el v-if="activeAccount !== ''" class="text-black">
                 <icon :size="iconSize" :icon="'userIcon-Accounts'" class="q-mr-sm"></icon>
                 {{ activeAccount }}
               </q-breadcrumbs-el>
@@ -130,14 +130,17 @@
             <q-tab-panel name="accounts">
               <div class="q-px-sm">
                 <q-input v-model="accountSearch" :placeholder="translate('JS_SEARCH_PLACEHOLDER')" dense>
+                  <template v-slot:prepend>
+                    <q-icon name="mdi-magnify" size="16px" />
+                  </template>
                   <template v-slot:append>
                     <q-icon
-                      v-if="accountSearch !== ''"
+                      v-show="accountSearch !== ''"
                       name="mdi-close"
                       @click="accountSearch = ''"
                       class="cursor-pointer"
+                      size="16px"
                     />
-                    <q-icon name="mdi-magnify" />
                   </template>
                 </q-input>
               </div>
@@ -157,6 +160,7 @@
                     <q-item-section avatar>
                       <a
                         class="js-popover-tooltip--record ellipsis"
+                        @click.prevent=""
                         :href="`index.php?module=Accounts&view=Detail&record=${account.id}`"
                       >
                         <q-icon name="mdi-link" />
