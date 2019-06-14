@@ -105,41 +105,44 @@
         :breakpoint="700"
         content-class="bg-white text-black"
         ref="drawer"
+        content-style="overflow: hidden !important"
       >
-        <q-scroll-area class="fit">
-          <template v-if="showAccounts">
-            <q-tabs
-              v-model="tab"
-              dense
-              class="text-grey"
-              active-color="primary"
-              indicator-color="primary"
-              align="justify"
-              narrow-indicator
-              @input="onTabChange"
-            >
-              <q-tab name="categories" :label="translate('JS_CATEGORIES')" />
-              <q-tab name="accounts" :label="translate('JS_ACCOUNTS')" />
-            </q-tabs>
-            <q-separator />
-            <q-tab-panels v-model="tab" animated>
-              <q-tab-panel name="categories">
+        <template v-if="showAccounts">
+          <q-tabs
+            v-model="tab"
+            dense
+            class="text-grey"
+            active-color="primary"
+            indicator-color="primary"
+            align="justify"
+            narrow-indicator
+            @input="onTabChange"
+          >
+            <q-tab name="categories" :label="translate('JS_CATEGORIES')" />
+            <q-tab name="accounts" :label="translate('JS_ACCOUNTS')" />
+          </q-tabs>
+          <q-separator />
+          <q-tab-panels v-model="tab" animated style="height: calc(100% - 36px)">
+            <q-tab-panel name="categories">
+              <q-scroll-area class="fit">
                 <categories-list :data="data" :activeCategory="activeCategory" @fetchData="fetchData" />
-              </q-tab-panel>
-              <q-tab-panel name="accounts">
-                <div class="q-pa-sm">
-                  <q-input v-model="accountSearch" :placeholder="translate('JS_SEARCH_PLACEHOLDER')" dense>
-                    <template v-slot:append>
-                      <q-icon
-                        v-if="accountSearch !== ''"
-                        name="mdi-close"
-                        @click="accountSearch = ''"
-                        class="cursor-pointer"
-                      />
-                      <q-icon name="mdi-magnify" />
-                    </template>
-                  </q-input>
-                </div>
+              </q-scroll-area>
+            </q-tab-panel>
+            <q-tab-panel name="accounts">
+              <div class="q-pa-sm">
+                <q-input v-model="accountSearch" :placeholder="translate('JS_SEARCH_PLACEHOLDER')" dense>
+                  <template v-slot:append>
+                    <q-icon
+                      v-if="accountSearch !== ''"
+                      name="mdi-close"
+                      @click="accountSearch = ''"
+                      class="cursor-pointer"
+                    />
+                    <q-icon name="mdi-magnify" />
+                  </template>
+                </q-input>
+              </div>
+              <q-scroll-area style="height: calc(100% - 56px)">
                 <q-list>
                   <q-item
                     v-for="account in accountsList"
@@ -157,10 +160,12 @@
                     </q-item-section>
                   </q-item>
                 </q-list>
-              </q-tab-panel>
-            </q-tab-panels>
-          </template>
-          <categories-list v-else :data="data" :activeCategory="activeCategory" @fetchData="fetchData" />
+              </q-scroll-area>
+            </q-tab-panel>
+          </q-tab-panels>
+        </template>
+        <q-scroll-area v-else class="fit">
+          <categories-list :data="data" :activeCategory="activeCategory" @fetchData="fetchData" />
         </q-scroll-area>
       </q-drawer>
       <q-page-container>
