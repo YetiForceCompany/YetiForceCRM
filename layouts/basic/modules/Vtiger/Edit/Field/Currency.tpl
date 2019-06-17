@@ -46,7 +46,11 @@
 			<div class="input-group">
 				{assign var="DISPLAY_FIELD_VALUE" value=$FIELD_VALUE}
 				{if $SYMBOL_PLACEMENT neq '1.0$'}
-					{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$FIELD_MODEL->getUITypeModel()->getSymbolByRecordId($RECORD->getId())}
+					{if $RECORD->getId()}
+						{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$FIELD_MODEL->getUITypeModel()->getSymbolByRecordId($RECORD->getId())}
+					{else}
+						{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$USER_MODEL->get('currency_symbol')}
+					{/if}
 				{/if}
 				<input name="{$FIELD_MODEL->getFieldName()}" value="{$DISPLAY_FIELD_VALUE}" type="text"
 							   class="row-fluid currencyField form-control" data-fieldinfo='{$FIELD_INFO}'
@@ -56,7 +60,11 @@
 							   data-group-separator='{$USER_MODEL->get('currency_grouping_separator')}'
 							   {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} />
 				{if $SYMBOL_PLACEMENT eq '1.0$'}
-					{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$FIELD_MODEL->getUITypeModel()->getSymbolByRecordId($RECORD->getId())}
+					{if $RECORD->getId()}
+						{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$FIELD_MODEL->getUITypeModel()->getSymbolByRecordId($RECORD->getId())}
+					{else}
+						{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$USER_MODEL->get('currency_symbol')}
+					{/if}
 				{/if}
 			</div>
 		{else}
