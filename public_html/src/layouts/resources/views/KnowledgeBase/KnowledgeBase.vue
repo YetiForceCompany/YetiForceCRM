@@ -19,7 +19,7 @@
         <q-toolbar class="flex-md-nowrap flex-wrap items-center q-gutter-x-md q-gutter-y-sm q-pl-md q-pr-none q-py-xs">
           <div :class="['flex items-center no-wrap flex-md-grow-1 q-mr-sm-sm', searchData ? 'invisible' : '']">
             <q-btn dense round push icon="mdi-menu" @click="toggleDrawer()">
-              <q-tooltip>{{ translate('JS_TOGGLE_CATEGORY_MENU') }}</q-tooltip>
+              <q-tooltip>{{ translate('JS_KB_TOGGLE_CATEGORY_MENU') }}</q-tooltip>
             </q-btn>
             <q-breadcrumbs class="ml-2" v-show="tab === 'categories'">
               <template v-slot:separator>
@@ -61,7 +61,7 @@
             <q-input
               class="full-width"
               v-model="filter"
-              :placeholder="translate('JS_SEARCH_PLACEHOLDER')"
+              :placeholder="translate('JS_KB_SEARCH_PLACEHOLDER')"
               rounded
               outlined
               type="search"
@@ -78,19 +78,19 @@
                 <q-icon v-if="filter !== ''" name="mdi-close" @click.stop="clearSearch()" class="cursor-pointer" />
                 <div class="flex items-center q-ml-sm">
                   <icon-info :customOptions="{ iconSize: '21px' }">
-                    <div style="white-space: pre-line;" v-html="translate('JS_FULL_TEXT_SEARCH_INFO')"></div>
+                    <div style="white-space: pre-line;" v-html="translate('JS_KB_FULL_TEXT_SEARCH_INFO')"></div>
                   </icon-info>
                 </div>
                 <div v-show="activeCategory !== ''" class="flex">
                   <q-toggle v-model="categorySearch" icon="mdi-file-tree" />
-                  <q-tooltip>{{ translate('JS_SEARCH_CURRENT_CATEGORY') }}</q-tooltip>
+                  <q-tooltip>{{ translate('JS_KB_SEARCH_CURRENT_CATEGORY') }}</q-tooltip>
                 </div>
               </template>
             </q-input>
           </div>
           <div class="flex-md-grow-1 flex justify-end q-ml-sm-sm">
             <q-btn round dense color="white" text-color="primary" icon="mdi-plus" @click="openQuickCreateModal()">
-              <q-tooltip>{{ translate('JS_QUICK_CREATE') }}</q-tooltip>
+              <q-tooltip>{{ translate('JS_KB_QUICK_CREATE') }}</q-tooltip>
             </q-btn>
           </div>
         </q-toolbar>
@@ -118,8 +118,8 @@
             narrow-indicator
             @input="onTabChange"
           >
-            <q-tab name="categories" :label="translate('JS_CATEGORIES')" />
-            <q-tab name="accounts" :label="translate('JS_ACCOUNTS')" />
+            <q-tab name="categories" :label="translate('JS_KB_CATEGORIES')" />
+            <q-tab name="accounts" :label="translate('JS_KB_ACCOUNTS')" />
           </q-tabs>
           <q-tab-panels v-model="tab" animated style="height: calc(100% - 36px)">
             <q-tab-panel name="categories">
@@ -129,7 +129,7 @@
             </q-tab-panel>
             <q-tab-panel name="accounts">
               <div class="q-px-sm">
-                <q-input v-model="accountSearch" :placeholder="translate('JS_SEARCH_PLACEHOLDER')" dense>
+                <q-input v-model="accountSearch" :placeholder="translate('JS_KB_SEARCH_PLACEHOLDER')" dense>
                   <template v-slot:prepend>
                     <q-icon name="mdi-magnify" size="16px" />
                   </template>
@@ -210,7 +210,7 @@
               <q-separator v-show="featuredCategories.length" />
               <articles-list
                 :data="selectedTabData.records"
-                :title="translate('JS_ARTICLES')"
+                :title="translate('JS_KB_ARTICLES')"
                 @onClickRecord="previewDialog = true"
               />
             </div>
@@ -218,7 +218,7 @@
           <articles-list
             v-show="searchData"
             :data="searchDataArray"
-            :title="translate('JS_ARTICLES')"
+            :title="translate('JS_KB_ARTICLES')"
             @onClickRecord="previewDialog = true"
           />
         </q-page>

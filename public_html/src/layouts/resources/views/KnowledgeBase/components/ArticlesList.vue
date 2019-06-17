@@ -48,10 +48,10 @@
                     {{ tree.categories[category].label }}
                   </q-breadcrumbs-el>
                   <q-tooltip>
-                    {{ translate('JS_CATEGORY') }}
+                    {{ translate('JS_KB_CATEGORY') }}
                   </q-tooltip>
                 </q-breadcrumbs>
-                | {{ translate('JS_AUTHORED_BY') }}:
+                | {{ translate('JS_KB_AUTHORED_BY') }}:
                 <span v-html="props.row.assigned_user_id" class="q-ml-sm"></span>
               </q-item-label>
               <q-item-label caption>{{ props.row.introduction }}</q-item-label>
