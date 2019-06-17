@@ -1007,15 +1007,17 @@ window.App.Fields = {
 			}
 			params = this.registerParams(selectElement, params);
 			const computeDropdownHeight = (e, dropdownContainer) => {
-				if (!dropdownContainer.find('.select2-dropdown--above').length) {
-					const dropdownList = dropdownContainer.find('.select2-results__options');
-					const marginBottom = 35;
-					const selectOffsetTop = $(e.currentTarget).offset().top;
-					dropdownList.css({
-						'max-height':
-							$(window).height() - selectOffsetTop - marginBottom - (dropdownList.offset().top - selectOffsetTop)
-					});
-				}
+				setTimeout(() => {
+					if (!dropdownContainer.find('.select2-dropdown--above').length) {
+						const dropdownList = dropdownContainer.find('.select2-results__options');
+						const marginBottom = 35;
+						const selectOffsetTop = $(e.currentTarget).offset().top;
+						dropdownList.css({
+							'max-height':
+								$(window).height() - selectOffsetTop - marginBottom - (dropdownList.offset().top - selectOffsetTop)
+						});
+					}
+				}, 100)
 			};
 			selectElement.each(function() {
 				let select = $(this);
