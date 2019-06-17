@@ -78,7 +78,7 @@
                 <q-icon v-if="filter !== ''" name="mdi-close" @click.stop="clearSearch()" class="cursor-pointer" />
                 <div class="flex items-center q-ml-sm">
                   <icon-info :customOptions="{ iconSize: '21px' }">
-                    <div style="white-space: pre-line;" v-html="translate('JS_KB_FULL_TEXT_SEARCH_INFO')"></div>
+                    <div style="white-space: pre-line;" v-html="translate('JS_FULL_TEXT_SEARCH_INFO')"></div>
                   </icon-info>
                 </div>
                 <div v-show="activeCategory !== ''" class="flex">
