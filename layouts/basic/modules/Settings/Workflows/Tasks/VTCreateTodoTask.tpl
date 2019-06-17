@@ -159,8 +159,8 @@
 						{/foreach}
 					</optgroup>
 					<optgroup label='{\App\Language::translate('LBL_SPECIAL_OPTIONS', $QUALIFIED_MODULE)}'>
-						<option {if $DATE_FIELD_START eq 'fromDateStart'}selected="selected"{/if}
-						        value="fromDateStart">{\App\Language::translate('LBL_TASK_START_DATES_AND_TIMES',$QUALIFIED_MODULE)}</option>
+						<option {if $DATE_FIELD_END eq 'fromDateStart'}selected="selected"{/if}
+						        value="fromDateStart">{\App\Language::translate('LBL_TASK_START_DATES_AND_TIMES', $QUALIFIED_MODULE)}</option>
 					</optgroup>
 					<optgroup label='{\App\Language::translate('LBL_VALUE_OF_SERVER', $QUALIFIED_MODULE)}'>
 						<option {if $DATE_FIELD_END eq 'wfRunTime'}selected="selected"{/if}
