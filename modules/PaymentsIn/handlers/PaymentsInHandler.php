@@ -23,7 +23,7 @@ class PaymentsIn_PaymentsInHandler_Handler
 		if ($this->canUpdatePaymentStatus($recordModel)) {
 			(new \App\BatchMethod(['method' => 'PaymentsIn_Module_Model::updatePaymentStatus', 'params' => [$recordModel->get('ssingleordersid')]]))->save();
 		}
-		PaymentsIn_FinvoicePaymentStatus_Helper::updateIfPossible($recordModel);
+		PaymentsIn_FinvoicePaymentStatus_Model::updateIfPossible($recordModel);
 	}
 
 	/**

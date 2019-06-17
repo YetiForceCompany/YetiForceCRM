@@ -2,7 +2,7 @@
 /**
  * The file contains: Class to change the payment status of a sales invoice.
  *
- * @package Helpers
+ * @package Model
  *
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -12,7 +12,7 @@
 /**
  * Class to change the payment status of a sales invoice.
  */
-class PaymentsIn_FinvoicePaymentStatus_Helper
+class PaymentsIn_FinvoicePaymentStatus_Model
 {
 	/**
 	 * Update if possible.
@@ -24,7 +24,7 @@ class PaymentsIn_FinvoicePaymentStatus_Helper
 	public static function updateIfPossible(Vtiger_Record_Model $recordModel)
 	{
 		if (static::canUpdatePaymentStatus($recordModel)) {
-			(new \App\BatchMethod(['method' => 'PaymentsIn_FinvoicePaymentStatus_Helper::updatePaymentStatus', 'params' => [$recordModel->get('finvoiceid')]]))->save();
+			(new \App\BatchMethod(['method' => 'PaymentsIn_FinvoicePaymentStatus_Model::updatePaymentStatus', 'params' => [$recordModel->get('finvoiceid')]]))->save();
 		}
 	}
 

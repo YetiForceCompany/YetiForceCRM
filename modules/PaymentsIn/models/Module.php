@@ -23,10 +23,11 @@ class PaymentsIn_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function updatePaymentStatus(int $ordersId)
 	{
-		$orderRecordModel = \Vtiger_Record_Model::getInstanceById($ordersId, 'SSingleOrders');
+		$moduleName = 'SSingleOrders';
+		$orderRecordModel = \Vtiger_Record_Model::getInstanceById($ordersId, $moduleName);
 		$orderRecordModel->set(
 			'ssingleorders_payment_status',
-			static::calculatePaymentStatus((float) $orderRecordModel->get('sum_gross'), static::getSumOfPaymentsByRecordId($ordersId, 'SSingleOrders'))
+			static::calculatePaymentStatus((float) $orderRecordModel->get('sum_gross'), static::getSumOfPaymentsByRecordId($ordersId, $moduleName))
 		);
 		$orderRecordModel->save();
 	}
