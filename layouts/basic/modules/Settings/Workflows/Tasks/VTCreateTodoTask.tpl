@@ -158,6 +158,10 @@
 							        value="{$DATETIME_FIELD->get('name')}">{\App\Language::translate($DATETIME_FIELD->get('label'),$SOURCE_MODULE)}</option>
 						{/foreach}
 					</optgroup>
+					<optgroup label='{\App\Language::translate('LBL_SPECIAL_OPTIONS', $QUALIFIED_MODULE)}'>
+						<option {if $DATE_FIELD_START eq 'fromDateStart'}selected="selected"{/if}
+						        value="fromDateStart">{\App\Language::translate('LBL_TASK_START_DATES_AND_TIMES',$QUALIFIED_MODULE)}</option>
+					</optgroup>
 					<optgroup label='{\App\Language::translate('LBL_VALUE_OF_SERVER', $QUALIFIED_MODULE)}'>
 						<option {if $DATE_FIELD_END eq 'wfRunTime'}selected="selected"{/if}
 						        value="wfRunTime">{\App\Language::translate('LBL_WORKFLOWS_RUN_TIME',$QUALIFIED_MODULE)}</option>
