@@ -9,8 +9,7 @@
 			</div>
 			<div class="fieldValue col-sm-8 col-xl-8 px-0 px-sm-1">
 					<div class="input-group input-group-sm">
-							<input type="text" class="smallInputBox form-control form-control-sm js-margin"
-									data-validation-engine="validate[required,funcCall[Vtiger_NumberUserFormat_Validator_Js.invokeValidation]]" />
+							<input type="text" class="smallInputBox form-control form-control-sm js-margin" />
 					</div>
 			</div>
 		</div>

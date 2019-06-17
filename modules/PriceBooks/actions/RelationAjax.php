@@ -34,7 +34,7 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action
 		$margin = $request->getByType('margin', 'Double');
 		$recordId = $request->getInteger('record');
 		$queryGenerator = static::getQuery($request);
-		$queryGenerator->setField('purchase');
+		$queryGenerator->setFields(['id', 'purchase']);
 		$currencyId = Vtiger_Record_Model::getInstanceById($recordId, 'PriceBooks')->get('currency_id');
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
@@ -43,7 +43,7 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action
 				$purchase = \App\Json::decode($row['purchase']);
 				if (isset($purchase['currencies'][$currencyId]['price'])) {
 					$price = ((100.00 + $margin) / 100.00) * (float) $purchase['currencies'][$currencyId]['price'];
-					$dbCommand->update('vtiger_pricebookproductrel', ['listprice' => $price], ['productid' => $row['id']])->execute();
+					$dbCommand->update('vtiger_pricebookproductrel', ['pricebookid' => $recordId, 'listprice' => $price], ['productid' => $row['id']])->execute();
 				}
 			}
 		}

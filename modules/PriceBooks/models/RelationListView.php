@@ -40,7 +40,7 @@ class PriceBooks_RelationListView_Model extends Vtiger_RelationListView_Model
 		$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
 			'linktype' => 'RELATEDLIST_MASSACTIONS',
 			'linklabel' => 'LBL_MARGINP',
-			'linkurl' => 'javascript:Vtiger_RelatedList_Js.triggerMassMargin()',
+			'linkurl' => 'javascript:PriceBooks_RelatedList_Js.triggerMassMargin()',
 			'linkclass' => '',
 			'linkicon' => 'fas fa-dollar-sign'
 		]);

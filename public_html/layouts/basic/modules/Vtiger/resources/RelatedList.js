@@ -37,44 +37,6 @@ jQuery.Class(
 			}
 			return Vtiger_RelatedList_Js.relatedListInstance;
 		},
-		triggerMassMargin: function() {
-			const self = this.relatedListInstance;
-			if (self.checkListRecordSelected() !== true) {
-				let selectedIds = self.readSelectedIds(true);
-				app.showModalWindow({
-					url: 'index.php?module=PriceBooks&view=SpecifyMargin',
-					cb: () => {
-						$('.js-modal__save').on('click', e => {
-							let element = $('.js-margin');
-							let resultOfValidation = Vtiger_NumberUserFormat_Validator_Js.invokeValidation(element);
-							if (typeof resultOfValidation !== 'undefined') {
-								element.validationEngine('showPrompt', resultOfValidation, '', 'topLeft', true);
-								e.preventDefault();
-							} else {
-								element.validationEngine('hideAll');
-								AppConnector.request({
-									module: app.getModuleName(),
-									action: 'RelationAjax',
-									mode: 'specifyMargin',
-									relatedModule: self.moduleName,
-									selected_ids: selectedIds,
-									record: self.getParentId(),
-									margin: $('.js-margin').val()
-								}).done(response => {
-									if (response.success) {
-										Vtiger_Detail_Js.reloadRelatedList();
-										app.hideModalWindow();
-									}
-								});
-							}
-							return false;
-						});
-					}
-				});
-			} else {
-				self.noRecordSelectedAlert();
-			}
-		},
 		triggerMassAction: function(massActionUrl, type) {
 			const self = this.relatedListInstance;
 			let validationResult = self.checkListRecordSelected();
