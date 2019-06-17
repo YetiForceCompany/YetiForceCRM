@@ -529,7 +529,7 @@ CREATE TABLE `i_yf_magento_record` (
 
 CREATE TABLE `l_yf_batchmethod` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `method` varchar(50) NOT NULL,
+  `method` varchar(255) NOT NULL,
   `params` text DEFAULT NULL,
   `status` tinyint(1) unsigned NOT NULL,
   `userid` int(11) DEFAULT NULL,
@@ -980,7 +980,7 @@ CREATE TABLE `s_yf_automatic_assignment` (
 
 CREATE TABLE `s_yf_batchmethod` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `method` varchar(50) NOT NULL,
+  `method` varchar(255) NOT NULL,
   `params` text NOT NULL,
   `created_time` date NOT NULL,
   `status` tinyint(1) unsigned NOT NULL,
