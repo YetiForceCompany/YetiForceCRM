@@ -21,7 +21,7 @@
             <q-btn dense round push icon="mdi-menu" @click="toggleDrawer()">
               <q-tooltip>{{ translate('JS_TOGGLE_CATEGORY_MENU') }}</q-tooltip>
             </q-btn>
-            <q-breadcrumbs class="ml-2">
+            <q-breadcrumbs class="ml-2" v-show="tab === 'categories'">
               <template v-slot:separator>
                 <q-icon size="1.5em" name="mdi-chevron-right" />
               </template>
@@ -49,6 +49,12 @@
                   {{ tree.categories[category].label }}
                 </q-breadcrumbs-el>
               </template>
+            </q-breadcrumbs>
+            <q-breadcrumbs class="ml-2" v-show="tab === 'accounts'">
+              <q-breadcrumbs-el v-if="activeAccount !== ''" class="text-black">
+                <icon :size="iconSize" :icon="'userIcon-Accounts'" class="q-mr-sm"></icon>
+                {{ activeAccount }}
+              </q-breadcrumbs-el>
             </q-breadcrumbs>
           </div>
           <div class="tree-search flex flex-grow-1 no-wrap order-sm-none order-xs-last">
@@ -99,40 +105,75 @@
         :breakpoint="700"
         content-class="bg-white text-black"
         ref="drawer"
+        content-style="overflow: hidden !important"
       >
-        <q-scroll-area class="fit">
-          <q-list>
-            <q-item v-show="activeCategory === ''" active>
-              <q-item-section avatar>
-                <q-icon :name="tree.topCategory.icon" :size="iconSize" />
-              </q-item-section>
-              <q-item-section>{{ translate(tree.topCategory.label) }}</q-item-section>
-            </q-item>
-            <q-item v-if="activeCategory !== ''" clickable active @click="fetchParentCategoryData()">
-              <q-item-section avatar>
-                <icon :size="iconSize" :icon="tree.categories[activeCategory].icon || defaultTreeIcon" />
-              </q-item-section>
-              <q-item-section>{{ tree.categories[activeCategory].label }}</q-item-section>
-              <q-item-section avatar>
-                <q-icon name="mdi-chevron-left" />
-              </q-item-section>
-            </q-item>
-            <q-item
-              v-for="(categoryValue, categoryKey) in data.categories"
-              :key="categoryKey"
-              clickable
-              v-ripple
-              @click="fetchData(categoryValue)"
-            >
-              <q-item-section avatar>
-                <icon :size="iconSize" :icon="tree.categories[categoryValue].icon || defaultTreeIcon" />
-              </q-item-section>
-              <q-item-section>{{ tree.categories[categoryValue].label }}</q-item-section>
-              <q-item-section avatar>
-                <q-icon name="mdi-chevron-right" />
-              </q-item-section>
-            </q-item>
-          </q-list>
+        <template v-if="showAccounts">
+          <q-tabs
+            v-model="tab"
+            dense
+            class="text-grey"
+            active-color="primary"
+            indicator-color="primary"
+            align="justify"
+            narrow-indicator
+            @input="onTabChange"
+          >
+            <q-tab name="categories" :label="translate('JS_CATEGORIES')" />
+            <q-tab name="accounts" :label="translate('JS_ACCOUNTS')" />
+          </q-tabs>
+          <q-tab-panels v-model="tab" animated style="height: calc(100% - 36px)">
+            <q-tab-panel name="categories">
+              <q-scroll-area class="fit">
+                <categories-list :data="data" :activeCategory="activeCategory" @fetchData="fetchData" />
+              </q-scroll-area>
+            </q-tab-panel>
+            <q-tab-panel name="accounts">
+              <div class="q-px-sm">
+                <q-input v-model="accountSearch" :placeholder="translate('JS_SEARCH_PLACEHOLDER')" dense>
+                  <template v-slot:prepend>
+                    <q-icon name="mdi-magnify" size="16px" />
+                  </template>
+                  <template v-slot:append>
+                    <q-icon
+                      v-show="accountSearch !== ''"
+                      name="mdi-close"
+                      @click="accountSearch = ''"
+                      class="cursor-pointer"
+                      size="16px"
+                    />
+                  </template>
+                </q-input>
+              </div>
+              <q-scroll-area style="height: calc(100% - 56px)">
+                <q-list>
+                  <q-item
+                    v-for="account in accountsList"
+                    :active="activeAccount === account.name"
+                    :key="account"
+                    @click="
+                      fetchData(null, account.id)
+                      activeAccount = account.name
+                    "
+                    clickable
+                  >
+                    <q-item-section>{{ account.name }}</q-item-section>
+                    <q-item-section avatar>
+                      <a
+                        class="js-popover-tooltip--record ellipsis"
+                        @click.prevent=""
+                        :href="`index.php?module=Accounts&view=Detail&record=${account.id}`"
+                      >
+                        <q-icon name="mdi-link" />
+                      </a>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-scroll-area>
+            </q-tab-panel>
+          </q-tab-panels>
+        </template>
+        <q-scroll-area v-else class="fit">
+          <categories-list :data="data" :activeCategory="activeCategory" @fetchData="fetchData" />
         </q-scroll-area>
       </q-drawer>
       <q-page-container>
@@ -147,7 +188,7 @@
                   </q-item>
                   <q-item
                     clickable
-                    v-for="featuredValue in data.featured[slotProps.relatedBlock]"
+                    v-for="featuredValue in selectedTabData.featured[slotProps.relatedBlock]"
                     :key="featuredValue.id"
                     class="text-subtitle2"
                     v-ripple
@@ -165,10 +206,10 @@
                 </q-list>
               </template>
             </related-columns>
-            <div v-show="activeCategory !== ''">
+            <div v-show="activeCategory !== '' || tab === 'accounts'">
               <q-separator v-show="featuredCategories.length" />
               <articles-list
-                :data="data.records"
+                :data="selectedTabData.records"
                 :title="translate('JS_ARTICLES')"
                 @onClickRecord="previewDialog = true"
               />
@@ -193,12 +234,13 @@ import Carousel from './components/Carousel.vue'
 import ArticlesList from './components/ArticlesList.vue'
 import RelatedColumns from './components/RelatedColumns.vue'
 import ArticlePreview from './components/ArticlePreview.vue'
+import CategoriesList from './components/CategoriesList.vue'
 import { createNamespacedHelpers } from 'vuex'
 
 const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'KnowledgeBase',
-  components: { Icon, IconInfo, Carousel, ArticlesList, ArticlePreview, RelatedColumns },
+  components: { Icon, IconInfo, Carousel, ArticlesList, ArticlePreview, RelatedColumns, CategoriesList },
   props: {
     coordinates: {
       type: Object,
@@ -214,31 +256,52 @@ export default {
   },
   data() {
     return {
-      defaultTreeIcon: 'mdi-subdirectory-arrow-right',
       drawerBehaviour: 'desktop',
       miniState: false,
       left: true,
       filter: '',
+      accountSearch: '',
       categorySearch: false,
       searchData: false,
       activeCategory: '',
+      activeAccount: '',
       previewDialog: false,
+      tab: 'categories',
+      showAccounts: false,
       data: {
         categories: [],
         records: [],
         featured: {}
-      }
+      },
+      accountsData: {
+        categories: [],
+        records: [],
+        featured: {}
+      },
+      accounts: []
     }
   },
   computed: {
-    ...mapGetters(['tree', 'record', 'iconSize', 'moduleName', 'maximized']),
+    ...mapGetters(['tree', 'record', 'iconSize', 'moduleName', 'maximized', 'defaultTreeIcon']),
+    accountsList() {
+      if (this.accountSearch === '') {
+        return this.accounts
+      } else {
+        return this.accounts.filter(account => {
+          return account.name.toLowerCase().includes(this.accountSearch.toLowerCase())
+        })
+      }
+    },
+    selectedTabData() {
+      return this.tab === 'categories' ? this.data : this.accountsData
+    },
     searchDataArray() {
       return this.searchData ? this.searchData : []
     },
     featuredCategories() {
-      if (typeof this.data.featured.length === 'undefined' && this.data.categories) {
-        let arr = this.data.categories.map(e => {
-          return this.data.featured[e] ? e : false
+      if (typeof this.selectedTabData.featured.length === 'undefined' && this.selectedTabData.categories) {
+        let arr = this.selectedTabData.categories.map(e => {
+          return this.selectedTabData.featured[e] ? e : false
         })
         return arr.filter(function(item) {
           return typeof item === 'string'
@@ -258,6 +321,32 @@ export default {
   },
   methods: {
     ...mapActions(['fetchRecord', 'fetchCategories']),
+    onTabChange(tabName) {
+      if (this.accounts.length === 0 && tabName === 'accounts') {
+        this.fetchAccounts()
+      }
+    },
+    fetchAccounts() {
+      const aDeferred = $.Deferred()
+      const progressIndicatorElement = $.progressIndicator({
+        blockInfo: { enabled: true }
+      })
+      return AppConnector.request({
+        module: this.moduleName,
+        action: 'KnowledgeBaseAjax',
+        mode: 'getAccounts'
+      }).done(data => {
+        let listData = data.result
+        if (listData) {
+          listData = Object.keys(listData).map(function(key) {
+            return { name: listData[key], id: key }
+          })
+        }
+        this.accounts = listData
+        progressIndicatorElement.progressIndicator({ mode: 'hide' })
+        aDeferred.resolve(listData)
+      })
+    },
     search() {
       if (this.filter.length >= 3) {
         this.debouncedSearch()
@@ -269,17 +358,11 @@ export default {
       this.filter = ''
       this.searchData = false
     },
-    fetchParentCategoryData() {
-      let parentCategory = ''
-      const parentTreeArray = this.tree.categories[this.activeCategory].parentTree
-      if (parentTreeArray.length !== 1) {
-        parentCategory = parentTreeArray[parentTreeArray.length - 2]
-      }
-      this.fetchData(parentCategory)
-    },
-    fetchData(category = '') {
+    fetchData(category = '', accountId = '') {
       const aDeferred = $.Deferred()
-      this.activeCategory = category
+      if (category !== null) {
+        this.activeCategory = category
+      }
       const progressIndicatorElement = $.progressIndicator({
         blockInfo: { enabled: true }
       })
@@ -287,15 +370,23 @@ export default {
         module: this.moduleName,
         action: 'KnowledgeBaseAjax',
         mode: 'list',
-        category: category
+        category: category,
+        accountid: accountId
       }).done(data => {
         let listData = data.result
+        if (listData.showAccounts) {
+          this.showAccounts = true
+        }
         if (listData.records) {
           listData.records = Object.keys(listData.records).map(function(key) {
             return { ...listData.records[key], id: key }
           })
         }
-        this.data = listData
+        if (accountId !== '') {
+          this.accountsData = listData
+        } else {
+          this.data = listData
+        }
         progressIndicatorElement.progressIndicator({ mode: 'hide' })
         aDeferred.resolve(listData)
       })

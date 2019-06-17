@@ -7,6 +7,7 @@
  */
 
 const state = {
+	defaultTreeIcon: 'mdi-subdirectory-arrow-right',
 	record: false,
 	dialog: false,
 	maximized: true,
@@ -49,6 +50,9 @@ const getters = {
 	},
 	tree(state) {
 		return state.tree
+	},
+	defaultTreeIcon(state) {
+		return state.defaultTreeIcon
 	}
 }
 
