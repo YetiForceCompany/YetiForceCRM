@@ -34,13 +34,23 @@
 
 .c-panel {
 	@extend .card;
-	@extend .mb-2;
+	@extend .rounded-0;
+	@extend .mb-3;
+	input,
+	button,
+	.input-group-text {
+		@extend .rounded-0;
+	}
+	box-shadow: -2px 10px 6px 4px rgba (0, 0, 0, 0.13);
 
 	&__header {
 		@extend .card-header;
 		@extend .u-cursor-pointer;
 		@extend .px-0;
 		@extend .py-1;
+		@extend .bg-white;
+		@extend .border-0;
+		@extend .text-uppercase;
 	}
 
 	&__body {
