@@ -39,14 +39,12 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			if (!\App\Json::isEmpty($row['purchase'])) {
-				$purchasePrice = (new Vtiger_MultiCurrency_UIType())->getValueForCurrency($row['purchase'], $currencyId);
-				$dbCommand->update(
-					'vtiger_pricebookproductrel',
-					['listprice' => ((100.00 + $margin) / 100.00) * $purchasePrice],
-					['pricebookid' => $recordId, 'productid' => $row['id']]
-				)->execute();
-			}
+			$purchasePrice = (new Vtiger_MultiCurrency_UIType())->getValueForCurrency($row['purchase'], $currencyId);
+			$dbCommand->update(
+				'vtiger_pricebookproductrel',
+				['listprice' => ((100.00 + $margin) / 100.00) * $purchasePrice],
+				['pricebookid' => $recordId, 'productid' => $row['id']]
+			)->execute();
 		}
 		$dataReader->close();
 		$response = new Vtiger_Response();
