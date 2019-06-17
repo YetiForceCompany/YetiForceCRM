@@ -1,6 +1,6 @@
 <?php
 /*
- * SlaPolicy TemplatesAjax Action class
+ * SlaPolicy CustomAjax Action class
  *
  * @package   Action
  *
@@ -8,7 +8,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
 */
-class SlaPolicy_TemplatesAjax_Action extends \App\Controller\Action
+class SlaPolicy_CustomAjax_Action extends \App\Controller\Action
 {
 	/**
 	 * {@inheritdoc}

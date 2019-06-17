@@ -86,6 +86,21 @@ class ServiceContracts
 	}
 
 	/**
+	 * Get all business hours.
+	 *
+	 * @return array
+	 */
+	public static function getAllBusinessHours(): array
+	{
+		if (\App\Cache::has('UtilsServiceContracts::getDefaultBusinessHours', '')) {
+			return \App\Cache::get('UtilsServiceContracts::getDefaultBusinessHours', '');
+		}
+		$rows = (new \App\Db\Query())->from('s_#__business_hours')->all(\App\Db::getInstance('admin'));
+		\App\Cache::save('UtilsServiceContracts::getDefaultBusinessHours', '', $rows);
+		return $rows;
+	}
+
+	/**
 	 * Get business hours by ids .
 	 *
 	 * @param string $ids ex. '1,2'
@@ -145,7 +160,7 @@ class ServiceContracts
 	 *
 	 * @return array
 	 */
-	private static function getSlaPolicyForServiceContracts(int $crmId, int $sourceModuleId): array
+	public static function getSlaPolicyForServiceContracts(int $crmId, int $sourceModuleId): array
 	{
 		if (\App\Cache::has('UtilsServiceContracts::getSlaPolicyForServiceContracts', "$crmId|$sourceModuleId")) {
 			return \App\Cache::get('UtilsServiceContracts::getSlaPolicyForServiceContracts', "$crmId|$sourceModuleId");
@@ -414,7 +429,7 @@ class ServiceContracts
 	 * @param \DateTime $date
 	 * @param array     $days
 	 *
-	 * @return array|null
+	 * @return null|array
 	 */
 	private static function getNextBusinessDay(\DateTime &$date, array $days): ?array
 	{

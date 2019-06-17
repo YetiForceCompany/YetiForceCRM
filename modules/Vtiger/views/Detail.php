@@ -1168,6 +1168,23 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$links = $relationListView->getLinks();
 		$header = $relationListView->getHeaders();
 		$relationModel = $relationListView->getRelationModel();
+		$rows = \App\Utils\ServiceContracts::getSlaPolicyForServiceContracts($parentId, \App\Module::getModuleId($relatedModuleName));
+		$policyType = 0;
+		if (isset($rows[0])) {
+			$policyType = (int) $rows[0]['policy_type'];
+		}
+		$allBusinessHours = \App\Utils\ServiceContracts::getAllBusinessHours();
+		foreach ($allBusinessHours as $businessHours) {
+			$businessHours['name'] = \App\Language::translate($businessHours['name'], 'Settings:BusinessHours');
+		}
+		$viewer->assign('ALL_BUSINESS_HOURS', $allBusinessHours);
+		$viewer->assign('POLICY_TYPE', $policyType);
+		$viewer->assign('RECORD_ID', $parentId);
+		$viewer->assign('RELATED_MODULE_ID', \App\Module::getModuleId($relatedModuleName));
+		$viewer->assign('ROWS', \App\Utils\ServiceContracts::getSlaPolicyForServiceContracts($parentId, \App\Module::getModuleId($relatedModuleName)));
+		$viewer->assign('SLA_POLICY_MODULE', 'SlaPolicy');
+		$viewer->assign('PICKLIST_MODULE', 'Settings:Picklist');
+		$viewer->assign('TICKET_STATUSES', \App\Fields\Picklist::getValues('ticketstatus'));
 		$viewer->assign('TARGET_MODULE', $relatedModuleName);
 		$viewer->assign('RELATED_VIEW', $relatedView);
 		$viewer->assign('RELATED_LIST_LINKS', $links);
