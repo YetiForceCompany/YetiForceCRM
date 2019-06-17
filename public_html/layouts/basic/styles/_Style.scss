@@ -1373,7 +1373,7 @@ hr {
 
 	li {
 		&:after {
-			content: '\0000a0';
+			content: "\0000a0";
 			width: 0;
 			height: 0;
 			border-left: 18px solid rgba($card-cap-bg, 0.05);
@@ -1543,7 +1543,7 @@ textarea.col-md-11 {
 }
 
 .ui-autocomplete-loading {
-	background: $light url('../images/load.gif') no-repeat right center;
+	background: $light url("../images/load.gif") no-repeat right center;
 }
 
 .ui-autocomplete {
@@ -1932,7 +1932,7 @@ span[name="existingImages"] img {
 	}
 
 	&.fieldValue {
-		input:not([type='checkbox']) {
+		input:not([type="checkbox"]) {
 			height: 27px;
 		}
 
@@ -2184,6 +2184,7 @@ span[name="existingImages"] img {
 			margin-left: 3px;
 
 			&:first-child {
+				margin-right: 0 !important;
 				margin-left: 0;
 			}
 		}
@@ -3751,7 +3752,7 @@ body,
 		float: left;
 	}
 
-	[class*='picklistLb_'] {
+	[class*="picklistLb_"] {
 		border-radius: 7px;
 	}
 
