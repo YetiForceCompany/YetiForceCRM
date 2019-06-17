@@ -4,7 +4,7 @@
 		<div class="col-12 row m-0">
 			<div class="fieldLabel col-sm-4 col-xl-4 pl-0 text-lg-left text-xl-right u-text-ellipsis">
 				<label class="text-right muted small font-weight-bold">
-					{\App\Language::translate('LBL_MARGINP')}
+					{\App\Language::translate('LBL_SPECIFY_THE_MARGINP', $MODULE_NAME)}
 				</label>
 			</div>
 			<div class="fieldValue col-sm-8 col-xl-8 px-0 px-sm-1">

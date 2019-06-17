@@ -11,6 +11,7 @@
     "yes": "Yes",
     "no": "No",
     "Unit Price": "Unit price",
-    "LBL_SPECIFY_THE_MARGIN": "Specify the margin"
+    "LBL_SPECIFY_THE_MARGIN": "Specify the margin",
+    "LBL_SPECIFY_THE_MARGINP": "Specify the margin (%)"
   }
 }

@@ -23,7 +23,7 @@ class PriceBooks_SpecifyMargin_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public $modalIcon = 'fas fa-dollar-sign';
+	public $modalIcon = '';
 
 	/**
 	 * {@inheritdoc}
