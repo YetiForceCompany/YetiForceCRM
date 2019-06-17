@@ -522,7 +522,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return Vtiger_Field_Model
+	 * @return Vtiger_Field_Model|false
 	 */
 	public function getFieldByName($fieldName)
 	{

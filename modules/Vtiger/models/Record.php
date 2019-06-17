@@ -419,7 +419,7 @@ class Vtiger_Record_Model extends \App\Base
 	 *
 	 * @param string $fieldName - field name
 	 *
-	 * @return <Vtiger_Field_Model>
+	 * @return Vtiger_Field_Model|false
 	 */
 	public function getField($fieldName)
 	{
