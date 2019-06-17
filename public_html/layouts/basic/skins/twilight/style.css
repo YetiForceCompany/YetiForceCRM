@@ -1,1 +1,55 @@
+.c-detail-widget {
+	box-shadow: -2px 4px 12px 0px rgba(0, 0, 0, 0.13);
+}
 
+.detailViewInfo .related .nav-pills .active {
+	text-transform: uppercase;
+}
+
+.c-detail-widget__table th {
+	background-color: #fff;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#fff));
+}
+
+.c-detail-widget .mailsList .font-small.text-truncate a {
+	color: #a0a0ad;
+}
+.c-detail-widget .mailsList .showMailBody {
+	margin-right: 0px !important;
+}
+
+.recordLabel {
+	color: #0072da;
+}
+
+.flex-md-nowrap .u-min-w-md-70 .flex-nowrap .text-muted.u-white-space-nowrap {
+	font-weight: 600;
+	color: black !important;
+}
+
+.flex-md-nowrap .u-min-w-md-70 .flex-nowrap .js-popover-tooltip--record {
+	font-weight: 600;
+	color: red !important;
+}
+
+.o-header-toggle__actions .c-btn-link {
+	background-color: #f8f9fa;
+}
+
+.o-header-toggle__actions .entityStateBtn {
+	color: #fff;
+}
+
+.c-detail-widget .mailsList .btn-secondary.relationDelete {
+	background-color: #e2eaf1;
+}
+
+.c-detail-widget .mailsList .btn-dark.relationDelete {
+	background-color: #d1d1db;
+}
+
+.c-detail-widget .mailsList .btn-outline-secondary,
+.c-detail-widget .mailsList .relationDelete {
+	color: black;
+	border-color: #d1d1db;
+}
