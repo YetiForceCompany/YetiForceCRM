@@ -26,7 +26,7 @@ class PaymentsIn_Module_Model extends Vtiger_Module_Model
 		$orderRecordModel = \Vtiger_Record_Model::getInstanceById($ordersId, 'SSingleOrders');
 		$orderRecordModel->set(
 			'ssingleorders_payment_status',
-			static::calculatePaymentStatus((float) $orderRecordModel->get('sum_gross'), static::getSumOfPaymentsByRecordId($ordersId))
+			static::calculatePaymentStatus((float) $orderRecordModel->get('sum_gross'), static::getSumOfPaymentsByRecordId($ordersId, 'SSingleOrders'))
 		);
 		$orderRecordModel->save();
 	}
@@ -56,17 +56,18 @@ class PaymentsIn_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Get the sum of all payments by record ID.
 	 *
-	 * @param int $recordId
+	 * @param int    $recordId
+	 * @param string $moduleName
 	 *
 	 * @return float
 	 */
-	private static function getSumOfPaymentsByRecordId(int $recordId): float
+	public static function getSumOfPaymentsByRecordId(int $recordId, string $moduleName): float
 	{
 		$relationModel = Vtiger_Relation_Model::getInstance(
-			Vtiger_Module_Model::getInstance('SSingleOrders'),
+			Vtiger_Module_Model::getInstance($moduleName),
 			Vtiger_Module_Model::getInstance('PaymentsIn')
 		);
-		$relationModel->set('parentRecord', Vtiger_Record_Model::getInstanceById($recordId, 'SSingleOrders'));
+		$relationModel->set('parentRecord', Vtiger_Record_Model::getInstanceById($recordId, $moduleName));
 		return (float) $relationModel->getQuery()
 			->createQuery()
 			->sum('vtiger_paymentsin.paymentsvalue');
