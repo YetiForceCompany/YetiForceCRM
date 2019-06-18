@@ -79,7 +79,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		} else {
 			$advanceFilterOpsByFieldType = Vtiger_Field_Model::getAdvancedFilterOpsByFieldType();
 		}
-		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\CustomView::ADVANCED_FILTER_OPTIONS);
+		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\Condition::ADVANCED_FILTER_OPTIONS);
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', $advanceFilterOpsByFieldType);
 		$viewer->assign('DATE_FILTERS', Vtiger_AdvancedFilter_Helper::getDateFilter($module));
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());

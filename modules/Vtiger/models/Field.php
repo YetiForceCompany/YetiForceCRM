@@ -1503,11 +1503,11 @@ class Vtiger_Field_Model extends vtlib\Field
 		$oper = [];
 		foreach ($operators as $op) {
 			$label = '';
-			if (isset(\App\CustomView::ADVANCED_FILTER_OPTIONS[$op])) {
-				$label = \App\CustomView::ADVANCED_FILTER_OPTIONS[$op];
+			if (isset(\App\Condition::ADVANCED_FILTER_OPTIONS[$op])) {
+				$label = \App\Condition::ADVANCED_FILTER_OPTIONS[$op];
 			}
-			if (isset(\App\CustomView::DATE_FILTER_CONDITIONS[$op])) {
-				$label = \App\CustomView::DATE_FILTER_CONDITIONS[$op]['label'];
+			if (isset(\App\Condition::DATE_OPERATORS[$op])) {
+				$label = \App\Condition::DATE_OPERATORS[$op]['label'];
 			}
 			$oper[$op] = $label;
 		}
@@ -1523,7 +1523,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getOperatorTemplateName(string $operator)
 	{
-		if (in_array($operator, App\CustomView::FILTERS_WITHOUT_VALUES + array_keys(App\CustomView::DATE_FILTER_CONDITIONS))) {
+		if (in_array($operator, App\Condition::OPERATORS_WITHOUT_VALUES + array_keys(App\Condition::DATE_OPERATORS))) {
 			return;
 		}
 		return $this->getUITypeModel()->getOperatorTemplateName($operator);

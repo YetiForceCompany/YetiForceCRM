@@ -1090,8 +1090,8 @@ class QueryGenerator
 	 * @param string $operator
 	 * @param mixed  $groupAnd
 	 *
-	 * @see CustomView::ADVANCED_FILTER_OPTIONS
-	 * @see CustomView::STD_FILTER_CONDITIONS
+	 * @see Condition::ADVANCED_FILTER_OPTIONS
+	 * @see Condition::DATE_OPERATORS
 	 */
 	public function addCondition($fieldName, $value, $operator, $groupAnd = true)
 	{
