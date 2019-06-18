@@ -386,7 +386,7 @@
 			}
 
 			&.active:after {
-				content: '';
+				content: "";
 				width: 100%;
 				right: 0;
 				top: calculate-rem(35px);
@@ -417,9 +417,12 @@
 }
 .nav-tabs {
 	border-bottom: 1px solid #ceced9;
-	background-color: #fff;
+	background-color: $color-navbar;
+	@extend .rounded-0;
 	margin-right: 0.5rem;
 	.nav-link.active {
+		@extend .text-uppercase;
+		color: $color-navbar;
 		background-color: $color-active-nav !important;
 	}
 }
