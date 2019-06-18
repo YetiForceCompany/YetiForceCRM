@@ -231,7 +231,7 @@ class Inventory
 		$queryService = (new \App\Db\Query())
 			->select([
 				'module' => new \yii\db\Expression("'Service'"), 'id' => 'serviceid', 'service_usageunit',
-				'subunit' => new \yii\db\Expression("''"), 'currency_id', 'description', 'unit_price', 'purchase', 'taxes',
+				'subunit' => new \yii\db\Expression("''"), 'description', 'unit_price', 'purchase', 'taxes',
 				'quantity' => new \yii\db\Expression('0'),
 				'vtiger_pricebookproductrel.listprice'
 			])
@@ -244,7 +244,7 @@ class Inventory
 		$dataReader = (new \App\Db\Query())
 			->select([
 				'module' => new \yii\db\Expression("'Products'"), 'id' => 'vtiger_products.productid', 'usageunit',
-				'subunit', 'currency_id', 'description', 'unit_price', 'purchase', 'taxes', 'quantity' => 'u_#__istorages_products.qtyinstock',
+				'subunit', 'description', 'unit_price', 'purchase', 'taxes', 'quantity' => 'u_#__istorages_products.qtyinstock',
 				'vtiger_pricebookproductrel.listprice'
 			])
 			->from('vtiger_products')
