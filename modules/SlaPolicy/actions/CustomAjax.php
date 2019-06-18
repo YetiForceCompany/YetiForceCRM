@@ -26,7 +26,8 @@ class SlaPolicy_CustomAjax_Action extends \App\Controller\Action
 	 */
 	public function process(App\Request $request)
 	{
-		$recordModels = Settings_SlaPolicy_Record_Model::getForModule($request->getByType('targetModule', 'Alnum'));
+		$targetModule = $request->getByType('targetModule', 'Alnum');
+		$recordModels = Settings_SlaPolicy_Record_Model::getForModule($targetModule);
 		$rows = [];
 		foreach ($recordModels as $recordModel) {
 			$row = [];

@@ -8,32 +8,82 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
  */
-class SlaPolicy_SaveAjax_Action extends Vtiger_SaveAjax_Action
+class SlaPolicy_SaveAjax_Action extends \App\Controller\Action
 {
+	/**
+	 * {@inheritdoc}
+	 */
+	public function checkPermission(App\Request $request)
+	{
+		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getByType('targetModule', 'Alnum')) || !$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+	}
+
+	/**
+	 * Save custom records.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return array
+	 */
+	public function saveCustomRecords(App\Request $request)
+	{
+		$rowsIds = $request->getArray('rowid', 'Integer');
+		$result = [];
+		foreach ($rowsIds as $rowIndex => $rowId) {
+			$data = [];
+			$data['policy_type'] = 2;
+			$rowConditions = \App\Json::decode($request->getArray('conditions', 'Text')[$rowIndex]);
+			if ($rowConditions) {
+				$conditions = \App\Condition::getConditionsFromRequest($rowConditions);
+				$data['conditions'] = \App\Json::encode($conditions);
+			} else {
+				$data['conditions'] = '';
+			}
+			$data['business_hours'] = implode(',', $request->getArray('business_hours', 'Integer')[$rowIndex]);
+			$data['reaction_time'] = $request->getArray('reaction_time', 'TimePeriod')[$rowIndex];
+			$data['idle_time'] = $request->getArray('idle_time', 'TimePeriod')[$rowIndex];
+			$data['resolve_time'] = $request->getArray('resolve_time', 'TimePeriod')[$rowIndex];
+			$data['crmid'] = $request->getInteger('recordId');
+			$data['tabid'] = \App\Module::getModuleId($request->getByType('targetModule', 'Alnum'));
+			$db = \App\Db::getInstance();
+			if (!$rowId) {
+				$db->createCommand()->insert('u_#__servicecontracts_sla_policy', $data)->execute();
+				$data['id'] = $db->getLastInsertID();
+			} else {
+				$db->createCommand()->update('u_#__servicecontracts_sla_policy', $data, ['id' => $rowId])->execute();
+				$data['id'] = $rowId;
+			}
+			$result[] = $data;
+		}
+		return $result;
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */
 	public function process(App\Request $request)
 	{
-		$recordId = $request->getInteger('recordId');
-		$recordModel = SlaPolicy_Record_Model::getInstanceByTargetId($recordId);
+		$result = [];
 		$policyType = $request->getByType('policyType', 'Text');
 		switch ($policyType) {
-			case 'template':
-				$recordModel->set('policy_type', 1);
-				$recordModel->set('sla_policy_id', $request->getInteger('policyId'));
+			case 1: // template
+				$data['policy_type'] = 1;
+				$data['sla_policy_id'] = $request->getInteger('policyId');
 				break;
-			case 'custom':
-				$recordModel->set('policy_type', 2);
+			case 2: // custom
+				$result = $this->saveCustomRecords($request);
 				break;
-			case 'default':
+			case 0:
 			default:
-				$recordModel->set('policy_type', 0);
+				$data['policy_type'] = 0;
 				break;
 		}
-		$recordModel->save();
+
 		$response = new Vtiger_Response();
-		$response->setResult(['ok']);
+		$response->setResult($result);
 		$response->emit();
 	}
 }

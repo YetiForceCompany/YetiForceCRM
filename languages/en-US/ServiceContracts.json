@@ -38,7 +38,8 @@
     "LBL_POLICY_FROM_TEMPLATE": "Template",
     "LBL_POLICY_FROM_CUSTOM": "Custom settings",
     "LBL_POLICY_NAME": "Policy name",
-    "LBL_POLICY_MODULE": "Module"
+    "LBL_POLICY_MODULE": "Module",
+    "LBL_ADD_ENTRY": "Add entry"
   },
   "js": {
     "JS_POLICY_NAME": "Name",

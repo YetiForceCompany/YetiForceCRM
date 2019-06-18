@@ -18,6 +18,8 @@ class SlaPolicy_InRelation_Js {
 		this.policyType = Number(this.container.find('[name="policy_type"]:checked').val());
 		this.targetModule = this.container.find('[name="target"]').val();
 		this.businessHours = JSON.parse(this.container.find('.js-all-business-hours').val());
+		this.conditionBuilders = [];
+		this.conditionsBuildersContainers = [];
 		this.registerEvents();
 	}
 
@@ -133,39 +135,35 @@ class SlaPolicy_InRelation_Js {
 	onSubmit(ev) {
 		ev.preventDefault();
 		ev.stopPropagation();
+		if (!this.container.validationEngine('validate')) {
+			return;
+		}
 		const progress = jQuery.progressIndicator({
 			position: 'html',
 			blockInfo: {
 				enabled: true
 			}
 		});
-		AppConnector.request({
-			module: 'SlaPolicy',
-			action: 'SaveAjax',
-			targetModule: this.targetModule,
-			recordId: $('#recordId').val(),
-			policyType: this.container.find('[name="policy_type"]:checked').val(),
-			policyId: this.container.find('[name="policy_id"]').val()
-		}).done(data => {
+		const params = this.container.serializeFormData();
+		params.module = 'SlaPolicy';
+		params.action = 'SaveAjax';
+		params.targetModule = this.targetModule;
+		params.recordId = $('#recordId').val();
+		params.policyType = this.container.find('[name="policy_type"]:checked').val();
+		params.policyId = this.container.find('[name="policy_id"]').val();
+		AppConnector.request({ data: params }).done(data => {
 			progress.progressIndicator({ mode: 'hide' });
+			data.result.forEach((row, index) => {
+				const rowElem = this.container.find('.js-custom-table-row').eq(index);
+				rowElem.data('id', row.id);
+				rowElem.find('.js-custom-row-id').val(row.id);
+			});
+			Vtiger_Helper_Js.showPnotify({
+				text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
+				type: 'success',
+				animation: 'show'
+			});
 		});
-	}
-
-	/**
-	 * Get hash
-	 *
-	 * @param   {Number}  length
-	 *
-	 * @return  {String}
-	 */
-	getHash(length) {
-		var result = '';
-		var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-		var charactersLength = characters.length;
-		for (var i = 0; i < length; i++) {
-			result += characters.charAt(Math.floor(Math.random() * charactersLength));
-		}
-		return result;
 	}
 
 	/**
@@ -175,10 +173,15 @@ class SlaPolicy_InRelation_Js {
 		this.container.find('.js-sla-policy-add-record-btn').on('click', e => {
 			e.preventDefault();
 			e.stopPropagation();
-			const row = $(`<tr data-id="0" data-hash="${this.getHash(8)}">
-			<td>${Vtiger_ConditionBuilder_Js.getDisplayValue(null)}</td>
+			const index = this.container.find('.js-custom-table-row').length;
+			const row = $(`<tr data-id="0" class="js-custom-table-row">
+			<td class="js-conditions-col">
+				<input type="hidden" name="rowid[${index}]" value="0" class="js-custom-row-id" />
+				<input type="hidden" name="conditions[${index}]" class="js-conditions-value" value="{}" data-js="container">
+				${this.container.find('.js-conditions-template').html()}
+			</td>
 			<td>
-				<select class="select2" name="business_hours[]" multiple>
+				<select class="select2" name="business_hours[${index}][]" multiple data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
 				${this.businessHours
 					.map(businessHours => {
 						return `<option value="${businessHours.id}">${businessHours.name}</option>`;
@@ -187,33 +190,38 @@ class SlaPolicy_InRelation_Js {
 				</select>
 			</td>
 			<td>
-			<div class="js-reaction-time-container">
-					<label>${app.vtranslate('JS_REACTION_TIME')}</label>
-					<div class="input-group time">
-						<input type="hidden" name="reaction_time[]" class="c-time-period" value="0">
+			<div class="d-flex">
+				<div style="flex-grow:1">
+					<div class="js-reaction-time-container">
+						<label>${app.vtranslate('JS_REACTION_TIME')}</label>
+						<div class="input-group time">
+							<div style="width:226px"><input type="hidden" name="reaction_time[${index}]" class="c-time-period" value="1:d"></div>
+						</div>
+					</div>
+					<div class="js-idle-time-container">
+						<label>${app.vtranslate('JS_IDLE_TIME')}</label>
+						<div class="input-group time">
+							<div style="width:226px"><input type="hidden" name="idle_time[${index}]" class="c-time-period" value="1:d"></div>
+						</div>
+					</div>
+					<div class="js-resolve-time-container">
+						<label>${app.vtranslate('JS_RESOLVE_TIME')}</label>
+						<div class="input-group time">
+							<div style="width:226px"><input type="hidden" name="resolve_time[${index}]" class="c-time-period" value="1:d"></div>
+						</div>
 					</div>
 				</div>
-				<div class="js-idle-time-container">
-					<label>${app.vtranslate('JS_IDLE_TIME')}</label>
-					<div class="input-group time">
-						<input type="hidden" name="idle_time[]" class="c-time-period" value="0">
-					</div>
-				</div>
-				<div class="js-resolve-time-container">
-					<label>${app.vtranslate('JS_RESOLVE_TIME')}</label>
-					<div class="input-group time">
-						<input type="hidden" name="resolve_time[]" class="c-time-period" value="0">
-					</div>
-				</div>
-			</td>
-			<td>
-					<a href class="btn btn-danger js-delete-row-action"><span class="fas fa-trash-alt"></span></a>
-					<a href class="btn btn-primary ml-2 js-edit-row-action"><span class="fas fa-edit"></span></a>
+				<div style="flex-grow:0;" class="ml-2 border-left"><a href class="btn btn-danger js-delete-row-action ml-2"><span class="fas fa-trash-alt"></span></a></div>
+			</div>
 			</td>
 			</tr>`);
 			App.Fields.TimePeriod.register(row);
 			this.registerDelBtnClick(row);
 			App.Fields.Picklist.showSelect2ElementView(row.find('.select2'));
+			this.registerConditionBuilder(
+				row.find('.js-condition-builder').eq(0),
+				this.container.find('.js-conditions-col').length
+			);
 			this.container.find('.js-custom-conditions-table tbody').append(row);
 		});
 	}
@@ -241,7 +249,7 @@ class SlaPolicy_InRelation_Js {
 			});
 			AppConnector.request({
 				module: 'SlaPolicy',
-				action: 'Delete',
+				action: 'DeleteAjax',
 				targetModule: this.targetModule,
 				record: rowId,
 				hash: tr.data('hash')
@@ -250,17 +258,42 @@ class SlaPolicy_InRelation_Js {
 				$(e.target)
 					.closest('tr')
 					.remove();
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
+					type: 'success',
+					animation: 'show'
+				});
 			});
 		});
 	}
 
-	registerDisplayConditions() {
-		const conditionsElem = this.container.find('.js-conditions');
-		$.each(conditionsElem, (index, elem) => {
-			elem = $(elem);
-			const conditions = elem.data('conditions') ? elem.data('conditions') : '{}';
-			elem.html(Vtiger_ConditionBuilder_Js.getDisplayValue(JSON.parse(conditions)));
-		});
+	/**
+	 * On condition change event
+	 *
+	 * @param   {Vtiger_ConditionBuilder_Js}  instance
+	 */
+	onConditionsChange(instance) {
+		const index = this.conditionBuilders.indexOf(instance);
+		this.conditionsBuildersContainers[index]
+			.parent()
+			.find('.js-conditions-value')
+			.val(JSON.stringify(instance.getConditions()));
+	}
+
+	/**
+	 * Register condition builder
+	 *
+	 * @param {jQuery} container
+	 * @param {Number} index
+	 */
+	registerConditionBuilder(container, index) {
+		this.conditionBuilders[index] = new Vtiger_ConditionBuilder_Js(
+			container,
+			this.targetModule,
+			this.onConditionsChange.bind(this)
+		);
+		this.conditionBuilders[index].registerEvents();
+		this.conditionsBuildersContainers[index] = container;
 	}
 
 	/**
@@ -273,14 +306,20 @@ class SlaPolicy_InRelation_Js {
 		App.Fields.TimePeriod.register(this.container);
 		this.registerAddRecordBtnClick();
 		this.registerDelBtnClick(this.container);
-		this.registerDisplayConditions();
+		$.each(this.container.find('.js-custom-conditions-table .js-condition-builder'), (index, col) => {
+			this.registerConditionBuilder($(col), index);
+		});
 	}
 }
 $(document).ready(jQuery => {
-	new SlaPolicy_InRelation_Js($('#detailView'));
+	if ($('.js-sla-policy').length) {
+		new SlaPolicy_InRelation_Js($('#detailView'));
+	}
 });
 app.event.on('DetailView.Tab.AfterLoad', (event, data, instance) => {
 	if (instance.detailViewForm.find('.js-sla-policy').length) {
-		new SlaPolicy_InRelation_Js(instance.detailViewForm);
+		if ($('.js-sla-policy').length) {
+			new SlaPolicy_InRelation_Js(instance.detailViewForm);
+		}
 	}
 });

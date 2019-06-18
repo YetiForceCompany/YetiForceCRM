@@ -1177,6 +1177,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		foreach ($allBusinessHours as $businessHours) {
 			$businessHours['name'] = \App\Language::translate($businessHours['name'], 'Settings:BusinessHours');
 		}
+		$sourceModuleModel = Vtiger_Module_Model::getInstance($relatedModuleName);
+		$viewer->assign('SOURCE_MODULE', $relatedModuleName);
+		$viewer->assign('CURRENTDATE', date('Y-n-j'));
+		$viewer->assign('RECORD_STRUCTURE', Vtiger_RecordStructure_Model::getInstanceForModule($sourceModuleModel)->getStructure());
 		$viewer->assign('ALL_BUSINESS_HOURS', $allBusinessHours);
 		$viewer->assign('POLICY_TYPE', $policyType);
 		$viewer->assign('RECORD_ID', $parentId);
