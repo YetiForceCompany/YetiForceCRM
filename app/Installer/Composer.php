@@ -191,13 +191,9 @@ class Composer
 		}
 		foreach (new \DirectoryIterator($dirLibraries) as $level1) {
 			if ($level1->isDir() && !$level1->isDot()) {
-				$fileName = $level1->getFilename();
-				if ('.' === $fileName || '..' === $fileName) {
-					continue;
-				}
 				$value = [];
 				try {
-					if ($getValues = Credits::parseLibraryVueValues($fileName, $dirLibraries)) {
+					if ($getValues = Credits::parseLibraryVueValues($level1->getFilename(), $dirLibraries)) {
 						$value[$getValues['name']] = ['version' => $getValues['version'], 'license' => $getValues['license'], 'homepage' => $getValues['homepage']];
 						$dataEncode[] = $value;
 					}
