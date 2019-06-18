@@ -264,23 +264,27 @@ class BaseField
 	}
 
 	/**
-	 * Is watching record operator.
+	 * Has changed operator.
 	 *
 	 * @return array
 	 */
-	public function operatorWr()
+	public function operatorHs()
 	{
-		return Vtiger_Watchdog_Model::getInstanceById($this->recordModel->getId(), $this->recordModel->getModuleName())->isWatchingRecord();
+		$hasChanged = $this->recordModel->getPreviousValue($this->fieldModel->getFieldName());
+		if (false === $hasChanged) {
+			return false;
+		}
+		return $this->getValue() != $hasChanged;
 	}
 
 	/**
-	 * Is not watching record operator.
+	 * Has changed to operator.
 	 *
 	 * @return array
 	 */
-	public function operatorNwr()
+	public function operatorHst()
 	{
-		return !Vtiger_Watchdog_Model::getInstanceById($this->recordModel->getId(), $this->recordModel->getModuleName())->isWatchingRecord();
+		return false !== $this->recordModel->getPreviousValue($this->fieldModel->getFieldName()) && $this->getValue() == $this->value;
 	}
 
 	/**

@@ -74,12 +74,16 @@ class Condition
 		'om' => 'LBL_CURRENTLY_LOGGED_USER',
 		'ogr' => 'LBL_CURRENTLY_LOGGED_USER_GROUP',
 		'wr' => 'LBL_IS_WATCHING_RECORD',
-		'nwr' => 'LBL_IS_NOT_WATCHING_RECORD'
+		'nwr' => 'LBL_IS_NOT_WATCHING_RECORD',
+		'hs' => 'LBL_HAS_CHANGED',
+		'hst' => 'LBL_HAS_CHANGED_TO',
+		'ro' => 'LBL_IS_RECORD_OPEN',
+		'rc' => 'LBL_IS_RECORD_CLOSED',
 	];
 	/**
 	 * Operators without values.
 	 */
-	const OPERATORS_WITHOUT_VALUES = ['y', 'ny', 'om', 'ogr', 'wr', 'nwr'];
+	const OPERATORS_WITHOUT_VALUES = ['y', 'ny', 'om', 'ogr', 'wr', 'nwr', 'hs', 'ro', 'rc'];
 
 	/**
 	 * Vtiger_Record_Model instance cache.

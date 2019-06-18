@@ -11,4 +11,23 @@ namespace App\Conditions\RecordFields;
  */
 class OwnerField extends BaseField
 {
+	/**
+	 * Is watching record operator.
+	 *
+	 * @return array
+	 */
+	public function operatorWr()
+	{
+		return Vtiger_Watchdog_Model::getInstanceById($this->recordModel->getId(), $this->recordModel->getModuleName())->isWatchingRecord();
+	}
+
+	/**
+	 * Is not watching record operator.
+	 *
+	 * @return array
+	 */
+	public function operatorNwr()
+	{
+		return !Vtiger_Watchdog_Model::getInstanceById($this->recordModel->getId(), $this->recordModel->getModuleName())->isWatchingRecord();
+	}
 }

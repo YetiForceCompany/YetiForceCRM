@@ -4,7 +4,7 @@
 		 data-js="container">
 		{if empty($SELECTED_FIELD_MODEL) && !empty($CONDITIONS_ROW)}
 			{assign var=SELECTED_FIELD_MODEL value=Vtiger_Field_Model::getInstanceFromFilter($CONDITIONS_ROW['fieldname'])}
-			{assign var=OPERATORS value=$SELECTED_FIELD_MODEL->getOperators()}
+			{assign var=OPERATORS value=$SELECTED_FIELD_MODEL->getRecordOperators()}
 		{/if}
 		{if empty($SELECTED_OPERATOR) && !empty($CONDITIONS_ROW)}
 			{assign var=SELECTED_OPERATOR value=$CONDITIONS_ROW['operator']}

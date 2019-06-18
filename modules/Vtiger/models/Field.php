@@ -1493,13 +1493,34 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
-	 * Return allowed operators for field.
+	 * Return allowed query operators for field.
 	 *
 	 * @return string[]
 	 */
-	public function getOperators()
+	public function getQueryOperators():array
 	{
-		$operators = $this->getUITypeModel()->getOperators();
+		$operators = $this->getUITypeModel()->getQueryOperators();
+		$oper = [];
+		foreach ($operators as $op) {
+			$label = '';
+			if (isset(\App\Condition::STANDARD_OPERATORS[$op])) {
+				$label = \App\Condition::STANDARD_OPERATORS[$op];
+			}
+			if (isset(\App\Condition::DATE_OPERATORS[$op])) {
+				$label = \App\Condition::DATE_OPERATORS[$op]['label'];
+			}
+			$oper[$op] = $label;
+		}
+		return $oper;
+	}
+	/**
+	 * Return allowed record operators for field.
+	 *
+	 * @return string[]
+	 */
+	public function getRecordOperators():array
+	{
+		$operators = $this->getUITypeModel()->getRecordOperators();
 		$oper = [];
 		foreach ($operators as $op) {
 			$label = '';
