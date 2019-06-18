@@ -82,6 +82,13 @@ class Condition
 	const OPERATORS_WITHOUT_VALUES = ['y', 'ny', 'om', 'ogr', 'wr', 'nwr'];
 
 	/**
+	 * Vtiger_Record_Model instance cache.
+	 *
+	 * @var Vtiger_Record_Model[]
+	 */
+	private static $recordCache = [];
+
+	/**
 	 * Checks structure search_params.
 	 *
 	 * @param string $moduleName
@@ -177,8 +184,86 @@ class Condition
 		return $conditions;
 	}
 
-	public static function checkCondition($condition, \Vtiger_Record_Model $recordModel, \Vtiger_Record_Model $referredRecordModel = null): bool
+	/**
+	 * Check all conditions.
+	 *
+	 * @param array                $conditions
+	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return bool
+	 */
+	public static function checkConditions(array $conditions, \Vtiger_Record_Model $recordModel): bool
 	{
-		return true;
+		\var_dump($conditions);
+		return self::parseConditions($conditions, $recordModel);
+	}
+
+	/**
+	 * Parse conditions.
+	 *
+	 * @param array|null           $conditions
+	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return bool
+	 */
+	private static function parseConditions(?array $conditions, \Vtiger_Record_Model $recordModel): bool
+	{
+		if (empty($conditions)) {
+			return true;
+		}
+		$result = false;
+		$andCondition = 'AND' === $conditions['condition'];
+		foreach ($conditions['rules'] as $rule) {
+			if (isset($rule['condition'])) {
+				$ruleResult = self::parseConditions($rule, $recordModel);
+			} else {
+				$ruleResult = self::checkCondition($rule, $recordModel);
+			}
+			if (!$andCondition && $ruleResult) {
+				$result = true;
+				break;
+			}
+			if ($andCondition && !$ruleResult) {
+				$result = false;
+				break;
+			}
+			$result = $ruleResult;
+		}
+		return $result;
+	}
+
+	/**
+	 * Check one condition.
+	 *
+	 * @param array                $rule
+	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return bool
+	 */
+	public static function checkCondition(array $rule, \Vtiger_Record_Model $recordModel): bool
+	{
+		[$moduleName, $fieldName, $sourceFieldName] = array_pad(explode(':', $rule['fieldname']), 3, false);
+		if (!empty($sourceFieldName)) {
+			$sourceRecordModel = self::$recordCache[$recordModel->get($sourceFieldName)] ?? \Vtiger_Record_Model::getInstanceById($recordModel->get($sourceFieldName));
+			$fieldModel = $sourceRecordModel->getField($fieldName);
+		} elseif ($recordModel->getModuleName() === $moduleName) {
+			$fieldModel = $recordModel->getField($fieldName);
+		}
+		if (empty($fieldModel)) {
+			Log::error("Not found field model | Field name: $fieldName | Module: $moduleName", 'Condition');
+			throw new \App\Exceptions\AppException('ERR_NOT_FOUND_FIELD_MODEL|' . $fieldName);
+		}
+		$className = '\App\Conditions\RecordFields\\' . ucfirst($fieldModel->getFieldDataType()) . 'Field';
+		if (!class_exists($className)) {
+			Log::error("Not found record field condition | Field name: $fieldName | Module: $moduleName | FieldDataType: " . ucfirst($fieldModel->getFieldDataType()), 'Condition');
+			throw new \App\Exceptions\AppException("ERR_NOT_FOUND_QUERY_FIELD_CONDITION|$fieldName|$className");
+		}
+		if (!empty($sourceFieldName)) {
+			$recordField = new $className($sourceRecordModel, $fieldModel, $rule);
+			$recordField->setSource($recordModel, $sourceFieldName);
+		} else {
+			$recordField = new $className($recordModel, $fieldModel, $rule);
+		}
+		return $recordField->check();
 	}
 }
