@@ -16,11 +16,11 @@ class IStorages_RelationListView_Model extends Vtiger_RelationListView_Model
 			$qtyInStock = new Vtiger_Field_Model();
 			$qtyInStock->setModule(Vtiger_Module_Model::getInstance('Products'));
 			$qtyInStock->set('name', 'qtyproductinstock');
-			$qtyInStock->set('column', 'qtyproductinstock');
+			$qtyInStock->set('column', $qtyInStock->getName());
 			$qtyInStock->set('label', 'FL_QTY_IN_STOCK');
 			$qtyInStock->set('fieldDataType', 'double');
 			$qtyInStock->set('fromOutsideList', true);
-			$headerFields['qtyproductinstock'] = $qtyInStock;
+			$headerFields[$qtyInStock->getName()] = $qtyInStock;
 		}
 		return $headerFields;
 	}
