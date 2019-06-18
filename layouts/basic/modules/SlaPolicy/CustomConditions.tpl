@@ -16,6 +16,7 @@
 		</thead>
 		<tbody>
 		{foreach item=ROW from=$ROWS key=$ROW_INDEX}
+			{if $ROW['policy_type']===2}
 			<tr class="js-custom-table-row" data-id="{$ROW['id']}" data-js="container">
 				<td class="js-conditions-col">
 					<input type="hidden" name="rowid[{$ROW_INDEX}]" value="{$ROW['id']}" class="js-custom-row-id" />
@@ -60,6 +61,7 @@
 					</div>
 				</td>
 			</tr>
+			{/if}
 		{/foreach}
 		</tbody>
 	</table>
