@@ -194,7 +194,6 @@ class Condition
 	 */
 	public static function checkConditions(array $conditions, \Vtiger_Record_Model $recordModel): bool
 	{
-		\var_dump($conditions);
 		return self::parseConditions($conditions, $recordModel);
 	}
 
