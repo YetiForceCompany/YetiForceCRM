@@ -185,6 +185,10 @@ class Composer
 		$rootDir = realpath(__DIR__ . '/../../') . \DIRECTORY_SEPARATOR;
 		$dirLibraries = $rootDir . 'public_html' . \DIRECTORY_SEPARATOR . 'src' . \DIRECTORY_SEPARATOR . 'node_modules' . \DIRECTORY_SEPARATOR;
 		$dataEncode = [];
+		if (!\is_dir($dirLibraries)) {
+			echo 'Skipping file generation libraries.json' . PHP_EOL;
+			return false;
+		}
 		foreach (new \DirectoryIterator($dirLibraries) as $level1) {
 			if ($level1->isDir() && !$level1->isDot()) {
 				$fileName = $level1->getFilename();
