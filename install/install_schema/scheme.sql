@@ -3299,19 +3299,19 @@ CREATE TABLE `u_yf_scalculationscf` (
 
 CREATE TABLE `u_yf_servicecontracts_sla_policy` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `recordid` int(11) NOT NULL,
+  `crmid` int(11) NOT NULL,
   `policy_type` tinyint(1) NOT NULL DEFAULT 0,
   `sla_policy_id` int(11) DEFAULT NULL,
-  `operational_hours` tinyint(1) NOT NULL DEFAULT 0,
-  `tabid` tinyint(5) NOT NULL,
+  `tabid` smallint(5) NOT NULL,
   `conditions` text NOT NULL,
   `reaction_time` varchar(20) NOT NULL DEFAULT '0:H',
   `idle_time` varchar(20) NOT NULL DEFAULT '0:H',
   `resolve_time` varchar(20) NOT NULL DEFAULT '0:H',
   `business_hours` text NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `recordid_idx` (`recordid`),
+  KEY `fk_crmid_idx` (`crmid`),
   KEY `fk_sla_policy_idx` (`sla_policy_id`),
+  CONSTRAINT `fk_crmid_idx` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,
   CONSTRAINT `fk_sla_policy_idx` FOREIGN KEY (`sla_policy_id`) REFERENCES `s_yf_sla_policy` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
