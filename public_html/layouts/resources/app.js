@@ -25,9 +25,15 @@ var App = (window.App = {
 						slef.treeInstance = container;
 						slef.treeInstance
 							.on('select_node.jstree', function(e, data) {
+								if (data.event !== undefined && $(data.event.target).hasClass('jstree-checkbox')) {
+									return;
+								}
 								data.instance.select_node(data.node.children_d);
 							})
 							.on('deselect_node.jstree', function(e, data) {
+								if (data.event !== undefined && $(data.event.target).hasClass('jstree-checkbox')) {
+									return;
+								}
 								data.instance.deselect_node(data.node.children_d);
 							})
 							.jstree({
