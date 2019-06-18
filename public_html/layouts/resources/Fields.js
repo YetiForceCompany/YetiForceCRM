@@ -1009,7 +1009,7 @@ window.App.Fields = {
 			const computeDropdownHeight = (e, dropdownContainer) => {
 				setTimeout(() => {
 					if (!dropdownContainer.find('.select2-dropdown--above').length) {
-						const dropdownList = dropdownContainer.find('.select2-results__options');
+						const dropdownList = dropdownContainer.find('.select2-results > .select2-results__options');
 						const marginBottom = 35;
 						const selectOffsetTop = $(e.currentTarget).offset().top;
 						dropdownList.css({

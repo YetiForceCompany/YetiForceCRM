@@ -33,6 +33,7 @@
             </q-tooltip>
           </div>
           <template v-if="record.short_modifiedtime">
+            <q-separator dark vertical spaced />
             <div>
               <q-icon name="mdi-square-edit-outline" size="15px"></q-icon>
               {{ record.short_modifiedtime }}
