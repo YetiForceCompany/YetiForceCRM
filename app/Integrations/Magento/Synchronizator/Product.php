@@ -28,6 +28,7 @@ class Product extends Integrators\Product
 			$this->config::setScan('product');
 			$this->lastScan = $this->config::getLastScan('product');
 		}
+		$this->getProductSkuMap();
 		$this->getMapping('product');
 		$resultCrm = $this->checkProductsCrm();
 		$result = $this->checkProducts();
@@ -43,20 +44,18 @@ class Product extends Integrators\Product
 	public function checkProductsCrm(): bool
 	{
 		$result = false;
-		$this->getProductSkuMap();
 		$productsCrm = $this->getProductsCrm();
-		$products = $this->getProducts($this->getFormattedRecordsIds(array_keys($productsCrm)));
 		if (!empty($productsCrm)) {
+			$products = $this->getProducts($this->getFormattedRecordsIds(array_keys($productsCrm)));
 			foreach ($productsCrm as $id => $productCrm) {
-				$productCrm['productid'] = $id;
 				if (isset($this->map[$id], $products[$this->map[$id]])) {
-					$productData = $this->getProductFullData($this->mapSku[$this->map[$id]]);
+					$productData = $this->getProductFullData($this->mapIdToSku[$this->map[$id]]);
 					$checkImages = $this->checkImages($productData, $productCrm);
 					if (!empty($checkImages) || $this->hasChanges($productCrm, $productData)) {
 						if (self::MAGENTO === $this->whichToUpdate($productCrm, $productData)) {
 							$this->updateProduct($this->map[$id], $productCrm);
 							if (!empty($checkImages['add']) || !empty($checkImages['remove'])) {
-								$this->updateImages($this->mapSku[$this->map[$id]], $checkImages);
+								$this->updateImages($this->mapIdToSku[$this->map[$id]], $checkImages);
 							}
 						} else {
 							$this->updateProductCrm($id, $productData);
@@ -88,8 +87,8 @@ class Product extends Integrators\Product
 		$allChecked = false;
 		try {
 			$products = $this->getProducts();
-			$productsCrm = $this->getProductsCrm($this->getFormattedRecordsIds(array_keys($products), self::YETIFORCE));
 			if (!empty($products)) {
+				$productsCrm = $this->getProductsCrm($this->getFormattedRecordsIds(array_keys($products), self::YETIFORCE));
 				foreach ($products as $id => $product) {
 					$productData = $this->getProductFullData($product['sku']);
 					if (isset($this->mapCrm[$id], $productsCrm[$this->mapCrm[$id]])) {
@@ -98,7 +97,7 @@ class Product extends Integrators\Product
 							if (self::MAGENTO === $this->whichToUpdate($productsCrm[$this->mapCrm[$id]], $productData)) {
 								$this->updateProduct($id, $productsCrm[$this->mapCrm[$id]]);
 								if (!empty($checkImages['add']) || !empty($checkImages['remove'])) {
-									$this->updateImages($this->mapSku[$this->map[$id]], $checkImages);
+									$this->updateImages($this->mapIdToSku[$this->map[$id]], $checkImages);
 								}
 							} else {
 								$this->updateProductCrm($this->mapCrm[$id], $productData);
@@ -106,6 +105,9 @@ class Product extends Integrators\Product
 									$this->updateImagesCrm($this->mapCrm[$id], $checkImages['addCrm']);
 								}
 							}
+						}
+						if ('grouped' === $productData['type_id']) {
+							$this->updateBundleProducts($this->mapCrm[$id], $productData['product_links'], $productsCrm[$this->mapCrm[$id]]['related']);
 						}
 					} elseif (isset($this->mapCrm[$id]) && !isset($productsCrm[$this->mapCrm[$id]])) {
 						$this->deleteProduct($id);
@@ -134,10 +136,9 @@ class Product extends Integrators\Product
 		$allChecked = false;
 		try {
 			$this->getMapping('product', $this->lastScan['idmap'], \App\Config::component('Magento', 'productLimit'));
-			$mapKeys = array_keys($this->map);
-			if (!empty($mapKeys)) {
-				$productsCrm = $this->getProductsCrm($mapKeys);
-				$products = $this->getProducts($this->getFormattedRecordsIds($mapKeys));
+			if (!empty($this->mapKeys)) {
+				$productsCrm = $this->getProductsCrm($this->mapKeys);
+				$products = $this->getProducts($this->getFormattedRecordsIds($this->mapKeys));
 				if ($diffedRecords = \array_diff_key($this->map, $productsCrm)) {
 					foreach ($diffedRecords as $idCrm => $id) {
 						$this->deleteProduct($id);
@@ -169,8 +170,8 @@ class Product extends Integrators\Product
 	 */
 	public function getProductsCrm(array $ids = []): array
 	{
-		$queryGenerator = new \App\QueryGenerator('Products');
-		$query = $queryGenerator->createQuery();
+		$query = (new \App\QueryGenerator('Products'))->createQuery();
+		$productsCrm = [];
 		if (!empty($ids)) {
 			$query->andWhere(['IN', 'productid', $ids]);
 		} else {
@@ -181,7 +182,28 @@ class Product extends Integrators\Product
 			}
 			$query->limit(\App\Config::component('Magento', 'productLimit'));
 		}
-		return $query->createCommand()->queryAllByGroup(1);
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$row['related'] = $this->getRelatedProductsCrm($row['productid']);
+			$productsCrm[$row['productid']] = $row;
+		}
+		return $productsCrm;
+	}
+
+	/**
+	 * Method to get related products of given product id.
+	 *
+	 * @param $id
+	 *
+	 * @throws \App\Exceptions\NotAllowedMethod
+	 *
+	 * @return array
+	 */
+	public function getRelatedProductsCrm($id): array
+	{
+		$parentRecordModel = \Vtiger_Record_Model::getInstanceById($id, 'Products');
+		$relationModel = \Vtiger_Relation_Model::getInstance($parentRecordModel->getModule(), $parentRecordModel->getModule())->set('parentRecord', $parentRecordModel)->set('query_generator', null);
+		return $relationModel->getQuery()->setFields(['id'])->createQuery()->column();
 	}
 
 	/**
@@ -189,13 +211,14 @@ class Product extends Integrators\Product
 	 *
 	 * @param array $data
 	 *
-	 * @throws \Exception
+	 * @return int
 	 */
-	public function saveProductCrm(array $data): void
+	public function saveProductCrm(array $data): int
 	{
 		$productFields = new \App\Integrations\Magento\Synchronizator\Maps\Product();
 		$productFields->setData($data);
 		$dataCrm = $productFields->getDataCrm();
+		$value = 0;
 		if (!empty($dataCrm)) {
 			try {
 				$recordModel = \Vtiger_Record_Model::getCleanInstance('Products');
@@ -203,8 +226,79 @@ class Product extends Integrators\Product
 				$this->saveImagesCrm($recordModel, $data['media_gallery_entries']);
 				$recordModel->save();
 				$this->saveMapping($data['id'], $recordModel->getId(), 'product');
+				$this->saveBundleProducts($recordModel, $data['product_links']);
+				$value = $recordModel->getId();
 			} catch (\Throwable $ex) {
 				\App\Log::error('Error during saving yetiforce product: ' . $ex->getMessage(), 'Integrations/Magento');
+			}
+		}
+		return $value;
+	}
+
+	/**
+	 * Update bundle products.
+	 *
+	 * @param $idCrm
+	 * @param $bundleProducts
+	 * @param $bundleProductsCrm
+	 *
+	 * @throws \Exception
+	 */
+	public function updateBundleProducts($idCrm, $bundleProducts, $bundleProductsCrm): void
+	{
+		$saveProducts = [];
+		$recordModel = \Vtiger_Record_Model::getInstanceById($idCrm, 'Products');
+		foreach ($bundleProducts as $bundleProduct) {
+			$id = $this->mapSkuToId[$bundleProduct['linked_product_sku']];
+			if (!isset($this->mapCrm[$id]) || !\in_array($this->mapCrm[$id], $bundleProductsCrm)) {
+				$saveProducts[] = $bundleProduct;
+			}
+			unset($bundleProductsCrm[array_search($this->mapCrm[$id], $bundleProductsCrm)]);
+		}
+		$this->saveBundleProducts($recordModel, $saveProducts);
+		$this->deleteBundleProducts($recordModel, $bundleProductsCrm);
+	}
+
+	/**
+	 * Save bundle products.
+	 *
+	 * @param $recordModel
+	 * @param $products
+	 *
+	 * @throws \Exception
+	 */
+	public function saveBundleProducts($recordModel, $products): void
+	{
+		if (!empty($products)) {
+			$relationModel = \Vtiger_Relation_Model::getInstance($recordModel->getModule(), $recordModel->getModule());
+			foreach ($products as $product) {
+				if ('bundle' === $product['linked_product_type']) {
+					$productId = $this->mapSkuToId[$product['linked_product_sku']];
+					if (isset($this->mapCrm[$productId])) {
+						$relationModel->addRelation($recordModel->getId(), $this->mapCrm[$productId]);
+					} else {
+						$productIdCrm = $this->saveProductCrm($this->getProductFullData($product['linked_product_sku']));
+						if ($productIdCrm) {
+							$relationModel->addRelation($recordModel->getId(), $productIdCrm);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Delete bundle products.
+	 *
+	 * @param $recordModel
+	 * @param $products
+	 */
+	public function deleteBundleProducts($recordModel, $products): void
+	{
+		if (!empty($products)) {
+			$relationModel = \Vtiger_Relation_Model::getInstance($recordModel->getModule(), $recordModel->getModule());
+			foreach ($products as $product) {
+				$relationModel->deleteRelation($recordModel->getId(), $product);
 			}
 		}
 	}
@@ -249,13 +343,19 @@ class Product extends Integrators\Product
 			foreach ($images as $image) {
 				if (isset($image['file'])) {
 					$url = $imagePath . $image['file'];
-					$fileInstance = \App\Fields\File::saveImageFromUrl($url, 'Products');
-					$imagesData[] = [
-						'name' => $fileInstance['name'],
-						'size' => $fileInstance['size'],
-						'key' => $fileInstance['key'],
-						'path' => $fileInstance['path']
-					];
+					try {
+						$fileInstance = \App\Fields\File::saveImageFromUrl($url, 'Products');
+						if (!empty($fileInstance)) {
+							$imagesData[] = [
+								'name' => $fileInstance['name'],
+								'size' => $fileInstance['size'],
+								'key' => $fileInstance['key'],
+								'path' => $fileInstance['path']
+							];
+						}
+					} catch (\Exception $ex) {
+						\App\Log::error('Error during saving product image in yetiforce: ' . $ex->getMessage(), 'Integrations/Magento');
+					}
 				} else {
 					$imagesData[] = $image;
 				}

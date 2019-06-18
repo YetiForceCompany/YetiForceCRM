@@ -18,11 +18,17 @@ namespace App\Integrations\Magento\Synchronizator\Integrators;
 abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 {
 	/**
-	 * Mapped magento sku.
+	 * Mapped magento id to sku.
 	 *
 	 * @var array
 	 */
-	public $mapSku = [];
+	public $mapIdToSku = [];
+	/**
+	 * Mapped magento sku to id.
+	 *
+	 * @var array
+	 */
+	public $mapSkuToId = [];
 
 	/**
 	 * Method to update product in Magento.
@@ -30,19 +36,16 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 	 * @param int   $productId
 	 * @param array $product
 	 *
-	 * @throws \App\Exceptions\AppException
-	 *
 	 * @return bool
 	 */
 	public function updateProduct(int $productId, array $product): bool
 	{
-		$this->getProductSkuMap();
 		$result = false;
-		if (!empty($this->mapSku[$productId])) {
+		if (!empty($this->mapIdToSku[$productId])) {
 			try {
 				$productFields = new \App\Integrations\Magento\Synchronizator\Maps\Product();
 				$productFields->setDataCrm($product);
-				$this->connector->request('PUT', 'rest/all/V1/products/' . $this->mapSku[$productId], ['product' => $productFields->getData()]);
+				$this->connector->request('PUT', 'rest/all/V1/products/' . $this->mapIdToSku[$productId], ['product' => $productFields->getData()]);
 				$result = true;
 			} catch (\Throwable $ex) {
 				\App\Log::error('Error during updating magento product: ' . $ex->getMessage(), 'Integrations/Magento');
@@ -68,7 +71,7 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 		];
 		$productFields = new \App\Integrations\Magento\Synchronizator\Maps\Product();
 		$productFields->setDataCrm($product);
-		$data['product'] = \array_merge($data['product'], $productFields->getData());
+		$data['product'] = \array_merge_recursive($data['product'], $productFields->getData());
 		try {
 			$productRequest = \App\Json::decode($this->connector->request('POST', '/rest/all/V1/products/',
 				$data
@@ -94,9 +97,8 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 	 */
 	public function deleteProduct(int $productId): bool
 	{
-		$this->getProductSkuMap();
 		try {
-			$this->connector->request('DELETE', '/rest/all/V1/products/' . $this->mapSku[$productId], []);
+			$this->connector->request('DELETE', '/rest/all/V1/products/' . $this->mapIdToSku[$productId], []);
 			$this->deleteMapping($productId, $this->mapCrm[$productId]);
 			$result = true;
 		} catch (\Throwable $ex) {
@@ -113,12 +115,13 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 	 */
 	public function getProductSkuMap(): void
 	{
-		if (empty($this->mapSku)) {
+		if (empty($this->mapIdToSku)) {
 			$data = \App\Json::decode($this->connector->request('GET', 'rest/all/V1/products?fields=items[id,sku]&searchCriteria'));
 			if (!empty($data['items'])) {
 				foreach ($data['items'] as $item) {
-					$this->mapSku[$item['id']] = $item['sku'];
+					$this->mapIdToSku[$item['id']] = $item['sku'];
 				}
+				$this->mapSkuToId = \array_flip($this->mapIdToSku);
 			}
 		}
 	}
@@ -158,7 +161,7 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 		try {
 			$data = \App\Json::decode($this->connector->request('GET', "rest/all/V1/products/$sku"));
 		} catch (\Throwable $ex) {
-			\App\Log::error('Error during deleting magento product: ' . $ex->getMessage(), 'Integrations/Magento');
+			\App\Log::error('Error during getting magento product data: ' . $ex->getMessage(), 'Integrations/Magento');
 		}
 		return $data;
 	}
@@ -208,7 +211,7 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 			$this->saveImages($sku, $imagesData['add']);
 		}
 		if (!empty($imagesData['remove'])) {
-			$this->deleteImages($sku, $imagesData['delete']);
+			$this->removeImages($sku, $imagesData['remove']);
 		}
 	}
 

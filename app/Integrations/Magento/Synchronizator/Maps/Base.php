@@ -21,6 +21,13 @@ abstract class Base
 	 */
 	public static $mappedFields = [];
 	/**
+	 * Mapped fields type.
+	 *
+	 * @var array
+	 */
+	public static $fieldsType = [];
+
+	/**
 	 * Fields which can not be updated.
 	 *
 	 * @var array
@@ -112,7 +119,7 @@ abstract class Base
 	{
 		$data = [];
 		foreach ($this->getFields($onEdit) as $fieldCrm => $field) {
-			$data = \array_merge($data, $this->getFieldValueCrm($fieldCrm, true));
+			$data = \array_merge_recursive($data, $this->getFieldValueCrm($fieldCrm, true));
 		}
 		return $data;
 	}
@@ -128,7 +135,7 @@ abstract class Base
 	{
 		$data = [];
 		foreach ($this->getFields($onEdit) as $fieldCrm => $field) {
-			$data[$fieldCrm] = $this->getFieldValue($field, true) ?? false;
+			$data[$fieldCrm] = $this->getFieldValue($field) ?? null;
 		}
 		return $data;
 	}
@@ -147,44 +154,51 @@ abstract class Base
 			foreach (explode('|', $fieldName) as $fieldLevel) {
 				$fieldParsed = $fieldParsed[$fieldLevel];
 			}
-			if ($parsedStructure) {
-				$data[$this->getFieldName($fieldName)] = $fieldParsed;
-			} else {
-				$data = $fieldParsed;
-			}
 		} else {
-			$data = $this->{$methodName}($parsedStructure);
+			$fieldParsed = $this->{$methodName}();
+		}
+		if ($parsedStructure) {
+			$data = $this->getFieldStructure($fieldName, $fieldParsed);
+		} else {
+			$data = $fieldParsed;
 		}
 		return $data ?? 0;
 	}
 
 	/**
 	 * @param $fieldName
-	 * @param bool $parsedStructure
 	 *
 	 * @return array|mixed
 	 */
-	public function getFieldValue($fieldName, $parsedStructure = false)
+	public function getFieldValue($fieldName)
 	{
 		$methodName = 'getCrm' . \ucfirst($this->getFieldNameCrm($fieldName));
+		$fieldLevels = explode('|', $fieldName);
 		if (!\method_exists($this, $methodName)) {
 			$fieldParsed = $this->data;
-			$fieldLevels = explode('|', $fieldName);
 			if (\count($fieldLevels) > 1) {
-				foreach ($fieldLevels as $fieldLevel) {
-					if (isset($fieldParsed[$fieldLevel])) {
-						$fieldParsed = $fieldParsed[$fieldLevel];
-					} else {
-						break;
+				if ('custom_attributes' === $fieldLevels[0]) {
+					$fieldParsed = $this->getCustomAttributeValue(end($fieldLevels));
+				} else {
+					foreach ($fieldLevels as $fieldLevel) {
+						if (array_key_exists($fieldLevel, $fieldParsed)) {
+							$fieldParsed = $fieldParsed[$fieldLevel];
+						} else {
+							break;
+						}
 					}
 				}
 			} else {
-				$fieldParsed = $fieldParsed[$fieldName] ?? 0;
+				$fieldParsed = $fieldParsed[$fieldName] ?? null;
+			}
+			$parsedFieldName = $this->getFieldNameCrm($fieldName);
+			if (isset(static::$fieldsType[$parsedFieldName]) && 'map' === static::$fieldsType[$parsedFieldName]) {
+				$fieldParsed = static::${$parsedFieldName}[$fieldParsed] ?? null;
 			}
 		} else {
-			$fieldParsed = $this->{$methodName}($parsedStructure);
+			$fieldParsed = $this->{$methodName}();
 		}
-		return $fieldParsed ?? 0;
+		return $fieldParsed;
 	}
 
 	/**
@@ -218,12 +232,19 @@ abstract class Base
 	 */
 	public function getFieldStructure($name, $value): array
 	{
+		if (empty($value)) {
+			$value = null;
+		}
 		$fieldStructure = [];
 		$fieldLevels = array_reverse(explode('|', static::$mappedFields[$name]));
-		$fieldStructure[array_shift($fieldLevels)] = $value;
-		foreach ($fieldLevels as $level) {
-			$fieldStructure[$level] = $fieldStructure;
-			unset($fieldStructure[key($fieldStructure)]);
+		if (\in_array('custom_attributes', $fieldLevels)) {
+			$fieldStructure[end($fieldLevels)][] = ['attribute_code' => array_shift($fieldLevels), 'value' => $value];
+		} else {
+			$fieldStructure[array_shift($fieldLevels)] = $value;
+			foreach ($fieldLevels as $level) {
+				$fieldStructure[$level] = $fieldStructure;
+				unset($fieldStructure[key($fieldStructure)]);
+			}
 		}
 		return $fieldStructure;
 	}

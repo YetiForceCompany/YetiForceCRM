@@ -18,13 +18,30 @@ class Product extends Base
 	 * {@inheritdoc}
 	 */
 	public static $mappedFields = [
+		'discontinued' => 'status',
 		'ean' => 'sku',
 		'productname' => 'name',
+		'multicategory' => 'custom_attributes|category_ids',
 		'unit_price' => 'price',
 		'qtyinstock' => 'extension_attributes|stock_item|qty',
 		'description' => 'custom_attributes|description',
 		'usageunit' => 'custom_attributes|rozmiar',
+		'flag' => 'custom_attributes|flag',
 		'weight' => 'weight',
+	];
+	/**
+	 * {@inheritdoc}
+	 */
+	public static $fieldsType = [
+		'discontinued' => 'map',
+		'ean' => 'value',
+		'productname' => 'value',
+		'unit_price' => 'value',
+		'qtyinstock' => 'value',
+		'description' => 'value',
+		'usageunit' => 'map',
+		'flag' => 'map',
+		'weight' => 'value',
 	];
 	/**
 	 * {@inheritdoc}
@@ -41,78 +58,82 @@ class Product extends Base
 		'6' => 'pack',
 		'7' => 'kg'
 	];
+	/**
+	 * Flag value map.
+	 *
+	 * @var array
+	 */
+	public static $flag = [
+		'135' => 'PLL_NEW',
+		'136' => 'PLL_PROMOTION',
+		'137' => 'PLL_BESTSELLER',
+		'186' => 'PLL_NONE'
+	];
+	/**
+	 * Discontinued value map.
+	 *
+	 * @var array
+	 */
+	public static $discontinued = [
+		'1' => '1',
+		'0' => '2',
+	];
+	/**
+	 * Category model.
+	 *
+	 * @var object
+	 */
+	public $category = false;
 
 	/**
 	 * Method to get sku or name if ean does not exist.
 	 *
 	 * @param mixed $parsedStructure
 	 *
-	 * @return array
+	 * @return string
 	 */
-	public function getSku($parsedStructure = false): array
+	public function getSku(): string
 	{
-		$fieldValue = !empty($this->dataCrm['ean']) ? $this->dataCrm['ean'] : \App\TextParser::textTruncate($this->dataCrm['productname'], 60, false);
-		if ($parsedStructure) {
-			$data = ['sku' => $fieldValue];
-		}
-		return $data ?? $fieldValue;
+		return !empty($this->dataCrm['ean']) ? $this->dataCrm['ean'] : \App\TextParser::textTruncate($this->dataCrm['productname'], 60, false);
 	}
 
 	/**
-	 * Get description parsed for CRM.
+	 * Method to get parsed categories ids.
+	 *
+	 * @return array
+	 */
+	public function getCategory_ids(): array
+	{
+		$parsedCategories = [];
+		if (false === $this->category) {
+			$this->category = new \App\Integrations\Magento\Synchronizator\Category();
+			$this->category->getCategoryMapping();
+		}
+		$categories = array_filter(explode(',', str_replace('T', '', $this->dataCrm['multicategory'])));
+		foreach ($categories as $category) {
+			if (isset($this->category->mapCategoryMagento[$category])) {
+				$parsedCategories[] = $this->category->mapCategoryMagento[$category];
+			}
+		}
+		return $parsedCategories;
+	}
+
+	/**
+	 * Method to get parsed categories ids.
 	 *
 	 * @return string
 	 */
-	public function getCrmDescription(): string
+	public function getCrmMulticategory(): string
 	{
-		return $this->getCustomAttributeValue('description') ?? '';
-	}
-
-	/**
-	 * Get description parsed for Magento.
-	 *
-	 * @param mixed $parsedStructure
-	 *
-	 * @return array|string
-	 */
-	public function getDescription($parsedStructure = false)
-	{
-		return $parsedStructure ? $this->getFieldStructure('description', $this->dataCrm['description']) : $this->dataCrm['description'];
-	}
-
-	/**
-	 * Get quantity parsed for Magento.
-	 *
-	 * @param mixed $parsedStructure
-	 *
-	 * @return array|int
-	 */
-	public function getQty($parsedStructure = false)
-	{
-		return $parsedStructure ? $this->getFieldStructure('qtyinstock', $this->dataCrm['qtyinstock']) : $this->dataCrm['qtyinstock'];
-	}
-
-	/**
-	 * Get usageunit parsed for CRM.
-	 *
-	 * @return mixed
-	 */
-	public function getCrmUsageunit()
-	{
-		return static::$usageunit[$this->getCustomAttributeValue('rozmiar')] ?? '';
-	}
-
-	/**
-	 * Get usageunit parsed for Magento.
-	 *
-	 * @param bool $parsedStructure
-	 *
-	 * @return array
-	 */
-	public function getRozmiar($parsedStructure = false)
-	{
-		$map = \array_flip(static::$usageunit);
-		$value = $map[$this->dataCrm['usageunit']] ?? 0;
-		return $parsedStructure ? $this->getFieldStructure('usageunit', $value) : $value;
+		$parsedCategories = '';
+		if (false === $this->category) {
+			$this->category = new \App\Integrations\Magento\Synchronizator\Category();
+			$this->category->getCategoryMapping();
+		}
+		$categories = $this->getCustomAttributeValue('category_ids');
+		foreach ($categories as $category) {
+			$parsedCategories .= ',T' . $this->category->mapCategoryYF[$category];
+		}
+		return $parsedCategories;
 	}
 }

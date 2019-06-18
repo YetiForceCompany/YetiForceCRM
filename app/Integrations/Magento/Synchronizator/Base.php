@@ -37,6 +37,13 @@ abstract class Base
 	 * @var array
 	 */
 	public $mapCrm = [];
+
+	/**
+	 * Records map keys from magento.
+	 *
+	 * @var array
+	 */
+	public $mapKeys = [];
 	/**
 	 * Last scan config data.
 	 *
@@ -110,6 +117,7 @@ abstract class Base
 			->orderBy(['id' => SORT_ASC])
 			->createCommand()->queryAllByGroup(0) ?? [];
 		$this->mapCrm = \array_flip($this->map);
+		$this->mapKeys = \array_keys($this->map);
 	}
 
 	/**
