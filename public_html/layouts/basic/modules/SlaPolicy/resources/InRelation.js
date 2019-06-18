@@ -147,7 +147,24 @@ class SlaPolicy_InRelation_Js {
 		ev.preventDefault();
 		ev.stopPropagation();
 		const policyType = Number(this.container.find('[name="policy_type"]:checked').val());
+		const policyId = Number(this.container.find('[name="policy_id"]:checked').val());
 		if (policyType === 2 && !this.container.validationEngine('validate')) {
+			return;
+		}
+		if (policyType === 2 && !this.container.find('.js-custom-table-row').length) {
+			Vtiger_Helper_Js.showPnotify({
+				text: app.vtranslate('JS_NO_ITEM_SELECTED'),
+				type: 'notice',
+				animation: 'show'
+			});
+			return;
+		}
+		if (policyType === 1 && isNaN(policyId)) {
+			Vtiger_Helper_Js.showPnotify({
+				text: app.vtranslate('JS_NO_ITEM_SELECTED'),
+				type: 'notice',
+				animation: 'show'
+			});
 			return;
 		}
 		const progress = jQuery.progressIndicator({
@@ -162,7 +179,7 @@ class SlaPolicy_InRelation_Js {
 		params.targetModule = this.targetModule;
 		params.recordId = $('#recordId').val();
 		params.policyType = policyType;
-		params.policyId = Number(this.container.find('[name="policy_id"]:checked').val());
+		params.policyId = policyId;
 		AppConnector.request({ data: params }).done(data => {
 			progress.progressIndicator({ mode: 'hide' });
 			if (Array.isArray(data.result)) {
