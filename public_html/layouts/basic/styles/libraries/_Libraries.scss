@@ -97,9 +97,18 @@ select[readonly].select2-hidden-accessible + .select2-container {
 	}
 }
 
-.listViewPageDiv select.select2, //prevent select2 container from changing height when select2 is reloading
-.listViewPageDiv .select2noactive {
-	height: calculate-rem(38px) !important;
+select.select2 { //prevent select2 container from changing height when select2 is reloading
+	height: $input-height  !important;
+}
+
+.input-group-sm {
+	select.select2 { //prevent select2 container from changing height when select2 is reloading
+		height: $input-height-sm  !important;
+	}
+}
+
+.form-control-sm.select2 {
+	height: $input-height-sm  !important;
 }
 
 .input-group > .select2-container--bootstrap {
