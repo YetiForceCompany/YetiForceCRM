@@ -21,7 +21,7 @@
             <q-icon size="1.5em" name="mdi-chevron-right" />
             <span v-html="record.category" class="flex items-center"></span>
             <q-tooltip>
-              {{ translate('JS_CATEGORY') }}
+              {{ translate('JS_KB_CATEGORY') }}
             </q-tooltip>
           </div>
           <q-separator dark vertical spaced />
@@ -29,7 +29,7 @@
             <q-icon name="mdi-calendar-clock" size="15px"></q-icon>
             {{ record.short_createdtime }}
             <q-tooltip>
-              {{ translate('JS_CREATED') + ': ' + record.full_createdtime }}
+              {{ translate('JS_KB_CREATED') + ': ' + record.full_createdtime }}
             </q-tooltip>
           </div>
           <template v-if="record.short_modifiedtime">
@@ -37,7 +37,7 @@
               <q-icon name="mdi-square-edit-outline" size="15px"></q-icon>
               {{ record.short_modifiedtime }}
               <q-tooltip>
-                {{ translate('JS_MODIFIED') + ': ' + record.full_modifiedtime }}
+                {{ translate('JS_KB_MODIFIED') + ': ' + record.full_modifiedtime }}
               </q-tooltip>
             </div>
           </template>
@@ -64,7 +64,7 @@
             :icon="previewMaximized ? 'mdi-window-restore' : 'mdi-window-maximize'"
             @click="previewMaximized = !previewMaximized"
           >
-            <q-tooltip>{{ previewMaximized ? translate('JS_MINIMIZE') : translate('JS_MAXIMIZE') }}</q-tooltip>
+            <q-tooltip>{{ previewMaximized ? translate('JS_KB_MINIMIZE') : translate('JS_KB_MAXIMIZE') }}</q-tooltip>
           </q-btn>
         </template>
         <q-btn dense flat icon="mdi-close" v-close-popup>
@@ -91,7 +91,7 @@
       </div>
       <div v-if="hasRelatedComments">
         <q-separator />
-        <div class="q-pa-md q-table__title">{{ translate('JS_COMMENTS') }}</div>
+        <div class="q-pa-md q-table__title">{{ translate('JS_KB_COMMENTS') }}</div>
         <q-list padding>
           <q-item v-for="(relatedRecord, relatedRecordId) in record.related.base.ModComments" :key="relatedRecordId">
             <q-item-section avatar top>
@@ -113,7 +113,7 @@
             <q-item-section side top>
               <q-item-label caption>{{ relatedRecord.modifiedShort }}</q-item-label>
               <q-tooltip anchor="top middle" self="center middle">
-                {{ translate('JS_MODIFIED') + ': ' + relatedRecord.modifiedFull }}
+                {{ translate('JS_KB_MODIFIED') + ': ' + relatedRecord.modifiedFull }}
               </q-tooltip>
             </q-item-section>
           </q-item>
@@ -124,12 +124,12 @@
         <articles-list
           v-if="record.related"
           :data="record.related.base.Articles"
-          :title="translate('JS_RELATED_ARTICLES')"
+          :title="translate('JS_KB_RELATED_ARTICLES')"
         />
       </div>
       <div v-show="relatedRecords.length">
         <q-separator />
-        <div class="q-pa-md q-table__title">{{ translate('JS_RELATED_RECORDS') }}</div>
+        <div class="q-pa-md q-table__title">{{ translate('JS_KB_RELATED_RECORDS') }}</div>
         <related-columns :columnBlocks="relatedRecords">
           <template v-slot:default="slotProps">
             <q-list bordered padding dense>

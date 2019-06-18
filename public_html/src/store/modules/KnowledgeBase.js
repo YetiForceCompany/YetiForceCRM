@@ -16,7 +16,7 @@ const state = {
 	tree: {
 		topCategory: {
 			icon: 'mdi-file-tree',
-			label: 'JS_MAIN_CATEGORIES'
+			label: 'JS_KB_MAIN_CATEGORIES'
 		},
 		categories: {}
 	}
