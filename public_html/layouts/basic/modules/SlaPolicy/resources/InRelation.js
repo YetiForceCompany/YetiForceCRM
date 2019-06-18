@@ -75,7 +75,7 @@ class SlaPolicy_InRelation_Js {
 		${rows
 			.map(row => {
 				return `<tr>
-				<td><input type="radio" name="policy_id" value="${row.id}"></td>
+				<td><input type="radio" name="policy_id" value="${row.id}"${row.checked ? 'checked="checked"' : ''}></td>
 				<td>${row.name}</td>
 				<td>${row.operational_hours}</td>
 				<td>${row.reaction_time}</td>
@@ -102,7 +102,8 @@ class SlaPolicy_InRelation_Js {
 		AppConnector.request({
 			module: 'SlaPolicy',
 			action: 'TemplatesAjax',
-			targetModule: this.targetModule
+			targetModule: this.targetModule,
+			recordId: Number($('#recordId').val())
 		}).done(data => {
 			progress.progressIndicator({ mode: 'hide' });
 			if (data.success) {
@@ -135,7 +136,8 @@ class SlaPolicy_InRelation_Js {
 	onSubmit(ev) {
 		ev.preventDefault();
 		ev.stopPropagation();
-		if (!this.container.validationEngine('validate')) {
+		const policyType = Number(this.container.find('[name="policy_type"]:checked').val());
+		if (policyType === 2 && !this.container.validationEngine('validate')) {
 			return;
 		}
 		const progress = jQuery.progressIndicator({
@@ -149,15 +151,23 @@ class SlaPolicy_InRelation_Js {
 		params.action = 'SaveAjax';
 		params.targetModule = this.targetModule;
 		params.recordId = $('#recordId').val();
-		params.policyType = this.container.find('[name="policy_type"]:checked').val();
-		params.policyId = this.container.find('[name="policy_id"]').val();
+		params.policyType = policyType;
+		params.policyId = Number(this.container.find('[name="policy_id"]:checked').val());
 		AppConnector.request({ data: params }).done(data => {
 			progress.progressIndicator({ mode: 'hide' });
-			data.result.forEach((row, index) => {
-				const rowElem = this.container.find('.js-custom-table-row').eq(index);
-				rowElem.data('id', row.id);
-				rowElem.find('.js-custom-row-id').val(row.id);
-			});
+			if (Array.isArray(data.result)) {
+				data.result.forEach((row, index) => {
+					const rowElem = this.container.find('.js-custom-table-row').eq(index);
+					rowElem.data('id', row.id);
+					rowElem.find('.js-custom-row-id').val(row.id);
+				});
+			} else {
+				$.each(this.container.find('.js-custom-table-row'), (index, rowElem) => {
+					rowElem = $(rowElem);
+					rowElem.data('id', 0);
+					rowElem.find('.js-custom-row-id').val(0);
+				});
+			}
 			Vtiger_Helper_Js.showPnotify({
 				text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 				type: 'success',

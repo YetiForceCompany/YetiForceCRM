@@ -27,11 +27,18 @@ class SlaPolicy_TemplatesAjax_Action extends \App\Controller\Action
 	public function process(App\Request $request)
 	{
 		$recordModels = Settings_SlaPolicy_Record_Model::getForModule($request->getByType('targetModule', 'Alnum'));
+		$recordId = $request->getInteger('recordId');
+		$current = (new \App\Db\Query())->select('sla_policy_id')->from('u_#__servicecontracts_sla_policy')->where(['crmid' => $recordId])->scalar();
 		$rows = [];
 		foreach ($recordModels as $recordModel) {
 			$row = [];
 			foreach ($recordModel->getKeys() as $fieldName) {
 				$row[$fieldName] = $recordModel->getDisplayValue($fieldName);
+			}
+			if ($current && $recordModel->getId() === $current) {
+				$row['checked'] = true;
+			} else {
+				$row['checked'] = false;
 			}
 			$rows[] = $row;
 		}

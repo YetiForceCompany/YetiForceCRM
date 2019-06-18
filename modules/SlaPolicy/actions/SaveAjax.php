@@ -31,7 +31,10 @@ class SlaPolicy_SaveAjax_Action extends \App\Controller\Action
 	public function saveCustomRecords(App\Request $request)
 	{
 		$rowsIds = $request->getArray('rowid', 'Integer');
+		$crmId = $request->getInteger('recordId');
 		$result = [];
+		$db = \App\Db::getInstance();
+		$db->createCommand()->delete('u_#__servicecontracts_sla_policy', ['crmid' => $crmId])->execute();
 		foreach ($rowsIds as $rowIndex => $rowId) {
 			$data = [];
 			$data['policy_type'] = 2;
@@ -46,19 +49,26 @@ class SlaPolicy_SaveAjax_Action extends \App\Controller\Action
 			$data['reaction_time'] = $request->getArray('reaction_time', 'TimePeriod')[$rowIndex];
 			$data['idle_time'] = $request->getArray('idle_time', 'TimePeriod')[$rowIndex];
 			$data['resolve_time'] = $request->getArray('resolve_time', 'TimePeriod')[$rowIndex];
-			$data['crmid'] = $request->getInteger('recordId');
+			$data['crmid'] = $crmId;
 			$data['tabid'] = \App\Module::getModuleId($request->getByType('targetModule', 'Alnum'));
-			$db = \App\Db::getInstance();
-			if (!$rowId) {
-				$db->createCommand()->insert('u_#__servicecontracts_sla_policy', $data)->execute();
-				$data['id'] = $db->getLastInsertID();
-			} else {
-				$db->createCommand()->update('u_#__servicecontracts_sla_policy', $data, ['id' => $rowId])->execute();
-				$data['id'] = $rowId;
-			}
+			$db->createCommand()->insert('u_#__servicecontracts_sla_policy', $data)->execute();
+			$data['id'] = $db->getLastInsertID();
 			$result[] = $data;
 		}
 		return $result;
+	}
+
+	/**
+	 * Save.
+	 *
+	 * @param array $data
+	 */
+	public function save(array $data)
+	{
+		$db = \App\Db::getInstance();
+		$db->createCommand()->delete('u_#__servicecontracts_sla_policy', ['crmid' => $data['crmid']])->execute();
+		$db->createCommand()->insert('u_#__servicecontracts_sla_policy', $data)->execute();
+		return $db->getLastInsertID();
 	}
 
 	/**
@@ -72,6 +82,9 @@ class SlaPolicy_SaveAjax_Action extends \App\Controller\Action
 			case 1: // template
 				$data['policy_type'] = 1;
 				$data['sla_policy_id'] = $request->getInteger('policyId');
+				$data['crmid'] = $request->getInteger('recordId');
+				$data['tabid'] = \App\Module::getModuleId($request->getByType('targetModule', 'Alnum'));
+				$result = ['id' => $this->save($data)];
 				break;
 			case 2: // custom
 				$result = $this->saveCustomRecords($request);
@@ -79,6 +92,9 @@ class SlaPolicy_SaveAjax_Action extends \App\Controller\Action
 			case 0:
 			default:
 				$data['policy_type'] = 0;
+				$data['crmid'] = $request->getInteger('recordId');
+				$data['tabid'] = \App\Module::getModuleId($request->getByType('targetModule', 'Alnum'));
+				$result = ['id' => $this->save($data)];
 				break;
 		}
 
