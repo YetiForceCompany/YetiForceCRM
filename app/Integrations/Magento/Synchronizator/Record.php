@@ -51,12 +51,10 @@ abstract class Record extends Base
 	{
 		$hasChanges = false;
 		$productFields = new \App\Integrations\Magento\Synchronizator\Maps\Product();
-		$productFields->setDataCrm($dataCrm);
 		$productFields->setData($data);
 		foreach ($productFields->getFields(true) as $fieldCrm => $field) {
-			$fieldValueCrm = $productFields->getFieldValueCrm($fieldCrm);
 			$fieldValue = $productFields->getFieldValue($field);
-			if ($fieldValueCrm != $fieldValue) { //todo:rebuild
+			if ($dataCrm[$fieldCrm] != $fieldValue) {
 				$hasChanges = true;
 				break;
 			}

@@ -233,7 +233,7 @@ abstract class Base
 	public function getFieldStructure($name, $value): array
 	{
 		if (empty($value)) {
-			$value = null;
+			$value = 0;
 		}
 		$fieldStructure = [];
 		$fieldLevels = array_reverse(explode('|', static::$mappedFields[$name]));
