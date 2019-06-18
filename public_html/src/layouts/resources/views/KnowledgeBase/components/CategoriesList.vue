@@ -54,7 +54,7 @@ export default {
   components: { Icon },
   data() {
     return {
-      show: false,
+      show: true,
       animationIn: 'slideInLeft',
       animationOut: 'slideOutRight',
       animationChildClassIn: 'slideInRight',
@@ -103,6 +103,9 @@ export default {
       this.data.categories = []
       this.$emit('fetchData', categoryValue)
     }
+  },
+  mounted() {
+    this.activeCategoryDelayed = this.activeCategory
   }
 }
 </script>
