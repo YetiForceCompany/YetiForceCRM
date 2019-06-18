@@ -37,9 +37,9 @@ class BaseField
 	 */
 	protected $sourceRecordModel;
 	/**
-	 * @var \Vtiger_Field_Model
+	 * @var string
 	 */
-	protected $sourceFieldModel;
+	protected $sourceFieldName;
 
 	/**
 	 * Constructor.
@@ -60,14 +60,14 @@ class BaseField
 	 * Set source.
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
-	 * @param \Vtiger_Field_Model  $fieldModel
+	 * @param string               $fieldName
 	 *
 	 * @return void
 	 */
-	public function setSource(\Vtiger_Record_Model $recordModel, \Vtiger_Field_Model $fieldModel)
+	public function setSource(\Vtiger_Record_Model $recordModel, string $fieldName)
 	{
 		$this->sourceRecordModel = $recordModel;
-		$this->sourceFieldModel = $fieldModel;
+		$this->sourceFieldName = $fieldName;
 	}
 
 	/**
