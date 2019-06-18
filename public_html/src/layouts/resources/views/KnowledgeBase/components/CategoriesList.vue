@@ -8,19 +8,19 @@
  */
 -->
 <template>
-  <transition :enter-active-class="'animated ' + animationEnter" :leave-active-class="'animated ' + animationLeave">
+  <transition :enter-active-class="'animated ' + animationIn" :leave-active-class="'animated ' + animationOut">
     <q-list v-show="show">
-      <q-item v-show="activeCategoryWait === ''" active>
+      <q-item v-show="activeCategoryDelayed === ''" active>
         <q-item-section avatar>
           <q-icon :name="tree.topCategory.icon" :size="iconSize" />
         </q-item-section>
         <q-item-section>{{ translate(tree.topCategory.label) }}</q-item-section>
       </q-item>
-      <q-item v-if="activeCategoryWait !== ''" clickable active @click="fetchParentCategoryData()">
+      <q-item v-if="activeCategoryDelayed !== ''" clickable active @click="fetchParentCategoryData()">
         <q-item-section avatar>
-          <icon :size="iconSize" :icon="tree.categories[activeCategoryWait].icon || defaultTreeIcon" />
+          <icon :size="iconSize" :icon="tree.categories[activeCategoryDelayed].icon || defaultTreeIcon" />
         </q-item-section>
-        <q-item-section>{{ tree.categories[activeCategoryWait].label }}</q-item-section>
+        <q-item-section>{{ tree.categories[activeCategoryDelayed].label }}</q-item-section>
         <q-item-section avatar>
           <q-icon name="mdi-chevron-left" />
         </q-item-section>
@@ -55,11 +55,13 @@ export default {
   data() {
     return {
       show: false,
-      animationEnter: 'slideInLeft',
-      animationLeave: 'slideOutRight',
+      animationIn: 'slideInLeft',
+      animationOut: 'slideOutRight',
+      animationChildClassIn: 'slideInRight',
+      animationChildClassOut: 'slideOutLeft',
       animationParentClassIn: 'slideInLeft',
       animationParentClassOut: 'slideOutRight',
-      activeCategoryWait: ''
+      activeCategoryDelayed: ''
     }
   },
   props: {
@@ -77,12 +79,14 @@ export default {
   },
   watch: {
     data() {
-      this.activeCategoryWait = this.activeCategory
+      this.activeCategoryDelayed = this.activeCategory
       this.show = true
     }
   },
   methods: {
     fetchParentCategoryData() {
+      this.animationIn = this.animationParentClassIn
+      this.animationOut = this.animationParentClassOut
       this.show = false
       this.data.categories = []
       let parentCategory = ''
@@ -93,6 +97,8 @@ export default {
       this.$emit('fetchData', parentCategory)
     },
     fetchChildCategoryData(categoryValue) {
+      this.animationIn = this.animationChildClassIn
+      this.animationOut = this.animationChildClassOut
       this.show = false
       this.data.categories = []
       this.$emit('fetchData', categoryValue)
