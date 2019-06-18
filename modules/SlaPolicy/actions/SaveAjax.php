@@ -67,7 +67,9 @@ class SlaPolicy_SaveAjax_Action extends \App\Controller\Action
 	{
 		$db = \App\Db::getInstance();
 		$db->createCommand()->delete('u_#__servicecontracts_sla_policy', ['crmid' => $data['crmid']])->execute();
-		$db->createCommand()->insert('u_#__servicecontracts_sla_policy', $data)->execute();
+		if ($data['policy_type']) {
+			$db->createCommand()->insert('u_#__servicecontracts_sla_policy', $data)->execute();
+		}
 		return $db->getLastInsertID();
 	}
 

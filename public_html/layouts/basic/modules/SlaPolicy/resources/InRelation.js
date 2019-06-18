@@ -60,6 +60,16 @@ class SlaPolicy_InRelation_Js {
 	 * @returns {String} HTML
 	 */
 	getTemplateTableHtml(rows) {
+		let somethingChecked = false;
+		for (let row of rows) {
+			if (row.checked) {
+				somethingChecked = true;
+				break;
+			}
+		}
+		if (!somethingChecked && typeof rows[0] !== 'undefined') {
+			rows[0].checked = true;
+		}
 		return `<div class="col-12"><table class="table js-sla-policy-template-table">
 		<thead>
 			<tr>
