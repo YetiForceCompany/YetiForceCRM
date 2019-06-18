@@ -3156,10 +3156,6 @@ body,
 		}
 	}
 
-	.widgetContainer select[multiple] {
-		height: 0;
-	}
-
 	.select2-dropdown ul[aria-multiselectable="true"] [aria-selected="true"] {
 		display: none;
 	}
