@@ -58,7 +58,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 * Gets inventory field instance.
 	 *
 	 * @param string      $moduleName
-	 * @param null|string $type
+	 * @param string|null $type
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
@@ -140,7 +140,8 @@ class Vtiger_Basic_InventoryField extends \App\Base
 		if (null === $column) {
 			$column = $this->getColumnName();
 		}
-		return $userFormat ? $this->getDBValue($item[$column]) : $item[$column];
+		$value = $item[$column] ?? null;
+		return $userFormat ? $this->getDBValue($value) : $value;
 	}
 
 	/**
@@ -346,7 +347,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 */
 	public function isVisibleInDetail()
 	{
-		return in_array($this->get('displayType'), [self::FIELD_VISIBLE_EVERYWHERE, self::FIELD_READONLY, self::FIELD_VISIBLE_IN_DETAIL]);
+		return \in_array($this->get('displayType'), [self::FIELD_VISIBLE_EVERYWHERE, self::FIELD_READONLY, self::FIELD_VISIBLE_IN_DETAIL]);
 	}
 
 	/**
@@ -356,7 +357,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 */
 	public function isEditable()
 	{
-		return in_array($this->get('displayType'), [self::FIELD_VISIBLE_EVERYWHERE, self::FIELD_READONLY]);
+		return \in_array($this->get('displayType'), [self::FIELD_VISIBLE_EVERYWHERE, self::FIELD_READONLY]);
 	}
 
 	/**
@@ -386,7 +387,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	public function getSummaryValuesFromData($data)
 	{
 		$sum = 0;
-		if (is_array($data)) {
+		if (\is_array($data)) {
 			foreach ($data as $row) {
 				$sum += $row[$this->getColumnName()];
 			}
@@ -424,7 +425,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 * Gets database value.
 	 *
 	 * @param mixed       $value
-	 * @param null|string $name
+	 * @param string|null $name
 	 *
 	 * @return mixed
 	 */
@@ -445,7 +446,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 */
 	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
-		if (!is_numeric($value) && (is_string($value) && $value !== strip_tags($value))) {
+		if (!is_numeric($value) && (\is_string($value) && $value !== strip_tags($value))) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $columnName ?? $this->getColumnName() . '||' . $this->getModuleName() . '||' . $value, 406);
 		}
 		if (App\TextParser::getTextLength($value) > $this->maximumLength) {
