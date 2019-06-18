@@ -137,7 +137,7 @@ class SaveInventory extends \Api\Core\BaseAction
 				],
 			];
 		}
-		$this->inventory = new \Api\Portal\Inventory($this->moduleName, $this->controller->request->getArray('inventory'), $this->getUserStorageId(), $this->getPricebookId());
+		$this->inventory = new \Api\Portal\Inventory($this->moduleName, $this->controller->request->getArray('inventory'), $this->getUserStorageId(), $this->getParentCrmId());
 		if ($this->getCheckStockLevels() && !$this->inventory->validate()) {
 			return [
 				'errors' => $this->inventory->getErrors()
