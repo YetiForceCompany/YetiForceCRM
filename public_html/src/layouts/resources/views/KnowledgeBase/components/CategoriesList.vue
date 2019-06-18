@@ -47,7 +47,6 @@
 import Icon from '../../../../../components/Icon.vue'
 
 import { createNamespacedHelpers } from 'vuex'
-// import { setTimeout } from 'timers'
 const { mapGetters } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'CategoriesList',
