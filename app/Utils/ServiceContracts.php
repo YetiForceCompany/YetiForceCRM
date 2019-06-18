@@ -171,7 +171,7 @@ class ServiceContracts
 				case 1:
 					$slaPolicy = self::getSlaPolicyById($row['sla_policy_id']);
 					$conditions = \App\Json::decode($slaPolicy['conditions']);
-					if ($conditions && \App\Condition::checkCondition($conditions, $recordModel)) {
+					if ($conditions && \App\Condition::checkConditions($conditions, $recordModel)) {
 						if (empty($slaPolicy['operational_hours'])) {
 							return [];
 						}
@@ -182,7 +182,7 @@ class ServiceContracts
 					break;
 				case 2:
 					$conditions = \App\Json::decode($row['conditions']);
-					if ($conditions && $row['business_hours'] && \App\Condition::checkCondition($conditions, $recordModel)) {
+					if ($conditions && $row['business_hours'] && \App\Condition::checkConditions($conditions, $recordModel)) {
 						$businessHours = \array_merge($businessHours, explode(',', $row['business_hours']));
 						if ((isset($times['reaction_time']) && \App\Fields\TimePeriod::convertToMinutes($row['reaction_time']) < \App\Fields\TimePeriod::convertToMinutes($times['reaction_time']))
 						|| !isset($times['reaction_time'])) {

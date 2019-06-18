@@ -75,15 +75,4 @@ class Faq_KnowledgeBase_Model extends KnowledgeBase_KnowledgeBase_Model
 		$dataReader->close();
 		return $rows;
 	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getRecordsByParentCategory(): array
-	{
-		if ($this->isEmpty('parentCategory') && !($this->has('filterField') && $this->has('filterValue'))) {
-			return [];
-		}
-		return $this->parseForDisplay($this->getListQuery()->createCommand()->query());
-	}
 }

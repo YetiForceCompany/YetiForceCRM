@@ -176,7 +176,7 @@ class KnowledgeBase_KnowledgeBase_Model extends \App\Base
 	 */
 	public function getRecordsByParentCategory(): array
 	{
-		if ($this->isEmpty('parentCategory')) {
+		if ($this->isEmpty('parentCategory') && !($this->has('filterField') && $this->has('filterValue'))) {
 			return [];
 		}
 		return $this->parseForDisplay($this->getListQuery()->createCommand()->query());

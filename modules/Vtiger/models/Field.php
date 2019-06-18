@@ -1503,8 +1503,8 @@ class Vtiger_Field_Model extends vtlib\Field
 		$oper = [];
 		foreach ($operators as $op) {
 			$label = '';
-			if (isset(\App\Condition::ADVANCED_FILTER_OPTIONS[$op])) {
-				$label = \App\Condition::ADVANCED_FILTER_OPTIONS[$op];
+			if (isset(\App\Condition::STANDARD_OPERATORS[$op])) {
+				$label = \App\Condition::STANDARD_OPERATORS[$op];
 			}
 			if (isset(\App\Condition::DATE_OPERATORS[$op])) {
 				$label = \App\Condition::DATE_OPERATORS[$op]['label'];
