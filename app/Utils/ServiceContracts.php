@@ -92,11 +92,11 @@ class ServiceContracts
 	 */
 	public static function getAllBusinessHours(): array
 	{
-		if (\App\Cache::has('UtilsServiceContracts::getDefaultBusinessHours', '')) {
-			return \App\Cache::get('UtilsServiceContracts::getDefaultBusinessHours', '');
+		if (\App\Cache::has('UtilsServiceContracts::getAllBusinessHours', '')) {
+			return \App\Cache::get('UtilsServiceContracts::getAllBusinessHours', '');
 		}
 		$rows = (new \App\Db\Query())->from('s_#__business_hours')->all(\App\Db::getInstance('admin'));
-		\App\Cache::save('UtilsServiceContracts::getDefaultBusinessHours', '', $rows);
+		\App\Cache::save('UtilsServiceContracts::getAllBusinessHours', '', $rows);
 		return $rows;
 	}
 
