@@ -199,12 +199,12 @@ class Language
 	/**
 	 * Functions get translate help info
 	 *
-	 * @param Vtiger_Field_Model $fieldModel
+	 * @param \Vtiger_Field_Model $fieldModel
 	 * @param string $view
 	 *
 	 * @return bool $view
 	 */
-	public static function getTranslateHelpInfo(Vtiger_Field_Model $fieldModel, string $view)
+	public static function getTranslateHelpInfo(\Vtiger_Field_Model $fieldModel, string $view)
 	{
 		$moduleName = $fieldModel->getModuleName();
 		$label = $fieldModel->getFieldLabel();
