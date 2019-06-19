@@ -39,7 +39,11 @@
     "LBL_POLICY_FROM_CUSTOM": "Custom settings",
     "LBL_POLICY_NAME": "Policy name",
     "LBL_POLICY_MODULE": "Module",
-    "LBL_ADD_ENTRY": "Add entry"
+    "LBL_ADD_ENTRY": "Add entry",
+    "LBL_STATUS": "Status",
+    "LBL_CONDITIONS": "Conditions",
+    "LBL_TIMES": "Times",
+    "LBL_BUSINESS_HOURS": "Business hours"
   },
   "js": {
     "JS_POLICY_NAME": "Name",

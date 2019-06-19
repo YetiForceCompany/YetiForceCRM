@@ -9,9 +9,9 @@
 	<table class="table js-custom-conditions-table">
 		<thead>
 			<tr>
-				<th>{\App\Language::translate('LBL_CONDITIONS', $SLA_POLICY_MODULE)}</th>
-				<th>{\App\Language::translate('LBL_BUSINESS_HOURS', $SLA_POLICY_MODULE)}</th>
-				<th>{\App\Language::translate('LBL_TIMES', $SLA_POLICY_MODULE)}</th>
+				<th>{\App\Language::translate('LBL_CONDITIONS', $MODULE_NAME)}</th>
+				<th>{\App\Language::translate('LBL_BUSINESS_HOURS', $MODULE_NAME)}</th>
+				<th>{\App\Language::translate('LBL_TIMES', $MODULE_NAME)}</th>
 			</tr>
 		</thead>
 		<tbody>

@@ -1,9 +1,0 @@
-{
-  "php": {
-    "LBL_SLA_POLICY": "SLA Policy",
-    "LBL_STATUS": "Status",
-    "LBL_CONDITIONS": "Conditions",
-    "LBL_TIMES": "Times",
-    "LBL_BUSINESS_HOURS": "Business hours"
-  }
-}

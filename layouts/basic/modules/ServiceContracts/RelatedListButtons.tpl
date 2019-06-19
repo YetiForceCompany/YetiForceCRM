@@ -18,15 +18,15 @@
 					<li>
 						{assign var="SHOW_RELATED_TAB_NAME" value=App\Config::relation('SHOW_RELATED_MODULE_NAME')}
 							{foreach item=SLA_POLICY_MODULE from=Settings_SlaPolicy_Module_Model::getModules()}
-								{assign var="SLA_POLICY_MODULE_URL" value={$RECORD->getDetailViewUrl()|cat:'&mode=showSlaPolicyView&target='|cat:$SLA_POLICY_MODULE} }
-								<li class="c-tab--small c-tab--hover c-tab--gray js-detail-tab nav-item baseLink d-none float-left relatedNav {if isset($TARGET_MODULE) && $TARGET_MODULE === $SLA_POLICY_MODULE}active{/if}"
+								{assign var="SLA_POLICY_MODULE_URL" value={$RECORD->getDetailViewUrl()|cat:'&mode=showSlaPolicyView&target=HelpDesk'} }
+								<li class="c-tab--small c-tab--hover c-tab--gray js-detail-tab nav-item baseLink d-none float-left relatedNav {if !empty($SLA_POLICY)}active{/if}"
 									data-url="{$SLA_POLICY_MODULE_URL}"
-									data-label-key=""
+									data-label-key="{\App\Language::translate('LBL_SLA_POLICY', $MODULE_NAME)} - {\App\Language::translate($SLA_POLICY_MODULE,$MODULE_NAME)}"
 									data-link-key=""
 									data-reference="">
-										<a href="javascript:void(0);" class="nav-link u-text-ellipsis" title="{\App\Language::translate('LBL_SLA_POLICY','SlaPolicy')} - {\App\Language::translate($SLA_POLICY_MODULE,$SLA_POLICY_MODULE)}">
+										<a href="javascript:void(0);" class="nav-link u-text-ellipsis" title="{\App\Language::translate('LBL_SLA_POLICY', $MODULE_NAME)} - {\App\Language::translate($SLA_POLICY_MODULE,$MODULE_NAME)}">
 											{if App\Config::relation('SHOW_RELATED_ICON')}<span class="fas fa-door-open mr-2"></span>{/if}
-											<span class="{if !$SHOW_RELATED_TAB_NAME}c-tab__text d-none{/if}">{\App\Language::translate('LBL_SLA_POLICY','SlaPolicy')} - {\App\Language::translate($SLA_POLICY_MODULE,$SLA_POLICY_MODULE)}</span>
+											<span class="{if !$SHOW_RELATED_TAB_NAME}c-tab__text d-none{/if}">{\App\Language::translate('LBL_SLA_POLICY', $MODULE_NAME)} - {\App\Language::translate($SLA_POLICY_MODULE,$MODULE_NAME)}</span>
 										</a>
 								</li>
 							{/foreach}

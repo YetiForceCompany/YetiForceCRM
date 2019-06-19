@@ -1178,6 +1178,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$businessHours['name'] = \App\Language::translate($businessHours['name'], 'Settings:BusinessHours');
 		}
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($relatedModuleName);
+		$viewer->assign('SLA_POLICY', true);
 		$viewer->assign('SOURCE_MODULE', $relatedModuleName);
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('RECORD_STRUCTURE', Vtiger_RecordStructure_Model::getInstanceForModule($sourceModuleModel)->getStructure());
@@ -1186,7 +1187,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('RECORD_ID', $parentId);
 		$viewer->assign('RELATED_MODULE_ID', \App\Module::getModuleId($relatedModuleName));
 		$viewer->assign('ROWS', \App\Utils\ServiceContracts::getSlaPolicyForServiceContracts($parentId, \App\Module::getModuleId($relatedModuleName)));
-		$viewer->assign('SLA_POLICY_MODULE', 'SlaPolicy');
 		$viewer->assign('PICKLIST_MODULE', 'Settings:Picklist');
 		$viewer->assign('TICKET_STATUSES', \App\Fields\Picklist::getValues('ticketstatus'));
 		$viewer->assign('TARGET_MODULE', $relatedModuleName);
