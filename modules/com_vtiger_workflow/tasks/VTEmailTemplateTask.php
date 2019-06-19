@@ -19,7 +19,7 @@ class VTEmailTemplateTask extends VTTask
 	 */
 	public function getFieldNames()
 	{
-		return ['template', 'email', 'emailoptout', 'smtp', 'copy_email', 'address_emails', 'attachments'];
+		return ['template', 'email', 'relations_email', 'emailoptout', 'smtp', 'copy_email', 'address_emails', 'attachments'];
 	}
 
 	/**
@@ -38,17 +38,29 @@ class VTEmailTemplateTask extends VTTask
 			$emailParser->emailoptout = $this->emailoptout ? true : false;
 			$mailerContent['to'] = [];
 			if ($this->email) {
-				$email = is_array($this->email) ? implode(',', $this->email) : $this->email;
+				$email = \is_array($this->email) ? implode(',', $this->email) : $this->email;
 				$mailerContent['to'] = $emailParser->setContent($email)->parse()->getContent(true);
 			}
 			if ($this->address_emails) {
-				$mailerContent['to'][]= $this->address_emails;
+				$mailerContent['to'][] = $this->address_emails;
+			}
+			if ($this->relations_email) {
+				[$relatedModule,$relatedFieldName] = explode('::', $this->relations_email);
+				$pagingModel = new Vtiger_Paging_Model();
+				$pagingModel->set('limit', 0);
+				$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $relatedModule);
+				$relationListView->setFields(['id', $relatedFieldName]);
+				$relationListView->set('search_key', $relatedFieldName);
+				$relationListView->set('operator', 'ny');
+				foreach ($relationListView->getEntries($pagingModel) as $key => $relatedRecordModel) {
+					$mailerContent['to'][] = $relatedRecordModel->get($relatedFieldName);
+				}
 			}
 			unset($emailParser);
 			if (empty($mailerContent['to'])) {
 				return false;
 			}
-			if ($recordModel->getModuleName() === 'Contacts' && !$recordModel->isEmpty('notifilanguage')) {
+			if ('Contacts' === $recordModel->getModuleName() && !$recordModel->isEmpty('notifilanguage')) {
 				$mailerContent['language'] = $recordModel->get('notifilanguage');
 			}
 			$mailerContent['template'] = $this->template;
@@ -60,7 +72,7 @@ class VTEmailTemplateTask extends VTTask
 				$attachmentsInfo = explode('::', $this->attachments);
 				$ids = [];
 				$relationListView = null;
-				if (count($attachmentsInfo) > 1) {
+				if (\count($attachmentsInfo) > 1) {
 					if (!$recordModel->isEmpty($attachmentsInfo[1]) && App\Record::isExists($recordModel->get($attachmentsInfo[1]), $attachmentsInfo[0])) {
 						$relationListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($recordModel->get($attachmentsInfo[1]), $attachmentsInfo[0]), 'Documents');
 					}

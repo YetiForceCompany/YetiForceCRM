@@ -13,7 +13,7 @@
 							<option value="">{\App\Language::translate('LBL_DEFAULT')}</option>
 						</optgroup>
 						{foreach from=App\Mail::getAll() item=ITEM key=ID}
-							<option value="{$ID}" {if $TASK_OBJECT->smtp == $ID}selected{/if}>{$ITEM['name']}
+							<option value="{$ID}" {if isset($TASK_OBJECT->smtp) && $TASK_OBJECT->smtp == $ID}selected{/if}>{$ITEM['name']}
 								({$ITEM['host']})
 							</option>
 						{/foreach}
@@ -30,7 +30,7 @@
 							<option value="">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
 						</optgroup>
 						{foreach from=App\Mail::getTempleteList($SOURCE_MODULE,'PLL_RECORD') key=key item=item}
-							<option {if $TASK_OBJECT->template eq $item['id']}selected=""{/if}
+							<option {if isset($TASK_OBJECT->template) && $TASK_OBJECT->template eq $item['id']}selected=""{/if}
 									value="{$item['id']}">{\App\Language::translate($item['name'], $QUALIFIED_MODULE)}</option>
 						{/foreach}
 					</select>
@@ -40,7 +40,7 @@
 				<span class="col-md-4"></span>
 				<span class="col-md-4">
 					<label><input type="checkbox" class="align-text-bottom" value="true" name="emailoptout"
-								  {if $TASK_OBJECT->emailoptout}checked{/if}>&nbsp;{\App\Language::translate('LBL_CHECK_EMAIL_OPTOUT', $QUALIFIED_MODULE)}</label>
+								  {if isset($TASK_OBJECT->emailoptout) && $TASK_OBJECT->emailoptout}checked{/if}>&nbsp;{\App\Language::translate('LBL_CHECK_EMAIL_OPTOUT', $QUALIFIED_MODULE)}</label>
 				</span>
 			</div>
 			<div class="row pb-3">
@@ -55,7 +55,7 @@
 							<optgroup label="{$BLOCK_NAME}">
 								{foreach item=ITEM from=$FIELDS}
 									<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}"
-											{if $TASK_OBJECT->email && in_array($ITEM['var_value'],$TASK_OBJECT->email)}selected=""{/if}>
+											{if isset($TASK_OBJECT->email) && $TASK_OBJECT->email && in_array($ITEM['var_value'],$TASK_OBJECT->email)}selected=""{/if}>
 										{$ITEM['label']}
 									</option>
 								{/foreach}
@@ -66,7 +66,7 @@
 								<optgroup label="{$BLOCK_NAME}">
 									{foreach item=ITEM from=$RELATED_FIELDS}
 										<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}"
-												{if $TASK_OBJECT->email && in_array($ITEM['var_value'],$TASK_OBJECT->email)}selected=""{/if}>
+												{if isset($TASK_OBJECT->email) && $TASK_OBJECT->email && in_array($ITEM['var_value'],$TASK_OBJECT->email)}selected=""{/if}>
 											{$ITEM['label']}
 										</option>
 									{/foreach}
@@ -77,11 +77,30 @@
 				</div>
 			</div>
 			<div class="row pb-3">
+				<span class="col-md-4 col-form-label text-right">
+					{\App\Language::translate('LBL_SELECT_RELATIONS_EMAIL_ADDRESS', $QUALIFIED_MODULE)}
+					<span class="js-popover-tooltip ml-1 delay0" data-js="popover" data-placement="top"
+						  data-content="{\App\Language::translate('LBL_SELECT_RELATIONS_EMAIL_ADDRESS_INFO',$QUALIFIED_MODULE)}">
+						<span class="fas fa-info-circle"></span>
+					</span>
+				</span>
+				<div class="col-md-4">
+					<select class="select2 form-control" name="relations_email" data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
+						<option value="-">{\App\Language::translate('LBL_NONE')}</option>
+						{foreach item=LABEL key=KEY from=$RELATED_RECORDS_EMAIL}
+								<option value="{$KEY}" {if isset($TASK_OBJECT->relations_email) && $TASK_OBJECT->relations_email === $KEY}selected=""{/if}>
+									{$LABEL}
+								</option>
+						{/foreach}
+					</select>
+				</div>
+			</div>
+			<div class="row pb-3">
 				<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_TO')}</span>
 				<div class="col-md-4">
 					<input class="form-control"
 						   data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-						   name="address_emails" value="{$TASK_OBJECT->address_emails}">
+						   name="address_emails" value="{if isset($TASK_OBJECT->address_emails)}{$TASK_OBJECT->address_emails}{/if}">
 				</div>
 			</div>
 			<div class="row pb-3">
@@ -91,12 +110,12 @@
 							data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
 							<option value="">{\App\Language::translate('LBL_NONE')}</option>
 							{if $DOCUMENTS_MODULLES}
-								<option value="{$SOURCE_MODULE}" {if $TASK_OBJECT->attachments === $SOURCE_MODULE}selected="selected"{/if}>{\App\Language::translate($SOURCE_MODULE,$SOURCE_MODULE)}</option>
+								<option value="{$SOURCE_MODULE}" {if isset($TASK_OBJECT->attachments) && $TASK_OBJECT->attachments === $SOURCE_MODULE}selected="selected"{/if}>{\App\Language::translate($SOURCE_MODULE,$SOURCE_MODULE)}</option>
 							{/if}
 							{foreach from=$DOCUMENTS_RELATED_MODULLES item=RELATED_MODULES}
 								{foreach from=$RELATED_MODULES key=RELATED_MODULE_NAME item=FIELD_MODEL}
 									<option value="{$RELATED_MODULE_NAME}::{$FIELD_MODEL->getFieldName()}"
-											{if $TASK_OBJECT->attachments === {$RELATED_MODULE_NAME}|cat:'::'|cat:{$FIELD_MODEL->getFieldName()}}selected="selected"{/if}>
+											{if isset($TASK_OBJECT->attachments) && $TASK_OBJECT->attachments === {$RELATED_MODULE_NAME}|cat:'::'|cat:{$FIELD_MODEL->getFieldName()}}selected="selected"{/if}>
 										{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$SOURCE_MODULE)}&nbsp;({$FIELD_MODEL->getFieldName()})&nbsp;-&nbsp;{\App\Language::translate($RELATED_MODULE_NAME,$RELATED_MODULE_NAME)}
 									</option>
 								{/foreach}
@@ -107,9 +126,9 @@
 			<div class="row pb-3">
 				<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_BCC')}</span>
 				<div class="col-md-4">
-					<input class="form-control" data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name="copy_email" value="{$TASK_OBJECT->copy_email}">
+					<input class="form-control" data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name="copy_email" value="{if isset($TASK_OBJECT->copy_email)}{$TASK_OBJECT->copy_email}{/if}">
 				</div>
 			</div>
 		</div>
-	</div>	
-{/strip}	
+	</div>
+{/strip}
