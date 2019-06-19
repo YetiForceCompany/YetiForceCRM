@@ -66,19 +66,30 @@ class Inventory
 	protected $pricebookId;
 
 	/**
+	 * Undocumented variable.
+	 *
+	 * @var \Vtiger_Record_Model
+	 */
+	protected $parentRecordModel;
+
+	/**
 	 * Construct.
 	 *
 	 * @param string   $moduleName
 	 * @param array    $inventory
 	 * @param int      $storage
-	 * @param int|null $pricebookId
+	 * @param int|null $accountId
 	 */
-	public function __construct(string $moduleName, array $inventory, int $storage, ?int $pricebookId)
+	public function __construct(string $moduleName, array $inventory, int $storage, ?int $accountId)
 	{
 		$this->moduleName = $moduleName;
 		$this->inventory = $inventory;
 		$this->storage = $storage;
-		$this->pricebookId = $pricebookId;
+		if (!empty($accountId)) {
+			$this->parentRecordModel = \Vtiger_Record_Model::getInstanceById($accountId, 'Accounts');
+			$this->pricebookId = $this->parentRecordModel->get('pricebook_id');
+		}
+
 		$this->getProductsByInventory();
 	}
 
@@ -142,15 +153,14 @@ class Inventory
 		foreach ($this->inventory as $inventoryKey => $inventoryItem) {
 			foreach (\Vtiger_Inventory_Model::getInstance($this->moduleName)->getFields() as $columnName => $fieldModel) {
 				if ('tax' === $columnName) {
-					$taxes = explode(',', $this->products[$inventoryKey]['taxes']);
-					$taxes = current($taxes);
-					if ($taxes) {
-						$allTaxes = \Vtiger_Inventory_Model::getGlobalTaxes();
-						$item['taxparam'] = \App\Json::encode([
-							'aggregationType' => 'individual',
-							'individualTax' => $allTaxes[$taxes]['value']
-						]);
+					if (empty($this->parentRecordModel)) {
+						$availableTaxes = 'LBL_GROUP';
+						$regionalTaxes = '';
+					} else {
+						$availableTaxes = $this->parentRecordModel->get('accounts_available_taxes');
+						$regionalTaxes = $this->parentRecordModel->get('taxes');
 					}
+					$item['taxparam'] = \App\Json::encode(\Api\Portal\Record::getTaxParam($availableTaxes, $this->products[$inventoryKey]['taxes'], $regionalTaxes));
 					continue;
 				}
 				if (\in_array($fieldModel->getColumnName(), ['total', 'margin', 'marginp', 'net', 'gross', 'discount'])) {

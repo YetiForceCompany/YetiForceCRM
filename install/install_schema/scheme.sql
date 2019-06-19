@@ -4030,6 +4030,8 @@ CREATE TABLE `vtiger_account` (
   `pricebook_id` int(10) DEFAULT NULL,
   `check_stock_levels` tinyint(1) DEFAULT NULL,
   `sum_open_orders` decimal(28,8) DEFAULT NULL,
+  `taxes` text DEFAULT NULL,
+  `accounts_available_taxes` text DEFAULT NULL,
   PRIMARY KEY (`accountid`),
   KEY `account_account_type_idx` (`account_type`),
   KEY `email_idx` (`email1`,`email2`),
@@ -4079,6 +4081,17 @@ CREATE TABLE `vtiger_accountaddress` (
   PRIMARY KEY (`accountaddressid`),
   CONSTRAINT `vtiger_accountaddress_ibfk_1` FOREIGN KEY (`accountaddressid`) REFERENCES `vtiger_account` (`accountid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_accounts_available_taxes` */
+
+CREATE TABLE `vtiger_accounts_available_taxes` (
+  `accounts_available_taxesid` int(11) NOT NULL AUTO_INCREMENT,
+  `accounts_available_taxes` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT 1,
+  `picklist_valueid` int(10) DEFAULT 0,
+  `sortorderid` smallint(5) DEFAULT 0,
+  PRIMARY KEY (`accounts_available_taxesid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_accounts_status` */
 
@@ -5533,7 +5546,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2822 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2824 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -7263,7 +7276,7 @@ CREATE TABLE `vtiger_picklist` (
   `name` varchar(200) NOT NULL,
   PRIMARY KEY (`picklistid`),
   UNIQUE KEY `picklist_name_idx` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=133 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=134 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_picklist_dependency` */
 
