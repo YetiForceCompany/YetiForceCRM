@@ -354,9 +354,9 @@ class OSSMail_Mail_Model extends \App\Base
 				}
 				if ($enableFind) {
 					if ($fieldModel->getUIType() === 319) {
-						$return = $this->searchByDomains($moduleName, $fieldName, $emails);
+						$return = array_merge($return,$this->searchByDomains($moduleName, $fieldName, $emails));
 					} else {
-						$return = $this->searchByEmails($moduleName, $fieldName, $emails);
+						$return = array_merge($return,$this->searchByEmails($moduleName, $fieldName, $emails));
 					}
 				}
 			}
