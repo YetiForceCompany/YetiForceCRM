@@ -40,7 +40,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	}
 
 	.fieldsLabelValue:last-child::after {
-		content: '';
+		content: "";
 		float: left;
 		position: absolute;
 		top: 0;
@@ -57,7 +57,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	list-style: none;
 
 	&:before {
-		content: '';
+		content: "";
 		position: absolute;
 		top: 0;
 		bottom: 0;
@@ -73,12 +73,12 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		padding-bottom: 10px;
 
 		&:before {
-			content: ' ';
+			content: " ";
 			display: table;
 		}
 
 		&:after {
-			content: ' ';
+			content: " ";
 			display: table;
 			clear: both;
 		}
@@ -204,7 +204,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 			opacity: 0;
 
 			/*for IE*/
-			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
+			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 			filter: alpha(opacity=0);
 		}
 
@@ -212,7 +212,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 			opacity: 1;
 
 			/*for IE*/
-			-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
+			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 			filter: alpha(opacity=100);
 		}
 	}
@@ -588,7 +588,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 
 		&:after,
 		&:before {
-			content: '';
+			content: "";
 			position: absolute;
 			top: calculate-rem(10px);
 			width: 50%;
