@@ -155,7 +155,7 @@ class BaseField
 		if (\is_array($this->getValue())) {
 			return \in_array($this->value, $this->getValue());
 		}
-		return false !== strpos($this->value, $this->getValue());
+		return false !== strpos($this->getValue(), $this->value);
 	}
 
 	/**
@@ -168,7 +168,7 @@ class BaseField
 		if (\is_array($this->getValue())) {
 			return !\in_array($this->value, $this->getValue());
 		}
-		return false === strpos($this->value, $this->getValue());
+		return false === strpos($this->getValue(), $this->value);
 	}
 
 	/**
