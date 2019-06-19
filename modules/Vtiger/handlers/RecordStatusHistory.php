@@ -26,7 +26,7 @@ class Vtiger_RecordStatusHistory_Handler
 			} elseif ($recordModel->getPreviousValue($fieldStatusName)) {
 				App\RecordStatus::update($recordModel, $fieldStatusName);
 				if (\in_array($recordModel->get($fieldStatusName), \App\RecordStatus::getStates($recordModel->getModuleName(), \App\RecordStatus::RECORD_STATE_CLOSED))) {
-					$recordModel->set('closing_range_time', App\RecordStatus::getDiff($recordModel->get('createdtime'), '', $recordModel));
+					$recordModel->set('closing_range_time', App\Utils\ServiceContracts::getDiff($recordModel->get('createdtime'), $recordModel));
 					$recordModel->set('closing_datatime', date('Y-m-d H:i:s'));
 				}
 			}
