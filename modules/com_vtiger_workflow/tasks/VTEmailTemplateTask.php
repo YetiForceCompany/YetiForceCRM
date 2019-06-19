@@ -44,7 +44,7 @@ class VTEmailTemplateTask extends VTTask
 			if ($this->address_emails) {
 				$mailerContent['to'][] = $this->address_emails;
 			}
-			if ($this->relations_email) {
+			if ($this->relations_email && '-' !== $this->relations_email) {
 				[$relatedModule,$relatedFieldName] = explode('::', $this->relations_email);
 				$pagingModel = new Vtiger_Paging_Model();
 				$pagingModel->set('limit', 0);
