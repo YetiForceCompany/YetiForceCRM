@@ -207,6 +207,7 @@ class RecordStatus
 						'fieldTypeList' => 0,
 						'generatedtype' => 1,
 						'displayType' => 9,
+						'helpinfo' => 'Detail'
 					]);
 				}
 			}
