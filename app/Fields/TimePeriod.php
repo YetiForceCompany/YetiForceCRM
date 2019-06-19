@@ -34,9 +34,6 @@ class TimePeriod
 			case 'd':
 				$multiplier = 60 * 24;
 				break;
-			default:
-				$multiplier = 0;
-				break;
 		}
 		return $number * $multiplier;
 	}

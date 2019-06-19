@@ -173,7 +173,7 @@ class ServiceContracts
 					$conditions = \App\Json::decode($slaPolicy['conditions']);
 					if ($conditions && \App\Condition::checkConditions($conditions, $recordModel)) {
 						if (empty($slaPolicy['operational_hours'])) {
-							return [];
+							return $slaPolicy;
 						}
 						if ($slaPolicy['business_hours']) {
 							return self::optimizeBusinessHours(explode(',', $slaPolicy['business_hours']));
@@ -305,6 +305,9 @@ class ServiceContracts
 	public static function getDiffFromServiceContracts(string $start, string $end, int $id, \Vtiger_Record_Model $recordModel): int
 	{
 		if ($rules = self::getRulesForServiceContracts($id, $recordModel)) {
+			if (isset($rules['id'])) {
+				return round(\App\Fields\DateTime::getDiff($start, $end, 'minutes'));
+			}
 			$time = 0;
 			foreach ($rules as $row) {
 				$time += self::businessTime($start, $end, $row['working_hours_from'], $row['working_hours_to'], explode(',', $row['working_days']), !empty($row['holidays']));
@@ -344,14 +347,15 @@ class ServiceContracts
 	 * Update expected times.
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
+	 * @param array                $type
 	 *
 	 * @return void
 	 */
-	public static function updateExpectedTimes(\Vtiger_Record_Model $recordModel)
+	public static function updateExpectedTimes(\Vtiger_Record_Model $recordModel, array $type)
 	{
 		if (($field = \App\Field::getRelatedFieldForModule($recordModel->getModuleName(), 'ServiceContracts')) && $recordModel->get($field['fieldname'])) {
-			foreach (self::getExpectedTimes($recordModel->get($field['fieldname']), $recordModel) as $key => $time) {
-				$recordModel->set($key . '_datatime', $time);
+			foreach (self::getExpectedTimes($recordModel->get($field['fieldname']), $recordModel, $type) as $key => $time) {
+				$recordModel->set($key . '_expected', $time);
 			}
 		}
 	}
@@ -361,19 +365,30 @@ class ServiceContracts
 	 *
 	 * @param int                  $id          Service contract id
 	 * @param \Vtiger_Record_Model $recordModel
+	 * @param array                $type
 	 *
 	 * @return array
 	 */
-	private static function getExpectedTimes(int $id, \Vtiger_Record_Model $recordModel): array
+	private static function getExpectedTimes(int $id, \Vtiger_Record_Model $recordModel, array $type): array
 	{
+		$return = [];
+		$date = new \DateTime();
 		if ($rules = self::getRulesForServiceContracts($id, $recordModel)) {
+			if (isset($rules['id'])) {
+				foreach (self::$fieldsMap as $key => $fieldKey) {
+					if (\in_array($fieldKey, $type)) {
+						$minutes = \App\Fields\TimePeriod::convertToMinutes($rules[$key]);
+						$return[$fieldKey] = (clone $date)->modify("+$minutes minute")->format('Y-m-d H:i:s');
+					}
+				}
+				return $return;
+			}
 			$days = self::parseBusinessHoursToDays($rules);
 		} elseif ($businessHours = self::getDefaultBusinessHours()) {
 			$days = self::parseBusinessHoursToDays($businessHours);
 		} else {
 			return [];
 		}
-		$date = new \DateTime();
 		$day = $date->format('N');
 		$daySetting = null;
 		if (\App\Fields\Date::getHolidays($date->format('Y-m-d'), $date->format('Y-m-d'))) {
@@ -384,21 +399,22 @@ class ServiceContracts
 			$daySetting = $days['days'][$day];
 		}
 		if ($daySetting) {
-			$return = [];
 			$interval = \App\Fields\DateTime::getDiff($date->format('Y-m-d') . ' ' . $daySetting['working_hours_to'], $date->format('Y-m-d H:i:s'), 'minutes');
 			foreach (self::$fieldsMap as $key => $fieldKey) {
-				$minutes = \App\Fields\TimePeriod::convertToMinutes($daySetting[$key]);
-				if ($minutes < $interval) {
-					$return[$fieldKey] = (clone $date)->modify("+$minutes minute")->format('Y-m-d H:i:s');
-				} else {
-					$tmpDate = clone $date;
-					$tmpInterval = $interval;
-					while ($minutes > $tmpInterval) {
-						$minutes -= $tmpInterval;
-						$tmpDaySetting = self::getNextBusinessDay($tmpDate, $days);
-						$tmpInterval = \App\Fields\DateTime::getDiff($tmpDate->format('Y-m-d') . ' ' . $tmpDaySetting['working_hours_to'], $tmpDate->format('Y-m-d H:i:s'), 'minutes');
-						if ($minutes < $tmpInterval) {
-							$return[$fieldKey] = (clone $tmpDate)->modify("+$minutes minute")->format('Y-m-d H:i:s');
+				if (\in_array($fieldKey, $type)) {
+					$minutes = \App\Fields\TimePeriod::convertToMinutes($daySetting[$key]);
+					if ($minutes < $interval) {
+						$return[$fieldKey] = (clone $date)->modify("+$minutes minute")->format('Y-m-d H:i:s');
+					} else {
+						$tmpDate = clone $date;
+						$tmpInterval = $interval;
+						while ($minutes > $tmpInterval) {
+							$minutes -= $tmpInterval;
+							$tmpDaySetting = self::getNextBusinessDay($tmpDate, $days);
+							$tmpInterval = \App\Fields\DateTime::getDiff($tmpDate->format('Y-m-d') . ' ' . $tmpDaySetting['working_hours_to'], $tmpDate->format('Y-m-d H:i:s'), 'minutes');
+							if ($minutes < $tmpInterval) {
+								$return[$fieldKey] = (clone $tmpDate)->modify("+$minutes minute")->format('Y-m-d H:i:s');
+							}
 						}
 					}
 				}

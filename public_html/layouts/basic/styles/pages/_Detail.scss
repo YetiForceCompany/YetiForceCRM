@@ -157,6 +157,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	}
 
 	&__content {
+		position: relative;
 		@extend .card-body, .px-2, .py-0;
 	}
 

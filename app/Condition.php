@@ -247,6 +247,9 @@ class Condition
 	{
 		[$moduleName, $fieldName, $sourceFieldName] = array_pad(explode(':', $rule['fieldname']), 3, false);
 		if (!empty($sourceFieldName)) {
+			if ($recordModel->isEmpty($sourceFieldName)) {
+				return false;
+			}
 			$sourceRecordModel = self::$recordCache[$recordModel->get($sourceFieldName)] ?? \Vtiger_Record_Model::getInstanceById($recordModel->get($sourceFieldName));
 			$fieldModel = $sourceRecordModel->getField($fieldName);
 		} elseif ($recordModel->getModuleName() === $moduleName) {
