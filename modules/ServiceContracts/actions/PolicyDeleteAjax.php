@@ -1,6 +1,6 @@
 <?php
 /**
- * SlaPolicy_Delete_Action class.
+ * ServiceContracts Policy DeleteAjax Action class.
  *
  * @package   Action
  *
@@ -8,7 +8,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
  */
-class SlaPolicy_DeleteAjax_Action extends \App\Controller\Action
+class ServiceContracts_PolicyDeleteAjax_Action extends \App\Controller\Action
 {
 	/**
 	 * {@inheritdoc}

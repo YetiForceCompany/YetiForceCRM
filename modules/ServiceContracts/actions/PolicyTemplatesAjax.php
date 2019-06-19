@@ -1,14 +1,14 @@
 <?php
-/*
- * SlaPolicy TemplatesAjax Action class
+/**
+ * ServiceContracts PolicyTemplatesAjax Action class.
  *
  * @package   Action
  *
  * @copyright YetiForce Sp. z o.o.
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
-*/
-class SlaPolicy_TemplatesAjax_Action extends \App\Controller\Action
+ */
+class ServiceContracts_PolicyTemplatesAjax_Action extends \App\Controller\Action
 {
 	/**
 	 * {@inheritdoc}

@@ -228,7 +228,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			'~libraries/leaflet.markercluster/dist/leaflet.markercluster.js',
 			'~libraries/leaflet.awesome-markers/dist/leaflet.awesome-markers.js',
 			'modules.OpenStreetMap.resources.Map',
-			'modules.SlaPolicy.resources.InRelation'
+			'modules.ServiceContracts.resources.InRelation'
 		];
 		return array_merge(
 			parent::getFooterScripts($request),
@@ -1211,6 +1211,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$isFavorites = $relationModel->isFavorites();
 		}
 		$viewer->assign('VIEW', $request->getByType('view'));
-		return $viewer->view('Index.tpl', 'SlaPolicy', true);
+		return $viewer->view('Index.tpl', $moduleName, true);
 	}
 }

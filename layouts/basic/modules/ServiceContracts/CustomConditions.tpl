@@ -3,7 +3,7 @@
 <!-- tpl-SlaPolicy-CustomConditions -->
 	<input type="hidden" class="js-all-business-hours" value="{\App\Purifier::encodeHtml(\App\Json::encode($ALL_BUSINESS_HOURS))}">
 	<div class="d-none js-conditions-template" data-js="container">
-		{include file=\App\Layout::getTemplatePath('ConditionBuilder.tpl', 'SlaPolicy')}
+		{include file=\App\Layout::getTemplatePath('ConditionBuilder.tpl', $MODULE_NAME)}
 	</div>
 	<div class="table-responsive">
 	<table class="table js-custom-conditions-table">
@@ -21,7 +21,7 @@
 				<td class="js-conditions-col">
 					<input type="hidden" name="rowid[{$ROW_INDEX}]" value="{$ROW['id']}" class="js-custom-row-id" />
 					<input type="hidden" name="conditions[{$ROW_INDEX}]" class="js-conditions-value" value="{\App\Purifier::encodeHtml($ROW['conditions'])}" data-js="container">
-					{include file=\App\Layout::getTemplatePath('ConditionBuilder.tpl', 'SlaPolicy') ADVANCE_CRITERIA=\App\Json::decode($ROW['conditions'])}
+					{include file=\App\Layout::getTemplatePath('ConditionBuilder.tpl', $MODULE_NAME) ADVANCE_CRITERIA=\App\Json::decode($ROW['conditions'])}
 				</td>
 				<td>
 					{assign var=ROW_HOURS value=explode(',',$ROW['business_hours'])}

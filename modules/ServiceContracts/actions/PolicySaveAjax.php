@@ -1,6 +1,6 @@
 <?php
 /**
- * SlaPolicy SaveAjax Action class.
+ * ServiceContracts PolicySaveAjax Action class.
  *
  * @package   Action
  *
@@ -8,7 +8,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
  */
-class SlaPolicy_SaveAjax_Action extends \App\Controller\Action
+class ServiceContracts_PolicySaveAjax_Action extends \App\Controller\Action
 {
 	/**
 	 * {@inheritdoc}

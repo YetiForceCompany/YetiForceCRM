@@ -110,8 +110,8 @@ class SlaPolicy_InRelation_Js {
 			}
 		});
 		AppConnector.request({
-			module: 'SlaPolicy',
-			action: 'TemplatesAjax',
+			module: 'ServiceContracts',
+			action: 'PolicyTemplatesAjax',
 			targetModule: this.targetModule,
 			recordId: Number($('#recordId').val())
 		}).done(data => {
@@ -174,8 +174,8 @@ class SlaPolicy_InRelation_Js {
 			}
 		});
 		const params = this.container.serializeFormData();
-		params.module = 'SlaPolicy';
-		params.action = 'SaveAjax';
+		params.module = 'ServiceContracts';
+		params.action = 'PolicySaveAjax';
 		params.targetModule = this.targetModule;
 		params.recordId = $('#recordId').val();
 		params.policyType = policyType;
@@ -285,8 +285,8 @@ class SlaPolicy_InRelation_Js {
 				}
 			});
 			AppConnector.request({
-				module: 'SlaPolicy',
-				action: 'DeleteAjax',
+				module: 'ServiceContracts',
+				action: 'PolicyDeleteAjax',
 				targetModule: this.targetModule,
 				record: rowId,
 				hash: tr.data('hash')
