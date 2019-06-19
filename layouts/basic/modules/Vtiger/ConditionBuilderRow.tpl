@@ -63,7 +63,7 @@
 		</div>
 		<div class="col-1 d-flex justify-content-end">
 			<button type="button" class="btn btn-sm btn-danger js-condition-delete" data-js="click">
-				<span class="fa fa-trash"></span>
+				<span class="fas fa-trash"></span>
 			</button>
 		</div>
 	</div>

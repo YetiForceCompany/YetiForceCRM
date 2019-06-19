@@ -1,6 +1,6 @@
 <?php
 /**
- * Settings SLAPolicy Save Action class.
+ * Settings SlaPolicy Save Action class.
  *
  * @package   Action
  *
@@ -8,7 +8,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
  */
-class Settings_SLAPolicy_Save_Action extends Settings_Vtiger_Basic_Action
+class Settings_SlaPolicy_Save_Action extends Settings_Vtiger_Basic_Action
 {
 	/**
 	 * Process.
@@ -24,9 +24,9 @@ class Settings_SLAPolicy_Save_Action extends Settings_Vtiger_Basic_Action
 		}
 		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
 		if (!empty($recordId)) {
-			$recordModel = Settings_SLAPolicy_Record_Model::getInstanceById($recordId);
+			$recordModel = Settings_SlaPolicy_Record_Model::getInstanceById($recordId);
 		} else {
-			$recordModel = Settings_SLAPolicy_Record_Model::getCleanInstance();
+			$recordModel = Settings_SlaPolicy_Record_Model::getCleanInstance();
 		}
 		$recordModel->set('name', $request->getByType('name', 'Text'));
 		$recordModel->set('operational_hours', $request->getInteger('operational_hours'));

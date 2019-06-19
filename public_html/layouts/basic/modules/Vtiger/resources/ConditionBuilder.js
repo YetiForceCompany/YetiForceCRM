@@ -6,9 +6,25 @@ class Vtiger_ConditionBuilder_Js {
 	 * Constructor
 	 * @param {jQuery} container
 	 */
-	constructor(container, sourceModuleName) {
+	constructor(container, sourceModuleName, onChange) {
 		this.container = container;
 		this.sourceModuleName = sourceModuleName;
+		if (onChange) {
+			this.onChange = onChange;
+		} else {
+			this.onChange = () => {};
+		}
+	}
+
+	/**
+	 * Register change value event
+	 *
+	 * @param   {jQuery}  container
+	 */
+	registerChangeValueEvent(container) {
+		container.find('.js-condition-builder-value').on('change', e => {
+			this.onChange(this);
+		});
 	}
 
 	/**
@@ -17,7 +33,7 @@ class Vtiger_ConditionBuilder_Js {
 	 */
 	registerChangeConditions(container) {
 		let self = this;
-		container.find('.js-conditions-fields, .js-conditions-operator').on('change', function (e) {
+		container.find('.js-conditions-fields, .js-conditions-operator').on('change', function(e) {
 			let progress = $.progressIndicator({
 				position: 'html',
 				blockInfo: {
@@ -44,11 +60,13 @@ class Vtiger_ConditionBuilder_Js {
 					operator: currentTarget.val()
 				};
 			}
-			AppConnector.request(requestParams).done(function (data) {
+			AppConnector.request(requestParams).done(function(data) {
 				progress.progressIndicator({ mode: 'hide' });
 				container.html($(data).html());
 				self.registerChangeConditions(container);
 				self.registerField(container);
+				self.registerChangeValueEvent(container);
+				self.onChange(self);
 			});
 		});
 	}
@@ -69,7 +87,7 @@ class Vtiger_ConditionBuilder_Js {
 	 */
 	registerAddCondition() {
 		let self = this;
-		this.container.on('click', '.js-condition-add', function (e) {
+		this.container.on('click', '.js-condition-add', function(e) {
 			let progress = $.progressIndicator({
 				position: 'html',
 				blockInfo: {
@@ -84,12 +102,14 @@ class Vtiger_ConditionBuilder_Js {
 				parent: app.getParentModuleName(),
 				view: 'ConditionBuilder',
 				sourceModuleName: self.sourceModuleName
-			}).done(function (data) {
+			}).done(function(data) {
 				progress.progressIndicator({ mode: 'hide' });
 				data = $(data);
 				App.Fields.Picklist.showSelect2ElementView(data.find('select.select2'));
 				self.registerChangeConditions(data);
+				self.registerChangeValueEvent(data);
 				container.append(data);
+				self.onChange(self);
 			});
 		});
 	}
@@ -98,14 +118,14 @@ class Vtiger_ConditionBuilder_Js {
 	 * Register events to add group
 	 */
 	registerAddGroup() {
-		var self = this;
-		this.container.on('click', '.js-group-add', function (e) {
-			let template = self.container.find('.js-condition-builder-group-template').clone();
+		this.container.on('click', '.js-group-add', e => {
+			let template = this.container.find('.js-condition-builder-group-template').clone();
 			template.removeClass('hide');
-			$(this)
+			$(e.target)
 				.closest('.js-condition-builder-group-container')
 				.find('> .js-condition-builder-conditions-container')
 				.append(template.html());
+			this.onChange(this);
 		});
 	}
 
@@ -113,10 +133,11 @@ class Vtiger_ConditionBuilder_Js {
 	 * Register events to remove group
 	 */
 	registerDeleteGroup() {
-		this.container.on('click', '.js-group-delete', function (e) {
-			$(this)
+		this.container.on('click', '.js-group-delete', e => {
+			$(e.target)
 				.closest('.js-condition-builder-group-container')
 				.remove();
+			this.onChange(this);
 		});
 	}
 
@@ -124,10 +145,11 @@ class Vtiger_ConditionBuilder_Js {
 	 * Register events to remove condition
 	 */
 	registerDeleteCondition() {
-		this.container.on('click', '.js-condition-delete', function (e) {
-			$(this)
+		this.container.on('click', '.js-condition-delete', e => {
+			$(e.target)
 				.closest('.js-condition-builder-conditions-row')
 				.remove();
+			this.onChange(this);
 		});
 	}
 
@@ -135,7 +157,7 @@ class Vtiger_ConditionBuilder_Js {
 	 * Block submit on press enter key
 	 */
 	registerDisableSubmitOnEnter() {
-		this.container.find('.js-condition-builder-value').keydown(function (e) {
+		this.container.find('.js-condition-builder-value').keydown(function(e) {
 			if (e.keyCode === 13) {
 				e.preventDefault();
 			}
@@ -155,7 +177,7 @@ class Vtiger_ConditionBuilder_Js {
 		let arr = {};
 		arr['condition'] = condition;
 		let rules = [];
-		container.find('> .js-condition-builder-conditions-container >').each(function () {
+		container.find('> .js-condition-builder-conditions-container >').each(function() {
 			let element = $(this);
 			if (element.hasClass('js-condition-builder-conditions-row')) {
 				rules.push({
@@ -188,7 +210,7 @@ class Vtiger_ConditionBuilder_Js {
 		this.registerDeleteGroup();
 		this.registerDeleteCondition();
 		this.registerDisableSubmitOnEnter();
-		this.container.find('.js-condition-builder-conditions-row').each(function () {
+		this.container.find('.js-condition-builder-conditions-row').each(function() {
 			self.registerChangeConditions($(this));
 			self.registerField($(this));
 		});

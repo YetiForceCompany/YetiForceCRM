@@ -1,6 +1,6 @@
 <?php
 /**
- * Settings SLAPolicy Record Model class.
+ * Settings SlaPolicy Record Model class.
  *
  * @package   Model
  *
@@ -8,7 +8,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
  */
-class Settings_SLAPolicy_Record_Model extends Settings_Vtiger_Record_Model
+class Settings_SlaPolicy_Record_Model extends Settings_Vtiger_Record_Model
 {
 	/**
 	 * {@inheritdoc}
@@ -48,7 +48,7 @@ class Settings_SLAPolicy_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function to set module to this record instance.
 	 *
-	 * @param Settings_SLAPolicy_Module_Model $moduleModel
+	 * @param Settings_SlaPolicy_Module_Model $moduleModel
 	 *
 	 * @return \self
 	 */
@@ -66,7 +66,7 @@ class Settings_SLAPolicy_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return mixed
 	 */
-	public static function getInstanceById(int $id, string $qualifiedModuleName = 'Settings:SLAPolicy')
+	public static function getInstanceById(int $id, string $qualifiedModuleName = 'Settings:SlaPolicy')
 	{
 		$row = (new \App\Db\Query())->from('s_#__sla_policy')->where(['id' => $id])->one(\App\Db::getInstance('admin'));
 		$instance = null;
@@ -85,7 +85,7 @@ class Settings_SLAPolicy_Record_Model extends Settings_Vtiger_Record_Model
 	public static function getCleanInstance(): self
 	{
 		$instance = new static();
-		$instance->setModule(Settings_Vtiger_Module_Model::getInstance('Settings:SLAPolicy'));
+		$instance->setModule(Settings_Vtiger_Module_Model::getInstance('Settings:SlaPolicy'));
 		return $instance;
 	}
 
@@ -157,7 +157,7 @@ class Settings_SLAPolicy_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$value = $this->get($key);
 		if ('operational_hours' === $key) {
-			$moduleName = $this->getModule()->getName();
+			$moduleName = $this->getModule()->getName(true);
 			$value = 0 === $value ? \App\Language::translate('LBL_CALENDAR_HOURS', $moduleName) : \App\Language::translate('LBL_BUSINESS_HOURS', $moduleName);
 		} elseif ('tabid' === $key) {
 			$moduleName = \App\Module::getModuleName($value);
@@ -198,5 +198,26 @@ class Settings_SLAPolicy_Record_Model extends Settings_Vtiger_Record_Model
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
 		return $links;
+	}
+
+	/**
+	 * Get templates for module.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return self[]
+	 */
+	public static function getForModule(string $moduleName): array
+	{
+		if (\App\Cache::has('Settings_SlaPolicy_Record_Model::getForModule', $moduleName)) {
+			return \App\Cache::get('Settings_SlaPolicy_Record_Model::getForModule', $moduleName);
+		}
+		$rows = (new \App\Db\Query())->from('s_#__sla_policy')->where(['tabid' => \App\Module::getModuleId($moduleName)])->all(\App\Db::getInstance('admin'));
+		$instances = [];
+		foreach ($rows as $row) {
+			$instances[] = static::getCleanInstance()->setData($row);
+		}
+		\App\Cache::save('Settings_SlaPolicy_Record_Model::getForModule', $moduleName, $instances);
+		return $instances;
 	}
 }

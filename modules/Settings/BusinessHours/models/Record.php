@@ -16,11 +16,9 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 	 * @var array
 	 */
 	public static $unitLabels = [
-		'm' => 'LBL_MONTHS',
 		'd' => 'LBL_DAYS',
 		'H' => 'LBL_HOURS',
 		'i' => 'LBL_MINUTES',
-		's' => 'LBL_SECONDS'
 	];
 
 	/**
