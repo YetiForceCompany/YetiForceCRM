@@ -294,7 +294,7 @@ class RecordStatus
 		$current = $recordModel->get($fieldName);
 		if ($previous && isset($timeCountingValues[$previous]) && ($timeCountingValues[$current] ?? '') !== $timeCountingValues[$previous]
 		&& ($date = self::getStateDate($recordModel, $timeCountingValues[$previous])) && ($key = self::$fieldsByStateTime[$timeCountingValues[$previous]] ?? '')) {
-			$recordModel->set($key . '_range_time', Utils\ServiceContracts::getDiff($date, '', $recordModel));
+			$recordModel->set($key . '_range_time', Utils\ServiceContracts::getDiff($date, $recordModel));
 			$recordModel->set($key . '_datatime', date('Y-m-d H:i:s'));
 		}
 	}
