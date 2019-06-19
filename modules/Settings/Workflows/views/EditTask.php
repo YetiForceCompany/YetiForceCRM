@@ -104,7 +104,7 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 			$viewer->assign('DOCUMENTS_MODULLES', $documents);
 			$relationsEmails = [];
 			foreach ($moduleModel->getRelations() as $key => $relation) {
-				if (!\in_array($relation->get('relatedModuleName'), ['HelpDesk', 'Documents', 'OSSMailView'])) {
+				if (!\in_array($relation->get('relatedModuleName'), [$sourceModule, 'Documents', 'OSSMailView'])) {
 					foreach ($relation->getRelationModuleModel()->getFieldsByType('email') as $key => $field) {
 						$relationsEmails[$relation->get('relatedModuleName') . '::' . $key] = \App\Language::translate($relation->get('relatedModuleName'), $relation->get('relatedModuleName')) . ' - ' . \App\Language::translate($field->getFieldLabel(), $relation->get('relatedModuleName'));
 					}
