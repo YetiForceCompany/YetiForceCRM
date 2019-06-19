@@ -1235,7 +1235,18 @@ jQuery.Class(
 			let container = $('.listViewEntriesDiv');
 			if (this.relatedView !== 'ListPreview') {
 				container.each((index, element) => {
-					app.showNewScrollbarTopBottomRight($(element));
+					if (container.closest('.js-detail-widget-content').length) {
+						element = container.closest('.js-detail-widget-content');
+						element.each((index, el) => {
+							if (!$(el).hasClass('ps')) {
+								app.showNewScrollbarTopBottomRight($(el));
+							}
+						});
+					} else {
+						if (!$(element).hasClass('ps')) {
+							app.showNewScrollbarTopBottomRight($(element));
+						}
+					}
 				});
 			}
 		},
