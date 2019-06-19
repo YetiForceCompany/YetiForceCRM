@@ -273,7 +273,7 @@ class WorkFlowScheduler
 			default:
 				break;
 		}
-		if (\in_array($operation, ['less than hours before', 'less than hours later', 'more than hours later', 'more than hours before'])) {
+		if (!\in_array($operation, ['less than days ago', 'in less than', 'less than hours before', 'less than hours later'])) {
 			$value = App\Fields\DateTime::formatToDisplay($value);
 		} else {
 			$dates = explode(',', $value);
