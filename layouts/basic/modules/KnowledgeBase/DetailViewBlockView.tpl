@@ -44,11 +44,16 @@
 								<div class="col-sm-6">
 									<div class="form-row border-right">
 										<div class="fieldLabel u-border-bottom-label-md u-border-right-0-md c-panel__label col-lg-6 {$WIDTHTYPE} text-right" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
-											{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
-											{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
-											{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'Other:HelpInfo') neq $HELPINFO_LABEL}
-												<a style="margin-left: 5px;margin-top: 2px;" href="#" class="js-help-info float-right" title="" data-placement="top" data-content="{\App\Language::translate($HELPINFO_LABEL, 'Other:HelpInfo')}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'><i class="fas fa-info-circle"></i></a>
-												{/if}
+											{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL,$VIEW)}
+											{if $HELPINFO_LABEL}
+												<a href="#" class="js-help-info float-right u-cursor-pointer"
+													title="" 
+													data-placement="top" 
+													data-content="{$HELPINFO_LABEL}" 
+													data-original-title='{$HELPINFO_LABEL}'>
+													<span class="fas fa-info-circle"></span>
+												</a>
+											{/if}
 											<label class="u-text-small-bold">
 												{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
 											</label>

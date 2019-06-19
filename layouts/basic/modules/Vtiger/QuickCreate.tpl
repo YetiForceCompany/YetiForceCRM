@@ -73,17 +73,17 @@
 									{/if}
 									<div class="col-md-6 py-2 form-row d-flex justify-content-center px-0 m-0 {$WIDTHTYPE} ">
 										<div class="fieldLabel col-lg-12 col-xl-3 pl-0 text-lg-left text-xl-right u-text-ellipsis">
-											{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
-											{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
+											{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL,$VIEW)}
 											<label class="text-right muted small font-weight-bold">
 												{if $FIELD_MODEL->isMandatory() eq true}
 													<span class="redColor">*</span>
 												{/if}
-												{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'Other:HelpInfo') neq $HELPINFO_LABEL}
-													<a href="#" class="js-help-info float-right" title=""
-													   data-placement="top"
-													   data-content="{\App\Language::translate($HELPINFO_LABEL, 'Other:HelpInfo')}"
-													   data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}'>
+												{if $HELPINFO_LABEL}
+													<a href="#" class="js-help-info float-right u-cursor-pointer"
+														title=""
+														data-placement="top"
+														data-content="{$HELPINFO_LABEL}"
+														data-original-title='{$HELPINFO_LABEL}'>
 														<span class="fas fa-info-circle"></span>
 													</a>
 												{/if}

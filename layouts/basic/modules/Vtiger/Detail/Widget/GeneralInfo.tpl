@@ -17,14 +17,16 @@
 							<tr class="c-table__row--hover">
 								<td class="{$WIDTHTYPE}">
 									<label class="font-weight-bold">{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE_NAME)}
-										{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
-										{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
-										{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'Other:HelpInfo') neq $HELPINFO_LABEL}
-											<a href="#" class="js-help-info pl-1" title="" data-placement="top"
-											   data-content="{\App\Language::translate($HELPINFO_LABEL, 'Other:HelpInfo')}"
-											   data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'><span
-														class="fas fa-info-circle"></span></a>
-										{/if}
+											{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL,$VIEW)}
+										{if $HELPINFO_LABEL}
+												<a href="#" class="js-help-info float-right u-cursor-pointer"
+													title="" 
+													data-placement="top"
+													data-content="{$HELPINFO_LABEL}"
+													data-original-title='{$HELPINFO_LABEL}'>
+													<span class="fas fa-info-circle"></span>
+												</a>
+											{/if}
 									</label>
 								</td>
 								<td class="fieldValue {$WIDTHTYPE}">

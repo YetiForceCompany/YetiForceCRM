@@ -197,6 +197,32 @@ class Language
 	}
 
 	/**
+	 * Functions get translate help info
+	 *
+	 * @param Vtiger_Field_Model $fieldModel
+	 * @param string $view
+	 *
+	 * @return bool $view
+	 */
+	public static function getTranslateHelpInfo(Vtiger_Field_Model $fieldModel, string $view)
+	{
+		$moduleName = $fieldModel->getModuleName();
+		$label = $fieldModel->getFieldLabel();
+		if(in_array($view,explode(',', $fieldModel->get('helpinfo')))){
+			$key = "$moduleName|$label";
+			$translated = \App\Language::translate($key, 'Other:HelpInfo');
+			if($key !== $translated){
+				return $translated;
+			}
+			$translated = \App\Language::translate($label, 'Other:HelpInfo');
+			if($label !== $translated){
+				return $translated;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Functions that gets translated string with encoding html.
 	 *
 	 * @param string $key             - string which need to be translated
