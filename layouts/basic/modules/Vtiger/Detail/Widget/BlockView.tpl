@@ -39,10 +39,10 @@
 										<div class="font-weight-bold text-truncate mb-1 mt-1"
 											 title="{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}">
 											{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
-											{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
+											{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'Other:HelpInfo') neq $HELPINFO_LABEL}
 												<a href="#" class="js-help-info float-right u-cursor-pointer"
 												   title="" data-placement="top"
-												   data-content="{\App\Language::translate($HELPINFO_LABEL, 'HelpInfo')}"
+												   data-content="{\App\Language::translate($HELPINFO_LABEL, 'Other:HelpInfo')}"
 												   data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'>
 													<span class="fas fa-info-circle"></span>
 												</a>

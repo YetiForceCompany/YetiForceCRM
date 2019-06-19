@@ -19,9 +19,9 @@
 									<label class="font-weight-bold">{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE_NAME)}
 										{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 										{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
-										{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
+										{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'Other:HelpInfo') neq $HELPINFO_LABEL}
 											<a href="#" class="js-help-info pl-1" title="" data-placement="top"
-											   data-content="{\App\Language::translate($HELPINFO_LABEL, 'HelpInfo')}"
+											   data-content="{\App\Language::translate($HELPINFO_LABEL, 'Other:HelpInfo')}"
 											   data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'><span
 														class="fas fa-info-circle"></span></a>
 										{/if}
