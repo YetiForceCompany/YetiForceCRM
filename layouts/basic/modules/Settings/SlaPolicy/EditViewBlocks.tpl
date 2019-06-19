@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<!-- tpl-Settings-SLAPolicy-EditViewBlocks -->
+<!-- tpl-Settings-SlaPolicy-EditViewBlocks -->
 <div class='verticalScroll'>
 	<div class='editViewContainer'>
 		<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
@@ -77,5 +77,5 @@
 					</div>
 				</div>
 			</div>
-<!-- /tpl-Settings-SLAPolicy-EditViewBlocks -->
+<!-- /tpl-Settings-SlaPolicy-EditViewBlocks -->
 {/strip}

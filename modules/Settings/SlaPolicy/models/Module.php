@@ -1,6 +1,6 @@
 <?php
 /**
- * Settings SLAPolicy module model class.
+ * Settings SlaPolicy module model class.
  *
  * @package   Model
  *
@@ -8,7 +8,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
  */
-class Settings_SLAPolicy_Module_Model extends Settings_Vtiger_Module_Model
+class Settings_SlaPolicy_Module_Model extends Settings_Vtiger_Module_Model
 {
 	/**
 	 * Base table.
@@ -41,14 +41,14 @@ class Settings_SLAPolicy_Module_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @var string
 	 */
-	public $name = 'SLAPolicy';
+	public $name = 'SlaPolicy';
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function getDefaultUrl()
 	{
-		return 'index.php?module=SLAPolicy&parent=Settings&view=List';
+		return 'index.php?module=SlaPolicy&parent=Settings&view=List';
 	}
 
 	/**
@@ -56,7 +56,7 @@ class Settings_SLAPolicy_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getCreateRecordUrl()
 	{
-		return 'index.php?module=SLAPolicy&parent=Settings&view=Edit';
+		return 'index.php?module=SlaPolicy&parent=Settings&view=Edit';
 	}
 
 	/**
@@ -68,7 +68,7 @@ class Settings_SLAPolicy_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getEditRecordUrl(int $recordId)
 	{
-		return 'index.php?module=SLAPolicy&parent=Settings&view=Edit&record=' . $recordId;
+		return 'index.php?module=SlaPolicy&parent=Settings&view=Edit&record=' . $recordId;
 	}
 
 	/**
@@ -76,7 +76,7 @@ class Settings_SLAPolicy_Module_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @return string[]
 	 */
-	public function getModules(): array
+	public static function getModules(): array
 	{
 		$modules = [];
 		foreach (\App\Field::getRelatedFieldForModule(false, 'ServiceContracts') as $moduleName => $value) {
