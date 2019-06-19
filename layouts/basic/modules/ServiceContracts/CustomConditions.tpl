@@ -5,66 +5,61 @@
 	<div class="d-none js-conditions-template" data-js="container">
 		{include file=\App\Layout::getTemplatePath('ConditionBuilder.tpl', $MODULE_NAME)}
 	</div>
-	<div class="table-responsive">
-	<table class="table js-custom-conditions-table">
-		<thead>
-			<tr>
-				<th>{\App\Language::translate('LBL_CONDITIONS', $MODULE_NAME)}</th>
-				<th>{\App\Language::translate('LBL_BUSINESS_HOURS', $MODULE_NAME)}</th>
-				<th>{\App\Language::translate('LBL_TIMES', $MODULE_NAME)}</th>
-			</tr>
-		</thead>
-		<tbody>
+	<div class="js-custom-conditions" data-js="container">
 		{foreach item=ROW from=$ROWS key=$ROW_INDEX}
 			{if $ROW['policy_type']===2}
-			<tr class="js-custom-table-row" data-id="{$ROW['id']}" data-js="container">
-				<td class="js-conditions-col">
-					<input type="hidden" name="rowid[{$ROW_INDEX}]" value="{$ROW['id']}" class="js-custom-row-id" />
-					<input type="hidden" name="conditions[{$ROW_INDEX}]" class="js-conditions-value" value="{\App\Purifier::encodeHtml($ROW['conditions'])}" data-js="container">
-					{include file=\App\Layout::getTemplatePath('ConditionBuilder.tpl', $MODULE_NAME) ADVANCE_CRITERIA=\App\Json::decode($ROW['conditions'])}
-				</td>
-				<td>
-					{assign var=ROW_HOURS value=explode(',',$ROW['business_hours'])}
-					<select class="select2 js-business-hours" name="business_hours[{$ROW_INDEX}][]" multiple data-validation-engine="validate[required,,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
-						{foreach item=BUSINESS_HOURS from=$ALL_BUSINESS_HOURS}
-							<option value="{$BUSINESS_HOURS['id']}"{if in_array($BUSINESS_HOURS['id'], $ROW_HOURS)}selected="selected"{/if}>{$BUSINESS_HOURS['name']}</option>
-						{/foreach}
-					</select>
-				</td>
-				<td>
+			<div class="card js-custom-row shadow-sm mb-2" data-id="{$ROW['id']}" data-js="container">
+				<div class="card-body">
 					<div class="d-flex">
-						<div style="flex-grow:1;">
-							<div class="js-reaction-time-container">
-								<label>{\App\Language::translate('LBL_REACTION_TIME','Settings:BusinessHours')}</label>
-								<div class="input-group time">
-									<div style="width:226px">
+						<div class="d-block" style="flex-grow:1">
+							<div class="row no-gutters">
+								<div class="col-5 pr-2">
+									{assign var=ROW_HOURS value=explode(',', $ROW['business_hours'])}
+									<label>{\App\Language::translate('LBL_BUSINESS_HOURS', $MODULE_NAME)}</label>
+									<select class="select2 js-business-hours" name="business_hours[{$ROW_INDEX}][]" multiple data-validation-engine="validate[required,,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
+										{foreach item=BUSINESS_HOURS from=$ALL_BUSINESS_HOURS}
+											<option value="{$BUSINESS_HOURS['id']}"{if in_array($BUSINESS_HOURS['id'], $ROW_HOURS)}selected="selected"{/if}>{$BUSINESS_HOURS['name']}</option>
+										{/foreach}
+									</select>
+								</div>
+								<div class="col-2 pr-2">
+									<label>{\App\Language::translate('LBL_REACTION_TIME','Settings:BusinessHours')}</label>
+									<div class="input-group time">
 										<input type="hidden" name="reaction_time[{$ROW_INDEX}]" class="c-time-period" value="{$ROW['reaction_time']}">
 									</div>
 								</div>
-							</div>
-							<div class="js-idle-time-container">
-								<label>{\App\Language::translate('LBL_IDLE_TIME','Settings:BusinessHours')}</label>
-								<div class="input-group time">
-									<div style="width:226px"><input type="hidden" name="idle_time[{$ROW_INDEX}]" class="c-time-period" value="{$ROW['idle_time']}"></div>
+								<div class="col-2 pr-2">
+									<label>{\App\Language::translate('LBL_IDLE_TIME','Settings:BusinessHours')}</label>
+									<div class="input-group time">
+										<input type="hidden" name="idle_time[{$ROW_INDEX}]" class="c-time-period" value="{$ROW['idle_time']}">
+									</div>
+								</div>
+								<div class="col-2 pr-2">
+									<label>{\App\Language::translate('LBL_RESOLVE_TIME','Settings:BusinessHours')}</label>
+									<div class="input-group time">
+										<input type="hidden" name="resolve_time[{$ROW_INDEX}]" class="c-time-period" value="{$ROW['resolve_time']}">
+									</div>
 								</div>
 							</div>
-							<div class="js-resolve-time-container">
-								<label>{\App\Language::translate('LBL_RESOLVE_TIME','Settings:BusinessHours')}</label>
-								<div class="input-group time">
-									<div style="width:226px"><input type="hidden" name="resolve_time[{$ROW_INDEX}]" class="c-time-period" value="{$ROW['resolve_time']}"></div>
+							<div class="row mt-2">
+								<div class="js-conditions-col col">
+									<label>{\App\Language::translate('LBL_CONDITIONS', $MODULE_NAME)}</label>
+									<input type="hidden" name="rowid[{$ROW_INDEX}]" value="{$ROW['id']}" class="js-custom-row-id" />
+									<input type="hidden" name="conditions[{$ROW_INDEX}]" class="js-conditions-value" value="{\App\Purifier::encodeHtml($ROW['conditions'])}" data-js="container">
+									{include file=\App\Layout::getTemplatePath('ConditionBuilder.tpl', $MODULE_NAME) ADVANCE_CRITERIA=\App\Json::decode($ROW['conditions'])}
 								</div>
 							</div>
 						</div>
-						<div style="flex-grow:0;" class="border-left ml-2">
-							<a href class="btn btn-danger js-delete-row-action ml-2"><span class="fas fa-trash-alt"></span></a>
+						<div class="d-inline-flex text-right border-left" style="flex-grow:0">
+							<div class="d-inline-block align-center" style="margin:auto 0;">
+								<a href class="btn btn-danger ml-4 js-delete-row-action"><span class="fas fa-trash-alt"></span></a>
+							</div>
 						</div>
 					</div>
-				</td>
-			</tr>
+				</div>
+			</div>
 			{/if}
 		{/foreach}
-		</tbody>
-	</table>
-	</div>
+		</div>
 <!-- /tpl-SlaPolicy-CustomConditions -->
 {/strip}

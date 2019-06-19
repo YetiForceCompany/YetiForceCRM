@@ -151,7 +151,7 @@ class SlaPolicy_InRelation_Js {
 		if (policyType === 2 && !this.container.validationEngine('validate')) {
 			return;
 		}
-		if (policyType === 2 && !this.container.find('.js-custom-table-row').length) {
+		if (policyType === 2 && !this.container.find('.js-custom-row').length) {
 			Vtiger_Helper_Js.showPnotify({
 				text: app.vtranslate('JS_NO_ITEM_SELECTED'),
 				type: 'notice',
@@ -184,12 +184,12 @@ class SlaPolicy_InRelation_Js {
 			progress.progressIndicator({ mode: 'hide' });
 			if (Array.isArray(data.result)) {
 				data.result.forEach((row, index) => {
-					const rowElem = this.container.find('.js-custom-table-row').eq(index);
+					const rowElem = this.container.find('.js-custom-row').eq(index);
 					rowElem.data('id', row.id);
 					rowElem.find('.js-custom-row-id').val(row.id);
 				});
 			} else {
-				$.each(this.container.find('.js-custom-table-row'), (index, rowElem) => {
+				$.each(this.container.find('.js-custom-row'), (index, rowElem) => {
 					rowElem = $(rowElem);
 					rowElem.data('id', 0);
 					rowElem.find('.js-custom-row-id').val(0);
@@ -210,48 +210,57 @@ class SlaPolicy_InRelation_Js {
 		this.container.find('.js-sla-policy-add-record-btn').on('click', e => {
 			e.preventDefault();
 			e.stopPropagation();
-			const index = this.container.find('.js-custom-table-row').length;
-			const row = $(`<tr data-id="0" class="js-custom-table-row">
-			<td class="js-conditions-col">
-				<input type="hidden" name="rowid[${index}]" value="0" class="js-custom-row-id" />
-				<input type="hidden" name="conditions[${index}]" class="js-conditions-value" value="{}" data-js="container">
-				${this.container.find('.js-conditions-template').html()}
-			</td>
-			<td>
-				<select class="select2" name="business_hours[${index}][]" multiple data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
-				${this.businessHours
-					.map(businessHours => {
-						return `<option value="${businessHours.id}">${businessHours.name}</option>`;
-					})
-					.join('')}
-				</select>
-			</td>
-			<td>
-			<div class="d-flex">
-				<div style="flex-grow:1">
-					<div class="js-reaction-time-container">
-						<label>${app.vtranslate('JS_REACTION_TIME')}</label>
-						<div class="input-group time">
-							<div style="width:226px"><input type="hidden" name="reaction_time[${index}]" class="c-time-period" value="1:d"></div>
+			const index = this.container.find('.js-custom-row').length;
+			const row = $(`<div class="card js-custom-row shadow-sm mb-2" data-id="0" data-js="container">
+			<div class="card-body">
+				<div class="d-flex">
+					<div class="d-block" style="flex-grow:1">
+						<div class="row no-gutters">
+							<div class="col-5 pr-2">
+								<label>${app.vtranslate('JS_BUSINESS_HOURS')}</label>
+								<select class="select2" name="business_hours[${index}][]" multiple data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
+								${this.businessHours
+									.map(businessHours => {
+										return `<option value="${businessHours.id}">${businessHours.name}</option>`;
+									})
+									.join('')}
+								</select>
+							</div>
+							<div class="col-2 pr-2">
+								<label>${app.vtranslate('JS_REACTION_TIME')}</label>
+								<div class="input-group time">
+									<input type="hidden" name="reaction_time[${index}]" class="c-time-period" value="1:d">
+								</div>
+							</div>
+							<div class="col-2 pr-2">
+								<label>${app.vtranslate('JS_IDLE_TIME')}</label>
+								<div class="input-group time">
+									<input type="hidden" name="idle_time[${index}]" class="c-time-period" value="1:d">
+								</div>
+							</div>
+							<div class="col-2 pr-2">
+								<label>${app.vtranslate('JS_RESOLVE_TIME')}</label>
+								<div class="input-group time">
+									<input type="hidden" name="resolve_time[${index}]" class="c-time-period" value="1:d">
+								</div>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="js-conditions-col col">
+								<input type="hidden" name="rowid[${index}]" value="0" class="js-custom-row-id" />
+								<input type="hidden" name="conditions[${index}]" class="js-conditions-value" value="{}" data-js="container">
+								${this.container.find('.js-conditions-template').html()}
+							</div>
 						</div>
 					</div>
-					<div class="js-idle-time-container">
-						<label>${app.vtranslate('JS_IDLE_TIME')}</label>
-						<div class="input-group time">
-							<div style="width:226px"><input type="hidden" name="idle_time[${index}]" class="c-time-period" value="1:d"></div>
-						</div>
-					</div>
-					<div class="js-resolve-time-container">
-						<label>${app.vtranslate('JS_RESOLVE_TIME')}</label>
-						<div class="input-group time">
-							<div style="width:226px"><input type="hidden" name="resolve_time[${index}]" class="c-time-period" value="1:d"></div>
+					<div class="d-inline-flex text-right border-left" style="flex-grow:0">
+						<div class="d-inline-block align-center" style="margin:auto 0;">
+							<a href class="btn btn-danger ml-4 js-delete-row-action"><span class="fas fa-trash-alt"></span></a>
 						</div>
 					</div>
 				</div>
-				<div style="flex-grow:0;" class="ml-2 border-left"><a href class="btn btn-danger js-delete-row-action ml-2"><span class="fas fa-trash-alt"></span></a></div>
 			</div>
-			</td>
-			</tr>`);
+		</div>`);
 			App.Fields.TimePeriod.register(row);
 			this.registerDelBtnClick(row);
 			App.Fields.Picklist.showSelect2ElementView(row.find('.select2'));
@@ -259,7 +268,7 @@ class SlaPolicy_InRelation_Js {
 				row.find('.js-condition-builder').eq(0),
 				this.container.find('.js-conditions-col').length
 			);
-			this.container.find('.js-custom-conditions-table tbody').append(row);
+			this.container.find('.js-custom-conditions').append(row);
 		});
 	}
 
@@ -272,10 +281,10 @@ class SlaPolicy_InRelation_Js {
 		container.find('.js-delete-row-action').on('click', e => {
 			e.preventDefault();
 			e.stopPropagation();
-			const tr = $(e.target).closest('tr');
-			const rowId = Number(tr.data('id'));
+			const row = $(e.target).closest('.js-custom-row');
+			const rowId = Number(row.data('id'));
 			if (!rowId) {
-				tr.remove();
+				row.remove();
 				return;
 			}
 			const progress = jQuery.progressIndicator({
@@ -288,12 +297,11 @@ class SlaPolicy_InRelation_Js {
 				module: 'ServiceContracts',
 				action: 'PolicyDeleteAjax',
 				targetModule: this.targetModule,
-				record: rowId,
-				hash: tr.data('hash')
+				record: rowId
 			}).done(data => {
 				progress.progressIndicator({ mode: 'hide' });
 				$(e.target)
-					.closest('tr')
+					.closest('.card')
 					.remove();
 				Vtiger_Helper_Js.showPnotify({
 					text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
@@ -343,7 +351,7 @@ class SlaPolicy_InRelation_Js {
 		App.Fields.TimePeriod.register(this.container);
 		this.registerAddRecordBtnClick();
 		this.registerDelBtnClick(this.container);
-		$.each(this.container.find('.js-custom-conditions-table .js-condition-builder'), (index, col) => {
+		$.each(this.container.find('.js-custom-conditions .js-condition-builder'), (index, col) => {
 			this.registerConditionBuilder($(col), index);
 		});
 	}

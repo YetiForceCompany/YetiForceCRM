@@ -50,6 +50,7 @@
     "JS_OPERATIONAL_HOURS": "Operational hours",
     "JS_REACTION_TIME": "Reaction time",
     "JS_IDLE_TIME": "Idle time",
-    "JS_RESOLVE_TIME": "Resolve time"
+    "JS_RESOLVE_TIME": "Resolve time",
+    "JS_BUSINESS_HOURS": "Business hours"
   }
 }
