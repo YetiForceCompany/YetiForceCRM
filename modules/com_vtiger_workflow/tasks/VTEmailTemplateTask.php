@@ -55,6 +55,16 @@ class VTEmailTemplateTask extends VTTask
 				foreach ($relationListView->getEntries($pagingModel) as $key => $relatedRecordModel) {
 					$mailerContent['to'][] = $relatedRecordModel->get($relatedFieldName);
 				}
+				if (isset($recordModel->ext['relationsEmail'])) {
+					foreach ($recordModel->ext['relationsEmail'] as $tempModule => $tempCrmId) {
+						if ($relatedModule === $tempModule) {
+							$tempRecordModel = Vtiger_Record_Model::getInstanceById($tempCrmId, $tempModule);
+							if ($tempRecordModel->get($relatedFieldName)) {
+								$mailerContent['to'][] = $tempRecordModel->get($relatedFieldName);
+							}
+						}
+					}
+				}
 			}
 			unset($emailParser);
 			if (empty($mailerContent['to'])) {
