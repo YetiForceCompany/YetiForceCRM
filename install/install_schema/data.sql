@@ -4764,6 +4764,8 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (15,2821,'accountid','vtiger_faq',1,10,'accountid','FL_ACCOUNT',0,2,'','4294967295',8,37,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (6,2822,'taxes','vtiger_account',1,303,'taxes','FL_TAXES',0,2,'',NULL,11,198,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (6,2823,'accounts_available_taxes','vtiger_account',1,33,'accounts_available_taxes','FL_AVAILABLE_TAXES',0,2,'',NULL,3,439,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (14,2824,'weight','vtiger_products',1,7,'weight','FL_WEIGHT',0,2,'',NULL,8,33,1,'NN~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (14,2825,'multicategory','vtiger_products',1,309,'multicategory','FL_MULTICATEGORY',0,2,'',NULL,33,31,1,'V~O',1,0,'BAS',1,'',0,'31',NULL,0,0,0);
 
 /*Data for the table `vtiger_field_seq` */
 
@@ -8168,6 +8170,8 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,15,2821,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,6,2822,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,6,2823,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,14,2824,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,14,2825,0,0);
 
 /*Data for the table `vtiger_profile2globalpermissions` */
 
@@ -18321,6 +18325,7 @@ insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`sha
 insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (28,'LBL_SECURITY_TYPE',123,1,'');
 insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (29,'Category',15,1,'');
 insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (30,'Category',111,1,'');
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (31,'Multicategory',14,1,'');
 
 /*Data for the table `vtiger_trees_templates_data` */
 
@@ -18396,6 +18401,11 @@ insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parentTre
 insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parentTree`,`depth`,`label`,`state`,`icon`) values (28,'PLL_ELECTRONIC','T2','T2',0,'PLL_ELECTRONIC','{\"loaded\":\"1\",\"opened\":false,\"selected\":false,\"disabled\":false}','1');
 insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parentTree`,`depth`,`label`,`state`,`icon`) values (29,'None','T1','T1',0,'None','{\"loaded\":\"1\",\"opened\":false,\"selected\":false,\"disabled\":false}','');
 insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parentTree`,`depth`,`label`,`state`,`icon`) values (30,'Base','T1','T1',0,'Base','{\"loaded\":\"1\",\"opened\":false,\"selected\":false,\"disabled\":false}','');
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parentTree`,`depth`,`label`,`state`,`icon`) values (31,'Hardware','T1','T1',0,'Hardware','{\"loaded\":true,\"opened\":false,\"selected\":false,\"disabled\":false}','');
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parentTree`,`depth`,`label`,`state`,`icon`) values (31,'Software','T2','T2',0,'Software','{\"loaded\":true,\"opened\":false,\"selected\":false,\"disabled\":false}','');
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parentTree`,`depth`,`label`,`state`,`icon`) values (31,'CRM Applications','T3','T3',0,'CRM Applications','{\"loaded\":true,\"opened\":false,\"selected\":false,\"disabled\":false}','');
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parentTree`,`depth`,`label`,`state`,`icon`) values (31,'Antivirus','T4','T4',0,'Antivirus','{\"loaded\":true,\"opened\":false,\"selected\":false,\"disabled\":false}','');
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parentTree`,`depth`,`label`,`state`,`icon`) values (31,'Backup','T5','T5',0,'Backup','{\"loaded\":true,\"opened\":false,\"selected\":false,\"disabled\":false}','');
 
 /*Data for the table `vtiger_troubletickets` */
 
