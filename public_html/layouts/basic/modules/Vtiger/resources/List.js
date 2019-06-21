@@ -141,32 +141,18 @@ jQuery.Class(
 			}
 		},
 		triggerQuickExportToExcel: function(module) {
-			var massActionUrl = 'index.php';
-			var listInstance = Vtiger_List_Js.getInstance();
-			var validationResult = listInstance.checkListRecordSelected();
-			if (validationResult != true) {
-				var progressIndicatorElement = jQuery.progressIndicator();
-				var actionParams = {
-					type: 'POST',
-					url: massActionUrl,
-					dataType: 'application/x-msexcel',
-					data: listInstance.getSearchParams()
+			const massActionUrl = 'index.php';
+			const listInstance = Vtiger_List_Js.getInstance();
+			if (listInstance.checkListRecordSelected() != true) {
+				const progressIndicatorElement = jQuery.progressIndicator();
+				let postData = {
+					module: module,
+					action: 'QuickExport',
+					mode: 'exportToExcel'
 				};
-				//can't use AppConnector to get files with a post request so we add a form to the body and submit it
-				var form = $('<form method="POST" action="' + massActionUrl + '">');
-				form.append($('<input />', { name: 'module', value: module }));
-				form.append($('<input />', { name: 'action', value: 'QuickExport' }));
-				form.append($('<input />', { name: 'mode', value: 'exportToExcel' }));
-				if (typeof csrfMagicName !== 'undefined') {
-					form.append($('<input />', { name: csrfMagicName, value: csrfMagicToken }));
-				}
-				$.each(actionParams.data, function(k, v) {
-					form.append($('<input />', { name: k, value: v }));
-				});
-				$('body').append(form);
-				form.submit();
+				$.extend(postData, listInstance.getSearchParams());
+				app.openUrlMethodPost(massActionUrl, postData);
 				Vtiger_Helper_Js.showMessage({ text: app.vtranslate('JS_STARTED_GENERATING_FILE'), type: 'info' });
-
 				progressIndicatorElement.progressIndicator({ mode: 'hide' });
 			} else {
 				listInstance.noRecordSelectedAlert();

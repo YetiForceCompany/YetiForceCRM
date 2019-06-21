@@ -1742,6 +1742,28 @@ var app = (window.app = {
 			window.location.href = url;
 		}
 	},
+	openUrlMethodPost(url, postData, formAttr = {}) {
+		$.extend(formAttr, {
+			method: 'post',
+			action: url
+		});
+		let form = $('<form>', formAttr);
+		if (typeof csrfMagicName !== 'undefined') {
+			let csrfData = {};
+			csrfData[csrfMagicName] = csrfMagicToken;
+			$.extend(postData, csrfData);
+		}
+		$.each(postData, (index, value) => {
+			let input = $(document.createElement('input'));
+			input.attr('type', 'hidden');
+			input.attr('name', index);
+			input.val(value);
+			form.append(input);
+		});
+		$('body').append(form);
+		form.submit();
+		form.remove();
+	},
 	showConfirmation: function(data, element) {
 		var params = {};
 		if (data) {
