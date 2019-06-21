@@ -22,26 +22,22 @@ class Product extends Base
 		'ean' => 'sku',
 		'productname' => 'name',
 		'multicategory' => 'custom_attributes|category_ids',
-		'unit_price' => 'price',
+		'retail_price' => 'price',
 		'qtyinstock' => 'extension_attributes|stock_item|qty',
 		'description' => 'custom_attributes|description',
 		'usageunit' => 'custom_attributes|rozmiar',
 		'flag' => 'custom_attributes|flag',
 		'weight' => 'weight',
+		'collection' => 'custom_attributes|kolekcja',
 	];
 	/**
 	 * {@inheritdoc}
 	 */
 	public static $fieldsType = [
 		'discontinued' => 'map',
-		'ean' => 'value',
-		'productname' => 'value',
-		'unit_price' => 'value',
-		'qtyinstock' => 'value',
-		'description' => 'value',
 		'usageunit' => 'map',
 		'flag' => 'map',
-		'weight' => 'value',
+		'collection' => 'map'
 	];
 	/**
 	 * {@inheritdoc}
@@ -77,6 +73,56 @@ class Product extends Base
 	public static $discontinued = [
 		'1' => '1',
 		'0' => '2',
+	];
+	/**
+	 * Collection map.
+	 *
+	 * @var array
+	 */
+	public static $collection = [
+		'13' => 'Black and White',
+		'14' => 'Allure',
+		'15' => 'Special Day',
+		'16' => 'Hottie',
+		'17' => 'Ocean Dream',
+		'18' => 'Tropical Drinks',
+		'19' => 'Sweets and Love',
+		'43' => 'Semi Hardi',
+		'44' => 'Unique',
+		'123' => 'My Story',
+		'175' => 'DanceFlow',
+		'187' => 'Flavours',
+		'202' => 'SemiBeats by Margaret',
+		'205' => 'PasTells',
+		'207' => 'Cat Eye',
+		'208' => 'Sharm',
+		'234' => 'Térmicos',
+		'213' => 'Nailstagram',
+		'214' => 'Purple Mania',
+		'215' => 'Nails on Fleek',
+		'216' => 'Business Line',
+		'217' => 'Platinum',
+		'239' => 'Celebrate',
+		'235' => 'Legendary Six',
+		'236' => 'All In My Hands',
+		'240' => 'America GO!',
+		'251' => 'Sweater Weather',
+		'255' => 'City Break',
+		'256' => 'Manos',
+		'257' => 'Ojos',
+		'258' => 'Labiales Mate',
+		'260' => 'Brochas de Maquillaje',
+		'259' => 'Labiales Clásicos',
+		'280' => 'Base de Maquillaje',
+		'282' => 'Polvos Compactos',
+		'283' => 'AcrylGel',
+		'284' => 'Colorete',
+		'286' => 'Correctores Antiojeras',
+		'290' => 'Base de maquillaje para ojos',
+		'287' => 'Sombras de Ojos',
+		'289' => 'Sombra de Ojos en Crema',
+		'288' => 'Bronceador e Iluminador',
+		'291' => 'Máscaras para Cejas',
 	];
 	/**
 	 * Category model.
@@ -132,7 +178,9 @@ class Product extends Base
 		}
 		$categories = $this->getCustomAttributeValue('category_ids');
 		foreach ($categories as $category) {
-			$parsedCategories .= ',T' . $this->category->mapCategoryYF[$category];
+			if (!empty($this->category->mapCategoryYF[$category])) {
+				$parsedCategories .= ',T' . $this->category->mapCategoryYF[$category];
+			}
 		}
 		return $parsedCategories;
 	}

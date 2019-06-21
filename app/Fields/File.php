@@ -1422,7 +1422,7 @@ class File
 	{
 		$value = [];
 		$file = static::loadFromUrl($url);
-		if ($file && $file->validate('image')) {
+		if ($file && $file->validateAndSecure('image')) {
 			$savePath = static::initStorageFileDirectory($moduleName);
 			$key = $file->generateHash(true, $savePath);
 			$size = $file->getSize();
@@ -1438,3 +1438,4 @@ class File
 		}
 		return $value;
 	}
+}

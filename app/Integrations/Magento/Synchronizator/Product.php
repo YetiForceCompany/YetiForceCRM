@@ -107,7 +107,7 @@ class Product extends Integrators\Product
 							}
 						}
 						if ('grouped' === $productData['type_id']) {
-							$this->updateBundleProducts($this->mapCrm[$id], $productData['product_links'], $productsCrm[$this->mapCrm[$id]]['related']);
+							$this->updateBundleProductsCrm($this->mapCrm[$id], $productData['product_links'], $productsCrm[$this->mapCrm[$id]]['related']);
 						}
 					} elseif (isset($this->mapCrm[$id]) && !isset($productsCrm[$this->mapCrm[$id]])) {
 						$this->deleteProduct($id);
@@ -164,6 +164,7 @@ class Product extends Integrators\Product
 	 *
 	 * @param array $ids
 	 *
+	 * @throws \App\Exceptions\NotAllowedMethod
 	 * @throws \ReflectionException
 	 *
 	 * @return array
@@ -226,7 +227,7 @@ class Product extends Integrators\Product
 				$this->saveImagesCrm($recordModel, $data['media_gallery_entries']);
 				$recordModel->save();
 				$this->saveMapping($data['id'], $recordModel->getId(), 'product');
-				$this->saveBundleProducts($recordModel, $data['product_links']);
+				$this->saveBundleProductsCrm($recordModel, $data['product_links']);
 				$value = $recordModel->getId();
 			} catch (\Throwable $ex) {
 				\App\Log::error('Error during saving yetiforce product: ' . $ex->getMessage(), 'Integrations/Magento');
@@ -244,7 +245,7 @@ class Product extends Integrators\Product
 	 *
 	 * @throws \Exception
 	 */
-	public function updateBundleProducts($idCrm, $bundleProducts, $bundleProductsCrm): void
+	public function updateBundleProductsCrm($idCrm, $bundleProducts, $bundleProductsCrm): void
 	{
 		$saveProducts = [];
 		$recordModel = \Vtiger_Record_Model::getInstanceById($idCrm, 'Products');
@@ -255,8 +256,8 @@ class Product extends Integrators\Product
 			}
 			unset($bundleProductsCrm[array_search($this->mapCrm[$id], $bundleProductsCrm)]);
 		}
-		$this->saveBundleProducts($recordModel, $saveProducts);
-		$this->deleteBundleProducts($recordModel, $bundleProductsCrm);
+		$this->saveBundleProductsCrm($recordModel, $saveProducts);
+		$this->deleteBundleProductsCrm($recordModel, $bundleProductsCrm);
 	}
 
 	/**
@@ -267,12 +268,12 @@ class Product extends Integrators\Product
 	 *
 	 * @throws \Exception
 	 */
-	public function saveBundleProducts($recordModel, $products): void
+	public function saveBundleProductsCrm($recordModel, $products): void
 	{
 		if (!empty($products)) {
 			$relationModel = \Vtiger_Relation_Model::getInstance($recordModel->getModule(), $recordModel->getModule());
 			foreach ($products as $product) {
-				if ('bundle' === $product['linked_product_type']) {
+				if ('associated' === $product['link_type']) {
 					$productId = $this->mapSkuToId[$product['linked_product_sku']];
 					if (isset($this->mapCrm[$productId])) {
 						$relationModel->addRelation($recordModel->getId(), $this->mapCrm[$productId]);
@@ -293,7 +294,7 @@ class Product extends Integrators\Product
 	 * @param $recordModel
 	 * @param $products
 	 */
-	public function deleteBundleProducts($recordModel, $products): void
+	public function deleteBundleProductsCrm($recordModel, $products): void
 	{
 		if (!empty($products)) {
 			$relationModel = \Vtiger_Relation_Model::getInstance($recordModel->getModule(), $recordModel->getModule());
