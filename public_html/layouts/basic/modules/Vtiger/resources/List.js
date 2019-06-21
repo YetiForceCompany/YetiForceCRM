@@ -1461,28 +1461,21 @@ jQuery.Class(
 		 * Function to register the click event for delete filter
 		 */
 		registerDeleteFilterClickEvent: function() {
-			var thisInstance = this;
-			var listViewFilterBlock = this.getFilterBlock();
+			const thisInstance = this;
+			const listViewFilterBlock = this.getFilterBlock();
 			if (listViewFilterBlock != false) {
 				//used mouseup event to stop the propagation of customfilter select change event.
-				listViewFilterBlock.on('mouseup', '.js-filter-delete', function(event) {
+				listViewFilterBlock.on('mouseup', '.js-filter-delete', event => {
 					//to close the dropdown
 					thisInstance
 						.getFilterSelectElement()
 						.data('select2')
 						.close();
-					var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
-					var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE_FILTER');
-					Vtiger_Helper_Js.showConfirmationBox({ message: message }).done(function(e) {
-						var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
-						var deleteUrl = currentOptionElement.data('deleteurl');
-						var newEle = '<form action=' + deleteUrl + ' method="POST">';
-						if (typeof csrfMagicName !== 'undefined') {
-							newEle += '<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + "'>";
-						}
-						newEle += '</form>';
-						var formElement = jQuery(newEle);
-						formElement.appendTo('body').submit();
+					const liElement = $(event.currentTarget).closest('.select2-results__option');
+					Vtiger_Helper_Js.showConfirmationBox({
+						message: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE_FILTER')
+					}).done(e => {
+						app.openUrlMethodPost(thisInstance.getSelectOptionFromChosenOption(liElement).data('deleteurl'));
 					});
 					event.stopPropagation();
 				});
@@ -1492,26 +1485,17 @@ jQuery.Class(
 		 * Function to register the click event for approve filter
 		 */
 		registerApproveFilterClickEvent: function() {
-			var thisInstance = this;
-			var listViewFilterBlock = this.getFilterBlock();
-
+			const thisInstance = this;
+			const listViewFilterBlock = this.getFilterBlock();
 			if (listViewFilterBlock != false) {
-				listViewFilterBlock.on('mouseup', '.js-filter-approve', function(event) {
+				listViewFilterBlock.on('mouseup', '.js-filter-approve', event => {
 					//to close the dropdown
 					thisInstance
 						.getFilterSelectElement()
 						.data('select2')
 						.close();
-					var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
-					var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
-					var approveUrl = currentOptionElement.data('approveurl');
-					var newEle = '<form action=' + approveUrl + ' method="POST">';
-					if (typeof csrfMagicName !== 'undefined') {
-						newEle += '<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + "'>";
-					}
-					newEle += '</form>';
-					var formElement = jQuery(newEle);
-					formElement.appendTo('body').submit();
+					const liElement = $(event.currentTarget).closest('.select2-results__option');
+					app.openUrlMethodPost(thisInstance.getSelectOptionFromChosenOption(liElement).data('approveurl'));
 					event.stopPropagation();
 				});
 			}
@@ -1520,26 +1504,17 @@ jQuery.Class(
 		 * Function to register the click event for deny filter
 		 */
 		registerDenyFilterClickEvent: function() {
-			var thisInstance = this;
-			var listViewFilterBlock = this.getFilterBlock();
+			const thisInstance = this;
+			const listViewFilterBlock = this.getFilterBlock();
 			if (listViewFilterBlock != false) {
-				listViewFilterBlock.on('mouseup', '.js-filter-deny', function(event) {
+				listViewFilterBlock.on('mouseup', '.js-filter-deny', event => {
 					//to close the dropdown
 					thisInstance
 						.getFilterSelectElement()
 						.data('select2')
 						.close();
-					var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
-					var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
-					var denyUrl = currentOptionElement.data('denyurl');
-					var form = '<form action=' + denyUrl + ' method="POST">';
-					if (typeof csrfMagicName !== 'undefined') {
-						form += '<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + "'>";
-					}
-					form += '</form>';
-					jQuery(form)
-						.appendTo('body')
-						.submit();
+					const liElement = $(event.currentTarget).closest('.select2-results__option');
+					app.openUrlMethodPost(thisInstance.getSelectOptionFromChosenOption(liElement).data('denyurl'));
 					event.stopPropagation();
 				});
 			}

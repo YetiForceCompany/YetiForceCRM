@@ -57,15 +57,7 @@ jQuery.Class(
 					data: postData
 				};
 				if (type === 'sendByForm') {
-					let form = $('<form method="POST" action="' + massActionUrl + '">');
-					if (typeof csrfMagicName !== 'undefined') {
-						form.append($('<input />', { name: csrfMagicName, value: csrfMagicToken }));
-					}
-					$.each(postData, function(k, v) {
-						form.append($('<input />', { name: k, value: v }));
-					});
-					$('body').append(form);
-					form.submit();
+					app.openUrlMethodPost(massActionUrl, postData);
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 				} else {
 					AppConnector.request(actionParams)

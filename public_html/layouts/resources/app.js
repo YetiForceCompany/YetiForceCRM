@@ -1742,14 +1742,15 @@ var app = (window.app = {
 			window.location.href = url;
 		}
 	},
-	openUrlMethodPost(url, postData, formAttr = {}) {
+	openUrlMethodPost(url, postData = {}, formAttr = {}) {
 		$.extend(formAttr, {
 			method: 'post',
-			action: url
+			action: url,
+			style: 'display:none;'
 		});
-		let form = $('<form>', formAttr);
+		let form = $('<form></form>', formAttr);
 		if (typeof csrfMagicName !== 'undefined') {
-			postData[csrfMagicToken] = csrfData;
+			postData[csrfMagicName] = csrfMagicToken;
 		}
 		$.each(postData, (index, value) => {
 			let input = $(document.createElement('input'));
