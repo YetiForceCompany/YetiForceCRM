@@ -34,6 +34,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 */
 	protected $pageTitle = 'LBL_VIEW_DETAIL';
 
+	/**
+	 * Construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -58,7 +61,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showSocialMedia');
 		$this->exposeMethod('showInventoryDetails');
 		$this->exposeMethod('showChat');
-		$this->exposeMethod('showSlaPolicyView');
 	}
 
 	/**
@@ -227,8 +229,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			'~libraries/leaflet/dist/leaflet.js',
 			'~libraries/leaflet.markercluster/dist/leaflet.markercluster.js',
 			'~libraries/leaflet.awesome-markers/dist/leaflet.awesome-markers.js',
-			'modules.OpenStreetMap.resources.Map',
-			'modules.ServiceContracts.resources.InRelation'
+			'modules.OpenStreetMap.resources.Map'
 		];
 		return array_merge(
 			parent::getFooterScripts($request),
@@ -1109,108 +1110,4 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		return $viewer->view('Detail/InventoryView.tpl', $moduleName, true);
 	}
 
-	/**
-	 * Show SLA Policy.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\IllegalValue
-	 *
-	 * @return string
-	 */
-	public function showSlaPolicyView(App\Request $request)
-	{
-		$moduleName = $request->getModule();
-		$relatedModuleName = $request->getByType('target', 'Alnum');
-		$parentId = $request->getInteger('record');
-		$label = $request->getByType('tab_label', 'Text');
-		if ($request->isEmpty('relatedView', true)) {
-			$relatedView = empty($_SESSION['relatedView'][$moduleName][$relatedModuleName]) ? 'List' : $_SESSION['relatedView'][$moduleName][$relatedModuleName];
-		} else {
-			$relatedView = $request->getByType('relatedView');
-			$_SESSION['relatedView'][$moduleName][$relatedModuleName] = $relatedView;
-		}
-		$pageNumber = $request->isEmpty('page', true) ? 1 : $request->getInteger('page');
-		$totalCount = $request->isEmpty('totalCount', true) ? false : $request->getInteger('totalCount');
-		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('page', $pageNumber);
-		if ($request->has('limit')) {
-			$pagingModel->set('limit', $request->getInteger('limit'));
-		}
-		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
-		$orderBy = $request->getForSql('orderby');
-		$sortOrder = $request->getForSql('sortorder');
-		if ($sortOrder === 'ASC') {
-			$nextSortOrder = 'DESC';
-			$sortImage = 'fas fa-chevron-down';
-		} else {
-			$nextSortOrder = 'ASC';
-			$sortImage = 'fas fa-chevron-up';
-		}
-		if (empty($orderBy) && empty($sortOrder)) {
-			$relatedInstance = CRMEntity::getInstance($relatedModuleName);
-			$orderBy = $relatedInstance->default_order_by;
-			$sortOrder = $relatedInstance->default_sort_order;
-		}
-		if (!empty($orderBy)) {
-			$relationListView->set('orderby', $orderBy);
-			$relationListView->set('sortorder', $sortOrder);
-		}
-		if ($request->has('entityState')) {
-			$relationListView->set('entityState', $request->getByType('entityState'));
-		}
-		$viewer = $this->getViewer($request);
-		if ($relatedView === 'ListPreview') {
-			$relationListView->setFields(array_merge(['id'], $relationListView->getRelatedModuleModel()->getNameFields()));
-		}
-		$models = $relationListView->getEntries($pagingModel);
-		$links = $relationListView->getLinks();
-		$header = $relationListView->getHeaders();
-		$relationModel = $relationListView->getRelationModel();
-		$rows = \App\Utils\ServiceContracts::getSlaPolicyForServiceContracts($parentId, \App\Module::getModuleId($relatedModuleName));
-		$policyType = 0;
-		if (isset($rows[0])) {
-			$policyType = (int) $rows[0]['policy_type'];
-		}
-		$allBusinessHours = \App\Utils\ServiceContracts::getAllBusinessHours();
-		foreach ($allBusinessHours as $businessHours) {
-			$businessHours['name'] = \App\Language::translate($businessHours['name'], 'Settings:BusinessHours');
-		}
-		$sourceModuleModel = Vtiger_Module_Model::getInstance($relatedModuleName);
-		$viewer->assign('SLA_POLICY', true);
-		$viewer->assign('SOURCE_MODULE', $relatedModuleName);
-		$viewer->assign('CURRENTDATE', date('Y-n-j'));
-		$viewer->assign('RECORD_STRUCTURE', Vtiger_RecordStructure_Model::getInstanceForModule($sourceModuleModel)->getStructure());
-		$viewer->assign('ALL_BUSINESS_HOURS', $allBusinessHours);
-		$viewer->assign('POLICY_TYPE', $policyType);
-		$viewer->assign('RECORD_ID', $parentId);
-		$viewer->assign('RELATED_MODULE_ID', \App\Module::getModuleId($relatedModuleName));
-		$viewer->assign('ROWS', \App\Utils\ServiceContracts::getSlaPolicyForServiceContracts($parentId, \App\Module::getModuleId($relatedModuleName)));
-		$viewer->assign('PICKLIST_MODULE', 'Settings:Picklist');
-		$viewer->assign('TICKET_STATUSES', \App\Fields\Picklist::getValues('ticketstatus'));
-		$viewer->assign('TARGET_MODULE', $relatedModuleName);
-		$viewer->assign('RELATED_VIEW', $relatedView);
-		$viewer->assign('RELATED_LIST_LINKS', $links);
-		$viewer->assign('RELATED_HEADERS', $header);
-		$viewer->assign('RELATED_MODULE', $relationModel->getRelationModuleModel());
-		$viewer->assign('RELATED_ENTIRES_COUNT', count($models));
-		$viewer->assign('RELATION_FIELD', $relationModel->getRelationField());
-		if (App\Config::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
-			$totalCount = $relationListView->getRelatedEntriesCount();
-		}
-		if (empty($totalCount)) {
-			$totalCount = 0;
-		}
-
-		$viewer->assign('MODULE', $moduleName);
-		$isFavorites = false;
-		if ($relationModel->isFavorites() && \App\Privilege::isPermitted($moduleName, 'FavoriteRecords')) {
-			$favorites = $relationListView->getFavoriteRecords();
-			$viewer->assign('FAVORITES', $favorites);
-			$isFavorites = $relationModel->isFavorites();
-		}
-		$viewer->assign('VIEW', $request->getByType('view'));
-		return $viewer->view('Index.tpl', $moduleName, true);
-	}
 }

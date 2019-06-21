@@ -2,15 +2,9 @@
   "php": {
     "LBL_SLA_POLICY": "SLA Policy",
     "LBL_NAME": "Policy name",
-    "LBL_OPERATIONAL_HOURS": "Operational hours",
     "LBL_EDIT": "Edit SLA policy",
     "LBL_CREATE": "Create new SLA policy",
-    "LBL_CALENDAR_HOURS": "Calendar",
-    "LBL_BUSINESS_HOURS": "Business",
-    "LBL_SOURCE_MODULE": "Module",
-    "LBL_REACTION_TIME": "Reaction time",
-    "LBL_IDLE_TIME": "Idle time",
-    "LBL_RESOLVE_TIME": "Resolve time"
+    "LBL_SOURCE_MODULE": "Module"
   },
   "js": {
     "JS_BUSINESS_HOURS": "Select business hours",

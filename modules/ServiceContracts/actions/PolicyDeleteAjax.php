@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o.
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class ServiceContracts_PolicyDeleteAjax_Action extends \App\Controller\Action
 {
@@ -15,9 +16,9 @@ class ServiceContracts_PolicyDeleteAjax_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(App\Request $request)
 	{
-		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPrivilegesModel->hasModulePermission($request->getByType('targetModule', 'Alnum')) || !$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		$record = Vtiger_DetailView_Model::getInstance($request->getModule(), $request->getInteger('record'));
+		if (!$record->getRecord()->isViewable()) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -26,7 +27,7 @@ class ServiceContracts_PolicyDeleteAjax_Action extends \App\Controller\Action
 	 */
 	public function process(App\Request $request)
 	{
-		\App\Db::getInstance()->createCommand()->delete('u_#__servicecontracts_sla_policy', ['id' => $request->getInteger('record')])->execute();
+		\App\Utils\ServiceContracts::deleteSlaPolicy($request->getInteger('record'), \App\Module::getModuleId($request->getByType('targetModule', 'Alnum')));
 		$response = new Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();

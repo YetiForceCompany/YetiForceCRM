@@ -157,15 +157,14 @@ class Settings_SlaPolicy_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$value = $this->get($key);
 		if ('operational_hours' === $key) {
-			$moduleName = $this->getModule()->getName(true);
-			$value = 0 === $value ? \App\Language::translate('LBL_CALENDAR_HOURS', $moduleName) : \App\Language::translate('LBL_BUSINESS_HOURS', $moduleName);
+			$value = 0 === $value ? \App\Language::translate('LBL_CALENDAR_HOURS', 'ServiceContracts') : \App\Language::translate('LBL_BUSINESS_HOURS', 'ServiceContracts');
 		} elseif ('tabid' === $key) {
 			$moduleName = \App\Module::getModuleName($value);
 			$value = \App\Language::translate($moduleName, $moduleName);
 		} elseif ('business_hours' === $key) {
 			$value = implode(', ', array_column(\App\Utils\ServiceContracts::getBusinessHoursByIds(explode(',', $value)), 'name'));
 		} elseif (\in_array($key, ['reaction_time', 'idle_time', 'resolve_time'])) {
-			$value = Settings_BusinessHours_Record_Model::getTimePeriodDisplayValue($value);
+			$value = \App\Fields\TimePeriod::getLabel($value);
 		}
 		return $value;
 	}
@@ -198,26 +197,5 @@ class Settings_SlaPolicy_Record_Model extends Settings_Vtiger_Record_Model
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
 		return $links;
-	}
-
-	/**
-	 * Get templates for module.
-	 *
-	 * @param string $moduleName
-	 *
-	 * @return self[]
-	 */
-	public static function getForModule(string $moduleName): array
-	{
-		if (\App\Cache::has('Settings_SlaPolicy_Record_Model::getForModule', $moduleName)) {
-			return \App\Cache::get('Settings_SlaPolicy_Record_Model::getForModule', $moduleName);
-		}
-		$rows = (new \App\Db\Query())->from('s_#__sla_policy')->where(['tabid' => \App\Module::getModuleId($moduleName)])->all(\App\Db::getInstance('admin'));
-		$instances = [];
-		foreach ($rows as $row) {
-			$instances[] = static::getCleanInstance()->setData($row);
-		}
-		\App\Cache::save('Settings_SlaPolicy_Record_Model::getForModule', $moduleName, $instances);
-		return $instances;
 	}
 }

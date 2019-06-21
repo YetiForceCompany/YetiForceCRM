@@ -42,10 +42,10 @@
 							</select>
 						</div>
 						<div class="col-12 col-md-4">
-							<label>{\App\Language::translate('LBL_OPERATIONAL_HOURS',$QUALIFIED_MODULE)}</label>
+							<label>{\App\Language::translate('LBL_OPERATIONAL_HOURS','ServiceContracts')}</label>
 							<select name="operational_hours" class="select2"  data-validation-engine="validate[required]">
-								<option value="0"{if $RECORD->get('operational_hours')===0}selected="selected"{/if}>{\App\Language::translate('LBL_CALENDAR_HOURS',$QUALIFIED_MODULE)}</option>
-								<option value="1"{if $RECORD->get('operational_hours')===1}selected="selected"{/if}>{\App\Language::translate('LBL_BUSINESS_HOURS',$QUALIFIED_MODULE)}</option>
+								<option value="0"{if $RECORD->get('operational_hours')===0}selected="selected"{/if}>{\App\Language::translate('LBL_CALENDAR_HOURS','ServiceContracts')}</option>
+								<option value="1"{if $RECORD->get('operational_hours')===1}selected="selected"{/if}>{\App\Language::translate('LBL_BUSINESS_HOURS','ServiceContracts')}</option>
 							</select>
 						</div>
 					</div>
@@ -57,19 +57,19 @@
 					</div>
 					<div class="form-group row border-top pt-4">
 						<div class="col-12 col-md-4">
-							<label>{\App\Language::translate('LBL_REACTION_TIME','Settings:BusinessHours')}</label>
+							<label>{\App\Language::translate('LBL_REACTION_TIME','ServiceContracts')}</label>
 							<div class="input-group time">
 								<input type="hidden" name="reaction_time" class="c-time-period" value="{$RECORD->get('reaction_time')}">
 							</div>
 						</div>
 						<div class="col-12 col-md-4">
-							<label>{\App\Language::translate('LBL_IDLE_TIME','Settings:BusinessHours')}</label>
+							<label>{\App\Language::translate('LBL_IDLE_TIME','ServiceContracts')}</label>
 							<div class="input-group time">
 								<input type="hidden" name="idle_time" class="c-time-period" value="{$RECORD->get('idle_time')}">
 							</div>
 						</div>
 						<div class="col-12 col-md-4">
-							<label>{\App\Language::translate('LBL_RESOLVE_TIME','Settings:BusinessHours')}</label>
+							<label>{\App\Language::translate('LBL_RESOLVE_TIME','ServiceContracts')}</label>
 							<div class="input-group time">
 								<input type="hidden" name="resolve_time" class="c-time-period" value="{$RECORD->get('resolve_time')}">
 							</div>
