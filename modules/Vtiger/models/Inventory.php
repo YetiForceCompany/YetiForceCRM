@@ -132,7 +132,7 @@ class Vtiger_Inventory_Model
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return null|\Vtiger_Basic_InventoryField
+	 * @return \Vtiger_Basic_InventoryField|null
 	 */
 	public function getField(string $fieldName): ?Vtiger_Basic_InventoryField
 	{
@@ -144,7 +144,7 @@ class Vtiger_Inventory_Model
 	 *
 	 * @param int $fieldId
 	 *
-	 * @return null|\Vtiger_Basic_InventoryField
+	 * @return \Vtiger_Basic_InventoryField|null
 	 */
 	public function getFieldById(int $fieldId): ?Vtiger_Basic_InventoryField
 	{
@@ -575,7 +575,7 @@ class Vtiger_Inventory_Model
 		$dataReader = (new \App\Db\Query())->from('a_#__discounts_config')->createCommand(\App\Db::getInstance('admin'))->query();
 		while ($row = $dataReader->read()) {
 			$value = $row['value'];
-			if (in_array($row['param'], ['discounts'])) {
+			if (\in_array($row['param'], ['discounts'])) {
 				$value = explode(',', $value);
 			}
 			$config[$row['param']] = $value;
@@ -614,7 +614,7 @@ class Vtiger_Inventory_Model
 		$dataReader = (new App\Db\Query())->from('a_#__taxes_config')->createCommand(App\Db::getInstance('admin'))->query();
 		while ($row = $dataReader->read()) {
 			$value = $row['value'];
-			if (in_array($row['param'], ['taxs'])) {
+			if (\in_array($row['param'], ['taxs'])) {
 				$value = explode(',', $value);
 			}
 			$config[$row['param']] = $value;
@@ -690,7 +690,7 @@ class Vtiger_Inventory_Model
 		$accountTaxs = [];
 		$sourceModule = 'Accounts';
 		$fieldRel = App\Field::getRelatedFieldForModule($this->getModuleName(), $sourceModule);
-		if ($fieldRel && ($taxFields = Vtiger_Module_Model::getInstance($sourceModule)->getFieldsByUiType(303))) {
+		if ($record && $fieldRel && ($taxFields = Vtiger_Module_Model::getInstance($sourceModule)->getFieldsByUiType(303))) {
 			$taxField = current($taxFields);
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $this->getModuleName());
 			$relationFieldValue = $recordModel->get($fieldRel['fieldname']);
