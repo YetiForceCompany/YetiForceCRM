@@ -29,7 +29,7 @@ return [
 		'description' => 'Default record view: Value - LBL_RECORD_PREVIEW or LBL_RECORD_SUMMARY or LBL_RECORD_DETAILS',
 		'validation' => function () {
 			$arg = func_get_arg(0);
-			return in_array($arg, ['LBL_RECORD_PREVIEW', 'LBL_RECORD_SUMMARY', 'LBL_RECORD_DETAILS']);
+			return \in_array($arg, ['LBL_RECORD_PREVIEW', 'LBL_RECORD_SUMMARY', 'LBL_RECORD_DETAILS']);
 		}
 	],
 	'CONTACTS_CHECK_EMAIL_OPTOUT' => [
@@ -41,10 +41,9 @@ return [
 	'COLUMNS_IN_HIERARCHY' => [
 		'default' => [
 			'Ticket No' => 'ticket_no',
-			'Subject' => 'title',
-			'Related To' => 'parent_id',
-			'Status' => 'status',
-			'Priority' => 'priority',
+			'Subject' => 'ticket_title',
+			'Status' => 'ticketstatus',
+			'Priority' => 'ticketpriorities',
 			'Assigned To' => 'assigned_user_id',
 			'FL_TOTAL_TIME_H' => 'sum_time',
 		],
