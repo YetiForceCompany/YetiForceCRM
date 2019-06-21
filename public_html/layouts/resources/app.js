@@ -1749,9 +1749,7 @@ var app = (window.app = {
 		});
 		let form = $('<form>', formAttr);
 		if (typeof csrfMagicName !== 'undefined') {
-			let csrfData = {};
-			csrfData[csrfMagicName] = csrfMagicToken;
-			$.extend(postData, csrfData);
+			postData[csrfMagicToken] = csrfData;
 		}
 		$.each(postData, (index, value) => {
 			let input = $(document.createElement('input'));
