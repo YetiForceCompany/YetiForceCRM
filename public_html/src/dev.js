@@ -9,27 +9,59 @@
 const rollup = require('rollup'),
 	finder = require('findit')('layouts'),
 	path = require('path'),
-	sourcemaps = require('rollup-plugin-sourcemaps'),
 	vue = require('rollup-plugin-vue'),
 	commonjs = require('rollup-plugin-commonjs'),
 	resolve = require('rollup-plugin-node-resolve'),
 	globals = require('rollup-plugin-node-globals'),
-	json = require('rollup-plugin-json')
+	json = require('rollup-plugin-json'),
+	babel = require('rollup-plugin-babel') // Transpile/polyfill with reasonable browser support
 
 let filesToMin = []
-async function build(filePath) {
+async function build(filePath, isWatched = false) {
 	const outputFile = `../${filePath.replace('.js', '.vue.js')}`
 	const inputOptions = {
 		input: filePath,
-		plugins: [sourcemaps(), json(), resolve(), commonjs(), vue({ compileTemplate: true }), globals()]
+		external: 'vue',
+		plugins: [
+			vue({compileTemplate: true}),
+			resolve({
+				browser: true
+			}),
+			commonjs(),
+			json(),
+			babel({
+				exclude: 'node_modules/**'
+			}),
+			globals()
+		]
 	}
+
 	const outputOptions = {
-		sourcemap: true,
 		file: outputFile,
-		format: 'cjs'
+		format: 'iife',
+		sourcemap: true
 	}
+	if (!isWatched) {
+		const watcher = rollup.watch({
+			...inputOptions,
+			output: [outputOptions],
+			watch: {
+				exclude: 'node_modules/**'
+			}
+		})
+
+		watcher.on('event', event => {
+			if (event.code === 'START') {
+				console.log('Building... ' + filePath)
+				build(filePath, true).then(e => {
+					console.log('Finished! ' + filePath)
+				})
+			}
+		})
+	}
+
 	const bundle = await rollup.rollup(inputOptions)
-	const { code, map } = await bundle.generate(outputOptions)
+	const {code, map} = await bundle.generate(outputOptions)
 	await bundle.write(outputOptions)
 }
 
