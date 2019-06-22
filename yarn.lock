@@ -8,9 +8,9 @@
   integrity sha512-g795BBEzM/Hq2SYNPm/NQTIp3IWd4eXSH0ds87Na2jnrAUFX3wkyZAI4Gwj9DOaWMuz2/01i8oWI7P7T/XLkhg==
 
 "@mdi/font@^3.6.95":
-  version "3.6.95"
-  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-3.6.95.tgz#0bbde766ca2d94cfa0e469f25523b23d3112bdd3"
-  integrity sha512-wUbkF/RRCIh51TPzAL9qUeRSUFla9I3x1nGq62HkfWzIebRHbDY5HPaYCQuZO7398dWaLHTu4BwnBA58YbhfEA==
+  version "3.7.94"
+  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-3.7.94.tgz#c65a985e8a4102a85e5b2bf8e36cd0a41fb58ab0"
+  integrity sha512-M13+US5PYnP12fomJoyKigXGbG8TTfJzI2kUpghLB0bNdEsiA9EcD0fSXT+g6JqduDQyZrXP6pnpu7ku17Bdfg==
 
 add@^2.0.6:
   version "2.0.6"
