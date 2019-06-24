@@ -102,7 +102,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$advFilterList = $request->getByType('advfilterlist', 'Text');
+		$advFilterList = $request->get('advfilterlist');
 		//used to show the save modify filter option
 		$isAdvanceSearch = false;
 		$matchingRecords = [];
@@ -116,7 +116,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$queryGenerator->parseAdvFilter($advFilterList);
 			$query = $queryGenerator->createQuery()->limit(App\Config::search('GLOBAL_SERACH_AUTOCOMPLETE_LIMIT'));
 			$dataReader = $query->createCommand()->query();
-			while ($recordId = $dataReader->readColumn()) {
+			while ($recordId = $dataReader->readColumn(0)) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 				$recordModel->set('permitted', true);
 				$matchingRecords[$moduleName][$recordId] = $recordModel;
