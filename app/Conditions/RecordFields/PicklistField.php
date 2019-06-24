@@ -21,13 +21,8 @@ class PicklistField extends BaseField
 	 */
 	public function operatorRo()
 	{
-		if (
-			($fieldName = App\RecordStatus::getFieldName($this->recordModel->getModule()->getName())) &&
-		\in_array($this->recordModel->get($fieldName), App\RecordStatus::getStates($this->recordModel->getModule()->getName()), \App\RecordStatus::RECORD_STATE_OPEN)
-		) {
-			return true;
-		}
-		return false;
+		return ($fieldName = \App\RecordStatus::getFieldName($this->recordModel->getModule()->getName())) &&
+		\in_array($this->recordModel->get($fieldName), \App\RecordStatus::getStates($this->recordModel->getModule()->getName()), \App\RecordStatus::RECORD_STATE_OPEN);
 	}
 
 	/**
@@ -37,12 +32,7 @@ class PicklistField extends BaseField
 	 */
 	public function operatorRc()
 	{
-		if (
-			($fieldName = App\RecordStatus::getFieldName($this->recordModel->getModule()->getName())) &&
-		\in_array($this->recordModel->get($fieldName), App\RecordStatus::getStates($this->recordModel->getModule()->getName(), \App\RecordStatus::RECORD_STATE_CLOSED))
-		) {
-			return false;
-		}
-		return true;
+		return !(($fieldName = \App\RecordStatus::getFieldName($this->recordModel->getModule()->getName())) &&
+		\in_array($this->recordModel->get($fieldName), \App\RecordStatus::getStates($this->recordModel->getModule()->getName(), \App\RecordStatus::RECORD_STATE_CLOSED)));
 	}
 }

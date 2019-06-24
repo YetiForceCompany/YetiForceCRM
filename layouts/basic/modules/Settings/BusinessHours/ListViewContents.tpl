@@ -30,9 +30,9 @@
 							{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
 							<td class="listViewEntryValue {$WIDTHTYPE}"  width="{$WIDTH}%" nowrap>
 							{if $LISTVIEW_HEADERNAME==='default_times'}
-								<span class="mr-2">{App\Language::translate('LBL_REACTION_TIME',$QUALIFIED_MODULE)}:</span> {$LISTVIEW_ENTRY->getDisplayValue('reaction_time')}<br />
-								<span class="mr-2">{App\Language::translate('LBL_IDLE_TIME',$QUALIFIED_MODULE)}:</span> {$LISTVIEW_ENTRY->getDisplayValue('idle_time')}<br />
-								<span class="mr-2">{App\Language::translate('LBL_RESOLVE_TIME',$QUALIFIED_MODULE)}:</span> {$LISTVIEW_ENTRY->getDisplayValue('resolve_time')}
+								<span class="mr-2">{App\Language::translate('LBL_REACTION_TIME','ServiceContracts')}:</span> {$LISTVIEW_ENTRY->getDisplayValue('reaction_time')}<br />
+								<span class="mr-2">{App\Language::translate('LBL_IDLE_TIME','ServiceContracts')}:</span> {$LISTVIEW_ENTRY->getDisplayValue('idle_time')}<br />
+								<span class="mr-2">{App\Language::translate('LBL_RESOLVE_TIME','ServiceContracts')}:</span> {$LISTVIEW_ENTRY->getDisplayValue('resolve_time')}
 							{else}
 								{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
 								{if $LISTVIEW_HEADERNAME==='working_days' && $LISTVIEW_ENTRY->getDisplayValue('holidays')}

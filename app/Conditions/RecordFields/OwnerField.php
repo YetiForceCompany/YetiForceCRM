@@ -18,7 +18,7 @@ class OwnerField extends BaseField
 	 */
 	public function operatorWr()
 	{
-		return Vtiger_Watchdog_Model::getInstanceById($this->recordModel->getId(), $this->recordModel->getModuleName())->isWatchingRecord();
+		return \Vtiger_Watchdog_Model::getInstanceById($this->recordModel->getId(), $this->recordModel->getModuleName())->isWatchingRecord();
 	}
 
 	/**
@@ -28,6 +28,6 @@ class OwnerField extends BaseField
 	 */
 	public function operatorNwr()
 	{
-		return !Vtiger_Watchdog_Model::getInstanceById($this->recordModel->getId(), $this->recordModel->getModuleName())->isWatchingRecord();
+		return !\Vtiger_Watchdog_Model::getInstanceById($this->recordModel->getId(), $this->recordModel->getModuleName())->isWatchingRecord();
 	}
 }

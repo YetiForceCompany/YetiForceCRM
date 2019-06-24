@@ -142,7 +142,7 @@ class ServiceContracts
 	 *
 	 * @return array
 	 */
-	private static function getSlaPolicyByModule(int $moduleId): array
+	public static function getSlaPolicyByModule(int $moduleId): array
 	{
 		if (\App\Cache::has('UtilsServiceContracts::getSlaPolicyByModule', $moduleId)) {
 			return \App\Cache::get('UtilsServiceContracts::getSlaPolicyByModule', $moduleId);
@@ -155,19 +155,63 @@ class ServiceContracts
 	/**
 	 * Get sla policy from service contracts by crm id.
 	 *
-	 * @param int $crmId
-	 * @param int $sourceModuleId
+	 * @param int      $crmId
+	 * @param int|null $sourceModuleId
 	 *
 	 * @return array
 	 */
-	public static function getSlaPolicyForServiceContracts(int $crmId, int $sourceModuleId): array
+	public static function getSlaPolicyForServiceContracts(int $crmId, ?int $sourceModuleId = null): array
 	{
-		if (\App\Cache::has('UtilsServiceContracts::getSlaPolicyForServiceContracts', "$crmId|$sourceModuleId")) {
-			return \App\Cache::get('UtilsServiceContracts::getSlaPolicyForServiceContracts', "$crmId|$sourceModuleId");
+		if (\App\Cache::has('UtilsServiceContracts::getSlaPolicyForServiceContracts', $crmId)) {
+			$rows = \App\Cache::get('UtilsServiceContracts::getSlaPolicyForServiceContracts', $crmId);
+		} else {
+			$rows = (new \App\Db\Query())->from('u_#__servicecontracts_sla_policy')->where(['crmid' => $crmId])->all();
+			\App\Cache::save('UtilsServiceContracts::getSlaPolicyForServiceContracts', $crmId, $rows);
 		}
-		$rows = (new \App\Db\Query())->from('u_#__servicecontracts_sla_policy')->where(['crmid' => $crmId, 'tabid' => $sourceModuleId])->all();
-		\App\Cache::save('UtilsServiceContracts::getSlaPolicyForServiceContracts', "$crmId|$sourceModuleId", $rows);
+		if ($sourceModuleId) {
+			foreach ($rows as $key => $value) {
+				if ($sourceModuleId !== $value['tabid']) {
+					unset($rows[$key]);
+				}
+			}
+		}
 		return $rows;
+	}
+
+	/**
+	 * Delete sla policy for service contracts.
+	 *
+	 * @param int $crmId
+	 * @param int $sourceModuleId
+	 *
+	 * @return void
+	 */
+	public static function deleteSlaPolicy(int $crmId, int $sourceModuleId)
+	{
+		\App\Db::getInstance()->createCommand()
+			->delete('u_#__servicecontracts_sla_policy', ['crmid' => $crmId, 'tabid' => $sourceModuleId])->execute();
+		\App\Cache::delete('UtilsServiceContracts::getSlaPolicyForServiceContracts', $crmId);
+	}
+
+	/**
+	 * Save sla policy for service contracts.
+	 *
+	 * @param array $data
+	 * @param bool  $delete
+	 *
+	 * @return void
+	 */
+	public static function saveSlaPolicy(array $data, bool $delete = true)
+	{
+		$db = \App\Db::getInstance();
+		if ($delete) {
+			self::deleteSlaPolicy($data['crmid'], $data['tabid']);
+		}
+		if ($data['policy_type']) {
+			$db->createCommand()->insert('u_#__servicecontracts_sla_policy', $data)->execute();
+			return $db->getLastInsertID();
+		}
+		return 0;
 	}
 
 	/**
@@ -445,7 +489,7 @@ class ServiceContracts
 	 * @param \DateTime $date
 	 * @param array     $days
 	 *
-	 * @return null|array
+	 * @return array|null
 	 */
 	private static function getNextBusinessDay(\DateTime &$date, array $days): ?array
 	{
@@ -472,5 +516,21 @@ class ServiceContracts
 			\call_user_func_array([$date, 'setTime'], explode(':', $result['working_hours_from']));
 		}
 		return $result;
+	}
+
+	/**
+	 * Get modules name related to ServiceContracts.
+	 *
+	 * @return string[]
+	 */
+	public static function getModules(): array
+	{
+		$modules = [];
+		foreach (\App\Field::getRelatedFieldForModule(false, 'ServiceContracts') as $moduleName => $value) {
+			if (\App\RecordStatus::getFieldName($moduleName)) {
+				$modules[] = $moduleName;
+			}
+		}
+		return $modules;
 	}
 }
