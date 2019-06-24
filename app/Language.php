@@ -197,10 +197,10 @@ class Language
 	}
 
 	/**
-	 * Functions get translate help info
+	 * Functions get translate help info.
 	 *
 	 * @param \Vtiger_Field_Model $fieldModel
-	 * @param string $view
+	 * @param string              $view
 	 *
 	 * @return bool $view
 	 */
@@ -208,14 +208,14 @@ class Language
 	{
 		$moduleName = $fieldModel->getModuleName();
 		$label = $fieldModel->getFieldLabel();
-		if(in_array($view,explode(',', $fieldModel->get('helpinfo')))){
+		if (\in_array($view, explode(',', $fieldModel->get('helpinfo')))) {
 			$key = "$moduleName|$label";
-			$translated = \App\Language::translate($key, 'Other:HelpInfo');
-			if($key !== $translated){
+			$translated = self::translate($key, 'Other:HelpInfo');
+			if ($key !== $translated) {
 				return  $translated;
 			}
-			$translated = \App\Language::translate($label, 'Other:HelpInfo');
-			if($label !== $translated){
+			$translated = self::translate($label, 'Other:HelpInfo');
+			if ($label !== $translated) {
 				return  $translated;
 			}
 		}
