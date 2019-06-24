@@ -8,6 +8,7 @@
 
 const rollup = require('rollup'),
 	finder = require('findit')('layouts'),
+	alias = require('rollup-plugin-alias'),
 	path = require('path'),
 	vue = require('rollup-plugin-vue'),
 	commonjs = require('rollup-plugin-commonjs'),
@@ -17,11 +18,14 @@ const rollup = require('rollup'),
 	minify = require('rollup-plugin-babel-minify')
 
 let filesToMin = []
-
 const sourcemap = true
 const plugins = [
-	vue({ needMap: false }),
 	resolve(),
+	alias({
+		'~': __dirname,
+		store: `${__dirname}/store/index`
+	}),
+	vue({ needMap: false }),
 	commonjs(),
 	globals(),
 	babel({
@@ -76,7 +80,8 @@ async function build(filePath, isWatched = false) {
 
 finder.on('directory', (dir, stat, stop) => {
 	const base = path.basename(dir)
-	if (base === 'node_modules' || base === 'libraries' || base === 'vendor' || base === '_private') stop()
+	if (base === 'node_modules' || base === 'libraries' || base === 'vendor' || base === '_private' || base === 'store')
+		stop()
 })
 
 finder.on('file', (file, stat) => {
