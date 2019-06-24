@@ -202,17 +202,47 @@ Vtiger_BasicSearch_Js(
 			return aDeferred.promise();
 		},
 		/**
+		* Remaps values to save search conditions into custom view
+		*/
+		advSearchToCVFormat: function(values) {
+			const cvFilter = {'condition':'AND', 'rules':[]};
+			const cvANDConditions = {'condition':'AND', 'rules':[]};
+			const cvORConditions = {'condition':'OR', 'rules':[]};
+			$.each(values['1']['columns'], function(idx, item) { // loop on AND group
+				const condition = {
+					'fieldname': app.getModuleName() + ':' + item['columnname'].split(':')[2],
+					'operator': item['comparator'],
+					'value': item['value']
+				}
+				cvANDConditions['rules'].push(condition);
+				
+			});
+			$.each(values['2']['columns'], function(idx, item) { // loop on OR group
+				const condition = {
+					'fieldname': app.getModuleName() + ':' + item['columnname'].split(':')[2],
+					'operator': item['comparator'],
+					'value': item['value']
+				}
+				cvORConditions['rules'].push(condition);
+			});
+			if(cvANDConditions['rules'].length) {
+				cvFilter['rules'].push(cvANDConditions);
+			}
+			if(cvORConditions['rules'].length) {
+				cvFilter['rules'].push(cvORConditions);
+			}
+			return(cvFilter);
+		},
+		/**
 		 * Function which will save the filter
 		 */
 		saveFilter: function(params) {
 			var aDeferred = $.Deferred();
 			params.source_module = this.getSearchModule();
 			params.status = 1;
-			params.advfilterlist = JSON.stringify(this.advanceFilter.getValues(false));
-
+			params.advfilterlist = JSON.stringify(this.advSearchToCVFormat(this.advanceFilter.getValues(false)));
 			params.module = 'CustomView';
 			params.action = 'Save';
-
 			AppConnector.request(params).done(function(data) {
 				if (!data.success) {
 					var params = {
