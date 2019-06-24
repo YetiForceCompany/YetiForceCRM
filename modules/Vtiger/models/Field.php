@@ -949,15 +949,15 @@ class Vtiger_Field_Model extends vtlib\Field
 	public static function getAdvancedFilterOpsByFieldType()
 	{
 		return [
-			'V' => ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny', 'om', 'wr', 'nwr', 'd'],
-			'N' => ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny', 'd'],
-			'T' => ['e', 'n', 'l', 'g', 'm', 'h', 'bw', 'b', 'a', 'y', 'ny', 'd'],
-			'I' => ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny', 'd'],
-			'C' => ['e', 'n', 'y', 'ny', 'd'],
-			'D' => ['e', 'n', 'bw', 'b', 'a', 'y', 'ny', 'd'],
-			'DT' => ['e', 'n', 'bw', 'b', 'a', 'y', 'ny', 'd'],
-			'NN' => ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny', 'd'],
-			'E' => ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny', 'd'],
+			'V' => ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny', 'om', 'wr', 'nwr'],
+			'N' => ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'],
+			'T' => ['e', 'n', 'l', 'g', 'm', 'h', 'bw', 'b', 'a', 'y', 'ny'],
+			'I' => ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'],
+			'C' => ['e', 'n', 'y', 'ny'],
+			'D' => ['e', 'n', 'bw', 'b', 'a', 'y', 'ny'],
+			'DT' => ['e', 'n', 'bw', 'b', 'a', 'y', 'ny'],
+			'NN' => ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'],
+			'E' => ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny']
 		];
 	}
 
