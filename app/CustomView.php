@@ -428,16 +428,23 @@ class CustomView
 			'u_#__cv_condition.operator',
 			'u_#__cv_condition.value',
 			'condition_index' => 'u_#__cv_condition.index',
+			'u_#__cv_condition_group.id',
 			'u_#__cv_condition_group.condition',
 			'u_#__cv_condition_group.parent_id',
 			'group_index' => 'u_#__cv_condition_group.index'
-		])->from('u_#__cv_condition')
-			->innerJoin('u_#__cv_condition_group', 'u_#__cv_condition_group.id = u_#__cv_condition.group_id')
+		])->from('u_#__cv_condition_group')
+			->leftJoin('u_#__cv_condition', 'u_#__cv_condition.group_id = u_#__cv_condition_group.id')
 			->where(['u_#__cv_condition_group.cvid' => $id])
 			->orderBy(['u_#__cv_condition_group.parent_id' => SORT_ASC])
 			->createCommand()->query();
 		$referenceGroup = $referenceParent = $conditions = [];
 		while ($condition = $dataReader->read()) {
+			if($condition['group_id']) {
+				$isEmptyCondition = false;
+			} else {
+				$condition['group_id'] = $condition['id'];
+				$isEmptyCondition = true;
+			}
 			$value = $condition['value'];
 			$fieldName = "{$condition['module_name']}:{$condition['field_name']}" . ($condition['source_field_name'] ? ':' . $condition['source_field_name'] : '');
 			if (isset($referenceParent[$condition['parent_id']], $referenceGroup[$condition['group_id']])) {
@@ -447,29 +454,43 @@ class CustomView
 					'value' => $value
 				];
 			} elseif (isset($referenceGroup[$condition['parent_id']])) {
-				$referenceGroup[$condition['parent_id']][$condition['group_index']] = [
-					'condition' => $condition['condition'],
-					'rules' => [
-						$condition['condition_index'] => [
-							'fieldname' => $fieldName,
-							'operator' => $condition['operator'],
-							'value' => $value
+				if($isEmptyCondition) {
+					$referenceGroup[$condition['parent_id']][$condition['group_index']] = [
+						'condition' => $condition['condition'],
+						'rules' => []
+					];
+				} else {
+					$referenceGroup[$condition['parent_id']][$condition['group_index']] = [
+						'condition' => $condition['condition'],
+						'rules' => [
+							$condition['condition_index'] => [
+								'fieldname' => $fieldName,
+								'operator' => $condition['operator'],
+								'value' => $value
+							]
 						]
-					]
-				];
+					];
+				}
 				$referenceParent[$condition['parent_id']] = &$referenceGroup[$condition['parent_id']][$condition['group_index']]['rules'];
 				$referenceGroup[$condition['group_id']] = &$referenceGroup[$condition['parent_id']][$condition['group_index']]['rules'];
 			} else {
-				$conditions = [
-					'condition' => $condition['condition'],
-					'rules' => [
-						$condition['condition_index'] => [
-							'fieldname' => $fieldName,
-							'operator' => $condition['operator'],
-							'value' => $value
+				if($isEmptyCondition) {
+					$conditions = [
+						'condition' => $condition['condition'],
+						'rules' => []
+					];
+				} else {
+					$conditions = [
+						'condition' => $condition['condition'],
+						'rules' => [
+							$condition['condition_index'] => [
+								'fieldname' => $fieldName,
+								'operator' => $condition['operator'],
+								'value' => $value
+							]
 						]
-					]
-				];
+					];
+				}
 				$referenceParent[$condition['parent_id']] = &$conditions['rules'];
 				$referenceGroup[$condition['group_id']] = &$conditions['rules'];
 			}
@@ -478,7 +499,6 @@ class CustomView
 		Cache::save('CustomView_GetConditions', $id, $conditions, Cache::LONG);
 		return $conditions;
 	}
-
 	/**
 	 * Sorting conditions.
 	 *
