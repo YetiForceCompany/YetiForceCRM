@@ -73,6 +73,13 @@ class Inventory
 	protected $parentRecordModel;
 
 	/**
+	 * Sequence.
+	 *
+	 * @var int
+	 */
+	protected $seq;
+
+	/**
 	 * Construct.
 	 *
 	 * @param string   $moduleName
@@ -228,6 +235,18 @@ class Inventory
 	protected function getInventoryTaxmode(int $inventoryKey)
 	{
 		return 1;
+	}
+
+	/**
+	 * Returns sequence.
+	 *
+	 * @param int $inventoryKey
+	 *
+	 * @return int
+	 */
+	protected function getInventorySeq(int $inventoryKey): int
+	{
+		return ++$this->seq;
 	}
 
 	/**
