@@ -20,12 +20,13 @@ const rollup = require('rollup'),
 let filesToMin = []
 const sourcemap = true
 const plugins = [
-	resolve(),
 	alias({
+		resolve: ['.vue', '.js'],
 		'~': __dirname,
 		store: `${__dirname}/store/index`
 	}),
 	vue({ needMap: false }),
+	resolve(),
 	commonjs(),
 	globals(),
 	babel({

@@ -228,9 +228,9 @@
   </div>
 </template>
 <script>
-import Icon from '../../../../components/Icon.vue'
-import IconInfo from '../../../../components/IconInfo.vue'
-import ColumnsGrid from '../../../../components/ColumnsGrid.vue'
+import Icon from '~/components/Icon.vue'
+import IconInfo from '~/components/IconInfo.vue'
+import ColumnsGrid from '~/components/ColumnsGrid.vue'
 import Carousel from './components/Carousel.vue'
 import ArticlesList from './components/ArticlesList.vue'
 import ArticlePreview from './components/ArticlePreview.vue'

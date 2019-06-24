@@ -162,8 +162,8 @@
   </q-card>
 </template>
 <script>
-import Icon from '../../../../../components/Icon.vue'
-import ColumnsGrid from '../../../../../components/ColumnsGrid.vue'
+import Icon from '~/components/Icon.vue'
+import ColumnsGrid from '~/components/ColumnsGrid.vue'
 import Carousel from './Carousel.vue'
 import ArticlesList from './ArticlesList.vue'
 

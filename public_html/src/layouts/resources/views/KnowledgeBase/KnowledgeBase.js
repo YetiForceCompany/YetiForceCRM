@@ -10,10 +10,9 @@ import KnowledgeBaseComponent from './KnowledgeBase.vue'
 import KnowledgeBaseModal from './KnowledgeBaseModal.vue'
 import ArticlePreviewComponent from './ArticlePreviewModal.vue'
 import store from 'store'
-import moduleStore from './store/index.js'
+import moduleStore from './store'
 import { createNamespacedHelpers } from 'vuex'
 const { mapActions } = createNamespacedHelpers('KnowledgeBase')
-console.log(store)
 store.registerModule('KnowledgeBase', moduleStore)
 
 Vue.mixin({

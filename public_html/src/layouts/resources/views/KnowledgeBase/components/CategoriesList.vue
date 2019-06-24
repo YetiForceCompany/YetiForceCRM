@@ -44,7 +44,7 @@
   </transition>
 </template>
 <script>
-import Icon from '../../../../../components/Icon.vue'
+import Icon from '~/components/Icon.vue'
 
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters } = createNamespacedHelpers('KnowledgeBase')
