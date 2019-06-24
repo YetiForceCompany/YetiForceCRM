@@ -57,10 +57,10 @@
 									<label class="muted mt-0">
 										{if $HELPINFO_LABEL}
 												<a href="#" class="js-help-info float-right u-cursor-pointer"
-													title="" 
-													data-placement="top" 
-													data-content="{$HELPINFO_LABEL}" 
-													data-original-title='{$HELPINFO_LABEL}'>
+													title=""
+													data-placement="top"
+													data-content="{$HELPINFO_LABEL}"
+													data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'>
 													<span class="fas fa-info-circle"></span>
 												</a>
 											{/if}

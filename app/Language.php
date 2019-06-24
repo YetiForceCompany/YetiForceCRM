@@ -212,14 +212,13 @@ class Language
 			$key = "$moduleName|$label";
 			$translated = \App\Language::translate($key, 'Other:HelpInfo');
 			if($key !== $translated){
-				return $translated;
+				return  $translated;
 			}
 			$translated = \App\Language::translate($label, 'Other:HelpInfo');
 			if($label !== $translated){
-				return $translated;
+				return  $translated;
 			}
 		}
-		return false;
 	}
 
 	/**

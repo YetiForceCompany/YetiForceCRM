@@ -124,7 +124,7 @@
 								{elseif $FIELD_MODEL->getUIType() neq "300"}col-sm-6
 								{else} col-md-12 m-auto{/if} fieldRow row form-group align-items-center my-1">
 										{/if}
-											{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL,$VIEW)}
+											{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
 										<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">
 											{if $FIELD_MODEL->isMandatory() eq true}
 												<span class="redColor">*</span>
@@ -134,7 +134,7 @@
 													title=""
 													data-placement="top"
 													data-content="{$HELPINFO_LABEL}"
-													data-original-title='{$HELPINFO_LABEL}'>
+													data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE_NAME)}'>
 													<span class="fas fa-info-circle"></span>
 												</a>
 											{/if}
