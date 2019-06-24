@@ -529,7 +529,48 @@ class CustomView_Record_Model extends \App\Base
 			$index++;
 		}
 	}
-
+	
+	/**
+	 * Remove redundant groups
+	 *
+	 * @return array
+	 */
+	public function cleanFilter($advfilterlist, $level = 0)
+	{
+		$numberOfConditions = 0;
+		$numberOfValidSubgroups = 0;
+		foreach($advfilterlist['rules'] as $idx=>&$node) {
+			if(isset($node['condition'])) { // is a group
+				$node = $this->cleanFilter($node, $level + 1);
+				if(null !== $node) {
+					if(isset($node['condition'])) {
+						$numberOfValidSubgroups++;
+					} else {
+						$numberOfConditions++;
+					}
+				} else { // null means empty node: remove
+					unset($advfilterlist['rules'][$idx]);
+				}
+			} else { // is a condition
+				$numberOfConditions++;
+			}
+		}
+		switch($numberOfConditions . $numberOfValidSubgroups) {
+			case '00': // empty node: set to null
+				$advfilterlist = null;
+			break;
+			case '01': // only one subgroup: replace with subgroup
+				$advfilterlist = reset($advfilterlist['rules']);
+			break;
+			case '10': // only one condition: replace with condition (skip for root)
+				if(0 < $level) {
+					$advfilterlist = reset($advfilterlist['rules']);
+				}
+			break;
+		}
+		return($advfilterlist);
+	}
+	
 	/**
 	 * Set conditions for filter.
 	 *
@@ -537,7 +578,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function setConditionsForFilter()
 	{
-		$this->addGroup($this->get('advfilterlist'), 0, 0);
+		$this->addGroup($this->cleanFilter($this->get('advfilterlist')), 0, 0);
 	}
 
 	public function setColumnlist()
