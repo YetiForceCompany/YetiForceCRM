@@ -20,7 +20,7 @@ let filesToMin = []
 
 const sourcemap = true
 const plugins = [
-	vue({needMap: false}),
+	vue({ needMap: false }),
 	resolve(),
 	commonjs(),
 	globals(),
@@ -70,7 +70,7 @@ async function build(filePath, isWatched = false) {
 	}
 
 	const bundle = await rollup.rollup(inputOptions)
-	const {code, map} = await bundle.generate(outputOptions)
+	const { code, map } = await bundle.generate(outputOptions)
 	await bundle.write(outputOptions)
 }
 

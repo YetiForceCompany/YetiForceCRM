@@ -24,11 +24,11 @@ const stylusSrc = 'css/**/*.styl'
 function getCompileCssTask(src = stylusSrc) {
 	return function compileCssTask() {
 		return gulp
-			.src(src, {sourcemaps: true})
+			.src(src, { sourcemaps: true })
 			.pipe(stylus())
 			.pipe(
 				gulp.dest('./css'),
-				{sourcemaps: true}
+				{ sourcemaps: true }
 			)
 	}
 }
