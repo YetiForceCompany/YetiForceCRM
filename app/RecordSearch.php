@@ -105,11 +105,7 @@ class RecordSearch
 				break;
 			default:
 			case 'Contain':
-				if (strpos($this->searchValue, '*') !== false || strpos($this->searchValue, '_') !== false) {
-					$where[] = ['like', 'csl.searchlabel', str_replace('*', '%', "%{$this->searchValue}%"), false];
-				} else {
-					$where[] = ['like', 'csl.searchlabel', $this->searchValue];
-				}
+				$where[] = ['like', 'csl.searchlabel', str_replace('*', '%', "%{$this->searchValue}%"), false];
 				break;
 			case 'FulltextBegin':
 				$query->addSelect(['matcher' => new \yii\db\Expression('MATCH(csl.searchlabel) AGAINST(:searchValue IN BOOLEAN MODE)', [':searchValue' => $this->searchValue . '*'])]);
