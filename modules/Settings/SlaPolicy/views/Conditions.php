@@ -51,8 +51,6 @@ class Settings_SlaPolicy_Conditions_View extends Settings_Vtiger_Index_View
 	 */
 	public function getFooterScripts(App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$type = \App\Process::$processName;
 		return array_merge(
 			parent::getFooterScripts($request),
 			$this->checkAndConvertJsScripts([
