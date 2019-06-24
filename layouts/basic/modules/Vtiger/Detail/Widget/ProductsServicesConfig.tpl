@@ -36,6 +36,20 @@
 								</div>
 								<div class="form-group row">
 									<div class="col-md-4">
+										<label class="col-form-label">{\App\Language::translate('LBL_SET_AS_DEFAULT', $QUALIFIED_MODULE)}: </label>
+									</div>
+									<div class="col-md-7">
+										<select name="filter" class="select2 form-control marginLeftZero columnsSelect">
+											{foreach from=Products_SummaryWidget_Model::MODULES item=MODULE}
+												<option {if isset($WIDGETINFO['data']['filter']) && ($MODULE eq $WIDGETINFO['data']['filter'])}selected="selected"{/if}
+														value="{$MODULE}">{\App\Language::translate($MODULE, $MODULE)}
+												</option>
+											{/foreach}
+										</select>
+									</div>
+								</div>
+								<div class="form-group row">
+									<div class="col-md-4">
 										<label class="col-form-label">
 											{\App\Language::translate('Limit entries', $QUALIFIED_MODULE)}
 											<a href="#" class="js-help-info" title="" data-placement="top"

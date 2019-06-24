@@ -11,12 +11,16 @@
 						</div>
 						<div class="col-md-8" align="center">
 							<div class="btn-group" data-toggle="buttons">
+								{assign var="DEFAULT_MODULE" value='Products'}
+								{if isset($WIDGET['data']['filter'])}
+									{assign var="DEFAULT_MODULE" value=$WIDGET['data']['filter']}
+								{/if}
 								{foreach name=BTN item=COUNT key=MODULE_DATA from=Products_SummaryWidget_Model::getModulesAndCount($RECORD)}
-									<label class="btn btn-sm btn-light mb-0 {if $smarty.foreach.BTN.first}active{/if}"
+									<label class="btn btn-sm btn-light mb-0 {if $DEFAULT_MODULE eq $MODULE_DATA}active{/if}"
 										   title="{App\Language::translate($MODULE_DATA,$MODULE_DATA)}">
 										<input type="radio" name="mod" class="js-switch" value="{$MODULE_DATA}"
 											   data-off-val="{$MODULE_DATA}" data-urlparams="mod" data-js="change"
-											   {if $smarty.foreach.BTN.first} checked{/if}>
+											   {if $DEFAULT_MODULE eq $MODULE_DATA} checked="checked"{/if}>
 										<span class="u-cursor-pointer mx-1 userIcon-{$MODULE_DATA}"></span>
 										<span class="badge">{$COUNT}</span>
 									</label>
