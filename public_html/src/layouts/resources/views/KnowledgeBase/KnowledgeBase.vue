@@ -179,7 +179,7 @@
       <q-page-container>
         <q-page class="q-pa-sm">
           <div v-show="!searchData">
-            <related-columns v-show="featuredCategories.length" :columnBlocks="featuredCategories" class="q-pa-sm">
+            <columns-grid v-show="featuredCategories.length" :columnBlocks="featuredCategories" class="q-pa-sm">
               <template v-slot:default="slotProps">
                 <q-list bordered padding dense>
                   <q-item header clickable class="text-black flex" @click="fetchData(slotProps.relatedBlock)">
@@ -205,7 +205,7 @@
                   </q-item>
                 </q-list>
               </template>
-            </related-columns>
+            </columns-grid>
             <div v-show="activeCategory !== '' || tab === 'accounts'">
               <q-separator v-show="featuredCategories.length" />
               <articles-list
@@ -228,11 +228,11 @@
   </div>
 </template>
 <script>
-import Icon from '../../../../components/Icon.vue'
-import IconInfo from '../../../../components/IconInfo.vue'
+import Icon from '~/components/Icon.vue'
+import IconInfo from '~/components/IconInfo.vue'
+import ColumnsGrid from '~/components/ColumnsGrid.vue'
 import Carousel from './components/Carousel.vue'
 import ArticlesList from './components/ArticlesList.vue'
-import RelatedColumns from './components/RelatedColumns.vue'
 import ArticlePreview from './components/ArticlePreview.vue'
 import CategoriesList from './components/CategoriesList.vue'
 import { createNamespacedHelpers } from 'vuex'
@@ -240,7 +240,7 @@ import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'KnowledgeBase',
-  components: { Icon, IconInfo, Carousel, ArticlesList, ArticlePreview, RelatedColumns, CategoriesList },
+  components: { Icon, IconInfo, Carousel, ArticlesList, ArticlePreview, ColumnsGrid, CategoriesList },
   props: {
     coordinates: {
       type: Object,

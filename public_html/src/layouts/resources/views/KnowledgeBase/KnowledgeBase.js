@@ -6,12 +6,15 @@
  * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 
-import KnowledgeBaseComponent from './KnowledgeBase/KnowledgeBase.vue'
-import KnowledgeBaseModal from './KnowledgeBase/KnowledgeBaseModal.vue'
-import ArticlePreviewComponent from './KnowledgeBase/ArticlePreviewModal.vue'
-import store from '../../../store/index.js'
+import KnowledgeBaseComponent from './KnowledgeBase.vue'
+import KnowledgeBaseModal from './KnowledgeBaseModal.vue'
+import ArticlePreviewComponent from './ArticlePreviewModal.vue'
+import store from 'store'
+import moduleStore from './store'
 import { createNamespacedHelpers } from 'vuex'
 const { mapActions } = createNamespacedHelpers('KnowledgeBase')
+store.registerModule('KnowledgeBase', moduleStore)
+
 Vue.mixin({
 	methods: {
 		translate(key) {

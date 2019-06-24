@@ -8,26 +8,72 @@
 
 const rollup = require('rollup'),
 	finder = require('findit')('layouts'),
+	alias = require('rollup-plugin-alias'),
 	path = require('path'),
-	sourcemaps = require('rollup-plugin-sourcemaps'),
 	vue = require('rollup-plugin-vue'),
 	commonjs = require('rollup-plugin-commonjs'),
 	resolve = require('rollup-plugin-node-resolve'),
 	globals = require('rollup-plugin-node-globals'),
-	json = require('rollup-plugin-json')
+	babel = require('rollup-plugin-babel'),
+	minify = require('rollup-plugin-babel-minify')
 
 let filesToMin = []
-async function build(filePath) {
+const sourcemap = true
+const plugins = [
+	alias({
+		resolve: ['.vue', '.js'],
+		'~': __dirname,
+		store: `${__dirname}/store/index`
+	}),
+	vue({ needMap: false }),
+	resolve(),
+	commonjs(),
+	globals(),
+	babel({
+		presets: ['vue'],
+		exclude: 'node_modules/**'
+	})
+]
+
+if (process.env.NODE_ENV === 'production') {
+	plugins.push(minify())
+}
+
+async function build(filePath, isWatched = false) {
 	const outputFile = `../${filePath.replace('.js', '.vue.js')}`
 	const inputOptions = {
 		input: filePath,
-		plugins: [sourcemaps(), json(), resolve(), commonjs(), vue({ compileTemplate: true }), globals()]
+		external: 'vue',
+		plugins
 	}
+
 	const outputOptions = {
-		sourcemap: true,
 		file: outputFile,
-		format: 'cjs'
+		format: 'iife',
+		sourcemap
 	}
+
+	if (process.env.NODE_ENV === 'development') {
+		if (!isWatched) {
+			const watcher = rollup.watch({
+				...inputOptions,
+				output: [outputOptions],
+				watch: {
+					exclude: 'node_modules/**'
+				}
+			})
+
+			watcher.on('event', event => {
+				if (event.code === 'START') {
+					console.log('Building... ' + filePath)
+					build(filePath, true).then(e => {
+						console.log('Finished! ' + filePath)
+					})
+				}
+			})
+		}
+	}
+
 	const bundle = await rollup.rollup(inputOptions)
 	const { code, map } = await bundle.generate(outputOptions)
 	await bundle.write(outputOptions)
@@ -35,7 +81,8 @@ async function build(filePath) {
 
 finder.on('directory', (dir, stat, stop) => {
 	const base = path.basename(dir)
-	if (base === 'node_modules' || base === 'libraries' || base === 'vendor' || base === '_private') stop()
+	if (base === 'node_modules' || base === 'libraries' || base === 'vendor' || base === '_private' || base === 'store')
+		stop()
 })
 
 finder.on('file', (file, stat) => {

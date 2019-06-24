@@ -131,7 +131,7 @@
       <div v-show="relatedRecords.length">
         <q-separator />
         <div class="q-pa-md q-table__title">{{ translate('JS_KB_RELATED_RECORDS') }}</div>
-        <related-columns :columnBlocks="relatedRecords">
+        <columns-grid :columnBlocks="relatedRecords">
           <template v-slot:default="slotProps">
             <q-list bordered padding dense>
               <q-item header clickable class="text-black flex">
@@ -156,22 +156,22 @@
               </q-item>
             </q-list>
           </template>
-        </related-columns>
+        </columns-grid>
       </div>
     </q-card-section>
   </q-card>
 </template>
 <script>
-import Icon from '../../../../../components/Icon.vue'
+import Icon from '~/components/Icon.vue'
+import ColumnsGrid from '~/components/ColumnsGrid.vue'
 import Carousel from './Carousel.vue'
 import ArticlesList from './ArticlesList.vue'
-import RelatedColumns from './RelatedColumns.vue'
 
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'ArticlePreviewContent',
-  components: { Icon, Carousel, ArticlesList, RelatedColumns },
+  components: { Icon, Carousel, ArticlesList, ColumnsGrid },
   props: {
     height: {
       type: Number,

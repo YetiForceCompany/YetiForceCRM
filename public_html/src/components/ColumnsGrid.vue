@@ -1,6 +1,6 @@
 <!--
 /**
- * RelatedColumns component
+ * ColumnsGrid component
  *
  * @description Records columns component
  * @license YetiForce Public License 3.0
@@ -9,7 +9,7 @@
 -->
 <template>
   <div
-    class="featured__container"
+    class="columns-grid__container"
     :style="{
       '-webkit-column-count': columnBlocks.length,
       '-moz-column-count': columnBlocks.length,
@@ -17,7 +17,7 @@
     }"
   >
     <template v-for="relatedBlock in columnBlocks">
-      <div class="featured__block" :key="relatedBlock">
+      <div class="columns-grid__block" :key="relatedBlock">
         <slot :relatedBlock="relatedBlock"></slot>
       </div>
     </template>
@@ -26,6 +26,7 @@
 
 <script>
 export default {
+  name: 'ColumnsGrid',
   props: {
     columnBlocks: {
       type: Array,
@@ -36,12 +37,12 @@ export default {
 </script>
 
 <style scoped>
-.featured__container {
+.columns-grid__container {
   -webkit-column-width: 27rem;
   -moz-column-width: 27rem;
   column-width: 27rem;
 }
-.featured__block {
+.columns-grid__block {
   width: 100%;
   padding-bottom: 16px;
   -webkit-column-break-inside: avoid;
