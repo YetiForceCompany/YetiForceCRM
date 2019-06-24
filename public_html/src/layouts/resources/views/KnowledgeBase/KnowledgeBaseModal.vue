@@ -14,7 +14,6 @@
     transition-show="slide-up"
     transition-hide="slide-down"
     content-class="quasar-reset"
-
   >
     <drag-resize :coordinates="coordinates" v-on:onChangeCoordinates="onChangeCoordinates" :maximized="maximized">
       <q-card class="KnowledgeBaseModal full-height">
