@@ -5,15 +5,15 @@
       <div class="col-12 ">
         <q-input v-model="inputRoom" dark color="white" :placeholder="placeholderRoom" class="col-12 q-pb-sm q-px-sm">
           <template v-slot:prepend>
-            <q-icon
-              v-show="inputSearchRoom"
-              name="close"
-              @click=";(inputRoom = ''), (inputSearchRoome = false)"
-              class="cursor-pointer  text-white"
-            />
+            <q-icon name="mdi-magnify" />
           </template>
           <template v-slot:append>
-            <i @click="inputSearchRoom = true" class="q-icon mdi mdi-magnify cursor-pointer text-white"></i>
+            <q-icon
+              v-show="inputRoom.length > 0"
+              name="mdi-close"
+              @click="inputRoom = ''"
+              class="cursor-pointer  text-white"
+            />
           </template>
         </q-input>
       </div>

@@ -2,17 +2,17 @@
 <template>
   <q-drawer :value="rightPanel" side="right" @hide="setRightPanel(false)" bordered>
     <div class="bg-grey-11 fit">
-      <q-input v-model="inputSearchUsers.search" :placeholder="placeholderUsers" class="col-12 q-pb-sm q-px-sm">
+      <q-input v-model="inputSearchUsers" :placeholder="placeholderUsers" class="col-12 q-pb-sm q-px-sm">
         <template v-slot:prepend>
-          <q-icon
-            v-show="inputSearchUsers.visible"
-            name="mdi-close"
-            @click=";(inputSearchUsers.search = ''), (inputSearchUsers.visible = false)"
-            class="cursor-pointer"
-          />
+          <q-icon name="mdi-magnify" />
         </template>
         <template v-slot:append>
-          <i @click="inputSearchUsers.visible = true" class="q-icon mdi mdi-magnify cursor-pointer"></i>
+          <q-icon
+            v-show="inputSearchUsers.length > 0"
+            name="mdi-close"
+            @click="inputSearchUsers = ''"
+            class="cursor-pointer"
+          />
         </template>
       </q-input>
       <div class="bg-grey-4 text-bold text-left q-pa-sm text-uppercase">
@@ -48,7 +48,7 @@ export default {
   data() {
     return {
       iconSize: '.75rem',
-      inputSearchUsers: { search: '', visible: true },
+      inputSearchUsers: '',
       placeholder: 'Wyszukaj wiadomość',
       placeholderUsers: 'Wyszukaj uczestników',
       dataRowUsers: {

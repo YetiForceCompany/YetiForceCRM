@@ -4,17 +4,17 @@
     <q-page>
       <div class="row col-12 q-px-sm">
         <div class="col-12">
-          <q-input v-show="inputSearchVisible" borderless v-model="inputSearchSearch" :placeholder="placeholder">
+          <q-input borderless v-model="inputSearch" :placeholder="placeholder">
             <template v-slot:prepend>
-              <q-icon
-                v-show="visible"
-                name="close"
-                @click=";(inputSearchSearch = ''), (visible = false)"
-                class="cursor-pointer"
-              />
+              <q-icon name="mdi-magnify" />
             </template>
             <template v-slot:append>
-              <i @click="visible = true" class="q-icon mdi mdi-magnify cursor-pointer"></i>
+              <q-icon
+                v-show="inputSearch.length > 0"
+                name="mdi-close"
+                @click="inputSearch = ''"
+                class="cursor-pointer"
+              />
             </template>
           </q-input>
 
@@ -115,10 +115,8 @@ export default {
       iconSize: '.75rem',
       placeholder: 'Wyszukaj wiadomość',
       placeholderTexttera: 'Wpisz tutaj swoją wiadomość. Naciśnij SHIFT + ENTER, aby dodać nową linię.',
-      visible: false,
       text: '',
-      inputSearchSearch: '',
-      inputSearchVisible: true,
+      inputSearch: '',
       tabHistory: 'ulubiony',
       tabHistoryShow: false,
       submitting: false,
