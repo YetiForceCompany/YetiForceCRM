@@ -55,7 +55,7 @@ class Vtiger_Double_InventoryField extends Vtiger_Basic_InventoryField
 		if ($isUserFormat) {
 			$value = $this->getDBValue($value, $columnName);
 		}
-		$moduleName = $this->getFieldModel()->getModuleName();
+		$moduleName = $this->getModuleName();
 		if (!is_numeric($value)) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$moduleName||$value", 406);
 		}

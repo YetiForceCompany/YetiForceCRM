@@ -1007,13 +1007,18 @@ window.App.Fields = {
 			}
 			params = this.registerParams(selectElement, params);
 			const computeDropdownHeight = (e, dropdownContainer) => {
-				if (!dropdownContainer.find('.select2-dropdown--above').length) {
-					const dropdownList = dropdownContainer.find('.select2-results__options')
-					const marginBottom = 35
-					const selectOffsetTop = $(e.currentTarget).offset().top;
-					dropdownList.css({'max-height': $(window).height() - selectOffsetTop - marginBottom - (dropdownList.offset().top - selectOffsetTop)})
-				}
-			}
+				setTimeout(() => {
+					if (!dropdownContainer.find('.select2-dropdown--above').length) {
+						const dropdownList = dropdownContainer.find('.select2-results > .select2-results__options');
+						const marginBottom = 35;
+						const selectOffsetTop = $(e.currentTarget).offset().top;
+						dropdownList.css({
+							'max-height':
+								$(window).height() - selectOffsetTop - marginBottom - (dropdownList.offset().top - selectOffsetTop)
+						});
+					}
+				}, 100)
+			};
 			selectElement.each(function() {
 				let select = $(this);
 				let htmlBoolParams = select.data('select');
@@ -1026,7 +1031,7 @@ window.App.Fields = {
 				select
 					.select2(params)
 					.on('select2:open', e => {
-						computeDropdownHeight(e, $('.select2-container--open:not(.select2-container--below)'))
+						computeDropdownHeight(e, $('.select2-container--open:not(.select2-container--below)'));
 						if (select.data('unselecting')) {
 							select.removeData('unselecting');
 							setTimeout(function() {
@@ -1376,7 +1381,7 @@ window.App.Fields = {
 						});
 					});
 				$(element)
-					.find('.js-add-item')
+					.find('.js-multi-email-add-item')
 					.each((index, element) => {
 						$(element).on('click', e => {
 							App.Fields.MultiEmail.addEmail($(inputElement));
@@ -1505,7 +1510,7 @@ window.App.Fields = {
 			container.find('.js-multi-field').each((index, element) => {
 				const inputElement = $(element);
 				const fields = inputElement.find('.js-multi-field-val').data('fields');
-				inputElement.find('.js-add-item').on('click', e => {
+				inputElement.find('.js-multi-field-add-item').on('click', e => {
 					App.Fields.MultiDependField.addRow(inputElement, fields);
 				});
 				App.Fields.MultiDependField.registerRow(inputElement, fields);
@@ -1777,6 +1782,346 @@ window.App.Fields = {
 					};
 					app.showModalWindow(requestData, { modalId: 'treeModal' });
 				});
+			});
+		}
+	},
+	/**
+	 * TimePeriod class
+	 *
+	 * Save value as time period in 00:m format where '0' is a number of units
+	 * ':' is just separator
+	 * and 'm' is time scale/period in php date format - available formats are [m, d, H, i, s]
+	 * @example 10:i = 10 minutes, 2:m = 2 months, 20:H = 20 hours and so on...
+	 */
+	TimePeriod: class TimePeriod {
+		constructor(container) {
+			this.container = container;
+			this.value = container.val();
+			if (this.value) {
+				const split = this.value.split(':');
+				this.time = Number(split[0]);
+				this.period = split[1];
+			} else {
+				this.time = 0;
+				this.period = 'H';
+				this.value = '0:H';
+				container.val(this.value);
+			}
+			this.injectContent();
+		}
+
+		/**
+		 * Register time period field/s
+		 *
+		 * @param {jQuery} container it could be input type hidden with js-time-period class
+		 *                           or container that contains multiple js-time-period inputs
+		 *
+		 * @example <input type="hidden" name="field_name" class="js-time-period">
+		 *
+		 * @returns {TimePeriod|TimePeriod[]} instance/s
+		 */
+		static register(container) {
+			if (container.hasClass('c-time-period')) {
+				return new TimePeriod(container);
+			}
+			const instances = [];
+			container.find('.c-time-period').each((index, value) => {
+				instances.push(new TimePeriod($(value)));
+			});
+			return instances;
+		}
+
+		/**
+		 * Inject content next to container
+		 *
+		 * @returns  {jQuery}  created element with input and select
+		 */
+		injectContent() {
+			let content = `<div class="input-group c-time-period" data-js="container">
+				<div class="input-group-prepend">
+					<a href class="btn btn-default c-time-period-input-modifier c-time-period-input-modifier--minus-1"><span class="fas fa-minus"></span></a>
+				</div>
+				<input type="number" class="form-control c-time-period-input" min="0" value="${this.time}"
+					data-validation-engine="validate[required,funcCall[Vtiger_Integer_Validator_Js.invokeValidation]]">
+				<div class="input-group-append">
+					<a href class="btn btn-default c-time-period-input-modifier c-time-period-input-modifier--plus-1"><span class="fas fa-plus"></span></a>
+					<select class="select2 js-time-period-select time-period-${this.container.attr('name')}">
+						<option value="d"${this.period === 'd' ? ' selected="selected"' : ''}>${app.vtranslate('JS_DAYS_FULL')}</option>
+						<option value="H"${this.period === 'H' ? ' selected="selected"' : ''}>${app.vtranslate('JS_HOURS_FULL')}</option>
+						<option value="i"${this.period === 'i' ? ' selected="selected"' : ''}>${app.vtranslate('JS_MINUTES_FULL')}</option>
+					</select>
+				</div>
+			</div>`;
+			this.element = this.container.parent().append(content);
+			this.input = this.element.find('.c-time-period-input').eq(0);
+			this.select = this.element.find('.select2').eq(0);
+			this.plus1btn = this.element.find('.c-time-period-input-modifier--plus-1').eq(0);
+			this.minus1btn = this.element.find('.c-time-period-input-modifier--minus-1').eq(0);
+			App.Fields.Picklist.showSelect2ElementView(this.select, { width: '100px' });
+			this.registerEvents();
+			return this.element;
+		}
+
+		/**
+		 * Register events
+		 */
+		registerEvents() {
+			this.input.on('input', this.onChange.bind(this));
+			this.select.on('change', this.onChange.bind(this));
+			this.plus1btn.on('click', this.onPlus1Click.bind(this));
+			this.minus1btn.on('click', this.onMinus1Click.bind(this));
+		}
+
+		/**
+		 * On change event
+		 *
+		 * @param {Event} event
+		 */
+		onChange(event) {
+			this.time = this.input.val();
+			this.period = this.select.val();
+			this.value = this.input.val() + ':' + this.select.val();
+			this.container.val(this.value);
+		}
+
+		/**
+		 * Plus 1 button click event handler
+		 *
+		 * @param {Event} event
+		 */
+		onPlus1Click(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			this.input.val(Number(this.input.val()) + 1);
+			this.onChange();
+		}
+
+		/**
+		 * Minus 1 button click event handler
+		 *
+		 * @param {Event} event
+		 */
+		onMinus1Click(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			if (Number(this.input.val()) > 0) {
+				this.input.val(Number(this.input.val()) - 1);
+				this.onChange();
+			}
+		}
+	},
+	/**
+	 * Multi currency
+	 */
+	MultiCurrency: class MultiCurrency {
+		constructor(container) {
+			this.container = container;
+			this.init();
+		}
+		/**
+		 * Register function
+		 * @param {jQuery} container
+		 */
+		static register(container) {
+			if (container.hasClass('js-multicurrency-container')) {
+				return new MultiCurrency(container);
+			}
+			const instances = [];
+			container.find('.js-multicurrency-container').each((n, e) => {
+				instances.push(new MultiCurrency($(e)));
+			});
+			return instances;
+		}
+		/**
+		 * Initiation
+		 */
+		init() {
+			$('.js-multicurrency-event', this.container)
+				.off('click')
+				.on('click', () => {
+					let modal = $('<form>').append(this.container.find('.js-currencies-container .js-currencies-modal').clone());
+					this.registerEnableCurrencyEvent(modal);
+					this.registerResetCurrencyEvent(modal);
+					this.loadData(modal);
+					this.calculateConversionRate(modal);
+					app.showModalWindow({
+						data: modal,
+						css: {},
+						cb: data => {
+							let form = data.parent();
+							form.validationEngine(app.validationEngineOptionsForRecord);
+							form.on('submit', e => {
+								e.preventDefault();
+								if (form.validationEngine('validate') && this.saveCurrencies(form)) {
+									let id = form.closest('.js-modal-container').attr('id');
+									app.hideModalWindow(null, id);
+								}
+							});
+						}
+					});
+				});
+			this.getField().on('focusout', e => {
+				let element = $(e.currentTarget);
+				element.formatNumber();
+				this.setPrice(element.val());
+			});
+		}
+		/**
+		 * Loading data
+		 * @param {jQuery} modalContainer
+		 */
+		loadData(modalContainer) {
+			let values = JSON.parse(this.getFieldToSave().val());
+			let baseCurrencyId = values['currencyId'] || CONFIG.currencyId;
+			if (values['currencies'] === undefined) {
+				values['currencies'] = [];
+				values['currencies'][baseCurrencyId] = { price: 0 };
+			}
+			for (let i in values['currencies']) {
+				let row = modalContainer.find('[data-currency-id="' + i + '"]');
+				if (row.length) {
+					row.find('.js-enable-currency').prop('checked', true);
+					row.find('.js-currency-reset,.js-base-currency,[name^="currencies["]').prop('disabled', false);
+					row.find('.js-converted-price').val(values['currencies'][i]['price']);
+					if (i == baseCurrencyId) {
+						row.find('.js-base-currency').prop('checked', true);
+					}
+				}
+			}
+		}
+		/**
+		 * Set value
+		 * @param {number} value
+		 */
+		setPrice(value) {
+			let values = JSON.parse(this.getFieldToSave().val());
+			let baseCurrencyId = values['currencyId'] || CONFIG.currencyId;
+			values['currencies'] = values['currencies'] || {};
+			values['currencies'][baseCurrencyId] = { price: value };
+			values['currencyId'] = baseCurrencyId;
+			values = $.extend({}, values);
+			this.getFieldToSave().val(JSON.stringify($.extend({}, values)));
+		}
+		/**
+		 * Gets field
+		 */
+		getField() {
+			return this.container.find('.js-multicurrency-field');
+		}
+		/**
+		 * Gets field to save
+		 */
+		getFieldToSave() {
+			return this.container.find('.js-multicurrency-field-to-save');
+		}
+		/**
+		 * Save
+		 * @param {jQuery} modalContainer
+		 */
+		saveCurrencies(modalContainer) {
+			let enabledBaseCurrency = modalContainer.find('.js-enable-currency').filter(':checked');
+			if (enabledBaseCurrency.length < 1) {
+				Vtiger_Helper_Js.showMessage({
+					text: app.vtranslate('JS_PLEASE_SELECT_BASE_CURRENCY_FOR_PRODUCT'),
+					type: 'error'
+				});
+				return false;
+			}
+			let selectedBaseCurrency = modalContainer.find('.js-base-currency').filter(':checked');
+			if (selectedBaseCurrency.length < 1) {
+				Vtiger_Helper_Js.showMessage({
+					text: app.vtranslate('JS_PLEASE_ENABLE_BASE_CURRENCY_FOR_PRODUCT'),
+					type: 'error'
+				});
+				return false;
+			}
+
+			let selectedRow = selectedBaseCurrency.closest('tr');
+			let symbol = selectedRow.data('currency-symbol');
+			this.container.find('.js-currency').text(symbol);
+			let data = {};
+			data['currencies'] = {};
+			enabledBaseCurrency.closest('tr').each((n, e) => {
+				let row = $(e),
+					currencyId = row.data('currencyId');
+				data['currencies'][currencyId] = {};
+				data['currencies'][currencyId]['price'] = row.find('.js-converted-price').val();
+				if (row.find('.js-base-currency:checked').length) {
+					data['currencyId'] = currencyId;
+				}
+			});
+			this.getFieldToSave().val(JSON.stringify(data));
+			this.getField().val(selectedRow.find('.js-converted-price').val());
+			selectedBaseCurrency.prop('checked', false);
+			return true;
+		}
+		/**
+		 * Calculate
+		 * @param {jQuery} container
+		 */
+		calculateConversionRate(container) {
+			let baseCurrencyConversionRate = container
+				.find('.js-base-currency')
+				.filter(':checked')
+				.closest('tr')
+				.find('.js-conversion-rate');
+			if (baseCurrencyConversionRate.val() == '1') {
+				return;
+			}
+			let baseCurrencyRatePrevValue = baseCurrencyConversionRate.getNumberFromValue();
+			container.find('.js-conversion-rate').each(function(key, domElement) {
+				let element = $(domElement);
+				if (!element.is(baseCurrencyConversionRate)) {
+					element.val(
+						App.Fields.Double.formatToDisplay(element.getNumberFromValue() / baseCurrencyRatePrevValue, false)
+					);
+				}
+			});
+			baseCurrencyConversionRate.val('1');
+		}
+		/**
+		 * Function to register event for enabling currency on checkbox checked
+		 * @param {jQuery} container
+		 */
+		registerEnableCurrencyEvent(container) {
+			container.on('change', '.js-enable-currency', e => {
+				let element = $(e.currentTarget);
+				let parentRow = element.closest('tr');
+				if (element.is(':checked')) {
+					element.attr('checked', 'checked');
+					let price = this.getField().getNumberFromValue() * parentRow.find('.js-conversion-rate').getNumberFromValue();
+					$('input', parentRow).removeAttr('disabled');
+					parentRow.find('.js-currency-reset').removeAttr('disabled');
+					parentRow.find('.js-converted-price').val(App.Fields.Double.formatToDisplay(price));
+				} else {
+					if (parentRow.find('.js-base-currency').is(':checked')) {
+						Vtiger_Helper_Js.showPnotify({
+							type: 'error',
+							title:
+								'"' +
+								parentRow.find('.js-currency-name').text() +
+								'" ' +
+								app.vtranslate('JS_BASE_CURRENCY_CHANGED_TO_DISABLE_CURRENCY')
+						});
+						element.prop('checked', true);
+						return;
+					}
+					parentRow.find('input').attr('disabled', 'disabled');
+					parentRow.find('.js-currency-reset').attr('disabled', 'disabled');
+					element.removeAttr('disabled checked');
+				}
+			});
+		}
+
+		/**
+		 * Function to register event for reseting the currencies
+		 * @param {jQuery} container
+		 */
+		registerResetCurrencyEvent(container) {
+			container.on('click', '.js-currency-reset', e => {
+				let parentElem = $(e.currentTarget).closest('tr');
+				let price = this.getField().getNumberFromValue() * parentElem.find('.js-conversion-rate').getNumberFromValue();
+				$('.js-converted-price', parentElem).val(App.Fields.Double.formatToDisplay(price));
 			});
 		}
 	}

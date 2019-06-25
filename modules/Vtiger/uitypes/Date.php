@@ -172,9 +172,9 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getOperators()
+	public function getQueryOperators()
 	{
-		return ['e', 'n', 'bw', 'b', 'a', 'y', 'ny'] + array_keys(App\CustomView::DATE_FILTER_CONDITIONS);
+		return ['e', 'n', 'bw', 'b', 'a', 'y', 'ny'] + array_keys(App\Condition::DATE_OPERATORS);
 	}
 
 	/**

@@ -233,7 +233,7 @@ class Encryption extends Base
 			$password .= $char[array_rand(str_split($char))];
 		}
 		$allChars = str_split($allChars);
-		$missing = $length - count($chars);
+		$missing = $length - \count($chars);
 		for ($i = 0; $i < $missing; ++$i) {
 			$password .= $allChars[array_rand($allChars)];
 		}

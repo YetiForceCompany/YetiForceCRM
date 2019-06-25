@@ -69,7 +69,7 @@ class Validator
 	 * Function verifies if given value is compatible with user’s date format.
 	 *
 	 * @param string   $input
-	 * @param null|int $userId
+	 * @param int|null $userId
 	 *
 	 * @return bool
 	 */
@@ -98,7 +98,7 @@ class Validator
 	 *  Function verifies if given value is compatible with user’s time format.
 	 *
 	 * @param string   $input
-	 * @param null|int $userId
+	 * @param int|null $userId
 	 *
 	 * @return bool
 	 */
@@ -125,7 +125,7 @@ class Validator
 	public static function dateTime(string $input): bool
 	{
 		$result = false;
-		if (($arrInput = \explode(' ', $input)) && 2 === count($arrInput)) {
+		if (($arrInput = \explode(' ', $input)) && 2 === \count($arrInput)) {
 			[$dateInput, $timeInput] = $arrInput;
 			[$y, $m, $d] = Fields\Date::explode($dateInput);
 			$result = checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d) &&
@@ -138,14 +138,14 @@ class Validator
 	 * Function verifies if given value is compatible with user’s  date and time format.
 	 *
 	 * @param string   $input
-	 * @param null|int $userId
+	 * @param int|null $userId
 	 *
 	 * @return bool
 	 */
 	public static function dateTimeInUserFormat(string $input, ?int $userId = null): bool
 	{
 		$result = false;
-		if (($arrInput = \explode(' ', $input)) && 2 === count($arrInput)) {
+		if (($arrInput = \explode(' ', $input)) && 2 === \count($arrInput)) {
 			$userModel = User::getUserModel($userId ?? User::getCurrentUserId());
 			[$dateInput, $timeInput] = $arrInput;
 			[$y, $m, $d] = Fields\Date::explode($dateInput, $userModel->getDetail('date_format'));
@@ -196,7 +196,7 @@ class Validator
 	 */
 	public static function floatIsEqual(float $value1, float $value2, int $precision = 2): bool
 	{
-		return abs(round($value1, $precision) - round($value2, $precision)) < (1 / pow(10, $precision));
+		return abs(round(round($value1, $precision) - round($value2, $precision))) < (1 / pow(10, $precision));
 	}
 
 	/**
@@ -330,5 +330,17 @@ class Validator
 	public static function sql($input): bool
 	{
 		return preg_match('/^[_a-zA-Z0-9.,:]+$/', $input);
+	}
+
+	/**
+	 * Check if input is an time period value.
+	 *
+	 * @param string $input
+	 *
+	 * @return bool
+	 */
+	public static function timePeriod($input): bool
+	{
+		return preg_match('/^[0-9]{1,18}\:(d|H|i){1}$/', $input);
 	}
 }

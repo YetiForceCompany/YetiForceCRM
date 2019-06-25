@@ -78,7 +78,7 @@ trait ColumnSchemaBuilderTrait
 	 *
 	 * @param string $type
 	 *
-	 * @return null|mixed
+	 * @return mixed|null
 	 */
 	public function get($type)
 	{

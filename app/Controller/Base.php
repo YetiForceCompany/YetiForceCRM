@@ -142,9 +142,11 @@ abstract class Base
 	/**
 	 * Function to check if session is extend.
 	 *
+	 * @param \App\Request $request
+	 *
 	 * @return bool
 	 */
-	public function isSessionExtend()
+	public function isSessionExtend(\App\Request $request)
 	{
 		return true;
 	}

@@ -26,10 +26,13 @@ class Settings_BusinessHours_Save_Action extends Settings_Vtiger_Basic_Action
 		}
 		$recordModel->set('name', $request->getByType('name', 'Text'));
 		$recordModel->set('working_days', implode(',', $workingDays));
-		$recordModel->set('working_hours_from', \App\Fields\Time::formatToDB($request->getByType('working_hours_from', 'TimeInUserFormat'), false));
-		$recordModel->set('working_hours_to', \App\Fields\Time::formatToDB($request->getByType('working_hours_to', 'TimeInUserFormat'), false));
+		$recordModel->set('working_hours_from', \App\Fields\Time::formatToDB($request->getByType('working_hours_from', 'TimeInUserFormat', false), false));
+		$recordModel->set('working_hours_to', \App\Fields\Time::formatToDB($request->getByType('working_hours_to', 'TimeInUserFormat', false), false));
 		$recordModel->set('holidays', $request->getBoolean('holidays') ? 1 : 0);
 		$recordModel->set('default', $request->getBoolean('default') ? 1 : 0);
+		$recordModel->set('reaction_time', $request->getByType('reaction_time', 'TimePeriod'));
+		$recordModel->set('idle_time', $request->getByType('idle_time', 'TimePeriod'));
+		$recordModel->set('resolve_time', $request->getByType('resolve_time', 'TimePeriod'));
 		$recordModel->save();
 		header('location: ' . $moduleModel->getListViewUrl());
 	}

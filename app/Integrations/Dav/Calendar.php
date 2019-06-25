@@ -163,7 +163,7 @@ class Calendar
 	 * Create a class instance from vcalendar content.
 	 *
 	 * @param string                    $content
-	 * @param null|\Vtiger_Record_Model $recordModel
+	 * @param \Vtiger_Record_Model|null $recordModel
 	 *
 	 * @return \App\Integrations\Dav\Calendar
 	 */
@@ -668,7 +668,7 @@ class Calendar
 		}
 		// add X-MICROSOFT-CDO-TZID if available
 		$microsoftExchangeMap = array_flip(VObject\TimeZoneUtil::$microsoftExchangeMap);
-		if (array_key_exists($tz->getName(), $microsoftExchangeMap)) {
+		if (\array_key_exists($tz->getName(), $microsoftExchangeMap)) {
 			$vt->add('X-MICROSOFT-CDO-TZID', $microsoftExchangeMap[$tz->getName()]);
 		}
 		return $vt;

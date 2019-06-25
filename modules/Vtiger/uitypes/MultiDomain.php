@@ -15,18 +15,18 @@ class Vtiger_MultiDomain_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		$hashValue = is_array($value) ? ',' . implode(',', $value) . ',' : $value;
+		$hashValue = \is_array($value) ? ',' . implode(',', $value) . ',' : $value;
 		if (isset($this->validate[$hashValue]) || empty($value)) {
 			return;
 		}
-		if (is_string($value)) {
+		if (\is_string($value)) {
 			$value = array_filter(explode(',', $value));
 		}
-		if (!is_array($value)) {
+		if (!\is_array($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		foreach ($value as $item) {
-			if (!is_string($item) || $item !== strip_tags($item) || filter_var($item, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME) === false) {
+			if (!\is_string($item) || $item !== strip_tags($item) || false === filter_var($item, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME)) {
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $item, 406);
 			}
 		}
@@ -39,7 +39,7 @@ class Vtiger_MultiDomain_UIType extends Vtiger_Base_UIType
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$values = [];
-		if (!is_array($value)) {
+		if (!\is_array($value)) {
 			$value = $value ? array_filter(explode(',', $value)) : [];
 		}
 		foreach ($value as $val) {
@@ -59,7 +59,7 @@ class Vtiger_MultiDomain_UIType extends Vtiger_Base_UIType
 		if (empty($value)) {
 			return null;
 		}
-		if (!is_array($value)) {
+		if (!\is_array($value)) {
 			$value = [$value];
 		}
 		$value = ',' . implode(',', $value) . ',';
@@ -75,7 +75,7 @@ class Vtiger_MultiDomain_UIType extends Vtiger_Base_UIType
 			return null;
 		}
 		$value = str_ireplace(',', ', ', trim($value, ','));
-		if (is_int($length)) {
+		if (\is_int($length)) {
 			$value = \App\TextParser::textTruncate($value, $length);
 		}
 		return \App\Purifier::encodeHtml($value);
@@ -116,7 +116,7 @@ class Vtiger_MultiDomain_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getOperators()
+	public function getQueryOperators()
 	{
 		return ['e', 'n', 'c', 'k', 'y', 'ny'];
 	}

@@ -70,6 +70,19 @@ class Picklist
 	}
 
 	/**
+	 * Check if the value exists in the picklist.
+	 *
+	 * @param string $fieldName
+	 * @param string $value
+	 *
+	 * @return bool
+	 */
+	public static function isExists(string $fieldName, string $value): bool
+	{
+		return \in_array($value, static::getValuesName($fieldName));
+	}
+
+	/**
 	 * Function which will give the editable picklist values for a field.
 	 *
 	 * @param string $fieldName -- string

@@ -11,8 +11,6 @@
 
 namespace App\Utils;
 
-use PDO;
-
 /**
  * Conf report.
  */
@@ -146,7 +144,7 @@ class ConfReport
 	 */
 	public static $database = [
 		'driver' => ['recommended' => 'mysql', 'type' => 'Equal', 'container' => 'db', 'testCli' => false, 'label' => 'DB_DRIVER'],
-		'typeDb' => [ 'container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION_TYPE'],
+		'typeDb' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION_TYPE'],
 		'serverVersion' => ['recommended' => ['MariaDb' => '10.x', 'MySQL' => '5.6.x'], 'type' => 'VersionDb', 'container' => 'db', 'testCli' => false, 'label' => 'DB_SERVER_VERSION'],
 		'clientVersion' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_CLIENT_VERSION'],
 		'version_comment' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION_COMMENT'],
@@ -386,7 +384,7 @@ class ConfReport
 			$php[$key] = $value['local_value'];
 		}
 		$locale = '';
-		if (function_exists('locale_get_default')) {
+		if (\function_exists('locale_get_default')) {
 			$locale = print_r(locale_get_default(), true);
 		}
 		$cron = static::getCronVariables('last_start');
@@ -451,13 +449,12 @@ class ConfReport
 		try {
 			$res = (new \GuzzleHttp\Client())->request('GET', $requestUrl, ['timeout' => 1, 'verify' => false]);
 			foreach ($res->getHeaders() as $key => $value) {
-				$request[strtolower($key)] = is_array($value) ? implode(',', $value) : $value;
+				$request[strtolower($key)] = \is_array($value) ? implode(',', $value) : $value;
 			}
 		} catch (\Throwable $e) {
 		}
 		return $request;
 	}
-
 
 	/**
 	 * Validating configuration values.
@@ -513,7 +510,7 @@ class ConfReport
 				continue;
 			}
 			if (isset($item['type']) && ($methodName = 'parser' . $item['type']) && \method_exists(__CLASS__, $methodName)) {
-				$values[$key] = call_user_func_array([__CLASS__, $methodName], [$key, $item]);
+				$values[$key] = \call_user_func_array([__CLASS__, $methodName], [$key, $item]);
 			} elseif (isset($item['container'])) {
 				$container = $item['container'];
 				if (isset(static::${$container}[\strtolower($key)]) || isset(static::${$container}[$key])) {
@@ -582,10 +579,10 @@ class ConfReport
 	private static function validateVersionDb(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		$recommended =	$row['recommended'][static::$db['typeDb']];
+		$recommended = $row['recommended'][static::$db['typeDb']];
 		$row['status'] = false;
 		if (!empty($row[$sapi]) && \App\Version::compare($row[$sapi], $recommended, '>=')) {
-				$row['status'] = true;
+			$row['status'] = true;
 		}
 		$row['recommended'] = $recommended;
 		return $row;
@@ -762,7 +759,7 @@ class ConfReport
 	private static function validateFnExist(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		$row['status'] = function_exists($row['fnName']);
+		$row['status'] = \function_exists($row['fnName']);
 		$row[$sapi] = $row['status'] ? 'LBL_YES' : 'LBL_NO';
 		return $row;
 	}

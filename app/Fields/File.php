@@ -273,9 +273,9 @@ class File
 			$extension = $this->getExtension(true);
 			if (isset(static::$mimeTypes[$extension])) {
 				$this->mimeType = static::$mimeTypes[$extension];
-			} elseif (function_exists('mime_content_type')) {
+			} elseif (\function_exists('mime_content_type')) {
 				$this->mimeType = mime_content_type($this->path);
-			} elseif (function_exists('finfo_open')) {
+			} elseif (\function_exists('finfo_open')) {
 				$finfo = finfo_open(FILEINFO_MIME);
 				$this->mimeType = finfo_file($finfo, $this->path);
 				finfo_close($finfo);
@@ -369,7 +369,7 @@ class File
 				$message = \App\Language::translateSingleMod($message, 'Other.Exceptions');
 			} else {
 				$params = explode('||', $message);
-				$message = call_user_func_array('vsprintf', [\App\Language::translateSingleMod(array_shift($params), 'Other.Exceptions'), $params]);
+				$message = \call_user_func_array('vsprintf', [\App\Language::translateSingleMod(array_shift($params), 'Other.Exceptions'), $params]);
 			}
 			$this->validateError = $message;
 			Log::error("Error: $message | {$this->getName()} | {$this->getSize()}", __CLASS__);
@@ -411,7 +411,7 @@ class File
 	public function validateImageContent(): bool
 	{
 		$returnVal = false;
-		if (extension_loaded('imagick')) {
+		if (\extension_loaded('imagick')) {
 			try {
 				$img = new \imagick($this->path);
 				$returnVal = $img->valid();
@@ -488,7 +488,7 @@ class File
 	private function validateCodeInjection()
 	{
 		$shortMimeType = $this->getShortMimeType(0);
-		if ($this->validateAllCodeInjection || in_array($shortMimeType, static::$phpInjection)) {
+		if ($this->validateAllCodeInjection || \in_array($shortMimeType, static::$phpInjection)) {
 			// Check for code injection
 			$contents = $this->getContents();
 			if (false !== stripos($contents, '<?xpacket')) {
@@ -510,13 +510,13 @@ class File
 	 */
 	private function searchCodeInjection(): bool
 	{
-		if (!function_exists('token_get_all')) {
+		if (!\function_exists('token_get_all')) {
 			return true;
 		}
 		try {
 			$tokens = token_get_all($this->getContents(), TOKEN_PARSE);
 			foreach ($tokens as $token) {
-				switch (is_array($token) ? $token[0] : $token) {
+				switch (\is_array($token) ? $token[0] : $token) {
 						case \T_COMMENT:
 						case \T_DOC_COMMENT:
 						case \T_WHITESPACE:
@@ -582,8 +582,8 @@ class File
 						case \T_YIELD:
 							return true;
 						default:
-							$text = is_array($token) ? $token[1] : $token;
-							if (function_exists($text) || defined($text)) {
+							$text = \is_array($token) ? $token[1] : $token;
+							if (\function_exists($text) || \defined($text)) {
 								return true;
 							}
 					}
@@ -602,7 +602,7 @@ class File
 	private function validateCodeInjectionInMetadata()
 	{
 		if (
-			function_exists('exif_read_data') &&
+			\function_exists('exif_read_data') &&
 			\in_array($this->getMimeType(), ['image/jpeg', 'image/tiff']) &&
 			\in_array(exif_imagetype($this->path), [IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM])
 		) {
@@ -626,7 +626,7 @@ class File
 	 */
 	private function validateImageMetadata($data)
 	{
-		if (is_array($data)) {
+		if (\is_array($data)) {
 			foreach ($data as $value) {
 				if (!$this->validateImageMetadata($value)) {
 					return false;
@@ -722,7 +722,7 @@ class File
 		$fileNameParts = explode('.', $fileName);
 		$badExtensionFound = false;
 		foreach ($fileNameParts as $key => &$partOfFileName) {
-			if (in_array(strtolower($partOfFileName), $badFileExtensions)) {
+			if (\in_array(strtolower($partOfFileName), $badFileExtensions)) {
 				$badExtensionFound = true;
 				$fileNameParts[$key] = $partOfFileName;
 			}
@@ -798,9 +798,9 @@ class File
 		$extension = strtolower(array_pop($extension));
 		if (isset(self::$mimeTypes[$extension])) {
 			$mimeType = self::$mimeTypes[$extension];
-		} elseif (function_exists('mime_content_type')) {
+		} elseif (\function_exists('mime_content_type')) {
 			$mimeType = mime_content_type($fileName);
-		} elseif (function_exists('finfo_open')) {
+		} elseif (\function_exists('finfo_open')) {
 			$finfo = finfo_open(FILEINFO_MIME);
 			$mimeType = finfo_file($finfo, $fileName);
 			finfo_close($finfo);
@@ -821,7 +821,7 @@ class File
 	{
 		$result = explode(',', $contents, 2);
 		$contentType = $isBase64 = false;
-		if (2 === count($result)) {
+		if (2 === \count($result)) {
 			[$metadata, $data] = $result;
 			foreach (explode(';', $metadata) as $cur) {
 				if ('base64' === $cur) {
@@ -835,7 +835,7 @@ class File
 		}
 		$data = rawurldecode($data);
 		$rawData = $isBase64 ? base64_decode($data) : $data;
-		if (strlen($rawData) < 12) {
+		if (\strlen($rawData) < 12) {
 			Log::error('Incorrect content value: ' . $contents, __CLASS__);
 			return false;
 		}
@@ -1009,7 +1009,7 @@ class File
 		if ($path) {
 			$mime = static::getMimeContentType($path);
 			$mimeParts = explode('/', $mime);
-			if ($mime && file_exists($path) && isset(static::$allowedFormats[$mimeParts[0]]) && in_array($mimeParts[1], static::$allowedFormats[$mimeParts[0]])) {
+			if ($mime && file_exists($path) && isset(static::$allowedFormats[$mimeParts[0]]) && \in_array($mimeParts[1], static::$allowedFormats[$mimeParts[0]])) {
 				return "data:$mime;base64," . base64_encode(file_get_contents($path));
 			}
 		}
@@ -1095,8 +1095,8 @@ class File
 	public static function getLocalPath(string $path, string $pathToTrim = ROOT_DIRECTORY): string
 	{
 		if (0 === strpos($path, $pathToTrim)) {
-			$index = strlen($pathToTrim) + 1;
-			if (strrpos($pathToTrim, '/') === strlen($pathToTrim) - 1) {
+			$index = \strlen($pathToTrim) + 1;
+			if (strrpos($pathToTrim, '/') === \strlen($pathToTrim) - 1) {
 				--$index;
 			}
 			$path = substr($path, $index);
@@ -1117,7 +1117,7 @@ class File
 		$rows = [];
 		foreach ($files as $name => $file) {
 			$subName = $top ? $file['name'] : $name;
-			if (is_array($subName)) {
+			if (\is_array($subName)) {
 				foreach (array_keys($subName) as $key) {
 					$rows[$name][$key] = [
 						'name' => $file['name'][$key],
@@ -1260,7 +1260,7 @@ class File
 	public static function secureImage(self $file): bool
 	{
 		$result = false;
-		if (extension_loaded('imagick')) {
+		if (\extension_loaded('imagick')) {
 			try {
 				$img = new \imagick($file->getPath());
 				$img->stripImage();

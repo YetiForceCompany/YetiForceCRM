@@ -21,17 +21,4 @@ class KnowledgeBase_KnowledgeBase_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->view('KnowledgeBase.tpl', $moduleName);
 	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getHeaderCss(App\Request $request)
-	{
-		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = [
-			'~libraries/@mdi/font/css/materialdesignicons.min.css',
-			'~src/css/app.css'
-		];
-		return array_merge($headerCssInstances, $this->checkAndConvertCssStyles($cssFileNames));
-	}
 }

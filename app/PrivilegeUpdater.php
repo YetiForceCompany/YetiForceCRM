@@ -29,7 +29,7 @@ class PrivilegeUpdater
 		if (!isset(static::$globalSearchPermissionsCache[$userId][$moduleName])) {
 			$users = static::getGlobalSearchUsers();
 			$return = false;
-			if (isset($users[$userId]) && in_array($moduleName, $users[$userId])) {
+			if (isset($users[$userId]) && \in_array($moduleName, $users[$userId])) {
 				$return = true;
 			}
 

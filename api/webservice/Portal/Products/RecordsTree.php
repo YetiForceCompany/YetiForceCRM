@@ -31,11 +31,11 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	private $isUserPermissions;
 
 	/**
-	 * Global taxes.
+	 * Parent record model.
 	 *
-	 * @var array
+	 * @var \Vtiger_Record_Model
 	 */
-	private $globalTaxes;
+	private $parentRecordModel;
 
 	/**
 	 * Construct.
@@ -44,7 +44,6 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	{
 		$this->permissionType = (int) \App\User::getCurrentUserModel()->get('permission_type');
 		$this->isUserPermissions = \Api\Portal\Privilege::USER_PERMISSIONS === $this->permissionType;
-		$this->globalTaxes = \Vtiger_Inventory_Model::getGlobalTaxes();
 	}
 
 	/**
@@ -55,7 +54,8 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 		if ($this->isUserPermissions) {
 			$queryGenerator = parent::getQuery();
 		} else {
-			$pricebookId = \Vtiger_Record_Model::getInstanceById($this->getParentCrmId(), 'Accounts')->get('pricebook_id');
+			$this->parentRecordModel = \Vtiger_Record_Model::getInstanceById($this->getParentCrmId(), 'Accounts');
+			$pricebookId = $this->parentRecordModel->get('pricebook_id');
 			if (empty($pricebookId)) {
 				$queryGenerator = parent::getQuery();
 			} else {
@@ -93,20 +93,24 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	 */
 	protected function getRecordFromRow(array $row, array $fieldsModel): array
 	{
-		$listprice = $row['listprice'] ?? null;
-		$taxValue = 0;
-		if (!empty($row['taxes'])) {
-			$taxId = explode(',', $row['taxes'])[0];
-			$taxValue = $this->globalTaxes[$taxId]['value'];
-		}
 		$record = parent::getRecordFromRow($row, $fieldsModel);
-		$unitPrice = $row['unit_price'];
-		if (!$this->isUserPermissions && !empty($listprice)) {
-			$record['unit_price'] = \CurrencyField::convertToUserFormatSymbol($listprice);
-			$unitPrice = $listprice;
+		$unitPrice = (new \Vtiger_MultiCurrency_UIType())->getValueForCurrency($row['unit_price'], \App\Fields\Currency::getDefault()['id']);
+		$availableTaxes = [];
+		if ($this->isUserPermissions) {
+			$availableTaxes = 'LBL_GROUP';
+			$regionalTaxes = '';
+		} else {
+			$availableTaxes = $this->parentRecordModel->get('accounts_available_taxes');
+			$regionalTaxes = $this->parentRecordModel->get('taxes');
+			if (!empty($row['listprice'])) {
+				$unitPrice = $row['listprice'];
+			}
 		}
-		$record['unit_gross'] = \CurrencyField::convertToUserFormatSymbol($unitPrice + ($unitPrice * $taxValue) / 100.00);
-		$record['tax_value'] = \CurrencyField::convertToUserFormatSymbol($taxValue);
+		$record['unit_price'] = \CurrencyField::convertToUserFormatSymbol($unitPrice);
+		$taxParam = \Api\Portal\Record::getTaxParam($availableTaxes, $row['taxes'], $regionalTaxes);
+		$taxConfig = \Vtiger_Inventory_Model::getTaxesConfig();
+		$record['unit_gross'] = \CurrencyField::convertToUserFormatSymbol($unitPrice + (new \Vtiger_Tax_InventoryField())->getTaxValue($taxParam, $unitPrice, (int) $taxConfig['aggregation']));
+
 		return $record;
 	}
 
@@ -115,18 +119,23 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	 */
 	protected function getRawDataFromRow(array $row): array
 	{
-		$row = parent::getRawDataFromRow($row, $fieldsModel);
-		$unitPrice = $row['unit_price'];
-		if (!$this->isUserPermissions && !empty($row['listprice'])) {
-			$unitPrice = $row['unit_price'] = $row['listprice'];
+		$row = parent::getRawDataFromRow($row);
+		$unitPrice = $row['unit_price'] = (new \Vtiger_MultiCurrency_UIType())->getValueForCurrency($row['unit_price'], \App\Fields\Currency::getDefault()['id']);
+		$availableTaxes = [];
+		if ($this->isUserPermissions) {
+			$availableTaxes = 'LBL_GROUP';
+			$regionalTaxes = '';
+		} else {
+			$availableTaxes = $this->parentRecordModel->get('accounts_available_taxes');
+			$regionalTaxes = $this->parentRecordModel->get('taxes');
+			if (!empty($row['listprice'])) {
+				$unitPrice = $row['unit_price'] = $row['listprice'];
+			}
 		}
-		$row['tax_value'] = 0;
-		if (!empty($row['taxes'])) {
-			$taxId = explode(',', $row['taxes'])[0];
-			$row['tax_value'] = $this->globalTaxes[$taxId]['value'];
-		}
+		$taxParam = \Api\Portal\Record::getTaxParam($availableTaxes, $row['taxes'], $regionalTaxes);
+		$taxConfig = \Vtiger_Inventory_Model::getTaxesConfig();
+		$row['unit_gross'] = $unitPrice + (new \Vtiger_Tax_InventoryField())->getTaxValue($taxParam, $unitPrice, (int) $taxConfig['aggregation']);
 		$row['qtyinstock'] = $row['storage_qtyinstock'] ?? 0;
-		$row['unit_gross'] = $unitPrice + ($unitPrice * ($row['tax_value'] ?? 0) / 100.0);
 		return $row;
 	}
 

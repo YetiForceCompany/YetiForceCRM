@@ -43,7 +43,7 @@ class Owner
 			$currentUser = \App\User::getCurrentUserModel();
 		} elseif (is_numeric($currentUser)) {
 			$currentUser = \App\User::getUserModel($currentUser);
-		} elseif (is_object($currentUser) && 'Users_Record_Model' === get_class($currentUser)) {
+		} elseif (\is_object($currentUser) && 'Users_Record_Model' === \get_class($currentUser)) {
 			$currentUser = \App\User::getUserModel($currentUser->getId());
 		}
 		$cacheKey = $moduleName . $currentUser->getId();
@@ -183,7 +183,7 @@ class Owner
 			if (!empty($groups)) {
 				$groupsAll = $this->getGroups(false, $private);
 				foreach ($groupsAll as $ID => $name) {
-					if (in_array($ID, $groups)) {
+					if (\in_array($ID, $groups)) {
 						$result[$ID] = $name;
 					}
 				}
@@ -205,8 +205,8 @@ class Owner
 	public function &initUsers($status = 'Active', $assignedUser = '', $private = '', $roles = false)
 	{
 		$cacheKeyMod = 'private' === $private ? $this->moduleName : '';
-		$cacheKeyAss = is_array($assignedUser) ? md5(json_encode($assignedUser)) : $assignedUser;
-		$cacheKeyRole = is_array($roles) ? md5(json_encode($roles)) : $roles;
+		$cacheKeyAss = \is_array($assignedUser) ? md5(json_encode($assignedUser)) : $assignedUser;
+		$cacheKeyRole = \is_array($roles) ? md5(json_encode($roles)) : $roles;
 		$cacheKey = $cacheKeyMod . '_' . $status . '|' . $cacheKeyAss . '_' . $private . '|' . $cacheKeyRole . '_' . (int) $this->showRoleName;
 		if (\App\Cache::has('getUsers', $cacheKey)) {
 			$tempResult = \App\Cache::get('getUsers', $cacheKey);
@@ -323,7 +323,7 @@ class Owner
 
 		$tempResult = $this->initUsers($status, $assignedUser, $private, $roles);
 
-		if (!is_array($tempResult)) {
+		if (!\is_array($tempResult)) {
 			return [];
 		}
 		$users = [];
@@ -546,7 +546,7 @@ class Owner
 	 */
 	public static function getLabel($mixedId)
 	{
-		$multiMode = is_array($mixedId);
+		$multiMode = \is_array($mixedId);
 		$ids = $multiMode ? $mixedId : [$mixedId];
 		$missing = [];
 		foreach ($ids as $id) {
@@ -795,7 +795,7 @@ class Owner
 		$columnList = [];
 		while ($row = $dataReader->read()) {
 			$column = $row['tablename'] . '.' . $row['columnname'];
-			if (!in_array($column, $columnList)) {
+			if (!\in_array($column, $columnList)) {
 				$columnList[] = $column;
 				if ('smcreatorid' === $row['columnname'] || 'smownerid' === $row['columnname']) {
 					$db->createCommand()->update($row['tablename'], [$row['columnname'] => $newId], ['and', [$row['columnname'] => $oldId], ['<>', 'setype', 'ModComments']])
@@ -836,7 +836,7 @@ class Owner
 			$className = str_replace('"', '', $classNameWithDoubleQuotes);
 			require_once 'modules/com_vtiger_workflow/tasks/' . $className . '.php';
 			$unserializeTask = unserialize($task);
-			if (array_key_exists('field_value_mapping', $unserializeTask)) {
+			if (\array_key_exists('field_value_mapping', $unserializeTask)) {
 				$fieldMapping = \App\Json::decode($unserializeTask->field_value_mapping);
 				if (!empty($fieldMapping)) {
 					foreach ($fieldMapping as $key => $condition) {
@@ -857,7 +857,7 @@ class Owner
 				}
 			} else {
 				//For VTCreateTodoTask and VTCreateEventTask
-				if (array_key_exists('assigned_user_id', $unserializeTask)) {
+				if (\array_key_exists('assigned_user_id', $unserializeTask)) {
 					$value = $unserializeTask->assigned_user_id;
 					if ($value == $oldId) {
 						$unserializeTask->assigned_user_id = $newId;

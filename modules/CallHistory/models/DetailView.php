@@ -3,6 +3,8 @@
 /**
  * CallHistory DetailView model class.
  *
+ * @package Model
+ *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
@@ -26,7 +28,7 @@ class CallHistory_DetailView_Model extends Vtiger_DetailView_Model
 		if (!empty($detailViewBasiclinks)) {
 			foreach ($detailViewBasiclinks as $linkModel) {
 				// Remove view history, needed in vtiger5 to see history but not in vtiger6
-				if ($linkModel->linklabel == 'View History') {
+				if ('View History' == $linkModel->linklabel) {
 					continue;
 				}
 				$linkModelList['DETAIL_VIEW_BASIC'][] = $linkModel;

@@ -88,10 +88,24 @@ class RecordStatus
 	];
 
 	/**
+	 * Get all record states.
+	 *
+	 * @return string[] [id=>label]
+	 */
+	public static function getLabels(): array
+	{
+		return [
+			self::RECORD_STATE_NO_CONCERN => 'LBL_RECORD_STATE_NO_CONCERN',
+			self::RECORD_STATE_OPEN => 'LBL_RECORD_STATE_OPEN',
+			self::RECORD_STATE_CLOSED => 'LBL_RECORD_STATE_CLOSED'
+		];
+	}
+
+	/**
 	 * Get record state statuses by module name.
 	 *
 	 * @param string   $moduleName
-	 * @param null|int $state
+	 * @param int|null $state
 	 *
 	 * @return array if state is specified values are labels, if not values are record_states, key is always primary key
 	 */
@@ -192,7 +206,8 @@ class RecordStatus
 						'fieldName' => $name,
 						'fieldTypeList' => 0,
 						'generatedtype' => 1,
-						'displayType' => 9,
+						'displayType' => 2,
+						'helpinfo' => 'Detail'
 					]);
 				}
 			}
@@ -231,7 +246,7 @@ class RecordStatus
 		foreach (EventHandler::getAll() as $handler) {
 			if ('Vtiger_RecordStatusHistory_Handler' === $handler['handler_class']) {
 				$modules = $handler['include_modules'] ? \explode(',', $handler['include_modules']) : [];
-				if (in_array($moduleName, $modules)) {
+				if (\in_array($moduleName, $modules)) {
 					unset($modules[array_search($moduleName, $modules)]);
 				}
 				EventHandler::update([
@@ -247,6 +262,7 @@ class RecordStatus
 	 * Add date history status to table.
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
+	 * @param string               $fieldName
 	 */
 	public static function addHistory(\Vtiger_Record_Model $recordModel, string $fieldName)
 	{
@@ -270,16 +286,22 @@ class RecordStatus
 	 * Update status times.
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
+	 * @param string               $fieldName
 	 */
 	public static function update(\Vtiger_Record_Model $recordModel, string $fieldName)
 	{
 		$timeCountingValues = self::getTimeCountingValues($fieldName);
 		$previous = $recordModel->getPreviousValue($fieldName);
 		$current = $recordModel->get($fieldName);
-		if ($previous && isset($timeCountingValues[$previous]) && ($timeCountingValues[$current] ?? '') !== $timeCountingValues[$previous]
-		&& ($date = self::getStateDate($recordModel, $timeCountingValues[$previous])) && ($key = self::$fieldsByStateTime[$timeCountingValues[$previous]] ?? '')) {
-			$recordModel->set($key . '_range_time', self::getDiff($date));
+		$currentCountingValue = $timeCountingValues[$current] ?? '';
+		$previousCountingValue = $timeCountingValues[$previous] ?? '';
+		if ($previous && $currentCountingValue !== $previousCountingValue
+		&& ($date = self::getStateDate($recordModel, $previousCountingValue)) && ($key = self::$fieldsByStateTime[$previousCountingValue] ?? '')) {
+			$recordModel->set($key . '_range_time', Utils\ServiceContracts::getDiff($date, $recordModel));
 			$recordModel->set($key . '_datatime', date('Y-m-d H:i:s'));
+		}
+		if (self::TIME_COUNTING_IDLE === $currentCountingValue) {
+			\App\Utils\ServiceContracts::updateExpectedTimes($recordModel, ['idle']);
 		}
 	}
 
@@ -288,6 +310,7 @@ class RecordStatus
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
 	 * @param int                  $value
+	 * @param int                  $state
 	 *
 	 * @return string
 	 */
@@ -303,23 +326,6 @@ class RecordStatus
 			->limit(1)->scalar();
 		Cache::save($cacheName, $state, $date);
 		return $date;
-	}
-
-	/**
-	 * Function returning difference in format between date times.
-	 *
-	 * @param string $start
-	 * @param string $end
-	 *
-	 * @return int
-	 */
-	public static function getDiff(string $start, string $end = ''): int
-	{
-		if (!$end) {
-			$end = date('Y-m-d H:i:s');
-		}
-		// TODO   counting based on ServiceContracts
-		return round(Fields\DateTime::getDiff($start, $end, 'minutes'));
 	}
 
 	/**
@@ -389,16 +395,6 @@ class RecordStatus
 	}
 
 	/**
-	 * Get all record states.
-	 *
-	 * @return string[] [id=>label]
-	 */
-	public static function getLabels(): array
-	{
-		return [self::RECORD_STATE_NO_CONCERN => 'LBL_RECORD_STATE_NO_CONCERN', self::RECORD_STATE_OPEN => 'LBL_RECORD_STATE_OPEN', self::RECORD_STATE_CLOSED => 'LBL_RECORD_STATE_CLOSED'];
-	}
-
-	/**
 	 * Get process status field names.
 	 *
 	 * @param string $moduleName optional if we need only one field name for specified module
@@ -422,35 +418,5 @@ class RecordStatus
 		}
 		Cache::save('RecordStatus::getFieldName', $moduleName, $result);
 		return $result;
-	}
-
-	public static function updateExpectedTimes(\Vtiger_Record_Model $recordModel)
-	{
-		if ($field = Field::getRelatedFieldForModule($recordModel->getModuleName(), 'ServiceContracts')) {
-			foreach (self::getExpectedTimes($recordModel->get($field['fieldname'])) as $key => $time) {
-				$recordModel->set($key . '_datatime', $time);
-			}
-		}
-	}
-
-	/**
-	 * Get expected times from ServiceContracts.
-	 *
-	 * @param int $id
-	 *
-	 * @return array
-	 */
-	public static function getExpectedTimes(int $id): array
-	{
-		// if (Cache::has('RecordStatus::getFieldName', $moduleName)) {
-		// 	return Cache::get('RecordStatus::getFieldName', $moduleName);
-		// }
-		// TODO   complete function
-		// Cache::save('RecordStatus::getFieldName', $moduleName, $result);
-		return [
-			'response' => 555,
-			'solution' => 555,
-			'idle' => 555,
-		];
 	}
 }

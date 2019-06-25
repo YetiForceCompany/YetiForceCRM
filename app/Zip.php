@@ -103,8 +103,8 @@ class Zip extends \ZipArchive
 					continue;
 				}
 				$files[] = $zipPath;
-				$file = $target . '/' . (\is_numeric($dir) ? $path : substr($path, strlen($dir) + 1));
-				$fileDir = dirname($file);
+				$file = $target . '/' . (\is_numeric($dir) ? $path : substr($path, \strlen($dir) + 1));
+				$fileDir = \dirname($file);
 				if (!isset($created[$fileDir])) {
 					if (!is_dir($fileDir)) {
 						mkdir($fileDir, 0755, true);
@@ -170,10 +170,10 @@ class Zip extends \ZipArchive
 		$validate = false;
 		if ($this->checkFiles && !$this->isDir($path)) {
 			$extension = pathinfo($path, PATHINFO_EXTENSION);
-			if (isset($this->onlyExtensions) && !in_array($extension, $this->onlyExtensions)) {
+			if (isset($this->onlyExtensions) && !\in_array($extension, $this->onlyExtensions)) {
 				$validate = true;
 			}
-			if (isset($this->illegalExtensions) && in_array($extension, $this->illegalExtensions)) {
+			if (isset($this->illegalExtensions) && \in_array($extension, $this->illegalExtensions)) {
 				$validate = true;
 			}
 			$stat = $this->statName($path);

@@ -2,7 +2,6 @@
 
 .dashboardContainer {
 	padding: 0;
-
 	.dashboardHeading hr {
 		border-bottom: 1px solid #ddd;
 	}
@@ -47,15 +46,14 @@
 		border: 1px solid #ddd;
 		-webkit-box-shadow: 0 0 3px -1px #ddd;
 		-moz-box-shadow: 0 0 3px -1px #ddd;
-		box-shadow: 0 0 3px -1px #ddd;
+		box-shadow: 0px 5px 6px -7px $color-box-shadow;
 
 		.dashboardWidgetHeader {
-			background-color: $light;
+			background-color: $color-navbar;
 			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#f3f3f4', GradientType=0);
 			border-color: #f3f3f4 #f3f3f4 #cbcbcf;
-			text-shadow: 0 1px #fff;
-			border-top: 1px solid #fff;
-			border-bottom: 1px solid #ddd;
+			text-shadow: 0 1px $color-navbar;
+			border-top: 1px solid $color-navbar;
 			color: #444;
 			cursor: move;
 			padding: 7px 5px;
@@ -67,7 +65,6 @@
 
 		.widgetFooterContent .row:first-child {
 			position: relative;
-			background-color: #f5f5f5;
 			padding-top: 3px;
 			padding-bottom: 2px;
 		}
@@ -151,13 +148,13 @@
 		margin-left: 0;
 
 		> .col,
-		> [class*="col-"] {
+		> [class*='col-'] {
 			padding-right: 0;
 			padding-left: 0;
 		}
 	}
 
-	&[min-width~="#{map-get($grid-breakpoints, xsm)}"] {
+	&[min-width~='#{map-get($grid-breakpoints, xsm)}'] {
 		.col-ceq-xsm-6 {
 			@extend .col-6;
 		}

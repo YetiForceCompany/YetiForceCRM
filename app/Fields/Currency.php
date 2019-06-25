@@ -18,7 +18,7 @@ class Currency
 	 * Function returns the currency in user specified format.
 	 *
 	 * @param string     $value          Date time
-	 * @param null|mixed $user
+	 * @param mixed|null $user
 	 * @param mixed      $skipConversion
 	 * @param mixed      $skipFormatting
 	 *
@@ -89,6 +89,19 @@ class Currency
 			$currencyId = $row;
 		}
 		return $currencyId;
+	}
+
+	/**
+	 * Get currency by code.
+	 *
+	 * @param string $code
+	 * @param bool   $active
+	 *
+	 * @return int|null
+	 */
+	public static function getIdByCode(string $code, bool $active = true): ?int
+	{
+		return array_column(static::getAll($active), 'id', 'currency_code')[\strtoupper($code)] ?? null;
 	}
 
 	/**

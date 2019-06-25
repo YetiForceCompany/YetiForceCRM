@@ -34,13 +34,23 @@
 
 .c-panel {
 	@extend .card;
-	@extend .mb-2;
+	@extend .rounded-0;
+	@extend .mb-3;
+	input,
+	button,
+	.input-group-text {
+		@extend .rounded-0;
+	}
+	box-shadow: -2px 10px 6px 4px rgba (0, 0, 0, 0.13);
 
 	&__header {
 		@extend .card-header;
 		@extend .u-cursor-pointer;
 		@extend .px-0;
 		@extend .py-1;
+		@extend .bg-white;
+		@extend .border-0;
+		@extend .text-uppercase;
 	}
 
 	&__body {
@@ -557,4 +567,22 @@
 input[type='checkbox'][readonly],
 input[type='checkbox'][disabled] {
 	background-color: material-color('grey', '200');
+}
+
+/* -------- TIME PERIOD FIELD -------- */
+.c-time-period-input::-webkit-outer-spin-button,
+.c-time-period-input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+.c-time-period-input[type='number'] {
+	-moz-appearance: textfield;
+}
+.c-time-period .select2-selection,
+.c-time-period .select2 {
+	border-top-left-radius: 0 !important;
+	border-bottom-left-radius: 0 !important;
+}
+.c-time-period-input {
+	text-align: center;
 }

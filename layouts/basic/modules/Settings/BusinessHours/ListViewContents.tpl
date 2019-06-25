@@ -29,7 +29,16 @@
 							{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 							{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
 							<td class="listViewEntryValue {$WIDTHTYPE}"  width="{$WIDTH}%" nowrap>
-								{App\Language::translate($LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME), $QUALIFIED_MODULE)}
+							{if $LISTVIEW_HEADERNAME==='default_times'}
+								<span class="mr-2">{App\Language::translate('LBL_REACTION_TIME','ServiceContracts')}:</span> {$LISTVIEW_ENTRY->getDisplayValue('reaction_time')}<br />
+								<span class="mr-2">{App\Language::translate('LBL_IDLE_TIME','ServiceContracts')}:</span> {$LISTVIEW_ENTRY->getDisplayValue('idle_time')}<br />
+								<span class="mr-2">{App\Language::translate('LBL_RESOLVE_TIME','ServiceContracts')}:</span> {$LISTVIEW_ENTRY->getDisplayValue('resolve_time')}
+							{else}
+								{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
+								{if $LISTVIEW_HEADERNAME==='working_days' && $LISTVIEW_ENTRY->getDisplayValue('holidays')}
+									, {$LISTVIEW_ENTRY->getDisplayValue('holidays')}
+								{/if}
+							{/if}
 								{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
 								</td><td nowrap class="{$WIDTHTYPE}">
 									<div class="float-right actions">
@@ -56,7 +65,7 @@
 		</table>
 
 		<!--added this div for Temporarily -->
-		{if $LISTVIEW_ENTRIES_COUNT eq '0'}
+		{if count($LISTVIEW_ENTRIES) eq '0'}
 			<table class="emptyRecordsDiv">
 				<tbody>
 					<tr>

@@ -18827,10 +18827,15 @@ label.btn[class*=btn-outline-]:not(.active):hover {
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .quasar-reset .row {
   margin: unset;
+  margin-right: unset;
+  margin-left: unset;
 }
 
-.quasar-reset .col {
+.quasar-reset .col,
+.quasar-reset [class*='col-'] {
   padding: unset;
+  padding-right: unset;
+  padding-left: unset;
 }
 
 .quasar-container {
@@ -18856,6 +18861,11 @@ label.btn[class*=btn-outline-]:not(.active):hover {
 
 .quasar-modal .q-layout-container {
   height: calc(100vh - 113px);
+}
+
+select.form-control,
+select.select2 {
+  overflow: hidden;
 }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
@@ -24661,6 +24671,27 @@ input[type='checkbox'][disabled] {
   background-color: #eeeeee;
 }
 
+/* -------- TIME PERIOD FIELD -------- */
+.c-time-period-input::-webkit-outer-spin-button,
+.c-time-period-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.c-time-period-input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.c-time-period .select2-selection,
+.c-time-period .select2 {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+.c-time-period-input {
+  text-align: center;
+}
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .btn-default {
   color: #212529;
@@ -25634,7 +25665,8 @@ input[type="radio"]:checked:before {
     display: block;
     margin: 0 0 5px !important;
   }
-  .actionMenu .o-action-menu__container .c-header__btn .fas {
+  .actionMenu .o-action-menu__container .c-header__btn .fas,
+  .actionMenu .o-action-menu__container .c-header__btn [class*='userIcon-'] {
     margin: 0 5px 0 0;
   }
   .actionMenu .o-action-menu__container .c-header__btn .sr-only {
@@ -25672,7 +25704,7 @@ input[type="radio"]:checked:before {
   display: flex;
 }
 
-.widget_header > div[class*="col-"]:first-child {
+.widget_header > div[class*='col-']:first-child {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

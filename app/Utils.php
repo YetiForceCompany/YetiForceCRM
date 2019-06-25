@@ -35,7 +35,7 @@ class Utils
 	 */
 	public static function varExport($variable)
 	{
-		if (is_array($variable)) {
+		if (\is_array($variable)) {
 			$toImplode = [];
 			if (static::isAssoc($variable)) {
 				foreach ($variable as $key => $value) {
@@ -64,7 +64,7 @@ class Utils
 		if (empty($arr)) {
 			return false;
 		}
-		return array_keys($arr) !== range(0, count($arr) - 1);
+		return array_keys($arr) !== range(0, \count($arr) - 1);
 	}
 
 	/**
@@ -78,7 +78,7 @@ class Utils
 	 */
 	public static function convertCharacterEncoding($value, $fromCharset, $toCharset)
 	{
-		if (function_exists('mb_convert_encoding') && function_exists('mb_list_encodings') && in_array($fromCharset, mb_list_encodings()) && in_array($toCharset, mb_list_encodings())) {
+		if (\function_exists('mb_convert_encoding') && \function_exists('mb_list_encodings') && \in_array($fromCharset, mb_list_encodings()) && \in_array($toCharset, mb_list_encodings())) {
 			$value = mb_convert_encoding($value, $toCharset, $fromCharset);
 		} else {
 			$value = iconv($fromCharset, $toCharset, $value);

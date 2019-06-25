@@ -239,7 +239,7 @@ Vtiger_Base_Validator_Js(
 	}
 );
 
-Vtiger_Integer_Validator_Js(
+Vtiger_Base_Validator_Js(
 	'Vtiger_Double_Validator_Js',
 	{
 		/**
@@ -263,18 +263,37 @@ Vtiger_Integer_Validator_Js(
 		 * @return false if validation error occurs
 		 */
 		validate: function() {
-			var response = this._super();
-			if (response == false) {
+			let response = this._super();
+			if (response === true) {
 				var fieldValue = this.getFieldValue();
-				var doubleRegex = /(^[-+]?\d+)\.\d+$/;
-				if (!fieldValue.match(doubleRegex)) {
+				var doubleRegex = /(^[-+]?\d+)(\.\d+)?$/;
+				if (!fieldValue.toString().match(doubleRegex)) {
 					var errorInfo = app.vtranslate('JS_PLEASE_ENTER_DECIMAL_VALUE');
+					this.setError(errorInfo);
+					return false;
+				}
+				let fieldInfo = this.getElement().data().fieldinfo;
+				if (!fieldInfo || !fieldInfo.maximumlength) {
+					return true;
+				}
+
+				let maximumLength = fieldInfo.maximumlength;
+				fieldValue = parseFloat(fieldValue);
+				if (fieldValue > parseFloat(maximumLength) || fieldValue < -parseFloat(maximumLength)) {
+					errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
 					this.setError(errorInfo);
 					return false;
 				}
 				return true;
 			}
 			return response;
+		},
+		/**
+		 * Overwrites base function to avoid trimming and validate white spaces
+		 * @return fieldValue
+		 * */
+		getFieldValue: function() {
+			return App.Fields.Double.formatToDb(this.getElement().val());
 		}
 	}
 );
@@ -1664,3 +1683,4 @@ Vtiger_Base_Validator_Js(
 		}
 	}
 );
+Vtiger_Double_Validator_Js('Vtiger_Advpercentage_Validator_Js', {});

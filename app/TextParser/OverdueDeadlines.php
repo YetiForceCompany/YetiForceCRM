@@ -57,7 +57,7 @@ class OverdueDeadlines extends Base
 				$recordId = $row['id'];
 				$recordModel = \Vtiger_Record_Model::getInstanceById($recordId);
 				$style = '';
-				if (in_array($column, ['activitytype', 'date_start', 'link'])) {
+				if (\in_array($column, ['activitytype', 'date_start', 'link'])) {
 					$style = 'style="padding:0px 4px;text-align:center;border:1px solid #ddd;"';
 				}
 				$fieldModel = $fields[$column];

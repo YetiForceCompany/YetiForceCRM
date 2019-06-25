@@ -118,7 +118,7 @@ class RangeTime
 			$a = (int) $mod . substr($x, 0, $take);
 			$x = substr($x, $take);
 			$mod = $a % $y;
-		} while (strlen($x));
+		} while (\strlen($x));
 		return (int) $mod;
 	}
 }

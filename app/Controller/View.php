@@ -235,6 +235,8 @@ abstract class View extends Base
 			'~libraries/animate.css/animate.css',
 			'~libraries/tributejs/dist/tribute.css',
 			'~libraries/emojipanel/dist/emojipanel.css',
+			'~libraries/@mdi/font/css/materialdesignicons.min.css',
+			'~src/css/quasar.css',
 			'~layouts/resources/colors/calendar.css',
 			'~layouts/resources/colors/owners.css',
 			'~layouts/resources/colors/modules.css',
@@ -299,6 +301,10 @@ abstract class View extends Base
 			'~vendor/ckeditor/ckeditor/adapters/jquery.js',
 			'~libraries/tributejs/dist/tribute.js',
 			'~libraries/emojipanel/dist/emojipanel.js',
+			'~libraries/vue/dist/vue.min.js',
+			'~layouts/resources/libraries/quasar.config.js',
+			'~libraries/quasar/dist/quasar.umd.min.js',
+			'~libraries/quasar/dist/icon-set/mdi-v3.umd.min.js',
 			'~layouts/resources/app.js',
 			'~libraries/blueimp-file-upload/js/jquery.fileupload.js',
 			'~libraries/floatthead/dist/jquery.floatThead.js',
@@ -317,7 +323,7 @@ abstract class View extends Base
 			$jsFileNames[] = '~layouts/basic/modules/Chat/resources/Chat.js';
 		}
 		if (\App\Privilege::isPermitted('KnowledgeBase')) {
-			$jsFileNames[] = '~layouts/resources/views/KnowledgeBase.vue.js';
+			$jsFileNames[] = '~layouts/resources/views/KnowledgeBase/KnowledgeBase.vue.js';
 		}
 		$languageHandlerShortName = \App\Language::getShortLanguageName();
 		$fileName = "~libraries/jQuery-Validation-Engine/js/languages/jquery.validationEngine-$languageHandlerShortName.js";
@@ -566,6 +572,7 @@ abstract class View extends Base
 			'eventLimit' => \App\Config::module('Calendar', 'EVENT_LIMIT'),
 			'timeZone' => $userModel->getDetail('time_zone'),
 			'currencyId' => $userModel->getDetail('currency_id'),
+			'defaultCurrencyId' => \App\Fields\Currency::getDefault()['id'],
 			'currencyName' => $userModel->getDetail('currency_name'),
 			'currencyCode' => $userModel->getDetail('currency_code'),
 			'currencySymbol' => $userModel->getDetail('currency_symbol'),
@@ -573,7 +580,7 @@ abstract class View extends Base
 			'currencyDecimalSeparator' => $userModel->getDetail('currency_decimal_separator'),
 			'currencyGroupingSeparator' => $userModel->getDetail('currency_grouping_separator'),
 			'currencySymbolPlacement' => $userModel->getDetail('currency_symbol_placement'),
-			'noOfCurrencyDecimals' => (int) $userModel->getDetail('no_of_currency_decimals'),
+			'noOfCurrencyDecimals' => (int)$userModel->getDetail('no_of_currency_decimals'),
 			'truncateTrailingZeros' => $userModel->getDetail('truncate_trailing_zeros'),
 			'rowHeight' => $userModel->getDetail('rowheight'),
 			'userId' => $userModel->getId(),
@@ -588,7 +595,7 @@ abstract class View extends Base
 			'searchShowOwnerOnlyInList' => \App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST'),
 			'fieldsReferencesDependent' => \App\Config::security('FIELDS_REFERENCES_DEPENDENT'),
 			'soundFilesPath' => \App\Layout::getPublicUrl('layouts/resources/sounds/'),
-			'debug' => (bool) \App\Config::debug('JS_DEBUG'),
+			'debug' => (bool)\App\Config::debug('JS_DEBUG'),
 		] as $key => $value) {
 			\App\Config::setJsEnv($key, $value);
 		}
@@ -600,7 +607,7 @@ abstract class View extends Base
 		}
 		if (\App\Session::has('ShowUserPasswordChange')) {
 			\App\Config::setJsEnv('ShowUserPasswordChange', \App\Session::get('ShowUserPasswordChange'));
-			if (1 === (int) \App\Session::get('ShowUserPasswordChange')) {
+			if (1 === (int)\App\Session::get('ShowUserPasswordChange')) {
 				\App\Session::delete('ShowUserPasswordChange');
 			}
 		}

@@ -65,14 +65,14 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 						break;
 					case 'block':
 						$blockId = $request->getInteger($name);
-						if (!in_array($blockId, $fieldModel->getBlocks())) {
+						if (!\in_array($blockId, $fieldModel->getBlocks())) {
 							throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$name}||" . $blockId, 406);
 						}
 						$fieldModel->set($name, $blockId);
 						break;
 					case 'displayType':
 						$displayType = $request->getInteger($name);
-						if (!in_array($displayType, $fieldModel->displayTypeBase())) {
+						if (!\in_array($displayType, $fieldModel->displayTypeBase())) {
 							throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$name}||" . $displayType, 406);
 						}
 						$fieldModel->set($name, $displayType);
@@ -139,7 +139,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$fieldModel->set('helpinfo', implode(',', $views));
 		$fieldModel->save();
 		$label = $fieldModel->getModuleName() . '|' . $fieldModel->getFieldLabel();
-		\App\Language::translationModify($request->getByType('lang'), 'HelpInfo', 'php', $label, str_replace("\n", '', $request->getForHtml('context')));
+		\App\Language::translationModify($request->getByType('lang'), 'Other/HelpInfo', 'php', $label, str_replace("\n", '', $request->getForHtml('context')));
 		$response = new Vtiger_Response();
 		$response->setResult(['success' => true]);
 		$response->emit();

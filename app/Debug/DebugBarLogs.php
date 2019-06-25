@@ -62,7 +62,7 @@ class DebugBarLogs implements DataCollectorInterface, MessagesAggregateInterface
 	 */
 	public function addMessage($message, $label = 'info', $traces = [])
 	{
-		if (!is_string($traces)) {
+		if (!\is_string($traces)) {
 			$traces = $this->getDataFormatter()->formatVar($traces);
 		}
 		$this->messages[] = [
@@ -106,7 +106,7 @@ class DebugBarLogs implements DataCollectorInterface, MessagesAggregateInterface
 		$messagesCollect = $this->getMessages();
 
 		return [
-			'count' => count($messagesCollect),
+			'count' => \count($messagesCollect),
 			'messages' => $messagesCollect,
 		];
 	}

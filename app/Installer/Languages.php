@@ -92,7 +92,7 @@ class Languages
 	/**
 	 * Get last error message.
 	 *
-	 * @return null|string
+	 * @return string|null
 	 */
 	public static function getLastErrorMessage(): ?string
 	{

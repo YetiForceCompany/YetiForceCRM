@@ -26,6 +26,7 @@ $.Class(
 			const container = $('#EditView');
 			this.registerFormForValidation(container);
 			app.registerEventForClockPicker();
+			App.Fields.TimePeriod.register(container);
 		}
 	}
 );

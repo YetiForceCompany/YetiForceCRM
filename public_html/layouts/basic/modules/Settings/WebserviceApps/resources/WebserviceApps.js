@@ -25,7 +25,7 @@ $.Class('Settings_WebserviceApps_Index_Js', {}, {
 			var removeButton = jQuery(e.currentTarget);
 			var currentTrElement = removeButton.closest('tr');
 			var message = app.vtranslate('JS_DELETE_CONFIRMATION');
-			Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
+			Vtiger_Helper_Js.showConfirmationBox({ 'message': message }).done(function (e) {
 				var params = {
 					module: app.getModuleName(),
 					parent: app.getParentModuleName(),
@@ -34,7 +34,7 @@ $.Class('Settings_WebserviceApps_Index_Js', {}, {
 				};
 				var progress = jQuery.progressIndicator();
 				AppConnector.request(params).done(function (data) {
-					progress.progressIndicator({'mode': 'hide'});
+					progress.progressIndicator({ 'mode': 'hide' });
 					thisInstance.loadTable();
 				});
 			});
@@ -52,7 +52,7 @@ $.Class('Settings_WebserviceApps_Index_Js', {}, {
 		};
 		var progress = jQuery.progressIndicator();
 		AppConnector.request(params).done(function (data) {
-			progress.progressIndicator({'mode': 'hide'});
+			progress.progressIndicator({ 'mode': 'hide' });
 			$('.configContainer').html(data);
 			thisInstance.registerTableEvents();
 		});
@@ -73,7 +73,7 @@ $.Class('Settings_WebserviceApps_Index_Js', {}, {
 		}
 		var progress = jQuery.progressIndicator();
 		AppConnector.request(params).done(function (data) {
-			progress.progressIndicator({'mode': 'hide'});
+			progress.progressIndicator({ 'mode': 'hide' });
 			app.showModalWindow(data, function (container) {
 				const prevButton = container.find('.previewPassword');
 				const password = container.find('[name="pass"]');
@@ -90,7 +90,6 @@ $.Class('Settings_WebserviceApps_Index_Js', {}, {
 				container.one('hidden.bs.modal', function () {
 					clipboard.destroy();
 				});
-				Vtiger_Edit_Js.getInstance().registerEvents();
 				var form = container.find('form');
 				form.validationEngine(app.validationEngineOptions);
 				container.find('[name="saveButton"]').on('click', function () {
@@ -104,14 +103,17 @@ $.Class('Settings_WebserviceApps_Index_Js', {}, {
 							status: container.find('[name="status"]').is(':checked'),
 							type: container.find('.typeServer').val(),
 							pass: password.val(),
-							accounts: container.find('[name="accountsid"]').val(),
 						};
 						if (id != '') {
 							params['id'] = id;
 						}
 						AppConnector.request(params).done(function (data) {
-							thisInstance.loadTable();
-							app.hideModalWindow();
+							if (data.result === true) {
+								thisInstance.loadTable();
+								app.hideModalWindow();
+							} else if (typeof data.result.error !== 'undefined') {
+								Vtiger_Helper_Js.showPnotify(data.result.error);
+							}
 						});
 					}
 				});

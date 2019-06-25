@@ -76,6 +76,9 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 		$description = \App\Purifier::purifyHtml($mail->get('body'));
 		$record->set('description', $maxLengthDescription ? \App\TextParser::htmlTruncate($description, $maxLengthDescription, false) : $description);
 		$record->set('ticketstatus', 'Open');
+		if ($contactId) {
+			$record->ext['relationsEmail']['Contacts'] = $contactId;
+		}
 		$record->save();
 		$id = $record->getId();
 

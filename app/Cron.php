@@ -19,13 +19,13 @@ class Cron
 	/**
 	 * Cron run start time in microtime.
 	 *
-	 * @var null|int Cron run start time in microtime
+	 * @var int|null Cron run start time in microtime
 	 */
 	public static $cronTimeStart = null;
 	/**
 	 * Script run start time in microtime.
 	 *
-	 * @var null|int Script run start time in microtime
+	 * @var int|null Script run start time in microtime
 	 */
 	public static $scriptTimeStart = null;
 	/**
@@ -120,7 +120,7 @@ class Cron
 	/**
 	 * Calculate current object run time.
 	 *
-	 * @return null|float
+	 * @return float|null
 	 */
 	public function getCronExecutionTime()
 	{

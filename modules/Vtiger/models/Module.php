@@ -522,7 +522,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return Vtiger_Field_Model
+	 * @return Vtiger_Field_Model|false
 	 */
 	public function getFieldByName($fieldName)
 	{
@@ -729,7 +729,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function to retrieve name fields of a module.
 	 *
-	 * @return <array> - array which contains fields which together construct name fields
+	 * @return array - array which contains fields which together construct name fields
 	 */
 	public function getNameFields()
 	{

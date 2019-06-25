@@ -18,7 +18,6 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 	public function __construct()
 	{
 		$this->exposeMethod('checkLimits');
-		$this->exposeMethod('getUnitPrice');
 		$this->exposeMethod('getDetails');
 		$this->exposeMethod('getTableData');
 	}
@@ -99,23 +98,6 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 		$response->emit();
 	}
 
-	public function getUnitPrice(App\Request $request)
-	{
-		$record = $request->getInteger('record');
-		$recordModule = $request->getByType('recordModule', 2);
-		if (!\App\Privilege::isPermitted($recordModule, 'EditView', $record)) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}
-		$unitPriceValues = false;
-		if (in_array($recordModule, ['Products', 'Services'])) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $recordModule);
-			$unitPriceValues = $recordModel->getListPriceValues($record);
-		}
-		$response = new Vtiger_Response();
-		$response->setResult($unitPriceValues);
-		$response->emit();
-	}
-
 	public function getDetails(App\Request $request)
 	{
 		$currencyId = $request->getInteger('currency_id');
@@ -145,16 +127,16 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 			'name' => App\Purifier::decodeHtml($recordModel->getName()),
 			'description' => $recordModel->get('description'),
 		];
-		if (in_array($recordModuleName, ['Products', 'Services'])) {
-			$conversionRate = 1;
-			$info['unitPriceValues'] = $recordModel->getListPriceValues($recordModel->getId());
-			foreach ($recordModel->getPriceDetails() as $currencyDetails) {
-				if ($currencyId === (int) $currencyDetails['id']) {
-					$conversionRate = $currencyDetails['conversionrate'];
-				}
-			}
-			$info['price'] = (float) $recordModel->get('unit_price') * (float) $conversionRate;
+		if (\in_array($recordModuleName, ['Products', 'Services'])) {
+			$currencyId = empty($currencyId) ? \App\Fields\Currency::getDefault()['id'] : $currencyId;
 			$info['qtyPerUnit'] = $recordModel->getDisplayValue('qty_per_unit');
+			if (($fieldModel = $recordModel->getField('unit_price')) && $fieldModel->isActiveField()) {
+				$info['unitPriceValues'] = $fieldModel->getUITypeModel()->getEditViewFormatData($recordModel->get($fieldModel->getName()))['currencies'] ?? [];
+				$info['price'] = $fieldModel->getUITypeModel()->getValueForCurrency($recordModel->get($fieldModel->getName()), $currencyId);
+			}
+			if (($fieldModel = $recordModel->getField('purchase')) && $fieldModel->isActiveField()) {
+				$info['purchase'] = $fieldModel->getUITypeModel()->getValueForCurrency($recordModel->get($fieldModel->getName()), $currencyId);
+			}
 		}
 
 		$autoFields = [];

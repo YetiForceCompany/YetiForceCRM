@@ -51,7 +51,7 @@ class Base
 	 * Cache save.
 	 *
 	 * @param string            $key      Cache ID
-	 * @param null|array|string $value    Data to store
+	 * @param array|string|null $value    Data to store
 	 * @param false|int         $duration Cache TTL (in seconds)
 	 *
 	 * @return bool

@@ -105,13 +105,13 @@ class QueryGenerator
 	/** @var User */
 	private $user;
 
-	/** @var null|int Limit */
+	/** @var int|null Limit */
 	private $limit;
 
-	/** @var null|int Offset */
+	/** @var int|null Offset */
 	private $offset;
 
-	/** @var null|string Distinct field */
+	/** @var string|null Distinct field */
 	private $distinct;
 
 	/**
@@ -267,7 +267,7 @@ class QueryGenerator
 	 */
 	public function setField($fields)
 	{
-		if (is_array($fields)) {
+		if (\is_array($fields)) {
 			foreach ($fields as $field) {
 				$this->fields[] = $field;
 			}
@@ -296,7 +296,7 @@ class QueryGenerator
 	 */
 	public function setCustomColumn($columns)
 	{
-		if (is_array($columns)) {
+		if (\is_array($columns)) {
 			foreach ($columns as $key => $column) {
 				if (is_numeric($key)) {
 					$this->customColumns[] = $column;
@@ -496,7 +496,7 @@ class QueryGenerator
 	 */
 	public function setCustomGroup($groups)
 	{
-		if (is_array($groups)) {
+		if (\is_array($groups)) {
 			foreach ($groups as $key => $group) {
 				if (is_numeric($key)) {
 					$this->group[] = $group;
@@ -689,14 +689,14 @@ class QueryGenerator
 		foreach (CustomView::getDuplicateFields($viewId) as $fields) {
 			$this->setSearchFieldsForDuplicates($fields['fieldname'], (bool) $fields['ignore']);
 		}
-		if ('Calendar' === $this->moduleName && !in_array('activitytype', $this->fields)) {
+		if ('Calendar' === $this->moduleName && !\in_array('activitytype', $this->fields)) {
 			$this->fields[] = 'activitytype';
 		}
-		if ('Documents' === $this->moduleName && in_array('filename', $this->fields)) {
-			if (!in_array('filelocationtype', $this->fields)) {
+		if ('Documents' === $this->moduleName && \in_array('filename', $this->fields)) {
+			if (!\in_array('filelocationtype', $this->fields)) {
 				$this->fields[] = 'filelocationtype';
 			}
-			if (!in_array('filestatus', $this->fields)) {
+			if (!\in_array('filestatus', $this->fields)) {
 				$this->fields[] = 'filestatus';
 			}
 		}
@@ -708,7 +708,7 @@ class QueryGenerator
 	/**
 	 * Parse conditions to section where in query.
 	 *
-	 * @param null|array $conditions
+	 * @param array|null $conditions
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
@@ -912,7 +912,7 @@ class QueryGenerator
 		}
 		if ($this->ownerFields) {
 			//there are more than one field pointing to the users table, the real one is the one called assigned_user_id if there is one, otherwise pick the first
-			if (in_array('assigned_user_id', $this->ownerFields)) {
+			if (\in_array('assigned_user_id', $this->ownerFields)) {
 				$ownerField = 'assigned_user_id';
 			} else {
 				$ownerField = $this->ownerFields[0];
@@ -1090,8 +1090,8 @@ class QueryGenerator
 	 * @param string $operator
 	 * @param mixed  $groupAnd
 	 *
-	 * @see CustomView::ADVANCED_FILTER_OPTIONS
-	 * @see CustomView::STD_FILTER_CONDITIONS
+	 * @see Condition::ADVANCED_FILTER_OPTIONS
+	 * @see Condition::DATE_OPERATORS
 	 */
 	public function addCondition($fieldName, $value, $operator, $groupAnd = true)
 	{
@@ -1114,7 +1114,7 @@ class QueryGenerator
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return QueryField\BaseField
+	 * @return \App\Conditions\QueryFields\BaseField
 	 */
 	public function getQueryField($fieldName)
 	{
@@ -1122,22 +1122,21 @@ class QueryGenerator
 			return $this->queryFields[$fieldName];
 		}
 		if ('id' === $fieldName) {
-			$queryField = new QueryField\IdField($this, '');
+			$queryField = new Conditions\QueryFields\IdField($this, '');
 
 			return $this->queryFields[$fieldName] = $queryField;
 		}
 		$field = $this->getModuleField($fieldName);
 		if (empty($field)) {
 			Log::error('Not found field model | Field name: ' . $fieldName);
-			throw new \App\Exceptions\AppException('ERR_NOT_FOUND_FIELD_MODEL');
+			throw new \App\Exceptions\AppException('ERR_NOT_FOUND_FIELD_MODEL|'.$fieldName);
 		}
-		$className = '\App\QueryField\\' . ucfirst($field->getFieldDataType()) . 'Field';
+		$className = '\App\Conditions\QueryFields\\' . ucfirst($field->getFieldDataType()) . 'Field';
 		if (!class_exists($className)) {
 			Log::error('Not found query field condition | FieldDataType: ' . ucfirst($field->getFieldDataType()));
-			throw new \App\Exceptions\AppException('ERR_NOT_FOUND_QUERY_FIELD_CONDITION');
+			throw new \App\Exceptions\AppException('ERR_NOT_FOUND_QUERY_FIELD_CONDITION|'.$fieldName);
 		}
 		$queryField = new $className($this, $field);
-
 		return $this->queryFields[$fieldName] = $queryField;
 	}
 
@@ -1193,7 +1192,7 @@ class QueryGenerator
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return QueryField\BaseField
+	 * @return \App\Conditions\QueryFields\BaseField
 	 */
 	private function getQueryRelatedField(\Vtiger_Field_Model $field, $relatedInfo)
 	{
@@ -1204,11 +1203,11 @@ class QueryGenerator
 			return $queryField;
 		}
 		if ('id' === $field->getName()) {
-			$queryField = new QueryField\IdField($this, '');
+			$queryField = new Conditions\QueryFields\IdField($this, '');
 			$queryField->setRelated($relatedInfo);
 			return $this->relatedQueryFields[$relatedModule][$field->getName()] = $queryField;
 		}
-		$className = '\App\QueryField\\' . ucfirst($field->getFieldDataType()) . 'Field';
+		$className = '\App\Conditions\QueryFields\\' . ucfirst($field->getFieldDataType()) . 'Field';
 		if (!class_exists($className)) {
 			Log::error('Not found query field condition');
 			throw new \App\Exceptions\AppException('ERR_NOT_FOUND_QUERY_FIELD_CONDITION');
@@ -1268,12 +1267,12 @@ class QueryGenerator
 		}
 		$field = $this->getModuleField($fieldName);
 		$type = $field->getFieldDataType();
-		if (!is_array($values)) {
+		if (!\is_array($values)) {
 			$values = [$values];
 		}
 		foreach ($values as &$value) {
 			if ('' !== $value) {
-				$value = function_exists('iconv') ? iconv('UTF-8', \App\Config::main('default_charset'), $value) : $value; // search other characters like "|, ?, ?" by jagi
+				$value = \function_exists('iconv') ? iconv('UTF-8', \App\Config::main('default_charset'), $value) : $value; // search other characters like "|, ?, ?" by jagi
 				if ('currency' === $type) {
 					// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion
 					if (72 === $field->getUIType()) {
@@ -1287,7 +1286,7 @@ class QueryGenerator
 				$operator = 'e';
 			}
 		}
-		if (1 === count($values)) {
+		if (1 === \count($values)) {
 			$values = $values[0];
 		}
 		$this->addCondition($fieldName, $values, $operator);

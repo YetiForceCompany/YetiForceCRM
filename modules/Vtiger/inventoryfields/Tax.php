@@ -44,7 +44,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 
 	public function getClassName($data)
 	{
-		if (count($data) > 0 && 0 == $data[0]['taxmode']) {
+		if (\count($data) > 0 && 0 == $data[0]['taxmode']) {
 			return 'hide';
 		}
 		return '';
@@ -101,7 +101,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	 *
 	 * @param string     $taxParam String parameters json encode
 	 * @param float      $net
-	 * @param null|array $return
+	 * @param array|null $return
 	 *
 	 * @return array
 	 */
@@ -111,7 +111,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 		if (empty($taxParam)) {
 			return [];
 		}
-		if (is_string($taxParam['aggregationType'])) {
+		if (\is_string($taxParam['aggregationType'])) {
 			$taxParam['aggregationType'] = [$taxParam['aggregationType']];
 		}
 		if (!$return || empty($taxParam['aggregationType'])) {
@@ -156,11 +156,11 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	 *
 	 * @return float
 	 */
-	private function getTaxValue(array $taxParam, float $netPrice, int $mode): float
+	public function getTaxValue(array $taxParam, float $netPrice, int $mode): float
 	{
 		$value = 0.0;
 		$types = $taxParam['aggregationType'];
-		if (!is_array($types)) {
+		if (!\is_array($types)) {
 			$types = [$types];
 		}
 		foreach ($types as $type) {

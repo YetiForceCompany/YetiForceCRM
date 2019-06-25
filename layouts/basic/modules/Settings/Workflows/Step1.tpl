@@ -64,7 +64,8 @@
 						{foreach from=$TRIGGER_TYPES item=LABEL key=LABEL_ID}
 							{assign var=EXECUTION_CONDITION value=$WORKFLOW_MODEL_OBJ->executionCondition}
 							<div>
-								<label><input type="radio" class="alignTop"
+								<label>
+								<input type="radio" class="alignTop"
 											  name="execution_condition" {if $EXECUTION_CONDITION eq $LABEL_ID} checked="" {/if}
 											  value="{$LABEL_ID}" {if $WORKFLOW_MODEL->getId() eq '' && $SCHEDULED_WORKFLOW_COUNT >= $MAX_ALLOWED_SCHEDULED_WORKFLOWS && $LABEL_ID eq 6} disabled {/if} />&nbsp;&nbsp;{\App\Language::translate($LABEL,$QUALIFIED_MODULE)}
 									{if $WORKFLOW_MODEL->getId() eq '' && $SCHEDULED_WORKFLOW_COUNT >= $MAX_ALLOWED_SCHEDULED_WORKFLOWS && $LABEL_ID eq 6}
@@ -85,21 +86,11 @@
 									{/if }
 									<div class="col-md-6 d-flex align-items-center">
 										<select class="select2" id="schtypeid" name="schtypeid">
-											<option value="1"
-													{if !empty($SCHTYPE_ID) && ($SCHTYPE_ID eq 1)}selected{/if}>{\App\Language::translate('LBL_HOURLY', $QUALIFIED_MODULE)}
+										{foreach from= Workflow::$SCHEDULED_LIST item=LABEL key=ID}
+											<option value="{$ID}" {if !empty($SCHTYPE_ID) && ($SCHTYPE_ID eq $ID)}selected{/if}>
+											{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}
 											</option>
-											<option value="2"
-													{if !empty($SCHTYPE_ID) && ($SCHTYPE_ID eq 2)}selected{/if}>{\App\Language::translate('LBL_DAILY', $QUALIFIED_MODULE)}</option>
-											<option value="3"
-													{if !empty($SCHTYPE_ID) && ($SCHTYPE_ID eq 3)}selected{/if}>{\App\Language::translate('LBL_WEEKLY', $QUALIFIED_MODULE)}</option>
-											<option value="4"
-													{if !empty($SCHTYPE_ID) && ($SCHTYPE_ID eq 4)}selected{/if}>{\App\Language::translate('LBL_SPECIFIC_DATE', $QUALIFIED_MODULE)}</option>
-											<option value="5"
-													{if !empty($SCHTYPE_ID) && ($SCHTYPE_ID eq 5)}selected{/if}>{\App\Language::translate('LBL_MONTHLY_BY_DATE', $QUALIFIED_MODULE)}</option>
-											<option value="6"
-													{if !empty($SCHTYPE_ID) && ($SCHTYPE_ID eq 6)}selected{/if}>{\App\Language::translate('LBL_MONTHLY_BY_WEEKDAY', $QUALIFIED_MODULE)}</option>
-											<option value="7"
-													{if !empty($SCHTYPE_ID) && ($SCHTYPE_ID eq 7)}selected{/if}>{\App\Language::translate('LBL_YEARLY', $QUALIFIED_MODULE)}</option>
+										{/foreach}
 										</select>
 									</div>
 								</div>
@@ -213,7 +204,7 @@
 									</div>
 								</div>
 								{* show time for all other than Hourly option*}
-								<div class="form-row pt-1 pb-2 px-0 {if empty($SCHTYPE_ID) || $SCHTYPE_ID < 2} d-none {/if}"
+								<div class="form-row pt-1 pb-2 px-0 {if empty($SCHTYPE_ID) || $SCHTYPE_ID neq 2} d-none {/if}"
 									 id="scheduledTime">
 									<div class="col-md-2 d-flex align-items-center">
 										{\App\Language::translate('LBL_AT_TIME', $QUALIFIED_MODULE)}

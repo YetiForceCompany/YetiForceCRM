@@ -33,7 +33,7 @@ class SystemWarnings
 				if (isset($folders[$parent])) {
 					$folder['parent'] = $folders[$parent]['id'];
 				}
-				if (in_array($subPath, self::SELECTED_FOLDERS)) {
+				if (\in_array($subPath, self::SELECTED_FOLDERS)) {
 					$folder['state']['selected'] = true;
 				}
 				$folders[$subPath] = $folder;
@@ -56,7 +56,7 @@ class SystemWarnings
 		if (empty($folders)) {
 			return [];
 		}
-		if (!is_array($folders) && 'all' === $folders) {
+		if (!\is_array($folders) && 'all' === $folders) {
 			$folders = array_keys(static::getFolders());
 		}
 		$actions = [];

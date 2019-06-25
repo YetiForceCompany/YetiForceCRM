@@ -1,14 +1,18 @@
-import Vuex from 'vuex'
-import KnowledgeBase from './modules/KnowledgeBase.js'
+/**
+ * Vuex store
+ *
+ * @description Vuex store initialization
+ * @license YetiForce Public License 3.0
+ * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
+ */
 
-window.Vue.use(Vuex)
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
 
 const vuexStore = new Vuex.Store({
-	modules: {
-		KnowledgeBase
-	},
 	strict: debug
 })
 

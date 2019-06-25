@@ -1985,7 +1985,7 @@ $.Class(
 					toolbar: 'Min'
 				};
 				const element = $(e.currentTarget);
-				this.progressInstance = $.progressIndicator({
+				let progressInstance = $.progressIndicator({
 					blockInfo: {
 						enabled: true
 					}
@@ -1996,8 +1996,10 @@ $.Class(
 					view: 'HelpInfo',
 					field: element.data('field-id')
 				}).done(function(data) {
-					app.showModalWindow(data, function(modalContainer) {
+					app.showModalWindow(data, modalContainer => {
+						progressInstance.progressIndicator({ mode: 'hide' });
 						app.showPopoverElementView(modalContainer.find('.js-help-info'));
+						new App.Fields.Text.Editor(modalContainer.find('.js-context-area:visible'), customConfig);
 						modalContainer.find('.js-lang').on('change', function(e) {
 							let previous = modalContainer.find('.js-editor:not([disabled])');
 							App.Fields.Text.destroyEditor(previous);

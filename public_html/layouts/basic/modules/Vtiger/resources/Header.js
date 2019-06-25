@@ -295,7 +295,10 @@ $.Class(
 							}
 						});
 						targetInstance.quickCreateSave(form).done(function(data) {
-							app.hideModalWindow();
+							let modalContainer = form.closest('.modalContainer');
+							if (modalContainer.length) {
+								app.hideModalWindow(false, modalContainer[0].id);
+							}
 							var parentModule = app.getModuleName();
 							var viewname = app.getViewName();
 							if (module == parentModule && viewname == 'List') {
@@ -709,6 +712,21 @@ $.Class(
 			elem.scrollTop(0);
 			elem.height(elem[0].scrollHeight - elem[0].clientHeight + elem.height());
 		},
+		registerKnowledgeBaseModal() {
+			$('.js-knowledge-base-modal').on('click', () => {
+				if (window.KnowledgeBaseModal.state === undefined) {
+					KnowledgeBaseModalVueComponent.mount({
+						el: '#KnowledgeBaseModal',
+						state: {
+							moduleName: 'KnowledgeBase',
+							dialog: true
+						}
+					});
+				} else {
+					vuexStore.commit('KnowledgeBase/setDialog', true);
+				}
+			});
+		},
 		registerEvents: function() {
 			var thisInstance = this;
 			if (typeof Chat_JS !== 'undefined') {
@@ -761,11 +779,12 @@ $.Class(
 				quickCreateModal.modal('hide');
 				thisInstance.quickCreateModule(moduleName);
 			});
-
+			thisInstance.registerReminderNotification();
 			thisInstance.registerMobileEvents();
 			thisInstance.registerReminderNotice();
-			thisInstance.registerReminderNotification();
+
 			thisInstance.registerQuickCreateSearch();
+			thisInstance.registerKnowledgeBaseModal();
 		}
 	}
 );

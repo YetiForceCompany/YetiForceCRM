@@ -154,7 +154,7 @@ class NumberToWords
 			$return = self::$words[1][0] . ' ';
 		}
 
-		for ($i = count($txt) - 1; $i >= 0; --$i) {
+		for ($i = \count($txt) - 1; $i >= 0; --$i) {
 			$number = (int) strrev($txt[$i]);
 
 			if ($number > 0) {

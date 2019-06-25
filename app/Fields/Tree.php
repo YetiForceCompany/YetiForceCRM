@@ -65,7 +65,7 @@ class Tree
 			$parentName = '';
 			if ($row['depth'] > 0) {
 				$parentTrre = $row['parentTree'];
-				$cut = strlen('::' . $tree);
+				$cut = \strlen('::' . $tree);
 				$parentTrre = substr($parentTrre, 0, -$cut);
 				$pieces = explode('::', $parentTrre);
 				$parent = end($pieces);
@@ -111,7 +111,7 @@ class Tree
 	public static function getParentIdx(array $itemTree)
 	{
 		$parentItem = explode('::', $itemTree['parentTree']);
-		$parentIdx = count($parentItem) - 2;
+		$parentIdx = \count($parentItem) - 2;
 		return $parentIdx < 0 ? false : $parentItem[$parentIdx];
 	}
 
@@ -136,7 +136,7 @@ class Tree
 		$parentName = '';
 		if ($row['depth'] > 0) {
 			$parentTrre = $row['parentTree'];
-			$cut = strlen('::' . $treeId);
+			$cut = \strlen('::' . $treeId);
 			$parentTrre = substr($parentTrre, 0, -$cut);
 			$pieces = explode('::', $parentTrre);
 			$parent = end($pieces);

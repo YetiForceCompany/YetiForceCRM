@@ -2,9 +2,14 @@
 .quasar-reset {
 	.row {
 		margin: unset;
+		margin-right: unset;
+		margin-left: unset;
 	}
-	.col {
+	.col,
+	[class*='col-'] {
 		padding: unset;
+		padding-right: unset;
+		padding-left: unset;
 	}
 }
 .quasar-container {
@@ -28,4 +33,9 @@
 	.q-layout-container {
 		height: calc(100vh - 113px);
 	}
+}
+
+select.form-control,
+select.select2 {
+	overflow: hidden;
 }

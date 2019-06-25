@@ -145,7 +145,7 @@ class Base
 	/**
 	 * Creates a text column.
 	 *
-	 * @param null|string $length
+	 * @param string|null $length
 	 *
 	 * @return \yii\db\ColumnSchemaBuilder the column instance which can be further customized
 	 */
@@ -168,7 +168,7 @@ class Base
 	/**
 	 * Creates a medium text column.
 	 *
-	 * @param null|string $length
+	 * @param string|null $length
 	 *
 	 * @return \yii\db\ColumnSchemaBuilder the column instance which can be further customized
 	 */

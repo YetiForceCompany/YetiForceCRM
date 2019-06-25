@@ -152,10 +152,10 @@ class Language
 		if (empty($key)) { // nothing to translate
 			return $key;
 		}
-		if (!$language || ($language && 5 !== strlen($language))) {
+		if (!$language || ($language && 5 !== \strlen($language))) {
 			$language = static::getLanguage();
 		}
-		if (is_array($moduleName)) {
+		if (\is_array($moduleName)) {
 			Log::warning('Invalid module name - module: ' . var_export($moduleName, true));
 			return $key;
 		}
@@ -197,6 +197,29 @@ class Language
 	}
 
 	/**
+	 * Functions get translate help info.
+	 *
+	 * @param \Vtiger_Field_Model $fieldModel
+	 * @param string              $view
+	 *
+	 * @return string
+	 */
+	public static function getTranslateHelpInfo(\Vtiger_Field_Model $fieldModel, string $view): string
+	{
+		$translate = '';
+		if (\in_array($view, explode(',', $fieldModel->get('helpinfo')))) {
+			$label = $fieldModel->getFieldLabel();
+			$key = "{$fieldModel->getModuleName()}|$label";
+			if (($translated = self::translate($key, 'Other:HelpInfo')) !== $key) {
+				$translate = $translated;
+			} elseif (($translated = self::translate($label, 'Other:HelpInfo')) !== $label) {
+				$translate = $translated;
+			}
+		}
+		return $translate;
+	}
+
+	/**
 	 * Functions that gets translated string with encoding html.
 	 *
 	 * @param string $key             - string which need to be translated
@@ -221,9 +244,9 @@ class Language
 	public static function translateArgs($key, $moduleName = '_Base')
 	{
 		$formattedString = static::translate($key, $moduleName);
-		$args = array_slice(func_get_args(), 2);
-		if (is_array($args) && !empty($args)) {
-			$formattedString = call_user_func_array('vsprintf', [$formattedString, $args]);
+		$args = \array_slice(\func_get_args(), 2);
+		if (\is_array($args) && !empty($args)) {
+			$formattedString = \call_user_func_array('vsprintf', [$formattedString, $args]);
 		}
 		return $formattedString;
 	}
@@ -400,14 +423,14 @@ class Language
 			$lang = static::getShortLanguageName();
 		}
 		//No plural form
-		if (in_array($lang, ['ay', 'bo', 'cgg', 'dz', 'id', 'ja', 'jbo', 'ka', 'km', 'ko', 'lo', 'ms', 'my', 'sah', 'su', 'th', 'tt', 'ug', 'vi', 'wo', 'zh'])) {
+		if (\in_array($lang, ['ay', 'bo', 'cgg', 'dz', 'id', 'ja', 'jbo', 'ka', 'km', 'ko', 'lo', 'ms', 'my', 'sah', 'su', 'th', 'tt', 'ug', 'vi', 'wo', 'zh'])) {
 			return '_0';
 		}
 		//Two plural forms
-		if (in_array($lang, ['ach', 'ak', 'am', 'arn', 'br', 'fa', 'fil', 'fr', 'gun', 'ln', 'mfe', 'mg', 'mi', 'oc', 'pt_br', 'tg', 'ti', 'tr', 'uz', 'wa'])) {
+		if (\in_array($lang, ['ach', 'ak', 'am', 'arn', 'br', 'fa', 'fil', 'fr', 'gun', 'ln', 'mfe', 'mg', 'mi', 'oc', 'pt_br', 'tg', 'ti', 'tr', 'uz', 'wa'])) {
 			return ($count > 1) ? '_1' : '_0';
 		}
-		if (in_array($lang, [
+		if (\in_array($lang, [
 			'af', 'an', 'anp', 'as', 'ast', 'az', 'bg', 'bn', 'brx', 'ca', 'da', 'de', 'doi', 'dz', 'el', 'en', 'eo', 'es', 'et', 'eu', 'ff', 'fi', 'fo', 'fur', 'fy',
 			'gl', 'gu', 'ha', 'he', 'hi', 'hne', 'hu', 'hy', 'ia', 'it', 'kk', 'kl', 'kn', 'ku', 'ky', 'lb', 'mai', 'mk', 'ml', 'mn', 'mni', 'mr', 'nah', 'nap',
 			'nb', 'ne', 'nl', 'nn', 'nso', 'or', 'pa', 'pap', 'pms', 'ps', 'pt', 'rm', 'rw', 'sat', 'sco', 'sd', 'se', 'si', 'so', 'son', 'sq', 'sv', 'sw',
@@ -732,8 +755,8 @@ class Language
 				$category = 'LC_ALL';
 				$locale = $localeSetting;
 			}
-			if ('LC_COLLATE' !== $category && 'LC_CTYPE' !== $category && defined($category)) {
-				setlocale(constant($category), $locale);
+			if ('LC_COLLATE' !== $category && 'LC_CTYPE' !== $category && \defined($category)) {
+				setlocale(\constant($category), $locale);
 			}
 		}
 	}

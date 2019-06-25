@@ -97,6 +97,7 @@ class KnowledgeBase_KnowledgeBase_Model extends \App\Base
 			}
 		}
 		return [
+			'showAccounts' => 'Faq' === $this->get('moduleName'),
 			'categories' => $categories,
 			'featured' => $featured,
 			'records' => $this->getRecordsByParentCategory(),
@@ -117,6 +118,9 @@ class KnowledgeBase_KnowledgeBase_Model extends \App\Base
 		$queryGenerator->addNativeCondition(['knowledgebase_status' => 'PLL_ACCEPTED']);
 		$queryGenerator->addNativeCondition(['category' => $categories]);
 		$queryGenerator->addNativeCondition(['featured' => 1]);
+		if ($this->has('filterField') && $this->has('filterValue')) {
+			$queryGenerator->addNativeCondition([$this->get('filterField') => $this->get('filterValue')]);
+		}
 		$queryGenerator->setLimit(50);
 		return $queryGenerator->createQuery()->all();
 	}
@@ -133,6 +137,9 @@ class KnowledgeBase_KnowledgeBase_Model extends \App\Base
 		$queryGenerator->addNativeCondition(['knowledgebase_status' => 'PLL_ACCEPTED']);
 		if ($this->has('parentCategory')) {
 			$queryGenerator->addNativeCondition(['category' => $this->get('parentCategory')]);
+		}
+		if ($this->has('filterField') && $this->has('filterValue')) {
+			$queryGenerator->addNativeCondition([$this->get('filterField') => $this->get('filterValue')]);
 		}
 		$queryGenerator->setLimit(Config\Modules\KnowledgeBase::$knowledgeBaseArticleLimit);
 		return $queryGenerator->createQuery();
@@ -169,7 +176,7 @@ class KnowledgeBase_KnowledgeBase_Model extends \App\Base
 	 */
 	public function getRecordsByParentCategory(): array
 	{
-		if ($this->isEmpty('parentCategory')) {
+		if ($this->isEmpty('parentCategory') && !($this->has('filterField') && $this->has('filterValue'))) {
 			return [];
 		}
 		return $this->parseForDisplay($this->getListQuery()->createCommand()->query());

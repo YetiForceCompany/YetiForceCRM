@@ -32,7 +32,7 @@ class UpdateUtils
 				$addContent = [];
 				$indexes = [];
 				foreach ($configContent as $key => $line) {
-					if ($emptyLine && 1 == strlen($line)) {
+					if ($emptyLine && 1 == \strlen($line)) {
 						unset($configContent[$key]);
 						$emptyLine = false;
 						continue;
@@ -42,7 +42,7 @@ class UpdateUtils
 						if (empty($condition)) {
 							continue;
 						}
-						if ('add' === $condition['type'] && !in_array($index, $indexes)) {
+						if ('add' === $condition['type'] && !\in_array($index, $indexes)) {
 							$addContent[$index] = $condition['value'];
 							$indexes[] = $index;
 						}

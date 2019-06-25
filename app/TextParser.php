@@ -126,7 +126,7 @@ class TextParser
 	/**
 	 * Parser type.
 	 *
-	 * @var null|string
+	 * @var string|null
 	 */
 	public $type;
 
@@ -374,7 +374,7 @@ class TextParser
 		}
 		$this->content = preg_replace_callback(static::VARIABLE_REGEX, function ($matches) {
 			[, $function, $params] = array_pad($matches, 3, '');
-			if (in_array($function, static::$baseFunctions)) {
+			if (\in_array($function, static::$baseFunctions)) {
 				return $this->{$function}($params);
 			}
 			return '';
@@ -865,7 +865,7 @@ class TextParser
 			if (!$fieldModel->isViewEnabled()) {
 				return '';
 			}
-		} elseif (is_object($value)) {
+		} elseif (\is_object($value)) {
 			$model = $value;
 			$value = $value->get($fieldModel->getName());
 			if (!$fieldModel->isViewEnabled()) {
@@ -901,11 +901,11 @@ class TextParser
 			case 'multipicklist':
 				$value = explode(' |##| ', $value);
 				$trValue = [];
-				$countValue = count($value);
+				$countValue = \count($value);
 				for ($i = 0; $i < $countValue; ++$i) {
 					$trValue[] = "$(translate : {$recordModel->getModuleName()}|{$value[$i]})$";
 				}
-				if (is_array($trValue)) {
+				if (\is_array($trValue)) {
 					$trValue = implode(' |##| ', $trValue);
 				}
 				$value = str_ireplace(' |##| ', ', ', $trValue);
@@ -1335,7 +1335,7 @@ class TextParser
 				$truncated[] = $token;
 			}
 			if ($totalCount >= $length) {
-				if (0 < count($openTokens)) {
+				if (0 < \count($openTokens)) {
 					krsort($openTokens);
 					foreach ($openTokens as $name) {
 						$truncated[] = new \HTMLPurifier_Token_End($name);
@@ -1369,14 +1369,14 @@ class TextParser
 		if (!$length) {
 			$length = \App\Config::main('listview_max_textlength');
 		}
-		if (function_exists('mb_strlen')) {
+		if (\function_exists('mb_strlen')) {
 			if (mb_strlen($text) > $length) {
 				$text = mb_substr($text, 0, $length, \App\Config::main('default_charset'));
 				if ($addDots) {
 					$text .= '...';
 				}
 			}
-		} elseif (strlen($text) > $length) {
+		} elseif (\strlen($text) > $length) {
 			$text = substr($text, 0, $length);
 			if ($addDots) {
 				$text .= '...';
@@ -1394,10 +1394,10 @@ class TextParser
 	 */
 	public static function getTextLength($text)
 	{
-		if (function_exists('mb_strlen')) {
+		if (\function_exists('mb_strlen')) {
 			return mb_strlen($text);
 		}
-		return strlen($text);
+		return \strlen($text);
 	}
 
 	/**
@@ -1501,7 +1501,7 @@ class TextParser
 						$html .= '<td class="col-type-barcode"><div data-barcode="EAN13" data-code="' . $itemValue . '" data-size="1" data-height="16"></div></td>';
 					} else {
 						$itemValue = $inventoryRow[$name];
-						$html .= '<td class="col-type-' . $field->getType() . '" style="border:1px solid #ddd;padding:0px 4px;' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '">';
+						$html .= '<td class="col-type-' . $field->getType() . '" style="border:1px solid #ddd;padding:0px 4px;' . (\in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '">';
 						if ('Name' === $field->getType()) {
 							$html .= '<strong>' . $field->getDisplayValue($itemValue, $inventoryRow, $rawText) . '</strong>';
 							foreach ($inventory->getFieldsByType('Comment') as $commentField) {

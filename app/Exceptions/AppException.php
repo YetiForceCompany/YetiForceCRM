@@ -28,7 +28,7 @@ class AppException extends \Exception
 			$message = \App\Language::translateSingleMod($message, 'Other.Exceptions');
 		} else {
 			$params = explode('||', $message);
-			$message = call_user_func_array('vsprintf', [\App\Language::translateSingleMod(array_shift($params), 'Other.Exceptions'), $params]);
+			$message = \call_user_func_array('vsprintf', [\App\Language::translateSingleMod(array_shift($params), 'Other.Exceptions'), $params]);
 		}
 		return $message;
 	}

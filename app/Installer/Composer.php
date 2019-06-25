@@ -159,7 +159,7 @@ class Composer
 		foreach (static::$publicPackage as $package => $method) {
 			$src = 'vendor' . \DIRECTORY_SEPARATOR . $package;
 			foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
-				if ($item->isFile() && in_array($item->getExtension(), $types) && !file_exists($rootDir . $item->getPathname())) {
+				if ($item->isFile() && \in_array($item->getExtension(), $types) && !file_exists($rootDir . $item->getPathname())) {
 					if (!is_dir($rootDir . $item->getPath())) {
 						mkdir($rootDir . $item->getPath(), 0755, true);
 					}
@@ -174,6 +174,35 @@ class Composer
 				}
 			}
 		}
+		self::parseCreditsVue();
+	}
+
+	/**
+	 * Parse credits vue.
+	 */
+	public static function parseCreditsVue()
+	{
+		$rootDir = realpath(__DIR__ . '/../../') . \DIRECTORY_SEPARATOR;
+		$dirLibraries = $rootDir . 'public_html' . \DIRECTORY_SEPARATOR . 'src' . \DIRECTORY_SEPARATOR . 'node_modules' . \DIRECTORY_SEPARATOR;
+		$dataEncode = [];
+		if (!\is_dir($dirLibraries)) {
+			echo 'Skipping file generation libraries.json' . PHP_EOL;
+			return false;
+		}
+		foreach (new \DirectoryIterator($dirLibraries) as $level1) {
+			if ($level1->isDir() && !$level1->isDot()) {
+				$value = [];
+				try {
+					if ($getValues = Credits::parseLibraryVueValues($level1->getFilename(), $dirLibraries)) {
+						$value[$getValues['name']] = ['version' => $getValues['version'], 'license' => $getValues['license'], 'homepage' => $getValues['homepage']];
+						$dataEncode[] = $value;
+					}
+				} catch (\Exception $ex) {
+					\App\Log::warning($ex->getMessage());
+				}
+			}
+		}
+		\App\Json::save($rootDir . 'cache' . \DIRECTORY_SEPARATOR . 'libraries.json', $dataEncode);
 	}
 
 	/**

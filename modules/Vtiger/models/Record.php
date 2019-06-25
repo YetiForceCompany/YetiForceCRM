@@ -68,7 +68,6 @@ class Vtiger_Record_Model extends \App\Base
 			$this->changes[$key] = $this->get($key);
 		}
 		$this->value[$key] = $value;
-
 		return $this;
 	}
 
@@ -389,10 +388,8 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getRelatedListViewDisplayValue($fieldName)
 	{
-		$recordId = $this->getId();
 		$fieldModel = $this->getModule()->getFieldByName($fieldName);
-
-		return $fieldModel->getUITypeModel()->getRelatedListViewDisplayValue($this->get($fieldName), $recordId, $this);
+		return $fieldModel->getUITypeModel()->getRelatedListViewDisplayValue($this->get($fieldName), $this->getId(), $this);
 	}
 
 	/**
@@ -422,7 +419,7 @@ class Vtiger_Record_Model extends \App\Base
 	 *
 	 * @param string $fieldName - field name
 	 *
-	 * @return <Vtiger_Field_Model>
+	 * @return Vtiger_Field_Model|false
 	 */
 	public function getField($fieldName)
 	{
@@ -482,7 +479,7 @@ class Vtiger_Record_Model extends \App\Base
 		}
 		$eventHandler->trigger('EntityAfterSave');
 		if ($this->isNew()) {
-			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $this->getModuleName(), $this);
+			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $moduleName, $this);
 			$this->isNew = false;
 		}
 		\App\Cache::delete('recordLabel', $this->getId());
@@ -524,6 +521,7 @@ class Vtiger_Record_Model extends \App\Base
 		$moduleModel = $this->getModule();
 		$saveFields = $this->getModule()->getFieldsForSave($this);
 		$forSave = $this->getEntityDataForSave();
+
 		if (!$this->isNew()) {
 			$saveFields = array_intersect($saveFields, array_merge(array_keys($this->changes), array_keys($moduleModel->getFieldsByUiType(4))));
 		} else {

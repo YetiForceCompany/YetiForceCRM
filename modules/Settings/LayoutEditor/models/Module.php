@@ -83,7 +83,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function getAddSupportedFieldTypes()
 	{
 		return [
-			'Text', 'Decimal', 'Integer', 'Percent', 'Currency', 'Date', 'Email', 'Phone', 'Picklist', 'Country',
+			'Text', 'Decimal', 'Integer', 'AdvPercentage', 'Percent', 'Currency', 'Date', 'Email', 'Phone', 'Picklist', 'Country',
 			'URL', 'Checkbox', 'TextArea', 'MultiSelectCombo', 'Skype', 'Time', 'Related1M', 'Editor', 'Tree',
 			'MultiReferenceValue', 'CategoryMultipicklist', 'DateTime', 'Image', 'MultiImage', 'Twitter', 'MultiEmail',
 			'Smtp', 'ServerAccess', 'MultiDomain', 'RangeTime'
@@ -99,7 +99,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	{
 		$fieldTypesInfo = [];
 		$addFieldSupportedTypes = $this->getAddSupportedFieldTypes();
-		$lengthSupportedFieldTypes = ['Text', 'Decimal', 'Integer', 'Currency', 'Editor'];
+		$lengthSupportedFieldTypes = ['Text', 'Decimal', 'Integer', 'Currency', 'Editor', 'AdvPercentage'];
 		foreach ($addFieldSupportedTypes as $fieldType) {
 			$details = [];
 			if (in_array($fieldType, $lengthSupportedFieldTypes)) {
@@ -108,7 +108,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			if ('Editor' === $fieldType) {
 				$details['noLimitForLength'] = true;
 			}
-			if ('Decimal' === $fieldType || 'Currency' === $fieldType) {
+			if ('Decimal' === $fieldType || 'Currency' === $fieldType || 'AdvPercentage' === $fieldType) {
 				$details['decimalSupported'] = true;
 				$details['maxFloatingDigits'] = 5;
 				if ('Currency' === $fieldType) {
@@ -216,6 +216,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$fieldModel->set('name', $name)
 			->set('table', $tableName)
 			->set('generatedtype', $params['generatedtype'] ?? 2)
+			->set('helpinfo', $params['helpinfo'] ?? '')
 			->set('uitype', $uitype)
 			->set('label', $label)
 			->set('typeofdata', $typeofdata)
@@ -268,10 +269,12 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$uitype = 1;
 				$type = $importerType->stringType($fieldLength)->defaultValue('');
 				break;
+			case 'AdvPercentage':
+				$uitype = 365;
 			case 'Decimal':
 				$fieldLength = $params['fieldLength'];
 				$decimal = $params['decimal'];
-				$uitype = 7;
+				$uitype = $uitype ?? 7;
 				$dbfldlength = $fieldLength + $decimal + 1;
 				$type = $importerType->decimal($dbfldlength, $decimal);
 				// Fix for http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/6363

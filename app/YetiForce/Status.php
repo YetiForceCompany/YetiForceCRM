@@ -67,7 +67,7 @@ class Status
 		$info = [];
 		foreach ($config as $name => $state) {
 			if ($state) {
-				$info[$name] = call_user_func([$status, 'get' . ucfirst($name)]);
+				$info[$name] = \call_user_func([$status, 'get' . ucfirst($name)]);
 			}
 		}
 		try {

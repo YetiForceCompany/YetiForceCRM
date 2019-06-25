@@ -46,7 +46,7 @@ class Vtiger_RangeTime_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getOperators()
+	public function getQueryOperators()
 	{
 		return ['y', 'ny'];
 	}

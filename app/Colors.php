@@ -99,7 +99,7 @@ class Colors
 				$values = \App\Fields\Picklist::getValues($field->getName());
 				if ($values) {
 					$firstRow = reset($values);
-					if (array_key_exists('color', $firstRow)) {
+					if (\array_key_exists('color', $firstRow)) {
 						foreach ($values as $item) {
 							if (ltrim($item['color'], '#')) {
 								if (false === strpos($item['color'], '#')) {
@@ -211,7 +211,7 @@ class Colors
 		foreach ($moduleBlockFields as $moduleFields) {
 			foreach ($moduleFields as $moduleField) {
 				$block = $moduleField->get('block');
-				if (!$block || !in_array($moduleField->getFieldDataType(), $type)) {
+				if (!$block || !\in_array($moduleField->getFieldDataType(), $type)) {
 					continue;
 				}
 				$fieldList[$moduleField->get('name')] = $moduleField;

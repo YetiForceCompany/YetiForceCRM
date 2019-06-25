@@ -66,7 +66,7 @@ class RecordNumber extends \App\Base
 		}
 
 		$fullPrefix = $this->parseNumber($currentSequenceNumber);
-		$strip = strlen($currentSequenceNumber) - strlen($currentSequenceNumber + 1);
+		$strip = \strlen($currentSequenceNumber) - \strlen($currentSequenceNumber + 1);
 		if ($strip < 0) {
 			$strip = 0;
 		}
@@ -155,7 +155,7 @@ class RecordNumber extends \App\Base
 	 * Returns prefix of picklist.
 	 *
 	 * @param string      $piclistName
-	 * @param null|string $recordValue
+	 * @param string|null $recordValue
 	 *
 	 * @return string
 	 */
@@ -208,11 +208,10 @@ class RecordNumber extends \App\Base
 					$dbCommand = \App\Db::getInstance()->createCommand();
 					while ($recordinfo = $dataReader->read()) {
 						$this->setRecord($moduleModel->getRecordFromArray($recordinfo));
-						$picklistValue = $this->getPicklistValue($picklistName, $recordinfo[$picklistName]);
 						$seq = 0;
-						if ($picklistValue && isset($sequences[$picklistValue])) {
+						if ($picklistName && ($picklistValue = $this->getPicklistValue($picklistName, $recordinfo[$picklistName])) && isset($sequences[$picklistValue])) {
 							$seq = $sequences[$picklistValue]++;
-						} elseif ($picklistValue) {
+						} elseif ($picklistName && $picklistValue) {
 							$sequences[$picklistValue] = 1;
 							$seq = $sequences[$picklistValue]++;
 						} else {
@@ -242,7 +241,7 @@ class RecordNumber extends \App\Base
 	 * Date function that can be overrided in tests.
 	 *
 	 * @param string   $format
-	 * @param null|int $time
+	 * @param int|null $time
 	 *
 	 * @return false|string
 	 */

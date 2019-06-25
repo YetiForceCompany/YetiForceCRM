@@ -47,7 +47,7 @@ class Country
 	 *
 	 * @param string $countryName
 	 *
-	 * @return null|string Return null if not found.
+	 * @return string|null Return null if not found.
 	 */
 	public static function getCountryCode(string $countryName): ?string
 	{

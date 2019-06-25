@@ -9,7 +9,7 @@
  */
 class Notification_Notifications_Dashboard extends Vtiger_IndexAjax_View
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$currentUserId = \App\User::getCurrentUserId();
 		$viewer = $this->getViewer($request);
@@ -24,7 +24,7 @@ class Notification_Notifications_Dashboard extends Vtiger_IndexAjax_View
 			$condition = ['u_#__notification.notification_type' => $request->getByType('type', 'Text')];
 		}
 		$notificationModel = Notification_Module_Model::getInstance($moduleName);
-		$notifications = $notificationModel->getEntries($limit, $condition);
+		$notifications = $notificationModel->getEntriesInstance($limit, $condition);
 		$typesNotification = $notificationModel->getTypes();
 		array_unshift($typesNotification, \App\Language::translate('All'));
 		$viewer->assign('TYPES_NOTIFICATION', $typesNotification);

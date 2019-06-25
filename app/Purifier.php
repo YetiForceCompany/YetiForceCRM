@@ -94,7 +94,7 @@ class Purifier
 			return $input;
 		}
 		$value = $input;
-		if (!is_array($input)) {
+		if (!\is_array($input)) {
 			$cacheKey = md5($input);
 			if (Cache::has('purify', $cacheKey)) {
 				return Cache::get('purify', $cacheKey);
@@ -111,12 +111,12 @@ class Purifier
 		}
 		if (static::$purifyInstanceCache) {
 			// Composite type
-			if (is_array($input)) {
+			if (\is_array($input)) {
 				$value = [];
 				foreach ($input as $k => $v) {
 					$value[$k] = static::purify($v);
 				}
-			} elseif (is_string($input)) {
+			} elseif (\is_string($input)) {
 				static::purifyHtmlEventAttributes($input);
 				$value = static::$purifyInstanceCache->purify(static::decodeHtml($input));
 				if ($loop) {
@@ -298,13 +298,14 @@ class Purifier
 	 * 2 - word and int
 	 *
 	 * @param mixed  $input
-	 * @param string $type  Data type that is only acceptable
+	 * @param string $type    Data type that is only acceptable
+	 * @param mixed  $convert
 	 *
 	 * @return mixed
 	 */
-	public static function purifyByType($input, $type)
+	public static function purifyByType($input, $type, $convert = false)
 	{
-		if (is_array($input)) {
+		if (\is_array($input)) {
 			$value = [];
 			foreach ($input as $k => $v) {
 				$value[$k] = static::purifyByType($v, $type);
@@ -324,13 +325,16 @@ class Purifier
 					if (!$input) {
 						return '';
 					}
-					$value = Validator::dateInUserFormat($input) ? $input : null;
+					$value = Validator::dateInUserFormat($input) ? ($convert ? Fields\Date::formatToDB($input) : $input) : null;
 					break;
 				case 'Time':
 					$value = Validator::time($input) ? $input : null;
 					break;
+				case 'TimePeriod':
+					$value = Validator::timePeriod($input) ? $input : null;
+					break;
 				case 'TimeInUserFormat':
-					$value = Validator::timeInUserFormat($input) ? Fields\Time::formatToDB($input) : null;
+					$value = Validator::timeInUserFormat($input) ? ($convert ? Fields\Time::formatToDB($input) : $input) : null;
 					break;
 				case 'DateRangeUserFormat': // date range user format
 					$dateFormat = User::getCurrentUserModel()->getDetail('date_format');
@@ -394,7 +398,7 @@ class Purifier
 					$value = preg_match('/^(#[0-9a-fA-F]{6})$/', $input) ? $input : null;
 					break;
 				case 'Year': // 2018 etc
-					if (is_numeric($input) && (int) $input >= 0 && (int) $input <= 3000 && 4 === strlen((string) $input)) {
+					if (is_numeric($input) && (int) $input >= 0 && (int) $input <= 3000 && 4 === \strlen((string) $input)) {
 						$value = (string) $input;
 					}
 					break;
@@ -422,7 +426,7 @@ class Purifier
 	 *
 	 * @param int|string $value
 	 *
-	 * @return null|bool
+	 * @return bool|null
 	 */
 	public static function bool($value)
 	{

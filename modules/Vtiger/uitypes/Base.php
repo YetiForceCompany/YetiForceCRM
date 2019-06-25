@@ -28,7 +28,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		if ('' === $value && in_array($this->getFieldModel()->getFieldType(), ['I', 'N', 'NN'])) {
+		if ('' === $value && \in_array($this->getFieldModel()->getFieldType(), ['I', 'N', 'NN'])) {
 			return 0;
 		}
 		if (null === $value) {
@@ -112,7 +112,7 @@ class Vtiger_Base_UIType extends \App\Base
 		if ($isUserFormat) {
 			$value = \App\Purifier::decodeHtml($value);
 		}
-		if (!is_numeric($value) && (is_string($value) && $value !== \App\Purifier::decodeHtml(\App\Purifier::purify($value)))) {
+		if (!is_numeric($value) && (\is_string($value) && $value !== \App\Purifier::decodeHtml(\App\Purifier::purify($value)))) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$maximumLength = $this->getFieldModel()->get('maximumlength');
@@ -148,7 +148,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		if (is_int($length)) {
+		if (\is_int($length)) {
 			$value = \App\TextParser::textTruncate($value, $length);
 		}
 		return \App\Purifier::encodeHtml($value);
@@ -384,13 +384,23 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
-	 * Return allowed operators for field.
+	 * Return allowed query operators for field.
 	 *
 	 * @return string[]
 	 */
-	public function getOperators()
+	public function getQueryOperators()
 	{
 		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
+	}
+
+	/**
+	 * Return allowed record operators for field.
+	 *
+	 * @return string[]
+	 */
+	public function getRecordOperators(): array
+	{
+		return array_merge($this->getQueryOperators(), ['hs']);
 	}
 
 	/**
@@ -403,5 +413,29 @@ class Vtiger_Base_UIType extends \App\Base
 	public function getOperatorTemplateName(string $operator = '')
 	{
 		return 'ConditionBuilder/Base.tpl';
+	}
+
+	/**
+	 * Gets value to export.
+	 *
+	 * @param mixed $value
+	 *
+	 * @return mixed
+	 */
+	public function getValueToExport($value)
+	{
+		return trim(App\Purifier::decodeHtml($value), '"');
+	}
+
+	/**
+	 * Gets value from import.
+	 *
+	 * @param mixed $value
+	 *
+	 * @return mixed
+	 */
+	public function getValueFromImport($value)
+	{
+		return $value;
 	}
 }

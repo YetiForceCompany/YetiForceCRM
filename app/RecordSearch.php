@@ -82,7 +82,7 @@ class RecordSearch
 		$where = ['and', ['vtiger_tab.presence' => 0]];
 		if ($this->moduleName) {
 			$where[] = ['csl.setype' => $this->moduleName];
-			if (is_string($this->moduleName) && isset($this->moduleConditions[$this->moduleName])) {
+			if (\is_string($this->moduleName) && isset($this->moduleConditions[$this->moduleName])) {
 				$where[] = $this->moduleConditions[$this->moduleName]['where'];
 				if (isset($this->moduleConditions[$this->moduleName]['innerJoin'])) {
 					foreach ($this->moduleConditions[$this->moduleName]['innerJoin'] as $table => $on) {

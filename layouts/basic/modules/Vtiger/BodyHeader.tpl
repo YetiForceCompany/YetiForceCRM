@@ -250,16 +250,15 @@
 					{/if}
 					{if \App\Privilege::isPermitted('KnowledgeBase')}
 						<div class="o-action-menu__item">
-							<a class="c-header__btn ml-2 btn-light btn showModal js-popover-tooltip js-header-knowledge-button"
+							<a class="c-header__btn ml-2 btn-light btn js-popover-tooltip js-knowledge-base-modal"
 							   role="button"
-							   data-url="index.php?module=KnowledgeBase&view=KnowledgeBaseModal"
-								 data-cb="YetiForce_KnowledgeBaseModal_Js.showModalContent"
 							   data-js="popover|modal" data-content="{\App\Language::translate('BTN_KNOWLEDGE_BASE', 'KnowledgeBase')}"
 							   href="#">
 								<span class="userIcon-KnowledgeBase"
 									  title="{\App\Language::translate('BTN_KNOWLEDGE_BASE', 'KnowledgeBase')}"></span>
 								<span class="c-header__label--sm-down"> {\App\Language::translate('BTN_KNOWLEDGE_BASE', 'KnowledgeBase')}</span>
 							</a>
+							<div id="KnowledgeBaseModal"></div>
 						</div>
 					{/if}
 					{if \App\Privilege::isPermitted('Notification', 'DetailView')}

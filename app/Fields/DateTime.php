@@ -52,13 +52,13 @@ class DateTime
 				}
 			}
 			[$y, $m, $d] = explode('-', $value);
-			if (1 == strlen($y)) {
+			if (1 == \strlen($y)) {
 				$y = '0' . $y;
 			}
-			if (1 == strlen($m)) {
+			if (1 == \strlen($m)) {
 				$m = '0' . $m;
 			}
-			if (1 == strlen($d)) {
+			if (1 == \strlen($d)) {
 				$d = '0' . $d;
 			}
 			$value = implode('-', [$y, $m, $d]);
@@ -67,7 +67,7 @@ class DateTime
 			if (!empty($dbTimeValue) && false === strpos($dbTimeValue, ':')) {
 				$dbTimeValue = $dbTimeValue . ':';
 			}
-			if (!empty($dbTimeValue) && strrpos($dbTimeValue, ':') == (strlen($dbTimeValue) - 1)) {
+			if (!empty($dbTimeValue) && strrpos($dbTimeValue, ':') == (\strlen($dbTimeValue) - 1)) {
 				$dbTimeValue = $dbTimeValue . '00';
 			}
 

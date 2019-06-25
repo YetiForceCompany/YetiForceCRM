@@ -47,7 +47,7 @@ class Profiling extends Target
 						'category' => $last[2],
 						'timestamp' => $last[3],
 						'trace' => $last[4],
-						'level' => count($stack),
+						'level' => \count($stack),
 						'duration' => $timestamp - $last[3],
 					];
 				}
@@ -58,7 +58,7 @@ class Profiling extends Target
 		++$logID;
 		foreach ($timings as &$message) {
 			$text = $message['info'];
-			if (!is_string($text)) {
+			if (!\is_string($text)) {
 				// exceptions may not be serializable if in the call stack somewhere is a Closure
 				if ($text instanceof \Throwable || $text instanceof \Exception) {
 					$text = (string) $text;
