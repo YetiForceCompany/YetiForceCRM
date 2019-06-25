@@ -1559,7 +1559,6 @@ jQuery.Class(
 					.siblings()
 					.removeClass('active');
 				thisInstance.getFiltersDataAndLoad(e);
-				return;
 			});
 			jQuery('.js-filter_field').on('select2:select', function(e, state) {
 				thisInstance.getFiltersDataAndLoad(e);
