@@ -202,22 +202,21 @@ class Language
 	 * @param \Vtiger_Field_Model $fieldModel
 	 * @param string              $view
 	 *
-	 * @return bool $view
+	 * @return string
 	 */
-	public static function getTranslateHelpInfo(\Vtiger_Field_Model $fieldModel, string $view)
+	public static function getTranslateHelpInfo(\Vtiger_Field_Model $fieldModel, string $view): string
 	{
-		$moduleName = $fieldModel->getModuleName();
-		$label = $fieldModel->getFieldLabel();
 		$translate = '';
 		if (\in_array($view, explode(',', $fieldModel->get('helpinfo')))) {
-			$key = "$moduleName|$label";
+			$label = $fieldModel->getFieldLabel();
+			$key = "{$fieldModel->getModuleName()}|$label";
 			if (($translated = self::translate($key, 'Other:HelpInfo')) !== $key) {
 				$translate = $translated;
 			} elseif (($translated = self::translate($label, 'Other:HelpInfo')) !== $label) {
 				$translate = $translated;
 			}
-			return $translate;
 		}
+		return $translate;
 	}
 
 	/**
