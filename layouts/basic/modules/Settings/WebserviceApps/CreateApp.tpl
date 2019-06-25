@@ -2,8 +2,6 @@
 {strip}
 	<div class="modal-content validationEngineContainer" id="EditView">
 		<form>
-			<input class="recordEditView" type="hidden">
-			<input type="hidden" name="mappingRelatedField" value="{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}" />
 			<div class="modal-header">
 				{if $RECORD_MODEL}
 					<h5 class="modal-title"><span class="fas fa-edit fa-sm mr-1"></span>{\App\Language::translate('LBL_TITLE_EDIT', $QUALIFIED_MODULE)}</h5>
@@ -60,38 +58,6 @@
 								</option>
 							{/foreach}
 						</select>
-					</div>
-				</div>
-				<div class="form-group form-row col-sm-12">
-					<label class="col-sm-2 col-form-label text-right u-text-small-bold">{\App\Language::translate('SINGLE_Accounts', $QUALIFIED_MODULE)}</label>
-					<div class="col-sm-10 fieldValue">
-						<input name="popupReferenceModule" type="hidden" 
-							   data-multi-reference="0" title="{\App\Language::translate('Accounts', $QUALIFIED_MODULE)}" 
-							   value="Accounts">
-						<input name="accountsid" type="hidden" value="{if $RECORD_MODEL}{$RECORD_MODEL->get('accounts_id')}{/if}"
-							   title="" class="sourceField" data-fieldtype="reference" 
-							   data-displayvalue="">
-						<div class="input-group referenceGroup">
-							<input id="accountsid_display" name="accountsid_display" type="text" title=""
-								   class="ml-0 form-control autoComplete ui-autocomplete-input"
-								   value="{if $RECORD_MODEL && $RECORD_MODEL->get('accountsModel')}{$RECORD_MODEL->get('accountsModel')->getName()}{/if}"
-								   {if $RECORD_MODEL} readonly {/if}
-								   data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" 
-								   placeholder="{\App\Language::translate('LBL_TYPE_SEARCH', $QUALIFIED_MODULE)}" 
-								   autocomplete="off">
-							<span class="input-group-btn u-cursor-pointer">
-								<button class="btn btn-light clearReferenceSelection" type="button">
-									<span class="fas fa-times-circle" 
-										  title="{\App\Language::translate('LBL_CLEAR', $QUALIFIED_MODULE)}">
-									</span>
-								</button>
-								<button class="btn btn-light relatedPopup" type="button">
-									<span class="fas fa-search" 
-										  title="{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}">
-									</span>
-								</button>
-							</span>
-						</div>
 					</div>
 				</div>
 			</div>
