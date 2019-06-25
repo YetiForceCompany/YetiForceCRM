@@ -1,6 +1,11 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <q-layout view="hHh LpR fFf" container :class="['bg-white', maximizedDialog ? 'chat-mini' : '']">
+  <q-layout
+    view="hHh LpR fFf"
+    container
+    :class="['bg-white', !maximizedDialog ? 'chat-mini' : '']"
+    :style="{ bottom: !maximizedDialog ? bottomPosition + 'px' : 0 }"
+  >
     <chat-header @visibleInputSearch="inputSearchVisible = $event" @showTabHistory="tabHistoryShow = $event" />
     <left-panel @footerGroup="groupFooter = $event" @footerRoom="roomFooter = $event" />
     <right-panel />
@@ -19,6 +24,9 @@ const { mapGetters } = createNamespacedHelpers('Chat')
 export default {
   name: 'Chat',
   components: { LeftPanel, RightPanel, Messages, ChatHeader, ChatFooter },
+  props: {
+    parentRefs: { type: Object, required: true }
+  },
   data() {
     return {
       iconSize: '.75rem',
@@ -34,8 +42,22 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['leftPanel', 'rightPanel', 'maximizedDialog'])
+    ...mapGetters(['leftPanel', 'rightPanel', 'maximizedDialog']),
+    bottomPosition() {
+      if (this.parentRefs.chatBtn !== undefined) {
+        return Quasar.plugins.Screen.height - Quasar.utils.dom.offset(this.parentRefs.chatBtn.$el).top
+      }
+    }
   }
 }
 </script>
-<style module lang="stylus"></style>
+<style>
+.chat-mini {
+  right: 0;
+  top: 50px;
+  margin: 10px 0;
+  height: unset;
+  max-height: unset;
+  position: fixed;
+}
+</style>
