@@ -4,13 +4,13 @@
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}"
 			 data-name="{$WIDGET['label']}">
 			<div class="c-detail-widget__header js-detail-widget-header" data-js="container|value">
-				<div class="col-md-12 form-row align-items-center">
+				<div class="col-md-12 form-row align-items-center pr-5">
 					<div class="form-row align-items-center py-1">
 						<div class="col-md-4 px-0">
 							<h5 class="mb-0">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
 						</div>
 						<div class="col-md-8" align="center">
-							<div class="btn-group">
+							<div class="btn-group flex-wrap">
 								{assign var="DEFAULT_MODULE" value='Products'}
 								{if isset($WIDGET['data']['filter'])}
 									{assign var="DEFAULT_MODULE" value=$WIDGET['data']['filter']}
