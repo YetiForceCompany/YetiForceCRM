@@ -1553,7 +1553,13 @@ jQuery.Class(
 		registerChangeFilterForWidget: function() {
 			var thisInstance = this;
 			jQuery('.js-switch').on('change', function(e, state) {
+				$(e.currentTarget)
+					.closest('.js-switch__btn')
+					.addClass('active')
+					.siblings()
+					.removeClass('active');
 				thisInstance.getFiltersDataAndLoad(e);
+				return;
 			});
 			jQuery('.js-filter_field').on('select2:select', function(e, state) {
 				thisInstance.getFiltersDataAndLoad(e);
