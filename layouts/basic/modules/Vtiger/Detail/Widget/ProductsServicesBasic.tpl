@@ -5,7 +5,7 @@
 			 data-name="{$WIDGET['label']}">
 			<div class="c-detail-widget__header js-detail-widget-header" data-js="container|value">
 				<div class="col-md-12 form-row align-items-center pr-5">
-					<div class="form-row align-items-center py-1">
+					<div class="form-row align-items-center py-1 w-100">
 						<div class="col-md-4 px-0">
 							<h5 class="mb-0">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
 						</div>
