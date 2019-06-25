@@ -2,7 +2,7 @@
 <template>
   <q-drawer :value="rightPanel" side="right" @hide="setRightPanel(false)" bordered>
     <div class="bg-grey-11 fit">
-      <q-input v-model="inputSearchUsers" :placeholder="placeholderUsers" class="col-12 q-pb-sm q-px-sm">
+      <q-input dense v-model="inputSearchUsers" :placeholder="placeholderUsers" class="col-12 q-pb-sm q-px-sm">
         <template v-slot:prepend>
           <q-icon name="mdi-magnify" />
         </template>

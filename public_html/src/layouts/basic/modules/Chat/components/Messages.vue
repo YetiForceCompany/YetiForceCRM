@@ -2,9 +2,9 @@
 <template v-slot:chatMessages>
   <q-page-container>
     <q-page>
-      <div class="row col-12 q-px-sm">
+      <div class="row col-12 q-px-sm" ref="searchContainer">
         <div class="col-12">
-          <q-input borderless v-model="inputSearch" :placeholder="placeholder">
+          <q-input dense borderless v-model="inputSearch" :placeholder="placeholder">
             <template v-slot:prepend>
               <q-icon name="mdi-magnify" />
             </template>
@@ -37,7 +37,7 @@
           :thumb-style="thumbStyle"
           :content-style="contentStyle"
           :content-active-style="contentActiveStyle"
-          style="height: 620px;"
+          :style="{ height: computedHeight }"
         >
           <div class="text-center q-mt-xl">
             <q-btn class="">
@@ -73,7 +73,7 @@
           </div>
         </q-scroll-area>
         <q-separator />
-        <div class="col-12">
+        <div class="col-12" ref="textContainer">
           <q-input borderless v-model="text" type="textarea" autogrow :placeholder="placeholderTexttera" :dense="dense">
             <template v-slot:append>
               <q-btn type="submit" :loading="submitting" round color="secondary" icon="mdi-send" />
@@ -87,29 +87,6 @@
 <script>
 export default {
   name: 'ChatMessages',
-  computed: {
-    contentStyle() {
-      return {
-        color: '#555'
-      }
-    },
-
-    contentActiveStyle() {
-      return {
-        color: 'black'
-      }
-    },
-
-    thumbStyle() {
-      return {
-        right: '2px',
-        borderRadius: '5px',
-        backgroundColor: '#027be3',
-        width: '5px',
-        opacity: 0.75
-      }
-    }
-  },
   data() {
     return {
       iconSize: '.75rem',
@@ -229,6 +206,39 @@ export default {
           role_name: 'Board of Management',
           img: 'https://cdn.quasar-framework.org/img/avatar4.jpg'
         }
+      }
+    }
+  },
+  computed: {
+    computedHeight() {
+      console.log(this)
+      if (this.$refs.textContainer !== undefined && this.$refs.searchContainer !== undefined) {
+        Quasar.utils.dom.offset(this.$refs.textContainer.$el).top
+        Quasar.utils.dom.offset(this.$refs.searchContainer.$el).top
+        console.log(Quasar.utils.dom.offset(this.$refs.textContainer.$el).top)
+        console.log(Quasar.utils.dom.offset(this.$refs.searchContainer.$el).top)
+        return false
+      }
+    },
+    contentStyle() {
+      return {
+        color: '#555'
+      }
+    },
+
+    contentActiveStyle() {
+      return {
+        color: 'black'
+      }
+    },
+
+    thumbStyle() {
+      return {
+        right: '2px',
+        borderRadius: '5px',
+        backgroundColor: '#027be3',
+        width: '5px',
+        opacity: 0.75
       }
     }
   },

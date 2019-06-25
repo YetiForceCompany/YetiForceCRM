@@ -4,18 +4,12 @@
     <q-bar>
       <div class="col-6 text-left">
         <q-btn dense flat round icon="mdi-menu" @click="toggleLeftPanel()" />
-        <q-btn round :size="iconSize" flat icon="mdi-keyboard-outline" />
+        <q-btn dense round flat icon="mdi-keyboard-outline" />
 
-        <q-btn
-          round
-          :size="iconSize"
-          flat
-          icon="mdi-history"
-          @click="visibleInputSearch(false), showTabHistory(true)"
-        />
-        <q-btn round :size="iconSize" flat icon="mdi-comment-multiple-outline" />
-        <q-btn round :size="iconSize" flat icon="mdi-bell-off-outline" />
-        <q-btn round :size="iconSize" flat icon="mdi-volume-high" />
+        <q-btn dense round flat icon="mdi-history" @click="visibleInputSearch(false), showTabHistory(true)" />
+        <q-btn dense round flat icon="mdi-comment-multiple-outline" />
+        <q-btn dense round flat icon="mdi-bell-off-outline" />
+        <q-btn dense round flat icon="mdi-volume-high" />
       </div>
       <div class="col-6 text-right">
         <template v-if="$q.platform.is.desktop">
