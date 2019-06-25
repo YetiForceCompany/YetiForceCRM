@@ -273,28 +273,6 @@
 							</a>
 						</div>
 					{/if}
-					{if \App\Privilege::isPermitted('Chat')}
-											<div class="o-action-menu__item">
-
-							{* <a class="c-header__btn ml-2 btn-light btn{if !$IS_USER_SWITCHED} showModal{/if} js-popover-tooltip js-header-chat-button"
-							   role="button"
-							   data-user-switched="{if $IS_USER_SWITCHED}true{else}false{/if}"
-							   data-url="index.php?module=Chat&view=Modal"
-							   data-refresh-time-global="{App\Config::module('Chat', 'REFRESH_TIME_GLOBAL')}"
-							   data-show-number-of-new-messages="{if App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')}true{else}false{/if}"
-							   data-lbl-chat-user-switched="{\App\Language::translate('LBL_CHAT_USER_SWITCHED', 'Chat')}"
-							   data-lbl-chat-new-message="{\App\Language::translate('LBL_CHAT_NEW_MESSAGE', 'Chat')}"
-							   data-lbl-chat="{\App\Language::translate('LBL_CHAT')}"
-							   data-js="popover|modal|color" data-content="{\App\Language::translate('LBL_CHAT')}"
-							   href="#">
-								<span class="fas fa-comments fa-fw"
-									  title="{\App\Language::translate('LBL_CHAT')}"></span>
-								<span class="badge badge-danger mr-1 hide js-badge" data-js="change">0</span>
-								<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_CHAT')}</span>
-							</a> *}
-							<div id="ChatModal"></div>
-							</div>
-					{/if}
 					{if $REMINDER_ACTIVE}
 						<div class="o-action-menu__item">
 							<a class="c-header__btn ml-2 btn btn-light btn isBadge remindersNotice js-popover-tooltip {if App\Config::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}"

@@ -14,5 +14,10 @@
 			{include file=\App\Layout::getTemplatePath('BodyHeader.tpl', $MODULE)}
 			<div class="basePanel {$MODULE}_{$VIEW}">
 				<div class="mainBody">
+					{if \App\Privilege::isPermitted('Chat')}
+						<div class="quasar-reset c-btn-fixed">
+							<div id="ChatModal"></div>
+						</div>
+					{/if}
 					{include file=\App\Layout::getTemplatePath('BodyContent.tpl', $MODULE)}
 				{/strip}

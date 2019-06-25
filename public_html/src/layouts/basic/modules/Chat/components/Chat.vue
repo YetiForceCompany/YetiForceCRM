@@ -1,6 +1,6 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <q-layout view="hHh LpR fFf" container class="bg-white">
+  <q-layout view="hHh LpR fFf" container :class="['bg-white', maximizedDialog ? 'chat-mini' : '']">
     <chat-header @visibleInputSearch="inputSearchVisible = $event" @showTabHistory="tabHistoryShow = $event" />
     <left-panel @footerGroup="groupFooter = $event" @footerRoom="roomFooter = $event" />
     <right-panel />
@@ -34,7 +34,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['leftPanel', 'rightPanel'])
+    ...mapGetters(['leftPanel', 'rightPanel', 'maximizedDialog'])
   }
 }
 </script>

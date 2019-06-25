@@ -1,13 +1,14 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <div class="inline-block">
-    <q-btn round :size="iconSize" flat icon="mdi-forum-outline" class="c-btn-fixed" @click="dialog = true" />
+    <q-btn round color="white" text-color="black" icon="mdi-message-text-outline" class="text-muted" @click="dialog = true" />
     <q-dialog
       v-model="dialog"
-      persistent
+			seamless
       :maximized="maximizedDialog"
       transition-show="slide-up"
       transition-hide="slide-down"
+      content-class="quasar-reset"
     >
       <chat container />
     </q-dialog>
