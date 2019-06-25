@@ -1,7 +1,7 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <div class="inline-block">
-    <q-btn round :size="iconSize" flat icon="mdi-forum-outline" @click="dialog = true" />
+    <q-btn round :size="iconSize" flat icon="mdi-forum-outline" class="c-btn-fixed" @click="dialog = true" />
     <q-dialog
       v-model="dialog"
       persistent
@@ -14,11 +14,11 @@
   </div>
 </template>
 <script>
-import Chat from '/Base/modules/Chat/components/Chat.vue'
+import Chat from './Chat.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions } = createNamespacedHelpers('Chat')
 export default {
-  name: 'Modal',
+  name: 'Dialog',
   components: { Chat },
   data() {
     return {

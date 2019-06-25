@@ -23,9 +23,9 @@
           <i aria-hidden="true" class="q-icon mdi mdi-star q-mr-sm" v-if="index === 'crm'" />
           <i aria-hidden="true" class="q-icon mdi mdi-account-group-outline q-mr-sm" v-if="index === 'group'" />
           <i aria-hidden="true" class="q-icon mdi mdi-earth q-mr-sm" v-if="index === 'global'" />
-          {{ $t(`LBL_ROOM_${index.toUpperCase()}`, moduleName) }}
+          {{ translate(`LBL_ROOM_${index.toUpperCase()}`, moduleName) }}
           <q-btn round flat dense class="gt-xs float-right" size="9px" icon="mdi-information">
-            <q-tooltip> {{ $t(`LBL_ROOM_DESCRIPTION_${index.toUpperCase()}`, moduleName) }}</q-tooltip>
+            <q-tooltip> {{ translate(`LBL_ROOM_DESCRIPTION_${index.toUpperCase()}`, moduleName) }}</q-tooltip>
           </q-btn>
         </div>
         <q-list class="q-mb-none" v-for="rows of row" :key="rows.name">

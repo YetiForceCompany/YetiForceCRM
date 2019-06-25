@@ -5,8 +5,8 @@
       <template>
         <div class="q-pa-md q-gutter-sm">
           <q-breadcrumbs>
-            <q-breadcrumbs-el class="text-white" :label="groupFooter.toUpperCase()" to="/" />
-            <q-breadcrumbs-el class="text-white text-cyan-9 text-bold" :label="roomFooter.toUpperCase()" to="/" />
+            <q-breadcrumbs-el class="text-white" :label="groupFooter.toUpperCase()" />
+            <q-breadcrumbs-el class="text-white text-cyan-9 text-bold" :label="roomFooter.toUpperCase()" />
           </q-breadcrumbs>
         </div>
       </template>

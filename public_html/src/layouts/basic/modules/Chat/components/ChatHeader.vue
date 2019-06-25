@@ -56,12 +56,12 @@ export default {
         return this.$store.getters['Chat/maximizedDialog']
       },
       set(isMax) {
-        this.maximizedDialog(isMax)
+        this.maximize(isMax)
       }
     }
   },
   methods: {
-    ...mapActions(['setDialog', 'toggleRightPanel', 'toggleLeftPanel', 'maximizedDialog']),
+    ...mapActions(['setDialog', 'toggleRightPanel', 'toggleLeftPanel', 'maximize']),
     visibleInputSearch: function(value) {
       this.$emit('visibleInputSearch', value)
     },

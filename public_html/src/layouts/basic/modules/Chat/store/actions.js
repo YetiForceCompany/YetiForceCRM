@@ -4,13 +4,14 @@ export default {
 	setDialog({ commit }, isOpen) {
 		commit('dialog', isOpen)
 	},
-	maximizedDialog({ commit }, isMax) {
+	maximize({ commit }, isMax) {
 		commit('maximizedDialog', isMax)
 	},
 	toggleLeftPanel({ commit, rootGetters }) {
 		commit('leftPanel', !rootGetters['leftPanel'])
 	},
 	toggleRightPanel({ commit, rootGetters }) {
+		console.log('toggled')
 		commit('rightPanel', !rootGetters['rightPanel'])
 	}
 }

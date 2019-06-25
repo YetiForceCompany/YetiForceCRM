@@ -790,6 +790,11 @@ $.Class(
 	}
 );
 $(document).ready(function() {
+	if (window.ChatModalVueComponent !== undefined) {
+		window.ChatModalVueComponent.mount({
+			el: '#ChatModal'
+		});
+	}
 	window.addEventListener('popstate', event => {
 		if (event.state) {
 			window.location.href = event.state;

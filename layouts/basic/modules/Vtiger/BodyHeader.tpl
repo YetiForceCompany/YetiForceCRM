@@ -274,9 +274,9 @@
 						</div>
 					{/if}
 					{if \App\Privilege::isPermitted('Chat')}
-						<div class="o-action-menu__item">
-							{assign var=IS_USER_SWITCHED value=\App\User::getCurrentUserRealId() !== \App\User::getCurrentUserId()}
-							<a class="c-header__btn ml-2 btn-light btn{if !$IS_USER_SWITCHED} showModal{/if} js-popover-tooltip js-header-chat-button"
+											<div class="o-action-menu__item">
+
+							{* <a class="c-header__btn ml-2 btn-light btn{if !$IS_USER_SWITCHED} showModal{/if} js-popover-tooltip js-header-chat-button"
 							   role="button"
 							   data-user-switched="{if $IS_USER_SWITCHED}true{else}false{/if}"
 							   data-url="index.php?module=Chat&view=Modal"
@@ -291,8 +291,9 @@
 									  title="{\App\Language::translate('LBL_CHAT')}"></span>
 								<span class="badge badge-danger mr-1 hide js-badge" data-js="change">0</span>
 								<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_CHAT')}</span>
-							</a>
-						</div>
+							</a> *}
+							<div id="ChatModal"></div>
+							</div>
 					{/if}
 					{if $REMINDER_ACTIVE}
 						<div class="o-action-menu__item">
