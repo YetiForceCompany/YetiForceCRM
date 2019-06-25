@@ -78,7 +78,6 @@
     "FL_EAN_13": "EAN-13",
     "FL_QTY_IN_STOCK": "Quantity of product in stock",
     "FL_PURCHASE": "Purchase",
-    "FL_WEIGHT": "Weight",
-    "FL_MULTICATEGORY": "Multicategory"
+    "FL_WEIGHT": "Weight"
   }
 }
