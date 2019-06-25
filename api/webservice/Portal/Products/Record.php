@@ -22,7 +22,6 @@ class Record extends \Api\Portal\BaseModule\Record
 	public function get(): array
 	{
 		$response = parent::get();
-
 		$availableTaxes = [];
 		if (\Api\Portal\Privilege::USER_PERMISSIONS === $this->getPermissionType()) {
 			$availableTaxes = 'LBL_GROUP';
@@ -41,6 +40,36 @@ class Record extends \Api\Portal\BaseModule\Record
 		$taxConfig = \Vtiger_Inventory_Model::getTaxesConfig();
 		$response['ext']['unit_gross'] = $unitPrice + (new \Vtiger_Tax_InventoryField())->getTaxValue($taxParam, $unitPrice, (int) $taxConfig['aggregation']);
 		$response['ext']['unit_price'] = $unitPrice;
+		$response['productBundles'] = $this->getProductBundles();
 		return $response;
+	}
+
+	private function getProductBundles(): array
+	{
+		$products = [];
+		$productRelationModel = \Vtiger_Relation_Model::getInstance($this->recordModel->getModule(), $this->recordModel->getModule());
+		$productRelationModel->set('parentRecord', $this->recordModel);
+		$queryGenerator = $productRelationModel->getQuery();
+		$queryGenerator->setField('ean');
+
+		$parentRecordModel = \Vtiger_Record_Model::getInstanceById($this->getParentCrmId(), 'Accounts');
+		$pricebookId = $parentRecordModel->get('pricebook_id');
+
+		$storage = $this->getUserStorageId();
+		if ($storage) {
+			$queryGenerator->setCustomColumn('u_#__istorages_products.qtyinstock as storage_qtyinstock');
+			$queryGenerator->addJoin([
+				'LEFT JOIN',
+				'u_#__istorages_products',
+				"u_#__istorages_products.crmid={$storage} AND u_#__istorages_products.relcrmid = vtiger_products.productid"]
+			);
+		}
+		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+		foreach ($dataReader as $row) {
+			$row['qtyinstock'] = (int) ($row['storage_qtyinstock'] ?? 0);
+			$products[$row['id']] = $row;
+		}
+		$dataReader->close();
+		return $products;
 	}
 }
