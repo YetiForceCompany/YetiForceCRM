@@ -9149,7 +9149,6 @@ CREATE TABLE `w_yf_servers` (
   `status` tinyint(1) NOT NULL DEFAULT 0,
   `api_key` varchar(100) NOT NULL,
   `type` varchar(40) NOT NULL,
-  `accounts_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `name` (`name`,`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
