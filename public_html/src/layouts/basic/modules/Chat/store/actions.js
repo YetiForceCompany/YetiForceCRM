@@ -7,11 +7,10 @@ export default {
 	maximize({ commit }, isMax) {
 		commit('maximizedDialog', isMax)
 	},
-	toggleLeftPanel({ commit, rootGetters }) {
-		commit('leftPanel', !rootGetters['leftPanel'])
+	toggleLeftPanel({ commit, getters }) {
+		commit('setLeftPanel', !getters['leftPanel'])
 	},
-	toggleRightPanel({ commit, rootGetters }) {
-		console.log('toggled')
-		commit('rightPanel', !rootGetters['rightPanel'])
+	toggleRightPanel({ commit, getters }) {
+		commit('setRightPanel', !getters['rightPanel'])
 	}
 }

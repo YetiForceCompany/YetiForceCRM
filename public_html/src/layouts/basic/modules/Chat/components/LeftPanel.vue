@@ -1,6 +1,6 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <q-drawer :value="leftPanel" side="left" bordered>
+  <q-drawer :value="leftPanel" side="left" bordered @hide="setLeftPanel(false)">
     <div class="bg-grey-9 fit">
       <div class="col-12 ">
         <q-input v-model="inputRoom" dark color="white" :placeholder="placeholderRoom" class="col-12 q-pb-sm q-px-sm">
@@ -57,7 +57,7 @@
 </template>
 <script>
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters } = createNamespacedHelpers('Chat')
+const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatLeftPanel',
   props: {
@@ -112,7 +112,8 @@ export default {
     },
     footerRoom: function(roomName) {
       this.$emit('footerRoom', roomName)
-    }
+    },
+    ...mapMutations(['setLeftPanel'])
   }
 }
 </script>

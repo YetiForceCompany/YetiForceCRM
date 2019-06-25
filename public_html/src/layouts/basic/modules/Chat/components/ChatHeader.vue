@@ -1,7 +1,7 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <q-header class="bg-grey-10">
-    <q-toolbar>
+    <q-bar>
       <div class="col-6 text-left">
         <q-btn dense flat round icon="mdi-menu" @click="toggleLeftPanel()" />
         <q-btn round :size="iconSize" flat icon="mdi-keyboard-outline" />
@@ -18,18 +18,22 @@
         <q-btn round :size="iconSize" flat icon="mdi-volume-high" />
       </div>
       <div class="col-6 text-right">
-        <q-btn dense round flat icon="mdi-window-minimize" @click="maximizedDialog = false" :disable="!maximizedDialog">
-          <q-tooltip content-class="bg-white text-primary">Minimize</q-tooltip>
-        </q-btn>
-        <q-btn dense round flat icon="mdi-crop-square" @click="maximizedDialog = true" :disable="maximizedDialog">
-          <q-tooltip content-class="bg-white text-primary">Maximize</q-tooltip>
-        </q-btn>
-        <q-btn round flat icon="mdi-close" @click="setDialog(false)">
-          <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
+        <template v-if="$q.platform.is.desktop">
+          <q-btn
+            dense
+            flat
+            :icon="maximizedDialog ? 'mdi-window-restore' : 'mdi-window-maximize'"
+            @click="maximizedDialog = !maximizedDialog"
+          >
+            <q-tooltip>{{ maximizedDialog ? translate('JS_KB_MINIMIZE') : translate('JS_KB_MAXIMIZE') }}</q-tooltip>
+          </q-btn>
+        </template>
+        <q-btn dense flat icon="mdi-close" @click="setDialog(false)">
+          <q-tooltip>{{ translate('JS_CLOSE') }}</q-tooltip>
         </q-btn>
         <q-btn dense flat round icon="mdi-menu" @click="toggleRightPanel()" />
       </div>
-    </q-toolbar>
+    </q-bar>
   </q-header>
 </template>
 <script>

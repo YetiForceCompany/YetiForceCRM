@@ -2,6 +2,6 @@
 export default {
 	dialog: false,
 	maximizedDialog: false,
-	leftPanel: true,
-	rightPanel: true
+	leftPanel: false,
+	rightPanel: false
 }
