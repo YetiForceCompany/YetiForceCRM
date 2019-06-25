@@ -59,7 +59,7 @@
 													title=""
 													data-placement="top"
 													data-content="{$HELPINFO_LABEL}"
-													data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'>
+													data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}">
 													<span class="fas fa-info-circle"></span>
 												</a>
 											{/if}
