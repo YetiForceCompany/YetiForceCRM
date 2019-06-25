@@ -23,7 +23,7 @@
             dense
             flat
             :icon="maximizedDialog ? 'mdi-window-restore' : 'mdi-window-maximize'"
-            @click="maximizedDialog = !maximizedDialog"
+            @click="toggleSize()"
           >
             <q-tooltip>{{ maximizedDialog ? translate('JS_KB_MINIMIZE') : translate('JS_KB_MAXIMIZE') }}</q-tooltip>
           </q-btn>
@@ -38,7 +38,7 @@
 </template>
 <script>
 import { createNamespacedHelpers } from 'vuex'
-const { mapActions } = createNamespacedHelpers('Chat')
+const { mapActions, mapMutations } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatHeader',
   props: {
@@ -77,7 +77,17 @@ export default {
     },
     leftPanel: function(value) {
       this.$emit('leftPanel', value)
-    }
+    },
+    toggleSize() {
+      if (this.maximizedDialog) {
+        this.maximizedDialog = false
+        this.setLeftPanel(false)
+        this.setRightPanel(false)
+      } else {
+        this.maximizedDialog = true
+      }
+    },
+    ...mapMutations(['setLeftPanel', 'setRightPanel'])
   }
 }
 </script>
