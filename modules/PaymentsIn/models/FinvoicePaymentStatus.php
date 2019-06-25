@@ -12,66 +12,31 @@
 /**
  * Class to change the payment status of a sales invoice.
  */
-class PaymentsIn_FinvoicePaymentStatus_Model
+class PaymentsIn_FinvoicePaymentStatus_Model extends PaymentsIn_PaymentStatus_Model
 {
 	/**
-	 * Update if possible.
-	 *
-	 * @param Vtiger_Record_Model $recordModel
-	 *
-	 * @return void
+	 * {@inheritdoc}
 	 */
-	public static function updateIfPossible(Vtiger_Record_Model $recordModel)
-	{
-		if (static::canUpdatePaymentStatus($recordModel)) {
-			(new \App\BatchMethod(['method' => 'PaymentsIn_FinvoicePaymentStatus_Model::updatePaymentStatus', 'params' => [$recordModel->get('finvoiceid')]]))->save();
-		}
-	}
+	protected static $moduleName = 'FInvoice';
 
 	/**
-	 * Update payment status.
-	 *
-	 * @param int $ordersId
-	 *
-	 * @return void
+	 * {@inheritdoc}
 	 */
-	public static function updatePaymentStatus(int $ordersId)
-	{
-		$orderRecordModel = \Vtiger_Record_Model::getInstanceById($ordersId, 'FInvoice');
-		$orderRecordModel->set(
-			'finvoice_paymentstatus',
-			static::calculatePaymentStatus((float) $orderRecordModel->get('sum_gross'), PaymentsIn_Module_Model::getSumOfPaymentsByRecordId($ordersId, 'FInvoice'))
-		);
-		$orderRecordModel->save();
-	}
+	protected static $fieldPaymentStatusName = 'finvoice_paymentstatus';
 
 	/**
-	 * Checking if you can update the payment status.
-	 *
-	 * @param Vtiger_Record_Model $recordModel
-	 *
-	 * @return bool
+	 * {@inheritdoc}
 	 */
-	private static function canUpdatePaymentStatus(Vtiger_Record_Model $recordModel): bool
-	{
-		$fieldModel = \Vtiger_Module_Model::getInstance('FInvoice')->getFieldByName('finvoice_paymentstatus');
-		$returnValue = $fieldModel && $fieldModel->isActiveField() && !$recordModel->isEmpty('finvoiceid');
-		return $returnValue && ($recordModel->isNew() || false !== $recordModel->getPreviousValue('paymentsin_status'));
-	}
+	protected static $relatedRecordIdName = 'finvoiceid';
 
 	/**
-	 * Calculate payment status.
-	 *
-	 * @param float $sumOfGross
-	 * @param float $sumOfPayments
-	 *
-	 * @return string
+	 * {@inheritdoc}
 	 */
-	private static function calculatePaymentStatus(float $sumOfGross, float $sumOfPayments): string
+	protected static function calculatePaymentStatus(float $sumOfGross, float $sumOfPayments): string
 	{
-		if ($sumOfPayments > $sumOfGross || \App\Validator::floatIsEqual($sumOfGross, $sumOfPayments, 8)) {
+		if ($sumOfPayments > $sumOfGross || \App\Validator::floatIsEqual($sumOfGross, $sumOfPayments, 2)) {
 			$paymentStatus = 'PLL_FULLY_PAID';
-		} elseif (\App\Validator::floatIsEqual(0.0, $sumOfPayments, 8)) {
+		} elseif (\App\Validator::floatIsEqual(0.0, $sumOfPayments, 2)) {
 			$paymentStatus = 'PLL_AWAITING_PAYMENT';
 		} else {
 			$paymentStatus = 'PLL_PARTIALLY_PAID';
