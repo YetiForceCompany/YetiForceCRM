@@ -33,8 +33,9 @@ class PaymentsIn_Module_Model extends Vtiger_Module_Model
 				Vtiger_Module_Model::getInstance('PaymentsIn')
 			);
 			$relationModel->set('parentRecord', Vtiger_Record_Model::getInstanceById($recordId, $moduleName));
-			$sumOfPayments = (float) $relationModel->getQuery()
-				->createQuery()
+			$queryGenerator = $relationModel->getQuery();
+			$queryGenerator->addNativeCondition(['vtiger_paymentsin.paymentsin_status' => 'Paid']);
+			$sumOfPayments = (float) $queryGenerator->createQuery()
 				->sum('vtiger_paymentsin.paymentsvalue');
 			\App\Cache::staticSave($cacheNamespace, $recordId, $sumOfPayments);
 		}
