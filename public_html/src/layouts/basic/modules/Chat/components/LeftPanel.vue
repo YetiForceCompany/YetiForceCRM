@@ -2,17 +2,15 @@
 <template>
   <q-drawer :value="leftPanel" side="left" bordered @hide="setLeftPanel(false)">
     <div class="bg-grey-11 fit">
-      <div class="col-12 ">
-        <q-input dense v-model="inputRoom" :placeholder="translate('JS_CHAT_SEARCH_ROOMS')" class="q-px-sm">
-          <template v-slot:prepend>
-            <q-icon name="mdi-magnify" />
-          </template>
-          <template v-slot:append>
-            <q-icon v-show="inputRoom.length > 0" name="mdi-close" @click="inputRoom = ''" class="cursor-pointer" />
-          </template>
-        </q-input>
-      </div>
-      <div class="col-12" v-for="(room, roomType) of data.roomList" :key="roomType" :style="{ fontSize: fontSize }">
+      <q-input dense v-model="inputRoom" :placeholder="translate('JS_CHAT_SEARCH_ROOMS')" class="q-px-sm">
+        <template v-slot:prepend>
+          <q-icon name="mdi-magnify" />
+        </template>
+        <template v-slot:append>
+          <q-icon v-show="inputRoom.length > 0" name="mdi-close" @click="inputRoom = ''" class="cursor-pointer" />
+        </template>
+      </q-input>
+      <div class="q-px-sm" v-for="(room, roomType) of data.roomList" :key="roomType" :style="{ fontSize: fontSize }">
         <q-list dense class="q-mb-none">
           <q-item-label header class="flex items-center">
             <q-item-section avatar>

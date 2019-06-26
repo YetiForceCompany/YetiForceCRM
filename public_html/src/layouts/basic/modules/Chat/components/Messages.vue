@@ -7,7 +7,7 @@
     justify-content: space-between;"
     >
       <div class="q-px-sm">
-        <q-input v-show="!historyTab" dense v-model="inputSearch" :placeholder="placeholder">
+        <q-input v-show="!historyTab" dense v-model="inputSearch" :placeholder="translate('JS_CHAT_SEARCH_MESSAGES')">
           <template v-slot:prepend>
             <q-icon name="mdi-magnify" />
           </template>
@@ -28,46 +28,32 @@
           :content-active-style="contentActiveStyle"
           ref="scrollContainer"
         >
-          <div class="text-center q-mt-md">
-            <q-btn class="">
-              <i aria-hidden="true" class="q-icon mdi mdi-chevron-double-up"></i>
-              Więcej
+          <div v-show="data.showMoreButton" class="text-center q-mt-md">
+            <q-btn icon="mdi-chevron-double-up">
+              {{ translate('JS_CHAT_EARLIER') }}
             </q-btn>
           </div>
-          <div v-for="row in data.chatEntries" :key="row.id">
-            <div class="q-pa-md row justify-center">
-              <q-chat-message
-                :name="row.user_name"
-                :avatar="row.img"
-                :text="[row.messages]"
-                :stamp="row.created"
-                class="col-12 "
-                size="8"
-                :bg-color="row.color"
-                v-if="row.user_name !== 'Administrator'"
-                sent
-              />
-              <q-chat-message
-                :name="row.user_name"
-                :stamp="row.created"
-                :avatar="row.img"
-                :text="[row.messages]"
-                class="col-12"
-                :bg-color="row.color"
-                size="8"
-                text-color="white"
-                v-if="row.user_name === 'Administrator'"
-              />
-            </div>
+          <div class="q-pa-md">
+            <q-chat-message
+              v-for="row in data.chatEntries"
+              :key="row.id"
+              :name="row.user_name"
+              :stamp="row.created"
+              :avatar="row.img"
+              :text="[row.messages]"
+              :bg-color="row.color"
+              size="8"
+              :sent="row.userid === userId"
+            />
           </div>
         </q-scroll-area>
         <q-resize-observer @resize="onResize" />
       </div>
       <div class="q-px-sm" ref="textContainer">
         <q-separator />
-        <q-input borderless v-model="text" type="textarea" autogrow :placeholder="placeholderTexttera" :dense="dense">
+        <q-input borderless v-model="text" type="textarea" autogrow :placeholder="translate('JS_CHAT_MESSAGE')" class="overflow-hidden">
           <template v-slot:append>
-            <q-btn type="submit" :loading="submitting" round color="secondary" icon="mdi-send" />
+            <q-btn :loading="sending" round color="secondary" icon="mdi-send" @click="simulateSubmit" />
           </template>
         </q-input>
       </div>
@@ -76,20 +62,17 @@
 </template>
 <script>
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters } = createNamespacedHelpers('Chat')
+const { mapGetters, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatMessages',
   data() {
     return {
-      iconSize: '.75rem',
-      placeholder: 'Wyszukaj wiadomość',
-      placeholderTexttera: 'Wpisz tutaj swoją wiadomość. Naciśnij SHIFT + ENTER, aby dodać nową linię.',
       text: '',
       inputSearch: '',
       tabHistory: 'ulubiony',
-      submitting: false,
+      sending: false,
       moduleName: 'Chat',
-      dense: false
+      userId: CONFIG.userId
     }
   },
   computed: {
@@ -115,11 +98,19 @@ export default {
     ...mapGetters(['maximizedDialog', 'historyTab', 'data'])
   },
   methods: {
+    ...mapActions(['sendMessage']),
     simulateSubmit() {
-      this.submitting = true
-      setTimeout(() => {
-        this.submitting = false
-      }, 3000)
+      if (this.text.length < this.data.maxLengthMessage) {
+        // clearTimeout(this.timerMessage)
+        this.sendMessage(this.text)
+        this.text = ''
+      } else {
+        Vtiger_Helper_Js.showPnotify({
+          text: app.vtranslate('JS_MESSAGE_TOO_LONG'),
+          type: 'error',
+          animation: 'show'
+        })
+      }
     },
     onResize({ height }) {
       Quasar.utils.dom.css(this.$refs.scrollContainer.$el, {

@@ -38,5 +38,20 @@ export default {
 			let tempData = Object.assign({}, getters['data'])
 			commit('setData', Object.assign(tempData, result))
 		})
+	},
+	sendMessage({ commit, getters }, text) {
+		console.log(getters.data.chatEntries.slice(-1)[0]['id'])
+		AppConnector.request({
+			module: 'Chat',
+			action: 'ChatAjax',
+			mode: 'send',
+			roomType: getters.data.currentRoom.roomType,
+			recordId: getters.data.currentRoom.recordId,
+			message: text,
+			mid: getters.data.chatEntries.slice(-1)[0]['id']
+		}).done(({ result }) => {
+			console.log(result)
+			commit('updateEntries', result)
+		})
 	}
 }

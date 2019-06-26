@@ -17,5 +17,9 @@ export default {
 	},
 	setData(state, data) {
 		state.data = data
+	},
+	updateEntries(state, data) {
+		state.data.chatEntries.push(data.chatEntries.slice(-1)[0])
+		state.data.showMoreButton = data.showMoreButton
 	}
 }

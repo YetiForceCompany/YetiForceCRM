@@ -21,6 +21,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		parent::__construct();
 		$this->exposeMethod('data');
 		$this->exposeMethod('getEntries');
+		$this->exposeMethod('send');
 	}
 
 	/**
@@ -56,6 +57,11 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			'isSoundNotification' => $this->isSoundNotification(),
 			'isDesktopNotification' => $this->isDesktopNotification(),
 			'sendByEnter' => $this->sendByEnter(),
+			'refreshMessageTime' => App\Config::module('Chat', 'REFRESH_MESSAGE_TIME'),
+			'refreshRoomTime' => App\Config::module('Chat', 'REFRESH_ROOM_TIME'),
+			'maxLengthMessage' => App\Config::module('Chat', 'MAX_LENGTH_MESSAGE'),
+			'refreshTimeGlobal' => App\Config::module('Chat', 'REFRESH_TIME_GLOBAL'),
+			'showNumberOfNewMessages' => App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')
 		]);
 		$response->emit();
 	}
@@ -106,6 +112,26 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$response->emit();
 	}
 
+	/**
+	 * Send message function.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function send(\App\Request $request)
+	{
+		$chat = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'));
+		if (!$chat->isRoomExists()) {
+			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
+		}
+		$chat->addMessage(\App\Utils\Completions::encodeAll($request->getForHtml('message')));
+		$chatEntries = $chat->getEntries($request->isEmpty('mid') ? null : $request->getInteger('mid'));
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'chatEntries' => $chatEntries,
+			'showMoreButton' => count($chatEntries) > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT')
+		]);
+		$response->emit();
+	}
 	/**
 	 * Check if sound notification is enabled.
 	 *
