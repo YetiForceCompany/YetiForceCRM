@@ -99,6 +99,6 @@ abstract class PaymentsIn_PaymentStatus_Model
 	{
 		$fieldModel = \Vtiger_Module_Model::getInstance(static::$moduleName)->getFieldByName(static::$fieldPaymentStatusName);
 		$returnValue = $fieldModel && $fieldModel->isActiveField() && !$recordModel->isEmpty(static::$relatedRecordIdName);
-		return $returnValue && ($recordModel->isNew() || false !== $recordModel->getPreviousValue(static::$fieldPaymentStatusName));
+		return $returnValue && ($recordModel->isNew() || false !== $recordModel->getPreviousValue('paymentsin_status'));
 	}
 }
