@@ -1090,8 +1090,8 @@ class QueryGenerator
 	 * @param string $operator
 	 * @param mixed  $groupAnd
 	 *
-	 * @see CustomView::ADVANCED_FILTER_OPTIONS
-	 * @see CustomView::STD_FILTER_CONDITIONS
+	 * @see Condition::ADVANCED_FILTER_OPTIONS
+	 * @see Condition::DATE_OPERATORS
 	 */
 	public function addCondition($fieldName, $value, $operator, $groupAnd = true)
 	{
@@ -1114,7 +1114,7 @@ class QueryGenerator
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return QueryField\BaseField
+	 * @return \App\Conditions\QueryFields\BaseField
 	 */
 	public function getQueryField($fieldName)
 	{
@@ -1122,22 +1122,21 @@ class QueryGenerator
 			return $this->queryFields[$fieldName];
 		}
 		if ('id' === $fieldName) {
-			$queryField = new QueryField\IdField($this, '');
+			$queryField = new Conditions\QueryFields\IdField($this, '');
 
 			return $this->queryFields[$fieldName] = $queryField;
 		}
 		$field = $this->getModuleField($fieldName);
 		if (empty($field)) {
 			Log::error('Not found field model | Field name: ' . $fieldName);
-			throw new \App\Exceptions\AppException('ERR_NOT_FOUND_FIELD_MODEL');
+			throw new \App\Exceptions\AppException('ERR_NOT_FOUND_FIELD_MODEL|'.$fieldName);
 		}
-		$className = '\App\QueryField\\' . ucfirst($field->getFieldDataType()) . 'Field';
+		$className = '\App\Conditions\QueryFields\\' . ucfirst($field->getFieldDataType()) . 'Field';
 		if (!class_exists($className)) {
 			Log::error('Not found query field condition | FieldDataType: ' . ucfirst($field->getFieldDataType()));
-			throw new \App\Exceptions\AppException('ERR_NOT_FOUND_QUERY_FIELD_CONDITION');
+			throw new \App\Exceptions\AppException('ERR_NOT_FOUND_QUERY_FIELD_CONDITION|'.$fieldName);
 		}
 		$queryField = new $className($this, $field);
-
 		return $this->queryFields[$fieldName] = $queryField;
 	}
 
@@ -1193,7 +1192,7 @@ class QueryGenerator
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return QueryField\BaseField
+	 * @return \App\Conditions\QueryFields\BaseField
 	 */
 	private function getQueryRelatedField(\Vtiger_Field_Model $field, $relatedInfo)
 	{
@@ -1204,11 +1203,11 @@ class QueryGenerator
 			return $queryField;
 		}
 		if ('id' === $field->getName()) {
-			$queryField = new QueryField\IdField($this, '');
+			$queryField = new Conditions\QueryFields\IdField($this, '');
 			$queryField->setRelated($relatedInfo);
 			return $this->relatedQueryFields[$relatedModule][$field->getName()] = $queryField;
 		}
-		$className = '\App\QueryField\\' . ucfirst($field->getFieldDataType()) . 'Field';
+		$className = '\App\Conditions\QueryFields\\' . ucfirst($field->getFieldDataType()) . 'Field';
 		if (!class_exists($className)) {
 			Log::error('Not found query field condition');
 			throw new \App\Exceptions\AppException('ERR_NOT_FOUND_QUERY_FIELD_CONDITION');

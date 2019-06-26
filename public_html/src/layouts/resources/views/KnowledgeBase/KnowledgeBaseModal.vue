@@ -14,7 +14,6 @@
     transition-show="slide-up"
     transition-hide="slide-down"
     content-class="quasar-reset"
-
   >
     <drag-resize :coordinates="coordinates" v-on:onChangeCoordinates="onChangeCoordinates" :maximized="maximized">
       <q-card class="KnowledgeBaseModal full-height">
@@ -36,7 +35,7 @@
               :icon="maximized ? 'mdi-window-restore' : 'mdi-window-maximize'"
               @click="maximized = !maximized"
             >
-              <q-tooltip>{{ maximized ? translate('JS_MINIMIZE') : translate('JS_MAXIMIZE') }}</q-tooltip>
+              <q-tooltip>{{ maximized ? translate('JS_KB_MINIMIZE') : translate('JS_KB_MAXIMIZE') }}</q-tooltip>
             </q-btn>
           </template>
           <q-btn dense flat icon="mdi-close" v-close-popup>

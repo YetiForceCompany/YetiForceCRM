@@ -11,7 +11,7 @@
 
 class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -39,8 +39,8 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 		$dateTimeFields = $moduleModel->getFieldsByType(['date', 'datetime']);
 
 		$taskObject = $taskModel->getTaskObject();
-		$taskType = get_class($taskObject);
-		if ($taskType === 'VTCreateEntityTask') {
+		$taskType = \get_class($taskObject);
+		if ('VTCreateEntityTask' === $taskType) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $sourceModule);
 			$mfModel = new $handlerClass();
 			$viewer->assign('TEMPLATES_MAPPING', $mfModel->getTemplatesByModule($sourceModule));
@@ -50,8 +50,8 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 
 				$fieldMapping = \App\Json::decode($taskObject->field_value_mapping);
 				foreach ($fieldMapping as $key => $mappingInfo) {
-					if (array_key_exists($mappingInfo['fieldname'], $ownerFieldModels)) {
-						if ($mappingInfo['value'] == 'assigned_user_id') {
+					if (\array_key_exists($mappingInfo['fieldname'], $ownerFieldModels)) {
+						if ('assigned_user_id' == $mappingInfo['value']) {
 							$fieldMapping[$key]['valuetype'] = 'fieldname';
 						} else {
 							$userRecordModel = Users_Record_Model::getInstanceByName($mappingInfo['value']);
@@ -68,13 +68,13 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 				$taskObject->field_value_mapping = \App\Json::encode($fieldMapping);
 			}
 		}
-		if ($taskType === 'VTUpdateFieldsTask') {
-			if ($sourceModule === 'Documents') {
+		if ('VTUpdateFieldsTask' === $taskType) {
+			if ('Documents' === $sourceModule) {
 				$restrictFields = ['folderid', 'filename', 'filelocationtype'];
 				$viewer->assign('RESTRICTFIELDS', $restrictFields);
 			}
 		}
-		if ($taskType === 'SumFieldFromDependent') {
+		if ('SumFieldFromDependent' === $taskType) {
 			$recordStructureModulesField = [];
 			foreach ($moduleModel->getFieldsByReference() as $referenceField) {
 				foreach ($referenceField->getReferenceList() as $relatedModuleName) {
@@ -85,23 +85,32 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 			$viewer->assign('RECORD_STRUCTURE_RELATED_MODULES', $recordStructureModulesField);
 			$viewer->assign('RECORD_STRUCTURE', Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel)->getStructure());
 		}
-		if ($taskType === 'VTEmailTemplateTask') {
+		if ('VTEmailTemplateTask' === $taskType) {
 			$relations = \App\Field::getRelatedFieldForModule($sourceModule);
 			$documentsModel = Vtiger_Module_Model::getInstance('Documents');
 			$relationsWithDocuments = [];
 			foreach ($relations as $relatedModuleName => $info) {
 				$documentsRelations = Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance($relatedModuleName), $documentsModel);
-				if ($documentsRelations !== false) {
-					$relationsWithDocuments[$info['fieldname']][$info['relmod']]= Vtiger_Field_Model::getInstance($info['fieldid']);
+				if (false !== $documentsRelations) {
+					$relationsWithDocuments[$info['fieldname']][$info['relmod']] = Vtiger_Field_Model::getInstance($info['fieldid']);
 				}
 			}
 			$documentsRelations = Vtiger_Relation_Model::getInstance($moduleModel, $documentsModel);
 			$documents = false;
-			if ($documentsRelations !== false) {
+			if (false !== $documentsRelations) {
 				$documents = true;
 			}
 			$viewer->assign('DOCUMENTS_RELATED_MODULLES', $relationsWithDocuments);
 			$viewer->assign('DOCUMENTS_MODULLES', $documents);
+			$relationsEmails = [];
+			foreach ($moduleModel->getRelations() as $key => $relation) {
+				if (!\in_array($relation->get('relatedModuleName'), [$sourceModule, 'Documents', 'OSSMailView'])) {
+					foreach ($relation->getRelationModuleModel()->getFieldsByType('email') as $key => $field) {
+						$relationsEmails[$relation->get('relatedModuleName') . '::' . $key] = \App\Language::translate($relation->get('relatedModuleName'), $relation->get('relatedModuleName')) . ' - ' . \App\Language::translate($field->getFieldLabel(), $relation->get('relatedModuleName'));
+					}
+				}
+			}
+			$viewer->assign('RELATED_RECORDS_EMAIL', $relationsEmails);
 		}
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('MODULE_MODEL', $moduleModel);

@@ -11,19 +11,6 @@
 class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 {
 	/**
-	 * Unit labels.
-	 *
-	 * @var array
-	 */
-	public static $unitLabels = [
-		'm' => 'LBL_MONTHS',
-		'd' => 'LBL_DAYS',
-		'H' => 'LBL_HOURS',
-		'i' => 'LBL_MINUTES',
-		's' => 'LBL_SECONDS'
-	];
-
-	/**
 	 * Function to get the Id.
 	 *
 	 * @return int|null Id
@@ -207,17 +194,6 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Get time period display value.
-	 *
-	 * @param string $value
-	 */
-	public static function getTimePeriodDisplayValue(string $value)
-	{
-		$time = explode(':', $value);
-		return $time[0] . ' ' . \App\Language::translate(static::$unitLabels[$time[1]]);
-	}
-
-	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value.
 	 *
 	 * @param string $key
@@ -239,7 +215,7 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 		} elseif ('default' === $key) {
 			$value = $value ? \App\Language::translate('LBL_YES') : \App\Language::translate('LBL_NO');
 		} elseif ('reaction_time' === $key || 'idle_time' === $key || 'resolve_time' === $key) {
-			$value = static::getTimePeriodDisplayValue($value);
+			$value = \App\Fields\TimePeriod::getLabel($value);
 		} elseif ('holidays' === $key) {
 			$value = $value ? \App\Language::translate('LBL_HOLIDAYS', 'Settings:BusinessHours') : '';
 		}

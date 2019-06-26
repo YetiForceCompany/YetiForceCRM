@@ -216,6 +216,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$fieldModel->set('name', $name)
 			->set('table', $tableName)
 			->set('generatedtype', $params['generatedtype'] ?? 2)
+			->set('helpinfo', $params['helpinfo'] ?? '')
 			->set('uitype', $uitype)
 			->set('label', $label)
 			->set('typeofdata', $typeofdata)

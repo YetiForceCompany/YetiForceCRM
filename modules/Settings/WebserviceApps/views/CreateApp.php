@@ -21,27 +21,15 @@ class Settings_WebserviceApps_CreateApp_View extends Settings_Vtiger_BasicModal_
 		$qualifiedModuleName = $request->getModule(false);
 		if (!$request->isEmpty('record')) {
 			$recordModel = Settings_WebserviceApps_Record_Model::getInstanceById($request->getInteger('record'));
-			$accountId = $recordModel->get('accounts_id');
-			if ($recordModel && !empty($accountId)) {
-				$recordModel->set('accountsModel', Vtiger_Record_Model::getInstanceById($accountId));
-			}
 		} else {
 			$recordModel = false;
 		}
 		$viewer = $this->getViewer($request);
-		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy('SSingleOrders')));
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('TYPES_SERVERS', Settings_WebserviceApps_Module_Model::getTypes());
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('CreateApp.tpl', $qualifiedModuleName);
 		parent::postProcess($request);
-	}
-
-	public function getModalScripts(App\Request $request)
-	{
-		return $this->checkAndConvertJsScripts([
-			"modules.Settings.{$request->getModule()}.resources.Edit",
-		]);
 	}
 }

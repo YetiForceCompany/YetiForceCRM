@@ -1007,15 +1007,17 @@ window.App.Fields = {
 			}
 			params = this.registerParams(selectElement, params);
 			const computeDropdownHeight = (e, dropdownContainer) => {
-				if (!dropdownContainer.find('.select2-dropdown--above').length) {
-					const dropdownList = dropdownContainer.find('.select2-results__options');
-					const marginBottom = 35;
-					const selectOffsetTop = $(e.currentTarget).offset().top;
-					dropdownList.css({
-						'max-height':
-							$(window).height() - selectOffsetTop - marginBottom - (dropdownList.offset().top - selectOffsetTop)
-					});
-				}
+				setTimeout(() => {
+					if (!dropdownContainer.find('.select2-dropdown--above').length) {
+						const dropdownList = dropdownContainer.find('.select2-results > .select2-results__options');
+						const marginBottom = 35;
+						const selectOffsetTop = $(e.currentTarget).offset().top;
+						dropdownList.css({
+							'max-height':
+								$(window).height() - selectOffsetTop - marginBottom - (dropdownList.offset().top - selectOffsetTop)
+						});
+					}
+				}, 100)
 			};
 			selectElement.each(function() {
 				let select = $(this);
@@ -1801,8 +1803,8 @@ window.App.Fields = {
 				this.period = split[1];
 			} else {
 				this.time = 0;
-				this.period = 'm';
-				this.value = '0:m';
+				this.period = 'H';
+				this.value = '0:H';
 				container.val(this.value);
 			}
 			this.injectContent();
@@ -1844,11 +1846,9 @@ window.App.Fields = {
 				<div class="input-group-append">
 					<a href class="btn btn-default c-time-period-input-modifier c-time-period-input-modifier--plus-1"><span class="fas fa-plus"></span></a>
 					<select class="select2 js-time-period-select time-period-${this.container.attr('name')}">
-						<option value="m"${this.period === 'm' ? 'selected="selected"' : ''}>${app.vtranslate('JS_MONTHS_FULL')}</option>
-						<option value="d"${this.period === 'd' ? 'selected="selected"' : ''}>${app.vtranslate('JS_DAYS_FULL')}</option>
-						<option value="H"${this.period === 'H' ? 'selected="selected"' : ''}>${app.vtranslate('JS_HOURS_FULL')}</option>
-						<option value="i"${this.period === 'i' ? 'selected="selected"' : ''}>${app.vtranslate('JS_MINUTES_FULL')}</option>
-						<option value="s"${this.period === 's' ? 'selected="selected"' : ''}>${app.vtranslate('JS_SECONDS_FULL')}</option>
+						<option value="d"${this.period === 'd' ? ' selected="selected"' : ''}>${app.vtranslate('JS_DAYS_FULL')}</option>
+						<option value="H"${this.period === 'H' ? ' selected="selected"' : ''}>${app.vtranslate('JS_HOURS_FULL')}</option>
+						<option value="i"${this.period === 'i' ? ' selected="selected"' : ''}>${app.vtranslate('JS_MINUTES_FULL')}</option>
 					</select>
 				</div>
 			</div>`;

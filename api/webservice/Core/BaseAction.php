@@ -22,7 +22,7 @@ class BaseAction
 
 	public function checkAction()
 	{
-		if ((isset($this->allowedMethod) && !in_array($this->controller->method, $this->allowedMethod)) || !method_exists($this, $this->controller->method)) {
+		if ((isset($this->allowedMethod) && !\in_array($this->controller->method, $this->allowedMethod)) || !method_exists($this, $this->controller->method)) {
 			throw new \Api\Core\Exception('Invalid method', 405);
 		}
 		$this->checkPermission();
@@ -158,16 +158,6 @@ class BaseAction
 	{
 		$parentId = \Api\Portal\Privilege::USER_PERMISSIONS !== $this->getPermissionType() ? $this->getParentCrmId() : 0;
 		return empty($parentId) || (bool) \Vtiger_Record_Model::getInstanceById($parentId)->get('check_stock_levels');
-	}
-
-	/**
-	 * Get pricebook Id.
-	 *
-	 * @return null|int
-	 */
-	public function getPricebookId(): ?int
-	{
-		return \Vtiger_Record_Model::getInstanceById($this->getParentCrmId(), 'Accounts')->get('pricebook_id');
 	}
 
 	/**

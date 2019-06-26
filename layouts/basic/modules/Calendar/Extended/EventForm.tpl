@@ -53,17 +53,17 @@
 							{assign var="refrenceListCount" value=count($refrenceList)}
 							<div class="row fieldsLabelValue pl-0 pr-0 mb-2">
 								<div class="col-12">
-									{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
-									{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
+									{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL,$VIEW)}
 									<label class="muted mt-0">
-										{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-											<a href="#" class="js-popover-tooltip mr-1" data-toggle="popover"
-												data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}"
-												data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'
-												role="tooltip">
-												<span class="fas fa-info-circle fa-sm align-baseline"></span>
-											</a>
-										{/if}
+										{if $HELPINFO_LABEL}
+												<a href="#" class="js-help-info float-right u-cursor-pointer"
+													title=""
+													data-placement="top"
+													data-content="{$HELPINFO_LABEL}"
+													data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}">
+													<span class="fas fa-info-circle"></span>
+												</a>
+											{/if}
 										{if $FIELD_MODEL->isMandatory() eq true}
 											<span class="redColor">*</span>
 										{/if}

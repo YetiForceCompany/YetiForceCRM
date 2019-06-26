@@ -206,7 +206,8 @@ class RecordStatus
 						'fieldName' => $name,
 						'fieldTypeList' => 0,
 						'generatedtype' => 1,
-						'displayType' => 9,
+						'displayType' => 2,
+						'helpinfo' => 'Detail'
 					]);
 				}
 			}
@@ -292,10 +293,15 @@ class RecordStatus
 		$timeCountingValues = self::getTimeCountingValues($fieldName);
 		$previous = $recordModel->getPreviousValue($fieldName);
 		$current = $recordModel->get($fieldName);
-		if ($previous && isset($timeCountingValues[$previous]) && ($timeCountingValues[$current] ?? '') !== $timeCountingValues[$previous]
-		&& ($date = self::getStateDate($recordModel, $timeCountingValues[$previous])) && ($key = self::$fieldsByStateTime[$timeCountingValues[$previous]] ?? '')) {
-			$recordModel->set($key . '_range_time', Utils\ServiceContracts::getDiff($date, '', $recordModel));
+		$currentCountingValue = $timeCountingValues[$current] ?? '';
+		$previousCountingValue = $timeCountingValues[$previous] ?? '';
+		if ($previous && $currentCountingValue !== $previousCountingValue
+		&& ($date = self::getStateDate($recordModel, $previousCountingValue)) && ($key = self::$fieldsByStateTime[$previousCountingValue] ?? '')) {
+			$recordModel->set($key . '_range_time', Utils\ServiceContracts::getDiff($date, $recordModel));
 			$recordModel->set($key . '_datatime', date('Y-m-d H:i:s'));
+		}
+		if (self::TIME_COUNTING_IDLE === $currentCountingValue) {
+			\App\Utils\ServiceContracts::updateExpectedTimes($recordModel, ['idle']);
 		}
 	}
 

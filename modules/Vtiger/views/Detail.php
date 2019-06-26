@@ -34,6 +34,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 */
 	protected $pageTitle = 'LBL_VIEW_DETAIL';
 
+	/**
+	 * Construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -228,8 +231,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			'~libraries/leaflet.awesome-markers/dist/leaflet.awesome-markers.js',
 			'modules.OpenStreetMap.resources.Map'
 		];
-
-		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
+		return array_merge(
+			parent::getFooterScripts($request),
+			$this->checkAndConvertJsScripts($jsFileNames)
+		);
 	}
 
 	public function showDetailViewByMode(App\Request $request)
@@ -477,7 +482,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		if ($targetControllerClass) {
 			$targetController = new $targetControllerClass();
-
 			return $targetController->process($request);
 		}
 	}
@@ -1105,4 +1109,5 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('VIEW', 'Detail');
 		return $viewer->view('Detail/InventoryView.tpl', $moduleName, true);
 	}
+
 }

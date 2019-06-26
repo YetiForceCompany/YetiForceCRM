@@ -55,8 +55,8 @@
     "LBL_TRUE": "Pravilno",
     "LBL_URL": "URL naslov",
     "LBL_USERNAME": "Uporabniško ime",
-    "LBL_FIRST_NAME": "First name",
-    "LBL_LAST_NAME": "Last name",
+    "LBL_FIRST_NAME": "Ime",
+    "LBL_LAST_NAME": "Priimek",
     "LBL_SETUP_WIZARD_DESCRIPTION_1": "YetiForce je inovativna in varna aplikacija, ki podpira različne poslovne procese, kot so trženje, prodaja, projekti, podpora, računovodstvo, logistika in GDPR.\nSistem je bil v razvrstitvi Capterra imenovan za najbolj ugodno CRM programsko opremo, s čimer je premagal več kot 500 drugih CRM rešitev.\nPopoln dostop do izvorne kode, naše velike in aktivne skupnosti GitHub in vaša pomoč nam omogoča, da ustvarimo še boljši sistem.\nHvala za vaše zanimanje za YetiForce. Če naletite na težave, jih prijavite tukaj:",
     "LBL_SETUP_WIZARD_DESCRIPTION_2": "Če iščete neposredno podporo, razmislite o nakupu enega od naših paketov podpore. Ponujamo tudi konfigurirane in optimizirane strežnike (Hosting, VPS Public Cloud, VPS Private Cloud), ki zagotavljajo najvišjo kakovost in popolno združljivost s sistemom YetiForce. Za več informacij obiščite našo trgovino.",
     "LBL_SETUP_WIZARD_BODY": "Dobrodošli v čarovniku za namestitev YetiForce",
@@ -109,12 +109,12 @@
     "LBL_SETUP_WIZARD_HEADER": "Čarovnik za namestitev YetiForce",
     "LBL_VERSION": "Različica",
     "LBL_ERROR_INSTALL": "Installation unsuccessful",
-    "LBL_NAME": "The name of your company",
-    "LBL_INDUSTRY": "Industry",
-    "LBL_CITY": "City",
-    "LBL_COUNTRY": "Country",
-    "LBL_COMPANYSIZE": "The number of employees of the company",
-    "LBL_WEBSITE": "Your company's website"
+    "LBL_NAME": "Ime vašega podjetja",
+    "LBL_INDUSTRY": "Dejavnost",
+    "LBL_CITY": "Mesto",
+    "LBL_COUNTRY": "Država",
+    "LBL_COMPANYSIZE": "Število zaposlenih podjetja",
+    "LBL_WEBSITE": "Spletna stran podjetja"
   },
   "js": {
     "JS_ALL": "Vsi",
@@ -132,11 +132,11 @@
     "LBL_INVALID_EMAIL_ERROR": "Opozorilo! Neveljaven e-poštni naslov.",
     "LBL_INVALID_USERNAME_ERROR": "Neveljavno uporabniško ime",
     "LBL_RESOLVE_ERROR": "Preden nadaljujete z namestitvijo popravite napake",
-    "JS_SELECT_AN_OPTION": "Select an option",
-    "JS_S_LENGTH_MENU": "Show _MENU_ entries",
-    "JS_SEARCH": "Search:",
-    "JS_S_INFO": "Showing _START_ to _END_ of _TOTAL_ entries",
-    "JS_S_PREVIOUS": "Last",
+    "JS_SELECT_AN_OPTION": "Izberi možnost",
+    "JS_S_LENGTH_MENU": "Prikaži _MENU_ postavke",
+    "JS_SEARCH": "Išči:",
+    "JS_S_INFO": "Prikazuje _START_, da _END_ od _TOTAL_ vnosov",
+    "JS_S_PREVIOUS": "Zadnji",
     "JS_S_NEXT": "Naslednji"
   }
 }

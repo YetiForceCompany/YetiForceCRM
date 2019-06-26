@@ -35,6 +35,9 @@ class PriceBooks_Module_Model extends Vtiger_Module_Model
 				$queryGenerator->addNativeCondition(['not in', 'vtiger_pricebookproductrel.pricebookid', $subQuery]);
 			}
 		}
+		if ('Accounts' === $sourceModule) {
+			$queryGenerator->addCondition('currency_id', \App\Fields\Currency::getDefault()['id'], 'e');
+		}
 	}
 
 	/**

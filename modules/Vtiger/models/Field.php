@@ -1493,21 +1493,42 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
-	 * Return allowed operators for field.
+	 * Return allowed query operators for field.
 	 *
 	 * @return string[]
 	 */
-	public function getOperators()
+	public function getQueryOperators():array
 	{
-		$operators = $this->getUITypeModel()->getOperators();
+		$operators = $this->getUITypeModel()->getQueryOperators();
 		$oper = [];
 		foreach ($operators as $op) {
 			$label = '';
-			if (isset(\App\CustomView::ADVANCED_FILTER_OPTIONS[$op])) {
-				$label = \App\CustomView::ADVANCED_FILTER_OPTIONS[$op];
+			if (isset(\App\Condition::STANDARD_OPERATORS[$op])) {
+				$label = \App\Condition::STANDARD_OPERATORS[$op];
 			}
-			if (isset(\App\CustomView::DATE_FILTER_CONDITIONS[$op])) {
-				$label = \App\CustomView::DATE_FILTER_CONDITIONS[$op]['label'];
+			if (isset(\App\Condition::DATE_OPERATORS[$op])) {
+				$label = \App\Condition::DATE_OPERATORS[$op]['label'];
+			}
+			$oper[$op] = $label;
+		}
+		return $oper;
+	}
+	/**
+	 * Return allowed record operators for field.
+	 *
+	 * @return string[]
+	 */
+	public function getRecordOperators():array
+	{
+		$operators = $this->getUITypeModel()->getRecordOperators();
+		$oper = [];
+		foreach ($operators as $op) {
+			$label = '';
+			if (isset(\App\Condition::STANDARD_OPERATORS[$op])) {
+				$label = \App\Condition::STANDARD_OPERATORS[$op];
+			}
+			if (isset(\App\Condition::DATE_OPERATORS[$op])) {
+				$label = \App\Condition::DATE_OPERATORS[$op]['label'];
 			}
 			$oper[$op] = $label;
 		}
@@ -1523,7 +1544,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getOperatorTemplateName(string $operator)
 	{
-		if (in_array($operator, App\CustomView::FILTERS_WITHOUT_VALUES + array_keys(App\CustomView::DATE_FILTER_CONDITIONS))) {
+		if (in_array($operator, App\Condition::OPERATORS_WITHOUT_VALUES + array_keys(App\Condition::DATE_OPERATORS))) {
 			return;
 		}
 		return $this->getUITypeModel()->getOperatorTemplateName($operator);

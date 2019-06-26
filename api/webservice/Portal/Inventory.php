@@ -66,19 +66,37 @@ class Inventory
 	protected $pricebookId;
 
 	/**
+	 * Undocumented variable.
+	 *
+	 * @var \Vtiger_Record_Model
+	 */
+	protected $parentRecordModel;
+
+	/**
+	 * Sequence.
+	 *
+	 * @var int
+	 */
+	protected $seq;
+
+	/**
 	 * Construct.
 	 *
 	 * @param string   $moduleName
 	 * @param array    $inventory
 	 * @param int      $storage
-	 * @param int|null $pricebookId
+	 * @param int|null $accountId
 	 */
-	public function __construct(string $moduleName, array $inventory, int $storage, ?int $pricebookId)
+	public function __construct(string $moduleName, array $inventory, int $storage, ?int $accountId)
 	{
 		$this->moduleName = $moduleName;
 		$this->inventory = $inventory;
 		$this->storage = $storage;
-		$this->pricebookId = $pricebookId;
+		if (!empty($accountId)) {
+			$this->parentRecordModel = \Vtiger_Record_Model::getInstanceById($accountId, 'Accounts');
+			$this->pricebookId = $this->parentRecordModel->get('pricebook_id');
+		}
+
 		$this->getProductsByInventory();
 	}
 
@@ -142,15 +160,14 @@ class Inventory
 		foreach ($this->inventory as $inventoryKey => $inventoryItem) {
 			foreach (\Vtiger_Inventory_Model::getInstance($this->moduleName)->getFields() as $columnName => $fieldModel) {
 				if ('tax' === $columnName) {
-					$taxes = explode(',', $this->products[$inventoryKey]['taxes']);
-					$taxes = current($taxes);
-					if ($taxes) {
-						$allTaxes = \Vtiger_Inventory_Model::getGlobalTaxes();
-						$item['taxparam'] = \App\Json::encode([
-							'aggregationType' => 'individual',
-							'individualTax' => $allTaxes[$taxes]['value']
-						]);
+					if (empty($this->parentRecordModel)) {
+						$availableTaxes = 'LBL_GROUP';
+						$regionalTaxes = '';
+					} else {
+						$availableTaxes = $this->parentRecordModel->get('accounts_available_taxes');
+						$regionalTaxes = $this->parentRecordModel->get('taxes');
 					}
+					$item['taxparam'] = \App\Json::encode(\Api\Portal\Record::getTaxParam($availableTaxes, $this->products[$inventoryKey]['taxes'], $regionalTaxes));
 					continue;
 				}
 				if (\in_array($fieldModel->getColumnName(), ['total', 'margin', 'marginp', 'net', 'gross', 'discount'])) {
@@ -221,6 +238,18 @@ class Inventory
 	}
 
 	/**
+	 * Returns sequence.
+	 *
+	 * @param int $inventoryKey
+	 *
+	 * @return int
+	 */
+	protected function getInventorySeq(int $inventoryKey): int
+	{
+		return ++$this->seq;
+	}
+
+	/**
 	 * Get products by inventory.
 	 */
 	private function getProductsByInventory()
@@ -231,7 +260,7 @@ class Inventory
 		$queryService = (new \App\Db\Query())
 			->select([
 				'module' => new \yii\db\Expression("'Service'"), 'id' => 'serviceid', 'service_usageunit',
-				'subunit' => new \yii\db\Expression("''"), 'currency_id', 'description', 'unit_price', 'purchase', 'taxes',
+				'subunit' => new \yii\db\Expression("''"), 'description', 'unit_price', 'purchase', 'taxes',
 				'quantity' => new \yii\db\Expression('0'),
 				'vtiger_pricebookproductrel.listprice'
 			])
@@ -244,7 +273,7 @@ class Inventory
 		$dataReader = (new \App\Db\Query())
 			->select([
 				'module' => new \yii\db\Expression("'Products'"), 'id' => 'vtiger_products.productid', 'usageunit',
-				'subunit', 'currency_id', 'description', 'unit_price', 'purchase', 'taxes', 'quantity' => 'u_#__istorages_products.qtyinstock',
+				'subunit', 'description', 'unit_price', 'purchase', 'taxes', 'quantity' => 'u_#__istorages_products.qtyinstock',
 				'vtiger_pricebookproductrel.listprice'
 			])
 			->from('vtiger_products')

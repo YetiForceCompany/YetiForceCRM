@@ -89,7 +89,9 @@
     "SINGLE_Vendors": "Vendor",
     "FL_CHECK_STOCK_LEVELS": "Check stock levels",
     "FL_PRICEBOOK": "Pricebook",
-    "FL_SUM_ORDERS": "Sum of open sales orders"
+    "FL_SUM_ORDERS": "Sum of open sales orders",
+    "FL_TAXES": "Taxes",
+    "FL_AVAILABLE_TAXES": "Available taxes"
   },
   "js": {
     "JS_DUPLICTAE_CREATION_CONFIRMATION": "Account name already exists. Do you want to create a duplicate record?",

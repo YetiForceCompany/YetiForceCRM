@@ -57,15 +57,7 @@ jQuery.Class(
 					data: postData
 				};
 				if (type === 'sendByForm') {
-					let form = $('<form method="POST" action="' + massActionUrl + '">');
-					if (typeof csrfMagicName !== 'undefined') {
-						form.append($('<input />', { name: csrfMagicName, value: csrfMagicToken }));
-					}
-					$.each(postData, function(k, v) {
-						form.append($('<input />', { name: k, value: v }));
-					});
-					$('body').append(form);
-					form.submit();
+					app.openUrlMethodPost(massActionUrl, postData);
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 				} else {
 					AppConnector.request(actionParams)
@@ -1235,7 +1227,18 @@ jQuery.Class(
 			let container = $('.listViewEntriesDiv');
 			if (this.relatedView !== 'ListPreview') {
 				container.each((index, element) => {
-					app.showNewScrollbarTopBottomRight($(element));
+					if (container.closest('.js-detail-widget-content').length) {
+						element = container.closest('.js-detail-widget-content');
+						element.each((index, el) => {
+							if (!$(el).hasClass('ps')) {
+								app.showNewScrollbarTopBottomRight($(el));
+							}
+						});
+					} else {
+						if (!$(element).hasClass('ps')) {
+							app.showNewScrollbarTopBottomRight($(element));
+						}
+					}
 				});
 			}
 		},

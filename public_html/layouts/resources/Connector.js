@@ -133,8 +133,8 @@ window.AppConnector = {
 			}
 			aDeferred.reject(textStatus, errorThrown, jqXHR);
 		};
-		if(params.data === '') {
-			app.showNotify({type: 'error', title: app.vtranslate('JS_ERROR')})
+		if (params.data === '') {
+			app.showNotify({ type: 'error', title: app.vtranslate('JS_ERROR') });
 			return aDeferred.reject();
 		}
 		jQuery.ajax(params);
@@ -158,18 +158,7 @@ window.AppConnector = {
 		return aDeferred.promise();
 	},
 
-	requestForm: function(url, params) {
-		var newEle = '<form action=' + url + ' method="POST">';
-		if (typeof csrfMagicName !== 'undefined') {
-			newEle += '<input type="hidden" name="' + csrfMagicName + '"  value=\'' + csrfMagicToken + "'>";
-		}
-		if (typeof params !== 'undefined') {
-			jQuery.each(params, function(index, value) {
-				newEle += '<input type="hidden" name="' + index + '"  value=\'' + value + "'>";
-			});
-		}
-		newEle += '</form>';
-		var form = new jQuery(newEle);
-		form.appendTo('body').submit();
+	requestForm: function(url, params = {}) {
+		app.openUrlMethodPost(url, params);
 	}
 };

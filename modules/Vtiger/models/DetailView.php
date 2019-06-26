@@ -87,7 +87,7 @@ class Vtiger_DetailView_Model extends \App\Base
 			Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
 			$wfs = new VTWorkflowManager();
 			$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$TRIGGER);
-			if (count($workflows) > 0) {
+			if (\count($workflows) > 0) {
 				$detailViewLinks[] = [
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => '',
@@ -380,27 +380,24 @@ class Vtiger_DetailView_Model extends \App\Base
 
 	/**
 	 * Function to get the detail view widgets.
-	 *
-	 * @return <Array> - List of widgets , where each widget is an Vtiger_Link_Model
 	 */
 	public function getWidgets()
 	{
-		if (count($this->widgetsList) > 0) {
-			return;
-		}
-		$moduleModel = $this->getModule();
-		$moduleName = $this->getModuleName();
-		$recordId = $this->getRecord()->getId();
-		$modelWidgets = $moduleModel->getWidgets($moduleName);
-		foreach ($modelWidgets as $widgetCol) {
-			foreach ($widgetCol as $widget) {
-				$widgetName = 'Vtiger_' . $widget['type'] . '_Widget';
-				if (class_exists($widgetName)) {
-					$this->widgetsList[] = $widget['type'];
-					$widgetInstance = new $widgetName($moduleName, $moduleModel, $recordId, $widget);
-					$widgetObject = $widgetInstance->getWidget();
-					if (count($widgetObject) > 0) {
-						$this->widgets[$widgetObject['wcol']][] = $widgetObject;
+		if (empty($this->widgetsList)) {
+			$moduleModel = $this->getModule();
+			$moduleName = $this->getModuleName();
+			$recordId = $this->getRecord()->getId();
+			$modelWidgets = $moduleModel->getWidgets($moduleName);
+			foreach ($modelWidgets as $widgetCol) {
+				foreach ($widgetCol as $widget) {
+					$widgetName = Vtiger_Loader::getComponentClassName('Widget', $widget['type'], $moduleName);
+					if (class_exists($widgetName)) {
+						$this->widgetsList[] = $widget['type'];
+						$widgetInstance = new $widgetName($moduleName, $moduleModel, $recordId, $widget);
+						$widgetObject = $widgetInstance->getWidget();
+						if (\count($widgetObject) > 0) {
+							$this->widgets[$widgetObject['wcol']][] = $widgetObject;
+						}
 					}
 				}
 			}

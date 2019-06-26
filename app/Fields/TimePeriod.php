@@ -17,6 +17,17 @@ namespace App\Fields;
 class TimePeriod
 {
 	/**
+	 * Unit labels.
+	 *
+	 * @var array
+	 */
+	public static $unitLabels = [
+		'd' => 'LBL_DAYS',
+		'H' => 'LBL_HOURS',
+		'i' => 'LBL_MINUTES',
+	];
+
+	/**
 	 * Convert to minutes.
 	 *
 	 * @param string $value
@@ -34,10 +45,18 @@ class TimePeriod
 			case 'd':
 				$multiplier = 60 * 24;
 				break;
-			default:
-				$multiplier = 0;
-				break;
 		}
 		return $number * $multiplier;
+	}
+
+	/**
+	 * Get time period label.
+	 *
+	 * @param string $value
+	 */
+	public static function getLabel(string $value)
+	{
+		$time = explode(':', $value);
+		return $time[0] . ' ' . \App\Language::translate(static::$unitLabels[$time[1]]);
 	}
 }

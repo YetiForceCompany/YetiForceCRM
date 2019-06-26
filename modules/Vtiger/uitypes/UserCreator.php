@@ -51,7 +51,7 @@ class Vtiger_UserCreator_UIType extends Vtiger_Reference_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getOperators()
+	public function  getQueryOperators()
 	{
 		return ['e', 'n', 'y', 'ny', 'om'];
 	}

@@ -25,9 +25,15 @@ var App = (window.App = {
 						slef.treeInstance = container;
 						slef.treeInstance
 							.on('select_node.jstree', function(e, data) {
+								if (data.event !== undefined && $(data.event.target).hasClass('jstree-checkbox')) {
+									return;
+								}
 								data.instance.select_node(data.node.children_d);
 							})
 							.on('deselect_node.jstree', function(e, data) {
+								if (data.event !== undefined && $(data.event.target).hasClass('jstree-checkbox')) {
+									return;
+								}
 								data.instance.deselect_node(data.node.children_d);
 							})
 							.jstree({
@@ -1735,6 +1741,27 @@ var app = (window.app = {
 		} else {
 			window.location.href = url;
 		}
+	},
+	openUrlMethodPost(url, postData = {}, formAttr = {}) {
+		$.extend(formAttr, {
+			method: 'post',
+			action: url,
+			style: 'display:none;'
+		});
+		let form = $('<form></form>', formAttr);
+		if (typeof csrfMagicName !== 'undefined') {
+			postData[csrfMagicName] = csrfMagicToken;
+		}
+		$.each(postData, (index, value) => {
+			let input = $(document.createElement('input'));
+			input.attr('type', 'hidden');
+			input.attr('name', index);
+			input.val(value);
+			form.append(input);
+		});
+		$('body').append(form);
+		form.submit();
+		form.remove();
 	},
 	showConfirmation: function(data, element) {
 		var params = {};

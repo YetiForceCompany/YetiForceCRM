@@ -384,13 +384,23 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
-	 * Return allowed operators for field.
+	 * Return allowed query operators for field.
 	 *
 	 * @return string[]
 	 */
-	public function getOperators()
+	public function getQueryOperators()
 	{
 		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
+	}
+
+	/**
+	 * Return allowed record operators for field.
+	 *
+	 * @return string[]
+	 */
+	public function getRecordOperators(): array
+	{
+		return array_merge($this->getQueryOperators(), ['hs']);
 	}
 
 	/**

@@ -16,6 +16,9 @@ namespace Api\Portal\SSingleOrders;
  */
 class Delivery extends \Api\Core\BaseAction
 {
+	/** @var string[] Allowed request methods */
+	public $allowedMethod = ['GET'];
+
 	/**
 	 * {@inheritdoc}
 	 */

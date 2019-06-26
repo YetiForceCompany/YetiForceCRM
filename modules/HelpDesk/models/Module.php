@@ -183,6 +183,12 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model
 			foreach ($listColumns as $columnname) {
 				if ('assigned_user_id' === $columnname) {
 					$parentInfo[$columnname] = $row['user_name'];
+				} elseif ('ticket_title' === $columnname) {
+					$parentInfo[$columnname] = $row['title'];
+				} elseif ('ticketstatus' === $columnname) {
+					$parentInfo[$columnname] = App\Language::translate($row['status'], 'HelpDesk');
+				} elseif ('ticketpriorities' === $columnname) {
+					$parentInfo[$columnname] = App\Language::translate($row['priority'], 'HelpDesk');
 				} else {
 					$parentInfo[$columnname] = $row[$columnname];
 				}
@@ -232,6 +238,12 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model
 				foreach ($listColumns as $columnname) {
 					if ('assigned_user_id' === $columnname) {
 						$childSalesProcessesInfo[$columnname] = $row['user_name'];
+					} elseif ('ticket_title' === $columnname) {
+						$childSalesProcessesInfo[$columnname] = $row['title'];
+					} elseif ('ticketstatus' === $columnname) {
+						$childSalesProcessesInfo[$columnname] = App\Language::translate($row['status'], 'HelpDesk');
+					} elseif ('ticketpriorities' === $columnname) {
+						$childSalesProcessesInfo[$columnname] = App\Language::translate($row['priority'], 'HelpDesk');
 					} else {
 						$childSalesProcessesInfo[$columnname] = $row[$columnname];
 					}

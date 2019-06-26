@@ -86,6 +86,21 @@ class ServiceContracts
 	}
 
 	/**
+	 * Get all business hours.
+	 *
+	 * @return array
+	 */
+	public static function getAllBusinessHours(): array
+	{
+		if (\App\Cache::has('UtilsServiceContracts::getAllBusinessHours', '')) {
+			return \App\Cache::get('UtilsServiceContracts::getAllBusinessHours', '');
+		}
+		$rows = (new \App\Db\Query())->from('s_#__business_hours')->all(\App\Db::getInstance('admin'));
+		\App\Cache::save('UtilsServiceContracts::getAllBusinessHours', '', $rows);
+		return $rows;
+	}
+
+	/**
 	 * Get business hours by ids .
 	 *
 	 * @param string $ids ex. '1,2'
@@ -127,7 +142,7 @@ class ServiceContracts
 	 *
 	 * @return array
 	 */
-	private static function getSlaPolicyByModule(int $moduleId): array
+	public static function getSlaPolicyByModule(int $moduleId): array
 	{
 		if (\App\Cache::has('UtilsServiceContracts::getSlaPolicyByModule', $moduleId)) {
 			return \App\Cache::get('UtilsServiceContracts::getSlaPolicyByModule', $moduleId);
@@ -140,19 +155,63 @@ class ServiceContracts
 	/**
 	 * Get sla policy from service contracts by crm id.
 	 *
-	 * @param int $crmId
-	 * @param int $sourceModuleId
+	 * @param int      $crmId
+	 * @param int|null $sourceModuleId
 	 *
 	 * @return array
 	 */
-	private static function getSlaPolicyForServiceContracts(int $crmId, int $sourceModuleId): array
+	public static function getSlaPolicyForServiceContracts(int $crmId, ?int $sourceModuleId = null): array
 	{
-		if (\App\Cache::has('UtilsServiceContracts::getSlaPolicyForServiceContracts', "$crmId|$sourceModuleId")) {
-			return \App\Cache::get('UtilsServiceContracts::getSlaPolicyForServiceContracts', "$crmId|$sourceModuleId");
+		if (\App\Cache::has('UtilsServiceContracts::getSlaPolicyForServiceContracts', $crmId)) {
+			$rows = \App\Cache::get('UtilsServiceContracts::getSlaPolicyForServiceContracts', $crmId);
+		} else {
+			$rows = (new \App\Db\Query())->from('u_#__servicecontracts_sla_policy')->where(['crmid' => $crmId])->all();
+			\App\Cache::save('UtilsServiceContracts::getSlaPolicyForServiceContracts', $crmId, $rows);
 		}
-		$rows = (new \App\Db\Query())->from('u_#__servicecontracts_sla_policy')->where(['crmid' => $crmId, 'tabid' => $sourceModuleId])->all();
-		\App\Cache::save('UtilsServiceContracts::getSlaPolicyForServiceContracts', "$crmId|$sourceModuleId", $rows);
+		if ($sourceModuleId) {
+			foreach ($rows as $key => $value) {
+				if ($sourceModuleId !== $value['tabid']) {
+					unset($rows[$key]);
+				}
+			}
+		}
 		return $rows;
+	}
+
+	/**
+	 * Delete sla policy for service contracts.
+	 *
+	 * @param int $crmId
+	 * @param int $sourceModuleId
+	 *
+	 * @return void
+	 */
+	public static function deleteSlaPolicy(int $crmId, int $sourceModuleId)
+	{
+		\App\Db::getInstance()->createCommand()
+			->delete('u_#__servicecontracts_sla_policy', ['crmid' => $crmId, 'tabid' => $sourceModuleId])->execute();
+		\App\Cache::delete('UtilsServiceContracts::getSlaPolicyForServiceContracts', $crmId);
+	}
+
+	/**
+	 * Save sla policy for service contracts.
+	 *
+	 * @param array $data
+	 * @param bool  $delete
+	 *
+	 * @return void
+	 */
+	public static function saveSlaPolicy(array $data, bool $delete = true)
+	{
+		$db = \App\Db::getInstance();
+		if ($delete) {
+			self::deleteSlaPolicy($data['crmid'], $data['tabid']);
+		}
+		if ($data['policy_type']) {
+			$db->createCommand()->insert('u_#__servicecontracts_sla_policy', $data)->execute();
+			return $db->getLastInsertID();
+		}
+		return 0;
 	}
 
 	/**
@@ -171,9 +230,9 @@ class ServiceContracts
 				case 1:
 					$slaPolicy = self::getSlaPolicyById($row['sla_policy_id']);
 					$conditions = \App\Json::decode($slaPolicy['conditions']);
-					if ($conditions && \App\Condition::checkCondition($conditions, $recordModel)) {
+					if ($conditions && \App\Condition::checkConditions($conditions, $recordModel)) {
 						if (empty($slaPolicy['operational_hours'])) {
-							return [];
+							return $slaPolicy;
 						}
 						if ($slaPolicy['business_hours']) {
 							return self::optimizeBusinessHours(explode(',', $slaPolicy['business_hours']));
@@ -182,7 +241,7 @@ class ServiceContracts
 					break;
 				case 2:
 					$conditions = \App\Json::decode($row['conditions']);
-					if ($conditions && $row['business_hours'] && \App\Condition::checkCondition($conditions, $recordModel)) {
+					if ($conditions && $row['business_hours'] && \App\Condition::checkConditions($conditions, $recordModel)) {
 						$businessHours = \array_merge($businessHours, explode(',', $row['business_hours']));
 						if ((isset($times['reaction_time']) && \App\Fields\TimePeriod::convertToMinutes($row['reaction_time']) < \App\Fields\TimePeriod::convertToMinutes($times['reaction_time']))
 						|| !isset($times['reaction_time'])) {
@@ -305,6 +364,9 @@ class ServiceContracts
 	public static function getDiffFromServiceContracts(string $start, string $end, int $id, \Vtiger_Record_Model $recordModel): int
 	{
 		if ($rules = self::getRulesForServiceContracts($id, $recordModel)) {
+			if (isset($rules['id'])) {
+				return round(\App\Fields\DateTime::getDiff($start, $end, 'minutes'));
+			}
 			$time = 0;
 			foreach ($rules as $row) {
 				$time += self::businessTime($start, $end, $row['working_hours_from'], $row['working_hours_to'], explode(',', $row['working_days']), !empty($row['holidays']));
@@ -344,14 +406,15 @@ class ServiceContracts
 	 * Update expected times.
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
+	 * @param array                $type
 	 *
 	 * @return void
 	 */
-	public static function updateExpectedTimes(\Vtiger_Record_Model $recordModel)
+	public static function updateExpectedTimes(\Vtiger_Record_Model $recordModel, array $type)
 	{
 		if (($field = \App\Field::getRelatedFieldForModule($recordModel->getModuleName(), 'ServiceContracts')) && $recordModel->get($field['fieldname'])) {
-			foreach (self::getExpectedTimes($recordModel->get($field['fieldname']), $recordModel) as $key => $time) {
-				$recordModel->set($key . '_datatime', $time);
+			foreach (self::getExpectedTimes($recordModel->get($field['fieldname']), $recordModel, $type) as $key => $time) {
+				$recordModel->set($key . '_expected', $time);
 			}
 		}
 	}
@@ -361,19 +424,30 @@ class ServiceContracts
 	 *
 	 * @param int                  $id          Service contract id
 	 * @param \Vtiger_Record_Model $recordModel
+	 * @param array                $type
 	 *
 	 * @return array
 	 */
-	private static function getExpectedTimes(int $id, \Vtiger_Record_Model $recordModel): array
+	private static function getExpectedTimes(int $id, \Vtiger_Record_Model $recordModel, array $type): array
 	{
+		$return = [];
+		$date = new \DateTime();
 		if ($rules = self::getRulesForServiceContracts($id, $recordModel)) {
+			if (isset($rules['id'])) {
+				foreach (self::$fieldsMap as $key => $fieldKey) {
+					if (\in_array($fieldKey, $type)) {
+						$minutes = \App\Fields\TimePeriod::convertToMinutes($rules[$key]);
+						$return[$fieldKey] = (clone $date)->modify("+$minutes minute")->format('Y-m-d H:i:s');
+					}
+				}
+				return $return;
+			}
 			$days = self::parseBusinessHoursToDays($rules);
 		} elseif ($businessHours = self::getDefaultBusinessHours()) {
 			$days = self::parseBusinessHoursToDays($businessHours);
 		} else {
 			return [];
 		}
-		$date = new \DateTime();
 		$day = $date->format('N');
 		$daySetting = null;
 		if (\App\Fields\Date::getHolidays($date->format('Y-m-d'), $date->format('Y-m-d'))) {
@@ -384,21 +458,22 @@ class ServiceContracts
 			$daySetting = $days['days'][$day];
 		}
 		if ($daySetting) {
-			$return = [];
 			$interval = \App\Fields\DateTime::getDiff($date->format('Y-m-d') . ' ' . $daySetting['working_hours_to'], $date->format('Y-m-d H:i:s'), 'minutes');
 			foreach (self::$fieldsMap as $key => $fieldKey) {
-				$minutes = \App\Fields\TimePeriod::convertToMinutes($daySetting[$key]);
-				if ($minutes < $interval) {
-					$return[$fieldKey] = (clone $date)->modify("+$minutes minute")->format('Y-m-d H:i:s');
-				} else {
-					$tmpDate = clone $date;
-					$tmpInterval = $interval;
-					while ($minutes > $tmpInterval) {
-						$minutes -= $tmpInterval;
-						$tmpDaySetting = self::getNextBusinessDay($tmpDate, $days);
-						$tmpInterval = \App\Fields\DateTime::getDiff($tmpDate->format('Y-m-d') . ' ' . $tmpDaySetting['working_hours_to'], $tmpDate->format('Y-m-d H:i:s'), 'minutes');
-						if ($minutes < $tmpInterval) {
-							$return[$fieldKey] = (clone $tmpDate)->modify("+$minutes minute")->format('Y-m-d H:i:s');
+				if (\in_array($fieldKey, $type)) {
+					$minutes = \App\Fields\TimePeriod::convertToMinutes($daySetting[$key]);
+					if ($minutes < $interval) {
+						$return[$fieldKey] = (clone $date)->modify("+$minutes minute")->format('Y-m-d H:i:s');
+					} else {
+						$tmpDate = clone $date;
+						$tmpInterval = $interval;
+						while ($minutes > $tmpInterval) {
+							$minutes -= $tmpInterval;
+							$tmpDaySetting = self::getNextBusinessDay($tmpDate, $days);
+							$tmpInterval = \App\Fields\DateTime::getDiff($tmpDate->format('Y-m-d') . ' ' . $tmpDaySetting['working_hours_to'], $tmpDate->format('Y-m-d H:i:s'), 'minutes');
+							if ($minutes < $tmpInterval) {
+								$return[$fieldKey] = (clone $tmpDate)->modify("+$minutes minute")->format('Y-m-d H:i:s');
+							}
 						}
 					}
 				}
@@ -441,5 +516,21 @@ class ServiceContracts
 			\call_user_func_array([$date, 'setTime'], explode(':', $result['working_hours_from']));
 		}
 		return $result;
+	}
+
+	/**
+	 * Get modules name related to ServiceContracts.
+	 *
+	 * @return string[]
+	 */
+	public static function getModules(): array
+	{
+		$modules = [];
+		foreach (\App\Field::getRelatedFieldForModule(false, 'ServiceContracts') as $moduleName => $value) {
+			if (\App\RecordStatus::getFieldName($moduleName)) {
+				$modules[] = $moduleName;
+			}
+		}
+		return $modules;
 	}
 }

@@ -73,6 +73,10 @@ class SaveInventory extends \Api\Core\BaseAction
 				if ($fieldModel) {
 					$this->recordModel->set($fieldModel->getFieldName(), $parentRecordId);
 				}
+				$fieldModel = current($this->moduleModel->getReferenceFieldsForModule('Contacts'));
+				if ($fieldModel && !$this->controller->request->has($fieldModel->getFieldName())) {
+					$this->recordModel->set($fieldModel->getFieldName(), $this->getUserCrmId());
+				}
 			}
 			$fieldModel = current($this->moduleModel->getReferenceFieldsForModule('IStorages'));
 			if ($fieldModel) {
@@ -91,6 +95,10 @@ class SaveInventory extends \Api\Core\BaseAction
 			$this->recordModel->initInventoryData($inventoryData, false);
 			if (!empty($parentRecordId)) {
 				$parentRecordModel = \Vtiger_Record_Model::getInstanceById($parentRecordId, 'Accounts');
+				$fieldName = 'assigned_user_id';
+				if (!$this->controller->request->has($fieldName)) {
+					$this->recordModel->set($fieldName, $parentRecordModel->get($fieldName));
+				}
 				$creditLimitId = $parentRecordModel->get('creditlimit');
 				if (!empty($creditLimitId)) {
 					$grossFieldModel = \Vtiger_Inventory_Model::getInstance($this->moduleName)->getField('gross');
@@ -137,7 +145,7 @@ class SaveInventory extends \Api\Core\BaseAction
 				],
 			];
 		}
-		$this->inventory = new \Api\Portal\Inventory($this->moduleName, $this->controller->request->getArray('inventory'), $this->getUserStorageId(), $this->getPricebookId());
+		$this->inventory = new \Api\Portal\Inventory($this->moduleName, $this->controller->request->getArray('inventory'), $this->getUserStorageId(), $this->getParentCrmId());
 		if ($this->getCheckStockLevels() && !$this->inventory->validate()) {
 			return [
 				'errors' => $this->inventory->getErrors()

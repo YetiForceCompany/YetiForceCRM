@@ -22,7 +22,7 @@ class Record
 	 * @param int $accountId
 	 * @param int $productId
 	 *
-	 * @return null|float
+	 * @return float|null
 	 */
 	public static function getPriceFromPricebook(int $accountId, int $productId): ?float
 	{
@@ -34,5 +34,36 @@ class Record
 			->andWhere(['vtiger_pricebookproductrel.productid' => $productId])
 			->scalar();
 		return false === $returnVal ? null : (float) $returnVal;
+	}
+
+	/**
+	 * Returns taxparam.
+	 *
+	 * @param string $availableTaxes
+	 * @param string $groupTaxes
+	 * @param string $regionalTaxes
+	 *
+	 * @return array
+	 */
+	public static function getTaxParam(string $availableTaxes, string $groupTaxes, string $regionalTaxes): array
+	{
+		$taxConfig = \Vtiger_Inventory_Model::getTaxesConfig();
+		if (!$taxConfig['active']) {
+			return [];
+		}
+		$globalTaxes = \Vtiger_Inventory_Model::getGlobalTaxes();
+		$taxParam = [];
+		$availableTaxes = explode(' |##| ', $availableTaxes);
+		if (\in_array('LBL_REGIONAL_TAX', $availableTaxes) && !empty($regionalTaxes) && \in_array(3, $taxConfig['taxs'])) {
+			$taxParam['aggregationType'][] = 'regional';
+			$taxId = explode(',', $regionalTaxes)[0];
+			$taxParam['regionalTax'] = $globalTaxes[$taxId]['value'];
+		}
+		if (\in_array('LBL_GROUP_TAX', $availableTaxes) && !empty($groupTaxes) && \in_array(1, $taxConfig['taxs'])) {
+			$taxParam['aggregationType'][] = 'group';
+			$taxId = explode(',', $groupTaxes)[0];
+			$taxParam['groupTax'] = $globalTaxes[$taxId]['value'];
+		}
+		return $taxParam;
 	}
 }

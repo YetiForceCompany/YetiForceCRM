@@ -19,7 +19,7 @@
         <q-toolbar class="flex-md-nowrap flex-wrap items-center q-gutter-x-md q-gutter-y-sm q-pl-md q-pr-none q-py-xs">
           <div :class="['flex items-center no-wrap flex-md-grow-1 q-mr-sm-sm', searchData ? 'invisible' : '']">
             <q-btn dense round push icon="mdi-menu" @click="toggleDrawer()">
-              <q-tooltip>{{ translate('JS_TOGGLE_CATEGORY_MENU') }}</q-tooltip>
+              <q-tooltip>{{ translate('JS_KB_TOGGLE_CATEGORY_MENU') }}</q-tooltip>
             </q-btn>
             <q-breadcrumbs class="ml-2" v-show="tab === 'categories'">
               <template v-slot:separator>
@@ -61,7 +61,7 @@
             <q-input
               class="full-width"
               v-model="filter"
-              :placeholder="translate('JS_SEARCH_PLACEHOLDER')"
+              :placeholder="translate('JS_KB_SEARCH_PLACEHOLDER')"
               rounded
               outlined
               type="search"
@@ -83,14 +83,14 @@
                 </div>
                 <div v-show="activeCategory !== ''" class="flex">
                   <q-toggle v-model="categorySearch" icon="mdi-file-tree" />
-                  <q-tooltip>{{ translate('JS_SEARCH_CURRENT_CATEGORY') }}</q-tooltip>
+                  <q-tooltip>{{ translate('JS_KB_SEARCH_CURRENT_CATEGORY') }}</q-tooltip>
                 </div>
               </template>
             </q-input>
           </div>
           <div class="flex-md-grow-1 flex justify-end q-ml-sm-sm">
             <q-btn round dense color="white" text-color="primary" icon="mdi-plus" @click="openQuickCreateModal()">
-              <q-tooltip>{{ translate('JS_QUICK_CREATE') }}</q-tooltip>
+              <q-tooltip>{{ translate('JS_KB_QUICK_CREATE') }}</q-tooltip>
             </q-btn>
           </div>
         </q-toolbar>
@@ -118,8 +118,8 @@
             narrow-indicator
             @input="onTabChange"
           >
-            <q-tab name="categories" :label="translate('JS_CATEGORIES')" />
-            <q-tab name="accounts" :label="translate('JS_ACCOUNTS')" />
+            <q-tab name="categories" :label="translate('JS_KB_CATEGORIES')" />
+            <q-tab name="accounts" :label="translate('JS_KB_ACCOUNTS')" />
           </q-tabs>
           <q-tab-panels v-model="tab" animated style="height: calc(100% - 36px)">
             <q-tab-panel name="categories">
@@ -129,7 +129,7 @@
             </q-tab-panel>
             <q-tab-panel name="accounts">
               <div class="q-px-sm">
-                <q-input v-model="accountSearch" :placeholder="translate('JS_SEARCH_PLACEHOLDER')" dense>
+                <q-input v-model="accountSearch" :placeholder="translate('JS_KB_SEARCH_PLACEHOLDER')" dense>
                   <template v-slot:prepend>
                     <q-icon name="mdi-magnify" size="16px" />
                   </template>
@@ -179,7 +179,7 @@
       <q-page-container>
         <q-page class="q-pa-sm">
           <div v-show="!searchData">
-            <related-columns v-show="featuredCategories.length" :columnBlocks="featuredCategories" class="q-pa-sm">
+            <columns-grid v-show="featuredCategories.length" :columnBlocks="featuredCategories" class="q-pa-sm">
               <template v-slot:default="slotProps">
                 <q-list bordered padding dense>
                   <q-item header clickable class="text-black flex" @click="fetchData(slotProps.relatedBlock)">
@@ -205,12 +205,12 @@
                   </q-item>
                 </q-list>
               </template>
-            </related-columns>
+            </columns-grid>
             <div v-show="activeCategory !== '' || tab === 'accounts'">
               <q-separator v-show="featuredCategories.length" />
               <articles-list
                 :data="selectedTabData.records"
-                :title="translate('JS_ARTICLES')"
+                :title="translate('JS_KB_ARTICLES')"
                 @onClickRecord="previewDialog = true"
               />
             </div>
@@ -218,7 +218,7 @@
           <articles-list
             v-show="searchData"
             :data="searchDataArray"
-            :title="translate('JS_ARTICLES')"
+            :title="translate('JS_KB_ARTICLES')"
             @onClickRecord="previewDialog = true"
           />
         </q-page>
@@ -228,11 +228,11 @@
   </div>
 </template>
 <script>
-import Icon from '../../../../components/Icon.vue'
-import IconInfo from '../../../../components/IconInfo.vue'
+import Icon from '~/components/Icon.vue'
+import IconInfo from '~/components/IconInfo.vue'
+import ColumnsGrid from '~/components/ColumnsGrid.vue'
 import Carousel from './components/Carousel.vue'
 import ArticlesList from './components/ArticlesList.vue'
-import RelatedColumns from './components/RelatedColumns.vue'
 import ArticlePreview from './components/ArticlePreview.vue'
 import CategoriesList from './components/CategoriesList.vue'
 import { createNamespacedHelpers } from 'vuex'
@@ -240,7 +240,7 @@ import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'KnowledgeBase',
-  components: { Icon, IconInfo, Carousel, ArticlesList, ArticlePreview, RelatedColumns, CategoriesList },
+  components: { Icon, IconInfo, Carousel, ArticlesList, ArticlePreview, ColumnsGrid, CategoriesList },
   props: {
     coordinates: {
       type: Object,
