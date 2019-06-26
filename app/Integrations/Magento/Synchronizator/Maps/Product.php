@@ -21,7 +21,7 @@ class Product extends Base
 		'discontinued' => 'status',
 		'ean' => 'sku',
 		'productname' => 'name',
-		'multicategory' => 'custom_attributes|category_ids',
+		'category_multipicklist' => 'custom_attributes|category_ids',
 		'retail_price' => 'price',
 		'qtyinstock' => 'extension_attributes|stock_item|qty',
 		'description' => 'custom_attributes|description',
@@ -38,6 +38,12 @@ class Product extends Base
 		'usageunit' => 'map',
 		'flag' => 'map',
 		'collection' => 'map'
+	];
+	/**
+	 * {@inheritdoc}
+	 */
+	public static $fieldsDefaultValue = [
+		'description' => ''
 	];
 	/**
 	 * {@inheritdoc}
@@ -72,7 +78,7 @@ class Product extends Base
 	 */
 	public static $discontinued = [
 		'1' => '1',
-		'0' => '2',
+		'2' => '0',
 	];
 	/**
 	 * Collection map.
@@ -155,7 +161,7 @@ class Product extends Base
 			$this->category = new \App\Integrations\Magento\Synchronizator\Category();
 			$this->category->getCategoryMapping();
 		}
-		$categories = array_filter(explode(',', str_replace('T', '', $this->dataCrm['multicategory'])));
+		$categories = array_filter(explode(',', str_replace('T', '', $this->dataCrm['category_multipicklist'])));
 		foreach ($categories as $category) {
 			if (isset($this->category->mapCategoryMagento[$category])) {
 				$parsedCategories[] = $this->category->mapCategoryMagento[$category];
@@ -169,7 +175,7 @@ class Product extends Base
 	 *
 	 * @return string
 	 */
-	public function getCrmMulticategory(): string
+	public function getCrmCategory_multipicklist(): string
 	{
 		$parsedCategories = '';
 		if (false === $this->category) {
@@ -183,5 +189,15 @@ class Product extends Base
 			}
 		}
 		return $parsedCategories;
+	}
+
+	/**
+	 * Method to get flag.
+	 *
+	 * @return array
+	 */
+	public function getFlag(): array
+	{
+		return [array_flip(self::$flag)[$this->dataCrm['flag']] ?? 186];
 	}
 }

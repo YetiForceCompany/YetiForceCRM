@@ -31,6 +31,7 @@ class Token implements ConnectorInterface
 	public function authorize()
 	{
 		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post(\App\Config::component('Magento', 'addressApi') . '/rest/V1/integration/admin/token', [
+			'timeout' => 0,
 			'json' => ['username' => \App\Config::component('Magento', 'username'), 'password' => \App\Config::component('Magento', 'password')]]);
 		if (200 !== $response->getStatusCode()) {
 			throw new AppException();
@@ -48,6 +49,7 @@ class Token implements ConnectorInterface
 				'user-agent' => 'YetiForceCRM/' . \App\Version::get(),
 				'authorization' => 'Bearer ' . $this->token
 			],
+			'timeout' => 0,
 			'json' => $params]);
 		if (200 !== $response->getStatusCode()) {
 			throw new AppException();

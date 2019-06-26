@@ -45,7 +45,7 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 			try {
 				$productFields = new \App\Integrations\Magento\Synchronizator\Maps\Product();
 				$productFields->setDataCrm($product);
-				$this->connector->request('PUT', 'rest/all/V1/products/' . $this->mapIdToSku[$productId], ['product' => $productFields->getData()]);
+				$this->connector->request('PUT', 'rest/all/V1/products/' . urlencode($this->mapIdToSku[$productId]), ['product' => $productFields->getData()]);
 				$result = true;
 			} catch (\Throwable $ex) {
 				\App\Log::error('Error during updating magento product: ' . $ex->getMessage(), 'Integrations/Magento');
@@ -98,7 +98,7 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 	public function deleteProduct(int $productId): bool
 	{
 		try {
-			$this->connector->request('DELETE', '/rest/all/V1/products/' . $this->mapIdToSku[$productId], []);
+			$this->connector->request('DELETE', '/rest/all/V1/products/' . urlencode($this->mapIdToSku[$productId]), []);
 			$this->deleteMapping($productId, $this->mapCrm[$productId]);
 			$result = true;
 		} catch (\Throwable $ex) {
@@ -153,13 +153,13 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 	 *
 	 * @param string $sku
 	 *
-	 * @return array
+	 * @return array|mixed
 	 */
-	public function getProductFullData(string $sku): array
+	public function getProductFullData(string $sku)
 	{
 		$data = [];
 		try {
-			$data = \App\Json::decode($this->connector->request('GET', "rest/all/V1/products/$sku"));
+			$data = \App\Json::decode($this->connector->request('GET', 'rest/all/V1/products/' . urlencode($sku)));
 		} catch (\Throwable $ex) {
 			\App\Log::error('Error during getting magento product data: ' . $ex->getMessage(), 'Integrations/Magento');
 		}
@@ -246,7 +246,7 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 					]
 				];
 				try {
-					\App\Json::decode($this->connector->request('POST', "rest/V1/products/{$sku}/media",
+					\App\Json::decode($this->connector->request('POST', 'rest/V1/products/' . urlencode($sku) . '/media',
 						$data
 					));
 				} catch (\Throwable $ex) {
@@ -267,7 +267,7 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 		if (!empty($images)) {
 			foreach ($images as $image) {
 				try {
-					\App\Json::decode($this->connector->request('DELETE', "rest/V1/products/{$sku}/media/{$image['id']}"));
+					\App\Json::decode($this->connector->request('DELETE', 'rest/V1/products/' . urlencode($sku) . "/media/{$image['id']}"));
 				} catch (\Throwable $ex) {
 					\App\Log::error('Error during removing magento product image: ' . $ex->getMessage(), 'Integrations/Magento');
 				}

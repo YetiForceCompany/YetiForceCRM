@@ -57,7 +57,7 @@ class Controller
 	 *
 	 * @return void
 	 */
-	public function synchronizeCategories()
+	public function synchronizeCategories(): void
 	{
 		$categorySynchronizator = new Synchronizator\Category();
 		$categorySynchronizator->setConnector($this->getConnector());
@@ -69,10 +69,34 @@ class Controller
 	 *
 	 * @return void
 	 */
-	public function synchronizeProducts()
+	public function synchronizeProducts(): void
 	{
 		$categorySynchronizator = new Synchronizator\Product();
 		$categorySynchronizator->setConnector($this->getConnector());
 		$categorySynchronizator->process();
+	}
+
+	/**
+	 * Synchronize products.
+	 *
+	 * @throws AppException
+	 */
+	public function synchronizeInvoices(): void
+	{
+		$invoiceSynchronizator = new Synchronizator\Invoice();
+		$invoiceSynchronizator->setConnector($this->getConnector());
+		$invoiceSynchronizator->process();
+	}
+
+	/**
+	 * Synchronize orders.
+	 *
+	 * @throws AppException
+	 */
+	public function synchronizeOrders(): void
+	{
+		$orderSynchronizator = new Synchronizator\Order();
+		$orderSynchronizator->setConnector($this->getConnector());
+		$orderSynchronizator->process();
 	}
 }

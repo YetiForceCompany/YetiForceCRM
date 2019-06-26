@@ -88,7 +88,7 @@ class Category extends Base
 	 */
 	public function process()
 	{
-		$this->templateId = \Vtiger_Field_Model::getInstance('pscategory', \Vtiger_Module_Model::getInstance('Products'))->getFieldParams();
+		$this->templateId = \Vtiger_Field_Model::getInstance('category_multipicklist', \Vtiger_Module_Model::getInstance('Products'))->getFieldParams();
 		$this->getCategoriesYF();
 		$this->getCategoriesMagento();
 		$this->getCategoryMapping();
@@ -479,7 +479,6 @@ class Category extends Base
 	public function deleteCategoryMagento($categoryMagento): bool
 	{
 		$result = false;
-
 		if (!\in_array($categoryMagento['id'], static::$nonEditable)) {
 			try {
 				$this->connector->request('DELETE', '/rest/all/V1/categories/' . $categoryMagento['id'], []);

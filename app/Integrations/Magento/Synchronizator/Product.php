@@ -51,10 +51,10 @@ class Product extends Integrators\Product
 				if (isset($this->map[$id], $products[$this->map[$id]])) {
 					$productData = $this->getProductFullData($this->mapIdToSku[$this->map[$id]]);
 					$checkImages = $this->checkImages($productData, $productCrm);
-					if (!empty($checkImages) || $this->hasChanges($productCrm, $productData)) {
+					if (!empty($checkImages) || (!empty($productData) && $this->hasChanges($productCrm, $productData))) {
 						if (self::MAGENTO === $this->whichToUpdate($productCrm, $productData)) {
 							$this->updateProduct($this->map[$id], $productCrm);
-							if (!empty($checkImages['add']) || !empty($checkImages['remove'])) {
+							if (!empty($checkImages['add']) || !empty($checkImages['remove'])) {			
 								$this->updateImages($this->mapIdToSku[$this->map[$id]], $checkImages);
 							}
 						} else {
@@ -91,6 +91,9 @@ class Product extends Integrators\Product
 				$productsCrm = $this->getProductsCrm($this->getFormattedRecordsIds(array_keys($products), self::YETIFORCE));
 				foreach ($products as $id => $product) {
 					$productData = $this->getProductFullData($product['sku']);
+					if (empty($productData)) {
+						continue;
+					}
 					if (isset($this->mapCrm[$id], $productsCrm[$this->mapCrm[$id]])) {
 						$checkImages = $this->checkImages($productData, $productsCrm[$this->mapCrm[$id]]);
 						if (!empty($checkImages) || $this->hasChanges($productsCrm[$this->mapCrm[$id]], $productData)) {
@@ -101,9 +104,7 @@ class Product extends Integrators\Product
 								}
 							} else {
 								$this->updateProductCrm($this->mapCrm[$id], $productData);
-								if (!empty($checkImages['addCrm'])) {
-									$this->updateImagesCrm($this->mapCrm[$id], $checkImages['addCrm']);
-								}
+								$this->updateImagesCrm($this->mapCrm[$id], $checkImages['addCrm']);
 							}
 						}
 						if ('grouped' === $productData['type_id']) {
@@ -374,11 +375,9 @@ class Product extends Integrators\Product
 	public function updateImagesCrm($id, $images): void
 	{
 		try {
-			if (!empty($images)) {
-				$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'Products');
-				$this->saveImagesCrm($recordModel, $images);
-				$recordModel->save();
-			}
+			$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'Products');
+			$this->saveImagesCrm($recordModel, $images);
+			$recordModel->save();
 		} catch (\Throwable $ex) {
 			\App\Log::error('Error during updating yetiforce images product: ' . $ex->getMessage(), 'Integrations/Magento');
 		}

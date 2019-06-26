@@ -109,7 +109,7 @@ abstract class Record extends Base
 		if (!empty($imagesCrmData)) {
 			$imagesCrmNames = array_column($imagesCrmData, 'name');
 		}
-		$images = $images['media_gallery_entries'];
+		$images = $images['media_gallery_entries'] ?? [];
 		foreach ($images as &$image) {
 			$explodedPath = explode('/', $image['file']);
 			$image['filename'] = end($explodedPath);

@@ -26,6 +26,12 @@ abstract class Base
 	 * @var array
 	 */
 	public static $fieldsType = [];
+	/**
+	 * Fields default value.
+	 *
+	 * @var array
+	 */
+	public static $fieldsDefaultValue = [];
 
 	/**
 	 * Fields which can not be updated.
@@ -154,6 +160,9 @@ abstract class Base
 			foreach (explode('|', $fieldName) as $fieldLevel) {
 				$fieldParsed = $fieldParsed[$fieldLevel];
 			}
+			if (isset(static::$fieldsType[$fieldName]) && 'map' === static::$fieldsType[$fieldName]) {
+				$fieldParsed = array_flip(static::${$fieldName})[$fieldParsed] ?? null;
+			}
 		} else {
 			$fieldParsed = $this->{$methodName}();
 		}
@@ -162,7 +171,7 @@ abstract class Base
 		} else {
 			$data = $fieldParsed;
 		}
-		return $data ?? 0;
+		return $data;
 	}
 
 	/**
@@ -181,7 +190,7 @@ abstract class Base
 					$fieldParsed = $this->getCustomAttributeValue(end($fieldLevels));
 				} else {
 					foreach ($fieldLevels as $fieldLevel) {
-						if (array_key_exists($fieldLevel, $fieldParsed)) {
+						if (\array_key_exists($fieldLevel, $fieldParsed)) {
 							$fieldParsed = $fieldParsed[$fieldLevel];
 						} else {
 							break;
@@ -233,7 +242,7 @@ abstract class Base
 	public function getFieldStructure($name, $value): array
 	{
 		if (empty($value)) {
-			$value = 0;
+			$value = static::$fieldsDefaultValue[$name] ?? 0;
 		}
 		$fieldStructure = [];
 		$fieldLevels = array_reverse(explode('|', static::$mappedFields[$name]));
