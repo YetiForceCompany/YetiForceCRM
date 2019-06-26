@@ -6,34 +6,23 @@
     flex-direction: column;
     justify-content: space-between;"
     >
-      <div class="row col-12 q-px-sm" ref="searchContainer">
-        <div class="col-12">
-          <q-input dense borderless v-model="inputSearch" :placeholder="placeholder">
-            <template v-slot:prepend>
-              <q-icon name="mdi-magnify" />
-            </template>
-            <template v-slot:append>
-              <q-icon
-                v-show="inputSearch.length > 0"
-                name="mdi-close"
-                @click="inputSearch = ''"
-                class="cursor-pointer"
-              />
-            </template>
-          </q-input>
-
-          <div v-show="tabHistoryShow" class="row q-pb-sm">
-            <div class="col-12">
-              <q-tabs v-model="tabHistory" class="text-teal col-10">
-                <q-tab name="ulubiony" label="Ulubiony" />
-                <q-tab name="grupowy" label="Pokój grupy" />
-                <q-tab name="globalny" label="Pokoje globalne" />
-              </q-tabs>
-            </div>
+      <div class="q-px-sm">
+        <q-input dense v-model="inputSearch" :placeholder="placeholder">
+          <template v-slot:prepend>
+            <q-icon name="mdi-magnify" />
+          </template>
+          <template v-slot:append>
+            <q-icon v-show="inputSearch.length > 0" name="mdi-close" @click="inputSearch = ''" class="cursor-pointer" />
+          </template>
+        </q-input>
+        <div v-show="tabHistoryShow" class="row q-pb-sm">
+          <div class="col-12">
+            <q-tabs v-model="tabHistory" class="text-teal col-10">
+              <q-tab name="ulubiony" label="Ulubiony" />
+              <q-tab name="grupowy" label="Pokój grupy" />
+              <q-tab name="globalny" label="Pokoje globalne" />
+            </q-tabs>
           </div>
-        </div>
-        <div class="col-12">
-          <q-separator />
         </div>
       </div>
       <div class="flex-grow-1" style="height: 0; overflow: hidden">
@@ -78,7 +67,7 @@
         </q-scroll-area>
         <q-resize-observer @resize="onResize" />
       </div>
-      <div class="col-12" ref="textContainer">
+      <div class="q-px-sm" ref="textContainer">
         <q-separator />
         <q-input borderless v-model="text" type="textarea" autogrow :placeholder="placeholderTexttera" :dense="dense">
           <template v-slot:append>

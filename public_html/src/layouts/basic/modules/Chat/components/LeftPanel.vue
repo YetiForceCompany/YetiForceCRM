@@ -3,14 +3,7 @@
   <q-drawer :value="leftPanel" side="left" bordered @hide="setLeftPanel(false)">
     <div class="bg-grey-9 fit">
       <div class="col-12 ">
-        <q-input
-          dense
-          v-model="inputRoom"
-          dark
-          color="white"
-          :placeholder="placeholderRoom"
-          class="col-12 q-pb-sm q-px-sm"
-        >
+        <q-input dense borderless v-model="inputRoom" dark color="white" :placeholder="placeholderRoom" class="q-px-sm">
           <template v-slot:prepend>
             <q-icon name="mdi-magnify" />
           </template>
