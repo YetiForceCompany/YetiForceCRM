@@ -22,7 +22,7 @@ class PaymentsIn_SSingleOrdersPaymentStatus_Model extends PaymentsIn_PaymentStat
 	/**
 	 * {@inheritdoc}
 	 */
-	protected static $fieldPaymentStatusName = 'ssingleorders_payment_status';
+	protected static $fieldPaymentStatusName = 'payment_status';
 
 	/**
 	 * {@inheritdoc}
@@ -40,22 +40,5 @@ class PaymentsIn_SSingleOrdersPaymentStatus_Model extends PaymentsIn_PaymentStat
 			$returnValue = false;
 		}
 		return $returnValue;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	protected static function calculatePaymentStatus(float $sumOfGross, float $sumOfPayments): string
-	{
-		if (\App\Validator::floatIsEqual($sumOfGross, $sumOfPayments, 2)) {
-			$paymentStatus = 'PLL_PAID';
-		} elseif (\App\Validator::floatIsEqual(0.0, $sumOfPayments, 2)) {
-			$paymentStatus = 'PLL_NOT_PAID';
-		} elseif ($sumOfGross > $sumOfPayments) {
-			$paymentStatus = 'PLL_UNDERPAID';
-		} else {
-			$paymentStatus = 'PLL_OVERPAID';
-		}
-		return $paymentStatus;
 	}
 }

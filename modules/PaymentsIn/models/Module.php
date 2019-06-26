@@ -15,46 +15,6 @@
 class PaymentsIn_Module_Model extends Vtiger_Module_Model
 {
 	/**
-	 * Update payment status.
-	 *
-	 * @param int $ordersId
-	 *
-	 * @return void
-	 */
-	public static function updatePaymentStatus(int $ordersId)
-	{
-		$moduleName = 'SSingleOrders';
-		$orderRecordModel = \Vtiger_Record_Model::getInstanceById($ordersId, $moduleName);
-		$orderRecordModel->set(
-			'ssingleorders_payment_status',
-			static::calculatePaymentStatus((float) $orderRecordModel->get('sum_gross'), static::getSumOfPaymentsByRecordId($ordersId, $moduleName))
-		);
-		$orderRecordModel->save();
-	}
-
-	/**
-	 * Calculate payment status.
-	 *
-	 * @param float $sumOfGross
-	 * @param float $sumOfPayments
-	 *
-	 * @return string
-	 */
-	private static function calculatePaymentStatus(float $sumOfGross, float $sumOfPayments): string
-	{
-		if (\App\Validator::floatIsEqual($sumOfGross, $sumOfPayments, 8)) {
-			$paymentStatus = 'PLL_PAID';
-		} elseif (\App\Validator::floatIsEqual(0.0, $sumOfPayments, 8)) {
-			$paymentStatus = 'PLL_NOT_PAID';
-		} elseif ($sumOfGross > $sumOfPayments) {
-			$paymentStatus = 'PLL_UNDERPAID';
-		} else {
-			$paymentStatus = 'PLL_OVERPAID';
-		}
-		return $paymentStatus;
-	}
-
-	/**
 	 * Get the sum of all payments by record ID.
 	 *
 	 * @param int    $recordId
@@ -64,13 +24,20 @@ class PaymentsIn_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getSumOfPaymentsByRecordId(int $recordId, string $moduleName): float
 	{
-		$relationModel = Vtiger_Relation_Model::getInstance(
-			Vtiger_Module_Model::getInstance($moduleName),
-			Vtiger_Module_Model::getInstance('PaymentsIn')
-		);
-		$relationModel->set('parentRecord', Vtiger_Record_Model::getInstanceById($recordId, $moduleName));
-		return (float) $relationModel->getQuery()
-			->createQuery()
-			->sum('vtiger_paymentsin.paymentsvalue');
+		$cacheNamespace = "getSumOfPaymentsByRecordId.{$moduleName}";
+		if (\App\Cache::staticHas($cacheNamespace, $recordId)) {
+			$sumOfPayments = (float) \App\Cache::staticGet($cacheNamespace, $recordId);
+		} else {
+			$relationModel = Vtiger_Relation_Model::getInstance(
+				Vtiger_Module_Model::getInstance($moduleName),
+				Vtiger_Module_Model::getInstance('PaymentsIn')
+			);
+			$relationModel->set('parentRecord', Vtiger_Record_Model::getInstanceById($recordId, $moduleName));
+			$sumOfPayments = (float) $relationModel->getQuery()
+				->createQuery()
+				->sum('vtiger_paymentsin.paymentsvalue');
+			\App\Cache::staticSave($cacheNamespace, $recordId, $sumOfPayments);
+		}
+		return $sumOfPayments;
 	}
 }

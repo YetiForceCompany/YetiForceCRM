@@ -1863,12 +1863,12 @@ CREATE TABLE `u_yf_finvoice` (
   `sum_total` decimal(16,5) DEFAULT NULL,
   `sum_gross` decimal(16,5) DEFAULT NULL,
   `finvoice_status` varchar(255) DEFAULT '',
-  `finvoice_paymentstatus` varchar(255) DEFAULT NULL,
   `finvoice_type` varchar(255) DEFAULT NULL,
   `pscategory` varchar(100) DEFAULT NULL,
   `issue_time` date DEFAULT NULL,
   `ssalesprocessesid` int(10) DEFAULT NULL,
   `projectid` int(10) DEFAULT NULL,
+  `payment_status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`finvoiceid`),
   KEY `accountid` (`accountid`),
   KEY `u_yf_finvoice_ssalesprocessesid_idx` (`ssalesprocessesid`),
@@ -3302,17 +3302,16 @@ CREATE TABLE `u_yf_servicecontracts_sla_policy` (
   `crmid` int(11) NOT NULL,
   `policy_type` tinyint(1) NOT NULL DEFAULT 0,
   `sla_policy_id` int(11) DEFAULT NULL,
-  `operational_hours` tinyint(1) NOT NULL DEFAULT 0,
   `tabid` smallint(5) NOT NULL,
   `conditions` text NOT NULL,
-  `reaction_time` varchar(20) NOT NULL DEFAULT '0:m',
-  `idle_time` varchar(20) NOT NULL DEFAULT '0:m',
-  `resolve_time` varchar(20) NOT NULL DEFAULT '0:m',
+  `reaction_time` varchar(20) NOT NULL DEFAULT '0:H',
+  `idle_time` varchar(20) NOT NULL DEFAULT '0:H',
+  `resolve_time` varchar(20) NOT NULL DEFAULT '0:H',
   `business_hours` text NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_crmentity_idx` (`crmid`),
+  KEY `fk_crmid_idx` (`crmid`),
   KEY `fk_sla_policy_idx` (`sla_policy_id`),
-  CONSTRAINT `fk_crmentity_idx` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,
+  CONSTRAINT `fk_crmid_idx` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,
   CONSTRAINT `fk_sla_policy_idx` FOREIGN KEY (`sla_policy_id`) REFERENCES `s_yf_sla_policy` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3758,7 +3757,7 @@ CREATE TABLE `u_yf_ssingleorders` (
   `ssingleorders_source` varchar(255) DEFAULT '',
   `istorageaddressid` int(10) DEFAULT NULL,
   `ssingleorders_method_payments` varchar(255) DEFAULT NULL,
-  `ssingleorders_payment_status` varchar(255) DEFAULT NULL,
+  `payment_status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ssingleordersid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `squotesid` (`squotesid`),
@@ -4030,6 +4029,8 @@ CREATE TABLE `vtiger_account` (
   `pricebook_id` int(10) DEFAULT NULL,
   `check_stock_levels` tinyint(1) DEFAULT NULL,
   `sum_open_orders` decimal(28,8) DEFAULT NULL,
+  `taxes` text DEFAULT NULL,
+  `accounts_available_taxes` text DEFAULT NULL,
   PRIMARY KEY (`accountid`),
   KEY `account_account_type_idx` (`account_type`),
   KEY `email_idx` (`email1`,`email2`),
@@ -4079,6 +4080,17 @@ CREATE TABLE `vtiger_accountaddress` (
   PRIMARY KEY (`accountaddressid`),
   CONSTRAINT `vtiger_accountaddress_ibfk_1` FOREIGN KEY (`accountaddressid`) REFERENCES `vtiger_account` (`accountid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_accounts_available_taxes` */
+
+CREATE TABLE `vtiger_accounts_available_taxes` (
+  `accounts_available_taxesid` int(11) NOT NULL AUTO_INCREMENT,
+  `accounts_available_taxes` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT 1,
+  `picklist_valueid` int(10) DEFAULT 0,
+  `sortorderid` smallint(5) DEFAULT 0,
+  PRIMARY KEY (`accounts_available_taxesid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_accounts_status` */
 
@@ -5533,7 +5545,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2822 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2827 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -5561,17 +5573,6 @@ CREATE TABLE `vtiger_finvoice_formpayment` (
   `picklist_valueid` smallint(5) DEFAULT 0,
   `sortorderid` smallint(5) DEFAULT 0,
   PRIMARY KEY (`finvoice_formpaymentid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_finvoice_paymentstatus` */
-
-CREATE TABLE `vtiger_finvoice_paymentstatus` (
-  `finvoice_paymentstatusid` int(10) NOT NULL AUTO_INCREMENT,
-  `finvoice_paymentstatus` varchar(200) NOT NULL,
-  `presence` tinyint(1) DEFAULT 1,
-  `picklist_valueid` smallint(5) DEFAULT 0,
-  `sortorderid` smallint(5) DEFAULT 0,
-  PRIMARY KEY (`finvoice_paymentstatusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_finvoice_status` */
@@ -7169,6 +7170,17 @@ CREATE TABLE `vtiger_passwords_config` (
   `register_changes` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_payment_status` */
+
+CREATE TABLE `vtiger_payment_status` (
+  `payment_statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `payment_status` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT 1,
+  `picklist_valueid` int(10) DEFAULT 0,
+  `sortorderid` smallint(5) DEFAULT 0,
+  PRIMARY KEY (`payment_statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_payment_system` */
 
 CREATE TABLE `vtiger_payment_system` (
@@ -7263,7 +7275,7 @@ CREATE TABLE `vtiger_picklist` (
   `name` varchar(200) NOT NULL,
   PRIMARY KEY (`picklistid`),
   UNIQUE KEY `picklist_name_idx` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=133 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_picklist_dependency` */
 
@@ -7388,7 +7400,6 @@ CREATE TABLE `vtiger_products` (
   `glacct` varchar(200) DEFAULT NULL,
   `vendor_id` int(10) DEFAULT NULL,
   `imagename` text DEFAULT NULL,
-  `currency_id` int(10) NOT NULL DEFAULT 1,
   `taxes` varchar(50) DEFAULT NULL,
   `ean` varchar(30) DEFAULT NULL,
   `subunit` varchar(255) DEFAULT '',
@@ -7991,7 +8002,6 @@ CREATE TABLE `vtiger_service` (
   `discontinued` tinyint(1) NOT NULL DEFAULT 0,
   `service_usageunit` varchar(200) DEFAULT NULL,
   `website` varchar(255) DEFAULT NULL,
-  `currency_id` int(10) NOT NULL DEFAULT 1,
   `commissionrate` decimal(8,3) DEFAULT NULL,
   `renewable` tinyint(1) DEFAULT 0,
   `taxes` varchar(50) DEFAULT NULL,
@@ -8243,17 +8253,6 @@ CREATE TABLE `vtiger_ssingleorders_method_payments` (
   `presence` tinyint(1) DEFAULT 1,
   `sortorderid` smallint(6) DEFAULT 0,
   PRIMARY KEY (`ssingleorders_method_paymentsid`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ssingleorders_payment_status` */
-
-CREATE TABLE `vtiger_ssingleorders_payment_status` (
-  `ssingleorders_payment_statusid` int(11) NOT NULL AUTO_INCREMENT,
-  `ssingleorders_payment_status` varchar(255) DEFAULT NULL,
-  `presence` tinyint(1) DEFAULT 1,
-  `picklist_valueid` int(10) DEFAULT 0,
-  `sortorderid` smallint(5) DEFAULT 0,
-  PRIMARY KEY (`ssingleorders_payment_statusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ssingleorders_source` */
@@ -8641,7 +8640,7 @@ CREATE TABLE `vtiger_trees_templates` (
   `share` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`templateid`),
   KEY `module` (`module`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_trees_templates_data` */
 
@@ -9139,7 +9138,6 @@ CREATE TABLE `w_yf_servers` (
   `status` tinyint(1) NOT NULL DEFAULT 0,
   `api_key` varchar(100) NOT NULL,
   `type` varchar(40) NOT NULL,
-  `accounts_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `name` (`name`,`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -74,7 +74,19 @@ abstract class PaymentsIn_PaymentStatus_Model
 	 *
 	 * @return string
 	 */
-	abstract protected static function calculatePaymentStatus(float $sumOfGross, float $sumOfPayments): string;
+	protected static function calculatePaymentStatus(float $sumOfGross, float $sumOfPayments): string
+	{
+		if (\App\Validator::floatIsEqual($sumOfGross, $sumOfPayments, 8)) {
+			$paymentStatus = 'PLL_PAID';
+		} elseif (\App\Validator::floatIsEqual(0.0, $sumOfPayments, 8)) {
+			$paymentStatus = 'PLL_NOT_PAID';
+		} elseif ($sumOfGross > $sumOfPayments) {
+			$paymentStatus = 'PLL_UNDERPAID';
+		} else {
+			$paymentStatus = 'PLL_OVERPAID';
+		}
+		return $paymentStatus;
+	}
 
 	/**
 	 * Checking if you can update the payment status.

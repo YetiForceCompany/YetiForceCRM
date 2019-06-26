@@ -22,25 +22,10 @@ class PaymentsIn_FinvoicePaymentStatus_Model extends PaymentsIn_PaymentStatus_Mo
 	/**
 	 * {@inheritdoc}
 	 */
-	protected static $fieldPaymentStatusName = 'finvoice_paymentstatus';
+	protected static $fieldPaymentStatusName = 'payment_status';
 
 	/**
 	 * {@inheritdoc}
 	 */
 	protected static $relatedRecordIdName = 'finvoiceid';
-
-	/**
-	 * {@inheritdoc}
-	 */
-	protected static function calculatePaymentStatus(float $sumOfGross, float $sumOfPayments): string
-	{
-		if ($sumOfPayments > $sumOfGross || \App\Validator::floatIsEqual($sumOfGross, $sumOfPayments, 2)) {
-			$paymentStatus = 'PLL_FULLY_PAID';
-		} elseif (\App\Validator::floatIsEqual(0.0, $sumOfPayments, 2)) {
-			$paymentStatus = 'PLL_AWAITING_PAYMENT';
-		} else {
-			$paymentStatus = 'PLL_PARTIALLY_PAID';
-		}
-		return $paymentStatus;
-	}
 }
