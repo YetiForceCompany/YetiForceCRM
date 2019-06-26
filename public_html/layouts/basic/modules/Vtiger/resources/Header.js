@@ -714,14 +714,15 @@ $.Class(
 		},
 		registerKnowledgeBaseModal() {
 			$('.js-knowledge-base-modal').on('click', () => {
-				if (window.KnowledgeBaseModal.state === undefined) {
-					KnowledgeBaseModalVueComponent.mount({
+				if (window.KnowledgeBaseModalVueComponent.mounted === undefined) {
+					window.KnowledgeBaseModalVueComponent.mount({
 						el: '#KnowledgeBaseModal',
 						state: {
 							moduleName: 'KnowledgeBase',
 							dialog: true
 						}
 					});
+					KnowledgeBaseModalVueComponent.mounted = true;
 				} else {
 					vuexStore.commit('KnowledgeBase/setDialog', true);
 				}

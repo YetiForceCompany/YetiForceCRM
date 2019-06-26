@@ -12,8 +12,7 @@ Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
 
-const vuexStore = new Vuex.Store({
+window.vuexStore = new Vuex.Store({
 	strict: debug
 })
-
-export default vuexStore
+export default window.vuexStore
