@@ -252,5 +252,9 @@ return [
 			'default' => 20,
 			'description' => 'Set how many records can be updated at once.',
 		],
+		'productImagesPath' => [
+			'default' => 'media/catalog/product/',
+			'description' => 'Product images path.',
+		],
 	],
 ];
