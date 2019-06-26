@@ -69,36 +69,30 @@ class Mail
 	}
 
 	/**
-	 * Get templte list for module.
+	 * Get template list for module.
 	 *
-	 * @param bool|string $moduleName
-	 * @param bool|string $type
-	 * @param bool        $hideSystem
+	 * @param string   $moduleName
+	 * @param string   $type
+	 * @param bool     $hideSystem
+	 * @param int|null $userId
 	 *
 	 * @return array
 	 */
-	public static function getTempleteList($moduleName = false, $type = false, $hideSystem = true)
+	public static function getTemplateList(string $moduleName = '', string $type = '', bool $hideSystem = true, ?int $userId = null)
 	{
-		$cacheKey = "$moduleName.$type";
-		if (Cache::has('MailTempleteList', $cacheKey)) {
-			return Cache::get('MailTempleteList', $cacheKey);
-		}
-		$query = (new \App\Db\Query())->select(['name' => 'u_#__emailtemplates.name', 'id' => 'u_#__emailtemplates.emailtemplatesid', 'moduleName' => 'u_#__emailtemplates.module'])->from('u_#__emailtemplates')
-			->innerJoin('vtiger_crmentity', 'u_#__emailtemplates.emailtemplatesid = vtiger_crmentity.crmid')
-			->where(['vtiger_crmentity.deleted' => 0]);
+		$queryGenerator = new \App\QueryGenerator('EmailTemplates', $userId ?? \App\User::getCurrentUserId());
+		$queryGenerator->setFields(['id', 'name', 'module_name']);
+
 		if ($moduleName) {
-			$query->andWhere(['u_#__emailtemplates.module' => $moduleName]);
+			$queryGenerator->addCondition('module_name', $moduleName, 'e');
 		}
 		if ($type) {
-			$query->andWhere(['u_#__emailtemplates.email_template_type' => $type]);
+			$queryGenerator->addCondition('email_template_type', $type, 'e');
 		}
 		if ($hideSystem) {
-			$query->andWhere(['u_#__emailtemplates.sys_name' => null]);
+			$queryGenerator->addNativeCondition(['u_#__emailtemplates.sys_name' => null]);
 		}
-		$row = $query->all();
-		Cache::save('MailTempleteList', $cacheKey, $row, Cache::LONG);
-
-		return $row;
+		return $queryGenerator->createQuery()->all();
 	}
 
 	/**
@@ -108,41 +102,38 @@ class Mail
 	 *
 	 * @return array
 	 */
-	public static function getTemplete($id)
+	public static function getTemplate($id)
 	{
-		$detail = static::getTempleteDetail($id);
-		if (!$detail) {
-			return false;
+		if (!is_numeric($id)) {
+			$id = self::getTemplateIdFromSysName($id);
 		}
+		$template = \Vtiger_Record_Model::getInstanceById($id, 'EmailTemplates');
 		return array_merge(
-			$detail, static::getAttachmentsFromTemplete($detail['emailtemplatesid'])
+			$template->getData(), static::getAttachmentsFromTemplate($template->getId())
 		);
 	}
 
 	/**
-	 * Get mail template detail.
+	 * Get template ID.
 	 *
-	 * @param int|string $id
+	 * @param string $name
 	 *
-	 * @return array
+	 * @return int|null
 	 */
-	public static function getTempleteDetail($id)
+	public static function getTemplateIdFromSysName(string $name): ?int
 	{
-		if (Cache::has('MailTempleteDetail', $id)) {
-			return Cache::get('MailTempleteDetail', $id);
-		}
-		$query = (new \App\Db\Query())->from('u_#__emailtemplates')
-			->innerJoin('vtiger_crmentity', 'u_#__emailtemplates.emailtemplatesid = vtiger_crmentity.crmid')
-			->where(['vtiger_crmentity.deleted' => 0]);
-		if (is_numeric($id)) {
-			$query->andWhere(['u_#__emailtemplates.emailtemplatesid' => $id]);
+		$cacheName = 'TemplateIdFromSysName';
+		if (Cache::has($cacheName, '')) {
+			$templates = Cache::get($cacheName, '');
 		} else {
-			$query->andWhere(['u_#__emailtemplates.sys_name' => $id]);
+			$queryGenerator = new \App\QueryGenerator('EmailTemplates');
+			$queryGenerator->setFields(['id']);
+			$queryGenerator->permissions = false;
+			$queryGenerator->addNativeCondition(['not', ['sys_name' => null]]);
+			$templates = $queryGenerator->createQuery()->select(['sys_name', 'emailtemplatesid'])->createCommand()->queryAllByGroup();
+			Cache::save($cacheName, '', $templates, Cache::LONG);
 		}
-		$row = $query->one();
-		Cache::save('MailTempleteDetail', $id, $row, Cache::LONG);
-
-		return $row;
+		return $templates[$name] ?? null;
 	}
 
 	/**
@@ -152,7 +143,7 @@ class Mail
 	 *
 	 * @return array
 	 */
-	public static function getAttachmentsFromTemplete($id)
+	public static function getAttachmentsFromTemplate($id)
 	{
 		if (Cache::has('MailAttachmentsFromTemplete', $id)) {
 			return Cache::get('MailAttachmentsFromTemplete', $id);

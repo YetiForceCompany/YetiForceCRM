@@ -101,7 +101,7 @@ class Mailer
 		} else {
 			$recordModel = $params['recordModel'];
 		}
-		$template = Mail::getTemplete($params['template']);
+		$template = Mail::getTemplate($params['template']);
 		if (!$template) {
 			Log::warning('No mail templete', 'Mailer');
 			return false;
@@ -415,10 +415,11 @@ class Mailer
 		};
 		$currentUser = \Users_Record_Model::getCurrentUserModel();
 		$this->to($currentUser->get('email1'));
-		$template = Mail::getTempleteDetail('TestMailAboutTheMailServerConfiguration');
-		if (!$template) {
+		$templateId = Mail::getTemplateIdFromSysName('TestMailAboutTheMailServerConfiguration');
+		if (!$templateId) {
 			return ['result' => false, 'error' => Language::translate('LBL_NO_EMAIL_TEMPLATE')];
 		}
+		$template = Mail::getTemplate($templateId);
 		$textParser = TextParser::getInstanceById($currentUser->getId(), 'Users');
 		$this->subject($textParser->setContent($template['subject'])->parse()->getContent());
 		$this->content($textParser->setContent($template['content'])->parse()->getContent());
