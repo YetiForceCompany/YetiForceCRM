@@ -1,7 +1,11 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template v-slot:chatMessages>
   <q-page-container>
-    <q-page>
+    <q-page
+      style="display: flex;
+    flex-direction: column;
+    justify-content: space-between;"
+    >
       <div class="row col-12 q-px-sm" ref="searchContainer">
         <div class="col-12">
           <q-input dense borderless v-model="inputSearch" :placeholder="placeholder">
@@ -32,12 +36,12 @@
           <q-separator />
         </div>
       </div>
-      <div class="col-12 q-px-sm">
+      <div class="flex-grow-1" style="height: 0; overflow: hidden">
         <q-scroll-area
           :thumb-style="thumbStyle"
           :content-style="contentStyle"
           :content-active-style="contentActiveStyle"
-          :style="{ height: computedHeight }"
+          ref="scrollContainer"
         >
           <div class="text-center q-mt-xl">
             <q-btn class="">
@@ -72,19 +76,22 @@
             </div>
           </div>
         </q-scroll-area>
+        <q-resize-observer @resize="onResize" />
+      </div>
+      <div class="col-12" ref="textContainer">
         <q-separator />
-        <div class="col-12" ref="textContainer">
-          <q-input borderless v-model="text" type="textarea" autogrow :placeholder="placeholderTexttera" :dense="dense">
-            <template v-slot:append>
-              <q-btn type="submit" :loading="submitting" round color="secondary" icon="mdi-send" />
-            </template>
-          </q-input>
-        </div>
+        <q-input borderless v-model="text" type="textarea" autogrow :placeholder="placeholderTexttera" :dense="dense">
+          <template v-slot:append>
+            <q-btn type="submit" :loading="submitting" round color="secondary" icon="mdi-send" />
+          </template>
+        </q-input>
       </div>
     </q-page>
   </q-page-container>
 </template>
 <script>
+import { createNamespacedHelpers } from 'vuex'
+const { mapGetters } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatMessages',
   data() {
@@ -108,6 +115,7 @@ export default {
           messages: 'test1',
           user_name: 'Administrator',
           last_name: 'Administrator',
+
           role_name: 'Board of Management',
           color: 'blue',
           img: 'https://cdn.quasar-framework.org/img/avatar3.jpg'
@@ -210,16 +218,6 @@ export default {
     }
   },
   computed: {
-    computedHeight() {
-      console.log(this)
-      if (this.$refs.textContainer !== undefined && this.$refs.searchContainer !== undefined) {
-        Quasar.utils.dom.offset(this.$refs.textContainer.$el).top
-        Quasar.utils.dom.offset(this.$refs.searchContainer.$el).top
-        console.log(Quasar.utils.dom.offset(this.$refs.textContainer.$el).top)
-        console.log(Quasar.utils.dom.offset(this.$refs.searchContainer.$el).top)
-        return false
-      }
-    },
     contentStyle() {
       return {
         color: '#555'
@@ -240,7 +238,8 @@ export default {
         width: '5px',
         opacity: 0.75
       }
-    }
+    },
+    ...mapGetters(['maximizedDialog'])
   },
   methods: {
     simulateSubmit() {
@@ -255,7 +254,15 @@ export default {
         // now restoring submit to its initial state
         this.submitting = false
       }, 3000)
+    },
+    onResize({ height }) {
+      Quasar.utils.dom.css(this.$refs.scrollContainer.$el, {
+        height: height + 'px'
+      })
     }
+  },
+  mounted() {
+    this.$nextTick(() => {})
   }
 }
 </script>
