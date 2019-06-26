@@ -24,8 +24,6 @@
       <div class="flex-grow-1" style="height: 0; overflow: hidden">
         <q-scroll-area
           :thumb-style="thumbStyle"
-          :content-style="contentStyle"
-          :content-active-style="contentActiveStyle"
           ref="scrollContainer"
         >
           <div v-show="data.showMoreButton" class="text-center q-mt-md">
@@ -51,7 +49,14 @@
       </div>
       <div class="q-px-sm" ref="textContainer">
         <q-separator />
-        <q-input borderless v-model="text" type="textarea" autogrow :placeholder="translate('JS_CHAT_MESSAGE')" class="overflow-hidden">
+        <q-input
+          borderless
+          v-model="text"
+          type="textarea"
+          autogrow
+          :placeholder="translate('JS_CHAT_MESSAGE')"
+          class="overflow-hidden"
+        >
           <template v-slot:append>
             <q-btn :loading="sending" round color="secondary" icon="mdi-send" @click="simulateSubmit" />
           </template>
@@ -76,16 +81,6 @@ export default {
     }
   },
   computed: {
-    contentStyle() {
-      return {
-        color: '#555'
-      }
-    },
-    contentActiveStyle() {
-      return {
-        color: 'black'
-      }
-    },
     thumbStyle() {
       return {
         right: '2px',
