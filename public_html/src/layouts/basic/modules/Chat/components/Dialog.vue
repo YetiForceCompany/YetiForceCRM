@@ -57,7 +57,10 @@ export default {
     ...mapGetters(['maximizedDialog'])
   },
   methods: {
-    ...mapActions(['setDialog'])
+    ...mapActions(['setDialog', 'fetchData'])
+  },
+  async created() {
+    await this.fetchData()
   }
 }
 </script>

@@ -11,5 +11,11 @@ export default {
 	},
 	setRightPanel(state, isOpen) {
 		state.rightPanel = isOpen
+	},
+	setHistoryTab(state, isVisible) {
+		state.historyTab = isVisible
+	},
+	setData(state, data) {
+		state.data = data
 	}
 }

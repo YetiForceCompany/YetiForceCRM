@@ -6,7 +6,7 @@
         <q-btn dense flat round icon="mdi-menu" @click="toggleLeftPanel()" />
         <q-btn dense round flat icon="mdi-keyboard-outline" />
 
-        <q-btn dense round flat icon="mdi-history" @click="visibleInputSearch(false), showTabHistory(true)" />
+        <q-btn dense round flat icon="mdi-history" @click="toggleHistoryTab()" />
         <q-btn dense round flat icon="mdi-comment-multiple-outline" />
         <q-btn dense round flat icon="mdi-bell-off-outline" />
         <q-btn dense round flat icon="mdi-volume-high" />
@@ -59,10 +59,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setDialog', 'toggleRightPanel', 'toggleLeftPanel', 'maximize']),
-    visibleInputSearch: function(value) {
-      this.$emit('visibleInputSearch', value)
-    },
+    ...mapActions(['setDialog', 'toggleRightPanel', 'toggleLeftPanel', 'toggleHistoryTab', 'maximize']),
     showTabHistory: function(value) {
       this.$emit('showTabHistory', value)
     },

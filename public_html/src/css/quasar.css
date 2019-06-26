@@ -7460,6 +7460,93 @@ body.mobile .q-tabs__arrow {
 .q-badge--transparent {
   opacity: 0.8;
 }
+.q-message-name,
+.q-message-stamp,
+.q-message-label {
+  font-size: small;
+}
+.q-message-label {
+  margin: 24px 0;
+}
+.q-message-stamp {
+  color: inherit;
+  margin-top: 4px;
+  opacity: 0.6;
+  display: none;
+}
+.q-message-avatar {
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+}
+.q-message {
+  margin-bottom: 8px;
+}
+.q-message:first-child .q-message-label {
+  margin-top: 0;
+}
+.q-message-received .q-message-avatar {
+  margin-right: 8px;
+}
+.q-message-received .q-message-text {
+  color: #81c784;
+  border-radius: 4px 4px 4px 0;
+}
+.q-message-received .q-message-text:last-child:before {
+  right: 100%;
+  border-right: 0 solid transparent;
+  border-left: 8px solid transparent;
+  border-bottom: 8px solid currentColor;
+}
+.q-message-received .q-message-text-content {
+  color: #000;
+}
+.q-message-sent .q-message-name {
+  text-align: right;
+}
+.q-message-sent .q-message-avatar {
+  margin-left: 8px;
+}
+.q-message-sent .q-message-container {
+  flex-direction: row-reverse;
+}
+.q-message-sent .q-message-text {
+  color: #e0e0e0;
+  border-radius: 4px 4px 0 4px;
+}
+.q-message-sent .q-message-text:last-child:before {
+  left: 100%;
+  border-left: 0 solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid currentColor;
+}
+.q-message-sent .q-message-text-content {
+  color: #000;
+}
+.q-message-text {
+  background: currentColor;
+  padding: 8px;
+  line-height: 1.2;
+  word-break: break-word;
+  position: relative;
+  transform: translate3d(0, 0, 0);
+}
+.q-message-text + .q-message-text {
+  margin-top: 3px;
+}
+.q-message-text:last-child {
+  min-height: 48px;
+}
+.q-message-text:last-child .q-message-stamp {
+  display: block;
+}
+.q-message-text:last-child:before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 0;
+  height: 0;
+}
 .q-ripple {
   position: absolute;
   top: 0;

@@ -1,55 +1,58 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <q-drawer :value="leftPanel" side="left" bordered @hide="setLeftPanel(false)">
-    <div class="bg-grey-9 fit">
+    <div class="bg-grey-11 fit">
       <div class="col-12 ">
-        <q-input dense borderless v-model="inputRoom" dark color="white" :placeholder="placeholderRoom" class="q-px-sm">
+        <q-input dense v-model="inputRoom" :placeholder="translate('JS_CHAT_SEARCH_ROOMS')" class="q-px-sm">
           <template v-slot:prepend>
             <q-icon name="mdi-magnify" />
           </template>
           <template v-slot:append>
-            <q-icon
-              v-show="inputRoom.length > 0"
-              name="mdi-close"
-              @click="inputRoom = ''"
-              class="cursor-pointer  text-white"
-            />
+            <q-icon v-show="inputRoom.length > 0" name="mdi-close" @click="inputRoom = ''" class="cursor-pointer" />
           </template>
         </q-input>
       </div>
-
-      <div class="col-12 text-white bg-grey-9" v-for="(row, index) of roomsByUser" :key="index">
-        <div class="bg-black text-bold q-pa-sm">
-          <i aria-hidden="true" class="q-icon mdi mdi-star q-mr-sm" v-if="index === 'crm'" />
-          <i aria-hidden="true" class="q-icon mdi mdi-account-group-outline q-mr-sm" v-if="index === 'group'" />
-          <i aria-hidden="true" class="q-icon mdi mdi-earth q-mr-sm" v-if="index === 'global'" />
-          {{ translate(`LBL_ROOM_${index.toUpperCase()}`, moduleName) }}
-          <q-btn round flat dense class="gt-xs float-right" size="9px" icon="mdi-information">
-            <q-tooltip> {{ translate(`LBL_ROOM_DESCRIPTION_${index.toUpperCase()}`, moduleName) }}</q-tooltip>
-          </q-btn>
-        </div>
-        <q-list class="q-mb-none" v-for="rows of row" :key="rows.name">
-          <q-item clickable v-ripple class="q-pl-sm">
-            <div class="col-12 row items-center">
-              <div class="col-7" @click="footerGroup(index), footerRoom(rows.name)">
-                {{ rows.name }}
-              </div>
-              <div class="col-5 row justify-end">
-                <div class="col-3 text-right" v-if="rows.cnt_new_message > 0">
-                  <q-badge color="blue" :label="rows.cnt_new_message" />
+      <div class="col-12" v-for="(room, roomType) of data.roomList" :key="roomType" :style="{ fontSize: fontSize }">
+        <q-list dense class="q-mb-none">
+          <q-item-label header class="flex items-center">
+            <q-item-section avatar>
+              <q-icon :name="setGroupIcon(roomType)" :size="fontSize" />
+            </q-item-section>
+            {{ translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`) }}
+            <q-icon :size="fontSize" name="mdi-information" class="q-ml-auto">
+              <q-tooltip> {{ translate(`JS_CHAT_ROOM_DESCRIPTION_${roomType.toUpperCase()}`) }}</q-tooltip>
+            </q-icon>
+          </q-item-label>
+          <template v-for="rows of room">
+            <q-item
+              clickable
+              v-ripple
+              :key="rows.name"
+              class="q-pl-sm"
+              :active="data.currentRoom.recordId === rows.recordid"
+              @click="fetchRoom({ id: rows.recordid, roomType: roomType })"
+            >
+              <div class="col-12 row items-center">
+                <div class="col-7">
+                  {{ rows.name }}
                 </div>
-                <div class="col-3  text-right" v-if="index === 'crm'">
-                  <i aria-hidden="true" class="text-white q-icon mdi mdi-link-variant" />
+                <div class="col-5 row justify-end">
+                  <div class="col-3 text-right" v-if="rows.cnt_new_message > 0">
+                    <q-badge color="blue" :label="rows.cnt_new_message" />
+                  </div>
+                  <!-- <div class="col-3  text-right" v-if="roomType === 'crm'">
+                  <i aria-hidden="true" class= q-icon mdi mdi-link-variant" />
                 </div>
-                <div class="col-3  text-right" v-show="pinShow" @click=";(pinOffShow = true), (pinShow = false)">
+                <div class="col-3  text-right" v-if="pinShow" @click=";(pinOffShow = true), (pinShow = false)">
                   <i aria-hidden="true" class="text-red q-icon mdi mdi-pin" />
                 </div>
-                <div class="col-3  text-right" v-show="pinOffShow" @click=";(pinShow = true), (pinOffShow = false)">
-                  <i aria-hidden="true" class="text-white q-icon mdi mdi-pin-off" />
+                <div class="col-3  text-right" v-if="pinOffShow" @click=";(pinShow = true), (pinOffShow = false)">
+                  <i aria-hidden="true" class= q-icon mdi mdi-pin-off" />
+                </div> -->
                 </div>
               </div>
-            </div>
-          </q-item>
+            </q-item>
+          </template>
         </q-list>
       </div>
     </div>
@@ -57,63 +60,31 @@
 </template>
 <script>
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
+const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatLeftPanel',
-  props: {
-    groupFooter: { type: String, required: false },
-    roomFooter: { type: String, required: false }
-  },
   data() {
     return {
-      iconSize: '.75rem',
-      maximizedToggle: true,
-      left: false,
-      roomsByUser: {
-        crm: {
-          0: { roomid: 1, userid: 1, recordid: 167, name: 'Promax', cnt_new_message: 1, moduleName: 'Accounts' }
-        },
-        group: {
-          0: {
-            roomid: 4,
-            userid: 3,
-            recordid: 167,
-            name: 'Marketing Group 1',
-            cnt_new_message: 0
-          },
-          1: {
-            roomid: 5,
-            userid: 3,
-            recordid: 168,
-            name: 'Marketing Group 2',
-            cnt_new_message: 0
-          }
-        },
-        global: {
-          0: { name: 'General', recordid: 1, cnt_new_message: 0 }
-        }
-      },
-      pinShow: true,
-      inputSearchRoom: false,
-      placeholderRoom: 'Wyszukaj pokój',
       inputRoom: '',
-      pinOffShow: false,
-      submitting: false,
-      moduleName: 'Chat',
-      dense: false
+      fontSize: '0.88rem'
     }
   },
   computed: {
-    ...mapGetters(['leftPanel'])
+    ...mapGetters(['leftPanel', 'data'])
   },
   methods: {
-    footerGroup: function(groupName) {
-      this.$emit('footerGroup', groupName)
-    },
-    footerRoom: function(roomName) {
-      this.$emit('footerRoom', roomName)
-    },
-    ...mapMutations(['setLeftPanel'])
+    ...mapMutations(['setLeftPanel']),
+    ...mapActions(['fetchRoom']),
+    setGroupIcon(roomType) {
+      switch (roomType) {
+        case 'crm':
+          return 'mdi-star'
+        case 'group':
+          return 'mdi-account-multiple'
+        case 'global':
+          return 'mdi-account-group'
+      }
+    }
   }
 }
 </script>
