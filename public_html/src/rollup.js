@@ -14,6 +14,7 @@ const rollup = require('rollup'),
 	commonjs = require('rollup-plugin-commonjs'),
 	resolve = require('rollup-plugin-node-resolve'),
 	globals = require('rollup-plugin-node-globals'),
+	json = require('rollup-plugin-json'),
 	babel = require('rollup-plugin-babel'),
 	minify = require('rollup-plugin-babel-minify')
 
@@ -25,6 +26,7 @@ const plugins = [
 		'~': __dirname,
 		store: `${__dirname}/store/index`
 	}),
+	json(),
 	vue({ needMap: false }),
 	resolve(),
 	commonjs(),
@@ -48,8 +50,12 @@ async function build(filePath, isWatched = false) {
 	}
 
 	const outputOptions = {
+		name: outputFile,
 		file: outputFile,
 		format: 'iife',
+		globals: {
+			vue: 'Vue'
+		},
 		sourcemap
 	}
 

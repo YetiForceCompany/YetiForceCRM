@@ -38,8 +38,7 @@
   </div>
 </template>
 <script>
-import Emoji from 'emoji-mart-vue'
-
+import Emoji from 'emoji-mart-vue-fast'
 import { createNamespacedHelpers } from 'vuex'
 const Picker = Emoji.Picker
 const { mapGetters, mapActions } = createNamespacedHelpers('Chat')
@@ -118,4 +117,5 @@ export default {
   }
 }
 </script>
-<style module lang="stylus"></style>
+<style>
+</style>

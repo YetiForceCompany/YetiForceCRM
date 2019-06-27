@@ -235,6 +235,7 @@ abstract class View extends Base
 			'~libraries/animate.css/animate.css',
 			'~libraries/tributejs/dist/tribute.css',
 			'~libraries/emojipanel/dist/emojipanel.css',
+			'~src/node_modules/emoji-mart-vue-fast/css/emoji-mart.css',
 			'~libraries/@mdi/font/css/materialdesignicons.min.css',
 			'~src/css/quasar.css',
 			'~layouts/resources/colors/calendar.css',
@@ -321,6 +322,7 @@ abstract class View extends Base
 		}
 		if (\App\Privilege::isPermitted('Chat')) {
 			$jsFileNames[] = '~layouts/basic/modules/Chat/Chat.vue.js';
+			$jsFileNames[] = '~layouts/basic/modules/Chat/resources/Chat.js';
 		}
 		if (\App\Privilege::isPermitted('KnowledgeBase')) {
 			$jsFileNames[] = '~layouts/resources/views/KnowledgeBase/KnowledgeBase.vue.js';
