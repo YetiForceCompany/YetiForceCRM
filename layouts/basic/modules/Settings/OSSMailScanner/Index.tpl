@@ -28,7 +28,7 @@
 		</p>
 	</div>
 {/if}
-<ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs">
+<ul id="tabs" class="nav nav-tabs nav-justified my-2 mr-0" data-tabs="tabs">
 	<li class="nav-item"><a class="nav-link active" href="#tab_accounts"
 							data-toggle="tab">{\App\Language::translate('E-mail Accounts', 'OSSMailScanner')} </a></li>
 	<li class="nav-item"><a class="nav-link" href="#tab_actions"
@@ -43,7 +43,7 @@
 </ul>
 <div id="my-tab-content" class="tab-content marginTop20">
 	<div class='editViewContainer tab-pane active' id="tab_accounts">
-		<div class="alert alert-info">{\App\Language::translate('Alert_info_tab_accounts', 'OSSMailScanner')}</div>
+		<div class="alert alert-info mb-2">{\App\Language::translate('Alert_info_tab_accounts', 'OSSMailScanner')}</div>
 		{if $ERRORNOMODULE}
 			<div class="alert alert-block alert-warning">
 				<button type="button" class="close" data-dismiss="alert">×</button>
@@ -184,7 +184,7 @@
 		{/if}
 	</div>
 	<div class='editViewContainer tab-pane marginTop20' id="tab_actions">
-		<div class="alert alert-info">{\App\Language::translate('Alert_info_tab_actions', 'OSSMailScanner')}</div>
+		<div class="alert alert-info mb-2">{\App\Language::translate('Alert_info_tab_actions', 'OSSMailScanner')}</div>
 		<table data-tablesaw-mode="stack" class="table table-bordered">
 			<thead>
 			<tr class="listViewHeaders">
@@ -261,7 +261,7 @@
 		</form>
 	</div>
 	<div class='editViewContainer tab-pane marginTop20' id="tab_record_numbering">
-		<div class="alert alert-info">{\App\Language::translate('Alert_info_tab_record_numbering', 'OSSMailScanner')}
+		<div class="alert alert-info mb-2">{\App\Language::translate('Alert_info_tab_record_numbering', 'OSSMailScanner')}
 			&nbsp; <a class="btn btn-info" role="button"
 					  href="index.php?module=Vtiger&parent=Settings&view=CustomRecordNumbering">{\App\Language::translate('ConfigCustomRecordNumbering','OSSMailScanner')}</a>
 		</div>

@@ -13,7 +13,7 @@
 	<input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
-	<div class="tpl-Settings-Mail-ListViewContents listViewEntriesDiv u-overflow-scroll-xsm-down mt-3">
+	<div class="tpl-Settings-Mail-ListViewContents listViewEntriesDiv u-overflow-scroll-xsm-down mt-2">
 		<span class="listViewLoadingImageBlock d-none modal" id="loadingListViewModal">
 			<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image"
 				 title="{\App\Language::translate('LBL_LOADING')}"/>

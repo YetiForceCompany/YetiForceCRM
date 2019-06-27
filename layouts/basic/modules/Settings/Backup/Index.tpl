@@ -6,7 +6,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 			</div>
 		</div>
-		<div class="contents">
+		<div class="contents mt-2">
 			<h5>{\App\Language::translate('LBL_BACKUP_LIST',$QUALIFIED_MODULE)}</h5>
 			<div class="listViewContentDiv ps ps--active-y">
 				{if !empty($SHOW_CONFIG_ALERT)}

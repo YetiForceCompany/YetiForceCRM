@@ -7,14 +7,14 @@
 				<div class="blockHeader c-panel__header">
 					<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id="{$TYPE_VIEW}_{$RELATED_MODULE_NAME}"></span>
 					<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2 d-none" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id="{$TYPE_VIEW}_{$RELATED_MODULE_NAME}"></span>
-					<h5>
-						<span class="moduleIcon userIcon-{$RELATED_MODULE_NAME}"></span>
+					<h5 class="d-flex align-items-center mb-0">
+						<span class="moduleIcon userIcon-{$RELATED_MODULE_NAME} mr-1"></span>
 						{\App\Language::translate($BLOCK_MODEL->getLabel(),$RELATED_MODULE_NAME)}
 						{if App\Config::relation('SHOW_RECORDS_COUNT')}
 							&nbsp;<span class="count badge">0</span>
 						{/if}
 					</h5>
-					<h5 class="align-self-center ml-auto mr-2">
+					<h5 class="align-self-center ml-auto mr-2 mb-0">
 						<span class="fas fa-link js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_RELATED_RECORDS_LIST')}" data-placement="left"></span>
 					</h5>
 				</div>

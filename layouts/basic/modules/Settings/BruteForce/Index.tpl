@@ -6,7 +6,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 			</div>
 		</div>
-		<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+		<ul id="tabs" class="nav nav-tabs my-2 mr-0" data-tabs="tabs">
 			<li class="nav-item"><a class="nav-link active" href="#settings"
 									data-toggle="tab">{\App\Language::translate('LBL_SETTINGS', $QUALIFIED_MODULE)}</a>
 			</li>
@@ -14,7 +14,7 @@
 									data-toggle="tab">{\App\Language::translate('LBL_BLOCKED_IP', $QUALIFIED_MODULE)}</a>
 			</li>
 		</ul>
-		<div id="my-tab-content" class="tab-content padding10">
+		<div id="my-tab-content" class="tab-content">
 			<div class="tab-pane active row" id="settings">
 				<div class="col-sm-10 col-md-8">
 					<div class="card">
