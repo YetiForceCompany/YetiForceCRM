@@ -2,26 +2,39 @@
 <template>
   <div class="q-px-sm" ref="textContainer">
     <picker
-      v-show="emojiPanel"
+      v-if="emojiPanel"
       @select="addEmoji"
       native
       :title="translate('JS_CHAT_PICK_EMOJI')"
       emoji="point_up"
       :i18n="emojiTranslations"
+      :style="{ position: 'absolute', bottom: containerHeight }"
     />
-    <q-separator />
-    <q-input
-      borderless
-      v-model="text"
-      type="textarea"
-      autogrow
-      :placeholder="translate('JS_CHAT_MESSAGE')"
-      class="overflow-hidden"
-    >
-      <template v-slot:append>
-        <q-btn :loading="sending" round color="secondary" icon="mdi-send" @click="simulateSubmit" />
-      </template>
-    </q-input>
+    <div class="c-completions flex items-center q-gutter-x-sm js-completions__actions">
+      <q-icon
+        :name="emojiPanel ? 'mdi-emoticon-happy' : 'mdi-emoticon-happy-outline'"
+        size="18px"
+        class="cursor-pointer js-emoji-trigger"
+        @click="emojiPanel = !emojiPanel"
+      />
+      <span class="c-completions__item js-completions__users fas fa-user-plus"></span>
+      <span class="c-completions__item js-completions__records fas fa-hashtag"></span>
+    </div>
+    <q-separator class="q-my-xs" />
+    <div class="d-flex flex-nowrap js-chat-message-block" data-js="hide">
+      <div class="js-scrollbar o-chat__form-control o-chat__message-block">
+        <div
+          class="u-font-size-13px js-chat-message js-completions o-chat__form-control"
+          contenteditable="true"
+          data-completions-buttons="true"
+          :placeholder="translate('JS_CHAT_MESSAGE')"
+          data-js="keydown | tribute.js"
+          ref="input"
+          @keydown.enter="send"
+        ></div>
+      </div>
+      <q-btn :loading="sending" round color="secondary" icon="mdi-send" @click="send" />
+    </div>
   </div>
 </template>
 <script>
@@ -36,38 +49,44 @@ export default {
   components: { Picker },
   data() {
     return {
-      emojiPanel: false,
-      text: '',
       sending: false,
+      emojiPanel: false,
       emojiTranslations: {
-        search: this.translate('JS_CHAT_SEARCH_EMOJI'),
-        notfound: 'No Emoji Found',
+        search: this.translate('JS_EMOJI_SEARCH'),
+        notfound: this.translate('JS_EMOJI_NOTFOUND'),
         categories: {
-          search: 'Search Results',
-          recent: 'Frequently Used',
-          people: 'Smileys & People',
-          nature: 'Animals & Nature',
-          foods: 'Food & Drink',
-          activity: 'Activity',
-          places: 'Travel & Places',
-          objects: 'Objects',
-          symbols: 'Symbols',
-          flags: 'Flags',
-          custom: 'Custom'
+          search: this.translate('JS_EMOJI_SEARCHRESULT'),
+          recent: this.translate('JS_EMOJI_RECENT'),
+          people: this.translate('JS_EMOJI_PEOPLE'),
+          nature: this.translate('JS_EMOJI_NATURE'),
+          foods: this.translate('JS_EMOJI_FOODS'),
+          activity: this.translate('JS_EMOJI_ACTIVITY'),
+          places: this.translate('JS_EMOJI_PLACES'),
+          objects: this.translate('JS_EMOJI_OBJECTS'),
+          symbols: this.translate('JS_EMOJI_SYMBOLS'),
+          flags: this.translate('JS_EMOJI_FLAGS'),
+          custom: this.translate('JS_EMOJI_CUSTOM')
         }
       }
     }
   },
   computed: {
-    ...mapGetters(['maximizedDialog', 'historyTab', 'data'])
+    ...mapGetters(['maximizedDialog', 'historyTab', 'data']),
+    containerHeight() {
+      if (this.$refs.textContainer !== undefined) return this.$refs.textContainer.clientHeight + 'px'
+    }
   },
   methods: {
     ...mapActions(['sendMessage']),
-    simulateSubmit() {
-      if (this.text.length < this.data.maxLengthMessage) {
+    send(e) {
+      e.preventDefault()
+      if (this.$refs.input.innerText.length && this.$refs.input.innerText.length < this.data.maxLengthMessage) {
         // clearTimeout(this.timerMessage)
-        this.sendMessage(this.text)
-        this.text = ''
+        this.sending = true
+        this.sendMessage(this.$refs.input.innerHTML).then(e => {
+          this.$refs.input.innerText = ''
+          this.sending = false
+        })
       } else {
         Vtiger_Helper_Js.showPnotify({
           text: app.vtranslate('JS_MESSAGE_TOO_LONG'),
@@ -76,9 +95,26 @@ export default {
         })
       }
     },
-    addEmoji(val) {
-      console.log(val)
+    addEmoji(emoji) {
+      this.$refs.input.insertAdjacentHTML('beforeend', emoji.native)
+    },
+    registerEmojiPanelClickOutside() {
+      document.addEventListener('click', e => {
+        if (
+          this.emojiPanel &&
+          !e.target.offsetParent.className.split(' ').some(c => /emoji-mart.*/.test(c)) &&
+          !e.target.classList.contains('js-emoji-trigger')
+        ) {
+          this.emojiPanel = false
+        }
+      })
     }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      new App.Fields.Text.Completions(this.$refs.input, { emojiPanel: false })
+      this.registerEmojiPanelClickOutside()
+    })
   }
 }
 </script>

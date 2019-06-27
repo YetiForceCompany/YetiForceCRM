@@ -660,9 +660,11 @@ window.App.Fields = {
 			 * @param {jQuery} inputDiv - contenteditable div
 			 * @param params
 			 */
-			constructor(inputDiv = $('.js-completions').eq(0), params = {}) {
+			constructor(inputDiv = $('.js-completions').eq(0), params = { emojiPanel: true }) {
 				if (typeof inputDiv === 'undefined' || inputDiv.length === 0) {
 					return;
+				} else if (inputDiv.length === undefined) {
+					inputDiv = $(inputDiv);
 				}
 				let basicParams = {
 					completionsCollection: {
@@ -796,6 +798,15 @@ window.App.Fields = {
 				if (this.params.completionsButtons !== undefined) {
 					this.registerCompletionsButtons();
 				}
+				if (this.params.emojiPanel) {
+					this.registerEmojiPanel(
+						this.inputDiv,
+						this.inputDiv
+							.parents()
+							.eq(3)
+							.find('.js-completions__emojis')
+					);
+				}
 				if (App.emoji === undefined) {
 					fetch(`${CONFIG.siteUrl}/vendor/ckeditor/ckeditor/plugins/emoji/emoji.json`)
 						.then(response => response.json())
@@ -841,7 +852,6 @@ window.App.Fields = {
 			 */
 			registerCompletionsButtons() {
 				let completionsContainer = this.inputDiv.parents().eq(3);
-				this.registerEmojiPanel(this.inputDiv, completionsContainer.find('.js-completions__emojis'));
 				completionsContainer.find('.js-completions__users').on('click', e => {
 					this.completionsCollection.showMenuForCollection(this.inputDiv[0], 1);
 				});
@@ -1017,7 +1027,7 @@ window.App.Fields = {
 								$(window).height() - selectOffsetTop - marginBottom - (dropdownList.offset().top - selectOffsetTop)
 						});
 					}
-				}, 100)
+				}, 100);
 			};
 			selectElement.each(function() {
 				let select = $(this);

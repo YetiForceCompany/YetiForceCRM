@@ -526,8 +526,10 @@ final class Chat
 		$rows = [];
 		$dataReader = $this->getQueryMessage($messageId, $condition, $searchVal)->createCommand()->query();
 		while ($row = $dataReader->read()) {
+			$row['messages'] = nl2br(\App\Utils\Completions::decode(\App\Purifier::purifyHtml(\App\Purifier::decodeHtml($row['messages']))));
 			$row['created'] = Fields\DateTime::formatToShort($row['created']);
-			['user_name' => $row['user_name'],
+			[
+				'user_name' => $row['user_name'],
 				'role_name' => $row['role_name'],
 				'image' => $row['image']
 			] = $this->getUserInfo($row['userid']);

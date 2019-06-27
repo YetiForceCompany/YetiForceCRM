@@ -1750,6 +1750,18 @@
     "JS_CHAT_CHAT_USER_SWITCHED": "Chat is inactive if you switched to another user.",
     "JS_CHAT_CHAT_NEW_MESSAGE": "New message",
     "JS_CHAT_PICK_EMOJI": "Pick your emoji…",
-    "JS_CHAT_SEARCH_EMOJI": "Search…"
+    "JS_EMOJI_NOTFOUND": "No Emoji Found",
+    "JS_EMOJI_SEARCHRESULT": "Search Results",
+    "JS_EMOJI_RECENT": "recent",
+    "JS_EMOJI_PEOPLE": "people",
+    "JS_EMOJI_NATURE": "nature",
+    "JS_EMOJI_FOODS": "foods",
+    "JS_EMOJI_ACTIVITY": "activity",
+    "JS_EMOJI_PLACES": "places",
+    "JS_EMOJI_OBJECTS": "objects",
+    "JS_EMOJI_SYMBOLS": "symbols",
+    "JS_EMOJI_FLAGS": "flags",
+    "JS_EMOJI_CUSTOM": "custom",
+    "JS_EMOJI_SEARCH": "Search…"
   }
 }

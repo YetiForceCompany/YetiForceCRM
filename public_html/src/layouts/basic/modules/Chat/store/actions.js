@@ -40,18 +40,19 @@ export default {
 		})
 	},
 	sendMessage({ commit, getters }, text) {
-		console.log(getters.data.chatEntries.slice(-1)[0]['id'])
-		AppConnector.request({
-			module: 'Chat',
-			action: 'ChatAjax',
-			mode: 'send',
-			roomType: getters.data.currentRoom.roomType,
-			recordId: getters.data.currentRoom.recordId,
-			message: text,
-			mid: getters.data.chatEntries.slice(-1)[0]['id']
-		}).done(({ result }) => {
-			console.log(result)
-			commit('updateEntries', result)
-		})
+		return new Promise((resolve, reject) => {
+			AppConnector.request({
+				module: 'Chat',
+				action: 'ChatAjax',
+				mode: 'send',
+				roomType: getters.data.currentRoom.roomType,
+				recordId: getters.data.currentRoom.recordId,
+				message: text,
+				mid: getters.data.chatEntries.slice(-1)[0]['id']
+			}).done(({ result }) => {
+				commit('updateEntries', result)
+				resolve(result)
+			})
+		 })
 	}
 }
