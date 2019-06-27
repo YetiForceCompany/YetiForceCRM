@@ -2,35 +2,34 @@
 <template>
   <q-drawer :value="rightPanel" side="right" @hide="setRightPanel(false)" bordered>
     <div class="bg-grey-11 fit">
-      <q-input dense borderless v-model="inputSearchUsers" :placeholder="placeholderUsers" class="q-px-sm">
+      <q-input dense v-model="search" :placeholder="translate('JS_CHAT_SEARCH_PARTICIPANTS')" class="q-px-sm">
         <template v-slot:prepend>
           <q-icon name="mdi-magnify" />
         </template>
         <template v-slot:append>
-          <q-icon
-            v-show="inputSearchUsers.length > 0"
-            name="mdi-close"
-            @click="inputSearchUsers = ''"
-            class="cursor-pointer"
-          />
+          <q-icon v-show="search.length > 0" name="mdi-close" @click="search = ''" class="cursor-pointer" />
         </template>
       </q-input>
-      <div class="bg-grey-4 text-bold text-left q-pa-sm text-uppercase">
-        Użytkownicy
-      </div>
       <q-list>
-        <template v-for="row in dataRowUsers">
-          <q-item clickable v-ripple :key="row.id" v-if="row.user_name === row.user_name">
+        <q-item-label header class="flex items-center">
+          <q-item-section avatar>
+            <q-icon name="mdi-account" size="0.88rem" />
+          </q-item-section>
+          {{ translate('JS_CHAT_PARTICIPANTS') }}
+        </q-item-label>
+        <template v-for="participant in data.participants">
+          <q-item :key="participant.user_id" v-if="participant.user_name === participant.user_name">
             <q-item-section avatar>
               <q-avatar>
-                <img :src="row.img" />
+                <img v-if="participant.img" :src="participant.img" />
+                <q-icon v-else name="mdi-account" size="40px" />
               </q-avatar>
             </q-item-section>
             <q-item-section>
               <div class="row">
-                <span class="col-12">{{ row.user_name }}</span>
-                <span class="col-12 text-caption text-blue-6 text-weight-medium">{{ row.role_name }}</span>
-                <span class="col-12 text-caption text-grey-5">{{ row.messages }}</span>
+                <span class="col-12">{{ participant.user_name }}</span>
+                <span class="col-12 text-caption text-blue-6 text-weight-medium" v-html="participant.role_name"></span>
+                <span class="col-12 text-caption text-grey-5" v-html="participant.message"></span>
               </div>
             </q-item-section>
             <q-separator />
@@ -47,36 +46,11 @@ export default {
   name: 'ChatRightPanel',
   data() {
     return {
-      iconSize: '.75rem',
-      inputSearchUsers: '',
-      placeholder: 'Wyszukaj wiadomość',
-      placeholderUsers: 'Wyszukaj uczestników',
-      dataRowUsers: {
-        0: {
-          id: 46,
-          crmid: 167,
-          userid: 1,
-          messages: 'test1',
-          user_name: 'Administrator',
-          last_name: 'Administrator',
-          role_name: 'Board of Management',
-          img: 'https://cdn.quasar-framework.org/img/avatar3.jpg'
-        },
-        1: {
-          id: 47,
-          crmid: 167,
-          userid: 1,
-          messages: 'test2',
-          user_name: 'Test',
-          last_name: 'Administrator',
-          role_name: 'Board of Management',
-          img: 'https://cdn.quasar-framework.org/img/avatar4.jpg'
-        }
-      }
+      search: ''
     }
   },
   computed: {
-    ...mapGetters(['rightPanel'])
+    ...mapGetters(['rightPanel', 'data'])
   },
   methods: {
     ...mapMutations(['setRightPanel'])

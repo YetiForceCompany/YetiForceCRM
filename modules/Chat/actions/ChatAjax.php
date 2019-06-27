@@ -49,14 +49,14 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'chatEntries' => $chatEntries,
-			'chat' => $chat,
-			'showMoreButton' => count($chatEntries) > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT'),
 			'currentRoom' => \App\Chat::getCurrentRoom(),
 			'roomList' => \App\Chat::getRoomsByUser(),
+			'participants' => $chat->getParticipants(),
 			'isModalView' => true,
 			'isSoundNotification' => $this->isSoundNotification(),
 			'isDesktopNotification' => $this->isDesktopNotification(),
 			'sendByEnter' => $this->sendByEnter(),
+			'showMoreButton' => count($chatEntries) > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT'),
 			'refreshMessageTime' => App\Config::module('Chat', 'REFRESH_MESSAGE_TIME'),
 			'refreshRoomTime' => App\Config::module('Chat', 'REFRESH_ROOM_TIME'),
 			'maxLengthMessage' => App\Config::module('Chat', 'MAX_LENGTH_MESSAGE'),
@@ -128,6 +128,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'chatEntries' => $chatEntries,
+			'participants' => $chat->getParticipants(),
 			'showMoreButton' => count($chatEntries) > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT')
 		]);
 		$response->emit();

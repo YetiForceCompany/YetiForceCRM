@@ -10,7 +10,7 @@
           <q-icon v-show="inputRoom.length > 0" name="mdi-close" @click="inputRoom = ''" class="cursor-pointer" />
         </template>
       </q-input>
-      <div class="q-px-sm" v-for="(room, roomType) of data.roomList" :key="roomType" :style="{ fontSize: fontSize }">
+      <div class="" v-for="(room, roomType) of data.roomList" :key="roomType" :style="{ fontSize: fontSize }">
         <q-list dense class="q-mb-none">
           <q-item-label header class="flex items-center">
             <q-item-section avatar>
