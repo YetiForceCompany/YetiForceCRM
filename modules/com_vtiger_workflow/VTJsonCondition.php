@@ -23,7 +23,7 @@ class VTJsonCondition
 	{
 		$expr = \App\Json::decode($condition);
 		$finalResult = true;
-		if (is_array($expr)) {
+		if (\is_array($expr)) {
 			$groupResults = [];
 			$expressionResults = [];
 			$i = 0;
@@ -33,7 +33,7 @@ class VTJsonCondition
 					$conditionGroup = 0;
 				}
 				preg_match('/(\w+) : \((\w+)\) (\w+)/', $cond['fieldname'], $matches);
-				if (0 == count($matches)) {
+				if (0 == \count($matches)) {
 					$expressionResults[$conditionGroup][$i]['result'] = $this->checkCondition($recordModel, $cond);
 				} else {
 					$referenceField = $matches[1];
@@ -111,8 +111,8 @@ class VTJsonCondition
 
 	public function startsWith($str, $subStr)
 	{
-		$sl = strlen($str);
-		$ssl = strlen($subStr);
+		$sl = \strlen($str);
+		$ssl = \strlen($subStr);
 		if ($sl >= $ssl) {
 			return 0 == substr_compare($str, $subStr, 0, $ssl);
 		}
@@ -121,8 +121,8 @@ class VTJsonCondition
 
 	public function endsWith($str, $subStr)
 	{
-		$sl = strlen($str);
-		$ssl = strlen($subStr);
+		$sl = \strlen($str);
+		$ssl = \strlen($subStr);
 		if ($sl >= $ssl) {
 			return 0 == substr_compare($str, $subStr, $sl - $ssl, $ssl);
 		}
@@ -134,7 +134,7 @@ class VTJsonCondition
 	 *
 	 * @param Vtiger_Record_Model      $recordModel
 	 * @param array                    $cond
-	 * @param null|Vtiger_Record_Model $referredRecordModel
+	 * @param Vtiger_Record_Model|null $referredRecordModel
 	 *
 	 * @throws Exception
 	 *
@@ -195,6 +195,27 @@ class VTJsonCondition
 				case 'multiReferenceValue':
 					$value = Vtiger_MultiReferenceValue_UIType::COMMA . $value . Vtiger_MultiReferenceValue_UIType::COMMA;
 					break;
+				case 'categoryMultipicklist':
+					if (\in_array($condition, ['contains', 'does not contain', 'is', 'is not'])) {
+						$value = array_filter(explode(',', $value));
+						$fieldValue = array_filter(explode(',', $fieldValue));
+						sort($value);
+						sort($fieldValue);
+						switch ($condition) {
+							case 'is':
+								return $value === $fieldValue;
+							case 'is not':
+								return $value !== $fieldValue;
+							case 'contains':
+								return empty(array_diff($value, $fieldValue));
+							case 'does not contain':
+								return !empty(array_diff($value, $fieldValue));
+							default:
+								break;
+						}
+					}
+					$value = ",{$value},";
+					break;
 				case 'sharedOwner':
 					if ('is' === $condition || 'is not' === $condition) {
 						$fieldValueTemp = $value;
@@ -251,8 +272,8 @@ class VTJsonCondition
 				}
 					return $fieldValue != $value;
 			case 'contains':
-				if (is_array($value)) {
-					return in_array($fieldValue, $value);
+				if (\is_array($value)) {
+					return \in_array($fieldValue, $value);
 				}
 
 				return false !== strpos($fieldValue, $value);
@@ -260,8 +281,8 @@ class VTJsonCondition
 				if (empty($value)) {
 					unset($value);
 				}
-				if (is_array($value)) {
-					return !in_array($fieldValue, $value);
+				if (\is_array($value)) {
+					return !\in_array($fieldValue, $value);
 				}
 
 				return false === strpos($fieldValue, $value);
@@ -447,7 +468,7 @@ class VTJsonCondition
 			case 'is record open':
 				if (
 					($fieldName = App\RecordStatus::getFieldName($recordModel->getModule()->getName())) &&
-				in_array($recordModel->get($fieldName), App\RecordStatus::getStates($recordModel->getModule()->getName()), \App\RecordStatus::RECORD_STATE_OPEN)
+				\in_array($recordModel->get($fieldName), App\RecordStatus::getStates($recordModel->getModule()->getName()), \App\RecordStatus::RECORD_STATE_OPEN)
 				) {
 					return true;
 				}
@@ -455,7 +476,7 @@ class VTJsonCondition
 			case 'is record closed':
 				if (
 					($fieldName = App\RecordStatus::getFieldName($recordModel->getModule()->getName())) &&
-				in_array($recordModel->get($fieldName), App\RecordStatus::getStates($recordModel->getModule()->getName(), \App\RecordStatus::RECORD_STATE_CLOSED))
+				\in_array($recordModel->get($fieldName), App\RecordStatus::getStates($recordModel->getModule()->getName(), \App\RecordStatus::RECORD_STATE_CLOSED))
 				) {
 					return false;
 				}

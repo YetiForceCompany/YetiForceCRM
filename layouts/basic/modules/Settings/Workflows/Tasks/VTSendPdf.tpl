@@ -42,7 +42,7 @@
 					<optgroup class="p-0">
 						<option value="">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
 					</optgroup>
-					{foreach from=App\Mail::getTempleteList($SOURCE_MODULE,'PLL_RECORD') key=key item=item}
+					{foreach from=App\Mail::getTemplateList($SOURCE_MODULE,'PLL_RECORD') key=key item=item}
 						<option {if isset($TASK_OBJECT->mailTemplate) && $TASK_OBJECT->mailTemplate eq $item['id']}selected=""{/if}
 								value="{$item['id']}">{\App\Language::translate($item['name'], $QUALIFIED_MODULE)}</option>
 					{/foreach}

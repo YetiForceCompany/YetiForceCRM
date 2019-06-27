@@ -20,26 +20,7 @@ class PaymentsIn_PaymentsInHandler_Handler
 	public function entityAfterSave(App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
-		if ($this->canUpdatePaymentStatus($recordModel)) {
-			(new \App\BatchMethod(['method' => 'PaymentsIn_Module_Model::updatePaymentStatus', 'params' => [$recordModel->get('ssingleordersid')]]))->save();
-		}
-	}
-
-	/**
-	 * Checking if you can update the payment status.
-	 *
-	 * @param Vtiger_Record_Model $recordModel
-	 *
-	 * @return bool
-	 */
-	private function canUpdatePaymentStatus(Vtiger_Record_Model $recordModel): bool
-	{
-		$fieldModel = $recordModel->getField('ssingleorders_payment_status');
-		$returnValue = $fieldModel && $fieldModel->isActiveField() && !$recordModel->isEmpty('ssingleordersid');
-		if ($returnValue && (int) $recordModel->get('currency_id') !== \App\Record::getCurrencyIdFromInventory($recordModel->get('ssingleordersid'), 'SSingleOrders')) {
-			\App\Log::warning('The payment is in a different currency than the order. SSingleOrdersId: ' . $recordModel->get('ssingleordersid'));
-			$returnValue = false;
-		}
-		return $returnValue && ($recordModel->isNew() || false !== $recordModel->getPreviousValue('paymentsin_status'));
+		PaymentsIn_SSingleOrdersPaymentStatus_Model::updateIfPossible($recordModel);
+		PaymentsIn_FinvoicePaymentStatus_Model::updateIfPossible($recordModel);
 	}
 }

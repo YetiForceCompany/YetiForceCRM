@@ -1113,9 +1113,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getCalendarActivities($mode, Vtiger_Paging_Model $pagingModel, $user, $recordId = false)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUserId = \App\User::getCurrentUserId();
 		if (!$user) {
-			$user = $currentUser->getId();
+			$user = $currentUserId;
 		}
 		$moduleName = 'Calendar';
 		$currentActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('current');
@@ -1168,7 +1168,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		} elseif ('overdue' === $mode) {
 			$andWhere[] = ['and', ['or', ['vtiger_activity.status' => null], ['not in', 'vtiger_activity.status', ['Completed', 'Deferred']]], ['<', 'due_date', $currentDate]];
 		}
-		if ('all' !== $user && !empty($user) && $user === $currentUser->id) {
+		if ('all' !== $user && !empty($user) && $user === $currentUserId) {
 			$andWhere[] = ['vtiger_crmentity.smownerid' => $user];
 		}
 		$query->andWhere($andWhere);
