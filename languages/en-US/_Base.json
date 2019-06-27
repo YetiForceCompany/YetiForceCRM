@@ -1748,6 +1748,8 @@
     "JS_CHAT_ENTER": "It enables/disables sending messages after pressing ENTER",
     "JS_CHAT_DETAIL_VIEW": "Detail view",
     "JS_CHAT_CHAT_USER_SWITCHED": "Chat is inactive if you switched to another user.",
-    "JS_CHAT_CHAT_NEW_MESSAGE": "New message"
+    "JS_CHAT_CHAT_NEW_MESSAGE": "New message",
+    "JS_CHAT_PICK_EMOJI": "Pick your emoji…",
+    "JS_CHAT_SEARCH_EMOJI": "Search…"
   }
 }

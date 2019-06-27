@@ -22,10 +22,7 @@
         </q-tabs>
       </div>
       <div class="flex-grow-1" style="height: 0; overflow: hidden">
-        <q-scroll-area
-          :thumb-style="thumbStyle"
-          ref="scrollContainer"
-        >
+        <q-scroll-area :thumb-style="thumbStyle" ref="scrollContainer">
           <div v-show="data.showMoreButton" class="text-center q-mt-md">
             <q-btn icon="mdi-chevron-double-up">
               {{ translate('JS_CHAT_EARLIER') }}
@@ -47,35 +44,22 @@
         </q-scroll-area>
         <q-resize-observer @resize="onResize" />
       </div>
-      <div class="q-px-sm" ref="textContainer">
-        <q-separator />
-        <q-input
-          borderless
-          v-model="text"
-          type="textarea"
-          autogrow
-          :placeholder="translate('JS_CHAT_MESSAGE')"
-          class="overflow-hidden"
-        >
-          <template v-slot:append>
-            <q-btn :loading="sending" round color="secondary" icon="mdi-send" @click="simulateSubmit" />
-          </template>
-        </q-input>
-      </div>
+      <message-input />
     </q-page>
   </q-page-container>
 </template>
 <script>
+import MessageInput from './MessageInput.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions } = createNamespacedHelpers('Chat')
+
 export default {
   name: 'ChatMessages',
+  components: { MessageInput },
   data() {
     return {
-      text: '',
       inputSearch: '',
       tabHistory: 'ulubiony',
-      sending: false,
       moduleName: 'Chat',
       userId: CONFIG.userId
     }
@@ -93,20 +77,6 @@ export default {
     ...mapGetters(['maximizedDialog', 'historyTab', 'data'])
   },
   methods: {
-    ...mapActions(['sendMessage']),
-    simulateSubmit() {
-      if (this.text.length < this.data.maxLengthMessage) {
-        // clearTimeout(this.timerMessage)
-        this.sendMessage(this.text)
-        this.text = ''
-      } else {
-        Vtiger_Helper_Js.showPnotify({
-          text: app.vtranslate('JS_MESSAGE_TOO_LONG'),
-          type: 'error',
-          animation: 'show'
-        })
-      }
-    },
     onResize({ height }) {
       Quasar.utils.dom.css(this.$refs.scrollContainer.$el, {
         height: height + 'px'
