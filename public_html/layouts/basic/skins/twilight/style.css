@@ -60,3 +60,10 @@
 	color: var(--gray-dark);
 	border-color: var(--color-bg);
 }
+
+tbody {
+	background-color: var(--white);
+}
+.contents.tabbable.table-responsive {
+	background-color: var(--color-bg) !important;
+}

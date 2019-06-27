@@ -664,7 +664,7 @@ hr {
 
 		a {
 			display: inline-block;
-			background: #f3f3f4;
+			background: #fff;
 			color: #444;
 			border-radius: 2px;
 			min-width: 200px;
@@ -1673,6 +1673,17 @@ textarea {
 .tableMiddle td,
 .tableMiddle th {
 	vertical-align: middle !important;
+}
+.SearchFieldsEdit {
+	th {
+		width: 26%;
+	}
+	.alignMiddle.widthMin {
+		text-align: center;
+	}
+	.alignMiddle.widthMin.noWrap {
+		text-align: left;
+	}
 }
 
 .liStyleNone {

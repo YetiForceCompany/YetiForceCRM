@@ -425,6 +425,9 @@
 		color: $color-navbar;
 		background-color: $color-active-nav !important;
 	}
+	&.massEditTabs {
+		@extend .w-100;
+	}
 }
 .dashboardViewContainer {
 	.nav-inverted-tabs {
