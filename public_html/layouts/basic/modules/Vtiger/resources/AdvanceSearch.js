@@ -205,12 +205,13 @@ Vtiger_BasicSearch_Js(
 		* Remaps values to save search conditions into custom view
 		*/
 		advSearchToCVFormat: function(values) {
+			const thisInstance = this;
 			const cvFilter = {'condition':'AND', 'rules':[]};
 			const cvANDConditions = {'condition':'AND', 'rules':[]};
 			const cvORConditions = {'condition':'OR', 'rules':[]};
 			$.each(values['1']['columns'], function(idx, item) { // loop on AND group
 				const condition = {
-					'fieldname': app.getModuleName() + ':' + item['columnname'].split(':')[2],
+					'fieldname': thisInstance.getSearchModule() + ':' + item['columnname'].split(':')[2],
 					'operator': item['comparator'],
 					'value': item['value']
 				}
@@ -219,7 +220,7 @@ Vtiger_BasicSearch_Js(
 			});
 			$.each(values['2']['columns'], function(idx, item) { // loop on OR group
 				const condition = {
-					'fieldname': app.getModuleName() + ':' + item['columnname'].split(':')[2],
+					'fieldname': thisInstance.getSearchModule() + ':' + item['columnname'].split(':')[2],
 					'operator': item['comparator'],
 					'value': item['value']
 				}
