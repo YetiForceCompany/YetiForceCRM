@@ -105,7 +105,8 @@ class Vtiger_AdvancedFilter_Helper
 			'image' => ['is', 'is not', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty'],
 			'percentage' => ['equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed', 'is not empty'],
 			'multiReferenceValue' => ['contains', 'does not contain', 'has changed', 'is empty', 'is not empty'],
-			'tree' => ['is', 'is not', 'has changed', 'has changed to', 'is empty', 'is not empty'],
+			'tree' => ['contains', 'does not contain', 'is', 'is not', 'has changed', 'has changed to', 'is empty', 'is not empty'],
+			'categoryMultipicklist' => ['contains', 'does not contain', 'is', 'is not', 'has changed', 'has changed to', 'is empty', 'is not empty'],
 			'rangeTime' => ['is empty', 'is not empty'],
 			'documentsFileUpload' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'],
 		];
