@@ -93,7 +93,7 @@ class Dashboard
 				$widgets[] = [
 					'type' => $row['linklabel'],
 					'data' => [
-						'title' => $minilistWidgetModel->getTitle(),
+						'title' => \App\Language::translate($minilistWidgetModel->getTitle(), $minilistWidgetModel->getTargetModuleModel()->getName()),
 						'modulename' => $minilistWidgetModel->getTargetModuleModel()->getName(),
 						'headers' => $headers,
 						'records' => $records
