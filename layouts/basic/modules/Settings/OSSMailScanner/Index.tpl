@@ -205,60 +205,68 @@
 		</table>
 	</div>
 	<div class='editViewContainer tab-pane marginTop20' id="tab_email_search">
-		<h3>{\App\Language::translate('Search email configuration', 'OSSMailScanner')}</h3>
-		<hr/>
-		<div class="alert alert-info">
-			<h4>{\App\Language::translate('Alert_info_tab_email_search', 'OSSMailScanner')}</h4></div>
-		<form class="form-horizontal">
-			<select multiple id="email_search" name="email_search" class="select2 form-control">
-				{foreach item=item key=key from=$EMAILSEARCH}
-					{if !isset($last_value) || $last_value neq $item['name']}
-						<optgroup label="{\App\Language::translate($item['name'], $item['name'])}">
-					{/if}
-					<option value="{$item['key']}" {if in_array($item['key'], $EMAILSEARCHLIST) } selected="selected"{/if}>{\App\Language::translate($item['name'], $item['name'])}
-						- {\App\Language::translate($item['fieldlabel'], $item['name'])}</option>
-					{assign var=last_value value=$item['name']}
-					{if $last_value neq $item['name']}
-						</optgroup>
-					{/if}
-				{/foreach}
-			</select>
-		</form>
-		<h3>{\App\Language::translate('LBL_TICKET_REOPEN', 'OSSMailScanner')}</h3>
-		<hr/>
-		<div class="alert alert-info">
-			<h4>{\App\Language::translate('LBL_CONFTAB_CHANGE_TICKET_STATUS', 'OSSMailScanner')}</h4></div>
-		<form class="form-horizontal">
-			<div class="form-group col-sm-12">
-				<div class="radio">
-					<label>
-						<input type="radio" name="conftabChangeTicketStatus" class="conftabChangeTicketStatus"
-							   value="noAction"
-							   {if $WIDGET_CFG['emailsearch']['changeTicketStatus'] eq 'noAction'}checked
-							   data-active="1"{/if}>
-						<strong>{\App\Language::translate('LBL_NO_ACTION', 'OSSMailScanner')}</strong>
-					</label>
-				</div>
-				<div class="radio">
-					<label>
-						<input type="radio" name="conftabChangeTicketStatus" class="conftabChangeTicketStatus"
-							   value="openTicket"
-							   {if $WIDGET_CFG['emailsearch']['changeTicketStatus'] eq 'openTicket'}checked
-							   data-active="1"{/if}>
-						<strong>{\App\Language::translate('LBL_OPEN_TICKET', 'OSSMailScanner')}</strong>
-					</label>
-				</div>
-				<div class="radio">
-					<label>
-						<input type="radio" name="conftabChangeTicketStatus" class="conftabChangeTicketStatus"
-							   value="createTicket"
-							   {if $WIDGET_CFG['emailsearch']['changeTicketStatus'] eq 'createTicket'}checked
-							   data-active="1"{/if}>
-						<strong>{\App\Language::translate('LBL_CREATE_TICKET', 'OSSMailScanner')}</strong>
-					</label>
-				</div>
+		<div class="card mb-2">
+			<div class="card-header">
+				<h3>{\App\Language::translate('Search email configuration', 'OSSMailScanner')}</h3>
 			</div>
-		</form>
+			<div class="card-body">
+				<div class="alert alert-info">
+				<h4>{\App\Language::translate('Alert_info_tab_email_search', 'OSSMailScanner')}</h4></div>
+				<form class="form-horizontal">
+					<select multiple id="email_search" name="email_search" class="select2 form-control">
+						{foreach item=item key=key from=$EMAILSEARCH}
+							{if !isset($last_value) || $last_value neq $item['name']}
+								<optgroup label="{\App\Language::translate($item['name'], $item['name'])}">
+							{/if}
+							<option value="{$item['key']}" {if in_array($item['key'], $EMAILSEARCHLIST) } selected="selected"{/if}>{\App\Language::translate($item['name'], $item['name'])}
+							- {\App\Language::translate($item['fieldlabel'], $item['name'])}</option>
+							{assign var=last_value value=$item['name']}
+							{if $last_value neq $item['name']}
+								</optgroup>
+							{/if}
+						{/foreach}
+					</select>
+				</form>
+			</div>
+		</div>
+		<div class="card">
+			<div class="card-header">
+				<h3>{\App\Language::translate('LBL_TICKET_REOPEN', 'OSSMailScanner')}</h3>
+			</div>
+			<div class="card-body">
+				<div class="alert alert-info">
+				<h4>{\App\Language::translate('LBL_CONFTAB_CHANGE_TICKET_STATUS', 'OSSMailScanner')}</h4></div>
+				<form class="form-horizontal">
+					<div class="form-group col-sm-12">
+						<div class="radio">
+							<label>
+								<input type="radio" name="conftabChangeTicketStatus" class="conftabChangeTicketStatus" value="noAction"
+										{if $WIDGET_CFG['emailsearch']['changeTicketStatus'] eq 'noAction'}checked data-active="1"{/if}>
+								<strong>{\App\Language::translate('LBL_NO_ACTION', 'OSSMailScanner')}</strong>
+							</label>
+						</div>
+						<div class="radio">
+							<label>
+								<input type="radio" name="conftabChangeTicketStatus" class="conftabChangeTicketStatus"
+										value="openTicket"
+										{if $WIDGET_CFG['emailsearch']['changeTicketStatus'] eq 'openTicket'}checked
+										data-active="1"{/if}>
+								<strong>{\App\Language::translate('LBL_OPEN_TICKET', 'OSSMailScanner')}</strong>
+							</label>
+						</div>
+						<div class="radio">
+							<label>
+								<input type="radio" name="conftabChangeTicketStatus" class="conftabChangeTicketStatus"
+											value="createTicket"
+											{if $WIDGET_CFG['emailsearch']['changeTicketStatus'] eq 'createTicket'}checked
+											data-active="1"{/if}>
+								<strong>{\App\Language::translate('LBL_CREATE_TICKET', 'OSSMailScanner')}</strong>
+							</label>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
 	<div class='editViewContainer tab-pane marginTop20' id="tab_record_numbering">
 		<div class="alert alert-info mb-2">{\App\Language::translate('Alert_info_tab_record_numbering', 'OSSMailScanner')}
