@@ -162,12 +162,13 @@ Vtiger_Base_Validator_Js(
 		validate: function() {
 			let fieldValue = this.getFieldValue();
 			let fieldData = this.getElement().data();
-			if (fieldValue.length < 3) {
+			const maximumLength = typeof fieldData.fieldinfo !== 'undefined' ? fieldData.fieldinfo.maximumlength : '3,64';
+			let ranges = maximumLength.split(',');
+			if (fieldValue.length < parseInt(ranges[0])) {
 				this.setError(app.vtranslate('JS_ENTERED_VALUE_IS_TOO_SHORT'));
 				return false;
 			}
-			const maximumLength = typeof fieldData.fieldinfo !== 'undefined' ? fieldData.fieldinfo.maximumlength : null;
-			if (maximumLength && fieldValue.length > parseFloat(maximumLength)) {
+			if (fieldValue.length > parseInt(ranges[1])) {
 				this.setError(app.vtranslate('JS_ENTERED_VALUE_IS_TOO_LONG'));
 				return false;
 			}

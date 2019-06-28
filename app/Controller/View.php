@@ -554,36 +554,13 @@ abstract class View extends Base
 	 */
 	public function loadJsConfig(\App\Request $request)
 	{
-		$userModel = \App\User::getCurrentUserModel();
-		foreach ([
+		$jsEnv = [
 			'skinPath' => \Vtiger_Theme::getCurrentUserThemePath(),
 			'siteUrl' => \App\Layout::getPublicUrl('', true),
 			'layoutPath' => \App\Layout::getPublicUrl('layouts/' . \App\Layout::getActiveLayout()),
 			'langPrefix' => \App\Language::getLanguage(),
 			'langKey' => \App\Language::getShortLanguageName(),
 			'parentModule' => $request->getByType('parent', 2),
-			'dateFormat' => $userModel->getDetail('date_format'),
-			'dateFormatJs' => \App\Fields\Date::currentUserJSDateFormat($userModel->getDetail('date_format')),
-			'hourFormat' => $userModel->getDetail('hour_format'),
-			'startHour' => $userModel->getDetail('start_hour'),
-			'endHour' => $userModel->getDetail('end_hour'),
-			'firstDayOfWeek' => $userModel->getDetail('dayoftheweek'),
-			'firstDayOfWeekNo' => \App\Fields\Date::$dayOfWeek[$userModel->getDetail('dayoftheweek')] ?? false,
-			'eventLimit' => \App\Config::module('Calendar', 'EVENT_LIMIT'),
-			'timeZone' => $userModel->getDetail('time_zone'),
-			'currencyId' => $userModel->getDetail('currency_id'),
-			'defaultCurrencyId' => \App\Fields\Currency::getDefault()['id'],
-			'currencyName' => $userModel->getDetail('currency_name'),
-			'currencyCode' => $userModel->getDetail('currency_code'),
-			'currencySymbol' => $userModel->getDetail('currency_symbol'),
-			'currencyGroupingPattern' => $userModel->getDetail('currency_grouping_pattern'),
-			'currencyDecimalSeparator' => $userModel->getDetail('currency_decimal_separator'),
-			'currencyGroupingSeparator' => $userModel->getDetail('currency_grouping_separator'),
-			'currencySymbolPlacement' => $userModel->getDetail('currency_symbol_placement'),
-			'noOfCurrencyDecimals' => (int)$userModel->getDetail('no_of_currency_decimals'),
-			'truncateTrailingZeros' => $userModel->getDetail('truncate_trailing_zeros'),
-			'rowHeight' => $userModel->getDetail('rowheight'),
-			'userId' => $userModel->getId(),
 			'backgroundClosingModal' => \App\Config::main('backgroundClosingModal'),
 			'globalSearchAutocompleteActive' => \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE'),
 			'globalSearchAutocompleteMinLength' => \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH'),
@@ -595,8 +572,35 @@ abstract class View extends Base
 			'searchShowOwnerOnlyInList' => \App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST'),
 			'fieldsReferencesDependent' => \App\Config::security('FIELDS_REFERENCES_DEPENDENT'),
 			'soundFilesPath' => \App\Layout::getPublicUrl('layouts/resources/sounds/'),
-			'debug' => (bool)\App\Config::debug('JS_DEBUG'),
-		] as $key => $value) {
+			'debug' => (bool)\App\Config::debug('JS_DEBUG')];
+		if(\App\Session::has('authenticated_user_id')){
+			$userModel = \App\User::getCurrentUserModel();
+			$jsEnv += [
+				'dateFormat' => $userModel->getDetail('date_format'),
+				'dateFormatJs' => \App\Fields\Date::currentUserJSDateFormat($userModel->getDetail('date_format')),
+				'hourFormat' => $userModel->getDetail('hour_format'),
+				'startHour' => $userModel->getDetail('start_hour'),
+				'endHour' => $userModel->getDetail('end_hour'),
+				'firstDayOfWeek' => $userModel->getDetail('dayoftheweek'),
+				'firstDayOfWeekNo' => \App\Fields\Date::$dayOfWeek[$userModel->getDetail('dayoftheweek')] ?? false,
+				'eventLimit' => \App\Config::module('Calendar', 'EVENT_LIMIT'),
+				'timeZone' => $userModel->getDetail('time_zone'),
+				'currencyId' => $userModel->getDetail('currency_id'),
+				'defaultCurrencyId' => \App\Fields\Currency::getDefault()['id'],
+				'currencyName' => $userModel->getDetail('currency_name'),
+				'currencyCode' => $userModel->getDetail('currency_code'),
+				'currencySymbol' => $userModel->getDetail('currency_symbol'),
+				'currencyGroupingPattern' => $userModel->getDetail('currency_grouping_pattern'),
+				'currencyDecimalSeparator' => $userModel->getDetail('currency_decimal_separator'),
+				'currencyGroupingSeparator' => $userModel->getDetail('currency_grouping_separator'),
+				'currencySymbolPlacement' => $userModel->getDetail('currency_symbol_placement'),
+				'noOfCurrencyDecimals' => (int)$userModel->getDetail('no_of_currency_decimals'),
+				'truncateTrailingZeros' => $userModel->getDetail('truncate_trailing_zeros'),
+				'rowHeight' => $userModel->getDetail('rowheight'),
+				'userId' => $userModel->getId()
+			];
+		}
+		foreach($jsEnv as $key => $value) {
 			\App\Config::setJsEnv($key, $value);
 		}
 		if (\App\Session::has('ShowAuthy2faModal')) {
