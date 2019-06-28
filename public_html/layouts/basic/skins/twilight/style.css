@@ -60,7 +60,20 @@
 	color: var(--gray-dark);
 	border-color: var(--color-bg);
 }
-
+.tpl-Settings-Vtiger-CustomRecordNumbering .table th {
+	background-color: var(--white);
+	background-image: var(--white);
+	border-top: 1px solid var(--white);
+	border-bottom: 1px solid var(--white) !important;
+	text-transform: uppercase;
+}
+.tpl-Settings-Vtiger-CustomRecordNumbering .table-bordered td {
+	padding-bottom: 0.5rem !important;
+}
+.tpl-Settings-Vtiger-CustomRecordNumbering .table-bordered td,
+.tpl-Settings-Vtiger-CustomRecordNumbering .table-bordered th {
+	border: 1px solid var(--white);
+}
 tbody {
 	background-color: var(--white);
 }

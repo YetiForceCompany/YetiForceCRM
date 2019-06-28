@@ -71,7 +71,8 @@ select[readonly].select2-hidden-accessible + .select2-container {
 		}
 	}
 
-	.select2-results__option, .select2-results__option .select2-results__option {
+	.select2-results__option,
+	.select2-results__option .select2-results__option {
 		@extend .p-1;
 
 		font-size: inherit;
@@ -97,18 +98,26 @@ select[readonly].select2-hidden-accessible + .select2-container {
 	}
 }
 
-select.select2 { //prevent select2 container from changing height when select2 is reloading
-	height: $input-height  !important;
+select.select2 {
+	//prevent select2 container from changing height when select2 is reloading
+	height: $input-height !important;
 }
 
 .input-group-sm {
-	select.select2 { //prevent select2 container from changing height when select2 is reloading
-		height: $input-height-sm  !important;
+	select.select2 {
+		//prevent select2 container from changing height when select2 is reloading
+		height: $input-height-sm !important;
 	}
 }
 
+.input-group-append,
+.form-control,
+.tpl-Settings-Vtiger-CustomRecordNumbering .btn,
+.tpl-Settings-Vtiger-CustomRecordNumbering .btn-sm {
+	border-radius: 0px !important;
+}
 .form-control-sm.select2 {
-	height: $input-height-sm  !important;
+	height: $input-height-sm !important;
 }
 
 .input-group > .select2-container--bootstrap {
@@ -168,14 +177,14 @@ header {
 //theme selection
 .select2-selection__rendered.u-hover-bold {
 	padding: 6px !important;
-	border-radius: 0.25rem
+	border-radius: 0.25rem;
 }
 
-.select2-selection__rendered[title=Twilight] {
+.select2-selection__rendered[title="Twilight"] {
 	@extend .u-bg-twilight;
 }
 
-.select2-selection__rendered[title=Modern] {
+.select2-selection__rendered[title="Modern"] {
 	@extend .u-bg-modern;
 }
 
@@ -228,7 +237,8 @@ header {
 		@extend .p-0;
 	}
 
-	.left, .right {
+	.left,
+	.right {
 		@extend .mb-0;
 	}
 
@@ -256,7 +266,8 @@ header {
 .ui-autocomplete {
 	padding: 0 !important;
 
-	a.ui-menu-item-wrapper, a.ui-menu-item-wrapper:hover {
+	a.ui-menu-item-wrapper,
+	a.ui-menu-item-wrapper:hover {
 		font-weight: inherit !important;
 	}
 }
@@ -316,12 +327,14 @@ ul.ui-autocomplete {
 }
 
 .c-scrollbar-x--small {
-	.ps__rail-x:hover > .ps__thumb-x, .ps__rail-x:focus > .ps__thumb-x, .ps__rail-x.ps--clicking .ps__thumb-x {
+	.ps__rail-x:hover > .ps__thumb-x,
+	.ps__rail-x:focus > .ps__thumb-x,
+	.ps__rail-x.ps--clicking .ps__thumb-x {
 		height: 6px;
 	}
 
 	.ps__rail-x {
-		height: 10px
+		height: 10px;
 	}
 }
 
@@ -376,7 +389,8 @@ ul.ui-autocomplete {
 
 //-------- floatThead --------//
 
-.ps__rail-x, .ps__rail-y {
+.ps__rail-x,
+.ps__rail-y {
 	z-index: 2000; //overflow floatThead in list
 }
 

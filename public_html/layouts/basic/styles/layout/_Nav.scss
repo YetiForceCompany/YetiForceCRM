@@ -415,11 +415,19 @@
 		display: none;
 	}
 }
+.layoutContent {
+	.tab-pane {
+		@extend .pt-0;
+	}
+}
 .nav-tabs {
 	border-bottom: 1px solid #ceced9;
 	background-color: $color-navbar;
 	@extend .rounded-0;
 	margin-right: 0.5rem;
+	.nav-link {
+		color: $color-nav-link;
+	}
 	.nav-link.active {
 		@extend .text-uppercase;
 		color: $color-navbar;
