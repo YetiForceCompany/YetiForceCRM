@@ -5,8 +5,8 @@
       <template>
         <div class="q-pa-md q-gutter-sm">
           <q-breadcrumbs>
-            <q-breadcrumbs-el class="text-white" :label="groupFooter.toUpperCase()" />
-            <q-breadcrumbs-el class="text-white text-cyan-9 text-bold" :label="roomFooter.toUpperCase()" />
+            <q-breadcrumbs-el class="text-white" :label="roomType.label" :icon="roomType.icon" />
+            <q-breadcrumbs-el class="text-white text-cyan-9 text-bold" :label="roomName" />
           </q-breadcrumbs>
         </div>
       </template>
@@ -14,29 +14,37 @@
   </q-footer>
 </template>
 <script>
+import { getGroupIcon } from '../utils/utils.js'
+import { createNamespacedHelpers } from 'vuex'
+const { mapActions, mapGetters } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatFooter',
-  props: {
-    groupFooter: { type: String, required: true },
-    roomFooter: { type: String, required: true }
-  },
-
-  data() {
-    return {
-      iconSize: '.75rem',
-      maximizedToggle: true,
-      inputSearchSearch: '',
-      inputSearchVisible: true,
-      placeholder: 'Wyszukaj wiadomość',
-      visible: false,
-      left: true,
-      right: true,
-      tabHistory: 'ulubiony',
-      tabHistoryShow: false,
-      submitting: false,
-      moduleName: 'Chat',
-      dense: false
+  computed: {
+    ...mapGetters(['data']),
+    roomType() {
+      if (this.data.currentRoom !== undefined) {
+        return {
+          label: this.translate(`JS_CHAT_ROOM_${this.data.currentRoom.roomType.toUpperCase()}`),
+          icon: this.getGroupIcon(this.data.currentRoom.roomType)
+        }
+      } else {
+        return { label: '', icon: '' }
+      }
+    },
+    roomName() {
+      let roomName = ''
+      if (this.data.currentRoom !== undefined) {
+        this.data.roomList[this.data.currentRoom.roomType].forEach(room => {
+          if (room.recordid === this.data.currentRoom.recordId) {
+            roomName = room.name
+          }
+        })
+      }
+      return roomName
     }
+  },
+  methods: {
+    getGroupIcon
   }
 }
 </script>

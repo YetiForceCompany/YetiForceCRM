@@ -99,13 +99,16 @@ export default {
     },
     registerEmojiPanelClickOutside() {
       document.addEventListener('click', e => {
-        if (
-          this.emojiPanel &&
-          !e.target.offsetParent.className.split(' ').some(c => /emoji-mart.*/.test(c)) &&
-          !e.target.classList.contains('js-emoji-trigger')
-        ) {
-          this.emojiPanel = false
-        }
+        try {
+          if (
+            this.emojiPanel &&
+            !e.target.parentNode.className.split(' ').some(c => /emoji-mart.*/.test(c)) &&
+            !e.target.className.split(' ').some(c => /emoji-mart.*/.test(c)) &&
+            !e.target.classList.contains('js-emoji-trigger')
+          ) {
+            this.emojiPanel = false
+          }
+        } catch (error) {}
       })
     }
   },

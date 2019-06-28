@@ -22,12 +22,10 @@ export default {
 			action: 'ChatAjax',
 			mode: 'data'
 		}).done(({ result }) => {
-			console.log(result)
 			commit('setData', result)
 		})
 	},
 	fetchRoom({ commit, getters }, options) {
-		console.log(options)
 		AppConnector.request({
 			module: 'Chat',
 			action: 'ChatAjax',
@@ -53,6 +51,6 @@ export default {
 				commit('updateEntries', result)
 				resolve(result)
 			})
-		 })
+		})
 	}
 }

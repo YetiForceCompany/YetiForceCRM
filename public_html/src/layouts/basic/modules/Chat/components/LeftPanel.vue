@@ -14,7 +14,7 @@
         <q-list dense class="q-mb-none">
           <q-item-label header class="flex items-center">
             <q-item-section avatar>
-              <q-icon :name="setGroupIcon(roomType)" :size="fontSize" />
+              <q-icon :name="getGroupIcon(roomType)" :size="fontSize" />
             </q-item-section>
             {{ translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`) }}
             <q-icon :size="fontSize" name="mdi-information" class="q-ml-auto">
@@ -57,6 +57,7 @@
   </q-drawer>
 </template>
 <script>
+import { getGroupIcon } from '../utils/utils.js'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
@@ -73,16 +74,7 @@ export default {
   methods: {
     ...mapMutations(['setLeftPanel']),
     ...mapActions(['fetchRoom']),
-    setGroupIcon(roomType) {
-      switch (roomType) {
-        case 'crm':
-          return 'mdi-star'
-        case 'group':
-          return 'mdi-account-multiple'
-        case 'global':
-          return 'mdi-account-group'
-      }
-    }
+    getGroupIcon
   }
 }
 </script>
