@@ -93,8 +93,8 @@ class Dashboard
 				$widgets[] = [
 					'type' => $row['linklabel'],
 					'data' => [
-						'title' => \App\Language::translate($minilistWidgetModel->getTitle(), $minilistWidgetModel->getTargetModuleModel()->getName()),
-						'modulename' => $minilistWidgetModel->getTargetModuleModel()->getName(),
+						'title' => \App\Language::translate($minilistWidgetModel->getTitle(), $minilistWidgetModel->getTargetModule()),
+						'modulename' => $minilistWidgetModel->getTargetModule(),
 						'headers' => $headers,
 						'records' => $records
 					]
@@ -106,7 +106,7 @@ class Dashboard
 					'type' => $row['linklabel'],
 					'data' => [
 						'title' => $chartFilterWidgetModel->getTitle(),
-						'modulename' => $chartFilterWidgetModel->getTargetModuleModel()->getName(),
+						'modulename' => $chartFilterWidgetModel->getTargetModule(),
 						'stacked' => $chartFilterWidgetModel->isStacked() ? 1 : 0,
 						'colorsFromDividingField' => $chartFilterWidgetModel->areColorsFromDividingField() ? 1 : 0,
 						'filterIds' => $chartFilterWidgetModel->getFilterIds(),
