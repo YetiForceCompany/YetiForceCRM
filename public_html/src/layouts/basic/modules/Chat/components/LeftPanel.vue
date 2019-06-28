@@ -10,7 +10,7 @@
           <q-icon v-show="inputRoom.length > 0" name="mdi-close" @click="inputRoom = ''" class="cursor-pointer" />
         </template>
       </q-input>
-      <div class="" v-for="(room, roomType) of data.roomList" :key="roomType" :style="{ fontSize: fontSize }">
+      <div class="" v-for="(roomGroup, roomType) of data.roomList" :key="roomType" :style="{ fontSize: fontSize }">
         <q-list dense class="q-mb-none">
           <q-item-label header class="flex items-center">
             <q-item-section avatar>
@@ -21,34 +21,35 @@
               <q-tooltip> {{ translate(`JS_CHAT_ROOM_DESCRIPTION_${roomType.toUpperCase()}`) }}</q-tooltip>
             </q-icon>
           </q-item-label>
-          <template v-for="group of room">
+          <template v-for="room of roomGroup">
             <q-item
-              v-show="roomType === 'group' ? group.isPinned || showAllGroups : true"
+              v-show="roomType === 'group' ? room.isPinned || showAllGroups : true"
               clickable
               v-ripple
-              :key="group.name"
-              class="q-pl-sm"
-              :active="data.currentRoom.recordId === group.recordid"
+              :key="room.name"
+              class="q-pl-sm hover-visibility"
+              :active="data.currentRoom.recordId === room.recordid"
               active-class="bg-teal-1 text-grey-8"
-              @click="fetchRoom({ id: group.recordid, roomType: roomType })"
+              @click="fetchRoom({ id: room.recordid, roomType: roomType })"
             >
-              <div class="col-12 row items-center">
-                <div class="col-7">
-                  {{ group.name }}
+              <div class="full-width flex items-center justify-between no-wrap">
+                <div>
+                  {{ room.name }}
                 </div>
-                <div class="col-5 row justify-end">
-                  <div class="col-3 text-right" v-if="group.cnt_new_message !== undefined && group.cnt_new_message > 0">
-                    <q-badge color="blue" :label="group.cnt_new_message" />
+                <div class="flex items-center justify-end no-wrap">
+                  <q-badge
+                    v-if="room.cnt_new_message !== undefined && room.cnt_new_message > 0"
+                    color="blue"
+                    :label="room.cnt_new_message"
+                  />
+                  <div class="visible-on-hover">
+                    <q-icon v-if="roomType === 'crm'" name="mdi-link-variant" />
+                    <q-icon
+                      v-if="roomType === 'group' || roomType === 'crm'"
+                      @click.stop="togglePinned({ roomType, room })"
+                      :name="room.isPinned || roomType === 'crm' ? 'mdi-pin-off' : 'mdi-pin'"
+                    />
                   </div>
-                  <!-- <div class="col-3  text-right" v-if="roomType === 'crm'">
-                  <i aria-hidden="true" class= q-icon mdi mdi-link-variant" />
-                </div>
-                <div class="col-3  text-right" v-if="pinShow" @click=";(pinOffShow = true), (pinShow = false)">
-                  <i aria-hidden="true" class="text-red q-icon mdi mdi-pin" />
-                </div>
-                <div class="col-3  text-right" v-if="pinOffShow" @click=";(pinShow = true), (pinOffShow = false)">
-                  <i aria-hidden="true" class= q-icon mdi mdi-pin-off" />
-                </div> -->
                 </div>
               </div>
             </q-item>
@@ -57,6 +58,7 @@
         <div class="full-width flex justify-end">
           <q-btn
             v-if="roomType === 'group'"
+            v-show="areUnpinned"
             dense
             flat
             no-caps
@@ -84,13 +86,27 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['leftPanel', 'data'])
+    ...mapGetters(['leftPanel', 'data']),
+    areUnpinned() {
+      return this.data.roomList.group.some(element => {
+        return !element.isPinned
+      })
+    }
   },
   methods: {
     ...mapMutations(['setLeftPanel']),
-    ...mapActions(['fetchRoom']),
+    ...mapActions(['fetchRoom', 'togglePinned']),
     getGroupIcon
   }
 }
 </script>
-<style module lang="stylus"></style>
+<style lang="sass">
+
+.visible-on-hover
+	visibility: hidden
+
+.hover-visibility:hover
+	.visible-on-hover
+		visibility: visible
+
+</style>

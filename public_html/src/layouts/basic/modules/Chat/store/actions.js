@@ -52,5 +52,17 @@ export default {
 				resolve(result)
 			})
 		})
+	},
+	togglePinned({ commit }, { roomType, room }) {
+		console.log(roomType, room)
+		const mode = room.isPinned || roomType === 'crm' ? 'removeFromFavorites' : 'addToFavorites'
+		commit('setPinned', { roomType, room })
+		AppConnector.request({
+			module: 'Chat',
+			action: 'Room',
+			mode: mode,
+			roomType: roomType,
+			recordId: room.recordid
+		})
 	}
 }

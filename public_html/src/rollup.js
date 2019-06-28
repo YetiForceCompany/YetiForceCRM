@@ -27,7 +27,12 @@ const plugins = [
 		store: `${__dirname}/store/index`
 	}),
 	json(),
-	vue({ needMap: false }),
+	vue({
+		needMap: false,
+		scss: {
+			indentedSyntax: true
+		}
+	}),
 	resolve(),
 	commonjs(),
 	globals(),
@@ -87,7 +92,14 @@ async function build(filePath, isWatched = false) {
 
 finder.on('directory', (dir, stat, stop) => {
 	const base = path.basename(dir)
-	if (base === 'node_modules' || base === 'libraries' || base === 'vendor' || base === '_private' || base === 'store')
+	if (
+		base === 'node_modules' ||
+		base === 'libraries' ||
+		base === 'vendor' ||
+		base === '_private' ||
+		base === 'store' ||
+		base === 'utils'
+	)
 		stop()
 })
 

@@ -22,5 +22,26 @@ export default {
 		state.data.chatEntries.push(data.chatEntries.slice(-1)[0])
 		state.data.showMoreButton = data.showMoreButton
 		state.data.participants = data.participants
+	},
+	setPinned(state, { roomType, room }) {
+		const roomList = state.data.roomList
+		switch (roomType) {
+			case 'crm':
+				for (let i = 0; i < roomList.crm.length; i++) {
+					if (roomList.crm[i] === room) {
+						roomList.crm.pop(i)
+						break
+					}
+				}
+				break
+			case 'group':
+				for (let i = 0; i < roomList.group.length; i++) {
+					if (roomList.group[i] === room) {
+						roomList.group[i].isPinned = !roomList.group[i].isPinned
+						break
+					}
+				}
+				break
+		}
 	}
 }
