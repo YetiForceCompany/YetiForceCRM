@@ -21,6 +21,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		parent::__construct();
 		$this->exposeMethod('data');
 		$this->exposeMethod('getEntries');
+		$this->exposeMethod('getMore');
 		$this->exposeMethod('send');
 	}
 
@@ -111,7 +112,28 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$response->setResult($result);
 		$response->emit();
 	}
-
+	/**
+	 * Get more messages from chat.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \yii\db\Exception
+	 */
+	public function getMore(\App\Request $request)
+	{
+		$chat = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'));
+		$chatEntries = $chat->getEntries($request->getInteger('lastId'), '<=');
+		$result = [
+			'currentRoom' => \App\Chat::getCurrentRoom(),
+			'chatEntries' => $chatEntries,
+			'showMoreButton' => count($chatEntries) > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT'),
+		];
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
+	}
 	/**
 	 * Send message function.
 	 *

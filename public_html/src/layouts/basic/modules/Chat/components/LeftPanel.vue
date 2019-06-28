@@ -12,7 +12,7 @@
       </q-input>
       <div class="" v-for="(roomGroup, roomType) of data.roomList" :key="roomType" :style="{ fontSize: fontSize }">
         <q-list dense class="q-mb-none">
-          <q-item-label header class="flex items-center">
+          <q-item-label header class="flex items-center text-bold">
             <q-item-section avatar>
               <q-icon :name="getGroupIcon(roomType)" :size="fontSize" />
             </q-item-section>
@@ -40,6 +40,7 @@
                   <q-badge
                     v-if="room.cnt_new_message !== undefined && room.cnt_new_message > 0"
                     color="blue"
+                    class="q-mx-xs"
                     :label="room.cnt_new_message"
                   />
                   <div class="visible-on-hover">

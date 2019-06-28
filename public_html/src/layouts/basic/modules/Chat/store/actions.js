@@ -64,5 +64,21 @@ export default {
 			roomType: roomType,
 			recordId: room.recordid
 		})
+	},
+	getMore({ commit, getters }) {
+		// clearTimeout(this.timerMessage);
+		AppConnector.request(
+			{
+				module: 'Chat',
+				action: 'ChatAjax',
+				mode: 'getMore',
+				lastId: getters.data.chatEntries[0].id,
+				roomType: getters.data.currentRoom.roomType,
+				recordId: getters.data.currentRoom.recordId
+			},
+			false
+		).done(data => {
+			console.log(data)
+		})
 	}
 }
