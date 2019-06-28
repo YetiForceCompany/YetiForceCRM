@@ -219,8 +219,15 @@ final class Chat
 		$rows = [];
 		while ($row = $dataReader->read()) {
 			if (isset($groups[$row['recordid']])) {
-				$rows[] = $row;
+				$row['isPinned'] = true;
+				$groups[$row['recordid']] = $row;
 			}
+		}
+		foreach ($groups as $id => $group) {
+			if (is_string($group)) {
+				$group = ['recordid' => $id, 'name' => $group, 'isPinned' => false];
+			}
+			$rows[] = $group;
 		}
 		$dataReader->close();
 		return $rows;
@@ -298,7 +305,9 @@ final class Chat
 		$roomInfo = static::getRoomsByUser();
 		foreach (['crm', 'group', 'global'] as $roomType) {
 			foreach ($roomInfo[$roomType] as $item) {
-				$numberOfNewMessages += $item['cnt_new_message'];
+				if (isset($item['cnt_new_message'])) {
+					$numberOfNewMessages += $item['cnt_new_message'];
+				}
 			}
 		}
 		return $numberOfNewMessages;

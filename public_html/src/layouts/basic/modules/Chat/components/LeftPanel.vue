@@ -21,22 +21,24 @@
               <q-tooltip> {{ translate(`JS_CHAT_ROOM_DESCRIPTION_${roomType.toUpperCase()}`) }}</q-tooltip>
             </q-icon>
           </q-item-label>
-          <template v-for="rows of room">
+          <template v-for="group of room">
             <q-item
+              v-show="roomType === 'group' ? group.isPinned || showAllGroups : true"
               clickable
               v-ripple
-              :key="rows.name"
+              :key="group.name"
               class="q-pl-sm"
-              :active="data.currentRoom.recordId === rows.recordid"
-              @click="fetchRoom({ id: rows.recordid, roomType: roomType })"
+              :active="data.currentRoom.recordId === group.recordid"
+              active-class="bg-teal-1 text-grey-8"
+              @click="fetchRoom({ id: group.recordid, roomType: roomType })"
             >
               <div class="col-12 row items-center">
                 <div class="col-7">
-                  {{ rows.name }}
+                  {{ group.name }}
                 </div>
                 <div class="col-5 row justify-end">
-                  <div class="col-3 text-right" v-if="rows.cnt_new_message > 0">
-                    <q-badge color="blue" :label="rows.cnt_new_message" />
+                  <div class="col-3 text-right" v-if="group.cnt_new_message !== undefined && group.cnt_new_message > 0">
+                    <q-badge color="blue" :label="group.cnt_new_message" />
                   </div>
                   <!-- <div class="col-3  text-right" v-if="roomType === 'crm'">
                   <i aria-hidden="true" class= q-icon mdi mdi-link-variant" />
@@ -52,6 +54,18 @@
             </q-item>
           </template>
         </q-list>
+        <div class="full-width flex justify-end">
+          <q-btn
+            v-if="roomType === 'group'"
+            dense
+            flat
+            no-caps
+            color="info"
+            :icon="showAllGroups ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+            :label="showAllGroups ? translate('JS_CHAT_HIDE') : translate('JS_CHAT_MORE')"
+            @click="showAllGroups = !showAllGroups"
+          />
+        </div>
       </div>
     </div>
   </q-drawer>
@@ -65,7 +79,8 @@ export default {
   data() {
     return {
       inputRoom: '',
-      fontSize: '0.88rem'
+      fontSize: '0.88rem',
+      showAllGroups: false
     }
   },
   computed: {
