@@ -127,7 +127,7 @@ abstract class Base
 		foreach ($this->getFields($onEdit) as $fieldCrm => $field) {
 			$data = \array_merge_recursive($data, $this->getFieldValueCrm($fieldCrm, true));
 		}
-		return $data;
+		return ['product' => $data];
 	}
 
 	/**

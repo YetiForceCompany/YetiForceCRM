@@ -45,7 +45,7 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 			try {
 				$productFields = new \App\Integrations\Magento\Synchronizator\Maps\Product();
 				$productFields->setDataCrm($product);
-				$this->connector->request('PUT', 'rest/all/V1/products/' . urlencode($this->mapIdToSku[$productId]), ['product' => $productFields->getData()]);
+				$this->connector->request('PUT', 'rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/products/' . urlencode($this->mapIdToSku[$productId]), $productFields->getData(true));
 				$result = true;
 			} catch (\Throwable $ex) {
 				\App\Log::error('Error during updating magento product: ' . $ex->getMessage(), 'Integrations/Magento');
@@ -63,17 +63,17 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 	 */
 	public function saveProduct(array $product): bool
 	{
+		$productFields = new \App\Integrations\Magento\Synchronizator\Maps\Product();
+		$productFields->setDataCrm($product);
 		$data = [
 			'product' => [
 				'type_id' => 'simple',
 				'attribute_set_id' => 4,
 			]
 		];
-		$productFields = new \App\Integrations\Magento\Synchronizator\Maps\Product();
-		$productFields->setDataCrm($product);
-		$data['product'] = \array_merge_recursive($data['product'], $productFields->getData());
+		$data = \array_merge_recursive($data, $productFields->getData());
 		try {
-			$productRequest = \App\Json::decode($this->connector->request('POST', '/rest/all/V1/products/',
+			$productRequest = \App\Json::decode($this->connector->request('POST', '/rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/products/',
 				$data
 			));
 			$this->saveImages($productRequest['sku'], \App\Json::decode($product['imagename']));
@@ -98,8 +98,12 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 	public function deleteProduct(int $productId): bool
 	{
 		try {
-			$this->connector->request('DELETE', '/rest/all/V1/products/' . urlencode($this->mapIdToSku[$productId]), []);
-			$this->deleteMapping($productId, $this->mapCrm[$productId]);
+			if (!empty($this->mapIdToSku)) {
+				if (isset($this->mapIdToSku[$productId])) {
+					$this->connector->request('DELETE', '/rest/all/V1/products/' . urlencode($this->mapIdToSku[$productId]), []);
+				}
+				$this->deleteMapping($productId, $this->mapCrm[$productId]);
+			}
 			$result = true;
 		} catch (\Throwable $ex) {
 			\App\Log::error('Error during deleting magento product: ' . $ex->getMessage(), 'Integrations/Magento');
@@ -116,7 +120,7 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 	public function getProductSkuMap(): void
 	{
 		if (empty($this->mapIdToSku)) {
-			$data = \App\Json::decode($this->connector->request('GET', 'rest/all/V1/products?fields=items[id,sku]&searchCriteria'));
+			$data = \App\Json::decode($this->connector->request('GET', 'rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/products?fields=items[id,sku]&searchCriteria'));
 			if (!empty($data['items'])) {
 				foreach ($data['items'] as $item) {
 					$this->mapIdToSku[$item['id']] = $item['sku'];
@@ -139,7 +143,7 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 	public function getProducts(array $ids = []): array
 	{
 		$items = [];
-		$data = \App\Json::decode($this->connector->request('GET', 'rest/all/V1/products?' . $this->getSearchCriteria($ids)));
+		$data = \App\Json::decode($this->connector->request('GET', 'rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/products?' . $this->getSearchCriteria($ids)));
 		if (!empty($data['items'])) {
 			foreach ($data['items'] as $item) {
 				$items[$item['id']] = $item;
@@ -159,7 +163,7 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 	{
 		$data = [];
 		try {
-			$data = \App\Json::decode($this->connector->request('GET', 'rest/all/V1/products/' . urlencode($sku)));
+			$data = \App\Json::decode($this->connector->request('GET', 'rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/products/' . urlencode($sku)));
 		} catch (\Throwable $ex) {
 			\App\Log::error('Error during getting magento product data: ' . $ex->getMessage(), 'Integrations/Magento');
 		}

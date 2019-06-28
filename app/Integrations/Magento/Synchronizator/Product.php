@@ -54,7 +54,7 @@ class Product extends Integrators\Product
 					if (!empty($checkImages) || (!empty($productData) && $this->hasChanges($productCrm, $productData))) {
 						if (self::MAGENTO === $this->whichToUpdate($productCrm, $productData)) {
 							$this->updateProduct($this->map[$id], $productCrm);
-							if (!empty($checkImages['add']) || !empty($checkImages['remove'])) {			
+							if (!empty($checkImages['add']) || !empty($checkImages['remove'])) {
 								$this->updateImages($this->mapIdToSku[$this->map[$id]], $checkImages);
 							}
 						} else {
@@ -220,6 +220,8 @@ class Product extends Integrators\Product
 		$productFields = new \App\Integrations\Magento\Synchronizator\Maps\Product();
 		$productFields->setData($data);
 		$dataCrm = $productFields->getDataCrm();
+		$dataCrm['unit_price'] = 0;
+		$dataCrm['purchase'] = 0;
 		$value = 0;
 		if (!empty($dataCrm)) {
 			try {
@@ -339,7 +341,7 @@ class Product extends Integrators\Product
 	 */
 	public function saveImagesCrm(&$recordModel, $images): void
 	{
-		$imagePath = \App\Config::component('Magento', 'productImagesPath');
+		$imagePath = \App\Config::component('Magento', 'addressApi') . \App\Config::component('Magento', 'productImagesPath');
 		$imagesData = [];
 		if (!empty($images)) {
 			foreach ($images as $image) {
