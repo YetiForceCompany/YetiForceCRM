@@ -236,6 +236,10 @@ return [
 				return empty($arg) || \App\Validator::url($arg);
 			}
 		],
+		'storeCode' => [
+			'default' => 'all',
+			'description' => 'Store code to synchronize.',
+		],
 		'username' => [
 			'default' => '',
 			'description' => 'Username to account in magento.',
