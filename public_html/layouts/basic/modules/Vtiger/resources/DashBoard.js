@@ -16,8 +16,8 @@ $.Class(
 		//static property which will store the instance of dashboard
 		currentInstance: false,
 		scrollContainer: false,
-		restrictContentDrag: function(container) {
-			container.on('mousedown.draggable', function(e) {
+		restrictContentDrag: function (container) {
+			container.on('mousedown.draggable', function (e) {
 				var element = $(e.target);
 				var isHeaderElement = element.closest('.dashboardWidgetHeader').length > 0 ? true : false;
 				if (isHeaderElement) {
@@ -32,21 +32,21 @@ $.Class(
 		container: false,
 		noCache: false,
 		instancesCache: {},
-		init: function() {
+		init: function () {
 			Vtiger_DashBoard_Js.currentInstance = this;
 		},
-		getContainer: function() {
+		getContainer: function () {
 			if (this.noCache == true || this.container == false) {
 				this.container = $('.grid-stack');
 			}
 			return this.container;
 		},
-		getCurrentDashboard: function() {
+		getCurrentDashboard: function () {
 			return $('.selectDashboard li a.active')
 				.closest('li')
 				.data('id');
 		},
-		getWidgetInstance: function(widgetContainer) {
+		getWidgetInstance: function (widgetContainer) {
 			var id = widgetContainer.attr('id');
 			if (this.noCache || !(id in this.instancesCache)) {
 				var widgetName = widgetContainer.data('name');
@@ -54,7 +54,7 @@ $.Class(
 			}
 			return this.instancesCache[id];
 		},
-		registerGrid: function() {
+		registerGrid: function () {
 			const thisInstance = this;
 			Vtiger_DashBoard_Js.grid = this.getContainer()
 				.gridstack({
@@ -64,7 +64,7 @@ $.Class(
 					)
 				})
 				.data('gridstack');
-			$('.grid-stack').on('change', function(event, ui) {
+			$('.grid-stack').on('change', function (event, ui) {
 				thisInstance.savePositions($('.grid-stack-item'));
 			});
 			// load widgets after grid initialization to prevent too early lazy loading - visible viewport changes
@@ -83,7 +83,7 @@ $.Class(
 				this.getContainer().css('width', parentWidth + 'px');
 			}
 		},
-		savePositions: function(widgets) {
+		savePositions: function (widgets) {
 			var widgetRowColPositions = {},
 				widgetSizes = {};
 			for (var index = 0, len = widgets.length; index < len; ++index) {
@@ -109,7 +109,7 @@ $.Class(
 			const scrollTop = this.scrollContainer.scrollTop();
 			this.scrollContainer.scrollTop(scrollTop + 1).scrollTop(scrollTop);
 		},
-		loadWidgets: function() {
+		loadWidgets: function () {
 			const thisInstance = this;
 			this.scrollContainer = $('.mainBody');
 			if ($(window).width() < app.breakpoints.sm) {
@@ -128,12 +128,12 @@ $.Class(
 				});
 			this.updateLazyWidget(this.scrollContainer);
 		},
-		loadWidget: function(widgetContainer) {
+		loadWidget: function (widgetContainer) {
 			const self = this;
 			let urlParams = widgetContainer.data('url');
 			let mode = widgetContainer.data('mode');
-			let module = app.getModuleName();
-  		let sourceModule = $('a.active', 'ul.selectDashboradView').parent().data('module');
+			let moduleName = app.getModuleName();
+			let sourceModule = $('a.active', 'ul.selectDashboradView').parent().data('module');
 			widgetContainer.progressIndicator();
 			if (mode === 'open') {
 				let name = widgetContainer.data('name');
@@ -152,7 +152,7 @@ $.Class(
 					self.getWidgetInstance(widgetContainer);
 					widgetContainer.trigger(Vtiger_Widget_Js.widgetPostLoadEvent);
 					self.adjustHeightWidget(widgetContainer);
-					if(module != sourceModule) {
+					if (sourceModule && moduleName != sourceModule) {
 						$('a.js-widget-remove', widgetContainer).remove();
 					}
 				});
@@ -172,9 +172,9 @@ $.Class(
 			widgetContent.css('max-height', adjustedHeight + 'px');
 			app.showNewScrollbar(widgetContent, { wheelPropagation: true });
 		},
-		registerRefreshWidget: function() {
+		registerRefreshWidget: function () {
 			var thisInstance = this;
-			this.getContainer().on('click', 'a[name="drefresh"]', function(e) {
+			this.getContainer().on('click', 'a[name="drefresh"]', function (e) {
 				var element = $(e.currentTarget);
 				var parent = element.closest('.dashboardWidget');
 				var widgetInstnace = thisInstance.getWidgetInstance(parent);
@@ -182,9 +182,9 @@ $.Class(
 				return;
 			});
 		},
-		removeWidget: function() {
+		removeWidget: function () {
 			const thisInstance = this;
-			this.getContainer().on('click', '.js-widget-remove', function(e) {
+			this.getContainer().on('click', '.js-widget-remove', function (e) {
 				let element = $(e.currentTarget),
 					listItem = $(element).parents('.grid-stack-item'),
 					width = listItem.attr('data-gs-width'),
@@ -200,11 +200,11 @@ $.Class(
 						']. ' +
 						app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO');
 				Vtiger_Helper_Js.showConfirmationBox({ message: message })
-					.done(function(e) {
-						AppConnector.request(url).done(function(response) {
+					.done(function (e) {
+						AppConnector.request(url).done(function (response) {
 							if (response.success) {
 								let nonReversableWidgets = [];
-								parent.fadeOut('slow', function() {
+								parent.fadeOut('slow', function () {
 									parent.remove();
 								});
 								if ($.inArray(widgetName, nonReversableWidgets) == -1) {
@@ -222,7 +222,7 @@ $.Class(
 									if (response.result.deleteFromList) {
 										data += `<span class="text-danger pl-5 ml-auto">
 											<span class="fas fa-trash-alt removeWidgetFromList u-hover-opacity" data-widget-id="${
-												response.result.id
+											response.result.id
 											}" data-js="click"></span>
 										</span>`;
 									}
@@ -238,12 +238,12 @@ $.Class(
 							}
 						});
 					})
-					.fail(function(error, err) {});
+					.fail(function (error, err) { });
 			});
 		},
-		registerSelectDashboard: function() {
+		registerSelectDashboard: function () {
 			var thisInstance = this;
-			$('.selectDashboard li').on('click', function(e) {
+			$('.selectDashboard li').on('click', function (e) {
 				var progressIndicatorElement = $.progressIndicator({
 					position: 'html',
 					blockInfo: {
@@ -257,7 +257,7 @@ $.Class(
 					view: app.getViewName(),
 					dashboardId: dashboardId
 				};
-				AppConnector.request(params).done(function(data) {
+				AppConnector.request(params).done(function (data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					$('.dashboardViewContainer').html(data);
 					thisInstance.noCache = true;
@@ -265,13 +265,13 @@ $.Class(
 				});
 			});
 		},
-		registerDatePickerHideInitiater: function() {
+		registerDatePickerHideInitiater: function () {
 			var container = this.getContainer();
-			container.on('click', 'input.dateRange', function(e) {
+			container.on('click', 'input.dateRange', function (e) {
 				var widgetContainer = $(e.currentTarget).closest('.dashboardWidget');
 				var dashboardWidgetHeader = $('.dashboardWidgetHeader', widgetContainer);
 
-				var callbackFunction = function() {
+				var callbackFunction = function () {
 					var date = $('.dateRange');
 					date.DatePickerHide();
 					date.blur();
@@ -281,9 +281,9 @@ $.Class(
 				return false;
 			});
 		},
-		registerShowMailBody: function() {
+		registerShowMailBody: function () {
 			var container = this.getContainer();
-			container.on('click', '.showMailBody', function(e) {
+			container.on('click', '.showMailBody', function (e) {
 				var widgetContainer = $(e.currentTarget).closest('.mailRow');
 				var mailBody = widgetContainer.find('.mailBody');
 				var bodyIcon = $(e.currentTarget).find('.body-icon');
@@ -296,10 +296,10 @@ $.Class(
 				}
 			});
 		},
-		registerChangeMailUser: function() {
+		registerChangeMailUser: function () {
 			var container = this.getContainer();
 
-			container.on('change', '#mailUserList', function(e) {
+			container.on('change', '#mailUserList', function (e) {
 				var element = $(e.currentTarget);
 				var parent = element.closest('.dashboardWidget');
 				var contentContainer = parent.find('.dashboardWidgetContent');
@@ -311,24 +311,24 @@ $.Class(
 				params.data = {};
 				contentContainer.progressIndicator({});
 				AppConnector.request(params)
-					.done(function(data) {
+					.done(function (data) {
 						contentContainer.progressIndicator({ mode: 'hide' });
 						parent.html(data).trigger(Vtiger_Widget_Js.widgetPostRefereshEvent);
 					})
-					.fail(function() {
+					.fail(function () {
 						contentContainer.progressIndicator({ mode: 'hide' });
 					});
 			});
 		},
-		registerChartFilterWidget: function() {
+		registerChartFilterWidget: function () {
 			var thisInstance = this;
 			$('.dashboardHeading')
 				.off('click', '.addChartFilter')
-				.on('click', '.addChartFilter', function(e) {
+				.on('click', '.addChartFilter', function (e) {
 					var element = $(e.currentTarget);
-					app.showModalWindow(null, 'index.php?module=Home&view=ChartFilter&step=step1', function(wizardContainer) {
+					app.showModalWindow(null, 'index.php?module=Home&view=ChartFilter&step=step1', function (wizardContainer) {
 						var form = $('form', wizardContainer);
-						form.on('keypress', function(event) {
+						form.on('keypress', function (event) {
 							return event.keyCode != 13;
 						});
 						var sectorContainer = form.find('.sectorContainer');
@@ -345,7 +345,7 @@ $.Class(
 						step2.remove();
 						step3.remove();
 						footer.hide();
-						chartType.on('change', function(e) {
+						chartType.on('change', function (e) {
 							var currentTarget = $(e.currentTarget);
 							var value = currentTarget.val();
 							if (value == 'Barchat' || value == 'Horizontal') {
@@ -357,7 +357,7 @@ $.Class(
 								wizardContainer.find('.step3 .groupField').trigger('change');
 							}
 						});
-						moduleNameSelect2.on('change', function() {
+						moduleNameSelect2.on('change', function () {
 							if (!moduleNameSelect2.val()) return;
 							footer.hide();
 							wizardContainer.find('.step2').remove();
@@ -368,7 +368,7 @@ $.Class(
 								step: 'step2',
 								chartType: chartType.val(),
 								selectedModule: moduleNameSelect2.val()
-							}).done(function(step2Response) {
+							}).done(function (step2Response) {
 								step1.after(step2Response);
 								wizardContainer.find('#widgetStep').val(2);
 								const step2 = wizardContainer.find('.step2');
@@ -377,7 +377,7 @@ $.Class(
 								const valueTypeElement = step2.find('.valueType');
 								App.Fields.Picklist.showSelect2ElementView(filtersIdElement);
 								App.Fields.Picklist.showSelect2ElementView(valueTypeElement);
-								step2.find('.filtersId, .valueType').on('change', function() {
+								step2.find('.filtersId, .valueType').on('change', function () {
 									wizardContainer.find('.step3').remove();
 									wizardContainer.find('.step4').remove();
 									AppConnector.request({
@@ -388,13 +388,13 @@ $.Class(
 										chartType: chartType.val(),
 										filtersId: filtersIdElement.val(),
 										valueType: valueTypeElement.val()
-									}).done(function(step3Response) {
+									}).done(function (step3Response) {
 										step2.last().after(step3Response);
 										wizardContainer.find('#widgetStep').val(3);
 										var step3 = wizardContainer.find('.step3');
 										App.Fields.Picklist.showSelect2ElementView(step3.find('select'));
 										footer.hide();
-										step3.find('.groupField').on('change', function() {
+										step3.find('.groupField').on('change', function () {
 											wizardContainer.find('.step4').remove();
 											var groupField = $(this);
 											if (!groupField.val()) return;
@@ -407,7 +407,7 @@ $.Class(
 												filtersId: filtersIdElement.val(),
 												groupField: groupField.val(),
 												chartType: chartType.val()
-											}).done(function(step4Response) {
+											}).done(function (step4Response) {
 												step3.last().after(step4Response);
 												wizardContainer.find('#widgetStep').val(4);
 												var step4 = wizardContainer.find('.step4');
@@ -419,7 +419,7 @@ $.Class(
 								});
 							});
 						});
-						form.on('submit', function(e) {
+						form.on('submit', function (e) {
 							e.preventDefault();
 							let save = true;
 							e.preventDefault();
@@ -443,7 +443,7 @@ $.Class(
 									groupField: form.find('.groupField').val(),
 									chartType: chartType.val()
 								};
-								form.find('.saveParam').each(function(index, element) {
+								form.find('.saveParam').each(function (index, element) {
 									element = $(element);
 									if (!(element.is('input') && element.prop('type') === 'checkbox' && !element.prop('checked'))) {
 										data[element.attr('name')] = element.val();
@@ -463,7 +463,7 @@ $.Class(
 					});
 				});
 		},
-		saveChartFilterWidget: function(data, element, moduleNameLabel, filtersId, filterLabel, groupFieldName, form) {
+		saveChartFilterWidget: function (data, element, moduleNameLabel, filtersId, filterLabel, groupFieldName, form) {
 			const thisInstance = this;
 			let label = moduleNameLabel;
 			if (typeof filterLabel !== 'undefined' && filterLabel !== null && filterLabel !== '') {
@@ -488,7 +488,7 @@ $.Class(
 				dashboardId: thisInstance.getCurrentDashboard()
 			};
 			const sourceModule = $('[name="selectedModuleName"]').val();
-			thisInstance.saveWidget(paramsForm, 'add', sourceModule, paramsForm.linkid).done(function(data) {
+			thisInstance.saveWidget(paramsForm, 'add', sourceModule, paramsForm.linkid).done(function (data) {
 				let result = data['result'],
 					params = {};
 				if (data['success']) {
@@ -503,10 +503,10 @@ $.Class(
 					thisInstance.addWidget(
 						linkElement,
 						'index.php?module=Home&view=ShowWidget&name=ChartFilter&linkid=' +
-							element.data('linkid') +
-							'&widgetid=' +
-							result['wid'] +
-							'&active=0'
+						element.data('linkid') +
+						'&widgetid=' +
+						result['wid'] +
+						'&active=0'
 					);
 					Vtiger_Helper_Js.showMessage(params);
 				} else {
@@ -521,15 +521,15 @@ $.Class(
 				}
 			});
 		},
-		registerMiniListWidget: function() {
+		registerMiniListWidget: function () {
 			const thisInstance = this;
 			$('.dashboardHeading')
 				.off('click', '.addFilter')
-				.on('click', '.addFilter', function(e) {
+				.on('click', '.addFilter', function (e) {
 					const element = $(e.currentTarget);
-					app.showModalWindow(null, 'index.php?module=Home&view=MiniListWizard&step=step1', function(wizardContainer) {
+					app.showModalWindow(null, 'index.php?module=Home&view=MiniListWizard&step=step1', function (wizardContainer) {
 						const form = $('form', wizardContainer);
-						form.on('keypress', function(event) {
+						form.on('keypress', function (event) {
 							return event.keyCode != 13;
 						});
 						const moduleNameSelectDOM = $('select[name="module"]', wizardContainer);
@@ -558,7 +558,7 @@ $.Class(
 						fieldsSelectDOM.closest('tr').hide();
 						footer.hide();
 
-						moduleNameSelect2.on('change', function() {
+						moduleNameSelect2.on('change', function () {
 							if (!moduleNameSelect2.val()) {
 								return;
 							}
@@ -569,7 +569,7 @@ $.Class(
 								view: 'MiniListWizard',
 								step: 'step2',
 								selectedModule: moduleNameSelect2.val()
-							}).done(function(res) {
+							}).done(function (res) {
 								filteridSelectDOM
 									.empty()
 									.html(res)
@@ -577,7 +577,7 @@ $.Class(
 								filteridSelect2.closest('tr').show();
 							});
 						});
-						filteridSelect2.on('change', function() {
+						filteridSelect2.on('change', function () {
 							if (!filteridSelect2.val()) {
 								return;
 							}
@@ -587,7 +587,7 @@ $.Class(
 								step: 'step3',
 								selectedModule: moduleNameSelect2.val(),
 								filterid: filteridSelect2.val()
-							}).done(function(res) {
+							}).done(function (res) {
 								const responseHTML = $(res);
 								const fieldsHTML = responseHTML.find('select[name="fields"]').html();
 								const filterFieldsHTML = responseHTML.find('select[name="filter_fields"]').html();
@@ -613,7 +613,7 @@ $.Class(
 									.css('width', '100%');
 							});
 						});
-						fieldsSelect2.on('change', function() {
+						fieldsSelect2.on('change', function () {
 							if (!fieldsSelect2.val()) {
 								footer.hide();
 							} else {
@@ -645,7 +645,7 @@ $.Class(
 					});
 				});
 		},
-		saveMiniListWidget: function(data, element, moduleNameLabel, filterid, filterLabel, form) {
+		saveMiniListWidget: function (data, element, moduleNameLabel, filterid, filterLabel, form) {
 			const thisInstance = this,
 				paramsForm = {
 					data: JSON.stringify(data),
@@ -663,7 +663,7 @@ $.Class(
 					dashboardId: thisInstance.getCurrentDashboard()
 				},
 				sourceModule = $('[name="selectedModuleName"]').val();
-			thisInstance.saveWidget(paramsForm, 'add', sourceModule, paramsForm.linkid).done(function(data) {
+			thisInstance.saveWidget(paramsForm, 'add', sourceModule, paramsForm.linkid).done(function (data) {
 				let result = data['result'],
 					params = {};
 				if (data['success']) {
@@ -678,10 +678,10 @@ $.Class(
 					thisInstance.addWidget(
 						linkElement,
 						'index.php?module=Home&view=ShowWidget&name=MiniList&linkid=' +
-							element.data('linkid') +
-							'&widgetid=' +
-							result['wid'] +
-							'&active=0'
+						element.data('linkid') +
+						'&widgetid=' +
+						result['wid'] +
+						'&active=0'
 					);
 					Vtiger_Helper_Js.showMessage(params);
 				} else {
@@ -696,7 +696,7 @@ $.Class(
 				}
 			});
 		},
-		saveWidget: function(form, mode, sourceModule, linkid) {
+		saveWidget: function (form, mode, sourceModule, linkid) {
 			var aDeferred = $.Deferred();
 			var progressIndicatorElement = $.progressIndicator({
 				position: 'html',
@@ -717,19 +717,19 @@ $.Class(
 				linkid: linkid
 			};
 			AppConnector.request(params)
-				.done(function(data) {
+				.done(function (data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					aDeferred.resolve(data);
 				})
-				.fail(function(error) {
+				.fail(function (error) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					aDeferred.reject(error);
 				});
 			return aDeferred.promise();
 		},
-		registerTabModules: function() {
+		registerTabModules: function () {
 			var thisInstance = this;
-			$('.selectDashboradView li').on('click', function(e) {
+			$('.selectDashboradView li').on('click', function (e) {
 				var currentTarget = $(e.currentTarget);
 				$('.selectDashboradView li').removeClass('active');
 				currentTarget.addClass('active');
@@ -739,7 +739,7 @@ $.Class(
 					sourceModule: app.getModuleName(),
 					dashboardId: thisInstance.getCurrentDashboard()
 				};
-				AppConnector.request(params).done(function(data) {
+				AppConnector.request(params).done(function (data) {
 					$('.dashboardViewContainer').html(data);
 					thisInstance.noCache = true;
 					thisInstance.registerEvents();
@@ -749,9 +749,9 @@ $.Class(
 		/**
 		 * Remove widget from list
 		 */
-		removeWidgetFromList: function() {
+		removeWidgetFromList: function () {
 			const thisInstance = this;
-			$('.dashboardHeading').on('click', '.removeWidgetFromList', function(e) {
+			$('.dashboardHeading').on('click', '.removeWidgetFromList', function (e) {
 				var currentTarget = $(e.currentTarget);
 				var id = currentTarget.data('widget-id');
 				var params = {
@@ -760,7 +760,7 @@ $.Class(
 					mode: 'removeWidgetFromList',
 					widgetid: id
 				};
-				AppConnector.request(params).done(function(data) {
+				AppConnector.request(params).done(function (data) {
 					var params = {
 						text: app.vtranslate('JS_WIDGET_DELETED'),
 						type: 'success'
@@ -805,7 +805,7 @@ $.Class(
 		/**
 		 * Updates list of predefined widgets after changed dashboard
 		 */
-		registerUpdatePredefinedWidgets: function() {
+		registerUpdatePredefinedWidgets: function () {
 			let container = $('.js-predefined-widgets');
 			container.off('click', '.js-widget-list__item');
 			container.on('click', '.js-widget-list__item', e => {
@@ -835,12 +835,12 @@ $.Class(
 			}
 			var widgetContainer = $(
 				'<div class="grid-stack-item js-css-element-queries" data-js="css-element-queries"><div id="' +
-					linkId +
-					'-' +
-					widgetId +
-					'" data-name="' +
-					name +
-					'" data-mode="open" class="grid-stack-item-content dashboardWidget new"></div></div>'
+				linkId +
+				'-' +
+				widgetId +
+				'" data-name="' +
+				name +
+				'" data-mode="open" class="grid-stack-item-content dashboardWidget new"></div></div>'
 			);
 			widgetContainer.find('.dashboardWidget').data('url', url);
 			var width = element.data('width');
@@ -848,7 +848,7 @@ $.Class(
 			Vtiger_DashBoard_Js.grid.addWidget(widgetContainer, 0, 0, width, height);
 			Vtiger_DashBoard_Js.currentInstance.loadWidget(widgetContainer.find('.grid-stack-item-content'));
 		},
-		registerEvents: function() {
+		registerEvents: function () {
 			this.registerGrid();
 			this.registerRefreshWidget();
 			this.removeWidget();
