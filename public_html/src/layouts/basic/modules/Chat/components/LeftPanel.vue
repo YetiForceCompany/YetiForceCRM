@@ -2,16 +2,16 @@
 <template>
   <q-drawer :value="leftPanel" side="left" bordered @hide="setLeftPanel(false)">
     <div class="bg-grey-11 fit">
-      <q-input dense v-model="inputRoom" :placeholder="translate('JS_CHAT_SEARCH_ROOMS')" class="q-px-sm">
+      <q-input dense v-model="searchRooms" :placeholder="translate('JS_CHAT_SEARCH_ROOMS')" class="q-px-sm">
         <template v-slot:prepend>
           <q-icon name="mdi-magnify" />
         </template>
         <template v-slot:append>
-          <q-icon v-show="inputRoom.length > 0" name="mdi-close" @click="inputRoom = ''" class="cursor-pointer" />
+          <q-icon v-show="searchRooms.length > 0" name="mdi-close" @click="searchRooms = ''" class="cursor-pointer" />
         </template>
       </q-input>
-      <div class="" v-for="(roomGroup, roomType) of data.roomList" :key="roomType" :style="{ fontSize: fontSize }">
-        <q-list dense class="q-mb-none">
+      <div class="" v-for="(roomGroup, roomType) of roomList" :key="roomType" :style="{ fontSize: fontSize }">
+        <q-list v-if="roomGroup.length" dense class="q-mb-none">
           <q-item-label header class="flex items-center text-bold">
             <q-item-section avatar>
               <q-icon :name="getGroupIcon(roomType)" :size="fontSize" />
@@ -23,7 +23,7 @@
           </q-item-label>
           <template v-for="room of roomGroup">
             <q-item
-              v-show="roomType === 'group' ? room.isPinned || showAllGroups : true"
+              v-show="roomType === 'group' ? room.isPinned || showAllGroups || searchRooms.length : true"
               clickable
               v-ripple
               :key="room.name"
@@ -59,7 +59,7 @@
         <div class="full-width flex justify-end">
           <q-btn
             v-if="roomType === 'group'"
-            v-show="areUnpinned"
+            v-show="areUnpinned && !searchRooms.length"
             dense
             flat
             no-caps
@@ -81,7 +81,7 @@ export default {
   name: 'ChatLeftPanel',
   data() {
     return {
-      inputRoom: '',
+      searchRooms: '',
       fontSize: '0.88rem',
       showAllGroups: false
     }
@@ -92,6 +92,23 @@ export default {
       return this.data.roomList.group.some(element => {
         return !element.isPinned
       })
+    },
+    roomList() {
+      if (this.searchRooms === '') {
+        return this.data.roomList
+      } else {
+        return {
+          crm: this.data.roomList.crm.filter(room => {
+            return room.name.toLowerCase().includes(this.searchRooms.toLowerCase())
+          }),
+          global: this.data.roomList.global.filter(room => {
+            return room.name.toLowerCase().includes(this.searchRooms.toLowerCase())
+          }),
+          group: this.data.roomList.group.filter(room => {
+            return room.name.toLowerCase().includes(this.searchRooms.toLowerCase())
+          })
+        }
+      }
     }
   },
   methods: {
