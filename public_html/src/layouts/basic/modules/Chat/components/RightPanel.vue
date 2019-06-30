@@ -11,7 +11,7 @@
         </template>
       </q-input>
       <q-list>
-        <q-item-label header class="flex items-center">
+        <q-item-label header class="flex items-center text-bold">
           <q-item-section avatar>
             <q-icon name="mdi-account" size="0.88rem" />
           </q-item-section>

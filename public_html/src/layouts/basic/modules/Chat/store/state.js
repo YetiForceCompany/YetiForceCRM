@@ -5,5 +5,6 @@ export default {
 	leftPanel: true,
 	rightPanel: true,
 	historyTab: false,
+	isSearchActive: false,
 	data: {}
 }

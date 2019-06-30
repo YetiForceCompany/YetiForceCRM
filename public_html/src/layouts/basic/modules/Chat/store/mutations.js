@@ -27,6 +27,12 @@ export default {
 		state.data.chatEntries.unshift(...data.chatEntries)
 		state.data.showMoreButton = data.showMoreButton
 	},
+	setSearchActive(state) {
+		state.isSearchActive = true
+	},
+	setSearchInactive(state) {
+		state.isSearchActive = false
+	},
 	setPinned(state, { roomType, room }) {
 		const roomList = state.data.roomList
 		switch (roomType) {

@@ -23,6 +23,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$this->exposeMethod('getEntries');
 		$this->exposeMethod('getMore');
 		$this->exposeMethod('send');
+		$this->exposeMethod('search');
 	}
 
 	/**
@@ -153,6 +154,32 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			'participants' => $chat->getParticipants(),
 			'showMoreButton' => count($chatEntries) > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT')
 		]);
+		$response->emit();
+	}
+
+	/**
+	 * Search meassages.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 */
+	public function search(\App\Request $request)
+	{
+		$chat = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'));
+		$searchVal = $request->getByType('searchVal', 'Text');
+		if (!$request->isEmpty('mid')) {
+			$chatEntries = $chat->getEntries($request->getInteger('mid'), '<', $searchVal);
+		} else {
+			$chatEntries = $chat->getEntries(null, '>', $searchVal);
+		}
+		$result = [
+			'currentRoom' => \App\Chat::getCurrentRoom(),
+			'chatEntries' => $chatEntries,
+			'showMoreButton' => count($chatEntries) > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT'),
+		];
+		$response = new Vtiger_Response();
+		$response->setResult($result);
 		$response->emit();
 	}
 	/**

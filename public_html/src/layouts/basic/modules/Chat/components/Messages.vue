@@ -7,12 +7,19 @@
     justify-content: space-between;"
     >
       <div class="q-px-sm">
-        <q-input v-show="!historyTab" dense v-model="inputSearch" :placeholder="translate('JS_CHAT_SEARCH_MESSAGES')">
+        <q-input
+          v-show="!historyTab"
+          @keydown.enter="search()"
+          dense
+          :loading="searching"
+          v-model="inputSearch"
+          :placeholder="translate('JS_CHAT_SEARCH_MESSAGES')"
+        >
           <template v-slot:prepend>
-            <q-icon name="mdi-magnify" />
+            <q-icon @click="search()" name="mdi-magnify" class="cursor-pointer" />
           </template>
           <template v-slot:append>
-            <q-icon v-show="inputSearch.length > 0" name="mdi-close" @click="inputSearch = ''" class="cursor-pointer" />
+            <q-icon v-show="inputSearch.length > 0" name="mdi-close" @click="clearSearch()" class="cursor-pointer" />
           </template>
         </q-input>
         <q-tabs v-model="tabHistory" v-show="historyTab" align="justify" class="text-teal">
@@ -24,8 +31,11 @@
       <div class="flex-grow-1" style="height: 0; overflow: hidden">
         <q-scroll-area :thumb-style="thumbStyle" ref="scrollContainer">
           <div v-show="data.showMoreButton" class="text-center q-mt-md">
-            <q-btn icon="mdi-chevron-double-up" @click="fetchOlderEntries()">
+            <q-btn :loading="fetchingEarlier" @click="registerEarlierClick()" icon="mdi-chevron-double-up">
               {{ translate('JS_CHAT_EARLIER') }}
+              <template v-slot:loading>
+                <q-spinner-facebook />
+              </template>
             </q-btn>
           </div>
           <div class="q-pa-md">
@@ -51,7 +61,7 @@
 <script>
 import MessageInput from './MessageInput.vue'
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters, mapActions } = createNamespacedHelpers('Chat')
+const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
 
 export default {
   name: 'ChatMessages',
@@ -61,7 +71,9 @@ export default {
       inputSearch: '',
       tabHistory: 'ulubiony',
       moduleName: 'Chat',
-      userId: CONFIG.userId
+      userId: CONFIG.userId,
+      fetchingEarlier: false,
+      searching: false
     }
   },
   computed: {
@@ -74,13 +86,36 @@ export default {
         opacity: 0.75
       }
     },
-    ...mapGetters(['maximizedDialog', 'historyTab', 'data'])
+    ...mapGetters(['maximizedDialog', 'historyTab', 'data', 'isSearchActive'])
   },
   methods: {
-    ...mapActions(['fetchOlderEntries']),
+    ...mapActions(['fetchEarlierEntries', 'fetchSearchData']),
+    ...mapMutations(['setSearchInactive']),
     onResize({ height }) {
       Quasar.utils.dom.css(this.$refs.scrollContainer.$el, {
         height: height + 'px'
+      })
+    },
+    registerEarlierClick() {
+      this.fetchingEarlier = true
+      if (!this.isSearchActive) {
+        this.fetchEarlierEntries().then(e => {
+          this.fetchingEarlier = false
+        })
+      } else {
+        this.fetchSearchData(this.inputSearch).then(e => {
+          this.fetchingEarlier = false
+        })
+      }
+    },
+    clearSearch() {
+      this.inputSearch = ''
+      this.setSearchInactive()
+    },
+    search() {
+      this.searching = true
+      this.fetchSearchData(this.inputSearch).then(e => {
+        this.searching = false
       })
     }
   }

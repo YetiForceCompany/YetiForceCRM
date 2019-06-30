@@ -15,6 +15,9 @@ export default {
 	historyTab(state) {
 		return state.historyTab
 	},
+	isSearchActive(state) {
+		return state.isSearchActive
+	},
 	data(state) {
 		return state.data
 	}

@@ -65,20 +65,54 @@ export default {
 			recordId: room.recordid
 		})
 	},
-	fetchOlderEntries({ commit, getters }) {
+	fetchEarlierEntries({ commit, getters }) {
 		// clearTimeout(this.timerMessage);
-		AppConnector.request(
-			{
-				module: 'Chat',
-				action: 'ChatAjax',
-				mode: 'getMore',
-				lastId: getters.data.chatEntries[0].id,
-				roomType: getters.data.currentRoom.roomType,
-				recordId: getters.data.currentRoom.recordId
-			},
-			false
-		).done(({ result }) => {
-			commit('pushOlderEntries', result)
+		return new Promise((resolve, reject) => {
+			AppConnector.request(
+				{
+					module: 'Chat',
+					action: 'ChatAjax',
+					mode: 'getMore',
+					lastId: getters.data.chatEntries[0].id,
+					roomType: getters.data.currentRoom.roomType,
+					recordId: getters.data.currentRoom.recordId
+				},
+				false
+			).done(({ result }) => {
+				commit('pushOlderEntries', result)
+				resolve(result)
+			})
+		})
+	},
+	/**
+	 * Search messages.
+	 * @param {jQuery} btn
+	 */
+	fetchSearchData({ commit, getters }, value) {
+		return new Promise((resolve, reject) => {
+			// clearTimeout(this.timerMessage);
+			const showMoreClicked = getters.isSearchActive && getters.data.showMoreButton
+			AppConnector.request(
+				{
+					module: 'Chat',
+					action: 'ChatAjax',
+					mode: 'search',
+					searchVal: value,
+					mid: showMoreClicked ? getters.data.chatEntries[0].id : null,
+					roomType: getters.data.currentRoom.roomType,
+					recordId: getters.data.currentRoom.recordId
+				},
+				false
+			).done(({ result }) => {
+				if (!showMoreClicked) {
+					let tempData = Object.assign({}, getters['data'])
+					commit('setData', Object.assign(tempData, result))
+					commit('setSearchActive')
+				} else {
+					commit('pushOlderEntries', result)
+				}
+				resolve(result)
+			})
 		})
 	}
 }
