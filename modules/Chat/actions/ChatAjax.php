@@ -124,7 +124,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	public function getMore(\App\Request $request)
 	{
 		$chat = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'));
-		$chatEntries = $chat->getEntries($request->getInteger('lastId'), '<=');
+		$chatEntries = $chat->getEntries($request->getInteger('lastId'), '<');
 		$result = [
 			'currentRoom' => \App\Chat::getCurrentRoom(),
 			'chatEntries' => $chatEntries,

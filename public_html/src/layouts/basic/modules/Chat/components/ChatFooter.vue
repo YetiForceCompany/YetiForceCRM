@@ -2,14 +2,10 @@
 <template>
   <q-footer class="bg-blue-grey-10 text-white">
     <q-bar>
-      <template>
-        <div class="q-pa-md q-gutter-sm">
-          <q-breadcrumbs>
-            <q-breadcrumbs-el class="text-white" :label="roomType.label" :icon="roomType.icon" />
-            <q-breadcrumbs-el class="text-white text-cyan-9 text-bold" :label="roomName" />
-          </q-breadcrumbs>
-        </div>
-      </template>
+      <q-breadcrumbs>
+        <q-breadcrumbs-el class="text-white" :label="roomType.label" :icon="roomType.icon" />
+        <q-breadcrumbs-el class="text-white text-cyan-9 text-bold" :label="roomName" />
+      </q-breadcrumbs>
     </q-bar>
   </q-footer>
 </template>

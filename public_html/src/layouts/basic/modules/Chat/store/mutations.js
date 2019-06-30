@@ -23,6 +23,10 @@ export default {
 		state.data.showMoreButton = data.showMoreButton
 		state.data.participants = data.participants
 	},
+	pushOlderEntries(state, data) {
+		state.data.chatEntries.unshift(...data.chatEntries)
+		state.data.showMoreButton = data.showMoreButton
+	},
 	setPinned(state, { roomType, room }) {
 		const roomList = state.data.roomList
 		switch (roomType) {

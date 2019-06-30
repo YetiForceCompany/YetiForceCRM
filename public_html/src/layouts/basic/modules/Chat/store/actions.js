@@ -65,7 +65,7 @@ export default {
 			recordId: room.recordid
 		})
 	},
-	getMore({ commit, getters }) {
+	fetchOlderEntries({ commit, getters }) {
 		// clearTimeout(this.timerMessage);
 		AppConnector.request(
 			{
@@ -77,8 +77,8 @@ export default {
 				recordId: getters.data.currentRoom.recordId
 			},
 			false
-		).done(data => {
-			console.log(data)
+		).done(({ result }) => {
+			commit('pushOlderEntries', result)
 		})
 	}
 }

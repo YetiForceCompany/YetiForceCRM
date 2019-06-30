@@ -24,7 +24,7 @@
       <div class="flex-grow-1" style="height: 0; overflow: hidden">
         <q-scroll-area :thumb-style="thumbStyle" ref="scrollContainer">
           <div v-show="data.showMoreButton" class="text-center q-mt-md">
-            <q-btn icon="mdi-chevron-double-up" @click="getMore()">
+            <q-btn icon="mdi-chevron-double-up" @click="fetchOlderEntries()">
               {{ translate('JS_CHAT_EARLIER') }}
             </q-btn>
           </div>
@@ -77,7 +77,7 @@ export default {
     ...mapGetters(['maximizedDialog', 'historyTab', 'data'])
   },
   methods: {
-    ...mapActions(['getMore']),
+    ...mapActions(['fetchOlderEntries']),
     onResize({ height }) {
       Quasar.utils.dom.css(this.$refs.scrollContainer.$el, {
         height: height + 'px'
