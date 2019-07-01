@@ -12,7 +12,7 @@
 {strip}
 	<div class="tpl-Settings-Picklist-PicklistValueDetail">
 		{if $SELECTED_PICKLIST_FIELDMODEL}
-			<ul class="nav nav-tabs " role="tablist">
+			<ul class="nav nav-tabs mr-0" role="tablist">
 				<li class="nav-item">
 					<a class="nav-link active" href="#allValuesLayout"
 					   data-toggle="tab" role="tab"

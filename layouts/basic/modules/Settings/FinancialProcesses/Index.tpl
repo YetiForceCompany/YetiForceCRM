@@ -6,7 +6,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
-		<ul id="tabs" class="nav nav-tabs mt-1" data-tabs="tabs">
+		<ul id="tabs" class="nav nav-tabs mt-2 mr-0" data-tabs="tabs">
 			<li class="nav-item"><a class="nav-link active" href="#configuration" data-toggle="tab">{\App\Language::translate('LBL_GENERAL', $QUALIFIED_MODULE)} </a></li>
 		</ul>
 		<br />

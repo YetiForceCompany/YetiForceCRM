@@ -210,9 +210,9 @@ class Language
 		if (\in_array($view, explode(',', $fieldModel->get('helpinfo')))) {
 			$label = $fieldModel->getFieldLabel();
 			$key = "{$fieldModel->getModuleName()}|$label";
-			if (($translated = self::translate($key, 'Other:HelpInfo')) !== $key) {
+			if (($translated = self::translateSingleMod($key, 'Other:HelpInfo')) !== $key) {
 				$translate = $translated;
-			} elseif (($translated = self::translate($label, 'Other:HelpInfo')) !== $label) {
+			} elseif (($translated = self::translateSingleMod($label, 'Other:HelpInfo')) !== $label) {
 				$translate = $translated;
 			}
 		}

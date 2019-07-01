@@ -15,7 +15,7 @@
 							<div class="row no-gutters">
 								<div class="col-5 pr-2">
 									{assign var=ROW_HOURS value=explode(',', $ROW['business_hours'])}
-									<label>{\App\Language::translate('LBL_BUSINESS_HOURS', $MODULE_NAME)}</label>
+									<label>{\App\Language::translate('LBL_BUSINESS_HOURS', 'ServiceContracts')}</label>
 									<select class="select2 js-business-hours" name="business_hours[{$ROW_INDEX}][]" multiple data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
 										{foreach item=BUSINESS_HOURS from=$ALL_BUSINESS_HOURS}
 											<option value="{$BUSINESS_HOURS['id']}"{if in_array($BUSINESS_HOURS['id'], $ROW_HOURS)}selected="selected"{/if}>{$BUSINESS_HOURS['name']}</option>
@@ -23,19 +23,19 @@
 									</select>
 								</div>
 								<div class="col-2 pr-2">
-									<label>{\App\Language::translate('LBL_REACTION_TIME',$MODULE_NAME)}</label>
+									<label>{\App\Language::translate('LBL_REACTION_TIME','ServiceContracts')}</label>
 									<div class="input-group time">
 										<input type="hidden" name="reaction_time[{$ROW_INDEX}]" class="c-time-period" value="{$ROW['reaction_time']}">
 									</div>
 								</div>
 								<div class="col-2 pr-2">
-									<label>{\App\Language::translate('LBL_IDLE_TIME',$MODULE_NAME)}</label>
+									<label>{\App\Language::translate('LBL_IDLE_TIME','ServiceContracts')}</label>
 									<div class="input-group time">
 										<input type="hidden" name="idle_time[{$ROW_INDEX}]" class="c-time-period" value="{$ROW['idle_time']}">
 									</div>
 								</div>
 								<div class="col-2 pr-2">
-									<label>{\App\Language::translate('LBL_RESOLVE_TIME',$MODULE_NAME)}</label>
+									<label>{\App\Language::translate('LBL_RESOLVE_TIME','ServiceContracts')}</label>
 									<div class="input-group time">
 										<input type="hidden" name="resolve_time[{$ROW_INDEX}]" class="c-time-period" value="{$ROW['resolve_time']}">
 									</div>

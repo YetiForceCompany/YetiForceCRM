@@ -23,7 +23,7 @@
 				</div>
 			{/if}
 			<div class="contents tabbable">
-				<ul class="nav nav-tabs layoutTabs massEditTabs my-2 m-sm-2">
+				<ul class="nav nav-tabs layoutTabs massEditTabs mt-2">
 					<li class="nav-item">
 						<a class="nav-link active" data-toggle="tab" href="#logs">
 							<span class="adminIcon-logs mr-1"></span>
