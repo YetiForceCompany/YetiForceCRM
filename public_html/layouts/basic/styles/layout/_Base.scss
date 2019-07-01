@@ -6,7 +6,6 @@
 	bottom: $h-footer;
 	width: 100%;
 	overflow-x: hidden;
-	background-color: #d1d1db;
 }
 .basePanel[class$="_KnowledgeBase"] .contentsDiv {
 	min-height: calc(100vh - #{$h-header} - #{$h-footer});

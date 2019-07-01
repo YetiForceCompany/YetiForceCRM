@@ -1,0 +1,36 @@
+$color-active-nav: #0072da;
+$color-nav-link: #4a5463;
+$color-box-shadow: $color-nav-link;
+$color-navbar: #fff;
+$grid-breakpoints: (
+	xs: 0,
+	xsm: 400px,
+	sm: 576px,
+	md: 768px,
+	lg: 992px,
+	xl: 1200px,
+	xxl: 1300px,
+	xxxl: 1800px
+);
+$spacer: 1rem !default;
+$spacers: () !default;
+// stylelint-disable-next-line scss/dollar-variable-default
+$spacers: map-merge(
+	(
+		0: 0,
+		1: (
+			$spacer * 0.25
+		),
+		2: (
+			$spacer * 0.5
+		),
+		3: $spacer,
+		4: (
+			$spacer * 1.5
+		),
+		5: (
+			$spacer * 3
+		)
+	),
+	$spacers
+);
