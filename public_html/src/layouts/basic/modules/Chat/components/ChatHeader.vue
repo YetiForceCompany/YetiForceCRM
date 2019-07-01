@@ -2,30 +2,37 @@
 <template>
   <q-header class="bg-grey-10">
     <q-bar>
-      <div class="col-6 text-left">
-        <q-btn dense flat round icon="mdi-menu" @click="toggleLeftPanel()" />
-        <q-btn dense round flat icon="mdi-keyboard-outline" />
+      <div class="flex items-center no-wrap full-width justify-between">
+        <div class="">
+          <q-btn dense flat round icon="mdi-menu" @click="toggleLeftPanel()" />
+          <q-btn dense round flat icon="mdi-keyboard-outline" />
 
-        <q-btn dense round flat icon="mdi-history" @click="toggleHistoryTab()" />
-        <q-btn dense round flat icon="mdi-comment-multiple-outline" />
-        <q-btn dense round flat icon="mdi-bell-off-outline" />
-        <q-btn dense round flat icon="mdi-volume-high" />
-      </div>
-      <div class="col-6 text-right">
-        <template v-if="$q.platform.is.desktop">
-          <q-btn
-            dense
-            flat
-            :icon="maximizedDialog ? 'mdi-window-restore' : 'mdi-window-maximize'"
-            @click="toggleSize()"
-          >
-            <q-tooltip>{{ maximizedDialog ? translate('JS_KB_MINIMIZE') : translate('JS_KB_MAXIMIZE') }}</q-tooltip>
+          <q-btn dense round flat icon="mdi-history" @click="toggleHistoryTab()" />
+          <q-btn dense round flat icon="mdi-comment-multiple-outline" />
+          <q-btn dense round flat icon="mdi-bell-off-outline" />
+          <q-btn dense round flat icon="mdi-volume-high" />
+        </div>
+        <q-tabs v-model="tab" dense active-color="info" indicator-color="info">
+          <q-tab name="chat" :label="translate('JS_CHAT')" />
+          <q-tab name="unread" :label="translate('JS_CHAT_UNREAD')" />
+          <q-tab name="history" :label="translate('JS_CHAT_HISTORY_CHAT')" />
+        </q-tabs>
+        <div>
+          <template v-if="$q.platform.is.desktop">
+            <q-btn
+              dense
+              flat
+              :icon="maximizedDialog ? 'mdi-window-restore' : 'mdi-window-maximize'"
+              @click="toggleSize()"
+            >
+              <q-tooltip>{{ maximizedDialog ? translate('JS_KB_MINIMIZE') : translate('JS_KB_MAXIMIZE') }}</q-tooltip>
+            </q-btn>
+          </template>
+          <q-btn dense flat icon="mdi-close" @click="setDialog(false)">
+            <q-tooltip>{{ translate('JS_CLOSE') }}</q-tooltip>
           </q-btn>
-        </template>
-        <q-btn dense flat icon="mdi-close" @click="setDialog(false)">
-          <q-tooltip>{{ translate('JS_CLOSE') }}</q-tooltip>
-        </q-btn>
-        <q-btn dense flat round icon="mdi-menu" @click="toggleRightPanel()" />
+          <q-btn dense flat round icon="mdi-menu" @click="toggleRightPanel()" />
+        </div>
       </div>
     </q-bar>
   </q-header>
@@ -45,7 +52,7 @@ export default {
     return {
       iconSize: '.75rem',
       moduleName: 'Chat',
-      dense: false
+      tab: 'chat'
     }
   },
   computed: {
