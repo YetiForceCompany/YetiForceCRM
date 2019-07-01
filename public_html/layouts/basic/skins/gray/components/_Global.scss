@@ -1,0 +1,18 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+.c-panel {
+	border-radius: 0;
+	@extend .mb-3;
+	input,
+	button,
+	.input-group-text {
+		border-radius: 0;
+	}
+	box-shadow: -2px 10px 6px 4px rgba (0, 0, 0, 0.13);
+
+	&__header {
+		background-color: #fff;
+		border: none;
+		text-transform: uppercase;
+	}
+}
