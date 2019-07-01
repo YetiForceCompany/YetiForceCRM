@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .m-0 {
   margin: 0 !important;
 }
@@ -51,7 +52,7 @@
   margin: 0.5rem !important;
 }
 
-.mt-2,
+.mt-2, .detailViewInfo,
 .my-2 {
   margin-top: 0.5rem !important;
 }
@@ -86,7 +87,7 @@
   margin-right: 1rem !important;
 }
 
-.mb-3, .widget_header,
+.mb-3, .c-panel,
 .my-3,
 .inventorySummaryContainer {
   margin-bottom: 1rem !important;
@@ -4889,6 +4890,29 @@
 }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.c-panel {
+  border-radius: 0;
+  -webkit-box-shadow: -2px 10px 6px 4px rgba 0, 0, 0, 0.13;
+          box-shadow: -2px 10px 6px 4px rgba 0, 0, 0, 0.13;
+}
+
+.c-panel input,
+.c-panel button,
+.c-panel .input-group-text {
+  border-radius: 0;
+}
+
+.c-panel__header {
+  background-color: #fff;
+  border: none;
+  text-transform: uppercase;
+}
+
+.contents.tabbable.table-responsive {
+  background-color: var(--color-bg) !important;
+}
+
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .mainBody {
   background-color: #d1d1db;
 }
@@ -4907,10 +4931,18 @@
   margin-right: 0.5rem;
 }
 
+.nav-tabs .nav-link {
+  color: #4a5463;
+}
+
 .nav-tabs .nav-link.active {
   text-transform: uppercase;
   color: #fff;
   background-color: #0072da !important;
+}
+
+.nav-tabs.massEditTabs {
+  width: 100%;
 }
 
 .dashboardViewContainer .nav-inverted-tabs {
@@ -4938,6 +4970,14 @@
 
 .dashboardViewContainer .nav-inverted-tabs .nav-item .nav-link.active:hover {
   background: unset;
+}
+
+.layoutContent {
+  border-top: unset;
+}
+
+.layoutContent .tab-pane {
+  padding-top: 0 !important;
 }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
@@ -4977,5 +5017,192 @@
 
 .grid-stack .dashboardWidget .widgetFooterContent .row:first-child {
   background-color: unset;
+}
+
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.inventoryHeader th {
+  background: #fff !important;
+}
+
+.inventoryHeader .inventoryLineItemHeader,
+.inventoryHeader button {
+  text-transform: uppercase;
+  border-radius: 0;
+}
+
+.inventoryHeader .select2 {
+  border-radius: 0;
+}
+
+.inventoryItems {
+  background: #fff !important;
+}
+
+.inventoryItems .inventoryRow {
+  border: 1px solid material-color("grey", "300");
+}
+
+.inventoryItems .inventoryRow td {
+  border-bottom: 0;
+  border-right: 0;
+  border-left: 0;
+}
+
+.inventoryItems thead th {
+  background: #fff !important;
+  text-transform: uppercase;
+  border-left: 0px;
+  border-right: 0px;
+  font-weight: 400;
+}
+
+.inventoryItems .input-group {
+  border-radius: 0;
+}
+
+.inventoryItems .input-group .input-group-text,
+.inventoryItems .input-group button,
+.inventoryItems .input-group input {
+  border-radius: 0;
+}
+
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.tpl-Settings-Vtiger-CustomRecordNumbering .table th {
+  background-color: var(--white);
+  background-image: var(--white);
+  border-top: 1px solid var(--white);
+  border-bottom: 1px solid var(--white) !important;
+  text-transform: uppercase;
+}
+
+.tpl-Settings-Vtiger-CustomRecordNumbering .table-bordered td {
+  padding-bottom: 0.5rem !important;
+}
+
+.tpl-Settings-Vtiger-CustomRecordNumbering .table-bordered td,
+.tpl-Settings-Vtiger-CustomRecordNumbering .table-bordered th {
+  border: 1px solid var(--white);
+}
+
+tbody {
+  background-color: var(--white);
+}
+
+.SearchFieldsEdit th {
+  width: 26%;
+}
+
+.SearchFieldsEdit .alignMiddle.widthMin {
+  text-align: center;
+}
+
+.SearchFieldsEdit .alignMiddle.widthMin.noWrap {
+  text-align: left;
+}
+
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+:root {
+  --font-btn-color: black;
+  --red: red;
+  --box-shadow-color: rgba(0, 0, 0, 0.13);
+  --c-active: #0072da;
+  --color-bg: #d1d1db;
+  --font-title-email: #a0a0ad;
+  --secondary-relation-delete: #e2eaf1;
+  --bg-action: #f8f9fa;
+}
+
+.c-detail-widget {
+  -webkit-box-shadow: -2px 4px 12px 0px var(--box-shadow-color);
+          box-shadow: -2px 4px 12px 0px var(--box-shadow-color);
+}
+
+.detailViewInfo .related .nav-pills .active {
+  text-transform: uppercase;
+}
+
+.c-detail-widget__table th {
+  background-color: var(--white);
+  background-image: var(--white);
+}
+
+.c-detail-widget .mailsList .font-small.text-truncate a {
+  color: var(--font-title-email);
+}
+
+.recordLabel {
+  color: var(--c-active);
+}
+
+.flex-md-nowrap .u-min-w-md-70 .flex-nowrap .text-muted.u-white-space-nowrap {
+  font-weight: 600;
+  color: var(--gray-dark) !important;
+}
+
+.flex-md-nowrap .u-min-w-md-70 .flex-nowrap .js-popover-tooltip--record {
+  font-weight: 600;
+  color: var(--red) !important;
+}
+
+.o-header-toggle__actions .c-btn-link {
+  background-color: var(--bg-action);
+}
+
+.o-header-toggle__actions .entityStateBtn {
+  color: var(--white);
+}
+
+.c-detail-widget .mailsList .btn-secondary.relationDelete {
+  background-color: var(--secondary-relation-delete);
+}
+
+.c-detail-widget .mailsList .btn-dark.relationDelete {
+  background-color: var(--color-bg);
+}
+
+.c-detail-widget .mailsList .btn-outline-secondary,
+.c-detail-widget .mailsList .relationDelete {
+  color: var(--gray-dark);
+  border-color: var(--color-bg);
+}
+
+.c-detail-widget__header {
+  text-transform: uppercase;
+}
+
+.c-detail-widget__content {
+  position: relative;
+}
+
+.c-detail-widget .input-group-text,
+.c-detail-widget .btn,
+.c-detail-widget input,
+.c-detail-widget .select2 {
+  border-radius: 0;
+}
+
+.c-detail-widget .changeDetailViewMode,
+.c-detail-widget .btn {
+  text-transform: uppercase;
+}
+
+.c-detail-widget .widgetHr {
+  border: none;
+}
+
+.c-detail-widget .js-hierarchy-comments-btn {
+  font-size: 15px;
+}
+
+.c-detail-widget .flex-wrap {
+  padding: 0.5rem;
+}
+
+.c-table__row--hover .medium {
+  width: 50%;
+}
+
+.recentComments .addCommentBlock {
+  border-radius: 0;
 }
 /*# sourceMappingURL=style.css.map */
