@@ -21,20 +21,17 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		}
 	}
 
-	.fieldLabel.medium,
-	.fieldValue.medium {
+	.fieldLabel.medium, .fieldValue.medium {
 		padding: 10px;
 		min-height: 40px;
 	}
 
-	.fieldLabel.narrow,
-	.fieldValue.narrow {
+	.fieldLabel.narrow, .fieldValue.narrow {
 		padding: 5px;
 		min-height: 25px;
 	}
 
-	.fieldLabel.wide,
-	.fieldValue.wide {
+	.fieldLabel.wide, .fieldValue.wide {
 		padding: 15px;
 		min-height: 50px;
 	}
@@ -57,7 +54,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	list-style: none;
 
 	&:before {
-		content: "";
+		content: '';
 		position: absolute;
 		top: 0;
 		bottom: 0;
@@ -152,12 +149,11 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	&__header {
 		@extend .card-header;
 		@extend .py-0, .px-2, .border-bottom-0;
-		@extend .text-uppercase;
+
 		background: inherit;
 	}
 
 	&__content {
-		position: relative;
 		@extend .card-body, .px-2, .py-0;
 	}
 
@@ -168,38 +164,10 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	p {
 		@extend .mb-0;
 	}
-
-	.input-group-text,
-	.btn,
-	input,
-	.select2 {
-		@extend .rounded-0;
-	}
-
-	.changeDetailViewMode,
-	.btn {
-		@extend .text-uppercase;
-	}
-
-	.widgetHr {
-		@extend .border-0;
-	}
-
-	.js-hierarchy-comments-btn {
-		font-size: 15px;
-	}
-
-	.flex-wrap {
-		padding: 0.5rem;
-	}
 }
 
 .c-table {
 	&__row--hover {
-		.medium {
-			@extend .w-50;
-		}
-
 		.c-table__action--hover {
 			opacity: 0;
 
@@ -233,8 +201,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	word-wrap: break-word;
 
 	.c-detail-widget__table tr.summaryViewEntries:last-child {
-		.fieldValue,
-		.fieldLabel {
+		.fieldValue, .fieldLabel {
 			border-bottom: 1px solid #ddd;
 		}
 	}
@@ -300,14 +267,12 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	}
 
 	.table {
-		.fieldLabel,
-		.fieldValue {
+		.fieldLabel, .fieldValue {
 			vertical-align: middle;
 		}
 
 		tbody tr:hover {
-			td,
-			th {
+			td, th {
 				background: #f7f7f9;
 			}
 		}
@@ -325,6 +290,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		visibility: visible;
 	}
 }
+
 
 .commentContainer {
 	border-radius: 2px;
@@ -426,7 +392,6 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		border: 0;
 		margin-top: 0;
 		display: block;
-		border-radius: 0px;
 	}
 
 	.commentDetails {
@@ -508,8 +473,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		top: -43px;
 		left: -27px;
 
-		@at-root .IStorages_Detail #{&},
-			.SSalesProcesses_Detail #{&} {
+		@at-root .IStorages_Detail #{&}, .SSalesProcesses_Detail #{&} {
 			top: -41px;
 			left: -19px;
 		}
@@ -534,8 +498,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		float: left;
 	}
 
-	.btn-toolbar,
-	.btn-toolbar .btn-group:first-child {
+	.btn-toolbar, .btn-toolbar .btn-group:first-child {
 		margin: 0;
 	}
 }
@@ -586,9 +549,8 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		align-items: center;
 		position: relative;
 
-		&:after,
-		&:before {
-			content: "";
+		&:after, &:before {
+			content: '';
 			position: absolute;
 			top: calculate-rem(10px);
 			width: 50%;
@@ -604,8 +566,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		}
 
 		&.after {
-			&:before,
-			&:after {
+			&:before, &:after {
 				background: $progress-bg--inactive;
 			}
 

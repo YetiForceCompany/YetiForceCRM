@@ -61,46 +61,8 @@
 		}
 	}
 }
-.inventoryHeader {
-	th {
-		background: #fff !important;
-	}
-	.inventoryLineItemHeader,
-	button {
-		@extend .text-uppercase;
-		@extend .rounded-0;
-	}
-	.select2 {
-		@extend .rounded-0;
-	}
-}
+
 .inventoryItems {
-	.inventoryRow {
-		@extend .border;
-		td {
-			@extend .border-bottom-0;
-			@extend .border-right-0;
-			@extend .border-left-0;
-		}
-	}
-	@extend .bg-white;
-	thead {
-		th {
-			background: #fff !important;
-			@extend .text-uppercase;
-			border-left: 0px;
-			border-right: 0px;
-			font-weight: 400;
-		}
-	}
-	.input-group {
-		@extend .rounded-0;
-		.input-group-text,
-		button,
-		input {
-			@extend .rounded-0;
-		}
-	}
 	.fieldValue {
 		position: relative;
 	}
@@ -115,13 +77,10 @@
 
 	tfoot td.hideTd {
 		border-width: 0 0 1px 0;
-		background: #fff;
-		@extend .border-top;
-		@extend .border-bottom-0;
-		@extend .border-right-0;
+		background: #fafafb;
+
 		& + td:not(.hideTd) {
-			@extend .border-bottom-0;
-			@extend .border-right-0;
+			border-left: 1px solid #dee2e6 !important;
 		}
 
 		&:first-child {
@@ -135,6 +94,3 @@
 	}
 }
 
-.table-responsive {
-	@extend .bg-white;
-}
