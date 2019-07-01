@@ -6279,9 +6279,9 @@ insert  into `vtiger_payment_system`(`payment_systemid`,`payment_system`,`presen
 
 /*Data for the table `vtiger_paymentsin_status` */
 
-insert  into `vtiger_paymentsin_status`(`paymentsin_statusid`,`paymentsin_status`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Created',1,587,1);
-insert  into `vtiger_paymentsin_status`(`paymentsin_statusid`,`paymentsin_status`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Denied',1,588,2);
-insert  into `vtiger_paymentsin_status`(`paymentsin_statusid`,`paymentsin_status`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'Paid',1,589,3);
+insert  into `vtiger_paymentsin_status`(`paymentsin_statusid`,`paymentsin_status`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'PLL_CREATED',1,587,1);
+insert  into `vtiger_paymentsin_status`(`paymentsin_statusid`,`paymentsin_status`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'PLL_DENIED',1,588,2);
+insert  into `vtiger_paymentsin_status`(`paymentsin_statusid`,`paymentsin_status`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'PLL_PAID',1,589,3);
 
 /*Data for the table `vtiger_paymentsincf` */
 

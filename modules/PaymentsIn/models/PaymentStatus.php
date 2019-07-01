@@ -61,9 +61,37 @@ abstract class PaymentsIn_PaymentStatus_Model
 		$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, static::$moduleName);
 		$recordModel->set(
 			static::$fieldPaymentStatusName,
-			static::calculatePaymentStatus((float) $recordModel->get('sum_gross'), PaymentsIn_Module_Model::getSumOfPaymentsByRecordId($recordId, static::$moduleName))
+			static::calculatePaymentStatus((float) $recordModel->get('sum_gross'), static::getSumOfPaymentsByRecordId($recordId, static::$moduleName))
 		);
 		$recordModel->save();
+	}
+
+	/**
+	 * Get the sum of all payments by record ID.
+	 *
+	 * @param int    $recordId
+	 * @param string $moduleName
+	 *
+	 * @return float
+	 */
+	public static function getSumOfPaymentsByRecordId(int $recordId, string $moduleName): float
+	{
+		$cacheNamespace = "getSumOfPaymentsByRecordId.{$moduleName}";
+		if (\App\Cache::staticHas($cacheNamespace, $recordId)) {
+			$sumOfPayments = (float) \App\Cache::staticGet($cacheNamespace, $recordId);
+		} else {
+			$relationModel = Vtiger_Relation_Model::getInstance(
+				Vtiger_Module_Model::getInstance($moduleName),
+				Vtiger_Module_Model::getInstance('PaymentsIn')
+			);
+			$relationModel->set('parentRecord', Vtiger_Record_Model::getInstanceById($recordId, $moduleName));
+			$queryGenerator = $relationModel->getQuery();
+			$queryGenerator->addNativeCondition(['vtiger_paymentsin.paymentsin_status' => 'PLL_PAID']);
+			$sumOfPayments = (float) $queryGenerator->createQuery()
+				->sum('vtiger_paymentsin.paymentsvalue');
+			\App\Cache::staticSave($cacheNamespace, $recordId, $sumOfPayments);
+		}
+		return $sumOfPayments;
 	}
 
 	/**
@@ -97,8 +125,11 @@ abstract class PaymentsIn_PaymentStatus_Model
 	 */
 	protected static function canUpdatePaymentStatus(Vtiger_Record_Model $recordModel): bool
 	{
-		$fieldModel = \Vtiger_Module_Model::getInstance(static::$moduleName)->getFieldByName(static::$fieldPaymentStatusName);
-		$returnValue = $fieldModel && $fieldModel->isActiveField() && !$recordModel->isEmpty(static::$relatedRecordIdName);
-		return $returnValue && ($recordModel->isNew() || false !== $recordModel->getPreviousValue('paymentsin_status'));
+		$returnValue = !$recordModel->isEmpty(static::$relatedRecordIdName) && ($recordModel->isNew() || false !== $recordModel->getPreviousValue('paymentsin_status'));
+		if ($returnValue) {
+			$fieldModel = \Vtiger_Module_Model::getInstance(static::$moduleName)->getFieldByName(static::$fieldPaymentStatusName);
+			$returnValue = $fieldModel && $fieldModel->isActiveField();
+		}
+		return $returnValue;
 	}
 }
