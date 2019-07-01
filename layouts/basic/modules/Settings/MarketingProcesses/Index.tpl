@@ -6,7 +6,7 @@
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 	</div>
-	<ul id="tabs" class="nav nav-tabs mt-2" data-tabs="tabs">
+	<ul id="tabs" class="nav nav-tabs my-2 mr-0" data-tabs="tabs">
 		<li class="nav-item"><a class="nav-link active" href="#conversiontoaccount" data-toggle="tab">{\App\Language::translate('LBL_CONVERSION', $QUALIFIED_MODULE)} </a></li>
 		<li class="nav-item"><a class="nav-link" href="#lead_configuration" data-toggle="tab">{\App\Language::translate('LBL_LEADS', $QUALIFIED_MODULE)} </a></li>
 	</ul>
@@ -79,7 +79,7 @@
 											<div class="actionImages">
 												<a class='btn'><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignMiddle deleteMapping"></span></a>
 											</div>
-										</div>	
+										</div>
 									</td>
 								</tr>
 							{/foreach}
@@ -107,13 +107,13 @@
 										<div class="actionImages">
 											<a class='btn'><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignMiddle deleteMapping"></span></a>
 										</div>
-									</div>	
+									</div>
 								</td>
 							</tr>
 						</tbody>
 					</table>
-				</div>					
-			</div>					
+				</div>
+			</div>
 		</div>
 		<div class='tab-pane' id="lead_configuration">
 			{assign var=LEAD value=$MODULE_MODEL->getConfig('lead')}

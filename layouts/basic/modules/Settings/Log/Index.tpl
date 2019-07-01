@@ -8,7 +8,7 @@
 		</div>
 		<div class="contents" id="listViewContainer">
 			<p>
-			<ul class="nav nav-tabs">
+			<ul class="nav nav-tabs mr-0">
 				{assign var=TABLE_MAPPING value=\App\Log::$tableColumnMapping}
 				{foreach key=INDEX item=ITEM from=$TABLE_MAPPING}
 					<li class="nav-item">

@@ -95,7 +95,7 @@
 			</div>
 		</div>
 		{if $CUSTOM_VIEWS|@count gt 0}
-			<ul class="c-tab--border nav nav-tabs" role="tablist">
+			<ul class="c-tab--border nav nav-tabs mx-0" role="tablist">
 				{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 					{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
 						{if $CUSTOM_VIEW->isFeatured()}

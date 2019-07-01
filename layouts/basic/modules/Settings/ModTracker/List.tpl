@@ -7,7 +7,7 @@
 			</div>
 		</div>
 		<div class="contents">
-			<div class="contents tabbable">
+			<div class="contents tabbable mt-2">
 				<table class="table table-bordered table-sm listViewEntriesTable">
 					<thead>
 						<tr class="blockHeader">
@@ -28,6 +28,6 @@
 				</table>
 			</div>
 			<div class="clearfix"></div>
-		</div>	
+		</div>
 	</div>
 {/strip}
