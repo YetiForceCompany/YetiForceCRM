@@ -5,10 +5,16 @@
 	background-color: $color-navbar;
 	border-radius: 0;
 	margin-right: 0.5rem;
+	.nav-link {
+		color: $color-nav-link;
+	}
 	.nav-link.active {
 		text-transform: uppercase;
 		color: $color-navbar;
 		background-color: $color-active-nav !important;
+	}
+	&.massEditTabs {
+		width: 100%;
 	}
 }
 
@@ -36,5 +42,11 @@
 				}
 			}
 		}
+	}
+}
+.layoutContent {
+	border-top: unset;
+	.tab-pane {
+		padding-top: 0 !important;
 	}
 }
