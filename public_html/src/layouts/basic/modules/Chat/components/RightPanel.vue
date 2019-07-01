@@ -2,12 +2,22 @@
 <template>
   <q-drawer :value="rightPanel" side="right" @hide="setRightPanel(false)" bordered>
     <div class="bg-grey-11 fit">
-      <q-input dense v-model="search" :placeholder="translate('JS_CHAT_SEARCH_PARTICIPANTS')" class="q-px-sm">
+      <q-input
+        dense
+        v-model="filterParticipants"
+        :placeholder="translate('JS_CHAT_FILTER_PARTICIPANTS')"
+        class="q-px-sm"
+      >
         <template v-slot:prepend>
           <q-icon name="mdi-magnify" />
         </template>
         <template v-slot:append>
-          <q-icon v-show="search.length > 0" name="mdi-close" @click="search = ''" class="cursor-pointer" />
+          <q-icon
+            v-show="filterParticipants.length > 0"
+            name="mdi-close"
+            @click="filterParticipants = ''"
+            class="cursor-pointer"
+          />
         </template>
       </q-input>
       <q-list>
@@ -17,7 +27,7 @@
           </q-item-section>
           {{ translate('JS_CHAT_PARTICIPANTS') }}
         </q-item-label>
-        <template v-for="participant in data.participants">
+        <template v-for="participant in participantsList">
           <q-item :key="participant.user_id" v-if="participant.user_name === participant.user_name">
             <q-item-section avatar>
               <q-avatar>
@@ -46,11 +56,23 @@ export default {
   name: 'ChatRightPanel',
   data() {
     return {
-      search: ''
+      filterParticipants: ''
     }
   },
   computed: {
-    ...mapGetters(['rightPanel', 'data'])
+    ...mapGetters(['rightPanel', 'data']),
+    participantsList() {
+      if (this.filterParticipants === '') {
+        return this.data.participants
+      } else {
+        return this.data.participants.filter(participant => {
+          return (
+            participant.user_name.toLowerCase().includes(this.filterParticipants.toLowerCase()) ||
+            participant.role_name.toLowerCase().includes(this.filterParticipants.toLowerCase())
+          )
+        })
+      }
+    }
   },
   methods: {
     ...mapMutations(['setRightPanel'])
