@@ -33,6 +33,9 @@ export default {
 	setSearchInactive(state) {
 		state.isSearchActive = false
 	},
+	setTab(state, tab) {
+		state.tab = tab
+	},
 	setPinned(state, { roomType, room }) {
 		const roomList = state.data.roomList
 		switch (roomType) {

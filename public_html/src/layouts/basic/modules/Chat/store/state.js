@@ -6,5 +6,6 @@ export default {
 	rightPanel: true,
 	historyTab: false,
 	isSearchActive: false,
+	tab: 'chat',
 	data: {}
 }

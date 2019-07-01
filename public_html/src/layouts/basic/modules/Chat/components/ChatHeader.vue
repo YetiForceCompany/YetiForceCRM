@@ -12,10 +12,10 @@
           <q-btn dense round flat icon="mdi-bell-off-outline" />
           <q-btn dense round flat icon="mdi-volume-high" />
         </div>
-        <q-tabs v-model="tab" dense active-color="info" indicator-color="info">
-          <q-tab name="chat" :label="translate('JS_CHAT')" />
-          <q-tab name="unread" :label="translate('JS_CHAT_UNREAD')" />
-          <q-tab name="history" :label="translate('JS_CHAT_HISTORY_CHAT')" />
+        <q-tabs v-model="tab" dense active-color="info" inline-label indicator-color="info">
+          <q-tab name="chat" icon="mdi-forum-outline" :label="translate('JS_CHAT')" />
+          <q-tab name="unread" icon="mdi-email-alert" :label="translate('JS_CHAT_UNREAD')" />
+          <q-tab name="history" icon="mdi-history" :label="translate('JS_CHAT_HISTORY_CHAT')" />
         </q-tabs>
         <div>
           <template v-if="$q.platform.is.desktop">
@@ -51,8 +51,7 @@ export default {
   data() {
     return {
       iconSize: '.75rem',
-      moduleName: 'Chat',
-      tab: 'chat'
+      moduleName: 'Chat'
     }
   },
   computed: {
@@ -62,6 +61,14 @@ export default {
       },
       set(isMax) {
         this.maximize(isMax)
+      }
+    },
+    tab: {
+      get() {
+        return this.$store.getters['Chat/tab']
+      },
+      set(tab) {
+        this.$store.commit('Chat/setTab', tab)
       }
     }
   },

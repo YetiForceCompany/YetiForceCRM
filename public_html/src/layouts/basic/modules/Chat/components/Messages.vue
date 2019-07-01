@@ -8,7 +8,7 @@
     >
       <div class="q-px-sm">
         <q-input
-          v-show="!historyTab"
+          v-show="tab === 'chat'"
           @keydown.enter="search()"
           dense
           :loading="searching"
@@ -54,7 +54,7 @@
         </q-scroll-area>
         <q-resize-observer @resize="onResize" />
       </div>
-      <message-input />
+      <message-input v-show="tab === 'chat'" />
     </q-page>
   </q-page-container>
 </template>
@@ -86,7 +86,7 @@ export default {
         opacity: 0.75
       }
     },
-    ...mapGetters(['maximizedDialog', 'historyTab', 'data', 'isSearchActive'])
+    ...mapGetters(['maximizedDialog', 'historyTab', 'data', 'isSearchActive', 'tab'])
   },
   methods: {
     ...mapActions(['fetchEarlierEntries', 'fetchSearchData']),

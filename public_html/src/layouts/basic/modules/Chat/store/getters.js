@@ -18,6 +18,9 @@ export default {
 	isSearchActive(state) {
 		return state.isSearchActive
 	},
+	tab(state) {
+		return state.tab
+	},
 	data(state) {
 		return state.data
 	}
