@@ -11,6 +11,7 @@ const rollup = require('rollup'),
 	alias = require('rollup-plugin-alias'),
 	path = require('path'),
 	vue = require('rollup-plugin-vue'),
+	sass = require('rollup-plugin-sass'),
 	commonjs = require('rollup-plugin-commonjs'),
 	resolve = require('rollup-plugin-node-resolve'),
 	globals = require('rollup-plugin-node-globals'),
@@ -24,9 +25,11 @@ const plugins = [
 	alias({
 		resolve: ['.vue', '.js'],
 		'~': __dirname,
-		store: `${__dirname}/store/index`
+		store: `${__dirname}/store/index`,
+		components: `${__dirname}/components`
 	}),
 	json(),
+	sass(),
 	vue({
 		needMap: false,
 		scss: {

@@ -25,7 +25,10 @@ export default {
 			commit('setData', result)
 		})
 	},
-	fetchRoom({ commit, getters }, options) {
+	fetchRoom(
+		{ commit, getters },
+		options = { id: getters.data.currentRoom.recordId, roomType: getters.data.currentRoom.roomType }
+	) {
 		AppConnector.request({
 			module: 'Chat',
 			action: 'ChatAjax',
@@ -92,6 +95,9 @@ export default {
 		return new Promise((resolve, reject) => {
 			// clearTimeout(this.timerMessage);
 			const showMoreClicked = getters.isSearchActive && getters.data.showMoreButton
+			console.log(showMoreClicked)
+			console.log(getters.data.currentRoom.roomType)
+			console.log(getters.data.currentRoom.recordId)
 			AppConnector.request(
 				{
 					module: 'Chat',
@@ -112,6 +118,23 @@ export default {
 					commit('pushOlderEntries', result)
 				}
 				resolve(result)
+			})
+		})
+	},
+	/**
+	 * Get unread messages.
+	 */
+	fetchUnread() {
+		return new Promise((resolve, reject) => {
+			// clearTimeout(this.timerMessage);
+			AppConnector.request({
+				module: 'Chat',
+				action: 'ChatAjax',
+				mode: 'getUnread'
+			}).done(({ result }) => {
+				console.log(result)
+				resolve(result)
+				// this.buildParticipantsFromMessage($('<div></div>').html(html));
 			})
 		})
 	}

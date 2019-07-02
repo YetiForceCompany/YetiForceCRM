@@ -3,7 +3,7 @@
   <q-header class="bg-grey-10">
     <q-bar>
       <div class="flex items-center no-wrap full-width justify-between">
-        <div class="">
+        <div class="flex no-wrap">
           <q-btn dense flat round icon="mdi-menu" @click="toggleLeftPanel()" />
           <q-btn dense round flat icon="mdi-keyboard-outline" />
 
@@ -12,12 +12,26 @@
           <q-btn dense round flat icon="mdi-bell-off-outline" />
           <q-btn dense round flat icon="mdi-volume-high" />
         </div>
-        <q-tabs v-model="tab" dense active-color="info" inline-label indicator-color="info">
-          <q-tab name="chat" icon="mdi-forum-outline" :label="translate('JS_CHAT')" />
-          <q-tab name="unread" icon="mdi-email-alert" :label="translate('JS_CHAT_UNREAD')" />
-          <q-tab name="history" icon="mdi-history" :label="translate('JS_CHAT_HISTORY_CHAT')" />
+        <q-tabs
+          class="chat-tabs"
+          v-model="tab"
+          dense
+          shrink
+          inline-label
+          narrow-indicator
+          indicator-color="info"
+          active-color="info"
+        >
+          <q-tab
+            name="chat"
+            icon="mdi-forum-outline"
+            :label="isSmall ? '' : translate('JS_CHAT')"
+            :style="{ 'min-width': '40px' }"
+          />
+          <q-tab name="unread" icon="mdi-email-alert" :label="isSmall ? '' : translate('JS_CHAT_UNREAD')" />
+          <q-tab name="history" icon="mdi-history" :label="isSmall ? '' : translate('JS_CHAT_HISTORY_CHAT')" />
         </q-tabs>
-        <div>
+        <div class="flex no-wrap">
           <template v-if="$q.platform.is.desktop">
             <q-btn
               dense
@@ -70,6 +84,9 @@ export default {
       set(tab) {
         this.$store.commit('Chat/setTab', tab)
       }
+    },
+    isSmall() {
+      return !this.maximizedDialog || !this.$q.platform.is.desktop
     }
   },
   methods: {
@@ -96,4 +113,8 @@ export default {
   }
 }
 </script>
-<style module lang="stylus"></style>
+<style lang="sass">
+.chat-tabs
+	.q-tab__content
+		min-width: 40px
+</style>

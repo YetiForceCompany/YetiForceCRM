@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Chat.
  *
@@ -700,7 +701,8 @@ final class Chat
 				])->execute();
 			} else {
 				Db::getInstance()->createCommand()->update(
-					static::TABLE_NAME['room'][$roomType], ['last_message' => $lastMessage['id']],
+					static::TABLE_NAME['room'][$roomType],
+					['last_message' => $lastMessage['id']],
 					[static::COLUMN_NAME['room'][$roomType] => $id, 'userid' => User::getCurrentUserId()]
 				)->execute();
 			}
@@ -937,7 +939,7 @@ final class Chat
 			$this->room['record_id'] = $this->recordId;
 			$this->room['userid'] = $this->userId;
 		} elseif (
-			\is_array($this->room) && $this->isAssigned() && (empty($this->room['last_message']) || $this->lastMessageId > (int)$this->room['last_message'])
+			\is_array($this->room) && $this->isAssigned() && (empty($this->room['last_message']) || $this->lastMessageId > (int) $this->room['last_message'])
 		) {
 			Db::getInstance()
 				->createCommand()

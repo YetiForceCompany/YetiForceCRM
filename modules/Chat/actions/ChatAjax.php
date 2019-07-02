@@ -22,6 +22,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$this->exposeMethod('data');
 		$this->exposeMethod('getEntries');
 		$this->exposeMethod('getMore');
+		$this->exposeMethod('getUnread');
 		$this->exposeMethod('send');
 		$this->exposeMethod('search');
 	}
@@ -177,6 +178,25 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			'currentRoom' => \App\Chat::getCurrentRoom(),
 			'chatEntries' => $chatEntries,
 			'showMoreButton' => count($chatEntries) > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT'),
+		];
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
+	}
+
+	/**
+	 * Get all unread messages.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	public function getUnread(\App\Request $request)
+	{
+		$result = [
+			'crm' => \App\Chat::getUnreadByType('crm'),
+			'group' => \App\Chat::getUnreadByType('group'),
+			'global' => \App\Chat::getUnreadByType('global'),
 		];
 		$response = new Vtiger_Response();
 		$response->setResult($result);

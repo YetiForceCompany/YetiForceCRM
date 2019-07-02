@@ -1,71 +1,103 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template v-slot:chatMessages>
   <q-page-container>
-    <q-page
-      style="display: flex;
+    <q-page>
+      <q-tab-panels
+        v-model="tab"
+        @before-transition="getTabData"
+        animated
+        style="min-height: inherit;"
+        class="chat-panels"
+      >
+        <q-tab-panel
+          name="chat"
+          style="min-height: inherit; display: flex;
     flex-direction: column;
     justify-content: space-between;"
-    >
-      <div class="q-px-sm">
-        <q-input
-          v-show="tab === 'chat'"
-          @keydown.enter="search()"
-          dense
-          :loading="searching"
-          v-model="inputSearch"
-          :placeholder="translate('JS_CHAT_SEARCH_MESSAGES')"
         >
-          <template v-slot:prepend>
-            <q-icon @click="search()" name="mdi-magnify" class="cursor-pointer" />
-          </template>
-          <template v-slot:append>
-            <q-icon v-show="inputSearch.length > 0" name="mdi-close" @click="clearSearch()" class="cursor-pointer" />
-          </template>
-        </q-input>
-        <q-tabs v-model="tabHistory" v-show="historyTab" align="justify" class="text-teal">
-          <q-tab name="ulubiony" label="Ulubiony" />
-          <q-tab name="grupowy" label="Pokój grupy" />
-          <q-tab name="globalny" label="Pokoje globalne" />
-        </q-tabs>
-      </div>
-      <div class="flex-grow-1" style="height: 0; overflow: hidden">
-        <q-scroll-area :thumb-style="thumbStyle" ref="scrollContainer">
-          <div v-show="data.showMoreButton" class="text-center q-mt-md">
-            <q-btn :loading="fetchingEarlier" @click="registerEarlierClick()" icon="mdi-chevron-double-up">
-              {{ translate('JS_CHAT_EARLIER') }}
-              <template v-slot:loading>
-                <q-spinner-facebook />
+          <div class="q-px-sm">
+            <q-input
+              @keydown.enter="search()"
+              dense
+              :loading="searching"
+              v-model="inputSearch"
+              :placeholder="translate('JS_CHAT_SEARCH_MESSAGES')"
+            >
+              <template v-slot:prepend>
+                <q-icon @click="search()" name="mdi-magnify" class="cursor-pointer" />
               </template>
-            </q-btn>
+              <template v-slot:append>
+                <q-icon
+                  v-show="inputSearch.length > 0"
+                  name="mdi-close"
+                  @click="inputSearch = ''"
+                  class="cursor-pointer"
+                />
+                <q-btn
+                  v-show="isSearchActive"
+                  color="danger"
+                  flat
+                  dense
+                  :label="translate('JS_LBL_CANCEL')"
+                  @click="clearSearch()"
+                />
+              </template>
+            </q-input>
           </div>
-          <div class="q-pa-md">
-            <q-chat-message
-              v-for="row in data.chatEntries"
-              :key="row.id"
-              :name="row.user_name"
-              :stamp="row.created"
-              :avatar="row.img"
-              :text="[row.messages]"
-              :bg-color="row.color"
-              size="8"
-              :sent="row.userid === userId"
-            />
+          <div class="flex-grow-1" style="height: 0; overflow: hidden">
+            <q-scroll-area :thumb-style="thumbStyle" v-multi-ref:scrollContainer>
+              <div v-show="data.showMoreButton" class="text-center q-mt-md">
+                <q-btn :loading="fetchingEarlier" @click="registerEarlierClick()" icon="mdi-chevron-double-up">
+                  {{ translate('JS_CHAT_EARLIER') }}
+                  <template v-slot:loading>
+                    <q-spinner-facebook />
+                  </template>
+                </q-btn>
+              </div>
+              <div class="q-pa-md">
+                <q-chat-message
+                  v-for="row in data.chatEntries"
+                  :key="row.id"
+                  :name="row.user_name"
+                  :stamp="row.created"
+                  :avatar="row.img"
+                  :text="[row.messages]"
+                  :bg-color="row.color"
+                  size="8"
+                  :sent="row.userid === userId"
+                />
+                <no-results v-show="!areEntries" />
+              </div>
+            </q-scroll-area>
+            <q-resize-observer @resize="onResize" />
           </div>
-        </q-scroll-area>
-        <q-resize-observer @resize="onResize" />
-      </div>
-      <message-input v-show="tab === 'chat'" />
+          <message-input />
+        </q-tab-panel>
+        <q-tab-panel name="unread">
+          <unread :messages="unreadMessages" />
+        </q-tab-panel>
+        <q-tab-panel name="history">
+          <q-tabs v-model="tabHistory" align="left" dense shrink inline-label narrow-indicator class="text-teal">
+            <q-tab name="ulubiony" label="Ulubiony" />
+            <q-tab name="grupowy" label="Pokój grupy" />
+            <q-tab name="globalny" label="Pokoje globalne" />
+          </q-tabs>
+        </q-tab-panel>
+      </q-tab-panels>
     </q-page>
   </q-page-container>
 </template>
 <script>
 import MessageInput from './MessageInput.vue'
+import Unread from './Unread.vue'
+import NoResults from 'components/NoResults.vue'
+import 'vue-multi-ref'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
 
 export default {
   name: 'ChatMessages',
-  components: { MessageInput },
+  components: { MessageInput, NoResults, Unread },
   data() {
     return {
       inputSearch: '',
@@ -73,10 +105,12 @@ export default {
       moduleName: 'Chat',
       userId: CONFIG.userId,
       fetchingEarlier: false,
-      searching: false
+      searching: false,
+      unreadMessages: {}
     }
   },
   computed: {
+    ...mapGetters(['maximizedDialog', 'data', 'isSearchActive', 'tab']),
     thumbStyle() {
       return {
         right: '2px',
@@ -86,14 +120,30 @@ export default {
         opacity: 0.75
       }
     },
-    ...mapGetters(['maximizedDialog', 'historyTab', 'data', 'isSearchActive', 'tab'])
+    areEntries() {
+      return this.data.chatEntries === undefined ? true : this.data.chatEntries.length
+    }
+  },
+  watch: {
+    tab() {}
   },
   methods: {
-    ...mapActions(['fetchEarlierEntries', 'fetchSearchData']),
+    ...mapActions(['fetchEarlierEntries', 'fetchSearchData', 'fetchRoom', 'fetchUnread']),
     ...mapMutations(['setSearchInactive']),
+    getTabData(newTab) {
+      console.log(this.tab)
+      switch (newTab) {
+        case 'unread':
+          this.fetchUnread().then(result => {
+            this.unreadMessages = result
+          })
+      }
+    },
     onResize({ height }) {
-      Quasar.utils.dom.css(this.$refs.scrollContainer.$el, {
-        height: height + 'px'
+      this.$refs.scrollContainer.forEach(el => {
+        Quasar.utils.dom.css(el.$el, {
+          height: height + 'px'
+        })
       })
     },
     registerEarlierClick() {
@@ -110,6 +160,7 @@ export default {
     },
     clearSearch() {
       this.inputSearch = ''
+      this.fetchRoom()
       this.setSearchInactive()
     },
     search() {
@@ -121,4 +172,9 @@ export default {
   }
 }
 </script>
-<style module lang="stylus"></style>
+<style lang="sass">
+.chat-panels.q-tab-panels.q-panel-parent
+	.q-panel.scroll
+		min-height: inherit
+		overflow: hidden
+</style>
