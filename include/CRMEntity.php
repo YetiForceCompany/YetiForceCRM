@@ -199,18 +199,6 @@ class CRMEntity
 	}
 
 	/**
-	 * Function invoked during export of module record value.
-	 *
-	 * @param mixed $key
-	 * @param mixed $value
-	 */
-	public function transformExportValue($key, $value)
-	{
-		// NOTE: The sub-class can override this function as required.
-		return $value;
-	}
-
-	/**
 	 * Function to unlink an entity with given Id from another entity.
 	 *
 	 * @param int    $id

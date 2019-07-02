@@ -86,7 +86,6 @@ class Services extends CRMEntity
 	public $mandatory_fields = ['servicename', 'assigned_user_id'];
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
-	public $unit_price;
 
 	/**
 	 * Function to get the relation tables for related modules.
@@ -171,7 +170,7 @@ class Services extends CRMEntity
 	 */
 	public function saveRelatedModule($module, $crmid, $withModule, $withCrmIds, $relatedName = false)
 	{
-		if (!is_array($withCrmIds)) {
+		if (!\is_array($withCrmIds)) {
 			$withCrmIds = [$withCrmIds];
 		}
 		foreach ($withCrmIds as $withCrmId) {
