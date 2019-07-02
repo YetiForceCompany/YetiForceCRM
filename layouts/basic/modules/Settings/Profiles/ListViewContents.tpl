@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Settings-Profiles-ListViewContents -->
 	<input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
 	<input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" />
 	<input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
@@ -14,18 +15,9 @@
 	<div class="listViewEntriesDiv u-overflow-scroll-xsm-down" style='overflow-x:auto;'>
 		{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
+		{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 		<table class="table table-bordered table-sm listViewEntriesTable">
-			<thead>
-				<tr class="listViewHeaders">
-					{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
-					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-						<th width="{$WIDTH}%" nowrap {if $LISTVIEW_HEADER@last}colspan="2" {/if} class="{$WIDTHTYPE}">
-							<a  {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues u-cursor-pointer js-listview_header" data-js="click" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{\App\Language::translate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
-								{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}&nbsp;&nbsp;<span class="{$SORT_IMAGE}"></span>{/if}</a>
-						</th>
-					{/foreach}
-				</tr>
-			</thead>
+			{include file=\App\Layout::getTemplatePath('ListView/TableHeader.tpl', $QUALIFIED_MODULE)}
 			<tbody>
 				{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES}
 					<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}"{' '}
@@ -76,4 +68,5 @@
 			</table>
 		{/if}
 	</div>
+	<!-- /tpl-Settings-Profiles-ListViewContents -->
 {/strip}
