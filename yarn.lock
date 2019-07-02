@@ -345,12 +345,7 @@ jquery.class.js@^1.0.0:
   resolved "https://registry.yarnpkg.com/jquery.class.js/-/jquery.class.js-1.0.0.tgz#43616c36d76eff36caf2139ddacda621aa24ed30"
   integrity sha1-Q2FsNtdu/zbK8hOd2s2mIaok7TA=
 
-jquery@3.3.1:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
-  integrity sha512-Ubldcmxp5np52/ENotGxlLe6aGMvmF4R8S6tZjsP6Knsaxd/xp3Zrh50cG93lR6nPXyUFwzN3ZSOQI0wRJNdGg==
-
-"jquery@>= 1.7", jquery@>=1.10, jquery@>=1.4.4, jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.2, jquery@>=1.7.x, jquery@>=1.9.1, jquery@>=2.1.0, jquery@^3.1.0:
+"jquery@>= 1.7", jquery@>=1.10, jquery@>=1.4.4, jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.2, jquery@>=1.7.x, jquery@>=1.9.1, jquery@>=2.1.0, jquery@^3.1.0, jquery@^3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.4.1.tgz#714f1f8d9dde4bdfa55764ba37ef214630d80ef2"
   integrity sha512-36+AdBzCL+y6qjw5Tx7HgzeGCzC81MDDgaUP8ld2zhx58HdqXGoBd+tHdrBMiyjGQs0Hxs/MLZTu/eHNJJuWPw==
@@ -434,12 +429,12 @@ sass-material-colors@^0.0.5:
   resolved "https://registry.yarnpkg.com/sass-material-colors/-/sass-material-colors-0.0.5.tgz#b944539236c94e2d4ece35d2ee3fa22f10b2ed43"
   integrity sha1-uURTkjbJTi1OzjXS7j+iLxCy7UM=
 
-select2-theme-bootstrap4@^0.2.0-beta.2:
+select2-theme-bootstrap4@^0.2.0-beta.3:
   version "0.2.0-beta.3"
   resolved "https://registry.yarnpkg.com/select2-theme-bootstrap4/-/select2-theme-bootstrap4-0.2.0-beta.3.tgz#ddaf572aeb8709fa55985da7c9005c7396738366"
   integrity sha512-M/E+n6M5jLxG6gt2hcVntvhs5YP6cQtIeDU9DJRFYCB1egD25h62gD8SBeokf43S2traTdQriL1THy6vbfNepQ==
 
-select2@^4.0.7-rc.0:
+select2@^4.0.7:
   version "4.0.7"
   resolved "https://registry.yarnpkg.com/select2/-/select2-4.0.7.tgz#7b80473ef7900f4dc2b988623275fe569204ae8d"
   integrity sha512-t46Z2nkEEYnBYdRpLNw5dj9qqO+YTiTlWKnpJ/B5e1Q3hPND00JRgcLJxYRzqpeLZd+ZkszkHEMagLKIfbTjVA==
