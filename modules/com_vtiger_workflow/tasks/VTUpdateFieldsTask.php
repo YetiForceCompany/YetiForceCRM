@@ -41,9 +41,11 @@ class VTUpdateFieldsTask extends VTTask
 			}
 			foreach ($fieldValueMapping as $fieldInfo) {
 				$fieldName = $fieldInfo['fieldname'];
+				if (!isset($moduleFields[$fieldName]) || !$moduleFields[$fieldName]->isActiveField()) {
+					continue;
+				}
 				$fieldValueType = $fieldInfo['valuetype'];
 				$fieldValue = trim($fieldInfo['value']);
-				$fieldInstance = $moduleFields[$fieldName];
 				if ('expression' === $fieldValueType) {
 					require_once 'modules/com_vtiger_workflow/expression_engine/include.php';
 					$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($fieldValue)));
