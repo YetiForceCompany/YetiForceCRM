@@ -258,6 +258,8 @@ insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (5,'k
 insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (7,'nominatim','opencage_data','0');
 insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (8,'result_num','global','10');
 
+/*Data for the table `s_yf_auto_record_flow_updater` */
+
 /*Data for the table `s_yf_automatic_assignment` */
 
 /*Data for the table `s_yf_batchmethod` */
@@ -3007,6 +3009,9 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_clas
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (74,'EntityAfterSave','Vtiger_RecordStatusHistory_Handler',1,'HelpDesk','',5,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (75,'EntityBeforeSave','Products_Calculations_Handler',1,'Products,Services','',5,14);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (76,'EntityAfterSave','PaymentsIn_PaymentsInHandler_Handler',1,'PaymentsIn','',5,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (77,'EntityAfterSave','Vtiger_RecordFlowUpdater_Handler',1,'','',5,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (78,'EntityAfterDelete','Vtiger_RecordFlowUpdater_Handler',1,'','',5,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (79,'EntityChangeState','Vtiger_RecordFlowUpdater_Handler',1,'','',5,0);
 
 /*Data for the table `vtiger_expectedresponse` */
 

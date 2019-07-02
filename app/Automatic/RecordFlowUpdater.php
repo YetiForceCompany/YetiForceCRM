@@ -117,7 +117,8 @@ class RecordFlowUpdater
 	/**
 	 * Update the value of the field.
 	 *
-	 * @param int $recordId
+	 * @param int    $recordId
+	 * @param string $sourceModuleName
 	 *
 	 * @return void
 	 */
@@ -137,11 +138,13 @@ class RecordFlowUpdater
 		$this->isConfigured = false;
 		$config = $this->getConfig();
 		if (false !== $config) {
-			$this->sourceTable = \Vtiger_Module_Model::getInstance($this->sourceModuleName)->basetable;
-			$this->sourceTableId = \Vtiger_Module_Model::getInstance($this->sourceModuleName)->basetableid;
+			$sourceModuleModel = \Vtiger_Module_Model::getInstance($this->sourceModuleName);
+			$targetModuleModel = \Vtiger_Module_Model::getInstance($this->targetModuleName);
+			$this->sourceTable = $sourceModuleModel->basetable;
+			$this->sourceTableId = $sourceModuleModel->basetableid;
 			$this->targetModuleName = \App\Module::getModuleName($config['target_module']);
-			$this->targetTable = \Vtiger_Module_Model::getInstance($this->targetModuleName)->basetable;
-			$this->targetTableId = \Vtiger_Module_Model::getInstance($this->targetModuleName)->basetableid;
+			$this->targetTable = $targetModuleModel->basetable;
+			$this->targetTableId = $targetModuleModel->basetableid;
 			$this->targetColumnParentId = $config['relation_field'];
 			$this->sourceField = $config['source_field'];
 			$this->targetField = $config['target_field'];
