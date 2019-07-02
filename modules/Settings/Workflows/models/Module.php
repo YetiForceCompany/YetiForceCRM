@@ -167,14 +167,14 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @return array
 	 */
-	public function getListFields()
+	public function getListFields(): array
 	{
 		if (!property_exists($this, 'listFieldModels')) {
 			$fields = $this->listFields;
 			$fieldObjects = [];
 			$fieldsNoSort = ['module_name', 'execution_condition', 'all_tasks', 'active_tasks'];
 			foreach ($fields as $fieldName => $fieldLabel) {
-				if (in_array($fieldName, $fieldsNoSort)) {
+				if (\in_array($fieldName, $fieldsNoSort)) {
 					$fieldObjects[$fieldName] = new \App\Base(['name' => $fieldName, 'label' => $fieldLabel, 'sort' => false]);
 				} else {
 					$fieldObjects[$fieldName] = new \App\Base(['name' => $fieldName, 'label' => $fieldLabel]);
@@ -264,12 +264,12 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 			throw new \App\Exceptions\Security('ERR_NOT_ALLOWED_VALUE||script_content', 406);
 		}
 		if (!file_exists($functionPath)) {
-			$workflowsExists = file_exists(dirname($functionPath));
-			if ($workflowsExists && is_file(dirname($functionPath))) {
+			$workflowsExists = file_exists(\dirname($functionPath));
+			if ($workflowsExists && is_file(\dirname($functionPath))) {
 				throw new \App\Exceptions\Security('ERR_DIRECTORY_CANNOT_BE_CREATED||function_path', 406);
 			}
 			if (!$workflowsExists) {
-				mkdir(dirname($functionPath));
+				mkdir(\dirname($functionPath));
 			}
 			if (false === file_put_contents($functionPath, $scriptData)) {
 				throw new \App\Exceptions\IllegalValue('ERR_FAILED_TO_SAVE_SCRIPT||function_path', 406);

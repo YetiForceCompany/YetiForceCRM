@@ -39,8 +39,10 @@ class Settings_BusinessHours_List_View extends Settings_Vtiger_List_View
 		$viewer->assign('MODULE_MODEL', $module);
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 		$viewer->assign('PAGING_MODEL', $pagingModel);
+		$viewer->assign('COLUMN_NAME', '');
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
+		$viewer->assign('LISTVIEW_ENTRIES_COUNT', \count($this->listViewEntries));
 	}
 
 	/**
