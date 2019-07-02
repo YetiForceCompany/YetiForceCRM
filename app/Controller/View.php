@@ -463,16 +463,16 @@ abstract class View extends Base
 			if (file_exists($completeFilePath)) {
 				$cssScriptModel->set('base', $completeFilePath);
 				if (0 === strpos($cssFileName, '~')) {
-					$filePath = $prefix . ltrim(ltrim($cssFileName, '~'), '/');
+					$filePath =  ltrim(ltrim($cssFileName, '~'), '/');
 				} else {
-					$filePath = $prefix . str_replace('.', '/', $cssFileName) . '.' . $fileExtension;
+					$filePath = str_replace('.', '/', $cssFileName) . '.' . $fileExtension;
 				}
 				$minFilePath = str_replace('.css', '.min.css', $filePath);
 				if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\Vtiger_Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
 					$filePath = $minFilePath;
 				}
-				\App\Cache::save('ConvertCssStyles', $cssFileName, $filePath, \App\Cache::LONG);
-				$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $filePath);
+				\App\Cache::save('ConvertCssStyles', $cssFileName, $prefix .$filePath, \App\Cache::LONG);
+				$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $prefix .$filePath);
 			} else {
 				$preLayoutPath = '';
 				if (0 === strpos($cssFileName, '~')) {
