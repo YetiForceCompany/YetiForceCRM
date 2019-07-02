@@ -739,10 +739,11 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			$db = App\Db::getInstance();
 			$db->createCommand()->insert('vtiger_ossmailscanner_log_cron', ['laststart' => $checkCronStatus, 'status' => 0, 'created_time' => date('Y-m-d H:i:s')])->execute();
 			$config = self::getConfig('cron');
+			$url = \App\Config::main('site_URL');
 			$mailStatus = \App\Mailer::addMail([
 				'to' => $config['email'],
 				'subject' => App\Language::translate('Email_FromName', 'OSSMailScanner'),
-				'content' => App\Language::translate('Email_Body', 'OSSMailScanner'),
+				'content' => App\Language::translate('Email_Body', 'OSSMailScanner') . "\r\n<br><a href='{$url}'>{$url}</a>",
 			]);
 			$db->createCommand()->update('vtiger_ossmailscanner_log_cron', ['status' => $mailStatus], ['laststart' => $checkCronStatus])->execute();
 			$db->createCommand()->update('vtiger_ossmails_logs', ['status' => 2, 'stop_user' => 'verificationCron'], ['status' => 1])->execute();
