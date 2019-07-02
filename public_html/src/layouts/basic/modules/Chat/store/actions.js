@@ -137,5 +137,25 @@ export default {
 				// this.buildParticipantsFromMessage($('<div></div>').html(html));
 			})
 		})
+	},
+	/**
+	 * Fetch history.
+	 * @param {jQuery} btn
+	 * @param {string} groupHistory
+	 */
+	fetchHistory({ commit, getters }, { groupHistory, showMoreClicked }) {
+		return new Promise((resolve, reject) => {
+			// clearTimeout(this.timerMessage);
+			AppConnector.request({
+				module: 'Chat',
+				action: 'ChatAjax',
+				mode: 'getHistory',
+				mid: showMoreClicked ? getters.data.chatEntries[0].id : null,
+				groupHistory: groupHistory
+			}).done(({ result }) => {
+				console.log(result)
+				resolve(result)
+			})
+		})
 	}
 }

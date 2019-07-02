@@ -1,8 +1,10 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <div>
-    <template v-for="(room, roomName) in messages">
-      {{ roomName }}
+    <template v-for="(room, roomType) in messages">
+      <div v-if="room.length" :key="roomType" class="text-uppercase text-primary full-width flex justify-center">
+        {{ translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`) }}
+      </div>
       <q-chat-message
         v-for="message in room"
         :key="message.id"
@@ -34,13 +36,7 @@ export default {
   props: {
     messages: {
       type: Object,
-      default: function() {
-        return {
-          crm: [],
-          global: [],
-          group: []
-        }
-      }
+      required: true
     }
   },
   computed: {

@@ -55,17 +55,19 @@
                 </q-btn>
               </div>
               <div class="q-pa-md">
-                <q-chat-message
-                  v-for="row in data.chatEntries"
-                  :key="row.id"
-                  :name="row.user_name"
-                  :stamp="row.created"
-                  :avatar="row.img"
-                  :text="[row.messages]"
-                  :bg-color="row.color"
-                  size="8"
-                  :sent="row.userid === userId"
-                />
+                <template v-for="row in data.chatEntries">
+                  <!-- <q-chat-message :key="row.id" /> -->
+                  <q-chat-message
+                    :key="row.id"
+                    :name="row.user_name"
+                    :stamp="row.created"
+                    :avatar="row.img"
+                    :text="[row.messages]"
+                    :bg-color="row.color"
+                    size="8"
+                    :sent="row.userid === userId"
+                  />
+                </template>
                 <no-results v-show="!areEntries" />
               </div>
             </q-scroll-area>
@@ -74,15 +76,9 @@
           <message-input />
         </q-tab-panel>
         <q-tab-panel name="unread">
-          <unread :messages="unreadMessages" />
+          <unread class="q-pa-md" :messages="unreadMessages" />
         </q-tab-panel>
-        <q-tab-panel name="history">
-          <q-tabs v-model="tabHistory" align="left" dense shrink inline-label narrow-indicator class="text-teal">
-            <q-tab name="ulubiony" label="Ulubiony" />
-            <q-tab name="grupowy" label="Pokój grupy" />
-            <q-tab name="globalny" label="Pokoje globalne" />
-          </q-tabs>
-        </q-tab-panel>
+        <q-tab-panel name="history"> </q-tab-panel>
       </q-tab-panels>
     </q-page>
   </q-page-container>
@@ -90,6 +86,7 @@
 <script>
 import MessageInput from './MessageInput.vue'
 import Unread from './Unread.vue'
+import History from './History.vue'
 import NoResults from 'components/NoResults.vue'
 import 'vue-multi-ref'
 import { createNamespacedHelpers } from 'vuex'
@@ -97,16 +94,19 @@ const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
 
 export default {
   name: 'ChatMessages',
-  components: { MessageInput, NoResults, Unread },
+  components: { MessageInput, NoResults, History },
   data() {
     return {
       inputSearch: '',
-      tabHistory: 'ulubiony',
       moduleName: 'Chat',
       userId: CONFIG.userId,
       fetchingEarlier: false,
       searching: false,
-      unreadMessages: {}
+      unreadMessages: {
+        crm: [],
+        global: [],
+        group: []
+      }
     }
   },
   computed: {
@@ -141,6 +141,7 @@ export default {
     },
     onResize({ height }) {
       this.$refs.scrollContainer.forEach(el => {
+        console.log(el)
         Quasar.utils.dom.css(el.$el, {
           height: height + 'px'
         })

@@ -202,6 +202,36 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$response->setResult($result);
 		$response->emit();
 	}
+
+	/**
+	 * Get history.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \App\Exceptions\IllegalValue
+	 */
+	public function getHistory(\App\Request $request)
+	{
+		$chat = \App\Chat::getInstance();
+		$groupHistory = $request->getByType('groupHistory', 2);
+		if (!in_array($groupHistory, \App\Chat::ALLOWED_ROOM_TYPES)) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		if ($request->isEmpty('mid')) {
+			$chatEntries = $chat->getHistoryByType($groupHistory);
+		} else {
+			$chatEntries = $chat->getHistoryByType($groupHistory, $request->getInteger('mid'));
+		}
+		$result = [
+			'chatEntries' => $chatEntries,
+			'showMoreButton' => count($chatEntries) > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT'),
+		];
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
+	}
+
 	/**
 	 * Check if sound notification is enabled.
 	 *
