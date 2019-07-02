@@ -28,7 +28,7 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
-		return \App\Utils\Completions::encode(\App\Purifier::purifyHtml($value));
+		return \App\Utils\Completions::decode(\App\Purifier::purifyHtml($value));
 	}
 
 	/**
