@@ -176,7 +176,8 @@ class Calendar
 	 * Create a class instance from vcalendar content.
 	 *
 	 * @param string                    $content
-	 * @param null|\Vtiger_Record_Model $recordModel
+	 * @param \Vtiger_Record_Model|null $recordModel
+	 * @param ?string                   $uid
 	 *
 	 * @return \App\Integrations\Dav\Calendar
 	 */
@@ -694,7 +695,7 @@ class Calendar
 	 *
 	 * @return array
 	 */
-	public function getInvitations(int $recordId):array
+	public function getInvitations(int $recordId): array
 	{
 		$invities = [];
 		$dataReader = (new \App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => $recordId])->createCommand()->query();
@@ -713,7 +714,7 @@ class Calendar
 	 */
 	public function recordSaveAttendee(\Vtiger_Record_Model $record)
 	{
-		if('VEVENT' === (string) $this->vcomponent->name){
+		if ('VEVENT' === (string) $this->vcomponent->name) {
 			$invities = $this->getInvitations($record->getId());
 			$time = VObject\DateTimeParser::parse($this->vcomponent->DTSTAMP);
 			$timeFormated = $time->format('Y-m-d H:i:s');
@@ -740,7 +741,7 @@ class Calendar
 					$recordCrm = current($records);
 					$crmid = $recordCrm['crmid'];
 				}
-				$status = $this->getAttendeeStatus($attendee['PARTSTAT']->getValue());
+				$status = $this->getAttendeeStatus(isset($attendee['PARTSTAT']) ? $attendee['PARTSTAT']->getValue() : '');
 				if (isset($invities[$value])) {
 					$row = $invities[$value];
 					if ($row['status'] !== $status || $row['name'] !== $nameAttendee) {
@@ -858,7 +859,7 @@ class Calendar
 	public function getDenormalizedData($calendarData)
 	{
 		$vObject = VObject\Reader::read($calendarData);
-		$uid =  $lastOccurence =  $firstOccurence =$component = $componentType = null;
+		$uid = $lastOccurence = $firstOccurence = $component = $componentType = null;
 		foreach ($vObject->getComponents() as $component) {
 			if ('VTIMEZONE' !== $component->name) {
 				$componentType = $component->name;
@@ -912,7 +913,7 @@ class Calendar
 		$vObject->destroy();
 		return [
 			'etag' => md5($calendarData),
-			'size' => strlen($calendarData),
+			'size' => \strlen($calendarData),
 			'componentType' => $componentType,
 			'firstOccurence' => $firstOccurence,
 			'lastOccurence' => $lastOccurence,
