@@ -109,19 +109,18 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	private function getDiscountValue(array $discountParam, float $totalPrice, int $mode): float
 	{
-		$value = 0.0;
+		$value = $discountValue = 0.0;
 		$types = $discountParam['aggregationType'];
-		if (!is_array($types)) {
+		if (!\is_array($types)) {
 			$types = [$types];
 		}
 		foreach ($types as $type) {
-			$discountValue = $totalPrice * $this->getDiscountValueByType($type, $discountParam);
+			$discountValue = $this->getDiscountValueByType($type, $discountParam, $totalPrice);
 			$value += $discountValue;
 			if (2 === $mode) {
 				$totalPrice -= $discountValue;
 			}
 		}
-
 		return $value;
 	}
 
@@ -130,20 +129,21 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	 *
 	 * @param string $aggregationType
 	 * @param array  $discountParam
+	 * @param float  $totalPrice
 	 *
 	 * @return float
 	 */
-	private function getDiscountValueByType(string $aggregationType, array $discountParam): float
+	private function getDiscountValueByType(string $aggregationType, array $discountParam, float $totalPrice): float
 	{
 		$discountType = $discountParam["{$aggregationType}DiscountType"] ?? 'percentage';
 		$discount = $discountParam["{$aggregationType}Discount"];
 		$value = 0.0;
 		switch ($discountType) {
 			case 'amount':
-			$value = $discount;
+				$value = $discount;
 				break;
 			case 'percentage':
-			$value = $discount / 100.00;
+				$value = $totalPrice * $discount / 100.00;
 				break;
 			default:
 				throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||discountType||{$discountType}", 406);
