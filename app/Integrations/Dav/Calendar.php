@@ -66,6 +66,21 @@ class Calendar
 	}
 
 	/**
+	 * Dav delete.
+	 *
+	 * @param array $calendar
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	public static function delete(array $calendar)
+	{
+		\App\Log::trace(__METHOD__ . ' | Start Calendar ID:' . $calendar['id']);
+		static::addChange($calendar['id'], $calendar['uri'], 3);
+		\App\Db::getInstance()->createCommand()->delete('dav_calendarobjects', ['id' => $calendar['id']])->execute();
+		\App\Log::trace(__METHOD__ . ' | End');
+	}
+
+	/**
 	 * Add change to calendar.
 	 *
 	 * @param int    $calendarId
@@ -163,7 +178,7 @@ class Calendar
 	 * Create a class instance from vcalendar content.
 	 *
 	 * @param string                    $content
-	 * @param \Vtiger_Record_Model|null $recordModel
+	 * @param null|\Vtiger_Record_Model $recordModel
 	 *
 	 * @return \App\Integrations\Dav\Calendar
 	 */
@@ -672,5 +687,240 @@ class Calendar
 			$vt->add('X-MICROSOFT-CDO-TZID', $microsoftExchangeMap[$tz->getName()]);
 		}
 		return $vt;
+	}
+
+	/**
+	 * Get invitations for record id.
+	 *
+	 * @param int $recordId
+	 *
+	 * @return array
+	 */
+	public function getInvitations(int $recordId)
+	{
+		$invities = [];
+		$dataReader = (new \App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => $recordId])->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			if (!empty($row['email'])) {
+				$invities[$row['email']] = $row;
+			}
+		}
+		return $invities;
+	}
+
+	/**
+	 * Record save attendee.
+	 *
+	 * @param Vtiger_Record_Model $record
+	 */
+	public function recordSaveAttendee(\Vtiger_Record_Model $record)
+	{
+		$invities = $this->getInvitations($record->getId());
+		$time = \Sabre\VObject\DateTimeParser::parse($this->vcomponent->DTSTAMP);
+		$timeFormated = $time->format('Y-m-d H:i:s');
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$attendees = $this->vcomponent->select('ATTENDEE');
+		foreach ($attendees as &$attendee) {
+			$nameAttendee = isset($attendee->parameters['CN']) ? $attendee->parameters['CN']->getValue() : null;
+			$value = $attendee->getValue();
+			if (0 === strpos($value, 'mailto:')) {
+				$value = substr($value, 7, strlen($value) - 7);
+			}
+			if (\App\TextParser::getTextLength($value) > 100 || !\App\Validator::email($value)) {
+				throw new \Sabre\DAV\Exception\BadRequest('Invalid email');
+			}
+			if ('CHAIR' === $attendee['ROLE']->getValue()) {
+				$users = \App\Fields\Email::findCrmidByEmail($value, ['Users']);
+				if (!empty($users)) {
+					continue;
+				}
+			}
+			$crmid = 0;
+			$records = \App\Fields\Email::findCrmidByEmail($value, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(), \App\ModuleHierarchy::getModulesByLevel(4))));
+			if (!empty($records)) {
+				$recordCrm = current($records);
+				$crmid = $recordCrm['crmid'];
+			}
+			$status = $this->getAttendeeStatus($attendee['PARTSTAT']->getValue());
+			if (isset($invities[$value])) {
+				$row = $invities[$value];
+				if ($row['status'] !== $status || $row['name'] !== $nameAttendee) {
+					$dbCommand->update('u_#__activity_invitation', [
+						'status' => $status,
+						'time' => $timeFormated,
+						'name' => \App\TextParser::textTruncate($nameAttendee, 500, false),
+					], ['activityid' => $record->getId(), 'email' => $value]
+					)->execute();
+				}
+				unset($invities[$value]);
+			} else {
+				$params = [
+					'email' => $value,
+					'crmid' => $crmid,
+					'status' => $status,
+					'name' => \App\TextParser::textTruncate($nameAttendee, 500, false),
+					'activityid' => $record->getId(),
+				];
+				if ($status) {
+					$params['time'] = $timeFormated;
+				}
+				$dbCommand->insert('u_#__activity_invitation', $params)->execute();
+			}
+		}
+		foreach ($invities as &$invitation) {
+			$dbCommand->delete('u_#__activity_invitation', ['inviteesid' => $invitation['inviteesid']])->execute();
+		}
+	}
+
+	/**
+	 * Dav save attendee.
+	 *
+	 * @param array $record
+	 */
+	public function davSaveAttendee(array $record)
+	{
+		$owner = \Users_Privileges_Model::getInstanceById($record['assigned_user_id']);
+		$invities = $this->getInvitations($record['id']);
+		$attendees = $this->vcomponent->select('ATTENDEE');
+		if (empty($attendees)) {
+			if (!empty($invities)) {
+				$organizer = $this->vcalendar->createProperty('ORGANIZER', 'mailto:' . $owner->get('email1'));
+				$organizer->add('CN', $owner->getName());
+				$this->vcomponent->add($organizer);
+				$attendee = $this->vcalendar->createProperty('ATTENDEE', 'mailto:' . $owner->get('email1'));
+				$attendee->add('CN', $owner->getName());
+				$attendee->add('ROLE', 'CHAIR');
+				$attendee->add('PARTSTAT', 'ACCEPTED');
+				$attendee->add('RSVP', 'false');
+				$this->vcomponent->add($attendee);
+			}
+		} else {
+			foreach ($attendees as &$attendee) {
+				$value = ltrim($attendee->getValue(), 'mailto:');
+				if (isset($invities[$value])) {
+					$row = $invities[$value];
+					$attendee['PARTSTAT']->setValue($this->getAttendeeStatus($row['status'], false));
+					unset($invities[$value]);
+				} else {
+					$this->vcomponent->remove($attendee);
+				}
+			}
+		}
+		foreach ($invities as &$row) {
+			$attendee = $this->vcalendar->createProperty('ATTENDEE', 'mailto:' . $row['email']);
+			$attendee->add('CN', empty($row['crmid']) ? $row['name'] : \App\Record::getLabel($row['crmid']));
+			$attendee->add('ROLE', 'REQ-PARTICIPANT');
+			$attendee->add('PARTSTAT', $this->getAttendeeStatus($row['status'], false));
+			$attendee->add('RSVP', '0' == $row['status'] ? 'true' : 'false');
+			$this->vcomponent->add($attendee);
+		}
+	}
+
+	/**
+	 * Get attendee status.
+	 *
+	 * @param string $value
+	 * @param bool   $toCrm
+	 *
+	 * @return false|string
+	 */
+	public function getAttendeeStatus(string $value, bool $toCrm = true)
+	{
+		$statuses = ['NEEDS-ACTION', 'ACCEPTED', 'DECLINED'];
+		if ($toCrm) {
+			$status = false;
+			$statuses = array_flip($statuses);
+		} else {
+			$status = 'NEEDS-ACTION';
+		}
+		if (isset($statuses[$value])) {
+			$status = $statuses[$value];
+		}
+		return $status;
+	}
+
+	/**
+	 * Parses some information from calendar objects, used for optimized
+	 * calendar-queries.
+	 *
+	 * Returns an array with the following keys:
+	 *   * etag - An md5 checksum of the object without the quotes.
+	 *   * size - Size of the object in bytes
+	 *   * componentType - VEVENT, VTODO or VJOURNAL
+	 *   * firstOccurence
+	 *   * lastOccurence
+	 *   * uid - value of the UID property
+	 *
+	 * @param string $calendarData
+	 *
+	 * @return array
+	 */
+	public function getDenormalizedData($calendarData)
+	{
+		$vObject = \Sabre\VObject\Reader::read($calendarData);
+		$componentType = null;
+		$component = null;
+		$firstOccurence = null;
+		$lastOccurence = null;
+		$uid = null;
+		foreach ($vObject->getComponents() as $component) {
+			if ('VTIMEZONE' !== $component->name) {
+				$componentType = $component->name;
+				$uid = (string) $component->UID;
+				break;
+			}
+		}
+		if (!$componentType) {
+			throw new \Sabre\DAV\Exception\BadRequest('Calendar objects must have a VJOURNAL, VEVENT or VTODO component');
+		}
+		if ('VEVENT' === $componentType) {
+			$firstOccurence = $component->DTSTART->getDateTime()->getTimeStamp();
+			// Finding the last occurence is a bit harder
+			if (!isset($component->RRULE)) {
+				if (isset($component->DTEND)) {
+					$lastOccurence = $component->DTEND->getDateTime()->getTimeStamp();
+				} elseif (isset($component->DURATION)) {
+					$endDate = clone $component->DTSTART->getDateTime();
+					$endDate = $endDate->add(Sabre\VObject\DateTimeParser::parse($component->DURATION->getValue()));
+					$lastOccurence = $endDate->getTimeStamp();
+				} elseif (!$component->DTSTART->hasTime()) {
+					$endDate = clone $component->DTSTART->getDateTime();
+					$endDate = $endDate->modify('+1 day');
+					$lastOccurence = $endDate->getTimeStamp();
+				} else {
+					$lastOccurence = $firstOccurence;
+				}
+			} else {
+				$it = new \Sabre\VObject\Recur\EventIterator($vObject, (string) $component->UID);
+				$maxDate = new \DateTime(self::MAX_DATE);
+				if ($it->isInfinite()) {
+					$lastOccurence = $maxDate->getTimeStamp();
+				} else {
+					$end = $it->getDtEnd();
+					while ($it->valid() && $end < $maxDate) {
+						$end = $it->getDtEnd();
+						$it->next();
+					}
+					$lastOccurence = $end->getTimeStamp();
+				}
+			}
+			// Ensure Occurence values are positive
+			if ($firstOccurence < 0) {
+				$firstOccurence = 0;
+			}
+			if ($lastOccurence < 0) {
+				$lastOccurence = 0;
+			}
+		}
+		// Destroy circular references to PHP will GC the object.
+		$vObject->destroy();
+		return [
+			'etag' => md5($calendarData),
+			'size' => strlen($calendarData),
+			'componentType' => $componentType,
+			'firstOccurence' => $firstOccurence,
+			'lastOccurence' => $lastOccurence,
+			'uid' => $uid,
+		];
 	}
 }
