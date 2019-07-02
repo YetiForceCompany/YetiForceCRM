@@ -32,31 +32,76 @@ class Record extends \Api\Portal\BaseModule\Record
 	}
 
 	/**
+	 * Unit price.
+	 *
+	 * @var float|null
+	 */
+	private $unitPrice;
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function get(): array
 	{
 		$response = parent::get();
+		if ('1' === $this->controller->request->getHeader('x-unit-price')) {
+			$response['ext']['unit_price'] = $this->getUnitPrice($response);
+		}
+		if ('1' === $this->controller->request->getHeader('x-unit-gross')) {
+			$response['ext']['unit_gross'] = $this->getUnitGross($response);
+		}
+		if ('1' === $this->controller->request->getHeader('x-product-bundles')) {
+			$response['productBundles'] = $this->getProductBundles();
+		}
+
+		return $response;
+	}
+
+	/**
+	 * Get unit gross.
+	 *
+	 * @param array $response
+	 *
+	 * @return float
+	 */
+	private function getUnitGross(array $response): float
+	{
 		$availableTaxes = [];
 		if ($this->isUserPermissions) {
 			$availableTaxes = 'LBL_GROUP';
 			$regionalTaxes = '';
-			$unitPrice = (new \Vtiger_MultiCurrency_UIType())->getValueForCurrency($response['rawData']['unit_price'] ?? [], \App\Fields\Currency::getDefault()['id']);
 		} else {
 			$parentRecordModel = \Vtiger_Record_Model::getInstanceById($this->getParentCrmId(), 'Accounts');
 			$availableTaxes = $parentRecordModel->get('accounts_available_taxes');
 			$regionalTaxes = $parentRecordModel->get('taxes');
-			$unitPrice = \Api\Portal\Record::getPriceFromPricebook($this->getParentCrmId(), $this->controller->request->getInteger('record'));
-			if (null === $unitPrice) {
-				$unitPrice = (new \Vtiger_MultiCurrency_UIType())->getValueForCurrency($response['rawData']['unit_price'] ?? [], \App\Fields\Currency::getDefault()['id']);
-			}
 		}
 		$taxParam = \Api\Portal\Record::getTaxParam($availableTaxes, $response['rawData']['taxes'], $regionalTaxes);
 		$taxConfig = \Vtiger_Inventory_Model::getTaxesConfig();
-		$response['ext']['unit_gross'] = $unitPrice + (new \Vtiger_Tax_InventoryField())->getTaxValue($taxParam, $unitPrice, (int) $taxConfig['aggregation']);
-		$response['ext']['unit_price'] = $unitPrice;
-		$response['productBundles'] = $this->getProductBundles();
-		return $response;
+		$unitPrice = $this->getUnitPrice($response);
+		return $unitPrice + (new \Vtiger_Tax_InventoryField())->getTaxValue($taxParam, $unitPrice, (int) $taxConfig['aggregation']);
+	}
+
+	/**
+	 * Get unit price.
+	 *
+	 * @param array $response
+	 *
+	 * @return float
+	 */
+	private function getUnitPrice(array $response): float
+	{
+		if (null === $this->unitPrice) {
+			if ($this->isUserPermissions) {
+				$unitPrice = (new \Vtiger_MultiCurrency_UIType())->getValueForCurrency($response['rawData']['unit_price'] ?? [], \App\Fields\Currency::getDefault()['id']);
+			} else {
+				$unitPrice = \Api\Portal\Record::getPriceFromPricebook($this->getParentCrmId(), $this->controller->request->getInteger('record'));
+				if (null === $unitPrice) {
+					$unitPrice = (new \Vtiger_MultiCurrency_UIType())->getValueForCurrency($response['rawData']['unit_price'] ?? [], \App\Fields\Currency::getDefault()['id']);
+				}
+			}
+			$this->unitPrice = $unitPrice;
+		}
+		return $this->unitPrice;
 	}
 
 	/**
