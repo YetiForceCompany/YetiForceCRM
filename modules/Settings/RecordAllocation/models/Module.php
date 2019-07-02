@@ -25,10 +25,8 @@ class Settings_RecordAllocation_Module_Model extends Settings_Vtiger_Module_Mode
 	{
 		$fileData = self::loadFile($this->get('type'));
 		unset($fileData[$moduleName]);
-		$content = '<?php' . PHP_EOL . '$map=' . var_export($fileData, true) . ';';
-
-		$file = self::$types[$this->get('type')];
-		file_put_contents($file, $content);
+		$content = '$map=' . var_export($fileData, true) . ';';
+		\App\Utils::saveToFile(self::$types[$this->get('type')], $content);
 	}
 
 	public function putToFile($moduleName, $userId, $userData)
@@ -38,10 +36,8 @@ class Settings_RecordAllocation_Module_Model extends Settings_Vtiger_Module_Mode
 			$fileData[$moduleName] = [];
 		}
 		$fileData[$moduleName][$userId] = $userData;
-		$content = '<?php' . PHP_EOL . '$map=' . var_export($fileData, true) . ';';
-
-		$file = self::$types[$this->get('type')];
-		file_put_contents($file, $content);
+		$content = '$map=' . var_export($fileData, true) . ';';
+		\App\Utils::saveToFile(self::$types[$this->get('type')], $content);
 	}
 
 	public static function getRecordAllocationByModule($type, $moduleName)

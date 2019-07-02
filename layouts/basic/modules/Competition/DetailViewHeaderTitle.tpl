@@ -4,7 +4,7 @@
 		<div class="col-12 col-sm-12 col-md-8">
 			<div class="moduleIcon">
 				<span class="o-detail__icon js-detail__icon userIcon-{$MODULE}"></span>
-				{if AppConfig::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
+				{if App\Config::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
 					<span class="hierarchy js-detail-hierarchy {if $RECORD->get('competition_status') === 'PLL_ACTIVE'} bgGreen {else} bgOrange {/if}"></span>
 				{/if}
 			</div>
@@ -14,7 +14,7 @@
 					{assign var=RECORD_STATE value=\App\Record::getState($RECORD->getId())}
 					{if $RECORD_STATE !== 'Active'}
 						&nbsp;&nbsp;
-						{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
+						{assign var=COLOR value=App\Config::search('LIST_ENTITY_STATE_COLOR')}
 						<span class="badge badge-secondary"
 							  {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};"{/if}>
 							{if \App\Record::getState($RECORD->getId()) === 'Trash'}

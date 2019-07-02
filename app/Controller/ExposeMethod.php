@@ -27,7 +27,7 @@ trait ExposeMethod
 	 */
 	protected function exposeMethod($name)
 	{
-		if (!in_array($name, $this->exposedMethods)) {
+		if (!\in_array($name, $this->exposedMethods)) {
 			$this->exposedMethods[] = $name;
 		}
 	}
@@ -41,7 +41,7 @@ trait ExposeMethod
 	 */
 	public function isMethodExposed($name)
 	{
-		if (in_array($name, $this->exposedMethods)) {
+		if (\in_array($name, $this->exposedMethods)) {
 			return true;
 		}
 		return false;
@@ -59,10 +59,10 @@ trait ExposeMethod
 	 */
 	public function invokeExposedMethod()
 	{
-		$parameters = func_get_args();
+		$parameters = \func_get_args();
 		$name = array_shift($parameters);
 		if (!empty($name) && $this->isMethodExposed($name)) {
-			return call_user_func_array([$this, $name], $parameters);
+			return \call_user_func_array([$this, $name], $parameters);
 		}
 		throw new \App\Exceptions\AppException('ERR_NOT_ACCESSIBLE', 406);
 	}

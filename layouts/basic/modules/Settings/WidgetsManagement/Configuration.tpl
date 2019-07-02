@@ -194,10 +194,19 @@
 											<div class="col-sm-6 controls">
 												<select class="authorized form-control validateForm mb-0"
 														name="authorized" data-validation-engine="validate[required]">
-													{foreach from=$ALL_AUTHORIZATION item=AUTHORIZED key=AUTHORIZED_CODE}
-														<option value="{$AUTHORIZED_CODE}"
-																data-label="{$AUTHORIZED->get('rolename')}">{\App\Language::translate($AUTHORIZED->get('rolename'),$QUALIFIED_MODULE)}</option>
-													{/foreach}
+													<optgroup label="{\App\Language::translate('LBL_ROLES', $QUALIFIED_MODULE)}">
+														{foreach from=$ALL_AUTHORIZATION item=AUTHORIZED key=AUTHORIZED_CODE}
+															<option value="{$AUTHORIZED_CODE}"
+																	data-label="{$AUTHORIZED->get('rolename')}">{\App\Language::translate($AUTHORIZED->get('rolename'),$QUALIFIED_MODULE)}</option>
+														{/foreach}
+													</optgroup>
+													{if count($ALL_SERVERS)}
+														<optgroup label="{\App\Language::translate('CustomerPortal', $QUALIFIED_MODULE)}">
+															{foreach from=$ALL_SERVERS item=SERVER key=ID}
+																<option value="{$ID}">{\App\Purifier::encodeHTML($SERVER['name'])}</option>
+															{/foreach}
+														</optgroup>
+													{/if}
 												</select>
 											</div>
 										</div>

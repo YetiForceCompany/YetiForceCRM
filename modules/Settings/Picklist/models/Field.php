@@ -19,7 +19,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 	public function isEditable()
 	{
 		$nonEditablePickListValues = ['duration_minutes', 'payment_duration', 'recurring_frequency', 'visibility'];
-		if ((!in_array($this->get('displaytype'), [1, 10]) && $this->getName() !== 'salutationtype') || !in_array($this->get('presence'), [0, 2]) || in_array($this->getName(), $nonEditablePickListValues) || ($this->getFieldDataType() !== 'picklist' && $this->getFieldDataType() !== 'multipicklist') || $this->getModuleName() === 'Users') {
+		if ((!in_array($this->get('displaytype'), [1, 10]) && 'salutationtype' !== $this->getName()) || !in_array($this->get('presence'), [0, 2]) || in_array($this->getName(), $nonEditablePickListValues) || ('picklist' !== $this->getFieldDataType() && 'multipicklist' !== $this->getFieldDataType()) || 'Users' === $this->getModuleName()) {
 			return false;
 		}
 		return true;
@@ -41,7 +41,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 			return $fieldModel->getPicklistValues();
 		}
 		$intersectionMode = false;
-		if ($groupMode == 'INTERSECTION') {
+		if ('INTERSECTION' == $groupMode) {
 			$intersectionMode = true;
 		}
 		$fieldName = $this->getName();
@@ -100,7 +100,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		$objectProperties = get_object_vars($fieldObj);
 		$fieldModel = new self();
 		foreach ($objectProperties as $properName => $propertyValue) {
-			$fieldModel->$properName = $propertyValue;
+			$fieldModel->{$properName} = $propertyValue;
 		}
 		return $fieldModel;
 	}
@@ -128,5 +128,87 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		if (in_array(strtolower($value), array_map('strtolower', $picklistValues))) {
 			throw new \App\Exceptions\AppException(\App\Language::translateArgs('ERR_DUPLICATES_VALUES_FOUND', 'Other.Exceptions', $value), 513);
 		}
+	}
+
+	/**
+	 * Is process status field.
+	 *
+	 * @return bool
+	 */
+	public function isProcessStatusField(): bool
+	{
+		return $this->getFieldParams()['isProcessStatusField'] ?? false;
+	}
+
+	/**
+	 * Update record status.
+	 *
+	 * @param int $id
+	 * @param int $recordState
+	 * @param int $timeCounting
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return bool
+	 */
+	public function updateRecordStatus(int $id, int $recordState, int $timeCounting): bool
+	{
+		if (!$this->isProcessStatusField()) {
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_IS_NOT_A_PROCESS_STATUS_FIELD', 'Settings:Picklist'), 406);
+		}
+		if (!$this->isEditable()) {
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_NON_EDITABLE_PICKLIST_VALUE', 'Settings:Picklist'), 406);
+		}
+		$pickListFieldName = $this->getName();
+		$primaryKey = \App\Fields\Picklist::getPickListId($pickListFieldName);
+		$tableName = \App\Fields\Picklist::getPickListTableName($pickListFieldName);
+		$tabId = $this->get('tabid');
+		$moduleName = \App\Module::getModuleName($tabId);
+		$oldTimeCounting = \App\RecordStatus::getTimeCountingIds($moduleName, false)[$id] ?? '';
+		$oldStateValue = \App\RecordStatus::getStates($moduleName)[$id];
+		if ($recordState === $oldStateValue && $timeCounting === $oldTimeCounting) {
+			return true;
+		}
+		$result = \App\Db::getInstance()->createCommand()->update($tableName, ['record_state' => $recordState, 'time_counting' => $timeCounting], [$primaryKey => $id])->execute();
+		if ($result) {
+			\App\Fields\Picklist::clearCache($pickListFieldName, $moduleName);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Update close state table.
+	 *
+	 * @param int       $valueId
+	 * @param string    $value
+	 * @param null|bool $closeState
+	 *
+	 * @throws \yii\db\Exception
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return bool
+	 */
+	public function updateCloseState(int $valueId, string $value, $closeState = null): bool
+	{
+		if (!$this->isProcessStatusField()) {
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_IS_NOT_A_PROCESS_STATUS_FIELD', 'Settings:Picklist'), 406);
+		}
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$tabId = $this->get('tabid');
+		$moduleName = \App\Module::getModuleName($tabId);
+		$oldValue = \App\RecordStatus::getLockStatus($moduleName, false)[$valueId] ?? false;
+		if ($closeState === $oldValue) {
+			return true;
+		}
+		if (null === $closeState && $oldValue !== $value) {
+			$dbCommand->update('u_#__picklist_close_state', ['value' => $value], ['fieldid' => $this->getId(), 'valueid' => $valueId])->execute();
+		} elseif (false === $closeState && false !== $oldValue) {
+			$dbCommand->delete('u_#__picklist_close_state', ['fieldid' => $this->getId(), 'valueid' => $valueId])->execute();
+		} elseif ($closeState && false === $oldValue) {
+			$dbCommand->insert('u_#__picklist_close_state', ['fieldid' => $this->getId(), 'valueid' => $valueId, 'value' => $value])->execute();
+		}
+		\App\Cache::delete('getLockStatus', $tabId);
+		return true;
 	}
 }

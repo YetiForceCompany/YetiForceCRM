@@ -46,12 +46,12 @@
     "ext-zip": "*",
     "ext-xml": "*",
     "composer/ca-bundle": "^1.1",
-    "sabre/dav": "3.2.2",
+    "sabre/dav": "3.2.3",
     "rmccue/requests": "v1.7.0",
     "smarty/smarty": "^v3.1.33",
     "phpmailer/phpmailer": "^v6.0.6",
     "ezyang/htmlpurifier": "v4.10.0",
-    "simshaun/recurr": "v3.0.5",
+    "simshaun/recurr": "v4.0",
     "sensiolabs/security-checker": "^v5.0.1",
     "giggsey/libphonenumber-for-php": "^8.8.11",
     "dg/rss-php": "^1.2",
@@ -65,7 +65,7 @@
     "yetiforce/csrf-magic": "^v1.0.8",
     "yetiforce/debugbar": "^1.13.1.1",
     "yetiforce/yii2": "2.0.15.3",
-    "yetiforce/yetiforcepdf": "0.1.20",
+    "yetiforce/yetiforcepdf": "0.1.27",
     "abraham/twitteroauth": "^1.0"
   },
   "require-dev": {

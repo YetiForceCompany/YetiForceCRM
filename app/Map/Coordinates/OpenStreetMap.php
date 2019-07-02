@@ -8,7 +8,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  *
- * @link      https://wiki.openstreetmap.org/wiki/Nominatim
+ * @see      https://wiki.openstreetmap.org/wiki/Nominatim
  */
 
 namespace App\Map\Coordinates;
@@ -27,7 +27,7 @@ class OpenStreetMap extends Base
 		if (empty($addressInfo) || !\App\RequestUtil::isNetConnection()) {
 			return $coordinates;
 		}
-		$url = \AppConfig::module('OpenStreetMap', 'ADDRESS_TO_SEARCH') . '/?';
+		$url = \App\Config::module('OpenStreetMap', 'ADDRESS_TO_SEARCH') . '/?';
 		$data = [
 			'format' => 'json',
 			'addressdetails' => 1,
@@ -36,7 +36,7 @@ class OpenStreetMap extends Base
 		$url .= \http_build_query(array_merge($data, $addressInfo));
 		try {
 			$response = (new \GuzzleHttp\Client())->request('GET', $url, \App\RequestHttp::getOptions() + ['timeout' => 1]);
-			if ($response->getStatusCode() === 200) {
+			if (200 === $response->getStatusCode()) {
 				$coordinates = \App\Json::decode($response->getBody());
 			} else {
 				\App\Log::warning('Error with connection - ' . __CLASS__);

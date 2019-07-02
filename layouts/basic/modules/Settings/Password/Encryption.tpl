@@ -86,8 +86,8 @@
 					</div>
 				</div>
 				<div class="c-form__action-panel">
-					<button type="submit" class="btn btn-xs btn-success">
-						<span class="fas fa-check"></span><strong>{App\Language::translate('LBL_SAVE')}</strong>
+					<button type="submit" class="btn btn-sm btn-success">
+						<span class="fas fa-check mr-2"></span><strong>{App\Language::translate('LBL_SAVE')}</strong>
 					</button>
 				</div>
 			</form>

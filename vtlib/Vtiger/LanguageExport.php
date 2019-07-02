@@ -19,6 +19,9 @@ class LanguageExport extends Package
 
 	/**
 	 * Initialize Export.
+	 *
+	 * @param mixed      $languageCode
+	 * @param mixed|null $moduleInstance
 	 */
 	public function __initExport($languageCode, $moduleInstance = null)
 	{
@@ -31,10 +34,10 @@ class LanguageExport extends Package
 	/**
 	 * Export Module as a zip file.
 	 *
-	 * @param Module Instance of module
-	 * @param Path Output directory path
-	 * @param string Zipfilename to use
-	 * @param bool True for sending the output as download
+	 * @param string $languageCode   Module Instance of module
+	 * @param string $todir          Path Output directory path
+	 * @param string $zipfilename
+	 * @param bool   $directDownload True for sending the output as download
 	 */
 	public function exportLanguage($languageCode, $todir = '', $zipfilename = '', $directDownload = false)
 	{
@@ -82,7 +85,7 @@ class LanguageExport extends Package
 		$this->outputNode(\App\Purifier::decodeHtml($langInfo['name']), 'name');
 		$this->outputNode($prefix, 'prefix');
 		$this->outputNode('language', 'type');
-		$this->outputNode(\AppConfig::main('default_charset'), 'encoding');
+		$this->outputNode(\App\Config::main('default_charset'), 'encoding');
 		$this->outputNode('YetiForce - yetiforce.com', 'author');
 		$this->outputNode('YetiForce - yetiforce.com', 'license');
 		// Export dependency information
@@ -95,25 +98,25 @@ class LanguageExport extends Package
 	/**
 	 * Register language pack information.
 	 *
-	 * @param string $prefix
-	 * @param string $name
-	 * @param bool $isDefault
-	 * @param bool $isActive
-	 * @param int $progress
+	 * @param string    $prefix
+	 * @param string    $name
+	 * @param bool|null $isDefault
+	 * @param bool      $isActive
+	 * @param int       $progress
 	 *
 	 * @throws \yii\db\Exception
 	 */
-	public static function register(string $prefix, string $name = '', bool $isDefault = false, bool $isActive = true, int $progress = 0)
+	public static function register(string $prefix, string $name = '', ?bool $isDefault = false, bool $isActive = true, int $progress = 0)
 	{
-		$prefix = trim($prefix);
 		$dbCommand = \App\Db::getInstance()->createCommand();
-		if ((new \App\Db\Query())->from(static::TABLENAME)->where(['prefix' => $prefix])->exists()) {
+		$prefix = trim($prefix);
+		if ($langInfo = \App\Language::getLangInfo($prefix)) {
 			$dbCommand->update(
 				static::TABLENAME,
 				[
 					'name' => $name,
 					'lastupdated' => date('Y-m-d H:i:s'),
-					'isdefault' => (int) $isDefault,
+					'isdefault' => (int) (null === $isDefault ? $langInfo['isdefault'] : $isDefault),
 					'active' => (int) $isActive,
 					'progress' => $progress
 				],
@@ -132,13 +135,14 @@ class LanguageExport extends Package
 				]
 			)->execute();
 		}
+		\App\Cache::clear();
 		\App\Log::trace("Registering Language $name [$prefix] ... DONE", __METHOD__);
 	}
 
 	/**
 	 * De-Register language pack information.
 	 *
-	 * @param string Language prefix like (de_de) etc
+	 * @param string $prefix Language prefix like (de-De) etc
 	 */
 	public static function deregister($prefix)
 	{
@@ -155,7 +159,7 @@ class LanguageExport extends Package
 	/**
 	 * Get all the language information.
 	 *
-	 * @param bool true to include in-active languages also, false (default)
+	 * @param bool $includeInActive true to include in-active languages also, false (default)
 	 */
 	public static function getAll($includeInActive = false)
 	{

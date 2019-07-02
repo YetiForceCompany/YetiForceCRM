@@ -73,14 +73,14 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
 				'linkicon' => 'fas fa-edit',
-				'linkclass' => 'btn btn-xs btn-info',
+				'linkclass' => 'btn btn-sm btn-info',
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => "javascript:Settings_Vtiger_List_Js.deleteById('{$this->getId()}')",
 				'linkicon' => 'fas fa-trash-alt',
-				'linkclass' => 'btn btn-xs btn-danger text-white',
+				'linkclass' => 'btn btn-sm btn-danger text-white',
 			],
 		];
 		foreach ($recordLinks as &$recordLink) {
@@ -109,7 +109,7 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 				break;
 			case 'password':
 			case 'smtp_password':
-				$value = str_repeat('*', strlen($value));
+				$value = str_repeat('*', \strlen($value));
 				break;
 			case 'status':
 				if (isset(\App\Mailer::$statuses[$value])) {

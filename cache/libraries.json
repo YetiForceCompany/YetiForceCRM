@@ -1,0 +1,16 @@
+[
+    {
+        "vue-drag-resize": {
+            "version": "1.3.2",
+            "license": "MIT",
+            "homepage": "https:\/\/github.com\/kirillmurashov\/vue-drag-resize.git"
+        }
+    },
+    {
+        "vuex": {
+            "version": "3.1.1",
+            "license": "MIT",
+            "homepage": "https:\/\/github.com\/vuejs\/vuex#readme"
+        }
+    }
+]

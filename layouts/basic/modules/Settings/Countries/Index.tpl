@@ -6,7 +6,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
-		<div class="contents">
+		<div class="contents mt-2">
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 			<table class="table tableRWD table-bordered table-sm listViewEntriesTable">
 				<thead>
@@ -70,6 +70,6 @@
 					{/foreach}
 				</tbody>
 			</table>
-		</div>	
-	</div>		
+		</div>
+	</div>
 {/strip}

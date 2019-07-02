@@ -18,24 +18,26 @@ class Time
 	 * Returns time in user format.
 	 *
 	 * @param string $time
+	 * @param bool   $convertTimeZone
 	 *
 	 * @return string
 	 */
-	public static function formatToDisplay($time)
+	public static function formatToDisplay($time, bool $convertTimeZone = true): string
 	{
-		return (new \DateTimeField($time))->getDisplayTime();
+		return (new \DateTimeField($time))->getDisplayTime(null, $convertTimeZone);
 	}
 
 	/**
 	 * Returns time in database format.
 	 *
-	 * @param $time
+	 * @param string|null $time
+	 * @param bool        $convertTimeZone
 	 *
 	 * @return mixed
 	 */
-	public static function formatToDB($time)
+	public static function formatToDB($time, bool $convertTimeZone = true)
 	{
-		return (new \DateTimeField(date(Date::currentUserJSDateFormat()) . ' ' . $time))->getDBInsertTimeValue();
+		return (new \DateTimeField(date(Date::currentUserJSDateFormat()) . ' ' . $time))->getDBInsertTimeValue($convertTimeZone);
 	}
 
 	/**
@@ -63,38 +65,5 @@ class Time
 	{
 		$hms = explode(':', $time);
 		return $hms[0] + ($hms[1] / 60) + ($hms[2] / 3600);
-	}
-
-	/**
-	 * Format elapsed time to short display value.
-	 *
-	 * @param float    $decTime     time in decimal format 1.5 = 1h 30m
-	 * @param string   $type        hour text format 'short' or 'full'
-	 * @param int|bool $withSeconds if is provided as int then will be displayed
-	 *
-	 * @return string
-	 */
-	public static function formatToHourText($decTime, $type = 'short', $withSeconds = false)
-	{
-		$short = $type === 'short';
-
-		$hour = floor($decTime);
-		$min = floor(($decTime - $hour) * 60);
-		$sec = round((($decTime - $hour) * 60 - $min) * 60);
-
-		$result = '';
-		if ($hour) {
-			$result .= $short ? $hour . \App\Language::translate('LBL_H') : "{$hour} " . \App\Language::translate('LBL_HOURS');
-		}
-		if ($hour || $min) {
-			$result .= $short ? " {$min}" . \App\Language::translate('LBL_M') : " {$min} " . \App\Language::translate('LBL_MINUTES');
-		}
-		if ($withSeconds !== false) {
-			$result .= $short ? " {$sec}" . \App\Language::translate('LBL_S') : " {$sec} " . \App\Language::translate('LBL_SECONDS');
-		}
-		if (!$hour && !$min && $withSeconds === false) {
-			$result = $short ? '0' . \App\Language::translate('LBL_M') : '0 ' . \App\Language::translate('LBL_MINUTES');
-		}
-		return trim($result);
 	}
 }

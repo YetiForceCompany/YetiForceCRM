@@ -7,7 +7,7 @@
  */
 $db = App\Db::getInstance();
 $dataReader = (new App\Db\Query())->from('u_#__openstreetmap_record_updater')
-	->limit(AppConfig::module('OpenStreetMap', 'CRON_MAX_UPDATED_ADDRESSES'))
+	->limit(App\Config::module('OpenStreetMap', 'CRON_MAX_UPDATED_ADDRESSES'))
 	->createCommand()->query();
 $coordinatesConnector = \App\Map\Coordinates::getInstance();
 while ($row = $dataReader->read()) {

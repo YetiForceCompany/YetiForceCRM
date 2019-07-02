@@ -35,13 +35,13 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 	public function postProcessAjax(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$tplName = AppConfig::module('Calendar', 'CALENDAR_VIEW') . DIRECTORY_SEPARATOR . 'QuickCreate.tpl';
+		$tplName = App\Config::module('Calendar', 'CALENDAR_VIEW') . DIRECTORY_SEPARATOR . 'QuickCreate.tpl';
 		$viewer->assign('RECORD', $this->record);
 		$viewer->assign('CURRENT_USER', Users_Record_Model::getCurrentUserModel());
-		$viewer->assign('WEEK_COUNT', AppConfig::module('Calendar', 'WEEK_COUNT'));
-		$viewer->assign('WEEK_VIEW', AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');
-		$viewer->assign('DAY_VIEW', AppConfig::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basicDay');
-		$viewer->assign('ALL_DAY_SLOT', AppConfig::module('Calendar', 'ALL_DAY_SLOT'));
+		$viewer->assign('WEEK_COUNT', App\Config::module('Calendar', 'WEEK_COUNT'));
+		$viewer->assign('WEEK_VIEW', App\Config::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');
+		$viewer->assign('DAY_VIEW', App\Config::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basicDay');
+		$viewer->assign('ALL_DAY_SLOT', App\Config::module('Calendar', 'ALL_DAY_SLOT'));
 		$viewer->assign('STYLES', $this->getHeaderCss($request));
 		$viewer->assign('MODAL_TITLE', $this->getPageTitle($request));
 		$viewer->view($tplName, $request->getModule());
@@ -52,7 +52,7 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		if (AppConfig::module('Calendar', 'CALENDAR_VIEW') === 'Extended') {
+		if (App\Config::module('Calendar', 'CALENDAR_VIEW') === 'Extended') {
 			$jsFiles = $this->checkAndConvertJsScripts([
 				'~libraries/moment/min/moment.min.js',
 				'~libraries/fullcalendar/dist/fullcalendar.js',

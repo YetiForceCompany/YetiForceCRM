@@ -87,7 +87,8 @@ class Field
 		Log::trace('Entering ' . __METHOD__ . ": $tabId,$fieldMix");
 		if ($readOnly && isset(self::$fieldPermissionCacheRead[$tabId][$fieldMix])) {
 			return self::$fieldPermissionCacheRead[$tabId][$fieldMix];
-		} elseif (!$readOnly && isset(self::$fieldPermissionCacheWrite[$tabId][$fieldMix])) {
+		}
+		if (!$readOnly && isset(self::$fieldPermissionCacheWrite[$tabId][$fieldMix])) {
 			return self::$fieldPermissionCacheWrite[$tabId][$fieldMix];
 		}
 		$fields = static::getFieldsPermissions($tabId, $readOnly);
@@ -140,7 +141,8 @@ class Field
 		Log::trace('Entering ' . __METHOD__ . ": $tabId,$columnName");
 		if ($readOnly && isset(self::$columnPermissionCacheRead[$tabId][$columnName])) {
 			return self::$columnPermissionCacheRead[$tabId][$columnName];
-		} elseif (!$readOnly && isset(self::$columnPermissionCacheWrite[$tabId][$columnName])) {
+		}
+		if (!$readOnly && isset(self::$columnPermissionCacheWrite[$tabId][$columnName])) {
 			return self::$columnPermissionCacheWrite[$tabId][$columnName];
 		}
 		$fields = static::getFieldsPermissions($tabId, $readOnly);
@@ -169,8 +171,8 @@ class Field
 	/**
 	 * Get related field for module.
 	 *
-	 * @param string|bool $moduleName
-	 * @param string|bool $forModule
+	 * @param bool|string $moduleName
+	 * @param bool|string $forModule
 	 *
 	 * @return array
 	 */
@@ -221,17 +223,17 @@ class Field
 			}
 
 			return [];
-		} else {
-			if ($forModule) {
-				$rfields = [];
-				foreach ($fields as $moduleName => $forModules) {
-					if (isset($forModules[$forModule])) {
-						$rfields[$moduleName] = $forModules[$forModule];
-					}
-				}
-				return $rfields;
-			}
 		}
+		if ($forModule) {
+			$rfields = [];
+			foreach ($fields as $moduleName => $forModules) {
+				if (isset($forModules[$forModule])) {
+					$rfields[$moduleName] = $forModules[$forModule];
+				}
+			}
+			return $rfields;
+		}
+
 		return $fields;
 	}
 
@@ -260,10 +262,10 @@ class Field
 	/**
 	 * Function to gets module field info.
 	 *
-	 * @param string|int $mixed
-	 * @param string|int $module
+	 * @param int|string $mixed
+	 * @param int|string $module
 	 *
-	 * @return null|array
+	 * @return array|null
 	 */
 	public static function getFieldInfo($mixed, $module = false)
 	{

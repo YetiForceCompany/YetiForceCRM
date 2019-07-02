@@ -31,12 +31,13 @@ class Privileges extends \Api\Core\BaseAction
 			$isAdmin = $actionPermissions['is_admin'];
 			$permission = $actionPermissions['profile_action_permission'][$moduleId] ?? false;
 			if ($permission || $isAdmin) {
-				foreach (\Vtiger_Action_Model::$standardActions as $key => $value) {
-					$privileges[$value] = $isAdmin ||
-						(isset($permission[$key]) && $permission[$key] === \Settings_Profiles_Module_Model::IS_PERMITTED_VALUE);
+				$actions = array_merge(\Vtiger_Action_Model::getAllBasic(true), \Vtiger_Action_Model::getAllUtility(true));
+				foreach ($actions as $action) {
+					$privileges[$action->getName()] = $isAdmin ||
+						(isset($permission[$action->getId()]) && \Settings_Profiles_Module_Model::IS_PERMITTED_VALUE === $permission[$action->getId()]);
 				}
 			}
 		}
-		return ['standardActions' => $privileges];
+		return $privileges;
 	}
 }

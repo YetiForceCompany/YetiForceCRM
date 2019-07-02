@@ -130,6 +130,35 @@ class Db extends \yii\db\Connection
 	}
 
 	/**
+	 * Get info database.
+	 *
+	 * @return array
+	 */
+	public function getInfo()
+	{
+		$pdo = $this->getSlavePdo();
+		$statement = $pdo->prepare('SHOW VARIABLES');
+		$statement->execute();
+		$conf = $statement->fetchAll(\PDO::FETCH_KEY_PAIR);
+		[$version] = explode('-', $conf['version']);
+		$versionComment = $conf['version_comment'];
+		if (0 === stripos($versionComment, 'MariaDb')) {
+			$typeDb = 'MariaDb';
+		}
+		if (0 === stripos($versionComment, 'MySQL')) {
+			$typeDb = 'MySQL';
+		}
+		return \array_merge($conf, [
+			'driver' => $this->getDriverName(),
+			'typeDb' => $typeDb,
+			'serverVersion' => $version,
+			'clientVersion' => $pdo->getAttribute(\PDO::ATTR_CLIENT_VERSION),
+			'connectionStatus' => $pdo->getAttribute(\PDO::ATTR_CONNECTION_STATUS),
+			'serverInfo' => $pdo->getAttribute(\PDO::ATTR_SERVER_INFO),
+		]);
+	}
+
+	/**
 	 * Processes a SQL statement by quoting table and column names that are enclosed within double brackets.
 	 * Tokens enclosed within double curly brackets are treated as table names, while
 	 * tokens enclosed within double square brackets are column names. They will be quoted accordingly.
@@ -214,20 +243,21 @@ class Db extends \yii\db\Connection
 	 */
 	public function isTableExists($tableName)
 	{
-		return in_array(str_replace('#__', $this->tablePrefix, $tableName), $this->getSchema()->getTableNames());
+		return \in_array(str_replace('#__', $this->tablePrefix, $tableName), $this->getSchema()->getTableNames());
 	}
 
 	/**
 	 * Creating a new DB table.
 	 *
 	 * @param string $tableName
+	 * @param mixed  $columns
 	 *
 	 * @return bool
 	 */
 	public function createTable($tableName, $columns)
 	{
 		$tableOptions = null;
-		if ($this->getDriverName() === 'mysql') {
+		if ('mysql' === $this->getDriverName()) {
 			$tableOptions = 'CHARACTER SET utf8 ENGINE=InnoDB';
 		}
 		$this->createCommand()->createTable($tableName, $columns, $tableOptions)->execute();
@@ -250,7 +280,7 @@ class Db extends \yii\db\Connection
 		}
 		$tableName = $this->quoteTableName(str_replace('#__', $this->tablePrefix, $tableName));
 		$keys = [];
-		if ($this->getDriverName() === 'mysql') {
+		if ('mysql' === $this->getDriverName()) {
 			$dataReader = $this->createCommand()->setSql('SHOW KEYS FROM ' . $tableName)->query();
 			while ($row = $dataReader->read()) {
 				$keys[$row['Key_name']][$row['Column_name']] = ['columnName' => $row['Column_name'], 'unique' => empty($row['Non_unique'])];
@@ -273,7 +303,7 @@ class Db extends \yii\db\Connection
 			return Cache::get('getPrimaryKey', $tableName);
 		}
 		$key = [];
-		if ($this->getDriverName() === 'mysql') {
+		if ('mysql' === $this->getDriverName()) {
 			$tableKeys = $this->getTableKeys($tableName);
 			$key = isset($tableKeys['PRIMARY']) ? ['PRIMARY' => array_keys($tableKeys['PRIMARY'])] : [];
 		}

@@ -6,7 +6,7 @@
 require_once 'include/main/WebUI.php';
 \App\Process::$requestMode = 'API';
 try {
-	if (!in_array('webservice', \App\Config::api('enabledServices'))) {
+	if (!\in_array('webservice', \App\Config::api('enabledServices'))) {
 		throw new \App\Exceptions\NoPermittedToApi('Webservice - Service is not active', 403);
 	}
 	$controller = Api\Controller::getInstance();
@@ -24,4 +24,7 @@ try {
 			'message' => $e->getMessage(),
 		],
 	]);
+} catch (\Throwable $e) {
+	\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
+	throw new \Api\Core\Exception($e->getMessage(), $e->getCode(), $e);
 }

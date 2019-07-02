@@ -23,7 +23,7 @@ class Vtiger_Country_UIType extends Vtiger_Base_UIType
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$values = [];
-		if (!is_array($value)) {
+		if (!\is_array($value)) {
 			$value = $value ? explode('##', $value) : [];
 		}
 		foreach ($value as $val) {
@@ -38,7 +38,7 @@ class Vtiger_Country_UIType extends Vtiger_Base_UIType
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$value = \App\Language::translateSingleMod($value, 'Other.Country');
-		if (is_int($length)) {
+		if (\is_int($length)) {
 			$value = \App\TextParser::textTruncate($value, $length);
 		}
 		return \App\Purifier::encodeHtml($value);
@@ -73,7 +73,7 @@ class Vtiger_Country_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getOperators()
+	public function getQueryOperators()
 	{
 		return ['e', 'n', 'y', 'ny'];
 	}

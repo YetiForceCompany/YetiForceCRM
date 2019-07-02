@@ -83,7 +83,7 @@ class Install_Index_View extends \App\Controller\View
 		$request = $this->setLanguage($request);
 
 		if ('step7' !== $request->getMode() && \App\Config::main('application_unique_key', false)) {
-			$defaultModule = \AppConfig::main('default_module');
+			$defaultModule = \App\Config::main('default_module');
 			$defaultModuleInstance = Vtiger_Module_Model::getInstance($defaultModule);
 			$defaultView = $defaultModuleInstance->getDefaultViewName();
 			header('location: ../index.php?module=' . $defaultModule . '&view=' . $defaultView);
@@ -125,7 +125,7 @@ class Install_Index_View extends \App\Controller\View
 		$isMigrate = false;
 		if (is_dir(ROOT_DIRECTORY . '/install/migrate_schema/')) {
 			$filesInDir = scandir(ROOT_DIRECTORY . '/install/migrate_schema/');
-			if (count($filesInDir) > 2) {
+			if (\count($filesInDir) > 2) {
 				$isMigrate = true;
 			}
 		}
@@ -206,7 +206,7 @@ class Install_Index_View extends \App\Controller\View
 		$webRoot = str_replace('index.php', '', $webRoot);
 		$webRoot = (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) ? 'https://' : 'http://') . $webRoot;
 		$tabUrl = explode('/', $webRoot);
-		unset($tabUrl[count($tabUrl) - 1], $tabUrl[count($tabUrl) - 1]);
+		unset($tabUrl[\count($tabUrl) - 1], $tabUrl[\count($tabUrl) - 1]);
 		$webRoot = implode('/', $tabUrl) . '/';
 		$name = 'site_URL';
 		try {
@@ -232,7 +232,7 @@ class Install_Index_View extends \App\Controller\View
 					case 'user_name':
 						$blacklist = require ROOT_DIRECTORY . '/config/username_blacklist.php';
 						$value = $request->get($name);
-						if (in_array($value, $blacklist) || !App\Validator::standard($value) || strlen($value) < 3 || strlen($value) > 32) {
+						if (\in_array($value, $blacklist) || !preg_match('/^[a-zA-Z0-9_.@]{3,64}$/', $value)) {
 							$value = '';
 							$error = true;
 						}

@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-require_once 'include/database/PearDatabase.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/fields/DateTimeField.php';
 require_once 'include/fields/DateTimeRange.php';
@@ -120,7 +119,7 @@ class DateTimeField
 			$format = 'yyyy-mm-dd';
 		}
 		$dbDate = '';
-		list($y, $m, $d) = App\Fields\Date::explode($date, $format);
+		[$y, $m, $d] = App\Fields\Date::explode($date, $format);
 		if (!$y || !$m || !$d) {
 			if (strpos($date, '-') !== false) {
 				$separator = '-';
@@ -133,13 +132,13 @@ class DateTimeField
 			$dateToConvert = str_replace($separator, '-', $date);
 			switch ($formatToConvert) {
 				case 'dd-mm-yyyy':
-					list($d, $m, $y) = explode('-', $dateToConvert, 3);
+					[$d, $m, $y] = explode('-', $dateToConvert, 3);
 					break;
 				case 'mm-dd-yyyy':
-					list($m, $d, $y) = explode('-', $dateToConvert, 3);
+					[$m, $d, $y] = explode('-', $dateToConvert, 3);
 					break;
 				case 'yyyy-mm-dd':
-					list($y, $m, $d) = explode('-', $dateToConvert, 3);
+					[$y, $m, $d] = explode('-', $dateToConvert, 3);
 					break;
 				default:
 					break;
@@ -188,7 +187,7 @@ class DateTimeField
 		} elseif (strpos($date[0], '/') !== false) {
 			$separator = '/';
 		}
-		list($y, $m, $d) = array_pad(explode($separator, $date[0]), 3, null);
+		[$y, $m, $d] = array_pad(explode($separator, $date[0]), 3, null);
 
 		switch ($format) {
 			case 'dd-mm-yyyy':
@@ -242,7 +241,7 @@ class DateTimeField
 		if (empty($user)) {
 			$user = $current_user;
 		}
-		$timeZone = is_object($user) ? $user->time_zone : AppConfig::main('default_timezone');
+		$timeZone = is_object($user) ? $user->time_zone : App\Config::main('default_timezone');
 		$return = self::convertTimeZone($value, App\Fields\DateTime::getTimeZone(), $timeZone);
 		\App\Log::trace('End ' . __METHOD__);
 		return $return;
@@ -251,6 +250,7 @@ class DateTimeField
 	/**
 	 * @param string $value
 	 * @param Users  $user
+	 * @param mixed  $formatDate
 	 */
 	public static function convertToDBTimeZone($value, $user = null, $formatDate = true)
 	{
@@ -294,35 +294,55 @@ class DateTimeField
 	 * @param $user -- value :: Type Users
 	 * @returns $insert_date -- insert_date :: Type string
 	 */
-	public function getDBInsertTimeValue()
+	public function getDBInsertTimeValue(bool $convertTimeZone = true)
 	{
-		$date = self::convertToDBTimeZone($this->datetime);
+		if ($convertTimeZone) {
+			$date = self::convertToDBTimeZone($this->datetime);
+		} else {
+			$date = new DateTime($this->datetime);
+		}
 		return $date->format('H:i:s');
 	}
 
 	/**
 	 * This function returns the date in user specified format.
 	 *
-	 * @param App\User|null $user
+	 * @param null|App\User $user
+	 * @param bool          $convertTimeZone
 	 *
 	 * @return string
 	 */
-	public function getDisplayDate($user = null)
+	public function getDisplayDate($user = null, bool $convertTimeZone = true): string
 	{
 		$date_value = explode(' ', $this->datetime);
 		if (isset($date_value[1]) && $date_value[1] != '') {
-			$date = self::convertToUserTimeZone($this->datetime, $user);
+			if ($convertTimeZone) {
+				$date = self::convertToUserTimeZone($this->datetime, $user);
+			} else {
+				$date = new DateTime($this->datetime);
+			}
 			$date_value = $date->format('Y-m-d');
 		}
 		return self::convertToUserFormat($date_value);
 	}
 
-	public function getDisplayTime($user = null)
+	/**
+	 * Get display time.
+	 *
+	 * @param null|\App\User $user
+	 * @param bool           $convertTimeZone
+	 *
+	 * @return string
+	 */
+	public function getDisplayTime($user = null, bool $convertTimeZone = true): string
 	{
 		\App\Log::trace('Start ' . __METHOD__ . '(' . $this->datetime . ')');
-		$date = self::convertToUserTimeZone($this->datetime, $user);
+		if ($convertTimeZone) {
+			$date = self::convertToUserTimeZone($this->datetime, $user);
+		} else {
+			$date = new DateTime($this->datetime);
+		}
 		$time = $date->format('H:i');
-
 		//Convert time to user preferred value
 		if (\App\User::getCurrentUserModel()->getDetail('hour_format') === '12') {
 			$time = Vtiger_Time_UIType::getTimeValueInAMorPM($time);
@@ -349,7 +369,7 @@ class DateTimeField
 			return $value;
 		}
 		$value = str_replace('T', ' ', $value);
-		list($date, $time) = array_pad(explode(' ', $value), 2, '');
+		[$date, $time] = array_pad(explode(' ', $value), 2, '');
 		if (!empty($date) && !in_array($time, ['AM', 'PM'])) {
 			$date = self::__convertToDBFormat($date, $user->getDetail('date_format'));
 			$value = $date;

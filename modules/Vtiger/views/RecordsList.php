@@ -29,7 +29,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		if (!$request->isEmpty('related_parent_id', true) && !\App\Privilege::isPermitted($request->getByType('related_parent_module', 2), 'DetailView', $request->getInteger('related_parent_id'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		if (!$request->isEmpty('src_record', true) && 'Users' !== $request->getByType('src_module', 2) && !\App\Privilege::isPermitted($request->getByType('src_module', 2), 'DetailView', $request->getInteger('src_record'))) {
+		if (!$request->isEmpty('src_record', true) && !in_array($request->getByType('src_module', 2), ['Users', 'WebserviceUsers']) && !\App\Privilege::isPermitted($request->getByType('src_module', 2), 'DetailView', $request->getInteger('src_record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
@@ -157,6 +157,14 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 				$relatedParentModule = $linkModule;
 				$relatedParentId = $linkRecord;
 			}
+		} elseif (!$request->has('related_parent_id') && $sourceRecord && \App\Record::isExists($sourceRecord) && ($filterModules = App\ModuleHierarchy::getRecordsListFilter($moduleName)) && isset($filterModules[$sourceModule])) {
+			['fieldName' => $filterFieldName, 'moduleName' => $filterModuleName] = $filterModules[$sourceModule];
+			$relId = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule)->get($filterFieldName);
+			if ($relId && ('all' === $sourceModule || $filterModuleName === \App\Record::getType($relId))) {
+				$relatedParentModule = $filterModuleName;
+				$relatedParentId = $relId;
+				$showSwitch = true;
+			}
 		}
 		if ($relatedParentId && !\App\Record::isExists($relatedParentId)) {
 			$relatedParentId = $relatedParentModule = '';
@@ -216,41 +224,10 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		if (!empty($relatedParentModule) && !empty($relatedParentId)) {
 			$listViewHeaders = $listViewModel->getHeaders();
 			$listViewEntries = $listViewModel->getEntries($pagingModel);
-			if (count($listViewEntries) > 0) {
-				$parentRelatedRecords = true;
-			}
 		} else {
 			$listViewHeaders = $listViewModel->getListViewHeaders();
 			$listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
-		// If there are no related records with parent module then, we should show all the records
-		if (empty($parentRelatedRecords) && !empty($relatedParentModule) && !empty($relatedParentId)) {
-			$relatedParentId = $relatedParentModule = null;
-			$showSwitch = false;
-			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule);
-			$listViewModel->set('search_params', $transformedSearchParams);
-			if (!empty($orderBy)) {
-				$listViewModel->set('orderby', $orderBy)->set('sortorder', $sortOrder);
-			}
-			if (!empty($filterFields)) {
-				$listViewModel->set('filterFields', $filterFields);
-			}
-			if (!empty($sourceModule)) {
-				$listViewModel->set('src_module', $sourceModule)->set('src_field', $sourceField)->set('src_record', $sourceRecord);
-			}
-			if (!$request->isEmpty('search_key', true) && !$request->isEmpty('search_value', true)) {
-				$operator = 's';
-				if (!$request->isEmpty('operator')) {
-					$operator = $request->getByType('operator');
-				}
-				$searchKey = $request->getByType('search_key', 'Alnum');
-				$listViewModel->set('search_key', $searchKey);
-				$listViewModel->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $listViewModel->getQueryGenerator()->getModule(), $searchKey, $operator));
-			}
-			$listViewHeaders = $listViewModel->getListViewHeaders();
-			$listViewEntries = $listViewModel->getListViewEntries($pagingModel);
-		}
-		// End
 		$noOfEntries = count($listViewEntries);
 		if (empty($sortOrder)) {
 			$sortOrder = 'ASC';
@@ -262,7 +239,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 			$nextSortOrder = 'ASC';
 			$sortImage = 'fas fa-chevron-up';
 		}
-		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') || ($request->getBoolean('showTotalCount') && !$totalCount)) {
+		if (App\Config::performance('LISTVIEW_COMPUTE_PAGE_COUNT') || ($request->getBoolean('showTotalCount') && !$totalCount)) {
 			if (method_exists($listViewModel, 'getListViewCount')) {
 				$totalCount = $listViewModel->getListViewCount();
 			} elseif (method_exists($listViewModel, 'getRelatedEntriesCount')) {

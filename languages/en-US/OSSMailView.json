@@ -56,7 +56,6 @@
     "LBL_COLLAPSE_ALL": "Collapse all",
     "LBL_COUNT_ALL_MAILS": "Number of all emails",
     "LBL_VERIFY": "To verification related",
-    "LBL_REL_MOD": "Related modules",
     "LBL_BindMailsOK": "Marked emails to bind, the next activation cron messages will be related to record",
     "LBL_BindMails": "Assign emails",
     "LBL_ChangeType": "Change mail type",

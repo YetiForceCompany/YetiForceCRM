@@ -26,7 +26,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
@@ -35,7 +35,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		if (!\App\Privilege::isPermitted($request->getModule(), 'EditView')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if ($request->getMode() !== 'findAddress') {
+		if ('findAddress' !== $request->getMode()) {
 			$this->fieldModel = Vtiger_Module_Model::getInstance($request->getModule())->getFieldByName($request->getByType('fieldName', 2));
 			if (!$this->fieldModel || !$this->fieldModel->isEditable()) {
 				throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD', 406);
@@ -62,12 +62,12 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function getOwners(\App\Request $request)
+	public function getOwners(App\Request $request)
 	{
-		if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX')) {
+		if (!App\Config::performance('SEARCH_OWNERS_BY_AJAX')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if ($this->fieldModel->getFieldDataType() !== 'owner' && $this->fieldModel->getFieldDataType() !== 'sharedOwner') {
+		if ('owner' !== $this->fieldModel->getFieldDataType() && 'sharedOwner' !== $this->fieldModel->getFieldDataType()) {
 			throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD');
 		}
 		$moduleName = $request->getModule();
@@ -85,7 +85,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 			$owner->find($searchValue);
 
 			$data = [];
-			if (in_array('users', $result)) {
+			if (\in_array('users', $result)) {
 				$users = $owner->getAccessibleUsers('', 'owner');
 				if (!empty($users)) {
 					$data[] = ['name' => \App\Language::translate('LBL_USERS'), 'type' => 'optgroup'];
@@ -94,7 +94,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 					}
 				}
 			}
-			if (in_array('groups', $result)) {
+			if (\in_array('groups', $result)) {
 				$grup = $owner->getAccessibleGroups('', 'owner', true);
 				if (!empty($grup)) {
 					$data[] = ['name' => \App\Language::translate('LBL_GROUPS'), 'type' => 'optgroup'];
@@ -115,12 +115,12 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function getUserRole(\App\Request $request)
+	public function getUserRole(App\Request $request)
 	{
-		if (!AppConfig::performance('SEARCH_ROLES_BY_AJAX')) {
+		if (!App\Config::performance('SEARCH_ROLES_BY_AJAX')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if ($this->fieldModel->getFieldDataType() !== 'userRole') {
+		if ('userRole' !== $this->fieldModel->getFieldDataType()) {
 			throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD');
 		}
 		$searchValue = $request->getByType('value', 'Text');
@@ -142,9 +142,9 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function getReference(\App\Request $request)
+	public function getReference(App\Request $request)
 	{
-		if (!AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
+		if (!App\Config::performance('SEARCH_REFERENCE_BY_AJAX')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if (!$this->fieldModel->isReferenceField()) {
@@ -175,9 +175,9 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function verifyPhoneNumber(\App\Request $request)
+	public function verifyPhoneNumber(App\Request $request)
 	{
-		if ($this->fieldModel->getFieldDataType() !== 'phone') {
+		if ('phone' !== $this->fieldModel->getFieldDataType()) {
 			throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD');
 		}
 		$response = new Vtiger_Response();
@@ -204,7 +204,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function findAddress(\App\Request $request)
+	public function findAddress(App\Request $request)
 	{
 		$instance = \App\Map\Address::getInstance($request->getByType('type'));
 		$response = new Vtiger_Response();
@@ -221,16 +221,16 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function verifyIsHolidayDate(\App\Request $request)
+	public function verifyIsHolidayDate(App\Request $request)
 	{
-		if ($this->fieldModel->getFieldDataType() === 'datetime' || $this->fieldModel->getFieldDataType() === 'date') {
+		if ('datetime' === $this->fieldModel->getFieldDataType() || 'date' === $this->fieldModel->getFieldDataType()) {
 			$response = new Vtiger_Response();
 			$result = false;
 			if ($request->isEmpty('date', true)) {
 				$data['message'] = \App\Language::translate('LBL_NO_DATE');
 			} else {
-				$holidays = Settings_PublicHoliday_Module_Model::getHolidays($request->getArray('date', 'DateInUserFormat'));
-				if (!empty($holidays)) {
+				$date = $request->getArray('date', 'DateInUserFormat');
+				if (!empty(App\Fields\Date::getHolidays(App\Fields\Date::formatToDB($date[0]), App\Fields\Date::formatToDB($date[1])))) {
 					$result = true;
 				}
 			}
@@ -251,9 +251,9 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 * @throws \App\Exceptions\NoPermitted
 	 * @throws \yii\db\Exception
 	 */
-	public function changeFavoriteOwner(\App\Request $request)
+	public function changeFavoriteOwner(App\Request $request)
 	{
-		if (!AppConfig::module('Users', 'FAVORITE_OWNERS') || (\App\User::getCurrentUserRealId() !== \App\User::getCurrentUserId())) {
+		if (!App\Config::module('Users', 'FAVORITE_OWNERS') || (\App\User::getCurrentUserRealId() !== \App\User::getCurrentUserId())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		$moduleName = $request->getModule();

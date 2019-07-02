@@ -124,13 +124,13 @@ class Vtiger_RelationListView_Model extends \App\Base
 	/**
 	 * Get relation list view model instance.
 	 *
-	 * @param Vtiger_Module_Model $parentRecordModel
-	 * @param Vtiger_Module_Model $relationModuleName
+	 * @param Vtiger_Record_Model $parentRecordModel
+	 * @param string              $relationModuleName
 	 * @param bool|string         $label
 	 *
 	 * @return self
 	 */
-	public static function getInstance($parentRecordModel, $relationModuleName, $label = false)
+	public static function getInstance(Vtiger_Record_Model $parentRecordModel, string $relationModuleName, $label = false)
 	{
 		$parentModuleName = $parentRecordModel->getModule()->get('name');
 		$className = Vtiger_Loader::getComponentClassName('Model', 'RelationListView', $parentModuleName);
@@ -181,7 +181,6 @@ class Vtiger_RelationListView_Model extends \App\Base
 			}
 			$query = $queryGenerator->createQuery();
 			$this->set('Query', $query);
-
 			return $query;
 		}
 		throw new \App\Exceptions\AppException('>>> No relationModel instance, requires verification 2 <<<');
@@ -224,8 +223,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 			$query->limit($pageLimit + 1)->offset($pagingModel->getStartIndex());
 		}
 		$rows = $query->all();
-		$count = count($rows);
-		$pagingModel->calculatePageRange($count);
+		$count = \count($rows);
 		if ($count > $pageLimit) {
 			array_pop($rows);
 			$pagingModel->set('nextPageExists', true);
@@ -233,11 +231,15 @@ class Vtiger_RelationListView_Model extends \App\Base
 			$pagingModel->set('nextPageExists', false);
 		}
 		$relatedRecordList = [];
+		$recordId = $this->getParentRecordModel()->getId();
 		foreach ($rows as $row) {
-			$recordModel = $relationModuleModel->getRecordFromArray($row);
-			$this->getEntryExtend($recordModel);
-			$relatedRecordList[$row['id']] = $recordModel;
+			if ($recordId !== $row['id']) {
+				$recordModel = $relationModuleModel->getRecordFromArray($row);
+				$this->getEntryExtend($recordModel);
+				$relatedRecordList[$row['id']] = $recordModel;
+			}
 		}
+		$pagingModel->calculatePageRange(\count($relatedRecordList));
 		return $relatedRecordList;
 	}
 
@@ -429,7 +431,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 			$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'RELATEDLIST_MASSACTIONS',
 				'linklabel' => 'LBL_MASS_DOWNLOAD',
-				'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module={$parentRecordModel->getModuleName()}&action=RelationAjax&mode=massDownload&src_record={$parentRecordModel->getId()}&relatedModule=Documents','sendByForm')",
+				'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassDownload('index.php?module={$parentRecordModel->getModuleName()}&action=RelationAjax&mode=massDownload&src_record={$parentRecordModel->getId()}&relatedModule=Documents&mode=multiple','sendByForm')",
 				'linkclass' => '',
 				'linkicon' => 'fas fa-download'
 			]);
@@ -522,7 +524,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 	 */
 	public function setFields($fields)
 	{
-		if (is_string($fields)) {
+		if (\is_string($fields)) {
 			$fields = explode(',', $fields);
 		}
 		$relatedListFields = [];

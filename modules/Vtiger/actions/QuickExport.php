@@ -75,7 +75,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 						if ($fieldModel->getFieldName() === 'sum_time') {
 							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 						} else {
-							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $record->get($fieldModel->getFieldName()), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
 						}
 						break;
 					case 71:
@@ -117,7 +117,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 			$worksheet->getColumnDimension($cell->getColumn())->setAutoSize(true);
 			++$col;
 		}
-		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \AppConfig::main('tmp_dir'), 'xls');
+		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \App\Config::main('tmp_dir'), 'xls');
 		$workbookWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($workbook, 'Xls');
 		$workbookWriter->save($tempFileName);
 

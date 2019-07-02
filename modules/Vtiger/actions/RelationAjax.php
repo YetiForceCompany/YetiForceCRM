@@ -47,12 +47,13 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		if (!$request->isEmpty('related_module', true) && !$userPrivilegesModel->hasModulePermission($request->getByType('related_module', 2))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
 		}
-		if (!$request->isEmpty('relatedModule', true) && 'ProductsAndServices' !== $request->getByType('relatedModule', 2)) {
-			if ('ModTracker' === $request->getByType('relatedModule', 2)) {
+		if (!$request->isEmpty('relatedModule', true) && !is_array($relatedModule = $request->getByType('relatedModule', 2)) && 'ProductsAndServices' !== $relatedModule) {
+			if ('ModTracker' === $relatedModule) {
 				if (!$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'ModTracker')) {
 					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
 				}
-				if (!$userPrivilegesModel->hasModulePermission($request->getByType('relatedModule', 2))) {
+			} else {
+				if (!$userPrivilegesModel->hasModulePermission($relatedModule)) {
 					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
 				}
 			}
@@ -283,7 +284,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			$worksheet->getColumnDimension($cell->getColumn())->setAutoSize(true);
 			++$col;
 		}
-		$tmpDir = \AppConfig::main('tmp_dir');
+		$tmpDir = \App\Config::main('tmp_dir');
 		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $tmpDir, 'xls');
 		$workbookWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($workbook, 'Xls');
 		$workbookWriter->save($tempFileName);
@@ -357,14 +358,15 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 	}
 
 	/**
-	 * Function to get the page count for reltedlist.
+	 * Function to get the page count for related list.
 	 *
 	 * @param \App\Request $request
 	 */
 	public function getRelatedListPageCount(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$relatedModuleName = $request->getByType('relatedModule', 2);
+		$relatedModuleName = $request->getArray('relatedModule', 'Alnum');
+		$firstRelatedModuleName = current($relatedModuleName);
 		$parentId = $request->getInteger('record');
 		if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $parentId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -372,14 +374,14 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$label = $request->getByType('tab_label', 'Text');
 		$totalCount = 0;
 		$pageCount = 0;
-		if ('ModComments' === $relatedModuleName) {
+		if ('ModComments' === $firstRelatedModuleName) {
 			$totalCount = ModComments_Record_Model::getCommentsCount($parentId);
-		} elseif ('ModTracker' === $relatedModuleName) {
+		} elseif ('ModTracker' === $firstRelatedModuleName) {
 			$count = (int) ($unreviewed = current(ModTracker_Record_Model::getUnreviewed($parentId, false, true))) ? array_sum($unreviewed) : '';
 			$totalCount = $count ? $count : '';
 		} else {
-			$relModules = !empty($relatedModuleName) ? [$relatedModuleName] : [];
-			if ('ProductsAndServices' === $relatedModuleName) {
+			$relModules = !empty($relatedModuleName) && is_array($relatedModuleName) ? $relatedModuleName : [];
+			if ('ProductsAndServices' === $firstRelatedModuleName) {
 				$label = '';
 				$relModules = ['Products', 'OutsourcedProducts', 'Assets', 'Services', 'OSSOutsourcedServices', 'OSSSoldServices'];
 			}
@@ -398,7 +400,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 				if ('ProductsAndServices' === $relatedModuleName && in_array($relModule, $categoryCount)) {
 					$totalCount += (int) $relationListView->getRelatedTreeEntriesCount();
 				}
-				if ('Calendar' === $relatedModuleName && \AppConfig::module($relatedModuleName, 'SHOW_ONLY_CURRENT_RECORDS_COUNT')) {
+				if ('Calendar' === $relatedModuleName && \App\Config::module($relatedModuleName, 'SHOW_ONLY_CURRENT_RECORDS_COUNT')) {
 					$totalCount += (int) $relationListView->getRelationQuery()->andWhere(['vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('current')])->count();
 				} else {
 					$totalCount += (int) $relationListView->getRelatedEntriesCount();

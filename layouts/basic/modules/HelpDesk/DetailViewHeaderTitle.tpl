@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	{if AppConfig::module('HelpDesk','CHECK_ACCOUNT_EXISTS') && $RECORD->get('parent_id') == 0}
+	{if App\Config::module('HelpDesk','CHECK_ACCOUNT_EXISTS') && $RECORD->get('parent_id') == 0}
 		<div class="alert alert-danger w-100 mt-1 mb-2 mx-3" role="alert">
 			<strong>{\App\Language::translate('LBL_NO_ACCOUNTS_IN_HELPDESK',{$MODULE})}</strong>
 			<span class="text-right">
@@ -19,7 +19,7 @@
 				</a>
 			</span>
 		</div>
-	{elseif AppConfig::module('HelpDesk','CHECK_SERVICE_CONTRACTS_EXISTS') && Vtiger_Module_Model::getInstance('ServiceContracts')->isActive() && $RECORD->get('servicecontractsid') == 0}
+	{elseif App\Config::module('HelpDesk','CHECK_SERVICE_CONTRACTS_EXISTS') && Vtiger_Module_Model::getInstance('ServiceContracts')->isActive() && $RECORD->get('servicecontractsid') == 0}
 		{assign var=SERVICE_CONTRACTS value=$RECORD->getActiveServiceContracts()}
 		<div class="alert {if $SERVICE_CONTRACTS}alert-warning{else}alert-danger{/if} selectServiceContracts w-100 mt-1 mb-2 mx-3 d-flex flex-column flex-sm-row justify-content-between u-overflow-x-hidden" role="alert">
 			{if $SERVICE_CONTRACTS}
@@ -39,7 +39,12 @@
 	<div class="d-flex flex-wrap flex-md-nowrap px-3 w-100">
 		<div class="u-min-w-md-70 w-100">
 			<div class="moduleIcon">
-				<span class="o-detail__icon js-detail__icon userIcon-{$MODULE}"></span>
+				<span class="o-detail__icon js-detail__icon js-detail-hierarchy userIcon-{$MODULE}"></span>
+				{if App\Config::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
+					<span class="hierarchy">
+						<span class="badge {if $RECORD->get('active')} bgGreen {else} bgOrange {/if}"></span>
+					</span>
+				{/if}
 			</div>
 			<div class="pl-1">
 				<div class="d-flex flex-nowrap align-items-center js-popover-tooltip--ellipsis-icon" data-content="{\App\Purifier::encodeHtml($RECORD->getName())}" data-toggle="popover" data-js="popover | mouseenter">
@@ -49,7 +54,7 @@
 					<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
 					{assign var=RECORD_STATE value=\App\Record::getState($RECORD->getId())}
 					{if $RECORD_STATE !== 'Active'}
-						{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
+						{assign var=COLOR value=App\Config::search('LIST_ENTITY_STATE_COLOR')}
 						<span class="badge badge-secondary ml-1" {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};"{/if}>
 							{if \App\Record::getState($RECORD->getId()) === 'Trash'}
 								{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}

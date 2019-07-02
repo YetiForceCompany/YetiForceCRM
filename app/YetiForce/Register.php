@@ -73,7 +73,7 @@ class Register
 	 *
 	 * @return string
 	 */
-	private static function getInstanceKey(): string
+	public static function getInstanceKey(): string
 	{
 		return sha1(\App\Config::main('application_unique_key') . \App\Config::main('site_URL') . gethostname());
 	}
@@ -162,16 +162,13 @@ class Register
 			'serialKey' => $conf['serialKey'] ?? '',
 			'status' => $conf['status'] ?? 0,
 		];
-
 		try {
 			$data = ['last_check_time' => date('Y-m-d H:i:s')];
-			$response = (new \GuzzleHttp\Client())
-				->post(static::$registrationUrl . 'check', \App\RequestHttp::getOptions() + ['form_params' => $params]);
+			$response = (new \GuzzleHttp\Client())->post(static::$registrationUrl . 'check', \App\RequestHttp::getOptions() + ['form_params' => $params]);
 			$body = $response->getBody();
 			if (!\App\Json::isEmpty($body)) {
 				$body = \App\Json::decode($body);
-				if ('OK' === $body['text']) {
-					static::updateCompanies($body['companies']);
+				if ('OK' === $body['text'] && static::updateCompanies($body['companies'])) {
 					$data = [
 						'status' => $body['status'],
 						'text' => $body['text'],
@@ -179,16 +176,16 @@ class Register
 						'last_check_time' => date('Y-m-d H:i:s')
 					];
 					$status = true;
+				} else {
+					$data['lastError'] = $body['text'];
 				}
 			} else {
-				\App\Log::warning('ERR_BODY_IS_EMPTY', __METHOD__);
-				static::updateMetaData(['lastError' => 'ERR_BODY_IS_EMPTY']);
+				throw new \App\Exceptions\AppException('ERR_BODY_IS_EMPTY');
 			}
-
 			static::updateMetaData($data);
 		} catch (\Throwable $e) {
 			\App\Log::warning($e->getMessage(), __METHOD__);
-			static::updateMetaData(['lastError' => $e->getMessage()]);
+			static::updateMetaData(['lastError' => $e->getMessage(), 'last_check_time' => date('Y-m-d H:i:s')]);
 		}
 		return $status ?? false;
 	}
@@ -232,7 +229,7 @@ class Register
 			'serialKey' => $data['serialKey'] ?? $conf['serialKey'] ?? '',
 			'lastError' => $data['lastError'] ?? '',
 		];
-		file_put_contents(static::REGISTRATION_FILE, "<?php //Modifying this file will breach the licence terms. \n return " . \var_export(static::$config, true) . ';');
+		\App\Utils::saveToFile(static::REGISTRATION_FILE, \var_export(static::$config, true), 'Modifying this file will breach the licence terms', 0, true);
 	}
 
 	/**
@@ -324,14 +321,21 @@ class Register
 	 *
 	 * @param array $companies
 	 *
-	 * @throws \yii\db\Exception
+	 * @return bool
 	 */
-	private static function updateCompanies(array $companies)
+	private static function updateCompanies(array $companies): bool
 	{
+		$status = false;
+		$names = \array_column(\App\Company::getAll(), 'name', 'name');
 		foreach ($companies as $row) {
-			if (!empty($row['name'])) {
+			if (!empty($row['name']) && isset($names[$row['name']])) {
 				\App\Company::statusUpdate($row['status'], $row['name']);
+				$status = true;
 			}
 		}
+		if (!$status) {
+			throw new \App\Exceptions\AppException('ERR_COMPANY_DATA_IS_NOT_COMPATIBLE');
+		}
+		return $status;
 	}
 }

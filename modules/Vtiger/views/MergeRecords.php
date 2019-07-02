@@ -65,7 +65,7 @@ class Vtiger_MergeRecords_View extends \App\Controller\Modal
 			$queryGenerator->setField('id');
 			$query = $queryGenerator->createQuery();
 			$count = $query->count();
-			$dataReader = $query->limit(\AppConfig::performance('MAX_MERGE_RECORDS'))->createCommand()->query();
+			$dataReader = $query->limit(\App\Config::performance('MAX_MERGE_RECORDS'))->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				$recordModels[$row['id']] = $moduleModel->getRecordFromArray($row);
 			}

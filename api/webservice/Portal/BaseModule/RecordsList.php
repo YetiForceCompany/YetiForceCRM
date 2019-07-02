@@ -21,30 +21,24 @@ class RecordsList extends \Api\Core\BaseAction
 	 */
 	public function get()
 	{
-		$moduleName = $this->controller->request->get('module');
-		$records = $headers = [];
+		$rawData = $records = $headers = [];
 		$queryGenerator = $this->getQuery();
 		$fieldsModel = $queryGenerator->getListViewFields();
 		$limit = $queryGenerator->getLimit();
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$record = ['recordLabel' => \App\Record::getLabel($row['id'])];
-			foreach ($fieldsModel as $fieldName => &$fieldModel) {
-				if (isset($row[$fieldName])) {
-					$record[$fieldName] = $fieldModel->getDisplayValue($row[$fieldName], $row['id'], false, true);
-				}
+			$records[$row['id']] = $this->getRecordFromRow($row, $fieldsModel);
+			if ($this->isRawData()) {
+				$rawData[$row['id']] = $this->getRawDataFromRow($row);
 			}
-			$records[$row['id']] = $record;
 		}
 		$dataReader->close();
-		foreach ($fieldsModel as $fieldName => &$fieldModel) {
-			$headers[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
-		}
+		$headers = $this->getColumnNames($fieldsModel);
 		$rowsCount = count($records);
-
 		return [
 			'headers' => $headers,
 			'records' => $records,
+			'rawData' => $rawData,
 			'count' => $rowsCount,
 			'isMorePages' => $rowsCount === $limit,
 		];
@@ -59,11 +53,8 @@ class RecordsList extends \Api\Core\BaseAction
 	 */
 	public function getQuery()
 	{
-		$queryGenerator = new \App\QueryGenerator($this->controller->request->get('module'));
+		$queryGenerator = new \App\QueryGenerator($this->controller->request->getModule());
 		$queryGenerator->initForDefaultCustomView();
-		if ($this->getPermissionType() !== 1) {
-			$this->getQueryByParentRecord($queryGenerator);
-		}
 		$limit = 1000;
 		if ($requestLimit = $this->controller->request->getHeader('x-row-limit')) {
 			$limit = (int) $requestLimit;
@@ -81,10 +72,10 @@ class RecordsList extends \Api\Core\BaseAction
 		if ($conditions = $this->controller->request->getHeader('x-condition')) {
 			$conditions = \App\Json::decode($conditions);
 			if (isset($conditions['fieldName'])) {
-				$queryGenerator->addCondition($conditions['fieldName'], $conditions['value'], $conditions['operator']);
+				$queryGenerator->addCondition($conditions['fieldName'], $conditions['value'], $conditions['operator'], $conditions['group'] ?? true);
 			} else {
 				foreach ($conditions as $condition) {
-					$queryGenerator->addCondition($condition['fieldName'], $condition['value'], $condition['operator']);
+					$queryGenerator->addCondition($condition['fieldName'], $condition['value'], $condition['operator'], $condition['group'] ?? true);
 				}
 			}
 		}
@@ -92,44 +83,61 @@ class RecordsList extends \Api\Core\BaseAction
 	}
 
 	/**
-	 * Get query by parent record.
+	 * Check if you send raw data.
 	 *
-	 * @param \App\QueryGenerator $queryGenerator
-	 *
-	 * @throws \Api\Core\Exception
+	 * @return bool
 	 */
-	public function getQueryByParentRecord(\App\QueryGenerator $queryGenerator)
+	protected function isRawData(): bool
 	{
-		$parentId = $this->getParentCrmId();
-		$parentModule = \App\Record::getType($parentId);
-		$fields = \App\Field::getRelatedFieldForModule($queryGenerator->getModule());
-		$foundField = true;
-		if (\App\ModuleHierarchy::getModuleLevel($queryGenerator->getModule()) === 0) {
-			$queryGenerator->addCondition('id', $parentId, 'e');
-		} elseif (isset($fields[$parentModule]) && $fields[$parentModule]['name'] !== $fields[$parentModule]['relmod']) {
-			$field = $fields[$parentModule];
-			$queryGenerator->addNativeCondition(["{$field['tablename']}.{$field['columnname']}" => $parentId]);
-		} elseif ($fields) {
-			$foundField = false;
-			foreach ($fields as $moduleName => $field) {
-				if ($moduleName === $parentModule) {
-					continue;
-				}
-				if ($relatedField = \App\Field::getRelatedFieldForModule($moduleName, $parentModule)) {
-					$queryGenerator->addRelatedCondition([
-						'sourceField' => $field['fieldname'],
-						'relatedModule' => $moduleName,
-						'relatedField' => $relatedField['fieldname'],
-						'value' => $parentId,
-						'operator' => 'e',
-						'conditionGroup' => true,
-					]);
-					$foundField = true;
-				}
+		return 1 === (int) $this->controller->headers['x-raw-data'];
+	}
+
+	/**
+	 * Get record from row.
+	 *
+	 * @param array                 $row
+	 * @param \Vtiger_Field_Model[] $fieldsModel
+	 *
+	 * @return array
+	 */
+	protected function getRecordFromRow(array $row, array $fieldsModel): array
+	{
+		$record = ['recordLabel' => \App\Record::getLabel($row['id'])];
+		$recordModel = \Vtiger_Record_Model::getCleanInstance($this->controller->request->getModule());
+		foreach ($fieldsModel as $fieldName => &$fieldModel) {
+			if (isset($row[$fieldName])) {
+				$recordModel->set($fieldName, $row[$fieldName]);
+				$record[$fieldName] = $recordModel->getDisplayValue($fieldName, $row['id'], true);
 			}
 		}
-		if (!$foundField) {
-			throw new \Api\Core\Exception('Invalid module, no relationship', 400);
+		return $record;
+	}
+
+	/**
+	 * Get column names.
+	 *
+	 * @param array $fieldsModel
+	 *
+	 * @return array
+	 */
+	protected function getColumnNames(array $fieldsModel): array
+	{
+		$headers = [];
+		foreach ($fieldsModel as $fieldName => $fieldModel) {
+			$headers[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $fieldModel->getModuleName());
 		}
+		return $headers;
+	}
+
+	/**
+	 * Get raw data from row.
+	 *
+	 * @param array $row
+	 *
+	 * @return array
+	 */
+	protected function getRawDataFromRow(array $row): array
+	{
+		return $row;
 	}
 }

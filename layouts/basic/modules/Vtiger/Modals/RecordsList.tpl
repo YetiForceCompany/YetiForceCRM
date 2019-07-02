@@ -15,7 +15,7 @@
 		<input type="hidden" class="js-no-entries" data-js="value" value="{$LISTVIEW_ENTRIES_COUNT}">
 		<input type="hidden" class="js-additional-informations" data-js="value" value="{$ADDITIONAL_INFORMATIONS}">
 		<input type="hidden" id="autoRefreshListOnChange" data-js="value"
-			   value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
+			   value="{App\Config::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
 		<input type="hidden" class="js-filter-fields" data-js="value" value="{App\Purifier::encodeHtml(\App\Json::encode($FILTER_FIELDS))}">
 		<div class="table-responsive">
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}

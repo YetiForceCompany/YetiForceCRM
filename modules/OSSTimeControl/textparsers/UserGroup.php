@@ -39,7 +39,7 @@ class OSSTimeControl_UserGroup_Textparser extends \App\TextParser\Base
 			$html .= '<tr>';
 			$html .= '<td>' . $user . '</td>';
 			$html .= '<td class="center">' . $data['role'] . '</td>';
-			$html .= '<td class="center">' . \App\Fields\Time::formatToHourText($data['time'], 'short') . '</td>';
+			$html .= '<td class="center">' . \App\Fields\RangeTime::formatHourToDisplay($data['time'], 'short') . '</td>';
 			$html .= '</tr>';
 		}
 		return $html . '</tbody></table>';
@@ -48,7 +48,7 @@ class OSSTimeControl_UserGroup_Textparser extends \App\TextParser\Base
 	protected function getUserList()
 	{
 		$users = [];
-		$ids = $this->textParser->getParam('pdf')->getRecordIds();
+		$ids = $this->textParser->getParam('pdf')->getVariable('recordsId');
 		if (!is_array($ids)) {
 			$ids = [$ids];
 		}

@@ -51,36 +51,36 @@ class RequestUtil
 
 	public static function getBrowserInfo()
 	{
-		if (static::$browserCache === false) {
+		if (false === static::$browserCache) {
 			$browserAgent = strtolower(\App\Request::_getServer('HTTP_USER_AGENT', ''));
 
 			$browser = new \stdClass();
 			$browser->ver = 0;
-			$browser->win = strpos($browserAgent, 'win') !== false;
-			$browser->mac = strpos($browserAgent, 'mac') !== false;
-			$browser->linux = strpos($browserAgent, 'linux') !== false;
-			$browser->unix = strpos($browserAgent, 'unix') !== false;
-			$browser->webkit = strpos($browserAgent, 'applewebkit') !== false;
-			$browser->opera = strpos($browserAgent, 'opera') !== false || ($browser->webkit && strpos($browserAgent, 'opr/') !== false);
-			$browser->ns = strpos($browserAgent, 'netscape') !== false;
-			$browser->chrome = !$browser->opera && strpos($browserAgent, 'chrome') !== false;
-			$browser->ie = !$browser->opera && (strpos($browserAgent, 'compatible; msie') !== false || strpos($browserAgent, 'trident/') !== false);
-			$browser->safari = !$browser->opera && !$browser->chrome && ($browser->webkit || strpos($browserAgent, 'safari') !== false);
-			$browser->mz = !$browser->ie && !$browser->safari && !$browser->chrome && !$browser->ns && !$browser->opera && strpos($browserAgent, 'mozilla') !== false;
+			$browser->win = false !== strpos($browserAgent, 'win');
+			$browser->mac = false !== strpos($browserAgent, 'mac');
+			$browser->linux = false !== strpos($browserAgent, 'linux');
+			$browser->unix = false !== strpos($browserAgent, 'unix');
+			$browser->webkit = false !== strpos($browserAgent, 'applewebkit');
+			$browser->opera = false !== strpos($browserAgent, 'opera') || ($browser->webkit && false !== strpos($browserAgent, 'opr/'));
+			$browser->ns = false !== strpos($browserAgent, 'netscape');
+			$browser->chrome = !$browser->opera && false !== strpos($browserAgent, 'chrome');
+			$browser->ie = !$browser->opera && (false !== strpos($browserAgent, 'compatible; msie') || false !== strpos($browserAgent, 'trident/'));
+			$browser->safari = !$browser->opera && !$browser->chrome && ($browser->webkit || false !== strpos($browserAgent, 'safari'));
+			$browser->mz = !$browser->ie && !$browser->safari && !$browser->chrome && !$browser->ns && !$browser->opera && false !== strpos($browserAgent, 'mozilla');
 
-			if (strpos($browserAgent, 'msie') !== false) {
+			if (false !== strpos($browserAgent, 'msie')) {
 				$browser->name = 'Internet explorer';
-			} elseif (strpos($browserAgent, 'trident') !== false) { //For Supporting IE 11
+			} elseif (false !== strpos($browserAgent, 'trident')) { //For Supporting IE 11
 				$browser->name = 'Internet explorer';
-			} elseif (strpos($browserAgent, 'firefox') !== false) {
+			} elseif (false !== strpos($browserAgent, 'firefox')) {
 				$browser->name = 'Mozilla Firefox';
-			} elseif (strpos($browserAgent, 'chrome') !== false) {
+			} elseif (false !== strpos($browserAgent, 'chrome')) {
 				$browser->name = 'Google Chrome';
-			} elseif (strpos($browserAgent, 'opera mini') !== false) {
+			} elseif (false !== strpos($browserAgent, 'opera mini')) {
 				$browser->name = 'Opera Mini';
-			} elseif (strpos($browserAgent, 'opera') !== false) {
+			} elseif (false !== strpos($browserAgent, 'opera')) {
 				$browser->name = 'Opera';
-			} elseif (strpos($browserAgent, 'safari') !== false) {
+			} elseif (false !== strpos($browserAgent, 'safari')) {
 				$browser->name = 'Safari';
 			} else {
 				$browser->name = 'unknow';
@@ -103,16 +103,16 @@ class RequestUtil
 			}
 
 			$browser->https = false;
-			if (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off') {
+			if (!empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS'])) {
 				$browser->https = true;
 			}
-			if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https') {
+			if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && 'https' === strtolower($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
 				$browser->https = true;
 			}
 			$sp = strtolower(Request::_getServer('SERVER_PROTOCOL'));
 			$protocol = substr($sp, 0, strpos($sp, '/')) . (($browser->https) ? 's' : '');
 			$port = isset($_SERVER['SERVER_PORT']) ? (int) $_SERVER['SERVER_PORT'] : 0;
-			$port = ((!$browser->https && $port === 80) || ($browser->https && $port === 443)) ? '' : ':' . $port;
+			$port = ((!$browser->https && 80 === $port) || ($browser->https && 443 === $port)) ? '' : ':' . $port;
 			$host = Request::_getServer('HTTP_X_FORWARDED_HOST', Request::_getServer('HTTP_HOST', ''));
 			$host = $host ?? Request::_getServer('SERVER_NAME') . $port;
 			$browser->url = $protocol . '://' . $host . Request::_getServer('REQUEST_URI');
@@ -129,12 +129,12 @@ class RequestUtil
 	 */
 	public static function isNetConnection()
 	{
-		if (!\AppConfig::performance('ACCESS_TO_INTERNET')) {
+		if (!\App\Config::performance('ACCESS_TO_INTERNET')) {
 			return false;
 		}
 		if (isset(static::$connectionCache)) {
 			return static::$connectionCache;
 		}
-		return static::$connectionCache = gethostbyname('www.google.com') !== 'www.google.com';
+		return static::$connectionCache = 'www.google.com' !== gethostbyname('www.google.com');
 	}
 }

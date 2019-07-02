@@ -5,6 +5,7 @@
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
 	<div class="tpl-Edit-Field-Taxes">
+		<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value=""/>
 		<select id="{$MODULE}_{$VIEW}_fieldName_{$FIELD_MODEL->getName()}"
 				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
 				multiple="multiple" class="select2 form-control col-md-12" name="{$FIELD_MODEL->getFieldName()}[]"

@@ -62,10 +62,10 @@
 						{/if}
 						{if $SHOW_COMMENT}
 							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_comment" nowrap>
-								{if strlen($RELATED_RECORD->get('rel_comment')) > AppConfig::relation('COMMENT_MAX_LENGTH')}
+								{if strlen($RELATED_RECORD->get('rel_comment')) > App\Config::relation('COMMENT_MAX_LENGTH')}
 								<a class="js-popover-tooltip" data-js="popover" data-placement="top"
 								   data-content="{$RELATED_RECORD->get('rel_comment')}">
-									{App\TextParser::textTruncate($RELATED_RECORD->get('rel_comment'), AppConfig::relation('COMMENT_MAX_LENGTH'))}
+									{App\TextParser::textTruncate($RELATED_RECORD->get('rel_comment'), App\Config::relation('COMMENT_MAX_LENGTH'))}
 								</a>
 								{else}
 								{$RELATED_RECORD->get('rel_comment')}
@@ -237,10 +237,10 @@
 						{/if}
 						{if $SHOW_COMMENT}
 							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_comment" nowrap>
-								{if strlen($RELATED_RECORD->get('rel_comment')) > AppConfig::relation('COMMENT_MAX_LENGTH')}
+								{if strlen($RELATED_RECORD->get('rel_comment')) > App\Config::relation('COMMENT_MAX_LENGTH')}
 								<a class="js-popover-tooltip" data-js="popover" data-placement="top"
 								   data-content="{$RELATED_RECORD->get('rel_comment')}">
-									{vtlib\Functions::textLength($RELATED_RECORD->get('rel_comment'), AppConfig::relation('COMMENT_MAX_LENGTH'))}
+									{vtlib\Functions::textLength($RELATED_RECORD->get('rel_comment'), App\Config::relation('COMMENT_MAX_LENGTH'))}
 								</a>
 								{else}
 								{$RELATED_RECORD->get('rel_comment')}

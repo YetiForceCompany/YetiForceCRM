@@ -35,7 +35,7 @@ class VTSMSTask extends VTTask
 				$parseNumber = preg_replace_callback('/[^\d]/s', function ($m) {
 					return '';
 				}, $toNumber);
-				if (!empty($parseNumber) && !in_array($parseNumber, $toNumbers)) {
+				if (!empty($parseNumber) && !\in_array($parseNumber, $toNumbers)) {
 					$toNumbers[] = $parseNumber;
 				}
 			}

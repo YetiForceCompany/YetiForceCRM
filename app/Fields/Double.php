@@ -24,19 +24,19 @@ class Double
 	public static function truncateZeros(string $value)
 	{
 		$seperator = \App\User::getCurrentUserModel()->getDetail('currency_decimal_separator');
-		if (strpos($value, $seperator) === false) {
+		if (false === strpos($value, $seperator)) {
 			return $value;
 		}
-		for ($i = strlen($value) - 1; $i >= 0; $i--) {
+		for ($i = \strlen($value) - 1; $i >= 0; --$i) {
 			if ($value[$i] === $seperator) {
-				$i--;
+				--$i;
 				break;
 			}
-			if ($value[$i] !== '0') {
+			if ('0' !== $value[$i]) {
 				break;
 			}
 		}
-		if ($i !== -1) {
+		if (-1 !== $i) {
 			$value = substr($value, 0, $i + 1);
 		}
 		return $value;

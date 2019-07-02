@@ -68,7 +68,6 @@ class Vtiger_Record_Model extends \App\Base
 			$this->changes[$key] = $this->get($key);
 		}
 		$this->value[$key] = $value;
-
 		return $this;
 	}
 
@@ -389,10 +388,8 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getRelatedListViewDisplayValue($fieldName)
 	{
-		$recordId = $this->getId();
 		$fieldModel = $this->getModule()->getFieldByName($fieldName);
-
-		return $fieldModel->getUITypeModel()->getRelatedListViewDisplayValue($this->get($fieldName), $recordId, $this);
+		return $fieldModel->getUITypeModel()->getRelatedListViewDisplayValue($this->get($fieldName), $this->getId(), $this);
 	}
 
 	/**
@@ -422,7 +419,7 @@ class Vtiger_Record_Model extends \App\Base
 	 *
 	 * @param string $fieldName - field name
 	 *
-	 * @return <Vtiger_Field_Model>
+	 * @return Vtiger_Field_Model|false
 	 */
 	public function getField($fieldName)
 	{
@@ -482,7 +479,7 @@ class Vtiger_Record_Model extends \App\Base
 		}
 		$eventHandler->trigger('EntityAfterSave');
 		if ($this->isNew()) {
-			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $this->getModuleName(), $this);
+			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $moduleName, $this);
 			$this->isNew = false;
 		} else {
 			\App\Cache::staticDelete('RecordModel', $this->getId() . ':' . $this->getModuleName());
@@ -526,6 +523,7 @@ class Vtiger_Record_Model extends \App\Base
 		$moduleModel = $this->getModule();
 		$saveFields = $this->getModule()->getFieldsForSave($this);
 		$forSave = $this->getEntityDataForSave();
+
 		if (!$this->isNew()) {
 			$saveFields = array_intersect($saveFields, array_merge(array_keys($this->changes), array_keys($moduleModel->getFieldsByUiType(4))));
 		} else {
@@ -595,10 +593,6 @@ class Vtiger_Record_Model extends \App\Base
 			$eventHandler->setModuleName($moduleName);
 			$eventHandler->trigger('EntityBeforeDelete');
 
-			$focus = $this->getModule()->getEntityInstance();
-			if (method_exists($focus, 'transferRelatedRecords') && $this->get('transferRecordIDs')) {
-				$focus->transferRelatedRecords($moduleName, $this->get('transferRecordIDs'), $this->getId());
-			}
 			Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
 			Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
 			$workflows = (new VTWorkflowManager())->getWorkflowsForModule($moduleName, VTWorkflowManager::$ON_DELETE);
@@ -710,7 +704,7 @@ class Vtiger_Record_Model extends \App\Base
 	public static function getSearchResult($searchKey, $module = false, $limit = false, $operator = false)
 	{
 		if (!$limit) {
-			$limit = AppConfig::search('GLOBAL_SEARCH_MODAL_MAX_NUMBER_RESULT');
+			$limit = App\Config::search('GLOBAL_SEARCH_MODAL_MAX_NUMBER_RESULT');
 		}
 		$recordSearch = new \App\RecordSearch($searchKey, $module, $limit);
 		if ($operator) {
@@ -891,7 +885,7 @@ class Vtiger_Record_Model extends \App\Base
 		if (\App\Cache::staticHas($cacheName, $this->getId())) {
 			return \App\Cache::staticGet($cacheName, $this->getId());
 		}
-		$lockFields = \App\Fields\Picklist::getCloseStates($this->getModule()->getId());
+		$lockFields = \App\RecordStatus::getLockStatus($this->getModule()->getName());
 		foreach ($lockFields as $fieldName => $values) {
 			if (!in_array($this->getValueByField($fieldName), $values) || !$this->getField($fieldName)->isAjaxEditable()) {
 				unset($lockFields[$fieldName]);
@@ -974,25 +968,6 @@ class Vtiger_Record_Model extends \App\Base
 	{
 		$fieldModel = $this->getModule()->getField($fieldName);
 		return $fieldModel->getRelatedListDisplayValue($this->get($fieldName));
-	}
-
-	/**
-	 * Function to transfer related records of parent records to this record.
-	 *
-	 * @param <Array> $recordIds
-	 *
-	 * @return bool true/false
-	 */
-	public function transferRelationInfoOfRecords($recordIds = [])
-	{
-		if ($recordIds) {
-			$moduleName = $this->getModuleName();
-			$focus = CRMEntity::getInstance($moduleName);
-			if (method_exists($focus, 'transferRelatedRecords')) {
-				$focus->transferRelatedRecords($moduleName, $recordIds, $this->getId());
-			}
-		}
-		return true;
 	}
 
 	public function getSummaryInfo()
@@ -1382,7 +1357,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-dark', 'off' => 'btn-outline-dark', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
 			];
 		}
-		$stateColors = AppConfig::search('LIST_ENTITY_STATE_COLOR');
+		$stateColors = App\Config::search('LIST_ENTITY_STATE_COLOR');
 		if ($this->privilegeToActivate()) {
 			$recordLinks[] = [
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
@@ -1439,7 +1414,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getRecordRelatedListViewLinksLeftSide(Vtiger_RelationListView_Model $viewModel)
 	{
-		$stateColors = AppConfig::search('LIST_ENTITY_STATE_COLOR');
+		$stateColors = App\Config::search('LIST_ENTITY_STATE_COLOR');
 		$links = [];
 		if ($this->isViewable()) {
 			if ($this->getModule()->isSummaryViewSupported()) {
@@ -1637,7 +1612,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function getListViewColor()
 	{
 		$colors = [];
-		$stateColors = AppConfig::search('LIST_ENTITY_STATE_COLOR');
+		$stateColors = App\Config::search('LIST_ENTITY_STATE_COLOR');
 		$state = \App\Record::getState($this->getId());
 		if (!empty($stateColors[$state])) {
 			$colors['leftBorder'] = $stateColors[$state];

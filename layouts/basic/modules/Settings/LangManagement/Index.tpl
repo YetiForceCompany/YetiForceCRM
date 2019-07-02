@@ -6,7 +6,7 @@
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 	</div>
-	<div class="mt-1">
+	<div class="mt-2">
 		<div class="contents tabbable">
 			<ul class="nav nav-tabs layoutTabs massEditTabs">
 				<li class="nav-item">

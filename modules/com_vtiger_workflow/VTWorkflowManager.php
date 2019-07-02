@@ -93,7 +93,7 @@ class VTWorkflowManager
 	{
 		if (isset($workflow->id)) {
 			$wf = $workflow;
-			if ($wf->filtersavedinnew === null) {
+			if (null === $wf->filtersavedinnew) {
 				$wf->filtersavedinnew = 5;
 			}
 			App\Db::getInstance()->createCommand()->update('com_vtiger_workflows', [
@@ -113,7 +113,7 @@ class VTWorkflowManager
 		} else {
 			$db = App\Db::getInstance();
 			$wf = $workflow;
-			if ($wf->filtersavedinnew === null) {
+			if (null === $wf->filtersavedinnew) {
 				$wf->filtersavedinnew = 5;
 			}
 
@@ -163,28 +163,7 @@ class VTWorkflowManager
 		if ($referenceTime) {
 			$query->andWhere(['or', ['nexttrigger_time' => null], ['<=', 'nexttrigger_time', $referenceTime]]);
 		}
-
 		return $this->getWorkflowsForResult($query->all());
-	}
-
-	/**
-	 * Function to get the number of scheduled workflows.
-	 *
-	 * @return int
-	 */
-	public function getScheduledWorkflowsCount()
-	{
-		return (new \App\Db\Query())->from('com_vtiger_workflows')->where(['execution_condition' => self::$ON_SCHEDULE])->count();
-	}
-
-	/**
-	 * Function returns the maximum allowed scheduled workflows.
-	 *
-	 * @return int
-	 */
-	public function getMaxAllowedScheduledWorkflows()
-	{
-		return 10;
 	}
 
 	/**
@@ -257,6 +236,7 @@ class VTWorkflowManager
 	 * Returns null if the workflow doesn't exist.
 	 *
 	 * @param The id of the workflow
+	 * @param mixed $id
 	 *
 	 * @return A workflow object
 	 */
@@ -268,9 +248,8 @@ class VTWorkflowManager
 			$workflow->setup($data);
 
 			return $workflow;
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	/**
@@ -310,7 +289,6 @@ class VTWorkflowManager
 	 */
 	public function updateNexTriggerTime(Workflow $workflow)
 	{
-		$nextTriggerTime = $workflow->getNextTriggerTime();
-		$workflow->setNextTriggerTime($nextTriggerTime);
+		$workflow->setNextTriggerTime($workflow->getNextTriggerTime());
 	}
 }

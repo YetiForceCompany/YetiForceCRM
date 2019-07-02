@@ -82,7 +82,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 			$filePath = $fileDetails['path'];
 			$fileName = $fileDetails['name'];
 			if ('I' === $this->get('filelocationtype')) {
-				$fileName = html_entity_decode($fileName, ENT_QUOTES, \AppConfig::main('default_charset'));
+				$fileName = html_entity_decode($fileName, ENT_QUOTES, \App\Config::main('default_charset'));
 				if (file_exists($filePath . $fileDetails['attachmentsid'])) {
 					$savedFile = $fileDetails['attachmentsid'];
 				} else {
@@ -118,12 +118,11 @@ class Documents_Record_Model extends Vtiger_Record_Model
 	{
 		$zip = new ZipArchive();
 		$postfix = time() . '_' . random_int(0, 1000);
-		$zipPath = 'cache/';
-		$zipName = "documentsZipFile_{$postfix}.zip";
-		$fileName = $zipPath . $zipName;
-		if (true !== $zip->open($zipName, ZIPARCHIVE::CREATE)) {
-			\App\Log::error("cannot open <$zipName>\n");
-			throw new \App\Exceptions\NoPermitted("cannot open <$zipName>");
+		$zipPath = ROOT_DIRECTORY . '/cache/';
+		$fileName = $zipPath . "documentsZipFile_{$postfix}.zip";
+		if (true !== $zip->open($fileName, ZIPARCHIVE::CREATE)) {
+			\App\Log::error("cannot open <$fileName>\n");
+			throw new \App\Exceptions\NoPermitted("cannot open <$fileName>");
 		}
 
 		foreach ($recordsIds as $recordId) {
@@ -134,7 +133,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 					if (file_exists($filePath . $fileDetails['attachmentsid'])) {
 						$savedFile = $fileDetails['attachmentsid'];
 					} else {
-						$savedFile = $fileDetails['attachmentsid'] . '_' . html_entity_decode($fileDetails['name'], ENT_QUOTES, \AppConfig::main('default_charset'));
+						$savedFile = $fileDetails['attachmentsid'] . '_' . html_entity_decode($fileDetails['name'], ENT_QUOTES, \App\Config::main('default_charset'));
 					}
 					if (file_exists($filePath . $savedFile)) {
 						$zip->addFile($filePath . $savedFile, basename($documentModel->get('filename')));
@@ -170,8 +169,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 	{
 		$notesId = $this->get('id');
 		$downloadCount = (new \App\Db\Query())->select(['filedownloadcount'])->from('vtiger_notes')->where(['notesid' => $notesId])->scalar();
-		++$downloadCount;
-		\App\Db::getInstance()->createCommand()->update('vtiger_notes', ['filedownloadcount' => $downloadCount], ['notesid' => $notesId]);
+		\App\Db::getInstance()->createCommand()->update('vtiger_notes', ['filedownloadcount' => ++$downloadCount], ['notesid' => $notesId])->execute();
 	}
 
 	/**
@@ -234,10 +232,10 @@ class Documents_Record_Model extends Vtiger_Record_Model
 			if (!empty($file['name'])) {
 				if (isset($file['error']) && 0 === $file['error']) {
 					$fileInstance = \App\Fields\File::loadFromRequest($file);
-					if ($fileInstance->validate()) {
+					if ($fileInstance->validateAndSecure()) {
 						$fileName = \App\Purifier::decodeHtml(App\Purifier::purify($file['name']));
 						$fileType = $fileInstance->getMimeType();
-						$fileSize = $file['size'];
+						$fileSize = $fileInstance->getSize();
 						$fileLocationType = 'I';
 					}
 				}
@@ -307,7 +305,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		$moduleName = $this->getModuleName();
 		\App\Log::trace("Entering into uploadAndSaveFile($id,$moduleName) method.");
 		$fileInstance = \App\Fields\File::loadFromRequest($fileDetails);
-		if (!$fileInstance->validate()) {
+		if (!$fileInstance->validateAndSecure()) {
 			\App\Log::trace('Skip the save attachment process.');
 			return false;
 		}

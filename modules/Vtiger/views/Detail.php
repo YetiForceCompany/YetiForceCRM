@@ -34,6 +34,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 */
 	protected $pageTitle = 'LBL_VIEW_DETAIL';
 
+	/**
+	 * Construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -110,7 +113,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 				$selectedTabLabel = 'LBL_RECORD_SUMMARY';
 			}
 		} elseif (empty($requestMode) && empty($mode)) {
-			$selectedTabLabel = AppConfig::module($moduleName, 'DEFAULT_VIEW_RECORD');
+			$selectedTabLabel = App\Config::module($moduleName, 'DEFAULT_VIEW_RECORD');
 			if (empty($selectedTabLabel)) {
 				if ('Detail' === $currentUserModel->get('default_record_view')) {
 					$selectedTabLabel = 'LBL_RECORD_DETAILS';
@@ -228,8 +231,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			'~libraries/leaflet.awesome-markers/dist/leaflet.awesome-markers.js',
 			'modules.OpenStreetMap.resources.Map'
 		];
-
-		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
+		return array_merge(
+			parent::getFooterScripts($request),
+			$this->checkAndConvertJsScripts($jsFileNames)
+		);
 	}
 
 	public function showDetailViewByMode(App\Request $request)
@@ -268,7 +273,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('MODULE_TYPE', $moduleModel->getModuleType());
-
+		if ($request->getBoolean('toWidget')) {
+			return $viewer->view('Detail/Widget/BlockView.tpl', $moduleName, true);
+		}
 		return $viewer->view('Detail/FullContents.tpl', $moduleName, true);
 	}
 
@@ -364,7 +371,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (!empty($limit)) {
 			$pagingModel->set('limit', $limit);
 		} else {
-			$limit = AppConfig::module('ModTracker', 'NUMBER_RECORDS_ON_PAGE');
+			$limit = App\Config::module('ModTracker', 'NUMBER_RECORDS_ON_PAGE');
 			$pagingModel->set('limit', $limit);
 		}
 		if (!empty($whereCondition)) {
@@ -394,7 +401,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('VIEW_MODEL', $this->record);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
-		$defaultView = AppConfig::module('ModTracker', 'DEFAULT_VIEW');
+		$defaultView = App\Config::module('ModTracker', 'DEFAULT_VIEW');
 		if ('List' == $defaultView) {
 			$tplName = 'RecentActivities.tpl';
 		} else {
@@ -475,7 +482,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		if ($targetControllerClass) {
 			$targetController = new $targetControllerClass();
-
 			return $targetController->process($request);
 		}
 	}
@@ -671,7 +677,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			if (App\Session::has($cacheName)) {
 				$hierarchyValue = App\Session::get($cacheName);
 			} else {
-				$hierarchyValue = AppConfig::module('ModComments', 'DEFAULT_SOURCE');
+				$hierarchyValue = App\Config::module('ModComments', 'DEFAULT_SOURCE');
 			}
 		} else {
 			App\Session::set($cacheName, $hierarchyValue);
@@ -880,7 +886,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('RELATED_LIST_LINKS', $links);
 		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
 		$viewer->assign('RELATION_FIELD', $relationField);
-		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		if (App\Config::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
 		}
 		if (empty($totalCount)) {
@@ -1103,4 +1109,5 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('VIEW', 'Detail');
 		return $viewer->view('Detail/InventoryView.tpl', $moduleName, true);
 	}
+
 }

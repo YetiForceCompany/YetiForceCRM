@@ -1,0 +1,44 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+.widgetHr {
+	border: none;
+}
+
+.mailsList {
+	.mailActions {
+		a {
+			&:first-child {
+				margin-right: 0 !important;
+			}
+		}
+	}
+}
+
+.inventorySummaryContainer {
+	@extend .my-3;
+	border-radius: 0;
+	button {
+		border-radius: 0;
+	}
+	.card-header {
+		background-color: #fff;
+		text-transform: uppercase;
+		border: none;
+	}
+	margin-bottom: 1rem !important;
+}
+.grid-stack {
+	.dashboardWidget {
+		box-shadow: 0px 5px 6px -7px $color-box-shadow;
+
+		.dashboardWidgetHeader {
+			background-color: $color-navbar;
+			text-shadow: 0 1px $color-navbar;
+			border-top: 1px solid $color-navbar;
+		}
+
+		.widgetFooterContent .row:first-child {
+			background-color: unset;
+		}
+	}
+}

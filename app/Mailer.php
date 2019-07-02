@@ -36,10 +36,10 @@ class Mailer
 	{
 		static::$error = [];
 		$this->mailer = new \PHPMailer\PHPMailer\PHPMailer(false);
-		if (\AppConfig::debug('MAILER_DEBUG')) {
+		if (\App\Config::debug('MAILER_DEBUG')) {
 			$this->mailer->SMTPDebug = 2;
 			$this->mailer->Debugoutput = function ($str, $level) {
-				if (strpos(strtolower($str), 'error') !== false || strpos(strtolower($str), 'failed') !== false) {
+				if (false !== strpos(strtolower($str), 'error') || false !== strpos(strtolower($str), 'failed')) {
 					Log::error(trim($str), 'Mailer');
 				} else {
 					Log::trace(trim($str), 'Mailer');
@@ -49,7 +49,7 @@ class Mailer
 		$this->mailer->XMailer = 'YetiForceCRM Mailer';
 		$this->mailer->Hostname = 'YetiForceCRM';
 		$this->mailer->FromName = 'YetiForce Mailer';
-		$this->mailer->CharSet = \AppConfig::main('default_charset');
+		$this->mailer->CharSet = \App\Config::main('default_charset');
 	}
 
 	/**
@@ -101,7 +101,7 @@ class Mailer
 		} else {
 			$recordModel = $params['recordModel'];
 		}
-		$template = Mail::getTemplete($params['template']);
+		$template = Mail::getTemplate($params['template']);
 		if (!$template) {
 			Log::warning('No mail templete', 'Mailer');
 			return false;
@@ -188,13 +188,13 @@ class Mailer
 				$params[$key] = Json::encode($params[$key]);
 			}
 		}
-		\App\Db::getInstance($type)->createCommand()->insert($type === 'admin' ? 's_#__mail_queue' : 'l_#__mail', $params)->execute();
+		\App\Db::getInstance($type)->createCommand()->insert('admin' === $type ? 's_#__mail_queue' : 'l_#__mail', $params)->execute();
 	}
 
 	/**
 	 * Get configuration smtp.
 	 *
-	 * @param string|bool $key
+	 * @param bool|string $key
 	 *
 	 * @return array
 	 */
@@ -406,7 +406,7 @@ class Mailer
 		$this->mailer->SMTPDebug = 2;
 		static::$error = [];
 		$this->mailer->Debugoutput = function ($str, $level) {
-			if (strpos(strtolower($str), 'error') !== false || strpos(strtolower($str), 'failed') !== false) {
+			if (false !== strpos(strtolower($str), 'error') || false !== strpos(strtolower($str), 'failed')) {
 				static::$error[] = trim($str);
 				Log::error(trim($str), 'Mailer');
 			} else {
@@ -415,10 +415,11 @@ class Mailer
 		};
 		$currentUser = \Users_Record_Model::getCurrentUserModel();
 		$this->to($currentUser->get('email1'));
-		$template = Mail::getTempleteDetail('TestMailAboutTheMailServerConfiguration');
-		if (!$template) {
+		$templateId = Mail::getTemplateIdFromSysName('TestMailAboutTheMailServerConfiguration');
+		if (!$templateId) {
 			return ['result' => false, 'error' => Language::translate('LBL_NO_EMAIL_TEMPLATE')];
 		}
+		$template = Mail::getTemplate($templateId);
 		$textParser = TextParser::getInstanceById($currentUser->getId(), 'Users');
 		$this->subject($textParser->setContent($template['subject'])->parse()->getContent());
 		$this->content($textParser->setContent($template['content'])->parse()->getContent());
@@ -434,7 +435,7 @@ class Mailer
 	 */
 	public static function sendByRowQueue($rowQueue)
 	{
-		if (\AppConfig::main('systemMode') === 'demo') {
+		if ('demo' === \App\Config::main('systemMode')) {
 			return true;
 		}
 		$mailer = (new self())->loadSmtpByID($rowQueue['smtp_id'])->subject($rowQueue['subject'])->content($rowQueue['content']);
@@ -449,7 +450,7 @@ class Mailer
 						$email = $name;
 						$name = '';
 					}
-					$mailer->$key($email, $name);
+					$mailer->{$key}($email, $name);
 				}
 			}
 		}
@@ -467,7 +468,7 @@ class Mailer
 					$name = '';
 				}
 				$mailer->attachment($path, $name);
-				if (strpos(realpath($path), 'cache' . DIRECTORY_SEPARATOR)) {
+				if (strpos(realpath($path), 'cache' . \DIRECTORY_SEPARATOR)) {
 					$attachmentsToRemove[] = $path;
 				}
 			}
@@ -526,7 +527,7 @@ class Mailer
 	 */
 	public function sendCustomParams($name, $param, $mailer)
 	{
-		if ($name === 'ics') {
+		if ('ics' === $name) {
 			$mailer->mailer->Ical = $param;
 		}
 	}
@@ -553,7 +554,7 @@ class Mailer
 		];
 		$folder = Utils::convertCharacterEncoding($this->smtp['smtp_folder'], 'UTF-8', 'UTF7-IMAP');
 		$mbox = \OSSMail_Record_Model::imapConnect($this->smtp['smtp_username'], Encryption::getInstance()->decrypt($this->smtp['smtp_password']), $this->smtp['smtp_host'], $folder, false, $params);
-		if ($mbox === false && !imap_last_error()) {
+		if (false === $mbox && !imap_last_error()) {
 			static::$error[] = 'IMAP error - ' . imap_last_error();
 			Log::error('Mailer Error: IMAP error - ' . imap_last_error(), 'Mailer');
 			return false;

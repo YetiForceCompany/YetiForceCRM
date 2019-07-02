@@ -355,7 +355,7 @@
 							</td>
 							<td>
 								{if isset($ITEM['recommended'])}
-									{\App\Language::translate($ITEM['recommended'], $MODULE_NAME)}
+									{\App\Language::translateSingleMod($ITEM['recommended'], $MODULE_NAME)}
 								{else}
 									-
 								{/if}

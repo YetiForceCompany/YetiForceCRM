@@ -24,7 +24,7 @@ class Layout
 		if (Session::has('layout')) {
 			return Session::get('layout');
 		}
-		return \AppConfig::main('defaultLayout');
+		return \App\Config::main('defaultLayout');
 	}
 
 	/**
@@ -36,7 +36,7 @@ class Layout
 	 */
 	public static function getLayoutFile($name)
 	{
-		$basePath = 'layouts' . '/' . \AppConfig::main('defaultLayout') . '/';
+		$basePath = 'layouts' . '/' . \App\Config::main('defaultLayout') . '/';
 		$filePath = \Vtiger_Loader::resolveNameToPath('~' . $basePath . $name);
 		if (is_file($filePath)) {
 			if (!IS_PUBLIC_DIR) {
@@ -81,7 +81,7 @@ class Layout
 	{
 		$basePath = '';
 		if ($full) {
-			$basePath .= \AppConfig::main('site_URL');
+			$basePath .= \App\Config::main('site_URL');
 		}
 		if (!IS_PUBLIC_DIR) {
 			$basePath .= 'public_html/';

@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-CalendarViewPostProcess {if $USER_MODEL->get('leftpanelhide')} c-menu--open {/if} siteBarRight calendarRightPanel hideSiteBar col-12"
-		 data-showPanel="{if !AppConfig::module($MODULE, 'SHOW_RIGHT_PANEL')}0{else}1{/if}" id="rightPanel">
+	<div class="tpl-CalendarViewPostProcess js-calendar-right-panel {if $USER_MODEL->get('leftpanelhide')} c-menu--open {/if} siteBarRight calendarRightPanel hideSiteBar col-12"
+		 data-showPanel="{if !App\Config::module($MODULE, 'SHOW_RIGHT_PANEL')}0{else}1{/if}">
 		<div class="btn btn-block toggleSiteBarRightButton hideToggleSiteBarRightButton d-none d-lg-block"
 			 title="{\App\Language::translate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
 			<span class="fas fa-chevron-left"></span>

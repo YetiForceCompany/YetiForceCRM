@@ -291,7 +291,7 @@ class Cron
 		}
 		$maxExecutionTime = (int) (ini_get('max_execution_time'));
 		if ($maxExecutionTime == 0) {
-			$maxExecutionTime = \AppConfig::main('maxExecutionCronTime');
+			$maxExecutionTime = \App\Config::main('maxExecutionCronTime');
 		}
 		$time = $this->getLastEnd();
 		if ($time == 0) {

@@ -240,19 +240,6 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		App\Db::getInstance()->createCommand()->insert('vtiger_ossmails_logs', ['action' => $action, 'info' => $info, 'user' => $user_id, 'start_time' => date('Y-m-d H:i:s')])->execute();
 	}
 
-	public function getMailsQuery($recordId, $moduleName)
-	{
-		$usersSqlFullName = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
-		$sql = "SELECT vtiger_crmentity.*, vtiger_ossmailview.*, CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $usersSqlFullName ELSE vtiger_groups.groupname END AS user_name
-			FROM vtiger_ossmailview
-			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossmailview.ossmailviewid
-			INNER JOIN vtiger_ossmailviewcf ON vtiger_ossmailviewcf.ossmailviewid = vtiger_ossmailview.ossmailviewid
-			INNER JOIN vtiger_ossmailview_relation ON vtiger_ossmailview_relation.ossmailviewid = vtiger_ossmailview.ossmailviewid
-			LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			WHERE vtiger_crmentity.deleted = 0 && vtiger_ossmailview_relation.crmid = '$recordId'";
-		return $sql . \App\PrivilegeQuery::getAccessConditions($moduleName, false, $recordId);
-	}
 
 	/**
 	 * Function to delete the current Record Model.

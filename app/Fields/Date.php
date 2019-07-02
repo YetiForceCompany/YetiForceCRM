@@ -29,6 +29,8 @@ class Date
 	/**
 	 * ISO-8601 numeric representation of the day of the week.
 	 *
+	 * @example date('N')
+	 *
 	 * @var array
 	 */
 	public static $dayOfWeek = [
@@ -42,6 +44,21 @@ class Date
 	];
 
 	/**
+	 * Short days translations.
+	 *
+	 * @var array
+	 */
+	public static $shortDaysTranslations = [
+		'Sunday' => 'LBL_SM_SUN',
+		'Monday' => 'LBL_SM_MON',
+		'Tuesday' => 'LBL_SM_TUE',
+		'Wednesday' => 'LBL_SM_WED',
+		'Thursday' => 'LBL_SM_THU',
+		'Friday' => 'LBL_SM_FRI',
+		'Saturday' => 'LBL_SM_SAT',
+	];
+
+	/**
 	 * Current user JS date format.
 	 *
 	 * @param bool $format
@@ -52,9 +69,8 @@ class Date
 	{
 		if ($format) {
 			return static::$jsDateFormat[$format];
-		} else {
-			return static::$jsDateFormat[\App\User::getCurrentUserModel()->getDetail('date_format')] ?? false;
 		}
+		return static::$jsDateFormat[\App\User::getCurrentUserModel()->getDetail('date_format')] ?? false;
 	}
 
 	/**
@@ -71,10 +87,10 @@ class Date
 	 */
 	public static function formatToDisplay($value)
 	{
-		if (empty($value) || $value === '0000-00-00' || $value === '0000-00-00 00:00:00') {
+		if (empty($value) || '0000-00-00' === $value || '0000-00-00 00:00:00' === $value) {
 			return '';
 		}
-		if ($value === 'now') {
+		if ('now' === $value) {
 			$value = null;
 		}
 		return (new \DateTimeField($value))->getDisplayDate();
@@ -89,7 +105,7 @@ class Date
 	 */
 	public static function formatRangeToDisplay($range)
 	{
-		if (is_array($range)) {
+		if (\is_array($range)) {
 			if (!empty($range[0]) && !empty($range[1])) {
 				return [
 					static::formatToDisplay($range[0]),
@@ -115,19 +131,19 @@ class Date
 			$delim = ['/', '.'];
 			foreach ($delim as $delimiter) {
 				$x = strpos($value, $delimiter);
-				if ($x !== false) {
+				if (false !== $x) {
 					$value = str_replace($delimiter, '-', $value);
 					break;
 				}
 			}
-			list($y, $m, $d) = explode('-', $value);
-			if (strlen($y) == 1) {
+			[$y, $m, $d] = explode('-', $value);
+			if (1 == \strlen($y)) {
 				$y = '0' . $y;
 			}
-			if (strlen($m) == 1) {
+			if (1 == \strlen($m)) {
 				$m = '0' . $m;
 			}
-			if (strlen($d) == 1) {
+			if (1 == \strlen($d)) {
 				$d = '0' . $d;
 			}
 			$value = implode('-', [$y, $m, $d]);
@@ -139,7 +155,7 @@ class Date
 	 * Convert date to single items.
 	 *
 	 * @param string      $date
-	 * @param string|bool $format Date format
+	 * @param bool|string $format Date format
 	 *
 	 * @return array Array date list($y, $m, $d)
 	 */
@@ -150,31 +166,31 @@ class Date
 		}
 		switch ($format) {
 			case 'dd-mm-yyyy':
-				list($d, $m, $y) = explode('-', $date, 3);
+				[$d, $m, $y] = explode('-', $date, 3);
 				break;
 			case 'mm-dd-yyyy':
-				list($m, $d, $y) = explode('-', $date, 3);
+				[$m, $d, $y] = explode('-', $date, 3);
 				break;
 			case 'yyyy-mm-dd':
-				list($y, $m, $d) = explode('-', $date, 3);
+				[$y, $m, $d] = explode('-', $date, 3);
 				break;
 			case 'dd.mm.yyyy':
-				list($d, $m, $y) = explode('.', $date, 3);
+				[$d, $m, $y] = explode('.', $date, 3);
 				break;
 			case 'mm.dd.yyyy':
-				list($m, $d, $y) = explode('.', $date, 3);
+				[$m, $d, $y] = explode('.', $date, 3);
 				break;
 			case 'yyyy.mm.dd':
-				list($y, $m, $d) = explode('.', $date, 3);
+				[$y, $m, $d] = explode('.', $date, 3);
 				break;
 			case 'dd/mm/yyyy':
-				list($d, $m, $y) = explode('/', $date, 3);
+				[$d, $m, $y] = explode('/', $date, 3);
 				break;
 			case 'mm/dd/yyyy':
-				list($m, $d, $y) = explode('/', $date, 3);
+				[$m, $d, $y] = explode('/', $date, 3);
 				break;
 			case 'yyyy/mm/dd':
-				list($y, $m, $d) = explode('/', $date, 3);
+				[$y, $m, $d] = explode('/', $date, 3);
 				break;
 			default:
 				break;
@@ -183,76 +199,11 @@ class Date
 	}
 
 	/**
-	 * Function returning difference in format between date times.
-	 *
-	 * @param string $start  ex. '2017-07-10 11:45:56
-	 * @param string $end    ex. 2017-07-30 12:08:19
-	 * @param string $format Default %a
-	 *
-	 * @link https://secure.php.net/manual/en/class.dateinterval.php
-	 * @link https://secure.php.net/manual/en/dateinterval.format.php
-	 *
-	 * @return string|int difference in format
-	 */
-	public static function getDiff($start, $end, $format = '%a')
-	{
-		$interval = (new \DateTime($start))->diff(new \DateTime($end));
-		switch ($format) {
-			case 'years':
-				return $interval->format('%Y');
-			case 'months':
-				$years = $interval->format('%Y');
-				$months = 0;
-				if ($years) {
-					$months += $years * 12;
-				}
-				return $months + $interval->format('%m');
-			case 'days':
-				return $interval->format('%a');
-			case 'hours':
-				$days = $interval->format('%a');
-				$hours = 0;
-				if ($days) {
-					$hours += 24 * $days;
-				}
-				return $hours + $interval->format('%H');
-			case 'minutes':
-				$days = $interval->format('%a');
-				$minutes = 0;
-				if ($days) {
-					$minutes += 24 * 60 * $days;
-				}
-				$hours = $interval->format('%H');
-				if ($hours) {
-					$minutes += 60 * $hours;
-				}
-				return $minutes + $interval->format('%i');
-			case 'seconds':
-				$days = $interval->format('%a');
-				$seconds = 0;
-				if ($days) {
-					$seconds += 24 * 60 * 60 * $days;
-				}
-				$hours = $interval->format('%H');
-				if ($hours) {
-					$seconds += 60 * 60 * $hours;
-				}
-				$minutes = $interval->format('%i');
-				if ($minutes) {
-					$seconds += 60 * $minutes;
-				}
-				return $seconds + $interval->format('%s');
-			default:
-				break;
-		}
-		return $interval->format($format);
-	}
-
-	/**
 	 * Get day from date or datetime.
 	 *
 	 * @param string $date
 	 * @param bool   $shortName
+	 * @param mixed  $translated
 	 *
 	 * @return string
 	 */
@@ -262,5 +213,59 @@ class Date
 			return \App\Language::translate(date($shortName ? 'D' : 'l', strtotime($date)), $shortName ? 'Vtiger' : 'Calendar');
 		}
 		return date($shortName ? 'D' : 'l', strtotime($date));
+	}
+
+	/**
+	 * Get short days of week.
+	 *
+	 * @param bool $byId associative array by day id
+	 *
+	 * @return array
+	 */
+	public static function getShortDaysOfWeek(bool $byId = true)
+	{
+		$days = [];
+		foreach (static::$dayOfWeek as $day => $id) {
+			if ($byId) {
+				$days[$id] = static::$shortDaysTranslations[$day];
+			} else {
+				$days[static::$shortDaysTranslations[$day]] = $id;
+			}
+		}
+		return $days;
+	}
+
+	/**
+	 * Gets list of holidays.
+	 *
+	 * @param string $start
+	 * @param string $end
+	 *
+	 * @return void
+	 */
+	public static function getHolidays(string $start = '', string $end = '')
+	{
+		if (\App\Cache::has('Date::getHolidays', $start . $end)) {
+			return \App\Cache::get('Date::getHolidays', $start . $end);
+		}
+		$query = (new \App\Db\Query())->from('vtiger_publicholiday');
+		if ($start && $end) {
+			$query->where(['between', 'holidaydate', $start, $end]);
+		}
+		$query->orderBy(['holidaydate' => SORT_ASC]);
+		$holidays = [];
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$holidays[$row['holidaydate']] = [
+				'id' => $row['publicholidayid'],
+				'date' => $row['holidaydate'],
+				'name' => $row['holidayname'],
+				'type' => $row['holidaytype'],
+				'day' => \App\Language::translate(date('l', strtotime($row['holidaydate'])), 'PublicHoliday'),
+			];
+		}
+		$dataReader->close();
+		\App\Cache::save('Date::getHolidays', $start . $end, $holidays);
+		return $holidays;
 	}
 }

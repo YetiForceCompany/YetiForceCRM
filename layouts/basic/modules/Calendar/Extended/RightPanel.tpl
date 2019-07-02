@@ -4,15 +4,14 @@
 	{if !empty($ALL_ACTIVEUSER_LIST)}
 		<div class="js-filter__container">
 			<h6 class="boxFilterTitle mt-2">{\App\Language::translate('LBL_SELECT_USER_CALENDAR',$MODULE_NAME)}</h6>
-			{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
+			{if !App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
 				<div class="input-group input-group-sm mb-3">
 					<div class="input-group-prepend">
 						<span class="input-group-text">
 							<span class="fas fa-search fa-fw"></span>
 						</span>
 					</div>
-					<input type="text" class="form-control js-filter__search" placeholder="Nazwa użytkownika"
-						   aria-describedby="search-icon">
+					<input type="text" class="form-control js-filter__search" placeholder="{\App\Language::translate('LBL_USER_NAME',$MODULE_NAME)}" aria-describedby="search-icon">
 				</div>
 				<ul class="nav form-row">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
@@ -45,7 +44,7 @@
 						name="transferOwnerId" id="transferOwnerId" multiple="multiple"
 						data-ajax-search="1"
 						data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName=assigned_user_id&result[]=users"
-						data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}">
+						data-minimum-input="{App\Config::performance('OWNER_MINIMUM_INPUT_LENGTH')}">
 					<option value="{$USER_MODEL->get('id')}"
 							data-picklistvalue="{$USER_MODEL->getName()}">
 						{$USER_MODEL->getName()}
@@ -57,15 +56,14 @@
 	{if !empty($ALL_ACTIVEGROUP_LIST)}
 		<div class="js-filter__container">
 			<h6 class="boxFilterTitle mt-2">{\App\Language::translate('LBL_SELECT_GROUP_CALENDAR',$MODULE)}</h6>
-			{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
+			{if !App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
 				<div class="input-group input-group-sm mb-3">
 					<div class="input-group-prepend">
 						<span class="input-group-text">
 							<span class="fas fa-search fa-fw"></span>
 						</span>
 					</div>
-					<input type="text" class="form-control js-filter__search" placeholder="Nazwa grupy"
-						   aria-describedby="search-icon-group">
+					<input type="text" class="form-control js-filter__search" placeholder="{\App\Language::translate('LBL_GROUP_NAME',$MODULE_NAME)}" aria-describedby="search-icon-group">
 				</div>
 				<ul class="nav form-row">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
@@ -91,7 +89,7 @@
 						name="transferRoleOwnerId" id="transferRoleOwnerId" multiple="multiple"
 						data-ajax-search="1"
 						data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName=assigned_user_id&result[]=groups"
-						data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}">
+						data-minimum-input="{App\Config::performance('OWNER_MINIMUM_INPUT_LENGTH')}">
 					<option value="{$USER_MODEL->get('id')}"
 							data-picklistvalue="{$USER_MODEL->getName()}">
 						{$USER_MODEL->getName()}

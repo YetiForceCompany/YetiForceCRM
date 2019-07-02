@@ -28,13 +28,13 @@ class Json
 	 * @param string $encodedValue     Encoded in JSON format
 	 * @param int    $objectDecodeType Optional; When TRUE, returned objects will be converted into associative arrays
 	 *
-	 * @link https://secure.php.net/manual/en/function.json-decode.php
+	 * @see https://secure.php.net/manual/en/function.json-decode.php
 	 *
 	 * @return mixed
 	 */
 	public static function decode($encodedValue, $objectDecodeType = self::TYPE_ARRAY)
 	{
-		if (function_exists('json_decode')) {
+		if (\function_exists('json_decode')) {
 			return json_decode($encodedValue, $objectDecodeType);
 		}
 		throw new \App\Exceptions\AppException('ERR_NO_JSON_DECODE');
@@ -57,7 +57,7 @@ class Json
 	 */
 	public static function encode($valueToEncode, $options = 0)
 	{
-		if (function_exists('json_encode')) {
+		if (\function_exists('json_encode')) {
 			return json_encode($valueToEncode, $options);
 		}
 		throw new \App\Exceptions\AppException('ERR_NO_JSON_ENCODE');
@@ -72,7 +72,7 @@ class Json
 	 */
 	public static function isEmpty(?string $value)
 	{
-		return empty($value) || $value === '[]' || $value === '""';
+		return empty($value) || '[]' === $value || '""' === $value;
 	}
 
 	/**
@@ -101,6 +101,6 @@ class Json
 	 */
 	public static function save(string $path, array $data)
 	{
-		return \file_put_contents($path, static::encode($data));
+		return \file_put_contents($path, static::encode($data, JSON_PRETTY_PRINT));
 	}
 }
