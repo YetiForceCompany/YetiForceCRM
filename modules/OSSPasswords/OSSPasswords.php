@@ -87,24 +87,9 @@ class OSSPasswords extends CRMEntity
 	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
-	public $unit_price;
 
 	/**
-	 * Transform the value while exporting.
-	 */
-	public function transformExportValue($key, $value)
-	{
-		if ($key == 'owner') {
-			return \App\Fields\Owner::getLabel($value);
-		}
-		return parent::transformExportValue($key, $value);
-	}
-
-	/**
-	 * Invoked when special actions are performed on the module.
-	 *
-	 * @param string Module name
-	 * @param string Event Type
+	 * {@inheritdoc}
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
@@ -112,13 +97,13 @@ class OSSPasswords extends CRMEntity
 		$registerLink = false;
 		$addModTracker = false;
 
-		if ($eventType === 'module.disabled') {
+		if ('module.disabled' === $eventType) {
 			$registerLink = false;
 			App\EventHandler::setInActive('OSSPasswords_Secure_Handler');
-		} elseif ($eventType === 'module.enabled') {
+		} elseif ('module.enabled' === $eventType) {
 			$registerLink = true;
 			App\EventHandler::setActive('OSSPasswords_Secure_Handler');
-		} elseif ($eventType === 'module.preuninstall') {
+		} elseif ('module.preuninstall' === $eventType) {
 			\App\Log::trace('Before starting uninstall script...');
 			require_once 'modules/Settings/' . $moduleName . '/views/uninstall.php';
 			\App\Log::trace('After uninstall script.');

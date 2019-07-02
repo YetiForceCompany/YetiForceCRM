@@ -94,29 +94,14 @@ class OSSMailView extends CRMEntity
 	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = 'date';
 	public $default_sort_order = 'DESC';
-	public $unit_price;
 
 	/**
-	 * Transform the value while exporting.
-	 */
-	public function transformExportValue($key, $value)
-	{
-		if ($key == 'owner') {
-			return \App\Fields\Owner::getLabel($value);
-		}
-		return parent::transformExportValue($key, $value);
-	}
-
-	/**
-	 * Invoked when special actions are performed on the module.
-	 *
-	 * @param string $moduleName Module name
-	 * @param string $eventType  Event Type
+	 * {@inheritdoc}
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
 		$dbCommand = App\Db::getInstance()->createCommand();
-		if ($eventType === 'module.postinstall') {
+		if ('module.postinstall' === $eventType) {
 			$displayLabel = 'OSSMailView';
 			$dbCommand->update('vtiger_tab', ['customized' => 0], ['name' => $displayLabel])->execute();
 			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'email_list', 'parameter' => 'widget_limit', 'value' => '10'])->execute();
@@ -127,11 +112,11 @@ class OSSMailView extends CRMEntity
 			$module = vtlib\Module::getInstance($moduleName);
 			$userName = \App\User::getCurrentUserModel()->getDetail('user_name');
 			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_InstallModule', 'info' => $moduleName . ' ' . $module->version, 'user' => $userName])->execute();
-		} elseif ($eventType === 'module.disabled') {
+		} elseif ('module.disabled' === $eventType) {
 			$registerLink = false;
-		} elseif ($eventType === 'module.enabled') {
+		} elseif ('module.enabled' === $eventType) {
 			$registerLink = true;
-		} elseif ($eventType === 'module.postupdate') {
+		} elseif ('module.postupdate' === $eventType) {
 			$module = vtlib\Module::getInstance($moduleName);
 			$userName = \App\User::getCurrentUserModel()->getDetail('user_name');
 			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_UpdateModule', 'info' => $moduleName . ' ' . $module->version, 'user' => $userName, 'start_time' => date('Y-m-d H:i:s')])->execute();
