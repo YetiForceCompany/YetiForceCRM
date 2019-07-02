@@ -49,9 +49,9 @@ class Settings_Vtiger_Module_Model extends \App\Base
 	}
 
 	/**
-	 * Get list fields.
+	 * Function returns list of fields available in list view.
 	 *
-	 * @return array
+	 * @return \App\Base[]
 	 */
 	public function getListFields(): array
 	{

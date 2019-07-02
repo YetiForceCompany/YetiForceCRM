@@ -163,9 +163,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Get fields list.
-	 *
-	 * @return array
+	 * {@inheritdoc}
 	 */
 	public function getListFields(): array
 	{
