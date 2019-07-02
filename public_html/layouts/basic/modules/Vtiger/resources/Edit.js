@@ -980,12 +980,23 @@ $.Class(
 			sourcePickListElements.trigger('change');
 		},
 		registerLeavePageWithoutSubmit: function(form) {
-			let InitialFormData = form.serialize();
-			window.onbeforeunload = function(e) {
-				if (InitialFormData != form.serialize() && form.data('submit') != 'true') {
-					return app.vtranslate('JS_CHANGES_WILL_BE_LOST');
-				}
-			};
+			if(typeof CKEDITOR !== 'undefined' && typeof CKEDITOR.instances !== 'undefined' && Object.keys(CKEDITOR.instances).length) {
+				CKEDITOR.on('instanceReady', function(e) {
+					let initialFormData = form.serialize();
+					window.onbeforeunload = function(e) {
+						if(initialFormData != form.serialize() && form.data('submit') != 'true') {
+							return app.vtranslate('JS_CHANGES_WILL_BE_LOST');
+						}
+					};
+				});
+			} else {
+				let initialFormData = form.serialize();
+				window.onbeforeunload = function(e) {
+					if(initialFormData != form.serialize() && form.data('submit') != 'true') {
+						return app.vtranslate('JS_CHANGES_WILL_BE_LOST');
+					}
+				};
+			}
 		},
 		stretchCKEditor: function() {
 			var row = $('.js-editor').parents('.fieldRow');
@@ -1008,15 +1019,13 @@ $.Class(
 		},
 		loadEditorElement: function(noteContentElement) {
 			var customConfig = {};
-			if (noteContentElement.is(':visible')) {
-				if (noteContentElement.hasClass('js-editor--basic')) {
-					customConfig.toolbar = 'Min';
-				}
-				if (noteContentElement.data('height')) {
-					customConfig.height = noteContentElement.data('height');
-				}
-				new App.Fields.Text.Editor(noteContentElement, customConfig);
+			if (noteContentElement.hasClass('js-editor--basic')) {
+				customConfig.toolbar = 'Min';
 			}
+			if (noteContentElement.data('height')) {
+				customConfig.height = noteContentElement.data('height');
+			}
+			new App.Fields.Text.Editor(noteContentElement, customConfig);
 		},
 		registerHelpInfo: function() {
 			var form = this.getForm();
@@ -1050,7 +1059,6 @@ $.Class(
 				};
 				var showHandler = function() {
 					bodyContents.removeClass('d-none');
-					thisInstance.registerEventForEditor(bodyContents);
 					app.cacheSet(module + '.' + blockId, 1);
 				};
 				if (data.mode == 'show') {
