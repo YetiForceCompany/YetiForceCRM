@@ -269,10 +269,9 @@ class API_CalDAV_Model
 		\App\Log::trace(__METHOD__ . ' | Start Cal ID' . $cal['id']);
 		$calendar = \App\Integrations\Dav\Calendar::loadFromContent($cal['calendardata']);
 		foreach ($calendar->getRecordInstance() as $recordModel) {
-			$component = $calendar->getComponent();
 			$recordModel->set('assigned_user_id', $this->user->get('id'));
 			$exclusion = \App\Config::component('Dav', 'CALDAV_EXCLUSION_FROM_DAV');
-			if (is_array($exclusion)) {
+			if (\is_array($exclusion)) {
 				foreach ($exclusion as $key => $value) {
 					if ($recordModel->get($key) == $value) {
 						\App\Log::info(__METHOD__ . ' | End exclusion');
@@ -290,9 +289,7 @@ class API_CalDAV_Model
 				'modifiedtime' => date('Y-m-d H:i:s', $cal['lastmodified']),
 			], ['crmid' => $recordModel->getId()]
 			)->execute();
-			if ('VEVENT' === (string) $component->name) {
-				$calendar->recordSaveAttendee($recordModel);
-			}
+			$calendar->recordSaveAttendee($recordModel);
 		}
 		\App\Log::trace(__METHOD__ . ' | End');
 		return true;
@@ -311,7 +308,6 @@ class API_CalDAV_Model
 		\App\Log::trace(__METHOD__ . ' | Start Cal ID:' . $cal['crmid']);
 		$calendar = \App\Integrations\Dav\Calendar::loadFromContent($cal['calendardata'], $record, $cal['uid']);
 		foreach ($calendar->getRecordInstance() as $recordModel) {
-			$component = $calendar->getComponent();
 			$recordModel->set('assigned_user_id', $this->user->get('id'));
 			$exclusion = \App\Config::component('Dav', 'CALDAV_EXCLUSION_FROM_DAV');
 			if (false !== $exclusion) {
@@ -332,9 +328,7 @@ class API_CalDAV_Model
 				'modifiedtime' => date('Y-m-d H:i:s', $cal['lastmodified']),
 			], ['crmid' => $recordModel->getId()]
 			)->execute();
-			if ('VEVENT' === (string) $component->name) {
-				$calendar->recordSaveAttendee($recordModel);
-			}
+			$calendar->recordSaveAttendee($recordModel);
 		}
 		\App\Log::trace(__METHOD__ . ' | End');
 		return true;
@@ -376,11 +370,11 @@ class API_CalDAV_Model
 		$userId = (int) $this->user->getId();
 		switch ($this->user->get('sync_caldav')) {
 			case 'PLL_OWNER_PERSON':
-				$isPermitted = (int) $cal['assigned_user_id'] === $userId || in_array($userId, \App\Fields\SharedOwner::getById($cal['id']));
+				$isPermitted = (int) $cal['assigned_user_id'] === $userId || \in_array($userId, \App\Fields\SharedOwner::getById($cal['id']));
 				break;
 			case 'PLL_OWNER_PERSON_GROUP':
 				$shownerIds = \App\Fields\SharedOwner::getById($cal['id']);
-				$isPermitted = (int) $cal['assigned_user_id'] === $userId || in_array($cal['assigned_user_id'], $this->user->get('groups')) || in_array($userId, $shownerIds) || count(array_intersect($shownerIds, $this->user->get('groups'))) > 0;
+				$isPermitted = (int) $cal['assigned_user_id'] === $userId || \in_array($cal['assigned_user_id'], $this->user->get('groups')) || \in_array($userId, $shownerIds) || \count(array_intersect($shownerIds, $this->user->get('groups'))) > 0;
 				break;
 			case 'PLL_OWNER':
 			default:
@@ -392,5 +386,4 @@ class API_CalDAV_Model
 		}
 		return false;
 	}
-
 }

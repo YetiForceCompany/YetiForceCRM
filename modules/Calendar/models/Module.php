@@ -156,7 +156,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$keysValuesToReplace = ['taskpriority' => 'priority'];
 		foreach ($this->getFields() as $fieldName => $fieldModel) {
 			if ($fieldModel->getPermissions()) {
-				if (!in_array($fieldName, $keysToReplace)) {
+				if (!\in_array($fieldName, $keysToReplace)) {
 					$eventFields[$fieldName] = 'yes';
 				} else {
 					$eventFields[$keysValuesToReplace[$fieldName]] = 'yes';
@@ -175,7 +175,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$keysValuesToReplace = ['taskpriority' => 'priority', 'activitystatus' => 'status'];
 		foreach ($this->getFields() as $fieldName => $fieldModel) {
 			if ($fieldModel->getPermissions()) {
-				if (!in_array($fieldName, $keysToReplace)) {
+				if (!\in_array($fieldName, $keysToReplace)) {
 					$todoFields[$fieldName] = 'yes';
 				} else {
 					$todoFields[$keysValuesToReplace[$fieldName]] = 'yes';
@@ -245,16 +245,16 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	public function getFieldsByType($type)
 	{
 		$restrictedField = ['picklist' => ['activitystatus', 'visibility', 'duration_minutes']];
-		if (!is_array($type)) {
+		if (!\is_array($type)) {
 			$type = [$type];
 		}
 		$fields = $this->getFields();
 		$fieldList = [];
 		foreach ($fields as $field) {
 			$fieldType = $field->getFieldDataType();
-			if (in_array($fieldType, $type)) {
+			if (\in_array($fieldType, $type)) {
 				$fieldName = $field->getName();
-				if ('picklist' == $fieldType && in_array($fieldName, $restrictedField[$fieldType])) {
+				if ('picklist' == $fieldType && \in_array($fieldName, $restrictedField[$fieldType])) {
 				} else {
 					$fieldList[$fieldName] = $field;
 				}
@@ -311,7 +311,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	{
 		if ($data) {
 			$activityStatus = $data['activitystatus'];
-			if (in_array($activityStatus, self::getComponentActivityStateLabel('history'))) {
+			if (\in_array($activityStatus, self::getComponentActivityStateLabel('history'))) {
 				return false;
 			}
 			$dueDateTime = $data['due_date'] . ' ' . $data['time_end'];
@@ -352,7 +352,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	public static function getComponentActivityStateLabel($key = '')
 	{
 		$pickListValues = App\Fields\Picklist::getValuesName('activitystatus');
-		if (!is_array($pickListValues)) {
+		if (!\is_array($pickListValues)) {
 			return [];
 		}
 		$componentsActivityState = [];
@@ -411,6 +411,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		foreach ($calendar->getRecordInstance() as $recordModel) {
 			$recordModel->set('assigned_user_id', $userId);
 			$recordModel->save();
+			$calendar->recordSaveAttendee($recordModel);
 			if ('VEVENT' === (string) $calendar->getComponent()->name) {
 				$module = $eventModule;
 			} else {
