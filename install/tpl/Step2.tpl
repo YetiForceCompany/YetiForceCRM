@@ -13,8 +13,8 @@
 	<div class="tpl-install-tpl-Step2 container px-2 px-sm-3">
 		<main class="main-container">
 			<div class="inner-container">
-				<form class="" name="step2" method="post" action="Install.php">
-					<input type="hidden" name="mode" value="step3">
+				<form name="step{$STEP_NUMBER}" method="post" action="Install.php">
+					<input type="hidden" name="mode" value="{$NEXT_STEP}">
 					<input type="hidden" name="lang" value="{$LANG}">
 					<div class="row">
 						<div class="col-12 text-center">

@@ -24,19 +24,19 @@ class Record extends \Api\Portal\BaseModule\Record
 	private $isUserPermissions;
 
 	/**
+	 * Unit price.
+	 *
+	 * @var float|null
+	 */
+	private $unitPrice;
+
+	/**
 	 * Construct.
 	 */
 	public function __construct()
 	{
 		$this->isUserPermissions = \Api\Portal\Privilege::USER_PERMISSIONS === (int) \App\User::getCurrentUserModel()->get('permission_type');
 	}
-
-	/**
-	 * Unit price.
-	 *
-	 * @var float|null
-	 */
-	private $unitPrice;
 
 	/**
 	 * {@inheritdoc}
