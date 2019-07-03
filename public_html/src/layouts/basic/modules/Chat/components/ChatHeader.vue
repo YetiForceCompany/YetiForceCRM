@@ -6,9 +6,6 @@
         <div class="flex no-wrap">
           <q-btn dense flat round icon="mdi-menu" @click="toggleLeftPanel()" />
           <q-btn dense round flat icon="mdi-keyboard-outline" />
-
-          <q-btn dense round flat icon="mdi-history" @click="toggleHistoryTab()" />
-          <q-btn dense round flat icon="mdi-comment-multiple-outline" />
           <q-btn dense round flat icon="mdi-bell-off-outline" />
           <q-btn dense round flat icon="mdi-volume-high" />
         </div>

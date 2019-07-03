@@ -153,7 +153,12 @@ export default {
 				mid: showMoreClicked ? getters.data.chatEntries[0].id : null,
 				groupHistory: groupHistory
 			}).done(({ result }) => {
-				console.log(result)
+				if (!showMoreClicked) {
+					let tempData = Object.assign({}, getters['data'])
+					commit('setData', Object.assign(tempData, result))
+				} else {
+					commit('pushOlderEntries', result)
+				}
 				resolve(result)
 			})
 		})

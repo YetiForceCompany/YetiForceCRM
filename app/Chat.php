@@ -576,7 +576,7 @@ final class Chat
 			->orderBy(['id' => \SORT_DESC])
 			->limit(\App\Config::module('Chat', 'CHAT_ROWS_LIMIT') + 1);
 		if (null !== $messageId) {
-			$query->andWhere(['<=', 'id', $messageId]);
+			$query->andWhere(['<', 'id', $messageId]);
 		}
 		$userModel = User::getUserModel($this->userId);
 		$userImage = $userModel->getImage()['url'] ?? '';

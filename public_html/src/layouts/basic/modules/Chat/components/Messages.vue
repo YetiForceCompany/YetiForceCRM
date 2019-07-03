@@ -2,7 +2,7 @@
 <template>
   <div>
     <div v-show="data.showMoreButton" class="text-center q-mt-md">
-      <q-btn :loading="fetchingEarlier" @click="$emit.earlierClick" icon="mdi-chevron-double-up">
+      <q-btn :loading="fetchingEarlier" @click="$emit('earlierClick')" icon="mdi-chevron-double-up">
         {{ translate('JS_CHAT_EARLIER') }}
         <template v-slot:loading>
           <q-spinner-facebook />
@@ -37,7 +37,7 @@ export default {
   components: { NoResults },
   props: {
     fetchingEarlier: {
-      type: Bool,
+      type: Boolean,
       default: false
     }
   },

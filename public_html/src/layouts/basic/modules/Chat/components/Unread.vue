@@ -1,7 +1,7 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <div>
-    <template v-for="(room, roomType) in messages">
+    <template v-for="(room, roomType) in unreadMessages">
       <div v-if="room.length" :key="roomType" class="text-uppercase text-primary full-width flex justify-center">
         {{ translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`) }}
       </div>
@@ -23,27 +23,26 @@
 <script>
 import NoResults from 'components/NoResults.vue'
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
+const { mapActions } = createNamespacedHelpers('Chat')
 
 export default {
   name: 'Unread',
   components: { NoResults },
   data() {
     return {
-      userId: CONFIG.userId
-    }
-  },
-  props: {
-    messages: {
-      type: Object,
-      required: true
+      userId: CONFIG.userId,
+      unreadMessages: {
+        crm: [],
+        global: [],
+        group: []
+      }
     }
   },
   computed: {
     areUnread() {
       let areUnread = false
-      Object.keys(this.messages).forEach(roomType => {
-        if (this.messages[roomType].length) {
+      Object.keys(this.unreadMessages).forEach(roomType => {
+        if (this.unreadMessages[roomType].length) {
           areUnread = true
         }
       })
@@ -51,8 +50,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchEarlierEntries', 'fetchSearchData', 'fetchRoom', 'fetchUnread']),
-    ...mapMutations(['setSearchInactive'])
+    ...mapActions(['fetchUnread'])
+  },
+  mounted() {
+    this.fetchUnread().then(result => {
+      this.unreadMessages = result
+    })
   }
 }
 </script>
