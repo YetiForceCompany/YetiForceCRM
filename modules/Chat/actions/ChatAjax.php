@@ -23,6 +23,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$this->exposeMethod('getEntries');
 		$this->exposeMethod('getMore');
 		$this->exposeMethod('getUnread');
+		$this->exposeMethod('getHistory');
 		$this->exposeMethod('send');
 		$this->exposeMethod('search');
 	}
