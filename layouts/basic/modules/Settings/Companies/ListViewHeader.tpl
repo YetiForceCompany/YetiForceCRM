@@ -16,6 +16,18 @@
 					<span class="fas fa-info-circle"></span>
 				</span>
 			</div>
+		{else}
+			{assign var=LAST_CHECK_ERROR value=\App\YetiForce\Register::getLastCheckError()}
+			<div class="col-md-3 ml-2 ml-md-0 d-flex justify-content-end align-items-center">
+				{if !empty($LAST_CHECK_ERROR)}
+					<span class="mr-2">
+						<strong>{\App\Language::translateArgs('LBL_ERROR_MESSAGE', $QUALIFIED_MODULE, \App\Language::translate($LAST_CHECK_ERROR, 'Other:Exceptions'))}</strong>
+					</span>
+				{/if}
+				<span class="js-popover-tooltip u-cursor-pointer" data-js="popover" data-placement="top" data-content="{\App\Language::translate('LBL_LAST_SCAN_ERROR', $QUALIFIED_MODULE)}">
+						<span class="fas fa-question-circle"></span>
+				</span>
+			</div>
 		{/if}
 	</div>
 	<div class="listViewActionsDiv row mt-2 mb-2">

@@ -90,38 +90,30 @@
 .picklistCBg_HelpDesk_ticketpriorities_Urgent { background: 	#E6FAD8 !important; font-weight: 500 !important; color: black !important;}
 .picklistCT_HelpDesk_ticketpriorities_Urgent { color: 	#E6FAD8 !important; }
 .picklistLb_HelpDesk_ticketpriorities_Urgent { background: 	#E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Project_projectstatus_prospecting { border-color: #E6FAD8 !important; }
-.picklistCBg_Project_projectstatus_prospecting { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_Project_projectstatus_prospecting { color: #E6FAD8 !important; }
-.picklistLb_Project_projectstatus_prospecting { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Project_projectstatus_initiated { border-color: #E6FAD8 !important; }
-.picklistCBg_Project_projectstatus_initiated { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_Project_projectstatus_initiated { color: #E6FAD8 !important; }
-.picklistLb_Project_projectstatus_initiated { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Project_projectstatus_in_progress { border-color: #E6FAD8 !important; }
-.picklistCBg_Project_projectstatus_in_progress { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_Project_projectstatus_in_progress { color: #E6FAD8 !important; }
-.picklistLb_Project_projectstatus_in_progress { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Project_projectstatus_waiting_for_feedback { border-color: #E6FAD8 !important; }
-.picklistCBg_Project_projectstatus_waiting_for_feedback { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_Project_projectstatus_waiting_for_feedback { color: #E6FAD8 !important; }
-.picklistLb_Project_projectstatus_waiting_for_feedback { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Project_projectstatus_on_hold { border-color: #E6FAD8 !important; }
-.picklistCBg_Project_projectstatus_on_hold { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_Project_projectstatus_on_hold { color: #E6FAD8 !important; }
-.picklistLb_Project_projectstatus_on_hold { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Project_projectstatus_completed { border-color: #E6FAD8 !important; }
-.picklistCBg_Project_projectstatus_completed { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_Project_projectstatus_completed { color: #E6FAD8 !important; }
-.picklistLb_Project_projectstatus_completed { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Project_projectstatus_delivered { border-color: #E6FAD8 !important; }
-.picklistCBg_Project_projectstatus_delivered { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_Project_projectstatus_delivered { color: #E6FAD8 !important; }
-.picklistLb_Project_projectstatus_delivered { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Project_projectstatus_archived { border-color: #E6FAD8 !important; }
-.picklistCBg_Project_projectstatus_archived { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_Project_projectstatus_archived { color: #E6FAD8 !important; }
-.picklistLb_Project_projectstatus_archived { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
+.picklistCBr_Project_projectstatus_PLL_PLANNED { border-color: #E6FAD8 !important; }
+.picklistCBg_Project_projectstatus_PLL_PLANNED { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
+.picklistCT_Project_projectstatus_PLL_PLANNED { color: #E6FAD8 !important; }
+.picklistLb_Project_projectstatus_PLL_PLANNED { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
+.picklistCBr_Project_projectstatus_PLL_ON_HOLD { border-color: #E6FAD8 !important; }
+.picklistCBg_Project_projectstatus_PLL_ON_HOLD { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
+.picklistCT_Project_projectstatus_PLL_ON_HOLD { color: #E6FAD8 !important; }
+.picklistLb_Project_projectstatus_PLL_ON_HOLD { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
+.picklistCBr_Project_projectstatus_PLL_IN_PROGRESSING { border-color: #E6FAD8 !important; }
+.picklistCBg_Project_projectstatus_PLL_IN_PROGRESSING { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
+.picklistCT_Project_projectstatus_PLL_IN_PROGRESSING { color: #E6FAD8 !important; }
+.picklistLb_Project_projectstatus_PLL_IN_PROGRESSING { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
+.picklistCBr_Project_projectstatus_PLL_IN_APPROVAL { border-color: #E6FAD8 !important; }
+.picklistCBg_Project_projectstatus_PLL_IN_APPROVAL { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
+.picklistCT_Project_projectstatus_PLL_IN_APPROVAL { color: #E6FAD8 !important; }
+.picklistLb_Project_projectstatus_PLL_IN_APPROVAL { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
+.picklistCBr_Project_projectstatus_PLL_COMPLETED { border-color: #E6FAD8 !important; }
+.picklistCBg_Project_projectstatus_PLL_COMPLETED { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
+.picklistCT_Project_projectstatus_PLL_COMPLETED { color: #E6FAD8 !important; }
+.picklistLb_Project_projectstatus_PLL_COMPLETED { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
+.picklistCBr_Project_projectstatus_PLL_CANCELLED { border-color: #E6FAD8 !important; }
+.picklistCBg_Project_projectstatus_PLL_CANCELLED { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
+.picklistCT_Project_projectstatus_PLL_CANCELLED { color: #E6FAD8 !important; }
+.picklistLb_Project_projectstatus_PLL_CANCELLED { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
 .picklistCBr_OSSTimeControl_timecontrol_type_PLL_WORKING_TIME { border-color: #EDC240 !important; }
 .picklistCBg_OSSTimeControl_timecontrol_type_PLL_WORKING_TIME { background: #EDC240 !important; font-weight: 500 !important; color: black !important;}
 .picklistCT_OSSTimeControl_timecontrol_type_PLL_WORKING_TIME { color: #EDC240 !important; }
@@ -134,3 +126,19 @@
 .picklistCBg_OSSTimeControl_timecontrol_type_PLL_HOLIDAY_TIME { background: #CB4B4B !important; font-weight: 500 !important; color: black !important;}
 .picklistCT_OSSTimeControl_timecontrol_type_PLL_HOLIDAY_TIME { color: #CB4B4B !important; }
 .picklistLb_OSSTimeControl_timecontrol_type_PLL_HOLIDAY_TIME { background: #CB4B4B; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
+.picklistCBr_OSSTimeControl_timecontrol_type_PLL_UNPAID_LEAVE { border-color: #5E666C !important; }
+.picklistCBg_OSSTimeControl_timecontrol_type_PLL_UNPAID_LEAVE { background: #5E666C !important; font-weight: 500 !important; color: white !important;}
+.picklistCT_OSSTimeControl_timecontrol_type_PLL_UNPAID_LEAVE { color: #5E666C !important; }
+.picklistLb_OSSTimeControl_timecontrol_type_PLL_UNPAID_LEAVE { background: #5E666C; color: white !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
+.picklistCBr_OSSTimeControl_timecontrol_type_PLL_SICK_LEAVE { border-color: #9900FF !important; }
+.picklistCBg_OSSTimeControl_timecontrol_type_PLL_SICK_LEAVE { background: #9900FF !important; font-weight: 500 !important; color: black !important;}
+.picklistCT_OSSTimeControl_timecontrol_type_PLL_SICK_LEAVE { color: #9900FF !important; }
+.picklistLb_OSSTimeControl_timecontrol_type_PLL_SICK_LEAVE { background: #9900FF; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
+.picklistCBr_Notification_notification_type_PLL_USERS { border-color: #1baee2 !important; }
+.picklistCBg_Notification_notification_type_PLL_USERS { background: #1baee2 !important; font-weight: 500 !important; color: white !important;}
+.picklistCT_Notification_notification_type_PLL_USERS { color: #1baee2 !important; }
+.picklistLb_Notification_notification_type_PLL_USERS { background: #1baee2; color: white !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
+.picklistCBr_Notification_notification_type_PLL_SYSTEM { border-color: #FF9800 !important; }
+.picklistCBg_Notification_notification_type_PLL_SYSTEM { background: #FF9800 !important; font-weight: 500 !important; color: black !important;}
+.picklistCT_Notification_notification_type_PLL_SYSTEM { color: #FF9800 !important; }
+.picklistLb_Notification_notification_type_PLL_SYSTEM { background: #FF9800; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}

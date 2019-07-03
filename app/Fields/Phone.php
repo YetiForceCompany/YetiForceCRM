@@ -18,7 +18,7 @@ class Phone
 	 * Get phone details.
 	 *
 	 * @param string      $phoneNumber
-	 * @param null|string $phoneCountry
+	 * @param string|null $phoneCountry
 	 *
 	 * @return array|bool
 	 */
@@ -45,7 +45,7 @@ class Phone
 	 * Verify phone number.
 	 *
 	 * @param string      $phoneNumber
-	 * @param null|string $phoneCountry
+	 * @param string|null $phoneCountry
 	 *
 	 * @throws \App\Exceptions\FieldException
 	 *
@@ -54,7 +54,7 @@ class Phone
 	public static function verifyNumber($phoneNumber, $phoneCountry)
 	{
 		$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
-		if ($phoneCountry && !in_array($phoneCountry, $phoneUtil->getSupportedRegions())) {
+		if ($phoneCountry && !\in_array($phoneCountry, $phoneUtil->getSupportedRegions())) {
 			throw new \App\Exceptions\FieldException('LBL_INVALID_COUNTRY_CODE');
 		}
 		try {
@@ -80,7 +80,7 @@ class Phone
 	 * Get proper number.
 	 *
 	 * @param string   $numberToCheck
-	 * @param null|int $userId
+	 * @param int|null $userId
 	 *
 	 * @return false|string Return false if wrong number
 	 */

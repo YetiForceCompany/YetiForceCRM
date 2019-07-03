@@ -46,7 +46,7 @@ class VTUpdateRelatedFieldTask extends VTTask
 					default:
 						if (preg_match('/([^:]+):boolean$/', $fieldValue, $match)) {
 							$fieldValue = $match[1];
-							if ($fieldValue == 'true') {
+							if ('true' == $fieldValue) {
 								$fieldValue = '1';
 							} else {
 								$fieldValue = '0';
@@ -55,8 +55,8 @@ class VTUpdateRelatedFieldTask extends VTTask
 						break;
 				}
 				$relatedData = explode('::', $fieldInfo['fieldname']);
-				if (count($relatedData) === 2) {
-					if (!empty($fieldValue) || $fieldValue == 0) {
+				if (2 === \count($relatedData)) {
+					if (!empty($fieldValue) || 0 == $fieldValue) {
 						$this->updateRecords($recordModel, $relatedData, $fieldValue);
 					}
 				} else {

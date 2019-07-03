@@ -38,7 +38,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 		if ($this->getDisplayType() === 4 || in_array($this->get('presence'), [1, 3])) {
 			return false;
 		}
-		if ($this->get('uitype') === 106 && !AppConfig::module('Users', 'USER_NAME_IS_EDITABLE')) {
+		if ($this->get('uitype') === 106 && !App\Config::module('Users', 'USER_NAME_IS_EDITABLE')) {
 			return false;
 		}
 		return parent::isViewEnabled();
@@ -160,19 +160,6 @@ class Users_Field_Model extends Vtiger_Field_Model
 			return true;
 		}
 		return parent::isEditableReadOnly();
-	}
-
-	/**
-	 * Function which will check if empty piclist option should be given.
-	 *
-	 * @return bool
-	 */
-	public function isEmptyPicklistOptionAllowed()
-	{
-		if ($this->getFieldName() === 'reminder_interval') {
-			return true;
-		}
-		return false;
 	}
 
 	/**

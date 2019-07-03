@@ -87,7 +87,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	 */
 	public function importBasicStep(\App\Request $request)
 	{
-		$uploadMaxSize = AppConfig::main('upload_maxsize');
+		$uploadMaxSize = App\Config::main('upload_maxsize');
 		$moduleName = $request->getModule();
 		$importModule = Vtiger_Module_Model::getInstance('Import')->setImportModule($moduleName);
 		$viewer = $this->getViewer($request);

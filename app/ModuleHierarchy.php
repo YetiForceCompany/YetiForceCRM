@@ -61,6 +61,21 @@ class ModuleHierarchy
 		return false;
 	}
 
+	/**
+	 * Get records list filters.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return array|bool
+	 */
+	public static function getRecordsListFilter(string $moduleName)
+	{
+		if (isset(static::$hierarchy['recordsListFilter'][$moduleName])) {
+			return static::$hierarchy['recordsListFilter'][$moduleName];
+		}
+		return false;
+	}
+
 	public static function getModulesByLevel($level = 0)
 	{
 		if (isset(static::$modulesByLevels[$level])) {
@@ -138,6 +153,9 @@ class ModuleHierarchy
 				$return = 'subprocess';
 				break;
 			case 3:
+				$return = 'subprocess_sl';
+				break;
+			case 4:
 				$return = 'linkextend';
 				break;
 			default:
@@ -202,8 +220,8 @@ class ModuleHierarchy
 		$modules = [];
 		switch (static::getModuleLevel($moduleName)) {
 			case 0:
-				$is1Level = in_array(1, $hierarchy);
-				$isLevel4 = in_array(4, $hierarchy);
+				$is1Level = \in_array(1, $hierarchy);
+				$isLevel4 = \in_array(4, $hierarchy);
 				if ($is1Level && $isLevel4) {
 					$modules = array_keys(array_merge(static::getModulesByLevel(1), static::getModulesByLevel(4)));
 				} elseif ($is1Level) {
@@ -222,7 +240,7 @@ class ModuleHierarchy
 				}
 				break;
 			case 2:
-				if (in_array(3, $hierarchy)) {
+				if (\in_array(3, $hierarchy)) {
 					$modules = array_keys(static::getModulesByLevel(3));
 				}
 				break;
@@ -244,30 +262,30 @@ class ModuleHierarchy
 	{
 		$moduleName = Record::getType($record);
 		$records = $recordsLevel1 = $recordsLevel2 = [];
-		if (in_array(0, $hierarchy)) {
+		if (\in_array(0, $hierarchy)) {
 			$records[] = $record;
 		}
 		$modules = static::getChildModules($moduleName, $hierarchy);
 		if ($modules) {
 			$fields = Field::getRelatedFieldForModule(false, $moduleName);
 			foreach ($fields as $field) {
-				if (in_array($field['name'], $modules)) {
+				if (\in_array($field['name'], $modules)) {
 					$recordsByField = static::getRelatedRecordsByField($record, $field);
 					$recordsLevel1 = array_merge($recordsLevel1, $recordsByField);
 				}
 			}
 		}
 		$level = static::getModuleLevel($moduleName);
-		if (!(0 == $level && !in_array(1, $hierarchy))) {
+		if (!(0 == $level && !\in_array(1, $hierarchy))) {
 			$records = array_merge($records, $recordsLevel1);
 		}
 		if (0 === $level) {
-			if (in_array(2, $hierarchy)) {
+			if (\in_array(2, $hierarchy)) {
 				$modules = static::getChildModules($moduleName, [1]);
 				if ($modules) {
 					$fields = Field::getRelatedFieldForModule(false, $moduleName);
 					foreach ($fields as $field) {
-						if (in_array($field['name'], $modules)) {
+						if (\in_array($field['name'], $modules)) {
 							$recordsByField = static::getRelatedRecordsByField($record, $field);
 							$recordsLevel2 = array_merge($recordsLevel2, $recordsByField);
 						}
@@ -278,7 +296,7 @@ class ModuleHierarchy
 					$records = array_merge($records, $recordsByHierarchy);
 				}
 			}
-			if (in_array(3, $hierarchy)) {
+			if (\in_array(3, $hierarchy)) {
 				$records = array_merge($records, $recordsLevel1);
 			}
 		}
@@ -319,7 +337,7 @@ class ModuleHierarchy
 		if ($modules) {
 			$fields = Field::getRelatedFieldForModule(false, $moduleName);
 			foreach ($fields as $field) {
-				if (in_array($field['name'], $modules)) {
+				if (\in_array($field['name'], $modules)) {
 					$queryGenerator = new QueryGenerator($field['name']);
 					$queryGenerator->setFields(['id']);
 					if ($subQuery) {
@@ -342,13 +360,13 @@ class ModuleHierarchy
 	 * @param int   $record
 	 * @param array $hierarchy
 	 *
-	 * @return null|Db\Query
+	 * @return Db\Query|null
 	 */
 	public static function getQueryRelatedRecords(int $record, array $hierarchy): ?Db\Query
 	{
 		$moduleName = Record::getType($record);
 		$queries = static::getQueriesForRelatedRecords($record, $moduleName, $hierarchy);
-		if (0 === count($queries)) {
+		if (0 === \count($queries)) {
 			return null;
 		}
 		$subQuery = $queries[0];

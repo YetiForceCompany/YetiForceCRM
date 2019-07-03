@@ -29,15 +29,18 @@ class ProductsTableDescription extends Base
 			return $html;
 		}
 		$inventory = \Vtiger_Inventory_Model::getInstance($this->textParser->moduleName);
-		$fields = $inventory->getFieldsByBlocks();
-		$inventoryRows = $this->textParser->recordModel->getInventoryData();
-		foreach ($inventoryRows as $inventoryRow) {
-			foreach ($fields[1] as $field) {
-				if ($field->getColumnName() === 'name') {
-					$html .= $field->getDisplayValue($inventoryRow[$field->getColumnName()]);
+		$field = $inventory->getField('name');
+		if ($field->isVisible()) {
+			$comments = $inventory->getFieldsByType('Comment');
+			$inventoryRows = $this->textParser->recordModel->getInventoryData();
+			foreach ($inventoryRows as $inventoryRow) {
+				$html .= $field->getDisplayValue($inventoryRow[$field->getColumnName()], $inventoryRow);
+				foreach ($comments as $fieldComment) {
+					if ($fieldComment->isVisible() && ($value = $inventoryRow[$fieldComment->getColumnName()]) && ($comment = $fieldComment->getDisplayValue($value, $inventoryRow))) {
+						$html .= '<br />' . $comment;
+					}
 				}
 			}
-			$html .= $inventoryRow['comment1'];
 		}
 		return $html;
 	}

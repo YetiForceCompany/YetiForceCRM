@@ -6,7 +6,7 @@
 				<span aria-hidden="true">&times;</span>
 			</button>
 			<p>{\App\Language::translateArgs('LBL_REGISTRATION_OFFLINE_DESC',$QUALIFIED_MODULE,'registration@yetiforce.com')}</p>
-			<p>{\App\Language::translateArgs('LBL_REGISTRATION_OFFLINE_EXAMPLE',$QUALIFIED_MODULE,\App\YetiForce\Register::getCrmKey())}</p>
+			<p>{\App\Language::translateArgs('LBL_REGISTRATION_OFFLINE_EXAMPLE',$QUALIFIED_MODULE,\App\YetiForce\Register::getCrmKey(),\App\YetiForce\Register::getInstanceKey())}</p>
 		</div>
 		<form>
 			<div class="form-group form-row">

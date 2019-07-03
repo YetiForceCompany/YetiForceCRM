@@ -143,22 +143,22 @@ class NumberToWords
 
 		$return = '';
 
-		if ($in[0] == '-') {
+		if ('-' == $in[0]) {
 			$in = substr($in, 1);
 			$return = self::$words[0] . ' ';
 		}
 
 		$txt = str_split(strrev($in), 3);
 
-		if ($in == 0) {
+		if (0 == $in) {
 			$return = self::$words[1][0] . ' ';
 		}
 
-		for ($i = count($txt) - 1; $i >= 0; --$i) {
+		for ($i = \count($txt) - 1; $i >= 0; --$i) {
 			$number = (int) strrev($txt[$i]);
 
 			if ($number > 0) {
-				if ($i == 0) {
+				if (0 == $i) {
 					$return .= self::number($number) . ' ';
 				} else {
 					$return .= ($number > 1 ? self::number($number) . ' ' : '')
@@ -188,7 +188,7 @@ class NumberToWords
 			throw new \App\Exceptions\AppException('ERR_ILLEGAL_VALUE');
 		}
 		$amountString = number_format($amount, 2, '.', '');
-		list($bigAmount, $smallAmount) = explode('.', $amountString);
+		[$bigAmount, $smallAmount] = explode('.', $amountString);
 
 		$bigAmount = static::integerNumberToWords($bigAmount) . ' ' . $currencyName . ' ';
 		$smallAmount = static::integerNumberToWords($smallAmount) . ' ' . $centName;
@@ -219,7 +219,7 @@ class NumberToWords
 	{
 		$txt = $inflections[2];
 
-		if ($int == 1) {
+		if (1 == $int) {
 			$txt = $inflections[0];
 		}
 
@@ -246,7 +246,7 @@ class NumberToWords
 
 		$j = abs((int) $int);
 
-		if ($j == 0) {
+		if (0 == $j) {
 			return self::$words[1][0];
 		}
 
@@ -259,14 +259,14 @@ class NumberToWords
 		}
 
 		if ($dozens > 0) {
-			if ($dozens == 1) {
+			if (1 == $dozens) {
 				$return .= self::$words[2][$units] . ' ';
 			} else {
 				$return .= self::$words[3][$dozens - 1] . ' ';
 			}
 		}
 
-		if ($units > 0 && $dozens != 1) {
+		if ($units > 0 && 1 != $dozens) {
 			$return .= self::$words[1][$units] . ' ';
 		}
 		return $return;

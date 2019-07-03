@@ -19,7 +19,7 @@ class Dependency
 	/**
 	 * Cache file name.
 	 */
-	const CACHE_FILE_NAME = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'security' . DIRECTORY_SEPARATOR . 'dependency.json';
+	const CACHE_FILE_NAME = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'security' . \DIRECTORY_SEPARATOR . 'dependency.json';
 
 	/**
 	 * SensioLabs security checker.
@@ -51,7 +51,7 @@ class Dependency
 	{
 		return \file_exists(static::CACHE_FILE_NAME) &&
 			\filesize(static::CACHE_FILE_NAME) > 0 &&
-			\time() - \filemtime(static::CACHE_FILE_NAME) < (int) \AppConfig::security('CACHE_LIFETIME_SENSIOLABS_SECURITY_CHECKER');
+			\time() - \filemtime(static::CACHE_FILE_NAME) < (int) \App\Config::security('CACHE_LIFETIME_SENSIOLABS_SECURITY_CHECKER');
 	}
 
 	/**

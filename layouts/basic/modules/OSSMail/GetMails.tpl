@@ -1,10 +1,13 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	<div id="sendEmailContainer" class="modelContainer modal fade" tabindex="-1">
+	<div class="tpl-OSSMail-GetMails modelContainer modal fade" id="sendEmailContainer" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">{App\Language::translate('LBL_SELECT_EMAIL_IDS')}</h5>
+					<h5 class="modal-title">
+						<span class="fas fa-envelope mr-1"></span>
+						{App\Language::translate('LBL_SELECT_EMAIL_IDS')}
+					</h5>
 					<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -16,10 +19,10 @@
 						</div>
 						<div class="modal-Fields">
 							{foreach from=$EMAILS item=ITEM}
-								<div class="form-group">
+								<div class="btn-group btn-group-toggle" data-toggle="buttons">
 									<div class="radio">
-										<label>
-											<input style="float: right;" type="radio" name="selectedFields" value="{$ITEM['email']}">
+										<label class="btn btn-primary">
+											<input class="mr-2" type="radio" name="selectedFields" value="{$ITEM['email']}">
 											{$ITEM['fieldlabel']}: <strong>{$ITEM['email']}</strong>
 										</label>
 									</div>

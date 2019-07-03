@@ -33,6 +33,13 @@ class Settings_Companies_ListView_Model extends Settings_Vtiger_ListView_Model
 			'linkicon' => 'fas fa-receipt',
 			'showLabel' => 1,
 		];
+		$basicLinks[] = [
+			'linktype' => 'LISTVIEWBASIC',
+			'linklabel' => 'LBL_REGISTER_CHECK',
+			'linkclass' => 'btn-light js-register-check ml-1',
+			'linkicon' => 'fas fa-check-square',
+			'showLabel' => 1,
+		];
 		return $basicLinks;
 	}
 }

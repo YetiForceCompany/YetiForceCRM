@@ -18,7 +18,7 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 	 * @throws \App\Exceptions\NoPermitted
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -30,22 +30,55 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		}
 	}
 
-	public function process(\App\Request $request)
+	/**
+	 * Process.
+	 *
+	 * @param App\Request $request
+	 */
+	public function process(App\Request $request)
 	{
 		$this->preProcess($request);
 		$moduleName = $request->getModule();
 		$recordId = $request->getInteger('record');
 		$view = $request->getByType('fromview', 1);
-		$allRecords = Vtiger_Mass_Action::getRecordsListFromRequest($request);
-		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
+		$allRecords = \Vtiger_Mass_Action::getRecordsListFromRequest($request);
+		$handlerClass = \Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 		$pdfModel = new $handlerClass();
-
 		$viewer = $this->getViewer($request);
-		if ($view === 'Detail') {
-			$viewer->assign('TEMPLATES', $pdfModel->getActiveTemplatesForRecord($recordId, $view, $moduleName));
-		} elseif ($view === 'List') {
-			$viewer->assign('TEMPLATES', $pdfModel->getActiveTemplatesForModule($moduleName, $view));
+		$templates = $dynamicTemplates = [];
+		if ('Detail' === $view) {
+			$templates = $pdfModel->getActiveTemplatesForRecord($recordId, $view, $moduleName);
+		} elseif ('List' === $view) {
+			$templates = $pdfModel->getActiveTemplatesForModule($moduleName, $view);
 		}
+		$activeDynamic = false;
+		if (\Vtiger_Module_Model::getInstance($moduleName)->isInventory()) {
+			foreach ($templates as $key => $template) {
+				if (\Vtiger_PDF_Model::TEMPLATE_TYPE_DYNAMIC === $template->get('type')) {
+					$dynamicTemplates[] = $template;
+					if ($template->get('default') && !$activeDynamic) {
+						$activeDynamic = true;
+					}
+					unset($templates[$key]);
+				}
+			}
+			$allInventoryColumns = [];
+			foreach (\Vtiger_Inventory_Model::getInstance($moduleName)->getFields() as $name => $field) {
+				$allInventoryColumns[$name] = $field->get('label');
+			}
+			if ($recordId) {
+				$selectedInventoryColumns = \App\Pdf\InventoryColumns::getInventoryColumnsForRecord($recordId, $moduleName);
+			} else {
+				$selectedInventoryColumns = array_keys($allInventoryColumns);
+			}
+			$viewer->assign('ALL_INVENTORY_COLUMNS', $allInventoryColumns);
+			$viewer->assign('SELECTED_INVENTORY_COLUMNS', $selectedInventoryColumns);
+		}
+
+		$viewer->assign('CAN_CHANGE_SCHEME', \App\Privilege::isPermitted($moduleName, 'RecordPdfInventory'));
+		$viewer->assign('STANDARD_TEMPLATES', $templates);
+		$viewer->assign('DYNAMIC_TEMPLATES', $dynamicTemplates);
+		$viewer->assign('ACTIVE_DYNAMIC', $activeDynamic);
 		$viewer->assign('ALL_RECORDS', $allRecords);
 		$viewer->assign('EXPORT_VARS', [
 			'record' => $recordId,

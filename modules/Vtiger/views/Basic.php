@@ -42,10 +42,10 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		$homeModuleModel = Vtiger_Module_Model::getInstance('Home');
 		$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
 		$viewer->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));
-		if (AppConfig::performance('GLOBAL_SEARCH')) {
+		if (App\Config::performance('GLOBAL_SEARCH')) {
 			$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
 		}
-		if (AppConfig::search('GLOBAL_SEARCH_SELECT_MODULE')) {
+		if (App\Config::search('GLOBAL_SEARCH_SELECT_MODULE')) {
 			$viewer->assign('SEARCHED_MODULE', $selectedModule);
 		}
 		$viewer->assign('REMINDER_ACTIVE', $activeReminder);
@@ -91,7 +91,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 			"modules.$moduleName.resources.SearchAdvanceFilter",
 			'modules.Vtiger.resources.AdvanceSearch',
 			"modules.$moduleName.resources.AdvanceSearch",
-			'~libraries/html2canvas/dist/html2canvas.js',
+			'~libraries/html2canvas/dist/html2canvas.min.js',
 		]));
 	}
 }

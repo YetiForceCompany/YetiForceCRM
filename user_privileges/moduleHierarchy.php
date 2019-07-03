@@ -112,5 +112,18 @@ return [
 		'Documents' => ['table' => 'vtiger_senotesrel', 'rel' => 'crmid', 'base' => 'notesid'],
 		'Products' => ['table' => 'vtiger_seproductsrel', 'rel' => 'crmid', 'base' => 'productid'],
 		'OSSMailView' => ['table' => 'vtiger_ossmailview_relation', 'rel' => 'crmid', 'base' => 'ossmailviewid'],
+	],
+	'recordsListFilter' => [
+		'Contacts' => [
+			'HelpDesk' => ['fieldName' => 'parent_id', 'moduleName' => 'Accounts'],
+			'Project' => ['fieldName' => 'linktoaccountscontacts', 'moduleName' => 'Accounts'],
+			'SSalesProcesses' => ['fieldName' => 'related_to', 'moduleName' => 'Accounts'],
+		],
+		'ServiceContracts' => [
+			'Assets' => ['fieldName' => 'parent_id', 'moduleName' => 'Accounts'],
+			'OSSSoldServices' => ['fieldName' => 'parent_id', 'moduleName' => 'Accounts'],
+		],
+		'Assets' => ['ServiceContracts' => ['fieldName' => 'sc_related_to', 'moduleName' => 'Accounts']],
+		'OSSSoldServices' => ['ServiceContracts' => ['fieldName' => 'sc_related_to', 'moduleName' => 'Accounts']],
 	]
 ];

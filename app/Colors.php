@@ -99,10 +99,10 @@ class Colors
 				$values = \App\Fields\Picklist::getValues($field->getName());
 				if ($values) {
 					$firstRow = reset($values);
-					if (array_key_exists('color', $firstRow)) {
+					if (\array_key_exists('color', $firstRow)) {
 						foreach ($values as $item) {
 							if (ltrim($item['color'], '#')) {
-								if (strpos($item['color'], '#') === false) {
+								if (false === strpos($item['color'], '#')) {
 									$item['color'] = '#' . $item['color'];
 								}
 								$contrastColor = static::getContrast($item['color']);
@@ -146,17 +146,19 @@ class Colors
 	 */
 	public static function sanitizeValue($value)
 	{
-		return str_replace([' ', '-', '=', '+', '@', '*', '!', '#', '$', '%', '^', '&', '(', ')', '[', ']', '{', '}', ';', ':', "\'", '"', ',', '<', '.', '>', '/', '?', '\\', '|'], '_', $value);
+		return str_replace([' ', '-', '=', '+', '@', '*', '!', '#', '$', '%', '^', '&', '(', ')', '[', ']', '{', '}', ';', ':', "\\'", '"', ',', '<', '.', '>', '/', '?', '\\', '|'], '_', $value);
 	}
 
 	/**
 	 * Get random color code.
 	 *
+	 * @param mixed $fromValue
+	 *
 	 * @return string
 	 */
 	public static function getRandomColor($fromValue = false)
 	{
-		if ($fromValue !== false) {
+		if (false !== $fromValue) {
 			$hash = md5('color' . $fromValue);
 			return '#' . substr($hash, 0, 2) . substr($hash, 2, 2) . substr($hash, 4, 2);
 		}
@@ -209,7 +211,7 @@ class Colors
 		foreach ($moduleBlockFields as $moduleFields) {
 			foreach ($moduleFields as $moduleField) {
 				$block = $moduleField->get('block');
-				if (!$block || !in_array($moduleField->getFieldDataType(), $type)) {
+				if (!$block || !\in_array($moduleField->getFieldDataType(), $type)) {
 					continue;
 				}
 				$fieldList[$moduleField->get('name')] = $moduleField;
@@ -277,7 +279,7 @@ class Colors
 			$modules[] = [
 				'id' => $tabid,
 				'module' => $module['name'],
-				'color' => $module['color'] !== '' ? '#' . $module['color'] : '',
+				'color' => '' !== $module['color'] ? '#' . $module['color'] : '',
 				'active' => $module['coloractive'],
 			];
 		}
@@ -288,6 +290,8 @@ class Colors
 	 * Function to update color for module.
 	 *
 	 * @param array $params
+	 * @param mixed $id
+	 * @param mixed $color
 	 */
 	public static function updateModuleColor($id, $color)
 	{
@@ -317,6 +321,8 @@ class Colors
 
 	/**
 	 * Get all filter colors.
+	 *
+	 * @param mixed $byFilterValue
 	 *
 	 * @return string[]
 	 */

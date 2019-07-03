@@ -67,6 +67,8 @@ class Vtiger_AdvancedFilter_Helper
 			'None' => 'None',
 			'is Watching Record' => 'is Watching Record',
 			'is Not Watching Record' => 'is Not Watching Record',
+			'is record open' => 'Record is open',
+			'is record closed' => 'Record is closed',
 		];
 	}
 
@@ -86,23 +88,25 @@ class Vtiger_AdvancedFilter_Helper
 			'phone' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'],
 			'integer' => ['equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed'],
 			'double' => ['equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed'],
+			'advPercentage' => ['equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed'],
 			'currency' => ['equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed', 'is not empty'],
-			'picklist' => ['is', 'is not', 'has changed', 'has changed to', 'is empty', 'is not empty'],
+			'picklist' => ['is', 'is not', 'has changed', 'has changed to', 'is empty', 'is not empty', 'is record open', 'is record closed'],
 			'multipicklist' => ['is', 'is not', 'has changed', 'has changed to'],
-			'datetime' => ['is', 'is not', 'has changed', 'less than hours before', 'less than hours later', 'more than hours before', 'more than hours later', 'is not empty'],
+			'datetime' => ['is', 'is not', 'has changed', 'less than hours before', 'less than hours later', 'more than hours before', 'more than hours later', 'is not empty', 'smallerthannow', 'greaterthannow'],
 			'time' => ['is', 'is not', 'has changed', 'is not empty'],
 			'date' => ['is', 'is not', 'has changed', 'between', 'before', 'after', 'is today', 'less than days ago', 'more than days ago', 'in less than', 'in more than',
 				'days ago', 'days later', 'is not empty', ],
 			'boolean' => ['is', 'is not', 'has changed'],
 			'reference' => ['has changed', 'is empty', 'is not empty'],
 			'owner' => ['has changed', 'is', 'is not', 'is Watching Record', 'is Not Watching Record'],
-			'sharedOwner' => ['has changed', 'is', 'is not'],
+			'sharedOwner' => ['has changed', 'is', 'is not', 'is not empty', 'is empty'],
 			'recurrence' => ['is', 'is not', 'has changed'],
 			'comment' => ['is added'],
 			'image' => ['is', 'is not', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty'],
 			'percentage' => ['equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed', 'is not empty'],
 			'multiReferenceValue' => ['contains', 'does not contain', 'has changed', 'is empty', 'is not empty'],
 			'tree' => ['is', 'is not', 'has changed', 'has changed to', 'is empty', 'is not empty'],
+			'categoryMultipicklist' => ['contains', 'does not contain', 'is', 'is not', 'has changed', 'has changed to', 'is empty', 'is not empty'],
 			'rangeTime' => ['is empty', 'is not empty'],
 			'documentsFileUpload' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'],
 		];
@@ -117,6 +121,8 @@ class Vtiger_AdvancedFilter_Helper
 
 	/**
 	 * Functions transforms workflow filter to advanced filter.
+	 *
+	 * @param mixed $conditions
 	 *
 	 * @return <Array>
 	 */
@@ -148,11 +154,11 @@ class Vtiger_AdvancedFilter_Helper
 		if (!empty($conditions)) {
 			foreach ($conditions as $index => $condition) {
 				$columns = $condition['columns'];
-				if ($index == '1' && empty($columns)) {
+				if ('1' == $index && empty($columns)) {
 					$wfCondition[] = ['fieldname' => '', 'operation' => '', 'value' => '', 'valuetype' => '',
 						'joincondition' => '', 'groupid' => '0', ];
 				}
-				if (!empty($columns) && is_array($columns)) {
+				if (!empty($columns) && \is_array($columns)) {
 					foreach ($columns as $column) {
 						$wfCondition[] = ['fieldname' => $column['columnname'], 'operation' => $column['comparator'],
 							'value' => $column['value'], 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],

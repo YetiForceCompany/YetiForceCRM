@@ -35,7 +35,7 @@ class ProductsTableLongVTwoLang extends Base
 		$firstRow = current($inventoryRows);
 
 		if ($inventory->isField('currency')) {
-			if (!empty($firstRow) && $firstRow['currency'] !== null) {
+			if (!empty($firstRow) && null !== $firstRow['currency']) {
 				$currency = $firstRow['currency'];
 			} else {
 				$currency = $baseCurrency['id'];
@@ -46,28 +46,30 @@ class ProductsTableLongVTwoLang extends Base
 		if (!empty($fields[1])) {
 			$fieldsTextAlignRight = ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'];
 			$fieldsWithCurrency = ['TotalPrice', 'Purchase', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Discount', 'Margin', 'Tax'];
-			$html .= '<table style="border-collapse:collapse;width:100%;"><thead><tr>';
+			$html .= '<table class="products-table-long-v-two-lang" style="border-collapse:collapse;width:100%;"><thead><tr>';
 			foreach ($fields[1] as $field) {
-				if ($field->isVisible() && $field->getColumnName() !== 'subunit') {
-					$html .= '<th style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . ' / ' . \App\Language::translate($field->get('label'), $this->textParser->moduleName, \App\Language::DEFAULT_LANG) . '</th>';
+				if ($field->isVisible() && 'subunit' !== $field->getColumnName()) {
+					$html .= '<th class="col-type-' . $field->getType() . '" style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . ' / ' . \App\Language::translate($field->get('label'), $this->textParser->moduleName, \App\Language::DEFAULT_LANG) . '</th>';
 				}
 			}
 			$html .= '</tr></thead><tbody>';
+			$counter = 0;
 			foreach ($inventoryRows as $inventoryRow) {
-				$html .= '<tr>';
+				++$counter;
+				$html .= '<tr class="row-' . $counter . '">';
 				foreach ($fields[1] as $field) {
-					if (!$field->isVisible() || $field->getColumnName() === 'subunit') {
+					if (!$field->isVisible() || 'subunit' === $field->getColumnName()) {
 						continue;
 					}
-					if ($field->getType() === 'ItemNumber') {
-						$html .= '<td style="padding:0px 4px;text-align:center;font-weight:bold;">' . $inventoryRow['seq'] . '</td>';
-					} elseif ($field->getColumnName() === 'ean') {
+					if ('ItemNumber' === $field->getType()) {
+						$html .= '<td class="col-type-ItemNumber" style="padding:0px 4px;text-align:center;font-weight:bold;">' . $inventoryRow['seq'] . '</td>';
+					} elseif ('ean' === $field->getColumnName()) {
 						$code = $inventoryRow[$field->getColumnName()];
-						$html .= '<td style="padding:0px 4px;text-align:center;"><div data-barcode="EAN13" data-code="' . $code . '" data-size="1" data-height="16"></div></td>';
+						$html .= '<td class="col-type-barcode" style="padding:0px 4px;text-align:center;"><div data-barcode="EAN13" data-code="' . $code . '" data-size="1" data-height="16"></div></td>';
 					} elseif ($field->isVisible()) {
 						$itemValue = $inventoryRow[$field->getColumnName()];
-						$html .= '<td style="font-size:8px;border:1px solid #ddd;padding:0px 4px;' . (in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '">';
-						if ($field->getType() === 'Name') {
+						$html .= '<td class="col-type-' . $field->getType() . '" style="font-size:8px;border:1px solid #ddd;padding:0px 4px;' . (\in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '">';
+						if ('Name' === $field->getType()) {
 							$html .= '<strong>' . $field->getDisplayValue($itemValue, $inventoryRow) . '</strong>';
 							foreach ($inventory->getFieldsByType('Comment') as $commentField) {
 								if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()])) {
@@ -89,8 +91,8 @@ class ProductsTableLongVTwoLang extends Base
 			}
 			$html .= '</tbody><tfoot><tr>';
 			foreach ($fields[1] as $field) {
-				if ($field->isVisible() && ($field->getColumnName() !== 'subunit')) {
-					$html .= '<th style="padding:0px 4px;text-align:right;">';
+				if ($field->isVisible() && ('subunit' !== $field->getColumnName())) {
+					$html .= '<th class="col-type-' . $field->getType() . '" style="padding:0px 4px;text-align:right;">';
 					if ($field->isSummary()) {
 						$sum = 0;
 						foreach ($inventoryRows as $inventoryRow) {

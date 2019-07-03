@@ -46,7 +46,7 @@
 		<input id="accountReferenceField" type="hidden" value="{if $RELATED_FIELD}{$RELATED_FIELD['fieldname']}{/if}"/>
 		<input id="inventoryLimit" type="hidden" value="{$MAIN_PARAMS['limit']}"/>
 		<input id="isRequiredInventory" type="hidden" value="{$IS_REQUIRED_INVENTORY}"/>
-		<div class="table-responsive mx-1">
+		<div class="table-responsive">
 			<table class="table inventoryHeader blockContainer mb-0 table-bordered">
 				<colgroup>
 					<col class="w-25">
@@ -67,7 +67,7 @@
 									<div class="btn-group-sm d-flex align-items-center justify-content-center {if !$smarty.foreach.moduleList.first}ml-lg-1{/if}">
 										<button type="button" data-module="{$MAIN_MODULE}"
 												title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)} {\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}"
-												class="btn btn-light js-add-item border mb-1 mb-lg-0"
+												class="btn btn-light js-inv-add-item border mb-1 mb-lg-0"
 												data-js="click">
 											<span class="moduleIcon userIcon-{$MAIN_MODULE} mr-1"></span><strong>{\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
 										</button>
@@ -76,7 +76,7 @@
 							{/foreach}
 						</div>
 					</th>
-					{assign var="ROW_NO" value=1}
+					{assign var="ROW_NO" value=0}
 					{if isset($FIELDS[0])}
 						{foreach item=FIELD from=$FIELDS[0]}
 							<th class="{if !$FIELD->isEditable()}d-none {/if} border-bottom-0">
@@ -98,7 +98,7 @@
 				</thead>
 			</table>
 		</div>
-		<div class="table-responsive mx-1">
+		<div class="table-responsive">
 			<table class="table table-bordered inventoryItems">
 				{if count($FIELDS[1]) neq 0}
 					<thead>
@@ -152,7 +152,11 @@
 		{include file=\App\Layout::getTemplatePath('Edit/InventorySummary.tpl', $MODULE_NAME)}
 		{assign var="ITEM_DATA" value=$RECORD->getInventoryDefaultDataFields()}
 		<table id="blackIthemTable" class="noValidate d-none">
-			<tbody class="js-inventory-base-item">
+			{assign var="INVENTORY_LBLS" value=[]}
+			{foreach item=MAIN_MODULE from=$MAIN_PARAMS['modules']}
+				{$INVENTORY_LBLS[$MAIN_MODULE]=\App\Language::translateSingularModuleName($MAIN_MODULE)}
+			{/foreach}
+			<tbody class="js-inventory-base-item" data-module-lbls="{App\Purifier::encodeHtml(\App\Json::encode($INVENTORY_LBLS))}">
 			{assign var="ROW_NO" value='_NUM_'}
 			{include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE_NAME)}
 			</tbody>

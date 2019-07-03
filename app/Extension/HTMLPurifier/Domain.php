@@ -23,7 +23,7 @@ class Domain extends \HTMLPurifier_URIFilter
 	 */
 	public function prepare($config)
 	{
-		$this->allowedDomains = \AppConfig::security('PURIFIER_ALLOWED_DOMAINS') ?: $this->allowedDomains;
+		$this->allowedDomains = \App\Config::security('PURIFIER_ALLOWED_DOMAINS') ?: $this->allowedDomains;
 	}
 
 	/**
@@ -31,10 +31,10 @@ class Domain extends \HTMLPurifier_URIFilter
 	 */
 	public function filter(&$uri, $config, $context)
 	{
-		if ($uri->scheme === 'data') {
+		if ('data' === $uri->scheme) {
 			return true;
 		}
-		if (!in_array($uri->host, $this->allowedDomains)) {
+		if (!\in_array($uri->host, $this->allowedDomains)) {
 			return false;
 		}
 		return true;

@@ -1,5 +1,5 @@
 <?php
-/* +***********************************************************************************
+ /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce Sp. z o.o
  * *********************************************************************************** */
 
-Vtiger_Loader::includeOnce('~modules/Calendar/iCalLastImport.php');
+Vtiger_Loader::includeOnce('~modules/Calendar/ICalLastImport.php');
 
 class Calendar_Import_View extends Vtiger_Import_View
 {
@@ -29,7 +29,7 @@ class Calendar_Import_View extends Vtiger_Import_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		parent::process($request);
 	}
@@ -37,7 +37,7 @@ class Calendar_Import_View extends Vtiger_Import_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function uploadAndParse(\App\Request $request)
+	public function uploadAndParse(App\Request $request)
 	{
 		$type = $request->getByType('type', 'Text');
 		if ('ics' === $type || 'ical' === $type) {
@@ -54,7 +54,7 @@ class Calendar_Import_View extends Vtiger_Import_View
 	 *
 	 * @throws \Exception
 	 */
-	public function importResult(\App\Request $request)
+	public function importResult(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -76,12 +76,12 @@ class Calendar_Import_View extends Vtiger_Import_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function undoImport(\App\Request $request)
+	public function undoImport(App\Request $request)
 	{
 		if ($request->has('type') && 'ics' === $request->getByType('type', 'Text')) {
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
 			$moduleName = $request->getModule();
-			$lastImport = new IcalLastImport();
+			$lastImport = new ICalLastImport();
 			$returnValue = $lastImport->undo($moduleName, $currentUserModel->getId());
 			if (!empty($returnValue)) {
 				$undoStatus = true;

@@ -29,7 +29,7 @@ return [
 		'description' => 'Default record view: Value - LBL_RECORD_PREVIEW or LBL_RECORD_SUMMARY or LBL_RECORD_DETAILS',
 		'validation' => function () {
 			$arg = func_get_arg(0);
-			return in_array($arg, ['LBL_RECORD_PREVIEW', 'LBL_RECORD_SUMMARY', 'LBL_RECORD_DETAILS']);
+			return \in_array($arg, ['LBL_RECORD_PREVIEW', 'LBL_RECORD_SUMMARY', 'LBL_RECORD_DETAILS']);
 		}
 	],
 	'CONTACTS_CHECK_EMAIL_OPTOUT' => [
@@ -37,5 +37,30 @@ return [
 		'description' => 'Check email opt-out',
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
-	]
+	],
+	'COLUMNS_IN_HIERARCHY' => [
+		'default' => [
+			'Ticket No' => 'ticket_no',
+			'Subject' => 'ticket_title',
+			'Status' => 'ticketstatus',
+			'Priority' => 'ticketpriorities',
+			'Assigned To' => 'assigned_user_id',
+			'FL_TOTAL_TIME_H' => 'sum_time',
+		],
+		'description' => 'Columns visible in HelpDesk hierarchy [$label => $columnName]'
+	],
+	'MAX_HIERARCHY_DEPTH' => [
+		'default' => 50,
+		'description' => 'Max depth of hierarchy',
+		'validation' => '\App\Validator::naturalNumber',
+		'sanitization' => function () {
+			return (int) func_get_arg(0);
+		}
+	],
+	'COUNT_IN_HIERARCHY' => [
+		'default' => true,
+		'description' => 'Count HelpDesk records in hierarchy',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
+	],
 ];

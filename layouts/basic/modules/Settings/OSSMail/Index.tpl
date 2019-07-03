@@ -6,7 +6,7 @@
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 	</div>
-	<h5>{\App\Language::translate('Roundcube config', $MODULE)}</h5>
+	<h5 class="mt-2">{\App\Language::translate('Roundcube config', $MODULE)}</h5>
 	{if Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
 		<div class="alert alert-danger" role="alert">
 			<div>
@@ -52,7 +52,7 @@
 									<select class="form-control" name="{$FIELD_NAME}" multiple="multiple"
 											{if $FIELD_DETAILS['required'] === 1}data-validation-engine="validate[required]"{/if}>
 										{foreach item=ITEM key=KEY from=$RECORD_MODEL->get($FIELD_NAME)}
-											<option value="{\App\Purifier::encodeHtml($KEY)}" selected>{$KEY}</option>
+											<option value="{\App\Purifier::encodeHtml($KEY)}" selected>{\App\Purifier::encodeHtml(\App\Purifier::encodeHtml($KEY))}</option>
 										{/foreach}
 									</select>
 								</div>

@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Settings-Workflows-Import -->
 	<div class="row">
 		<div class="col-md-12">
 			<h3>{\App\Language::translate('LBL_IMPORT_VIEW', $QUALIFIED_MODULE)}</h3>
@@ -12,9 +13,11 @@
 				<p class="bgMessage bgOK">
 					<i class="fas fa-check-circle"></i> {\App\Language::translate('LBL_UPLOAD_OK', $QUALIFIED_MODULE)} <a href="index.php?module=Workflows&parent=Settings&view=Edit&record={$RECORDID}">{\App\Language::translate('LBL_GO_TO_TEMPLATE', $QUALIFIED_MODULE)}</a>
 				</p>
-				{foreach from=$MESSAGES['error'] item=msg}
-					<p class="bgMessage bgWARNING"><i class="fas fa-info-circle"></i> {$msg}</p>
-				{/foreach}
+				{if isset($MESSAGES['error']) }
+					{foreach from=$MESSAGES['error'] item=MSG}
+						<p class="bgMessage bgWARNING"><i class="fas fa-info-circle"></i> {$MSG}</p>
+					{/foreach}
+				{/if}
 			{elseif $UPLOAD eq false}
 				<p class="bgMessage bgERROR">
 					{\App\Language::translate('LBL_UPLOAD_ERROR', $QUALIFIED_MODULE)} <a href="{Settings_Workflows_Module_Model::getDefaultUrl()}">{\App\Language::translate('LBL_RETURN', $QUALIFIED_MODULE)}</a>
@@ -42,4 +45,5 @@
 			</form>
 		{/if}
 	</div>
+	<!-- /tpl-Settings-Workflows-Import -->
 {/strip}

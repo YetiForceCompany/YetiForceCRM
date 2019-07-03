@@ -43,7 +43,7 @@ if ($dataReader->count()) {
 			$toEmail = App\Fields\Email::getUserMail($row['smownerid']);
 			$invitees = [];
 			$recordModel->setId($activityId);
-			if (AppConfig::module('Calendar', 'SEND_REMINDER_INVITATION')) {
+			if (App\Config::module('Calendar', 'SEND_REMINDER_INVITATION')) {
 				$invitees = $recordModel->getInvities();
 			}
 			if (!empty($toEmail)) {

@@ -53,14 +53,14 @@
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 				</div>
 			</div>
-			<div class="row mb-3">
+			<div class="row mb-3 mx-0">
 				{if $EDIT_VIEW_LAYOUT}
 					{assign var=COLUMNS_SIZES value=['col-xl-4', 'col-xl-8']}
 				{else}
 					{assign var=COLUMNS_SIZES value=['col-md-12']}
 				{/if}
 				{foreach item=COLUMN_SIZE from=$COLUMNS_SIZES}
-				<div class="{$COLUMN_SIZE}">
+				<div class="{$COLUMN_SIZE} px-2">
 					{if $EDIT_VIEW_LAYOUT && 'col-xl-8' === $COLUMN_SIZE}
 						{include file=\App\Layout::getTemplatePath('Edit/Inventory.tpl', $MODULE)}
 						{assign var=RECORD_STRUCTURE value=$RECORD_STRUCTURE_RIGHT}
@@ -74,7 +74,7 @@
 					{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 					{assign var=IS_DYNAMIC value=$BLOCK->isDynamic()}
 					{if $BLOCKS_HIDE}
-					<div class="js-toggle-panel c-panel c-panel--edit row  mx-1 mb-3"
+					<div class="js-toggle-panel c-panel c-panel--edit mb-3"
 						 data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if}
 						 data-label="{$BLOCK_LABEL}">
 						<div class="blockHeader c-panel__header align-items-center">
@@ -124,17 +124,17 @@
 								{elseif $FIELD_MODEL->getUIType() neq "300"}col-sm-6
 								{else} col-md-12 m-auto{/if} fieldRow row form-group align-items-center my-1">
 										{/if}
-										{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
-										{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
+											{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
 										<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">
 											{if $FIELD_MODEL->isMandatory() eq true}
 												<span class="redColor">*</span>
 											{/if}
-											{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-												<a href="#" class="js-help-info float-right" title=""
-												   data-placement="top"
-												   data-content="{\App\Language::translate($HELPINFO_LABEL, 'HelpInfo')}"
-												   data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}">
+											{if $HELPINFO_LABEL}
+												<a href="#" class="js-help-info float-right u-cursor-pointer"
+													title=""
+													data-placement="top"
+													data-content="{$HELPINFO_LABEL}"
+													data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $FIELD_MODEL->getModuleName())}">
 													<span class="fas fa-info-circle"></span>
 												</a>
 											{/if}

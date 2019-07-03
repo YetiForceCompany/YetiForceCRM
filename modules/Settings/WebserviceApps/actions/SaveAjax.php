@@ -14,7 +14,7 @@ class Settings_WebserviceApps_SaveAjax_Action extends Settings_Vtiger_Index_Acti
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		if ($request->isEmpty('id')) {
 			$recordModel = Settings_WebserviceApps_Record_Model::getCleanInstance();
@@ -26,10 +26,14 @@ class Settings_WebserviceApps_SaveAjax_Action extends Settings_Vtiger_Index_Acti
 		$recordModel->set('name', $request->getByType('name', 'Text'));
 		$recordModel->set('acceptable_url', $request->getByType('url', 'Text'));
 		$recordModel->set('pass', $request->getRaw('pass'));
-		$recordModel->set('accounts_id', $request->isEmpty('accounts') ? 0 : $request->getInteger('accounts'));
-		$recordModel->save();
+		$result = true;
+		try {
+			$recordModel->save();
+		} catch (\App\Exceptions\IllegalValue $e) {
+			$result = ['error' => $e->getDisplayMessage()];
+		}
 		$responce = new Vtiger_Response();
-		$responce->setResult(true);
+		$responce->setResult($result);
 		$responce->emit();
 	}
 }

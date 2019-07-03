@@ -44,7 +44,8 @@ class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 				'switchHeader' => 'Text',
 				'filter' => 'Text',
 				'checkbox' => 'Text',
-				'field_name' => 'Alnum'
+				'field_name' => 'Alnum',
+				'FastEdit' => 'Integer'
 			]
 		]);
 		if (!$this->validateLimit($params)) {

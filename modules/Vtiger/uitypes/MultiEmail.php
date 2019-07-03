@@ -21,7 +21,7 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
+	public function setValueFromRequest(App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
 		$fieldName = $this->getFieldModel()->getFieldName();
 		if (!$requestFieldName) {
@@ -41,16 +41,17 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 	{
 		if (empty($value)) {
 			return;
-		} elseif (is_string($value)) {
+		}
+		if (\is_string($value)) {
 			$value = \App\Json::decode($value);
 		}
-		if (!is_array($value)) {
+		if (!\is_array($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$rawValue = \App\Json::encode($value);
 		if (!isset($this->validate[$rawValue])) {
 			foreach ($value as $item) {
-				if (!is_array($item) || !isset($item['e'])) {
+				if (!\is_array($item) || !isset($item['e'])) {
 					throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . \App\Json::encode($value), 406);
 				}
 				if (!filter_var($item['e'], FILTER_VALIDATE_EMAIL) || $item['e'] !== filter_var($item['e'], FILTER_SANITIZE_EMAIL)) {
@@ -83,9 +84,13 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 		}
 		$emails = [];
 		foreach ($value as $item) {
-			$emails[] = parent::getDisplayValue($item['e'], $record, $recordModel, $rawText, $length);
+			if ($item['o']) {
+				$emails[] = parent::getDisplayValue($item['e'], $record, $recordModel, $rawText, $length) . '<span class="fas fa-check text-success ml-2" title="' . \App\Language::translate('LBL_CONSENT_TO_SEND') . '"></span>';
+			} else {
+				$emails[] = parent::getDisplayValue($item['e'], $record, $recordModel, true, $length) . '<span class="fas fa-ban text-danger ml-2"></span>';
+			}
 		}
-		return implode(',', $emails);
+		return implode('<br>', $emails);
 	}
 
 	/**
@@ -108,7 +113,7 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
-		return $this->getDisplayValue($value, $record, $recordModel, $rawText);
+		return strip_tags($this->getDisplayValue($value, $record, $recordModel, $rawText), '<br>');
 	}
 
 	/**
@@ -122,8 +127,16 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getOperators()
+	public function getQueryOperators()
 	{
 		return ['c', 'k', 'y', 'ny'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isAjaxEditable()
+	{
+		return false;
 	}
 }

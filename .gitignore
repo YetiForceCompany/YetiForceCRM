@@ -2,6 +2,7 @@
 /cache/*/*/*
 !/cache/*/index.html
 !/cache/*/*/index.html
+/cache/registration.php
 
 /config/config_override.php
 /config/csrf_secret.php
@@ -54,6 +55,7 @@
 yarn-error.log
 /node_modules/
 /public_html/libraries/*
+/public_html/src/node_modules/*
 
 # IDEs and editors
 /.buildpath
@@ -65,3 +67,4 @@ yarn-error.log
 *.sublime-workspace
 .babelrc
 .sonarlint/
+.history/

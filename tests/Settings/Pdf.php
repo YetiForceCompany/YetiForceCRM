@@ -74,8 +74,8 @@ class Pdf extends \Tests\Base
 	 */
 	public function testGenerate()
 	{
-		$pathToFile = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache/pdf/' . $this->fileName;
-		\Vtiger_PDF_Model::exportToPdf(\Tests\Base\C_RecordActions::createAccountRecord()->getId(), self::MODULE_NAME, self::$pdfModel->get('pdfid'), $pathToFile, 'F');
+		$pathToFile = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache/pdf/' . $this->fileName;
+		\Vtiger_PDF_Model::exportToPdf(\Tests\Base\C_RecordActions::createAccountRecord()->getId(), self::$pdfModel->get('pdfid'), $pathToFile, 'F');
 		$this->assertFileExists($pathToFile);
 	}
 
@@ -89,7 +89,7 @@ class Pdf extends \Tests\Base
 			->from('a_#__pdf')
 			->where(['module_name' => self::MODULE_NAME, 'filename' => $this->fileName, 'primary_name' => 'test'])
 			->exists(\App\Db::getInstance('admin')), 'Not removed template');
-		$pathToFile = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache/pdf/' . $this->fileName;
+		$pathToFile = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache/pdf/' . $this->fileName;
 		if (\file_exists($pathToFile)) {
 			\unlink($pathToFile);
 		}

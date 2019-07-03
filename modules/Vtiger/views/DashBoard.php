@@ -11,7 +11,10 @@
 
 class Vtiger_DashBoard_View extends Vtiger_Index_View
 {
-	public function preProcessAjax(\App\Request $request)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function preProcessAjax(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -32,10 +35,9 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		} else {
 			$widgets = [];
 		}
-		$modulesWithWidget = Vtiger_DashBoard_Model::getModulesWithWidgets($sourceModule, $currentDashboard);
+		$viewer->assign('MODULES_WITH_WIDGET', 'Home' === $moduleName ? Vtiger_DashBoard_Model::getModulesWithWidgets($sourceModule, $currentDashboard) : []);
 		$viewer->assign('CURRENT_DASHBOARD', $currentDashboard);
 		$viewer->assign('DASHBOARD_TYPES', Settings_WidgetsManagement_Module_Model::getDashboardTypes());
-		$viewer->assign('MODULES_WITH_WIDGET', $modulesWithWidget);
 		$viewer->assign('USER_PRIVILEGES_MODEL', $userPrivilegesModel);
 		$viewer->assign('MODULE_PERMISSION', $permission);
 		$viewer->assign('WIDGETS', $widgets);
@@ -45,7 +47,10 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		$viewer->view('dashboards/DashBoardPreProcessAjax.tpl', $moduleName);
 	}
 
-	public function preProcess(\App\Request $request, $display = true)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
@@ -76,12 +81,18 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		}
 	}
 
-	public function preProcessTplName(\App\Request $request)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function preProcessTplName(App\Request $request)
 	{
 		return 'dashboards/DashBoardPreProcess.tpl';
 	}
 
-	public function process(\App\Request $request)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -101,7 +112,10 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		$viewer->view('dashboards/DashBoardContents.tpl', $moduleName);
 	}
 
-	public function postProcess(\App\Request $request, $display = true)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function postProcess(App\Request $request, $display = true)
 	{
 		parent::postProcess($request);
 	}
@@ -113,7 +127,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 	 *
 	 * @return int
 	 */
-	public function getDashboardId(\App\Request $request)
+	public function getDashboardId(App\Request $request)
 	{
 		$dashboardId = false;
 		if (!$request->isEmpty('dashboardId', true)) {
@@ -136,7 +150,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 	 *
 	 * @return Vtiger_JsScript_Model[]
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$jsFileNames = [
@@ -167,7 +181,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 	 *
 	 * @return Vtiger_CssScript_Model[]
 	 */
-	public function getHeaderCss(\App\Request $request)
+	public function getHeaderCss(App\Request $request)
 	{
 		$headerCss = [
 			'~libraries/gridstack/dist/gridstack.css',

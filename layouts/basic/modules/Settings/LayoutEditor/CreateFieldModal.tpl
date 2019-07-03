@@ -58,9 +58,9 @@
 							</div>
 							<div class="col-md-8 controls">
 								<input type="text" maxlength="30" name="fieldName" value=""
-									   data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+									   data-validation-engine="validate[required, funcCall[Vtiger_FieldName_Validator_Js.invokeValidation]]"
 									   class="form-control"
-									   data-validator={\App\Json::encode([['name'=>'fieldName']])}/>
+									   />
 							</div>
 						</div>
 						<div class="form-group row align-items-center">
@@ -71,7 +71,9 @@
 							<div class="col-md-8 controls">
 								<select class="marginLeftZero form-control" name="fieldTypeList">
 									<option value="0">{App\Language::translate('LBL_FIELD_TYPE0', $QUALIFIED_MODULE)}</option>
-									<option value="1">{App\Language::translate('LBL_FIELD_TYPE1', $QUALIFIED_MODULE)}</option>
+									{if !empty($SELECTED_MODULE_MODEL->getEntityInstance()->customFieldTable)}
+										<option value="1">{App\Language::translate('LBL_FIELD_TYPE1', $QUALIFIED_MODULE)}</option>
+									{/if}
 								</select>
 							</div>
 						</div>
@@ -208,6 +210,21 @@
 									{foreach key=key item=item from=$SELECTED_MODULE_MODEL->getTreeTemplates($SELECTED_MODULE_NAME)}
 										<option value="{$key}">{App\Language::translate($item, $SELECTED_MODULE_NAME)}</option>
 										{foreachelse}
+										<option value="-">{App\Language::translate('LBL_NONE')}</option>
+									{/foreach}
+								</select>
+							</div>
+						</div>
+						<div class="form-group row align-items-center supportedType js-server-access-list d-none" data-js="removeClass:d-none">
+							<div class="col-md-3 col-form-label text-right">
+								<span class="redColor">*</span>&nbsp;
+								{App\Language::translate('CustomerPortal', $QUALIFIED_MODULE)}
+							</div>
+							<div class="col-md-8 controls">
+								<select class="form-control" name="server">
+									{foreach key=key item=SERVER from=Settings_WebserviceApps_Module_Model::getServers()}
+										<option value="{$key}">{App\Purifier::encodeHtml($SERVER['name'])}</option>
+									{foreachelse}
 										<option value="-">{App\Language::translate('LBL_NONE')}</option>
 									{/foreach}
 								</select>

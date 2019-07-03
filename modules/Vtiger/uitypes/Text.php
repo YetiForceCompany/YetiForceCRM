@@ -22,7 +22,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
+	public function setValueFromRequest(App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
 		$fieldName = $this->getFieldModel()->getFieldName();
 		if (!$requestFieldName) {
@@ -41,11 +41,11 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
-		if (!is_string($value)) {
+		if (!\is_string($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$maximumLength = $this->getFieldModel()->get('maximumlength');
-		if ($maximumLength && strlen($value) > $maximumLength) {
+		if ($maximumLength && \strlen($value) > $maximumLength) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;
@@ -67,7 +67,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 		if (empty($value)) {
 			return '';
 		}
-		if (is_int($length)) {
+		if (\is_int($length)) {
 			$value = \App\TextParser::htmlTruncate($value, $length);
 		}
 		if ($rawText) {
@@ -108,7 +108,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getOperators()
+	public function getQueryOperators()
 	{
 		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
 	}

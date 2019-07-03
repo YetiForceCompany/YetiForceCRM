@@ -154,26 +154,55 @@ class Composer
 		if (isset($_SERVER['SENSIOLABS_EXECUTION_NAME'])) {
 			return true;
 		}
-		$rootDir = realpath(__DIR__ . '/../../') . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR;
+		$rootDir = realpath(__DIR__ . '/../../') . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR;
 		$types = ['js', 'css', 'woff', 'woff2', 'ttf', 'png', 'gif', 'jpg', 'json'];
 		foreach (static::$publicPackage as $package => $method) {
-			$src = 'vendor' . DIRECTORY_SEPARATOR . $package;
+			$src = 'vendor' . \DIRECTORY_SEPARATOR . $package;
 			foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
-				if ($item->isFile() && in_array($item->getExtension(), $types) && !file_exists($rootDir . $item->getPathname())) {
+				if ($item->isFile() && \in_array($item->getExtension(), $types) && !file_exists($rootDir . $item->getPathname())) {
 					if (!is_dir($rootDir . $item->getPath())) {
 						mkdir($rootDir . $item->getPath(), 0755, true);
 					}
 					if (!is_writable($rootDir . $item->getPath())) {
 						continue;
 					}
-					if ($method === 'move') {
+					if ('move' === $method) {
 						\rename($item->getRealPath(), $rootDir . $item->getPathname());
-					} elseif ($method === 'copy') {
+					} elseif ('copy' === $method) {
 						\copy($item->getRealPath(), $rootDir . $item->getPathname());
 					}
 				}
 			}
 		}
+		self::parseCreditsVue();
+	}
+
+	/**
+	 * Parse credits vue.
+	 */
+	public static function parseCreditsVue()
+	{
+		$rootDir = realpath(__DIR__ . '/../../') . \DIRECTORY_SEPARATOR;
+		$dirLibraries = $rootDir . 'public_html' . \DIRECTORY_SEPARATOR . 'src' . \DIRECTORY_SEPARATOR . 'node_modules' . \DIRECTORY_SEPARATOR;
+		$dataEncode = [];
+		if (!\is_dir($dirLibraries)) {
+			echo 'Skipping file generation libraries.json' . PHP_EOL;
+			return false;
+		}
+		foreach (new \DirectoryIterator($dirLibraries) as $level1) {
+			if ($level1->isDir() && !$level1->isDot()) {
+				$value = [];
+				try {
+					if ($getValues = Credits::parseLibraryVueValues($level1->getFilename(), $dirLibraries)) {
+						$value[$getValues['name']] = ['version' => $getValues['version'], 'license' => $getValues['license'], 'homepage' => $getValues['homepage']];
+						$dataEncode[] = $value;
+					}
+				} catch (\Exception $ex) {
+					\App\Log::warning($ex->getMessage());
+				}
+			}
+		}
+		\App\Json::save($rootDir . 'cache' . \DIRECTORY_SEPARATOR . 'libraries.json', $dataEncode);
 	}
 
 	/**
@@ -181,11 +210,11 @@ class Composer
 	 */
 	public static function clear()
 	{
-		$rootDir = realpath(__DIR__ . '/../../') . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR;
+		$rootDir = realpath(__DIR__ . '/../../') . \DIRECTORY_SEPARATOR . 'vendor' . \DIRECTORY_SEPARATOR;
 		$objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($rootDir), \RecursiveIteratorIterator::SELF_FIRST);
 		$deleted = [];
 		foreach ($objects as $object) {
-			if ($object->getFilename() === '.' || $object->getFilename() === '..') {
+			if ('.' === $object->getFilename() || '..' === $object->getFilename()) {
 				continue;
 			}
 			if ((\in_array(strtolower($object->getFilename()), self::$clearFiles)) && (is_dir($object->getPathname()) || file_exists($object->getPathname()))) {
@@ -197,7 +226,7 @@ class Composer
 		arsort($deleted);
 		foreach ($deleted as $delete) {
 			\vtlib\Functions::recurseDelete($delete, true);
-			$deletedCount++;
+			++$deletedCount;
 		}
 		foreach (new \DirectoryIterator($rootDir) as $level1) {
 			if ($level1->isDir() && !$level1->isDot()) {
@@ -206,7 +235,7 @@ class Composer
 						foreach (new \DirectoryIterator($level2->getPathname()) as $level3) {
 							if (isset(self::$clearFilesModule[$level1->getFileName() . '/' . $level2->getFilename()]) && !$level3->isDot() && \in_array(strtolower($level3->getFilename()), self::$clearFilesModule[$level1->getFileName() . '/' . $level2->getFilename()])) {
 								\vtlib\Functions::recurseDelete($level3->getPathname(), true);
-								$deletedCount++;
+								++$deletedCount;
 							}
 						}
 					}

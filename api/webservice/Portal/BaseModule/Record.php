@@ -1,14 +1,20 @@
 <?php
-
-namespace Api\Portal\BaseModule;
-
 /**
- * Get record detail class.
+ * The file contains: Get record detail class.
+ *
+ * @package Api
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author 		Arkadiusz Adach <a.adach@yetiforce.com>
+ */
+
+namespace Api\Portal\BaseModule;
+
+/**
+ * Get record detail class.
  */
 class Record extends \Api\Core\BaseAction
 {
@@ -47,7 +53,7 @@ class Record extends \Api\Core\BaseAction
 			$this->recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			switch ($method) {
 				case 'DELETE':
-					if (!$this->recordModel->privilegeToDelete()) {
+					if (!$this->recordModel->privilegeToMoveToTrash()) {
 						throw new \Api\Core\Exception('No permissions to remove record', 401);
 					}
 					break;
@@ -72,58 +78,65 @@ class Record extends \Api\Core\BaseAction
 	 *
 	 * @return array
 	 */
-	public function get()
+	public function get(): array
 	{
 		$moduleName = $this->controller->request->get('module');
 		$record = $this->controller->request->get('record');
-		$model = $this->recordModel;
-		$rawData = $model->getData();
-		$moduleModel = $model->getModule();
+		$rawData = $this->recordModel->getData();
 
 		$displayData = $fieldsLabel = [];
-		$moduleBlockFields = \Vtiger_Field_Model::getAllForModule($moduleModel);
-		foreach ($moduleBlockFields as $moduleFields) {
-			foreach ($moduleFields as $moduleField) {
-				$block = $moduleField->get('block');
-				if (empty($block)) {
-					continue;
-				}
-				$fieldLabel = \App\Language::translate($moduleField->get('label'), $moduleName);
-				$displayData[$moduleField->getName()] = $model->getDisplayValue($moduleField->getName(), $record, true);
-				$fieldsLabel[$moduleField->getName()] = $fieldLabel;
-				if ($moduleField->isReferenceField()) {
-					$refereneModule = $moduleField->getUITypeModel()->getReferenceModule($model->get($moduleField->getName()));
-					$rawData[$moduleField->getName() . '_module'] = $refereneModule ? $refereneModule->getName() : null;
-				}
+		foreach ($this->recordModel->getModule()->getFields() as $moduleField) {
+			if (!$moduleField->isActiveField()) {
+				continue;
+			}
+			$displayData[$moduleField->getName()] = $this->recordModel->getDisplayValue($moduleField->getName(), $record, true);
+			$fieldsLabel[$moduleField->getName()] = \App\Language::translate($moduleField->get('label'), $moduleName);
+			if ($moduleField->isReferenceField()) {
+				$referenceModule = $moduleField->getUITypeModel()->getReferenceModule($this->recordModel->get($moduleField->getName()));
+				$rawData[$moduleField->getName() . '_module'] = $referenceModule ? $referenceModule->getName() : null;
+			}
+			if ('taxes' === $moduleField->getFieldDataType()) {
+				$rawData[$moduleField->getName() . '_info'] = \Vtiger_Taxes_UIType::getValues($rawData[$moduleField->getName()]);
 			}
 		}
 
-		$inventory = false;
-		if ($model->getModule()->isInventory()) {
-			$rawInventory = $model->getInventoryData();
-			$inventory = [];
+		$response = [
+			'name' => $this->recordModel->getName(),
+			'id' => $this->recordModel->getId(),
+			'fields' => $fieldsLabel,
+			'data' => $displayData,
+			'privileges' => [
+				'isEditable' => $this->recordModel->isEditable(),
+				'moveToTrash' => $this->recordModel->privilegeToDelete()
+			]
+		];
+
+		if ($this->recordModel->getModule()->isInventory()) {
+			$rawInventory = $this->recordModel->getInventoryData();
+			$inventory = $summaryInventory = [];
 			$inventoryModel = \Vtiger_Inventory_Model::getInstance($moduleName);
 			$inventoryFields = $inventoryModel->getFields();
 			foreach ($rawInventory as $row) {
 				$inventoryRow = [];
 				foreach ($inventoryFields as $name => $field) {
-					$inventoryRow[$name] = $field->getDisplayValue($row[$name]);
+					$inventoryRow[$name] = $field->getDisplayValue($row[$name], $row, true);
 				}
 				$inventory[] = $inventoryRow;
 			}
+			foreach ($inventoryFields as $name => $field) {
+				if ($field->isSummary()) {
+					$summaryInventory[$name] = \CurrencyField::convertToUserFormat($field->getSummaryValuesFromData($rawInventory), null, true);
+				}
+			}
+			$response['inventory'] = $inventory;
+			$response['summaryInventory'] = $summaryInventory;
 		}
-		$resposne = [
-			'name' => $model->getName(),
-			'id' => $model->getId(),
-			'fields' => $fieldsLabel,
-			'data' => $displayData,
-			'inventory' => $inventory,
-		];
-		if ((int) $this->controller->headers['x-raw-data'] === 1) {
-			$resposne['rawData'] = $rawData;
-			$resposne['rawInventory'] = $rawInventory;
+
+		if (1 === (int) $this->controller->headers['x-raw-data']) {
+			$response['rawData'] = $rawData;
+			$response['rawInventory'] = $rawInventory;
 		}
-		return $resposne;
+		return $response;
 	}
 
 	/**
@@ -131,9 +144,9 @@ class Record extends \Api\Core\BaseAction
 	 *
 	 * @return bool
 	 */
-	public function delete()
+	public function delete(): bool
 	{
-		$this->recordModel->delete();
+		$this->recordModel->changeState('Trash');
 
 		return true;
 	}
@@ -155,11 +168,7 @@ class Record extends \Api\Core\BaseAction
 	 */
 	public function post()
 	{
-		$moduleName = $this->controller->request->getModule();
-		$modelClassName = \Vtiger_Loader::getComponentClassName('Action', 'Save', $moduleName);
-		$saveClass = new $modelClassName();
-		$model = $saveClass->saveRecord($this->controller->request);
-
+		$model = (new \Api\Portal\Save($this->controller->app['id']))->saveRecord($this->controller->request);
 		return ['id' => $model->getId()];
 	}
 }

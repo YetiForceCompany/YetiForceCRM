@@ -3,9 +3,13 @@
 /**
  * Detail View Model for KnowledgeBase.
  *
+ * @package Model
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 class KnowledgeBase_DetailView_Model extends Vtiger_DetailView_Model
 {
@@ -18,20 +22,16 @@ class KnowledgeBase_DetailView_Model extends Vtiger_DetailView_Model
 		$moduleName = $recordModel->getModuleName();
 		$relatedLinkEntries = [
 			[
-				'linktype' => 'DETAILVIEWTAB',
-				'linklabel' => \App\Language::translate('LBL_RECORD_PREVIEW', $moduleName),
-				'linkKey' => 'LBL_RECORD_PREVIEW',
-				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showPreview',
-				'linkicon' => '',
-				'related' => 'Summary',
-			],
-			[
 				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
-				'linkurl' => 'javascript:KnowledgeBase_Detail_Js.showPresentation();',
+				'linkdata' => [
+					'id' => $recordModel->getId(),
+					'module-name' => $moduleName
+				],
+				'vueId' => 'ArticlePreview',
 				'linkicon' => 'fas fa-expand',
-				'title' => \App\Language::translate('LBL_FULL_SCREEN', $moduleName),
-				'linkhint' => \App\Language::translate('LBL_FULL_SCREEN', $moduleName),
-				'linkclass' => 'btn-outline-dark btn-sm',
+				'title' => \App\Language::translate('LBL_GO_TO_PREVIEW', $moduleName),
+				'linkhint' => \App\Language::translate('LBL_GO_TO_PREVIEW', $moduleName),
+				'linkclass' => 'btn-outline-dark btn-sm js-show-article-preview',
 			],
 		];
 		$relatedLinks = [];

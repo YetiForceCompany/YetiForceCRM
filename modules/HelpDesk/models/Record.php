@@ -35,36 +35,6 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Update ticket range time field.
-	 *
-	 * @param Vtiger_Record_Model $recordModel
-	 * @param bool                $updateFieldImmediately
-	 */
-	public static function updateTicketRangeTimeField($recordModel, $updateFieldImmediately = false)
-	{
-		if (!$recordModel->isNew() && ($recordModel->getPreviousValue('ticketstatus') || $updateFieldImmediately)) {
-			$currentDate = date('Y-m-d H:i:s');
-			if (in_array($recordModel->get('ticketstatus'), ['Closed', 'Rejected'])) {
-				$currentDate = null;
-			}
-			\App\Db::getInstance()->createCommand()
-				->update('vtiger_troubletickets', [
-					'response_time' => $currentDate,
-				], ['ticketid' => $recordModel->getId()])
-				->execute();
-		}
-		$closedTime = $recordModel->get('closedtime');
-		if (!empty($closedTime) && $recordModel->has('report_time')) {
-			$timeMinutesRange = round(\App\Fields\Date::getDiff($recordModel->get('createdtime'), $closedTime, 'minutes'));
-			if (!empty($timeMinutesRange)) {
-				App\Db::getInstance()->createCommand()
-					->update('vtiger_troubletickets', ['report_time' => $timeMinutesRange], ['ticketid' => $recordModel->getId()])
-					->execute();
-			}
-		}
-	}
-
-	/**
 	 * Get active service contracts.
 	 *
 	 * @return array
@@ -87,8 +57,30 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 		parent::saveToDb();
 		$forModule = \App\Request::_get('return_module');
 		$forCrmid = \App\Request::_get('return_id');
-		if (\App\Request::_get('return_action') && $forModule && $forCrmid && $forModule === 'ServiceContracts') {
+		if (\App\Request::_get('return_action') && $forModule && $forCrmid && 'ServiceContracts' === $forModule) {
 			CRMEntity::getInstance($forModule)->saveRelatedModule($forModule, $forCrmid, \App\Request::_get('module'), $this->getId());
 		}
+	}
+
+	/**
+	 * Function returns the details of Hierarchy.
+	 *
+	 * @return array
+	 */
+	public function getHierarchyDetails(): array
+	{
+		$moduleModel = \Vtiger_Module_Model::getInstance($this->getModuleName());
+		$hierarchy = $moduleModel->getHierarchy($this->getId());
+		foreach ($hierarchy['entries'] as $id => $info) {
+			preg_match('/<a href="+/', $info[0], $matches);
+			if (!empty($matches)) {
+				preg_match('/[.\s]+/', $info[0], $dashes);
+				preg_match('/<a(.*)>(.*)<\\/a>/i', $info[0], $name);
+				$recordModel = Vtiger_Record_Model::getCleanInstance('HelpDesk');
+				$recordModel->setId($id);
+				$hierarchy['entries'][$id][0] = $dashes[0] . '<a href=' . $recordModel->getDetailViewUrl() . '>' . $name[2] . '</a>';
+			}
+		}
+		return $hierarchy;
 	}
 }

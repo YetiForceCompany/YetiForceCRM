@@ -57,46 +57,6 @@ class Products extends CRMEntity
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['createdtime', 'modifiedtime', 'productname', 'assigned_user_id'];
-	// Josh added for importing and exporting -added in patch2
-	public $unit_price;
-
-	/**
-	 * Move the related records of the specified list of id's to the given record.
-	 *
-	 * @param string This module name
-	 * @param array List of Entity Id's from which related records need to be transfered
-	 * @param int Id of the the Record to which the related records are to be moved
-	 */
-	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
-	{
-		$dbCommand = \App\Db::getInstance()->createCommand();
-		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
-		$relTableArr = ['HelpDesk' => 'vtiger_troubletickets', 'Products' => 'vtiger_seproductsrel', 'Attachments' => 'vtiger_seattachmentsrel',
-			'PriceBooks' => 'vtiger_pricebookproductrel', 'Leads' => 'vtiger_seproductsrel',
-			'Accounts' => 'vtiger_seproductsrel', 'Contacts' => 'vtiger_seproductsrel',
-			'Documents' => 'vtiger_senotesrel', 'Assets' => 'vtiger_assets', ];
-		$tblFieldArr = ['vtiger_troubletickets' => 'ticketid', 'vtiger_seproductsrel' => 'crmid', 'vtiger_seattachmentsrel' => 'attachmentsid',
-			'vtiger_inventoryproductrel' => 'id', 'vtiger_pricebookproductrel' => 'pricebookid', 'vtiger_seproductsrel' => 'crmid',
-			'vtiger_senotesrel' => 'notesid', 'vtiger_assets' => 'assetsid', ];
-		$entityTblFieldArr = ['vtiger_troubletickets' => 'product_id', 'vtiger_seproductsrel' => 'crmid', 'vtiger_seattachmentsrel' => 'crmid',
-			'vtiger_inventoryproductrel' => 'productid', 'vtiger_pricebookproductrel' => 'productid', 'vtiger_seproductsrel' => 'productid',
-			'vtiger_senotesrel' => 'crmid', 'vtiger_assets' => 'product', ];
-		foreach ($transferEntityIds as $transferId) {
-			foreach ($relTableArr as $relTable) {
-				$idField = $tblFieldArr[$relTable];
-				$entityIdField = $entityTblFieldArr[$relTable];
-				// IN clause to avoid duplicate entries
-				$subQuery = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $entityId]);
-				$query = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $transferId])->andWhere(['not in', $idField, $subQuery]);
-				$dataReader = $query->createCommand()->query();
-				while ($idFieldValue = $dataReader->readColumn(0)) {
-					$dbCommand->update($relTable, [$entityIdField => $entityId], [$entityIdField => $transferId, $idField => $idFieldValue])->execute();
-				}
-				$dataReader->close();
-			}
-		}
-		\App\Log::trace('Exiting transferRelatedRecords...');
-	}
 
 	/**
 	 * Function to get the relation tables for related modules.
@@ -108,7 +68,6 @@ class Products extends CRMEntity
 	{
 		$relTables = [
 			'HelpDesk' => ['vtiger_troubletickets' => ['product_id', 'ticketid'], 'vtiger_products' => 'productid'],
-			'Quotes' => ['vtiger_inventoryproductrel' => ['productid', 'id'], 'vtiger_products' => 'productid'],
 			'Leads' => ['vtiger_seproductsrel' => ['productid', 'crmid'], 'vtiger_products' => 'productid'],
 			'Accounts' => ['vtiger_seproductsrel' => ['productid', 'crmid'], 'vtiger_products' => 'productid'],
 			'Contacts' => ['vtiger_seproductsrel' => ['productid', 'crmid'], 'vtiger_products' => 'productid'],
@@ -139,7 +98,7 @@ class Products extends CRMEntity
 
 	public function saveRelatedModule($module, $crmid, $withModule, $withCrmIds, $relatedName = false)
 	{
-		if (!is_array($withCrmIds)) {
+		if (!\is_array($withCrmIds)) {
 			$withCrmIds = [$withCrmIds];
 		}
 		foreach ($withCrmIds as $withCrmId) {
@@ -153,7 +112,7 @@ class Products extends CRMEntity
 					'listprice' => 0,
 					'usedcurrency' => Vtiger_Record_Model::getInstanceById($withCrmId, $withModule)->get('currency_id')
 				])->execute();
-			} elseif (in_array($withModule, ['Leads', 'Accounts', 'Contacts', 'Products'])) {
+			} elseif (\in_array($withModule, ['Leads', 'Accounts', 'Contacts', 'Products'])) {
 				if ('Products' === $withModule && (new App\Db\Query())->from('vtiger_seproductsrel')->where(['productid' => $withCrmId])->exists()) {
 					continue;
 				}

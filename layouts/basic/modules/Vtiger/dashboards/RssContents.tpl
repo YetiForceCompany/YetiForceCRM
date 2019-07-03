@@ -12,7 +12,7 @@
 		<tbody>
 		{foreach from=$LIST_SUCJECTS item=SUBJECT}
 			<tr>
-				<td><a href="{$SUBJECT['link']}"><strong
+				<td><a href="{\App\Purifier::encodeHtml($SUBJECT['link'])}"><strong
 								title="{\App\Purifier::encodeHtml($SUBJECT['fullTitle'])}">{\App\Purifier::encodeHtml($SUBJECT['title'])}</strong></a>
 				</td>
 				<td>{\App\Purifier::encodeHtml($SUBJECT['source'])}</td>

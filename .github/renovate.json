@@ -1,0 +1,16 @@
+{
+	"extends": ["config:base"],
+	"rangeStrategy": "update-lockfile",
+	"assignees": ["mariuszkrzaczkowski", "rskrzypczak", "TomaszQr"],
+	"packageRules": [
+		{
+			"baseBranchList": ["developer"],
+			"enabled": true,
+			"schedule": [
+				"after 10pm every weekday",
+				"before 5am every weekday",
+				"every weekend"
+			]
+		}
+	]
+}

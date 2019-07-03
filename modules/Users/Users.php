@@ -25,7 +25,6 @@
  * Contributor(s): YetiForce.com.
  * ****************************************************************************** */
 
-require_once 'include/database/PearDatabase.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/fields/DateTimeField.php';
 require_once 'include/fields/DateTimeRange.php';
@@ -256,7 +255,7 @@ class Users extends CRMEntity
 		if ($cache->getAdminUserId()) {
 			return $cache->getAdminUserId();
 		} else {
-			if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+			if (App\Config::performance('ENABLE_CACHING_USERS')) {
 				$users = \App\PrivilegeFile::getUser('id');
 				foreach ($users as $id => $user) {
 					if ($user['status'] == 'Active' && $user['is_admin'] == 'on') {

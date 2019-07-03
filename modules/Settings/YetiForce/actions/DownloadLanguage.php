@@ -28,7 +28,7 @@ class Settings_YetiForce_DownloadLanguage_Action extends Settings_Vtiger_Save_Ac
 		$message = \App\Language::translate('LBL_DOWNLOADED_LANGUAGE', $request->getModule(false));
 		$responseType = 'success';
 		if (!$result) {
-			$message = App\Language::translate(\App\Installer\Languages::getLastErrorMessage(), $request->getModule(false));
+			$message = App\Language::translate(\App\Installer\Languages::getLastErrorMessage(), 'Other:Exceptions');
 			$responseType = 'error';
 		}
 		$response = new Vtiger_Response();

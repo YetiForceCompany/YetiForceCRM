@@ -23,7 +23,7 @@ class HelpDeskWorkflow
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_crmentityrel', $queryGenerator->getColumnName('id') . '=vtiger_crmentityrel.relcrmid']);
 		$queryGenerator->addNativeCondition(['and', ['vtiger_crmentityrel.crmid' => $id], ['vtiger_crmentityrel.module' => 'HelpDesk']]);
 		$queryGenerator->addCondition('email', '', 'ny');
-		if (AppConfig::module('HelpDesk', 'CONTACTS_CHECK_EMAIL_OPTOUT')) {
+		if (App\Config::module('HelpDesk', 'CONTACTS_CHECK_EMAIL_OPTOUT')) {
 			$queryGenerator->addCondition('emailoptout', 1, 'e');
 		}
 		return $queryGenerator->createQuery()->column();

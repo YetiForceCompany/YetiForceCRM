@@ -24,7 +24,7 @@ class Vendors_ListView_Model extends Vtiger_ListView_Model
 		$moduleModel = $this->getModule();
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$massActionLinks = [];
-		if ($moduleModel->isPermitted('MassComposeEmail') && AppConfig::main('isActiveSendingMails') && App\Mail::getDefaultSmtp()) {
+		if ($moduleModel->isPermitted('MassComposeEmail') && App\Config::main('isActiveSendingMails') && App\Mail::getDefaultSmtp()) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_SEND_EMAIL',

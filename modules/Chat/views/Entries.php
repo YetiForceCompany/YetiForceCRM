@@ -66,7 +66,7 @@ class Chat_Entries_View extends \App\Controller\View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CHAT_ENTRIES', $chatEntries);
 		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
-		$viewer->assign('SHOW_MORE_BUTTON', count($chatEntries) > \AppConfig::module('Chat', 'CHAT_ROWS_LIMIT'));
+		$viewer->assign('SHOW_MORE_BUTTON', count($chatEntries) > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT'));
 		echo $viewer->view('Entries.tpl', $request->getModule(), true);
 	}
 
@@ -105,7 +105,7 @@ class Chat_Entries_View extends \App\Controller\View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
 		$viewer->assign('CHAT_ENTRIES', $chatEntries);
-		$viewer->assign('SHOW_MORE_BUTTON', $numberOfEntries > \AppConfig::module('Chat', 'CHAT_ROWS_LIMIT'));
+		$viewer->assign('SHOW_MORE_BUTTON', $numberOfEntries > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT'));
 		if (!$request->has('lastId')) {
 			$viewer->assign('PARTICIPANTS', $chat->getParticipants());
 		}
@@ -128,7 +128,7 @@ class Chat_Entries_View extends \App\Controller\View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
 		$viewer->assign('CHAT_ENTRIES', $chatEntries);
-		$viewer->assign('SHOW_MORE_BUTTON', count($chatEntries) > \AppConfig::module('Chat', 'CHAT_ROWS_LIMIT'));
+		$viewer->assign('SHOW_MORE_BUTTON', count($chatEntries) > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT'));
 		$viewer->view('Entries.tpl', $request->getModule());
 	}
 
@@ -151,7 +151,7 @@ class Chat_Entries_View extends \App\Controller\View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
 		$viewer->assign('CHAT_ENTRIES', $chatEntries);
-		$viewer->assign('SHOW_MORE_BUTTON', count($chatEntries) > \AppConfig::module('Chat', 'CHAT_ROWS_LIMIT'));
+		$viewer->assign('SHOW_MORE_BUTTON', count($chatEntries) > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT'));
 		$viewer->view('Entries.tpl', $request->getModule());
 	}
 
@@ -177,7 +177,7 @@ class Chat_Entries_View extends \App\Controller\View
 		$viewer->assign('CHAT_ENTRIES', $chatEntries);
 		$viewer->assign('CURRENT_ROOM', ['roomType' => 'crm', 'recordId' => $recordModel->getId()]);
 		$viewer->assign('PARTICIPANTS', $chat->getParticipants());
-		$viewer->assign('SHOW_MORE_BUTTON', count($chatEntries) > \AppConfig::module('Chat', 'CHAT_ROWS_LIMIT'));
+		$viewer->assign('SHOW_MORE_BUTTON', count($chatEntries) > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT'));
 		$viewer->assign('MODULE_NAME', 'Chat');
 		$viewer->assign('CHAT', $chat);
 		$viewer->assign('VIEW_FOR_RECORD', true);
@@ -207,7 +207,7 @@ class Chat_Entries_View extends \App\Controller\View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CURRENT_ROOM', \App\Chat::getCurrentRoom());
 		$viewer->assign('CHAT_ENTRIES', $chatEntries);
-		$viewer->assign('SHOW_MORE_BUTTON', count($chatEntries) > \AppConfig::module('Chat', 'CHAT_ROWS_LIMIT'));
+		$viewer->assign('SHOW_MORE_BUTTON', count($chatEntries) > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT'));
 		$viewer->view('Entries.tpl', $request->getModule());
 	}
 
@@ -225,7 +225,7 @@ class Chat_Entries_View extends \App\Controller\View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSessionExtend()
+	public function isSessionExtend(\App\Request $request)
 	{
 		return false;
 	}

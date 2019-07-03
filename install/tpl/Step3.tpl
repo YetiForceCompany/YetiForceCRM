@@ -167,7 +167,7 @@
 									</tr>
 									<tr>
 										<td>
-											<label for="first-name">{\App\Language::translate('First Name', 'Install')}</label>
+											<label for="first-name">{\App\Language::translate('LBL_FIRST_NAME', 'Install')}</label>
 										</td>
 										<td><input id="first-name" type="text" class="form-control"
 												   value="{$ADMIN_FIRSTNAME}"
@@ -175,7 +175,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td><label for="last-name">{\App\Language::translate('Last Name', 'Install')}
+										<td><label for="last-name">{\App\Language::translate('LBL_LAST_NAME', 'Install')}
 												<span
 														class="no">*</span></label>
 										</td>

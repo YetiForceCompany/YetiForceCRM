@@ -25,8 +25,8 @@ class Module
 			return static::$permittedModules;
 		}
 		$modules = [];
-		foreach (\vtlib\Functions::getAllModules(true, false, 0) as $value) {
-			if (\App\Privilege::isPermitted($value['name'])) {
+		foreach (\vtlib\Functions::getAllModules(false, false, 0) as $value) {
+			if (\Api\Portal\Privilege::isPermitted($value['name'])) {
 				$modules[$value['name']] = \App\Language::translate($value['name'], $value['name']);
 			}
 		}
@@ -45,6 +45,25 @@ class Module
 		if (isset(static::$permittedModules)) {
 			return isset(static::$permittedModules[$moduleName]);
 		}
-		return \App\Privilege::isPermitted($moduleName);
+		return \Api\Portal\Privilege::isPermitted($moduleName);
+	}
+
+	/**
+	 * Returns info about field to permission for record.
+	 *
+	 * @param string $moduleName
+	 * @param int    $serverId
+	 *
+	 * @return array|false
+	 */
+	public static function getApiFieldPermission(string $moduleName, int $serverId)
+	{
+		$cacheName = $moduleName . $serverId;
+		if (\App\Cache::has('API-FieldPermission', $cacheName)) {
+			return \App\Cache::get('API-FieldPermission', $cacheName);
+		}
+		$fieldInfo = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => \App\Module::getModuleId($moduleName), 'uitype' => 318, 'fieldparams' => $serverId])->one();
+		\App\Cache::save('API-FieldPermission', $cacheName, $fieldInfo, \App\Cache::LONG);
+		return $fieldInfo;
 	}
 }

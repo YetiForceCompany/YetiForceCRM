@@ -107,8 +107,7 @@ class Purifier extends \Tests\Base
 			['Date', 'NotSame', '201X-07-26', '201X-07-26', 'Sample text should be purified', \App\Exceptions\IllegalValue::class],
 			['Time', 'Same', date('H:i:s'), date('H:i:s'), 'Sample text should be unchanged', false],
 			['Time', 'NotSame', '24:12:20', '24:12:20', 'Sample text should be unchanged', \App\Exceptions\IllegalValue::class],
-			['TimeInUserFormat', 'Same', date('H:i:00'), date('H:i'), 'Sample text should be unchanged', false],
-			['TimeInUserFormat', 'NotSame', '24:12:00', '24:12', 'Sample text should be unchanged', \App\Exceptions\IllegalValue::class],
+			['TimeInUserFormat', 'Same', date('H:i'), date('H:i'), 'Sample text should be unchanged', false],
 			['Bool', 'Same', true, true, 'Sample text should be unchanged', false],
 			['Bool', 'NotSame', 'Test-text', 'Test-text', 'Sample text should be purified', \App\Exceptions\IllegalValue::class],
 			['NumberInUserFormat', 'Same', 1234567890.0, '1234567890', 'Sample text should be unchanged and converted to decimal', false],
@@ -157,17 +156,22 @@ class Purifier extends \Tests\Base
 
 	/**
 	 * @param string       $type
-	 * @param string|false $textOk
-	 * @param string|false $textBad
+	 * @param false|string $textOk
+	 * @param false|string $textBad
+	 * @param mixed        $assertion
+	 * @param mixed        $expected
+	 * @param mixed        $text
+	 * @param mixed        $message
+	 * @param mixed        $exception
 	 * @dataProvider dataProviderByType
 	 */
-	public function testPurifyByType($type, $assertion, $expected = 'NOT_SET', $text, $message, $exception)
+	public function testPurifyByType($type, $assertion, $expected, $text, $message, $exception)
 	{
 		$assertion = 'assert' . $assertion;
 		if ($exception) {
 			$this->expectException($exception);
 		}
-		$this->$assertion($expected, \App\Purifier::purifyByType($text, $type), $message);
+		$this->{$assertion}($expected, \App\Purifier::purifyByType($text, $type), "$message | $expected | $type | $assertion | $text");
 	}
 
 	/**
@@ -193,6 +197,10 @@ class Purifier extends \Tests\Base
 	 * Testing html purifier.
 	 *
 	 * @dataProvider purifyHtmlProvider
+	 *
+	 * @param mixed $text
+	 * @param mixed $expected
+	 * @param mixed $notThrowException
 	 */
 	public function testPurifyHtml($text, $expected, $notThrowException)
 	{

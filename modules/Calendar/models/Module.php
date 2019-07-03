@@ -1,5 +1,5 @@
 <?php
-/* +***********************************************************************************
+ /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -32,7 +32,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	public function getCalendarViewName()
 	{
 		$returnView = 'Calendar';
-		if ('Standard' !== $calendarView = AppConfig::module('Calendar', 'CALENDAR_VIEW')) {
+		if ('Standard' !== $calendarView = App\Config::module('Calendar', 'CALENDAR_VIEW')) {
 			$returnView .= $calendarView;
 		}
 		return $returnView;
@@ -87,7 +87,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			'linkicon' => 'fas fa-list',
 		]);
 		if (isset($linkParams['ACTION']) && 'Calendar' === $linkParams['ACTION']) {
-			if (AppConfig::module('Calendar', 'SHOW_LIST_BUTTON')) {
+			if (App\Config::module('Calendar', 'SHOW_LIST_BUTTON')) {
 				$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'SIDEBARLINK',
 					'linklabel' => 'LBL_CALENDAR_LIST',
@@ -133,6 +133,9 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function to get export query.
 	 *
+	 * @param mixed $focus
+	 * @param mixed $where
+	 *
 	 * @return string query;
 	 */
 	public function getExportQuery($focus = '', $where = '')
@@ -153,7 +156,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$keysValuesToReplace = ['taskpriority' => 'priority'];
 		foreach ($this->getFields() as $fieldName => $fieldModel) {
 			if ($fieldModel->getPermissions()) {
-				if (!in_array($fieldName, $keysToReplace)) {
+				if (!\in_array($fieldName, $keysToReplace)) {
 					$eventFields[$fieldName] = 'yes';
 				} else {
 					$eventFields[$keysValuesToReplace[$fieldName]] = 'yes';
@@ -172,7 +175,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$keysValuesToReplace = ['taskpriority' => 'priority', 'activitystatus' => 'status'];
 		foreach ($this->getFields() as $fieldName => $fieldModel) {
 			if ($fieldModel->getPermissions()) {
-				if (!in_array($fieldName, $keysToReplace)) {
+				if (!\in_array($fieldName, $keysToReplace)) {
 					$todoFields[$fieldName] = 'yes';
 				} else {
 					$todoFields[$keysValuesToReplace[$fieldName]] = 'yes';
@@ -184,6 +187,8 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get the url to view Details for the module.
+	 *
+	 * @param mixed $id
 	 *
 	 * @return string - url
 	 */
@@ -221,7 +226,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				->andWhere(['or', ['and', ['vtiger_activity_reminder_popup.status' => Calendar_Record_Model::REMNDER_POPUP_ACTIVE], ['<=', 'vtiger_activity_reminder_popup.datetime', $time]], ['and', ['vtiger_activity_reminder_popup.status' => Calendar_Record_Model::REMNDER_POPUP_WAIT], ['<=', 'vtiger_activity_reminder_popup.datetime', date('Y-m-d H:i:s')]]])
 				->orderBy(['vtiger_activity_reminder_popup.datetime' => SORT_DESC])
 				->distinct()
-				->limit(20);
+				->limit(\App\Config::module('Calendar', 'maxNumberCalendarNotifications', 20));
 			$dataReader = $query->createCommand()->query();
 			while ($recordId = $dataReader->readColumn(0)) {
 				$recordModels[] = Vtiger_Record_Model::getInstanceById($recordId, 'Calendar');
@@ -240,16 +245,16 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	public function getFieldsByType($type)
 	{
 		$restrictedField = ['picklist' => ['activitystatus', 'visibility', 'duration_minutes']];
-		if (!is_array($type)) {
+		if (!\is_array($type)) {
 			$type = [$type];
 		}
 		$fields = $this->getFields();
 		$fieldList = [];
 		foreach ($fields as $field) {
 			$fieldType = $field->getFieldDataType();
-			if (in_array($fieldType, $type)) {
+			if (\in_array($fieldType, $type)) {
 				$fieldName = $field->getName();
-				if ($fieldType == 'picklist' && in_array($fieldName, $restrictedField[$fieldType])) {
+				if ('picklist' == $fieldType && \in_array($fieldName, $restrictedField[$fieldType])) {
 				} else {
 					$fieldList[$fieldName] = $field;
 				}
@@ -286,10 +291,12 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get orderby sql from orderby field.
+	 *
+	 * @param mixed $orderBy
 	 */
 	public function getOrderBySql($orderBy)
 	{
-		if ($orderBy == 'status') {
+		if ('status' == $orderBy) {
 			return $orderBy;
 		}
 		return parent::getOrderBySql($orderBy);
@@ -304,7 +311,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	{
 		if ($data) {
 			$activityStatus = $data['activitystatus'];
-			if (in_array($activityStatus, self::getComponentActivityStateLabel('history'))) {
+			if (\in_array($activityStatus, self::getComponentActivityStateLabel('history'))) {
 				return false;
 			}
 			$dueDateTime = $data['due_date'] . ' ' . $data['time_end'];
@@ -345,7 +352,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	public static function getComponentActivityStateLabel($key = '')
 	{
 		$pickListValues = App\Fields\Picklist::getValuesName('activitystatus');
-		if (!is_array($pickListValues)) {
+		if (!\is_array($pickListValues)) {
 			return [];
 		}
 		$componentsActivityState = [];
@@ -373,9 +380,9 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 					break;
 			}
 		}
-		if ($key == 'current') {
+		if ('current' == $key) {
 			$componentsActivityState = ['PLL_PLANNED', 'PLL_IN_REALIZATION', 'PLL_OVERDUE'];
-		} elseif ($key == 'history') {
+		} elseif ('history' == $key) {
 			$componentsActivityState = ['PLL_COMPLETED', 'PLL_POSTPONED', 'PLL_CANCELLED'];
 		} elseif ($key) {
 			return $componentsActivityState[$key];
@@ -395,7 +402,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	public function importICS(string $filePath)
 	{
 		$userId = \App\User::getCurrentUserRealId();
-		$lastImport = new IcalLastImport();
+		$lastImport = new ICalLastImport();
 		$lastImport->clearRecords($userId);
 		$eventModule = 'Events';
 		$todoModule = 'Calendar';
@@ -404,14 +411,15 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		foreach ($calendar->getRecordInstance() as $recordModel) {
 			$recordModel->set('assigned_user_id', $userId);
 			$recordModel->save();
-			if ((string) $calendar->getComponent()->name === 'VEVENT') {
+			$calendar->recordSaveAttendee($recordModel);
+			if ('VEVENT' === (string) $calendar->getComponent()->name) {
 				$module = $eventModule;
 			} else {
 				$module = $todoModule;
 			}
 			if ($recordModel->getId()) {
 				++$totalCount[$module];
-				$lastImport = new IcalLastImport();
+				$lastImport = new ICalLastImport();
 				$lastImport->setFields(['userid' => $userId, 'entitytype' => $this->getName(), 'crmid' => $recordModel->getId()]);
 				$lastImport->save();
 			} else {

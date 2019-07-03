@@ -135,7 +135,7 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 				}
 			}
 		}
-		if ($editViewLayout = (1 === $moduleModel->getModuleType() && \AppConfig::performance('INVENTORY_EDIT_VIEW_LAYOUT'))) {
+		if ($editViewLayout = (1 === $moduleModel->getModuleType() && \App\Config::performance('INVENTORY_EDIT_VIEW_LAYOUT'))) {
 			$recordStructureRight = [];
 			foreach ($moduleModel->getFieldsByType('text') as $field) {
 				if (isset($recordStructure[$field->getBlockName()][$field->getName()])) {
@@ -157,7 +157,7 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Vtiger_Util_Helper::getMaxUploadSize());
-		$viewer->assign('MAX_UPLOAD_LIMIT', \AppConfig::main('upload_maxsize'));
+		$viewer->assign('MAX_UPLOAD_LIMIT', \App\Config::main('upload_maxsize'));
 		$viewer->view('EditView.tpl', $moduleName);
 	}
 

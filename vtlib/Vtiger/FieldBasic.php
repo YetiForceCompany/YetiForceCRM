@@ -1,5 +1,5 @@
 <?php
-/* +**********************************************************************************
+ /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -87,14 +87,6 @@ class FieldBasic
 	public static $__cacheSchemaChanges = [];
 
 	/**
-	 * Get unique id for this instance.
-	 */
-	public function __getUniqueId()
-	{
-		return \App\Db::getInstance()->getUniqueID('vtiger_field');
-	}
-
-	/**
 	 * Get next sequence id to use within a block for this instance.
 	 */
 	public function __getNextSequence()
@@ -126,17 +118,17 @@ class FieldBasic
 	 * Create this field instance.
 	 *
 	 * @param vtlib\Block Instance of the block to use
+	 * @param mixed $blockInstance
 	 */
 	public function __create($blockInstance)
 	{
 		$db = \App\Db::getInstance();
 		$this->block = $blockInstance;
 		$moduleInstance = $this->getModuleInstance();
-		$this->id = $this->__getUniqueId();
 		if (!$this->sequence) {
 			$this->sequence = $this->__getNextSequence();
 		}
-		if ($this->quickcreate != 1) { // If enabled for display
+		if (1 != $this->quickcreate) { // If enabled for display
 			if (!$this->quicksequence) {
 				$this->quicksequence = $this->__getNextQuickCreateSequence();
 			}
@@ -159,7 +151,7 @@ class FieldBasic
 		}
 		if (!empty($this->columntype)) {
 			Utils::addColumn($this->table, $this->column, $this->columntype);
-			if ($this->uitype === 10) {
+			if (10 === $this->uitype) {
 				$nameIndex = "{$this->table}_{$this->column}_idx";
 				$indexes = $db->getSchema()->getTableIndexes($this->table, true);
 				$isCreateIndex = true;
@@ -180,7 +172,6 @@ class FieldBasic
 		}
 		$db->createCommand()->insert('vtiger_field', [
 			'tabid' => $this->getModuleId(),
-			'fieldid' => $this->id,
 			'columnname' => $this->column,
 			'tablename' => $this->table,
 			'generatedtype' => (int) ($this->generatedtype),
@@ -204,6 +195,7 @@ class FieldBasic
 			'masseditable' => $this->masseditable,
 			'visible' => $this->visible,
 		])->execute();
+		$this->id = (int) $db->getLastInsertID('vtiger_field_fieldid_seq');
 		Profile::initForField($this);
 		$this->clearCache();
 		\App\Log::trace("Creating field $this->name ... DONE", __METHOD__);
@@ -214,7 +206,7 @@ class FieldBasic
 	 */
 	public function createAdditionalField()
 	{
-		if ($this->uitype === 11) {
+		if (11 === $this->uitype) {
 			$fieldInstance = new Field();
 			$fieldInstance->name = $this->name . '_extra';
 			$fieldInstance->table = $this->table;
@@ -241,7 +233,7 @@ class FieldBasic
 		Profile::deleteForField($this);
 		$db = \App\Db::getInstance();
 		$db->createCommand()->delete('vtiger_field', ['fieldid' => $this->id])->execute();
-		if ($this->uitype === 10) {
+		if (10 === $this->uitype) {
 			$db->createCommand()->delete('vtiger_fieldmodulerel', ['fieldid' => $this->id])->execute();
 			$nameIndex = "{$this->table}_{$this->column}_idx";
 			$indexes = $db->getSchema()->getTableIndexes($this->table, true);
@@ -251,9 +243,9 @@ class FieldBasic
 					break;
 				}
 			}
-		} elseif ($this->uitype === 11) {
+		} elseif (11 === $this->uitype) {
 			$rowExtra = (new \App\Db\Query())->from('vtiger_field')->where(['fieldname' => $this->name . '_extra'])->one();
-			if ($rowExtra === false) {
+			if (false === $rowExtra) {
 				throw new \App\Exceptions\AppException('Extra field does not exist');
 			}
 			$db->createCommand()->delete('vtiger_field', ['fieldid' => $rowExtra['fieldid']])->execute();
@@ -311,6 +303,7 @@ class FieldBasic
 	 * Save this field instance.
 	 *
 	 * @param vtlib\Block Instance of block to which this field should be added
+	 * @param mixed $blockInstance
 	 */
 	public function save($blockInstance = false)
 	{
@@ -334,6 +327,7 @@ class FieldBasic
 	 * Set Help Information for this instance.
 	 *
 	 * @param string Help text (content)
+	 * @param mixed $helptext
 	 */
 	public function setHelpInfo($helptext)
 	{
@@ -348,6 +342,7 @@ class FieldBasic
 	 * Set Masseditable information for this instance.
 	 *
 	 * @param int Masseditable value
+	 * @param mixed $value
 	 */
 	public function setMassEditable($value)
 	{
@@ -361,6 +356,7 @@ class FieldBasic
 	 * Set Summaryfield information for this instance.
 	 *
 	 * @param int Summaryfield value
+	 * @param mixed $value
 	 */
 	public function setSummaryField($value)
 	{

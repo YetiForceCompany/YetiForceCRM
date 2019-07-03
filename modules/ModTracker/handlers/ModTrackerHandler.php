@@ -106,7 +106,7 @@ class ModTracker_ModTrackerHandler_Handler
 			return false;
 		}
 		ModTracker::linkRelation($params['sourceModule'], $params['sourceRecordId'], $params['destinationModule'], $params['destinationRecordId']);
-		if (AppConfig::module('ModTracker', 'WATCHDOG')) {
+		if (App\Config::module('ModTracker', 'WATCHDOG')) {
 			$watchdogTitle = 'LBL_ADDED';
 			$watchdogMessage = '<a href="index.php?module=' . $params['sourceModule'] . '&view=Detail&record=' . $params['sourceRecordId'] . '">' . vtlib\Functions::getCRMRecordLabel($params['sourceRecordId']) . '</a>';
 			$watchdogMessage .= ' $(translate : LBL_WITH)$ ';
@@ -127,7 +127,10 @@ class ModTracker_ModTrackerHandler_Handler
 			return false;
 		}
 		ModTracker::unLinkRelation($params['sourceModule'], $params['sourceRecordId'], $params['destinationModule'], $params['destinationRecordId']);
-		if (AppConfig::module('ModTracker', 'WATCHDOG')) {
+		if ($params['relatedName'] && in_array($params['relatedName'], ['getManyToMany', 'getRelatedList', 'getEmails'])) {
+			ModTracker::unLinkRelation($params['destinationModule'], $params['destinationRecordId'], $params['sourceModule'], $params['sourceRecordId']);
+		}
+		if (App\Config::module('ModTracker', 'WATCHDOG')) {
 			$watchdogTitle = 'LBL_REMOVED';
 			$watchdogMessage = '<a href="index.php?module=' . $params['sourceModule'] . '&view=Detail&record=' . $params['sourceRecordId'] . '">' . vtlib\Functions::getCRMRecordLabel($params['sourceRecordId']) . '</a>';
 			$watchdogMessage .= ' $(translate : LBL_WITH)$ ';

@@ -42,18 +42,18 @@
 					<td>
 						<a href="index.php?module=LangManagement&parent=Settings&action=Export&lang={$LANG['prefix']}"
 						   class="btn btn-primary btn-sm mr-2">
-							<span class="fas fa-file-export fa-xs"></span>
+							<span class="fas fa-file-export fa-xs mr-2"></span>
 							{\App\Language::translate('Export',$QUALIFIED_MODULE)}</a>
 						{if $LANG['isdefault'] neq '1'}
 							<button class="btn btn-success btn-sm mr-2" data-toggle="confirmation"
 									id="setAsDefault">
-								<span class="fas fa-check fa-xs"></span>
+								<span class="fas fa-check fa-xs mr-2"></span>
 								{\App\Language::translate('LBL_DEFAULT',$QUALIFIED_MODULE)}</button>
 							{if $LANG['prefix']!==\App\Language::DEFAULT_LANG}
 								<button class="btn btn-danger btn-sm mr-2" data-toggle="confirmation"
 										data-original-title=""
 										id="deleteItemC">
-									<span class="fas fa-trash fa-xs"></span>
+									<span class="fas fa-trash fa-xs mr-2"></span>
 									{\App\Language::translate('LBL_Delete',$QUALIFIED_MODULE)}
 								</button>
 							{/if}
@@ -62,7 +62,7 @@
 							<button class="js-update btn btn-outline-primary btn-sm"
 									data-prefix="{\App\Purifier::encodeHtml($LANG['prefix'])}"
 									data-js="click | data | class: fa-spin">
-								<span class="js-update__icon fas fa-sync fa-xs"></span>
+								<span class="js-update__icon fas fa-sync fa-xs mr-2"></span>
 								{\App\Language::translate('LBL_UPDATE', $QUALIFIED_MODULE)}
 							</button>
 						{/if}

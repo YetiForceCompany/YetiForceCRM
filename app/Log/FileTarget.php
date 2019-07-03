@@ -41,7 +41,7 @@ class FileTarget extends \yii\log\FileTarget
 	 */
 	public function init()
 	{
-		if ($this->logFile === null) {
+		if (null === $this->logFile) {
 			$this->logFile = ROOT_DIRECTORY . '/cache/logs/system.log';
 		} else {
 			$this->logFile = Yii::getAlias($this->logFile);
@@ -62,7 +62,7 @@ class FileTarget extends \yii\log\FileTarget
 	public function export()
 	{
 		$text = implode("\n", array_map([$this, 'formatMessage'], $this->messages));
-		if (($fp = fopen($this->logFile, 'a')) === false) {
+		if (false === ($fp = fopen($this->logFile, 'a'))) {
 			throw new InvalidConfigException("Unable to append to log file: {$this->logFile}");
 		}
 		flock($fp, LOCK_EX);
@@ -81,7 +81,7 @@ class FileTarget extends \yii\log\FileTarget
 			flock($fp, LOCK_UN);
 			fclose($fp);
 		}
-		if ($this->fileMode !== null) {
+		if (null !== $this->fileMode) {
 			chmod($this->logFile, $this->fileMode);
 		}
 	}
@@ -96,9 +96,9 @@ class FileTarget extends \yii\log\FileTarget
 	 */
 	public function formatMessage($message)
 	{
-		list($text, $level, $category, $timestamp) = $message;
+		[$text, $level, $category, $timestamp] = $message;
 		$level = \yii\log\Logger::getLevelName($level);
-		if (!is_string($text)) {
+		if (!\is_string($text)) {
 			// exceptions may not be serializable if in the call stack somewhere is a Closure
 			if ($text instanceof \Throwable || $text instanceof \Exception) {
 				$text = (string) $text;
@@ -110,7 +110,7 @@ class FileTarget extends \yii\log\FileTarget
 		if (isset($message[4])) {
 			$traces = $message[4];
 		}
-		if ($category !== '') {
+		if ('' !== $category) {
 			$category = '[' . $category . ']';
 		}
 		$micro = explode('.', $timestamp);
@@ -128,7 +128,7 @@ class FileTarget extends \yii\log\FileTarget
 	 */
 	protected function getContextMessage()
 	{
-		if (getcwd() !== ROOT_DIRECTORY) {
+		if (ROOT_DIRECTORY !== getcwd()) {
 			chdir(ROOT_DIRECTORY);
 		}
 		$context = \array_merge(\yii\helpers\ArrayHelper::filter($GLOBALS, $this->logVars), \App\Utils\ConfReport::getAllErrors());

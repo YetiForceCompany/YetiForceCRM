@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * *********************************************************************************** */
 
 /**
@@ -296,6 +297,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		$db = App\Db::getInstance();
 		$roleId = $this->getId();
 		$mode = 'edit';
+		$rolePreviousData = [];
 
 		if (empty($roleId)) {
 			$mode = '';
@@ -331,6 +333,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			'company' => (int) $this->get('company'),
 		];
 		if ($mode === 'edit') {
+			$rolePreviousData = App\PrivilegeUtil::getRoleDetail($roleId);
 			$db->createCommand()->update('vtiger_role', $values, ['roleid' => $roleId])
 				->execute();
 		} else {
@@ -346,14 +349,13 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			$this->set('roleid', $roleId);
 		}
 		$profileIds = $this->get('profileIds');
-		$oldRole = Vtiger_Cache::get('RolesArray', $roleId);
-		if ($oldRole !== false) {
+		if ($rolePreviousData) {
 			$oldProfileIds = $this->getProfileIdList();
-			if ($oldRole['listrelatedrecord'] != $this->get('listrelatedrecord') ||
-				$oldRole['previewrelatedrecord'] != $this->get('previewrelatedrecord') ||
-				$oldRole['editrelatedrecord'] != $this->get('editrelatedrecord') ||
-				$oldRole['permissionsrelatedfield'] != $permissionsRelatedField ||
-				$oldRole['searchunpriv'] != $searchunpriv ||
+			if ($rolePreviousData['listrelatedrecord'] != $this->get('listrelatedrecord') ||
+					$rolePreviousData['previewrelatedrecord'] != $this->get('previewrelatedrecord') ||
+					$rolePreviousData['editrelatedrecord'] != $this->get('editrelatedrecord') ||
+					$rolePreviousData['permissionsrelatedfield'] != $permissionsRelatedField ||
+					$rolePreviousData['searchunpriv'] != $searchunpriv ||
 				($profileIds && !empty(array_merge(array_diff($profileIds, $oldProfileIds), array_diff($oldProfileIds, $profileIds))))) {
 				\App\Privilege::setAllUpdater();
 			}
@@ -373,6 +375,14 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 						->execute();
 				}
 			}
+		}
+
+		\App\Cache::delete(__CLASS__, $roleId);
+		\App\Cache::delete('RoleDetail', $roleId);
+		\App\Cache::delete('getUsersByCompany', '');
+		\App\Cache::delete('getUsersByCompany', $this->get('company'));
+		if(isset($rolePreviousData['company'])){
+			\App\Cache::delete('getUsersByCompany', $rolePreviousData['company']);
 		}
 	}
 
@@ -473,26 +483,21 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function to get the instance of Role model, given role id.
 	 *
-	 * @param <Integer> $roleId
+	 * @param int $roleId
 	 *
-	 * @return Settings_Roles_Record_Model instance, if exists. Null otherwise
+	 * @return self|null
 	 */
 	public static function getInstanceById($roleId)
 	{
-		$instance = Vtiger_Cache::get('Settings_Roles_Record_Model', $roleId);
-		if ($instance !== false) {
-			return $instance;
+		if (!\App\Cache::staticHas(__CLASS__, $roleId)) {
+			$instance = null;
+			$row = \App\PrivilegeUtil::getRoleDetail($roleId);
+			if ($row) {
+				$instance = (new self())->setData($row);
+			}
+			\App\Cache::staticSave(__CLASS__, $roleId, $instance);
 		}
-		$row = App\PrivilegeUtil::getRoleDetail($roleId);
-		if ($row) {
-			$instance = new self();
-			$instance->setData($row);
-			Vtiger_Cache::set('Settings_Roles_Record_Model', $roleId, $instance);
-			Vtiger_Cache::set('RolesArray', $roleId, $row);
-
-			return $instance;
-		}
-		return $instance;
+		return \App\Cache::staticGet(__CLASS__, $roleId);
 	}
 
 	/**

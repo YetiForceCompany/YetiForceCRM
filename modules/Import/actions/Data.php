@@ -218,7 +218,7 @@ class Import_Data_Action extends \App\Controller\Action
 		$query = new \App\Db\Query();
 		$query->from($tableName)->where(['temp_status' => self::IMPORT_RECORD_NONE]);
 		if ($this->batchImport) {
-			$importBatchLimit = \AppConfig::module('Import', 'BATCH_LIMIT');
+			$importBatchLimit = \App\Config::module('Import', 'BATCH_LIMIT');
 			$query->limit($importBatchLimit);
 		}
 
@@ -625,7 +625,7 @@ class Import_Data_Action extends \App\Controller\Action
 				}
 			}
 		}
-		if (\AppConfig::module('Import', 'CREATE_REFERENCE_RECORD') && empty($entityId) && !empty($referenceModuleName) && \App\Privilege::isPermitted($referenceModuleName, 'CreateView')) {
+		if (\App\Config::module('Import', 'CREATE_REFERENCE_RECORD') && empty($entityId) && !empty($referenceModuleName) && \App\Privilege::isPermitted($referenceModuleName, 'CreateView')) {
 			try {
 				$entityId = $this->createEntityRecord($referenceModuleName, $entityLabel);
 			} catch (Exception $e) {
@@ -645,7 +645,7 @@ class Import_Data_Action extends \App\Controller\Action
 	 */
 	public function transformPicklist($fieldInstance, $fieldValue)
 	{
-		$defaultCharset = \AppConfig::main('default_charset', 'UTF-8');
+		$defaultCharset = \App\Config::main('default_charset', 'UTF-8');
 		$fieldName = $fieldInstance->getFieldName();
 		$fieldValue = trim($fieldValue);
 		if ($fieldValue === '') {
@@ -659,7 +659,7 @@ class Import_Data_Action extends \App\Controller\Action
 		$allPicklistValuesInLowerCase = array_map('strtolower', $picklistValues);
 		$picklistDetails = array_combine($allPicklistValuesInLowerCase, $picklistValues);
 		if (!in_array($picklistValueInLowerCase, $allPicklistValuesInLowerCase)) {
-			if (\AppConfig::module('Import', 'ADD_PICKLIST_VALUE')) {
+			if (\App\Config::module('Import', 'ADD_PICKLIST_VALUE')) {
 				$fieldObject = \vtlib\Field::getInstance($fieldName, Vtiger_Module_Model::getInstance($this->module));
 				$fieldObject->setPicklistValues([$fieldValue]);
 				unset($this->allPicklistValues[$fieldName]);
@@ -778,6 +778,8 @@ class Import_Data_Action extends \App\Controller\Action
 				$fieldData[$fieldName] = $this->transformDate($fieldValue);
 			} elseif ($fieldInstance->getFieldDataType() === 'country' && $fieldValue !== '') {
 				$fieldData[$fieldName] = \App\Fields\Country::findCountryName($fieldValue);
+			} else {
+				$fieldData[$fieldName] = $fieldInstance->getUITypeModel()->getValueFromImport($fieldValue);
 			}
 		}
 		return $fieldData;
@@ -806,7 +808,7 @@ class Import_Data_Action extends \App\Controller\Action
 		}
 		$recordModel->set('assigned_user_id', $this->user->getId());
 		if ($save) {
-			if (!\AppConfig::module('Import', 'SAVE_BY_HANDLERS')) {
+			if (!\App\Config::module('Import', 'SAVE_BY_HANDLERS')) {
 				$recordModel->setHandlerExceptions(['disableHandlers' => true]);
 			}
 			$recordModel->save();

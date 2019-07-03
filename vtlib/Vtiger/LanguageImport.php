@@ -72,7 +72,6 @@ class LanguageImport extends LanguageExport
 		$prefix = $this->_modulexml->prefix;
 		$label = $this->_modulexml->name;
 		\App\Log::trace("Importing $label [$prefix] ... STARTED", __METHOD__);
-
 		$zip = \App\Zip::openFile($zipfile, ['onlyExtensions' => ['json']]);
 		$languages = 'languages/' . $prefix;
 		$custom = 'custom/' . $languages;
@@ -80,7 +79,7 @@ class LanguageImport extends LanguageExport
 			$custom => $custom,
 			$languages => $languages,
 		]);
-		self::register($prefix, $label);
+		self::register($prefix, $label, null, true, (int)$this->_modulexml->progress);
 		\App\Cache::clear();
 		\App\Log::trace("Importing $label [$prefix] ... DONE", __METHOD__);
 	}

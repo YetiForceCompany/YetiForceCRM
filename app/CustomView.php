@@ -17,78 +17,9 @@ class CustomView
 	const CV_STATUS_PUBLIC = 3;
 	const CV_STATUS_SYSTEM = 4;
 
-	/**
-	 * Standard filter conditions for date fields.
-	 */
-	const STD_FILTER_CONDITIONS = ['custom', 'prevfy', 'thisfy', 'nextfy', 'prevfq', 'thisfq', 'nextfq', 'yesterday', 'today', 'untiltoday', 'tomorrow',
-		'lastweek', 'thisweek', 'nextweek', 'lastmonth', 'thismonth', 'nextmonth',
-		'last7days', 'last15days', 'last30days', 'last60days', 'last90days', 'last120days', 'next15days', 'next30days', 'next60days', 'next90days', 'next120days', ];
 
-	/**
-	 * Supported advanced filter operations.
-	 */
-	const ADVANCED_FILTER_OPTIONS = [
-		'e' => 'LBL_EQUALS',
-		'n' => 'LBL_NOT_EQUAL_TO',
-		's' => 'LBL_STARTS_WITH',
-		'ew' => 'LBL_ENDS_WITH',
-		'c' => 'LBL_CONTAINS',
-		'k' => 'LBL_DOES_NOT_CONTAIN',
-		'l' => 'LBL_LESS_THAN',
-		'g' => 'LBL_GREATER_THAN',
-		'm' => 'LBL_LESS_THAN_OR_EQUAL',
-		'h' => 'LBL_GREATER_OR_EQUAL',
-		'b' => 'LBL_BEFORE',
-		'a' => 'LBL_AFTER',
-		'bw' => 'LBL_BETWEEN',
-		'y' => 'LBL_IS_EMPTY',
-		'ny' => 'LBL_IS_NOT_EMPTY',
-		'om' => 'LBL_CURRENTLY_LOGGED_USER',
-		'ogr' => 'LBL_CURRENTLY_LOGGED_USER_GROUP',
-		'wr' => 'LBL_IS_WATCHING_RECORD',
-		'nwr' => 'LBL_IS_NOT_WATCHING_RECORD'
-	];
 
-	/**
-	 * Data filter list.
-	 */
-	const DATE_FILTER_CONDITIONS = [
-		'custom' => ['label' => 'LBL_CUSTOM'],
-		'smallerthannow' => ['label' => 'LBL_SMALLER_THAN_NOW'],
-		'greaterthannow' => ['label' => 'LBL_GREATER_THAN_NOW'],
-		'prevfy' => ['label' => 'LBL_PREVIOUS_FY'],
-		'thisfy' => ['label' => 'LBL_CURRENT_FY'],
-		'nextfy' => ['label' => 'LBL_NEXT_FY'],
-		'prevfq' => ['label' => 'LBL_PREVIOUS_FQ'],
-		'thisfq' => ['label' => 'LBL_CURRENT_FQ'],
-		'nextfq' => ['label' => 'LBL_NEXT_FQ'],
-		'yesterday' => ['label' => 'LBL_YESTERDAY'],
-		'today' => ['label' => 'LBL_TODAY'],
-		'untiltoday' => ['label' => 'LBL_UNTIL_TODAY'],
-		'tomorrow' => ['label' => 'LBL_TOMORROW'],
-		'lastweek' => ['label' => 'LBL_LAST_WEEK'],
-		'thisweek' => ['label' => 'LBL_CURRENT_WEEK'],
-		'nextweek' => ['label' => 'LBL_NEXT_WEEK'],
-		'lastmonth' => ['label' => 'LBL_LAST_MONTH'],
-		'thismonth' => ['label' => 'LBL_CURRENT_MONTH'],
-		'nextmonth' => ['label' => 'LBL_NEXT_MONTH'],
-		'last7days' => ['label' => 'LBL_LAST_7_DAYS'],
-		'last15days' => ['label' => 'LBL_LAST_15_DAYS'],
-		'last30days' => ['label' => 'LBL_LAST_30_DAYS'],
-		'last60days' => ['label' => 'LBL_LAST_60_DAYS'],
-		'last90days' => ['label' => 'LBL_LAST_90_DAYS'],
-		'last120days' => ['label' => 'LBL_LAST_120_DAYS'],
-		'next15days' => ['label' => 'LBL_NEXT_15_DAYS'],
-		'next30days' => ['label' => 'LBL_NEXT_30_DAYS'],
-		'next60days' => ['label' => 'LBL_NEXT_60_DAYS'],
-		'next90days' => ['label' => 'LBL_NEXT_90_DAYS'],
-		'next120days' => ['label' => 'LBL_NEXT_120_DAYS'],
-	];
 
-	/**
-	 * Operators without values.
-	 */
-	const FILTERS_WITHOUT_VALUES = ['y', 'ny', 'om', 'ogr', 'wr', 'nwr'];
 
 	/**
 	 * Do we have muliple ids?
@@ -99,7 +30,7 @@ class CustomView
 	 */
 	public static function isMultiViewId($cvId)
 	{
-		return strpos($cvId, ',') !== false;
+		return false !== strpos($cvId, ',');
 	}
 
 	/**
@@ -109,7 +40,7 @@ class CustomView
 	 */
 	public static function getDateFilterTypes()
 	{
-		$dateFilters = self::DATE_FILTER_CONDITIONS;
+		$dateFilters = Condition::DATE_OPERATORS;
 		foreach (array_keys($dateFilters) as $filterType) {
 			$dateValues = \DateTimeRange::getDateRangeByType($filterType);
 			$dateFilters[$filterType]['startdate'] = $dateValues[0];
@@ -525,6 +456,8 @@ class CustomView
 	/**
 	 * To get the customViewId of the specified module.
 	 *
+	 * @param mixed $noCache
+	 *
 	 * @return int|string
 	 */
 	public function getViewId($noCache = false)
@@ -545,7 +478,7 @@ class CustomView
 		} else {
 			$viewId = Request::_get('viewname');
 			if (!is_numeric($viewId)) {
-				if ($viewId === 'All') {
+				if ('All' === $viewId) {
 					$viewId = $this->getMandatoryFilter();
 				} else {
 					$viewId = $this->getViewIdByName($viewId);
@@ -605,7 +538,7 @@ class CustomView
 		}
 		$info = $this->getInfoFilter($this->moduleName);
 		foreach ($info as &$values) {
-			if ($values['setdefault'] === 1) {
+			if (1 === $values['setdefault']) {
 				Cache::save('GetDefaultCvId', $cacheName, $values['cvid']);
 				return $values['cvid'];
 			}
@@ -628,12 +561,12 @@ class CustomView
 			if ($statusUseridInfo) {
 				$status = $statusUseridInfo['status'];
 				$userId = $statusUseridInfo['userid'];
-				if ($status === self::CV_STATUS_DEFAULT || $this->user->isAdmin()) {
+				if (self::CV_STATUS_DEFAULT === $status || $this->user->isAdmin()) {
 					$permission = true;
-				} elseif (Request::_get('view') !== 'ChangeStatus') {
-					if ($status === self::CV_STATUS_PUBLIC || $userId === $this->user->getId()) {
+				} elseif ('ChangeStatus' !== Request::_get('view')) {
+					if (self::CV_STATUS_PUBLIC === $status || $userId === $this->user->getId()) {
 						$permission = true;
-					} elseif ($status === self::CV_STATUS_PRIVATE || $status === self::CV_STATUS_PENDING) {
+					} elseif (self::CV_STATUS_PRIVATE === $status || self::CV_STATUS_PENDING === $status) {
 						$subQuery = (new Db\Query())->select(['vtiger_user2role.userid'])->from('vtiger_user2role')
 							->innerJoin('vtiger_users', 'vtiger_user2role.userid = vtiger_users.id')
 							->innerJoin('vtiger_role', 'vtiger_user2role.userid = vtiger_role.roleid')
@@ -645,7 +578,7 @@ class CustomView
 							->where(['vtiger_customview.cvid' => $viewId, 'vtiger_customview.userid' => $subQuery]);
 						$userArray = $query->column();
 						if ($userArray) {
-							if (!in_array($this->user->getId(), $userArray)) {
+							if (!\in_array($this->user->getId(), $userArray)) {
 								$permission = false;
 							} else {
 								$permission = true;
@@ -701,10 +634,11 @@ class CustomView
 		$info = $this->getInfoFilter($this->moduleName);
 		$returnValue = '';
 		foreach ($info as $index => &$values) {
-			if ($values['presence'] === 0) {
+			if (0 === $values['presence']) {
 				$returnValue = $index;
 				break;
-			} elseif ($values['presence'] === 2) {
+			}
+			if (2 === $values['presence']) {
 				$returnValue = $index;
 			}
 		}

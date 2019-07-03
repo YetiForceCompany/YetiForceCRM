@@ -37,13 +37,14 @@ class VTSendPdf extends VTTask
 			$emailParser = \App\EmailParser::getInstanceByModel($recordModel);
 			$emailParser->emailoptout = $this->emailoptout ? true : false;
 			if ($this->email) {
-				$mailerContent['to'] = $emailParser->setContent(implode(',', $this->email))->parse()->getContent(true);
+				$emails = is_array($this->email) ? implode(',', $this->email) : $this->email;
+				$mailerContent['to'] = $emailParser->setContent($emails)->parse()->getContent(true);
 			}
 			unset($emailParser);
 			if (empty($mailerContent['to'])) {
 				return false;
 			}
-			if ($recordModel->getModuleName() === 'Contacts' && !$recordModel->isEmpty('notifilanguage')) {
+			if ('Contacts' === $recordModel->getModuleName() && !$recordModel->isEmpty('notifilanguage')) {
 				$mailerContent['language'] = $recordModel->get('notifilanguage');
 			}
 			$mailerContent['template'] = $this->mailTemplate;
@@ -51,19 +52,22 @@ class VTSendPdf extends VTTask
 			if (!empty($this->copy_email)) {
 				$mailerContent['bcc'] = $this->copy_email;
 			}
+
+			$filePath = 'cache' . DIRECTORY_SEPARATOR . 'pdf' . DIRECTORY_SEPARATOR;
+			$tmpFileName = tempnam($filePath, 'PDF' . time());
+			$filePath .= basename($tmpFileName);
+			Vtiger_PDF_Model::exportToPdf($recordModel->getId(), $this->pdfTemplate, $filePath, 'F');
 			$templateRecord = Vtiger_PDF_Model::getInstanceById($this->pdfTemplate);
-			$fileName = vtlib\Functions::slug($templateRecord->getName()) . '_' . time() . '.pdf';
-			$pdfFile = 'cache' . DIRECTORY_SEPARATOR . 'pdf' . DIRECTORY_SEPARATOR . $fileName;
-			Vtiger_PDF_Model::exportToPdf($recordModel->getId(), $recordModel->getModuleName(), $this->pdfTemplate, $pdfFile, 'F');
-			if (!file_exists($pdfFile)) {
+			if (!file_exists($filePath)) {
 				App\Log::error('An error occurred while generating PFD file, the file doesn\'t exist. Sending email with PDF has been blocked.');
 				return false;
 			}
 			if (!$templateRecord->isEmpty('filename')) {
-				$textParser = \App\TextParser::getInstanceByModel($recordModel);
-				$fileName = \App\Fields\File::sanitizeUploadFileName($textParser->setContent($templateRecord->get('filename'))->parse()->getContent());
+				$fileName = \App\Fields\File::sanitizeUploadFileName($templateRecord->parseVariables($templateRecord->get('filename'))) . '.pdf';
+			} else {
+				$fileName = time() . '.pdf';
 			}
-			$mailerContent['attachments'] = [$pdfFile => $fileName];
+			$mailerContent['attachments'] = [$filePath => $fileName];
 			\App\Mailer::sendFromTemplate($mailerContent);
 		}
 	}

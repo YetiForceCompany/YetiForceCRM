@@ -70,12 +70,12 @@ class Encryption extends \Tests\Base
 	 */
 	public function testEncryptionWithPass(string $method, string $password)
 	{
-		\AppConfig::set('securityKeys', 'encryptionMethod', $method);
-		\AppConfig::set('securityKeys', 'encryptionPass', $password);
+		\App\Config::set('securityKeys', 'encryptionMethod', $method);
+		\App\Config::set('securityKeys', 'encryptionPass', $password);
 		$instance = new \App\Encryption();
 		$instance->set('method', $method);
 		$instance->set('vector', $password);
-		$instance->set('pass', \AppConfig::securityKeys('encryptionPass'));
+		$instance->set('pass', \App\Config::securityKeys('encryptionPass'));
 		$testText = 'TEST TEXT';
 		$encryptText = $instance->encrypt($testText);
 		$this->assertTrue(!empty($encryptText), 'Encryption is not available');

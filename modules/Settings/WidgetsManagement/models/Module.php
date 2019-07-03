@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Settings OSSMailView index view class.
  *
@@ -17,13 +16,13 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	{
 		return [
 			'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES' => ['mine'],
+			'LBL_CREATED_BY_ME_BUT_NOT_MINE_OVERDUE_ACTIVITIES' => ['mine'],
 		];
 	}
 
 	public function getWidgetsWithLimit()
 	{
-		return ['History', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'Delagated Events/To Do', 'Delegated (overdue) Events/ToDos', 'LBL_EXPIRING_SOLD_PRODUCTS',
-			'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS', 'Multifilter'];
+		return ['History', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'LBL_EXPIRING_SOLD_PRODUCTS', 'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'LBL_CREATED_BY_ME_BUT_NOT_MINE_OVERDUE_ACTIVITIES', 'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS', 'Multifilter'];
 	}
 
 	public static function getWidgetSpecial()
@@ -51,13 +50,13 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	public static function getDefaultDateRange($widgetModel)
 	{
 		$defaultDate = $widgetModel->get('date');
-		if ($defaultDate === 'day') {
+		if ('day' === $defaultDate) {
 			$timeStart = date('Y-m-d');
-		} elseif ($defaultDate === 'week') {
+		} elseif ('week' === $defaultDate) {
 			$timeStart = date('Y-m-d', strtotime('last Monday'));
-		} elseif ($defaultDate === 'month') {
+		} elseif ('month' === $defaultDate) {
 			$timeStart = date('Y-m-01');
-		} elseif ($defaultDate === 'year') {
+		} elseif ('year' === $defaultDate) {
 			$timeStart = date('Y-01-01');
 		} else {
 			$timeStart = date('Y-m-d', strtotime('-1 month'));
@@ -91,7 +90,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$allTypes = self::getDashboardTypes();
 		$dashboardId = 0;
 		foreach ($allTypes as $dashboard) {
-			if ((int) $dashboard['system'] === 1) {
+			if (1 === (int) $dashboard['system']) {
 				$dashboardId = $dashboard['dashboard_id'];
 				break;
 			}
@@ -156,7 +155,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		}
 		$owners = \App\Json::decode(html_entity_decode($widgetModel->get('owners')));
 		if ($owner) {
-			if (($owner !== 'all' && !isset($accessibleUsers[$owner]) && !isset($accessibleGroups[$owner])) || ($owner === 'all' && !in_array($owner, $owners['available']))) {
+			if (('all' !== $owner && !isset($accessibleUsers[$owner]) && !isset($accessibleGroups[$owner])) || ('all' === $owner && !in_array($owner, $owners['available']))) {
 				return false;
 			}
 
@@ -168,9 +167,9 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			$owners['available'] = [$owners['available']];
 		}
 
-		if ($defaultSelected == 'mine' && in_array($defaultSelected, $owners['available'])) {
+		if ('mine' == $defaultSelected && in_array($defaultSelected, $owners['available'])) {
 			$user = $currentUser->getId();
-		} elseif ($defaultSelected == 'all' && in_array($defaultSelected, $owners['available'])) {
+		} elseif ('all' == $defaultSelected && in_array($defaultSelected, $owners['available'])) {
 			$user = $defaultSelected;
 		} elseif (in_array('users', $owners['available'])) {
 			if (key($accessibleUsers) == $currentUser->getId()) {
@@ -221,11 +220,10 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		return [
 			'Leads by Status Converted', 'Graf', 'Tickets by Status', 'Leads by Industry',
 			'Leads by Source', 'Leads by Status', 'Funnel', 'Upcoming Activities', 'Overdue Activities',
-			'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks',
-			'Delagated Events/To Dos', 'Delegated (overdue) Events/ToDos', 'Calendar',
-			'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'DW_SUMMATION_BY_MONTHS', 'LBL_ALL_TIME_CONTROL',
+			'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'Calendar',
+			'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'LBL_CREATED_BY_ME_BUT_NOT_MINE_OVERDUE_ACTIVITIES', 'DW_SUMMATION_BY_MONTHS', 'LBL_ALL_TIME_CONTROL',
 			'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS', 'LBL_CLOSED_TICKETS_BY_PRIORITY', 'LBL_ACCOUNTS_BY_INDUSTRY',
-			'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS',
+			'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS', 'LBL_UPCOMING_PROJECT_TASKS', 'LBL_COMPLETED_PROJECT_TASKS'
 		];
 	}
 
@@ -299,16 +297,16 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				$insert['owners'] = \App\Json::encode(['default' => $data['default_owner'], 'available' => $data['owners_all']]);
 			}
 			$dataType = $data['type'] ?? null;
-			if ($dataType === 'DW_SUMMATION_BY_MONTHS') {
+			if ('DW_SUMMATION_BY_MONTHS' === $dataType) {
 				$insert['data'] = \App\Json::encode(['plotLimit' => $data['plotLimit'], 'plotTickSize' => $data['plotTickSize']]);
-			} elseif ($dataType === 'DW_SUMMATION_BY_USER') {
+			} elseif ('DW_SUMMATION_BY_USER' === $dataType) {
 				$insert['data'] = \App\Json::encode(['showUsers' => isset($data['showUsers']) ? 1 : 0]);
-			} elseif ($dataType === 'Multifilter') {
+			} elseif ('Multifilter' === $dataType) {
 				if (empty($data['customMultiFilter']) || !is_array($data['customMultiFilter'])) {
 					$data['customMultiFilter'] = [$data['customMultiFilter'] ?? ''];
 				}
 				$insert['data'] = \App\Json::encode(['customMultiFilter' => $data['customMultiFilter']]);
-			} elseif ($dataType === 'Calendar') {
+			} elseif ('Calendar' === $dataType) {
 				$insert['data'] = \App\Json::encode(['defaultFilter' => $data['defaultFilter'] ?? '']);
 			}
 			$db->createCommand()->update('vtiger_module_dashboard', $insert, ['id' => $data['id']])
@@ -360,7 +358,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		if ($status && empty($data['limit'])) {
 			$data['limit'] = 10;
 		}
-		if (empty($data['isdefault']) || $data['isdefault'] != 1 || $data['isdefault'] != '1') {
+		if (empty($data['isdefault']) || 1 != $data['isdefault'] || '1' != $data['isdefault']) {
 			$data['isdefault'] = 0;
 		}
 		if (!empty($data['filterid'])) {
@@ -369,16 +367,16 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			} elseif (is_array($data['filterid'])) {
 				$filters = $data['filterid'];
 			}
-			if (count($filters) > \AppConfig::performance('CHART_MULTI_FILTER_LIMIT')) {
+			if (count($filters) > \App\Config::performance('CHART_MULTI_FILTER_LIMIT')) {
 				throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||filterid||' . $data['filterid'], 406);
 			}
 			// if filters total length will be longer than database column
-			if (strlen(implode(',', $filters)) > \AppConfig::performance('CHART_MULTI_FILTER_STR_LEN')) {
+			if (strlen(implode(',', $filters)) > \App\Config::performance('CHART_MULTI_FILTER_STR_LEN')) {
 				throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||filterid||' . $data['filterid'], 406);
 			}
 		}
 		$data['data'] = App\Json::decode(\App\Purifier::decodeHtml($data['data'] ?? ''));
-		if (!empty($data['data']['additionalFiltersFields']) && count($data['data']['additionalFiltersFields']) > \AppConfig::performance('CHART_ADDITIONAL_FILTERS_LIMIT')) {
+		if (!empty($data['data']['additionalFiltersFields']) && count($data['data']['additionalFiltersFields']) > \App\Config::performance('CHART_ADDITIONAL_FILTERS_LIMIT')) {
 			throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||additionalFiltersFields||' . implode(',', $data['data']['additionalFiltersFields']), 406);
 		}
 		$data['data'] = App\Json::encode($data['data']);
@@ -429,14 +427,24 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		return ['success' => true, 'id' => $templateId, 'wid' => $widgetId ?? '', 'status' => $status, 'text' => \App\Language::translate('LBL_WIDGET_ADDED', 'Settings::WidgetsManagement')];
 	}
 
-	public function getBlocksId($dashboard)
+	/**
+	 * Gets blocks.
+	 *
+	 * @param int $dashboard
+	 *
+	 * @return array
+	 */
+	public function getBlocksId(int $dashboard): array
 	{
 		\App\Log::trace('Entering Settings_WidgetsManagement_Module_Model::getBlocksId() method ...');
 		$dataReader = (new App\Db\Query())->select(['vtiger_module_dashboard_blocks.*', 'vtiger_role.rolename'])
 			->from('vtiger_module_dashboard_blocks')
 			->innerJoin('vtiger_role', 'vtiger_module_dashboard_blocks.authorized = vtiger_role.roleid')
 			->where(['vtiger_module_dashboard_blocks.dashboard_id' => $dashboard])
-			->createCommand()->query();
+			->union((new App\Db\Query())->select(['vtiger_module_dashboard_blocks.*', 'rolename' => 'w_#__servers.name'])->from('vtiger_module_dashboard_blocks')
+			->innerJoin('w_#__servers', 'vtiger_module_dashboard_blocks.authorized = w_#__servers.id')
+			->where(['vtiger_module_dashboard_blocks.dashboard_id' => $dashboard])
+			)->createCommand()->query();
 		$data = [];
 		while ($row = $dataReader->read()) {
 			$blockId = $row['id'];
@@ -456,7 +464,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		\App\Log::trace('getBlocksFromModule(' . $moduleName . ', ' . $authorized . ') method ...');
 		$tabId = \App\Module::getModuleId($moduleName);
 		$data = [];
-		if ($dashboard === false) {
+		if (false === $dashboard) {
 			$dashboard = null;
 		}
 		$query = (new \App\Db\Query())
@@ -507,19 +515,19 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			'mdw.size', 'mdw.limit', 'mdw.isdefault', 'mdw.owners', 'mdw.cache', 'mdw.date',
 			'vtiger_links.*', 'mdb.authorized',
 		])
-		->from('vtiger_module_dashboard AS mdw')
-		->innerJoin('vtiger_links', 'mdw.linkid = vtiger_links.linkid')
-		->innerJoin('vtiger_module_dashboard_blocks AS mdb', 'mdw.blockid = mdb.id AND vtiger_links.tabid = mdb.tabid')
-		->where(['vtiger_links.tabid' => $tabId])
-		->createCommand()->query();
+			->from('vtiger_module_dashboard AS mdw')
+			->innerJoin('vtiger_links', 'mdw.linkid = vtiger_links.linkid')
+			->innerJoin('vtiger_module_dashboard_blocks AS mdb', 'mdw.blockid = mdb.id AND vtiger_links.tabid = mdb.tabid')
+			->where(['vtiger_links.tabid' => $tabId])
+			->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			if ($row['linklabel'] == 'Mini List') {
+			if ('Mini List' == $row['linklabel']) {
 				$minilistWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
 				$minilistWidgetModel = new Vtiger_MiniList_Model();
 				$minilistWidgetModel->setWidgetModel($minilistWidget);
 				$minilistWidget->set('title', $minilistWidgetModel->getTitle());
 				$data[$row['blockid']][] = $minilistWidget;
-			} elseif ($row['linklabel'] == 'ChartFilter') {
+			} elseif ('ChartFilter' == $row['linklabel']) {
 				$chartFilterWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
 				$chartFilterWidgetModel = new Vtiger_ChartFilter_Model();
 				$chartFilterWidgetModel->setWidgetModel($chartFilterWidget);

@@ -11,7 +11,7 @@
 						<option value="none">{\App\Language::translate('LBL_SELECT_FIELD',$MODULE)}</option>
 					</optgroup>
 					{foreach from=Vtiger_PDF_Model::getTemplatesByModule($SOURCE_MODULE) item=item}
-						<option {if $TASK_OBJECT->pdfTemplate eq $item->getId()}selected{/if}
+						<option {if isset($TASK_OBJECT->pdfTemplate) && $TASK_OBJECT->pdfTemplate eq $item->getId()}selected="selected"{/if}
 								value="{$item->getId()}">{$item->getName()}</option>
 					{/foreach}
 				</select>
@@ -26,7 +26,7 @@
 						<option value="">{\App\Language::translate('LBL_DEFAULT')}</option>
 					</optgroup>
 					{foreach from=App\Mail::getAll() item=ITEM key=ID}
-						<option value="{$ID}" {if $TASK_OBJECT->smtp == $ID}selected{/if}>{$ITEM['name']}
+						<option value="{$ID}" {if isset($TASK_OBJECT->smtp) && $TASK_OBJECT->smtp eq $ID}selected="selected"{/if}>{$ITEM['name']}
 							({$ITEM['host']})
 						</option>
 					{/foreach}
@@ -42,8 +42,8 @@
 					<optgroup class="p-0">
 						<option value="">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
 					</optgroup>
-					{foreach from=App\Mail::getTempleteList($SOURCE_MODULE,'PLL_RECORD') key=key item=item}
-						<option {if $TASK_OBJECT->mailTemplate eq $item['id']}selected=""{/if}
+					{foreach from=App\Mail::getTemplateList($SOURCE_MODULE,'PLL_RECORD') key=key item=item}
+						<option {if isset($TASK_OBJECT->mailTemplate) && $TASK_OBJECT->mailTemplate eq $item['id']}selected=""{/if}
 								value="{$item['id']}">{\App\Language::translate($item['name'], $QUALIFIED_MODULE)}</option>
 					{/foreach}
 				</select>
@@ -52,13 +52,16 @@
 		<div class="row pb-3">
 			<span class="col-md-4"></span>
 			<span class="col-md-4">
-				<label><input type="checkbox" class="align-text-bottom" value="true" name="emailoptout"
-							  {if $TASK_OBJECT->emailoptout}checked{/if}>&nbsp;{\App\Language::translate('LBL_CHECK_EMAIL_OPTOUT', $QUALIFIED_MODULE)}</label>
+				<label>
+					<input type="checkbox" class="align-text-bottom" value="true" name="emailoptout"
+						{if isset($TASK_OBJECT->emailoptout) && $TASK_OBJECT->emailoptout}checked{/if}>&nbsp;{\App\Language::translate('LBL_CHECK_EMAIL_OPTOUT', $QUALIFIED_MODULE)}
+				</label>
 			</span>
 		</div>
 		<div class="row pb-3">
 			<span class="col-md-4 col-form-label text-right">{\App\Language::translate('Select e-mail address', $QUALIFIED_MODULE)}</span>
 			<div class="col-md-4">
+			{assign var=IS_EMAILS value=isset($TASK_OBJECT->email) && is_array($TASK_OBJECT->email)}
 				<select class="select2 form-control" name="email"
 						data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}"
 						multiple="multiple"
@@ -68,7 +71,7 @@
 						<optgroup label="{$BLOCK_NAME}">
 							{foreach item=ITEM from=$FIELDS}
 								<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}"
-										{if $TASK_OBJECT->email && in_array($ITEM['var_value'],$TASK_OBJECT->email)}selected=""{/if}>
+										{if isset($TASK_OBJECT->email) && (($IS_EMAILS && in_array($ITEM['var_value'], $TASK_OBJECT->email)) || ($TASK_OBJECT->email eq $ITEM['var_value']))}selected=""{/if}>
 									{$ITEM['label']}
 								</option>
 							{/foreach}
@@ -79,7 +82,7 @@
 							<optgroup label="{$BLOCK_NAME}">
 								{foreach item=ITEM from=$RELATED_FIELDS}
 									<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}"
-											{if $TASK_OBJECT->email && in_array($ITEM['var_value'],$TASK_OBJECT->email)}selected=""{/if}>
+											{if isset($TASK_OBJECT->email) && (($IS_EMAILS && in_array($ITEM['var_value'], $TASK_OBJECT->email)) || ($TASK_OBJECT->email eq $ITEM['var_value']))}selected=""{/if}>
 										{$ITEM['label']}
 									</option>
 								{/foreach}

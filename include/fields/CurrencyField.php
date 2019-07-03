@@ -101,7 +101,7 @@ class CurrencyField
 	 */
 	public function initialize($user = null)
 	{
-		$defaultCharset = AppConfig::main('default_charset');
+		$defaultCharset = App\Config::main('default_charset');
 		if (empty($user)) {
 			$user = \App\User::getCurrentUserModel();
 		}
@@ -134,6 +134,8 @@ class CurrencyField
 	 *
 	 * @param \App\User $user
 	 * @param bool      $skipConversion
+	 *
+	 * @deprecated    	Recommend using function \App\Fields\Currency::formatToDisplay
 	 *
 	 * @return string Formatted Currency
 	 */

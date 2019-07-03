@@ -10,7 +10,7 @@
 	{if empty($SOURCE_MODULE) && $MODULE_NAME != 'Home'}
 		{assign var=SOURCE_MODULE value=$MODULE_NAME}
 	{/if}
-	{if !empty($SOURCE_MODULE) && AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
+	{if !empty($SOURCE_MODULE) && App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
 		{if !empty($USER_CONDITIONS)}
 			{assign var=USERS_GROUP_LIST value=\App\Fields\Owner::getInstance($SOURCE_MODULE)->getUsersAndGroupForModuleList(false,$USER_CONDITIONS)}
 		{/if}
@@ -30,7 +30,7 @@
 		</span>
 		<select class="widgetFilter select2 owner form-control" aria-label="{\App\Language::translate('LBL_OWNER')}"
 				name="owner" title="{\App\Language::translate('LBL_OWNER')}"
-				{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX') && (in_array('groups', $ACCESS_OPTIONS['available']) || in_array('users', $ACCESS_OPTIONS['available']))}
+				{if App\Config::performance('SEARCH_OWNERS_BY_AJAX') && (in_array('groups', $ACCESS_OPTIONS['available']) || in_array('users', $ACCESS_OPTIONS['available']))}
 				{assign var=AJAX_URL value="index.php?module={$SOURCE_MODULE}&action=Fields&mode=getOwners&fieldName=assigned_user_id"}
 				{if in_array('groups', $ACCESS_OPTIONS['available'])}
 					{assign var=AJAX_URL value=$AJAX_URL|cat:"&result[]=groups"}
@@ -38,7 +38,7 @@
 				{if in_array('users', $ACCESS_OPTIONS['available'])}
 					{assign var=AJAX_URL value=$AJAX_URL|cat:"&result[]=users"}
 				{/if}
-			data-ajax-search="1" data-ajax-url="{$AJAX_URL}" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
+			data-ajax-search="1" data-ajax-url="{$AJAX_URL}" data-minimum-input="{App\Config::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
 				{/if}>
 
 			{if in_array('mine', $ACCESS_OPTIONS.available)}
@@ -48,7 +48,7 @@
 			{if in_array('all', $ACCESS_OPTIONS.available)}
 				<option value="all" {if $OWNER eq 'all' || $ACCESS_OPTIONS['default'] eq 'all'} data-name="" title="{\App\Language::translate('LBL_ALL')}" selected {/if}>{\App\Language::translate('LBL_ALL')}</option>
 			{/if}
-			{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
+			{if !App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
 				{assign var=ACCESSIBLE_USERS value=array_diff_key($ACCESSIBLE_USERS, array_flip([$USER_MODEL->getId()]))}
 				{if !empty($ACCESSIBLE_USERS) && in_array('users', $ACCESS_OPTIONS['available'])}
 					<optgroup label="{\App\Language::translate('LBL_USERS')}">

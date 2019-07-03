@@ -9,7 +9,7 @@
 				</div>
 				<div class="col-md-5">
 					<div class="btn-toolbar justify-content-end form-row">
-						{if AppConfig::developer('CHANGE_RELATIONS')}
+						{if App\Config::developer('CHANGE_RELATIONS')}
 							<button class="btn btn-primary float-right addRelation mr-2" type="button">
 								<span class="fas fa-plus"></span>&nbsp;&nbsp;
 								{\App\Language::translate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}
@@ -81,7 +81,7 @@
 													type="button"><span
 														class="fas fa-times"></span>&nbsp;<strong>{\App\Language::translate('LBL_HIDDEN', $QUALIFIED_MODULE)}</strong>
 											</button>
-											{if AppConfig::developer('CHANGE_RELATIONS')}
+											{if App\Config::developer('CHANGE_RELATIONS')}
 												<button type="button"
 														class="btn btn-sm btn-danger removeRelation float-right"
 														title="{\App\Language::translate('LBL_REMOVE_RELATION', $QUALIFIED_MODULE)}">

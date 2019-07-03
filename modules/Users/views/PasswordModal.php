@@ -117,7 +117,7 @@ class Users_PasswordModal_View extends \App\Controller\Modal
 				if ($time !== 0) {
 					$time += (int) $passConfig['lock_time'];
 					if (date('Y-m-d') > date('Y-m-d', strtotime("+{$passConfig['change_time']} day", strtotime($userModel->getDetail('date_password_change'))))) {
-						$viewer->assign('WARNING', \App\Language::translateArgs('LBL_YOUR_PASSWORD_WILL_EXPIRE', $moduleName, \App\Fields\Date::getDiff(date('Y-m-d'), date('Y-m-d', strtotime("+$time day", strtotime($userModel->getDetail('date_password_change')))), 'days')));
+						$viewer->assign('WARNING', \App\Language::translateArgs('LBL_YOUR_PASSWORD_WILL_EXPIRE', $moduleName, \App\Fields\DateTime::getDiff(date('Y-m-d'), date('Y-m-d', strtotime("+$time day", strtotime($userModel->getDetail('date_password_change')))), 'days')));
 					}
 				}
 			}

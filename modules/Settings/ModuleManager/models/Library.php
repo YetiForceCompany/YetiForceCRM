@@ -101,7 +101,7 @@ class Settings_ModuleManager_Library_Model
 	{
 		$returnVal = true;
 		if (!static::$libraries[$name]) {
-			App\Log::warning('Library does not exist: ' . $name);
+			App\Log::warning('Library does not exist: ' . $name, 'Library');
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		$lib = static::$libraries[$name];
@@ -109,22 +109,17 @@ class Settings_ModuleManager_Library_Model
 		$mode = \App\Config::developer('MISSING_LIBRARY_DEV_MODE') ? 'developer' : App\Version::get($lib['name']);
 		$compressedName = $lib['name'] . '-' . $mode;
 		if (!file_exists($path) && \App\RequestUtil::isNetConnection()) {
-			stream_context_set_default([
-				'ssl' => [
-					'verify_peer' => true,
-					'verify_peer_name' => true,
-				],
-			]);
 			$url = $lib['url'] . "/archive/$mode.zip";
-			$headers = get_headers($url, 1);
-			if (isset($headers['Status']) && strpos($headers['Status'], '302') !== false) {
-				App\Log::trace('Started downloading library: ' . $name);
-				if ($file = file_get_contents($url, false, stream_context_create(['ssl' => ['verify_peer' => true, 'verify_peer_name' => true]]))) {
-					file_put_contents($path, $file);
-					App\Log::trace('Completed downloads library: ' . $name);
+			App\Log::trace('Started downloading library: ' . $name, 'Library');
+			try {
+				(new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, ['sink' => $path]);
+				if (\file_exists($path)) {
+					App\Log::trace('Completed downloads library: ' . $name, 'Library');
+				} else {
+					App\Log::warning('Can not connect to the server' . $url, 'Library');
 				}
-			} else {
-				App\Log::warning('Can not connect to the server' . $url);
+			} catch (\Exception $ex) {
+				\App\Log::warning($ex->__toString(), __METHOD__, 'Library');
 			}
 		}
 		if (file_exists($path) && filesize($path) > 0) {
@@ -133,7 +128,7 @@ class Settings_ModuleManager_Library_Model
 			$zip->unzip([$compressedName => $lib['dir']]);
 			unlink($path);
 		} else {
-			App\Log::warning('No import file: ' . $name);
+			App\Log::warning('No import file: ' . $name, 'Library');
 			$returnVal = false;
 		}
 		return $returnVal;

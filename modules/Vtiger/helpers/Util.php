@@ -22,7 +22,7 @@ class Vtiger_Util_Helper
 	{
 		// http://www.php.net/manual/en/datetime.diff.php#101029
 		$seconds = strtotime('now') - strtotime($dateTime);
-		if ($seconds === 0) {
+		if (0 === $seconds) {
 			return \App\Language::translate('LBL_JUSTNOW');
 		}
 		if ($seconds > 0) {
@@ -57,7 +57,7 @@ class Vtiger_Util_Helper
 		if ($months > 11) {
 			$month = $months % 12;
 			$monthAgo = '';
-			if ($month != 0) {
+			if (0 !== $month) {
 				$monthAgo = self::pluralize($month, 'LBL_MONTH');
 			}
 			$result = self::pluralize(floor($months / 12), 'LBL_YEAR') . ' ' . $monthAgo;
@@ -76,7 +76,7 @@ class Vtiger_Util_Helper
 	 */
 	public static function pluralize($count, $text)
 	{
-		return $count . ' ' . (($count == 1) ? \App\Language::translate("$text") : \App\Language::translate("${text}S"));
+		return $count . ' ' . ((1 === $count) ? \App\Language::translate("$text") : \App\Language::translate("${text}S"));
 	}
 
 	/**
@@ -106,11 +106,11 @@ class Vtiger_Util_Helper
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$dateTimeInUserFormat = App\Fields\DateTime::formatToDisplay($date . ' ' . $time);
 
-		list($dateInUserFormat, $timeInUserFormat) = explode(' ', $dateTimeInUserFormat);
-		list($hours, $minutes) = explode(':', $timeInUserFormat);
+		[$dateInUserFormat, $timeInUserFormat] = explode(' ', $dateTimeInUserFormat);
+		[$hours, $minutes] = explode(':', $timeInUserFormat);
 
 		$displayTime = $hours . ':' . $minutes;
-		if ($currentUser->get('hour_format') === '12') {
+		if ('12' === $currentUser->get('hour_format')) {
 			$displayTime = Vtiger_Time_UIType::getTimeValueInAMorPM($displayTime);
 		}
 
@@ -131,7 +131,7 @@ class Vtiger_Util_Helper
 			}
 			$formatedDate = $userDate . " ($tomorrowInfo)";
 		} else {
-			if ($currentUser->get('date_format') === 'mm-dd-yyyy') {
+			if ('mm-dd-yyyy' === $currentUser->get('date_format')) {
 				$dateInUserFormat = str_replace('-', '/', $dateInUserFormat);
 			}
 			$date = strtotime($dateInUserFormat);
@@ -173,7 +173,7 @@ class Vtiger_Util_Helper
 	 */
 	public static function getMaxUploadSize()
 	{
-		$upload_maxsize = \AppConfig::main('upload_maxsize');
+		$upload_maxsize = \App\Config::main('upload_maxsize');
 		return ceil($upload_maxsize / (1024 * 1024));
 	}
 
@@ -191,7 +191,7 @@ class Vtiger_Util_Helper
 
 	public static function getActiveAdminCurrentDateTime()
 	{
-		$default_timezone = \AppConfig::main('default_timezone');
+		$default_timezone = \App\Config::main('default_timezone');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
 		date_default_timezone_set($adminTimeZone);
@@ -216,7 +216,7 @@ class Vtiger_Util_Helper
 			$userModel = Users_Privileges_Model::getCurrentUserModel();
 		}
 
-		if ($userModel->get('hour_format') == '12') {
+		if ('12' === $userModel->get('hour_format')) {
 			$time = Vtiger_Time_UIType::getTimeValueInAMorPM($time);
 		}
 		return $time;
@@ -226,18 +226,15 @@ class Vtiger_Util_Helper
 	{
 		return [
 			'twilight' => '#404952',
-			//'modern' => '#0d9605'
+			'gray' => '#d1d1db'
 		];
 	}
 
 	public static function isUserDeleted($userid)
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT deleted FROM vtiger_users WHERE id = ? && (status=? || deleted=?)', [$userid, 'Inactive', 1]);
-		$count = $db->numRows($result);
-		if ($count > 0) {
-			return true;
-		}
-		return false;
+		return (new App\Db\Query())->from('vtiger_users')
+			->where(['id' => $userid])
+			->andWhere(['or', ['deleted' => 1], ['status' => 'Inactive']])
+			->exists();
 	}
 }

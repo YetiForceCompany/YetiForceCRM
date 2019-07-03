@@ -213,7 +213,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		if ($customColumns) {
 			return array_key_exists($name, $customColumns);
 		}
-		if (($fieldModel = $this->moduleFieldInstances[$name] ?? false) && $fieldModel->getFieldDataType() === 'text') {
+		if (($fieldModel = $this->moduleFieldInstances[$name] ?? false) && in_array($fieldModel->getFieldDataType(), ['text', 'multiEmail'])) {
 			return true;
 		}
 		return false;

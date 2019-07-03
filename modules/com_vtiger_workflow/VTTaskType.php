@@ -84,9 +84,7 @@ class VTTaskType
 	{
 		$db = \App\Db::getInstance();
 		$modules = \App\Json::encode($taskType['modules']);
-		$taskType['id'] = $db->getUniqueID('com_vtiger_workflow_tasktypes');
 		$db->createCommand()->insert('com_vtiger_workflow_tasktypes', [
-			'id' => $taskType['id'],
 			'tasktypename' => $taskType['name'],
 			'label' => $taskType['label'],
 			'classname' => $taskType['classname'],

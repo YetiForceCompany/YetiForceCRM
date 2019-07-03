@@ -1,5 +1,5 @@
 <?php
-/* +**********************************************************************************
+ /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -33,7 +33,8 @@ class SMSNotifier extends Vtiger_CRMEntity
 	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_smsnotifier' => 'smsnotifierid',
-		'vtiger_smsnotifiercf' => 'smsnotifierid', ];
+		'vtiger_smsnotifiercf' => 'smsnotifierid',
+	];
 
 	/**
 	 * Mandatory for Listing (Related listview).
@@ -78,14 +79,13 @@ class SMSNotifier extends Vtiger_CRMEntity
 	public function __construct()
 	{
 		$this->column_fields = vtlib\Deprecated::getColumnFields(get_class($this));
-		$this->db = PearDatabase::getInstance();
 	}
 
 	/**
 	 * Invoked when special actions are performed on the module.
 	 *
-	 * @param string Module name
-	 * @param string Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
+	 * @param string $modulename Module name
+	 * @param string $eventType  Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
 	public function moduleHandler($modulename, $eventType)
 	{

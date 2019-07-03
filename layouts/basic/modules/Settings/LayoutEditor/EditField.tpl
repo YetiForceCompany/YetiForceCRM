@@ -149,7 +149,7 @@
 								</div>
 							</div>
 						</div>
-						{if AppConfig::developer('CHANGE_GENERATEDTYPE')}
+						{if App\Config::developer('CHANGE_GENERATEDTYPE')}
 							<div class="checkbox">
 							<input type="hidden" name="generatedtype" value="0"/>
 							<input type="checkbox" name="generatedtype" id="generatedtype"
@@ -159,7 +159,7 @@
 								</label>
 							</div>
 						{/if}
-						{if AppConfig::developer('CHANGE_VISIBILITY')}
+						{if App\Config::developer('CHANGE_VISIBILITY')}
 							<div class="form-group">
 								<label for="displaytype">
 									<strong>{App\Language::translate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}</strong>

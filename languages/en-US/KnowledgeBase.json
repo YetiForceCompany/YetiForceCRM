@@ -2,6 +2,7 @@
   "php": {
     "KnowledgeBase": "Knowledge Base",
     "SINGLE_KnowledgeBase": "Knowledge Base",
+    "BTN_KNOWLEDGE_BASE": "Knowledge Base",
     "LBL_CUSTOM_INFORMATION": "Custom information",
     "FL_SUBJECT": "Subject",
     "LBL_KNOWLEDGEBASE_INFORMATION": "Basic information",
@@ -10,7 +11,7 @@
     "FL_VIEWS": "View",
     "PLL_PAGE": "Page",
     "PLL_PRESENTATION": "Presentation",
-    "LBL_VIEW_TREE": "Records tree",
+    "LBL_VIEW_KNOWLEDGE_BASE": "Knowledge base",
     "LBL_PREVIOUS": "Previous",
     "LBL_NEXT": "Next",
     "LBL_LIST_RECORDS": "Records list",
@@ -26,13 +27,10 @@
     "LBL_ARTICLE": "Article",
     "LBL_DESCRIPTION_BLOCK": "Description",
     "LBL_ATTENTION_BLOCK": "Comments",
-    "LBL_FULL_SCREEN": "Full screen",
-    "LBL_WIDTH_HEIGHT": "Width x Height",
-    "LBL_ALLOWED_WIDTH_HEIGHT": "The maximum Width x Height must be",
-    "LBL_MAX_FILE_SIZE": "Maximum file size must be",
-    "LBL_FILE_UPLOADED": "successfully uploaded",
     "LBL_SIZE": "Size",
-    "ERR_NOT_ALLOWED": "The file has not the allowed extension type",
-    "ERR_UNABLE_TO_UPLOAD": "Unable to upload the file"
+    "FL_FEATURED": "Featured",
+    "LBL_RELATED_KNOWLEDGE_BASES": "Related entries",
+    "FL_INTRODUCTION": "Introduction",
+    "ERR_NOT_ALLOWED": "The file has not the allowed extension type"
   }
 }

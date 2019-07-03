@@ -76,7 +76,34 @@ class Vtiger_RecordPopover_Model extends \App\Base
 	 */
 	public function getHeaderLinks(): array
 	{
-		return [];
+		$links = [];
+		$detailUrl = $this->recordModel->getFullDetailViewUrl();
+		$editUrl = $this->recordModel->isEditable() ? $this->recordModel->getEditViewUrl() : '';
+		if ($this->recordModel->isEditable()) {
+			$links[] = [
+				'linktype' => 'RECORD_POPOVER_VIEW',
+				'linklabel' => 'LBL_EDIT',
+				'linkhref' => true,
+				'linkurl' => $editUrl,
+				'linkicon' => 'fas fa-edit',
+				'linkclass' => 'btn-sm btn-outline-secondary js-calendar-popover__button',
+			];
+		}
+		if ($this->recordModel->isViewable()) {
+			$links[] = [
+				'linktype' => 'RECORD_POPOVER_VIEW',
+				'linklabel' => 'DetailView',
+				'linkhref' => true,
+				'linkurl' => $detailUrl,
+				'linkicon' => 'fas fa-th-list',
+				'linkclass' => 'btn-sm btn-outline-secondary js-calendar-popover__button',
+			];
+		}
+		$linksModels = [];
+		foreach ($links as $link) {
+			$linksModels[] = Vtiger_Link_Model::getInstanceFromValues($link);
+		}
+		return $linksModels;
 	}
 
 	/**

@@ -21,11 +21,14 @@ class OSSMail_Logout_Model
 	 */
 	public static function logoutCurrentUser()
 	{
-		if (isset($_COOKIE['roundcube_sessid'])) {
-			setcookie('roundcube_sessid', '', time() - 3600, '/');
-			setcookie('roundcube_sessauth', '', time() - 3600, '/');
+		if ($sessionId = $_COOKIE['roundcube_sessid'] ?? null) {
+			$cookie = session_get_cookie_params();
+			$secure = $cookie['secure'] || \App\RequestUtil::getBrowserInfo()->https;
+			$exp = time() - 3600;
+			setcookie('roundcube_sessid', '', $exp, $cookie['path'], $cookie['domain'], $secure, true);
+			setcookie('roundcube_sessauth', '', $exp, $cookie['path'], $cookie['domain'], $secure, true);
 			\App\Db::getInstance()->createCommand()
-				->delete('roundcube_session', ['sess_id' => $_COOKIE['roundcube_sessid']])
+				->delete('roundcube_session', ['sess_id' => $sessionId])
 				->execute();
 		}
 	}

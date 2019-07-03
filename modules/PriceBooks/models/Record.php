@@ -16,9 +16,9 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function returns the List Price for PriceBook-Product/Service relation.
 	 *
-	 * @param <Integer> $relatedRecordId - Product/Service Id
+	 * @param int $relatedRecordId - Product/Service Id
 	 *
-	 * @return <Integer>
+	 * @return null|false|string
 	 */
 	public function getProductsListPrice($relatedRecordId)
 	{
@@ -31,8 +31,8 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function updates ListPrice for PriceBook-Product/Service relation.
 	 *
-	 * @param <Integer> $relatedRecordId - Product/Service Id
-	 * @param <Integer> $price           - listprice
+	 * @param int   $relatedRecordId - Product/Service Id
+	 * @param float $price           - listprice
 	 */
 	public function updateListPrice($relatedRecordId, $price)
 	{
@@ -56,7 +56,7 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function deletes the List Price for PriceBooks-Product/Services relationship.
 	 *
-	 * @param <Integer> $relatedRecordId - Product/Service Id
+	 * @param int $relatedRecordId - Product/Service Id
 	 */
 	public function deleteListPrice($relatedRecordId)
 	{

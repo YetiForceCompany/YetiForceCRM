@@ -43,23 +43,25 @@ class OverdueDeadlines extends Base
 		$query = $queryGenerator->createQuery();
 		$query->limit(500);
 		$dataReader = $query->createCommand()->query();
-		$html = '<table style="border-collapse:collapse;"><thead><tr>';
+		$html = '<table class="overdue-deadlines" style="border-collapse:collapse;"><thead><tr>';
 		foreach ($this->columnNames as $column) {
 			$fieldModel = $fields[$column];
-			$html .= '<th><span>' . \App\Language::translate($fieldModel->get('label'), $moduleName) . '</span></th>';
+			$html .= '<th class="col-type-' . $fieldModel->getType() . '"><span>' . \App\Language::translate($fieldModel->get('label'), $moduleName) . '</span></th>';
 		}
 		$html .= '</tr></thead><tbody>';
+		$counter = 0;
 		while ($row = $dataReader->read()) {
-			$html .= '<tr>';
+			++$counter;
+			$html .= '<tr class="row-' . $counter . '">';
 			foreach ($this->columnNames as $column) {
 				$recordId = $row['id'];
 				$recordModel = \Vtiger_Record_Model::getInstanceById($recordId);
 				$style = '';
-				if (in_array($column, ['activitytype', 'date_start', 'link'])) {
+				if (\in_array($column, ['activitytype', 'date_start', 'link'])) {
 					$style = 'style="padding:0px 4px;text-align:center;border:1px solid #ddd;"';
 				}
 				$fieldModel = $fields[$column];
-				if ($column == 'link') {
+				if ('link' == $column) {
 					$linkId = $recordModel->get('link');
 					if (!empty($linkId) && \App\Record::isExists($linkId)) {
 						$processRecordModel = \Vtiger_Record_Model::getInstanceById($linkId);
@@ -71,7 +73,7 @@ class OverdueDeadlines extends Base
 					$value = $recordModel->getDisplayValue($fieldModel->getName(), $recordId, true);
 				}
 
-				$html .= '<td ' . $style . '>' . $value . '</td>';
+				$html .= '<td class="col-type-' . $fieldModel->getType() . '"><span>' . $style . '>' . $value . '</td>';
 			}
 			$html .= '</tr>';
 		}

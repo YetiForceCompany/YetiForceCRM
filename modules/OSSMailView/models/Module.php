@@ -12,14 +12,11 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 	{
 		$settingsLinks = parent::getSettingLinks();
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
-		$fieldId = (new App\Db\Query())->select(['fieldid'])
-			->from('vtiger_settings_field')
-			->where(['name' => 'OSSMailView', 'description' => 'OSSMailView'])
-			->scalar();
+		$menu = Settings_Vtiger_MenuItem_Model::getInstance('Mail View');
 		$settingsLinks[] = [
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => 'LBL_MODULE_CONFIGURATION',
-			'linkurl' => 'index.php?module=OSSMailView&parent=Settings&view=index&block=4&fieldid=' . $fieldId,
+			'linkurl' => 'index.php?module=OSSMailView&parent=Settings&view=index&block=' . $menu->get('blockid').'&fieldid=' . $menu->get('fieldid'),
 			'linkicon' => $layoutEditorImagePath,
 		];
 

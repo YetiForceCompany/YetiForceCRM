@@ -24,7 +24,7 @@ class Encryption extends \App\SystemWarnings\Template
 		} else {
 			$this->status = 0;
 		}
-		if ($this->status === 0) {
+		if (0 === $this->status) {
 			$this->link = 'index.php?module=Password&parent=Settings&view=Encryption';
 			$this->linkTitle = \App\Language::translate('BTN_CONFIGURE_ENCRYPTION', 'Settings:SystemWarnings');
 			$this->description = \App\Language::translate('LBL_CONFIGURE_ENCRYPTION_DESCRIPTION', 'Settings:SystemWarnings');

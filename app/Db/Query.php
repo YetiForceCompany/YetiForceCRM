@@ -21,10 +21,10 @@ class Query extends \yii\db\Query
 	 */
 	public function createCommand($db = null)
 	{
-		if ($db === null) {
+		if (null === $db) {
 			$db = \App\Db::getInstance();
 		}
-		list($sql, $params) = $db->getQueryBuilder()->build($this);
+		[$sql, $params] = $db->getQueryBuilder()->build($this);
 
 		return $db->createCommand($sql, $params);
 	}
@@ -44,7 +44,7 @@ class Query extends \yii\db\Query
 	 */
 	public function batch($batchSize = 100, $db = null)
 	{
-		if ($db === null) {
+		if (null === $db) {
 			$db = \App\Db::getInstance();
 		}
 		return \Yii::createObject([
@@ -69,7 +69,7 @@ class Query extends \yii\db\Query
 	 */
 	public function each($batchSize = 100, $db = null)
 	{
-		if ($db === null) {
+		if (null === $db) {
 			$db = \App\Db::getInstance();
 		}
 		return \Yii::createObject([
@@ -102,11 +102,31 @@ class Query extends \yii\db\Query
 	 * @param Connection $db the database connection used to generate the SQL statement.
 	 *                       If this parameter is not given, the `db` application component will be used
 	 *
-	 * @return string|null|false the value of the first column in the first row of the query result.
+	 * @return false|string|null the value of the first column in the first row of the query result.
 	 *                           False is returned if the query result is empty
 	 */
 	public function scalar($db = null)
 	{
 		return $this->limit(1)->createCommand($db)->queryScalar();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function queryScalar($selectExpression, $db)
+	{
+		if ($this->emulateExecution || (!$this->distinct
+		&& empty($this->groupBy)
+		&& empty($this->having)
+		&& empty($this->union))) {
+			return	parent::queryScalar($selectExpression, $db);
+		}
+		$command = (new static())
+			->select([$selectExpression])
+			->from(['c' => $this])
+			->createCommand($db);
+		$this->setCommandCache($command);
+
+		return $command->queryScalar();
 	}
 }

@@ -12,6 +12,23 @@ Settings_Vtiger_List_Js('Settings_Companies_List_Js', {}, {
 		$('.js-register-serial').on('click', (e) => {
 			app.showModalWindow(null, 'index.php?module=YetiForce&parent=Settings&view=RegistrationSerialModal');
 		});
+		$('.js-register-check').on('click', (e) => {
+			AppConnector.request({
+				module: 'YetiForce',
+				parent: app.getParentModuleName(),
+				action: 'Register',
+				mode: 'check',
+			}).done(function (data) {
+				if (data.result.success === false) {
+					Vtiger_Helper_Js.showPnotify({
+						text: data.result.message,
+						type: 'info',
+					});
+				} else {
+					window.location.reload();
+				}
+			});
+		});
 		if (app.getUrlVar('displayModal') === 'online') {
 			$('.js-register-online').click();
 		}

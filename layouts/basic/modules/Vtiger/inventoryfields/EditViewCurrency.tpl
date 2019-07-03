@@ -14,10 +14,10 @@
 	{else}
 		{assign var=CURRENCY_PARAMS value=$FIELD->getCurrencyParam($CURRENCIES, $ITEM_DATA['currencyparam'])}
 	{/if}
-	<input name="inventory[{$ROW_NO}][currencyparam]" type="hidden" value="{\App\Purifier::encodeHtml(\App\Json::encode($CURRENCY_PARAMS))}"
-		   class="currencyparam"/>
-	<select class="select2" data-minimum-results-for-search="-1" data-old-value="{$SELECTED_CURRENCY}"
-			name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]"
+	<input {if $ROW_NO} name="inventory[{$ROW_NO}][currencyparam]" {/if} type="hidden" value="{\App\Purifier::encodeHtml(\App\Json::encode($CURRENCY_PARAMS))}"
+		   class="js-currencyparam" data-js=""/>
+	<select class="select2 js-currency" data-minimum-results-for-search="-1" data-old-value="{$SELECTED_CURRENCY}"
+			{if $ROW_NO} name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" {/if}
 			title="{\App\Language::translate('LBL_CURRENCY', $MODULE_NAME)}"
 			{if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}>
 		{foreach item=CURRENCY key=count from=$CURRENCIES}

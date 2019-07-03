@@ -40,9 +40,9 @@ class Debuger extends \Tests\Base
 	 */
 	public function testInit()
 	{
-		\AppConfig::set('debug', 'DISPLAY_DEBUG_CONSOLE', true);
-		\AppConfig::set('debug', 'LOG_TO_PROFILE', true);
-		\AppConfig::set('debug', 'LOG_TO_CONSOLE', true);
+		\App\Config::set('debug', 'DISPLAY_DEBUG_CONSOLE', true);
+		\App\Config::set('debug', 'LOG_TO_PROFILE', true);
+		\App\Config::set('debug', 'LOG_TO_CONSOLE', true);
 		$this->assertNull(\App\Debuger::init(), 'Expected null value');
 	}
 
@@ -60,14 +60,14 @@ class Debuger extends \Tests\Base
 	public function testCheckIP()
 	{
 		$this->assertTrue(\App\Debuger::checkIP(), 'Expected true');
-		\AppConfig::set('debug', 'DEBUG_CONSOLE_ALLOWED_IPS', '127.0.0.1');
+		\App\Config::set('debug', 'DEBUG_CONSOLE_ALLOWED_IPS', '127.0.0.1');
 		$this->assertFalse(\App\Debuger::checkIP(), 'Expected false');
-		\AppConfig::set('debug', 'DEBUG_CONSOLE_ALLOWED_IPS', ['127.0.0.1']);
+		\App\Config::set('debug', 'DEBUG_CONSOLE_ALLOWED_IPS', ['127.0.0.1']);
 		$this->assertFalse(\App\Debuger::checkIP(), 'Expected false');
 
-		\AppConfig::set('debug', 'DEBUG_CONSOLE_ALLOWED_IPS', '');
+		\App\Config::set('debug', 'DEBUG_CONSOLE_ALLOWED_IPS', '');
 		$this->assertTrue(\App\Debuger::checkIP(), 'Expected true');
-		\AppConfig::set('debug', 'DEBUG_CONSOLE_ALLOWED_IPS', ['']);
+		\App\Config::set('debug', 'DEBUG_CONSOLE_ALLOWED_IPS', ['']);
 		$this->assertTrue(\App\Debuger::checkIP(), 'Expected true');
 	}
 }
