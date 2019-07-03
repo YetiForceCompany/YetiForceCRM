@@ -28,9 +28,8 @@
           contenteditable="true"
           data-completions-buttons="true"
           :placeholder="translate('JS_CHAT_MESSAGE')"
-          data-js="keydown | tribute.js"
           ref="input"
-          @keydown.enter="send"
+          @keydown.enter="onEnter"
         ></div>
       </div>
       <q-btn :loading="sending" round color="secondary" icon="mdi-send" @click="send">
@@ -100,6 +99,9 @@ export default {
     },
     addEmoji(emoji) {
       this.$refs.input.insertAdjacentHTML('beforeend', emoji.native)
+    },
+    onEnter(e) {
+      if (this.data.sendByEnter && !e.shiftKey) this.send(e)
     },
     registerEmojiPanelClickOutside() {
       document.addEventListener('click', e => {

@@ -5,7 +5,14 @@
       <div class="flex items-center no-wrap full-width justify-between">
         <div class="flex no-wrap">
           <q-btn dense flat round icon="mdi-menu" @click="toggleLeftPanel()" />
-          <q-btn dense round flat icon="mdi-keyboard-outline" />
+          <q-btn
+            dense
+            round
+            flat
+            icon="mdi-keyboard-outline"
+            @click="toggleEnter()"
+            :color="data.sendByEnter ? 'info' : ''"
+          />
           <q-btn dense round flat icon="mdi-bell-off-outline" />
           <q-btn dense round flat icon="mdi-volume-high" />
         </div>
@@ -50,7 +57,7 @@
 </template>
 <script>
 import { createNamespacedHelpers } from 'vuex'
-const { mapActions, mapMutations } = createNamespacedHelpers('Chat')
+const { mapActions, mapMutations, mapGetters } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatHeader',
   props: {
@@ -66,6 +73,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['data']),
     maximizedDialog: {
       get() {
         return this.$store.getters['Chat/maximizedDialog']
@@ -106,7 +114,11 @@ export default {
         this.maximizedDialog = true
       }
     },
-    ...mapMutations(['setLeftPanel', 'setRightPanel'])
+    toggleEnter() {
+      this.setSendByEnter(!this.data.sendByEnter)
+      app.setCookie('chat-notSendByEnter', !this.data.sendByEnter, 365)
+    },
+    ...mapMutations(['setLeftPanel', 'setRightPanel', 'setSendByEnter'])
   }
 }
 </script>

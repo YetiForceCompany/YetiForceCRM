@@ -36,6 +36,9 @@ export default {
 	setTab(state, tab) {
 		state.tab = tab
 	},
+	setSendByEnter(state, val) {
+		state.data.sendByEnter = val
+	},
 	setPinned(state, { roomType, room }) {
 		const roomList = state.data.roomList
 		switch (roomType) {

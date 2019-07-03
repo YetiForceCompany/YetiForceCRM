@@ -7,5 +7,20 @@ export default {
 	historyTab: false,
 	isSearchActive: false,
 	tab: 'chat',
-	data: {}
+	data: {
+		chatEntries: [],
+		currentRoom: {},
+		roomList: {},
+		participants: [],
+		isModalView: null,
+		isSoundNotification: null,
+		isDesktopNotification: null,
+		sendByEnter: null,
+		showMoreButton: null,
+		refreshMessageTime: null,
+		refreshRoomTime: null,
+		maxLengthMessage: null,
+		refreshTimeGlobal: null,
+		showNumberOfNewMessages: null
+	}
 }
