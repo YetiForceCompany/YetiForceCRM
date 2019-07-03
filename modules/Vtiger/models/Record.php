@@ -1419,7 +1419,7 @@ class Vtiger_Record_Model extends \App\Base
 				$defaultViewName = $viewModel->getParentRecordModel()->getModule()->getDefaultViewName();
 				$links['LBL_SHOW_QUICK_DETAILS'] = Vtiger_Link_Model::getInstanceFromValues([
 					'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
-					'linkhref' => 'ListPreview' === $defaultViewName ? false : true,
+					'linkhref' => 'ListPreview' !== $defaultViewName,
 					'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
 					'linkicon' => 'far fa-caret-square-right',
 					'linkclass' => 'btn-sm btn-default',
@@ -1453,6 +1453,19 @@ class Vtiger_Record_Model extends \App\Base
 				'linkclass' => 'btn-sm ' . ($watching ? 'btn-dark' : 'btn-outline-dark'),
 				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-dark', 'off' => 'btn-outline-dark', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
 			]);
+		}
+		if ($this->getModule()->isPermitted('ExportPdf')) {
+			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $this->getModuleName());
+			$pdfModel = new $handlerClass();
+			if ($pdfModel->checkActiveTemplates($this->getId(), $this->getModuleName(), 'Detail')) {
+				$links[] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+					'linklabel' => 'LBL_EXPORT_PDF',
+					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&view=PDF&fromview=Detail&record=' . $this->getId(),
+					'linkicon' => 'fas fa-file-pdf',
+					'linkclass' => 'btn-sm btn-outline-danger showModal js-pdf'
+				]);
+			}
 		}
 		if ($relationModel->privilegeToDelete()) {
 			if ($this->privilegeToMoveToTrash()) {
