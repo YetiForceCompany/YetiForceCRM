@@ -251,8 +251,7 @@ class RecordConverter extends Base
 		$this->sourceModuleModel = \Vtiger_Module_Model::getInstance($this->sourceModule);
 		$this->fieldMapping = $this->get('field_mappging') ? \App\Json::decode($this->get('field_mappging')) : [];
 		$this->inventoryMapping = $this->get('inv_field_mapping') ? \App\Json::decode($this->get('inv_field_mapping')) : [];
-		$inventoryField = \Vtiger_Inventory_Model::getInstance($this->sourceModule);
-		$this->sourceInvFields = $inventoryField->getFields();
+		$this->sourceInvFields = \Vtiger_Inventory_Model::getInstance($this->sourceModule)->getFields();
 		$this->defaultValuesCreatedRecord = $this->get('default_values') ? \App\Json::decode($this->get('default_values')) : [];
 	}
 
@@ -278,12 +277,9 @@ class RecordConverter extends Base
 					continue;
 				}
 				$this->initDestinyModuleValues($destinyModuleName);
-				if ($this->fieldMapping && $this->fieldMapping['mapping'][$this->destinyModuleModel->getId()] && (!$this->isFieldMergeExists || 1 === $recordsAmount)) {
-					$this->fieldMappingExecute = true;
-				}
-				if ($this->inventoryMapping && $this->sourceModuleModel->isInventory() && $this->destinyModuleModel->isInventory()) {
-					$this->inventoryMappingExecute = true;
-				}
+				$this->checkFieldMergeExist();
+				$this->setFieldsMapCanExecute($recordsAmount);
+				$this->setInvMapCanExecute();
 				if ($this->isFieldMergeExists) {
 					$this->groupRecordConvert = true;
 					$createdRecordIds = $this->getRecordsGroupBy($records);
@@ -296,7 +292,25 @@ class RecordConverter extends Base
 	}
 
 	/**
-	 * Function initializing.
+	 * Function check if field mapping process can be proced.
+	 *
+	 * @param int $recordsAmount
+	 */
+	public function setFieldsMapCanExecute(int $recordsAmount)
+	{
+		$this->fieldMappingExecute = $this->fieldMapping && $this->fieldMapping['mapping'][$this->destinyModuleModel->getId()] && (!$this->isFieldMergeExists || 1 === $recordsAmount);
+	}
+
+	/**
+	 * Function check if inventory mapping process can be proced.
+	 */
+	public function setInvMapCanExecute()
+	{
+		$this->inventoryMappingExecute = $this->inventoryMapping && $this->sourceModuleModel->isInventory() && $this->destinyModuleModel->isInventory();
+	}
+
+	/**
+	 * Function initializing destiny module values.
 	 *
 	 * @param string $moduleName
 	 */
@@ -304,9 +318,7 @@ class RecordConverter extends Base
 	{
 		$this->destinyModule = $moduleName;
 		$this->destinyModuleModel = \Vtiger_Module_Model::getInstance($this->destinyModule);
-		$inventoryField = \Vtiger_Inventory_Model::getInstance($this->destinyModule);
-		$this->destinyInvFields = $inventoryField->getFields();
-		$this->isFieldMergeExists = $this->checkFieldMerge();
+		$this->destinyInvFields = \Vtiger_Inventory_Model::getInstance($this->destinyModule)->getFields();
 	}
 
 	/**
@@ -323,15 +335,12 @@ class RecordConverter extends Base
 	{
 		$this->initDestinyModuleValues($destinyModule);
 		$this->init();
-		$this->isFieldMergeExists = $this->checkFieldMerge();
+		$this->checkFieldMergeExist();
 		if ($this->fieldMapping && $this->fieldMapping['mapping'][$this->destinyModuleModel->getId()] && $this->isFieldMergeExists) {
 			$this->fieldMappingExecute = true;
 		}
-		if ($this->inventoryMapping && $this->sourceModuleModel->isInventory() && $this->destinyModuleModel->isInventory()) {
-			$this->inventoryMappingExecute = true;
-		}
+		$this->setInvMapCanExecute();
 		$this->getRecordModelsWithoutMerge([$record]);
-		//current?
 		return \current($this->cleanRecordModels);
 	}
 
@@ -368,12 +377,9 @@ class RecordConverter extends Base
 					$this->recordModels[$groupBy][$recordId] = \Vtiger_Record_Model::getInstanceById($recordId, $this->sourceModule);
 				}
 			}
-			if ($this->inventoryMappingExecute) {
-				$this->processInventoryMapping();
-			}
-			if ($this->get('check_duplicate')) {
-				$this->checkDuplicate();
-			}
+			$this->processInventoryMapping();
+			$this->checkIfDuplicateRecordExists();
+
 			$createdRecordIds[] = $this->saveChanges();
 		}
 		return $createdRecordIds;
@@ -394,15 +400,10 @@ class RecordConverter extends Base
 			if (!isset($this->recordModels[$recordId])) {
 				$this->recordModels[$recordId] = \Vtiger_Record_Model::getInstanceById($recordId, $this->sourceModule);
 			}
-			if ($this->fieldMappingExecute) {
-				$this->processFieldMapping();
-			}
-			if ($this->inventoryMappingExecute) {
-				$this->processInventoryMapping();
-			}
-			if ($this->get('check_duplicate')) {
-				$this->checkDuplicate();
-			}
+			$this->processFieldMapping();
+			$this->checkFieldMappingFields();
+			$this->processInventoryMapping();
+			$this->checkIfDuplicateRecordExists();
 			if (!$this->get('redirect_to_edit')) {
 				$createdRecordIds[] = $this->saveChanges();
 			}
@@ -415,8 +416,7 @@ class RecordConverter extends Base
 	 */
 	public function processFieldMapping()
 	{
-		$this->checkFieldMappingFields();
-		if (isset($this->fieldMapping['mapping'][$this->destinyModuleModel->getId()])) {
+		if ($this->fieldMappingExecute && isset($this->fieldMapping['mapping'][$this->destinyModuleModel->getId()])) {
 			foreach ($this->cleanRecordModels as $key => $cleanRecordModel) {
 				$referenceRecordModel = &$this->cleanRecordModels[$key];
 				$textParser = \App\TextParser::getInstanceByModel($this->recordModels[$key]);
@@ -456,8 +456,8 @@ class RecordConverter extends Base
 	 */
 	public function processInventoryMapping()
 	{
-		if ($this->inventoryMapping) {
-			if ('auto' === $this->inventoryMapping[0]) {
+		if ($this->inventoryMappingExecute && $this->inventoryMapping) {
+			if (isset($this->inventoryMapping[0]) && 'auto' === $this->inventoryMapping[0]) {
 				$this->initInventoryValuesAuto();
 			} else {
 				$this->initInventoryValuesByUser();
@@ -524,12 +524,28 @@ class RecordConverter extends Base
 								$fieldCustomColumn = $this->destinyInvFields[$destinyField]->getCustomColumn();
 								if ($fieldCustomColumn) {
 									foreach (array_keys($fieldCustomColumn) as $customColumn) {
-										$invData[$groupBy][$counter][$customColumn] = $inventoryRow[$customColumn];
+										$invData[$groupBy][$counter][$customColumn] = $inventoryRow[$customColumn] ?? [];
 									}
 								}
 								$invData[$groupBy][$counter][$destinyField] = $inventoryRow[$sourceField];
 							}
 						}
+						foreach ($this->destinyInvFields as $columnName => $fieldModel) {
+							if (!isset($invData[$groupBy][$counter][$columnName]) && $fieldModel->has('defaultValue')) {
+								$invData[$groupBy][$counter][$columnName] = $fieldModel->getDefaultValue();
+							} elseif (!isset($invData[$groupBy][$counter][$columnName])) {
+								$invData[$groupBy][$counter][$columnName] = $inventoryRow[$columnName];
+							}
+							$fieldCustomColumn = $fieldModel->getCustomColumn();
+
+							if ($fieldCustomColumn) {
+								foreach (array_keys($fieldCustomColumn) as $customColumn) {
+									$invData[$groupBy][$counter][$customColumn] = '';
+								}
+							}
+						}
+						$invData[$groupBy][$counter]['id'] = $inventoryRow['id'];
+						++$counter;
 					}
 				}
 			}
@@ -553,22 +569,20 @@ class RecordConverter extends Base
 
 	/**
 	 * Function check if merge can be execute.
-	 *
-	 * @return bool
 	 */
-	public function checkFieldMerge(): bool
+	public function checkFieldMergeExist()
 	{
 		if (isset($this->fieldMapping['field_merge'])) {
 			$destinyReferenceFields = $this->destinyModuleModel->getFieldsByReference();
 			$referenceDestinyField = $this->fieldMapping['field_merge'][$this->destinyModuleModel->getId()];
 			if ($referenceDestinyField) {
 				if (!$this->destinyModuleModel->getField($referenceDestinyField) || !$this->sourceModuleModel->getField($this->get('field_merge')) || !isset($destinyReferenceFields[$referenceDestinyField])) {
-					return false;
+					$this->isFieldMergeExists = false;
 				}
-				return true;
+				$this->isFieldMergeExists = true;
 			}
 		}
-		return false;
+		$this->isFieldMergeExists = false;
 	}
 
 	/**
@@ -586,12 +600,11 @@ class RecordConverter extends Base
 	/**
 	 * Function check if exist duplicate of records.
 	 */
-	public function checkDuplicate()
+	public function checkIfDuplicateRecordExists()
 	{
-		if (isset($this->fieldMapping['field_merge'][$this->destinyModuleModel->getId()])) {
+		if ($this->get('check_duplicate') && isset($this->fieldMapping['field_merge'][$this->destinyModuleModel->getId()])) {
 			$referenceDestinyField = $this->fieldMapping['field_merge'][$this->destinyModuleModel->getId()];
 			if ($referenceDestinyField) {
-				$query = $this->getQueryForDuplicate();
 				foreach ($this->cleanRecordModels as $groupBy => $recordModel) {
 					$columnsToCheck = [];
 					if ($this->isFieldMergeExists) {
@@ -606,6 +619,7 @@ class RecordConverter extends Base
 							$columnsToCheck[$destinyField] = $this->textParserValues[$groupBy][$sourceField];
 						}
 					}
+					$query = $this->getQueryForDuplicate();
 					if ($query->where($columnsToCheck)->exists()) {
 						unset($this->cleanRecordModels[$groupBy]);
 					}

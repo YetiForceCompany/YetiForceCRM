@@ -1,0 +1,47 @@
+<?php
+
+/**
+ * Record Converter Action Class.
+ *
+ * @package Action
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Adrian Kon <a.kon@yetiforce.com>
+ */
+
+/**
+ * Class RecordConverter.
+ */
+class Vtiger_RecordConverter_Action extends \App\Controller\Action
+{
+	/**
+	 * {@inheritdoc}
+	 */
+	public function checkPermission(App\Request $request)
+	{
+		if (!\App\Privilege::isPermitted($request->getModule(), 'RecordConventer')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function process(App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$records = Vtiger_Mass_Action::getRecordsListFromRequest($request);
+		$convertId = $request->getInteger('convertId');
+		$convertInstance = \App\RecordConverter::getInstanceById($convertId, $moduleName);
+		$redirect = '';
+		if (1 === count($records) && $convertInstance->get('redirect_to_edit')) {
+			$redirect = 'index.php?module=' . App\Module::getModuleName($convertInstance->get('destiny_module')) . '&view=Edit&recordConverter=' . $convertId . '&sourceId=' . $records[0] . '&sourceModule=' . $moduleName;
+		} else {
+			$convertInstance->process($records);
+		}
+		$response = new Vtiger_Response();
+		$response->setResult(['redirect' => $redirect, 'createdRecords' => \App\Language::translateArgs('LBL_CREATED_CONVERT_RECORDS', $moduleName, $convertInstance->createdRecords), 'error' => $convertInstance->error]);
+		$response->emit();
+	}
+}

@@ -2,7 +2,7 @@
 $.Class("Base_RecordConverter_JS", {}, {
 	container: false,
 	/**
-	 *
+	 * Function get values for request query
 	 * @returns {{module: string, view: string, convertType: integer, fieldMerge: string, onlyBody: boolean, destinyModule: string, sourceView: string}}
 	 */
 	getParams: function () {
@@ -61,7 +61,7 @@ $.Class("Base_RecordConverter_JS", {}, {
 	 */
 	registerChangeConvertType: function () {
 		let self = this;
-		self.container.on('change', '.js-convert-type', function (e) {
+		self.container.on('change', '.js-convert-type', (e) => {
 			self.loadModalWindow();
 		});
 	},
@@ -71,7 +71,7 @@ $.Class("Base_RecordConverter_JS", {}, {
 	 */
 	registerSubmitForm: function () {
 		let self = this;
-		self.container.on('click', "[name='saveButton']", function (e) {
+		self.container.on('click', "[name='saveButton']", (e) => {
 			let convertType = self.container.find('.js-convert-type option:selected').val();
 			if (convertType) {
 				let formData = self.container.find('form').serializeFormData();
