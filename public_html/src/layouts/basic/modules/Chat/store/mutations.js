@@ -39,6 +39,12 @@ export default {
 	setSendByEnter(state, val) {
 		state.data.sendByEnter = val
 	},
+	setSoundNotification(state, val) {
+		state.data.isSoundNotification = val
+	},
+	setDesktopNotification(state, val) {
+		state.data.isDesktopNotification = val
+	},
 	setPinned(state, { roomType, room }) {
 		const roomList = state.data.roomList
 		switch (roomType) {

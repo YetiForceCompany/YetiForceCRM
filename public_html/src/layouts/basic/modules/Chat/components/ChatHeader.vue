@@ -6,15 +6,22 @@
         <div class="flex no-wrap">
           <q-btn dense flat round icon="mdi-menu" @click="toggleLeftPanel()" />
           <q-btn
+            @click="toggleEnter()"
             dense
             round
             flat
             icon="mdi-keyboard-outline"
-            @click="toggleEnter()"
             :color="data.sendByEnter ? 'info' : ''"
           />
-          <q-btn dense round flat icon="mdi-bell-off-outline" />
-          <q-btn dense round flat icon="mdi-volume-high" />
+          <notify-btn />
+          <q-btn
+            @click="toggleSoundNotification()"
+            dense
+            round
+            flat
+            :icon="data.isSoundNotification ? 'mdi-volume-high' : 'mdi-volume-off'"
+            :color="data.isSoundNotification ? 'info' : ''"
+          />
         </div>
         <q-tabs
           class="chat-tabs"
@@ -56,10 +63,14 @@
   </q-header>
 </template>
 <script>
+import NotifyBtn from './NotifyBtn.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapActions, mapMutations, mapGetters } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatHeader',
+  components: {
+    NotifyBtn
+  },
   props: {
     inputSearchVisible: { type: Boolean, required: false },
     tabHistoryShow: { type: Boolean, required: false },
@@ -96,6 +107,7 @@ export default {
   },
   methods: {
     ...mapActions(['setDialog', 'toggleRightPanel', 'toggleLeftPanel', 'toggleHistoryTab', 'maximize']),
+    ...mapMutations(['setLeftPanel', 'setRightPanel', 'setSendByEnter', 'setSoundNotification']),
     showTabHistory: function(value) {
       this.$emit('showTabHistory', value)
     },
@@ -118,7 +130,10 @@ export default {
       this.setSendByEnter(!this.data.sendByEnter)
       app.setCookie('chat-notSendByEnter', !this.data.sendByEnter, 365)
     },
-    ...mapMutations(['setLeftPanel', 'setRightPanel', 'setSendByEnter'])
+    toggleSoundNotification() {
+      this.setSoundNotification(!this.data.isSoundNotification)
+      app.setCookie('chat-isSoundNotification', !this.data.isSoundNotification, 365)
+    }
   }
 }
 </script>
