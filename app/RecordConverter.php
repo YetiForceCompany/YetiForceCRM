@@ -144,17 +144,17 @@ class RecordConverter extends Base
 	 */
 	public static function getInstanceById(int $id, string $moduleName = ''): self
 	{
-		$query = (new \App\Db\Query())->from('a_#__record_converter')->where(['id' => $id]);
+		$query = (new Db\Query())->from('a_#__record_converter')->where(['id' => $id]);
 		if ($moduleName) {
-			$query->andWhere(['source_module' => \App\Module::getModuleId($moduleName)]);
+			$query->andWhere(['source_module' => Module::getModuleId($moduleName)]);
 		}
-		$row = $query->one(\App\Db::getInstance('admin'));
+		$row = $query->one(Db::getInstance('admin'));
 		$self = new self();
 		if ($row) {
 			$self->setData($row);
 		} else {
-			\App\Log::error("Could not find record converter id: $id module name: $moduleName");
-			throw new \App\Exceptions\AppException('LBL_NOT_FOUND_RECORD_CONVERTER');
+			Log::error("Could not find record converter id: $id module name: $moduleName");
+			throw new Exceptions\AppException('ERR_NOT_FOUND_RECORD_CONVERTER|' . $id);
 		}
 		return $self;
 	}
@@ -169,7 +169,7 @@ class RecordConverter extends Base
 	 */
 	public static function isActive($moduleName, string $view = ''): bool
 	{
-		return self::getQuery($moduleName, $view)->exists(\App\Db::getInstance('admin'));
+		return self::getQuery($moduleName, $view)->exists(Db::getInstance('admin'));
 	}
 
 	/**
@@ -182,7 +182,7 @@ class RecordConverter extends Base
 	 */
 	public static function getModuleConverters(string $moduleName, string $view = ''): array
 	{
-		return self::getQuery($moduleName, $view)->createCommand(\App\Db::getInstance('admin'))->queryAllByGroup(1);
+		return self::getQuery($moduleName, $view)->createCommand(Db::getInstance('admin'))->queryAllByGroup(1);
 	}
 
 	/**
@@ -191,28 +191,19 @@ class RecordConverter extends Base
 	 * @param int|string $moduleName
 	 * @param string     $view
 	 *
-	 * @return \App\Db\Query
+	 * @return Db\Query
 	 */
 	public static function getQuery($moduleName, string $view = ''): Db\Query
 	{
-		if (is_string($moduleName)) {
-			$moduleName = \App\Module::getModuleId($moduleName);
+		if (\is_string($moduleName)) {
+			$moduleName = Module::getModuleId($moduleName);
 		}
 		if (Cache::has('getQueryRecordConverter', $moduleName . $view)) {
 			return Cache::get('getQueryRecordConverter', $moduleName . $view);
 		}
-		$query = (new \App\Db\Query())->from('a_#__record_converter')->where(['source_module' => $moduleName, 'status' => 1]);
+		$query = (new Db\Query())->from('a_#__record_converter')->where(['source_module' => $moduleName, 'status' => 1]);
 		if ($view) {
-			$query->andWhere([
-				'or like', 'view',
-				[
-					$view,
-					'%,' . $view . ',%',
-					'%' . $view . ',',
-					$view . ',%',
-					'%,' . $view,
-				], false,
-			]);
+			$query->andWhere(['show_in_' . \strtolower($view) => 1]);
 		}
 		Cache::save('getQueryRecordConverter', $moduleName . $view, $query);
 		return $query;
@@ -229,30 +220,30 @@ class RecordConverter extends Base
 	{
 		$modulesAmount = 0;
 		foreach (explode(',', $this->get('destiny_module')) as $destinyModuleId) {
-			$destinyModuleName = \App\Module::getModuleName($destinyModuleId);
-			if (\App\Privilege::isPermitted($destinyModuleName, 'CreateView')) {
+			$destinyModuleName = Module::getModuleName($destinyModuleId);
+			if (Privilege::isPermitted($destinyModuleName, 'CreateView')) {
 				++$modulesAmount;
 			}
 		}
 		if ($this->get('field_merge')) {
-			return count($this->getGroupRecords($records)) * $modulesAmount;
+			return \count($this->getGroupRecords($records)) * $modulesAmount;
 		}
-		return count($records) * $modulesAmount;
+		return \count($records) * $modulesAmount;
 	}
 
 	/**
 	 * Function variable initializing.
 	 *
-	 * @throws \App\Exceptions\AppException
+	 * @throws Exceptions\AppException
 	 */
 	public function init()
 	{
-		$this->sourceModule = \App\Module::getModuleName($this->get('source_module'));
+		$this->sourceModule = Module::getModuleName($this->get('source_module'));
 		$this->sourceModuleModel = \Vtiger_Module_Model::getInstance($this->sourceModule);
-		$this->fieldMapping = $this->get('field_mappging') ? \App\Json::decode($this->get('field_mappging')) : [];
-		$this->inventoryMapping = $this->get('inv_field_mapping') ? \App\Json::decode($this->get('inv_field_mapping')) : [];
+		$this->fieldMapping = $this->get('field_mappging') ? Json::decode($this->get('field_mappging')) : [];
+		$this->inventoryMapping = $this->get('inv_field_mapping') ? Json::decode($this->get('inv_field_mapping')) : [];
 		$this->sourceInvFields = \Vtiger_Inventory_Model::getInstance($this->sourceModule)->getFields();
-		$this->defaultValuesCreatedRecord = $this->get('default_values') ? \App\Json::decode($this->get('default_values')) : [];
+		$this->defaultValuesCreatedRecord = $this->get('default_values') ? Json::decode($this->get('default_values')) : [];
 	}
 
 	/**
@@ -260,7 +251,7 @@ class RecordConverter extends Base
 	 *
 	 * @param array $records
 	 *
-	 * @throws \App\Exceptions\AppException
+	 * @throws Exceptions\AppException
 	 *
 	 * @return array
 	 */
@@ -269,11 +260,11 @@ class RecordConverter extends Base
 		$this->init();
 		$createdRecordIds = [];
 		if ($this->get('destiny_module')) {
-			$recordsAmount = count($records);
+			$recordsAmount = \count($records);
 			foreach (explode(',', $this->get('destiny_module')) as $destinyModuleId) {
-				$destinyModuleName = \App\Module::getModuleName($destinyModuleId);
-				if (!\App\Privilege::isPermitted($destinyModuleName, 'CreateView')) {
-					\App\Log::warning("No permitted to action CreateView in module $destinyModuleName in view RecordConventer");
+				$destinyModuleName = Module::getModuleName($destinyModuleId);
+				if (!Privilege::isPermitted($destinyModuleName, 'CreateView')) {
+					Log::warning("No permitted to action CreateView in module $destinyModuleName in view RecordConventer");
 					continue;
 				}
 				$this->initDestinyModuleValues($destinyModuleName);
@@ -327,7 +318,7 @@ class RecordConverter extends Base
 	 * @param int    $record
 	 * @param string $destinyModule
 	 *
-	 * @throws \App\Exceptions\AppException
+	 * @throws Exceptions\AppException
 	 *
 	 * @return Vtiger_Module_Model
 	 */
@@ -355,7 +346,7 @@ class RecordConverter extends Base
 	{
 		$fieldModel = \Vtiger_Field_Model::getInstance($this->get('field_merge'), $this->sourceModuleModel);
 		$focus = \CRMEntity::getInstance($this->sourceModule);
-		return (new \App\Db\Query())->select([$fieldModel->getTableName() . ".{$fieldModel->getColumnName()}", $focus->tab_name_index[$fieldModel->getTableName()]])->from($fieldModel->getTableName())->where([$focus->tab_name_index[$fieldModel->getTableName()] => $records])->createCommand()->queryAllByGroup(2);
+		return (new Db\Query())->select([$fieldModel->getTableName() . ".{$fieldModel->getColumnName()}", $focus->tab_name_index[$fieldModel->getTableName()]])->from($fieldModel->getTableName())->where([$focus->tab_name_index[$fieldModel->getTableName()] => $records])->createCommand()->queryAllByGroup(2);
 	}
 
 	/**
@@ -419,7 +410,7 @@ class RecordConverter extends Base
 		if ($this->fieldMappingExecute && isset($this->fieldMapping['mapping'][$this->destinyModuleModel->getId()])) {
 			foreach ($this->cleanRecordModels as $key => $cleanRecordModel) {
 				$referenceRecordModel = &$this->cleanRecordModels[$key];
-				$textParser = \App\TextParser::getInstanceByModel($this->recordModels[$key]);
+				$textParser = TextParser::getInstanceByModel($this->recordModels[$key]);
 				foreach ($this->fieldMapping['mapping'][$this->destinyModuleModel->getId()] as $destinyField => $sourceField) {
 					if (!isset($this->textParserValues[$key][$sourceField])) {
 						$textParser->setContent($sourceField);
@@ -443,8 +434,7 @@ class RecordConverter extends Base
 				$recordModel->save();
 				++$this->createdRecords;
 				$this->cleanRecordModels = null;
-			} catch (\Error $ex) {
-				--$this->createdRecords;
+			} catch (\Throwable $ex) {
 				$this->error = $ex->getMessage();
 			}
 		}
@@ -465,18 +455,21 @@ class RecordConverter extends Base
 		}
 	}
 
-	public function initInventoryValuesAuto()
+	/**
+	 * Function prepare auto inventory mapping.
+	 */
+	private function initInventoryValuesAuto()
 	{
 		$invData = [];
 		$counter = 1;
 		foreach ($this->cleanRecordModels as $groupBy => $newRecordModel) {
-			if (!is_array($this->recordModels[$groupBy])) {
+			if (!\is_array($this->recordModels[$groupBy])) {
 				$sourceRecordModels = [$this->recordModels[$groupBy]];
 			} else {
 				$sourceRecordModels = $this->recordModels[$groupBy];
 			}
 			foreach ($sourceRecordModels as $recordModel) {
-				if (!is_array($recordModel)) {
+				if (!\is_array($recordModel)) {
 					$recordModel = [$recordModel];
 				}
 				foreach ($recordModel as $recordModelGroupBy) {
@@ -500,21 +493,24 @@ class RecordConverter extends Base
 				}
 			}
 		}
-		$newRecordModel->initInventoryDataFromRequest(new \App\Request(['inventory' => $invData[$groupBy]], false));
+		$newRecordModel->initInventoryDataFromRequest(new Request(['inventory' => $invData[$groupBy]], false));
 	}
 
-	public function initInventoryValuesByUser()
+	/**
+	 * Function prepare user inventory mapping.
+	 */
+	private function initInventoryValuesByUser()
 	{
 		$invData = [];
 		$counter = 1;
 		foreach ($this->cleanRecordModels as $groupBy => $newRecordModel) {
-			if (!is_array($this->recordModels[$groupBy])) {
+			if (!\is_array($this->recordModels[$groupBy])) {
 				$sourceRecordModels = [$this->recordModels[$groupBy]];
 			} else {
 				$sourceRecordModels = $this->recordModels[$groupBy];
 			}
 			foreach ($sourceRecordModels as $recordModel) {
-				if (!is_array($recordModel)) {
+				if (!\is_array($recordModel)) {
 					$recordModel = [$recordModel];
 				}
 				foreach ($recordModel as $recordModelGroupBy) {
@@ -550,7 +546,7 @@ class RecordConverter extends Base
 				}
 			}
 		}
-		$newRecordModel->initInventoryDataFromRequest(new \App\Request(['inventory' => $invData[$groupBy]], false));
+		$newRecordModel->initInventoryDataFromRequest(new Request(['inventory' => $invData[$groupBy]], false));
 	}
 
 	/**
@@ -588,12 +584,12 @@ class RecordConverter extends Base
 	/**
 	 * Function get query for searching duplicates.
 	 *
-	 * @return \App\Db\Query
+	 * @return Db\Query
 	 */
 	public function getQueryForDuplicate()
 	{
 		$focus = \CRMEntity::getInstance($this->destinyModule);
-		return (new \App\Db\Query())->from($focus->table_name)->innerJoin($focus->customFieldTable[0], $focus->table_name . '.' . $focus->table_index . '=' . $focus->customFieldTable[0] . '.' . $focus->customFieldTable[1])
+		return (new Db\Query())->from($focus->table_name)->innerJoin($focus->customFieldTable[0], $focus->table_name . '.' . $focus->table_index . '=' . $focus->customFieldTable[0] . '.' . $focus->customFieldTable[1])
 			->innerJoin('vtiger_crmentity', $focus->table_name . '.' . $focus->table_index . '= vtiger_crmentity.crmid');
 	}
 

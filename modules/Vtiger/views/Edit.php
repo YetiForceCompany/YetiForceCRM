@@ -29,12 +29,12 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		if ($request->has('record')) {
 			$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
-			$isPermited = $this->record->isEditable() || ($request->getBoolean('isDuplicate') === true && $this->record->getModule()->isPermitted('DuplicateRecord') && $this->record->isCreateable() && $this->record->isViewable());
+			$isPermited = $this->record->isEditable() || (true === $request->getBoolean('isDuplicate') && $this->record->getModule()->isPermitted('DuplicateRecord') && $this->record->isCreateable() && $this->record->isViewable());
 		} else {
 			$this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
 			$isPermited = $this->record->isCreateable();
@@ -51,7 +51,7 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 	 *
 	 * @return string
 	 */
-	public function getBreadcrumbTitle(\App\Request $request)
+	public function getBreadcrumbTitle(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		if ($request->has('isDuplicate')) {
@@ -67,12 +67,12 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$recordId = $request->getInteger('record');
-		if (!empty($recordId) && $request->getBoolean('isDuplicate') === true) {
+		if (!empty($recordId) && true === $request->getBoolean('isDuplicate')) {
 			$viewer->assign('MODE', 'duplicate');
 			$viewer->assign('RECORD_ID', '');
 			$this->getDuplicate();
@@ -82,8 +82,7 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 		} elseif (!$request->isEmpty('recordConverter')) {
 			$convertInstance = \App\RecordConverter::getInstanceById($request->getInteger('recordConverter'), $request->getByType('sourceModule', 2));
 			$convertInstance->isEdit = true;
-			$parentRecordModel = $convertInstance->processToEdit($request->getInteger('sourceId'), $moduleName);
-			$this->record = $parentRecordModel;
+			$this->record = $convertInstance->processToEdit($request->getInteger('sourceId'), $moduleName);
 			$viewer->assign('RECORD_ID', '');
 		} else {
 			$referenceId = $request->getInteger('reference_id');
@@ -183,7 +182,7 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 	 *
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$parentScript = parent::getFooterScripts($request);
 

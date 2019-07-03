@@ -164,18 +164,21 @@ CREATE TABLE `a_yf_pdf` (
 CREATE TABLE `a_yf_record_converter` (
   `id` smallint(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
-  `status` tinyint(1) DEFAULT NULL,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `source_module` smallint(5) NOT NULL,
   `destiny_module` varchar(255) NOT NULL,
   `field_merge` varchar(50) DEFAULT NULL,
   `field_mappging` text DEFAULT NULL,
   `inv_field_mapping` text DEFAULT NULL,
-  `redirect_to_edit` tinyint(1) DEFAULT NULL,
-  `change_view` smallint(5) DEFAULT NULL,
+  `redirect_to_edit` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `check_duplicate` tinyint(1) DEFAULT NULL,
-  `view` varchar(50) DEFAULT NULL,
+  `show_in_list` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `show_in_detail` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`,`source_module`,`destiny_module`),
   KEY `a_yf_record_converter_fk_tab` (`source_module`),
+  KEY `status` (`status`),
+  KEY `show_in_list` (`show_in_list`),
+  KEY `show_in_detail` (`show_in_detail`),
   CONSTRAINT `fk_1_a_yf_record_converter` FOREIGN KEY (`source_module`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
