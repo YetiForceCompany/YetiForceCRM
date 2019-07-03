@@ -613,3 +613,10 @@
 		min-height: #{$i}0px;
 	}
 }
+
+// --- FLEX --- //
+
+.u-flex-default {
+	-ms-flex: 0 1 auto;
+	flex: 0 1 auto;
+}

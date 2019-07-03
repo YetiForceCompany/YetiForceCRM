@@ -1017,7 +1017,7 @@ window.App.Fields = {
 								$(window).height() - selectOffsetTop - marginBottom - (dropdownList.offset().top - selectOffsetTop)
 						});
 					}
-				}, 100)
+				}, 100);
 			};
 			selectElement.each(function() {
 				let select = $(this);
@@ -1446,7 +1446,10 @@ window.App.Fields = {
 			newField.find('input.js-email').val('');
 			newField.find('input.js-checkbox').removeAttr('checked');
 			newField.find('label.js-label-checkbox').removeClass('active');
-			newField.find('span.far').removeClass('fa-check-square').addClass('fa-square');
+			newField
+				.find('span.far')
+				.removeClass('fa-check-square')
+				.addClass('fa-square');
 			newField
 				.find('.js-remove-item')
 				.eq(0)
@@ -1483,22 +1486,18 @@ window.App.Fields = {
 		 * @param {jQuery} element
 		 */
 		toggleCheckBox(element) {
-			if ($(element).is(':checked')) {
-				$(element).attr('checked', 'checked');
+			if (element.is(':checked')) {
 				element
-					.closest('label.js-label-checkbox')
-					.eq(0)
-					.find('span.far')
-					.eq(0)
+					.attr('checked', 'checked')
+					.closest('.js-multi-email__checkbox')
+					.find('.js-multi-email__checkbox__icon')
 					.removeClass('fa-square')
 					.addClass('fa-check-square');
 			} else {
-				$(element).removeAttr('checked');
 				element
-					.closest('label.js-label-checkbox')
-					.eq(0)
-					.find('span.far')
-					.eq(0)
+					.removeAttr('checked')
+					.closest('.js-multi-email__checkbox')
+					.find('.js-multi-email__checkbox__icon')
 					.removeClass('fa-check-square')
 					.addClass('fa-square');
 			}
