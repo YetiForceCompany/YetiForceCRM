@@ -84,10 +84,10 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 		}
 		$emails = [];
 		foreach ($value as $item) {
-			if($item['o']) {
-				$emails[] = parent::getDisplayValue($item['e'], $record, $recordModel, $rawText, $length) . '<span class="fas fa-check" style="color: green; margin-left: 8px;" title="' . \App\Language::translate('LBL_CONSENT_TO_SEND') . '"></span>';
+			if ($item['o']) {
+				$emails[] = parent::getDisplayValue($item['e'], $record, $recordModel, $rawText, $length) . '<span class="fas fa-check text-success ml-2" title="' . \App\Language::translate('LBL_CONSENT_TO_SEND') . '"></span>';
 			} else {
-				$emails[] = \App\Purifier::encodeHtml(App\TextParser::textTruncate($item['e'])) . '<span class="fas fa-lock" style="color: red; margin-left: 8px;"></span>';
+				$emails[] = parent::getDisplayValue($item['e'], $record, $recordModel, true, $length) . '<span class="fas fa-ban text-danger ml-2"></span>';
 			}
 		}
 		return implode('<br>', $emails);
@@ -131,10 +131,12 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 	{
 		return ['c', 'k', 'y', 'ny'];
 	}
-	
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function isAjaxEditable()
 	{
 		return false;
 	}
-
 }
