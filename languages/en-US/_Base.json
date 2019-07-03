@@ -1325,7 +1325,14 @@
     "PLL_IN_APPROVAL" : "In approval",
     "PLL_COMPLETED" : "Completed",
     "PLL_CANCELLED" : "Cancelled",
-    "LBL_SELECT_UP_TO_RECORDS": "Select up to %s records"
+    "LBL_SELECT_UP_TO_RECORDS": "Select up to %s records",
+    "LBL_RECORD_CONVERTER": "Record converter",
+    "LBL_CREATED_RECORDS_AMOUNT": "Number of records that will be created",
+    "LBL_DESTINY_MODULE": "Target module:",
+    "LBL_CONVERT_GROUP_BY": "Records grouped by field:",
+    "LBL_SELECT_CONVERT_TYPE": "Conversion type",
+    "LBL_MODULES_WITHOUT_PERMISSION_TO_CREATE": "List of modules without permissions to create a record:",
+    "LBL_CREATED_CONVERT_RECORDS": "Record conversion finished. Created: %d entries."
   },
   "js": {
     "JS_APPROVE": "Approve",
