@@ -162,7 +162,7 @@ CREATE TABLE `a_yf_pdf` (
 /*Table structure for table `a_yf_record_converter` */
 
 CREATE TABLE `a_yf_record_converter` (
-  `id` smallint(10) NOT NULL,
+  `id` smallint(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `status` tinyint(1) DEFAULT NULL,
   `source_module` smallint(5) NOT NULL,
@@ -173,6 +173,7 @@ CREATE TABLE `a_yf_record_converter` (
   `redirect_to_edit` tinyint(1) DEFAULT NULL,
   `change_view` smallint(5) DEFAULT NULL,
   `check_duplicate` tinyint(1) DEFAULT NULL,
+  `view` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`,`source_module`,`destiny_module`),
   KEY `a_yf_record_converter_fk_tab` (`source_module`),
   CONSTRAINT `fk_1_a_yf_record_converter` FOREIGN KEY (`source_module`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE

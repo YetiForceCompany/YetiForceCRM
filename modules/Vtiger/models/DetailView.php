@@ -151,6 +151,16 @@ class Vtiger_DetailView_Model extends \App\Base
 				'modalView' => true,
 			];
 		}
+		if ($moduleModel->isPermitted('RecordConventer') && \App\RecordConverter::isActive($moduleModel->getName(), 'Detail')) {
+			$detailViewLinks[] = [
+				'linktype' => 'LIST_VIEW_HEADER',
+				'linklabel' => 'LBL_RECORD_CONVERTER',
+				'linkdata' => ['url' => "index.php?module={$moduleModel->getName()}&view=RecordConverter&inView=Detail&selected_ids=[{$recordModel->getId()}]"],
+				'linkicon' => 'fas fa-exchange-alt',
+				'linkclass' => 'btn-outline-dark btn-sm',
+				'modalView' => true,
+			];
+		}
 		foreach ($detailViewLinks as $detailViewLink) {
 			$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 		}
