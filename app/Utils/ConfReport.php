@@ -325,16 +325,31 @@ class ConfReport
 	/**
 	 * Get all configuration values.
 	 *
-	 * @return mixed
+	 * @return array
 	 */
 	public static function getAll(): array
 	{
+		return static::getByType(static::$types);
+	}
+
+	/**
+	 * Get configuration values by type.
+	 *
+	 * @param array $types
+	 *
+	 * @return array
+	 */
+	public static function getByType(array $types): array
+	{
 		static::init('all');
-		$all = [];
-		foreach (static::$types as $type) {
-			$all[$type] = static::validate($type);
+		$returnVal = [];
+		foreach ($types as $type) {
+			if(!\in_array($type, static::$types )){
+				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
+			}
+			$returnVal[$type] = static::validate($type);
 		}
-		return $all;
+		return $returnVal;
 	}
 
 	/**
