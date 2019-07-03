@@ -3211,8 +3211,8 @@ textarea.form-control {
     display: -ms-flexbox;
     display: flex;
     -webkit-box-flex: 0;
-        -ms-flex: 0 1 auto;
-            flex: 0 1 auto;
+        -ms-flex: 0 0 auto;
+            flex: 0 0 auto;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
         -ms-flex-flow: row wrap;
@@ -24195,6 +24195,12 @@ ul.tweets li {
   min-height: 100px;
 }
 
+.u-flex-default {
+  -ms-flex: 0 1 auto;
+  -webkit-box-flex: 0;
+          flex: 0 1 auto;
+}
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .basePanel,
 .bodyContents,
@@ -24384,37 +24390,26 @@ ul.tweets li {
   }
 }
 
+.c-float-label__container {
+  top: 0.6em;
+}
+
 .c-float-label__container .form-control {
   width: 100%;
   border-radius: 0.25rem;
 }
 
-.c-float-label__container {
-	top: 0.6em;
-}
-
 .c-float-label__label {
   position: absolute;
+  left: 0;
   cursor: text;
   font-size: 75%;
   top: -1.5em;
   z-index: 3;
   line-height: 1;
   color: #000;
-	white-space: nowrap;
   padding: 0 1px;
-}
-
-.c-float-label__label::after {
-  content: ' ';
-  display: block;
-  position: absolute;
-  background: #fff;
-  height: 2px;
-  top: 62%;
-  left: -0.2em;
-  right: -0.2em;
-  z-index: -1;
+  white-space: nowrap;
 }
 
 .c-float-label__hidden-ph {
