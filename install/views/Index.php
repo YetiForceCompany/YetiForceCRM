@@ -93,7 +93,6 @@ class Install_Index_View extends \App\Controller\View
 		// Added to redirect to default module if already installed
 		$request->set('module', 'Install');
 		$request = $this->setLanguage($request);
-
 		if ('step7' !== $request->getMode() && \App\Config::main('application_unique_key', false)) {
 			$defaultModule = \App\Config::main('default_module');
 			$defaultModuleInstance = Vtiger_Module_Model::getInstance($defaultModule);
@@ -145,7 +144,7 @@ class Install_Index_View extends \App\Controller\View
 		}
 		$this->viewer->assign('LANGUAGES', Install_Utils_Model::getLanguages());
 		$this->viewer->assign('IS_MIGRATE', $isMigrate);
-		$this->displayStep();
+		$this->viewer->display('StepWelcome.tpl');
 	}
 
 	public function step2(App\Request $request)
@@ -157,35 +156,15 @@ class Install_Index_View extends \App\Controller\View
 		}
 		$this->viewer->assign('LIBRARIES', \App\Installer\Credits::getCredits());
 		$this->viewer->assign('LICENSE', nl2br($license));
-		$this->displayStep();
+		$this->viewer->display('StepLicense.tpl');
 	}
 
 	public function step3(App\Request $request)
 	{
-		if ($_SESSION['config_file_info']['db_server'] ?? false) {
-			$success = true;
-			$configFile = new \App\ConfigFile('db');
-			foreach ($configFile->getTemplate() as $name => $data) {
-				try {
-					if (isset($_SESSION['config_file_info'][$name])) {
-						$configFile->set($name, $_SESSION['config_file_info'][$name]);
-					}
-				} catch (\Throwable $e) {
-					$success = false;
-					\App\Log::error($e->__toString());
-					unset($_SESSION['config_file_info'][$name]);
-				}
-			}
-			if ($success) {
-				$configFile->create();
-			}
-		} else {
-			Install_Utils_Model::cleanConfiguration();
-		}
 		$this->viewer->assign('ALL', \App\Utils\ConfReport::getByType([
 			'stability', 'security', 'libraries', 'performance', 'environment', 'publicDirectoryAccess', 'writableFilesAndFolders'
 		]));
-		$this->displayStep();
+		$this->viewer->display('StepVerifyServerConfiguration.tpl');
 	}
 
 	public function step4(App\Request $request)
@@ -205,7 +184,7 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->assign('ADMIN_LASTNAME', $defaultParameters['admin_lastname']);
 		$this->viewer->assign('ADMIN_PASSWORD', $defaultParameters['admin_password']);
 		$this->viewer->assign('ADMIN_EMAIL', $defaultParameters['admin_email']);
-		$this->displayStep();
+		$this->viewer->display('StepSystemConfiguration.tpl');
 	}
 
 	public function step5(App\Request $request)
@@ -213,6 +192,7 @@ class Install_Index_View extends \App\Controller\View
 		set_time_limit(60); // Override default limit to let install complete.
 		$error = false;
 		$dbConnection['flag'] = true;
+		$this->createConfigFileForDb();
 		$configFile = new \App\ConfigFile('db');
 		foreach ($configFile->getTemplate() as $name => $data) {
 			if ($request->has($name)) {
@@ -307,7 +287,7 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->assign('INFORMATION', $_SESSION['config_file_info'] ?? []);
 		$this->viewer->assign('AUTH_KEY', $_SESSION['config_file_info']['authentication_key'] = sha1(microtime()));
 		$this->viewer->assign('CONF_REPORT_RESULT', \App\Utils\ConfReport::getByType(['database']));
-		$this->displayStep();
+		$this->viewer->display('StepConfirmConfigurationSettings.tpl');
 	}
 
 	/**
@@ -328,7 +308,7 @@ class Install_Index_View extends \App\Controller\View
 		$configFile->set('application_unique_key', '');
 		$configFile->create();
 		$this->viewer->assign('AUTH_KEY', $_SESSION['config_file_info']['authentication_key']);
-		$this->displayStep();
+		$this->viewer->display('StepCompanyDetails.tpl');
 	}
 
 	public function step7(App\Request $request)
@@ -355,7 +335,7 @@ class Install_Index_View extends \App\Controller\View
 			Install_Utils_Model::cleanConfiguration();
 		}
 		$this->viewer->assign('INSTALLATION_SUCCESS', $success);
-		$this->displayStep();
+		$this->viewer->display('StepInstall.tpl');
 	}
 
 	protected function preProcessDisplay(App\Request $request)
@@ -417,8 +397,32 @@ class Install_Index_View extends \App\Controller\View
 		]));
 	}
 
-	private function displayStep()
+	/**
+	 * Create config file for Db.
+	 *
+	 * @return void
+	 */
+	private function createConfigFileForDb()
 	{
-		$this->viewer->display("Step{$this->stepNumber}.tpl");
+		if ($_SESSION['config_file_info']['db_server'] ?? false) {
+			$success = true;
+			$configFile = new \App\ConfigFile('db');
+			foreach ($configFile->getTemplate() as $name => $data) {
+				try {
+					if (isset($_SESSION['config_file_info'][$name])) {
+						$configFile->set($name, $_SESSION['config_file_info'][$name]);
+					}
+				} catch (\Throwable $e) {
+					$success = false;
+					\App\Log::error($e->__toString());
+					unset($_SESSION['config_file_info'][$name]);
+				}
+			}
+			if ($success) {
+				$configFile->create();
+			}
+		} else {
+			Install_Utils_Model::cleanConfiguration();
+		}
 	}
 }

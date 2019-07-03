@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<!-- tpl-install-tpl-Step3 -->
+	<!-- tpl-install-tpl-StepVerifyServerConfiguration -->
 	{function SHOW_HELP_TEXT ITEM=[] KEY=''}
 		{if empty($ITEM['label'])}{$KEY}{else}{\App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'ConfReport')}{/if}
 		{if !$ITEM['status']}
@@ -310,5 +310,5 @@
 			</div>
 		</main>
 	</div>
-	<!-- /tpl-install-tpl-Step3 -->
+	<!-- /tpl-install-tpl-StepVerifyServerConfiguration -->
 {/strip}

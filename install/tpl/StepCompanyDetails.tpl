@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-install-tpl-Step6 container px-2 px-sm-3">
+	<div class="tpl-install-tpl-StepCompanyDetails container px-2 px-sm-3">
 		<main class="main-container">
 			<div class="inner-container">
 				<form class="" name="step{$STEP_NUMBER}" method="post" action="Install.php">

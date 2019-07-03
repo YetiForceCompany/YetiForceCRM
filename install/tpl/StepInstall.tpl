@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-install-tpl-Step7">
+	<div class="tpl-install-tpl-StepInstall">
 		{if $INSTALLATION_SUCCESS}
 			<form name="step{$STEP_NUMBER}" method="post" action="../index.php?module=Users&action=Login">
 				<input type="hidden" name="mode" value="install">
