@@ -104,6 +104,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		}
 		$result = [
 			'currentRoom' => \App\Chat::getCurrentRoom(),
+			'roomList' => \App\Chat::getRoomsByUser(),
 			'chatEntries' => $chatEntries,
 			'showMoreButton' => $numberOfEntries > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT'),
 		];
