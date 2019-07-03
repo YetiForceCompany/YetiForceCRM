@@ -225,8 +225,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			->set('columntype', $dbType);
 		if ('Editor' === $fieldType) {
 			$fieldModel->set('maximumlength', $params['fieldLength'] ?? null);
-		} elseif ('MultiSelectCombo' === $fieldType) {
-			$fieldModel->set('maximumlength', 65535);
 		}
 		if (isset($details['displayType']) || isset($params['displayType'])) {
 			$fieldModel->set('displaytype', $params['displayType'] ?? $details['displayType']);
