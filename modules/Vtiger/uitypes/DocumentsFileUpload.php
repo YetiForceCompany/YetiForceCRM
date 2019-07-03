@@ -33,20 +33,16 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$value = \App\Purifier::encodeHtml($value);
-		if ($recordModel) {
-			$fileLocationType = $recordModel->getValueByField('filelocationtype');
-			$fileStatus = $recordModel->getValueByField('filestatus');
-			if (!empty($value) && $fileStatus) {
-				if ('I' === $fileLocationType) {
-					$fileId = (new App\Db\Query())->select(['attachmentsid'])
-						->from('vtiger_seattachmentsrel')->where(['crmid' => $record])->scalar();
-					if ($fileId) {
-						return '<a href="file.php?module=Documents&action=DownloadFile&record=' . $record . '&fileid=' . $fileId . '"' .
+		if ($recordModel && !empty($value) && $recordModel->getValueByField('filestatus')) {
+			if ('I' === $recordModel->getValueByField('filelocationtype')) {
+				$fileId = (new App\Db\Query())->select(['attachmentsid'])
+					->from('vtiger_seattachmentsrel')->where(['crmid' => $record])->scalar();
+				if ($fileId) {
+					$value = '<a href="file.php?module=Documents&action=DownloadFile&record=' . $record . '&fileid=' . $fileId . '"' .
 							' title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
-					}
-				} else {
-					return '<a href="' . $value . '" target="_blank" title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" rel="noreferrer noopener">' . $value . '</a>';
 				}
+			} else {
+				$value = '<a href="' . $value . '" target="_blank" title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" rel="noreferrer noopener">' . $value . '</a>';
 			}
 		}
 		return $value;

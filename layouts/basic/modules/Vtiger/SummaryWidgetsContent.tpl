@@ -1,3 +1,4 @@
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	{assign var=IS_INVENTORY value=($RELATED_MODULE->isInventory() && !empty($INVENTORY_FIELDS))}
@@ -92,6 +93,7 @@
 					</tr>
 					{if $IS_INVENTORY}
 						{assign var="INVENTORY_DATA" value=$RELATED_RECORD->getInventoryData()}
+						{assign var="INVENTORY_MODEL" value=Vtiger_Inventory_Model::getInstance($RELATED_RECORD->getModuleName())}
 						<tr class="listViewInventoryEntries d-none">
 							{if $RELATED_MODULE->isQuickSearchEnabled()}
 								{$COUNT = $COUNT+1}
@@ -108,15 +110,15 @@
 									</tr>
 									</thead>
 									<tbody>
-									{foreach from=$INVENTORY_DATA item=ROWDATA}
+									{foreach from=$INVENTORY_DATA item=INVENTORY_ROW}
 										<tr>
 											{if $INVENTORY_ROW['name']}
 												{assign var="ROW_MODULE" value=\App\Record::getType($INVENTORY_ROW['name'])}
 											{/if}
 											{foreach from=$INVENTORY_FIELDS item=FIELD key=NAME}
-												{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$RELATED_MODULE_NAME)}
+												{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView', $RELATED_MODULE_NAME)}
 												<td>
-													{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $RELATED_MODULE_NAME) ITEM_VALUE=$ROWDATA[$FIELD->get('columnname')]}
+													{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $RELATED_MODULE_NAME) ITEM_VALUE=$INVENTORY_ROW[$FIELD->getColumnName()]}
 												</td>
 											{/foreach}
 										</tr>
