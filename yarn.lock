@@ -410,9 +410,9 @@ popper.js@^1.15.0:
   integrity sha512-w010cY1oCUmI+9KwwlWki+r5jxKfTFDVoadl7MSrIujHU5MJ5OR6HTDj6Xo8aoR/QsA56x8jKjA59qGH4ELtrA==
 
 quasar@^1.0.0-rc.4:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.0.2.tgz#2e50d997d637d072b74ff8e0d04a029fde5ad281"
-  integrity sha512-SvgssghDl8XjcSJh4TqjF/c+Dcpx98Kdc4T9dz/sgFeSiXJO1Jal0ZScByf+fmMkvRaITQrIcJNDog3BEMC1XQ==
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.0.3.tgz#f702be35f7f60a55f5c1fc0c69e862a6bb3a78ae"
+  integrity sha512-aFBP0NIGJ55b+k8KRFZwglJmcp6IwNtmgIXwqt0xrsUqwqQ5WkLijup+yu3ikRIQkpoWYXqEmZX62SciJ+JC+g==
 
 resize-observer-polyfill@^1.5.1:
   version "1.5.1"
