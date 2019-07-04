@@ -129,7 +129,7 @@
 							</div>
 						</div>
 					{/foreach}
-					<button class="btn btn-success btn-sm copyToClipboard float-right"><span class="fas fa-paste"></span>&nbsp;{\App\Language::translate('LBL_COPY_TO_CLIPBOARD', $MODULE_NAME)}</button>
+					<button class="btn btn-success btn-sm copyToClipboard float-right"><span class="fas fa-paste"></span>&nbsp;{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')}</button>
 				</div>
 			</div>
 			<div class="card mt-3 d-none descriptionContainer">
