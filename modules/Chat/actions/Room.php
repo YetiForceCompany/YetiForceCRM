@@ -42,21 +42,6 @@ class Chat_Room_Action extends \App\Controller\Action
 	}
 
 	/**
-	 * Add entries function.
-	 *
-	 * @param \App\Request $request
-	 */
-	public function getAll(App\Request $request)
-	{
-		$response = new Vtiger_Response();
-		$response->setResult([
-			'currentRoom' => \App\Chat::getCurrentRoom(),
-			'roomList' => \App\Chat::getRoomsByUser()
-		]);
-		$response->emit();
-	}
-
-	/**
 	 * Remove from favorites.
 	 *
 	 * @param \App\Request $request

@@ -81,12 +81,13 @@ export default {
     ...mapActions(['sendMessage']),
     send(e) {
       e.preventDefault()
-      if (this.$refs.input.innerText.length && this.$refs.input.innerText.length < this.data.maxLengthMessage) {
-        // clearTimeout(this.timerMessage)
+      if (this.sending || !this.$refs.input.innerText.length) return
+      if (this.$refs.input.innerText.length < this.data.maxLengthMessage) {
         this.sending = true
         this.sendMessage(this.$refs.input.innerHTML).then(e => {
           this.$refs.input.innerText = ''
           this.sending = false
+          this.$emit('onSended')
         })
       } else {
         Vtiger_Helper_Js.showPnotify({

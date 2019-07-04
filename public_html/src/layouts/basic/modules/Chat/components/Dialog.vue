@@ -1,6 +1,6 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <div v-if="data.isChatAllowed" class="inline-block">
+  <div v-if="data.isChatAllowed">
     <q-btn
       round
       color="white"
@@ -10,8 +10,12 @@
       @click="dialog = !dialog"
       ref="chatBtn"
     >
-      <q-badge v-if="data.showNumberOfNewMessages" v-show="amountOfNewMessages > 0" color="red" floating>
-        {{ this.amountOfNewMessages }}
+      <q-badge v-if="data.showNumberOfNewMessages" v-show="amountOfNewMessages > 0" color="danger" floating>
+        <transition appear enter-active-class="animated flash" mode="out-in">
+          <div :key="amountOfNewMessages">
+            {{ this.amountOfNewMessages }}
+          </div>
+        </transition>
       </q-badge>
     </q-btn>
     <q-dialog
@@ -79,6 +83,7 @@ export default {
           action: 'Room',
           mode: 'tracking'
         }).done(({ result }) => {
+          console.log(this.amountOfNewMessages)
           if (result > this.amountOfNewMessages) {
             this.amountOfNewMessages = result
             if (app.getCookie('chat-isSoundNotification') === 'true') {

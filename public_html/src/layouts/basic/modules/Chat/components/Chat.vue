@@ -7,10 +7,10 @@
     :style="{ bottom: !maximizedDialog ? bottomPosition + 'px' : 0 }"
   >
     <chat-header @visibleInputSearch="inputSearchVisible = $event" @showTabHistory="tabHistoryShow = $event" />
-    <left-panel @footerGroup="groupFooter = $event" @footerRoom="roomFooter = $event" />
+    <left-panel />
     <right-panel />
     <main-panel />
-    <chat-footer :groupFooter="groupFooter" :roomFooter="roomFooter" />
+    <chat-footer />
   </q-layout>
 </template>
 <script>
@@ -29,18 +29,7 @@ export default {
     parentRefs: { type: Object, required: true }
   },
   data() {
-    return {
-      iconSize: '.75rem',
-      placeholder: 'Wyszukaj wiadomość',
-      visible: false,
-      groupFooter: 'Grupa',
-      roomFooter: 'Pokój',
-      tabHistory: 'ulubiony',
-      tabHistoryShow: false,
-      submitting: false,
-      moduleName: 'Chat',
-      dense: false
-    }
+    return {}
   },
   computed: {
     ...mapGetters(['leftPanel', 'rightPanel', 'maximizedDialog']),

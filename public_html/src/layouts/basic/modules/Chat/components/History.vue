@@ -59,7 +59,9 @@ export default {
     }
   },
   mounted() {
-    this.fetchHistory({ groupHistory: this.tabHistory, showMoreClicked: false })
+    this.fetchHistory({ groupHistory: this.tabHistory, showMoreClicked: false }).then(() => {
+      this.$emit('onContentLoaded', true)
+    })
   }
 }
 </script>

@@ -55,6 +55,7 @@ export default {
   mounted() {
     this.fetchUnread().then(result => {
       this.unreadMessages = result
+      this.$emit('onContentLoaded', true)
     })
   }
 }

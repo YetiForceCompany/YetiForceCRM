@@ -38,12 +38,15 @@
                   {{ room.name }}
                 </div>
                 <div class="flex items-center justify-end no-wrap">
-                  <q-badge
-                    v-if="room.cnt_new_message !== undefined && room.cnt_new_message > 0"
-                    color="blue"
-                    class="q-mx-xs"
-                    :label="room.cnt_new_message"
-                  />
+                  <transition appear enter-active-class="animated flash" mode="out-in">
+                    <q-badge
+                      v-if="room.cnt_new_message !== undefined && room.cnt_new_message > 0"
+                      color="danger"
+                      class="q-mx-xs"
+                      :label="room.cnt_new_message"
+                      :key="room.cnt_new_message"
+                    />
+                  </transition>
                   <div class="visible-on-hover">
                     <q-icon v-if="roomType === 'crm'" name="mdi-link-variant" />
                     <q-icon

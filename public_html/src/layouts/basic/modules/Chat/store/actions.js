@@ -32,15 +32,18 @@ export default {
 		{ commit, getters },
 		options = { id: getters.data.currentRoom.recordId, roomType: getters.data.currentRoom.roomType }
 	) {
-		AppConnector.request({
-			module: 'Chat',
-			action: 'ChatAjax',
-			mode: 'getEntries',
-			recordId: options.id,
-			roomType: options.roomType
-		}).done(({ result }) => {
-			let tempData = Object.assign({}, getters['data'])
-			commit('setData', Object.assign(tempData, result))
+		return new Promise((resolve, reject) => {
+			AppConnector.request({
+				module: 'Chat',
+				action: 'ChatAjax',
+				mode: 'getEntries',
+				recordId: options.id,
+				roomType: options.roomType
+			}).done(({ result }) => {
+				let tempData = Object.assign({}, getters['data'])
+				commit('setData', Object.assign(tempData, result))
+				resolve(result)
+			})
 		})
 	},
 	sendMessage({ commit, getters }, text) {
@@ -60,7 +63,6 @@ export default {
 		})
 	},
 	togglePinned({ commit }, { roomType, room }) {
-		console.log(roomType, room)
 		const mode = room.isPinned || roomType === 'crm' ? 'removeFromFavorites' : 'addToFavorites'
 		commit('setPinned', { roomType, room })
 		AppConnector.request({
@@ -98,9 +100,6 @@ export default {
 		return new Promise((resolve, reject) => {
 			// clearTimeout(this.timerMessage);
 			const showMoreClicked = getters.isSearchActive && getters.data.showMoreButton
-			console.log(showMoreClicked)
-			console.log(getters.data.currentRoom.roomType)
-			console.log(getters.data.currentRoom.recordId)
 			AppConnector.request(
 				{
 					module: 'Chat',
@@ -135,7 +134,6 @@ export default {
 				action: 'ChatAjax',
 				mode: 'getUnread'
 			}).done(({ result }) => {
-				console.log(result)
 				resolve(result)
 				// this.buildParticipantsFromMessage($('<div></div>').html(html));
 			})

@@ -26,12 +26,16 @@
       </q-input>
     </div>
     <div class="flex-grow-1" style="height: 0; overflow: hidden">
-      <q-scroll-area :thumb-style="thumbStyle" ref="scrollContainer">
+      <q-scroll-area
+        :thumb-style="thumbStyle"
+        ref="scrollContainer"
+        :class="[scrollbarHidden ? 'scrollbarHidden' : '']"
+      >
         <messages @earlierClick="earlierClick()" :fetchingEarlier="fetchingEarlier" ref="messagesContainer" />
       </q-scroll-area>
       <q-resize-observer @resize="onResize" />
     </div>
-    <message-input />
+    <message-input @onSended="scrollDown()" />
   </div>
 </template>
 <script>
@@ -48,7 +52,8 @@ export default {
       inputSearch: '',
       fetchingEarlier: false,
       searching: false,
-      timerMessage: null
+      timerMessage: null,
+      scrollbarHidden: false
     }
   },
   computed: {
@@ -120,12 +125,19 @@ export default {
       }, this.data.refreshMessageTime)
     },
     scrollDown() {
+      this.scrollbarHidden = true
       this.$refs.scrollContainer.setScrollPosition(this.$refs.messagesContainer.$el.clientHeight, 500)
+      setTimeout(() => {
+        this.scrollbarHidden = false
+      }, 1800)
     }
   },
   mounted() {
     if (this.data.currentRoom) {
-      this.fetchRoom()
+      this.fetchRoom().then(e => {
+        this.scrollDown()
+        this.$emit('onContentLoaded', true)
+      })
     }
     this.fetchNewMessages()
   },
@@ -135,4 +147,7 @@ export default {
 }
 </script>
 <style lang="sass">
+.scrollbarHidden
+	.q-scrollarea__thumb
+		visibility: hidden
 </style>

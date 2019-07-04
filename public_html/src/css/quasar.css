@@ -7679,6 +7679,12 @@ body.mobile .q-tabs__arrow {
     stroke-dashoffset: -124px /* rtl:ignore */;
   }
 }
+.q-inner-loading {
+  background: rgba(255,255,255,0.6);
+}
+.q-inner-loading--dark {
+  background: rgba(0,0,0,0.4);
+}
 .q-ripple {
   position: absolute;
   top: 0;

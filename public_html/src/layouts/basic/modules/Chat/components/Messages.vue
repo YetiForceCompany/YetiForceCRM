@@ -12,16 +12,18 @@
     <div class="q-pa-md">
       <template v-for="row in data.chatEntries">
         <!-- <q-chat-message :key="row.id" /> -->
-        <q-chat-message
-          :key="row.id"
-          :name="row.user_name"
-          :stamp="row.created"
-          :avatar="row.img"
-          :text="[row.messages]"
-          :bg-color="row.color"
-          size="8"
-          :sent="row.userid === userId"
-        />
+        <transition :key="row.id" appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+          <q-chat-message
+            :key="row.id"
+            :name="row.user_name"
+            :stamp="row.created"
+            :avatar="row.img"
+            :text="[row.messages]"
+            :bg-color="row.color"
+            size="8"
+            :sent="row.userid === userId"
+          />
+        </transition>
       </template>
       <no-results v-show="!areEntries" />
     </div>
