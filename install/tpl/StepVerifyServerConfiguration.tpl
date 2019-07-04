@@ -25,6 +25,13 @@
 			{/if}
 		{/if}
 	{/function}
+	{function SHOW_RECOMMENDED ITEM=[]}
+		{if isset($ITEM['recommended'])}
+			{App\Purifier::decodeHtml(App\Language::translate($ITEM['recommended'], 'ConfReport'))}
+		{else}
+			-
+		{/if}
+	{/function}
 	<div class="container px-2 px-sm-3">
 		<main class="main-container">
 			<div class="inner-container">
@@ -113,11 +120,7 @@
 												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 											</td>
 											<td>
-												{if isset($ITEM['recommended'])}
-													{App\Language::translate($ITEM['recommended'], 'ConfReport')}
-												{else}
-													-
-												{/if}
+												{SHOW_RECOMMENDED ITEM=$ITEM}
 											</td>
 											<td>
 												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
@@ -145,11 +148,7 @@
 												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 											</td>
 											<td>
-												{if isset($ITEM['recommended'])}
-													{App\Language::translate($ITEM['recommended'], 'ConfReport')}
-												{else}
-													-
-												{/if}
+												{SHOW_RECOMMENDED ITEM=$ITEM}
 											</td>
 											<td colspan="2">
 												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
@@ -165,15 +164,9 @@
 									</caption>
 									<thead>
 									<tr>
-										<th colspan="1" scope="col" class="text-left">
-											{App\Language::translate('LBL_PARAMETER', 'ConfReport')}
-										</th>
-										<th colspan="1" scope="col">
-											{App\Language::translate('LBL_RECOMMENDED', 'ConfReport')}
-										</th>
-										<th colspan="1" scope="col">
-											{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}
-										</th>
+										<th colspan="1" scope="col" class="text-left">{App\Language::translate('LBL_PARAMETER', 'ConfReport')}</th>
+										<th colspan="1" scope="col">{App\Language::translate('LBL_RECOMMENDED', 'ConfReport')}</th>
+										<th colspan="1" scope="col">{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}</th>
 									</tr>
 									</thead>
 									<tbody>
@@ -184,11 +177,7 @@
 												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 											</td>
 											<td>
-												{if isset($ITEM['recommended'])}
-													{App\Language::translate($ITEM['recommended'], 'ConfReport')}
-												{else}
-													-
-												{/if}
+												{SHOW_RECOMMENDED ITEM=$ITEM}
 											</td>
 											<td>
 												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
