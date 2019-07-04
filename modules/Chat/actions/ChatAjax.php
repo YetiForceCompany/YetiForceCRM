@@ -24,6 +24,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$this->exposeMethod('getMore');
 		$this->exposeMethod('getUnread');
 		$this->exposeMethod('getHistory');
+		$this->exposeMethod('getRooms');
 		$this->exposeMethod('send');
 		$this->exposeMethod('search');
 	}
@@ -229,6 +230,20 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		];
 		$response = new Vtiger_Response();
 		$response->setResult($result);
+		$response->emit();
+	}
+
+	/**
+	 * Get rooms function.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function getRooms(App\Request $request)
+	{
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'roomList' => \App\Chat::getRoomsByUser()
+		]);
 		$response->emit();
 	}
 

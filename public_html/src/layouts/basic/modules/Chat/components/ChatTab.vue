@@ -90,8 +90,10 @@ export default {
       this.inputSearch = ''
       this.fetchRoom()
       this.setSearchInactive()
+      this.fetchNewMessages()
     },
     search() {
+      clearTimeout(this.timerMessage)
       this.searching = true
       this.fetchSearchData(this.inputSearch).then(e => {
         this.searching = false
@@ -99,14 +101,6 @@ export default {
     },
     fetchNewMessages() {
       this.timerMessage = setTimeout(() => {
-        console.log({
-          module: 'Chat',
-          action: 'ChatAjax',
-          mode: 'getEntries',
-          lastId: this.data.chatEntries.slice(-1)[0]['id'],
-          recordId: this.data.currentRoom.recordId,
-          roomType: this.data.currentRoom.roomType
-        })
         AppConnector.request({
           module: 'Chat',
           action: 'ChatAjax',
@@ -115,10 +109,7 @@ export default {
           recordId: this.data.currentRoom.recordId,
           roomType: this.data.currentRoom.roomType
         }).done(({ result }) => {
-          console.log(result)
           this.updateChat(result)
-          // let tempData = Object.assign({}, getters['data'])
-          // commit('setData', Object.assign(tempData, result))
           this.fetchNewMessages()
         })
       }, this.data.refreshMessageTime)
@@ -131,7 +122,7 @@ export default {
     this.fetchNewMessages()
   },
   beforeDestroy() {
-    clearInterval(this.timerMessage)
+    clearTimeout(this.timerMessage)
   }
 }
 </script>

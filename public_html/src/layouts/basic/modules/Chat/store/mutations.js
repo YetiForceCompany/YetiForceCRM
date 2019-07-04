@@ -28,6 +28,9 @@ export default {
 		state.data.participants = data.participants
 		state.data.roomList = data.roomList
 	},
+	updateRooms(state, data) {
+		state.data.roomList = data
+	},
 	pushOlderEntries(state, data) {
 		state.data.chatEntries.unshift(...data.chatEntries)
 		state.data.showMoreButton = data.showMoreButton

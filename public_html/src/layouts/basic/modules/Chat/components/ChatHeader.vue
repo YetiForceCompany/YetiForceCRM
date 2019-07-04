@@ -24,8 +24,9 @@
           />
         </div>
         <q-tabs
-          class="chat-tabs"
+          @input="toggleRoomTimer"
           v-model="tab"
+          class="chat-tabs"
           dense
           shrink
           inline-label
@@ -80,7 +81,8 @@ export default {
   data() {
     return {
       iconSize: '.75rem',
-      moduleName: 'Chat'
+      moduleName: 'Chat',
+      timerRoom: false
     }
   },
   computed: {
@@ -107,14 +109,34 @@ export default {
   },
   methods: {
     ...mapActions(['setDialog', 'toggleRightPanel', 'toggleLeftPanel', 'toggleHistoryTab', 'maximize']),
-    ...mapMutations(['setLeftPanel', 'setRightPanel', 'setSendByEnter', 'setSoundNotification']),
+    ...mapMutations(['setLeftPanel', 'setRightPanel', 'setSendByEnter', 'setSoundNotification', 'updateRooms']),
     showTabHistory: function(value) {
       this.$emit('showTabHistory', value)
     },
-    rightPanel: function(value) {
+    toggleRoomTimer(tabName) {
+      if (tabName === 'chat' && this.timerRoom) {
+        clearTimeout(this.timerRoom)
+        this.timerRoom = false
+      } else if (!this.timerRoom) {
+        this.initTimer()
+      }
+    },
+    initTimer() {
+      this.timerRoom = setTimeout(() => {
+        AppConnector.request({
+          module: 'Chat',
+          action: 'ChatAjax',
+          mode: 'getRooms'
+        }).done(({ result }) => {
+          this.updateRooms(result.roomList)
+          this.initTimer()
+        })
+      }, this.data.refreshRoomTime)
+    },
+    rightPanel(value) {
       this.$emit('rightPanel', value)
     },
-    leftPanel: function(value) {
+    leftPanel(value) {
       this.$emit('leftPanel', value)
     },
     toggleSize() {
@@ -134,6 +156,9 @@ export default {
       this.setSoundNotification(!this.data.isSoundNotification)
       app.setCookie('chat-isSoundNotification', !this.data.isSoundNotification, 365)
     }
+  },
+  beforeDestroy() {
+    clearTimeout(this.timerRoom)
   }
 }
 </script>
