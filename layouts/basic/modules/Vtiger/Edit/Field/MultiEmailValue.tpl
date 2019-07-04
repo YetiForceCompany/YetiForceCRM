@@ -5,7 +5,7 @@
 	{else}
 		{assign var=ITEM_VAL value=$ITEM['e']}
 	{/if}
-	<div class="tpl-Base-Edit-Field-MultiEmailValue form-group mr-1 mb-2 js-multi-email-row-{counter}"
+	<div class="tpl-Base-Edit-Field-MultiEmailValue u-flex-default form-group mr-1 mb-2 js-multi-email js-multi-email-row-{counter}"
 		 data-js="container">
 		<label for="staticEmail2" class="sr-only" for="email-value">
 			{\App\Language::translate('LBL_EMAIL_ADRESS', $MODULE)}
@@ -22,7 +22,7 @@
 				   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_MultiEmail_Validator_Js.invokeValidation]]"
 				   aria-label="{\App\Language::translate('LBL_EMAIL_ADRESS', $MODULE)}"/>
 			<div class="input-group-append btn-group-toggle" data-js="click" data-toggle="buttons">
-				<label class="btn btn-outline-default border {if !empty($ITEM['o']) && $ITEM['o'] }active{/if} js-label-checkbox"
+				<label class="btn btn-outline-default border {if !empty($ITEM['o']) && $ITEM['o'] }active{/if} js-multi-email__checkbox"
 					   data-js="checkbox" for="consent-to-send">
 					<div class="c-float-label__container"
 						 title="{\App\Language::translate('LBL_CONSENT_TO_SEND', $MODULE)}">
@@ -31,8 +31,8 @@
 						</div>
 						<input type="checkbox" class="js-checkbox" data-js="js-checkbox" id="consent-to-send"
 							   autocomplete="off" {if !empty($ITEM['o']) && $ITEM['o'] }checked="checked"{/if} />
-						<span class="far {if !empty($ITEM['o']) && $ITEM['o'] }fa-check-square{else}fa-square{/if}  position-absolute"
-							  title="{\App\Language::translate('LBL_CONSENT_TO_SEND', $MODULE)}"></span>
+					<span class="js-multi-email__checkbox__icon far {if !empty($ITEM['o']) && $ITEM['o'] }fa-check-square{else}fa-square{/if} position-absolute"
+							  title="{\App\Language::translate('LBL_CONSENT_TO_SEND', $MODULE)}" data-js="class"></span>
 						<label class="c-float-label__label" for="consent-to-send">
 							{\App\Language::translate('LBL_CONSENT_TO_SEND', $MODULE)}
 						</label>
@@ -42,4 +42,3 @@
 		</div>
 	</div>
 {/strip}
-

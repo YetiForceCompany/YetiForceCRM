@@ -86,7 +86,7 @@ class Controller
 		$handler->controller = $this;
 		if ($handler->checkAction()) {
 			$handler->preProcess();
-			$return = call_user_func([$handler, strtolower($this->method)]);
+			$return = \call_user_func([$handler, strtolower($this->method)]);
 		}
 		if (null !== $return) {
 			$return = [

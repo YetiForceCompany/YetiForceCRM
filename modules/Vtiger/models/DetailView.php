@@ -143,10 +143,20 @@ class Vtiger_DetailView_Model extends \App\Base
 		}
 		if ($userPrivilegesModel->hasModulePermission('PermissionInspector')) {
 			$detailViewLinks[] = [
-				'linktype' => 'LIST_VIEW_HEADER',
+				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linkhint' => 'BTN_PERMISSION_INSPECTOR',
 				'linkdata' => ['url' => "index.php?module=PermissionInspector&view=UserListModal&srcModule=$moduleName&srcRecord=$recordId"],
 				'linkicon' => 'fas fa-user-secret',
+				'linkclass' => 'btn-outline-dark btn-sm',
+				'modalView' => true,
+			];
+		}
+		if ($moduleModel->isPermitted('RecordConventer') && \App\RecordConverter::isActive($moduleModel->getName(), 'Detail')) {
+			$detailViewLinks[] = [
+				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
+				'linklabel' => 'LBL_RECORD_CONVERTER',
+				'linkdata' => ['url' => "index.php?module={$moduleModel->getName()}&view=RecordConverter&inView=Detail&selected_ids=[{$recordModel->getId()}]"],
+				'linkicon' => 'fas fa-exchange-alt',
 				'linkclass' => 'btn-outline-dark btn-sm',
 				'modalView' => true,
 			];

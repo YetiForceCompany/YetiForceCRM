@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<!-- tpl-install-tpl-Step5 -->
+	<!-- tpl-install-tpl-StepVerifyServerConfiguration -->
 	{function SHOW_HELP_TEXT ITEM=[] KEY=''}
 		{if empty($ITEM['label'])}{$KEY}{else}{\App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'ConfReport')}{/if}
 		{if !$ITEM['status']}
@@ -28,8 +28,8 @@
 	<div class="container px-2 px-sm-3">
 		<main class="main-container">
 			<div class="inner-container">
-				<form class="js-confirm" name="step3" method="post" action="Install.php" data-js="submit">
-					<input type="hidden" name="mode" value="step6">
+				<form class="js-confirm" name="step{$STEP_NUMBER}" method="post" action="Install.php" data-js="submit">
+					<input type="hidden" name="mode" value="{$NEXT_STEP}">
 					<input type="hidden" name="lang" value="{$LANG}">
 					<div class="row">
 						<div class="col-12 text-center">
@@ -55,7 +55,7 @@
 
 						<div class="offset2">
 							<div>
-								<table class="config-table table u-word-break-all">
+								<table class="config-table table u-word-break-all" data-type="libraries">
 									<thead>
 									<tr>
 										<th colspan="1" scope="col" class="text-left">
@@ -95,7 +95,7 @@
 									</tbody>
 								</table>
 								<br>
-								<table class="config-table table u-word-break-all">
+								<table class="config-table table u-word-break-all" data-type="security">
 									<caption
 											class="sr-only">{App\Language::translate('LBL_SECURITY_RECOMMENDED_SETTINGS', 'Install')}</caption>
 									<thead>
@@ -127,7 +127,7 @@
 									</tbody>
 								</table>
 								<br>
-								<table class="config-table table u-word-break-all">
+								<table class="config-table table u-word-break-all" data-type="stability">
 									<caption
 											class="sr-only">{App\Language::translate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</caption>
 									<thead>
@@ -158,44 +158,8 @@
 									{/foreach}
 									</tbody>
 								</table>
-								{if !empty($ALL['database'])}
-									<br>
-									<table class="config-table table u-word-break-all">
-										<caption
-												class="sr-only">{App\Language::translate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</caption>
-										<thead>
-										<tr>
-											<th>{App\Language::translate('LBL_PARAMETER', 'Install')}</th>
-											<th>{App\Language::translate('LBL_REQUIRED_VALUE', 'Install')}</th>
-											<th>{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}</th>
-										</tr>
-										</thead>
-										<tbody>
-										{foreach from=$ALL['database'] key=KEY item=ITEM}
-											<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
-												data-js="length">
-												<td>
-													{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
-												</td>
-												{if isset($ITEM['recommended'])}
-													<td>
-														{$ITEM['recommended']}
-													</td>
-													<td>
-														{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
-													</td>
-												{else}
-													<td colspan="2">
-														{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
-													</td>
-												{/if}
-											</tr>
-										{/foreach}
-										</tbody>
-									</table>
-								{/if}
 								<br>
-								<table class="config-table table u-word-break-all">
+								<table class="config-table table u-word-break-all" data-type="performance">
 									<caption class="sr-only">
 										{App\Language::translate('LBL_PERFORMANCE_VERIFICATION', 'ConfReport')}
 									</caption>
@@ -234,7 +198,7 @@
 									</tbody>
 								</table>
 								<br>
-								<table class="config-table table u-word-break-all">
+								<table class="config-table table u-word-break-all" data-type="publicDirectoryAccess">
 									<caption class="sr-only">
 										{App\Language::translate('LBL_DENY_PUBLIC_DIR_TITLE', 'ConfReport')}
 									</caption>
@@ -267,7 +231,7 @@
 									</tbody>
 								</table>
 								<br>
-								<table class="config-table table u-word-break-all">
+								<table class="config-table table u-word-break-all" data-type="environment">
 									<caption class="sr-only">
 										{App\Language::translate('LBL_ENVIRONMENTAL_INFORMATION', 'ConfReport')}
 									</caption>
@@ -300,7 +264,7 @@
 						<div class="offset2">
 							<div>
 								{if !empty($ALL['writableFilesAndFolders'])}
-									<table class="config-table table u-word-break-all">
+									<table class="config-table table u-word-break-all" data-type="writableFilesAndFolders">
 										<thead>
 										<tr class="blockHeader">
 											<th colspan="1" class="mediumWidthType">
@@ -346,5 +310,5 @@
 			</div>
 		</main>
 	</div>
-	<!-- /tpl-install-tpl-Step5 -->
+	<!-- /tpl-install-tpl-StepVerifyServerConfiguration -->
 {/strip}

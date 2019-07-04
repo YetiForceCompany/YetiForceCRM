@@ -71,7 +71,7 @@ class Calendar_CalendarHandler_Handler
 	public function entityBeforeSave(App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
-		if ($recordModel->get('allday') && ($recordModel->isNew() || $recordModel->getPreviousValue('allday') !== false)) {
+		if ($recordModel->get('allday') && ($recordModel->isNew() || false !== $recordModel->getPreviousValue('allday'))) {
 			$userModel = \App\User::getUserModel($recordModel->get('assigned_user_id'));
 			$recordModel->set('time_start', $userModel->getDetail('start_hour') . ':00');
 			$recordModel->set('time_end', $userModel->getDetail('end_hour') . ':00');

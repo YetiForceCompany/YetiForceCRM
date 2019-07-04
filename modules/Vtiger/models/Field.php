@@ -1450,7 +1450,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function getRangeValues()
 	{
@@ -1487,6 +1487,8 @@ class Vtiger_Field_Model extends vtlib\Field
 					return '-128,127';
 			case 'decimal':
 				return pow(10, $data['size'] - $data['scale']) - 1;
+			case 'text':
+				return '65535';
 			default:
 				return null;
 		}

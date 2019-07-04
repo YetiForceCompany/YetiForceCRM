@@ -12,14 +12,35 @@
 class Install_Index_View extends \App\Controller\View
 {
 	use \App\Controller\ExposeMethod;
+
 	/**
 	 * @var bool
 	 */
 	protected $debug = false;
+
 	/**
 	 * @var Vtiger_Viewer
 	 */
 	protected $viewer;
+
+	/**
+	 * Step number.
+	 *
+	 * @var int
+	 */
+	protected $stepNumber = 1;
+
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('step1');
+		$this->exposeMethod('step2');
+		$this->exposeMethod('step3');
+		$this->exposeMethod('step4');
+		$this->exposeMethod('step5');
+		$this->exposeMethod('step6');
+		$this->exposeMethod('step7');
+	}
 
 	public function checkPermission(App\Request $request)
 	{
@@ -61,27 +82,17 @@ class Install_Index_View extends \App\Controller\View
 		return $request;
 	}
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->exposeMethod('step1');
-		$this->exposeMethod('step2');
-		$this->exposeMethod('step3');
-		$this->exposeMethod('step4');
-		$this->exposeMethod('step5');
-		$this->exposeMethod('step6');
-		$this->exposeMethod('step7');
-	}
-
 	public function preProcess(App\Request $request, $display = true)
 	{
-		if ('step5' !== $request->getMode()) {
+		if (preg_match('|^step([0-9])|i', $request->getMode(), $m)) {
+			$this->stepNumber = (int) $m[1];
+		}
+		if ('step3' !== $request->getMode()) {
 			date_default_timezone_set('UTC'); // to overcome the pre configuration settings
 		}
 		// Added to redirect to default module if already installed
 		$request->set('module', 'Install');
 		$request = $this->setLanguage($request);
-
 		if ('step7' !== $request->getMode() && \App\Config::main('application_unique_key', false)) {
 			$defaultModule = \App\Config::main('default_module');
 			$defaultModuleInstance = Vtiger_Module_Model::getInstance($defaultModule);
@@ -95,6 +106,8 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->setTemplateDir('install/tpl/');
 		$this->viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 		$this->viewer->assign('LANG', $request->getByType('lang', 1));
+		$this->viewer->assign('NEXT_STEP', 'step' . ($this->stepNumber + 1));
+		$this->viewer->assign('STEP_NUMBER', $this->stepNumber);
 		$this->viewer->assign('HTMLLANG', substr($defaultLanguage, 0, 2));
 		$this->viewer->assign('LANGUAGE', $defaultLanguage);
 		$this->viewer->assign('STYLES', $this->getHeaderCss($request));
@@ -131,7 +144,7 @@ class Install_Index_View extends \App\Controller\View
 		}
 		$this->viewer->assign('LANGUAGES', Install_Utils_Model::getLanguages());
 		$this->viewer->assign('IS_MIGRATE', $isMigrate);
-		$this->viewer->display('Step1.tpl');
+		$this->viewer->display('StepWelcome.tpl');
 	}
 
 	public function step2(App\Request $request)
@@ -143,10 +156,18 @@ class Install_Index_View extends \App\Controller\View
 		}
 		$this->viewer->assign('LIBRARIES', \App\Installer\Credits::getCredits());
 		$this->viewer->assign('LICENSE', nl2br($license));
-		$this->viewer->display('Step2.tpl');
+		$this->viewer->display('StepLicense.tpl');
 	}
 
 	public function step3(App\Request $request)
+	{
+		$this->viewer->assign('ALL', \App\Utils\ConfReport::getByType([
+			'stability', 'security', 'libraries', 'performance', 'environment', 'publicDirectoryAccess', 'writableFilesAndFolders'
+		]));
+		$this->viewer->display('StepVerifyServerConfiguration.tpl');
+	}
+
+	public function step4(App\Request $request)
 	{
 		$this->viewer->assign('CURRENCIES', Install_Utils_Model::getCurrencyList());
 		require_once ROOT_DIRECTORY . '/modules/Users/UserTimeZonesArray.php';
@@ -163,14 +184,15 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->assign('ADMIN_LASTNAME', $defaultParameters['admin_lastname']);
 		$this->viewer->assign('ADMIN_PASSWORD', $defaultParameters['admin_password']);
 		$this->viewer->assign('ADMIN_EMAIL', $defaultParameters['admin_email']);
-		$this->viewer->display('Step3.tpl');
+		$this->viewer->display('StepSystemConfiguration.tpl');
 	}
 
-	public function step4(App\Request $request)
+	public function step5(App\Request $request)
 	{
 		set_time_limit(60); // Override default limit to let install complete.
 		$error = false;
 		$dbConnection['flag'] = true;
+		$this->createConfigFileForDb();
 		$configFile = new \App\ConfigFile('db');
 		foreach ($configFile->getTemplate() as $name => $data) {
 			if ($request->has($name)) {
@@ -264,33 +286,8 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->assign('DB_CONNECTION_INFO', $dbConnection);
 		$this->viewer->assign('INFORMATION', $_SESSION['config_file_info'] ?? []);
 		$this->viewer->assign('AUTH_KEY', $_SESSION['config_file_info']['authentication_key'] = sha1(microtime()));
-		$this->viewer->display('Step4.tpl');
-	}
-
-	public function step5(App\Request $request)
-	{
-		if ($_SESSION['config_file_info']['db_server'] ?? false) {
-			$success = true;
-			$configFile = new \App\ConfigFile('db');
-			foreach ($configFile->getTemplate() as $name => $data) {
-				try {
-					if (isset($_SESSION['config_file_info'][$name])) {
-						$configFile->set($name, $_SESSION['config_file_info'][$name]);
-					}
-				} catch (\Throwable $e) {
-					$success = false;
-					\App\Log::error($e->__toString());
-					unset($_SESSION['config_file_info'][$name]);
-				}
-			}
-			if ($success) {
-				$configFile->create();
-			}
-		} else {
-			Install_Utils_Model::cleanConfiguration();
-		}
-		$this->viewer->assign('ALL', \App\Utils\ConfReport::getAll());
-		$this->viewer->display('Step5.tpl');
+		$this->viewer->assign('CONF_REPORT_RESULT', \App\Utils\ConfReport::getByType(['database']));
+		$this->viewer->display('StepConfirmConfigurationSettings.tpl');
 	}
 
 	/**
@@ -311,7 +308,7 @@ class Install_Index_View extends \App\Controller\View
 		$configFile->set('application_unique_key', '');
 		$configFile->create();
 		$this->viewer->assign('AUTH_KEY', $_SESSION['config_file_info']['authentication_key']);
-		$this->viewer->display('Step6.tpl');
+		$this->viewer->display('StepCompanyDetails.tpl');
 	}
 
 	public function step7(App\Request $request)
@@ -338,7 +335,7 @@ class Install_Index_View extends \App\Controller\View
 			Install_Utils_Model::cleanConfiguration();
 		}
 		$this->viewer->assign('INSTALLATION_SUCCESS', $success);
-		$this->viewer->display('Step7.tpl');
+		$this->viewer->display('StepInstall.tpl');
 	}
 
 	protected function preProcessDisplay(App\Request $request)
@@ -398,5 +395,34 @@ class Install_Index_View extends \App\Controller\View
 			'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js',
 			'~install/tpl/resources/Index.js',
 		]));
+	}
+
+	/**
+	 * Create config file for Db.
+	 *
+	 * @return void
+	 */
+	private function createConfigFileForDb()
+	{
+		if ($_SESSION['config_file_info']['db_server'] ?? false) {
+			$success = true;
+			$configFile = new \App\ConfigFile('db');
+			foreach ($configFile->getTemplate() as $name => $data) {
+				try {
+					if (isset($_SESSION['config_file_info'][$name])) {
+						$configFile->set($name, $_SESSION['config_file_info'][$name]);
+					}
+				} catch (\Throwable $e) {
+					$success = false;
+					\App\Log::error($e->__toString());
+					unset($_SESSION['config_file_info'][$name]);
+				}
+			}
+			if ($success) {
+				$configFile->create();
+			}
+		} else {
+			Install_Utils_Model::cleanConfiguration();
+		}
 	}
 }
