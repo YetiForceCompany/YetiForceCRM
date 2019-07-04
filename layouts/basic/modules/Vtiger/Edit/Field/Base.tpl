@@ -10,11 +10,12 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<!-- tpl-Base-Edit-Field-Base -->
 	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var="FIELD_NAME" value=$FIELD_MODEL->getName()}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
-	<input class="tpl-Edit-Field-Base form-control {if $FIELD_MODEL->isNameField()}nameField{/if}"
+	<input class="form-control {if $FIELD_MODEL->isNameField()}nameField{/if}"
 		   name="{$FIELD_MODEL->getFieldName()}" id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text"
 		   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
 		   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}{if $FIELD_MODEL->get('maximumlength')}maxSize[{$FIELD_MODEL->get('maximumlength')}],{/if} funcCall[Vtiger_InputMask_Validator_Js.invokeValidation]]"
@@ -24,4 +25,5 @@
 		   data-fieldinfo='{$FIELD_INFO}'
 			{if !empty($SPECIAL_VALIDATOR)}data-validator="{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}"{/if}
 			{if $FIELD_MODEL->get('fieldparams') != ''}data-inputmask="'mask': '{$FIELD_MODEL->get('fieldparams')}'"{/if} />
+	<!-- /tpl-Base-Edit-Field-Base -->
 {/strip}
