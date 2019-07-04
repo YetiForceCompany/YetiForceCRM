@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Kon <a.kon@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App;
@@ -517,8 +518,7 @@ class RecordConverter extends Base
 					foreach ($recordModelGroupBy->getInventoryData() as $inventoryRow) {
 						if (isset($this->inventoryMapping[$this->destinyModuleModel->getId()])) {
 							foreach ($this->inventoryMapping[$this->destinyModuleModel->getId()] as $destinyField => $sourceField) {
-								$fieldCustomColumn = $this->destinyInvFields[$destinyField]->getCustomColumn();
-								if ($fieldCustomColumn) {
+								if ($fieldCustomColumn = $this->destinyInvFields[$destinyField]->getCustomColumn()) {
 									foreach (array_keys($fieldCustomColumn) as $customColumn) {
 										$invData[$groupBy][$counter][$customColumn] = $inventoryRow[$customColumn] ?? [];
 									}
@@ -532,9 +532,7 @@ class RecordConverter extends Base
 							} elseif (!isset($invData[$groupBy][$counter][$columnName])) {
 								$invData[$groupBy][$counter][$columnName] = $inventoryRow[$columnName];
 							}
-							$fieldCustomColumn = $fieldModel->getCustomColumn();
-
-							if ($fieldCustomColumn) {
+							if ($fieldCustomColumn = $fieldModel->getCustomColumn()) {
 								foreach (array_keys($fieldCustomColumn) as $customColumn) {
 									$invData[$groupBy][$counter][$customColumn] = '';
 								}

@@ -13,10 +13,8 @@
 					<div class="col-sm-5">
 						<select class="select2 form-control js-convert-type" data-js="change">
 							{foreach key=KEY item=ITEM from=$CONVERTERS}
-								<option value=""></option>
-								<option value="{$KEY}"
-										{if $KEY eq $SELECTED_CONVERT_TYPE} selected {/if}
-								>{$ITEM['name']}</option>
+								<option value="">{\App\Language::translate('LBL_NONE')}</option>
+								<option value="{$KEY}" {if $KEY eq $SELECTED_CONVERT_TYPE} selected {/if}>{$ITEM['name']}</option>
 							{/foreach}
 						</select>
 					</div>

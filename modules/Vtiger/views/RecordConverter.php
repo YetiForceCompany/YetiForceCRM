@@ -46,6 +46,7 @@ class Vtiger_RecordConverter_View extends \App\Controller\Modal
 		$viewer = $this->getViewer($request);
 		$modulesWithoutPermission = [];
 		$viewer->assign('CREATED_RECORDS', $recordsAmount);
+		$viewer->assign('SELECTED_CONVERT_TYPE', '');
 		if (!$request->isEmpty('convertType')) {
 			$converter = \App\RecordConverter::getInstanceById($request->getInteger('convertType'));
 			$converter->init();

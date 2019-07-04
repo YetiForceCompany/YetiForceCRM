@@ -35,7 +35,7 @@ class Vtiger_RecordConverter_Action extends \App\Controller\Action
 		$convertId = $request->getInteger('convertId');
 		$convertInstance = \App\RecordConverter::getInstanceById($convertId, $moduleName);
 		$redirect = '';
-		if (1 === count($records) && $convertInstance->get('redirect_to_edit')) {
+		if (1 === \count($records) && $convertInstance->get('redirect_to_edit')) {
 			$redirect = 'index.php?module=' . App\Module::getModuleName($convertInstance->get('destiny_module')) . '&view=Edit&recordConverter=' . $convertId . '&sourceId=' . $records[0] . '&sourceModule=' . $moduleName;
 		} else {
 			$convertInstance->process($records);
