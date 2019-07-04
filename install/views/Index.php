@@ -204,11 +204,12 @@ class Install_Index_View extends \App\Controller\View
 				}
 			}
 		}
-		$this->createConfigFileForDbFromSession();
 		if (!$error) {
 			$dbConnection = Install_Utils_Model::checkDbConnection($configFile->getData());
 			if (!$dbConnection['flag']) {
 				$error = true;
+			} else {
+				$this->createConfigFileForDbFromSession();
 			}
 		}
 		$configFile = new \App\ConfigFile('main');
@@ -286,7 +287,9 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->assign('DB_CONNECTION_INFO', $dbConnection);
 		$this->viewer->assign('INFORMATION', $_SESSION['config_file_info'] ?? []);
 		$this->viewer->assign('AUTH_KEY', $_SESSION['config_file_info']['authentication_key'] = sha1(microtime()));
-		$this->viewer->assign('CONF_REPORT_RESULT', \App\Utils\ConfReport::getByType(['database']));
+		if (!$error) {
+			$this->viewer->assign('CONF_REPORT_RESULT', \App\Utils\ConfReport::getByType(['database']));
+		}
 		$this->viewer->display('StepConfirmConfigurationSettings.tpl');
 	}
 
