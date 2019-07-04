@@ -65,7 +65,8 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			'refreshRoomTime' => App\Config::module('Chat', 'REFRESH_ROOM_TIME'),
 			'maxLengthMessage' => App\Config::module('Chat', 'MAX_LENGTH_MESSAGE'),
 			'refreshTimeGlobal' => App\Config::module('Chat', 'REFRESH_TIME_GLOBAL'),
-			'showNumberOfNewMessages' => App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')
+			'showNumberOfNewMessages' => App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES'),
+			'isChatAllowed' => \App\User::getCurrentUserRealId() === \App\User::getCurrentUserId()
 		]);
 		$response->emit();
 	}

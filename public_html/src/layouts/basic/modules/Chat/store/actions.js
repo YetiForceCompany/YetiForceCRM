@@ -17,12 +17,15 @@ export default {
 		commit('setHistoryTab', !getters['historyTab'])
 	},
 	fetchData({ commit, getters }) {
-		AppConnector.request({
-			module: 'Chat',
-			action: 'ChatAjax',
-			mode: 'data'
-		}).done(({ result }) => {
-			commit('setData', result)
+		return new Promise((resolve, reject) => {
+			AppConnector.request({
+				module: 'Chat',
+				action: 'ChatAjax',
+				mode: 'data'
+			}).done(({ result }) => {
+				commit('setData', result)
+				resolve(result)
+			})
 		})
 	},
 	fetchRoom(
