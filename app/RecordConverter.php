@@ -350,13 +350,10 @@ class RecordConverter extends Base
 	 * Function prepare records model group by field merge.
 	 *
 	 * @param array $records
-	 *
-	 * @return array
 	 */
-	public function getRecordsGroupBy(array $records): array
+	public function getRecordsGroupBy(array $records)
 	{
-		$groupRecords = $this->getGroupRecords($records);
-		foreach ($groupRecords as $groupBy => $recordsId) {
+		foreach ($this->getGroupRecords($records) as $groupBy => $recordsId) {
 			$this->cleanRecordModels[$groupBy] = \Vtiger_Record_Model::getCleanInstance($this->destinyModule);
 			$this->cleanRecordModels[$groupBy]->set($this->fieldMapping['field_merge'][$this->destinyModuleModel->getId()], $groupBy);
 			foreach ($recordsId as $recordId) {
@@ -374,10 +371,8 @@ class RecordConverter extends Base
 	 * Function prepare records model.
 	 *
 	 * @param array $records
-	 *
-	 * @return int[]
 	 */
-	public function getRecordModelsWithoutMerge(array $records): array
+	public function getRecordModelsWithoutMerge(array $records)
 	{
 		foreach ($records as $recordId) {
 			$this->cleanRecordModels[$recordId] = \Vtiger_Record_Model::getCleanInstance($this->destinyModule);
