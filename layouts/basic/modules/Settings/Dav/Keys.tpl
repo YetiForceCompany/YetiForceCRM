@@ -22,7 +22,7 @@
 			<div class="alert alert-info">
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				<h5 class="alert-heading">{\App\Language::translate('LBL_ALERT_DAV_CONFIG_TITLE', $QUALIFIED_MODULE)}</h5>
-				<p>{\App\Language::translateArgs('LBL_ALERT_DAV_CONFIG_DESC', $QUALIFIED_MODULE,App\Config::main('site_URL'))|unescape:"html"}</p>
+				<p>{str_replace(['https://gitdeveloper.yetiforce.com/'],App\Config::main('site_URL'),\App\Language::translate('LBL_ALERT_DAV_CONFIG_DESC', $QUALIFIED_MODULE))}</p>
 			</div>
 			<div>
 				<div class="contents tabbable">
