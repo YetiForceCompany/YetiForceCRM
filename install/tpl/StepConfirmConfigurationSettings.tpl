@@ -10,11 +10,25 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-install-tpl-Step4 container px-2 px-sm-3">
+{function SHOW_HELP_TEXT ITEM=[] KEY=''}
+		{if empty($ITEM['label'])}{$KEY}{else}{\App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'ConfReport')}{/if}
+		{if !$ITEM['status']}
+			{assign var="HELP_TEXT" value='LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY))}
+			{assign var="HELP_TEXT_TRANS" value=\App\Language::translateEncodeHtml($HELP_TEXT, 'ConfReport')}
+			{if !empty($HELP_TEXT_TRANS) && $HELP_TEXT_TRANS!==$HELP_TEXT }
+				<a href="#" class="js-popover-tooltip float-right" data-js="popover"
+				   data-trigger="focus hover" data-placement="right"
+				   data-content="{$HELP_TEXT_TRANS}">
+					<span class="fas fa-info-circle"></span>
+				</a>
+			{/if}
+		{/if}
+	{/function}
+	<div class="tpl-install-tpl-StepConfirmConfigurationSettings container px-2 px-sm-3">
 		<main class="main-container">
 			<div class="inner-container">
-				<form class="" name="step5" method="post" action="Install.php">
-					<input type="hidden" name="mode" value="step5">
+				<form class="" name="step{$STEP_NUMBER}" method="post" action="Install.php">
+					<input type="hidden" name="mode" value="{$NEXT_STEP}">
 					<input type="hidden" name="auth_key" value="{$AUTH_KEY}">
 					<input type="hidden" name="lang" value="{$LANG}">
 					<div class="row">
@@ -127,6 +141,45 @@
 								</tbody>
 							</table>
 						</div>
+
+						<div class="table-responsive">
+							{if !empty($CONF_REPORT_RESULT['database'])}
+								<br>
+								<table class="config-table table u-word-break-all" data-type="database">
+									<caption
+											class="sr-only">{App\Language::translate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</caption>
+									<thead>
+									<tr>
+										<th>{App\Language::translate('LBL_PARAMETER', 'Install')}</th>
+										<th>{App\Language::translate('LBL_REQUIRED_VALUE', 'Install')}</th>
+										<th>{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}</th>
+									</tr>
+									</thead>
+									<tbody>
+									{foreach from=$CONF_REPORT_RESULT['database'] key=KEY item=ITEM}
+										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if} data-js="length">
+											<td>
+												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
+											</td>
+											{if isset($ITEM['recommended'])}
+												<td>
+													{$ITEM['recommended']}
+												</td>
+												<td>
+													{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
+												</td>
+											{else}
+												<td colspan="2">
+													{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
+												</td>
+											{/if}
+										</tr>
+									{/foreach}
+									</tbody>
+								</table>
+							{/if}
+						</div>
+
 						<div class="form-button-nav fixed-bottom button-container p-1 bg-light">
 							<div class="text-center w-100">
 								<a class="btn btn-lg c-btn-block-xs-down btn-danger mr-sm-1 mb-1 mb-sm-0" href="Install.php"

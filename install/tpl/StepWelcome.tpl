@@ -10,10 +10,11 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-install-tpl-Step1 container px-2 px-sm-3">
+	<div class="tpl-install-tpl-StepWelcome container px-2 px-sm-3">
 		<main class="main-container mt-3">
 			<div class="inner-container">
-				<form class="" name="step1" method="post" action="Install.php">
+				<form name="step{$STEP_NUMBER}" method="post" action="Install.php">
+					<input type="hidden" name="mode" value="{$NEXT_STEP}">
 					<div class="row">
 						<div class="col-md-8">
 							<h2>{\App\Language::translate('LBL_SETUP_WIZARD_HEADER', 'Install')} {$YETIFORCE_VERSION}</h2>
@@ -37,7 +38,6 @@
 						</div>
 					</div>
 					<hr>
-					<input type="hidden" name="mode" value="step2">
 					<div class="row">
 						<div class="col-md-4 text-center py-5">
 							<img src="../{\App\Layout::getPublicUrl('layouts/resources/Logo/yetiforce_capterra.png')}"

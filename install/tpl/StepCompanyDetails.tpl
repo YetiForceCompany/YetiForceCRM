@@ -10,11 +10,11 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-install-tpl-Step6 container px-2 px-sm-3">
+	<div class="tpl-install-tpl-StepCompanyDetails container px-2 px-sm-3">
 		<main class="main-container">
 			<div class="inner-container">
-				<form class="" name="step6" method="post" action="Install.php">
-					<input type="hidden" name="mode" value="step7">
+				<form class="" name="step{$STEP_NUMBER}" method="post" action="Install.php">
+					<input type="hidden" name="mode" value="{$NEXT_STEP}">
 					<input type="hidden" name="auth_key" value="{$AUTH_KEY}">
 					<input type="hidden" name="lang" value="{$LANG}">
 					<div class="row">
