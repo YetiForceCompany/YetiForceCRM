@@ -26,8 +26,8 @@
       </q-input>
     </div>
     <div class="flex-grow-1" style="height: 0; overflow: hidden">
-      <q-scroll-area :thumb-style="thumbStyle" v-multi-ref:scrollContainer>
-        <messages @earlierClick="earlierClick()" :fetchingEarlier="fetchingEarlier" />
+      <q-scroll-area :thumb-style="thumbStyle" ref="scrollContainer">
+        <messages @earlierClick="earlierClick()" :fetchingEarlier="fetchingEarlier" ref="messagesContainer" />
       </q-scroll-area>
       <q-resize-observer @resize="onResize" />
     </div>
@@ -37,7 +37,6 @@
 <script>
 import MessageInput from './MessageInput.vue'
 import Messages from './Messages.vue'
-import 'vue-multi-ref'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
 
@@ -64,14 +63,17 @@ export default {
       }
     }
   },
+  watch: {
+    data() {
+      this.scrollDown()
+    }
+  },
   methods: {
     ...mapActions(['fetchEarlierEntries', 'fetchSearchData', 'fetchRoom', 'fetchUnread']),
     ...mapMutations(['setSearchInactive', 'updateChat']),
     onResize({ height }) {
-      this.$refs.scrollContainer.forEach(el => {
-        Quasar.utils.dom.css(el.$el, {
-          height: height + 'px'
-        })
+      Quasar.utils.dom.css(this.$refs.scrollContainer.$el, {
+        height: height + 'px'
       })
     },
     earlierClick() {
@@ -110,9 +112,15 @@ export default {
           roomType: this.data.currentRoom.roomType
         }).done(({ result }) => {
           this.updateChat(result)
+          if (result.chatEntries.length) {
+            this.scrollDown()
+          }
           this.fetchNewMessages()
         })
       }, this.data.refreshMessageTime)
+    },
+    scrollDown() {
+      this.$refs.scrollContainer.setScrollPosition(this.$refs.messagesContainer.$el.clientHeight, 500)
     }
   },
   mounted() {

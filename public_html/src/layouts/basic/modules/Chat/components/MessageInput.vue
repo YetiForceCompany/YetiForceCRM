@@ -45,7 +45,6 @@ import Emoji from 'emoji-mart-vue-fast'
 import { createNamespacedHelpers } from 'vuex'
 const Picker = Emoji.Picker
 const { mapGetters, mapActions } = createNamespacedHelpers('Chat')
-console.log(Emoji)
 export default {
   name: 'ChatMessages',
   components: { Picker },
