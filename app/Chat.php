@@ -589,6 +589,7 @@ final class Chat
 			$row['created'] = Fields\DateTime::formatToShort($row['created']);
 			$row['user_name'] = $userName;
 			$row['role_name'] = $userRoleName;
+			$row['messages'] = $this->decodeMessage($row['messages']);
 			$rows[] = $row;
 		}
 		return \array_reverse($rows);
@@ -731,7 +732,7 @@ final class Chat
 			$rows[] = [
 				'id' => $row['id'],
 				'userid' => $row['userid'],
-				'messages' => $row['messages'],
+				'messages' => static::decodeMessage($row['messages']),
 				'created' => Fields\DateTime::formatToShort($row['created']),
 				'user_name' => $userModel->getName(),
 				'role_name' => Language::translate($userModel->getRoleInstance()->getName()),
@@ -950,7 +951,7 @@ final class Chat
 			$this->room['last_message'] = $this->lastMessageId;
 		}
 	}
-	public function decodeMessage($message): string
+	private static function decodeMessage($message): string
 	{
 		return nl2br(\App\Utils\Completions::decode(\App\Purifier::purifyHtml(\App\Purifier::decodeHtml($message))));
 	}
