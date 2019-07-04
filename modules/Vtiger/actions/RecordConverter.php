@@ -41,7 +41,11 @@ class Vtiger_RecordConverter_Action extends \App\Controller\Action
 			$convertInstance->process($records);
 		}
 		$response = new Vtiger_Response();
-		$response->setResult(['redirect' => $redirect, 'createdRecords' => \App\Language::translateArgs('LBL_CREATED_CONVERT_RECORDS', $moduleName, $convertInstance->createdRecords), 'error' => $convertInstance->error]);
+		$response->setResult([
+			'redirect' => $redirect,
+			'createdRecords' => \App\Language::translateArgs('LBL_CREATED_CONVERT_RECORDS', $moduleName, \count($convertInstance->createdRecords)),
+			'error' => $convertInstance->error
+		]);
 		$response->emit();
 	}
 }

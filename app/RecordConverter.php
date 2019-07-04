@@ -110,11 +110,11 @@ class RecordConverter extends Base
 	public $inventoryMappingExecute = false;
 
 	/**
-	 * Number of created records.
+	 * Created records ids.
 	 *
-	 * @var int
+	 * @var int[]
 	 */
-	public $createdRecords = 0;
+	public $createdRecords = [];
 
 	/**
 	 * @var string
@@ -211,28 +211,6 @@ class RecordConverter extends Base
 	}
 
 	/**
-	 * Function get number of created records.
-	 *
-	 * @param array $records
-	 *
-	 * @return int
-	 */
-	public function countCreatedRecords(array $records): int
-	{
-		$modulesAmount = 0;
-		foreach (explode(',', $this->get('destiny_module')) as $destinyModuleId) {
-			$destinyModuleName = Module::getModuleName($destinyModuleId);
-			if (Privilege::isPermitted($destinyModuleName, 'CreateView')) {
-				++$modulesAmount;
-			}
-		}
-		if ($this->get('field_merge')) {
-			return \count($this->getGroupRecords($records)) * $modulesAmount;
-		}
-		return \count($records) * $modulesAmount;
-	}
-
-	/**
 	 * Function variable initializing.
 	 *
 	 * @throws Exceptions\AppException
@@ -248,18 +226,37 @@ class RecordConverter extends Base
 	}
 
 	/**
+	 * Function get number of created records.
+	 *
+	 * @param array $records
+	 *
+	 * @return int
+	 */
+	public function countRecordsToCreate(array $records): int
+	{
+		$modulesAmount = 0;
+		foreach (explode(',', $this->get('destiny_module')) as $destinyModuleId) {
+			$destinyModuleName = Module::getModuleName($destinyModuleId);
+			if (Privilege::isPermitted($destinyModuleName, 'CreateView')) {
+				++$modulesAmount;
+			}
+		}
+		if ($this->get('field_merge')) {
+			return \count($this->getGroupRecords($records)) * $modulesAmount;
+		}
+		return \count($records) * $modulesAmount;
+	}
+
+	/**
 	 * Main function of class.
 	 *
 	 * @param array $records
 	 *
 	 * @throws Exceptions\AppException
-	 *
-	 * @return array
 	 */
-	public function process(array $records): array
+	public function process(array $records)
 	{
 		$this->init();
-		$createdRecordIds = [];
 		if ($this->get('destiny_module')) {
 			$recordsAmount = \count($records);
 			foreach (explode(',', $this->get('destiny_module')) as $destinyModuleId) {
@@ -274,13 +271,12 @@ class RecordConverter extends Base
 				$this->setInvMapCanExecute();
 				if ($this->isFieldMergeExists) {
 					$this->groupRecordConvert = true;
-					$createdRecordIds = $this->getRecordsGroupBy($records);
+					$this->getRecordsGroupBy($records);
 				} else {
-					$createdRecordIds = $this->getRecordModelsWithoutMerge($records);
+					$this->getRecordModelsWithoutMerge($records);
 				}
 			}
 		}
-		return $createdRecordIds;
 	}
 
 	/**
@@ -359,7 +355,6 @@ class RecordConverter extends Base
 	 */
 	public function getRecordsGroupBy(array $records): array
 	{
-		$createdRecordIds = [];
 		$groupRecords = $this->getGroupRecords($records);
 		foreach ($groupRecords as $groupBy => $recordsId) {
 			$this->cleanRecordModels[$groupBy] = \Vtiger_Record_Model::getCleanInstance($this->destinyModule);
@@ -371,10 +366,8 @@ class RecordConverter extends Base
 			}
 			$this->processInventoryMapping();
 			$this->checkIfDuplicateRecordExists();
-
-			$createdRecordIds[] = $this->saveChanges();
+			$this->saveChanges();
 		}
-		return $createdRecordIds;
 	}
 
 	/**
@@ -386,7 +379,6 @@ class RecordConverter extends Base
 	 */
 	public function getRecordModelsWithoutMerge(array $records): array
 	{
-		$createdRecordIds = [];
 		foreach ($records as $recordId) {
 			$this->cleanRecordModels[$recordId] = \Vtiger_Record_Model::getCleanInstance($this->destinyModule);
 			if (!isset($this->recordModels[$recordId])) {
@@ -397,10 +389,9 @@ class RecordConverter extends Base
 			$this->processInventoryMapping();
 			$this->checkIfDuplicateRecordExists();
 			if (!$this->get('redirect_to_edit')) {
-				$createdRecordIds[] = $this->saveChanges();
+				$this->saveChanges();
 			}
 		}
-		return $createdRecordIds;
 	}
 
 	/**
@@ -425,21 +416,17 @@ class RecordConverter extends Base
 
 	/**
 	 * Function save changes in new record models.
-	 *
-	 * @return int
 	 */
-	public function saveChanges(): int
+	public function saveChanges()
 	{
 		foreach ($this->cleanRecordModels as $recordModel) {
 			try {
 				$recordModel->save();
-				++$this->createdRecords;
-				$this->cleanRecordModels = null;
+				$this->createdRecords[] = $recordModel->getId();
 			} catch (\Throwable $ex) {
 				$this->error = $ex->getMessage();
 			}
 		}
-		return $recordModel->getId();
 	}
 
 	/**

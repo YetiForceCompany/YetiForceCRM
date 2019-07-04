@@ -42,7 +42,7 @@ class Vtiger_RecordConverter_View extends \App\Controller\Modal
 	{
 		$moduleName = $request->getModule();
 		$records = Vtiger_Mass_Action::getRecordsListFromRequest($request);
-		$recordsAmount = count($records);
+		$recordsAmount = \count($records);
 		$viewer = $this->getViewer($request);
 		$modulesWithoutPermission = [];
 		$viewer->assign('CREATED_RECORDS', $recordsAmount);
@@ -51,7 +51,7 @@ class Vtiger_RecordConverter_View extends \App\Controller\Modal
 			$converter = \App\RecordConverter::getInstanceById($request->getInteger('convertType'));
 			$converter->init();
 			$viewer->assign('SELECTED_CONVERT_TYPE', $request->getInteger('convertType'));
-			$viewer->assign('CREATED_RECORDS', $converter->countCreatedRecords($records));
+			$viewer->assign('CREATED_RECORDS', $converter->countRecordsToCreate($records));
 		}
 		$moduleConverters = \App\RecordConverter::getModuleConverters($moduleName, $request->getByType('sourceView', 'Text'));
 		foreach ($moduleConverters as $key => $converter) {
