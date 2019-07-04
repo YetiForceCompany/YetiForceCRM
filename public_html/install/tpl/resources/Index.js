@@ -21,15 +21,15 @@ jQuery.Class(
 			'admin_email',
 			'dateformat',
 			'default_timezone'
-		]
+		],
 		checkUsername: function(field, rules, i, options) {
 			let fieldValue = field.val(),
 				negativeRegex = /^[a-zA-Z0-9_.@]{3,64}$/,
-				result = negativeRegex.test(fieldValue),
+				result = negativeRegex.test(fieldValue);
 			if (!result) {
 				return app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
 			}
-			logins = JSON.parse($('#not_allowed_logins').val());
+			let logins = JSON.parse($('#not_allowed_logins').val());
 			if ($.inArray(fieldValue, logins) !== -1) {
 				return app.vtranslate('LBL_INVALID_USERNAME_ERROR');
 			}
