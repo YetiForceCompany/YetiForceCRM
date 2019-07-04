@@ -209,7 +209,7 @@ class Install_Index_View extends \App\Controller\View
 			if (!$dbConnection['flag']) {
 				$error = true;
 			} else {
-				$this->createConfigFileForDbFromSession();
+				$configFile->create();
 			}
 		}
 		$configFile = new \App\ConfigFile('main');
@@ -398,34 +398,5 @@ class Install_Index_View extends \App\Controller\View
 			'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js',
 			'~install/tpl/resources/Index.js',
 		]));
-	}
-
-	/**
-	 * Create config file for Db.
-	 *
-	 * @return void
-	 */
-	private function createConfigFileForDbFromSession()
-	{
-		if (empty($_SESSION['config_file_info']['db_server'])) {
-			Install_Utils_Model::cleanConfiguration();
-		} else {
-			$success = true;
-			$configFile = new \App\ConfigFile('db');
-			foreach ($configFile->getTemplate() as $name => $data) {
-				try {
-					if (isset($_SESSION['config_file_info'][$name])) {
-						$configFile->set($name, $_SESSION['config_file_info'][$name]);
-					}
-				} catch (\Throwable $e) {
-					$success = false;
-					\App\Log::error($e->__toString());
-					unset($_SESSION['config_file_info'][$name]);
-				}
-			}
-			if ($success) {
-				$configFile->create();
-			}
-		}
 	}
 }
