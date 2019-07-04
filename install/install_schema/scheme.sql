@@ -1,4 +1,3 @@
-
 /*!40101 SET NAMES utf8 */;
 
 /*!40101 SET SQL_MODE=''*/;
@@ -163,19 +162,23 @@ CREATE TABLE `a_yf_pdf` (
 /*Table structure for table `a_yf_record_converter` */
 
 CREATE TABLE `a_yf_record_converter` (
-  `id` smallint(10) NOT NULL,
+  `id` smallint(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
-  `status` tinyint(1) DEFAULT NULL,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `source_module` smallint(5) NOT NULL,
   `destiny_module` varchar(255) NOT NULL,
   `field_merge` varchar(50) DEFAULT NULL,
   `field_mappging` text DEFAULT NULL,
   `inv_field_mapping` text DEFAULT NULL,
-  `redirect_to_edit` tinyint(1) DEFAULT NULL,
-  `change_view` smallint(5) DEFAULT NULL,
+  `redirect_to_edit` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `check_duplicate` tinyint(1) DEFAULT NULL,
+  `show_in_list` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `show_in_detail` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`,`source_module`,`destiny_module`),
   KEY `a_yf_record_converter_fk_tab` (`source_module`),
+  KEY `status` (`status`),
+  KEY `show_in_list` (`show_in_list`),
+  KEY `show_in_detail` (`show_in_detail`),
   CONSTRAINT `fk_1_a_yf_record_converter` FOREIGN KEY (`source_module`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -957,26 +960,6 @@ CREATE TABLE `s_yf_address_finder_config` (
   `type` varchar(50) NOT NULL,
   `val` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `s_yf_auto_record_flow_updater` */
-
-CREATE TABLE `s_yf_auto_record_flow_updater` (
-  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `source_module` smallint(5) NOT NULL,
-  `target_module` smallint(5) NOT NULL,
-  `source_field` varchar(50) NOT NULL,
-  `target_field` varchar(50) NOT NULL,
-  `default_value` varchar(255) NOT NULL,
-  `relation_field` varchar(50) NOT NULL,
-  `rules` text NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `source_module` (`source_module`),
-  KEY `target_module` (`target_module`),
-  KEY `status` (`status`),
-  CONSTRAINT `s_yf_auto_record_flow_updater_ibfk_1` FOREIGN KEY (`source_module`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE,
-  CONSTRAINT `s_yf_auto_record_flow_updater_ibfk_2` FOREIGN KEY (`target_module`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `s_yf_automatic_assignment` */
@@ -5440,7 +5423,7 @@ CREATE TABLE `vtiger_eventhandlers` (
   `owner_id` smallint(5) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`eventhandler_id`),
   KEY `event_name_class` (`event_name`,`handler_class`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_expectedresponse` */
 
