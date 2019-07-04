@@ -80,11 +80,17 @@
     "split.js": "^1.5.10",
     "store": "^2.0.12",
     "tributejs": "^3.7.1",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "snyk": "^1.189.0"
   },
   "resolutions": {},
   "bugs": {
     "url": "https://github.com/YetiForceCompany/YetiForceCRM/issues"
   },
-  "homepage": "https://github.com/YetiForceCompany/YetiForceCRM#readme"
+  "homepage": "https://github.com/YetiForceCompany/YetiForceCRM#readme",
+  "scripts": {
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "snyk": true
 }
