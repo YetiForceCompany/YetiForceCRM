@@ -73,7 +73,7 @@ export default {
   methods: {
     ...mapActions(['setDialog', 'fetchData']),
     initTimer() {
-      this.timerGlobal = setInterval(() => {
+      this.timerGlobal = setTimeout(() => {
         AppConnector.request({
           module: 'Chat',
           action: 'Room',
@@ -99,6 +99,7 @@ export default {
               )
             }
           }
+          this.initTimer()
         })
       }, this.data.refreshTimeGlobal)
     }

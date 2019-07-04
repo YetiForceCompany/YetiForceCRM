@@ -18,10 +18,15 @@ export default {
 	setData(state, data) {
 		state.data = data
 	},
-	updateEntries(state, data) {
+	pushSended(state, data) {
 		state.data.chatEntries.push(data.chatEntries.slice(-1)[0])
 		state.data.showMoreButton = data.showMoreButton
 		state.data.participants = data.participants
+	},
+	updateChat(state, data) {
+		state.data.chatEntries = [...state.data.chatEntries, ...data.chatEntries]
+		state.data.participants = data.participants
+		state.data.roomList = data.roomList
 	},
 	pushOlderEntries(state, data) {
 		state.data.chatEntries.unshift(...data.chatEntries)

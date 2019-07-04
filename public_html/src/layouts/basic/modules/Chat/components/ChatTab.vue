@@ -48,7 +48,8 @@ export default {
     return {
       inputSearch: '',
       fetchingEarlier: false,
-      searching: false
+      searching: false,
+      timerMessage: null
     }
   },
   computed: {
@@ -65,7 +66,7 @@ export default {
   },
   methods: {
     ...mapActions(['fetchEarlierEntries', 'fetchSearchData', 'fetchRoom', 'fetchUnread']),
-    ...mapMutations(['setSearchInactive']),
+    ...mapMutations(['setSearchInactive', 'updateChat']),
     onResize({ height }) {
       this.$refs.scrollContainer.forEach(el => {
         Quasar.utils.dom.css(el.$el, {
@@ -95,12 +96,42 @@ export default {
       this.fetchSearchData(this.inputSearch).then(e => {
         this.searching = false
       })
+    },
+    fetchNewMessages() {
+      this.timerMessage = setTimeout(() => {
+        console.log({
+          module: 'Chat',
+          action: 'ChatAjax',
+          mode: 'getEntries',
+          lastId: this.data.chatEntries.slice(-1)[0]['id'],
+          recordId: this.data.currentRoom.recordId,
+          roomType: this.data.currentRoom.roomType
+        })
+        AppConnector.request({
+          module: 'Chat',
+          action: 'ChatAjax',
+          mode: 'getEntries',
+          lastId: this.data.chatEntries.slice(-1)[0]['id'],
+          recordId: this.data.currentRoom.recordId,
+          roomType: this.data.currentRoom.roomType
+        }).done(({ result }) => {
+          console.log(result)
+          this.updateChat(result)
+          // let tempData = Object.assign({}, getters['data'])
+          // commit('setData', Object.assign(tempData, result))
+          this.fetchNewMessages()
+        })
+      }, this.data.refreshMessageTime)
     }
   },
   mounted() {
     if (this.data.currentRoom) {
       this.fetchRoom()
     }
+    this.fetchNewMessages()
+  },
+  beforeDestroy() {
+    clearInterval(this.timerMessage)
   }
 }
 </script>

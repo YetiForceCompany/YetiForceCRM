@@ -54,7 +54,7 @@ export default {
 				message: text,
 				mid: getters.data.chatEntries.slice(-1)[0]['id']
 			}).done(({ result }) => {
-				commit('updateEntries', result)
+				commit('pushSended', result)
 				resolve(result)
 			})
 		})

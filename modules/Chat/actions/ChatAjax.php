@@ -100,17 +100,14 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		}
 		$chatEntries = $chat->getEntries($request->has('lastId') ? $request->getInteger('lastId') : null);
 		$numberOfEntries = count($chatEntries);
-		if ($request->has('lastId') && !$numberOfEntries) {
-			return;
-		}
 		$result = [
-			'currentRoom' => \App\Chat::getCurrentRoom(),
-			'roomList' => \App\Chat::getRoomsByUser(),
 			'chatEntries' => $chatEntries,
-			'showMoreButton' => $numberOfEntries > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT'),
+			'roomList' => \App\Chat::getRoomsByUser(),
+			'participants' => $chat->getParticipants()
 		];
 		if (!$request->has('lastId')) {
-			$result['participants'] = $chat->getParticipants();
+			$result['showMoreButton'] = $numberOfEntries > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT');
+			$result['currentRoom'] = \App\Chat::getCurrentRoom();
 		}
 
 		$response = new Vtiger_Response();
