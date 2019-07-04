@@ -3,6 +3,10 @@
 !/cache/*/index.html
 !/cache/*/*/index.html
 /cache/registration.php
+/public_html/layouts/resources/colors/calendar.min.css
+/public_html/layouts/resources/colors/modules.min.css
+/public_html/layouts/resources/colors/owners.min.css
+/public_html/layouts/resources/colors/picklists.min.css
 
 /config/config_override.php
 /config/csrf_secret.php
