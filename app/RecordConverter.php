@@ -219,7 +219,7 @@ class RecordConverter extends Base
 	{
 		$this->sourceModule = Module::getModuleName($this->get('source_module'));
 		$this->sourceModuleModel = \Vtiger_Module_Model::getInstance($this->sourceModule);
-		$this->fieldMapping = $this->get('field_mappging') ? Json::decode($this->get('field_mappging')) : [];
+		$this->fieldMapping = $this->get('field_mapping') ? Json::decode($this->get('field_mapping')) : [];
 		$this->inventoryMapping = $this->get('inv_field_mapping') ? Json::decode($this->get('inv_field_mapping')) : [];
 		$this->sourceInvFields = \Vtiger_Inventory_Model::getInstance($this->sourceModule)->getFields();
 		$this->defaultValuesCreatedRecord = $this->get('default_values') ? Json::decode($this->get('default_values')) : [];
@@ -286,7 +286,7 @@ class RecordConverter extends Base
 	 */
 	public function setFieldsMapCanExecute(int $recordsAmount)
 	{
-		$this->fieldMappingExecute = $this->fieldMapping && $this->fieldMapping['mapping'][$this->destinyModuleModel->getId()] && (!$this->isFieldMergeExists || 1 === $recordsAmount);
+		$this->fieldMappingExecute = $this->fieldMapping && (isset($this->fieldMapping['auto']) || isset($this->fieldMapping['mapping'][$this->destinyModuleModel->getId()])) && (!$this->isFieldMergeExists || 1 === $recordsAmount);
 	}
 
 	/**
@@ -394,17 +394,44 @@ class RecordConverter extends Base
 	 */
 	public function processFieldMapping()
 	{
-		if ($this->fieldMappingExecute && isset($this->fieldMapping['mapping'][$this->destinyModuleModel->getId()])) {
-			foreach ($this->cleanRecordModels as $key => $cleanRecordModel) {
-				$referenceRecordModel = &$this->cleanRecordModels[$key];
-				$textParser = TextParser::getInstanceByModel($this->recordModels[$key]);
-				foreach ($this->fieldMapping['mapping'][$this->destinyModuleModel->getId()] as $destinyField => $sourceField) {
-					if (!isset($this->textParserValues[$key][$sourceField])) {
-						$textParser->setContent($sourceField);
-						$this->textParserValues[$key][$sourceField] = $textParser->parse()->getContent();
+		if (isset($this->inventoryMapping[0]) && 'auto' === $this->inventoryMapping[0]) {
+			$this->initFieldValuesAuto();
+		} else {
+			$this->initFieldValuesByUser();
+		}
+	}
+
+	/**
+	 * Function set values to new record automaticly
+	 */
+	public function initFieldValuesAuto(){
+		foreach ($this->cleanRecordModels as $groupBy => $newRecordModel)	{
+			foreach($this->sourceModuleModel->getFields() as $fieldModel){
+				if ('picklist' === $fieldModel->getFieldDataType()){
+					if(Fields\Picklist::isExists($fieldModel->getFieldName(), $this->recordModels[$groupBy]->get($fieldModel->getFieldName()))){
+						$newRecordModel->set($fieldModel->getFieldName(), $this->recordModels[$groupBy]->get($fieldModel->getFieldName()));
 					}
-					$referenceRecordModel->set($destinyField, $this->textParserValues[$key][$sourceField]);
+				}else{
+					$newRecordModel->set($fieldModel->getFieldName(), $this->recordModels[$groupBy]->get($fieldModel->getFieldName()));
 				}
+
+			}
+		}
+	}
+
+	/**
+	 * Function set values to new record defined by user
+	 */
+	public function initFieldValuesByUser(){
+		foreach ($this->cleanRecordModels as $key => $cleanRecordModel) {
+			$referenceRecordModel = &$this->cleanRecordModels[$key];
+			$textParser = TextParser::getInstanceByModel($this->recordModels[$key]);
+			foreach ($this->fieldMapping['mapping'][$this->destinyModuleModel->getId()] as $destinyField => $sourceField) {
+				if (!isset($this->textParserValues[$key][$sourceField])) {
+					$textParser->setContent($sourceField);
+					$this->textParserValues[$key][$sourceField] = $textParser->parse()->getContent();
+				}
+				$referenceRecordModel->set($destinyField, $this->textParserValues[$key][$sourceField]);
 			}
 		}
 	}
