@@ -29,13 +29,10 @@ class ReferenceField extends BaseField
 			}else{
 				$relatedTableName = $referenceFields = [];
 				$relatedModuleModel = \Vtiger_Module_Model::getInstance($this->related['relatedModule']);
-				foreach ($relatedModuleModel->getFields() as $fieldName => &$fieldModel) {
-					if ($fieldModel->isReferenceField() && $fieldName === $this->related['relatedField']) {
-						$referenceFields[$fieldName] = $fieldModel->getReferenceList();
-					}
-				}
+				$fieldModel = $relatedModuleModel->getField($this->related['relatedField']);
+				$referenceFields = $fieldModel->getReferenceList();
 				foreach ($referenceFields as $moduleName) {
-					$entityFieldInfo = \App\Module::getEntityInfo($moduleName[0]);
+					$entityFieldInfo = \App\Module::getEntityInfo($moduleName);
 					$referenceTable = $entityFieldInfo['tablename'] . $this->related['relatedField'];
 					if (\count($entityFieldInfo['fieldnameArr']) > 1) {
 						$sqlString = 'CONCAT(';
@@ -46,7 +43,7 @@ class ReferenceField extends BaseField
 					} else {
 						$formattedName = "$referenceTable.{$entityFieldInfo['fieldname']}";
 					}
-					$relatedTableName[$moduleName[0]] = $formattedName;
+					$relatedTableName[$moduleName] = $formattedName;
 					$this->queryGenerator->addJoin(['LEFT JOIN', $entityFieldInfo['tablename'] . ' ' . $referenceTable, $this->getColumnName() . " = $referenceTable.{$entityFieldInfo['entityidfield']}"]);
 				}
 				return $relatedTableName;
