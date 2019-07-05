@@ -9,11 +9,15 @@
 	overflow-x: hidden;
 	background-color: #d1d1db;
 }
+.c-btn-fixed {
+	bottom: $h-footer;
+}
 .basePanel[class$='_KnowledgeBase'] .contentsDiv {
 	min-height: calc(100vh - #{$h-header} - #{$h-footer});
 }
 .user-info--active {
-	.mainBody {
+	.mainBody,
+	.c-btn-fixed {
 		bottom: $h-footer-user-info;
 	}
 	.basePanel[class$='_KnowledgeBase'] .contentsDiv {
@@ -21,7 +25,8 @@
 	}
 }
 .limited-footer--active {
-	.mainBody {
+	.mainBody,
+	.c-btn-fixed {
 		bottom: $h-footer-limited;
 	}
 	.basePanel[class$='_KnowledgeBase'] .contentsDiv {
@@ -30,7 +35,8 @@
 }
 
 .user-info--active.limited-footer--active {
-	.mainBody {
+	.mainBody,
+	.c-btn-fixed {
 		bottom: $h-footer;
 	}
 	.basePanel[class$='_KnowledgeBase'] .contentsDiv {
@@ -39,7 +45,8 @@
 }
 
 @include media-breakpoint-down(sm) {
-	.mainBody {
+	.mainBody,
+	.c-btn-fixed {
 		bottom: $h-footer-limited;
 	}
 	.basePanel[class$='_KnowledgeBase'] .contentsDiv {

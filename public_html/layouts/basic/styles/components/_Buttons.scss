@@ -81,7 +81,8 @@
 	position: fixed;
 	bottom: 0;
 	right: 0;
-	padding-right: calculate-rem(10px);
+	z-index: 2000;
+	padding-right: calculate-rem(20px);
 	padding-bottom: calculate-rem(10px);
 }
 
