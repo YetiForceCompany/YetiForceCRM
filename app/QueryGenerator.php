@@ -590,7 +590,7 @@ class QueryGenerator
 	 */
 	public function getRelatedModuleField(string $fieldName, string $moduleName)
 	{
-		if (!$this->relatedFieldsModel[$moduleName]) {
+		if (empty($this->relatedFieldsModel[$moduleName])) {
 			$this->getRelatedModuleFields($moduleName);
 		}
 		if (isset($this->relatedFieldsModel[$moduleName][$fieldName])) {
