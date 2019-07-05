@@ -322,7 +322,6 @@ abstract class View extends Base
 		}
 		if (\App\Privilege::isPermitted('Chat')) {
 			$jsFileNames[] = '~layouts/basic/modules/Chat/Chat.vue.js';
-			$jsFileNames[] = '~layouts/basic/modules/Chat/resources/Chat.js';
 		}
 		if (\App\Privilege::isPermitted('KnowledgeBase')) {
 			$jsFileNames[] = '~layouts/resources/views/KnowledgeBase/KnowledgeBase.vue.js';

@@ -80,10 +80,9 @@ export default {
       this.timerGlobal = setTimeout(() => {
         AppConnector.request({
           module: 'Chat',
-          action: 'Room',
-          mode: 'tracking'
+          action: 'ChatAjax',
+          mode: 'trackNewMessages'
         }).done(({ result }) => {
-          console.log(this.amountOfNewMessages)
           if (result > this.amountOfNewMessages) {
             this.amountOfNewMessages = result
             if (app.getCookie('chat-isSoundNotification') === 'true') {

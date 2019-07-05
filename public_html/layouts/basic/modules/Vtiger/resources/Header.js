@@ -730,9 +730,6 @@ $.Class(
 		},
 		registerEvents: function() {
 			var thisInstance = this;
-			if (typeof Chat_JS !== 'undefined') {
-				Chat_JS.registerTrackingEvents();
-			}
 			const container = thisInstance.getContentsContainer(),
 				menuContainer = container.find('.js-menu--scroll'),
 				quickCreateModal = container.find('.quickCreateModules');

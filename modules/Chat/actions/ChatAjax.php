@@ -1,13 +1,15 @@
 <?php
 
 /**
- * Action to get data of KnowledgeBase.
+ * Action to get Chat data.
  *
  * @package Action
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Arkadiusz Adach <a.adach@yetiforce.com>
+ * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 class Chat_ChatAjax_Action extends \App\Controller\Action
 {
@@ -27,6 +29,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$this->exposeMethod('getRooms');
 		$this->exposeMethod('send');
 		$this->exposeMethod('search');
+		$this->exposeMethod('trackNewMessages');
 	}
 
 	/**
@@ -244,6 +247,22 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$response->setResult([
 			'roomList' => \App\Chat::getRoomsByUser()
 		]);
+		$response->emit();
+	}
+
+	/**
+	 * Track the number of new messages.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function trackNewMessages(App\Request $request)
+	{
+		$response = new Vtiger_Response();
+		if (App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')) {
+			$response->setResult(\App\Chat::getNumberOfNewMessages());
+		} else {
+			$response->setResult(\App\Chat::isNewMessages() ? 1 : 0);
+		}
 		$response->emit();
 	}
 
