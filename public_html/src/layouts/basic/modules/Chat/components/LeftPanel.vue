@@ -44,6 +44,7 @@
                       :key="room.cnt_new_message"
                     />
                   </transition>
+									<icon v-if="roomType === 'crm'" class="inline-block" :icon="'userIcon-' + room.moduleName" size="0.7rem" />
                   {{ room.name }}
                 </div>
                 <div class="flex items-center justify-end no-wrap">
@@ -87,12 +88,13 @@
 </template>
 <script>
 import Backdrop from 'components/Backdrop.vue'
+import Icon from 'components/Icon.vue'
 import { getGroupIcon } from '../utils/utils.js'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'LeftPanel',
-  components: { Backdrop },
+  components: { Backdrop, Icon },
   data() {
     return {
       filterRooms: '',
