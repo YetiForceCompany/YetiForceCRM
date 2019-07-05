@@ -12,7 +12,7 @@
 {strip}
 <!-- tpl-Base-DetailViewHeader -->
 {assign var="MODULE_NAME" value=$MODULE_MODEL->get('name')}
-{assign var="$BREADCRUMBS_ACTIVE" value=App\Config::main('breadcrumbs') eq 'true'}
+{assign var="BREADCRUMBS_ACTIVE" value=App\Config::main('breadcrumbs') eq 'true'}
 <input id="recordId" type="hidden" value="{$RECORD->getId()}"/>
 <div class="detailViewContainer">
 	<div class="row detailViewTitle {if $BREADCRUMBS_ACTIVE}p-0{else}pt-3{/if}">

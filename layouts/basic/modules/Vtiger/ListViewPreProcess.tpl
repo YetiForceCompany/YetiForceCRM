@@ -14,7 +14,7 @@
 {include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE_NAME)}
 <div class="bodyContents">
 	<div class="mainContainer">
-	{assign var="$BREADCRUMBS_ACTIVE" value=App\Config::main('breadcrumbs') eq 'true'}
+	{assign var="BREADCRUMBS_ACTIVE" value=App\Config::main('breadcrumbs') eq 'true'}
 		{if $BREADCRUMBS_ACTIVE || $HEADER_LINKS['LIST_VIEW_HEADER']}
 		<div class="o-breadcrumb widget_header mb-2 d-flex justify-content-between px-2"
 			 data-js="container">
