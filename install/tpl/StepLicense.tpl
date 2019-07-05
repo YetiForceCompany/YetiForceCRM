@@ -105,8 +105,6 @@
 											</td>
 										</tr>
 									{/foreach}
-								{else}
-									<div class="p-3 mb-2 bg-danger text-white">{\App\Language::translate('LBL_MISSING_FILE')}</div>
 								{/if}
 							{/foreach}
 							</tbody>
