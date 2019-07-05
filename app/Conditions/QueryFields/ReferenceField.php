@@ -24,7 +24,33 @@ class ReferenceField extends BaseField
 	public function getRelatedTableName()
 	{
 		if ($this->related) {
-			return [$this->fieldModel->getTableName() . $this->related['sourceField'] . '.' . $this->fieldModel->getColumnName()];
+			if(\App\Config::performance('SEARCH_REFERENCE_BY_AJAX')){
+				return [$this->fieldModel->getTableName() . $this->related['sourceField'] . '.' . $this->fieldModel->getColumnName()];
+			}else{
+				$relatedTableName = $referenceFields = [];
+				$relatedModuleModel = \Vtiger_Module_Model::getInstance($this->related['relatedModule']);
+				foreach ($relatedModuleModel->getFields() as $fieldName => &$fieldModel) {
+					if ($fieldModel->isReferenceField() && $fieldName === $this->related['relatedField']) {
+						$referenceFields[$fieldName] = $fieldModel->getReferenceList();
+					}
+				}
+				foreach ($referenceFields as $moduleName) {
+					$entityFieldInfo = \App\Module::getEntityInfo($moduleName[0]);
+					$referenceTable = $entityFieldInfo['tablename'] . $this->related['relatedField'];
+					if (\count($entityFieldInfo['fieldnameArr']) > 1) {
+						$sqlString = 'CONCAT(';
+						foreach ($entityFieldInfo['fieldnameArr'] as $column) {
+							$sqlString .= "$referenceTable.$column,' ',";
+						}
+						$formattedName = new \yii\db\Expression(rtrim($sqlString, ',\' \',') . ')');
+					} else {
+						$formattedName = "$referenceTable.{$entityFieldInfo['fieldname']}";
+					}
+					$relatedTableName[$moduleName[0]] = $formattedName;
+					$this->queryGenerator->addJoin(['LEFT JOIN', $entityFieldInfo['tablename'] . ' ' . $referenceTable, $this->getColumnName() . " = $referenceTable.{$entityFieldInfo['entityidfield']}"]);
+				}
+				return $relatedTableName;
+			}
 		}
 		$relatedTableName = [];
 		foreach ($this->getTables() as $moduleName) {
@@ -62,6 +88,7 @@ class ReferenceField extends BaseField
 			}
 			return $condition;
 		}
+		//co jesli jest kilka modułów w jednym polu?
 		return parent::operatorA();
 	}
 
