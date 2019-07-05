@@ -303,7 +303,7 @@ jQuery.Class(
 			if (target.data('url')) {
 				params = target.data('url');
 			} else {
-				let id = target.data('id') ? target.data('id') : element.closest('tr').data('id');
+				let id = target.data('id') ? target.data('id') : target.closest('tr').data('id');
 				params = {
 					module: this.parentModuleName,
 					action: 'RelationAjax',
