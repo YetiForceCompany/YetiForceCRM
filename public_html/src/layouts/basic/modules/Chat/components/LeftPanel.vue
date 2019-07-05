@@ -34,10 +34,7 @@
               @click="fetchRoom({ id: room.recordid, roomType: roomType })"
             >
               <div class="full-width flex items-center justify-between no-wrap">
-                <div>
-                  {{ room.name }}
-                </div>
-                <div class="flex items-center justify-end no-wrap">
+                <div class="ellipsis-2-lines">
                   <transition appear enter-active-class="animated flash" mode="out-in">
                     <q-badge
                       v-if="room.cnt_new_message !== undefined && room.cnt_new_message > 0"
@@ -47,11 +44,22 @@
                       :key="room.cnt_new_message"
                     />
                   </transition>
+                  {{ room.name }}
+                </div>
+                <div class="flex items-center justify-end no-wrap">
                   <div class="visible-on-hover">
-                    <q-icon v-if="roomType === 'crm'" name="mdi-link-variant" />
+                    <a
+                      v-if="roomType === 'crm'"
+                      class="js-popover-tooltip--record ellipsis"
+                      @click.stop=""
+                      :href="`index.php?module=${room.moduleName}&view=Detail&record=${room.recordid}`"
+                    >
+                      <q-icon name="mdi-link-variant" color="primary" />
+                    </a>
                     <q-icon
                       v-if="roomType === 'group' || roomType === 'crm'"
                       @click.stop="togglePinned({ roomType, room })"
+                      color="primary"
                       :name="room.isPinned || roomType === 'crm' ? 'mdi-pin-off' : 'mdi-pin'"
                     />
                   </div>

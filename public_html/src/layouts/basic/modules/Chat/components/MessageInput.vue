@@ -21,10 +21,10 @@
       <span class="c-completions__item js-completions__records fas fa-hashtag"></span>
     </div>
     <q-separator class="q-my-xs" />
-    <div class="d-flex flex-nowrap js-chat-message-block" data-js="hide">
-      <div class="js-scrollbar o-chat__form-control o-chat__message-block">
+    <div class="d-flex flex-nowrap">
+      <div class="o-chat__message-block">
         <div
-          class="u-font-size-13px js-chat-message js-completions o-chat__form-control"
+          class="u-font-size-13px js-completions o-chat__form-control full-height"
           contenteditable="true"
           data-completions-buttons="true"
           :placeholder="translate('JS_CHAT_MESSAGE')"
@@ -32,7 +32,7 @@
           @keydown.enter="onEnter"
         ></div>
       </div>
-      <q-btn :loading="sending" round color="secondary" icon="mdi-send" @click="send">
+      <q-btn :loading="sending" round color="primary" icon="mdi-send" @click="send">
         <template v-slot:loading>
           <q-spinner-facebook />
         </template>

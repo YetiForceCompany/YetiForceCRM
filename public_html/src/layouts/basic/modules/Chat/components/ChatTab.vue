@@ -26,11 +26,7 @@
       </q-input>
     </div>
     <div class="flex-grow-1" style="height: 0; overflow: hidden">
-      <q-scroll-area
-        :thumb-style="thumbStyle"
-        ref="scrollContainer"
-        :class="[scrollbarHidden ? 'scrollbarHidden' : '']"
-      >
+      <q-scroll-area ref="scrollContainer" :class="[scrollbarHidden ? 'scrollbarHidden' : '']">
         <messages @earlierClick="earlierClick()" :fetchingEarlier="fetchingEarlier" ref="messagesContainer" />
       </q-scroll-area>
       <q-resize-observer @resize="onResize" />
@@ -57,16 +53,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['maximizedDialog', 'data', 'isSearchActive', 'tab']),
-    thumbStyle() {
-      return {
-        right: '2px',
-        borderRadius: '5px',
-        backgroundColor: '#027be3',
-        width: '5px',
-        opacity: 0.75
-      }
-    }
+    ...mapGetters(['maximizedDialog', 'data', 'isSearchActive', 'tab'])
   },
   watch: {
     data() {
