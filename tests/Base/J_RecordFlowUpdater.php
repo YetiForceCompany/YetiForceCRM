@@ -112,10 +112,12 @@ class J_RecordFlowUpdater extends \Tests\Base
 		$taskModel = $this->getProjectTask('pt3');
 		$taskModel->set('projecttaskstatus', 'PLL_IN_PROGRESSING');
 		$taskModel->save();
+
 		$this->executeBatchMethod();
+		$this->executeBatchMethod();
+
 		$this->assertProjectTask('PLL_IN_PROGRESSING', $taskModel);
 		$this->assertProjectMilestone('PLL_IN_PROGRESSING', $this->getProjectMilestone('pm0'));
-		$this->executeBatchMethod();
 	}
 
 	/**
