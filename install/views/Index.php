@@ -192,7 +192,6 @@ class Install_Index_View extends \App\Controller\View
 		set_time_limit(60); // Override default limit to let install complete.
 		$error = false;
 		$dbConnection['flag'] = true;
-		$this->createConfigFileForDb();
 		$configFile = new \App\ConfigFile('db');
 		foreach ($configFile->getTemplate() as $name => $data) {
 			if ($request->has($name)) {
@@ -209,6 +208,8 @@ class Install_Index_View extends \App\Controller\View
 			$dbConnection = Install_Utils_Model::checkDbConnection($configFile->getData());
 			if (!$dbConnection['flag']) {
 				$error = true;
+			} else {
+				$configFile->create();
 			}
 		}
 		$configFile = new \App\ConfigFile('main');
@@ -286,7 +287,9 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->assign('DB_CONNECTION_INFO', $dbConnection);
 		$this->viewer->assign('INFORMATION', $_SESSION['config_file_info'] ?? []);
 		$this->viewer->assign('AUTH_KEY', $_SESSION['config_file_info']['authentication_key'] = sha1(microtime()));
-		$this->viewer->assign('CONF_REPORT_RESULT', \App\Utils\ConfReport::getByType(['database']));
+		if (!$error) {
+			$this->viewer->assign('CONF_REPORT_RESULT', \App\Utils\ConfReport::getByType(['database']));
+		}
 		$this->viewer->display('StepConfirmConfigurationSettings.tpl');
 	}
 
@@ -395,34 +398,5 @@ class Install_Index_View extends \App\Controller\View
 			'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js',
 			'~install/tpl/resources/Index.js',
 		]));
-	}
-
-	/**
-	 * Create config file for Db.
-	 *
-	 * @return void
-	 */
-	private function createConfigFileForDb()
-	{
-		if ($_SESSION['config_file_info']['db_server'] ?? false) {
-			$success = true;
-			$configFile = new \App\ConfigFile('db');
-			foreach ($configFile->getTemplate() as $name => $data) {
-				try {
-					if (isset($_SESSION['config_file_info'][$name])) {
-						$configFile->set($name, $_SESSION['config_file_info'][$name]);
-					}
-				} catch (\Throwable $e) {
-					$success = false;
-					\App\Log::error($e->__toString());
-					unset($_SESSION['config_file_info'][$name]);
-				}
-			}
-			if ($success) {
-				$configFile->create();
-			}
-		} else {
-			Install_Utils_Model::cleanConfiguration();
-		}
 	}
 }

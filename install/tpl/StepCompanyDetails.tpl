@@ -93,7 +93,7 @@
 						{elseif $FIELD_NAME === "website"}
 							<div class="form-group row">
 								<label class="col-sm-3 col-form-label"
-									   for="company-website">{App\Language::translate('LBL_WEBSITE', 'Install')}</label>
+									   for="company-website">{App\Language::translate('LBL_WEBSITE', 'Install')}<span class="no">*</span></label>
 								<div class="col-sm-9">
 									<input id="company-website" type="text" name="company_website" class="form-control"
 										   data-validation-engine="validate[required,custom[url]]">
