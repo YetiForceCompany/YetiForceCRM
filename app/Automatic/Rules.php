@@ -137,7 +137,7 @@ class Rules
 	protected function checkOperator(string $operator, array $items, $val): bool
 	{
 		if ($negation = $this->isNegation($operator)) {
-			$operator = \substr($operator, 3, strlen($operator) - 3);
+			$operator = \substr($operator, 3, \strlen($operator) - 3);
 		}
 		$methodName = 'operator' . ucfirst($operator);
 		if (\method_exists($this, $methodName)) {
@@ -182,7 +182,7 @@ class Rules
 	 */
 	protected function operatorIsExist(array $items, $valueOfCondition): bool
 	{
-		return in_array($valueOfCondition, $items);
+		return \in_array($valueOfCondition, $items);
 	}
 
 	/**

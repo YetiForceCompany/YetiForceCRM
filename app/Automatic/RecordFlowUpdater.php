@@ -139,7 +139,7 @@ class RecordFlowUpdater
 		$config = $this->getConfig();
 		if (false !== $config) {
 			$sourceModuleModel = \Vtiger_Module_Model::getInstance($this->sourceModuleName);
-			$targetModuleModel = \Vtiger_Module_Model::getInstance($this->targetModuleName);
+			$targetModuleModel = \Vtiger_Module_Model::getInstance($config['target_module']);
 			$this->sourceTable = $sourceModuleModel->basetable;
 			$this->sourceTableId = $sourceModuleModel->basetableid;
 			$this->targetModuleName = \App\Module::getModuleName($config['target_module']);
@@ -155,6 +155,16 @@ class RecordFlowUpdater
 	}
 
 	/**
+	 * Check is configured.
+	 *
+	 * @return bool
+	 */
+	public function checkIsConfigured(): bool
+	{
+		return $this->isConfigured;
+	}
+
+	/**
 	 * Update field value.
 	 *
 	 * @param int $recordId
@@ -163,7 +173,7 @@ class RecordFlowUpdater
 	 */
 	public function updateFieldValue(int $recordId)
 	{
-		if (!$this->isConfigured) {
+		if (!$this->checkIsConfigured()) {
 			return;
 		}
 		if (!\App\Record::isExists($recordId, $this->targetModuleName)) {
@@ -190,7 +200,7 @@ class RecordFlowUpdater
 	 */
 	public function entityAfterSave(\Vtiger_Record_Model $recordModel)
 	{
-		if (!$this->isConfigured) {
+		if (!$this->checkIsConfigured()) {
 			return;
 		}
 		if (!$recordModel->isNew()) {
@@ -210,7 +220,7 @@ class RecordFlowUpdater
 	 */
 	public function entityAfterDelete(\Vtiger_Record_Model $recordModel)
 	{
-		if ($this->isConfigured && !empty($this->targetTableId)) {
+		if ($this->checkIsConfigured() && !empty($this->targetTableId)) {
 			$this->addToQueue($recordModel->get($this->targetTableId));
 		}
 	}
@@ -224,7 +234,7 @@ class RecordFlowUpdater
 	 */
 	public function entityChangeState(\Vtiger_Record_Model $recordModel)
 	{
-		if ($this->isConfigured && !empty($this->targetTableId)) {
+		if ($this->checkIsConfigured() && !empty($this->targetTableId)) {
 			$this->addToQueue($recordModel->get($this->targetTableId));
 		}
 	}

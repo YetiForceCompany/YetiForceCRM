@@ -17,7 +17,7 @@ namespace App\Automatic;
 class RulesPicklist extends Rules
 {
 	/**
-	 * What value to choose from the plicklist for rules.
+	 * What value to choose from the plicklist for rules. -1 = All, 1 = Closed , 0 = Open.
 	 */
 	public const AUTOMATION = 'automation';
 
