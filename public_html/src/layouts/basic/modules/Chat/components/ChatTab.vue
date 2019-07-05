@@ -99,7 +99,8 @@ export default {
           module: 'Chat',
           action: 'ChatAjax',
           mode: 'getEntries',
-          lastId: this.data.chatEntries.slice(-1)[0]['id'],
+          lastId:
+            this.data.chatEntries.slice(-1)[0] !== undefined ? this.data.chatEntries.slice(-1)[0]['id'] : undefined,
           recordId: this.data.currentRoom.recordId,
           roomType: this.data.currentRoom.roomType
         }).done(({ result }) => {

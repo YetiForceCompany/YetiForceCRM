@@ -55,7 +55,8 @@ export default {
 				roomType: getters.data.currentRoom.roomType,
 				recordId: getters.data.currentRoom.recordId,
 				message: text,
-				mid: getters.data.chatEntries.slice(-1)[0]['id']
+				mid:
+					getters.data.chatEntries.slice(-1)[0] !== undefined ? getters.data.chatEntries.slice(-1)[0]['id'] : undefined
 			}).done(({ result }) => {
 				commit('pushSended', result)
 				resolve(result)

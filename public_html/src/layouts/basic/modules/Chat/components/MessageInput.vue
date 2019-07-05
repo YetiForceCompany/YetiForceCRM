@@ -101,7 +101,10 @@ export default {
       this.$refs.input.insertAdjacentHTML('beforeend', emoji.native)
     },
     onEnter(e) {
-      if (this.data.sendByEnter && !e.shiftKey) this.send(e)
+      if (this.data.sendByEnter && !e.shiftKey) {
+        e.preventDefault()
+        this.send(e)
+      }
     },
     registerEmojiPanelClickOutside() {
       document.addEventListener('click', e => {
