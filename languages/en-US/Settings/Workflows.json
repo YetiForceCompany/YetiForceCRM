@@ -121,7 +121,6 @@
     "LBL_CHOOSE_DATE": "Choose date:",
     "LBL_SELECT_MONTH_AND_DAY": "Selected month and day:",
     "LBL_SELECTED_DATES": "Selected dates:",
-    "LBL_EXCEEDING_MAXIMUM_LIMIT": "Maximum limit exceeded",
     "LBL_NEXT_TRIGGER_TIME": "Next trigger time on",
     "LBL_ACTIVATION_TASKS": "Activate tasks",
     "LBL_DEACTIVATION_TASKS": "Deactivate tasks",

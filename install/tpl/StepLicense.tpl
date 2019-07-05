@@ -10,11 +10,11 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-install-tpl-Step2 container px-2 px-sm-3">
+	<div class="tpl-install-tpl-StepLicense container px-2 px-sm-3">
 		<main class="main-container">
 			<div class="inner-container">
-				<form class="" name="step2" method="post" action="Install.php">
-					<input type="hidden" name="mode" value="step3">
+				<form name="step{$STEP_NUMBER}" method="post" action="Install.php">
+					<input type="hidden" name="mode" value="{$NEXT_STEP}">
 					<input type="hidden" name="lang" value="{$LANG}">
 					<div class="row">
 						<div class="col-12 text-center">
@@ -105,8 +105,6 @@
 											</td>
 										</tr>
 									{/foreach}
-								{else}
-									<div class="p-3 mb-2 bg-danger text-white">{\App\Language::translate('LBL_MISSING_FILE')}</div>
 								{/if}
 							{/foreach}
 							</tbody>

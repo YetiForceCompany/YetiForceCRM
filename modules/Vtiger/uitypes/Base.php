@@ -366,7 +366,7 @@ class Vtiger_Base_UIType extends \App\Base
 	/**
 	 * Returns allowed types of columns in database.
 	 *
-	 * @return string[]
+	 * @return string[]|null
 	 */
 	public function getAllowedColumnTypes()
 	{

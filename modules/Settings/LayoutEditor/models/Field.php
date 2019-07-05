@@ -127,10 +127,10 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$complusoryMandatoryFieldList = $moduleModel->getCumplosoryMandatoryFieldList();
 		//uitypes for which mandatory switch is disabled
 		$mandatoryRestrictedUitypes = ['4', '70'];
-		if (in_array($this->getName(), $complusoryMandatoryFieldList)) {
+		if (\in_array($this->getName(), $complusoryMandatoryFieldList)) {
 			return true;
 		}
-		if (in_array($this->get('uitype'), $mandatoryRestrictedUitypes)) {
+		if (\in_array($this->get('uitype'), $mandatoryRestrictedUitypes)) {
 			return true;
 		}
 		return false;
@@ -215,7 +215,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 * @param string $value  - fieldname or fieldid
 	 * @param <type> $module - optional - module instance
 	 *
-	 * @return <Settings_LayoutEditor_Field_Model>
+	 * @return self
 	 */
 	public static function getInstance($value, $module = false)
 	{
@@ -239,7 +239,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 */
 	public static function getInstanceFromBlockIdList($blockId, $moduleInstance = false)
 	{
-		if (!is_array($blockId)) {
+		if (!\is_array($blockId)) {
 			$blockId = [$blockId];
 		}
 		$query = (new \App\Db\Query())->from('vtiger_field')->where(['block' => $blockId])->orderBy('sequence');

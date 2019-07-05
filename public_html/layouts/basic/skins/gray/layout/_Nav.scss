@@ -1,0 +1,52 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+.nav-tabs {
+	border-bottom: 1px solid #ceced9;
+	background-color: $color-navbar;
+	border-radius: 0;
+	margin-right: 0.5rem;
+	.nav-link {
+		color: $color-nav-link;
+	}
+	.nav-link.active {
+		text-transform: uppercase;
+		color: $color-navbar;
+		background-color: $color-active-nav !important;
+	}
+	&.massEditTabs {
+		width: 100%;
+	}
+}
+
+.dashboardViewContainer {
+	.nav-inverted-tabs {
+		background-color: #fff;
+		box-shadow: 0px 5px 12px -7px $color-box-shadow;
+		margin-right: 0.5rem;
+		.nav-item {
+			.nav-link {
+				border: unset;
+				color: $color-nav-link;
+
+				&:hover {
+					border: unset;
+				}
+				&.active {
+					color: $color-active-nav;
+					border-bottom: 2px solid $color-active-nav;
+					font-weight: 400;
+					border-radius: 0;
+					&:hover {
+						background: unset;
+					}
+				}
+			}
+		}
+	}
+}
+.layoutContent {
+	border-top: unset;
+	.tab-pane {
+		padding-top: 0 !important;
+	}
+}

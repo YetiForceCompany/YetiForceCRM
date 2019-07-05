@@ -55,11 +55,9 @@ class Settings_WebserviceUsers_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * List of fields available in listview.
-	 *
-	 * @return \App\Base[]
+	 * {@inheritdoc}
 	 */
-	public function getListFields()
+	public function getListFields(): array
 	{
 		if (!isset($this->listFieldModels)) {
 			$fieldObjects = [];

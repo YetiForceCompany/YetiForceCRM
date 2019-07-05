@@ -5,7 +5,7 @@
 		</div>
 	</div>
 	<div class="row m-0 mt-2">
-		<ul class="nav nav-tabs massEditTabs js-tabs" data-js="click">
+		<ul class="nav nav-tabs massEditTabs js-tabs mx-0" data-js="click">
 			<li class="nav-item" data-mode="index">
 				<a class="active nav-link" href="#" data-toggle="tab">
 					<span class="fas fa-home fa-fw mr-1"></span>

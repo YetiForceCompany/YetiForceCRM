@@ -21,8 +21,18 @@
 			{/if}
 			<div class="alert alert-info">
 				<button type="button" class="close" data-dismiss="alert">×</button>
-				<h5 class="alert-heading">{\App\Language::translate('LBL_ALERT_DAV_CONFIG_TITLE', $QUALIFIED_MODULE)}</h5>
-				<p>{\App\Language::translateArgs('LBL_ALERT_DAV_CONFIG_DESC', $QUALIFIED_MODULE,App\Config::main('site_URL'))|unescape:"html"}</p>
+				<h5 class="alert-heading">
+					<span class="fas fa-info-circle mr-1"></span>
+				{\App\Language::translate('LBL_ALERT_DAV_CONFIG_TITLE', $QUALIFIED_MODULE)}
+				</h5>
+				<p>{\App\Language::translate('LBL_ALERT_DAV_CONFIG_DESC', $QUALIFIED_MODULE)}</p>
+				<h6>DAVdroid</h6>
+				<p>{App\Config::main('site_URL')}dav.php</p>
+				<h6>Thunderbird CalDAV</h6>
+				<p>{App\Config::main('site_URL')}dav.php/calendars/(__dav_login__)/YFCalendar/</p>
+				<h6>iOS</h6>
+				<p>http: {str_replace('https://','http://',App\Config::main('site_URL'))}dav.php/principals/(__dav_login__)/</p>
+				<p>https: {str_replace('https://','http://',rtrim(App\Config::main('site_URL'),'/'))}:443/dav.php/principals/(__dav_login__)/</p>
 			</div>
 			<div>
 				<div class="contents tabbable">
@@ -56,8 +66,18 @@
 								{assign var=CALENDAR value=""}
 							{/if}
 							<tr data-user="{$RECORD['userid']}" class="js-tr-row" data-js="data/remove">
-								<td>{$RECORD['user_name']}</td>
-								<td>**********</td>
+								<td>
+									{$RECORD['user_name']}
+									<button class="btn btn-sm btn-primary clipboard ml-2" title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')}" data-copy-attribute="clipboard-text" data-clipboard-text="{$RECORD['user_name']}">
+										<span class="fas fa-copy"></span>
+									</button>
+								</td>
+								<td>
+									**********
+									<button class="btn btn-sm btn-primary clipboard ml-2" title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')}" data-copy-attribute="clipboard-text" data-clipboard-text="{App\Encryption::getInstance()->decrypt($RECORD['key'])}">
+										<span class="fas fa-copy"></span>
+									</button>
+								</td>
 								<td>{$RECORD['displayname']}</td>
 								<td>{$RECORD['email']}</td>
 								<td>{\App\Language::translate($RECORD['status'],'Users')}</td>
@@ -67,13 +87,13 @@
 								<td>{if $ADDRESSBOOK}{$ADDRESSBOOK}{else}0{/if}</td>
 								<td>{if $CALENDAR}{$CALENDAR}{else}0{/if}</td>
 								<td>
-									<button class="btn btn-danger js-delete-key ml-2 mr-1" data-js="click">
+									<button class="btn btn-danger btn-sm js-delete-key ml-2 mr-1" data-js="click">
 										<span class="fas fa-trash mr-1"></span>{\App\Language::translate('LBL_DELETE_KEY',$QUALIFIED_MODULE)}
 									</button>
-									<button class="btn btn-primary clipboard" data-copy-attribute="clipboard-text"
-											data-clipboard-text="{App\Encryption::getInstance()->decrypt($RECORD['key'])}">
-										<span class="fas fa-copy mr-1"></span>{\App\Language::translate('LBL_KEY',$QUALIFIED_MODULE)}
+									<button class="btn btn-sm js-popover-tooltip" data-toggle="popover" data-js="popover" data-content="{App\Config::main('site_URL')}dav.php/principals/{$RECORD['user_name']}/">
+										<span class="fas fa-info-circle"></span>
 									</button>
+
 								</td>
 							</tr>
 						{/foreach}
@@ -88,8 +108,7 @@
 							<h5 class="modal-title">
 								<span class="fas fa-plus fa-sm mr-2"></span>{\App\Language::translate('LBL_ADD_KEY', $QUALIFIED_MODULE)}
 							</h5>
-							<button type="button" class="close" data-dismiss="modal"
-									title="{\App\Language::translate('LBL_CLOSE')}">
+							<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>

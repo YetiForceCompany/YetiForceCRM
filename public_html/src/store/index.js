@@ -16,5 +16,4 @@ if (window.vuexStore === undefined) {
 		strict: debug
 	})
 }
-
 export default window.vuexStore

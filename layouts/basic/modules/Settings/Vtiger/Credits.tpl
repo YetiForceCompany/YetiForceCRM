@@ -71,7 +71,10 @@
 							</tr>
 						{/foreach}
 					{else}
-						<div class="p-3 mb-2 bg-danger text-white">{\App\Language::translate('LBL_MISSING_FILE')}</div>
+						<div class="p-3 mb-2 bg-danger text-white">
+						<span class="fas fa-exclamation-triangles mr-2"></span>
+						{\App\Language::translate('LBL_MISSING_FILE',$QUALIFIED_MODULE)}: {$TYPE}
+						</div>
 					{/if}
 				{/foreach}
 				</tbody>

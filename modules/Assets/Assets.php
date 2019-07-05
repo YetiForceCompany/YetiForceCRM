@@ -88,28 +88,9 @@ class Assets extends CRMEntity
 	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
-	public $unit_price;
 
 	/**
-	 * Transform the value while exporting.
-	 *
-	 * @param mixed $key
-	 * @param mixed $value
-	 */
-	public function transformExportValue($key, $value)
-	{
-		if ('owner' == $key) {
-			return \App\Fields\Owner::getLabel($value);
-		}
-
-		return parent::transformExportValue($key, $value);
-	}
-
-	/**
-	 * Invoked when special actions are performed on the module.
-	 *
-	 * @param string $moduleName
-	 * @param string $eventType
+	 * {@inheritdoc}
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{

@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{assign var=DEFAULT_SMTP value=App\Mail::getDefaultSmtp()}
-	{assign var=TEMPLETE_LIST value=App\Mail::getTempleteList($TEMPLATE_MODULE)}
+	{assign var=TEMPLETE_LIST value=App\Mail::getTemplateList($TEMPLATE_MODULE)}
 	{assign var=IS_EMAIL value=false}
 	<div class="modal-header align-items-center">
 		<h5 class="modal-title"><span class="fas fa-envelope mr-2"></span>{\App\Language::translate('LBL_MASS_SEND_EMAIL', $MODULE)}</h5>

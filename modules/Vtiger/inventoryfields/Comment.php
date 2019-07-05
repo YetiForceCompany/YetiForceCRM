@@ -28,7 +28,7 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
-		return \App\Utils\Completions::encode(\App\Purifier::purifyHtml($value));
+		return \App\Utils\Completions::decode(\App\Purifier::purifyHtml($value));
 	}
 
 	/**
@@ -36,7 +36,7 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
-		if (!is_string($value)) {
+		if (!\is_string($value)) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
 		}
 	}
@@ -47,5 +47,16 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	public function getDBValue($value, ?string $name = '')
 	{
 		return \App\Utils\Completions::encodeAll(\App\Purifier::decodeHtml($value));
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getValue($value)
+	{
+		if ('' == $value) {
+			$value = $this->getDefaultValue();
+		}
+		return \App\Utils\Completions::encode(\App\Purifier::decodeHtml($value));
 	}
 }

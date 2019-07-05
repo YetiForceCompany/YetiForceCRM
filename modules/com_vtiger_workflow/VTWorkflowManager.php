@@ -167,26 +167,6 @@ class VTWorkflowManager
 	}
 
 	/**
-	 * Function to get the number of scheduled workflows.
-	 *
-	 * @return int
-	 */
-	public function getScheduledWorkflowsCount()
-	{
-		return (new \App\Db\Query())->from('com_vtiger_workflows')->where(['execution_condition' => self::$ON_SCHEDULE])->count();
-	}
-
-	/**
-	 * Function returns the maximum allowed scheduled workflows.
-	 *
-	 * @return int
-	 */
-	public function getMaxAllowedScheduledWorkflows()
-	{
-		return 10;
-	}
-
-	/**
 	 * Return workflows for module.
 	 *
 	 * @param string $moduleName

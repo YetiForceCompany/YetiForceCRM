@@ -57,8 +57,6 @@ class Products extends CRMEntity
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['createdtime', 'modifiedtime', 'productname', 'assigned_user_id'];
-	// Josh added for importing and exporting -added in patch2
-	public $unit_price;
 
 	/**
 	 * Function to get the relation tables for related modules.
@@ -100,7 +98,7 @@ class Products extends CRMEntity
 
 	public function saveRelatedModule($module, $crmid, $withModule, $withCrmIds, $relatedName = false)
 	{
-		if (!is_array($withCrmIds)) {
+		if (!\is_array($withCrmIds)) {
 			$withCrmIds = [$withCrmIds];
 		}
 		foreach ($withCrmIds as $withCrmId) {
@@ -114,7 +112,7 @@ class Products extends CRMEntity
 					'listprice' => 0,
 					'usedcurrency' => Vtiger_Record_Model::getInstanceById($withCrmId, $withModule)->get('currency_id')
 				])->execute();
-			} elseif (in_array($withModule, ['Leads', 'Accounts', 'Contacts', 'Products'])) {
+			} elseif (\in_array($withModule, ['Leads', 'Accounts', 'Contacts', 'Products'])) {
 				if ('Products' === $withModule && (new App\Db\Query())->from('vtiger_seproductsrel')->where(['productid' => $withCrmId])->exists()) {
 					continue;
 				}

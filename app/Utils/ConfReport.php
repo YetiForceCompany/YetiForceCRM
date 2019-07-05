@@ -27,25 +27,28 @@ class ConfReport
 		'password' => '',
 		'options' => [],
 	];
+
 	/**
 	 * List all variables.
 	 *
 	 * @var string[]
 	 */
 	public static $types = ['stability', 'security', 'libraries', 'database', 'performance', 'environment', 'publicDirectoryAccess', 'writableFilesAndFolders'];
+
 	/**
 	 * List all container.
 	 *
 	 * @var string[]
 	 */
 	public static $container = ['php', 'env', 'ext', 'request', 'db'];
+
 	/**
 	 * Stability variables map.
 	 *
 	 * @var array
 	 */
 	public static $stability = [
-		'phpVersion' => ['recommended' => '7.1.x, 7.2.x, 7.3.x (dev)', 'type' => 'Version', 'container' => 'env', 'testCli' => true, 'label' => 'PHP'],
+		'phpVersion' => ['recommended' => '7.1.x, 7.2.x, 7.3.x', 'type' => 'Version', 'container' => 'env', 'testCli' => true, 'label' => 'PHP'],
 		'protocolVersion' => ['recommended' => '1.x', 'type' => 'Version', 'container' => 'env', 'testCli' => false, 'label' => 'PROTOCOL_VERSION'],
 		'error_reporting' => ['recommended' => 'E_ALL & ~E_NOTICE', 'type' => 'ErrorReporting', 'container' => 'php', 'testCli' => true],
 		'output_buffering' => ['recommended' => 'On', 'type' => 'OnOffInt', 'container' => 'php', 'testCli' => true],
@@ -102,6 +105,7 @@ class ConfReport
 		'Header: referrer-policy' => ['recommended' => 'no-referrer', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: strict-transport-security' => ['recommended' => 'max-age=31536000; includeSubDomains; preload', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 	];
+
 	/**
 	 * Libraries map.
 	 *
@@ -137,6 +141,7 @@ class ConfReport
 		'imagick' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'imagick', 'container' => 'ext', 'testCli' => true],
 		'allExt' => ['container' => 'ext', 'type' => 'AllExt', 'testCli' => true, 'label' => 'EXTENSIONS'],
 	];
+
 	/**
 	 * Database map.
 	 *
@@ -186,6 +191,7 @@ class ConfReport
 		'net_read_timeout' => ['container' => 'db', 'testCli' => false],
 		'net_write_timeout' => ['container' => 'db', 'testCli' => false],
 	];
+
 	/**
 	 * Performance map.
 	 *
@@ -218,6 +224,7 @@ class ConfReport
 		'apc.mmap_file_mask' => ['container' => 'php', 'testCli' => true],
 		'apc.shm_segments' => ['container' => 'php', 'testCli' => true],
 	];
+
 	/**
 	 * Environment map.
 	 *
@@ -242,6 +249,7 @@ class ConfReport
 		'open_basedir' => ['container' => 'php', 'testCli' => true],
 		'variables_order' => ['container' => 'php', 'testCli' => true],
 	];
+
 	/**
 	 * Directory permissions map.
 	 *
@@ -253,6 +261,7 @@ class ConfReport
 		'storage' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
 		'user_privileges' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
 	];
+
 	/**
 	 * Writable files and folders permissions map.
 	 *
@@ -285,36 +294,42 @@ class ConfReport
 		'public_html/libraries/' => ['type' => 'IsWritable', 'testCli' => true],
 		'public_html/layouts/resources/Logo/' => ['type' => 'IsWritable', 'testCli' => true],
 	];
+
 	/**
 	 * Php variables.
 	 *
 	 * @var mixed[]
 	 */
 	private static $php = [];
+
 	/**
 	 * Environment variables.
 	 *
 	 * @var mixed[]
 	 */
 	private static $env = [];
+
 	/**
 	 * Database variables.
 	 *
 	 * @var mixed[]
 	 */
 	private static $db = [];
+
 	/**
 	 * Extensions.
 	 *
 	 * @var mixed[]
 	 */
 	private static $ext = [];
+
 	/**
 	 * Request request.
 	 *
 	 * @var mixed[]
 	 */
 	private static $request = [];
+
 	/**
 	 * Sapi name.
 	 *
@@ -325,16 +340,37 @@ class ConfReport
 	/**
 	 * Get all configuration values.
 	 *
-	 * @return mixed
+	 * @return array
 	 */
 	public static function getAll(): array
 	{
-		static::init('all');
-		$all = [];
-		foreach (static::$types as $type) {
-			$all[$type] = static::validate($type);
+		return static::getByType(static::$types, true);
+	}
+
+	/**
+	 * Get configuration values by type.
+	 *
+	 * @param array $types
+	 * @param bool  $initAll
+	 *
+	 * @return array
+	 */
+	public static function getByType(array $types, bool $initAll = false): array
+	{
+		if ($initAll) {
+			static::init('all');
 		}
-		return $all;
+		$returnVal = [];
+		foreach ($types as $type) {
+			if (!\in_array($type, static::$types)) {
+				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
+			}
+			if (!$initAll) {
+				static::init($type);
+			}
+			$returnVal[$type] = static::validate($type);
+		}
+		return $returnVal;
 	}
 
 	/**

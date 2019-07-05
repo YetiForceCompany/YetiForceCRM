@@ -6,7 +6,7 @@
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 	</div>
-	<h5>{\App\Language::translate('Roundcube config', $MODULE)}</h5>
+	<h5 class="mt-2">{\App\Language::translate('Roundcube config', $MODULE)}</h5>
 	{if Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
 		<div class="alert alert-danger" role="alert">
 			<div>

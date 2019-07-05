@@ -28,16 +28,16 @@
 					  {if $FIELD_MODEL->getUIType() eq '300'}data-emoji-enabled="true" data-mentions-enabled="true" data-js="ckEditor"{/if}
 					  {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}>
 				{$FIELD_VALUE}
-		</textarea>
+			</textarea>
 		{else}
 			<textarea name="{$FIELD_MODEL->getFieldName()}" id="{$MODULE}_editView_fieldName_{$FIELD_NAME}"
 					  class="form-control {if $FIELD_MODEL->isNameField()}nameField{/if}"
 					  title="{\App\Language::translate($FIELD_MODEL->getFieldLabel())} "
-					  data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+					  data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}{if $FIELD_MODEL->get('maximumlength')}funcCall[Vtiger_MaxSizeInByte_Validator_Js.invokeValidation]{else}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]{/if}]]"
 					  data-fieldinfo='{$FIELD_INFO}'
 					  {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}>
 			{$FIELD_VALUE}
-		</textarea>
+			</textarea>
 		{/if}
 	</div>
 	<!-- /tpl-Base-Edit-Field-Text -->

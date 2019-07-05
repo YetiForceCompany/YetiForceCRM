@@ -12,13 +12,14 @@
  * Start the cron services configured.
  */
 chdir(__DIR__);
+require_once __DIR__ . '/include/main/WebUI.php';
 try {
+	$checkLibrary = true;
 	require_once __DIR__ . '/include/RequirementsValidation.php';
 } catch (\Throwable $e) {
-	file_put_contents(__DIR__ . '/cache/logs/cron_error.log', date('Y-m-d H:i:s') . $e->getMessage() . PHP_EOL);
+	file_put_contents(__DIR__ . '/cache/logs/cron_error.log', date('Y-m-d H:i:s') . ' - ' . $e->getMessage() . PHP_EOL);
 	throw $e;
 }
-require_once __DIR__ . '/include/main/WebUI.php';
 \App\Process::$requestMode = 'Cron';
 \App\Utils\ConfReport::$sapi = 'cron';
 $cronObj = new \App\Cron();

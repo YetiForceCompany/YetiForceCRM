@@ -23,12 +23,12 @@
 					</select>
 					<div class="input-group-append">
 						<button type="button" class="btn btn-primary clipboard" data-copy-target="#recordVariable"
-								title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')} - {\App\Language::translate('LBL_COPY_VALUE','Other.TextParser')}">
+								title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')} - {\App\Language::translate('LBL_COPY_VALUE','Other.TextParser')}">
 							<span class="fas fa-copy"></span>
 						</button>
 						<button type="button" class="btn btn-success clipboard" data-copy-target="#recordVariable"
 								data-copy-type="label"
-								title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')}  - {\App\Language::translate('LBL_COPY_LABEL','Other.TextParser')}">
+								title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')}  - {\App\Language::translate('LBL_COPY_LABEL','Other.TextParser')}">
 							<span class="fas fa-copy"></span>
 						</button>
 					</div>
@@ -55,12 +55,12 @@
 						</select>
 						<div class="input-group-append">
 							<button type="button" class="btn btn-primary clipboard" data-copy-target="#relatedVariable"
-									title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')} - {\App\Language::translate('LBL_COPY_VALUE','Other.TextParser')}">
+									title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')} - {\App\Language::translate('LBL_COPY_VALUE','Other.TextParser')}">
 								<span class="fas fa-copy"></span>
 							</button>
 							<button type="button" class="btn btn-success clipboard" data-copy-target="#relatedVariable"
 									data-copy-type="label"
-									title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')}  - {\App\Language::translate('LBL_COPY_LABEL','Other.TextParser')}">
+									title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')}  - {\App\Language::translate('LBL_COPY_LABEL','Other.TextParser')}">
 								<span class="fas fa-copy"></span>
 							</button>
 						</div>
@@ -100,12 +100,12 @@
 						</select>
 						<div class="input-group-append">
 							<button type="button" class="btn btn-primary clipboard" data-copy-target="#sourceVariable"
-									title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')} - {\App\Language::translate('LBL_COPY_VALUE','Other.TextParser')}">
+									title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')} - {\App\Language::translate('LBL_COPY_VALUE','Other.TextParser')}">
 								<span class="fas fa-copy"></span>
 							</button>
 							<button type="button" class="btn btn-success clipboard" data-copy-target="#sourceVariable"
 									data-copy-type="label"
-									title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')}  - {\App\Language::translate('LBL_COPY_LABEL','Other.TextParser')}">
+									title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')}  - {\App\Language::translate('LBL_COPY_LABEL','Other.TextParser')}">
 								<span class="fas fa-copy"></span>
 							</button>
 						</div>
@@ -126,7 +126,7 @@
 						</select>
 						<div class="input-group-append">
 							<button type="button" class="btn btn-primary clipboard" data-copy-target="#relatedLists"
-									title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')} - {\App\Language::translate('LBL_COPY_VALUE','Other.TextParser')}">
+									title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')} - {\App\Language::translate('LBL_COPY_VALUE','Other.TextParser')}">
 								<span class="fas fa-copy"></span>
 							</button>
 						</div>
@@ -148,7 +148,7 @@
 					</select>
 					<div class="input-group-append">
 						<button type="button" class="btn btn-primary clipboard" data-copy-target="#recordList"
-								title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')} - {\App\Language::translate('LBL_COPY_VALUE','Other.TextParser')}">
+								title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')} - {\App\Language::translate('LBL_COPY_VALUE','Other.TextParser')}">
 							<span class="fas fa-copy"></span>
 						</button>
 					</div>
@@ -172,7 +172,7 @@
 				</select>
 				<div class="input-group-append">
 					<button type="button" class="btn btn-primary clipboard" data-copy-target="#generalVariable"
-							title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')}">
+							title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')}">
 						<span class="fas fa-copy"></span>
 					</button>
 				</div>
@@ -212,7 +212,7 @@
 				</select>
 				<div class="input-group-append">
 					<button type="button" class="btn btn-primary clipboard" data-copy-target="#companyVariable"
-							title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')}">
+							title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')}">
 						<span class="fas fa-copy"></span>
 					</button>
 				</div>

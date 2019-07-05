@@ -1,12 +1,18 @@
 <?php
+/**
+ * Privilege File basic class.
+ *
+ * @package App
+ *
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author  Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author  Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
 
 namespace App;
 
 /**
- * Privilege File basic class.
- *
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author  Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * PrivilegeFile class.
  */
 class PrivilegeFile
 {
@@ -52,7 +58,7 @@ class PrivilegeFile
 	/**
 	 * Creates a file with all the user, user-role,user-profile, user-groups informations.
 	 *
-	 * @param $userId -- user id:: Type integer
+	 * @param int $userId
 	 */
 	public static function createUserPrivilegesFile($userId)
 	{
@@ -81,10 +87,12 @@ class PrivilegeFile
 		$user['parent_roles'] = $userRoleInfo['parentRoles'];
 		$user['parent_role_seq'] = $userRoleInfo['parentrole'];
 		$user['roleName'] = $userRoleInfo['rolename'];
-		$multiCompany = MultiCompany::getCompanyByUser($userId);
-		$user['multiCompanyId'] = $multiCompany['multicompanyid'];
-		$user['multiCompanyLogo'] = $multiCompany['logo'] ?? '';
-		$user['multiCompanyLogoUrl'] = $multiCompany['logo'] ? "file.php?module=MultiCompany&action=Logo&record={$userId}&key={$multiCompany['logo']['key']}" : '';
+
+		$multiCompany = \Vtiger_Record_Model::getInstanceById($userRoleInfo['company'], 'MultiCompany');
+		$logo = Json::isEmpty($multiCompany->get('logo')) ? [] : current(Json::decode($multiCompany->get('logo')));
+		$user['multiCompanyId'] = $multiCompany->getId();
+		$user['multiCompanyLogo'] = $logo;
+		$user['multiCompanyLogoUrl'] = $logo ? "file.php?module=MultiCompany&action=Logo&record={$userId}&key={$logo['key']}" : '';
 		file_put_contents($file, 'return ' . Utils::varExport($user) . ';' . PHP_EOL, FILE_APPEND);
 	}
 }

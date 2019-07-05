@@ -1,25 +1,16 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<!-- tpl-Settings-BusinessHours-ListViewContents -->
+	<!-- tpl-Settings-BusinessHours-ListViewContents -->
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 	<input type="hidden" value="1" id="pageNumber">
 	<input type="hidden" value="0" id="totalCount">
 	<input type="hidden" id="previousPageExist" value="false"/>
 	<input type="hidden" id="nextPageExist" value="false"/>
-
 	<div class="listViewEntriesDiv u-overflow-scroll-xsm-down">
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
+		{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 		<table class="table tableRWD table-bordered table-sm listViewEntriesTable">
-			<thead>
-				<tr class="listViewHeaders">
-					{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
-					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-					<th  width="{$WIDTH}%" nowrap {if $LISTVIEW_HEADER@last}colspan="2" {/if} class="{$WIDTHTYPE}">
-						{App\Language::translate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
-					</th>
-					{/foreach}
-				</tr>
-			</thead>
+			{include file=\App\Layout::getTemplatePath('ListView/TableHeader.tpl', $QUALIFIED_MODULE)}
 			<tbody>
 				{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES}
 					<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}"
@@ -77,5 +68,5 @@
 			</table>
 		{/if}
 	</div>
-<!-- /tpl-Settings-BusinessHours-ListViewContents -->
+	<!-- /tpl-Settings-BusinessHours-ListViewContents -->
 {/strip}

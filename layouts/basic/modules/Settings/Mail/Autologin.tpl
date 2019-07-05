@@ -7,7 +7,7 @@
 		</div>
 	</div>
 	{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
-	<ul id="tabs" class="nav nav-tabs nav-justified mt-2" role="tablist">
+	<ul id="tabs" class="nav nav-tabs nav-justified my-2 mr-0" role="tablist">
 		<li class="nav-item" role="presentation"><a class="nav-link active" href="#userListTab"
 													aria-controls="userListTab" role="tab"
 													data-toggle="tab">{\App\Language::translate('LBL_USER_LIST', $QUALIFIED_MODULE)} </a>
@@ -17,7 +17,6 @@
 													data-toggle="tab">{\App\Language::translate('LBL_CONFIGURATION', $QUALIFIED_MODULE)} </a>
 		</li>
 	</ul>
-	<br/>
 	<div class="tab-content">
 		<div role="tabpanel" class="tab-pane active" id="userListTab">
 			<table class="table table-bordered table-sm themeTableColor userTable">

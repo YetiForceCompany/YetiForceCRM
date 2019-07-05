@@ -153,7 +153,9 @@ Vtiger_AdvanceFilter_Js(
 						rowValues = {},
 						key,
 						field;
-					if ($.inArray(fieldType, ['picklist', 'multipicklist', 'multiReferenceValue']) > -1) {
+					if (
+						$.inArray(fieldType, ['picklist', 'multipicklist', 'multiReferenceValue', 'categoryMultipicklist']) > -1
+					) {
 						for (key in fieldList) {
 							field = fieldList[key];
 							if (field === 'value' && valueSelectElement.is('input')) {
@@ -173,7 +175,7 @@ Vtiger_AdvanceFilter_Js(
 							} else if (
 								field === 'value' &&
 								valueSelectElement.is('select') &&
-								$.inArray(fieldType, ['multipicklist', 'multiReferenceValue']) > -1
+								$.inArray(fieldType, ['multipicklist', 'multiReferenceValue', 'categoryMultipicklist']) > -1
 							) {
 								let value = valueSelectElement.val();
 								if (value == null) {
@@ -582,3 +584,4 @@ Vtiger_Owner_Field_Js(
 );
 Workflows_Owner_Field_Js('Workflows_Sharedowner_Field_Js', {}, {});
 Vtiger_Picklist_Field_Js('Workflows_Picklist_Field_Js', {}, {});
+AdvanceFilter_Categorymultipicklist_Field_Js('Workflows_Categorymultipicklist_Field_Js', {}, {});
