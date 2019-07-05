@@ -388,12 +388,8 @@ class RecordFlowUpdater
 	 */
 	private function getValuesFromSource(int $recordId): array
 	{
-		$items = [];
-		if (\App\Cache::staticHas('RecordFlowUpdater.getValuesFromSource', $recordId)) {
-			$items = \App\Cache::staticGet('RecordFlowUpdater.getValuesFromSource', $recordId);
-		} else {
-			$columnId = "{$this->sourceTable}.{$this->sourceTableId}";
-			$items = $this->getStatusFromPicklist(
+		$columnId = "{$this->sourceTable}.{$this->sourceTableId}";
+		return $this->getStatusFromPicklist(
 				(new \App\Db\Query())
 					->select(['id' => $columnId, 'status' => "{$this->sourceTable}." . $this->sourceField])
 					->from($this->sourceTable)
@@ -402,9 +398,6 @@ class RecordFlowUpdater
 					->andWhere(["{$this->sourceTable}.{$this->targetTableId}" => $recordId])
 					->all()
 			);
-			\App\Cache::staticSave('RecordFlowUpdater.getValuesFromSource', $recordId, $items);
-		}
-		return $items;
 	}
 
 	/**

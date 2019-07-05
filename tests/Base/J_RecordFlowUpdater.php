@@ -114,10 +114,12 @@ class J_RecordFlowUpdater extends \Tests\Base
 		$taskModel->save();
 
 		$this->executeBatchMethod();
-		$this->executeBatchMethod();
-
 		$this->assertProjectTask('PLL_IN_PROGRESSING', $taskModel);
+
+		$this->executeBatchMethod();
 		$this->assertProjectMilestone('PLL_IN_PROGRESSING', $this->getProjectMilestone('pm0'));
+
+		$this->assertProject('PLL_IN_PROGRESSING', $this->getProject('p0'));
 	}
 
 	/**
@@ -257,7 +259,7 @@ class J_RecordFlowUpdater extends \Tests\Base
 		if (empty(static::$projectMilestone[$name])) {
 			throw new \Exception('getProjectMilestone: ' . $name);
 		}
-		\App\Cache::staticDelete('RecordModel', static::$project[$name] . ':ProjectMilestone');
+		\App\Cache::staticDelete('RecordModel', static::$projectMilestone[$name] . ':ProjectMilestone');
 		return \Vtiger_Record_Model::getInstanceById(static::$projectMilestone[$name], 'ProjectMilestone');
 	}
 
@@ -273,6 +275,7 @@ class J_RecordFlowUpdater extends \Tests\Base
 		if (empty(static::$projectTask[$name])) {
 			throw new \Exception('getProjectTask: ' . $name);
 		}
+		\App\Cache::staticDelete('RecordModel', static::$projectTask[$name] . ':ProjectTask');
 		return \Vtiger_Record_Model::getInstanceById(static::$projectTask[$name], 'ProjectTask');
 	}
 }
