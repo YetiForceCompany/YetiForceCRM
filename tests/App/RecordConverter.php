@@ -29,6 +29,9 @@ class RecordConverter extends \Tests\Base
 				'status' => 1,
 				'source_module' => 89,
 				'destiny_module' => 90,
+				'field_mapping' => \App\Json::encode(
+					['auto']
+				),
 				'inv_field_mapping' => \App\Json::encode(
 					['auto']
 				),
