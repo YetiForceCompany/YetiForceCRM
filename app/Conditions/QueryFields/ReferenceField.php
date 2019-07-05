@@ -88,7 +88,6 @@ class ReferenceField extends BaseField
 			}
 			return $condition;
 		}
-		//co jesli jest kilka modułów w jednym polu?
 		return parent::operatorA();
 	}
 
