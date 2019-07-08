@@ -31,12 +31,12 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 	 */
 	public function getFieldDataType()
 	{
-		if (empty($this->fieldDataType) && $this->get('typeofdata') == 'INVENTORY') {
+		if (empty($this->fieldDataType) && 'INVENTORY' == $this->get('typeofdata')) {
 			$this->fieldDataType = 'inventory';
 		} elseif (empty($this->fieldDataType)) {
 			$this->fieldDataType = parent::getFieldDataType();
 		}
-		if ($this->fieldDataType == 'salutation') {
+		if ('salutation' == $this->fieldDataType) {
 			$this->fieldDataType = 'string';
 		}
 		return $this->fieldDataType;
@@ -49,7 +49,7 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 	 */
 	public function getFieldType()
 	{
-		if ($this->get('name') === 'id') {
+		if ('id' === $this->get('name')) {
 			return 'SELF';
 		}
 		return parent::getFieldType();
@@ -67,6 +67,8 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get Field instance from array.
+	 *
+	 * @param mixed $row
 	 *
 	 * @return <Settings_MappedFields_Field_Model>
 	 */
@@ -112,7 +114,7 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 	/**
 	 * Function to check if the current field is mandatory or not.
 	 *
-	 * @return bool - true/false
+	 * @return bool
 	 */
 	public function isMandatory()
 	{
@@ -134,6 +136,8 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get field instance from InventoryFieldObject.
+	 *
+	 * @param mixed $inventoryField
 	 *
 	 * @return <Settings_MappedFields_Field_Model>
 	 */
@@ -185,7 +189,7 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 			$objectProperties = get_object_vars($fieldModel);
 			$fieldModel = new self();
 			foreach ($objectProperties as $properName => $propertyValue) {
-				$fieldModel->$properName = $propertyValue;
+				$fieldModel->{$properName} = $propertyValue;
 			}
 		}
 		return $fieldModel;

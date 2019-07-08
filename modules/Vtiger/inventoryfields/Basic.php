@@ -333,7 +333,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	/**
 	 * Function to check whether the current field is visible.
 	 *
-	 * @return bool - true/false
+	 * @return bool
 	 */
 	public function isVisible()
 	{
@@ -343,7 +343,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	/**
 	 * Function to check if field is visible in detail view.
 	 *
-	 * @return bool - true/false
+	 * @return bool
 	 */
 	public function isVisibleInDetail()
 	{
@@ -353,7 +353,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	/**
 	 * Function to check whether the current field is editable.
 	 *
-	 * @return bool - true/false
+	 * @return bool
 	 */
 	public function isEditable()
 	{

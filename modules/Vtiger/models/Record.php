@@ -244,7 +244,7 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * Function to get raw data.
 	 *
-	 * @return <Array>
+	 * @return array|false
 	 */
 	public function getRawData()
 	{
@@ -254,7 +254,7 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * Function to set raw data.
 	 *
-	 * @param <Array> $data
+	 * @param array $data
 	 *
 	 * @return Vtiger_Record_Model instance
 	 */
@@ -429,9 +429,9 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * Function returns all the field values in user format.
 	 *
-	 * @return <Array>
+	 * @return array
 	 */
-	public function getDisplayableValues()
+	public function getDisplayableValues(): array
 	{
 		$displayableValues = [];
 		$data = $this->getData();

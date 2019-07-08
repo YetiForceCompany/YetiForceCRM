@@ -59,7 +59,7 @@ class Vtiger_Paging_Model extends \App\Base
 			if (empty($pageLimit)) {
 				$pageLimit = self::PAGE_LIMIT;
 			}
-		} elseif ($pageLimit === 0) {
+		} elseif (0 === $pageLimit) {
 			$pageLimit = self::PAGE_MAX_LIMIT;
 		}
 		return (int) $pageLimit;
@@ -118,7 +118,7 @@ class Vtiger_Paging_Model extends \App\Base
 	/**
 	 * Function to specify if previous page exists.
 	 *
-	 * @return bool - true/false
+	 * @return bool
 	 */
 	public function isPrevPageExists()
 	{
@@ -131,7 +131,7 @@ class Vtiger_Paging_Model extends \App\Base
 	/**
 	 * Function to specify if next page exists.
 	 *
-	 * @return bool - true/false
+	 * @return bool
 	 */
 	public function isNextPageExists()
 	{
@@ -161,7 +161,7 @@ class Vtiger_Paging_Model extends \App\Base
 			$prevPageLastRecordSequence = (($this->getCurrentPage() - 1) * $pageLimit);
 
 			$rangeInfo['start'] = $prevPageLastRecordSequence + 1;
-			if ($rangeInfo['start'] === 1) {
+			if (1 === $rangeInfo['start']) {
 				$this->set('prevPageExists', false);
 			}
 			//Have less number of records than the page limit
@@ -174,7 +174,7 @@ class Vtiger_Paging_Model extends \App\Base
 			$this->set('range', $rangeInfo);
 		} else {
 			//Disable previous page only if page is first page and no records exists
-			if ($this->getCurrentPage() === 1) {
+			if (1 === $this->getCurrentPage()) {
 				$this->set('prevPageExists', false);
 			}
 			$this->set('nextPageExists', false);
@@ -196,7 +196,7 @@ class Vtiger_Paging_Model extends \App\Base
 		} else {
 			$pageCount = $this->get('page');
 		}
-		if ($pageCount == 0) {
+		if (0 == $pageCount) {
 			$pageCount = 1;
 		}
 		return $pageCount;

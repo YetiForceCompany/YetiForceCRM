@@ -25,7 +25,7 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function to check whether the module is summary view supported.
 	 *
-	 * @return bool - true/false
+	 * @return bool
 	 */
 	public function isSummaryViewSupported()
 	{
@@ -41,7 +41,7 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 	 */
 	public function isPermitted($actionName)
 	{
-		if ($actionName === 'EditView') {
+		if ('EditView' === $actionName) {
 			return false;
 		}
 		return \App\Privilege::isPermitted($this->getName(), $actionName);
@@ -101,7 +101,7 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 	{
 		$iterator = new \DirectoryIterator(__DIR__ . '/../providers');
 		foreach ($iterator as $item) {
-			if ($item->isFile() && $item->getFilename() !== 'Basic.php' && $item->getExtension() === 'php') {
+			if ($item->isFile() && 'Basic.php' !== $item->getFilename() && 'php' === $item->getExtension()) {
 				$providers[] = self::getProviderInstance($item->getBasename('.php'));
 			}
 		}
@@ -146,7 +146,7 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 	{
 		$provider = self::getActiveProviderInstance();
 
-		return $provider !== false;
+		return false !== $provider;
 	}
 
 	/**
@@ -162,9 +162,9 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 	public static function addSmsToCron($message, $toNumbers, $recordIds, $ralModuleName)
 	{
 		return \App\Db::getInstance('admin')->createCommand()->insert('s_#__smsnotifier_queue', [
-				'message' => $message,
-				'tonumbers' => is_array($toNumbers) ? implode(',', $toNumbers) : $toNumbers,
-				'records' => is_array($recordIds) ? implode(',', $recordIds) : $recordIds,
-				'module' => $ralModuleName, ])->execute();
+			'message' => $message,
+			'tonumbers' => \is_array($toNumbers) ? implode(',', $toNumbers) : $toNumbers,
+			'records' => \is_array($recordIds) ? implode(',', $recordIds) : $recordIds,
+			'module' => $ralModuleName, ])->execute();
 	}
 }

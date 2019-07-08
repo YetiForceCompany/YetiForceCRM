@@ -45,17 +45,17 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function to check whether the module is an entity type module or not.
 	 *
-	 * @return bool true/false
+	 * @return bool
 	 */
 	public function isEntityModule()
 	{
-		return ('1' == $this->isentitytype) ? true : false;
+		return ('1' == $this->isentitytype);
 	}
 
 	/**
 	 * Function to check whether the module is enabled for quick create.
 	 *
-	 * @return bool - true/false
+	 * @return bool
 	 */
 	public function isQuickCreateSupported()
 	{
@@ -65,7 +65,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function to check whether the module is summary view supported.
 	 *
-	 * @return bool - true/false
+	 * @return bool
 	 */
 	public function isSummaryViewSupported()
 	{
@@ -1223,7 +1223,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 *
 	 * @param string $actionName
 	 *
-	 * @return <boolean>
+	 * @return bool
 	 */
 	public function isPermitted($actionName)
 	{
@@ -1429,7 +1429,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * function to check if the extension module is permitted for utility action.
 	 *
-	 * @return <boolean> false
+	 * @return bool
 	 */
 	public function isUtilityActionEnabled()
 	{

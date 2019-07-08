@@ -51,7 +51,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function to check whether the module is summary view supported.
 	 *
-	 * @return bool - true/false
+	 * @return bool
 	 */
 	public function isSummaryViewSupported()
 	{
@@ -61,7 +61,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function to get list of field for summary view.
 	 *
-	 * @return <Array> empty array
+	 * @return array empty array
 	 */
 	public function getSummaryViewFieldsList()
 	{
