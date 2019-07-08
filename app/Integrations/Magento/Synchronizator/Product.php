@@ -46,16 +46,16 @@ class Product extends Integrators\Product
 		$result = false;
 		$productsCrm = $this->getProductsCrm();
 		if (!empty($productsCrm)) {
-			$products = $this->getProducts($this->getFormattedRecordsIds(array_keys($productsCrm)));
+			$products = $this->getProducts($this->getFormattedRecordsIds(array_keys($productsCrm), self::MAGENTO, 'product'));
 			foreach ($productsCrm as $id => $productCrm) {
-				if (isset($this->map[$id], $products[$this->map[$id]])) {
-					$productData = $this->getProductFullData($this->mapIdToSku[$this->map[$id]]);
+				if (isset($this->map['product'][$id], $products[$this->map['product'][$id]])) {
+					$productData = $this->getProductFullData($this->mapIdToSku[$this->map['product'][$id]]);
 					$checkImages = $this->checkImages($productData, $productCrm);
 					if (!empty($checkImages) || (!empty($productData) && $this->hasChanges($productCrm, $productData))) {
 						if (self::MAGENTO === $this->whichToUpdate($productCrm, $productData)) {
-							$this->updateProduct($this->map[$id], $productCrm);
+							$this->updateProduct($this->map['product'][$id], $productCrm);
 							if (!empty($checkImages['add']) || !empty($checkImages['remove'])) {
-								$this->updateImages($this->mapIdToSku[$this->map[$id]], $checkImages);
+								$this->updateImages($this->mapIdToSku[$this->map['product'][$id]], $checkImages);
 							}
 						} else {
 							$this->updateProductCrm($id, $productData);
@@ -64,7 +64,7 @@ class Product extends Integrators\Product
 							}
 						}
 					}
-				} elseif (isset($this->map[$id]) && !isset($products[$this->map[$id]])) {
+				} elseif (isset($this->map['product'][$id]) && !isset($products[$this->map['product'][$id]])) {
 					$this->deleteProductCrm($id);
 				} else {
 					$this->saveProduct($productCrm);
@@ -88,29 +88,29 @@ class Product extends Integrators\Product
 		try {
 			$products = $this->getProducts();
 			if (!empty($products)) {
-				$productsCrm = $this->getProductsCrm($this->getFormattedRecordsIds(array_keys($products), self::YETIFORCE));
+				$productsCrm = $this->getProductsCrm($this->getFormattedRecordsIds(array_keys($products), self::YETIFORCE, 'product'));
 				foreach ($products as $id => $product) {
 					$productData = $this->getProductFullData($product['sku']);
 					if (empty($productData)) {
 						continue;
 					}
-					if (isset($this->mapCrm[$id], $productsCrm[$this->mapCrm[$id]])) {
-						$checkImages = $this->checkImages($productData, $productsCrm[$this->mapCrm[$id]]);
-						if (!empty($checkImages) || $this->hasChanges($productsCrm[$this->mapCrm[$id]], $productData)) {
-							if (self::MAGENTO === $this->whichToUpdate($productsCrm[$this->mapCrm[$id]], $productData)) {
-								$this->updateProduct($id, $productsCrm[$this->mapCrm[$id]]);
+					if (isset($this->mapCrm['product'][$id], $productsCrm[$this->mapCrm['product'][$id]])) {
+						$checkImages = $this->checkImages($productData, $productsCrm[$this->mapCrm['product'][$id]]);
+						if (!empty($checkImages) || $this->hasChanges($productsCrm[$this->mapCrm['product'][$id]], $productData)) {
+							if (self::MAGENTO === $this->whichToUpdate($productsCrm[$this->mapCrm['product'][$id]], $productData)) {
+								$this->updateProduct($id, $productsCrm[$this->mapCrm['product'][$id]]);
 								if (!empty($checkImages['add']) || !empty($checkImages['remove'])) {
-									$this->updateImages($this->mapIdToSku[$this->map[$id]], $checkImages);
+									$this->updateImages($this->mapIdToSku[$this->map['product'][$id]], $checkImages);
 								}
 							} else {
-								$this->updateProductCrm($this->mapCrm[$id], $productData);
-								$this->updateImagesCrm($this->mapCrm[$id], $checkImages['addCrm']);
+								$this->updateProductCrm($this->mapCrm['product'][$id], $productData);
+								$this->updateImagesCrm($this->mapCrm['product'][$id], $checkImages['addCrm']);
 							}
 						}
 						if ('grouped' === $productData['type_id']) {
-							$this->updateBundleProductsCrm($this->mapCrm[$id], $productData['product_links'], $productsCrm[$this->mapCrm[$id]]['related']);
+							$this->updateBundleProductsCrm($this->mapCrm['product'][$id], $productData['product_links'], $productsCrm[$this->mapCrm['product'][$id]]['related']);
 						}
-					} elseif (isset($this->mapCrm[$id]) && !isset($productsCrm[$this->mapCrm[$id]])) {
+					} elseif (isset($this->mapCrm['product'][$id]) && !isset($productsCrm[$this->mapCrm['product'][$id]])) {
 						$this->deleteProduct($id);
 					} else {
 						$this->saveProductCrm($productData);
@@ -137,20 +137,20 @@ class Product extends Integrators\Product
 		$allChecked = false;
 		try {
 			$this->getMapping('product', $this->lastScan['idmap'], \App\Config::component('Magento', 'productLimit'));
-			if (!empty($this->mapKeys)) {
-				$productsCrm = $this->getProductsCrm($this->mapKeys);
-				$products = $this->getProducts($this->getFormattedRecordsIds($this->mapKeys));
-				if ($diffedRecords = \array_diff_key($this->map, $productsCrm)) {
+			if (!empty($this->mapKeys['product'])) {
+				$productsCrm = $this->getProductsCrm($this->mapKeys['product']);
+				$products = $this->getProducts($this->getFormattedRecordsIds($this->mapKeys['product']));
+				if ($diffedRecords = \array_diff_key($this->map['product'], $productsCrm)) {
 					foreach ($diffedRecords as $idCrm => $id) {
 						$this->deleteProduct($id);
 					}
 				}
-				if ($diffedRecords = \array_diff_key($this->mapCrm, $products)) {
+				if ($diffedRecords = \array_diff_key($this->mapCrm['product'], $products)) {
 					foreach ($diffedRecords as $id => $idCrm) {
 						$this->deleteProductCrm($idCrm);
 					}
 				}
-				$this->config::setScan('product', 'idmap', !empty($this->mapCrm) ? max(array_keys($this->mapCrm)) : 0);
+				$this->config::setScan('product', 'idmap', !empty($this->mapCrm['product']) ? max(array_keys($this->mapCrm['product'])) : 0);
 			} else {
 				$allChecked = true;
 			}
@@ -220,8 +220,6 @@ class Product extends Integrators\Product
 		$productFields = new \App\Integrations\Magento\Synchronizator\Maps\Product();
 		$productFields->setData($data);
 		$dataCrm = $productFields->getDataCrm();
-		$dataCrm['unit_price'] = 0;
-		$dataCrm['purchase'] = 0;
 		$value = 0;
 		if (!empty($dataCrm)) {
 			try {
@@ -254,10 +252,10 @@ class Product extends Integrators\Product
 		$recordModel = \Vtiger_Record_Model::getInstanceById($idCrm, 'Products');
 		foreach ($bundleProducts as $bundleProduct) {
 			$id = $this->mapSkuToId[$bundleProduct['linked_product_sku']];
-			if (!isset($this->mapCrm[$id]) || !\in_array($this->mapCrm[$id], $bundleProductsCrm)) {
+			if (!isset($this->mapCrm['product'][$id]) || !\in_array($this->mapCrm['product'][$id], $bundleProductsCrm)) {
 				$saveProducts[] = $bundleProduct;
 			}
-			unset($bundleProductsCrm[array_search($this->mapCrm[$id], $bundleProductsCrm)]);
+			unset($bundleProductsCrm[array_search($this->mapCrm['product'][$id], $bundleProductsCrm)]);
 		}
 		$this->saveBundleProductsCrm($recordModel, $saveProducts);
 		$this->deleteBundleProductsCrm($recordModel, $bundleProductsCrm);
@@ -278,8 +276,8 @@ class Product extends Integrators\Product
 			foreach ($products as $product) {
 				if ('associated' === $product['link_type']) {
 					$productId = $this->mapSkuToId[$product['linked_product_sku']];
-					if (isset($this->mapCrm[$productId])) {
-						$relationModel->addRelation($recordModel->getId(), $this->mapCrm[$productId]);
+					if (isset($this->mapCrm['product'][$productId])) {
+						$relationModel->addRelation($recordModel->getId(), $this->mapCrm['product'][$productId]);
 					} else {
 						$productIdCrm = $this->saveProductCrm($this->getProductFullData($product['linked_product_sku']));
 						if ($productIdCrm) {
@@ -397,7 +395,7 @@ class Product extends Integrators\Product
 		try {
 			$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'Products');
 			$recordModel->delete();
-			$this->deleteMapping($this->map[$id], $id);
+			$this->deleteMapping($this->map['product'][$id], $id, 'product');
 			$result = true;
 		} catch (\Throwable $ex) {
 			\App\Log::error('Error during deleting yetiforce product: ' . $ex->getMessage(), 'Integrations/Magento');

@@ -21,15 +21,16 @@ abstract class Record extends Base
 	 *
 	 * @param array  $ids
 	 * @param string $formatTo
+	 * @param string $type
 	 *
 	 * @return array
 	 */
-	public function getFormattedRecordsIds(array $ids, $formatTo = self::MAGENTO): array
+	public function getFormattedRecordsIds(array $ids, string $formatTo, string $type): array
 	{
 		$parsedIds = [];
-		$mapIds = $this->map;
+		$mapIds = $this->map[$type];
 		if (self::YETIFORCE === $formatTo) {
-			$mapIds = $this->mapCrm;
+			$mapIds = $this->mapCrm[$type];
 		}
 		foreach ($ids as $id) {
 			if (isset($mapIds[$id])) {
@@ -132,5 +133,35 @@ abstract class Record extends Base
 			}
 		}
 		return $needUpdate ? ['addCrm' => $imagesCrm, 'add' => $imagesAdd, 'remove' => $imagesRemove] : [];
+	}
+
+	/**
+	 * Method to get search criteria Magento records.
+	 *
+	 * @param array $ids
+	 * @param int   $pageSize
+	 *
+	 * @return string
+	 */
+	public function getSearchCriteria(array $ids, int $pageSize = 10): string
+	{
+		$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][field]=entity_id';
+		if (!empty($ids)) {
+			$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][value]=' . implode(',', $ids);
+			$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][condition_type]=in';
+		} else {
+			$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][value]=' . $this->lastScan['id'];
+			$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][condition_type]=gt';
+			$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][field]=updated_at';
+			$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][value]=' . $this->getFormattedTime($this->lastScan['start_date']);
+			$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][condition_type]=lteq';
+			if (!empty($this->lastScan['end_date'])) {
+				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][field]=updated_at';
+				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][value]=' . $this->getFormattedTime($this->lastScan['end_date']);
+				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][condition_type]=gteq';
+			}
+			$searchCriteria[] = 'searchCriteria[pageSize]=' . $pageSize;
+		}
+		return implode('&', $searchCriteria);
 	}
 }

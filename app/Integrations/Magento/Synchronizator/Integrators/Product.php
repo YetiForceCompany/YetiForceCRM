@@ -65,17 +65,8 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 	{
 		$productFields = new \App\Integrations\Magento\Synchronizator\Maps\Product();
 		$productFields->setDataCrm($product);
-		$data = [
-			'product' => [
-				'type_id' => 'simple',
-				'attribute_set_id' => 4,
-			]
-		];
-		$data = \array_merge_recursive($data, $productFields->getData());
 		try {
-			$productRequest = \App\Json::decode($this->connector->request('POST', '/rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/products/',
-				$data
-			));
+			$productRequest = \App\Json::decode($this->connector->request('POST', '/rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/products/', $productFields->getData()));
 			$this->saveImages($productRequest['sku'], \App\Json::decode($product['imagename']));
 			$this->saveMapping($productRequest['id'], $product['productid'], 'product');
 			$result = true;
@@ -102,7 +93,7 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 				if (isset($this->mapIdToSku[$productId])) {
 					$this->connector->request('DELETE', '/rest/all/V1/products/' . urlencode($this->mapIdToSku[$productId]), []);
 				}
-				$this->deleteMapping($productId, $this->mapCrm[$productId]);
+				$this->deleteMapping($productId, $this->mapCrm['product'][$productId], 'product');
 			}
 			$result = true;
 		} catch (\Throwable $ex) {
@@ -143,7 +134,7 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 	public function getProducts(array $ids = []): array
 	{
 		$items = [];
-		$data = \App\Json::decode($this->connector->request('GET', 'rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/products?' . $this->getSearchCriteria($ids)));
+		$data = \App\Json::decode($this->connector->request('GET', 'rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/products?' . $this->getSearchCriteria($ids, \App\Config::component('Magento', 'productLimit'))));
 		if (!empty($data['items'])) {
 			foreach ($data['items'] as $item) {
 				$items[$item['id']] = $item;
@@ -174,33 +165,15 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 	 * Method to get search criteria Magento products.
 	 *
 	 * @param array $ids
+	 * @param int   $pageSize
 	 *
 	 * @throws \ReflectionException
 	 *
 	 * @return string
 	 */
-	public function getSearchCriteria(array $ids): string
+	public function getSearchCriteria(array $ids, int $pageSize = 10): string
 	{
-		$pageSize = \App\Config::component('Magento', 'productLimit');
-		$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][field]=entity_id';
-		if (!empty($ids)) {
-			$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][value]=' . implode(',', $ids);
-			$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][condition_type]=in';
-		} else {
-			$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][value]=' . $this->lastScan['id'];
-			$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][condition_type]=gt';
-			$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][field]=updated_at';
-			$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][value]=' . $this->getFormattedTime($this->lastScan['start_date']);
-			$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][condition_type]=lteq';
-			if (!empty($this->lastScan['end_date'])) {
-				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][field]=updated_at';
-				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][value]=' . $this->getFormattedTime($this->lastScan['end_date']);
-				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][condition_type]=gteq';
-			}
-			$searchCriteria[] = 'searchCriteria[pageSize]=' . $pageSize;
-		}
-		$searchCriteria[] = 'fields=items[id,sku]';
-		return implode('&', $searchCriteria);
+		return parent::getSearchCriteria($ids, $pageSize) . '&fields=items[id,sku]';
 	}
 
 	/**

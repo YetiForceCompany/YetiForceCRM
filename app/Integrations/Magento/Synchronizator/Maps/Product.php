@@ -33,6 +33,22 @@ class Product extends Base
 	/**
 	 * {@inheritdoc}
 	 */
+	public static $additionalFields = [
+		'type_id' => 'simple',
+		'attribute_set_id' => '4',
+		'extension_attributes|stock_item|is_in_stock' => '',
+	];
+	/**
+	 * {@inheritdoc}
+	 */
+	public static $additionalFieldsCrm = [
+		'unit_price' => '0',
+		'purchase' => '0',
+	];
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public static $fieldsType = [
 		'discontinued' => 'map',
 		'usageunit' => 'map',
@@ -138,9 +154,17 @@ class Product extends Base
 	public $category = false;
 
 	/**
-	 * Method to get sku or name if ean does not exist.
+	 * Method to get flag.
 	 *
-	 * @param mixed $parsedStructure
+	 * @return array
+	 */
+	public function getFlag(): array
+	{
+		return [array_flip(self::$flag)[$this->dataCrm['flag']] ?? 186];
+	}
+
+	/**
+	 * Method to get sku or name if ean does not exist.
 	 *
 	 * @return string
 	 */
@@ -192,12 +216,26 @@ class Product extends Base
 	}
 
 	/**
-	 * Method to get flag.
+	 * Method to get sku or name if ean does not exist.
 	 *
-	 * @return array
+	 * @throws \Exception
+	 *
+	 * @return string
 	 */
-	public function getFlag(): array
+	public function getCrmEan(): string
 	{
-		return [array_flip(self::$flag)[$this->dataCrm['flag']] ?? 186];
+		$record = \Vtiger_Record_Model::getCleanInstance('Products');
+		$length = $record->getField('ean')->get('maximumlength');
+		return !empty($this->data['sku']) ? \App\TextParser::textTruncate($this->data['sku'], $length, false) : '';
+	}
+
+	/**
+	 * Is product in stock.
+	 *
+	 * @return bool
+	 */
+	public function getIs_in_stock()
+	{
+		return $this->dataCrm['qtyinstock'] > 0;
 	}
 }

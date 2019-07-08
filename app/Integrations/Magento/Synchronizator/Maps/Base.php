@@ -15,6 +15,18 @@ namespace App\Integrations\Magento\Synchronizator\Maps;
 abstract class Base
 {
 	/**
+	 * Fields which are not exist in Magento but needed in YetiForce.
+	 *
+	 * @var array
+	 */
+	public static $additionalFieldsCrm = [];
+	/**
+	 * Fields which are not exist in YetiForce but needed in Magento.
+	 *
+	 * @var array
+	 */
+	public static $additionalFields = [];
+	/**
 	 * Mapped fields.
 	 *
 	 * @var array
@@ -61,8 +73,8 @@ abstract class Base
 	 */
 	public function getFieldName(string $name)
 	{
-		$fieldName = explode('|', static::$mappedFields[$name]);
-		return end($fieldName) ?? '';
+		$fieldName = explode('|', static::$mappedFields[$name] ?? $name);
+		return end($fieldName);
 	}
 
 	/**
@@ -74,7 +86,7 @@ abstract class Base
 	 */
 	public function getFieldNameCrm(string $name)
 	{
-		return array_flip(static::$mappedFields)[$name] ?? '';
+		return array_flip(static::$mappedFields)[$name] ?? $name;
 	}
 
 	/**
@@ -92,6 +104,26 @@ abstract class Base
 			$fields = static::$mappedFields;
 		}
 		return $fields;
+	}
+
+	/**
+	 * Return additional Magento fields list.
+	 *
+	 * @return array
+	 */
+	public function getAdditionalFields(): array
+	{
+		return static::$additionalFields;
+	}
+
+	/**
+	 * Return additional YetiForce fields list.
+	 *
+	 * @return array
+	 */
+	public function getAdditionalFieldsCrm(): array
+	{
+		return static::$additionalFieldsCrm;
 	}
 
 	/**
@@ -127,6 +159,9 @@ abstract class Base
 		foreach ($this->getFields($onEdit) as $fieldCrm => $field) {
 			$data = \array_merge_recursive($data, $this->getFieldValueCrm($fieldCrm, true));
 		}
+		foreach ($this->getAdditionalFields() as $name => $value) {
+			$data = \array_merge_recursive($data, $this->getFieldStructure($name, !empty($value) ? $value : $this->getFieldValueCrm($name, false)));
+		}
 		return ['product' => $data];
 	}
 
@@ -143,10 +178,15 @@ abstract class Base
 		foreach ($this->getFields($onEdit) as $fieldCrm => $field) {
 			$data[$fieldCrm] = $this->getFieldValue($field) ?? null;
 		}
+		foreach ($this->getAdditionalFieldsCrm() as $name => $value) {
+			$data[$name] = !empty($value) ? $value : $this->getFieldValue($name);
+		}
 		return $data;
 	}
 
 	/**
+	 * Get field value from YetiForce.
+	 *
 	 * @param $fieldName
 	 * @param mixed $parsedStructure
 	 *
@@ -158,7 +198,7 @@ abstract class Base
 		if (!\method_exists($this, $methodName)) {
 			$fieldParsed = $this->dataCrm;
 			foreach (explode('|', $fieldName) as $fieldLevel) {
-				$fieldParsed = $fieldParsed[$fieldLevel];
+				$fieldParsed = $fieldParsed[$fieldLevel] ?? null;
 			}
 			if (isset(static::$fieldsType[$fieldName]) && 'map' === static::$fieldsType[$fieldName]) {
 				$fieldParsed = array_flip(static::${$fieldName})[$fieldParsed] ?? null;
@@ -167,21 +207,22 @@ abstract class Base
 			$fieldParsed = $this->{$methodName}();
 		}
 		if ($parsedStructure) {
-			$data = $this->getFieldStructure($fieldName, $fieldParsed);
-		} else {
-			$data = $fieldParsed;
+			$fieldParsed = $this->getFieldStructure($fieldName, $fieldParsed);
 		}
-		return $data;
+		return $fieldParsed;
 	}
 
 	/**
+	 * Get field value from Magento.
+	 *
 	 * @param $fieldName
 	 *
 	 * @return array|mixed
 	 */
 	public function getFieldValue($fieldName)
 	{
-		$methodName = 'getCrm' . \ucfirst($this->getFieldNameCrm($fieldName));
+		$parsedFieldName = $this->getFieldNameCrm($fieldName);
+		$methodName = 'getCrm' . \ucfirst($parsedFieldName);
 		$fieldLevels = explode('|', $fieldName);
 		if (!\method_exists($this, $methodName)) {
 			$fieldParsed = $this->data;
@@ -198,11 +239,25 @@ abstract class Base
 					}
 				}
 			} else {
-				$fieldParsed = $fieldParsed[$fieldName] ?? null;
+				$fieldParsed = $fieldParsed[$fieldName] ?? '';
 			}
-			$parsedFieldName = $this->getFieldNameCrm($fieldName);
-			if (isset(static::$fieldsType[$parsedFieldName]) && 'map' === static::$fieldsType[$parsedFieldName]) {
-				$fieldParsed = static::${$parsedFieldName}[$fieldParsed] ?? null;
+			if (null !== $fieldParsed && isset(static::$fieldsType[$parsedFieldName])) {
+				switch (static::$fieldsType[$parsedFieldName]) {
+					case 'map':
+						$fieldParsed = static::${$parsedFieldName}[$fieldParsed] ?? null;
+						break;
+					case 'implode':
+						$fieldParsed = implode(', ', $fieldParsed);
+						break;
+					case 'country':
+						$fieldParsed = \App\Fields\Country::getCountryName($fieldParsed);
+						break;
+					case 'date':
+						$fieldParsed = \App\Fields\Date::formatToDb($fieldParsed, true);
+						break;
+				}
+			} else {
+				$fieldParsed = !\is_array($fieldParsed) ? $fieldParsed : null;
 			}
 		} else {
 			$fieldParsed = $this->{$methodName}();
@@ -237,22 +292,25 @@ abstract class Base
 	 * @param $name
 	 * @param $value
 	 *
-	 * @return array
+	 * @return mixed|array
 	 */
-	public function getFieldStructure($name, $value): array
+	public function getFieldStructure($name, $value)
 	{
 		if (empty($value)) {
 			$value = static::$fieldsDefaultValue[$name] ?? 0;
 		}
 		$fieldStructure = [];
-		$fieldLevels = array_reverse(explode('|', static::$mappedFields[$name]));
-		if (\in_array('custom_attributes', $fieldLevels)) {
-			$fieldStructure[end($fieldLevels)][] = ['attribute_code' => array_shift($fieldLevels), 'value' => $value];
-		} else {
-			$fieldStructure[array_shift($fieldLevels)] = $value;
-			foreach ($fieldLevels as $level) {
-				$fieldStructure[$level] = $fieldStructure;
-				unset($fieldStructure[key($fieldStructure)]);
+		$fieldMap = static::$mappedFields[$name] ?? $name;
+		if (!empty($fieldMap)) {
+			$fieldLevels = array_reverse(explode('|', $fieldMap));
+			if (\in_array('custom_attributes', $fieldLevels)) {
+				$fieldStructure[end($fieldLevels)][] = ['attribute_code' => array_shift($fieldLevels), 'value' => $value];
+			} else {
+				$fieldStructure[array_shift($fieldLevels)] = $value;
+				foreach ($fieldLevels as $level) {
+					$fieldStructure[$level] = $fieldStructure;
+					unset($fieldStructure[key($fieldStructure)]);
+				}
 			}
 		}
 		return $fieldStructure;

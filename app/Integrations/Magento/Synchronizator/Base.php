@@ -22,9 +22,15 @@ abstract class Base
 	/**
 	 * Connector.
 	 *
-	 * @var object
+	 * @var \App\Integrations\Magento\Connector\Token
 	 */
 	protected $connector;
+	/**
+	 * Map query instance.
+	 *
+	 * @var \App\Db\Query
+	 */
+	public $mapQuery;
 	/**
 	 * Records map from magento.
 	 *
@@ -37,7 +43,6 @@ abstract class Base
 	 * @var array
 	 */
 	public $mapCrm = [];
-
 	/**
 	 * Records map keys from magento.
 	 *
@@ -53,7 +58,7 @@ abstract class Base
 	/**
 	 * Config.
 	 *
-	 * @var object
+	 * @var \App\Integrations\Magento\Config
 	 */
 	public $config;
 
@@ -104,20 +109,20 @@ abstract class Base
 	 */
 	public function getMapping(string $type, $fromId = false, $limit = false): void
 	{
-		$this->map = (new Query())
+		$this->mapQuery = (new Query())
 			->select(['crmid', 'id'])
 			->where(['type' => $type]);
 		if (false !== $fromId) {
-			$this->map = $this->map->andWhere(['>', 'id', $fromId]);
+			$this->mapQuery = $this->mapQuery->andWhere(['>', 'id', $fromId]);
 		}
 		if (false !== $limit) {
-			$this->map = $this->map->limit($limit);
+			$this->mapQuery = $this->mapQuery->limit($limit);
 		}
-		$this->map = $this->map->from(self::TABLE_NAME)
+		$this->map[$type] = $this->mapQuery->from(self::TABLE_NAME)
 			->orderBy(['id' => SORT_ASC])
 			->createCommand()->queryAllByGroup(0) ?? [];
-		$this->mapCrm = \array_flip($this->map);
-		$this->mapKeys = \array_keys($this->map);
+		$this->mapCrm[$type] = \array_flip($this->map[$type]);
+		$this->mapKeys[$type] = \array_keys($this->map[$type]);
 	}
 
 	/**
@@ -150,7 +155,7 @@ abstract class Base
 	 */
 	public function saveMapping(int $recordId, int $recordIdCrm, string $type): int
 	{
-		if (isset($this->mapCrm[$recordId]) || isset($this->map[$recordIdCrm])) {
+		if (isset($this->mapCrm[$type][$recordId]) || isset($this->map[$type][$recordIdCrm])) {
 			$result = $this->updateMapping($recordId, $recordIdCrm);
 		} else {
 			$result = \App\Db::getInstance()->createCommand()->insert(self::TABLE_NAME, [
@@ -159,23 +164,24 @@ abstract class Base
 				'type' => $type
 			])->execute();
 		}
-		$this->map[$recordIdCrm] = $recordId;
-		$this->mapCrm[$recordId] = $recordIdCrm;
+		$this->map[$type][$recordIdCrm] = $recordId;
+		$this->mapCrm[$type][$recordId] = $recordIdCrm;
 		return $result;
 	}
 
 	/**
 	 * Method to delete mapping.
 	 *
-	 * @param int $recordId
-	 * @param int $recordIdCrm
+	 * @param int    $recordId
+	 * @param int    $recordIdCrm
+	 * @param string $type
 	 *
 	 * @throws \yii\db\Exception
 	 */
-	public function deleteMapping(int $recordId, int $recordIdCrm): void
+	public function deleteMapping(int $recordId, int $recordIdCrm, string $type): void
 	{
 		\App\Db::getInstance()->createCommand()->delete(self::TABLE_NAME, ['crmid' => $recordIdCrm])->execute();
-		unset($this->map[$recordIdCrm], $this->mapCrm[$recordId]);
+		unset($this->map[$type][$recordIdCrm], $this->mapCrm[$type][$recordId]);
 	}
 
 	/**
@@ -188,5 +194,73 @@ abstract class Base
 	public function getFormattedTime(string $value): string
 	{
 		return \DateTimeField::convertTimeZone($value, \App\Fields\DateTime::getTimeZone(), 'UTC')->format('Y-m-d H:i:s');
+	}
+
+	/**
+	 * Save inventory elements.
+	 *
+	 * @param $recordModel
+	 * @param $records
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return bool
+	 */
+	public function saveInventoryCrm($recordModel, $records): bool
+	{
+		$inventoryData = [];
+		$savedAllProducts = true;
+		foreach ($records as $record) {
+			if (isset($this->mapCrm['product'][$record['product_id']])) {
+				$inventoryData[] = $this->parseInventoryData($recordModel, $record);
+			} else {
+				$savedAllProducts = false;
+				\App\Log::error('Error during saving order. Inventory product does not exist in YetiForce.', 'Integrations/Magento');
+			}
+		}
+		if (!empty($inventoryData)) {
+			$recordModel->initInventoryData($inventoryData, false);
+		}
+		return $savedAllProducts;
+	}
+
+	/**
+	 * Parse inventory data to YetiForce format.
+	 *
+	 * @param $recordModel
+	 * @param $record
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
+	 */
+	public function parseInventoryData($recordModel, $record): array
+	{
+		$orderFields = new \App\Integrations\Magento\Synchronizator\Maps\Order();
+		$orderFields->setData($record);
+		$item = [];
+		foreach (\Vtiger_Inventory_Model::getInstance($recordModel->getModuleName())->getFields() as $columnName => $fieldModel) {
+			if (\in_array($fieldModel->getColumnName(), ['total', 'margin', 'marginp', 'net', 'gross'])) {
+				continue;
+			}
+			if ('tax_percent' === $columnName || 'tax' === $columnName) {
+				$item['taxparam'] = '{"aggregationType":"individual","individualTax":' . $record['tax_percent'] . '}';
+			} elseif ('taxmode' === $columnName) {
+				$item['taxmode'] = 1;
+			} elseif ('discount' === $columnName) {
+				if (empty($record['discount_amount']) && !empty($record['discount_percent'])) {
+					$item['discountparam'] = '{"aggregationType":"individual","individualDiscountType":"percentage","individualDiscount":' . $record['discount_percent'] . '}';
+				} else {
+					$item['discountparam'] = '{"aggregationType":"individual","individualDiscountType":"amount","individualDiscount":' . $record['discount_amount'] . '}';
+				}
+			} elseif ('currency' === $columnName) {
+				$item['currency'] = 1;
+			} elseif ('name' === $columnName) {
+				$item[$columnName] = $this->mapCrm['product'][$record['product_id']];
+			} else {
+				$item[$columnName] = $orderFields->getInvFieldValue($columnName) ?? $fieldModel->getDefaultValue();
+			}
+		}
+		return $item;
 	}
 }
