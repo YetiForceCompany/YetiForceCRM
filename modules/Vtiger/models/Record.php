@@ -59,8 +59,8 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * Function to set the value for a given key.
 	 *
-	 * @param $key
-	 * @param $value
+	 * @param string $key
+	 * @param mixed $value
 	 */
 	public function set($key, $value)
 	{
@@ -88,6 +88,19 @@ class Vtiger_Record_Model extends \App\Base
 		$this->set($fieldName, $fieldModel->getUITypeModel()->getDBValue($value, $this));
 
 		return $this;
+	}
+
+	/**
+	 * Set the value for the database.
+	 *
+	 * @param string $key
+	 * @param mixed $value
+	 *
+	 * @return void
+	 */
+	public function setDBValue(string $key, $value)
+	{
+		$this->set($key, $this->getField($key)->getDBValue($value));
 	}
 
 	/**
@@ -415,7 +428,7 @@ class Vtiger_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function returns the Vtiger_Field_Model.
+	 * Function returns the Vtiger_Field_Model by column name.
 	 *
 	 * @param string $fieldName - field name
 	 *

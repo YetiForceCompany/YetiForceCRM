@@ -66,11 +66,11 @@ class API_CardDAV_Model
 						$isPermitted = \App\Privilege::isPermitted($moduleName, 'DetailView', $record['crmid']);
 						break;
 					case 'PLL_OWNER_PERSON':
-						$isPermitted = (int) $record['smownerid'] === $userId || in_array($userId, \App\Fields\SharedOwner::getById($record['crmid']));
+						$isPermitted = (int) $record['smownerid'] === $userId || \in_array($userId, \App\Fields\SharedOwner::getById($record['crmid']));
 						break;
 					case 'PLL_OWNER_PERSON_GROUP':
 						$shownerIds = \App\Fields\SharedOwner::getById($record['crmid']);
-						$isPermitted = (int) $record['smownerid'] === $userId || in_array($record['smownerid'], $user->get('groups')) || in_array($userId, $shownerIds) || count(array_intersect($shownerIds, $user->get('groups'))) > 0;
+						$isPermitted = (int) $record['smownerid'] === $userId || \in_array($record['smownerid'], $user->get('groups')) || \in_array($userId, $shownerIds) || \count(array_intersect($shownerIds, $user->get('groups'))) > 0;
 						break;
 					case 'PLL_OWNER':
 					default:
@@ -95,7 +95,7 @@ class API_CardDAV_Model
 			$this->markComplete($moduleName, $record['crmid']);
 		}
 		$dataReader->close();
-		\App\Log::trace("AddressBooks end - CRM >> DAV (${moduleName}) | create: ${create} | updates: ${updates}", __METHOD__);
+		\App\Log::trace("AddressBooks end - CRM >> DAV ({$moduleName}) | create: {$create} | updates: {$updates}", __METHOD__);
 	}
 
 	public function cardDav2Crm()
@@ -129,11 +129,11 @@ class API_CardDAV_Model
 						$isPermitted = \App\Privilege::isPermitted($card['setype'], 'DetailView', $card['crmid']);
 						break;
 					case 'PLL_OWNER_PERSON':
-						$isPermitted = (int) $card['smownerid'] === $userId || in_array($userId, \App\Fields\SharedOwner::getById($card['crmid']));
+						$isPermitted = (int) $card['smownerid'] === $userId || \in_array($userId, \App\Fields\SharedOwner::getById($card['crmid']));
 						break;
 					case 'PLL_OWNER_PERSON_GROUP':
 						$shownerIds = \App\Fields\SharedOwner::getById($card['crmid']);
-						$isPermitted = (int) $card['smownerid'] === $userId || in_array($card['smownerid'], $this->user->get('groups')) || in_array($userId, $shownerIds) || count(array_intersect($shownerIds, $this->user->get('groups'))) > 0;
+						$isPermitted = (int) $card['smownerid'] === $userId || \in_array($card['smownerid'], $this->user->get('groups')) || \in_array($userId, $shownerIds) || \count(array_intersect($shownerIds, $this->user->get('groups'))) > 0;
 						break;
 					case 'PLL_OWNER':
 					default:
@@ -152,7 +152,7 @@ class API_CardDAV_Model
 			}
 		}
 		$dataReader->close();
-		\App\Log::trace("AddressBooks end - DAV >> CRM | create: ${create} | deletes: ${deletes} | updates: ${updates}", __METHOD__);
+		\App\Log::trace("AddressBooks end - DAV >> CRM | create: {$create} | deletes: {$deletes} | updates: {$updates}", __METHOD__);
 	}
 
 	public function createCard($moduleName, $record)
@@ -202,7 +202,7 @@ class API_CardDAV_Model
 			$cardUri,
 			$modifiedtime,
 			$this->addressBookId,
-			strlen($cardData),
+			\strlen($cardData),
 			$etag,
 			$record['crmid'],
 		]);
@@ -257,7 +257,7 @@ class API_CardDAV_Model
 		$stmt->execute([
 			$cardData,
 			$modifiedtime,
-			strlen($cardData),
+			\strlen($cardData),
 			$etag,
 			$record['crmid'],
 			$card['id'],
@@ -277,58 +277,35 @@ class API_CardDAV_Model
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
 
-	public function createRecord($moduleName, $card)
+	/**
+	 * Create record.
+	 *
+	 * @param string $moduleName
+	 * @param array  $card
+	 *
+	 * @return void
+	 */
+	public function createRecord(string $moduleName, array $card)
 	{
 		\App\Log::trace(__METHOD__ . ' | Start Card ID' . $card['id']);
 		$vcard = Sabre\VObject\Reader::read($card['carddata']);
-		$leadId = false;
+		$record = Vtiger_Record_Model::getCleanInstance($moduleName);
 		if (isset($vcard->ORG)) {
 			$lead = Vtiger_Record_Model::getCleanInstance('Leads');
 			$lead->set('assigned_user_id', $this->user->get('id'));
-			$lead->set('company', \App\Purifier::purify((string) $vcard->ORG));
-			$lead->set('lastname', \App\Purifier::purify((string) $vcard->ORG));
+			$orgName = $lead->getField('company')->getDBValue(\App\Purifier::purify((string) $vcard->ORG));
+			$lead->set('company', $orgName);
+			$lead->set('firstname', $orgName);
 			$lead->set('leadstatus', 'PLL_PENDING');
 			$lead->set('vat_id', '');
 			$lead->save();
-			$leadId = $lead->getId();
+			$record->set('parent_id', $lead->getId());
 		}
-		$head = $vcard->N->getParts();
-
-		$record = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$record->set('assigned_user_id', $this->user->get('id'));
-		if ('Contacts' === $moduleName) {
-			$record->set('firstname', \App\Purifier::purify($head[1]));
-			$record->set('lastname', \App\Purifier::purify($head[0]));
-			$record->set('jobtitle', \App\Purifier::purify((string) $vcard->TITLE));
-		} elseif ('OSSEmployees' === $moduleName) {
-			$record->set('name', \App\Purifier::purify($head[1]));
-			$record->set('last_name', \App\Purifier::purify($head[0]));
-		}
-		$record->set('description', \App\Purifier::purify((string) $vcard->NOTE));
-		if ($leadId) {
-			$record->set('parent_id', $leadId);
-		}
-		foreach ($this->telFields[$moduleName] as $key => $val) {
-			$record->set($key, $this->getCardTel($vcard, $val));
-		}
-		foreach ($this->mailFields[$moduleName] as $key => $val) {
-			$record->set($key, $this->getCardMail($vcard, $val));
-		}
-		if (isset($vcard->ADR)) {
-			$this->setRecordAddres($vcard, $moduleName, $record);
-		}
+		$this->setValuesForRecord($record, $vcard);
 		$record->save();
 
-		$stmt = $this->pdo->prepare('UPDATE dav_cards SET crmid = ? WHERE id = ?;');
-		$stmt->execute([
-			$record->getId(),
-			$card['id'],
-		]);
-		$stmt = $this->pdo->prepare('UPDATE vtiger_crmentity SET modifiedtime = ? WHERE crmid = ?;');
-		$stmt->execute([
-			date('Y-m-d H:i:s', $card['lastmodified']),
-			$record->getId(),
-		]);
+		$this->updateIdAndModifiedTime($record, $card);
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
 
@@ -338,32 +315,26 @@ class API_CardDAV_Model
 	 * @param Vtiger_Record_Model $record
 	 * @param array               $card
 	 */
-	public function updateRecord(Vtiger_Record_Model $record, $card)
+	public function updateRecord(Vtiger_Record_Model $record, array $card)
 	{
 		\App\Log::trace(__METHOD__ . ' | Start Card ID:' . $card['id']);
 		$vcard = Sabre\VObject\Reader::read($card['carddata']);
-		$head = $vcard->N->getParts();
-		$moduleName = $record->getModuleName();
-		if ('Contacts' === $moduleName) {
-			$record->set('firstname', \App\Purifier::purify($head[1]));
-			$record->set('lastname', \App\Purifier::purify($head[0]));
-			$record->set('jobtitle', \App\Purifier::purify((string) $vcard->TITLE));
-		} elseif ('OSSEmployees' === $moduleName) {
-			$record->set('name', \App\Purifier::purify($head[1]));
-			$record->set('last_name', \App\Purifier::purify($head[0]));
-		}
-		$record->set('description', \App\Purifier::purify((string) $vcard->NOTE));
-		foreach ($this->telFields[$moduleName] as $key => $val) {
-			$record->set($key, $this->getCardTel($vcard, $val));
-		}
-		foreach ($this->mailFields[$moduleName] as $key => $val) {
-			$record->set($key, $this->getCardMail($vcard, $val));
-		}
-		if (isset($vcard->ADR)) {
-			$this->setRecordAddres($vcard, $moduleName, $record);
-		}
+		$this->setValuesForRecord($record, $vcard);
 		$record->save();
+		$this->updateIdAndModifiedTime($record, $card);
+		\App\Log::trace(__METHOD__ . ' | End');
+	}
 
+	/**
+	 * Update ID and modified time.
+	 *
+	 * @param Vtiger_Record_Model $record
+	 * @param array               $card
+	 *
+	 * @return void
+	 */
+	private function updateIdAndModifiedTime(Vtiger_Record_Model $record, array $card)
+	{
 		$stmt = $this->pdo->prepare('UPDATE dav_cards SET crmid = ? WHERE id = ?;');
 		$stmt->execute([
 			$record->getId(),
@@ -374,7 +345,38 @@ class API_CardDAV_Model
 			date('Y-m-d H:i:s', $card['lastmodified']),
 			$record->getId(),
 		]);
-		\App\Log::trace(__METHOD__ . ' | End');
+	}
+
+	/**
+	 * Set values for record.
+	 *
+	 * @param Vtiger_Record_Model            $record
+	 * @param \Sabre\VObject\Component\VCard $vcard
+	 *
+	 * @return void
+	 */
+	private function setValuesForRecord(Vtiger_Record_Model $record, Sabre\VObject\Component\VCard $vcard)
+	{
+		$head = $vcard->N->getParts();
+		$moduleName = $record->getModuleName();
+		if ('Contacts' === $moduleName) {
+			$record->setDBValue('firstname', \App\Purifier::purify($head[1]));
+			$record->setDBValue('lastname', \App\Purifier::purify($head[0]));
+			$record->setDBValue('jobtitle', \App\Purifier::purify((string) $vcard->TITLE));
+		} elseif ('OSSEmployees' === $moduleName) {
+			$record->setDBValue('name', \App\Purifier::purify($head[1]));
+			$record->setDBValue('last_name', \App\Purifier::purify($head[0]));
+		}
+		$record->setDBValue('description', \App\Purifier::purify((string) $vcard->NOTE));
+		foreach ($this->telFields[$moduleName] as $key => $val) {
+			$record->setDBValue($key, $this->getCardTel($vcard, $val));
+		}
+		foreach ($this->mailFields[$moduleName] as $key => $val) {
+			$record->setDBValue($key, $this->getCardMail($vcard, $val));
+		}
+		if (isset($vcard->ADR)) {
+			$this->setRecordAddres($vcard, $moduleName, $record);
+		}
 	}
 
 	public function getCrmRecordsToSync($moduleName)
@@ -423,7 +425,7 @@ class API_CardDAV_Model
 	 *
 	 * @return string
 	 */
-	public function getCardTel(Sabre\VObject\Component $vcard, string $type)
+	public function getCardTel(Sabre\VObject\Component $vcard, string $type): string
 	{
 		\App\Log::trace(__METHOD__ . ' | Start | Type:' . $type);
 		if (!isset($vcard->TEL)) {
@@ -457,7 +459,7 @@ class API_CardDAV_Model
 	 *
 	 * @return string
 	 */
-	public function getCardMail(Sabre\VObject\Component $vcard, $type)
+	public function getCardMail(Sabre\VObject\Component $vcard, string $type): string
 	{
 		\App\Log::trace(__METHOD__ . ' | Start | Type:' . $type);
 		if (!isset($vcard->EMAIL)) {
@@ -569,7 +571,7 @@ class API_CardDAV_Model
 	 * @param string                  $moduleName
 	 * @param Vtiger_Record_Model     $record
 	 */
-	public function setRecordAddres(Sabre\VObject\Component $vcard, $moduleName, Vtiger_Record_Model $record)
+	public function setRecordAddres(Sabre\VObject\Component $vcard, string $moduleName, Vtiger_Record_Model $record)
 	{
 		foreach ($vcard->ADR as $property) {
 			$type = false;
@@ -589,17 +591,17 @@ class API_CardDAV_Model
 				$adr = $property->getParts();
 				$street = $adr[1] . ' ' . $adr[2];
 				if ('Contacts' === $moduleName) {
-					$record->set('addresslevel1' . $contactsPostFix, \App\Fields\Country::findCountryName(\App\Purifier::purify($adr[6]))); //country
-					$record->set('addresslevel7' . $contactsPostFix, \App\Purifier::purify($adr[5])); //code
-					$record->set('addresslevel2' . $contactsPostFix, \App\Purifier::purify($adr[4])); //state
-					$record->set('addresslevel5' . $contactsPostFix, \App\Purifier::purify($adr[3])); //city
-					$record->set('addresslevel8' . $contactsPostFix, \App\Purifier::purify(trim($street))); //street
+					$record->setDBValue('addresslevel1' . $contactsPostFix, \App\Fields\Country::findCountryName(\App\Purifier::purify($adr[6]))); //country
+					$record->setDBValue('addresslevel7' . $contactsPostFix, \App\Purifier::purify($adr[5])); //code
+					$record->setDBValue('addresslevel2' . $contactsPostFix, \App\Purifier::purify($adr[4])); //state
+					$record->setDBValue('addresslevel5' . $contactsPostFix, \App\Purifier::purify($adr[3])); //city
+					$record->setDBValue('addresslevel8' . $contactsPostFix, \App\Purifier::purify(trim($street))); //street
 				} elseif ('OSSEmployees' === $moduleName) {
-					$record->set($employeesSufFix . 'country', \App\Purifier::purify($adr[6])); //country
-					$record->set($employeesSufFix . 'code', \App\Purifier::purify($adr[5])); //code
-					$record->set($employeesSufFix . 'state', \App\Purifier::purify($adr[4])); //state
-					$record->set($employeesSufFix . 'city', \App\Purifier::purify($adr[3])); //city
-					$record->set($employeesSufFix . 'street', \App\Purifier::purify(trim($street))); //street
+					$record->setDBValue($employeesSufFix . 'country', \App\Fields\Country::findCountryName(\App\Purifier::purify($adr[6]))); //country
+					$record->setDBValue($employeesSufFix . 'code', \App\Purifier::purify($adr[5])); //code
+					$record->setDBValue($employeesSufFix . 'state', \App\Purifier::purify($adr[4])); //state
+					$record->setDBValue($employeesSufFix . 'city', \App\Purifier::purify($adr[3])); //city
+					$record->setDBValue($employeesSufFix . 'street', \App\Purifier::purify(trim($street))); //street
 				}
 			}
 		}
