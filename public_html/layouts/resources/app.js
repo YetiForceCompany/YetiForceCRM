@@ -245,7 +245,7 @@ var app = (window.app = {
 		element.popover('hide');
 	},
 	hidePopoversAfterClick(popoverParent) {
-		popoverParent.on('click', e => {
+		popoverParent.on('mousedown', e => {
 			setTimeout(() => {
 				popoverParent.popover('hide');
 			}, 100);
