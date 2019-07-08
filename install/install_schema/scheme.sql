@@ -930,6 +930,7 @@ CREATE TABLE `roundcube_users` (
 CREATE TABLE `roundcube_users_autologin` (
   `rcuser_id` int(10) unsigned NOT NULL,
   `crmuser_id` int(10) NOT NULL,
+  `active` tinyint(1) unsigned NOT NULL DEFAULT 0,
   KEY `rcuser_id` (`rcuser_id`),
   CONSTRAINT `roundcube_users_autologin_ibfk_1` FOREIGN KEY (`rcuser_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
