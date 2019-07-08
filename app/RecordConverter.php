@@ -441,10 +441,11 @@ class RecordConverter extends Base
 	 */
 	public function saveChanges()
 	{
-		foreach ($this->cleanRecordModels as $recordModel) {
+		foreach ($this->cleanRecordModels as $key => $recordModel) {
 			try {
 				$recordModel->save();
 				$this->createdRecords[] = $recordModel->getId();
+				unset($this->cleanRecordModels[$key]);
 			} catch (\Throwable $ex) {
 				$this->error = $ex->getMessage();
 			}

@@ -5,6 +5,7 @@
 		margin-right: unset;
 		margin-left: unset;
 	}
+
 	.col,
 	[class*='col-'] {
 		position: unset;
@@ -13,6 +14,7 @@
 		padding-left: unset;
 	}
 }
+
 .quasar-container {
 	height: calc(100% - #{calculate-rem(48px)});
 	margin-left: -0.5rem;
@@ -34,9 +36,4 @@
 	.q-layout-container {
 		height: calc(100vh - 113px);
 	}
-}
-
-select.form-control,
-select.select2 {
-	overflow: hidden;
 }

@@ -21,8 +21,9 @@
 					{/foreach}
 					</div>
 				</div>
-				<div class="modal-footer">
-					{assign var=ROLE_RECORD_MODEL value=Settings_Roles_Record_Model::getInstanceById($USER_MODEL->get('roleid'))}
+				<div class="modal-footer flex-wrap">
+					<div class="mb-1 mb-sm-0" style="max-width: 255px;">
+						{assign var=ROLE_RECORD_MODEL value=Settings_Roles_Record_Model::getInstanceById($USER_MODEL->get('roleid'))}
 						<select class="select2 form-control" title="{\App\Language::translate('LBL_USER', $MODULE)}" name="user" {if $USER_MODEL->isAdminUser() == false && $ROLE_RECORD_MODEL->get('changeowner') == 0}readonly="readonly"{/if}
 								{if App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
 							data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName=assigned_user_id" data-minimum-input="{App\Config::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
@@ -36,10 +37,15 @@
 								<option value="{$USER_MODEL->getId()}">{$USER_MODEL->getName()}</option>
 							{/if}
 						</select>
+					</div>
 					<button class="btn btn-success" type="submit">
-						<strong>{\App\Language::translate('LBL_EXECUTE', $MODULE)}</strong></button>
-					<button class="btn btn-warning" type="reset" data-dismiss="modal">
-						<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
+						<span class="fas fa-check mr-1"></span>
+						<strong>{\App\Language::translate('LBL_EXECUTE', $MODULE)}</strong>
+					</button>
+					<button class="btn btn-danger" type="reset" data-dismiss="modal">
+						<span class="fas fa-times mr-1"></span>
+						<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
+					</button>
 				</div>
 			</div>
 		</div>

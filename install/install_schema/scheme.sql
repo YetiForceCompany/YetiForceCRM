@@ -1,3 +1,4 @@
+
 /*!40101 SET NAMES utf8 */;
 
 /*!40101 SET SQL_MODE=''*/;
@@ -929,6 +930,7 @@ CREATE TABLE `roundcube_users` (
 CREATE TABLE `roundcube_users_autologin` (
   `rcuser_id` int(10) unsigned NOT NULL,
   `crmuser_id` int(10) NOT NULL,
+  `active` tinyint(1) unsigned NOT NULL DEFAULT 0,
   KEY `rcuser_id` (`rcuser_id`),
   CONSTRAINT `roundcube_users_autologin_ibfk_1` FOREIGN KEY (`rcuser_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -961,6 +963,26 @@ CREATE TABLE `s_yf_address_finder_config` (
   `val` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `s_yf_auto_record_flow_updater` */
+
+CREATE TABLE `s_yf_auto_record_flow_updater` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `source_module` smallint(5) NOT NULL,
+  `target_module` smallint(5) NOT NULL,
+  `source_field` varchar(50) NOT NULL,
+  `target_field` varchar(50) NOT NULL,
+  `default_value` varchar(255) NOT NULL,
+  `relation_field` varchar(50) NOT NULL,
+  `rules` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `source_module` (`source_module`),
+  KEY `target_module` (`target_module`),
+  KEY `status` (`status`),
+  CONSTRAINT `s_yf_auto_record_flow_updater_ibfk_1` FOREIGN KEY (`source_module`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE,
+  CONSTRAINT `s_yf_auto_record_flow_updater_ibfk_2` FOREIGN KEY (`target_module`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `s_yf_automatic_assignment` */
 
@@ -5423,7 +5445,7 @@ CREATE TABLE `vtiger_eventhandlers` (
   `owner_id` smallint(5) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`eventhandler_id`),
   KEY `event_name_class` (`event_name`,`handler_class`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_expectedresponse` */
 
