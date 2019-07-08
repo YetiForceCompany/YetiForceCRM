@@ -139,7 +139,7 @@ class Product extends Integrators\Product
 			$this->getMapping('product', $this->lastScan['idmap'], \App\Config::component('Magento', 'productLimit'));
 			if (!empty($this->mapKeys['product'])) {
 				$productsCrm = $this->getProductsCrm($this->mapKeys['product']);
-				$products = $this->getProducts($this->getFormattedRecordsIds($this->mapKeys['product']));
+				$products = $this->getProducts($this->getFormattedRecordsIds($this->mapKeys['product'], self::MAGENTO, 'product'));
 				if ($diffedRecords = \array_diff_key($this->map['product'], $productsCrm)) {
 					foreach ($diffedRecords as $idCrm => $id) {
 						$this->deleteProduct($id);
@@ -228,6 +228,7 @@ class Product extends Integrators\Product
 				$this->saveImagesCrm($recordModel, $data['media_gallery_entries']);
 				$recordModel->save();
 				$this->saveMapping($data['id'], $recordModel->getId(), 'product');
+				$this->saveStorage($recordModel->getId(), $recordModel->get('qtyinstock'));
 				$this->saveBundleProductsCrm($recordModel, $data['product_links']);
 				$value = $recordModel->getId();
 			} catch (\Throwable $ex) {
@@ -323,6 +324,7 @@ class Product extends Integrators\Product
 				$recordModel->set($key, $value);
 			}
 			$recordModel->save();
+			$this->saveStorage($recordModel->getId(), $recordModel->get('qtyinstock'));
 		} catch (\Throwable $ex) {
 			\App\Log::error('Error during updating yetiforce product: ' . $ex->getMessage(), 'Integrations/Magento');
 		}
@@ -402,5 +404,37 @@ class Product extends Integrators\Product
 			$result = false;
 		}
 		return $result;
+	}
+
+	/**
+	 * Save product storage data.
+	 *
+	 * @param int   $productId
+	 * @param float $value
+	 *
+	 * @throws \ReflectionException
+	 * @throws \yii\db\Exception
+	 */
+	public function saveStorage(int $productId, float $value): void
+	{
+		$storageId = \App\Config::component('Magento', 'storageId');
+		if (!empty($storageId)) {
+			$db = \App\Db::getInstance();
+			$referenceInfo = \Vtiger_Relation_Model::getReferenceTableInfo('Products', 'IStorages');
+			if ((new \App\Db\Query())->select([$referenceInfo['rel'], 'qtyinstock'])
+				->from($referenceInfo['table'])
+				->where([$referenceInfo['base'] => $storageId, $referenceInfo['rel'] => $productId])
+				->exists()) {
+				$db->createCommand()->update($referenceInfo['table'], [
+					'qtyinstock' => $value,
+				], [$referenceInfo['base'] => $storageId, $referenceInfo['rel'] => $productId])->execute();
+			} else {
+				$db->createCommand()->insert($referenceInfo['table'], [
+					$referenceInfo['base'] => $storageId,
+					$referenceInfo['rel'] => $productId,
+					'qtyinstock' => $value,
+				])->execute();
+			}
+		}
 	}
 }

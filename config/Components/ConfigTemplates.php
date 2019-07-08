@@ -260,5 +260,9 @@ return [
 			'default' => 'media/catalog/product/',
 			'description' => 'Product images path.',
 		],
+		'storageId' => [
+			'default' => 0,
+			'description' => 'Products storage id',
+		],
 	],
 ];
