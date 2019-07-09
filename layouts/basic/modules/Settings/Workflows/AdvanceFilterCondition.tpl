@@ -17,6 +17,9 @@
 				{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 					<optgroup label='{\App\Language::translate($BLOCK_LABEL, $SELECTED_MODULE_NAME)}'>
 						{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
+							{if 'smtp' === $FIELD_MODEL->getFieldDataType()}
+								{continue}
+							{/if}
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 							{assign var=MODULE_MODEL value=$FIELD_MODEL->getModule()}
 							{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
