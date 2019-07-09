@@ -354,7 +354,7 @@
 				margin: 0 0 5px !important;
 
 				.fas,
-				[class*='userIcon-'] {
+				[class*="userIcon-"] {
 					margin: 0 5px 0 0;
 				}
 
@@ -403,7 +403,7 @@
 		display: flex;
 	}
 }
-.widget_header > div[class*='col-']:first-child {
+.widget_header > div[class*="col-"]:first-child {
 	display: flex;
 }
 
@@ -412,7 +412,7 @@
 		background: none;
 		flex-wrap: nowrap;
 		align-items: center;
-		overflow-y: auto;
+		overflow: hidden;
 	}
 
 	.breadcrumb-item {
