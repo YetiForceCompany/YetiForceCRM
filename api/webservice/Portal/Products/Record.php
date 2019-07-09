@@ -115,8 +115,7 @@ class Record extends \Api\Portal\BaseModule\Record
 		$productRelationModel = \Vtiger_Relation_Model::getInstance($this->recordModel->getModule(), $this->recordModel->getModule());
 		$productRelationModel->set('parentRecord', $this->recordModel);
 		$queryGenerator = $productRelationModel->getQuery();
-		$queryGenerator->setField('ean');
-		$queryGenerator->setField('taxes');
+		$queryGenerator->setField(['ean', 'taxes', 'imagename']);
 		if ($this->isUserPermissions) {
 			$availableTaxes = 'LBL_GROUP';
 			$regionalTaxes = '';
