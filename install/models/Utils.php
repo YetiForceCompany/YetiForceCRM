@@ -13,9 +13,9 @@ class Install_Utils_Model
 	/**
 	 * Function that provides default configuration based on installer setup.
 	 *
-	 * @return <Array>
+	 * @return array
 	 */
-	public static function getDefaultPreInstallParameters()
+	public static function getDefaultPreInstallParameters(): array
 	{
 		return [
 			'db_server' => 'localhost',

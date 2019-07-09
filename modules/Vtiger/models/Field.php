@@ -446,7 +446,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * Function to check whether the current field is read-only.
 	 *
-	 * @return bool - true/false
+	 * @return bool
 	 */
 	public function isReadOnly()
 	{
@@ -560,7 +560,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * Function to check if the current field is mandatory or not.
 	 *
-	 * @return bool - true/false
+	 * @return bool
 	 */
 	public function isMandatory()
 	{
