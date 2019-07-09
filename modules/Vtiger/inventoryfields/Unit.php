@@ -23,7 +23,6 @@ class Vtiger_Unit_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
-		$value = '';
 		if (($rel = $rowData['name'] ?? '') && ($type = \App\Record::getType($rel) && $mapDetail = $this->getMapDetail($type))) {
 			$value = $mapDetail->getDisplayValue($value, false, false, $rawText);
 		}
