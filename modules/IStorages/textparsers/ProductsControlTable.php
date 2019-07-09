@@ -34,7 +34,7 @@ class IStorages_ProductsControlTable_Textparser extends \App\TextParser\Base
 			$columns = [];
 			$headerStyle = 'font-size:9px;padding:0px 4px;text-align:center; width: 33.333%;';
 			$bodyStyle = 'font-size:8px;border:1px solid #ddd;padding:0px 4px;';
-			foreach (['productname', 'qtyinstock', 'qty_per_unit'] as $fieldName) {
+			foreach (['productname', 'ean', 'pscategory'] as $fieldName) {
 				$fieldModel = $productModel->getFieldByName($fieldName);
 				if (!$fieldModel || !$fieldModel->isActiveField()) {
 					continue;
@@ -42,16 +42,15 @@ class IStorages_ProductsControlTable_Textparser extends \App\TextParser\Base
 				$columns[$fieldName] = $fieldModel;
 				$html .= "<th style=\"{$headerStyle}\">" . \App\Language::translate($fieldModel->getFieldLabel(), $relationModuleName) . '</th>';
 			}
+			$html .= "<th style=\"{$headerStyle}\">" . \App\Language::translate('Qty In Stock', $relationModuleName) . '</th>';
+			$html .= "<th style=\"{$headerStyle}\">" . \App\Language::translate('Qty/Unit', $relationModuleName) . '</th>';
 			$html .= '</tr></thead><tbody>';
 			foreach ($entries as $entry) {
 				$html .= '<tr>';
 				$entryId = $entry->getId();
 				$entryRecordModel = \Vtiger_Record_Model::getInstanceById($entryId, $relationModuleName);
 				foreach ($columns as $header) {
-					$name = $header->getName();
-					if ('productname' === $name) {
-						$html .= "<td style=\"{$bodyStyle}\">" . $entry->getDisplayValue($name) . '</td>';
-					}
+					$html .= "<td style=\"{$bodyStyle}\">" . $entry->getDisplayValue($header->getName()) . '</td>';
 				}
 				$html .= "<td style=\"{$bodyStyle}\">" . \App\Fields\Double::formatToDisplay($entryRecordModel->get('qtyinstock'), false) . '</td>';
 				$html .= "<td style=\"{$bodyStyle}\">" . \App\Fields\Double::formatToDisplay($entryRecordModel->get('qty_per_unit'), false) . '</td>';
