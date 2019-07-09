@@ -203,6 +203,7 @@ class Composer
 			}
 		}
 		\App\Json::save($rootDir . 'cache' . \DIRECTORY_SEPARATOR . 'libraries.json', $dataEncode);
+		echo 'Generated file cache/libraries.json | ' . \count($dataEncode) . PHP_EOL;
 	}
 
 	/**
