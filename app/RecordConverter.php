@@ -319,12 +319,12 @@ class RecordConverter extends Base
 	 *
 	 * @return Vtiger_Module_Model
 	 */
-	public function processToEdit(int $record, string $destinyModule): Vtiger_Record_Model
+	public function processToEdit(int $record, string $destinyModule): \Vtiger_Record_Model
 	{
 		$this->initDestinyModuleValues($destinyModule);
 		$this->init();
 		$this->checkFieldMergeExist();
-		if ($this->fieldMapping && $this->fieldMapping['mapping'][$this->destinyModuleModel->getId()] && $this->isFieldMergeExists) {
+		if ($this->fieldMapping && (isset($this->fieldMapping['auto']) || isset($this->fieldMapping['mapping'][$this->destinyModuleModel->getId()])) && $this->isFieldMergeExists) {
 			$this->fieldMappingExecute = true;
 		}
 		$this->setInvMapCanExecute();
