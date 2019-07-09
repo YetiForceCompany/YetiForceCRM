@@ -32,7 +32,7 @@ class IStorages_ProductsControlTable_Textparser extends \App\TextParser\Base
 		if ($entries) {
 			$html .= '<table border="1" class="products-table" style="border-collapse:collapse;width:100%;"><thead><tr>';
 			$columns = [];
-			$headerStyle = 'font-size:9px;padding:0px 4px;text-align:center; width: 33.333%;';
+			$headerStyle = 'font-size:9px;padding:0px 4px;text-align:center;';
 			$bodyStyle = 'font-size:8px;border:1px solid #ddd;padding:0px 4px;';
 			foreach (['productname', 'ean', 'pscategory'] as $fieldName) {
 				$fieldModel = $productModel->getFieldByName($fieldName);
@@ -50,7 +50,7 @@ class IStorages_ProductsControlTable_Textparser extends \App\TextParser\Base
 				$entryId = $entry->getId();
 				$entryRecordModel = \Vtiger_Record_Model::getInstanceById($entryId, $relationModuleName);
 				foreach ($columns as $header) {
-					$html .= "<td style=\"{$bodyStyle}\">" . $entry->getDisplayValue($header->getName()) . '</td>';
+					$html .= "<td style=\"{$bodyStyle}\">" . $entryRecordModel->getDisplayValue($header->getName()) . '</td>';
 				}
 				$html .= "<td style=\"{$bodyStyle}\">" . \App\Fields\Double::formatToDisplay($entryRecordModel->get('qtyinstock'), false) . '</td>';
 				$html .= "<td style=\"{$bodyStyle}\">" . \App\Fields\Double::formatToDisplay($entryRecordModel->get('qty_per_unit'), false) . '</td>';
