@@ -12,8 +12,7 @@
 [![Depfu](https://badges.depfu.com/badges/56870798a59eff717ff60bc775ca6a33/overview.svg)](https://depfu.com/github/YetiForceCompany/YetiForceCRM)
 [![dependencies Status](https://david-dm.org/YetiForceCompany/YetiForceCRM/status.svg)](https://david-dm.org/YetiForceCompany/YetiForceCRM)
 <a href="https://scan.coverity.com/projects/yetiforcecompany-yetiforcecrm">
-  <img alt="Coverity Scan Build Status"
-       src="https://scan.coverity.com/projects/16547/badge.svg"/>
+  <img alt="Coverity Scan Build Status" src="https://scan.coverity.com/projects/16547/badge.svg"/>
 </a>
 [![sonarcloud.io status alert](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=alert_status)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
 [![sonarcloud.io bugs](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=bugs)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
@@ -30,8 +29,13 @@
 [![Black Duck Security Risk](https://copilot.blackducksoftware.com/github/repos/YetiForceCompany/YetiForceCRM/branches/developer/badge-risk.svg)](https://copilot.blackducksoftware.com/github/repos/YetiForceCompany/YetiForceCRM/branches/developer)
 [![DepShield Badge](https://depshield.sonatype.org/badges/owner/repository/depshield.svg)](https://depshield.github.io)
 
-<a href='http://www.capterra.com/customer-relationship-management-software/reviews/159123/Yetiforce%20/YetiForce?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge'>  <img border='0' src='https://assets.capterra.com/badge/470cd214b89233aa4e89972fa49c3253.png?v=2111411&p=159123' /></a>
-<a href='https://www.capterra.com/customer-relationship-management-software/#affordable' width="50"><img border='0' src='https://public.yetiforce.com/img/CRM-AF-2017.png' width="150" /></a>
+<p align="center">
+	<a href='http://www.capterra.com/customer-relationship-management-software/reviews/159123/Yetiforce%20/YetiForce?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge'>  <img border='0' src='https://assets.capterra.com/badge/470cd214b89233aa4e89972fa49c3253.png?v=2111411&p=159123' /></a>
+	<a href='https://www.capterra.com/customer-relationship-management-software/#affordable' width="50"><img border='0' src='https://public.yetiforce.com/img/CRM-AF-2017.png' width="150" /></a>
+	<a href="https://sourceforge.net/software/product/Yetiforce/?pk_campaign=badge&amp;pk_source=vendor">
+		<img alt="SourceForge Logo" src="https://sourceforge.net/cdn/syndication/badge_img/2970487/dark-default" height="120px">
+	</a>
+</p>
 
 [![SymfonyInsight](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c/big.png)](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c)
 <a href="https://crowdin.com/project/yetiforcecrm" rel="nofollow">
