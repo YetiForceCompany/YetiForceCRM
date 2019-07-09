@@ -338,6 +338,8 @@ class Status
 
 	/**
 	 * Get web server name and version.
+	 *
+	 * @return array
 	 */
 	public function getSapiVersion()
 	{

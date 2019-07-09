@@ -12,12 +12,54 @@ class API_CardDAV_Model
 	const ADDRESSBOOK_NAME = 'YFAddressBook';
 	const PRODID = 'YetiForceCRM';
 
+	/**
+	 * Address mapping for modules.
+	 */
+	const ADDRESS_MAPPING = [
+		'Contacts' => [
+			'WORK' => [
+				'addresslevel1a' => ['country'],
+				'addresslevel7a' => ['postCode'],
+				'addresslevel2a' => ['state'],
+				'addresslevel5a' => ['city'],
+				'addresslevel8a' => ['street'],
+				'localnumbera' => ['localNumber']
+			],
+			'HOME' => [
+				'addresslevel1b' => ['country'],
+				'addresslevel7b' => ['postCode'],
+				'addresslevel2b' => ['state'],
+				'addresslevel5b' => ['city'],
+				'addresslevel8b' => ['street'],
+				'localnumberb' => ['localNumber']
+			],
+		],
+		'OSSEmployees' => [
+			'WORK' => [
+				'country' => ['country'],
+				'code' => ['postCode'],
+				'state' => ['state'],
+				'city' => ['city'],
+				'street' => ['localNumber', 'street'],
+			],
+			'HOME' => [
+				'ship_country' => ['country'],
+				'ship_code' => ['postCode'],
+				'ship_state' => ['state'],
+				'ship_city' => ['city'],
+				'ship_street' => ['localNumber', 'street'],
+			],
+		],
+	];
+
 	public $pdo = false;
+
 	/**
 	 * @var bool|Users_Record_Model
 	 */
 	public $user = false;
 	public $addressBookId = false;
+
 	/**
 	 * @var Users_Record_Model[]
 	 */
@@ -290,21 +332,21 @@ class API_CardDAV_Model
 		\App\Log::trace(__METHOD__ . ' | Start Card ID' . $card['id']);
 		$vcard = Sabre\VObject\Reader::read($card['carddata']);
 		$record = Vtiger_Record_Model::getCleanInstance($moduleName);
-		if (isset($vcard->ORG)) {
+		if ($moduleName==='Contacts' && isset($vcard->ORG)) {
 			$lead = Vtiger_Record_Model::getCleanInstance('Leads');
 			$lead->set('assigned_user_id', $this->user->get('id'));
-			$orgName = $lead->getField('company')->getDBValue(\App\Purifier::purify((string) $vcard->ORG));
-			$lead->set('company', $orgName);
-			$lead->set('firstname', $orgName);
 			$lead->set('leadstatus', 'PLL_PENDING');
 			$lead->set('vat_id', '');
+			$lead->setDBValue('company', \App\Purifier::purify((string) $vcard->ORG));
 			$lead->save();
-			$record->set('parent_id', $lead->getId());
+			$fieldModel = current($record->getModule()->getReferenceFieldsForModule('Leads'));
+			if ($fieldModel) {
+				$record->set($fieldModel->getFieldName(), $lead->getId());
+			}
 		}
 		$record->set('assigned_user_id', $this->user->get('id'));
 		$this->setValuesForRecord($record, $vcard);
 		$record->save();
-
 		$this->updateIdAndModifiedTime($record, $card);
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
@@ -574,37 +616,56 @@ class API_CardDAV_Model
 	public function setRecordAddres(Sabre\VObject\Component $vcard, string $moduleName, Vtiger_Record_Model $record)
 	{
 		foreach ($vcard->ADR as $property) {
-			$type = false;
-			foreach ($property->parameters as $parameter) {
-				$value = strtoupper($parameter->getValue());
-				if ('WORK' == $value) {
-					$type = true;
-					$contactsPostFix = 'a';
-					$employeesSufFix = '';
-				} elseif ('HOME' == $value) {
-					$type = true;
-					$contactsPostFix = 'b';
-					$employeesSufFix = 'ship_';
-				}
-			}
-			if ($type) {
-				$adr = $property->getParts();
-				$street = $adr[1] . ' ' . $adr[2];
-				if ('Contacts' === $moduleName) {
-					$record->setDBValue('addresslevel1' . $contactsPostFix, \App\Fields\Country::findCountryName(\App\Purifier::purify($adr[6]))); //country
-					$record->setDBValue('addresslevel7' . $contactsPostFix, \App\Purifier::purify($adr[5])); //code
-					$record->setDBValue('addresslevel2' . $contactsPostFix, \App\Purifier::purify($adr[4])); //state
-					$record->setDBValue('addresslevel5' . $contactsPostFix, \App\Purifier::purify($adr[3])); //city
-					$record->setDBValue('addresslevel8' . $contactsPostFix, \App\Purifier::purify(trim($street))); //street
-				} elseif ('OSSEmployees' === $moduleName) {
-					$record->setDBValue($employeesSufFix . 'country', \App\Fields\Country::findCountryName(\App\Purifier::purify($adr[6]))); //country
-					$record->setDBValue($employeesSufFix . 'code', \App\Purifier::purify($adr[5])); //code
-					$record->setDBValue($employeesSufFix . 'state', \App\Purifier::purify($adr[4])); //state
-					$record->setDBValue($employeesSufFix . 'city', \App\Purifier::purify($adr[3])); //city
-					$record->setDBValue($employeesSufFix . 'street', \App\Purifier::purify(trim($street))); //street
+			$typeOfAddress = $this->getTypeOfAddress($property);
+			if ($typeOfAddress) {
+				$address = $this->convertAddress($property->getParts());
+				foreach (static::ADDRESS_MAPPING[$moduleName][$typeOfAddress] ?? [] as $fieldInCrm => $fieldsInVCard) {
+					$fieldsForJoin = [];
+					foreach ($fieldsInVCard as $val) {
+						$fieldsForJoin[] = $address[$val];
+					}
+					$record->setDBValue($fieldInCrm, implode(' ', $fieldsForJoin));
 				}
 			}
 		}
+	}
+
+	/**
+	 * Convert address
+	 *
+	 * @param array $addressFromVCard
+	 * @return array
+	 */
+	private function convertAddress(array $addressFromVCard): array
+	{
+		return [
+			'country' => \App\Fields\Country::findCountryName(\App\Purifier::purify($addressFromVCard[6])),
+			'postCode' => \App\Purifier::purify($addressFromVCard[5]),
+			'state' => \App\Purifier::purify($addressFromVCard[4]),
+			'city' => \App\Purifier::purify($addressFromVCard[3]),
+			'street' => \App\Purifier::purify(trim($addressFromVCard[2])),
+			'localNumber' => \App\Purifier::purify($addressFromVCard[1]),
+			'postOfficeBox' => App\Purifier::purify($addressFromVCard[0]),
+		];
+	}
+
+	/**
+	 * Get type of address.
+	 *
+	 * @param mixed $property
+	 * @return string|null
+	 */
+	private function getTypeOfAddress($property): ?string
+	{
+		$typeOfAddress = null;
+		foreach ($property->parameters as $parameter) {
+			$value = strtoupper($parameter->getValue());
+			if ('WORK' === $value || 'HOME' == $value) {
+				$typeOfAddress = $value;
+				break;
+			}
+		}
+		return $typeOfAddress;
 	}
 
 	/**

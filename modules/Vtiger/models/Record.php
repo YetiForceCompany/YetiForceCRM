@@ -100,7 +100,10 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function setDBValue(string $key, $value)
 	{
-		$this->set($key, $this->getField($key)->getDBValue($value));
+		$fieldModel = $this->getField($key);
+		if($fieldModel){
+			$this->set($key, $fieldModel->getDBValue($value));
+		}
 	}
 
 	/**
