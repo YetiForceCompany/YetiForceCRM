@@ -24,12 +24,11 @@ class IStorages_ProductsTable_Textparser extends \App\TextParser\Base
 	{
 		$html = '';
 		$relationModuleName = 'Products';
-		$relationListView = Vtiger_RelationListView_Model::getInstance($this->textParser->recordModel, $relationModuleName);
-		$pagingModel = new Vtiger_Paging_Model();
+		$relationListView = \Vtiger_RelationListView_Model::getInstance($this->textParser->recordModel, $relationModuleName);
+		$productModel = $relationListView->getRelatedModuleModel();
+		$pagingModel = new \Vtiger_Paging_Model();
 		$pagingModel->set('limit', 0);
 		$entries = $relationListView->getEntries($pagingModel);
-		$headers = $relationListView->getHeaders();
-		$columns = ['Product Name', 'FL_EAN_13', 'Product Category'];
 		// Gets sum of products quantity in current storage
 		$productsQty = [];
 		$dataReader = (new App\Db\Query())->select(['qtyinstock' => new yii\db\Expression('SUM(qtyinstock)'), 'relcrmid'])
@@ -41,38 +40,21 @@ class IStorages_ProductsTable_Textparser extends \App\TextParser\Base
 				$productsQty[$row['relcrmid']] = $row['qtyinstock'];
 			}
 		}
-		$html .= '<style>' .
-			'.productTable {color:#000; font-size:10px; width:100%}' .
-			'.productTable th {text-transform: uppercase;font-weight:normal}' .
-			'.productTable tbody tr:nth-child(odd){background:#eee}' .
-			'.productTable tr td{border-bottom: 1px solid #ddd; padding:5px;text-align:center; }' .
-			'.productTable td, th {padding-left: 5px; padding-right: 5px;}' .
-			'.productTable .width30 {width:30%}' .
-			'.productTable .width25 {width:25%}' .
-			'.productTable .width15 {width:15%}' .
-			'</style>';
 		if ($entries) {
-			$html .= '<table border="0" cellpadding="0" cellspacing="0" class="productTable"><thead><tr>';
-			foreach ($headers as $header) {
-				$label = $header->get('label');
-				if (in_array($label, $columns)) {
-					switch ($label) {
-						default:
-							$class = 'class="width15"';
-							break;
-						case 'Product Name':
-							$class = 'class="width30"';
-							break;
-						case 'Procuct Category':
-							$class = 'class="width25"';
-							break;
-					}
-
-					$html .= '<th ' . $class . ' style="padding:10px">' . \App\Language::translate($header->get('label'), 'Products') . '</th>';
+			$html .= '<table border="1" class="products-table" style="border-collapse:collapse;width:100%;"><thead><tr>';
+			$columns = [];
+			$headerStyle = 'font-size:9px;padding:0px 4px;text-align:center;';
+			$bodyStyle = 'font-size:8px;border:1px solid #ddd;padding:0px 4px;';
+			foreach (['productname', 'ean', 'pscategory'] as $fieldName) {
+				$fieldModel = $productModel->getFieldByName($fieldName);
+				if (!$fieldModel || !$fieldModel->isActiveField()) {
+					continue;
 				}
+				$columns[$fieldName] = $fieldModel;
+				$html .= "<th style=\"{$headerStyle}\">" . \App\Language::translate($fieldModel->getFieldLabel(), $relationModuleName) . '</th>';
 			}
-			$html .= '<th class="width15" style="padding:10px">' . \App\Language::translate('Qty In Stock', $relationModuleName) . '</th>';
-			$html .= '<th class="width15" style="padding:10px">' . \App\Language::translate('Qty/Unit', $relationModuleName) . '</th>';
+			$html .= "<th style=\"{$headerStyle}\">" . \App\Language::translate('Qty In Stock', $relationModuleName) . '</th>';
+			$html .= "<th style=\"{$headerStyle}\">" . \App\Language::translate('Qty/Unit', $relationModuleName) . '</th>';
 			$html .= '</tr></thead><tbody>';
 			foreach ($entries as $entry) {
 				$entryId = $entry->getId();
@@ -82,15 +64,11 @@ class IStorages_ProductsTable_Textparser extends \App\TextParser\Base
 					$html .= '<tr>';
 					$qtyInStock = $productsQty[$productId];
 					$qtyPerUnit = $entryRecordModel->get('qty_per_unit');
-					foreach ($headers as $header) {
-						$label = $header->get('label');
-						$colName = $header->get('name');
-						if (in_array($label, $columns)) {
-							$html .= '<td>' . $entry->getDisplayValue($colName) . '</td>';
-						}
+					foreach ($columns as $header) {
+						$html .= "<td style=\"{$bodyStyle}\">" . $entryRecordModel->getDisplayValue($header->getName()) . '</td>';
 					}
-					$html .= '<td>' . $qtyInStock . '</td>';
-					$html .= '<td>' . $qtyPerUnit . '</td>';
+					$html .= "<td style=\"{$bodyStyle}\">" . \App\Fields\Double::formatToDisplay($qtyInStock, false) . '</td>';
+					$html .= "<td style=\"{$bodyStyle}\">" . \App\Fields\Double::formatToDisplay($qtyPerUnit, false) . '</td>';
 					$html .= '</tr>';
 				}
 			}
