@@ -3,6 +3,8 @@
 /**
  * Vtiger QuickExport action class.
  *
+ * @package   Action
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
@@ -25,11 +27,19 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		}
 	}
 
+	/**
+	 * Constructor.
+	 */
 	public function __construct()
 	{
 		$this->exposeMethod('exportToExcel');
 	}
 
+	/**
+	 * Function export list fields to excel.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function exportToExcel(\App\Request $request)
 	{
 		$moduleName = $request->getModule(false); //this is the type of things in the current view
@@ -89,7 +99,6 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 						break;
 					case 6://datetimes
 					case 23:
-					case 70:
 						if (!empty($fieldModel->get('source_field_name')) && isset($record->ext[$fieldModel->get('source_field_name')][$fieldModel->getModuleName()])) {
 							$value = $record->ext[$fieldModel->get('source_field_name')][$fieldModel->getModuleName()]->get($fieldModel->getFieldName());
 						} else {
@@ -101,6 +110,15 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 						} else {
 							$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY HH:MM:SS'); //format the date to the users preference
 						}
+						break;
+					case 70:
+						if (!empty($fieldModel->get('source_field_name')) && isset($record->ext[$fieldModel->get('source_field_name')][$fieldModel->getModuleName()])) {
+							$value = $record->ext[$fieldModel->get('source_field_name')][$fieldModel->getModuleName()]->get($fieldModel->getFieldName());
+						} else {
+							$value = $record->get($fieldModel->getFieldName());
+						}
+						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($value), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+						$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY HH:MM:SS');
 						break;
 					default:
 						$worksheet->setCellValueExplicitByColumnAndRow($col, $row, App\Purifier::decodeHtml($value), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
