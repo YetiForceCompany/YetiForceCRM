@@ -17,7 +17,7 @@
 				{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 					<optgroup label='{\App\Language::translate($BLOCK_LABEL, $SELECTED_MODULE_NAME)}'>
 						{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
-							{if 'smtp' === $FIELD_MODEL->getFieldDataType()}
+							{if in_array( $FIELD_MODEL->getFieldDataType(), $SKIPPED_FIELD_DATA_TYPES)}
 								{continue}
 							{/if}
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}

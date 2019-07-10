@@ -24,15 +24,6 @@ class MultiDomainField extends BaseField
 	 */
 	public function operatorA()
 	{
-		$condition = ['or'];
-			array_push($condition, [$this->getColumnName() => $this->getValue()], ['or like', $this->getColumnName(),
-				[
-					"%{$this->getValue()}%",
-					"{$this->getValue()}%",
-					"%{$this->getValue()}"
-				], false
-			]);
-
-		return $condition;
+		return ['like', $this->getColumnName(), ",{$this->getValue()},"];
 	}
 }
