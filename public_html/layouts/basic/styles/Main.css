@@ -10070,7 +10070,8 @@ button.bg-dark:focus {
   margin-right: 0 !important;
 }
 
-.mb-0, .daterangepicker .left, .daterangepicker .right, .daterangepicker .ranges li:last-child, .fc-view-container, .c-detail-widget__table, .c-detail-widget p, .listViewTopMenuDiv .listViewActionsDiv .paginationDiv .pagination,
+.mb-0, .daterangepicker .left,
+.daterangepicker .right, .daterangepicker .ranges li:last-child, .fc-view-container, .c-detail-widget__table, .c-detail-widget p, .listViewTopMenuDiv .listViewActionsDiv .paginationDiv .pagination,
 .my-0 {
   margin-bottom: 0 !important;
 }
@@ -10248,7 +10249,8 @@ button.bg-dark:focus {
   padding-left: 0 !important;
 }
 
-.p-1, .select2-container--bootstrap4 ul.select2-selection__rendered li.select2-selection__choice, .select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option, .o-global-search__input--desktop .btn, .c-footer .page-link {
+.p-1, .select2-container--bootstrap4 ul.select2-selection__rendered li.select2-selection__choice, .select2-container--bootstrap4 .select2-results__option,
+.select2-container--bootstrap4 .select2-results__option .select2-results__option, .o-global-search__input--desktop .btn, .c-footer .page-link {
   padding: 0.25rem !important;
 }
 
@@ -18273,7 +18275,8 @@ select[readonly].select2-hidden-accessible + .select2-container .select2-selecti
   width: 100% !important;
 }
 
-.select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option {
+.select2-container--bootstrap4 .select2-results__option,
+.select2-container--bootstrap4 .select2-results__option .select2-results__option {
   font-size: inherit;
 }
 
@@ -18294,8 +18297,14 @@ select[readonly].select2-hidden-accessible + .select2-container .select2-selecti
   opacity: 0.5;
 }
 
-select.select2 {
+select.form-control,
+select.select2 select.select2noactive {
+  overflow: hidden;
   height: calc(1.5em + 0.75rem + 2px) !important;
+}
+
+.select2-container .select2-search--inline {
+  float: unset;
 }
 
 .input-group-sm select.select2 {
@@ -18396,7 +18405,8 @@ header .c-header__btn__container .select2-selection:hover .select2-selection__re
   padding: 0 !important;
 }
 
-.ui-autocomplete a.ui-menu-item-wrapper, .ui-autocomplete a.ui-menu-item-wrapper:hover {
+.ui-autocomplete a.ui-menu-item-wrapper,
+.ui-autocomplete a.ui-menu-item-wrapper:hover {
   font-weight: inherit !important;
 }
 
@@ -18443,7 +18453,9 @@ header .c-header__btn__container .select2-selection:hover .select2-selection__re
   display: none !important;
 }
 
-.c-scrollbar-x--small .ps__rail-x:hover > .ps__thumb-x, .c-scrollbar-x--small .ps__rail-x:focus > .ps__thumb-x, .c-scrollbar-x--small .ps__rail-x.ps--clicking .ps__thumb-x {
+.c-scrollbar-x--small .ps__rail-x:hover > .ps__thumb-x,
+.c-scrollbar-x--small .ps__rail-x:focus > .ps__thumb-x,
+.c-scrollbar-x--small .ps__rail-x.ps--clicking .ps__thumb-x {
   height: 6px;
 }
 
@@ -18481,7 +18493,8 @@ header .c-header__btn__container .select2-selection:hover .select2-selection__re
   width: auto;
 }
 
-.ps__rail-x, .ps__rail-y {
+.ps__rail-x,
+.ps__rail-y {
   z-index: 2000;
 }
 
@@ -18869,11 +18882,6 @@ label.btn[class*=btn-outline-]:not(.active):hover {
 
 .quasar-modal .q-layout-container {
   height: calc(100vh - 113px);
-}
-
-select.form-control,
-select.select2 {
-  overflow: hidden;
 }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
@@ -23478,12 +23486,12 @@ ul.tweets li {
   }
 }
 
-.u-bg-twilight, .select2-selection__rendered[title=Twilight] {
+.u-bg-twilight, .select2-selection__rendered[title="Twilight"] {
   background-color: #404952 !important;
   color: #fff;
 }
 
-.u-bg-modern, .select2-selection__rendered[title=Modern] {
+.u-bg-modern, .select2-selection__rendered[title="Modern"] {
   background-color: #0d9605 !important;
 }
 
@@ -24226,7 +24234,8 @@ ul.tweets li {
 }
 
 @media (max-width: 399.98px) {
-  .ps__rail-x, .ps__rail-y {
+  .ps__rail-x,
+  .ps__rail-y {
     display: none !important;
   }
 }
@@ -25697,7 +25706,7 @@ input[type="radio"]:checked:before {
     margin: 0 0 5px !important;
   }
   .actionMenu .o-action-menu__container .c-header__btn .fas,
-  .actionMenu .o-action-menu__container .c-header__btn [class*='userIcon-'] {
+  .actionMenu .o-action-menu__container .c-header__btn [class*="userIcon-"] {
     margin: 0 5px 0 0;
   }
   .actionMenu .o-action-menu__container .c-header__btn .sr-only {
@@ -25728,6 +25737,10 @@ input[type="radio"]:checked:before {
   }
 }
 
+.o-breadcrumb {
+  min-height: 3rem;
+}
+
 .o-breadcrumb__container {
   width: 100%;
   display: -webkit-box;
@@ -25735,7 +25748,7 @@ input[type="radio"]:checked:before {
   display: flex;
 }
 
-.widget_header > div[class*='col-']:first-child {
+.widget_header > div[class*="col-"]:first-child {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -25748,7 +25761,7 @@ input[type="radio"]:checked:before {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .widget_header .breadcrumb-item {
@@ -26969,7 +26982,8 @@ input[type="radio"]:checked:before {
   color: #fff;
 }
 
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-button.fc-state-active .fc-button-inner .fc-button-content, .tpl-Calendar-Extended-CalendarViewPreProcess .fc-button:active .fc-button-inner .fc-button-content,
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-button.fc-state-active .fc-button-inner .fc-button-content,
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-button:active .fc-button-inner .fc-button-content,
 .tpl-Calendar-Extended-QuickCreate .fc-button.fc-state-active .fc-button-inner .fc-button-content,
 .tpl-Calendar-Extended-QuickCreate .fc-button:active .fc-button-inner .fc-button-content {
   color: #000 !important;
@@ -27368,7 +27382,7 @@ input[type="radio"]:checked:before {
     position: relative;
   }
   .tpl-Calendar-Extended-QuickCreate .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form__wrapper, .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
-    height: calc(100vh - 2rem - 3.125rem - 3.0625rem - 3.4375rem - 2rem);
+    height: calc( 100vh - 2rem - 3.125rem - 3.0625rem - 3.4375rem - 2rem);
     overflow-y: auto;
     overflow-x: hidden;
     margin-top: 1rem;
@@ -27460,7 +27474,7 @@ input[type="radio"]:checked:before {
 }
 
 .user-info--active .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
-  height: calc(100vh - calc(2rem + 1rem) - 3.125rem - 3.0625rem - 3.4375rem - 2rem);
+  height: calc( 100vh - calc(2rem + 1rem) - 3.125rem - 3.0625rem - 3.4375rem - 2rem);
 }
 
 .limited-footer--active .o-calendar__tab--filters, .limited-footer--active .o-calendar__form {
@@ -27468,7 +27482,7 @@ input[type="radio"]:checked:before {
 }
 
 .limited-footer--active .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
-  height: calc(100vh - 1rem - 3.125rem - 3.0625rem - 3.4375rem - 2rem);
+  height: calc( 100vh - 1rem - 3.125rem - 3.0625rem - 3.4375rem - 2rem);
 }
 
 .limited-footer--active .o-calendar__tab--filters, .limited-footer--active .o-calendar__form {
@@ -27476,14 +27490,32 @@ input[type="radio"]:checked:before {
 }
 
 .limited-footer--active .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
-  height: calc(100vh - 2rem - 3.125rem - 3.0625rem - 3.4375rem - 2rem);
+  height: calc( 100vh - 2rem - 3.125rem - 3.0625rem - 3.4375rem - 2rem);
 }
 
 .tpl-Calendar-Extended-QuickCreate .o-calendar__form {
   height: auto !important;
 }
 
+.fc-day-grid-event.fc-event {
+  z-index: 2;
+}
+
+.fc-content-skeleton .fc-day-number {
+  z-index: 1;
+  position: relative;
+  right: 0;
+}
+
+.fc-day-top.fc-mon {
+  position: relative;
+}
+
 .fc-row .fc-content-skeleton {
+  z-index: unset !important;
+}
+
+.fc-row .fc-bgevent-skeleton {
   z-index: 1 !important;
 }
 
