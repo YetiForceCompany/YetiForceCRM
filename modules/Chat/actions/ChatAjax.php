@@ -54,8 +54,8 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	{
 		$chat = \App\Chat::getInstance();
 		$chatEntries = $chat->getEntries();
-		$areMoreMessages = $this->areMoreMessages(count($chatEntries));
-		if ($areMoreMessages) {
+		$isNextPage = $this->isNextPage(count($chatEntries));
+		if ($isNextPage) {
 			array_shift($chatEntries);
 		}
 		$response = new Vtiger_Response();
@@ -68,7 +68,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			'isSoundNotification' => $this->isSoundNotification(),
 			'isDesktopNotification' => $this->isDesktopNotification(),
 			'sendByEnter' => $this->sendByEnter(),
-			'showMoreButton' => $areMoreMessages,
+			'showMoreButton' => $isNextPage,
 			'refreshMessageTime' => App\Config::module('Chat', 'REFRESH_MESSAGE_TIME'),
 			'refreshRoomTime' => App\Config::module('Chat', 'REFRESH_ROOM_TIME'),
 			'maxLengthMessage' => App\Config::module('Chat', 'MAX_LENGTH_MESSAGE'),
@@ -107,8 +107,8 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			return;
 		}
 		$chatEntries = $chat->getEntries($request->has('lastId') ? $request->getInteger('lastId') : null);
-		$areMoreMessages = $this->areMoreMessages(count($chatEntries));
-		if ($areMoreMessages) {
+		$isNextPage = $this->isNextPage(count($chatEntries));
+		if ($isNextPage) {
 			array_shift($chatEntries);
 		}
 		$result = [
@@ -117,7 +117,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			'participants' => $chat->getParticipants()
 		];
 		if (!$request->has('lastId')) {
-			$result['showMoreButton'] = 	$areMoreMessages;
+			$result['showMoreButton'] = 	$isNextPage;
 			$result['currentRoom'] = \App\Chat::getCurrentRoom();
 		}
 
@@ -138,15 +138,15 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	{
 		$chat = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'));
 		$chatEntries = $chat->getEntries($request->getInteger('lastId'), '<');
-		$areMoreMessages = $this->areMoreMessages(count($chatEntries));
-		if ($areMoreMessages) {
+		$isNextPage = $this->isNextPage(count($chatEntries));
+		if ($isNextPage) {
 			array_shift($chatEntries);
 		}
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'currentRoom' => \App\Chat::getCurrentRoom(),
 			'chatEntries' => $chatEntries,
-			'showMoreButton' => $areMoreMessages,
+			'showMoreButton' => $isNextPage,
 		]);
 		$response->emit();
 	}
@@ -163,15 +163,15 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		}
 		$chat->addMessage(\App\Utils\Completions::encodeAll($request->getForHtml('message')));
 		$chatEntries = $chat->getEntries($request->isEmpty('mid') ? null : $request->getInteger('mid'));
-		$areMoreMessages = $this->areMoreMessages(count($chatEntries));
-		if ($areMoreMessages) {
+		$isNextPage = $this->isNextPage(count($chatEntries));
+		if ($isNextPage) {
 			array_shift($chatEntries);
 		}
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'chatEntries' => $chatEntries,
 			'participants' => $chat->getParticipants(),
-			'showMoreButton' => $areMoreMessages
+			'showMoreButton' => $isNextPage
 		]);
 		$response->emit();
 	}
@@ -192,15 +192,15 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		} else {
 			$chatEntries = $chat->getEntries(null, '>', $searchVal);
 		}
-		$areMoreMessages = $this->areMoreMessages(count($chatEntries));
-		if ($areMoreMessages) {
+		$isNextPage = $this->isNextPage(count($chatEntries));
+		if ($isNextPage) {
 			array_shift($chatEntries);
 		}
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'currentRoom' => \App\Chat::getCurrentRoom(),
 			'chatEntries' => $chatEntries,
-			'showMoreButton' => $areMoreMessages
+			'showMoreButton' => $isNextPage
 		]);
 		$response->emit();
 	}
@@ -243,14 +243,14 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		} else {
 			$chatEntries = $chat->getHistoryByType($groupHistory, $request->getInteger('mid'));
 		}
-		$areMoreMessages = $this->areMoreMessages(count($chatEntries));
-		if ($areMoreMessages) {
+		$isNextPage = $this->isNextPage(count($chatEntries));
+		if ($isNextPage) {
 			array_shift($chatEntries);
 		}
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'chatEntries' => $chatEntries,
-			'showMoreButton' => $areMoreMessages
+			'showMoreButton' => $isNextPage
 		]);
 		$response->emit();
 	}
@@ -290,7 +290,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	 *
 	 * @return bool
 	 */
-	private function areMoreMessages(int $numberOfMessages): bool
+	private function isNextPage(int $numberOfMessages): bool
 	{
 		return $numberOfMessages >= \App\Config::module('Chat', 'CHAT_ROWS_LIMIT') + 1;
 	}
