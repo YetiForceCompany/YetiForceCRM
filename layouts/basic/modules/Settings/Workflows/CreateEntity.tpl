@@ -15,7 +15,7 @@
 	</h5>
 {/if}
 <input type="hidden" id="fieldValueMapping" name="field_value_mapping"
-	   value="{if !empty($TASK_OBJECT->field_value_mapping)}{$TASK_OBJECT->field_value_mapping}{/if}"/>
+	   value="{if !empty($TASK_OBJECT->field_value_mapping)}{\App\Purifier::encodeHtml($TASK_OBJECT->field_value_mapping)}{/if}"/>
 <input type="hidden"
 	   value="{if isset($TASK_ID)}{if !empty($TASK_OBJECT->reference_field)}{$TASK_OBJECT->reference_field}{/if}{else}{if !empty($REFERENCE_FIELD_NAME)}{$REFERENCE_FIELD_NAME}{/if}{/if}"
 	   name="reference_field" id="reference_field"/>
