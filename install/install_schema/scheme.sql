@@ -4703,7 +4703,6 @@ CREATE TABLE `vtiger_contactdetails` (
   `verification` text DEFAULT NULL,
   `secondary_email` varchar(100) DEFAULT '',
   `notifilanguage` varchar(100) DEFAULT '',
-  `contactstatus` varchar(255) DEFAULT '',
   `dav_status` tinyint(1) DEFAULT 1,
   `jobtitle` varchar(100) DEFAULT '',
   `decision_maker` tinyint(1) DEFAULT 0,
@@ -4725,17 +4724,6 @@ CREATE TABLE `vtiger_contactscf` (
   PRIMARY KEY (`contactid`),
   CONSTRAINT `fk_1_vtiger_contactscf` FOREIGN KEY (`contactid`) REFERENCES `vtiger_contactdetails` (`contactid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_contactstatus` */
-
-CREATE TABLE `vtiger_contactstatus` (
-  `contactstatusid` int(10) NOT NULL AUTO_INCREMENT,
-  `contactstatus` varchar(200) NOT NULL,
-  `presence` int(1) NOT NULL DEFAULT 1,
-  `picklist_valueid` int(10) NOT NULL DEFAULT 0,
-  `sortorderid` int(10) DEFAULT 0,
-  PRIMARY KEY (`contactstatusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_contactsubdetails` */
 

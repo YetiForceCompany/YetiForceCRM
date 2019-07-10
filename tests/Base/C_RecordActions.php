@@ -84,11 +84,11 @@ class C_RecordActions extends \Tests\Base
 	/**
 	 * Creating leads module record for tests.
 	 *
-	 * @var bool
+	 * @param bool $cache
 	 *
 	 * @return \Vtiger_Record_Model
 	 */
-	public static function createLeadRecord($cache = true)
+	public static function createLeadRecord(bool $cache = true)
 	{
 		if (static::$recordLeads && $cache) {
 			return static::$recordLeads;
@@ -104,9 +104,11 @@ class C_RecordActions extends \Tests\Base
 	/**
 	 * Creating contacts module record for tests.
 	 *
+	 * @param bool $cache
+	 *
 	 * @return \Vtiger_Record_Model
 	 */
-	public static function createContactRecord($cache = true)
+	public static function createContactRecord(bool $cache = true)
 	{
 		if (static::$recordContacts && $cache) {
 			return static::$recordContacts;
@@ -115,7 +117,6 @@ class C_RecordActions extends \Tests\Base
 		$recordModel->set('salutation', 'Mr.');
 		$recordModel->set('firstname', 'Test');
 		$recordModel->set('lastname', 'Testowy');
-		$recordModel->set('contactstatus', 'Active');
 		$recordModel->set('verification', 'Address details');
 		$recordModel->set('parent_id', static::createAccountRecord()->getId());
 		$recordModel->set('assigned_user_id', \App\User::getCurrentUserId());
@@ -126,9 +127,9 @@ class C_RecordActions extends \Tests\Base
 	/**
 	 * Creating account module record for tests.
 	 *
-	 * @var bool
+	 * @param bool $cache
 	 */
-	public static function createAccountRecord($cache = true)
+	public static function createAccountRecord(bool $cache = true)
 	{
 		if (static::$recordAccounts && $cache) {
 			return static::$recordAccounts;
@@ -144,7 +145,7 @@ class C_RecordActions extends \Tests\Base
 	/**
 	 * Creating Product module record for tests.
 	 *
-	 * @var bool
+	 * @param bool $cache
 	 */
 	public static function createProductRecord($cache = true)
 	{
@@ -203,7 +204,7 @@ class C_RecordActions extends \Tests\Base
 	 */
 	public function testGetDisplayName()
 	{
-		$this->assertTrue(static::$recordAccounts->getDisplayName() === 'YetiForce Sp. z o.o.');
+		$this->assertTrue('YetiForce Sp. z o.o.' === static::$recordAccounts->getDisplayName());
 	}
 
 	/**
