@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Chat.
  *
@@ -7,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
+ * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 
 namespace App;
@@ -219,8 +221,15 @@ final class Chat
 		$rows = [];
 		while ($row = $dataReader->read()) {
 			if (isset($groups[$row['recordid']])) {
-				$rows[] = $row;
+				$row['isPinned'] = true;
+				$groups[$row['recordid']] = $row;
 			}
+		}
+		foreach ($groups as $id => $group) {
+			if (is_string($group)) {
+				$group = ['recordid' => $id, 'name' => $group, 'isPinned' => false];
+			}
+			$rows[] = $group;
 		}
 		$dataReader->close();
 		return $rows;
@@ -298,7 +307,9 @@ final class Chat
 		$roomInfo = static::getRoomsByUser();
 		foreach (['crm', 'group', 'global'] as $roomType) {
 			foreach ($roomInfo[$roomType] as $item) {
-				$numberOfNewMessages += $item['cnt_new_message'];
+				if (isset($item['cnt_new_message'])) {
+					$numberOfNewMessages += $item['cnt_new_message'];
+				}
 			}
 		}
 		return $numberOfNewMessages;
@@ -526,8 +537,10 @@ final class Chat
 		$rows = [];
 		$dataReader = $this->getQueryMessage($messageId, $condition, $searchVal)->createCommand()->query();
 		while ($row = $dataReader->read()) {
+			$row['messages'] = static::decodeMessage($row['messages']);
 			$row['created'] = Fields\DateTime::formatToShort($row['created']);
-			['user_name' => $row['user_name'],
+			[
+				'user_name' => $row['user_name'],
 				'role_name' => $row['role_name'],
 				'image' => $row['image']
 			] = $this->getUserInfo($row['userid']);
@@ -564,7 +577,7 @@ final class Chat
 			->orderBy(['id' => \SORT_DESC])
 			->limit(\App\Config::module('Chat', 'CHAT_ROWS_LIMIT') + 1);
 		if (null !== $messageId) {
-			$query->andWhere(['<=', 'id', $messageId]);
+			$query->andWhere(['<', 'id', $messageId]);
 		}
 		$userModel = User::getUserModel($this->userId);
 		$userImage = $userModel->getImage()['url'] ?? '';
@@ -577,6 +590,7 @@ final class Chat
 			$row['created'] = Fields\DateTime::formatToShort($row['created']);
 			$row['user_name'] = $userName;
 			$row['role_name'] = $userRoleName;
+			$row['messages'] = static::decodeMessage($row['messages']);
 			$rows[] = $row;
 		}
 		return \array_reverse($rows);
@@ -689,7 +703,8 @@ final class Chat
 				])->execute();
 			} else {
 				Db::getInstance()->createCommand()->update(
-					static::TABLE_NAME['room'][$roomType], ['last_message' => $lastMessage['id']],
+					static::TABLE_NAME['room'][$roomType],
+					['last_message' => $lastMessage['id']],
 					[static::COLUMN_NAME['room'][$roomType] => $id, 'userid' => User::getCurrentUserId()]
 				)->execute();
 			}
@@ -718,7 +733,7 @@ final class Chat
 			$rows[] = [
 				'id' => $row['id'],
 				'userid' => $row['userid'],
-				'messages' => $row['messages'],
+				'messages' => static::decodeMessage($row['messages']),
 				'created' => Fields\DateTime::formatToShort($row['created']),
 				'user_name' => $userModel->getName(),
 				'role_name' => Language::translate($userModel->getRoleInstance()->getName()),
@@ -775,7 +790,7 @@ final class Chat
 			$user = $this->getUserInfo($row['userid']);
 			$participants[] = [
 				'user_id' => $row['userid'],
-				'message' => $row['messages'],
+				'message' => static::decodeMessage($row['messages']),
 				'user_name' => $user['user_name'],
 				'role_name' => $user['role_name'],
 				'image' => $user['image']
@@ -794,10 +809,12 @@ final class Chat
 	{
 		if (!empty($this->roomType) && !empty($this->recordId)) {
 			Db::getInstance()->createCommand()->delete(
-				static::TABLE_NAME['room'][$this->roomType], [
+				static::TABLE_NAME['room'][$this->roomType],
+				[
 					'userid' => $this->userId,
 					static::COLUMN_NAME['room'][$this->roomType] => $this->recordId
-				])->execute();
+				]
+			)->execute();
 			unset($this->room['userid']);
 		}
 	}
@@ -811,11 +828,13 @@ final class Chat
 	{
 		if (!empty($this->roomType) && !empty($this->recordId)) {
 			Db::getInstance()->createCommand()->insert(
-				static::TABLE_NAME['room'][$this->roomType], [
+				static::TABLE_NAME['room'][$this->roomType],
+				[
 					'userid' => $this->userId,
 					'last_message' => null,
 					static::COLUMN_NAME['room'][$this->roomType] => $this->recordId
-				])->execute();
+				]
+			)->execute();
 			$this->room['userid'] = $this->userId;
 		}
 	}
@@ -922,8 +941,7 @@ final class Chat
 			$this->room['record_id'] = $this->recordId;
 			$this->room['userid'] = $this->userId;
 		} elseif (
-			\is_array($this->room) && $this->isAssigned() &&
-			(empty($this->room['last_message']) || $this->lastMessageId > (int) $this->room['last_message'])
+			\is_array($this->room) && $this->isAssigned() && (empty($this->room['last_message']) || $this->lastMessageId > (int) $this->room['last_message'])
 		) {
 			Db::getInstance()
 				->createCommand()
@@ -933,5 +951,17 @@ final class Chat
 				])->execute();
 			$this->room['last_message'] = $this->lastMessageId;
 		}
+	}
+
+	/**
+	 * Decode message.
+	 *
+	 * @param string $message
+	 *
+	 * @return string
+	 */
+	private static function decodeMessage(string $message): string
+	{
+		return nl2br(\App\Utils\Completions::decode(\App\Purifier::purifyHtml(\App\Purifier::decodeHtml($message))));
 	}
 }

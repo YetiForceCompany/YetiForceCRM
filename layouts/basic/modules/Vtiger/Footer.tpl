@@ -23,6 +23,11 @@
 	{if $SHOW_FOOTER}
 		<footer class="c-footer fixed-bottom js-footer{if App\Config::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')} c-footer--user-info-active{/if}{if App\Config::performance('LIMITED_INFO_IN_FOOTER')} c-footer--limited{/if}"
 				data-js="height">
+			{if \App\Privilege::isPermitted('Chat')}
+				<div class="quasar-reset c-btn-fixed">
+					<div id="ChatModalVue"></div>
+				</div>
+			{/if}
 			{if App\Config::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}
 				<div class="js-footer__user-info c-footer__user-info">
 					<p>

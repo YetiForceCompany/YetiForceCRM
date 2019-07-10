@@ -1,5 +1,5 @@
 <?php
- /* +***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -231,6 +231,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			'~libraries/leaflet.awesome-markers/dist/leaflet.awesome-markers.js',
 			'modules.OpenStreetMap.resources.Map'
 		];
+		if (\App\Privilege::isPermitted('Chat')) {
+			$jsFileNames[] = '~layouts/basic/modules/Chat/resources/Chat.js';
+		}
 		return array_merge(
 			parent::getFooterScripts($request),
 			$this->checkAndConvertJsScripts($jsFileNames)
@@ -1109,5 +1112,4 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('VIEW', 'Detail');
 		return $viewer->view('Detail/InventoryView.tpl', $moduleName, true);
 	}
-
 }

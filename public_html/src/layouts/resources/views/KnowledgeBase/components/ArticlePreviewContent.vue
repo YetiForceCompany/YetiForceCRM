@@ -65,7 +65,7 @@
             :icon="previewMaximized ? 'mdi-window-restore' : 'mdi-window-maximize'"
             @click="previewMaximized = !previewMaximized"
           >
-            <q-tooltip>{{ previewMaximized ? translate('JS_KB_MINIMIZE') : translate('JS_KB_MAXIMIZE') }}</q-tooltip>
+            <q-tooltip>{{ previewMaximized ? translate('JS_MINIMIZE') : translate('JS_MAXIMIZE') }}</q-tooltip>
           </q-btn>
         </template>
         <q-btn dense flat icon="mdi-close" v-close-popup>

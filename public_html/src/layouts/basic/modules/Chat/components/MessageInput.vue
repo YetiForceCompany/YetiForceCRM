@@ -1,0 +1,133 @@
+<!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
+<template>
+  <div class="q-px-sm" ref="textContainer">
+    <picker
+      v-if="emojiPanel"
+      @select="addEmoji"
+      native
+      :title="translate('JS_CHAT_PICK_EMOJI')"
+      emoji="point_up"
+      :i18n="emojiTranslations"
+      :style="{ position: 'absolute', bottom: containerHeight }"
+    />
+    <div class="c-completions flex items-center q-gutter-x-sm js-completions__actions">
+      <q-icon
+        :name="emojiPanel ? 'mdi-emoticon-happy' : 'mdi-emoticon-happy-outline'"
+        size="18px"
+        class="cursor-pointer js-emoji-trigger"
+        @click="emojiPanel = !emojiPanel"
+      />
+      <span class="c-completions__item js-completions__users fas fa-user-plus"></span>
+      <span class="c-completions__item js-completions__records fas fa-hashtag"></span>
+    </div>
+    <q-separator class="q-my-xs" />
+    <div class="d-flex flex-nowrap">
+      <div class="o-chat__message-block">
+        <div
+          class="u-font-size-13px js-completions o-chat__form-control full-height"
+          contenteditable="true"
+          data-completions-buttons="true"
+          :placeholder="translate('JS_CHAT_MESSAGE')"
+          ref="input"
+          @keydown.enter="onEnter"
+        ></div>
+      </div>
+      <q-btn :loading="sending" round color="primary" icon="mdi-send" @click="send">
+        <template v-slot:loading>
+          <q-spinner-facebook />
+        </template>
+      </q-btn>
+    </div>
+  </div>
+</template>
+<script>
+import Emoji from 'emoji-mart-vue-fast'
+import { createNamespacedHelpers } from 'vuex'
+const Picker = Emoji.Picker
+const { mapGetters, mapActions } = createNamespacedHelpers('Chat')
+export default {
+  name: 'ChatMessages',
+  components: { Picker },
+  data() {
+    return {
+      sending: false,
+      emojiPanel: false,
+      emojiTranslations: {
+        search: this.translate('JS_EMOJI_SEARCH'),
+        notfound: this.translate('JS_EMOJI_NOTFOUND'),
+        categories: {
+          search: this.translate('JS_EMOJI_SEARCHRESULT'),
+          recent: this.translate('JS_EMOJI_RECENT'),
+          people: this.translate('JS_EMOJI_PEOPLE'),
+          nature: this.translate('JS_EMOJI_NATURE'),
+          foods: this.translate('JS_EMOJI_FOODS'),
+          activity: this.translate('JS_EMOJI_ACTIVITY'),
+          places: this.translate('JS_EMOJI_PLACES'),
+          objects: this.translate('JS_EMOJI_OBJECTS'),
+          symbols: this.translate('JS_EMOJI_SYMBOLS'),
+          flags: this.translate('JS_EMOJI_FLAGS'),
+          custom: this.translate('JS_EMOJI_CUSTOM')
+        }
+      }
+    }
+  },
+  computed: {
+    ...mapGetters(['maximizedDialog', 'historyTab', 'data']),
+    containerHeight() {
+      if (this.$refs.textContainer !== undefined) return this.$refs.textContainer.clientHeight + 'px'
+    }
+  },
+  methods: {
+    ...mapActions(['sendMessage']),
+    send(e) {
+      e.preventDefault()
+      if (this.sending || !this.$refs.input.innerText.length) return
+      if (this.$refs.input.innerText.length < this.data.maxLengthMessage) {
+        this.sending = true
+        this.sendMessage(this.$refs.input.innerHTML).then(e => {
+          this.$refs.input.innerText = ''
+          this.sending = false
+          this.$emit('onSended')
+        })
+      } else {
+        Vtiger_Helper_Js.showPnotify({
+          text: app.vtranslate('JS_MESSAGE_TOO_LONG'),
+          type: 'error',
+          animation: 'show'
+        })
+      }
+    },
+    addEmoji(emoji) {
+      this.$refs.input.insertAdjacentHTML('beforeend', emoji.native)
+    },
+    onEnter(e) {
+      if (this.data.sendByEnter && !e.shiftKey) {
+        e.preventDefault()
+        this.send(e)
+      }
+    },
+    registerEmojiPanelClickOutside() {
+      document.addEventListener('click', e => {
+        try {
+          if (
+            this.emojiPanel &&
+            !e.target.parentNode.className.split(' ').some(c => /emoji-mart.*/.test(c)) &&
+            !e.target.className.split(' ').some(c => /emoji-mart.*/.test(c)) &&
+            !e.target.classList.contains('js-emoji-trigger')
+          ) {
+            this.emojiPanel = false
+          }
+        } catch (error) {}
+      })
+    }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      new App.Fields.Text.Completions(this.$refs.input, { emojiPanel: false })
+      this.registerEmojiPanelClickOutside()
+    })
+  }
+}
+</script>
+<style>
+</style>

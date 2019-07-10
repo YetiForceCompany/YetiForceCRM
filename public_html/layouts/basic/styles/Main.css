@@ -18840,6 +18840,7 @@ label.btn[class*=btn-outline-]:not(.active):hover {
 
 .quasar-reset .col,
 .quasar-reset [class*='col-'] {
+  position: unset;
   padding: unset;
   padding-right: unset;
   padding-left: unset;
@@ -24930,6 +24931,15 @@ input[type='checkbox'][disabled] {
   }
 }
 
+.c-btn-fixed {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 2000;
+  padding-right: 1.25rem;
+  padding-bottom: 0.625rem;
+}
+
 .input-group > .input-group-append > .btn-light,
 .input-group > .input-group-prepend > .btn-light {
   border-color: #dee2e6;
@@ -25245,48 +25255,58 @@ input[type="radio"]:checked:before {
   top: 3.125rem;
   bottom: 2rem;
   width: 100%;
+  -webkit-transform: translateZ(0);
+          transform: translateZ(0);
   overflow-x: hidden;
 }
 
-.basePanel[class$="_KnowledgeBase"] .contentsDiv {
-  min-height: calc(100vh - 3.125rem - 2rem);
-}
-
-.user-info--active .mainBody {
-  bottom: calc(2rem + 1rem);
-}
-
-.user-info--active .basePanel[class$="_KnowledgeBase"] .contentsDiv {
-  min-height: calc(100vh - 3.125rem - calc(2rem + 1rem));
-}
-
-.limited-footer--active .mainBody {
-  bottom: 1rem;
-}
-
-.limited-footer--active .basePanel[class$="_KnowledgeBase"] .contentsDiv {
-  min-height: calc(100vh - 3.125rem - 1rem);
-}
-
-.user-info--active.limited-footer--active .mainBody {
+.c-btn-fixed {
   bottom: 2rem;
 }
 
-.user-info--active.limited-footer--active .basePanel[class$="_KnowledgeBase"] .contentsDiv {
+.basePanel[class$='_KnowledgeBase'] .contentsDiv {
+  min-height: calc(100vh - 3.125rem - 2rem);
+}
+
+.user-info--active .mainBody,
+.user-info--active .c-btn-fixed {
+  bottom: calc(2rem + 1rem);
+}
+
+.user-info--active .basePanel[class$='_KnowledgeBase'] .contentsDiv {
+  min-height: calc(100vh - 3.125rem - calc(2rem + 1rem));
+}
+
+.limited-footer--active .mainBody,
+.limited-footer--active .c-btn-fixed {
+  bottom: 1rem;
+}
+
+.limited-footer--active .basePanel[class$='_KnowledgeBase'] .contentsDiv {
+  min-height: calc(100vh - 3.125rem - 1rem);
+}
+
+.user-info--active.limited-footer--active .mainBody,
+.user-info--active.limited-footer--active .c-btn-fixed {
+  bottom: 2rem;
+}
+
+.user-info--active.limited-footer--active .basePanel[class$='_KnowledgeBase'] .contentsDiv {
   min-height: calc(100vh - 3.125rem - 2rem);
 }
 
 @media (max-width: 767.98px) {
-  .mainBody {
+  .mainBody,
+  .c-btn-fixed {
     bottom: 1rem;
   }
-  .basePanel[class$="_KnowledgeBase"] .contentsDiv {
+  .basePanel[class$='_KnowledgeBase'] .contentsDiv {
     min-height: calc(100vh - 3.125rem - 1rem);
   }
   .user-info--active .mainBody {
     bottom: 2rem;
   }
-  .user-info--active .basePanel[class$="_KnowledgeBase"] .contentsDiv {
+  .user-info--active .basePanel[class$='_KnowledgeBase'] .contentsDiv {
     min-height: calc(100vh - 3.125rem - 2rem);
   }
 }

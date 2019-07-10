@@ -13,7 +13,6 @@
 	.c-btn-block-sm-down,
 	.c-btn-block-sm-down .btn {
 		width: 100% !important;
-
 	}
 }
 
@@ -76,6 +75,15 @@
 			}
 		}
 	}
+}
+
+.c-btn-fixed {
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	z-index: 2000;
+	padding-right: calculate-rem(20px);
+	padding-bottom: calculate-rem(10px);
 }
 
 .input-group {

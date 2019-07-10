@@ -236,7 +236,6 @@ import ArticlesList from './components/ArticlesList.vue'
 import ArticlePreview from './components/ArticlePreview.vue'
 import CategoriesList from './components/CategoriesList.vue'
 import { createNamespacedHelpers } from 'vuex'
-
 const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'KnowledgeBase',

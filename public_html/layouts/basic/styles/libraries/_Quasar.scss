@@ -7,7 +7,8 @@
 	}
 
 	.col,
-	[class*="col-"] {
+	[class*='col-'] {
+		position: unset;
 		padding: unset;
 		padding-right: unset;
 		padding-left: unset;

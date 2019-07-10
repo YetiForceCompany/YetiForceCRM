@@ -60,13 +60,12 @@ export default {
   },
   methods: {
     resize(newRect) {
-      this.coordinates = {
+      this.$emit('onChangeCoordinates', {
         width: newRect.width,
         height: newRect.height,
         top: newRect.top,
         left: newRect.left
-      }
-      this.$emit('onChangeCoordinates', this.coordinates)
+      })
     },
     onActivated() {
       $(this.$refs.resize.$el)

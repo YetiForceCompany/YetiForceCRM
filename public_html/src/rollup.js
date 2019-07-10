@@ -11,9 +11,11 @@ const rollup = require('rollup'),
 	alias = require('rollup-plugin-alias'),
 	path = require('path'),
 	vue = require('rollup-plugin-vue'),
+	sass = require('rollup-plugin-sass'),
 	commonjs = require('rollup-plugin-commonjs'),
 	resolve = require('rollup-plugin-node-resolve'),
 	globals = require('rollup-plugin-node-globals'),
+	json = require('rollup-plugin-json'),
 	babel = require('rollup-plugin-babel'),
 	minify = require('rollup-plugin-babel-minify')
 
@@ -23,9 +25,17 @@ const plugins = [
 	alias({
 		resolve: ['.vue', '.js'],
 		'~': __dirname,
-		store: `${__dirname}/store/index`
+		store: `${__dirname}/store/index`,
+		components: `${__dirname}/components`
 	}),
-	vue({ needMap: false }),
+	json(),
+	sass(),
+	vue({
+		needMap: false,
+		scss: {
+			indentedSyntax: true
+		}
+	}),
 	resolve(),
 	commonjs(),
 	globals(),
@@ -48,8 +58,12 @@ async function build(filePath, isWatched = false) {
 	}
 
 	const outputOptions = {
+		name: outputFile,
 		file: outputFile,
 		format: 'iife',
+		globals: {
+			vue: 'Vue'
+		},
 		sourcemap
 	}
 
@@ -81,7 +95,14 @@ async function build(filePath, isWatched = false) {
 
 finder.on('directory', (dir, stat, stop) => {
 	const base = path.basename(dir)
-	if (base === 'node_modules' || base === 'libraries' || base === 'vendor' || base === '_private' || base === 'store')
+	if (
+		base === 'node_modules' ||
+		base === 'libraries' ||
+		base === 'vendor' ||
+		base === '_private' ||
+		base === 'store' ||
+		base === 'utils'
+	)
 		stop()
 })
 

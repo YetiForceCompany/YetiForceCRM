@@ -5,49 +5,57 @@
 	top: $h-header;
 	bottom: $h-footer;
 	width: 100%;
+	transform: translateZ(0);
 	overflow-x: hidden;
 }
-.basePanel[class$="_KnowledgeBase"] .contentsDiv {
+.c-btn-fixed {
+	bottom: $h-footer;
+}
+.basePanel[class$='_KnowledgeBase'] .contentsDiv {
 	min-height: calc(100vh - #{$h-header} - #{$h-footer});
 }
 .user-info--active {
-	.mainBody {
+	.mainBody,
+	.c-btn-fixed {
 		bottom: $h-footer-user-info;
 	}
-	.basePanel[class$="_KnowledgeBase"] .contentsDiv {
+	.basePanel[class$='_KnowledgeBase'] .contentsDiv {
 		min-height: calc(100vh - #{$h-header} - #{$h-footer-user-info});
 	}
 }
 .limited-footer--active {
-	.mainBody {
+	.mainBody,
+	.c-btn-fixed {
 		bottom: $h-footer-limited;
 	}
-	.basePanel[class$="_KnowledgeBase"] .contentsDiv {
+	.basePanel[class$='_KnowledgeBase'] .contentsDiv {
 		min-height: calc(100vh - #{$h-header} - #{$h-footer-limited});
 	}
 }
 
 .user-info--active.limited-footer--active {
-	.mainBody {
+	.mainBody,
+	.c-btn-fixed {
 		bottom: $h-footer;
 	}
-	.basePanel[class$="_KnowledgeBase"] .contentsDiv {
+	.basePanel[class$='_KnowledgeBase'] .contentsDiv {
 		min-height: calc(100vh - #{$h-header} - #{$h-footer});
 	}
 }
 
 @include media-breakpoint-down(sm) {
-	.mainBody {
+	.mainBody,
+	.c-btn-fixed {
 		bottom: $h-footer-limited;
 	}
-	.basePanel[class$="_KnowledgeBase"] .contentsDiv {
+	.basePanel[class$='_KnowledgeBase'] .contentsDiv {
 		min-height: calc(100vh - #{$h-header} - #{$h-footer-limited});
 	}
 	.user-info--active {
 		.mainBody {
 			bottom: $h-footer;
 		}
-		.basePanel[class$="_KnowledgeBase"] .contentsDiv {
+		.basePanel[class$='_KnowledgeBase'] .contentsDiv {
 			min-height: calc(100vh - #{$h-header} - #{$h-footer});
 		}
 	}

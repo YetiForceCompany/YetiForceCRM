@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Chat test class.
  *
@@ -155,7 +156,6 @@ class Chat extends \Tests\Base
 		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
 		$groups = \App\User::getCurrentUserModel()->getGroupNames();
 		$this->assertGreaterThanOrEqual(1, count($groups), 'No defined groups');
-		$this->assertCount(0, \App\Chat::getRoomsGroup(), 'There should not be visible rooms');
 		$groupId = \key($groups);
 		$chat = \App\Chat::getInstance('group', $groupId);
 		$this->assertTrue($chat->isRoomExists(), "The chat room does not exist '{$groups[$groupId]}'");
@@ -219,10 +219,10 @@ class Chat extends \Tests\Base
 		$this->assertTrue($chat->isRoomExists(), "The chat room does not exist '{$groups[$groupId]}'");
 		$this->assertFalse($chat->isAssigned(), "The user should not be assigned '{$groups[$groupId]}'");
 		$this->assertFalse((new \App\Db\Query())
-			->from(\App\Chat::TABLE_NAME['room'][$chat->getRoomType()])
-			->where(['userid' => \App\User::getCurrentUserId()])
-			->andWhere([\App\Chat::COLUMN_NAME['room'][$chat->getRoomType()] => $groupId])
-			->exists(),
+				->from(\App\Chat::TABLE_NAME['room'][$chat->getRoomType()])
+				->where(['userid' => \App\User::getCurrentUserId()])
+				->andWhere([\App\Chat::COLUMN_NAME['room'][$chat->getRoomType()] => $groupId])
+				->exists(),
 			'Problem with methods "removeFromFavorites"'
 		);
 	}

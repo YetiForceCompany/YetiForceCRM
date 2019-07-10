@@ -730,9 +730,6 @@ $.Class(
 		},
 		registerEvents: function() {
 			var thisInstance = this;
-			if (typeof Chat_JS !== 'undefined') {
-				Chat_JS.registerTrackingEvents();
-			}
 			const container = thisInstance.getContentsContainer(),
 				menuContainer = container.find('.js-menu--scroll'),
 				quickCreateModal = container.find('.quickCreateModules');
@@ -790,6 +787,11 @@ $.Class(
 	}
 );
 $(document).ready(function() {
+	if (window.ChatModalVueComponent !== undefined) {
+		window.ChatModalVueComponent.mount({
+			el: '#ChatModalVue'
+		});
+	}
 	window.addEventListener('popstate', event => {
 		if (event.state) {
 			window.location.href = event.state;
