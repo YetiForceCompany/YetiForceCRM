@@ -292,7 +292,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	 */
 	private function areMoreMessages(int $numberOfMessages): bool
 	{
-		return $numberOfMessages >= \App\Config::module('Chat', 'CHAT_ROWS_LIMIT');
+		return $numberOfMessages >= \App\Config::module('Chat', 'CHAT_ROWS_LIMIT') + 1;
 	}
 
 	/**
