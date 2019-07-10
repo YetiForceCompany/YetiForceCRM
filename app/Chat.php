@@ -952,6 +952,14 @@ final class Chat
 			$this->room['last_message'] = $this->lastMessageId;
 		}
 	}
+
+	/**
+	 * Decode message.
+	 *
+	 * @param string $message
+	 *
+	 * @return string
+	 */
 	private static function decodeMessage(string $message): string
 	{
 		return nl2br(\App\Utils\Completions::decode(\App\Purifier::purifyHtml(\App\Purifier::decodeHtml($message))));
