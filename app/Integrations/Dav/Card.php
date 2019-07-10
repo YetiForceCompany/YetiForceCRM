@@ -17,6 +17,46 @@ namespace App\Integrations\Dav;
 class Card
 {
 	/**
+	 * Address mapping for modules.
+	 */
+	const ADDRESS_MAPPING = [
+		'Contacts' => [
+			'WORK' => [
+				'addresslevel1a' => ['country'],
+				'addresslevel7a' => ['postCode'],
+				'addresslevel2a' => ['state'],
+				'addresslevel5a' => ['city'],
+				'addresslevel8a' => ['street'],
+				'localnumbera' => ['localNumber']
+			],
+			'HOME' => [
+				'addresslevel1b' => ['country'],
+				'addresslevel7b' => ['postCode'],
+				'addresslevel2b' => ['state'],
+				'addresslevel5b' => ['city'],
+				'addresslevel8b' => ['street'],
+				'localnumberb' => ['localNumber']
+			],
+		],
+		'OSSEmployees' => [
+			'WORK' => [
+				'country' => ['country'],
+				'code' => ['postCode'],
+				'state' => ['state'],
+				'city' => ['city'],
+				'street' => ['localNumber', 'street'],
+			],
+			'HOME' => [
+				'ship_country' => ['country'],
+				'ship_code' => ['postCode'],
+				'ship_state' => ['state'],
+				'ship_city' => ['city'],
+				'ship_street' => ['localNumber', 'street'],
+			],
+		],
+	];
+
+	/**
 	 * Delete card by crm id.
 	 *
 	 * @param int $id

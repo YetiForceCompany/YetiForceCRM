@@ -91,19 +91,19 @@ class Vtiger_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Set the value for the database.
+	 * Set the value for the database from display format.
 	 *
 	 * @param string $key
 	 * @param mixed $value
 	 *
-	 * @return void
+	 * @return $this
 	 */
-	public function setDBValue(string $key, $value)
+	public function setFromDisplayFormat(string $key, $value)
 	{
-		$fieldModel = $this->getField($key);
-		if($fieldModel){
+		if($fieldModel = $this->getField($key)){
 			$this->set($key, $fieldModel->getDBValue($value));
 		}
+		return $this;
 	}
 
 	/**

@@ -12,46 +12,6 @@ class API_CardDAV_Model
 	const ADDRESSBOOK_NAME = 'YFAddressBook';
 	const PRODID = 'YetiForceCRM';
 
-	/**
-	 * Address mapping for modules.
-	 */
-	const ADDRESS_MAPPING = [
-		'Contacts' => [
-			'WORK' => [
-				'addresslevel1a' => ['country'],
-				'addresslevel7a' => ['postCode'],
-				'addresslevel2a' => ['state'],
-				'addresslevel5a' => ['city'],
-				'addresslevel8a' => ['street'],
-				'localnumbera' => ['localNumber']
-			],
-			'HOME' => [
-				'addresslevel1b' => ['country'],
-				'addresslevel7b' => ['postCode'],
-				'addresslevel2b' => ['state'],
-				'addresslevel5b' => ['city'],
-				'addresslevel8b' => ['street'],
-				'localnumberb' => ['localNumber']
-			],
-		],
-		'OSSEmployees' => [
-			'WORK' => [
-				'country' => ['country'],
-				'code' => ['postCode'],
-				'state' => ['state'],
-				'city' => ['city'],
-				'street' => ['localNumber', 'street'],
-			],
-			'HOME' => [
-				'ship_country' => ['country'],
-				'ship_code' => ['postCode'],
-				'ship_state' => ['state'],
-				'ship_city' => ['city'],
-				'ship_street' => ['localNumber', 'street'],
-			],
-		],
-	];
-
 	public $pdo = false;
 
 	/**
@@ -332,12 +292,12 @@ class API_CardDAV_Model
 		\App\Log::trace(__METHOD__ . ' | Start Card ID' . $card['id']);
 		$vcard = Sabre\VObject\Reader::read($card['carddata']);
 		$record = Vtiger_Record_Model::getCleanInstance($moduleName);
-		if ($moduleName==='Contacts' && isset($vcard->ORG)) {
+		if ('Contacts' === $moduleName && isset($vcard->ORG)) {
 			$lead = Vtiger_Record_Model::getCleanInstance('Leads');
 			$lead->set('assigned_user_id', $this->user->get('id'));
 			$lead->set('leadstatus', 'PLL_PENDING');
 			$lead->set('vat_id', '');
-			$lead->setDBValue('company', \App\Purifier::purify((string) $vcard->ORG));
+			$lead->setFromDisplayFormat('company', \App\Purifier::purify((string) $vcard->ORG));
 			$lead->save();
 			$fieldModel = current($record->getModule()->getReferenceFieldsForModule('Leads'));
 			if ($fieldModel) {
@@ -375,7 +335,7 @@ class API_CardDAV_Model
 	 *
 	 * @return void
 	 */
-	private function updateIdAndModifiedTime(Vtiger_Record_Model $record, array $card)
+	protected function updateIdAndModifiedTime(Vtiger_Record_Model $record, array $card)
 	{
 		$stmt = $this->pdo->prepare('UPDATE dav_cards SET crmid = ? WHERE id = ?;');
 		$stmt->execute([
@@ -402,19 +362,19 @@ class API_CardDAV_Model
 		$head = $vcard->N->getParts();
 		$moduleName = $record->getModuleName();
 		if ('Contacts' === $moduleName) {
-			$record->setDBValue('firstname', \App\Purifier::purify($head[1]));
-			$record->setDBValue('lastname', \App\Purifier::purify($head[0]));
-			$record->setDBValue('jobtitle', \App\Purifier::purify((string) $vcard->TITLE));
+			$record->setFromDisplayFormat('firstname', \App\Purifier::purify($head[1]));
+			$record->setFromDisplayFormat('lastname', \App\Purifier::purify($head[0]));
+			$record->setFromDisplayFormat('jobtitle', \App\Purifier::purify((string) $vcard->TITLE));
 		} elseif ('OSSEmployees' === $moduleName) {
-			$record->setDBValue('name', \App\Purifier::purify($head[1]));
-			$record->setDBValue('last_name', \App\Purifier::purify($head[0]));
+			$record->setFromDisplayFormat('name', \App\Purifier::purify($head[1]));
+			$record->setFromDisplayFormat('last_name', \App\Purifier::purify($head[0]));
 		}
-		$record->setDBValue('description', \App\Purifier::purify((string) $vcard->NOTE));
+		$record->setFromDisplayFormat('description', \App\Purifier::purify((string) $vcard->NOTE));
 		foreach ($this->telFields[$moduleName] as $key => $val) {
-			$record->setDBValue($key, $this->getCardTel($vcard, $val));
+			$record->setFromDisplayFormat($key, $this->getCardTel($vcard, $val));
 		}
 		foreach ($this->mailFields[$moduleName] as $key => $val) {
-			$record->setDBValue($key, $this->getCardMail($vcard, $val));
+			$record->setFromDisplayFormat($key, $this->getCardMail($vcard, $val));
 		}
 		if (isset($vcard->ADR)) {
 			$this->setRecordAddres($vcard, $moduleName, $record);
@@ -619,21 +579,22 @@ class API_CardDAV_Model
 			$typeOfAddress = $this->getTypeOfAddress($property);
 			if ($typeOfAddress) {
 				$address = $this->convertAddress($property->getParts());
-				foreach (static::ADDRESS_MAPPING[$moduleName][$typeOfAddress] ?? [] as $fieldInCrm => $fieldsInVCard) {
+				foreach (App\Integrations\Dav\Card::ADDRESS_MAPPING[$moduleName][$typeOfAddress] ?? [] as $fieldInCrm => $fieldsInVCard) {
 					$fieldsForJoin = [];
 					foreach ($fieldsInVCard as $val) {
 						$fieldsForJoin[] = $address[$val];
 					}
-					$record->setDBValue($fieldInCrm, implode(' ', $fieldsForJoin));
+					$record->setFromDisplayFormat($fieldInCrm, implode(' ', $fieldsForJoin));
 				}
 			}
 		}
 	}
 
 	/**
-	 * Convert address
+	 * Convert address.
 	 *
 	 * @param array $addressFromVCard
+	 *
 	 * @return array
 	 */
 	private function convertAddress(array $addressFromVCard): array
@@ -653,6 +614,7 @@ class API_CardDAV_Model
 	 * Get type of address.
 	 *
 	 * @param mixed $property
+	 *
 	 * @return string|null
 	 */
 	private function getTypeOfAddress($property): ?string
