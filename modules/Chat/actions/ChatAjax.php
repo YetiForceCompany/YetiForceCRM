@@ -64,7 +64,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			'isSoundNotification' => $this->isSoundNotification(),
 			'isDesktopNotification' => $this->isDesktopNotification(),
 			'sendByEnter' => $this->sendByEnter(),
-			'showMoreButton' => true,
+			'showMoreButton' => $this->areMoreMessages(count($chatEntries)),
 			'refreshMessageTime' => App\Config::module('Chat', 'REFRESH_MESSAGE_TIME'),
 			'refreshRoomTime' => App\Config::module('Chat', 'REFRESH_ROOM_TIME'),
 			'maxLengthMessage' => App\Config::module('Chat', 'MAX_LENGTH_MESSAGE'),
