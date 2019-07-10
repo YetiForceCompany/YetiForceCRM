@@ -13,6 +13,18 @@ namespace App;
 class Company extends Base
 {
 	/**
+	 * Classification of enterprises due to their size.
+	 *
+	 * @var int[]
+	 */
+	public static $sizes = [
+		's' => 10,
+		'm' => 50,
+		'l' => 250,
+		'xl' => 0,
+	];
+
+	/**
 	 * Function to get the instance of the Company model.
 	 *
 	 * @return array
@@ -22,7 +34,7 @@ class Company extends Base
 		if (Cache::has('CompanyGetAll', '')) {
 			return Cache::get('CompanyGetAll', '');
 		}
-		$rows = (new \App\Db\Query())->from('s_#__companies')->all();
+		$rows = (new Db\Query())->from('s_#__companies')->all();
 		Cache::save('CompanyGetAll', '', $rows, Cache::LONG);
 		return $rows;
 	}
@@ -38,12 +50,12 @@ class Company extends Base
 	public static function statusUpdate(int $status, ?string $name = null)
 	{
 		if ($name) {
-			\App\Db::getInstance('admin')->createCommand()
+			Db::getInstance('admin')->createCommand()
 				->update('s_#__companies', [
 					'status' => $status
 				], ['name' => $name])->execute();
 		}
-		\App\Db::getInstance('admin')->createCommand()
+		Db::getInstance('admin')->createCommand()
 			->update('s_#__companies', [
 				'status' => $status
 			])->execute();
@@ -54,7 +66,7 @@ class Company extends Base
 	 *
 	 * @param array $companiesNew
 	 *
-	 * @throws \App\Exceptions\Security
+	 * @throws Exceptions\Security
 	 *
 	 * @return bool
 	 */
@@ -79,6 +91,30 @@ class Company extends Base
 			}
 			$recordModel->save();
 		}
-		return (new \App\YetiForce\Register())->register();
+		return (new YetiForce\Register())->register();
+	}
+
+	/**
+	 * Get company size.
+	 *
+	 * @return string
+	 */
+	public static function getSize(): string
+	{
+		if (Cache::has('CompanyGetSize', '')) {
+			return Cache::get('CompanyGetSize', '');
+		}
+		$count = (new Db\Query())->from('vtiger_users')->where(['status' => 'Active'])->andWhere(['<>', 'id', 1])->count();
+		$return = 's';
+		foreach (self::$sizes as $size => $value) {
+			if (0 !== $value && $count > $value) {
+				$return = $size;
+			}
+			if (0 === $value && $count > 250) {
+				$return = $size;
+			}
+		}
+		Cache::save('CompanyGetSize', '', $return, Cache::LONG);
+		return $return;
 	}
 }
