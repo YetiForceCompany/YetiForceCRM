@@ -61,7 +61,7 @@ class IStorages_ProductsValueTable_Textparser extends \App\TextParser\Base
 				$value = $qtyInStock * $unitPrice;
 				$totalValue += $value;
 				foreach ($columns as $header) {
-					$html .= "<td style=\"{$bodyStyle}\">" . $entry->getDisplayValue($header->getName()) . '</td>';
+					$html .= "<td style=\"{$bodyStyle}\">" . $entryRecordModel->getDisplayValue($header->getName()) . '</td>';
 				}
 				$html .= "<td style=\"{$bodyStyle}\">" . \App\Fields\Double::formatToDisplay($qtyInStock, false) . '</td>';
 				$html .= "<td style=\"{$bodyStyle}\">" . \App\Fields\Double::formatToDisplay($qtyPerUnit, false) . '</td>';
