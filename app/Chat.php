@@ -885,7 +885,7 @@ final class Chat
 			$query->andWhere(['LIKE', 'C.messages', $searchVal]);
 		}
 		if ($isLimit) {
-			$query->limit(\App\Config::module('Chat', 'CHAT_ROWS_LIMIT'));
+			$query->limit(\App\Config::module('Chat', 'CHAT_ROWS_LIMIT') + 1);
 		}
 		return $query->orderBy(['id' => \SORT_DESC]);
 	}

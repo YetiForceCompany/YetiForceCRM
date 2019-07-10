@@ -54,6 +54,10 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	{
 		$chat = \App\Chat::getInstance();
 		$chatEntries = $chat->getEntries();
+		$areMoreMessages = $this->areMoreMessages(count($chatEntries));
+		if ($areMoreMessages) {
+			array_shift($chatEntries);
+		}
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'chatEntries' => $chatEntries,
@@ -64,7 +68,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			'isSoundNotification' => $this->isSoundNotification(),
 			'isDesktopNotification' => $this->isDesktopNotification(),
 			'sendByEnter' => $this->sendByEnter(),
-			'showMoreButton' => $this->areMoreMessages(count($chatEntries)),
+			'showMoreButton' => $areMoreMessages,
 			'refreshMessageTime' => App\Config::module('Chat', 'REFRESH_MESSAGE_TIME'),
 			'refreshRoomTime' => App\Config::module('Chat', 'REFRESH_ROOM_TIME'),
 			'maxLengthMessage' => App\Config::module('Chat', 'MAX_LENGTH_MESSAGE'),
@@ -103,13 +107,17 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			return;
 		}
 		$chatEntries = $chat->getEntries($request->has('lastId') ? $request->getInteger('lastId') : null);
+		$areMoreMessages = $this->areMoreMessages(count($chatEntries));
+		if ($areMoreMessages) {
+			array_shift($chatEntries);
+		}
 		$result = [
 			'chatEntries' => $chatEntries,
 			'roomList' => \App\Chat::getRoomsByUser(),
 			'participants' => $chat->getParticipants()
 		];
 		if (!$request->has('lastId')) {
-			$result['showMoreButton'] = $this->areMoreMessages(count($chatEntries));
+			$result['showMoreButton'] = 	$areMoreMessages;
 			$result['currentRoom'] = \App\Chat::getCurrentRoom();
 		}
 
@@ -130,11 +138,15 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	{
 		$chat = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'));
 		$chatEntries = $chat->getEntries($request->getInteger('lastId'), '<');
+		$areMoreMessages = $this->areMoreMessages(count($chatEntries));
+		if ($areMoreMessages) {
+			array_shift($chatEntries);
+		}
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'currentRoom' => \App\Chat::getCurrentRoom(),
 			'chatEntries' => $chatEntries,
-			'showMoreButton' => $this->areMoreMessages(count($chatEntries)),
+			'showMoreButton' => $areMoreMessages,
 		]);
 		$response->emit();
 	}
@@ -151,11 +163,15 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		}
 		$chat->addMessage(\App\Utils\Completions::encodeAll($request->getForHtml('message')));
 		$chatEntries = $chat->getEntries($request->isEmpty('mid') ? null : $request->getInteger('mid'));
+		$areMoreMessages = $this->areMoreMessages(count($chatEntries));
+		if ($areMoreMessages) {
+			array_shift($chatEntries);
+		}
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'chatEntries' => $chatEntries,
 			'participants' => $chat->getParticipants(),
-			'showMoreButton' => $this->areMoreMessages(count($chatEntries))
+			'showMoreButton' => $areMoreMessages
 		]);
 		$response->emit();
 	}
@@ -176,11 +192,15 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		} else {
 			$chatEntries = $chat->getEntries(null, '>', $searchVal);
 		}
+		$areMoreMessages = $this->areMoreMessages(count($chatEntries));
+		if ($areMoreMessages) {
+			array_shift($chatEntries);
+		}
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'currentRoom' => \App\Chat::getCurrentRoom(),
 			'chatEntries' => $chatEntries,
-			'showMoreButton' => $this->areMoreMessages(count($chatEntries))
+			'showMoreButton' => $areMoreMessages
 		]);
 		$response->emit();
 	}
@@ -223,10 +243,14 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		} else {
 			$chatEntries = $chat->getHistoryByType($groupHistory, $request->getInteger('mid'));
 		}
+		$areMoreMessages = $this->areMoreMessages(count($chatEntries));
+		if ($areMoreMessages) {
+			array_shift($chatEntries);
+		}
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'chatEntries' => $chatEntries,
-			'showMoreButton' => $this->areMoreMessages(count($chatEntries))
+			'showMoreButton' => $areMoreMessages
 		]);
 		$response->emit();
 	}
