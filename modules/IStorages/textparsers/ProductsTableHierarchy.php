@@ -26,24 +26,24 @@ class IStorages_ProductsTableHierarchy_Textparser extends \App\TextParser\Base
 	public function process()
 	{
 		$html = '';
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \Vtiger_Paging_Model();
 		$pagingModel->set('limit', 0);
 		$relationModuleName = 'Products';
-		$columns = ['Product Name', 'FL_EAN_13', 'Product Category'];
 		// Products from main storage
-		$relationListView = Vtiger_RelationListView_Model::getInstance($this->textParser->recordModel, $relationModuleName);
+		$relationListView = \Vtiger_RelationListView_Model::getInstance($this->textParser->recordModel, $relationModuleName);
+		$productModel = $relationListView->getRelatedModuleModel();
 		// Summary table with products from all storages
 		$allEntries[$this->textParser->record] = $relationListView->getEntries($pagingModel);
-		$headers = $relationListView->getHeaders();
 		// Hierarchy of main storage (contains child storages)
 		$focus = $this->textParser->recordModel->getEntity();
 		$storageList[$this->textParser->record] = [
 			'depth' => 0,
 			'subject' => $this->textParser->recordModel->get('subject'),
-			'assigned_user_id' => $this->textParser->recordModel->get('assigned_user_id_label'),
+			'assigned_user_id' => \App\User::getCurrentUserModel($this->textParser->recordModel->get('assigned_user_id'))->getName()
 		];
 		$storageList = $focus->getChildIStorages($this->textParser->record, $storageList[$this->textParser->record], $storageList[$this->textParser->record]['depth']);
-		$hierarchyList = $focus->getHierarchyData($this->textParser->record, $storageList, $this->textParser->record, [], true);
+		$listviewEntries = [];
+		$hierarchyList = $focus->getHierarchyData($this->textParser->record, $storageList, $this->textParser->record, $listviewEntries, true);
 		// String with all storages (main and its children) names
 		$storageSubjectList = '';
 		$storegeSubjectArray = [];
@@ -57,7 +57,7 @@ class IStorages_ProductsTableHierarchy_Textparser extends \App\TextParser\Base
 				$storageSubjectList .= $storageInfo[0] . ', ';
 			}
 			$storageIdsArray[] = $storageId;
-			if (is_array($storageInfo) && (int) $storageId && $storageId != $this->textParser->record) {
+			if (\is_array($storageInfo) && (int) $storageId && $storageId != $this->textParser->record) {
 				// Getting storage products if it is child of main storage
 				$storageRecordModel = Vtiger_Record_Model::getInstanceById($storageId);
 				$storageRelationListView = Vtiger_RelationListView_Model::getInstance($storageRecordModel, $relationModuleName);
@@ -72,11 +72,11 @@ class IStorages_ProductsTableHierarchy_Textparser extends \App\TextParser\Base
 			$productId = $row['relcrmid'];
 			$storageId = $row['crmid'];
 			$qty = $row['qtyinstock'];
-			if (isset($productsQty[$productId]) === false) {
+			if (false === isset($productsQty[$productId])) {
 				$productsQty[$productId] = 0;
 			}
 			foreach ($storegeSubjectArray as $i => $storageData) {
-				if (isset($storegeSubjectArray[$i]['products'][$productId]) === false) {
+				if (false === isset($storegeSubjectArray[$i]['products'][$productId])) {
 					$storegeSubjectArray[$i]['products'][$productId] = 0;
 				}
 			}
@@ -84,17 +84,7 @@ class IStorages_ProductsTableHierarchy_Textparser extends \App\TextParser\Base
 			$productsQty[$productId] += (float) $qty;
 		}
 		$dataReader->close();
-		$html .= '<style>' .
-			'.productTable {color:#000; font-size:10px; width:100%}' .
-			'.productTable th {text-transform: uppercase;font-weight:normal}' .
-			'.productTable tbody tr:nth-child(odd){background:#eee}' .
-			'.productTable tr td{border-bottom: 1px solid #ddd; padding:5px;text-align:center; }' .
-			'.productTable td, th {padding-left: 5px; padding-right: 5px;}' .
-			'.productTable .width30 {width:30%}' .
-			'.productTable .width25 {width:25%}' .
-			'.productTable .width15 {width:15%}' .
-			'</style>';
-		if ($storageSubjectList != '') {
+		if ('' != $storageSubjectList) {
 			$html .= '<div style="width:50%;float:right;">';
 			$html .= '<table style="width:100%;border-collapse:collapse;font-size:10px;padding:5px;">';
 			foreach ($storegeSubjectArray as $storageData) {
@@ -104,35 +94,28 @@ class IStorages_ProductsTableHierarchy_Textparser extends \App\TextParser\Base
 			$html .= '</table>';
 			$html .= '</div>';
 		}
-		if (count($productsQty) > 0) {
-			$html .= '<div style="width:100%"><table border="0" cellpadding="0" cellspacing="0" class="productTable"><thead><tr>';
-			foreach ($headers as $header) {
-				$label = $header->get('label');
-				if (in_array($label, $columns)) {
-					switch ($label) {
-						default:
-							$class = 'class="width15"';
-							break;
-						case 'Product Name':
-							$class = 'class="width30"';
-							break;
-						case 'Procuct Category':
-							$class = 'class="width25"';
-							break;
-					}
-					$html .= '<th ' . $class . ' style="padding:10px">' . \App\Language::translate($header->get('label'), 'Products') . '</th>';
-				}
+		$html .= '<table border="1" class="products-table" style="border-collapse:collapse;width:100%;"><thead><tr>';
+		$headerStyle = 'font-size:9px;padding:0px 4px;text-align:center;';
+		$bodyStyle = 'font-size:8px;border:1px solid #ddd;padding:0px 4px;';
+		foreach (['productname', 'ean', 'pscategory'] as $fieldName) {
+			$fieldModel = $productModel->getFieldByName($fieldName);
+			if (!$fieldModel || !$fieldModel->isActiveField()) {
+				continue;
 			}
-			$html .= '<th class="width15" style="padding:10px">' . \App\Language::translate('Qty In Stock', $relationModuleName) . '</th>';
-			$html .= '<th class="width15" style="padding:10px">' . \App\Language::translate('Qty/Unit', $relationModuleName) . '</th>';
-			$html .= '</tr></thead><tbody>';
+			$columns[$fieldName] = $fieldModel;
+			$html .= "<th style=\"{$headerStyle}\">" . \App\Language::translate($fieldModel->getFieldLabel(), $relationModuleName) . '</th>';
+		}
+		$html .= "<th style=\"{$headerStyle}\">" . \App\Language::translate('Qty In Stock', $relationModuleName) . '</th>';
+		$html .= "<th style=\"{$headerStyle}\">" . \App\Language::translate('Qty/Unit', $relationModuleName) . '</th>';
+		$html .= '</tr></thead><tbody>';
+		if (\count($productsQty) > 0) {
 			$productsInTable = [];
 			foreach ($allEntries as $entries) {
 				foreach ($entries as $entry) {
 					$entryId = $entry->getId();
 					$entryRecordModel = Vtiger_Record_Model::getInstanceById($entryId, $relationModuleName);
 					$productId = $entryRecordModel->get('id');
-					if (isset($productsQty[$productId]) && in_array($productId, $productsInTable) === false) {
+					if (isset($productsQty[$productId]) && false === \in_array($productId, $productsInTable)) {
 						$storagesQtyString = '[';
 						foreach ($storegeSubjectArray as $storageData) {
 							$storagesQtyString .= $storageData['products'][$productId] . ',';
@@ -141,15 +124,11 @@ class IStorages_ProductsTableHierarchy_Textparser extends \App\TextParser\Base
 						$storagesQtyString .= ']';
 						$productsInTable[] = $productId;
 						$html .= '<tr>';
-						foreach ($headers as $header) {
-							$label = $header->get('label');
-							$colName = $header->get('name');
-							if (in_array($label, $columns)) {
-								$html .= '<td>' . $entry->getDisplayValue($colName) . '</td>';
-							}
+						foreach ($columns as $header) {
+							$html .= "<td style=\"{$bodyStyle}\">" . $entryRecordModel->getDisplayValue($header->getName()) . '</td>';
 						}
-						$html .= '<td>' . $productsQty[$productId] . ' ' . $storagesQtyString . '</td>';
-						$html .= '<td>' . $entryRecordModel->get('qty_per_unit') . '</td>';
+						$html .= "<td style=\"{$bodyStyle}\">" . $productsQty[$productId] . ' ' . $storagesQtyString . '</td>';
+						$html .= "<td style=\"{$bodyStyle}\">" . \App\Fields\Double::formatToDisplay($entryRecordModel->get('qty_per_unit'), false) . '</td>';
 						$html .= '</tr>';
 					}
 				}
