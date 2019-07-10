@@ -290,22 +290,9 @@ class API_CardDAV_Model
 	public function createRecord(string $moduleName, array $card)
 	{
 		\App\Log::trace(__METHOD__ . ' | Start Card ID' . $card['id']);
-		$vcard = Sabre\VObject\Reader::read($card['carddata']);
 		$record = Vtiger_Record_Model::getCleanInstance($moduleName);
-		if ('Contacts' === $moduleName && isset($vcard->ORG)) {
-			$lead = Vtiger_Record_Model::getCleanInstance('Leads');
-			$lead->set('assigned_user_id', $this->user->get('id'));
-			$lead->set('leadstatus', 'PLL_PENDING');
-			$lead->set('vat_id', '');
-			$lead->setFromDisplayFormat('company', \App\Purifier::purify((string) $vcard->ORG));
-			$lead->save();
-			$fieldModel = current($record->getModule()->getReferenceFieldsForModule('Leads'));
-			if ($fieldModel) {
-				$record->set($fieldModel->getFieldName(), $lead->getId());
-			}
-		}
-		$record->set('assigned_user_id', $this->user->get('id'));
-		$this->setValuesForRecord($record, $vcard);
+		$cartInstance = \App\Integrations\Dav\Card::loadFromContent($card['carddata']);
+		$cartInstance->setValuesForCreateRecord($record, $this->user->get('id'));
 		$record->save();
 		$this->updateIdAndModifiedTime($record, $card);
 		\App\Log::trace(__METHOD__ . ' | End');
@@ -320,8 +307,8 @@ class API_CardDAV_Model
 	public function updateRecord(Vtiger_Record_Model $record, array $card)
 	{
 		\App\Log::trace(__METHOD__ . ' | Start Card ID:' . $card['id']);
-		$vcard = Sabre\VObject\Reader::read($card['carddata']);
-		$this->setValuesForRecord($record, $vcard);
+		$cartInstance = \App\Integrations\Dav\Card::loadFromContent($card['carddata']);
+		$cartInstance->setValuesForRecord($record);
 		$record->save();
 		$this->updateIdAndModifiedTime($record, $card);
 		\App\Log::trace(__METHOD__ . ' | End');
@@ -347,38 +334,6 @@ class API_CardDAV_Model
 			date('Y-m-d H:i:s', $card['lastmodified']),
 			$record->getId(),
 		]);
-	}
-
-	/**
-	 * Set values for record.
-	 *
-	 * @param Vtiger_Record_Model            $record
-	 * @param \Sabre\VObject\Component\VCard $vcard
-	 *
-	 * @return void
-	 */
-	private function setValuesForRecord(Vtiger_Record_Model $record, Sabre\VObject\Component\VCard $vcard)
-	{
-		$head = $vcard->N->getParts();
-		$moduleName = $record->getModuleName();
-		if ('Contacts' === $moduleName) {
-			$record->setFromDisplayFormat('firstname', \App\Purifier::purify($head[1]));
-			$record->setFromDisplayFormat('lastname', \App\Purifier::purify($head[0]));
-			$record->setFromDisplayFormat('jobtitle', \App\Purifier::purify((string) $vcard->TITLE));
-		} elseif ('OSSEmployees' === $moduleName) {
-			$record->setFromDisplayFormat('name', \App\Purifier::purify($head[1]));
-			$record->setFromDisplayFormat('last_name', \App\Purifier::purify($head[0]));
-		}
-		$record->setFromDisplayFormat('description', \App\Purifier::purify((string) $vcard->NOTE));
-		foreach ($this->telFields[$moduleName] as $key => $val) {
-			$record->setFromDisplayFormat($key, $this->getCardTel($vcard, $val));
-		}
-		foreach ($this->mailFields[$moduleName] as $key => $val) {
-			$record->setFromDisplayFormat($key, $this->getCardMail($vcard, $val));
-		}
-		if (isset($vcard->ADR)) {
-			$this->setRecordAddres($vcard, $moduleName, $record);
-		}
 	}
 
 	public function getCrmRecordsToSync($moduleName)
@@ -417,71 +372,6 @@ class API_CardDAV_Model
 			->from('dav_cards')
 			->leftJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = dav_cards.crmid')
 			->where(['dav_cards.addressbookid' => $this->addressBookId]);
-	}
-
-	/**
-	 * Get card phone.
-	 *
-	 * @param Sabre\VObject\Component $vcard
-	 * @param string                  $type
-	 *
-	 * @return string
-	 */
-	public function getCardTel(Sabre\VObject\Component $vcard, string $type): string
-	{
-		\App\Log::trace(__METHOD__ . ' | Start | Type:' . $type);
-		if (!isset($vcard->TEL)) {
-			\App\Log::trace(__METHOD__ . ' | End | return: ""');
-			return '';
-		}
-		$type = strtoupper($type);
-		foreach ($vcard->TEL as $t) {
-			foreach ($t->parameters() as $p) {
-				$vcardType = strtoupper(trim(str_replace('VOICE', '', $p->getValue()), ','));
-				if ($vcardType === $type && !empty($t->getValue())) {
-					$phone = \App\Purifier::purify($t->getValue());
-					if (\App\Config::main('phoneFieldAdvancedVerification', false) && !($phone = \App\Fields\Phone::getProperNumber($phone, ($this->user ? $this->user->getId() : null)))) {
-						$phone = '';
-					}
-					\App\Log::trace(__METHOD__ . ' | End | return: ' . $phone);
-
-					return $phone;
-				}
-			}
-		}
-		\App\Log::trace(__METHOD__ . ' | End | return: ""');
-		return '';
-	}
-
-	/**
-	 * Get card mail.
-	 *
-	 * @param Sabre\VObject\Component $vcard
-	 * @param string                  $type
-	 *
-	 * @return string
-	 */
-	public function getCardMail(Sabre\VObject\Component $vcard, string $type): string
-	{
-		\App\Log::trace(__METHOD__ . ' | Start | Type:' . $type);
-		if (!isset($vcard->EMAIL)) {
-			\App\Log::trace(__METHOD__ . ' | End | return: ""');
-			return '';
-		}
-		foreach ($vcard->EMAIL as $e) {
-			foreach ($e->parameters() as $p) {
-				$vcardType = $p->getValue();
-				$vcardType = trim(str_replace('pref', '', $vcardType), ',');
-				$vcardType = strtoupper(trim(str_replace('INTERNET', '', $vcardType), ','));
-				if ($vcardType == strtoupper($type) && '' != $vcardType) {
-					\App\Log::trace(__METHOD__ . ' | End | return: ' . $e->getValue());
-
-					return \App\Purifier::purify($e->getValue());
-				}
-			}
-		}
-		\App\Log::trace(__METHOD__ . ' | End | return: ""');
-		return '';
 	}
 
 	protected function markComplete($moduleName, $crmid)
@@ -564,70 +454,6 @@ class API_CardDAV_Model
 			$vcard->add('ADR', $adr2, ['type' => 'HOME']);
 		}
 		return $vcard;
-	}
-
-	/**
-	 * Set record addres.
-	 *
-	 * @param Sabre\VObject\Component $vcard
-	 * @param string                  $moduleName
-	 * @param Vtiger_Record_Model     $record
-	 */
-	public function setRecordAddres(Sabre\VObject\Component $vcard, string $moduleName, Vtiger_Record_Model $record)
-	{
-		foreach ($vcard->ADR as $property) {
-			$typeOfAddress = $this->getTypeOfAddress($property);
-			if ($typeOfAddress) {
-				$address = $this->convertAddress($property->getParts());
-				foreach (App\Integrations\Dav\Card::ADDRESS_MAPPING[$moduleName][$typeOfAddress] ?? [] as $fieldInCrm => $fieldsInVCard) {
-					$fieldsForJoin = [];
-					foreach ($fieldsInVCard as $val) {
-						$fieldsForJoin[] = $address[$val];
-					}
-					$record->setFromDisplayFormat($fieldInCrm, implode(' ', $fieldsForJoin));
-				}
-			}
-		}
-	}
-
-	/**
-	 * Convert address.
-	 *
-	 * @param array $addressFromVCard
-	 *
-	 * @return array
-	 */
-	private function convertAddress(array $addressFromVCard): array
-	{
-		return [
-			'country' => \App\Fields\Country::findCountryName(\App\Purifier::purify($addressFromVCard[6])),
-			'postCode' => \App\Purifier::purify($addressFromVCard[5]),
-			'state' => \App\Purifier::purify($addressFromVCard[4]),
-			'city' => \App\Purifier::purify($addressFromVCard[3]),
-			'street' => \App\Purifier::purify(trim($addressFromVCard[2])),
-			'localNumber' => \App\Purifier::purify($addressFromVCard[1]),
-			'postOfficeBox' => App\Purifier::purify($addressFromVCard[0]),
-		];
-	}
-
-	/**
-	 * Get type of address.
-	 *
-	 * @param mixed $property
-	 *
-	 * @return string|null
-	 */
-	private function getTypeOfAddress($property): ?string
-	{
-		$typeOfAddress = null;
-		foreach ($property->parameters as $parameter) {
-			$value = strtoupper($parameter->getValue());
-			if ('WORK' === $value || 'HOME' == $value) {
-				$typeOfAddress = $value;
-				break;
-			}
-		}
-		return $typeOfAddress;
 	}
 
 	/**
