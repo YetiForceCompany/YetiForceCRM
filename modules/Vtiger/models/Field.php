@@ -440,7 +440,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function isNameField()
 	{
 		$moduleModel = $this->getModule();
-		return $moduleModel && !$this->isReferenceField() && in_array($this->getFieldName(), $moduleModel->getNameFields());
+		return $moduleModel && !$this->isReferenceField() && \in_array($this->getFieldName(), $moduleModel->getNameFields());
 	}
 
 	/**
@@ -595,7 +595,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isViewEnabled()
 	{
-		if (4 === $this->getDisplayType() || in_array($this->get('presence'), [1, 3])) {
+		if (4 === $this->getDisplayType() || \in_array($this->get('presence'), [1, 3])) {
 			return false;
 		}
 		return $this->getPermissions();
@@ -608,7 +608,10 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isViewable()
 	{
-		if (!$this->isViewEnabled() || !$this->isActiveReference() || ((306 === $this->get('uitype') || 307 === $this->get('uitype') || 311 === $this->get('uitype') || 312 === $this->get('uitype')) && 2 === $this->getDisplayType())) {
+		if (
+			!$this->isViewEnabled() || !$this->isActiveReference() ||
+			((306 === $this->get('uitype') || 307 === $this->get('uitype') || 311 === $this->get('uitype') || 312 === $this->get('uitype')) && 2 === $this->getDisplayType())
+		) {
 			return false;
 		}
 		return true;
@@ -676,7 +679,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function isAjaxEditable()
 	{
 		$ajaxRestrictedFields = ['4', '72', '10', '300', '51', '59'];
-		if (!$this->isEditable() || in_array($this->get('uitype'), $ajaxRestrictedFields) || !$this->getUITypeModel()->isAjaxEditable() || 10 === (int) $this->get('displaytype')) {
+		if (!$this->isEditable() || \in_array($this->get('uitype'), $ajaxRestrictedFields) || !$this->getUITypeModel()->isAjaxEditable() || 10 === (int) $this->get('displaytype')) {
 			return false;
 		}
 		return true;
@@ -878,7 +881,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			case 'owner':
 			case 'userCreator':
 			case 'sharedOwner':
-				if (!App\Config::performance('SEARCH_OWNERS_BY_AJAX') || in_array(\App\Request::_get('module'), ['CustomView', 'Workflows', 'PDF', 'MappedFields']) || 'showAdvancedSearch' === \App\Request::_get('mode')) {
+				if (!App\Config::performance('SEARCH_OWNERS_BY_AJAX') || \in_array(\App\Request::_get('module'), ['CustomView', 'Workflows', 'PDF', 'MappedFields']) || 'showAdvancedSearch' === \App\Request::_get('mode')) {
 					$userList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
 					$groupList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $fieldDataType);
 					$pickListValues = [];
@@ -907,10 +910,10 @@ class Vtiger_Field_Model extends vtlib\Field
 			case 'email':
 				if (\App\Config::security('EMAIL_FIELD_RESTRICTED_DOMAINS_ACTIVE') && !empty(\App\Config::security('EMAIL_FIELD_RESTRICTED_DOMAINS_VALUES'))) {
 					$validate = false;
-					if (empty(\App\Config::security('EMAIL_FIELD_RESTRICTED_DOMAINS_ALLOWED')) || in_array($this->getModuleName(), \App\Config::security('EMAIL_FIELD_RESTRICTED_DOMAINS_ALLOWED'))) {
+					if (empty(\App\Config::security('EMAIL_FIELD_RESTRICTED_DOMAINS_ALLOWED')) || \in_array($this->getModuleName(), \App\Config::security('EMAIL_FIELD_RESTRICTED_DOMAINS_ALLOWED'))) {
 						$validate = true;
 					}
-					if (in_array($this->getModuleName(), \App\Config::security('EMAIL_FIELD_RESTRICTED_DOMAINS_EXCLUDED'))) {
+					if (\in_array($this->getModuleName(), \App\Config::security('EMAIL_FIELD_RESTRICTED_DOMAINS_EXCLUDED'))) {
 						$validate = false;
 					}
 					if ($validate) {
@@ -962,9 +965,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * Function to retrieve field model for specific block and module.
 	 *
-	 * @param Vtiger_Module_Model $blockModel - block instance
+	 * @param vtlib\ModuleBasic   $moduleModel
 	 *
-	 * @return <array> List of field model
+	 * @return Vtiger_Field_Model[][]
 	 */
 	public static function getAllForModule(vtlib\ModuleBasic $moduleModel)
 	{
@@ -975,7 +978,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		$fieldObjects = parent::getAllForModule($moduleModel);
 		$fieldModelList = [];
 		//if module dont have any fields
-		if (!is_array($fieldObjects)) {
+		if (!\is_array($fieldObjects)) {
 			$fieldObjects = [];
 		}
 		foreach ($fieldObjects as &$fieldObject) {
@@ -1021,11 +1024,11 @@ class Vtiger_Field_Model extends vtlib\Field
 	 *
 	 * @param array|string $fieldInfo
 	 *
-	 * @return null|bool|\Vtiger_Field_Model|\vtlib\Field
+	 * @return bool|\Vtiger_Field_Model|\vtlib\Field|null
 	 */
 	public static function getInstanceFromFilter($fieldInfo)
 	{
-		if (is_string($fieldInfo)) {
+		if (\is_string($fieldInfo)) {
 			$fieldInfo = array_combine(['module_name', 'field_name', 'source_field_name'], array_pad(explode(':', $fieldInfo), 3, false));
 		}
 		return static::getInstance($fieldInfo['field_name'], Vtiger_Module_Model::getInstance($fieldInfo['module_name']));
@@ -1250,7 +1253,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	{
 		$mandatoryValue = strtoupper($mandatoryValue);
 		$supportedMandatoryLiterals = ['O', 'M'];
-		if (!in_array($mandatoryValue, $supportedMandatoryLiterals)) {
+		if (!\in_array($mandatoryValue, $supportedMandatoryLiterals)) {
 			return;
 		}
 		$typeOfData = $this->get('typeofdata');
@@ -1275,7 +1278,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	{
 		$presence = $this->get('presence');
 
-		return in_array($presence, [0, 2]);
+		return \in_array($presence, [0, 2]);
 	}
 
 	public function isMassEditable()
@@ -1334,12 +1337,12 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isTreeField(): bool
 	{
-		return in_array($this->getFieldDataType(), ['tree', 'categoryMultipicklist']);
+		return \in_array($this->getFieldDataType(), ['tree', 'categoryMultipicklist']);
 	}
 
 	public function isReferenceField()
 	{
-		return in_array($this->getFieldDataType(), self::$referenceTypes);
+		return \in_array($this->getFieldDataType(), self::$referenceTypes);
 	}
 
 	public function isOwnerField()
@@ -1398,7 +1401,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function getFieldParams()
 	{
 		$data = \App\Json::decode($this->get('fieldparams'));
-		if (!is_array($data)) {
+		if (!\is_array($data)) {
 			$data = $this->get('fieldparams');
 			if (empty($data)) {
 				return [];
@@ -1463,7 +1466,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			return;
 		}
 		$data = $this->getDBColumnType(false);
-		if (!in_array($data['type'], $allowedTypes)) {
+		if (!\in_array($data['type'], $allowedTypes)) {
 			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_TYPE');
 		}
 		switch ($data['type']) {
@@ -1499,7 +1502,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 *
 	 * @return string[]
 	 */
-	public function getQueryOperators():array
+	public function getQueryOperators(): array
 	{
 		$operators = $this->getUITypeModel()->getQueryOperators();
 		$oper = [];
@@ -1515,12 +1518,13 @@ class Vtiger_Field_Model extends vtlib\Field
 		}
 		return $oper;
 	}
+
 	/**
 	 * Return allowed record operators for field.
 	 *
 	 * @return string[]
 	 */
-	public function getRecordOperators():array
+	public function getRecordOperators(): array
 	{
 		$operators = $this->getUITypeModel()->getRecordOperators();
 		$oper = [];
@@ -1546,7 +1550,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getOperatorTemplateName(string $operator)
 	{
-		if (in_array($operator, App\Condition::OPERATORS_WITHOUT_VALUES + array_keys(App\Condition::DATE_OPERATORS))) {
+		if (\in_array($operator, App\Condition::OPERATORS_WITHOUT_VALUES + array_keys(App\Condition::DATE_OPERATORS))) {
 			return;
 		}
 		return $this->getUITypeModel()->getOperatorTemplateName($operator);
@@ -1556,6 +1560,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 * Sets data.
 	 *
 	 * @param array $data
+	 *
 	 * @return self
 	 */
 	public function setData(array $data = [])
