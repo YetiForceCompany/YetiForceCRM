@@ -98,7 +98,7 @@ export default {
         AppConnector.request({
           module: 'Chat',
           action: 'ChatAjax',
-          mode: 'getEntries',
+          mode: 'getMessages',
           lastId:
             this.data.chatEntries.slice(-1)[0] !== undefined ? this.data.chatEntries.slice(-1)[0]['id'] : undefined,
           recordId: this.data.currentRoom.recordId,

@@ -789,7 +789,7 @@ $.Class(
 $(document).ready(function() {
 	if (window.ChatModalVueComponent !== undefined) {
 		window.ChatModalVueComponent.mount({
-			el: '#ChatModal'
+			el: '#ChatModalVue'
 		});
 	}
 	window.addEventListener('popstate', event => {

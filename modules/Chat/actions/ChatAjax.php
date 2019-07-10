@@ -21,9 +21,9 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('data');
-		$this->exposeMethod('getEntries');
-		$this->exposeMethod('getMore');
+		$this->exposeMethod('getInitData');
+		$this->exposeMethod('getMessages');
+		$this->exposeMethod('getMoreMessages');
 		$this->exposeMethod('getUnread');
 		$this->exposeMethod('getHistory');
 		$this->exposeMethod('getRooms');
@@ -44,13 +44,13 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	}
 
 	/**
-	 * Details knowledge base.
+	 * Get chat init data
 	 *
 	 * @param App\Request $request
 	 *
 	 * @return void
 	 */
-	public function data(App\Request $request)
+	public function getInitData(App\Request $request)
 	{
 		$chat = \App\Chat::getInstance();
 		$chatEntries = $chat->getEntries();
@@ -64,7 +64,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			'isSoundNotification' => $this->isSoundNotification(),
 			'isDesktopNotification' => $this->isDesktopNotification(),
 			'sendByEnter' => $this->sendByEnter(),
-			'showMoreButton' => count($chatEntries) > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT'),
+			'showMoreButton' => true,
 			'refreshMessageTime' => App\Config::module('Chat', 'REFRESH_MESSAGE_TIME'),
 			'refreshRoomTime' => App\Config::module('Chat', 'REFRESH_ROOM_TIME'),
 			'maxLengthMessage' => App\Config::module('Chat', 'MAX_LENGTH_MESSAGE'),
@@ -82,7 +82,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public function getEntries(\App\Request $request)
+	public function getMessages(\App\Request $request)
 	{
 		if ($request->has('roomType') && $request->has('recordId')) {
 			$roomType = $request->getByType('roomType');
@@ -103,14 +103,13 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			return;
 		}
 		$chatEntries = $chat->getEntries($request->has('lastId') ? $request->getInteger('lastId') : null);
-		$numberOfEntries = count($chatEntries);
 		$result = [
 			'chatEntries' => $chatEntries,
 			'roomList' => \App\Chat::getRoomsByUser(),
 			'participants' => $chat->getParticipants()
 		];
 		if (!$request->has('lastId')) {
-			$result['showMoreButton'] = $numberOfEntries > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT');
+			$result['showMoreButton'] = $this->areMoreMessages(count($chatEntries));
 			$result['currentRoom'] = \App\Chat::getCurrentRoom();
 		}
 
@@ -127,17 +126,16 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	 * @throws \App\Exceptions\IllegalValue
 	 * @throws \yii\db\Exception
 	 */
-	public function getMore(\App\Request $request)
+	public function getMoreMessages(\App\Request $request)
 	{
 		$chat = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'));
 		$chatEntries = $chat->getEntries($request->getInteger('lastId'), '<');
-		$result = [
+		$response = new Vtiger_Response();
+		$response->setResult([
 			'currentRoom' => \App\Chat::getCurrentRoom(),
 			'chatEntries' => $chatEntries,
-			'showMoreButton' => count($chatEntries) > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT'),
-		];
-		$response = new Vtiger_Response();
-		$response->setResult($result);
+			'showMoreButton' => $this->areMoreMessages(count($chatEntries)),
+		]);
 		$response->emit();
 	}
 	/**
@@ -157,7 +155,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$response->setResult([
 			'chatEntries' => $chatEntries,
 			'participants' => $chat->getParticipants(),
-			'showMoreButton' => count($chatEntries) > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT')
+			'showMoreButton' => $this->areMoreMessages(count($chatEntries))
 		]);
 		$response->emit();
 	}
@@ -178,13 +176,12 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		} else {
 			$chatEntries = $chat->getEntries(null, '>', $searchVal);
 		}
-		$result = [
+		$response = new Vtiger_Response();
+		$response->setResult([
 			'currentRoom' => \App\Chat::getCurrentRoom(),
 			'chatEntries' => $chatEntries,
-			'showMoreButton' => count($chatEntries) > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT'),
-		];
-		$response = new Vtiger_Response();
-		$response->setResult($result);
+			'showMoreButton' => $this->areMoreMessages(count($chatEntries))
+		]);
 		$response->emit();
 	}
 
@@ -197,13 +194,12 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	 */
 	public function getUnread(\App\Request $request)
 	{
-		$result = [
+		$response = new Vtiger_Response();
+		$response->setResult([
 			'crm' => \App\Chat::getUnreadByType('crm'),
 			'group' => \App\Chat::getUnreadByType('group'),
 			'global' => \App\Chat::getUnreadByType('global'),
-		];
-		$response = new Vtiger_Response();
-		$response->setResult($result);
+		]);
 		$response->emit();
 	}
 
@@ -227,12 +223,11 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		} else {
 			$chatEntries = $chat->getHistoryByType($groupHistory, $request->getInteger('mid'));
 		}
-		$result = [
-			'chatEntries' => $chatEntries,
-			'showMoreButton' => count($chatEntries) > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT'),
-		];
 		$response = new Vtiger_Response();
-		$response->setResult($result);
+		$response->setResult([
+			'chatEntries' => $chatEntries,
+			'showMoreButton' => $this->areMoreMessages(count($chatEntries))
+		]);
 		$response->emit();
 	}
 
@@ -264,6 +259,16 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			$response->setResult(\App\Chat::isNewMessages() ? 1 : 0);
 		}
 		$response->emit();
+	}
+
+	/**
+	 * Check if there are more messages.
+	 *
+	 * @return bool
+	 */
+	private function areMoreMessages(int $numberOfMessages): bool
+	{
+		return $numberOfMessages >= \App\Config::module('Chat', 'CHAT_ROWS_LIMIT');
 	}
 
 	/**

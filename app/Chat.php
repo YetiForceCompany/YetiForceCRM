@@ -537,7 +537,7 @@ final class Chat
 		$rows = [];
 		$dataReader = $this->getQueryMessage($messageId, $condition, $searchVal)->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$row['messages'] = $this->decodeMessage($row['messages']);
+			$row['messages'] = static::decodeMessage($row['messages']);
 			$row['created'] = Fields\DateTime::formatToShort($row['created']);
 			[
 				'user_name' => $row['user_name'],
@@ -590,7 +590,7 @@ final class Chat
 			$row['created'] = Fields\DateTime::formatToShort($row['created']);
 			$row['user_name'] = $userName;
 			$row['role_name'] = $userRoleName;
-			$row['messages'] = $this->decodeMessage($row['messages']);
+			$row['messages'] = static::decodeMessage($row['messages']);
 			$rows[] = $row;
 		}
 		return \array_reverse($rows);
@@ -790,7 +790,7 @@ final class Chat
 			$user = $this->getUserInfo($row['userid']);
 			$participants[] = [
 				'user_id' => $row['userid'],
-				'message' => $this->decodeMessage($row['messages']),
+				'message' => static::decodeMessage($row['messages']),
 				'user_name' => $user['user_name'],
 				'role_name' => $user['role_name'],
 				'image' => $user['image']
@@ -885,7 +885,7 @@ final class Chat
 			$query->andWhere(['LIKE', 'C.messages', $searchVal]);
 		}
 		if ($isLimit) {
-			$query->limit(\App\Config::module('Chat', 'CHAT_ROWS_LIMIT') + 1);
+			$query->limit(\App\Config::module('Chat', 'CHAT_ROWS_LIMIT'));
 		}
 		return $query->orderBy(['id' => \SORT_DESC]);
 	}
@@ -952,7 +952,7 @@ final class Chat
 			$this->room['last_message'] = $this->lastMessageId;
 		}
 	}
-	private static function decodeMessage($message): string
+	private static function decodeMessage(string $message): string
 	{
 		return nl2br(\App\Utils\Completions::decode(\App\Purifier::purifyHtml(\App\Purifier::decodeHtml($message))));
 	}

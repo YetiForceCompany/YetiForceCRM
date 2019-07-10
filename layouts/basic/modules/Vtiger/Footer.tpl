@@ -25,7 +25,7 @@
 				data-js="height">
 			{if \App\Privilege::isPermitted('Chat')}
 				<div class="quasar-reset c-btn-fixed">
-					<div id="ChatModal"></div>
+					<div id="ChatModalVue"></div>
 				</div>
 			{/if}
 			{if App\Config::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}

@@ -21,7 +21,7 @@ export default {
 			AppConnector.request({
 				module: 'Chat',
 				action: 'ChatAjax',
-				mode: 'data'
+				mode: 'getInitData'
 			}).done(({ result }) => {
 				commit('setData', result)
 				resolve(result)
@@ -36,7 +36,7 @@ export default {
 			AppConnector.request({
 				module: 'Chat',
 				action: 'ChatAjax',
-				mode: 'getEntries',
+				mode: 'getMessages',
 				recordId: options.id,
 				roomType: options.roomType
 			}).done(({ result }) => {
@@ -81,7 +81,7 @@ export default {
 				{
 					module: 'Chat',
 					action: 'ChatAjax',
-					mode: 'getMore',
+					mode: 'getMoreMessages',
 					lastId: getters.data.chatEntries[0].id,
 					roomType: getters.data.currentRoom.roomType,
 					recordId: getters.data.currentRoom.recordId
