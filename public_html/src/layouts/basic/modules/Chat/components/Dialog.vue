@@ -70,47 +70,48 @@ export default {
         this.amountOfNewMessages = 0
         clearInterval(this.timerGlobal)
       } else {
-        this.initTimer()
+        this.trackNewMessages()
       }
     }
   },
   methods: {
     ...mapActions(['setDialog', 'fetchChatConfig']),
     initTimer() {
-      this.timerGlobal = setTimeout(() => {
-        AppConnector.request({
-          module: 'Chat',
-          action: 'ChatAjax',
-          mode: 'trackNewMessages'
-        }).done(({ result }) => {
-          if (result > this.amountOfNewMessages) {
-            this.amountOfNewMessages = result
-            if (app.getCookie('chat-isSoundNotification') === 'true') {
-              app.playSound('CHAT')
-            }
-            if (this.desktopPermission) {
-              let message = this.translate('JS_CHAT_NEW_MESSAGE')
-              if (this.data.showNumberOfNewMessages) {
-                message += ' ' + result
-              }
-              app.showNotify(
-                {
-                  text: message,
-                  title: this.translate('JS_CHAT'),
-                  type: 'success'
-                },
-                true
-              )
-            }
+      this.timerGlobal = setTimeout(this.trackNewMessages, this.data.refreshTimeGlobal)
+    },
+    trackNewMessages() {
+      AppConnector.request({
+        module: 'Chat',
+        action: 'ChatAjax',
+        mode: 'trackNewMessages'
+      }).done(({ result }) => {
+        if (result > this.amountOfNewMessages) {
+          this.amountOfNewMessages = result
+          if (app.getCookie('chat-isSoundNotification') === 'true') {
+            app.playSound('CHAT')
           }
-          this.initTimer()
-        })
-      }, this.data.refreshTimeGlobal)
+          if (this.desktopPermission) {
+            let message = this.translate('JS_CHAT_NEW_MESSAGE')
+            if (this.data.showNumberOfNewMessages) {
+              message += ' ' + result
+            }
+            app.showNotify(
+              {
+                text: message,
+                title: this.translate('JS_CHAT'),
+                type: 'success'
+              },
+              true
+            )
+          }
+        }
+        this.initTimer()
+      })
     }
   },
   created() {
     this.fetchChatConfig().then(result => {
-      if (result.isChatAllowed) this.initTimer()
+      if (result.isChatAllowed) this.trackNewMessages()
     })
   }
 }
