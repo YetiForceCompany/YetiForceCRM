@@ -59,7 +59,7 @@ class Shop
 			'p3' => \date('d'),
 			'return' => \Config\Main::$site_URL . 'index.php?module=YetiForce&parent=Settings&view=Shop&status=success',
 			'cancel_return' => \Config\Main::$site_URL . 'index.php?module=YetiForce&parent=Settings&view=Shop&status=fail',
-			'notify_url' => 'https://public.yetiforce.com/shop/xxx.php',
+			'notify_url' => 'https://api.yetiforce.com/shop',
 			'image_url' => 'https://public.yetiforce.com/shop/logo.png',
 			'custom' => \App\YetiForce\Register::getInstanceKey() . '|' . \App\YetiForce\Register::getCrmKey(),
 		];
