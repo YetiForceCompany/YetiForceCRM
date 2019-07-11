@@ -43,19 +43,14 @@ class Documents extends CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['notes_title', 'filename', 'modifiedtime', 'assigned_user_id', 'folderid', 'filelocationtype', 'filestatus'];
+	public $relationFields = [];
 	public $search_fields = [
 		'Title' => ['notes' => 'notes_title'],
 		'File Name' => ['notes' => 'filename'],
 		'Assigned To' => ['crmentity' => 'smownerid'],
 		'Folder Name' => ['attachmentsfolder' => 'foldername'],
 	];
-	public $search_fields_name = [
-		'Title' => 'notes_title',
-		'File Name' => 'filename',
-		'Assigned To' => 'assigned_user_id',
-		'Folder Name' => 'folderid',
-	];
+	public $search_fields_name = [];
 	public $list_link_field = 'notes_title';
 	public $old_filename = '';
 	public $mandatory_fields = ['notes_title', 'createdtime', 'modifiedtime', 'filename', 'filesize', 'filetype', 'filedownloadcount', 'assigned_user_id'];

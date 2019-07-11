@@ -87,7 +87,7 @@ class HolidaysEntitlement extends Vtiger_CRMEntity
 	 *
 	 * @var string[]
 	 */
-	public $relationFields = ['holidaysentitlement_no', 'ossemployeesid', 'assigned_user_id'];
+	public $relationFields = [];
 
 	/**
 	 * Make the field link to detail view.
@@ -114,12 +114,7 @@ class HolidaysEntitlement extends Vtiger_CRMEntity
 	 *
 	 * @var array
 	 */
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'LBL_NO' => 'holidaysentitlement_no',
-		'LBL_EMPLOYEE' => 'ossemployeesid',
-		'Assigned To' => 'assigned_user_id',
-	];
+	public $search_fields_name = [];
 
 	/**
 	 * For Popup window record selection.

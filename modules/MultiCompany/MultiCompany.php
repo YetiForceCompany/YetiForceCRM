@@ -68,16 +68,7 @@ class MultiCompany extends Vtiger_CRMEntity
 		'AddressLevel5' => ['multicompany', 'addresslevel5a'],
 		'Assigned To' => ['crmentity', 'smownerid'],
 	];
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'FL_COMPANY_NAME' => 'company_name',
-		'FL_STATUS' => 'mulcomp_status',
-		'FL_EMAIL_1' => 'email1',
-		'FL_PHONE' => 'phone',
-		'FL_VATID' => 'vat',
-		'AddressLevel5' => 'addresslevel5a',
-		'Assigned To' => 'assigned_user_id',
-	];
+	public $search_fields_name = [];
 	// For Popup window record selection
 	public $popup_fields = ['company_name'];
 	// For Alphabetical search

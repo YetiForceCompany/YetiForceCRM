@@ -48,14 +48,12 @@ class Leads extends CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['company', 'phone', 'website', 'email', 'assigned_user_id'];
+	public $relationFields = [];
 	public $list_link_field = 'company';
 	public $search_fields = [
 		'Company' => ['leaddetails' => 'company'],
 	];
-	public $search_fields_name = [
-		'Company' => 'company',
-	];
+	public $search_fields_name = [];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['assigned_user_id', 'createdtime', 'modifiedtime'];

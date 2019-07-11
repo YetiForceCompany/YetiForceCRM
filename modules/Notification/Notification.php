@@ -50,7 +50,7 @@ class Notification extends Vtiger_CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['title', 'assigned_user_id'];
+	public $relationFields = [];
 	// Make the field link to detail view
 	public $list_link_field = 'title';
 	// For Popup listview and UI type support
@@ -60,11 +60,7 @@ class Notification extends Vtiger_CRMEntity
 		'FL_TITLE' => ['notification', 'title'],
 		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],
 	];
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'FL_TITLE' => 'title',
-		'Assigned To' => 'assigned_user_id',
-	];
+	public $search_fields_name = [];
 	// For Popup window record selection
 	public $popup_fields = ['title'];
 	// For Alphabetical search

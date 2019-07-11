@@ -63,7 +63,7 @@ class ProjectMilestone extends CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['projectmilestonename', 'projectmilestonedate', 'projectmilestone_status', 'projectmilestonetype', 'assigned_user_id','projectid', 'parentid'];
+	public $relationFields = [];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'projectmilestonename';
 	// For Popup listview and UI type support
@@ -77,15 +77,7 @@ class ProjectMilestone extends CRMEntity
 		'Related to' => ['projectmilestone', 'projectid'],
 		'FL_PARENT_PROJECT_MILESTONE' => ['projectmilestone', 'parentid'],
 	];
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'Project Milestone Namee' => 'projectmilestonename',
-		'Milestone Date' => 'projectmilestonedate',
-		'FL_STATUS' => 'projectmilestone_status',
-		'Type' => 'projectmilestonetype',
-		'Related to' => 'projectid',
-		'FL_PARENT_PROJECT_MILESTONE' => 'parentid',
-	];
+	public $search_fields_name = [];
 	// For Popup window record selection
 	public $popup_fields = ['projectmilestonename'];
 	// For Alphabetical search

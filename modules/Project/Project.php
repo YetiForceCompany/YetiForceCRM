@@ -62,7 +62,7 @@ class Project extends CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['projectname', 'startdate', 'projectstatus', 'projecttype', 'assigned_user_id', 'sum_time'];
+	public $relationFields = [];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'projectname';
 	// For Popup listview and UI type support
@@ -76,15 +76,7 @@ class Project extends CRMEntity
 		'Type' => ['project', 'projecttype'],
 		'SINGLE_SSalesProcesses' => ['project', 'ssalesprocessesid'],
 	];
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'Project Name' => 'projectname',
-		'Related to' => 'linktoaccountscontacts',
-		'Start Date' => 'startdate',
-		'Status' => 'projectstatus',
-		'Type' => 'projecttype',
-		'SINGLE_SSalesProcesses' => 'ssalesprocessesid',
-	];
+	public $search_fields_name = [];
 	// For Popup window record selection
 	public $popup_fields = ['projectname'];
 	// For Alphabetical search

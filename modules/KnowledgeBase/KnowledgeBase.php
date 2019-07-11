@@ -62,19 +62,12 @@ class KnowledgeBase extends Vtiger_CRMEntity
 		'FL_INTRODUCTION' => ['knowledgebase', 'introduction'],
 		'FL_STATUS' => ['knowledgebase', 'knowledgebase_status'],
 	];
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'subject' => 'subject',
-		'FL_CATEGORY' => 'category',
-		'Assigned To' => 'assigned_user_id',
-		'FL_INTRODUCTION' => 'introduction',
-		'FL_STATUS' => 'knowledgebase_status',
-	];
+	public $search_fields_name = [];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['subject', 'assigned_user_id'];
+	public $relationFields = [];
 	// For Popup window record selection
 	public $popup_fields = ['subject'];
 	// For Alphabetical search

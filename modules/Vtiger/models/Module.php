@@ -750,7 +750,13 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getPopupFields()
 	{
-		return $this->getEntityInstance()->search_fields_name;
+		if (!empty($this->getEntityInstance()->search_fields_name)) {
+			return $this->getEntityInstance()->search_fields_name;
+		} else {
+			$queryGenerator = new \App\QueryGenerator($this->getName());
+			$queryGenerator->initForDefaultCustomView(true, true);
+			return $queryGenerator->getFields();
+		}
 	}
 
 	public function isWorkflowSupported()

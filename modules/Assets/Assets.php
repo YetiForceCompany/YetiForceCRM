@@ -65,18 +65,12 @@ class Assets extends CRMEntity
 		'Customer Name' => ['account' => 'account'],
 		'Product Name' => ['products' => 'product'],
 	];
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'Asset No' => 'asset_no',
-		'Asset Name' => 'assetname',
-		'Customer Name' => 'account',
-		'Product Name' => 'product',
-	];
+	public $search_fields_name = [];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['asset_no', 'assetname', 'product', 'assigned_user_id'];
+	public $relationFields = [];
 	// For Popup window record selection
 	public $popup_fields = ['assetname', 'account', 'product'];
 	// For Alphabetical search

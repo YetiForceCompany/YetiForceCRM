@@ -42,14 +42,10 @@ class Products extends CRMEntity
 		'Part Number' => ['products' => 'productcode'],
 		'Unit Price' => ['products' => 'unit_price'],
 	];
-	public $search_fields_name = [
-		'Product Name' => 'productname',
-		'Part Number' => 'productcode',
-		'Unit Price' => 'unit_price',
-	];
+	public $search_fields_name = [];
 
 	/** @var string[] List of fields in the RelationListView */
-	public $relationFields = ['productname', 'productcode', 'commissionrate', 'qty_per_unit', 'unit_price'];
+	public $relationFields = [];
 	public $def_basicsearch_col = 'productname';
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
