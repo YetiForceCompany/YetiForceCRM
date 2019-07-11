@@ -234,6 +234,8 @@ class J_RecordFlowUpdater extends \Tests\Base
 	/**
 	 * Get project.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $name
 	 *
 	 * @return void
@@ -250,6 +252,8 @@ class J_RecordFlowUpdater extends \Tests\Base
 	/**
 	 * Get project milestone.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $name
 	 *
 	 * @return void
@@ -265,6 +269,8 @@ class J_RecordFlowUpdater extends \Tests\Base
 
 	/**
 	 * Get project task.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $name
 	 *
