@@ -18852,7 +18852,7 @@ label.btn[class*=btn-outline-]:not(.active):hover {
 }
 
 .quasar-reset .col,
-.quasar-reset [class*='col-'] {
+.quasar-reset [class*="col-"] {
   position: unset;
   padding: unset;
   padding-right: unset;
@@ -25264,8 +25264,6 @@ input[type="radio"]:checked:before {
   top: 3.125rem;
   bottom: 2rem;
   width: 100%;
-  -webkit-transform: translateZ(0);
-          transform: translateZ(0);
   overflow-x: hidden;
 }
 
@@ -25273,7 +25271,7 @@ input[type="radio"]:checked:before {
   bottom: 2rem;
 }
 
-.basePanel[class$='_KnowledgeBase'] .contentsDiv {
+.basePanel[class$="_KnowledgeBase"] .contentsDiv {
   min-height: calc(100vh - 3.125rem - 2rem);
 }
 
@@ -25282,7 +25280,7 @@ input[type="radio"]:checked:before {
   bottom: calc(2rem + 1rem);
 }
 
-.user-info--active .basePanel[class$='_KnowledgeBase'] .contentsDiv {
+.user-info--active .basePanel[class$="_KnowledgeBase"] .contentsDiv {
   min-height: calc(100vh - 3.125rem - calc(2rem + 1rem));
 }
 
@@ -25291,7 +25289,7 @@ input[type="radio"]:checked:before {
   bottom: 1rem;
 }
 
-.limited-footer--active .basePanel[class$='_KnowledgeBase'] .contentsDiv {
+.limited-footer--active .basePanel[class$="_KnowledgeBase"] .contentsDiv {
   min-height: calc(100vh - 3.125rem - 1rem);
 }
 
@@ -25300,7 +25298,7 @@ input[type="radio"]:checked:before {
   bottom: 2rem;
 }
 
-.user-info--active.limited-footer--active .basePanel[class$='_KnowledgeBase'] .contentsDiv {
+.user-info--active.limited-footer--active .basePanel[class$="_KnowledgeBase"] .contentsDiv {
   min-height: calc(100vh - 3.125rem - 2rem);
 }
 
@@ -25309,13 +25307,13 @@ input[type="radio"]:checked:before {
   .c-btn-fixed {
     bottom: 1rem;
   }
-  .basePanel[class$='_KnowledgeBase'] .contentsDiv {
+  .basePanel[class$="_KnowledgeBase"] .contentsDiv {
     min-height: calc(100vh - 3.125rem - 1rem);
   }
   .user-info--active .mainBody {
     bottom: 2rem;
   }
-  .user-info--active .basePanel[class$='_KnowledgeBase'] .contentsDiv {
+  .user-info--active .basePanel[class$="_KnowledgeBase"] .contentsDiv {
     min-height: calc(100vh - 3.125rem - 2rem);
   }
 }
