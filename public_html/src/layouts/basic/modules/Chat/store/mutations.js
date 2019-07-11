@@ -18,6 +18,9 @@ export default {
 	setData(state, data) {
 		state.data = data
 	},
+	setConfig(state, config) {
+		state.config = config
+	},
 	pushSended(state, data) {
 		state.data.chatEntries.push(data.chatEntries.slice(-1)[0])
 		state.data.showMoreButton = data.showMoreButton
@@ -45,13 +48,16 @@ export default {
 		state.tab = tab
 	},
 	setSendByEnter(state, val) {
-		state.data.sendByEnter = val
+		state.config.sendByEnter = val
 	},
 	setSoundNotification(state, val) {
-		state.data.isSoundNotification = val
+		state.config.isSoundNotification = val
 	},
 	setDesktopNotification(state, val) {
-		state.data.isDesktopNotification = val
+		state.config.isDesktopNotification = val
+	},
+	setAmountOfNewMessages(state, val) {
+		state.data.amountOfNewMessages = val
 	},
 	setPinned(state, { roomType, room }) {
 		const roomList = state.data.roomList

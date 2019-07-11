@@ -11,7 +11,7 @@
             round
             flat
             icon="mdi-keyboard-outline"
-            :color="data.sendByEnter ? 'info' : ''"
+            :color="config.sendByEnter ? 'info' : ''"
           />
           <notify-btn />
           <q-btn
@@ -19,8 +19,8 @@
             dense
             round
             flat
-            :icon="data.isSoundNotification ? 'mdi-volume-high' : 'mdi-volume-off'"
-            :color="data.isSoundNotification ? 'info' : ''"
+            :icon="config.isSoundNotification ? 'mdi-volume-high' : 'mdi-volume-off'"
+            :color="config.isSoundNotification ? 'info' : ''"
           />
         </div>
         <q-tabs
@@ -86,7 +86,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['data']),
+    ...mapGetters(['config']),
     maximizedDialog: {
       get() {
         return this.$store.getters['Chat/maximizedDialog']
@@ -131,7 +131,7 @@ export default {
           this.updateRooms(result.roomList)
           this.initTimer()
         })
-      }, this.data.refreshRoomTime)
+      }, this.config.refreshRoomTime)
     },
     rightPanel(value) {
       this.$emit('rightPanel', value)
@@ -149,12 +149,12 @@ export default {
       }
     },
     toggleEnter() {
-      app.setCookie('chat-notSendByEnter', !this.data.sendByEnter, 365)
-      this.setSendByEnter(!this.data.sendByEnter)
+      app.setCookie('chat-notSendByEnter', !this.config.sendByEnter, 365)
+      this.setSendByEnter(!this.config.sendByEnter)
     },
     toggleSoundNotification() {
-      app.setCookie('chat-isSoundNotification', !this.data.isSoundNotification, 365)
-      this.setSoundNotification(!this.data.isSoundNotification)
+      app.setCookie('chat-isSoundNotification', !this.config.isSoundNotification, 365)
+      this.setSoundNotification(!this.config.isSoundNotification)
     }
   },
   beforeDestroy() {

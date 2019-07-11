@@ -23,5 +23,19 @@ export default {
 	},
 	data(state) {
 		return state.data
+	},
+	config(state) {
+		return state.config
+	},
+
+	hasDesktopPermission(state) {
+		if (state.config.isDesktopNotification) {
+			return false
+		}
+		if (!state.config.isNotificationPermitted) {
+			app.setCookie('chat-isDesktopNotification', false, 365)
+			return false
+		}
+		return true
 	}
 }

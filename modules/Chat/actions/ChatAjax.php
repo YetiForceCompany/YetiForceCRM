@@ -54,6 +54,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	{
 		$response = new Vtiger_Response();
 		$response->setResult([
+			'isChatAllowed' => \App\User::getCurrentUserRealId() === \App\User::getCurrentUserId(),
 			'isSoundNotification' => $this->isSoundNotification(),
 			'isDesktopNotification' => $this->isDesktopNotification(),
 			'sendByEnter' => $this->sendByEnter(),
@@ -61,8 +62,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			'refreshRoomTime' => App\Config::module('Chat', 'REFRESH_ROOM_TIME'),
 			'maxLengthMessage' => App\Config::module('Chat', 'MAX_LENGTH_MESSAGE'),
 			'refreshTimeGlobal' => App\Config::module('Chat', 'REFRESH_TIME_GLOBAL'),
-			'showNumberOfNewMessages' => App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES'),
-			'isChatAllowed' => \App\User::getCurrentUserRealId() === \App\User::getCurrentUserId()
+			'showNumberOfNewMessages' => App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')
 		]);
 		$response->emit();
 	}
@@ -108,7 +108,9 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			$result['showMoreButton'] = 	$isNextPage;
 			$result['currentRoom'] = \App\Chat::getCurrentRoom();
 		}
-
+		if ($request->has('miniMode') && App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')) {
+			$result['amountOfNewMessages'] = \App\Chat::getNumberOfNewMessages();
+		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

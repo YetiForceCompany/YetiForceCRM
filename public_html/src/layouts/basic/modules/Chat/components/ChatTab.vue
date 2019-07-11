@@ -53,7 +53,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['maximizedDialog', 'data', 'isSearchActive', 'tab'])
+    ...mapGetters(['maximizedDialog', 'data', 'config', 'isSearchActive', 'tab'])
   },
   watch: {
     data() {
@@ -110,7 +110,7 @@ export default {
           }
           this.fetchNewMessages()
         })
-      }, this.data.refreshMessageTime)
+      }, this.config.refreshMessageTime)
     },
     scrollDown() {
       this.scrollbarHidden = true

@@ -23,7 +23,7 @@ export default {
 				action: 'ChatAjax',
 				mode: 'getChatConfig'
 			}).done(({ result }) => {
-				commit('setData', result)
+				commit('setConfig', result)
 				resolve(result)
 			})
 		})
@@ -40,7 +40,7 @@ export default {
 				recordId: options.id,
 				roomType: options.roomType
 			}).done(({ result }) => {
-				let tempData = Object.assign({}, getters['data'])
+				let tempData = Object.assign({}, getters.data)
 				commit('setData', Object.assign(tempData, result))
 				resolve(result)
 			})
@@ -114,7 +114,7 @@ export default {
 				false
 			).done(({ result }) => {
 				if (!showMoreClicked) {
-					let tempData = Object.assign({}, getters['data'])
+					let tempData = Object.assign({}, getters.data)
 					commit('setData', Object.assign(tempData, result))
 					commit('setSearchActive')
 				} else {
@@ -156,7 +156,7 @@ export default {
 				groupHistory: groupHistory
 			}).done(({ result }) => {
 				if (!showMoreClicked) {
-					let tempData = Object.assign({}, getters['data'])
+					let tempData = Object.assign({}, getters.data)
 					commit('setData', Object.assign(tempData, result))
 				} else {
 					commit('pushOlderEntries', result)
@@ -164,5 +164,30 @@ export default {
 				resolve(result)
 			})
 		})
+	},
+
+	updateAmountOfNewMessages({ commit, getters }, newMessages) {
+		console.log(newMessages)
+		console.log(getters.data.amountOfNewMessages)
+		if (newMessages > getters.data.amountOfNewMessages) {
+			commit('setAmountOfNewMessages', newMessages)
+			if (app.getCookie('chat-isSoundNotification') === 'true') {
+				app.playSound('CHAT')
+			}
+			if (getters.hasDesktopPermission) {
+				let message = app.vtranslate('JS_CHAT_NEW_MESSAGE')
+				if (getters.config.showNumberOfNewMessages) {
+					message += ' ' + newMessages
+				}
+				app.showNotify(
+					{
+						text: message,
+						title: app.vtranslate('JS_CHAT'),
+						type: 'success'
+					},
+					true
+				)
+			}
+		}
 	}
 }

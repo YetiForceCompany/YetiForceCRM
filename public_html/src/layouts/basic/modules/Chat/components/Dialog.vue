@@ -1,6 +1,6 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <div v-if="data.isChatAllowed">
+  <div v-if="config.isChatAllowed">
     <q-btn
       round
       color="white"
@@ -10,10 +10,10 @@
       @click="dialog = !dialog"
       ref="chatBtn"
     >
-      <q-badge v-if="data.showNumberOfNewMessages" v-show="amountOfNewMessages > 0" color="danger" floating>
+      <q-badge v-if="config.showNumberOfNewMessages" v-show="data.amountOfNewMessages > 0" color="danger" floating>
         <transition appear enter-active-class="animated flash" mode="out-in">
-          <div :key="amountOfNewMessages">
-            {{ this.amountOfNewMessages }}
+          <div :key="data.amountOfNewMessages">
+            {{ data.amountOfNewMessages }}
           </div>
         </transition>
       </q-badge>
@@ -44,7 +44,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['maximizedDialog', 'data']),
+    ...mapGetters(['maximizedDialog', 'data', 'config']),
     dialog: {
       get() {
         return this.$store.getters['Chat/dialog']
@@ -52,16 +52,6 @@ export default {
       set(isOpen) {
         this.setDialog(isOpen)
       }
-    },
-    desktopPermission() {
-      if (this.data.isDesktopNotification) {
-        return false
-      }
-      if (!this.data.isNotificationPermitted) {
-        app.setCookie('chat-isDesktopNotification', false, 365)
-        return false
-      }
-      return true
     }
   },
   watch: {
@@ -75,9 +65,9 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setDialog', 'fetchChatConfig']),
+    ...mapActions(['setDialog', 'fetchChatConfig', 'updateAmountOfNewMessages']),
     initTimer() {
-      this.timerGlobal = setTimeout(this.trackNewMessages, this.data.refreshTimeGlobal)
+      this.timerGlobal = setTimeout(this.trackNewMessages, this.config.refreshTimeGlobal)
     },
     trackNewMessages() {
       AppConnector.request({
@@ -85,26 +75,7 @@ export default {
         action: 'ChatAjax',
         mode: 'trackNewMessages'
       }).done(({ result }) => {
-        if (result > this.amountOfNewMessages) {
-          this.amountOfNewMessages = result
-          if (app.getCookie('chat-isSoundNotification') === 'true') {
-            app.playSound('CHAT')
-          }
-          if (this.desktopPermission) {
-            let message = this.translate('JS_CHAT_NEW_MESSAGE')
-            if (this.data.showNumberOfNewMessages) {
-              message += ' ' + result
-            }
-            app.showNotify(
-              {
-                text: message,
-                title: this.translate('JS_CHAT'),
-                type: 'success'
-              },
-              true
-            )
-          }
-        }
+        this.updateAmountOfNewMessages(result)
         this.initTimer()
       })
     }

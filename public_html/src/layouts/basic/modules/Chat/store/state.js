@@ -8,16 +8,19 @@ export default {
 	isSearchActive: false,
 	tab: 'chat',
 	data: {
+		amountOfNewMessages: 0,
 		chatEntries: [],
 		currentRoom: {},
 		roomList: {},
 		participants: [],
-		isModalView: null,
+		showMoreButton: null
+	},
+	config: {
+		isChatAllowed: null,
 		isSoundNotification: null,
 		isDesktopNotification: null,
 		isNotificationPermitted: PNotify.modules.Desktop.checkPermission() === 0,
 		sendByEnter: null,
-		showMoreButton: null,
 		refreshMessageTime: null,
 		refreshRoomTime: null,
 		maxLengthMessage: null,
