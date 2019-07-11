@@ -52,24 +52,26 @@ class OSSTimeControl_DetailedList_Textparser extends \App\TextParser\Base
 			$html .= '<tr>';
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $this->textParser->moduleName);
 			foreach ($columns as $column) {
-				if ('date_start' === $column->getName()) {
-					$value = \App\Fields\DateTime::formatToViewDate($recordModel->getDisplayValue($column->getName()) . ' ' . $recordModel->getDisplayValue('time_start'));
+				$columnName = $column->getName();
+				if ('date_start' === $columnName) {
+					$value = \App\Fields\DateTime::formatToViewDate($recordModel->getDisplayValue($columnName) . ' ' . $recordModel->getDisplayValue('time_start'));
 				} else {
-					$value = $recordModel->getDisplayValue($column->getName());
+					$value = $recordModel->getDisplayValue($columnName);
 				}
 				$html .= "<td style=\"{$bodyStyle}\">" . $value . '</td>';
-				if ('sum_time' === $column->getName()) {
-					$summary['sum_time'] += $recordModel->get($column->getName());
+				if ('sum_time' === $columnName) {
+					$summary['sum_time'] += $recordModel->get($columnName);
 				}
 			}
 			$html .= '</tr>';
 		}
 		$html .= '</tbody><tfoot><tr>';
 		foreach ($columns as $column) {
+			$columnName = $column->getName();
 			$content = '';
-			if ('sum_time' === $column->getName()) {
+			if ('sum_time' === $columnName) {
 				$content = '<strong>' . \App\Fields\RangeTime::formatHourToDisplay($summary['sum_time'], 'short') . '</strong>';
-			} elseif ('name' === $column->getName()) {
+			} elseif ('name' === $columnName) {
 				$content = '<strong>' . \App\Language::translate('LBL_SUMMARY', $this->textParser->moduleName) . ':' . '</strong>';
 			}
 			$html .= "<td style=\"{$bodyStyle}\">" . $content . '</td>';
