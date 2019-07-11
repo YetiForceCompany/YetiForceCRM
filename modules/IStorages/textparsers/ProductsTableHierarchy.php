@@ -97,6 +97,7 @@ class IStorages_ProductsTableHierarchy_Textparser extends \App\TextParser\Base
 		$html .= '<table border="1" class="products-table" style="border-collapse:collapse;width:100%;"><thead><tr>';
 		$headerStyle = 'font-size:9px;padding:0px 4px;text-align:center;';
 		$bodyStyle = 'font-size:8px;border:1px solid #ddd;padding:0px 4px;';
+		$columns = [];
 		foreach (['productname', 'ean', 'pscategory'] as $fieldName) {
 			$fieldModel = $productModel->getFieldByName($fieldName);
 			if (!$fieldModel || !$fieldModel->isActiveField()) {
