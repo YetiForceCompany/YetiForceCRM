@@ -234,23 +234,23 @@ class Credits
 						$returnLicense = static::$licenses[$libraryName] . " [{$returnLicense}]";
 						$licenseToDisplay = static::$licenses[$libraryName];
 						$licenseError = false;
-						$showLicenseModal = self::checkIfLicenseFileExists($licenseToDisplay);
+						$showLicenseModal = file_exists($dir . '..' . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . 'licenses' . \DIRECTORY_SEPARATOR . $licenseToDisplay . '.txt');
 						break;
 					}
 					if ($returnLicense) {
-						$showLicenseModal = self::checkIfLicenseFileExists($returnLicense);
+						$showLicenseModal = file_exists($dir . '..' . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . 'licenses' . \DIRECTORY_SEPARATOR . $returnLicense . '.txt');
 						break;
 					}
 				} else {
 					if (isset(static::$licenses[$libraryName])) {
 						$returnLicense = static::$licenses[$libraryName];
-						$showLicenseModal = self::checkIfLicenseFileExists($returnLicense);
+						$showLicenseModal = file_exists($dir . '..' . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . 'licenses' . \DIRECTORY_SEPARATOR . $returnLicense . '.txt');
 					}
 				}
 			} else {
 				if (isset(static::$licenses[$libraryName])) {
 					$returnLicense = static::$licenses[$libraryName];
-					$showLicenseModal = self::checkIfLicenseFileExists($returnLicense);
+					$showLicenseModal = file_exists($dir . '..' . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . 'licenses' . \DIRECTORY_SEPARATOR . $returnLicense . '.txt');
 				}
 			}
 		}
