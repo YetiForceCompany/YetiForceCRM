@@ -4,10 +4,11 @@
 Vtiger_RelatedList_Js(
 	'PriceBooks_RelatedList_Js',
 	{
-		triggerMassMargin: function() {
+		triggerMassMargin: function () {
 			const self = Vtiger_RelatedList_Js.relatedListInstance;
+			let selected_ids = self.readSelectedIds(true),
+				excluded_ids = self.readExcludedIds(true);
 			if (self.checkListRecordSelected() !== true) {
-				let selectedIds = self.readSelectedIds(true);
 				app.showModalWindow({
 					url: 'index.php?module=PriceBooks&view=SpecifyMargin',
 					cb: modalContainer => {
@@ -19,15 +20,16 @@ Vtiger_RelatedList_Js(
 								e.preventDefault();
 							} else {
 								element.validationEngine('hideAll');
-								AppConnector.request({
-									module: app.getModuleName(),
-									action: 'RelationAjax',
-									mode: 'specifyMargin',
-									relatedModule: self.moduleName,
-									selected_ids: selectedIds,
-									record: self.getParentId(),
-									margin: element.val()
-								}).done(response => {
+								let postData = self.getCompleteParams();
+								delete postData.view;
+								postData.selected_ids = selected_ids;
+								postData.excluded_ids = excluded_ids;
+								postData.mode = 'specifyMargin';
+								postData.action = 'RelationAjax';
+								postData.relatedModule = self.moduleName;
+								postData.record = self.getParentId();
+								postData.margin = element.val();
+								AppConnector.request(postData).done(response => {
 									if (response.success) {
 										Vtiger_Detail_Js.reloadRelatedList();
 										app.hideModalWindow();
@@ -44,7 +46,7 @@ Vtiger_RelatedList_Js(
 		}
 	},
 	{
-		registerEditListPrice: function() {
+		registerEditListPrice: function () {
 			let thisInstance = this;
 			let element = this.content.find('.js-edit-listprice');
 			element.validationEngine(app.validationEngineOptions);
@@ -61,7 +63,7 @@ Vtiger_RelatedList_Js(
 						src_record: thisInstance.parentRecordId,
 						related_module: thisInstance.moduleName,
 						price: element.val()
-					}).done(function(responseData) {
+					}).done(function (responseData) {
 						if (responseData.result) {
 							Vtiger_Helper_Js.showPnotify({ text: app.vtranslate('JS_SAVE_NOTIFY_OK'), type: 'success' });
 						}
@@ -69,7 +71,7 @@ Vtiger_RelatedList_Js(
 				}
 			});
 		},
-		registerPostLoadEvents: function() {
+		registerPostLoadEvents: function () {
 			this._super();
 			this.registerEditListPrice();
 		}
