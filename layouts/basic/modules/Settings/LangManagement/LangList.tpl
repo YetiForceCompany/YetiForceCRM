@@ -15,7 +15,7 @@
 			</div>
 			{if $IS_NET_CONNECTED}
 				<div class="btn-group mr-2" role="group">
-					<button class="btn btn-success btn-sm u-h-fit mr-1 js-add-languages-modal" type="button"
+					<button class="btn btn-success btn-sm u-h-fit mr-1 marginBottom10px js-add-languages-modal" type="button"
 							data-js="click">
 						<span class="fas fas fa-download mr-1"></span>
 						{\App\Language::translate('LBL_DOWNLOAD_LANG', 'Settings::YetiForce')}

@@ -14,6 +14,11 @@ class Settings_Yetiforce_DownloadLanguageModal_View extends \App\Controller\Moda
 	/**
 	 * {@inheritdoc}
 	 */
+	public $modalSize = 'modal-xl';
+	
+	/**
+	 * {@inheritdoc}
+	 */
 	public $successBtn = '';
 
 	/**
