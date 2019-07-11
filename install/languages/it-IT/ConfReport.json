@@ -178,7 +178,7 @@
     "LBL_HELP_EXIF": "Estensione consente di lavorare con i metadati dell'immagine",
     "LBL_HELP_LDAP": "Protocollo utilizzato per accedere ai database che memorizzano le informazioni in una struttura di albero.",
     "LBL_HELP_OPCACHE": "Migliora le prestazioni memorizzando il codice compilato nella memoria condivisa.",
-    "LBL_HELP_APCU": "Library that improves system performance, recommended when there are more users working or with a greater system workload.",
+    "LBL_HELP_APCU": "Libreria che migliora le prestazioni di sistema, consigliata quando ci sono più utenti che lavorano o con un maggior carico di lavoro di sistema.",
     "LBL_HELP_IMAGICK": "Libreria consigliata per la protezione di file grafici potenzialmente pericolosi",
     "LBL_HELP_XDEBUG": "Estensione che aiuta a rilevare i bug.",
     "LBL_HELP_OPCACHE_ENABLE": "Migliora le prestazioni memorizzando il codice compilato nella memoria condivisa.",
