@@ -75,7 +75,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setDialog', 'fetchData']),
+    ...mapActions(['setDialog', 'fetchChatConfig']),
     initTimer() {
       this.timerGlobal = setTimeout(() => {
         AppConnector.request({
@@ -109,7 +109,7 @@ export default {
     }
   },
   created() {
-    this.fetchData().then(result => {
+    this.fetchChatConfig().then(result => {
       if (result.isChatAllowed) this.initTimer()
     })
   }

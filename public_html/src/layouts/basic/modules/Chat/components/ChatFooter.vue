@@ -18,7 +18,7 @@ export default {
   computed: {
     ...mapGetters(['data']),
     roomType() {
-      if (this.data.currentRoom.roomType !== undefined) {
+      if (this.data.currentRoom !== undefined) {
         return {
           label: this.translate(`JS_CHAT_ROOM_${this.data.currentRoom.roomType.toUpperCase()}`),
           icon: this.getGroupIcon(this.data.currentRoom.roomType)
@@ -29,7 +29,7 @@ export default {
     },
     roomName() {
       let roomName = ''
-      if (this.data.currentRoom.roomType !== undefined) {
+      if (this.data.currentRoom !== undefined) {
         this.data.roomList[this.data.currentRoom.roomType].forEach(room => {
           if (room.recordid === this.data.currentRoom.recordId) {
             roomName = room.name

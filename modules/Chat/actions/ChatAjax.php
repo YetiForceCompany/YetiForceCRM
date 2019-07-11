@@ -21,7 +21,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('getInitData');
+		$this->exposeMethod('getChatConfig');
 		$this->exposeMethod('getMessages');
 		$this->exposeMethod('getMoreMessages');
 		$this->exposeMethod('getUnread');
@@ -50,25 +50,13 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	 *
 	 * @return void
 	 */
-	public function getInitData(App\Request $request)
+	public function getChatConfig(App\Request $request)
 	{
-		$chat = \App\Chat::getInstance();
-		$chatEntries = $chat->getEntries();
-		$isNextPage = $this->isNextPage(count($chatEntries));
-		if ($isNextPage) {
-			array_shift($chatEntries);
-		}
 		$response = new Vtiger_Response();
 		$response->setResult([
-			'chatEntries' => $chatEntries,
-			'currentRoom' => \App\Chat::getCurrentRoom(),
-			'roomList' => \App\Chat::getRoomsByUser(),
-			'participants' => $chat->getParticipants(),
-			'isModalView' => true,
 			'isSoundNotification' => $this->isSoundNotification(),
 			'isDesktopNotification' => $this->isDesktopNotification(),
 			'sendByEnter' => $this->sendByEnter(),
-			'showMoreButton' => $isNextPage,
 			'refreshMessageTime' => App\Config::module('Chat', 'REFRESH_MESSAGE_TIME'),
 			'refreshRoomTime' => App\Config::module('Chat', 'REFRESH_ROOM_TIME'),
 			'maxLengthMessage' => App\Config::module('Chat', 'MAX_LENGTH_MESSAGE'),

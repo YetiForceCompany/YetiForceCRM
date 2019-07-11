@@ -121,13 +121,11 @@ export default {
     }
   },
   mounted() {
-    if (this.data.currentRoom) {
-      this.fetchRoom().then(e => {
-        this.scrollDown()
-        this.$emit('onContentLoaded', true)
-      })
-    }
-    this.fetchNewMessages()
+    this.fetchRoom({ id: undefined, roomType: undefined }).then(e => {
+      this.scrollDown()
+      this.$emit('onContentLoaded', true)
+      this.fetchNewMessages()
+    })
   },
   beforeDestroy() {
     clearTimeout(this.timerMessage)

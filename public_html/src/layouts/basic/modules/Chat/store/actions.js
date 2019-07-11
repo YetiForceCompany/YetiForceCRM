@@ -16,12 +16,12 @@ export default {
 	toggleHistoryTab({ commit, getters }) {
 		commit('setHistoryTab', !getters['historyTab'])
 	},
-	fetchData({ commit, getters }) {
+	fetchChatConfig({ commit }) {
 		return new Promise((resolve, reject) => {
 			AppConnector.request({
 				module: 'Chat',
 				action: 'ChatAjax',
-				mode: 'getInitData'
+				mode: 'getChatConfig'
 			}).done(({ result }) => {
 				commit('setData', result)
 				resolve(result)
