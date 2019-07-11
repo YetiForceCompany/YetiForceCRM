@@ -21,7 +21,7 @@ class Shop
 	 *
 	 * @param string $state
 	 *
-	 * @return \App\YetiForce\Shop\BaseProduct[]
+	 * @return \App\YetiForce\Shop\AbstractBaseProduct[]
 	 */
 	public static function getProducts($state = 'all'): array
 	{
@@ -31,6 +31,9 @@ class Shop
 				$fileName = $item->getBasename('.php');
 				$className = "\\App\\YetiForce\\Shop\\Product\\$fileName";
 				$instance = new $className($fileName);
+				if (!$instance instanceof \App\YetiForce\Shop\AbstractBaseProduct) {
+					throw new \App\Exception\IllegalValue('ERR_ILLEGAL_VALUE||' . $className, 406);
+				}
 				if ('featured' === $state && !$instance->featured) {
 					continue;
 				}
@@ -68,11 +71,11 @@ class Shop
 	/**
 	 * Get variable product.
 	 *
-	 * @param \App\YetiForce\Shop\BaseProduct $product
+	 * @param \App\YetiForce\Shop\AbstractBaseProduct $product
 	 *
 	 * @return array
 	 */
-	public static function getVariableProduct(Shop\BaseProduct $product): array
+	public static function getVariableProduct(Shop\AbstractBaseProduct $product): array
 	{
 		return [
 			'a3' => $product->getPrice(),
