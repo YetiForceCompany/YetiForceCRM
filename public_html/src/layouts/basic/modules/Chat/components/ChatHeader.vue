@@ -149,12 +149,12 @@ export default {
       }
     },
     toggleEnter() {
-      this.setSendByEnter(!this.data.sendByEnter)
       app.setCookie('chat-notSendByEnter', !this.data.sendByEnter, 365)
+      this.setSendByEnter(!this.data.sendByEnter)
     },
     toggleSoundNotification() {
-      this.setSoundNotification(!this.data.isSoundNotification)
       app.setCookie('chat-isSoundNotification', !this.data.isSoundNotification, 365)
+      this.setSoundNotification(!this.data.isSoundNotification)
     }
   },
   beforeDestroy() {
