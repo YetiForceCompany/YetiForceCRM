@@ -79,7 +79,7 @@ class Shop
 			'currency_code' => $product->currencyCode,
 			'item_number' => 'ccc',
 			'on0' => 'Package',
-			'os0' => \strtoupper(\App\Company::getSize()),
+			'os0' => \App\Company::getSize(),
 		];
 	}
 
@@ -91,5 +91,29 @@ class Shop
 	public static function getPaypalUrl(): string
 	{
 		return 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+	}
+
+
+	/**
+	 * Verification of the product key.
+	 *
+	 * @param string $key
+	 *
+	 * @return bool
+	 */
+	public static function verifyProductKey(string $key): bool
+	{
+		$l1 = substr($key, 0, 5);
+		$r1 = substr($key, -2);
+		$m = rtrim(ltrim($key, $l1), $r1);
+		$p = substr($m, -1);
+		$m = rtrim($m, $p);
+		$d = substr($m, -10);
+		$m = rtrim($m, $d);
+		$s = substr($m, -5);
+		$m = rtrim($m, $s);
+		return substr(crc32($m), 2, 5) === $l1
+		&& substr(sha1($d . $p), 5, 5) === $s
+		&& $r1 === substr(sha1(substr(crc32($m), 2, 5) . $m . substr(sha1($d . $p), 5, 5) . $d . $p), 1, 2);
 	}
 }
