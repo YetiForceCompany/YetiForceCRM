@@ -25,7 +25,6 @@ class Settings_YetiForce_Shop_View extends Settings_Vtiger_Index_View
 		$viewer->assign('STATUS', $request->getByType('status'));
 		$viewer->assign('PRODUCTS', \App\YetiForce\Shop::getProducts());
 		$viewer->assign('PAYPAL_URL', \App\YetiForce\Shop::getPaypalUrl());
-		$viewer->assign('CURRENCY_CODE', \App\YetiForce\Shop::getCurrencyCode());
 		$viewer->view('Shop.tpl', $qualifiedModuleName);
 	}
 }

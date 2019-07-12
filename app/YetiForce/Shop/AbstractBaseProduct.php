@@ -38,6 +38,13 @@ abstract class AbstractBaseProduct
 	public $pricesType = 'table';
 
 	/**
+	 * Currency code.
+	 *
+	 * @var string
+	 */
+	public $currencyCode = 'EUR';
+
+	/**
 	 * Construct.
 	 *
 	 * @param string $name
@@ -107,7 +114,7 @@ abstract class AbstractBaseProduct
 	 *
 	 * @return void
 	 */
-	public function getPeriod(): string
+	public function getPeriodLabel(): string
 	{
 		return 'LBL_PERIOD_OF_MONTH';
 	}

@@ -25,14 +25,14 @@
 								<div class="input-group mb-3">
 									<div class="input-group-prepend">
 										<button class="btn btn-success pull-right" type="submit" tile="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
-											{$PRODUCT->getPrice()} {$CURRENCY_CODE} / {\App\Language::translate($PRODUCT->getPeriod(), $QUALIFIED_MODULE)}
+											{$PRODUCT->getPrice()} {$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}
 										</button>
 									</div>
 									<input class="form-control" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
 								</div>
 							{else}
 								<button class="btn btn-success pull-right" type="submit" tile="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
-									{$PRODUCT->getPrice()} {$CURRENCY_CODE} / {\App\Language::translate($PRODUCT->getPeriod(), $QUALIFIED_MODULE)}
+									{$PRODUCT->getPrice()} {$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}
 								</button>
 							{/if}
 						</div>
