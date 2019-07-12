@@ -50,7 +50,7 @@ class Shop
 		return [
 			'cmd' => '_xclick-subscriptions',
 			'business' => 'paypal-facilitator@yetiforce.com',
-			'currency_code' => 'USD',
+			'currency_code' => static::getCurrencyCode(),
 			'no_shipping' => 1,
 			'src' => 1,
 			'sra' => 1,
@@ -91,5 +91,15 @@ class Shop
 	public static function getPaypalUrl(): string
 	{
 		return 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+	}
+
+	/**
+	 * Get currency code.
+	 *
+	 * @return string
+	 */
+	public static function getCurrencyCode(): string
+	{
+		return 'EUR';
 	}
 }

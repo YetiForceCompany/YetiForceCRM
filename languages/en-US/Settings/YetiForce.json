@@ -48,6 +48,7 @@
     "LBL_TRANSLATED_WORDS": "Translated words",
     "LBL_LANG": "Language",
     "LBL_BUY": "Buy",
+    "LBL_PERIOD_OF_MONTH": "M",
     "LBL_SUCCESSFUL_TRANSACTION": "Thank you for making the payment. The transaction is being processing, after completion the functionality will be unblocked.",
     "LBL_FAILED_TRANSACTION": "Transaction failed, please check if you have filled in everything correctly.",
     "LBL_SHOP_PREMIUMMODULES": "Premium modules",
