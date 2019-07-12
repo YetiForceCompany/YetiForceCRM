@@ -1,9 +1,9 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 export default {
 	dialog: false,
-	miniMode: false,
-	leftPanel: true,
-	rightPanel: true,
+	miniMode: true,
+	leftPanel: false,
+	rightPanel: false,
 	historyTab: false,
 	isSearchActive: false,
 	tab: 'chat',

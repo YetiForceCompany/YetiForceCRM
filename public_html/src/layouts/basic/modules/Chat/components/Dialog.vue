@@ -1,15 +1,7 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <div v-if="config.isChatAllowed">
-    <q-btn
-      round
-      color="white"
-      text-color="black"
-      icon="mdi-message-text-outline"
-      class="text-muted"
-      @click="dialog = !dialog"
-      ref="chatBtn"
-    >
+    <q-btn round color="primary" icon="mdi-message-text-outline" class="glossy" @click="dialog = !dialog" ref="chatBtn">
       <q-badge v-if="config.showNumberOfNewMessages" v-show="data.amountOfNewMessages > 0" color="danger" floating>
         <transition appear enter-active-class="animated flash" mode="out-in">
           <div :key="data.amountOfNewMessages">

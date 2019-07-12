@@ -32,7 +32,7 @@
           @keydown.enter="onEnter"
         ></div>
       </div>
-      <q-btn :loading="sending" round color="primary" icon="mdi-send" @click="send">
+      <q-btn :loading="sending" flat round color="primary" icon="mdi-send" @click="send">
         <template v-slot:loading>
           <q-spinner-facebook />
         </template>
