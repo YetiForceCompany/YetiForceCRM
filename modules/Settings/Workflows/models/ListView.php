@@ -74,6 +74,7 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 		}
 		$pagingModel->calculatePageRange($dataReader->count());
 		if ($dataReader->count() > $pageLimit) {
+			array_pop($listViewRecordModels);
 			$pagingModel->set('nextPageExists', true);
 		} else {
 			$pagingModel->set('nextPageExists', false);

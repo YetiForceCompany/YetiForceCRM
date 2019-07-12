@@ -41,7 +41,7 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 		if (!empty($orderBy)) {
 			$query->orderBy($orderBy . ' ' . $this->getForSql('sortorder'));
 		}
-		$dataReader = $query->limit($pageLimit)->offset($startIndex)->createCommand()->query();
+		$dataReader = $query->limit($pageLimit + 1)->offset($startIndex)->createCommand()->query();
 		$listViewRecordModels = [];
 		while ($row = $dataReader->read()) {
 			$record = new $recordModelClass();
