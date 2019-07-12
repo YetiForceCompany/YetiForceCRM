@@ -210,7 +210,6 @@ final class Chat
 			->from(['CR' => static::TABLE_NAME['room']['group']])
 			->innerJoin(['CM' => static::TABLE_NAME['message']['group']], 'CM.groupid = CR.groupid')
 			->where(['>', 'CM.id', new \yii\db\Expression('CR.last_message')])
-			->orWhere(['CR.last_message' => null])
 			->groupBy(['CR.groupid', 'CR.userid']);
 		$dataReader = (new Db\Query())
 			->select(['GR.roomid', 'GR.userid', 'recordid' => 'GR.groupid', 'name' => 'VGR.groupname', 'CNT.cnt_new_message'])
@@ -831,11 +830,11 @@ final class Chat
 				static::TABLE_NAME['room'][$this->roomType],
 				[
 					'userid' => $this->userId,
-					'last_message' => null,
 					static::COLUMN_NAME['room'][$this->roomType] => $this->recordId
 				]
 			)->execute();
 			$this->room['userid'] = $this->userId;
+			$this->getEntries();
 		}
 	}
 
