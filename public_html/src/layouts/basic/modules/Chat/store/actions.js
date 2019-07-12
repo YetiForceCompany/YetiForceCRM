@@ -4,8 +4,8 @@ export default {
 	setDialog({ commit }, isOpen) {
 		commit('dialog', isOpen)
 	},
-	maximize({ commit }, isMax) {
-		commit('maximizedDialog', isMax)
+	maximize({ commit }, isMini) {
+		commit('miniMode', isMini)
 	},
 	toggleLeftPanel({ commit, getters }) {
 		commit('setLeftPanel', !getters['leftPanel'])
@@ -167,8 +167,6 @@ export default {
 	},
 
 	updateAmountOfNewMessages({ commit, getters }, newMessages) {
-		console.log(newMessages)
-		console.log(getters.data.amountOfNewMessages)
 		if (newMessages > getters.data.amountOfNewMessages) {
 			commit('setAmountOfNewMessages', newMessages)
 			if (app.getCookie('chat-isSoundNotification') === 'true') {

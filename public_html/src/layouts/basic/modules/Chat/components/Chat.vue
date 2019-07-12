@@ -3,8 +3,8 @@
   <q-layout
     view="hHh LpR fFf"
     container
-    :class="['bg-white', !maximizedDialog ? 'chat-mini' : '']"
-    :style="{ bottom: !maximizedDialog ? bottomPosition + 'px' : 0 }"
+    :class="['bg-white', miniMode ? 'chat-mini' : '']"
+    :style="{ bottom: miniMode ? bottomPosition + 'px' : 0 }"
   >
     <chat-header @visibleInputSearch="inputSearchVisible = $event" @showTabHistory="tabHistoryShow = $event" />
     <left-panel />
@@ -32,7 +32,7 @@ export default {
     return {}
   },
   computed: {
-    ...mapGetters(['leftPanel', 'rightPanel', 'maximizedDialog']),
+    ...mapGetters(['leftPanel', 'rightPanel', 'miniMode']),
     bottomPosition() {
       if (this.parentRefs.chatBtn !== undefined) {
         return Quasar.plugins.Screen.height - Quasar.utils.dom.offset(this.parentRefs.chatBtn.$el).top

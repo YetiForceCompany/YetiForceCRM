@@ -3,8 +3,8 @@ export default {
 	dialog(state) {
 		return state.dialog
 	},
-	maximizedDialog(state) {
-		return state.maximizedDialog
+	miniMode(state) {
+		return state.miniMode
 	},
 	leftPanel(state) {
 		return state.leftPanel

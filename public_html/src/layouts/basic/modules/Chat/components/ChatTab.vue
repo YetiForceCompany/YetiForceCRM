@@ -53,7 +53,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['maximizedDialog', 'data', 'config', 'isSearchActive', 'tab'])
+    ...mapGetters(['miniMode', 'data', 'config', 'isSearchActive', 'tab'])
   },
   watch: {
     data() {
@@ -102,8 +102,10 @@ export default {
           lastId:
             this.data.chatEntries.slice(-1)[0] !== undefined ? this.data.chatEntries.slice(-1)[0]['id'] : undefined,
           recordId: this.data.currentRoom.recordId,
-          roomType: this.data.currentRoom.roomType
+          roomType: this.data.currentRoom.roomType,
+          miniMode: this.miniMode ? undefined : true
         }).done(({ result }) => {
+          console.log('timerMessage')
           this.updateChat(result)
           if (result.chatEntries.length) {
             this.scrollDown()
@@ -128,6 +130,7 @@ export default {
     })
   },
   beforeDestroy() {
+    console.log('destroy')
     clearTimeout(this.timerMessage)
   }
 }

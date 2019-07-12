@@ -3,8 +3,8 @@ export default {
 	dialog(state, idOpen) {
 		state.dialog = idOpen
 	},
-	maximizedDialog(state, isMax) {
-		state.maximizedDialog = isMax
+	miniMode(state, isMini) {
+		state.miniMode = isMini
 	},
 	setLeftPanel(state, isOpen) {
 		state.leftPanel = isOpen
@@ -30,6 +30,9 @@ export default {
 		state.data.chatEntries = [...state.data.chatEntries, ...data.chatEntries]
 		state.data.participants = data.participants
 		state.data.roomList = data.roomList
+		if (data.amountOfNewMessages !== undefined) {
+			state.data.amountOfNewMessages = data.amountOfNewMessages
+		}
 	},
 	updateRooms(state, data) {
 		state.data.roomList = data

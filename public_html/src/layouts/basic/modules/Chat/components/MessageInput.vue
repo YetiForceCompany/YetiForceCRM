@@ -72,7 +72,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['maximizedDialog', 'historyTab', 'config']),
+    ...mapGetters(['miniMode', 'historyTab', 'config']),
     containerHeight() {
       if (this.$refs.textContainer !== undefined) return this.$refs.textContainer.clientHeight + 'px'
     }

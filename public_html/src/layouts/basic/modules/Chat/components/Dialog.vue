@@ -21,7 +21,7 @@
     <q-dialog
       v-model="dialog"
       seamless
-      :maximized="maximizedDialog"
+      :maximized="!miniMode"
       transition-show="slide-up"
       transition-hide="slide-down"
       content-class="quasar-reset"
@@ -44,7 +44,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['maximizedDialog', 'data', 'config']),
+    ...mapGetters(['miniMode', 'data', 'config']),
     dialog: {
       get() {
         return this.$store.getters['Chat/dialog']
@@ -75,6 +75,8 @@ export default {
         action: 'ChatAjax',
         mode: 'trackNewMessages'
       }).done(({ result }) => {
+        console.log('trackNewMessages')
+
         this.updateAmountOfNewMessages(result)
         this.initTimer()
       })
