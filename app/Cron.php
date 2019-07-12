@@ -54,8 +54,10 @@ class Cron
 	{
 		static::$scriptTimeStart = microtime(true);
 		static::generateStatusFile();
-		YetiForce\Register::check();
-		YetiForce\Status::send();
+		if ('test' !== \Config\Main::$systemMode) {
+			YetiForce\Register::check();
+			YetiForce\Status::send();
+		}
 		if (!(static::$logActive = \App\Config::debug('DEBUG_CRON'))) {
 			return;
 		}
