@@ -44,7 +44,7 @@ class Vtiger_ConditionBuilder_View extends Vtiger_IndexAjax_View
 				$fieldModel = Vtiger_Field_Model::getInstance($fieldName, $sourceModuleModel);
 			}
 		}
-		$operators = $fieldModel->getRecordOperators();
+		$operators = $request->isEmpty('parent', 1) ? $fieldModel->getQueryOperators() : $fieldModel->getRecordOperators();
 		if ($request->isEmpty('operator', true)) {
 			$selectedOperator = key($operators);
 		} else {

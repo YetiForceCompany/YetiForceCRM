@@ -109,6 +109,11 @@ class Vtiger_AdvancedFilter_Helper
 			'categoryMultipicklist' => ['contains', 'does not contain', 'is', 'is not', 'has changed', 'has changed to', 'is empty', 'is not empty'],
 			'rangeTime' => ['is empty', 'is not empty'],
 			'documentsFileUpload' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'],
+			'multiImage' =>  ['is', 'is not', 'contains', 'does not contain', 'is empty', 'is not empty'],
+			'twitter' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'],
+			'multiEmail' =>  ['contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty'],
+			'serverAccess' => ['is', 'is not', 'has changed'],
+			'multiDomain' =>   ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'],
 		];
 	}
 

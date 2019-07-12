@@ -113,6 +113,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->assign('IS_FILTER_SAVED_NEW', $workFlowModel->isFilterSavedInNew());
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+		$viewer->assign('SKIPPED_FIELD_DATA_TYPES', ['smtp']);
 
 		$viewer->view('Step2.tpl', $qualifiedModuleName);
 	}

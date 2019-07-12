@@ -100,14 +100,6 @@ class Vtiger_MultiDomain_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getListSearchTemplateName()
-	{
-		return 'List/Field/MultiDomain.tpl';
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getAllowedColumnTypes()
 	{
 		return ['text'];
