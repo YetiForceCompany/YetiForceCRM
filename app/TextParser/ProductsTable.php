@@ -30,46 +30,52 @@ class ProductsTable extends Base
 			return $html;
 		}
 		$inventory = \Vtiger_Inventory_Model::getInstance($this->textParser->moduleName);
-		$fields = $inventory->getFieldsByBlocks();
-		if (isset($fields[0])) {
-			$inventoryRows = $this->textParser->recordModel->getInventoryData();
-			$firstRow = current($inventoryRows);
-			$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
-			if ($inventory->isField('currency')) {
-				$currency = $inventoryRows && $firstRow['currency'] ? $firstRow['currency'] : $baseCurrency['id'];
-				$currencyData = \App\Fields\Currency::getById($currency);
-			}
+
+		$inventoryRows = $this->textParser->recordModel->getInventoryData();
+		$firstRow = current($inventoryRows);
+		$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
+		if ($inventory->isField('currency')) {
+			$currency = $inventoryRows && $firstRow['currency'] ? $firstRow['currency'] : $baseCurrency['id'];
+			$currencyData = \App\Fields\Currency::getById($currency);
 		}
-		if (isset($fields[0])) {
-			$html .= '<table class="products-table-header" style="border-collapse:collapse;width:100%;">
+		$html .= '<table class="products-table-header" style="border-collapse:collapse;width:100%;">
 				<thead>
 					<tr>
 						<th></th>';
-			foreach ($fields[0] as $field) {
-				$html .= '<th class="col-type-' . $field->getType() . '" style="text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . ': ' . $field->getDisplayValue($firstRow[$field->getColumnName()]) . '</th>';
+		$fileName = [];
+		foreach (['currency', 'discountmode', 'taxmode', 'name', 'qty', 'discount', 'marginp', 'margin', 'tax', 'comment1', 'price', 'total', 'net', 'purchase', 'gross', 'unit', 'subunit'] as $field) {
+			$fieldModel = $inventory->getField($field);
+			if (!$fieldModel || !$inventory->isField($field)) {
+				continue;
 			}
-			$html .= '</tr>
+			if (\in_array($field, ['currency', 'discountmode', 'taxmode'])) {
+				$html .= '<th class="col-type-' . $fieldModel->getType() . '" style="text-align:center;">' . \App\Language::translate($fieldModel->getDefaultLabel(), $this->textParser->moduleName) . ': ' . $fieldModel->getDisplayValue($firstRow[$fieldModel->getColumnName()]) . '</th>';
+			} else {
+				$fileName[$field] = $fieldModel;
+			}
+		}
+		$html .= '</tr>
 				</thead>
 			</table>';
-			$fieldsTextAlignRight = ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'];
-			$html .= '<table class="products-table" style="border-collapse:collapse;width:100%;">
+		$fieldsTextAlignRight = ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'];
+		$html .= '<table class="products-table" style="border-collapse:collapse;width:100%;">
 				<thead>
 					<tr>';
-			foreach ($fields[1] as $field) {
-				if ($field->isVisible()) {
-					$html .= '<th class="col-type-' . $field->getType() . '" style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
-				}
+		foreach ($fileName as $field) {
+			if ($field->isVisible() && 'comment1' !== $field->getColumnName()) {
+				$html .= '<th class="col-type-' . $field->getType() . '" style="padding:0px 4px;text-align:center;">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 			}
-			$html .= '</tr>
-				</thead>
-				<tbody>';
+		}
+		$html .= '</tr></thead>';
+		if ($fileName) {
+			$html .= '<tbody>';
 			foreach ($inventoryRows as $key => $inventoryRow) {
 				$html .= '<tr>';
-				foreach ($fields[1] as $field) {
+				foreach ($fileName as $field) {
 					if ($field->isVisible()) {
 						$itemValue = $inventoryRow[$field->getColumnName()];
 						$html .= '<td class="col-type-' . $field->getType() . '" style="font-size:8px;border:1px solid #ddd;padding:0px 4px;' . (\in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '">';
-						if ('Name' === $field->getType()) {
+						if ('name' === $field->getColumnName()) {
 							$html .= '<strong>' . $field->getDisplayValue($itemValue, $inventoryRow) . '</strong>';
 							foreach ($inventory->getFieldsByType('Comment') as $commentField) {
 								if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()])) {
@@ -79,7 +85,7 @@ class ProductsTable extends Base
 									}
 								}
 							}
-						} else {
+						} elseif ('comment1' !== $field->getColumnName()) {
 							$html .= $field->getDisplayValue($itemValue, $inventoryRow);
 						}
 						$html .= '</td>';
@@ -88,7 +94,7 @@ class ProductsTable extends Base
 				$html .= '</tr>';
 			}
 			$html .= '</tbody><tfoot><tr>';
-			foreach ($fields[1] as $field) {
+			foreach ($fileName as $field) {
 				if ($field->isVisible()) {
 					$html .= '<th class="col-type-' . $field->getType() . '" style="padding:0px 4px;text-align:right;">';
 					if ($field->isSummary()) {
@@ -113,7 +119,6 @@ class ProductsTable extends Base
 			$html .= '<table class="products-table-summary" style="padding:10px 0px;border-collapse:collapse; font-family:\'Noto Sans\'; font-size:8px; margin:0px 0px 20px 0px; width:100%">
 							<tr>
 								<td style="vertical-align:top; width:50%">';
-
 			if ($inventory->isField('discount') && $inventory->isField('discountmode')) {
 				$discount = $inventory->getField('discount')->getSummaryValuesFromData($inventoryRows);
 				$html .= '<table class="products-table-summary-discount" style="width:100%;border-collapse:collapse;">
@@ -129,7 +134,6 @@ class ProductsTable extends Base
 							</tbody>
 						</table>';
 			}
-
 			$html .= '</td><td style="vertical-align:top">';
 			if ($inventory->isField('tax') && $inventory->isField('taxmode')) {
 				$html .= '
@@ -154,7 +158,6 @@ class ProductsTable extends Base
 								</tr>
 							</tbody>
 						</table>';
-
 				if ($inventory->isField('currency') && $baseCurrency['id'] != $currency) {
 					$RATE = $baseCurrency['conversion_rate'] / $currencyData['conversion_rate'];
 					$html .= '<table class="products-table-summary-currency">
