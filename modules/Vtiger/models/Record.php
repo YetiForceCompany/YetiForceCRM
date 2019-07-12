@@ -470,7 +470,8 @@ class Vtiger_Record_Model extends \App\Base
 			$recordId = $this->getId();
 			Users_Privileges_Model::setSharedOwner($this->get('shownerid'), $recordId);
 			if ('link' === \App\Request::_get('createmode') && \App\Request::_has('return_module') && \App\Request::_has('return_id')) {
-				vtlib\Deprecated::relateEntities(CRMEntity::getInstance(\App\Request::_get('return_module')), \App\Request::_get('return_module'), \App\Request::_getInteger('return_id'), $moduleName, $recordId);
+				Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance(\App\Request::_get('return_module')), $this->getModule())
+				->addRelation(\App\Request::_getInteger('return_id'), $recordId);
 			}
 			$transaction->commit();
 		} catch (\Exception $e) {

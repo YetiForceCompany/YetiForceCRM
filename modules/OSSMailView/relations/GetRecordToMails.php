@@ -1,0 +1,110 @@
+<?php
+/**
+ * Main file that includes basic operations on relations.
+ *
+ * @package   Relation
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
+use App\RelationInterface;
+
+/**
+ * OSSMailView_GetRecordToMails_Relation class.
+ */
+class OSSMailView_GetRecordToMails_Relation implements RelationInterface
+{
+	/**
+	 * Name of the table that stores relations.
+	 */
+	public const TABLE_NAME = 'vtiger_ossmailview_relation';
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getQuery()
+	{
+		$this->relationModel->getQueryGenerator()
+			->addJoin(['INNER JOIN', self::TABLE_NAME, self::TABLE_NAME . '.crmid = vtiger_crmentity.crmid'])
+			->addNativeCondition([self::TABLE_NAME . '.ossmailviewid' => $this->relationModel->get('parentRecord')->getId()]);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function delete(int $sourceRecordId, int $destinationRecordId): bool
+	{
+		return (bool) \App\Db::getInstance()->createCommand()->delete(self::TABLE_NAME, ['crmid' => $destinationRecordId, 'ossmailviewid' => $sourceRecordId])->execute();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function create(int $sourceRecordId, int $destinationRecordId): bool
+	{
+		$return = false;
+		$data = ['ossmailviewid' => $sourceRecordId, 'crmid' => $destinationRecordId];
+		if (!$this->isExists($data)) {
+			$date = isset($this->date) ? $this->date : \Vtiger_Record_Model::getInstanceById($sourceRecordId, 'OSSMailView')->get('date');
+			$return = $this->addToDB($data + ['date' => $date]);
+			if ($return && ($parentId = \Users_Privileges_Model::getParentRecord($destinationRecordId))) {
+				$data['crmid'] = $parentId;
+				if ($this->addRelation($data, $date) && ($parentId = Users_Privileges_Model::getParentRecord($parentId))) {
+					$data['crmid'] = $parentId;
+					$this->addRelation($data, $date);
+				}
+			}
+		}
+		return (bool) $return;
+	}
+
+	/**
+	 * Check if relation exists.
+	 *
+	 * @param array $data
+	 *
+	 * @return bool
+	 */
+	public function isExists(array  $data): bool
+	{
+		return (bool) (new \App\Db\Query())->from(self::TABLE_NAME)->where($data)->exists();
+	}
+
+	/**
+	 * Add relation to DB.
+	 *
+	 * @param array $data
+	 *
+	 * @return bool
+	 */
+	public function addToDB(array $data): bool
+	{
+		return (bool) \App\Db::getInstance()->createCommand()->insert(self::TABLE_NAME, $data)->execute();
+	}
+
+	/**
+	 * Add relation if exists.
+	 *
+	 * @param array  $data
+	 * @param string $date
+	 *
+	 * @return bool
+	 */
+	public function addRelation(array $data, string $date): bool
+	{
+		$result = false;
+		if (!$this->isExists($data)) {
+			$data['date'] = $date;
+			$result = $this->addToDB($data);
+		}
+		return $result;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function transfer()
+	{
+	}
+}

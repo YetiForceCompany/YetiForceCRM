@@ -19,7 +19,7 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model
 	 */
 	public function updateStatus($sourceRecordId, $statusDetails = [])
 	{
-		if ($sourceRecordId && $statusDetails && in_array($this->getRelationModuleModel()->getName(), ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
+		if ($sourceRecordId && $statusDetails && \in_array($this->getRelationModuleModel()->getName(), ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
 			$db = App\Db::getInstance();
 			$case = ' CASE crmid ';
 			foreach ($statusDetails as $relatedRecordId => $status) {
@@ -48,9 +48,9 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model
 			foreach ($relatedModelFields as $fieldName => $fieldModel) {
 				if ($fieldModel->isReferenceField()) {
 					$referenceList = $fieldModel->getReferenceList();
-					if (in_array($parentModule->getName(), $referenceList)) {
+					if (\in_array($parentModule->getName(), $referenceList)) {
 						$relationFieldArray[$fieldName] = $fieldModel;
-						if ($fieldName != 'modifiedby' && $fieldName != 'created_user_id') {
+						if ('modifiedby' != $fieldName && 'created_user_id' != $fieldName) {
 							$this->set('relationField', $fieldModel);
 							$relationField = $fieldModel;
 							break;
@@ -65,16 +65,6 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model
 			}
 		}
 		return $relationField;
-	}
-
-	/**
-	 * Get records in campaign.
-	 */
-	public function getCampaignsRecords()
-	{
-		$queryGenerator = $this->getQueryGenerator();
-		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_campaign_records', 'vtiger_campaign_records.crmid = vtiger_crmentity.crmid']);
-		$queryGenerator->addNativeCondition(['vtiger_campaign_records.campaignid' => $this->get('parentRecord')->getId()]);
 	}
 
 	/**

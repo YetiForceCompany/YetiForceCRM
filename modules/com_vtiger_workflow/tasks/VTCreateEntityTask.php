@@ -36,7 +36,7 @@ class VTCreateEntityTask extends VTTask
 		if (!empty($this->field_value_mapping)) {
 			$fieldValueMapping = \App\Json::decode($this->field_value_mapping);
 		}
-		if (!empty($entityType) && !empty($fieldValueMapping) && count($fieldValueMapping) > 0 && !$this->mappingPanel) {
+		if (!empty($entityType) && !empty($fieldValueMapping) && \count($fieldValueMapping) > 0 && !$this->mappingPanel) {
 			$newRecordModel = Vtiger_Record_Model::getCleanInstance($entityType);
 			$ownerFields = array_keys($newRecordModel->getModule()->getFieldsByType('owner'));
 			foreach ($fieldValueMapping as $fieldInfo) {
@@ -45,13 +45,13 @@ class VTCreateEntityTask extends VTTask
 				$fieldValueType = $fieldInfo['valuetype'];
 				$fieldValue = trim($fieldInfo['value']);
 
-				if ($fieldValueType === 'fieldname') {
+				if ('fieldname' === $fieldValueType) {
 					if ($referenceModule === $entityType) {
 						$fieldValue = $newRecordModel->get($fieldValue);
 					} else {
 						$fieldValue = $recordModel->get($fieldValue);
 					}
-				} elseif ($fieldValueType === 'expression') {
+				} elseif ('expression' === $fieldValueType) {
 					require_once 'modules/com_vtiger_workflow/expression_engine/include.php';
 
 					$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($fieldValue)));
@@ -64,13 +64,13 @@ class VTCreateEntityTask extends VTTask
 					}
 				} elseif (preg_match('/([^:]+):boolean$/', $fieldValue, $match)) {
 					$fieldValue = $match[1];
-					if ($fieldValue == 'true') {
+					if ('true' == $fieldValue) {
 						$fieldValue = '1';
 					} else {
 						$fieldValue = '0';
 					}
 				}
-				if (in_array($fieldName, $ownerFields) && !is_numeric($fieldValue)) {
+				if (\in_array($fieldName, $ownerFields) && !is_numeric($fieldValue)) {
 					$userId = App\User::getUserIdByName($fieldValue);
 					$groupId = \App\Fields\Owner::getGroupId($fieldValue);
 					if (!$userId && !$groupId) {
@@ -85,14 +85,17 @@ class VTCreateEntityTask extends VTTask
 			// To handle cyclic process
 			$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
 			$newRecordModel->save();
-			vtlib\Deprecated::relateEntities($recordModel->getEntity(), $moduleName, $recordId, $entityType, $newRecordModel->getId());
+			$relationModel = \Vtiger_Relation_Model::getInstance($recordModel->getModule(), $newRecordModel->getModule());
+			if ($relationModel) {
+				$relationModel->addRelation($recordModel->getId(), $newRecordModel->getId());
+			}
 		} elseif ($entityType && $this->mappingPanel) {
 			$saveContinue = true;
 			$newRecordModel = Vtiger_Record_Model::getCleanInstance($entityType);
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 			$newRecordModel->setRecordFieldValues($parentRecordModel);
 			$mandatoryFields = $newRecordModel->getModule()->getMandatoryFieldModels();
-			if (!empty($fieldValueMapping) && is_array($fieldValueMapping)) {
+			if (!empty($fieldValueMapping) && \is_array($fieldValueMapping)) {
 				$newRecordModel = $this->setFieldMapping($fieldValueMapping, $newRecordModel, $parentRecordModel);
 			}
 			foreach ($mandatoryFields as $field) {
@@ -111,7 +114,7 @@ class VTCreateEntityTask extends VTTask
 		$ownerFields = [];
 		$entityType = $this->entity_type;
 		foreach ($recordModel->getModule()->getFields() as $name => $fieldModel) {
-			if ($fieldModel->getFieldDataType() === 'owner') {
+			if ('owner' === $fieldModel->getFieldDataType()) {
 				$ownerFields[] = $name;
 			}
 		}
@@ -121,13 +124,13 @@ class VTCreateEntityTask extends VTTask
 			$fieldValueType = $fieldInfo['valuetype'];
 			$fieldValue = trim($fieldInfo['value']);
 
-			if ($fieldValueType === 'fieldname') {
+			if ('fieldname' === $fieldValueType) {
 				if ($referenceModule === $entityType) {
 					$fieldValue = $recordModel->get($fieldValue);
 				} else {
 					$fieldValue = $parentRecordModel->get($fieldValue);
 				}
-			} elseif ($fieldValueType == 'expression') {
+			} elseif ('expression' == $fieldValueType) {
 				require_once 'modules/com_vtiger_workflow/expression_engine/include.php';
 
 				$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($fieldValue)));
@@ -140,13 +143,13 @@ class VTCreateEntityTask extends VTTask
 				}
 			} elseif (preg_match('/([^:]+):boolean$/', $fieldValue, $match)) {
 				$fieldValue = $match[1];
-				if ($fieldValue == 'true') {
+				if ('true' == $fieldValue) {
 					$fieldValue = 1;
 				} else {
 					$fieldValue = 0;
 				}
 			}
-			if (in_array($fieldName, $ownerFields) && !is_numeric($fieldValue)) {
+			if (\in_array($fieldName, $ownerFields) && !is_numeric($fieldValue)) {
 				$userId = App\User::getUserIdByName($fieldValue);
 				$groupId = \App\Fields\Owner::getGroupId($fieldValue);
 				if (!$userId && !$groupId) {

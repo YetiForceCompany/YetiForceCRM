@@ -27,10 +27,10 @@ while ($relationRow = $dataReader->read()) {
 	$dbCommand->delete('vtiger_ossmailview_relation', ['crmid' => $relationRow['crmid']])->execute();
 	$moduleName = \App\Module::getModuleName($relationRow['tabid']);
 	$bind = false;
-	if (in_array($moduleName, $bindByEmail)) {
+	if (\in_array($moduleName, $bindByEmail)) {
 		$bind = 'email';
 	}
-	if (in_array($moduleName, $bindByPrefix)) {
+	if (\in_array($moduleName, $bindByPrefix)) {
 		$bind = 'prefix';
 	}
 	if (false === $bind) {

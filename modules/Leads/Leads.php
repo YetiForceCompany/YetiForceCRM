@@ -87,46 +87,4 @@ class Leads extends CRMEntity
 
 		return $relTables[$secModule];
 	}
-
-	// Function to unlink an entity with given Id from another entity
-	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
-	{
-		if (empty($return_module) || empty($return_id)) {
-			return;
-		}
-
-		if ('Campaigns' === $return_module) {
-			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $return_id])->execute();
-		} elseif ('Products' === $return_module) {
-			App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['crmid' => $id, 'productid' => $return_id])->execute();
-		} else {
-			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
-		}
-	}
-
-	public function saveRelatedModule($module, $crmid, $withModule, $withCrmids, $relatedName = false)
-	{
-		if (!is_array($withCrmids)) {
-			$withCrmids = [$withCrmids];
-		}
-		foreach ($withCrmids as $withCrmid) {
-			if ('Products' === $withModule) {
-				App\Db::getInstance()->createCommand()->insert('vtiger_seproductsrel', [
-					'crmid' => $crmid,
-					'productid' => $withCrmid,
-					'setype' => $module,
-					'rel_created_user' => App\User::getCurrentUserId(),
-					'rel_created_time' => date('Y-m-d H:i:s'),
-				])->execute();
-			} elseif ('Campaigns' === $withModule) {
-				App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
-					'campaignid' => $withCrmid,
-					'crmid' => $crmid,
-					'campaignrelstatusid' => 0,
-				])->execute();
-			} else {
-				parent::saveRelatedModule($module, $crmid, $withModule, $withCrmid, $relatedName);
-			}
-		}
-	}
 }

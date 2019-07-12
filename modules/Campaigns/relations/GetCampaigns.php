@@ -1,0 +1,64 @@
+<?php
+/**
+ * Main file that includes basic operations on relations.
+ *
+ * @package   Relation
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
+use App\RelationInterface;
+
+/**
+ * Campaigns_GetCampaigns_Relation class.
+ */
+class Campaigns_GetCampaigns_Relation implements RelationInterface
+{
+	/**
+	 * Name of the table that stores relations.
+	 */
+	public const TABLE_NAME = 'vtiger_campaign_records';
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getQuery()
+	{
+		$this->relationModel->getQueryGenerator()
+			->addJoin(['INNER JOIN', self::TABLE_NAME, self::TABLE_NAME . '.campaignid=vtiger_campaign.campaignid'])
+			->addNativeCondition([self::TABLE_NAME . '.crmid' => $this->relationModel->get('parentRecord')->getId()]);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function delete(int $sourceRecordId, int $destinationRecordId): bool
+	{
+		return (bool) App\Db::getInstance()->createCommand()
+			->delete(self::TABLE_NAME, ['crmid' => $sourceRecordId, 'campaignid' => $destinationRecordId])
+			->execute();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function create(int $sourceRecordId, int $destinationRecordId): bool
+	{
+		$result = false;
+		$data = ['campaignid' => $destinationRecordId, 'crmid' => $sourceRecordId];
+		if (!(new \App\Db\Query())->from(self::TABLE_NAME)->where($data)->exists()) {
+			$data['campaignrelstatusid'] = 0;
+			$result = (bool) App\Db::getInstance()->createCommand()->insert(self::TABLE_NAME, $data)->execute();
+		}
+
+		return $result;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function transfer()
+	{
+	}
+}

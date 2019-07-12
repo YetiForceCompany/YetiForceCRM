@@ -46,9 +46,10 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 	{
 		parent::saveToDb();
 		$forModule = \App\Request::_get('return_module');
-		$forCrmid = \App\Request::_get('return_id');
-		if (\App\Request::_get('return_action') && $forModule && $forCrmid && 'ServiceContracts' === $forModule) {
-			CRMEntity::getInstance($forModule)->saveRelatedModule($forModule, $forCrmid, \App\Request::_get('module'), $this->getId());
+		$forCrmId = \App\Request::_get('return_id');
+		if (\App\Request::_get('return_action') && $forModule && $forCrmId && 'ServiceContracts' === $forModule) {
+			\Vtiger_Relation_Model::getInstance(\Vtiger_Module_Model::getInstance($forModule), $this->getModule())
+				->addRelation($forCrmId, $this->getId());
 		}
 	}
 
