@@ -30,9 +30,6 @@ export default {
 		state.data.chatEntries = [...state.data.chatEntries, ...data.chatEntries]
 		state.data.participants = data.participants
 		state.data.roomList = data.roomList
-		if (data.amountOfNewMessages !== undefined) {
-			state.data.amountOfNewMessages = data.amountOfNewMessages
-		}
 	},
 	updateRooms(state, data) {
 		state.data.roomList = data

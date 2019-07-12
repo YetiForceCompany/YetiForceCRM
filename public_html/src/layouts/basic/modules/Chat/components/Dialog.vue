@@ -1,15 +1,23 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <div v-if="config.isChatAllowed">
-    <q-btn round color="primary" icon="mdi-message-text-outline" class="glossy" @click="dialog = !dialog" ref="chatBtn">
-      <q-badge v-if="config.showNumberOfNewMessages" v-show="data.amountOfNewMessages > 0" color="danger" floating>
-        <transition appear enter-active-class="animated flash" mode="out-in">
-          <div :key="data.amountOfNewMessages">
+    <transition :enter-active-class="buttonAnimationClasses" mode="out-in">
+      <q-btn
+        round
+        color="primary"
+        icon="mdi-message-text-outline"
+        class="glossy"
+        @click="dialog = !dialog"
+        ref="chatBtn"
+        :key="data.amountOfNewMessages"
+      >
+        <q-badge v-if="config.showNumberOfNewMessages" v-show="data.amountOfNewMessages > 0" color="danger" floating>
+          <div>
             {{ data.amountOfNewMessages }}
           </div>
-        </transition>
-      </q-badge>
-    </q-btn>
+        </q-badge>
+      </q-btn>
+    </transition>
     <q-dialog
       v-model="dialog"
       seamless
@@ -31,7 +39,6 @@ export default {
   components: { Chat },
   data() {
     return {
-      amountOfNewMessages: 0,
       timerGlobal: null
     }
   },
@@ -44,12 +51,14 @@ export default {
       set(isOpen) {
         this.setDialog(isOpen)
       }
+    },
+    buttonAnimationClasses() {
+      return this.data.amountOfNewMessages ? 'animated flash slow' : ''
     }
   },
   watch: {
     dialog() {
       if (this.dialog) {
-        this.amountOfNewMessages = 0
         clearInterval(this.timerGlobal)
       } else {
         this.trackNewMessages()

@@ -61,7 +61,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchEarlierEntries', 'fetchSearchData', 'fetchRoom', 'fetchUnread']),
+    ...mapActions(['fetchEarlierEntries', 'fetchSearchData', 'fetchRoom', 'fetchUnread', 'updateAmountOfNewMessages']),
     ...mapMutations(['setSearchInactive', 'updateChat']),
     onResize({ height }) {
       Quasar.utils.dom.css(this.$refs.scrollContainer.$el, {
@@ -103,10 +103,11 @@ export default {
             this.data.chatEntries.slice(-1)[0] !== undefined ? this.data.chatEntries.slice(-1)[0]['id'] : undefined,
           recordId: this.data.currentRoom.recordId,
           roomType: this.data.currentRoom.roomType,
-          miniMode: this.miniMode ? undefined : true
+          miniMode: this.miniMode ? true : undefined
         }).done(({ result }) => {
           console.log('timerMessage')
           this.updateChat(result)
+          this.updateAmountOfNewMessages(result.amountOfNewMessages)
           if (result.chatEntries.length) {
             this.scrollDown()
           }
