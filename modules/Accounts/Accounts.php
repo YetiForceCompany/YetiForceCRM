@@ -58,18 +58,12 @@ class Accounts extends CRMEntity
 		'Type' => ['vtiger_account' => 'accounttype'],
 		'Vat ID' => ['vtiger_account' => 'vat_id'],
 	];
-	public $search_fields_name = [
-		'Account Name' => 'accountname',
-		'Assigned To' => 'assigned_user_id',
-		'FL_STATUS' => 'accounts_status',
-		'Type' => 'accounttype',
-		'Vat ID' => 'vat_id',
-	];
+	public $search_fields_name = [];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['accountname', 'website', 'phone', 'assigned_user_id'];
+	public $relationFields = [];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['assigned_user_id', 'createdtime', 'modifiedtime', 'accountname'];
@@ -328,7 +322,7 @@ class Accounts extends CRMEntity
 		if (!is_array($withCrmIds)) {
 			$withCrmIds = [$withCrmIds];
 		}
-		if (!in_array($withModule, ['Products', 'Campaigns'])) {
+		if (!\in_array($withModule, ['Products', 'Campaigns'])) {
 			parent::saveRelatedModule($module, $crmId, $withModule, $withCrmIds, $relatedName);
 		} else {
 			foreach ($withCrmIds as $withCrmId) {

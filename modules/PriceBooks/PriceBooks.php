@@ -34,15 +34,12 @@ class PriceBooks extends CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['bookname', 'active', 'currency_id'];
+	public $relationFields = [];
 	public $list_link_field = 'bookname';
 	public $search_fields = [
 		'Price Book Name' => ['pricebook' => 'bookname'],
 	];
-	public $search_fields_name = [
-		'Price Book Name' => 'bookname',
-		'Currency' => 'currency_id',
-	];
+	public $search_fields_name = [];
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';

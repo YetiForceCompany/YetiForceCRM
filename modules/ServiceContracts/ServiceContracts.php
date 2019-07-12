@@ -63,7 +63,7 @@ class ServiceContracts extends CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['subject', 'assigned_user_id', 'contract_no', 'used_units', 'total_units'];
+	public $relationFields = [];
 	// Make the field link to detail view
 	public $list_link_field = 'subject';
 	// For Popup listview and UI type support
@@ -81,19 +81,7 @@ class ServiceContracts extends CRMEntity
 		'Assigned To' => ['crmentity', 'smownerid'],
 		'Contract No' => ['servicecontracts', 'contract_no'],
 	];
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'Subject' => 'subject',
-		'Status' => 'contract_status',
-		'Due Date' => 'due_date',
-		'Start Date' => 'start_date',
-		'Type' => 'contract_type',
-		'Related To' => 'sc_related_to',
-		'Used Units' => 'used_units',
-		'Total Units' => 'total_units',
-		'Assigned To' => 'assigned_user_id',
-		'Contract No' => 'contract_no',
-	];
+	public $search_fields_name = [];
 	// For Popup window record selection
 	public $popup_fields = ['subject'];
 	// For Alphabetical search

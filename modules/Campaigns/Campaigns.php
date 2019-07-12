@@ -45,7 +45,7 @@ class Campaigns extends CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['campaignname', 'campaigntype', 'campaignstatus', 'expectedrevenue', 'closingdate', 'assigned_user_id'];
+	public $relationFields = [];
 	public $list_link_field = 'campaignname';
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
@@ -54,10 +54,7 @@ class Campaigns extends CRMEntity
 		'Campaign Name' => ['vtiger_campaign' => 'campaignname'],
 		'Campaign Type' => ['vtiger_campaign' => 'campaigntype'],
 	];
-	public $search_fields_name = [
-		'Campaign Name' => 'campaignname',
-		'Campaign Type' => 'campaigntype',
-	];
+	public $search_fields_name = [];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['campaignname', 'createdtime', 'modifiedtime', 'assigned_user_id'];

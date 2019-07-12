@@ -54,7 +54,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['name', 'date_start', 'due_date', 'osstimecontrol_status', 'timecontrol_type', 'assigned_user_id', 'time_start', 'time_end', 'sum_time'];
+	public $relationFields = [];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'assigned_user_id';
 	// For Popup listview and UI type support
@@ -63,11 +63,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		'Assigned To' => ['crmentity', 'smownerid'],
 		'Created Time' => ['crmentity', 'createdtime'],
 	];
-	public $search_fields_name = [
-		'No.' => 'osstimecontrol_no',
-		'Assigned To' => 'assigned_user_id',
-		'Created Time' => 'createdtime',
-	];
+	public $search_fields_name = [];
 	// For Popup window record selection
 	public $popup_fields = ['name'];
 	// For Alphabetical search

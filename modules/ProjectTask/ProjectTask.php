@@ -65,7 +65,7 @@ class ProjectTask extends CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['projecttaskname', 'projecttaskstatus', 'startdate', 'enddate', 'assigned_user_id', 'sum_time', 'projecttaskprogress', 'projecttasktype'];
+	public $relationFields = [];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'projecttaskname';
 	// For Popup listview and UI type support
@@ -81,17 +81,7 @@ class ProjectTask extends CRMEntity
 		'Progress' => ['projecttask', 'projecttaskprogress'],
 		'Type' => ['projecttask', 'projecttasktype'],
 	];
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'Project Task Name' => 'projecttaskname',
-		'Status' => 'projecttaskstatus',
-		'Start Date' => 'startdate',
-		'End Date' => 'enddate',
-		'Assigned To' => 'assigned_user_id',
-		'FL_TOTAL_TIME_H' => 'sum_time',
-		'Progress' => 'projecttaskprogress',
-		'Type' => 'projecttasktype',
-	];
+	public $search_fields_name = [];
 	// For Popup window record selection
 	public $popup_fields = ['projecttaskname'];
 	// For Alphabetical search

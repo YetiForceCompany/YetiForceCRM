@@ -44,16 +44,13 @@ class Vendors extends CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['vendorname', 'phone', 'email', 'category'];
+	public $relationFields = [];
 	public $list_link_field = 'vendorname';
 	public $search_fields = [
 		'Vendor Name' => ['vendor' => 'vendorname'],
 		'Phone' => ['vendor' => 'phone'],
 	];
-	public $search_fields_name = [
-		'Vendor Name' => 'vendorname',
-		'Phone' => 'phone',
-	];
+	public $search_fields_name = [];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['createdtime', 'modifiedtime', 'vendorname', 'assigned_user_id'];

@@ -54,7 +54,7 @@ class HelpDesk extends CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['ticket_no', 'ticket_title', 'parent_id', 'ticketstatus', 'ticketpriorities', 'assigned_user_id', 'sum_time'];
+	public $relationFields = [];
 	public $list_link_field = 'ticket_title';
 	public $search_fields = [
 		//'Ticket ID' => Array('vtiger_crmentity'=>'crmid'),
@@ -68,16 +68,7 @@ class HelpDesk extends CRMEntity
 		'Assigned To' => ['crmentity', 'smownerid'],
 		'FL_TOTAL_TIME_H' => ['troubletickets', 'sum_time'],
 	];
-	public $search_fields_name = [
-		'Ticket No' => 'ticket_no',
-		'Subject' => 'ticket_title',
-		'Related To' => 'parent_id',
-		'Contact Name' => 'contact_id',
-		'Status' => 'ticketstatus',
-		'Priority' => 'ticketpriorities',
-		'Assigned To' => 'assigned_user_id',
-		'FL_TOTAL_TIME_H' => 'sum_time',
-	];
+	public $search_fields_name = [];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['assigned_user_id', 'createdtime', 'modifiedtime', 'ticket_title', 'update_log'];

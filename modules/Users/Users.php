@@ -63,10 +63,7 @@ class Users extends CRMEntity
 		'Name' => ['vtiger_users' => 'last_name'],
 		'Email' => ['vtiger_users' => 'email1'],
 	];
-	public $search_fields_name = [
-		'Name' => 'last_name',
-		'Email' => 'email1',
-	];
+	public $search_fields_name = [];
 	public $module_name = 'Users';
 	public $object_name = 'User';
 	public $user_preferences;

@@ -66,15 +66,10 @@ class Services extends CRMEntity
 		'Service Name' => ['service' => 'servicename'],
 		'Price' => ['service' => 'unit_price'],
 	];
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'Service No' => 'service_no',
-		'Service Name' => 'servicename',
-		'Price' => 'unit_price',
-	];
+	public $search_fields_name = [];
 
 	/** @var string[] List of fields in the RelationListView */
-	public $relationFields = ['service_no', 'servicename', 'unit_price'];
+	public $relationFields = [];
 	// For Popup window record selection
 	public $popup_fields = ['servicename', 'service_usageunit', 'unit_price'];
 	// For Alphabetical search

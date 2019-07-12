@@ -55,7 +55,7 @@ class LettersIn extends CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['number', 'title', 'assigned_user_id', 'createdtime'];
+	public $relationFields = [];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'title';
 	// For Popup listview and UI type support
@@ -65,12 +65,7 @@ class LettersIn extends CRMEntity
 		'Assigned To' => ['crmentity', 'smownerid'],
 		'Created Time' => ['crmentity', 'createdtime'],
 	];
-	public $search_fields_name = [
-		'Number' => 'number',
-		'Title' => 'title',
-		'Assigned To' => 'assigned_user_id',
-		'Created Time' => 'createdtime',
-	];
+	public $search_fields_name = [];
 	// For Popup window record selection
 	public $popup_fields = ['title'];
 	// For Alphabetical search
