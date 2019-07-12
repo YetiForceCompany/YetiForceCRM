@@ -51,15 +51,6 @@ class OSSMailView_Relation_Model extends Vtiger_Relation_Model
 		return $return;
 	}
 
-	// public function getAttachments()
-	// {
-	// 	$queryGenerator = $this->getQueryGenerator();
-	// 	$queryGenerator->addJoin(['LEFT JOIN', 'vtiger_seattachmentsrel', 'vtiger_seattachmentsrel.crmid = vtiger_notes.notesid']);
-	// 	$queryGenerator->addJoin(['LEFT JOIN', 'vtiger_attachments', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid']);
-	// 	$queryGenerator->addJoin(['LEFT JOIN', 'vtiger_ossmailview_files', 'vtiger_ossmailview_files.documentsid = vtiger_notes.notesid']);
-	// 	$queryGenerator->addNativeCondition(['vtiger_ossmailview_files.ossmailviewid' => $this->get('parentRecord')->getId()]);
-	// }
-
 	/**
 	 * {@inheritdoc}
 	 */
