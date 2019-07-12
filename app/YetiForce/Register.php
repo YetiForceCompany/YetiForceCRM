@@ -40,7 +40,7 @@ class Register
 	 *
 	 * @var string
 	 */
-	private const REGISTRATION_FILE = \ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'registration.php';
+	private const REGISTRATION_FILE = \ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app_data' . \DIRECTORY_SEPARATOR . 'registration.php';
 	/**
 	 * Status messages.
 	 *

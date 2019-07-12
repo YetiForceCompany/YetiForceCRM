@@ -20,8 +20,8 @@ class Colors extends \Tests\Base
 		if (\file_exists(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/owners.css')) {
 			\unlink(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/owners.css');
 		}
-		if (\file_exists(ROOT_DIRECTORY . '/user_privileges/owners_colors.php')) {
-			\unlink(ROOT_DIRECTORY . '/user_privileges/owners_colors.php');
+		if (\file_exists(ROOT_DIRECTORY . '/app_data/owners_colors.php')) {
+			\unlink(ROOT_DIRECTORY . '/app_data/owners_colors.php');
 		}
 		if (\file_exists(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/modules.css')) {
 			\unlink(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/modules.css');
@@ -30,13 +30,13 @@ class Colors extends \Tests\Base
 			\unlink(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/picklists.css');
 		}
 		$this->assertFileNotExists(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/owners.css', 'File "/public_html/layouts/resources/colors/owners.css" should not exists');
-		$this->assertFileNotExists(ROOT_DIRECTORY . '/user_privileges/owners_colors.php', 'File "/user_privileges/owners_colors.php" should not exists');
+		$this->assertFileNotExists(ROOT_DIRECTORY . '/app_data/owners_colors.php', 'File "/app_data/owners_colors.php" should not exists');
 		$this->assertFileNotExists(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/modules.css', 'File "/public_html/layouts/resources/colors/modules.css" should not exists');
 		$this->assertFileNotExists(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/picklists.css', 'File "/public_html/layouts/resources/colors/picklists.css" should not exists');
 
 		\App\Colors::generate();
 		$this->assertFileExists(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/owners.css', 'File "/public_html/layouts/resources/colors/owners.css" not exists');
-		$this->assertFileExists(ROOT_DIRECTORY . '/user_privileges/owners_colors.php', 'File "/user_privileges/owners_colors.php" not exists');
+		$this->assertFileExists(ROOT_DIRECTORY . '/app_data/owners_colors.php', 'File "/app_data/owners_colors.php" not exists');
 		$this->assertFileExists(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/modules.css', 'File "/public_html/layouts/resources/colors/modules.css" not exists');
 		$this->assertFileExists(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/picklists.css', 'File "/public_html/layouts/resources/colors/picklists.css" not exists');
 	}
@@ -88,7 +88,7 @@ class Colors extends \Tests\Base
 	 */
 	public function testGetPicklistFieldsByModule()
 	{
-		$this->assertGreaterThan(0, (count(\App\Colors::getPicklistFieldsByModule(\App\Module::getModuleId('Leads')))), 'Leads should contain picklists');
+		$this->assertGreaterThan(0, (\count(\App\Colors::getPicklistFieldsByModule(\App\Module::getModuleId('Leads')))), 'Leads should contain picklists');
 	}
 
 	/**
@@ -142,7 +142,7 @@ class Colors extends \Tests\Base
 		if ($tableSchema) {
 			$column = $tableSchema->getColumn((string) 'color');
 			$this->assertEmpty($column, 'column color in vtiger_contract_priority should not exists');
-			if (is_null($column)) {
+			if (null === $column) {
 				\App\Colors::addPicklistColorColumn((new\App\Db\Query())->select(['fieldid'])->from('vtiger_field')->where(['tabid' => \App\Module::getModuleId('ServiceContracts'), 'fieldname' => 'contract_priority'])->scalar());
 				\App\Cache::clear();
 				$tableSchema = $db->getSchema()->getTableSchema('vtiger_contract_priority', true);

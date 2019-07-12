@@ -114,7 +114,7 @@ class Company extends Base
 				$return = $size;
 			}
 		}
-		Cache::save('CompanyGetSize', '', $return, Cache::LONG);
-		return $return;
+		Cache::save('CompanyGetSize', '', strtoupper($return), Cache::LONG);
+		return strtoupper($return);
 	}
 }

@@ -466,8 +466,8 @@ class ConfReport
 	 */
 	public static function getCronVariables(string $type)
 	{
-		if (file_exists('user_privileges/cron.php')) {
-			$cron = include \ROOT_DIRECTORY . '/user_privileges/cron.php';
+		if (file_exists('app_data/cron.php')) {
+			$cron = include \ROOT_DIRECTORY . '/app_data/cron.php';
 			return $cron[$type] ?? null;
 		}
 		return [];
