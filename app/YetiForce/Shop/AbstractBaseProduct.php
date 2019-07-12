@@ -38,6 +38,13 @@ abstract class AbstractBaseProduct
 	public $pricesType = 'table';
 
 	/**
+	 * Currency code.
+	 *
+	 * @var string
+	 */
+	public $currencyCode = 'EUR';
+
+	/**
 	 * Construct.
 	 *
 	 * @param string $name
@@ -95,10 +102,20 @@ abstract class AbstractBaseProduct
 	public function getImage(): ?string
 	{
 		$filePath = null;
-		$file = 'modules/Settings/YetiForce/' . $this->name . '.jpg';
+		$file = 'modules/Settings/YetiForce/' . $this->name . '.png';
 		if (\file_exists(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR . $file)) {
 			$filePath = \App\Layout::getPublicUrl($file, true);
 		}
 		return $filePath;
+	}
+
+	/**
+	 * The period for which the service is purchased.
+	 *
+	 * @return void
+	 */
+	public function getPeriodLabel(): string
+	{
+		return 'LBL_PERIOD_OF_MONTH';
 	}
 }

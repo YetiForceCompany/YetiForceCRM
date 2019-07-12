@@ -22,9 +22,18 @@
 							<h5 class="card-title text-primary">{$PRODUCT->getLabel()}</h5>
 							<p class="card-text truncate">{$PRODUCT->getDescription()}</p>
 							{if 'manual'===$PRODUCT->getPriceType()}
-								<input class="form-control" name="a3" type="text" value="{$PRODUCT->getPrice()}" />
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<button class="btn btn-success pull-right" type="submit" tile="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
+											{$PRODUCT->getPrice()} {$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}
+										</button>
+									</div>
+									<input class="form-control" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
+								</div>
 							{else}
-								<p class="col-6 lead">{$PRODUCT->getPrice()}</p>
+								<button class="btn btn-success pull-right" type="submit" tile="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
+									{$PRODUCT->getPrice()} {$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}
+								</button>
 							{/if}
 						</div>
 					</div>
@@ -37,7 +46,6 @@
 								<input name="{$NAME_OF_KEY}" type="hidden" value="{$VARIABLE_PRODUCT}" />
 							{/if}
 						{/foreach}
-						<button class="btn btn-success pull-right" type="submit">{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}</button>
 					</div>
 				</div>
 			</div>

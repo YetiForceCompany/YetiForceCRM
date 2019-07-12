@@ -48,6 +48,7 @@
     "LBL_TRANSLATED_WORDS": "Translated words",
     "LBL_LANG": "Language",
     "LBL_BUY": "Buy",
+    "LBL_PERIOD_OF_MONTH": "M",
     "LBL_SUCCESSFUL_TRANSACTION": "Thank you for making the payment. The transaction is being processed, purchased functions will be added to your system once we receive the payment.",
     "LBL_FAILED_TRANSACTION": "Transaction failed or was cancelled, please check the payment on your PayPal account and try again.",
     "LBL_SHOP_PREMIUMMODULES": "Premium modules",

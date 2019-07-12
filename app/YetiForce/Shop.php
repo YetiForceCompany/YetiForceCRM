@@ -50,7 +50,6 @@ class Shop
 		return [
 			'cmd' => '_xclick-subscriptions',
 			'business' => 'paypal-facilitator@yetiforce.com',
-			'currency_code' => 'USD',
 			'no_shipping' => 1,
 			'src' => 1,
 			'sra' => 1,
@@ -77,6 +76,7 @@ class Shop
 		return [
 			'a3' => $product->getPrice(),
 			'item_name' => $product->name,
+			'currency_code' => $product->currencyCode,
 			'item_number' => 'ccc',
 			'on0' => 'Package',
 			'os0' => \strtoupper(\App\Company::getSize()),
