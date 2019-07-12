@@ -12,16 +12,6 @@
 class HelpDesk_Record_Model extends Vtiger_Record_Model
 {
 	/**
-	 * Function to get URL for Convert FAQ.
-	 *
-	 * @return string
-	 */
-	public function getConvertFAQUrl()
-	{
-		return 'index.php?module=' . $this->getModuleName() . '&action=ConvertFAQ&record=' . $this->getId();
-	}
-
-	/**
 	 * Function to get Comments List of this Record.
 	 *
 	 * @return string
