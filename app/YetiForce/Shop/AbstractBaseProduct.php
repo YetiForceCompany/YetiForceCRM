@@ -48,15 +48,22 @@ abstract class AbstractBaseProduct
 	}
 
 	/**
+	 * Get price type.
+	 *
+	 * @return string
+	 */
+	public function getPriceType(): string
+	{
+		return $this->pricesType;
+	}
+
+	/**
 	 * Get product price.
 	 *
-	 * @return int|bool
+	 * @return int
 	 */
-	public function getPrice()
+	public function getPrice(): int
 	{
-		if ('manual' === $this->pricesType) {
-			return false;
-		}
 		return $this->prices[\App\Company::getSize()];
 	}
 
@@ -90,7 +97,7 @@ abstract class AbstractBaseProduct
 		$filePath = null;
 		$file = 'modules/Settings/YetiForce/' . $this->name . '.jpg';
 		if (\file_exists(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR . $file)) {
-			$filePath = \Config\Main::$site_URL . $file;
+			$filePath = \App\Layout::getPublicUrl($file, true);
 		}
 		return $filePath;
 	}

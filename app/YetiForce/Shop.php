@@ -31,9 +31,6 @@ class Shop
 				$fileName = $item->getBasename('.php');
 				$className = "\\App\\YetiForce\\Shop\\Product\\$fileName";
 				$instance = new $className($fileName);
-				if (!$instance instanceof \App\YetiForce\Shop\AbstractBaseProduct) {
-					throw new \App\Exception\IllegalValue('ERR_ILLEGAL_VALUE||' . $className, 406);
-				}
 				if ('featured' === $state && !$instance->featured) {
 					continue;
 				}
@@ -84,5 +81,15 @@ class Shop
 			'on0' => 'Package',
 			'os0' => \strtoupper(\App\Company::getSize()),
 		];
+	}
+
+	/**
+	 * Get paypal URL.
+	 *
+	 * @return string
+	 */
+	public static function getPaypalUrl(): string
+	{
+		return 'https://www.sandbox.paypal.com/cgi-bin/webscr';
 	}
 }
