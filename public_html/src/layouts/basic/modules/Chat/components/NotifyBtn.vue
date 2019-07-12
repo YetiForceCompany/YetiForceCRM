@@ -18,7 +18,8 @@ export default {
   name: 'NotifyBtn',
   data() {
     return {
-      isWaitingForPermission: false
+      isWaitingForPermission: false,
+      isNotificationPermitted: PNotify.modules.Desktop.checkPermission() === 0
     }
   },
   computed: {
@@ -27,11 +28,11 @@ export default {
   methods: {
     ...mapMutations(['setDesktopNotification']),
     toggleDesktopNotification() {
-      if (!this.storage.isDesktopNotification && !this.storage.isNotificationPermitted) {
+      if (!this.storage.isDesktopNotification && !this.isNotificationPermitted) {
         this.isWaitingForPermission = true
         PNotify.modules.Desktop.permission()
         setTimeout(() => {
-          if (!this.storage.isNotificationPermitted) {
+          if (!this.isNotificationPermitted) {
             Vtiger_Helper_Js.showPnotify({
               text: app.vtranslate('JS_NO_DESKTOP_PERMISSION'),
               type: 'info',
@@ -39,7 +40,6 @@ export default {
             })
           } else {
             this.setDesktopNotification(!this.storage.isDesktopNotification)
-            app.setCookie('chat-isDesktopNotification', true, 365)
           }
           this.isWaitingForPermission = false
         }, 3000)
@@ -49,7 +49,7 @@ export default {
     }
   },
   created() {
-    if (this.storage.isDesktopNotification && !this.storage.isNotificationPermitted) {
+    if (this.storage.isDesktopNotification && !this.isNotificationPermitted) {
       this.setDesktopNotification(false)
     }
   }

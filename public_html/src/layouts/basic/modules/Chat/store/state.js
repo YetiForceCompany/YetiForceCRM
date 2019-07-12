@@ -9,7 +9,6 @@ export default {
 		isSearchActive: false,
 		isSoundNotification: null,
 		isDesktopNotification: false,
-		isNotificationPermitted: PNotify.modules.Desktop.checkPermission() === 0,
 		sendByEnter: true,
 		tab: 'chat'
 	},
