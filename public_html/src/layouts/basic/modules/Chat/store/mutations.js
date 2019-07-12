@@ -1,25 +1,40 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 export default {
 	dialog(state, idOpen) {
-		state.dialog = idOpen
+		state.storage.dialog = idOpen
 	},
 	miniMode(state, isMini) {
-		state.miniMode = isMini
+		state.storage.miniMode = isMini
 	},
 	setLeftPanel(state, isOpen) {
-		state.leftPanel = isOpen
+		state.storage.leftPanel = isOpen
 	},
 	setRightPanel(state, isOpen) {
-		state.rightPanel = isOpen
+		state.storage.rightPanel = isOpen
 	},
 	setHistoryTab(state, isVisible) {
-		state.historyTab = isVisible
+		state.storage.historyTab = isVisible
+	},
+	setSearchActive(state) {
+		state.storage.isSearchActive = true
+	},
+	setSearchInactive(state) {
+		state.storage.isSearchActive = false
+	},
+	setTab(state, tab) {
+		state.storage.tab = tab
+	},
+	setSendByEnter(state, val) {
+		state.storage.sendByEnter = val
+	},
+	setSoundNotification(state, val) {
+		state.storage.isSoundNotification = val
+	},
+	setDesktopNotification(state, val) {
+		state.storage.isDesktopNotification = val
 	},
 	setData(state, data) {
 		state.data = data
-	},
-	setConfig(state, config) {
-		state.config = config
 	},
 	pushSended(state, data) {
 		state.data.chatEntries.push(data.chatEntries.slice(-1)[0])
@@ -37,24 +52,6 @@ export default {
 	pushOlderEntries(state, data) {
 		state.data.chatEntries.unshift(...data.chatEntries)
 		state.data.showMoreButton = data.showMoreButton
-	},
-	setSearchActive(state) {
-		state.isSearchActive = true
-	},
-	setSearchInactive(state) {
-		state.isSearchActive = false
-	},
-	setTab(state, tab) {
-		state.tab = tab
-	},
-	setSendByEnter(state, val) {
-		state.config.sendByEnter = val
-	},
-	setSoundNotification(state, val) {
-		state.config.isSoundNotification = val
-	},
-	setDesktopNotification(state, val) {
-		state.config.isDesktopNotification = val
 	},
 	setAmountOfNewMessages(state, val) {
 		state.data.amountOfNewMessages = val
@@ -79,5 +76,8 @@ export default {
 				}
 				break
 		}
+	},
+	setConfig(state, config) {
+		state.config = config
 	}
 }

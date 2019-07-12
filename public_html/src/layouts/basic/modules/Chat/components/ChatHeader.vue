@@ -11,7 +11,7 @@
             round
             flat
             icon="mdi-keyboard-outline"
-            :color="config.sendByEnter ? 'info' : ''"
+            :color="sendByEnter ? 'info' : ''"
           />
           <notify-btn />
           <q-btn
@@ -19,8 +19,8 @@
             dense
             round
             flat
-            :icon="config.isSoundNotification ? 'mdi-volume-high' : 'mdi-volume-off'"
-            :color="config.isSoundNotification ? 'info' : ''"
+            :icon="isSoundNotification ? 'mdi-volume-high' : 'mdi-volume-off'"
+            :color="isSoundNotification ? 'info' : ''"
           />
         </div>
         <q-tabs
@@ -81,7 +81,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['config']),
+    ...mapGetters(['config', 'isSoundNotification', 'sendByEnter']),
     miniMode: {
       get() {
         return this.$store.getters['Chat/miniMode']
@@ -144,12 +144,12 @@ export default {
       }
     },
     toggleEnter() {
-      app.setCookie('chat-notSendByEnter', !this.config.sendByEnter, 365)
-      this.setSendByEnter(!this.config.sendByEnter)
+      app.setCookie('chat-notSendByEnter', !this.sendByEnter, 365)
+      this.setSendByEnter(!this.sendByEnter)
     },
     toggleSoundNotification() {
-      app.setCookie('chat-isSoundNotification', !this.config.isSoundNotification, 365)
-      this.setSoundNotification(!this.config.isSoundNotification)
+      app.setCookie('chat-isSoundNotification', !this.isSoundNotification, 365)
+      this.setSoundNotification(!this.isSoundNotification)
     }
   },
   beforeDestroy() {

@@ -1,25 +1,33 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 export default {
 	dialog(state) {
-		return state.dialog
+		return state.storage.dialog
 	},
 	miniMode(state) {
-		return state.miniMode
+		return state.storage.miniMode
 	},
 	leftPanel(state) {
-		return state.leftPanel
+		return state.storage.leftPanel
 	},
 	rightPanel(state) {
-		return state.rightPanel
+		return state.storage.rightPanel
 	},
 	historyTab(state) {
-		return state.historyTab
+		return state.storage.historyTab
 	},
 	isSearchActive(state) {
-		return state.isSearchActive
+		return state.storage.isSearchActive
+	},
+	isSoundNotification(state) {
+		return state.storage.isSoundNotification === null
+			? state.config.isDefaultSoundNotification
+			: state.storage.isSoundNotification
+	},
+	sendByEnter(state) {
+		return state.storage.sendByEnter
 	},
 	tab(state) {
-		return state.tab
+		return state.storage.tab
 	},
 	data(state) {
 		return state.data
@@ -27,12 +35,15 @@ export default {
 	config(state) {
 		return state.config
 	},
+	storage(state) {
+		return state.storage
+	},
 
 	hasDesktopPermission(state) {
-		if (state.config.isDesktopNotification) {
+		if (state.storage.isDesktopNotification) {
 			return false
 		}
-		if (!state.config.isNotificationPermitted) {
+		if (!state.storage.isNotificationPermitted) {
 			app.setCookie('chat-isDesktopNotification', false, 365)
 			return false
 		}

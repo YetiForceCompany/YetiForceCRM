@@ -72,7 +72,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['miniMode', 'historyTab', 'config']),
+    ...mapGetters(['miniMode', 'historyTab', 'config', 'sendByEnter']),
     containerHeight() {
       if (this.$refs.textContainer !== undefined) return this.$refs.textContainer.clientHeight + 'px'
     }
@@ -101,7 +101,7 @@ export default {
       this.$refs.input.insertAdjacentHTML('beforeend', emoji.native)
     },
     onEnter(e) {
-      if (this.config.sendByEnter && !e.shiftKey) {
+      if (this.sendByEnter && !e.shiftKey) {
         e.preventDefault()
         this.send(e)
       }

@@ -55,9 +55,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'isChatAllowed' => \App\User::getCurrentUserRealId() === \App\User::getCurrentUserId(),
-			'isSoundNotification' => $this->isSoundNotification(),
-			'isDesktopNotification' => $this->isDesktopNotification(),
-			'sendByEnter' => $this->sendByEnter(),
+			'isDefaultSoundNotification' => \App\Config::module('Chat', 'DEFAULT_SOUND_NOTIFICATION'),
 			'refreshMessageTime' => App\Config::module('Chat', 'REFRESH_MESSAGE_TIME'),
 			'refreshRoomTime' => App\Config::module('Chat', 'REFRESH_ROOM_TIME'),
 			'maxLengthMessage' => App\Config::module('Chat', 'MAX_LENGTH_MESSAGE'),
@@ -283,38 +281,5 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	private function isNextPage(int $numberOfMessages): bool
 	{
 		return $numberOfMessages >= \App\Config::module('Chat', 'CHAT_ROWS_LIMIT') + 1;
-	}
-
-	/**
-	 * Check if sound notification is enabled.
-	 *
-	 * @return bool
-	 */
-	private function isSoundNotification(): bool
-	{
-		return isset($_COOKIE['chat-isSoundNotification']) ?
-			filter_var($_COOKIE['chat-isSoundNotification'], FILTER_VALIDATE_BOOLEAN) : \App\Config::module('Chat', 'DEFAULT_SOUND_NOTIFICATION');
-	}
-
-	/**
-	 * Check if desktop notification is enabled.
-	 *
-	 * @return bool
-	 */
-	private function isDesktopNotification(): bool
-	{
-		return isset($_COOKIE['chat-isDesktopNotification']) ?
-			filter_var($_COOKIE['chat-isDesktopNotification'], FILTER_VALIDATE_BOOLEAN) : false;
-	}
-
-	/**
-	 * Check if sending on ENTER is active.
-	 *
-	 * @return bool
-	 */
-	private function sendByEnter(): bool
-	{
-		return isset($_COOKIE['chat-notSendByEnter']) ?
-			!filter_var($_COOKIE['chat-notSendByEnter'], FILTER_VALIDATE_BOOLEAN) : true;
 	}
 }
