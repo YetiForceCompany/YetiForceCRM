@@ -39,7 +39,7 @@ class IStorages_ProductsTableHierarchy_Textparser extends \App\TextParser\Base
 		$storageList[$this->textParser->record] = [
 			'depth' => 0,
 			'subject' => $this->textParser->recordModel->get('subject'),
-			'assigned_user_id' => \App\User::getCurrentUserModel($this->textParser->recordModel->get('assigned_user_id'))->getName()
+			'assigned_user_id' => \App\Fields\Owner::getLabel($this->textParser->recordModel->get('assigned_user_id'))
 		];
 		$storageList = $focus->getChildIStorages($this->textParser->record, $storageList[$this->textParser->record], $storageList[$this->textParser->record]['depth']);
 		$listviewEntries = [];
