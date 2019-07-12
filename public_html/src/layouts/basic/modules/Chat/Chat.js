@@ -3,7 +3,6 @@
 import ChatDialog from './components/Dialog.vue'
 import store from 'store'
 import moduleStore from './store'
-store.registerModule('Chat', moduleStore)
 Vue.mixin({
 	methods: {
 		translate(key) {
@@ -17,7 +16,14 @@ window.ChatModalVueComponent = {
 		ChatDialog.state = config.state
 		return new Vue({
 			store,
-			render: h => h(ChatDialog)
+			render: h => h(ChatDialog),
+			beforeCreate() {
+				store.registerModule('Chat', moduleStore)
+				this.$store.commit('Chat/initStorage')
+				store.subscribe((mutation, state) => {
+					Quasar.plugins.LocalStorage.set('yf-chat', JSON.stringify(state.Chat.storage))
+				})
+			}
 		}).$mount(config.el)
 	}
 }

@@ -168,7 +168,7 @@ export default {
 
 	updateAmountOfNewMessages({ commit, getters }, newMessages) {
 		if (newMessages > getters.data.amountOfNewMessages) {
-			if (getters.isSoundNotification === 'true') {
+			if (getters.isSoundNotification) {
 				app.playSound('CHAT')
 			}
 			if (getters.hasDesktopPermission) {

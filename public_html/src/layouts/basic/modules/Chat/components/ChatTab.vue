@@ -105,7 +105,6 @@ export default {
           roomType: this.data.currentRoom.roomType,
           miniMode: this.miniMode ? true : undefined
         }).done(({ result }) => {
-          console.log('timerMessage')
           this.updateChat(result)
           this.updateAmountOfNewMessages(result.amountOfNewMessages)
           if (result.chatEntries.length) {
@@ -131,7 +130,6 @@ export default {
     })
   },
   beforeDestroy() {
-    console.log('destroy')
     clearTimeout(this.timerMessage)
   }
 }

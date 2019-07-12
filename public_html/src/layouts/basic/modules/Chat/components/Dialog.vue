@@ -53,7 +53,7 @@ export default {
       }
     },
     buttonAnimationClasses() {
-      return this.data.amountOfNewMessages ? 'animated flash slow' : ''
+      return this.data.amountOfNewMessages ? 'animated flash' : ''
     }
   },
   watch: {
@@ -76,8 +76,6 @@ export default {
         action: 'ChatAjax',
         mode: 'trackNewMessages'
       }).done(({ result }) => {
-        console.log('trackNewMessages')
-
         this.updateAmountOfNewMessages(result)
         this.initTimer()
       })

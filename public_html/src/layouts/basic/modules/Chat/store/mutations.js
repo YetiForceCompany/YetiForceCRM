@@ -79,5 +79,14 @@ export default {
 	},
 	setConfig(state, config) {
 		state.config = config
+	},
+	initStorage(state) {
+		const chatStorage = Quasar.plugins.LocalStorage.getItem('yf-chat')
+		if (
+			chatStorage &&
+			JSON.stringify(Object.keys(state.storage)) === JSON.stringify(Object.keys(JSON.parse(chatStorage)))
+		) {
+			state.storage = Object.assign(state.storage, JSON.parse(chatStorage))
+		}
 	}
 }
