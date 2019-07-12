@@ -6,38 +6,11 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class HelpDesk_DetailView_Model extends Vtiger_DetailView_Model
 {
-	/**
-	 * Function to get the detail view links (links and widgets).
-	 *
-	 * @param <array> $linkParams - parameters which will be used to calicaulate the params
-	 *
-	 * @return <array> - array of link models in the format as below
-	 *                 array('linktype'=>list of link models);
-	 */
-	public function getDetailViewLinks($linkParams)
-	{
-		$linkModelList = parent::getDetailViewLinks($linkParams);
-		$recordModel = $this->getRecord();
-
-		$quotesModuleModel = Vtiger_Module_Model::getInstance('Faq');
-		if ($quotesModuleModel->isPermitted('DetailView')) {
-			$basicActionLink = [
-				'linktype' => 'DETAIL_VIEW_BASIC',
-				'linklabel' => 'LBL_CONVERT_FAQ',
-				'linkurl' => $recordModel->getConvertFAQUrl(),
-				'linkicon' => 'userIcon-Faq',
-				'linkclass' => 'btn-outline-dark btn-sm',
-				'showLabel' => 1,
-			];
-			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
-		}
-		return $linkModelList;
-	}
-
 	public function getDetailViewRelatedLinks()
 	{
 		$recordModel = $this->getRecord();
