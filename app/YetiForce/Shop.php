@@ -21,7 +21,7 @@ class Shop
 	 *
 	 * @param string $state
 	 *
-	 * @return \App\YetiForce\Shop\BaseProduct[]
+	 * @return \App\YetiForce\Shop\AbstractBaseProduct[]
 	 */
 	public static function getProducts($state = 'all'): array
 	{
@@ -68,11 +68,11 @@ class Shop
 	/**
 	 * Get variable product.
 	 *
-	 * @param \App\YetiForce\Shop\BaseProduct $product
+	 * @param \App\YetiForce\Shop\AbstractBaseProduct $product
 	 *
 	 * @return array
 	 */
-	public static function getVariableProduct(Shop\BaseProduct $product): array
+	public static function getVariableProduct(Shop\AbstractBaseProduct $product): array
 	{
 		return [
 			'a3' => $product->getPrice(),
@@ -81,5 +81,15 @@ class Shop
 			'on0' => 'Package',
 			'os0' => \strtoupper(\App\Company::getSize()),
 		];
+	}
+
+	/**
+	 * Get paypal URL.
+	 *
+	 * @return string
+	 */
+	public static function getPaypalUrl(): string
+	{
+		return 'https://www.sandbox.paypal.com/cgi-bin/webscr';
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * YetiForce shop BaseProduct file.
+ * YetiForce shop AbstractBaseProduct file.
  *
  * @package   App
  *
@@ -12,9 +12,9 @@
 namespace App\YetiForce\Shop;
 
 /**
- * YetiForce shop BaseProduct class.
+ * YetiForce shop AbstractBaseProduct class.
  */
-abstract class BaseProduct
+abstract class AbstractBaseProduct
 {
 	/**
 	 * Product name.
@@ -22,12 +22,14 @@ abstract class BaseProduct
 	 * @var string
 	 */
 	public $name;
+
 	/**
 	 * Price table depending on the size of the company.
 	 *
 	 * @var int[]
 	 */
 	public $prices = [];
+
 	/**
 	 * Price type (table,manual).
 	 *
@@ -46,15 +48,22 @@ abstract class BaseProduct
 	}
 
 	/**
+	 * Get price type.
+	 *
+	 * @return string
+	 */
+	public function getPriceType(): string
+	{
+		return $this->pricesType;
+	}
+
+	/**
 	 * Get product price.
 	 *
-	 * @return int|bool
+	 * @return int
 	 */
-	public function getPrice()
+	public function getPrice(): int
 	{
-		if ('manual' === $this->pricesType) {
-			return false;
-		}
 		return $this->prices[\App\Company::getSize()];
 	}
 
@@ -83,8 +92,13 @@ abstract class BaseProduct
 	 *
 	 * @return string
 	 */
-	public function getImage(): string
+	public function getImage(): ?string
 	{
-		return $this->name;
+		$filePath = null;
+		$file = 'modules/Settings/YetiForce/' . $this->name . '.jpg';
+		if (\file_exists(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR . $file)) {
+			$filePath = \App\Layout::getPublicUrl($file, true);
+		}
+		return $filePath;
 	}
 }

@@ -46,6 +46,12 @@
     "LBL_NO_INTERNET_CONNECTION": "There is no Internet connection",
     "LBL_NO_LANGUAGES_TO_DOWNLOAD": "No languages to download",
     "LBL_TRANSLATED_WORDS": "Translated words",
-    "LBL_LANG": "Language"
+    "LBL_LANG": "Language",
+    "LBL_BUY": "Buy",
+    "LBL_SUCCESSFUL_TRANSACTION": "Thank you for making the payment. The transaction is being processing, after completion the functionality will be unblocked.",
+    "LBL_FAILED_TRANSACTION": "Transaction failed, please check if you have filled in everything correctly.",
+    "LBL_SHOP_PREMIUMMODULES": "Premium modules",
+    "LBL_SHOP_DONATIONS": "Donations / Support our project",
+    "LBL_SHOP_PREMIUMSUPPORT": "Premium support"
   }
 }
