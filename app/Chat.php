@@ -272,6 +272,29 @@ final class Chat
 	}
 
 	/**
+	 * Get group room last message.
+	 *
+	 * @param int $roomId
+	 *
+	 * @return array
+	 */
+	public static function getGroupRoomLastMessage(int $roomId): array
+	{
+		$dataReader = (new Db\Query())
+			->select(['C.*'])
+			->from(['C' => 'u_#__chat_messages_group'])
+			->where(['groupid' => $roomId])
+			->orderBy(['id' => \SORT_DESC])
+			->limit(1)->createCommand()->query();
+		$lastMessage = [];
+		while ($row = $dataReader->read()) {
+			$lastMessage = $row;
+		}
+		$dataReader->close();
+		return $lastMessage;
+	}
+
+	/**
 	 * Get all chat rooms by user.
 	 *
 	 * @param int|null $userId
@@ -826,15 +849,16 @@ final class Chat
 	public function addToFavorites()
 	{
 		if (!empty($this->roomType) && !empty($this->recordId)) {
+			$lastMessage = static::getGroupRoomLastMessage($this->recordId);
 			Db::getInstance()->createCommand()->insert(
 				static::TABLE_NAME['room'][$this->roomType],
 				[
+					'last_message' => isset($lastMessage['id']) ? $lastMessage['id'] : 0,
 					'userid' => $this->userId,
 					static::COLUMN_NAME['room'][$this->roomType] => $this->recordId
 				]
 			)->execute();
 			$this->room['userid'] = $this->userId;
-			$this->getEntries();
 		}
 	}
 
