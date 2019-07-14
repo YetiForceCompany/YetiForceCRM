@@ -1,0 +1,48 @@
+<?php
+/**
+ * Main file that includes basic operations on relations.
+ *
+ * @package   App
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
+
+namespace App;
+
+/**
+ * RelationInterface interface.
+ */
+interface RelationInterface
+{
+	/**
+	 * Function adds relation conditions to query object.
+	 */
+	public function getQuery();
+
+	/**
+	 * Delete relation.
+	 *
+	 * @param int $sourceRecordId      Specifies parent record ID from where we remove relation
+	 * @param int $destinationRecordId Specifies record ID from related module. This record will disappear from the list of parent module's related records
+	 *
+	 * @return bool
+	 */
+	public function delete(int $sourceRecordId, int $destinationRecordId): bool;
+
+	/**
+	 * Create relation.
+	 *
+	 * @param int $sourceRecordId      Specifies parent record ID where we add relation
+	 * @param int $destinationRecordId Specifies record ID from related module. This record will appear on the list of parent module's related records
+	 *
+	 * @return bool
+	 */
+	public function create(int $sourceRecordId, int $destinationRecordId): bool;
+
+	/**
+	 * Function moves related records from source to target.
+	 */
+	public function transfer();
+}
