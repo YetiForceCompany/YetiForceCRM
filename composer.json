@@ -50,7 +50,7 @@
     "rmccue/requests": "v1.7.0",
     "smarty/smarty": "^v3.1.33",
     "phpmailer/phpmailer": "^v6.0.6",
-    "ezyang/htmlpurifier": "v4.10.0",
+    "ezyang/htmlpurifier": "v4.11.0",
     "simshaun/recurr": "v4.0",
     "sensiolabs/security-checker": "^v5.0.1",
     "giggsey/libphonenumber-for-php": "^8.8.11",
