@@ -50,7 +50,7 @@ class OSSMailView_GetRecordToMails_Relation implements RelationInterface
 			$return = $this->addToDB($data + ['date' => $date]);
 			if ($return && ($parentId = \Users_Privileges_Model::getParentRecord($destinationRecordId))) {
 				$data['crmid'] = $parentId;
-				if ($this->addRelation($data, $date) && ($parentId = Users_Privileges_Model::getParentRecord($parentId))) {
+				if ($this->addRelation($data, $date) && ($parentId = \Users_Privileges_Model::getParentRecord($parentId))) {
 					$data['crmid'] = $parentId;
 					$this->addRelation($data, $date);
 				}
@@ -104,7 +104,7 @@ class OSSMailView_GetRecordToMails_Relation implements RelationInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function transfer()
+	public function transfer(int $relatedRecordId, int $fromRecordId, int $toRecordId): bool
 	{
 	}
 }

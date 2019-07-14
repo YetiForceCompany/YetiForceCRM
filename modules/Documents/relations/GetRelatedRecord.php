@@ -53,7 +53,8 @@ class Documents_GetRelatedRecord_Relation implements RelationInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function transfer()
+	public function transfer(int $relatedRecordId, int $fromRecordId, int $toRecordId): bool
 	{
+		return false;
 	}
 }

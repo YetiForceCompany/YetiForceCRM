@@ -36,7 +36,7 @@ class Vtiger_GetDependentsList_Relation implements RelationInterface
 		$moduleModel = $this->relationModel->getRelationModuleModel();
 		$parentModuleName = $this->relationModel->getParentModuleModel()->getName();
 		$result = false;
-		if ($fields = $moduleModel->getReferenceFieldsForModule($this->relationModel->getParentModuleModel()->getName())) {
+		if ($fields = $moduleModel->getReferenceFieldsForModule($parentModuleName)) {
 			$recordModel = \Vtiger_Record_Model::getInstanceById($destinationRecordId, $moduleModel);
 			foreach ($fields as $fieldModel) {
 				if ((int) $recordModel->get($fieldModel->getName()) === (int) $sourceRecordId) {
@@ -62,7 +62,19 @@ class Vtiger_GetDependentsList_Relation implements RelationInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function transfer()
+	public function transfer(int $relatedRecordId, int $fromRecordId, int $toRecordId): bool
 	{
+		$result = false;
+		$relationFieldModel = $this->relationModel->getRelationField();
+		if ($relationFieldModel && $relationFieldModel->isEditable()) {
+			$recordModel = \Vtiger_Record_Model::getInstanceById($relatedRecordId, $this->relationModel->getRelationModuleName());
+			if ($recordModel->isEditable() && $recordModel->get($relationFieldModel->getName()) === $fromRecordId) {
+				$recordModel->set($relationFieldModel->getName(), $toRecordId);
+				$recordModel->ext['modificationType'] = \ModTracker_Record_Model::TRANSFER_EDIT;
+				$recordModel->save();
+				$result = true;
+			}
+		}
+		return $result;
 	}
 }

@@ -63,7 +63,9 @@ class Documents_GetAttachments_Relation implements RelationInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function transfer()
+	public function transfer(int $relatedRecordId, int $fromRecordId, int $toRecordId): bool
 	{
+		return (bool) \App\Db::getInstance()->createCommand()->update(self::TABLE_NAME,
+		['crmid' => $toRecordId], ['crmid' => $fromRecordId, 'notesid' => $relatedRecordId])->execute();
 	}
 }

@@ -56,7 +56,10 @@ class Campaigns_GetCampaignsRecords_Relation implements RelationInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function transfer()
+	public function transfer(int $relatedRecordId, int $fromRecordId, int $toRecordId): bool
 	{
+		return (bool) \App\Db::getInstance()->createCommand()->update(self::TABLE_NAME, ['campaignid' => $toRecordId], [
+			'crmid' => $relatedRecordId, 'campaignid' => $fromRecordId
+		])->execute();
 	}
 }

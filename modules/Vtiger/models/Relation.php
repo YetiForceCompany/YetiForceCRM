@@ -533,19 +533,24 @@ class Vtiger_Relation_Model extends \App\Base
 	/**
 	 * Transfer.
 	 *
-	 * @param array $relationRecords
+	 * @param array $recordsToTransfer
 	 */
-	public function transfer(array $relationRecords)
+	public function transfer(array $recordsToTransfer)
 	{
-		switch ($this->getRelationType()) {
-			case static::RELATION_M2M:
-				$this->transferM2M($relationRecords);
-				break;
-			case static::RELATION_O2M:
-				$this->transferO2M($relationRecords);
-				break;
-			default:
-				break;
+		$relationModel = $this->getTypeRelationModel();
+		$eventHandler = new \App\EventHandler();
+		$eventHandler->setModuleName($this->getParentModuleModel()->getName());
+		$toRecordId = $this->get('parentRecord')->getId();
+		$params = ['sourceRecordId' => $toRecordId, 'sourceModule' => $eventHandler->getModuleName(), 'destinationModule' => $this->getRelationModuleModel()->getName()];
+
+		foreach($recordsToTransfer as $relatedRecordId => $fromRecordId){
+				$params['destinationRecordId'] = $relatedRecordId;
+				$eventHandler->setParams($params);
+				$eventHandler->trigger('EntityBeforeTransferUnLink');
+				if ($relationModel->transfer($relatedRecordId, $fromRecordId, $toRecordId)) {
+					\CRMEntity::trackLinkedInfo([$toRecordId, $fromRecordId]);
+					$eventHandler->trigger('EntityAfterTransferLink');
+			}
 		}
 	}
 
@@ -563,71 +568,6 @@ class Vtiger_Relation_Model extends \App\Base
 				$dbCommand->update('vtiger_crmentity', ['modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => \App\User::getCurrentUserId()], ['crmid' => [$fromId, $recordId]])->execute();
 			}
 		}
-	}
-
-	/**
-	 * Transfer O2M type realtion.
-	 *
-	 * @param array $relationRecords
-	 */
-	public function transferO2M(array $relationRecords)
-	{
-		$relationFieldModel = $this->getRelationField();
-		if ($relationFieldModel && $relationFieldModel->isEditable()) {
-			foreach ($relationRecords as $relId => $fromId) {
-				$relationRecordModel = \Vtiger_Record_Model::getInstanceById($relId);
-				if ($relationRecordModel->isEditable()) {
-					$relationRecordModel->set($relationFieldModel->getName(), $this->get('parentRecord')->getId());
-					$relationRecordModel->ext['modificationType'] = \ModTracker_Record_Model::TRANSFER_EDIT;
-					$relationRecordModel->save();
-				}
-			}
-		}
-	}
-
-	/**
-	 * Transfer M2M type realtion.
-	 *
-	 * @param array $relationRecords
-	 */
-	public function transferM2M(array $relationRecords)
-	{
-		$eventHandler = new \App\EventHandler();
-		$eventHandler->setModuleName($this->getParentModuleModel()->getName());
-		$params = ['sourceRecordId' => $this->get('parentRecord')->getId(), 'destinationModule' => $this->getRelationModuleModel()->getName(), 'sourceModule' => $eventHandler->getModuleName()];
-		$relationModel = self::getInstance($this->getRelationModuleModel(), $this->getParentModuleModel());
-
-		$updateRecords = [$params['sourceRecordId']];
-		foreach ($relationRecords as $relId => $fromId) {
-			$params['destinationRecordId'] = $relId;
-			$params['fromRecordId'] = $fromId;
-			$eventHandler->setParams($params);
-			$eventHandler->trigger('EntityBeforeTransferUnLink');
-			if ($relationModel->transferDb($params)) {
-				$updateRecords[] = $params['fromRecordId'];
-				\App\Db::getInstance()->createCommand()->update('vtiger_crmentity',
-					['modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => \App\User::getCurrentUserRealId()],
-					['crmid' => $updateRecords])->execute();
-				$eventHandler->trigger('EntityAfterTransferLink');
-				$updateRecords = [];
-			}
-		}
-	}
-
-	/**
-	 * Update relation to db.
-	 *
-	 * @param array $params
-	 *
-	 * @return int
-	 */
-	public function transferDb(array $params)
-	{
-		$dbCommand = \App\Db::getInstance()->createCommand();
-		$count = $dbCommand->update('vtiger_crmentityrel', ['crmid' => $params['sourceRecordId']],
-			['crmid' => $params['fromRecordId'], 'relcrmid' => $params['destinationRecordId']])->execute();
-		return $count + $dbCommand->update('vtiger_crmentityrel', ['relcrmid' => $params['sourceRecordId']],
-				['relcrmid' => $params['fromRecordId'], 'crmid' => $params['destinationRecordId']])->execute();
 	}
 
 	/**

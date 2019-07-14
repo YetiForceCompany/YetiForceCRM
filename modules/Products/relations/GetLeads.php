@@ -61,7 +61,9 @@ class Products_GetLeads_Relation implements RelationInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function transfer()
+	public function transfer(int $relatedRecordId, int $fromRecordId, int $toRecordId): bool
 	{
+		return (bool) \App\Db::getInstance()->createCommand()->update(self::TABLE_NAME,
+		['productid' => $toRecordId], ['crmid' => $relatedRecordId, 'productid' => $fromRecordId])->execute();
 	}
 }

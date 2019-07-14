@@ -49,7 +49,65 @@ class OSSMailView_GetEmails_Relation implements RelationInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function transfer()
+	public function transfer(int $relatedRecordId, int $fromRecordId, int $toRecordId): bool
 	{
+		$result = $this->updateDB($toRecordId, ['crmid' => $fromRecordId, 'ossmailviewid' => $relatedRecordId]);
+		if ($result && $parentId = \Users_Privileges_Model::getParentRecord($toRecordId)) {
+			$parentIdFromRecordId = \Users_Privileges_Model::getParentRecord($fromRecordId);
+			$data = ['ossmailviewid' => $relatedRecordId, 'crmid' => $parentIdFromRecordId];
+			if ($parentIdFromRecordId && $this->isExists($data)) {
+				$this->updateDB($parentId, $data);
+			} else {
+				$date = \Vtiger_Record_Model::getInstanceById($relatedRecordId, 'OSSMailView')->get('date');
+				$this->addToDB(['crmid' => $parentId, 'date' => $date] + $data);
+			}
+			$parentId = \Users_Privileges_Model::getParentRecord($parentId);
+			if ($parentId) {
+				if ($parentIdFromRecordId && ($parentIdFromRecordId = \Users_Privileges_Model::getParentRecord($parentIdFromRecordId)) && $this->isExists(['crmid' => $parentIdFromRecordId] + $data)) {
+					$this->updateDB($parentId, ['crmid' => $parentIdFromRecordId] + $data);
+				} else {
+					$date = \Vtiger_Record_Model::getInstanceById($relatedRecordId, 'OSSMailView')->get('date');
+					$this->addToDB(['crmid' => $parentId, 'date' => $date] + $data);
+				}
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * Check if relation exists.
+	 *
+	 * @param array $data
+	 *
+	 * @return bool
+	 */
+	public function isExists(array  $data): bool
+	{
+		return (bool) (new \App\Db\Query())->from(self::TABLE_NAME)->where($data)->exists();
+	}
+
+	/**
+	 * Add relation to DB.
+	 *
+	 * @param array $data
+	 *
+	 * @return bool
+	 */
+	public function addToDB(array $data): bool
+	{
+		return (bool) \App\Db::getInstance()->createCommand()->insert(self::TABLE_NAME, $data)->execute();
+	}
+
+	/**
+	 * Update relation.
+	 *
+	 * @param int   $toRecordId
+	 * @param array $where
+	 *
+	 * @return bool
+	 */
+	public function updateDB(int $toRecordId, array $where): bool
+	{
+		return (bool) \App\Db::getInstance()->createCommand()->update(self::TABLE_NAME, ['crmid' => $toRecordId], $where)->execute();
 	}
 }

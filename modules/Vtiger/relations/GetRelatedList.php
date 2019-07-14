@@ -72,7 +72,12 @@ class Vtiger_GetRelatedList_Relation implements RelationInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function transfer()
+	public function transfer(int $relatedRecordId, int $fromRecordId, int $toRecordId): bool
 	{
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$count = $dbCommand->update(self::TABLE_NAME, ['crmid' => $toRecordId],
+		['crmid' => $fromRecordId, 'relcrmid' => $relatedRecordId])->execute();
+		return (bool) ($count + $dbCommand->update(self::TABLE_NAME, ['relcrmid' => $toRecordId],
+				['relcrmid' => $fromRecordId, 'crmid' => $relatedRecordId])->execute());
 	}
 }

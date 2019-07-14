@@ -66,12 +66,4 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model
 		}
 		return $relationField;
 	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function transferDb(array $params)
-	{
-		return \App\Db::getInstance()->createCommand()->update('vtiger_campaign_records', ['crmid' => $params['sourceRecordId'], 'campaignid' => $params['destinationRecordId']], ['crmid' => $params['fromRecordId'], 'campaignid' => $params['destinationRecordId']])->execute();
-	}
 }

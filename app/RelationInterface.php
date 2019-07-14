@@ -43,6 +43,12 @@ interface RelationInterface
 
 	/**
 	 * Function moves related records from source to target.
+	 *
+	 * @param int $relatedRecordId
+	 * @param int $fromRecordId
+	 * @param int $toRecordId
+	 *
+	 * @return bool
 	 */
-	public function transfer();
+	public function transfer(int $relatedRecordId, int $fromRecordId, int $toRecordId): bool;
 }

@@ -15,7 +15,7 @@ class Vtiger_MergeRecords_Action extends Vtiger_Mass_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted($request->getModule(), 'Merge')) {
 			throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 406);
@@ -25,7 +25,7 @@ class Vtiger_MergeRecords_Action extends Vtiger_Mass_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleModel = Vtiger_Module_Model::getInstance($request->getModule());
 		$primaryRecord = $request->getInteger('record');
@@ -50,7 +50,7 @@ class Vtiger_MergeRecords_Action extends Vtiger_Mass_Action
 			}
 			$result = true;
 		} catch (\Throwable $ex) {
-			\App\Log::error($ex->getMessage());
+			\App\Log::error($ex->__toString());
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);

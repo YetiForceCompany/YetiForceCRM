@@ -26,12 +26,4 @@ class Documents_Relation_Model extends Vtiger_Relation_Model
 		];
 		$this->setData($data);
 	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function transferDb(array $params)
-	{
-		return \App\Db::getInstance()->createCommand()->update('vtiger_senotesrel', ['crmid' => $params['sourceRecordId'], 'notesid' => $params['destinationRecordId']], ['crmid' => $params['fromRecordId'], 'notesid' => $params['destinationRecordId']])->execute();
-	}
 }

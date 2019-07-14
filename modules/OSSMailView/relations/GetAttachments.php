@@ -55,7 +55,7 @@ class OSSMailView_GetAttachments_Relation implements RelationInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function transfer()
+	public function transfer(int $relatedRecordId, int $fromRecordId, int $toRecordId): bool
 	{
 	}
 }

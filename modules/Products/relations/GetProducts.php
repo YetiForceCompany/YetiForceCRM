@@ -69,12 +69,13 @@ class Products_GetProducts_Relation implements RelationInterface
 	{
 		$result = false;
 		$data = $where = ['crmid' => $sourceRecordId, 'productid' => $destinationRecordId];
-		if ($this->relationModel->getRelationModuleName() === $this->relationModel->getParentModuleModel()->getName()) {
+		$sourceModuleName = $this->relationModel->getParentModuleModel()->getName();
+		if ($this->relationModel->getRelationModuleName() === $sourceModuleName) {
 			$data = ['crmid' => $destinationRecordId, 'productid' => $sourceRecordId];
-			$where = ['or', $data, ['productid' => $destinationRecordId, 'setype' => $this->relationModel->getRelationModuleName()]];
+			$where = ['or', $data, ['productid' => $destinationRecordId, 'setype' => $sourceModuleName]];
 		}
 		if (!(new App\Db\Query())->from(self::TABLE_NAME)->where($where)->exists()) {
-			$data['setype'] = $this->relationModel->getRelationModuleName();
+			$data['setype'] = $sourceModuleName;
 			$data['rel_created_user'] = App\User::getCurrentUserRealId();
 			$data['rel_created_time'] = date('Y-m-d H:i:s');
 			$result = App\Db::getInstance()->createCommand()->insert(self::TABLE_NAME, $data)->execute();
@@ -86,7 +87,9 @@ class Products_GetProducts_Relation implements RelationInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function transfer()
+	public function transfer(int $relatedRecordId, int $fromRecordId, int $toRecordId): bool
 	{
+		return (bool) \App\Db::getInstance()->createCommand()->update(self::TABLE_NAME,
+		['crmid' => $toRecordId], ['crmid' => $fromRecordId, 'productid' => $relatedRecordId])->execute();
 	}
 }

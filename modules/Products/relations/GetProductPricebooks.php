@@ -68,7 +68,9 @@ class Products_GetProductPricebooks_Relation implements RelationInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function transfer()
+	public function transfer(int $relatedRecordId, int $fromRecordId, int $toRecordId): bool
 	{
+		return (bool) \App\Db::getInstance()->createCommand()->update(self::TABLE_NAME,
+		['productid' => $toRecordId], ['productid' => $fromRecordId, 'pricebookid' => $relatedRecordId])->execute();
 	}
 }

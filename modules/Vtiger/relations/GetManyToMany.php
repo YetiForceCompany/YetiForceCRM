@@ -51,9 +51,9 @@ class Vtiger_GetManyToMany_Relation implements RelationInterface
 		$parentModuleName = $this->relationModel->getParentModuleModel()->getName();
 		$referenceInfo = \Vtiger_Relation_Model::getReferenceTableInfo($relatedModuleName, $parentModuleName);
 
-		$result = $dbCommand->delete($referenceInfo['table'], [$referenceInfo['base'] => $destinationRecordId, $referenceInfo['rel'] => $sourceRecordId])->execute();
+		$result = $dbCommand->delete($referenceInfo['table'], [$referenceInfo['rel'] => $destinationRecordId, $referenceInfo['base'] => $sourceRecordId])->execute();
 		if ($relatedModuleName === $parentModuleName) {
-			$result += $dbCommand->delete($referenceInfo['table'], [$referenceInfo['base'] => $sourceRecordId, $referenceInfo['rel'] => $destinationRecordId])->execute();
+			$result += $dbCommand->delete($referenceInfo['table'], [$referenceInfo['rel'] => $sourceRecordId, $referenceInfo['base'] => $destinationRecordId])->execute();
 		}
 		return (bool) $result;
 	}
@@ -67,14 +67,14 @@ class Vtiger_GetManyToMany_Relation implements RelationInterface
 		$parentModuleName = $this->relationModel->getParentModuleModel()->getName();
 		$referenceInfo = \Vtiger_Relation_Model::getReferenceTableInfo($relatedModuleName, $parentModuleName);
 		$result = false;
-		$where = [$referenceInfo['base'] => $destinationRecordId, $referenceInfo['rel'] => $sourceRecordId];
-		if (relatedModuleName === $parentModuleName) {
-			$where = ['or',	$where,		[$referenceInfo['base'] => $sourceRecordId, $referenceInfo['rel'] => $destinationRecordId]];
+		$where = [$referenceInfo['rel'] => $destinationRecordId, $referenceInfo['base'] => $sourceRecordId];
+		if ($relatedModuleName === $parentModuleName) {
+			$where = ['or',	$where,		[$referenceInfo['rel'] => $sourceRecordId, $referenceInfo['base'] => $destinationRecordId]];
 		}
 		if (!(new App\Db\Query())->from($referenceInfo['table'])->where($where)->exists()) {
 			$result = \App\Db::getInstance()->createCommand()->insert($referenceInfo['table'], [
-				$referenceInfo['base'] => $destinationRecordId,
-				$referenceInfo['rel'] => $sourceRecordId,
+				$referenceInfo['rel'] => $destinationRecordId,
+				$referenceInfo['base'] => $sourceRecordId,
 			])->execute();
 		}
 		return (bool) $result;
@@ -83,7 +83,8 @@ class Vtiger_GetManyToMany_Relation implements RelationInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function transfer()
+	public function transfer(int $relatedRecordId, int $fromRecordId, int $toRecordId): bool
 	{
+		return false;
 	}
 }
