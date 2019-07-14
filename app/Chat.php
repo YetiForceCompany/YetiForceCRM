@@ -280,18 +280,12 @@ final class Chat
 	 */
 	public static function getGroupRoomLastMessage(int $roomId): array
 	{
-		$dataReader = (new Db\Query())
-			->select(['C.*'])
-			->from(['C' => 'u_#__chat_messages_group'])
+		return (new Db\Query())
+			->select(['*'])
+			->from(['u_#__chat_messages_group'])
 			->where(['groupid' => $roomId])
 			->orderBy(['id' => \SORT_DESC])
-			->limit(1)->createCommand()->query();
-		$lastMessage = [];
-		while ($row = $dataReader->read()) {
-			$lastMessage = $row;
-		}
-		$dataReader->close();
-		return $lastMessage;
+			->one();
 	}
 
 	/**
