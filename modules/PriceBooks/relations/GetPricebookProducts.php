@@ -8,7 +8,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-use App\RelationInterface;
+use App\Relation\RelationInterface;
 
 /**
  * PriceBooks_GetPricebookProducts_Relation class.

@@ -9,7 +9,7 @@
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-namespace App;
+namespace App\Relation;
 
 /**
  * RelationInterface interface.
