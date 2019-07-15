@@ -85,6 +85,10 @@ class Vtiger_GetManyToMany_Relation implements RelationInterface
 	 */
 	public function transfer(int $relatedRecordId, int $fromRecordId, int $toRecordId): bool
 	{
-		return false;
+		$relatedModuleName = $this->relationModel->getRelationModuleName();
+		$parentModuleName = $this->relationModel->getParentModuleModel()->getName();
+		$referenceInfo = \Vtiger_Relation_Model::getReferenceTableInfo($relatedModuleName, $parentModuleName);
+		return (bool) \App\Db::getInstance()->createCommand()->update($referenceInfo['table'],
+		[$referenceInfo['base'] => $toRecordId], [$referenceInfo['base'] => $fromRecordId, $referenceInfo['rel'] => $relatedRecordId])->execute();
 	}
 }
