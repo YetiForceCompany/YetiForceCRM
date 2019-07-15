@@ -1,40 +1,40 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 export default {
 	setDialog(state, idOpen) {
-		state.storage.dialog = idOpen
+		state.session.dialog = idOpen
 	},
 	miniMode(state, isMini) {
-		state.storage.miniMode = isMini
+		state.session.miniMode = isMini
 	},
 	setLeftPanel(state, isOpen) {
-		state.storage.leftPanel = isOpen
+		state.session.leftPanel = isOpen
 	},
 	setRightPanel(state, isOpen) {
-		state.storage.rightPanel = isOpen
+		state.session.rightPanel = isOpen
 	},
 	setHistoryTab(state, isVisible) {
-		state.storage.historyTab = isVisible
+		state.session.historyTab = isVisible
 	},
 	setSearchActive(state) {
-		state.storage.isSearchActive = true
+		state.session.isSearchActive = true
 	},
 	setSearchInactive(state) {
-		state.storage.isSearchActive = false
+		state.session.isSearchActive = false
 	},
 	setTab(state, tab) {
-		state.storage.tab = tab
-	},
-	setSendByEnter(state, val) {
-		state.storage.sendByEnter = val
-	},
-	setSoundNotification(state, val) {
-		state.storage.isSoundNotification = val
-	},
-	setDesktopNotification(state, val) {
-		state.storage.isDesktopNotification = val
+		state.session.tab = tab
 	},
 	setCoordinates(state, val) {
-		state.storage.coordinates = val
+		state.session.coordinates = val
+	},
+	setSendByEnter(state, val) {
+		state.local.sendByEnter = val
+	},
+	setSoundNotification(state, val) {
+		state.local.isSoundNotification = val
+	},
+	setDesktopNotification(state, val) {
+		state.local.isDesktopNotification = val
 	},
 	setData(state, data) {
 		state.data = data
@@ -84,12 +84,19 @@ export default {
 		state.config = config
 	},
 	initStorage(state) {
-		const chatStorage = Quasar.plugins.LocalStorage.getItem('yf-chat')
+		const chatLocalStorage = Quasar.plugins.LocalStorage.getItem('yf-chat')
+		const chatSessionStorage = Quasar.plugins.SessionStorage.getItem('yf-chat')
 		if (
-			chatStorage &&
-			JSON.stringify(Object.keys(state.storage)) === JSON.stringify(Object.keys(JSON.parse(chatStorage)))
+			chatLocalStorage &&
+			JSON.stringify(Object.keys(state.local)) === JSON.stringify(Object.keys(JSON.parse(chatLocalStorage)))
 		) {
-			state.storage = Object.assign(state.storage, JSON.parse(chatStorage))
+			state.local = Object.assign(state.local, JSON.parse(chatLocalStorage))
+		}
+		if (
+			chatSessionStorage &&
+			JSON.stringify(Object.keys(state.session)) === JSON.stringify(Object.keys(JSON.parse(chatSessionStorage)))
+		) {
+			state.session = Object.assign(state.session, JSON.parse(chatSessionStorage))
 		}
 	}
 }

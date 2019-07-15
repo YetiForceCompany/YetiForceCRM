@@ -6,8 +6,8 @@
     round
     flat
     :loading="isWaitingForPermission"
-    :icon="storage.isDesktopNotification ? 'mdi-bell-outline' : 'mdi-bell-off-outline'"
-    :color="storage.isDesktopNotification ? 'info' : ''"
+    :icon="isDesktopNotification ? 'mdi-bell-outline' : 'mdi-bell-off-outline'"
+    :color="isDesktopNotification ? 'info' : ''"
   />
 </template>
 <script>
@@ -23,12 +23,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['storage', 'config'])
+    ...mapGetters(['isDesktopNotification', 'config'])
   },
   methods: {
     ...mapMutations(['setDesktopNotification']),
     toggleDesktopNotification() {
-      if (!this.storage.isDesktopNotification && !this.isNotificationPermitted) {
+      if (!this.isDesktopNotification && !this.isNotificationPermitted) {
         this.isWaitingForPermission = true
         PNotify.modules.Desktop.permission()
         setTimeout(() => {
@@ -39,17 +39,17 @@ export default {
               animation: 'show'
             })
           } else {
-            this.setDesktopNotification(!this.storage.isDesktopNotification)
+            this.setDesktopNotification(!this.isDesktopNotification)
           }
           this.isWaitingForPermission = false
         }, 3000)
       } else {
-        this.setDesktopNotification(!this.storage.isDesktopNotification)
+        this.setDesktopNotification(!this.isDesktopNotification)
       }
     }
   },
   created() {
-    if (this.storage.isDesktopNotification && !this.isNotificationPermitted) {
+    if (this.isDesktopNotification && !this.isNotificationPermitted) {
       this.setDesktopNotification(false)
     }
   }
