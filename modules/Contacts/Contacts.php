@@ -99,44 +99,6 @@ class Contacts extends CRMEntity
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
-	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
-	{
-		if (empty($returnModule) || empty($returnId)) {
-			return;
-		}
-		if ('Campaigns' === $returnModule) {
-			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $returnId])->execute();
-		} else {
-			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
-		}
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function saveRelatedModule($module, $crmid, $withModule, $withCrmid, $relatedName = false)
-	{
-		if (!\is_array($withCrmid)) {
-			$withCrmid = [$withCrmid];
-		}
-		if ('Campaigns' === $withModule) {
-			foreach ($withCrmid as $id) {
-				if ('Campaigns' === $withModule) {
-					App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
-						'campaignid' => $id,
-						'crmid' => $crmid,
-						'campaignrelstatusid' => 0,
-					])->execute();
-				}
-			}
-		} else {
-			parent::saveRelatedModule($module, $crmid, $withModule, $withCrmid, $relatedName);
-		}
-	}
-
-	/**
 	 * Function to get contacts hierarchy.
 	 *
 	 * @param int  $id

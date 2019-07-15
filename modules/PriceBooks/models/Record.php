@@ -18,7 +18,7 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @param int $relatedRecordId - Product/Service Id
 	 *
-	 * @return null|false|string
+	 * @return false|string|null
 	 */
 	public function getProductsListPrice($relatedRecordId)
 	{
@@ -51,18 +51,6 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 				])->execute();
 		}
 		return $status;
-	}
-
-	/**
-	 * Function deletes the List Price for PriceBooks-Product/Services relationship.
-	 *
-	 * @param int $relatedRecordId - Product/Service Id
-	 */
-	public function deleteListPrice($relatedRecordId)
-	{
-		return App\Db::getInstance()->createCommand()
-			->delete('vtiger_pricebookproductrel', ['pricebookid' => $this->getId(), 'productid' => $relatedRecordId])
-			->execute();
 	}
 
 	public function saveToDb()

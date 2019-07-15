@@ -64,30 +64,4 @@ class PriceBooks extends CRMEntity
 		}
 		return $relTables[$secmodule];
 	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function saveRelatedModule($module, $crmid, $withModule, $withCrmIds, $relatedName = false)
-	{
-		if (!\is_array($withCrmIds)) {
-			$withCrmIds = [$withCrmIds];
-		}
-		$recordModel = Vtiger_Record_Model::getInstanceById($crmid, $module);
-		foreach ($withCrmIds as $withCrmId) {
-			if ('Products' === $withModule || 'Services' === $withModule) {
-				if ((new App\Db\Query())->from('vtiger_pricebookproductrel')->where(['pricebookid' => $crmid, 'productid' => $withCrmId])->exists()) {
-					continue;
-				}
-				App\Db::getInstance()->createCommand()->insert('vtiger_pricebookproductrel', [
-					'pricebookid' => $crmid,
-					'productid' => $withCrmId,
-					'listprice' => 0,
-					'usedcurrency' => $recordModel->get('currency_id')
-				])->execute();
-			} else {
-				parent::saveRelatedModule($module, $crmid, $withModule, $withCrmId, $relatedName);
-			}
-		}
-	}
 }

@@ -58,41 +58,19 @@ class Documents extends CRMEntity
 	public $default_order_by = '';
 	public $default_sort_order = 'DESC';
 
-	/*
-	 * Function to get the relation tables for related modules
+	/**
+	 * Function to get the relation tables for related modules.
+	 *
 	 * @param - $secmodule secondary module name
-	 * returns the array with table names and fieldnames storing relations between module and this module
+	 *                     returns the array with table names and fieldnames storing relations between module and this module
 	 */
-
 	public function setRelationTables($secmodule = false)
 	{
 		$relTables = [];
-		if ($secmodule === false) {
+		if (false === $secmodule) {
 			return $relTables;
 		}
 		return $relTables[$secmodule];
-	}
-
-	/**
-	 * Function to unlink an entity with given Id from another entity.
-	 *
-	 * @param int    $id
-	 * @param string $returnModule
-	 * @param int    $returnId
-	 * @param bool   $relatedName
-	 */
-	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
-	{
-		if (empty($returnModule) || empty($returnId)) {
-			return;
-		}
-		if ($returnModule === 'Accounts') {
-			$subQuery = (new \App\Db\Query())->select(['contactid'])->from('vtiger_contactdetails')->where(['parentid' => $returnId]);
-			App\Db::getInstance()->createCommand()->delete('vtiger_senotesrel', ['and', ['notesid' => $id], ['or', ['crmid' => $returnId], ['crmid' => $subQuery]]])->execute();
-		} else {
-			App\Db::getInstance()->createCommand()->delete('vtiger_senotesrel', ['notesid' => $id, 'crmid' => $returnId])->execute();
-			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
-		}
 	}
 
 	/**

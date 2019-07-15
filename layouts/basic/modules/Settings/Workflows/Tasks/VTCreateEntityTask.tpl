@@ -60,7 +60,7 @@
 						<option value="">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
 					</optgroup>
 					{foreach from=$RELATED_MODULES item=MODULE}
-						<option {if $TASK_OBJECT->entity_type eq $MODULE} selected="" {/if}
+						<option {if isset($TASK_OBJECT->entity_type) && $TASK_OBJECT->entity_type eq $MODULE} selected="" {/if}
 								value="{$MODULE}">{\App\Language::translate($MODULE,$MODULE)}</option>
 					{/foreach}
 				</select>

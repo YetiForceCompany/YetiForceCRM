@@ -38,7 +38,7 @@ class CRMEntity
 	 */
 	public function __construct()
 	{
-		$this->column_fields = vtlib\Deprecated::getColumnFields(get_class($this));
+		$this->column_fields = vtlib\Deprecated::getColumnFields(\get_class($this));
 	}
 
 	public static function getInstance($module)
@@ -150,7 +150,7 @@ class CRMEntity
 			$requiredTables = $this->tab_name_index; // copies-on-write
 
 			foreach ($cachedModuleFields as $fieldInfo) {
-				if (in_array($fieldInfo['tablename'], $multiRowTables)) {
+				if (\in_array($fieldInfo['tablename'], $multiRowTables)) {
 					continue;
 				}
 				// Alias prefixed with tablename+fieldname to avoid duplicate column name across tables
@@ -163,7 +163,7 @@ class CRMEntity
 				$query->from('vtiger_crmentity');
 				unset($requiredTables['vtiger_crmentity']);
 				foreach ($requiredTables as $tableName => $tableIndex) {
-					if (in_array($tableName, $multiRowTables)) {
+					if (\in_array($tableName, $multiRowTables)) {
 						// Avoid multirow table joins.
 						continue;
 					}
@@ -187,7 +187,7 @@ class CRMEntity
 				}
 				if (120 === $fieldInfo['uitype']) {
 					$fieldvalue = \App\Fields\SharedOwner::getById($record);
-					if (is_array($fieldvalue)) {
+					if (\is_array($fieldvalue)) {
 						$fieldvalue = implode(',', $fieldvalue);
 					}
 				}
@@ -197,209 +197,6 @@ class CRMEntity
 		$this->column_fields['record_id'] = $record;
 		$this->column_fields['record_module'] = $module;
 	}
-
-	/**
-	 * Function to unlink an entity with given Id from another entity.
-	 *
-	 * @param int    $id
-	 * @param string $returnModule
-	 * @param int    $returnId
-	 * @param bool   $relatedName
-	 */
-	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
-	{
-		switch ($relatedName) {
-			case 'getManyToMany':
-				$this->deleteRelatedM2M($id, $returnModule, $returnId);
-				break;
-			case 'getActivities':
-			case 'getDependentsList':
-				$this->deleteRelatedDependent($id, $returnModule, $returnId);
-				break;
-			case 'getRelatedList':
-				$this->deleteRelatedFromDB($id, $returnModule, $returnId);
-				break;
-			case 'getEmails':
-				\App\Db::getInstance()->createCommand()->delete('vtiger_ossmailview_relation', ['crmid' => $returnId, 'ossmailviewid' => $id])->execute();
-				break;
-			default:
-				$this->deleteRelatedDependent($id, $returnModule, $returnId);
-				$this->deleteRelatedFromDB($id, $returnModule, $returnId);
-				break;
-		}
-	}
-
-	/**
-	 * Delete relationship.
-	 *
-	 * @param int    $crmid
-	 * @param string $withModule
-	 * @param int    $withCrmid
-	 *
-	 * @throws \Exception
-	 */
-	public function deleteRelatedDependent($crmid, $withModule, $withCrmid)
-	{
-		$moduleModel = \Vtiger_Module_Model::getInstance($this->moduleName);
-		if ($fields = $moduleModel->getReferenceFieldsForModule($withModule)) {
-			$recordModel = \Vtiger_Record_Model::getInstanceById($crmid, $this->moduleName);
-			foreach ($fields as $fieldModel) {
-				if ((int) $recordModel->get($fieldModel->getName()) === (int) $withCrmid) {
-					$recordModel->set($fieldModel->getName(), 0);
-				}
-			}
-			$recordModel->save();
-		} else {
-			\App\Log::warning("Incorrectly deleted relationship: {$crmid},{$this->moduleName},{$withModule},{$withCrmid}");
-		}
-	}
-
-	/**
-	 * Function to remove relation M2M - for relation many to many.
-	 *
-	 * @param string $module
-	 * @param int    $crmid
-	 * @param string $withModule
-	 * @param int    $withCrmid
-	 */
-	public function deleteRelatedM2M($crmid, $withModule, $withCrmid)
-	{
-		$dbCommand = \App\Db::getInstance()->createCommand();
-		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($this->moduleName, $withModule);
-		if ($this->moduleName === $withModule) {
-			$dbCommand->delete($referenceInfo['table'], [$referenceInfo['base'] => $withCrmid, $referenceInfo['rel'] => $crmid])->execute();
-			$dbCommand->delete($referenceInfo['table'], [$referenceInfo['base'] => $crmid, $referenceInfo['rel'] => $withCrmid])->execute();
-		} else {
-			$dbCommand->delete($referenceInfo['table'], [$referenceInfo['base'] => $withCrmid, $referenceInfo['rel'] => $crmid])->execute();
-		}
-
-	}
-
-	/**
-	 * @param int    $crmid
-	 * @param string $withModule
-	 * @param int    $withCrmid
-	 */
-	public function deleteRelatedFromDB($crmid, $withModule, $withCrmid)
-	{
-		App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', [
-			'or',
-			[
-				'crmid' => $crmid,
-				'relmodule' => $withModule,
-				'relcrmid' => $withCrmid,
-			],
-			[
-				'relcrmid' => $crmid,
-				'module' => $withModule,
-				'crmid' => $withCrmid,
-			],
-		])->execute();
-	}
-
-	/**
-	 * Save the related module record information. Triggered from CRMEntity->saveentity method or updateRelations.php.
-	 *
-	 * @param string This module name
-	 * @param int This module record number
-	 * @param string Related module name
-	 * @param mixed Integer or Array of related module record number
-	 * @param string function name
-	 * @param mixed $module
-	 * @param mixed $crmid
-	 * @param mixed $withModule
-	 * @param mixed $withCrmid
-	 * @param mixed $relatedName
-	 */
-	public function saveRelatedModule($module, $crmid, $withModule, $withCrmid, $relatedName = false)
-	{
-		if (!is_array($withCrmid)) {
-			$withCrmid = [$withCrmid];
-		}
-		switch ($relatedName) {
-			case 'getManyToMany':
-				$this->saveRelatedM2M($module, $crmid, $withModule, $withCrmid);
-				break;
-			case 'getDependentsList':
-				break;
-			case 'getActivities':
-				break;
-			default:
-				$this->saveRelatedToDB($module, $crmid, $withModule, $withCrmid);
-				break;
-		}
-	}
-
-	/**
-	 * Function to save relation between records in relation many to many.
-	 *
-	 * @param string $module
-	 * @param int    $crmid
-	 * @param string $withModule
-	 * @param int[]  $withCrmid
-	 */
-	public function saveRelatedM2M($module, $crmid, $withModule, $withCrmid)
-	{
-		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($module, $withModule);
-		$isTheSame = $module === $withModule;
-		foreach ($withCrmid as $relcrmid) {
-			// Relation already exists? No need to add again
-			if ($isTheSame && (new App\Db\Query())->from($referenceInfo['table'])
-				->where(['or',
-					[$referenceInfo['base'] => $relcrmid, $referenceInfo['rel'] => $crmid],
-					[$referenceInfo['base'] => $crmid, $referenceInfo['rel'] => $relcrmid]
-				])->exists()) {
-				continue;
-			}
-			if (!$isTheSame && (new App\Db\Query())->from($referenceInfo['table'])
-				->where([$referenceInfo['base'] => $relcrmid, $referenceInfo['rel'] => $crmid])
-				->exists()) {
-				continue;
-			}
-			\App\Db::getInstance()->createCommand()->insert($referenceInfo['table'], [
-				$referenceInfo['base'] => $relcrmid,
-				$referenceInfo['rel'] => $crmid,
-			])->execute();
-		}
-	}
-
-	/**
-	 * Function add info about relations.
-	 *
-	 * @param string $module
-	 * @param int    $crmid
-	 * @param string $withModule
-	 * @param int[]  $withCrmid
-	 */
-	public function saveRelatedToDB($module, $crmid, $withModule, $withCrmid)
-	{
-		foreach ($withCrmid as $relcrmid) {
-			if ('Documents' === $withModule) {
-				$checkpresence = (new \App\Db\Query())->select(['crmid'])->from('vtiger_senotesrel')->where(['crmid' => $crmid, 'notesid' => $relcrmid])->exists();
-				if ($checkpresence) {
-					continue;
-				}
-				\App\Db::getInstance()->createCommand()->insert('vtiger_senotesrel', [
-					'crmid' => $crmid,
-					'notesid' => $relcrmid,
-				])->execute();
-			} else {
-				$checkpresence = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentityrel')->where(['crmid' => $crmid, 'module' => $module, 'relcrmid' => $relcrmid, 'relmodule' => $withModule])->exists();
-				if ($checkpresence) {
-					continue;
-				}
-				\App\Db::getInstance()->createCommand()->insert('vtiger_crmentityrel', [
-					'crmid' => $crmid,
-					'module' => $module,
-					'relcrmid' => $relcrmid,
-					'relmodule' => $withModule,
-					'rel_created_user' => \App\User::getCurrentUserId(),
-					'rel_created_time' => date('Y-m-d H:i:s'),
-				])->execute();
-			}
-		}
-	}
-
 
 	/**
 	 * To keep track of action of field filtering and avoiding doing more than once.
@@ -457,7 +254,7 @@ class CRMEntity
 	 */
 	public function getJoinClause($tableName)
 	{
-		if (strripos($tableName, 'rel') === (strlen($tableName) - 3)) {
+		if (strripos($tableName, 'rel') === (\strlen($tableName) - 3)) {
 			return 'LEFT JOIN';
 		}
 		if ('vtiger_entity_stats' == $tableName || 'u_yf_openstreetmap' == $tableName) {
@@ -500,7 +297,7 @@ class CRMEntity
 			'vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid ' .
 			'INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE ' .
 			"vtiger_role.parentrole like '$parentRole::%')";
-		if (count($userGroups) > 0) {
+		if (\count($userGroups) > 0) {
 			$query .= ' UNION (SELECT groupid FROM vtiger_groups where' .
 				' groupid in (' . implode(',', $userGroups) . '))';
 		}
@@ -523,8 +320,8 @@ class CRMEntity
 		$sharingRuleInfoVariable = $module . '_share_read_permission';
 		$sharingRuleInfo = ${$sharingRuleInfoVariable};
 		$query = '';
-		if (!empty($sharingRuleInfo) && (count($sharingRuleInfo['ROLE']) > 0 ||
-			count($sharingRuleInfo['GROUP']) > 0)) {
+		if (!empty($sharingRuleInfo) && (\count($sharingRuleInfo['ROLE']) > 0 ||
+			\count($sharingRuleInfo['GROUP']) > 0)) {
 			$query = ' (SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per ' .
 				"WHERE userid=$userId && tabid=$tabId) UNION (SELECT " .
 				'vtiger_tmp_read_group_sharing_per.sharedgroupid FROM ' .

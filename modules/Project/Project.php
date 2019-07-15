@@ -96,10 +96,12 @@ class Project extends CRMEntity
 	 *
 	 * @param string Module name
 	 * @param string Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
+	 * @param mixed $moduleName
+	 * @param mixed $eventType
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($eventType === 'module.postinstall') {
+		if ('module.postinstall' === $eventType) {
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
 
 			// Mark the module as Standard module
@@ -124,7 +126,7 @@ class Project extends CRMEntity
 					ModComments::addWidgetTo(['Project']);
 				}
 			}
-		} elseif ($eventType === 'module.postupdate') {
+		} elseif ('module.postupdate' === $eventType) {
 			// Add Comments widget to Project module
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
@@ -138,33 +140,6 @@ class Project extends CRMEntity
 
 	public static function registerLinks()
 	{
-	}
-
-	/**
-	 * Function to unlink an entity with given Id from another entity.
-	 *
-	 * @param int    $id
-	 * @param string $returnModule
-	 * @param int    $returnId
-	 * @param bool   $relatedName
-	 */
-	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
-	{
-		if ($relatedName === 'getManyToMany') {
-			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
-		} else {
-			parent::deleteRelatedFromDB($id, $returnModule, $returnId);
-			$dataReader = (new \App\Db\Query())->select(['tabid', 'tablename', 'columnname'])
-				->from('vtiger_field')
-				->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $this->moduleName, 'relmodule' => $returnModule])])
-				->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				App\Db::getInstance()->createCommand()
-					->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $returnId, CRMEntity::getInstance(App\Module::getModuleName($row['tabid']))->table_index => $id])
-					->execute();
-			}
-			$dataReader->close();
-		}
 	}
 
 	/**
@@ -226,7 +201,7 @@ class Project extends CRMEntity
 		foreach ($listColumns as $colname) {
 			if (\App\Field::getFieldPermission('Project', $colname)) {
 				$data = \App\Purifier::encodeHtml($baseInfo[$colname]);
-				if ($getRawData === false && $colname === 'projectname') {
+				if (false === $getRawData && 'projectname' === $colname) {
 					if ($recordId != $id) {
 						if ($getLinks) {
 							if ($hasRecordViewAccess) {
@@ -246,7 +221,7 @@ class Project extends CRMEntity
 		}
 		$listviewEntries[$recordId] = $infoData;
 		foreach ($baseInfo as $accId => $rowInfo) {
-			if (is_array($rowInfo) && (int) $accId) {
+			if (\is_array($rowInfo) && (int) $accId) {
 				$listviewEntries = $this->getHierarchyData($id, $rowInfo, $accId, $listviewEntries, $getRawData, $getLinks);
 			}
 		}
@@ -284,7 +259,7 @@ class Project extends CRMEntity
 			->one();
 		if ($row) {
 			$parentid = $row['parentid'];
-			if ($parentid !== '' && $parentid != 0 && !in_array($parentid, $encountered)) {
+			if ('' !== $parentid && 0 != $parentid && !\in_array($parentid, $encountered)) {
 				$encountered[] = $parentid;
 				$this->getParent($parentid, $parent, $encountered, $depthBase + 1);
 			}
@@ -299,9 +274,9 @@ class Project extends CRMEntity
 				$listColumns = $this->list_fields_name;
 			}
 			foreach ($listColumns as $columnname) {
-				if ($columnname === 'assigned_user_id') {
+				if ('assigned_user_id' === $columnname) {
 					$parentInfo[$columnname] = $row['user_name'];
-				} elseif ($columnname === 'projecttype') {
+				} elseif ('projecttype' === $columnname) {
 					$parentInfo[$columnname] = \App\Language::translate($row[$columnname], 'Project');
 				} else {
 					$parentInfo[$columnname] = $row[$columnname];
@@ -351,9 +326,9 @@ class Project extends CRMEntity
 				$childSalesProcessesInfo = [];
 				$childSalesProcessesInfo['depth'] = $depth;
 				foreach ($listColumns as $columnname) {
-					if ($columnname === 'assigned_user_id') {
+					if ('assigned_user_id' === $columnname) {
 						$childSalesProcessesInfo[$columnname] = $row['user_name'];
-					} elseif ($columnname === 'projecttype') {
+					} elseif ('projecttype' === $columnname) {
 						$childSalesProcessesInfo[$columnname] = \App\Language::translate($row[$columnname], 'Project');
 					} else {
 						$childSalesProcessesInfo[$columnname] = $row[$columnname];

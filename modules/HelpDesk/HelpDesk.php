@@ -78,18 +78,6 @@ class HelpDesk extends CRMEntity
 	// For Alphabetical search
 	public $def_basicsearch_col = 'ticket_title';
 
-	public function saveRelatedModule($module, $crmid, $with_module, $with_crmid, $relatedName = false)
-	{
-		if ('ServiceContracts' == $with_module) {
-			parent::saveRelatedModule($module, $crmid, $with_module, $with_crmid);
-			$serviceContract = CRMEntity::getInstance('ServiceContracts');
-			$serviceContract->updateHelpDeskRelatedTo($with_crmid, $crmid);
-			$serviceContract->updateServiceContractState($with_crmid);
-		} else {
-			parent::saveRelatedModule($module, $crmid, $with_module, $with_crmid, $relatedName);
-		}
-	}
-
 	/**
 	 * Function to get the relation tables for related modules.
 	 *
@@ -109,24 +97,5 @@ class HelpDesk extends CRMEntity
 		}
 
 		return $relTables[$secModule];
-	}
-
-	// Function to unlink an entity with given Id from another entity
-	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
-	{
-		if (empty($returnModule) || empty($returnId)) {
-			return;
-		}
-		if ('Accounts' === $returnModule || 'Vendors' === $returnModule) {
-			$dbCommand = App\Db::getInstance()->createCommand();
-			$dbCommand->update('vtiger_troubletickets', ['parent_id' => null], ['ticketid' => $id])->execute();
-			$dbCommand->delete('vtiger_seticketsrel', ['ticketid' => $id])->execute();
-		} elseif ('Products' === $returnModule) {
-			App\Db::getInstance()->createCommand()->update('vtiger_troubletickets', ['product_id' => null], ['ticketid' => $id])->execute();
-		} elseif ('ServiceContracts' === $returnModule && 'getManyToMany' !== $relatedName) {
-			parent::unlinkRelationship($id, $returnModule, $returnId);
-		} else {
-			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
-		}
 	}
 }

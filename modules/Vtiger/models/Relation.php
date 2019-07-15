@@ -14,6 +14,7 @@ class Vtiger_Relation_Model extends \App\Base
 	protected static $cachedInstances = [];
 	protected $parentModule = false;
 	protected $relatedModule = false;
+	protected $typeRelationModel;
 
 	//one to many
 	const RELATION_O2M = 1;
@@ -108,7 +109,7 @@ class Vtiger_Relation_Model extends \App\Base
 	 */
 	public function getActions()
 	{
-		if (is_array($this->get('actions'))) {
+		if (\is_array($this->get('actions'))) {
 			return $this->get('actions');
 		}
 		// No actions for Activity history
@@ -130,7 +131,7 @@ class Vtiger_Relation_Model extends \App\Base
 	 */
 	public function isActionSupported($actionName)
 	{
-		return in_array(strtolower($actionName), $this->getActions());
+		return \in_array(strtolower($actionName), $this->getActions());
 	}
 
 	/**
@@ -200,7 +201,7 @@ class Vtiger_Relation_Model extends \App\Base
 	public function getRelationType()
 	{
 		if (!$this->get('relationType')) {
-			if (in_array($this->get('name'), self::$RELATIONS_O2M) || $this->getRelationField()) {
+			if (\in_array($this->get('name'), self::$RELATIONS_O2M) || $this->getRelationField()) {
 				$this->set('relationType', self::RELATION_O2M);
 			} else {
 				$this->set('relationType', self::RELATION_M2M);
@@ -247,7 +248,8 @@ class Vtiger_Relation_Model extends \App\Base
 			return self::$cachedInstances[$relKey];
 		}
 		if (('ModComments' == $relatedModuleModel->getName() && $parentModuleModel->isCommentEnabled()) || 'Documents' == $parentModuleModel->getName()) {
-			$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
+			$moduleName = 'ModComments' == $relatedModuleModel->getName() ? $relatedModuleModel->getName() : $parentModuleModel->getName();
+			$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $moduleName);
 			$relationModel = new $relationModelClassName();
 			$relationModel->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
 			if (method_exists($relationModel, 'setExceptionData')) {
@@ -278,6 +280,25 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
+	 * Gets relation object.
+	 */
+	public function getTypeRelationModel()
+	{
+		if (!isset($this->typeRelationModel)) {
+			$name = ucfirst($this->get('name'));
+			$relationClassName = Vtiger_Loader::getComponentClassName('Relation', $name, $this->getParentModuleModel()->getName(), false);
+			if (!$relationClassName) {
+				$relationClassName = Vtiger_Loader::getComponentClassName('Relation', $name, $this->getRelationModuleName());
+			}
+			if (class_exists($relationClassName)) {
+				$this->typeRelationModel = new $relationClassName();
+				$this->typeRelationModel->relationModel = &$this;
+			}
+		}
+		return $this->typeRelationModel;
+	}
+
+	/**
 	 * Get query form relation.
 	 *
 	 * @throws \App\Exceptions\NotAllowedMethod
@@ -286,15 +307,19 @@ class Vtiger_Relation_Model extends \App\Base
 	 */
 	public function getQuery()
 	{
+		if (!($object = $this->getTypeRelationModel())) {
+			App\Log::error("Not exist relation: {$this->get('name')} in " . __METHOD__);
+			throw new \App\Exceptions\NotAllowedMethod('LBL_NOT_EXIST_RELATION: ' . $this->get('name'));
+		}
+		if (empty($this->get('parentRecord'))) {
+			App\Log::error('No value parentRecord in ' . __METHOD__);
+			throw new \App\Exceptions\IllegalValue('ERR_NO_VALUE||parentRecord');
+		}
+
 		$queryGenerator = $this->getQueryGenerator();
 		$queryGenerator->setSourceRecord($this->get('parentRecord')->getId());
-		$functionName = $this->get('name');
-		if (method_exists($this, $functionName)) {
-			$this->{$functionName}();
-		} else {
-			App\Log::error("Not exist relation: $functionName in " . __METHOD__);
-			throw new \App\Exceptions\NotAllowedMethod('LBL_NOT_EXIST_RELATION: ' . $functionName);
-		}
+		$object->getQuery();
+
 		if ($this->showCreatorDetail()) {
 			$queryGenerator->setCustomColumn('rel_created_user');
 			$queryGenerator->setCustomColumn('rel_created_time');
@@ -385,7 +410,7 @@ class Vtiger_Relation_Model extends \App\Base
 			foreach ($relatedModelFields as &$fieldModel) {
 				if ($fieldModel->isReferenceField()) {
 					$referenceList = $fieldModel->getReferenceList();
-					if (!empty($referenceList) && in_array($parentModuleName, $referenceList)) {
+					if (!empty($referenceList) && \in_array($parentModuleName, $referenceList)) {
 						$relationField = $fieldModel;
 						break;
 					}
@@ -395,126 +420,6 @@ class Vtiger_Relation_Model extends \App\Base
 		$this->set('RelationField', $relationField ? $relationField : false);
 
 		return $relationField;
-	}
-
-	/**
-	 * Get dependents record list.
-	 */
-	public function getDependentsList()
-	{
-		$fieldModel = $this->getRelationField();
-		$queryGenerator = $this->getQueryGenerator();
-		$queryGenerator->addNativeCondition([
-			$fieldModel->getTableName() . '.' . $fieldModel->getColumnName() => $this->get('parentRecord')->getId(),
-		]);
-		$queryGenerator->addTableToQuery($fieldModel->getTableName());
-	}
-
-	/**
-	 * Get related record list.
-	 */
-	public function getRelatedList()
-	{
-		$queryGenerator = $this->getQueryGenerator();
-		$record = $this->get('parentRecord')->getId();
-		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_crmentityrel', '(vtiger_crmentityrel.relcrmid = vtiger_crmentity.crmid OR vtiger_crmentityrel.crmid = vtiger_crmentity.crmid)']);
-		$queryGenerator->addNativeCondition(['or', ['vtiger_crmentityrel.crmid' => $record], ['vtiger_crmentityrel.relcrmid' => $record]]);
-		$queryGenerator->setDistinct('id');
-	}
-
-	/**
-	 * Get attachments.
-	 */
-	public function getAttachments()
-	{
-		$queryGenerator = $this->getQueryGenerator();
-		$queryGenerator->setCustomColumn('vtiger_notes.filetype');
-		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_senotesrel', 'vtiger_senotesrel.notesid= vtiger_notes.notesid']);
-		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_crmentity crm2', 'crm2.crmid = vtiger_senotesrel.crmid']);
-		$queryGenerator->addNativeCondition(['crm2.crmid' => $this->get('parentRecord')->getId()]);
-		$queryGenerator->setOrder('id', 'DESC');
-	}
-
-	/**
-	 * Get Campaigns.
-	 */
-	public function getCampaigns()
-	{
-		$queryGenerator = $this->getQueryGenerator();
-		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_campaign_records', 'vtiger_campaign_records.campaignid=vtiger_campaign.campaignid']);
-		$queryGenerator->addNativeCondition(['vtiger_campaign_records.crmid' => $this->get('parentRecord')->getId()]);
-	}
-
-	/**
-	 * Get Activities for related module.
-	 *
-	 * @throws \App\Exceptions\AppException
-	 */
-	public function getActivities()
-	{
-		$moduleName = $this->getParentModuleModel()->getName();
-		$fields = $this->getRelationModuleModel()->getReferenceFieldsForModule($moduleName);
-		if (!$fields) {
-			throw new \App\Exceptions\AppException('ERR_NO_VALUE');
-		}
-		$conditions = ['or'];
-		foreach ($fields as $fieldModel) {
-			$conditions[] = ["{$fieldModel->getTableName()}.{$fieldModel->getColumnName()}" => $this->get('parentRecord')->getId()];
-		}
-		$queryGenerator = $this->getQueryGenerator();
-		$queryGenerator->addNativeCondition($conditions);
-		switch (\App\Request::_get('time')) {
-			case 'current':
-				$queryGenerator->addNativeCondition(['vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('current')]);
-				break;
-			case 'history':
-				$queryGenerator->addNativeCondition(['vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('history')]);
-				break;
-			default:
-				break;
-		}
-	}
-
-	/**
-	 * Get related emails.
-	 */
-	public function getEmails()
-	{
-		$queryGenerator = $this->getQueryGenerator();
-		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_ossmailview_relation', 'vtiger_ossmailview_relation.ossmailviewid = vtiger_ossmailview.ossmailviewid']);
-		$queryGenerator->addNativeCondition(['vtiger_ossmailview_relation.crmid' => $this->get('parentRecord')->getId()]);
-	}
-
-	/**
-	 * Get records for emails.
-	 */
-	public function getRecordToMails()
-	{
-		$queryGenerator = $this->getQueryGenerator();
-		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_ossmailview_relation', 'vtiger_ossmailview_relation.crmid = vtiger_crmentity.crmid']);
-		$queryGenerator->addNativeCondition(['vtiger_ossmailview_relation.ossmailviewid' => $this->get('parentRecord')->getId()]);
-	}
-
-	/**
-	 * Get many to many.
-	 */
-	public function getManyToMany()
-	{
-		$queryGenerator = $this->getQueryGenerator();
-		$queryGenerator->setDistinct('id');
-		$relatedModuleName = $this->getRelationModuleName();
-		$referenceInfo = self::getReferenceTableInfo($relatedModuleName, $this->getParentModuleModel()->getName());
-		if ($relatedModuleName === $this->getParentModuleModel()->getName()) {
-			$queryGenerator->addJoin(['INNER JOIN', $referenceInfo['table'], "({$referenceInfo['table']}.{$referenceInfo['base']} = vtiger_crmentity.crmid OR {$referenceInfo['table']}.{$referenceInfo['rel']} = vtiger_crmentity.crmid)"]);
-			$queryGenerator->addNativeCondition([
-				'or',
-				[$referenceInfo['table'] . '.' . $referenceInfo['base'] => $this->get('parentRecord')->getId()],
-				[$referenceInfo['table'] . '.' . $referenceInfo['rel'] => $this->get('parentRecord')->getId()]
-			]);
-		} else {
-			$queryGenerator->addJoin(['INNER JOIN', $referenceInfo['table'], "{$referenceInfo['table']}.{$referenceInfo['rel']} = vtiger_crmentity.crmid"]);
-			$queryGenerator->addNativeCondition([$referenceInfo['table'] . '.' . $referenceInfo['base'] => $this->get('parentRecord')->getId()]);
-		}
 	}
 
 	/**
@@ -594,34 +499,58 @@ class Vtiger_Relation_Model extends \App\Base
 	 * Add relation.
 	 *
 	 * @param int       $sourceRecordId
-	 * @param int|int[] $destinationRecordId
+	 * @param int|int[] $destinationRecordIds
 	 * @param mixed     $params
 	 */
-	public function addRelation($sourceRecordId, $destinationRecordId, $params = false)
+	public function addRelation($sourceRecordId, $destinationRecordIds, $params = false)
 	{
-		$sourceModule = $this->getParentModuleModel();
-		$sourceModuleName = $sourceModule->get('name');
-		$destinationModuleName = $this->getRelationModuleModel()->get('name');
-		$sourceModuleFocus = CRMEntity::getInstance($sourceModuleName);
-		vtlib\Deprecated::relateEntities($sourceModuleFocus, $sourceModuleName, $sourceRecordId, $destinationModuleName, $destinationRecordId, $this->get('name'));
+		$result = false;
+		$sourceModuleName = $this->getParentModuleModel()->getName();
+		$typeRelation = $this->getTypeRelationModel();
+		if (!\is_array($destinationRecordIds)) {
+			$destinationRecordIds = [$destinationRecordIds];
+		}
+		$data = [
+			'CRMEntity' => $this->getParentModuleModel()->getEntityInstance(),
+			'sourceModule' => $sourceModuleName,
+			'sourceRecordId' => $sourceRecordId,
+			'destinationModule' => $this->getRelationModuleModel()->getName(),
+		];
+		$eventHandler = new \App\EventHandler();
+		$eventHandler->setModuleName($sourceModuleName);
+		foreach ($destinationRecordIds as $destinationRecordId) {
+			$data['destinationRecordId'] = $destinationRecordId;
+			$eventHandler->setParams($data);
+			$eventHandler->trigger('EntityBeforeLink');
+			if ($result = $typeRelation->create($sourceRecordId, $destinationRecordId)) {
+				\CRMEntity::trackLinkedInfo($sourceRecordId);
+				$eventHandler->trigger('EntityAfterLink');
+			}
+		}
+		return $result;
 	}
 
 	/**
 	 * Transfer.
 	 *
-	 * @param array $relationRecords
+	 * @param array $recordsToTransfer
 	 */
-	public function transfer(array $relationRecords)
+	public function transfer(array $recordsToTransfer)
 	{
-		switch ($this->getRelationType()) {
-			case static::RELATION_M2M:
-				$this->transferM2M($relationRecords);
-				break;
-			case static::RELATION_O2M:
-				$this->transferO2M($relationRecords);
-				break;
-			default:
-				break;
+		$relationModel = $this->getTypeRelationModel();
+		$eventHandler = new \App\EventHandler();
+		$eventHandler->setModuleName($this->getParentModuleModel()->getName());
+		$toRecordId = $this->get('parentRecord')->getId();
+		$params = ['sourceRecordId' => $toRecordId, 'sourceModule' => $eventHandler->getModuleName(), 'destinationModule' => $this->getRelationModuleModel()->getName()];
+
+		foreach($recordsToTransfer as $relatedRecordId => $fromRecordId){
+				$params['destinationRecordId'] = $relatedRecordId;
+				$eventHandler->setParams($params);
+				$eventHandler->trigger('EntityBeforeTransferUnLink');
+				if ($relationModel->transfer($relatedRecordId, $fromRecordId, $toRecordId)) {
+					\CRMEntity::trackLinkedInfo([$toRecordId, $fromRecordId]);
+					$eventHandler->trigger('EntityAfterTransferLink');
+			}
 		}
 	}
 
@@ -642,78 +571,14 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Transfer O2M type realtion.
-	 *
-	 * @param array $relationRecords
-	 */
-	public function transferO2M(array $relationRecords)
-	{
-		$relationFieldModel = $this->getRelationField();
-		if ($relationFieldModel && $relationFieldModel->isEditable()) {
-			foreach ($relationRecords as $relId => $fromId) {
-				$relationRecordModel = \Vtiger_Record_Model::getInstanceById($relId);
-				if ($relationRecordModel->isEditable()) {
-					$relationRecordModel->set($relationFieldModel->getName(), $this->get('parentRecord')->getId());
-					$relationRecordModel->ext['modificationType'] = \ModTracker_Record_Model::TRANSFER_EDIT;
-					$relationRecordModel->save();
-				}
-			}
-		}
-	}
-
-	/**
-	 * Transfer M2M type realtion.
-	 *
-	 * @param array $relationRecords
-	 */
-	public function transferM2M(array $relationRecords)
-	{
-		$eventHandler = new \App\EventHandler();
-		$eventHandler->setModuleName($this->getParentModuleModel()->getName());
-		$params = ['sourceRecordId' => $this->get('parentRecord')->getId(), 'destinationModule' => $this->getRelationModuleModel()->getName(), 'sourceModule' => $eventHandler->getModuleName()];
-		$relationModel = self::getInstance($this->getRelationModuleModel(), $this->getParentModuleModel());
-
-		$updateRecords = [$params['sourceRecordId']];
-		foreach ($relationRecords as $relId => $fromId) {
-			$params['destinationRecordId'] = $relId;
-			$params['fromRecordId'] = $fromId;
-			$eventHandler->setParams($params);
-			$eventHandler->trigger('EntityBeforeTransferUnLink');
-			if ($relationModel->transferDb($params)) {
-				$updateRecords[] = $params['fromRecordId'];
-				\App\Db::getInstance()->createCommand()->update('vtiger_crmentity',
-					['modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => \App\User::getCurrentUserRealId()],
-					['crmid' => $updateRecords])->execute();
-				$eventHandler->trigger('EntityAfterTransferLink');
-				$updateRecords = [];
-			}
-		}
-	}
-
-	/**
-	 * Update relation to db.
-	 *
-	 * @param array $params
-	 *
-	 * @return int
-	 */
-	public function transferDb(array $params)
-	{
-		$dbCommand = \App\Db::getInstance()->createCommand();
-		$count = $dbCommand->update('vtiger_crmentityrel', ['crmid' => $params['sourceRecordId']],
-			['crmid' => $params['fromRecordId'], 'relcrmid' => $params['destinationRecordId']])->execute();
-		return $count + $dbCommand->update('vtiger_crmentityrel', ['relcrmid' => $params['sourceRecordId']],
-				['relcrmid' => $params['fromRecordId'], 'crmid' => $params['destinationRecordId']])->execute();
-	}
-
-	/**
 	 * Delete relation.
 	 *
 	 * @param int $relId
 	 */
 	public function transferDelete(int $relId)
 	{
-		$params = ['sourceRecordId' => $this->get('parentRecord')->getId(),
+		$recordId = $this->get('parentRecord')->getId();
+		$params = ['sourceRecordId' => $recordId,
 			'sourceModule' => $this->getParentModuleModel()->getName(),
 			'destinationModule' => $this->getRelationModuleModel()->getName(),
 			'destinationRecordId' => $relId];
@@ -721,8 +586,9 @@ class Vtiger_Relation_Model extends \App\Base
 		$eventHandler->setModuleName($this->getParentModuleModel()->getName());
 		$eventHandler->setParams($params);
 		$eventHandler->trigger('EntityBeforeTransferUnLink');
-		\CRMEntity::getInstance($params['destinationModule'])->unlinkRelationship($params['destinationRecordId'], $params['sourceModule'], $params['sourceRecordId'], $this->get('name'));
-		$eventHandler->trigger('EntityAfterTransferUnLink');
+		if ($this->getTypeRelationModel()->delete($recordId, $relId)) {
+			$eventHandler->trigger('EntityAfterTransferUnLink');
+		}
 	}
 
 	/**
@@ -735,22 +601,14 @@ class Vtiger_Relation_Model extends \App\Base
 	 */
 	public function deleteRelation($sourceRecordId, $relatedRecordId)
 	{
-		$sourceModuleName = $this->getParentModuleModel()->get('name');
-		$destinationModuleName = $this->getRelationModuleModel()->get('name');
-		if ('OSSMailView' === $destinationModuleName || 'OSSMailView' === $sourceModuleName) {
-			return $this->deleteRelationOSSMailView($sourceRecordId, $relatedRecordId);
-		}
+		$sourceModuleName = $this->getParentModuleModel()->getName();
+		$destinationModuleName = $this->getRelationModuleModel()->getName();
+		$result = false;
 		if ('ModComments' === $destinationModuleName) {
 			include_once 'modules/ModTracker/ModTracker.php';
 			ModTracker::unLinkRelation($sourceModuleName, $sourceRecordId, $destinationModuleName, $relatedRecordId);
-			return true;
-		}
-		$relationFieldModel = $this->getRelationField();
-		if ($relationFieldModel && $relationFieldModel->isMandatory()) {
-			return false;
-		}
-		$return = true;
-		if (!empty($sourceModuleName) && !empty($sourceRecordId)) {
+			$result = true;
+		} elseif (!($this->getRelationField() && $this->getRelationField()->isMandatory())) {
 			$destinationModuleFocus = $this->getRelationModuleModel()->getEntityInstance();
 			$eventHandler = new \App\EventHandler();
 			$eventHandler->setModuleName($sourceModuleName);
@@ -763,63 +621,12 @@ class Vtiger_Relation_Model extends \App\Base
 				'relatedName' => $this->get('name'),
 			]);
 			$eventHandler->trigger('EntityBeforeUnLink');
-
-			$destinationModuleFocus->unlinkRelationship($relatedRecordId, $sourceModuleName, $sourceRecordId, $this->get('name'));
-			$destinationModuleFocus->trackUnLinkedInfo($sourceRecordId);
-
-			$eventHandler->trigger('EntityAfterUnLink');
-		} elseif ($relationFieldModel) {
-			$relationRecordModel = \Vtiger_Record_Model::getInstanceById($relatedRecordId, $destinationModuleName);
-			if ($relationRecordModel->isEditable()) {
-				$relationRecordModel->set($relationFieldModel->getName(), 0);
-				$relationRecordModel->ext['modificationType'] = \ModTracker_Record_Model::UNLINK;
-				$relationRecordModel->save();
-			}else{
-				$return = false;
+			if ($result = $this->getTypeRelationModel()->delete($sourceRecordId, $relatedRecordId)) {
+				$destinationModuleFocus->trackUnLinkedInfo($sourceRecordId);
+				$eventHandler->trigger('EntityAfterUnLink');
 			}
-		}else{
-			\App\Log::warning("No link has been removed, improper relationship ($sourceRecordId, $relatedRecordId, $sourceModuleName, $destinationModuleName)");
 		}
-		return $return;
-	}
-
-	/**
-	 * Delete relation for OSSMailView module.
-	 *
-	 * @param int $sourceRecordId
-	 * @param int $relatedRecordId
-	 *
-	 * @return bool
-	 */
-	private function deleteRelationOSSMailView($sourceRecordId, $relatedRecordId)
-	{
-		$sourceModuleName = $this->getParentModuleModel()->get('name');
-		$destinationModuleName = $this->getRelationModuleModel()->get('name');
-		$moduleName = 'OSSMailView';
-		if ('OSSMailView' === $destinationModuleName) {
-			$destinationModuleName = $sourceModuleName;
-			$mailId = $relatedRecordId;
-			$crmid = $sourceRecordId;
-		} else {
-			$mailId = $sourceRecordId;
-			$crmid = $relatedRecordId;
-		}
-		$eventHandler = new App\EventHandler();
-		$eventHandler->setModuleName($destinationModuleName);
-		$eventHandler->setParams([
-			'CRMEntity' => CRMEntity::getInstance($destinationModuleName),
-			'sourceModule' => $destinationModuleName,
-			'sourceRecordId' => $crmid,
-			'destinationModule' => $moduleName,
-			'destinationRecordId' => $mailId
-		]);
-		$eventHandler->trigger('EntityBeforeUnLink');
-		$query = \App\Db::getInstance()->createCommand()->delete('vtiger_ossmailview_relation', ['crmid' => $crmid, 'ossmailviewid' => $mailId]);
-		if ($query->execute()) {
-			$eventHandler->trigger('EntityAfterUnLink');
-			return true;
-		}
-		return false;
+		return $result;
 	}
 
 	/**
@@ -890,7 +697,7 @@ class Vtiger_Relation_Model extends \App\Base
 	 */
 	public function isTreeRelation()
 	{
-		if (in_array($this->getRelationModuleModel()->getName(), ['OutsourcedProducts', 'Products', 'Services', 'OSSOutsourcedServices'])) {
+		if (\in_array($this->getRelationModuleModel()->getName(), ['OutsourcedProducts', 'Products', 'Services', 'OSSOutsourcedServices'])) {
 			foreach ($this->getRelationModuleModel()->getFieldsByType('tree') as $field) {
 				if ($field->isActiveField()) {
 					return true;
@@ -964,7 +771,7 @@ class Vtiger_Relation_Model extends \App\Base
 			if ($fieldModel->isReferenceField()) {
 				$referenceList = $fieldModel->getReferenceList();
 				foreach ($referenceList as $module) {
-					if (!in_array($module, $excludedModules) && !in_array($fieldName, $excludedFields)) {
+					if (!\in_array($module, $excludedModules) && !\in_array($fieldName, $excludedFields)) {
 						$fieldsReferenceList[$module] = $fieldModel;
 					}
 					if ($relatedModuleName == $module) {
@@ -978,7 +785,7 @@ class Vtiger_Relation_Model extends \App\Base
 			if ($fieldModel->isReferenceField()) {
 				$referenceList = $fieldModel->getReferenceList();
 				foreach ($referenceList as $module) {
-					if (array_key_exists($module, $fieldsReferenceList) && $module != $recordModel->getModuleName()) {
+					if (\array_key_exists($module, $fieldsReferenceList) && $module != $recordModel->getModuleName()) {
 						$parentFieldModel = $fieldsReferenceList[$module];
 						$relId = $recordModel->get($parentFieldModel->getName());
 						if ('' != $relId && 0 != $relId) {
@@ -999,7 +806,7 @@ class Vtiger_Relation_Model extends \App\Base
 		$relatedModuleName = $relatedModel->getName();
 		$parentModuleName = $this->getParentModuleModel()->getName();
 
-		if (array_key_exists("$relatedModuleName::$parentModuleName", $map)) {
+		if (\array_key_exists("$relatedModuleName::$parentModuleName", $map)) {
 			$fieldMap = $map["$relatedModuleName::$parentModuleName"];
 			$fieldModel = $recordModel->getField($fieldMap[1]);
 			$value = $fieldModel->getEditViewDisplayValue($recordModel->get($fieldMap[1]), $recordModel);
@@ -1065,7 +872,7 @@ class Vtiger_Relation_Model extends \App\Base
 		if ($fields) {
 			$addedFields = [];
 			foreach ($fields as $key => $field) {
-				if (in_array($field['id'], $addedFields)) {
+				if (\in_array($field['id'], $addedFields)) {
 					continue;
 				}
 				$db->createCommand()->insert('vtiger_relatedlists_fields', [

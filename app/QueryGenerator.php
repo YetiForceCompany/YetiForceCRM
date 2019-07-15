@@ -361,6 +361,7 @@ class QueryGenerator
 		} else {
 			$this->conditionsOr[] = $condition;
 		}
+		return $this;
 	}
 
 	/**
@@ -420,10 +421,10 @@ class QueryGenerator
 	 */
 	public function addJoin($join)
 	{
-		if (isset($this->joins[$join[1]])) {
-			return false;
+		if (!isset($this->joins[$join[1]])) {
+			$this->joins[$join[1]] = $join;
 		}
-		$this->joins[$join[1]] = $join;
+		return $this;
 	}
 
 	/**

@@ -114,35 +114,4 @@ class Partners extends Vtiger_CRMEntity
 		}
 		return $relTables[$secModule];
 	}
-
-	// Function to unlink an entity with given Id from another entity
-	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
-	{
-		if (empty($returnModule) || empty($returnId)) {
-			return;
-		}
-		if ('Campaigns' === $returnModule) {
-			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $returnId])->execute();
-		} else {
-			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
-		}
-	}
-
-	public function saveRelatedModule($module, $crmid, $withModule, $withCrmids, $relatedName = false)
-	{
-		if (!is_array($withCrmids)) {
-			$withCrmids = [$withCrmids];
-		}
-		if ('Campaigns' !== $withModule) {
-			parent::saveRelatedModule($module, $crmid, $withModule, $withCrmids, $relatedName);
-		} else {
-			foreach ($withCrmids as $withCrmid) {
-				App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
-					'campaignid' => $withCrmid,
-					'crmid' => $crmid,
-					'campaignrelstatusid' => 0,
-				])->execute();
-			}
-		}
-	}
 }

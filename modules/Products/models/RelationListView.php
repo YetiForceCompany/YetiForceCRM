@@ -25,6 +25,7 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model
 		if (!$isSubProduct) {
 			return parent::getLinks();
 		}
+		return [];
 	}
 
 	/**
