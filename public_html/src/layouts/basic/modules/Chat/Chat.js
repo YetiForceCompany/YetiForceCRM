@@ -21,8 +21,10 @@ window.ChatModalVueComponent = {
 				store.registerModule('Chat', moduleStore)
 				this.$store.commit('Chat/initStorage')
 				store.subscribe((mutation, state) => {
-					Quasar.plugins.LocalStorage.set('yf-chat', JSON.stringify(state.Chat.local))
-					Quasar.plugins.SessionStorage.set('yf-chat', JSON.stringify(state.Chat.session))
+					if (mutation.type !== 'Chat/updateChat' && mutation.type !== 'Chat/setAmountOfNewMessages') {
+						Quasar.plugins.LocalStorage.set('yf-chat', JSON.stringify(state.Chat.local))
+						Quasar.plugins.SessionStorage.set('yf-chat', JSON.stringify(state.Chat.session))
+					}
 				})
 			}
 		}).$mount(config.el)

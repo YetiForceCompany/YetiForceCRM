@@ -151,11 +151,9 @@ export default {
       }
     },
     toggleEnter() {
-      app.setCookie('chat-notSendByEnter', !this.sendByEnter, 365)
       this.setSendByEnter(!this.sendByEnter)
     },
     toggleSoundNotification() {
-      app.setCookie('chat-isSoundNotification', !this.isSoundNotification, 365)
       this.setSoundNotification(!this.isSoundNotification)
     }
   },

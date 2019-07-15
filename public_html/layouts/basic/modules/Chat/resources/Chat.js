@@ -11,14 +11,15 @@ window.Chat_JS = class Chat_Js {
 	 * @param {jQuery} container
 	 */
 	constructor(container) {
+		const configStorage = JSON.parse(Quasar.plugins.LocalStorage.getItem('yf-chat'));
 		this.init(container);
-		this.sendByEnter = app.getCookie('chat-notSendByEnter') !== 'true';
+		this.sendByEnter = configStorage ? configStorage.sendByEnter : true;
 		this.isSearchMode = false;
 		this.searchValue = null;
 		this.isSearchParticipantsMode = false;
 		this.timerMessage = null;
 		this.amountOfNewMessages = null;
-		this.isSoundNotification = app.getCookie('chat-isSoundNotification') === 'true';
+		this.isSoundNotification = configStorage ? configStorage.isSoundNotification : true;
 	}
 
 	/**
@@ -35,14 +36,6 @@ window.Chat_JS = class Chat_Js {
 			Chat_Js.instance[typeInstance].init(container);
 		}
 		return Chat_Js.instance[typeInstance];
-	}
-
-	/**
-	 * Check if the user has enabled notifications.
-	 * @returns {boolean}
-	 */
-	static isDesktopNotification() {
-		return app.getCookie('chat-isDesktopNotification') === 'true';
 	}
 
 	/**
