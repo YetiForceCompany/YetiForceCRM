@@ -27,22 +27,9 @@ export default {
     return {}
   },
   computed: {
-    ...mapGetters(['leftPanel', 'rightPanel', 'miniMode']),
-    bottomPosition() {
-      if (this.parentRefs.chatBtn !== undefined) {
-        return Quasar.plugins.Screen.height - Quasar.utils.dom.offset(this.parentRefs.chatBtn.$el).top
-      }
-    }
+    ...mapGetters(['leftPanel', 'rightPanel', 'miniMode'])
   }
 }
 </script>
 <style>
-.chat-mini {
-  /* right: 0;
-  top: 50px;
-  margin: 10px 0;
-  height: unset;
-  max-height: unset;
-  position: fixed; */
-}
 </style>

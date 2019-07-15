@@ -22,12 +22,12 @@
     <q-dialog
       v-model="dialog"
       seamless
-      :maximized="!miniMode"
+      :maximized="!computedMiniMode"
       transition-show="slide-up"
       transition-hide="slide-down"
       content-class="quasar-reset"
     >
-      <drag-resize :coordinates.sync="coordinates" :maximized="!miniMode">
+      <drag-resize :coordinates.sync="coordinates" :maximized="!computedMiniMode">
         <chat container :parentRefs="$refs" />
       </drag-resize>
     </q-dialog>
@@ -64,6 +64,9 @@ export default {
       set(coords) {
         this.setCoordinates(coords)
       }
+    },
+    computedMiniMode() {
+      return this.$q.platform.is.desktop ? this.miniMode : false
     },
     buttonAnimationClasses() {
       return this.data.amountOfNewMessages ? 'animated flash' : ''

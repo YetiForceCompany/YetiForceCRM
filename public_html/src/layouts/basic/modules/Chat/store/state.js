@@ -12,10 +12,10 @@ export default {
 		sendByEnter: true,
 		tab: 'chat',
 		coordinates: {
-			width: Quasar.plugins.Screen.width - 100,
-			height: Quasar.plugins.Screen.height - 100,
-			top: 0,
-			left: Quasar.plugins.Screen.width - (Quasar.plugins.Screen.width - 100 / 2)
+			width: 450,
+			height: Quasar.plugins.Screen.height - 160,
+			top: 60,
+			left: Quasar.plugins.Screen.width - 450
 		}
 	},
 	data: {

@@ -109,23 +109,6 @@ export default {
   max-width: unset !important;
   box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px rgba(0, 0, 0, 0.14), 0 1px 10px rgba(0, 0, 0, 0.12);
 }
-.vdr-stick.q-icon:before {
-  font-size: 1.718em;
-  left: -5px;
-  position: relative;
-  bottom: 5px;
-}
-.vdr-stick.q-icon {
-  bottom: 9px !important;
-  right: 25px !important;
-  font-size: 14px;
-  background: none;
-  border: none;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2), 0 2px 2px rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
-  display: none;
-  cursor: nwse-resize !important;
-  position: absolute !important;
-}
 .vdr.active {
   font-weight: unset;
 }
