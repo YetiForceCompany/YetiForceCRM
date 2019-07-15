@@ -106,5 +106,7 @@ class OSSMailView_GetRecordToMails_Relation implements RelationInterface
 	 */
 	public function transfer(int $relatedRecordId, int $fromRecordId, int $toRecordId): bool
 	{
+		return (bool) \App\Db::getInstance()->createCommand()->update(self::TABLE_NAME,
+		['ossmailviewid' => $toRecordId], ['ossmailviewid' => $fromRecordId, 'crmid' => $relatedRecordId])->execute();
 	}
 }
