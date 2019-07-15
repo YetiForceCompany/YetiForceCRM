@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Utility for processing tags in text.
  *
@@ -45,7 +46,7 @@ class Completions
 	 *
 	 * @var string
 	 */
-	const ROW_REGEX = '/(\@|\#){2}(\d+)(?:\@|\#){2}/';
+	const ROW_REGEX = '/(\@|\#){2}(\d+)[_](.*)(?:\@|\#){2}/';
 
 	/**
 	 * Get processed text in display mode.
@@ -155,7 +156,8 @@ class Completions
 			"/<a\\s+[^>]*data-id=(?:\"|')(.)(\\d+)(?:\"|')[^>]*>[^<]+<\\/a>/i",
 			function (array $matches) {
 				$type = $matches[1];
-				return "{$type}{$type}{$matches[2]}{$type}{$type}";
+				$recordName = strip_tags($matches[0]);
+				return "{$type}{$type}{$matches[2]}_{$recordName}{$type}{$type}";
 			},
 			$text
 		);
