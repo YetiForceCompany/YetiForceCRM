@@ -72,7 +72,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['miniMode', 'historyTab', 'config', 'sendByEnter']),
+    ...mapGetters(['miniMode', 'config', 'sendByEnter']),
     containerHeight() {
       if (this.$refs.textContainer !== undefined) return this.$refs.textContainer.clientHeight + 'px'
     }

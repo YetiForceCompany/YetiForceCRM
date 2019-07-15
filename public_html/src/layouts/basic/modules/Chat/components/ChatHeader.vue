@@ -41,7 +41,7 @@
             :style="{ 'min-width': '40px' }"
           />
           <q-tab name="unread" icon="mdi-email-alert" :label="isSmall ? '' : translate('JS_CHAT_UNREAD')" />
-          <q-tab name="history" icon="mdi-history" :label="isSmall ? '' : translate('JS_CHAT_HISTORY_CHAT')" />
+          <q-tab name="history" icon="mdi-history" :label="isSmall ? '' : translate('JS_CHAT_HISTORY')" />
         </q-tabs>
         <div class="flex no-wrap">
           <template v-if="$q.platform.is.desktop">
@@ -103,7 +103,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['toggleRightPanel', 'toggleLeftPanel', 'toggleHistoryTab', 'maximize']),
+    ...mapActions(['toggleRightPanel', 'toggleLeftPanel', 'maximize']),
     ...mapMutations([
       'setDialog',
       'setLeftPanel',

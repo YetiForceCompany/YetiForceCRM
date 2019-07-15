@@ -12,8 +12,8 @@ export default {
 	setRightPanel(state, isOpen) {
 		state.session.rightPanel = isOpen
 	},
-	setHistoryTab(state, isVisible) {
-		state.session.historyTab = isVisible
+	setHistoryTab(state, tab) {
+		state.session.historyTab = tab
 	},
 	setSearchActive(state) {
 		state.session.isSearchActive = true

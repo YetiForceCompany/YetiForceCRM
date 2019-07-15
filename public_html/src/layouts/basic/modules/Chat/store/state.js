@@ -5,7 +5,7 @@ export default {
 		miniMode: true,
 		leftPanel: false,
 		rightPanel: false,
-		historyTab: false,
+		historyTab: 'crm',
 		isSearchActive: false,
 		tab: 'chat',
 		coordinates: {

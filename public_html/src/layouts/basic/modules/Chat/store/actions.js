@@ -10,9 +10,6 @@ export default {
 	toggleRightPanel({ commit, getters }) {
 		commit('setRightPanel', !getters['rightPanel'])
 	},
-	toggleHistoryTab({ commit, getters }) {
-		commit('setHistoryTab', !getters['historyTab'])
-	},
 	fetchChatConfig({ commit }) {
 		return new Promise((resolve, reject) => {
 			AppConnector.request({
@@ -72,7 +69,6 @@ export default {
 		})
 	},
 	fetchEarlierEntries({ commit, getters }) {
-		// clearTimeout(this.timerMessage);
 		return new Promise((resolve, reject) => {
 			AppConnector.request(
 				{
@@ -96,7 +92,6 @@ export default {
 	 */
 	fetchSearchData({ commit, getters }, value) {
 		return new Promise((resolve, reject) => {
-			// clearTimeout(this.timerMessage);
 			const showMoreClicked = getters.isSearchActive && getters.data.showMoreButton
 			AppConnector.request(
 				{
@@ -126,14 +121,12 @@ export default {
 	 */
 	fetchUnread() {
 		return new Promise((resolve, reject) => {
-			// clearTimeout(this.timerMessage);
 			AppConnector.request({
 				module: 'Chat',
 				action: 'ChatAjax',
 				mode: 'getUnread'
 			}).done(({ result }) => {
 				resolve(result)
-				// this.buildParticipantsFromMessage($('<div></div>').html(html));
 			})
 		})
 	},
@@ -144,7 +137,6 @@ export default {
 	 */
 	fetchHistory({ commit, getters }, { groupHistory, showMoreClicked }) {
 		return new Promise((resolve, reject) => {
-			// clearTimeout(this.timerMessage);
 			AppConnector.request({
 				module: 'Chat',
 				action: 'ChatAjax',
