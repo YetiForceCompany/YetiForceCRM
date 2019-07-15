@@ -45,6 +45,7 @@ class Campaigns_GetCampaignsRecords_Relation implements RelationInterface
 	 */
 	public function create(int $sourceRecordId, int $destinationRecordId): bool
 	{
+		$result = false;
 		$data = ['campaignid' => $sourceRecordId, 'crmid' => $destinationRecordId];
 		if (!(new \App\Db\Query())->from(self::TABLE_NAME)->where($data)->exists()) {
 			$data['campaignrelstatusid'] = 0;

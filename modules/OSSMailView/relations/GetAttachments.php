@@ -48,7 +48,6 @@ class OSSMailView_GetAttachments_Relation implements RelationInterface
 	 */
 	public function create(int $sourceRecordId, int $destinationRecordId): bool
 	{
-		// move from mail
 		return false;
 	}
 

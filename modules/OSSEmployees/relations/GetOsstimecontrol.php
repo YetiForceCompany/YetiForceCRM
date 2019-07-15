@@ -45,5 +45,6 @@ class OSSEmployees_GetOsstimecontrol_Relation implements RelationInterface
 	 */
 	public function transfer(int $relatedRecordId, int $fromRecordId, int $toRecordId): bool
 	{
+		return false;
 	}
 }
