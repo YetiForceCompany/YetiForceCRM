@@ -280,7 +280,7 @@ final class Chat
 	 */
 	public static function getGroupRoomLastMessage(int $roomId): array
 	{
-		return (new Db\Query())
+		return (array) (new Db\Query())
 			->from(['u_#__chat_messages_group'])
 			->where(['groupid' => $roomId])
 			->orderBy(['id' => \SORT_DESC])
