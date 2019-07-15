@@ -61,18 +61,8 @@ class OverdueDeadlines extends Base
 				if (\in_array($columnName, ['activitytype', 'date_start'])) {
 					$style = $bodyStyle . 'text-align:center;';
 				}
-				if ('link' === $columnName) {
-					$linkId = $recordModel->get($columnName);
-					if (!empty($linkId) && \App\Record::isExists($linkId)) {
-						$processRecordModel = \Vtiger_Record_Model::getInstanceById($linkId);
-						$value = $processRecordModel->getName();
-					} else {
-						$value = '';
-					}
-				} else {
-					$value = $recordModel->getDisplayValue($columnName);
-				}
-				$html .= "<td style=\"{$style}\">" . $value . '</td>';
+
+				$html .= "<td style=\"{$style}\">" . $recordModel->getDisplayValue($columnName, false, true) . '</td>';
 			}
 			$html .= '</tr>';
 		}
