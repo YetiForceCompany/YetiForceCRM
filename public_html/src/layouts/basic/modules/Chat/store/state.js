@@ -10,7 +10,13 @@ export default {
 		isSoundNotification: null,
 		isDesktopNotification: false,
 		sendByEnter: true,
-		tab: 'chat'
+		tab: 'chat',
+		coordinates: {
+			width: Quasar.plugins.Screen.width - 100,
+			height: Quasar.plugins.Screen.height - 100,
+			top: 0,
+			left: Quasar.plugins.Screen.width - (Quasar.plugins.Screen.width - 100 / 2)
+		}
 	},
 	data: {
 		amountOfNewMessages: 0,

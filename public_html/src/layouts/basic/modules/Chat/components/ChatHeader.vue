@@ -2,7 +2,7 @@
 <template>
   <q-header class="bg-grey-10">
     <q-bar>
-      <div class="flex items-center no-wrap full-width justify-between">
+      <div class="flex items-center no-wrap full-width justify-between js-drag">
         <div class="flex no-wrap">
           <q-btn dense flat round icon="mdi-menu" @click="toggleLeftPanel()" />
           <q-btn
@@ -103,8 +103,15 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setDialog', 'toggleRightPanel', 'toggleLeftPanel', 'toggleHistoryTab', 'maximize']),
-    ...mapMutations(['setLeftPanel', 'setRightPanel', 'setSendByEnter', 'setSoundNotification', 'updateRooms']),
+    ...mapActions(['toggleRightPanel', 'toggleLeftPanel', 'toggleHistoryTab', 'maximize']),
+    ...mapMutations([
+      'setDialog',
+      'setLeftPanel',
+      'setRightPanel',
+      'setSendByEnter',
+      'setSoundNotification',
+      'updateRooms'
+    ]),
     showTabHistory: function(value) {
       this.$emit('showTabHistory', value)
     },

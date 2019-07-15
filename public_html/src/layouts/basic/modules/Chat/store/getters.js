@@ -29,6 +29,10 @@ export default {
 	tab(state) {
 		return state.storage.tab
 	},
+
+	coordinates(state) {
+		return state.storage.coordinates
+	},
 	data(state) {
 		return state.data
 	},

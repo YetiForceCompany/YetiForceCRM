@@ -18,6 +18,7 @@
         </q-badge>
       </q-btn>
     </transition>
+
     <q-dialog
       v-model="dialog"
       seamless
@@ -26,17 +27,21 @@
       transition-hide="slide-down"
       content-class="quasar-reset"
     >
-      <chat container :parentRefs="$refs" />
+      <drag-resize :coordinates.sync="coordinates" :maximized="!miniMode">
+        <chat container :parentRefs="$refs" />
+      </drag-resize>
     </q-dialog>
   </div>
 </template>
 <script>
 import Chat from './Chat.vue'
+import DragResize from 'components/DragResize.vue'
+
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters, mapActions } = createNamespacedHelpers('Chat')
+const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'Dialog',
-  components: { Chat },
+  components: { Chat, DragResize },
   data() {
     return {
       timerGlobal: null
@@ -50,6 +55,14 @@ export default {
       },
       set(isOpen) {
         this.setDialog(isOpen)
+      }
+    },
+    coordinates: {
+      get() {
+        return this.$store.getters['Chat/coordinates']
+      },
+      set(coords) {
+        this.setCoordinates(coords)
       }
     },
     buttonAnimationClasses() {
@@ -66,7 +79,8 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setDialog', 'fetchChatConfig', 'updateAmountOfNewMessages']),
+    ...mapActions(['fetchChatConfig', 'updateAmountOfNewMessages']),
+    ...mapMutations(['setDialog', 'setCoordinates']),
     initTimer() {
       this.timerGlobal = setTimeout(this.trackNewMessages, this.config.refreshTimeGlobal)
     },

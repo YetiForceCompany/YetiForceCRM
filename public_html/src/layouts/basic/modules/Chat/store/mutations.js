@@ -1,6 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 export default {
-	dialog(state, idOpen) {
+	setDialog(state, idOpen) {
 		state.storage.dialog = idOpen
 	},
 	miniMode(state, isMini) {
@@ -32,6 +32,9 @@ export default {
 	},
 	setDesktopNotification(state, val) {
 		state.storage.isDesktopNotification = val
+	},
+	setCoordinates(state, val) {
+		state.storage.coordinates = val
 	},
 	setData(state, data) {
 		state.data = data
