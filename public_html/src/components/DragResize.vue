@@ -11,6 +11,7 @@
   <div>
     <vue-drag-resize
       v-if="$q.platform.is.desktop"
+      :preventActiveBehavior="true"
       :isActive="active"
       @activated="onActivated"
       :isResizable="true"
