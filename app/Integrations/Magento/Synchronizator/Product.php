@@ -30,10 +30,7 @@ class Product extends Integrators\Product
 		}
 		$this->getProductSkuMap();
 		$this->getMapping('product');
-		$resultCrm = $this->checkProductsCrm();
-		$result = $this->checkProducts();
-		$resultMap = $this->checkProductsMap();
-		if ($resultCrm && $result && $resultMap) {
+		if ($this->checkProductsCrm() & $this->checkProducts()) {
 			$this->config::setEndScan('product', $this->lastScan['start_date']);
 		}
 	}
@@ -59,9 +56,7 @@ class Product extends Integrators\Product
 							}
 						} else {
 							$this->updateProductCrm($id, $productData);
-							if (!empty($checkImages['addCrm'])) {
-								$this->updateImagesCrm($id, $checkImages['addCrm']);
-							}
+							$this->updateImagesCrm($id, $checkImages['addCrm'] ?? []);
 						}
 					}
 				} elseif (isset($this->map['product'][$id]) && !isset($products[$this->map['product'][$id]])) {
@@ -100,11 +95,11 @@ class Product extends Integrators\Product
 							if (self::MAGENTO === $this->whichToUpdate($productsCrm[$this->mapCrm['product'][$id]], $productData)) {
 								$this->updateProduct($id, $productsCrm[$this->mapCrm['product'][$id]]);
 								if (!empty($checkImages['add']) || !empty($checkImages['remove'])) {
-									$this->updateImages($this->mapIdToSku[$this->map['product'][$id]], $checkImages);
+									$this->updateImages($product['sku'], $checkImages);
 								}
 							} else {
 								$this->updateProductCrm($this->mapCrm['product'][$id], $productData);
-								$this->updateImagesCrm($this->mapCrm['product'][$id], $checkImages['addCrm']);
+								$this->updateImagesCrm($this->mapCrm['product'][$id], $checkImages['addCrm'] ?? []);
 							}
 						}
 						if ('grouped' === $productData['type_id']) {
@@ -136,24 +131,21 @@ class Product extends Integrators\Product
 	{
 		$allChecked = false;
 		try {
-			$this->getMapping('product', $this->lastScan['idmap'], \App\Config::component('Magento', 'productLimit'));
 			if (!empty($this->mapKeys['product'])) {
-				$productsCrm = $this->getProductsCrm($this->mapKeys['product']);
-				$products = $this->getProducts($this->getFormattedRecordsIds($this->mapKeys['product'], self::MAGENTO, 'product'));
-				if ($diffedRecords = \array_diff_key($this->map['product'], $productsCrm)) {
+				$productsCrm = $this->getProductsCrm('all');
+				if (!empty($productsCrm) && $diffedRecords = \array_diff_key($this->map['product'], $productsCrm)) {
 					foreach ($diffedRecords as $idCrm => $id) {
 						$this->deleteProduct($id);
 					}
 				}
-				if ($diffedRecords = \array_diff_key($this->mapCrm['product'], $products)) {
-					foreach ($diffedRecords as $id => $idCrm) {
+				$products = $this->getProducts('all');
+				if (!empty($products) && $diffedRecordsCrm = \array_diff_key($this->mapCrm['product'], $products)) {
+					foreach ($diffedRecordsCrm as $id => $idCrm) {
 						$this->deleteProductCrm($idCrm);
 					}
 				}
-				$this->config::setScan('product', 'idmap', !empty($this->mapCrm['product']) ? max(array_keys($this->mapCrm['product'])) : 0);
-			} else {
-				$allChecked = true;
 			}
+			$allChecked = true;
 		} catch (\Throwable $ex) {
 			\App\Log::error('Error during checking products map: ' . $ex->getMessage(), 'Integrations/Magento');
 		}
@@ -163,19 +155,21 @@ class Product extends Integrators\Product
 	/**
 	 * Method to get products form YetiForce.
 	 *
-	 * @param array $ids
+	 * @param string|array $ids
 	 *
 	 * @throws \App\Exceptions\NotAllowedMethod
 	 * @throws \ReflectionException
 	 *
 	 * @return array
 	 */
-	public function getProductsCrm(array $ids = []): array
+	public function getProductsCrm($ids = []): array
 	{
 		$query = (new \App\QueryGenerator('Products'))->createQuery();
 		$productsCrm = [];
 		if (!empty($ids)) {
-			$query->andWhere(['IN', 'productid', $ids]);
+			if ('all' !== $ids) {
+				$query->andWhere(['IN', 'productid', $ids]);
+			}
 		} else {
 			$query->andWhere(['>', 'productid', $this->lastScan['idcrm']]);
 			$query->andWhere(['<=', 'modifiedtime', $this->lastScan['start_date']]);
@@ -228,7 +222,7 @@ class Product extends Integrators\Product
 				$this->saveImagesCrm($recordModel, $data['media_gallery_entries']);
 				$recordModel->save();
 				$this->saveMapping($data['id'], $recordModel->getId(), 'product');
-				$this->saveStorage($recordModel->getId(), $recordModel->get('qtyinstock'));
+				$this->saveStorage($recordModel->getId(), $recordModel->get('qtyinstock') ?? 0);
 				$this->saveBundleProductsCrm($recordModel, $data['product_links']);
 				$value = $recordModel->getId();
 			} catch (\Throwable $ex) {

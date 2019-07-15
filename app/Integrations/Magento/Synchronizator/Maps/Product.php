@@ -111,9 +111,9 @@ class Product extends Base
 		'19' => 'Sweets and Love',
 		'43' => 'Semi Hardi',
 		'44' => 'Unique',
-		'123' => 'My Story',
-		'175' => 'DanceFlow',
-		'187' => 'Flavours',
+		'175' => 'My Story',
+		'187' => 'DanceFlow',
+		'199' => 'Flavours',
 		'202' => 'SemiBeats by Margaret',
 		'205' => 'PasTells',
 		'207' => 'Cat Eye',
@@ -145,6 +145,9 @@ class Product extends Base
 		'289' => 'Sombra de Ojos en Crema',
 		'288' => 'Bronceador e Iluminador',
 		'291' => 'Máscaras para Cejas',
+		'294' => 'Super Cover',
+		'295' => 'Labiales Glossy',
+		'296' => 'Spider Gum'
 	];
 	/**
 	 * Category model.
@@ -212,7 +215,7 @@ class Product extends Base
 				$parsedCategories .= ',T' . $this->category->mapCategoryYF[$category];
 			}
 		}
-		return $parsedCategories;
+		return !empty($parsedCategories) ? $parsedCategories . ',' : '';
 	}
 
 	/**

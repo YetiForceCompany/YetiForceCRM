@@ -25,7 +25,7 @@ abstract class Record extends Base
 	 *
 	 * @return array
 	 */
-	public function getFormattedRecordsIds(array $ids, string $formatTo, string $type): array
+	public function getFormattedRecordsIds(array $ids, int $formatTo, string $type): array
 	{
 		$parsedIds = [];
 		$mapIds = $this->map[$type];
@@ -55,7 +55,7 @@ abstract class Record extends Base
 		$productFields->setData($data);
 		foreach ($productFields->getFields(true) as $fieldCrm => $field) {
 			$fieldValue = $productFields->getFieldValue($field);
-			if ($dataCrm[$fieldCrm] != $fieldValue) {
+			if (\App\Purifier::decodeHtml($dataCrm[$fieldCrm]) != \App\Purifier::decodeHtml($fieldValue)) {
 				$hasChanges = true;
 				break;
 			}
@@ -108,22 +108,22 @@ abstract class Record extends Base
 		$needUpdate = false;
 		$imagesCrmData = \App\Json::decode($imagesCrmData['imagename']);
 		if (!empty($imagesCrmData)) {
-			$imagesCrmNames = array_column($imagesCrmData, 'name');
+			$imagesCrmNames = str_replace([' ', '-', '_'], '', array_column($imagesCrmData, 'name'));
 		}
 		$images = $images['media_gallery_entries'] ?? [];
 		foreach ($images as &$image) {
 			$explodedPath = explode('/', $image['file']);
 			$image['filename'] = end($explodedPath);
-			if (empty($imagesCrmNames) || !\in_array($image['filename'], $imagesCrmNames)) {
+			if (empty($imagesCrmNames) || !\in_array(str_replace([' ', '-', '_'], '', $image['filename']), $imagesCrmNames)) {
 				$imagesCrm[] = $image;
 				$imagesRemove[] = $image;
 				$needUpdate = true;
 			}
 		}
 		if (!empty($imagesCrmData)) {
-			$imagesNames = array_column($images, 'filename');
+			$imagesNames = str_replace([' ', '-', '_'], '', array_column($images, 'filename'));
 			foreach ($imagesCrmData as $imageCrm) {
-				if (!\in_array($imageCrm['name'], $imagesNames)) {
+				if (!\in_array(str_replace([' ', '-', '_'], '', $imageCrm['name']), $imagesNames)) {
 					$imagesAdd[] = $imageCrm;
 					$imagesRemoveCrm[] = $imageCrm;
 					$needUpdate = true;
@@ -138,30 +138,34 @@ abstract class Record extends Base
 	/**
 	 * Method to get search criteria Magento records.
 	 *
-	 * @param array $ids
-	 * @param int   $pageSize
+	 * @param string|array $ids
+	 * @param int          $pageSize
 	 *
 	 * @return string
 	 */
-	public function getSearchCriteria(array $ids, int $pageSize = 10): string
+	public function getSearchCriteria($ids, int $pageSize = 10): string
 	{
-		$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][field]=entity_id';
-		if (!empty($ids)) {
-			$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][value]=' . implode(',', $ids);
-			$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][condition_type]=in';
-		} else {
-			$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][value]=' . $this->lastScan['id'];
-			$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][condition_type]=gt';
-			$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][field]=updated_at';
-			$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][value]=' . $this->getFormattedTime($this->lastScan['start_date']);
-			$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][condition_type]=lteq';
-			if (!empty($this->lastScan['end_date'])) {
-				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][field]=updated_at';
-				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][value]=' . $this->getFormattedTime($this->lastScan['end_date']);
-				$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][condition_type]=gteq';
+		if ('all' !== $ids) {
+			$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][field]=entity_id';
+			if (\is_array($ids)) {
+				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][value]=' . implode(',', $ids);
+				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][condition_type]=in';
+			} else {
+				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][value]=' . $this->lastScan['id'];
+				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][condition_type]=gt';
+				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][field]=updated_at';
+				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][value]=' . $this->getFormattedTime($this->lastScan['start_date']);
+				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][condition_type]=lteq';
+				if (!empty($this->lastScan['end_date'])) {
+					$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][field]=updated_at';
+					$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][value]=' . $this->getFormattedTime($this->lastScan['end_date']);
+					$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][condition_type]=gteq';
+				}
+				$searchCriteria[] = 'searchCriteria[pageSize]=' . $pageSize;
 			}
-			$searchCriteria[] = 'searchCriteria[pageSize]=' . $pageSize;
+			$searchCriteria = implode('&', $searchCriteria);
 		}
-		return implode('&', $searchCriteria);
+
+		return $searchCriteria ?? 'searchCriteria';
 	}
 }

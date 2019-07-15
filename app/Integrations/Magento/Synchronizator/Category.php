@@ -243,7 +243,7 @@ class Category extends Base
 	public function getCategoriesMagento()
 	{
 		try {
-			$categoriesList = $this->connector->request('GET', '/rest/all/V1/categories');
+			$categoriesList = $this->connector->request('GET', '/rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/categories');
 			$this->categoriesMagento['children_data'] = [\App\Json::decode($categoriesList)];
 			$this->parseMagentoCategory($this->categoriesMagento);
 		} catch (\Throwable $ex) {
@@ -341,7 +341,7 @@ class Category extends Base
 	{
 		$result = false;
 		try {
-			$categoryRequest = \App\Json::decode($this->connector->request('POST', '/rest/V1/categories', [
+			$categoryRequest = \App\Json::decode($this->connector->request('POST', '/rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/categories', [
 				'category' => [
 					'name' => $category['name'],
 					'parent_id' => $this->mapCategoryMagento[$category['parent_id']] ?? 0,
@@ -404,7 +404,7 @@ class Category extends Base
 			$this->updateCategoryParentMagento($categoryYF, $categoryMagento);
 		}
 		try {
-			$this->connector->request('PUT', '/rest/all/V1/categories/' . $categoryMagento['id'], [
+			$this->connector->request('PUT', '/rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/categories/' . $categoryMagento['id'], [
 				'category' => [
 					'name' => $categoryYF['name'],
 					'isActive' => $categoryYF['is_active'],
@@ -441,8 +441,12 @@ class Category extends Base
 		], ['tree' => 'T' . $categoryYF['id'], 'templateid' => $this->templateId])->execute();
 		if (!empty($categoryMagento['children_data'])) {
 			foreach ($categoryMagento['children_data'] as $categoryChild) {
+				$parentTree = 'T' . $this->mapCategoryYF[$categoryChild['id']];
+				if (isset($this->mapCategoryYF[$categoryChild['parent_id']])) {
+					$parentTree = str_replace('::', '::T', $this->categoriesYF[$this->mapCategoryYF[$categoryChild['parent_id']]]['full_parent_id'] . '::' . $this->mapCategoryYF[$categoryChild['id']]);
+				}
 				$dbCommand->update('vtiger_trees_templates_data', [
-					'parentTree' => str_replace('::', '::T', $this->categoriesYF[$this->mapCategoryYF[$categoryChild['parent_id']]]['full_parent_id'] . '::' . $this->mapCategoryYF[$categoryChild['id']])
+					'parentTree' => $parentTree
 				], ['tree' => 'T' . $this->mapCategoryYF[$categoryChild['id']], 'templateid' => $this->templateId])->execute();
 			}
 		}
@@ -481,7 +485,7 @@ class Category extends Base
 		$result = false;
 		if (!\in_array($categoryMagento['id'], static::$nonEditable)) {
 			try {
-				$this->connector->request('DELETE', '/rest/all/V1/categories/' . $categoryMagento['id'], []);
+				$this->connector->request('DELETE', '/rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/categories/' . $categoryMagento['id'], []);
 				$result = true;
 			} catch (\Throwable $ex) {
 				\App\Log::error('Error during deleting magento category: ' . $ex->getMessage(), 'Integrations/Magento');
@@ -529,7 +533,7 @@ class Category extends Base
 	public function updateCategoryParentMagento($categoryYF, $categoryMagento): bool
 	{
 		try {
-			$this->connector->request('PUT', '/rest/all/V1/categories/' . $categoryMagento['id'] . '/move', ['parentId' => $this->mapCategoryMagento[$categoryYF['parent_id']] ?? 0]);
+			$this->connector->request('PUT', '/rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/categories/' . $categoryMagento['id'] . '/move', ['parentId' => $this->mapCategoryMagento[$categoryYF['parent_id']] ?? 0]);
 			$result = true;
 		} catch (\Throwable $ex) {
 			\App\Log::error('Error during moving magento category: ' . $ex->getMessage(), 'Integrations/Magento');

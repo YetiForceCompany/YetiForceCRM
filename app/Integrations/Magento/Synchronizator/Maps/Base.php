@@ -178,8 +178,10 @@ abstract class Base
 		foreach ($this->getFields($onEdit) as $fieldCrm => $field) {
 			$data[$fieldCrm] = $this->getFieldValue($field) ?? null;
 		}
-		foreach ($this->getAdditionalFieldsCrm() as $name => $value) {
-			$data[$name] = !empty($value) ? $value : $this->getFieldValue($name);
+		if (!$onEdit) {
+			foreach ($this->getAdditionalFieldsCrm() as $name => $value) {
+				$data[$name] = !empty($value) ? $value : $this->getFieldValue($name);
+			}
 		}
 		return $data;
 	}

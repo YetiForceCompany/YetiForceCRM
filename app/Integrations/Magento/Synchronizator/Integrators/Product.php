@@ -67,8 +67,12 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 		$productFields->setDataCrm($product);
 		try {
 			$productRequest = \App\Json::decode($this->connector->request('POST', '/rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/products/', $productFields->getData()));
-			$this->saveImages($productRequest['sku'], \App\Json::decode($product['imagename']));
-			$this->saveMapping($productRequest['id'], $product['productid'], 'product');
+			if (!empty($productRequest)) {
+				$this->saveImages($productRequest['sku'], \App\Json::decode($product['imagename']));
+				$this->saveMapping($productRequest['id'], $product['productid'], 'product');
+			} else {
+				\App\Log::error('Error during saving magento product: empty product request', 'Integrations/Magento');
+			}
 			$result = true;
 		} catch (\Throwable $ex) {
 			\App\Log::error('Error during saving magento product: ' . $ex->getMessage(), 'Integrations/Magento');
@@ -124,14 +128,14 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 	/**
 	 * Method to get products form Magento.
 	 *
-	 * @param array $ids
+	 * @param string|array $ids
 	 *
 	 * @throws \App\Exceptions\AppException
 	 * @throws \ReflectionException
 	 *
 	 * @return array
 	 */
-	public function getProducts(array $ids = []): array
+	public function getProducts($ids = ''): array
 	{
 		$items = [];
 		$data = \App\Json::decode($this->connector->request('GET', 'rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/products?' . $this->getSearchCriteria($ids, \App\Config::component('Magento', 'productLimit'))));
@@ -171,7 +175,7 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 	 *
 	 * @return string
 	 */
-	public function getSearchCriteria(array $ids, int $pageSize = 10): string
+	public function getSearchCriteria($ids, int $pageSize = 10): string
 	{
 		return parent::getSearchCriteria($ids, $pageSize) . '&fields=items[id,sku]';
 	}
