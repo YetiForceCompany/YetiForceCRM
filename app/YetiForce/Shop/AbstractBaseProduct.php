@@ -43,6 +43,12 @@ abstract class AbstractBaseProduct
 	 * @var string
 	 */
 	public $currencyCode = 'EUR';
+	/**
+	 * Expiration date.
+	 *
+	 * @var string|null
+	 */
+	public $expirationDate;
 
 	/**
 	 * Construct.
@@ -71,7 +77,7 @@ abstract class AbstractBaseProduct
 	 */
 	public function getPrice(): int
 	{
-		return $this->prices[\App\Company::getSize()];
+		return $this->prices[\strtolower(\App\Company::getSize())] ?? false;
 	}
 
 	/**
@@ -117,5 +123,20 @@ abstract class AbstractBaseProduct
 	public function getPeriodLabel(): string
 	{
 		return 'LBL_PERIOD_OF_MONTH';
+	}
+
+	/**
+	 * Loading configuration.
+	 *
+	 * @param array $config
+	 *
+	 * @return void
+	 */
+	public function loadConfig(array $config)
+	{
+		if (\App\YetiForce\Shop::verifyProductKey($config['key'])) {
+			$this->expirationDate = $config['date'];
+			$this->paidPackage = $config['package'];
+		}
 	}
 }

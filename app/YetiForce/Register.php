@@ -298,19 +298,17 @@ class Register
 	 */
 	public static function getLastCheckTime()
 	{
-		$conf = static::getConf();
-		return $conf['last_check_time'] ?? false;
+		return static::getConf()['last_check_time'] ?? false;
 	}
 
 	/**
 	 * Get last check error.
 	 *
-	 * @return mixed
+	 * @return bool|string
 	 */
 	public static function getLastCheckError()
 	{
-		$conf = static::getConf();
-		return $conf['last_error'] ?? false;
+		return static::getConf()['last_error'] ?? false;
 	}
 
 	/**
@@ -320,8 +318,17 @@ class Register
 	 */
 	public static function getStatus(): int
 	{
-		$conf = static::getConf();
-		return (int) ($conf['status'] ?? 0);
+		return (int) (static::getConf()['status'] ?? 0);
+	}
+
+	/**
+	 * Get registration products.
+	 *
+	 * @return array
+	 */
+	public static function getProducts(): array
+	{
+		return static::getConf()['products'] ?? [];
 	}
 
 	/**

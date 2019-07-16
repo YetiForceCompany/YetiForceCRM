@@ -25,6 +25,7 @@ class Shop
 	 */
 	public static function getProducts($state = 'all'): array
 	{
+		$config = self::getConfig();
 		$products = [];
 		foreach ((new \DirectoryIterator(\ROOT_DIRECTORY . '/app/YetiForce/Shop/Product')) as $item) {
 			if (!$item->isDir()) {
@@ -33,6 +34,9 @@ class Shop
 				$instance = new $className($fileName);
 				if ('featured' === $state && !$instance->featured) {
 					continue;
+				}
+				if (isset($config[$fileName]) && $config[$fileName]['product'] === $fileName) {
+					$instance->loadConfig($config[$fileName]);
 				}
 				$products[$fileName] = $instance;
 			}
@@ -65,6 +69,29 @@ class Shop
 	}
 
 	/**
+	 * Get additional configuration.
+	 *
+	 * @return array
+	 */
+	public static function getConfig(): array
+	{
+		$rows = [];
+		if (\is_dir(ROOT_DIRECTORY . '/app_data/shop/')) {
+			foreach ((new \DirectoryIterator(ROOT_DIRECTORY . '/app_data/shop/')) as $item) {
+				if (!$item->isDir() && 'php' === $item->getExtension()) {
+					$rows[$item->getBasename('.php')] = require ROOT_DIRECTORY . '/app_data/shop/' . $item->getBasename();
+				}
+			}
+		}
+		if ($products = \App\YetiForce\Register::getProducts()) {
+			foreach ($products as  $row) {
+				$rows[$row['product']] = $row;
+			}
+		}
+		return $rows;
+	}
+
+	/**
 	 * Get variable product.
 	 *
 	 * @param \App\YetiForce\Shop\AbstractBaseProduct $product
@@ -93,7 +120,6 @@ class Shop
 		return 'https://www.sandbox.paypal.com/cgi-bin/webscr';
 	}
 
-
 	/**
 	 * Verification of the product key.
 	 *
@@ -103,6 +129,7 @@ class Shop
 	 */
 	public static function verifyProductKey(string $key): bool
 	{
+		$key = base64_decode($key);
 		$l1 = substr($key, 0, 5);
 		$r1 = substr($key, -2);
 		$m = rtrim(ltrim($key, $l1), $r1);
