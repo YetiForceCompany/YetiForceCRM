@@ -83,12 +83,38 @@ class Shop
 				}
 			}
 		}
-		if ($products = \App\YetiForce\Register::getProducts()) {
-			foreach ($products as  $row) {
-				$rows[$row['product']] = $row;
-			}
+		foreach (\App\YetiForce\Register::getProducts() as  $row) {
+			$rows[$row['product']] = $row;
 		}
 		return $rows;
+	}
+
+	/**
+	 * Verification of product activity.
+	 *
+	 * @param string $productName
+	 *
+	 * @return bool
+	 */
+	public static function check(string $productName): bool
+	{
+		$productDetails = false;
+		if (($products = \App\YetiForce\Register::getProducts()) && isset($products[$productName])) {
+			$productDetails = $products[$productName];
+		} elseif (file_exists(ROOT_DIRECTORY . "/app_data/shop/$productName.php")) {
+			$productDetails = require ROOT_DIRECTORY . "/app_data/shop/$productName.php";
+		}
+		$status = false;
+		if ($productDetails) {
+			$status = self::verifyProductKey($productDetails['key']);
+			if ($status) {
+				$status = strtotime('now') < strtotime($productDetails['date']);
+			}
+			if ($status) {
+				$status = \App\Company::getSize() === $productDetails['package'];
+			}
+		}
+		return $status;
 	}
 
 	/**
@@ -142,5 +168,20 @@ class Shop
 		return substr(crc32($m), 2, 5) === $l1
 		&& substr(sha1($d . $p), 5, 5) === $s
 		&& $r1 === substr(sha1(substr(crc32($m), 2, 5) . $m . substr(sha1($d . $p), 5, 5) . $d . $p), 1, 2);
+	}
+
+	/**
+	 * Verify or show a message about invalid products.
+	 *
+	 * @return bool
+	 */
+	public static function verify(): bool
+	{
+		foreach (\App\YetiForce\Register::getProducts() as $row) {
+			if (!self::check($row['product'])) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

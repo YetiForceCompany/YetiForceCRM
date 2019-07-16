@@ -328,7 +328,11 @@ class Register
 	 */
 	public static function getProducts(): array
 	{
-		return static::getConf()['products'] ?? [];
+		$rows = [];
+		foreach (static::getConf()['products'] ?? [] as $row) {
+			$rows[$row['product']] = $row;
+		}
+		return $rows;
 	}
 
 	/**
