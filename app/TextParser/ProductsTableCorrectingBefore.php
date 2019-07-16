@@ -75,7 +75,7 @@ class ProductsTableCorrectingBefore extends Base
 				$columnName = $fieldModel->getColumnName();
 				$typeName = $fieldModel->getType();
 				if ($fieldModel->isVisible()) {
-					if ('seq' === $columnName) {
+					if ('ItemNumber' === $typeName) {
 						$html .= "<td style=\"{$bodyStyle}font-weight:bold;\">" . $counter++ . '</td>';
 					} elseif ('ean' === $columnName) {
 						$code = $inventoryRow[$columnName];
