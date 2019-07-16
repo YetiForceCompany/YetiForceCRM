@@ -38,7 +38,8 @@
 								{/if}
 							{elseif $PRODUCT->expirationDate!=$PRODUCT->paidPackage}
 								<div class="alert alert-info text-danger">
-								{\App\Language::translate('LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED', $QUALIFIED_MODULE)}
+									<span class="fas fa-exclamation-triangle"></span>
+									{\App\Language::translate('LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED', $QUALIFIED_MODULE)}
 								</div>
 							{else}
 								<button class="btn btn-warning pull-right rounded-0">{\App\Fields\Date::formatToDisplay($PRODUCT->expirationDate)}</button>
