@@ -32,6 +32,9 @@ class Api
 	/** Dav configuration. Available: false, true */
 	public static $enableWebDAV = false;
 
+	/** Webservice config. Enabling contact notifications about the new account in the portal. Available: false, true */
+	public static $enableEmailPortal = true;
+
 	/** Webservice config. Available: false, true */
 	public static $ENCRYPT_DATA_TRANSFER = false;
 
