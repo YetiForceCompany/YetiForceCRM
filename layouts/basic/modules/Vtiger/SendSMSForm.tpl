@@ -58,10 +58,15 @@
 								</select>
 							</div>
 							<div class="form-group">
-								<span><strong>{\App\Language::translate('LBL_STEP_2',$MODULE)}</strong></span>
-								&nbsp;:&nbsp;
-								{\App\Language::translate('LBL_TYPE_THE_MESSAGE',$MODULE)}
-								&nbsp;(&nbsp;{\App\Language::translate('LBL_SMS_MAX_CHARACTERS_ALLOWED',$MODULE)}&nbsp;)
+								<div>
+									<span><strong>{\App\Language::translate('LBL_STEP_2',$MODULE)}</strong></span>
+									&nbsp;:&nbsp;
+									{\App\Language::translate('LBL_TYPE_THE_MESSAGE',$MODULE)}
+									&nbsp;(&nbsp;{\App\Language::translate('LBL_SMS_MAX_CHARACTERS_ALLOWED',$MODULE)}&nbsp;)
+								</div>
+								<div class="c-completions js-completions__actions">
+									<span class="c-completions__item js-completions__emojis far fa-smile"></span>
+								</div>
 								<textarea name="message" class="c-textarea--completions" data-validation-engine="validate[ required]"></textarea>
 								<div contenteditable="true" class="form-control js-completions" id="message" placeholder="{\App\Language::translate('LBL_WRITE_YOUR_MESSAGE_HERE', $MODULE)}" data-completions-textarea="true" data-js="html | tribute.js"></div>
 							</div>
