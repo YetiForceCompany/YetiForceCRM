@@ -320,8 +320,6 @@ class Functions
 			'vtiger_senotesrel:notesid' => 'V',
 			'vtiger_seproductsrel:crmid' => 'V',
 			'vtiger_seproductsrel:productid' => 'V',
-			'vtiger_seticketsrel:crmid' => 'V',
-			'vtiger_seticketsrel:ticketid' => 'V',
 			'vtiger_pricebook:currency_id' => 'V',
 		];
 
