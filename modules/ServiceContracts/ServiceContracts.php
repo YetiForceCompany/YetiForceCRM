@@ -63,7 +63,7 @@ class ServiceContracts extends CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['subject', 'assigned_user_id', 'contract_no', 'used_units', 'total_units'];
+	public $relationFields = [];
 	// Make the field link to detail view
 	public $list_link_field = 'subject';
 	// For Popup listview and UI type support
@@ -81,19 +81,7 @@ class ServiceContracts extends CRMEntity
 		'Assigned To' => ['crmentity', 'smownerid'],
 		'Contract No' => ['servicecontracts', 'contract_no'],
 	];
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'Subject' => 'subject',
-		'Status' => 'contract_status',
-		'Due Date' => 'due_date',
-		'Start Date' => 'start_date',
-		'Type' => 'contract_type',
-		'Related To' => 'sc_related_to',
-		'Used Units' => 'used_units',
-		'Total Units' => 'total_units',
-		'Assigned To' => 'assigned_user_id',
-		'Contract No' => 'contract_no',
-	];
+	public $search_fields_name = [];
 	// For Popup window record selection
 	public $popup_fields = ['subject'];
 	// For Alphabetical search
@@ -138,25 +126,6 @@ class ServiceContracts extends CRMEntity
 			App\EventHandler::setInActive('ServiceContracts_ServiceContractsHandler_Handler');
 		} elseif ('module.enabled' === $eventType) {
 			App\EventHandler::setActive('ServiceContracts_ServiceContractsHandler_Handler');
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function saveRelatedModule($module, $crmid, $with_module, $with_crmids, $relatedName = false)
-	{
-		if (!is_array($with_crmids)) {
-			$with_crmids = [$with_crmids];
-		}
-		foreach ($with_crmids as $with_crmid) {
-			if ('HelpDesk' == $with_module) {
-				parent::saveRelatedModule($module, $crmid, $with_module, $with_crmid);
-				$this->updateHelpDeskRelatedTo($crmid, $with_crmid);
-				$this->updateServiceContractState($crmid);
-			} else {
-				parent::saveRelatedModule($module, $crmid, $with_module, $with_crmid, $relatedName);
-			}
 		}
 	}
 
@@ -296,32 +265,5 @@ class ServiceContracts extends CRMEntity
 			$params['progress'] = null;
 		}
 		$db->createCommand()->update($this->table_name, $params, ['servicecontractsid' => $this->id])->execute();
-	}
-
-	/**
-	 * Function to unlink an entity with given Id from another entity.
-	 *
-	 * @param int    $id
-	 * @param string $returnModule
-	 * @param int    $returnId
-	 * @param bool   $relatedName
-	 */
-	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
-	{
-		if ('getManyToMany' === $relatedName) {
-			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
-		} else {
-			parent::deleteRelatedFromDB($id, $returnModule, $returnId);
-			$dataReader = (new \App\Db\Query())->select(['tabid', 'tablename', 'columnname'])
-				->from('vtiger_field')
-				->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $this->moduleName, 'relmodule' => $returnModule])])
-				->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				App\Db::getInstance()->createCommand()
-					->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $returnId, CRMEntity::getInstance(App\Module::getModuleName($row['tabid']))->table_index => $id])
-					->execute();
-			}
-			$dataReader->close();
-		}
 	}
 }

@@ -45,7 +45,7 @@ class Campaigns extends CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['campaignname', 'campaigntype', 'campaignstatus', 'expectedrevenue', 'closingdate', 'assigned_user_id'];
+	public $relationFields = [];
 	public $list_link_field = 'campaignname';
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
@@ -54,10 +54,7 @@ class Campaigns extends CRMEntity
 		'Campaign Name' => ['vtiger_campaign' => 'campaignname'],
 		'Campaign Type' => ['vtiger_campaign' => 'campaigntype'],
 	];
-	public $search_fields_name = [
-		'Campaign Name' => 'campaignname',
-		'Campaign Type' => 'campaigntype',
-	];
+	public $search_fields_name = [];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['campaignname', 'createdtime', 'modifiedtime', 'assigned_user_id'];
@@ -83,51 +80,9 @@ class Campaigns extends CRMEntity
 			'OSSMailView' => ['vtiger_ossmailview_relation' => ['crmid', 'ossmailviewid'], 'vtiger_campaign' => 'campaignid'],
 			'Products' => ['vtiger_campaign' => ['campaignid', 'product_id']],
 		];
-		if ($secModule === false) {
+		if (false === $secModule) {
 			return $relTables;
 		}
 		return $relTables[$secModule];
-	}
-
-	// Function to unlink an entity with given Id from another entity
-	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
-	{
-		if (empty($returnModule) || empty($returnId)) {
-			return;
-		}
-
-		if (in_array($returnModule, ['Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
-			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['campaignid' => $id, 'crmid' => $returnId])->execute();
-		} elseif ($returnModule == 'Accounts') {
-			$db = App\Db::getInstance();
-			$db->createCommand()->delete('vtiger_campaign_records', ['campaignid' => $id, 'crmid' => $returnId])->execute();
-			$db->createCommand()->delete('vtiger_campaign_records', ['campaignid' => $id, 'crmid' => (new \App\Db\Query())->select(['contactid'])->from('vtiger_contactdetails')->where(['parentid' => $returnId])])->execute();
-		} else {
-			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
-		}
-	}
-
-	public function saveRelatedModule($module, $crmid, $withModule, $withCrmids, $relatedName = false)
-	{
-		if (!is_array($withCrmids)) {
-			$withCrmids = [$withCrmids];
-		}
-		if (!in_array($withModule, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
-			parent::saveRelatedModule($module, $crmid, $withModule, $withCrmids, $relatedName);
-		} else {
-			foreach ($withCrmids as $withCrmid) {
-				$checkResult = (new App\Db\Query())->from('vtiger_campaign_records')
-					->where(['campaignid' => $crmid, 'crmid' => $withCrmid])
-					->exists();
-				if ($checkResult) {
-					continue;
-				}
-				App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
-					'campaignid' => $crmid,
-					'crmid' => $withCrmid,
-					'campaignrelstatusid' => 0,
-				])->execute();
-			}
-		}
 	}
 }

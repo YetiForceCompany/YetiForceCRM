@@ -835,11 +835,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if ($relationModel->isFavorites() && \App\Privilege::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
 			if (!empty($favorites)) {
-				$relationListView->get('query_generator')->addNativeCondition(['vtiger_crmentity.crmid' => $favorites]);
+				$relationListView->getQueryGenerator()->addNativeCondition(['vtiger_crmentity.crmid' => $favorites]);
 			}
 		}
 		if (!empty($searchParams)) {
-			$searchParams = $relationListView->get('query_generator')->parseBaseSearchParamsToCondition($searchParams);
+			$searchParams = $relationListView->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 			$relationListView->set('search_params', $searchParams);
 		}
 		if (!empty($orderBy)) {

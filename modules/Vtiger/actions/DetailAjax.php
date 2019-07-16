@@ -44,8 +44,6 @@ class Vtiger_DetailAjax_Action extends App\Controller\Action
 	 * Function to get related Records count from this relation.
 	 *
 	 * @param \App\Request $request
-	 *
-	 * @return <Number> Number of record from this relation
 	 */
 	public function getRecordsCount(App\Request $request)
 	{
@@ -53,11 +51,11 @@ class Vtiger_DetailAjax_Action extends App\Controller\Action
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$parentId = $request->getInteger('record');
 		$label = $request->getByType('tab_label');
-		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
-		$searchParmams = $request->getArray('search_params');
-		if (!empty($searchParmams) && is_array($searchParmams)) {
-			$relationListView->set('search_params', $relationListView->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams));
+		$parentRecordModel = \Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
+		$relationListView = \Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
+		$searchParams = $request->getArray('search_params');
+		if (!empty($searchParams) && \is_array($searchParams)) {
+			$relationListView->set('search_params', $relationListView->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams));
 		}
 
 		$result = [];

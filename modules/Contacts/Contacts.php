@@ -59,17 +59,12 @@ class Contacts extends CRMEntity
 		'Member Of' => ['contactdetails' => 'parent_id'],
 		'Assigned To' => ['crmentity' => 'smownerid'],
 	];
-	public $search_fields_name = [
-		'First Name' => 'firstname',
-		'Last Name' => 'lastname',
-		'Member Of' => 'parent_id',
-		'Assigned To' => 'assigned_user_id',
-	];
+	public $search_fields_name = [];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['firstname', 'lastname', 'jobtitle', 'email', 'phone', 'assigned_user_id'];
+	public $relationFields = [];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['assigned_user_id', 'lastname', 'createdtime', 'modifiedtime'];
@@ -101,44 +96,6 @@ class Contacts extends CRMEntity
 		}
 
 		return $relTables[$secModule];
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
-	{
-		if (empty($returnModule) || empty($returnId)) {
-			return;
-		}
-		if ('Campaigns' === $returnModule) {
-			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $returnId])->execute();
-		} else {
-			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
-		}
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function saveRelatedModule($module, $crmid, $withModule, $withCrmid, $relatedName = false)
-	{
-		if (!is_array($withCrmid)) {
-			$withCrmid = [$withCrmid];
-		}
-		if ('Campaigns' === $withModule) {
-			foreach ($withCrmid as $id) {
-				if ('Campaigns' === $withModule) {
-					App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
-						'campaignid' => $id,
-						'crmid' => $crmid,
-						'campaignrelstatusid' => 0,
-					])->execute();
-				}
-			}
-		} else {
-			parent::saveRelatedModule($module, $crmid, $withModule, $withCrmid, $relatedName);
-		}
 	}
 
 	/**
@@ -223,7 +180,7 @@ class Contacts extends CRMEntity
 
 		$listviewEntries[$recordId] = $infoData;
 		foreach ($baseInfo as $accId => $rowInfo) {
-			if (is_array($rowInfo) && (int) $accId) {
+			if (\is_array($rowInfo) && (int) $accId) {
 				$listviewEntries = $this->getHierarchyData($id, $rowInfo, $accId, $listviewEntries, $getRawData, $getLinks);
 			}
 		}
@@ -262,7 +219,7 @@ class Contacts extends CRMEntity
 			->one();
 		if ($row) {
 			$parentid = $row['reportsto'];
-			if ('' !== $parentid && 0 != $parentid && !in_array($parentid, $encountered)) {
+			if ('' !== $parentid && 0 != $parentid && !\in_array($parentid, $encountered)) {
 				$encountered[] = $parentid;
 				$this->getParent($parentid, $parent, $encountered, $depthBase + 1);
 			}

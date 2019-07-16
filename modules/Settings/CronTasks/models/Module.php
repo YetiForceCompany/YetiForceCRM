@@ -68,7 +68,7 @@ class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model
 		if ($this->lastCronStart) {
 			return $this->lastCronStart;
 		}
-		$cronConfigFileName = ROOT_DIRECTORY . '/user_privileges/cron.php';
+		$cronConfigFileName = ROOT_DIRECTORY . '/app_data/cron.php';
 		if (file_exists($cronConfigFileName)) {
 			$cronConfig = include $cronConfigFileName;
 
@@ -108,7 +108,7 @@ class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model
 			$lastStart = (int) $record->get('laststart');
 			$lastEnd = (int) $record->get('lastend');
 			if (!$record->isRunning() && !$record->hadTimedout()) {
-				$finishedTasks++;
+				++$finishedTasks;
 				$totalDiff += (int) $record->getTimeDiff();
 				if ($lastEnd > $finalLastEnd) {
 					$finalLastEnd = $lastEnd;
@@ -127,7 +127,7 @@ class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		$result['laststart'] = empty($lastStart) ? ' - ' : \App\Fields\DateTime::formatToViewDate(date('Y-m-d H:i:s', $lastStart));
 		$result['finished_tasks'] = $finishedTasks;
-		$result['tasks'] = count($tasks);
+		$result['tasks'] = \count($tasks);
 		return $result;
 	}
 }

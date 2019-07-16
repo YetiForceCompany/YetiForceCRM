@@ -68,7 +68,7 @@ class Colors
 			}
 		}
 		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/owners.css', $css);
-		file_put_contents(ROOT_DIRECTORY . '/user_privileges/owners_colors.php', '<?php return ' . Utils::varExport($colors) . ';');
+		file_put_contents(ROOT_DIRECTORY . '/app_data/owners_colors.php', '<?php return ' . Utils::varExport($colors) . ';');
 	}
 
 	/**

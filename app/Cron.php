@@ -54,8 +54,10 @@ class Cron
 	{
 		static::$scriptTimeStart = microtime(true);
 		static::generateStatusFile();
-		YetiForce\Register::check();
-		YetiForce\Status::send();
+		if ('test' !== \Config\Main::$systemMode) {
+			YetiForce\Register::check();
+			YetiForce\Status::send();
+		}
 		if (!(static::$logActive = \App\Config::debug('DEBUG_CRON'))) {
 			return;
 		}
@@ -97,7 +99,7 @@ class Cron
 	 */
 	public static function generateStatusFile()
 	{
-		return file_put_contents(ROOT_DIRECTORY . '/user_privileges/cron.php', '<?php return ' . Utils::varExport(array_merge(Utils\ConfReport::getAll(), ['last_start' => time()])) . ';');
+		return file_put_contents(ROOT_DIRECTORY . '/app_data/cron.php', '<?php return ' . Utils::varExport(array_merge(Utils\ConfReport::getAll(), ['last_start' => time()])) . ';');
 	}
 
 	/**

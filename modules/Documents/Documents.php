@@ -43,19 +43,14 @@ class Documents extends CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['notes_title', 'filename', 'modifiedtime', 'assigned_user_id', 'folderid', 'filelocationtype', 'filestatus'];
+	public $relationFields = [];
 	public $search_fields = [
 		'Title' => ['notes' => 'notes_title'],
 		'File Name' => ['notes' => 'filename'],
 		'Assigned To' => ['crmentity' => 'smownerid'],
 		'Folder Name' => ['attachmentsfolder' => 'foldername'],
 	];
-	public $search_fields_name = [
-		'Title' => 'notes_title',
-		'File Name' => 'filename',
-		'Assigned To' => 'assigned_user_id',
-		'Folder Name' => 'folderid',
-	];
+	public $search_fields_name = [];
 	public $list_link_field = 'notes_title';
 	public $old_filename = '';
 	public $mandatory_fields = ['notes_title', 'createdtime', 'modifiedtime', 'filename', 'filesize', 'filetype', 'filedownloadcount', 'assigned_user_id'];
@@ -63,41 +58,19 @@ class Documents extends CRMEntity
 	public $default_order_by = '';
 	public $default_sort_order = 'DESC';
 
-	/*
-	 * Function to get the relation tables for related modules
+	/**
+	 * Function to get the relation tables for related modules.
+	 *
 	 * @param - $secmodule secondary module name
-	 * returns the array with table names and fieldnames storing relations between module and this module
+	 *                     returns the array with table names and fieldnames storing relations between module and this module
 	 */
-
 	public function setRelationTables($secmodule = false)
 	{
 		$relTables = [];
-		if ($secmodule === false) {
+		if (false === $secmodule) {
 			return $relTables;
 		}
 		return $relTables[$secmodule];
-	}
-
-	/**
-	 * Function to unlink an entity with given Id from another entity.
-	 *
-	 * @param int    $id
-	 * @param string $returnModule
-	 * @param int    $returnId
-	 * @param bool   $relatedName
-	 */
-	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
-	{
-		if (empty($returnModule) || empty($returnId)) {
-			return;
-		}
-		if ($returnModule === 'Accounts') {
-			$subQuery = (new \App\Db\Query())->select(['contactid'])->from('vtiger_contactdetails')->where(['parentid' => $returnId]);
-			App\Db::getInstance()->createCommand()->delete('vtiger_senotesrel', ['and', ['notesid' => $id], ['or', ['crmid' => $returnId], ['crmid' => $subQuery]]])->execute();
-		} else {
-			App\Db::getInstance()->createCommand()->delete('vtiger_senotesrel', ['notesid' => $id, 'crmid' => $returnId])->execute();
-			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
-		}
 	}
 
 	/**

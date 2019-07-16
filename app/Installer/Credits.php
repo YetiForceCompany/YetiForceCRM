@@ -148,7 +148,7 @@ class Credits
 	public static function getVueLibs(): array
 	{
 		$libraries = [];
-		$file = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'libraries.json';
+		$file = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app_data' . \DIRECTORY_SEPARATOR . 'libraries.json';
 		if (file_exists($file)) {
 			foreach (\App\Json::read($file) as $name => $libDetails) {
 				$libraries[$name] = $libDetails;

@@ -118,7 +118,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 	 */
 	public function getQueryGenerator()
 	{
-		return $this->get('query_generator');
+		return $this->getRelationModel()->getQueryGenerator();
 	}
 
 	/**
@@ -148,7 +148,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		$queryGenerator = new \App\QueryGenerator($relatedModuleModel->getName());
 		$relationModelInstance->set('query_generator', $queryGenerator);
 		$relationModelInstance->set('parentRecord', $parentRecordModel);
-		$instance->setRelationModel($relationModelInstance)->set('query_generator', $queryGenerator);
+		$instance->setRelationModel($relationModelInstance);
 
 		return $instance;
 	}

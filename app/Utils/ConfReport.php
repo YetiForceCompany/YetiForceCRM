@@ -258,6 +258,7 @@ class ConfReport
 	public static $publicDirectoryAccess = [
 		'config' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
 		'cache' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
+		'app_data' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
 		'storage' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
 		'user_privileges' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
 	];
@@ -268,7 +269,11 @@ class ConfReport
 	 * @var array
 	 */
 	public static $writableFilesAndFolders = [
+		'app_data/' => ['type' => 'IsWritable', 'testCli' => true],
+		'app_data/shop/' => ['type' => 'IsWritable', 'testCli' => true],
 		'config/' => ['type' => 'IsWritable', 'testCli' => true],
+		'config/Components' => ['type' => 'IsWritable', 'testCli' => true],
+		'config/Modules' => ['type' => 'IsWritable', 'testCli' => true],
 		'user_privileges/' => ['type' => 'IsWritable', 'testCli' => true],
 		'user_privileges/tabdata.php' => ['type' => 'IsWritable', 'testCli' => true],
 		'user_privileges/menu_0.php' => ['type' => 'IsWritable', 'testCli' => true],
@@ -466,8 +471,8 @@ class ConfReport
 	 */
 	public static function getCronVariables(string $type)
 	{
-		if (file_exists('user_privileges/cron.php')) {
-			$cron = include \ROOT_DIRECTORY . '/user_privileges/cron.php';
+		if (file_exists('app_data/cron.php')) {
+			$cron = include \ROOT_DIRECTORY . '/app_data/cron.php';
 			return $cron[$type] ?? null;
 		}
 		return [];

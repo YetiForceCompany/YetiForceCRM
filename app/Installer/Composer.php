@@ -185,8 +185,8 @@ class Composer
 		$rootDir = realpath(__DIR__ . '/../../') . \DIRECTORY_SEPARATOR;
 		$dirLibraries = $rootDir . 'public_html' . \DIRECTORY_SEPARATOR . 'src' . \DIRECTORY_SEPARATOR . 'node_modules' . \DIRECTORY_SEPARATOR;
 		$dataEncode = Credits::getYarnLibraries($dirLibraries . '.yarn-integrity', $dirLibraries);
-		\App\Json::save($rootDir . 'cache' . \DIRECTORY_SEPARATOR . 'libraries.json', $dataEncode);
-		echo 'Generated file cache/libraries.json | ' . \count($dataEncode) . PHP_EOL;
+		\App\Json::save($rootDir . 'app_data' . \DIRECTORY_SEPARATOR . 'libraries.json', $dataEncode);
+		echo 'Generated file app_data/libraries.json | ' . \count($dataEncode) . PHP_EOL;
 	}
 
 	/**

@@ -42,14 +42,10 @@ class Products extends CRMEntity
 		'Part Number' => ['products' => 'productcode'],
 		'Unit Price' => ['products' => 'unit_price'],
 	];
-	public $search_fields_name = [
-		'Product Name' => 'productname',
-		'Part Number' => 'productcode',
-		'Unit Price' => 'unit_price',
-	];
+	public $search_fields_name = [];
 
 	/** @var string[] List of fields in the RelationListView */
-	public $relationFields = ['productname', 'productcode', 'commissionrate', 'qty_per_unit', 'unit_price'];
+	public $relationFields = [];
 	public $def_basicsearch_col = 'productname';
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
@@ -79,56 +75,5 @@ class Products extends CRMEntity
 		}
 
 		return $relTables[$secmodule];
-	}
-
-	// Function to unlink an entity with given Id from another entity
-	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
-	{
-		if (empty($returnModule) || empty($returnId)) {
-			return;
-		}
-		if ('Leads' === $returnModule || 'Accounts' === $returnModule) {
-			App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['productid' => $id, 'crmid' => $returnId])->execute();
-		} elseif ('Vendors' === $returnModule) {
-			App\Db::getInstance()->createCommand()->update('vtiger_products', ['vendor_id' => null], ['productid' => $id])->execute();
-		} else {
-			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
-		}
-	}
-
-	public function saveRelatedModule($module, $crmid, $withModule, $withCrmIds, $relatedName = false)
-	{
-		if (!\is_array($withCrmIds)) {
-			$withCrmIds = [$withCrmIds];
-		}
-		foreach ($withCrmIds as $withCrmId) {
-			if ('PriceBooks' === $withModule) {
-				if ((new App\Db\Query())->from('vtiger_pricebookproductrel')->where(['pricebookid' => $withCrmId, 'productid' => $crmid])->exists()) {
-					continue;
-				}
-				App\Db::getInstance()->createCommand()->insert('vtiger_pricebookproductrel', [
-					'pricebookid' => $withCrmId,
-					'productid' => $crmid,
-					'listprice' => 0,
-					'usedcurrency' => Vtiger_Record_Model::getInstanceById($withCrmId, $withModule)->get('currency_id')
-				])->execute();
-			} elseif (\in_array($withModule, ['Leads', 'Accounts', 'Contacts', 'Products'])) {
-				if ('Products' === $withModule && (new App\Db\Query())->from('vtiger_seproductsrel')->where(['productid' => $withCrmId])->exists()) {
-					continue;
-				}
-				$isExists = (new App\Db\Query())->from('vtiger_seproductsrel')->where(['crmid' => $withCrmId, 'productid' => $crmid])->exists();
-				if (!$isExists) {
-					App\Db::getInstance()->createCommand()->insert('vtiger_seproductsrel', [
-						'crmid' => $withCrmId,
-						'productid' => $crmid,
-						'setype' => $withModule,
-						'rel_created_user' => App\User::getCurrentUserId(),
-						'rel_created_time' => date('Y-m-d H:i:s'),
-					])->execute();
-				}
-			} else {
-				parent::saveRelatedModule($module, $crmid, $withModule, $withCrmId, $relatedName);
-			}
-		}
 	}
 }

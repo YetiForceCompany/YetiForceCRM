@@ -14,10 +14,18 @@ namespace App\YetiForce\Shop\Product;
 /**
  * YetiForce shop Donations class.
  */
-class Donations extends \App\YetiForce\Shop\BaseProduct
+class Donations extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/**
 	 * {@inheritdoc}
 	 */
 	public $pricesType = 'manual';
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getPrice(): int
+	{
+		return 5;
+	}
 }

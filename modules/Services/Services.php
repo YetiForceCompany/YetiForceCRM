@@ -66,15 +66,10 @@ class Services extends CRMEntity
 		'Service Name' => ['service' => 'servicename'],
 		'Price' => ['service' => 'unit_price'],
 	];
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'Service No' => 'service_no',
-		'Service Name' => 'servicename',
-		'Price' => 'unit_price',
-	];
+	public $search_fields_name = [];
 
 	/** @var string[] List of fields in the RelationListView */
-	public $relationFields = ['service_no', 'servicename', 'unit_price'];
+	public $relationFields = [];
 	// For Popup window record selection
 	public $popup_fields = ['servicename', 'service_usageunit', 'unit_price'];
 	// For Alphabetical search
@@ -139,54 +134,6 @@ class Services extends CRMEntity
 		} elseif ('module.postupdate' === $eventType) {
 			$ServicesModule = vtlib\Module::getInstance('Services');
 			vtlib\Access::setDefaultSharing($ServicesModule);
-		}
-	}
-
-	/** Function to unlink an entity with given Id from another entity */
-	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
-	{
-		if ('Accounts' === $returnModule) {
-			$focus = CRMEntity::getInstance($returnModule);
-			$entityIds = $focus->getRelatedContactsIds($returnId);
-			array_push($entityIds, $returnId);
-			$returnModules = ['Accounts', 'Contacts'];
-		} else {
-			$entityIds = $returnId;
-			$returnModules = [$returnModule];
-		}
-		if ($relatedName && 'getRelatedList' !== $relatedName) {
-			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
-		} else {
-			App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', [
-				'or',
-				['and', ['relcrmid' => $id], ['module' => $returnModules], ['crmid' => $entityIds]],
-				['and', ['crmid' => $id], ['relmodule' => $returnModules], ['relcrmid' => $entityIds]],
-			])->execute();
-		}
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function saveRelatedModule($module, $crmid, $withModule, $withCrmIds, $relatedName = false)
-	{
-		if (!\is_array($withCrmIds)) {
-			$withCrmIds = [$withCrmIds];
-		}
-		foreach ($withCrmIds as $withCrmId) {
-			if ('PriceBooks' === $withModule) {
-				if ((new App\Db\Query())->from('vtiger_pricebookproductrel')->where(['pricebookid' => $withCrmId, 'productid' => $crmid])->exists()) {
-					continue;
-				}
-				App\Db::getInstance()->createCommand()->insert('vtiger_pricebookproductrel', [
-					'pricebookid' => $withCrmId,
-					'productid' => $crmid,
-					'listprice' => 0,
-					'usedcurrency' => Vtiger_Record_Model::getInstanceById($withCrmId, $withModule)->get('currency_id')
-				])->execute();
-			} else {
-				parent::saveRelatedModule($module, $crmid, $withModule, $withCrmId, $relatedName);
-			}
 		}
 	}
 }
