@@ -17,7 +17,7 @@
 				</p>
 			{/if}
 		{else}
-			<form name="ImportPdfTemplate" class="form-horizontal js-validation-engine" action="index.php" method="post" class="form-horizontal" enctype="multipart/form-data">
+			<form name="ImportPdfTemplate" class="form-horizontal js-validation-engine" action="index.php" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="parent" value="Settings" />
 				<input type="hidden" name="module" value="PDF" />
 				<input type="hidden" name="view" value="Import" />
