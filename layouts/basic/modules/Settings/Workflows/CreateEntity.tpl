@@ -90,7 +90,7 @@
 				{if in_array($SOURCE_MODULE, $MANDATORY_FIELD_MODEL->getReferenceList())}
 					{continue}
 				{/if}
-				<div class="row js-conditions-container padding-bottom1per" data-js="container | clone">
+				<div class="row js-conditions-container js-conditions-row padding-bottom1per" data-js="container | clone">
 					<span class="col-md-4">
 						<select name="fieldname" class="select2 form-control" disabled="">
 							<option value="none"></option>
