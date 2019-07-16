@@ -2,7 +2,7 @@
 {strip}
 	<form action="{$PAYPAL_URL}" method="POST">
 	<div class="tpl-Settings-YetiForce-Shop-Product row">
-			<div class="mb-3 col-sm-18 col-md-12 item list-group-item">
+			<div class="mb-3 col-sm-18 col-md-12 item list-group-item{if empty($PRODUCT->expirationDate)} bg-light {else}{/if}">
 				<div class="row">
 					<div class="col-sm-4 col-md-3">
 						{if $PRODUCT->getImage()}
@@ -21,19 +21,27 @@
 						<div class="card-body">
 							<h5 class="card-title text-primary">{$PRODUCT->getLabel()}</h5>
 							<p class="card-text truncate">{$PRODUCT->getDescription()}</p>
-							{if 'manual'===$PRODUCT->getPriceType()}
-								<div class="input-group mb-3">
-									<div class="input-group-prepend">
-										<button class="btn btn-success pull-right" type="submit" tile="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
-											{$PRODUCT->getPrice()} {$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}
-										</button>
+							{if empty($PRODUCT->expirationDate)}
+								{if 'manual'===$PRODUCT->getPriceType()}
+									<div class="input-group mb-3">
+										<div class="input-group-prepend">
+											<button class="btn btn-dark rounded-0 pull-right" type="submit" tile="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
+												{$PRODUCT->getPrice()} {$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}
+											</button>
+										</div>
+										<input class="form-control" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
 									</div>
-									<input class="form-control" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
+								{else}
+									<button class="btn btn-dark rounded-0 pull-right" type="submit" tile="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
+										{$PRODUCT->getPrice()} {$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}
+									</button>
+								{/if}
+							{elseif $PRODUCT->expirationDate!=$PRODUCT->paidPackage}
+								<div class="alert alert-info text-danger">
+								{\App\Language::translate('LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED', $QUALIFIED_MODULE)}
 								</div>
 							{else}
-								<button class="btn btn-success pull-right" type="submit" tile="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
-									{$PRODUCT->getPrice()} {$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}
-								</button>
+								<button class="btn btn-warning pull-right rounded-0">{\App\Fields\Date::formatToDisplay($PRODUCT->expirationDate)}</button>
 							{/if}
 						</div>
 					</div>

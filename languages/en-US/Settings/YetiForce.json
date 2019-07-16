@@ -52,7 +52,13 @@
     "LBL_SUCCESSFUL_TRANSACTION": "Thank you for making the payment. The transaction is being processed, purchased functions will be added to your system once we receive the payment.",
     "LBL_FAILED_TRANSACTION": "Transaction failed or was cancelled, please check the payment on your PayPal account and try again.",
     "LBL_SHOP_PREMIUMMODULES": "Premium modules",
+    "LBL_SHOP_PREMIUMMODULES_DESC": "Enable new system capabilities",
     "LBL_SHOP_DONATIONS": "Donate / Support our project",
-    "LBL_SHOP_PREMIUMSUPPORT": "Premium support"
+    "LBL_SHOP_DONATIONS_DESC": "Do you want to have a better system?, Support its development!",
+    "LBL_SHOP_PREMIUMSUPPORT": "Premium support",
+    "LBL_SHOP_PREMIUMSUPPORT_DESC": "You do not know how the system works, you need help, you want to have individual and quick help, this package is for you",
+    "LBL_SHOP_DISABLEFOOTER": "Disable footer",
+    "LBL_SHOP_DISABLEFOOTER_DESC": "If you are obstructed by the footer and you want to change it, buy and disable the footer",
+    "LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED": "The size of your company has changed, the purchased package is too small for the size of your company. Update your subscription."
   }
 }
