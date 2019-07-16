@@ -6,7 +6,7 @@
         "homepage": "https:\/\/babeljs.io\/",
         "licenseError": false,
         "licenseToDisplay": "",
-        "showLicenseModal": true
+        "showLicenseModal": false
     },
     "@babel\/runtime": {
         "name": "@babel\/runtime",
@@ -15,7 +15,7 @@
         "homepage": "https:\/\/yarnpkg.com\/en\/package\/@babel\/runtime",
         "licenseError": false,
         "licenseToDisplay": "",
-        "showLicenseModal": true
+        "showLicenseModal": false
     },
     "core-js": {
         "name": "core-js",
@@ -24,16 +24,16 @@
         "homepage": "https:\/\/github.com\/zloirock\/core-js",
         "licenseError": false,
         "licenseToDisplay": "",
-        "showLicenseModal": true
+        "showLicenseModal": false
     },
     "emoji-mart-vue-fast": {
         "name": "emoji-mart-vue-fast",
-        "version": "5.4.14",
+        "version": "5.4.15",
         "license": "BSD-3-Clause",
         "homepage": "https:\/\/github.com\/serebrov\/emoji-mart-vue",
         "licenseError": false,
         "licenseToDisplay": "",
-        "showLicenseModal": true
+        "showLicenseModal": false
     },
     "regenerator-runtime": {
         "name": "regenerator-runtime",
@@ -42,7 +42,7 @@
         "homepage": "https:\/\/yarnpkg.com\/en\/package\/regenerator-runtime",
         "licenseError": false,
         "licenseToDisplay": "",
-        "showLicenseModal": true
+        "showLicenseModal": false
     },
     "scrollparent": {
         "name": "scrollparent",
@@ -51,7 +51,7 @@
         "homepage": "https:\/\/github.com\/olahol\/scrollparent.js#readme",
         "licenseError": false,
         "licenseToDisplay": "",
-        "showLicenseModal": true
+        "showLicenseModal": false
     },
     "vue-drag-resize": {
         "name": "vue-drag-resize",
@@ -60,7 +60,7 @@
         "homepage": "https:\/\/github.com\/kirillmurashov\/vue-drag-resize.git",
         "licenseError": false,
         "licenseToDisplay": "",
-        "showLicenseModal": true
+        "showLicenseModal": false
     },
     "vue-observe-visibility": {
         "name": "vue-observe-visibility",
@@ -69,7 +69,7 @@
         "homepage": "https:\/\/github.com\/Akryum\/vue-observe-visibility#readme",
         "licenseError": false,
         "licenseToDisplay": "",
-        "showLicenseModal": true
+        "showLicenseModal": false
     },
     "vue-resize": {
         "name": "vue-resize",
@@ -78,7 +78,7 @@
         "homepage": "https:\/\/github.com\/Akryum\/vue-resize#readme",
         "licenseError": false,
         "licenseToDisplay": "",
-        "showLicenseModal": true
+        "showLicenseModal": false
     },
     "vue-virtual-scroller": {
         "name": "vue-virtual-scroller",
@@ -87,7 +87,7 @@
         "homepage": "https:\/\/github.com\/Akryum\/vue-virtual-scroller#readme",
         "licenseError": false,
         "licenseToDisplay": "",
-        "showLicenseModal": true
+        "showLicenseModal": false
     },
     "vuex": {
         "name": "vuex",
@@ -96,6 +96,6 @@
         "homepage": "https:\/\/github.com\/vuejs\/vuex#readme",
         "licenseError": false,
         "licenseToDisplay": "",
-        "showLicenseModal": true
+        "showLicenseModal": false
     }
 }
