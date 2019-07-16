@@ -107,7 +107,6 @@ class ProductsTable extends Base
 				}
 			}
 			$html .= '</tr></tfoot></table>';
-
 			$taxes = [];
 			if ($inventory->isField('tax') && $inventory->isField('net')) {
 				$taxField = $inventory->getField('tax');
