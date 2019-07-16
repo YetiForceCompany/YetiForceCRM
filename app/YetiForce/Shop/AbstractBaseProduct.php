@@ -43,12 +43,14 @@ abstract class AbstractBaseProduct
 	 * @var string
 	 */
 	public $currencyCode = 'EUR';
+
 	/**
 	 * Expiration date.
 	 *
 	 * @var string|null
 	 */
 	public $expirationDate;
+
 	/**
 	 * Paid package.
 	 *
@@ -83,7 +85,7 @@ abstract class AbstractBaseProduct
 	 */
 	public function getPrice(): int
 	{
-		return $this->prices[\strtolower(\App\Company::getSize())] ?? false;
+		return $this->prices[\strtolower(\App\Company::getSize())] ?? 0;
 	}
 
 	/**
