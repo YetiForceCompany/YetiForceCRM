@@ -14,6 +14,9 @@ class Vtiger_Relation_Model extends \App\Base
 	protected static $cachedInstances = [];
 	protected $parentModule = false;
 	protected $relatedModule = false;
+	/**
+	 * @var object Class that includes basic operations on relations
+	 */
 	protected $typeRelationModel;
 
 	//one to many

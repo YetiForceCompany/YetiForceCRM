@@ -39,7 +39,7 @@ class Documents_GetAttachments_Relation implements RelationInterface
 	 */
 	public function delete(int $sourceRecordId, int $destinationRecordId): bool
 	{
-		$data = ['notesid' => $destinationRecordId,	'crmid' => $sourceRecordId];
+		$data = ['notesid' => $destinationRecordId, 'crmid' => $sourceRecordId];
 		if ($this->relationModel && 'Accounts' === $this->relationModel->getParentModuleModel()->getName()) {
 			$subQuery = (new \App\Db\Query())->select(['contactid'])->from('vtiger_contactdetails')->where(['parentid' => $sourceRecordId]);
 			$data = ['or', $data, ['crmid' => $subQuery] + $data];
@@ -53,7 +53,7 @@ class Documents_GetAttachments_Relation implements RelationInterface
 	public function create(int $sourceRecordId, int $destinationRecordId): bool
 	{
 		$result = false;
-		$data = ['notesid' => $destinationRecordId,	'crmid' => $sourceRecordId];
+		$data = ['notesid' => $destinationRecordId, 'crmid' => $sourceRecordId];
 		if (!(new \App\Db\Query())->from(self::TABLE_NAME)->where($data)->exists()) {
 			$result = \App\Db::getInstance()->createCommand()->insert(self::TABLE_NAME, $data)->execute();
 		}

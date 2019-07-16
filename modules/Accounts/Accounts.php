@@ -173,8 +173,7 @@ class Accounts extends CRMEntity
 					// - to show the hierarchy of the Accounts
 					$accountDepth = str_repeat(' .. ', $accountInfoBase['depth']);
 					$data = $accountDepth . $data;
-				} elseif ('assigned_user_id' == $fieldName || 'shownerid' == $fieldName) {
-				} else {
+				} elseif ('assigned_user_id' !== $fieldName && 'shownerid' !== $fieldName) {
 					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($field['fieldid']);
 					$rawData = $data;
 					$data = $fieldModel->getDisplayValue($data);
