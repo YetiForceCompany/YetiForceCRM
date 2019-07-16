@@ -114,6 +114,7 @@ class Vtiger_AdvancedFilter_Helper
 			'multiEmail' =>  ['contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty'],
 			'serverAccess' => ['is', 'is not', 'has changed'],
 			'multiDomain' =>   ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'],
+			'currencyInventory' => ['equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed'],
 		];
 	}
 
