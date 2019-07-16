@@ -8085,17 +8085,6 @@ CREATE TABLE `vtiger_servicecontractscf` (
   CONSTRAINT `vtiger_servicecontractscf_ibfk_1` FOREIGN KEY (`servicecontractsid`) REFERENCES `vtiger_servicecontracts` (`servicecontractsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_seticketsrel` */
-
-CREATE TABLE `vtiger_seticketsrel` (
-  `crmid` int(10) NOT NULL DEFAULT 0,
-  `ticketid` int(10) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`crmid`,`ticketid`),
-  KEY `seticketsrel_crmid_idx` (`crmid`),
-  KEY `seticketsrel_ticketid_idx` (`ticketid`),
-  CONSTRAINT `fk_2_vtiger_seticketsrel` FOREIGN KEY (`ticketid`) REFERENCES `vtiger_troubletickets` (`ticketid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_settings_blocks` */
 
 CREATE TABLE `vtiger_settings_blocks` (

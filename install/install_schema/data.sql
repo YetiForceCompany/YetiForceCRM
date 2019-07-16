@@ -17546,8 +17546,6 @@ insert  into `vtiger_service_usageunit`(`service_usageunitid`,`service_usageunit
 
 /*Data for the table `vtiger_servicecontractscf` */
 
-/*Data for the table `vtiger_seticketsrel` */
-
 /*Data for the table `vtiger_settings_blocks` */
 
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (1,'LBL_USER_MANAGEMENT',2,'adminIcon-permissions',0,NULL,NULL);
