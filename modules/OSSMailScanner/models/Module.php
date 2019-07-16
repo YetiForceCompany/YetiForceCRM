@@ -20,18 +20,23 @@ class OSSMailScanner_Module_Model extends Vtiger_Module_Model
 		return 'index';
 	}
 
+	/**
+	 * Function returns settings links.
+	 *
+	 * @return array
+	 */
 	public function getSettingLinks()
 	{
 		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
 		$settingsLinks = [];
-		$menu = Settings_Vtiger_MenuItem_Model::getInstance('Mail Scanner');
-		$settingsLinks[] = [
-			'linktype' => 'LISTVIEWSETTING',
-			'linklabel' => 'LBL_MODULE_CONFIGURATION',
-			'linkurl' => 'index.php?module=OSSMailScanner&parent=Settings&view=Index&block=' . $menu->get('blockid').'&fieldid=' . $menu->get('fieldid'),
-			'linkicon' => 'adminIcon-mail-scanner',
-		];
-
+		if($menu = Settings_Vtiger_MenuItem_Model::getInstance('Mail Scanner')){
+			$settingsLinks[] = [
+				'linktype' => 'LISTVIEWSETTING',
+				'linklabel' => 'LBL_MODULE_CONFIGURATION',
+				'linkurl' => 'index.php?module=OSSMailScanner&parent=Settings&view=Index&block=' . $menu->get('blockid').'&fieldid=' . $menu->get('fieldid'),
+				'linkicon' => 'adminIcon-mail-scanner',
+			];
+		}
 		return $settingsLinks;
 	}
 }
