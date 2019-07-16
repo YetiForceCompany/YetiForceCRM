@@ -11,6 +11,7 @@
   <div>
     <vue-drag-resize
       v-if="$q.platform.is.desktop"
+      :preventActiveBehavior="true"
       :isActive="active"
       @activated="onActivated"
       :isResizable="true"
@@ -18,7 +19,7 @@
       v-on:resizing="resize"
       v-on:dragging="resize"
       dragHandle=".js-drag"
-      :sticks="['br']"
+      :sticks="sticks"
       :x="coordinates.left"
       :y="coordinates.top"
       :w="coordinates.width"
@@ -51,6 +52,24 @@ export default {
     coordinates: {
       type: Object,
       required: true
+    },
+    sticks: {
+      type: Array,
+      default: function() {
+        return ['br', 'bl', 'tr', 'tl']
+      }
+    },
+    stickStyle: {
+      type: Object,
+      default: function() {
+        return {
+          height: '15px',
+          width: '15px',
+          border: 'none',
+          'box-shadow': 'none',
+          'background-color': 'transparent'
+        }
+      }
     }
   },
   data() {
@@ -60,7 +79,7 @@ export default {
   },
   methods: {
     resize(newRect) {
-      this.$emit('onChangeCoordinates', {
+      this.$emit('update:coordinates', {
         width: newRect.width,
         height: newRect.height,
         top: newRect.top,
@@ -68,9 +87,12 @@ export default {
       })
     },
     onActivated() {
-      $(this.$refs.resize.$el)
-        .find('.vdr-stick')
-        .addClass('mdi mdi-resize-bottom-right q-btn q-btn--dense q-btn--round q-icon contrast-50')
+      const sticks = this.$refs.resize.$el.querySelectorAll('.vdr-stick')
+      Array.prototype.map.call(sticks, element => {
+        for (let prop in this.stickStyle) {
+          element.style[prop] = this.stickStyle[prop]
+        }
+      })
     },
     onFocusElement(event) {
       event.target.focus()
@@ -86,23 +108,7 @@ export default {
 .modal-mini {
   max-height: unset !important;
   max-width: unset !important;
-}
-.vdr-stick.q-icon:before {
-  font-size: 1.718em;
-  left: -5px;
-  position: relative;
-  bottom: 5px;
-}
-.vdr-stick.q-icon {
-  bottom: 9px !important;
-  right: 25px !important;
-  font-size: 14px;
-  background: none;
-  border: none;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2), 0 2px 2px rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
-  display: none;
-  cursor: nwse-resize !important;
-  position: absolute !important;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px rgba(0, 0, 0, 0.14), 0 1px 10px rgba(0, 0, 0, 0.12);
 }
 .vdr.active {
   font-weight: unset;

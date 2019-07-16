@@ -15,12 +15,7 @@
     transition-hide="slide-down"
     content-class="quasar-reset"
   >
-    <drag-resize
-      v-if="isDragResize"
-      :coordinates="coordinates"
-      v-on:onChangeCoordinates="onChangeCoordinates"
-      :maximized="previewMaximized"
-    >
+    <drag-resize v-if="isDragResize" :coordinates.sync="coordinates" :maximized="previewMaximized">
       <article-preview-content
         :height="coordinates.height"
         :previewMaximized="previewMaximized"
@@ -35,7 +30,7 @@
   </q-dialog>
 </template>
 <script>
-import DragResize from './DragResize.vue'
+import DragResize from 'components/DragResize.vue'
 import ArticlePreviewContent from './ArticlePreviewContent.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters } = createNamespacedHelpers('KnowledgeBase')
@@ -73,9 +68,6 @@ export default {
     }
   },
   methods: {
-    onChangeCoordinates: function(coordinates) {
-      this.coordinates = coordinates
-    },
     onMaximizedToggle(val) {
       this.previewMaximized = val
     }

@@ -1,50 +1,54 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <div v-if="data.isChatAllowed">
-    <q-btn
-      round
-      color="white"
-      text-color="black"
-      icon="mdi-message-text-outline"
-      class="text-muted"
-      @click="dialog = !dialog"
-      ref="chatBtn"
-    >
-      <q-badge v-if="data.showNumberOfNewMessages" v-show="amountOfNewMessages > 0" color="danger" floating>
-        <transition appear enter-active-class="animated flash" mode="out-in">
-          <div :key="amountOfNewMessages">
-            {{ this.amountOfNewMessages }}
+  <div v-if="config.isChatAllowed">
+    <transition :enter-active-class="buttonAnimationClasses" mode="out-in">
+      <q-btn
+        round
+        color="primary"
+        icon="mdi-message-text-outline"
+        class="glossy"
+        @click="dialog = !dialog"
+        ref="chatBtn"
+        :key="data.amountOfNewMessages"
+      >
+        <q-badge v-if="config.showNumberOfNewMessages" v-show="data.amountOfNewMessages > 0" color="danger" floating>
+          <div>
+            {{ data.amountOfNewMessages }}
           </div>
-        </transition>
-      </q-badge>
-    </q-btn>
+        </q-badge>
+      </q-btn>
+    </transition>
+
     <q-dialog
       v-model="dialog"
       seamless
-      :maximized="maximizedDialog"
+      :maximized="!computedMiniMode"
       transition-show="slide-up"
       transition-hide="slide-down"
       content-class="quasar-reset"
     >
-      <chat container :parentRefs="$refs" />
+      <drag-resize :coordinates.sync="coordinates" :maximized="!computedMiniMode">
+        <chat container :parentRefs="$refs" />
+      </drag-resize>
     </q-dialog>
   </div>
 </template>
 <script>
 import Chat from './Chat.vue'
+import DragResize from 'components/DragResize.vue'
+
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters, mapActions } = createNamespacedHelpers('Chat')
+const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'Dialog',
-  components: { Chat },
+  components: { Chat, DragResize },
   data() {
     return {
-      amountOfNewMessages: 0,
       timerGlobal: null
     }
   },
   computed: {
-    ...mapGetters(['maximizedDialog', 'data']),
+    ...mapGetters(['miniMode', 'data', 'config']),
     dialog: {
       get() {
         return this.$store.getters['Chat/dialog']
@@ -53,64 +57,50 @@ export default {
         this.setDialog(isOpen)
       }
     },
-    desktopPermission() {
-      if (this.data.isDesktopNotification) {
-        return false
+    coordinates: {
+      get() {
+        return this.$store.getters['Chat/coordinates']
+      },
+      set(coords) {
+        this.setCoordinates(coords)
       }
-      if (!this.data.isNotificationPermitted) {
-        app.setCookie('chat-isDesktopNotification', false, 365)
-        return false
-      }
-      return true
+    },
+    computedMiniMode() {
+      return this.$q.platform.is.desktop ? this.miniMode : false
+    },
+    buttonAnimationClasses() {
+      return this.data.amountOfNewMessages ? 'animated flash' : ''
     }
   },
   watch: {
     dialog() {
       if (this.dialog) {
-        this.amountOfNewMessages = 0
         clearInterval(this.timerGlobal)
       } else {
-        this.initTimer()
+        this.trackNewMessages()
       }
     }
   },
   methods: {
-    ...mapActions(['setDialog', 'fetchData']),
+    ...mapActions(['fetchChatConfig', 'updateAmountOfNewMessages']),
+    ...mapMutations(['setDialog', 'setCoordinates']),
     initTimer() {
-      this.timerGlobal = setTimeout(() => {
-        AppConnector.request({
-          module: 'Chat',
-          action: 'ChatAjax',
-          mode: 'trackNewMessages'
-        }).done(({ result }) => {
-          if (result > this.amountOfNewMessages) {
-            this.amountOfNewMessages = result
-            if (app.getCookie('chat-isSoundNotification') === 'true') {
-              app.playSound('CHAT')
-            }
-            if (this.desktopPermission) {
-              let message = this.translate('JS_CHAT_NEW_MESSAGE')
-              if (this.data.showNumberOfNewMessages) {
-                message += ' ' + result
-              }
-              app.showNotify(
-                {
-                  text: message,
-                  title: this.translate('JS_CHAT'),
-                  type: 'success'
-                },
-                true
-              )
-            }
-          }
-          this.initTimer()
-        })
-      }, this.data.refreshTimeGlobal)
+      this.timerGlobal = setTimeout(this.trackNewMessages, this.config.refreshTimeGlobal)
+    },
+    trackNewMessages() {
+      AppConnector.request({
+        module: 'Chat',
+        action: 'ChatAjax',
+        mode: 'trackNewMessages'
+      }).done(({ result }) => {
+        this.updateAmountOfNewMessages(result)
+        this.initTimer()
+      })
     }
   },
   created() {
-    this.fetchData().then(result => {
-      if (result.isChatAllowed) this.initTimer()
+    this.fetchChatConfig().then(result => {
+      if (result.isChatAllowed) this.trackNewMessages()
     })
   }
 }

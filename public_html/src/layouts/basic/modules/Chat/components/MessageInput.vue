@@ -32,7 +32,7 @@
           @keydown.enter="onEnter"
         ></div>
       </div>
-      <q-btn :loading="sending" round color="primary" icon="mdi-send" @click="send">
+      <q-btn :loading="sending" flat round color="primary" icon="mdi-send" @click="send">
         <template v-slot:loading>
           <q-spinner-facebook />
         </template>
@@ -72,7 +72,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['maximizedDialog', 'historyTab', 'data']),
+    ...mapGetters(['miniMode', 'config', 'sendByEnter']),
     containerHeight() {
       if (this.$refs.textContainer !== undefined) return this.$refs.textContainer.clientHeight + 'px'
     }
@@ -82,7 +82,7 @@ export default {
     send(e) {
       e.preventDefault()
       if (this.sending || !this.$refs.input.innerText.length) return
-      if (this.$refs.input.innerText.length < this.data.maxLengthMessage) {
+      if (this.$refs.input.innerText.length < this.config.maxLengthMessage) {
         this.sending = true
         this.sendMessage(this.$refs.input.innerHTML).then(e => {
           this.$refs.input.innerText = ''
@@ -101,7 +101,7 @@ export default {
       this.$refs.input.insertAdjacentHTML('beforeend', emoji.native)
     },
     onEnter(e) {
-      if (this.data.sendByEnter && !e.shiftKey) {
+      if (this.sendByEnter && !e.shiftKey) {
         e.preventDefault()
         this.send(e)
       }

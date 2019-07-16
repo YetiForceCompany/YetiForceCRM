@@ -6,8 +6,8 @@
     round
     flat
     :loading="isWaitingForPermission"
-    :icon="data.isDesktopNotification ? 'mdi-bell-outline' : 'mdi-bell-off-outline'"
-    :color="data.isDesktopNotification ? 'info' : ''"
+    :icon="isDesktopNotification ? 'mdi-bell-outline' : 'mdi-bell-off-outline'"
+    :color="isDesktopNotification ? 'info' : ''"
   />
 </template>
 <script>
@@ -18,41 +18,39 @@ export default {
   name: 'NotifyBtn',
   data() {
     return {
-      isWaitingForPermission: false
+      isWaitingForPermission: false,
+      isNotificationPermitted: PNotify.modules.Desktop.checkPermission() === 0
     }
   },
   computed: {
-    ...mapGetters(['data'])
+    ...mapGetters(['isDesktopNotification', 'config'])
   },
   methods: {
     ...mapMutations(['setDesktopNotification']),
     toggleDesktopNotification() {
-      if (!this.data.isDesktopNotification && !this.data.isNotificationPermitted) {
+      if (!this.isDesktopNotification && !this.isNotificationPermitted) {
         this.isWaitingForPermission = true
         PNotify.modules.Desktop.permission()
         setTimeout(() => {
-          if (!this.data.isNotificationPermitted) {
+          if (!this.isNotificationPermitted) {
             Vtiger_Helper_Js.showPnotify({
               text: app.vtranslate('JS_NO_DESKTOP_PERMISSION'),
               type: 'info',
               animation: 'show'
             })
           } else {
-            this.setDesktopNotification(!this.data.isDesktopNotification)
-            app.setCookie('chat-isDesktopNotification', true, 365)
+            this.setDesktopNotification(!this.isDesktopNotification)
           }
           this.isWaitingForPermission = false
         }, 3000)
       } else {
-        this.setDesktopNotification(!this.data.isDesktopNotification)
-        app.setCookie('chat-isDesktopNotification', !this.data.isDesktopNotification, 365)
+        this.setDesktopNotification(!this.isDesktopNotification)
       }
     }
   },
   created() {
-    if (this.data.isDesktopNotification && !this.data.isNotificationPermitted) {
+    if (this.isDesktopNotification && !this.isNotificationPermitted) {
       this.setDesktopNotification(false)
-      app.setCookie('chat-isDesktopNotification', false, 365)
     }
   }
 }

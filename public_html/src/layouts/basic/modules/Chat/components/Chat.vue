@@ -1,11 +1,6 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <q-layout
-    view="hHh LpR fFf"
-    container
-    :class="['bg-white', !maximizedDialog ? 'chat-mini' : '']"
-    :style="{ bottom: !maximizedDialog ? bottomPosition + 'px' : 0 }"
-  >
+  <q-layout view="hHh LpR fFf" container :class="['bg-white', miniMode ? 'chat-mini' : '']">
     <chat-header @visibleInputSearch="inputSearchVisible = $event" @showTabHistory="tabHistoryShow = $event" />
     <left-panel />
     <right-panel />
@@ -32,22 +27,9 @@ export default {
     return {}
   },
   computed: {
-    ...mapGetters(['leftPanel', 'rightPanel', 'maximizedDialog']),
-    bottomPosition() {
-      if (this.parentRefs.chatBtn !== undefined) {
-        return Quasar.plugins.Screen.height - Quasar.utils.dom.offset(this.parentRefs.chatBtn.$el).top
-      }
-    }
+    ...mapGetters(['leftPanel', 'rightPanel', 'miniMode'])
   }
 }
 </script>
 <style>
-.chat-mini {
-  right: 0;
-  top: 50px;
-  margin: 10px 0;
-  height: unset;
-  max-height: unset;
-  position: fixed;
-}
 </style>

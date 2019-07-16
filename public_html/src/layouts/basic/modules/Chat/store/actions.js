@@ -1,11 +1,8 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 export default {
-	setDialog({ commit }, isOpen) {
-		commit('dialog', isOpen)
-	},
-	maximize({ commit }, isMax) {
-		commit('maximizedDialog', isMax)
+	maximize({ commit }, isMini) {
+		commit('miniMode', isMini)
 	},
 	toggleLeftPanel({ commit, getters }) {
 		commit('setLeftPanel', !getters['leftPanel'])
@@ -13,17 +10,14 @@ export default {
 	toggleRightPanel({ commit, getters }) {
 		commit('setRightPanel', !getters['rightPanel'])
 	},
-	toggleHistoryTab({ commit, getters }) {
-		commit('setHistoryTab', !getters['historyTab'])
-	},
-	fetchData({ commit, getters }) {
+	fetchChatConfig({ commit }) {
 		return new Promise((resolve, reject) => {
 			AppConnector.request({
 				module: 'Chat',
 				action: 'ChatAjax',
-				mode: 'getInitData'
+				mode: 'getChatConfig'
 			}).done(({ result }) => {
-				commit('setData', result)
+				commit('setConfig', result)
 				resolve(result)
 			})
 		})
@@ -40,7 +34,7 @@ export default {
 				recordId: options.id,
 				roomType: options.roomType
 			}).done(({ result }) => {
-				let tempData = Object.assign({}, getters['data'])
+				let tempData = Object.assign({}, getters.data)
 				commit('setData', Object.assign(tempData, result))
 				resolve(result)
 			})
@@ -75,7 +69,6 @@ export default {
 		})
 	},
 	fetchEarlierEntries({ commit, getters }) {
-		// clearTimeout(this.timerMessage);
 		return new Promise((resolve, reject) => {
 			AppConnector.request(
 				{
@@ -99,7 +92,6 @@ export default {
 	 */
 	fetchSearchData({ commit, getters }, value) {
 		return new Promise((resolve, reject) => {
-			// clearTimeout(this.timerMessage);
 			const showMoreClicked = getters.isSearchActive && getters.data.showMoreButton
 			AppConnector.request(
 				{
@@ -114,7 +106,7 @@ export default {
 				false
 			).done(({ result }) => {
 				if (!showMoreClicked) {
-					let tempData = Object.assign({}, getters['data'])
+					let tempData = Object.assign({}, getters.data)
 					commit('setData', Object.assign(tempData, result))
 					commit('setSearchActive')
 				} else {
@@ -129,14 +121,12 @@ export default {
 	 */
 	fetchUnread() {
 		return new Promise((resolve, reject) => {
-			// clearTimeout(this.timerMessage);
 			AppConnector.request({
 				module: 'Chat',
 				action: 'ChatAjax',
 				mode: 'getUnread'
 			}).done(({ result }) => {
 				resolve(result)
-				// this.buildParticipantsFromMessage($('<div></div>').html(html));
 			})
 		})
 	},
@@ -147,7 +137,6 @@ export default {
 	 */
 	fetchHistory({ commit, getters }, { groupHistory, showMoreClicked }) {
 		return new Promise((resolve, reject) => {
-			// clearTimeout(this.timerMessage);
 			AppConnector.request({
 				module: 'Chat',
 				action: 'ChatAjax',
@@ -156,7 +145,7 @@ export default {
 				groupHistory: groupHistory
 			}).done(({ result }) => {
 				if (!showMoreClicked) {
-					let tempData = Object.assign({}, getters['data'])
+					let tempData = Object.assign({}, getters.data)
 					commit('setData', Object.assign(tempData, result))
 				} else {
 					commit('pushOlderEntries', result)
@@ -164,5 +153,28 @@ export default {
 				resolve(result)
 			})
 		})
+	},
+
+	updateAmountOfNewMessages({ commit, getters }, newMessages) {
+		if (newMessages > getters.data.amountOfNewMessages) {
+			if (getters.isSoundNotification) {
+				app.playSound('CHAT')
+			}
+			if (getters.hasDesktopPermission) {
+				let message = app.vtranslate('JS_CHAT_NEW_MESSAGE')
+				if (getters.config.showNumberOfNewMessages) {
+					message += ' ' + newMessages
+				}
+				app.showNotify(
+					{
+						text: message,
+						title: app.vtranslate('JS_CHAT'),
+						type: 'success'
+					},
+					true
+				)
+			}
+		}
+		commit('setAmountOfNewMessages', newMessages)
 	}
 }

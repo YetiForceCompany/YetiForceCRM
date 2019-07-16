@@ -2,7 +2,7 @@
 <template>
   <q-header class="bg-grey-10">
     <q-bar>
-      <div class="flex items-center no-wrap full-width justify-between">
+      <div class="flex items-center no-wrap full-width justify-between js-drag">
         <div class="flex no-wrap">
           <q-btn dense flat round icon="mdi-menu" @click="toggleLeftPanel()" />
           <q-btn
@@ -11,7 +11,7 @@
             round
             flat
             icon="mdi-keyboard-outline"
-            :color="data.sendByEnter ? 'info' : ''"
+            :color="sendByEnter ? 'info' : ''"
           />
           <notify-btn />
           <q-btn
@@ -19,8 +19,8 @@
             dense
             round
             flat
-            :icon="data.isSoundNotification ? 'mdi-volume-high' : 'mdi-volume-off'"
-            :color="data.isSoundNotification ? 'info' : ''"
+            :icon="isSoundNotification ? 'mdi-volume-high' : 'mdi-volume-off'"
+            :color="isSoundNotification ? 'info' : ''"
           />
         </div>
         <q-tabs
@@ -41,17 +41,12 @@
             :style="{ 'min-width': '40px' }"
           />
           <q-tab name="unread" icon="mdi-email-alert" :label="isSmall ? '' : translate('JS_CHAT_UNREAD')" />
-          <q-tab name="history" icon="mdi-history" :label="isSmall ? '' : translate('JS_CHAT_HISTORY_CHAT')" />
+          <q-tab name="history" icon="mdi-history" :label="isSmall ? '' : translate('JS_CHAT_HISTORY')" />
         </q-tabs>
         <div class="flex no-wrap">
           <template v-if="$q.platform.is.desktop">
-            <q-btn
-              dense
-              flat
-              :icon="maximizedDialog ? 'mdi-window-restore' : 'mdi-window-maximize'"
-              @click="toggleSize()"
-            >
-              <q-tooltip>{{ maximizedDialog ? translate('JS_MINIMIZE') : translate('JS_MAXIMIZE') }}</q-tooltip>
+            <q-btn dense flat :icon="miniMode ? 'mdi-window-maximize' : 'mdi-window-restore'" @click="toggleSize()">
+              <q-tooltip>{{ miniMode ? translate('JS_MAXIMIZE') : translate('JS_MINIMIZE') }}</q-tooltip>
             </q-btn>
           </template>
           <q-btn dense flat icon="mdi-close" @click="setDialog(false)">
@@ -86,13 +81,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['data']),
-    maximizedDialog: {
+    ...mapGetters(['config', 'isSoundNotification', 'sendByEnter']),
+    miniMode: {
       get() {
-        return this.$store.getters['Chat/maximizedDialog']
+        return this.$store.getters['Chat/miniMode']
       },
-      set(isMax) {
-        this.maximize(isMax)
+      set(isMini) {
+        this.maximize(isMini)
       }
     },
     tab: {
@@ -104,12 +99,19 @@ export default {
       }
     },
     isSmall() {
-      return !this.maximizedDialog || !this.$q.platform.is.desktop
+      return this.miniMode || !this.$q.platform.is.desktop
     }
   },
   methods: {
-    ...mapActions(['setDialog', 'toggleRightPanel', 'toggleLeftPanel', 'toggleHistoryTab', 'maximize']),
-    ...mapMutations(['setLeftPanel', 'setRightPanel', 'setSendByEnter', 'setSoundNotification', 'updateRooms']),
+    ...mapActions(['toggleRightPanel', 'toggleLeftPanel', 'maximize']),
+    ...mapMutations([
+      'setDialog',
+      'setLeftPanel',
+      'setRightPanel',
+      'setSendByEnter',
+      'setSoundNotification',
+      'updateRooms'
+    ]),
     showTabHistory: function(value) {
       this.$emit('showTabHistory', value)
     },
@@ -131,7 +133,7 @@ export default {
           this.updateRooms(result.roomList)
           this.initTimer()
         })
-      }, this.data.refreshRoomTime)
+      }, this.config.refreshRoomTime)
     },
     rightPanel(value) {
       this.$emit('rightPanel', value)
@@ -140,21 +142,19 @@ export default {
       this.$emit('leftPanel', value)
     },
     toggleSize() {
-      if (this.maximizedDialog) {
-        this.maximizedDialog = false
+      if (!this.miniMode) {
+        this.miniMode = true
         this.setLeftPanel(false)
         this.setRightPanel(false)
       } else {
-        this.maximizedDialog = true
+        this.miniMode = false
       }
     },
     toggleEnter() {
-      this.setSendByEnter(!this.data.sendByEnter)
-      app.setCookie('chat-notSendByEnter', !this.data.sendByEnter, 365)
+      this.setSendByEnter(!this.sendByEnter)
     },
     toggleSoundNotification() {
-      this.setSoundNotification(!this.data.isSoundNotification)
-      app.setCookie('chat-isSoundNotification', !this.data.isSoundNotification, 365)
+      this.setSoundNotification(!this.isSoundNotification)
     }
   },
   beforeDestroy() {

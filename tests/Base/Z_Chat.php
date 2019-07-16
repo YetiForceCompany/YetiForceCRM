@@ -199,7 +199,7 @@ class Chat extends \Tests\Base
 			->andWhere([\App\Chat::COLUMN_NAME['room'][$chat->getRoomType()] => $groupId])
 			->one();
 		$this->assertNotFalse($row, 'Problem with methods "addToFavorites"');
-		$this->assertNull($row['last_message'], 'Problem with methods "addToFavorites"');
+		$this->assertIsInt($row['last_message'], 'Problem with methods "addToFavorites"');
 	}
 
 	/**

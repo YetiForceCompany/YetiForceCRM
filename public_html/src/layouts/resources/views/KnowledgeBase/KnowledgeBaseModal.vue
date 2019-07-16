@@ -15,7 +15,7 @@
     transition-hide="slide-down"
     content-class="quasar-reset"
   >
-    <drag-resize :coordinates="coordinates" v-on:onChangeCoordinates="onChangeCoordinates" :maximized="maximized">
+    <drag-resize :coordinates.sync="coordinates" :maximized="maximized">
       <q-card class="KnowledgeBaseModal full-height">
         <q-bar dark class="bg-yeti text-white dialog-header">
           <div class="flex items-center">
@@ -50,7 +50,7 @@
   </q-dialog>
 </template>
 <script>
-import DragResize from './components/DragResize.vue'
+import DragResize from 'components/DragResize.vue'
 import KnowledgeBase from './KnowledgeBase.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
@@ -87,10 +87,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchCategories', 'initState']),
-    onChangeCoordinates: function(coordinates) {
-      this.coordinates = coordinates
-    }
+    ...mapActions(['fetchCategories', 'initState'])
   },
   async created() {
     await this.initState(this.$options.state)

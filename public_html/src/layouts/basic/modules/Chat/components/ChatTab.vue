@@ -53,7 +53,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['maximizedDialog', 'data', 'isSearchActive', 'tab'])
+    ...mapGetters(['miniMode', 'data', 'config', 'isSearchActive', 'tab'])
   },
   watch: {
     data() {
@@ -61,7 +61,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchEarlierEntries', 'fetchSearchData', 'fetchRoom', 'fetchUnread']),
+    ...mapActions(['fetchEarlierEntries', 'fetchSearchData', 'fetchRoom', 'fetchUnread', 'updateAmountOfNewMessages']),
     ...mapMutations(['setSearchInactive', 'updateChat']),
     onResize({ height }) {
       Quasar.utils.dom.css(this.$refs.scrollContainer.$el, {
@@ -102,15 +102,17 @@ export default {
           lastId:
             this.data.chatEntries.slice(-1)[0] !== undefined ? this.data.chatEntries.slice(-1)[0]['id'] : undefined,
           recordId: this.data.currentRoom.recordId,
-          roomType: this.data.currentRoom.roomType
+          roomType: this.data.currentRoom.roomType,
+          miniMode: this.miniMode ? true : undefined
         }).done(({ result }) => {
           this.updateChat(result)
+          this.updateAmountOfNewMessages(result.amountOfNewMessages)
           if (result.chatEntries.length) {
             this.scrollDown()
           }
           this.fetchNewMessages()
         })
-      }, this.data.refreshMessageTime)
+      }, this.config.refreshMessageTime)
     },
     scrollDown() {
       this.scrollbarHidden = true
@@ -121,13 +123,11 @@ export default {
     }
   },
   mounted() {
-    if (this.data.currentRoom) {
-      this.fetchRoom().then(e => {
-        this.scrollDown()
-        this.$emit('onContentLoaded', true)
-      })
-    }
-    this.fetchNewMessages()
+    this.fetchRoom({ id: undefined, roomType: undefined }).then(e => {
+      this.scrollDown()
+      this.$emit('onContentLoaded', true)
+      this.fetchNewMessages()
+    })
   },
   beforeDestroy() {
     clearTimeout(this.timerMessage)

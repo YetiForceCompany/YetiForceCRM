@@ -2,7 +2,7 @@
 <template>
   <div>
     <q-tabs
-      v-model="tabHistory"
+      v-model="historyTab"
       @input="tabChange"
       align="left"
       dense
@@ -19,7 +19,7 @@
         :icon="getGroupIcon(roomType)"
       />
     </q-tabs>
-    <q-tab-panels v-model="tabHistory" animated style="min-height: inherit;" class="chat-panels">
+    <q-tab-panels v-model="historyTab" animated style="min-height: inherit;" class="chat-panels">
       <q-tab-panel v-for="(room, roomType) of data.roomList" :key="roomType" :name="roomType">
         <messages @earlierClick="earlierClick" :fetchingEarlier="fetchingEarlier" />
       </q-tab-panel>
@@ -38,12 +38,19 @@ export default {
   data() {
     return {
       userId: CONFIG.userId,
-      tabHistory: 'crm',
       fetchingEarlier: false
     }
   },
   computed: {
-    ...mapGetters(['data', 'tab'])
+    ...mapGetters(['data', 'tab']),
+    historyTab: {
+      get() {
+        return this.$store.getters['Chat/historyTab']
+      },
+      set(tab) {
+        this.$store.commit('Chat/setHistoryTab', tab)
+      }
+    }
   },
   methods: {
     ...mapActions(['fetchHistory']),
@@ -53,13 +60,13 @@ export default {
     },
     earlierClick() {
       this.fetchingEarlier = true
-      this.fetchHistory({ groupHistory: this.tabHistory, showMoreClicked: true }).then(e => {
+      this.fetchHistory({ groupHistory: this.historyTab, showMoreClicked: true }).then(e => {
         this.fetchingEarlier = false
       })
     }
   },
   mounted() {
-    this.fetchHistory({ groupHistory: this.tabHistory, showMoreClicked: false }).then(() => {
+    this.fetchHistory({ groupHistory: this.historyTab, showMoreClicked: false }).then(() => {
       this.$emit('onContentLoaded', true)
     })
   }
