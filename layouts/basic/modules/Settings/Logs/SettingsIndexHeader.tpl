@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<!-- tpl-Settings-SettingsIndexHeader-Index -->
+	<!-- tpl-Settings-Logs-SettingsIndexHeader -->
 	<div class="widget_header row ">
 		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
@@ -17,5 +17,5 @@
 		</ul>
 	</div>
 	<div class="indexContainer"></div>
-	<!-- /tpl-Settings-SettingsIndexHeader-Index -->
+	<!-- /tpl-Settings-Logs-SettingsIndexHeader -->
 {/strip}
