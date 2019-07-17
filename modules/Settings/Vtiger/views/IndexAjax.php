@@ -10,8 +10,8 @@
 
 class Settings_Vtiger_IndexAjax_View extends Settings_Vtiger_Index_View
 {
-	use \App\Controller\ExposeMethod,
-	 App\Controller\ClearProcess;
+	use \App\Controller\ExposeMethod;
+	use \App\Controller\ClearProcess;
 
 	public function __construct()
 	{
@@ -20,24 +20,24 @@ class Settings_Vtiger_IndexAjax_View extends Settings_Vtiger_Index_View
 		$this->exposeMethod('realignSettingsShortCutBlock');
 	}
 
-	public function getSettingsShortCutBlock(\App\Request $request)
+	public function getSettingsShortCutBlock(App\Request $request)
 	{
 		$fieldid = $request->get('fieldid');
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$pinnedSettingsShortcuts = Settings_Vtiger_MenuItem_Model::getPinnedItems();
 		$viewer->assign('SETTINGS_SHORTCUT', $pinnedSettingsShortcuts[$fieldid]);
-		$viewer->assign('MODULE', $qualifiedModuleName);
-		$viewer->view('SettingsShortCut.tpl', $qualifiedModuleName);
+		$viewer->assign('MODULE_NAME', $qualifiedModuleName);
+		$viewer->view('DashBoard/SettingsShortCut.tpl', $qualifiedModuleName);
 	}
 
-	public function realignSettingsShortCutBlock(\App\Request $request)
+	public function realignSettingsShortCutBlock(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$pinnedSettingsShortcuts = Settings_Vtiger_MenuItem_Model::getPinnedItems();
 		$viewer->assign('SETTINGS_SHORTCUT', $pinnedSettingsShortcuts);
-		$viewer->assign('MODULE', $qualifiedModuleName);
+		$viewer->assign('MODULE_NAME', $qualifiedModuleName);
 		$viewer->view('ReAlignSettingsShortCut.tpl', $qualifiedModuleName);
 	}
 }

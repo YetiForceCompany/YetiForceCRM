@@ -1,6 +1,6 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-	<div class="tpl-SystemWarnings warningsIndexPage">
+	<div class="tpl-Base-SystemWarnings warningsIndexPage">
 		<div class="row">
 			<div class="col-md-9 mr-2">
 				<div class="mr-2" id="warningsContent">

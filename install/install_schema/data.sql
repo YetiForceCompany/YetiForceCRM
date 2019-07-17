@@ -17580,17 +17580,18 @@ insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (6,'LBL_PROCESSES',13,'adminIcon-processes',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (7,'LBL_SECURITY_MANAGEMENT',7,'adminIcon-security',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (8,'LBL_MAIL_TOOLS',11,'adminIcon-mail-tools',0,NULL,NULL);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (9,'LBL_About_YetiForce',15,'adminIcon-about-yetiforce',0,NULL,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (9,'LBL_About_YetiForce',16,'adminIcon-about-yetiforce',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (11,'LBL_ADVANCED_MODULES',4,'adminIcon-advenced-modules',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (12,'LBL_CALENDAR_LABELS_COLORS',5,'adminIcon-calendar-labels-colors',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (13,'LBL_SEARCH_AND_FILTERS',6,'adminIcon-search-and-filtres',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (14,'LBL_LOGS',8,'adminIcon-logs',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (15,'LBL_AUTOMATION',10,'adminIcon-automation',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (16,'LBL_MENU_SUMMARRY',0,'userIcon-Home',1,'index.php?module=Vtiger&parent=Settings&view=Index',NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (18,'LBL_HELP',15,'fas fa-life-ring',0,NULL,NULL);
 
 /*Data for the table `vtiger_settings_blocks_seq` */
 
-insert  into `vtiger_settings_blocks_seq`(`id`) values (17);
+insert  into `vtiger_settings_blocks_seq`(`id`) values (18);
 
 /*Data for the table `vtiger_settings_field` */
 
@@ -17685,6 +17686,8 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (116,4,'LBL_BACKUP_MANAGER','fas fa-file-archive','LBL_BACKUP_MANAGER_DESCRIPTION','index.php?module=Backup&parent=Settings&view=Index',14,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (117,12,'LBL_BUSINESS_HOURS','fas fa-business-time','LBL_BUSINESS_HOURS_DESCRIPTION','index.php?module=BusinessHours&parent=Settings&view=List',4,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (119,6,'LBL_SLA_POLICY','fas fa-door-open','LBL_SLA_POLICY','index.php?module=SlaPolicy&parent=Settings&view=List',7,0,0,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (120,18,'LBL_GITHUB','fab fa-github',NULL,'index.php?module=Help&parent=Settings&view=Index',1,0,0,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (121,14,'LBL_SYSTEM_WARNINGS','fas fa-exclamation-triangle',NULL,'index.php?module=Logs&parent=Settings&view=Index',5,0,0,NULL);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
