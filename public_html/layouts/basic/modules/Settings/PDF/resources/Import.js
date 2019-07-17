@@ -12,6 +12,6 @@ jQuery.Class('Settings_PDF_Import_Js', {}, {
 });
 
 jQuery(document).ready(function() {
-	var settingPDFImportInstance = new Settings_PDF_Import_Js();
+	const settingPDFImportInstance = new Settings_PDF_Import_Js();
 	settingPDFImportInstance.registerEvents();
 });
