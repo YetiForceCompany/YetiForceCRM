@@ -10,8 +10,3 @@ jQuery.Class('Settings_PDF_Import_Js', {}, {
     form.validationEngine();
   }
 });
-
-jQuery(document).ready(function() {
-	const settingPDFImportInstance = new Settings_PDF_Import_Js();
-	settingPDFImportInstance.registerEvents();
-});
