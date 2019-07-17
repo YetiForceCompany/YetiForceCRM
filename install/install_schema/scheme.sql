@@ -8430,7 +8430,7 @@ CREATE TABLE `vtiger_systems` (
 CREATE TABLE `vtiger_tab` (
   `tabid` smallint(5) NOT NULL DEFAULT 0,
   `name` varchar(25) NOT NULL,
-  `presence` tinyint(3) unsigned NOT NULL DEFAULT 1,
+  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
   `tabsequence` smallint(5) NOT NULL DEFAULT 0,
   `tablabel` varchar(25) NOT NULL,
   `modifiedby` smallint(5) DEFAULT NULL,
@@ -8443,6 +8443,7 @@ CREATE TABLE `vtiger_tab` (
   `color` varchar(30) DEFAULT NULL,
   `coloractive` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `type` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `premium` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`tabid`),
   UNIQUE KEY `tab_name_idx` (`name`),
   KEY `tab_modifiedby_idx` (`modifiedby`),
