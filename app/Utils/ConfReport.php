@@ -33,7 +33,7 @@ class ConfReport
 	 *
 	 * @var string[]
 	 */
-	public static $types = ['stability', 'security', 'libraries', 'database', 'performance', 'environment', 'publicDirectoryAccess', 'writableFilesAndFolders'];
+	public static $types = ['stability', 'security', 'libraries', 'database', 'performance', 'environment', 'publicDirectoryAccess', 'writableFilesAndFolders', 'functionalVerification'];
 
 	/**
 	 * List all container.
@@ -299,7 +299,15 @@ class ConfReport
 		'public_html/libraries/' => ['type' => 'IsWritable', 'testCli' => true],
 		'public_html/layouts/resources/Logo/' => ['type' => 'IsWritable', 'testCli' => true],
 	];
-
+	/**
+	 * Functionality test map
+	 *
+	 * @var array
+	 */
+	public static $functionalVerification = [
+		'footer' => ['type' => 'Footer',  'testCli' => false, 'label' => 'FOOTER'],
+		'premiumModules' => ['type' => 'PremiumModules',  'testCli' => false, 'label' => 'PREMIUM_MODULES'],
+	];
 	/**
 	 * Php variables.
 	 *
@@ -1137,8 +1145,42 @@ class ConfReport
 	 */
 	private static function validateIsWritable(string $name, array $row, string $sapi)
 	{
+		unset($name);
 		$row['status'] = \App\Fields\File::isWriteable($name);
 		$row[$sapi] = $row['status'] ? 'LBL_YES' : 'LBL_NO';
+		return $row;
+	}
+
+	/**
+	 * Validate footer value.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateFooter(string $name, array $row, string $sapi)
+	{
+		unset($name);
+		$row['status'] = true;
+		$row[$sapi] = \App\Language::translate($row['status'] ? 'LBL_YES' : 'LBL_NO');
+		return $row;
+	}
+
+	/**
+	 * Validate premium modules value.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validatePremiumModules(string $name, array $row, string $sapi)
+	{
+		$row['status'] = true;
+		$row[$sapi] = \App\Language::translate($row['status'] ? 'LBL_YES' : 'LBL_NO');
 		return $row;
 	}
 

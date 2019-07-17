@@ -183,6 +183,37 @@
 					</tbody>
 				</table>
 			</div>
+			<div class="u-columns__item pb-3 functionalVerification table-responsive-md">
+				<table class="table table-bordered table-sm m-0">
+					<thead>
+					<tr>
+						<th colspan="2" scope="col">
+							{\App\Language::translate('LBL_FUNCTIONAL_VERIFICATION_TITLE', $MODULE_NAME)}
+						</th>
+					</tr>
+					<tr>
+						<th colspan="1" scope="col" class="text-left">
+							{App\Language::translate('LBL_FN_NAME', $MODULE_NAME)}
+						</th>
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_IT_WORKS_PROPERLY', $MODULE_NAME)}
+						</th>
+					</tr>
+					</thead>
+					<tbody class="u-word-break-all small">
+					{foreach from=$ALL['functionalVerification'] key=KEY item=ITEM}
+						<tr {if !$ITEM['status']}class="table-danger"{/if}>
+							<td class="bg-light text-left u-word-break-keep-all">
+								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
+							</td>
+							<td>
+								{$ITEM['www']}
+							</td>
+						</tr>
+					{/foreach}
+					</tbody>
+				</table>
+			</div>
 			<div class="u-columns__item pb-3 stability table-responsive-md">
 				<table class="table table-bordered table-sm m-0">
 					<thead>

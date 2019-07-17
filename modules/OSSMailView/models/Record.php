@@ -161,7 +161,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			return false;
 		}
 		$returnEmail = '';
-		if (in_array($module, ['HelpDesk', 'Project', 'SSalesProcesses'])) {
+		if (\in_array($module, ['HelpDesk', 'Project', 'SSalesProcesses'])) {
 			$accountId = '';
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $module);
 			switch ($module) {
@@ -183,7 +183,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			}
 		} else {
 			$emailFields = OSSMailScanner_Record_Model::getEmailSearch($module);
-			if (count($emailFields) > 0) {
+			if (\count($emailFields) > 0) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($record, $module);
 				foreach ($emailFields as $emailField) {
 					$email = $recordModel->get($emailField['columnname']);
@@ -211,7 +211,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 
 	public function bindSelectedRecords($selectedIds)
 	{
-		$this->addLog('Action_Bind', count($selectedIds));
+		$this->addLog('Action_Bind', \count($selectedIds));
 		\App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', ['verify' => 1], ['ossmailviewid' => $selectedIds])->execute();
 	}
 
@@ -230,7 +230,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 	public function changeTypeSelectedRecords($selectedIds, $mail_type)
 	{
 		$mailType = self::getMailType();
-		$this->addLog('Action_ChangeType', count($selectedIds));
+		$this->addLog('Action_ChangeType', \count($selectedIds));
 		\App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', ['ossmailview_sendtype' => $mailType[$mail_type], 'type' => $mail_type], ['ossmailviewid' => $selectedIds])->execute();
 	}
 
@@ -239,7 +239,6 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 		App\Db::getInstance()->createCommand()->insert('vtiger_ossmails_logs', ['action' => $action, 'info' => $info, 'user' => $user_id, 'start_time' => date('Y-m-d H:i:s')])->execute();
 	}
-
 
 	/**
 	 * Function to delete the current Record Model.
