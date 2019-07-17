@@ -91,8 +91,6 @@ class ModuleBasic
 			'presence' => $this->presence,
 			'tabsequence' => $this->tabsequence,
 			'tablabel' => $this->label,
-			'modifiedby' => null,
-			'modifiedtime' => null,
 			'customized' => $this->customized,
 			'ownedby' => $this->ownedby,
 			'version' => $this->version,
