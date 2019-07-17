@@ -832,6 +832,10 @@ final class Chat
 			)->execute();
 			unset($this->room['userid']);
 		}
+		if (static::getCurrentRoom()['recordId'] === $this->recordId) {
+			$defaultRoom = static::getDefaultRoom();
+			static::setCurrentRoom($defaultRoom['roomType'], $defaultRoom['recordId']);
+		}
 	}
 
 	/**

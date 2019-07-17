@@ -57,7 +57,7 @@ export default {
 			})
 		})
 	},
-	togglePinned({ commit }, { roomType, room }) {
+	togglePinned({ dispatch, commit, getters }, { roomType, room }) {
 		const mode = room.isPinned || roomType === 'crm' ? 'removeFromFavorites' : 'addToFavorites'
 		commit('setPinned', { roomType, room })
 		AppConnector.request({
@@ -66,6 +66,10 @@ export default {
 			mode: mode,
 			roomType: roomType,
 			recordId: room.recordid
+		}).done(_ => {
+			if (mode === 'removeFromFavorites' && roomType === 'crm' && getters.data.currentRoom.roomType === roomType) {
+				dispatch('fetchRoom', { id: undefined, roomType: undefined })
+			}
 		})
 	},
 	fetchEarlierEntries({ commit, getters }) {
