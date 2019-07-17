@@ -8,7 +8,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
-class Settings_Help_Index_View extends Vtiger_Basic_View
+class Settings_Help_Index_View extends Settings_Vtiger_Index_View
 {
 	use \App\Controller\ExposeMethod;
 
@@ -95,35 +95,5 @@ class Settings_Help_Index_View extends Vtiger_Basic_View
 		$viewer->assign('GITHUB_ISSUES', $issues);
 		$viewer->assign('GITHUB_CLIENT_MODEL', $clientModel);
 		$viewer->view('Github.tpl', $qualifiedModuleName);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getFooterScripts(App\Request $request)
-	{
-		$moduleName = $request->getModule();
-		$type = \App\Process::$processName;
-		return array_merge(
-			parent::getFooterScripts($request),
-			$this->checkAndConvertJsScripts([
-				'modules.Vtiger.resources.Vtiger',
-				'~vendor/ckeditor/ckeditor/ckeditor.js',
-				'~vendor/ckeditor/ckeditor/adapters/jquery.js',
-				'~libraries/jstree/dist/jstree.js',
-				'~libraries/datatables.net/js/jquery.dataTables.js',
-				'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
-				'~libraries/datatables.net-responsive/js/dataTables.responsive.js',
-				'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js',
-				'modules.Settings.Vtiger.resources.Vtiger',
-				'modules.Settings.Vtiger.resources.Edit',
-				'modules.Settings.Vtiger.resources.Index',
-				'modules.Vtiger.resources.List',
-				'modules.Settings.Vtiger.resources.List',
-				"modules.Settings.$moduleName.resources.Index",
-				"modules.Settings.$moduleName.resources.$type",
-				"modules.Settings.$moduleName.resources.$moduleName",
-			])
-		);
 	}
 }
