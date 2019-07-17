@@ -81,8 +81,6 @@ Settings_Vtiger_Index_Js('Settings_Help_Index_Js', {
 		});
 	},
 	registerEventsLoadContent: function(thisInstance, mode, container) {
-		if (mode == 'github') {
-			thisInstance.registerGithubEvents(container);
-		}
+		thisInstance.registerGithubEvents(container);
 	}
 });

@@ -75,25 +75,45 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
-		$usersCount = Users_Record_Model::getCount(true);
-		$allWorkflows = Settings_Workflows_Record_Model::getAllAmountWorkflowsAmount();
-		$activeModules = Settings_ModuleManager_Module_Model::getModulesCount(true);
 		$pinnedSettingsShortcuts = Settings_Vtiger_MenuItem_Model::getPinnedItems();
 		$warnings = \App\SystemWarnings::getWarnings('all');
-		$viewer->assign('WARNINGS_COUNT', \count($warnings));
 		$viewer->assign('WARNINGS', !App\Session::has('SystemWarnings') ? $warnings : []);
-		$viewer->assign('USERS_COUNT', $usersCount);
-		$viewer->assign('SECURITY_COUNT', $this->getSecurityCount());
-		$viewer->assign('ALL_WORKFLOWS', $allWorkflows);
-		$viewer->assign('ACTIVE_MODULES', $activeModules);
+		$systemMonitoring = [
+			'WARNINGS_COUNT' => [
+				'LABEL' => 'PLU_SYSTEM_WARNINGS',
+				'VALUE' => \count($warnings),
+				'HREF' => 'javascript:Settings_Vtiger_Index_Js.showWarnings()'
+			],
+			'SECURITY_COUNT' => [
+				'LABEL' => 'PLU_SECURITY',
+				'VALUE' => $this->getSecurityCount(),
+				'HREF' => 'javascript:Settings_Vtiger_Index_Js.showSecurity()'
+			],
+			'USERS_COUNT' => [
+				'LABEL' => 'PLU_USERS',
+				'VALUE' => Users_Record_Model::getCount(true),
+				'HREF' => 'index.php?module=Users&parent=Settings&view=List'
+			],
+			'ALL_WORKFLOWS' => [
+				'LABEL' => 'PLU_WORKFLOWS_ACTIVE',
+				'VALUE' => Settings_Workflows_Record_Model::getAllAmountWorkflowsAmount(),
+				'HREF' => 'index.php?module=Workflows&parent=Settings&view=List',
+			],
+			'ACTIVE_MODULES' => [
+				'LABEL' => 'PLU_MODULES',
+				'VALUE' => Settings_ModuleManager_Module_Model::getModulesCount(true),
+				'HREF' => 'index.php?module=ModuleManager&parent=Settings&view=List'
+			],
+		];
+		$viewer->assign('SYSTEM_MONITORING', $systemMonitoring);
 		$viewer->assign('SETTINGS_SHORTCUTS', $pinnedSettingsShortcuts);
-		$viewer->assign('PRODUCTS', \App\YetiForce\Shop::getProducts());
+		$viewer->assign('PRODUCTS', \App\YetiForce\Shop::getProducts('featured'));
 		$viewer->assign('PAYPAL_URL', \App\YetiForce\Shop::getPaypalUrl());
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}

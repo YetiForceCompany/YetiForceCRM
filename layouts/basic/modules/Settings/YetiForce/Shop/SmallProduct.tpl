@@ -1,7 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Settings-YetiForce-Shop-SmallProduct -->
 	<form action="{$PAYPAL_URL}" method="POST">
-	<div class="tpl-Settings-YetiForce-Shop-SmallProduct{if empty($PRODUCT->expirationDate)} bg-light{/if}">
+	<div class="{if empty($PRODUCT->expirationDate)} bg-light{/if}">
 			<div>
 				<div class="row">
 					<div class="col-sm-4 col-md-4">
@@ -58,4 +59,5 @@
 		{/if}
 	{/foreach}
 	</form>
+	<!-- /tpl-Settings-YetiForce-Shop-SmallProduct -->
 {/strip}

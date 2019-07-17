@@ -11,11 +11,9 @@
 			</div>
 		{/function}
 		<div class="d-flex flex-row flex-wrap">
-			{BOX LABEL='PLU_SYSTEM_WARNINGS' VALUE=$WARNINGS_COUNT HREF='javascript:Settings_Vtiger_Index_Js.showWarnings()'}
-			{BOX LABEL='PLU_SECURITY' VALUE=$SECURITY_COUNT HREF='javascript:Settings_Vtiger_Index_Js.showSecurity()'}
-			{BOX LABEL='PLU_USERS' VALUE=$USERS_COUNT HREF='index.php?module=Users&parent=Settings&view=List'}
-			{BOX LABEL='PLU_WORKFLOWS_ACTIVE' VALUE=$ALL_WORKFLOWS HREF='index.php?module=Workflows&parent=Settings&view=List'}
-			{BOX LABEL='PLU_MODULES' VALUE=$ACTIVE_MODULES HREF='index.php?module=ModuleManager&parent=Settings&view=List'}
+		{foreach from=$SYSTEM_MONITORING item=ITEM}
+			{BOX LABEL=$ITEM['LABEL'] VALUE=$ITEM['VALUE'] HREF=$ITEM['HREF']}
+		{/foreach}
 		</div>
 	</div>
 {/strip}
