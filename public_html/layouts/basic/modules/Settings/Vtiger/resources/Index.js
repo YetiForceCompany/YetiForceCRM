@@ -233,7 +233,6 @@ $.Class(
 						};
 						Vtiger_Helper_Js.showPnotify(params);
 					} else {
-						console.log('!!!');
 						thisInstance.registerPinShortCutEvent(ui.draggable.parent());
 						thisInstance.registerSettingShortCutAlignmentEvent();
 					}
