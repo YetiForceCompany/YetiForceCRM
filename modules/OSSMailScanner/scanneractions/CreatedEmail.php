@@ -59,24 +59,21 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 				$record->set('attachments_exist', 1);
 			}
 			$record->setHandlerExceptions(['disableHandlers' => true]);
+			$record->setDataForSave([
+				'date' => $mail->get('udate_formated'),
+				'cid' => $mail->getUniqueId(),
+			]);
 			$record->save();
 			$record->setHandlerExceptions([]);
 			if ($id = $record->getId()) {
 				$mail->setMailCrmId($id);
-				$attachments = $mail->saveAttachments();
-				App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', [
-					'date' => $mail->get('udate_formated'),
-					'cid' => $mail->getUniqueId(),
-				], ['ossmailviewid' => $id]
-				)->execute();
-				return ['mailViewId' => $id, 'attachments' => $attachments];
+				return ['mailViewId' => $id, 'attachments' => $mail->saveAttachments()];
 			}
 		} else {
 			App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', [
 				'id' => $mail->get('id'),
 			], ['ossmailviewid' => $mail->getMailCrmId()]
 			)->execute();
-
 			return ['mailViewId' => $mail->getMailCrmId()];
 		}
 		return false;
@@ -96,7 +93,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			$html = nl2br($html);
 		}
 		$attachments = $mail->get('attachments');
-		if (count($attachments) < 2) {
+		if (\count($attachments) < 2) {
 			foreach ($attachments as $key => $attachment) {
 				if (('.html' === substr($attachment['filename'], -5)) || ('.txt' === substr($attachment['filename'], -4))) {
 					$html .= $attachment['attachment'] . '<hr />';

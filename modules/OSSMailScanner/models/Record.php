@@ -313,10 +313,9 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	 */
 	public function manualScanMail(int $uid, string $folder, array $account)
 	{
-		$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
 		$imapFolder = \App\Utils::convertCharacterEncoding($folder, 'UTF-8', 'UTF7-IMAP');
 		$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], $imapFolder);
-		$mail = $mailModel->getMail($mbox, $uid);
+		$mail = OSSMail_Record_Model::getMail($mbox, $uid);
 		if (!$mail) {
 			return [];
 		}
@@ -372,7 +371,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			for ($i = $msgno; $i <= $numMsg; ++$i) {
 				$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
 				$uid = imap_uid($mbox, $i);
-				$mail = $mailModel->getMail($mbox, $uid, $i);
+				$mail = OSSMail_Record_Model::getMail($mbox, $uid, $i);
 
 				self::executeActions($account, $mail, $folder);
 				unset($mail);

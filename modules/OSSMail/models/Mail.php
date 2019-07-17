@@ -194,7 +194,6 @@ class OSSMail_Mail_Model extends \App\Base
 		}
 		$uid = sha1($this->get('fromaddress') . '|' . $this->get('date') . '|' . $this->get('subject') . '|' . $this->get('body'));
 		$this->set('cid', $uid);
-
 		return $uid;
 	}
 
@@ -208,7 +207,7 @@ class OSSMail_Mail_Model extends \App\Base
 		if ($this->mailCrmId) {
 			return $this->mailCrmId;
 		}
-		if (empty($this->get('message_id')) || App\Config::module('OSSMailScanner', 'ONE_MAIL_FOR_MULTIPLE_RECIPIENTS')) {
+		if (empty($this->get('message_id')) || \Config\Modules\OSSMailScanner::$ONE_MAIL_FOR_MULTIPLE_RECIPIENTS) {
 			$query = (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview')->where(['cid' => $this->getUniqueId()])->limit(1);
 		} else {
 			$query = (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview')->where(['uid' => $this->get('message_id'), 'rc_user' => $this->getAccountOwner()])->limit(1);
@@ -241,7 +240,7 @@ class OSSMail_Mail_Model extends \App\Base
 			$text = $header->{$cacheKey};
 		}
 		$return = '';
-		if (is_array($text)) {
+		if (\is_array($text)) {
 			foreach ($text as $row) {
 				if ('' != $return) {
 					$return .= ',';
@@ -271,7 +270,7 @@ class OSSMail_Mail_Model extends \App\Base
 			}
 			if (App\Cache::staticHas($cacheKey, $email)) {
 				$cache = App\Cache::staticGet($cacheKey, $email);
-				if ($cache != 0) {
+				if (0 != $cache) {
 					$return = array_merge($return, $cache);
 				}
 			} else {
@@ -309,7 +308,7 @@ class OSSMail_Mail_Model extends \App\Base
 			$domain = mb_strtolower(explode('@', $email)[1]);
 			if (App\Cache::staticHas($cacheKey, $domain)) {
 				$cache = App\Cache::staticGet($cacheKey, $domain);
-				if ($cache != 0) {
+				if (0 != $cache) {
 					$crmids = array_merge($crmids, $cache);
 				}
 			} else {
@@ -353,10 +352,10 @@ class OSSMail_Mail_Model extends \App\Base
 					$enableFind = false;
 				}
 				if ($enableFind) {
-					if ($fieldModel->getUIType() === 319) {
-						$return = array_merge($return,$this->searchByDomains($moduleName, $fieldName, $emails));
+					if (319 === $fieldModel->getUIType()) {
+						$return = array_merge($return, $this->searchByDomains($moduleName, $fieldName, $emails));
 					} else {
-						$return = array_merge($return,$this->searchByEmails($moduleName, $fieldName, $emails));
+						$return = array_merge($return, $this->searchByEmails($moduleName, $fieldName, $emails));
 					}
 				}
 			}
