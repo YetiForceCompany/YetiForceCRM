@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-Settings-Base-IndexView-SettingsShortCut col-lg-12 col-xl-4 m-1 p-3 contentsBackground well u-cursor-pointer moduleBlock"
+	<div class="tpl-Settings-Base-DashBoard-SettingsShortCut col-lg-12 col-xl-4 m-1 p-3 contentsBackground well u-cursor-pointer moduleBlock"
 		 id="shortcut_{$SETTINGS_SHORTCUT->getId()}" data-actionurl="{$SETTINGS_SHORTCUT->getPinUnpinActionUrl()}"
 		 data-url="{$SETTINGS_SHORTCUT->getUrl()}">
 		<div class="d-flex align-items-center">

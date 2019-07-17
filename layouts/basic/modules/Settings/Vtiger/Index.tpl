@@ -2,7 +2,7 @@
 {strip}
 	<!-- tpl-Settings-Base-Index -->
 	{if $WARNINGS}
-		{include file=\App\Layout::getTemplatePath('IndexView/SystemWarningAletrs.tpl', $QUALIFIED_MODULE)}
+		{include file=\App\Layout::getTemplatePath('DashBoard/SystemWarningAletrs.tpl', $QUALIFIED_MODULE)}
 	{/if}
 	<div class="settingsIndexPage">
 		<div class="container-fluid">
@@ -19,13 +19,13 @@
 			</div>
 			<div class="row">
 				<div class="col-sm bg-light m-1">
-					{include file=\App\Layout::getTemplatePath('IndexView/PremiumZone.tpl', $QUALIFIED_MODULE)}
+					{include file=\App\Layout::getTemplatePath('DashBoard/PremiumZone.tpl', $QUALIFIED_MODULE)}
 				</div>
 				<div class="col-sm bg-light m-1">
-					{include file=\App\Layout::getTemplatePath('IndexView/SystemMonitoring.tpl', $QUALIFIED_MODULE)}
+					{include file=\App\Layout::getTemplatePath('DashBoard/SystemMonitoring.tpl', $QUALIFIED_MODULE)}
 				</div>
 				<div class="col-sm bg-light m-1">
-					{include file=\App\Layout::getTemplatePath('IndexView/SettingsShortCutsContainer.tpl', $QUALIFIED_MODULE)}
+					{include file=\App\Layout::getTemplatePath('DashBoard/SettingsShortCutsContainer.tpl', $QUALIFIED_MODULE)}
 				</div>
 			</div>
 		</div>

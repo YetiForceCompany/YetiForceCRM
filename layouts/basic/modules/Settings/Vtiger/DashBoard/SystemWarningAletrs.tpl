@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Settings-Base-IndexView-SystemWarningAletrs" id="systemWarningAletrs">
+	<div class="tpl-Settings-Base-DashBoard-SystemWarningAletrs" id="systemWarningAletrs">
 		<div class="modal fade static">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">

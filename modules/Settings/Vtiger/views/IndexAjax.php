@@ -28,7 +28,7 @@ class Settings_Vtiger_IndexAjax_View extends Settings_Vtiger_Index_View
 		$pinnedSettingsShortcuts = Settings_Vtiger_MenuItem_Model::getPinnedItems();
 		$viewer->assign('SETTINGS_SHORTCUT', $pinnedSettingsShortcuts[$fieldid]);
 		$viewer->assign('MODULE_NAME', $qualifiedModuleName);
-		$viewer->view('IndexView/SettingsShortCut.tpl', $qualifiedModuleName);
+		$viewer->view('DashBoard/SettingsShortCut.tpl', $qualifiedModuleName);
 	}
 
 	public function realignSettingsShortCutBlock(App\Request $request)

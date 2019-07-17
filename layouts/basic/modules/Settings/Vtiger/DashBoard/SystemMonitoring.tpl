@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Settings-Base-IndexView-SystemMonitoring">
+	<div class="tpl-Settings-Base-DashBoard-SystemMonitoring">
 		{function BOX LABEL='' VALUE='' HREF=''}
 			<div class="p-2 d-flex flex-column w-25 shadow m-2">
 				<h3 class="summaryCount u-font-size-44px">{$VALUE}</h3>
