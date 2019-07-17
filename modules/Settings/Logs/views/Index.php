@@ -30,9 +30,9 @@ class Settings_Logs_Index_View extends Settings_Vtiger_Index_View
 		$mode = $request->getMode();
 		if (!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
-			return;
+		} else {
+			$this->getViewer($request)->view('SettingsIndexHeader.tpl', $request->getModule(false));
 		}
-		$this->getViewer($request)->view('SettingsIndexHeader.tpl', $request->getModule(false));
 	}
 
 	/**

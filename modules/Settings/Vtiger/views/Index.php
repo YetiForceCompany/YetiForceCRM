@@ -118,6 +118,13 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
+	/**
+	 * Post process settings.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
 	public function postProcessSettings(App\Request $request)
 	{
 		$this->getViewer($request)->view('SettingsMenuEnd.tpl', $request->getModule(false));
