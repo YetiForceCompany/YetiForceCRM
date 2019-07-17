@@ -21,7 +21,7 @@
 					<span class="{$SETTING_SHORTCUT->get('iconpath')} mr-2"></span>
 					{\App\Language::translate($SETTING_SHORTCUT->get('name'), Vtiger_Menu_Model::getModuleNameFromUrl($SETTING_SHORTCUT->getUrl()))}
 				</h5>
-				<button data-id="{$SETTING_SHORTCUT->getId()}" title="{\App\Language::translate('LBL_REMOVE',$MODULE)}"
+				<button data-id="{$SETTING_SHORTCUT->getId()}" title="{\App\Language::translate('LBL_REMOVE', $MODULE_NAME)}"
 						title="Close" type="button" class="unpin close ml-auto">
 					<span class="fas fa-times"></span>
 				</button>
