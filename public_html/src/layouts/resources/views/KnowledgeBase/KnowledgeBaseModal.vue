@@ -18,29 +18,29 @@
     <drag-resize :coordinates.sync="coordinates" :maximized="maximized">
       <q-card class="KnowledgeBaseModal full-height">
         <q-bar dark class="bg-yeti text-white dialog-header">
-          <div class="flex items-center">
-            <div class="flex items-center no-wrap ellipsis q-mr-sm-sm">
-              <span :class="[`userIcon-${moduleName}`, 'q-mr-sm']"></span>
-              {{ translate(`JS_${moduleName.toUpperCase()}`) }}
-            </div>
-          </div>
-          <q-space />
-          <template v-if="$q.platform.is.desktop">
-            <a v-show="!maximized" class="flex grabbable text-decoration-none text-white" href="#">
-              <q-icon class="js-drag" name="mdi-drag" size="19px" />
-            </a>
-            <q-btn
-              dense
-              flat
-              :icon="maximized ? 'mdi-window-restore' : 'mdi-window-maximize'"
-              @click="maximized = !maximized"
-            >
-              <q-tooltip>{{ maximized ? translate('JS_MINIMIZE') : translate('JS_MAXIMIZE') }}</q-tooltip>
-            </q-btn>
-          </template>
-          <q-btn dense flat icon="mdi-close" v-close-popup>
-            <q-tooltip>{{ translate('JS_CLOSE') }}</q-tooltip>
-          </q-btn>
+					<div class="flex items-center no-wrap full-width js-drag">
+						<div class="flex items-center">
+							<div class="flex items-center no-wrap ellipsis q-mr-sm-sm">
+								<span :class="[`userIcon-${moduleName}`, 'q-mr-sm']"></span>
+								{{ translate(`JS_${moduleName.toUpperCase()}`) }}
+							</div>
+						</div>
+						<q-space />
+						<template v-if="$q.platform.is.desktop">
+							<btn-grab v-show="!maximized" class="flex text-white" grabClass="js-drag" size="19px" />
+							<q-btn
+								dense
+								flat
+								:icon="maximized ? 'mdi-window-restore' : 'mdi-window-maximize'"
+								@click="maximized = !maximized"
+							>
+								<q-tooltip>{{ maximized ? translate('JS_MINIMIZE') : translate('JS_MAXIMIZE') }}</q-tooltip>
+							</q-btn>
+						</template>
+						<q-btn dense flat icon="mdi-close" v-close-popup>
+							<q-tooltip>{{ translate('JS_CLOSE') }}</q-tooltip>
+						</q-btn>
+					</div>
         </q-bar>
         <div>
           <knowledge-base :coordinates="coordinates" />
@@ -51,12 +51,13 @@
 </template>
 <script>
 import DragResize from 'components/DragResize.vue'
+import BtnGrab from 'components/BtnGrab.vue'
 import KnowledgeBase from './KnowledgeBase.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'KnowledgeBaseModal',
-  components: { KnowledgeBase, DragResize },
+  components: { KnowledgeBase, DragResize, BtnGrab },
   data() {
     return {
       coordinates: {
@@ -102,17 +103,6 @@ export default {
 }
 .modal-full-height {
   max-height: calc(100vh - 31.14px) !important;
-}
-.grabbable:hover {
-  cursor: move;
-  cursor: grab;
-  cursor: -moz-grab;
-  cursor: -webkit-grab;
-}
-.grabbable:active {
-  cursor: grabbing;
-  cursor: -moz-grabbing;
-  cursor: -webkit-grabbing;
 }
 .contrast-50 {
   filter: contrast(50%);
