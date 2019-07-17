@@ -164,7 +164,7 @@ export default {
 			if (getters.isSoundNotification) {
 				app.playSound('CHAT')
 			}
-			if (getters.hasDesktopPermission) {
+			if (getters.isDesktopNotification && !PNotify.modules.Desktop.checkPermission()) {
 				let message = app.vtranslate('JS_CHAT_NEW_MESSAGE')
 				if (getters.config.showNumberOfNewMessages) {
 					message += ' ' + newMessages

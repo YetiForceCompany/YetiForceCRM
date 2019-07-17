@@ -36,16 +36,6 @@ export default {
 	isDesktopNotification(state) {
 		return state.local.isDesktopNotification
 	},
-	hasDesktopPermission(state) {
-		if (state.local.isDesktopNotification) {
-			return false
-		}
-		if (PNotify.modules.Desktop.checkPermission() !== 0) {
-			app.setCookie('chat-isDesktopNotification', false, 365)
-			return false
-		}
-		return true
-	},
 	data(state) {
 		return state.data
 	},
