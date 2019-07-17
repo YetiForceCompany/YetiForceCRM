@@ -172,37 +172,22 @@ class Deprecated
 		return 'CONCAT(' . $formattedNameListString . ')';
 	}
 
+	/**
+	 * Gets fields for module.
+	 *
+	 * @param string $module
+	 *
+	 * @return array
+	 */
 	public static function getColumnFields($module)
 	{
 		\App\Log::trace('Entering getColumnFields(' . $module . ') method ...');
-
-		// Lookup in cache for information
-		$cachedModuleFields = \VTCacheUtils::lookupFieldInfoModule($module);
-
-		if (false === $cachedModuleFields) {
-			$fieldsInfo = Functions::getModuleFieldInfos($module);
-			if (!empty($fieldsInfo)) {
-				foreach ($fieldsInfo as $resultrow) {
-					// Update information to cache for re-use
-					\VTCacheUtils::updateFieldInfo(
-						$resultrow['tabid'], $resultrow['fieldname'], $resultrow['fieldid'], $resultrow['fieldlabel'], $resultrow['columnname'], $resultrow['tablename'], $resultrow['uitype'], $resultrow['typeofdata'], $resultrow['presence']
-					);
-				}
-			}
-			// For consistency get information from cache
-			$cachedModuleFields = \VTCacheUtils::lookupFieldInfoModule($module);
+		$columnFields = [];
+		foreach (\VTCacheUtils::lookupFieldInfoModule($module) as $fieldInfo) {
+			$columnFields[$fieldInfo['fieldname']] = '';
 		}
-
-		$column_fld = [];
-		if ($cachedModuleFields) {
-			foreach ($cachedModuleFields as $fieldinfo) {
-				$column_fld[$fieldinfo['fieldname']] = '';
-			}
-		}
-
 		\App\Log::trace('Exiting getColumnFields method ...');
-
-		return $column_fld;
+		return $columnFields;
 	}
 
 	/**

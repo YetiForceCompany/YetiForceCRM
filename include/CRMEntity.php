@@ -113,37 +113,7 @@ class CRMEntity
 			];
 		}
 
-		// Lookup module field cache
 		$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
-		if (false === $cachedModuleFields) {
-			// Pull fields and cache for further use
-			$tabid = \App\Module::getModuleId($module);
-			$query = (new \App\Db\Query())
-				->select(['fieldname', 'fieldid', 'fieldlabel', 'columnname', 'tablename', 'uitype', 'typeofdata', 'presence'])
-				->from('vtiger_field')
-				->where(['tabid' => $tabid]);
-			$dataReader = $query->createCommand()->query();
-			if ($dataReader->count()) {
-				while ($row = $dataReader->read()) {
-					// Update cache
-					VTCacheUtils::updateFieldInfo(
-						(int) $tabid,
-						$row['fieldname'],
-						(int) $row['fieldid'],
-						$row['fieldlabel'],
-						$row['columnname'],
-						$row['tablename'],
-						(int) $row['uitype'],
-						$row['typeofdata'],
-						(int) $row['presence']
-					);
-				}
-				// Get only active field information
-				$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
-			}
-			$dataReader->close();
-		}
-
 		if ($cachedModuleFields) {
 			$query = new \App\Db\Query();
 			$columnClause = [];
@@ -196,55 +166,6 @@ class CRMEntity
 		}
 		$this->column_fields['record_id'] = $record;
 		$this->column_fields['record_module'] = $module;
-	}
-
-	/**
-	 * To keep track of action of field filtering and avoiding doing more than once.
-	 *
-	 * @var array
-	 */
-	protected $__inactive_fields_filtered = false;
-
-	/**
-	 * Filter in-active fields based on type.
-	 *
-	 * @param string $module
-	 */
-	public function filterInactiveFields($module)
-	{
-		if ($this->__inactive_fields_filtered) {
-			return;
-		}
-		// Look for fields that has presence value NOT IN (0,2)
-		$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module, ['1']);
-		if (false === $cachedModuleFields) {
-			// Initialize the fields calling suitable API
-			vtlib\Deprecated::getColumnFields($module);
-			$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module, ['1']);
-		}
-
-		$hiddenFields = [];
-
-		if ($cachedModuleFields) {
-			foreach ($cachedModuleFields as $fieldinfo) {
-				$fieldLabel = $fieldinfo['fieldlabel'];
-				// NOTE: We should not translate the label to enable field diff based on it down
-				$fieldName = $fieldinfo['fieldname'];
-				$tableName = str_replace('vtiger_', '', $fieldinfo['tablename']);
-				$hiddenFields[$fieldLabel] = [$tableName => $fieldName];
-			}
-		}
-
-		if (isset($this->list_fields)) {
-			$this->list_fields = array_diff_assoc($this->list_fields, $hiddenFields);
-		}
-
-		if (isset($this->search_fields)) {
-			$this->search_fields = array_diff_assoc($this->search_fields, $hiddenFields);
-		}
-
-		// To avoid re-initializing everytime.
-		$this->__inactive_fields_filtered = true;
 	}
 
 	/**
