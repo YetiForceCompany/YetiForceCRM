@@ -965,20 +965,19 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * Function to retrieve field model for specific block and module.
 	 *
-	 * @param vtlib\ModuleBasic   $moduleModel
+	 * @param vtlib\ModuleBasic $moduleModel
 	 *
 	 * @return Vtiger_Field_Model[][]
 	 */
 	public static function getAllForModule(vtlib\ModuleBasic $moduleModel)
 	{
-		if (\App\Cache::has('ModuleFields', $moduleModel->id)) {
-			return \App\Cache::get('ModuleFields', $moduleModel->id);
+		if (\App\Cache::staticHas('ModuleFields', $moduleModel->id)) {
+			return \App\Cache::staticGet('ModuleFields', $moduleModel->id);
 		}
 		$fieldModelList = [];
 		$fieldObjects = parent::getAllForModule($moduleModel);
 		$fieldModelList = [];
-		//if module dont have any fields
-		if (!\is_array($fieldObjects)) {
+		if (!is_array($fieldObjects)) {
 			$fieldObjects = [];
 		}
 		foreach ($fieldObjects as &$fieldObject) {
@@ -988,7 +987,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getId(), $fieldModelObject);
 			Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getName(), $fieldModelObject);
 		}
-		\App\Cache::save('ModuleFields', $moduleModel->id, $fieldModelList);
+		\App\Cache::staticSave('ModuleFields', $moduleModel->id, $fieldModelList);
 		return $fieldModelList;
 	}
 
