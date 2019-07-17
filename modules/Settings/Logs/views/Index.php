@@ -17,24 +17,9 @@ class Settings_Logs_Index_View extends Settings_Vtiger_Index_View
 	 */
 	public function __construct()
 	{
-		Settings_Vtiger_Tracker_Model::addBasic('view');
 		parent::__construct();
 		$this->exposeMethod('systemWarnings');
 		$this->exposeMethod('getWarningsList');
-	}
-
-	/**
-	 * Checking permissions.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermittedForAdmin
-	 */
-	public function checkPermission(App\Request $request)
-	{
-		if (!\App\User::getCurrentUserModel()->isAdmin()) {
-			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
-		}
 	}
 
 	/**
