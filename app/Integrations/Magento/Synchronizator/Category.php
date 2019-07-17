@@ -195,7 +195,7 @@ class Category extends Base
 	 */
 	public function hasChangedCategory(array $categoryYF, array $categoryMagento)
 	{
-		return isset($this->mapCategoryMagento[$categoryYF['parent_id']]) && $this->mapCategoryMagento[$categoryYF['parent_id']] !== $categoryMagento['parent_id'];
+		return !((\in_array($categoryMagento['parent_id'], static::$nonEditable) && (($categoryYF['parent_id'] === $categoryYF['id']) || empty($categoryYF['parent_id']))) || !(isset($this->mapCategoryMagento[$categoryYF['parent_id']]) && $this->mapCategoryMagento[$categoryYF['parent_id']] !== $categoryMagento['parent_id']));
 	}
 
 	/**
@@ -441,13 +441,15 @@ class Category extends Base
 		], ['tree' => 'T' . $categoryYF['id'], 'templateid' => $this->templateId])->execute();
 		if (!empty($categoryMagento['children_data'])) {
 			foreach ($categoryMagento['children_data'] as $categoryChild) {
-				$parentTree = 'T' . $this->mapCategoryYF[$categoryChild['id']];
-				if (isset($this->mapCategoryYF[$categoryChild['parent_id']])) {
-					$parentTree = str_replace('::', '::T', $this->categoriesYF[$this->mapCategoryYF[$categoryChild['parent_id']]]['full_parent_id'] . '::' . $this->mapCategoryYF[$categoryChild['id']]);
+				if (isset($this->mapCategoryYF[$categoryChild['id']])) {
+					$parentTree = 'T' . $this->mapCategoryYF[$categoryChild['id']];
+					if (isset($this->mapCategoryYF[$categoryChild['parent_id']])) {
+						$parentTree = str_replace('::', '::T', $this->categoriesYF[$this->mapCategoryYF[$categoryChild['parent_id']]]['full_parent_id'] . '::' . $this->mapCategoryYF[$categoryChild['id']]);
+					}
+					$dbCommand->update('vtiger_trees_templates_data', [
+						'parentTree' => $parentTree
+					], ['tree' => 'T' . $this->mapCategoryYF[$categoryChild['id']], 'templateid' => $this->templateId])->execute();
 				}
-				$dbCommand->update('vtiger_trees_templates_data', [
-					'parentTree' => $parentTree
-				], ['tree' => 'T' . $this->mapCategoryYF[$categoryChild['id']], 'templateid' => $this->templateId])->execute();
 			}
 		}
 		$this->getCategoriesYF();

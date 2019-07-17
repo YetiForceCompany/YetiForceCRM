@@ -71,9 +71,9 @@ class Controller
 	 */
 	public function synchronizeProducts(): void
 	{
-		$categorySynchronizator = new Synchronizator\Product();
-		$categorySynchronizator->setConnector($this->getConnector());
-		$categorySynchronizator->process();
+		$productSynchronizator = new Synchronizator\Product();
+		$productSynchronizator->setConnector($this->getConnector());
+		$productSynchronizator->process();
 	}
 
 	/**
