@@ -88,12 +88,12 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 			'WARNINGS_COUNT' => [
 				'LABEL' => 'PLU_SYSTEM_WARNINGS',
 				'VALUE' => \count($warnings),
-				'HREF' => 'javascript:Settings_Vtiger_Index_Js.showWarnings()'
+				'HREF' => 'index.php?module=Logs&parent=Settings&view=Index'
 			],
 			'SECURITY_COUNT' => [
 				'LABEL' => 'PLU_SECURITY',
 				'VALUE' => $this->getSecurityCount(),
-				'HREF' => 'javascript:Settings_Vtiger_Index_Js.showSecurity()'
+				'HREF' => 'index.php?module=Log&parent=Settings&view=Index'
 			],
 			'USERS_COUNT' => [
 				'LABEL' => 'PLU_USERS',

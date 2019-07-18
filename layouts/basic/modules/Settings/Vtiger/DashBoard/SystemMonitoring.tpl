@@ -23,7 +23,7 @@
 				<div class="px-3">
 					{WIDGET_TITLE CLASS='text-center' TITLE=$TRANSLATION}
 				{if not empty($HREF)}
-					<a href="javascript:Settings_Vtiger_Index_Js.showSecurity()" class="btn btn-dark btn-block mt-2">LBL_MORE</a>
+					<a href="{$HREF}" class="btn btn-dark btn-block mt-2">LBL_MORE</a>
 				{/if}
 				</div>
 			</div>
