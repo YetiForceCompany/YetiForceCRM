@@ -10,7 +10,7 @@
 		<tr>
 			<td>
 				<button class="btn btn-success js-run-cron" id="run_cron" type="button"
-						{if $STOP_BUTTON_STATUS !== 'false'}disabled="disabled" {/if} data-button-status="{!$STOP_BUTTON_STATUS}"
+						{if $STOP_BUTTON_STATUS}disabled="disabled" {/if} data-button-status="{!$STOP_BUTTON_STATUS}"
 						data-js="change|value|data-button-status">
 					<span class="fa fa-caret-right u-mr-5px"></span>{\App\Language::translate('RunCron', 'OSSMailScanner')}
 				</button>
@@ -71,8 +71,9 @@
 				<td class="p-1">{$item['info']}</td>
 				<td class="p-1">
 					{if $item['status'] eq 'In progress'}
-						<button type="button" class="btn btn-danger js-stop-cron"
-								{if $STOP_BUTTON_STATUS eq 'false'}disabled{/if}>{\App\Language::translate('StopCron', 'OSSMailScanner')}</button>
+						<button type="button" class="btn btn-danger js-stop-cron" data-scan-id="{$item['id']}">
+							{\App\Language::translate('StopCron', 'OSSMailScanner')}
+						</button>
 					{/if}
 				</td>
 			</tr>

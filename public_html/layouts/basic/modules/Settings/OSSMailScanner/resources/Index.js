@@ -250,9 +250,10 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 				thisIstance.reloadLogTable(container.find('.js-page-num').val() - 1);
 			});
 		});
-		container.on('click', '.js-stop-cron', function () {
-			let ajaxParams = {};
-			ajaxParams.data = {module: 'OSSMailScanner', action: "RestartCron"};
+		container.on('click', '.js-stop-cron', function (e) {
+			let ajaxParams = {},
+			scanId = $(e.currentTarget).data('scan-id');
+			ajaxParams.data = {module: 'OSSMailScanner', action: "RestartCron", 'scanId': scanId};
 			ajaxParams.async = true;
 			AppConnector.request(ajaxParams).done(function (data) {
 				if (data.success) {
@@ -393,7 +394,7 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 						+ '<td class="p-1">' + self.isEmpty(data.result[i]['action']) + '</td>'
 						+ '<td class="p-1">' + self.isEmpty(data.result[i]['info']) + '</td><td>';
 					if (data.result[i]['status'] === 'In progress') {
-						html += '<button type="button" class="btn btn-danger js-stop-cron"';
+						html += '<button type="button" class="btn btn-danger js-stop-cron" data-scan-id="' + data.result[i]['id'] + '"';
 						if (container.find('.js-run-cron').data('button-status')) {
 							html += ' disabled';
 						}
