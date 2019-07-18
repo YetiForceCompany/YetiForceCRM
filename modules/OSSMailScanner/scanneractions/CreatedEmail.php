@@ -59,10 +59,10 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 				$record->set('attachments_exist', 1);
 			}
 			$record->setHandlerExceptions(['disableHandlers' => true]);
-			$record->setDataForSave([
+			$record->setDataForSave(['vtiger_ossmailview' => [
 				'date' => $mail->get('udate_formated'),
 				'cid' => $mail->getUniqueId(),
-			]);
+			]]);
 			$record->save();
 			$record->setHandlerExceptions([]);
 			if ($id = $record->getId()) {
