@@ -4,6 +4,14 @@
 	{if $WARNINGS}
 		{include file=\App\Layout::getTemplatePath('DashBoard/SystemWarningAletrs.tpl', $QUALIFIED_MODULE)}
 	{/if}
+	{function WIDGET_TITLE CLASS='' TITLE=''}
+		<h6 class="my-0 ellipsis-2-lines u-font-weight-600 u-font-size-14px {$CLASS}" title="{$TITLE}">{$TITLE}</h6>
+	{/function}
+	{function WIDGET_DESCRIPTION CLASS='' DESCRIPTION=''}
+		<p class="font-small u-font-weight-450 ellipsis-2-lines mb-0 {$CLASS}" title="{$DESCRIPTION}">
+		{$DESCRIPTION}
+		</p>
+	{/function}
 	<div class="settingsIndexPage mx-n2 h-100">
 		<div class="container-fluid h-100 px-0">
 			<div class="row no-gutters pr-0 h-100 mb-0">

@@ -21,9 +21,9 @@
 					<div class="display-3 u-font-weight-350">{$VALUE}</div>
 				</div>
 				<div class="px-3">
-					<h6 class="mt-0 mb-2 text-center font-weight-bold">{$TRANSLATION}</h6>
+					{WIDGET_TITLE CLASS='text-center' TITLE=$TRANSLATION}
 				{if not empty($HREF)}
-					<a href="javascript:Settings_Vtiger_Index_Js.showSecurity()" class="btn btn-dark btn-block">LBL_MORE</a>
+					<a href="javascript:Settings_Vtiger_Index_Js.showSecurity()" class="btn btn-dark btn-block mt-2">LBL_MORE</a>
 				{/if}
 				</div>
 			</div>
