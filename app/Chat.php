@@ -272,17 +272,17 @@ final class Chat
 	}
 
 	/**
-	 * Get group room last message.
+	 * Get room last message.
 	 *
 	 * @param int $roomId
 	 *
 	 * @return array
 	 */
-	public static function getGroupRoomLastMessage(int $roomId): array
+	public static function getRoomLastMessage(int $roomId, string $roomType): array
 	{
 		return (array) (new Db\Query())
-			->from(['u_#__chat_messages_group'])
-			->where(['groupid' => $roomId])
+			->from(static::TABLE_NAME['message'][$roomType])
+			->where([$roomType === 'crm' ? 'crmid' : 'groupid' => $roomId])
 			->orderBy(['id' => \SORT_DESC])
 			->one();
 	}
@@ -832,6 +832,10 @@ final class Chat
 			)->execute();
 			unset($this->room['userid']);
 		}
+		if (static::getCurrentRoom()['recordId'] === $this->recordId) {
+			$defaultRoom = static::getDefaultRoom();
+			static::setCurrentRoom($defaultRoom['roomType'], $defaultRoom['recordId']);
+		}
 	}
 
 	/**
@@ -842,7 +846,7 @@ final class Chat
 	public function addToFavorites()
 	{
 		if (!empty($this->roomType) && !empty($this->recordId)) {
-			$lastMessage = static::getGroupRoomLastMessage($this->recordId);
+			$lastMessage = static::getRoomLastMessage($this->recordId, $this->roomType);
 			Db::getInstance()->createCommand()->insert(
 				static::TABLE_NAME['room'][$this->roomType],
 				[

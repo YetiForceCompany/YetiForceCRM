@@ -57,7 +57,7 @@ export default {
 			})
 		})
 	},
-	togglePinned({ commit }, { roomType, room }) {
+	togglePinned({ dispatch, commit, getters }, { roomType, room }) {
 		const mode = room.isPinned || roomType === 'crm' ? 'removeFromFavorites' : 'addToFavorites'
 		commit('setPinned', { roomType, room })
 		AppConnector.request({
@@ -66,6 +66,10 @@ export default {
 			mode: mode,
 			roomType: roomType,
 			recordId: room.recordid
+		}).done(_ => {
+			if (mode === 'removeFromFavorites' && roomType === 'crm' && getters.data.currentRoom.roomType === roomType) {
+				dispatch('fetchRoom', { id: undefined, roomType: undefined })
+			}
 		})
 	},
 	fetchEarlierEntries({ commit, getters }) {
@@ -160,7 +164,7 @@ export default {
 			if (getters.isSoundNotification) {
 				app.playSound('CHAT')
 			}
-			if (getters.hasDesktopPermission) {
+			if (getters.isDesktopNotification && !PNotify.modules.Desktop.checkPermission()) {
 				let message = app.vtranslate('JS_CHAT_NEW_MESSAGE')
 				if (getters.config.showNumberOfNewMessages) {
 					message += ' ' + newMessages

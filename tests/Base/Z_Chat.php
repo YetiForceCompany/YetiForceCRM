@@ -333,7 +333,7 @@ class Chat extends \Tests\Base
 		$this->assertFalse(\App\Chat::isNewMessagesForCrm($userId), 'Problem with the method "isNewMessagesForCrm"');
 		$chat = \App\Chat::getInstance('crm', static::$listId[0]);
 		$chat->addToFavorites();
-		$this->assertTrue(\App\Chat::isNewMessagesForCrm($userId), 'Problem with the method "isNewMessagesForCrm"');
+		$this->assertFalse(\App\Chat::isNewMessagesForCrm($userId), 'Problem with the method "isNewMessagesForCrm"');
 		$id = $chat->addMessage('testRoomCrm');
 		$this->assertInternalType('integer', $id);
 		$rowMsg = (new \App\Db\Query())

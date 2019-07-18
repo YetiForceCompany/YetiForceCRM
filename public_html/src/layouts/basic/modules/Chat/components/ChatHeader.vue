@@ -45,6 +45,7 @@
         </q-tabs>
         <div class="flex no-wrap">
           <template v-if="$q.platform.is.desktop">
+						<btn-grab v-show="miniMode" class="text-white flex flex-center" grabClass="js-drag" size="19px" />
             <q-btn dense flat :icon="miniMode ? 'mdi-window-maximize' : 'mdi-window-restore'" @click="toggleSize()">
               <q-tooltip>{{ miniMode ? translate('JS_MAXIMIZE') : translate('JS_MINIMIZE') }}</q-tooltip>
             </q-btn>
@@ -60,13 +61,13 @@
 </template>
 <script>
 import NotifyBtn from './NotifyBtn.vue'
+import BtnGrab from 'components/BtnGrab.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapActions, mapMutations, mapGetters } = createNamespacedHelpers('Chat')
+
 export default {
   name: 'ChatHeader',
-  components: {
-    NotifyBtn
-  },
+  components: { NotifyBtn, BtnGrab },
   props: {
     inputSearchVisible: { type: Boolean, required: false },
     tabHistoryShow: { type: Boolean, required: false },
