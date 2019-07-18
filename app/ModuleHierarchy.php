@@ -132,7 +132,7 @@ class ModuleHierarchy
 	{
 		$modules = [];
 		foreach (static::$hierarchy['modulesHierarchy'] as $module => &$details) {
-			if (Privilege::isPermitted($module, $actionName)) {
+			if (Privilege::isPermitted($module, $actionName) && isset($details['parentModule'])) {
 				$modules[$details['parentModule']][$module] = $details;
 			}
 		}
