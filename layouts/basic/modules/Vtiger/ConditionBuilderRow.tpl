@@ -53,7 +53,7 @@
 		<div class="col-4">
 			{assign var=TEMPLATE_NAME value=$SELECTED_FIELD_MODEL->getOperatorTemplateName($SELECTED_OPERATOR)}
 			{if !empty($TEMPLATE_NAME)}
-				{if !empty($CONDITIONS_ROW['value'])}
+				{if isset($CONDITIONS_ROW['value'])}
 					{assign var=CONDITION_ROW_VALUE value=\App\Purifier::decodeHtml($CONDITIONS_ROW['value'])}
 				{else}
 					{assign var=CONDITION_ROW_VALUE value=''}
