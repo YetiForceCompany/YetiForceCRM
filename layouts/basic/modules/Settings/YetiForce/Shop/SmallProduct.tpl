@@ -18,7 +18,7 @@
 				{/if}
 			</div>
 			<div class="card-body w-50 py-0 pl-2 pr-3 d-flex flex-wrap justify-between align-items-center">
-				<h5 class="card-title u-font-size-13px text-black mb-0">{$PRODUCT->getLabel()}</h5>
+				<h5 class="card-title u-font-size-13px text-black mb-0  ellipsis-2-lines" title="{$PRODUCT->getLabel()}">{$PRODUCT->getLabel()}</h5>
 				<p class="card-text u-font-size-10px u-font-weight-600 ellipsis-2-lines mb-0" title="{$PRODUCT->getDescription()}">{$PRODUCT->getDescription()}</p>
 				{assign var=BUTTON_TEXT value="{$PRODUCT->getPrice()} {$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}"}
 				{if empty($PRODUCT->expirationDate)}

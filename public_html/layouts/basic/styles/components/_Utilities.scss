@@ -59,9 +59,9 @@
 	font-size: calculate-rem(19px);
 }
 
-@for $i from 1 through 9 {
-	.u-font-weight-#{$i*100} {
-		font-weight: #{$i * 100} !important;
+@for $i from 1 through 18 {
+	.u-font-weight-#{$i*50} {
+		font-weight: #{$i * 50} !important;
 	}
 }
 
@@ -545,6 +545,9 @@
 	}
 	&-width-200px-rem {
 		@include u-column-width(#{calculate-rem(200px)});
+	}
+	&-width-150px-rem {
+		@include u-column-width(#{calculate-rem(150px)});
 	}
 }
 
