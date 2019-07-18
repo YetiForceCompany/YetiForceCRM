@@ -7,7 +7,7 @@
 				{\App\Language::translate('LBL_MAIL_NOT_FOUND_IN_DB',$MODULE_NAME)} <a class="importMail">{\App\Language::translate('LBL_IMPORT_MAIL_MANUALLY',$MODULE_NAME)}</a>
 			</div>
 		{/if}
-	{else}
+	{elseif \App\Privilege::isPermitted('OSSMailView', 'DetailView', $RECORD)}
 		<input type="hidden" id="mailActionBarID" value="{$RECORD}"/>
 		{assign var="MODULES_LEVEL_0" value=\App\ModuleHierarchy::getModulesByLevel()}
 		{assign var="MODULES_LEVEL_1" value=\App\ModuleHierarchy::getModulesByLevel(1)}
@@ -159,5 +159,11 @@
 				</button>
 			</div>
 		{/if}
+	{else}
+		<div class="action-bar__head">
+			<div class="action-bar__head__message w-100">
+				{\App\Language::translate('LBL_BAR_ACTIONS_NOT_AVAILABLE', $MODULE_NAME)}
+			</div>
+		</div>
 	{/if}
 {/strip}
