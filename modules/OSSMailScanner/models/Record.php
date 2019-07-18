@@ -519,7 +519,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			\App\Log::info('There are no accounts to be scanned');
 			return false;
 		}
-		$this->setCronStatus(2);
 		$scannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 		$countEmails = 0;
 		$scanId = $scannerModel->addScanHistory(['user' => $whoTrigger]);
@@ -724,16 +723,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	public static function getCronTask()
 	{
 		return \vtlib\Cron::getInstance('LBL_MAIL_SCANNER_ACTION')->refreshData();
-	}
-
-	/**
-	 * Set cron status.
-	 *
-	 * @param int $status
-	 */
-	public function setCronStatus(int $status)
-	{
-		App\Db::getInstance()->createCommand()->update('vtiger_cron_task', ['status' => $status], ['name' => 'LBL_MAIL_SCANNER_ACTION'])->execute();
 	}
 
 	/**
