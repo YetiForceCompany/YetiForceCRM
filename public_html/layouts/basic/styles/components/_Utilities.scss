@@ -536,6 +536,9 @@
 	&-width-300px-rem {
 		@include u-column-width(#{calculate-rem(300px)});
 	}
+	&-width-200px-rem {
+		@include u-column-width(#{calculate-rem(200px)});
+	}
 }
 
 //--- POSITIONS ---//
@@ -577,7 +580,7 @@
 	}
 
 	&:before {
-		content: '';
+		content: "";
 		display: block;
 	}
 }
