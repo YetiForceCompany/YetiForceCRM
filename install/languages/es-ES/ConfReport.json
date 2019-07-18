@@ -217,7 +217,11 @@
     "LBL_HELP_CHARACTER_SET_CONNECTION": "El conjunto de caracteres utilizado para convertir números a caracteres, así como a literales que no tienen un conjunto de caracteres introductorios.",
     "LBL_HELP_CHARACTER_SET_RESULTS": "El conjunto de caracteres utilizado para mostrar resultados y mensajes de error del cliente.",
     "LBL_HELP_CHARACTER_SET_SYSTEM": "Conjunto de caracteres usados por el servidor para almacenar identificadores, siempre establecido a utf8.",
-    "LBL_HELP_CHARACTER_SET_FILESYSTEM": "Conjunto de caracteres para el sistema de archivos. Utilizado para convertir nombres de archivo especificados como una cadena literal de character_set_client a character_set_filesystem antes de abrir el archivo."
+    "LBL_HELP_CHARACTER_SET_FILESYSTEM": "Conjunto de caracteres para el sistema de archivos. Utilizado para convertir nombres de archivo especificados como una cadena literal de character_set_client a character_set_filesystem antes de abrir el archivo.",
+    "LBL_FN_NAME": "Nombre",
+    "LBL_IT_WORKS_PROPERLY": "It works properly",
+    "LBL_LABEL_FOOTER": "Footer",
+    "LBL_LABEL_PREMIUM_MODULES": "Premium modules"
   },
   "js": {
     "JS_SPEED_TEST_START": "Comprobando la velocidad..."

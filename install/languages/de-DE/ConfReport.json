@@ -217,7 +217,11 @@
     "LBL_HELP_CHARACTER_SET_CONNECTION": "Zeichensatz, der verwendet wird, um Zahlen in Zeichen zu konvertieren, sowie in Literalen, die keine Einführungszeile haben.",
     "LBL_HELP_CHARACTER_SET_RESULTS": "Zeichensatz für die Anzeige von Ergebnissen und Fehlermeldungen vom Client.",
     "LBL_HELP_CHARACTER_SET_SYSTEM": "Zeichen gesetzt, die vom Server verwendet werden, um Identifikatoren zu speichern, immer auf utf8 gesetzt.",
-    "LBL_HELP_CHARACTER_SET_FILESYSTEM": "Zeichensatz für Dateisystem. Wird verwendet, um Dateinamen zu konvertieren, die als String-literal von character_set_client in character_set_filesystem angegeben wurden, bevor die Datei geöffnet wird."
+    "LBL_HELP_CHARACTER_SET_FILESYSTEM": "Zeichensatz für Dateisystem. Wird verwendet, um Dateinamen zu konvertieren, die als String-literal von character_set_client in character_set_filesystem angegeben wurden, bevor die Datei geöffnet wird.",
+    "LBL_FN_NAME": "Name",
+    "LBL_IT_WORKS_PROPERLY": "Es funktioniert ordnungsgemäß",
+    "LBL_LABEL_FOOTER": "Fußzeile",
+    "LBL_LABEL_PREMIUM_MODULES": "Premium-Module"
   },
   "js": {
     "JS_SPEED_TEST_START": "Performance wird ermittelt ..."

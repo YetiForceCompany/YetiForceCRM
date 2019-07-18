@@ -217,7 +217,11 @@
     "LBL_HELP_CHARACTER_SET_CONNECTION": "Zestaw znaków używany do konwersji liczb do znaków, a także do literałów, które nie mają wprowadzającego zestawu znaków.",
     "LBL_HELP_CHARACTER_SET_RESULTS": "Zestaw znaków używany do wyświetlania wyników i komunikatów o błędach zwracanych do klienta.",
     "LBL_HELP_CHARACTER_SET_SYSTEM": "Zestaw znaków używany przez serwer do przechowywania identyfikatorów, zawsze ustawiony na utf8.",
-    "LBL_HELP_CHARACTER_SET_FILESYSTEM": "Zestaw znaków dla systemu plików. Służy do konwersji nazw plików określonych jako literał łańcuchowy z character_set_client na character_set_filesystem przed otwarciem pliku."
+    "LBL_HELP_CHARACTER_SET_FILESYSTEM": "Zestaw znaków dla systemu plików. Służy do konwersji nazw plików określonych jako literał łańcuchowy z character_set_client na character_set_filesystem przed otwarciem pliku.",
+    "LBL_FN_NAME": "Nazwa",
+    "LBL_IT_WORKS_PROPERLY": "Działa poprawnie",
+    "LBL_LABEL_FOOTER": "Stopka",
+    "LBL_LABEL_PREMIUM_MODULES": "Moduły premium"
   },
   "js": {
     "JS_SPEED_TEST_START": "Trwa sprawdzanie szybkości..."
