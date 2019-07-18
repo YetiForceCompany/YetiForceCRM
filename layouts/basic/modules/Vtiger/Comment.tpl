@@ -37,7 +37,7 @@
 						</span>
 						<div class="commentActionsDiv p-0 ml-auto mr-1">
 							{assign var=COMMENTS_MODULE_MODEL value=Vtiger_Module_Model::getInstance('ModComments')}
-							<div>
+							<div class="js-comment-actions" data-js="container">
 								{if !empty($CHILDS_ROOT_PARENT_MODEL)}
 									{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}
 								{/if}

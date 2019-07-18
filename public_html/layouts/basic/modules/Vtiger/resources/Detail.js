@@ -2622,7 +2622,7 @@ jQuery.Class(
 			detailContentsHolder.on('click', '.viewThread', function(e) {
 				let currentTarget = jQuery(e.currentTarget),
 					currentTargetParent = currentTarget.parent(),
-					commentActionsBlock = currentTarget.closest('.commentActions'),
+					commentActionsBlock = currentTarget.closest('.js-comment-actions'),
 					currentCommentBlock = currentTarget.closest('.js-comment-details'),
 					ulElements = currentCommentBlock.find('ul');
 				if (ulElements.length > 0) {
@@ -2651,7 +2651,7 @@ jQuery.Class(
 				thisInstance.getParentComments(commentId).done(function(data) {
 					$(e.currentTarget.closest('.js-comment-details')).html(data);
 					currentTarget
-						.closest('.commentActions')
+						.closest('.js-comment-actions')
 						.find('.hideThreadBlock')
 						.show();
 					currentTargetParent.hide();
@@ -2660,7 +2660,7 @@ jQuery.Class(
 			detailContentsHolder.on('click', '.hideThread', function(e) {
 				var currentTarget = jQuery(e.currentTarget);
 				var currentTargetParent = currentTarget.parent();
-				var commentActionsBlock = currentTarget.closest('.commentActions');
+				var commentActionsBlock = currentTarget.closest('.js-comment-actions');
 				var currentCommentBlock = currentTarget.closest('.js-comment-details');
 				currentCommentBlock.find('ul').hide();
 				currentTargetParent.hide();
