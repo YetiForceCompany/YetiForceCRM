@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-Settings-Base-DashBoard-SettingsShortCut dashboardWidget px-1 py-2 u-columns__item mb-2 d-inline-block"
+	<div class="tpl-Settings-Base-DashBoard-SettingsShortCut dashboardWidget contentsBackground u-cursor-pointer moduleBlock px-1 py-2 mb-n1 mt-3 u-columns__item d-inline-block"
 		 id="shortcut_{$SETTINGS_SHORTCUT->getId()}" data-actionurl="{$SETTINGS_SHORTCUT->getPinUnpinActionUrl()}"
 		 data-url="{$SETTINGS_SHORTCUT->getUrl()}">
 		<div class="d-flex flex-nowrap">

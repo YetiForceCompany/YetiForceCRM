@@ -1,9 +1,9 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Settings-Base-DashBoard-SystemMonitoring px-3 pt-3 u-columns-width-200px-rem u-columns-count-5">
+	<div class="tpl-Settings-Base-DashBoard-SystemMonitoring px-3 mb-4 u-columns-width-200px-rem u-columns-count-5">
 		{function BOX LABEL='' VALUE='' HREF=''}
 			{assign var="TRANSLATION" value=\App\Language::translatePluralized($LABEL, $QUALIFIED_MODULE, $VALUE)}
-			<div class="dashboardWidget px-1 pt-3 pb-4 u-columns__item mb-2 d-inline-block">
+			<div class="dashboardWidget px-1 pt-3 pb-4 u-columns__item mb-n1 mt-3 d-inline-block">
 				<div class="pl-3 d-flex flex-nowrap">
 					<div class="d-flex align-items-center">
 						{if isset($IMG)}
@@ -23,7 +23,7 @@
 				<div class="px-3">
 				{include file=\App\Layout::getTemplatePath('DashBoard/WidgetTitle.tpl', $QUALIFIED_MODULE) CLASS='text-center' TITLE=$TRANSLATION}
 				{if not empty($HREF)}
-					<a href="{$HREF}" class="btn btn-dark btn-block mt-2">LBL_MORE</a>
+					<a href="{$HREF}" class="btn btn-dark btn-block mt-2">{\App\Language::translate('LBL_MORE')}</a>
 				{/if}
 				</div>
 			</div>

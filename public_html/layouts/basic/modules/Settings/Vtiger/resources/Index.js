@@ -115,7 +115,6 @@ $.Class(
 				AppConnector.request(actionUrl).done(function(data) {
 					if (data.result.SUCCESS == 'OK') {
 						closestBlock.remove();
-						thisInstance.registerSettingShortCutAlignmentEvent();
 						var menuItemId = '#' + fieldId + '_menuItem';
 						var shortCutActionEle = $(menuItemId);
 						var imagePath = shortCutActionEle.data('pinimageurl');
@@ -128,7 +127,6 @@ $.Class(
 							text: app.vtranslate('JS_SUCCESSFULLY_UNPINNED'),
 							type: 'info'
 						};
-						thisInstance.registerReAlign();
 						Vtiger_Helper_Js.showPnotify(params);
 					}
 				});
@@ -172,14 +170,6 @@ $.Class(
 				var url = $(e.currentTarget).data('url');
 				window.location.href = url;
 			});
-		},
-		registerSettingShortCutAlignmentEvent: function() {
-			$('#settingsShortCutsContainer')
-				.find('.moduleBlock')
-				.removeClass('marginLeftZero');
-			$('#settingsShortCutsContainer')
-				.find('.moduleBlock:nth-child(3n+1)')
-				.addClass('marginLeftZero');
 		},
 		registerWidgetsEvents: function() {
 			var widgets = $('div.widgetContainer');
@@ -234,19 +224,8 @@ $.Class(
 						Vtiger_Helper_Js.showPnotify(params);
 					} else {
 						thisInstance.registerPinShortCutEvent(ui.draggable.parent());
-						thisInstance.registerSettingShortCutAlignmentEvent();
 					}
 				}
-			});
-		},
-		registerReAlign: function() {
-			AppConnector.request({
-				mode: 'realignSettingsShortCutBlock',
-				module: 'Vtiger',
-				parent: 'Settings',
-				view: 'IndexAjax'
-			}).done(function(data) {
-				$('#settingsShortCutsContainer').html(data);
 			});
 		},
 		loadEditorElement: function() {
@@ -487,7 +466,6 @@ $.Class(
 				thisInstance.registerSettingsShortcutClickEvent();
 				thisInstance.registerDeleteShortCutEvent();
 				thisInstance.registerAddShortcutDragDropEvent();
-				thisInstance.registerSettingShortCutAlignmentEvent();
 				thisInstance.registerWarningsAlert();
 			}
 		},
@@ -498,7 +476,6 @@ $.Class(
 			this.registerSettingsShortcutClickEvent();
 			this.registerDeleteShortCutEvent();
 			this.registerAddShortcutDragDropEvent();
-			this.registerSettingShortCutAlignmentEvent();
 		}
 	}
 );
