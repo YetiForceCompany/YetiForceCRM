@@ -4,9 +4,9 @@
 	{if $WARNINGS}
 		{include file=\App\Layout::getTemplatePath('DashBoard/SystemWarningAletrs.tpl', $QUALIFIED_MODULE)}
 	{/if}
-	<div class="settingsIndexPage mx-n2">
-		<div class="container-fluid px-0">
-			<div class="row no-gutters pr-0">
+	<div class="settingsIndexPage mx-n2 h-100">
+		<div class="container-fluid h-100 px-0">
+			<div class="row no-gutters pr-0 h-100 mb-0">
 				<div class="col-md d-flex flex-column">
 					<h5 class="bg-primary text-white text-center font-weight-normal text-uppercase p-3 mb-0">
 						{\App\Language::translate('LBL_PREMIUM_ZONE', $QUALIFIED_MODULE)}

@@ -364,6 +364,9 @@
 .u-min-h-85vh {
 	min-height: 85vh;
 }
+.u-min-h-120px-rem {
+	min-height: calculate-rem(120px);
+}
 
 //--- BORDER ---//
 .u-border-right-10px {
