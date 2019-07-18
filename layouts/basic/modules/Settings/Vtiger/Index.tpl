@@ -11,7 +11,7 @@
 					<h5 class="bg-primary text-white text-center font-weight-normal text-uppercase p-3 mb-0">
 						{\App\Language::translate('LBL_PREMIUM_ZONE', $QUALIFIED_MODULE)}
 					</h5>
-					<div class="bg-light">
+					<div class="bg-light h-100">
 						{include file=\App\Layout::getTemplatePath('DashBoard/PremiumZone.tpl', $QUALIFIED_MODULE)}
 					</div>
 				</div>
@@ -19,7 +19,7 @@
 					<h5 class="bg-primary text-white text-center font-weight-normal text-uppercase p-3 mb-0">
 						{\App\Language::translate('LBL_SYSTEM_MONITORING', $QUALIFIED_MODULE)}
 					</h5>
-					<div class="bg-light">
+					<div class="bg-light h-100">
 						{include file=\App\Layout::getTemplatePath('DashBoard/SystemMonitoring.tpl', $QUALIFIED_MODULE)}
 					</div>
 				</div>
@@ -27,7 +27,7 @@
 					<h5 class="bg-primary text-white text-center font-weight-normal text-uppercase p-3 mb-0">
 						{\App\Language::translate('LBL_SETTINGS_SHORT_CUT', $QUALIFIED_MODULE)}
 					</h5>
-					<div class="bg-light">
+					<div class="bg-light h-100">
 					{include file=\App\Layout::getTemplatePath('DashBoard/SettingsShortCutsContainer.tpl', $QUALIFIED_MODULE)}
 					</div>
 				</div>

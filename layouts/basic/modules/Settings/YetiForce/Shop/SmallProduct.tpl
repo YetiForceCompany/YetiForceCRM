@@ -2,8 +2,8 @@
 {strip}
 	<!-- tpl-Settings-YetiForce-Shop-SmallProduct -->
 	<form action="{$PAYPAL_URL}" method="POST">
-	<div class="{if empty($PRODUCT->expirationDate)} bg-light{/if}">
-		<div class="d-flex no-wrap py-2 px-1">
+	<div class="pl-2 {if empty($PRODUCT->expirationDate)}bg-light{else}bg-yellow{/if}">
+		<div class="d-flex no-wrap py-2 pr-1{if !empty($PRODUCT->expirationDate)} bg-white{/if}">
 			<div class="w-50">
 				{if $PRODUCT->getImage()}
 					<img src="{$PRODUCT->getImage()}" class="grow thumbnail-image card-img-top intrinsic-item"
@@ -18,17 +18,22 @@
 				{/if}
 			</div>
 			<div class="card-body w-50 py-0 pl-2 pr-3 d-flex flex-wrap justify-between align-items-center">
-				<h5 class="card-title u-font-size-13px text-primary">{$PRODUCT->getLabel()}</h5>
-				<p class="card-text u-font-size-10px">{$PRODUCT->getDescription()}</p>
+				<h5 class="card-title u-font-size-13px text-black mb-0">{$PRODUCT->getLabel()}</h5>
+				<p class="card-text u-font-size-10px u-font-weight-600 ellipsis-2-lines mb-0" title="{$PRODUCT->getDescription()}">{$PRODUCT->getDescription()}</p>
 				{if empty($PRODUCT->expirationDate)}
+				{assign var=BUTTON_TEXT value="{$PRODUCT->getPrice()} {$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}"}
 					{if 'manual'===$PRODUCT->getPriceType()}
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<button class="btn btn-dark rounded-0 pull-right" type="submit" tile="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
-									{$PRODUCT->getPrice()} {$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}
+						<div class="input-group flex-nowrap">
+							<div class="input-group-prepend w-50">
+								<button class="btn btn-dark rounded-0 u-w-fill-available" type="submit" tile="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
+									<div class="js-popover-tooltip--ellipsis-icon d-flex flex-nowrap align-items-center"
+									data-content="{$BUTTON_TEXT}" data-toggle="popover" data-js="popover | mouseenter">
+										<span class="fas fa-dollar-sign js-popover-icon mr-1"></span>
+										<span class="js-popover-text" data-js="clone">{$BUTTON_TEXT}</span>
+								</div>
 								</button>
 							</div>
-							<input class="form-control" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
+							<input class="form-control w-50" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
 						</div>
 					{else}
 						<button class="btn btn-dark btn-block rounded-0 pull-right" type="submit" tile="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
@@ -36,10 +41,9 @@
 						</button>
 					{/if}
 				{elseif $PRODUCT->expirationDate!=$PRODUCT->paidPackage}
-					<div class="alert alert-info text-danger">
-						<span class="fas fa-exclamation-triangle"></span>
-						{\App\Language::translate('LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED', $QUALIFIED_MODULE)}
-					</div>
+					<span class="text-danger u-cursor-pointer js-popover-tooltip fas fa-exclamation-triangle animated flash infinite slow"
+					data-toggle="popover" data-js="popover | mouseenter"
+					data-content="{\App\Language::translate('LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED', $QUALIFIED_MODULE)}"></span>
 				{else}
 					<button class="btn btn-block btn-warning rounded-0">{\App\Fields\Date::formatToDisplay($PRODUCT->expirationDate)}</button>
 				{/if}
