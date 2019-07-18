@@ -4912,6 +4912,20 @@
   background-color: var(--color-bg) !important;
 }
 
+.btn {
+  border-radius: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.btn {
+  text-transform: uppercase;
+}
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .mainBody {
   background-color: #d1d1db;
@@ -5004,19 +5018,29 @@
   border: none;
 }
 
-.grid-stack .dashboardWidget {
+.dashboardWidget {
   -webkit-box-shadow: 0px 5px 6px -7px #4a5463;
           box-shadow: 0px 5px 6px -7px #4a5463;
+  border: none;
 }
 
-.grid-stack .dashboardWidget .dashboardWidgetHeader {
+.dashboardWidget .dashboardWidgetHeader {
   background-color: #fff;
   text-shadow: 0 1px #fff;
-  border-top: 1px solid #fff;
+  border: none;
 }
 
-.grid-stack .dashboardWidget .widgetFooterContent .row:first-child {
+.dashboardWidget h5 {
+  text-transform: uppercase;
+}
+
+.dashboardWidget .widgetFooterContent .row:first-child {
   background-color: unset;
+}
+
+.settingsIndexPage .dashboardWidget {
+  -webkit-box-shadow: 2px 2px 12px -6px #4a5463;
+          box-shadow: 2px 2px 12px -6px #4a5463;
 }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */

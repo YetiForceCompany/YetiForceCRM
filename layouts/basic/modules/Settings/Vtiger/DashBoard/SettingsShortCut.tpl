@@ -14,19 +14,21 @@
 		 id="shortcut_{$SETTINGS_SHORTCUT->getId()}" data-actionurl="{$SETTINGS_SHORTCUT->getPinUnpinActionUrl()}"
 		 data-url="{$SETTINGS_SHORTCUT->getUrl()}">
 		<div class="d-flex flex-nowrap">
-			<div>
-				<span class="{$SETTINGS_SHORTCUT->get('iconpath')} display-4 px-1"></span>
+			<div class="display-4 px-1">
+				<span class="{$SETTINGS_SHORTCUT->get('iconpath')}"></span>
 			</div>
 			<div class="d-flex flex-column px-1 w-100 position-relative">
 				<div class="d-flex position-relative">
-					{WIDGET_TITLE CLASS='themeTextColor' TITLE=\App\Language::translate($SETTINGS_SHORTCUT->get('name'), Vtiger_Menu_Model::getModuleNameFromUrl($SETTINGS_SHORTCUT->get('linkto')))}
+						{include file=\App\Layout::getTemplatePath('DashBoard/WidgetTitle.tpl', $QUALIFIED_MODULE) CLASS='themeTextColor pr-1'
+						TITLE=\App\Language::translate($SETTINGS_SHORTCUT->get('name'), Vtiger_Menu_Model::getModuleNameFromUrl($SETTINGS_SHORTCUT->get('linkto')))}
 					<button data-id="{$SETTINGS_SHORTCUT->getId()}"
 					title="{\App\Language::translate('LBL_REMOVE', $QUALIFIED_MODULE)}" title="Close" type="button"
 					class="unpin close text-grey-6 position-absolute u-position-r-0 px-0 ml-auto mt-n2 mr-n2">
 						<span>&times;</span>
 					</button>
 				</div>
-				{WIDGET_DESCRIPTION DESCRIPTION=\App\Language::translate($SETTINGS_SHORTCUT->get('description'), Vtiger_Menu_Model::getModuleNameFromUrl($SETTINGS_SHORTCUT->get('linkto')))}
+				{include file=\App\Layout::getTemplatePath('DashBoard/WidgetDescription.tpl', $QUALIFIED_MODULE) CLASS='pr-1'
+				DESCRIPTION=\App\Language::translate($SETTINGS_SHORTCUT->get('description'), Vtiger_Menu_Model::getModuleNameFromUrl($SETTINGS_SHORTCUT->get('linkto')))}
 				<span class="fas fa-ellipsis-v position-absolute u-position-r-0 mt-4 text-grey-5"></span>
 			</div>
 		</div>

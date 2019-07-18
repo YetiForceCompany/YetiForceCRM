@@ -18,8 +18,8 @@
 				{/if}
 			</div>
 			<div class="w-50 py-0 pl-2 pr-3 d-flex flex-wrap justify-between align-items-center">
-				{WIDGET_TITLE CLASS='card-title' TITLE=$PRODUCT->getLabel()}
-				{WIDGET_DESCRIPTION DESCRIPTION=$PRODUCT->getDescription()}
+				{include file=\App\Layout::getTemplatePath('DashBoard/WidgetTitle.tpl', $QUALIFIED_MODULE) TITLE=$PRODUCT->getLabel()}
+				{include file=\App\Layout::getTemplatePath('DashBoard/WidgetDescription.tpl', $QUALIFIED_MODULE) DESCRIPTION=$PRODUCT->getDescription()}
 				{assign var=BUTTON_TEXT value="{$PRODUCT->getPrice()} {$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}"}
 				{if empty($PRODUCT->expirationDate)}
 					{if 'manual'===$PRODUCT->getPriceType()}
@@ -36,7 +36,7 @@
 							<input class="form-control w-50" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
 						</div>
 					{else}
-						<button class="btn btn-dark btn-block text-truncate pull-right" type="submit" title="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
+						<button class="btn btn-dark btn-block text-truncate" type="submit" title="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
 						<span class="fas fa-euro-sign mr-1"></span>
 							{$BUTTON_TEXT}
 						</button>

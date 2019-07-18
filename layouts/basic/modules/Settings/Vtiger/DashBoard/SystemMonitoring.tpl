@@ -21,7 +21,7 @@
 					<div class="display-3 u-font-weight-350">{$VALUE}</div>
 				</div>
 				<div class="px-3">
-					{WIDGET_TITLE CLASS='text-center' TITLE=$TRANSLATION}
+				{include file=\App\Layout::getTemplatePath('DashBoard/WidgetTitle.tpl', $QUALIFIED_MODULE) CLASS='text-center' TITLE=$TRANSLATION}
 				{if not empty($HREF)}
 					<a href="{$HREF}" class="btn btn-dark btn-block mt-2">LBL_MORE</a>
 				{/if}
