@@ -384,7 +384,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				}
 			}
 		}
-		return ['count'=>$countEmails, 'break'=>$break];
+		return ['count' => $countEmails, 'break' => $break];
 	}
 
 	/**
