@@ -431,6 +431,7 @@ class Cron
 		if ($data) {
 			$this->data = $data;
 		}
+		return $this;
 	}
 
 	public function unlockTask()
