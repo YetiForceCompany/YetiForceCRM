@@ -26,29 +26,6 @@ class Settings_SharingAccess_RuleMember_Model extends \App\Base
 		return $this->get('id');
 	}
 
-	public function getIdComponents()
-	{
-		return explode(':', $$this->getId());
-	}
-
-	public function getType()
-	{
-		$idComponents = $this->getIdComponents();
-		if ($idComponents && count($idComponents) > 0) {
-			return $idComponents[0];
-		}
-		return false;
-	}
-
-	public function getMemberId()
-	{
-		$idComponents = $this->getIdComponents();
-		if ($idComponents && count($idComponents) > 1) {
-			return $idComponents[1];
-		}
-		return false;
-	}
-
 	/**
 	 * Function to get the Group Name.
 	 *
@@ -57,16 +34,6 @@ class Settings_SharingAccess_RuleMember_Model extends \App\Base
 	public function getName()
 	{
 		return $this->get('name');
-	}
-
-	/**
-	 * Function to get the Group Name.
-	 *
-	 * @return string
-	 */
-	public function getQualifiedName()
-	{
-		return self::$ruleTypeLabel[$this->getType()] . ' - ' . $this->get('name');
 	}
 
 	public static function getIdComponentsFromQualifiedId($id)
@@ -91,7 +58,7 @@ class Settings_SharingAccess_RuleMember_Model extends \App\Base
 		$idComponents = self::getIdComponentsFromQualifiedId($qualifiedId);
 		$type = $idComponents[0];
 		$memberId = $idComponents[1];
-		if ($type === self::RULE_MEMBER_TYPE_GROUPS) {
+		if (self::RULE_MEMBER_TYPE_GROUPS === $type) {
 			$row = (new App\Db\Query())->from('vtiger_groups')
 				->where(['groupid' => $memberId])
 				->one();
@@ -101,7 +68,7 @@ class Settings_SharingAccess_RuleMember_Model extends \App\Base
 				return (new self())->set('id', $qualifiedId)->set('name', $row['groupname']);
 			}
 		}
-		if ($type === self::RULE_MEMBER_TYPE_USERS) {
+		if (self::RULE_MEMBER_TYPE_USERS === $type) {
 			$row = (new App\Db\Query())->from('vtiger_users')
 				->where(['id' => $memberId])
 				->one();
@@ -111,7 +78,7 @@ class Settings_SharingAccess_RuleMember_Model extends \App\Base
 				return (new self())->set('id', $qualifiedId)->set('name', $row['first_name'] . ' ' . $row['last_name']);
 			}
 		}
-		if ($type === self::RULE_MEMBER_TYPE_ROLES) {
+		if (self::RULE_MEMBER_TYPE_ROLES === $type) {
 			$row = App\PrivilegeUtil::getRoleDetail($memberId);
 			if ($row) {
 				$qualifiedId = self::getQualifiedId(self::RULE_MEMBER_TYPE_ROLES, $row['roleid']);
@@ -119,7 +86,7 @@ class Settings_SharingAccess_RuleMember_Model extends \App\Base
 				return (new self())->set('id', $qualifiedId)->set('name', $row['rolename']);
 			}
 		}
-		if ($type === self::RULE_MEMBER_TYPE_ROLE_AND_SUBORDINATES) {
+		if (self::RULE_MEMBER_TYPE_ROLE_AND_SUBORDINATES === $type) {
 			$row = App\PrivilegeUtil::getRoleDetail($memberId);
 			if ($row) {
 				$qualifiedId = self::getQualifiedId(self::RULE_MEMBER_TYPE_ROLE_AND_SUBORDINATES, $row['roleid']);
