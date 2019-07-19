@@ -606,7 +606,7 @@ jQuery.Class(
 			if (!relatedTo) {
 				relatedTo = thisInstance.getRecordId();
 			}
-			var postData = {
+			let postData = {
 				commentcontent: commentContentValue,
 				related_to: relatedTo,
 				module: 'ModComments'
@@ -720,7 +720,7 @@ jQuery.Class(
 				.find('.commentcontenthidden')
 				.removeClass('commentcontenthidden')
 				.addClass('js-comment-content');
-			new App.Fields.Text.Completions(clonedCommentBlock.find('.js-completions'), {emojiPanel: false});
+			new App.Fields.Text.Completions(clonedCommentBlock.find('.js-completions'), { emojiPanel: false });
 			return clonedCommentBlock;
 		},
 		/*
@@ -2205,12 +2205,12 @@ jQuery.Class(
 								commentInfoBlock.find('.hideThreadBlock').show();
 							});
 						} else {
-							$(
-								'<ul class="liStyleNone"><li class="js-comment-details commentDetails">' + data + '</li></ul>'
-							).appendTo(commentBlock);
+							$('<li class="js-comment-details commentDetails">' + data + '</li>').appendTo(
+								commentBlock.find('.js-comments-body')
+							);
 						}
 					} else {
-						$('<ul class="liStyleNone"><li class="js-comment-details commentDetails">' + data + '</li></ul>').prependTo(
+						$('<li class="js-comment-details commentDetails">' + data + '</li>').prependTo(
 							closestAddCommentBlock.closest('.contents').find('.commentsList')
 						);
 					}
@@ -2397,7 +2397,7 @@ jQuery.Class(
 		 * @param {jQuery} widgetContainer
 		 */
 		registerCommentEventsInDetail(widgetContainer) {
-			new App.Fields.Text.Completions($('.js-completions').eq(0), {emojiPanel: false});
+			new App.Fields.Text.Completions($('.js-completions').eq(0), { emojiPanel: false });
 			widgetContainer.on('change', '.js-hierarchy-comments', function(e) {
 				let hierarchy = [];
 				widgetContainer.find('.js-hierarchy-comments').each(function() {
@@ -2569,7 +2569,7 @@ jQuery.Class(
 				}
 			}
 			if (this.getSelectedTab().data('labelKey') === 'ModComments') {
-				new App.Fields.Text.Completions(detailContentsHolder.find('.js-completions'), {emojiPanel: false});
+				new App.Fields.Text.Completions(detailContentsHolder.find('.js-completions'), { emojiPanel: false });
 			}
 			thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
 			thisInstance.registerCommentEvents(detailContentsHolder);
@@ -2622,7 +2622,7 @@ jQuery.Class(
 			detailContentsHolder.on('click', '.viewThread', function(e) {
 				let currentTarget = jQuery(e.currentTarget),
 					currentTargetParent = currentTarget.parent(),
-					commentActionsBlock = currentTarget.closest('.commentActions'),
+					commentActionsBlock = currentTarget.closest('.js-comment-actions'),
 					currentCommentBlock = currentTarget.closest('.js-comment-details'),
 					ulElements = currentCommentBlock.find('ul');
 				if (ulElements.length > 0) {
@@ -2651,7 +2651,7 @@ jQuery.Class(
 				thisInstance.getParentComments(commentId).done(function(data) {
 					$(e.currentTarget.closest('.js-comment-details')).html(data);
 					currentTarget
-						.closest('.commentActions')
+						.closest('.js-comment-actions')
 						.find('.hideThreadBlock')
 						.show();
 					currentTargetParent.hide();
@@ -2660,7 +2660,7 @@ jQuery.Class(
 			detailContentsHolder.on('click', '.hideThread', function(e) {
 				var currentTarget = jQuery(e.currentTarget);
 				var currentTargetParent = currentTarget.parent();
-				var commentActionsBlock = currentTarget.closest('.commentActions');
+				var commentActionsBlock = currentTarget.closest('.js-comment-actions');
 				var currentCommentBlock = currentTarget.closest('.js-comment-details');
 				currentCommentBlock.find('ul').hide();
 				currentTargetParent.hide();
