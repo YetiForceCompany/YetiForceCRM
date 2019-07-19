@@ -8,7 +8,7 @@
 		<div class="container-fluid h-100 px-0">
 			<div class="row no-gutters pr-0 h-100 mb-0">
 				<div class="col-md d-flex flex-column">
-					<h5 class="bg-primary text-white text-center font-weight-normal p-3 mb-0">
+					<h5 class="bg-yeti text-white text-center font-weight-normal p-3 mb-0">
 						{\App\Language::translate('LBL_PREMIUM_ZONE', $QUALIFIED_MODULE)}
 					</h5>
 					<div class="bg-light h-100">
@@ -16,7 +16,7 @@
 					</div>
 				</div>
 				<div class="col-md d-flex flex-column mx-md-2">
-					<h5 class="bg-primary text-white text-center font-weight-normal p-3 mb-0">
+					<h5 class="bg-yeti text-white text-center font-weight-normal p-3 mb-0">
 						{\App\Language::translate('LBL_SYSTEM_MONITORING', $QUALIFIED_MODULE)}
 					</h5>
 					<div class="bg-light h-100">
@@ -24,7 +24,7 @@
 					</div>
 				</div>
 				<div class="col-md d-flex flex-column">
-					<h5 class="bg-primary text-white text-center font-weight-normal p-3 mb-0">
+					<h5 class="bg-yeti text-white text-center font-weight-normal p-3 mb-0">
 						{\App\Language::translate('LBL_SETTINGS_SHORT_CUT', $QUALIFIED_MODULE)}
 					</h5>
 					<div class="bg-light h-100">
