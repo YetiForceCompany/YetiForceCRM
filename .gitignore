@@ -71,3 +71,4 @@ yarn-error.log
 .babelrc
 .sonarlint/
 .history/
+*.bak

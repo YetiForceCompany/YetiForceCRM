@@ -1,12 +1,12 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-YetiForce-Shop-SmallProduct -->
-	<form action="{$PAYPAL_URL}" method="POST">
+	<form action="{$PAYPAL_URL}" method="POST" target="_blank">
 	<div class="pl-2 {if empty($PRODUCT->expirationDate)}bg-light{else}bg-yellow{/if}">
 		<div class="d-flex u-min-h-120px-rem no-wrap py-2 pr-1{if !empty($PRODUCT->expirationDate)} bg-white{/if}">
-			<div class="w-50">
+			<div class="d-flex" style="min-width: 30%;">
 				{if $PRODUCT->getImage()}
-					<img src="{$PRODUCT->getImage()}" class="grow thumbnail-image card-img-top intrinsic-item"
+					<img src="{$PRODUCT->getImage()}" class="my-auto grow thumbnail-image card-img-top intrinsic-item"
 						alt="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}" title="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}" />
 				{else}
 					<div class="product-no-image m-auto">
@@ -17,23 +17,27 @@
 					</div>
 				{/if}
 			</div>
-			<div class="w-50 py-0 pl-2 pr-3 d-flex flex-wrap justify-between align-items-center">
+			<div class="py-0 pl-2 pr-3 d-flex flex-wrap justify-between align-items-center">
 				{include file=\App\Layout::getTemplatePath('DashBoard/WidgetTitle.tpl', $QUALIFIED_MODULE) TITLE=$PRODUCT->getLabel()}
 				{include file=\App\Layout::getTemplatePath('DashBoard/WidgetDescription.tpl', $QUALIFIED_MODULE) DESCRIPTION=$PRODUCT->getDescription()}
 				{assign var=BUTTON_TEXT value="{$PRODUCT->getPrice()} {$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}"}
 				{if empty($PRODUCT->expirationDate)}
 					{if 'manual'===$PRODUCT->getPriceType()}
 						<div class="input-group flex-nowrap">
-							<div class="input-group-prepend w-50">
-								<button class="btn btn-dark u-w-fill-available" type="submit" tile="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
+							<div class="input-group-prepend">
+								<span class="input-group-text ">
+									<span class="fas fa-euro-sign"></span>
+								</span>
+							</div>
+							<input name="a3" class="form-control w-50" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
+							<div class="input-group-append w-50">
+								<button class="btn btn-dark u-w-fill-available" type="submit" title="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
 									<div class="js-popover-tooltip--ellipsis-icon d-flex flex-nowrap align-items-center"
 									data-content="{$BUTTON_TEXT}" data-toggle="popover" data-js="popover | mouseenter">
-										<span class="fas fa-euro-sign js-popover-icon mr-1"></span>
-										<span class="js-popover-text" data-js="clone">{$BUTTON_TEXT}</span>
+										<span class="js-popover-text" data-js="clone">{$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}</span>
 								</div>
 								</button>
 							</div>
-							<input class="form-control w-50" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
 						</div>
 					{else}
 						<button class="btn btn-dark btn-block text-truncate" type="submit" title="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">

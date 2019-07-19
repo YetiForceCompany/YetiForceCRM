@@ -96,12 +96,9 @@ $.Class(
 		}
 	},
 	{
-		registerDeleteShortCutEvent: function(shortCutBlock) {
-			var thisInstance = this;
-			if (typeof shortCutBlock === 'undefined') {
-				shortCutBlock = $('div#settingsShortCutsContainer');
-			}
-			shortCutBlock.on('click', '.unpin', function(e) {
+		registerDeleteShortCutEvent: function(shortcutsContainer = $('#settingsShortCutsContainer')) {
+			shortcutsContainer.on('click', '.unpin', e => {
+				e.preventDefault();
 				var actionEle = $(e.currentTarget);
 				var closestBlock = actionEle.closest('.moduleBlock');
 				var fieldId = actionEle.data('id');
@@ -112,13 +109,14 @@ $.Class(
 						enabled: true
 					}
 				});
-				AppConnector.request(actionUrl).done(function(data) {
+				AppConnector.request(actionUrl).done(data => {
 					if (data.result.SUCCESS == 'OK') {
 						closestBlock.remove();
 						var menuItemId = '#' + fieldId + '_menuItem';
 						var shortCutActionEle = $(menuItemId);
 						var imagePath = shortCutActionEle.data('pinimageurl');
 						shortCutActionEle.attr('src', imagePath).data('action', 'pin');
+						this.updateShortcutsStorage(shortcutsContainer);
 						progressIndicatorElement.progressIndicator({
 							mode: 'hide'
 						});
@@ -130,45 +128,37 @@ $.Class(
 						Vtiger_Helper_Js.showPnotify(params);
 					}
 				});
-				e.stopPropagation();
 			});
 		},
 		registerPinShortCutEvent: function(element) {
-			var id = element.data('id');
-			var url =
+			const id = element.data('id');
+			const url =
 				'index.php?module=Vtiger&parent=Settings&action=Basic&mode=updateFieldPinnedStatus&pin=true&fieldid=' + id;
-			var progressIndicatorElement = $.progressIndicator({
+			const progressIndicatorElement = $.progressIndicator({
 				blockInfo: {
 					enabled: true
 				}
 			});
-			AppConnector.request(url).done(function(data) {
+			AppConnector.request(url).done(data => {
 				if (data.result.SUCCESS == 'OK') {
-					var params = {
+					AppConnector.request({
 						fieldid: id,
 						mode: 'getSettingsShortCutBlock',
 						module: 'Vtiger',
 						parent: 'Settings',
 						view: 'IndexAjax'
-					};
-					AppConnector.request(params).done(function(data) {
-						var existingDivBlock = $('#settingsShortCutsContainer');
-						$(data).appendTo(existingDivBlock);
+					}).done(data => {
+						const shortcutsContainer = $('#settingsShortCutsContainer');
+						$(data).appendTo(shortcutsContainer);
+						this.updateShortcutsStorage(shortcutsContainer);
 						progressIndicatorElement.progressIndicator({
 							mode: 'hide'
 						});
-						var params = {
+						Settings_Vtiger_Index_Js.showMessage({
 							text: app.vtranslate('JS_SUCCESSFULLY_PINNED')
-						};
-						Settings_Vtiger_Index_Js.showMessage(params);
+						});
 					});
 				}
-			});
-		},
-		registerSettingsShortcutClickEvent: function() {
-			$('#settingsShortCutsContainer').on('click', '.moduleBlock', function(e) {
-				var url = $(e.currentTarget).data('url');
-				window.location.href = url;
 			});
 		},
 		registerWidgetsEvents: function() {
@@ -190,7 +180,7 @@ $.Class(
 		},
 		registerAddShortcutDragDropEvent: function() {
 			var elements = $('.js-menu__item .js-menu__link--draggable');
-			var thisInstance = this;
+			var self = this;
 			var classes = 'ui-draggable-menuShortcut bg-warning';
 			elements.draggable({
 				containment: '#page',
@@ -201,7 +191,8 @@ $.Class(
 				},
 				zIndex: 99999
 			});
-			$('#settingsShortCutsContainer').droppable({
+			const shortcutsContainer = $('#settingsShortCutsContainer');
+			shortcutsContainer.droppable({
 				activeClass: 'ui-state-default',
 				hoverClass: 'ui-state-hover',
 				accept: '.js-menu__item .js-menu__link--draggable',
@@ -223,10 +214,27 @@ $.Class(
 						};
 						Vtiger_Helper_Js.showPnotify(params);
 					} else {
-						thisInstance.registerPinShortCutEvent(ui.draggable.parent());
+						self.registerPinShortCutEvent(ui.draggable.parent());
 					}
 				}
 			});
+			shortcutsContainer.sortable({
+				revert: 150,
+				stop: (event, element) => {
+					self.updateShortcutsStorage(shortcutsContainer);
+				}
+			});
+			if (Quasar.plugins.LocalStorage.has('yf-settings-shortcuts')) {
+				this.alignShortcuts(shortcutsContainer);
+			}
+		},
+		alignShortcuts(container) {
+			for (let item of Quasar.plugins.LocalStorage.getItem('yf-settings-shortcuts')) {
+				container.append(container.find('#' + item));
+			}
+		},
+		updateShortcutsStorage(container) {
+			Quasar.plugins.LocalStorage.set('yf-settings-shortcuts', container.sortable('toArray'));
 		},
 		loadEditorElement: function() {
 			new App.Fields.Text.Editor($('.js-editor'), {});
@@ -406,7 +414,6 @@ $.Class(
 		registerEventsLoadContent: function(thisInstance, mode, container) {
 			if (mode == 'index') {
 				thisInstance.registerWidgetsEvents();
-				thisInstance.registerSettingsShortcutClickEvent();
 				thisInstance.registerDeleteShortCutEvent();
 				thisInstance.registerAddShortcutDragDropEvent();
 				thisInstance.registerWarningsAlert();
@@ -416,7 +423,6 @@ $.Class(
 			this.registerTabEvents();
 			this.reloadContent();
 			this.registerWarningsAlert();
-			this.registerSettingsShortcutClickEvent();
 			this.registerDeleteShortCutEvent();
 			this.registerAddShortcutDragDropEvent();
 		}
