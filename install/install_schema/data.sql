@@ -17696,7 +17696,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (117,12,'LBL_BUSINESS_HOURS','fas fa-business-time','LBL_BUSINESS_HOURS_DESCRIPTION','index.php?module=BusinessHours&parent=Settings&view=List',4,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (119,6,'LBL_SLA_POLICY','fas fa-door-open','LBL_SLA_POLICY','index.php?module=SlaPolicy&parent=Settings&view=List',7,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (120,18,'LBL_GITHUB','fab fa-github',NULL,'index.php?module=Help&parent=Settings&view=Index',1,0,0,NULL);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (121,14,'LBL_SYSTEM_WARNINGS','fas fa-exclamation-triangle',NULL,'index.php?module=Logs&parent=Settings&view=Index',5,0,0,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (121,14,'LBL_SYSTEM_WARNINGS','fas fa-exclamation-triangle',NULL,'index.php?module=Logs&parent=Settings&view=SystemWarnings',5,0,0,NULL);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
