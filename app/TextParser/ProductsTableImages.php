@@ -29,7 +29,6 @@ class ProductsTableImages extends Base
 			return $html;
 		}
 		$inventory = \Vtiger_Inventory_Model::getInstance($this->textParser->moduleName);
-		$fields = $inventory->getFieldsByBlocks();
 		$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
 		$firstRow = current($inventoryRows);
@@ -50,7 +49,7 @@ class ProductsTableImages extends Base
 		foreach (['ItemNumber', 'Name', 'Quantity', 'UnitPrice', 'TotalPrice', 'GrossPrice'] as $fieldType) {
 			foreach ($inventory->getFieldsByType($fieldType) as $fieldModel) {
 				$columnName = $fieldModel->getColumnName();
-				if (!$fieldModel || !$inventory->isField($columnName)) {
+				if (!$fieldModel->isVisible()) {
 					continue;
 				}
 				$item = [];
@@ -78,6 +77,7 @@ class ProductsTableImages extends Base
 			'footerHtml' => '<th></th>',
 		]]);
 		$displayRows = [];
+		$counter = 1;
 		foreach ($inventoryRows as $inventoryRow) {
 			$rowHtml = '';
 			foreach ($displayFields as $field) {
@@ -92,14 +92,14 @@ class ProductsTableImages extends Base
 						$image = '<img src="' . $base64 . '" style="width:80px;height:auto;">';
 					}
 					$columnHtml = "<td class=\"col-type-image\" style=\"border:1px solid #ddd;padding:0px 4px;text-align:center;\">$image</td>";
-				} elseif ('image' !== $fieldModel && $fieldModel->isVisible()) {
+				} else {
 					$columnName = $fieldModel->getColumnName();
 					$typeName = $fieldModel->getType();
 					if ('ItemNumber' === $typeName) {
-						$columnHtml = "<td class=\"col-type-{$typeName}\" style=\"{$bodyStyle}\">" . $inventoryRow['seq'] . '</td>';
+						$columnHtml = "<td class=\"col-type-{$typeName}\" style=\"{$bodyStyle}text-align:center;\"><strong>" . $counter++ . '</strong></td>';
 					} elseif ('ean' === $columnName) {
 						$code = $inventoryRow[$columnName];
-						$columnHtml = "<td class=\"col-type-barcode\" style=\"{$bodyStyle}\"><div data-barcode=\"EAN13\" data-code=\"$code\" data-size=\"1\" data-height=\"16\"></div></td>";
+						$columnHtml = "<td class=\"col-type-barcode\" style=\"{$bodyStyle}\"><div data-barcode=\"EAN13\" data-code=\"$code\" data-size=\"1\" data-height=\"16\">{$code}</div></td>";
 					} else {
 						$itemValue = $inventoryRow[$columnName];
 						if ('Name' === $typeName) {
@@ -115,7 +115,7 @@ class ProductsTableImages extends Base
 						} else {
 							$fieldValue = $fieldModel->getDisplayValue($itemValue);
 						}
-						$itemHtml = "<td class=\"col-type-{$typeName}\" style=\"{$fieldStyle}\">" . $fieldValue . '</td>';
+						$itemHtml = "<td class=\"col-type-{$typeName}\" style=\"{$fieldStyle}\">{$fieldValue}</td>";
 						$columnHtml = $itemHtml;
 					}
 				}
