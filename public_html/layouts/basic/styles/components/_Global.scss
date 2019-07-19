@@ -4,6 +4,7 @@
 .mainContainer,
 .contentsDiv {
 	min-height: 100%;
+	height: 100%;
 }
 
 .bodyContent {
@@ -71,8 +72,8 @@
 		.c-panel__body--edit {
 			@extend .px-0, .pt-1;
 
-			[class^='col-'],
-			[class*=' col-'] {
+			[class^="col-"],
+			[class*=" col-"] {
 				@extend .px-1;
 			}
 		}
@@ -293,7 +294,7 @@
 	&__completion {
 		width: inherit;
 
-		&[src=''] {
+		&[src=""] {
 			display: none;
 		}
 
@@ -349,7 +350,7 @@
 	align-items: center;
 	border-radius: 50%;
 
-	[class^='userIcon-'],
+	[class^="userIcon-"],
 	.adminIcon-user,
 	.adminIcon-user {
 		font-size: calculate-rem(20px);
@@ -386,7 +387,7 @@
 	}
 }
 
-[contenteditable='true'] {
+[contenteditable="true"] {
 	&:empty:after {
 		content: attr(placeholder) !important;
 		color: #6c757d !important;
@@ -545,9 +546,9 @@
 	max-width: 200px;
 }
 
-input[type='checkbox'][readonly],
-input[type='checkbox'][disabled] {
-	background-color: material-color('grey', '200');
+input[type="checkbox"][readonly],
+input[type="checkbox"][disabled] {
+	background-color: material-color("grey", "200");
 }
 
 /* -------- TIME PERIOD FIELD -------- */
@@ -556,7 +557,7 @@ input[type='checkbox'][disabled] {
 	-webkit-appearance: none;
 	margin: 0;
 }
-.c-time-period-input[type='number'] {
+.c-time-period-input[type="number"] {
 	-moz-appearance: textfield;
 }
 .c-time-period .select2-selection,

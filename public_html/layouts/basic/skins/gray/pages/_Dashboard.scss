@@ -27,18 +27,25 @@
 	}
 	margin-bottom: 1rem !important;
 }
-.grid-stack {
+.dashboardWidget {
+	box-shadow: 0px 5px 6px -7px $color-box-shadow;
+	border: none;
+	.dashboardWidgetHeader {
+		background-color: $color-navbar;
+		text-shadow: 0 1px $color-navbar;
+		border: none;
+	}
+
+	h5 {
+		text-transform: uppercase;
+	}
+
+	.widgetFooterContent .row:first-child {
+		background-color: unset;
+	}
+}
+.settingsIndexPage {
 	.dashboardWidget {
-		box-shadow: 0px 5px 6px -7px $color-box-shadow;
-
-		.dashboardWidgetHeader {
-			background-color: $color-navbar;
-			text-shadow: 0 1px $color-navbar;
-			border-top: 1px solid $color-navbar;
-		}
-
-		.widgetFooterContent .row:first-child {
-			background-color: unset;
-		}
+		box-shadow: 2px 2px 12px -6px $color-box-shadow;
 	}
 }

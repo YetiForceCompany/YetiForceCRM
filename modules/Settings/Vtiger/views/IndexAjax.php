@@ -17,7 +17,6 @@ class Settings_Vtiger_IndexAjax_View extends Settings_Vtiger_Index_View
 	{
 		parent::__construct();
 		$this->exposeMethod('getSettingsShortCutBlock');
-		$this->exposeMethod('realignSettingsShortCutBlock');
 	}
 
 	public function getSettingsShortCutBlock(App\Request $request)
@@ -29,15 +28,5 @@ class Settings_Vtiger_IndexAjax_View extends Settings_Vtiger_Index_View
 		$viewer->assign('SETTINGS_SHORTCUT', $pinnedSettingsShortcuts[$fieldid]);
 		$viewer->assign('MODULE_NAME', $qualifiedModuleName);
 		$viewer->view('DashBoard/SettingsShortCut.tpl', $qualifiedModuleName);
-	}
-
-	public function realignSettingsShortCutBlock(App\Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = $request->getModule(false);
-		$pinnedSettingsShortcuts = Settings_Vtiger_MenuItem_Model::getPinnedItems();
-		$viewer->assign('SETTINGS_SHORTCUT', $pinnedSettingsShortcuts);
-		$viewer->assign('MODULE_NAME', $qualifiedModuleName);
-		$viewer->view('ReAlignSettingsShortCut.tpl', $qualifiedModuleName);
 	}
 }
