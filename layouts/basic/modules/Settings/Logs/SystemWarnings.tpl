@@ -1,6 +1,6 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-	<div class="tpl-Base-SystemWarnings js-warnings-index-page" data-js="container">
+	<div class="tpl-Settings-Logs-SystemWarnings js-warnings-index-page" data-js="container">
 		<div class="row">
 			<div class="col-md-9 mr-2">
 				<div class="mr-2 js-warnings-content" data-js="container"></div>
@@ -24,7 +24,7 @@
 
 				</div>
 				<hr>
-				<input type="hidden" class="js-tree-values" value="{\App\Purifier::encodeHtml($FOLDERS)}">
+				<input type="hidden" class="js-tree-values" value="{\App\Purifier::encodeHtml($FOLDERS)}" data-js="data">
 				<div id="jstreeContainer"></div>
 			</div>
 		</div>
