@@ -14,7 +14,7 @@
 		 id="shortcut_{$SETTINGS_SHORTCUT->getId()}" data-actionurl="{$SETTINGS_SHORTCUT->getPinUnpinActionUrl()}"
 		 href="{$SETTINGS_SHORTCUT->getUrl()}">
 		<div class="d-flex flex-nowrap">
-			<div class="display-4 px-1">
+			<div class="u-font-size-38px my-auto px-1">
 				<span class="{$SETTINGS_SHORTCUT->get('iconpath')}"></span>
 			</div>
 			<div class="d-flex flex-column px-1 w-100 position-relative">
