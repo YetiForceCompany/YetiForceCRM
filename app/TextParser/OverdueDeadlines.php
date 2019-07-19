@@ -40,7 +40,7 @@ class OverdueDeadlines extends Base
 		$html = '<table border="1" class="products-table" style="border-collapse:collapse;width:100%;"><thead><tr>';
 		$columns = [];
 		foreach (['subject', 'activitytype', 'date_start', 'link'] as $column) {
-			if (!($fieldModel = $moduleModel->getFieldByColumn($column)) && !$fieldModel->isActiveField()) {
+			if (!($fieldModel = $moduleModel->getFieldByColumn($column)) || !$fieldModel->isActiveField()) {
 				continue;
 			}
 			$columns[$column] = $fieldModel;
