@@ -2,14 +2,65 @@
 'use strict';
 
 Settings_Vtiger_Index_Js('Settings_Logs_Index_Js', {
-	registerSystemWarningsEvents: function(container) {
-		var thisInstance = this;
-		thisInstance.registerWarningsFolders(container);
+	getWarningsList: function() {
+		const thisInstance = this;
+		const container = $('.js-warnings-content');
+		const progressIndicator = $.progressIndicator({
+			message: app.vtranslate('JS_LOADING_OF_RECORDS'),
+			blockInfo: { enabled: true }
+		});
+		AppConnector.request({
+			module: app.getModuleName(),
+			parent: app.getParentModuleName(),
+			view: app.getViewName(),
+			mode: 'getWarningsList',
+			active: $('.js-warnings-index-page .js-switch--warnings')
+				.first()
+				.is(':checked'),
+			folder: thisInstance.getSelectedFolders()
+		})
+			.done(data => {
+				container.html(data);
+				thisInstance.registerWarningsList(container);
+				progressIndicator.progressIndicator({ mode: 'hide' });
+			})
+			.fail(() => {
+				progressIndicator.progressIndicator({ mode: 'hide' });
+			});
+	},
+	registerWarningsList: function(container) {
+		container.find('table').dataTable({
+			order: [[2, 'desc']]
+		});
+		container.find('.showDescription').on('click', e => {
+			app.showModalWindow(
+				$(e.currentTarget)
+					.closest('td')
+					.find('.showDescriptionContent')
+					.html()
+			);
+		});
+		container.find('.setIgnore').on('click', e => {
+			container.find('.js-popover-tooltip').popover('hide');
+			const data = $(e.currentTarget)
+				.closest('tr')
+				.data();
+			AppConnector.request({
+				module: app.getModuleName(),
+				parent: app.getParentModuleName(),
+				action: 'SystemWarnings',
+				mode: 'update',
+				id: data.id,
+				params: data.status
+			}).done(() => {
+				this.getWarningsList(container);
+			});
+		});
 	},
 	registerWarningsFolders: function(container) {
-		var thisInstance = this;
-		var data = [];
-		var treeValues = container.find('#treeValues').val();
+		const thisInstance = this;
+		let data = [];
+		const treeValues = container.find('.js-tree-values').val();
 		if (treeValues) {
 			data = JSON.parse(treeValues);
 		}
@@ -63,6 +114,6 @@ Settings_Vtiger_Index_Js('Settings_Logs_Index_Js', {
 		});
 	},
 	registerEventsLoadContent: function(thisInstance, mode, container) {
-		thisInstance.registerSystemWarningsEvents(container);
+		thisInstance.registerWarningsFolders(container);
 	}
 });
