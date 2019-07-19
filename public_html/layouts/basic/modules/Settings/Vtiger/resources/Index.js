@@ -195,7 +195,8 @@ $.Class(
 				},
 				zIndex: 99999
 			});
-			$('#settingsShortCutsContainer').droppable({
+			const shortcutsContainer = $('#settingsShortCutsContainer');
+			shortcutsContainer.droppable({
 				activeClass: 'ui-state-default',
 				hoverClass: 'ui-state-hover',
 				accept: '.js-menu__item .js-menu__link--draggable',
@@ -221,6 +222,7 @@ $.Class(
 					}
 				}
 			});
+			shortcutsContainer.sortable();
 		},
 		loadEditorElement: function() {
 			new App.Fields.Text.Editor($('.js-editor'), {});
