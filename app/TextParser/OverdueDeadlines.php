@@ -26,7 +26,6 @@ class OverdueDeadlines extends Base
 	{
 		$moduleName = 'Calendar';
 		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
-		$fields = $moduleModel->getFields();
 		$currentUserModel = \App\User::getCurrentUserModel();
 		$adminUser = !$currentUserModel->isAdmin() ? \App\User::getActiveAdminId() : $currentUserModel->getId();
 		$queryGenerator = new \App\QueryGenerator($moduleName, $adminUser);
@@ -41,8 +40,7 @@ class OverdueDeadlines extends Base
 		$html = '<table border="1" class="products-table" style="border-collapse:collapse;width:100%;"><thead><tr>';
 		$columns = [];
 		foreach (['subject', 'activitytype', 'date_start', 'link'] as $column) {
-			$fieldModel = $fields[$column];
-			if (!$fieldModel || !$fieldModel->isActiveField()) {
+			if (!($fieldModel = $moduleModel->getFieldByColumn($column)) && !$fieldModel->isActiveField()) {
 				continue;
 			}
 			$columns[$column] = $fieldModel;
@@ -61,7 +59,6 @@ class OverdueDeadlines extends Base
 				if (\in_array($columnName, ['activitytype', 'date_start'])) {
 					$style = $bodyStyle . 'text-align:center;';
 				}
-
 				$html .= "<td style=\"{$style}\">" . $recordModel->getDisplayValue($columnName, false, true) . '</td>';
 			}
 			$html .= '</tr>';
