@@ -18,8 +18,7 @@
 							</div>
 						{/if}
 					</div>
-					{assign var="IS_FOUR_DIGIT_NUMBER" value=strlen($VALUE) > 3}
-					<div class="display-3 u-font-weight-350" {if $IS_FOUR_DIGIT_NUMBER}title="{$VALUE}">999+{else}>{$VALUE}{/if}</div>
+					<div class="display-3 u-font-weight-350" {if strlen($VALUE) > 3}title="{$VALUE}">999+{else}>{$VALUE}{/if}</div>
 				</div>
 				<div class="px-3">
 				{include file=\App\Layout::getTemplatePath('DashBoard/WidgetTitle.tpl', $QUALIFIED_MODULE) CLASS='text-center' TITLE=$TRANSLATION}

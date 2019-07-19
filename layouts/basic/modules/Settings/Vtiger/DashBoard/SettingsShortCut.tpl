@@ -10,9 +10,9 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-Settings-Base-DashBoard-SettingsShortCut dashboardWidget contentsBackground u-cursor-pointer moduleBlock px-1 py-2 mb-n1 mt-3 u-columns__item d-inline-block"
+	<a class="tpl-Settings-Base-DashBoard-SettingsShortCut dashboardWidget text-black contentsBackground u-cursor-pointer moduleBlock px-1 py-2 mb-n1 mt-3 u-columns__item d-inline-block"
 		 id="shortcut_{$SETTINGS_SHORTCUT->getId()}" data-actionurl="{$SETTINGS_SHORTCUT->getPinUnpinActionUrl()}"
-		 data-url="{$SETTINGS_SHORTCUT->getUrl()}">
+		 href="{$SETTINGS_SHORTCUT->getUrl()}">
 		<div class="d-flex flex-nowrap">
 			<div class="display-4 px-1">
 				<span class="{$SETTINGS_SHORTCUT->get('iconpath')}"></span>
@@ -32,5 +32,5 @@
 				<span class="fas fa-ellipsis-v position-absolute u-position-r-0 mt-4 text-grey-5"></span>
 			</div>
 		</div>
-	</div>
+	</a>
 {/strip}

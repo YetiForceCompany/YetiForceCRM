@@ -165,12 +165,6 @@ $.Class(
 				}
 			});
 		},
-		registerSettingsShortcutClickEvent: function() {
-			$('#settingsShortCutsContainer').on('click', '.moduleBlock', function(e) {
-				var url = $(e.currentTarget).data('url');
-				window.location.href = url;
-			});
-		},
 		registerWidgetsEvents: function() {
 			var widgets = $('div.widgetContainer');
 			widgets.on('shown.bs.collapse', function(e) {
@@ -406,7 +400,6 @@ $.Class(
 		registerEventsLoadContent: function(thisInstance, mode, container) {
 			if (mode == 'index') {
 				thisInstance.registerWidgetsEvents();
-				thisInstance.registerSettingsShortcutClickEvent();
 				thisInstance.registerDeleteShortCutEvent();
 				thisInstance.registerAddShortcutDragDropEvent();
 				thisInstance.registerWarningsAlert();
@@ -416,7 +409,6 @@ $.Class(
 			this.registerTabEvents();
 			this.reloadContent();
 			this.registerWarningsAlert();
-			this.registerSettingsShortcutClickEvent();
 			this.registerDeleteShortCutEvent();
 			this.registerAddShortcutDragDropEvent();
 		}
