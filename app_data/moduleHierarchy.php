@@ -38,7 +38,8 @@ return [
 			'servicecontractsid' => ['ServiceContracts' => ['parent_id' => ['sc_related_to', 'Accounts'], 'ticketpriorities' => ['contract_priority'], 'contract_type' => ['contract_type'], 'contracts_end_date' => ['due_date']]]
 		],
 		'OSSTimeControl' => [
-			'projectid' => ['Project' => ['accountid' => ['linktoaccountscontacts']]]
+			'process' => ['Project' => ['link' => ['linktoaccountscontacts']]],
+			'subprocess' => ['HelpDesk' => ['name' => ['ticket_title']]]
 		],
 		'SRequirementsCards' => [
 			'salesprocessid' => ['SSalesProcesses' => ['accountid' => ['related_to']]]
