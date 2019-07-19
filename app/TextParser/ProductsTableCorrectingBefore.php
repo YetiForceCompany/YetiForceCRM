@@ -76,7 +76,7 @@ class ProductsTableCorrectingBefore extends Base
 					$html .= "<td style=\"{$bodyStyle}font-weight:bold;\">" . $counter++ . '</td>';
 				} elseif ('ean' === $columnName) {
 					$code = $inventoryRow[$columnName];
-					$html .= "<td style=\"{$bodyStyle}\"><div data-barcode=\"EAN13\" data-code=\"{$code}\" data-size=\"1\" data-height=\"16\"></div></td>";
+					$html .= "<td style=\"{$bodyStyle}\"><div data-barcode=\"EAN13\" data-code=\"{$code}\" data-size=\"1\" data-height=\"16\">{$code}</div></td>";
 				} else {
 					$itemValue = $inventoryRow[$columnName];
 					if ('Name' === $typeName) {
