@@ -22,6 +22,12 @@ abstract class AbstractBaseProduct
 	 * @var string
 	 */
 	public $name;
+	/**
+	 * Is the product featured.
+	 *
+	 * @var bool
+	 */
+	public $featured;
 
 	/**
 	 * Price table depending on the size of the company.
@@ -57,6 +63,13 @@ abstract class AbstractBaseProduct
 	 * @var string|null
 	 */
 	public $paidPackage;
+
+	/**
+	 * Verify the product.
+	 *
+	 * @return bool
+	 */
+	abstract protected function verify(): bool;
 
 	/**
 	 * Construct.

@@ -25,4 +25,15 @@ class DisableFooter extends \App\YetiForce\Shop\AbstractBaseProduct
 		'l' => 30,
 		'xl' => 50,
 	];
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function verify(): bool
+	{
+		if (\App\Config::performance('LIMITED_INFO_IN_FOOTER')) {
+			return \App\YetiForce\Shop::check('DisableFooter');
+		}
+		return true;
+	}
 }

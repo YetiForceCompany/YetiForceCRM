@@ -25,4 +25,12 @@ class PremiumModules extends \App\YetiForce\Shop\AbstractBaseProduct
 		'l' => 100,
 		'xl' => 250,
 	];
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function verify(): bool
+	{
+		return true;
+	}
 }

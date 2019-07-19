@@ -28,4 +28,12 @@ class Donations extends \App\YetiForce\Shop\AbstractBaseProduct
 	{
 		return 5;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function verify(): bool
+	{
+		return true;
+	}
 }

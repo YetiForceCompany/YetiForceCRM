@@ -177,8 +177,8 @@ class Shop
 	 */
 	public static function verify(): bool
 	{
-		foreach (\App\YetiForce\Register::getProducts() as $row) {
-			if (!self::check($row['product'])) {
+		foreach (self::getProducts() as $row) {
+			if (!$row->verify()) {
 				return false;
 			}
 		}
