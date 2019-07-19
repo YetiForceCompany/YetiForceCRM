@@ -147,7 +147,7 @@ abstract class Record extends Base
 	{
 		if ('all' !== $ids) {
 			$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][field]=entity_id';
-			if (\is_array($ids)) {
+			if (!empty($ids) && \is_array($ids)) {
 				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][value]=' . implode(',', $ids);
 				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][condition_type]=in';
 			} else {

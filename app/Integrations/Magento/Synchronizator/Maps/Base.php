@@ -189,12 +189,12 @@ abstract class Base
 	/**
 	 * Get field value from YetiForce.
 	 *
-	 * @param $fieldName
-	 * @param mixed $parsedStructure
+	 * @param string $fieldName
+	 * @param mixed  $parsedStructure
 	 *
 	 * @return array|mixed
 	 */
-	public function getFieldValueCrm($fieldName, $parsedStructure = false)
+	public function getFieldValueCrm(string $fieldName, $parsedStructure = false)
 	{
 		$methodName = 'get' . \ucfirst($this->getFieldName($fieldName));
 		if (!\method_exists($this, $methodName)) {
@@ -217,11 +217,11 @@ abstract class Base
 	/**
 	 * Get field value from Magento.
 	 *
-	 * @param $fieldName
+	 * @param string $fieldName
 	 *
 	 * @return array|mixed
 	 */
-	public function getFieldValue($fieldName)
+	public function getFieldValue(string $fieldName)
 	{
 		$parsedFieldName = $this->getFieldNameCrm($fieldName);
 		$methodName = 'getCrm' . \ucfirst($parsedFieldName);
@@ -270,11 +270,11 @@ abstract class Base
 	/**
 	 * Get custom attribute value.
 	 *
-	 * @param $name
+	 * @param string $name
 	 *
 	 * @return mixed
 	 */
-	public function getCustomAttributeValue($name)
+	public function getCustomAttributeValue(string $name)
 	{
 		$value = '';
 		$customAttributes = $this->data['custom_attributes'];
@@ -291,12 +291,12 @@ abstract class Base
 	/**
 	 * Get field value in structure.
 	 *
-	 * @param $name
+	 * @param string $name
 	 * @param $value
 	 *
 	 * @return mixed|array
 	 */
-	public function getFieldStructure($name, $value)
+	public function getFieldStructure(string $name, $value)
 	{
 		if (empty($value)) {
 			$value = static::$fieldsDefaultValue[$name] ?? 0;

@@ -187,7 +187,7 @@ abstract class Base
 	/**
 	 * Return parsed time to magento time zone.
 	 *
-	 * @param $value
+	 * @param string $value
 	 *
 	 * @return string
 	 */
@@ -199,26 +199,30 @@ abstract class Base
 	/**
 	 * Save inventory elements.
 	 *
-	 * @param $recordModel
-	 * @param $records
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @param array                $records
+	 * @param array                $shipping
+	 * @param object               $fieldMap
 	 *
 	 * @throws \App\Exceptions\AppException
+	 * @throws \ReflectionException
 	 *
 	 * @return bool
 	 */
-	public function saveInventoryCrm($recordModel, $records): bool
+	public function saveInventoryCrm($recordModel, array $records, array $shipping, $fieldMap): bool
 	{
 		$inventoryData = [];
 		$savedAllProducts = true;
 		foreach ($records as $record) {
 			if (isset($this->mapCrm['product'][$record['product_id']])) {
-				$inventoryData[] = $this->parseInventoryData($recordModel, $record);
+				$inventoryData[] = $this->parseInventoryData($recordModel, $record, $fieldMap);
 			} else {
 				$savedAllProducts = false;
 				\App\Log::error('Error during saving order. Inventory product does not exist in YetiForce.', 'Integrations/Magento');
 			}
 		}
 		if (!empty($inventoryData)) {
+			$inventoryData[] = $this->parseShippingData($shipping);
 			$recordModel->initInventoryData($inventoryData, false);
 		}
 		return $savedAllProducts;
@@ -227,17 +231,17 @@ abstract class Base
 	/**
 	 * Parse inventory data to YetiForce format.
 	 *
-	 * @param $recordModel
-	 * @param $record
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @param array                $record
+	 * @param mixed                $fieldMap
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return array
 	 */
-	public function parseInventoryData($recordModel, $record): array
+	public function parseInventoryData($recordModel, array $record, $fieldMap): array
 	{
-		$orderFields = new \App\Integrations\Magento\Synchronizator\Maps\Order();
-		$orderFields->setData($record);
+		$fieldMap->setData($record);
 		$item = [];
 		foreach (\Vtiger_Inventory_Model::getInstance($recordModel->getModuleName())->getFields() as $columnName => $fieldModel) {
 			if (\in_array($fieldModel->getColumnName(), ['total', 'margin', 'marginp', 'net', 'gross'])) {
@@ -251,16 +255,44 @@ abstract class Base
 				if (empty($record['discount_amount']) && !empty($record['discount_percent'])) {
 					$item['discountparam'] = '{"aggregationType":"individual","individualDiscountType":"percentage","individualDiscount":' . $record['discount_percent'] . '}';
 				} else {
-					$item['discountparam'] = '{"aggregationType":"individual","individualDiscountType":"amount","individualDiscount":' . $record['discount_amount'] . '}';
+					$item['discountparam'] = '{"aggregationType":"individual","individualDiscountType":"amount","individualDiscount":' . $fieldMap->getInvFieldValue('discount') . '}';
 				}
 			} elseif ('currency' === $columnName) {
 				$item['currency'] = 1;
 			} elseif ('name' === $columnName) {
 				$item[$columnName] = $this->mapCrm['product'][$record['product_id']];
 			} else {
-				$item[$columnName] = $orderFields->getInvFieldValue($columnName) ?? $fieldModel->getDefaultValue();
+				$item[$columnName] = $fieldMap->getInvFieldValue($columnName) ?? $fieldModel->getDefaultValue();
 			}
 		}
 		return $item;
+	}
+
+	/**
+	 * Parse shipping data.
+	 *
+	 * @param array $shippingData
+	 *
+	 * @throws \ReflectionException
+	 *
+	 * @return array
+	 */
+	public function parseShippingData(array $shippingData): array
+	{
+		$data = current($shippingData);
+		return [
+			'discountmode' => 0,
+			'taxmode' => 1,
+			'currency' => 1,
+			'name' => \App\Config::component('Magento', 'shippingServiceId'),
+			'unit' => '',
+			'subunit' => '',
+			'qty' => 1,
+			'price' => $data['shipping']['total']['shipping_amount'],
+			'discountparam' => '{"aggregationType":"individual","individualDiscountType":"amount","individualDiscount":' . $data['shipping']['total']['shipping_discount_amount'] . '}',
+			'purchase' => 0,
+			'taxparam' => '{"aggregationType":"individual","individualTax":' . $data['shipping']['total']['shipping_tax_amount'] . '}',
+			'comment1' => ''
+		];
 	}
 }
