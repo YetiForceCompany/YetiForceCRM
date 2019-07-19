@@ -2180,7 +2180,7 @@ jQuery.Class(
 				closestAddCommentBlock = currentTarget.closest('.js-add-comment-block'),
 				commentTextAreaElement = closestAddCommentBlock.find('.js-comment-content'),
 				commentInfoBlock = currentTarget.closest('.js-comment-single');
-			commentTextAreaElement.val('');
+			commentTextAreaElement.html('');
 			if (mode == 'add') {
 				let commentId = data['result']['id'],
 					commentHtml = self.getCommentUI(commentId);
