@@ -51,13 +51,18 @@
 	font-size: calculate-rem(15px);
 }
 
+.u-font-size-19px {
+	font-size: calculate-rem(19px);
+}
+
 .u-font-size-38px {
 	font-size: calculate-rem(38px);
 }
 
-.u-font-size-19px {
-	font-size: calculate-rem(19px);
+.u-font-size-50px {
+	font-size: calculate-rem(50px);
 }
+
 
 @for $i from 1 through 18 {
 	.u-font-weight-#{$i*50} {

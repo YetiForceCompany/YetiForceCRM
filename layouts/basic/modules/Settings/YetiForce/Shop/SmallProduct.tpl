@@ -2,7 +2,7 @@
 {strip}
 	<!-- tpl-Settings-YetiForce-Shop-SmallProduct -->
 	<form action="{$PAYPAL_URL}" method="POST" target="_blank">
-	<div class="pl-2 {if empty($PRODUCT->expirationDate)}bg-light{else}bg-yellow{/if}">
+	<div class="pl-2 {if empty($PRODUCT->expirationDate)}bg-light{elseif $PRODUCT->expirationDate!=$PRODUCT->paidPackage}bg-danger{else}bg-yellow{/if}">
 		<div class="d-flex u-min-h-120px-rem no-wrap py-2 pr-1{if !empty($PRODUCT->expirationDate)} bg-white{/if}">
 			<div class="d-flex" style="min-width: 30%;">
 				{if $PRODUCT->getImage()}
