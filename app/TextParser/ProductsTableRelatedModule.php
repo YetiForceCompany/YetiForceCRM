@@ -45,14 +45,11 @@ class ProductsTableRelatedModule extends Base
 		$groupModels = [];
 		foreach (['ItemNumber', 'Name', 'Quantity', 'Discount', 'Currency', 'DiscountMode', 'TaxMode', 'UnitPrice', 'GrossPrice', 'NetPrice', 'Tax', 'TotalPrice', 'Value'] as $fieldType) {
 			foreach ($inventory->getFieldsByType($fieldType) as $fieldModel) {
-				$columnName = $fieldModel->getColumnName();
-				if (!$inventory->isField($columnName) && !$fieldModel) {
+				if (!$fieldModel->isVisible()) {
 					continue;
 				}
-				if ($fieldModel->isVisible()) {
-					$html .= "<th class=\"col-type-{$fieldModel->getType()}\" style=\"{$headerStyle}text-align:center;\">" . \App\Language::translate($fieldModel->get('label'), $this->textParser->moduleName) . '</th>';
-				}
-				$groupModels[$columnName] = $fieldModel;
+				$html .= "<th class=\"col-type-{$fieldModel->getType()}\" style=\"{$headerStyle}text-align:center;\">" . \App\Language::translate($fieldModel->get('label'), $this->textParser->moduleName) . '</th>';
+				$groupModels[$fieldModel->getColumnName()] = $fieldModel;
 			}
 		}
 		$html .= '</tr></thead>';
@@ -67,9 +64,9 @@ class ProductsTableRelatedModule extends Base
 					$fieldStyle = $bodyStyle;
 					if ('ItemNumber' === $typeName) {
 						$html .= "<td class=\"col-type-ItemNumber\" style=\"{$fieldStyle}font-weight:bold;text-align:center;\">" . $counter++ . '</td>';
-					// var_dump($typeName);
 					} elseif ('ean' === $columnName) {
-						$html .= "<td class=\"col-type-barcode\" style=\"{$fieldStyle}font-weight:bold;text-align:center;\"><div data-barcode=\"EAN13\" data-code=\"{$inventoryRow[$columnName]}\" data-size=\"1\" data-height=\"16\"> {$inventoryRow[$columnName]}</div></td>";
+						$code = $inventoryRow[$columnName];
+						$html .= "<td class=\"col-type-barcode\" style=\"{$fieldStyle}font-weight:bold;text-align:center;\"><div data-barcode=\"EAN13\" data-code=\"{$code}\" data-size=\"1\" data-height=\"16\">{$code}</div></td>";
 					} else {
 						$itemValue = $inventoryRow[$columnName];
 						if ('Name' === $typeName) {
@@ -92,17 +89,15 @@ class ProductsTableRelatedModule extends Base
 			}
 			$html .= '</tbody><tfoot><tr>';
 			foreach ($groupModels as $fieldModel) {
-				if ($fieldModel->isVisible()) {
-					$html .= "<th class=\"col-type-{$fieldModel->getType()}\" style=\"{$headerStyle}text-align:right;\">";
-					if ($fieldModel->isSummary()) {
-						$sum = 0;
-						foreach ($inventoryRows as $inventoryRow) {
-							$sum += $inventoryRow[$fieldModel->getColumnName()];
-						}
-						$html .= \CurrencyField::convertToUserFormat($sum, null, true);
+				$html .= "<th class=\"col-type-{$fieldModel->getType()}\" style=\"{$headerStyle}text-align:right;\">";
+				if ($fieldModel->isSummary()) {
+					$sum = 0;
+					foreach ($inventoryRows as $inventoryRow) {
+						$sum += $inventoryRow[$fieldModel->getColumnName()];
 					}
-					$html .= '</th>';
+					$html .= \CurrencyField::convertToUserFormat($sum, null, true);
 				}
+				$html .= '</th>';
 			}
 			$html .= '</tr></tfoot></table>';
 		}
