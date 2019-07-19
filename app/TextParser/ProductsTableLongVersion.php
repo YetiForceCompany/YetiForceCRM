@@ -47,20 +47,17 @@ class ProductsTableLongVersion extends Base
 				<thead>
 					<tr>';
 		$groupModels = [];
-		foreach (['Name', 'Value', 'Quantity', 'UnitPrice', 'TotalPrice', 'Discount', 'NetPrice', 'Tax', 'GrossPrice']  as $fieldType) {
+		foreach (['ItemNumber', 'Name', 'Value', 'Quantity', 'UnitPrice', 'TotalPrice', 'Discount', 'NetPrice', 'Tax', 'GrossPrice']  as $fieldType) {
 			foreach ($inventory->getFieldsByType($fieldType) as $fieldModel) {
-				$columnName = $fieldModel->getColumnName();
-				if (!$fieldModel || !$inventory->isField($columnName)) {
+				if (!$fieldModel->isVisible()) {
 					continue;
 				}
-				if ($fieldModel->isVisible()) {
-					$html .= "<th style=\"{$headerStyle}\">" . \App\Language::translate($fieldModel->get('label'), $this->textParser->moduleName) . '</th>';
-				}
-				$groupModels[$columnName] = $fieldModel;
+				$html .= "<th style=\"{$headerStyle}\">" . \App\Language::translate($fieldModel->get('label'), $this->textParser->moduleName) . '</th>';
+				$groupModels[$fieldModel->getColumnName()] = $fieldModel;
 			}
 		}
 		$html .= '</tr></thead>';
-		if ($groupModels) {
+		if (!empty($groupModels)) {
 			$html .= '<tbody>';
 			$counter = 0;
 			foreach ($inventoryRows as $inventoryRow) {
@@ -70,45 +67,42 @@ class ProductsTableLongVersion extends Base
 					$columnName = $fieldModel->getColumnName();
 					$typeName = $fieldModel->getType();
 					$fieldStyle = $bodyStyle;
-					if ($fieldModel->isVisible()) {
-						if ('ItemNumber' === $typeName) {
-							$fieldValue = $inventoryRow[$columnName];
-						} elseif ('ean' === $columnName) {
-							$fieldValue = '<div data-barcode="EAN13" data-code="' . $inventoryRow[$columnName] . '" data-size="1" data-height="16"></div>';
-						} else {
-							$itemValue = $inventoryRow[$columnName];
-							if ('Name' === $typeName) {
-								$fieldValue = '<strong>' . $fieldModel->getDisplayValue($itemValue, $inventoryRow) . '</strong>';
-								foreach ($inventory->getFieldsByType('Comment') as $commentField) {
-									if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()]) && $comment = $commentField->getDisplayValue($value, $inventoryRow)) {
-										$fieldValue .= '<br />' . $comment;
-									}
+					if ('ItemNumber' === $typeName) {
+						$html .= "<td style=\"{$bodyStyle}font-weight:bold;\">" . $counter++ . '</td>';
+					} elseif ('ean' === $columnName) {
+						$code = $inventoryRow[$columnName];
+						$html .= "<td class=\"col-type-barcode\" style=\"{$fieldStyle}font-weight:bold;text-align:center;\"><div data-barcode=\"EAN13\" data-code=\"{$code}\" data-size=\"1\" data-height=\"16\">{$code}</div></td>";
+					} else {
+						$itemValue = $inventoryRow[$columnName];
+						if ('Name' === $typeName) {
+							$fieldValue = '<strong>' . $fieldModel->getDisplayValue($itemValue, $inventoryRow) . '</strong>';
+							foreach ($inventory->getFieldsByType('Comment') as $commentField) {
+								if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()]) && $comment = $commentField->getDisplayValue($value, $inventoryRow)) {
+									$fieldValue .= '<br />' . $comment;
 								}
-							} elseif (\in_array($typeName, ['TotalPrice', 'Purchase', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Discount', 'Margin', 'Tax']) && !empty($currencySymbol)) {
-								$fieldValue = \CurrencyField::appendCurrencySymbol($fieldModel->getDisplayValue($itemValue, $inventoryRow), $currencySymbol);
-								$fieldStyle = $bodyStyle . 'text-align:right;';
-							} else {
-								$fieldValue = $fieldModel->getDisplayValue($itemValue, $inventoryRow);
 							}
-							$html .= "<td class=\"col-type-{$typeName}\" style=\"{$fieldStyle}\">" . $fieldValue . '</td>';
+						} elseif (\in_array($typeName, ['TotalPrice', 'Purchase', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Discount', 'Margin', 'Tax']) && !empty($currencySymbol)) {
+							$fieldValue = \CurrencyField::appendCurrencySymbol($fieldModel->getDisplayValue($itemValue, $inventoryRow), $currencySymbol);
+							$fieldStyle = $bodyStyle . 'text-align:right;';
+						} else {
+							$fieldValue = $fieldModel->getDisplayValue($itemValue, $inventoryRow);
 						}
+						$html .= "<td class=\"col-type-{$typeName}\" style=\"{$fieldStyle}\">{$fieldValue}</td>";
 					}
 				}
 				$html .= '</tr>';
 			}
 			$html .= '</tbody><tfoot><tr>';
 			foreach ($groupModels as $fieldModel) {
-				if ($fieldModel->isVisible()) {
-					$html .= "<td class=\"col-type-{$typeName}\" style=\"{$bodyStyle}text-align:right;background:#dbdbdb;font-weight: 700;\">";
-					if ($fieldModel->isSummary()) {
-						$sum = 0;
-						foreach ($inventoryRows as $inventoryRow) {
-							$sum += $inventoryRow[$fieldModel->getColumnName()];
-						}
-						$html .= \CurrencyField::appendCurrencySymbol(\CurrencyField::convertToUserFormat($sum, null, true), $currencySymbol);
+				$html .= "<th class=\"col-type-{$typeName}\" style=\"{$headerStyle}\">";
+				if ($fieldModel->isSummary()) {
+					$sum = 0;
+					foreach ($inventoryRows as $inventoryRow) {
+						$sum += $inventoryRow[$fieldModel->getColumnName()];
 					}
-					$html .= '</td>';
+					$html .= \CurrencyField::appendCurrencySymbol(\CurrencyField::convertToUserFormat($sum, null, true), $currencySymbol);
 				}
+				$html .= '</th>';
 			}
 			$html .= '</tr></tfoot></table>';
 		}
