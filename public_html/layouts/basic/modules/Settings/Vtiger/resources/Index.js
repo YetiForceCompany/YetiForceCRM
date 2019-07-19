@@ -360,63 +360,6 @@ $.Class(
 				});
 			}
 		},
-		getWarningsList: function() {
-			var thisInstance = this;
-			var selected = thisInstance.getSelectedFolders();
-			var container = $('#warningsContent');
-			var progressIndicator = $.progressIndicator({
-				message: app.vtranslate('JS_LOADING_OF_RECORDS'),
-				blockInfo: { enabled: true }
-			});
-			var active = $('.warningsIndexPage .js-switch--warnings')
-				.first()
-				.is(':checked');
-			AppConnector.request({
-				module: app.getModuleName(),
-				parent: app.getParentModuleName(),
-				view: 'Index',
-				mode: 'getWarningsList',
-				active: active,
-				folder: selected
-			})
-				.done(function(data) {
-					container.html(data);
-					thisInstance.registerWarningsList(container);
-					progressIndicator.progressIndicator({ mode: 'hide' });
-				})
-				.fail(function(error) {
-					progressIndicator.progressIndicator({ mode: 'hide' });
-				});
-		},
-		registerWarningsList: function(container) {
-			var thisInstance = this;
-			container.find('table').dataTable({
-				order: [[2, 'desc']]
-			});
-			container.find('.showDescription').on('click', function(e) {
-				var html = $(this)
-					.closest('td')
-					.find('.showDescriptionContent')
-					.html();
-				app.showModalWindow(html);
-			});
-			container.find('.setIgnore').on('click', function(e) {
-				container.find('.js-popover-tooltip').popover('hide');
-				var data = $(this)
-					.closest('tr')
-					.data();
-				AppConnector.request({
-					module: app.getModuleName(),
-					parent: app.getParentModuleName(),
-					action: 'SystemWarnings',
-					mode: 'update',
-					id: data.id,
-					params: data.status
-				}).done(function(data) {
-					thisInstance.getWarningsList(container);
-				});
-			});
-		},
 		getSelectedFolders: function() {
 			var selected = [];
 			$.each($('#jstreeContainer').jstree('get_selected', true), function(index, value) {
@@ -433,7 +376,7 @@ $.Class(
 				mode: mode,
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
-				view: 'Index'
+				view: app.getViewName()
 			};
 			if (page) {
 				params.page = page;

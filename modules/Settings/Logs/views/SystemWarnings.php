@@ -8,7 +8,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
-class Settings_Logs_Index_View extends Settings_Vtiger_Index_View
+class Settings_Logs_SystemWarnings_View extends Settings_Vtiger_Index_View
 {
 	use \App\Controller\ExposeMethod;
 
@@ -29,22 +29,10 @@ class Settings_Logs_Index_View extends Settings_Vtiger_Index_View
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
-			echo $this->invokeExposedMethod($mode, $request);
+			$this->invokeExposedMethod($mode, $request);
 		} else {
 			$this->getViewer($request)->view('SettingsIndexHeader.tpl', $request->getModule(false));
 		}
-	}
-
-	/**
-	 * Index.
-	 *
-	 * @param \App\Request $request
-	 */
-	public function index(App\Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = $request->getModule(false);
-		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
 	/**
@@ -56,7 +44,6 @@ class Settings_Logs_Index_View extends Settings_Vtiger_Index_View
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
-
 		$folders = array_values(\App\SystemWarnings::getFolders());
 		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->assign('FOLDERS', \App\Json::encode($folders));
