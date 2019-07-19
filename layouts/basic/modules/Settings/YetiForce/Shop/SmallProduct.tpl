@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-YetiForce-Shop-SmallProduct -->
-	<form action="{$PAYPAL_URL}" method="POST">
+	<form action="{$PAYPAL_URL}" method="POST" target="_blank">
 	<div class="pl-2 {if empty($PRODUCT->expirationDate)}bg-light{else}bg-yellow{/if}">
 		<div class="d-flex u-min-h-120px-rem no-wrap py-2 pr-1{if !empty($PRODUCT->expirationDate)} bg-white{/if}">
 			<div class="w-50">
@@ -33,7 +33,7 @@
 								</div>
 								</button>
 							</div>
-							<input class="form-control w-50" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
+							<input name="a3" class="form-control w-50" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
 						</div>
 					{else}
 						<button class="btn btn-dark btn-block text-truncate" type="submit" title="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">

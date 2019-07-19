@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<form action="{$PAYPAL_URL}" method="POST">
+	<form action="{$PAYPAL_URL}" method="POST" target="_blank">
 	<div class="tpl-Settings-YetiForce-Shop-Product row">
 			<div class="mb-3 col-sm-18 col-md-12 item list-group-item{if empty($PRODUCT->expirationDate)} bg-light{/if}">
 				<div class="row">
@@ -29,7 +29,7 @@
 												{$PRODUCT->getPrice()} {$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}
 											</button>
 										</div>
-										<input class="form-control" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
+										<input name="a3" class="form-control" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
 									</div>
 								{else}
 									<button class="btn btn-dark rounded-0 pull-right" type="submit" tile="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
