@@ -430,9 +430,9 @@ sass-material-colors@^0.0.5:
   integrity sha1-uURTkjbJTi1OzjXS7j+iLxCy7UM=
 
 select2-theme-bootstrap4@^0.2.0-beta.3:
-  version "0.2.0-beta.3"
-  resolved "https://registry.yarnpkg.com/select2-theme-bootstrap4/-/select2-theme-bootstrap4-0.2.0-beta.3.tgz#ddaf572aeb8709fa55985da7c9005c7396738366"
-  integrity sha512-M/E+n6M5jLxG6gt2hcVntvhs5YP6cQtIeDU9DJRFYCB1egD25h62gD8SBeokf43S2traTdQriL1THy6vbfNepQ==
+  version "0.2.0-beta.4"
+  resolved "https://registry.yarnpkg.com/select2-theme-bootstrap4/-/select2-theme-bootstrap4-0.2.0-beta.4.tgz#3f263294e72abf0c36cd998f16f1c532c6a309d7"
+  integrity sha512-FG9GJdd1syjVvWxkvTrZnEFTvdvyKlBuObLnmRoY2RxQICqcnKdhkUlweGlifdsWJYiWHF342WeGKP5fGJhDQA==
 
 select2@^4.0.7:
   version "4.0.7"
