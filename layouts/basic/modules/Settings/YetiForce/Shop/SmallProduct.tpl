@@ -24,13 +24,8 @@
 				{if empty($PRODUCT->expirationDate)}
 					{if 'manual'===$PRODUCT->getPriceType()}
 						<div class="input-group flex-nowrap">
-							<div class="input-group-prepend">
-								<span class="input-group-text ">
-									<span class="fas fa-euro-sign"></span>
-								</span>
-							</div>
-							<input name="a3" class="form-control w-50" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
-							<div class="input-group-append w-50">
+							<input name="a3" class="form-control" type="text" value="{$PRODUCT->getPrice()}" aria-label="price" style="min-width: 40px;">
+							<div class="input-group-append">
 								<button class="btn btn-dark u-w-fill-available" type="submit" title="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
 									<div class="js-popover-tooltip--ellipsis-icon d-flex flex-nowrap align-items-center"
 									data-content="{$BUTTON_TEXT}" data-toggle="popover" data-js="popover | mouseenter">
@@ -41,7 +36,6 @@
 						</div>
 					{else}
 						<button class="btn btn-dark btn-block text-truncate" type="submit" title="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
-						<span class="fas fa-euro-sign mr-1"></span>
 							{$BUTTON_TEXT}
 						</button>
 					{/if}

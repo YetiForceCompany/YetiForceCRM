@@ -24298,6 +24298,14 @@ ul.tweets li {
           flex: 0 1 auto;
 }
 
+.bg-navy {
+  background-color: #202c40 !important;
+}
+
+.text-navy {
+  color: #202c40 !important;
+}
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .basePanel,
 .bodyContents,
