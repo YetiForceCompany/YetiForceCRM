@@ -21,7 +21,7 @@
 				</div>
 			{/if}
 			<nav>
-				<div class="nav nav-tabs nav-fill mb-3" role="tablist">
+				<div class="nav nav-pills nav-fill mb-3" role="tablist">
 					<a class="nav-item nav-link{if $TAB === 'Premium'} active{/if}" id="nav-premium-tab" data-toggle="tab" href="#nav-premium" role="tab" aria-controls="nav-premium" aria-selected="{$TAB === 'Premium'}">
 						{\App\Language::translate('LBL_PREMIUM_ZONE', $QUALIFIED_MODULE)}
 					</a>
@@ -32,14 +32,14 @@
 			</nav>
 			<div class="tab-content">
 				<div class="tab-pane fade{if $TAB === 'Premium'} show active{/if}" id="nav-premium" role="tabpanel" aria-labelledby="nav-premium-tab">
-						{foreach $PRODUCTS_PREMIUM as $PRODUCT}
-							{include file=\App\Layout::getTemplatePath('Shop/Product.tpl', $QUALIFIED_MODULE)}
-						{/foreach}
+					{foreach $PRODUCTS_PREMIUM as $PRODUCT}
+						{include file=\App\Layout::getTemplatePath('Shop/Product.tpl', $QUALIFIED_MODULE)}
+					{/foreach}
 				</div>
 				<div class="tab-pane fade{if $TAB === 'Partner'} show active{/if}" id="nav-partner" role="tabpanel" aria-labelledby="nav-partner-tab">
-							{foreach $PRODUCTS_PARTNER as $PRODUCT}
-								{include file=\App\Layout::getTemplatePath('Shop/Product.tpl', $QUALIFIED_MODULE)}
-							{/foreach}
+					{foreach $PRODUCTS_PARTNER as $PRODUCT}
+						{include file=\App\Layout::getTemplatePath('Shop/Product.tpl', $QUALIFIED_MODULE)}
+					{/foreach}
 				</div>
 			</div>
 		</div>

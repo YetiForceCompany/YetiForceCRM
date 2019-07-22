@@ -1,4 +1,5 @@
 <?php
+
 /**
  * YetiForce shop AbstractBaseProduct file.
  *
@@ -114,6 +115,16 @@ abstract class AbstractBaseProduct
 	public function getLabel(): string
 	{
 		return \App\Language::translate('LBL_SHOP_' . \strtoupper($this->name), 'Settings:YetiForce');
+	}
+
+	/**
+	 * Get product name.
+	 *
+	 * @return string
+	 */
+	public function getName(): string
+	{
+		return $this->name;
 	}
 
 	/**
