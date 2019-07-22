@@ -25480,6 +25480,20 @@ input[type="radio"]:checked:before {
   }
 }
 
+.o-exception-fixed-block {
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  position: fixed;
+  height: 100%;
+  z-index: 11111111111111;
+}
+
+body > .o-exception-fixed-block {
+  position: static;
+}
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .c-header {
   background-color: #4a5364;
