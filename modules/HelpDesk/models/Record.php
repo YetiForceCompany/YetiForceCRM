@@ -74,4 +74,59 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 		}
 		return $hierarchy;
 	}
+
+	/**
+	 * Function check if record can be closed
+	 *
+	 * @return array
+	 */
+	public function checkValidateToClose(): array
+	{
+		return ['hasTimeControl' => $this->checkIfHasTimeControl(), 'relatedTicketsClosed' =>  $this->checkIfRelatedTicketsClosed()];
+	}
+
+	/**
+	 * Function check if records has fill time control
+	 *
+	 * @return bool
+	 */
+	public function checkIfHasTimeControl(): bool
+	{
+		return true;
+		if(\App\Config::module($this->getModuleName(), 'CHECK_IF_RECORDS_HAS_TIME_CONTROL'))
+		{
+			$queryGenerator = new App\QueryGenerator('OSSTimeControl');
+			$queryGenerator->permissions = false;
+			$queryGenerator->addNativeCondition([\App\ModuleHierarchy::getMappingRelatedField($this->getModuleName()) =>  $this->getId()]);
+			return $queryGenerator->createQuery()->exists();
+		}
+		return true;
+	}
+
+	/**
+	 *Function check if related records are close
+	 *
+	 * @return bool
+	 */
+	public function checkIfRelatedTicketsClosed(): bool
+	{
+		return true;
+		if(\App\Config::module($this->getModuleName(), 'CHECK_IF_RELATED_TICKETS_ARE_CLOSED')){
+			$queryGenerator = new App\QueryGenerator($this->getModuleName());
+			$queryGenerator->permissions = false;
+			$queryGenerator->addNativeCondition(['parentid' => $this->getId()]);
+			$statusFieldName = \App\RecordStatus::getFieldName($this->getModuleName());
+			foreach(\App\RecordStatus::getStates($this->getModuleName(), \App\RecordStatus::RECORD_STATE_OPEN) as $openStatus){
+				$queryGenerator->addCondition($statusFieldName, $openStatus, 'e', false);
+			}
+			foreach(\App\RecordStatus::getStates($this->getModuleName(), \App\RecordStatus::RECORD_STATE_NO_CONCERN) as $noConcernStatus){
+				$queryGenerator->addCondition($statusFieldName, $noConcernStatus, 'e', false);
+			}
+			return !$queryGenerator->createQuery()->exists();
+
+		}
+		return true;
+	}
+
+
 }

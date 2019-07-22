@@ -1,0 +1,125 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
+Vtiger_Edit_Js(
+	'HelpDesk_Edit_Js',
+	{},
+	{
+		registerEvents: function() {
+			this._super();
+		},
+		registerRecordPreSaveEventEvent: function (form) {
+			const self = this;
+			let lockSave = true;
+			form.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
+				let progress = $.progressIndicator({position: 'html', blockInfo: {enabled: true}});
+				if(CONFIG.checkIfRecordHasTimeControl || CONFIG.checkIfRelatedTicketsAreClosed){
+					const recordId = app.getRecordId();
+					if(lockSave){
+						e.preventDefault();
+						AppConnector.request({
+							action: 'CheckValidateToClose',
+							module: app.getModuleName(),
+							record:recordId
+						}).done(response => {
+							progress.progressIndicator({mode: 'hide'});
+							if(response.result.hasTimeControl && response.result.relatedTicketsClosed){
+								lockSave = false;
+								form.submit();
+							}
+							if(!response.result.hasTimeControl){
+								Vtiger_Helper_Js.showPnotify({
+									text: 'Przed zamknięciem zgłoszenia należy uzupełnić czas pracy',
+									type: 'info'
+								});
+								self.addTimeControl(
+									{
+										recordId: recordId,
+										url: `index.php?module=OSSTimeControl&view=Edit&sourceModule=HelpDesk&sourceRecord=${recordId}&relationOperation=true&subprocess=${recordId}&subprocess=${recordId}`
+									}
+								);
+							}
+							if(!response.result.relatedTicketsClosed){
+								Vtiger_Helper_Js.showPnotify({
+									text: 'Nie zamkniete zgłoszenie',
+									type: 'info'
+								});
+							}
+						});
+					}
+				}
+			});
+		},
+		addTimeControl: function(params) {
+			let aDeferred = jQuery.Deferred();
+			let referenceModuleName = 'OSSTimeControl';
+			let parentId = params.recordId;
+			let parentModule = 'HelpDesk';
+			let quickCreateParams = {};
+			let relatedParams = {};
+			let relatedField = 'subprocess';
+			let fullFormUrl = params.url;
+			relatedParams[relatedField] = parentId;
+			let eliminatedKeys = new Array('view', 'module', 'mode', 'action');
+
+			let preQuickCreateSave = function(data) {
+				let index, queryParam, queryParamComponents;
+				let queryParameters = [];
+
+				if (typeof fullFormUrl !== 'undefined' && fullFormUrl.indexOf('?') !== -1) {
+					let urlSplit = fullFormUrl.split('?');
+					let queryString = urlSplit[1];
+					queryParameters = queryString.split('&');
+					for (index = 0; index < queryParameters.length; index++) {
+						queryParam = queryParameters[index];
+						queryParamComponents = queryParam.split('=');
+						if (queryParamComponents[0] == 'mode' && queryParamComponents[1] == 'Calendar') {
+							data.find('a[data-tab-name="Task"]').trigger('click');
+						}
+					}
+				}
+				jQuery('<input type="hidden" name="sourceModule" value="' + parentModule + '" />').appendTo(data);
+				jQuery('<input type="hidden" name="sourceRecord" value="' + parentId + '" />').appendTo(data);
+				jQuery('<input type="hidden" name="relationOperation" value="true" />').appendTo(data);
+
+				if (typeof relatedField !== 'undefined') {
+					let field = data.find('[name="' + relatedField + '"]');
+					if (field.length == 0) {
+						jQuery('<input type="hidden" name="' + relatedField + '" value="' + parentId + '" />').appendTo(data);
+					}
+				}
+				for (index = 0; index < queryParameters.length; index++) {
+					queryParam = queryParameters[index];
+					queryParamComponents = queryParam.split('=');
+					if (
+						jQuery.inArray(queryParamComponents[0], eliminatedKeys) == '-1' &&
+						data.find('[name="' + queryParamComponents[0] + '"]').length == 0
+					) {
+						jQuery(
+							'<input type="hidden" name="' + queryParamComponents[0] + '" value="' + queryParamComponents[1] + '" />'
+						).appendTo(data);
+					}
+				}
+			};
+			if (typeof fullFormUrl !== 'undefined' && fullFormUrl.indexOf('?') !== -1) {
+				let urlSplit = fullFormUrl.split('?');
+				let queryString = urlSplit[1];
+				let queryParameters = queryString.split('&');
+				for (let index = 0; index < queryParameters.length; index++) {
+					let queryParam = queryParameters[index];
+					let queryParamComponents = queryParam.split('=');
+					if (jQuery.inArray(queryParamComponents[0], eliminatedKeys) == '-1') {
+						relatedParams[queryParamComponents[0]] = queryParamComponents[1];
+					}
+				}
+			}
+
+			quickCreateParams['data'] = relatedParams;
+			quickCreateParams['callbackFunction'] = function() {};
+			quickCreateParams['callbackPostShown'] = preQuickCreateSave;
+			quickCreateParams['noCache'] = true;
+			Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName, quickCreateParams);
+			return aDeferred.promise();
+		}
+	}
+);
