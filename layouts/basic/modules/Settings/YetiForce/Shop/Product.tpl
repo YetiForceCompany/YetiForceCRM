@@ -20,7 +20,7 @@
 					<div class="col-sm-11 col-md-7">
 						<div class="card-body">
 							<h5 class="card-title text-primary">{$PRODUCT->getLabel()}</h5>
-							<p class="card-text truncate">{$PRODUCT->getDescription()}</p>
+							<p class="card-text truncate">{$PRODUCT->getIntroduction()}</p>
 							{if empty($PRODUCT->expirationDate)}
 								{if 'manual'===$PRODUCT->getPriceType()}
 									<div class="input-group mb-3">

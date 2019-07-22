@@ -37,6 +37,7 @@ class Credits
 		'dompurify' => 'Apache-2.0',
 		'nette/php-generator' => 'BSD-3-Clause',
 		'nette/utils' => 'BSD-3-Clause',
+		'@mdi/font' => 'MIT',
 	];
 	/**
 	 * Information about forks CRM.

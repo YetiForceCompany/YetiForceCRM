@@ -121,6 +121,16 @@ abstract class AbstractBaseProduct
 	 *
 	 * @return string
 	 */
+	public function getIntroduction(): string
+	{
+		return \App\Language::translate('LBL_SHOP_' . \strtoupper($this->name) . '_INTRO', 'Settings:YetiForce');
+	}
+
+	/**
+	 * Get product description.
+	 *
+	 * @return string
+	 */
 	public function getDescription(): string
 	{
 		return \App\Language::translate('LBL_SHOP_' . \strtoupper($this->name) . '_DESC', 'Settings:YetiForce');
