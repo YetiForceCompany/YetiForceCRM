@@ -512,7 +512,7 @@ class TextParser
 			case 'CurrentDate':
 				return (new \DateTimeField(null))->getDisplayDate();
 			case 'CurrentTime':
-				return \Vtiger_Util_Helper::convertTimeIntoUsersDisplayFormat(date('h:i:s'));
+				return \Vtiger_Util_Helper::convertTimeIntoUsersDisplayFormat(date('H:i:s'));
 			case 'SiteUrl':
 				return \App\Config::main('site_URL');
 			case 'PortalUrl':

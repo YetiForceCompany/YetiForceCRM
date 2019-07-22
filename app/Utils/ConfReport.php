@@ -523,27 +523,29 @@ class ConfReport
 		$main = static::parse($type);
 		$cron = static::getCronVariables($type);
 		foreach (static::${$type} as $key => &$item) {
-			$item['status'] = true;
-			if (isset($main[$key])) {
-				$item[static::$sapi] = $main[$key];
-			}
-			if ($item['testCli'] && 'www' === static::$sapi) {
-				if (isset($cron[$key]['cron'])) {
-					$item['cron'] = $cron[$key]['cron'];
+			if (!isset($item['status'])) {
+				$item['status'] = true;
+				if (isset($main[$key])) {
+					$item[static::$sapi] = $main[$key];
 				}
-			}
-			if (isset($item['type'])) {
-				$methodName = 'validate' . $item['type'];
-				if (\method_exists(__CLASS__, $methodName)) {
-					if ('www' === static::$sapi) {
-						$item = static::$methodName($key, $item, 'www');
-					}
-					if ($item['testCli'] && !empty($cron)) {
-						$item = static::$methodName($key, $item, 'cron');
+				if ($item['testCli'] && 'www' === static::$sapi) {
+					if (isset($cron[$key]['cron'])) {
+						$item['cron'] = $cron[$key]['cron'];
 					}
 				}
-				if (isset($item['skip'])) {
-					unset(static::${$type}[$key]);
+				if (isset($item['type'])) {
+					$methodName = 'validate' . $item['type'];
+					if (\method_exists(__CLASS__, $methodName)) {
+						if ('www' === static::$sapi) {
+							$item = static::$methodName($key, $item, 'www');
+						}
+						if ($item['testCli'] && !empty($cron)) {
+							$item = static::$methodName($key, $item, 'cron');
+						}
+					}
+					if (isset($item['skip'])) {
+						unset(static::${$type}[$key]);
+					}
 				}
 			}
 		}

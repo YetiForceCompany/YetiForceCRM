@@ -119,7 +119,7 @@ class TextParser extends \Tests\Base
 			->setContent('+ $(general : CurrentDate)$ +')
 			->parse()
 			->getContent(), 'Clean instance: $(general : CurrentDate)$ should return current date');
-		$this->assertSame('+ ' . \Vtiger_Util_Helper::convertTimeIntoUsersDisplayFormat(date('h:i:s')) . ' +', static::$parserClean
+		$this->assertSame('+ ' . \Vtiger_Util_Helper::convertTimeIntoUsersDisplayFormat(date('H:i:s')) . ' +', static::$parserClean
 			->setContent('+ $(general : CurrentTime)$ +')
 			->parse()
 			->getContent(), 'Clean instance: $(general : CurrentTime)$ should return current time');

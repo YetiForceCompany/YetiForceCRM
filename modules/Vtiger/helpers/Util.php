@@ -76,7 +76,7 @@ class Vtiger_Util_Helper
 	 */
 	public static function pluralize($count, $text)
 	{
-		return $count . ' ' . ((1 === $count) ? \App\Language::translate("$text") : \App\Language::translate("${text}S"));
+		return $count . ' ' . ((1 === $count) ? \App\Language::translate("$text") : \App\Language::translate("{$text}S"));
 	}
 
 	/**

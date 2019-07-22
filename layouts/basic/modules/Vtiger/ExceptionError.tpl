@@ -68,10 +68,6 @@
 		{/if}
 		{/if}
 	</div>
-	<script type="text/javascript"
-			src="{\App\Layout::getPublicUrl('libraries/@fortawesome/fontawesome/index.js')}"></script>
-	<script type="text/javascript"
-			src="{\App\Layout::getPublicUrl('libraries/@fortawesome/fontawesome-free-solid/index.js')}"></script>
 	</body>
 	</html>
 {/strip}
