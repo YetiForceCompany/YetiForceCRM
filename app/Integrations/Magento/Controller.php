@@ -99,4 +99,16 @@ class Controller
 		$orderSynchronizator->setConnector($this->getConnector());
 		$orderSynchronizator->process();
 	}
+
+	/**
+	 * Synchronize orders.
+	 *
+	 * @throws AppException
+	 */
+	public function synchronizeCustomers(): void
+	{
+		$orderSynchronizator = new Synchronizator\Customer();
+		$orderSynchronizator->setConnector($this->getConnector());
+		$orderSynchronizator->process();
+	}
 }

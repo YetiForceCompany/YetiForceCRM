@@ -47,7 +47,7 @@ class Invoice extends Integrators\Invoice
 	public function checkInvoices(): bool
 	{
 		$allChecked = true;
-		$invoices = $this->getInvoices([8]);
+		$invoices = $this->getInvoices();
 		if (!empty($invoices)) {
 			foreach ($invoices as $id => $invoice) {
 				if (!isset($this->mapCrm['invoice'][$id])) {
@@ -75,6 +75,7 @@ class Invoice extends Integrators\Invoice
 		$data['billing_address'] = $order['billing_address'];
 		$data['extension_attributes'] = $order['extension_attributes'];
 		$data['payment'] = $order['payment'];
+		$data['customer_id'] = $order['customer_id'];
 		$invoiceFields = new \App\Integrations\Magento\Synchronizator\Maps\Invoice();
 		$invoiceFields->setData($data);
 		$dataCrm = $invoiceFields->getDataCrm();

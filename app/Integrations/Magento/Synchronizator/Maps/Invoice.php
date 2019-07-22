@@ -43,6 +43,7 @@ class Invoice extends Inventory
 		'first_name' => 'billing_address|firstname',
 		'last_name' => 'billing_address|lastname',
 		'email' => 'billing_address|email',
+		'contactid' => 'customer_id',
 	];
 
 	/**

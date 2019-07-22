@@ -258,7 +258,7 @@ abstract class Base
 					$item['discountparam'] = '{"aggregationType":"individual","individualDiscountType":"amount","individualDiscount":' . $fieldMap->getInvFieldValue('discount') . '}';
 				}
 			} elseif ('currency' === $columnName) {
-				$item['currency'] = 1;
+				$item['currency'] = \App\Config::component('Magento', 'currencyId');
 			} elseif ('name' === $columnName) {
 				$item[$columnName] = $this->mapCrm['product'][$record['product_id']];
 			} else {
@@ -283,7 +283,7 @@ abstract class Base
 		return [
 			'discountmode' => 0,
 			'taxmode' => 1,
-			'currency' => 1,
+			'currency' => \App\Config::component('Magento', 'currencyId'),
 			'name' => \App\Config::component('Magento', 'shippingServiceId'),
 			'unit' => '',
 			'subunit' => '',

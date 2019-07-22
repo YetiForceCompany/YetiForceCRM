@@ -15,6 +15,12 @@ namespace App\Integrations\Magento\Synchronizator\Maps;
 abstract class Inventory extends Base
 {
 	/**
+	 * Customer model.
+	 *
+	 * @var object
+	 */
+	public $customer = false;
+	/**
 	 * Inventory fields.
 	 *
 	 * @var array
@@ -65,5 +71,19 @@ abstract class Inventory extends Base
 			}
 		}
 		return $fieldParsed;
+	}
+
+	/**
+	 * Method to get parsed customer id.
+	 *
+	 * @return string
+	 */
+	public function getCrmContactid()
+	{
+		if (false === $this->customer) {
+			$this->customer = new \App\Integrations\Magento\Synchronizator\Customer();
+			$this->customer->getMapping('customer');
+		}
+		return $this->customer->mapCrm['customer'][$this->data['customer_id']] ?? '';
 	}
 }

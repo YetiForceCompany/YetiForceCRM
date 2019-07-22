@@ -236,10 +236,6 @@ return [
 				return empty($arg) || \App\Validator::url($arg);
 			}
 		],
-		'storeCode' => [
-			'default' => 'all',
-			'description' => 'Store code to synchronize.',
-		],
 		'username' => [
 			'default' => '',
 			'description' => 'Username to account in magento.',
@@ -252,17 +248,41 @@ return [
 			'default' => 'magento',
 			'description' => 'Set master source: yetiforce or magento.',
 		],
+		'storeCode' => [
+			'default' => 'all',
+			'description' => 'Set store code',
+		],
+		'storeId' => [
+			'default' => 1,
+			'description' => 'Set store id',
+		],
 		'productLimit' => [
 			'default' => 20,
 			'description' => 'Set how many records can be updated at once.',
+		],
+		'orderLimit' => [
+			'default' => 20,
+			'description' => 'Set how many orders can be downloaded at once.',
+		],
+		'invoiceLimit' => [
+			'default' => 20,
+			'description' => 'Set how many invoices can be downloaded at once.',
 		],
 		'productImagesPath' => [
 			'default' => 'media/catalog/product/',
 			'description' => 'Product images path.',
 		],
 		'storageId' => [
-			'default' => 0,
-			'description' => 'Products storage id',
+			'default' => '',
+			'description' => 'Product storage id',
+		],
+		'shippingServiceId' => [
+			'default' => '',
+			'description' => 'Shipping service id',
+		],
+		'currencyId' => [
+			'default' => 1,
+			'description' => 'Currency id',
 		],
 	],
 ];

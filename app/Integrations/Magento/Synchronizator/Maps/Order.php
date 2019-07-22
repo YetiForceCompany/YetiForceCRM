@@ -54,6 +54,7 @@ class Order extends Inventory
 		//'shipping_mobile' => 'extension_attributes|shipping_assignments|0|shipping|address|telephone', //incorrect validation
 		'shipping_first_name' => 'extension_attributes|shipping_assignments|0|shipping|address|firstname',
 		'shipping_last_name' => 'extension_attributes|shipping_assignments|0|shipping|address|lastname',
+		'contactid' => 'customer_id',
 	];
 
 	/**

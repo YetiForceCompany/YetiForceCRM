@@ -47,7 +47,7 @@ class Order extends Integrators\Order
 	public function checkOrders(): bool
 	{
 		$allChecked = true;
-		$orders = $this->getOrders([13]);
+		$orders = $this->getOrders();
 		if (!empty($orders)) {
 			foreach ($orders as $id => $order) {
 				if (!isset($this->mapCrm['order'][$id])) {
