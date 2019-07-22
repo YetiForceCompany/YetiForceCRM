@@ -24,7 +24,7 @@ class Shop
 	 *
 	 * @return \App\YetiForce\Shop\AbstractBaseProduct[]
 	 */
-	public static function getProducts(string $state, string $department = ''): array
+	public static function getProducts(string $state = '', string $department = ''): array
 	{
 		$config = self::getConfig();
 		$products = [];
