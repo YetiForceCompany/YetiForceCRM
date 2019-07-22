@@ -48,7 +48,7 @@
                         </div>
                         <div class="col-12 row">
                             <div class="col-5">
-                                <select id="available_fields" multiple size="10" name="available_fields" title="{\App\Language::translate('LBL_AVAILABLE_FIELDS', $MODULE)}'" class="txtBox" style="width: 100%">
+                                <select id="available_fields" multiple size="10" name="available_fields" title="{\App\Language::translate('LBL_AVAILABLE_FIELDS', $MODULE)}'" class="txtBox select2" style="width: 100%">
                                     {foreach key=BLOCK_NAME item=_FIELDS from=$AVAILABLE_BLOCKS}
                                         <optgroup label="{\App\Language::translate($BLOCK_NAME, $FOR_MODULE)}">
                                             {foreach key=_FIELD_NAME item=_FIELD_INFO from=$_FIELDS}
@@ -66,7 +66,7 @@
                             </div>
                             <div class="col-5">
                                 <input type="hidden" id="merge_fields" size="10" name="merge_fields" value=""/>
-                                <select id="selected_merge_fields" size="10" name="selected_merge_fields" title="{\App\Language::translate('lBL_SELECTED_FIELDS', $MODULE)}" multiple class="txtBox" style="width: 100%">
+                                <select id="selected_merge_fields" size="10" name="selected_merge_fields" title="{\App\Language::translate('lBL_SELECTED_FIELDS', $MODULE)}" multiple class="txtBox select2" style="width: 100%">
                                     {foreach item=FIELD_NAME from=$FOR_MODULE_MODEL->getNameFields()}
                                         {assign var="FIELD" value=$FOR_MODULE_MODEL->getFieldByName($FIELD_NAME)}
                                         <option value="{$FIELD_NAME}">{\App\Language::translate($FIELD->getFieldLabel(), $FOR_MODULE)}</option>
