@@ -79,7 +79,6 @@ class ConfReport
 	 * @var array
 	 */
 	public static $security = [
-		'CaCertBundle' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'env', 'testCli' => true, 'label' => 'CACERTBUNDLE'],
 		'HTTPS' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'env', 'testCli' => false],
 		'public_html' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'env', 'testCli' => false],
 		'display_errors' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'demoMode' => true, 'testCli' => true],
@@ -248,6 +247,11 @@ class ConfReport
 		'lastCronStart' => ['container' => 'env', 'testCli' => false, 'label' => 'LAST_CRON_START'],
 		'open_basedir' => ['container' => 'php', 'testCli' => true],
 		'variables_order' => ['container' => 'php', 'testCli' => true],
+		'cacertbundle' => ['recommended' => 'On','container' => 'env', 'type' => 'OnOff', 'testCli' => true, 'label' => 'CACERTBUNDLE'],
+		'SSL_CERT_FILE' => ['container' => 'env', 'testCli' => true],
+		'SSL_CERT_DIR' => ['container' => 'env', 'testCli' => true],
+		'openssl.cafile' => ['container' => 'php', 'testCli' => true],
+		'openssl.capath' => ['container' => 'php', 'testCli' => true],
 	];
 
 	/**
@@ -465,7 +469,9 @@ class ConfReport
 				'spaceTemp' => '',
 				'lastCronStart' => $lastCronStartText,
 				'lastCronStartDateTime' => $lastCronStart,
-				'protocolVersion' => isset($_SERVER['SERVER_PROTOCOL']) ? substr($_SERVER['SERVER_PROTOCOL'], strpos($_SERVER['SERVER_PROTOCOL'], '/') + 1) : '-'
+				'protocolVersion' => isset($_SERVER['SERVER_PROTOCOL']) ? substr($_SERVER['SERVER_PROTOCOL'], strpos($_SERVER['SERVER_PROTOCOL'], '/') + 1) : '-',
+				'SSL_CERT_FILE' =>  getenv('SSL_CERT_FILE') ?? '',
+				'SSL_CERT_DIR' =>  getenv('SSL_CERT_DIR') ?? ''
 			]
 		];
 	}
