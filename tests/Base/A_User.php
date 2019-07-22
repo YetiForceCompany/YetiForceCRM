@@ -160,8 +160,6 @@ class A_User extends \Tests\Base
 
 		$this->assertFileExists('user_privileges/locks.php');
 		$locks = $moduleModel->getLocks();
-		\var_dump($param);
-\var_dump($locks);
 		$this->assertCount(0, $locks, 'Unexpected value in lock array');
 	}
 }
