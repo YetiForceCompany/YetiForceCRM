@@ -51,14 +51,6 @@
     "LBL_PERIOD_OF_MONTH": "M",
     "LBL_SUCCESSFUL_TRANSACTION": "Thank you for making the payment. The transaction is being processed, purchased functions will be added to your system once we receive the payment.",
     "LBL_FAILED_TRANSACTION": "Transaction failed or was cancelled, please check the payment on your PayPal account and try again.",
-    "LBL_SHOP_PREMIUMMODULES": "Premium modules",
-    "LBL_SHOP_PREMIUMMODULES_DESC": "Enable new system capabilities",
-    "LBL_SHOP_DONATIONS": "Donate / Support our project",
-    "LBL_SHOP_DONATIONS_DESC": "Would you like to influence the future of YetiForce? Support its development!",
-    "LBL_SHOP_PREMIUMSUPPORT": "Premium support",
-    "LBL_SHOP_PREMIUMSUPPORT_DESC": "If you do not know how the system works, or you require individual and quick help, this package is for you",
-    "LBL_SHOP_DISABLEFOOTER": "Disable footer",
-    "LBL_SHOP_DISABLEFOOTER_DESC": "You can now disable the YetiForce footer for a fee.",
     "LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED": "The size of your company has changed, the purchased package is too small for the current size. Update your subscription."
   }
 }
