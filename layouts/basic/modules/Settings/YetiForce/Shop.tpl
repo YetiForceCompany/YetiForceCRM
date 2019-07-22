@@ -6,7 +6,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 			</div>
 		</div>
-		<div class="container mt-3">
+		<div class=" mt-3">
 			{if $STATUS}
 				<div class="col-md-12">
 					{if 'success'===$STATUS}
@@ -20,11 +20,30 @@
 					{/if}
 				</div>
 			{/if}
-			<div class="row">
-				<div class="col-md-12">
-				{foreach $PRODUCTS as $PRODUCT}
-					{include file=\App\Layout::getTemplatePath('Shop/Product.tpl', $QUALIFIED_MODULE)}
-				{/foreach}
+			<nav>
+				<div class="nav nav-tabs" role="tablist">
+					<a class="nav-item nav-link{if $TAB === 'Premium'} active{/if}" id="nav-premium-tab" data-toggle="tab" href="#nav-premium" role="tab" aria-controls="nav-premium" aria-selected="{$TAB === 'Premium'}">
+						{\App\Language::translate('LBL_PREMIUM_ZONE', $QUALIFIED_MODULE)}
+					</a>
+					<a class="nav-item nav-link{if $TAB === 'Partner'} active{/if}" id="nav-partner-tab" data-toggle="tab" href="#nav-partner" role="tab" aria-controls="nav-partner" aria-selected="{$TAB === 'Partner'}">
+						{\App\Language::translate('LBL_PARTNER_ZONE', $QUALIFIED_MODULE)}
+					</a>
+				</div>
+			</nav>
+			<div class="tab-content">
+				<div class="tab-pane fade{if $TAB === 'Premium'} show active{/if}" id="nav-premium" role="tabpanel" aria-labelledby="nav-premium-tab">
+					<div class="container pt-3">
+						{foreach $PRODUCTS_PREMIUM as $PRODUCT}
+							{include file=\App\Layout::getTemplatePath('Shop/Product.tpl', $QUALIFIED_MODULE)}
+						{/foreach}
+					</div>
+				</div>
+				<div class="tab-pane fade{if $TAB === 'Partner'} show active{/if}" id="nav-partner" role="tabpanel" aria-labelledby="nav-partner-tab">
+					<div class="container pt-3">
+							{foreach $PRODUCTS_PARTNER as $PRODUCT}
+								{include file=\App\Layout::getTemplatePath('Shop/Product.tpl', $QUALIFIED_MODULE)}
+							{/foreach}
+					</div>
 				</div>
 			</div>
 		</div>
