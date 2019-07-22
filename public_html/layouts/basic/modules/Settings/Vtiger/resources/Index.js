@@ -219,7 +219,7 @@ $.Class(
 				}
 			});
 			shortcutsContainer.sortable({
-				revert: 150,
+				handle: '.js-drag-handler',
 				stop: (event, element) => {
 					self.updateShortcutsStorage(shortcutsContainer);
 				}

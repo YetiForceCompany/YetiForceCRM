@@ -51,12 +51,16 @@
 	font-size: calculate-rem(15px);
 }
 
+.u-font-size-19px {
+	font-size: calculate-rem(19px);
+}
+
 .u-font-size-38px {
 	font-size: calculate-rem(38px);
 }
 
-.u-font-size-19px {
-	font-size: calculate-rem(19px);
+.u-font-size-50px {
+	font-size: calculate-rem(50px);
 }
 
 @for $i from 1 through 18 {
@@ -322,6 +326,10 @@
 
 .u-max-w-150px {
 	max-width: 150px;
+}
+
+.u-max-w-250px {
+	max-width: 250px;
 }
 
 .u-w-fill-available {
@@ -632,4 +640,14 @@
 .u-flex-default {
 	-ms-flex: 0 1 auto;
 	flex: 0 1 auto;
+}
+
+// --- COLORS --- //
+
+.bg-navy {
+	background-color: $navy !important;
+}
+
+.text-navy {
+	color: $navy !important;
 }
