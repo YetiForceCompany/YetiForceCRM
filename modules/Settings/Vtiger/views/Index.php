@@ -89,31 +89,31 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 				'LABEL' => 'PLU_SYSTEM_WARNINGS',
 				'VALUE' => \count($warnings),
 				'HREF' => 'index.php?module=Logs&parent=Settings&view=SystemWarnings',
-				'ICON' => Settings_Vtiger_MenuItem_Model::getInstance('LBL_SYSTEM_WARNINGS')->get('iconpath')
+				'ICON' => 'fas fa-exclamation-triangle'
 			],
 			'SECURITY_COUNT' => [
 				'LABEL' => 'PLU_SECURITY',
 				'VALUE' => $this->getSecurityCount(),
 				'HREF' => 'index.php?module=Log&parent=Settings&view=Index',
-				'ICON' => Settings_Vtiger_MenuItem_Model::getInstance('LBL_LOGS')->get('iconpath')
+				'ICON' => 'fas fa-bug'
 			],
 			'USERS_COUNT' => [
 				'LABEL' => 'PLU_USERS',
 				'VALUE' => Users_Record_Model::getCount(true),
 				'HREF' => 'index.php?module=Users&parent=Settings&view=List',
-				'ICON' => Settings_Vtiger_MenuItem_Model::getInstance('LBL_USERS')->get('iconpath')
+				'ICON' => 'adminIcon-user'
 			],
 			'ACTIVE_MODULES' => [
 				'LABEL' => 'PLU_MODULES',
 				'VALUE' => Settings_ModuleManager_Module_Model::getModulesCount(true),
 				'HREF' => 'index.php?module=ModuleManager&parent=Settings&view=List',
-				'ICON' => Settings_Vtiger_MenuItem_Model::getInstance('VTLIB_LBL_MODULE_MANAGER')->get('iconpath')
+				'ICON' => 'adminIcon-modules-installation'
 			],
 			'ALL_WORKFLOWS' => [
 				'LABEL' => 'PLU_WORKFLOWS_ACTIVE',
 				'VALUE' => Settings_Workflows_Record_Model::getAllAmountWorkflowsAmount(),
 				'HREF' => 'index.php?module=Workflows&parent=Settings&view=List',
-				'ICON' => Settings_Vtiger_MenuItem_Model::getInstance('LBL_LIST_WORKFLOWS')->get('iconpath')
+				'ICON' => 'adminIcon-triggers'
 			],
 		];
 		$viewer->assign('SYSTEM_MONITORING', $systemMonitoring);
