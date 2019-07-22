@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<form action="{$PAYPAL_URL}" method="POST" target="_blank">
-	<div class="tpl-Settings-YetiForce-Shop-Product row">
+	<div class="tpl-Settings-YetiForce-Shop-Product row no-gutters">
 			<div class="mb-3 col-sm-18 col-md-12 item list-group-item{if empty($PRODUCT->expirationDate)} bg-light{/if}">
 				<div class="row">
 					<div class="col-sm-4 col-md-3">
