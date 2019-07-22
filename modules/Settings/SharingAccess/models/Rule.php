@@ -129,15 +129,6 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 		return $this->get('shareid');
 	}
 
-	public function getRuleType()
-	{
-		$idComponents = $this->getIdComponents();
-		if ($idComponents && count($idComponents) > 0) {
-			return $idComponents[0];
-		}
-		return false;
-	}
-
 	public function setModule($moduleName)
 	{
 		$module = Settings_SharingAccess_Module_Model::getInstance($moduleName);
@@ -228,7 +219,7 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 		if ($this->getId()) {
 			$permission = $this->getPermission();
 
-			return $permission == self::READ_ONLY_PERMISSION;
+			return self::READ_ONLY_PERMISSION == $permission;
 		}
 		return false;
 	}
@@ -238,7 +229,7 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 		if ($this->getId()) {
 			$permission = $this->getPermission();
 
-			return $permission == self::READ_WRITE_PERMISSION;
+			return self::READ_WRITE_PERMISSION == $permission;
 		}
 		return false;
 	}
@@ -262,11 +253,13 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 	{
 		$sourceMember = $this->getSourceMember()->getId();
 		$sourceMemberDetails = explode(':', $sourceMember);
-		if ($sourceMemberDetails[0] === 'Groups') {
+		if ('Groups' === $sourceMemberDetails[0]) {
 			return 'index.php?parent=Settings&module=Groups&view=Detail&record=' . $sourceMemberDetails[1];
-		} elseif ($sourceMemberDetails[0] === 'Roles') {
+		}
+		if ('Roles' === $sourceMemberDetails[0]) {
 			return 'index.php?parent=Settings&module=Roles&view=Edit&record=' . $sourceMemberDetails[1];
-		} elseif ($sourceMemberDetails[0] === 'RoleAndSubordinates') {
+		}
+		if ('RoleAndSubordinates' === $sourceMemberDetails[0]) {
 			return 'index.php?parent=Settings&module=Roles&view=Edit&record=' . $sourceMemberDetails[1];
 		}
 	}
@@ -281,11 +274,13 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 		$targetMember = $this->getTargetMember()->getId();
 		$targetMemberDetails = explode(':', $targetMember);
 
-		if ($targetMemberDetails[0] == 'Groups') {
+		if ('Groups' == $targetMemberDetails[0]) {
 			return 'index.php?parent=Settings&module=Groups&view=Detail&record=' . $targetMemberDetails[1];
-		} elseif ($targetMemberDetails[0] == 'Roles') {
+		}
+		if ('Roles' == $targetMemberDetails[0]) {
 			return 'index.php?parent=Settings&module=Roles&view=Edit&record=' . $targetMemberDetails[1];
-		} elseif ($targetMemberDetails[0] == 'RoleAndSubordinates') {
+		}
+		if ('RoleAndSubordinates' == $targetMemberDetails[0]) {
 			return 'index.php?parent=Settings&module=Roles&view=Edit&record=' . $targetMemberDetails[1];
 		}
 	}
@@ -386,7 +381,7 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 
 		$db->createCommand()->update('vtiger_datashare_module_rel', [
 			'relationtype' => $this->get('relationtype'),
-			], ['shareid' => $ruleId])->execute();
+		], ['shareid' => $ruleId])->execute();
 
 		Settings_SharingAccess_Module_Model::recalculateSharingRules();
 	}
@@ -408,6 +403,9 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 	/**
 	 * Function to get all the rules.
 	 *
+	 * @param mixed $moduleModel
+	 * @param mixed $ruleId
+	 *
 	 * @return array - Array of Settings_Groups_Record_Model instances
 	 */
 	public static function getInstance($moduleModel, $ruleId)
@@ -423,6 +421,8 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 
 	/**
 	 * Function to get all the rules.
+	 *
+	 * @param mixed $moduleModel
 	 *
 	 * @return Settings_Groups_Record_Model[]
 	 */
