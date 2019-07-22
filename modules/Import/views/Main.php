@@ -181,7 +181,7 @@ class Import_Main_View extends \App\Controller\View
 			$map['content'] = $saveMapping;
 			$map['module'] = $this->request->get('module');
 			$map['has_header'] = ($hasHeader) ? 1 : 0;
-			$map['assigned_user_id'] = $this->user->id;
+			$map['assigned_user_id'] = $this->user->getCurrentUserId();
 			(new Import_Map_Model($map))->save();
 		}
 	}
