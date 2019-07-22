@@ -198,4 +198,20 @@ abstract class AbstractBaseProduct
 			'os0' => \App\Company::getSize(),
 		];
 	}
+
+	/**
+	 * Show alert.
+	 *
+	 * @return string
+	 */
+	public function showAlert(): string
+	{
+		if (strtotime('now') > strtotime($this->expirationDate)) {
+			return 'LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED';
+		}
+		if (\App\Company::getSize() !== $this->paidPackage) {
+			return 'LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED';
+		}
+		return '';
+	}
 }
