@@ -1,6 +1,6 @@
 <?php
 /**
- * YetiForce shop DisableFooter file.
+ * YetiForce shop DisableBranding file.
  *
  * @package   App
  *
@@ -12,9 +12,9 @@
 namespace App\YetiForce\Shop\Product;
 
 /**
- * YetiForce shop DisableFooter class.
+ * YetiForce shop DisableBranding class.
  */
-class DisableFooter extends \App\YetiForce\Shop\AbstractBaseProduct
+class DisableBranding extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/**
 	 * {@inheritdoc}
