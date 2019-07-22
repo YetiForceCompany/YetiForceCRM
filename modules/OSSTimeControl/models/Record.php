@@ -21,6 +21,7 @@ class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 		$focus = $moduleModel->getEntityInstance();
 		if ($moduleModel->getFieldByColumn('sum_time')) {
 			App\Db::getInstance()->createCommand()->update($focus->table_name, ['sum_time' => round($sumTime, 2)], [$focus->table_index => $id])->execute();
+			\HelpDesk_CalculateSumOfExecutionTime_Model::calculate($id);
 		}
 	}
 
@@ -29,9 +30,7 @@ class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 		$module = $this->getModule();
 		$date = new DateTime();
 		$currDate = DateTimeField::convertToUserFormat($date->format('Y-m-d'));
-
 		$time = $date->format('H:i');
-
 		return 'index.php?module=' . $this->getModuleName() . '&view=' . $module->getEditViewName() . '&record=' . $this->getId() . '&isDuplicate=true&date_start='
 			. $currDate . '&due_date=' . $currDate . '&time_start=' . $time . '&time_end=' . $time;
 	}

@@ -31,14 +31,14 @@ class VTUpdateWorkTime extends VTTask
 			}
 		}
 		$delta = \App\Json::decode($this->getContents($recordModel));
-		if (is_array($delta)) {
+		if (\is_array($delta)) {
 			foreach ($delta as $fieldName => $values) {
-				if (!empty($values) && !is_array($values)) {
+				if (!empty($values) && !\is_array($values)) {
 					$referenceIds[$values] = $fieldName;
-				} elseif (is_array($values) && $values['oldValue']) {
+				} elseif (\is_array($values) && $values['oldValue']) {
 					$referenceIds[$values['oldValue']] = $fieldName;
 				}
-				if (is_array($values) && $values['currentValue']) {
+				if (\is_array($values) && $values['currentValue']) {
 					$referenceIds[$values['currentValue']] = $fieldName;
 				}
 			}
@@ -47,7 +47,7 @@ class VTUpdateWorkTime extends VTTask
 		$metasData = vtlib\Functions::getCRMRecordMetadata(array_keys($referenceIds));
 		$modulesHierarchy = array_keys(App\ModuleHierarchy::getModulesHierarchy());
 		foreach ($metasData as $referenceId => $metaData) {
-			if (((int) $metaData['deleted']) === 0 && in_array($metaData['setype'], $modulesHierarchy)) {
+			if (0 === ((int) $metaData['deleted']) && \in_array($metaData['setype'], $modulesHierarchy)) {
 				OSSTimeControl_Record_Model::recalculateTimeControl($referenceId, $referenceIds[$referenceId]);
 				static::$workflowIdsAlreadyDone[] = $referenceId;
 			}
@@ -59,11 +59,11 @@ class VTUpdateWorkTime extends VTTask
 	 *
 	 * @param Vtiger_Record_Model $recordModel
 	 *
-	 * @return <String> contents
+	 * @return string contents
 	 */
 	public function getContents($recordModel)
 	{
-		if (!$this->contents && is_object($recordModel)) {
+		if (!$this->contents && \is_object($recordModel)) {
 			$delta = array_intersect_key($recordModel->getPreviousValue(), $recordModel->getModule()->getFieldsByReference());
 			$this->contents = \App\Json::encode($delta);
 		}
