@@ -1,5 +1,5 @@
 echo " -----  Install and setup apache -----"
-phpenv config-add tests/setup/php.ini
+phpenv config-add tests/setup/php_dev.ini
 
 echo " -----  configuration php-fpm  -----"
 sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
