@@ -139,3 +139,15 @@
 		}
 	}
 }
+
+.o-exception-fixed-block {
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	position: fixed;
+	height: 100%;
+	z-index: 11111111111111;
+}
+body > .o-exception-fixed-block {
+	position: static;
+}

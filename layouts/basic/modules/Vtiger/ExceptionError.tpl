@@ -19,14 +19,7 @@
 		<link rel="stylesheet" href="{\App\Layout::getPublicUrl('layouts/basic/styles/Main.css')}">
 	</head>
 	<body class="h-auto bg-color-amber-50">
-	<div class="container u-white-space-n u-word-break"
-		style="left: 50%;
-			top: 50%;
-			transform: translate(-50%, -50%);
-			position: fixed;
-			color: black;
-			height: 100%;
-			z-index: 11111111111111;">
+	<div class="o-exception-fixed-block container u-white-space-n u-word-break">
 		<div class="card mx-auto mt-5 u-w-fit shadow" role="alert">
 			<div class="card-header d-flex color-red-a200 bg-color-red-50 justify-content-center flex-wrap">
 				<span class="display-1">
