@@ -20,17 +20,23 @@ class Shop
 	 * Get products.
 	 *
 	 * @param string $state
+	 * @param string $department
 	 *
 	 * @return \App\YetiForce\Shop\AbstractBaseProduct[]
 	 */
-	public static function getProducts($state = 'all'): array
+	public static function getProducts(string $state, string $department = ''): array
 	{
 		$config = self::getConfig();
 		$products = [];
-		foreach ((new \DirectoryIterator(\ROOT_DIRECTORY . '/app/YetiForce/Shop/Product')) as $item) {
+		$path = \ROOT_DIRECTORY . '/app/YetiForce/Shop/Product/' . $department;
+		foreach ((new \DirectoryIterator($path)) as $item) {
 			if (!$item->isDir()) {
 				$fileName = $item->getBasename('.php');
-				$className = "\\App\\YetiForce\\Shop\\Product\\$fileName";
+				if ($department) {
+					$className = "\\App\\YetiForce\\Shop\\Product\\$department\\$fileName";
+				} else {
+					$className = "\\App\\YetiForce\\Shop\\Product\\$fileName";
+				}
 				$instance = new $className($fileName);
 				if ('featured' === $state && !$instance->featured) {
 					continue;
@@ -52,14 +58,8 @@ class Shop
 	public static function getVariablePayments(): array
 	{
 		return [
-			'cmd' => '_xclick-subscriptions',
 			'business' => 'paypal-facilitator@yetiforce.com',
-			'no_shipping' => 1,
-			'src' => 1,
-			'sra' => 1,
 			'rm' => 2,
-			't3' => 'M',
-			'p3' => \date('d'),
 			'return' => \Config\Main::$site_URL . 'index.php?module=YetiForce&parent=Settings&view=Shop&status=success',
 			'cancel_return' => \Config\Main::$site_URL . 'index.php?module=YetiForce&parent=Settings&view=Shop&status=fail',
 			'notify_url' => 'https://api.yetiforce.com/shop',
@@ -115,25 +115,6 @@ class Shop
 			}
 		}
 		return $status;
-	}
-
-	/**
-	 * Get variable product.
-	 *
-	 * @param \App\YetiForce\Shop\AbstractBaseProduct $product
-	 *
-	 * @return array
-	 */
-	public static function getVariableProduct(Shop\AbstractBaseProduct $product): array
-	{
-		return [
-			'a3' => $product->getPrice(),
-			'item_name' => $product->name,
-			'currency_code' => $product->currencyCode,
-			'item_number' => 'ccc',
-			'on0' => 'Package',
-			'os0' => \App\Company::getSize(),
-		];
 	}
 
 	/**

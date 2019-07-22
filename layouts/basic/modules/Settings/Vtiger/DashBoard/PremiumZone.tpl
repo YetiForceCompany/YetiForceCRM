@@ -2,7 +2,7 @@
 {strip}
 	<div class="tpl-Settings-Base-DashBoard-PremiumZone u-columns-width-200px-rem u-columns-count-5 px-3 pb-4">
 		{assign var="QUALIFIED_MODULE" value='Settings:YetiForce'}
-		{foreach $PRODUCTS as $PRODUCT}
+		{foreach $PRODUCTS_PREMIUM as $PRODUCT}
 			<div class="dashboardWidget u-columns__item mb-n1 mt-3 d-inline-block">
 				{include file=\App\Layout::getTemplatePath('Shop/SmallProduct.tpl', 'Settings:YetiForce')}
 			</div>

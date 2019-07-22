@@ -53,7 +53,7 @@
 	{foreach key=NAME_OF_KEY item=VARIABLE_FORM from=\App\YetiForce\Shop::getVariablePayments()}
 			<input name="{$NAME_OF_KEY}" type="hidden" value="{$VARIABLE_FORM}" />
 	{/foreach}
-	{foreach key=NAME_OF_KEY item=VARIABLE_PRODUCT from=\App\YetiForce\Shop::getVariableProduct($PRODUCT)}
+	{foreach key=NAME_OF_KEY item=VARIABLE_PRODUCT from=$PRODUCT->getVariable()}
 		{if !('manual'===$PRODUCT->getPriceType() && $NAME_OF_KEY==='a3')}
 			<input name="{$NAME_OF_KEY}" type="hidden" value="{$VARIABLE_PRODUCT}" />
 		{/if}

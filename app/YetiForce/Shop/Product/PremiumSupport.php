@@ -25,6 +25,10 @@ class PremiumSupport extends \App\YetiForce\Shop\AbstractBaseProduct
 		'l' => 50,
 		'xl' => 100,
 	];
+	/**
+	 * {@inheritdoc}
+	 */
+	public $featured = true;
 
 	/**
 	 * {@inheritdoc}

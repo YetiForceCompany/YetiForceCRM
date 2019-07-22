@@ -1,6 +1,6 @@
 <?php
 /**
- * YetiForce shop PremiumModules file.
+ * YetiForce shop Reseller file.
  *
  * @package   App
  *
@@ -9,22 +9,26 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace App\YetiForce\Shop\Product;
+namespace App\YetiForce\Shop\Product\Partner;
 
 /**
- * YetiForce shop PremiumModules class.
+ * YetiForce shop Reseller class.
  */
-class PremiumModules extends \App\YetiForce\Shop\AbstractBaseProduct
+class Reseller extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/**
 	 * {@inheritdoc}
 	 */
 	public $prices = [
-		's' => 30,
-		'm' => 60,
-		'l' => 100,
-		'xl' => 250,
+		's' => 100,
+		'm' => 200,
+		'l' => 300,
+		'xl' => 500,
 	];
+	/**
+	 * {@inheritdoc}
+	 */
+	public $featured = true;
 
 	/**
 	 * {@inheritdoc}

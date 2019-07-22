@@ -27,8 +27,13 @@ abstract class AbstractBaseProduct
 	 *
 	 * @var bool
 	 */
-	public $featured;
-
+	public $featured = false;
+	/**
+	 * Product category.
+	 *
+	 * @var string
+	 */
+	public $category = '';
 	/**
 	 * Price table depending on the size of the company.
 	 *
@@ -159,5 +164,28 @@ abstract class AbstractBaseProduct
 			$this->expirationDate = $config['date'];
 			$this->paidPackage = $config['package'];
 		}
+	}
+
+	/**
+	 * Get variable product.
+	 *
+	 * @return array
+	 */
+	public function getVariable(): array
+	{
+		return [
+			'cmd' => '_xclick-subscriptions',
+			'no_shipping' => 1,
+			'src' => 1,
+			'sra' => 1,
+			't3' => 'M',
+			'p3' => \date('d'),
+			'a3' => $this->getPrice(),
+			'item_name' => $this->name,
+			'currency_code' => $this->currencyCode,
+			'item_number' => 'ccc',
+			'on0' => 'Package',
+			'os0' => \App\Company::getSize(),
+		];
 	}
 }

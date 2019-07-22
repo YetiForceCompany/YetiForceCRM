@@ -1,6 +1,6 @@
 <?php
 /**
- * YetiForce shop DisableFooter file.
+ * YetiForce shop ModulesPremium file.
  *
  * @package   App
  *
@@ -12,20 +12,19 @@
 namespace App\YetiForce\Shop\Product;
 
 /**
- * YetiForce shop DisableFooter class.
+ * YetiForce shop ModulesPremium class.
  */
-class DisableFooter extends \App\YetiForce\Shop\AbstractBaseProduct
+class ModulesPremium extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/**
 	 * {@inheritdoc}
 	 */
 	public $prices = [
-		's' => 5,
-		'm' => 15,
-		'l' => 30,
-		'xl' => 50,
+		's' => 30,
+		'm' => 60,
+		'l' => 100,
+		'xl' => 250,
 	];
-
 	/**
 	 * {@inheritdoc}
 	 */
@@ -36,9 +35,6 @@ class DisableFooter extends \App\YetiForce\Shop\AbstractBaseProduct
 	 */
 	public function verify(): bool
 	{
-		if (\App\Config::performance('LIMITED_INFO_IN_FOOTER')) {
-			return \App\YetiForce\Shop::check('DisableFooter');
-		}
 		return true;
 	}
 }

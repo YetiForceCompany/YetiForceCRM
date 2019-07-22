@@ -118,7 +118,8 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		];
 		$viewer->assign('SYSTEM_MONITORING', $systemMonitoring);
 		$viewer->assign('SETTINGS_SHORTCUTS', $pinnedSettingsShortcuts);
-		$viewer->assign('PRODUCTS', \App\YetiForce\Shop::getProducts('featured'));
+		$viewer->assign('PRODUCTS_PREMIUM', \App\YetiForce\Shop::getProducts('featured'));
+		$viewer->assign('PRODUCTS_PARTNER', \App\YetiForce\Shop::getProducts('featured', 'Partner'));
 		$viewer->assign('PAYPAL_URL', \App\YetiForce\Shop::getPaypalUrl());
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
