@@ -76,7 +76,8 @@ class Invoice extends Integrators\Invoice
 		$data['extension_attributes'] = $order['extension_attributes'];
 		$data['payment'] = $order['payment'];
 		$data['customer_id'] = $order['customer_id'];
-		$invoiceFields = new \App\Integrations\Magento\Synchronizator\Maps\Invoice();
+		$className = \App\Config::component('Magento', 'invoiceMapClassName');
+		$invoiceFields = new $className();
 		$invoiceFields->setData($data);
 		$dataCrm = $invoiceFields->getDataCrm();
 		$value = 0;

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Product field map.
+ * Customer field map.
  *
  * @package Integration
  *
@@ -27,41 +27,13 @@ class Customer extends Base
 	public static $mappedFields = [
 		'firstname' => 'firstname',
 		'lastname' => 'lastname',
-		'middlename' => 'middlename',
-		'group_id' => 'group_id',
 		'birthday' => 'dob',
-		'contacts_gender' => 'gender',
 		'email' => 'email'
-	];
-
-	public static $contacts_gender = [
-		'1' => 'PLL_MALE',
-		'2' => 'PLL_FEMALE',
-		'3' => 'PLL_NOT_SPECIFIED',
-	];
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public static $additionalFieldsCrm = [
-		'leadsource' => 'PLL_MAGENTO',
 	];
 
 	public static $additionalFields = [
 		'website_id' => ''
 	];
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public static $fieldsType = [
-		'contacts_gender' => 'map',
-	];
-
-	public function getCrmGroup_id()
-	{
-		return $this->synchronizator->getGroupName($this->data['group_id']);
-	}
 
 	public function getCrmBirthday()
 	{
@@ -69,11 +41,6 @@ class Customer extends Base
 			return null;
 		}
 		return $this->data['dob'];
-	}
-
-	public function getGroup_id()
-	{
-		return $this->synchronizator->getGroupId($this->dataCrm['group_id']);
 	}
 
 	public function getWebsite_id()

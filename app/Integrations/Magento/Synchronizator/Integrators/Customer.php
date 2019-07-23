@@ -32,7 +32,8 @@ abstract class Customer extends \App\Integrations\Magento\Synchronizator\Record
 		$result = false;
 		if (!empty($customerId)) {
 			try {
-				$customerFields = new \App\Integrations\Magento\Synchronizator\Maps\Customer();
+				$className = \App\Config::component('Magento', 'customerMapClassName');
+				$customerFields = new $className();
 				$customerFields->setDataCrm($customer);
 				$customerFields->setSynchronizator($this);
 				$data = $customerFields->getData(true);
@@ -85,7 +86,8 @@ abstract class Customer extends \App\Integrations\Magento\Synchronizator\Record
 	 */
 	public function saveCustomer(array $customer): bool
 	{
-		$customerFields = new \App\Integrations\Magento\Synchronizator\Maps\Customer();
+		$className = \App\Config::component('Magento', 'customerMapClassName');
+		$customerFields = new $className();
 		$customerFields->setDataCrm($customer);
 		$customerFields->setSynchronizator($this);
 		try {

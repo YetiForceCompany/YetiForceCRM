@@ -152,7 +152,8 @@ class Customer extends Integrators\Customer
 	 */
 	public function saveCustomerCrm(array $data): int
 	{
-		$customerFields = new \App\Integrations\Magento\Synchronizator\Maps\Customer();
+		$className = \App\Config::component('Magento', 'customerMapClassName');
+		$customerFields = new $className();
 		$customerFields->setData($data);
 		$customerFields->setSynchronizator($this);
 		$dataCrm = $customerFields->getDataCrm();
@@ -182,7 +183,8 @@ class Customer extends Integrators\Customer
 	public function updateCustomerCrm(int $id, array $data): void
 	{
 		try {
-			$customerFields = new \App\Integrations\Magento\Synchronizator\Maps\Customer();
+			$className = \App\Config::component('Magento', 'customerMapClassName');
+			$customerFields = new $className();
 			$customerFields->setData($data);
 			$customerFields->setSynchronizator($this);
 			$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'Contacts');
@@ -227,7 +229,8 @@ class Customer extends Integrators\Customer
 	public function hasChanges(array $dataCrm, array $data): bool
 	{
 		$hasChanges = false;
-		$customerFields = new \App\Integrations\Magento\Synchronizator\Maps\Customer();
+		$className = \App\Config::component('Magento', 'customerMapClassName');
+		$customerFields = new $className();
 		$customerFields->setSynchronizator($this);
 		$customerFields->setData($data);
 		foreach ($customerFields->getFields(true) as $fieldCrm => $field) {

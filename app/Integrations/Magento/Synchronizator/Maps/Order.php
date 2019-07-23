@@ -24,7 +24,7 @@ class Order extends Inventory
 		'sum_discount' => '',
 		'sum_net' => '',
 		'payment_status' => '',
-		'ssingleorders_source' => 'PLL_MAGENTO',
+		'ssingleorders_source' => 'PLL_SHOP',
 	];
 
 	/**
@@ -41,20 +41,6 @@ class Order extends Inventory
 		'addresslevel5a' => 'billing_address|city',
 		'addresslevel7a' => 'billing_address|postcode',
 		'addresslevel8a' => 'billing_address|street',
-		'email' => 'billing_address|email',
-		//'shipping_mobile' => 'billing_address|telephone', //incorrect validation
-		'first_name' => 'billing_address|firstname',
-		'last_name' => 'billing_address|lastname',
-		'shipping_addresslevel1a' => 'extension_attributes|shipping_assignments|0|shipping|address|country_id',
-		'shipping_addresslevel2a' => 'extension_attributes|shipping_assignments|0|shipping|address|region',
-		'shipping_addresslevel5a' => 'extension_attributes|shipping_assignments|0|shipping|address|city',
-		'shipping_addresslevel7a' => 'extension_attributes|shipping_assignments|0|shipping|address|postcode',
-		'shipping_addresslevel8a' => 'extension_attributes|shipping_assignments|0|shipping|address|street',
-		'shipping_email' => 'extension_attributes|shipping_assignments|0|shipping|address|email',
-		//'shipping_mobile' => 'extension_attributes|shipping_assignments|0|shipping|address|telephone', //incorrect validation
-		'shipping_first_name' => 'extension_attributes|shipping_assignments|0|shipping|address|firstname',
-		'shipping_last_name' => 'extension_attributes|shipping_assignments|0|shipping|address|lastname',
-		'contactid' => 'customer_id',
 	];
 
 	/**
@@ -73,10 +59,8 @@ class Order extends Inventory
 	 * {@inheritdoc}
 	 */
 	public static $fieldsType = [
-		'addresslevel8a' => 'implode',
-		'shipping_addresslevel8a' => 'implode',
 		'addresslevel1a' => 'country',
-		'shipping_addresslevel1a' => 'country',
+		'addresslevel8a' => 'implode',
 		'date_start' => 'date',
 		'ssingleorders_method_payments' => 'map'
 	];
@@ -104,7 +88,6 @@ class Order extends Inventory
 	 * @var array
 	 */
 	public static $ssingleorders_method_payments = [
-		'redsys' => 'PLL_REDSYS',
 		'banktransfer' => 'PLL_TRANSFER',
 	];
 }

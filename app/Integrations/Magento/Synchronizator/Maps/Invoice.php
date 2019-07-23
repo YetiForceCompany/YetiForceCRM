@@ -24,7 +24,6 @@ class Invoice extends Inventory
 		'sum_discount' => '',
 		'sum_net' => '',
 		'finvoice_type' => 'PLL_DOMESTIC_INVOICE',
-		'finvoice_source' => 'PLL_MAGENTO',
 	];
 
 	/**
@@ -40,10 +39,6 @@ class Invoice extends Inventory
 		'addresslevel5a' => 'billing_address|city',
 		'addresslevel7a' => 'billing_address|postcode',
 		'addresslevel8a' => 'billing_address|street',
-		'first_name' => 'billing_address|firstname',
-		'last_name' => 'billing_address|lastname',
-		'email' => 'billing_address|email',
-		'contactid' => 'customer_id',
 	];
 
 	/**
@@ -73,7 +68,6 @@ class Invoice extends Inventory
 	 * @var array
 	 */
 	public static $finvoice_formpayment = [
-		'redsys' => 'PLL_REDSYS',
 		'banktransfer' => 'PLL_TRANSFER',
 	];
 

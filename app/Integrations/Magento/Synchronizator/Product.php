@@ -30,7 +30,7 @@ class Product extends Integrators\Product
 		}
 		$this->getProductSkuMap();
 		$this->getMapping('product');
-		if ($this->checkProductsCrm() & $this->checkProducts()) {
+		if ($this->checkProductsCrm() && $this->checkProducts()) {
 			$this->config::setEndScan('product', $this->lastScan['start_date']);
 		}
 	}
@@ -211,7 +211,8 @@ class Product extends Integrators\Product
 	 */
 	public function saveProductCrm(array $data): int
 	{
-		$productFields = new \App\Integrations\Magento\Synchronizator\Maps\Product();
+		$className = \App\Config::component('Magento', 'productMapClassName');
+		$productFields = new $className();
 		$productFields->setData($data);
 		$dataCrm = $productFields->getDataCrm();
 		$value = 0;
@@ -311,14 +312,15 @@ class Product extends Integrators\Product
 	public function updateProductCrm(int $id, array $data): void
 	{
 		try {
-			$productFields = new \App\Integrations\Magento\Synchronizator\Maps\Product();
+			$className = \App\Config::component('Magento', 'productMapClassName');
+			$productFields = new $className();
 			$productFields->setData($data);
 			$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'Products');
 			foreach ($productFields->getDataCrm(true) as $key => $value) {
 				$recordModel->set($key, $value);
 			}
 			$recordModel->save();
-			$this->saveStorage($recordModel->getId(), $recordModel->get('qtyinstock'));
+			$this->saveStorage($recordModel->getId(), $recordModel->get('qtyinstock') ?? 0);
 		} catch (\Throwable $ex) {
 			\App\Log::error('Error during updating yetiforce product: ' . $ex->getMessage(), 'Integrations/Magento');
 		}

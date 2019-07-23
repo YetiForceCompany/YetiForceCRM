@@ -284,5 +284,21 @@ return [
 			'default' => 1,
 			'description' => 'Currency id',
 		],
+		'productMapClassName' => [
+			'default' => '\App\Integrations\Magento\Synchronizator\Maps\Product',
+			'description' => 'Product field map class name',
+		],
+		'invoiceMapClassName' => [
+			'default' => '\App\Integrations\Magento\Synchronizator\Maps\Invoice',
+			'description' => 'Invoice field map class name',
+		],
+		'orderMapClassName' => [
+			'default' => '\App\Integrations\Magento\Synchronizator\Maps\Order',
+			'description' => 'Order field map class name',
+		],
+		'customerMapClassName' => [
+			'default' => '\App\Integrations\Magento\Synchronizator\Maps\Customer',
+			'description' => 'Customer field map class name',
+		],
 	],
 ];

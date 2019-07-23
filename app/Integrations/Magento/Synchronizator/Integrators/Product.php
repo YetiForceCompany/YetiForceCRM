@@ -43,7 +43,8 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 		$result = false;
 		if (!empty($this->mapIdToSku[$productId])) {
 			try {
-				$productFields = new \App\Integrations\Magento\Synchronizator\Maps\Product();
+				$className = \App\Config::component('Magento', 'productMapClassName');
+				$productFields = new $className();
 				$productFields->setDataCrm($product);
 				$this->connector->request('PUT', 'rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/products/' . urlencode($this->mapIdToSku[$productId]), $productFields->getData(true));
 				$result = true;
@@ -63,7 +64,8 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 	 */
 	public function saveProduct(array $product): bool
 	{
-		$productFields = new \App\Integrations\Magento\Synchronizator\Maps\Product();
+		$className = \App\Config::component('Magento', 'productMapClassName');
+		$productFields = new $className();
 		$productFields->setDataCrm($product);
 		try {
 			$productRequest = \App\Json::decode($this->connector->request('POST', '/rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/products/', $productFields->getData()));

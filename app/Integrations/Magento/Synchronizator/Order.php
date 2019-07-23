@@ -69,7 +69,8 @@ class Order extends Integrators\Order
 	 */
 	public function saveOrderCrm(array $data)
 	{
-		$orderFields = new \App\Integrations\Magento\Synchronizator\Maps\Order();
+		$className = \App\Config::component('Magento', 'orderMapClassName');
+		$orderFields = new $className();
 		$orderFields->setData($data);
 		$dataCrm = $orderFields->getDataCrm();
 		$value = 0;

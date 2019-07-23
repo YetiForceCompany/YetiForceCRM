@@ -51,7 +51,8 @@ abstract class Record extends Base
 	public function hasChanges(array $dataCrm, array $data): bool
 	{
 		$hasChanges = false;
-		$productFields = new \App\Integrations\Magento\Synchronizator\Maps\Product();
+		$className = \App\Config::component('Magento', 'productMapClassName');
+		$productFields = new $className();
 		$productFields->setData($data);
 		foreach ($productFields->getFields(true) as $fieldCrm => $field) {
 			$fieldValue = $productFields->getFieldValue($field);

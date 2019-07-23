@@ -107,8 +107,8 @@ class Controller
 	 */
 	public function synchronizeCustomers(): void
 	{
-		$orderSynchronizator = new Synchronizator\Customer();
-		$orderSynchronizator->setConnector($this->getConnector());
-		$orderSynchronizator->process();
+		$customerSynchronizator = new Synchronizator\Customer();
+		$customerSynchronizator->setConnector($this->getConnector());
+		$customerSynchronizator->process();
 	}
 }
