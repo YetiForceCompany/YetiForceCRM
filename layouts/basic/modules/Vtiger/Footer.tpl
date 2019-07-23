@@ -98,12 +98,7 @@
 						{/if}
 						{if !\App\YetiForce\Shop::verify()}
 							<li class="page-item u-cursor-pointer">
-								{if $USER_MODEL->isAdminUser()}
-									{assign var="INFO_SHOP_ERROR" value="<a href='index.php?module=YetiForce&parent=Settings&view=Shop'>{\App\Language::translate('LBL_YETIFORCE_SHOP_CHECK_STATUS', $MODULE_NAME)}</a>"}
-								{else}
-									{assign var="INFO_SHOP_ERROR" value=\App\Language::translate('LBL_YETIFORCE_SHOP_CHECK_STATUS', $MODULE_NAME)}
-								{/if}
-								<a class="page-link text-warning js-popover-tooltip animated flash infinite slower" role="button" data-content="{\App\Language::translateArgs('LBL_YETIFORCE_SHOP_ERROR', $MODULE_NAME, $INFO_SHOP_ERROR)}" title="{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
+								<a class="page-link text-warning js-popover-tooltip animated flash infinite slower" role="button" data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP_PRODUCT_CANCELED', $MODULE_NAME}" title="{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
 										{if $USER_MODEL->isAdminUser()}
 											href="index.php?module=YetiForce&parent=Settings&view=Shop"
 										{else}
