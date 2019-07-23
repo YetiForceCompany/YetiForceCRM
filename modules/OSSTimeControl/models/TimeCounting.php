@@ -15,8 +15,14 @@
  */
 class OSSTimeControl_TimeCounting_Model
 {
+	/**
+	 * Recalculate status.
+	 */
 	const RECALCULATE_STATUS = 'Accepted';
 
+	/**
+	 * Column sum time.
+	 */
 	const COLUMN_SUM_TIME = 'sum_time';
 
 	/**
@@ -68,22 +74,12 @@ class OSSTimeControl_TimeCounting_Model
 	 */
 	private $primaryKey;
 
-	private $moduleModel;
-
 	/**
-	 * Calculate and update.
+	 * Module model.
 	 *
-	 * @param int    $recordId
-	 * @param string $relationField
-	 * @param string $moduleName
-	 *
-	 * @return void
+	 * @var \Vtiger_Module_Model
 	 */
-	public static function calculateAndUpdate(int $recordId, string $moduleName, string $relationField)
-	{
-		$instance = new self($moduleName);
-		$instance->recalculateTimeControl($recordId, $relationField);
-	}
+	private $moduleModel;
 
 	/**
 	 * Construct.
@@ -141,11 +137,10 @@ class OSSTimeControl_TimeCounting_Model
 	private function getSumTime(int $recordId, string $relationField): float
 	{
 		return round(
-			(float) (new \App\Db\Query())
-				->from('vtiger_osstimecontrol')
-				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_osstimecontrol.osstimecontrolid')
-				->where(['vtiger_crmentity.deleted' => 0, 'osstimecontrol_status' => static::RECALCULATE_STATUS, $relationField => $recordId])
-				->sum(static::COLUMN_SUM_TIME),
+			(float) (new \App\QueryGenerator('OSSTimeControl'))
+				->createQuery()
+				->andWhere(['osstimecontrol_status' => static::RECALCULATE_STATUS, $relationField => $recordId])
+				->sum($this->fieldModelSumTime->getColumnName()),
 			2
 		);
 	}
