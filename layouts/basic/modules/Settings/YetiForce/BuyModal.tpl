@@ -1,9 +1,10 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+<!-- tpl-Settings-YetiForce-Shop-BuyModal -->
 <div class="modal-body">
 	<form action="{$PAYPAL_URL}" method="POST" target="_blank">
-		<div class="tpl-Settings-YetiForce-Shop-Product row no-gutters" >
-			<div class="mb-3 col-sm-18 col-md-12 item list-group-item{if empty($PRODUCT->expirationDate)} bg-light{/if}">
+		<div class="row no-gutters" >
+			<div class="col-sm-18 col-md-12">
 				<div class="row">
 					<div class="col-sm-4 col-md-3">
 						{if $PRODUCT->getImage()}
@@ -22,33 +23,20 @@
 						<div class="card-body">
 							<h5 class="card-title text-primary">{$PRODUCT->getLabel()}</h5>
 							<p class="card-text truncate">{$PRODUCT->getDescription()}</p>
-							{if empty($PRODUCT->expirationDate)}
-								{if 'manual'===$PRODUCT->getPriceType()}
-									<div class="input-group mb-3">
-										<div class="input-group-prepend">
-											<button class="btn btn-dark rounded-0 pull-right" type="submit" tile="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
-												{$PRODUCT->getPrice()} {$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}
-											</button>
-										</div>
-										<input name="a3" class="form-control" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
-									</div>
-								{else}
-									<button class="btn btn-dark rounded-0 pull-right" type="submit" title="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
-										{$PRODUCT->getPrice()} {$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}
-									</button>
-								{/if}
-							{elseif $PRODUCT->expirationDate!=$PRODUCT->paidPackage}
-								<div class="alert alert-info text-danger">
-									<span class="fas fa-exclamation-triangle"></span>
-									{\App\Language::translate('LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED', $QUALIFIED_MODULE)}
+								<div class="bg-dark text-white rounded-0 d-flex flex-nowrap text-nowrap align-items-center justify-content-center p-3" title="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
+									{if 'manual'===$PRODUCT->getPriceType()}
+										<input name="a3" class="form-control" style="max-width: 80px;" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
+									{else}
+									{$PRODUCT->getPrice()}
+									{/if}
+									<span class="ml-1">
+										{$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}
+									</span>
 								</div>
-							{else}
-								<button class="btn btn-warning pull-right rounded-0">{\App\Fields\Date::formatToDisplay($PRODUCT->expirationDate)}</button>
-							{/if}
 						</div>
 					</div>
 					<div class="col-sm-3 col-md-2 d-flex align-items-center">
-						{foreach key=NAME_OF_KEY item=VARIABLE_FORM from=\App\YetiForce\Shop::getVariablePayments()}
+						{foreach key=NAME_OF_KEY item=VARIABLE_FORM from=$VARIABLE_PAYMENTS}
 								<input name="{$NAME_OF_KEY}" type="hidden" value="{$VARIABLE_FORM}" />
 						{/foreach}
 						{foreach key=NAME_OF_KEY item=VARIABLE_PRODUCT from=$PRODUCT->getVariable()}
@@ -62,4 +50,5 @@
 		</div>
 	</form>
 </div>
+<!-- /tpl-Settings-YetiForce-Shop-BuyModal -->
 {/strip}
