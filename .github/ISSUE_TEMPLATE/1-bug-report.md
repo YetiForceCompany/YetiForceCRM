@@ -42,6 +42,11 @@ Steps to reproduce the behavior:
 ### 👍 Expected Behavior
 <!-- Describe what you would want the result to be -->
 
+### 👷 Testing 
+<!-- ✔️ Test and tick the following options, it is required to perform tests on current versions before reporting the error. ✔️  -->
+- [ ] I confirm that I tested it at https://gitstable.yetiforce.com 
+* [ ] I confirm that I tested it at https://gitdeveloper.yetiforce.com
+
 ### 📷 Screenshot of configuration
 <!--  Before reporting an issue, check if your server has been properly configured.  
 Please include a screenshot of your configuration. Here is an example: https://public.yetiforce.com/gallery/#15336225417147/15336225686795 -->
