@@ -21,28 +21,18 @@
 						<h5 class="card-title text-primary">{$PRODUCT->getLabel()}</h5>
 						<p class="card-text truncate">{$PRODUCT->getIntroduction()}</p>
 						{if empty($PRODUCT->expirationDate)}
-							<span class="bg-dark text-white text-center p-3 mt-auto">
+							<button class="btn-dark btn-block p-3 mt-auto js-buy-modal" data-js="showBuyModal | click" data-product="{$PRODUCT->getName()}">
 								{$PRODUCT->getPrice()} {$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}
-							</span>
+							</button>
 						{elseif $PRODUCT->expirationDate!=$PRODUCT->paidPackage}
 							<div class="alert alert-info text-danger">
 								<span class="fas fa-exclamation-triangle"></span>
 								{\App\Language::translate('LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED', $QUALIFIED_MODULE)}
 							</div>
 						{else}
-							<span class="bg-warning p-3">{\App\Fields\Date::formatToDisplay($PRODUCT->expirationDate)}</span>
+							<span class="bg-yellow p-3">{\App\Fields\Date::formatToDisplay($PRODUCT->expirationDate)}</span>
 						{/if}
 					</div>
-				</div>
-				<div class="col-sm-3 col-md-2 d-flex align-items-center">
-					{foreach key=NAME_OF_KEY item=VARIABLE_FORM from=\App\YetiForce\Shop::getVariablePayments()}
-							<input name="{$NAME_OF_KEY}" type="hidden" value="{$VARIABLE_FORM}" />
-					{/foreach}
-					{foreach key=NAME_OF_KEY item=VARIABLE_PRODUCT from=$PRODUCT->getVariable()}
-						{if !('manual'===$PRODUCT->getPriceType() && $NAME_OF_KEY==='a3')}
-							<input name="{$NAME_OF_KEY}" type="hidden" value="{$VARIABLE_PRODUCT}" />
-						{/if}
-					{/foreach}
 				</div>
 			</div>
 		</div>

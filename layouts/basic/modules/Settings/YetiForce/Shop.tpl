@@ -6,7 +6,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 			</div>
 		</div>
-		<div class="container mt-3">
+		<div class="container mt-3 js-products-container">
 			{if $STATUS}
 				<div class="col-md-12">
 					{if 'success'===$STATUS}

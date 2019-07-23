@@ -2,16 +2,46 @@
 'use strict';
 
 window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
-	constructor() {}
-	registerEvents() {
-		this.showProductModal();
+	constructor() {
+		this.container = $('.js-products-container');
 	}
-	showProductModal() {
-		$('.js-product-modal').on('click', e => {
-			app.showModalWindow(
-				null,
-				`index.php?module=YetiForce&parent=Settings&view=ProductModal&product=${$(e.currentTarget).data('product')}`
-			);
+	registerEvents() {
+		this.registerProductModalClick();
+		this.registerBuyModalClick();
+	}
+	registerProductModalClick() {
+		this.container.find('.js-product-modal').on('click', e => {
+			this.showProductModal($(e.currentTarget).data('product'));
 		});
+	}
+	showProductModal(productName) {
+		app.showModalWindow(
+			null,
+			`index.php?module=YetiForce&parent=Settings&view=ProductModal&product=${productName}`,
+			modalContainer => {
+				modalContainer.find('.js-modal__save').on('click', _ => {
+					app.hideModalWindow();
+					this.showBuyModal(productName);
+				});
+			}
+		);
+	}
+	registerBuyModalClick() {
+		this.container.find('.js-buy-modal').on('click', e => {
+			e.stopPropagation();
+			this.showBuyModal($(e.currentTarget).data('product'));
+		});
+	}
+	showBuyModal(productName) {
+		app.showModalWindow(
+			null,
+			`index.php?module=YetiForce&parent=Settings&view=BuyModal&product=${productName}`,
+			modalContainer => {
+				modalContainer.find('.js-modal__save').on('click', _ => {
+					modalContainer.find('form').submit();
+					app.hideModalWindow();
+				});
+			}
+		);
 	}
 };
