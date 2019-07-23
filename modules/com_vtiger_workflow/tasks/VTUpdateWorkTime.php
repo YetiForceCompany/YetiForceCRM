@@ -48,7 +48,7 @@ class VTUpdateWorkTime extends VTTask
 		$modulesHierarchy = array_keys(App\ModuleHierarchy::getModulesHierarchy());
 		foreach ($metasData as $referenceId => $metaData) {
 			if (0 === ((int) $metaData['deleted']) && \in_array($metaData['setype'], $modulesHierarchy)) {
-				(new \OSSTimeControl_TimeCounting_Model($metaData['setype']))->recalculateTimeControl($referenceId, $referenceIds[$referenceId]);
+				(new \OSSTimeControl_TimeCounting_Model($metaData['setype'], $referenceId, $referenceIds[$referenceId]))->recalculateTimeControl();
 				static::$workflowIdsAlreadyDone[] = $referenceId;
 			}
 		}

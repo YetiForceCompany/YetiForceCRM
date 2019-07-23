@@ -26,25 +26,16 @@ class OSSTimeControl_TimeCounting_Model
 	const COLUMN_SUM_TIME = 'sum_time';
 
 	/**
+	 * Column sum time subordinate.
+	 */
+	const COLUMN_SUM_TIME_SUBORDINATE = 'sum_time_subordinate';
+
+	/**
 	 * Module name.
 	 *
 	 * @var string
 	 */
 	private $moduleName;
-
-	/**
-	 * Field model name sum of time.
-	 *
-	 * @var \Vtiger_Field_Model
-	 */
-	private $fieldModelSumTime;
-
-	/**
-	 * Field model name sum of time subordinate.
-	 *
-	 * @var \Vtiger_Field_Model
-	 */
-	private $fieldModelSumTimeSubordinate;
 
 	/**
 	 * Field name parent id.
@@ -82,22 +73,38 @@ class OSSTimeControl_TimeCounting_Model
 	private $moduleModel;
 
 	/**
+	 * Record ID.
+	 *
+	 * @var int
+	 */
+	private $recordId;
+
+	/**
+	 * Relation field.
+	 *
+	 * @var string
+	 */
+	private $relationField;
+
+	/**
 	 * Construct.
 	 *
 	 * @param string $moduleName
+	 * @param int    $recordId
+	 * @param string $relationField
 	 */
-	public function __construct(string $moduleName)
+	public function __construct(string $moduleName, int $recordId, string $relationField)
 	{
+		$this->recordId = $recordId;
+		$this->relationField = $relationField;
 		$this->moduleName = $moduleName;
-		$this->moduleModel = $moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$this->fieldModelSumTime = $moduleModel->getFieldByColumn(static::COLUMN_SUM_TIME);
-		$this->isActiveSumTime = $this->fieldModelSumTime && $this->fieldModelSumTime->isActiveField();
+		$this->moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$this->isActiveSumTime = $this->getFieldModel(static::COLUMN_SUM_TIME) && $this->getFieldModel(static::COLUMN_SUM_TIME)->isActiveField();
 		if ($this->isActiveSumTime) {
-			$this->primaryKey = $moduleModel->getEntityInstance()->table_index;
+			$this->primaryKey = $this->moduleModel->getEntityInstance()->table_index;
 			$this->columnNameParentId = \App\Field::getRelatedFieldForModule($moduleName, $moduleName)['columnname'] ?? null;
 			if ($this->columnNameParentId) {
-				$this->fieldModelSumTimeSubordinate = $moduleModel->getFieldByColumn('sum_time_subordinate');
-				$this->isActiveSumTimeSubordinate = $this->fieldModelSumTimeSubordinate && $this->fieldModelSumTimeSubordinate->isActiveField();
+				$this->isActiveSumTimeSubordinate = $this->getFieldModel(static::COLUMN_SUM_TIME_SUBORDINATE) && $this->getFieldModel(static::COLUMN_SUM_TIME_SUBORDINATE)->isActiveField();
 			}
 		}
 	}
@@ -105,42 +112,49 @@ class OSSTimeControl_TimeCounting_Model
 	/**
 	 * Recalculate time control.
 	 *
-	 * @param int    $recordId
-	 * @param string $relationField
-	 *
 	 * @return void
 	 */
-	public function recalculateTimeControl(int $recordId, string $relationField)
+	public function recalculateTimeControl()
 	{
 		if ($this->isActiveSumTime) {
 			\App\Db::getInstance()
 				->createCommand()
 				->update(
-					$this->fieldModelSumTime->getTableName(),
-					[static::COLUMN_SUM_TIME => $this->getSumTime($recordId, $relationField)],
-					[$this->primaryKey => $recordId]
+					$this->getFieldModel(static::COLUMN_SUM_TIME)->getTableName(),
+					[static::COLUMN_SUM_TIME => $this->getSumTime($this->recordId, $this->relationField)],
+					[$this->primaryKey => $this->recordId]
 				)->execute();
 			if ($this->isActiveSumTimeSubordinate) {
-				$this->calculate($recordId);
+				$this->calculate($this->recordId);
 			}
 		}
 	}
 
 	/**
-	 * Get sum of time.
+	 * Get field model.
 	 *
-	 * @param int    $recordId
-	 * @param string $relationField
+	 * @param string $columnName
+	 *
+	 * @return Vtiger_Field_Model|null
+	 */
+	private function getFieldModel(string $columnName): ?Vtiger_Field_Model
+	{
+		$fieldModel = $this->moduleModel->getFieldByColumn($columnName);
+		return $fieldModel && $fieldModel->isActiveField() ? $fieldModel : null;
+	}
+
+	/**
+	 * Get sum of time.
 	 *
 	 * @return float
 	 */
-	private function getSumTime(int $recordId, string $relationField): float
+	private function getSumTime(): float
 	{
 		return round(
 			(float) (new \App\QueryGenerator('OSSTimeControl'))
 				->createQuery()
-				->andWhere(['osstimecontrol_status' => static::RECALCULATE_STATUS, $relationField => $recordId])
-				->sum($this->fieldModelSumTime->getColumnName()),
+				->andWhere(['osstimecontrol_status' => static::RECALCULATE_STATUS, $this->relationField => $this->recordId])
+				->sum($this->getFieldModel(static::COLUMN_SUM_TIME)->getColumnName()),
 			2
 		);
 	}
@@ -155,15 +169,12 @@ class OSSTimeControl_TimeCounting_Model
 	 */
 	private function calculate(int $recordId, float $initialValue = 0)
 	{
-		$queryGenerator = new \App\QueryGenerator($this->moduleName);
-		$queryGenerator->setFields([$this->fieldModelSumTime->getFieldName(), $this->columnNameParentId]);
-		$queryGenerator->addCondition('id', $recordId, 'e');
-		$row = $queryGenerator->createQuery()->one();
+		$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, $this->moduleName);
 		$this->update(
 			$recordId,
-			round(($initialValue + $row[$this->fieldModelSumTime->getColumnName()]), 2)
+			round(($initialValue + (float) $recordModel->get(static::COLUMN_SUM_TIME)), 2)
 		);
-		$parentId = $row[$this->columnNameParentId];
+		$parentId = $recordModel->get($this->columnNameParentId);
 		if (!empty($parentId)) {
 			$this->calculate($parentId, $this->getSumTimeOfChildren($parentId));
 		}
@@ -182,8 +193,8 @@ class OSSTimeControl_TimeCounting_Model
 		\App\Db::getInstance()
 			->createCommand()
 			->update(
-				$this->fieldModelSumTimeSubordinate->getTableName(),
-			[$this->fieldModelSumTimeSubordinate->getColumnName() => $sumTime],
+				$this->getFieldModel(static::COLUMN_SUM_TIME_SUBORDINATE)->getTableName(),
+			[$this->getFieldModel(static::COLUMN_SUM_TIME_SUBORDINATE)->getColumnName() => $sumTime],
 			[$this->primaryKey => $recordId]
 		)->execute();
 	}
@@ -200,6 +211,6 @@ class OSSTimeControl_TimeCounting_Model
 		return (float) (new \App\QueryGenerator($this->moduleName))
 			->createQuery()
 			->andWhere([$this->columnNameParentId => $recordId])
-			->sum($this->fieldModelSumTimeSubordinate->getColumnName());
+			->sum($this->getFieldModel(static::COLUMN_SUM_TIME_SUBORDINATE)->getColumnName());
 	}
 }
