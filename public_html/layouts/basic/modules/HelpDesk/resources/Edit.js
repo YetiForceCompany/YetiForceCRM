@@ -20,16 +20,17 @@ Vtiger_Edit_Js(
 						AppConnector.request({
 							action: 'CheckValidateToClose',
 							module: app.getModuleName(),
-							record:recordId
+							record: recordId,
+							status: form.find('[name="ticketstatus"] :selected').val()
 						}).done(response => {
 							progress.progressIndicator({mode: 'hide'});
-							if(response.result.hasTimeControl && response.result.relatedTicketsClosed){
+							if(response.result.hasTimeControl.result && response.result.relatedTicketsClosed.result){
 								lockSave = false;
 								form.submit();
 							}
-							if(!response.result.hasTimeControl){
+							if(!response.result.hasTimeControl.result){
 								Vtiger_Helper_Js.showPnotify({
-									text: 'Przed zamknięciem zgłoszenia należy uzupełnić czas pracy',
+									text: response.result.hasTimeControl.message,
 									type: 'info'
 								});
 								self.addTimeControl(
@@ -39,9 +40,9 @@ Vtiger_Edit_Js(
 									}
 								);
 							}
-							if(!response.result.relatedTicketsClosed){
+							if(!response.result.relatedTicketsClosed.result){
 								Vtiger_Helper_Js.showPnotify({
-									text: 'Nie zamkniete zgłoszenie',
+									text: response.result.relatedTicketsClosed.message,
 									type: 'info'
 								});
 							}

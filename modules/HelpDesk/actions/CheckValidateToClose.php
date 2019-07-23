@@ -25,10 +25,15 @@ class HelpDesk_CheckValidateToClose_Action extends \App\Controller\Action
 	 */
 	public function process(App\Request $request)
 	{
-		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
+		if ($request->has('record')) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
+			$result = $recordModel->checkValidateToClose($request->getByType('status', 'Text'));
+		}else{
+			$result = ['hasTimeControl' => ['result' => true], 'relatedTicketsClosed' => ['result' => true]];
+		}
+
 		$response = new Vtiger_Response();
-		//TODO czy ustawił status na zamknięty
-		$response->setResult($recordModel->checkValidateToClose());
+		$response->setResult($result);
 		$response->emit();
 	}
 }
