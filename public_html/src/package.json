@@ -31,7 +31,7 @@
     "@babel/core": "^7.4.5",
     "@vue/cli-plugin-eslint": "^3.7.0",
     "@vue/cli-service": "^3.7.0",
-    "@vue/eslint-config-prettier": "^4.0.1",
+    "@vue/eslint-config-prettier": "^5.0.0",
     "babel-preset-vue": "^2.0.2",
     "cross-env": "^5.2.0",
     "eslint": "^6.0.0",
