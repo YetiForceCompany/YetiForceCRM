@@ -6,7 +6,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 			</div>
 		</div>
-		<div class=" mt-3">
+		<div class="container mt-3 js-products-container">
 			{if $STATUS}
 				<div class="col-md-12">
 					{if 'success'===$STATUS}
@@ -21,29 +21,25 @@
 				</div>
 			{/if}
 			<nav>
-				<div class="nav nav-tabs" role="tablist">
+				<div class="nav nav-pills nav-fill mb-3" role="tablist">
 					<a class="nav-item nav-link{if $TAB === 'Premium'} active{/if}" id="nav-premium-tab" data-toggle="tab" href="#nav-premium" role="tab" aria-controls="nav-premium" aria-selected="{$TAB === 'Premium'}">
 						{\App\Language::translate('LBL_PREMIUM_ZONE', $QUALIFIED_MODULE)}
 					</a>
-					<a class="nav-item nav-link{if $TAB === 'Partner'} active{/if}" id="nav-partner-tab" data-toggle="tab" href="#nav-partner" role="tab" aria-controls="nav-partner" aria-selected="{$TAB === 'Partner'}">
+					<a class="nav-item nav-link{if $TAB === 'Partner'} active{/if}" id="nav-partner-tab" data-toggle="tab" href="#nav-partner" role="tab" aria-controls="nav-partner" aria-selected="{$TAB === 'Partner'}" data-js="data">
 						{\App\Language::translate('LBL_PARTNER_ZONE', $QUALIFIED_MODULE)}
 					</a>
 				</div>
 			</nav>
 			<div class="tab-content">
 				<div class="tab-pane fade{if $TAB === 'Premium'} show active{/if}" id="nav-premium" role="tabpanel" aria-labelledby="nav-premium-tab">
-					<div class="container pt-3">
-						{foreach $PRODUCTS_PREMIUM as $PRODUCT}
-							{include file=\App\Layout::getTemplatePath('Shop/Product.tpl', $QUALIFIED_MODULE)}
-						{/foreach}
-					</div>
+					{foreach $PRODUCTS_PREMIUM as $PRODUCT}
+						{include file=\App\Layout::getTemplatePath('Shop/Product.tpl', $QUALIFIED_MODULE)}
+					{/foreach}
 				</div>
-				<div class="tab-pane fade{if $TAB === 'Partner'} show active{/if}" id="nav-partner" role="tabpanel" aria-labelledby="nav-partner-tab">
-					<div class="container pt-3">
-							{foreach $PRODUCTS_PARTNER as $PRODUCT}
-								{include file=\App\Layout::getTemplatePath('Shop/Product.tpl', $QUALIFIED_MODULE)}
-							{/foreach}
-					</div>
+				<div class="tab-pane fade js-department{if $TAB === 'Partner'} show active{/if}" data-department="Partner" id="nav-partner" role="tabpanel" aria-labelledby="nav-partner-tab">
+					{foreach $PRODUCTS_PARTNER as $PRODUCT}
+						{include file=\App\Layout::getTemplatePath('Shop/Product.tpl', $QUALIFIED_MODULE)}
+					{/foreach}
 				</div>
 			</div>
 		</div>

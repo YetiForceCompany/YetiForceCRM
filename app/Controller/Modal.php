@@ -39,6 +39,12 @@ abstract class Modal extends View
 	 */
 	public $successBtn = 'LBL_SAVE';
 	/**
+	 * The name of the success button icon.
+	 *
+	 * @var string
+	 */
+	public $successBtnIcon = 'fas fa-check';
+	/**
 	 * The name of the danger button.
 	 *
 	 * @var string
@@ -111,6 +117,7 @@ abstract class Modal extends View
 		if ($this->showFooter()) {
 			$viewer = $this->getViewer($request);
 			$viewer->assign('BTN_SUCCESS', $this->successBtn);
+			$viewer->assign('BTN_SUCCESS_ICON', $this->successBtnIcon);
 			$viewer->assign('BTN_DANGER', $this->dangerBtn);
 			$viewer->view('Modals/Footer.tpl', $request->getModule());
 		}

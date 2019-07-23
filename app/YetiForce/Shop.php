@@ -1,4 +1,5 @@
 <?php
+
 /**
  * YetiForce shop file.
  *
@@ -32,22 +33,36 @@ class Shop
 		foreach ((new \DirectoryIterator($path)) as $item) {
 			if (!$item->isDir()) {
 				$fileName = $item->getBasename('.php');
-				if ($department) {
-					$className = "\\App\\YetiForce\\Shop\\Product\\$department\\$fileName";
-				} else {
-					$className = "\\App\\YetiForce\\Shop\\Product\\$fileName";
-				}
-				$instance = new $className($fileName);
+				$instance = static::getProduct($fileName, $department, $config);
 				if ('featured' === $state && !$instance->featured) {
 					continue;
-				}
-				if (isset($config[$fileName]) && $config[$fileName]['product'] === $fileName) {
-					$instance->loadConfig($config[$fileName]);
 				}
 				$products[$fileName] = $instance;
 			}
 		}
 		return $products;
+	}
+
+	/**
+	 * Get products.
+	 *
+	 * @param string $state
+	 * @param string $department
+	 *
+	 * @return \App\YetiForce\Shop\AbstractBaseProduct[]
+	 */
+	public static function getProduct(string $name, string $department, array $config): object
+	{
+		if ($department) {
+			$className = "\\App\\YetiForce\\Shop\\Product\\$department\\$name";
+		} else {
+			$className = "\\App\\YetiForce\\Shop\\Product\\$name";
+		}
+		$instance = new $className($name);
+		if (isset($config[$name]) && $config[$name]['product'] === $name) {
+			$instance->loadConfig($config[$name]);
+		}
+		return $instance;
 	}
 
 	/**
@@ -147,8 +162,8 @@ class Shop
 		$s = substr($m, -5);
 		$m = rtrim($m, $s);
 		return substr(crc32($m), 2, 5) === $l1
-		&& substr(sha1($d . $p), 5, 5) === $s
-		&& $r1 === substr(sha1(substr(crc32($m), 2, 5) . $m . substr(sha1($d . $p), 5, 5) . $d . $p), 1, 2);
+			&& substr(sha1($d . $p), 5, 5) === $s
+			&& $r1 === substr(sha1(substr(crc32($m), 2, 5) . $m . substr(sha1($d . $p), 5, 5) . $d . $p), 1, 2);
 	}
 
 	/**
