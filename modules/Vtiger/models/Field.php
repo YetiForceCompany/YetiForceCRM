@@ -994,10 +994,10 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * Function to get instance.
 	 *
-	 * @param string $value  - fieldname or fieldid
-	 * @param <type> $module - optional - module instance
+	 * @param string|int $value  - fieldname or fieldid
+	 * @param Vtiger_Module_Model|false $module - optional - module instance
 	 *
-	 * @return <Vtiger_Field_Model>
+	 * @return Vtiger_Field_Model|false
 	 */
 	public static function getInstance($value, $module = false)
 	{
