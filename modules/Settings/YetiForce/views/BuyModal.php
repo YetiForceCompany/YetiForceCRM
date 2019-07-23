@@ -13,7 +13,7 @@
 /**
  * Offline registration modal view class.
  */
-class Settings_YetiForce_ProductModal_View extends \App\Controller\ModalSettings
+class Settings_YetiForce_BuyModal_View extends \App\Controller\ModalSettings
 {
 	/**
 	 * The name of the activation button.
@@ -44,9 +44,10 @@ class Settings_YetiForce_ProductModal_View extends \App\Controller\ModalSettings
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
+		$productName = $request->getByType('product');
 		$viewer->assign('MODULE', $qualifiedModuleName);
+		$viewer->assign('PRODUCT', \App\YetiForce\Shop::getProduct($productName, '', \App\YetiForce\Shop::getConfig()));
 		$viewer->assign('PAYPAL_URL', \App\YetiForce\Shop::getPaypalUrl());
-		$viewer->assign('PRODUCT', $request->getByType('product'));
-		$viewer->view('RegistrationOfflineModal.tpl', $qualifiedModuleName);
+		$viewer->view('BuyModal.tpl', $qualifiedModuleName);
 	}
 }

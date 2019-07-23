@@ -2,7 +2,7 @@
 {strip}
 <div class="modal-body">
 	<form action="{$PAYPAL_URL}" method="POST" target="_blank">
-		<div class="tpl-Settings-YetiForce-Shop-Product row no-gutters"  onclick="app.showModalWindow(null, 'index.php?module=YetiForce&parent=Settings&view=ProductModal')" >
+		<div class="tpl-Settings-YetiForce-Shop-Product row no-gutters" >
 			<div class="mb-3 col-sm-18 col-md-12 item list-group-item{if empty($PRODUCT->expirationDate)} bg-light{/if}">
 				<div class="row">
 					<div class="col-sm-4 col-md-3">
@@ -33,7 +33,7 @@
 										<input name="a3" class="form-control" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
 									</div>
 								{else}
-									<button class="btn btn-dark rounded-0 pull-right" type="button"title="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
+									<button class="btn btn-dark rounded-0 pull-right" type="submit" title="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
 										{$PRODUCT->getPrice()} {$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}
 									</button>
 								{/if}
