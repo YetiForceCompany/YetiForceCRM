@@ -3045,9 +3045,9 @@ CREATE TABLE `u_yf_modentity_sequences` (
 /*Table structure for table `u_yf_modtracker_inv` */
 
 CREATE TABLE `u_yf_modtracker_inv` (
-  `id` int(10) NOT NULL,
-  `changes` text DEFAULT NULL,
-  KEY `u_yf_modtracker_inv_id_idx` (`id`),
+  `id` int(10) unsigned NOT NULL,
+  `changes` text NOT NULL,
+  KEY `fk_1_u_yf_modtracker_inv` (`id`),
   CONSTRAINT `u_yf_modtracker_inv_id_fk` FOREIGN KEY (`id`) REFERENCES `vtiger_modtracker_basic` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -6567,13 +6567,13 @@ CREATE TABLE `vtiger_modentity_num` (
 /*Table structure for table `vtiger_modtracker_basic` */
 
 CREATE TABLE `vtiger_modtracker_basic` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `crmid` int(10) DEFAULT NULL,
-  `module` varchar(50) DEFAULT NULL,
-  `whodid` int(10) DEFAULT NULL,
-  `changedon` datetime DEFAULT NULL,
-  `status` int(1) DEFAULT 0,
-  `last_reviewed_users` varchar(255) DEFAULT '',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `crmid` int(10) unsigned NOT NULL,
+  `module` varchar(25) NOT NULL,
+  `whodid` int(10) unsigned NOT NULL,
+  `changedon` datetime NOT NULL,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `last_reviewed_users` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `crmidx` (`crmid`),
   KEY `idx` (`id`),
@@ -6584,21 +6584,23 @@ CREATE TABLE `vtiger_modtracker_basic` (
 /*Table structure for table `vtiger_modtracker_detail` */
 
 CREATE TABLE `vtiger_modtracker_detail` (
-  `id` int(10) DEFAULT NULL,
-  `fieldname` varchar(100) DEFAULT NULL,
+  `id` int(10) unsigned NOT NULL,
+  `fieldname` varchar(50) NOT NULL,
   `prevalue` text DEFAULT NULL,
   `postvalue` text DEFAULT NULL,
-  KEY `idx` (`id`)
+  KEY `idx` (`id`),
+  CONSTRAINT `fk_1_vtiger_modtracker_detail` FOREIGN KEY (`id`) REFERENCES `vtiger_modtracker_basic` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_modtracker_relations` */
 
 CREATE TABLE `vtiger_modtracker_relations` (
-  `id` int(10) NOT NULL,
-  `targetmodule` varchar(100) NOT NULL,
-  `targetid` int(10) NOT NULL,
+  `id` int(10) unsigned NOT NULL,
+  `targetmodule` varchar(25) NOT NULL,
+  `targetid` int(10) unsigned NOT NULL,
   `changedon` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  KEY `vtiger_modtracker_relations_id_idx` (`id`),
+  CONSTRAINT `fk_1_vtiger_modtracker_relations` FOREIGN KEY (`id`) REFERENCES `vtiger_modtracker_basic` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_modtracker_tabs` */
