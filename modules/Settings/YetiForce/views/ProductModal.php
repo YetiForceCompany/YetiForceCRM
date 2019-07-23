@@ -1,7 +1,7 @@
 <?php
 
 /**
- * YetiForce product Modal
+ * YetiForce product Modal.
  *
  * @package   Settings
  *
@@ -16,11 +16,11 @@
 class Settings_YetiForce_ProductModal_View extends \App\Controller\ModalSettings
 {
 	/**
-	 * @inheritDoc
+	 * {@inheritdoc}
 	 */
 	public $successBtn = 'LBL_BUY';
 	/**
-	 * @inheritDoc
+	 * {@inheritdoc}
 	 */
 	public $modalSize = 'modal-full';
 
@@ -29,7 +29,7 @@ class Settings_YetiForce_ProductModal_View extends \App\Controller\ModalSettings
 	 *
 	 * @param \App\Request $request
 	 */
-	public function preProcessAjax(\App\Request $request)
+	public function preProcessAjax(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$this->modalIcon = 'userIcon-Products';
@@ -42,14 +42,14 @@ class Settings_YetiForce_ProductModal_View extends \App\Controller\ModalSettings
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$productName = $request->getByType('product');
 		$department = $request->isEmpty('department') ? '' : $request->getByType('department');
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $qualifiedModuleName);
-		$viewer->assign('PRODUCT', \App\YetiForce\Shop::getProduct($productName, $department, \App\YetiForce\Shop::getConfig()));
+		$viewer->assign('PRODUCT', \App\YetiForce\Shop::getProduct($productName, $department));
 		$viewer->view('ProductModal.tpl', $qualifiedModuleName);
 	}
 }

@@ -27,13 +27,12 @@ class Shop
 	 */
 	public static function getProducts(string $state = '', string $department = ''): array
 	{
-		$config = self::getConfig();
 		$products = [];
 		$path = \ROOT_DIRECTORY . '/app/YetiForce/Shop/Product/' . $department;
 		foreach ((new \DirectoryIterator($path)) as $item) {
 			if (!$item->isDir()) {
 				$fileName = $item->getBasename('.php');
-				$instance = static::getProduct($fileName, $department, $config);
+				$instance = static::getProduct($fileName, $department);
 				if ('featured' === $state && !$instance->featured) {
 					continue;
 				}
@@ -48,10 +47,11 @@ class Shop
 	 *
 	 * @param string $state
 	 * @param string $department
+	 * @param string $name
 	 *
 	 * @return \App\YetiForce\Shop\AbstractBaseProduct[]
 	 */
-	public static function getProduct(string $name, string $department, array $config): object
+	public static function getProduct(string $name, string $department): object
 	{
 		if ($department) {
 			$className = "\\App\\YetiForce\\Shop\\Product\\$department\\$name";
@@ -59,6 +59,7 @@ class Shop
 			$className = "\\App\\YetiForce\\Shop\\Product\\$name";
 		}
 		$instance = new $className($name);
+		$config = self::getConfig();
 		if (isset($config[$name]) && $config[$name]['product'] === $name) {
 			$instance->loadConfig($config[$name]);
 		}
