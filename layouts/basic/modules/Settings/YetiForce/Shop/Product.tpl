@@ -22,7 +22,11 @@
 						<p class="card-text truncate">{$PRODUCT->getIntroduction()}</p>
 						{if empty($PRODUCT->expirationDate)}
 							<button class="btn-dark btn-block p-3 mt-auto js-buy-modal" data-js="showBuyModal | click" data-product="{$PRODUCT->getName()}">
-								{$PRODUCT->getPrice()} {$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}
+								{if 'manual'===$PRODUCT->getPriceType()}
+									{\App\Language::translate("LBL_SUPPORT_US", $QUALIFIED_MODULE)}
+								{else}
+									{$PRODUCT->getPrice()} {$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}
+								{/if}
 							</button>
 						{elseif $PRODUCT->expirationDate!=$PRODUCT->paidPackage}
 							<div class="alert alert-info text-danger">
