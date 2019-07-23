@@ -130,7 +130,7 @@ class OSSTimeControl_TimeCounting_Model
 				->createCommand()
 				->update(
 					$this->fieldModelSumTime->getTableName(),
-					[static::COLUMN_SUM_TIME => $this->getSumTime($this->recordId, $this->relationField)],
+					[static::COLUMN_SUM_TIME => $this->getSumTime()],
 					[$this->primaryKey => $this->recordId]
 				)->execute();
 			if ($this->isActiveSumTimeSubordinate) {
