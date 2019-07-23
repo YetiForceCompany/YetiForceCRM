@@ -2119,10 +2119,6 @@ insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`c
 insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (137,'Libya, Dinar','LYD','LYD');
 insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (138,'CFP Franc','XPF','F');
 
-/*Data for the table `vtiger_currencies_seq` */
-
-insert  into `vtiger_currencies_seq`(`id`) values (138);
-
 /*Data for the table `vtiger_currency` */
 
 /*Data for the table `vtiger_currency_decimal_separator` */
@@ -2693,10 +2689,6 @@ insert  into `vtiger_datasetregister_status`(`datasetregister_statusid`,`dataset
 /*Data for the table `vtiger_datashare_relatedmodules` */
 
 insert  into `vtiger_datashare_relatedmodules`(`datashare_relatedmodule_id`,`tabid`,`relatedto_tabid`) values (2,6,13);
-
-/*Data for the table `vtiger_datashare_relatedmodules_seq` */
-
-insert  into `vtiger_datashare_relatedmodules_seq`(`id`) values (9);
 
 /*Data for the table `vtiger_datashare_role2group` */
 
@@ -4800,10 +4792,6 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (34,2828,'attention','vtiger_crmentity',1,300,'attention','Attention',0,2,'',NULL,0,445,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`) values (13,2829,'sum_time_subordinate','vtiger_troubletickets',1,7,'sum_time_subordinate','FL_SUM_TIME_SUBORDINATE',1,2,'','99999999',14,27,10,'NN~O',1,0,'BAS',1,'',0,'',NULL,0,0,0);
 
-/*Data for the table `vtiger_field_seq` */
-
-insert  into `vtiger_field_seq`(`id`) values (2783);
-
 /*Data for the table `vtiger_fieldmodulerel` */
 
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (546,'ServiceContracts','Accounts',NULL,NULL);
@@ -6453,10 +6441,6 @@ insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfiel
 insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (15,14,'usageunit','subunit','kg','[\"50g\",\"100g\",\"300g\",\"500g\"]',NULL);
 insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (16,14,'usageunit','subunit','m','[\"\"]',NULL);
 insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (17,14,'usageunit','subunit','l','[\"100ml\",\"250ml\",\"330ml\",\"500ml\"]',NULL);
-
-/*Data for the table `vtiger_picklist_dependency_seq` */
-
-insert  into `vtiger_picklist_dependency_seq`(`id`) values (17);
 
 /*Data for the table `vtiger_picklistvalues_seq` */
 
@@ -11204,23 +11188,6 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,125,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,125,60,0);
 
-/*Data for the table `vtiger_progress` */
-
-insert  into `vtiger_progress`(`progressid`,`progress`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'10%',1,278,2);
-insert  into `vtiger_progress`(`progressid`,`progress`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'20%',1,279,3);
-insert  into `vtiger_progress`(`progressid`,`progress`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'30%',1,280,4);
-insert  into `vtiger_progress`(`progressid`,`progress`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'40%',1,281,5);
-insert  into `vtiger_progress`(`progressid`,`progress`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'50%',1,282,6);
-insert  into `vtiger_progress`(`progressid`,`progress`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'60%',1,283,7);
-insert  into `vtiger_progress`(`progressid`,`progress`,`presence`,`picklist_valueid`,`sortorderid`) values (8,'70%',1,284,8);
-insert  into `vtiger_progress`(`progressid`,`progress`,`presence`,`picklist_valueid`,`sortorderid`) values (9,'80%',1,285,9);
-insert  into `vtiger_progress`(`progressid`,`progress`,`presence`,`picklist_valueid`,`sortorderid`) values (10,'90%',1,286,10);
-insert  into `vtiger_progress`(`progressid`,`progress`,`presence`,`picklist_valueid`,`sortorderid`) values (11,'100%',1,287,11);
-
-/*Data for the table `vtiger_progress_seq` */
-
-insert  into `vtiger_progress_seq`(`id`) values (11);
-
 /*Data for the table `vtiger_project` */
 
 /*Data for the table `vtiger_projectcf` */
@@ -11274,23 +11241,6 @@ insert  into `vtiger_projectstatus`(`projectstatusid`,`projectstatus`,`presence`
 insert  into `vtiger_projecttaskpriority`(`projecttaskpriorityid`,`projecttaskpriority`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'low',1,246,2);
 insert  into `vtiger_projecttaskpriority`(`projecttaskpriorityid`,`projecttaskpriority`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'normal',1,247,3);
 insert  into `vtiger_projecttaskpriority`(`projecttaskpriorityid`,`projecttaskpriority`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'high',1,248,4);
-
-/*Data for the table `vtiger_projecttaskprogress` */
-
-insert  into `vtiger_projecttaskprogress`(`projecttaskprogressid`,`projecttaskprogress`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'10%',1,250,2);
-insert  into `vtiger_projecttaskprogress`(`projecttaskprogressid`,`projecttaskprogress`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'20%',1,251,3);
-insert  into `vtiger_projecttaskprogress`(`projecttaskprogressid`,`projecttaskprogress`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'30%',1,252,4);
-insert  into `vtiger_projecttaskprogress`(`projecttaskprogressid`,`projecttaskprogress`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'40%',1,253,5);
-insert  into `vtiger_projecttaskprogress`(`projecttaskprogressid`,`projecttaskprogress`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'50%',1,254,6);
-insert  into `vtiger_projecttaskprogress`(`projecttaskprogressid`,`projecttaskprogress`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'60%',1,255,7);
-insert  into `vtiger_projecttaskprogress`(`projecttaskprogressid`,`projecttaskprogress`,`presence`,`picklist_valueid`,`sortorderid`) values (8,'70%',1,256,8);
-insert  into `vtiger_projecttaskprogress`(`projecttaskprogressid`,`projecttaskprogress`,`presence`,`picklist_valueid`,`sortorderid`) values (9,'80%',1,257,9);
-insert  into `vtiger_projecttaskprogress`(`projecttaskprogressid`,`projecttaskprogress`,`presence`,`picklist_valueid`,`sortorderid`) values (10,'90%',1,258,10);
-insert  into `vtiger_projecttaskprogress`(`projecttaskprogressid`,`projecttaskprogress`,`presence`,`picklist_valueid`,`sortorderid`) values (11,'100%',1,259,11);
-
-/*Data for the table `vtiger_projecttaskprogress_seq` */
-
-insert  into `vtiger_projecttaskprogress_seq`(`id`) values (11);
 
 /*Data for the table `vtiger_projecttaskstatus` */
 
@@ -17600,10 +17550,6 @@ insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (16,'LBL_MENU_SUMMARRY',0,'userIcon-Home',1,'index.php?module=Vtiger&parent=Settings&view=Index',NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (18,'LBL_HELP',15,'fas fa-life-ring',0,NULL,NULL);
 
-/*Data for the table `vtiger_settings_blocks_seq` */
-
-insert  into `vtiger_settings_blocks_seq`(`id`) values (18);
-
 /*Data for the table `vtiger_settings_field` */
 
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (1,1,'LBL_USERS','adminIcon-user','LBL_USER_DESCRIPTION','index.php?module=Users&parent=Settings&view=List',1,0,0,NULL);
@@ -18456,10 +18402,6 @@ insert  into `vtiger_verification`(`verificationid`,`verification`,`presence`,`p
 
 insert  into `vtiger_version`(`id`,`old_version`,`current_version`) values (1,'2.2.0','2.2.0');
 
-/*Data for the table `vtiger_version_seq` */
-
-insert  into `vtiger_version_seq`(`id`) values (1);
-
 /*Data for the table `vtiger_view_date_format` */
 
 insert  into `vtiger_view_date_format`(`view_date_formatid`,`view_date_format`,`presence`,`sortorderid`) values (1,'PLL_FULL',1,1);
@@ -18734,10 +18676,6 @@ insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismo
 insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (97,'CMileageLogbook','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
 insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (98,'SVendorEnquiries','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
 
-/*Data for the table `vtiger_ws_entity_seq` */
-
-insert  into `vtiger_ws_entity_seq`(`id`) values (92);
-
 /*Data for the table `vtiger_ws_fieldinfo` */
 
 /*Data for the table `vtiger_ws_fieldtype` */
@@ -18866,10 +18804,6 @@ insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`seque
 insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (32,'element','encoded',2);
 insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (32,'key','string',1);
 insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (33,'id','String',1);
-
-/*Data for the table `vtiger_ws_operation_seq` */
-
-insert  into `vtiger_ws_operation_seq`(`id`) values (33);
 
 /*Data for the table `vtiger_ws_referencetype` */
 
