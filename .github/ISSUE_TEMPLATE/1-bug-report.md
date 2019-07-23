@@ -43,7 +43,7 @@ Steps to reproduce the behavior:
 <!-- Describe what you would want the result to be -->
 
 ### 👷 Testing 
-<!-- ✔️ Test and tick the following options, it is required to perform tests on current versions before reporting the error. ✔️  -->
+<!-- ✔️ Test the error and tick the following options, it is required to perform tests on current versions before reporting the error. Please include a video to confirm you performed the tests. ✔️  -->
 - [ ] I confirm that I tested it at https://gitstable.yetiforce.com 
 * [ ] I confirm that I tested it at https://gitdeveloper.yetiforce.com
 
