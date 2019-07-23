@@ -2,40 +2,48 @@
 'use strict';
 
 window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
+
 	constructor() {
 		this.container = $('.js-products-container');
 	}
+
 	registerEvents() {
 		this.registerProductModalClick();
 		this.registerBuyModalClick();
 	}
+
 	registerProductModalClick() {
 		this.container.find('.js-product-modal').on('click', e => {
-			this.showProductModal($(e.currentTarget).data('product'));
+			const currentTarget = $(e.currentTarget)
+			this.showProductModal(currentTarget.data('product'), this.getDepartment(currentTarget));
 		});
 	}
-	showProductModal(productName) {
+
+	showProductModal(productName, department) {
 		app.showModalWindow(
 			null,
-			`index.php?module=YetiForce&parent=Settings&view=ProductModal&product=${productName}`,
+			`index.php?module=YetiForce&parent=Settings&view=ProductModal&product=${productName}&department=${department}`,
 			modalContainer => {
 				modalContainer.find('.js-modal__save').on('click', _ => {
 					app.hideModalWindow();
-					this.showBuyModal(productName);
+					this.showBuyModal(productName, department);
 				});
 			}
 		);
 	}
+
 	registerBuyModalClick() {
 		this.container.find('.js-buy-modal').on('click', e => {
 			e.stopPropagation();
-			this.showBuyModal($(e.currentTarget).data('product'));
+			const currentTarget = $(e.currentTarget)
+			this.showBuyModal(currentTarget.data('product'), this.getDepartment(currentTarget));
 		});
 	}
-	showBuyModal(productName) {
+
+	showBuyModal(productName, department) {
 		app.showModalWindow(
 			null,
-			`index.php?module=YetiForce&parent=Settings&view=BuyModal&product=${productName}`,
+			`index.php?module=YetiForce&parent=Settings&view=BuyModal&product=${productName}&department=${department}`,
 			modalContainer => {
 				modalContainer.find('.js-modal__save').on('click', _ => {
 					modalContainer.find('form').submit();
@@ -44,4 +52,10 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 			}
 		);
 	}
+
+	getDepartment(element) {
+		let department = element.closest('.js-department.active');
+		return department.length ? department.data('department') : '';
+	}
+
 };
