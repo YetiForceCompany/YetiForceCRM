@@ -25,7 +25,7 @@
 							<p class="card-text truncate">{$PRODUCT->getDescription()}</p>
 								<div class="bg-dark text-white rounded-0 d-flex flex-nowrap text-nowrap align-items-center justify-content-center p-3" title="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
 									{if 'manual'===$PRODUCT->getPriceType()}
-										<input name="a3" class="form-control" style="max-width: 80px;" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
+										<input name="a3" class="form-control form-control-lg" style="max-width: 80px;" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
 									{else}
 									{$PRODUCT->getPrice()}
 									{/if}

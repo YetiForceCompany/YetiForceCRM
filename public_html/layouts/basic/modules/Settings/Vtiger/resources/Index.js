@@ -425,6 +425,7 @@ $.Class(
 			this.registerWarningsAlert();
 			this.registerDeleteShortCutEvent();
 			this.registerAddShortcutDragDropEvent();
+			new window.Settings_YetiForce_Shop_Js().registerEvents();
 		}
 	}
 );
