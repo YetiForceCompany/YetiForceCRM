@@ -156,7 +156,7 @@ class Shop
 		$l1 = substr($key, 0, 5);
 		$r1 = substr($key, -2);
 		$m = rtrim(ltrim($key, $l1), $r1);
-		$p = substr($m, -1);
+		$p = substr($m, -5);
 		$m = rtrim($m, $p);
 		$d = substr($m, -10);
 		$m = rtrim($m, $d);
