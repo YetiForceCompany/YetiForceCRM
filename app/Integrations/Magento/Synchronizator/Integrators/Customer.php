@@ -112,8 +112,6 @@ abstract class Customer extends \App\Integrations\Magento\Synchronizator\Record
 	 */
 	public function deleteCustomer(int $customerId): bool
 	{
-		\file_put_contents('xxx.txt', \App\Debuger::getBacktrace(), FILE_APPEND);
-		return true;
 		try {
 			if ($customerId) {
 				$this->connector->request('DELETE', '/rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/customers/' . urlencode($customerId), []);
@@ -141,6 +139,7 @@ abstract class Customer extends \App\Integrations\Magento\Synchronizator\Record
 	public function getCustomers(array $ids = []): array
 	{
 		$items = [];
+		//echo 'rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/customers/search?' . $this->getSearchCriteria($ids, \App\Config::component('Magento', 'productLimit'));
 		$data = \App\Json::decode($this->connector->request('GET', 'rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/customers/search?' . $this->getSearchCriteria($ids, \App\Config::component('Magento', 'productLimit'))));
 		if (!empty($data['items'])) {
 			foreach ($data['items'] as $item) {
