@@ -16,11 +16,13 @@
 class Settings_YetiForce_ProductModal_View extends \App\Controller\ModalSettings
 {
 	/**
-	 * The name of the activation button.
-	 *
-	 * @var string
+	 * @inheritDoc
 	 */
 	public $successBtn = 'LBL_BUY';
+	/**
+	 * @inheritDoc
+	 */
+	public $modalSize = 'modal-full';
 
 	/**
 	 * Set modal title.
@@ -44,7 +46,7 @@ class Settings_YetiForce_ProductModal_View extends \App\Controller\ModalSettings
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$productName = $request->getByType('product');
-		$department = $request->getByType('department');
+		$department = $request->isEmpty('department') ? '' : $request->getByType('department');
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->assign('PRODUCT', \App\YetiForce\Shop::getProduct($productName, $department, \App\YetiForce\Shop::getConfig()));

@@ -41,9 +41,10 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	}
 
 	showBuyModal(productName, department) {
+		console.log(`index.php?module=YetiForce&parent=Settings&view=BuyModal&product=${productName}${department ? '&department=' + department : ''}`)
 		app.showModalWindow(
 			null,
-			`index.php?module=YetiForce&parent=Settings&view=BuyModal&product=${productName}&department=${department}`,
+			`index.php?module=YetiForce&parent=Settings&view=BuyModal&product=${productName}${department ? '&department=' + department : ''}`,
 			modalContainer => {
 				modalContainer.find('.js-modal__save').on('click', _ => {
 					modalContainer.find('form').submit();
@@ -54,7 +55,7 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	}
 
 	getDepartment(element) {
-		let department = element.closest('.js-department.active');
+		let department = element.closest('.js-department');
 		return department.length ? department.data('department') : '';
 	}
 

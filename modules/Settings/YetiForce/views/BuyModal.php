@@ -30,7 +30,8 @@ class Settings_YetiForce_BuyModal_View extends \App\Controller\ModalSettings
 	public function preProcessAjax(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$this->modalIcon = 'fas fa-paypal';
+		$this->modalIcon = 'shopping-cart';
+		// $this->modalIcon = 'fab fa-paypal';
 		$this->pageTitle = \App\Language::translate('LBL_BUY', $qualifiedModuleName);
 		parent::preProcessAjax($request);
 	}
@@ -45,7 +46,7 @@ class Settings_YetiForce_BuyModal_View extends \App\Controller\ModalSettings
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$productName = $request->getByType('product');
-		$department = $request->getByType('department');
+		$department = $request->isEmpty('department') ? '' : $request->getByType('department');
 		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->assign('PRODUCT', \App\YetiForce\Shop::getProduct($productName, $department, \App\YetiForce\Shop::getConfig()));
 		$viewer->assign('PAYPAL_URL', \App\YetiForce\Shop::getPaypalUrl());
