@@ -678,8 +678,7 @@ class PackageImport extends PackageExport
 	 */
 	public function importBlock($modulenode, $moduleInstance, $blocknode)
 	{
-		$blocklabel = $blocknode->label;
-
+		$blocklabel = $blocknode->blocklabel;
 		$blockInstance = new Block();
 		$blockInstance->label = $blocklabel;
 		if (isset($blocknode->sequence, $blocknode->display_status)) {
