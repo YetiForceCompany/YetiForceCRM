@@ -39,9 +39,9 @@
 						{foreach key=NAME_OF_KEY item=VARIABLE_FORM from=$VARIABLE_PAYMENTS}
 								<input name="{$NAME_OF_KEY}" type="hidden" value="{$VARIABLE_FORM}" />
 						{/foreach}
-						{foreach key=NAME_OF_KEY item=VARIABLE_PRODUCT from=$PRODUCT->getVariable()}
+						{foreach key=NAME_OF_KEY item=VALUE from=$VARIABLE_PRODUCT}
 							{if !('manual'===$PRODUCT->getPriceType() && $NAME_OF_KEY==='a3')}
-								<input name="{$NAME_OF_KEY}" type="hidden" value="{$VARIABLE_PRODUCT}" />
+								<input name="{$NAME_OF_KEY}" type="hidden" value="{$VALUE}" />
 							{/if}
 						{/foreach}
 					</div>

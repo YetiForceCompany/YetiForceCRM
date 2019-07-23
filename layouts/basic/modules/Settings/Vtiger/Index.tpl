@@ -4,7 +4,7 @@
 	{if $WARNINGS}
 		{include file=\App\Layout::getTemplatePath('DashBoard/SystemWarningAletrs.tpl', $QUALIFIED_MODULE)}
 	{/if}
-	<div class="settingsIndexPage mx-n2 h-100">
+	<div class="settingsIndexPage mt-2 h-100">
 		<div class="container-fluid h-100 px-0">
 			<div class="row no-gutters pr-0 mb-0">
 				<div class="col-md d-flex flex-column">
