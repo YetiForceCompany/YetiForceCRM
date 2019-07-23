@@ -19,7 +19,7 @@
 				<div class="col-sm-11 col-md-7">
 					<div class="card-body h-100 d-flex flex-column">
 						<h5 class="card-title text-primary">{$PRODUCT->getLabel()}</h5>
-						<p class="card-text truncate">{$PRODUCT->getDescription()}</p>
+						<p class="card-text truncate">{$PRODUCT->getIntroduction()}</p>
 						{if empty($PRODUCT->expirationDate)}
 							<span class="bg-dark text-white text-center p-3 mt-auto">
 								{$PRODUCT->getPrice()} {$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}

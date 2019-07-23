@@ -132,6 +132,16 @@ abstract class AbstractBaseProduct
 	 *
 	 * @return string
 	 */
+	public function getIntroduction(): string
+	{
+		return \App\Language::translate('LBL_SHOP_' . \strtoupper($this->name) . '_INTRO', 'Settings:YetiForce');
+	}
+
+	/**
+	 * Get product description.
+	 *
+	 * @return string
+	 */
 	public function getDescription(): string
 	{
 		return \App\Language::translate('LBL_SHOP_' . \strtoupper($this->name) . '_DESC', 'Settings:YetiForce');
@@ -198,5 +208,21 @@ abstract class AbstractBaseProduct
 			'on0' => 'Package',
 			'os0' => \App\Company::getSize(),
 		];
+	}
+
+	/**
+	 * Show alert.
+	 *
+	 * @return string
+	 */
+	public function showAlert(): string
+	{
+		if (strtotime('now') > strtotime($this->expirationDate)) {
+			return 'LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED';
+		}
+		if (\App\Company::getSize() !== $this->paidPackage) {
+			return 'LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED';
+		}
+		return '';
 	}
 }

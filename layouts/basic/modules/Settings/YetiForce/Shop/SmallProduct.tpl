@@ -1,6 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-YetiForce-Shop-SmallProduct -->
+	{assign var=PRODUCT_ALERT value=$PRODUCT->showAlert()}
 	<form action="{$PAYPAL_URL}" method="POST" target="_blank">
 	<div class="pl-2 {if empty($PRODUCT->expirationDate)}bg-light{elseif $PRODUCT->expirationDate!=$PRODUCT->paidPackage}bg-danger{else}bg-yellow{/if}">
 		<div class="d-flex u-min-h-120px-rem no-wrap py-2 pr-1{if !empty($PRODUCT->expirationDate)} bg-white{/if}">
@@ -19,9 +20,8 @@
 			</div>
 			<div class="py-0 pl-2 pr-3 d-flex flex-wrap justify-between align-items-center">
 				{include file=\App\Layout::getTemplatePath('DashBoard/WidgetTitle.tpl', $QUALIFIED_MODULE) TITLE=$PRODUCT->getLabel()}
-				{include file=\App\Layout::getTemplatePath('DashBoard/WidgetDescription.tpl', $QUALIFIED_MODULE) DESCRIPTION=$PRODUCT->getDescription()}
+				{include file=\App\Layout::getTemplatePath('DashBoard/WidgetDescription.tpl', $QUALIFIED_MODULE) DESCRIPTION=$PRODUCT->getIntroduction()}
 				{assign var=BUTTON_TEXT value="{$PRODUCT->getPrice()} {$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}"}
-				{if empty($PRODUCT->expirationDate)}
 					{if 'manual'===$PRODUCT->getPriceType()}
 						<div class="input-group flex-nowrap">
 							<input name="a3" class="form-control" type="text" value="{$PRODUCT->getPrice()}" aria-label="price" style="min-width: 40px;">
@@ -31,22 +31,32 @@
 									data-content="{$BUTTON_TEXT}" data-toggle="popover" data-js="popover | mouseenter">
 										<span class="js-popover-text" data-js="clone">{$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}</span>
 								</div>
+								{if $PRODUCT_ALERT}
+									<span class="text-danger fas fa-exclamation-triangle animated flash infinite slow mr-1"></span>
+									<span class="u-cursor-pointer js-popover-tooltip fas fa-xs fa-info-circle"
+									data-toggle="popover" data-js="popover | mouseenter"
+									data-content="{\App\Language::translate($PRODUCT_ALERT, $QUALIFIED_MODULE)}"></span>
+								{/if}
 								</button>
 							</div>
 						</div>
 					{else}
-						<button class="btn btn-dark btn-block text-truncate" type="submit" title="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
-							{$BUTTON_TEXT}
-						</button>
+						{if $PRODUCT_ALERT}
+							<span class="text-danger fas fa-exclamation-triangle animated flash infinite slow mr-1"></span>
+							<span class="u-cursor-pointer js-popover-tooltip fas fa-xs fa-info-circle"
+							data-toggle="popover" data-js="popover | mouseenter"
+							data-content="{\App\Language::translate($PRODUCT_ALERT, $QUALIFIED_MODULE)}"></span>
+						{/if}
+						{if $PRODUCT->expirationDate}
+							<button class="btn btn-block text-truncate bg-yellow" title="{\App\Fields\Date::formatToDisplay($PRODUCT->expirationDate)}">
+								{\App\Fields\Date::formatToDisplay($PRODUCT->expirationDate)}
+							</button>
+						{else}
+							<button class="btn btn-dark btn-block text-truncate" type="submit" title="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
+								{$BUTTON_TEXT}
+							</button>
+						{/if}
 					{/if}
-				{elseif $PRODUCT->expirationDate!=$PRODUCT->paidPackage}
-					<span class="text-danger fas fa-exclamation-triangle animated flash infinite slow mr-1"></span>
-					<span class="u-cursor-pointer js-popover-tooltip fas fa-xs fa-info-circle"
-					data-toggle="popover" data-js="popover | mouseenter"
-					data-content="{\App\Language::translate('LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED', $QUALIFIED_MODULE)}"></span>
-				{else}
-					<button class="btn btn-block text-truncate bg-yellow" title="{\App\Fields\Date::formatToDisplay($PRODUCT->expirationDate)}">{\App\Fields\Date::formatToDisplay($PRODUCT->expirationDate)}</button>
-				{/if}
 			</div>
 		</div>
 	</div>
