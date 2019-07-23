@@ -673,7 +673,7 @@ CREATE TABLE `o_yf_access_for_admin` (
   `module` varchar(30) NOT NULL,
   `url` varchar(300) NOT NULL,
   `agent` varchar(255) NOT NULL,
-  `request` varchar(300) NOT NULL,
+  `request` text NOT NULL,
   `referer` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -687,7 +687,7 @@ CREATE TABLE `o_yf_access_for_api` (
   `ip` varchar(100) NOT NULL,
   `url` varchar(300) NOT NULL,
   `agent` varchar(255) NOT NULL,
-  `request` varchar(300) NOT NULL,
+  `request` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -701,7 +701,7 @@ CREATE TABLE `o_yf_access_for_user` (
   `module` varchar(30) NOT NULL,
   `url` varchar(300) NOT NULL,
   `agent` varchar(255) DEFAULT NULL,
-  `request` varchar(300) NOT NULL,
+  `request` text NOT NULL,
   `referer` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -717,7 +717,7 @@ CREATE TABLE `o_yf_access_to_record` (
   `module` varchar(30) NOT NULL,
   `url` varchar(300) NOT NULL,
   `agent` varchar(255) NOT NULL,
-  `request` varchar(300) NOT NULL,
+  `request` text NOT NULL,
   `referer` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
