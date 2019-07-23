@@ -18,10 +18,10 @@ class Company extends Base
 	 * @var int[]
 	 */
 	public static $sizes = [
-		's' => 10,
-		'm' => 50,
-		'l' => 250,
-		'xl' => 0,
+		'Micro' => 10,
+		'Small' => 50,
+		'Medium' => 250,
+		'Large' => 0,
 	];
 
 	/**
@@ -105,7 +105,7 @@ class Company extends Base
 			return Cache::get('CompanyGetSize', '');
 		}
 		$count = (new Db\Query())->from('vtiger_users')->where(['status' => 'Active'])->andWhere(['<>', 'id', 1])->count();
-		$return = 's';
+		$return = 'Micro';
 		foreach (self::$sizes as $size => $value) {
 			if (0 !== $value && $count > $value) {
 				$return = $size;
@@ -114,7 +114,7 @@ class Company extends Base
 				$return = $size;
 			}
 		}
-		Cache::save('CompanyGetSize', '', strtoupper($return), Cache::LONG);
-		return strtoupper($return);
+		Cache::save('CompanyGetSize', '', $return, Cache::LONG);
+		return $return;
 	}
 }

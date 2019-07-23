@@ -103,7 +103,7 @@ abstract class AbstractBaseProduct
 	 */
 	public function getPrice(): int
 	{
-		return $this->prices[\strtolower(\App\Company::getSize())] ?? 0;
+		return $this->prices[\App\Company::getSize()] ?? 0;
 	}
 
 	/**

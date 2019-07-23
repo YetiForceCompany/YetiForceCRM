@@ -20,10 +20,10 @@ class DisableBranding extends \App\YetiForce\Shop\AbstractBaseProduct
 	 * {@inheritdoc}
 	 */
 	public $prices = [
-		's' => 5,
-		'm' => 15,
-		'l' => 30,
-		'xl' => 50,
+		'Micro' => 5,
+		'Small' => 15,
+		'Medium' => 30,
+		'Large' => 50,
 	];
 
 	/**

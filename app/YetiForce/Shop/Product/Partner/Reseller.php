@@ -20,10 +20,10 @@ class Reseller extends \App\YetiForce\Shop\AbstractBaseProduct
 	 * {@inheritdoc}
 	 */
 	public $prices = [
-		's' => 100,
-		'm' => 200,
-		'l' => 300,
-		'xl' => 500,
+		'Micro' => 100,
+		'Small' => 200,
+		'Medium' => 300,
+		'Large' => 500,
 	];
 	/**
 	 * {@inheritdoc}
