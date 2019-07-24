@@ -31,7 +31,8 @@ class UserPrivilegesFile
 	 */
 	public static function createUserPrivilegesfile($userid)
 	{
-		$handle = fopen(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'user_privileges/user_privileges_' . $userid . '.php', 'w+');
+		$fileUserPrivileges = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'user_privileges/user_privileges_' . $userid . '.php';
+		$handle = fopen($fileUserPrivileges, 'w+');
 		if ($handle) {
 			$newBuf = '';
 			$newBuf .= "<?php\n";
@@ -82,6 +83,7 @@ class UserPrivilegesFile
 			PrivilegeFile::createUserPrivilegesFile($userid);
 			\Users_Privileges_Model::clearCache($userid);
 			User::clearCache($userid);
+			\App\Cache::resetFileCache($fileUserPrivileges);
 		}
 	}
 
