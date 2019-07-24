@@ -4,9 +4,9 @@
 	{if $WARNINGS}
 		{include file=\App\Layout::getTemplatePath('DashBoard/SystemWarningAletrs.tpl', $QUALIFIED_MODULE)}
 	{/if}
-	<div class="settingsIndexPage mt-2 h-100">
+	<div class="settingsIndexPage pt-2 h-100">
 		<div class="container-fluid h-100 px-0">
-			<div class="row no-gutters pr-0 mb-0">
+			<div class="row no-gutters pr-0 mb-0 js-products-container" data-js="container">
 				<div class="col-md d-flex flex-column">
 					<a class="text-decoration-none" href="index.php?module=YetiForce&parent=Settings&view=Shop&tab=Premium">
 						<h5 class="bg-yeti text-white text-center font-weight-normal p-3 mb-0">

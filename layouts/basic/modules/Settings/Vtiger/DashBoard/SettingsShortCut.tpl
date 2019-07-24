@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<a class="tpl-Settings-Base-DashBoard-SettingsShortCut dashboardWidget text-white bg-navy u-hover-opacity u-cursor-pointer moduleBlock px-1 py-2 mb-n1 mt-3 mr-3 flex-grow-1 u-max-w-250px"
+	<a class="tpl-Settings-Base-DashBoard-SettingsShortCut dashboardWidget text-white bg-navy u-hover-opacity75 u-cursor-pointer moduleBlock px-1 py-2 mb-n1 mt-3 mr-3 flex-grow-1 u-w-max-320px"
 		 id="shortcut_{$SETTINGS_SHORTCUT->getId()}" data-actionurl="{$SETTINGS_SHORTCUT->getPinUnpinActionUrl()}"
 		 href="{$SETTINGS_SHORTCUT->getUrl()}">
 		<div class="d-flex flex-nowrap">

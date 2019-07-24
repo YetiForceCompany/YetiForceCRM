@@ -22463,6 +22463,24 @@ ul.tweets li {
   transition: opacity 275ms ease;
 }
 
+.u-hover-opacity75:hover {
+  opacity: 0.75;
+  -webkit-transition: opacity 275ms ease;
+  transition: opacity 275ms ease;
+}
+
+.u-bg-white-darken:hover {
+  background-color: #e6e6e6 !important;
+  -webkit-transition: background-color 275ms ease;
+  transition: background-color 275ms ease;
+}
+
+.u-bg-light-darken:hover {
+  background-color: #dae0e5 !important;
+  -webkit-transition: background-color 275ms ease;
+  transition: background-color 275ms ease;
+}
+
 .u-word-break-all {
   word-break: break-all !important;
 }
