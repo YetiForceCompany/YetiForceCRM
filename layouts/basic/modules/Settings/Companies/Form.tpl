@@ -64,7 +64,7 @@
 							<b>{App\Language::translate($FIELD['label'], $QUALIFIED_MODULE)}</b>
 						</label>
 						<div class="col-lg-8">
-							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName())}
+							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName()) MODULE=$QUALIFIED_MODULE}
 						</div>
 					</div>
 				{/if}
@@ -104,7 +104,7 @@
 									<b>{App\Language::translate($FIELD['label'], $QUALIFIED_MODULE)}</b>
 								</label>
 								<div class="col-lg-8">
-									{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName())}
+									{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName()) MODULE=$QUALIFIED_MODULE}
 								</div>
 							</div>
 						{/if}
@@ -126,7 +126,7 @@
 								<b>{App\Language::translate($FIELD['label'], $QUALIFIED_MODULE)}</b>
 							</label>
 							<div class="col-lg-8">
-								{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName())}
+								{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName()) MODULE=$QUALIFIED_MODULE}
 							</div>
 						</div>
 					{/if}

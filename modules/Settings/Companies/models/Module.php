@@ -68,6 +68,10 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 			'label' => 'LBL_EMAIL',
 			'registerView' => true
 		],
+		'logo' => [
+			'label' => 'LBL_LOGO',
+			'registerView' => true
+		],
 		'vat_id' => [
 			'label' => 'Vat ID',
 			'apiName' => 'company_vat',
@@ -93,10 +97,6 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 		],
 		'linkedin' => [
 			'label' => 'Linked in',
-			'brandBlock' => true
-		],
-		'logo' => [
-			'label' => 'LBL_LOGO',
 			'brandBlock' => true
 		],
 	];
