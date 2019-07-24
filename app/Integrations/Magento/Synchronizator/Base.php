@@ -218,7 +218,7 @@ abstract class Base
 				$inventoryData[] = $this->parseInventoryData($recordModel, $record, $fieldMap);
 			} else {
 				$savedAllProducts = false;
-				\App\Log::error('Error during saving record. Inventory product does not exist in YetiForce.', 'Integrations/Magento');
+				\App\Log::error('Error during saving record. Inventory product (magento id: [' . $record['product_id'] . ']) does not exist in YetiForce.', 'Integrations/Magento');
 			}
 		}
 		if (!empty($inventoryData)) {

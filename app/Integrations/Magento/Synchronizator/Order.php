@@ -52,6 +52,8 @@ class Order extends Integrators\Order
 			foreach ($orders as $id => $order) {
 				if (!isset($this->mapCrm['order'][$id])) {
 					$this->saveOrderCrm($order);
+				} else {
+					$this->updateOrderCrm($this->mapCrm['order'][$id], $order);
 				}
 				$this->config::setScan('order', 'id', $id);
 			}
@@ -81,13 +83,39 @@ class Order extends Integrators\Order
 				if ($this->saveInventoryCrm($recordModel, $data['items'], $data['extension_attributes']['shipping_assignments'], $orderFields)) {
 					$recordModel->save();
 					$this->saveMapping($data['entity_id'], $recordModel->getId(), 'order');
+				} else {
+					\App\Log::error('Error during saving YetiForce order id: [' . $data['entity_id'] . ']', 'Integrations/Magento');
 				}
 				$value = $recordModel->getId();
 			} catch (\Throwable $ex) {
-				\App\Log::error('Error during saving YetiForce order: ' . $ex->getMessage(), 'Integrations/Magento');
+				\App\Log::error('Error during saving YetiForce order id: [' . $data['entity_id'] . ']' . $ex->getMessage(), 'Integrations/Magento');
 			}
 		}
 		return $value;
+	}
+
+	/**
+	 * Method to update order in YetiForce.
+	 *
+	 * @param int   $id
+	 * @param array $data
+	 *
+	 * @throws \Exception
+	 */
+	public function updateOrderCrm(int $id, array $data): void
+	{
+		try {
+			$className = \App\Config::component('Magento', 'orderMapClassName');
+			$orderFields = new $className();
+			$orderFields->setData($data);
+			$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'SSingleOrders');
+			foreach ($orderFields->getDataCrm(true) as $key => $value) {
+				$recordModel->set($key, $value);
+			}
+			$recordModel->save();
+		} catch (\Throwable $ex) {
+			\App\Log::error('Error during updating yetiforce order: (magento id: [' . $data['entity_id'] . '])' . $ex->getMessage(), 'Integrations/Magento');
+		}
 	}
 
 	/**
