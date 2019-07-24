@@ -84,8 +84,17 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 	 */
 	public function checkValidateToClose(string $status): array
 	{
-		if (\in_array($status, \App\RecordStatus::getStates($this->getModuleName(), \App\RecordStatus::RECORD_STATE_CLOSED))) {
-			return ['hasTimeControl' => ['result' => $this->checkIfHasTimeControl(), 'message' => \App\Language::translate('LBL_ADD_TIME_CONTROL', $this->getModuleName())], 'relatedTicketsClosed' => ['result' => $this->checkIfRelatedTicketsClosed(), 'message' => \App\Language::translate('LBL_CLOSE_RELATED_TICKETS', $this->getModuleName())]];
+		if ((\App\Config::module($this->getModuleName(), 'CHECK_IF_RECORDS_HAS_TIME_CONTROL') ||
+		 \App\Config::module($this->getModuleName(), 'CHECK_IF_RELATED_TICKETS_ARE_CLOSED')) &&
+		  \in_array($status, \App\RecordStatus::getStates($this->getModuleName(), \App\RecordStatus::RECORD_STATE_CLOSED))) {
+			return [
+				'hasTimeControl' => [
+					'result' => $this->checkIfHasTimeControl(),
+					'message' => \App\Language::translate('LBL_ADD_TIME_CONTROL', $this->getModuleName())],
+				'relatedTicketsClosed' => [
+					'result' => $this->checkIfRelatedTicketsClosed(),
+					'message' => \App\Language::translate('LBL_CLOSE_RELATED_TICKETS', $this->getModuleName())]
+			];
 		}
 		return ['hasTimeControl' => ['result' => true], 'relatedTicketsClosed' => ['result' => true]];
 	}

@@ -5,9 +5,6 @@ Vtiger_Edit_Js(
 	'HelpDesk_Edit_Js',
 	{},
 	{
-		registerEvents: function() {
-			this._super();
-		},
 		/**
 		 * Register pre save event
 		 * @param {jQuery} form

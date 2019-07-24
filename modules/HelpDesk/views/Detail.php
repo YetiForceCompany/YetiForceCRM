@@ -20,6 +20,21 @@ class HelpDesk_Detail_View extends Vtiger_Detail_View
 		$this->exposeMethod('showCharts');
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
+	public function loadJsConfig(\App\Request $request)
+	{
+		parent::loadJsConfig($request);
+		$jsEnv = [
+			'checkIfRecordHasTimeControl' => (bool)\App\Config::module('HelpDesk', 'CHECK_IF_RECORDS_HAS_TIME_CONTROL'),
+			'checkIfRelatedTicketsAreClosed' => (bool)\App\Config::module('HelpDesk', 'CHECK_IF_RELATED_TICKETS_ARE_CLOSED')
+		];
+		foreach($jsEnv as $key => $value) {
+			\App\Config::setJsEnv($key, $value);
+		}
+	}
+
 	public function showCharts(\App\Request $request)
 	{
 		$recordId = $request->getInteger('record');

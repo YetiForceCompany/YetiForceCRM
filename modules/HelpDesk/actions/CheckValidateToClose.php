@@ -15,7 +15,8 @@ class HelpDesk_CheckValidateToClose_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(App\Request $request)
 	{
-		if (!\App\Privilege::isPermitted($request->getModule(), 'EditView', $request->getInteger('record'))) {
+		$this->recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
+		if (!$this->recordModel->isEditable()) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
@@ -25,9 +26,8 @@ class HelpDesk_CheckValidateToClose_Action extends \App\Controller\Action
 	 */
 	public function process(App\Request $request)
 	{
-		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
 		$response = new Vtiger_Response();
-		$response->setResult($recordModel->checkValidateToClose($request->getByType('status', 'Text')));
+		$response->setResult($this->recordModel->checkValidateToClose($request->getByType('status', 'Text')));
 		$response->emit();
 	}
 }
