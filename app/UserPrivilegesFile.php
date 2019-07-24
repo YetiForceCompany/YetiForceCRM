@@ -82,6 +82,7 @@ class UserPrivilegesFile
 			PrivilegeFile::createUserPrivilegesFile($userid);
 			\Users_Privileges_Model::clearCache($userid);
 			User::clearCache($userid);
+			\App\Cache::resetFileCache(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'user_privileges/user_privileges_' . $userid . '.php');
 		}
 	}
 
