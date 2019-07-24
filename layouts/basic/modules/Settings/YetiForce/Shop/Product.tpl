@@ -23,7 +23,7 @@
 						<h5 class="card-title u-cursor-pointer text-primary">{$PRODUCT->getLabel()}</h5>
 						<p class="card-text truncate">{$PRODUCT->getIntroduction()}</p>
 						{if empty($PRODUCT->expirationDate)}
-							<button class="btn btn-dark btn-block p-3 mt-auto js-buy-modal" data-js="showBuyModal | click" data-product="{$PRODUCT->getName()}">
+							<button class="btn btn-dark btn-lg btn-block p-3 mt-auto js-buy-modal" data-js="showBuyModal | click" data-product="{$PRODUCT->getName()}">
 								{if 'manual'===$PRODUCT->getPriceType()}
 									{\App\Language::translate("LBL_SUPPORT_US", $QUALIFIED_MODULE)}
 								{else}
@@ -37,7 +37,7 @@
 									{\App\Language::translate('LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED', $QUALIFIED_MODULE)}
 								</div>
 							{/if}
-							<button class="btn btn-block bg-yellow p-3 mt-auto js-buy-modal"
+							<button class="btn btn-lg btn-block bg-yellow p-3 mt-auto js-buy-modal"
 							data-js="showBuyModal | click" data-product="{$PRODUCT->getName()}"{if !$PRODUCT_ALERT} disabled{/if}>
 								{\App\Fields\Date::formatToDisplay($PRODUCT->expirationDate)}
 							</button>
