@@ -79,7 +79,7 @@ class Z_StringFormatting extends \Tests\Base
 			] as $type) {
 			$method = 'append' . \ucfirst($type);
 			if (\method_exists($this, $method)) {
-				$this->$method($combinations);
+				$this->{$method}($combinations);
 			} else {
 				$this->fail('Unsupported field type: ' . \ucfirst($type));
 			}
@@ -269,7 +269,7 @@ class Z_StringFormatting extends \Tests\Base
 		$userModel->save();
 		$recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
 		$recordModel->set($fieldName, $dbFormat);
-		$this->assertSame($userFormat, $recordModel->getDisplayValue($fieldName), 'Display value different than expected' . $dbFormat . ' ' . $recordModel->get($fieldName));
+		$this->assertSame($userFormat, $recordModel->getDisplayValue($fieldName), 'Display value different than expected ' . $dbFormat . ' !== ' . $recordModel->get($fieldName));
 		$this->assertSame($dbFormat, $recordModel->get($fieldName), 'Database value different than expected');
 	}
 

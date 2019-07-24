@@ -9,7 +9,7 @@
 $installDatabase = true;
 chdir(__DIR__ . '/../');
 set_include_path(getcwd());
-define('ROOT_DIRECTORY', getcwd());
+\define('ROOT_DIRECTORY', getcwd());
 
 if (!class_exists('Vtiger_WebUI')) {
 	require_once 'include/main/WebUI.php';
@@ -21,10 +21,10 @@ if (!getenv('ANSICON')) {
 	putenv('ANSICON=80');
 }
 
-if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	define('IS_WINDOWS', true);
+if ('WIN' === strtoupper(substr(PHP_OS, 0, 3))) {
+	\define('IS_WINDOWS', true);
 } else {
-	define('IS_WINDOWS', false);
+	\define('IS_WINDOWS', false);
 }
 error_reporting(E_ALL & ~E_NOTICE);
 ini_set('display_startup_errors', 1);

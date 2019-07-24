@@ -86,6 +86,8 @@ class C_RecordActions extends \Tests\Base
 	 *
 	 * @var bool
 	 *
+	 * @param mixed $cache
+	 *
 	 * @return \Vtiger_Record_Model
 	 */
 	public static function createLeadRecord($cache = true)
@@ -103,6 +105,8 @@ class C_RecordActions extends \Tests\Base
 
 	/**
 	 * Creating contacts module record for tests.
+	 *
+	 * @param mixed $cache
 	 *
 	 * @return \Vtiger_Record_Model
 	 */
@@ -127,6 +131,8 @@ class C_RecordActions extends \Tests\Base
 	 * Creating account module record for tests.
 	 *
 	 * @var bool
+	 *
+	 * @param mixed $cache
 	 */
 	public static function createAccountRecord($cache = true)
 	{
@@ -145,6 +151,8 @@ class C_RecordActions extends \Tests\Base
 	 * Creating Product module record for tests.
 	 *
 	 * @var bool
+	 *
+	 * @param mixed $cache
 	 */
 	public static function createProductRecord($cache = true)
 	{
@@ -203,7 +211,7 @@ class C_RecordActions extends \Tests\Base
 	 */
 	public function testGetDisplayName()
 	{
-		$this->assertTrue(static::$recordAccounts->getDisplayName() === 'YetiForce Sp. z o.o.');
+		$this->assertTrue('YetiForce Sp. z o.o.' === static::$recordAccounts->getDisplayName());
 	}
 
 	/**

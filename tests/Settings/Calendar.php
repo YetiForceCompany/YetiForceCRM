@@ -20,7 +20,7 @@ class Calendar extends \Tests\Base
 		$result = \Settings_Calendar_Module_Model::getCalendarConfig('reminder');
 		$found = false;
 		foreach ($result as $row) {
-			if ($row['name'] === 'update_event') {
+			if ('update_event' === $row['name']) {
 				$this->assertSame((int) $row['value'], 1, 'Calendar config value is different than provided');
 				$found = true;
 			}
@@ -44,9 +44,9 @@ class Calendar extends \Tests\Base
 	 */
 	public function testGetPicklistValue()
 	{
-		\App\Db::getInstance()->createCommand()->insert('vtiger_activitytype', ['activitytype'=>'UnitTestCalendar', 'presence'=>1, 'picklist_valueid'=>99999, 'sortorderid' => 99, 'color'=>'A0B584'])->execute();
+		\App\Db::getInstance()->createCommand()->insert('vtiger_activitytype', ['activitytype' => 'UnitTestCalendar', 'presence' => 1, 'picklist_valueid' => 99999, 'sortorderid' => 99, 'color' => 'A0B584'])->execute();
 		\App\Cache::clear();
-		$this->assertGreaterThan(0, (count(\Settings_Calendar_Module_Model::getPicklistValue())), 'Calendar activity type picklist is empty');
+		$this->assertGreaterThan(0, (\count(\Settings_Calendar_Module_Model::getPicklistValue())), 'Calendar activity type picklist is empty');
 	}
 
 	/**
@@ -60,7 +60,7 @@ class Calendar extends \Tests\Base
 		$result = \Settings_Calendar_Module_Model::getCalendarConfig('reminder');
 		$found = false;
 		foreach ($result as $row) {
-			if ($row['name'] === 'update_event') {
+			if ('update_event' === $row['name']) {
 				$this->assertSame((int) $row['value'], 0, 'Calendar config value is different than provided');
 				$found = true;
 			}

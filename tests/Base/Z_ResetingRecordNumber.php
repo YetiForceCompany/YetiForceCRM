@@ -51,7 +51,7 @@ class RecordNumber extends \App\Fields\RecordNumber
 	 * Date method mock for testing purposes.
 	 *
 	 * @param string   $format
-	 * @param null|int $time
+	 * @param int|null $time
 	 *
 	 * @return false|string
 	 */
@@ -124,7 +124,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 		foreach (RecordNumber::$dates as $index => $date) {
 			$this->assertSame("F-I$actualNumber", $instance->getIncrementNumber());
 			$number = RecordNumber::getInstance('FInvoice');
-			$actualNumber++;
+			++$actualNumber;
 			$this->assertSame($actualNumber, $number->get('cur_id'));
 			$this->assertSame(null, $number->get('reset_sequence'));
 			$this->assertSame('', $number->get('cur_sequence'));
@@ -186,7 +186,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 			RecordNumber::$currentDateIndex = $index;
 			$sequence = str_replace('-', '', $date);
 			if ($sequence === $currentDate) {
-				$currentNumber++;
+				++$currentNumber;
 			} else {
 				$currentNumber = 1;
 				$currentDate = $sequence;
@@ -236,7 +236,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 			$parts = explode('-', $date);
 			$sequence = $parts[0] . $parts[1];
 			if ($sequence === $currentDate) {
-				$currentNumber++;
+				++$currentNumber;
 			} else {
 				$currentNumber = 1;
 				$currentDate = $sequence;
@@ -286,7 +286,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 			$parts = explode('-', $date);
 			$sequence = $parts[0];
 			if ($sequence === $currentDate) {
-				$currentNumber++;
+				++$currentNumber;
 			} else {
 				$currentNumber = 1;
 				$currentDate = $sequence;
@@ -308,7 +308,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 	 */
 	public function testLeadingZeros()
 	{
-		for ($leadingZeros = 0; $leadingZeros < 7; $leadingZeros++) {
+		for ($leadingZeros = 0; $leadingZeros < 7; ++$leadingZeros) {
 			$actualNumber = 1;
 			$prefix = '{{YYYY}}-{{MM}}-{{DD}}/';
 			$postfix = '';
@@ -337,7 +337,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 				$parts = explode('-', $date);
 				$sequence = $parts[0];
 				if ($sequence === $currentDate) {
-					$currentNumber++;
+					++$currentNumber;
 				} else {
 					$currentNumber = 1;
 					$currentDate = $sequence;

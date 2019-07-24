@@ -15,7 +15,7 @@ use PHPUnit\Framework\Warning;
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-// @codeCoverageIgnoreStart
+/** @codeCoverageIgnoreStart */
 class YtResultPrinter extends PHPUnit\TextUI\ResultPrinter
 {
 	public function getTestName(Test $test): string
@@ -53,7 +53,7 @@ class YtResultPrinter extends PHPUnit\TextUI\ResultPrinter
 		if ($test instanceof TestCase) {
 			$this->numAssertions += $test->getNumAssertions();
 		} elseif ($test instanceof PhptTestCase) {
-			$this->numAssertions++;
+			++$this->numAssertions;
 		}
 		$this->lastTestFailed = false;
 		if ($test instanceof TestCase) {
@@ -89,7 +89,7 @@ class YtResultPrinter extends PHPUnit\TextUI\ResultPrinter
 		parent::endTestSuite($suite);
 	}
 
-	public function addError(Test $test, \Throwable $t, float $time): void
+	public function addError(Test $test, Throwable $t, float $time): void
 	{
 		$time = round($time, 2);
 		echo '! Test ' . $test->getName() . " error.\n";
@@ -118,14 +118,14 @@ class YtResultPrinter extends PHPUnit\TextUI\ResultPrinter
 		//parent::addFailure($test, $e, $time);
 	}
 
-	public function addIncompleteTest(Test $test, \Throwable $t, float $time): void
+	public function addIncompleteTest(Test $test, Throwable $t, float $time): void
 	{
 		$time = round($time, 2);
 		printf("addIncompleteTest: Test '%s' is incomplete.\n", $test->getName());
 		parent::addIncompleteTest($test, $t, $time);
 	}
 
-	public function addRiskyTest(Test $test, \Throwable $t, float $time): void
+	public function addRiskyTest(Test $test, Throwable $t, float $time): void
 	{
 		printf("! Test %s is deemed risky.\n", $test->getName());
 		//echo "Exception Message: " . $e->getMessage() . "\n";
@@ -133,7 +133,7 @@ class YtResultPrinter extends PHPUnit\TextUI\ResultPrinter
 		parent::addRiskyTest($test, $t, $time);
 	}
 
-	public function addSkippedTest(Test $test, \Throwable $t, float $time): void
+	public function addSkippedTest(Test $test, Throwable $t, float $time): void
 	{
 		$time = round($time, 2);
 		$this->writeProgressWithColor('fg-cyan, bold', "! Test '{$this->getTestName($test)}' has been skipped. ($time second(s))\n" . PHP_EOL . $t->__toString());

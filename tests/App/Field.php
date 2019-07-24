@@ -63,6 +63,10 @@ class Field extends \Tests\Base
 	 * Testing getRelatedFieldForModule function with params from vtiger_relatedlist table.
 	 *
 	 * @dataProvider relationsProvider
+	 *
+	 * @param mixed $forModuleId
+	 * @param mixed $moduleId
+	 * @param mixed $relationId
 	 */
 	public function testGetRelatedFieldForModulePair($forModuleId, $moduleId, $relationId)
 	{
@@ -96,6 +100,9 @@ class Field extends \Tests\Base
 	 * Testing getRelatedFieldForModule function with params from vtiger_relatedlist table.
 	 *
 	 * @dataProvider relationSelectedModulesProvider
+	 *
+	 * @param mixed $forModuleName
+	 * @param mixed $moduleName
 	 */
 	public function testGetRelatedFieldForSpecificModulePairs($forModuleName, $moduleName)
 	{
@@ -118,7 +125,9 @@ class Field extends \Tests\Base
 	 *
 	 * @dataProvider relationsProvider
 	 *
-	 * @param int $relationId
+	 * @param int   $relationId
+	 * @param mixed $forModuleId
+	 * @param mixed $moduleId
 	 */
 	public function testGetFieldsFromRelation($forModuleId, $moduleId, $relationId)
 	{
