@@ -2,6 +2,7 @@
 {strip}
 <!-- tpl-Settings-Companies-Form  -->
 	<div class="card js-card-body mb-3" data-js="container">
+		<div class="card-header">{App\Language::translate('LBL_REGISTRATION_DATA', $QUALIFIED_MODULE)}</div>
 		<div class="card-body">
 			{if !empty($COMPANY_ID)}
 				{assign var="RECORD" value=Settings_Companies_Record_Model::getInstance($COMPANY_ID)->set('source',$MODULE_NAME)}
@@ -10,7 +11,7 @@
 			{/if}
 			{assign var="FORM_FIELDS" value=$RECORD->getModule()->getFormFields()}
 			{foreach key="FIELD_NAME" item="FIELD" from=$FORM_FIELDS}
-				{if $MODULE_NAME === 'YetiForce' && $FIELD['registerView'] === false || isset($FIELD['paymentBlock'])}
+				{if empty($FIELD['registerView'])}
 					{continue}
 				{/if}
 				{if $FIELD_NAME === 'spacer'}
@@ -47,17 +48,6 @@
 							</div>
 						</div>
 					</div>
-				{elseif $FIELD_NAME === 'logo'}
-					<div class="form-group row">
-						<div class="col-lg-4 col-form-label text-left text-lg-right">
-							<b>{$RECORD->getDisplayValue($FIELD_NAME)}</b>
-						</div>
-						<div class="col-lg-8 d-flex">
-							<div class="u-h-fit my-auto">
-								<input type="file" name="{$FIELD_NAME}" id="{$FIELD_NAME}"/>&nbsp;&nbsp;
-							</div>
-						</div>
-					</div>
 				{else}
 					{assign var="FIELD_MODEL" value=$RECORD->getFieldInstanceByName($FIELD_NAME, $FIELD['label'])->set('fieldvalue',$RECORD->get($FIELD_NAME))}
 					<div class="form-group row">
@@ -88,8 +78,42 @@
 		</div>
 	</div>
 	{if $MODULE_NAME !== 'YetiForce'}
-		<div class="card js-card-body mb-3" data-js="container">
-		<div class="card-header">{App\Language::translate('LBL_PAYMENT_DATA', $QUALIFIED_MODULE)}</div>
+		<div class="card mb-3" data-js="container">
+			<div class="card-header">{App\Language::translate('LBL_BRAND_DATA', $QUALIFIED_MODULE)}</div>
+			<div class="card-body">
+				{foreach key="FIELD_NAME" item="FIELD" from=$FORM_FIELDS}
+					{if isset($FIELD['brandBlock'])}
+						{assign var="FIELD_MODEL" value=$RECORD->getFieldInstanceByName($FIELD_NAME, $FIELD['label'])->set('fieldvalue',$RECORD->get($FIELD_NAME))}
+						{if $FIELD_NAME === 'logo'}
+							<div class="form-group row">
+								<div class="col-lg-4 col-form-label text-left text-lg-right">
+									<b>{$RECORD->getDisplayValue($FIELD_NAME)}</b>
+								</div>
+								<div class="col-lg-8 d-flex">
+									<div class="u-h-fit my-auto">
+										<input type="file" name="{$FIELD_NAME}" id="{$FIELD_NAME}"/>&nbsp;&nbsp;
+									</div>
+								</div>
+							</div>
+						{else}
+							<div class="form-group row">
+								<label class="col-lg-4 col-form-label text-left text-lg-right">
+									{if $FIELD_MODEL->isMandatory() eq true}
+										<span class="redColor">*</span>
+									{/if}
+									<b>{App\Language::translate($FIELD['label'], $QUALIFIED_MODULE)}</b>
+								</label>
+								<div class="col-lg-8">
+									{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName())}
+								</div>
+							</div>
+						{/if}
+					{/if}
+				{/foreach}
+			</div>
+		</div>
+		<div class="card mb-3" data-js="container">
+			<div class="card-header">{App\Language::translate('LBL_PAYMENT_DATA', $QUALIFIED_MODULE)}</div>
 			<div class="card-body">
 				{foreach key="FIELD_NAME" item="FIELD" from=$FORM_FIELDS}
 					{if isset($FIELD['paymentBlock'])}

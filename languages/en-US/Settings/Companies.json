@@ -36,6 +36,8 @@
     "LBL_OFFLINE_SIGNED": "Offline - Accepted",
     "LBL_SPECIAL_REGISTRATION": "Special registration",
     "LBL_ACCEPTED": "Accepted",
+    "LBL_REGISTRATION_DATA": "Registration data",
+    "LBL_BRAND_DATA": "Brand data",
     "LBL_PAYMENT_DATA": "Payment data"
   },
   "js": {

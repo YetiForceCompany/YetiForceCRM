@@ -20,7 +20,8 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 	public static $formFields = [
 		'name' => [
 			'label' => 'LBL_NAME',
-			'registerView' => true
+			'registerView' => true,
+			'apiName' => 'company_name'
 		],
 		'type' => [
 			'label' => 'LBL_TYPE',
@@ -36,7 +37,8 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 		],
 		'country' => [
 			'label' => 'LBL_COUNTRY',
-			'registerView' => true
+			'registerView' => true,
+			'apiName' => 'country',
 		],
 		'companysize' => [
 			'label' => 'LBL_COMPANYSIZE',
@@ -66,24 +68,36 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 			'label' => 'LBL_EMAIL',
 			'registerView' => true
 		],
-		'logo' => [
-			'label' => 'LBL_LOGO',
-			'registerView' => false
-		],
 		'vat_id' => [
 			'label' => 'Vat ID',
-			'registerView' => false,
+			'apiName' => 'company_vat',
 			'paymentBlock' => true
 		],
 		'address' => [
 			'label' => 'AddressLevel8',
-			'registerView' => false,
+			'apiName' => 'address1',
 			'paymentBlock' => true
 		],
 		'post_code' => [
 			'label' => 'AddressLevel7',
-			'registerView' => false,
+			'apiName' => 'zip',
 			'paymentBlock' => true
+		],
+		'facebook' => [
+			'label' => 'Facebook',
+			'brandBlock' => true
+		],
+		'twitter' => [
+			'label' => 'Twitter',
+			'brandBlock' => true
+		],
+		'linkedin' => [
+			'label' => 'Linked in',
+			'brandBlock' => true
+		],
+		'logo' => [
+			'label' => 'LBL_LOGO',
+			'brandBlock' => true
 		],
 	];
 
