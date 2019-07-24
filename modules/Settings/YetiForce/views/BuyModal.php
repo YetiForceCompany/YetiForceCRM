@@ -57,6 +57,7 @@ class Settings_YetiForce_BuyModal_View extends \App\Controller\ModalSettings
 		$viewer->assign('VARIABLE_PRODUCT', $product->getVariable());
 		$viewer->assign('PAYPAL_URL', \App\YetiForce\Shop::getPaypalUrl());
 		$viewer->assign('COMPANY_DATA', $companies);
+		$viewer->assign('FORM_FIELDS', Settings_Companies_Module_Model::getFormFields());
 		$viewer->view('BuyModal.tpl', $qualifiedModuleName);
 	}
 }

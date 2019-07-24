@@ -17,7 +17,7 @@
 						</div>
 					{/if}
 				</div>
-				<table class="table table-bordered table-sm">
+				<table class="table table-sm">
 					<tbody class="u-word-break-all small">
 						<tr>
 							<td>{\App\Language::translate('LBL_SHOP_PRODUCT_NAME', $QUALIFIED_MODULE)}</td>
@@ -27,7 +27,7 @@
 							<td>{\App\Language::translate('LBL_SHOP_AMOUNT', $QUALIFIED_MODULE)}</td>
 							<td>
 							{if 'manual'=== $PRODUCT->getPriceType()}
-									<input name="a3" class="form-control form-control-lg" style="max-width: 80px;" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
+									<input name="a3" class="form-control" style="max-width: 80px;" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
 							{else}
 								{$PRODUCT->getPrice()} {$PRODUCT->currencyCode}
 							{/if}
@@ -49,46 +49,20 @@
 				</table>
 				<p>{\App\Language::translate('LBL_SHOP_INVOICE_DETAILS_DESC', $QUALIFIED_MODULE)}</p>
 				{if $COMPANY_DATA}
-				<table class="table table-bordered table-sm">
-					<tbody class="u-word-break-all small">
-						<tr>
-							<td>{\App\Language::translate('name', $QUALIFIED_MODULE)}</td>
-							<td>
-								<input name="company_name" class="form-control form-control-lg" type="text" value="{$COMPANY_DATA['name']}" aria-label="price">
-							</td>
-						</tr>
-						<tr>
-							<td>{\App\Language::translate('name', $QUALIFIED_MODULE)}</td>
-							<td>
-								<input name="address1" class="form-control form-control-lg"  type="text" value="{$COMPANY_DATA['name']}" aria-label="price">
-							</td>
-						</tr>
-						<tr>
-							<td>{\App\Language::translate('name', $QUALIFIED_MODULE)}</td>
-							<td>
-								<input name="city" class="form-control form-control-lg" type="text" value="{$COMPANY_DATA['city']}" aria-label="price">
-							</td>
-						</tr>
-						<tr>
-							<td>{\App\Language::translate('name', $QUALIFIED_MODULE)}</td>
-							<td>
-								<input name="zip" class="form-control form-control-lg" type="text" value="{$COMPANY_DATA['city']}" aria-label="price">
-							</td>
-						</tr>
-						<tr>
-							<td>{\App\Language::translate('name', $QUALIFIED_MODULE)}</td>
-							<td>
-								<input name="country" class="form-control form-control-lg" type="text" value="{$COMPANY_DATA['country']}" aria-label="price">
-							</td>
-						</tr>
-						<tr>
-							<td>{\App\Language::translate('name', $QUALIFIED_MODULE)}</td>
-							<td>
-								<input name="company_vat" class="form-control form-control-lg" type="text" value="{$COMPANY_DATA['name']}" aria-label="price">
-							</td>
-						</tr>
-					</tbody>
-				</table>
+					<table class="table table-sm">
+						<tbody class="u-word-break-all small">
+							{foreach key="FIELD_NAME" item="FIELD" from=$FORM_FIELDS}
+								{if isset($FIELD['apiName'])}
+									<tr>
+										<td>{\App\Language::translate($FIELD['label'], $QUALIFIED_MODULE)}</td>
+										<td>
+											<input name="$FIELD['apiName']" class="form-control" type="text" value="{$COMPANY_DATA[$FIELD_NAME]}" aria-label="$FIELD['apiName']">
+										</td>
+									</tr>
+								{/if}
+							{/foreach}
+						</tbody>
+					</table>
 				{else}
 					<div class="alert alert-info text-danger">
 					<span class="fas fa-exclamation-triangle"></span>
