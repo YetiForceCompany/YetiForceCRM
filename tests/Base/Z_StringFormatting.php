@@ -54,6 +54,7 @@ class Z_StringFormatting extends \Tests\Base
 	public static function setUpBeforeClass()
 	{
 		parent::setUpBeforeClass();
+		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
 		$userModel = \App\User::getCurrentUserModel();
 		static::$separatorDecimal = $userModel->getDetail('currency_decimal_separator');
 		static::$separatorGrouping = $userModel->getDetail('currency_grouping_separator');
