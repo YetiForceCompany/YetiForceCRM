@@ -79,7 +79,7 @@ class Z_StringFormatting extends \Tests\Base
 			] as $type) {
 			$method = 'append' . \ucfirst($type);
 			if (\method_exists($this, $method)) {
-				$this->$method($combinations);
+				$this->{$method}($combinations);
 			} else {
 				$this->fail('Unsupported field type: ' . \ucfirst($type));
 			}
@@ -244,6 +244,8 @@ class Z_StringFormatting extends \Tests\Base
 	/**
 	 * Numbers conversion tests.
 	 *
+	 * @dataProvider providerNumbers
+	 *
 	 * @param string $moduleName        Module name
 	 * @param string $fieldName         Field name
 	 * @param string $userFormat        Value in user format
@@ -255,7 +257,6 @@ class Z_StringFormatting extends \Tests\Base
 	 * @param string $symbolPlacement   Currency symbol placement in user format
 	 * @param bool   $truncate          Truncate zeros after decimal separator
 	 * @param bool   $correct           Test should be successfull
-	 * @dataProvider providerNumbers
 	 */
 	public function testNumbers($moduleName, $fieldName, $userFormat, $dbFormat, $decimalSeparator, $groupingSeparator, $groupingPattern, $afterDot, $symbolPlacement, $truncate, $correct = true)
 	{
@@ -267,6 +268,10 @@ class Z_StringFormatting extends \Tests\Base
 		$userModel->set('no_of_currency_decimals', $afterDot);
 		$userModel->set('truncate_trailing_zeros', $truncate ? '1' : '0');
 		$userModel->save();
+
+		$userModel2 = \App\User::getCurrentUserModel();
+		$this->assertSame($userModel2->getDetail('currency_grouping_separator'), $groupingSeparator);
+
 		$recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
 		$recordModel->set($fieldName, $dbFormat);
 		$this->assertSame($userFormat, $recordModel->getDisplayValue($fieldName), 'Display value different than expected' . $dbFormat . ' ' . $recordModel->get($fieldName));
