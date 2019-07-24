@@ -242,6 +242,10 @@ Vtiger_Detail_Js(
 				return aDeferred.promise();
 			}
 		},
+		/**
+		 * Add time control when closed ticket
+		 * @param {array} params
+		 */
 		addTimeControl(params, callback = () => {}) {
 			let aDeferred = jQuery.Deferred();
 			let referenceModuleName = 'OSSTimeControl';

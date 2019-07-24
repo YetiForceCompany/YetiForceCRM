@@ -8,6 +8,10 @@ Vtiger_Edit_Js(
 		registerEvents: function() {
 			this._super();
 		},
+		/**
+		 * Register pre save event
+		 * @param {jQuery} form
+		 */
 		registerRecordPreSaveEventEvent: function(form) {
 			const self = this;
 			let lockSave = true;
@@ -49,6 +53,10 @@ Vtiger_Edit_Js(
 				}
 			});
 		},
+		/**
+		 * Add time control when closed ticket
+		 * @param {array} params
+		 */
 		addTimeControl: function(params) {
 			let aDeferred = jQuery.Deferred();
 			let referenceModuleName = 'OSSTimeControl';
