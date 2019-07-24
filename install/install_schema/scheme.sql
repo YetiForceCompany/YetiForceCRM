@@ -1039,7 +1039,10 @@ CREATE TABLE `s_yf_companies` (
   `name` varchar(255) NOT NULL,
   `type` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `industry` varchar(50) DEFAULT NULL,
+  `vat_id` varchar(30) DEFAULT NULL,
   `city` varchar(100) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `post_code` varchar(20) DEFAULT NULL,
   `country` varchar(100) DEFAULT NULL,
   `companysize` mediumint(6) unsigned DEFAULT 0,
   `website` varchar(255) DEFAULT NULL,
@@ -1047,6 +1050,9 @@ CREATE TABLE `s_yf_companies` (
   `firstname` varchar(255) DEFAULT NULL,
   `lastname` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
+  `facebook` varchar(255) DEFAULT NULL,
+  `twitter` varchar(255) DEFAULT NULL,
+  `linkedin` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 

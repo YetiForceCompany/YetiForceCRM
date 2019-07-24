@@ -271,7 +271,7 @@ insert  into `s_yf_auto_record_flow_updater`(`id`,`status`,`source_module`,`targ
 
 /*Data for the table `s_yf_companies` */
 
-insert  into `s_yf_companies`(`id`,`status`,`name`,`type`,`industry`,`city`,`country`,`companysize`,`website`,`logo`,`firstname`,`lastname`,`email`) values (1,0,'YetiForce Sp. z o.o. ',1,NULL,'Warszawa','Poland',0,'yetiforce.com','[]',NULL,NULL,NULL);
+insert  into `s_yf_companies`(`id`,`status`,`name`,`type`,`industry`,`vat_id`,`city`,`address`,`post_code`,`country`,`companysize`,`website`,`logo`,`firstname`,`lastname`,`email`,`facebook`,`twitter`,`linkedin`) values (1,0,'YetiForce Sp. z o.o. ',1,NULL,'1180002425','Warszawa','Marszałkowska 111','00-102','Poland',0,'yetiforce.com','[]',NULL,NULL,NULL,NULL,NULL,NULL);
 
 /*Data for the table `s_yf_mail_queue` */
 

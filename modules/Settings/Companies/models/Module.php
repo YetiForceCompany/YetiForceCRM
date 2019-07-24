@@ -11,7 +11,7 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 {
 	public $baseTable = 's_yf_companies';
 	public $baseIndex = 'id';
-	public $listFields = ['name' => 'LBL_NAME', 'status' => 'LBL_STATUS', 'type' => 'LBL_TYPE', 'email' => 'LBL_EMAIL', 'city' => 'LBL_CITY', 'country' => 'LBL_COUNTRY', 'website' => 'LBL_WEBSITE'];
+	public $listFields = ['name' => 'LBL_NAME', 'status' => 'LBL_STATUS', 'type' => 'LBL_TYPE', 'email' => 'LBL_EMAIL', 'address' => 'AddressLevel8', 'post_code' => 'AddressLevel7', 'city' => 'LBL_CITY', 'country' => 'LBL_COUNTRY', 'website' => 'LBL_WEBSITE', 'vat_id' => 'Vat ID'];
 	/**
 	 * List of fields in form.
 	 *
@@ -20,7 +20,8 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 	public static $formFields = [
 		'name' => [
 			'label' => 'LBL_NAME',
-			'registerView' => true
+			'registerView' => true,
+			'apiName' => 'company_name'
 		],
 		'type' => [
 			'label' => 'LBL_TYPE',
@@ -36,7 +37,8 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 		],
 		'country' => [
 			'label' => 'LBL_COUNTRY',
-			'registerView' => true
+			'registerView' => true,
+			'apiName' => 'country',
 		],
 		'companysize' => [
 			'label' => 'LBL_COMPANYSIZE',
@@ -68,9 +70,37 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 		],
 		'logo' => [
 			'label' => 'LBL_LOGO',
-			'registerView' => false
+			'registerView' => true
+		],
+		'vat_id' => [
+			'label' => 'Vat ID',
+			'apiName' => 'company_vat',
+			'paymentBlock' => true
+		],
+		'address' => [
+			'label' => 'AddressLevel8',
+			'apiName' => 'address1',
+			'paymentBlock' => true
+		],
+		'post_code' => [
+			'label' => 'AddressLevel7',
+			'apiName' => 'zip',
+			'paymentBlock' => true
+		],
+		'facebook' => [
+			'label' => 'Facebook',
+			'brandBlock' => true
+		],
+		'twitter' => [
+			'label' => 'Twitter',
+			'brandBlock' => true
+		],
+		'linkedin' => [
+			'label' => 'Linked in',
+			'brandBlock' => true
 		],
 	];
+
 	public $name = 'Companies';
 
 	/**
@@ -110,7 +140,8 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getIndustryList()
 	{
 		return array_merge(
-			(new \App\Db\Query())->select(['industry'])->from('vtiger_industry')->column(), (new \App\Db\Query())->select(['subindustry'])->from('vtiger_subindustry')->column()
+			(new \App\Db\Query())->select(['industry'])->from('vtiger_industry')->column(),
+			(new \App\Db\Query())->select(['subindustry'])->from('vtiger_subindustry')->column()
 		);
 	}
 
