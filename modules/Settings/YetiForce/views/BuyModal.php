@@ -45,11 +45,18 @@ class Settings_YetiForce_BuyModal_View extends \App\Controller\ModalSettings
 		$qualifiedModuleName = $request->getModule(false);
 		$department = $request->isEmpty('department') ? '' : $request->getByType('department');
 		$product = \App\YetiForce\Shop::getProduct($request->getByType('product'), $department);
+		$companies = [];
+		foreach (\App\Company::getAll() as $key => $row) {
+			if (1 === (int) $row['type']) {
+				$companies = $row;
+			}
+		}
 		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->assign('PRODUCT', $product);
 		$viewer->assign('VARIABLE_PAYMENTS', \App\YetiForce\Shop::getVariablePayments());
 		$viewer->assign('VARIABLE_PRODUCT', $product->getVariable());
 		$viewer->assign('PAYPAL_URL', \App\YetiForce\Shop::getPaypalUrl());
+		$viewer->assign('COMPANY_DATA', $companies);
 		$viewer->view('BuyModal.tpl', $qualifiedModuleName);
 	}
 }
