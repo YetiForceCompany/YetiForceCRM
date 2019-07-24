@@ -1003,6 +1003,7 @@ class ConfReport
 			if (!\in_array($item, $value)) {
 				$row['status'] = false;
 				$item = "<b class=\"text-danger\">$item</b>";
+				$row['isHtml'] = true;
 			}
 		}
 		$row['recommended'] = \implode(', ', $recommended);
@@ -1115,6 +1116,7 @@ class ConfReport
 		unset($name);
 		foreach (array_diff(\explode(',', $row['recommended']), \explode(',', $row[$sapi])) as $type) {
 			$row['recommended'] = \str_replace($type, "<b class=\"text-danger\">$type</b>", $row['recommended']);
+			$row['isHtml'] = true;
 		}
 		return $row;
 	}
