@@ -22,3 +22,18 @@ echo " -----  restart apache2  -----"
 sudo service apache2 restart
 
 #if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.0" ]]; then sudo cp Tests/build/www.conf ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/; fi
+
+echo " -----  php info  -----"
+echo " PHP_INT_MAX: "
+php -r 'print(PHP_INT_MAX);'
+
+echo " opcache: "
+php -i | grep opcache.
+
+echo " memory_limit: "
+php -i | grep memory_limit
+echo " free: "
+free -m
+
+echo " all service: "
+service --status-all
