@@ -282,6 +282,9 @@ class ModuleManager extends \Tests\Base
 	{
 		$key = $type . $suffix;
 		$fieldInstance = \Settings_LayoutEditor_Field_Model::getInstance(static::$fieldsId[$key]);
+
+		\var_dump('-------[testDeleteNewField]------', $key, static::$fieldsId[$key]);
+
 		$uitype = $fieldInstance->getUIType();
 		$columnName = $fieldInstance->getColumnName();
 		$this->assertTrue($fieldInstance->isCustomField(), 'Field is not customized');
