@@ -296,10 +296,12 @@
 							</td>
 							{if empty($ITEM['testCli'])}
 								<td colspan="2">
-									{if !empty($ITEM['www']) && $ITEM['www'] neq strip_tags($ITEM['www'])}
-										{$ITEM['www']}
-									{else}
-										{\App\Language::translate($ITEM['www'], $MODULE_NAME)}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])}
+											{$ITEM['www']}
+										{else}
+											{\App\Language::translate($ITEM['www'], $MODULE_NAME)}
+										{/if}
 									{/if}
 								</td>
 							{else}
