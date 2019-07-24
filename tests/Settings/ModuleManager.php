@@ -278,7 +278,7 @@ class ModuleManager extends \Tests\Base
 	 * @param mixed $param
 	 * @param mixed $suffix
 	 */
-	/*public function testDeleteNewField($type, $param, $suffix = '')
+	public function testDeleteNewField($type, $param, $suffix = '')
 	{
 		$key = $type . $suffix;
 		$fieldInstance = \Settings_LayoutEditor_Field_Model::getInstance(static::$fieldsId[$key]);
@@ -310,21 +310,24 @@ class ModuleManager extends \Tests\Base
 				$this->assertSame(0, (new \App\Db\Query())->from('vtiger_role2picklist')->where(['picklistid' => static::$pickList[$key]])->count(), 'All rows in the table "vtiger_role2picklist" have not been deleted');
 				break;
 			case 305: //MultiReferenceValue
-				//$this->assertFalse((new \App\Db\Query())->from('s_#__multireference')->where(['source_module' => 'Test', 'dest_module' => 'Contacts'])->exists(), 'The record from "s_#__multireference" was not removed.');
+				$row = (new \App\Db\Query())->from('s_#__multireference')->where(['source_module' => 'Test', 'dest_module' => 'Contacts'])->one();
+				\var_dump($row);
+
+				$this->assertFalse((new \App\Db\Query())->from('s_#__multireference')->where(['source_module' => 'Test', 'dest_module' => 'Contacts'])->exists(), 'The record from "s_#__multireference" was not removed.');
 				break;
 		}
-	}*/
+	}
 
 	/**
 	 * Testing the deletion of a new block for the module.
 	 */
-	/*public function testDeleteNewBlock()
+	public function testDeleteNewBlock()
 	{
 		$this->assertFalse(\Vtiger_Block_Model::checkFieldsExists(static::$blockId), 'Fields exists');
 		$blockInstance = \Vtiger_Block_Model::getInstance(static::$blockId);
 		$this->assertTrue($blockInstance->isCustomized(), 'Block is not customized');
 		$blockInstance->delete(false);
-	}*/
+	}
 
 	/**
 	 * Testing module export.
