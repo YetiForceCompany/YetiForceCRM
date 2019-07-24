@@ -8,14 +8,14 @@ Vtiger_Edit_Js(
 		registerEvents: function() {
 			this._super();
 		},
-		registerRecordPreSaveEventEvent: function (form) {
+		registerRecordPreSaveEventEvent: function(form) {
 			const self = this;
 			let lockSave = true;
-			form.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
-				let progress = $.progressIndicator({position: 'html', blockInfo: {enabled: true}});
-				if(CONFIG.checkIfRecordHasTimeControl || CONFIG.checkIfRelatedTicketsAreClosed){
+			form.on(Vtiger_Edit_Js.recordPreSave, function(e, data) {
+				let progress = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
+				if ((CONFIG.checkIfRecordHasTimeControl || CONFIG.checkIfRelatedTicketsAreClosed) && !data.module) {
 					const recordId = app.getRecordId();
-					if(lockSave){
+					if (lockSave) {
 						e.preventDefault();
 						AppConnector.request({
 							action: 'CheckValidateToClose',
@@ -23,24 +23,22 @@ Vtiger_Edit_Js(
 							record: recordId,
 							status: form.find('[name="ticketstatus"] :selected').val()
 						}).done(response => {
-							progress.progressIndicator({mode: 'hide'});
-							if(response.result.hasTimeControl.result && response.result.relatedTicketsClosed.result){
+							progress.progressIndicator({ mode: 'hide' });
+							if (response.result.hasTimeControl.result && response.result.relatedTicketsClosed.result) {
 								lockSave = false;
 								form.submit();
 							}
-							if(!response.result.hasTimeControl.result){
+							if (!response.result.hasTimeControl.result) {
 								Vtiger_Helper_Js.showPnotify({
 									text: response.result.hasTimeControl.message,
 									type: 'info'
 								});
-								self.addTimeControl(
-									{
-										recordId: recordId,
-										url: `index.php?module=OSSTimeControl&view=Edit&sourceModule=HelpDesk&sourceRecord=${recordId}&relationOperation=true&subprocess=${recordId}&subprocess=${recordId}`
-									}
-								);
+								self.addTimeControl({
+									recordId: recordId,
+									url: `index.php?module=OSSTimeControl&view=Edit&sourceModule=HelpDesk&sourceRecord=${recordId}&relationOperation=true&subprocess=${recordId}&subprocess=${recordId}`
+								});
 							}
-							if(!response.result.relatedTicketsClosed.result){
+							if (!response.result.relatedTicketsClosed.result) {
 								Vtiger_Helper_Js.showPnotify({
 									text: response.result.relatedTicketsClosed.message,
 									type: 'info'
