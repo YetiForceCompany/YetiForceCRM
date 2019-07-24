@@ -35,7 +35,8 @@
     "LBL_OFFLINE_SERIAL_NOT_FOUND": "Offline - Key not found",
     "LBL_OFFLINE_SIGNED": "Offline - Accepted",
     "LBL_SPECIAL_REGISTRATION": "Special registration",
-    "LBL_ACCEPTED": "Accepted"
+    "LBL_ACCEPTED": "Accepted",
+    "LBL_PAYMENT_DATA": "Payment data"
   },
   "js": {
     "JS_ENTER_REGISTRATION_KEY": "Enter registration key",

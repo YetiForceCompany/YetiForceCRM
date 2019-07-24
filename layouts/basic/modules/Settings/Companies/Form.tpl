@@ -8,9 +8,9 @@
 			{else}
 				{assign var="RECORD" value=Settings_Companies_Record_Model::getCleanInstance()->set('source',$MODULE_NAME)}
 			{/if}
-
-			{foreach key="FIELD_NAME" item="FIELD" from=$RECORD->getModule()->getFormFields()}
-				{if $MODULE_NAME === 'YetiForce' && $FIELD['registerView'] === false}
+			{assign var="FORM_FIELDS" value=$RECORD->getModule()->getFormFields()}
+			{foreach key="FIELD_NAME" item="FIELD" from=$FORM_FIELDS}
+				{if $MODULE_NAME === 'YetiForce' && $FIELD['registerView'] === false || isset($FIELD['paymentBlock'])}
 					{continue}
 				{/if}
 				{if $FIELD_NAME === 'spacer'}
@@ -89,20 +89,23 @@
 	</div>
 	{if $MODULE_NAME !== 'YetiForce'}
 		<div class="card js-card-body mb-3" data-js="container">
+		<div class="card-header">{App\Language::translate('LBL_PAYMENT_DATA', $QUALIFIED_MODULE)}</div>
 			<div class="card-body">
-				{foreach key="FIELD_NAME" item="FIELD" from=$RECORD->getModule()->getPaymentFields()}
-					{assign var="FIELD_MODEL" value=$RECORD->getFieldInstanceByName($FIELD_NAME, $FIELD['label'])->set('fieldvalue',$RECORD->get($FIELD_NAME))}
-					<div class="form-group row">
-						<label class="col-lg-4 col-form-label text-left text-lg-right">
-							{if $FIELD_MODEL->isMandatory() eq true}
-								<span class="redColor">*</span>
-							{/if}
-							<b>{App\Language::translate($FIELD['label'], $QUALIFIED_MODULE)}</b>
-						</label>
-						<div class="col-lg-8">
-							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName())}
+				{foreach key="FIELD_NAME" item="FIELD" from=$FORM_FIELDS}
+					{if isset($FIELD['paymentBlock'])}
+						{assign var="FIELD_MODEL" value=$RECORD->getFieldInstanceByName($FIELD_NAME, $FIELD['label'])->set('fieldvalue',$RECORD->get($FIELD_NAME))}
+						<div class="form-group row">
+							<label class="col-lg-4 col-form-label text-left text-lg-right">
+								{if $FIELD_MODEL->isMandatory() eq true}
+									<span class="redColor">*</span>
+								{/if}
+								<b>{App\Language::translate($FIELD['label'], $QUALIFIED_MODULE)}</b>
+							</label>
+							<div class="col-lg-8">
+								{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName())}
+							</div>
 						</div>
-					</div>
+					{/if}
 				{/foreach}
 			</div>
 		</div>

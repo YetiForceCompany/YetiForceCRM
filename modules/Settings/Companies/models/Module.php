@@ -11,7 +11,7 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 {
 	public $baseTable = 's_yf_companies';
 	public $baseIndex = 'id';
-	public $listFields = ['name' => 'LBL_NAME', 'status' => 'LBL_STATUS', 'type' => 'LBL_TYPE', 'email' => 'LBL_EMAIL', 'city' => 'LBL_CITY', 'country' => 'LBL_COUNTRY', 'website' => 'LBL_WEBSITE'];
+	public $listFields = ['name' => 'LBL_NAME', 'status' => 'LBL_STATUS', 'type' => 'LBL_TYPE', 'email' => 'LBL_EMAIL', 'address' => 'AddressLevel8', 'post_code' => 'AddressLevel7', 'city' => 'LBL_CITY', 'country' => 'LBL_COUNTRY', 'website' => 'LBL_WEBSITE', 'vat_id' => 'Vat ID'];
 	/**
 	 * List of fields in form.
 	 *
@@ -70,22 +70,20 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 			'label' => 'LBL_LOGO',
 			'registerView' => false
 		],
-	];
-
-	/**
-	 * List of payment fields in form.
-	 *
-	 * @var array
-	 */
-	public static $paymentFields = [
 		'vat_id' => [
 			'label' => 'Vat ID',
+			'registerView' => false,
+			'paymentBlock' => true
 		],
 		'address' => [
 			'label' => 'AddressLevel8',
+			'registerView' => false,
+			'paymentBlock' => true
 		],
 		'post_code' => [
 			'label' => 'AddressLevel7',
+			'registerView' => false,
+			'paymentBlock' => true
 		],
 	];
 
@@ -141,16 +139,6 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getFormFields()
 	{
 		return static::$formFields;
-	}
-
-	/**
-	 * Return payment fields in form.
-	 *
-	 * @return string[]
-	 */
-	public static function getPaymentFields()
-	{
-		return static::$paymentFields;
 	}
 
 	/**
