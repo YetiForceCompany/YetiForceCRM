@@ -384,7 +384,7 @@ class ModuleManager extends \Tests\Base
 	/**
 	 * Testing module import.
 	 */
-	public function testImportModule()
+	/*public function testImportModule()
 	{
 		\App\Db::getInstance()->getSchema()->refresh();
 		$package = new \vtlib\Package();
@@ -401,7 +401,7 @@ class ModuleManager extends \Tests\Base
 
 		unlink(static::$zipFileName);
 		$this->assertFileNotExists(static::$zipFileName);
-	}
+	}*/
 
 	/**
 	 * Testing download librares.
