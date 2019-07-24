@@ -71,6 +71,24 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 			'registerView' => false
 		],
 	];
+
+	/**
+	 * List of payment fields in form.
+	 *
+	 * @var array
+	 */
+	public static $paymentFields = [
+		'vat_id' => [
+			'label' => 'Vat ID',
+		],
+		'address' => [
+			'label' => 'AddressLevel8',
+		],
+		'post_code' => [
+			'label' => 'AddressLevel7',
+		],
+	];
+
 	public $name = 'Companies';
 
 	/**
@@ -110,7 +128,8 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getIndustryList()
 	{
 		return array_merge(
-			(new \App\Db\Query())->select(['industry'])->from('vtiger_industry')->column(), (new \App\Db\Query())->select(['subindustry'])->from('vtiger_subindustry')->column()
+			(new \App\Db\Query())->select(['industry'])->from('vtiger_industry')->column(),
+			(new \App\Db\Query())->select(['subindustry'])->from('vtiger_subindustry')->column()
 		);
 	}
 
@@ -122,6 +141,16 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getFormFields()
 	{
 		return static::$formFields;
+	}
+
+	/**
+	 * Return payment fields in form.
+	 *
+	 * @return string[]
+	 */
+	public static function getPaymentFields()
+	{
+		return static::$paymentFields;
 	}
 
 	/**

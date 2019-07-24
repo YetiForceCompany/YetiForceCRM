@@ -1,6 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Settings-YetiForce-RegistrationForm card js-card-body mb-3" data-js="container">
+<!-- tpl-Settings-Companies-Form  -->
+	<div class="card js-card-body mb-3" data-js="container">
 		<div class="card-body">
 			{if !empty($COMPANY_ID)}
 				{assign var="RECORD" value=Settings_Companies_Record_Model::getInstance($COMPANY_ID)->set('source',$MODULE_NAME)}
@@ -86,4 +87,25 @@
 			{/foreach}
 		</div>
 	</div>
+	{if $MODULE_NAME !== 'YetiForce'}
+		<div class="card js-card-body mb-3" data-js="container">
+			<div class="card-body">
+				{foreach key="FIELD_NAME" item="FIELD" from=$RECORD->getModule()->getPaymentFields()}
+					{assign var="FIELD_MODEL" value=$RECORD->getFieldInstanceByName($FIELD_NAME, $FIELD['label'])->set('fieldvalue',$RECORD->get($FIELD_NAME))}
+					<div class="form-group row">
+						<label class="col-lg-4 col-form-label text-left text-lg-right">
+							{if $FIELD_MODEL->isMandatory() eq true}
+								<span class="redColor">*</span>
+							{/if}
+							<b>{App\Language::translate($FIELD['label'], $QUALIFIED_MODULE)}</b>
+						</label>
+						<div class="col-lg-8">
+							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName())}
+						</div>
+					</div>
+				{/foreach}
+			</div>
+		</div>
+	{/if}
+<!-- /tpl-Settings-Companies-Form  -->
 {/strip}
