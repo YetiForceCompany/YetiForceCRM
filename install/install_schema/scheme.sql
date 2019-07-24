@@ -8641,7 +8641,7 @@ CREATE TABLE `vtiger_troubletickets` (
   `response_expected` datetime DEFAULT NULL,
   `solution_expected` datetime DEFAULT NULL,
   `idle_expected` datetime DEFAULT NULL,
-  `sum_time_subordinate` int(10) DEFAULT NULL,
+  `sum_time_subordinate` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`ticketid`),
   KEY `troubletickets_ticketid_idx` (`ticketid`),
   KEY `troubletickets_status_idx` (`status`),

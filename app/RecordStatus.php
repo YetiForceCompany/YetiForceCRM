@@ -157,7 +157,7 @@ class RecordStatus
 			$dbCommand->createIndex($tableStatusHistory . '_crmid_idx', $tableStatusHistory, 'crmid')->execute();
 			$dbCommand->addForeignKey('fk_1_' . $tableStatusHistory, $tableStatusHistory, 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT')->execute();
 		}
-		$tableName = Fields\Picklist::getPicklistTableName($fieldName);
+		$tableName = Fields\Picklist::getPickListTableName($fieldName);
 		$tableSchema = $db->getTableSchema($tableName);
 		if (!isset($tableSchema->columns['record_state'])) {
 			$dbCommand->addColumn($tableName, 'record_state', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TINYINT, 1)->notNull()->defaultValue(0))->execute();
@@ -235,7 +235,7 @@ class RecordStatus
 		$fieldModel->set('fieldparams', Json::encode($params));
 		$fieldModel->save();
 		$dbCommand->dropTable($moduleModel->get('basetable') . '_state_history')->execute();
-		$tableName = Fields\Picklist::getPicklistTableName($fieldName);
+		$tableName = Fields\Picklist::getPickListTableName($fieldName);
 		$tableSchema = $db->getTableSchema($tableName);
 		if (isset($tableSchema->columns['record_state'])) {
 			$dbCommand->dropColumn($tableName, 'record_state')->execute();
