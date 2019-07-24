@@ -122,8 +122,22 @@
 
 .u-hover-opacity:hover {
 	opacity: 0.5;
-
 	@include u-transition(opacity 275ms ease);
+}
+
+.u-hover-opacity75:hover {
+	opacity: 0.75;
+	@include u-transition(opacity 275ms ease);
+}
+
+.u-bg-white-darken:hover {
+	background-color: darken($white, 10%) !important;
+	@include u-transition(background-color 275ms ease);
+}
+
+.u-bg-light-darken:hover {
+	background-color: darken($light, 10%) !important;
+	@include u-transition(background-color 275ms ease);
 }
 
 .u-word-break-all {

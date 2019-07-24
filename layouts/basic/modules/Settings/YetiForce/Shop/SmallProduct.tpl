@@ -2,9 +2,9 @@
 {strip}
 	<!-- tpl-Settings-YetiForce-Shop-SmallProduct -->
 	{assign var=PRODUCT_ALERT value=$PRODUCT->showAlert()}
-	<div class="pl-2 {if empty($PRODUCT->expirationDate)}bg-light{elseif $PRODUCT_ALERT}bg-danger{else}bg-yellow{/if} u-cursor-pointer js-product-modal"
+	<div class="pl-2 {if empty($PRODUCT->expirationDate)}bg-light u-bg-light-darken{elseif $PRODUCT_ALERT}bg-danger{else}bg-yellow{/if} js-product-modal"
 		data-js="showProductModal | click" data-product="{$PRODUCT->getName()}">
-		<div class="d-flex u-min-h-120px-rem no-wrap py-2 pr-1{if !empty($PRODUCT->expirationDate)} bg-white{/if}">
+		<div class="d-flex u-min-h-120px-rem no-wrap py-2 pr-1{if !empty($PRODUCT->expirationDate)} bg-white u-bg-white-darken{/if}">
 			<div class="d-flex" style="min-width: 30%;">
 				{if $PRODUCT->getImage()}
 					<img src="{$PRODUCT->getImage()}" class="my-auto grow thumbnail-image card-img-top intrinsic-item"
@@ -19,7 +19,7 @@
 				{/if}
 			</div>
 			<div class="py-0 pl-2 pr-3 d-flex flex-wrap justify-between align-items-center">
-				{include file=\App\Layout::getTemplatePath('DashBoard/WidgetTitle.tpl', $QUALIFIED_MODULE) TITLE=$PRODUCT->getLabel()}
+				{include file=\App\Layout::getTemplatePath('DashBoard/WidgetTitle.tpl', $QUALIFIED_MODULE) TITLE=$PRODUCT->getLabel() CLASS="u-cursor-pointer"}
 				{include file=\App\Layout::getTemplatePath('DashBoard/WidgetDescription.tpl', $QUALIFIED_MODULE) DESCRIPTION=$PRODUCT->getIntroduction()}
 				{if empty($PRODUCT->expirationDate)}
 					<button class="btn btn-dark btn-block mt-auto js-buy-modal" data-js="showBuyModal | click" data-product="{$PRODUCT->getName()}">
