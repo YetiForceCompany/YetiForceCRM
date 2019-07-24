@@ -45,7 +45,7 @@ class Customer extends Base
 
 	public function getWebsite_id()
 	{
-		return \App\Config::component('Magento', 'storeId');
+		return \App\Config::component('Magento', 'websiteId');
 	}
 
 	/**

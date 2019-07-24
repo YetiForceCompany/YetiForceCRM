@@ -29,9 +29,7 @@ class Customer extends Integrators\Customer
 			$this->lastScan = $this->config::getLastScan('customer');
 		}
 		$this->getMapping('customer');
-		$resultCrm = $this->checkCustomersCrm();
-		$result = $this->checkCustomers();
-		if ($resultCrm && $result) {
+		if ($this->checkCustomersCrm() && $this->checkCustomers()) {
 			$this->config::setEndScan('customer', $this->lastScan['start_date']);
 		}
 	}
@@ -92,7 +90,7 @@ class Customer extends Integrators\Customer
 			if (!empty($this->lastScan['end_date'])) {
 				$query->andWhere(['>=', 'modifiedtime', $this->lastScan['end_date']]);
 			}
-			$query->limit(\App\Config::component('Magento', 'productLimit'));
+			$query->limit(\App\Config::component('Magento', 'customerLimit'));
 		}
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {

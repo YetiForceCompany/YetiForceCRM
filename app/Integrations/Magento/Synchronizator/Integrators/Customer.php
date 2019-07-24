@@ -47,6 +47,16 @@ abstract class Customer extends \App\Integrations\Magento\Synchronizator\Record
 		return $result;
 	}
 
+	/**
+	 * Get group id.
+	 *
+	 * @param string $groupName
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \ReflectionException
+	 *
+	 * @return false|int|string
+	 */
 	public function getGroupId(string $groupName)
 	{
 		if (empty(static::$groups)) {
@@ -55,7 +65,13 @@ abstract class Customer extends \App\Integrations\Magento\Synchronizator\Record
 		return array_search($groupName, static::$groups);
 	}
 
-	public function getAllGroups()
+	/**
+	 * Get all groups.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \ReflectionException
+	 */
+	public function getAllGroups(): void
 	{
 		$customerGroups = [];
 		$result = \App\Json::decode($this->connector->request('GET', 'rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/customerGroups/search?searchCriteria', []));
@@ -80,7 +96,8 @@ abstract class Customer extends \App\Integrations\Magento\Synchronizator\Record
 	 * Method to save customer to Magento.
 	 *
 	 * @param array $customer
-	 * @param array $customer
+	 *
+	 * @throws \ReflectionException
 	 *
 	 * @return bool
 	 */
@@ -92,7 +109,7 @@ abstract class Customer extends \App\Integrations\Magento\Synchronizator\Record
 		$customerFields->setSynchronizator($this);
 		try {
 			$customerRequest = \App\Json::decode($this->connector->request('POST', 'rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/customers/', $customerFields->getData()));
-			$this->saveMapping($customerRequest['id'], $customerFields['contactid'], 'customer');
+			$this->saveMapping($customerRequest['id'], $customer['contactid'], 'customer');
 			$result = true;
 		} catch (\Throwable $ex) {
 			\App\Log::error('Error during saving magento product: ' . $ex->getMessage(), 'Integrations/Magento');
@@ -106,8 +123,6 @@ abstract class Customer extends \App\Integrations\Magento\Synchronizator\Record
 	 *
 	 * @param int $customerId
 	 *
-	 * @throws \App\Exceptions\AppException
-	 *
 	 * @return bool
 	 */
 	public function deleteCustomer(int $customerId): bool
@@ -117,7 +132,6 @@ abstract class Customer extends \App\Integrations\Magento\Synchronizator\Record
 				$this->connector->request('DELETE', '/rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/customers/' . urlencode($customerId), []);
 			}
 			$this->deleteMapping($customerId, $this->mapCrm['customer'][$customerId], 'customer');
-
 			$result = true;
 		} catch (\Throwable $ex) {
 			\App\Log::error('Error during deleting magento customer: ' . $ex->getMessage(), 'Integrations/Magento');
@@ -139,8 +153,7 @@ abstract class Customer extends \App\Integrations\Magento\Synchronizator\Record
 	public function getCustomers(array $ids = []): array
 	{
 		$items = [];
-		//echo 'rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/customers/search?' . $this->getSearchCriteria($ids, \App\Config::component('Magento', 'productLimit'));
-		$data = \App\Json::decode($this->connector->request('GET', 'rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/customers/search?' . $this->getSearchCriteria($ids, \App\Config::component('Magento', 'productLimit'))));
+		$data = \App\Json::decode($this->connector->request('GET', 'rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/customers/search?' . $this->getSearchCriteria($ids, \App\Config::component('Magento', 'customerLimit'))));
 		if (!empty($data['items'])) {
 			foreach ($data['items'] as $item) {
 				$items[$item['id']] = $item;

@@ -256,6 +256,10 @@ return [
 			'default' => 1,
 			'description' => 'Set store id',
 		],
+		'websiteId' => [
+			'default' => 1,
+			'description' => 'Set website id',
+		],
 		'productLimit' => [
 			'default' => 20,
 			'description' => 'Set how many records can be updated at once.',
