@@ -1,7 +1,9 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Settings-YetiForce-Shop-Product row no-gutters u-cursor-pointer js-product-modal" data-js="showProductModal | click" data-product="{$PRODUCT->getName()}">
-		<div class="mb-3 col-sm-18 col-md-12 item list-group-item{if empty($PRODUCT->expirationDate)} bg-light{/if}">
+	<!-- tpl-Settings-YetiForce-Shop-Product  -->
+	{assign var=PRODUCT_ALERT value=$PRODUCT->showAlert()}
+	<div class="dashboardWidget row no-gutters mb-3 pl-2 {if empty($PRODUCT->expirationDate)}bg-light u-bg-light-darken{elseif $PRODUCT_ALERT}bg-danger{else}bg-yellow{/if} js-product-modal" data-js="showProductModal | click" data-product="{$PRODUCT->getName()}">
+		<div class="col-sm-18 col-md-12 {if !empty($PRODUCT->expirationDate)} bg-white u-bg-white-darken{/if}">
 			<div class="row">
 				<div class="col-sm-4 col-md-3">
 					{if $PRODUCT->getImage()}
@@ -18,27 +20,32 @@
 				</div>
 				<div class="col-sm-11 col-md-7">
 					<div class="card-body h-100 d-flex flex-column">
-						<h5 class="card-title text-primary">{$PRODUCT->getLabel()}</h5>
+						<h5 class="card-title u-cursor-pointer text-primary">{$PRODUCT->getLabel()}</h5>
 						<p class="card-text truncate">{$PRODUCT->getIntroduction()}</p>
 						{if empty($PRODUCT->expirationDate)}
-							<button class="btn-dark btn-block p-3 mt-auto js-buy-modal" data-js="showBuyModal | click" data-product="{$PRODUCT->getName()}">
+							<button class="btn btn-dark btn-block p-3 mt-auto js-buy-modal" data-js="showBuyModal | click" data-product="{$PRODUCT->getName()}">
 								{if 'manual'===$PRODUCT->getPriceType()}
 									{\App\Language::translate("LBL_SUPPORT_US", $QUALIFIED_MODULE)}
 								{else}
 									{$PRODUCT->getPrice()} {$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}
 								{/if}
 							</button>
-						{elseif $PRODUCT->expirationDate!=$PRODUCT->paidPackage}
-							<div class="alert alert-info text-danger">
-								<span class="fas fa-exclamation-triangle"></span>
-								{\App\Language::translate('LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED', $QUALIFIED_MODULE)}
-							</div>
 						{else}
-							<span class="bg-yellow p-3">{\App\Fields\Date::formatToDisplay($PRODUCT->expirationDate)}</span>
+							{if $PRODUCT_ALERT}
+								<div class="alert alert-info text-danger">
+									<span class="fas fa-exclamation-triangle"></span>
+									{\App\Language::translate('LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED', $QUALIFIED_MODULE)}
+								</div>
+							{/if}
+							<button class="btn btn-block bg-yellow p-3 mt-auto js-buy-modal"
+							data-js="showBuyModal | click" data-product="{$PRODUCT->getName()}"{if !$PRODUCT_ALERT} disabled{/if}>
+								{\App\Fields\Date::formatToDisplay($PRODUCT->expirationDate)}
+							</button>
 						{/if}
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<!-- /tpl-Settings-YetiForce-Shop-Product  -->
 {/strip}
