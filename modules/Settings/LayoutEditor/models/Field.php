@@ -58,6 +58,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		}
 
 		//MultiReferenceValue
+		var_dump('MultiReferenceValue', 305, $this->getUIType());
 		if (305 === $this->getUIType()) {
 			$fieldParams = \App\Json::decode($this->get('fieldparams'));
 			$db->createCommand()->delete('s_#__multireference', ['source_module' => $fldModule, 'dest_module' => $fieldParams['module']])->execute();
