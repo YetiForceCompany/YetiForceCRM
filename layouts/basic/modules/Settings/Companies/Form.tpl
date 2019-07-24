@@ -48,6 +48,17 @@
 							</div>
 						</div>
 					</div>
+				{elseif $FIELD_NAME === 'logo'}
+					<div class="form-group row">
+						<div class="col-lg-4 col-form-label text-left text-lg-right">
+							<b>{$RECORD->getDisplayValue($FIELD_NAME)}</b>
+						</div>
+						<div class="col-lg-8 d-flex">
+							<div class="u-h-fit my-auto">
+								<input type="file" name="{$FIELD_NAME}" id="{$FIELD_NAME}"/>&nbsp;&nbsp;
+							</div>
+						</div>
+					</div>
 				{else}
 					{assign var="FIELD_MODEL" value=$RECORD->getFieldInstanceByName($FIELD_NAME, $FIELD['label'])->set('fieldvalue',$RECORD->get($FIELD_NAME))}
 					<div class="form-group row">
@@ -84,30 +95,17 @@
 				{foreach key="FIELD_NAME" item="FIELD" from=$FORM_FIELDS}
 					{if isset($FIELD['brandBlock'])}
 						{assign var="FIELD_MODEL" value=$RECORD->getFieldInstanceByName($FIELD_NAME, $FIELD['label'])->set('fieldvalue',$RECORD->get($FIELD_NAME))}
-						{if $FIELD_NAME === 'logo'}
-							<div class="form-group row">
-								<div class="col-lg-4 col-form-label text-left text-lg-right">
-									<b>{$RECORD->getDisplayValue($FIELD_NAME)}</b>
-								</div>
-								<div class="col-lg-8 d-flex">
-									<div class="u-h-fit my-auto">
-										<input type="file" name="{$FIELD_NAME}" id="{$FIELD_NAME}"/>&nbsp;&nbsp;
-									</div>
-								</div>
+						<div class="form-group row">
+							<label class="col-lg-4 col-form-label text-left text-lg-right">
+								{if $FIELD_MODEL->isMandatory() eq true}
+									<span class="redColor">*</span>
+								{/if}
+								<b>{App\Language::translate($FIELD['label'], $QUALIFIED_MODULE)}</b>
+							</label>
+							<div class="col-lg-8">
+								{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName()) MODULE=$QUALIFIED_MODULE}
 							</div>
-						{else}
-							<div class="form-group row">
-								<label class="col-lg-4 col-form-label text-left text-lg-right">
-									{if $FIELD_MODEL->isMandatory() eq true}
-										<span class="redColor">*</span>
-									{/if}
-									<b>{App\Language::translate($FIELD['label'], $QUALIFIED_MODULE)}</b>
-								</label>
-								<div class="col-lg-8">
-									{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName()) MODULE=$QUALIFIED_MODULE}
-								</div>
-							</div>
-						{/if}
+						</div>
 					{/if}
 				{/foreach}
 			</div>
