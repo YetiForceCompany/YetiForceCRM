@@ -24,7 +24,7 @@ class Order extends Inventory
 		'sum_discount' => '',
 		'sum_net' => '',
 		'payment_status' => '',
-		'ssingleorders_source' => 'PLL_SHOP',
+		'ssingleorders_source' => 'PLL_MAGENTO',
 	];
 
 	/**

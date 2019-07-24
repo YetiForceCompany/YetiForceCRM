@@ -260,6 +260,10 @@ return [
 			'default' => 1,
 			'description' => 'Set website id',
 		],
+		'customerLimit' => [
+			'default' => 20,
+			'description' => 'Set how many customers can be downloaded at once.',
+		],
 		'productLimit' => [
 			'default' => 20,
 			'description' => 'Set how many records can be updated at once.',
