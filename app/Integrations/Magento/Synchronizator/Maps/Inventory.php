@@ -84,6 +84,10 @@ abstract class Inventory extends Base
 			$this->customer = new \App\Integrations\Magento\Synchronizator\Customer();
 			$this->customer->getMapping('customer');
 		}
-		return $this->customer->mapCrm['customer'][$this->data['customer_id']] ?? '';
+		$value = '';
+		if (!empty($this->data['customer_id']) && isset($this->customer->mapCrm['customer'][$this->data['customer_id']])) {
+			$value = $this->customer->mapCrm['customer'][$this->data['customer_id']];
+		}
+		return $value;
 	}
 }

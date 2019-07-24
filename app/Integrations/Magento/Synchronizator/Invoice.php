@@ -75,7 +75,7 @@ class Invoice extends Integrators\Invoice
 		$data['billing_address'] = $order['billing_address'];
 		$data['extension_attributes'] = $order['extension_attributes'];
 		$data['payment'] = $order['payment'];
-		$data['customer_id'] = $order['customer_id'];
+		$data['customer_id'] = $order['customer_id'] ?? '';
 		$className = \App\Config::component('Magento', 'invoiceMapClassName');
 		$invoiceFields = new $className();
 		$invoiceFields->setData($data);
