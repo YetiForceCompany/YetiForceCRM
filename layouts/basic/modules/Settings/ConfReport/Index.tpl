@@ -80,14 +80,20 @@
 							</td>
 							{if empty($ITEM['testCli'])}
 								<td colspan="2">
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{else}
 								<td>
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 								<td>
-									{if !empty($ITEM['cron'])}{\App\Language::translate($ITEM['cron'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['cron'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['cron']} {else} {\App\Language::translate($ITEM['cron'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{/if}
 						</tr>
@@ -126,21 +132,27 @@
 							</td>
 							<td>
 								{if isset($ITEM['recommended'])}
-									{\App\Language::translate($ITEM['recommended'], $MODULE_NAME)}
+									{if isset($ITEM['isHtml'])} {$ITEM['recommended']} {else} {\App\Language::translate($ITEM['recommended'], $MODULE_NAME)} {/if}
 								{else}
 									-
 								{/if}
 							</td>
 							{if empty($ITEM['testCli'])}
 								<td colspan="2">
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{else}
 								<td>
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 								<td>
-									{if !empty($ITEM['cron'])}{\App\Language::translate($ITEM['cron'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['cron'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['cron']} {else} {\App\Language::translate($ITEM['cron'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{/if}
 						</tr>
@@ -245,21 +257,27 @@
 							</td>
 							<td>
 								{if isset($ITEM['recommended'])}
-									{\App\Language::translate($ITEM['recommended'], $MODULE_NAME)}
+									{if isset($ITEM['isHtml'])} {$ITEM['recommended']} {else} {\App\Language::translate($ITEM['recommended'], $MODULE_NAME)} {/if}
 								{else}
 									-
 								{/if}
 							</td>
 							{if empty($ITEM['testCli'])}
 								<td colspan="2">
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{else}
 								<td>
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 								<td>
-									{if !empty($ITEM['cron'])}{\App\Language::translate($ITEM['cron'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['cron'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['cron']} {else} {\App\Language::translate($ITEM['cron'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{/if}
 						</tr>
@@ -297,19 +315,19 @@
 							{if empty($ITEM['testCli'])}
 								<td colspan="2">
 									{if !empty($ITEM['www'])}
-										{if isset($ITEM['isHtml'])}
-											{$ITEM['www']}
-										{else}
-											{\App\Language::translate($ITEM['www'], $MODULE_NAME)}
-										{/if}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
 									{/if}
 								</td>
 							{else}
 								<td>
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 								<td>
-									{if !empty($ITEM['cron'])}{\App\Language::translate($ITEM['cron'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['cron'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['cron']} {else} {\App\Language::translate($ITEM['cron'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{/if}
 						</tr>
@@ -346,14 +364,20 @@
 							</td>
 							{if empty($ITEM['testCli'])}
 								<td colspan="2">
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{else}
 								<td>
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 								<td>
-									{if !empty($ITEM['cron'])}{\App\Language::translate($ITEM['cron'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['cron'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['cron']} {else} {\App\Language::translate($ITEM['cron'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{/if}
 						</tr>
@@ -392,21 +416,27 @@
 							</td>
 							<td>
 								{if isset($ITEM['recommended'])}
-									{\App\Language::translateSingleMod($ITEM['recommended'], $MODULE_NAME)}
+									{if isset($ITEM['isHtml'])} {$ITEM['recommended']} {else} {\App\Language::translate($ITEM['recommended'], $MODULE_NAME)} {/if}
 								{else}
 									-
 								{/if}
 							</td>
 							{if empty($ITEM['testCli'])}
 								<td colspan="2">
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{else}
 								<td>
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 								<td>
-									{if !empty($ITEM['cron'])}{\App\Language::translate($ITEM['cron'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['cron'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['cron']} {else} {\App\Language::translate($ITEM['cron'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{/if}
 						</tr>
@@ -443,14 +473,18 @@
 							</td>
 							{if isset($ITEM['recommended'])}
 								<td>
-									{$ITEM['recommended']}
+									{if isset($ITEM['isHtml'])} {$ITEM['recommended']} {else} {\App\Language::translate($ITEM['recommended'], $MODULE_NAME)} {/if}
 								</td>
 								<td>
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{else}
 								<td colspan="2">
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{/if}
 						</tr>
