@@ -76,8 +76,7 @@ class ModuleManager extends \Tests\Base
 	 */
 	public function testCreateModule()
 	{
-		$moduleManagerModel = new \Settings_ModuleManager_Module_Model();
-		$moduleManagerModel->createModule([
+		$module = \Settings_ModuleManager_Module_Model::createModule([
 			'module_name' => 'Test',
 			'entityfieldname' => 'test',
 			'module_label' => 'Test',
@@ -85,6 +84,8 @@ class ModuleManager extends \Tests\Base
 			'entityfieldlabel' => 'Test',
 		]);
 		$this->assertFileExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
+		$this->assertIsInt($module->getId());
+		$this->assertSame('Test', \App\Module::getModuleName($module->getId()), 'The name of the new module is missing: ' . $module->getId());
 		$langFileToCheck = $this->getLangPathToFile('Test.json');
 		foreach ($langFileToCheck as $pathToFile) {
 			$this->assertFileExists($pathToFile);

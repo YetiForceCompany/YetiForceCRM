@@ -99,7 +99,8 @@ class UserPrivilegesFile
 	{
 		\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/user_privileges_' . $userid . '.php');
 		require 'user_privileges/user_privileges_' . $userid . '.php';
-		$handle = fopen(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'user_privileges/sharing_privileges_' . $userid . '.php', 'w+');
+		$fileUserSharingPrivileges = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'user_privileges/sharing_privileges_' . $userid . '.php';
+		$handle = fopen($fileUserSharingPrivileges, 'w+');
 		if ($handle) {
 			$newBuf = "<?php\n";
 			$userFocus = \CRMEntity::getInstance('Users');
@@ -156,6 +157,7 @@ class UserPrivilegesFile
 				//Populating Temp Tables
 				static::populateSharingtmptables($userid);
 				User::clearCache($userid);
+				\App\Cache::resetFileCache($fileUserSharingPrivileges);
 			}
 		}
 	}
