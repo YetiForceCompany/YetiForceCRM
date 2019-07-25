@@ -62,6 +62,7 @@ class ModuleManager extends \Tests\Base
 
 	public static function setUpBeforeClass()
 	{
+		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
 		$moduleInstance = \vtlib\Module::getInstance('Test');
 		if ($moduleInstance) {
 			$moduleInstance->delete();
@@ -217,7 +218,6 @@ class ModuleManager extends \Tests\Base
 				);
 				break;
 			case 305: //MultiReferenceValue
-					\var_dump('##################MultiReferenceValue', $fieldModel->tabid);
 				$this->assertTrue((new \App\Db\Query())->from('s_#__multireference')->where(['source_module' => 'Test', 'dest_module' => 'Contacts'])->exists(), 'No record in the table "s_yf_multireference" for type ' . $type);
 				break;
 		}
@@ -235,6 +235,7 @@ class ModuleManager extends \Tests\Base
 		$source_Module->setRelatedList($moduleInstance, 'TestRel123', ['ADD', 'SELECT'], 'getRelatedList');
 
 		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('Test');
+
 		$fields = [];
 		foreach ($moduleModel->getRelations() as $value) {
 			foreach ($value->getFields() as $valF) {
@@ -322,6 +323,7 @@ class ModuleManager extends \Tests\Base
 				$this->assertSame(0, (new \App\Db\Query())->from('vtiger_role2picklist')->where(['picklistid' => static::$pickList[$key]])->count(), 'All rows in the table "vtiger_role2picklist" have not been deleted');
 				break;
 			case 305: //MultiReferenceValue
+				\var_dump('##################MultiReferenceValue', $fieldInstance->tabid, $fieldInstance->getId());
 				$row = (new \App\Db\Query())->from('s_#__multireference')->where(['source_module' => 'Test', 'dest_module' => 'Contacts'])->one();
 				\var_dump($row);
 

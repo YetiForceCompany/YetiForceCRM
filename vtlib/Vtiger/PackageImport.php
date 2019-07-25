@@ -832,9 +832,9 @@ class PackageImport extends PackageExport
 		foreach ($customviewnode->fields->field as $fieldnode) {
 			if ((string) $fieldnode->modulename === $moduleInstance->name) {
 				$fieldInstance = $this->__GetModuleFieldFromCache($moduleInstance, $fieldnode->fieldname);
-				var_dump('__GetModuleFieldFromCache', \get_class($fieldInstance));
+				//var_dump('__GetModuleFieldFromCache', \get_class($fieldInstance));
 			} else {
-				var_dump('Field', \get_class($fieldInstance));
+				//var_dump('Field', \get_class($fieldInstance));
 				$fieldInstance = Field::getInstance((string) $fieldnode->fieldname, Module::getInstance((string) $fieldnode->modulename));
 			}
 			$fieldInstance->sourcefieldname = (string) $fieldnode->sourcefieldname;
