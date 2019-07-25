@@ -323,7 +323,14 @@ class ModuleManager extends \Tests\Base
 				$this->assertSame(0, (new \App\Db\Query())->from('vtiger_role2picklist')->where(['picklistid' => static::$pickList[$key]])->count(), 'All rows in the table "vtiger_role2picklist" have not been deleted');
 				break;
 			case 305: //MultiReferenceValue
-				\var_dump('##################MultiReferenceValue', $fieldInstance->tabid, $fieldInstance->getId());
+
+				\var_dump(
+					'##################MultiReferenceValue',
+					$fieldInstance->tabid,
+					$fieldInstance->getId(),
+					$fieldInstance->getModuleName(),
+					'..........................'
+				);
 				$row = (new \App\Db\Query())->from('s_#__multireference')->where(['source_module' => 'Test', 'dest_module' => 'Contacts'])->one();
 				\var_dump($row);
 
