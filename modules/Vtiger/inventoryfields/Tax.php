@@ -87,7 +87,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 				throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 			}
 			if (null !== $originalValue && !\App\Validator::floatIsEqualUserCurrencyDecimals($value, $originalValue)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $columnName ?? $this->getColumnName() . '||' . $this->getModuleName() . '||' . $value, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . ($columnName ?? $this->getColumnName()) . '||' . $this->getModuleName() . '||' . $value, 406);
 			}
 		} else {
 			if (App\TextParser::getTextLength($value) > $this->customMaximumLength[$columnName]) {
@@ -136,7 +136,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	{
 		if ($column === $this->getColumnName() || null === $column) {
 			$value = 0.0;
-			if (!\App\Json::isEmpty($item['taxparam'] ?? '') && ($taxesConfig = \Vtiger_Inventory_Model::getTaxesConfig()) && 1 === (int) $taxesConfig['active']) {
+			if (!\App\Json::isEmpty($item['taxparam'] ?? '') && ($taxesConfig = \Vtiger_Inventory_Model::getTaxesConfig())) {
 				$taxParam = \App\Json::decode($item['taxparam']);
 				$netPrice = static::getInstance($this->getModuleName(), 'NetPrice')->getValueForSave($item, $userFormat);
 				$value = $this->getTaxValue($taxParam, $netPrice, (int) $taxesConfig['aggregation']);

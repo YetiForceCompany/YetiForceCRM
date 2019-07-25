@@ -64,7 +64,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function set($key, $value)
 	{
-		if (!$this->isNew && !in_array($key, ['mode', 'id', 'newRecord', 'modifiedtime', 'modifiedby', 'createdtime']) && (isset($this->value[$key]) && $this->value[$key] != $value)) {
+		if (!$this->isNew && !\in_array($key, ['mode', 'id', 'newRecord', 'modifiedtime', 'modifiedby', 'createdtime']) && (isset($this->value[$key]) && $this->value[$key] != $value)) {
 			$this->changes[$key] = $this->get($key);
 		}
 		$this->value[$key] = $value;
@@ -129,7 +129,7 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * Gets previous values by inventory.
 	 *
-	 * @param null|int|string $key
+	 * @param int|string|null $key
 	 *
 	 * @return array|bool
 	 */
@@ -471,7 +471,7 @@ class Vtiger_Record_Model extends \App\Base
 			Users_Privileges_Model::setSharedOwner($this->get('shownerid'), $recordId);
 			if ('link' === \App\Request::_get('createmode') && \App\Request::_has('return_module') && \App\Request::_has('return_id')) {
 				Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance(\App\Request::_get('return_module')), $this->getModule())
-				->addRelation(\App\Request::_getInteger('return_id'), $recordId);
+					->addRelation(\App\Request::_getInteger('return_id'), $recordId);
 			}
 			$transaction->commit();
 		} catch (\Exception $e) {
@@ -595,7 +595,7 @@ class Vtiger_Record_Model extends \App\Base
 			Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
 			Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
 			$workflows = (new VTWorkflowManager())->getWorkflowsForModule($moduleName, VTWorkflowManager::$ON_DELETE);
-			if (count($workflows)) {
+			if (\count($workflows)) {
 				foreach ($workflows as &$workflow) {
 					if ($workflow->evaluate($this)) {
 						$workflow->performTasks($this);
@@ -652,9 +652,9 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public static function getInstanceById($recordId, $module = null)
 	{
-		if (is_object($module) && is_a($module, 'Vtiger_Module_Model')) {
+		if (\is_object($module) && is_a($module, 'Vtiger_Module_Model')) {
 			$moduleName = $module->get('name');
-		} elseif (is_string($module)) {
+		} elseif (\is_string($module)) {
 			$module = Vtiger_Module_Model::getInstance($module);
 			$moduleName = $module->get('name');
 		} elseif (empty($module)) {
@@ -886,7 +886,7 @@ class Vtiger_Record_Model extends \App\Base
 		}
 		$lockFields = \App\RecordStatus::getLockStatus($this->getModule()->getName());
 		foreach ($lockFields as $fieldName => $values) {
-			if (!in_array($this->getValueByField($fieldName), $values) || !$this->getField($fieldName)->isAjaxEditable()) {
+			if (!\in_array($this->getValueByField($fieldName), $values) || !$this->getField($fieldName)->isAjaxEditable()) {
 				unset($lockFields[$fieldName]);
 			}
 		}
@@ -1004,65 +1004,68 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * Function to set record module field values.
 	 *
-	 * @param mixed $parentRecordModel
+	 * @param self $parentRecordModel
 	 */
 	public function setRecordFieldValues($parentRecordModel)
 	{
-		$newInvData = [];
 		$mfInstance = Vtiger_MappedFields_Model::getInstanceByModules($parentRecordModel->getModule()->getId(), $this->getModule()->getId());
 		if ($mfInstance) {
-			$moduleFields = $this->getModule()->getFields();
-			$fieldsList = array_keys($moduleFields);
-			$parentFieldsList = array_keys($parentRecordModel->getModule()->getFields());
+			$defaultInvRow = [];
 			$params = $mfInstance->get('params');
 			if ($params['autofill']) {
+				$fieldsList = array_keys($this->getModule()->getFields());
+				$parentFieldsList = array_keys($parentRecordModel->getModule()->getFields());
 				$commonFields = array_intersect($fieldsList, $parentFieldsList);
 				foreach ($commonFields as $fieldName) {
 					if (\App\Field::getFieldPermission($parentRecordModel->getModuleName(), $fieldName)) {
-						if ('shownerid' === $fieldName) {
-							$parentRecordModel->set($fieldName, \App\Fields\SharedOwner::getById($parentRecordModel->getId()));
-						}
-						$this->set($fieldName, $parentRecordModel->get($fieldName));
+						$value = $parentRecordModel->get($fieldName);
+						$this->getField($fieldName)->getUITypeModel()->validate($value);
+						$this->set($fieldName, $value);
 					}
 				}
 			}
 			if ($parentRecordModel->getModule()->isInventory() && $this->getModule()->isInventory()) {
-				$inventoryModel = Vtiger_Inventory_Model::getInstance($parentRecordModel->getModuleName());
-				$inventoryFields = $inventoryModel->getFields();
+				$inventoryModel = Vtiger_Inventory_Model::getInstance($this->getModuleName());
 				$sourceInv = $parentRecordModel->getInventoryData();
+				foreach($inventoryModel->getFields() as $fieldModel){
+					$defaultInvRow[$fieldModel->getColumnName()] = $fieldModel->getDefaultValue();
+				}
 			}
+
 			foreach ($mfInstance->getMapping() as $mapp) {
-				if ('SELF' == $mapp['type'] && is_object($mapp['target'])) {
-					$referenceList = $mapp['target']->getReferenceList();
-					if (in_array($parentRecordModel->getModuleName(), $referenceList)) {
-						$this->set($mapp['target']->getName(), $parentRecordModel->get($mapp['source']->getName()));
-					}
-				} elseif ('INVENTORY' == $mapp['type'] && $sourceInv) {
+				$fieldTarget = $mapp['target'];
+				$fieldSource = $mapp['source'];
+				if((!\is_object($fieldTarget) || !\is_object($fieldSource))){
+					continue;
+				}
+				$type = $mapp['type'];
+				if ('SELF' == $type && \in_array($parentRecordModel->getModuleName(), $fieldTarget->getReferenceList())) {
+					$this->set($fieldTarget->getName(), $parentRecordModel->get($fieldSource->getName()));
+				} elseif ('INVENTORY' == $type && $sourceInv) {
 					foreach ($sourceInv as $key => $base) {
-						$newInvData[$key][$mapp['target']->getName()] = $base[$mapp['source']->getName()];
-						$fieldInventoryModel = $inventoryFields ? $inventoryFields[$mapp['source']->getName()] : [];
-						if ($fieldInventoryModel && $fieldInventoryModel->getCustomColumn()) {
-							foreach (array_keys($fieldInventoryModel->getCustomColumn()) as $customColumn) {
-								if (array_key_exists($customColumn, $base)) {
-									$newInvData[$key][$customColumn] = $base[$customColumn];
-								}
+						if(!isset($base[$fieldSource->getName()]) || !($fieldInventory = $inventoryModel->getField($fieldTarget->getName()))){
+							continue;
+						}
+						$fieldInventory->validate($base[$fieldSource->getName()], $fieldInventory->getColumnName(), false);
+						if(null === $this->getInventoryItem($key)){
+							$this->inventoryData[$key] = $defaultInvRow;
+						}
+						$this->setInventoryItemPart($key, $fieldInventory->getColumnName(), $base[$fieldSource->getName()]);
+						foreach (array_keys($fieldInventory->getCustomColumn()) as $customColumn) {
+							if (\array_key_exists($customColumn, $base)) {
+								$fieldInventory->validate($base[$customColumn], $customColumn, false);
+								$this->setInventoryItemPart($key, $customColumn, $base[$customColumn]);
 							}
 						}
 					}
-				} elseif ((is_object($mapp['target']) && is_object($mapp['source'])) && \App\Field::getFieldPermission($parentRecordModel->getModuleName(), $mapp['source']->getName()) && in_array($mapp['source']->getName(), $parentFieldsList)) {
-					$parentMapName = $parentRecordModel->get($mapp['source']->getName());
-					if ('shownerid' === $mapp['source']->getName() && empty($parentMapName)) {
-						$parentRecordModel->set($mapp['source']->getName(), \App\Fields\SharedOwner::getById($parentRecordModel->getId()));
-					}
-					$value = $parentRecordModel->get($mapp['source']->getName());
+				} elseif (!in_array($type, ['INVENTORY','SELF']) && \App\Field::getFieldPermission($parentRecordModel->getModuleName(), $fieldSource->getName())) {
+					$value = $parentRecordModel->get($fieldSource->getName());
 					if (!$value) {
 						$value = $mapp['default'];
 					}
-					$this->set($mapp['target']->getName(), $value);
+					$this->getField($fieldTarget->getName())->getUITypeModel()->validate($value);
+					$this->set($fieldTarget->getName(), $value);
 				}
-			}
-			if ($newInvData) {
-				$this->initInventoryData($newInvData, false);
 			}
 		}
 	}
@@ -1110,7 +1113,7 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * Function to gets inventory default data fields.
 	 *
-	 * @return null|int|string
+	 * @return int|string|null
 	 */
 	public function getInventoryDefaultDataFields()
 	{
@@ -1164,8 +1167,8 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * Initialization of inventory data.
 	 *
-	 * @param array     $items
-	 * @param null|bool $userFormat
+	 * @param array $items
+	 * @param bool  $userFormat
 	 *
 	 * @throws \App\Exceptions\AppException
 	 * @throws \App\Exceptions\Security
@@ -1409,6 +1412,8 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * Get the related list view actions for the record.
 	 *
+	 * @param Vtiger_RelationListView_Model $viewModel
+	 *
 	 * @return Vtiger_Link_Model[] - Associate array of Vtiger_Link_Model instances
 	 */
 	public function getRecordRelatedListViewLinksLeftSide(Vtiger_RelationListView_Model $viewModel)
@@ -1514,7 +1519,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function isCanAssignToHimself()
 	{
 		return $this->isPermitted('AssignToYourself') && \App\PrivilegeUtil::MEMBER_TYPE_GROUPS === \App\Fields\Owner::getType($this->getValueByField('assigned_user_id')) &&
-			array_key_exists(\App\User::getCurrentUserId(), \App\Fields\Owner::getInstance($this->getModuleName())->getAccessibleUsers('', 'owner'));
+			\array_key_exists(\App\User::getCurrentUserId(), \App\Fields\Owner::getInstance($this->getModuleName())->getAccessibleUsers('', 'owner'));
 	}
 
 	/**
