@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-Settings-YetiForce-Shop-BuyModal -->
-<div class="modal-body">
+<div class="modal-body px-md-5 pb-0">
 	<form  class="js-buy-form" action="{$PAYPAL_URL}" method="POST" target="_blank">
 		<div class="row no-gutters" >
 			<div class="col-sm-18 col-md-12">
@@ -20,12 +20,12 @@
 				<table class="table table-sm">
 					<tbody class="u-word-break-all small">
 						<tr>
-							<td>{\App\Language::translate('LBL_SHOP_PRODUCT_NAME', $QUALIFIED_MODULE)}</td>
-							<td>{$PRODUCT->getLabel()}</td>
+							<td class="py-2">{\App\Language::translate('LBL_SHOP_PRODUCT_NAME', $QUALIFIED_MODULE)}</td>
+							<td class="py-2 w-50">{$PRODUCT->getLabel()}</td>
 						</tr>
 						<tr>
-							<td>{\App\Language::translate('LBL_SHOP_AMOUNT', $QUALIFIED_MODULE)}</td>
-							<td>
+							<td class="py-2">{\App\Language::translate('LBL_SHOP_AMOUNT', $QUALIFIED_MODULE)}</td>
+							<td class="py-2 w-50">
 							{if 'manual'=== $PRODUCT->getPriceType()}
 									<input name="a3" class="form-control" style="max-width: 80px;" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
 							{else}
@@ -34,16 +34,16 @@
 							</td>
 						</tr>
 						<tr>
-							<td>{\App\Language::translate('LBL_SHOP_PACKAGE', $QUALIFIED_MODULE)} </td>
-							<td>{$VARIABLE_PRODUCT['os0']}</td>
+							<td class="py-2">{\App\Language::translate('LBL_SHOP_PACKAGE', $QUALIFIED_MODULE)} </td>
+							<td class="py-2 w-50">{$VARIABLE_PRODUCT['os0']}</td>
 						</tr>
 						<tr>
-							<td>{\App\Language::translate('LBL_SHOP_SUBSCRIPTIONS_DAY', $QUALIFIED_MODULE)}</td>
-							<td>{$VARIABLE_PRODUCT['p3']}</td>
+							<td class="py-2">{\App\Language::translate('LBL_SHOP_SUBSCRIPTIONS_DAY', $QUALIFIED_MODULE)}</td>
+							<td class="py-2 w-50">{$VARIABLE_PRODUCT['p3']}</td>
 						</tr>
 						<tr>
-							<td>{\App\Language::translate('LBL_SHOP_PAYMENT_FREQUENCY', $QUALIFIED_MODULE)}</td>
-							<td>{\App\Language::translate("LBL_SHOP_PAYMENT_FREQUENCY_{$VARIABLE_PRODUCT['t3']}", $QUALIFIED_MODULE)}</td>
+							<td class="py-2">{\App\Language::translate('LBL_SHOP_PAYMENT_FREQUENCY', $QUALIFIED_MODULE)}</td>
+							<td class="py-2 w-50">{\App\Language::translate("LBL_SHOP_PAYMENT_FREQUENCY_{$VARIABLE_PRODUCT['t3']}", $QUALIFIED_MODULE)}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -73,8 +73,8 @@
 						{assign var="FIELD_MODEL" value=$RECORD->getFieldInstanceByName($FIELD_NAME, 'LBL_'|cat:$FIELD_NAME|upper)->set('fieldvalue',$RECORD->get($FIELD_NAME))}
 						{if isset($FIELD['paymentData'])}
 							<tr>
-								<td>{\App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, 'Settings:Companies')}</td>
-								<td class="position-relative">
+								<td class="align-middle">{\App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, 'Settings:Companies')}</td>
+								<td class="position-relative input-group-sm">
 									{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName()) MODULE=$QUALIFIED_MODULE}
 								</td>
 							</tr>
