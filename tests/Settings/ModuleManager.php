@@ -100,7 +100,7 @@ class ModuleManager extends \Tests\Base
 			'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^',
 			'ROW',
 			$row,
-			'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^',
+			'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'
 		);
 
 		$this->assertIsInt($module->getId());
@@ -439,10 +439,8 @@ class ModuleManager extends \Tests\Base
 		$this->assertFileNotExists(static::$zipFileName);
 	}
 
-	/**
-	 * Testing download librares.
-	 */
-	public function testDownloadLibraryModule()
+	// Testing download librares.
+	/*public function testDownloadLibraryModule()
 	{
 		$libraries = \Settings_ModuleManager_Library_Model::getAll();
 		foreach ($libraries as $key => $library) {
@@ -453,12 +451,10 @@ class ModuleManager extends \Tests\Base
 			$this->assertTrue(\Settings_ModuleManager_Library_Model::download($key), "The library \"{$key}\" could not be downloaded");
 			$this->assertFileExists($library['dir'] . 'version.php');
 		}
-	}
+	}*/
 
-	/**
-	 * Testing module off.
-	 */
-	public function testOffAllModule()
+	// Testing module off.
+	/*public function testOffAllModule()
 	{
 		$allModules = \Settings_ModuleManager_Module_Model::getAll();
 		$moduleManagerModel = new \Settings_ModuleManager_Module_Model();
@@ -469,12 +465,10 @@ class ModuleManager extends \Tests\Base
 				$this->assertSame(1, (new \App\Db\Query())->select(['presence'])->from('vtiger_tab')->where(['tabid' => $module->getId()])->scalar());
 			}
 		}
-	}
+	}*/
 
-	/**
-	 * Testing module on.
-	 */
-	public function testOnAllModule()
+	// Testing module on.
+	/*public function testOnAllModule()
 	{
 		$allModules = \Settings_ModuleManager_Module_Model::getAll();
 		$moduleManagerModel = new \Settings_ModuleManager_Module_Model();
@@ -485,5 +479,5 @@ class ModuleManager extends \Tests\Base
 				$this->assertSame(0, (new \App\Db\Query())->select(['presence'])->from('vtiger_tab')->where(['tabid' => $module->getId()])->scalar());
 			}
 		}
-	}
+	}*/
 }
