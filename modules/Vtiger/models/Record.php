@@ -1027,7 +1027,7 @@ class Vtiger_Record_Model extends \App\Base
 			if ($parentRecordModel->getModule()->isInventory() && $this->getModule()->isInventory()) {
 				$inventoryModel = Vtiger_Inventory_Model::getInstance($this->getModuleName());
 				$sourceInv = $parentRecordModel->getInventoryData();
-				foreach($inventoryModel->getFields() as $fieldModel){
+				foreach ($inventoryModel->getFields() as $fieldModel) {
 					$defaultInvRow[$fieldModel->getColumnName()] = $fieldModel->getDefaultValue();
 				}
 			}
@@ -1035,7 +1035,7 @@ class Vtiger_Record_Model extends \App\Base
 			foreach ($mfInstance->getMapping() as $mapp) {
 				$fieldTarget = $mapp['target'];
 				$fieldSource = $mapp['source'];
-				if((!\is_object($fieldTarget) || !\is_object($fieldSource))){
+				if ((!\is_object($fieldTarget) || !\is_object($fieldSource))) {
 					continue;
 				}
 				$type = $mapp['type'];
@@ -1043,11 +1043,11 @@ class Vtiger_Record_Model extends \App\Base
 					$this->set($fieldTarget->getName(), $parentRecordModel->get($fieldSource->getName()));
 				} elseif ('INVENTORY' == $type && $sourceInv) {
 					foreach ($sourceInv as $key => $base) {
-						if(!isset($base[$fieldSource->getName()]) || !($fieldInventory = $inventoryModel->getField($fieldTarget->getName()))){
+						if (!isset($base[$fieldSource->getName()]) || !($fieldInventory = $inventoryModel->getField($fieldTarget->getName()))) {
 							continue;
 						}
 						$fieldInventory->validate($base[$fieldSource->getName()], $fieldInventory->getColumnName(), false);
-						if(null === $this->getInventoryItem($key)){
+						if (null === $this->getInventoryItem($key)) {
 							$this->inventoryData[$key] = $defaultInvRow;
 						}
 						$this->setInventoryItemPart($key, $fieldInventory->getColumnName(), $base[$fieldSource->getName()]);
@@ -1058,7 +1058,7 @@ class Vtiger_Record_Model extends \App\Base
 							}
 						}
 					}
-				} elseif (!in_array($type, ['INVENTORY','SELF']) && \App\Field::getFieldPermission($parentRecordModel->getModuleName(), $fieldSource->getName())) {
+				} elseif (!\in_array($type, ['INVENTORY', 'SELF']) && \App\Field::getFieldPermission($parentRecordModel->getModuleName(), $fieldSource->getName())) {
 					$value = $parentRecordModel->get($fieldSource->getName());
 					if (!$value) {
 						$value = $mapp['default'];
@@ -1097,6 +1097,9 @@ class Vtiger_Record_Model extends \App\Base
 				$dbCommand->delete($tableName, ['id' => $ids])->execute();
 			}
 			foreach ($inventoryData as $key => $item) {
+				foreach ($inventory->getFields() as $field) {
+					$field->validate($item[$field->getColumnName()] ?? null, $field->getColumnName(), false);
+				}
 				if (isset($item['id'])) {
 					$dbCommand->update($tableName, $item, ['id' => $item['id']])->execute();
 				} else {
