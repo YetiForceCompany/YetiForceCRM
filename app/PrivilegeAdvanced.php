@@ -43,6 +43,7 @@ class PrivilegeAdvanced
 		}
 		$content = '<?php return ' . Utils::varExport($cache) . ';' . PHP_EOL;
 		file_put_contents(static::$cacheFile, $content, LOCK_EX);
+		\App\Cache::resetFileCache(static::$cacheFile);
 	}
 
 	/**
