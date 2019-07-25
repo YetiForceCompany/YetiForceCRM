@@ -272,6 +272,8 @@ class Module
 				fwrite($handle, $newbuf);
 				fclose($handle);
 				Cache::resetFileCache($filename);
+				\var_dump('------------INIT-------------');
+				static::init();
 			} else {
 				Log::error("The file $filename is not writable");
 			}
