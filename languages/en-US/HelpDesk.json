@@ -91,7 +91,7 @@
     "LBL_CHILD_RECORDS": "Child records to current one",
     "LBL_MASS_STATUS_UPDATED": "Status updated in selected records",
     "LBL_UPDATE": "Update",
-    "LBL_ADD_TIME_CONTROL": "Add working time before you closed ticket",
-    "LBL_CLOSE_RELATED_TICKETS": "Before you closed ticket, close related tickets"
+    "LBL_ADD_TIME_CONTROL": "Add working time before you close the ticket",
+    "LBL_CLOSE_RELATED_TICKETS": "Before you close this ticket, close related tickets"
   }
 }
