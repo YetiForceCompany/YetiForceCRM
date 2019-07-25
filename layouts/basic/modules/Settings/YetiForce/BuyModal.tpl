@@ -42,8 +42,8 @@
 							<td class="py-2 w-50">{$VARIABLE_PRODUCT['p3']}</td>
 						</tr>
 						<tr>
-							<td class="py-2">{\App\Language::translate('LBL_SHOP_PAYMENT_FREQUENCY', $QUALIFIED_MODULE)}</td>
-							<td class="py-2 w-50">{\App\Language::translate("LBL_SHOP_PAYMENT_FREQUENCY_{$VARIABLE_PRODUCT['t3']}", $QUALIFIED_MODULE)}</td>
+							<td class="py-2 border-bottom">{\App\Language::translate('LBL_SHOP_PAYMENT_FREQUENCY', $QUALIFIED_MODULE)}</td>
+							<td class="py-2 w-50 border-bottom">{\App\Language::translate("LBL_SHOP_PAYMENT_FREQUENCY_{$VARIABLE_PRODUCT['t3']}", $QUALIFIED_MODULE)}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -69,16 +69,14 @@
 			<input type="hidden" name="id" value="{$COMPANY_DATA['id']}"/>
 			<table class="table table-sm">
 				<tbody class="u-word-break-all small">
-					{foreach key="FIELD_NAME" item="FIELD" from=$FORM_FIELDS}
+					{foreach key="FIELD_NAME" item="FIELD" from=$FORM_FIELDS name=updateCompanyForm}
 						{assign var="FIELD_MODEL" value=$RECORD->getFieldInstanceByName($FIELD_NAME, 'LBL_'|cat:$FIELD_NAME|upper)->set('fieldvalue',$RECORD->get($FIELD_NAME))}
-						{if isset($FIELD['paymentData'])}
-							<tr>
-								<td class="align-middle">{\App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, 'Settings:Companies')}</td>
-								<td class="position-relative input-group-sm">
-									{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName()) MODULE=$QUALIFIED_MODULE}
-								</td>
-							</tr>
-						{/if}
+						<tr>
+							<td class="align-middle{if $smarty.foreach.updateCompanyForm.last} border-bottom{/if}">{\App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, 'Settings:Companies')}</td>
+							<td class="w-50 position-relative input-group-sm{if $smarty.foreach.updateCompanyForm.last} border-bottom{/if}">
+								{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName()) MODULE=$QUALIFIED_MODULE}
+							</td>
+						</tr>
 					{/foreach}
 				</tbody>
 			</table>
