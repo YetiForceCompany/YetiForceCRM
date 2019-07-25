@@ -2,7 +2,7 @@
 {strip}
 <!-- tpl-Settings-YetiForce-Shop-BuyModal -->
 <div class="modal-body">
-	<form action="{$PAYPAL_URL}" method="POST" target="_blank">
+	<form  class="js-buy-form" action="{$PAYPAL_URL}" method="POST" target="_blank">
 		<div class="row no-gutters" >
 			<div class="col-sm-18 col-md-12">
 				<div class="text-center m-2">
@@ -47,31 +47,6 @@
 						</tr>
 					</tbody>
 				</table>
-				<p>{\App\Language::translate('LBL_SHOP_INVOICE_DETAILS_DESC', $QUALIFIED_MODULE)}</p>
-				{if $COMPANY_DATA}
-					<table class="table table-sm">
-						<tbody class="u-word-break-all small">
-							{foreach key="FIELD_NAME" item="FIELD" from=$FORM_FIELDS}
-								{assign var="FIELD_MODEL" value=$RECORD->getFieldInstanceByName($FIELD_NAME, 'LBL_'|cat:$FIELD_NAME|upper)->set('fieldvalue',$RECORD->get($FIELD_NAME))}
-								{if isset($FIELD['paymentData'])}
-									<tr>
-										<td>{\App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, 'Settings:Companies')}</td>
-										<td>
-											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName()) MODULE=$QUALIFIED_MODULE}
-										</td>
-									</tr>
-								{/if}
-							{/foreach}
-						</tbody>
-					</table>
-				{else}
-					<div class="alert alert-info text-danger">
-					<span class="fas fa-exclamation-triangle"></span>
-						<a href="index.php?parent=Settings&module=Companies&view=List&block=3&fieldid=14">
-							{\App\Language::translate('LBL_SHOP_NO_COMPANIES_ALERT', $QUALIFIED_MODULE)}
-						</a>
-					</div>
-				{/if}
 				{foreach key=NAME_OF_KEY item=VARIABLE_FORM from=$VARIABLE_PAYMENTS}
 						<input name="{$NAME_OF_KEY}" type="hidden" value="{$VARIABLE_FORM}" />
 				{/foreach}
@@ -83,6 +58,39 @@
 			</div>
 		</div>
 	</form>
+	<p>{\App\Language::translate('LBL_SHOP_INVOICE_DETAILS_DESC', $QUALIFIED_MODULE)}</p>
+	{if $COMPANY_DATA}
+		<form class="js-update-company-form" name="EditCompanies" action="index.php" method="post" id="EditView" enctype="multipart/form-data">
+			<input type="hidden" name="module" value="Companies">
+			<input type="hidden" name="parent" value="Settings"/>
+			<input type="hidden" name="action" value="SaveAjax"/>
+			<input type="hidden" name="mode" value="updateCompany">
+			<input type="hidden" name="record" value="{$COMPANY_DATA['id']}"/>
+			<input type="hidden" name="id" value="{$COMPANY_DATA['id']}"/>
+			<table class="table table-sm">
+				<tbody class="u-word-break-all small">
+					{foreach key="FIELD_NAME" item="FIELD" from=$FORM_FIELDS}
+						{assign var="FIELD_MODEL" value=$RECORD->getFieldInstanceByName($FIELD_NAME, 'LBL_'|cat:$FIELD_NAME|upper)->set('fieldvalue',$RECORD->get($FIELD_NAME))}
+						{if isset($FIELD['paymentData'])}
+							<tr>
+								<td>{\App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, 'Settings:Companies')}</td>
+								<td class="position-relative">
+									{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName()) MODULE=$QUALIFIED_MODULE}
+								</td>
+							</tr>
+						{/if}
+					{/foreach}
+				</tbody>
+			</table>
+		</form>
+	{else}
+		<div class="alert alert-info text-danger">
+		<span class="fas fa-exclamation-triangle"></span>
+			<a href="index.php?parent=Settings&module=Companies&view=List&block=3&fieldid=14">
+				{\App\Language::translate('LBL_SHOP_NO_COMPANIES_ALERT', $QUALIFIED_MODULE)}
+			</a>
+		</div>
+	{/if}
 </div>
 <!-- /tpl-Settings-YetiForce-Shop-BuyModal -->
 {/strip}

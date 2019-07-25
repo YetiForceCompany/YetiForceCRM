@@ -8,6 +8,14 @@
 	</div>
 	<div class="editViewContainer container">
 		<form name="EditCompanies" action="index.php" method="post" id="EditView" enctype="multipart/form-data">
+			<input type="hidden" name="module" value="Companies">
+			<input type="hidden" name="parent" value="Settings"/>
+			<input type="hidden" name="action" value="SaveAjax"/>
+			<input type="hidden" name="mode" value="updateCompany">
+			<input type="hidden" name="record" value="{$RECORD_ID}"/>
+			{if !empty(RECORD_ID)}
+				<input type="hidden" name="id" value="{$RECORD_ID}"/>
+			{/if}
 			<div class="card mb-2">
 				<div class="card-header">
 					<span class="adminIcon-company-detlis"
@@ -22,14 +30,6 @@
 					</span>
 				</div>
 				<div class="card-body">
-					<input type="hidden" name="module" value="Companies">
-					<input type="hidden" name="parent" value="Settings"/>
-					<input type="hidden" name="action" value="SaveAjax"/>
-					<input type="hidden" name="mode" value="updateCompany">
-					<input type="hidden" name="record" value="{$RECORD_ID}"/>
-					{if !empty(RECORD_ID)}
-						<input type="hidden" name="id" value="{$RECORD_ID}"/>
-					{/if}
 					{include file=\App\Layout::getTemplatePath('Form.tpl',$QUALIFIED_MODULE) MODULE_NAME=$QUALIFIED_MODULE COMPANY_ID=$RECORD_ID}
 				</div>
 				<div class="card-footer text-center">
