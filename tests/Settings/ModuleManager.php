@@ -62,7 +62,10 @@ class ModuleManager extends \Tests\Base
 
 	public static function setUpBeforeClass()
 	{
-
+		$moduleInstance = \vtlib\Module::getInstance('Test');
+		if ($moduleInstance) {
+			$moduleInstance->delete();
+		}
 	}
 
 	/**
@@ -214,6 +217,7 @@ class ModuleManager extends \Tests\Base
 				);
 				break;
 			case 305: //MultiReferenceValue
+					\var_dump('##################MultiReferenceValue', $fieldModel->tabid);
 				$this->assertTrue((new \App\Db\Query())->from('s_#__multireference')->where(['source_module' => 'Test', 'dest_module' => 'Contacts'])->exists(), 'No record in the table "s_yf_multireference" for type ' . $type);
 				break;
 		}
