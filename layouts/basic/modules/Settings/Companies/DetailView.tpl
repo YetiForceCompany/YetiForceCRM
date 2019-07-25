@@ -32,8 +32,10 @@
 					<tbody>
 					{foreach from=$RECORD_MODEL->getModule()->getNameFields() item=COLUMN}
 						<tr>
-							<td class="{$WIDTHTYPE} w-25"><label
-										class="float-right">{App\Language::translate('LBL_'|cat:$COLUMN|upper, $QUALIFIED_MODULE)}</label>
+							<td class="{$WIDTHTYPE} w-25">
+								<label class="float-right">
+									{App\Language::translate('LBL_'|cat:$COLUMN|upper, $QUALIFIED_MODULE)}
+								</label>
 							</td>
 							<td class="{$WIDTHTYPE}">
 								{$RECORD_MODEL->getDisplayValue($COLUMN)}

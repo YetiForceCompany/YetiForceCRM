@@ -70,13 +70,50 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 			`index.php?module=YetiForce&parent=Settings&view=BuyModal&product=${productName}${
 				department ? '&department=' + department : ''
 			}`,
-			modalContainer => {
-				modalContainer.find('.js-modal__save').on('click', _ => {
-					modalContainer.find('form').submit();
-					app.hideModalWindow();
-				});
-			}
+			this.registerBuyModalEvents.bind(this)
 		);
+	}
+
+	registerBuyModalEvents(modalContainer) {
+		const companyForm = modalContainer.find('.js-update-company-form');
+		const buyForm = modalContainer.find('.js-buy-form');
+		modalContainer.find('.js-modal__save').on('click', _ => {
+			this.registerBuyModalForms(companyForm, buyForm);
+		});
+		if (companyForm.length) {
+			companyForm.validationEngine(app.validationEngineOptions);
+			companyForm.find('[data-inputmask]').inputmask();
+		}
+	}
+	registerBuyModalForms(companyForm, buyForm) {
+		if (companyForm.length) {
+			if (companyForm.validationEngine('validate') === true) {
+				app.removeEmptyFilesInput(companyForm[0]);
+				const formData = new FormData(companyForm[0]);
+				const params = {
+					url: 'index.php',
+					type: 'POST',
+					data: formData,
+					processData: false,
+					contentType: false
+				};
+				const progressIndicatorElement = $.progressIndicator({
+					blockInfo: { enabled: true }
+				});
+				AppConnector.request(params).done(data => {
+					if (data.success) {
+						buyForm.submit();
+						app.hideModalWindow();
+					}
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+				});
+			} else {
+				app.formAlignmentAfterValidation(companyForm);
+			}
+		} else {
+			buyForm.submit();
+			app.hideModalWindow();
+		}
 	}
 	/**
 	 * Get department.
