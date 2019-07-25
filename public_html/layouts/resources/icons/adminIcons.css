@@ -1,9 +1,9 @@
 @font-face {
 	font-family: 'adminIcon';
-	src: url('fonts/adminIcon.eot?z1lvzb');
-	src: url('fonts/adminIcon.eot?z1lvzb#iefix') format('embedded-opentype'),
-		url('fonts/adminIcon.ttf?z1lvzb') format('truetype'), url('fonts/adminIcon.woff?z1lvzb') format('woff'),
-		url('fonts/adminIcon.svg?z1lvzb#adminIcon') format('svg');
+	src: url('adminIcons.eot?z1lvzb');
+	src: url('adminIcons.eot?z1lvzb#iefix') format('embedded-opentype'),
+		url('adminIcons.ttf?z1lvzb') format('truetype'), url('adminIcons.woff?z1lvzb') format('woff'),
+		url('adminIcons.svg?z1lvzb#adminIcon') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
