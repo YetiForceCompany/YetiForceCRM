@@ -283,7 +283,6 @@ class FieldBasic
 	 */
 	public function getModuleName()
 	{
-		\var_dump('getModuleName', $this->tabid);
 		if ($this->tabid) {
 			return \App\Module::getModuleName($this->tabid);
 		}

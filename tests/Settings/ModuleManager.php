@@ -60,6 +60,11 @@ class ModuleManager extends \Tests\Base
 	 */
 	private static $treeId;
 
+	public static function setUpBeforeClass()
+	{
+
+	}
+
 	/**
 	 * Testing language exports.
 	 */
