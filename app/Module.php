@@ -25,6 +25,7 @@ class Module
 	 */
 	public static function init()
 	{
+		Cache::resetFileCache(\ROOT_DIRECTORY . '/user_privileges/tabdata.php');
 		static::$tabdataCache = require \ROOT_DIRECTORY . '/user_privileges/tabdata.php';
 		static::$tabdataCache['tabName'] = array_flip(static::$tabdataCache['tabId']);
 	}
