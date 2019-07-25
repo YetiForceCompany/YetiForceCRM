@@ -92,6 +92,17 @@ class ModuleManager extends \Tests\Base
 			'entitytype' => 1,
 			'entityfieldlabel' => 'Test',
 		]);
+
+		$row = (new \App\Db\Query())
+			->from('vtiger_tab')
+			->where(['tabid' => $module->getId()])->one();
+		\var_dump(
+			'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^',
+			'ROW',
+			$row,
+			'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^',
+		);
+
 		$this->assertIsInt($module->getId());
 		$this->assertSame('Test', \App\Module::getModuleName($module->getId()), 'The name of the new module is missing: ' . $module->getId());
 		$this->assertFileExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
