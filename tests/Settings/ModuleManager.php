@@ -85,16 +85,15 @@ class ModuleManager extends \Tests\Base
 	 */
 	public function testCreateModule()
 	{
-		$moduleManagerModel = new \Settings_ModuleManager_Module_Model();
-		$moduleManagerModel->createModule([
+		$module = Settings_ModuleManager_Module_Model::createModule([
 			'module_name' => 'Test',
 			'entityfieldname' => 'test',
 			'module_label' => 'Test',
 			'entitytype' => 1,
 			'entityfieldlabel' => 'Test',
 		]);
-		$this->assertIsInt($moduleManagerModel->getId());
-		$this->assertSame('Test', \App\Module::getModuleName($moduleManagerModel->getId()));
+		$this->assertIsInt($module->getId());
+		$this->assertSame('Test', \App\Module::getModuleName($module->getId()), 'The name of the new module is missing: ' . $module->getId());
 		$this->assertFileExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
 		$langFileToCheck = $this->getLangPathToFile('Test.json');
 		foreach ($langFileToCheck as $pathToFile) {

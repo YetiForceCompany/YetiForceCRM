@@ -40,7 +40,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$actionIds = (new \App\Db\Query())->select(['actionname', 'actionid'])->from('vtiger_actionmapping')->createCommand()->queryAllByGroup();
 		foreach (static::$baseModuleToolsExceptions as $moduleName => $moduleException) {
 			foreach ($moduleException as $type => $exception) {
-				if (is_array($exception)) {
+				if (\is_array($exception)) {
 					$moduleExceptions = [];
 					foreach ($exception as $actionName) {
 						$moduleExceptions[$actionIds[$actionName]] = $actionName;
@@ -119,6 +119,10 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Static Function to get the instance of Vtiger Module Model for all the modules.
+	 *
+	 * @param mixed $presence
+	 * @param mixed $restrictedModulesList
+	 * @param mixed $isEntityType
 	 *
 	 * @return <Array> - List of Vtiger Module Model or sub class instances
 	 */
@@ -283,9 +287,11 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$module->createFiles($field1);
 		\App\Fields\RecordNumber::getInstance($module->id)->set('prefix', 'N')->set('cur_id', 1)->save();
 
-		if ($module->type === 1) {
+		if (1 === $module->type) {
 			\Vtiger_Inventory_Model::getInstance($module->name)->createInventoryTables();
 		}
+
+		return $module;
 	}
 
 	public static function toAlphaNumeric($value)
