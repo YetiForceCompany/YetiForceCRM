@@ -93,6 +93,8 @@ class ModuleManager extends \Tests\Base
 			'entitytype' => 1,
 			'entityfieldlabel' => 'Test',
 		]);
+		$this->assertIsInt($moduleManagerModel->getId());
+		$this->assertSame('Test', \App\Module::getModuleName($moduleManagerModel->getId()));
 		$this->assertFileExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
 		$langFileToCheck = $this->getLangPathToFile('Test.json');
 		foreach ($langFileToCheck as $pathToFile) {
