@@ -204,7 +204,6 @@ abstract class AbstractBaseProduct
 			'a3' => $this->getPrice(),
 			'item_name' => $this->name,
 			'currency_code' => $this->currencyCode,
-			'item_number' => 'ccc',
 			'on0' => 'Package',
 			'os0' => \App\Company::getSize(),
 		];

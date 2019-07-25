@@ -65,6 +65,16 @@ class Base
 	}
 
 	/**
+	 * Returns the schema information for the database opened by this connection.
+	 *
+	 * @return Schema the schema information for the database opened by this connection.
+	 */
+	public function getSchema()
+	{
+		return $this->schema;
+	}
+
+	/**
 	 * Creates a primary key column.
 	 *
 	 * @param int $length column size or precision definition.
