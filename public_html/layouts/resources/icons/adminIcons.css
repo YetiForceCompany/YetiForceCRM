@@ -1,9 +1,9 @@
 @font-face {
-	font-family: 'adminIcon';
-	src: url('adminIcons.eot?z1lvzb');
-	src: url('adminIcons.eot?z1lvzb#iefix') format('embedded-opentype'),
-		url('adminIcons.ttf?z1lvzb') format('truetype'), url('adminIcons.woff?z1lvzb') format('woff'),
-		url('adminIcons.svg?z1lvzb#adminIcon') format('svg');
+	font-family: 'adminIcons';
+	src: url('adminIcons.eot?c5e9uk');
+	src: url('adminIcons.eot?c5e9uk#iefix') format('embedded-opentype'),
+		url('adminIcons.ttf?c5e9uk') format('truetype'), url('adminIcons.woff?c5e9uk') format('woff'),
+		url('adminIcons.svg?c5e9uk#adminIcons') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -11,7 +11,7 @@
 [class^='adminIcon-'],
 [class*=' adminIcon-'] {
 	/* use !important to prevent issues with browser extensions that change fonts */
-	font-family: 'adminIcon' !important;
+	font-family: 'adminIcons' !important;
 	speak: none;
 	font-style: normal;
 	font-weight: normal;
