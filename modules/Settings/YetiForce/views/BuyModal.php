@@ -51,12 +51,17 @@ class Settings_YetiForce_BuyModal_View extends \App\Controller\ModalSettings
 				$companies = $row;
 			}
 		}
+		$recordModel = [];
+		if ($companies) {
+			$recordModel = Settings_Companies_Record_Model::getInstance($companies['id'])->set('source', $qualifiedModuleName);
+		}
 		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->assign('PRODUCT', $product);
 		$viewer->assign('VARIABLE_PAYMENTS', \App\YetiForce\Shop::getVariablePayments());
 		$viewer->assign('VARIABLE_PRODUCT', $product->getVariable());
 		$viewer->assign('PAYPAL_URL', \App\YetiForce\Shop::getPaypalUrl());
 		$viewer->assign('COMPANY_DATA', $companies);
+		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('FORM_FIELDS', Settings_Companies_Module_Model::getFormFields());
 		$viewer->view('BuyModal.tpl', $qualifiedModuleName);
 	}

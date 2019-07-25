@@ -52,11 +52,12 @@
 					<table class="table table-sm">
 						<tbody class="u-word-break-all small">
 							{foreach key="FIELD_NAME" item="FIELD" from=$FORM_FIELDS}
+								{assign var="FIELD_MODEL" value=$RECORD->getFieldInstanceByName($FIELD_NAME, 'LBL_'|cat:$FIELD_NAME|upper)->set('fieldvalue',$RECORD->get($FIELD_NAME))}
 								{if isset($FIELD['paymentData'])}
 									<tr>
 										<td>{\App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, 'Settings:Companies')}</td>
 										<td>
-											<input name="$FIELD_NAME" class="form-control" type="text" value="{$COMPANY_DATA[$FIELD_NAME]}" aria-label="$FIELD_NAME">
+											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName()) MODULE=$QUALIFIED_MODULE}
 										</td>
 									</tr>
 								{/if}
