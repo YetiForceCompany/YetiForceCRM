@@ -35,7 +35,7 @@
 						<tr>
 							<td class="{$WIDTHTYPE} w-25">
 								<label class="float-right">
-									{App\Language::translate(($COLUMN === 'status') ? 'LBL_STATUS' : $FIELDS_DATA[$COLUMN]['label'], $QUALIFIED_MODULE)}
+									{App\Language::translate((empty($FIELDS_DATA[$COLUMN])) ? ('LBL_'|cat:$COLUMN|upper) : $FIELDS_DATA[$COLUMN]['label'], $QUALIFIED_MODULE)}
 								</label>
 							</td>
 							<td class="{$WIDTHTYPE}">
