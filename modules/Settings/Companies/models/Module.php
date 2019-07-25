@@ -21,7 +21,7 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 		'name' => [
 			'label' => 'LBL_NAME',
 			'registerView' => true,
-			'apiName' => 'company_name'
+			'paymentData' => true
 		],
 		'type' => [
 			'label' => 'LBL_TYPE',
@@ -38,7 +38,7 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 		'country' => [
 			'label' => 'Country',
 			'registerView' => true,
-			'apiName' => 'country',
+			'paymentData' => true,
 		],
 		'companysize' => [
 			'label' => 'LBL_COMPANYSIZE',
@@ -74,18 +74,18 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 		],
 		'vat_id' => [
 			'label' => 'Vat ID',
-			'apiName' => 'company_vat',
-			'paymentBlock' => true
+			'paymentData' => true,
+			'billingBlock' => true
 		],
 		'address' => [
 			'label' => 'AddressLevel8',
-			'apiName' => 'address1',
-			'paymentBlock' => true
+			'paymentData' => true,
+			'billingBlock' => true
 		],
 		'post_code' => [
 			'label' => 'AddressLevel7',
-			'apiName' => 'zip',
-			'paymentBlock' => true
+			'paymentData' => true,
+			'billingBlock' => true
 		],
 		'facebook' => [
 			'label' => 'Facebook',

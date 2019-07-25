@@ -38,7 +38,7 @@
     "LBL_ACCEPTED": "Accepted",
     "LBL_REGISTRATION_DATA": "Registration data",
     "LBL_BRAND_DATA": "Brand data",
-    "LBL_PAYMENT_DATA": "Payment data"
+    "LBL_BILLING_DATA": "Billing data"
   },
   "js": {
     "JS_ENTER_REGISTRATION_KEY": "Enter registration key",

@@ -52,9 +52,9 @@
 					<table class="table table-sm">
 						<tbody class="u-word-break-all small">
 							{foreach key="FIELD_NAME" item="FIELD" from=$FORM_FIELDS}
-								{if isset($FIELD['apiName'])}
+								{if isset($FIELD['paymentData'])}
 									<tr>
-										<td>{\App\Language::translate($FIELD['label'], $QUALIFIED_MODULE)}</td>
+										<td>{\App\Language::translate($FIELD['label'], 'Settings:Companies')}</td>
 										<td>
 											<input name="$FIELD['apiName']" class="form-control" type="text" value="{$COMPANY_DATA[$FIELD_NAME]}" aria-label="$FIELD['apiName']">
 										</td>
