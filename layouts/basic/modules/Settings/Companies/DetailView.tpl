@@ -30,12 +30,11 @@
 					</tr>
 					</thead>
 					<tbody>
-					{assign var=FIELDS_DATA value=$RECORD_MODEL->getModule()->getFormFields()}
 					{foreach from=$RECORD_MODEL->getModule()->getNameFields() item=COLUMN}
 						<tr>
 							<td class="{$WIDTHTYPE} w-25">
 								<label class="float-right">
-									{App\Language::translate((empty($FIELDS_DATA[$COLUMN])) ? ('LBL_'|cat:$COLUMN|upper) : $FIELDS_DATA[$COLUMN]['label'], $QUALIFIED_MODULE)}
+									{App\Language::translate('LBL_'|cat:$COLUMN|upper, $QUALIFIED_MODULE)}
 								</label>
 							</td>
 							<td class="{$WIDTHTYPE}">

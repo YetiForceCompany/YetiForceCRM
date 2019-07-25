@@ -19,84 +19,65 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static $formFields = [
 		'name' => [
-			'label' => 'LBL_NAME',
 			'registerView' => true,
 			'paymentData' => true
 		],
 		'type' => [
-			'label' => 'LBL_TYPE',
 			'registerView' => true
 		],
 		'industry' => [
-			'label' => 'LBL_INDUSTRY',
 			'registerView' => true
 		],
 		'city' => [
-			'label' => 'LBL_CITY',
 			'registerView' => true
 		],
 		'country' => [
-			'label' => 'Country',
 			'registerView' => true,
 			'paymentData' => true,
 		],
 		'companysize' => [
-			'label' => 'LBL_COMPANYSIZE',
 			'registerView' => true
 		],
 		'website' => [
-			'label' => 'LBL_WEBSITE',
 			'registerView' => true
 		],
 		'spacer' => [
-			'label' => '',
 			'registerView' => true
 		],
 		'newsletter' => [
-			'label' => 'LBL_YETIFORCE_NEWSLETTER',
 			'registerView' => true
 		],
 		'firstname' => [
-			'label' => 'LBL_FIRSTNAME',
 			'registerView' => true
 		],
 		'lastname' => [
-			'label' => 'LBL_LASTNAME',
 			'registerView' => true
 		],
 		'email' => [
-			'label' => 'LBL_EMAIL',
 			'registerView' => true
 		],
 		'logo' => [
-			'label' => 'LBL_LOGO',
 			'registerView' => true
 		],
 		'vat_id' => [
-			'label' => 'Vat ID',
 			'paymentData' => true,
 			'billingBlock' => true
 		],
 		'address' => [
-			'label' => 'AddressLevel8',
 			'paymentData' => true,
 			'billingBlock' => true
 		],
 		'post_code' => [
-			'label' => 'AddressLevel7',
 			'paymentData' => true,
 			'billingBlock' => true
 		],
 		'facebook' => [
-			'label' => 'Facebook',
 			'brandBlock' => true
 		],
 		'twitter' => [
-			'label' => 'Twitter',
 			'brandBlock' => true
 		],
 		'linkedin' => [
-			'label' => 'Linked in',
 			'brandBlock' => true
 		],
 	];

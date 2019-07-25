@@ -23,7 +23,7 @@
 				{elseif $FIELD_NAME === 'type'}
 					<div class="form-group row">
 						<label class="col-lg-4 col-form-label text-left text-lg-right">
-							<b>{App\Language::translate($FIELD['label'], $QUALIFIED_MODULE)}</b>
+							<b>{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, $QUALIFIED_MODULE)}</b>
 						</label>
 						<div class="col-lg-8">
 							<div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -63,7 +63,7 @@
 						</div>
 					</div>
 				{else}
-					{assign var="FIELD_MODEL" value=$RECORD->getFieldInstanceByName($FIELD_NAME, $FIELD['label'])->set('fieldvalue',$RECORD->get($FIELD_NAME))}
+					{assign var="FIELD_MODEL" value=$RECORD->getFieldInstanceByName($FIELD_NAME, 'LBL_'|cat:$FIELD_NAME|upper)->set('fieldvalue',$RECORD->get($FIELD_NAME))}
 					<div class="form-group row">
 						<label class="col-lg-4 col-form-label text-left text-lg-right">
 							{if $FIELD_NAME === 'newsletter'}
@@ -75,7 +75,7 @@
 							{if $FIELD_MODEL->isMandatory() eq true}
 								<span class="redColor">*</span>
 							{/if}
-							<b>{App\Language::translate($FIELD['label'], $QUALIFIED_MODULE)}</b>
+							<b>{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, $QUALIFIED_MODULE)}</b>
 						</label>
 						<div class="col-lg-8">
 							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName()) MODULE=$QUALIFIED_MODULE}
@@ -99,13 +99,13 @@
 		<div class="card-body">
 			{foreach key="FIELD_NAME" item="FIELD" from=$FORM_FIELDS}
 				{if isset($FIELD['billingBlock'])}
-					{assign var="FIELD_MODEL" value=$RECORD->getFieldInstanceByName($FIELD_NAME, $FIELD['label'])->set('fieldvalue',$RECORD->get($FIELD_NAME))}
+					{assign var="FIELD_MODEL" value=$RECORD->getFieldInstanceByName($FIELD_NAME, 'LBL_'|cat:$FIELD_NAME|upper)->set('fieldvalue',$RECORD->get($FIELD_NAME))}
 					<div class="form-group row">
 						<label class="col-lg-4 col-form-label text-left text-lg-right">
 							{if $FIELD_MODEL->isMandatory() eq true}
 								<span class="redColor">*</span>
 							{/if}
-							<b>{App\Language::translate($FIELD['label'], $QUALIFIED_MODULE)}</b>
+							<b>{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, $QUALIFIED_MODULE)}</b>
 						</label>
 						<div class="col-lg-8">
 							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName()) MODULE=$QUALIFIED_MODULE}
@@ -124,13 +124,13 @@
 			<div class="card-body">
 				{foreach key="FIELD_NAME" item="FIELD" from=$FORM_FIELDS}
 					{if isset($FIELD['brandBlock'])}
-						{assign var="FIELD_MODEL" value=$RECORD->getFieldInstanceByName($FIELD_NAME, $FIELD['label'])->set('fieldvalue',$RECORD->get($FIELD_NAME))}
+						{assign var="FIELD_MODEL" value=$RECORD->getFieldInstanceByName($FIELD_NAME, 'LBL_'|cat:$FIELD_NAME|upper)->set('fieldvalue',$RECORD->get($FIELD_NAME))}
 						<div class="form-group row">
 							<label class="col-lg-4 col-form-label text-left text-lg-right">
 								{if $FIELD_MODEL->isMandatory() eq true}
 									<span class="redColor">*</span>
 								{/if}
-								<b>{App\Language::translate($FIELD['label'], $QUALIFIED_MODULE)}</b>
+								<b>{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, $QUALIFIED_MODULE)}</b>
 							</label>
 							<div class="col-lg-8">
 								{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName()) MODULE=$QUALIFIED_MODULE}

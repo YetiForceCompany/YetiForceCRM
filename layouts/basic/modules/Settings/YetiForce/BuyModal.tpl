@@ -54,9 +54,9 @@
 							{foreach key="FIELD_NAME" item="FIELD" from=$FORM_FIELDS}
 								{if isset($FIELD['paymentData'])}
 									<tr>
-										<td>{\App\Language::translate($FIELD['label'], 'Settings:Companies')}</td>
+										<td>{\App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, 'Settings:Companies')}</td>
 										<td>
-											<input name="$FIELD['apiName']" class="form-control" type="text" value="{$COMPANY_DATA[$FIELD_NAME]}" aria-label="$FIELD['apiName']">
+											<input name="$FIELD_NAME" class="form-control" type="text" value="{$COMPANY_DATA[$FIELD_NAME]}" aria-label="$FIELD_NAME">
 										</td>
 									</tr>
 								{/if}
