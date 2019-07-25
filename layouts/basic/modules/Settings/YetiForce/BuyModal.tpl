@@ -5,12 +5,12 @@
 	<form  class="js-buy-form" action="{$PAYPAL_URL}" method="POST" target="_blank">
 		<div class="row no-gutters" >
 			<div class="col-sm-18 col-md-12">
-				<div class="text-center m-2">
+				<div class="text-center pb-3">
 					{if $PRODUCT->getImage()}
 						<img src="{$PRODUCT->getImage()}" alt="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}" title="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}" />
 					{else}
 						<div class="product-no-image m-auto">
-								<span class="fa-stack fa-2x product-no-image">
+								<span class="fa-stack fa-6x product-no-image">
 										<i class="fas fa-camera fa-stack-1x"></i>
 										<i class="fas fa-ban fa-stack-2x"></i>
 								</span>
