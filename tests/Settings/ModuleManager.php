@@ -85,7 +85,7 @@ class ModuleManager extends \Tests\Base
 	 */
 	public function testCreateModule()
 	{
-		$module = Settings_ModuleManager_Module_Model::createModule([
+		$module = \Settings_ModuleManager_Module_Model::createModule([
 			'module_name' => 'Test',
 			'entityfieldname' => 'test',
 			'module_label' => 'Test',
