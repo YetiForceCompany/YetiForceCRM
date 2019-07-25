@@ -13,10 +13,10 @@
 		 bootstrap="bootstrap.php"
 		 timeoutForLargeTests="1000">
 	<testsuites>
-		<!--<testsuite name="Init">
+		<testsuite name="Init">
 			<directory suffix=".php">./Init/</directory>
 		</testsuite>
-		<testsuite name="Base">
+		<!--<testsuite name="Base">
 			<directory suffix=".php">./Base/</directory>
 		</testsuite>
 		<testsuite name="Integrations">
