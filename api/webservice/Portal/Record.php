@@ -48,9 +48,6 @@ class Record
 	public static function getTaxParam(string $availableTaxes, string $groupTaxes, string $regionalTaxes): array
 	{
 		$taxConfig = \Vtiger_Inventory_Model::getTaxesConfig();
-		if (!$taxConfig['active']) {
-			return [];
-		}
 		$globalTaxes = \Vtiger_Inventory_Model::getGlobalTaxes();
 		$taxParam = [];
 		$availableTaxes = explode(' |##| ', $availableTaxes);

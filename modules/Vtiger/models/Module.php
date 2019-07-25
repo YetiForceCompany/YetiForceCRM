@@ -526,14 +526,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getFieldByName($fieldName)
 	{
-		if (!$this->fields) {
-			$this->getFields();
-		}
-		if (isset($this->fields[$fieldName])) {
-			return $this->fields[$fieldName];
-		}
-		App\Log::warning("Field does not exist: $fieldName in {$this->getName()} | " . __METHOD__);
-		return false;
+		return $this->getFields()[$fieldName] ?? false;
 	}
 
 	/**
