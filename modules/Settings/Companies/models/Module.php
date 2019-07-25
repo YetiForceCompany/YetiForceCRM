@@ -36,7 +36,7 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 			'registerView' => true
 		],
 		'country' => [
-			'label' => 'LBL_COUNTRY',
+			'label' => 'Country',
 			'registerView' => true,
 			'apiName' => 'country',
 		],
