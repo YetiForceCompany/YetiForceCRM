@@ -52,7 +52,7 @@ Vtiger_RelatedList_Js(
 			element.validationEngine(app.validationEngineOptions);
 			element.on('change', e => {
 				e.stopPropagation();
-				let element = $(this);
+				let element = $(e.currentTarget);
 				element.formatNumber();
 				if (!element.validationEngine('validate')) {
 					AppConnector.request({
