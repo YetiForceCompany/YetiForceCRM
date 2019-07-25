@@ -53,6 +53,13 @@
     "LBL_FAILED_TRANSACTION": "Transaction failed or was cancelled, please check the payment on your PayPal account and try again.",
     "LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED": "The size of your company has changed, the purchased package is too small for the current size. Update your subscription.",
     "LBL_PRODUCT_PREVIEW": "Product Preview",
-    "LBL_SUPPORT_US": "Support us"
+    "LBL_SUPPORT_US": "Support us",
+    "LBL_SHOP_INVOICE_DETAILS_DESC": "Invoice data retrived from the company data (any change will update them in the system)",
+    "LBL_SHOP_PRODUCT_NAME": "Product name",
+    "LBL_SHOP_AMOUNT": "Price",
+    "LBL_SHOP_PACKAGE": "Package",
+    "LBL_SHOP_SUBSCRIPTIONS_DAY": "Subsription days",
+    "LBL_SHOP_PAYMENT_FREQUENCY": "Payment frequency",
+    "LBL_SHOP_PAYMENT_FREQUENCY_M": "Monthly"
   }
 }
