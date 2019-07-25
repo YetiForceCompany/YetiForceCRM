@@ -13,7 +13,7 @@
 		 bootstrap="bootstrap.php"
 		 timeoutForLargeTests="1000">
 	<testsuites>
-		<testsuite name="Init">
+		<!--<testsuite name="Init">
 			<directory suffix=".php">./Init/</directory>
 		</testsuite>
 		<testsuite name="Base">
@@ -21,12 +21,13 @@
 		</testsuite>
 		<testsuite name="Integrations">
 			<directory suffix=".php">./Integrations/</directory>
-		</testsuite>
+		</testsuite>-->
 		<testsuite name="Settings">
-			<directory suffix=".php">./Settings/</directory>
+			<!--<directory suffix=".php">./Settings/</directory>-->
 			<!--<exclude>./Settings/ModuleManager.php</exclude>-->
+			<file>./Settings/ModuleManager.php</file>
 		</testsuite>
-		<testsuite name="Apps">
+		<!--<testsuite name="Apps">
 			<directory suffix=".php">./App/</directory>
 		</testsuite>
 		<testsuite name="Gui">
@@ -34,7 +35,7 @@
 		</testsuite>
 		<testsuite name="Finish">
 			<directory suffix=".php">./Finish/</directory>
-		</testsuite>
+		</testsuite>-->
 	</testsuites>
 	<filter>
 		<whitelist processUncoveredFilesFromWhitelist="true">
