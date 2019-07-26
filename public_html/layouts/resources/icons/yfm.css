@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'yfm';
-  src:  url('fonts/yfm.eot?o297gb');
-  src:  url('fonts/yfm.eot?o297gb#iefix') format('embedded-opentype'),
-    url('fonts/yfm.ttf?o297gb') format('truetype'),
-    url('fonts/yfm.woff?o297gb') format('woff'),
-    url('fonts/yfm.svg?o297gb#yfm') format('svg');
+  src:  url('yfm.eot?o297gb');
+  src:  url('yfm.eot?o297gb#iefix') format('embedded-opentype'),
+    url('yfm.ttf?o297gb') format('truetype'),
+    url('yfm.woff?o297gb') format('woff'),
+    url('yfm.svg?o297gb#yfm') format('svg');
   font-weight: normal;
   font-style: normal;
 }

@@ -1,0 +1,98 @@
+@font-face {
+  font-family: 'yfi';
+  src:  url('yfi.eot?jyaeay');
+  src:  url('yfi.eot?jyaeay#iefix') format('embedded-opentype'),
+    url('yfi.ttf?jyaeay') format('truetype'),
+    url('yfi.woff?jyaeay') format('woff'),
+    url('yfi.svg?jyaeay#yfi') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="yfi-"], [class*=" yfi-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'yfi' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.yfi-menu-entrant:before {
+  content: "\e90d";
+}
+.yfi-menu-group-room:before {
+  content: "\e90e";
+}
+.yfi-chat-notification-off1:before {
+  content: "\e906";
+}
+.yfi-global-room:before {
+  content: "\e901";
+}
+.yfi-enter-on:before {
+  content: "\e904";
+}
+.yfi-virtual-desk:before {
+  content: "\e917";
+}
+.yfi-support-premium:before {
+  content: "\e912";
+}
+.yfi-user-part:before {
+  content: "\e915";
+}
+.yfi-admin-part:before {
+  content: "\e916";
+}
+.yfi-favorite-room:before {
+  content: "\e908";
+}
+.yfi-gropup-room:before {
+  content: "\e909";
+}
+.yfi-entrant-chat:before {
+  content: "\e90b";
+}
+.yfi-Zasb-8:before {
+  content: "\e90a";
+}
+.yfi-hash-uesr:before {
+  content: "\e90f";
+}
+.yfi-branding-chat:before {
+  content: "\e90c";
+}
+.yfi-chat-notification-on:before {
+  content: "\e907";
+}
+.yfi-calendar-notifications:before {
+  content: "\e914";
+}
+.yfi-support-free:before {
+  content: "\e913";
+}
+.yfi-special-search:before {
+  content: "\e910";
+}
+.yfi-advanced-search:before {
+  content: "\e911";
+}
+.yfi-knowledge-base:before {
+  content: "\e900";
+}
+.yfi-register-online:before {
+  content: "\e902";
+}
+.yfi-unread-messages:before {
+  content: "\e903";
+}
+.yfi-enter-off:before {
+  content: "\e905";
+}
