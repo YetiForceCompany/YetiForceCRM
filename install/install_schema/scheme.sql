@@ -3053,7 +3053,8 @@ CREATE TABLE `u_yf_modentity_sequences` (
 CREATE TABLE `u_yf_modtracker_inv` (
   `id` int(10) unsigned NOT NULL,
   `changes` text NOT NULL,
-  KEY `fk_1_u_yf_modtracker_inv` (`id`)
+  KEY `u_yf_modtracker_inv_id_idx` (`id`),
+  CONSTRAINT `u_yf_modtracker_inv_id_fk` FOREIGN KEY (`id`) REFERENCES `vtiger_modtracker_basic` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_multicompany` */
@@ -6603,7 +6604,7 @@ CREATE TABLE `vtiger_modtracker_relations` (
   `targetmodule` varchar(25) NOT NULL,
   `targetid` int(10) unsigned NOT NULL,
   `changedon` datetime DEFAULT NULL,
-  KEY `vtiger_modtracker_relations_id_idx` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_modtracker_tabs` */
