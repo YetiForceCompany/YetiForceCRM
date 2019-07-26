@@ -251,12 +251,12 @@ return [
 	],
 	'Branding' => [
 		'is_customer_branding_active' => [
-			'default' => true,
+			'default' => false,
 			'description' => 'Determines whether client branding is active.',
 		],
-		'company_name' => [
+		'footer_name' => [
 			'default' => 'YetiForce',
-			'description' => 'LinkedIn URL',
+			'description' => 'Footer\'s name',
 		],
 		'url_linkedin' => [
 			'default' => 'https://www.linkedin.com/groups/8177576',

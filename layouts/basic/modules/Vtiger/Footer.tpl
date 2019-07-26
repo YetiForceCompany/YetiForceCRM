@@ -17,6 +17,7 @@
 		{assign var="URL_TWITTER" value=\App\Config::component('Branding', 'url_twitter')}
 		{assign var="URL_FACEBOOK" value=\App\Config::component('Branding', 'url_facebook')}
 		{assign var="URL_GITHUB" value=null}
+		{assign var="FOOTER_NAME" value=\App\Config::component('Branding', 'footer_name')}
 	{else}
 		{assign var="URL_LINKEDIN" value='https://www.linkedin.com/groups/8177576'}
 		{assign var="URL_TWITTER" value='https://twitter.com/YetiForceEN'}
@@ -154,7 +155,7 @@
 								</span>
 								<span class="d-inline d-sm-none text-center">&copy; YetiForce.com All rights reserved.</span>
 							{else}
-								{$FOOTVR}
+								{$FOOTER_NAME} {$FOOTVR}
 							{/if}
 						</p>
 					{else}
@@ -170,7 +171,7 @@
 								</span>
 								<span class="d-inline d-sm-none text-center">&copy; YetiForce.com All rights reserved.</span>
 							{else}
-								{$FOOTVR}
+								{$FOOTER_NAME} {$FOOTVR}
 							{/if}
 						</p>
 					{/if}
