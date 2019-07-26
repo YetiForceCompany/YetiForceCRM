@@ -309,7 +309,7 @@ class ConfReport
 	 * @var array
 	 */
 	public static $functionalVerification = [
-		'footer' => ['type' => 'Footer',  'testCli' => false, 'label' => 'FOOTER'],
+		'branding' => ['type' => 'Branding',  'testCli' => false, 'label' => 'FOOTER'],
 		'premiumModules' => ['type' => 'PremiumModules',  'testCli' => false, 'label' => 'PREMIUM_MODULES'],
 	];
 	/**
@@ -1161,7 +1161,7 @@ class ConfReport
 	}
 
 	/**
-	 * Validate footer value.
+	 * Validate branding value.
 	 *
 	 * @param string $name
 	 * @param array  $row
@@ -1169,10 +1169,22 @@ class ConfReport
 	 *
 	 * @return array
 	 */
-	private static function validateFooter(string $name, array $row, string $sapi)
+	private static function validateBranding(string $name, array $row, string $sapi)
 	{
-		unset($name);
+		$view = \Vtiger_Viewer::getInstance();
+		$view->assign('APPTITLE', \App\Language::translate('APPTITLE'));
+		$view->assign('YETIFORCE_VERSION', \App\Version::get());
+		$view->assign('MODULE_NAME', 'Base');
+		$view->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
+		$view->assign('ACTIVITY_REMINDER', 0);
+		$view->assign('FOOTER_SCRIPTS', '');
+		$view->assign('SHOW_FOOTER', true);
+		$html = $view->view('Footer.tpl', '', true);
 		$row['status'] = true;
+		if( !\App\Config::component('Branding', 'isCustomerBrandingActive') ){
+			$row['status'] = false !== \strpos($html, 'YetiForce.com All rights reserved');
+		}
+		unset($name);
 		$row[$sapi] = \App\Language::translate($row['status'] ? 'LBL_YES' : 'LBL_NO');
 		return $row;
 	}

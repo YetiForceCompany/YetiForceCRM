@@ -56,7 +56,7 @@
 				<ul class="float-left pagination border-0">
 					{if !empty($URL_LINKEDIN)}
 						<li class="page-item">
-							<a class="page-link" href="{$URL_LINKEDIN}"
+							<a class="page-link" href="{$URL_LINKEDIN}" target="_blank"
 								rel="noreferrer noopener">
 								<span class="fab fa-linkedin fa-2x" title="Linkedin"></span>
 							</a>
@@ -64,14 +64,14 @@
 					{/if}
 					{if !empty($URL_TWITTER)}
 						<li class="page-item">
-							<a class="page-link" href="{$URL_TWITTER}" rel="noreferrer noopener">
+							<a class="page-link" href="{$URL_TWITTER}" target="_blank" rel="noreferrer noopener">
 								<span class="fab fa-twitter-square fa-2x" title="Twitter"></span>
 							</a>
 						</li>
 					{/if}
 					{if !empty($URL_FACEBOOK)}
 						<li class="page-item">
-							<a class="page-link" href="{$URL_FACEBOOK}"
+							<a class="page-link" href="{$URL_FACEBOOK}" target="_blank"
 								rel="noreferrer noopener">
 								<span class="fab fa-facebook-square fa-2x" title="Facebook"></span>
 							</a>
@@ -79,7 +79,7 @@
 					{/if}
 					{if !empty($URL_GITHUB)}
 						<li class="page-item">
-							<a class="page-link" href="{$URL_GITHUB}"
+							<a class="page-link" href="{$URL_GITHUB}" target="_blank"
 								rel="noreferrer noopener">
 								<span class="fab fa-github-square fa-2x" title="Github"></span>
 							</a>
@@ -114,22 +114,22 @@
 									<span class="fas fa-shopping-cart fa-2x" title="yetiforce.shop"></span>
 								</a>
 							</li>
-							{if !\App\YetiForce\Shop::verify()}
-								<li class="page-item u-cursor-pointer">
-									<a class="page-link text-warning js-popover-tooltip animated flash infinite slower" role="button" data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP_PRODUCT_CANCELED', $MODULE_NAME)}" title="{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
-											{if $USER_MODEL->isAdminUser()}
-												href="index.php?module=YetiForce&parent=Settings&view=Shop"
-											{else}
-												href="#"
-											{/if} >
-										<span class="fas fa-exclamation-triangle fa-2x"></span>
-									</a>
-								</li>
-							{/if}
 							<li class="page-item u-cursor-pointer">
 								<a class="page-link" data-toggle="modal" href="#" role="button"
 									data-target="#yetiforceDetails">
 									<span class="fas fa-info-circle fa-2x" title="YetiForceCRM"></span>
+								</a>
+							</li>
+						{/if}
+						{if !\App\YetiForce\Shop::verify()}
+							<li class="page-item u-cursor-pointer">
+								<a class="page-link text-warning js-popover-tooltip animated flash infinite slower" role="button" data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP_PRODUCT_CANCELED', $MODULE_NAME)}" title="{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
+										{if $USER_MODEL->isAdminUser()}
+											href="index.php?module=YetiForce&parent=Settings&view=Shop"
+										{else}
+											href="#"
+										{/if} >
+									<span class="fas fa-exclamation-triangle fa-2x"></span>
 								</a>
 							</li>
 						{/if}
@@ -143,7 +143,7 @@
 						{assign var=FOOTOSP value= '<em><a class="u-text-underline" href="index.php?module=Vtiger&view=Credits&parent=Settings">open source project</a></em>'}
 						<p class="text-center text-center">
 							{if !$DISABLE_BRANDING}
-								<span class="d-none d-sm-inline ">Copyright &copy; YetiForce.com All rights reserved. {$FOOTVR}
+								<span class="d-none d-sm-inline ">. {$FOOTVR}
 										<br/>
 										{\App\Language::translateArgs('LBL_FOOTER_CONTENT', '_Base', $FOOTOSP)}
 								</span>
@@ -156,7 +156,7 @@
 						<p class="text-center">
 							{if !$DISABLE_BRANDING}
 								<span class="d-none d-sm-inline">
-									Copyright &copy; YetiForce.com All rights reserved.
+
 									[{\App\Language::translate('WEBLOADTIME')}: {$SCRIPT_TIME}s.]
 									<br/>
 									{\App\Language::translateArgs('LBL_FOOTER_CONTENT', '_Base', 'open source project')}
@@ -246,7 +246,7 @@
 					<div class="modal-footer">
 						<button class="btn btn-danger" type="reset" data-dismiss="modal">
 							<span class="fa fa-times u-mr-5px"></span>
-							<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
+							<strong>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 						</button>
 					</div>
 				</div>

@@ -36,9 +36,6 @@ class DisableBranding extends \App\YetiForce\Shop\AbstractBaseProduct
 	 */
 	public function verify(): bool
 	{
-		if (\App\Config::performance('LIMITED_INFO_IN_FOOTER')) {
-			return \App\YetiForce\Shop::check('DisableFooter');
-		}
-		return true;
+		return \App\YetiForce\Shop::check('DisableFooter');
 	}
 }
