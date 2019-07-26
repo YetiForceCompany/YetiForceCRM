@@ -24,6 +24,10 @@ class Settings_YetiForce_BuyModal_View extends \App\Controller\ModalSettings
 	 * {@inheritdoc}
 	 */
 	public $successBtnIcon = 'fab fa-paypal';
+	/**
+	 * {@inheritdoc}
+	 */
+	public $footerClass = 'px-md-5';
 
 	/**
 	 * {@inheritdoc}
