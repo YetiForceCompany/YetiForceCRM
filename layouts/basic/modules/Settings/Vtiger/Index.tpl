@@ -11,15 +11,31 @@
 					<span class="fas fa-angle-up m-2" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 					<span class="fas fa-angle-down m-2" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
 						<h5>
-							<a class="text-decoration-none" href="index.php?module=YetiForce&parent=Settings&view=Shop">
+							<a class="text-decoration-none text-white" href="index.php?module=YetiForce&parent=Settings&view=Shop">
 								{\App\Language::translate('LBL_SHOP_MARKETPLACE', $QUALIFIED_MODULE)}
 							</a>
 						</h5>
 				</div>
 				<div id="marketplace-collapse" class="collapse multi-collapse show" aria-labelledby="marketplace">
-					<div class="c-panel__body js-products-container">
+					<div class="c-panel__body px-3 js-products-container">
+						<nav>
+							<div class="nav nav-under mt-3" role="tablist">
+								<a class="nav-item nav-link active" id="nav-premium-tab" data-toggle="tab" href="#nav-premium" role="tab" aria-controls="nav-premium" aria-selected="true">
+									{\App\Language::translate('LBL_PREMIUM_ZONE', $QUALIFIED_MODULE)}
+								</a>
+								<a class="nav-item nav-link" id="nav-partner-tab" data-toggle="tab" href="#nav-partner" role="tab" aria-controls="nav-partner" aria-selected="false" data-js="data">
+									{\App\Language::translate('LBL_PARTNER_ZONE', $QUALIFIED_MODULE)}
+								</a>
+							</div>
+						</nav>
+						<div class="tab-content">
+							<div class="tab-pane fade show active" id="nav-premium" role="tabpanel" aria-labelledby="nav-premium-tab">
 								{include file=\App\Layout::getTemplatePath('DashBoard/PremiumZone.tpl', $QUALIFIED_MODULE)}
+							</div>
+							<div class="tab-pane fade js-department" data-department="Partner" id="nav-partner" role="tabpanel" aria-labelledby="nav-partner-tab">
 								{include file=\App\Layout::getTemplatePath('DashBoard/PartnerZone.tpl', $QUALIFIED_MODULE)}
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -23,7 +23,7 @@
 								  data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"
 								  data-mode="show" data-id="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}"></span>
 						</div>
-						<h5 class="my-2">{\App\Language::translate($BLOCK_LABEL_KEY,$MODULE_NAME)}</h5>
+						<h5>{\App\Language::translate($BLOCK_LABEL_KEY,$MODULE_NAME)}</h5>
 					</div>
 					<div class="c-detail-widget__content blockContent table-responsive-sm {if $IS_HIDDEN}d-none{/if}">
 						<div class="c-detail-widget__table">

@@ -59,14 +59,13 @@
 		@extend .u-cursor-pointer;
 		@extend .px-0;
 		@extend .py-1;
+		background-color: $primary;
+		color: $white;
 		display: flex;
 		flex-flow: row-reverse;
-		justify-content: space-between;
 		align-items: center;
-
-		h5 {
-			@extend .ml-2;
-			@extend .mb-1;
+		h5:not(.align-self-center) {
+			@extend .ml-2, .mb-1, .mr-auto;
 		}
 	}
 
