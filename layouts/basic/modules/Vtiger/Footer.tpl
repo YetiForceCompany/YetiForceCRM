@@ -42,29 +42,37 @@
 			<div class="container-fluid px-0 px-md-1">
 				{if !\App\Config::performance('LIMITED_INFO_IN_FOOTER')}
 					<ul class="float-left pagination border-0">
-						<li class="page-item">
-							<a class="page-link" href="https://www.linkedin.com/groups/8177576"
-							   rel="noreferrer noopener">
-								<span class="fab fa-linkedin fa-2x" title="Linkedin"></span>
-							</a>
-						</li>
-						<li class="page-item">
-							<a class="page-link" href="https://twitter.com/YetiForceEN" rel="noreferrer noopener">
-								<span class="fab fa-twitter-square fa-2x" title="Twitter"></span>
-							</a>
-						</li>
-						<li class="page-item">
-							<a class="page-link" href="https://www.facebook.com/YetiForce-CRM-158646854306054/"
-							   rel="noreferrer noopener">
-								<span class="fab fa-facebook-square fa-2x" title="Facebook"></span>
-							</a>
-						</li>
-						<li class="page-item">
-							<a class="page-link" href="https://github.com/YetiForceCompany/YetiForceCRM"
-							   rel="noreferrer noopener">
-								<span class="fab fa-github-square fa-2x" title="Github"></span>
-							</a>
-						</li>
+						{if !empty($URL_LINKEDIN)}
+							<li class="page-item">
+								<a class="page-link" href="{$URL_LINKEDIN}"
+									rel="noreferrer noopener">
+									<span class="fab fa-linkedin fa-2x" title="Linkedin"></span>
+								</a>
+							</li>
+						{/if}
+						{if !empty($URL_TWITTER)}
+							<li class="page-item">
+								<a class="page-link" href="{$URL_TWITTER}" rel="noreferrer noopener">
+									<span class="fab fa-twitter-square fa-2x" title="Twitter"></span>
+								</a>
+							</li>
+						{/if}
+						{if !empty($URL_FACEBOOK)}
+							<li class="page-item">
+								<a class="page-link" href="{$URL_FACEBOOK}"
+									rel="noreferrer noopener">
+									<span class="fab fa-facebook-square fa-2x" title="Facebook"></span>
+								</a>
+							</li>
+						{/if}
+						{if !empty($URL_GITHUB)}
+							<li class="page-item">
+								<a class="page-link" href="{$URL_GITHUB}"
+									rel="noreferrer noopener">
+									<span class="fab fa-github-square fa-2x" title="Github"></span>
+								</a>
+							</li>
+						{/if}
 					</ul>
 				{/if}
 				<div class="float-right p-0">
@@ -89,59 +97,69 @@
 								</a>
 							</li>
 						{/if}
-						{if !\App\Config::performance('LIMITED_INFO_IN_FOOTER')}
-							<li class="page-item">
-								<a class="page-link mr-md-1" href="https://yetiforce.shop" rel="noreferrer noopener">
-									<span class="fas fa-shopping-cart fa-2x" title="yetiforce.shop"></span>
-								</a>
-							</li>
-						{/if}
-						{if !\App\YetiForce\Shop::verify()}
+						{if !$DISABLE_BRANDING }
+							{if !\App\Config::performance('LIMITED_INFO_IN_FOOTER')}
+								<li class="page-item">
+									<a class="page-link mr-md-1" href="https://yetiforce.shop" rel="noreferrer noopener">
+										<span class="fas fa-shopping-cart fa-2x" title="yetiforce.shop"></span>
+									</a>
+								</li>
+							{/if}
+							{if !\App\YetiForce\Shop::verify()}
+								<li class="page-item u-cursor-pointer">
+									<a class="page-link text-warning js-popover-tooltip animated flash infinite slower" role="button" data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP_PRODUCT_CANCELED', $MODULE_NAME)}" title="{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
+											{if $USER_MODEL->isAdminUser()}
+												href="index.php?module=YetiForce&parent=Settings&view=Shop"
+											{else}
+												href="#"
+											{/if} >
+										<span class="fas fa-exclamation-triangle fa-2x"></span>
+									</a>
+								</li>
+							{/if}
 							<li class="page-item u-cursor-pointer">
-								<a class="page-link text-warning js-popover-tooltip animated flash infinite slower" role="button" data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP_PRODUCT_CANCELED', $MODULE_NAME)}" title="{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
-										{if $USER_MODEL->isAdminUser()}
-											href="index.php?module=YetiForce&parent=Settings&view=Shop"
-										{else}
-											href="#"
-										{/if} >
-									<span class="fas fa-exclamation-triangle fa-2x"></span>
+								<a class="page-link" data-toggle="modal" href="#" role="button"
+									data-target="#yetiforceDetails">
+									<span class="fas fa-info-circle fa-2x" title="YetiForceCRM"></span>
 								</a>
 							</li>
 						{/if}
-						<li class="page-item u-cursor-pointer">
-							<a class="page-link" data-toggle="modal" href="#" role="button"
-							   data-target="#yetiforceDetails">
-								<span class="fas fa-info-circle fa-2x" title="YetiForceCRM"></span>
-							</a>
-						</li>
 					</ul>
 				</div>
 				<div class="mx-auto w-75">
 					{assign var=SCRIPT_TIME value=round(microtime(true) - \App\Process::$startTime, 3)}
+					{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
 					{if $USER_MODEL->isAdminUser()}
-						{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
 						{assign var=FOOTVRM value= '['|cat:$SCRIPT_TIME|cat:'s.]'}
 						{assign var=FOOTOSP value= '<em><a class="u-text-underline" href="index.php?module=Vtiger&view=Credits&parent=Settings">open source project</a></em>'}
 						<p class="text-center text-center">
-							<span class="d-none d-sm-inline ">Copyright &copy; YetiForce.com All rights reserved. {$FOOTVR}
-								{if !\App\Config::performance('LIMITED_INFO_IN_FOOTER')}
-									<br/>
-									{\App\Language::translateArgs('LBL_FOOTER_CONTENT', '_Base',$FOOTOSP)}
-								{/if}
-							</span>
-							<span class="d-inline d-sm-none text-center">&copy; YetiForce.com All rights reserved.</span>
+							{if !$DISABLE_BRANDING}
+								<span class="d-none d-sm-inline ">Copyright &copy; YetiForce.com All rights reserved. {$FOOTVR}
+									{if !\App\Config::performance('LIMITED_INFO_IN_FOOTER')}
+										<br/>
+										{\App\Language::translateArgs('LBL_FOOTER_CONTENT', '_Base', $FOOTOSP)}
+									{/if}
+								</span>
+								<span class="d-inline d-sm-none text-center">&copy; YetiForce.com All rights reserved.</span>
+							{else}
+								{$FOOTVR}
+							{/if}
 						</p>
 					{else}
 						<p class="text-center">
-							<span class="d-none d-sm-inline">
-								Copyright &copy; YetiForce.com All rights reserved.
-								{if !\App\Config::performance('LIMITED_INFO_IN_FOOTER')}
-									[{\App\Language::translate('WEBLOADTIME')}: {$SCRIPT_TIME}s.]
-									<br/>
-									{\App\Language::translateArgs('LBL_FOOTER_CONTENT', '_Base', 'open source project')}
-								{/if}
-							</span>
-							<span class="d-inline d-sm-none text-center">&copy; YetiForce.com All rights reserved.</span>
+							{if !$DISABLE_BRANDING}
+								<span class="d-none d-sm-inline">
+									Copyright &copy; YetiForce.com All rights reserved.
+									{if !\App\Config::performance('LIMITED_INFO_IN_FOOTER')}
+										[{\App\Language::translate('WEBLOADTIME')}: {$SCRIPT_TIME}s.]
+										<br/>
+										{\App\Language::translateArgs('LBL_FOOTER_CONTENT', '_Base', 'open source project')}
+									{/if}
+								</span>
+								<span class="d-inline d-sm-none text-center">&copy; YetiForce.com All rights reserved.</span>
+							{else}
+								{$FOOTVR}
+							{/if}
 						</p>
 					{/if}
 				</div>

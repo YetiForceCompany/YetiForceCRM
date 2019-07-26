@@ -44,10 +44,10 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$moduleName = $request->getModule();
 		$records = $request->getArray('records', 'Integer');
 		$templates = $request->getArray('templates', 'Integer');
-		$allRecords = count($records);
+		$allRecords = \count($records);
 		$output = ['valid_records' => [], 'message' => \App\Language::translateArgs('LBL_VALID_RECORDS', $moduleName, 0, $allRecords)];
 
-		if (!empty($templates) && count($templates) > 0) {
+		if (!empty($templates) && \count($templates) > 0) {
 			foreach ($templates as $templateId) {
 				$templateRecord = Vtiger_PDF_Model::getInstanceById((int) $templateId);
 				foreach ($records as $recordId) {
@@ -56,7 +56,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 					}
 				}
 			}
-			$selectedRecords = count($records);
+			$selectedRecords = \count($records);
 			$output = ['valid_records' => $records, 'message' => \App\Language::translateArgs('LBL_VALID_RECORDS', $moduleName, $selectedRecords, $allRecords)];
 		}
 		$response = new Vtiger_Response();
@@ -84,8 +84,8 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		}
 		$increment = $skip = $pdfFiles = [];
 		$html = '';
-		$countTemplates = count($templateIds);
-		$countRecords = count($recordIds);
+		$countTemplates = \count($templateIds);
+		$countRecords = \count($recordIds);
 		$pdf = new \App\Pdf\YetiForcePDF();
 		foreach ($recordIds as $recordId) {
 			foreach ($templateIds as $templateId) {
