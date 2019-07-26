@@ -24,11 +24,12 @@
 							<td class="py-2 w-50">{$PRODUCT->getLabel()}</td>
 						</tr>
 						<tr>
-							<td class="py-2">{\App\Language::translate('LBL_SHOP_AMOUNT', $QUALIFIED_MODULE)}</td>
-							<td class="py-2 w-50">
+							<td class="py-2 align-middle">{\App\Language::translate('LBL_SHOP_AMOUNT', $QUALIFIED_MODULE)}</td>
 							{if 'manual'=== $PRODUCT->getPriceType()}
-									<input name="a3" class="form-control" style="max-width: 80px;" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
+								<td class="w-50">
+									<input name="a3" class="form-control form-control-sm" style="max-width: 80px;" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
 							{else}
+								<td class="py-2 w-50">
 								{$PRODUCT->getPrice()} {$PRODUCT->currencyCode}
 							{/if}
 							</td>

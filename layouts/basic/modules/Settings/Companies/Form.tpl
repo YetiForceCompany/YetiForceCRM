@@ -21,8 +21,12 @@
 					<hr/>
 					{continue}
 				{elseif $FIELD_NAME === 'type'}
+					{assign var="FIELD_MODEL" value=$RECORD->getFieldInstanceByName($FIELD_NAME, 'LBL_'|cat:$FIELD_NAME|upper)->set('fieldvalue',$RECORD->get($FIELD_NAME))}
 					<div class="form-group row">
 						<label class="col-lg-4 col-form-label text-left text-lg-right">
+							{if $FIELD_MODEL->isMandatory() eq true}
+								<span class="redColor">*</span>
+							{/if}
 							<b>{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, $QUALIFIED_MODULE)}</b>
 						</label>
 						<div class="col-lg-8">
@@ -86,30 +90,6 @@
 					<div class="js-newsletter-content {if empty($RECORD->get($FIELD_NAME))}d-none{/if}"
 						 data-js="class:d-none">
 				{elseif $FIELD_NAME === 'email'}
-					</div>
-				{/if}
-			{/foreach}
-		</div>
-	</div>
-	<div class="card mb-3" data-js="container">
-		<div class="card-header">
-			<span class="userIcon-FInvoice mr-1"></span>
-		 {App\Language::translate('LBL_BILLING_DATA', $QUALIFIED_MODULE)}
-		</div>
-		<div class="card-body">
-			{foreach key="FIELD_NAME" item="FIELD" from=$FORM_FIELDS}
-				{if isset($FIELD['billingBlock'])}
-					{assign var="FIELD_MODEL" value=$RECORD->getFieldInstanceByName($FIELD_NAME, 'LBL_'|cat:$FIELD_NAME|upper)->set('fieldvalue',$RECORD->get($FIELD_NAME))}
-					<div class="form-group row">
-						<label class="col-lg-4 col-form-label text-left text-lg-right">
-							{if $FIELD_MODEL->isMandatory() eq true}
-								<span class="redColor">*</span>
-							{/if}
-							<b>{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, $QUALIFIED_MODULE)}</b>
-						</label>
-						<div class="col-lg-8">
-							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName()) MODULE=$QUALIFIED_MODULE}
-						</div>
 					</div>
 				{/if}
 			{/foreach}

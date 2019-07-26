@@ -4,8 +4,8 @@
 	{assign var=PRODUCT_ALERT value=$PRODUCT->showAlert()}
 	<div class="pl-2 {if empty($PRODUCT->expirationDate)}bg-light u-bg-light-darken{elseif $PRODUCT_ALERT}bg-danger{else}bg-yellow{/if} js-product-modal"
 		data-js="showProductModal | click" data-product="{$PRODUCT->getName()}">
-		<div class="d-flex u-min-h-120px-rem no-wrap py-2 pr-1{if !empty($PRODUCT->expirationDate)} bg-white u-bg-white-darken{/if}">
-			<div class="d-flex" style="min-width: 30%;">
+		<div class="d-flex u-min-h-120px-rem no-wrap py-2 px-1{if !empty($PRODUCT->expirationDate)} bg-white u-bg-white-darken{/if}" style="min-height: 130px;">
+			<div class="d-flex" style="max-width: 30%; min-width: 80px;">
 				{if $PRODUCT->getImage()}
 					<img src="{$PRODUCT->getImage()}" class="my-auto grow thumbnail-image card-img-top intrinsic-item"
 						alt="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}" title="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}" />
