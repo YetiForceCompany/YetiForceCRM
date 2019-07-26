@@ -160,7 +160,7 @@
         "pages/_List.scss",
         "pages/_ListPreview.scss",
         "pages/Settings/_Dashboard.scss",
-        "pages/Settings/_Store.scss"
+        "pages/Settings/_Shop.scss"
     ],
     "names": [],
     "file": "Main.css"
