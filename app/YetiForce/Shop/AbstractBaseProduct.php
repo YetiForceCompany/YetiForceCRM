@@ -197,6 +197,7 @@ abstract class AbstractBaseProduct
 		return [
 			'cmd' => '_xclick-subscriptions',
 			'no_shipping' => 1,
+			'no_note' => 1,
 			'src' => 1,
 			'sra' => 1,
 			't3' => 'M',
