@@ -19,11 +19,11 @@ class Settings_YetiForce_BuyModal_View extends \App\Controller\ModalSettings
 	/**
 	 * {@inheritdoc}
 	 */
-	public $successBtn = 'LBL_BUY';
+	public $successBtn = 'LBL_SHOP_PROCEED_TO_CHECKOUT';
 	/**
 	 * {@inheritdoc}
 	 */
-	public $successBtnIcon = 'fab fa-paypal';
+	public $successBtnIcon = 'far fa-credit-card';
 	/**
 	 * {@inheritdoc}
 	 */
