@@ -143,7 +143,7 @@
 						{assign var=FOOTOSP value= '<em><a class="u-text-underline" href="index.php?module=Vtiger&view=Credits&parent=Settings">open source project</a></em>'}
 						<p class="text-center text-center">
 							{if !$DISABLE_BRANDING}
-								<span class="d-none d-sm-inline ">. {$FOOTVR}
+								<span class="d-none d-sm-inline ">Copyright &copy; YetiForce.com All rights reserved. {$FOOTVR}
 										<br/>
 										{\App\Language::translateArgs('LBL_FOOTER_CONTENT', '_Base', $FOOTOSP)}
 								</span>
@@ -156,7 +156,7 @@
 						<p class="text-center">
 							{if !$DISABLE_BRANDING}
 								<span class="d-none d-sm-inline">
-
+									Copyright &copy; YetiForce.com All rights reserved.
 									[{\App\Language::translate('WEBLOADTIME')}: {$SCRIPT_TIME}s.]
 									<br/>
 									{\App\Language::translateArgs('LBL_FOOTER_CONTENT', '_Base', 'open source project')}
