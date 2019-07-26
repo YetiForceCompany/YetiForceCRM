@@ -250,23 +250,23 @@ return [
 		],
 	],
 	'Branding' => [
-		'is_customer_branding_active' => [
+		'isCustomerBrandingActive' => [
 			'default' => false,
 			'description' => 'Determines whether client branding is active.',
 		],
-		'footer_name' => [
+		'footerName' => [
 			'default' => 'YetiForce',
 			'description' => 'Footer\'s name',
 		],
-		'url_linkedin' => [
+		'urlLinkedIn' => [
 			'default' => 'https://www.linkedin.com/groups/8177576',
 			'description' => 'LinkedIn URL',
 		],
-		'url_twitter' => [
+		'urlTwitter' => [
 			'default' => 'https://twitter.com/YetiForceEN',
 			'description' => 'Twitter URL',
 		],
-		'url_facebook' => [
+		'urlFacebook' => [
 			'default' => 'https://www.facebook.com/YetiForce-CRM-158646854306054/',
 			'description' => 'Facebook URL',
 		],
