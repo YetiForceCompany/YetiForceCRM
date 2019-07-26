@@ -36,12 +36,37 @@
 .c-panel {
 	@extend .card;
 	@extend .mb-2;
-
+	&.c-panel--collapsible {
+		.c-panel__header {
+			.fa-angle-up {
+				display: inline-block;
+			}
+			.fa-angle-down {
+				display: none;
+			}
+			&.collapsed {
+				.fa-angle-up {
+					display: none;
+				}
+				.fa-angle-down {
+					display: inline-block;
+				}
+			}
+		}
+	}
 	&__header {
 		@extend .card-header;
 		@extend .u-cursor-pointer;
 		@extend .px-0;
 		@extend .py-1;
+		background-color: $primary;
+		color: $white;
+		display: flex;
+		flex-flow: row-reverse;
+		align-items: center;
+		h5:not(.align-self-center) {
+			@extend .ml-2, .mb-1, .mr-auto;
+		}
 	}
 
 	&__body {

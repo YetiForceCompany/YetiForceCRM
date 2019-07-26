@@ -3,9 +3,9 @@
 	<div class="tpl-Settings-Base-DashBoard-PremiumZone">
 		{assign var="QUALIFIED_MODULE" value='Settings:YetiForce'}
 		{if isset($PRODUCTS_PARTNER)}
-			<div class="u-columns-width-200px-rem u-columns-count-5 px-3 pb-4">
+			<div class="d-flex flex-wrap mb-3">
 				{foreach $PRODUCTS_PARTNER as $PRODUCT}
-					<div class="dashboardWidget u-columns__item mb-n1 mt-3 d-inline-block">
+					<div class="dashboardWidget mt-3 mr-3 flex-grow-1 u-w-max-320px">
 						{include file=\App\Layout::getTemplatePath('Shop/SmallProduct.tpl', 'Settings:YetiForce')}
 					</div>
 				{/foreach}

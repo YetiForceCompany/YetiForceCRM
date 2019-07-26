@@ -271,7 +271,10 @@
 }
 
 .u-w-max-320px {
-	max-width: 320px !important;
+	max-width: calculate-rem(320px) !important;
+}
+.u-w-max-500px {
+	max-width: calculate-rem(500px) !important;
 }
 
 .u-w-1per-45px {

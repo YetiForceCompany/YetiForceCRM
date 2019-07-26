@@ -6,42 +6,65 @@
 	{/if}
 	<div class="settingsIndexPage pt-2 h-100">
 		<div class="container-fluid h-100 px-0">
-			<div class="row no-gutters pr-0 mb-0 js-products-container" data-js="container">
-				<div class="col-md d-flex flex-column">
-					<a class="text-decoration-none" href="index.php?module=YetiForce&parent=Settings&view=Shop&tab=Premium">
-						<h5 class="bg-yeti text-white text-center font-weight-normal p-3 mb-0">
-							{\App\Language::translate('LBL_PREMIUM_ZONE', $QUALIFIED_MODULE)}
+			<div class="c-panel c-panel--collapsible">
+				<div class="c-panel__header" id="marketplace" data-toggle="collapse" data-target="#marketplace-collapse" aria-expanded="true" aria-controls="marketplace-collapse">
+					<span class="fas fa-angle-up m-2" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
+					<span class="fas fa-angle-down m-2" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
+						<h5>
+							<a class="text-decoration-none text-white" href="index.php?module=YetiForce&parent=Settings&view=Shop">
+								{\App\Language::translate('LBL_SHOP_MARKETPLACE', $QUALIFIED_MODULE)}
+							</a>
 						</h5>
-					</a>
-					<div class="bg-light h-100">
-						{include file=\App\Layout::getTemplatePath('DashBoard/PremiumZone.tpl', $QUALIFIED_MODULE)}
-					</div>
 				</div>
-				<div class="col-md d-flex flex-column mx-md-2">
-					<h5 class="bg-yeti text-white text-center font-weight-normal p-3 mb-0">
-						{\App\Language::translate('LBL_SYSTEM_MONITORING', $QUALIFIED_MODULE)}
-					</h5>
-					<div class="bg-light h-100">
-						{include file=\App\Layout::getTemplatePath('DashBoard/SystemMonitoring.tpl', $QUALIFIED_MODULE)}
-					</div>
-				</div>
-				<div class="col-md d-flex flex-column">
-					<a class="text-decoration-none" href="index.php?module=YetiForce&parent=Settings&view=Shop&tab=Partner">
-						<h5 class="bg-yeti text-white text-center font-weight-normal p-3 mb-0">
-							{\App\Language::translate('LBL_PARTNER_ZONE', $QUALIFIED_MODULE)}
-						</h5>
-					</a>
-					<div class="bg-light h-100">
-						{include file=\App\Layout::getTemplatePath('DashBoard/PartnerZone.tpl', $QUALIFIED_MODULE)}
+				<div id="marketplace-collapse" class="collapse multi-collapse show" aria-labelledby="marketplace">
+					<div class="c-panel__body px-3 js-products-container">
+						<nav>
+							<div class="nav nav-under mt-3" role="tablist">
+								<a class="nav-item nav-link active" id="nav-premium-tab" data-toggle="tab" href="#nav-premium" role="tab" aria-controls="nav-premium" aria-selected="true">
+									{\App\Language::translate('LBL_PREMIUM_ZONE', $QUALIFIED_MODULE)}
+								</a>
+								<a class="nav-item nav-link" id="nav-partner-tab" data-toggle="tab" href="#nav-partner" role="tab" aria-controls="nav-partner" aria-selected="false" data-js="data">
+									{\App\Language::translate('LBL_PARTNER_ZONE', $QUALIFIED_MODULE)}
+								</a>
+							</div>
+						</nav>
+						<div class="tab-content">
+							<div class="tab-pane fade show active" id="nav-premium" role="tabpanel" aria-labelledby="nav-premium-tab">
+								{include file=\App\Layout::getTemplatePath('DashBoard/PremiumZone.tpl', $QUALIFIED_MODULE)}
+							</div>
+							<div class="tab-pane fade js-department" data-department="Partner" id="nav-partner" role="tabpanel" aria-labelledby="nav-partner-tab">
+								{include file=\App\Layout::getTemplatePath('DashBoard/PartnerZone.tpl', $QUALIFIED_MODULE)}
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col-md mt-md-3 d-flex flex-column ">
-				<h5 class="mb-0">
-					{\App\Language::translate('LBL_SETTINGS_SHORT_CUT', $QUALIFIED_MODULE)}
-				</h5>
-				<div class="">
-				{include file=\App\Layout::getTemplatePath('DashBoard/SettingsShortCutsContainer.tpl', $QUALIFIED_MODULE)}
+			<div class="c-panel c-panel--collapsible">
+				<div class="c-panel__header" id="system-monitoring" data-toggle="collapse" data-target="#system-monitoring-collapse" aria-expanded="true" aria-controls="system-monitoring-collapse">
+					<span class="fas fa-angle-up m-2" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
+					<span class="fas fa-angle-down m-2" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
+					<h5>
+						{\App\Language::translate('LBL_SYSTEM_MONITORING', $QUALIFIED_MODULE)}
+					</h5>
+				</div>
+				<div id="system-monitoring-collapse" class="collapse multi-collapse show" aria-labelledby="system-monitoring">
+					<div class="c-panel__body">
+								{include file=\App\Layout::getTemplatePath('DashBoard/SystemMonitoring.tpl', $QUALIFIED_MODULE)}
+					</div>
+				</div>
+			</div>
+			<div class="c-panel c-panel--collapsible">
+				<div class="c-panel__header" id="my-shortcuts" data-toggle="collapse" data-target="#my-shortcuts-collapse" aria-expanded="true" aria-controls="my-shortcuts-collapse">
+					<span class="fas fa-angle-up m-2" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
+					<span class="fas fa-angle-down m-2" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
+					<h5>
+						{\App\Language::translate('LBL_SETTINGS_SHORT_CUT', $QUALIFIED_MODULE)}
+					</h5>
+				</div>
+				<div id="my-shortcuts-collapse" class="collapse multi-collapse show" aria-labelledby="my-shortcuts">
+					<div class="c-panel__body">
+						{include file=\App\Layout::getTemplatePath('DashBoard/SettingsShortCutsContainer.tpl', $QUALIFIED_MODULE)}
+					</div>
 				</div>
 			</div>
 		</div>

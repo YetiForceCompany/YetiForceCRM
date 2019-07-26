@@ -10097,7 +10097,7 @@ button.bg-dark:focus {
   margin-right: 0.25rem !important;
 }
 
-.mb-1,
+.mb-1, .c-panel__header h5:not(.align-self-center),
 .my-1 {
   margin-bottom: 0.25rem !important;
 }
@@ -10131,7 +10131,7 @@ button.bg-dark:focus {
   margin-bottom: 0.5rem !important;
 }
 
-.ml-2,
+.ml-2, .c-panel__header h5:not(.align-self-center),
 .mx-2,
 .contentsDiv,
 .centerPanel {
@@ -10516,7 +10516,7 @@ button.bg-dark:focus {
   margin-top: auto !important;
 }
 
-.mr-auto,
+.mr-auto, .c-panel__header h5:not(.align-self-center),
 .mx-auto {
   margin-right: auto !important;
 }
@@ -18635,6 +18635,15 @@ label.btn[class*="btn-outline-"]:not(.active):hover {
   border-top: none;
 }
 
+.nav-under .active {
+  border-bottom: solid 2px;
+}
+
+.nav-under .nav-link {
+  padding: 0.1875rem 0.25rem;
+  margin-right: 3.75rem;
+}
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .dashboardWidgetCalendar .fc-widget-content .fc-scroller.fc-day-grid-container {
   height: 18.6rem !important;
@@ -23443,7 +23452,11 @@ ul.tweets li {
 }
 
 .u-w-max-320px {
-  max-width: 320px !important;
+  max-width: 20rem !important;
+}
+
+.u-w-max-500px {
+  max-width: 31.25rem !important;
 }
 
 .u-w-1per-45px {
@@ -24372,6 +24385,37 @@ ul.tweets li {
 .openStreetMapModalBody .input-group {
   -ms-flex-wrap: nowrap;
       flex-wrap: nowrap;
+}
+
+.c-panel.c-panel--collapsible .c-panel__header .fa-angle-up {
+  display: inline-block;
+}
+
+.c-panel.c-panel--collapsible .c-panel__header .fa-angle-down {
+  display: none;
+}
+
+.c-panel.c-panel--collapsible .c-panel__header.collapsed .fa-angle-up {
+  display: none;
+}
+
+.c-panel.c-panel--collapsible .c-panel__header.collapsed .fa-angle-down {
+  display: inline-block;
+}
+
+.c-panel__header {
+  background-color: #0072da;
+  color: #fff;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-flow: row-reverse;
+          flex-flow: row-reverse;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .c-panel__label label {
