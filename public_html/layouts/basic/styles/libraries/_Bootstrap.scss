@@ -7,11 +7,17 @@
 }
 
 .btn-xs {
-	@include button-size($btn-padding-y-sm /1.25, $btn-padding-x-sm /1.25, $font-size-sm/1.25, $btn-line-height-sm/1.25, $btn-border-radius-sm/1.25);
+	@include button-size(
+		$btn-padding-y-sm / 1.25,
+		$btn-padding-x-sm / 1.25,
+		$font-size-sm/1.25,
+		$btn-line-height-sm/1.25,
+		$btn-border-radius-sm/1.25
+	);
 }
 
 //Switch button
-label.btn[class*=btn-outline-] {
+label.btn[class*="btn-outline-"] {
 	&:not(.active) {
 		background: $white;
 
@@ -37,7 +43,6 @@ label.btn[class*=btn-outline-] {
 			right: 9px;
 		}
 	}
-
 }
 
 .dropdown-item {
@@ -87,4 +92,17 @@ label.btn[class*=btn-outline-] {
 
 .input-group.input-group-sm {
 	min-width: calculate-rem(65px);
+}
+
+.modal-header {
+	background-color: $primary;
+	border-bottom: none;
+	&,
+	.close {
+		color: $white;
+	}
+}
+
+.modal-footer {
+	border-top: none;
 }

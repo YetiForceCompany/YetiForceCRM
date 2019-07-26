@@ -18,22 +18,34 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 	 * @var array
 	 */
 	public static $formFields = [
+		'type' => [
+			'registerView' => true
+		],
 		'name' => [
 			'registerView' => true,
 			'paymentData' => true
 		],
-		'type' => [
-			'registerView' => true
-		],
-		'industry' => [
-			'registerView' => true
-		],
-		'city' => [
+		'vat_id' => [
+			'paymentData' => true,
 			'registerView' => true
 		],
 		'country' => [
 			'registerView' => true,
 			'paymentData' => true,
+		],
+		'post_code' => [
+			'paymentData' => true,
+			'registerView' => true
+		],
+		'city' => [
+			'registerView' => true
+		],
+		'address' => [
+			'paymentData' => true,
+			'registerView' => true
+		],
+		'industry' => [
+			'registerView' => true
 		],
 		'companysize' => [
 			'registerView' => true
@@ -58,18 +70,6 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 		],
 		'logo' => [
 			'registerView' => true
-		],
-		'vat_id' => [
-			'paymentData' => true,
-			'billingBlock' => true
-		],
-		'address' => [
-			'paymentData' => true,
-			'billingBlock' => true
-		],
-		'post_code' => [
-			'paymentData' => true,
-			'billingBlock' => true
 		],
 		'facebook' => [
 			'brandBlock' => true
