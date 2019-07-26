@@ -28516,6 +28516,7 @@ td.fieldValue input, td.fieldValue .input-group {
   }
 }
 
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 #settingsShortCutsContainer {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -28569,5 +28570,19 @@ td.fieldValue input, td.fieldValue .input-group {
 
 .settingsIndexPage .moduleBlock:hover {
   background: #f3f3f4;
+}
+
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.o-small-product__container {
+  min-height: 8.125rem;
+}
+
+.o-small-product__img {
+  max-width: 30%;
+  min-width: 5rem;
+}
+
+.o-buy-modal__img {
+  max-height: 13.75rem;
 }
 /*# sourceMappingURL=Main.css.map */

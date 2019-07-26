@@ -1,0 +1,17 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+.o-small-product {
+	&__container {
+		min-height: calculate-rem(130px);
+	}
+
+	&__img {
+		max-width: 30%;
+		min-width: calculate-rem(80px);
+	}
+}
+.o-buy-modal {
+	&__img {
+		max-height: calculate-rem(220px);
+	}
+}

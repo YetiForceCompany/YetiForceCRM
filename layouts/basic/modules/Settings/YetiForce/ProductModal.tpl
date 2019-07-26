@@ -23,13 +23,10 @@
 							<p class="card-text truncate">{$PRODUCT->getDescription()}</p>
 							<div class="bg-dark text-white rounded-0 d-flex flex-nowrap text-nowrap align-items-center justify-content-center p-3 mt-auto" title="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
 								{if 'manual'===$PRODUCT->getPriceType()}
-									<input name="a3" class="form-control" style="max-width: 80px;" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
+									{\App\Language::translate("LBL_SUPPORT_US", $QUALIFIED_MODULE)}
 								{else}
-								{$PRODUCT->getPrice()}
+									{$PRODUCT->getPrice()} {$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}
 								{/if}
-								<span class="ml-1">
-									{$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}
-								</span>
 							</div>
 						</div>
 					</div>

@@ -7,8 +7,7 @@
 			<div class="col-sm-18 col-md-12">
 				<div class="text-center pb-3 pb-md-5">
 					{if $PRODUCT->getImage()}
-						<img src="{$PRODUCT->getImage()}" alt="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}" title="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}"
-						 style="max-height: 220px;" />
+						<img class="o-buy-modal__img" src="{$PRODUCT->getImage()}" alt="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}" title="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}"/>
 					{else}
 						<div class="product-no-image m-auto">
 								<span class="fa-stack fa-6x product-no-image">
@@ -28,7 +27,7 @@
 							<td class="py-2 u-font-weight-550 align-middle">{\App\Language::translate('LBL_SHOP_AMOUNT', $QUALIFIED_MODULE)}</td>
 							{if 'manual'=== $PRODUCT->getPriceType()}
 								<td class="w-50">
-									<input name="a3" class="form-control form-control-sm" style="max-width: 80px;" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
+									<input name="a3" class="form-control form-control-sm" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
 							{else}
 								<td class="py-2 w-50">
 								{$PRODUCT->getPrice()} {$PRODUCT->currencyCode}
