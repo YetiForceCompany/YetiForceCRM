@@ -39,7 +39,15 @@ class TableCurrencySummary extends Base
 			} else {
 				$currency = $baseCurrency['id'];
 			}
-			$currencyData = \App\Fields\Currency::getById($currency);
+			if (isset($firstRow['currencyparam'])) {
+				$currencyParam = \App\Json::decode($firstRow['currencyparam']);
+				if (isset($currencyParam[$currency])) {
+					$rate = $currencyParam[$currency]['value'] ?? 0;
+				}
+			} else {
+				$currencyData = \App\Fields\Currency::getById($currency);
+				$rate = $baseCurrency['conversion_rate'] / $currencyData['conversion_rate'];
+			}
 		}
 		if (!empty($fields[0])) {
 			$taxes = [];
@@ -49,8 +57,7 @@ class TableCurrencySummary extends Base
 					$taxes = $taxField->getTaxParam($inventoryRow['taxparam'], $inventoryRow['net'], $taxes);
 				}
 			}
-			if (!empty($currency) && !empty($currencyData) && $baseCurrency['id'] !== $currency && $inventory->isField('tax') && $inventory->isField('taxmode') && $inventory->isField('currency')) {
-				$RATE = $baseCurrency['conversion_rate'] / $currencyData['conversion_rate'];
+			if (!empty($currency) && !empty($rate) && $baseCurrency['id'] !== $currency && $inventory->isField('tax') && $inventory->isField('taxmode') && $inventory->isField('currency')) {
 				$html .= '<table class="table-currency-summary" style="border-collapse:collapse;width:100%;border:1px solid #ddd;">
 								<thead>
 									<tr>
@@ -65,12 +72,12 @@ class TableCurrencySummary extends Base
 					$currencyAmount += $tax;
 					$html .= '<tr>
 									<td class="name" style="padding:0px 4px;">' . $key . '%</td>
-									<td class="value" style="text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($tax * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
+									<td class="value" style="text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($tax * $rate, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
 								</tr>';
 				}
 				$html .= '<tr class="summary">
 								<td class="name" style="padding:0px 4px;font-weight:bold;">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
-								<td class="value" style="text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($currencyAmount * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
+								<td class="value" style="text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($currencyAmount * $rate, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
 							</tr>
 						</tbody>
 					</table>';
