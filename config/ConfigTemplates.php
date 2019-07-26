@@ -694,18 +694,6 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
-		'LIMITED_INFO_IN_FOOTER' => [
-			'default' => false,
-			'description' => "Any modifications of this parameter require the vendor's consent.\nAny unauthorised modification breaches the terms and conditions of YetiForce Public License.",
-			'validation' => '\App\Validator::bool',
-			'sanitization' => '\App\Purifier::bool'
-		],
-		'LIMITED_INFO_SUPPORT' => [
-			'default' => false,
-			'description' => "Any modifications of this parameter require the vendor's consent.\nAny unauthorised modification breaches the terms and conditions of YetiForce Public License.",
-			'validation' => '\App\Validator::bool',
-			'sanitization' => '\App\Purifier::bool'
-		],
 		'RECORD_POPOVER_DELAY' => [
 			'default' => 500,
 			'description' => "Popover record's trigger delay in ms",

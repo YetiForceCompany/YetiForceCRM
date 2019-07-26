@@ -204,7 +204,7 @@
 					{/if}
 				{/if}
 			{/if}
-			{if $PARENT_MODULE === 'Settings' && !\App\Config::performance('LIMITED_INFO_SUPPORT', false)}
+			{if $PARENT_MODULE === 'Settings'}
 				<div class="mr-xxl-4">
 					<a class="btn btn-light c-header__btn ml-2 js-popover-tooltip" role="button"
 					   href="https://yetiforce.shop"
