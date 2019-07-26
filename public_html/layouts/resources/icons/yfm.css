@@ -25,7 +25,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.yfm-DefaultIcon:before {
+[class^='userIcon-']:before,
+[class*=' userIcon-']:before {
   content: "\e972";
 }
 .yfm-Announcements:before {

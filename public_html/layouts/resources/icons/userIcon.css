@@ -24,7 +24,8 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.userIcon-DefaultIcon:before {
+[class^='userIcon-']:before,
+[class*=' userIcon-']:before {
 	content: '\e972';
 }
 .userIcon-Announcements:before {
