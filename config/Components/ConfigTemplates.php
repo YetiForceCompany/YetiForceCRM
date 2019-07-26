@@ -249,4 +249,26 @@ return [
 			'description' => 'Set master source: yetiforce or magento',
 		],
 	],
+	'Branding' => [
+		'is_customer_branding_active' => [
+			'default' => true,
+			'description' => 'Determines whether client branding is active.',
+		],
+		'company_name' => [
+			'default' => 'YetiForce',
+			'description' => 'LinkedIn URL',
+		],
+		'url_linkedin' => [
+			'default' => 'https://www.linkedin.com/groups/8177576',
+			'description' => 'LinkedIn URL',
+		],
+		'url_twitter' => [
+			'default' => 'https://twitter.com/YetiForceEN',
+			'description' => 'Twitter URL',
+		],
+		'url_facebook' => [
+			'default' => 'https://www.facebook.com/YetiForce-CRM-158646854306054/',
+			'description' => 'Facebook URL',
+		],
+	],
 ];
