@@ -71,7 +71,7 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 		$record->set('assigned_user_id', $mail->getAccountOwner());
 		$maxLengthSubject = $record->getField('ticket_title')->get('maximumlength');
 		$subject = \App\Purifier::purify($mail->get('subject'));
-		$record->set('ticket_title', $maxLengthSubject ? \App\TextParser::textTruncate($subject, $maxLengthSubject, false) : $subject);
+		$record->setFromUserValue('ticket_title', $maxLengthSubject ? \App\TextParser::textTruncate($subject, $maxLengthSubject, false) : $subject);
 		$maxLengthDescription = $record->getField('description')->get('maximumlength');
 		$description = \App\Purifier::purifyHtml($mail->get('body'));
 		$record->set('description', $maxLengthDescription ? \App\TextParser::htmlTruncate($description, $maxLengthDescription, false) : $description);
