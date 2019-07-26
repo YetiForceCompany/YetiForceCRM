@@ -157,8 +157,8 @@ class Importer
 	/**
 	 * Get additional SQL fragment that will be appended to the generated SQL.
 	 *
-	 * @param string $type
-	 * @param array  $table
+	 * @param Base  $importer
+	 * @param array $table
 	 *
 	 * @return string
 	 */
@@ -342,9 +342,9 @@ class Importer
 				} catch (\Throwable $e) {
 					$this->logs .= " | Error(11) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
 				}
-			} elseif($db->isTableExists($table[1])) {
+			} elseif ($db->isTableExists($table[1])) {
 				$this->logs .= " | Info - table {$table[1]} is exists\n";
-			}else{
+			} else {
 				$this->logs .= " | Error - table does not exist\n";
 			}
 		}
@@ -386,25 +386,56 @@ class Importer
 	 */
 	public function dropIndexes(array $tables)
 	{
-		$this->importer->logs .= "> start drop indexes\n";
+		$this->logs .= "> start drop indexes\n";
 		$db = \App\Db::getInstance();
 		foreach ($tables as $tableName => $indexes) {
 			$dbIndexes = $db->getTableKeys($tableName);
 			foreach ($indexes as $index) {
-				$this->importer->logs .= "  > drop index, {$tableName}:{$index} ... ";
+				$this->logs .= "  > drop index, {$tableName}:{$index} ... ";
 				if (isset($dbIndexes[$index])) {
 					try {
 						$db->createCommand()->dropIndex($index, $tableName)->execute();
-						$this->importer->logs .= "done\n";
+						$this->logs .= "done\n";
 					} catch (\Throwable $e) {
-						$this->importer->logs .= " | Error(12) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
+						$this->logs .= " | Error(12) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
 					}
-				}else{
-					$this->importer->logs .= " | Info - index not exists\n";
+				} else {
+					$this->logs .= " | Info - index not exists\n";
 				}
 			}
 		}
-		$this->importer->logs .= "# end drop indexes\n";
+		$this->logs .= "# end drop indexes\n";
+	}
+
+	/**
+	 * Drop foreign keys.
+	 *
+	 * @param array $foreignKeys [$foreignKey=>table,...]
+	 */
+	public function dropForeignKeys(array $foreignKeys)
+	{
+		$this->logs .= "> start drop foreign keys\n";
+		$db = \App\Db::getInstance();
+		foreach ($foreignKeys as $keyName => $tableName) {
+			$this->logs .= "  > drop foreign key, {$tableName}:{$keyName} ... ";
+			$tableSchema = $db->getTableSchema($tableName, true);
+			if ($tableSchema) {
+				$keyName = str_replace('#__', $db->tablePrefix, $keyName);
+				if (isset($tableSchema->foreignKeys[$keyName])) {
+					try {
+						$db->createCommand()->dropForeignKey($keyName, $tableName)->execute();
+						$this->logs .= "done\n";
+					} catch (\Throwable $e) {
+						$this->logs .= " | Error [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
+					}
+				} else {
+					$this->logs .= " | Info - foreign key not exists\n";
+				}
+			} else {
+				$this->logs .= " | Error - table does not exists\n";
+			}
+		}
+		$this->logs .= "# end drop foreign keys\n";
 	}
 
 	/**
@@ -434,7 +465,7 @@ class Importer
 					$this->logs .= " | Error(13) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
 				}
 			} else {
-				$this->logs .= " | Warning - table or column does not exist\n";
+				$this->logs .= " | Warning - table or column does not exists\n";
 			}
 		}
 		$this->logs .= "# end rename columns\n";
@@ -637,13 +668,10 @@ class Importer
 	 */
 	protected function comperColumns(\yii\db\QueryBuilder $queryBuilder, \yii\db\ColumnSchema $baseColumn, \yii\db\ColumnSchemaBuilder $targetColumn)
 	{
-		if (rtrim($baseColumn->dbType, ' unsigned') !== strtok($queryBuilder->getColumnType($targetColumn), ' ')) {
-			return true;
-		}
-		if (($baseColumn->allowNull !== (null === $targetColumn->isNotNull)) || ($baseColumn->defaultValue !== $targetColumn->default) || ($baseColumn->unsigned !== $targetColumn->isUnsigned)) {
-			return true;
-		}
-		return false;
+		return rtrim($baseColumn->dbType, ' unsigned') !== strtok($queryBuilder->getColumnType($targetColumn), ' ') ||
+		($baseColumn->allowNull !== (null === $targetColumn->isNotNull)) ||
+		($baseColumn->defaultValue !== $targetColumn->default) ||
+		($baseColumn->unsigned !== $targetColumn->isUnsigned);
 	}
 
 	/**
