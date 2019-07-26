@@ -219,6 +219,7 @@
     "LBL_HELP_CHARACTER_SET_SYSTEM": "Το σύνολο χαρακτήρων(Character set) που χρησιμοποιείται από το διακομιστή για την αποθήκευση αναγνωριστικών, πάντα ρυθμισμένο σε utf8.",
     "LBL_HELP_CHARACTER_SET_FILESYSTEM": "Το σύνολο χαρακτήρων για το σύστημα αρχείων. Χρησιμοποιείται για τη μετατροπή των ονομάτων αρχείων που καθορίστηκαν μια συμβολοσειρά κειμένου στο character_set_client σε character_set_filesystem πριν από το άνοιγμα του αρχείου.",
     "LBL_FN_NAME": "Όνομα",
+    "LBL_FUNCTIONAL_VERIFICATION_TITLE": "Λειτουργική επαλήθευση",
     "LBL_IT_WORKS_PROPERLY": "Λειτουργεί σωστά",
     "LBL_LABEL_FOOTER": "Υποσέλιδο",
     "LBL_LABEL_PREMIUM_MODULES": "Premium ενότητες"

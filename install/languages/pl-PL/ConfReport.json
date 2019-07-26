@@ -219,6 +219,7 @@
     "LBL_HELP_CHARACTER_SET_SYSTEM": "Zestaw znaków używany przez serwer do przechowywania identyfikatorów, zawsze ustawiony na utf8.",
     "LBL_HELP_CHARACTER_SET_FILESYSTEM": "Zestaw znaków dla systemu plików. Służy do konwersji nazw plików określonych jako literał łańcuchowy z character_set_client na character_set_filesystem przed otwarciem pliku.",
     "LBL_FN_NAME": "Nazwa",
+    "LBL_FUNCTIONAL_VERIFICATION_TITLE": "Weryfikacja funkcjonalności",
     "LBL_IT_WORKS_PROPERLY": "Działa poprawnie",
     "LBL_LABEL_FOOTER": "Stopka",
     "LBL_LABEL_PREMIUM_MODULES": "Moduły premium"

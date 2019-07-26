@@ -219,6 +219,7 @@
     "LBL_HELP_CHARACTER_SET_SYSTEM": "Character set used by server to store identifiers, always set to utf8.",
     "LBL_HELP_CHARACTER_SET_FILESYSTEM": "Character set for file system. Used to convert filenames specified as a string literal from character_set_client to character_set_filesystem before file opening.",
     "LBL_FN_NAME": "Name",
+    "LBL_FUNCTIONAL_VERIFICATION_TITLE": "Verificação funcional",
     "LBL_IT_WORKS_PROPERLY": "It works properly",
     "LBL_LABEL_FOOTER": "Footer",
     "LBL_LABEL_PREMIUM_MODULES": "Premium modules"
