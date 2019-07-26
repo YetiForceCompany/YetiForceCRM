@@ -11,6 +11,18 @@
 -->*}
 {strip}
 	<!-- tpl-Base-Footer -->
+	{assign var="DISABLE_BRANDING" value=\App\Config::component('Branding', 'is_customer_branding_active')}
+	{if $DISABLE_BRANDING}
+		{assign var="URL_LINKEDIN" value=\App\Config::component('Branding', 'is_customer_branding_active')}
+		{assign var="URL_TWITTER" value=\App\Config::component('Branding', 'url_twitter')}
+		{assign var="URL_FACEBOOK" value=\App\Config::component('Branding', 'url_facebook')}
+		{assign var="URL_GITHUB" value=null}
+	{else}
+		{assign var="URL_LINKEDIN" value='https://www.linkedin.com/groups/8177576'}
+		{assign var="URL_TWITTER" value='https://twitter.com/YetiForceEN'}
+		{assign var="URL_FACEBOOK" value='https://www.facebook.com/YetiForce-CRM-158646854306054/'}
+		{assign var="URL_GITHUB" value='https://github.com/YetiForceCompany/YetiForceCRM'}
+	{/if}
 	</div>
 	</div>
 	</div>

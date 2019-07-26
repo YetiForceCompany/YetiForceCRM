@@ -205,20 +205,6 @@ abstract class View extends Base
 		$view->assign('ACTIVITY_REMINDER', $currentUser->getCurrentUserActivityReminderInSeconds());
 		$view->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
 		$view->assign('SHOW_FOOTER', $this->showFooter() && 8 !== \App\YetiForce\Register::getStatus());
-		$disableBranding = \App\YetiForce\Shop::check('DisableBranding');
-		$view->assign('DISABLE_BRANDING', $disableBranding);
-		if($disableBranding){
-			$companieRecordModel = \Settings_Companies_Record_Model::getInstance(1);
-			$view->assign('URL_LINKEDIN', $companieRecordModel->get('linkedin'));
-			$view->assign('URL_TWITTER', $companieRecordModel->get('twitter'));
-			$view->assign('URL_FACEBOOK', $companieRecordModel->get('facebook'));
-			$view->assign('URL_GITHUB', null);
-		}else{
-			$view->assign('URL_LINKEDIN', 'https://www.linkedin.com/groups/8177576');
-			$view->assign('URL_TWITTER', 'https://twitter.com/YetiForceEN');
-			$view->assign('URL_FACEBOOK', 'https://www.facebook.com/YetiForce-CRM-158646854306054/');
-			$view->assign('URL_GITHUB', 'https://github.com/YetiForceCompany/YetiForceCRM');
-		}
 		$view->view('Footer.tpl');
 	}
 
