@@ -28,6 +28,9 @@ class PicklistField extends BaseField
 	 */
 	public function getValue()
 	{
+		if (\is_array($this->value)) {
+			return $this->value;
+		}
 		return explode('##', $this->value);
 	}
 }

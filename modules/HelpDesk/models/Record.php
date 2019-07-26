@@ -127,12 +127,11 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 			$queryGenerator->permissions = false;
 			$queryGenerator->addNativeCondition(['parentid' => $this->getId()]);
 			$statusFieldName = \App\RecordStatus::getFieldName($this->getModuleName());
-			foreach (\App\RecordStatus::getStates($this->getModuleName(), \App\RecordStatus::RECORD_STATE_OPEN) as $openStatus) {
-				$queryGenerator->addCondition($statusFieldName, $openStatus, 'e', false);
-			}
-			foreach (\App\RecordStatus::getStates($this->getModuleName(), \App\RecordStatus::RECORD_STATE_NO_CONCERN) as $noConcernStatus) {
-				$queryGenerator->addCondition($statusFieldName, $noConcernStatus, 'e', false);
-			}
+			$queryGenerator->addCondition($statusFieldName, array_merge(
+				\App\RecordStatus::getStates($this->getModuleName(), \App\RecordStatus::RECORD_STATE_NO_CONCERN),
+				\App\RecordStatus::getStates($this->getModuleName(), \App\RecordStatus::RECORD_STATE_CLOSED)
+				), 'e', false);
+			var_dump($queryGenerator->createQuery()->createCommand()->getRawSql());
 			return !$queryGenerator->createQuery()->exists();
 		}
 		return true;

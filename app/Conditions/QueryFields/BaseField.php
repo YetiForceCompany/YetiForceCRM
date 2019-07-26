@@ -205,7 +205,7 @@ class BaseField
 	/**
 	 * Set value.
 	 *
-	 * @param string $value
+	 * @param mixed $value
 	 */
 	public function setValue($value)
 	{
