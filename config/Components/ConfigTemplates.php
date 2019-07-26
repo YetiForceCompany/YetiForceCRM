@@ -252,7 +252,7 @@ return [
 	'Branding' => [
 		'isCustomerBrandingActive' => [
 			'default' => false,
-			'description' => 'Determines whether client branding is active.',
+			'description' => "Determines whether client branding is active.\nAny modifications of this parameter require the vendor's consent.\nAny unauthorised modification breaches the terms and conditions of YetiForce Public License.",
 		],
 		'footerName' => [
 			'default' => 'YetiForce',
