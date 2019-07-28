@@ -1,63 +1,12 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
-#settingsShortCutsContainer {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	word-wrap: break-word;
-	padding: 1% 3%;
-
-	.moduleBlock {
-		min-height: 60px;
+.c-menu-shortcut {
+	.close {
+		display: none;
 	}
-
-	.col-md-3.moduleBlock:hover .unpin {
-		display: inline-block;
-		opacity: 0.4;
-
-		&:hover {
-			opacity: 0.8;
-		}
-	}
-}
-
-.settingsIndexPage {
-	.settingsSummary {
-		text-align: center;
-		margin-top: 10px;
-
-		a {
+	&:hover {
+		.close {
 			display: inline-block;
-			background: #f3f3f4;
-			color: #444;
-			border-radius: 2px;
-			min-width: 200px;
-			padding: 20px 0 10px;
-			border: 1px solid #ddd;
-
-			.summaryText {
-				display: inline-block;
-				margin-top: 20px;
-				font-size: 15px;
-			}
-
-			&:hover {
-				.summaryText,
-				.summaryCount {
-					color: #404952;
-				}
-			}
-		}
-	}
-
-	.moduleBlock {
-		h5 {
-			font-size: 1.2em;
-			margin-bottom: 5px;
-		}
-
-		&:hover {
-			background: #f3f3f4;
 		}
 	}
 }

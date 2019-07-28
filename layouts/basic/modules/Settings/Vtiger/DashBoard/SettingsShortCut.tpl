@@ -10,9 +10,9 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<a class="tpl-Settings-Base-DashBoard-SettingsShortCut dashboardWidget text-white bg-navy u-hover-opacity75 u-cursor-pointer moduleBlock px-1 py-2 mt-3 mr-3 flex-grow-1 u-w-max-320px"
+	<a class="tpl-Settings-Base-DashBoard-SettingsShortCut dashboardWidget text-black js-shortcut c-menu-shortcut bg-white u-bg-white-darken u-cursor-pointer px-1 py-2 mt-3 mr-3 flex-grow-1 u-w-max-320px"
 		 id="shortcut_{$SETTINGS_SHORTCUT->getId()}" data-actionurl="{$SETTINGS_SHORTCUT->getPinUnpinActionUrl()}"
-		 href="{$SETTINGS_SHORTCUT->getUrl()}">
+		 href="{$SETTINGS_SHORTCUT->getUrl()}" data-js="container | remove">
 		<div class="d-flex flex-nowrap">
 			<div class="u-font-size-38px my-auto px-1">
 				<span class="{$SETTINGS_SHORTCUT->get('iconpath')}"></span>
@@ -23,13 +23,13 @@
 						TITLE=\App\Language::translate($SETTINGS_SHORTCUT->get('name'), Vtiger_Menu_Model::getModuleNameFromUrl($SETTINGS_SHORTCUT->get('linkto')))}
 					<button data-id="{$SETTINGS_SHORTCUT->getId()}"
 					title="{\App\Language::translate('LBL_REMOVE', $QUALIFIED_MODULE)}" title="Close" type="button"
-					class="unpin close position-absolute text-white u-position-r-0 px-0 ml-auto mt-n2 mr-n2">
+					class="unpin close position-absolute u-font-weight-550 u-position-r-0 px-0 ml-auto mt-n2 mr-n2">
 						<span>&times;</span>
 					</button>
 				</div>
 				{include file=\App\Layout::getTemplatePath('DashBoard/WidgetDescription.tpl', $QUALIFIED_MODULE) CLASS='pr-1'
 				DESCRIPTION=\App\Language::translate($SETTINGS_SHORTCUT->get('description'), Vtiger_Menu_Model::getModuleNameFromUrl($SETTINGS_SHORTCUT->get('linkto')))}
-				<span class="fas fa-ellipsis-v position-absolute u-position-r-0 u-cursor-grab mt-4 pl-2 js-drag-handler"></span>
+				<span class="fas fa-ellipsis-v position-absolute text-muted u-position-r-0 u-cursor-grab mt-4 pl-2 js-drag-handler"></span>
 			</div>
 		</div>
 	</a>
