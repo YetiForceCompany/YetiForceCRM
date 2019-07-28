@@ -40,7 +40,7 @@
 						</tr>
 						<tr>
 							<td class="py-2 u-font-weight-550">{\App\Language::translate('LBL_SHOP_SUBSCRIPTIONS_DAY', $QUALIFIED_MODULE)}</td>
-							<td class="py-2 w-50">{$VARIABLE_PRODUCT['p3']}</td>
+							<td class="py-2 w-50">{date('d')}</td>
 						</tr>
 						<tr>
 							<td class="py-2 u-font-weight-550 border-bottom">{\App\Language::translate('LBL_SHOP_PAYMENT_FREQUENCY', $QUALIFIED_MODULE)}</td>

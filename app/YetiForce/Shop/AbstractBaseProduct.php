@@ -201,7 +201,7 @@ abstract class AbstractBaseProduct
 			'src' => 1,
 			'sra' => 1,
 			't3' => 'M',
-			'p3' => \date('d'),
+			'p3' => 1,
 			'a3' => $this->getPrice(),
 			'item_name' => $this->name,
 			'currency_code' => $this->currencyCode,
