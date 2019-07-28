@@ -71,9 +71,8 @@
 
 	&__body {
 		@extend .card-body;
-		@extend .px-1;
-		@extend .py-0;
 		@extend .col-md-12;
+		padding: 0 0.25rem;
 	}
 
 	&__label {

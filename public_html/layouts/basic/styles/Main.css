@@ -10217,7 +10217,6 @@ button.bg-dark:focus {
 .pt-0, .js-css-element-queries[min-width~="400px"] .col-ceq-xsm-6:nth-child(2), .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__container,
 .tpl-Calendar-Extended-QuickCreate .o-calendar__container,
 .py-0,
-.c-panel__body,
 .c-detail-widget__header,
 .c-detail-widget__content {
   padding-top: 0 !important;
@@ -10234,7 +10233,6 @@ button.bg-dark:focus {
 
 .pb-0,
 .py-0,
-.c-panel__body,
 .c-detail-widget__header,
 .c-detail-widget__content {
   padding-bottom: 0 !important;
@@ -10263,7 +10261,6 @@ button.bg-dark:focus {
 .pr-1,
 .px-1,
 .select2-container--bootstrap4 ul.select2-selection__rendered,
-.c-panel__body,
 .c-panel--edit .c-panel__body--edit [class^="col-"],
 .c-panel--edit .c-panel__body--edit [class*=" col-"] {
   padding-right: 0.25rem !important;
@@ -10278,7 +10275,6 @@ button.bg-dark:focus {
 .pl-1, .js-css-element-queries[min-width~="400px"] .col-ceq-xsm-6:nth-child(2),
 .px-1,
 .select2-container--bootstrap4 ul.select2-selection__rendered,
-.c-panel__body,
 .c-panel--edit .c-panel__body--edit [class^="col-"],
 .c-panel--edit .c-panel__body--edit [class*=" col-"] {
   padding-left: 0.25rem !important;
@@ -24416,6 +24412,10 @@ ul.tweets li {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+.c-panel__body {
+  padding: 0 0.25rem;
 }
 
 .c-panel__label label {

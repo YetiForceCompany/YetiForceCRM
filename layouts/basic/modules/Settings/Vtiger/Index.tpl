@@ -48,7 +48,7 @@
 					</h5>
 				</div>
 				<div id="system-monitoring-collapse" class="collapse multi-collapse show" aria-labelledby="system-monitoring">
-					<div class="c-panel__body">
+					<div class="c-panel__body pl-3 pr-0">
 								{include file=\App\Layout::getTemplatePath('DashBoard/SystemMonitoring.tpl', $QUALIFIED_MODULE)}
 					</div>
 				</div>
@@ -62,7 +62,7 @@
 					</h5>
 				</div>
 				<div id="my-shortcuts-collapse" class="collapse multi-collapse show" aria-labelledby="my-shortcuts">
-					<div class="c-panel__body">
+					<div class="c-panel__body px-3">
 						{include file=\App\Layout::getTemplatePath('DashBoard/SettingsShortCutsContainer.tpl', $QUALIFIED_MODULE)}
 					</div>
 				</div>
