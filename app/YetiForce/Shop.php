@@ -18,6 +18,13 @@ namespace App\YetiForce;
 class Shop
 {
 	/**
+	 * Product instance cache.
+	 *
+	 * @var \App\YetiForce\Shop\AbstractBaseProduct[]
+	 */
+	public static $productCache = [];
+
+	/**
 	 * Get products.
 	 *
 	 * @param string $state
@@ -49,7 +56,7 @@ class Shop
 	 * @param string $department
 	 * @param string $name
 	 *
-	 * @return \App\YetiForce\Shop\AbstractBaseProduct[]
+	 * @return \App\YetiForce\Shop\AbstractBaseProduct
 	 */
 	public static function getProduct(string $name, string $department): Shop\AbstractBaseProduct
 	{
@@ -58,12 +65,14 @@ class Shop
 		} else {
 			$className = "\\App\\YetiForce\\Shop\\Product\\$name";
 		}
-		$instance = new $className($name);
-		$config = self::getConfig();
-		if (isset($config[$name]) && $config[$name]['product'] === $name) {
-			$instance->loadConfig($config[$name]);
+		if (isset(self::$productCache[$className])) {
+			return self::$productCache[$className];
 		}
-		return $instance;
+		$instance = new $className($name);
+		if ($config = self::getConfig($name)) {
+			$instance->loadConfig($config);
+		}
+		return self::$productCache[$className] = $instance;
 	}
 
 	/**
@@ -87,22 +96,17 @@ class Shop
 	/**
 	 * Get additional configuration.
 	 *
+	 * @param string $name
+	 *
 	 * @return array
 	 */
-	public static function getConfig(): array
+	public static function getConfig(string $name): array
 	{
-		$rows = [];
-		if (\is_dir(ROOT_DIRECTORY . '/app_data/shop/')) {
-			foreach ((new \DirectoryIterator(ROOT_DIRECTORY . '/app_data/shop/')) as $item) {
-				if (!$item->isDir() && 'php' === $item->getExtension()) {
-					$rows[$item->getBasename('.php')] = require ROOT_DIRECTORY . '/app_data/shop/' . $item->getBasename();
-				}
-			}
+		$config = [];
+		if (\is_dir(ROOT_DIRECTORY . '/app_data/shop/') && \file_exists(ROOT_DIRECTORY . "/app_data/shop/{$name}.php")) {
+			$config = require ROOT_DIRECTORY . "/app_data/shop/{$name}.php";
 		}
-		foreach (\App\YetiForce\Register::getProducts() as  $row) {
-			$rows[$row['product']] = $row;
-		}
-		return $rows;
+		return \App\YetiForce\Register::getProducts()[$name] ?? $config;
 	}
 
 	/**

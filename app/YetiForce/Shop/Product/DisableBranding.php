@@ -36,6 +36,6 @@ class DisableBranding extends \App\YetiForce\Shop\AbstractBaseProduct
 	 */
 	public function verify(): bool
 	{
-		return \App\YetiForce\Shop::check('DisableFooter');
+		return \Config\Components\Branding::$isCustomerBrandingActive && \App\YetiForce\Shop::check('DisableBranding');
 	}
 }

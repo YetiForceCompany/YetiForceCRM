@@ -97,13 +97,13 @@
 								{/if}
 								<a class="page-link text-danger js-popover-tooltip" role="button"
 								   data-content="{\App\Language::translateArgs('LBL_YETIFORCE_REGISTRATION_ERROR', $MODULE_NAME, $INFO_REGISTRATION_ERROR)}"
-								   title="{\App\Language::translate('LBL_YETIFORCE_REGISTRATION', $MODULE_NAME)}"
+								   title="{\App\Purifier::encodeHtml('<span class="yfi yfi-yeti-register-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_REGISTRATION', $MODULE_NAME)}"
 										{if $USER_MODEL->isAdminUser()}
 											href="index.php?parent=Settings&module=Companies&view=List&displayModal=online"
 										{else}
 											href="#"
 										{/if} >
-								<span class="fas fa-exclamation-triangle fa-2x">
+								<span class="yfi yfi-yeti-register-alert fa-2x">
 								</span>
 								</a>
 							</li>
@@ -123,13 +123,13 @@
 						{/if}
 						{if !\App\YetiForce\Shop::verify()}
 							<li class="page-item u-cursor-pointer">
-								<a class="page-link text-warning js-popover-tooltip animated flash infinite slower" role="button" data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP_PRODUCT_CANCELED', $MODULE_NAME)}" title="{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
+								<a class="page-link text-warning js-popover-tooltip animated flash infinite slower" role="button" data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP_PRODUCT_CANCELED', $MODULE_NAME)}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
 										{if $USER_MODEL->isAdminUser()}
 											href="index.php?module=YetiForce&parent=Settings&view=Shop"
 										{else}
 											href="#"
 										{/if} >
-									<span class="fas fa-exclamation-triangle fa-2x"></span>
+									<span class="yfi yfi-shop-alert fa-2x"></span>
 								</a>
 							</li>
 						{/if}
