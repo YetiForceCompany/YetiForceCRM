@@ -134,6 +134,7 @@ class Shop
 				$status = \App\Company::getSize() === $productDetails['package'];
 			}
 		}
+
 		return $status;
 	}
 
@@ -159,13 +160,13 @@ class Shop
 		$key = base64_decode($key);
 		$l1 = substr($key, 0, 5);
 		$r1 = substr($key, -2);
-		$m = rtrim(ltrim($key, $l1), $r1);
+		$m = substr(substr($key, 5), 0, -2);
 		$p = substr($m, -5);
-		$m = rtrim($m, $p);
+		$m = substr($m, 0, -5);
 		$d = substr($m, -10);
-		$m = rtrim($m, $d);
+		$m = substr($m, 0, -10);
 		$s = substr($m, -5);
-		$m = rtrim($m, $s);
+		$m = substr($m, 0, -5);
 		return substr(crc32($m), 2, 5) === $l1
 			&& substr(sha1($d . $p), 5, 5) === $s
 			&& $r1 === substr(sha1(substr(crc32($m), 2, 5) . $m . substr(sha1($d . $p), 5, 5) . $d . $p), 1, 2);
