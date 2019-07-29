@@ -89,7 +89,7 @@
 							<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2 {if ($IS_HIDDEN)}d-none{/if}"
 								  data-js="click" data-mode="show"
 								  data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
-							<h5 class="m-0">{\App\Language::translate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h5>
+							<h5>{\App\Language::translate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h5>
 						</div>
 						<div class="c-panel__body c-panel__body--edit blockContent js-block-content {if $IS_HIDDEN}d-none{/if}"
 							 data-js="display">
