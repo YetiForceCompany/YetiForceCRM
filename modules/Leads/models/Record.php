@@ -37,6 +37,16 @@ class Leads_Record_Model extends Vtiger_Record_Model
 	 */
 	public function save()
 	{
+		$request = new App\Request($_REQUEST, $_REQUEST);
+		$changes = $this->getChanges();
+		if('true' === Vtiger_Processes_Model::getConfig('marketing', 'lead', 'currentuser_status')
+				&& in_array($request->get('action'), ['Save', 'SaveAjax', 'MassSave'])
+				&& !empty($changes)
+				&& !isset($changes['assigned_user_id'])
+			)
+		{
+			$this->set('assigned_user_id', App\User::getCurrentUserId());
+		}
 		parent::save();
 		if(!$this->isNew()){
 			\App\Cache::delete('Leads.converted', $this->getId());
