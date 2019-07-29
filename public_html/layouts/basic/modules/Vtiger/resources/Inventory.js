@@ -708,7 +708,7 @@ $.Class(
 			if ($('.netPrice', row).length) {
 				netPrice = this.getNetPrice(row);
 			} else {
-				netPrice = this.getTotalPrice(row);
+				netPrice = this.getTotalPrice(row) - this.getDiscount(row);
 			}
 			var purchase = this.getPurchase(row);
 			var margin = netPrice - purchase;
