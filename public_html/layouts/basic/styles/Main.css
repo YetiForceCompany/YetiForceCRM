@@ -20752,7 +20752,8 @@ td.fieldValue input, td.fieldValue .input-group {
 
 .o-shop__nav__item {
   display: flex;
-  align-items: center; }
+  align-items: center;
+  justify-content: center; }
   .o-shop__nav__item .yfi {
     font-size: 1.5625rem;
     margin-right: 0.25rem; }

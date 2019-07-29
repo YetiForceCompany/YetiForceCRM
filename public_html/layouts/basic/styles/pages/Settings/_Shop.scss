@@ -19,6 +19,7 @@
 	&__item {
 		display: flex;
 		align-items: center;
+		justify-content: center;
 		.yfi {
 			font-size: calculate-rem(25px);
 			margin-right: 0.25rem;
