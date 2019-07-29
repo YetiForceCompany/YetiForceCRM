@@ -451,8 +451,8 @@ $.Class(
 		registerShopSearch() {
 			this.container
 				.find('.js-shop-search')
-				.on('keyup', function() {
-					let value = $(this)
+				.on('keyup', e => {
+					let value = $(e.currentTarget)
 						.val()
 						.toLowerCase();
 						this.container.find('.js-product .js-text-search').filter(function() {
