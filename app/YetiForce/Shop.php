@@ -51,7 +51,7 @@ class Shop
 	 *
 	 * @return \App\YetiForce\Shop\AbstractBaseProduct[]
 	 */
-	public static function getProduct(string $name, string $department): object
+	public static function getProduct(string $name, string $department): Shop\AbstractBaseProduct
 	{
 		if ($department) {
 			$className = "\\App\\YetiForce\\Shop\\Product\\$department\\$name";
