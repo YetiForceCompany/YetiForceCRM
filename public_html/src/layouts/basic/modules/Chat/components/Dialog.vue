@@ -5,12 +5,12 @@
       <q-btn
         round
         color="primary"
-        icon="mdi-message-text-outline"
         class="glossy"
         @click="dialog = !dialog"
         ref="chatBtn"
         :key="data.amountOfNewMessages"
       >
+        <icon icon="yfi-branding-chat" />
         <q-badge v-if="config.showNumberOfNewMessages" v-show="data.amountOfNewMessages > 0" color="danger" floating>
           <div>
             {{ data.amountOfNewMessages }}
@@ -36,12 +36,13 @@
 <script>
 import Chat from './Chat.vue'
 import DragResize from 'components/DragResize.vue'
+import Icon from 'components/Icon.vue'
 
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'Dialog',
-  components: { Chat, DragResize },
+  components: { Chat, DragResize, Icon },
   data() {
     return {
       timerGlobal: null

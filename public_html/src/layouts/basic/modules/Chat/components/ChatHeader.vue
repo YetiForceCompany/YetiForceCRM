@@ -34,18 +34,19 @@
           indicator-color="info"
           active-color="info"
         >
-          <q-tab
-            name="chat"
-            icon="mdi-forum-outline"
-            :label="isSmall ? '' : translate('JS_CHAT')"
-            :style="{ 'min-width': '40px' }"
-          />
-          <q-tab name="unread" icon="mdi-email-alert" :label="isSmall ? '' : translate('JS_CHAT_UNREAD')" />
+          <q-tab name="chat" :style="{ 'min-width': '40px' }">
+            <icon class="q-icon q-tab__icon" size="20px" icon="yfi-branding-chat" />
+            <span class="q-tab__label">{{ isSmall ? '' : translate('JS_CHAT') }}</span>
+          </q-tab>
+          <q-tab name="unread">
+            <icon class="q-icon q-tab__icon" size="20px" icon="yfi-unread-messages" />
+            <span class="q-tab__label">{{ isSmall ? '' : translate('JS_CHAT_UNREAD') }}</span>
+          </q-tab>
           <q-tab name="history" icon="mdi-history" :label="isSmall ? '' : translate('JS_CHAT_HISTORY')" />
         </q-tabs>
         <div class="flex no-wrap">
           <template v-if="$q.platform.is.desktop">
-						<btn-grab v-show="miniMode" class="text-white flex flex-center" grabClass="js-drag" size="19px" />
+            <btn-grab v-show="miniMode" class="text-white flex flex-center" grabClass="js-drag" size="19px" />
             <q-btn dense flat :icon="miniMode ? 'mdi-window-maximize' : 'mdi-window-restore'" @click="toggleSize()">
               <q-tooltip>{{ miniMode ? translate('JS_MAXIMIZE') : translate('JS_MINIMIZE') }}</q-tooltip>
             </q-btn>
@@ -62,12 +63,13 @@
 <script>
 import NotifyBtn from './NotifyBtn.vue'
 import BtnGrab from 'components/BtnGrab.vue'
+import Icon from 'components/Icon.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapActions, mapMutations, mapGetters } = createNamespacedHelpers('Chat')
 
 export default {
   name: 'ChatHeader',
-  components: { NotifyBtn, BtnGrab },
+  components: { NotifyBtn, BtnGrab, Icon },
   props: {
     inputSearchVisible: { type: Boolean, required: false },
     tabHistoryShow: { type: Boolean, required: false },
