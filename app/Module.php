@@ -277,7 +277,7 @@ class Module
 		} else {
 			Log::error("The file $filename does not exist");
 		}
-		static::init();
+		static::initFromDb();
 	}
 
 	/**
