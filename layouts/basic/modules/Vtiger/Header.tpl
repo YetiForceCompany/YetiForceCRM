@@ -46,7 +46,6 @@
 <div id="configuration">
 	<input type="hidden" id="currencyGroupingPattern" value="{$USER_MODEL->get('currency_grouping_pattern')}"/>
 	<input type="hidden" id="truncateTrailingZeros" value="{$USER_MODEL->get('truncate_trailing_zeros')}"/>
-	<input type="hidden" id="backgroundClosingModal" value="{\App\Config::main('backgroundClosingModal')}"/>
 	<input type="hidden" id="gsAutocomplete" value="{App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE')}"/>
 	<input type="hidden" id="gsMinLength" value="{App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH')}"/>
 	<input type="hidden" id="gsAmountResponse" value="{App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT')}"/>

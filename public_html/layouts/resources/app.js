@@ -535,8 +535,9 @@ var app = (window.app = {
 		let params = {
 			show: true
 		};
-		if ($('#backgroundClosingModal').val() !== 1) {
-			params.backdrop = true;
+		if (!app.getMainParams('backgroundClosingModal')) {
+			params.backdrop = 'static';
+			params.keyboard = false;
 		}
 		if (typeof paramsObject === 'object') {
 			container.css(paramsObject);

@@ -172,7 +172,7 @@ $.Class(
 						});
 					},
 					'',
-					{ backdrop: 'static' }
+					{ backdrop: 'static', keyboard: false }
 				);
 			}
 		},
