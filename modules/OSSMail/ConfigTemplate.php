@@ -37,7 +37,7 @@ return [
 			}
 			$arg = (array) \App\Purifier::purify($arg);
 			foreach ($arg as $url) {
-				if (!\App\Validator::url($url)) {
+				if (!\App\Validator::urlNoProtocolRequired($url)) {
 					return false;
 				}
 			}
@@ -45,7 +45,7 @@ return [
 		},
 		'sanitization' => function () {
 			$values = func_get_arg(0);
-			if (!is_array($values)) {
+			if (!\is_array($values)) {
 				$values = [$values];
 			}
 			$saveValue = [];
@@ -78,7 +78,7 @@ return [
 		'description' => 'Login to SMTP server',
 		'validation' => function () {
 			$arg = func_get_arg(0);
-			return $arg && !is_numeric($arg) && is_string($arg) && $arg === strip_tags($arg) && 256 > \App\TextParser::getTextLength($arg);
+			return $arg && !is_numeric($arg) && \is_string($arg) && $arg === strip_tags($arg) && 256 > \App\TextParser::getTextLength($arg);
 		},
 		'sanitization' => '\App\Purifier::encodeHtml'
 	],
@@ -103,7 +103,7 @@ return [
 		'description' => 'Set default language',
 		'validation' => function () {
 			$arg = func_get_arg(0);
-			return $arg && in_array($arg, \Settings_OSSMail_Config_Model::LANGUAGES);
+			return $arg && \in_array($arg, \Settings_OSSMail_Config_Model::LANGUAGES);
 		}
 	],
 	'username_domain' => [
@@ -143,7 +143,7 @@ return [
 		'description' => 'Identities level.',
 		'validation' => function () {
 			$arg = func_get_arg(0);
-			return is_numeric($arg) && in_array($arg, [0, 1, 2, 3, 4]);
+			return is_numeric($arg) && \in_array($arg, [0, 1, 2, 3, 4]);
 		},
 		'sanitization' => function () {
 			return (int) func_get_arg(0);
@@ -318,7 +318,7 @@ return RCUBE_INSTALL_PATH . "/../../../../cache/mail/";',
 	],
 	'db_dsnw' => [
 		'type' => 'function',
-		'default' => "return 'mysql://' . \Config\Db::\$db_username . ':' . \Config\Db::\$db_password . '@' . \Config\Db::\$db_server . ':' . \Config\Db::\$db_port . '/' . \Config\Db::\$db_name;",
+		'default' => "return 'mysql://' . \\Config\\Db::\$db_username . ':' . \\Config\\Db::\$db_password . '@' . \\Config\\Db::\$db_server . ':' . \\Config\\Db::\$db_port . '/' . \\Config\\Db::\$db_name;",
 		'description' => 'Database connection string (DSN) for read+write operations'
 	],
 	'imap_conn_options' => [

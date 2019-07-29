@@ -273,6 +273,21 @@ class Validator
 	}
 
 	/**
+	 * Function checks if given value is url - no protocol required.
+	 *
+	 * @param string $url
+	 *
+	 * @return bool
+	 */
+	public static function urlNoProtocolRequired(string $url): bool
+	{
+		if (false === strpos($url, '://')) {
+			return static::domain($url);
+		}
+		return static::url($url);
+	}
+
+	/**
 	 * Function checks if given value is domain.
 	 *
 	 * @param string $input
