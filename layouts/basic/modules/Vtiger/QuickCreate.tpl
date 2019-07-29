@@ -37,11 +37,11 @@
 									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader' CLASS='display-block-md'}
 								{/foreach}
 							{/if}
-							<button class="btn btn-success col-12 col-md-1 mb-2 mb-md-0" type="submit"
+							<button class="btn btn-success mr-1" type="submit"
 									title="{\App\Language::translate('LBL_SAVE', $MODULE)}">
 								<strong><span class="fas fa-check"></span></strong>
 							</button>
-							<button class="cancelLink btn btn-danger col-12 col-md-1 ml-0 ml-md-1" aria-hidden="true"
+							<button class="cancelLink btn btn-danger"
 									data-dismiss="modal" type="button" title="{\App\Language::translate('LBL_CLOSE')}">
 								<span class="fas fa-times"></span>
 							</button>
