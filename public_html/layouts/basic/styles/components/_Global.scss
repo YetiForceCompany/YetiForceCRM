@@ -43,11 +43,27 @@
 		display: flex;
 		flex-flow: row-reverse;
 		align-items: center;
-		h5:not(.align-self-center) {
-			@extend .ml-2, .mb-1, .mr-auto;
+		h5 {
+			margin: 0 0 0.25rem 0.5rem;
+		}
+		& > h5,
+		& > .c-panel__title {
+			margin-right: auto;
 		}
 	}
+	&__title {
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: center;
+		.yfi {
+			font-size: calculate-rem(29px);
+			margin: 0 0.5rem 0 1rem;
+			&.yfi-marketplace {
+				font-size: calculate-rem(36px);
 
+			}
+		}
+	}
 	&__body {
 		@extend .card-body;
 		@extend .col-md-12;

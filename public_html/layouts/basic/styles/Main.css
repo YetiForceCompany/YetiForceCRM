@@ -6738,7 +6738,7 @@ button.bg-dark:focus {
 .childrenMarginTopX > * {
   margin-right: 0.25rem !important; }
 
-.mb-1, .c-panel__header h5:not(.align-self-center),
+.mb-1,
 .my-1 {
   margin-bottom: 0.25rem !important; }
 
@@ -6766,7 +6766,7 @@ button.bg-dark:focus {
 .my-2 {
   margin-bottom: 0.5rem !important; }
 
-.ml-2, .c-panel__header h5:not(.align-self-center),
+.ml-2,
 .mx-2,
 .contentsDiv,
 .centerPanel {
@@ -7074,7 +7074,7 @@ button.bg-dark:focus {
 .select2-container--bootstrap4 ul.select2-selection__rendered li.select2-selection__choice {
   margin-top: auto !important; }
 
-.mr-auto, .c-panel__header h5:not(.align-self-center),
+.mr-auto,
 .mx-auto {
   margin-right: auto !important; }
 
@@ -17792,6 +17792,19 @@ ul.tweets li {
   display: flex;
   flex-flow: row-reverse;
   align-items: center; }
+  .c-panel__header h5 {
+    margin: 0 0 0.25rem 0.5rem; }
+  .c-panel__header > h5, .c-panel__header > .c-panel__title {
+    margin-right: auto; }
+.c-panel__title {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center; }
+  .c-panel__title .yfi {
+    font-size: 1.8125rem;
+    margin: 0 0.5rem 0 1rem; }
+    .c-panel__title .yfi.yfi-marketplace {
+      font-size: 2.25rem; }
 .c-panel__body {
   padding: 0 0.25rem; }
 .c-panel__label label {
@@ -20736,5 +20749,15 @@ td.fieldValue input, td.fieldValue .input-group {
 
 .o-buy-modal__img {
   max-height: 13.75rem; }
+
+.o-shop__nav__item {
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+  .o-shop__nav__item .yfi {
+    font-size: 1.5625rem;
+    margin-right: 0.25rem; }
+    .o-shop__nav__item .yfi.yfi-for-partners {
+      font-size: 1.1875rem; }
 
 /*# sourceMappingURL=Main.css.map */

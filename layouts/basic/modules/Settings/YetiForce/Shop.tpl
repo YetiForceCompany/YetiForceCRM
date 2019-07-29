@@ -21,11 +21,13 @@
 				</div>
 			{/if}
 			<nav>
-				<div class="nav nav-pills nav-fill mb-3" role="tablist">
-					<a class="nav-item nav-link{if $TAB === 'Premium'} active{/if}" id="nav-premium-tab" data-toggle="tab" href="#nav-premium" role="tab" aria-controls="nav-premium" aria-selected="{$TAB === 'Premium'}">
+				<div class="o-shop__nav nav nav-under nav-fill mb-3" role="tablist">
+					<a class="o-shop__nav__item nav-item nav-link{if $TAB === 'Premium'} active{/if}" id="nav-premium-tab" data-toggle="tab" href="#nav-premium" role="tab" aria-controls="nav-premium" aria-selected="{$TAB === 'Premium'}">
+						<span class="yfi yfi-for-admin"></span>
 						{\App\Language::translate('LBL_PREMIUM_ZONE', $QUALIFIED_MODULE)}
 					</a>
-					<a class="nav-item nav-link{if $TAB === 'Partner'} active{/if}" id="nav-partner-tab" data-toggle="tab" href="#nav-partner" role="tab" aria-controls="nav-partner" aria-selected="{$TAB === 'Partner'}" data-js="data">
+					<a class="o-shop__nav__item nav-item nav-link{if $TAB === 'Partner'} active{/if}" id="nav-partner-tab" data-toggle="tab" href="#nav-partner" role="tab" aria-controls="nav-partner" aria-selected="{$TAB === 'Partner'}" data-js="data">
+						<span class="yfi yfi-for-partners"></span>
 						{\App\Language::translate('LBL_PARTNER_ZONE', $QUALIFIED_MODULE)}
 					</a>
 				</div>
