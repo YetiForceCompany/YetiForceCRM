@@ -160,6 +160,10 @@
 	font-size: 100% !important;
 }
 
+.u-font-size-26 {
+	font-size: calculate-rem(26px);
+}
+
 .u-font-size-44px {
 	font-size: calculate-rem(44px);
 }

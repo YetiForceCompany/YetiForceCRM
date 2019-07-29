@@ -36,31 +36,11 @@
 .c-panel {
 	@extend .card;
 	@extend .mb-2;
-	&.c-panel--collapsible {
-		.c-panel__header {
-			.fa-angle-up {
-				display: inline-block;
-			}
-			.fa-angle-down {
-				display: none;
-			}
-			&.collapsed {
-				.fa-angle-up {
-					display: none;
-				}
-				.fa-angle-down {
-					display: inline-block;
-				}
-			}
-		}
-	}
 	&__header {
 		@extend .card-header;
 		@extend .u-cursor-pointer;
 		@extend .px-0;
 		@extend .py-1;
-		background-color: $primary;
-		color: $white;
 		display: flex;
 		flex-flow: row-reverse;
 		align-items: center;
@@ -71,9 +51,8 @@
 
 	&__body {
 		@extend .card-body;
-		@extend .px-1;
-		@extend .py-0;
 		@extend .col-md-12;
+		padding: 0 0.25rem;
 	}
 
 	&__label {
@@ -88,7 +67,6 @@
 			margin-bottom: 0;
 		}
 	}
-
 	&--edit {
 		.row {
 			margin: 0;
@@ -100,6 +78,30 @@
 			[class^="col-"],
 			[class*=" col-"] {
 				@extend .px-1;
+			}
+		}
+	}
+	&--primary {
+		.c-panel__header {
+			background-color: $primary;
+			color: $white;
+		}
+	}
+	&--collapsible {
+		.c-panel__header {
+			.mdi-chevron-up {
+				display: inline-block;
+			}
+			.mdi-chevron-down {
+				display: none;
+			}
+			&.collapsed {
+				.mdi-chevron-up {
+					display: none;
+				}
+				.mdi-chevron-down {
+					display: inline-block;
+				}
 			}
 		}
 	}

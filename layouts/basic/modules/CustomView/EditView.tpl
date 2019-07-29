@@ -12,7 +12,7 @@
 {strip}
 	<div class="tpl-CustomView-EditView modal fade js-filter-modal__container" data-js="container">
 		<div class="modal-dialog modal-fullscreen">
-			<div class="modal-content pl-3 pr-3">
+			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">
 						<span class="fas fa-filter fa-sm mr-1"></span>
@@ -34,7 +34,7 @@
 					<input type="hidden" id="status" name="status" value="{$CV_PRIVATE_VALUE}"/>
 					<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}"/>
 					{assign var=SELECTED_FIELDS value=$CUSTOMVIEW_MODEL->getSelectedFields()}
-					<div class="childrenMarginTopX">
+					<div class="modal-body">
 						<div class="js-toggle-panel c-panel" data-js="click">
 							<div class="blockHeader  c-panel__header">
 					<span class="iconToggle fas fa-chevron-down fa-xs m-1 mt-2" data-hide="fas fa-chevron-right"
@@ -192,7 +192,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="modal-footer d-flex flex-md-row flex-column justify-content-start px-0">
+					<div class="modal-footer d-flex flex-md-row flex-column justify-content-start">
 						<div class="w-75 btn-group js-filter-preferences btn-group-toggle flex-wrap align-items-stretch mt-1  c-btn-block-sm-down pl-1 flex-xl-row flex-column"
 							 data-toggle="buttons" data-js="change">
 							<label class="c-btn-block-sm-down btn btn-outline-dark{if $CUSTOMVIEW_MODEL->isDefault()} active{/if}"

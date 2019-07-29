@@ -96,11 +96,11 @@ $.Class(
 		}
 	},
 	{
-		registerDeleteShortCutEvent: function(shortcutsContainer = $('#settingsShortCutsContainer')) {
+		registerDeleteShortCutEvent: function(shortcutsContainer = $('.js-shortcuts')) {
 			shortcutsContainer.on('click', '.unpin', e => {
 				e.preventDefault();
 				var actionEle = $(e.currentTarget);
-				var closestBlock = actionEle.closest('.moduleBlock');
+				var closestBlock = actionEle.closest('.js-shortcut');
 				var fieldId = actionEle.data('id');
 				var shortcutBlockActionUrl = closestBlock.data('actionurl');
 				var actionUrl = shortcutBlockActionUrl + '&pin=false';
@@ -148,7 +148,7 @@ $.Class(
 						parent: 'Settings',
 						view: 'IndexAjax'
 					}).done(data => {
-						const shortcutsContainer = $('#settingsShortCutsContainer');
+						const shortcutsContainer = $('.js-shortcuts');
 						$(data).appendTo(shortcutsContainer);
 						this.updateShortcutsStorage(shortcutsContainer);
 						progressIndicatorElement.progressIndicator({
@@ -191,7 +191,7 @@ $.Class(
 				},
 				zIndex: 99999
 			});
-			const shortcutsContainer = $('#settingsShortCutsContainer');
+			const shortcutsContainer = $('.js-shortcuts');
 			shortcutsContainer.droppable({
 				activeClass: 'ui-state-default',
 				hoverClass: 'ui-state-hover',
@@ -199,7 +199,7 @@ $.Class(
 				drop: function(event, ui) {
 					var url = ui.draggable.attr('href');
 					var isExist = false;
-					$('#settingsShortCutsContainer [id^="shortcut"]').each(function() {
+					$('.js-shortcuts [id^="shortcut"]').each(function() {
 						var shortCutUrl = $(this).data('url');
 						if (shortCutUrl == url) {
 							isExist = true;
@@ -235,6 +235,35 @@ $.Class(
 		},
 		updateShortcutsStorage(container) {
 			Quasar.plugins.LocalStorage.set('yf-settings-shortcuts', container.sortable('toArray'));
+		},
+		registerCollapsiblePanels() {
+			const panels = this.container.find('.js-collapse');
+			if (Quasar.plugins.LocalStorage.has('yf-settings-panels')) {
+				this.setPanels(panels);
+			} else {
+				panels.collapse('show')
+				Quasar.plugins.LocalStorage.set('yf-settings-panels', {
+					'marketplace-collapse': 'shown',
+					'system-monitoring-collapse': 'shown',
+					'my-shortcuts-collapse': 'shown'
+				});
+			}
+			panels.on('hidden.bs.collapse shown.bs.collapse', e => {
+				this.updatePanelsStorage(e.target.id, e.type)
+			})
+		},
+		updatePanelsStorage(id, type) {
+			const panelsStorage = Quasar.plugins.LocalStorage.getItem('yf-settings-panels')
+			panelsStorage[id] = type
+			Quasar.plugins.LocalStorage.set('yf-settings-panels', panelsStorage);
+		},
+		setPanels(panels) {
+			const panelsStorage = Quasar.plugins.LocalStorage.getItem('yf-settings-panels');
+			for (let item of panels) {
+				if (panelsStorage[item.id] === 'shown') {
+					$(item).collapse('show')
+				}
+			}
 		},
 		loadEditorElement: function() {
 			new App.Fields.Text.Editor($('.js-editor'), {});
@@ -420,11 +449,13 @@ $.Class(
 			}
 		},
 		registerEvents: function() {
+			this.container = $('.js-dashboard-container');
 			this.registerTabEvents();
 			this.reloadContent();
 			this.registerWarningsAlert();
 			this.registerDeleteShortCutEvent();
 			this.registerAddShortcutDragDropEvent();
+			this.registerCollapsiblePanels();
 			new window.Settings_YetiForce_Shop_Js().registerEvents();
 		}
 	}

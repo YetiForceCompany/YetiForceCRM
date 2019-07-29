@@ -1,9 +1,9 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Settings-Base-DashBoard-SystemMonitoring pl-3 mb-4 d-flex flex-wrap">
+	<div class="tpl-Settings-Base-DashBoard-SystemMonitoring mb-3 d-flex flex-wrap">
 		{foreach from=$SYSTEM_MONITORING item=ITEM}
 			{assign var="TRANSLATION" value=\App\Language::translatePluralized($ITEM['LABEL'], $QUALIFIED_MODULE, $ITEM['VALUE'])}
-			<div class="dashboardWidget px-1 pt-1 pb-4 mb-n1 mt-3 mr-3 flex-grow-1">
+			<div class="dashboardWidget px-1 pt-1 pb-4 mt-3 mr-3 flex-grow-1">
 				<div class="pl-3 d-flex flex-nowrap justify-content-center">
 					<div class="d-flex u-font-size-50px pb-1 mr-2">
 						<span class="mt-auto mb-2 {$ITEM['ICON']}"></span>
