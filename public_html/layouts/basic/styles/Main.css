@@ -13421,6 +13421,9 @@ label.btn[class*="btn-outline-"]:not(.active) {
 .modal-footer {
   border-top: none; }
 
+.modal-content {
+  border: none; }
+
 .nav-under .active {
   border-bottom: solid 2px; }
 .nav-under .nav-link {
