@@ -1,9 +1,8 @@
 @font-face {
-	font-family: 'adminIcons';
-	src: url('adminIcons.eot?c5e9uk');
-	src: url('adminIcons.eot?c5e9uk#iefix') format('embedded-opentype'),
-		url('adminIcons.ttf?c5e9uk') format('truetype'), url('adminIcons.woff?c5e9uk') format('woff'),
-		url('adminIcons.svg?c5e9uk#adminIcons') format('svg');
+	font-family: 'adminIcon';
+	src: url('adminIcon.eot?svldh9');
+	src: url('adminIcon.eot?svldh9#iefix') format('embedded-opentype'), url('adminIcon.ttf?svldh9') format('truetype'),
+		url('adminIcon.woff?svldh9') format('woff'), url('adminIcon.svg?svldh9#adminIcon') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -11,7 +10,7 @@
 [class^='adminIcon-'],
 [class*=' adminIcon-'] {
 	/* use !important to prevent issues with browser extensions that change fonts */
-	font-family: 'adminIcons' !important;
+	font-family: 'adminIcon' !important;
 	speak: none;
 	font-style: normal;
 	font-weight: normal;
@@ -24,6 +23,102 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.adminIcon-system-monitoring:before {
+	content: '\e91c';
+}
+.adminIcon-marketplace:before {
+	content: '\e937';
+}
+.adminIcon-my-shortcuts:before {
+	content: '\e935';
+}
+.adminIcon-branding-off:before {
+	content: '\e934';
+}
+.adminIcon-premium-support:before {
+	content: '\e923';
+}
+.adminIcon-filed-picklist-2:before {
+	content: '\e924';
+}
+.adminIcon-modules-relations-2:before {
+	content: '\e925';
+}
+.adminIcon-modules-installations-2:before {
+	content: '\e926';
+}
+.adminIcon-menu-configuration-2:before {
+	content: '\e927';
+}
+.adminIcon-workflows-2:before {
+	content: '\e928';
+}
+.adminIcon-modules-2:before {
+	content: '\e929';
+}
+.adminIcon-security-errors-2:before {
+	content: '\e92a';
+}
+.adminIcon-users-2:before {
+	content: '\e92b';
+}
+.adminIcon-system-warnings-2:before {
+	content: '\e92c';
+}
+.adminIcon-modules-widgets-2:before {
+	content: '\e92d';
+}
+.adminIcon-premium-modules:before {
+	content: '\e92e';
+}
+.adminIcon-donate:before {
+	content: '\e92f';
+}
+.adminIcon-hosting:before {
+	content: '\e930';
+}
+.adminIcon-footer-off:before {
+	content: '\e932';
+}
+.adminIcon-enterprise-modules:before {
+	content: '\e933';
+}
+.adminIcon-for-admin:before {
+	content: '\e921';
+}
+.adminIcon-for-partners:before {
+	content: '\e922';
+}
+.adminIcon-prodprouct-preview:before {
+	content: '\e920';
+}
+.adminIcon-buy:before {
+	content: '\e931';
+}
+.adminIcon-NotificationConfiguration:before {
+	content: '\e91b';
+}
+.adminIcon-mail-queue:before {
+	content: '\e91a';
+}
+.adminIcon-webservice-users:before {
+	content: '\e919';
+}
+.adminIcon-webservice-apps:before {
+	content: '\e918';
+}
+.adminIcon-automatic-assignment:before {
+	content: '\e917';
+}
+.adminIcon-shared-owner:before {
+	content: '\e916';
+}
+.adminIcon-owner:before {
+	content: '\e915';
+}
+.adminIcon-locks:before {
+	content: '\e90d';
+}
 .adminIcon-system-warnings:before {
 	content: '\e903';
 }
@@ -77,6 +172,9 @@
 }
 .adminIcon-user:before {
 	content: '\e801';
+}
+.adminIcon-roles:before {
+	content: '\e802';
 }
 .adminIcon-profiles:before {
 	content: '\e803';

@@ -219,7 +219,7 @@ abstract class View extends Base
 	{
 		return $this->checkAndConvertCssStyles([
 			'~layouts/resources/icons/userIcon.css',
-			'~layouts/resources/icons/adminIcons.css',
+			'~layouts/resources/icons/adminIcon.css',
 			'~layouts/resources/icons/additionalIcons.css',
 			'~layouts/resources/icons/yfm.css',
 			'~layouts/resources/icons/yfi.css',
