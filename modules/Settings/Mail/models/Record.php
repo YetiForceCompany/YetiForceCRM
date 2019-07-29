@@ -69,6 +69,9 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 			case 'status':
 				if (isset(\App\Mailer::$statuses[$value])) {
 					$value = \App\Language::translate(\App\Mailer::$statuses[$value], 'Settings::Mail');
+					if (2 === (int) $this->get('status')) {
+						$value = '<span class="fas fa-exclamation-triangle js-popover-tooltip color-red-a200" data-content="' . $this->get('error') . '">&nbsp;' . $value . '</span>';
+					}
 				}
 				break;
 			case 'owner':
@@ -150,7 +153,7 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 	public function getRecordLinks()
 	{
 		$links = [];
-		if ($this->get('status') === 0) {
+		if (0 === $this->get('status')) {
 			$recordLinks[] = [
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_ACCEPTANCE_RECORD',
@@ -186,7 +189,7 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 		$query = (new \App\Db\Query())->from('s_#__mail_queue')->where(['id' => $id]);
 		$row = $query->createCommand(\App\Db::getInstance('admin'))->queryOne();
 		$instance = false;
-		if ($row !== false) {
+		if (false !== $row) {
 			$instance = new self();
 			$instance->setData($row);
 		}
