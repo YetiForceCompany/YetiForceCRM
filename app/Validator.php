@@ -269,6 +269,9 @@ class Validator
 	 */
 	public static function url(string $url): bool
 	{
+		if (false === strpos($url, '://')) {
+			return static::domain($url);
+		}
 		return false !== filter_var($url, FILTER_VALIDATE_URL);
 	}
 
