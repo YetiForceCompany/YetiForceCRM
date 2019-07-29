@@ -270,8 +270,8 @@ class Module
 				$newbuf .= 'return ' . Utils::varExport($moduleMeta) . ";\n";
 				fwrite($handle, $newbuf);
 				fclose($handle);
-				Cache::resetOpcache();
 				Cache::resetOpcache($filename);
+				Cache::resetOpcache();
 			} else {
 				Log::error("The file $filename is not writable");
 			}
