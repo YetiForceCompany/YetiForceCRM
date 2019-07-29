@@ -2,7 +2,7 @@
 {strip}
 	<!-- tpl-Settings-YetiForce-Shop-Product  -->
 	{assign var=PRODUCT_ALERT value=$PRODUCT->showAlert()}
-	<div class="dashboardWidget row no-gutters mb-3 pl-2 {if empty($PRODUCT->expirationDate)}bg-light u-bg-light-darken{elseif $PRODUCT_ALERT}bg-danger{else}bg-yellow{/if} js-product-modal" data-js="showProductModal | click" data-product="{$PRODUCT->getName()}">
+	<div class="dashboardWidget row no-gutters mb-3 pl-2 {if empty($PRODUCT->expirationDate)}bg-light u-bg-light-darken{elseif $PRODUCT_ALERT}bg-danger{else}bg-yellow{/if} js-product" data-js="showProductModal | click" data-product="{$PRODUCT->getName()}">
 		<div class="col-sm-18 col-md-12 {if !empty($PRODUCT->expirationDate)} bg-white u-bg-white-darken{/if}">
 			<div class="row">
 				<div class="col-sm-4 col-md-3">

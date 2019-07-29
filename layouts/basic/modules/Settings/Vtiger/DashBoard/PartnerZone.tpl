@@ -5,9 +5,7 @@
 		{if isset($PRODUCTS_PARTNER)}
 			<div class="d-flex flex-wrap mb-3">
 				{foreach $PRODUCTS_PARTNER as $PRODUCT}
-					<div class="dashboardWidget mt-3 mr-3 flex-grow-1 u-w-max-320px">
-						{include file=\App\Layout::getTemplatePath('Shop/SmallProduct.tpl', 'Settings:YetiForce')}
-					</div>
+					{include file=\App\Layout::getTemplatePath('Shop/SmallProduct.tpl', 'Settings:YetiForce')}
 				{/foreach}
 			</div>
 		{/if}

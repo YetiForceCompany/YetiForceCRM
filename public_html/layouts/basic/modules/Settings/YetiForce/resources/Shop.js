@@ -24,7 +24,7 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	 *
 	 */
 	registerProductModalClick() {
-		this.container.find('.js-product-modal').on('click', e => {
+		this.container.find('.js-product').on('click', e => {
 			const currentTarget = $(e.currentTarget);
 			this.showProductModal(currentTarget.data('product'), this.getDepartment(currentTarget));
 		});
