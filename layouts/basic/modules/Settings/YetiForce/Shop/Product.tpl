@@ -32,15 +32,20 @@
 							</button>
 						{else}
 							{if $PRODUCT_ALERT}
-								<div class="alert alert-info text-danger">
+								<div class="alert alert-danger">
 									<span class="fas fa-exclamation-triangle"></span>
 									{\App\Language::translate('LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED', $QUALIFIED_MODULE)}
 								</div>
+								<button class="btn btn-danger btn-block mt-auto js-buy-modal"
+								data-js="showBuyModal | click" data-product="{$PRODUCT->getName()}">
+									{\App\Language::translate('LBL_SHOP_RENEW', $QUALIFIED_MODULE)}
+								</button>
+							{else}
+								<button class="btn btn-block bg-yellow mt-auto js-buy-modal"
+								data-js="showBuyModal | click" data-product="{$PRODUCT->getName()}" disabled>
+									{\App\Fields\Date::formatToDisplay($PRODUCT->expirationDate)}
+								</button>
 							{/if}
-							<button class="btn btn-lg btn-block bg-yellow p-3 mt-auto js-buy-modal"
-							data-js="showBuyModal | click" data-product="{$PRODUCT->getName()}"{if !$PRODUCT_ALERT} disabled{/if}>
-								{\App\Fields\Date::formatToDisplay($PRODUCT->expirationDate)}
-							</button>
 						{/if}
 					</div>
 				</div>

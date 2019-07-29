@@ -3,6 +3,10 @@
 	<!-- tpl-Settings-YetiForce-Shop-SmallProduct -->
 	{assign var=PRODUCT_ALERT value=$PRODUCT->showAlert()}
 	<div class="dashboardWidget mt-3 mr-3 flex-grow-1 u-w-max-320px js-product" data-js="showProductModal | click | container" data-product="{$PRODUCT->getName()}">
+		{if !empty($PRODUCT->expirationDate) && $PRODUCT_ALERT}
+			<span class="text-danger fas fa-exclamation animated flash infinite slow ml-3 mt-1 u-cursor-pointer js-popover-tooltip position-absolute" data-toggle="popover" data-js="popover | mouseenter"
+			data-content="{\App\Language::translate($PRODUCT_ALERT, $QUALIFIED_MODULE)}"></span>
+		{/if}
 		<div class="o-small-product pl-2 {if empty($PRODUCT->expirationDate)}bg-light u-bg-light-darken{elseif $PRODUCT_ALERT}bg-danger{else}bg-yellow{/if}">
 			<div class="o-small-product__container d-flex u-min-h-120px-rem no-wrap py-2 px-1{if !empty($PRODUCT->expirationDate)} bg-white u-bg-white-darken{/if}">
 				<div class="o-small-product__img d-flex">
@@ -31,15 +35,16 @@
 						</button>
 					{else}
 						{if $PRODUCT_ALERT}
-							<span class="text-danger fas fa-exclamation-triangle animated flash infinite slow mr-1"></span>
-							<span class="u-cursor-pointer js-popover-tooltip fas fa-xs fa-info-circle"
-							data-toggle="popover" data-js="popover | mouseenter"
-							data-content="{\App\Language::translate($PRODUCT_ALERT, $QUALIFIED_MODULE)}"></span>
+							<button class="btn btn-danger btn-block mt-auto js-buy-modal"
+							data-js="showBuyModal | click" data-product="{$PRODUCT->getName()}">
+								{\App\Language::translate('LBL_SHOP_RENEW', $QUALIFIED_MODULE)}
+							</button>
+						{else}
+							<button class="btn btn-block bg-yellow mt-auto js-buy-modal"
+							data-js="showBuyModal | click" data-product="{$PRODUCT->getName()}" disabled>
+								{\App\Fields\Date::formatToDisplay($PRODUCT->expirationDate)}
+							</button>
 						{/if}
-						<button class="btn btn-block bg-yellow mt-auto js-buy-modal"
-						data-js="showBuyModal | click" data-product="{$PRODUCT->getName()}"{if !$PRODUCT_ALERT} disabled{/if}>
-							{\App\Fields\Date::formatToDisplay($PRODUCT->expirationDate)}
-						</button>
 					{/if}
 				</div>
 			</div>
