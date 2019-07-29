@@ -271,6 +271,7 @@ class Module
 				fwrite($handle, $newbuf);
 				fclose($handle);
 				Cache::resetOpcache();
+				Cache::resetOpcache($filename);
 			} else {
 				Log::error("The file $filename is not writable");
 			}
