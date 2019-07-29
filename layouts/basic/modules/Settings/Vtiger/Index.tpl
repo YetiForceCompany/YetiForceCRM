@@ -6,7 +6,7 @@
 	{/if}
 	<div class="o-settings-dashboard js-dashboard-container pt-2 h-100" data-js="container">
 		<div class="container-fluid h-100 px-0">
-			<div class="c-panel c-panel--collapsible">
+			<div class="c-panel c-panel--collapsible c-panel--primary">
 				<div class="c-panel__header" id="marketplace" data-toggle="collapse" data-target="#marketplace-collapse" aria-expanded="false" aria-controls="marketplace-collapse">
 					<span class="fas fa-angle-up m-2" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 					<span class="fas fa-angle-down m-2" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
@@ -39,7 +39,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="c-panel c-panel--collapsible">
+			<div class="c-panel c-panel--collapsible c-panel--primary">
 				<div class="c-panel__header" id="system-monitoring" data-toggle="collapse" data-target="#system-monitoring-collapse" aria-expanded="false" aria-controls="system-monitoring-collapse">
 					<span class="fas fa-angle-up m-2" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 					<span class="fas fa-angle-down m-2" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
@@ -53,7 +53,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="c-panel c-panel--collapsible">
+			<div class="c-panel c-panel--collapsible c-panel--primary">
 				<div class="c-panel__header" id="my-shortcuts" data-toggle="collapse" data-target="#my-shortcuts-collapse" aria-expanded="false" aria-controls="my-shortcuts-collapse">
 					<span class="fas fa-angle-up m-2" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 					<span class="fas fa-angle-down m-2" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>

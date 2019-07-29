@@ -17786,17 +17786,7 @@ ul.tweets li {
 .openStreetMapModalBody .input-group {
   flex-wrap: nowrap; }
 
-.c-panel.c-panel--collapsible .c-panel__header .fa-angle-up {
-  display: inline-block; }
-.c-panel.c-panel--collapsible .c-panel__header .fa-angle-down {
-  display: none; }
-.c-panel.c-panel--collapsible .c-panel__header.collapsed .fa-angle-up {
-  display: none; }
-.c-panel.c-panel--collapsible .c-panel__header.collapsed .fa-angle-down {
-  display: inline-block; }
 .c-panel__header {
-  background-color: #0072da;
-  color: #fff;
   display: flex;
   flex-flow: row-reverse;
   align-items: center; }
@@ -17807,6 +17797,17 @@ ul.tweets li {
   margin-bottom: 0; }
 .c-panel--edit .row {
   margin: 0; }
+.c-panel--primary .c-panel__header {
+  background-color: #0072da;
+  color: #fff; }
+.c-panel--collapsible .c-panel__header .fa-angle-up {
+  display: inline-block; }
+.c-panel--collapsible .c-panel__header .fa-angle-down {
+  display: none; }
+.c-panel--collapsible .c-panel__header.collapsed .fa-angle-up {
+  display: none; }
+.c-panel--collapsible .c-panel__header.collapsed .fa-angle-down {
+  display: inline-block; }
 
 .c-badge__icon {
   width: 32px;
