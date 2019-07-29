@@ -12,9 +12,9 @@
 $.Class(
 	'Settings_Vtiger_Index_Js',
 	{
-		showMessage: function(customParams, typeMessage = 'success') {
+		showMessage: function(customParams) {
 			let params = {
-				type: typeMessage,
+				type: 'success',
 				title: app.vtranslate('JS_MESSAGE')
 			};
 			if (typeof customParams !== 'undefined') {

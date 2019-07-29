@@ -58,10 +58,10 @@ jQuery.Class(
 				})
 					.done(function(data) {
 						progressIndicator.progressIndicator({ mode: 'hide' });
-						Settings_Vtiger_Index_Js.showMessage(
-							{ text: data.result.message },
-							data.result.success ? 'success' : 'error'
-						);
+						Settings_Vtiger_Index_Js.showMessage({
+							text: data.result.message,
+							type: data.result.success ? 'success' : 'error'
+						});
 						container.find('.sendManually').remove();
 						container.find('.deleteButton').remove();
 					})
