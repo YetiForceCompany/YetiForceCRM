@@ -270,14 +270,14 @@ class Module
 				$newbuf .= 'return ' . Utils::varExport($moduleMeta) . ";\n";
 				fwrite($handle, $newbuf);
 				fclose($handle);
-				Cache::resetFileCache($filename);
+				Cache::resetOpcache();
 			} else {
 				Log::error("The file $filename is not writable");
 			}
 		} else {
 			Log::error("The file $filename does not exist");
 		}
-		static::initFromDb();
+		static::init();
 	}
 
 	/**
