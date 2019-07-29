@@ -214,6 +214,14 @@ Vtiger_Detail_Js(
 					if (response.result.hasTimeControl.result && response.result.relatedTicketsClosed.result) {
 						saveData(false);
 					} else {
+						let addTimeControlCb = saveData;
+						if (!response.result.relatedTicketsClosed.result) {
+							Vtiger_Helper_Js.showPnotify({
+								text: response.result.relatedTicketsClosed.message,
+								type: 'info'
+							});
+							addTimeControlCb = () => {};
+						}
 						if (!response.result.hasTimeControl.result) {
 							Vtiger_Helper_Js.showPnotify({
 								text: response.result.hasTimeControl.message,
@@ -224,14 +232,8 @@ Vtiger_Detail_Js(
 									recordId: recordId,
 									url: `index.php?module=OSSTimeControl&view=Edit&sourceModule=HelpDesk&sourceRecord=${recordId}&relationOperation=true&subprocess=${recordId}&subprocess=${recordId}`
 								},
-								saveData
+								addTimeControlCb
 							);
-						}
-						if (!response.result.relatedTicketsClosed.result) {
-							Vtiger_Helper_Js.showPnotify({
-								text: response.result.relatedTicketsClosed.message,
-								type: 'info'
-							});
 						}
 					}
 					aDeferred.resolve({ success: false });
