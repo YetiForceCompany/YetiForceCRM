@@ -728,6 +728,13 @@ $.Class(
 				}
 			});
 		},
+		registerChat() {
+			if (window === window.parent && window.ChatModalVueComponent !== undefined) {
+				window.ChatModalVueComponent.mount({
+					el: '#ChatModalVue'
+				});
+			}
+		},
 		registerEvents: function() {
 			var thisInstance = this;
 			const container = thisInstance.getContentsContainer(),
@@ -780,18 +787,13 @@ $.Class(
 			thisInstance.registerReminderNotification();
 			thisInstance.registerMobileEvents();
 			thisInstance.registerReminderNotice();
-
 			thisInstance.registerQuickCreateSearch();
 			thisInstance.registerKnowledgeBaseModal();
+			thisInstance.registerChat();
 		}
 	}
 );
 $(document).ready(function() {
-	if (window.ChatModalVueComponent !== undefined) {
-		window.ChatModalVueComponent.mount({
-			el: '#ChatModalVue'
-		});
-	}
 	window.addEventListener('popstate', event => {
 		if (event.state) {
 			window.location.href = event.state;
