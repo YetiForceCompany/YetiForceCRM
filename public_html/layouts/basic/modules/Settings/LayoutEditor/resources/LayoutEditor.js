@@ -548,11 +548,11 @@ $.Class(
 		 * Function to register click event for save button of fields sequence
 		 */
 		registerFieldSequenceSaveClick: function() {
-			$(document).on('click', '.saveFieldSequence', () => {
-				this.hideSaveFieldSequenceButton();
-				this.createUpdatedBlockFieldsList();
-				this.updateFieldSequence();
-			});
+			$("#detailViewLayout").find(".saveFieldSequence").on("click", () => {
+					this.hideSaveFieldSequenceButton();
+					this.createUpdatedBlockFieldsList();
+					this.updateFieldSequence();
+				});
 		},
 		/**
 		 * Function will save the field sequences
