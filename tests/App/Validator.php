@@ -9,12 +9,12 @@
  * @author Arkadiusz Adach <a.adach@yetiforce.com>
  */
 
-namespace Tests\Base;
+namespace Tests\App;
 
 /**
  * Validator test class.
  */
-class H_Validator extends \Tests\Base
+class Validator extends \Tests\Base
 {
 	/**
 	 * @dataProvider dataUrlNoProtocolRequired
@@ -26,7 +26,7 @@ class H_Validator extends \Tests\Base
 	 */
 	public function testUrlNoProtocolRequired(bool $expectedValue, $value)
 	{
-		$this->assertSame($expectedValue, \App\Validator::urlNoProtocolRequired($value));
+		$this->assertSame($expectedValue, \App\Validator::url($value));
 	}
 
 	/**
@@ -44,7 +44,16 @@ class H_Validator extends \Tests\Base
 			[false, 'https://1243yfcom%.pl'],
 			[false, '.'],
 			[false, '#'],
+			[false, 'https://yetiforce*com/pl/'],
+			[false, 'https://yeti force.com/pl/'],
+			[true, 'ftp://yetiforce.com'],
 			[false, 'test@com.pl'],
+			[true, 'tel://600500100'],
+			[true, 'mailto://info@yetiforce.com'],
+			[false, 'http*://yetiforce.com'],
+			[true, 'http://yetiforce.com:2160/'],
+			[false, ' http://yetiforce.com/'],
+			[false, 'javascript:alert(1)']
 		];
 	}
 }

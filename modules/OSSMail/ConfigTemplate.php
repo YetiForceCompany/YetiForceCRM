@@ -37,7 +37,7 @@ return [
 			}
 			$arg = (array) \App\Purifier::purify($arg);
 			foreach ($arg as $url) {
-				if (!\App\Validator::urlNoProtocolRequired($url)) {
+				if (!\App\Validator::url($url)) {
 					return false;
 				}
 			}
