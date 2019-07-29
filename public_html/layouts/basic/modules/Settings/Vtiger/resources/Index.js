@@ -12,9 +12,9 @@
 $.Class(
 	'Settings_Vtiger_Index_Js',
 	{
-		showMessage: function(customParams) {
+		showMessage: function(customParams, typeMessage = 'success') {
 			let params = {
-				type: 'success',
+				type: typeMessage,
 				title: app.vtranslate('JS_MESSAGE')
 			};
 			if (typeof customParams !== 'undefined') {
@@ -241,7 +241,7 @@ $.Class(
 			if (Quasar.plugins.LocalStorage.has('yf-settings-panels')) {
 				this.setPanels(panels);
 			} else {
-				panels.collapse('show')
+				panels.collapse('show');
 				Quasar.plugins.LocalStorage.set('yf-settings-panels', {
 					'marketplace-collapse': 'shown',
 					'system-monitoring-collapse': 'shown',
@@ -249,19 +249,19 @@ $.Class(
 				});
 			}
 			panels.on('hidden.bs.collapse shown.bs.collapse', e => {
-				this.updatePanelsStorage(e.target.id, e.type)
-			})
+				this.updatePanelsStorage(e.target.id, e.type);
+			});
 		},
 		updatePanelsStorage(id, type) {
-			const panelsStorage = Quasar.plugins.LocalStorage.getItem('yf-settings-panels')
-			panelsStorage[id] = type
+			const panelsStorage = Quasar.plugins.LocalStorage.getItem('yf-settings-panels');
+			panelsStorage[id] = type;
 			Quasar.plugins.LocalStorage.set('yf-settings-panels', panelsStorage);
 		},
 		setPanels(panels) {
 			const panelsStorage = Quasar.plugins.LocalStorage.getItem('yf-settings-panels');
 			for (let item of panels) {
 				if (panelsStorage[item.id] === 'shown') {
-					$(item).collapse('show')
+					$(item).collapse('show');
 				}
 			}
 		},

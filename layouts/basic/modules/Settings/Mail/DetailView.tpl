@@ -25,6 +25,11 @@
 			{/if}
 		</div>
 	</div>
+	{if {$RECORD_MODEL->get('status')}==2 }
+		<div class="alert alert-warning">
+			{$RECORD_MODEL->getDisplayValue('error')}
+		</div>
+	{/if}
 	<div class="detailViewInfo">
 		{if $RECORD_MODEL}
 			<input type="hidden" value="{$RECORD_MODEL->getId()}" id="recordId">

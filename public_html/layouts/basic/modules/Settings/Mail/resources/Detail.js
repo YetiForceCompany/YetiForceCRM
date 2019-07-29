@@ -47,9 +47,9 @@ jQuery.Class(
 			});
 		},
 		sendMailManually: function() {
-			var container = jQuery('.contentsDiv');
+			const container = $('.contentsDiv');
 			container.on('click', '.sendManually', function(e) {
-				var progressIndicator = jQuery.progressIndicator();
+				const progressIndicator = $.progressIndicator();
 				AppConnector.request({
 					module: app.getModuleName(),
 					parent: app.getParentModuleName(),
@@ -58,7 +58,10 @@ jQuery.Class(
 				})
 					.done(function(data) {
 						progressIndicator.progressIndicator({ mode: 'hide' });
-						Settings_Vtiger_Index_Js.showMessage({ text: data.result.message });
+						Settings_Vtiger_Index_Js.showMessage(
+							{ text: data.result.message },
+							data.result.success ? 'success' : 'error'
+						);
 						container.find('.sendManually').remove();
 						container.find('.deleteButton').remove();
 					})
