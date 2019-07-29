@@ -16418,6 +16418,9 @@ ul.tweets li {
 .u-font-size-100per {
   font-size: 100% !important; }
 
+.u-font-size-26 {
+  font-size: 1.625rem; }
+
 .u-font-size-44px {
   font-size: 2.75rem; }
 
@@ -17800,13 +17803,13 @@ ul.tweets li {
 .c-panel--primary .c-panel__header {
   background-color: #0072da;
   color: #fff; }
-.c-panel--collapsible .c-panel__header .fa-angle-up {
+.c-panel--collapsible .c-panel__header .mdi-chevron-up {
   display: inline-block; }
-.c-panel--collapsible .c-panel__header .fa-angle-down {
+.c-panel--collapsible .c-panel__header .mdi-chevron-down {
   display: none; }
-.c-panel--collapsible .c-panel__header.collapsed .fa-angle-up {
+.c-panel--collapsible .c-panel__header.collapsed .mdi-chevron-up {
   display: none; }
-.c-panel--collapsible .c-panel__header.collapsed .fa-angle-down {
+.c-panel--collapsible .c-panel__header.collapsed .mdi-chevron-down {
   display: inline-block; }
 
 .c-badge__icon {

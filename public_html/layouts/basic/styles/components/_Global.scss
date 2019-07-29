@@ -89,17 +89,17 @@
 	}
 	&--collapsible {
 		.c-panel__header {
-			.fa-angle-up {
+			.mdi-chevron-up {
 				display: inline-block;
 			}
-			.fa-angle-down {
+			.mdi-chevron-down {
 				display: none;
 			}
 			&.collapsed {
-				.fa-angle-up {
+				.mdi-chevron-up {
 					display: none;
 				}
-				.fa-angle-down {
+				.mdi-chevron-down {
 					display: inline-block;
 				}
 			}

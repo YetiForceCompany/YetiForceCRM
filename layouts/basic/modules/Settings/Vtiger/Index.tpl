@@ -8,8 +8,8 @@
 		<div class="container-fluid h-100 px-0">
 			<div class="c-panel c-panel--collapsible c-panel--primary">
 				<div class="c-panel__header" id="marketplace" data-toggle="collapse" data-target="#marketplace-collapse" aria-expanded="false" aria-controls="marketplace-collapse">
-					<span class="fas fa-angle-up m-2" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
-					<span class="fas fa-angle-down m-2" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
+					<span class="mdi mdi-chevron-up mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
+					<span class="mdi mdi-chevron-down mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
 						<h5>
 							<a class="text-decoration-none text-white" href="index.php?module=YetiForce&parent=Settings&view=Shop">
 								{\App\Language::translate('LBL_SHOP_MARKETPLACE', $QUALIFIED_MODULE)}
@@ -41,8 +41,8 @@
 			</div>
 			<div class="c-panel c-panel--collapsible c-panel--primary">
 				<div class="c-panel__header" id="system-monitoring" data-toggle="collapse" data-target="#system-monitoring-collapse" aria-expanded="false" aria-controls="system-monitoring-collapse">
-					<span class="fas fa-angle-up m-2" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
-					<span class="fas fa-angle-down m-2" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
+					<span class="mdi mdi-chevron-up mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
+					<span class="mdi mdi-chevron-down mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
 					<h5>
 						{\App\Language::translate('LBL_SYSTEM_MONITORING', $QUALIFIED_MODULE)}
 					</h5>
@@ -55,8 +55,8 @@
 			</div>
 			<div class="c-panel c-panel--collapsible c-panel--primary">
 				<div class="c-panel__header" id="my-shortcuts" data-toggle="collapse" data-target="#my-shortcuts-collapse" aria-expanded="false" aria-controls="my-shortcuts-collapse">
-					<span class="fas fa-angle-up m-2" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
-					<span class="fas fa-angle-down m-2" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
+					<span class="mdi mdi-chevron-up mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
+					<span class="mdi mdi-chevron-down mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
 					<h5>
 						{\App\Language::translate('LBL_SETTINGS_SHORT_CUT', $QUALIFIED_MODULE)}
 					</h5>
