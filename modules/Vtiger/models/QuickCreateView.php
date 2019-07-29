@@ -55,7 +55,7 @@ class Vtiger_QuickCreateView_Model extends \App\Base
 			'linkhint' => 'LBL_GO_TO_FULL_FORM',
 			'showLabel' => 1,
 			'linkdata' => ['js' => 'click', 'url' => $this->getModule()->getCreateRecordUrl()],
-			'linkclass' => 'btn-outline-secondary js-full-editlink fontBold u-text-ellipsis mb-2 mb-md-0 col-12'
+			'linkclass' => 'btn-light js-full-editlink fontBold u-text-ellipsis mb-2 mb-md-0 col-12'
 		]);
 		return $links;
 	}

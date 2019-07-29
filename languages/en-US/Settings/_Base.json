@@ -141,6 +141,7 @@
     "LBL_SHOP_MODULESENTERPRISE": "Enterprise modules",
     "LBL_SHOP_MODULESENTERPRISE_INTRO": "",
     "LBL_SHOP_MODULESENTERPRISE_DESC": "",
+    "LBL_SHOP_RENEW": "Renew",
     "LBL_SETTINGS_SHORT_CUT": "My shortcuts",
     "LBL_CALENDAR_LABELS_COLORS": "Colors and calendar",
     "LBL_SEARCH_AND_FILTERS": "Labels, searching and filtering",
@@ -404,7 +405,8 @@
     "LBL_YETIFORCE_ASSISTANCE": "Paid support",
     "LBL_PICKLIST_VARIABLES": "Picklist variables",
     "LBL_PICKLIST_VARIABLES_INFO": "Using this variable will result in separate numbering for each picklist value, and a short value will replace the variable.",
-    "LBL_BUSINESS_HOURS": "Business hours"
+    "LBL_BUSINESS_HOURS": "Business hours",
+    "LBL_SEARCH_PLACEHOLDER": "Search..."
   },
   "js": {
     "JS_AUTHORIZATION_COMPLETE": "Authorization successful",
