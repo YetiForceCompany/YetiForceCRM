@@ -10,9 +10,11 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<!-- tpl-Base-JSResources -->
 	<div>
 		{foreach key=index item=jsModel from=$FOOTER_SCRIPTS}
-            <script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
+      <script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 		{/foreach}
 	</div>
+	<!-- /tpl-Base-JSResources -->
 {/strip}
