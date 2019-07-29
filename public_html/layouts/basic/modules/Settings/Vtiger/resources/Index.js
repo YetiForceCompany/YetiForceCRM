@@ -455,7 +455,7 @@ $.Class(
 					let value = $(this)
 						.val()
 						.toLowerCase();
-					$('.js-product .js-text-search').filter(function() {
+						this.container.find('.js-product .js-text-search').filter(function() {
 						let item = $(this).closest('.js-product');
 						if (
 							$(this)
