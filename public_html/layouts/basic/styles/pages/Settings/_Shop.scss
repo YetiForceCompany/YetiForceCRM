@@ -15,3 +15,16 @@
 		max-height: calculate-rem(220px);
 	}
 }
+.o-shop__nav {
+	&__item {
+		display: flex;
+		align-items: center;
+		.yfi {
+			font-size: calculate-rem(25px);
+			margin-right: 0.25rem;
+			&.yfi-for-partners {
+				font-size: calculate-rem(19px);
+			}
+		}
+	}
+}
