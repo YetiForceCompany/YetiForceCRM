@@ -17546,7 +17546,7 @@ insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (13,'LBL_SEARCH_AND_FILTERS',6,'adminIcon-search-and-filtres',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (14,'LBL_LOGS',8,'adminIcon-logs',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (15,'LBL_AUTOMATION',10,'adminIcon-automation',0,NULL,NULL);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (16,'LBL_MENU_SUMMARRY',0,'userIcon-Home',1,'index.php?module=Vtiger&parent=Settings&view=Index',NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (16,'LBL_MENU_SUMMARRY',0,'fas fa-home',1,'index.php?module=Vtiger&parent=Settings&view=Index',NULL);fas fa-home
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (18,'LBL_HELP',15,'fas fa-life-ring',0,NULL,NULL);
 
 /*Data for the table `vtiger_settings_field` */

@@ -9,7 +9,7 @@
 			{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs()}
 			{assign var="BREADCRUMBS_POPOVER" value=$BREADCRUMBS}
 		{/if}
-		{assign var=HOMEICON value='userIcon-Home'}
+		{assign var=HOMEICON value='fas fa-home'}
 		{if $BREADCRUMBS}
 			{assign var="BREADCRUMBS_TEXT" value="<a href='`App\Config::main('site_URL')`'><span class='$HOMEICON' aria-hidden='true'></span></a>"}
 			{foreach key=key item=item from=$BREADCRUMBS_POPOVER}
