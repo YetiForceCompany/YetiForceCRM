@@ -42,7 +42,10 @@ class ModulesPremium extends \App\YetiForce\Shop\AbstractBaseProduct
 			}
 		}
 		$status = true;
-		if ((new \App\Db\Query())->from('w_#__servers')->where(['type' => 'Payments', 'status' => 1])->exists(\App\Db::getInstance('webservice'))) {
+		if (
+			(new \App\Db\Query())->from('w_#__servers')->where(['type' => 'Payments', 'status' => 1])->exists(\App\Db::getInstance('webservice'))
+			|| (new \App\Db\Query())->from('vtiger_tab')->where(['presence' => 0, 'premium' => 1])->exists()
+			) {
 			$status = \App\YetiForce\Shop::check('ModulesPremium');
 		}
 		return $status;

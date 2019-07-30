@@ -278,6 +278,9 @@ class Module
 			Log::error("The file $filename does not exist");
 		}
 		static::initFromDb();
+		register_shutdown_function(function () {
+			YetiForce\Shop::generateCache();
+		});
 	}
 
 	/**

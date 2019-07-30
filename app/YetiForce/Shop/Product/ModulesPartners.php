@@ -35,6 +35,16 @@ class ModulesPartners extends \App\YetiForce\Shop\AbstractBaseProduct
 	 */
 	public function verify($cache = true): bool
 	{
-		return true;
+		if ($cache) {
+			$cacheData = \App\YetiForce\Shop::getFromCache();
+			if (isset($cacheData['ModulesPartners'])) {
+				return $cacheData['ModulesPartners'];
+			}
+		}
+		$status = true;
+		if ((new \App\Db\Query())->from('vtiger_tab')->where(['presence' => 0, 'premium' => 3])->exists()) {
+			$status = \App\YetiForce\Shop::check('ModulesPartners');
+		}
+		return $status;
 	}
 }

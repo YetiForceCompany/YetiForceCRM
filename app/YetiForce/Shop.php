@@ -20,7 +20,11 @@ class Shop
 	/**
 	 * Premium icons.
 	 */
-	const PREMIUM_ICONS = [1 => 'yfi-premium color-red-600', 2 => 'yfi-enterprise color-yellow-600', 3 => 'yfi-partners color-grey-600'];
+	const PREMIUM_ICONS = [
+		1 => 'yfi-premium color-red-600',
+		2 => 'yfi-enterprise color-yellow-600',
+		3 => 'yfi-partners color-grey-600'
+	];
 
 	/**
 	 * Product instance cache.
@@ -198,7 +202,7 @@ class Shop
 		foreach (self::getProducts() as $key => $row) {
 			$content[$key] = $row->verify(false);
 		}
-		\App\Utils::saveToFile('app_data/shop.php', $content, 'Modifying this file will breach the licence terms', 0, true);
+		\App\Utils::saveToFile(ROOT_DIRECTORY . '/app_data/shop.php', $content, 'Modifying this file will breach the licence terms', 0, true);
 	}
 
 	/**
