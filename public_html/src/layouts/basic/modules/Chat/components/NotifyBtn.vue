@@ -6,9 +6,15 @@
     round
     flat
     :loading="isWaitingForPermission"
-    :icon="isDesktopNotification ? 'mdi-bell-outline' : 'mdi-bell-off-outline'"
     :color="isDesktopNotification ? 'info' : ''"
-  />
+  >
+    <icon
+      :size="size"
+      :icon="isDesktopNotification ? 'yfi-chat-notification-on' : 'yfi-chat-notification-off'"
+      :style="styles"
+    />
+    <q-tooltip>{{ translate('JS_CHAT_NOTIFICATION') }}</q-tooltip>
+  </q-btn>
 </template>
 <script>
 import { createNamespacedHelpers } from 'vuex'
@@ -16,6 +22,14 @@ const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 
 export default {
   name: 'NotifyBtn',
+  props: {
+    size: {
+      type: String,
+    },
+    styles: {
+      type: Object
+    }
+  },
   data() {
     return {
       isWaitingForPermission: false,

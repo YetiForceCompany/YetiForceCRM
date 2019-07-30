@@ -1,11 +1,11 @@
 const getGroupIcon = roomType => {
 	switch (roomType) {
 		case 'crm':
-			return 'mdi-star'
+			return 'yfi-favorite-room'
 		case 'group':
-			return 'mdi-account-multiple'
+			return 'yfi-group-room'
 		case 'global':
-			return 'mdi-account-group'
+			return 'yfi-global-room'
 	}
 }
 
