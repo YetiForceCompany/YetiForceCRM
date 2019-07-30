@@ -85,7 +85,7 @@ class ModuleManager extends \Tests\Base
 		]);
 		$this->assertFileExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
 		$this->assertIsInt($module->getId());
-		$tabId = \Settings_ModuleManager_Module_Model::getModuleMeta()['tabId'];
+		$tabId = \App\Module::getModuleMeta()['tabId'];
 		$this->assertArrayHasKey('Test', $tabId);
 		$this->assertSame('Test', \App\Module::getModuleName($module->getId()), 'The name of the new module is missing: ' . $module->getId());
 		$langFileToCheck = $this->getLangPathToFile('Test.json');

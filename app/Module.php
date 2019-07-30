@@ -268,7 +268,7 @@ class Module
 				}
 
 				$moduleMeta = static::getModuleMeta();
-				\var_dump($moduleMeta);
+				//\var_dump($moduleMeta);
 
 				$newbuf = "<?php\n";
 				$newbuf .= '$tab_seq_array=' . Utils::varExport($moduleMeta['tabPresence']) . ";\n";
