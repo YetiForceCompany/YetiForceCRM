@@ -37,7 +37,10 @@
 								<thead>
 								<tr class="blockHeader">
 									<th colspan="2">
-										<strong>{\App\Language::translate('LBL_VERIFY_IMPORT_DETAILS',$QUALIFIED_MODULE)}</strong>
+										<strong>{\App\Language::translate('LBL_VERIFY_IMPORT_DETAILS', $QUALIFIED_MODULE)}</strong>
+										{if $MODULEIMPORT_PACKAGE->getPremium() > 0 && !empty($ICONS[$MODULEIMPORT_PACKAGE->getPremium()]) }
+											<span class="{$ICONS[$MODULEIMPORT_PACKAGE->getPremium()]}"></span>
+										{/if}
 									</th>
 								</tr>
 								</thead>
@@ -66,10 +69,6 @@
 								<tr>
 									<td><b>{\App\Language::translate('LBL_MODULE_VERSION', $QUALIFIED_MODULE)}</b></td>
 									<td>{$MODULEIMPORT_PACKAGE->getVersion()}</td>
-								</tr>
-								<tr>
-									<td><b>{\App\Language::translate('LBL_MODULEIMPORT_PREMIUM', $QUALIFIED_MODULE)}</b></td>
-									<td>{$MODULEIMPORT_PACKAGE->getPremium()}</td>
 								</tr>
 								{if $MODULEIMPORT_PACKAGE->isUpdateType()}
 									{assign var="INFO" value=$MODULEIMPORT_PACKAGE->getUpdateInfo()}

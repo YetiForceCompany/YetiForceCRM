@@ -113,6 +113,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 				}
 			}
 		}
+		$viewer->assign('ICONS', \App\YetiForce\Shop::PREMIUM_ICONS);
 		$viewer->assign('MODULEIMPORT_ERROR', $error);
 		$viewer->view('ImportUserModuleStep2.tpl', $qualifiedModuleName);
 	}
