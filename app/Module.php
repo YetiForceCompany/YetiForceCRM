@@ -26,6 +26,7 @@ class Module
 	public static function init()
 	{
 		static::$tabdataCache = require \ROOT_DIRECTORY . '/user_privileges/tabdata.php';
+		\var_dump(static::$tabdataCache);
 		static::$tabdataCache['tabName'] = array_flip(static::$tabdataCache['tabId']);
 	}
 
@@ -276,7 +277,10 @@ class Module
 				fwrite($handle, $newbuf);
 				fclose($handle);
 
-				static::$tabdataCache['tabName'] = array_flip($moduleMeta['tabId']);
+				\var_dump(\file_get_contents(\ROOT_DIRECTORY . '/user_privileges/tabdata.php'));
+				\var_dump(md5($newbuf), \md5_file($filename));
+
+				//static::$tabdataCache['tabName'] = array_flip($moduleMeta['tabId']);
 
 				Cache::resetFileCache($filename);
 				Cache::resetOpcache();
@@ -287,7 +291,7 @@ class Module
 			Log::error("The file $filename does not exist");
 		}
 		//static::initFromDb();
-		//static::init();
+		static::init();
 	}
 
 	/**
