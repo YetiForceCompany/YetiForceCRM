@@ -261,16 +261,13 @@ class Module
 		$filename = 'user_privileges/tabdata.php';
 		if (file_exists($filename)) {
 			if (is_writable($filename)) {
-				if (!$handle = fopen($filename, 'w+')) {
-					throw new Exceptions\NoPermitted("Cannot open file ($filename)");
-				}
 				$moduleMeta = static::getModuleMeta();
-				$newbuf = "<?php\n";
-				$newbuf .= '$tab_seq_array=' . Utils::varExport($moduleMeta['tabPresence']) . ";\n";
-				$newbuf .= 'return ' . Utils::varExport($moduleMeta) . ";\n";
-				fwrite($handle, $newbuf);
-				fclose($handle);
-				Cache::resetFileCache($filename);
+				$content = "<?php\n";
+				$content .= '$tab_seq_array=' . Utils::varExport($moduleMeta['tabPresence']) . ";\n";
+				$content .= 'return ' . Utils::varExport($moduleMeta) . ";\n";
+				if (Utils::saveToFile(ROOT_DIRECTORY . '/' . $filename, $content)) {
+					throw new Exceptions\NoPermitted("Cannot write file ($filename)");
+				}
 			} else {
 				Log::error("The file $filename is not writable");
 			}
