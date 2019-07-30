@@ -27,7 +27,7 @@
       :class="[maximized ? 'fit position-sticky' : 'modal-mini', 'overflow-hidden']"
       ref="resize"
     >
-      <div class="fit" @mousedown="onFocusElement($event)" @touchstart="onFocusElement($event)">
+      <div class="fit">
         <slot></slot>
       </div>
     </vue-drag-resize>
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import VueDragResize from 'vue-drag-resize'
+import VueDragResize from '~/node_modules/vue-drag-resize/src/components/vue-drag-resize.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters } = createNamespacedHelpers('KnowledgeBase')
 export default {
@@ -93,9 +93,6 @@ export default {
           element.style[prop] = this.stickStyle[prop]
         }
       })
-    },
-    onFocusElement(event) {
-      event.target.focus()
     }
   },
   mounted() {
