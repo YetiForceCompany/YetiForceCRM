@@ -276,7 +276,9 @@ class Module
 				fwrite($handle, $newbuf);
 				fclose($handle);
 
-				Cache::resetOpcache($filename);
+				static::$tabdataCache['tabName'] = array_flip(static::$tabdataCache['tabId']);
+
+				Cache::resetFileCache($filename);
 				Cache::resetOpcache();
 			} else {
 				Log::error("The file $filename is not writable");
@@ -285,7 +287,7 @@ class Module
 			Log::error("The file $filename does not exist");
 		}
 		//static::initFromDb();
-		static::init();
+		//static::init();
 	}
 
 	/**
