@@ -267,10 +267,9 @@ class Module
 					throw new Exceptions\NoPermitted("Cannot open file ($filename)");
 				}
 
-				$allMod = \vtlib\Functions::getAllModules(false, true);
-				\var_dump($allMod);
-
 				$moduleMeta = static::getModuleMeta();
+				\var_dump($moduleMeta);
+
 				$newbuf = "<?php\n";
 				$newbuf .= '$tab_seq_array=' . Utils::varExport($moduleMeta['tabPresence']) . ";\n";
 				$newbuf .= 'return ' . Utils::varExport($moduleMeta) . ";\n";
