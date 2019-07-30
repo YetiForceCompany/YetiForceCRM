@@ -205,6 +205,7 @@ class Cache
 	{
 		if (\function_exists('opcache_invalidate')) {
 			\opcache_invalidate($path, true);
+			\md5_file($path);
 		}
 	}
 
