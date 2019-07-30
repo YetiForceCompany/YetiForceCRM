@@ -54,6 +54,7 @@ class Cron
 	{
 		static::$scriptTimeStart = microtime(true);
 		static::generateStatusFile();
+		YetiForce\Shop::generateCache();
 		if ('test' !== \Config\Main::$systemMode) {
 			YetiForce\Register::check();
 			YetiForce\Status::send();

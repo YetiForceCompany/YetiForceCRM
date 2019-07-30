@@ -1,6 +1,15 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Settings-WebserviceApps-Index -->
 	<div class="table-responsive">
+		{if !App\YetiForce\Shop::getProduct('ModulesPremium')->verify(false)}
+			<div class="alert alert-warning">
+				<h5>
+					<span class="yfi yfi-shop-alert fa-2x mr-1"></span>
+					{\App\Language::translate('LBL_PAID_FUNCTIONALITY_IS_ACTIVE')}
+				</h5>
+			</div>
+		{/if}
 		<table class="table table-bordered table-sm">
 			<thead>
 				<tr>
@@ -47,4 +56,5 @@
 			</tbody>
 		</table>
 	</div>
+	<!-- /tpl-Settings-WebserviceApps-Index -->
 {/strip}

@@ -63,7 +63,7 @@ class Shop
 	 *
 	 * @return \App\YetiForce\Shop\AbstractBaseProduct
 	 */
-	public static function getProduct(string $name, string $department): Shop\AbstractBaseProduct
+	public static function getProduct(string $name, string $department = ''): Shop\AbstractBaseProduct
 	{
 		if ($department) {
 			$className = "\\App\\YetiForce\\Shop\\Product\\$department\\$name";
@@ -139,7 +139,6 @@ class Shop
 				$status = \App\Company::getSize() === $productDetails['package'];
 			}
 		}
-
 		return $status;
 	}
 
@@ -188,5 +187,31 @@ class Shop
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Generate cache.
+	 */
+	public static function generateCache()
+	{
+		$content = [];
+		foreach (self::getProducts() as $key => $row) {
+			$content[$key] = $row->verify(false);
+		}
+		\App\Utils::saveToFile('app_data/shop.php', $content, 'Modifying this file will breach the licence terms', 0, true);
+	}
+
+	/**
+	 * Get from cache.
+	 *
+	 * @return void
+	 */
+	public static function getFromCache()
+	{
+		$content = [];
+		if (\file_exists(ROOT_DIRECTORY . '/app_data/shop.php')) {
+			$content = include ROOT_DIRECTORY . '/app_data/shop.php';
+		}
+		return $content;
 	}
 }

@@ -33,8 +33,18 @@ class ModulesPremium extends \App\YetiForce\Shop\AbstractBaseProduct
 	/**
 	 * {@inheritdoc}
 	 */
-	public function verify(): bool
+	public function verify($cache = true): bool
 	{
-		return true;
+		if ($cache) {
+			$cacheData = \App\YetiForce\Shop::getFromCache();
+			if (isset($cacheData['ModulesPremium'])) {
+				return $cacheData['ModulesPremium'];
+			}
+		}
+		$status = true;
+		if ((new \App\Db\Query())->from('w_#__servers')->where(['type' => 'Payments', 'status' => 1])->exists(\App\Db::getInstance('webservice'))) {
+			$status = \App\YetiForce\Shop::check('ModulesPremium');
+		}
+		return $status;
 	}
 }

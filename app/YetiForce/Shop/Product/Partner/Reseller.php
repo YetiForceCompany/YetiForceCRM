@@ -33,7 +33,7 @@ class Reseller extends \App\YetiForce\Shop\AbstractBaseProduct
 	/**
 	 * {@inheritdoc}
 	 */
-	public function verify(): bool
+	public function verify($cache = true): bool
 	{
 		return true;
 	}

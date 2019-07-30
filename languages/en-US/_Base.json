@@ -1376,6 +1376,7 @@
     "FL_IDLE_DATE_EXPECTED": "Idle date expected",
     "BTN_COPY_TO_CLIPBOARD": "Copy to clipboard",
     "LBL_HAS_CHANGED": "changed",
+    "LBL_PAID_FUNCTIONALITY_IS_ACTIVE": "_",
     "LBL_YETIFORCE_SHOP_PRODUCT_CANCELED": "One of the purchased products has expired or requires changing a package. The product has been temporarily canceled.",
     "LBL_YETIFORCE_SHOP": "Yetiforce shop"
   },
