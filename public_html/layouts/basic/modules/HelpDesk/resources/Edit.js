@@ -135,7 +135,7 @@ Vtiger_Edit_Js(
 			}
 
 			quickCreateParams['data'] = relatedParams;
-			//		quickCreateParams['callbackFunction'] = function() {};
+			quickCreateParams['callbackFunction'] = function() {};
 			quickCreateParams['callbackPostShown'] = preQuickCreateSave;
 			quickCreateParams['noCache'] = true;
 			Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName, quickCreateParams);
