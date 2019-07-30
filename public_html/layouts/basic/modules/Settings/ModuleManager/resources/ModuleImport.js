@@ -54,7 +54,14 @@ jQuery.Class('Settings_Module_Import_Js', {}, {
 		app.showScrollBar(jQuery('.extensionDescription'), {'height': '120px', 'width': '100%', 'railVisible': true});
 		this.registerEventsForImportModuleStep1(detailContentsHolder);
 	},
-
+	/**
+	 * Function disable button
+	 */
+	disableButtonYes: function() {
+		$('.js-form-import-module').on('submit', function() {
+			$('.js-save-button').attr('disabled', true);
+		});
+	},
 	/**
 	 * Function to validation file zip
 	 */
@@ -179,6 +186,7 @@ jQuery.Class('Settings_Module_Import_Js', {}, {
 
 	registerEvents: function () {
 		this.registerEventForStep1();
+		this.disableButtonYes();
 	}
 });
 
@@ -187,6 +195,3 @@ jQuery(document).ready(function () {
 	var settingModuleImportInstance = new Settings_Module_Import_Js();
 	settingModuleImportInstance.registerEvents();
 })
-
-
-
