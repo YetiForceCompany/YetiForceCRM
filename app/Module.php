@@ -261,6 +261,9 @@ class Module
 		$filename = 'user_privileges/tabdata.php';
 		if (file_exists($filename)) {
 			if (is_writable($filename)) {
+				Cache::resetOpcache($filename);
+				Cache::resetOpcache();
+
 				if (!$handle = fopen($filename, 'w+')) {
 					throw new Exceptions\NoPermitted("Cannot open file ($filename)");
 				}
@@ -270,15 +273,14 @@ class Module
 				$newbuf .= 'return ' . Utils::varExport($moduleMeta) . ";\n";
 				fwrite($handle, $newbuf);
 				fclose($handle);
-				Cache::resetOpcache($filename);
-				Cache::resetOpcache();
 			} else {
 				Log::error("The file $filename is not writable");
 			}
 		} else {
 			Log::error("The file $filename does not exist");
 		}
-		static::initFromDb();
+		//static::initFromDb();
+		static::init();
 	}
 
 	/**
