@@ -13,13 +13,13 @@ Vtiger_Edit_Js(
 			const self = this;
 			let lockSave = true;
 			form.on(Vtiger_Edit_Js.recordPreSave, function(e, data) {
-				let closedStatus = CONFIG.closeTicketForStatus;
+				let closedStatus = JSON.parse(app.getMainParams('closeTicketForStatus'));
 				let status = form.find('[name="ticketstatus"] :selected').val();
 				let progress = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
 				let isClosedStatusSet = status in closedStatus;
 				const recordId = app.getRecordId();
 				if (
-					(CONFIG.checkIfRecordHasTimeControl || CONFIG.checkIfRelatedTicketsAreClosed) &&
+					(app.getMainParams('checkIfRecordHasTimeControl') || app.getMainParams('checkIfRelatedTicketsAreClosed')) &&
 					isClosedStatusSet &&
 					recordId &&
 					!data.module
@@ -58,7 +58,7 @@ Vtiger_Edit_Js(
 				}
 				if (isClosedStatusSet && (!recordId || data.module)) {
 					Vtiger_Helper_Js.showPnotify({
-						text: 'nie mozesz zamknac nowego zgłoszenia',
+						text: app.vtranslate('JS_CANT_CLOSE_NEW_RECROD'),
 						type: 'info'
 					});
 					progress.progressIndicator({ mode: 'hide' });
