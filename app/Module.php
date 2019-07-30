@@ -26,7 +26,7 @@ class Module
 	public static function init()
 	{
 		static::$tabdataCache = require \ROOT_DIRECTORY . '/user_privileges/tabdata.php';
-		\var_dump(static::$tabdataCache);
+		//\var_dump(static::$tabdataCache);
 		static::$tabdataCache['tabName'] = array_flip(static::$tabdataCache['tabId']);
 	}
 
@@ -277,7 +277,7 @@ class Module
 				fwrite($handle, $newbuf);
 				fclose($handle);
 
-				\var_dump(\file_get_contents(\ROOT_DIRECTORY . '/user_privileges/tabdata.php'));
+				//\var_dump(\file_get_contents(\ROOT_DIRECTORY . '/user_privileges/tabdata.php'));
 				\var_dump(md5($newbuf), \md5_file($filename));
 
 				//static::$tabdataCache['tabName'] = array_flip($moduleMeta['tabId']);
