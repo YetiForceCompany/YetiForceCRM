@@ -194,6 +194,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$module->name = ucfirst($moduleInformation['module_name']);
 		$module->label = $moduleInformation['module_label'];
 		$module->type = (int) $moduleInformation['entitytype'];
+		$module->premium = (int) ($moduleInformation['premium'] ?? 0);
 		$module->save();
 		$module->initTables();
 

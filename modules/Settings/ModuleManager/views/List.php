@@ -15,7 +15,7 @@ class Settings_ModuleManager_List_View extends Settings_Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -25,6 +25,7 @@ class Settings_ModuleManager_List_View extends Settings_Vtiger_Index_View
 		$viewer->assign('RESTRICTED_MODULES_LIST', Settings_ModuleManager_Module_Model::getActionsRestrictedModulesList());
 		$viewer->assign('IMPORT_MODULE_URL', Settings_ModuleManager_Module_Model::getNewModuleImportUrl());
 		$viewer->assign('IMPORT_USER_MODULE_URL', Settings_ModuleManager_Module_Model::getUserModuleImportUrl());
+		$viewer->assign('ICONS', \App\YetiForce\Shop::PREMIUM_ICONS);
 		$viewer->assign('MODULE', $moduleName);
 		echo $viewer->view('ListContents.tpl', $qualifiedModuleName, true);
 	}

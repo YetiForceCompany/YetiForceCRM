@@ -36,6 +36,7 @@ class ModuleBasic
 	public $customtable = false;
 	public $grouptable = false;
 	public $type = 0;
+	public $premium = 0;
 	public $tableName;
 
 	const EVENT_MODULE_ENABLED = 'module.enabled';
@@ -60,6 +61,7 @@ class ModuleBasic
 		$this->parent = $valuemap['parent'];
 		$this->customized = (int) $valuemap['customized'];
 		$this->type = (int) $valuemap['type'];
+		$this->premium = (int) $valuemap['premium'];
 		$this->isentitytype = (int) $valuemap['isentitytype'];
 		if ($this->isentitytype || $this->name === 'Users') {
 			$entitydata = \App\Module::getEntityInfo($this->name);
@@ -97,6 +99,7 @@ class ModuleBasic
 			'parent' => $this->parent,
 			'isentitytype' => $this->isentitytype ? 1 : 0,
 			'type' => $this->type,
+			'premium' => $this->premium,
 		])->execute();
 
 		if ($this->minversion) {

@@ -278,13 +278,18 @@ class PackageExport
 	public function exportModule()
 	{
 		$moduleId = $this->moduleInstance->id;
-		$row = (new \App\Db\Query())->select(['name', 'tablabel', 'version', 'type'])->from('vtiger_tab')->where(['tabid' => $moduleId])->one();
+		$row = (new \App\Db\Query())
+			->select(['name', 'tablabel', 'version', 'type', 'premium'])
+			->from('vtiger_tab')
+			->where(['tabid' => $moduleId])
+			->one();
 		$tabVersion = $row['version'] ?? false;
 		$tabType = $row['type'];
 		$this->openNode('module');
 		$this->outputNode(date('Y-m-d H:i:s'), 'exporttime');
 		$this->outputNode($row['name'], 'name');
 		$this->outputNode($row['tablabel'], 'tablabel');
+		$this->outputNode($row['premium'], 'premium');
 
 		if (!$this->moduleInstance->isentitytype) {
 			$type = 'extension';
