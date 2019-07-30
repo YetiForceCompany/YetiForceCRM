@@ -13,7 +13,7 @@
       </q-input>
       <div class="" v-for="(roomGroup, roomType) of roomList" :key="roomType" :style="{ fontSize: fontSize }">
         <q-list v-if="roomGroup.length" dense class="q-mb-none">
-          <q-item-label header class="flex items-center text-bold">
+          <q-item-label class="flex items-center text-bold text-muted q-py-sm q-px-md">
             <q-item-section avatar>
               <icon :icon="getGroupIcon(roomType)" :size="fontSize" />
             </q-item-section>
@@ -44,7 +44,12 @@
                       :key="room.cnt_new_message"
                     />
                   </transition>
-									<icon v-if="roomType === 'crm'" class="inline-block" :icon="'userIcon-' + room.moduleName" size="0.7rem" />
+                  <icon
+                    v-if="roomType === 'crm'"
+                    class="inline-block"
+                    :icon="'userIcon-' + room.moduleName"
+                    size="0.7rem"
+                  />
                   {{ room.name }}
                 </div>
                 <div class="flex items-center justify-end no-wrap">
