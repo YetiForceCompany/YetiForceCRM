@@ -278,7 +278,7 @@ class Module
 				fclose($handle);
 
 				//\var_dump(\file_get_contents(\ROOT_DIRECTORY . '/user_privileges/tabdata.php'));
-				\var_dump(md5($newbuf), \md5_file($filename));
+				//\var_dump(md5($newbuf), \md5_file($filename));
 
 				//static::$tabdataCache['tabName'] = array_flip($moduleMeta['tabId']);
 
