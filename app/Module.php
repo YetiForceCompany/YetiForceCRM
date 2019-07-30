@@ -266,6 +266,10 @@ class Module
 				if (!$handle = fopen($filename, 'w+')) {
 					throw new Exceptions\NoPermitted("Cannot open file ($filename)");
 				}
+
+				$allMod = \vtlib\Functions::getAllModules(false, true);
+				\var_dump($allMod);
+
 				$moduleMeta = static::getModuleMeta();
 				$newbuf = "<?php\n";
 				$newbuf .= '$tab_seq_array=' . Utils::varExport($moduleMeta['tabPresence']) . ";\n";
