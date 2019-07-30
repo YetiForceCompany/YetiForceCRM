@@ -67,6 +67,10 @@
 									<td><b>{\App\Language::translate('LBL_MODULE_VERSION', $QUALIFIED_MODULE)}</b></td>
 									<td>{$MODULEIMPORT_PACKAGE->getVersion()}</td>
 								</tr>
+								<tr>
+									<td><b>{\App\Language::translate('LBL_MODULEIMPORT_PREMIUM', $QUALIFIED_MODULE)}</b></td>
+									<td>{$MODULEIMPORT_PACKAGE->getPremium()}</td>
+								</tr>
 								{if $MODULEIMPORT_PACKAGE->isUpdateType()}
 									{assign var="INFO" value=$MODULEIMPORT_PACKAGE->getUpdateInfo()}
 									<tr>

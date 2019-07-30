@@ -99,6 +99,7 @@ class ModuleBasic
 			'parent' => $this->parent,
 			'isentitytype' => $this->isentitytype ? 1 : 0,
 			'type' => $this->type,
+			'premium' => $this->premium,
 		])->execute();
 
 		if ($this->minversion) {

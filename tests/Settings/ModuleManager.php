@@ -80,9 +80,11 @@ class ModuleManager extends \Tests\Base
 			'module_name' => 'Test',
 			'entityfieldname' => 'test',
 			'module_label' => 'Test',
-			'entitytype' => 1,
+			'entitytype' => \Vtiger_Module_Model::ADVANCED_TYPE,
 			'entityfieldlabel' => 'Test',
+			'premium' => 2
 		]);
+
 		$this->assertFileExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
 		$this->assertIsInt($module->getId());
 		$this->assertSame('Test', \App\Module::getModuleName($module->getId()), 'The name of the new module is missing: ' . $module->getId());
@@ -90,7 +92,11 @@ class ModuleManager extends \Tests\Base
 		foreach ($langFileToCheck as $pathToFile) {
 			$this->assertFileExists($pathToFile);
 		}
-		$this->assertTrue((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists());
+		$rowModule = (new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->one();
+		$this->assertNotFalse($rowModule);
+		$this->assertSame(2, $rowModule['premium']);
+		$this->assertSame('Test', $rowModule['tablabel']);
+		$this->assertSame(\Vtiger_Module_Model::ADVANCED_TYPE, $rowModule['type']);
 	}
 
 	/**
@@ -359,6 +365,15 @@ class ModuleManager extends \Tests\Base
 		}
 	}
 
+	public function testPackageMetadataFromZip()
+	{
+		$package = new \vtlib\Package();
+		$this->assertSame('Test', $package->getModuleNameFromZip(static::$zipFileName));
+		$this->assertSame(\App\Version::get('appVersion'), $package->getDependentVtigerVersion());
+		$this->assertSame('inventory', $package->type());
+		$this->assertSame(2, $package->getPremium());
+	}
+
 	/**
 	 * Testing module removal.
 	 */
@@ -398,15 +413,15 @@ class ModuleManager extends \Tests\Base
 		$package->import(static::$zipFileName);
 		$this->assertSame('LBL_INVENTORY_MODULE', $package->getTypeName());
 		$this->assertFileExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
-		$this->assertTrue((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists(), 'The test module does not exist in the database');
+		$rowModule = (new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->one();
+		$this->assertNotFalse($rowModule, 'The test module does not exist in the database');
+		$this->assertSame(2, $rowModule['premium']);
 
 		unlink(static::$zipFileName);
 		$this->assertFileNotExists(static::$zipFileName);
 	}
 
-	/**
-	 * Testing download librares.
-	 */
+	// Testing download librares.
 	public function testDownloadLibraryModule()
 	{
 		$libraries = \Settings_ModuleManager_Library_Model::getAll();
@@ -420,9 +435,7 @@ class ModuleManager extends \Tests\Base
 		}
 	}
 
-	/**
-	 * Testing module off.
-	 */
+	// Testing module off.
 	public function testOffAllModule()
 	{
 		$allModules = \Settings_ModuleManager_Module_Model::getAll();
@@ -436,9 +449,7 @@ class ModuleManager extends \Tests\Base
 		}
 	}
 
-	/**
-	 * Testing module on.
-	 */
+	// Testing module on.
 	public function testOnAllModule()
 	{
 		$allModules = \Settings_ModuleManager_Module_Model::getAll();

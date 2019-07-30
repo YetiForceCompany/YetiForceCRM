@@ -28,10 +28,10 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$systemMode = \App\Config::main('systemMode');
-		if ($systemMode == 'demo') {
+		if ('demo' == $systemMode) {
 			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_ERROR_IMPORT_IN_DEMO'));
 		}
 		$mode = $request->getMode();
@@ -52,14 +52,14 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 	 *
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			"modules.Settings.{$request->getModule()}.resources.ModuleImport",
 		]));
 	}
 
-	public function importUserModuleStep1(\App\Request $request)
+	public function importUserModuleStep1(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
@@ -67,7 +67,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		$viewer->view('ImportUserModuleStep1.tpl', $qualifiedModuleName);
 	}
 
-	public function importUserModuleStep2(\App\Request $request)
+	public function importUserModuleStep2(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
@@ -84,7 +84,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 			$importModuleName = $package->getModuleNameFromZip($uploadFileName);
 			$importModuleDepVtVersion = $package->getDependentVtigerVersion();
 
-			if ($importModuleName === null) {
+			if (null === $importModuleName) {
 				$error = $package->_errorText;
 				\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
 				unlink($uploadFileName);
@@ -117,7 +117,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		$viewer->view('ImportUserModuleStep2.tpl', $qualifiedModuleName);
 	}
 
-	public function importUserModuleStep3(\App\Request $request)
+	public function importUserModuleStep3(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
@@ -129,10 +129,10 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 
 		$importModuleType = false;
 		$importType = $request->getByType('module_import_type');
-		if (strtolower($importType) === 'language') {
+		if ('language' === strtolower($importType)) {
 			$package = new vtlib\Language();
 			$importModuleType = 'Language';
-		} elseif (strtolower($importType) === 'layout') {
+		} elseif ('layout' === strtolower($importType)) {
 			$package = new vtlib\Layout();
 			$importModuleType = 'Layout';
 		} else {
@@ -140,10 +140,11 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		}
 		$package->initParameters($request);
 		$package->import($uploadFileName);
+
 		if ($package->packageType) {
 			$importModuleType = $package->packageType;
 		}
-		if ($package->_errorText != '') {
+		if ('' != $package->_errorText) {
 			$viewer->assign('MODULEIMPORT_ERROR', $package->_errorText);
 		}
 		\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
@@ -155,7 +156,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		$viewer->view('ImportUserModuleStep3.tpl', $qualifiedModuleName);
 	}
 
-	public function updateUserModuleStep3(\App\Request $request)
+	public function updateUserModuleStep3(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
@@ -166,14 +167,14 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		\vtlib\Deprecated::checkFileAccess($uploadFileName);
 
 		$importType = $request->get('module_import_type');
-		if (strtolower($importType) == 'language') {
+		if ('language' == strtolower($importType)) {
 			$package = new vtlib\Language();
 		} else {
 			$package = new vtlib\Package();
 		}
 		$package->initParameters($request);
 
-		if (strtolower($importType) == 'language') {
+		if ('language' == strtolower($importType)) {
 			$package->import($uploadFileName);
 		} else {
 			$package->update(vtlib\Module::getInstance($importModuleName), $uploadFileName);
@@ -187,7 +188,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		$viewer->view('UpdateUserModuleStep3.tpl', $qualifiedModuleName);
 	}
 
-	public function validateRequest(\App\Request $request)
+	public function validateRequest(App\Request $request)
 	{
 		$request->validateReadAccess();
 	}
