@@ -265,7 +265,7 @@ class Module
 				$content = "<?php\n";
 				$content .= '$tab_seq_array=' . Utils::varExport($moduleMeta['tabPresence']) . ";\n";
 				$content .= 'return ' . Utils::varExport($moduleMeta) . ";\n";
-				if (Utils::saveToFile($filename, $content)) {
+				if (!Utils::saveToFile($filename, $content)) {
 					throw new Exceptions\NoPermitted("Cannot write file ($filename)");
 				}
 			} else {
