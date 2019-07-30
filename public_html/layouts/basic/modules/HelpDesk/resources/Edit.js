@@ -13,10 +13,18 @@ Vtiger_Edit_Js(
 			const self = this;
 			let lockSave = true;
 			form.on(Vtiger_Edit_Js.recordPreSave, function(e, data) {
+				let closedStatus = CONFIG.closeTicketForStatus;
+				let status = form.find('[name="ticketstatus"] :selected').val();
 				let progress = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
-				if ((CONFIG.checkIfRecordHasTimeControl || CONFIG.checkIfRelatedTicketsAreClosed) && !data.module) {
-					const recordId = app.getRecordId();
-					if (lockSave) {
+				let isClosedStatusSet = status in closedStatus;
+				const recordId = app.getRecordId();
+				if (
+					(CONFIG.checkIfRecordHasTimeControl || CONFIG.checkIfRelatedTicketsAreClosed) &&
+					isClosedStatusSet &&
+					recordId &&
+					!data.module
+				) {
+					if (lockSave && recordId) {
 						e.preventDefault();
 						AppConnector.request({
 							action: 'CheckValidateToClose',
@@ -47,6 +55,14 @@ Vtiger_Edit_Js(
 							}
 						});
 					}
+				}
+				if (isClosedStatusSet && (!recordId || data.module)) {
+					Vtiger_Helper_Js.showPnotify({
+						text: 'nie mozesz zamknac nowego zgłoszenia',
+						type: 'info'
+					});
+					progress.progressIndicator({ mode: 'hide' });
+					e.preventDefault();
 				}
 			});
 		},
@@ -119,7 +135,7 @@ Vtiger_Edit_Js(
 			}
 
 			quickCreateParams['data'] = relatedParams;
-			quickCreateParams['callbackFunction'] = function() {};
+			//		quickCreateParams['callbackFunction'] = function() {};
 			quickCreateParams['callbackPostShown'] = preQuickCreateSave;
 			quickCreateParams['noCache'] = true;
 			Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName, quickCreateParams);
