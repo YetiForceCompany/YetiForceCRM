@@ -461,11 +461,11 @@
 .yfi-menu-group-room:before {
 	content: '\e90e';
 }
-.yfi-chat-notification-off1:before {
+.yfi-chat-notification-off:before {
 	content: '\e906';
 }
 .yfi-global-room:before {
-	content: '\e901';
+	content: '\e90a';
 }
 .yfi-enter-on:before {
 	content: '\e904';
@@ -485,7 +485,7 @@
 .yfi-favorite-room:before {
 	content: '\e908';
 }
-.yfi-gropup-room:before {
+.yfi-group-room:before {
 	content: '\e909';
 }
 .yfi-entrant-chat:before {
@@ -494,7 +494,7 @@
 .yfi-Zasb-8:before {
 	content: '\e90a';
 }
-.yfi-hash-uesr:before {
+.yfi-hash-user:before {
 	content: '\e90f';
 }
 .yfi-branding-chat:before {
