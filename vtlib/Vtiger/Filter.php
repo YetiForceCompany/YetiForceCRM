@@ -33,7 +33,8 @@ class Filter
 	/**
 	 * Initialize this filter instance.
 	 *
-	 * @param mixed $module Mixed id or name of the module
+	 * @param mixed $module   Mixed id or name of the module
+	 * @param mixed $valuemap
 	 */
 	public function initialize($valuemap, $module = false)
 	{
@@ -46,12 +47,13 @@ class Filter
 	 * Create this instance.
 	 *
 	 * @param Module Instance of the module to which this filter should be associated with
+	 * @param mixed $moduleInstance
 	 */
 	public function __create($moduleInstance)
 	{
 		$this->module = $moduleInstance;
-		$this->isdefault = ($this->isdefault === true || $this->isdefault == 'true') ? 1 : 0;
-		$this->inmetrics = ($this->inmetrics === true || $this->inmetrics == 'true') ? 1 : 0;
+		$this->isdefault = (true === $this->isdefault || 'true' == $this->isdefault) ? 1 : 0;
+		$this->inmetrics = (true === $this->inmetrics || 'true' == $this->inmetrics) ? 1 : 0;
 		if (!isset($this->sequence)) {
 			$sequence = (new \App\Db\Query())->from('vtiger_customview')
 				->where(['entitytype' => $this->module->name])
@@ -59,7 +61,7 @@ class Filter
 			$this->sequence = $sequence ? (int) $sequence + 1 : 0;
 		}
 		if (!isset($this->status)) {
-			if ($this->presence == 0) {
+			if (0 == $this->presence) {
 				$this->status = '0';
 			} // Default
 			else {
@@ -101,6 +103,7 @@ class Filter
 	 * Save this instance.
 	 *
 	 * @param Module Instance of the module to use
+	 * @param mixed $moduleInstance
 	 */
 	public function save($moduleInstance = false)
 	{
@@ -142,7 +145,7 @@ class Filter
 	 *
 	 * @return $this
 	 */
-	public function addField(FieldBasic $fieldInstance, $index = 0)
+	public function addField(object $fieldInstance, $index = 0)
 	{
 		$db = \App\Db::getInstance();
 		$db->createCommand()->update('vtiger_cvcolumnlist', ['columnindex' => new \yii\db\Expression('columnindex + 1')], ['and', ['cvid' => $this->id], ['>=', 'columnindex', $index]])->execute();
@@ -186,6 +189,7 @@ class Filter
 	 *
 	 * @param mixed filterid or filtername
 	 * @param mixed $module Mixed id or name of the module
+	 * @param mixed $value
 	 */
 	public static function getInstance($value, $module = false)
 	{
