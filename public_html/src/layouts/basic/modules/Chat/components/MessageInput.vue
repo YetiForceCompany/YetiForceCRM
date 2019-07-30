@@ -17,7 +17,7 @@
         class="cursor-pointer js-emoji-trigger"
         @click="emojiPanel = !emojiPanel"
       />
-      <span class="c-completions__item js-completions__users fas fa-user-plus"></span>
+      <span class="c-completions__item js-completions__users fas yfi-hash-user"></span>
       <span class="c-completions__item js-completions__records fas fa-hashtag"></span>
     </div>
     <q-separator class="q-my-xs" />

@@ -5,12 +5,12 @@
       <q-btn
         round
         color="primary"
-        icon="mdi-message-text-outline"
         class="glossy"
         @click="dialog = !dialog"
         ref="chatBtn"
         :key="data.amountOfNewMessages"
       >
+        <icon icon="yfi-branding-chat" />
         <q-badge v-if="config.showNumberOfNewMessages" v-show="data.amountOfNewMessages > 0" color="danger" floating>
           <div>
             {{ data.amountOfNewMessages }}
