@@ -1,8 +1,8 @@
 @font-face {
 	font-family: 'yfi';
-	src: url('yfi.eot?1j3ckk');
-	src: url('yfi.eot?1j3ckk#iefix') format('embedded-opentype'), url('yfi.ttf?1j3ckk') format('truetype'),
-		url('yfi.woff?1j3ckk') format('woff'), url('yfi.svg?1j3ckk#yfi') format('svg');
+	src: url('yfi.eot?cxb3ev');
+	src: url('yfi.eot?cxb3ev#iefix') format('embedded-opentype'), url('yfi.ttf?cxb3ev') format('truetype'),
+		url('yfi.woff?cxb3ev') format('woff'), url('yfi.svg?cxb3ev#yfi') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -461,10 +461,10 @@
 .yfi-menu-group-room:before {
 	content: '\e90e';
 }
-.yfi-chat-notification-off1:before {
+.yfi-chat-notification-off:before {
 	content: '\e906';
 }
-.yfi-global-room:before {
+.yfi-register-offline:before {
 	content: '\e901';
 }
 .yfi-enter-on:before {
@@ -485,16 +485,16 @@
 .yfi-favorite-room:before {
 	content: '\e908';
 }
-.yfi-gropup-room:before {
+.yfi-group-room:before {
 	content: '\e909';
 }
 .yfi-entrant-chat:before {
 	content: '\e90b';
 }
-.yfi-Zasb-8:before {
+.yfi-global-room:before {
 	content: '\e90a';
 }
-.yfi-hash-uesr:before {
+.yfi-hash-user:before {
 	content: '\e90f';
 }
 .yfi-branding-chat:before {
