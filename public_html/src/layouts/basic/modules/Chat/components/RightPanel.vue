@@ -21,7 +21,7 @@
           />
         </template>
       </q-input>
-      <q-list>
+      <q-list style="font-size: 0.88rem;">
         <q-item-label class="flex items-center text-bold text-muted q-py-sm q-px-md">
           <q-item-section avatar>
             <icon icon="yfi-entrant-chat" size="0.88rem" />

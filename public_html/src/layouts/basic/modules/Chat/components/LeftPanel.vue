@@ -18,7 +18,7 @@
               <icon :icon="getGroupIcon(roomType)" :size="fontSize" />
             </q-item-section>
             {{ translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`) }}
-            <q-icon :size="fontSize" name="mdi-information" class="q-ml-auto">
+            <q-icon :size="fontSize" name="mdi-information" class="q-ml-auto q-pr-xs">
               <q-tooltip> {{ translate(`JS_CHAT_ROOM_DESCRIPTION_${roomType.toUpperCase()}`) }}</q-tooltip>
             </q-icon>
           </q-item-label>
@@ -28,7 +28,7 @@
               clickable
               v-ripple
               :key="room.name"
-              class="q-pl-sm hover-visibility"
+              class="q-pl-sm"
               :active="data.currentRoom.recordId === room.recordid"
               active-class="bg-teal-1 text-grey-8"
               @click="fetchRoom({ id: room.recordid, roomType: roomType })"
@@ -53,7 +53,7 @@
                   {{ room.name }}
                 </div>
                 <div class="flex items-center justify-end no-wrap">
-                  <div class="visible-on-hover">
+                  <div>
                     <a
                       v-if="roomType === 'crm'"
                       class="js-popover-tooltip--record ellipsis"
@@ -62,12 +62,18 @@
                     >
                       <q-icon name="mdi-link-variant" color="primary" />
                     </a>
-                    <q-icon
+                    <q-btn
                       v-if="roomType === 'group' || roomType === 'crm'"
+                      dense
+                      round
+                      flat
+                      size="xs"
                       @click.stop="togglePinned({ roomType, room })"
                       color="primary"
-                      :name="room.isPinned || roomType === 'crm' ? 'mdi-pin-off' : 'mdi-pin'"
-                    />
+                      :icon="room.isPinned || roomType === 'crm' ? 'mdi-pin' : 'mdi-pin-off'"
+                    >
+                      <q-tooltip>{{ translate(room.isPinned ? 'JS_CHAT_UNPIN' : 'JS_CHAT_PIN') }}</q-tooltip>
+                    </q-btn>
                   </div>
                 </div>
               </div>
@@ -136,12 +142,4 @@ export default {
 }
 </script>
 <style lang="sass">
-
-.visible-on-hover
-	visibility: hidden
-
-.hover-visibility:hover
-	.visible-on-hover
-		visibility: visible
-
 </style>
