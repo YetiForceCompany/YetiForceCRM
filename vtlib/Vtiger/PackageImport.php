@@ -47,11 +47,13 @@ class PackageImport extends PackageExport
 
 	/**
 	 * Get type of package (as specified in manifest).
+	 *
+	 * @return false|string
 	 */
 	public function type()
 	{
 		if (!empty($this->_modulexml) && !empty($this->_modulexml->type)) {
-			return $this->_modulexml->type;
+			return (string)$this->_modulexml->type;
 		}
 		return false;
 	}
@@ -451,8 +453,10 @@ class PackageImport extends PackageExport
 
 	/**
 	 * Get dependent version.
+	 *
+	 * @return string
 	 */
-	public function getDependentVtigerVersion()
+	public function getDependentVtigerVersion(): string
 	{
 		return (!empty($this->_modulexml) && \is_object($this->_modulexml)) ? $this->_modulexml->dependencies->vtiger_version : '';
 	}
@@ -503,6 +507,16 @@ class PackageImport extends PackageExport
 	public function getDescription()
 	{
 		return $this->_modulexml->description;
+	}
+
+	/**
+	 * Get premium.
+	 *
+	 * @return int
+	 */
+	public function getPremium(): int
+	{
+		return (int)$this->_modulexml->premium;
 	}
 
 	public function getUpdateInfo()
@@ -602,6 +616,7 @@ class PackageImport extends PackageExport
 		$moduleInstance->minversion = (!$vtigerMinVersion) ? false : $vtigerMinVersion;
 		$moduleInstance->maxversion = (!$vtigerMaxVersion) ? false : $vtigerMaxVersion;
 		$moduleInstance->type = $moduleType;
+		$moduleInstance->premium = $this->getPremium();
 
 		$moduleInstance->save();
 		$moduleInstance->initWebservice();

@@ -35,6 +35,7 @@ class Functions
 				$row['isentitytype'] = (int) $row['isentitytype'];
 				$row['coloractive'] = (int) $row['coloractive'];
 				$row['type'] = (int) $row['type'];
+				$row['premium'] = (int) $row['premium'];
 				$moduleList[$row['tabid']] = $row;
 			}
 			\App\Cache::save('moduleTabs', 'all', $moduleList);

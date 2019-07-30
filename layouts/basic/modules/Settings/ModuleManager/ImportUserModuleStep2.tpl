@@ -37,7 +37,10 @@
 								<thead>
 								<tr class="blockHeader">
 									<th colspan="2">
-										<strong>{\App\Language::translate('LBL_VERIFY_IMPORT_DETAILS',$QUALIFIED_MODULE)}</strong>
+										<strong>{\App\Language::translate('LBL_VERIFY_IMPORT_DETAILS', $QUALIFIED_MODULE)}</strong>
+										{if $MODULEIMPORT_PACKAGE->getPremium() > 0 && !empty($ICONS[$MODULEIMPORT_PACKAGE->getPremium()]) }
+											<span class="{$ICONS[$MODULEIMPORT_PACKAGE->getPremium()]}"></span>
+										{/if}
 									</th>
 								</tr>
 								</thead>
