@@ -258,14 +258,14 @@ class Module
 	public static function createModuleMetaFile()
 	{
 		Cache::delete('moduleTabs', 'all');
-		$filename = 'user_privileges/tabdata.php';
+		$filename = ROOT_DIRECTORY . '/user_privileges/tabdata.php';
 		if (file_exists($filename)) {
 			if (is_writable($filename)) {
 				$moduleMeta = static::getModuleMeta();
 				$content = "<?php\n";
 				$content .= '$tab_seq_array=' . Utils::varExport($moduleMeta['tabPresence']) . ";\n";
 				$content .= 'return ' . Utils::varExport($moduleMeta) . ";\n";
-				if (Utils::saveToFile(ROOT_DIRECTORY . '/' . $filename, $content)) {
+				if (Utils::saveToFile($filename, $content)) {
 					throw new Exceptions\NoPermitted("Cannot write file ($filename)");
 				}
 			} else {
