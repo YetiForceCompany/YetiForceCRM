@@ -17,6 +17,13 @@ namespace vtlib;
 class Module extends ModuleBasic
 {
 	/**
+	 * Allow export.
+	 *
+	 * @var bool
+	 */
+	public $allowExport = false;
+
+	/**
 	 * Get related list sequence to use.
 	 *
 	 * @return int
@@ -341,6 +348,6 @@ class Module extends ModuleBasic
 	 */
 	public function isExportable(): bool
 	{
-		return $this->isCustomizable() && 0 === $this->premium;
+		return $this->allowExport || ($this->isCustomizable() && 0 === $this->premium);
 	}
 }

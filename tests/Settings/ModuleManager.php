@@ -339,6 +339,8 @@ class ModuleManager extends \Tests\Base
 	public function testExportModule()
 	{
 		$moduleModel = \vtlib\Module::getInstance('Test');
+		$this->assertFalse($moduleModel->isExportable(), 'Module exportable!');
+		$moduleModel->allowExport = true;
 		$this->assertTrue($moduleModel->isExportable(), 'Module not exportable!');
 		$packageExport = new \vtlib\PackageExport();
 
@@ -365,6 +367,11 @@ class ModuleManager extends \Tests\Base
 		}
 	}
 
+	/**
+	 * Test package metadata from zip.
+	 *
+	 * @return void
+	 */
 	public function testPackageMetadataFromZip()
 	{
 		$package = new \vtlib\Package();
