@@ -147,6 +147,7 @@ class Filter
 	 */
 	public function addField(object $fieldInstance, $index = 0)
 	{
+		var_dump('--------------------------------------------------', \get_class($fieldInstance));
 		$db = \App\Db::getInstance();
 		$db->createCommand()->update('vtiger_cvcolumnlist', ['columnindex' => new \yii\db\Expression('columnindex + 1')], ['and', ['cvid' => $this->id], ['>=', 'columnindex', $index]])->execute();
 		$db->createCommand()->insert('vtiger_cvcolumnlist', [
