@@ -24,7 +24,7 @@
       <q-list>
         <q-item-label header class="flex items-center text-bold">
           <q-item-section avatar>
-            <q-icon name="mdi-account" size="0.88rem" />
+            <icon icon="yfi-entrant-chat" size="0.88rem" />
           </q-item-section>
           {{ translate('JS_CHAT_PARTICIPANTS') }}
         </q-item-label>

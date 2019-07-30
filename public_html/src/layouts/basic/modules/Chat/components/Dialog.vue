@@ -36,13 +36,12 @@
 <script>
 import Chat from './Chat.vue'
 import DragResize from 'components/DragResize.vue'
-import Icon from 'components/Icon.vue'
 
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'Dialog',
-  components: { Chat, DragResize, Icon },
+  components: { Chat, DragResize },
   data() {
     return {
       timerGlobal: null

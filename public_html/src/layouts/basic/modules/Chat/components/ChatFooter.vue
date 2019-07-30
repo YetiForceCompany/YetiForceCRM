@@ -7,7 +7,9 @@
           <icon class="q-breadcrumbs__el-icon q-breadcrumbs__el-icon--with-label q-icon" :icon="currentTab.icon" :size="currentTab.icon.startsWith('yfi') ? '16px' : ''" />
           {{ currentTab.label }}
         </q-breadcrumbs-el>
-        <q-breadcrumbs-el v-if="tab !== 'unread'" class="text-white" :label="roomType.label" :icon="roomType.icon">
+        <q-breadcrumbs-el v-if="tab !== 'unread'" class="text-white">
+					<icon class="q-breadcrumbs__el-icon q-breadcrumbs__el-icon--with-label q-icon" :icon="roomType.icon" size="16px" />
+          {{ roomType.label }}
         </q-breadcrumbs-el>
         <q-breadcrumbs-el v-if="tab === 'chat'" class="text-white text-cyan-9 text-bold" :label="roomName" />
       </q-breadcrumbs>
@@ -15,13 +17,11 @@
   </q-footer>
 </template>
 <script>
-import Icon from 'components/Icon.vue'
 import { getGroupIcon } from '../utils/utils.js'
 import { createNamespacedHelpers } from 'vuex'
 const { mapActions, mapGetters } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatFooter',
-  components: { Icon },
   computed: {
     ...mapGetters(['data', 'tab', 'historyTab']),
     currentTab() {

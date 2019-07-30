@@ -15,7 +15,7 @@
         <q-list v-if="roomGroup.length" dense class="q-mb-none">
           <q-item-label header class="flex items-center text-bold">
             <q-item-section avatar>
-              <q-icon :name="getGroupIcon(roomType)" :size="fontSize" />
+              <icon :icon="getGroupIcon(roomType)" :size="fontSize" />
             </q-item-section>
             {{ translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`) }}
             <q-icon :size="fontSize" name="mdi-information" class="q-ml-auto">
@@ -88,13 +88,12 @@
 </template>
 <script>
 import Backdrop from 'components/Backdrop.vue'
-import Icon from 'components/Icon.vue'
 import { getGroupIcon } from '../utils/utils.js'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'LeftPanel',
-  components: { Backdrop, Icon },
+  components: { Backdrop },
   data() {
     return {
       filterRooms: '',

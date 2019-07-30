@@ -8,12 +8,12 @@
  */
 -->
 <template>
-  <div>
+  <div class="flex">
     <q-icon v-if="/^mdi|^fa/.test(icon)" :name="icon" :size="size" dense />
     <q-avatar v-else-if="icon.includes('/')" :size="size">
       <q-img :src="icon" />
     </q-avatar>
-    <q-icon v-else :class="[icon, 'q-icon']" :style="{ 'font-size': size }" />
+    <q-icon v-else :class="[icon, 'q-icon']" :style="{ 'font-size': size ? size : '1.4em' }" />
   </div>
 </template>
 
