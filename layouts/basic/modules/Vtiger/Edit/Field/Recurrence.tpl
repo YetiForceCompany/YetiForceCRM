@@ -15,7 +15,7 @@
 			<div class="modal fade" tabindex="-1" role="dialog">
 				<div class="modal-dialog modal-lg" role="document">
 					<div class="modal-content">
-						<div class="modal-header row m-0 d-flex align-items-center">
+						<div class="modal-header m-0 d-flex align-items-center">
 							<h5 class="modal-title m-0"><span
 										class="fas fa-save mr-2"></span>{App\Language::translate('LBL_TITLE_TYPE_SAVING', $MODULE)}
 							</h5>

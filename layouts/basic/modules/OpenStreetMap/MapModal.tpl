@@ -1,25 +1,27 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="modal-header container-fluid openStreetMapModalHeader row">
-		<div class="col col-md-5">
-			<h4 id="massEditHeader" class="modal-title">{\App\Language::translate('LBL_MAP', $MODULE_NAME)}</h4>
-		</div>
-		<button type="button" class="close d-md-none" data-dismiss="modal" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
-		<div class="col-md-6 ">
-			<div class="input-group">
-				<input type="text" class="searchValue form-control"
-					   placeholder="{\App\Language::translate('LBL_SEARCH_VALUE_DESCRIPTION', $MODULE_NAME)}"/>
-				<input type="text" class="form-control u-max-w-150px js-radius" data-js="val" size="6" placeholder="{\App\Language::translate('LBL_IN_RADIUS', $MODULE_NAME)}" />
-				<div class="input-group-append">
-					<button class="btn btn-primary input-group-btn searchBtn">{\App\Language::translate('LBL_SEARCH', $MODULE_NAME)}</span></button>
+	<div class="modal-header openStreetMapModalHeader">
+		<div class="row w-100">
+			<div class="col col-md-5">
+				<h4 id="massEditHeader" class="modal-title">{\App\Language::translate('LBL_MAP', $MODULE_NAME)}</h4>
+			</div>
+			<button type="button" class="close d-md-none" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<div class="col-md-6 ">
+				<div class="input-group">
+					<input type="text" class="searchValue form-control"
+							placeholder="{\App\Language::translate('LBL_SEARCH_VALUE_DESCRIPTION', $MODULE_NAME)}"/>
+					<input type="text" class="form-control u-max-w-150px js-radius" data-js="val" size="6" placeholder="{\App\Language::translate('LBL_IN_RADIUS', $MODULE_NAME)}" />
+					<div class="input-group-append">
+						<button class="btn btn-success input-group-btn searchBtn">{\App\Language::translate('LBL_SEARCH', $MODULE_NAME)}</span></button>
+					</div>
 				</div>
 			</div>
 		</div>
-        <button type="button" class="close d-none d-md-block" data-dismiss="modal" aria-label="Close">
+		<button type="button" class="close d-none d-md-block" data-dismiss="modal" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
-        </button>
+		</button>
 	</div>
 	<div class="modal-body row openStreetMapModalBody">
 		<div class="col-lg-9">

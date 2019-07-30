@@ -88,26 +88,6 @@
 				</ul>
 				<div class="float-right p-0">
 					<ul class="pagination">
-						{if !\App\YetiForce\Register::verify(true)}
-							<li class="page-item u-cursor-pointer">
-								{if $USER_MODEL->isAdminUser()}
-									{assign var="INFO_REGISTRATION_ERROR" value="<a href='index.php?module=Companies&parent=Settings&view=List&displayModal=online'>{\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}</a>"}
-								{else}
-									{assign var="INFO_REGISTRATION_ERROR" value=\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}
-								{/if}
-								<a class="page-link text-danger js-popover-tooltip" role="button"
-								   data-content="{\App\Language::translateArgs('LBL_YETIFORCE_REGISTRATION_ERROR', $MODULE_NAME, $INFO_REGISTRATION_ERROR)}"
-								   title="{\App\Purifier::encodeHtml('<span class="yfi yfi-yeti-register-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_REGISTRATION', $MODULE_NAME)}"
-										{if $USER_MODEL->isAdminUser()}
-											href="index.php?parent=Settings&module=Companies&view=List&displayModal=online"
-										{else}
-											href="#"
-										{/if} >
-								<span class="yfi yfi-yeti-register-alert fa-2x">
-								</span>
-								</a>
-							</li>
-						{/if}
 						{if !$DISABLE_BRANDING }
 							<li class="page-item">
 								<a class="page-link mr-md-1" href="https://yetiforce.shop" rel="noreferrer noopener">
@@ -118,18 +98,6 @@
 								<a class="page-link" data-toggle="modal" href="#" role="button"
 									data-target="#yetiforceDetails">
 									<span class="fas fa-info-circle fa-2x" title="YetiForceCRM"></span>
-								</a>
-							</li>
-						{/if}
-						{if !\App\YetiForce\Shop::verify()}
-							<li class="page-item u-cursor-pointer">
-								<a class="page-link text-warning js-popover-tooltip animated flash infinite slower" role="button" data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP_PRODUCT_CANCELED', $MODULE_NAME)}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
-										{if $USER_MODEL->isAdminUser()}
-											href="index.php?module=YetiForce&parent=Settings&view=Shop"
-										{else}
-											href="#"
-										{/if} >
-									<span class="yfi yfi-shop-alert fa-2x"></span>
 								</a>
 							</li>
 						{/if}
