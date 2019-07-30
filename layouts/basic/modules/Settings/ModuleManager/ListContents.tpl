@@ -108,7 +108,6 @@
 			</div>
 			<br/>
 			<table class="table table-bordered table-sm">
-					{assign var=ICONS value=[1=>'yfi-premium color-red-600', 2=>'yfi-enterprise color-yellow-600', 3=>'yfi-partners color-grey-600']}
 				<tr>
 					{foreach item=MODULE_MODEL key=MODULE_ID from=$ALL_MODULES}
 					{assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}

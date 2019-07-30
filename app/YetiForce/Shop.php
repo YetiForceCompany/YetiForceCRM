@@ -18,6 +18,11 @@ namespace App\YetiForce;
 class Shop
 {
 	/**
+	 * Premium icons.
+	 */
+	const PREMIUM_ICONS = [1 => 'yfi-premium color-red-600', 2 => 'yfi-enterprise color-yellow-600', 3 => 'yfi-partners color-grey-600'];
+
+	/**
 	 * Product instance cache.
 	 *
 	 * @var \App\YetiForce\Shop\AbstractBaseProduct[]
