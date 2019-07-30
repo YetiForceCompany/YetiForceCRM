@@ -276,7 +276,7 @@ class Module
 				fwrite($handle, $newbuf);
 				fclose($handle);
 
-				static::$tabdataCache['tabName'] = array_flip(static::$tabdataCache['tabId']);
+				static::$tabdataCache['tabName'] = array_flip($moduleMeta['tabId']);
 
 				Cache::resetFileCache($filename);
 				Cache::resetOpcache();
