@@ -18,9 +18,25 @@
               <icon :icon="getGroupIcon(roomType)" :size="fontSize" />
             </q-item-section>
             {{ translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`) }}
-            <q-icon :size="fontSize" name="mdi-information" class="q-ml-auto q-pr-xs">
-              <q-tooltip> {{ translate(`JS_CHAT_ROOM_DESCRIPTION_${roomType.toUpperCase()}`) }}</q-tooltip>
-            </q-icon>
+            <div class="q-ml-auto ">
+              <q-btn
+                v-if="roomType === 'group'"
+                v-show="areUnpinned && !filterRooms.length"
+                dense
+                flat
+                round
+                color="primary"
+                :icon="showAllGroups ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+                @click="showAllGroups = !showAllGroups"
+              >
+                <q-tooltip>{{
+                  translate(showAllGroups ? 'JS_CHAT_HIDE_UNPINNED' : 'JS_CHAT_SHOW_UNPINNED')
+                }}</q-tooltip>
+              </q-btn>
+              <q-icon :size="fontSize" name="mdi-information" class="q-pr-xs">
+                <q-tooltip>{{ translate(`JS_CHAT_ROOM_DESCRIPTION_${roomType.toUpperCase()}`) }}</q-tooltip>
+              </q-icon>
+            </div>
           </q-item-label>
           <template v-for="room of roomGroup">
             <q-item
@@ -54,14 +70,19 @@
                 </div>
                 <div class="flex items-center justify-end no-wrap">
                   <div>
-                    <a
+                    <q-btn
                       v-if="roomType === 'crm'"
+                      type="a"
+                      size="xs"
+                      dense
+                      round
+                      flat
+                      color="primary"
                       class="js-popover-tooltip--record ellipsis"
                       @click.stop=""
+                      icon="mdi-link-variant"
                       :href="`index.php?module=${room.moduleName}&view=Detail&record=${room.recordid}`"
-                    >
-                      <q-icon name="mdi-link-variant" color="primary" />
-                    </a>
+                    />
                     <q-btn
                       v-if="roomType === 'group' || roomType === 'crm'"
                       dense
@@ -80,19 +101,6 @@
             </q-item>
           </template>
         </q-list>
-        <div class="full-width flex justify-end">
-          <q-btn
-            v-if="roomType === 'group'"
-            v-show="areUnpinned && !filterRooms.length"
-            dense
-            flat
-            no-caps
-            color="info"
-            :icon="showAllGroups ? 'mdi-chevron-up' : 'mdi-chevron-down'"
-            :label="showAllGroups ? translate('JS_CHAT_HIDE') : translate('JS_CHAT_MORE')"
-            @click="showAllGroups = !showAllGroups"
-          />
-        </div>
       </div>
     </div>
   </q-drawer>
