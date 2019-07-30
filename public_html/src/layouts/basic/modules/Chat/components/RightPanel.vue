@@ -29,7 +29,7 @@
           {{ translate('JS_CHAT_PARTICIPANTS') }}
         </q-item-label>
         <template v-for="participant in participantsList">
-          <q-item :key="participant.user_id" v-if="participant.user_name === participant.user_name">
+          <q-item :key="participant.user_id" v-if="participant.user_name === participant.user_name" class="q-py-xs">
             <q-item-section avatar>
               <q-avatar>
                 <img v-if="participant.img" :src="participant.img" />

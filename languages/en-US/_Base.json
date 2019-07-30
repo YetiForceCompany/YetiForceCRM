@@ -1775,6 +1775,8 @@
     "JS_CHAT_PARTICIPANTS_MENU": "Toggle participants menu",
     "JS_CHAT_PIN": "Pin room",
     "JS_CHAT_UNPIN": "Unpin room",
+    "JS_CHAT_TAG_RECORD": "Tag record",
+    "JS_CHAT_TAG_USER": "Tag user",
     "JS_CHAT_ROOMS_MENU": "Toggle rooms menu",
     "JS_CHAT_PICK_EMOJI": "Pick your emoji…",
     "JS_EMOJI_NOTFOUND": "No Emoji Found",
