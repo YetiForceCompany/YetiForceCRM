@@ -204,7 +204,7 @@ class Shop
 	/**
 	 * Get from cache.
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	public static function getFromCache()
 	{
