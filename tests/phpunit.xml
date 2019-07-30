@@ -18,6 +18,7 @@
 		</testsuite>
 		<testsuite name="Base">
 			<directory suffix=".php">./Base/</directory>
+			<exclude>./Base/Z_StringFormatting.php</exclude>
 		</testsuite>
 		<testsuite name="Integrations">
 			<directory suffix=".php">./Integrations/</directory>
