@@ -548,7 +548,7 @@ $.Class(
 		 * Function to register click event for save button of fields sequence
 		 */
 		registerFieldSequenceSaveClick: function() {
-			$('#detailViewLayout').find('.saveFieldSequence').on('click', () => {
+			this.getDetailViewLayout().find('.saveFieldSequence').on('click', () => {
 					this.hideSaveFieldSequenceButton();
 					this.createUpdatedBlockFieldsList();
 					this.updateFieldSequence();
