@@ -76,11 +76,14 @@ export default {
   },
   data() {
     return {
-      active: false
+      active: false,
+      minHeight: 32,
+      minWidth: 120
     }
   },
   methods: {
-    resize(newRect) {
+    resize(newRect, e) {
+      console.log(e)
       this.$emit('update:coordinates', {
         width: newRect.width,
         height: newRect.height,
@@ -94,8 +97,8 @@ export default {
       if (rect.width > window.innerWidth) {
         computedRect.width = window.innerWidth
         computedRect.left = 0
-      } else if (rect.left < 0) {
-        computedRect.left = 0
+      } else if (rect.left + rect.width - this.minWidth < 0) {
+        computedRect.left = this.minWidth - rect.width
       } else if (rect.width + rect.left > window.innerWidth) {
         computedRect.left = window.innerWidth - rect.width
       }
@@ -105,10 +108,9 @@ export default {
         computedRect.top = 0
       } else if (rect.top < 0) {
         computedRect.top = 0
-      } else if (rect.height + rect.top > window.innerHeight) {
-        computedRect.top = window.innerHeight - rect.height
+      } else if (rect.top > window.innerHeight - this.minHeight) {
+        computedRect.top = window.innerHeight - this.minHeight
       }
-
       this.$emit('update:coordinates', computedRect)
     },
     onActivated() {
