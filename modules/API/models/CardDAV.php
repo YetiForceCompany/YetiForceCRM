@@ -192,7 +192,7 @@ class API_CardDAV_Model
 				$vcard->add('EMAIL', $record[$key], ['type' => explode(',', $val)]);
 			}
 		}
-		$vcard = $this->setCardAddress($vcard, $moduleName, $record);
+		$vcard = $this->setCardAddres($vcard, $moduleName, $record);
 
 		$cardUri = $record['crmid'] . '.vcf';
 		$cardData = Sabre\DAV\StringUtil::ensureUTF8($vcard->serialize());
@@ -250,7 +250,7 @@ class API_CardDAV_Model
 				$vcard->add('EMAIL', $record[$key], ['type' => explode(',', $val)]);
 			}
 		}
-		$vcard = $this->setCardAddress($vcard, $moduleName, $record);
+		$vcard = $this->setCardAddres($vcard, $moduleName, $record);
 
 		$cardData = Sabre\DAV\StringUtil::ensureUTF8($vcard->serialize());
 		$etag = md5($cardData);
@@ -388,53 +388,6 @@ class API_CardDAV_Model
 		$stmt->execute([0, $crmid]);
 	}
 
-	private function convertCrmAddressToCardAddress(string $moduleName, string $typeOfAddress, array $recordAddress)
-	{
-		$adrMap = [
-			'Contacts' => [
-				'WORK' => [
-					6 => ['addresslevel1a'],
-					5 => ['addresslevel7a'],
-					4 => ['addresslevel2a'],
-					3 => ['addresslevel5a'],
-					2 => ['addresslevel8a', 'buildingnumbera'],
-					1 => ['localnumbera'],
-					0 => [''],
-				],
-				'HOME' => [
-					6 => ['addresslevel1b'],
-					5 => ['addresslevel7b'],
-					4 => ['addresslevel2b'],
-					3 => ['addresslevel5b'],
-					2 => ['addresslevel8b', 'buildingnumberb'],
-					1 => ['localnumberb'],
-					0 => [''],
-				]
-			]
-		];
-		$arr = $adrMap[$moduleName][$typeOfAddress] ?? [];
-		$rr = [];
-		foreach ($arr as $key => $val) {
-			$b = array_reduce($val, function ($carry, $item) use ($recordAddress) {
-				return $carry || $recordAddress[$item];
-			});
-			\App\DebugerEx::log('CHECK', $b);
-
-			if (empty($val)) {
-				$rr[$key] = '';
-			} else {
-				$rr[$key] = \implode(
-					' ',
-					array_map(function ($item) use ($recordAddress) {
-						return $recordAddress[$item];
-					}, $val)
-				);
-			}
-		}
-
-		return $rr;
-	}
-
 	/**
 	 * Set card addres.
 	 *
@@ -444,12 +397,36 @@ class API_CardDAV_Model
 	 *
 	 * @return \Sabre\VObject\Component
 	 */
-	public function setCardAddress(Sabre\VObject\Component $vcard, $moduleName, $record)
+	public function setCardAddres(Sabre\VObject\Component $vcard, $moduleName, $record)
 	{
 		$adr1 = $adr2 = [];
 		if ('Contacts' === $moduleName) {
-			$adr1 = $this->convertCrmAddressToCardAddress('Contacts', 'WORK', $record);
-			$adr2 = $this->convertCrmAddressToCardAddress('Contacts', 'HOME', $record);
+			if (!empty($record['addresslevel5a'])) {
+				$street = $record['addresslevel8a'] . ' ' . $record['buildingnumbera'];
+				if (!empty($record['localnumbera'])) {
+					$street .= '/' . $record['localnumbera'];
+				}
+				$adr1 = ['', '',
+					$street,
+					$record['addresslevel5a'],
+					$record['addresslevel2a'],
+					$record['addresslevel7a'],
+					$record['addresslevel1a'],
+				];
+			}
+			if (!empty($record['addresslevel5b'])) {
+				$street = $record['addresslevel8b'] . ' ' . $record['buildingnumberb'];
+				if (!empty($record['localnumberb'])) {
+					$street .= '/' . $record['localnumberb'];
+				}
+				$adr2 = ['', '',
+					$street,
+					$record['addresslevel5b'],
+					$record['addresslevel2b'],
+					$record['addresslevel7b'],
+					$record['addresslevel1b'],
+				];
+			}
 		} elseif ('OSSEmployees' == $moduleName) {
 			if (!empty($record['city'])) {
 				$adr1 = ['', '',
@@ -470,7 +447,6 @@ class API_CardDAV_Model
 				];
 			}
 		}
-
 		if (!empty($adr1)) {
 			$vcard->add('ADR', $adr1, ['type' => 'WORK']);
 		}
