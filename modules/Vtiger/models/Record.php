@@ -531,6 +531,11 @@ class Vtiger_Record_Model extends \App\Base
 			if (!empty($entityModel->customFieldTable)) {
 				$forSave[$entityModel->customFieldTable[0]] = [];
 			}
+			foreach ($entityModel->tab_name as $tableName) {
+				if (empty($forSave[$tableName])) {
+					$forSave[$tableName] = [];
+				}
+			}
 		}
 		foreach ($this->dataForSave as $tableName => $values) {
 			$forSave[$tableName] = array_merge($forSave[$tableName] ?? [], $values);
@@ -591,17 +596,6 @@ class Vtiger_Record_Model extends \App\Base
 			$eventHandler->setRecordModel($this);
 			$eventHandler->setModuleName($moduleName);
 			$eventHandler->trigger('EntityBeforeDelete');
-
-			Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
-			Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
-			$workflows = (new VTWorkflowManager())->getWorkflowsForModule($moduleName, VTWorkflowManager::$ON_DELETE);
-			if (\count($workflows)) {
-				foreach ($workflows as &$workflow) {
-					if ($workflow->evaluate($this)) {
-						$workflow->performTasks($this);
-					}
-				}
-			}
 			$dbCommand = $db->createCommand();
 			$dbCommand->delete('u_#__crmentity_label', ['crmid' => $this->getId()])->execute();
 			$dbCommand->delete('u_#__crmentity_search_label', ['crmid' => $this->getId()])->execute();
