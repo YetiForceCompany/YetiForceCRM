@@ -262,8 +262,7 @@ class Module
 		if (file_exists($filename)) {
 			if (is_writable($filename)) {
 				$moduleMeta = static::getModuleMeta();
-				$content = "<?php\n";
-				$content .= '$tab_seq_array=' . Utils::varExport($moduleMeta['tabPresence']) . ";\n";
+				$content = '$tab_seq_array=' . Utils::varExport($moduleMeta['tabPresence']) . ";\n";
 				$content .= 'return ' . Utils::varExport($moduleMeta) . ";\n";
 				if (!Utils::saveToFile($filename, $content)) {
 					throw new Exceptions\NoPermitted("Cannot write file ($filename)");
