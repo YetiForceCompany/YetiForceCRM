@@ -107,7 +107,7 @@ class Vtiger_PDF_Model extends \App\Base
 	 */
 	public function get($key)
 	{
-		if ('conditions' === $key && !is_array(parent::get($key))) {
+		if ('conditions' === $key && !\is_array(parent::get($key))) {
 			return json_decode(parent::get($key), true);
 		}
 		return parent::get($key);
@@ -174,7 +174,7 @@ class Vtiger_PDF_Model extends \App\Base
 	{
 		$templates = $this->getActiveTemplatesForRecord($recordId, $view, $moduleName);
 
-		if (count($templates) > 0) {
+		if (\count($templates) > 0) {
 			return true;
 		}
 		return false;
@@ -283,7 +283,7 @@ class Vtiger_PDF_Model extends \App\Base
 	public function getFieldFilterValueType($fieldname)
 	{
 		$conditions = $this->get('conditions');
-		if (!empty($conditions) && is_array($conditions)) {
+		if (!empty($conditions) && \is_array($conditions)) {
 			foreach ($conditions as $filter) {
 				if ($fieldname == $filter['fieldname']) {
 					return $filter['valuetype'];
@@ -315,7 +315,7 @@ class Vtiger_PDF_Model extends \App\Base
 	public function isVisible($view)
 	{
 		$visibility = explode(',', $this->get('visibility'));
-		if (in_array($this->viewToPicklistValue[$view], $visibility)) {
+		if (\in_array($this->viewToPicklistValue[$view], $visibility)) {
 			return true;
 		}
 		return false;
@@ -362,20 +362,20 @@ class Vtiger_PDF_Model extends \App\Base
 			$valueType = explode(':', $name);
 			$getTypes[$valueType[0]][] = $valueType[1];
 		}
-		if (in_array('Users:' . $currentUser->getId(), $permissions)) { // check user id
+		if (\in_array('Users:' . $currentUser->getId(), $permissions)) { // check user id
 			return true;
 		}
-		if (in_array('Roles:' . $currentUser->getRole(), $permissions)) {
+		if (\in_array('Roles:' . $currentUser->getRole(), $permissions)) {
 			return true;
 		}
-		if (array_key_exists('Groups', $getTypes)) {
+		if (\array_key_exists('Groups', $getTypes)) {
 			$accessibleGroups = array_keys(\App\Fields\Owner::getInstance($this->get('module_name'), $currentUser)->getAccessibleGroupForModule());
 			$groups = array_intersect($getTypes['Groups'], $currentUser->getGroups());
 			if (array_intersect($groups, $accessibleGroups)) {
 				return true;
 			}
 		}
-		if (array_key_exists('RoleAndSubordinates', $getTypes)) {
+		if (\array_key_exists('RoleAndSubordinates', $getTypes)) {
 			$roles = $currentUser->getParentRoles();
 			$roles[] = $currentUser->getRole();
 			if (array_intersect($getTypes['RoleAndSubordinates'], array_filter($roles))) {
@@ -566,7 +566,7 @@ class Vtiger_PDF_Model extends \App\Base
 			$zip->addFile($file['path'], $file['name']);
 		}
 
-		$zip->download('PdfZipFile_' . time() . '.zip');
+		$zip->download('PdfZipFile_' . time());
 		foreach ($fileNames as $file) {
 			unlink($file['path']);
 		}
