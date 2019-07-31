@@ -18,7 +18,7 @@
     </q-tabs>
     <q-tab-panels v-model="historyTab" animated style="min-height: inherit;" class="chat-panels">
       <q-tab-panel v-for="(room, roomType) of data.roomList" :key="roomType" :name="roomType">
-        <messages @earlierClick="earlierClick" :fetchingEarlier="fetchingEarlier" />
+        <messages @earlierClick="earlierClick" :fetchingEarlier="fetchingEarlier" :header="messageHeader" />
       </q-tab-panel>
     </q-tab-panels>
   </div>
@@ -60,6 +60,18 @@ export default {
       this.fetchHistory({ groupHistory: this.historyTab, showMoreClicked: true }).then(e => {
         this.fetchingEarlier = false
       })
+    },
+    messageHeader(row) {
+      let roomName = ''
+      if (row.recordid !== undefined && this.data.roomList[this.historyTab][row.recordid] !== undefined) {
+        roomName = this.data.roomList[this.historyTab][row.recordid].name
+      }
+      return `
+				<div class="row justify-between${row.userid === this.userId ? ' reverse' : ''}">
+					<div>${row.user_name}</div>
+					<div class="text-teal">${roomName}</div>
+				</div>
+			`
     }
   },
   mounted() {

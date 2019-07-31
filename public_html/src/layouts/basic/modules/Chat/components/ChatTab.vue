@@ -50,7 +50,7 @@ export default {
       fetchingEarlier: false,
       searching: false,
       timerMessage: null,
-			scrollbarHidden: false
+      scrollbarHidden: false
     }
   },
   computed: {
@@ -108,7 +108,7 @@ export default {
         }).done(({ result }) => {
           if (result.chatEntries.length || !isEqual(this.data.roomList, result.roomList)) {
             this.updateChat(result)
-					}
+          }
           this.updateAmountOfNewMessages(result.amountOfNewMessages)
           if (result.chatEntries.length) {
             this.scrollDown()

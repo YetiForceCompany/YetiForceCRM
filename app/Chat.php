@@ -186,7 +186,7 @@ final class Chat
 		$rooms = [];
 		while ($row = $dataReader->read()) {
 			$row['name'] = Language::translate($row['name'], 'Chat');
-			$rooms[] = $row;
+			$rooms[$row['recordid']] = $row;
 		}
 		$dataReader->close();
 		return $rooms;
@@ -228,7 +228,7 @@ final class Chat
 			if (is_string($group)) {
 				$group = ['recordid' => $id, 'name' => $group, 'isPinned' => false];
 			}
-			$rows[] = $group;
+			$rows[$id] = $group;
 		}
 		$dataReader->close();
 		return $rows;
@@ -264,7 +264,7 @@ final class Chat
 			$recordModel = \Vtiger_Record_Model::getInstanceById($row['recordid']);
 			if ($recordModel->isViewable()) {
 				$row['moduleName'] = $recordModel->getModuleName();
-				$rows[] = $row;
+				$rows[$row['recordid']] = $row;
 			}
 		}
 		$dataReader->close();
