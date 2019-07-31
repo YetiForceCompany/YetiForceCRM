@@ -77,7 +77,6 @@
 					</span>
 					{assign var="DISPLAY_FIELD_VALUE" value=$FIELD_VALUE}
 					<span class="col-md-7">
-					{var_dump($DISPLAY_FIELD_VALUE)}
 						<input name="{$FIELD_MODEL->getFieldName()}" value="{$DISPLAY_FIELD_VALUE}" type="text"
 							   class="row-fluid currencyField form-control" data-fieldinfo='{$FIELD_INFO}'
 							   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
