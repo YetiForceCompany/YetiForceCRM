@@ -54,7 +54,7 @@
 						<select class="select2 typeServer" {if $RECORD_MODEL} disabled {/if}>
 							{foreach from=$TYPES_SERVERS item=TYPE}
 								<option value="{$TYPE}" {if $RECORD_MODEL && $TYPE eq  $RECORD_MODEL->get('type')}selected{/if}>
-									{$TYPE}
+									{\App\Language::translate($TYPE, $QUALIFIED_MODULE)}
 								</option>
 							{/foreach}
 						</select>
