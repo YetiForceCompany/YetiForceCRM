@@ -38,6 +38,7 @@
 import MessageInput from './MessageInput.vue'
 import Messages from './Messages.vue'
 import { createNamespacedHelpers } from 'vuex'
+import isEqual from 'lodash.isequal'
 const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
 
 export default {
@@ -49,7 +50,7 @@ export default {
       fetchingEarlier: false,
       searching: false,
       timerMessage: null,
-      scrollbarHidden: false
+			scrollbarHidden: false
     }
   },
   computed: {
@@ -105,7 +106,9 @@ export default {
           roomType: this.data.currentRoom.roomType,
           miniMode: this.miniMode ? true : undefined
         }).done(({ result }) => {
-          this.updateChat(result)
+          if (result.chatEntries.length || !isEqual(this.data.roomList, result.roomList)) {
+            this.updateChat(result)
+					}
           this.updateAmountOfNewMessages(result.amountOfNewMessages)
           if (result.chatEntries.length) {
             this.scrollDown()
