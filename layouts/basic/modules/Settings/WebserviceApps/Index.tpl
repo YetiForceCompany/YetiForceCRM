@@ -33,7 +33,7 @@
 							{/if}
 						</td>
 						<td>
-							{$SERVER['type']}
+							{\App\Language::translate($SERVER['type'], $QUALIFIED_MODULE)}
 						</td>
 						<td>
 							<div class="action">
