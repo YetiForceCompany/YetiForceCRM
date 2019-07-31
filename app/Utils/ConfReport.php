@@ -1181,8 +1181,10 @@ class ConfReport
 		$view->assign('SHOW_FOOTER', true);
 		$html = $view->view('Footer.tpl', '', true);
 		$row['status'] = true;
+		$row['only_info'] = true;
 		if( !\App\Config::component('Branding', 'isCustomerBrandingActive') ){
 			$row['status'] = false !== \strpos($html, '&copy; YetiForce.com All rights reserved');
+			$row['status'] = $row['status'] && \App\YetiForce\Shop::check('DisableBranding');
 		}
 		unset($name);
 		$row[$sapi] = \App\Language::translate($row['status'] ? 'LBL_YES' : 'LBL_NO');
@@ -1200,6 +1202,7 @@ class ConfReport
 	 */
 	private static function validatePremiumModules(string $name, array $row, string $sapi)
 	{
+		$row['only_info'] = true;
 		$row['status'] = true;
 		$row[$sapi] = \App\Language::translate($row['status'] ? 'LBL_YES' : 'LBL_NO');
 		return $row;
