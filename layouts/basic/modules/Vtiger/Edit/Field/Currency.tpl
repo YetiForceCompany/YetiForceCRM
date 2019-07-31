@@ -47,7 +47,7 @@
 				{assign var="DISPLAY_FIELD_VALUE" value=$FIELD_VALUE}
 				{if $SYMBOL_PLACEMENT neq '1.0$'}
 				{if !empty($RECORD_ID)}
-						{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$FIELD_MODEL->getUITypeModel()->getSymbolByRecordId($RECORD->getId())}
+						{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$FIELD_MODEL->getUITypeModel()->getSymbolByRecordId($RECORD_ID)}
 					{else}
 						{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$USER_MODEL->get('currency_symbol')}
 					{/if}
@@ -61,7 +61,7 @@
 							   {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} />
 				{if $SYMBOL_PLACEMENT eq '1.0$'}
 					{if !empty($RECORD_ID)}
-						{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$FIELD_MODEL->getUITypeModel()->getSymbolByRecordId($RECORD->getId())}
+						{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$FIELD_MODEL->getUITypeModel()->getSymbolByRecordId($RECORD_ID)}
 					{else}
 						{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$USER_MODEL->get('currency_symbol')}
 					{/if}
@@ -77,6 +77,7 @@
 					</span>
 					{assign var="DISPLAY_FIELD_VALUE" value=$FIELD_VALUE}
 					<span class="col-md-7">
+					{var_dump($DISPLAY_FIELD_VALUE)}
 						<input name="{$FIELD_MODEL->getFieldName()}" value="{$DISPLAY_FIELD_VALUE}" type="text"
 							   class="row-fluid currencyField form-control" data-fieldinfo='{$FIELD_INFO}'
 							   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
