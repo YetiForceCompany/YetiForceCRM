@@ -52,11 +52,11 @@
         <div class="flex no-wrap">
           <template v-if="$q.platform.is.desktop">
             <btn-grab v-show="miniMode" class="text-white flex flex-center" grabClass="js-drag" size="19px" />
-            <q-btn dense flat :icon="miniMode ? 'mdi-window-maximize' : 'mdi-window-restore'" @click="toggleSize()">
+            <q-btn dense flat round :icon="miniMode ? 'mdi-window-maximize' : 'mdi-window-restore'" @click="toggleSize()">
               <q-tooltip>{{ miniMode ? translate('JS_MAXIMIZE') : translate('JS_MINIMIZE') }}</q-tooltip>
             </q-btn>
           </template>
-          <q-btn dense flat icon="mdi-close" @click="setDialog(false)">
+          <q-btn dense flat round icon="mdi-close" @click="setDialog(false)">
             <q-tooltip>{{ translate('JS_CLOSE') }}</q-tooltip>
           </q-btn>
           <q-btn dense flat round :color="rightPanel ? 'info' : ''" @click="toggleRightPanel()">

@@ -9242,10 +9242,9 @@ void-elements@^2.0.1:
   resolved "https://registry.yarnpkg.com/void-elements/-/void-elements-2.0.1.tgz#c066afb582bb1cb4128d60ea92392e94d5e9dbec"
   integrity sha1-wGavtYK7HLQSjWDqkjkulNXp2+w=
 
-vue-drag-resize@^1.3.2:
+"vue-drag-resize@https://github.com/kirillmurashov/vue-drag-resize#master":
   version "1.3.2"
-  resolved "https://registry.yarnpkg.com/vue-drag-resize/-/vue-drag-resize-1.3.2.tgz#99132a99746c878e4596fad08d36c98f604930a3"
-  integrity sha512-XiSEep3PPh9IPQqa4vIy/YENBpYch2SIPNipcPAEGhaSa0V8A8gSq9s7JQ66p/hiINdnR7f5ZqAkOdm6zU/4Gw==
+  resolved "https://github.com/kirillmurashov/vue-drag-resize#e6fe21c1b13240d597b3179cecae233e4b9e80c3"
 
 vue-eslint-parser@^2.0.3:
   version "2.0.3"

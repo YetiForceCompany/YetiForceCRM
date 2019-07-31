@@ -21,15 +21,15 @@
           />
         </template>
       </q-input>
-      <q-list>
-        <q-item-label header class="flex items-center text-bold">
+      <q-list style="font-size: 0.88rem;">
+        <q-item-label class="flex items-center text-bold text-muted q-py-sm q-px-md">
           <q-item-section avatar>
             <icon icon="yfi-entrant-chat" size="0.88rem" />
           </q-item-section>
           {{ translate('JS_CHAT_PARTICIPANTS') }}
         </q-item-label>
         <template v-for="participant in participantsList">
-          <q-item :key="participant.user_id" v-if="participant.user_name === participant.user_name">
+          <q-item :key="participant.user_id" v-if="participant.user_name === participant.user_name" class="q-py-xs">
             <q-item-section avatar>
               <q-avatar>
                 <img v-if="participant.img" :src="participant.img" />

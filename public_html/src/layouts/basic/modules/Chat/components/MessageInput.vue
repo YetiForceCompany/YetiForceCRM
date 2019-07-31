@@ -17,8 +17,12 @@
         class="cursor-pointer js-emoji-trigger"
         @click="emojiPanel = !emojiPanel"
       />
-      <span class="c-completions__item js-completions__users fas yfi-hash-user"></span>
-      <span class="c-completions__item js-completions__records fas fa-hashtag"></span>
+      <span class="c-completions__item js-completions__users fas yfi-hash-user">
+        <q-tooltip>{{ translate('JS_CHAT_TAG_USER') }}</q-tooltip>
+      </span>
+      <span class="c-completions__item js-completions__records fas fa-hashtag">
+        <q-tooltip>{{ translate('JS_CHAT_TAG_RECORD') }}</q-tooltip>
+      </span>
     </div>
     <q-separator class="q-my-xs" />
     <div class="d-flex flex-nowrap">

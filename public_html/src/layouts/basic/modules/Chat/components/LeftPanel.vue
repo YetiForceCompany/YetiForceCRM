@@ -13,14 +13,30 @@
       </q-input>
       <div class="" v-for="(roomGroup, roomType) of roomList" :key="roomType" :style="{ fontSize: fontSize }">
         <q-list v-if="roomGroup.length" dense class="q-mb-none">
-          <q-item-label header class="flex items-center text-bold">
+          <q-item-label class="flex items-center text-bold text-muted q-py-sm q-px-md">
             <q-item-section avatar>
               <icon :icon="getGroupIcon(roomType)" :size="fontSize" />
             </q-item-section>
             {{ translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`) }}
-            <q-icon :size="fontSize" name="mdi-information" class="q-ml-auto">
-              <q-tooltip> {{ translate(`JS_CHAT_ROOM_DESCRIPTION_${roomType.toUpperCase()}`) }}</q-tooltip>
-            </q-icon>
+            <div class="q-ml-auto ">
+              <q-btn
+                v-if="roomType === 'group'"
+                v-show="areUnpinned && !filterRooms.length"
+                dense
+                flat
+                round
+                color="primary"
+                :icon="showAllGroups ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+                @click="showAllGroups = !showAllGroups"
+              >
+                <q-tooltip>{{
+                  translate(showAllGroups ? 'JS_CHAT_HIDE_UNPINNED' : 'JS_CHAT_SHOW_UNPINNED')
+                }}</q-tooltip>
+              </q-btn>
+              <q-icon :size="fontSize" name="mdi-information" class="q-pr-xs">
+                <q-tooltip>{{ translate(`JS_CHAT_ROOM_DESCRIPTION_${roomType.toUpperCase()}`) }}</q-tooltip>
+              </q-icon>
+            </div>
           </q-item-label>
           <template v-for="room of roomGroup">
             <q-item
@@ -28,7 +44,7 @@
               clickable
               v-ripple
               :key="room.name"
-              class="q-pl-sm hover-visibility"
+              class="q-pl-sm"
               :active="data.currentRoom.recordId === room.recordid"
               active-class="bg-teal-1 text-grey-8"
               @click="fetchRoom({ id: room.recordid, roomType: roomType })"
@@ -44,44 +60,47 @@
                       :key="room.cnt_new_message"
                     />
                   </transition>
-									<icon v-if="roomType === 'crm'" class="inline-block" :icon="'userIcon-' + room.moduleName" size="0.7rem" />
+                  <icon
+                    v-if="roomType === 'crm'"
+                    class="inline-block"
+                    :icon="'userIcon-' + room.moduleName"
+                    size="0.7rem"
+                  />
                   {{ room.name }}
                 </div>
                 <div class="flex items-center justify-end no-wrap">
-                  <div class="visible-on-hover">
-                    <a
+                  <div>
+                    <q-btn
                       v-if="roomType === 'crm'"
+                      type="a"
+                      size="xs"
+                      dense
+                      round
+                      flat
+                      color="primary"
                       class="js-popover-tooltip--record ellipsis"
                       @click.stop=""
+                      icon="mdi-link-variant"
                       :href="`index.php?module=${room.moduleName}&view=Detail&record=${room.recordid}`"
-                    >
-                      <q-icon name="mdi-link-variant" color="primary" />
-                    </a>
-                    <q-icon
+                    />
+                    <q-btn
                       v-if="roomType === 'group' || roomType === 'crm'"
+                      dense
+                      round
+                      flat
+                      size="xs"
                       @click.stop="togglePinned({ roomType, room })"
                       color="primary"
-                      :name="room.isPinned || roomType === 'crm' ? 'mdi-pin-off' : 'mdi-pin'"
-                    />
+                      :icon="room.isPinned || roomType === 'crm' ? 'mdi-pin' : 'mdi-pin-off'"
+                    >
+                      <q-tooltip>{{ translate(room.isPinned ? 'JS_CHAT_UNPIN' : 'JS_CHAT_PIN') }}</q-tooltip>
+                    </q-btn>
                   </div>
                 </div>
               </div>
             </q-item>
           </template>
         </q-list>
-        <div class="full-width flex justify-end">
-          <q-btn
-            v-if="roomType === 'group'"
-            v-show="areUnpinned && !filterRooms.length"
-            dense
-            flat
-            no-caps
-            color="info"
-            :icon="showAllGroups ? 'mdi-chevron-up' : 'mdi-chevron-down'"
-            :label="showAllGroups ? translate('JS_CHAT_HIDE') : translate('JS_CHAT_MORE')"
-            @click="showAllGroups = !showAllGroups"
-          />
-        </div>
       </div>
     </div>
   </q-drawer>
@@ -131,12 +150,4 @@ export default {
 }
 </script>
 <style lang="sass">
-
-.visible-on-hover
-	visibility: hidden
-
-.hover-visibility:hover
-	.visible-on-hover
-		visibility: visible
-
 </style>
