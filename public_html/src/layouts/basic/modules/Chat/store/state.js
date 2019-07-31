@@ -10,9 +10,9 @@ export default {
 		tab: 'chat',
 		coordinates: {
 			width: 450,
-			height: Quasar.plugins.Screen.height - 160,
+			height: window.innerHeight - 160,
 			top: 60,
-			left: Quasar.plugins.Screen.width - 450
+			left: window.innerWidth - 450
 		}
 	},
 	local: {

@@ -14,6 +14,8 @@
       :preventActiveBehavior="true"
       :isActive="active"
       @activated="onActivated"
+      @dragstop="correctCoordinates"
+      @resizestop="correctCoordinates"
       :isResizable="true"
       :isDraggable="!maximized"
       v-on:resizing="resize"
@@ -85,6 +87,29 @@ export default {
         top: newRect.top,
         left: newRect.left
       })
+    },
+    correctCoordinates(rect) {
+      let computedRect = Object.assign({}, rect)
+
+      if (rect.width > window.innerWidth) {
+        computedRect.width = window.innerWidth
+        computedRect.left = 0
+      } else if (rect.left < 0) {
+        computedRect.left = 0
+      } else if (rect.width + rect.left > window.innerWidth) {
+        computedRect.left = window.innerWidth - rect.width
+      }
+
+      if (rect.height > window.innerHeight) {
+        computedRect.height = window.innerHeight
+        computedRect.top = 0
+      } else if (rect.top < 0) {
+        computedRect.top = 0
+      } else if (rect.height + rect.top > window.innerHeight) {
+        computedRect.top = window.innerHeight - rect.height
+      }
+
+      this.$emit('update:coordinates', computedRect)
     },
     onActivated() {
       const sticks = this.$refs.resize.$el.querySelectorAll('.vdr-stick')
