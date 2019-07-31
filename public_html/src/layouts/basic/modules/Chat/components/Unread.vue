@@ -85,18 +85,6 @@ export default {
       let ret = roomName !== this.lastRoomName
       this.lastRoomName = roomName
       return ret
-    },
-    computedRooms(roomType) {
-      let rooms = []
-      let tempRoomName = ''
-      roomType.forEach(el => {
-        if (el.room_name !== tempRoomName) {
-          tempRoomName = el.room_name
-          rooms[tempRoomName] = []
-        }
-        rooms[tempRoomName].push(el)
-      })
-      return rooms
     }
   },
   mounted() {
