@@ -38,7 +38,6 @@ export default {
   data() {
     return {
       userId: CONFIG.userId,
-      lastRoomName: '',
       unreadMessages: {
         crm: [],
         global: [],
@@ -80,12 +79,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchUnread']),
-    checkLastRoom(roomName) {
-      let ret = roomName !== this.lastRoomName
-      this.lastRoomName = roomName
-      return ret
-    }
+    ...mapActions(['fetchUnread'])
   },
   mounted() {
     this.fetchUnread().then(result => {
