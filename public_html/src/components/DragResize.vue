@@ -83,7 +83,6 @@ export default {
   },
   methods: {
     resize(newRect, e) {
-      console.log(e)
       this.$emit('update:coordinates', {
         width: newRect.width,
         height: newRect.height,
