@@ -24,7 +24,6 @@
   },
   "dependencies": {
     "emoji-mart-vue-fast": "^5.4.14",
-    "lodash": "^4.17.15",
     "lodash.isequal": "^4.5.0",
     "vue-drag-resize": "https://github.com/kirillmurashov/vue-drag-resize#master",
     "vuex": "^3.1.1"
