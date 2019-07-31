@@ -179,7 +179,7 @@ export default {
 				)
 			}
 		}
-		if (newMessages !== getters.data.amountOfNewMessages) {
+		if (newMessages !== getters.data.amountOfNewMessages && newMessages !== undefined) {
 			commit('setAmountOfNewMessages', newMessages)
 		}
 	}
