@@ -46,8 +46,9 @@
 			<div class="input-group">
 				{assign var="DISPLAY_FIELD_VALUE" value=$FIELD_VALUE}
 				{if $SYMBOL_PLACEMENT neq '1.0$'}
-				{if !empty($RECORD_ID)}
-						{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$FIELD_MODEL->getUITypeModel()->getSymbolByRecordId($RECORD_ID)}
+				{if !empty($RECORD_ID) && !empty($RECORD->get('currency_id')) }
+						{assign var="CURRENCY" value=\App\Fields\Currency::getById($RECORD->get('currency_id'))}
+						{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$CURRENCY['currency_symbol']}
 					{else}
 						{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$USER_MODEL->get('currency_symbol')}
 					{/if}
@@ -60,8 +61,9 @@
 							   data-group-separator='{$USER_MODEL->get('currency_grouping_separator')}'
 							   {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} />
 				{if $SYMBOL_PLACEMENT eq '1.0$'}
-					{if !empty($RECORD_ID)}
-						{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$FIELD_MODEL->getUITypeModel()->getSymbolByRecordId($RECORD_ID)}
+					{if !empty($RECORD_ID) && !empty($RECORD->get('currency_id')) }
+						{assign var="CURRENCY" value=\App\Fields\Currency::getById($RECORD->get('currency_id'))}
+						{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$CURRENCY['currency_symbol']}
 					{else}
 						{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$USER_MODEL->get('currency_symbol')}
 					{/if}
