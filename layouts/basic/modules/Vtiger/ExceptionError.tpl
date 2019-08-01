@@ -9,14 +9,30 @@
 * Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
-<!DOCTYPE html>
-{strip}
+{if 'test' === \App\Config::main('systemMode')}
+	{$HEADER_MESSAGE}
+	{if $MESSAGE_EXPANDED}
+		{$MESSAGE['message']}
+		{$MESSAGE['query']}
+		{if $MESSAGE['params']}
+			{implode(',', $MESSAGE['params'])}
+		{/if}
+		{if $MESSAGE['trace']}
+			{\App\Language::translate($MESSAGE['trace'])}
+		{/if}
+	{else}
+		{$MESSAGE}
+	{/if}
+{else}
+	<!DOCTYPE html>
+	{strip}
 	<html>
 	<head>
 		<title>Yetiforce: {\App\Purifier::encodeHtml($HEADER_MESSAGE)}</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" href="{\App\Layout::getPublicUrl('layouts/basic/styles/Main.css')}">
+		<link rel="stylesheet" href="{\App\Layout::getPublicUrl('libraries/@fortawesome/fontawesome-free/css/all.css')}">
 	</head>
 	<body class="h-auto bg-color-amber-50">
 	<div class="o-exception-fixed-block container u-white-space-n u-word-break">
@@ -39,34 +55,34 @@
 			</div>
 		</div>
 		{if $MESSAGE_EXPANDED}
-		<div class="my-5 mx-auto card u-w-fit shadow">
-			<div class="card-header">
-				<h5>{\App\Language::translate('LBL_SQL_QUERY')}</h5>
-			</div>
-			<div class="card-body text-black">
-				<pre class="u-white-space-n u-word-break text-black">{$MESSAGE['query']}</pre>
-			</div>
-		</div>
-		{if $MESSAGE['params']}
 			<div class="my-5 mx-auto card u-w-fit shadow">
 				<div class="card-header">
-					<h5>{\App\Language::translate('LBL_SQL_PARAMS')}</h5>
+					<h5>{\App\Language::translate('LBL_SQL_QUERY')}</h5>
 				</div>
 				<div class="card-body text-black">
-					<pre class="u-white-space-n u-word-break">{implode(',', $MESSAGE['params'])}</pre>
+					<pre class="u-white-space-n u-word-break text-black">{$MESSAGE['query']}</pre>
 				</div>
 			</div>
-		{/if}
-		{if $MESSAGE['trace']}
-			<div class="my-5 mx-auto card u-w-fit shadow">
-				<div class="card-header">
-					<h5>{\App\Language::translate('LBL_BACKTRACE')}</h5>
+			{if $MESSAGE['params']}
+				<div class="my-5 mx-auto card u-w-fit shadow">
+					<div class="card-header">
+						<h5>{\App\Language::translate('LBL_SQL_PARAMS')}</h5>
+					</div>
+					<div class="card-body text-black">
+						<pre class="u-white-space-n u-word-break">{implode(',', $MESSAGE['params'])}</pre>
+					</div>
 				</div>
-				<div class="card-body text-black">
-					<pre class="u-white-space-n u-word-break">{\App\Language::translate($MESSAGE['trace'])}</pre>
+			{/if}
+			{if $MESSAGE['trace']}
+				<div class="my-5 mx-auto card u-w-fit shadow">
+					<div class="card-header">
+						<h5>{\App\Language::translate('LBL_BACKTRACE')}</h5>
+					</div>
+					<div class="card-body text-black">
+						<pre class="u-white-space-n u-word-break">{\App\Language::translate($MESSAGE['trace'])}</pre>
+					</div>
 				</div>
-			</div>
-		{/if}
+			{/if}
 		{/if}
 	</div>
 	<script type="text/javascript">
@@ -81,4 +97,5 @@
 	</script>
 	</body>
 	</html>
-{/strip}
+	{/strip}
+{/if}
