@@ -35,6 +35,14 @@ export default {
 	setSoundNotification(state, val) {
 		state.local.isSoundNotification = val
 	},
+	addRoomSoundNotificationsOff(state, { roomType, id }) {
+		state.local.roomSoundNotificationsOff[roomType] = state.local.roomSoundNotificationsOff[roomType].filter(
+			item => item !== id
+		)
+	},
+	removeRoomSoundNotificationsOff(state, { roomType, id }) {
+		state.local.roomSoundNotificationsOff[roomType].push(id)
+	},
 	setDesktopNotification(state, val) {
 		state.local.isDesktopNotification = val
 	},

@@ -10,6 +10,13 @@ export default {
 	toggleRightPanel({ commit, getters }) {
 		commit('setRightPanel', !getters['rightPanel'])
 	},
+	toggleSoundNotification({ commit, getters }, { roomType, id }) {
+		if (getters.roomSoundNotificationsOff[roomType].includes(id)) {
+			commit('addRoomSoundNotificationsOff', { roomType, id })
+		} else {
+			commit('removeRoomSoundNotificationsOff', { roomType, id })
+		}
+	},
 	fetchChatConfig({ commit }) {
 		return new Promise((resolve, reject) => {
 			AppConnector.request({

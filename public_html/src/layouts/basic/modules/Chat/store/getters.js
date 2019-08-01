@@ -29,6 +29,9 @@ export default {
 			? state.config.isDefaultSoundNotification
 			: state.local.isSoundNotification
 	},
+	roomSoundNotificationsOff(state) {
+		return state.local.roomSoundNotificationsOff
+	},
 	sendByEnter(state) {
 		return state.local.sendByEnter
 	},

@@ -18,7 +18,12 @@ export default {
 	local: {
 		isSoundNotification: null,
 		isDesktopNotification: false,
-		sendByEnter: true
+		sendByEnter: true,
+		roomSoundNotificationsOff: {
+			crm: [],
+			global: [],
+			group: []
+		}
 	},
 	data: {
 		amountOfNewMessages: 0,

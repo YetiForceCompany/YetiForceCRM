@@ -55,7 +55,7 @@
                     <q-badge
                       v-if="room.cnt_new_message !== undefined && room.cnt_new_message > 0"
                       color="danger"
-                      class="q-mx-xs"
+                      class="q-mr-xs"
                       :label="room.cnt_new_message"
                       :key="room.cnt_new_message"
                     />
@@ -90,13 +90,25 @@
                       flat
                       size="xs"
                       @click.stop="togglePinned({ roomType, room })"
-                      color="primary"
+                      :color="room.isPinned || roomType === 'crm' ? 'primary' : ''"
                       :icon="room.isPinned || roomType === 'crm' ? 'mdi-pin' : 'mdi-pin-off'"
                     >
                       <q-tooltip>{{
                         translate(room.isPinned || roomType === 'crm' ? 'JS_CHAT_UNPIN' : 'JS_CHAT_PIN')
                       }}</q-tooltip>
                     </q-btn>
+										<q-btn
+											@click.stop="toggleSoundNotification({roomType, id: room.recordid})"
+											dense
+                      round
+                      flat
+                      size="xs"
+											:icon="isSoundActive(roomType, room.recordid) ? 'mdi-volume-high' : 'mdi-volume-off'"
+											:color="isSoundActive(roomType, room.recordid) ? 'primary' : ''"
+											:disable="!isSoundNotification"
+										>
+											<q-tooltip>{{ translate(isSoundActive(roomType, room.recordid) ? 'JS_CHAT_SOUND_ON' : 'JS_CHAT_SOUND_OFF') }}</q-tooltip>
+										</q-btn>
                   </div>
                 </div>
               </div>
@@ -119,11 +131,11 @@ export default {
     return {
       filterRooms: '',
       fontSize: '0.88rem',
-      showAllGroups: false
+			showAllGroups: false
     }
   },
   computed: {
-    ...mapGetters(['leftPanel', 'data', 'tab']),
+    ...mapGetters(['leftPanel', 'data', 'tab', 'isSoundNotification', 'roomSoundNotificationsOff']),
     areUnpinned() {
       for (let room in this.data.roomList.group) {
         if (!this.data.roomList.group[room].isPinned) {
@@ -146,11 +158,14 @@ export default {
   },
   methods: {
     ...mapMutations(['setLeftPanel']),
-    ...mapActions(['fetchRoom', 'togglePinned']),
+    ...mapActions(['fetchRoom', 'togglePinned', 'toggleSoundNotification']),
     getGroupIcon,
     filterRoomByName(room) {
       return room.name.toLowerCase().includes(this.filterRooms.toLowerCase())
-    }
+		},
+		isSoundActive(roomType, id) {
+			return this.isSoundNotification && !this.roomSoundNotificationsOff[roomType].includes(id)
+		}
   }
 }
 </script>
