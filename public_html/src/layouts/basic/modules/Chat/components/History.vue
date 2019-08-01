@@ -62,14 +62,10 @@ export default {
       })
     },
     messageHeader(row) {
-      let roomName = ''
-      if (row.recordid !== undefined && this.data.roomList[this.historyTab][row.recordid] !== undefined) {
-        roomName = this.data.roomList[this.historyTab][row.recordid].name
-      }
       return `
 				<div class="row justify-between${row.userid === this.userId ? ' reverse' : ''}">
 					<div>${row.user_name}</div>
-					<div class="text-teal">${roomName}</div>
+					<div class="text-teal">${row.room_name}</div>
 				</div>
 			`
     }
