@@ -7251,7 +7251,7 @@ CREATE TABLE `vtiger_paymentsout` (
   `paymentsno` varchar(32) DEFAULT NULL,
   `paymentsname` varchar(128) DEFAULT NULL,
   `paymentstitle` varchar(128) DEFAULT NULL,
-  `paymentscurrency` varchar(32) DEFAULT NULL,
+  `currency_id` varchar(32) DEFAULT NULL,
   `bank_account` varchar(128) DEFAULT NULL,
   `paymentsout_status` varchar(128) DEFAULT NULL,
   `relatedid` int(10) DEFAULT NULL,
