@@ -586,12 +586,13 @@ final class Chat
 	{
 		$columnMessage = static::COLUMN_NAME['message'][$roomType];
 		$columnRoomName = static::COLUMN_NAME['room_name'][$roomType];
+		$roomNameId = $roomType === 'global' ?  static::COLUMN_NAME['room']['global'] : $columnMessage;
 		$query = (new Db\Query())
 			->select([
 				'id', 'messages', 'userid', 'created',
 				'recordid' => "GL.{$columnMessage}", 'room_name' => "RN.{$columnRoomName}"])
 			->from(['GL' => static::TABLE_NAME['message'][$roomType]])
-			->leftJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$columnMessage} = GL.{$columnMessage}")
+			->leftJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$roomNameId} = GL.{$columnMessage}")
 			->where(['userid' => $this->userId])
 			->orderBy(['id' => \SORT_DESC])
 			->limit(\App\Config::module('Chat', 'CHAT_ROWS_LIMIT') + 1);
@@ -610,6 +611,9 @@ final class Chat
 			$row['user_name'] = $userName;
 			$row['role_name'] = $userRoleName;
 			$row['messages'] = static::decodeMessage($row['messages']);
+			if ('global' === $roomType) {
+				$row['room_name'] = Language::translate($row['room_name']);
+			}
 			$rows[] = $row;
 		}
 		return \array_reverse($rows);
