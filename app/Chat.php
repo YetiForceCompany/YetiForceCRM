@@ -29,6 +29,7 @@ final class Chat
 	const TABLE_NAME = [
 		'message' => ['crm' => 'u_#__chat_messages_crm', 'group' => 'u_#__chat_messages_group', 'global' => 'u_#__chat_messages_global'],
 		'room' => ['crm' => 'u_#__chat_rooms_crm', 'group' => 'u_#__chat_rooms_group', 'global' => 'u_#__chat_rooms_global'],
+		'room_name' => ['crm' => 'u_#__crmentity_label', 'group' => 'vtiger_groups', 'global' => 'u_#__chat_global']
 	];
 
 	/**
@@ -37,6 +38,7 @@ final class Chat
 	const COLUMN_NAME = [
 		'message' => ['crm' => 'crmid', 'group' => 'groupid', 'global' => 'globalid'],
 		'room' => ['crm' => 'crmid', 'group' => 'groupid', 'global' => 'global_room_id'],
+		'room_name' => ['crm' => 'label', 'group' => 'groupname', 'global' => 'name']
 	];
 
 	/**
@@ -582,12 +584,14 @@ final class Chat
 	 */
 	public function getHistoryByType(string $roomType = 'global', ?int $messageId = null)
 	{
+		$columnMessage = static::COLUMN_NAME['message'][$roomType];
+		$columnRoomName = static::COLUMN_NAME['room_name'][$roomType];
 		$query = (new Db\Query())
 			->select([
 				'id', 'messages', 'userid', 'created',
-				'recordid' => static::COLUMN_NAME['message'][$roomType],
-			])
+				'recordid' => "GL.{$columnMessage}", 'room_name' => "RN.{$columnRoomName}"])
 			->from(['GL' => static::TABLE_NAME['message'][$roomType]])
+			->leftJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$columnMessage} = GL.{$columnMessage}")
 			->where(['userid' => $this->userId])
 			->orderBy(['id' => \SORT_DESC])
 			->limit(\App\Config::module('Chat', 'CHAT_ROWS_LIMIT') + 1);
