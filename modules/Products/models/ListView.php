@@ -57,9 +57,6 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 		$this->loadListViewCondition();
 		$this->loadListViewOrderBy();
 		$query = $queryGenerator->createQuery();
-		if ($this->get('subProductsPopup')) {
-			$this->addSubProductsQuery($query);
-		}
 		$sourceModule = $this->get('src_module');
 		$sourceField = $this->get('src_field');
 		$pageLimit = $pagingModel->getPageLimit();
@@ -81,12 +78,6 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 		return $listViewRecordModels;
 	}
 
-	public function addSubProductsQuery(App\Db\Query $listQuery)
-	{
-		$listQuery->leftJoin('vtiger_seproductsrel', 'vtiger_seproductsrel.crmid = vtiger_products.productid AND vtiger_seproductsrel.setype=:products', [':products' => 'Products']);
-		$listQuery->andWhere(['vtiger_seproductsrel.productid' => $this->get('productId')]);
-	}
-
 	public function getSubProducts($subProductId)
 	{
 		$flag = false;
@@ -96,19 +87,5 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 				->from('vtiger_seproductsrel')->innerJoin('vtiger_crmentity', 'vtiger_seproductsrel.crmid = vtiger_crmentity.crmid')->where(['vtiger_crmentity.deleted' => 0, 'vtiger_seproductsrel.setype' => $this->getModule()->get('name'), 'vtiger_seproductsrel.productid' => $subProductId])->exists();
 		}
 		return $flag;
-	}
-
-	/**
-	 * Function to get the list view count.
-	 *
-	 * @return int
-	 */
-	public function getListViewCount()
-	{
-		$query = $this->get('query_generator')->createQuery();
-		if ($this->get('subProductsPopup')) {
-			$this->addSubProductsQuery($query);
-		}
-		return $query->count();
 	}
 }
