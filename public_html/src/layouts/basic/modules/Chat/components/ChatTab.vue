@@ -106,10 +106,10 @@ export default {
           roomType: this.data.currentRoom.roomType,
           miniMode: this.miniMode ? true : undefined
         }).done(({ result }) => {
+          this.updateAmountOfNewMessages(result.amountOfNewMessages)
           if (result.chatEntries.length || !isEqual(this.data.roomList, result.roomList)) {
             this.updateChat(result)
           }
-          this.updateAmountOfNewMessages(result.amountOfNewMessages)
           if (result.chatEntries.length) {
             this.scrollDown()
           }

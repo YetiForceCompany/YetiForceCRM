@@ -1,5 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 import unionby from 'lodash.unionby'
+import { mergeDeepReactive } from '../utils/utils.js'
 
 export default {
 	setDialog(state, idOpen) {
@@ -70,7 +71,7 @@ export default {
 		state.data.amountOfNewMessages = val
 	},
 	setAmountOfNewMessagesByRoom(state, val) {
-		state.data.amountOfNewMessagesByRoom = val
+		state.data.roomList = mergeDeepReactive(state.data.roomList, val)
 	},
 	setPinned(state, { roomType, room }) {
 		const roomList = state.data.roomList

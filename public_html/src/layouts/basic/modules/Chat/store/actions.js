@@ -24,7 +24,8 @@ export default {
 				action: 'ChatAjax',
 				mode: 'getChatConfig'
 			}).done(({ result }) => {
-				commit('setConfig', result)
+				commit('setConfig', result.config)
+				commit('setAmountOfNewMessagesByRoom', result.roomList)
 				resolve(result)
 			})
 		})
@@ -166,17 +167,16 @@ export default {
 		})
 	},
 
-	updateAmountOfNewMessages({ commit, getters }, { roomIds, amount }) {
+	updateAmountOfNewMessages({ commit, getters }, { roomList, amount }) {
 		if (amount > getters.data.amountOfNewMessages) {
 			if (getters.isSoundNotification) {
-				for (let roomType in roomIds) {
+				for (let roomType in roomList) {
 					let played = false
-					for (let room in roomIds[roomType]) {
+					for (let room in roomList[roomType]) {
 						if (
-							roomIds[roomType][room] > getters.data.amountOfNewMessagesByRoom[roomType][room] &&
+							roomList[roomType][room].cnt_new_message > getters.data.roomList[roomType][room].cnt_new_message &&
 							!getters.roomSoundNotificationsOff[roomType].includes(parseInt(room))
 						) {
-							console.log(getters.roomSoundNotificationsOff[roomType].includes(parseInt(room)))
 							app.playSound('CHAT')
 							played = true
 							break
@@ -202,7 +202,7 @@ export default {
 		}
 		if (amount !== getters.data.amountOfNewMessages && amount !== undefined) {
 			commit('setAmountOfNewMessages', amount)
-			commit('setAmountOfNewMessagesByRoom', roomIds)
+			commit('setAmountOfNewMessagesByRoom', roomList)
 		}
 	}
 }

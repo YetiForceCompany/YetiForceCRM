@@ -44,11 +44,6 @@ export default {
   },
   methods: {
     ...mapActions(['fetchRoom'])
-  },
-  created() {
-    if (this.tab !== 'chat') {
-      this.fetchRoom({ id: undefined, roomType: undefined })
-    }
   }
 }
 </script>

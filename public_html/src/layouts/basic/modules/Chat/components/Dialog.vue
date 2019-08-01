@@ -100,7 +100,8 @@ export default {
   },
   created() {
     this.fetchChatConfig().then(result => {
-      if (result.isChatAllowed) this.trackNewMessages()
+			console.log(result)
+      if (result.config.isChatAllowed) this.trackNewMessages()
     })
   }
 }
