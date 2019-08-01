@@ -9,8 +9,6 @@
 * Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
-
-
 {if 'test' === \App\Config::main('systemMode')}
 	{$HEADER_MESSAGE}
 	{if $MESSAGE_EXPANDED}
