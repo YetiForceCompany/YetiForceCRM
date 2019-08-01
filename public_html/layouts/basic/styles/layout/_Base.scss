@@ -148,6 +148,8 @@
 	height: 100%;
 	z-index: 11111111111111;
 }
+
 body > .o-exception-fixed-block {
 	position: static;
+	transform: none;
 }
