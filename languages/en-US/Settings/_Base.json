@@ -29,6 +29,8 @@
     "LBL_DEFAULT_MODULE": "Default module",
     "LBL_DELETE_RECORD": "Delete",
     "LBL_DESCRIPTION": "Description",
+    "LBL_DESCRIPTION_VALUE_LIST": "Description that contains information about the status value in the preview header with the \"progress line\" option.",
+    "LBL_DESCRIPTION_PREFIXES": "Sets record numbering prefix assigned to given value after pre-adjusting prefixes for the record in system configuration.",
     "LBL_DISABLED": "Disabled",
     "LBL_EDIT_COMPANY_DETAILS_MESSAGE": "To edit company details, please click on Settings icon > Add/Delete Users > Company ",
     "LBL_EDITING": "Editing",

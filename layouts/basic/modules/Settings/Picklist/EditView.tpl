@@ -55,6 +55,7 @@
 						<div class="form-group row align-items-center">
 							<div class="col-md-3 col-form-label text-right">
 								{\App\Language::translate('LBL_DESCRIPTION',$QUALIFIED_MODULE)}
+								<span class="js-popover-tooltip fas fa-info-circle ml-2" data-js="popover"  data-trigger="hover focus" data-content="{\App\Language::translate('LBL_DESCRIPTION_VALUE_LIST', $QUALIFIED_MODULE)}" data-original-title="" title=""></span>
 							</div>
 							<div class="col-md-9 controls">
 								<textarea class="form-control js-editor" name="description"
@@ -68,6 +69,7 @@
 						<div class="form-group row align-items-center">
 							<div class="col-md-3 col-form-label text-right">
 								{\App\Language::translate('LBL_PREFIX',$QUALIFIED_MODULE)}
+								<span class="js-popover-tooltip fas fa-info-circle ml-2" data-js="popover"  data-trigger="hover focus" data-content="{\App\Language::translate('LBL_DESCRIPTION_PREFIXES', $QUALIFIED_MODULE)}" data-original-title="" title=""></span>
 							</div>
 							<div class="col-md-9 controls">
 								<input name="prefix" type="text"
