@@ -103,13 +103,11 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	 */
 	public function getSymbolByRecordId(int $recordId): string
 	{
-		if ($currencyId = \App\Fields\Currency::getCurrencyByModule($recordId, $this->getFieldModel()->getModuleName())) {
-			$currency = $currencyId;
-		} else {
-			$userModel = \App\User::getCurrentUserModel();
-			$currency = $userModel->getDetail('currency_id');
+		$currencyId = \App\Fields\Currency::getCurrencyByModule($recordId, $this->getFieldModel()->getModuleName());
+		if (!$currencyId) {
+			$currencyId = \App\User::getCurrentUserModel()->getDetail('currency_id');
 		}
-		return \App\Fields\Currency::getById($currency)['currency_symbol'];
+		return \App\Fields\Currency::getById($currencyId)['currency_symbol'];
 	}
 
 	/**

@@ -47,7 +47,12 @@
 				{assign var="DISPLAY_FIELD_VALUE" value=$FIELD_VALUE}
 				{if $SYMBOL_PLACEMENT neq '1.0$'}
 				{if !empty($RECORD_ID)}
-						{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$FIELD_MODEL->getUITypeModel()->getSymbolByRecordId($RECORD_ID)}
+						{assign var="CURRENCY_ID" value=\App\Fields\Currency::getCurrencyByModule($RECORD_ID, $MODULE)}
+						{if empty($CURRENCY_ID)}
+							{assign var="CURRENCY_ID" value=\App\User::getCurrentUserModel()->getDetail('currency_id')};
+						{/if}
+						{assign var="CURRENCY" value=\App\Fields\Currency::getById($CURRENCY_ID)}
+						{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$CURRENCY['currency_symbol']}
 					{else}
 						{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$USER_MODEL->get('currency_symbol')}
 					{/if}
@@ -61,7 +66,12 @@
 							   {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} />
 				{if $SYMBOL_PLACEMENT eq '1.0$'}
 					{if !empty($RECORD_ID)}
-						{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$FIELD_MODEL->getUITypeModel()->getSymbolByRecordId($RECORD_ID)}
+						{assign var="CURRENCY_ID" value=\App\Fields\Currency::getCurrencyByModule($RECORD_ID, $MODULE)}
+						{if empty($CURRENCY_ID)}
+							{assign var="CURRENCY_ID" value=\App\User::getCurrentUserModel()->getDetail('currency_id')};
+						{/if}
+						{assign var="CURRENCY" value=\App\Fields\Currency::getById($CURRENCY_ID)}
+						{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$CURRENCY['currency_symbol']}
 					{else}
 						{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$USER_MODEL->get('currency_symbol')}
 					{/if}
