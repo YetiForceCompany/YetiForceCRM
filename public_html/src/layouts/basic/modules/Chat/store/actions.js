@@ -166,15 +166,23 @@ export default {
 		})
 	},
 
-	updateAmountOfNewMessages({ commit, getters }, newMessages) {
-		if (newMessages > getters.data.amountOfNewMessages) {
+	updateAmountOfNewMessages({ commit, getters }, { roomIds, amount }) {
+		if (amount > getters.data.amountOfNewMessages) {
 			if (getters.isSoundNotification) {
-				app.playSound('CHAT')
+				for (let room in roomIds) {
+					console.log(room)
+					let soundAllowed = roomIds[room].filter(x => !getters.roomSoundNotificationsOff[room].includes(x))
+					if (soundAllowed.length) {
+						console.log(soundAllowed)
+						app.playSound('CHAT')
+						break
+					}
+				}
 			}
 			if (getters.isDesktopNotification && !PNotify.modules.Desktop.checkPermission()) {
 				let message = app.vtranslate('JS_CHAT_NEW_MESSAGE')
 				if (getters.config.showNumberOfNewMessages) {
-					message += ' ' + newMessages
+					message += ' ' + amount
 				}
 				app.showNotify(
 					{
@@ -186,8 +194,9 @@ export default {
 				)
 			}
 		}
-		if (newMessages !== getters.data.amountOfNewMessages && newMessages !== undefined) {
-			commit('setAmountOfNewMessages', newMessages)
+		if (amount !== getters.data.amountOfNewMessages && amount !== undefined) {
+			commit('setAmountOfNewMessages', amount)
+			commit('setAmountOfNewMessagesByRoom', roomIds)
 		}
 	}
 }

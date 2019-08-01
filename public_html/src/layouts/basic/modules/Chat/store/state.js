@@ -27,6 +27,11 @@ export default {
 	},
 	data: {
 		amountOfNewMessages: 0,
+		amountOfNewMessagesByRoom: {
+			crm: [],
+			global: [],
+			group: []
+		},
 		chatEntries: [],
 		currentRoom: {},
 		roomList: {},

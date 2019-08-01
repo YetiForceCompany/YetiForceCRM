@@ -69,6 +69,9 @@ export default {
 	setAmountOfNewMessages(state, val) {
 		state.data.amountOfNewMessages = val
 	},
+	setAmountOfNewMessagesByRoom(state, val) {
+		state.data.amountOfNewMessagesByRoom = val
+	},
 	setPinned(state, { roomType, room }) {
 		const roomList = state.data.roomList
 		switch (roomType) {

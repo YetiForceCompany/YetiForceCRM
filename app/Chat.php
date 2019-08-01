@@ -316,20 +316,24 @@ final class Chat
 	/**
 	 * Rerun the number of new messages.
 	 *
-	 * @return int
+	 * @return array
 	 */
-	public static function getNumberOfNewMessages(): int
+	public static function getNumberOfNewMessages(): array
 	{
 		$numberOfNewMessages = 0;
 		$roomInfo = static::getRoomsByUser();
+		$roomIds = [];
 		foreach (['crm', 'group', 'global'] as $roomType) {
-			foreach ($roomInfo[$roomType] as $item) {
-				if (isset($item['cnt_new_message'])) {
-					$numberOfNewMessages += $item['cnt_new_message'];
+			foreach ($roomInfo[$roomType] as $room) {
+				if (isset($room['cnt_new_message'])) {
+					$numberOfNewMessages += $room['cnt_new_message'];
+					if ($room['cnt_new_message']) {
+						$roomIds[$roomType][] = [$room['recordid'] => $room['cnt_new_message']];
+					}
 				}
 			}
 		}
-		return $numberOfNewMessages;
+		return ['roomIds' => $roomIds, 'amount' => $numberOfNewMessages];
 	}
 
 	/**
@@ -590,7 +594,8 @@ final class Chat
 		$query = (new Db\Query())
 			->select([
 				'id', 'messages', 'userid', 'created',
-				'recordid' => "GL.{$columnMessage}", 'room_name' => "RN.{$columnRoomName}"])
+				'recordid' => "GL.{$columnMessage}", 'room_name' => "RN.{$columnRoomName}"
+			])
 			->from(['GL' => static::TABLE_NAME['message'][$roomType]])
 			->leftJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$roomNameId} = GL.{$columnMessage}")
 			->where(['userid' => $this->userId])
