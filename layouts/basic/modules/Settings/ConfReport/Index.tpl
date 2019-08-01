@@ -15,6 +15,9 @@
 			{/if}
 		{/if}
 	{/function}
+	{function HIGHLIGHT_ROW ITEM=[]}
+		{if !$ITEM['status'] && empty($ITEM['only_info'])}class="table-danger"{/if}
+	{/function}
 	<div>
 		<div class="o-breadcrumb widget_header mb-2 d-flex px-2 row">
 			<div class="o-breadcrumb__container flex-md-wrap">
@@ -63,7 +66,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['libraries'] key=KEY item=ITEM}
-						<tr {if !$ITEM['status']}class="table-danger"{/if}>
+						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
@@ -126,7 +129,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['performance'] key=KEY item=ITEM}
-						<tr {if !$ITEM['status']}class="table-danger"{/if}>
+						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
@@ -179,7 +182,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['publicDirectoryAccess'] key=KEY item=ITEM}
-						<tr {if !$ITEM['status']}class="table-danger"{/if}>
+						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
@@ -214,12 +217,16 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['functionalVerification'] key=KEY item=ITEM}
-						<tr {if !$ITEM['status']}class="table-danger"{/if}>
+						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
-							<td>
-								{$ITEM['www']}
+							<td class="text-capitalize">
+								{if empty($ITEM['only_info'])}
+									{$ITEM['www']}
+								{else}
+									<u>{$ITEM['www']}</u>
+								{/if}
 							</td>
 						</tr>
 					{/foreach}
@@ -251,7 +258,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['stability'] key=KEY item=ITEM}
-						<tr {if !$ITEM['status']}class="table-danger"{/if}>
+						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
@@ -308,7 +315,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['environment'] key=KEY item=ITEM}
-						<tr {if !$ITEM['status']}class="table-danger"{/if}>
+						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
@@ -358,7 +365,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['writableFilesAndFolders'] key=KEY item=ITEM}
-						<tr {if !$ITEM['status']}class="table-danger"{/if}>
+						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
@@ -410,7 +417,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['security'] key=KEY item=ITEM}
-						<tr {if !$ITEM['status']}class="table-danger"{/if}>
+						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
@@ -467,7 +474,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['database'] key=KEY item=ITEM}
-						<tr {if !$ITEM['status']}class="table-danger"{/if}>
+						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
