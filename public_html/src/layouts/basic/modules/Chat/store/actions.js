@@ -169,14 +169,20 @@ export default {
 	updateAmountOfNewMessages({ commit, getters }, { roomIds, amount }) {
 		if (amount > getters.data.amountOfNewMessages) {
 			if (getters.isSoundNotification) {
-				for (let room in roomIds) {
-					console.log(room)
-					let soundAllowed = roomIds[room].filter(x => !getters.roomSoundNotificationsOff[room].includes(x))
-					if (soundAllowed.length) {
-						console.log(soundAllowed)
-						app.playSound('CHAT')
-						break
+				for (let roomType in roomIds) {
+					let played = false
+					for (let room in roomIds[roomType]) {
+						if (
+							roomIds[roomType][room] > getters.data.amountOfNewMessagesByRoom[roomType][room] &&
+							!getters.roomSoundNotificationsOff[roomType].includes(parseInt(room))
+						) {
+							console.log(getters.roomSoundNotificationsOff[roomType].includes(parseInt(room)))
+							app.playSound('CHAT')
+							played = true
+							break
+						}
 					}
+					if (played) break
 				}
 			}
 			if (getters.isDesktopNotification && !PNotify.modules.Desktop.checkPermission()) {

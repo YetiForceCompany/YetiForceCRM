@@ -328,7 +328,7 @@ final class Chat
 				if (isset($room['cnt_new_message'])) {
 					$numberOfNewMessages += $room['cnt_new_message'];
 					if ($room['cnt_new_message']) {
-						$roomIds[$roomType][] = [$room['recordid'] => $room['cnt_new_message']];
+						$roomIds[$roomType][$room['recordid']] = $room['cnt_new_message'];
 					}
 				}
 			}
