@@ -179,6 +179,8 @@ export default {
 				)
 			}
 		}
-		commit('setAmountOfNewMessages', newMessages)
+		if (newMessages !== getters.data.amountOfNewMessages && newMessages !== undefined) {
+			commit('setAmountOfNewMessages', newMessages)
+		}
 	}
 }

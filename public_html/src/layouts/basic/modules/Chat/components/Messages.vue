@@ -15,7 +15,7 @@
         <transition :key="row.id" appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
           <q-chat-message
             :key="row.id"
-            :name="row.user_name"
+            :name="header ? header(row) : row.user_name"
             :stamp="row.created"
             :avatar="row.img"
             :text="[row.messages]"
@@ -41,6 +41,9 @@ export default {
     fetchingEarlier: {
       type: Boolean,
       default: false
+    },
+    header: {
+      type: Function
     }
   },
   data() {
@@ -49,7 +52,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['data']),
+    ...mapGetters(['data', 'historyTab']),
     areEntries() {
       return this.data.chatEntries === undefined ? true : this.data.chatEntries.length
     }

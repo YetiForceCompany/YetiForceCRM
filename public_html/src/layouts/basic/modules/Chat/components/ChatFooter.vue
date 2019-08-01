@@ -4,11 +4,19 @@
     <q-bar>
       <q-breadcrumbs>
         <q-breadcrumbs-el class="text-white">
-          <icon class="q-breadcrumbs__el-icon q-breadcrumbs__el-icon--with-label q-icon" :icon="currentTab.icon" :size="currentTab.icon.startsWith('yfi') ? '16px' : ''" />
+          <icon
+            class="q-breadcrumbs__el-icon q-breadcrumbs__el-icon--with-label q-icon"
+            :icon="currentTab.icon"
+            :size="currentTab.icon.startsWith('yfi') ? '16px' : ''"
+          />
           {{ currentTab.label }}
         </q-breadcrumbs-el>
         <q-breadcrumbs-el v-if="tab !== 'unread'" class="text-white">
-					<icon class="q-breadcrumbs__el-icon q-breadcrumbs__el-icon--with-label q-icon" :icon="roomType.icon" size="16px" />
+          <icon
+            class="q-breadcrumbs__el-icon q-breadcrumbs__el-icon--with-label q-icon"
+            :icon="roomType.icon"
+            size="16px"
+          />
           {{ roomType.label }}
         </q-breadcrumbs-el>
         <q-breadcrumbs-el v-if="tab === 'chat'" class="text-white text-cyan-9 text-bold" :label="roomName" />
@@ -60,12 +68,9 @@ export default {
     },
     roomName() {
       let roomName = ''
-      if (this.tab === 'chat' && this.data.currentRoom !== undefined && this.data.currentRoom.roomType !== undefined) {
-        this.data.roomList[this.data.currentRoom.roomType].forEach(room => {
-          if (room.recordid === this.data.currentRoom.recordId) {
-            roomName = room.name
-          }
-        })
+      const currentRoom = this.data.currentRoom
+      if (this.tab === 'chat' && currentRoom !== undefined && currentRoom.roomType !== undefined) {
+        roomName = this.data.roomList[currentRoom.roomType][currentRoom.recordId].name
       }
       return roomName
     }

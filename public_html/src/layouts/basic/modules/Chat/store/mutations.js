@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+import unionby from 'lodash.unionby'
+
 export default {
 	setDialog(state, idOpen) {
 		state.session.dialog = idOpen
@@ -45,7 +47,7 @@ export default {
 		state.data.participants = data.participants
 	},
 	updateChat(state, data) {
-		state.data.chatEntries = [...state.data.chatEntries, ...data.chatEntries]
+		state.data.chatEntries = unionby(state.data.chatEntries, data.chatEntries, 'id')
 		state.data.participants = data.participants
 		state.data.roomList = data.roomList
 	},

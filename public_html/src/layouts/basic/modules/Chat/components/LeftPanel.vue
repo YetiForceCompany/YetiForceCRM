@@ -12,7 +12,7 @@
         </template>
       </q-input>
       <div class="" v-for="(roomGroup, roomType) of roomList" :key="roomType" :style="{ fontSize: fontSize }">
-        <q-list v-if="roomGroup.length" dense class="q-mb-none">
+        <q-list v-if="Object.entries(roomGroup).length" dense class="q-mb-none">
           <q-item-label class="flex items-center text-bold text-muted q-py-sm q-px-md">
             <q-item-section avatar>
               <icon :icon="getGroupIcon(roomType)" :size="fontSize" />
@@ -38,12 +38,12 @@
               </q-icon>
             </div>
           </q-item-label>
-          <template v-for="room of roomGroup">
+          <template v-for="(room, roomId) of roomGroup">
             <q-item
               v-show="roomType === 'group' ? room.isPinned || showAllGroups || filterRooms.length : true"
               clickable
               v-ripple
-              :key="room.name"
+              :key="roomId"
               class="q-pl-sm"
               :active="data.currentRoom.recordId === room.recordid"
               active-class="bg-teal-1 text-grey-8"
@@ -93,7 +93,9 @@
                       color="primary"
                       :icon="room.isPinned || roomType === 'crm' ? 'mdi-pin' : 'mdi-pin-off'"
                     >
-                      <q-tooltip>{{ translate(room.isPinned ? 'JS_CHAT_UNPIN' : 'JS_CHAT_PIN') }}</q-tooltip>
+                      <q-tooltip>{{
+                        translate(room.isPinned || roomType === 'crm' ? 'JS_CHAT_UNPIN' : 'JS_CHAT_PIN')
+                      }}</q-tooltip>
                     </q-btn>
                   </div>
                 </div>
@@ -123,9 +125,12 @@ export default {
   computed: {
     ...mapGetters(['leftPanel', 'data', 'tab']),
     areUnpinned() {
-      return this.data.roomList.group.some(element => {
-        return !element.isPinned
-      })
+      for (let room in this.data.roomList.group) {
+        if (!this.data.roomList.group[room].isPinned) {
+          return true
+        }
+      }
+      return false
     },
     roomList() {
       if (this.filterRooms === '') {

@@ -24,7 +24,7 @@ import ChatTab from './ChatTab.vue'
 import Unread from './Unread.vue'
 import History from './History.vue'
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters } = createNamespacedHelpers('Chat')
+const { mapGetters, mapActions } = createNamespacedHelpers('Chat')
 
 export default {
   name: 'MainPanel',
@@ -40,6 +40,14 @@ export default {
   watch: {
     tab() {
       this.isLoading = true
+    }
+  },
+  methods: {
+    ...mapActions(['fetchRoom'])
+  },
+  created() {
+    if (this.tab !== 'chat') {
+      this.fetchRoom({ id: undefined, roomType: undefined })
     }
   }
 }
