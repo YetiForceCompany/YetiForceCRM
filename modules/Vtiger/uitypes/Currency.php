@@ -95,22 +95,6 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Get currency symbol by record ID.
-	 *
-	 * @param int $recordId
-	 *
-	 * @return string
-	 */
-	public function getSymbolByRecordId(int $recordId): string
-	{
-		$currencyId = \App\Fields\Currency::getCurrencyByModule($recordId, $this->getFieldModel()->getModuleName());
-		if (!$currencyId) {
-			$currencyId = \App\User::getCurrentUserModel()->getDetail('currency_id');
-		}
-		return \App\Fields\Currency::getById($currencyId)['currency_symbol'];
-	}
-
-	/**
 	 * {@inheritdoc}
 	 */
 	public function getTemplateName()
