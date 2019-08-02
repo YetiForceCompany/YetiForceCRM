@@ -56,7 +56,7 @@ export default {
     areEntries() {
       return this.data.chatEntries === undefined ? true : this.data.chatEntries.length
     }
-  }
+	}
 }
 </script>
 <style lang="sass">

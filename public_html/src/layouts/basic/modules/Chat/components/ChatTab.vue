@@ -58,7 +58,9 @@ export default {
   },
   watch: {
     data() {
-      this.scrollDown()
+			this.$nextTick(function () {
+      	this.scrollDown()
+			})
     }
   },
   methods: {
@@ -119,18 +121,16 @@ export default {
     },
     scrollDown() {
       this.scrollbarHidden = true
-      this.$refs.scrollContainer.setScrollPosition(this.$refs.messagesContainer.$el.clientHeight, 500)
-      setTimeout(() => {
-        this.scrollbarHidden = false
-      }, 1800)
+			this.$refs.scrollContainer.setScrollPosition(this.$refs.messagesContainer.$el.clientHeight)
+			this.scrollbarHidden = false
     }
   },
   mounted() {
     this.fetchRoom({ id: undefined, roomType: undefined }).then(e => {
-      this.scrollDown()
+			this.scrollDown()
       this.$emit('onContentLoaded', true)
       this.fetchNewMessages()
-    })
+		})
   },
   beforeDestroy() {
     clearTimeout(this.timerMessage)
