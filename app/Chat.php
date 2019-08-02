@@ -325,11 +325,9 @@ final class Chat
 		$roomList = [];
 		foreach (['crm', 'group', 'global'] as $roomType) {
 			foreach ($roomInfo[$roomType] as $room) {
-				if (isset($room['cnt_new_message'])) {
+				if (!empty($room['cnt_new_message'])) {
 					$numberOfNewMessages += $room['cnt_new_message'];
-					if ($room['cnt_new_message']) {
-						$roomList[$roomType][$room['recordid']]['cnt_new_message'] = $room['cnt_new_message'];
-					}
+					$roomList[$roomType][$room['recordid']]['cnt_new_message'] = $room['cnt_new_message'];
 				}
 			}
 		}

@@ -98,7 +98,7 @@
                       }}</q-tooltip>
                     </q-btn>
 										<q-btn
-											@click.stop="toggleSoundNotification({roomType, id: room.recordid})"
+											@click.stop="toggleRoomSoundNotification({roomType, id: room.recordid})"
 											dense
                       round
                       flat
@@ -158,7 +158,7 @@ export default {
   },
   methods: {
     ...mapMutations(['setLeftPanel']),
-    ...mapActions(['fetchRoom', 'togglePinned', 'toggleSoundNotification']),
+    ...mapActions(['fetchRoom', 'togglePinned', 'toggleRoomSoundNotification']),
     getGroupIcon,
     filterRoomByName(room) {
       return room.name.toLowerCase().includes(this.filterRooms.toLowerCase())
