@@ -24,6 +24,9 @@ export default {
 	coordinates(state) {
 		return state.session.coordinates
 	},
+	buttonCoordinates(state) {
+		return state.session.buttonCoordinates
+	},
 	isSoundNotification(state) {
 		return state.local.isSoundNotification === null
 			? state.config.isDefaultSoundNotification

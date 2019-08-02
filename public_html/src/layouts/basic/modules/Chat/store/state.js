@@ -13,6 +13,10 @@ export default {
 			height: window.innerHeight - 160,
 			top: 60,
 			left: window.innerWidth - 450
+		},
+		buttonCoordinates: {
+			top: window.innerHeight - 82,
+			left: window.innerWidth - 62
 		}
 	},
 	local: {

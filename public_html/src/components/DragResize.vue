@@ -41,8 +41,6 @@
 
 <script>
 import VueDragResize from '~/node_modules/vue-drag-resize/src/components/vue-drag-resize.vue'
-import { createNamespacedHelpers } from 'vuex'
-const { mapGetters } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'DragResize',
   components: { VueDragResize },

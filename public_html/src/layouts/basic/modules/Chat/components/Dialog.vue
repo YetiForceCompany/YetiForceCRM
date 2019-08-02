@@ -1,24 +1,34 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <div v-if="config.isChatAllowed">
-    <transition :enter-active-class="buttonAnimationClasses" mode="out-in">
-      <q-btn
-        round
-        color="primary"
-        class="glossy"
-        @click="dialog = !dialog"
-        ref="chatBtn"
-        :key="data.amountOfNewMessages"
-      >
-        <icon icon="yfi-branding-chat" />
-        <q-badge v-if="config.showNumberOfNewMessages" v-show="data.amountOfNewMessages > 0" color="danger" floating>
-          <div>
-            {{ data.amountOfNewMessages }}
-          </div>
-        </q-badge>
-      </q-btn>
-    </transition>
-
+    <div class="drag-area">
+      <drag :coordinates.sync="buttonCoordinates">
+        <transition :enter-active-class="buttonAnimationClasses" mode="out-in">
+          <q-btn
+            round
+            color="primary"
+            class="glossy"
+						@mouseup="showDialog"
+						@touchend="showDialog"
+            ref="chatBtn"
+            :key="data.amountOfNewMessages"
+            style="z-index: 99999999999;"
+          >
+            <icon icon="yfi-branding-chat" />
+            <q-badge
+              v-if="config.showNumberOfNewMessages"
+              v-show="data.amountOfNewMessages > 0"
+              color="danger"
+              floating
+            >
+              <div>
+                {{ data.amountOfNewMessages }}
+              </div>
+            </q-badge>
+          </q-btn>
+        </transition>
+      </drag>
+    </div>
     <q-dialog
       v-model="dialog"
       seamless
@@ -35,16 +45,19 @@
 </template>
 <script>
 import Chat from './Chat.vue'
+import Drag from 'components/Drag.vue'
 import DragResize from 'components/DragResize.vue'
 
+import isEqual from 'lodash.isequal'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'Dialog',
-  components: { Chat, DragResize },
+  components: { Chat, DragResize, Drag },
   data() {
     return {
-      timerGlobal: null
+			timerGlobal: null,
+			dragging: false
     }
   },
   computed: {
@@ -65,6 +78,17 @@ export default {
         this.setCoordinates(coords)
       }
     },
+    buttonCoordinates: {
+      get() {
+        return this.$store.getters['Chat/buttonCoordinates']
+      },
+      set(coords) {
+				if (!isEqual(coords ,{...this.$store.getters['Chat/buttonCoordinates']})) {
+					this.dragging = true
+					this.setButtonCoordinates(coords)
+				}
+      }
+    },
     computedMiniMode() {
       return this.$q.platform.is.desktop ? this.miniMode : false
     },
@@ -83,7 +107,7 @@ export default {
   },
   methods: {
     ...mapActions(['fetchChatConfig', 'updateAmountOfNewMessages']),
-    ...mapMutations(['setDialog', 'setCoordinates']),
+    ...mapMutations(['setDialog', 'setCoordinates', 'setButtonCoordinates']),
     initTimer() {
       this.timerGlobal = setTimeout(this.trackNewMessages, this.config.refreshTimeGlobal)
     },
@@ -96,7 +120,15 @@ export default {
         this.updateAmountOfNewMessages(result)
         this.initTimer()
       })
-    }
+		},
+		showDialog() {
+			setTimeout(_ => {
+				if (!this.dragging) {
+					this.dialog = !this.dialog
+				}
+				this.dragging = false
+			}, 300)
+		}
   },
   created() {
     this.fetchChatConfig().then(result => {
@@ -105,4 +137,12 @@ export default {
   }
 }
 </script>
-<style module lang="stylus"></style>
+<style scoped>
+.drag-area {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+</style>

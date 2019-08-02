@@ -30,6 +30,9 @@ export default {
 	setCoordinates(state, val) {
 		state.session.coordinates = val
 	},
+	setButtonCoordinates(state, val) {
+		state.session.buttonCoordinates = val
+	},
 	setSendByEnter(state, val) {
 		state.local.sendByEnter = val
 	},
