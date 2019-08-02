@@ -251,7 +251,15 @@
 										value="openTicket"
 										{if $WIDGET_CFG['emailsearch']['changeTicketStatus'] eq 'openTicket'}checked
 										data-active="1"{/if}>
-								<strong>{\App\Language::translate('LBL_OPEN_TICKET', 'OSSMailScanner')}</strong>
+								<strong>
+									{assign var="TICKET_STATUS" value=\App\Config::component('Mail', 'HELPDESK_OPENTICKET_STATUS')}
+									{\App\Language::translate('LBL_OPEN_TICKET_AND_SET', 'OSSMailScanner')}
+									"{\App\Language::translate($TICKET_STATUS, 'OSSMailScanner')}"
+									{\App\Language::translate('LBL_STATUS', 'OSSMailScanner')}
+								</strong>
+								{if empty($TICKET_STATUS) }
+									<strong class="color-red-a200">{\App\Language::translate('LBL_EMPTY_PARAMETER', 'OSSMailScanner')}</strong>
+								{/if}
 							</label>
 						</div>
 						<div class="radio">
