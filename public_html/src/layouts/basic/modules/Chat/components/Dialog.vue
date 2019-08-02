@@ -121,10 +121,12 @@ export default {
       })
 		},
 		showDialog() {
-			if (!this.dragging) {
-				this.dialog = !this.dialog
-			}
-			this.dragging = false
+			setTimeout(_ => {
+				if (!this.dragging) {
+					this.dialog = !this.dialog
+				}
+				this.dragging = false
+			}, 300)
 		}
   },
   created() {
