@@ -48,7 +48,6 @@
 								<div class="col-sm-9">
 									<select class="select2 form-control" id="company-industry" name="company_industry"
 											data-validation-engine="validate[required]">
-										<option value="{$ITEM}">{App\Language::translate($ITEM)}</option>
 										{foreach from=Install_Utils_Model::getIndustryList() item=ITEM}
 											<option value="{$ITEM}">{App\Language::translate($ITEM)}</option>
 										{/foreach}
