@@ -122,8 +122,9 @@ export default {
     scrollDown() {
       this.scrollbarHidden = true
 			this.$refs.scrollContainer.setScrollPosition(this.$refs.messagesContainer.$el.clientHeight)
-			this.scrollbarHidden = false
-    }
+      setTimeout(() => {
+        this.scrollbarHidden = false
+      }, 1800)    }
   },
   mounted() {
     this.fetchRoom({ id: undefined, roomType: undefined }).then(e => {
