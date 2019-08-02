@@ -56,7 +56,7 @@
     "Search email configuration": "Search email configuration",
     "LBL_EMPTY_PARAMETER": "The parameter in the configuration is empty",
     "LBL_TICKET_REOPEN": "Create/Open ticket",
-    "LBL_OPEN_TICKET": "Open ticket and set status: ",
+    "LBL_OPEN_TICKET": "Open ticket and set status",
     "LBL_CREATE_TICKET": "Create new ticket",
     "LBL_NO_ACTION": "Relate to current ticket (if relating action is added)",
     "LBL_CONFTAB_CHANGE_TICKET_STATUS": "What should the scanner do when we receive a mail regarding a ticket that has been closed?",
