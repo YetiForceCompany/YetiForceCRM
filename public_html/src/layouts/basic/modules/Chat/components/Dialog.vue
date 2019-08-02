@@ -8,10 +8,10 @@
             round
             color="primary"
             class="glossy"
-            @click="dialog = !dialog"
+						@mouseup="showDialog"
             ref="chatBtn"
             :key="data.amountOfNewMessages"
-            style="z-index: 222222222222;"
+            style="z-index: 99999999999;"
           >
             <icon icon="yfi-branding-chat" />
             <q-badge
@@ -47,6 +47,7 @@ import Chat from './Chat.vue'
 import Drag from 'components/Drag.vue'
 import DragResize from 'components/DragResize.vue'
 
+import isEqual from 'lodash.isequal'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
@@ -54,7 +55,8 @@ export default {
   components: { Chat, DragResize, Drag },
   data() {
     return {
-      timerGlobal: null
+			timerGlobal: null,
+			dragging: false
     }
   },
   computed: {
@@ -80,7 +82,10 @@ export default {
         return this.$store.getters['Chat/buttonCoordinates']
       },
       set(coords) {
-        this.setButtonCoordinates(coords)
+				if (!isEqual(coords ,{...this.$store.getters['Chat/buttonCoordinates']})) {
+					this.dragging = true
+					this.setButtonCoordinates(coords)
+				}
       }
     },
     computedMiniMode() {
@@ -114,7 +119,13 @@ export default {
         this.updateAmountOfNewMessages(result)
         this.initTimer()
       })
-    }
+		},
+		showDialog() {
+			if (!this.dragging) {
+				this.dialog = !this.dialog
+			}
+			this.dragging = false
+		}
   },
   created() {
     this.fetchChatConfig().then(result => {

@@ -18300,14 +18300,6 @@ input[type="checkbox"][disabled] {
       border-radius: 0.25rem !important;
       white-space: normal; } }
 
-.c-btn-fixed {
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  z-index: 2000;
-  padding-right: 1.25rem;
-  padding-bottom: 0.625rem; }
-
 .input-group > .input-group-append > .btn-light,
 .input-group > .input-group-prepend > .btn-light {
   border-color: #dee2e6; }

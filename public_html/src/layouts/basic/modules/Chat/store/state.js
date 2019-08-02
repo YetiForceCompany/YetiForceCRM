@@ -15,8 +15,8 @@ export default {
 			left: window.innerWidth - 450
 		},
 		buttonCoordinates: {
-			top: 50,
-			left: window.innerWidth - 50
+			top: window.innerHeight - 82,
+			left: window.innerWidth - 62
 		}
 	},
 	local: {
