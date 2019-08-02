@@ -55,7 +55,7 @@ class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('EMAILSEARCHLIST', $emailSearchList);
 		$viewer->assign('RECORDNUMBERING', $numbering);
 		$viewer->assign('ERRORNOMODULE', !$mailModuleActive);
-		$viewer->assign('MODULENAME', $moduleName);
+		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IDENTITYLIST', $identityList);
 		$viewer->assign('CHECKCRON', $checkCron);
 		echo $viewer->view('Index.tpl', $request->getModule(false), true);

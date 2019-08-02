@@ -253,12 +253,11 @@
 										data-active="1"{/if}>
 								<strong>
 									{assign var="TICKET_STATUS" value=\App\Config::component('Mail', 'HELPDESK_OPENTICKET_STATUS')}
-									{\App\Language::translate('LBL_OPEN_TICKET_AND_SET', 'OSSMailScanner')}
-									"{\App\Language::translate($TICKET_STATUS, 'OSSMailScanner')}"
-									{\App\Language::translate('LBL_STATUS', 'OSSMailScanner')}
+									{\App\Language::translate('LBL_OPEN_TICKET_AND_SET', $MODULE_NAME)}
+									"{\App\Language::translate($TICKET_STATUS, $MODULE_NAME)}"
 								</strong>
 								{if empty($TICKET_STATUS) }
-									<strong class="color-red-a200">{\App\Language::translate('LBL_EMPTY_PARAMETER', 'OSSMailScanner')}</strong>
+									<strong class="color-red-a200">{\App\Language::translate('LBL_EMPTY_PARAMETER', $MODULE_NAME)}</strong>
 								{/if}
 							</label>
 						</div>
