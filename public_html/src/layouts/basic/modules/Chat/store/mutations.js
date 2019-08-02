@@ -1,5 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 import unionby from 'lodash.unionby'
+import { mergeDeepReactive } from '../utils/utils.js'
 
 export default {
 	setDialog(state, idOpen) {
@@ -35,6 +36,14 @@ export default {
 	setSoundNotification(state, val) {
 		state.local.isSoundNotification = val
 	},
+	removeRoomSoundNotificationsOff(state, { roomType, id }) {
+		state.local.roomSoundNotificationsOff[roomType] = state.local.roomSoundNotificationsOff[roomType].filter(
+			item => item !== id
+		)
+	},
+	addRoomSoundNotificationsOff(state, { roomType, id }) {
+		state.local.roomSoundNotificationsOff[roomType].push(id)
+	},
 	setDesktopNotification(state, val) {
 		state.local.isDesktopNotification = val
 	},
@@ -60,6 +69,9 @@ export default {
 	},
 	setAmountOfNewMessages(state, val) {
 		state.data.amountOfNewMessages = val
+	},
+	setAmountOfNewMessagesByRoom(state, val) {
+		state.data.roomList = mergeDeepReactive(state.data.roomList, val)
 	},
 	setPinned(state, { roomType, room }) {
 		const roomList = state.data.roomList

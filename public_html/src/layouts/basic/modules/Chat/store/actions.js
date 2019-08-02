@@ -10,6 +10,13 @@ export default {
 	toggleRightPanel({ commit, getters }) {
 		commit('setRightPanel', !getters['rightPanel'])
 	},
+	toggleRoomSoundNotification({ commit, getters }, { roomType, id }) {
+		if (getters.roomSoundNotificationsOff[roomType].includes(id)) {
+			commit('removeRoomSoundNotificationsOff', { roomType, id })
+		} else {
+			commit('addRoomSoundNotificationsOff', { roomType, id })
+		}
+	},
 	fetchChatConfig({ commit }) {
 		return new Promise((resolve, reject) => {
 			AppConnector.request({
@@ -17,7 +24,8 @@ export default {
 				action: 'ChatAjax',
 				mode: 'getChatConfig'
 			}).done(({ result }) => {
-				commit('setConfig', result)
+				commit('setConfig', result.config)
+				commit('setAmountOfNewMessagesByRoom', result.roomList)
 				resolve(result)
 			})
 		})
@@ -159,15 +167,28 @@ export default {
 		})
 	},
 
-	updateAmountOfNewMessages({ commit, getters }, newMessages) {
-		if (newMessages > getters.data.amountOfNewMessages) {
+	updateAmountOfNewMessages({ commit, getters }, { roomList, amount }) {
+		if (amount > getters.data.amountOfNewMessages) {
 			if (getters.isSoundNotification) {
-				app.playSound('CHAT')
+				for (let roomType in roomList) {
+					let played = false
+					for (let room in roomList[roomType]) {
+						if (
+							roomList[roomType][room].cnt_new_message > getters.data.roomList[roomType][room].cnt_new_message &&
+							!getters.roomSoundNotificationsOff[roomType].includes(parseInt(room))
+						) {
+							app.playSound('CHAT')
+							played = true
+							break
+						}
+					}
+					if (played) break
+				}
 			}
 			if (getters.isDesktopNotification && !PNotify.modules.Desktop.checkPermission()) {
 				let message = app.vtranslate('JS_CHAT_NEW_MESSAGE')
 				if (getters.config.showNumberOfNewMessages) {
-					message += ' ' + newMessages
+					message += ' ' + amount
 				}
 				app.showNotify(
 					{
@@ -179,8 +200,9 @@ export default {
 				)
 			}
 		}
-		if (newMessages !== getters.data.amountOfNewMessages && newMessages !== undefined) {
-			commit('setAmountOfNewMessages', newMessages)
+		if (amount !== getters.data.amountOfNewMessages && amount !== undefined) {
+			commit('setAmountOfNewMessages', amount)
+			commit('setAmountOfNewMessagesByRoom', roomList)
 		}
 	}
 }
