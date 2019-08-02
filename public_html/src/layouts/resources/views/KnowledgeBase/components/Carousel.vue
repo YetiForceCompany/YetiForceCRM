@@ -1,4 +1,4 @@
-ArticlesList<!--
+<!--
 /**
  * Carousel component
  *
