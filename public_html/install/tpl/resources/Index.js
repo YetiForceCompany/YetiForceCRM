@@ -174,15 +174,13 @@ jQuery.Class(
 			});
 		},
 		registerEventForStep6: function() {
-			jQuery('input[name="step7"]').on('click', function() {
-				if ($('form[name="step6"]').validationEngine('validate')) {
-					jQuery('#progressIndicator')
-						.show()
-						.removeClass('d-none');
-					jQuery('form[name="step6"]')
-						.submit()
-						.parent()
-						.hide();
+			var form = $('form[name="step6"]');
+			form.on('submit', function() {
+				if (form.validationEngine('validate')) {
+					form.submit();
+					$('.js-submit').attr('disabled', true);
+				} else {
+					app.formAlignmentAfterValidation(form);
 				}
 			});
 		},
