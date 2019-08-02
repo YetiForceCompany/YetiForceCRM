@@ -33,6 +33,20 @@
                   translate(showAllGroups ? 'JS_CHAT_HIDE_UNPINNED' : 'JS_CHAT_SHOW_UNPINNED')
                 }}</q-tooltip>
               </q-btn>
+              <q-btn
+                v-if="roomType === 'crm' && config.dynamicAddingRooms"
+                dense
+                flat
+                round
+								size="xs"
+                color="primary"
+                icon="mdi-magnify"
+                @click="showAddRoomPanel = !showAddRoomPanel"
+              >
+                <q-tooltip>{{
+                  translate(showAllGroups ? 'JS_CHAT_HIDE_UNPINNED' : 'JS_CHAT_SHOW_UNPINNED')
+                }}</q-tooltip>
+              </q-btn>
               <q-icon :size="fontSize" name="mdi-information" class="q-pr-xs">
                 <q-tooltip>{{ translate(`JS_CHAT_ROOM_DESCRIPTION_${roomType.toUpperCase()}`) }}</q-tooltip>
               </q-icon>
@@ -131,11 +145,12 @@ export default {
     return {
       filterRooms: '',
       fontSize: '0.88rem',
-			showAllGroups: false
+			showAllGroups: false,
+			showAddRoomPanel: false
     }
   },
   computed: {
-    ...mapGetters(['leftPanel', 'data', 'tab', 'isSoundNotification', 'roomSoundNotificationsOff']),
+    ...mapGetters(['leftPanel', 'data', 'config', 'tab', 'isSoundNotification', 'roomSoundNotificationsOff']),
     areUnpinned() {
       for (let room in this.data.roomList.group) {
         if (!this.data.roomList.group[room].isPinned) {
