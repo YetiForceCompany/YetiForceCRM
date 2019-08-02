@@ -253,7 +253,7 @@
 										data-active="1"{/if}>
 								<strong>
 									{assign var="TICKET_STATUS" value=\App\Config::component('Mail', 'HELPDESK_OPENTICKET_STATUS')}
-									{\App\Language::translate('LBL_OPEN_TICKET_AND_SET', $MODULE_NAME)}
+									{\App\Language::translate('LBL_OPEN_TICKET', $MODULE_NAME)}
 									"{\App\Language::translate($TICKET_STATUS, $MODULE_NAME)}"
 								</strong>
 								{if empty($TICKET_STATUS) }
