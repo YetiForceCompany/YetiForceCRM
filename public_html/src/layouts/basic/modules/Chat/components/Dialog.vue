@@ -9,6 +9,7 @@
             color="primary"
             class="glossy"
 						@mouseup="showDialog"
+						@touchend="showDialog"
             ref="chatBtn"
             :key="data.amountOfNewMessages"
             style="z-index: 99999999999;"
