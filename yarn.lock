@@ -59,12 +59,13 @@ blueimp-tmpl@3:
   integrity sha512-rzPHcYgZnYmNwtotIUqm7EhYygIasfZOnpmzHU0elGBOLBwkdwpujKEzmdEbawV5xPKpPuux20HYl9dVYCu1rA==
 
 bootbox@^5.1.2:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/bootbox/-/bootbox-5.2.0.tgz#07b14c2addfa4327e8cc58616678394cb8e6fde8"
-  integrity sha512-hEevUk73BtSRwQ3gvFm3Rxgd1SqfslKU/RKvd/G9/ykxnKuHf9a1yNEUso2Lwb7PYtm2OBbiLV3V58+Bk1dxsw==
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/bootbox/-/bootbox-5.3.0.tgz#3dce98a5d028c2a928a221e8b2e14afc0d9876f3"
+  integrity sha512-INjBFCPgUg8rH2/HpW+s9BmZv/ndXdMwfHM2Xc/VIrbm5WiwdXgeK9ifvXtW8MGZwCPQPwrYZ1yQEHLkhHWXaw==
   dependencies:
     bootstrap ">=3.0.0"
-    jquery ">=1.9.1"
+    jquery ">=1.12.0"
+    popper.js ">=1.12.9"
 
 bootstrap-colorpicker@^3.1.2:
   version "3.1.2"
@@ -345,7 +346,7 @@ jquery.class.js@^1.0.0:
   resolved "https://registry.yarnpkg.com/jquery.class.js/-/jquery.class.js-1.0.0.tgz#43616c36d76eff36caf2139ddacda621aa24ed30"
   integrity sha1-Q2FsNtdu/zbK8hOd2s2mIaok7TA=
 
-"jquery@>= 1.7", jquery@>=1.10, jquery@>=1.4.4, jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.2, jquery@>=1.7.x, jquery@>=1.9.1, jquery@>=2.1.0, jquery@^3.1.0, jquery@^3.4.1:
+"jquery@>= 1.7", jquery@>=1.10, jquery@>=1.12.0, jquery@>=1.4.4, jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.2, jquery@>=1.7.x, jquery@>=1.9.1, jquery@>=2.1.0, jquery@^3.1.0, jquery@^3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.4.1.tgz#714f1f8d9dde4bdfa55764ba37ef214630d80ef2"
   integrity sha512-36+AdBzCL+y6qjw5Tx7HgzeGCzC81MDDgaUP8ld2zhx58HdqXGoBd+tHdrBMiyjGQs0Hxs/MLZTu/eHNJJuWPw==
@@ -404,7 +405,7 @@ pnotify@4.0.0:
   resolved "https://registry.yarnpkg.com/pnotify/-/pnotify-4.0.0.tgz#22b29ae91f0f4727cb3caf137411d0e3777a8017"
   integrity sha512-Fs3xlxmnlgXjUdM3xFfImfkLh5RmTgfRyPS5yT43w0OIrVULbGu1g3mpiH9H2nlAZ5dFEJRqh43sQXl/mVW6yA==
 
-popper.js@^1.15.0:
+popper.js@>=1.12.9, popper.js@^1.15.0:
   version "1.15.0"
   resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.15.0.tgz#5560b99bbad7647e9faa475c6b8056621f5a4ff2"
   integrity sha512-w010cY1oCUmI+9KwwlWki+r5jxKfTFDVoadl7MSrIujHU5MJ5OR6HTDj6Xo8aoR/QsA56x8jKjA59qGH4ELtrA==
