@@ -231,10 +231,10 @@ flag-icon-css@^3.3.0:
   resolved "https://registry.yarnpkg.com/flag-icon-css/-/flag-icon-css-3.3.0.tgz#7772461e4480d3d86da5962f02120a2825688433"
   integrity sha512-u5lCGVExrJJRykNGd//ZrBU5Bkt0LTZJFSuG+Az/pwcHgzDeFwomwFbsgVtI1aJd6ysyHsx+5UGrA+nhSGd4yw==
 
-floatthead@^2.1.3:
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/floatthead/-/floatthead-2.1.3.tgz#3e959c51de19672bc75af41be35d538a27e9b7eb"
-  integrity sha512-PglU8Oy6XHyjjZ2g1mu2iZIPIkcf+IkKpB6g12hVY6bXn+2lQj9+BOGMpaMgDKPTfawTAUQKtp7/UMcVs8q/eg==
+floatthead@^2.1.4:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/floatthead/-/floatthead-2.1.4.tgz#3c6678ac6e28e55a5d2f3fc261d33b59210c9827"
+  integrity sha512-ddQOHZGah8zZebLGTxICF1W8T5BiiVQio2ur9lqSIGEUJSa7vb7CI8sVEsXQ+KfXScBQWwI9ViAMFKq9YYlS+w==
 
 fontawesome-web@^5.0.2:
   version "5.0.2"
