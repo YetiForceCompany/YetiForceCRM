@@ -995,4 +995,14 @@ final class Chat
 	{
 		return nl2br(\App\Utils\Completions::decode(\App\Purifier::purifyHtml(\App\Purifier::decodeHtml($message))));
 	}
+
+	/**
+	 * Get chat modules.
+	 *
+	 * @return array
+	 */
+	public static function getChatModules(): array
+	{
+		return array_keys(\App\ModuleHierarchy::getModulesHierarchy());
+	}
 }

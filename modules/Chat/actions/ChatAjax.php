@@ -63,10 +63,11 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 				'refreshTimeGlobal' => \App\Config::module('Chat', 'REFRESH_TIME_GLOBAL'),
 				'showNumberOfNewMessages' => \App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES'),
 				'dynamicAddingRooms' => \App\Config::module('Chat', 'DYNAMIC_ADDING_ROOMS')
-			], 'roomList' => \App\Chat::getRoomsByUser()
+			],
+			'roomList' => \App\Chat::getRoomsByUser()
 		];
 		if ($result['config']['dynamicAddingRooms']) {
-			$result['config']['chatModules'] =  array_keys(\App\ModuleHierarchy::getModulesHierarchy());
+			$result['config']['chatModules'] =  \App\Chat::getChatModules();
 		}
 		$response->setResult($result);
 		$response->emit();
