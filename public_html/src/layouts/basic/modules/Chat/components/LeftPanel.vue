@@ -77,18 +77,17 @@
                     size="0.7rem"
                   />
                   {{ room.name }}
-                  <transition appear enter-active-class="animated flash" mode="out-in">
-                    <q-badge
-                      v-if="room.cnt_new_message !== undefined && room.cnt_new_message > 0"
-                      color="danger"
-                      class="q-mx-xs"
-                      :label="room.cnt_new_message"
-                      :key="room.cnt_new_message"
-                    />
-                  </transition>
                 </div>
                 <div class="flex items-center justify-end no-wrap">
                   <div class="text-no-wrap">
+                    <transition appear enter-active-class="animated flash" mode="out-in">
+                      <q-badge
+                        v-if="room.cnt_new_message !== undefined && room.cnt_new_message > 0"
+                        color="danger"
+                        :label="room.cnt_new_message"
+                        :key="room.cnt_new_message"
+                      />
+                    </transition>
                     <q-btn
                       v-if="roomType === 'crm'"
                       type="a"
