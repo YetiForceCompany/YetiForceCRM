@@ -171,7 +171,7 @@ class WorkFlowScheduler
 				if (\in_array($operation, $this->specialDateTimeOperator())) {
 					$value = $this->parseValueForDate($condition);
 				}
-				$groupJoin = $condition['groupjoin'];
+				$groupId = $condition['groupid'] ?? 0;
 				$operator = $conditionMapping[$operation];
 				$fieldName = $condition['fieldname'];
 				$value = html_entity_decode($value);
@@ -188,10 +188,10 @@ class WorkFlowScheduler
 						'relatedField' => $relatedFieldName,
 						'value' => $value,
 						'operator' => $operator,
-						'conditionGroup' => 'and' === $groupJoin,
+						'conditionGroup' => empty($groupId),
 					]);
 				} else {
-					$queryGenerator->addCondition($fieldName, $value, $operator, 'and' === $groupJoin);
+					$queryGenerator->addCondition($fieldName, $value, $operator, empty($groupId));
 				}
 			}
 		}

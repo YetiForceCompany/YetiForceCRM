@@ -145,8 +145,7 @@ class Workflow
 		if ('' == $this->test) {
 			return true;
 		}
-		$cs = $this->conditionStrategy;
-		return $cs->evaluate($this->test, $recordModel);
+		return $this->conditionStrategy->evaluate($this->test, $recordModel);
 	}
 
 	/**
