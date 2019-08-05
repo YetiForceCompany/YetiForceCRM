@@ -38,20 +38,44 @@
                 dense
                 flat
                 round
-								size="xs"
+                size="sm"
                 color="primary"
-                icon="mdi-magnify"
+                icon="mdi-plus"
                 @click="showAddRoomPanel = !showAddRoomPanel"
               >
-                <q-tooltip>{{
-                  translate(showAllGroups ? 'JS_CHAT_HIDE_UNPINNED' : 'JS_CHAT_SHOW_UNPINNED')
-                }}</q-tooltip>
+                <q-tooltip>{{ translate('JS_CHAT_ADD_FAVOURITE_ROOM_FROM_MODULE') }}</q-tooltip>
               </q-btn>
               <q-icon :size="fontSize" name="mdi-information" class="q-pr-xs">
                 <q-tooltip>{{ translate(`JS_CHAT_ROOM_DESCRIPTION_${roomType.toUpperCase()}`) }}</q-tooltip>
               </q-icon>
             </div>
           </q-item-label>
+          <q-item v-if="roomType === 'crm' && config.dynamicAddingRooms" v-show="showAddRoomPanel">
+            <q-select
+              dense
+              v-model="selectModule"
+              use-input
+              fill-input
+              hide-selected
+              input-debounce="0"
+              :options="searchModules"
+              :label="translate('JS_CHAT_ADD_FAVORITE_ROOM_FROM_MODULE')"
+              @filter="filterSearchModules"
+              @input="showRecordsModal"
+              popup-content-class="quasar-reset"
+              class="full-width"
+              ref="selectModule"
+            >
+              <template v-slot:no-option>
+                <q-item>
+                  <q-item-section class="text-grey"> {{ translate('JS_NO_RESULTS_FOUND') }} </q-item-section>
+                </q-item>
+              </template>
+              <template v-slot:append>
+                <q-icon name="mdi-close" @click.stop="showAddRoomPanel = false" class="cursor-pointer" />
+              </template>
+            </q-select>
+          </q-item>
           <template v-for="(room, roomId) of roomGroup">
             <q-item
               v-show="roomType === 'group' ? room.isPinned || showAllGroups || filterRooms.length : true"
@@ -111,18 +135,20 @@
                         translate(room.isPinned || roomType === 'crm' ? 'JS_CHAT_UNPIN' : 'JS_CHAT_PIN')
                       }}</q-tooltip>
                     </q-btn>
-										<q-btn
-											@click.stop="toggleRoomSoundNotification({roomType, id: room.recordid})"
-											dense
+                    <q-btn
+                      @click.stop="toggleRoomSoundNotification({ roomType, id: room.recordid })"
+                      dense
                       round
                       flat
                       size="xs"
-											:icon="isSoundActive(roomType, room.recordid) ? 'mdi-volume-high' : 'mdi-volume-off'"
-											:color="isSoundActive(roomType, room.recordid) ? 'primary' : ''"
-											:disable="!isSoundNotification"
-										>
-											<q-tooltip>{{ translate(isSoundActive(roomType, room.recordid) ? 'JS_CHAT_SOUND_ON' : 'JS_CHAT_SOUND_OFF') }}</q-tooltip>
-										</q-btn>
+                      :icon="isSoundActive(roomType, room.recordid) ? 'mdi-volume-high' : 'mdi-volume-off'"
+                      :color="isSoundActive(roomType, room.recordid) ? 'primary' : ''"
+                      :disable="!isSoundNotification"
+                    >
+                      <q-tooltip>{{
+                        translate(isSoundActive(roomType, room.recordid) ? 'JS_CHAT_SOUND_ON' : 'JS_CHAT_SOUND_OFF')
+                      }}</q-tooltip>
+                    </q-btn>
                   </div>
                 </div>
               </div>
@@ -145,8 +171,10 @@ export default {
     return {
       filterRooms: '',
       fontSize: '0.88rem',
-			showAllGroups: false,
-			showAddRoomPanel: false
+      showAllGroups: false,
+      showAddRoomPanel: false,
+      selectModule: null,
+      searchModules: []
     }
   },
   computed: {
@@ -171,16 +199,57 @@ export default {
       }
     }
   },
+  watch: {
+    showAddRoomPanel(val) {
+      if (val) {
+        setTimeout(() => {
+          this.$refs.selectModule[0].showPopup()
+        }, 100)
+      } else {
+				this.$refs.selectModule[0].hidePopup()
+			}
+    }
+  },
   methods: {
     ...mapMutations(['setLeftPanel']),
     ...mapActions(['fetchRoom', 'togglePinned', 'toggleRoomSoundNotification']),
     getGroupIcon,
     filterRoomByName(room) {
       return room.name.toLowerCase().includes(this.filterRooms.toLowerCase())
-		},
-		isSoundActive(roomType, id) {
-			return this.isSoundNotification && !this.roomSoundNotificationsOff[roomType].includes(id)
-		}
+    },
+    isSoundActive(roomType, id) {
+      return this.isSoundNotification && !this.roomSoundNotificationsOff[roomType].includes(id)
+    },
+    filterSearchModules(val, update) {
+      if (val === '') {
+        update(() => {
+          this.searchModules = this.config.chatModules
+        })
+        return
+      }
+      update(() => {
+        const needle = val.toLowerCase()
+        this.searchModules = this.config.chatModules.filter(v => v.toLowerCase().indexOf(needle) > -1)
+      })
+    },
+    showRecordsModal(val) {
+      app.showRecordsList({ module: val }, (modal, instance) => {
+        instance.setSelectEvent((responseData, e) => {
+          AppConnector.request({
+            module: 'Chat',
+            action: 'Room',
+            mode: 'addToFavorites',
+            roomType: 'crm',
+            recordId: responseData.id
+          })
+        })
+      })
+    }
+  },
+  created() {
+    if (this.config.dynamicAddingRooms) {
+      this.searchModules = this.config.chatModules
+    }
   }
 }
 </script>
