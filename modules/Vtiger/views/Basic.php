@@ -25,7 +25,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		parent::__construct();
 	}
 
-	public function preProcess(\App\Request $request, $display = true)
+	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
@@ -66,7 +66,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 	 *
 	 * @return Vtiger_JsScript_Model[]
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
@@ -87,8 +87,6 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 			'modules.Vtiger.resources.AdvanceFilter',
 			'modules.Vtiger.resources.ConditionBuilder',
 			"modules.$moduleName.resources.AdvanceFilter",
-			'modules.Vtiger.resources.SearchAdvanceFilter',
-			"modules.$moduleName.resources.SearchAdvanceFilter",
 			'modules.Vtiger.resources.AdvanceSearch',
 			"modules.$moduleName.resources.AdvanceSearch",
 			'~libraries/html2canvas/dist/html2canvas.min.js',

@@ -11,8 +11,8 @@
 
 class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 {
-	use \App\Controller\ExposeMethod,
-		App\Controller\ClearProcess;
+	use \App\Controller\ExposeMethod;
+	use	\App\Controller\ClearProcess;
 
 	public function __construct()
 	{
@@ -63,28 +63,11 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$moduleName = 'Home';
 		}
 		$module = $request->getModule();
-		$customViewModel = new CustomView_Record_Model();
-		$customViewModel->setModule($moduleName);
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($moduleName)) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
-
 		$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
-		$viewer->assign('CUSTOMVIEW_MODEL', $customViewModel);
-
-		if ('Calendar' === $moduleName) {
-			$advanceFilterOpsByFieldType = Calendar_Field_Model::getAdvancedFilterOpsByFieldType();
-		} else {
-			$advanceFilterOpsByFieldType = Vtiger_Field_Model::getAdvancedFilterOpsByFieldType();
-		}
-		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\Condition::STANDARD_OPERATORS);
-		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', $advanceFilterOpsByFieldType);
-		$viewer->assign('DATE_FILTERS', Vtiger_AdvancedFilter_Helper::getDateFilter($module));
-		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
 		$viewer->assign('SOURCE_MODULE', $moduleName);
-		$viewer->assign('SOURCE_MODULE_MODEL', $moduleModel);
 		$viewer->assign('MODULE', $module);
 		$viewer->assign('SAVE_FILTER_PERMITTED', $saveFilterPermitted);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
@@ -102,7 +85,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$advFilterList = $request->getByType('advfilterlist', 'Text');
+		$advFilterList = $request->getArray('advfilterlist', 'Text');
 		//used to show the save modify filter option
 		$isAdvanceSearch = false;
 		$matchingRecords = [];
@@ -113,10 +96,10 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$isAdvanceSearch = true;
 			$queryGenerator = new \App\QueryGenerator($moduleName);
 			$queryGenerator->setFields(['id']);
-			$queryGenerator->parseAdvFilter($advFilterList);
+			$queryGenerator->setConditions(\App\Condition::getConditionsFromRequest($advFilterList));
 			$query = $queryGenerator->createQuery()->limit(App\Config::search('GLOBAL_SERACH_AUTOCOMPLETE_LIMIT'));
 			$dataReader = $query->createCommand()->query();
-			while ($recordId = $dataReader->readColumn()) {
+			while ($recordId = $dataReader->readColumn(0)) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 				$recordModel->set('permitted', true);
 				$matchingRecords[$moduleName][$recordId] = $recordModel;
