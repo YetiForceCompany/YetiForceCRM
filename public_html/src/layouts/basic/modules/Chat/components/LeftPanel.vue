@@ -12,7 +12,11 @@
         </template>
       </q-input>
       <div class="" v-for="(roomGroup, roomType) of roomList" :key="roomType" :style="{ fontSize: fontSize }">
-        <q-list v-if="Object.entries(roomGroup).length" dense class="q-mb-none">
+        <q-list
+          v-if="Object.entries(roomGroup).length || (roomType === 'crm' && config.dynamicAddingRooms)"
+          dense
+          class="q-mb-none"
+        >
           <q-item-label class="flex items-center text-bold text-muted q-py-sm q-px-md">
             <q-item-section avatar>
               <icon :icon="getGroupIcon(roomType)" :size="fontSize" />
@@ -43,7 +47,7 @@
                 icon="mdi-plus"
                 @click="showAddRoomPanel = !showAddRoomPanel"
               >
-                <q-tooltip>{{ translate('JS_CHAT_ADD_FAVOURITE_ROOM_FROM_MODULE') }}</q-tooltip>
+                <q-tooltip>{{ translate('JS_CHAT_ADD_FAVORITE_ROOM_FROM_MODULE') }}</q-tooltip>
               </q-btn>
               <q-icon :size="fontSize" name="mdi-information" class="q-pr-xs">
                 <q-tooltip>{{ translate(`JS_CHAT_ROOM_DESCRIPTION_${roomType.toUpperCase()}`) }}</q-tooltip>
@@ -51,30 +55,7 @@
             </div>
           </q-item-label>
           <q-item v-if="roomType === 'crm' && config.dynamicAddingRooms" v-show="showAddRoomPanel">
-            <q-select
-              dense
-              v-model="selectModule"
-              use-input
-              fill-input
-              hide-selected
-              input-debounce="0"
-              :options="searchModules"
-              :label="translate('JS_CHAT_ADD_FAVORITE_ROOM_FROM_MODULE')"
-              @filter="filterSearchModules"
-              @input="showRecordsModal"
-              popup-content-class="quasar-reset"
-              class="full-width"
-              ref="selectModule"
-            >
-              <template v-slot:no-option>
-                <q-item>
-                  <q-item-section class="text-grey"> {{ translate('JS_NO_RESULTS_FOUND') }} </q-item-section>
-                </q-item>
-              </template>
-              <template v-slot:append>
-                <q-icon name="mdi-close" @click.stop="showAddRoomPanel = false" class="cursor-pointer" />
-              </template>
-            </q-select>
+            <select-modules :modules="config.chatModules" :isVisible.sync="showAddRoomPanel" class="q-pb-xs" />
           </q-item>
           <template v-for="(room, roomId) of roomGroup">
             <q-item
@@ -89,15 +70,6 @@
             >
               <div class="full-width flex items-center justify-between no-wrap">
                 <div class="ellipsis-2-lines">
-                  <transition appear enter-active-class="animated flash" mode="out-in">
-                    <q-badge
-                      v-if="room.cnt_new_message !== undefined && room.cnt_new_message > 0"
-                      color="danger"
-                      class="q-mr-xs"
-                      :label="room.cnt_new_message"
-                      :key="room.cnt_new_message"
-                    />
-                  </transition>
                   <icon
                     v-if="roomType === 'crm'"
                     class="inline-block"
@@ -105,9 +77,18 @@
                     size="0.7rem"
                   />
                   {{ room.name }}
+                  <transition appear enter-active-class="animated flash" mode="out-in">
+                    <q-badge
+                      v-if="room.cnt_new_message !== undefined && room.cnt_new_message > 0"
+                      color="danger"
+                      class="q-mx-xs"
+                      :label="room.cnt_new_message"
+                      :key="room.cnt_new_message"
+                    />
+                  </transition>
                 </div>
                 <div class="flex items-center justify-end no-wrap">
-                  <div>
+                  <div class="text-no-wrap">
                     <q-btn
                       v-if="roomType === 'crm'"
                       type="a"
@@ -161,20 +142,19 @@
 </template>
 <script>
 import Backdrop from 'components/Backdrop.vue'
+import SelectModules from './SelectModules.vue'
 import { getGroupIcon } from '../utils/utils.js'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'LeftPanel',
-  components: { Backdrop },
+  components: { Backdrop, SelectModules },
   data() {
     return {
       filterRooms: '',
       fontSize: '0.88rem',
       showAllGroups: false,
-      showAddRoomPanel: false,
-      selectModule: null,
-      searchModules: []
+      showAddRoomPanel: false
     }
   },
   computed: {
@@ -199,17 +179,6 @@ export default {
       }
     }
   },
-  watch: {
-    showAddRoomPanel(val) {
-      if (val) {
-        setTimeout(() => {
-          this.$refs.selectModule[0].showPopup()
-        }, 100)
-      } else {
-				this.$refs.selectModule[0].hidePopup()
-			}
-    }
-  },
   methods: {
     ...mapMutations(['setLeftPanel']),
     ...mapActions(['fetchRoom', 'togglePinned', 'toggleRoomSoundNotification']),
@@ -219,36 +188,6 @@ export default {
     },
     isSoundActive(roomType, id) {
       return this.isSoundNotification && !this.roomSoundNotificationsOff[roomType].includes(id)
-    },
-    filterSearchModules(val, update) {
-      if (val === '') {
-        update(() => {
-          this.searchModules = this.config.chatModules
-        })
-        return
-      }
-      update(() => {
-        const needle = val.toLowerCase()
-        this.searchModules = this.config.chatModules.filter(v => v.toLowerCase().indexOf(needle) > -1)
-      })
-    },
-    showRecordsModal(val) {
-      app.showRecordsList({ module: val }, (modal, instance) => {
-        instance.setSelectEvent((responseData, e) => {
-          AppConnector.request({
-            module: 'Chat',
-            action: 'Room',
-            mode: 'addToFavorites',
-            roomType: 'crm',
-            recordId: responseData.id
-          })
-        })
-      })
-    }
-  },
-  created() {
-    if (this.config.dynamicAddingRooms) {
-      this.searchModules = this.config.chatModules
     }
   }
 }
