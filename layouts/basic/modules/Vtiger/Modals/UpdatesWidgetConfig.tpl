@@ -24,12 +24,13 @@
 					</button>
 				</div>
 				<div class="modal-body">
+					<p class="ml-3">{\App\Language::translate("LBL_SHOW_ACTIONS", $MODULE_NAME)}:</p>
 					<div class="form-row ml-4 mb-3">
 						{foreach key=VALUE item=TRACKER_ACTION from=ModTracker_Record_Model::$statusLabel}
 							<div class="form-check col-md-3">
 								<input class="form-check-input js-tracker-action" type="checkbox" value="{$VALUE}" {if \in_array($VALUE, $SELECTED_TRACKER_ACTIONS)} checked {/if} data-js=”container” id="{$TRACKER_ACTION}">
 								<label class="form-check-label" for="{$TRACKER_ACTION}">
-									{\App\Language::translate($TRACKER_ACTION, 'ModTracker')}
+									{\App\Language::translate($TRACKER_ACTION, 'ModTracker')|ucfirst}
 								</label>
 							</div>
 						{{/foreach}}
@@ -64,11 +65,11 @@
 				</div>
 				<div class="modal-footer">
 					<button class="js-modal__save btn btn-success btn-sm" type="submit" name="saveButton" data-js="click">
-							<strong>{\App\Language::translate("LBL_SAVE")}</strong>
+							<strong>{\App\Language::translate("LBL_SAVE", $MODULE_NAME)}</strong>
 					</button>
 					<button class="btn btn-danger btn-sm" type="reset" data-dismiss="modal">
 						<span class="fas fa-times mr-1"></span>
-						<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
+						<strong>{\App\Language::translate("LBL_CANCEL", $MODULE_NAME)}</strong>
 					</button>
 				</div>
 			</div>

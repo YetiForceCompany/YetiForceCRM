@@ -296,4 +296,59 @@ class Home_Module_Model extends Vtiger_Module_Model
 		}
 		return false;
 	}
+
+/**
+ * Get data for updates widget
+ *
+ * @param array $widgetData
+ * @param \Vtiger_Paging_Model $pagingModel
+ * @param int|string $user
+ *
+ * @return array
+ */
+	public function getUpdates(array $widgetData, \Vtiger_Paging_Model $pagingModel, $user): array
+	{
+
+		if (!$user) {
+			$user = \App\User::getCurrentUserId();
+		}
+		$modules = [];
+		foreach($widgetData['selectedModules'] as $moduleId){
+			$moduleName = \App\Module::getModuleName($moduleId);
+			if(\App\Privilege::isPermitted($moduleName)){
+				$modules[] = $moduleName;
+			}
+		}
+		$widgetData['selectedModules'];
+		$query = new \App\Db\Query();
+		$query->select(['vtiger_modtracker_basic.*'])
+			->from('vtiger_modtracker_basic')
+			->innerJoin('vtiger_crmentity', 'vtiger_modtracker_basic.crmid = vtiger_crmentity.crmid')
+			->where(['vtiger_crmentity.deleted' => 0, 'module' => $modules, 'vtiger_modtracker_basic.status' => $widgetData['selectedTrackerActions']]);
+		$currentUser = \App\User::getCurrentUserModel();
+		$accessibleUsers = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
+		$accessibleGroups = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
+		if ($user !== 'all' && $user !== '' && (array_key_exists($user, $accessibleUsers) || array_key_exists($user, $accessibleGroups))) {
+			$query->andWhere(['vtiger_crmentity.smownerid' => $user]);
+		}
+
+		$query->orderBy(['vtiger_modtracker_basic.id' => SORT_DESC])
+				->limit($pagingModel->getPageLimit())
+				->offset($pagingModel->getStartIndex());
+
+		$dataReader = $query->createCommand()->query();
+		$updates = [];
+		while ($row = $dataReader->read()) {
+			$moduleName = $row['module'];
+			$recordId = $row['crmid'];
+			if (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
+				$modTrackerRecorModel = new ModTracker_Record_Model();
+				$modTrackerRecorModel->setData($row)->setParent($recordId, $moduleName);
+				$time = $modTrackerRecorModel->get('changedon');
+				$updates[$time] = $modTrackerRecorModel;
+			}
+		}
+		$dataReader->close();
+		return $updates;
+	}
 }

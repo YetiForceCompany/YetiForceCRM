@@ -14,14 +14,23 @@ class Vtiger_Updates_Dashboard extends Vtiger_IndexAjax_View
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$data = $request->getAll();
 		$moduleName = $request->getModule();
-		$type = $request->getByType('type');
 		$page = $request->getInteger('page');
 		$linkId = $request->getInteger('linkid');
 		$widget = Vtiger_Widget_Model::getInstance($linkId, \App\User::getCurrentUserId());
+		$dateRange = $request->getDateRange('dateRange');
+		if (empty($dateRange)) {
+			$dateRange[0] = App\Fields\Date::formatToDisplay('now');
+			$dateRange[1] = App\Fields\Date::formatToDisplay('now');
+		}else{
+			$dateRange = \App\Fields\Date::formatRangeToDisplay($dateRange);
+		}
+		if (!$request->has('owner')) {
+			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
+		} else {
+			$owner = $request->getByType('owner', 2);
+		}
 		$limit = (int) $widget->get('limit');
-
 		if (empty($limit)) {
 			$limit = 10;
 		}
@@ -31,7 +40,13 @@ class Vtiger_Updates_Dashboard extends Vtiger_IndexAjax_View
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', $limit);
+		$widgetData = App\Json::decode($widget->get('data'));
+		$updates = (false === $owner && $widgetData) ? [] : Vtiger_Module_Model::getInstance($moduleName)->getUpdates($widgetData, $pagingModel, $owner);
+		$viewer->assign('UPDATES', $updates);
 		$viewer->assign('WIDGET', $widget);
+		$viewer->assign('PAGE', $page);
+		$viewer->assign('DATE_RANGE', $dateRange);
+		$viewer->assign('NEXTPAGE', (\count($updates) < $limit) ? 0 : $page + 1);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		if ($request->has('content')) {
 			$viewer->view('dashboards/UpdatesContents.tpl', $moduleName);

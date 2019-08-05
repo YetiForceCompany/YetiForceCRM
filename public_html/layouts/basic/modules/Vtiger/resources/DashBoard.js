@@ -851,15 +851,30 @@ $.Class(
 			Vtiger_DashBoard_Js.currentInstance.loadWidget(widgetContainer.find('.grid-stack-item-content'));
 		},
 		registerShowUpdatesConfig: function() {
+			let thisInstance = this;
 			this.getContainer().on('click', '.js-show-update-widget-config', e => {
+				let element = $(e.target);
 				let widgetId = app.getMainParams('updatesWidgetId');
+				let progressIndicatorElement = $.progressIndicator({
+					position: 'html',
+					blockInfo: {
+						enabled: true
+					}
+				});
 				AppConnector.request({
 					view: 'UpdatesWidgetConfig',
 					module: app.getModuleName(),
 					widgetId: widgetId
 				}).done(data => {
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					app.showModalWindow(data, function(data) {
 						data.find('.js-modal__save').on('click', e => {
+							let progressIndicatorElement = $.progressIndicator({
+								position: 'html',
+								blockInfo: {
+									enabled: true
+								}
+							});
 							let selectedModules = [];
 							$.each(data.find('.js-selected-modules:checked'), function() {
 								selectedModules.push(
@@ -880,10 +895,41 @@ $.Class(
 								selectedModules: selectedModules,
 								selectedTrackerActions: selectedTrackerActions
 							}).done(data => {
+								progressIndicatorElement.progressIndicator({ mode: 'hide' });
+								let widgetInstnace = thisInstance.getWidgetInstance(element.closest('.dashboardWidget'));
+								widgetInstnace.refreshWidget();
 								app.hideModalWindow();
 							});
 						});
 					});
+				});
+			});
+		},
+		registerShowMoreUpdates: function() {
+			this.getContainer().on('click', '.load-more', e => {
+				let progressIndicatorElement = $.progressIndicator({
+					position: 'html',
+					blockInfo: {
+						enabled: true
+					}
+				});
+				let element = $(e.currentTarget);
+				let widgetContainer = element.closest('.dashboardWidget');
+				AppConnector.request({
+					module: app.getModuleName(),
+					view: 'ShowWidget',
+					content: true,
+					name: widgetContainer.data('name'),
+					owner: widgetContainer.find('.owner').val(),
+					page: element.data('nextpage'),
+					linkid: widgetContainer.attr('id'),
+					dateRange: widgetContainer.find('.dateRangeField').val()
+				}).done(function(data) {
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					$(widgetContainer)
+						.find('.dashboardWidgetContent')
+						.append(data);
+					element.remove();
 				});
 			});
 		},
@@ -915,9 +961,6 @@ $.Class(
 					});
 			});
 		},
-		saveUpdatesWidgetConfig: function() {
-			$('body').on('keyup', '.updatesWidgetConfig .js-updates-config-search', function() {});
-		},
 		registerEvents: function() {
 			this.registerGrid();
 			this.registerRefreshWidget();
@@ -934,7 +977,7 @@ $.Class(
 			this.registerUpdatePredefinedWidgets();
 			this.registerShowUpdatesConfig();
 			this.registerUpdatesConfigSearch();
-			this.saveUpdatesWidgetConfig();
+			this.registerShowMoreUpdates();
 			ElementQueries.listen();
 		}
 	}
