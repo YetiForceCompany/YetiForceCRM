@@ -18,8 +18,8 @@
 					{/if}
 					<li class="spaceRelatedList d-none">
 					</li>
-						{assign var="SHOW_RELATED_TAB_NAME" value=App\Config::relation('SHOW_RELATED_MODULE_NAME')}
 						{if isset($DETAILVIEW_LINKS['DETAILVIEWRELATED'])}
+							{assign var="SHOW_RELATED_TAB_NAME" value=App\Config::relation('SHOW_RELATED_MODULE_NAME')}
 							{foreach item=RELATED_LINK key=ITERATION from=$DETAILVIEW_LINKS['DETAILVIEWRELATED']}
 							{assign var="DETAILVIEWRELATEDLINKLBL" value= \App\Language::translate($RELATED_LINK->getLabel(), $RELATED_LINK->getRelatedModuleName())}
 							<li {if !$SHOW_RELATED_TAB_NAME}data-content="{$DETAILVIEWRELATEDLINKLBL}" data-placement="top"{/if} class="c-tab--small c-tab--hover c-tab--gray js-detail-tab nav-item baseLink d-none float-left relatedNav {if !$SHOW_RELATED_TAB_NAME}js-popover-tooltip{/if}{if $RELATED_LINK->getLabel()==$SELECTED_TAB_LABEL} active{/if}" data-js="popover | tabdrop" data-iteration="{$ITERATION}" data-url="{$RELATED_LINK->getUrl()}&tab_label={$RELATED_LINK->getLabel()}" data-label-key="{$RELATED_LINK->getLabel()}" data-reference='{$RELATED_LINK->getRelatedModuleName()}' data-count="{App\Config::relation('SHOW_RECORDS_COUNT')}">
