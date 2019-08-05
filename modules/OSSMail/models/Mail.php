@@ -382,7 +382,12 @@ class OSSMail_Mail_Model extends \App\Base
 			'modifiedtime' => $useTime,
 		];
 		if ($attachments = $this->get('attachments')) {
+			$maxSize = \App\Config::main('upload_maxsize');
 			foreach ($attachments as $attachment) {
+				if ($maxSize < ($size = \strlen($attachment['attachment']))) {
+					\App\Log::error("Error - downloaded the file is too big '{$attachment['filename']}', size: {$size}, in mail: {$this->get('date')} | {$this->get('fromaddress')} | {$this->get('subject')} | mailSize: {$this->get('Size')} | folder: {$this->getFolder()} | message_id:{$this->get('message_id')}", __CLASS__);
+					continue;
+				}
 				$fileInstance = \App\Fields\File::loadFromContent($attachment['attachment'], $attachment['filename'], ['validateAllCodeInjection' => true]);
 				if ($fileInstance && $fileInstance->validateAndSecure() && ($id = App\Fields\File::saveFromContent($fileInstance, $params))) {
 					$files[] = $id;
