@@ -1093,6 +1093,8 @@ class QueryGenerator
 	 *
 	 * @see Condition::ADVANCED_FILTER_OPTIONS
 	 * @see Condition::DATE_OPERATORS
+	 *
+	 * @return $this
 	 */
 	public function addCondition($fieldName, $value, $operator, $groupAnd = true)
 	{
@@ -1106,6 +1108,7 @@ class QueryGenerator
 		} else {
 			Log::error('Wrong condition');
 		}
+		return $this;
 	}
 
 	/**
