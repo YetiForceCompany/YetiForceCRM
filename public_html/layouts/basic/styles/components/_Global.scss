@@ -37,9 +37,8 @@
 	@extend .mb-2;
 	&__header {
 		@extend .card-header;
-		@extend .u-cursor-pointer;
-		@extend .px-0;
-		@extend .py-1;
+		cursor: pointer;
+		padding: 0.25rem 0;
 		display: flex;
 		flex-flow: row-reverse;
 		align-items: center;
@@ -57,10 +56,9 @@
 		align-items: center;
 		.yfi {
 			font-size: calculate-rem(29px);
-			margin: 0 0.5rem 0 1rem;
+			margin: 0 0.5rem 0 0;
 			&.yfi-marketplace {
 				font-size: calculate-rem(36px);
-
 			}
 		}
 	}
@@ -96,10 +94,10 @@
 			}
 		}
 	}
-	&--primary {
+	&--white {
 		.c-panel__header {
-			background-color: $primary;
-			color: $white;
+			background-color: $white;
+			margin: 0 1rem;
 		}
 	}
 	&--collapsible {
@@ -117,6 +115,7 @@
 				.mdi-chevron-down {
 					display: inline-block;
 				}
+				border-bottom: none;
 			}
 		}
 	}

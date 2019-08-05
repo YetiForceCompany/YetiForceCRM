@@ -6,7 +6,7 @@
 	{/if}
 	<div class="o-settings-dashboard js-dashboard-container pt-2 h-100" data-js="container">
 		<div class="container-fluid h-100 px-0">
-			<div class="c-panel c-panel--collapsible c-panel--primary">
+			<div class="c-panel c-panel--collapsible c-panel--white">
 				<div class="c-panel__header collapsed" id="marketplace" data-toggle="collapse" data-target="#marketplace-collapse" aria-expanded="false" aria-controls="marketplace-collapse">
 					<span class="mdi mdi-chevron-up mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 					<span class="mdi mdi-chevron-down mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
@@ -14,7 +14,7 @@
 					<div class="c-panel__title">
 						<span class="yfi yfi-marketplace"></span>
 						<h5>
-							<a class="text-decoration-none text-white" href="index.php?module=YetiForce&parent=Settings&view=Shop">
+							<a class="text-decoration-none text-black" href="index.php?module=YetiForce&parent=Settings&view=Shop">
 								{\App\Language::translate('LBL_SHOP_MARKETPLACE', $QUALIFIED_MODULE)}
 							</a>
 						</h5>
@@ -45,7 +45,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="c-panel c-panel--collapsible c-panel--primary">
+			<div class="c-panel c-panel--collapsible c-panel--white">
 				<div class="c-panel__header collapsed" id="system-monitoring" data-toggle="collapse" data-target="#system-monitoring-collapse" aria-expanded="false" aria-controls="system-monitoring-collapse">
 					<span class="mdi mdi-chevron-up mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 					<span class="mdi mdi-chevron-down mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
@@ -62,7 +62,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="c-panel c-panel--collapsible c-panel--primary">
+			<div class="c-panel c-panel--collapsible c-panel--white">
 				<div class="c-panel__header collapsed" id="my-shortcuts" data-toggle="collapse" data-target="#my-shortcuts-collapse" aria-expanded="false" aria-controls="my-shortcuts-collapse">
 					<span class="mdi mdi-chevron-up mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 					<span class="mdi mdi-chevron-down mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
