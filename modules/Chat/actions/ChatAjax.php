@@ -53,7 +53,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	public function getChatConfig(App\Request $request)
 	{
 		$response = new Vtiger_Response();
-		$response->setResult([
+		$result = [
 			'config' => [
 				'isChatAllowed' => \App\User::getCurrentUserRealId() === \App\User::getCurrentUserId(),
 				'isDefaultSoundNotification' => \App\Config::module('Chat', 'DEFAULT_SOUND_NOTIFICATION'),
@@ -61,9 +61,15 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 				'refreshRoomTime' => \App\Config::module('Chat', 'REFRESH_ROOM_TIME'),
 				'maxLengthMessage' => \App\Config::module('Chat', 'MAX_LENGTH_MESSAGE'),
 				'refreshTimeGlobal' => \App\Config::module('Chat', 'REFRESH_TIME_GLOBAL'),
-				'showNumberOfNewMessages' => \App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')
-			], 'roomList' => \App\Chat::getRoomsByUser()
-		]);
+				'showNumberOfNewMessages' => \App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES'),
+				'dynamicAddingRooms' => \App\Config::module('Chat', 'DYNAMIC_ADDING_ROOMS')
+			],
+			'roomList' => \App\Chat::getRoomsByUser()
+		];
+		if ($result['config']['dynamicAddingRooms']) {
+			$result['config']['chatModules'] =  \App\Chat::getChatModules();
+		}
+		$response->setResult($result);
 		$response->emit();
 	}
 

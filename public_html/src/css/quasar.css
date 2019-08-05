@@ -7736,6 +7736,71 @@ body.mobile .q-tabs__arrow {
 .q-inner-loading--dark {
   background: rgba(0,0,0,0.4);
 }
+.q-select--without-input .q-field__control {
+  cursor: pointer;
+}
+.q-select--with-input .q-field__control {
+  cursor: text;
+}
+.q-select__input {
+  border: 0;
+  outline: 0 !important;
+  background: transparent;
+  min-width: 50px !important;
+  padding: 0;
+  height: 0;
+  min-height: 24px;
+  line-height: 24px;
+}
+.q-select__input--padding {
+  padding-left: 4px;
+}
+.q-select__dropdown-icon {
+  cursor: pointer;
+}
+.q-select__dialog {
+  width: 90vw !important;
+  max-width: 90vw !important;
+  max-height: calc(100vh - 70px) !important;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+.q-select__dialog > .scroll {
+  position: relative;
+  background: inherit;
+}
+.q-select__menu--dark {
+  color: #fff;
+  background: #424242;
+}
+.q-select__options--content {
+  position: relative;
+  background-color: inherit;
+}
+.q-select__options--padding {
+  background: linear-gradient(transparent, transparent 20%, rgba(128,128,128,0.03) 20%, rgba(128,128,128,0.08) 50%, rgba(128,128,128,0.03) 80%, transparent 80%, transparent);
+  background-size: 100% 50px;
+}
+body.platform-ios .q-select__dialog {
+  max-height: 50vh !important;
+}
+.q-menu {
+  position: fixed !important;
+  display: inline-block;
+  max-width: 95vw;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.2), 0 2px 2px rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12);
+  background: #fff;
+  border-radius: 4px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  outline: 0;
+  max-height: 65vh;
+  z-index: 6000;
+}
+.q-menu--square {
+  border-radius: 0;
+}
 .q-ripple {
   position: absolute;
   top: 0;

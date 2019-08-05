@@ -115,7 +115,6 @@ updated-jqplot
 css-line-break
 delegate
 good-listener
-select
 tiny-emitter
 jquery-ui
 jquery-ui-dist/external

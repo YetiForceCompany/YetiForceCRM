@@ -44,6 +44,7 @@ export default {
 		refreshRoomTime: null,
 		maxLengthMessage: null,
 		refreshTimeGlobal: null,
-		showNumberOfNewMessages: null
+		showNumberOfNewMessages: null,
+		dynamicAddingRooms: null
 	}
 }
