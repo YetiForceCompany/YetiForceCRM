@@ -22,7 +22,7 @@
               <icon :icon="getGroupIcon(roomType)" :size="fontSize" />
             </q-item-section>
             {{ translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`) }}
-            <div class="q-ml-auto ">
+            <div class="q-ml-auto">
               <q-btn
                 v-if="roomType === 'group'"
                 v-show="areUnpinned && !filterRooms.length"
@@ -172,9 +172,9 @@ export default {
         return this.data.roomList
       } else {
         return {
-          crm: this.data.roomList.crm.filter(this.filterRoomByName),
-          global: this.data.roomList.global.filter(this.filterRoomByName),
-          group: this.data.roomList.group.filter(this.filterRoomByName)
+          crm: Object.values(this.data.roomList.crm).filter(this.filterRoomByName),
+          global: Object.values(this.data.roomList.global).filter(this.filterRoomByName),
+          group: Object.values(this.data.roomList.group).filter(this.filterRoomByName)
         }
       }
     }
