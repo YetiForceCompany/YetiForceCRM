@@ -60,6 +60,7 @@ class VTJsonCondition
 			foreach ($expressionResults as $groupId => &$groupExprResultSet) {
 				$groupResult = true;
 				foreach ($groupExprResultSet as &$exprResult) {
+					$result = null;
 					if (isset($exprResult['result'])) {
 						$result = $exprResult['result'];
 					}
