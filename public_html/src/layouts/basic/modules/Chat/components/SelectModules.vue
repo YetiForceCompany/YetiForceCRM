@@ -49,7 +49,6 @@ export default {
   },
   watch: {
     isVisible(val) {
-      console.log(this.$refs, val)
       if (val) {
         setTimeout(() => {
           this.$refs.selectModule.showPopup()
