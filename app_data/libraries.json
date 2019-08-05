@@ -35,6 +35,24 @@
         "licenseToDisplay": "",
         "showLicenseModal": false
     },
+    "lodash.isequal": {
+        "name": "lodash.isequal",
+        "version": "4.5.0",
+        "license": "MIT",
+        "homepage": "https:\/\/lodash.com\/",
+        "licenseError": false,
+        "licenseToDisplay": "",
+        "showLicenseModal": false
+    },
+    "lodash.unionby": {
+        "name": "lodash.unionby",
+        "version": "4.8.0",
+        "license": "MIT",
+        "homepage": "https:\/\/lodash.com\/",
+        "licenseError": false,
+        "licenseToDisplay": "",
+        "showLicenseModal": false
+    },
     "regenerator-runtime": {
         "name": "regenerator-runtime",
         "version": "0.12.1",
