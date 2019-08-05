@@ -1543,6 +1543,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			$tabId = \App\Module::getModuleId($this->getName());
 			\App\Cache::delete('moduleTabByName', $this->getName());
 			\App\Cache::delete('moduleTabById', $tabId);
+			\App\Cache::delete('moduleTabs', 'all');
 			\App\Cache::staticDelete('module', $this->getName());
 			\App\Cache::staticDelete('module', $tabId);
 			$this->type = $type;

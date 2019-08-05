@@ -169,7 +169,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			->distinct()
 			->column();
 		\App\Db::getInstance()->createCommand()->update($field->get('table'), [
-			$field->get('column') => $values ? $values = self::COMMA . implode(self::COMMA, $values) . self::COMMA : '',
+			$field->get('column') => $values ? self::COMMA . implode(self::COMMA, $values) . self::COMMA : '',
 		], [$sourceRecordModel->getEntity()->tab_name_index[$field->get('table')] => $sourceRecord]
 		)->execute();
 	}
