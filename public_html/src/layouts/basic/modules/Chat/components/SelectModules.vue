@@ -9,9 +9,10 @@
       hide-selected
       input-debounce="0"
       :options="searchModules"
-      :label="translate('JS_CHAT_ADD_FAVORITE_ROOM_FROM_MODULE')"
+      :hint="translate('JS_CHAT_ADD_FAVORITE_ROOM_FROM_MODULE')"
       @filter="filter"
       @input="showRecordsModal"
+      hide-bottom-space
       popup-content-class="quasar-reset"
       class="full-width"
       ref="selectModule"
@@ -21,8 +22,23 @@
           <q-item-section class="text-grey"> {{ translate('JS_NO_RESULTS_FOUND') }} </q-item-section>
         </q-item>
       </template>
+      <template v-slot:prepend>
+        <q-icon @click.stop="showRecordsModal(selectModule)" name="mdi-magnify" class="cursor-pointer" />
+        <q-tooltip anchor="top middle">{{ translate('JS_CHAT_SEARCH_RECORDS_OF_THE_SELECTED_MODULE') }}</q-tooltip>
+      </template>
       <template v-slot:append>
         <q-icon name="mdi-close" @click.stop="$emit('update:isVisible', false)" class="cursor-pointer" />
+				<q-tooltip anchor="top middle">{{ translate('JS_CHAT_HIDE_SEARCH_FIELD') }}</q-tooltip>
+      </template>
+      <template v-slot:option="scope">
+        <q-item dense v-bind="scope.itemProps" v-on="scope.itemEvents">
+          <q-item-section avatar>
+            <icon :icon="`userIcon-${scope.opt}`" />
+          </q-item-section>
+          <q-item-section>
+            {{ scope.opt }}
+          </q-item-section>
+        </q-item>
       </template>
     </q-select>
   </div>
@@ -76,6 +92,10 @@ export default {
       })
     },
     showRecordsModal(val) {
+      if (!val) {
+        this.$refs.selectModule.showPopup()
+        return
+      }
       app.showRecordsList({ module: val }, (modal, instance) => {
         instance.setSelectEvent((responseData, e) => {
           AppConnector.request({
@@ -95,4 +115,9 @@ export default {
 }
 </script>
 <style lang="sass">
+.select-dense
+	.q-item
+		min-height: 32px
+		padding: 2px 16px
+		font-size: 0.88rem
 </style>

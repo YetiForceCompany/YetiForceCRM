@@ -8,10 +8,10 @@
             round
             color="primary"
             class="glossy"
-						@mouseup="showDialog"
-						@touchend="showDialog"
+            @mouseup="showDialog"
+            @touchend="showDialog"
             ref="chatBtn"
-            :key="data.amountOfNewMessages"
+            :key="parseInt(data.amountOfNewMessages)"
             style="z-index: 99999999999;"
           >
             <icon icon="yfi-branding-chat" />
@@ -56,8 +56,8 @@ export default {
   components: { Chat, DragResize, Drag },
   data() {
     return {
-			timerGlobal: null,
-			dragging: false
+      timerGlobal: null,
+      dragging: false
     }
   },
   computed: {
@@ -83,10 +83,10 @@ export default {
         return this.$store.getters['Chat/buttonCoordinates']
       },
       set(coords) {
-				if (!isEqual(coords ,{...this.$store.getters['Chat/buttonCoordinates']})) {
-					this.dragging = true
-					this.setButtonCoordinates(coords)
-				}
+        if (!isEqual(coords, { ...this.$store.getters['Chat/buttonCoordinates'] })) {
+          this.dragging = true
+          this.setButtonCoordinates(coords)
+        }
       }
     },
     computedMiniMode() {
@@ -120,15 +120,15 @@ export default {
         this.updateAmountOfNewMessages(result)
         this.initTimer()
       })
-		},
-		showDialog() {
-			setTimeout(_ => {
-				if (!this.dragging) {
-					this.dialog = !this.dialog
-				}
-				this.dragging = false
-			}, 300)
-		}
+    },
+    showDialog() {
+      setTimeout(_ => {
+        if (!this.dragging) {
+          this.dialog = !this.dialog
+        }
+        this.dragging = false
+      }, 300)
+    }
   },
   created() {
     this.fetchChatConfig().then(result => {
@@ -139,10 +139,10 @@ export default {
 </script>
 <style scoped>
 .drag-area {
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	top: 0;
-	left: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 </style>

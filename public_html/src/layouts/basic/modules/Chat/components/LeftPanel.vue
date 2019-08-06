@@ -22,7 +22,7 @@
               <icon :icon="getGroupIcon(roomType)" :size="fontSize" />
             </q-item-section>
             {{ translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`) }}
-            <div class="q-ml-auto ">
+            <div class="q-ml-auto">
               <q-btn
                 v-if="roomType === 'group'"
                 v-show="areUnpinned && !filterRooms.length"
@@ -77,18 +77,17 @@
                     size="0.7rem"
                   />
                   {{ room.name }}
-                  <transition appear enter-active-class="animated flash" mode="out-in">
-                    <q-badge
-                      v-if="room.cnt_new_message !== undefined && room.cnt_new_message > 0"
-                      color="danger"
-                      class="q-mx-xs"
-                      :label="room.cnt_new_message"
-                      :key="room.cnt_new_message"
-                    />
-                  </transition>
                 </div>
                 <div class="flex items-center justify-end no-wrap">
                   <div class="text-no-wrap">
+                    <transition appear enter-active-class="animated flash" mode="out-in">
+                      <q-badge
+                        v-if="room.cnt_new_message !== undefined && room.cnt_new_message > 0"
+                        color="danger"
+                        :label="room.cnt_new_message"
+                        :key="room.cnt_new_message"
+                      />
+                    </transition>
                     <q-btn
                       v-if="roomType === 'crm'"
                       type="a"
@@ -172,9 +171,9 @@ export default {
         return this.data.roomList
       } else {
         return {
-          crm: this.data.roomList.crm.filter(this.filterRoomByName),
-          global: this.data.roomList.global.filter(this.filterRoomByName),
-          group: this.data.roomList.group.filter(this.filterRoomByName)
+          crm: Object.values(this.data.roomList.crm).filter(this.filterRoomByName),
+          global: Object.values(this.data.roomList.global).filter(this.filterRoomByName),
+          group: Object.values(this.data.roomList.group).filter(this.filterRoomByName)
         }
       }
     }

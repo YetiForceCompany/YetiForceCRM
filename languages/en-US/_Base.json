@@ -1780,6 +1780,8 @@
     "JS_CHAT_ROOMS_MENU": "Toggle rooms menu",
     "JS_CHAT_PICK_EMOJI": "Pick your emoji…",
     "JS_CHAT_ADD_FAVORITE_ROOM_FROM_MODULE": "Add favorite room from module",
+    "JS_CHAT_SEARCH_RECORDS_OF_THE_SELECTED_MODULE": "Search records of the selected module",
+    "JS_CHAT_HIDE_SEARCH_FIELD": "Hide search field",
     "JS_EMOJI_NOTFOUND": "No Emoji Found",
     "JS_EMOJI_SEARCHRESULT": "Search Results",
     "JS_EMOJI_RECENT": "recent",
