@@ -147,7 +147,7 @@ class Vtiger_DashBoard_Model extends \App\Base
 
 			return;
 		}
-		$dataReader = (new App\Db\Query())->select(['vtiger_module_dashboard.*', 'vtiger_links.tabid'])
+		$dataReader = (new App\Db\Query())->select(['vtiger_module_dashboard.*', 'vtiger_links.tabid', 'vtiger_links.linklabel'])
 			->from('vtiger_module_dashboard')
 			->innerJoin('vtiger_links', 'vtiger_links.linkid = vtiger_module_dashboard.linkid')
 			->where(['vtiger_module_dashboard.blockid' => $blockId])
@@ -160,6 +160,12 @@ class Vtiger_DashBoard_Model extends \App\Base
 				->where(['userid' => $currentUser->getId(), 'templateid' => $row['id']])
 				->exists()) {
 				$active = $row['isdefault'] ? 1 : 0;
+				if('LBL_UPDATES' === $row['linklabel']){
+					$row['data'] = [];
+					$row['data']['selectedTrackerActions'] = array_keys(ModTracker_Record_Model::$statusLabel);
+					$row['data']['selectedModules'] = \App\Module::getPermittedUserModulesId();
+					$row['data'] = \App\Json::encode($row['data']);
+				}
 				App\Db::getInstance()->createCommand()->insert('vtiger_module_dashboard_widgets', [
 					'linkid' => $row['linkid'],
 					'userid' => $currentUser->getId(),

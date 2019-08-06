@@ -11,21 +11,23 @@
  */
 class Vtiger_UpdatesWidgetConfig_View extends \App\Controller\Modal
 {
+
 	/**
-	 * Checking permissions.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermittedToRecord
+	 * {@inheritdoc}
 	 */
-	public function checkPermission(App\Request $request)
-	{
+	public function checkPermission(\App\Request $request)
+		{
+			$this->widget = Vtiger_Widget_Model::getInstanceWithWidgetId($request->getInteger('widgetId'), \App\User::getCurrentUserId());
+			if (!\App\Privilege::isPermitted($request->getModule()) || $this->widget->get('userid') !== \App\User::getCurrentUserId()) {
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+			}
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public $modalSize = 'modal-lg';
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -38,44 +40,10 @@ class Vtiger_UpdatesWidgetConfig_View extends \App\Controller\Modal
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$query = new \App\Db\Query();
-		$query->select(['vtiger_tab.*'])->from('vtiger_field')
-			->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
-			->where(['<>', 'vtiger_tab.presence', 1]);
-		$query->andWhere(['not in', 'vtiger_tab.name', ['Users']]);
-		//'ModComments', 'PriceBooks', 'CallHistory', 'OSSMailView', 'SMSNotifier'
-		$permittedModules = [];
-		$dataReader = $query->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			if (!\App\Privilege::isPermitted($row['tabid'])) {
-				$moduleModel = Vtiger_Module_Model::getInstanceFromArray($row);
-				$permittedModules[$row['name']] = $moduleModel;
-			}
-		}
-		$menu = Vtiger_Menu_Model::getAll(true);
-		$permittedModulesTree = [];
-		foreach ($menu as $parent) {
-			if (!empty($parent['childs'])) {
-				$items = [];
-				foreach ($parent['childs'] as $child) {
-					if (isset($permittedModules[$child['mod']])) {
-						$items[$permittedModules[$child['mod']]->name] = $permittedModules[$child['mod']];
-						unset($permittedModules[$child['mod']]);
-					}
-				}
-				if (!empty($items)) {
-					$permittedModulesTree[] = ['name' => $parent['name'], 'icon' => $parent['icon'], 'modules' => $items];
-				}
-			}
-		}
-		if (!empty($permittedModules)) {
-			$permittedModulesTree[] = ['name' => 'LBL_OTHER', 'icon' => 'userIcon-Other', 'modules' => $permittedModules];
-		}
-		//	App\Cache::save('getQuickCreateModules', $restrictListString, $permittedModules);
-		$widgetData = App\Json::decode(Vtiger_Widget_Model::getInstanceWithWidgetId($request->getInteger('widgetId'), \App\User::getCurrentUserId())->get('data'));
+		$widgetData = App\Json::decode($this->widget->get('data'));
 		$viewer->assign('SELECTED_MODULES', $widgetData['selectedModules']);
 		$viewer->assign('SELECTED_TRACKER_ACTIONS', $widgetData['selectedTrackerActions']);
-		$viewer->assign('MODULES_LIST', $permittedModulesTree);
+		$viewer->assign('MODULES_LIST', Home_Module_Model::getModulesForUpdateWidgets());
 		$viewer->view('Modals/UpdatesWidgetConfig.tpl', $moduleName);
 	}
 }

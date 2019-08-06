@@ -40,8 +40,10 @@ class Vtiger_Updates_Dashboard extends Vtiger_IndexAjax_View
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', $limit);
-		$widgetData = App\Json::decode($widget->get('data'));
-		$updates = (false === $owner && $widgetData) ? [] : Vtiger_Module_Model::getInstance($moduleName)->getUpdates($widgetData, $pagingModel, $owner);
+		$updates = [];
+		if((false !== $owner && $widgetData = App\Json::decode($widget->get('data')))){
+			$updates = Vtiger_Module_Model::getInstance($moduleName)->getUpdates($widgetData, $pagingModel, $owner, $dateRange);
+		}
 		$viewer->assign('UPDATES', $updates);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('PAGE', $page);

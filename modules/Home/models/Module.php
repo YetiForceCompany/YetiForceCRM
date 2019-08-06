@@ -303,12 +303,12 @@ class Home_Module_Model extends Vtiger_Module_Model
  * @param array $widgetData
  * @param \Vtiger_Paging_Model $pagingModel
  * @param int|string $user
+ * @param array $dateRange
  *
  * @return array
  */
-	public function getUpdates(array $widgetData, \Vtiger_Paging_Model $pagingModel, $user): array
+	public function getUpdates(array $widgetData, \Vtiger_Paging_Model $pagingModel, $user, $dateRange): array
 	{
-
 		if (!$user) {
 			$user = \App\User::getCurrentUserId();
 		}
@@ -325,6 +325,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 			->from('vtiger_modtracker_basic')
 			->innerJoin('vtiger_crmentity', 'vtiger_modtracker_basic.crmid = vtiger_crmentity.crmid')
 			->where(['vtiger_crmentity.deleted' => 0, 'module' => $modules, 'vtiger_modtracker_basic.status' => $widgetData['selectedTrackerActions']]);
+		$query->andWhere(['between', 'changedon', $dateRange[0] . ' 00:00:00', $dateRange[1] . ' 23:59:59']);
 		$currentUser = \App\User::getCurrentUserModel();
 		$accessibleUsers = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
 		$accessibleGroups = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
@@ -350,5 +351,37 @@ class Home_Module_Model extends Vtiger_Module_Model
 		}
 		$dataReader->close();
 		return $updates;
+	}
+
+	/**
+	 *	Function get available modules for user
+	 */
+	public static function getModulesForUpdateWidgets(){
+		$userId = \App\User::getCurrentUserId();
+		if (\App\Cache::staticHas('getModulesForUpdateWidgets', $userId)) {
+			return \App\Cache::staticGet('getModulesForUpdateWidgets', $userId);
+		}
+		$permittedModules = \App\Module::getPermittedUserModuleModules();
+		$menu = \Vtiger_Menu_Model::getAll(true);
+		$permittedModulesTree = [];
+		foreach ($menu as $parent) {
+			if (!empty($parent['childs'])) {
+				$items = [];
+				foreach ($parent['childs'] as $child) {
+					if (isset($permittedModules[$child['mod']])) {
+						$items[$permittedModules[$child['mod']]->name] = $permittedModules[$child['mod']];
+						unset($permittedModules[$child['mod']]);
+					}
+				}
+				if (!empty($items)) {
+					$permittedModulesTree[] = ['name' => $parent['name'], 'icon' => $parent['icon'], 'modules' => $items];
+				}
+			}
+		}
+		if (!empty($permittedModules)) {
+			$permittedModulesTree[] = ['name' => 'LBL_OTHER', 'icon' => 'userIcon-Other', 'modules' => $permittedModules];
+		}
+		\App\Cache::staticSave('getModulesForUpdateWidgets', $userId, $permittedModulesTree);
+		return $permittedModulesTree;
 	}
 }
