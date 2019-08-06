@@ -102,8 +102,31 @@ label.btn[class*="btn-outline-"] {
 .modal-footer {
 	border-top: none;
 }
+
 .modal-content {
 	border: none;
+}
+.modal-header-icon {
+	margin-right: 0.5rem;
+}
+
+.modal-header-xl {
+	align-items: center;
+	padding: 0.5rem 0;
+	.modal-title {
+		font-size: 1.5rem;
+		display: flex;
+		align-items: center;
+	}
+	.modal-header-icon {
+		font-size: 2.5rem;
+		margin-right: 0.75rem;
+	}
+
+	.close {
+		margin: 0;
+		padding: 0 0 5px 0;
+	}
 }
 
 .nav-under {

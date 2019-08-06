@@ -28,14 +28,19 @@ class Settings_YetiForce_BuyModal_View extends \App\Controller\ModalSettings
 	 * {@inheritdoc}
 	 */
 	public $footerClass = 'px-md-5';
-
+	/**
+	 * Modal size.
+	 *
+	 * @var string
+	 */
+	public $headerClass = 'modal-header-xl';
 	/**
 	 * {@inheritdoc}
 	 */
 	public function preProcessAjax(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$this->modalIcon = 'fas fa-shopping-cart';
+		$this->modalIcon = 'yfi-marketplace';
 		$this->pageTitle = \App\Language::translate('LBL_BUY', $qualifiedModuleName);
 		parent::preProcessAjax($request);
 	}

@@ -19,6 +19,12 @@ class Settings_YetiForce_ProductModal_View extends \App\Controller\ModalSettings
 	 * {@inheritdoc}
 	 */
 	public $modalSize = 'modal-full';
+	/**
+	 * Modal size.
+	 *
+	 * @var string
+	 */
+	public $headerClass = 'modal-header-xl';
 
 	/**
 	 * Set modal title.
@@ -28,7 +34,7 @@ class Settings_YetiForce_ProductModal_View extends \App\Controller\ModalSettings
 	public function preProcessAjax(App\Request $request)
 	{
 		$this->qualifiedModuleName = $request->getModule(false);
-		$this->modalIcon = 'userIcon-Products';
+		$this->modalIcon = 'yfi-prodprouct-preview';
 		$this->pageTitle = \App\Language::translate('LBL_PRODUCT_PREVIEW', $this->qualifiedModuleName);
 		parent::preProcessAjax($request);
 	}
