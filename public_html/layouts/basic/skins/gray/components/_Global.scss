@@ -15,6 +15,11 @@
 		border: none;
 		text-transform: uppercase;
 	}
+	&--white {
+		.c-panel__header {
+			border-color: $yf-gray;
+		}
+	}
 }
 .contents.tabbable.table-responsive {
 	background-color: var(--color-bg) !important;
