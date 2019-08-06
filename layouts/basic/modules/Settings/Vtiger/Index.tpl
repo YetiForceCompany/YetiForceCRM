@@ -21,7 +21,7 @@
 					</div>
 				</div>
 				<div id="marketplace-collapse" class="js-collapse collapse multi-collapse" aria-labelledby="marketplace">
-					<div class="c-panel__body px-3 js-products-container">
+					<div class="c-panel__body pl-3 js-products-container">
 						<nav>
 							<div class="o-shop__nav nav nav-under mt-3" role="tablist">
 								<a class="o-shop__nav__item nav-item nav-link active" id="nav-premium-tab" data-toggle="tab" href="#nav-premium" role="tab" aria-controls="nav-premium" aria-selected="true">
