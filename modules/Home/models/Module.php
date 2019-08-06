@@ -307,7 +307,7 @@ class Home_Module_Model extends Vtiger_Module_Model
  *
  * @return array
  */
-	public function getUpdates(array $widgetData, \Vtiger_Paging_Model $pagingModel, $user, $dateRange): array
+	public function getUpdates(array $widgetData, \Vtiger_Paging_Model $pagingModel, $user, array $dateRange): array
 	{
 		if (!$user) {
 			$user = \App\User::getCurrentUserId();
