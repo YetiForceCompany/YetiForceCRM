@@ -59,7 +59,16 @@ class Settings_Vtiger_Icons_Model
 	{
 		$icons = [];
 		foreach (self::$icons['mdi'] as $icon) {
-			$icons[$icon] = $icon;
+			$icons[$icon] = 'mdi mdi-' . $icon;
+		}
+		return $icons;
+	}
+
+	public static function getYetiForceIcon()
+	{
+		$icons = [];
+		foreach (self::$icons['yfi'] as $icon) {
+			$icons[$icon] = 'yfi-' . $icon;
 		}
 		return $icons;
 	}
@@ -93,6 +102,7 @@ class Settings_Vtiger_Icons_Model
 		$icons = array_merge($icons, self::getUserIcon());
 		$icons = array_merge($icons, self::getAdminIcon());
 		$icons = array_merge($icons, self::getAdditionalIcon());
+		$icons = array_merge($icons, self::getYetiForceIcon());
 		$icons = array_merge($icons, self::getMaterialDesignIcon());
 		return array_merge($icons, self::getFontAwesomeIcon());
 	}

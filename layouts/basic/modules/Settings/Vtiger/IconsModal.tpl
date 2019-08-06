@@ -19,11 +19,14 @@
 				{foreach from=Settings_Vtiger_Icons_Model::getAdditionalIcon() key=NAME item=CLASS}
 					<option value="{$CLASS}" data-class="{$CLASS}" data-type="icon" title="{$NAME}">{$NAME}</option>
 				{/foreach}
+				{foreach from=Settings_Vtiger_Icons_Model::getYetiForceIcon() key=NAME item=CLASS}
+					<option value="{$CLASS}" data-class="{$CLASS}" data-type="icon" title="{$NAME}">{$NAME}</option>
+				{/foreach}
 				{foreach from=Settings_Vtiger_Icons_Model::getFontAwesomeIcon() key=NAME item=CLASS}
 					<option value="{$CLASS}" data-class="{$CLASS}" data-type="icon" title="{$NAME}">{$NAME}</option>
 				{/foreach}
 				{foreach from=Settings_Vtiger_Icons_Model::getMaterialDesignIcon() key=NAME item=CLASS}
-					<option value="mdi {$CLASS}" data-class="mdi {$CLASS}" data-type="icon" title="{$NAME}">{$NAME}</option>
+					<option value="mdi {$CLASS}" data-class="{$CLASS}" data-type="icon" title="{$NAME}">{$NAME}</option>
 				{/foreach}
 				{foreach from=Settings_Vtiger_Icons_Model::getImageIcon() key=NAME item=URL}
 					<option value="{\Vtiger_Theme::getImagePath($URL)}" data-type="image"
