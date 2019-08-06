@@ -61,6 +61,8 @@ class Settings_YetiForce_BuyModal_View extends \App\Controller\ModalSettings
 			$formFields = array_filter(Settings_Companies_Module_Model::getFormFields(), function ($key) {
 				return isset($key['paymentData']);
 			});
+		} else {
+			$this->successBtn = '';
 		}
 		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->assign('PRODUCT', $product);
