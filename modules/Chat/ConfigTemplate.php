@@ -45,7 +45,7 @@ return [
 	],
 	'dynamicAddingRooms' => [
 		'default' => true,
-		'description' => 'Show the number of new messages.',
+		'description' => 'Show add button in left panel favorites rooms.',
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
 	]
