@@ -19,7 +19,6 @@ insert  into `a_yf_bruteforce`(`attempsnumber`,`timelock`,`active`,`sent`) value
 
 /*Data for the table `a_yf_discounts_config` */
 
-insert  into `a_yf_discounts_config`(`param`,`value`) values ('active','0');
 insert  into `a_yf_discounts_config`(`param`,`value`) values ('aggregation','0');
 insert  into `a_yf_discounts_config`(`param`,`value`) values ('discounts','0,1,2');
 
@@ -62,7 +61,6 @@ insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`f
 
 /*Data for the table `a_yf_taxes_config` */
 
-insert  into `a_yf_taxes_config`(`param`,`value`) values ('active','0');
 insert  into `a_yf_taxes_config`(`param`,`value`) values ('aggregation','0');
 insert  into `a_yf_taxes_config`(`param`,`value`) values ('taxs','0,1,2,3');
 
