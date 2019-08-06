@@ -44,7 +44,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	}
 
 	/**
-	 * Get chat init data
+	 * Get chat init data.
 	 *
 	 * @param App\Request $request
 	 *
@@ -62,12 +62,12 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 				'maxLengthMessage' => \App\Config::module('Chat', 'MAX_LENGTH_MESSAGE'),
 				'refreshTimeGlobal' => \App\Config::module('Chat', 'REFRESH_TIME_GLOBAL'),
 				'showNumberOfNewMessages' => \App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES'),
-				'dynamicAddingRooms' => \App\Config::module('Chat', 'DYNAMIC_ADDING_ROOMS')
+				'dynamicAddingRooms' => \App\Config::module('Chat', 'dynamicAddingRooms')
 			],
 			'roomList' => \App\Chat::getRoomsByUser()
 		];
 		if ($result['config']['dynamicAddingRooms']) {
-			$result['config']['chatModules'] =  \App\Chat::getChatModules();
+			$result['config']['chatModules'] = \App\Chat::getChatModules();
 		}
 		$response->setResult($result);
 		$response->emit();
@@ -80,7 +80,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public function getMessages(\App\Request $request)
+	public function getMessages(App\Request $request)
 	{
 		if ($request->has('roomType') && $request->has('recordId')) {
 			$roomType = $request->getByType('roomType');
@@ -101,7 +101,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			return;
 		}
 		$chatEntries = $chat->getEntries($request->has('lastId') ? $request->getInteger('lastId') : null);
-		$isNextPage = $this->isNextPage(count($chatEntries));
+		$isNextPage = $this->isNextPage(\count($chatEntries));
 		if ($isNextPage) {
 			array_shift($chatEntries);
 		}
@@ -111,7 +111,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			'participants' => $chat->getParticipants()
 		];
 		if (!$request->has('lastId')) {
-			$result['showMoreButton'] = 	$isNextPage;
+			$result['showMoreButton'] = $isNextPage;
 			$result['currentRoom'] = \App\Chat::getCurrentRoom();
 		}
 		if (App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')) {
@@ -121,6 +121,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$response->setResult($result);
 		$response->emit();
 	}
+
 	/**
 	 * Get more messages from chat.
 	 *
@@ -130,11 +131,11 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	 * @throws \App\Exceptions\IllegalValue
 	 * @throws \yii\db\Exception
 	 */
-	public function getMoreMessages(\App\Request $request)
+	public function getMoreMessages(App\Request $request)
 	{
 		$chat = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'));
 		$chatEntries = $chat->getEntries($request->getInteger('lastId'), '<');
-		$isNextPage = $this->isNextPage(count($chatEntries));
+		$isNextPage = $this->isNextPage(\count($chatEntries));
 		if ($isNextPage) {
 			array_shift($chatEntries);
 		}
@@ -146,12 +147,13 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		]);
 		$response->emit();
 	}
+
 	/**
 	 * Send message function.
 	 *
 	 * @param \App\Request $request
 	 */
-	public function send(\App\Request $request)
+	public function send(App\Request $request)
 	{
 		$chat = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'));
 		if (!$chat->isRoomExists()) {
@@ -159,7 +161,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		}
 		$chat->addMessage(\App\Utils\Completions::encodeAll($request->getForHtml('message')));
 		$chatEntries = $chat->getEntries($request->isEmpty('mid') ? null : $request->getInteger('mid'));
-		$isNextPage = $this->isNextPage(count($chatEntries));
+		$isNextPage = $this->isNextPage(\count($chatEntries));
 		if ($isNextPage) {
 			array_shift($chatEntries);
 		}
@@ -179,7 +181,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public function search(\App\Request $request)
+	public function search(App\Request $request)
 	{
 		$chat = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'));
 		$searchVal = $request->getByType('searchVal', 'Text');
@@ -188,7 +190,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		} else {
 			$chatEntries = $chat->getEntries(null, '>', $searchVal);
 		}
-		$isNextPage = $this->isNextPage(count($chatEntries));
+		$isNextPage = $this->isNextPage(\count($chatEntries));
 		if ($isNextPage) {
 			array_shift($chatEntries);
 		}
@@ -208,7 +210,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public function getUnread(\App\Request $request)
+	public function getUnread(App\Request $request)
 	{
 		$response = new Vtiger_Response();
 		$response->setResult([
@@ -227,11 +229,11 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	 * @throws \App\Exceptions\AppException
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public function getHistory(\App\Request $request)
+	public function getHistory(App\Request $request)
 	{
 		$chat = \App\Chat::getInstance();
 		$groupHistory = $request->getByType('groupHistory', 2);
-		if (!in_array($groupHistory, \App\Chat::ALLOWED_ROOM_TYPES)) {
+		if (!\in_array($groupHistory, \App\Chat::ALLOWED_ROOM_TYPES)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		if ($request->isEmpty('mid')) {
@@ -239,7 +241,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		} else {
 			$chatEntries = $chat->getHistoryByType($groupHistory, $request->getInteger('mid'));
 		}
-		$isNextPage = $this->isNextPage(count($chatEntries));
+		$isNextPage = $this->isNextPage(\count($chatEntries));
 		if ($isNextPage) {
 			array_shift($chatEntries);
 		}
@@ -283,6 +285,8 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 
 	/**
 	 * Check if there are more messages.
+	 *
+	 * @param int $numberOfMessages
 	 *
 	 * @return bool
 	 */
