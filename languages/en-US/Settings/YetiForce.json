@@ -64,6 +64,7 @@
     "LBL_SHOP_PAYMENT_FREQUENCY": "Payment frequency",
     "LBL_SHOP_PAYMENT_FREQUENCY_M": "Monthly",
     "LBL_SHOP_PROCEED_TO_CHECKOUT": "Proceed to payment",
-    "LBL_SHOP_NO_COMPANIES_ALERT": "There is no data of the target user (the company that owns the CRM) in the system. The data is required to issue an invoice, it is not possible to make a payment without this data."
+    "LBL_SHOP_NO_COMPANIES_ALERT": "There is no data of the target user (the company that owns the CRM) in the system. The data is required to issue an invoice, it is not possible to make a payment without this data.",
+    "LBL_SHOP_NO_COMPANIES_BUTTON": "Fill in the data"
   }
 }
