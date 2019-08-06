@@ -19,7 +19,6 @@ insert  into `a_yf_bruteforce`(`attempsnumber`,`timelock`,`active`,`sent`) value
 
 /*Data for the table `a_yf_discounts_config` */
 
-insert  into `a_yf_discounts_config`(`param`,`value`) values ('active','0');
 insert  into `a_yf_discounts_config`(`param`,`value`) values ('aggregation','0');
 insert  into `a_yf_discounts_config`(`param`,`value`) values ('discounts','0,1,2');
 
