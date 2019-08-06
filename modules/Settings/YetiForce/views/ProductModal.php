@@ -20,7 +20,7 @@ class Settings_YetiForce_ProductModal_View extends \App\Controller\ModalSettings
 	 */
 	public $modalSize = 'modal-full';
 	/**
-	 * Modal size.
+	 * Header class.
 	 *
 	 * @var string
 	 */

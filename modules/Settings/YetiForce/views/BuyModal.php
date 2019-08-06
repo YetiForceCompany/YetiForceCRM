@@ -29,7 +29,7 @@ class Settings_YetiForce_BuyModal_View extends \App\Controller\ModalSettings
 	 */
 	public $footerClass = 'px-md-5';
 	/**
-	 * Modal size.
+	 * Header class.
 	 *
 	 * @var string
 	 */
