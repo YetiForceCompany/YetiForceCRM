@@ -88,7 +88,7 @@
 			</table>
 		</form>
 	{else}
-		<div class="alert alert-danger">
+		<div class="alert alert-danger mb-0">
 		<span class="fas fa-exclamation-triangle mr-1"></span>
 			<a href="index.php?parent=Settings&module=Companies&view=List&block=3&fieldid=14" target="_blank">
 				{\App\Language::translate('LBL_SHOP_NO_COMPANIES_ALERT', $QUALIFIED_MODULE)}

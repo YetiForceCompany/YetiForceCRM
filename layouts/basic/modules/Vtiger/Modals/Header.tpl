@@ -11,7 +11,7 @@
 				<script type="{$MODEL->getType()}" src="{$MODEL->getSrc()}"></script>
 			{/foreach}
 			<script type="text/javascript">app.registerModalController();</script>
-			<div class="modal-header {$MODAL_VIEW->headerClass}">
+			<div class="modal-header{if isset($MODAL_VIEW->headerClass)} {$MODAL_VIEW->headerClass}{/if}">
 				<h5 class="modal-title">
 					{if $MODAL_VIEW->modalIcon}
 						<span class="modal-header-icon {$MODAL_VIEW->modalIcon}"></span>
