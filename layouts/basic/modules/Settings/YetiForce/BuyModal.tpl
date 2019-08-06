@@ -88,11 +88,15 @@
 			</table>
 		</form>
 	{else}
-		<div class="alert alert-info text-danger">
-		<span class="fas fa-exclamation-triangle"></span>
-			<a href="index.php?parent=Settings&module=Companies&view=List&block=3&fieldid=14" target="_blank">
-				{\App\Language::translate('LBL_SHOP_NO_COMPANIES_ALERT', $QUALIFIED_MODULE)}
-			</a>
+		<div class="alert alert-danger mb-0">
+			<span class="fas fa-exclamation-triangle mr-1"></span>
+			{\App\Language::translate('LBL_SHOP_NO_COMPANIES_ALERT', $QUALIFIED_MODULE)}
+			<div class="d-flex justify-content-center w-100 pt-1">
+				<a class="btn btn-primary" href="index.php?parent=Settings&module=Companies&view=List&block=3&fieldid=14" target="_blank">
+					<span class="fas fa-edit mr-1"></span>
+					{\App\Language::translate('LBL_SHOP_NO_COMPANIES_BUTTON', $QUALIFIED_MODULE)}
+				</a>
+			</div>
 		</div>
 	{/if}
 </div>

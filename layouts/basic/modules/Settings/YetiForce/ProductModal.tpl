@@ -18,16 +18,16 @@
 						{/if}
 					</div>
 					<div class="col-sm-11 col-md-7">
-						<div class="card-body d-flex flex-column h-100">
-							<h5 class="card-title text-primary">{$PRODUCT->getLabel()}</h5>
-							<p class="card-text truncate">{$PRODUCT->getDescription()}</p>
-							<div class="bg-dark text-white rounded-0 d-flex flex-nowrap text-nowrap align-items-center justify-content-center p-3 mt-auto" title="{\App\Language::translate('LBL_BUY', $QUALIFIED_MODULE)}">
+						<div class="d-flex flex-column h-100">
+							<div class="text-danger h1 mt-1 mb-0">
 								{if 'manual'===$PRODUCT->getPriceType()}
 									{\App\Language::translate("LBL_SUPPORT_US", $QUALIFIED_MODULE)}
 								{else}
 									{$PRODUCT->getPrice()} {$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}
 								{/if}
 							</div>
+							<h5 class="h4 my-4">{$PRODUCT->getLabel()}</h5>
+							<p>{$PRODUCT->getDescription()}</p>
 						</div>
 					</div>
 				</div>

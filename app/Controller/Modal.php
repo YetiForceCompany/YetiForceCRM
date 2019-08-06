@@ -21,6 +21,12 @@ abstract class Modal extends View
 	 */
 	public $modalSize = 'modal-lg';
 	/**
+	 * Modal size.
+	 *
+	 * @var string
+	 */
+	public $headerClass = '';
+	/**
 	 * Modal icon.
 	 *
 	 * @var string
