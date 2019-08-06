@@ -497,7 +497,7 @@ window.App.Fields = {
 							}
 						}
 					},
-					extraPlugins: 'colorbutton,pagebreak,colordialog,find,selectall,showblocks,div,print,font,justify,bidi',
+					extraPlugins: 'colorbutton,pagebreak,colordialog,find,selectall,showblocks,div,print,font,justify,bidi,pastebase64',
 					toolbar: 'Full',
 					toolbar_Full: [
 						{

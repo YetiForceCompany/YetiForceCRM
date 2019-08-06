@@ -302,6 +302,7 @@ abstract class View extends Base
 			'~libraries/footable/dist/footable.js',
 			'~vendor/ckeditor/ckeditor/ckeditor.js',
 			'~vendor/ckeditor/ckeditor/adapters/jquery.js',
+			'~libraries/ckeditor-pastebase64/plugin.js',
 			'~libraries/tributejs/dist/tribute.js',
 			'~libraries/emojipanel/dist/emojipanel.js',
 			'~libraries/vue/dist/vue.js',
