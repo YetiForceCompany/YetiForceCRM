@@ -18,9 +18,6 @@
   },
   "author": "YetiForceCompany <info@yetiforce.com> (https://yetiforce.com)",
   "license": "YetiForce Public License v3",
-  "scripts": {
-    "postinstall": "echo 'POST' > post.txt"
-  },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.8.2",
     "@mdi/font": "^3.6.95",
