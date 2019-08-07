@@ -1,5 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
+	{assign var=ACCESSIBLE_GROUPS value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 	<div class="tpl-dashboards-Updates dashboardWidgetHeader">
 		<input type="hidden" value="{$WIDGET->get('id')}" id="updatesWidgetId">
 		<input type="hidden" value="{$WIDGET->get('data')}" id="widgetData">
