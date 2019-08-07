@@ -1002,6 +1002,43 @@ window.App.Fields = {
 			}
 		},
 		/**
+		 * Show lazy select based on data passed in js.
+		 *
+		 * @param   {object}  selectElement  jQuery
+		 * @param   {object}  params         contains selectParams object, lazyElements number, data array
+		 */
+		showLazySelect(selectElement, params) {
+			$.fn.select2.amd.require(['select2/data/array', 'select2/utils'],(ArrayData, Utils) => {
+				function CustomData($element, params) {
+					CustomData.__super__.constructor.call(this, $element, params);
+				}
+				Utils.Extend(CustomData, ArrayData);
+				CustomData.prototype.query = (options, callback) => {
+					let results = [];
+					if (options.term && options.term !== '') {
+						results = params.data.filter((e) => {
+							return e.text.toUpperCase().indexOf(options.term.toUpperCase()) >= 0;
+						});
+					} else {
+						results = params.data;
+					}
+					if (!('page' in options)) {
+						options.page = 1;
+					}
+					let data = {};
+					data.results = results.slice((options.page - 1) * params.lazyElements, options.page * params.lazyElements);
+					data.pagination = {};
+					data.pagination.more = options.page * params.lazyElements < results.length;
+					callback(data);
+				};
+				params.selectParams = Object.assign(params.selectParams, {
+					ajax: {},
+					dataAdapter: CustomData
+				})
+				this.showSelect2ElementView(selectElement, params.selectParams)
+			})
+		},
+		/**
 		 * Function which will show the select2 element for select boxes . This will use select2 library
 		 */
 		showSelect2ElementView(selectElement, params) {

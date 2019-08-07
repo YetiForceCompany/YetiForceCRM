@@ -27,56 +27,8 @@ $.Class(
 			app.showModalWindow({
 				id: 'iconsModal',
 				url: 'index.php?module=Vtiger&view=IconsModal&parent=Settings',
-				cb: function(container) {
-					App.Fields.Picklist.showSelect2ElementView(container.find('#iconsList'), {
-						templateSelection: function(data) {
-							if (!data.id) {
-								return data.text;
-							}
-							var type = $(data.element).data('type');
-							container.find('.iconName').text(data.id);
-							container.find('#iconName').val(data.id);
-							container.find('#iconType').val(type);
-							if (type === 'icon') {
-								container
-									.find('.iconExample')
-									.html('<span class="' + data.element.value + '" aria-hidden="true"></span>');
-							} else if (type === 'image') {
-								container.find('.iconName').text(data.text);
-								container.find('#iconName').val(data.element.value);
-								container.find('.iconExample').html('<img width="24px" src="' + data.element.value + '"/>');
-							}
-							return data.text;
-						},
-						templateResult: function(data) {
-							if (!data.id) {
-								return data.text;
-							}
-							var type = $(data.element).data('type');
-							var option;
-							if (type === 'icon') {
-								option = $(
-									'<span class="' +
-										data.element.value +
-										'" aria-hidden="true"></span><span> - ' +
-										$(data.element).data('class') +
-										'</span>'
-								);
-							} else if (type === 'image') {
-								option = $(
-									'<img width="24px" src="' +
-										data.element.value +
-										'" title="' +
-										data.text +
-										'" /><span> - ' +
-										data.text +
-										'</span>'
-								);
-							}
-							return option;
-						},
-						closeOnSelect: true
-					});
+				cb: container => {
+					this.registerIconsSelect(container);
 					container.find('[name="saveButton"]').on('click', function(e) {
 						aDeferred.resolve({
 							type: container.find('#iconType').val(),
@@ -87,6 +39,52 @@ $.Class(
 				}
 			});
 			return aDeferred.promise();
+		},
+		registerIconsSelect(container) {
+			const params = { module: app.getModuleName(), parent: app.getParentModuleName(), action: 'Icons' };
+			AppConnector.request(params).done(({ result }) => {
+				let id = 0;
+				const data = Object.keys(result).map(key => {
+					if (key.startsWith('img-')) {
+						return { id: id++, text: key.slice(4), key: key, url: result[key], type: 'image' };
+					}
+					return { id: id++, text: result[key], key: key, type: 'icon' };
+				});
+				const selectParams = {
+					templateSelection: function(data) {
+						if (!data.id) {
+							return data.text;
+						}
+						container.find('.iconName').text(data.text);
+						container.find('#iconName').val(data.text);
+						container.find('#iconType').val(data.type);
+						if (data.type === 'icon') {
+							container.find('.iconExample').html(`<span class="${data.text}" aria-hidden="true"></span>`);
+							return $(`<span class="${data.text}" aria-hidden="true"></span><span> - ${data.text}</span>`);
+						} else if (data.type === 'image') {
+							container.find('.iconName').text(data.text);
+							container.find('#iconName').val(data.text);
+							container.find('.iconExample').html(`<img width="24px" src="${data.url}"/>`);
+						}
+						return data.text;
+					},
+					templateResult: function(data) {
+						if (data.loading) {
+							return data.text;
+						}
+						let option;
+						if (data.type === 'icon') {
+							option = $(`<span class="${data.text}" aria-hidden="true"></span><span> - ${data.text}</span>`);
+						} else if (data.type === 'image') {
+							option = $(`<img width="24px" src="${data.url}" title="${data.text}" /><span> - ${data.text}</span>`);
+						}
+						return option;
+					},
+					closeOnSelect: true
+				};
+				const params = { lazyElements: 50, data, selectParams };
+				App.Fields.Picklist.showLazySelect(container.find('#iconsList'), params);
+			});
 		},
 		showWarnings: function() {
 			$('li[data-mode="systemWarnings"] a').click();
@@ -455,7 +453,7 @@ $.Class(
 					let value = $(e.currentTarget)
 						.val()
 						.toLowerCase();
-						this.container.find('.js-product .js-text-search').filter(function() {
+					this.container.find('.js-product .js-text-search').filter(function() {
 						let item = $(this).closest('.js-product');
 						if (
 							$(this)
