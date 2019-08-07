@@ -1870,7 +1870,7 @@ insert  into `vtiger_contract_priority`(`contract_priorityid`,`contract_priority
 
 insert  into `vtiger_contract_status`(`contract_statusid`,`contract_status`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Undefined',1,214,1);
 insert  into `vtiger_contract_status`(`contract_statusid`,`contract_status`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'In Planning',1,215,2);
-insert  into `vtiger_contract_status`(`contract_statusid`,`contract_status`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'In Progress',1,216,3);
+insert  into `vtiger_contract_status`(`contract_statusid`,`contract_status`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'In Progress',0,216,3);
 insert  into `vtiger_contract_status`(`contract_statusid`,`contract_status`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'On Hold',1,217,4);
 insert  into `vtiger_contract_status`(`contract_statusid`,`contract_status`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'Complete',0,218,5);
 insert  into `vtiger_contract_status`(`contract_statusid`,`contract_status`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'Archived',1,219,6);

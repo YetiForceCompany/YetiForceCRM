@@ -65,15 +65,16 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 			$queryGenerator->setFields(['id', 'contract_priority']);
 			$queryGenerator->addNativeCondition(['vtiger_servicecontracts.sc_related_to' => $parentId]);
 			$queryGenerator->permissions = false;
-			$contractFieldStatus = \Vtiger_Module_Model::getInstance('ServiceContracts')->getField('contract_status');
-			if (($contractFieldStatus->getFieldParams()['isProcessStatusField'] ?? false) && ($status = \App\RecordStatus::getStates('ServiceContracts', \App\RecordStatus::RECORD_STATE_OPEN))) {
+			if (($queryGenerator->getModuleField('contract_status')->getFieldParams()['isProcessStatusField'] ?? false) && ($status = \App\RecordStatus::getStates('ServiceContracts', \App\RecordStatus::RECORD_STATE_OPEN))) {
 				$queryGenerator->addCondition('contract_status', $status, 'e');
+			} else {
+				$queryGenerator->addCondition('contract_status', 'In Progress', 'e');
 			}
 			$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 			if (1 === $dataReader->count()) {
 				$serviceContracts = $dataReader->read();
-				if ($serviceContracts) {
-					$record->set('servicecontractsid', $serviceContracts['id']);
+				$record->set('servicecontractsid', $serviceContracts['id']);
+				if (App\Fields\Picklist::isExists('ticketpriorities', $serviceContracts['contract_priority'])) {
 					$record->set('ticketpriorities', $serviceContracts['contract_priority']);
 				}
 			}
