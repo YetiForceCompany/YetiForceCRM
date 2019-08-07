@@ -27,6 +27,12 @@ abstract class Base
 	 */
 	public static $additionalFields = [];
 	/**
+	 * Fields which are not exist in YetiForce but needed in save Magento.
+	 *
+	 * @var array
+	 */
+	public static $additionalSaveFields = [];
+	/**
 	 * Mapped fields.
 	 *
 	 * @var array
@@ -117,6 +123,16 @@ abstract class Base
 	}
 
 	/**
+	 * Return additional Magento only in save fields list.
+	 *
+	 * @return array
+	 */
+	public function getAdditionalSaveFields(): array
+	{
+		return static::$additionalSaveFields;
+	}
+
+	/**
 	 * Return additional YetiForce fields list.
 	 *
 	 * @return array
@@ -158,6 +174,11 @@ abstract class Base
 		$data = [];
 		foreach ($this->getFields($onEdit) as $fieldCrm => $field) {
 			$data = \array_merge_recursive($data, $this->getFieldValueCrm($fieldCrm, true));
+		}
+		if (!$onEdit) {
+			foreach ($this->getAdditionalSaveFields() as $name => $value) {
+				$data = \array_merge_recursive($data, $this->getFieldStructure($name, !empty($value) ? $value : $this->getFieldValueCrm($name, false)));
+			}
 		}
 		foreach ($this->getAdditionalFields() as $name => $value) {
 			$data = \array_merge_recursive($data, $this->getFieldStructure($name, !empty($value) ? $value : $this->getFieldValueCrm($name, false)));
@@ -232,10 +253,14 @@ abstract class Base
 				if ('custom_attributes' === $fieldLevels[0]) {
 					$fieldParsed = $this->getCustomAttributeValue(end($fieldLevels));
 				} else {
-					foreach ($fieldLevels as $fieldLevel) {
+					$elements = \count($fieldLevels);
+					foreach ($fieldLevels as $level => $fieldLevel) {
 						if (\array_key_exists($fieldLevel, $fieldParsed)) {
 							$fieldParsed = $fieldParsed[$fieldLevel];
 						} else {
+							if ($elements !== $level + 1) {
+								$fieldParsed = '';
+							}
 							break;
 						}
 					}

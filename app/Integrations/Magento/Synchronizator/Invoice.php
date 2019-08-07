@@ -53,7 +53,7 @@ class Invoice extends Integrators\Invoice
 				if (!isset($this->mapCrm['invoice'][$id])) {
 					$this->saveInvoiceCrm($invoice);
 				} else {
-					$this->updateInvoiceCrm($this->mapCrm['invoice'][$id], $invoice);
+					$this->updateInvoiceCrm($this->mapCrm['order'][$id], $invoice);
 				}
 				$this->config::setScan('invoice', 'id', $id);
 			}
@@ -104,7 +104,7 @@ class Invoice extends Integrators\Invoice
 	/**
 	 * Method to update invoice in YetiForce.
 	 *
-	 * @param int   $id
+	 * @param int $id
 	 * @param array $data
 	 *
 	 * @throws \Exception

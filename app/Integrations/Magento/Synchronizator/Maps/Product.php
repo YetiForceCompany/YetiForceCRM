@@ -27,10 +27,15 @@ class Product extends Base
 	/**
 	 * {@inheritdoc}
 	 */
-	public static $additionalFields = [
+	public static $additionalSaveFields = [
 		'type_id' => 'simple',
 		'attribute_set_id' => '4',
-		'extension_attributes|stock_item|is_in_stock' => '',
+	];
+	/**
+	 * {@inheritdoc}
+	 */
+	public static $additionalFields = [
+		'extension_attributes|stock_item|is_in_stock' => ''
 	];
 	/**
 	 * {@inheritdoc}

@@ -48,14 +48,19 @@ class Product extends Integrators\Product
 				if (isset($this->map['product'][$id], $products[$this->map['product'][$id]])) {
 					$productData = $this->getProductFullData($this->mapIdToSku[$this->map['product'][$id]]);
 					$checkImages = $this->checkImages($productData, $productCrm);
-					if (!empty($checkImages) || (!empty($productData) && $this->hasChanges($productCrm, $productData))) {
+					$hasChanges = !empty($productData) && $this->hasChanges($productCrm, $productData);
+					if (!empty($checkImages) || $hasChanges) {
 						if (self::MAGENTO === $this->whichToUpdate($productCrm, $productData)) {
-							$this->updateProduct($this->map['product'][$id], $productCrm);
+							if ($hasChanges) {
+								$this->updateProduct($this->map['product'][$id], $productCrm);
+							}
 							if (!empty($checkImages['add']) || !empty($checkImages['remove'])) {
 								$this->updateImages($this->mapIdToSku[$this->map['product'][$id]], $checkImages);
 							}
 						} else {
-							$this->updateProductCrm($id, $productData);
+							if ($hasChanges) {
+								$this->updateProductCrm($id, $productData);
+							}
 							$this->updateImagesCrm($id, $checkImages['addCrm'] ?? []);
 						}
 					}
@@ -91,14 +96,19 @@ class Product extends Integrators\Product
 					}
 					if (isset($this->mapCrm['product'][$id], $productsCrm[$this->mapCrm['product'][$id]])) {
 						$checkImages = $this->checkImages($productData, $productsCrm[$this->mapCrm['product'][$id]]);
-						if (!empty($checkImages) || $this->hasChanges($productsCrm[$this->mapCrm['product'][$id]], $productData)) {
+						$hasChanges = $this->hasChanges($productsCrm[$this->mapCrm['product'][$id]], $productData);
+						if (!empty($checkImages) || $hasChanges) {
 							if (self::MAGENTO === $this->whichToUpdate($productsCrm[$this->mapCrm['product'][$id]], $productData)) {
-								$this->updateProduct($id, $productsCrm[$this->mapCrm['product'][$id]]);
+								if ($hasChanges) {
+									$this->updateProduct($id, $productsCrm[$this->mapCrm['product'][$id]]);
+								}
 								if (!empty($checkImages['add']) || !empty($checkImages['remove'])) {
 									$this->updateImages($product['sku'], $checkImages);
 								}
 							} else {
-								$this->updateProductCrm($this->mapCrm['product'][$id], $productData);
+								if ($hasChanges) {
+									$this->updateProductCrm($this->mapCrm['product'][$id], $productData);
+								}
 								$this->updateImagesCrm($this->mapCrm['product'][$id], $checkImages['addCrm'] ?? []);
 							}
 						}

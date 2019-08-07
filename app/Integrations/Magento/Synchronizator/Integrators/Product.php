@@ -113,15 +113,22 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 	 * Method to get sku mapped by product id.
 	 *
 	 * @throws \App\Exceptions\AppException
+	 * @throws \ReflectionException
 	 */
 	public function getProductSkuMap(): void
 	{
 		if (empty($this->mapIdToSku)) {
-			$data = \App\Json::decode($this->connector->request('GET', 'rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/products?fields=items[id,sku]&searchCriteria'));
-			if (!empty($data['items'])) {
-				foreach ($data['items'] as $item) {
-					$this->mapIdToSku[$item['id']] = $item['sku'];
+			$page = 1;
+			do {
+				$data = \App\Json::decode($this->connector->request('GET', 'rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/products?fields=items[id,sku]&searchCriteria[pageSize]=1000&searchCriteria[currentPage]=' . $page));
+				if (!empty($data['items'])) {
+					foreach ($data['items'] as $item) {
+						$this->mapIdToSku[$item['id']] = $item['sku'];
+					}
 				}
+				++$page;
+			} while (!(\count($data['items']) < 1000));
+			if (!empty($this->mapIdToSku)) {
 				$this->mapSkuToId = \array_flip($this->mapIdToSku);
 			}
 		}

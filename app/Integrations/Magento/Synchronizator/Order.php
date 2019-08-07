@@ -24,6 +24,7 @@ class Order extends Integrators\Order
 	{
 		$this->getMapping('order');
 		$this->getMapping('product');
+		$this->getProductSkuMapCrm();
 		$this->config = \App\Integrations\Magento\Config::getInstance();
 		$this->lastScan = $this->config::getLastScan('order');
 		if (!$this->lastScan['start_date'] || (0 === (int) $this->lastScan['id'] && $this->lastScan['start_date'] === $this->lastScan['end_date'])) {
@@ -80,7 +81,7 @@ class Order extends Integrators\Order
 			try {
 				$recordModel = \Vtiger_Record_Model::getCleanInstance('SSingleOrders');
 				$recordModel->setData($dataCrm);
-				if ($this->saveInventoryCrm($recordModel, $data['items'], $data['extension_attributes']['shipping_assignments'], $orderFields)) {
+				if ($this->saveInventoryCrm($recordModel, $data, $orderFields)) {
 					$recordModel->save();
 					$this->saveMapping($data['entity_id'], $recordModel->getId(), 'order');
 				} else {

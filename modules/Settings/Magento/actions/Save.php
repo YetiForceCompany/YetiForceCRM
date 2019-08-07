@@ -20,7 +20,7 @@ class Settings_Magento_Save_Action extends Settings_Vtiger_Save_Action
 	 */
 	public function process(App\Request $request)
 	{
-		$configFile = new \App\ConfigFile('module', $request->getModule(true));
+		$configFile = new \App\ConfigFile('component', $request->getModule(true));
 		$result = ['success' => true, 'message' => \App\Language::translate('LBL_SAVED', $request->getModule(false))];
 		try {
 			foreach (Settings_Magento_Module_Model::getFormFields() as $fieldName => $fieldInfo) {

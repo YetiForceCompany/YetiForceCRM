@@ -106,7 +106,6 @@ abstract class Record extends Base
 	public function checkImages($images, $imagesCrmData)
 	{
 		$imagesCrm = $imagesAdd = $imagesRemove = $imagesCrmNames = [];
-		$needUpdate = false;
 		$imagesCrmData = \App\Json::decode($imagesCrmData['imagename']);
 		if (!empty($imagesCrmData)) {
 			$imagesCrmNames = str_replace([' ', '-', '_'], '', array_column($imagesCrmData, 'name'));
@@ -118,7 +117,6 @@ abstract class Record extends Base
 			if (empty($imagesCrmNames) || !\in_array(str_replace([' ', '-', '_'], '', $image['filename']), $imagesCrmNames)) {
 				$imagesCrm[] = $image;
 				$imagesRemove[] = $image;
-				$needUpdate = true;
 			}
 		}
 		if (!empty($imagesCrmData)) {
@@ -127,13 +125,12 @@ abstract class Record extends Base
 				if (!\in_array(str_replace([' ', '-', '_'], '', $imageCrm['name']), $imagesNames)) {
 					$imagesAdd[] = $imageCrm;
 					$imagesRemoveCrm[] = $imageCrm;
-					$needUpdate = true;
 				} else {
 					$imagesCrm[] = $imageCrm;
 				}
 			}
 		}
-		return $needUpdate ? ['addCrm' => $imagesCrm, 'add' => $imagesAdd, 'remove' => $imagesRemove] : [];
+		return (!empty($imagesCrm) || !empty($imagesAdd) || !empty($imagesRemove)) ? ['addCrm' => $imagesCrm, 'add' => $imagesAdd, 'remove' => $imagesRemove] : [];
 	}
 
 	/**
