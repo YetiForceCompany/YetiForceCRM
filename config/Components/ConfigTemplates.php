@@ -227,6 +227,7 @@ return [
 		'connector' => [
 			'default' => 'Token',
 			'description' => 'Type of connector for integration with magento.',
+			'validation' => '\App\Validator::standard',
 		],
 		'addressApi' => [
 			'default' => '',
@@ -239,74 +240,140 @@ return [
 		'username' => [
 			'default' => '',
 			'description' => 'Username to account in magento.',
+			'validation' => '\App\Validator::alnum',
 		],
 		'password' => [
 			'default' => '',
 			'description' => 'Password to account in magento.',
+			'validation' => function () {
+				return true;
+			}
 		],
 		'masterSource' => [
 			'default' => 'magento',
 			'description' => 'Set master source: yetiforce or magento.',
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return \in_array($arg, ['yetiforce', 'magento']);
+			}
 		],
 		'storeCode' => [
 			'default' => 'all',
 			'description' => 'Set store code',
+			'validation' => '\App\Validator::alnum',
 		],
 		'storeId' => [
 			'default' => 1,
 			'description' => 'Set store id',
+			'validation' => '\App\Validator::naturalNumber',
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
 		],
 		'websiteId' => [
 			'default' => 1,
 			'description' => 'Set website id',
+			'validation' => '\App\Validator::naturalNumber',
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
 		],
 		'customerLimit' => [
 			'default' => 20,
 			'description' => 'Set how many customers can be downloaded at once.',
+			'validation' => '\App\Validator::naturalNumber',
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
 		],
 		'productLimit' => [
 			'default' => 20,
 			'description' => 'Set how many records can be updated at once.',
+			'validation' => '\App\Validator::naturalNumber',
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
 		],
 		'orderLimit' => [
 			'default' => 20,
 			'description' => 'Set how many orders can be downloaded at once.',
+			'validation' => '\App\Validator::naturalNumber',
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
 		],
 		'invoiceLimit' => [
 			'default' => 20,
 			'description' => 'Set how many invoices can be downloaded at once.',
+			'validation' => '\App\Validator::naturalNumber',
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
 		],
 		'productImagesPath' => [
 			'default' => 'media/catalog/product/',
-			'description' => 'Product images path.',
+			'description' => 'Product images Magento path.',
+			'validation' => function () {
+				return \App\Validator::url('http://127.0.0.1/' . func_get_arg(0));
+			}
 		],
 		'storageId' => [
 			'default' => '',
 			'description' => 'Product storage id',
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return empty($arg) || \App\Validator::naturalNumber($arg);
+			},
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
 		],
 		'shippingServiceId' => [
 			'default' => '',
 			'description' => 'Shipping service id',
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return empty($arg) || \App\Validator::naturalNumber($arg);
+			},
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
 		],
 		'currencyId' => [
 			'default' => 1,
 			'description' => 'Currency id',
+			'validation' => '\App\Validator::naturalNumber',
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
 		],
 		'productMapClassName' => [
 			'default' => '\App\Integrations\Magento\Synchronizator\Maps\Product',
 			'description' => 'Product field map class name',
+			'validation' => function () {
+				return class_exists(func_get_arg(0));
+			}
 		],
 		'invoiceMapClassName' => [
 			'default' => '\App\Integrations\Magento\Synchronizator\Maps\Invoice',
 			'description' => 'Invoice field map class name',
+			'validation' => function () {
+				return class_exists(func_get_arg(0));
+			}
 		],
 		'orderMapClassName' => [
 			'default' => '\App\Integrations\Magento\Synchronizator\Maps\Order',
 			'description' => 'Order field map class name',
+			'validation' => function () {
+				return class_exists(func_get_arg(0));
+			}
 		],
 		'customerMapClassName' => [
 			'default' => '\App\Integrations\Magento\Synchronizator\Maps\Customer',
 			'description' => 'Customer field map class name',
+			'validation' => function () {
+				return class_exists(func_get_arg(0));
+			}
 		],
 	],
 ];

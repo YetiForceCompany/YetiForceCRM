@@ -1,0 +1,32 @@
+{
+  "php": {
+    "LBL_MAGENTO_SETTINGS": "Magento settings",
+    "LBL_ADDRESSAPI": "Addres API",
+    "LBL_USERNAME": "Username",
+    "LBL_MASTERSOURCE": "Master source",
+    "LBL_STORECODE": "Store code",
+    "LBL_STOREID": "Store ID",
+    "LBL_WEBSITEID": "Website ID",
+    "LBL_CUSTOMERLIMIT": "Download customer limit",
+    "LBL_PRODUCTLIMIT": "Download product limit",
+    "LBL_ORDERLIMIT": "Download order limit",
+    "LBL_INVOICELIMIT": "Download invoice limit",
+    "LBL_PRODUCTIMAGESPATH": "Magento product images path",
+    "LBL_STORAGEID": "Storage ID",
+    "LBL_SHIPPINGSERVICEID": "Shipping service ID",
+    "LBL_CURRENCYID": "Currency ID",
+    "LBL_PRODUCTMAPCLASSNAME": "Product map class name",
+    "LBL_INVOICEMAPCLASSNAME": "Invoice map class name",
+    "LBL_ORDERMAPCLASSNAME": "Order map class name",
+    "LBL_CUSTOMERMAPCLASSNAME": "Customer map class name",
+    "LBL_PARAM_NOT_ALLOWED": "Parameter not allowed",
+    "LBL_VALUE_NOT_ALLOWED": "Value not allowed",
+    "LBL_SAVED": "Changes saved",
+    "LBL_MASTERSOURCE_TOOLTIP": "Select which source is more important if you make changes in both places or download categories.",
+    "LBL_PRODUCTIMAGESPATH_TOOLTIP": "Path to Magento images folder e.g. 'media/catalog/product/'",
+    "LBL_PRODUCTMAPCLASSNAME_TOOLTIP": "If you want to use custom field map you need to create new class in Maps/Custom. After that you need to change this value e.g. 'App\\Integrations\\Magento\\Synchronizator\\Maps\\Custom\\Product'",
+    "LBL_INVOICEMAPCLASSNAME_TOOLTIP": "If you want to use custom field map you need to create new class in Maps/Custom. After that you need to change this value e.g. 'App\\Integrations\\Magento\\Synchronizator\\Maps\\Custom\\Invoice'",
+    "LBL_ORDERMAPCLASSNAME_TOOLTIP": "If you want to use custom field map you need to create new class in Maps/Custom. After that you need to change this value e.g. 'App\\Integrations\\Magento\\Synchronizator\\Maps\\Custom\\Order'",
+    "LBL_CUSTOMERMAPCLASSNAME_TOOLTIP": "If you want to use custom field map you need to create new class in Maps/Custom. After that you need to change this value e.g. 'App\\Integrations\\Magento\\Synchronizator\\Maps\\Custom\\Customer'"
+  }
+}
