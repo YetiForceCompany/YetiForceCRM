@@ -13,7 +13,10 @@ class Settings_PickListDependency_List_View extends Settings_Vtiger_List_View
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		$moduleModelList = Settings_PickListDependency_Module_Model::getPicklistSupportedModules();
-		$forModule = $request->get('formodule');
+		$forModule = '';
+		if (!$request->isEmpty('formodule')) {
+			$forModule = $request->getByType('formodule', 'Alnum');
+		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PICKLIST_MODULES_LIST', $moduleModelList);
 		$viewer->assign('FOR_MODULE', $forModule);
@@ -24,7 +27,10 @@ class Settings_PickListDependency_List_View extends Settings_Vtiger_List_View
 	{
 		if ($request->isAjax()) {
 			$moduleModelList = Settings_PickListDependency_Module_Model::getPicklistSupportedModules();
-			$forModule = $request->get('formodule');
+			$forModule = '';
+			if (!$request->isEmpty('formodule')) {
+				$forModule = $request->getByType('formodule', 'Alnum');
+			}
 			$viewer = $this->getViewer($request);
 			$viewer->assign('PICKLIST_MODULES_LIST', $moduleModelList);
 			$viewer->assign('FOR_MODULE', $forModule);
