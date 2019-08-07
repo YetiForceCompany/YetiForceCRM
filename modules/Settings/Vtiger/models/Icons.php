@@ -89,16 +89,16 @@ class Settings_Vtiger_Icons_Model
 				$mimeType = \App\Fields\File::getMimeContentType($path . $file);
 				$mimeTypeContents = explode('/', $mimeType);
 				if ('image' == $mimeTypeContents[0]) {
-					$images[$file] = $file;
+					$images['img-' . $file] = \Vtiger_Theme::getImagePath($file);
 				}
 			}
 		}
 		return $images;
 	}
 
-	public static function getAll()
-	{
+	public static function getAll() {
 		$icons = [];
+		$icons = array_merge($icons, self::getImageIcon());
 		$icons = array_merge($icons, self::getUserIcon());
 		$icons = array_merge($icons, self::getAdminIcon());
 		$icons = array_merge($icons, self::getAdditionalIcon());
