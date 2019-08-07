@@ -13,7 +13,7 @@ class Settings_Vtiger_Icons_Model
 	/**
 	 * Icons.
 	 *
-	 * @var object
+	 * @var array
 	 */
 	protected static $icons;
 
