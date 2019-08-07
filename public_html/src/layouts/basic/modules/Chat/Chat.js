@@ -1,6 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
-import ChatDialog from './components/Dialog.vue'
+import ChatDialog from './views/Dialog.vue'
+import ChatRecordRoom from './views/RecordRoom.vue'
 import Icon from 'components/Icon.vue'
 import store from 'store'
 import moduleStore from './store'
@@ -28,6 +29,19 @@ window.ChatModalVueComponent = {
 						Quasar.plugins.SessionStorage.set('yf-chat', JSON.stringify(state.Chat.session))
 					}
 				})
+			}
+		}).$mount(config.el)
+	}
+}
+window.ChatRecordRoomVueComponent = {
+	component: ChatRecordRoom,
+	mount(config) {
+		ChatRecordRoom.state = config.state
+		return new Vue({
+			store,
+			render: h => h(ChatRecordRoom),
+			beforeCreate() {
+				// store.registerModule('Chat', moduleStore)
 			}
 		}).$mount(config.el)
 	}

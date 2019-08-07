@@ -44,7 +44,7 @@
   </div>
 </template>
 <script>
-import Chat from './Chat.vue'
+import Chat from '../components/Chat.vue'
 import Drag from 'components/Drag.vue'
 import DragResize from 'components/DragResize.vue'
 
