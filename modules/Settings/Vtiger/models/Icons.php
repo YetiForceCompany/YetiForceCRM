@@ -6,21 +6,37 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 class Settings_Vtiger_Icons_Model
 {
+	/**
+	 * Icons.
+	 *
+	 * @var object
+	 */
 	protected static $icons;
 
+	/**
+	 * Init icons data.
+	 *
+	 * @return void
+	 */
 	public static function init()
 	{
-		if (isset(static::$icons)) {
-			return true;
+		if (!isset(static::$icons)) {
+			static::$icons = require 'app_data/icons.php';
 		}
-		static::$icons = require 'app_data/icons.php';
 	}
 
-	public static function getUserIcon()
+	/**
+	 * Get user icons.
+	 *
+	 * @return array
+	 */
+	public static function getUserIcons(): array
 	{
+		static::init();
 		$icons = [];
 		foreach (self::$icons['user'] as $icon) {
 			$icons[$icon] = 'userIcon-' . $icon;
@@ -28,8 +44,14 @@ class Settings_Vtiger_Icons_Model
 		return $icons;
 	}
 
-	public static function getAdminIcon()
+	/**
+	 * Get admin icons.
+	 *
+	 * @return array
+	 */
+	public static function getAdminIcons(): array
 	{
+		static::init();
 		$icons = [];
 		foreach (self::$icons['admin'] as $icon) {
 			$icons[$icon] = 'adminIcon-' . $icon;
@@ -37,8 +59,14 @@ class Settings_Vtiger_Icons_Model
 		return $icons;
 	}
 
-	public static function getAdditionalIcon()
+	/**
+	 * Get additional icons.
+	 *
+	 * @return array
+	 */
+	public static function getAdditionalIcons(): array
 	{
+		static::init();
 		$icons = [];
 		foreach (self::$icons['additional'] as $icon) {
 			$icons[$icon] = 'AdditionalIcon-' . $icon;
@@ -46,8 +74,14 @@ class Settings_Vtiger_Icons_Model
 		return $icons;
 	}
 
-	public static function getFontAwesomeIcon()
+	/**
+	 * Get fa icons.
+	 *
+	 * @return array
+	 */
+	public static function getFontAwesomeIcons(): array
 	{
+		static::init();
 		$icons = [];
 		foreach (self::$icons['fa'] as $icon) {
 			$icons[$icon] = $icon;
@@ -55,8 +89,14 @@ class Settings_Vtiger_Icons_Model
 		return $icons;
 	}
 
-	public static function getMaterialDesignIcon()
+	/**
+	 * Get mdi icons.
+	 *
+	 * @return array
+	 */
+	public static function getMaterialDesignIcons(): array
 	{
+		static::init();
 		$icons = [];
 		foreach (self::$icons['mdi'] as $icon) {
 			$icons[$icon] = 'mdi mdi-' . $icon;
@@ -64,8 +104,14 @@ class Settings_Vtiger_Icons_Model
 		return $icons;
 	}
 
-	public static function getYetiForceIcon()
+	/**
+	 * Get yeti icons.
+	 *
+	 * @return array
+	 */
+	public static function getYetiForceIcons(): array
 	{
+		static::init();
 		$icons = [];
 		foreach (self::$icons['yfi'] as $icon) {
 			$icons[$icon] = 'yfi-' . $icon;
@@ -74,12 +120,13 @@ class Settings_Vtiger_Icons_Model
 	}
 
 	/**
-	 * Function get images.
+	 * Get icon images.
 	 *
-	 * @return string
+	 * @return array
 	 */
-	public static function getImageIcon()
+	public static function getImageIcons(): array
 	{
+		static::init();
 		$images = [];
 		$path = 'public_html' . DIRECTORY_SEPARATOR . 'layouts' . DIRECTORY_SEPARATOR . \App\Layout::getActiveLayout() . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR;
 		$dir = new DirectoryIterator($path);
@@ -96,15 +143,20 @@ class Settings_Vtiger_Icons_Model
 		return $images;
 	}
 
-	public static function getAll() {
+	/**
+	 * Get all icons and images.
+	 *
+	 * @return array
+	 */
+	public static function getAll(): array
+	{
 		$icons = [];
-		$icons = array_merge($icons, self::getImageIcon());
-		$icons = array_merge($icons, self::getUserIcon());
-		$icons = array_merge($icons, self::getAdminIcon());
-		$icons = array_merge($icons, self::getAdditionalIcon());
-		$icons = array_merge($icons, self::getYetiForceIcon());
-		$icons = array_merge($icons, self::getMaterialDesignIcon());
-		return array_merge($icons, self::getFontAwesomeIcon());
+		$icons = array_merge($icons, self::getImageIcons());
+		$icons = array_merge($icons, self::getUserIcons());
+		$icons = array_merge($icons, self::getAdminIcons());
+		$icons = array_merge($icons, self::getAdditionalIcons());
+		$icons = array_merge($icons, self::getYetiForceIcons());
+		$icons = array_merge($icons, self::getMaterialDesignIcons());
+		return array_merge($icons, self::getFontAwesomeIcons());
 	}
 }
-Settings_Vtiger_Icons_Model::init();
