@@ -61,11 +61,23 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 		}
 		if ($parentId) {
 			$record->set('parent_id', $parentId);
-			$serviceContracts = (new App\Db\Query())->select(['vtiger_servicecontracts.servicecontractsid', 'vtiger_servicecontracts.priority'])->from('vtiger_servicecontracts')->innerJoin('vtiger_crmentity', 'vtiger_servicecontracts.servicecontractsid = vtiger_crmentity.crmid')->where(['vtiger_crmentity.deleted' => 0, 'vtiger_servicecontracts.sc_related_to' => $parentId])->limit(1)->one();
-			if ($serviceContracts) {
-				$record->set('servicecontractsid', $serviceContracts['servicecontractsid']);
-				$record->set('ticketpriorities', $serviceContracts['priority']);
+			$queryGenerator = new \App\QueryGenerator('ServiceContracts');
+			$queryGenerator->setFields(['id', 'contract_priority']);
+			$queryGenerator->addNativeCondition(['vtiger_servicecontracts.sc_related_to' => $parentId]);
+			$queryGenerator->permissions = false;
+			$contractFieldStatus = \Vtiger_Module_Model::getInstance('ServiceContracts')->getField('contract_status');
+			if (($contractFieldStatus->getFieldParams()['isProcessStatusField'] ?? false) && ($status = \App\RecordStatus::getStates('ServiceContracts', \App\RecordStatus::RECORD_STATE_OPEN))) {
+				$queryGenerator->addCondition('contract_status', $status, 'e');
 			}
+			$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+			if (1 === $dataReader->count()) {
+				$serviceContracts = $dataReader->read();
+				if ($serviceContracts) {
+					$record->set('servicecontractsid', $serviceContracts['id']);
+					$record->set('ticketpriorities', $serviceContracts['contract_priority']);
+				}
+			}
+			$dataReader->close();
 		}
 		$accountOwner = $mail->getAccountOwner();
 		$record->set('assigned_user_id', $mail->getAccountOwner());
