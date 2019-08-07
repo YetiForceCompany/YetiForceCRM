@@ -8,7 +8,7 @@
 			<div class="flex-row">
 			<div class="d-inline-flex">
 			<a class="js-show-update-widget-config btn btn-sm btn-light" data-js="click"">
-					<span class="fas fa-cog" title="{\App\Language::translate('LBL_WIDGET_CONFIGURATOR')}"></span>
+					<span class="fas fa-cog" title="{\App\Language::translate('LBL_UPDATES_WIDGET_CONFIGURATION')}"></span>
 			</a>
 			</div>
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderButtons.tpl', $MODULE_NAME)}

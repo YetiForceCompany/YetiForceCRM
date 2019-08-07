@@ -82,9 +82,10 @@ class Home_Module_Model extends Vtiger_Module_Model
 	public function getCalendarActivities($mode, Vtiger_Paging_Model $pagingModel, $user, $recordId = false, $paramsMore = [])
 	{
 		$activities = [];
+		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$query = new \App\Db\Query();
 		if (!$user) {
-			$user = \App\User::getCurrentUserId();
+			$user = $currentUser->getId();
 		}
 
 		$orderBy = $pagingModel->getForSql('orderby');
@@ -103,9 +104,17 @@ class Home_Module_Model extends Vtiger_Module_Model
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
 			->where(['vtiger_crmentity.deleted' => 0]);
 		\App\PrivilegeQuery::getConditions($query, 'Calendar');
-		if ($mode === 'upcoming' || $mode === 'overdue') {
+		if ($mode === 'upcoming') {
 			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
-		} elseif ($mode === 'createdByMeButNotMine' || $mode === 'createdByMeButNotMineOverdue') {
+		} elseif ($mode === 'overdue') {
+			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
+		} elseif ($mode === 'assigned_upcoming') {
+			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
+			$query->andWhere(['vtiger_crmentity.smcreatorid' => $paramsMore['user']]);
+		} elseif ($mode === 'assigned_over') {
+			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
+			$query->andWhere(['vtiger_crmentity.smcreatorid' => $paramsMore['user']]);
+		} elseif ($mode === 'createdByMeButNotMine') {
 			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
 			$query->andWhere(['and', ['vtiger_crmentity.smcreatorid' => $paramsMore['user']], ['NOT IN', 'vtiger_crmentity.smownerid', $paramsMore['user']]]);
 		}
@@ -113,14 +122,9 @@ class Home_Module_Model extends Vtiger_Module_Model
 			$query->andWhere(['vtiger_activity.activitytype' => $paramsMore['activitytype']]);
 		}
 		if ($user !== 'all' && !empty($user)) {
-			$userId = (int) $user;
-			if (\App\User::isExists($userId)) {
-				$userModel = \App\User::getUserModel($userId);
-				$userAndGroups = $userModel->getGroups();
-			}
-			$userAndGroups[] = $userId;
-			$subQuery = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->innerJoin('vtiger_activity', 'u_#__crmentity_showners.crmid=vtiger_activity.activityid')->where(['userid' => $userAndGroups])->distinct('crmid');
-			$query->andWhere(['or', ['vtiger_crmentity.smownerid' => $userAndGroups], ['vtiger_crmentity.crmid' => $subQuery]]);
+			$user = (int) $user;
+			$subQuery = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->innerJoin('vtiger_activity', 'u_#__crmentity_showners.crmid=vtiger_activity.activityid')->where(['userid' => $user])->distinct('crmid');
+			$query->andWhere(['or', ['vtiger_crmentity.smownerid' => $user], ['vtiger_crmentity.crmid' => $subQuery]]);
 		}
 
 		$query->orderBy($orderBy)
@@ -330,13 +334,12 @@ class Home_Module_Model extends Vtiger_Module_Model
 		$accessibleUsers = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
 		$accessibleGroups = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
 		if ($user !== 'all' && $user !== '' && (array_key_exists($user, $accessibleUsers) || array_key_exists($user, $accessibleGroups))) {
-			$query->andWhere(['vtiger_crmentity.smownerid' => $user]);
+			$query->andWhere(['whodid' => $user]);
 		}
 
 		$query->orderBy(['vtiger_modtracker_basic.id' => SORT_DESC])
 				->limit($pagingModel->getPageLimit())
 				->offset($pagingModel->getStartIndex());
-
 		$dataReader = $query->createCommand()->query();
 		$updates = [];
 		while ($row = $dataReader->read()) {
@@ -345,8 +348,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 			if (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
 				$modTrackerRecorModel = new ModTracker_Record_Model();
 				$modTrackerRecorModel->setData($row)->setParent($recordId, $moduleName);
-				$time = $modTrackerRecorModel->get('changedon');
-				$updates[$time] = $modTrackerRecorModel;
+				$updates[] = $modTrackerRecorModel;
 			}
 		}
 		$dataReader->close();
