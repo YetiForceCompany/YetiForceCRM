@@ -399,7 +399,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$return = [];
 		$query = (new App\Db\Query())->from('vtiger_field')
 			->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
-			->where(['and', ['or', ['uitype' => 13], ['uitype' => 14], ['uitype' => 319]], ['<>', 'vtiger_field.presence', 1], ['<>', 'vtiger_tab.name', 'Users']]);
+			->where(['and', ['or', ['uitype' => 13], ['uitype' => 319]], ['<>', 'vtiger_field.presence', 1], ['<>', 'vtiger_tab.name', 'Users']]);
 		if ($module) {
 			$query->andWhere(['vtiger_tab.name' => $module]);
 		}
