@@ -1001,6 +1001,12 @@ window.App.Fields = {
 				app.errorLog(new Error(`Unknown select type [${view}]`));
 			}
 		},
+		/**
+		 * Show lazy select based on data passed in js.
+		 *
+		 * @param   {object}  selectElement  jQuery
+		 * @param   {object}  params         contains selectParams object, lazyElements number, data array
+		 */
 		showLazySelect(selectElement, params) {
 			$.fn.select2.amd.require(['select2/data/array', 'select2/utils'],(ArrayData, Utils) => {
 				function CustomData($element, params) {
