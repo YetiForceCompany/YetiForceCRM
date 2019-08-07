@@ -2,8 +2,16 @@
 <template>
   <q-layout view="hHh LpR fFf" container :class="['bg-white', miniMode ? 'chat-mini' : '']">
     <chat-header @visibleInputSearch="inputSearchVisible = $event" @showTabHistory="tabHistoryShow = $event" />
-    <left-panel />
-    <right-panel />
+    <left-panel>
+			<template v-slot:top>
+				<backdrop v-show="tab !== 'chat'" />
+			</template>
+		</left-panel>
+    <right-panel>
+			<template v-slot:top>
+				<backdrop v-show="tab !== 'chat'" />
+			</template>
+		</right-panel>
     <main-panel />
     <chat-footer />
   </q-layout>
@@ -15,11 +23,13 @@ import MainPanel from './MainPanel.vue'
 import Messages from './Messages.vue'
 import ChatHeader from './ChatHeader.vue'
 import ChatFooter from './ChatFooter.vue'
+import Backdrop from 'components/Backdrop.vue'
+
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters } = createNamespacedHelpers('Chat')
 export default {
   name: 'Chat',
-  components: { LeftPanel, RightPanel, MainPanel, ChatHeader, ChatFooter },
+  components: { LeftPanel, RightPanel, MainPanel, ChatHeader, ChatFooter, Backdrop },
   props: {
     parentRefs: { type: Object, required: true }
   },
@@ -27,7 +37,7 @@ export default {
     return {}
   },
   computed: {
-    ...mapGetters(['leftPanel', 'rightPanel', 'miniMode'])
+    ...mapGetters(['leftPanel', 'rightPanel', 'miniMode', 'tab'])
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <q-drawer :value="leftPanel" side="left" bordered @hide="setLeftPanel(false)">
-    <backdrop v-show="tab !== 'chat'" />
+    <slot name="top"></slot>
     <div class="bg-grey-11 fit">
       <q-input dense v-model="filterRooms" :placeholder="translate('JS_CHAT_FILTER_ROOMS')" class="q-px-sm">
         <template v-slot:prepend>
@@ -140,14 +140,13 @@
   </q-drawer>
 </template>
 <script>
-import Backdrop from 'components/Backdrop.vue'
 import SelectModules from './SelectModules.vue'
 import { getGroupIcon } from '../utils/utils.js'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'LeftPanel',
-  components: { Backdrop, SelectModules },
+  components: { SelectModules },
   data() {
     return {
       filterRooms: '',
@@ -157,7 +156,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['leftPanel', 'data', 'config', 'tab', 'isSoundNotification', 'roomSoundNotificationsOff']),
+    ...mapGetters(['leftPanel', 'data', 'config', 'isSoundNotification', 'roomSoundNotificationsOff']),
     areUnpinned() {
       for (let room in this.data.roomList.group) {
         if (!this.data.roomList.group[room].isPinned) {

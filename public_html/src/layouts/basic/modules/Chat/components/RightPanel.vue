@@ -1,7 +1,7 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <q-drawer :value="rightPanel" side="right" @hide="setRightPanel(false)" bordered>
-    <backdrop v-show="tab !== 'chat'" />
+    <slot name="top"></slot>
     <div class="bg-grey-11 fit">
       <q-input
         dense
@@ -51,19 +51,17 @@
   </q-drawer>
 </template>
 <script>
-import Backdrop from 'components/Backdrop.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatRightPanel',
-  components: { Backdrop },
   data() {
     return {
       filterParticipants: ''
     }
   },
   computed: {
-    ...mapGetters(['rightPanel', 'data', 'tab']),
+    ...mapGetters(['rightPanel', 'data']),
     participantsList() {
       if (this.filterParticipants === '') {
         return this.data.participants
