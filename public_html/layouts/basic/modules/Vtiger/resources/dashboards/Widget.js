@@ -226,8 +226,8 @@ jQuery.Class(
 				 * @param  {Chart} chart chart instance
 				 * @return {undefined}
 				 */
-				hideVerticalBarDatalabelsIfNeeded: function(chart) {
-					let getDatasetsMeta = function(chart) {
+				hideVerticalBarDatalabelsIfNeeded: function (chart) {
+					let getDatasetsMeta = function (chart) {
 						const datasets = [];
 						const data = chart.data;
 						if (typeof data !== 'undefined' && typeof data.datasets !== 'undefined' && Array.isArray(data.datasets)) {
@@ -293,7 +293,7 @@ jQuery.Class(
 				 * @return {undefined}
 				 */
 				hideHorizontalBarDatalabelsIfNeeded: function hideHorizontalBarDatalabelsIfNeeded(chart) {
-					let getDatasetsMeta = function(chart) {
+					let getDatasetsMeta = function (chart) {
 						const datasets = [];
 						const data = chart.data;
 						if (typeof data !== 'undefined' && typeof data.datasets !== 'undefined' && Array.isArray(data.datasets)) {
@@ -1349,9 +1349,9 @@ jQuery.Class(
 		registerRecordsCount: function registerRecordsCount() {
 			var thisInstance = this;
 			var recordsCountBtn = thisInstance.getContainer().find('.recordCount');
-			recordsCountBtn.on('click', function() {
+			recordsCountBtn.on('click', function () {
 				var url = recordsCountBtn.data('url');
-				AppConnector.request(url).done(function(response) {
+				AppConnector.request(url).done(function (response) {
 					recordsCountBtn.find('.count').html(response.result.totalCount);
 					recordsCountBtn
 						.find('.fas')
@@ -1391,7 +1391,7 @@ jQuery.Class(
 			}
 		},
 		restrictContentDrag: function restrictContentDrag() {
-			this.getContainer().on('mousedown.draggable', function(e) {
+			this.getContainer().on('mousedown.draggable', function (e) {
 				var element = jQuery(e.target);
 				var isHeaderElement = element.closest('.dashboardWidgetHeader').length > 0 ? true : false;
 				if (isHeaderElement) {
@@ -1540,7 +1540,7 @@ jQuery.Class(
 			print.document.write('</body></html>');
 			print.document.close(); // necessary for IE >= 10
 			print.focus(); // necessary for IE >= 10
-			setTimeout(function() {
+			setTimeout(function () {
 				print.print();
 				print.close();
 			}, 1000);
@@ -1563,7 +1563,7 @@ jQuery.Class(
 				a[0].click();
 				a.remove();
 			});
-			container.find('.js-widget-quick-create').on('click', function(e) {
+			container.find('.js-widget-quick-create').on('click', function (e) {
 				Vtiger_Header_Js.getInstance().quickCreateModule($(this).data('module-name'));
 			});
 		},
@@ -1571,7 +1571,7 @@ jQuery.Class(
 			var thisInstance = this;
 			var container = this.getContainer();
 			thisInstance.setSortingButton(container.find('.changeRecordSort'));
-			container.find('.changeRecordSort').on('click', function(e) {
+			container.find('.changeRecordSort').on('click', function (e) {
 				var drefresh = container.find('a[name="drefresh"]');
 				thisInstance.setSortingButton(jQuery(e.currentTarget));
 				drefresh.click();
@@ -1585,7 +1585,7 @@ jQuery.Class(
 				var currentElement = $(e.currentTarget);
 				var dashboardWidgetHeader = currentElement.closest('.dashboardWidgetHeader');
 				var drefresh = dashboardWidgetHeader.find('a[name="drefresh"]');
-				thisInstance.setUrlSwitch(currentElement).done(function(data) {
+				thisInstance.setUrlSwitch(currentElement).done(function (data) {
 					if (data) {
 						drefresh.click();
 					}
@@ -1594,7 +1594,7 @@ jQuery.Class(
 		},
 		setUrlSwitch: function setUrlSwitch(switchButtons) {
 			var aDeferred = jQuery.Deferred();
-			switchButtons.each(function(index, e) {
+			switchButtons.each(function (index, e) {
 				var currentElement = jQuery(e);
 				var dashboardWidgetHeader = currentElement.closest('.dashboardWidgetHeader');
 				var drefresh = dashboardWidgetHeader.find('a[name="drefresh"]');
@@ -1694,7 +1694,7 @@ jQuery.Class(
 					if (footer.length) {
 						footer = footer.clone(true, true);
 						refreshContainerFooter.html(footer);
-						data.each(function(n, e) {
+						data.each(function (n, e) {
 							if (jQuery(this).hasClass('widgetFooterContent')) {
 								data.splice(n, 1);
 							}
@@ -1798,14 +1798,14 @@ jQuery.Class(
 		},
 		registerWidgetPostLoadEvent: function registerWidgetPostLoadEvent(container) {
 			var thisInstance = this;
-			container.on(YetiForce_Widget_Js.widgetPostLoadEvent, function(e) {
+			container.on(YetiForce_Widget_Js.widgetPostLoadEvent, function (e) {
 				thisInstance.postLoadWidget();
 			});
 		},
 		registerWidgetPostRefreshEvent: function registerWidgetPostRefreshEvent(container) {
 			var thisInstance = this;
 			container.off(YetiForce_Widget_Js.widgetPostRefereshEvent);
-			container.on(YetiForce_Widget_Js.widgetPostRefereshEvent, function(e) {
+			container.on(YetiForce_Widget_Js.widgetPostRefereshEvent, function (e) {
 				thisInstance.postRefreshWidget();
 			});
 		},
@@ -1813,12 +1813,12 @@ jQuery.Class(
 			const thisInstance = this;
 			let pointer = false;
 			$(thisInstance.chartInstance.canvas)
-				.on('click', function(e) {
+				.on('click', function (e) {
 					if (typeof thisInstance.getDataFromEvent(e, ['links']).links !== 'undefined') {
 						window.location.href = thisInstance.getDataFromEvent(e, ['links']).links;
 					}
 				})
-				.on('mousemove', function(e) {
+				.on('mousemove', function (e) {
 					if (typeof thisInstance.getDataFromEvent(e, ['links']).links !== 'undefined') {
 						if (!pointer) {
 							$(this).css('cursor', 'pointer');
@@ -1831,7 +1831,7 @@ jQuery.Class(
 						}
 					}
 				})
-				.on('mouseout', function() {
+				.on('mouseout', function () {
 					if (pointer) {
 						$(this).css('cursor', 'auto');
 						pointer = false;
@@ -1843,24 +1843,25 @@ jQuery.Class(
 			var parent = thisInstance.getContainer();
 			var contentContainer = parent.find('.dashboardWidgetContent');
 			contentContainer.off('click', '.showMoreHistory');
-			contentContainer.on('click', '.showMoreHistory', function(e) {
+			contentContainer.on('click', '.showMoreHistory', function (e) {
 				var element = jQuery(e.currentTarget);
 				element.hide();
 				var parent = jQuery(e.delegateTarget).closest('.dashboardWidget');
 				jQuery(parent)
 					.find('.slimScrollDiv')
 					.css('overflow', 'visible');
-				var user = parent.find('.owner').val();
-				var type = parent.find("[name='type']").val();
-				var url = element.data('url') + '&content=true&owner=' + user;
-				if (parent.find("[name='type']").length > 0) {
-					url += '&type=' + type;
+				var url = element.data('url') + '&content=true';
+				let additionalFilter = parent.find('.widgetFilter');
+				if (additionalFilter.length > 0) {
+					additionalFilter.each(function () {
+						url += '&' + $(this).attr('name') + '=' + $(this).val();
+					});
 				}
 				if (parent.find('.changeRecordSort').length > 0) {
 					url += '&sortorder=' + parent.find('.changeRecordSort').data('sort');
 				}
 				contentContainer.progressIndicator();
-				AppConnector.request(url).done(function(data) {
+				AppConnector.request(url).done(function (data) {
 					contentContainer.progressIndicator({
 						mode: 'hide'
 					});
@@ -2149,10 +2150,10 @@ jQuery.Class(
 					app.errorLog(
 						new Error(
 							'Options argument should be an object! Chart subType: ' +
-								this.getSubType() +
-								' [' +
-								fromArray[i].toString() +
-								']'
+							this.getSubType() +
+							' [' +
+							fromArray[i].toString() +
+							']'
 						)
 					);
 				} else {
@@ -2243,7 +2244,7 @@ YetiForce_Bar_Widget_Js(
 	'YetiForce_Horizontal_Widget_Js',
 	{},
 	{
-		getType: function() {
+		getType: function () {
 			return 'horizontalBar';
 		}
 	}
@@ -2252,7 +2253,7 @@ YetiForce_Horizontal_Widget_Js(
 	'YetiForce_HorizontalStacked_Widget_Js',
 	{},
 	{
-		getType: function() {
+		getType: function () {
 			return 'horizontalBar';
 		},
 		getSubType() {
@@ -2352,7 +2353,7 @@ YetiForce_Bar_Widget_Js(
 	'YetiForce_TicketsByStatus_Widget_Js',
 	{},
 	{
-		getBasicOptions: function() {
+		getBasicOptions: function () {
 			return {
 				legend: {
 					display: true
@@ -2380,7 +2381,7 @@ YetiForce_Widget_Js(
 		calendarView: false,
 		calendarCreateView: false,
 
-		registerCalendar: function() {
+		registerCalendar: function () {
 			var thisInstance = this;
 			var userDefaultActivityView = 'month';
 			var container = thisInstance.getContainer();
@@ -2402,7 +2403,7 @@ YetiForce_Widget_Js(
 			if (this.paramCache && defaultDate != moment().format('YYYY-MM-DD')) {
 				defaultDate = moment(defaultDate).format('D') == 1 ? moment(defaultDate) : moment(defaultDate).add(1, 'M');
 			}
-			container.find('.js-widget-quick-create').on('click', function(e) {
+			container.find('.js-widget-quick-create').on('click', function (e) {
 				Vtiger_Header_Js.getInstance().quickCreateModule($(this).data('module-name'));
 			});
 			thisInstance.getCalendarView().fullCalendar({
@@ -2477,7 +2478,7 @@ YetiForce_Widget_Js(
 				},
 				allDayText: app.vtranslate('JS_ALL_DAY'),
 				eventLimitText: app.vtranslate('JS_MORE'),
-				eventRender: function(event, element, view) {
+				eventRender: function (event, element, view) {
 					element = '<div class="cell-calendar">';
 					for (var key in event.event) {
 						element +=
@@ -2506,10 +2507,10 @@ YetiForce_Widget_Js(
 			thisInstance
 				.getCalendarView()
 				.find('td.fc-day-top')
-				.on('mouseenter', function() {
+				.on('mouseenter', function () {
 					jQuery('<span class="plus pull-left fas fa-plus"></span>').prependTo($(this));
 				})
-				.on('mouseleave', function() {
+				.on('mouseleave', function () {
 					$(this)
 						.find('.plus')
 						.remove();
@@ -2518,7 +2519,7 @@ YetiForce_Widget_Js(
 			thisInstance
 				.getCalendarView()
 				.find('td.fc-day-top')
-				.on('click', function() {
+				.on('click', function () {
 					let date = moment($(this).data('date')).format(formatDate);
 					let params = {
 						noCache: true,
@@ -2527,7 +2528,7 @@ YetiForce_Widget_Js(
 							due_date: date
 						}
 					};
-					params.callbackFunction = function() {
+					params.callbackFunction = function () {
 						thisInstance
 							.getCalendarView()
 							.closest('.dashboardWidget')
@@ -2545,7 +2546,7 @@ YetiForce_Widget_Js(
 				this.refreshWidget();
 			});
 		},
-		loadCalendarData: function(allEvents) {
+		loadCalendarData: function (allEvents) {
 			var thisInstance = this;
 			thisInstance.getCalendarView().fullCalendar('removeEvents');
 			var view = thisInstance.getCalendarView().fullCalendar('getView');
@@ -2583,7 +2584,7 @@ YetiForce_Widget_Js(
 				};
 				thisInstance.setFilterToCache(url, paramCache);
 			}
-			AppConnector.request(params).done(function(events) {
+			AppConnector.request(params).done(function (events) {
 				var height =
 					thisInstance
 						.getCalendarView()
@@ -2599,7 +2600,7 @@ YetiForce_Widget_Js(
 						.getCalendarView()
 						.find('.fc-day-number')
 						.width() /
-						2 -
+					2 -
 					10;
 				for (var i in events.result) {
 					events.result[i]['width'] = width;
@@ -2609,7 +2610,7 @@ YetiForce_Widget_Js(
 				thisInstance
 					.getCalendarView()
 					.find('.cell-calendar a')
-					.on('click', function() {
+					.on('click', function () {
 						var container = thisInstance.getContainer();
 						var url = 'index.php?module=Calendar&view=List';
 						if (customFilter) {
@@ -2639,13 +2640,13 @@ YetiForce_Widget_Js(
 					});
 			});
 		},
-		getCalendarView: function() {
+		getCalendarView: function () {
 			if (this.calendarView == false) {
 				this.calendarView = this.getContainer().find('.js-calendar__container');
 			}
 			return this.calendarView;
 		},
-		getMonthName: function() {
+		getMonthName: function () {
 			var thisInstance = this;
 			var month = thisInstance
 				.getCalendarView()
@@ -2657,7 +2658,7 @@ YetiForce_Widget_Js(
 					.html('<h3>' + month + '</h3>');
 			}
 		},
-		registerChangeView: function() {
+		registerChangeView: function () {
 			var thisInstance = this;
 			var container = this.getContainer();
 			container.find('.fc-toolbar').addClass('d-none');
@@ -2669,9 +2670,9 @@ YetiForce_Widget_Js(
 					.find('.month')
 					.append('<h3>' + month + '</h3>');
 				var button = container.find('.headerCalendar button');
-				button.each(function() {
+				button.each(function () {
 					var tag = jQuery(this).data('type');
-					jQuery(this).on('click', function() {
+					jQuery(this).on('click', function () {
 						thisInstance
 							.getCalendarView()
 							.find('.fc-toolbar .' + tag)
@@ -2682,13 +2683,13 @@ YetiForce_Widget_Js(
 				});
 			}
 		},
-		postLoadWidget: function() {
+		postLoadWidget: function () {
 			this.registerCalendar();
 			this.loadCalendarData(true);
 			this.registerChangeView();
 			this.registerFilterChangeEvent();
 		},
-		refreshWidget: function() {
+		refreshWidget: function () {
 			var thisInstance = this;
 			var refreshContainer = this.getContainer().find('.dashboardWidgetContent');
 			refreshContainer.progressIndicator();
@@ -2704,25 +2705,25 @@ YetiForce_Widget_Js(
 	{},
 	{
 		modalView: false,
-		postLoadWidget: function() {
+		postLoadWidget: function () {
 			this._super();
 			this.registerActivityChange();
 			this.registerListViewButton();
 		},
-		postRefreshWidget: function() {
+		postRefreshWidget: function () {
 			this._super();
 			this.registerActivityChange();
 		},
-		registerActivityChange: function() {
+		registerActivityChange: function () {
 			var thisInstance = this;
 			var refreshContainer = this.getContainer().find('.dashboardWidgetContent');
-			refreshContainer.find('.changeActivity').on('click', function(e) {
+			refreshContainer.find('.changeActivity').on('click', function (e) {
 				if (jQuery(e.target).is('a') || thisInstance.modalView) {
 					return;
 				}
 				var url = jQuery(this).data('url');
 				if (typeof url !== 'undefined') {
-					var callbackFunction = function() {
+					var callbackFunction = function () {
 						thisInstance.modalView = false;
 					};
 					thisInstance.modalView = true;
@@ -2731,10 +2732,10 @@ YetiForce_Widget_Js(
 			});
 		},
 
-		registerListViewButton: function() {
+		registerListViewButton: function () {
 			const thisInstance = this,
 				container = thisInstance.getContainer();
-			container.find('.goToListView').on('click', function() {
+			container.find('.goToListView').on('click', function () {
 				let status;
 				let activitiesStatus = container.data('name');
 				if (activitiesStatus === 'OverdueActivities') {
@@ -2765,25 +2766,25 @@ YetiForce_Widget_Js(
 	{},
 	{
 		modalView: false,
-		postLoadWidget: function() {
+		postLoadWidget: function () {
 			this._super();
 			this.registerAction();
 			this.registerListViewButton();
 		},
-		postRefreshWidget: function() {
+		postRefreshWidget: function () {
 			this._super();
 			this.registerAction();
 		},
-		registerAction: function() {
+		registerAction: function () {
 			var thisInstance = this;
 			var refreshContainer = this.getContainer().find('.dashboardWidgetContent');
-			refreshContainer.find('.rowAction').on('click', function(e) {
+			refreshContainer.find('.rowAction').on('click', function (e) {
 				if (jQuery(e.target).is('a') || thisInstance.modalView) {
 					return;
 				}
 				var url = jQuery(this).data('url');
 				if (typeof url !== 'undefined') {
-					var callbackFunction = function() {
+					var callbackFunction = function () {
 						thisInstance.modalView = false;
 					};
 					thisInstance.modalView = true;
@@ -2791,10 +2792,10 @@ YetiForce_Widget_Js(
 				}
 			});
 		},
-		registerListViewButton: function() {
+		registerListViewButton: function () {
 			var thisInstance = this;
 			var container = thisInstance.getContainer();
-			container.on('click', '.goToListView', function() {
+			container.on('click', '.goToListView', function () {
 				var url = jQuery(this).data('url');
 				var orderBy = container.find('.orderby');
 				var sortOrder = container.find('.changeRecordSort');
@@ -2841,12 +2842,12 @@ YetiForce_Bar_Widget_Js(
 				},
 				tooltips: {
 					callbacks: {
-						label: function(tooltipItem, data) {
+						label: function (tooltipItem, data) {
 							return (
 								data.datasets[tooltipItem.datasetIndex].original_label + ': ' + app.formatToHourText(tooltipItem.yLabel)
 							);
 						},
-						title: function(tooltipItems, data) {
+						title: function (tooltipItems, data) {
 							return data.fullLabels[tooltipItems[0].index];
 						}
 					}
@@ -2889,7 +2890,7 @@ YetiForce_Bar_Widget_Js(
 	'YetiForce_TeamsEstimatedSales_Widget_Js',
 	{},
 	{
-		generateChartData: function() {
+		generateChartData: function () {
 			const thisInstance = this,
 				container = this.getContainer(),
 				jData = container.find('.widgetData').val(),
@@ -2921,7 +2922,7 @@ YetiForce_Bar_Widget_Js(
 				colors: chartData[4]
 			};
 		},
-		parseChartData: function(data, chartDataGlobal) {
+		parseChartData: function (data, chartDataGlobal) {
 			var chartData = [];
 			var xLabels = [];
 			var sum = 0;
@@ -2937,7 +2938,7 @@ YetiForce_Bar_Widget_Js(
 			}
 			return [chartData, chartDataGlobal[1], xLabels, '&nbsp; \u03A3 ' + sum + '&nbsp;'];
 		},
-		registerSectionClick: function() {
+		registerSectionClick: function () {
 			const container = this.getContainer(),
 				data = container.find('.widgetData').val(),
 				dataInfo = JSON.parse(data),
@@ -2945,7 +2946,7 @@ YetiForce_Bar_Widget_Js(
 			let url;
 			this.getContainer()
 				.off('jqplotDataClick')
-				.on('jqplotDataClick', function(ev, seriesIndex, pointIndex, args) {
+				.on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
 					if (seriesIndex) {
 						url = dataInfo['compare'][pointIndex][2];
 					} else if (compare) {
@@ -2963,20 +2964,20 @@ YetiForce_Widget_Js(
 	'YetiForce_History_Widget_Js',
 	{},
 	{
-		postLoadWidget: function() {
+		postLoadWidget: function () {
 			this._super();
 			this.registerLoadMore();
 		},
-		postRefreshWidget: function() {
+		postRefreshWidget: function () {
 			this._super();
 			this.registerLoadMore();
 		},
-		registerLoadMore: function() {
+		registerLoadMore: function () {
 			var thisInstance = this;
 			var parent = thisInstance.getContainer();
 			var contentContainer = parent.find('.dashboardWidgetContent');
 			var loadMoreHandler = contentContainer.find('.load-more');
-			loadMoreHandler.on('click', function() {
+			loadMoreHandler.on('click', function () {
 				var parent = thisInstance.getContainer();
 				var element = parent.find('a[name="drefresh"]');
 				var url = element.data('url');
@@ -2987,7 +2988,7 @@ YetiForce_Widget_Js(
 						url: url,
 						data: {}
 					};
-					widgetFilters.each(function(index, domElement) {
+					widgetFilters.each(function (index, domElement) {
 						var widgetFilter = jQuery(domElement);
 						var filterName = widgetFilter.attr('name');
 						var filterValue = widgetFilter.val();
@@ -3011,14 +3012,14 @@ YetiForce_Widget_Js(
 				var refreshContainer = parent.find('.dashboardWidgetContent');
 				refreshContainer.progressIndicator();
 				AppConnector.request(params)
-					.done(function(data) {
+					.done(function (data) {
 						refreshContainer.progressIndicator({
 							mode: 'hide'
 						});
 						loadMoreHandler.replaceWith(data);
 						thisInstance.registerLoadMore();
 					})
-					.fail(function() {
+					.fail(function () {
 						refreshContainer.progressIndicator({
 							mode: 'hide'
 						});
@@ -3031,14 +3032,14 @@ YetiForce_Widget_Js(
 	'YetiForce_MiniList_Widget_Js',
 	{},
 	{
-		postLoadWidget: function() {
+		postLoadWidget: function () {
 			app.hideModalWindow();
 			this.restrictContentDrag();
 			this.registerFilter();
 			this.registerFilterChangeEvent();
 			this.registerRecordsCount();
 		},
-		postRefreshWidget: function() {
+		postRefreshWidget: function () {
 			this.registerRecordsCount();
 		}
 	}
@@ -3048,10 +3049,10 @@ YetiForce_Widget_Js(
 	{},
 	{
 		// Override widget specific functions.
-		postLoadWidget: function() {
+		postLoadWidget: function () {
 			this.registerNotebookEvents();
 		},
-		registerNotebookEvents: function() {
+		registerNotebookEvents: function () {
 			this.container.on('click', '.dashboard_notebookWidget_edit', () => {
 				this.editNotebookContent();
 			});
@@ -3059,11 +3060,11 @@ YetiForce_Widget_Js(
 				this.saveNotebookContent();
 			});
 		},
-		editNotebookContent: function() {
+		editNotebookContent: function () {
 			$('.dashboard_notebookWidget_text', this.container).show();
 			$('.dashboard_notebookWidget_view', this.container).hide();
 		},
-		saveNotebookContent: function() {
+		saveNotebookContent: function () {
 			let textarea = $('.dashboard_notebookWidget_textarea', this.container),
 				url = this.container.data('url'),
 				params = url + '&content=true&mode=save&contents=' + encodeURIComponent(textarea.val()),
@@ -3082,7 +3083,7 @@ YetiForce_Widget_Js(
 	'YetiForce_KpiBar_Widget_Js',
 	{},
 	{
-		generateChartData: function() {
+		generateChartData: function () {
 			var container = this.getContainer();
 			var jData = container.find('.widgetData').val();
 			var data = JSON.parse(jData);
@@ -3095,7 +3096,7 @@ YetiForce_Widget_Js(
 				labels: ''
 			};
 		},
-		loadChart: function() {
+		loadChart: function () {
 			var data = this.generateChartData();
 			this.getChartContainer(false).jqplot(data['chartData'], {
 				animate: !$.jqplot.use_excanvas,
@@ -3125,7 +3126,7 @@ YetiForce_Widget_Js(
 	{},
 	{
 		chartfilterInstance: false,
-		init: function(container, reload, widgetClassName) {
+		init: function (container, reload, widgetClassName) {
 			this.setContainer(jQuery(container));
 			let chartClassName = container.find('[name="typeChart"]').val();
 			const stacked = !!Number(container.find('[name="stacked"]').val());
@@ -3183,7 +3184,7 @@ YetiForce_Widget_Js(
 			if (!select) {
 				self.getMultifilterContent().html('');
 			}
-			multifilterIds.each(function() {
+			multifilterIds.each(function () {
 				let existFilter = self.getMultifilterContent().find('[data-id="' + $(this).val() + '"]');
 				let thisInstance = $(this);
 				if (0 < existFilter.length) {
@@ -3207,7 +3208,7 @@ YetiForce_Widget_Js(
 			let aDeferred = jQuery.Deferred(),
 				multiFilterContent = self.getMultifilterContent();
 			AppConnector.request(params)
-				.done(function(data) {
+				.done(function (data) {
 					if (
 						self
 							.getMultifilterSettings()
@@ -3220,7 +3221,7 @@ YetiForce_Widget_Js(
 						aDeferred.resolve();
 					}
 				})
-				.fail(function(error) {
+				.fail(function (error) {
 					aDeferred.reject();
 				});
 			return aDeferred.promise();
@@ -3235,17 +3236,17 @@ YetiForce_Widget_Js(
 		registerShowHideBlocks() {
 			let detailContentsHolder = this.getMultifilterContent();
 			detailContentsHolder.find('.blockHeader').off('click');
-			detailContentsHolder.find('.blockHeader').click(function() {
+			detailContentsHolder.find('.blockHeader').click(function () {
 				let currentTarget = $(this)
-						.find('.js-block-toggle')
-						.not('.d-none'),
+					.find('.js-block-toggle')
+					.not('.d-none'),
 					closestBlock = currentTarget.closest('.js-toggle-panel'),
 					bodyContents = closestBlock.find('.blockContent'),
 					data = currentTarget.data();
-				let hideHandler = function() {
+				let hideHandler = function () {
 					bodyContents.addClass('d-none');
 				};
-				let showHandler = function() {
+				let showHandler = function () {
 					bodyContents.removeClass('d-none');
 				};
 				if ('show' == data.mode) {
@@ -3261,7 +3262,7 @@ YetiForce_Widget_Js(
 		},
 		registerRecordsCount(container) {
 			let url = container.data('url');
-			AppConnector.request(url).done(function(data) {
+			AppConnector.request(url).done(function (data) {
 				container.find('.js-count').html(data.result.totalCount);
 			});
 		},
@@ -3295,13 +3296,13 @@ YetiForce_Widget_Js(
 	'YetiForce_UpcomingProjectTasks_Widget_Js',
 	{},
 	{
-		postLoadWidget: function() {
+		postLoadWidget: function () {
 			this._super();
 			this.registerListViewButton();
 		},
-		registerListViewButton: function() {
+		registerListViewButton: function () {
 			const container = this.getContainer();
-			container.find('.goToListView').on('click', function() {
+			container.find('.goToListView').on('click', function () {
 				let url = 'index.php?module=ProjectTask&view=List&viewname=All';
 				url += '&search_params=[[';
 				let owner = container.find('.widgetFilter.owner option:selected');

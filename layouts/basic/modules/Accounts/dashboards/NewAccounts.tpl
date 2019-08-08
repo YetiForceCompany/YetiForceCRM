@@ -43,4 +43,3 @@
 <div class="dashboardWidgetContent">
 	{include file=\App\Layout::getTemplatePath('dashboards/NewAccountsContents.tpl', $MODULE_NAME)}
 </div>
-
