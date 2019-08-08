@@ -30,7 +30,10 @@ export default {
   computed: {
     ...mapGetters(['data']),
     roomData() {
-      return this.data.roomList.crm[this.$parent.$options.recordId]
+			if (this.data.roomList.crm !== undefined) {
+				return this.data.roomList.crm[this.$parent.$options.recordId]
+			}
+			return {}
     }
   },
   watch: {},

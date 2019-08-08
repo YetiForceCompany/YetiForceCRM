@@ -131,9 +131,7 @@ export default {
     }
   },
   created() {
-    this.fetchChatConfig().then(result => {
-      if (result.config.isChatAllowed && !this.dialog) this.trackNewMessages()
-    })
+    if (this.config.isChatAllowed && !this.dialog) this.trackNewMessages()
   }
 }
 </script>

@@ -5,7 +5,7 @@ import ChatRecordRoom from './views/RecordRoom.vue'
 import Icon from 'components/Icon.vue'
 import store from 'store'
 import moduleStore from './store'
-let isModuleRegistered = false
+let isModuleInitialized = false
 Vue.component('icon', Icon)
 Vue.mixin({
 	methods: {
@@ -14,8 +14,13 @@ Vue.mixin({
 		}
 	}
 })
-store.registerModule('Chat', moduleStore)
-
+function initChat() {
+	if (!isModuleInitialized) {
+		store.registerModule('Chat', moduleStore)
+		store.dispatch('Chat/fetchChatConfig')
+		isModuleInitialized = true
+	}
+}
 window.ChatModalVueComponent = {
 	component: ChatDialog,
 	mount(config) {
@@ -24,6 +29,7 @@ window.ChatModalVueComponent = {
 			store,
 			render: h => h(ChatDialog),
 			beforeCreate() {
+				initChat()
 				this.$store.commit('Chat/initStorage')
 				store.subscribe((mutation, state) => {
 					if (mutation.type !== 'Chat/updateChat' && mutation.type !== 'Chat/setAmountOfNewMessages') {
@@ -44,6 +50,7 @@ window.ChatRecordRoomVueComponent = {
 			render: h => h(ChatRecordRoom),
 			recordId: app.getRecordId(),
 			beforeCreate() {
+				initChat()
 				this.$store.dispatch('Chat/fetchRecordRoom', this.$options.recordId)
 			}
 		}).$mount(config.el)
