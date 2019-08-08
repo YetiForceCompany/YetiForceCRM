@@ -82,20 +82,20 @@ export default {
 			}
 		})
 	},
-	fetchEarlierEntries({ commit, getters }) {
+	fetchEarlierEntries({ commit }, { chatEntries, roomType, recordId }) {
 		return new Promise((resolve, reject) => {
 			AppConnector.request(
 				{
 					module: 'Chat',
 					action: 'ChatAjax',
 					mode: 'getMoreMessages',
-					lastId: getters.data.chatEntries[0].id,
-					roomType: getters.data.currentRoom.roomType,
-					recordId: getters.data.currentRoom.recordId
+					lastId: chatEntries[0].id,
+					roomType: roomType,
+					recordId: recordId
 				},
 				false
 			).done(({ result }) => {
-				commit('pushOlderEntries', result)
+				commit('pushOlderEntries', { result, roomType, recordId })
 				resolve(result)
 			})
 		})
@@ -104,27 +104,26 @@ export default {
 	 * Search messages.
 	 * @param {jQuery} btn
 	 */
-	fetchSearchData({ commit, getters }, value) {
+	fetchSearchData({ commit, getters }, { value, roomData }) {
 		return new Promise((resolve, reject) => {
-			const showMoreClicked = getters.isSearchActive && getters.data.showMoreButton
+			const showMoreClicked = getters.isSearchActive && roomData.showMoreButton
 			AppConnector.request(
 				{
 					module: 'Chat',
 					action: 'ChatAjax',
 					mode: 'search',
 					searchVal: value,
-					mid: showMoreClicked ? getters.data.chatEntries[0].id : null,
-					roomType: getters.data.currentRoom.roomType,
-					recordId: getters.data.currentRoom.recordId
+					mid: showMoreClicked ? roomData.chatEntries[0].id : null,
+					roomType: roomData.roomType,
+					recordId: roomData.recordid
 				},
 				false
 			).done(({ result }) => {
 				if (!showMoreClicked) {
-					let tempData = Object.assign({}, getters.data)
-					commit('setData', Object.assign(tempData, result))
+					commit('setData', result)
 					commit('setSearchActive')
 				} else {
-					commit('pushOlderEntries', result)
+					commit('pushOlderEntries', { result, roomType: roomData.roomType, recordId: roomData.recordid })
 				}
 				resolve(result)
 			})
@@ -159,7 +158,6 @@ export default {
 				groupHistory: groupHistory
 			}).done(({ result }) => {
 				if (!showMoreClicked) {
-					let tempData = Object.assign({}, getters.data)
 					commit('setData', Object.assign(tempData, result))
 				} else {
 					commit('pushOlderEntries', result)

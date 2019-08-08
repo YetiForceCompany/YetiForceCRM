@@ -94,7 +94,11 @@ export default {
       if (this.sending || !this.$refs.input.innerText.length) return
       if (this.$refs.input.innerText.length < this.config.maxLengthMessage) {
         this.sending = true
-        this.sendMessage({text: this.$refs.input.innerHTML, roomType: this.roomData.roomType, recordId: this.roomData.recordid}).then(e => {
+        this.sendMessage({
+					text: this.$refs.input.innerHTML,
+					roomType: this.roomData.roomType,
+					recordId: this.roomData.recordid
+				}).then(e => {
           this.$refs.input.innerText = ''
           this.sending = false
           this.$emit('onSended')

@@ -66,9 +66,9 @@ export default {
 	updateRooms(state, data) {
 		state.data.roomList = data
 	},
-	pushOlderEntries(state, data) {
-		state.data.chatEntries.unshift(...data.chatEntries)
-		state.data.showMoreButton = data.showMoreButton
+	pushOlderEntries(state, { result, roomType, recordId }) {
+		state.data.roomList[roomType][recordId].chatEntries.unshift(...result.chatEntries)
+		state.data.roomList[roomType][recordId].showMoreButton = result.showMoreButton
 	},
 	setAmountOfNewMessages(state, val) {
 		state.data.amountOfNewMessages = val

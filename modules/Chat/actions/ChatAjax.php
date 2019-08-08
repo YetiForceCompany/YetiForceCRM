@@ -184,7 +184,9 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	 */
 	public function search(App\Request $request)
 	{
-		$chat = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'));
+		$roomType = $request->getByType('roomType');
+		$recordId = $request->getInteger('recordId');
+		$chat = \App\Chat::getInstance($roomType, $recordId);
 		$searchVal = $request->getByType('searchVal', 'Text');
 		if (!$request->isEmpty('mid')) {
 			$chatEntries = $chat->getEntries($request->getInteger('mid'), '<', $searchVal);
@@ -197,9 +199,15 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		}
 		$response = new Vtiger_Response();
 		$response->setResult([
-			'currentRoom' => \App\Chat::getCurrentRoom(),
-			'chatEntries' => $chatEntries,
-			'showMoreButton' => $isNextPage
+			'roomList' => [
+				$roomType => [
+					$recordId => [
+						'currentRoom' => \App\Chat::getCurrentRoom(),
+						'chatEntries' => $chatEntries,
+						'showMoreButton' => $isNextPage
+					]
+				]
+			]
 		]);
 		$response->emit();
 	}

@@ -85,7 +85,11 @@ export default {
     earlierClick() {
       this.fetchingEarlier = true
       if (!this.isSearchActive) {
-        this.fetchEarlierEntries().then(e => {
+        this.fetchEarlierEntries({
+					chatEntries: this.roomData.chatEntries,
+					roomType: this.roomData.roomType,
+					recordId: this.roomData.recordid
+				}).then(e => {
           this.fetchingEarlier = false
         })
       } else {
@@ -103,7 +107,10 @@ export default {
     search() {
       clearTimeout(this.timerMessage)
       this.searching = true
-      this.fetchSearchData(this.inputSearch).then(e => {
+      this.fetchSearchData({
+				value: this.inputSearch,
+				roomData: this.roomData
+			}).then(e => {
         this.searching = false
       })
     },
