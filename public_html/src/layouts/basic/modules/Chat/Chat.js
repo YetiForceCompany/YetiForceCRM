@@ -5,6 +5,7 @@ import ChatRecordRoom from './views/RecordRoom.vue'
 import Icon from 'components/Icon.vue'
 import store from 'store'
 import moduleStore from './store'
+import recordStore from './recordStore'
 Vue.component('icon', Icon)
 Vue.mixin({
 	methods: {
@@ -41,7 +42,7 @@ window.ChatRecordRoomVueComponent = {
 			store,
 			render: h => h(ChatRecordRoom),
 			beforeCreate() {
-				// store.registerModule('Chat', moduleStore)
+				store.registerModule(['Chat', app.getModuleName() + '-' + app.getRecordId()], recordStore)
 			}
 		}).$mount(config.el)
 	}
