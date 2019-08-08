@@ -281,7 +281,7 @@ class ConfReport
 		'user_privileges/' => ['type' => 'IsWritable', 'testCli' => true],
 		'user_privileges/tabdata.php' => ['type' => 'IsWritable', 'testCli' => true],
 		'user_privileges/menu_0.php' => ['type' => 'IsWritable', 'testCli' => true],
-		'user_privileges/user_privileges_1.php' => ['type' => 'IsWritable', 'testCli' => true],
+		'user_privileges/user_privileges_1.php' => ['type' => 'IsWritable', 'testCli' => true, 'required'=>false],
 		'cache/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/addressBook/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/images/' => ['type' => 'IsWritable', 'testCli' => true],
@@ -1157,6 +1157,9 @@ class ConfReport
 	{
 		$row['status'] = \App\Fields\File::isWriteable($name);
 		$row[$sapi] = $row['status'] ? 'LBL_YES' : 'LBL_NO';
+		if(isset($row['required']) && $row['required'] === false && !file_exists(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR .$name)){
+			$row['skip'] = true;
+		}
 		return $row;
 	}
 
