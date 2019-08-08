@@ -1081,7 +1081,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 */
 	public function showChat(App\Request $request)
 	{
-		return (new Chat_Entries_View())->getForRecord($request);
+		return (new Chat_Detail_View())->showChatTab($request);
 	}
 
 	/**

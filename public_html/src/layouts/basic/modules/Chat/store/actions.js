@@ -30,17 +30,27 @@ export default {
 			})
 		})
 	},
-	fetchRoom(
-		{ commit, getters },
-		options = { id: getters.data.currentRoom.recordId, roomType: getters.data.currentRoom.roomType }
-	) {
+	fetchRoom({ commit }, { id, roomType }) {
 		return new Promise((resolve, reject) => {
 			AppConnector.request({
 				module: 'Chat',
 				action: 'ChatAjax',
 				mode: 'getMessages',
-				recordId: options.id,
-				roomType: options.roomType
+				recordId: id,
+				roomType: roomType
+			}).done(({ result }) => {
+				commit('setData', result)
+				resolve(result)
+			})
+		})
+	},
+	fetchRecordRoom({ commit }, id) {
+		return new Promise((resolve, reject) => {
+			AppConnector.request({
+				module: 'Chat',
+				action: 'ChatAjax',
+				mode: 'getRecordRoom',
+				id: id
 			}).done(({ result }) => {
 				commit('setData', result)
 				resolve(result)

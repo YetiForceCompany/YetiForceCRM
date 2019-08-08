@@ -86,10 +86,10 @@ export default {
       this.fetchingEarlier = true
       if (!this.isSearchActive) {
         this.fetchEarlierEntries({
-					chatEntries: this.roomData.chatEntries,
-					roomType: this.roomData.roomType,
-					recordId: this.roomData.recordid
-				}).then(e => {
+          chatEntries: this.roomData.chatEntries,
+          roomType: this.roomData.roomType,
+          recordId: this.roomData.recordid
+        }).then(e => {
           this.fetchingEarlier = false
         })
       } else {
@@ -108,37 +108,37 @@ export default {
       clearTimeout(this.timerMessage)
       this.searching = true
       this.fetchSearchData({
-				value: this.inputSearch,
-				roomData: this.roomData
-			}).then(e => {
+        value: this.inputSearch,
+        roomData: this.roomData
+      }).then(e => {
         this.searching = false
       })
     },
     fetchNewMessages() {
-      this.timerMessage = setTimeout(() => {
-        AppConnector.request({
-          module: 'Chat',
-          action: 'ChatAjax',
-          mode: 'getMessages',
-          lastId:
-            this.roomData.chatEntries.slice(-1)[0] !== undefined
-              ? this.roomData.chatEntries.slice(-1)[0]['id']
-              : undefined,
-          recordId: this.roomData.recordid,
-          roomType: this.roomData.roomType,
-          miniMode: this.miniMode ? true : undefined
-        }).done(({ result }) => {
-          this.updateAmountOfNewMessages(result.amountOfNewMessages)
-          const areNewEntries = result.roomList[this.roomData.roomType][this.roomData.recordid].chatEntries.length
-          if (areNewEntries || !isEqual(this.data.roomList, result.roomList)) {
-            // this.updateChat(result)
-          }
-          if (areNewEntries) {
-            this.scrollDown()
-          }
-          this.fetchNewMessages()
-        })
-      }, this.config.refreshMessageTime)
+      // this.timerMessage = setTimeout(() => {
+      //   AppConnector.request({
+      //     module: 'Chat',
+      //     action: 'ChatAjax',
+      //     mode: 'getMessages',
+      //     lastId:
+      //       this.roomData.chatEntries.slice(-1)[0] !== undefined
+      //         ? this.roomData.chatEntries.slice(-1)[0]['id']
+      //         : undefined,
+      //     recordId: this.roomData.recordid,
+      //     roomType: this.roomData.roomType,
+      //     miniMode: this.miniMode ? true : undefined
+      //   }).done(({ result }) => {
+      //     this.updateAmountOfNewMessages(result.amountOfNewMessages)
+      //     const areNewEntries = result.roomList[this.roomData.roomType][this.roomData.recordid].chatEntries.length
+      //     if (areNewEntries || !isEqual(this.data.roomList, result.roomList)) {
+      //       // this.updateChat(result)
+      //     }
+      //     if (areNewEntries) {
+      //       this.scrollDown()
+      //     }
+      //     this.fetchNewMessages()
+      //   })
+      // }, this.config.refreshMessageTime)
     },
     scrollDown() {
       this.scrollbarHidden = true

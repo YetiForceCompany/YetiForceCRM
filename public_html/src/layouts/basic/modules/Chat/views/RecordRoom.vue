@@ -1,18 +1,22 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <q-layout v-if="config.isChatAllowed" view="hHh lpR fFf" container class="bg-white">
-    <chat-tab @onContentLoaded="isLoading = false" />
-		<right-panel />
-  </q-layout>
+  <div class="fit">
+    <q-layout view="hHh lpR fFf" container class="absolute bg-white">
+      <chat-tab @onContentLoaded="isLoading = false" :roomData="roomData || {}" />
+      <q-drawer :value="true" side="right" bordered>
+        <right-panel :participants="roomData.participants || []" />
+      </q-drawer>
+    </q-layout>
+  </div>
 </template>
 <script>
 import ChatTab from '../components/ChatTab.vue'
 import RightPanel from '../components/RightPanel.vue'
 
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
+const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 export default {
-  name: 'Dialog',
+  name: 'RecordRoom',
   components: { ChatTab, RightPanel },
   data() {
     return {
@@ -20,31 +24,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['miniMode', 'data', 'config']),
+    ...mapGetters(['data']),
+    roomData() {
+      return this.data.roomList.crm[this.$parent.$options.recordId]
+    }
   },
-  watch: {
-  },
+  watch: {},
   methods: {
-    ...mapActions(['fetchChatConfig', 'updateAmountOfNewMessages']),
-    ...mapMutations(['setDialog', 'setCoordinates', 'setButtonCoordinates']),
-    initTimer() {
-      this.timerGlobal = setTimeout(this.trackNewMessages, this.config.refreshTimeGlobal)
-    },
-    trackNewMessages() {
-      AppConnector.request({
-        module: 'Chat',
-        action: 'ChatAjax',
-        mode: 'trackNewMessages'
-      }).done(({ result }) => {
-        this.updateAmountOfNewMessages(result)
-        this.initTimer()
-      })
-    },
-  },
-  created() {
-    // this.fetchChatConfig().then(result => {
-    //   if (result.config.isChatAllowed && !this.dialog) this.trackNewMessages()
-    // })
   }
 }
 </script>

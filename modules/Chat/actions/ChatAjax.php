@@ -27,6 +27,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$this->exposeMethod('getUnread');
 		$this->exposeMethod('getHistory');
 		$this->exposeMethod('getRooms');
+		$this->exposeMethod('getRecordRoom');
 		$this->exposeMethod('send');
 		$this->exposeMethod('search');
 		$this->exposeMethod('trackNewMessages');
@@ -289,6 +290,37 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		} else {
 			$response->setResult(\App\Chat::isNewMessages() ? 1 : 0);
 		}
+		$response->emit();
+	}
+
+	/**
+	 * Show chat for record.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
+	public function getRecordRoom(App\Request $request)
+	{
+		$recordId = $request->getInteger('id');
+		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+		if (!$recordModel->isViewable()) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		$chat = \App\Chat::getInstance('crm', $recordId);
+		$chatEntries = $chat->getEntries();
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'roomList' => [
+				'crm' => [
+					$recordId => [
+						'chatEntries' => $chatEntries,
+						'participants' => $chat->getParticipants(),
+						'showMoreButton' => \count($chatEntries) > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT')
+					]
+				]
+			]
+		]);
 		$response->emit();
 	}
 
