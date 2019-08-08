@@ -44,9 +44,9 @@
 								  title="{\App\Language::translate('Assigned To', $MODULE_NAME)}"></span>
 						</span>
 					</span>
-					<select class="widgetFilter select2 form-control" aria-label="Small"
+					<select class="widgetFilter select2 form-control js-additional-filter" aria-label="Small"
 							aria-describedby="inputGroup-sizing-sm" name="activitytype"
-							title="{\App\Language::translate('Activity Type',$SOURCE_MODULE)}">
+							title="{\App\Language::translate('Activity Type',$SOURCE_MODULE)}" data-js="val">
 						<option value="all">{\App\Language::translate('LBL_ALL')}</option>
 						{foreach item=TYPE from=Calendar_Module_Model::getCalendarTypes()}
 							<option value="{$TYPE}"{if $TYPE === $ACTIVITYTYPE} selected{/if}>{\App\Language::translate($TYPE,$SOURCE_MODULE)}</option>

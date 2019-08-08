@@ -31,7 +31,7 @@
 					</span>
 				</div>
 				<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}"
-					   class="dateRangeField widgetFilter form-control text-center" value="{implode(',',$DTIME)}"/>
+					   class="dateRangeField widgetFilter form-control text-center js-additional-filter" value="{implode(',',$DTIME)}" data-js="val"/>
 			</div>
 		</div>
 		<div class="col-ceq-xsm-6">
@@ -43,4 +43,3 @@
 <div class="dashboardWidgetContent">
 	{include file=\App\Layout::getTemplatePath('dashboards/NewAccountsContents.tpl', $MODULE_NAME)}
 </div>
-
