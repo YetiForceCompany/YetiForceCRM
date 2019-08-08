@@ -24,9 +24,9 @@
 								  title="{\App\Language::translate('Priority', $MODULE_NAME)}"></span>
 						</span>
 					</span>
-					<select class="widgetFilter select2 form-control js-additional-filter" aria-label="Small"
+					<select class="widgetFilter select2 form-control" aria-label="Small"
 							aria-describedby="inputGroup-sizing-sm" name="projecttaskpriority"
-							title="{\App\Language::translate('LBL_TICKET_PRIORITY',$MODULE_NAME)}" data-js="val">
+							title="{\App\Language::translate('LBL_TICKET_PRIORITY',$MODULE_NAME)}">
 						<option value="all">{\App\Language::translate('LBL_ALL')}</option>
 						{foreach item=ITEM from=\App\Fields\Picklist::getValues('projecttaskpriority')}
 							<option value="{$ITEM['picklistValue']}"{if $ITEM['picklistValue'] === $TICKETPRIORITY} selected{/if}>{\App\Language::translate($ITEM['picklistValue'],$MODULE_NAME)}</option>

@@ -1850,11 +1850,12 @@ jQuery.Class(
 				jQuery(parent)
 					.find('.slimScrollDiv')
 					.css('overflow', 'visible');
-				var user = parent.find('.owner').val();
-				var url = element.data('url') + '&content=true&owner=' + user;
-				let additionalFilter = parent.find('.js-additional-filter');
+				var url = element.data('url') + '&content=true';
+				let additionalFilter = parent.find('.widgetFilter');
 				if (additionalFilter.length > 0) {
-					url += '&' + additionalFilter.attr('name') + '=' + additionalFilter.val();
+					additionalFilter.each(function () {
+						url += '&' + $(this).attr('name') + '=' + $(this).val();
+					});
 				}
 				if (parent.find('.changeRecordSort').length > 0) {
 					url += '&sortorder=' + parent.find('.changeRecordSort').data('sort');

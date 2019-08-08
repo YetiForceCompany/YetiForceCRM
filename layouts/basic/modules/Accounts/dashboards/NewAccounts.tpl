@@ -31,7 +31,7 @@
 					</span>
 				</div>
 				<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}"
-					   class="dateRangeField widgetFilter form-control text-center js-additional-filter" value="{implode(',',$DTIME)}" data-js="val"/>
+					   class="dateRangeField widgetFilter form-control text-center" value="{implode(',',$DTIME)}"/>
 			</div>
 		</div>
 		<div class="col-ceq-xsm-6">
