@@ -105,15 +105,16 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		if ($isNextPage) {
 			array_shift($chatEntries);
 		}
-		$result = [
-			'chatEntries' => $chatEntries,
-			'roomList' => \App\Chat::getRoomsByUser(),
-			'participants' => $chat->getParticipants()
-		];
+		$result = [];
+		$roomList = \App\Chat::getRoomsByUser();
+		$roomList[$roomType][$recordId]['chatEntries'] = $chatEntries;
+		$roomList[$roomType][$recordId]['participants'] = $chat->getParticipants();
 		if (!$request->has('lastId')) {
-			$result['showMoreButton'] = $isNextPage;
 			$result['currentRoom'] = \App\Chat::getCurrentRoom();
+			$roomList[$roomType][$recordId]['showMoreButton'] = $isNextPage;
 		}
+		$result['roomList'] = $roomList;
+
 		if (App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')) {
 			$result['amountOfNewMessages'] = \App\Chat::getNumberOfNewMessages();
 		}

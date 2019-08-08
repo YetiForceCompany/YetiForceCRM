@@ -2556,15 +2556,20 @@ jQuery.Class(
 					});
 			});
 		},
+		loadChat() {
+			let chatContainer = $('#ChatRecordRoomVue', this.detailViewContentHolder);
+			if (chatContainer.length) {
+				window.ChatRecordRoomVueComponent.mount({
+					el: '#ChatRecordRoomVue'
+				});
+			}
+		},
 		registerChat() {
 			if (window.ChatRecordRoomVueComponent !== undefined) {
+			this.loadChat()
 			app.event.on('DetailView.Tab.AfterLoad', (e, data, instance) => {
 				instance.detailViewContentHolder.ready(() => {
-					let chatContainer = $('#ChatRecordRoomVue', this.detailViewContentHolder);
-					if (chatContainer.length) {
-						window.ChatRecordRoomVueComponent.mount({
-							el: '#ChatRecordRoomVue'
-						});					}
+						this.loadChat()
 				})
 			});
 		}

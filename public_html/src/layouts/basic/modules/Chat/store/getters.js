@@ -45,6 +45,13 @@ export default {
 	data(state) {
 		return state.data
 	},
+	currentRoomData(state, getters) {
+		const currentRoom = getters.data.currentRoom
+		if (state.data.roomList === undefined || currentRoom.roomType === undefined) {
+			return {}
+		}
+		return state.data.roomList[currentRoom.roomType][currentRoom.recordId] || {}
+	},
 	config(state) {
 		return state.config
 	}

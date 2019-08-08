@@ -42,25 +42,27 @@ export default {
 				recordId: options.id,
 				roomType: options.roomType
 			}).done(({ result }) => {
-				let tempData = Object.assign({}, getters.data)
-				commit('setData', Object.assign(tempData, result))
+				// const room = options.id === undefined ? result.currentRoom : options
+				// let tempData = Object.assign({}, getters.data.roomList[room.roomType][room.id])
+				commit('setData', result)
 				resolve(result)
 			})
 		})
 	},
-	sendMessage({ commit, getters }, text) {
+	sendMessage({ commit, getters }, { text, roomType, recordId }) {
+		const lastEntries = getters.data.roomList[roomType][recordId].chatEntries.slice(-1)[0]
 		return new Promise((resolve, reject) => {
 			AppConnector.request({
 				module: 'Chat',
 				action: 'ChatAjax',
 				mode: 'send',
-				roomType: getters.data.currentRoom.roomType,
-				recordId: getters.data.currentRoom.recordId,
+				roomType: roomType,
+				recordId: recordId,
 				message: text,
-				mid:
-					getters.data.chatEntries.slice(-1)[0] !== undefined ? getters.data.chatEntries.slice(-1)[0]['id'] : undefined
+				mid: lastEntries !== undefined ? lastEntries['id'] : undefined
 			}).done(({ result }) => {
-				commit('pushSended', result)
+				console.log(result)
+				commit('pushSended', { result, roomType, recordId })
 				resolve(result)
 			})
 		})

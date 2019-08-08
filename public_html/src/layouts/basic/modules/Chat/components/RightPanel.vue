@@ -1,6 +1,6 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <q-drawer :value="rightPanel" side="right" @hide="setRightPanel(false)" bordered>
+	<div class="fit">
     <slot name="top"></slot>
     <div class="bg-grey-11 fit">
       <q-input
@@ -48,25 +48,28 @@
         </template>
       </q-list>
     </div>
-  </q-drawer>
+  </div>
 </template>
 <script>
-import { createNamespacedHelpers } from 'vuex'
-const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 export default {
-  name: 'ChatRightPanel',
+	name: 'ChatRightPanel',
+	props: {
+		participants: {
+			type: Array,
+			required: true
+		}
+	},
   data() {
     return {
       filterParticipants: ''
     }
   },
   computed: {
-    ...mapGetters(['rightPanel', 'data']),
     participantsList() {
       if (this.filterParticipants === '') {
-        return this.data.participants
+        return this.participants
       } else {
-        return this.data.participants.filter(participant => {
+        return this.participants.filter(participant => {
           return (
             participant.user_name.toLowerCase().includes(this.filterParticipants.toLowerCase()) ||
             participant.role_name.toLowerCase().includes(this.filterParticipants.toLowerCase())
@@ -75,9 +78,6 @@ export default {
       }
     }
   },
-  methods: {
-    ...mapMutations(['setRightPanel'])
-  }
 }
 </script>
 <style module lang="stylus"></style>

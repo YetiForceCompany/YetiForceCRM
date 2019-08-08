@@ -27,11 +27,16 @@
     </div>
     <div class="flex-grow-1" style="height: 0; overflow: hidden">
       <q-scroll-area ref="scrollContainer" :class="[scrollbarHidden ? 'scrollbarHidden' : '']">
-        <messages @earlierClick="earlierClick()" :fetchingEarlier="fetchingEarlier" ref="messagesContainer" />
+        <messages
+          :roomData="roomData"
+          @earlierClick="earlierClick()"
+          :fetchingEarlier="fetchingEarlier"
+          ref="messagesContainer"
+        />
       </q-scroll-area>
       <q-resize-observer @resize="onResize" />
     </div>
-    <message-input @onSended="scrollDown()" />
+    <message-input @onSended="scrollDown()" :roomData="roomData" />
   </div>
 </template>
 <script>
@@ -42,8 +47,14 @@ import isEqual from 'lodash.isequal'
 const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
 
 export default {
-  name: 'MainPanel',
+  name: 'ChatTab',
   components: { MessageInput, Messages },
+  props: {
+    roomData: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       inputSearch: '',
@@ -58,9 +69,9 @@ export default {
   },
   watch: {
     data() {
-			this.$nextTick(function () {
-      	this.scrollDown()
-			})
+      this.$nextTick(function() {
+        this.scrollDown()
+      })
     }
   },
   methods: {
@@ -103,16 +114,19 @@ export default {
           action: 'ChatAjax',
           mode: 'getMessages',
           lastId:
-            this.data.chatEntries.slice(-1)[0] !== undefined ? this.data.chatEntries.slice(-1)[0]['id'] : undefined,
-          recordId: this.data.currentRoom.recordId,
-          roomType: this.data.currentRoom.roomType,
+            this.roomData.chatEntries.slice(-1)[0] !== undefined
+              ? this.roomData.chatEntries.slice(-1)[0]['id']
+              : undefined,
+          recordId: this.roomData.recordid,
+          roomType: this.roomData.roomType,
           miniMode: this.miniMode ? true : undefined
         }).done(({ result }) => {
           this.updateAmountOfNewMessages(result.amountOfNewMessages)
-          if (result.chatEntries.length || !isEqual(this.data.roomList, result.roomList)) {
-            this.updateChat(result)
+          const areNewEntries = result.roomList[this.roomData.roomType][this.roomData.recordid].chatEntries.length
+          if (areNewEntries || !isEqual(this.data.roomList, result.roomList)) {
+            // this.updateChat(result)
           }
-          if (result.chatEntries.length) {
+          if (areNewEntries) {
             this.scrollDown()
           }
           this.fetchNewMessages()
@@ -121,17 +135,18 @@ export default {
     },
     scrollDown() {
       this.scrollbarHidden = true
-			this.$refs.scrollContainer.setScrollPosition(this.$refs.messagesContainer.$el.clientHeight)
+      this.$refs.scrollContainer.setScrollPosition(this.$refs.messagesContainer.$el.clientHeight)
       setTimeout(() => {
         this.scrollbarHidden = false
-      }, 1800)    }
+      }, 1800)
+    }
   },
   mounted() {
-    this.fetchRoom({ id: undefined, roomType: undefined }).then(e => {
-			this.scrollDown()
+    this.fetchRoom({ id: this.roomData.recordId, roomType: this.roomData.roomType }).then(e => {
+      this.scrollDown()
       this.$emit('onContentLoaded', true)
       this.fetchNewMessages()
-		})
+    })
   },
   beforeDestroy() {
     clearTimeout(this.timerMessage)

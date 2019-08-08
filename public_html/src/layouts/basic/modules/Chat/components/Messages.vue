@@ -1,7 +1,7 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <div>
-    <div v-show="data.showMoreButton" class="text-center q-mt-md">
+    <div v-show="roomData.showMoreButton" class="text-center q-mt-md">
       <q-btn :loading="fetchingEarlier" @click="$emit('earlierClick')" icon="mdi-chevron-double-up">
         {{ translate('JS_CHAT_EARLIER') }}
         <template v-slot:loading>
@@ -10,7 +10,7 @@
       </q-btn>
     </div>
     <div class="q-pa-md">
-      <template v-for="row in data.chatEntries">
+      <template v-for="row in roomData.chatEntries">
         <!-- <q-chat-message :key="row.id" /> -->
         <transition :key="row.id" appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
           <q-chat-message
@@ -44,6 +44,10 @@ export default {
     },
     header: {
       type: Function
+    },
+    roomData: {
+      type: Object,
+      required: true
     }
   },
   data() {
@@ -52,11 +56,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['data', 'historyTab']),
     areEntries() {
-      return this.data.chatEntries === undefined ? true : this.data.chatEntries.length
+      return this.roomData.chatEntries === undefined ? true : this.roomData.chatEntries.length
     }
-	}
+  }
 }
 </script>
 <style lang="sass">

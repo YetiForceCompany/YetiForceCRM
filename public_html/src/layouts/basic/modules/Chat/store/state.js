@@ -31,11 +31,14 @@ export default {
 	},
 	data: {
 		amountOfNewMessages: 0,
-		chatEntries: [],
-		currentRoom: {},
+		/**
+		 * Each room contains data:
+		 * 	chatEntries: [],
+		 *	participants: [],
+		 *	showMoreButton: null
+		 */
 		roomList: {},
-		participants: [],
-		showMoreButton: null
+		currentRoom: {}
 	},
 	config: {
 		isChatAllowed: null,

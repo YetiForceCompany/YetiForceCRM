@@ -51,12 +51,12 @@ export default {
 		state.local.isDesktopNotification = val
 	},
 	setData(state, data) {
-		state.data = data
+		state.data = mergeDeepReactive(state.data, data)
 	},
-	pushSended(state, data) {
-		state.data.chatEntries.push(data.chatEntries.slice(-1)[0])
-		state.data.showMoreButton = data.showMoreButton
-		state.data.participants = data.participants
+	pushSended(state, { result, roomType, recordId }) {
+		state.data.roomList[roomType][recordId].chatEntries.push(result.chatEntries.slice(-1)[0])
+		state.data.roomList[roomType][recordId].showMoreButton = result.showMoreButton
+		state.data.roomList[roomType][recordId].participants = result.participants
 	},
 	updateChat(state, data) {
 		state.data.chatEntries = unionby(state.data.chatEntries, data.chatEntries, 'id')
