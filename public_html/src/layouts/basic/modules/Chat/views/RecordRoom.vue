@@ -2,7 +2,11 @@
 <template>
   <div class="fit">
     <q-layout view="hHh lpR fFf" container class="absolute bg-white">
-      <chat-tab @onContentLoaded="isLoading = false" :roomData="roomData || {}" />
+      <q-page-container>
+        <q-page>
+          <chat-tab @onContentLoaded="isLoading = false" :roomData="roomData || {}" />
+        </q-page>
+      </q-page-container>
       <q-drawer :value="true" side="right" bordered>
         <right-panel :participants="roomData.participants || []" />
       </q-drawer>
@@ -30,8 +34,7 @@ export default {
     }
   },
   watch: {},
-  methods: {
-  }
+  methods: {}
 }
 </script>
 <style scoped>
