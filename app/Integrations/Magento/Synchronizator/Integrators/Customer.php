@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Magento product map.
+ * Customer integration.
  *
  * @package Integration
  *
@@ -81,6 +81,16 @@ abstract class Customer extends \App\Integrations\Magento\Synchronizator\Record
 		static::$groups = $customerGroups;
 	}
 
+	/**
+	 * Get group name.
+	 *
+	 * @param int $groupId
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \ReflectionException
+	 *
+	 * @return mixed|string
+	 */
 	public function getGroupName(int $groupId)
 	{
 		if (empty(static::$groups)) {

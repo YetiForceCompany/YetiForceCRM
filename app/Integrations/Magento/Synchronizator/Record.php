@@ -20,7 +20,7 @@ abstract class Record extends Base
 	 * Format records id to given source.
 	 *
 	 * @param array  $ids
-	 * @param string $formatTo
+	 * @param int    $formatTo
 	 * @param string $type
 	 *
 	 * @return array

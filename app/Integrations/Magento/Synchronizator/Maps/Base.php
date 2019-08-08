@@ -195,27 +195,27 @@ abstract class Base
 	 */
 	public function getDataCrm(bool $onEdit = false): array
 	{
-		$data = [];
+		$parsedData = [];
 		foreach ($this->getFields($onEdit) as $fieldCrm => $field) {
-			$data[$fieldCrm] = $this->getFieldValue($field) ?? null;
+			$parsedData[$fieldCrm] = $this->getFieldValue($field) ?? null;
 		}
 		if (!$onEdit) {
 			foreach ($this->getAdditionalFieldsCrm() as $name => $value) {
-				$data[$name] = !empty($value) ? $value : $this->getFieldValue($name);
+				$parsedData[$name] = !empty($value) ? $value : $this->getFieldValue($name);
 			}
 		}
-		return $data;
+		return $parsedData;
 	}
 
 	/**
 	 * Get field value from YetiForce.
 	 *
 	 * @param string $fieldName
-	 * @param mixed  $parsedStructure
+	 * @param bool   $parsedStructure
 	 *
 	 * @return array|mixed
 	 */
-	public function getFieldValueCrm(string $fieldName, $parsedStructure = false)
+	public function getFieldValueCrm(string $fieldName, bool $parsedStructure = false)
 	{
 		$methodName = 'get' . \ucfirst($this->getFieldName($fieldName));
 		if (!\method_exists($this, $methodName)) {

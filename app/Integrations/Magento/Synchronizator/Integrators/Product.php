@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Magento product map.
+ * Product integration.
  *
  * @package Integration
  *
@@ -60,6 +60,8 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 	 *
 	 * @param array $product
 	 *
+	 * @throws \ReflectionException
+	 *
 	 * @return bool
 	 */
 	public function saveProduct(array $product): bool
@@ -87,8 +89,6 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 	 * Method to delete product in Magento.
 	 *
 	 * @param int $productId
-	 *
-	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return bool
 	 */
@@ -179,8 +179,6 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 	 *
 	 * @param array $ids
 	 * @param int   $pageSize
-	 *
-	 * @throws \ReflectionException
 	 *
 	 * @return string
 	 */
