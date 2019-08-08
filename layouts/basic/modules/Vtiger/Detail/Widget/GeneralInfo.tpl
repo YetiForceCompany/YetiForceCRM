@@ -72,8 +72,8 @@
 			</table>
 		</div>
 		<hr>
-		<div class="d-flex flex-wrap justify-content-between">
-			<div class="toggleViewByMode">
+		<div class="d-flex flex-wrap justify-content-xl-between justify-content-md-center justify-content-sm-between justify-content-center mx-2">
+			<div class="d-flex align-items-center mx-xl-0 mx-lg-4 mx-md-0 mx-sm-0 mx-4">
 				{if !$IS_READ_ONLY}
 					{assign var="CURRENT_VIEW" value="full"}
 					{assign var="CURRENT_MODE_LABEL" value="{\App\Language::translate('LBL_COMPLETE_DETAILS',{$MODULE_NAME})}"}
@@ -85,7 +85,7 @@
 						   data-currentviewlabel="{$CURRENT_MODE_LABEL}" data-full-url="{$FULL_MODE_URL}"/>
 				{/if}
 			</div>
-			<div>
+			<div class="mx-xl-0 mx-lg-4">
 				<p>
 					<small>
 						{\App\Language::translate('LBL_CREATED_ON',$MODULE_NAME)} {\App\Fields\DateTime::formatToDay($RECORD->get('createdtime'))}
