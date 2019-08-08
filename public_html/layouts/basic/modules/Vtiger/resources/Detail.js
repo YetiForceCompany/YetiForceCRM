@@ -2557,8 +2557,11 @@ jQuery.Class(
 			});
 		},
 		loadChat() {
-			let chatContainer = $('#ChatRecordRoomVue', this.detailViewContentHolder);
-			if (chatContainer.length) {
+			let chatVue = $('#ChatRecordRoomVue', this.detailViewContentHolder);
+			if (chatVue.length) {
+				let chatContainer = this.detailViewContentHolder.find('.js-chat-container');
+				const padding = 10;
+				chatContainer.height($(document).height() - chatContainer.offset().top - $('.js-footer').outerHeight() - padding);
 				window.ChatRecordRoomVueComponent.mount({
 					el: '#ChatRecordRoomVue'
 				});
@@ -2566,13 +2569,13 @@ jQuery.Class(
 		},
 		registerChat() {
 			if (window.ChatRecordRoomVueComponent !== undefined) {
-			this.loadChat()
-			app.event.on('DetailView.Tab.AfterLoad', (e, data, instance) => {
-				instance.detailViewContentHolder.ready(() => {
-						this.loadChat()
-				})
-			});
-		}
+				this.loadChat();
+				app.event.on('DetailView.Tab.AfterLoad', (e, data, instance) => {
+					instance.detailViewContentHolder.ready(() => {
+						this.loadChat();
+					});
+				});
+			}
 		},
 		registerBasicEvents: function() {
 			var thisInstance = this;

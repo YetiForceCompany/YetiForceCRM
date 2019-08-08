@@ -1,7 +1,7 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <div class="fit">
-    <q-layout view="hHh lpR fFf" container class="absolute bg-white">
+    <q-layout view="hHh lpR fFf" container class="bg-white">
       <q-page-container>
         <q-page>
           <chat-tab @onContentLoaded="isLoading = false" :roomData="roomData || {}" />
