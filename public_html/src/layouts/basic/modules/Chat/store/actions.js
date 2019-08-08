@@ -69,7 +69,6 @@ export default {
 				message: text,
 				mid: lastEntries !== undefined ? lastEntries['id'] : undefined
 			}).done(({ result }) => {
-				console.log(result)
 				commit('pushSended', { result, roomType, recordId })
 				resolve(result)
 			})

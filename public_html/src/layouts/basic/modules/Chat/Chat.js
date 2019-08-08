@@ -14,7 +14,6 @@ Vue.mixin({
 		}
 	}
 })
-console.log('store')
 store.registerModule('Chat', moduleStore)
 
 window.ChatModalVueComponent = {
@@ -45,7 +44,6 @@ window.ChatRecordRoomVueComponent = {
 			render: h => h(ChatRecordRoom),
 			recordId: app.getRecordId(),
 			beforeCreate() {
-				console.log(this.$options.recordId)
 				this.$store.dispatch('Chat/fetchRecordRoom', this.$options.recordId)
 			}
 		}).$mount(config.el)
