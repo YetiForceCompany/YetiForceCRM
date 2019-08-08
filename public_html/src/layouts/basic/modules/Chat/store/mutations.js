@@ -53,6 +53,9 @@ export default {
 	setData(state, data) {
 		state.data = mergeDeepReactive(state.data, data)
 	},
+	setHistoryData(state, data) {
+		state.data.history = mergeDeepReactive(state.data.history, data)
+	},
 	pushSended(state, { result, roomType, recordId }) {
 		state.data.roomList[roomType][recordId].chatEntries.push(result.chatEntries.slice(-1)[0])
 		state.data.roomList[roomType][recordId].showMoreButton = result.showMoreButton
@@ -69,6 +72,10 @@ export default {
 	pushOlderEntries(state, { result, roomType, recordId }) {
 		state.data.roomList[roomType][recordId].chatEntries.unshift(...result.chatEntries)
 		state.data.roomList[roomType][recordId].showMoreButton = result.showMoreButton
+	},
+	pushOlderEntriesToHistory(state, result) {
+		state.data.history.chatEntries.unshift(...result.chatEntries)
+		state.data.history.showMoreButton = result.showMoreButton
 	},
 	setAmountOfNewMessages(state, val) {
 		state.data.amountOfNewMessages = val

@@ -24,7 +24,7 @@ class Security
 	public static $USER_ENCRYPT_PASSWORD_COST = 10;
 
 	/** Possible to reset the password while logging in (true/false) */
-	public static $RESET_LOGIN_PASSWORD = false;
+	public static $RESET_LOGIN_PASSWORD = true;
 
 	/** Show my preferences */
 	public static $SHOW_MY_PREFERENCES = true;
@@ -66,13 +66,13 @@ class Security
 	public static $EMAIL_FIELD_RESTRICTED_DOMAINS_ACTIVE = false;
 
 	/** Restricted domains */
-	public static $EMAIL_FIELD_RESTRICTED_DOMAINS_VALUES = [];
+	public static $EMAIL_FIELD_RESTRICTED_DOMAINS_VALUES = ['yetiforce.com'];
 
 	/** List of modules where restricted domains are enabled, if empty it will be enabled everywhere. */
 	public static $EMAIL_FIELD_RESTRICTED_DOMAINS_ALLOWED = [];
 
 	/** List of modules excluded from restricted domains validation. */
-	public static $EMAIL_FIELD_RESTRICTED_DOMAINS_EXCLUDED = [];
+	public static $EMAIL_FIELD_RESTRICTED_DOMAINS_EXCLUDED = ['OSSEmployees', 'Users'];
 
 	/** Remember user credentials */
 	public static $LOGIN_PAGE_REMEMBER_CREDENTIALS = false;
@@ -87,10 +87,10 @@ class Security
 	public static $HPKP_KEYS = [];
 
 	/** Content Security Policy */
-	public static $CSP_ACTIVE = true;
+	public static $CSP_ACTIVE = false;
 
 	/** List of allowed domains for fields with HTML support */
-	public static $PURIFIER_ALLOWED_DOMAINS = [];
+	public static $PURIFIER_ALLOWED_DOMAINS = ['yetiforce.com', 'github.com'];
 
 	/** Lifetime session (in seconds) */
 	public static $MAX_LIFETIME_SESSION = 21600;
@@ -99,7 +99,7 @@ class Security
 	 * User authentication mode.
 	 * @see \Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE Available values.
 	 */
-	public static $USER_AUTHY_MODE = 'TOTP_OPTIONAL';
+	public static $USER_AUTHY_MODE = 'TOTP_OFF';
 
 	/** Cache lifetime for SensioLabs security checker. */
 	public static $CACHE_LIFETIME_SENSIOLABS_SECURITY_CHECKER = 3600;

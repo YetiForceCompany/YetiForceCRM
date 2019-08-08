@@ -42,8 +42,6 @@ export default {
 				recordId: options.id,
 				roomType: options.roomType
 			}).done(({ result }) => {
-				// const room = options.id === undefined ? result.currentRoom : options
-				// let tempData = Object.assign({}, getters.data.roomList[room.roomType][room.id])
 				commit('setData', result)
 				resolve(result)
 			})
@@ -154,13 +152,13 @@ export default {
 				module: 'Chat',
 				action: 'ChatAjax',
 				mode: 'getHistory',
-				mid: showMoreClicked ? getters.data.chatEntries[0].id : null,
+				mid: showMoreClicked ? getters.data.history.chatEntries[0].id : null,
 				groupHistory: groupHistory
 			}).done(({ result }) => {
 				if (!showMoreClicked) {
-					commit('setData', Object.assign(tempData, result))
+					commit('setHistoryData', result)
 				} else {
-					commit('pushOlderEntries', result)
+					commit('pushOlderEntriesToHistory', result)
 				}
 				resolve(result)
 			})

@@ -38,7 +38,11 @@ export default {
 		 *	showMoreButton: null
 		 */
 		roomList: {},
-		currentRoom: {}
+		currentRoom: {},
+		history: {
+			chatEntries: [],
+			showMoreButton: null
+		}
 	},
 	config: {
 		isChatAllowed: null,
