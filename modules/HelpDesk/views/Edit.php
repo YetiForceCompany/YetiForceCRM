@@ -22,9 +22,11 @@ class HelpDesk_Edit_View extends Vtiger_Edit_View
 	public function loadJsConfig(App\Request $request)
 	{
 		parent::loadJsConfig($request);
+		$moduleName = $request->getModule();
 		foreach ([
-			'checkIfRecordHasTimeControl' => (bool) \App\Config::module('HelpDesk', 'CHECK_IF_RECORDS_HAS_TIME_CONTROL'),
-			'checkIfRelatedTicketsAreClosed' => (bool) \App\Config::module('HelpDesk', 'CHECK_IF_RELATED_TICKETS_ARE_CLOSED')
+			'checkIfRecordHasTimeControl' => (bool) \App\Config::module($moduleName, 'CHECK_IF_RECORDS_HAS_TIME_CONTROL'),
+			'checkIfRelatedTicketsAreClosed' => (bool) \App\Config::module($moduleName, 'CHECK_IF_RELATED_TICKETS_ARE_CLOSED'),
+			'closeTicketForStatus' => \App\Json::encode(array_flip(\App\RecordStatus::getStates($moduleName, \App\RecordStatus::RECORD_STATE_CLOSED)))
 		] as $key => $value) {
 			\App\Config::setJsEnv($key, $value);
 		}

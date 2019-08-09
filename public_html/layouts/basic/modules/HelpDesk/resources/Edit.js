@@ -13,10 +13,18 @@ Vtiger_Edit_Js(
 			const self = this;
 			let lockSave = true;
 			form.on(Vtiger_Edit_Js.recordPreSave, function(e, data) {
+				let closedStatus = JSON.parse(app.getMainParams('closeTicketForStatus'));
+				let status = form.find('[name="ticketstatus"] :selected').val();
 				let progress = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
-				if ((CONFIG.checkIfRecordHasTimeControl || CONFIG.checkIfRelatedTicketsAreClosed) && !data.module) {
-					const recordId = app.getRecordId();
-					if (lockSave) {
+				let isClosedStatusSet = status in closedStatus;
+				const recordId = app.getRecordId();
+				if (
+					(app.getMainParams('checkIfRecordHasTimeControl') || app.getMainParams('checkIfRelatedTicketsAreClosed')) &&
+					isClosedStatusSet &&
+					recordId &&
+					!data.module
+				) {
+					if (lockSave && recordId) {
 						e.preventDefault();
 						AppConnector.request({
 							action: 'CheckValidateToClose',
@@ -47,6 +55,14 @@ Vtiger_Edit_Js(
 							}
 						});
 					}
+				}
+				if (isClosedStatusSet && (!recordId || data.module)) {
+					Vtiger_Helper_Js.showPnotify({
+						text: app.vtranslate('JS_CANT_CLOSE_NEW_RECROD'),
+						type: 'info'
+					});
+					progress.progressIndicator({ mode: 'hide' });
+					e.preventDefault();
 				}
 			});
 		},
