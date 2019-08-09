@@ -66,6 +66,9 @@ export default {
 		state.data.participants = data.participants
 		state.data.roomList = data.roomList
 	},
+	updateChatData(state, data) {
+		state.data = mergeDeepReactive(state.data, data)
+	},
 	updateRooms(state, data) {
 		state.data.roomList = data
 	},

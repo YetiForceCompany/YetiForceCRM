@@ -87,6 +87,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		if ($request->has('roomType') && $request->has('recordId')) {
 			$roomType = $request->getByType('roomType');
 			$recordId = $request->getInteger('recordId');
+			\App\Chat::setCurrentRoom($roomType, $recordId);
 		} else {
 			$currentRoom = \App\Chat::getCurrentRoom();
 			if (!$currentRoom || !isset($currentRoom['roomType']) || !isset($currentRoom['recordId'])) {
@@ -135,6 +136,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$result = [];
 		$roomList = \App\Chat::getRoomsByUser();
 		$areNewEntries = false;
+
 		foreach ($rooms as $room) {
 			$recordId = $room['recordid'];
 			$roomType = $room['roomType'];
@@ -142,7 +144,8 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			if (!$chat->isRoomExists()) {
 				return;
 			}
-			$chatEntries = $chat->getEntries($request->has('lastId') ? $request->getInteger('lastId') : null);
+			$lastEntries = array_pop($room['chatEntries']);
+			$chatEntries = $chat->getEntries($lastEntries ? $lastEntries['id'] : null);
 			$isNextPage = $this->isNextPage(\count($chatEntries));
 			if ($isNextPage) {
 				array_shift($chatEntries);

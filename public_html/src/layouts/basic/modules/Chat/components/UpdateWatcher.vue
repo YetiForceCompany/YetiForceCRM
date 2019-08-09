@@ -2,14 +2,15 @@
 <template></template>
 <script>
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters, mapActions } = createNamespacedHelpers('Chat')
+const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
 export default {
   name: 'UpdateWatcher',
   props: {},
   data() {
     return {
-      timerGlobal: null,
-      timerMessage: null
+      timerGlobal: false,
+      timerMessage: false,
+      activeRooms: []
     }
   },
   computed: {
@@ -17,6 +18,7 @@ export default {
   },
   methods: {
     ...mapActions(['updateAmountOfNewMessages']),
+    ...mapMutations(['updateChatData']),
     fetchNewMessages() {
       this.timerMessage = setTimeout(() => {
         AppConnector.request({
@@ -26,8 +28,10 @@ export default {
           rooms: this.activeRooms
         }).done(({ result }) => {
           this.updateAmountOfNewMessages(result.amountOfNewMessages)
+          console.log(result.areNewEntries)
           if (result.areNewEntries) {
-            this.updateChat(result)
+						console.log(result)
+            this.updateChatData(result)
           }
           this.fetchNewMessages()
         })
@@ -45,21 +49,26 @@ export default {
         this.updateAmountOfNewMessages(result)
         this.initTimer()
       })
-		}
+    }
   },
   created() {
-		this.$store.subscribe((mutation, state) => {
+    this.$store.subscribe((mutation, state) => {
       if (mutation.type === 'Chat/setActiveRoom' || mutation.type === 'Chat/unsetActiveRoom') {
-				if (this.allRooms.filter(el => el.active).length) {
-					clearInterval(this.timerGlobal)
-					this.fetchNewMessages()
-				} else {
-					clearInterval(this.timerMessage)
-					this.trackNewMessages()
-				}
+        this.activeRooms = this.allRooms.filter(el => el.active)
+        if (this.activeRooms.length && !this.timerMessage) {
+          clearInterval(this.timerGlobal)
+          this.timerGlobal = false
+          this.fetchNewMessages()
+        } else if (!this.timerGlobal) {
+          clearInterval(this.timerMessage)
+          this.timerMessage = false
+          this.trackNewMessages()
+        }
+        console.log(this.timerGlobal)
       }
     })
-    if (this.allRooms.filter(el => el.active).length) {
+    this.activeRooms = this.allRooms.filter(el => el.active)
+    if (this.activeRooms.length) {
       this.fetchNewMessages()
     } else {
       this.trackNewMessages()
