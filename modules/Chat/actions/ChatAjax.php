@@ -155,7 +155,9 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			$roomList[$roomType][$recordId]['showMoreButton'] = $isNextPage;
 			$roomList[$roomType][$recordId]['chatEntries'] = $chatEntries;
 			$roomList[$roomType][$recordId]['participants'] = $chat->getParticipants();
-			$areNewEntries = \count($chatEntries) > 0;
+			if (!$areNewEntries) {
+				$areNewEntries = \count($chatEntries) > 0;
+			}
 		}
 		$result['roomList'] = $roomList;
 		$result['areNewEntries'] = $areNewEntries;
@@ -358,6 +360,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 				'crm' => [
 					$recordId => [
 						'active' => true,
+						'recordRoom' => true,
 						'chatEntries' => $chatEntries,
 						'participants' => $chat->getParticipants(),
 						'showMoreButton' => \count($chatEntries) > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT')

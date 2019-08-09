@@ -4,7 +4,7 @@
     <q-layout view="hHh lpR fFf" container class="bg-white">
       <q-page-container>
         <q-page>
-          <chat-tab @onContentLoaded="isLoading = false" :roomData="roomData || {}" :recordView="true" />
+          <chat-tab @onContentLoaded="isLoading = false" :roomData="roomData || {}" :recordRoom="true" />
         </q-page>
       </q-page-container>
       <q-drawer :value="true" side="right" bordered>
@@ -18,7 +18,7 @@ import ChatTab from '../components/ChatTab.vue'
 import RightPanel from '../components/RightPanel.vue'
 
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
+const { mapGetters, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'RecordRoom',
   components: { ChatTab, RightPanel },
@@ -35,9 +35,13 @@ export default {
 			}
 			return {}
     }
-  },
-  watch: {},
-  methods: {}
+	},
+	methods: {
+	...mapActions(['removeActiveRoom'])
+	},
+  beforeDestroy() {
+    this.removeActiveRoom({ recordId: this.roomData.recordid, roomType: this.roomData.roomType })
+  }
 }
 </script>
 <style scoped>
