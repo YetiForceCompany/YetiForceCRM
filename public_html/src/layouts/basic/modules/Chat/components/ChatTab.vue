@@ -52,7 +52,9 @@ export default {
   props: {
     roomData: {
       type: Object,
-      required: true
+      required: true,
+      roomId: null,
+      roomType: null
     }
   },
   data() {
@@ -60,14 +62,21 @@ export default {
       inputSearch: '',
       fetchingEarlier: false,
       searching: false,
-      scrollbarHidden: false
+      scrollbarHidden: false,
+      dataReady: false
     }
   },
   computed: {
     ...mapGetters(['miniMode', 'data', 'config', 'isSearchActive', 'tab'])
   },
   watch: {
-    data() {
+    roomData() {
+      if (this.roomData.recordId !== this.roomId && this.dataReady) {
+        console.log('roomchanged')
+        this.disableNewMessagesListener()
+        this.updateComponentsRoom()
+        this.enableNewMessagesListener()
+      }
       this.$nextTick(function() {
         this.scrollDown()
       })
@@ -127,19 +136,25 @@ export default {
         this.scrollbarHidden = false
       }, 1800)
     },
+    updateComponentsRoom() {
+      console.log(this.roomData)
+      this.roomId = this.roomData.recordid
+      this.roomType = this.roomData.roomType
+    },
     enableNewMessagesListener() {
-      this.addActiveRoom({ recordId: this.roomData.recordid, roomType: this.roomData.roomType })
+      this.addActiveRoom({ recordId: this.roomId, roomType: this.roomType })
     },
     disableNewMessagesListener() {
-      this.removeActiveRoom({ recordId: this.roomData.recordid, roomType: this.roomData.roomType })
+      this.removeActiveRoom({ recordId: this.roomId, roomType: this.roomType })
     }
   },
   mounted() {
-    this.fetchRoom({ id: this.roomData.recordId, roomType: this.roomData.roomType }).then(e => {
+    this.fetchRoom({ id: this.roomData.recordid, roomType: this.roomData.roomType }).then(e => {
       this.scrollDown()
       this.$emit('onContentLoaded', true)
-			this.enableNewMessagesListener()
-			console.log('enabled')
+      this.updateComponentsRoom()
+      this.enableNewMessagesListener()
+      this.dataReady = true
     })
   },
   beforeDestroy() {
