@@ -71,20 +71,28 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['miniMode', 'data', 'config', 'isSearchActive'])
+		...mapGetters(['miniMode', 'data', 'config', 'isSearchActive']),
+		roomMessages() {
+			return this.roomData.chatEntries
+		}
   },
   watch: {
     roomData() {
-      if (this.roomData.recordId !== this.roomId && this.dataReady) {
-        console.log('roomchanged')
+      if (this.roomData.recordid !== this.roomId && this.dataReady) {
         this.disableNewMessagesListener()
         this.updateComponentsRoom()
         this.enableNewMessagesListener()
       }
-      this.$nextTick(function() {
-        this.scrollDown()
-      })
-    }
+		},
+		roomMessages() {
+			if (!this.fetchingEarlier) {
+				this.$nextTick(function() {
+					this.scrollDown()
+				})
+			} else {
+				this.fetchingEarlier = false
+			}
+		}
   },
   methods: {
     ...mapActions([
@@ -108,13 +116,9 @@ export default {
           chatEntries: this.roomData.chatEntries,
           roomType: this.roomData.roomType,
           recordId: this.roomData.recordid
-        }).then(e => {
-          this.fetchingEarlier = false
         })
       } else {
-        this.fetchSearchData(this.inputSearch).then(e => {
-          this.fetchingEarlier = false
-        })
+        this.fetchSearchData(this.inputSearch)
       }
     },
     clearSearch() {
