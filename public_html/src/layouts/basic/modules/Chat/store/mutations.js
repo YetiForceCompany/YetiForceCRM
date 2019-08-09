@@ -61,13 +61,19 @@ export default {
 		state.data.roomList[roomType][recordId].showMoreButton = result.showMoreButton
 		state.data.roomList[roomType][recordId].participants = result.participants
 	},
-	updateChat(state, data) {
-		state.data.chatEntries = unionby(state.data.chatEntries, data.chatEntries, 'id')
-		state.data.participants = data.participants
-		state.data.roomList = data.roomList
-	},
-	updateChatData(state, data) {
-		state.data = mergeDeepReactive(state.data, data)
+	updateChatData(state, { roomsToUpdate, newData }) {
+		state.data.amountOfNewMessages = newData.amountOfNewMessages
+		roomsToUpdate.forEach(room => {
+			state.data.roomList[room.roomType][room.recordid].showMoreButton =
+				newData.roomList[room.roomType][room.recordid].showMoreButton
+			state.data.roomList[room.roomType][room.recordid].participants =
+				newData.roomList[room.roomType][room.recordid].participants
+			state.data.roomList[room.roomType][room.recordid].chatEntries = unionby(
+				state.data.roomList[room.roomType][room.recordid].chatEntries,
+				newData.roomList[room.roomType][room.recordid].chatEntries,
+				'id'
+			)
+		})
 	},
 	updateRooms(state, data) {
 		state.data.roomList = data

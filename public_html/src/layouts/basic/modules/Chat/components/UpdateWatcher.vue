@@ -21,6 +21,7 @@ export default {
     ...mapMutations(['updateChatData']),
     fetchNewMessages() {
       this.timerMessage = setTimeout(() => {
+        let currentActiveRooms = [...this.activeRooms]
         AppConnector.request({
           module: 'Chat',
           action: 'ChatAjax',
@@ -30,8 +31,8 @@ export default {
           this.updateAmountOfNewMessages(result.amountOfNewMessages)
           console.log(result.areNewEntries)
           if (result.areNewEntries) {
-						console.log(result)
-            this.updateChatData(result)
+            console.log(result)
+            this.updateChatData({ roomsToUpdate: currentActiveRooms, newData: result })
           }
           this.fetchNewMessages()
         })
