@@ -7,10 +7,10 @@
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.10.1.tgz#dec28ee02c3fc51da46d53ce4da9d5787312fbd7"
   integrity sha512-PYncBhgN1l02mwHmczukexmu4yRTjRDAAdcK62jdWSAW8epcnZ9K2win/7rMrffiv/c7XLVDA8vD+yi6WyvbGQ==
 
-"@mdi/font@^3.6.95":
-  version "3.9.96"
-  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-3.9.96.tgz#0c957f1f07e45bd56e6c87cbd1c0d44c8002d129"
-  integrity sha512-mGzfr/4hNQaR9mY4nFDyMgL6ouTyDMrp4sEPHLXFy403EMbdrkVLHX/aHfnrgUgXMxS54ozN7vMjeqTbj9eE9w==
+"@mdi/font@^3.9.97":
+  version "3.9.97"
+  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-3.9.97.tgz#b9f31e05574452e84f57e5b81d34ffd593bc9c29"
+  integrity sha512-yADBl2mzqIssrhLaRvJ2gZPyEQK+fN9uYh/1/cwwuq2lKDx+ITWsOrh1vlHMfw1IICMx9cwBjSoiCf3B8Br8nw==
 
 add@^2.0.6:
   version "2.0.6"
