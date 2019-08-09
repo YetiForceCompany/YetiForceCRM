@@ -14,7 +14,16 @@
 	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var="FIELD_NAME" value=$FIELD_MODEL->getName()}
-	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
+	{assign var="FIELD_MODEL_VALUE" value=$FIELD_MODEL->get('fieldvalue')}
+	{if isset($RECORD)}
+			{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
+	{else}
+		{if isset($FIELD_MODEL_VALUE)}
+			{assign var=FIELD_VALUE value=$FIELD_MODEL_VALUE}
+		{else}
+			{assign var=FIELD_VALUE value=''}
+		{/if}
+	{/if}
 	<input class="form-control {if $FIELD_MODEL->isNameField()}nameField{/if}"
 		   name="{$FIELD_MODEL->getFieldName()}" id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text"
 		   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"

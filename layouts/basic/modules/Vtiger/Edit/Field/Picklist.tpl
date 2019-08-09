@@ -14,7 +14,16 @@
 	{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 	{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
-	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
+	{assign var="FIELD_MODEL_VALUE" value=$FIELD_MODEL->get('fieldvalue')}
+	{if isset($RECORD)}
+			{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
+	{else}
+		{if isset($FIELD_MODEL_VALUE)}
+			{assign var=FIELD_VALUE value=$FIELD_MODEL_VALUE}
+		{else}
+			{assign var=FIELD_VALUE value=''}
+		{/if}
+	{/if}
 	{assign var=PLACE_HOLDER value=($FIELD_MODEL->isEmptyPicklistOptionAllowed() && !($FIELD_MODEL->isMandatory() eq true && $FIELD_VALUE neq ''))}
 	<div>
 		<select name="{$FIELD_MODEL->getFieldName()}" class="select2 form-control" data-fieldinfo='{$FIELD_INFO|escape}'
