@@ -138,7 +138,8 @@ export default {
     this.fetchRoom({ id: this.roomData.recordId, roomType: this.roomData.roomType }).then(e => {
       this.scrollDown()
       this.$emit('onContentLoaded', true)
-    	this.enableNewMessagesListener()
+			this.enableNewMessagesListener()
+			console.log('enabled')
     })
   },
   beforeDestroy() {

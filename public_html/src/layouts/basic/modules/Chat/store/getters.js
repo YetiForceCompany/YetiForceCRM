@@ -53,11 +53,6 @@ export default {
 			Object.values(get(state, 'data.roomList.global', {}))
 		)
 	},
-	activeRooms(state, getters) {
-		return getters.allRooms.filter(el => {
-			return el.active
-		})
-	},
 	currentRoomData(state, getters) {
 		const currentRoom = getters.data.currentRoom
 		if (state.data.roomList === undefined || currentRoom.roomType === undefined) {

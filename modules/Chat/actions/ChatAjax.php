@@ -131,10 +131,10 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	 */
 	public function getRoomsMessages(App\Request $request)
 	{
-		$rooms = $request->getByType('rooms');
+		$rooms = $request->getArray('rooms');
 		$result = [];
 		$roomList = \App\Chat::getRoomsByUser();
-
+		$areNewEntries = false;
 		foreach ($rooms as $room) {
 			$recordId = $room['recordid'];
 			$roomType = $room['roomType'];
@@ -150,8 +150,10 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			$roomList[$roomType][$recordId]['showMoreButton'] = $isNextPage;
 			$roomList[$roomType][$recordId]['chatEntries'] = $chatEntries;
 			$roomList[$roomType][$recordId]['participants'] = $chat->getParticipants();
+			$areNewEntries = \count($chatEntries) > 0;
 		}
 		$result['roomList'] = $roomList;
+		$result['areNewEntries'] = $areNewEntries;
 		if (App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')) {
 			$result['amountOfNewMessages'] = \App\Chat::getNumberOfNewMessages();
 		}

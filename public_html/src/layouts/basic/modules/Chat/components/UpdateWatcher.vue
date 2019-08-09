@@ -13,21 +13,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['data', 'config', 'tab', 'currentRoom', 'activeRooms'])
-  },
-  watch: {
-    activeRooms() {
-      if (this.activeRooms.length) {
-        clearInterval(this.timerGlobal)
-        this.fetchNewMessages()
-      } else {
-        clearInterval(this.timerMessage)
-        this.trackNewMessages()
-      }
-    }
+    ...mapGetters(['data', 'config', 'tab', 'currentRoom', 'allRooms'])
   },
   methods: {
-		...mapActions(['updateAmountOfNewMessages']),
+    ...mapActions(['updateAmountOfNewMessages']),
     fetchNewMessages() {
       this.timerMessage = setTimeout(() => {
         AppConnector.request({
@@ -37,9 +26,8 @@ export default {
           rooms: this.activeRooms
         }).done(({ result }) => {
           this.updateAmountOfNewMessages(result.amountOfNewMessages)
-          const areNewEntries = result.roomList[this.roomData.roomType][this.roomData.recordid].chatEntries.length
-          if (areNewEntries || !isEqual(this.data.roomList, result.roomList)) {
-            // this.updateChat(result)
+          if (result.areNewEntries) {
+            this.updateChat(result)
           }
           this.fetchNewMessages()
         })
@@ -57,11 +45,21 @@ export default {
         this.updateAmountOfNewMessages(result)
         this.initTimer()
       })
-    }
+		}
   },
   created() {
-		console.log('crea')
-    if (this.activeRooms.length) {
+		this.$store.subscribe((mutation, state) => {
+      if (mutation.type === 'Chat/setActiveRoom' || mutation.type === 'Chat/unsetActiveRoom') {
+				if (this.allRooms.filter(el => el.active).length) {
+					clearInterval(this.timerGlobal)
+					this.fetchNewMessages()
+				} else {
+					clearInterval(this.timerMessage)
+					this.trackNewMessages()
+				}
+      }
+    })
+    if (this.allRooms.filter(el => el.active).length) {
       this.fetchNewMessages()
     } else {
       this.trackNewMessages()
