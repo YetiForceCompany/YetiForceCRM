@@ -83,6 +83,12 @@ export default {
 	setAmountOfNewMessagesByRoom(state, val) {
 		state.data.roomList = mergeDeepReactive(state.data.roomList, val)
 	},
+	unsetActiveRoom(state, { recordId, roomType }) {
+		state.data.roomList[roomType][recordId].active = false
+	},
+	setActiveRoom(state, { recordId, roomType }) {
+		state.data.roomList[roomType][recordId].active = true
+	},
 	setPinned(state, { roomType, room }) {
 		const roomList = state.data.roomList
 		switch (roomType) {

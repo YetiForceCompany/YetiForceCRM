@@ -57,6 +57,12 @@ export default {
 			})
 		})
 	},
+	removeActiveRoom({ commit }, { recordId, roomType }) {
+		commit('unsetActiveRoom', { recordId, roomType })
+	},
+	addActiveRoom({ commit }, { recordId, roomType }) {
+		commit('setActiveRoom', { recordId, roomType })
+	},
 	sendMessage({ commit, getters }, { text, roomType, recordId }) {
 		const lastEntries = getters.data.roomList[roomType][recordId].chatEntries.slice(-1)[0]
 		return new Promise((resolve, reject) => {

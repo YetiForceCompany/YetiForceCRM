@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+import get from 'lodash.get'
+
 export default {
 	dialog(state) {
 		return state.session.dialog
@@ -44,6 +46,17 @@ export default {
 	},
 	data(state) {
 		return state.data
+	},
+	allRooms(state) {
+		return Object.values(get(state, 'data.roomList.crm', {})).concat(
+			Object.values(get(state, 'data.roomList.group', {})),
+			Object.values(get(state, 'data.roomList.global', {}))
+		)
+	},
+	activeRooms(state, getters) {
+		return getters.allRooms.filter(el => {
+			return el.active
+		})
 	},
 	currentRoomData(state, getters) {
 		const currentRoom = getters.data.currentRoom

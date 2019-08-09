@@ -24,6 +24,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$this->exposeMethod('getChatConfig');
 		$this->exposeMethod('getMessages');
 		$this->exposeMethod('getMoreMessages');
+		$this->exposeMethod('getRoomsMessages');
 		$this->exposeMethod('getUnread');
 		$this->exposeMethod('getHistory');
 		$this->exposeMethod('getRooms');
@@ -86,9 +87,6 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		if ($request->has('roomType') && $request->has('recordId')) {
 			$roomType = $request->getByType('roomType');
 			$recordId = $request->getInteger('recordId');
-			if (!$request->getBoolean('viewForRecord')) {
-				\App\Chat::setCurrentRoom($roomType, $recordId);
-			}
 		} else {
 			$currentRoom = \App\Chat::getCurrentRoom();
 			if (!$currentRoom || !isset($currentRoom['roomType']) || !isset($currentRoom['recordId'])) {
@@ -116,6 +114,44 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		}
 		$result['roomList'] = $roomList;
 
+		if (App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')) {
+			$result['amountOfNewMessages'] = \App\Chat::getNumberOfNewMessages();
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
+	}
+
+	/**
+	 * Get rooms messages from chat.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 */
+	public function getRoomsMessages(App\Request $request)
+	{
+		$rooms = $request->getByType('rooms');
+		$result = [];
+		$roomList = \App\Chat::getRoomsByUser();
+
+		foreach ($rooms as $room) {
+			$recordId = $room['recordid'];
+			$roomType = $room['roomType'];
+			$chat = \App\Chat::getInstance($roomType, $recordId);
+			if (!$chat->isRoomExists()) {
+				return;
+			}
+			$chatEntries = $chat->getEntries($request->has('lastId') ? $request->getInteger('lastId') : null);
+			$isNextPage = $this->isNextPage(\count($chatEntries));
+			if ($isNextPage) {
+				array_shift($chatEntries);
+			}
+			$roomList[$roomType][$recordId]['showMoreButton'] = $isNextPage;
+			$roomList[$roomType][$recordId]['chatEntries'] = $chatEntries;
+			$roomList[$roomType][$recordId]['participants'] = $chat->getParticipants();
+		}
+		$result['roomList'] = $roomList;
 		if (App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')) {
 			$result['amountOfNewMessages'] = \App\Chat::getNumberOfNewMessages();
 		}

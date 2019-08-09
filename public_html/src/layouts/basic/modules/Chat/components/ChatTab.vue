@@ -60,7 +60,6 @@ export default {
       inputSearch: '',
       fetchingEarlier: false,
       searching: false,
-      timerMessage: null,
       scrollbarHidden: false
     }
   },
@@ -75,8 +74,15 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchEarlierEntries', 'fetchSearchData', 'fetchRoom', 'fetchUnread', 'updateAmountOfNewMessages']),
-    ...mapMutations(['setSearchInactive', 'updateChat']),
+    ...mapActions([
+      'fetchEarlierEntries',
+      'fetchSearchData',
+      'fetchRoom',
+      'fetchUnread',
+      'addActiveRoom',
+      'removeActiveRoom'
+    ]),
+    ...mapMutations(['setSearchInactive']),
     onResize({ height }) {
       Quasar.utils.dom.css(this.$refs.scrollContainer.$el, {
         height: height + 'px'
@@ -102,10 +108,10 @@ export default {
       this.inputSearch = ''
       this.fetchRoom()
       this.setSearchInactive()
-      this.fetchNewMessages()
+      this.enableNewMessagesListener()
     },
     search() {
-      clearTimeout(this.timerMessage)
+      this.disableNewMessagesListener()
       this.searching = true
       this.fetchSearchData({
         value: this.inputSearch,
@@ -114,49 +120,29 @@ export default {
         this.searching = false
       })
     },
-    fetchNewMessages() {
-      // this.timerMessage = setTimeout(() => {
-      //   AppConnector.request({
-      //     module: 'Chat',
-      //     action: 'ChatAjax',
-      //     mode: 'getMessages',
-      //     lastId:
-      //       this.roomData.chatEntries.slice(-1)[0] !== undefined
-      //         ? this.roomData.chatEntries.slice(-1)[0]['id']
-      //         : undefined,
-      //     recordId: this.roomData.recordid,
-      //     roomType: this.roomData.roomType,
-      //     miniMode: this.miniMode ? true : undefined
-      //   }).done(({ result }) => {
-      //     this.updateAmountOfNewMessages(result.amountOfNewMessages)
-      //     const areNewEntries = result.roomList[this.roomData.roomType][this.roomData.recordid].chatEntries.length
-      //     if (areNewEntries || !isEqual(this.data.roomList, result.roomList)) {
-      //       // this.updateChat(result)
-      //     }
-      //     if (areNewEntries) {
-      //       this.scrollDown()
-      //     }
-      //     this.fetchNewMessages()
-      //   })
-      // }, this.config.refreshMessageTime)
-    },
     scrollDown() {
       this.scrollbarHidden = true
       this.$refs.scrollContainer.setScrollPosition(this.$refs.messagesContainer.$el.clientHeight)
       setTimeout(() => {
         this.scrollbarHidden = false
       }, 1800)
+    },
+    enableNewMessagesListener() {
+      this.addActiveRoom({ recordId: this.roomData.recordid, roomType: this.roomData.roomType })
+    },
+    disableNewMessagesListener() {
+      this.removeActiveRoom({ recordId: this.roomData.recordid, roomType: this.roomData.roomType })
     }
   },
   mounted() {
     this.fetchRoom({ id: this.roomData.recordId, roomType: this.roomData.roomType }).then(e => {
       this.scrollDown()
       this.$emit('onContentLoaded', true)
-      this.fetchNewMessages()
+    	this.enableNewMessagesListener()
     })
   },
   beforeDestroy() {
-    clearTimeout(this.timerMessage)
+    this.disableNewMessagesListener()
   }
 }
 </script>
