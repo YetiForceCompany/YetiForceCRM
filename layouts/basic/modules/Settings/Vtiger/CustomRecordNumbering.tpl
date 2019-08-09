@@ -13,13 +13,15 @@
 	<div class="tpl-Settings-Vtiger-CustomRecordNumbering">
 		<form id="EditView" method="POST">
 			<div class="widget_header row mb-3">
-				<div class="col-6 col-md-9">
-					<div class="d-inline-flex">
-						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
+				<div class="col-6 col-xl-9 col-12">
+					<div class="o-breadcrumb widget_header mb-2 d-flex justify-content-between px-2 w-100">
+						<div class="o-breadcrumb__container">
+							{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
+						</div>
 					</div>
 				</div>
-				<div class="col-6 col-md-3">
-					<button type="button" class="btn btn-info float-right mt-1" name="updateRecordWithSequenceNumber">
+				<div class="col-6 col-xl-3 col-12 d-flex align-items-center mb-xl-0 mb-3">
+					<button type="button" class="btn btn-info float-right" name="updateRecordWithSequenceNumber">
 						<span class="fas fa-exchange-alt u-mr-5px"></span>{\App\Language::translate('LBL_UPDATE_MISSING_RECORD_SEQUENCE', $QUALIFIED_MODULE)}
 					</button>
 				</div>
