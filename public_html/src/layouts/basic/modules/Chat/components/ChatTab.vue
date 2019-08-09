@@ -52,9 +52,11 @@ export default {
   props: {
     roomData: {
       type: Object,
-      required: true,
-      roomId: null,
-      roomType: null
+      required: true
+    },
+    recordView: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -63,11 +65,13 @@ export default {
       fetchingEarlier: false,
       searching: false,
       scrollbarHidden: false,
-      dataReady: false
+      dataReady: false,
+      roomId: null,
+      roomType: null
     }
   },
   computed: {
-    ...mapGetters(['miniMode', 'data', 'config', 'isSearchActive', 'tab'])
+    ...mapGetters(['miniMode', 'data', 'config', 'isSearchActive'])
   },
   watch: {
     roomData() {
@@ -149,7 +153,7 @@ export default {
     }
   },
   mounted() {
-    this.fetchRoom({ id: this.roomData.recordid, roomType: this.roomData.roomType }).then(e => {
+    this.fetchRoom({ id: this.roomData.recordid, roomType: this.roomData.roomType, recordView: this.recordView }).then(e => {
       this.scrollDown()
       this.$emit('onContentLoaded', true)
       this.updateComponentsRoom()

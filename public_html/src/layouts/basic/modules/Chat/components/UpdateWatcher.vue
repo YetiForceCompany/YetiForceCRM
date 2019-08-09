@@ -54,21 +54,25 @@ export default {
   },
   created() {
     this.$store.subscribe((mutation, state) => {
-      if (mutation.type === 'Chat/setActiveRoom' || mutation.type === 'Chat/unsetActiveRoom') {
+      if (mutation.type === 'Chat/setActiveRoom') {
         this.activeRooms = this.allRooms.filter(el => el.active)
         if (this.activeRooms.length && !this.timerMessage) {
           clearInterval(this.timerGlobal)
           this.timerGlobal = false
           this.fetchNewMessages()
-        } else if (!this.timerGlobal) {
+        }
+        console.log(this.timerGlobal)
+      } else if (mutation.type === 'Chat/unsetActiveRoom' && !this.allRooms.filter(el => el.active).length) {
+				if (!this.timerGlobal) {
           clearInterval(this.timerMessage)
           this.timerMessage = false
           this.trackNewMessages()
         }
-        console.log(this.timerGlobal)
-      }
-    })
-    this.activeRooms = this.allRooms.filter(el => el.active)
+			}
+		})
+		console.log(this.allRooms.filter(el => el.active))
+		this.activeRooms = this.allRooms.filter(el => el.active)
+		console.log(this.activeRooms.length)
     if (this.activeRooms.length) {
       this.fetchNewMessages()
     } else {

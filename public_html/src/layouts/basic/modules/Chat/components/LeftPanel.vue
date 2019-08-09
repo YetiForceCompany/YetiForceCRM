@@ -66,7 +66,7 @@
               class="q-pl-sm"
               :active="data.currentRoom.recordId === room.recordid"
               active-class="bg-teal-1 text-grey-8"
-              @click="fetchRoom({ id: room.recordid, roomType: roomType })"
+              @click="fetchRoom({ id: room.recordid, roomType: roomType, recordView: false})"
             >
               <div class="full-width flex items-center justify-between no-wrap">
                 <div class="ellipsis-2-lines">

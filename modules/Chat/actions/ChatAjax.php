@@ -87,7 +87,9 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		if ($request->has('roomType') && $request->has('recordId')) {
 			$roomType = $request->getByType('roomType');
 			$recordId = $request->getInteger('recordId');
-			\App\Chat::setCurrentRoom($roomType, $recordId);
+			if (!$request->getBoolean('recordView')) {
+				\App\Chat::setCurrentRoom($roomType, $recordId);
+			}
 		} else {
 			$currentRoom = \App\Chat::getCurrentRoom();
 			if (!$currentRoom || !isset($currentRoom['roomType']) || !isset($currentRoom['recordId'])) {
@@ -355,6 +357,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			'roomList' => [
 				'crm' => [
 					$recordId => [
+						'active' => true,
 						'chatEntries' => $chatEntries,
 						'participants' => $chat->getParticipants(),
 						'showMoreButton' => \count($chatEntries) > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT')

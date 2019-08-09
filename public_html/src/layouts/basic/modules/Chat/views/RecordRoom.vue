@@ -4,7 +4,7 @@
     <q-layout view="hHh lpR fFf" container class="bg-white">
       <q-page-container>
         <q-page>
-          <chat-tab @onContentLoaded="isLoading = false" :roomData="roomData || {}" />
+          <chat-tab @onContentLoaded="isLoading = false" :roomData="roomData || {}" :recordView="true" />
         </q-page>
       </q-page-container>
       <q-drawer :value="true" side="right" bordered>
