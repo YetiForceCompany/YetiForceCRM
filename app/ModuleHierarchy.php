@@ -142,20 +142,20 @@ class ModuleHierarchy
 	public static function getMappingRelatedField($moduleName)
 	{
 		$return = false;
-		switch (static::getModuleLevel($moduleName)) {
-			case 0:
+		switch ((string) static::getModuleLevel($moduleName)) {
+			case '0':
 				$return = 'link';
 				break;
-			case 1:
+			case '1':
 				$return = 'process';
 				break;
-			case 2:
+			case '2':
 				$return = 'subprocess';
 				break;
-			case 3:
+			case '3':
 				$return = 'subprocess_sl';
 				break;
-			case 4:
+			case '4':
 				$return = 'linkextend';
 				break;
 			default:

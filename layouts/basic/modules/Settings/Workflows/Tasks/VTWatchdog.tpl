@@ -1,5 +1,9 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+<!-- tpl-Settings-Workflows-Tasks-VTWatchdog -->
+	<div class="alert alert-info">
+		{\App\Language::translate('LBL_WATCHDOG_INFO',$QUALIFIED_MODULE)}
+	</div>
 	<div class="row padding-bottom1per">
 		<span class="col-md-3">{\App\Language::translate('LBL_SELECT_ACTION_TYPE', $QUALIFIED_MODULE)}</span>
 		<div class="col-md-9">
@@ -61,4 +65,5 @@
 			</textarea>
 		</div>
 	</div>
+<!-- /tpl-Settings-Workflows-Tasks-VTWatchdog -->
 {/strip}
