@@ -19,6 +19,24 @@ export default {
   methods: {
     ...mapActions(['updateAmountOfNewMessages']),
     ...mapMutations(['updateChatData']),
+    adjustUpdateRequestToChatState() {
+      this.$store.subscribe((mutation, state) => {
+        if (mutation.type === 'Chat/setActiveRoom') {
+          this.activeRooms = this.allRooms.filter(el => el.active)
+          if (this.activeRooms.length && !this.timerMessage) {
+            clearInterval(this.timerGlobal)
+            this.timerGlobal = false
+            this.fetchNewMessages()
+          }
+        } else if (mutation.type === 'Chat/unsetActiveRoom' && !this.allRooms.filter(el => el.active).length) {
+          if (!this.timerGlobal) {
+            clearInterval(this.timerMessage)
+            this.timerMessage = false
+            this.fetchAmountOfNewMessages()
+          }
+        }
+      })
+    },
     fetchNewMessages() {
       this.timerMessage = setTimeout(() => {
         let currentActiveRooms = [...this.activeRooms]
@@ -29,54 +47,34 @@ export default {
           rooms: this.activeRooms
         }).done(({ result }) => {
           this.updateAmountOfNewMessages(result.amountOfNewMessages)
-          console.log(result.areNewEntries)
           if (result.areNewEntries) {
-            console.log(result)
             this.updateChatData({ roomsToUpdate: currentActiveRooms, newData: result })
           }
           this.fetchNewMessages()
         })
       }, this.config.refreshMessageTime)
     },
-    initTimer() {
-      this.timerGlobal = setTimeout(this.trackNewMessages, this.config.refreshTimeGlobal)
+    initAmountTimer() {
+      this.timerGlobal = setTimeout(this.fetchAmountOfNewMessages, this.config.refreshTimeGlobal)
     },
-    trackNewMessages() {
+    fetchAmountOfNewMessages() {
       AppConnector.request({
         module: 'Chat',
         action: 'ChatAjax',
         mode: 'trackNewMessages'
       }).done(({ result }) => {
         this.updateAmountOfNewMessages(result)
-        this.initTimer()
+        this.initAmountTimer()
       })
     }
   },
   created() {
-    this.$store.subscribe((mutation, state) => {
-      if (mutation.type === 'Chat/setActiveRoom') {
-        this.activeRooms = this.allRooms.filter(el => el.active)
-        if (this.activeRooms.length && !this.timerMessage) {
-          clearInterval(this.timerGlobal)
-          this.timerGlobal = false
-          this.fetchNewMessages()
-        }
-        console.log(this.timerGlobal)
-      } else if (mutation.type === 'Chat/unsetActiveRoom' && !this.allRooms.filter(el => el.active).length) {
-				if (!this.timerGlobal) {
-          clearInterval(this.timerMessage)
-          this.timerMessage = false
-          this.trackNewMessages()
-        }
-			}
-		})
-		console.log(this.allRooms.filter(el => el.active))
-		this.activeRooms = this.allRooms.filter(el => el.active)
-		console.log(this.activeRooms.length)
+    this.adjustUpdateRequestToChatState()
+    this.activeRooms = this.allRooms.filter(el => el.active)
     if (this.activeRooms.length) {
       this.fetchNewMessages()
     } else {
-      this.trackNewMessages()
+      this.fetchAmountOfNewMessages()
     }
   }
 }

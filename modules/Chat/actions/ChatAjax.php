@@ -245,15 +245,8 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		}
 		$response = new Vtiger_Response();
 		$response->setResult([
-			'roomList' => [
-				$roomType => [
-					$recordId => [
-						'currentRoom' => \App\Chat::getCurrentRoom(),
-						'chatEntries' => $chatEntries,
-						'showMoreButton' => $isNextPage
-					]
-				]
-			]
+			'chatEntries' => $chatEntries,
+			'showMoreButton' => $isNextPage
 		]);
 		$response->emit();
 	}

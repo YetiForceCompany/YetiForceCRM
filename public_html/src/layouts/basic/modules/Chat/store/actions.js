@@ -118,26 +118,33 @@ export default {
 	 * Search messages.
 	 * @param {jQuery} btn
 	 */
-	fetchSearchData({ commit, getters }, { value, roomData }) {
+	fetchSearchData({ commit, getters }, { value, roomData, showMore }) {
 		return new Promise((resolve, reject) => {
-			const showMoreClicked = getters.isSearchActive && roomData.showMoreButton
 			AppConnector.request(
 				{
 					module: 'Chat',
 					action: 'ChatAjax',
 					mode: 'search',
 					searchVal: value,
-					mid: showMoreClicked ? roomData.chatEntries[0].id : null,
+					mid: showMore ? roomData.searchData.chatEntries[0].id : null,
 					roomType: roomData.roomType,
 					recordId: roomData.recordid
 				},
 				false
 			).done(({ result }) => {
-				if (!showMoreClicked) {
-					commit('setData', result)
+				if (!showMore) {
+					commit('setSearchData', {
+						searchData: result,
+						roomType: roomData.roomType,
+						recordId: roomData.recordid
+					})
 					commit('setSearchActive')
 				} else {
-					commit('pushOlderEntries', { result, roomType: roomData.roomType, recordId: roomData.recordid })
+					commit('pushOlderEntriesToSearch', {
+						searchData: result,
+						roomType: roomData.roomType,
+						recordId: roomData.recordid
+					})
 				}
 				resolve(result)
 			})

@@ -28,7 +28,7 @@
     <div class="flex-grow-1" style="height: 0; overflow: hidden">
       <q-scroll-area ref="scrollContainer" :class="[scrollbarHidden ? 'scrollbarHidden' : '']">
         <messages
-          :roomData="roomData"
+          :roomData="isSearchActive ? roomData.searchData : roomData"
           @earlierClick="earlierClick()"
           :fetchingEarlier="fetchingEarlier"
           ref="messagesContainer"
@@ -74,7 +74,7 @@ export default {
     ...mapGetters(['miniMode', 'data', 'config', 'isSearchActive']),
     roomMessages() {
       return this.roomData.chatEntries
-    }
+		}
   },
   watch: {
     roomData() {
@@ -118,21 +118,23 @@ export default {
           recordId: this.roomData.recordid
         })
       } else {
-        this.fetchSearchData(this.inputSearch)
+        this.fetchSearchData({
+        value: this.inputSearch,
+				roomData: this.roomData,
+				showMore: true
+      })
       }
     },
     clearSearch() {
       this.inputSearch = ''
-      this.fetchRoom()
       this.setSearchInactive()
-      this.enableNewMessagesListener()
     },
     search() {
-      this.disableNewMessagesListener()
       this.searching = true
       this.fetchSearchData({
         value: this.inputSearch,
-        roomData: this.roomData
+				roomData: this.roomData,
+				showMore: false
       }).then(e => {
         this.searching = false
       })
@@ -159,17 +161,16 @@ export default {
   },
   mounted() {
     this.fetchRoom({
-			id: this.roomData.recordid,
-			roomType: this.roomData.roomType,
-			recordRoom: this.recordRoom
-		}).then(e => {
-        this.scrollDown()
-        this.$emit('onContentLoaded', true)
-        this.updateComponentsRoom()
-        this.enableNewMessagesListener()
-        this.dataReady = true
-      }
-    )
+      id: this.roomData.recordid,
+      roomType: this.roomData.roomType,
+      recordRoom: this.recordRoom
+    }).then(e => {
+      this.scrollDown()
+      this.$emit('onContentLoaded', true)
+      this.updateComponentsRoom()
+      this.enableNewMessagesListener()
+      this.dataReady = true
+    })
   },
   beforeDestroy() {
     this.disableNewMessagesListener()
