@@ -43,7 +43,6 @@
 import MessageInput from './MessageInput.vue'
 import Messages from './Messages.vue'
 import { createNamespacedHelpers } from 'vuex'
-import isEqual from 'lodash.isequal'
 const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
 
 export default {
@@ -62,8 +61,9 @@ export default {
   data() {
     return {
       inputSearch: '',
-      fetchingEarlier: false,
+      isSearchActive: false,
       searching: false,
+      fetchingEarlier: false,
       scrollbarHidden: false,
       dataReady: false,
       roomId: null,
@@ -71,10 +71,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['miniMode', 'data', 'config', 'isSearchActive']),
+    ...mapGetters(['miniMode', 'data', 'config']),
     roomMessages() {
       return this.roomData.chatEntries
-		}
+    }
   },
   watch: {
     roomData() {
@@ -103,7 +103,6 @@ export default {
       'addActiveRoom',
       'removeActiveRoom'
     ]),
-    ...mapMutations(['setSearchInactive']),
     onResize({ height }) {
       Quasar.utils.dom.css(this.$refs.scrollContainer.$el, {
         height: height + 'px'
@@ -119,23 +118,27 @@ export default {
         })
       } else {
         this.fetchSearchData({
-        value: this.inputSearch,
-				roomData: this.roomData,
-				showMore: true
-      })
+          value: this.inputSearch,
+          roomData: this.roomData,
+          showMore: true
+        })
       }
     },
     clearSearch() {
+      this.isSearchActive = false
       this.inputSearch = ''
-      this.setSearchInactive()
+      this.$nextTick(function() {
+        this.scrollDown()
+      })
     },
     search() {
       this.searching = true
       this.fetchSearchData({
         value: this.inputSearch,
-				roomData: this.roomData,
-				showMore: false
+        roomData: this.roomData,
+        showMore: false
       }).then(e => {
+        this.isSearchActive = true
         this.searching = false
       })
     },

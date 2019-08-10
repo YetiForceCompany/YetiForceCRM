@@ -118,7 +118,7 @@ export default {
 	 * Search messages.
 	 * @param {jQuery} btn
 	 */
-	fetchSearchData({ commit, getters }, { value, roomData, showMore }) {
+	fetchSearchData({ commit }, { value, roomData, showMore }) {
 		return new Promise((resolve, reject) => {
 			AppConnector.request(
 				{
@@ -138,7 +138,6 @@ export default {
 						roomType: roomData.roomType,
 						recordId: roomData.recordid
 					})
-					commit('setSearchActive')
 				} else {
 					commit('pushOlderEntriesToSearch', {
 						searchData: result,

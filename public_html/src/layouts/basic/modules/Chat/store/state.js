@@ -6,7 +6,6 @@ export default {
 		leftPanel: false,
 		rightPanel: false,
 		historyTab: 'crm',
-		isSearchActive: false,
 		tab: 'chat',
 		coordinates: {
 			width: 450,

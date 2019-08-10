@@ -18,12 +18,6 @@ export default {
 	setHistoryTab(state, tab) {
 		state.session.historyTab = tab
 	},
-	setSearchActive(state) {
-		state.session.isSearchActive = true
-	},
-	setSearchInactive(state) {
-		state.session.isSearchActive = false
-	},
 	setTab(state, tab) {
 		state.session.tab = tab
 	},
