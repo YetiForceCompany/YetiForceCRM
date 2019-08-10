@@ -59,9 +59,9 @@ blueimp-tmpl@3:
   integrity sha512-rzPHcYgZnYmNwtotIUqm7EhYygIasfZOnpmzHU0elGBOLBwkdwpujKEzmdEbawV5xPKpPuux20HYl9dVYCu1rA==
 
 bootbox@^5.1.2:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/bootbox/-/bootbox-5.3.0.tgz#3dce98a5d028c2a928a221e8b2e14afc0d9876f3"
-  integrity sha512-INjBFCPgUg8rH2/HpW+s9BmZv/ndXdMwfHM2Xc/VIrbm5WiwdXgeK9ifvXtW8MGZwCPQPwrYZ1yQEHLkhHWXaw==
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/bootbox/-/bootbox-5.3.1.tgz#f34610cc67ac4c851fdbf1750d5c02dd2a6f201b"
+  integrity sha512-qAgUoJs3Z/11QeaJMf05T6PaX8FGY+08Tew/hLjoeIPryt2PCs4GA7OUUU2FvQ7JmyXHOjg27KfUwpTTEM91ew==
   dependencies:
     bootstrap ">=3.0.0"
     jquery ">=1.12.0"
