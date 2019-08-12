@@ -13,6 +13,7 @@ class IStorages_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	{
 		parent::__construct();
 		$this->exposeMethod('getHierarchyCount');
+		$this->exposeMethod('setQtyProducts');
 	}
 
 	/**
@@ -20,14 +21,34 @@ class IStorages_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function getHierarchyCount(\App\Request $request)
+	public function getHierarchyCount(App\Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$recordId = $request->getInteger('record');
 		$focus = CRMEntity::getInstance($sourceModule);
 		$hierarchy = $focus->getHierarchy($recordId);
 		$response = new Vtiger_Response();
-		$response->setResult(count($hierarchy['entries']) - 1);
+		$response->setResult(\count($hierarchy['entries']) - 1);
+		$response->emit();
+	}
+
+	/**
+	 * Sets number of products in storage.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function setQtyProducts(App\Request $request)
+	{
+		$sourceModule = $request->getModule();
+		if (!\App\Privilege::isPermitted($sourceModule, 'SetQtyProducts')) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_TO_ACTION', 406);
+		}
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('src_record'), $sourceModule);
+		if (!$recordModel->isViewable()) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		$response = new Vtiger_Response();
+		$response->setResult((bool) $recordModel->updateQtyProducts($request->getInteger('record'), $request->getByType('qty', 'NumberInUserFormat')));
 		$response->emit();
 	}
 }

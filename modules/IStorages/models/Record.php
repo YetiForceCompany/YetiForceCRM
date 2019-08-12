@@ -38,9 +38,33 @@ class IStorages_Record_Model extends Vtiger_Record_Model
 	public function getDisplayValue($fieldName, $record = false, $rawText = false, $length = false)
 	{
 		// This is special field / displayed only in Products module [view=Detail relatedModule=IStorages]
-		if ($fieldName === 'qtyinstock') {
+		if ('qtyinstock' === $fieldName) {
 			return $this->get($fieldName);
 		}
 		return parent::getDisplayValue($fieldName, $record, $rawText, $length);
+	}
+
+	/**
+	 * Function updates number of product in storage.
+	 *
+	 * @param int   $relatedRecordId - Product Id
+	 * @param float $qty
+	 */
+	public function updateQtyProducts(int $relatedRecordId, float $qty): bool
+	{
+		$isExists = (new \App\Db\Query())->from('u_#__istorages_products')->where(['crmid' => $this->getId(), 'relcrmid' => $relatedRecordId])->exists();
+		if ($isExists) {
+			$status = App\Db::getInstance()->createCommand()
+				->update('u_#__istorages_products', ['qtyinstock' => $qty], ['crmid' => $this->getId(), 'relcrmid' => $relatedRecordId])
+				->execute();
+		} else {
+			$status = App\Db::getInstance()->createCommand()
+				->insert('u_#__istorages_products', [
+					'crmid' => $this->getId(),
+					'relcrmid' => $relatedRecordId,
+					'qtyinstock' => $qty,
+				])->execute();
+		}
+		return $status;
 	}
 }
