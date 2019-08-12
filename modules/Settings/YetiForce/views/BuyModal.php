@@ -34,6 +34,24 @@ class Settings_YetiForce_BuyModal_View extends \App\Controller\ModalSettings
 	 * @var string
 	 */
 	public $headerClass = 'modal-header-xl';
+
+	/**
+	 * Only administrator user can access settings modal.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\NoPermittedForAdmin
+	 *
+	 * @return bool
+	 */
+	public function checkPermission(App\Request $request)
+	{
+		if (!\App\User::getCurrentUserModel()->isAdmin() && $request->isEmpty('installation')) {
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+		}
+		return true;
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */

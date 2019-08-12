@@ -162,6 +162,8 @@ class Install_Index_View extends \App\Controller\View
 
 	public function stepChooseHost(App\Request $request)
 	{
+		$this->viewer->assign('PRODUCT_ClOUD', \App\YetiForce\Shop::getProduct('InstallInCloud'));
+		$this->viewer->assign('PRODUCT_SHARED', \App\YetiForce\Shop::getProduct('InstallInHosting'));
 		$this->viewer->display('StepChooseHost.tpl');
 	}
 
@@ -394,8 +396,14 @@ class Install_Index_View extends \App\Controller\View
 	 */
 	public function getFooterScripts(App\Request $request)
 	{
+		$viewScripts = [];
 		if ('step7' === $request->getMode()) {
 			return [];
+		}
+		if ('stepChooseHost' === $request->getMode()) {
+			$viewScripts = $this->checkAndConvertJsScripts([
+				'modules.Settings.YetiForce.resources.Shop'
+			]);
 		}
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'~libraries/datatables.net/js/jquery.dataTables.js',
@@ -403,6 +411,6 @@ class Install_Index_View extends \App\Controller\View
 			'~libraries/datatables.net-responsive/js/dataTables.responsive.js',
 			'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js',
 			'~install/tpl/resources/Index.js',
-		]));
+		]), $viewScripts);
 	}
 }

@@ -41,9 +41,11 @@
 						</div>
 						<div class="col col-lg-4 text-white bg-color-cyan-500">
 							{SHOW_HOSTING TYPE='CLOUD'}
+							{$PRODUCT_ClOUD->getLabel()}
 						</div>
 						<div class="col col-lg-4 text-white bg-blue-grey-13">
 							{SHOW_HOSTING TYPE='SHARED'}
+							{$PRODUCT_SHARED->getLabel()}
 						</div>
 					</div>
 					<div class="form-button-nav fixed-bottom button-container p-1 bg-light">
