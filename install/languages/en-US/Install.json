@@ -115,7 +115,10 @@
     "LBL_COUNTRY": "Country",
     "LBL_COMPANYSIZE": "The number of employees of the company",
     "LBL_WEBSITE": "Your company's website",
-    "LBL_CHOOSE_HOST": "Choose host"
+    "LBL_CHOOSE_HOSTING": "Choose hosting",
+    "LBL_HOSTING_OWN": "Own hosting",
+    "LBL_HOSTING_SHARED": "Shared hosting",
+    "LBL_HOSTING_CLOUD": "Cloud hosting"
   },
   "js": {
     "JS_ALL": "All",
