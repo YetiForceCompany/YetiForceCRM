@@ -19,9 +19,6 @@
 	<div class="w-100">
 		<main class="main-container">
 			<div class="inner-container">
-				<form name="step-stepChooseHost" method="post" action="Install.php">
-					<input type="hidden" name="mode" value="step3">
-					<input type="hidden" name="lang" value="{$LANG}">
 					<div class="row">
 						<div class="col-12 text-center">
 						<h3>{App\Language::translate('LBL_CHOOSE_HOSTING', 'Install')}</h3>
@@ -29,13 +26,23 @@
 					</div>
 					<hr>
 					<div class="row">
-						<div class="col col-lg-4 text-white bg-red">
-							{SHOW_HOSTING TYPE='OWN'}
+						<div class="col col-lg-4 text-white bg-danger">
+							<form name="step-stepChooseHost" method="post" action="Install.php">
+								<input type="hidden" name="mode" value="step3">
+								<input type="hidden" name="lang" value="{$LANG}">
+								{SHOW_HOSTING TYPE='OWN'}
+								<div class="w-100 p-3 text-center">
+									<button type="submit" class="btn btn-lg c-btn-block-xs-down btn-outline-light js-submit" data-js="container">
+										{App\Language::translate('LBL_INSTALL_YOURSELF', 'Install')}
+										<span class="fas fa-lg fa-arrow-circle-right ml-2"></span>
+									</button>
+								</div>
+							</form>
 						</div>
-						<div class="col col-lg-4 text-white bg-blue">
+						<div class="col col-lg-4 text-white bg-color-cyan-500">
 							{SHOW_HOSTING TYPE='CLOUD'}
 						</div>
-						<div class="col col-lg-4 text-white bg-grey">
+						<div class="col col-lg-4 text-white bg-blue-grey-13">
 							{SHOW_HOSTING TYPE='SHARED'}
 						</div>
 					</div>
@@ -46,13 +53,8 @@
 								<span class="fas fa-lg fa-arrow-circle-left mr-2"></span>
 								{App\Language::translate('LBL_BACK', 'Install')}
 							</a>
-							<button type="submit" class="btn btn-lg c-btn-block-xs-down btn-primary js-submit" data-js="container">
-								{App\Language::translate('LBL_NEXT', 'Install')}
-								<span class="fas fa-lg fa-arrow-circle-right ml-2"></span>
-							</button>
 						</div>
 					</div>
-				</form>
 			</div>
 		</main>
 	</div>
