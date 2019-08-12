@@ -1082,9 +1082,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (\App\User::getCurrentUserId() !== \App\User::getCurrentUserRealId()) {
 			throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 406);
 		}
-		if (!$request->has('record') || !Vtiger_Record_Model::getInstanceById($request->getInteger('record'))->isViewable()) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}
 		$viewer = $this->getViewer($request);
 		$viewer->view('Detail/Chat.tpl', 'Chat');
 	}
