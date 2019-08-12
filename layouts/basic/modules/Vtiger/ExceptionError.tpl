@@ -12,12 +12,12 @@
 {if 'test' === \App\Config::main('systemMode')}
 	{$HEADER_MESSAGE}
 	{if $MESSAGE_EXPANDED}
-		{$MESSAGE['message']}
-		{$MESSAGE['query']}
-		{if $MESSAGE['params']}
+		{if !empty($MESSAGE['message'])}{$MESSAGE['message']}{/if}
+		{if !empty($MESSAGE['query'])}{$MESSAGE['query']}{/if}
+		{if !empty($MESSAGE['params'])}
 			{implode(',', $MESSAGE['params'])}
 		{/if}
-		{if $MESSAGE['trace']}
+		{if !empty($MESSAGE['trace'])}
 			{\App\Language::translate($MESSAGE['trace'])}
 		{/if}
 	{else}
@@ -55,15 +55,17 @@
 			</div>
 		</div>
 		{if $MESSAGE_EXPANDED}
-			<div class="my-5 mx-auto card u-w-fit shadow">
-				<div class="card-header">
-					<h5>{\App\Language::translate('LBL_SQL_QUERY')}</h5>
+			{if !empty($MESSAGE['query'])}
+				<div class="my-5 mx-auto card u-w-fit shadow">
+					<div class="card-header">
+						<h5>{\App\Language::translate('LBL_SQL_QUERY')}</h5>
+					</div>
+					<div class="card-body text-black">
+						<pre class="u-white-space-n u-word-break text-black">{$MESSAGE['query']}</pre>
+					</div>
 				</div>
-				<div class="card-body text-black">
-					<pre class="u-white-space-n u-word-break text-black">{$MESSAGE['query']}</pre>
-				</div>
-			</div>
-			{if $MESSAGE['params']}
+			{/if}
+			{if !empty($MESSAGE['params'])}
 				<div class="my-5 mx-auto card u-w-fit shadow">
 					<div class="card-header">
 						<h5>{\App\Language::translate('LBL_SQL_PARAMS')}</h5>
@@ -73,7 +75,7 @@
 					</div>
 				</div>
 			{/if}
-			{if $MESSAGE['trace']}
+			{if !empty($MESSAGE['trace'])}
 				<div class="my-5 mx-auto card u-w-fit shadow">
 					<div class="card-header">
 						<h5>{\App\Language::translate('LBL_BACKTRACE')}</h5>
