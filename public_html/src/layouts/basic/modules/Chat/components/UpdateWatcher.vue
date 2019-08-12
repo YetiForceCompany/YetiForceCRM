@@ -3,12 +3,12 @@
 <script>
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
-  /**
-   * @desc Updat watcher component for updating data in chat rooms
-   * @vue-data {Mix} timerAmount - timer for fetchAmountOfNewMessages request
-   * @vue-data {Mix} timerMessage - timer for fetchNewMessages request
-   * @vue-data {Array} activeRooms - array of active room to update
-   */
+/**
+ * @desc Updat watcher component for updating data in chat rooms
+ * @vue-data {Mix} timerAmount - timer for fetchAmountOfNewMessages request
+ * @vue-data {Mix} timerMessage - timer for fetchNewMessages request
+ * @vue-data {Array} activeRooms - array of active room to update
+ */
 export default {
   name: 'UpdateWatcher',
   data() {
@@ -23,10 +23,10 @@ export default {
   },
   methods: {
     ...mapActions(['updateAmountOfNewMessages']),
-		...mapMutations(['updateChatData']),
-		/**
-		 * Init vuex event for adjusting request for updating chat rooms
-		 */
+    ...mapMutations(['updateChatData']),
+    /**
+     * Init vuex event for adjusting request for updating chat rooms
+     */
     adjustUpdateRequestToChatState() {
       this.$store.subscribe((mutation, state) => {
         if (mutation.type === 'Chat/setActiveRoom') {
@@ -44,10 +44,10 @@ export default {
           }
         }
       })
-		},
-		/**
-		 * Fetch new messages timeout function
-		 */
+    },
+    /**
+     * Fetch new messages timeout function
+     */
     fetchNewMessages() {
       this.timerMessage = setTimeout(() => {
         let currentActiveRooms = [...this.activeRooms]
@@ -64,16 +64,16 @@ export default {
           this.fetchNewMessages()
         })
       }, this.config.refreshMessageTime)
-		},
-		/**
-		 * Init amount timer
-		 */
+    },
+    /**
+     * Init amount timer
+     */
     initAmountTimer() {
       this.timerAmount = setTimeout(this.fetchAmountOfNewMessages, this.config.refreshTimeGlobal)
-		},
-		/**
-		 * Fetch new messages timeout function
-		 */
+    },
+    /**
+     * Fetch new messages timeout function
+     */
     fetchAmountOfNewMessages() {
       AppConnector.request({
         module: 'Chat',
@@ -84,10 +84,10 @@ export default {
         this.initAmountTimer()
       })
     }
-	},
-	/**
-	 * Init component event listener and timeout
-	 */
+  },
+  /**
+   * Init component event listener and timeout
+   */
   created() {
     this.adjustUpdateRequestToChatState()
     this.activeRooms = this.allRooms.filter(el => el.active)

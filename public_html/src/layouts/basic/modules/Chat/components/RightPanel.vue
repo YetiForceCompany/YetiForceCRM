@@ -1,6 +1,6 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-	<div class="fit">
+  <div class="fit">
     <slot name="top"></slot>
     <div class="bg-grey-11 fit">
       <q-input
@@ -52,13 +52,13 @@
 </template>
 <script>
 export default {
-	name: 'ChatRightPanel',
-	props: {
-		participants: {
-			type: Array,
-			required: true
-		}
-	},
+  name: 'ChatRightPanel',
+  props: {
+    participants: {
+      type: Array,
+      required: true
+    }
+  },
   data() {
     return {
       filterParticipants: ''
@@ -77,7 +77,7 @@ export default {
         })
       }
     }
-  },
+  }
 }
 </script>
 <style module lang="stylus"></style>
