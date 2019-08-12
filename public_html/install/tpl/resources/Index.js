@@ -55,7 +55,17 @@ jQuery.Class(
 				});
 			});
 		},
-		registerEventForStepChooseHost() {},
+		registerEventForStepChooseHost() {
+			// new window.Settings_YetiForce_Shop_Js(
+			// 	'Install.php?module=YetiForce&parent=Settings&department'
+			// ).registerBuyModalClick();
+			$('.js-buy-modal').on('click', e => {
+				$.get('Install.php?mode=showBuyModal').done(data => {
+					console.log(data)
+				})
+			})
+
+		},
 		registerEventForStep3: function() {
 			$('#recheck').on('click', function() {
 				window.location.reload();

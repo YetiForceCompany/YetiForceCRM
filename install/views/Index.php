@@ -36,6 +36,7 @@ class Install_Index_View extends \App\Controller\View
 		$this->exposeMethod('step1');
 		$this->exposeMethod('step2');
 		$this->exposeMethod('stepChooseHost');
+		$this->exposeMethod('showBuyModal');
 		$this->exposeMethod('step3');
 		$this->exposeMethod('step4');
 		$this->exposeMethod('step5');
@@ -165,6 +166,15 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->assign('PRODUCT_ClOUD', \App\YetiForce\Shop::getProduct('InstallInCloud'));
 		$this->viewer->assign('PRODUCT_SHARED', \App\YetiForce\Shop::getProduct('InstallInHosting'));
 		$this->viewer->display('StepChooseHost.tpl');
+	}
+
+	public function showBuyModal(App\Request $request)
+	{
+		// var_dump('111111');
+		$request = new \App\Request(['product' => 'InstallInCloud'], false);
+		$instance = new Settings_YetiForce_BuyModal_View();
+		$instance->preProcessAjax($request);
+		$instance->process($request);
 	}
 
 	public function step3(App\Request $request)
@@ -405,12 +415,12 @@ class Install_Index_View extends \App\Controller\View
 				'modules.Settings.YetiForce.resources.Shop'
 			]);
 		}
-		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+		return array_merge(parent::getFooterScripts($request), $viewScripts, $this->checkAndConvertJsScripts([
 			'~libraries/datatables.net/js/jquery.dataTables.js',
 			'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
 			'~libraries/datatables.net-responsive/js/dataTables.responsive.js',
 			'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js',
 			'~install/tpl/resources/Index.js',
-		]), $viewScripts);
+		]));
 	}
 }

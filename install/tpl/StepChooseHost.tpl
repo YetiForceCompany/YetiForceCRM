@@ -16,7 +16,7 @@
 	</h3>
 {/function}
 <!-- tpl-install-tpl-StepChooseHost -->
-	<div class="w-100">
+	<div class="w-100 js-products-container">
 		<main class="main-container">
 			<div class="inner-container">
 					<div class="row">
@@ -32,7 +32,7 @@
 								<input type="hidden" name="lang" value="{$LANG}">
 								{SHOW_HOSTING TYPE='OWN'}
 								<div class="w-100 p-3 text-center">
-									<button type="submit" class="btn btn-lg c-btn-block-xs-down btn-outline-light js-submit" data-js="container">
+									<button type="submit" class="btn btn-lg c-btn-block-xs-down btn-outline-light js-submit">
 										{App\Language::translate('LBL_INSTALL_YOURSELF', 'Install')}
 										<span class="fas fa-lg fa-arrow-circle-right ml-2"></span>
 									</button>
@@ -42,6 +42,10 @@
 						<div class="col col-lg-4 text-white bg-color-cyan-500">
 							{SHOW_HOSTING TYPE='CLOUD'}
 							{$PRODUCT_ClOUD->getLabel()}
+									<button type="button" class="btn btn-lg c-btn-block-xs-down btn-outline-light js-buy-modal" data-product={$PRODUCT_ClOUD->getName()}>
+										{App\Language::translate('LBL_BUY', 'Install')}
+										{* <span class="fas fa-lg fa-arrow-circle-right ml-2"></span> *}
+									</button>
 						</div>
 						<div class="col col-lg-4 text-white bg-blue-grey-13">
 							{SHOW_HOSTING TYPE='SHARED'}
