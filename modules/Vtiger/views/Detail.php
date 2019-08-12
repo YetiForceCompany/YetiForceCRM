@@ -1074,14 +1074,19 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 *
-	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \App\Exceptions\NoPermitted
 	 * @throws \App\Exceptions\NoPermittedToRecord
-	 *
-	 * @return \html
 	 */
 	public function showChat(App\Request $request)
 	{
-		return (new Chat_Detail_View())->showChatTab($request);
+		if (\App\User::getCurrentUserId() !== \App\User::getCurrentUserRealId()) {
+			throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 406);
+		}
+		if (!$request->has('record') || !Vtiger_Record_Model::getInstanceById($request->getInteger('record'))->isViewable()) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		$viewer = $this->getViewer($request);
+		$viewer->view('Detail/Chat.tpl', 'Chat');
 	}
 
 	/**
