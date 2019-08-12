@@ -28,19 +28,17 @@
 							</label>
 						</div>
 					{/if}
-					<div class="col float-right">
-						<div class="float-right">
-							<div class="btn-group">
-								{if $WIDGET['newChanege'] && $MODULE_MODEL->isPermitted('ReviewingUpdates') && $USER_MODEL->getId() eq $USER_MODEL->getRealId()}
-									<div class="float-right btn-group">
-										<button id="btnChangesReviewedOn" type="button"
-												class="btn btn-success btn-sm btnChangesReviewedOn"
-												title="{\App\Language::translate('BTN_CHANGES_REVIEWED_ON', $WIDGET['moduleBaseName'])}">
-											<span class="far fa-check-circle"></span>
-										</button>
-									</div>
-								{/if}
-							</div>
+					<div class="col text-right">
+						<div class="btn-group">
+							{if $WIDGET['newChanege'] && $MODULE_MODEL->isPermitted('ReviewingUpdates') && $USER_MODEL->getId() eq $USER_MODEL->getRealId()}
+								<div class="float-right btn-group">
+									<button id="btnChangesReviewedOn" type="button"
+											class="btn btn-success btn-sm btnChangesReviewedOn"
+											title="{\App\Language::translate('BTN_CHANGES_REVIEWED_ON', $WIDGET['moduleBaseName'])}">
+										<span class="far fa-check-circle"></span>
+									</button>
+								</div>
+							{/if}
 						</div>
 					</div>
 				</div>
