@@ -24,9 +24,11 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$this->exposeMethod('getChatConfig');
 		$this->exposeMethod('getMessages');
 		$this->exposeMethod('getMoreMessages');
+		$this->exposeMethod('getRoomsMessages');
 		$this->exposeMethod('getUnread');
 		$this->exposeMethod('getHistory');
 		$this->exposeMethod('getRooms');
+		$this->exposeMethod('getRecordRoom');
 		$this->exposeMethod('send');
 		$this->exposeMethod('search');
 		$this->exposeMethod('trackNewMessages');
@@ -85,7 +87,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		if ($request->has('roomType') && $request->has('recordId')) {
 			$roomType = $request->getByType('roomType');
 			$recordId = $request->getInteger('recordId');
-			if (!$request->getBoolean('viewForRecord')) {
+			if (!$request->getBoolean('recordView')) {
 				\App\Chat::setCurrentRoom($roomType, $recordId);
 			}
 		} else {
@@ -105,15 +107,60 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		if ($isNextPage) {
 			array_shift($chatEntries);
 		}
-		$result = [
-			'chatEntries' => $chatEntries,
-			'roomList' => \App\Chat::getRoomsByUser(),
-			'participants' => $chat->getParticipants()
-		];
+		$result = [];
+		$roomList = \App\Chat::getRoomsByUser();
+		$roomList[$roomType][$recordId]['chatEntries'] = $chatEntries;
+		$roomList[$roomType][$recordId]['participants'] = $chat->getParticipants();
 		if (!$request->has('lastId')) {
-			$result['showMoreButton'] = $isNextPage;
 			$result['currentRoom'] = \App\Chat::getCurrentRoom();
+			$roomList[$roomType][$recordId]['showMoreButton'] = $isNextPage;
 		}
+		$result['roomList'] = $roomList;
+
+		if (App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')) {
+			$result['amountOfNewMessages'] = \App\Chat::getNumberOfNewMessages();
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
+	}
+
+	/**
+	 * Get rooms messages from chat.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 */
+	public function getRoomsMessages(App\Request $request)
+	{
+		$rooms = $request->getArray('rooms');
+		$result = [];
+		$roomList = \App\Chat::getRoomsByUser();
+		$areNewEntries = false;
+
+		foreach ($rooms as $room) {
+			$recordId = $room['recordid'];
+			$roomType = $room['roomType'];
+			$chat = \App\Chat::getInstance($roomType, $recordId);
+			if (!$chat->isRoomExists()) {
+				return;
+			}
+			$lastEntries = array_pop($room['chatEntries']);
+			$chatEntries = $chat->getEntries($lastEntries ? $lastEntries['id'] : null);
+			$isNextPage = $this->isNextPage(\count($chatEntries));
+			if ($isNextPage) {
+				array_shift($chatEntries);
+			}
+			$roomList[$roomType][$recordId]['showMoreButton'] = $isNextPage;
+			$roomList[$roomType][$recordId]['chatEntries'] = $chatEntries;
+			$roomList[$roomType][$recordId]['participants'] = $chat->getParticipants();
+			if (!$areNewEntries) {
+				$areNewEntries = \count($chatEntries) > 0;
+			}
+		}
+		$result['roomList'] = $roomList;
+		$result['areNewEntries'] = $areNewEntries;
 		if (App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')) {
 			$result['amountOfNewMessages'] = \App\Chat::getNumberOfNewMessages();
 		}
@@ -183,7 +230,9 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	 */
 	public function search(App\Request $request)
 	{
-		$chat = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'));
+		$roomType = $request->getByType('roomType');
+		$recordId = $request->getInteger('recordId');
+		$chat = \App\Chat::getInstance($roomType, $recordId);
 		$searchVal = $request->getByType('searchVal', 'Text');
 		if (!$request->isEmpty('mid')) {
 			$chatEntries = $chat->getEntries($request->getInteger('mid'), '<', $searchVal);
@@ -196,7 +245,6 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		}
 		$response = new Vtiger_Response();
 		$response->setResult([
-			'currentRoom' => \App\Chat::getCurrentRoom(),
 			'chatEntries' => $chatEntries,
 			'showMoreButton' => $isNextPage
 		]);
@@ -280,6 +328,39 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		} else {
 			$response->setResult(\App\Chat::isNewMessages() ? 1 : 0);
 		}
+		$response->emit();
+	}
+
+	/**
+	 * Show chat for record.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
+	public function getRecordRoom(App\Request $request)
+	{
+		$recordId = $request->getInteger('id');
+		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+		if (!$recordModel->isViewable()) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		$chat = \App\Chat::getInstance('crm', $recordId);
+		$chatEntries = $chat->getEntries();
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'roomList' => [
+				'crm' => [
+					$recordId => [
+						'active' => true,
+						'recordRoom' => true,
+						'chatEntries' => $chatEntries,
+						'participants' => $chat->getParticipants(),
+						'showMoreButton' => \count($chatEntries) > \App\Config::module('Chat', 'CHAT_ROWS_LIMIT')
+					]
+				]
+			]
+		]);
 		$response->emit();
 	}
 

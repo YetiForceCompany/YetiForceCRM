@@ -27,45 +27,82 @@
     </div>
     <div class="flex-grow-1" style="height: 0; overflow: hidden">
       <q-scroll-area ref="scrollContainer" :class="[scrollbarHidden ? 'scrollbarHidden' : '']">
-        <messages @earlierClick="earlierClick()" :fetchingEarlier="fetchingEarlier" ref="messagesContainer" />
+        <messages
+          :roomData="isSearchActive ? roomData.searchData : roomData"
+          @earlierClick="earlierClick()"
+          :fetchingEarlier="fetchingEarlier"
+          ref="messagesContainer"
+        />
       </q-scroll-area>
       <q-resize-observer @resize="onResize" />
     </div>
-    <message-input @onSended="scrollDown()" />
+    <message-input @onSended="scrollDown()" :roomData="roomData" />
   </div>
 </template>
 <script>
 import MessageInput from './MessageInput.vue'
 import Messages from './Messages.vue'
 import { createNamespacedHelpers } from 'vuex'
-import isEqual from 'lodash.isequal'
 const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
 
 export default {
-  name: 'MainPanel',
+  name: 'ChatTab',
   components: { MessageInput, Messages },
+  props: {
+    roomData: {
+      type: Object,
+      required: true
+    },
+    recordRoom: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       inputSearch: '',
-      fetchingEarlier: false,
+      isSearchActive: false,
       searching: false,
-      timerMessage: null,
-      scrollbarHidden: false
+      fetchingEarlier: false,
+      scrollbarHidden: false,
+      dataReady: false,
+      roomId: null,
+      roomType: null
     }
   },
   computed: {
-    ...mapGetters(['miniMode', 'data', 'config', 'isSearchActive', 'tab'])
+    ...mapGetters(['miniMode', 'data', 'config']),
+    roomMessages() {
+      return this.roomData.chatEntries
+    }
   },
   watch: {
-    data() {
-			this.$nextTick(function () {
-      	this.scrollDown()
-			})
+    roomData() {
+      if (this.roomData.recordid !== this.roomId && this.dataReady) {
+        this.disableNewMessagesListener()
+        this.updateComponentsRoom()
+        this.enableNewMessagesListener()
+      }
+    },
+    roomMessages() {
+      if (!this.fetchingEarlier) {
+        this.$nextTick(function() {
+          this.scrollDown()
+        })
+      } else {
+        this.fetchingEarlier = false
+      }
     }
   },
   methods: {
-    ...mapActions(['fetchEarlierEntries', 'fetchSearchData', 'fetchRoom', 'fetchUnread', 'updateAmountOfNewMessages']),
-    ...mapMutations(['setSearchInactive', 'updateChat']),
+    ...mapActions([
+      'fetchEarlierEntries',
+      'fetchSearchData',
+      'fetchRoom',
+      'fetchUnread',
+      'addActiveRoom',
+      'removeActiveRoom'
+    ]),
     onResize({ height }) {
       Quasar.utils.dom.css(this.$refs.scrollContainer.$el, {
         height: height + 'px'
@@ -74,67 +111,72 @@ export default {
     earlierClick() {
       this.fetchingEarlier = true
       if (!this.isSearchActive) {
-        this.fetchEarlierEntries().then(e => {
-          this.fetchingEarlier = false
+        this.fetchEarlierEntries({
+          chatEntries: this.roomData.chatEntries,
+          roomType: this.roomData.roomType,
+          recordId: this.roomData.recordid
         })
       } else {
-        this.fetchSearchData(this.inputSearch).then(e => {
-          this.fetchingEarlier = false
+        this.fetchSearchData({
+          value: this.inputSearch,
+          roomData: this.roomData,
+          showMore: true
         })
       }
     },
     clearSearch() {
+      this.isSearchActive = false
       this.inputSearch = ''
-      this.fetchRoom()
-      this.setSearchInactive()
-      this.fetchNewMessages()
+      this.$nextTick(function() {
+        this.scrollDown()
+      })
     },
     search() {
-      clearTimeout(this.timerMessage)
       this.searching = true
-      this.fetchSearchData(this.inputSearch).then(e => {
+      this.fetchSearchData({
+        value: this.inputSearch,
+        roomData: this.roomData,
+        showMore: false
+      }).then(e => {
+        this.isSearchActive = true
         this.searching = false
       })
     },
-    fetchNewMessages() {
-      this.timerMessage = setTimeout(() => {
-        AppConnector.request({
-          module: 'Chat',
-          action: 'ChatAjax',
-          mode: 'getMessages',
-          lastId:
-            this.data.chatEntries.slice(-1)[0] !== undefined ? this.data.chatEntries.slice(-1)[0]['id'] : undefined,
-          recordId: this.data.currentRoom.recordId,
-          roomType: this.data.currentRoom.roomType,
-          miniMode: this.miniMode ? true : undefined
-        }).done(({ result }) => {
-          this.updateAmountOfNewMessages(result.amountOfNewMessages)
-          if (result.chatEntries.length || !isEqual(this.data.roomList, result.roomList)) {
-            this.updateChat(result)
-          }
-          if (result.chatEntries.length) {
-            this.scrollDown()
-          }
-          this.fetchNewMessages()
-        })
-      }, this.config.refreshMessageTime)
-    },
     scrollDown() {
       this.scrollbarHidden = true
-			this.$refs.scrollContainer.setScrollPosition(this.$refs.messagesContainer.$el.clientHeight)
+      this.$refs.scrollContainer.setScrollPosition(this.$refs.messagesContainer.$el.clientHeight)
       setTimeout(() => {
         this.scrollbarHidden = false
-      }, 1800)    }
+      }, 1800)
+    },
+    updateComponentsRoom() {
+      this.roomId = this.roomData.recordid
+      this.roomType = this.roomData.roomType
+    },
+    enableNewMessagesListener() {
+      this.addActiveRoom({ recordId: this.roomId, roomType: this.roomType })
+    },
+    disableNewMessagesListener() {
+      if (!this.data.roomList[this.roomType][this.roomId].recordRoom) {
+        this.removeActiveRoom({ recordId: this.roomId, roomType: this.roomType })
+      }
+    }
   },
   mounted() {
-    this.fetchRoom({ id: undefined, roomType: undefined }).then(e => {
-			this.scrollDown()
+    this.fetchRoom({
+      id: this.roomData.recordid,
+      roomType: this.roomData.roomType,
+      recordRoom: this.recordRoom
+    }).then(e => {
+      this.scrollDown()
       this.$emit('onContentLoaded', true)
-      this.fetchNewMessages()
-		})
+      this.updateComponentsRoom()
+      this.enableNewMessagesListener()
+      this.dataReady = true
+    })
   },
   beforeDestroy() {
-    clearTimeout(this.timerMessage)
+    this.disableNewMessagesListener()
   }
 }
 </script>

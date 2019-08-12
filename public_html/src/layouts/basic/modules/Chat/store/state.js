@@ -6,7 +6,6 @@ export default {
 		leftPanel: false,
 		rightPanel: false,
 		historyTab: 'crm',
-		isSearchActive: false,
 		tab: 'chat',
 		coordinates: {
 			width: 450,
@@ -31,11 +30,12 @@ export default {
 	},
 	data: {
 		amountOfNewMessages: 0,
-		chatEntries: [],
-		currentRoom: {},
 		roomList: {},
-		participants: [],
-		showMoreButton: null
+		currentRoom: {},
+		history: {
+			chatEntries: [],
+			showMoreButton: null
+		}
 	},
 	config: {
 		isChatAllowed: null,

@@ -41,19 +41,20 @@
         <chat container :parentRefs="$refs" />
       </drag-resize>
     </q-dialog>
+		<update-watcher />
   </div>
 </template>
 <script>
-import Chat from './Chat.vue'
+import UpdateWatcher from '../components/UpdateWatcher.vue'
+import Chat from '../components/Chat.vue'
 import Drag from 'components/Drag.vue'
 import DragResize from 'components/DragResize.vue'
-
 import isEqual from 'lodash.isequal'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'Dialog',
-  components: { Chat, DragResize, Drag },
+  components: { UpdateWatcher, Chat, DragResize, Drag },
   data() {
     return {
       timerGlobal: null,
@@ -96,31 +97,10 @@ export default {
       return this.data.amountOfNewMessages ? 'animated flash' : ''
     }
   },
-  watch: {
-    dialog() {
-      if (this.dialog) {
-        clearInterval(this.timerGlobal)
-      } else {
-        this.trackNewMessages()
-      }
-    }
-  },
   methods: {
-    ...mapActions(['fetchChatConfig', 'updateAmountOfNewMessages']),
+    ...mapActions(['fetchChatConfig']),
     ...mapMutations(['setDialog', 'setCoordinates', 'setButtonCoordinates']),
-    initTimer() {
-      this.timerGlobal = setTimeout(this.trackNewMessages, this.config.refreshTimeGlobal)
-    },
-    trackNewMessages() {
-      AppConnector.request({
-        module: 'Chat',
-        action: 'ChatAjax',
-        mode: 'trackNewMessages'
-      }).done(({ result }) => {
-        this.updateAmountOfNewMessages(result)
-        this.initTimer()
-      })
-    },
+
     showDialog() {
       setTimeout(_ => {
         if (!this.dragging) {
@@ -129,11 +109,6 @@ export default {
         this.dragging = false
       }, 300)
     }
-  },
-  created() {
-    this.fetchChatConfig().then(result => {
-      if (result.config.isChatAllowed && !this.dialog) this.trackNewMessages()
-    })
   }
 }
 </script>

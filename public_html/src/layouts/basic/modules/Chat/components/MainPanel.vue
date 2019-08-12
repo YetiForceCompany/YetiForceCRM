@@ -4,7 +4,7 @@
     <q-page>
       <q-tab-panels v-model="tab" animated style="min-height: inherit;" class="chat-panels">
         <q-tab-panel name="chat" style="min-height: inherit;">
-          <chat-tab @onContentLoaded="isLoading = false" />
+          <chat-tab @onContentLoaded="isLoading = false" :roomData="currentRoomData" />
         </q-tab-panel>
         <q-tab-panel name="unread">
           <unread @onContentLoaded="isLoading = false" class="q-pa-md" />
@@ -35,7 +35,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['tab'])
+    ...mapGetters(['tab', 'currentRoomData'])
   },
   watch: {
     tab() {

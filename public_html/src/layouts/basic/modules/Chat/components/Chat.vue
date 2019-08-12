@@ -2,8 +2,18 @@
 <template>
   <q-layout view="hHh LpR fFf" container :class="['bg-white', miniMode ? 'chat-mini' : '']">
     <chat-header @visibleInputSearch="inputSearchVisible = $event" @showTabHistory="tabHistoryShow = $event" />
-    <left-panel />
-    <right-panel />
+    <left-panel>
+      <template v-slot:top>
+        <backdrop v-show="tab !== 'chat'" />
+      </template>
+    </left-panel>
+    <q-drawer :value="rightPanel" side="right" @hide="setRightPanel(false)" bordered>
+      <right-panel :participants="currentRoomData.participants || []">
+        <template v-slot:top>
+          <backdrop v-show="tab !== 'chat'" />
+        </template>
+      </right-panel>
+    </q-drawer>
     <main-panel />
     <chat-footer />
   </q-layout>
@@ -12,14 +22,15 @@
 import LeftPanel from './LeftPanel.vue'
 import RightPanel from './RightPanel.vue'
 import MainPanel from './MainPanel.vue'
-import Messages from './Messages.vue'
 import ChatHeader from './ChatHeader.vue'
 import ChatFooter from './ChatFooter.vue'
+import Backdrop from 'components/Backdrop.vue'
+
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters } = createNamespacedHelpers('Chat')
+const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 export default {
   name: 'Chat',
-  components: { LeftPanel, RightPanel, MainPanel, ChatHeader, ChatFooter },
+  components: { LeftPanel, RightPanel, MainPanel, ChatHeader, ChatFooter, Backdrop },
   props: {
     parentRefs: { type: Object, required: true }
   },
@@ -27,7 +38,10 @@ export default {
     return {}
   },
   computed: {
-    ...mapGetters(['leftPanel', 'rightPanel', 'miniMode'])
+    ...mapGetters(['data', 'leftPanel', 'rightPanel', 'miniMode', 'tab', 'currentRoomData'])
+  },
+  methods: {
+    ...mapMutations(['setRightPanel'])
   }
 }
 </script>

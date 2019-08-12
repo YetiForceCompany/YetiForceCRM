@@ -18,7 +18,12 @@
     </q-tabs>
     <q-tab-panels v-model="historyTab" animated style="min-height: inherit;" class="chat-panels">
       <q-tab-panel v-for="(room, roomType) of data.roomList" :key="roomType" :name="roomType">
-        <messages @earlierClick="earlierClick" :fetchingEarlier="fetchingEarlier" :header="messageHeader" />
+        <messages
+          @earlierClick="earlierClick"
+          :fetchingEarlier="fetchingEarlier"
+          :header="messageHeader"
+          :roomData="data.history"
+        />
       </q-tab-panel>
     </q-tab-panels>
   </div>

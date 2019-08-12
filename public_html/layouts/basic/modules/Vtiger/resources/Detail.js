@@ -2556,18 +2556,33 @@ jQuery.Class(
 					});
 			});
 		},
+		loadChat() {
+			let chatVue = $('#ChatRecordRoomVue', this.detailViewContentHolder);
+			if (chatVue.length) {
+				let chatContainer = this.detailViewContentHolder.find('.js-chat-container');
+				const padding = 10;
+				chatContainer.height($(document).height() - chatContainer.offset().top - $('.js-footer').outerHeight() - padding);
+				window.ChatRecordRoomVueComponent.mount({
+					el: '#ChatRecordRoomVue'
+				});
+			}
+		},
+		registerChat() {
+			if (window.ChatRecordRoomVueComponent !== undefined) {
+				this.loadChat();
+				app.event.on('DetailView.Tab.AfterLoad', (e, data, instance) => {
+					instance.detailViewContentHolder.ready(() => {
+						this.loadChat();
+					});
+				});
+			}
+		},
 		registerBasicEvents: function() {
 			var thisInstance = this;
 			var detailContentsHolder = thisInstance.getContentHolder();
 			var selectedTabElement = thisInstance.getSelectedTab();
 			//register all the events for summary view container
-			if (typeof Chat_JS !== 'undefined') {
-				if (this.getSelectedTab().data('labelKey') === 'LBL_CHAT') {
-					Chat_JS.getInstance(detailContentsHolder, 'detail').registerBaseEvents();
-				} else {
-					Chat_JS.getInstance(detailContentsHolder, 'detail').unregisterEvents();
-				}
-			}
+
 			if (this.getSelectedTab().data('labelKey') === 'ModComments') {
 				new App.Fields.Text.Completions(detailContentsHolder.find('.js-completions'), { emojiPanel: false });
 			}
@@ -3016,6 +3031,7 @@ jQuery.Class(
 			this.registerBasicEvents();
 			this.registerEventForTotalRecordsCount();
 			this.registerProgress();
+			this.registerChat(detailViewContainer);
 		}
 	}
 );
