@@ -30,12 +30,6 @@ export default {
 	},
 	data: {
 		amountOfNewMessages: 0,
-		/**
-		 * Each room contains data:
-		 * 	chatEntries: [],
-		 *	participants: [],
-		 *	showMoreButton: null
-		 */
 		roomList: {},
 		currentRoom: {},
 		history: {

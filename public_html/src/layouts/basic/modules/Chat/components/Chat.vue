@@ -9,7 +9,6 @@
     </left-panel>
     <q-drawer :value="rightPanel" side="right" @hide="setRightPanel(false)" bordered>
       <right-panel :participants="currentRoomData.participants || []">
-        {{ JSON.stringify(currentRoomData.participants) }}
         <template v-slot:top>
           <backdrop v-show="tab !== 'chat'" />
         </template>
@@ -23,7 +22,6 @@
 import LeftPanel from './LeftPanel.vue'
 import RightPanel from './RightPanel.vue'
 import MainPanel from './MainPanel.vue'
-import Messages from './Messages.vue'
 import ChatHeader from './ChatHeader.vue'
 import ChatFooter from './ChatFooter.vue'
 import Backdrop from 'components/Backdrop.vue'
