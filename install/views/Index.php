@@ -35,6 +35,7 @@ class Install_Index_View extends \App\Controller\View
 		parent::__construct();
 		$this->exposeMethod('step1');
 		$this->exposeMethod('step2');
+		$this->exposeMethod('stepChooseHost');
 		$this->exposeMethod('step3');
 		$this->exposeMethod('step4');
 		$this->exposeMethod('step5');
@@ -157,6 +158,11 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->assign('LIBRARIES', \App\Installer\Credits::getCredits());
 		$this->viewer->assign('LICENSE', nl2br($license));
 		$this->viewer->display('StepLicense.tpl');
+	}
+
+	public function stepChooseHost(App\Request $request)
+	{
+		$this->viewer->display('StepChooseHost.tpl');
 	}
 
 	public function step3(App\Request $request)
