@@ -94,14 +94,30 @@
 		<form class="js-company-form" name="Company" action="index.php" method="post"enctype="multipart/form-data">
 			<table class="table table-sm mb-0">
 				<tbody class="u-word-break-all small">
-					{foreach key="FIELD_NAME" item="FIELD" from=$FORM_FIELDS name=updateCompanyForm}
 						<tr>
-							<td class="align-middle u-font-weight-550{if $smarty.foreach.updateCompanyForm.last} border-bottom{/if}">{\App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, 'Settings:Companies')}</td>
-							<td class="w-50 position-relative input-group-sm{if $smarty.foreach.updateCompanyForm.last} border-bottom{/if}">
-									<input name="{$FIELD_NAME}" class="form-control form-control-sm" type="text" value="" aria-label="{\App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, 'Settings:Companies')}">
+							<td class="align-middle u-font-weight-550">{\App\Language::translate('LBL_USERNAME', 'Install')}</td>
+							<td class="w-50 position-relative input-group-sm">
+									<input name="user_name" class="form-control form-control-sm" type="text" value="" aria-label="{\App\Language::translate('LBL_USERNAME', 'Install')}">
 							</td>
 						</tr>
-					{/foreach}
+						<tr>
+							<td class="align-middle u-font-weight-550">{\App\Language::translate('LBL_NAME', 'Install')}</td>
+							<td class="w-50 position-relative input-group-sm">
+									<input name="company_name" class="form-control form-control-sm" type="text" value="" aria-label="{\App\Language::translate('LBL_NAME', 'Install')}">
+							</td>
+						</tr>
+						<tr>
+							<td class="align-middle u-font-weight-550">{\App\Language::translate('LBL_EMAIL', 'Install')}</td>
+							<td class="w-50 position-relative input-group-sm">
+									<input name="email" class="form-control form-control-sm" type="text" value="" aria-label="{\App\Language::translate('LBL_EMAIL', 'Install')}">
+							</td>
+						</tr>
+						<tr>
+							<td class="align-middle u-font-weight-550 border-bottom">{\App\Language::translate('LBL_DOMAIN_PREFIX', 'Install')}</td>
+							<td class="w-50 position-relative input-group-sm border-bottom">
+									<input name="domain_prefix" class="form-control form-control-sm" type="text" value="" aria-label="{\App\Language::translate('LBL_DOMAIN_PREFIX', 'Install')}">
+							</td>
+						</tr>
 				</tbody>
 			</table>
 	{else}

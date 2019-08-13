@@ -36,7 +36,7 @@ class Settings_YetiForce_BuyModal_View extends \App\Controller\ModalSettings
 	public $headerClass = 'modal-header-xl';
 
 	/**
-	 * Only administrator user can access settings modal.
+	 * Buy modal is accessible only for admin or during installation.
 	 *
 	 * @param \App\Request $request
 	 *

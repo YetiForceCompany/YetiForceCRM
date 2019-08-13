@@ -122,7 +122,8 @@
     "LBL_HOSTING_OWN_DESC": "",
     "LBL_HOSTING_SHARED": "Shared hosting",
     "LBL_HOSTING_CLOUD": "Cloud hosting",
-    "LBL_BUY": "Buy"
+    "LBL_BUY": "Buy",
+    "LBL_DOMAIN_PREFIX": "Domain prefix"
   },
   "js": {
     "JS_ALL": "All",

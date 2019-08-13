@@ -43,7 +43,7 @@
 	</button>
 {/function}
 	<div class="w-100 js-products-container">
-		<main class="main-container">
+		<main class="main-container mx-lg-3">
 			<div class="inner-container">
 					<div class="row">
 						<div class="col-12 text-center">
