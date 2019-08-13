@@ -56,7 +56,6 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 		this.container.find('.js-buy-modal').on('click', e => {
 			e.stopPropagation();
 			const currentTarget = $(e.currentTarget);
-			console.log(currentTarget.data('product'));
 			this.showBuyModal(currentTarget.data('product'), this.getDepartment(currentTarget));
 		});
 	}
@@ -67,17 +66,11 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	 * @param   {string}  department
 	 */
 	showBuyModal(productName, department) {
-		AppConnector.request(`${this.modalUrl}&view=ProductModal&product=${productName}&department=${department}`).done(
-			res => {
-				console.log(res);
-			}
-		);
 		app.showModalWindow(
 			null,
 			`${this.modalUrl}&view=BuyModal&product=${productName}${department ? '&department=' + department : ''}`,
 			this.registerBuyModalEvents.bind(this)
 		);
-		console.log(this.modalUrl);
 	}
 
 	registerBuyModalEvents(modalContainer) {

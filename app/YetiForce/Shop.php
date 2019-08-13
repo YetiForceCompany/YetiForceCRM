@@ -87,19 +87,26 @@ class Shop
 	/**
 	 * Get variable payments.
 	 *
+	 * @param mixed $installation
+	 *
 	 * @return array
 	 */
-	public static function getVariablePayments(): array
+	public static function getVariablePayments($installation = false): array
 	{
-		return [
+		$crmData = [];
+		if (!$installation) {
+			$crmData = [
+				'return' => \Config\Main::$site_URL . 'index.php?module=YetiForce&parent=Settings&view=Shop&status=success',
+				'cancel_return' => \Config\Main::$site_URL . 'index.php?module=YetiForce&parent=Settings&view=Shop&status=fail',
+				'custom' => \App\YetiForce\Register::getInstanceKey() . '|' . \App\YetiForce\Register::getCrmKey()
+			];
+		}
+		return array_merge([
 			'business' => 'paypal-facilitator@yetiforce.com',
 			'rm' => 2,
-			'return' => \Config\Main::$site_URL . 'index.php?module=YetiForce&parent=Settings&view=Shop&status=success',
-			'cancel_return' => \Config\Main::$site_URL . 'index.php?module=YetiForce&parent=Settings&view=Shop&status=fail',
 			'notify_url' => 'https://api.yetiforce.com/shop',
 			'image_url' => 'https://public.yetiforce.com/shop/logo.png',
-			'custom' => \App\YetiForce\Register::getInstanceKey() . '|' . \App\YetiForce\Register::getCrmKey(),
-		];
+		], $crmData);
 	}
 
 	/**

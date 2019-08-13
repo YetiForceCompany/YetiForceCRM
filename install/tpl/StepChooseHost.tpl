@@ -10,10 +10,22 @@
 ********************************************************************************/
 -->*}
 {strip}
-{function SHOW_HOSTING TYPE=''}
-	<h3 class="w-100 text-center">
+{assign var=COL_CLASS value='col col-lg-4 text-white p-2 d-flex flex-column justify-content-between'}
+{function SHOW_HOSTING_TITLE TYPE=''}
+	<h4 class="w-100 text-center u-font-weight-350">
 	{\App\Language::translate('LBL_HOSTING_'|cat:$TYPE, 'Install')}
-	</h3>
+	</h4>
+{/function}
+{function SHOW_HOSTING_BODY PRODUCT=''}
+	<div class="py-5 w-100 text-center">
+		<h5 class="u-font-weight-300">
+			{$PRODUCT->getLabel()}
+		</h5>
+	</div>
+	<button type="button" class="btn btn-lg c-btn-block-xs-down btn-outline-light js-buy-modal" data-product={$PRODUCT->getName()}>
+		<span class="yfi-shop mr-1"></span>
+		{App\Language::translate('LBL_BUY', 'Install')}
+	</button>
 {/function}
 <!-- tpl-install-tpl-StepChooseHost -->
 	<div class="w-100 js-products-container">
@@ -26,30 +38,22 @@
 					</div>
 					<hr>
 					<div class="row">
-						<div class="col col-lg-4 text-white bg-danger">
-							<form name="step-stepChooseHost" method="post" action="Install.php">
+						<form name="step-stepChooseHost" method="post" action="Install.php" class="{$COL_CLASS} bg-danger">
 								<input type="hidden" name="mode" value="step3">
 								<input type="hidden" name="lang" value="{$LANG}">
-								{SHOW_HOSTING TYPE='OWN'}
-								<div class="w-100 p-3 text-center">
-									<button type="submit" class="btn btn-lg c-btn-block-xs-down btn-outline-light js-submit">
-										{App\Language::translate('LBL_INSTALL_YOURSELF', 'Install')}
-										<span class="fas fa-lg fa-arrow-circle-right ml-2"></span>
-									</button>
-								</div>
-							</form>
+								{SHOW_HOSTING_TITLE TYPE='OWN'}
+								<button type="submit" class="btn btn-lg c-btn-block-xs-down btn-outline-light js-submit">
+									{App\Language::translate('LBL_INSTALL_YOURSELF', 'Install')}
+									<span class="fas fa-lg fa-arrow-circle-right ml-2"></span>
+								</button>
+						</form>
+						<div class="{$COL_CLASS} bg-color-cyan-500">
+							{SHOW_HOSTING_TITLE TYPE='CLOUD'}
+							{SHOW_HOSTING_BODY PRODUCT=$PRODUCT_ClOUD}
 						</div>
-						<div class="col col-lg-4 text-white bg-color-cyan-500">
-							{SHOW_HOSTING TYPE='CLOUD'}
-							{$PRODUCT_ClOUD->getLabel()}
-									<button type="button" class="btn btn-lg c-btn-block-xs-down btn-outline-light js-buy-modal" data-product={$PRODUCT_ClOUD->getName()}>
-										{App\Language::translate('LBL_BUY', 'Install')}
-										{* <span class="fas fa-lg fa-arrow-circle-right ml-2"></span> *}
-									</button>
-						</div>
-						<div class="col col-lg-4 text-white bg-blue-grey-13">
-							{SHOW_HOSTING TYPE='SHARED'}
-							{$PRODUCT_SHARED->getLabel()}
+						<div class="{$COL_CLASS} bg-blue-grey-13">
+							{SHOW_HOSTING_TITLE TYPE='SHARED'}
+							{SHOW_HOSTING_BODY PRODUCT=$PRODUCT_SHARED}
 						</div>
 					</div>
 					<div class="form-button-nav fixed-bottom button-container p-1 bg-light">

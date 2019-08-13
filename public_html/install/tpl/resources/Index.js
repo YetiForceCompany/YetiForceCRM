@@ -57,10 +57,14 @@ jQuery.Class(
 		},
 		registerEventForStepChooseHost() {
 			$('.js-buy-modal').on('click', e => {
-				$.get('Install.php?mode=showBuyModal').done(data => {
-					app.showModalWindow(data)
-				})
-			})
+				$.get(`Install.php?mode=showBuyModal&product=${$(e.currentTarget).data('product')}`).done(data => {
+					app.showModalWindow(data, '', modalContainer => {
+						modalContainer.find('.js-modal__save').on('click', _ => {
+							$('.js-buy-form').submit();
+						});
+					});
+				});
+			});
 		},
 		registerEventForStep3: function() {
 			$('#recheck').on('click', function() {

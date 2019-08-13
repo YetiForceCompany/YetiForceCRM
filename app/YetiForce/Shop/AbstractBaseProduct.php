@@ -194,9 +194,11 @@ abstract class AbstractBaseProduct
 	/**
 	 * Get variable product.
 	 *
+	 * @param bool $installation
+	 *
 	 * @return array
 	 */
-	public function getVariable(): array
+	public function getVariable($installation = false): array
 	{
 		return [
 			'cmd' => '_xclick-subscriptions',
@@ -206,11 +208,11 @@ abstract class AbstractBaseProduct
 			'sra' => 1,
 			't3' => 'M',
 			'p3' => \date('d'),
-			'a3' => $this->getPrice(),
+			'a3' => !$installation ? $this->getPrice() : '',
 			'item_name' => $this->name,
 			'currency_code' => $this->currencyCode,
 			'on0' => 'Package',
-			'os0' => \App\Company::getSize(),
+			'os0' => !$installation ? \App\Company::getSize() : '',
 		];
 	}
 
