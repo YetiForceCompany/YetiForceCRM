@@ -132,6 +132,9 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			$query = (new \App\Db\Query())
 				->select([
 					'body' => new \yii\db\Expression($db->quoteValue('')),
+					'date_start',
+					'time_start',
+					'location',
 					'attachments_exist' => new \yii\db\Expression($db->quoteValue('')),
 					'type' => new \yii\db\Expression($db->quoteValue('Calendar')),
 					'id' => 'vtiger_crmentity.crmid',
@@ -150,6 +153,9 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			$query = (new \App\Db\Query())
 				->select([
 					'body' => new \yii\db\Expression($db->quoteValue('')),
+					'date_start' => new \yii\db\Expression($db->quoteValue('')),
+					'time_start' => new \yii\db\Expression($db->quoteValue('')),
+					'location' => new \yii\db\Expression($db->quoteValue('')),
 					'attachments_exist' => new \yii\db\Expression($db->quoteValue('')),
 					'type' => new \yii\db\Expression($db->quoteValue('ModComments')),
 					'id' => 'm.modcommentsid',
@@ -168,6 +174,9 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			$query = (new \App\Db\Query())
 				->select([
 					'body' => 'o.content',
+					'date_start' => new \yii\db\Expression($db->quoteValue('')),
+					'time_start' => new \yii\db\Expression($db->quoteValue('')),
+					'location' => new \yii\db\Expression($db->quoteValue('')),
 					'attachments_exist',
 					'type' => new \yii\db\Expression('CONCAT(\'OSSMailView\', o.ossmailview_sendtype)'),
 					'id' => 'o.ossmailviewid',
@@ -187,6 +196,9 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			$query = (new \App\Db\Query())
 			->select([
 				'body' => new \yii\db\Expression($db->quoteValue('')),
+				'date_start' => new \yii\db\Expression($db->quoteValue('')),
+				'time_start' => new \yii\db\Expression($db->quoteValue('')),
+				'location' => new \yii\db\Expression($db->quoteValue('')),
 				'attachments_exist' => new \yii\db\Expression($db->quoteValue('')),
 				'type' => new \yii\db\Expression($db->quoteValue('Documents')),
 				'id' => 'n.notesid',

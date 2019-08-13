@@ -40,9 +40,16 @@
 										<span class="fas fa-user userImage"></span>
 									{/if}
 								</div>
-								<div class="timeline-body small d-flex align-items-start mr-auto p-1">
+								<div class="timeline-body small align-items-start mr-auto p-1">
 									<strong>{$HISTORY['userModel']->getName()}&nbsp;</strong>
 									<div>{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML($HISTORY['content']))}</div>
+									{if $HISTORY['type'] eq 'Calendar'}
+										<div class="u-font-size-13px">
+											{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML($HISTORY['date_start']))}&nbsp;
+											{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML($HISTORY['time_start']))}
+										</div>
+										<div class="u-font-size-13px">{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML($HISTORY['location']))}</div>
+									{/if}
 								</div>
 									<div class="d-flex justify-content-end {$HISTORY['class']}">
 											&nbsp;
@@ -100,7 +107,7 @@
 														</span>
 													{/if}
 													{if \App\Privilege::isPermitted($HISTORY['type'], 'Delete', $HISTORY['id'])}
-														<span class="editDefaultStatus btn-xs text-danger u-cursor-pointer js-popover-tooltip delay0 mt-1"
+														<span class="btn-xs text-danger u-cursor-pointer js-popover-tooltip delay0 mt-1"
 															data-js="popover" data-url="index.php?module=Calendar&view=QuickEditAjax&record={$HISTORY['id']}"
 															data-content="{\App\Language::translate('LBL_DELETE_RECORD_COMPLETELY',$HISTORY['type'])}">
 															<span class="fas fa-trash fa-fw"></span>
@@ -111,20 +118,18 @@
 											{if !$IS_READ_ONLY && $HISTORY['type'] eq 'Documents'}
 												<div class="btn-group-vertical" role="group">
 													{if \App\Privilege::isPermitted($HISTORY['type'], 'EditView', $HISTORY['id'])}
-														<span class="editDefaultStatus btn-xs u-cursor-pointer js-popover-tooltip showEdit mt-1" data-url="index.php?module=Calendar&view=Delete&record={$HISTORY['id']}"
+														<a class="btn-xs u-cursor-pointer js-popover-tooltip showEdit mt-1 text-black" href="index.php?module=Documents&view=Edit&record={$HISTORY['id']}"
 															data-content="{\App\Language::translate('LBL_EDIT',$HISTORY['type'])}" data-js="popover">
 															<span class="fas fa-pencil-alt fa-fw"></span>
-														</span>
+														</a>
 													{/if}
 													{if \App\Privilege::isPermitted($HISTORY['type'], 'DetailView', $HISTORY['id'])}
-														<span class="editDefaultStatus btn-xs u-cursor-pointer js-popover-tooltip showEdit mt-1" data-url="index.php?module=Documents&view=Detail&record={$HISTORY['id']}"
+														<a class="btn-xs u-cursor-pointer js-popover-tooltip showEdit mt-1" data-url="index.php?module=Documents&view=Detail&record={$HISTORY['id']}"
 															data-content="{\App\Language::translate('LBL_SHOW_FULL_DETAILS',$HISTORY['type'])}" data-js="popover">
 															<span class="fas fa-search fa-fw"></span>
-														</span>
-													{/if}
-													{if \App\Privilege::isPermitted($HISTORY['type'], 'DetailView', $HISTORY['id'])}
-														<span class="editDefaultStatus btn-xs u-cursor-pointer text-primary js-popover-tooltip showEdit mt-1" data-url="index.php?module=Documents&view=Detail&record={$HISTORY['id']}"
-															data-content="{\App\Language::translate('LBL_SHOW_FULL_DETAILS',$HISTORY['type'])}" data-js="popover">
+														</a>
+														<span class="btn-xs u-cursor-pointer text-primary js-popover-tooltip showEdit mt-1" data-url="index.php?module=Documents&view=Detail&record={$HISTORY['id']}"
+															data-content="{\App\Language::translate('LBL_DOWNLOAD_FILE',$HISTORY['type'])}" data-js="popover">
 															<span class="fas fa-download fa-fw"></span>
 														</span>
 													{/if}
