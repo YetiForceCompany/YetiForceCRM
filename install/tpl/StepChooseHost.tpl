@@ -11,7 +11,8 @@
 -->*}
 {strip}
 <!-- tpl-install-tpl-StepChooseHost -->
-{assign var=COL_CLASS value='col col-lg-4 text-white p-2 d-flex flex-column justify-content-between'}
+{assign var=COL_CLASS value='col col-lg-4 text-white p-2 d-flex flex-column'}
+{assign var=BTN_CLASS value='btn btn-lg c-btn-block-xs-down btn-outline-light mt-auto'}
 {function SHOW_HOSTING_TITLE TYPE=''}
 	<h4 class="w-100 text-center u-font-weight-350">
 	{\App\Language::translate('LBL_HOSTING_'|cat:$TYPE, 'Install')}
@@ -20,16 +21,7 @@
 {function SHOW_HOSTING_BODY PRODUCT=''}
 	<div class="py-5 w-100 text-center">
 		<div class="pb-5">
-			{if $PRODUCT->getImage()}
-				<img class="o-buy-modal__img" src="{$PRODUCT->getImage()}" alt="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}" title="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}"/>
-			{else}
-				<div class="product-no-image m-auto">
-						<span class="fa-stack fa-6x product-no-image">
-								<i class="fas fa-camera fa-stack-1x"></i>
-								<i class="fas fa-ban fa-stack-2x"></i>
-						</span>
-				</div>
-			{/if}
+			<img class="o-buy-modal__img u-img-invert" src="{$PRODUCT->getImage('../../')}" alt="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}" title="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}"/>
 		</div>
 		<h5 class="u-font-weight-300">
 			{$PRODUCT->getLabel()}
@@ -37,7 +29,7 @@
 		<hr class="w-50 mx-auto">
 		<p>{$PRODUCT->getDescription()}</p>
 	</div>
-	<button type="button" class="btn btn-lg c-btn-block-xs-down btn-outline-light js-buy-modal" data-product={$PRODUCT->getName()}>
+	<button type="button" class="{$BTN_CLASS} js-buy-modal" data-product={$PRODUCT->getName()}>
 		<span class="yfi-shop mr-1"></span>
 		{App\Language::translate('LBL_BUY', 'Install')}
 	</button>
@@ -57,8 +49,8 @@
 							<input type="hidden" name="lang" value="{$LANG}">
 							{SHOW_HOSTING_TITLE TYPE='OWN'}
 							<div class="py-5 w-100 text-center">
-								<div class="pb-5">
-										<img class="o-buy-modal__img" src="" alt="{App\Language::translate('LBL_HOSTING_OWN', 'Install')}" title="{App\Language::translate('LBL_HOSTING_OWN', 'Install')}"/>
+								<div class="pb-5 display-3">
+									<span class="fas fa-server"></span>
 								</div>
 								<h5 class="u-font-weight-300">
 									{App\Language::translate('LBL_HOSTING_OWN_TITLE', 'Install')}
@@ -66,7 +58,7 @@
 								<hr class="w-50 mx-auto">
 								<p>{App\Language::translate('LBL_HOSTING_OWN_DESC', 'Install')}</p>
 							</div>
-							<button type="submit" class="btn btn-lg c-btn-block-xs-down btn-outline-light js-submit">
+							<button type="submit" class="{$BTN_CLASS} js-submit">
 								{App\Language::translate('LBL_INSTALL_YOURSELF', 'Install')}
 								<span class="fas fa-lg fa-arrow-circle-right ml-2"></span>
 							</button>

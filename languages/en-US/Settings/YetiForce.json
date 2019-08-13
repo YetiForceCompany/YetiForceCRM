@@ -68,6 +68,8 @@
     "LBL_SHOP_NO_COMPANIES_BUTTON": "Fill in the data",
     "LBL_SHOP_INSTALLINCLOUD": "Install in cloud",
     "LBL_SHOP_INSTALLINHOSTING": "Install in shared hosting",
-    "LBL_SHOP_COMPANY_DATA": "Company data"
+    "LBL_SHOP_COMPANY_DATA": "Company data",
+    "LBL_SHOP_INSTALLINCLOUD_DESC": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui tempora nemo repellat tenetur libero nihil enim porro nesciunt laboriosam vel. Repudiandae, sit reprehenderit deserunt hic eius porro dolores vitae numquam!",
+    "LBL_SHOP_INSTALLINHOSTING_DESC": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui tempora nemo repellat tenetur libero nihil enim porro nesciunt laboriosam vel. Repudiandae, sit reprehenderit deserunt hic eius porro dolores vitae numquam!"
   }
 }
