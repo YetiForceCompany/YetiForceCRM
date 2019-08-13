@@ -30,9 +30,7 @@ class DatetimeField extends DateField
 	public function getArrayValue()
 	{
 		return array_map(function ($row) {
-			$parts = explode(' ', $row);
-
-			return \DateTimeField::convertToDBFormat(reset($parts));
+			return \App\Fields\DateTime::formatToDb($row);
 		}, explode(',', $this->value));
 	}
 
@@ -69,7 +67,7 @@ class DatetimeField extends DateField
 	{
 		$value = $this->getArrayValue();
 
-		return ['between', $this->getColumnName(), $value[0] . ' 00:00:00', $value[1] . ' 23:59:59'];
+		return ['between', $this->getColumnName(), $value[0], $value[1]];
 	}
 
 	/**
@@ -121,9 +119,9 @@ class DatetimeField extends DateField
 	{
 		if ('custom' === $this->operator) {
 			$date = $this->getArrayValue();
-		} else {
-			$date = \DateTimeRange::getDateRangeByType($this->operator);
+			return [$date[0], $date[1]];
 		}
+		$date = \DateTimeRange::getDateRangeByType($this->operator);
 		return [$date[0] . ' 00:00:00', $date[1] . ' 23:59:59'];
 	}
 }
