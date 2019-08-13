@@ -90,7 +90,7 @@
 									<td><label for="db-name">{\App\Language::translate('LBL_DB_NAME', 'Install')}<span
 													class="no">*</span></label></td>
 									<td class="position-relative">
-										<input id="db-name" type="text" class="form-control validate[required]" value="{$DB_NAME}"
+										<input id="db-name" type="text" class="form-control validate[required,funcCall[Install_Index_Js.checkDbName]]" value="{$DB_NAME}"
 											   name="db_name">
 									</td>
 								</tr>
@@ -179,8 +179,8 @@
 												<span
 														class="no">*</span></label>
 										</td>
-										<td>
-											<input id="last-name" type="text" class="form-control" value="{$ADMIN_LASTNAME}"
+										<td class="position-relative">
+											<input id="last-name" type="text" class="form-control validate[required]" value="{$ADMIN_LASTNAME}"
 												   name="lastname">
 										</td>
 									</tr>
