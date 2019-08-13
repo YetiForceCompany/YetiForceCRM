@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- tpl-install-tpl-StepChooseHost -->
 {assign var=COL_CLASS value='col col-lg-4 text-white p-2 d-flex flex-column justify-content-between'}
 {function SHOW_HOSTING_TITLE TYPE=''}
 	<h4 class="w-100 text-center u-font-weight-350">
@@ -18,16 +19,29 @@
 {/function}
 {function SHOW_HOSTING_BODY PRODUCT=''}
 	<div class="py-5 w-100 text-center">
+		<div class="pb-5">
+			{if $PRODUCT->getImage()}
+				<img class="o-buy-modal__img" src="{$PRODUCT->getImage()}" alt="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}" title="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}"/>
+			{else}
+				<div class="product-no-image m-auto">
+						<span class="fa-stack fa-6x product-no-image">
+								<i class="fas fa-camera fa-stack-1x"></i>
+								<i class="fas fa-ban fa-stack-2x"></i>
+						</span>
+				</div>
+			{/if}
+		</div>
 		<h5 class="u-font-weight-300">
 			{$PRODUCT->getLabel()}
 		</h5>
+		<hr class="w-50 mx-auto">
+		<p>{$PRODUCT->getDescription()}</p>
 	</div>
 	<button type="button" class="btn btn-lg c-btn-block-xs-down btn-outline-light js-buy-modal" data-product={$PRODUCT->getName()}>
 		<span class="yfi-shop mr-1"></span>
 		{App\Language::translate('LBL_BUY', 'Install')}
 	</button>
 {/function}
-<!-- tpl-install-tpl-StepChooseHost -->
 	<div class="w-100 js-products-container">
 		<main class="main-container">
 			<div class="inner-container">
@@ -39,13 +53,23 @@
 					<hr>
 					<div class="row">
 						<form name="step-stepChooseHost" method="post" action="Install.php" class="{$COL_CLASS} bg-danger">
-								<input type="hidden" name="mode" value="step3">
-								<input type="hidden" name="lang" value="{$LANG}">
-								{SHOW_HOSTING_TITLE TYPE='OWN'}
-								<button type="submit" class="btn btn-lg c-btn-block-xs-down btn-outline-light js-submit">
-									{App\Language::translate('LBL_INSTALL_YOURSELF', 'Install')}
-									<span class="fas fa-lg fa-arrow-circle-right ml-2"></span>
-								</button>
+							<input type="hidden" name="mode" value="step3">
+							<input type="hidden" name="lang" value="{$LANG}">
+							{SHOW_HOSTING_TITLE TYPE='OWN'}
+							<div class="py-5 w-100 text-center">
+								<div class="pb-5">
+										<img class="o-buy-modal__img" src="" alt="{App\Language::translate('LBL_HOSTING_OWN', 'Install')}" title="{App\Language::translate('LBL_HOSTING_OWN', 'Install')}"/>
+								</div>
+								<h5 class="u-font-weight-300">
+									{App\Language::translate('LBL_HOSTING_OWN_TITLE', 'Install')}
+								</h5>
+								<hr class="w-50 mx-auto">
+								<p>{App\Language::translate('LBL_HOSTING_OWN_DESC', 'Install')}</p>
+							</div>
+							<button type="submit" class="btn btn-lg c-btn-block-xs-down btn-outline-light js-submit">
+								{App\Language::translate('LBL_INSTALL_YOURSELF', 'Install')}
+								<span class="fas fa-lg fa-arrow-circle-right ml-2"></span>
+							</button>
 						</form>
 						<div class="{$COL_CLASS} bg-color-cyan-500">
 							{SHOW_HOSTING_TITLE TYPE='CLOUD'}

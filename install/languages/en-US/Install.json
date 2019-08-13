@@ -118,6 +118,8 @@
     "LBL_CHOOSE_HOSTING": "Choose hosting",
     "LBL_INSTALL_YOURSELF": "Install by yourself",
     "LBL_HOSTING_OWN": "Own hosting",
+    "LBL_HOSTING_OWN_TITLE": "Install on your own hosting",
+    "LBL_HOSTING_OWN_DESC": "",
     "LBL_HOSTING_SHARED": "Shared hosting",
     "LBL_HOSTING_CLOUD": "Cloud hosting",
     "LBL_BUY": "Buy"
