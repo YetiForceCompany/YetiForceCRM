@@ -269,9 +269,6 @@ class Import_Data_Action extends \App\Controller\Action
 							$comparisonValue = trim($referenceFileValueComponents[1]);
 						}
 					}
-					if (in_array($fieldInstance->getFieldDataType(), ['date', 'datetime'])) {
-						$comparisonValue = DateTimeField::convertToUserFormat($comparisonValue);
-					}
 					$queryGenerator->addCondition($mergeField, $comparisonValue, 'e');
 				}
 				$query = $queryGenerator->createQuery();

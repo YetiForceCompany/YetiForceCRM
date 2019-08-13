@@ -203,7 +203,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 			$queryGenerator->parseAdvFilter($searchParams);
 		}
 		if (!$this->isEmpty('search_key')) {
-			$queryGenerator->addBaseSearchConditions($this->get('search_key'), $this->get('search_value'), $this->get('operator'));
+			$queryGenerator->addCondition($this->get('search_key'), $this->get('search_value'), $this->get('operator'));
 		}
 	}
 

@@ -98,12 +98,13 @@ class Condition
 	 *
 	 * @param string $moduleName
 	 * @param array  $searchParams
+	 * @param bool   $convert
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 *
 	 * @return array
 	 */
-	public static function validSearchParams(string $moduleName, array $searchParams): array
+	public static function validSearchParams(string $moduleName, array $searchParams, $convert = true): array
 	{
 		$searchParamsCount = \count($searchParams);
 		if ($searchParamsCount > 2) {
@@ -134,7 +135,10 @@ class Condition
 					}
 					$fieldModel = $fields[$param[0]];
 				}
-				$fieldModel->getUITypeModel()->getDbConditionBuilderValue($param[2], $param[1]);
+				$value = $fieldModel->getUITypeModel()->getDbConditionBuilderValue($param[2], $param[1]);
+				if ($convert) {
+					$param[2] = $value;
+				}
 				$tempParam[] = $param;
 			}
 			$result[] = $tempParam;

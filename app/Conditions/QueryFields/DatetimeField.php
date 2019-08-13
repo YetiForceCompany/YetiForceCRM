@@ -8,6 +8,7 @@ namespace App\Conditions\QueryFields;
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class DatetimeField extends DateField
 {
@@ -18,8 +19,8 @@ class DatetimeField extends DateField
 	 */
 	public function getValue()
 	{
-		$val = explode(' ', \DateTimeField::convertToDBFormat($this->value));
-		return array_shift($val);
+		$val = \explode(' ', $this->value);
+		return \current($val);
 	}
 
 	/**
@@ -29,9 +30,7 @@ class DatetimeField extends DateField
 	 */
 	public function getArrayValue()
 	{
-		return array_map(function ($row) {
-			return \App\Fields\DateTime::formatToDb($row);
-		}, explode(',', $this->value));
+		return explode(',', $this->value);
 	}
 
 	/**

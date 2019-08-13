@@ -56,26 +56,13 @@ class DateField extends BaseField
 	public function getCondition()
 	{
 		$fn = 'operator' . ucfirst($this->operator);
-		if (\in_array($this->operator, array_keys(\App\Condition::DATE_OPERATORS))) {
-			\App\Log::trace('Entering to getStdOperator in ' . __CLASS__);
-			return $this->getStdOperator();
+		if (isset(\App\Condition::DATE_OPERATORS[$this->operator])) {
+			$fn = 'getStdOperator';
 		}
-		if (method_exists($this, $fn)) {
-			\App\Log::trace("Entering to $fn in " . __CLASS__);
-			return $this->{$fn}();
+		if (!($methodExists = method_exists($this, $fn))) {
+			\App\Log::error("Not found operator: {$fn}({$this->operator}) in  " . __CLASS__);
 		}
-		\App\Log::error("Not found operator: $fn in  " . __CLASS__);
-		return false;
-	}
-
-	/**
-	 * Get value.
-	 *
-	 * @return mixed
-	 */
-	public function getValue()
-	{
-		return \DateTimeField::convertToDBFormat($this->value);
+		return $methodExists ? $this->{$fn}() : $methodExists;
 	}
 
 	/**
@@ -86,7 +73,7 @@ class DateField extends BaseField
 	public function getArrayValue()
 	{
 		return array_map(function ($row) {
-			return \DateTimeField::convertToDBFormat(\current(explode(' ', $row)));
+			return \current(explode(' ', $row));
 		}, explode(',', $this->value));
 	}
 

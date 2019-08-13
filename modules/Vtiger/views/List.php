@@ -35,10 +35,10 @@ class Vtiger_List_View extends Vtiger_Index_View
 		parent::__construct();
 	}
 
-	public function getPageTitle(\App\Request $request)
+	public function getPageTitle(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleName = $moduleName === 'Vtiger' ? 'YetiForce' : $moduleName;
+		$moduleName = 'Vtiger' === $moduleName ? 'YetiForce' : $moduleName;
 		$title = App\Language::translate($moduleName, $moduleName);
 		$title = $title . ' ' . App\Language::translate('LBL_VIEW_LIST', $moduleName);
 
@@ -49,7 +49,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		return $title;
 	}
 
-	public function getBreadcrumbTitle(\App\Request $request)
+	public function getBreadcrumbTitle(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$title = \App\Language::translate('LBL_VIEW_LIST', $moduleName);
@@ -67,7 +67,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 	 * @param \App\Request $request
 	 * @param bool         $display
 	 */
-	public function preProcess(\App\Request $request, $display = true)
+	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 
@@ -102,12 +102,12 @@ class Vtiger_List_View extends Vtiger_Index_View
 		}
 	}
 
-	public function preProcessTplName(\App\Request $request)
+	public function preProcessTplName(App\Request $request)
 	{
 		return 'ListViewPreProcess.tpl';
 	}
 
-	protected function preProcessDisplay(\App\Request $request)
+	protected function preProcessDisplay(App\Request $request)
 	{
 		parent::preProcessDisplay($request);
 	}
@@ -115,7 +115,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -151,7 +151,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function postProcess(\App\Request $request, $display = true)
+	public function postProcess(App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -167,7 +167,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 	 *
 	 * @return Vtiger_JsScript_Model[] - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$jsFileNames = [
@@ -190,7 +190,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 	 *
 	 * @return Vtiger_CssScript_Model[] - array of Vtiger_CssScript_Model
 	 */
-	public function getHeaderCss(\App\Request $request)
+	public function getHeaderCss(App\Request $request)
 	{
 		$cssFileNames = [
 			'~libraries/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css',
@@ -199,9 +199,13 @@ class Vtiger_List_View extends Vtiger_Index_View
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($cssFileNames));
 	}
 
-	// Function to initialize the required data in smarty to display the List View Contents
-
-	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
+	/**
+	 * Function to initialize the required data in smarty to display the List View Contents.
+	 *
+	 * @param App\Request   $request
+	 * @param Vtiger_Viewer $viewer
+	 */
+	public function initializeListViewContents(App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
 		$pageNumber = $request->getInteger('page');
@@ -216,7 +220,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 				$sortOrder = $moduleInstance->default_sort_order;
 			}
 		}
-		if ($sortOrder === 'ASC') {
+		if ('ASC' === $sortOrder) {
 			$nextSortOrder = 'DESC';
 			$sortImage = 'fas fa-chevron-down';
 		} else {
@@ -258,11 +262,11 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$this->listViewModel->set('entityState', $request->getByType('entityState'));
 		}
 		$searchParams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
-		if (!empty($searchParams) && is_array($searchParams)) {
+		if (!empty($searchParams) && \is_array($searchParams)) {
 			$transformedSearchParams = $this->listViewModel->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 			$this->listViewModel->set('search_params', $transformedSearchParams);
 			//To make smarty to get the details easily accesible
-			foreach ($searchParams as $fieldListGroup) {
+			foreach ($request->getArray('search_params') as $fieldListGroup) {
 				foreach ($fieldListGroup as $fieldSearchInfo) {
 					$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
 					$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
@@ -279,7 +283,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		if (!$this->listViewEntries) {
 			$this->listViewEntries = $this->listViewModel->getListViewEntries($pagingModel);
 		}
-		$noOfEntries = count($this->listViewEntries);
+		$noOfEntries = \count($this->listViewEntries);
 		$viewer->assign('MODULE', $moduleName);
 		if (!$this->listViewLinks) {
 			$this->listViewLinks = $this->listViewModel->getListViewLinks($linkParams);
