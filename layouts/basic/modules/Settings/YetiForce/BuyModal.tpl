@@ -6,8 +6,8 @@
 		<div class="row no-gutters" >
 			<div class="col-sm-18 col-md-12">
 				<div class="text-center pb-3 pb-md-5">
-					{if $PRODUCT->getImage()}
-						<img class="o-buy-modal__img" src="{$PRODUCT->getImage()}" alt="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}" title="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}"/>
+					{if $IMAGE}
+						<img class="o-buy-modal__img" src="{$IMAGE}" alt="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}" title="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}"/>
 					{else}
 						<div class="product-no-image m-auto">
 								<span class="fa-stack fa-6x product-no-image">
@@ -87,40 +87,7 @@
 				</tbody>
 			</table>
 		</form>
-	{elseif $INSTALL_MODE}
-		<p class="small u-font-weight-550 text-truncate my-4 py-1 text-center">
-			{\App\Language::translate('LBL_SHOP_COMPANY_DATA', $QUALIFIED_MODULE)}
-		</p>
-		<form class="js-company-form" name="Company" action="index.php" method="post"enctype="multipart/form-data">
-			<table class="table table-sm mb-0">
-				<tbody class="u-word-break-all small">
-						<tr>
-							<td class="align-middle u-font-weight-550">{\App\Language::translate('LBL_USERNAME', 'Install')}</td>
-							<td class="w-50 position-relative input-group-sm">
-									<input name="user_name" class="form-control form-control-sm" type="text" value="" aria-label="{\App\Language::translate('LBL_USERNAME', 'Install')}">
-							</td>
-						</tr>
-						<tr>
-							<td class="align-middle u-font-weight-550">{\App\Language::translate('LBL_NAME', 'Install')}</td>
-							<td class="w-50 position-relative input-group-sm">
-									<input name="company_name" class="form-control form-control-sm" type="text" value="" aria-label="{\App\Language::translate('LBL_NAME', 'Install')}">
-							</td>
-						</tr>
-						<tr>
-							<td class="align-middle u-font-weight-550">{\App\Language::translate('LBL_EMAIL', 'Install')}</td>
-							<td class="w-50 position-relative input-group-sm">
-									<input name="email" class="form-control form-control-sm" type="text" value="" aria-label="{\App\Language::translate('LBL_EMAIL', 'Install')}">
-							</td>
-						</tr>
-						<tr>
-							<td class="align-middle u-font-weight-550 border-bottom">{\App\Language::translate('LBL_DOMAIN_PREFIX', 'Install')}</td>
-							<td class="w-50 position-relative input-group-sm border-bottom">
-									<input name="domain_prefix" class="form-control form-control-sm" type="text" value="" aria-label="{\App\Language::translate('LBL_DOMAIN_PREFIX', 'Install')}">
-							</td>
-						</tr>
-				</tbody>
-			</table>
-	{else}
+	{elseif !$INSTALL_MODE}
 		<div class="alert alert-danger mb-0">
 			<span class="fas fa-exclamation-triangle mr-1"></span>
 			{\App\Language::translate('LBL_SHOP_NO_COMPANIES_ALERT', $QUALIFIED_MODULE)}
