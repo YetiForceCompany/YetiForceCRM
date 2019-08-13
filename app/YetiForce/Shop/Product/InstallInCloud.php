@@ -25,6 +25,20 @@ class InstallInCloud extends \App\YetiForce\Shop\AbstractBaseProduct
 		'Medium' => 50,
 		'Large' => 100,
 	];
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public $customFields = [
+		'subdomain' => ['type' => 'text'],
+		'email' => ['type' => 'email'],
+	];
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public $companyDataForm = false;
+
 	/**
 	 * {@inheritdoc}
 	 */

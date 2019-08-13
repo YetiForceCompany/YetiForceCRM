@@ -71,6 +71,13 @@ abstract class AbstractBaseProduct
 	public $paidPackage;
 
 	/**
+	 * Company data in form.
+	 *
+	 * @var bool
+	 */
+	public $companyDataForm = true;
+
+	/**
 	 * Custom Fields.
 	 *
 	 * @var array
@@ -203,11 +210,12 @@ abstract class AbstractBaseProduct
 	/**
 	 * Get variable product.
 	 *
-	 * @param bool $installation
+	 * @param bool  $installation
+	 * @param mixed $companyDataForm
 	 *
 	 * @return array
 	 */
-	public function getVariable($installation = false): array
+	public function getVariable($companyDataForm = true): array
 	{
 		return [
 			'cmd' => '_xclick-subscriptions',
@@ -217,12 +225,32 @@ abstract class AbstractBaseProduct
 			'sra' => 1,
 			't3' => 'M',
 			'p3' => \date('d'),
-			'a3' => !$installation ? $this->getPrice() : '',
+			'a3' => $companyDataForm ? $this->getPrice() : '',
 			'item_name' => $this->name,
 			'currency_code' => $this->currencyCode,
 			'on0' => 'Package',
-			'os0' => !$installation ? \App\Company::getSize() : '',
+			'os0' => $companyDataForm ? \App\Company::getSize() : '',
 		];
+	}
+
+	/**
+	 * Get product custom fields.
+	 *
+	 * @return array
+	 */
+	public function getCustomFields(): array
+	{
+		return $this->customFields;
+	}
+
+	/**
+	 * Get product custom fields.
+	 *
+	 * @return bool
+	 */
+	public function hasCompanyData(): bool
+	{
+		return $this->companyDataForm;
 	}
 
 	/**

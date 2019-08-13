@@ -46,8 +46,17 @@
 							<td class="py-2 u-font-weight-550 border-bottom">{\App\Language::translate('LBL_SHOP_PAYMENT_FREQUENCY', $QUALIFIED_MODULE)}</td>
 							<td class="py-2 w-50 border-bottom">{\App\Language::translate("LBL_SHOP_PAYMENT_FREQUENCY_{$VARIABLE_PRODUCT['t3']}", $QUALIFIED_MODULE)}</td>
 						</tr>
+						{foreach key=FIELD_NAME item=FIELD_DATA from=$PRODUCT->getCustomFields()}
+							<tr>
+								<td class="py-2 u-font-weight-550 border-bottom">{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, $QUALIFIED_MODULE)}</td>
+								<td class="py-2 w-50 border-bottom">
+									<input type="{$FIELD_DATA['type']}" placeholder="{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, $QUALIFIED_MODULE)}" />
+								</td>
+							</tr>
+						{/foreach}
 					</tbody>
 				</table>
+				<input name="custom_fields" type="hidden">
 				{foreach key=NAME_OF_KEY item=VARIABLE_FORM from=$VARIABLE_PAYMENTS}
 						<input name="{$NAME_OF_KEY}" type="hidden" value="{$VARIABLE_FORM}" />
 				{/foreach}
@@ -87,7 +96,7 @@
 				</tbody>
 			</table>
 		</form>
-	{elseif !$INSTALL_MODE}
+	{elseif $COMPANY_DATA_FORM}
 		<div class="alert alert-danger mb-0">
 			<span class="fas fa-exclamation-triangle mr-1"></span>
 			{\App\Language::translate('LBL_SHOP_NO_COMPANIES_ALERT', $QUALIFIED_MODULE)}
