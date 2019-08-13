@@ -21,6 +21,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		'OSSMailViewSent' => 'bg-success',
 		'OSSMailViewInternal' => 'bg-primary',
 		'Calendar' => 'bg-warning',
+		'Documents' => 'bg-info',
 	];
 
 	/**
@@ -30,22 +31,19 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 	 */
 	public static function getActions()
 	{
-		$modules = ['ModComments', 'OSSMailView', 'Calendar'];
+		$modules = ['ModComments', 'OSSMailView', 'Calendar', 'Documents'];
 		foreach ($modules as $key => $module) {
 			if (!\App\Privilege::isPermitted($module)) {
 				unset($modules[$key]);
 			}
 		}
-
+		array_unshift($modules, 'All');
 		return $modules;
 	}
 
 	public function getUrl()
 	{
-		$url = 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showRecentRelation&page=1&limit=' . $this->Data['limit'];
-		foreach (self::getActions() as $type) {
-			$url .= '&type[]=' . $type;
-		}
+		$url = 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showRecentRelation&type=All&page=1&limit=' . $this->Data['limit'];
 
 		return $url;
 	}
@@ -76,7 +74,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		if ($request->isEmpty('type')) {
 			return [];
 		}
-		$query = static::getQuery($recordId, $request->getModule(), $request->getArray('type', 'Alnum'));
+		$query = static::getQuery($recordId, $request->getModule(), $request->getByType('type'));
 		if (empty($query)) {
 			return [];
 		}
@@ -122,15 +120,15 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 	 *
 	 * @param int    $recordId
 	 * @param string $moduleName
-	 * @param array  $type
+	 * @param string  $type
 	 *
 	 * @return \App\Db\Query()|false
 	 */
-	public static function getQuery($recordId, $moduleName, $type)
+	public static function getQuery(int $recordId, string $moduleName, string $type)
 	{
 		$queries = [];
 		$db = App\Db::getInstance();
-		if (in_array('Calendar', $type) && ($field = current(\Vtiger_Module_Model::getInstance('Calendar')->getReferenceFieldsForModule($moduleName)))) {
+		if (('Calendar' === $type || 'All' === $type) && ($field = current(\Vtiger_Module_Model::getInstance('Calendar')->getReferenceFieldsForModule($moduleName)))) {
 			$query = (new \App\Db\Query())
 				->select([
 					'body' => new \yii\db\Expression($db->quoteValue('')),
@@ -148,7 +146,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			\App\PrivilegeQuery::getConditions($query, 'Calendar', false, $recordId);
 			$queries[] = $query;
 		}
-		if (in_array('ModComments', $type)) {
+		if ('ModComments' === $type || 'All' === 'ModComments') {
 			$query = (new \App\Db\Query())
 				->select([
 					'body' => new \yii\db\Expression($db->quoteValue('')),
@@ -166,7 +164,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			\App\PrivilegeQuery::getConditions($query, 'ModComments', false, $recordId);
 			$queries[] = $query;
 		}
-		if (in_array('OSSMailView', $type)) {
+		if ('OSSMailView' === $type || 'All' === $type) {
 			$query = (new \App\Db\Query())
 				->select([
 					'body' => 'o.content',
@@ -184,6 +182,26 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 				->andWhere(['=', 'r.crmid', $recordId]);
 			\App\PrivilegeQuery::getConditions($query, 'OSSMailView', false, $recordId);
 			$queries[] = $query;
+		}
+		if ('Documents' === $type || 'All' === $type) {
+			$query = (new \App\Db\Query())
+			->select([
+				'body' => new \yii\db\Expression($db->quoteValue('')),
+				'attachments_exist' => new \yii\db\Expression($db->quoteValue('')),
+				'type' => new \yii\db\Expression($db->quoteValue('Documents')),
+				'id' => 'n.notesid',
+				'content' => 'n.title',
+				'user' => 'vtiger_crmentity.smownerid',
+				'time' => 'vtiger_crmentity.createdtime',
+			])
+			->from('vtiger_notes n')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = n.notesid')
+			->innerJoin('vtiger_senotesrel', 'n.notesid = vtiger_senotesrel.notesid')
+			->where(['vtiger_crmentity.deleted' => 0])
+			->andWhere(['=', 'vtiger_senotesrel.crmid', $recordId]);
+			\App\PrivilegeQuery::getConditions($query, 'Documents', false, $recordId);
+			$queries[] = $query;
+
 		}
 		if (1 == count($queries)) {
 			$sql = reset($queries);

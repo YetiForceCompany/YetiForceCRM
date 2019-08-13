@@ -1009,6 +1009,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('VIEW_MODEL', $this->record);
 		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('SELECTED_TAB', $request->getByType('type'));
 		$viewer->assign('RECORD_ID', $request->getInteger('record'));
 		$viewer->assign('HISTORIES', $histories);
 		$viewer->assign('PAGING_MODEL', $pagingModel);

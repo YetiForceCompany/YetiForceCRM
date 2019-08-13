@@ -80,8 +80,13 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 			clear: both;
 		}
 
+		.c-badge__icon {
+			top: 46%;
+		}
+
 		.timeline-item {
 			-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+			background-color: transparent !important;
 			box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 			border-radius: 3px;
 			margin-top: 0;
@@ -115,7 +120,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 				}
 
 				.timeline-body {
-					padding-left: 0;
+					padding-left: 12px !important;
 					font-size: 0.7em;
 				}
 

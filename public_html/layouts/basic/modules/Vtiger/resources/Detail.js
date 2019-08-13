@@ -2722,7 +2722,7 @@ jQuery.Class(
 					}
 				}
 			});
-			detailContentsHolder.on('change', '.relatedHistoryTypes', function(e) {
+			detailContentsHolder.on('click', '.relatedHistoryTypes', function(e) {
 				let widgetContent = jQuery(this)
 						.closest('.widgetContentBlock')
 						.find('.widgetContent'),
@@ -2740,7 +2740,7 @@ jQuery.Class(
 					mode: 'showRecentRelation',
 					page: 1,
 					limit: widgetContent.find('.js-relatedHistoryPageLimit').val(),
-					type: $(e.currentTarget).val()
+					type: $(e.currentTarget).data('tab')
 				}).done(function(data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					widgetContent.find('#relatedHistoryCurrentPage').remove();
