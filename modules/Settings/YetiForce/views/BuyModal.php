@@ -73,28 +73,35 @@ class Settings_YetiForce_BuyModal_View extends \App\Controller\ModalSettings
 		$department = $request->isEmpty('department') ? '' : $request->getByType('department');
 		$product = \App\YetiForce\Shop::getProduct($request->getByType('product'), $department);
 		$companies = [];
-		foreach (\App\Company::getAll() as $key => $row) {
-			if (1 === (int) $row['type']) {
-				$companies = $row;
+		$currency = 'EUR';
+		$installMode = !$request->isEmpty('installation');
+		if (!$installMode) {
+			foreach (\App\Company::getAll() as $key => $row) {
+				if (1 === (int) $row['type']) {
+					$companies = $row;
+				}
 			}
+			$viewer->assign('VARIABLE_PAYMENTS', \App\YetiForce\Shop::getVariablePayments());
+			$viewer->assign('VARIABLE_PRODUCT', $product->getVariable());
+			$currency = $product->currencyCode;
 		}
 		$recordModel = $formFields = [];
+		$formFields = array_filter(Settings_Companies_Module_Model::getFormFields(), function ($key) {
+			return isset($key['paymentData']);
+		});
 		if ($companies) {
 			$recordModel = Settings_Companies_Record_Model::getInstance($companies['id'])->set('source', $qualifiedModuleName);
-			$formFields = array_filter(Settings_Companies_Module_Model::getFormFields(), function ($key) {
-				return isset($key['paymentData']);
-			});
-		} else {
+		} elseif (!$installMode) {
 			$this->successBtn = '';
 		}
 		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->assign('PRODUCT', $product);
-		$viewer->assign('VARIABLE_PAYMENTS', \App\YetiForce\Shop::getVariablePayments());
-		$viewer->assign('VARIABLE_PRODUCT', $product->getVariable());
 		$viewer->assign('PAYPAL_URL', \App\YetiForce\Shop::getPaypalUrl());
 		$viewer->assign('COMPANY_DATA', $companies);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('FORM_FIELDS', $formFields);
+		$viewer->assign('CURRENCY', $currency);
+		$viewer->assign('INSTALL_MODE', $installMode);
 		$viewer->view('BuyModal.tpl', $qualifiedModuleName);
 	}
 }

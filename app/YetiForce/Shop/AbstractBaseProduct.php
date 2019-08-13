@@ -102,11 +102,13 @@ abstract class AbstractBaseProduct
 	/**
 	 * Get product price.
 	 *
+	 * @param bool $installation
+	 *
 	 * @return int
 	 */
-	public function getPrice(): int
+	public function getPrice($installation = false): int
 	{
-		return $this->prices[\App\Company::getSize()] ?? 0;
+		return !$installation ? $this->prices[\App\Company::getSize()] ?? 0 : 0;
 	}
 
 	/**

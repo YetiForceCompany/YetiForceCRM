@@ -170,11 +170,17 @@ class Install_Index_View extends \App\Controller\View
 
 	public function showBuyModal(App\Request $request)
 	{
-		// var_dump('111111');
-		$request = new \App\Request(['product' => 'InstallInCloud'], false);
+		$request = new \App\Request([
+			'product' => $request->getByType('product'),
+			'module' => 'YetiForce',
+			'parent' => 'Settings',
+			'installation' => true
+		], false);
 		$instance = new Settings_YetiForce_BuyModal_View();
+		$instance->checkPermission($request);
 		$instance->preProcessAjax($request);
 		$instance->process($request);
+		$instance->postProcessAjax($request);
 	}
 
 	public function step3(App\Request $request)

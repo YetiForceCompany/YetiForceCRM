@@ -30,7 +30,7 @@
 									<input name="a3" class="form-control form-control-sm" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
 							{else}
 								<td class="py-2 w-50">
-								{$PRODUCT->getPrice()} {$PRODUCT->currencyCode}
+								{$PRODUCT->getPrice(true)} {$CURRENCY}
 							{/if}
 							</td>
 						</tr>
@@ -87,6 +87,23 @@
 				</tbody>
 			</table>
 		</form>
+	{elseif $INSTALL_MODE}
+		<p class="small u-font-weight-550 text-truncate my-4 py-1 text-center">
+			{\App\Language::translate('LBL_SHOP_COMPANY_DATA', $QUALIFIED_MODULE)}
+		</p>
+		<form class="js-company-form" name="Company" action="index.php" method="post"enctype="multipart/form-data">
+			<table class="table table-sm mb-0">
+				<tbody class="u-word-break-all small">
+					{foreach key="FIELD_NAME" item="FIELD" from=$FORM_FIELDS name=updateCompanyForm}
+						<tr>
+							<td class="align-middle u-font-weight-550{if $smarty.foreach.updateCompanyForm.last} border-bottom{/if}">{\App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, 'Settings:Companies')}</td>
+							<td class="w-50 position-relative input-group-sm{if $smarty.foreach.updateCompanyForm.last} border-bottom{/if}">
+									<input name="{$FIELD_NAME}" class="form-control form-control-sm" type="text" value="" aria-label="{\App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, 'Settings:Companies')}">
+							</td>
+						</tr>
+					{/foreach}
+				</tbody>
+			</table>
 	{else}
 		<div class="alert alert-danger mb-0">
 			<span class="fas fa-exclamation-triangle mr-1"></span>

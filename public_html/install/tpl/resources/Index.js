@@ -56,15 +56,11 @@ jQuery.Class(
 			});
 		},
 		registerEventForStepChooseHost() {
-			// new window.Settings_YetiForce_Shop_Js(
-			// 	'Install.php?module=YetiForce&parent=Settings&department'
-			// ).registerBuyModalClick();
 			$('.js-buy-modal').on('click', e => {
 				$.get('Install.php?mode=showBuyModal').done(data => {
-					console.log(data)
+					app.showModalWindow(data)
 				})
 			})
-
 		},
 		registerEventForStep3: function() {
 			$('#recheck').on('click', function() {
