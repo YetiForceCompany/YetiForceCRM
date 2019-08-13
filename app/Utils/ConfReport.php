@@ -207,7 +207,7 @@ class ConfReport
 		'opcache.save_comments' => ['recommended' => 0, 'type' => 'Equal', 'container' => 'php', 'testCli' => true],
 		'opcache.file_update_protection' => ['recommended' => 0, 'type' => 'Equal', 'container' => 'php', 'testCli' => true],
 		'opcache.memory_consumption' => ['container' => 'php', 'testCli' => true],
-		'realpath_cache_size' => ['recommended' => '256k', 'type' => 'RealpathCacheSize', 'container' => 'php', 'testCli' => true],
+		'realpath_cache_size' => ['recommended' => '256k', 'type' => 'GreaterMb', 'container' => 'php', 'testCli' => true],
 		'realpath_cache_ttl' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'php', 'testCli' => true],
 		'mysqlnd.collect_statistics' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'mysqlnd.collect_memory_statistics' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
@@ -1118,32 +1118,6 @@ class ConfReport
 			$row['recommended'] = \str_replace($type, "<b class=\"text-danger\">$type</b>", $row['recommended']);
 			$row['isHtml'] = true;
 		}
-		return $row;
-	}
-
-	/**
-	 * Validate realpath cache size.
-	 *
-	 * @param string $name
-	 * @param array  $row
-	 * @param string $sapi
-	 *
-	 * @return array
-	 */
-	private static function validateRealpathCacheSize(string $name, array $row, string $sapi)
-	{
-		unset($name);
-		$current = (int) realpath_cache_size();
-		$max = (int) \vtlib\Functions::parseBytes($row[$sapi]);
-		if($current === 0){
-			$row['status'] = false;
-		}else{
-			if ($current > $max) {
-				$row['recommended'] = \vtlib\Functions::showBytes($current * 1.5);
-				$row['status'] = false;
-			}
-		}
-		$row[$sapi] = \vtlib\Functions::showBytes($row[$sapi]);
 		return $row;
 	}
 
