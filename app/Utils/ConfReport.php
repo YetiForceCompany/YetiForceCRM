@@ -1133,12 +1133,15 @@ class ConfReport
 	private static function validateRealpathCacheSize(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		$current = realpath_cache_size();
-		$max = \vtlib\Functions::parseBytes($row[$sapi]);
-		$converter = $current / $max;
-		if ($converter > 1) {
-			$row['recommended'] = \vtlib\Functions::showBytes(ceil($converter) * $max);
+		$current = (int) realpath_cache_size();
+		$max = (int) \vtlib\Functions::parseBytes($row[$sapi]);
+		if($current === 0){
 			$row['status'] = false;
+		}else{
+			if ($current > $max) {
+				$row['recommended'] = \vtlib\Functions::showBytes($current * 1.5);
+				$row['status'] = false;
+			}
 		}
 		$row[$sapi] = \vtlib\Functions::showBytes($row[$sapi]);
 		return $row;
