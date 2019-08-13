@@ -161,6 +161,13 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->display('StepLicense.tpl');
 	}
 
+	/**
+	 * Show choose host step.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
 	public function stepChooseHost(App\Request $request)
 	{
 		$this->viewer->assign('PRODUCT_ClOUD', \App\YetiForce\Shop::getProduct('InstallInCloud'));
@@ -168,6 +175,13 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->display('StepChooseHost.tpl');
 	}
 
+	/**
+	 * Show buy modal in choose host step.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
 	public function showBuyModal(App\Request $request)
 	{
 		$request = new \App\Request([
