@@ -412,16 +412,10 @@ class Install_Index_View extends \App\Controller\View
 	 */
 	public function getFooterScripts(App\Request $request)
 	{
-		$viewScripts = [];
 		if ('step7' === $request->getMode()) {
 			return [];
 		}
-		if ('stepChooseHost' === $request->getMode()) {
-			$viewScripts = $this->checkAndConvertJsScripts([
-				'modules.Settings.YetiForce.resources.Shop'
-			]);
-		}
-		return array_merge(parent::getFooterScripts($request), $viewScripts, $this->checkAndConvertJsScripts([
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'~libraries/datatables.net/js/jquery.dataTables.js',
 			'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
 			'~libraries/datatables.net-responsive/js/dataTables.responsive.js',
