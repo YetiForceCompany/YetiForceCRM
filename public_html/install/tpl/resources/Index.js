@@ -33,6 +33,14 @@ jQuery.Class(
 			if ($.inArray(fieldValue, logins) !== -1) {
 				return app.vtranslate('LBL_INVALID_USERNAME_ERROR');
 			}
+		},
+		checkDbName: function(field, rules, i, options) {
+			let fieldValue = field.val(),
+				negativeRegex = /^[^\\/?%*:|\\\"<>.\s]{1,64}$/,
+				result = negativeRegex.test(fieldValue);
+			if (!result) {
+				return app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
+			}
 		}
 	},
 	{
