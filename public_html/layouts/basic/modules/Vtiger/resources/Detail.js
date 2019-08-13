@@ -2287,6 +2287,20 @@ jQuery.Class(
 						});
 				}
 			});
+			detailContentsHolder.on('click', '.js-historyrelation-view-save-comment', function(e) {
+				let element = $(e.currentTarget);
+				if (!element.is(':disabled')) {
+					self
+						.saveComment(e)
+						.done(function() {
+							self.registerRelatedModulesRecordCount();
+						})
+						.fail(function(error, err) {
+							element.removeAttr('disabled');
+							app.errorLog(error, err);
+						});
+				}
+			});
 			detailContentsHolder.on('click', '.js-save-comment', function(e) {
 				let element = $(e.currentTarget);
 				if (!element.is(':disabled')) {
@@ -2764,7 +2778,6 @@ jQuery.Class(
 				});
 				var currentPage = widgetContent.find('#relatedHistoryCurrentPage').val();
 				var nextPage = parseInt(currentPage) + 1;
-				var types = widgetContainer.find('.relatedHistoryTypes').val();
 				var pageLimit = widgetContent.find('#relatedHistoryPageLimit').val();
 				AppConnector.request({
 					module: app.getModuleName(),
@@ -2773,12 +2786,12 @@ jQuery.Class(
 					mode: 'showRecentRelation',
 					page: nextPage,
 					limit: pageLimit,
-					type: types
+					type: widgetContent.find('.relatedHistoryTypes.active').data('tab')
 				}).done(function(data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					widgetContent.find('#relatedHistoryCurrentPage').remove();
 					widgetContent.find('#moreRelatedUpdates').remove();
-					widgetContent.find('#relatedUpdates').append(data);
+					widgetContent.empty().append(data);
 				});
 			});
 			detailContentsHolder.on('click', '.moreRecentUpdates', function(e) {
