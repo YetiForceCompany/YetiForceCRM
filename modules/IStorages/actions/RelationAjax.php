@@ -48,7 +48,7 @@ class IStorages_RelationAjax_Action extends Vtiger_RelationAjax_Action
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$response = new Vtiger_Response();
-		$response->setResult((bool) $recordModel->updateQtyProducts($request->getInteger('record'), $request->getByType('qty', 'NumberInUserFormat')));
+		$response->setResult($recordModel->updateQtyProducts($request->getInteger('record'), $request->getByType('qty', 'NumberInUserFormat')));
 		$response->emit();
 	}
 }

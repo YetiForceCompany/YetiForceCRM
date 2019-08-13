@@ -49,22 +49,25 @@ class IStorages_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @param int   $relatedRecordId - Product Id
 	 * @param float $qty
+	 *
+	 * @return bool
 	 */
 	public function updateQtyProducts(int $relatedRecordId, float $qty): bool
 	{
-		$isExists = (new \App\Db\Query())->from('u_#__istorages_products')->where(['crmid' => $this->getId(), 'relcrmid' => $relatedRecordId])->exists();
+		$tableInfo = Vtiger_Relation_Model::getReferenceTableInfo('IStorages', 'Products');
+		$isExists = (new \App\Db\Query())->from($tableInfo['table'])->where([$tableInfo['rel'] => $this->getId(), $tableInfo['base'] => $relatedRecordId])->exists();
 		if ($isExists) {
 			$status = App\Db::getInstance()->createCommand()
-				->update('u_#__istorages_products', ['qtyinstock' => $qty], ['crmid' => $this->getId(), 'relcrmid' => $relatedRecordId])
+				->update($tableInfo['table'], ['qtyinstock' => $qty], [$tableInfo['rel'] => $this->getId(), $tableInfo['base'] => $relatedRecordId])
 				->execute();
 		} else {
 			$status = App\Db::getInstance()->createCommand()
-				->insert('u_#__istorages_products', [
-					'crmid' => $this->getId(),
-					'relcrmid' => $relatedRecordId,
+				->insert($tableInfo['table'], [
+					$tableInfo['rel'] => $this->getId(),
+					$tableInfo['base'] => $relatedRecordId,
 					'qtyinstock' => $qty,
 				])->execute();
 		}
-		return $status;
+		return (bool) $status;
 	}
 }

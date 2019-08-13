@@ -4,7 +4,7 @@
 Vtiger_RelatedList_Js(
 	'IStorages_RelatedList_Js',
 	{
-			registerEditQty: function () {
+		registerEditQty: function () {
 			let thisInstance = this;
 			let element = this.content.find('.js-edit-qtyproductinstock');
 			element.validationEngine(app.validationEngineOptions);
@@ -23,7 +23,7 @@ Vtiger_RelatedList_Js(
 						qty: element.val()
 					}).done(function (responseData) {
 						if (responseData.result) {
-							Vtiger_Helper_Js.showPnotify({ text: app.vtranslate('JS_SAVE_NOTIFY_OK'), type: 'success' });
+							Vtiger_Helper_Js.showPnotify({text: app.vtranslate('JS_SAVE_NOTIFY_OK'), type: 'success'});
 						}
 					});
 				}
