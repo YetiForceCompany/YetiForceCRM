@@ -31,7 +31,10 @@ class InstallInCloud extends \App\YetiForce\Shop\AbstractBaseProduct
 	 */
 	public $customFields = [
 		'subdomain' => ['type' => 'text'],
-		'email' => ['type' => 'email'],
+		'email' => [
+			'type' => 'email', 
+			'validator' => 'Vtiger_Email_Validator_Js'
+			]
 	];
 
 	/**

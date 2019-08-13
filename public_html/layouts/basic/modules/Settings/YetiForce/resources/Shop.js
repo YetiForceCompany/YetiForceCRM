@@ -83,6 +83,9 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 			companyForm.validationEngine(app.validationEngineOptions);
 			companyForm.find('[data-inputmask]').inputmask();
 		}
+		if (buyForm.length) {
+			buyForm.validationEngine(app.validationEngineOptions);
+		}
 	}
 	registerBuyModalForms(companyForm, buyForm) {
 		if (companyForm.length) {
@@ -110,8 +113,12 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 				app.formAlignmentAfterValidation(companyForm);
 			}
 		} else {
-			buyForm.submit();
-			app.hideModalWindow();
+			if (buyForm.validationEngine('validate') === true) {
+				buyForm.submit();
+				app.hideModalWindow();
+			} else {
+				app.formAlignmentAfterValidation(buyForm);
+			}
 		}
 	}
 	/**

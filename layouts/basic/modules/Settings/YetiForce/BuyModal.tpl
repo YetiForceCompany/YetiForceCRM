@@ -49,8 +49,9 @@
 						{foreach key=FIELD_NAME item=FIELD_DATA from=$PRODUCT->getCustomFields()}
 							<tr>
 								<td class="py-2 u-font-weight-550 border-bottom">{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, $QUALIFIED_MODULE)}</td>
-								<td class="py-2 w-50 border-bottom">
-									<input type="{$FIELD_DATA['type']}" placeholder="{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, $QUALIFIED_MODULE)}" />
+								<td class="py-2 position-relative w-50 border-bottom">
+									<input type="{$FIELD_DATA['type']}" placeholder="{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, $QUALIFIED_MODULE)}" 
+									data-validation-engine="validate[required,funcCall[{if isset($FIELD_DATA['validator'])}{$FIELD_DATA['validator']}{else}Vtiger_Base_Validator_Js{/if}.invokeValidation]]"/>
 								</td>
 							</tr>
 						{/foreach}
