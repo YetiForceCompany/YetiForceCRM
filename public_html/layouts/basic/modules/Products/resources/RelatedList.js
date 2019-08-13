@@ -27,8 +27,34 @@ Vtiger_RelatedList_Js("Products_RelatedList_Js", {}, {
 			}
 		});
 	},
+	registerEditQtyProducts: function () {
+		let thisInstance = this;
+		let element = this.content.find('.js-edit-qtyinstock');
+		element.validationEngine(app.validationEngineOptions);
+		element.on('change', function (e) {
+			e.stopPropagation();
+			let element = $(this);
+			element.formatNumber();
+			if (!element.validationEngine('validate')) {
+				AppConnector.request({
+					module: thisInstance.parentModuleName,
+					record: element.closest('.js-list__row').data('id'),
+					action: 'RelationAjax',
+					mode: 'setQtyProducts',
+					src_record: thisInstance.parentRecordId,
+					related_module: thisInstance.moduleName,
+					qty: element.val()
+				}).done(function (responseData) {
+					if (responseData.result) {
+						Vtiger_Helper_Js.showPnotify({text: app.vtranslate('JS_SAVE_NOTIFY_OK'), type: 'success'});
+					}
+				});
+			}
+		});
+	},
 	registerPostLoadEvents: function () {
 		this._super();
 		this.registerEditListPrice();
+		this.registerEditQtyProducts();
 	},
 });
