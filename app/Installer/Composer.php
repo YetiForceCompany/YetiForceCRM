@@ -190,8 +190,8 @@ class Composer
 				}
 			}
 		}
-		self::parseCreditsVue();
 		self::customCopy();
+		self::parseCreditsVue();
 	}
 
 	/**
