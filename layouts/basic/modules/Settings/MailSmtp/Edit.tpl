@@ -170,6 +170,7 @@
 				</label>
 				<div class="controls col-md-8">
 					<select class="select2 form-control sourceModule col-md-8" name="priority" id="priority">
+						{if empty($RECORD_MODEL->get('priority'))}<option value=""></option>{/if}
 						<option {if $RECORD_MODEL->get('priority') eq 'normal'} selected {/if}
 								value="normal">{\App\Language::translate('LBL_NORMAL', $QUALIFIED_MODULE)}</option>
 						<option {if $RECORD_MODEL->get('priority') eq 'non-urgent'} selected {/if}
