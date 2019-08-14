@@ -337,13 +337,12 @@ window.App.Fields = {
 				params = $.extend(params, customParams);
 			}
 			elements.daterangepicker(params).on('apply.daterangepicker', function applyDateRangePickerHandler(ev, picker) {
-					if (isDateRangePicker) {
-						$(this).val(picker.startDate.format(format));
- 					} else {
-						$(this).val(picker.startDate.format(format) + ',' + picker.endDate.format(format));
-					}
+				if (isDateRangePicker) {
+					$(this).val(picker.startDate.format(format));
+				} else {
+					$(this).val(picker.startDate.format(format) + ',' + picker.endDate.format(format));
 				}
-			);
+			});
 		}
 	},
 	Colors: {
@@ -487,6 +486,7 @@ window.App.Fields = {
 				let config = {
 					language: CONFIG.langKey,
 					allowedContent: true,
+					format_tags: 'p;h1;h2;h3;h4;h5;h6;pre;address;div',
 					removeButtons: '',
 					scayt_autoStartup: false,
 					enterMode: CKEDITOR.ENTER_BR,
@@ -503,7 +503,8 @@ window.App.Fields = {
 							}
 						}
 					},
-					extraPlugins: 'colorbutton,pagebreak,colordialog,find,selectall,showblocks,div,print,font,justify,bidi,pastebase64',
+					extraPlugins:
+						'colorbutton,pagebreak,colordialog,find,selectall,showblocks,div,print,font,justify,bidi,pastebase64',
 					toolbar: 'Full',
 					toolbar_Full: [
 						{
@@ -1014,7 +1015,7 @@ window.App.Fields = {
 		 * @param   {object}  params         contains selectParams object, lazyElements number, data array
 		 */
 		showLazySelect(selectElement, params) {
-			$.fn.select2.amd.require(['select2/data/array', 'select2/utils'],(ArrayData, Utils) => {
+			$.fn.select2.amd.require(['select2/data/array', 'select2/utils'], (ArrayData, Utils) => {
 				function CustomData($element, params) {
 					CustomData.__super__.constructor.call(this, $element, params);
 				}
@@ -1022,7 +1023,7 @@ window.App.Fields = {
 				CustomData.prototype.query = (options, callback) => {
 					let results = [];
 					if (options.term && options.term !== '') {
-						results = params.data.filter((e) => {
+						results = params.data.filter(e => {
 							return e.text.toUpperCase().indexOf(options.term.toUpperCase()) >= 0;
 						});
 					} else {
@@ -1040,9 +1041,9 @@ window.App.Fields = {
 				params.selectParams = Object.assign(params.selectParams, {
 					ajax: {},
 					dataAdapter: CustomData
-				})
-				this.showSelect2ElementView(selectElement, params.selectParams)
-			})
+				});
+				this.showSelect2ElementView(selectElement, params.selectParams);
+			});
 		},
 		/**
 		 * Function which will show the select2 element for select boxes . This will use select2 library
