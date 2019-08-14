@@ -160,6 +160,26 @@
 						   data-validation-engine="validate[custom[email]]">
 				</div>
 			</div>
+			<hr/>
+
+			<div class="form-group row">
+				<label class="col-form-label col-md-3 text-right">
+					{\App\Language::translate('LBL_MAIL_PRIORITY', $QUALIFIED_MODULE)}
+				</label>
+				<div class="controls col-md-8">
+					<input class="form-control" type="text" name="priority" value="{$RECORD_MODEL->get('priority')}">
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-form-label col-md-3 text-right">
+					{\App\Language::translate('LBL_CONFIRM_READING_TO', $QUALIFIED_MODULE)}
+				</label>
+				<div class="controls col-md-8">
+					<input class="form-control" type="text" name="confirm_reading_to" value="{$RECORD_MODEL->get('confirm_reading_to')}">
+				</div>
+			</div>
+
+
 			<div class="form-group row">
 				<label class="col-form-label col-md-3 text-right">
 					{\App\Language::translate('LBL_OPTIONS', $QUALIFIED_MODULE)}&nbsp;
@@ -172,6 +192,7 @@
 					<textarea class="form-control" name="options">{$RECORD_MODEL->get('options')}</textarea>
 				</div>
 			</div>
+			<hr/>
 			<div class="form-group row">
 				<label class="col-form-label col-md-3 text-right">
 					{\App\Language::translate('LBL_SAVE_SEND_MAIL', $QUALIFIED_MODULE)}&nbsp;
