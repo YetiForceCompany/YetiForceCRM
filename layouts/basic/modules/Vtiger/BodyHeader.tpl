@@ -393,6 +393,7 @@
 				</div>
 			</nav>
 		</div>
+	{include file=\App\Layout::getTemplatePath('TextDivider.tpl', $MODULE) DIVIDER_TITLE="TITLE" DIVIDER_CLASS="w-100"}
 	</header>
 	{if !empty($QUICKCREATE_MODULES_PARENT)}
 		{include file=\App\Layout::getTemplatePath('QuickCreateModal.tpl')}

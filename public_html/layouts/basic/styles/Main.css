@@ -6726,10 +6726,10 @@ button.bg-dark:focus {
 .dashboardWidget .dashboardWidgetContent .row {
   margin-left: 0 !important; }
 
-.m-1, .o-chat__btn-send, .c-detail-widget {
+.m-1, .c-detail-widget {
   margin: 0.25rem !important; }
 
-.mt-1, .select2-selection__arrow, .o-chat__message-block,
+.mt-1, .select2-selection__arrow,
 .my-1 {
   margin-top: 0.25rem !important; }
 
@@ -18183,6 +18183,23 @@ input[type="checkbox"][disabled] {
 .c-time-period-input {
   text-align: center; }
 
+.c-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  background-color: inherit; }
+  .c-divider__line {
+    border-top: 1px solid;
+    border-bottom: none;
+    margin-bottom: 0;
+    width: 100%; }
+  .c-divider__title {
+    position: absolute;
+    padding: 0 20px;
+    background-color: inherit; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .btn-default {
   color: #212529;
@@ -18407,95 +18424,6 @@ input[type="radio"]:checked {
 
 input[type="radio"]:checked:before {
   background-color: #4a5364; }
-
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-.o-chat li {
-  list-style: none !important; }
-.o-chat__img-container {
-  border: 2px solid #d2d6de;
-  width: 50px;
-  height: 50px; }
-.o-chat__btn-send {
-  height: fit-content;
-  border-radius: 50% !important;
-  width: 2.625rem; }
-.o-chat__icon-search {
-  position: absolute;
-  top: 18px;
-  right: 10px;
-  border-radius: 50% !important;
-  z-index: 1000;
-  font-size: 15px;
-  color: #6c7591; }
-.o-chat__btn-favorite {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  z-index: 1000;
-  font-size: 15px;
-  color: #6c7591;
-  background: #fafafa !important; }
-.o-chat__icon-container a {
-  color: black !important; }
-.o-chat__form-control {
-  border: 0; }
-  .o-chat__form-control:focus {
-    box-shadow: none;
-    outline: none; }
-.o-chat__message-block {
-  height: 3.125rem;
-  width: calc(100% - 2.625rem);
-  position: relative; }
-.o-chat__user-message {
-  max-width: 150px;
-  color: #797676;
-  font-size: 12px; }
-.o-chat__scrollbar {
-  position: relative;
-  overflow: hidden;
-  height: calc(100vh - 2rem - 10.9375rem); }
-.o-chat__scrollbar--history {
-  height: calc(100vh - 2rem - 7.8125rem) !important; }
-.o-chat__author-img {
-  width: 44px;
-  height: 46px; }
-.o-chat__author-name {
-  vertical-align: top;
-  font-weight: bold; }
-.o-chat__triangle {
-  width: 0;
-  height: 0;
-  border-top: 9px solid transparent;
-  border-bottom: 9px solid transparent;
-  color: #e8e8e8; }
-.o-chat__name {
-  opacity: 0.5;
-  color: black;
-  background: #e8e8e8; }
-.o-chat__item {
-  margin-bottom: 3px;
-  padding: 2px 8px 2px 8px; }
-.o-chat__messages {
-  font-size: 13px;
-  background: #e8e8e8;
-  word-break: break-word; }
-.o-chat__room {
-  background: #d5d7de;
-  color: #177e96; }
-.o-chat__room-hover .o-chat__pin-favorites {
-  display: none !important; }
-.o-chat__room-hover:hover {
-  background: #d5d7de; }
-  .o-chat__room-hover:hover .o-chat__pin-favorites {
-    display: block !important; }
-
-.o-chat__detail .o-chat__scrollbar {
-  height: calc(100vh - 22.5625rem); }
-.o-chat__detail .o-chat__entries-scrollbar {
-  height: calc(100vh - 25.9375rem) !important; }
-
-.o-chat-footer {
-  color: #177e96; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .c-condition-builder__row {
@@ -20533,6 +20461,7 @@ body > .o-exception-fixed-block {
   .customFilterMainSpan {
     max-width: 400px; } }
 .nav-tabs .active {
+  border-color: #dee2e6 !important;
   background-color: #f8f9fa !important; }
 
 .listViewAll .leftRecordActions {
