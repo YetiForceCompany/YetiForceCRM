@@ -34,6 +34,7 @@
     "chart.js": "^2.8.0",
     "chartjs-plugin-datalabels": "^0.6.0",
     "chartjs-plugin-funnel": "^1.1.2",
+    "ckeditor-pastebase64": "https://github.com/javaha/ckeditor-pastebase64#master",
     "clipboard": ">=2.0.0",
     "clockpicker": "https://github.com/YetiForceCompany/clockpicker#master",
     "css-element-queries": "^1.0.5",
