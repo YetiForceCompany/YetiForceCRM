@@ -22,7 +22,7 @@
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="4" class="mediumWidthType">
-							<span>{App\Language::translate('LBL_SECURITY_ADVISORIES_CHECKER', 'Settings::ConfReport')}</span>
+							<span>{App\Language::translate('LBL_SECURITY_ADVISORIES_CHECKER', $QUALIFIED_MODULE)}</span>
 						</th>
 					</tr>
 					<tr class="blockHeader">
