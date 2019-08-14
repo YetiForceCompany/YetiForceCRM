@@ -504,7 +504,7 @@ window.App.Fields = {
 						}
 					},
 					extraPlugins:
-						'colorbutton,pagebreak,colordialog,find,selectall,showblocks,div,print,font,justify,bidi,pastebase64',
+						'colorbutton,pagebreak,colordialog,find,selectall,showblocks,div,print,font,justify,bidi,ckeditor-image-to-base64',
 					toolbar: 'Full',
 					toolbar_Full: [
 						{
@@ -515,7 +515,7 @@ window.App.Fields = {
 						{ name: 'links', items: ['Link', 'Unlink'] },
 						{
 							name: 'insert',
-							items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar', 'PageBreak']
+							items: ['ckeditor-image-to-base64', 'Table', 'HorizontalRule', 'SpecialChar', 'PageBreak']
 						},
 						{ name: 'tools', items: ['Maximize', 'ShowBlocks'] },
 						{ name: 'paragraph', items: ['Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv'] },

@@ -36,6 +36,7 @@
     "chartjs-plugin-funnel": "^1.1.2",
     "clipboard": ">=2.0.0",
     "clockpicker": "https://github.com/YetiForceCompany/clockpicker#master",
+    "ckeditor-image-to-base64": "https://github.com/YetiForceCompany/ckeditor-image-to-base64#master",
     "css-element-queries": "^1.0.5",
     "datatables.net": "^1.10.19",
     "datatables.net-bs4": "^1.10.19",
