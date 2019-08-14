@@ -111,9 +111,6 @@ class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 				if ('time' === $field->getFieldDataType()) {
 					$fieldValue = \App\Fields\Time::getTimeByDBFormat($fieldValue);
 				}
-				if ('currency' === $field->getFieldDataType()) {
-					$fieldValue = CurrencyField::convertToDBFormat($fieldValue);
-				}
 				if ('date_start' === $fieldName || 'due_date' === $fieldName || 'datetime' === $field->getFieldDataType()) {
 					$dateValues = explode(',', $fieldValue);
 					//Indicate whether it is fist date in the between condition
