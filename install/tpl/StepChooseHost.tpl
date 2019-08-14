@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <!-- tpl-install-tpl-StepChooseHost -->
-{assign var=COL_CLASS value='col col-lg-4 text-white p-2 d-flex flex-column'}
+{assign var=COL_CLASS value='col-12 col-lg-4 text-white p-2 p-lg-3 p-xl-5 pt-xl-2 d-flex flex-column'}
 {assign var=BTN_CLASS value='btn btn-lg c-btn-block-xs-down btn-outline-light mt-auto'}
 {function SHOW_HOSTING_TITLE TYPE=''}
 	<h4 class="w-100 text-center u-font-weight-350">
@@ -41,8 +41,8 @@
 						<div class="col-12 text-center">
 						<h3>{App\Language::translate('LBL_CHOOSE_HOSTING', 'Install')}</h3>
 						</div>
+						<hr class="w-100">
 					</div>
-					<hr>
 					<div class="row">
 						<form name="step-stepChooseHost" method="post" action="Install.php" class="{$COL_CLASS} bg-danger">
 							<input type="hidden" name="mode" value="step3">
@@ -63,13 +63,13 @@
 								<span class="fas fa-lg fa-arrow-circle-right ml-2"></span>
 							</button>
 						</form>
-						<div class="{$COL_CLASS} bg-color-cyan-500">
-							{SHOW_HOSTING_TITLE TYPE='CLOUD'}
-							{SHOW_HOSTING_BODY PRODUCT=$PRODUCT_ClOUD}
-						</div>
 						<div class="{$COL_CLASS} bg-blue-grey-13">
 							{SHOW_HOSTING_TITLE TYPE='SHARED'}
 							{SHOW_HOSTING_BODY PRODUCT=$PRODUCT_SHARED}
+						</div>
+						<div class="{$COL_CLASS} bg-color-cyan-500">
+							{SHOW_HOSTING_TITLE TYPE='CLOUD'}
+							{SHOW_HOSTING_BODY PRODUCT=$PRODUCT_ClOUD}
 						</div>
 					</div>
 					<div class="form-button-nav fixed-bottom button-container p-1 bg-light">

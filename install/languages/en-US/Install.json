@@ -120,8 +120,8 @@
     "LBL_HOSTING_OWN": "Own hosting",
     "LBL_HOSTING_OWN_TITLE": "Install on your own hosting",
     "LBL_HOSTING_OWN_DESC": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui tempora nemo repellat tenetur libero nihil enim porro nesciunt laboriosam vel. Repudiandae, sit reprehenderit deserunt hic eius porro dolores vitae numquam!",
-    "LBL_HOSTING_SHARED": "Shared hosting",
-    "LBL_HOSTING_CLOUD": "Cloud hosting",
+    "LBL_HOSTING_SHARED": "Yeti hosting",
+    "LBL_HOSTING_CLOUD": "Yeti cloud",
     "LBL_BUY": "Buy",
     "LBL_DOMAIN_PREFIX": "Domain prefix"
   },
