@@ -28,7 +28,7 @@ class Donations extends \App\YetiForce\Shop\AbstractBaseProduct
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getPrice(): int
+	public function getPrice($installation = false): int
 	{
 		return 5;
 	}

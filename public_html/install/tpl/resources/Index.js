@@ -59,9 +59,7 @@ jQuery.Class(
 			$('.js-buy-modal').on('click', e => {
 				$.get(`Install.php?mode=showBuyModal&product=${$(e.currentTarget).data('product')}`).done(data => {
 					app.showModalWindow(data, '', modalContainer => {
-						modalContainer.find('.js-modal__save').on('click', _ => {
-							$('.js-buy-form').submit();
-						});
+						new window.Settings_YetiForce_Shop_Js().registerBuyModalEvents(modalContainer);
 					});
 				});
 			});

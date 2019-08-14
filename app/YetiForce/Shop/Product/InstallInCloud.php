@@ -30,11 +30,14 @@ class InstallInCloud extends \App\YetiForce\Shop\AbstractBaseProduct
 	 * {@inheritdoc}
 	 */
 	public $customFields = [
-		'subdomain' => ['type' => 'text'],
+		'subdomain' => [
+			'type' => 'text',
+			'validator' => 'required,custom[onlyLetterNumber]'
+		],
 		'email' => [
-			'type' => 'email', 
-			'validator' => 'Vtiger_Email_Validator_Js'
-			]
+			'type' => 'email',
+			'validator' => 'required,funcCall[Vtiger_Email_Validator_Js.invokeValidation]'
+		]
 	];
 
 	/**
