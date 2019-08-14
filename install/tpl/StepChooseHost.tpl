@@ -47,16 +47,16 @@
 						<form name="step-stepChooseHost" method="post" action="Install.php" class="{$COL_CLASS} bg-danger">
 							<input type="hidden" name="mode" value="step3">
 							<input type="hidden" name="lang" value="{$LANG}">
-							{SHOW_HOSTING_TITLE TYPE='OWN'}
+							{SHOW_HOSTING_TITLE TYPE='SELF'}
 							<div class="py-5 w-100 text-center">
 								<div class="pb-5 display-3">
 									<span class="fas fa-server"></span>
 								</div>
 								<h5 class="u-font-weight-300">
-									{App\Language::translate('LBL_HOSTING_OWN_TITLE', 'Install')}
+									{App\Language::translate('LBL_HOSTING_SELF_TITLE', 'Install')}
 								</h5>
 								<hr class="w-50 mx-auto">
-								<p>{App\Language::translate('LBL_HOSTING_OWN_DESC', 'Install')}</p>
+								<p>{App\Language::translate('LBL_HOSTING_SELF_DESC', 'Install')}</p>
 							</div>
 							<button type="submit" class="{$BTN_CLASS} js-submit">
 								{App\Language::translate('LBL_INSTALL_YOURSELF', 'Install')}
