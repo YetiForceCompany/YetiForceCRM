@@ -151,7 +151,6 @@ class Composer
 	 * @var array
 	 */
 	public static $copyDirectories = [
-		'public_html/libraries/ckeditor-pastebase64' => 'public_html/vendor/ckeditor/ckeditor/plugins/pastebase64',
 	];
 
 	/**
