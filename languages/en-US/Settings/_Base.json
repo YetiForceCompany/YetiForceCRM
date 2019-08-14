@@ -414,7 +414,9 @@
     "LBL_PICKLIST_VARIABLES": "Picklist variables",
     "LBL_PICKLIST_VARIABLES_INFO": "Using this variable will result in separate numbering for each picklist value, and a short value will replace the variable.",
     "LBL_BUSINESS_HOURS": "Business hours",
-    "LBL_SEARCH_PLACEHOLDER": "Search..."
+    "LBL_SEARCH_PLACEHOLDER": "Search...",
+    "LBL_VULNERABILITIES": "Vulnerabilities",
+    "LBL_VULNERABILITIES_DESCRIPTION": "List of libaries vulnerabilities"
   },
   "js": {
     "JS_AUTHORIZATION_COMPLETE": "Authorization successful",
