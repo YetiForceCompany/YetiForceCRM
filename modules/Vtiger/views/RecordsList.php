@@ -29,7 +29,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		if (!$request->isEmpty('related_parent_id', true) && !\App\Privilege::isPermitted($request->getByType('related_parent_module', 2), 'DetailView', $request->getInteger('related_parent_id'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		if (!$request->isEmpty('src_record', true) && !in_array($request->getByType('src_module', 2), ['Users', 'WebserviceUsers']) && !\App\Privilege::isPermitted($request->getByType('src_module', 2), 'DetailView', $request->getInteger('src_record'))) {
+		if (!$request->isEmpty('src_record', true) && !\in_array($request->getByType('src_module', 2), ['Users', 'WebserviceUsers']) && !\App\Privilege::isPermitted($request->getByType('src_module', 2), 'DetailView', $request->getInteger('src_record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
@@ -124,17 +124,17 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 		if (!$request->isEmpty('process', true) || !$request->isEmpty('link', true)) {
-			if (!$request->isEmpty('process', true) && in_array($moduleName, array_keys(\App\ModuleHierarchy::getModulesByLevel(2)))) {
+			if (!$request->isEmpty('process', true) && \in_array($moduleName, array_keys(\App\ModuleHierarchy::getModulesByLevel(2)))) {
 				$processRecord = $request->getInteger('process');
 				$processModule = \App\Record::getType($processRecord);
-				if (in_array($moduleName, \App\ModuleHierarchy::getChildModules($processModule)) && in_array($processModule, \App\ModuleHierarchy::getModulesMap1M($moduleName))) {
+				if (\in_array($moduleName, \App\ModuleHierarchy::getChildModules($processModule)) && \in_array($processModule, \App\ModuleHierarchy::getModulesMap1M($moduleName))) {
 					$showSwitch = true;
 					$relatedParentModule = $processModule;
 					$relatedParentId = $processRecord;
 				} elseif (!$request->isEmpty('link', true)) {
 					$linkRecord = $request->getInteger('link');
 					$linkModule = \App\Record::getType($linkRecord);
-					if (in_array($linkModule, \App\ModuleHierarchy::getModulesMap1M($moduleName))) {
+					if (\in_array($linkModule, \App\ModuleHierarchy::getModulesMap1M($moduleName))) {
 						$showSwitch = true;
 						$relatedParentModule = $linkModule;
 						$relatedParentId = $linkRecord;
@@ -143,7 +143,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 			} elseif (!$request->isEmpty('link', true)) {
 				$linkRecord = $request->getInteger('link');
 				$linkModule = \App\Record::getType($linkRecord);
-				if (in_array($linkModule, \App\ModuleHierarchy::getModulesMap1M($moduleName))) {
+				if (\in_array($linkModule, \App\ModuleHierarchy::getModulesMap1M($moduleName))) {
 					$showSwitch = true;
 					$relatedParentModule = $linkModule;
 					$relatedParentId = $linkRecord;
@@ -152,7 +152,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		} elseif (!empty($filterFields['parent_id'])) {
 			$linkRecord = $filterFields['parent_id'];
 			$linkModule = \App\Record::getType($linkRecord);
-			if (in_array($linkModule, \App\ModuleHierarchy::getModulesMap1M($moduleName))) {
+			if (\in_array($linkModule, \App\ModuleHierarchy::getModulesMap1M($moduleName))) {
 				$showSwitch = true;
 				$relatedParentModule = $linkModule;
 				$relatedParentId = $linkRecord;
@@ -211,7 +211,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$transformedSearchParams = $listViewModel->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParmams);
 		$listViewModel->set('search_params', $transformedSearchParams);
 		//To make smarty to get the details easily accesible
-		foreach ($searchParmams as $fieldListGroup) {
+		foreach ($request->getArray('search_params') as $fieldListGroup) {
 			foreach ($fieldListGroup as $fieldSearchInfo) {
 				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
 				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
@@ -228,7 +228,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 			$listViewHeaders = $listViewModel->getListViewHeaders();
 			$listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
-		$noOfEntries = count($listViewEntries);
+		$noOfEntries = \count($listViewEntries);
 		if (empty($sortOrder)) {
 			$sortOrder = 'ASC';
 		}

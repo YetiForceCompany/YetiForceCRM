@@ -135,7 +135,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 				$hours = '12';
 				$format = \App\Language::translate('AM');
 			}
-			if (1 === strlen($hours)) {
+			if (1 === \strlen($hours)) {
 				$hours = "0$hours";
 			}
 			return "$hours:$minutes $format";
@@ -154,7 +154,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	{
 		if ($time) {
 			$timeDetails = array_pad(explode(' ', $time), 2, '');
-			[$hours, $minutes, $seconds] = array_pad(explode(':', $timeDetails[0]), 3, 0);
+			[$hours, $minutes, $seconds] = array_pad(explode(':', $timeDetails[0]), 3, '00');
 
 			//If pm exists and if it not 12 then we need to make it to 24 hour format
 			if ('PM' === $timeDetails[1] && '12' !== $hours) {
@@ -164,11 +164,6 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 			if ('AM' === $timeDetails[1] && '12' === $hours) {
 				$hours = '00';
 			}
-
-			if (empty($seconds)) {
-				$seconds = '00';
-			}
-
 			return "$hours:$minutes:$seconds";
 		}
 		return '';
@@ -185,7 +180,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function  getQueryOperators()
+	public function getQueryOperators()
 	{
 		return ['e', 'n', 'l', 'g', 'b', 'a', 'y', 'ny'];
 	}

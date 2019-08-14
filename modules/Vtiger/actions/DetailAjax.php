@@ -53,7 +53,7 @@ class Vtiger_DetailAjax_Action extends App\Controller\Action
 		$label = $request->getByType('tab_label');
 		$parentRecordModel = \Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = \Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
-		$searchParams = $request->getArray('search_params');
+		$searchParams = App\Condition::validSearchParams($relatedModuleName, $request->getArray('search_params'));
 		if (!empty($searchParams) && \is_array($searchParams)) {
 			$relationListView->set('search_params', $relationListView->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams));
 		}

@@ -46,7 +46,7 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 			$queryGenerator->addCondition('assigned_user_id', $owner, 'e');
 		}
 		if (!empty($dateFilter)) {
-			$queryGenerator->addCondition('createdtime', $dateFilter['start'] . ',' . $dateFilter['end'], 'bw');
+			$queryGenerator->addCondition('createdtime', $dateFilter['start'] . ' 00:00:00,' . $dateFilter['end'] . ' 23:59:59', 'bw');
 		}
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		$response = [];
