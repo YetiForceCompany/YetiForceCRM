@@ -141,6 +141,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 					'content' => 'a.subject',
 					'user' => 'vtiger_crmentity.smownerid',
 					'time' => new \yii\db\Expression('CONCAT(a.date_start, ' . $db->quoteValue(' ') . ', a.time_start)'),
+					'description' => 'vtiger_crmentity.description'
 				])
 				->from('vtiger_activity a')
 				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = a.activityid')
@@ -162,6 +163,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 					'content' => 'm.commentcontent',
 					'user' => 'vtiger_crmentity.smownerid',
 					'time' => 'vtiger_crmentity.createdtime',
+					'description' => 'vtiger_crmentity.description'
 				])
 				->from('vtiger_modcomments m')
 				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = m.modcommentsid')
@@ -183,6 +185,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 					'content' => 'o.subject',
 					'user' => 'vtiger_crmentity.smownerid',
 					'time' => 'vtiger_crmentity.createdtime',
+					'description' => new \yii\db\Expression($db->quoteValue(''))
 				])
 				->from('vtiger_ossmailview o')
 				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = o.ossmailviewid')
@@ -205,6 +208,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 				'content' => 'n.title',
 				'user' => 'vtiger_crmentity.smownerid',
 				'time' => 'vtiger_crmentity.createdtime',
+				'description' => 'notecontent'
 			])
 			->from('vtiger_notes n')
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = n.notesid')

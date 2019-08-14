@@ -41,14 +41,38 @@
 									{/if}
 								</div>
 								<div class="timeline-body small align-items-start mr-auto p-1">
-									<strong>{$HISTORY['userModel']->getName()}&nbsp;</strong>
-									<div>{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML($HISTORY['content']))}</div>
 									{if $HISTORY['type'] eq 'Calendar'}
-										<div class="u-font-size-13px">
-											{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML($HISTORY['date_start']))}&nbsp;
-											{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML($HISTORY['time_start']))}
+										<div><span class="fas fa-user-friends mr-2"></span>{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML($HISTORY['content']))}</div>
+										<div class="u-font-size-13px d-flex flex-row ">
+											<span class="far fa-calendar-alt mr-2"></span>
+											<div class="mr-3">{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML($HISTORY['date_start']))}</div>
+											<span class="far fa-clock mr-2"></span>
+											<div>{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML($HISTORY['time_start']))}</div>
 										</div>
-										<div class="u-font-size-13px">{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML($HISTORY['location']))}</div>
+										<div class="u-font-size-13px">
+											<span class="fas fa-map-marker-alt mr-2"></span>
+											{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML($HISTORY['location']))}
+										</div>
+										<div class="u-font-size-13px">
+											<span class="fas fa-bars mr-2"></span>
+											{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML($HISTORY['description']))}
+										</div>
+									{/if}
+									{if $HISTORY['type'] eq 'Documents'}
+										<div class="row">
+											<div class="col-2 align-self-center">
+												<p class="u-font-size-13px">{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML($HISTORY['content']))}</p>
+												<p class="u-font-size-13px"><strong>{\App\Language::translate('Assigned To')}:</strong>&nbsp; {$HISTORY['userModel']->getName()}</p>
+											</div>
+											<div class="u-font-size-13px col-6 align-self-center bg-light offset-md-3 pt-2 pb-2">{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML($HISTORY['description']))}</div>
+										</div>
+									{/if}
+									{if $HISTORY['type'] eq 'OSSMAIL????'}
+										<div class="u-font-size-13px">{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML($HISTORY['content']))}</div>
+									{/if}
+									{if $HISTORY['type'] eq 'ModComments'}
+										<div class="u-font-size-13px"><strong>{$HISTORY['userModel']->getName()}</strong></div>
+										<div class="u-font-size-13px">{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML($HISTORY['content']))}</div>
 									{/if}
 								</div>
 									<div class="d-flex justify-content-end {$HISTORY['class']}">
@@ -133,11 +157,27 @@
 															<span class="fas fa-download fa-fw"></span>
 														</span>
 													{/if}
-
-
 												</div>
 											{/if}
-
+											{if !$IS_READ_ONLY && $HISTORY['type'] eq 'ModComments'}
+												<div class="btn-group-vertical" role="group">
+														{if \App\Privilege::isPermitted('ModComments','EditableComments') && \App\User::getCurrentUserId() eq $HISTORY['user']}
+														<a class="btn-xs u-cursor-pointer js-popover-tooltip showEdit mt-1 text-black" href="index.php?module=Documents&view=Edit&record={$HISTORY['id']}"
+															data-content="{\App\Language::translate('LBL_EDIT',$HISTORY['type'])}" data-js="popover">
+															<span class="fas fa-pencil-alt fa-fw"></span>
+														</a>
+														{/if}
+														{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
+															<a class="btn-xs u-cursor-pointer js-popover-tooltip showEdit mt-1" data-url="index.php?module=Documents&view=Detail&record={$HISTORY['id']}"
+																data-content="{\App\Language::translate('LBL_REPLY',$HISTORY['type'])}" data-js="popover">
+																<span class="fas fa-share fa-fw"></span>
+															</a>
+														{/if}
+														{if \App\Privilege::isPermitted($HISTORY['type'], 'MoveToTrash', $HISTORY['id'])}
+										<button type="button" class="btn btn-xs entityStateBtn Accounts_comment_action_LBL_MOVE_TO_TRASH js-popover-tooltip popover-triggered" data-js="popover" data-url="index.php?module=ModComments&amp;action=State&amp;state=Trash&amp;sourceView=List&amp;record=3888" data-confirm="Moving a record to Recycle Bin only changes the record's state without changing the rest of information. Are you sure you want to move the record?." data-placement="bottom" data-content="Move to Recycle Bin" data-target="focus hover" style="background: #ab0505;" onclick="app.showConfirmation();" data-original-title="" title=""><span class="fas fa-trash-alt  "></span></button>
+														{/if}
+												</div>
+											{/if}
 										{\App\Purifier::encodeHtml($HISTORY['body'])}
 									</div>
 							</div>
