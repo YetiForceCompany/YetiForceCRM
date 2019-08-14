@@ -19,7 +19,7 @@ class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function getPagination(\App\Request $request)
+	public function getPagination(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$pageNumber = $request->getInteger('page');
@@ -51,12 +51,12 @@ class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 		}
 
 		$searchParmams = $request->getArray('search_params');
-		if (empty($searchParmams) || !is_array($searchParmams)) {
+		if (empty($searchParmams) || !\is_array($searchParmams)) {
 			$searchParmams = [];
 		}
 		$transformedSearchParams = $this->transferListSearchParamsToFilterCondition($searchParmams, $listViewModel->getModule());
 		$listViewModel->set('search_params', $transformedSearchParams);
-		if (!empty($searchResult) && is_array($searchResult)) {
+		if (!empty($searchResult) && \is_array($searchResult)) {
 			$listViewModel->get('query_generator')->addNativeCondition(['vtiger_crmentity.crmid' => $searchResult]);
 		}
 		if (!property_exists($this, 'listViewEntries') || empty($this->listViewEntries)) {
@@ -65,7 +65,7 @@ class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 		if (!property_exists($this, 'listViewCount') || empty($this->listViewCount)) {
 			$this->listViewCount = $listViewModel->getListViewCount();
 		}
-		$noOfEntries = count($this->listViewEntries);
+		$noOfEntries = \count($this->listViewEntries);
 		$totalCount = $this->listViewCount;
 		$pagingModel->set('totalCount', (int) $totalCount);
 		$pageCount = $pagingModel->getPageCount();
@@ -88,7 +88,7 @@ class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 	 *
 	 * @return array
 	 */
-	public function transferListSearchParamsToFilterCondition($searchParams, \Settings_Vtiger_Module_Model $moduleModel)
+	public function transferListSearchParamsToFilterCondition($searchParams, Settings_Vtiger_Module_Model $moduleModel)
 	{
 		if (empty($searchParams)) {
 			return [];
@@ -102,19 +102,19 @@ class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 			}
 			$groupColumnsInfo = [];
 			foreach ($groupInfo as &$fieldSearchInfo) {
-				list($fieldName, $operator, $fieldValue, $specialOption) = $fieldSearchInfo;
+				[$fieldName, $operator, $fieldValue, $specialOption] = $fieldSearchInfo;
 				$field = $moduleModel->getFieldByName($fieldName);
-				if ($field->getFieldDataType() === 'tree' && $specialOption) {
+				if ('tree' === $field->getFieldDataType() && $specialOption) {
 					$fieldValue = Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $moduleModel);
 				}
 				//Request will be having in terms of AM and PM but the database will be having in 24 hr format so converting
-				if ($field->getFieldDataType() === 'time') {
-					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
+				if ('time' === $field->getFieldDataType()) {
+					$fieldValue = \App\Fields\Time::getTimeByDBFormat($fieldValue);
 				}
-				if ($field->getFieldDataType() === 'currency') {
+				if ('currency' === $field->getFieldDataType()) {
 					$fieldValue = CurrencyField::convertToDBFormat($fieldValue);
 				}
-				if ($fieldName === 'date_start' || $fieldName === 'due_date' || $field->getFieldDataType() === 'datetime') {
+				if ('date_start' === $fieldName || 'due_date' === $fieldName || 'datetime' === $field->getFieldDataType()) {
 					$dateValues = explode(',', $fieldValue);
 					//Indicate whether it is fist date in the between condition
 					$isFirstDate = true;

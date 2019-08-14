@@ -7,7 +7,7 @@
 		<input name="{$FIELD_MODEL->getFieldName()}" class="dateTimePickerField form-control"
 			   value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}"
 			   id="{$MODULE_NAME}_editView_fieldName_{$FIELD_MODEL->getName()}" type="text" data-hour-format="{$USER_MODEL->get('hour_format')}"
-			   data-date-format="{$USER_MODEL->get('date_format')}}" type="text"
+			   data-date-format="{$USER_MODEL->get('date_format')}" type="text"
 			   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 			   {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}
 			   data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} autocomplete="off"/>

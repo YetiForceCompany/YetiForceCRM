@@ -123,14 +123,14 @@ class VTCreateEventTask extends VTTask
 	/**
 	 * To convert time_start & time_end values to db format.
 	 *
-	 * @param type $timeStr
+	 * @param string $timeStr
 	 *
 	 * @return time
 	 */
 	public static function convertToDBFormat($timeStr)
 	{
 		$date = new DateTime();
-		$time = Vtiger_Time_UIType::getTimeValueWithSeconds($timeStr);
+		$time = \App\Fields\Time::getTimeByDBFormat($timeStr);
 		$dbInsertDateTime = DateTimeField::convertToDBTimeZone($date->format('Y-m-d') . ' ' . $time);
 
 		return $dbInsertDateTime->format('H:i:s');

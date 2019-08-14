@@ -66,4 +66,27 @@ class Time
 		$hms = explode(':', $time);
 		return $hms[0] + ($hms[1] / 60) + ($hms[2] / 3600);
 	}
+
+	/**
+	 * Function changes the time format to the database format without changing the time zone.
+	 *
+	 * @param string $time
+	 *
+	 * @return string
+	 */
+	public static function getTimeByDBFormat(string $time)
+	{
+		if ($time) {
+			$timeDetails = array_pad(explode(' ', $time), 2, '');
+			[$hours, $minutes, $seconds] = array_pad(explode(':', $timeDetails[0]), 3, '00');
+			if ('PM' === $timeDetails[1] && '12' !== $hours) {
+				$hours = $hours + 12;
+			}
+			if ('AM' === $timeDetails[1] && '12' === $hours) {
+				$hours = '00';
+			}
+			$time = "$hours:$minutes:$seconds";
+		}
+		return $time;
+	}
 }
