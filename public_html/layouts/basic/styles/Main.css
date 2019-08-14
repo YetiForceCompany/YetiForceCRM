@@ -18183,19 +18183,19 @@ input[type="checkbox"][disabled] {
 .c-time-period-input {
   text-align: center; }
 
-.c-divider {
+.c-text-divider {
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   position: relative;
   background-color: inherit; }
-  .c-divider__line {
+  .c-text-divider__line {
     border-top: 1px solid;
     border-bottom: none;
     margin-bottom: 0;
     width: 100%; }
-  .c-divider__title {
+  .c-text-divider__title {
     position: absolute;
     padding: 0 20px;
     background-color: inherit; }
