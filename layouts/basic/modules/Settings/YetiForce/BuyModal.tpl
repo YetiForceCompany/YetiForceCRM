@@ -1,6 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-Settings-YetiForce-Shop-BuyModal -->
+{assign var=LABEL_CLASS value='py-2 u-font-weight-550 align-middle'}
 <div class="modal-body px-md-5 pb-0">
 	<form  class="js-buy-form" action="{$PAYPAL_URL}" method="POST" target="_blank">
 		<div class="row no-gutters" >
@@ -20,11 +21,11 @@
 				<table class="table table-sm mb-0">
 					<tbody class="u-word-break-all small">
 						<tr>
-							<td class="py-2 u-font-weight-550">{\App\Language::translate('LBL_SHOP_PRODUCT_NAME', $QUALIFIED_MODULE)}</td>
+							<td class="{$LABEL_CLASS}">{\App\Language::translate('LBL_SHOP_PRODUCT_NAME', $QUALIFIED_MODULE)}</td>
 							<td class="py-2 w-50">{$PRODUCT->getLabel()}</td>
 						</tr>
 						<tr>
-							<td class="py-2 u-font-weight-550 align-middle">{\App\Language::translate('LBL_SHOP_AMOUNT', $QUALIFIED_MODULE)}</td>
+							<td class="{$LABEL_CLASS}">{\App\Language::translate('LBL_SHOP_AMOUNT', $QUALIFIED_MODULE)}</td>
 							{if 'manual'=== $PRODUCT->getPriceType()}
 								<td class="w-50">
 									<input name="a3" class="form-control form-control-sm" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
@@ -35,20 +36,20 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="py-2 u-font-weight-550">{\App\Language::translate('LBL_SHOP_PACKAGE', $QUALIFIED_MODULE)} </td>
+							<td class="{$LABEL_CLASS}">{\App\Language::translate('LBL_SHOP_PACKAGE', $QUALIFIED_MODULE)} </td>
 							<td class="py-2 w-50">{$VARIABLE_PRODUCT['os0']}</td>
 						</tr>
 						<tr>
-							<td class="py-2 u-font-weight-550">{\App\Language::translate('LBL_SHOP_SUBSCRIPTIONS_DAY', $QUALIFIED_MODULE)}</td>
+							<td class="{$LABEL_CLASS}">{\App\Language::translate('LBL_SHOP_SUBSCRIPTIONS_DAY', $QUALIFIED_MODULE)}</td>
 							<td class="py-2 w-50">{$VARIABLE_PRODUCT['p3']}</td>
 						</tr>
 						<tr>
-							<td class="py-2 u-font-weight-550 border-bottom">{\App\Language::translate('LBL_SHOP_PAYMENT_FREQUENCY', $QUALIFIED_MODULE)}</td>
+							<td class="{$LABEL_CLASS} border-bottom">{\App\Language::translate('LBL_SHOP_PAYMENT_FREQUENCY', $QUALIFIED_MODULE)}</td>
 							<td class="py-2 w-50 border-bottom">{\App\Language::translate("LBL_SHOP_PAYMENT_FREQUENCY_{$VARIABLE_PRODUCT['t3']}", $QUALIFIED_MODULE)}</td>
 						</tr>
 						{foreach key=FIELD_NAME item=FIELD_DATA from=$PRODUCT->getCustomFields()}
 							<tr>
-								<td class="py-2 u-font-weight-550 border-bottom">{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, $QUALIFIED_MODULE)}</td>
+								<td class="{$LABEL_CLASS} border-bottom">{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, $QUALIFIED_MODULE)}</td>
 								<td class="py-2 position-relative w-50 border-bottom">
 									<div class="input-group-sm position-relative">
 										<input type="{$FIELD_DATA['type']}" class="form-control" placeholder="{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, $QUALIFIED_MODULE)}"
