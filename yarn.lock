@@ -218,6 +218,10 @@ chartjs-plugin-funnel@^1.1.2:
   dependencies:
     chart.js ">2.7.0"
 
+"ckeditor-pastebase64@https://github.com/javaha/ckeditor-pastebase64#master":
+  version "0.0.0"
+  resolved "https://github.com/javaha/ckeditor-pastebase64#465babda12d7e1eaf38260de891cda5dd02fdaa0"
+
 clipboard@>=2.0.0:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/clipboard/-/clipboard-2.0.4.tgz#836dafd66cf0fea5d71ce5d5b0bf6e958009112d"
@@ -590,9 +594,9 @@ good-listener@^1.2.2:
     delegate "^3.1.2"
 
 graceful-fs@4.X:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.1.tgz#1c1f0c364882c868f5bff6512146328336a11b1d"
-  integrity sha512-b9usnbDGnD928gJB3LrCmxoibr3VE4U2SMo5PBuBnokWyDADTqDPXg4YpwKF1trpH+UbGp7QLicO3+aWEy0+mw==
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.2.tgz#6f0952605d0140c1cfdb138ed005775b92d67b02"
+  integrity sha512-IItsdsea19BoLC7ELy13q1iJFNmd7ofZH5+X/pJr90/nRoPEX0DJo1dHDbgtYWOhJhcCgMDTOw84RZ72q6lB+Q==
 
 gridstack@^0.4.0:
   version "0.4.0"
