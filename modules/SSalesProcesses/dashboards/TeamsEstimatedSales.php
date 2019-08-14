@@ -62,7 +62,7 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 		$queryGenerator = new \App\QueryGenerator('SSalesProcesses');
 		$queryGenerator->setFields(['assigned_user_id']);
 		$queryGenerator->setGroup('assigned_user_id');
-		$queryGenerator->addCondition('estimated_date', $time, 'bw');
+		$queryGenerator->addCondition('estimated_date', $time, 'bw', true, true);
 		$sum = new \yii\db\Expression('SUM(estimated)');
 		$queryGenerator->setCustomColumn(['estimated' => $sum]);
 		$query = $queryGenerator->createQuery();
@@ -89,7 +89,7 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -122,7 +122,7 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 			$previousTime = \App\Fields\Date::formatToDisplay($start->format('Y-m-d')) . ',' . \App\Fields\Date::formatToDisplay($endPeriod->format('Y-m-d'));
 			$previousData = $this->getEstimatedValue($previousTime, $compare);
 			if (!empty($data) || !empty($previousData)) {
-				list($data, $previousData) = $this->parseData($data, $previousData);
+				[$data, $previousData] = $this->parseData($data, $previousData);
 				$data = [$previousData, 'compare' => $data];
 			}
 		}

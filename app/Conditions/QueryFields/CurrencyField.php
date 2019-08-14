@@ -11,20 +11,4 @@ namespace App\Conditions\QueryFields;
  */
 class CurrencyField extends IntegerField
 {
-	/**
-	 * Get value.
-	 *
-	 * @return float
-	 */
-	public function getValue()
-	{
-		$value = $this->value;
-		$uiType = $this->fieldModel->getUIType();
-		if (72 === $uiType) {
-			$value = \CurrencyField::convertToDBFormat($value, null, true);
-		} elseif (71 === $uiType) {
-			$value = \CurrencyField::convertToDBFormat($value);
-		}
-		return $value;
-	}
 }

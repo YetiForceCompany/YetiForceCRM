@@ -34,7 +34,7 @@ class RecordsList extends \Api\Core\BaseAction
 		}
 		$dataReader->close();
 		$headers = $this->getColumnNames($fieldsModel);
-		$rowsCount = count($records);
+		$rowsCount = \count($records);
 		return [
 			'headers' => $headers,
 			'records' => $records,
@@ -72,10 +72,10 @@ class RecordsList extends \Api\Core\BaseAction
 		if ($conditions = $this->controller->request->getHeader('x-condition')) {
 			$conditions = \App\Json::decode($conditions);
 			if (isset($conditions['fieldName'])) {
-				$queryGenerator->addCondition($conditions['fieldName'], $conditions['value'], $conditions['operator'], $conditions['group'] ?? true);
+				$queryGenerator->addCondition($conditions['fieldName'], $conditions['value'], $conditions['operator'], $conditions['group'] ?? true, true);
 			} else {
 				foreach ($conditions as $condition) {
-					$queryGenerator->addCondition($condition['fieldName'], $condition['value'], $condition['operator'], $condition['group'] ?? true);
+					$queryGenerator->addCondition($condition['fieldName'], $condition['value'], $condition['operator'], $condition['group'] ?? true, true);
 				}
 			}
 		}
