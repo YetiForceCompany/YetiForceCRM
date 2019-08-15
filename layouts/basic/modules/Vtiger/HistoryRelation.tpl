@@ -125,16 +125,9 @@
 													{/if}
 													{if \App\Privilege::isPermitted($HISTORY['type'], 'EditView', $HISTORY['id'])}
 														<span class="editDefaultStatus btn-xs text-success u-cursor-pointer js-popover-tooltip delay0 mt-1"
-															data-js="popover" data-url="index.php?module=Calendar&view=QuickEditAjax&record={$HISTORY['id']}"
+															data-js="popover" data-url="index.php?module=Calendar&view=ActivityStateModal&record={$HISTORY['id']}"
 															data-content="{\App\Language::translate('LBL_SET_RECORD_STATUS',$HISTORY['type'])}">
 															<span class="fas fa-check fa-fw"></span>
-														</span>
-													{/if}
-													{if \App\Privilege::isPermitted($HISTORY['type'], 'Delete', $HISTORY['id'])}
-														<span class="btn-xs text-danger u-cursor-pointer js-popover-tooltip delay0 mt-1"
-															data-js="popover" data-url="index.php?module=Calendar&view=QuickEditAjax&record={$HISTORY['id']}"
-															data-content="{\App\Language::translate('LBL_DELETE_RECORD_COMPLETELY',$HISTORY['type'])}">
-															<span class="fas fa-trash fa-fw"></span>
 														</span>
 													{/if}
 												</div>
@@ -152,10 +145,7 @@
 															data-content="{\App\Language::translate('LBL_SHOW_FULL_DETAILS',$HISTORY['type'])}" data-js="popover">
 															<span class="fas fa-search fa-fw"></span>
 														</a>
-														<span class="btn-xs u-cursor-pointer text-primary js-popover-tooltip showEdit mt-1" data-url="index.php?module=Documents&view=Detail&record={$HISTORY['id']}"
-															data-content="{\App\Language::translate('LBL_DOWNLOAD_FILE',$HISTORY['type'])}" data-js="popover">
-															<span class="fas fa-download fa-fw"></span>
-														</span>
+															<span class="btn u-cursor-pointer btn-xs js-popover-tooltip popover-triggered mt-1" data-js="popover" data-placement="bottom" data-content="	{\App\Language::translate('LBL_DOWNLOAD_FILE',$HISTORY['type'])}" data-target="focus hover" onclick="app.openUrl('file.php?module=Documents&action=DownloadFile&record=431&fileid=439')"data-original-title="" title=""><span class="fas fa-download  "></span><span class="d-md-none ml-1">	{\App\Language::translate('LBL_DOWNLOAD_FILE',$HISTORY['type'])}</span></span>
 													{/if}
 												</div>
 											{/if}
@@ -174,7 +164,8 @@
 															</a>
 														{/if}
 														{if \App\Privilege::isPermitted($HISTORY['type'], 'MoveToTrash', $HISTORY['id'])}
-										<button type="button" class="btn btn-xs entityStateBtn Accounts_comment_action_LBL_MOVE_TO_TRASH js-popover-tooltip popover-triggered" data-js="popover" data-url="index.php?module=ModComments&amp;action=State&amp;state=Trash&amp;sourceView=List&amp;record=3888" data-confirm="Moving a record to Recycle Bin only changes the record's state without changing the rest of information. Are you sure you want to move the record?." data-placement="bottom" data-content="Move to Recycle Bin" data-target="focus hover" style="background: #ab0505;" onclick="app.showConfirmation();" data-original-title="" title=""><span class="fas fa-trash-alt  "></span></button>
+															<button type="button" class="btn btn-xs entityStateBtn Accounts_comment_action_LBL_MOVE_TO_TRASH js-popover-tooltip 		popover-triggered" data-js="popover" data-url="index.php?module=ModComments&action=State&state=Trash&record={$HISTORY['id']}" data-confirm="Moving a record to Recycle Bin only changes the record's state without changing the rest of information. Are you sure you want to move the record?." data-placement="bottom" data-content="Move to Recycle Bin" data-target="focus hover" data-original-title=""  title=""><span class="fas fa-trash-alt"></span>
+															</button>
 														{/if}
 												</div>
 											{/if}
