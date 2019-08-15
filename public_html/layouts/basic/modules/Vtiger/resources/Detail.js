@@ -2259,6 +2259,27 @@ jQuery.Class(
 					.appendTo(commentInfoBlock)
 					.show();
 			});
+			detailContentsHolder.on('click', '.js-reply-comment-history-relation', function(e) {
+				self.removeCommentBlockIfExists();
+				let commentInfoBlock = $(e.currentTarget).closest('.btn-group-vertical').closest('.justify-content-end').prev('div')
+				commentInfoBlock.find('.js-comment-container').hide();
+				console.log(commentInfoBlock)
+				self
+					.getCommentBlock()
+					.appendTo(commentInfoBlock)
+					.show();
+			});
+			detailContentsHolder.on('click', '.js-edit-comment-history-relation', function(e) {
+				self.removeCommentBlockIfExists();
+				let commentInfoBlock =  $(e.currentTarget).closest('.btn-group-vertical').closest('.justify-content-end').prev('div'),
+					commentInfoContent = commentInfoBlock.find('.js-comment-info'),
+					editCommentBlock = self.getEditCommentBlock();
+				editCommentBlock.find('.js-comment-content').html(commentInfoContent.html());
+				editCommentBlock.find('.js-reason-to-edit').html(commentInfoBlock.find('.js-edit-reason-span').text());
+				commentInfoContent.hide();
+				commentInfoBlock.find('.js-comment-container').hide();
+				editCommentBlock.appendTo(commentInfoBlock).show();
+			});
 			detailContentsHolder.on('click', '.js-edit-comment', function(e) {
 				self.removeCommentBlockIfExists();
 				let commentInfoBlock = $(e.currentTarget).closest('.js-comment-single'),

@@ -40,7 +40,7 @@
 										<span class="fas fa-user userImage"></span>
 									{/if}
 								</div>
-								<div class="timeline-body small align-items-start mr-auto p-1">
+								<div class="timeline-body small align-items-start mr-auto p-1 js-comment-single">
 									{if $HISTORY['type'] eq 'Calendar'}
 										<div><span class="fas fa-user-friends mr-2"></span>{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML($HISTORY['content']))}</div>
 										<div class="u-font-size-13px d-flex flex-row ">
@@ -152,16 +152,16 @@
 											{if !$IS_READ_ONLY && $HISTORY['type'] eq 'ModComments'}
 												<div class="btn-group-vertical" role="group">
 														{if \App\Privilege::isPermitted('ModComments','EditableComments') && \App\User::getCurrentUserId() eq $HISTORY['user']}
-														<a class="btn-xs u-cursor-pointer js-popover-tooltip showEdit mt-1 text-black" href="index.php?module=Documents&view=Edit&record={$HISTORY['id']}"
-															data-content="{\App\Language::translate('LBL_EDIT',$HISTORY['type'])}" data-js="popover">
-															<span class="fas fa-pencil-alt fa-fw"></span>
-														</a>
+															<span class="btn-xs js-edit-comment-history-relation feedback mr-1"
+																	data-js="click" title="{\App\Language::translate('LBL_EDIT', $HISTORY['type'])}">
+																<span class="fas fa-edit"></span>
+															</span>
 														{/if}
 														{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
-															<a class="btn-xs u-cursor-pointer js-popover-tooltip showEdit mt-1" data-url="index.php?module=Documents&view=Detail&record={$HISTORY['id']}"
-																data-content="{\App\Language::translate('LBL_REPLY',$HISTORY['type'])}" data-js="popover">
-																<span class="fas fa-share fa-fw"></span>
-															</a>
+															<span class="btn-xs js-reply-comment-history-relation"
+																	title="{\App\Language::translate('LBL_REPLY', $HISTORY['type'])}" data-js="click">
+																<span class="fas fa-share"></span>
+															</span>
 														{/if}
 														{if \App\Privilege::isPermitted($HISTORY['type'], 'MoveToTrash', $HISTORY['id'])}
 															<button type="button" class="btn btn-xs entityStateBtn Accounts_comment_action_LBL_MOVE_TO_TRASH js-popover-tooltip 		popover-triggered" data-js="popover" data-url="index.php?module=ModComments&action=State&state=Trash&record={$HISTORY['id']}" data-confirm="Moving a record to Recycle Bin only changes the record's state without changing the rest of information. Are you sure you want to move the record?." data-placement="bottom" data-content="Move to Recycle Bin" data-target="focus hover" data-original-title=""  title=""><span class="fas fa-trash-alt"></span>
@@ -176,6 +176,72 @@
 					</li>
 				{/foreach}
 			</ul>
+			<div class="d-none basicAddCommentBlock my-2">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="input-group">
+							<span class="input-group-prepend">
+								<span class="input-group-text"><span class="fas fa-comments"></span></span>
+							</span>
+							<div contenteditable="true"
+								 class="form-control commentcontenthidden fullWidthAlways js-comment-content js-completions"
+								 name="commentcontent"
+								 title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
+								 placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" data-js="html | tribute.js"></div>
+						</div>
+						<button class="u-cursor-pointer js-close-comment-block mt-3 btn btn-warning float-right ml-1 cancel"
+								type="reset">
+							<span class="visible-xs-inline fas fa-times"></span>
+							<span class="d-none d-sm-none d-md-inline ml-1">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</span>
+						</button>
+						<button class="btn btn-success js-save-comment mt-3 float-right" type="button"
+								data-mode="add"
+								data-js="click|data-mode">
+							<span class="visible-xs-inline fas fa-check"></span>
+							<span class="d-none d-sm-none d-md-inline ml-1">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</span>
+						</button>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="d-none basicEditCommentBlock">
+				<div class="row">
+					<div class="col-md-12 my-2">
+						<input type="text" name="reasonToEdit"
+							   title="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}"
+							   placeholder="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}"
+							   class="js-reason-to-edit input-block-level form-control"
+							   data-js="value"
+						>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 mb-2">
+						<div class="input-group">
+							<span class="input-group-prepend">
+								<span class="input-group-text"><span class="fas fa-comments"></span></span>
+							</span>
+							<div contenteditable="true"
+								 class="form-control commentcontenthidden fullWidthAlways js-comment-content js-completions"
+								 name="commentcontent"
+								 title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
+								 placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" data-js="html | tribute.js"></div>
+						</div>
+						<button class="u-cursor-pointer js-close-comment-block mt-3 btn btn-warning float-right ml-1 cancel"
+								type="reset">
+							<span class="visible-xs-inline fas fa-times"></span>
+							<span class="d-none d-sm-none d-md-inline ml-1">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</span>
+						</button>
+						<button class="btn btn-success js-save-comment mt-3 float-right" type="button"
+								data-mode="edit"
+								data-js="click|data-mode">
+							<span class="visible-xs-inline fas fa-check"></span>
+							<span class="d-none d-sm-none d-md-inline ml-1">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</span>
+						</button>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
 			{if !$IS_READ_ONLY && count($HISTORIES) eq $PAGING_MODEL->getPageLimit() && !$NO_MORE}
 				<div id="moreRelatedUpdates mt-2">
 					<div class="d-flex justify-content-end">
