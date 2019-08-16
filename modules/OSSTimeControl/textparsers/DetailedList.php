@@ -47,7 +47,7 @@ class OSSTimeControl_DetailedList_Textparser extends \App\TextParser\Base
 			}
 		}
 		$html .= '</tr></thead><tbody>';
-		$summary = ['sum_time' => 0];
+		$summary = [];
 		foreach ($ids as $recordId) {
 			$html .= '<tr>';
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $this->textParser->moduleName);
@@ -58,12 +58,13 @@ class OSSTimeControl_DetailedList_Textparser extends \App\TextParser\Base
 				if ('date_start' === $columnName) {
 					$style = $styleDate;
 					$value = \App\Fields\DateTime::formatToViewDate($recordModel->getDisplayValue($columnName) . ' ' . $recordModel->getDisplayValue('time_start'));
-				} elseif ('sum_time' === $columnName) {
-					$style = $styleDate;
-					$value = $recordModel->getDisplayValue($columnName);
-					$summary['sum_time'] += $value;
 				} else {
 					$value = $recordModel->getDisplayValue($columnName);
+				}
+				if ('sum_time' === $columnName) {
+					$style = $styleDate;
+					$summary['sum_time'] = $summary['sum_time'] ?? 0;
+					$summary['sum_time'] += $recordModel->get($columnName);
 				}
 				$html .= "<td style=\"{$style}\">" . $value . '</td>';
 			}
@@ -82,6 +83,7 @@ class OSSTimeControl_DetailedList_Textparser extends \App\TextParser\Base
 			}
 			$html .= "<td style=\"{$style}\">" . $content . '</td>';
 		}
-		return $html . '</tr></tfoot></table>';
+		$html .= '</tr></tfoot></table>';
+		return $html;
 	}
 }
