@@ -151,6 +151,7 @@ class Composer
 	 * @var array
 	 */
 	public static $copyDirectories = [
+		'public_html/libraries/ckeditor-image-to-base64' => 'public_html/vendor/ckeditor/ckeditor/plugins/ckeditor-image-to-base64'
 	];
 
 	/**
@@ -189,8 +190,8 @@ class Composer
 				}
 			}
 		}
-		self::parseCreditsVue();
 		self::customCopy();
+		self::parseCreditsVue();
 	}
 
 	/**
