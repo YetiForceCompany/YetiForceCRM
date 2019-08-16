@@ -49,6 +49,9 @@ class OSSTimeControl_UserGroup_Textparser extends \App\TextParser\Base
 		}
 		foreach ($ids as $recordId) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $this->textParser->moduleName);
+			if (!$recordModel->isViewable()) {
+				continue;
+			}
 			$user = $recordModel->getDisplayValue('assigned_user_id', $recordId, true);
 			$time = ($users[$user]['time'] ?? 0) + $recordModel->get('sum_time');
 			$users[$user] = [

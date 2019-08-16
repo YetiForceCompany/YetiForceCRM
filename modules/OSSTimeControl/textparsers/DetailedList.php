@@ -51,6 +51,9 @@ class OSSTimeControl_DetailedList_Textparser extends \App\TextParser\Base
 		foreach ($ids as $recordId) {
 			$html .= '<tr>';
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $this->textParser->moduleName);
+			if (!$recordModel->isViewable()) {
+				continue;
+			}
 			foreach ($columns as $column) {
 				$style = $bodyStyle;
 				$styleDate = $bodyStyle . 'text-align:center;';
