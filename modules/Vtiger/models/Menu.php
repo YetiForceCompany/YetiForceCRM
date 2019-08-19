@@ -87,7 +87,7 @@ class Vtiger_Menu_Model
 				$breadcrumbs[] = ['name' => $pageTitle];
 			} elseif ('Edit' === $view && '' === $request->getRaw('record')) {
 				$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_CREATE', $moduleName)];
-			} elseif ('' !== $view && 'index' !== $view && 'Index' !== $view) {
+			} elseif ('' != $view && 'index' !== $view && 'Index' !== $view) {
 				$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_' . strtoupper($view), $moduleName)];
 			} elseif ('' === $view) {
 				$breadcrumbs[] = ['name' => App\Language::translate('LBL_HOME', $moduleName)];
@@ -136,7 +136,7 @@ class Vtiger_Menu_Model
 						$breadcrumbs[] = ['name' => App\Language::translate($pageTitle, $qualifiedModuleName)];
 					} elseif ('Edit' === $view && '' === $request->getRaw('record') && '' === $request->getRaw('parent_roleid')) {
 						$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_CREATE', $qualifiedModuleName)];
-					} elseif ('' !== $view && 'List' !== $view) {
+					} elseif ('' != $view && 'List' !== $view) {
 						$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
 					}
 					if ('' !== $request->getRaw('record') && 'Users' === $moduleName) {
