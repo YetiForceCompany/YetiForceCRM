@@ -117,7 +117,7 @@ class Settings_Vtiger_Icons_Model
 			$icons[$icon] = 'yfi-' . $icon;
 		}
 		foreach ($icons['yfm'] as $icon) {
-			$yetiIcons[$icon] = 'yfm-' . $icon;
+			$icons[$icon] = 'yfm-' . $icon;
 		}
 		return $icons;
 	}
