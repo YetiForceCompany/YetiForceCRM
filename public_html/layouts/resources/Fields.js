@@ -292,14 +292,6 @@ window.App.Fields = {
 					.focus();
 			});
 
-			$('.js-clear-date', elements.closest('.dateTime')).on('click', function(e) {
-				let currentTarget = $(e.currentTarget)
-					.closest('.dateTime')
-					.find('input.dateTimePickerField');
-				currentTarget.val('');
-				currentTarget.removeAttr('disabled');
-			});
-
 			let dateFormat = CONFIG.dateFormat.toUpperCase();
 			const elementDateFormat = elements.data('dateFormat');
 			if (typeof elementDateFormat !== 'undefined') {
