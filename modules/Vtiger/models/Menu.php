@@ -82,19 +82,18 @@ class Vtiger_Menu_Model
 					'name' => \App\Language::translate($moduleName, $moduleName),
 				];
 			}
-
 			if ($pageTitle) {
 				$breadcrumbs[] = ['name' => $pageTitle];
-			} elseif ('Edit' === $view && '' === $request->getRaw('record')) {
+			} elseif ('Edit' === $view && empty($request->getRaw('record'))) {
 				$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_CREATE', $moduleName)];
-			} elseif ('' != $view && 'index' !== $view && 'Index' !== $view) {
+			} elseif (!empty($view) && 'index' !== $view && 'Index' !== $view) {
 				$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_' . strtoupper($view), $moduleName)];
-			} elseif ('' === $view) {
+			} elseif (empty($view)) {
 				$breadcrumbs[] = ['name' => App\Language::translate('LBL_HOME', $moduleName)];
 			}
 			if ($moduleModel && !$request->isEmpty('record', true) && $moduleModel->isEntityModule()) {
 				$recordLabel = vtlib\Functions::getCRMRecordLabel($request->getInteger('record'));
-				if ('' !== $recordLabel) {
+				if (!empty($recordLabel)) {
 					$breadcrumbs[] = ['name' => $recordLabel];
 				}
 			}
@@ -134,14 +133,14 @@ class Vtiger_Menu_Model
 				} else {
 					if ($pageTitle) {
 						$breadcrumbs[] = ['name' => App\Language::translate($pageTitle, $qualifiedModuleName)];
-					} elseif ('Edit' === $view && '' === $request->getRaw('record') && '' === $request->getRaw('parent_roleid')) {
+					} elseif ('Edit' === $view && empty($request->getRaw('record')) && empty($request->getRaw('parent_roleid'))) {
 						$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_CREATE', $qualifiedModuleName)];
-					} elseif ('' != $view && 'List' !== $view) {
+					} elseif (!empty($view) && 'List' !== $view) {
 						$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
 					}
-					if ('' !== $request->getRaw('record') && 'Users' === $moduleName) {
+					if (!empty($request->getRaw('record')) && 'Users' === $moduleName) {
 						$recordLabel = \App\Fields\Owner::getUserLabel($request->getInteger('record'));
-						if ('' !== $recordLabel) {
+						if (!empty($recordLabel)) {
 							$breadcrumbs[] = ['name' => $recordLabel];
 						}
 					}
@@ -192,7 +191,7 @@ class Vtiger_Menu_Model
 	 */
 	public static function getMenuIcon($menu, $title = '')
 	{
-		if ('' === $title && !empty($menu['label'])) {
+		if (empty($title) && !empty($menu['label'])) {
 			$title = self::vtranslateMenu($menu['label'], $menu['mod']);
 		}
 		if (\is_string($menu)) {
