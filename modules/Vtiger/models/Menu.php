@@ -84,7 +84,7 @@ class Vtiger_Menu_Model
 			}
 			if ($pageTitle) {
 				$breadcrumbs[] = ['name' => $pageTitle];
-			} elseif ('Edit' === $view && empty($request->getRaw('record'))) {
+			} elseif ('Edit' === $view && $request->isEmpty('record')) {
 				$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_CREATE', $moduleName)];
 			} elseif (!empty($view) && 'index' !== $view && 'Index' !== $view) {
 				$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_' . strtoupper($view), $moduleName)];
@@ -116,7 +116,7 @@ class Vtiger_Menu_Model
 							break;
 						}
 					} else {
-						if ($request->getInteger('fieldid') === $menuModel->getId()) {
+						if ($request->getInteger('fieldid') === (int) $menuModel->getId()) {
 							$parent = $menuModel->getMenu();
 							$breadcrumbs[] = ['name' => App\Language::translate($parent->get('label'), $qualifiedModuleName)];
 							$breadcrumbs[] = ['name' => App\Language::translate($menuModel->get('name'), $qualifiedModuleName),
@@ -133,12 +133,12 @@ class Vtiger_Menu_Model
 				} else {
 					if ($pageTitle) {
 						$breadcrumbs[] = ['name' => App\Language::translate($pageTitle, $qualifiedModuleName)];
-					} elseif ('Edit' === $view && empty($request->getRaw('record')) && empty($request->getRaw('parent_roleid'))) {
+					} elseif ('Edit' === $view && $request->isEmpty('record') && $request->isEmpty('parent_roleid')) {
 						$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_CREATE', $qualifiedModuleName)];
 					} elseif (!empty($view) && 'List' !== $view) {
 						$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
 					}
-					if (!empty($request->getRaw('record')) && 'Users' === $moduleName) {
+					if (!$request->isEmpty('record') && 'Users' === $moduleName) {
 						$recordLabel = \App\Fields\Owner::getUserLabel($request->getInteger('record'));
 						if (!empty($recordLabel)) {
 							$breadcrumbs[] = ['name' => $recordLabel];
