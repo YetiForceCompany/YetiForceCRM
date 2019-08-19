@@ -7,14 +7,16 @@
 	<div class="input-group dateTime">
 		<input name="{$FIELD_MODEL->getFieldName()}" class="dateTimePickerField form-control"
 			   value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}"
-				 {if !empty($FIELD_MODEL->get('fieldvalue'))} disabled {/if} id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}" type="text" data-hour-format="{$hourFormat}"
+				 id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}" type="text" data-hour-format="{$hourFormat}"
 			   data-date-format="{$dateFormat}" type="text"
 			   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 			   {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}
 			   data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} autocomplete="off"/>
 		<div class="input-group-append">
-			<button class="btn btn-light js-clear-date" type="button" {if $FIELD_MODEL->isEditableReadOnly()}disabled{/if}><span class="fas fa-times-circle" title="Wyczyść"></span></button>
-			<span class="input-group-text bg-light u-cursor-pointer">
+			<button class="btn btn-light js-clear-date" type="button" {if $FIELD_MODEL->isEditableReadOnly()} disabled {/if}>
+				<span class="fas fa-times-circle" title="{\App\Language::translate('LBL_CLEAR', $FIELD_MODEL->getModule()->getName())}"></span>
+			</button>
+			<span class="input-group-text bg-light u-cursor-pointer" {if $FIELD_MODEL->isEditableReadOnly()} disabled {/if}>
 				<span class="fas fa-clock"></span>	&nbsp; <span class="far fa-calendar-alt"></span>
 			</span>
 		</div>
