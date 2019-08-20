@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * ********************************************************************************** */
 
 class Documents_MoveDocuments_View extends Vtiger_Index_View
@@ -17,7 +18,7 @@ class Documents_MoveDocuments_View extends Vtiger_Index_View
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 
@@ -26,7 +27,7 @@ class Documents_MoveDocuments_View extends Vtiger_Index_View
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -42,11 +43,9 @@ class Documents_MoveDocuments_View extends Vtiger_Index_View
 
 		$operator = $request->getByType('operator');
 		$searchValue = App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $moduleName, $searchKey, $operator);
-		if (!empty($operator)) {
-			$viewer->assign('OPERATOR', $operator);
-			$viewer->assign('ALPHABET_VALUE', $searchValue);
-			$viewer->assign('SEARCH_KEY', $searchKey);
-		}
+		$viewer->assign('OPERATOR', $operator);
+		$viewer->assign('ALPHABET_VALUE', $searchValue);
+		$viewer->assign('SEARCH_KEY', $searchKey);
 
 		$viewer->view('MoveDocuments.tpl', $moduleName);
 	}
