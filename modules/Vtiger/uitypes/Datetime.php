@@ -38,13 +38,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		if (empty($value)) {
-			return '';
-		}
-		if (79 === $this->getFieldModel()->getUIType()) {
-			return App\Fields\DateTime::formatToDb($value);
-		}
-		return parent::getDBValue($value);
+		return empty($value) ? '' : App\Fields\DateTime::formatToDb($value);
 	}
 
 	/**
@@ -80,9 +74,6 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	 */
 	public function getTemplateName()
 	{
-		if (79 === $this->getFieldModel()->getUIType()) {
-			return 'Edit/Field/DateTimeField.tpl';
-		}
 		return 'Edit/Field/DateTime.tpl';
 	}
 

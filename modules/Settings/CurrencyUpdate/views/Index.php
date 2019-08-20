@@ -12,7 +12,7 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$qualifiedModule = $request->getModule(false);
 		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
@@ -21,11 +21,9 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 		$moduleModel->refreshBanks();
 
 		$downloadBtn = !$request->isEmpty('download') ? $request->getByType('download') : false;
-		$date = !$request->isEmpty('duedate') ? Vtiger_Datetime_UIType::getDBInsertedValue($request->getByType('duedate', 'DateInUserFormat')) : false;
-
 		$dateCur = '';
-		if ($date) {
-			// if its future date change it to present one
+		if (!$request->isEmpty('duedate')) {
+			$date = \App\Fields\Date::formatToDB($request->getByType('duedate', 'DateInUserFormat'));
 			if (strtotime($date) > strtotime(date('Y-m-d'))) {
 				$date = date('Y-m-d');
 			}
@@ -35,7 +33,7 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 		}
 
 		// take currency rates for yesterday
-		if (strcmp(date('Y-m-d'), $dateCur) == 0) {
+		if (0 == strcmp(date('Y-m-d'), $dateCur)) {
 			$dateCur = strtotime('-1 day', strtotime($dateCur));
 			$dateCur = date('Y-m-d', $dateCur);
 		}

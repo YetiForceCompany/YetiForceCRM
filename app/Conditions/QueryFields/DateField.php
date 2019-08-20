@@ -56,7 +56,7 @@ class DateField extends BaseField
 	public function getCondition()
 	{
 		$fn = 'operator' . ucfirst($this->operator);
-		if (isset(\App\Condition::DATE_OPERATORS[$this->operator])) {
+		if (isset(\App\Condition::DATE_OPERATORS[$this->operator]) && !method_exists($this, $fn)) {
 			$fn = 'getStdOperator';
 		}
 		if (!($methodExists = method_exists($this, $fn))) {

@@ -1294,10 +1294,6 @@ class QueryGenerator
 					if (('tree' === $field->getFieldDataType() || 'categoryMultipicklist' === $field->getFieldDataType()) && $specialOption) {
 						$fieldValue = \Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $this->moduleModel);
 					}
-					//Request will be having in terms of AM and PM but the database will be having in 24 hr format so converting
-					if ('time' === $field->getFieldDataType()) {
-						$fieldValue = \Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
-					}
 					if ('date_start' === $fieldName || 'due_date' === $fieldName || 'datetime' === $field->getFieldDataType()) {
 						$dateValues = explode(',', $fieldValue);
 						//Indicate whether it is fist date in the between condition

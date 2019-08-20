@@ -118,38 +118,7 @@ class DateTimeField
 		if ('' == $format) {
 			$format = 'yyyy-mm-dd';
 		}
-		$dbDate = '';
-		[$y, $m, $d] = App\Fields\Date::explode($date, $format);
-		if (!$y || !$m || !$d) {
-			if (false !== strpos($date, '-')) {
-				$separator = '-';
-			} elseif (false !== strpos($date, '.')) {
-				$separator = '.';
-			} elseif (false !== strpos($date, '/')) {
-				$separator = '/';
-			}
-			$formatToConvert = str_replace(['/', '.'], ['-', '-'], $format);
-			$dateToConvert = str_replace($separator, '-', $date);
-			switch ($formatToConvert) {
-				case 'dd-mm-yyyy':
-					[$d, $m, $y] = explode('-', $dateToConvert, 3);
-					break;
-				case 'mm-dd-yyyy':
-					[$m, $d, $y] = explode('-', $dateToConvert, 3);
-					break;
-				case 'yyyy-mm-dd':
-					[$y, $m, $d] = explode('-', $dateToConvert, 3);
-					break;
-				default:
-					break;
-			}
-			$dbDate = $y . '-' . $m . '-' . $d;
-		} elseif (!$y && !$m && !$d) {
-			$dbDate = '';
-		} else {
-			$dbDate = $y . '-' . $m . '-' . $d;
-		}
-		return $dbDate;
+		return \App\Fields\Date::sanitizeDbFormat($date, $format);
 	}
 
 	/**
@@ -275,7 +244,7 @@ class DateTimeField
 	{
 		\App\Log::trace('Start ' . __METHOD__ . "($time, $sourceTimeZoneName, $targetTimeZoneName)");
 		$sourceTimeZone = new DateTimeZone($sourceTimeZoneName);
-		if ($time == '24:00') {
+		if ('24:00' == $time) {
 			$time = '00:00';
 		}
 		$time = str_replace('.', '-', $time);
@@ -290,10 +259,12 @@ class DateTimeField
 		return $myDateTime;
 	}
 
-	/** Function to set timee values compatible to database (GMT)
-	 * @param $user -- value :: Type Users
+	/**
+	 * Function to set time values compatible to database (GMT).
+	 *
 	 * @param bool $convertTimeZone
-	 * @returns $insert_date -- insert_date :: Type string
+	 *
+	 * @return string
 	 */
 	public function getDBInsertTimeValue(bool $convertTimeZone = true)
 	{
@@ -362,12 +333,12 @@ class DateTimeField
 	}
 
 	/**
-	 * Sanitize date
+	 * Sanitize date.
 	 *
-	 * @param   string  $value
-	 * @param   \App\User|null $user
+	 * @param string         $value
+	 * @param \App\User|null $user
 	 *
-	 * @return  string $value
+	 * @return string $value
 	 */
 	private static function sanitizeDate(string $value, $user): string
 	{
@@ -377,13 +348,12 @@ class DateTimeField
 		if (\strlen($value) < 8) {
 			return $value;
 		}
-		$value = str_replace('T', ' ', $value);
-		[$date, $time, $formatTime] = array_pad(explode(' ', $value), 3, '');
-		if (!empty($date) && !\in_array($formatTime, ['AM', 'PM'])) {
-			$date = self::__convertToDBFormat($date, $user->getDetail('date_format'));
+		[$date, $time] = array_pad(explode(' ', $value, 2), 2, '');
+		if (!empty($date)) {
+			$date = \App\Fields\Date::sanitizeDbFormat($date, $user->getDetail('date_format'));
 			$value = $date;
 			if (!empty($time)) {
-				$value .= ' ' . rtrim($time);
+				$value .= ' ' . \App\Fields\Time::sanitizeDbFormat($time);
 			}
 		}
 		return $value;
