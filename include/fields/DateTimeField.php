@@ -118,7 +118,7 @@ class DateTimeField
 		if ('' == $format) {
 			$format = 'yyyy-mm-dd';
 		}
-		return \App\Fields\Date::getDateByDBFormat($date, $format);
+		return \App\Fields\Date::sanitizeDbFormat($date, $format);
 	}
 
 	/**
@@ -350,10 +350,10 @@ class DateTimeField
 		}
 		[$date, $time] = array_pad(explode(' ', $value, 2), 2, '');
 		if (!empty($date)) {
-			$date = \App\Fields\Date::getDateByDBFormat($date, $user->getDetail('date_format'));
+			$date = \App\Fields\Date::sanitizeDbFormat($date, $user->getDetail('date_format'));
 			$value = $date;
 			if (!empty($time)) {
-				$value .= ' ' . \App\Fields\Time::getTimeByDBFormat($time);
+				$value .= ' ' . \App\Fields\Time::sanitizeDbFormat($time);
 			}
 		}
 		return $value;

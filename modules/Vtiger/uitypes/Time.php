@@ -45,7 +45,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		if ($isUserFormat) {
-			$value = \App\Fields\Time::getTimeByDBFormat($value);
+			$value = \App\Fields\Time::sanitizeDbFormat($value);
 		}
 		$timeFormat = 'H:i:s';
 		$d = DateTime::createFromFormat($timeFormat, $value);

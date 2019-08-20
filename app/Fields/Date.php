@@ -277,7 +277,7 @@ class Date
 	 *
 	 * @return string
 	 */
-	public static function getDateByDBFormat(string $date, string $fromFormat)
+	public static function sanitizeDbFormat(string $date, string $fromFormat)
 	{
 		$dbDate = '';
 		[$y, $m, $d] = self::explode($date, $fromFormat);
@@ -289,7 +289,7 @@ class Date
 			} elseif (false !== strpos($date, '/')) {
 				$separator = '/';
 			}
-			$formatToConvert = str_replace(['/', '.'], ['-', '-'], $format);
+			$formatToConvert = str_replace(['/', '.'], '-', $fromFormat);
 			$dateToConvert = str_replace($separator, '-', $date);
 			switch ($formatToConvert) {
 				case 'dd-mm-yyyy':

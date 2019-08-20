@@ -109,7 +109,7 @@ class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 				}
 				//Request will be having in terms of AM and PM but the database will be having in 24 hr format so converting
 				if ('time' === $field->getFieldDataType()) {
-					$fieldValue = \App\Fields\Time::getTimeByDBFormat($fieldValue);
+					$fieldValue = \App\Fields\Time::sanitizeDbFormat($fieldValue);
 				}
 				if ('date_start' === $fieldName || 'due_date' === $fieldName || 'datetime' === $field->getFieldDataType()) {
 					$dateValues = explode(',', $fieldValue);

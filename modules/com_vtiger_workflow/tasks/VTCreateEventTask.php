@@ -130,7 +130,7 @@ class VTCreateEventTask extends VTTask
 	public static function convertToDBFormat($timeStr)
 	{
 		$date = new DateTime();
-		$time = \App\Fields\Time::getTimeByDBFormat($timeStr);
+		$time = \App\Fields\Time::sanitizeDbFormat($timeStr);
 		$dbInsertDateTime = DateTimeField::convertToDBTimeZone($date->format('Y-m-d') . ' ' . $time);
 
 		return $dbInsertDateTime->format('H:i:s');

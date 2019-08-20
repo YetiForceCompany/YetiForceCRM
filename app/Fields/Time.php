@@ -74,7 +74,7 @@ class Time
 	 *
 	 * @return string
 	 */
-	public static function getTimeByDBFormat(string $time)
+	public static function sanitizeDbFormat(string $time)
 	{
 		if ($time) {
 			$timeDetails = array_pad(explode(' ', $time), 2, '');
