@@ -138,9 +138,9 @@ body@^5.1.0:
     safe-json-parse "~1.0.1"
 
 bootbox@^5.1.2:
-  version "5.3.1"
-  resolved "https://registry.yarnpkg.com/bootbox/-/bootbox-5.3.1.tgz#f34610cc67ac4c851fdbf1750d5c02dd2a6f201b"
-  integrity sha512-qAgUoJs3Z/11QeaJMf05T6PaX8FGY+08Tew/hLjoeIPryt2PCs4GA7OUUU2FvQ7JmyXHOjg27KfUwpTTEM91ew==
+  version "5.3.2"
+  resolved "https://registry.yarnpkg.com/bootbox/-/bootbox-5.3.2.tgz#f3117d80d70f4c94f1ea7724a687775fb9aef71a"
+  integrity sha512-D1HEziBATs5NDTFCfWnr32IsMWZijwLt631gigtItS9B631c3h1H5kJIS/jPn0q6I+tG7K4JzdMeCGZ0FCsehQ==
   dependencies:
     bootstrap ">=3.0.0"
     jquery ">=1.12.0"
@@ -218,9 +218,10 @@ chartjs-plugin-funnel@^1.1.2:
   dependencies:
     chart.js ">2.7.0"
 
-"ckeditor-pastebase64@https://github.com/javaha/ckeditor-pastebase64#master":
+"ckeditor-image-to-base64@https://github.com/YetiForceCompany/ckeditor-image-to-base64#master":
   version "0.0.0"
-  resolved "https://github.com/javaha/ckeditor-pastebase64#465babda12d7e1eaf38260de891cda5dd02fdaa0"
+  uid "1e6c7097bbd3a69b8df53599954937cc3039f1c7"
+  resolved "https://github.com/YetiForceCompany/ckeditor-image-to-base64#1e6c7097bbd3a69b8df53599954937cc3039f1c7"
 
 clipboard@>=2.0.0:
   version "2.0.4"
