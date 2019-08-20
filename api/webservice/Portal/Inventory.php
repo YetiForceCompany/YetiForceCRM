@@ -261,30 +261,40 @@ class Inventory
 			->select([
 				'module' => new \yii\db\Expression("'Service'"), 'id' => 'serviceid', 'service_usageunit',
 				'subunit' => new \yii\db\Expression("''"), 'description', 'unit_price', 'purchase', 'taxes',
-				'quantity' => new \yii\db\Expression('0'),
-				'vtiger_pricebookproductrel.listprice'
 			])
 			->from('vtiger_service')
 			->innerJoin('vtiger_crmentity', 'vtiger_service.serviceid = vtiger_crmentity.crmid')
-			->leftJoin('vtiger_pricebookproductrel', "vtiger_pricebookproductrel.pricebookid={$this->pricebookId} AND vtiger_pricebookproductrel.productid = vtiger_service.serviceid")
 			->where(['vtiger_crmentity.deleted' => 0])
 			->andWhere(['discontinued' => 1])
 			->andWhere(['vtiger_service.serviceid' => $crmIds]);
-		$dataReader = (new \App\Db\Query())
+		if (!empty($this->storage)) {
+			$queryService->addSelect(['quantity' => new \yii\db\Expression('0')]);
+		}
+		if (!$isUserPermissions && !empty($this->pricebookId)) {
+			$queryService->addSelect(['vtiger_pricebookproductrel.listprice']);
+			$queryService->leftJoin('vtiger_pricebookproductrel', "vtiger_pricebookproductrel.pricebookid={$this->pricebookId} AND vtiger_pricebookproductrel.productid = vtiger_service.serviceid");
+		}
+		$query = (new \App\Db\Query())
 			->select([
 				'module' => new \yii\db\Expression("'Products'"), 'id' => 'vtiger_products.productid', 'usageunit',
-				'subunit', 'description', 'unit_price', 'purchase', 'taxes', 'quantity' => 'u_#__istorages_products.qtyinstock',
-				'vtiger_pricebookproductrel.listprice'
+				'subunit', 'description', 'unit_price', 'purchase', 'taxes'
 			])
 			->from('vtiger_products')
 			->innerJoin('vtiger_crmentity', 'vtiger_products.productid = vtiger_crmentity.crmid')
-			->leftJoin('u_#__istorages_products', "u_#__istorages_products.crmid={$this->storage} AND u_#__istorages_products.relcrmid = vtiger_products.productid")
-			->leftJoin('vtiger_pricebookproductrel', "vtiger_pricebookproductrel.pricebookid={$this->pricebookId} AND vtiger_pricebookproductrel.productid = vtiger_products.productid")
+
 			->where(['vtiger_crmentity.deleted' => 0])
 			->andWhere(['discontinued' => 1])
 			->andWhere(['vtiger_products.productid' => $crmIds])
-			->union($queryService, true)
-			->createCommand()->query();
+			->union($queryService, true);
+		if (!empty($this->storage)) {
+			$query->addSelect(['quantity' => 'u_#__istorages_products.qtyinstock']);
+			$query->leftJoin('u_#__istorages_products', "u_#__istorages_products.crmid={$this->storage} AND u_#__istorages_products.relcrmid = vtiger_products.productid");
+		}
+		if (!$isUserPermissions && !empty($this->pricebookId)) {
+			$query->addSelect(['vtiger_pricebookproductrel.listprice']);
+			$query->leftJoin('vtiger_pricebookproductrel', "vtiger_pricebookproductrel.pricebookid={$this->pricebookId} AND vtiger_pricebookproductrel.productid = vtiger_products.productid");
+		}
+		$dataReader = $query->createCommand()->query();
 		$multiCurrencyUiType = new \Vtiger_MultiCurrency_UIType();
 		$currencyId = \App\Fields\Currency::getDefault()['id'];
 		foreach ($dataReader as $row) {
