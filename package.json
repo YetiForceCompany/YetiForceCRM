@@ -20,7 +20,7 @@
   "license": "YetiForce Public License v3",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.8.2",
-    "@mdi/font": "^3.6.95",
+    "@mdi/font": "^4.0.96",
     "add": "^2.0.6",
     "animate.css": "^3.7",
     "block-ui": "^2.70.1",

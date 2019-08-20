@@ -26,10 +26,10 @@
     normalize-path "^2.0.1"
     through2 "^2.0.3"
 
-"@mdi/font@^3.6.95":
-  version "3.9.97"
-  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-3.9.97.tgz#b9f31e05574452e84f57e5b81d34ffd593bc9c29"
-  integrity sha512-yADBl2mzqIssrhLaRvJ2gZPyEQK+fN9uYh/1/cwwuq2lKDx+ITWsOrh1vlHMfw1IICMx9cwBjSoiCf3B8Br8nw==
+"@mdi/font@^4.0.96":
+  version "4.0.96"
+  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-4.0.96.tgz#6f31f6b7f7205c6c66a3488aefb8873ed8102e01"
+  integrity sha512-kIHgEJcwWzd0jK/H/3MWIT20V3Mjy40RnNiYzcwdS5XNzl9MpByBOigsyS1uEVb8uomRXPq1xcXYWWMaU8zFSA==
 
 accepts@~1.3.4:
   version "1.3.7"
@@ -218,9 +218,10 @@ chartjs-plugin-funnel@^1.1.2:
   dependencies:
     chart.js ">2.7.0"
 
-"ckeditor-pastebase64@https://github.com/javaha/ckeditor-pastebase64#master":
+"ckeditor-image-to-base64@https://github.com/YetiForceCompany/ckeditor-image-to-base64#master":
   version "0.0.0"
-  resolved "https://github.com/javaha/ckeditor-pastebase64#465babda12d7e1eaf38260de891cda5dd02fdaa0"
+  uid "1e6c7097bbd3a69b8df53599954937cc3039f1c7"
+  resolved "https://github.com/YetiForceCompany/ckeditor-image-to-base64#1e6c7097bbd3a69b8df53599954937cc3039f1c7"
 
 clipboard@>=2.0.0:
   version "2.0.4"
