@@ -314,7 +314,7 @@ window.App.Fields = {
 				singleDatePicker: isDateRangePicker,
 				showDropdowns: true,
 				timePicker: true,
-				autoUpdateInput: isDateRangePicker,
+				autoUpdateInput: false,
 				timePicker24Hour: timePicker24Hour,
 				timePickerIncrement: 1,
 				autoApply: true,

@@ -348,6 +348,7 @@ class DateTimeField
 		if (\strlen($value) < 8) {
 			return $value;
 		}
+		$value = str_replace('T', ' ', $value);
 		[$date, $time] = array_pad(explode(' ', $value, 2), 2, '');
 		if (!empty($date)) {
 			$date = \App\Fields\Date::sanitizeDbFormat($date, $user->getDetail('date_format'));

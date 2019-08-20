@@ -24,6 +24,20 @@ class Calendar_Datetime_UIType extends Vtiger_Datetime_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getEditViewDisplayValue($value, $recordModel = false)
+	{
+		$fieldName = $this->getFieldModel()->getName();
+		if ('date_start' === $fieldName || 'due_date' === $fieldName) {
+			$value = $value ? \App\Purifier::encodeHtml(DateTimeField::convertToUserFormat($value)) : '';
+		} else {
+			$value = parent::getEditViewDisplayValue($value, $recordModel);
+		}
+		return $value;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getDBValue($value, $recordModel = false)
 	{
 		$fieldName = $this->getFieldModel()->getName();

@@ -51,18 +51,9 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	{
 		if ($recordModel) {
 			if ('date_start' === $this->getName()) {
-				$dateTimeValue = $value . ' ' . $recordModel->get('time_start');
-				$value = $this->getUITypeModel()->getDisplayValue($dateTimeValue);
-				[$startDate, $startTime] = explode(' ', $value);
-
-				return $startDate . ' ' . $startTime;
-			}
-			if ('due_date' === $this->getName()) {
-				$dateTimeValue = $value . ' ' . $recordModel->get('time_end');
-				$value = $this->getUITypeModel()->getDisplayValue($dateTimeValue);
-				[$startDate, $startTime] = explode(' ', $value);
-
-				return $startDate . ' ' . $startTime;
+				$value = $value . ' ' . $recordModel->get('time_start');
+			} elseif ('due_date' === $this->getName()) {
+				$value = $value . ' ' . $recordModel->get('time_end');
 			}
 		}
 		return parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);

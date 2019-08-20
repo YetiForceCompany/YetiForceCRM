@@ -152,7 +152,8 @@ class Vtiger_Menu_Model
 
 	public static function getParentMenu($parentList, $parent, $module, $return = [])
 	{
-		if (0 !== $parent && \array_key_exists($parent, $parentList)) {
+		$return = [];
+		if (!empty($parent) && \array_key_exists($parent, $parentList)) {
 			$return[] = [
 				'name' => self::vtranslateMenu($parentList[$parent]['name'], $module),
 				'url' => $parentList[$parent]['url'],

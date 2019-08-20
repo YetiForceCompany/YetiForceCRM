@@ -72,6 +72,17 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getEditViewDisplayValue($value, $recordModel = false)
+	{
+		if ($value) {
+			$value = \App\Fields\DateTime::formatToDisplay($value);
+		}
+		return \App\Purifier::encodeHtml($value);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/DateTime.tpl';

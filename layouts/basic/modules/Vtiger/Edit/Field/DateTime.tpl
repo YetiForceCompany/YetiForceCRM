@@ -4,16 +4,18 @@
 	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	<div class="input-group dateTime">
-		<input name="{$FIELD_MODEL->getFieldName()}" class="dateTimePickerField form-control"
+		<input name="{$FIELD_MODEL->getFieldName()}" class=" {if !$FIELD_MODEL->isEditableReadOnly()} dateTimePickerField {/if} form-control"
 			   value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}"
 			   id="{$MODULE_NAME}_editView_fieldName_{$FIELD_MODEL->getName()}" type="text" data-hour-format="{$USER_MODEL->get('hour_format')}"
 			   data-date-format="{$USER_MODEL->get('date_format')}" type="text"
 			   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 			   {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}
 			   data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} autocomplete="off"/>
-		<span class="input-group-text u-cursor-pointer">
-			<span class="fas fa-clock"></span>	&nbsp; <span class="far fa-calendar-alt"></span>
-		</span>
+		<div class="input-group-append">
+			<span class="input-group-text u-cursor-pointer" {if $FIELD_MODEL->isEditableReadOnly()} disabled {/if}>
+				<span class="fas fa-calendar-alt"></span>	&nbsp; <span class="far fa-clock"></span>
+			</span>
+		</div>
 	</div>
 	<!-- /tpl-Base-Edit-Field-DateTime -->
 {/strip}
