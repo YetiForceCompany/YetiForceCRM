@@ -349,14 +349,6 @@ class DateTimeField
 			return $value;
 		}
 		$value = str_replace('T', ' ', $value);
-		[$date, $time] = array_pad(explode(' ', $value, 2), 2, '');
-		if (!empty($date)) {
-			$date = \App\Fields\Date::sanitizeDbFormat($date, $user->getDetail('date_format'));
-			$value = $date;
-			if (!empty($time)) {
-				$value .= ' ' . \App\Fields\Time::sanitizeDbFormat($time);
-			}
-		}
-		return $value;
+		return \App\Fields\DateTime::sanitizeDbFormat($value, $user->getDetail('date_format'));
 	}
 }
