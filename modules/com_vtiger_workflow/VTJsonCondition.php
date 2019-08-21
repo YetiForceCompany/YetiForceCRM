@@ -39,19 +39,20 @@ class VTJsonCondition
 					$referenceField = $matches[1];
 					$referenceModule = $matches[2];
 					$fieldname = $matches[3];
+					$result = false;
 
 					$referenceFieldId = $recordModel->get($referenceField);
 					if (!empty($referenceFieldId)) {
-						if ('Users' === $referenceModule) {
-							$referenceRecordModel = Vtiger_Record_Model::getInstanceById($referenceFieldId, $referenceModule);
-						} else {
-							$referenceRecordModel = Vtiger_Record_Model::getInstanceById($referenceFieldId);
-						}
 						$cond['fieldname'] = $fieldname;
-						$expressionResults[$conditionGroup][$i]['result'] = $this->checkCondition($referenceRecordModel, $cond, $recordModel);
-					} else {
-						$expressionResults[$conditionGroup][$i]['result'] = false;
+						if ('Users' !== $referenceModule) {
+							$referenceRecordModel = Vtiger_Record_Model::getInstanceById($referenceFieldId);
+							$result = $this->checkCondition($referenceRecordModel, $cond, $recordModel);
+						} elseif ('Users' === \App\Fields\Owner::getType($referenceFieldId) && \App\User::getUserModel($referenceFieldId)->isActive()) {
+							$referenceRecordModel = Vtiger_Record_Model::getInstanceById($referenceFieldId, $referenceModule);
+							$result = $this->checkCondition($referenceRecordModel, $cond, $recordModel);
+						}
 					}
+					$expressionResults[$conditionGroup][$i]['result'] = $result;
 				}
 				$expressionResults[$conditionGroup][$i + 1]['logicaloperator'] = (!empty($cond['joincondition'])) ? $cond['joincondition'] : 'and';
 				$groupResults[$conditionGroup]['logicaloperator'] = (!empty($cond['groupjoin'])) ? $cond['groupjoin'] : 'and';
