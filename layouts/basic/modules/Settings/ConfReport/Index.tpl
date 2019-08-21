@@ -16,7 +16,9 @@
 		{/if}
 	{/function}
 	{function HIGHLIGHT_ROW ITEM=[]}
-		{if !$ITEM['status'] && empty($ITEM['only_info'])}class="table-danger"{/if}
+		{if !$ITEM['status'] && (empty($ITEM['mode']) ||  $ITEM['mode'] eq 0)}class="table-danger"{/if}
+		{if !$ITEM['status'] && isset($ITEM['mode']) &&  $ITEM['mode'] eq 1}class="table-warning"{/if}
+		{if !$ITEM['status'] && isset($ITEM['mode']) &&  $ITEM['mode'] eq 2}class=""{/if}
 	{/function}
 	<div>
 		<div class="o-breadcrumb widget_header mb-2 d-flex px-2 row">
