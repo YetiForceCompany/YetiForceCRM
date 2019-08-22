@@ -2,7 +2,7 @@
 {strip}
 	<!-- tpl-Settings-YetiForce-Shop-SmallProduct -->
 	{assign var=PRODUCT_ALERT value=$PRODUCT->showAlert()}
-	<div class="dashboardWidget mt-3 mr-3 flex-grow-1 u-w-max-320px js-product" data-js="showProductModal | click | container" data-product="{$PRODUCT->getName()}">
+	<div class="dashboardWidget mt-3 mr-3 flex-grow-1 u-w-max-432px js-product" data-js="showProductModal | click | container" data-product="{$PRODUCT->getName()}">
 		{if !empty($PRODUCT->expirationDate) && $PRODUCT_ALERT}
 			<span class="text-danger fas fa-exclamation animated flash infinite slow ml-3 mt-1 u-cursor-pointer js-popover-tooltip position-absolute" data-toggle="popover" data-js="popover | mouseenter"
 			data-content="{\App\Language::translate($PRODUCT_ALERT, $QUALIFIED_MODULE)}"></span>

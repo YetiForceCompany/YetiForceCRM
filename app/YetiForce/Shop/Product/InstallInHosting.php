@@ -20,10 +20,10 @@ class InstallInHosting extends \App\YetiForce\Shop\AbstractBaseProduct
 	 * {@inheritdoc}
 	 */
 	public $prices = [
-		'Micro' => 15,
-		'Small' => 25,
-		'Medium' => 50,
-		'Large' => 100,
+		'Micro' => 20,
+		'Small' => 50,
+		'Medium' => 100,
+		'Large' => 250,
 	];
 	/**
 	 * {@inheritdoc}

@@ -277,6 +277,9 @@
 .u-w-max-320px {
 	max-width: calculate-rem(320px) !important;
 }
+.u-w-max-432px {
+	max-width: calculate-rem(432px) !important;
+}
 .u-w-max-500px {
 	max-width: calculate-rem(500px) !important;
 }
@@ -619,7 +622,7 @@
 	}
 
 	&:before {
-		content: "";
+		content: '';
 		display: block;
 	}
 }
