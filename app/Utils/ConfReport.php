@@ -281,7 +281,7 @@ class ConfReport
 		'user_privileges/' => ['type' => 'IsWritable', 'testCli' => true],
 		'user_privileges/tabdata.php' => ['type' => 'IsWritable', 'testCli' => true],
 		'user_privileges/menu_0.php' => ['type' => 'IsWritable', 'testCli' => true],
-		'user_privileges/user_privileges_1.php' => ['type' => 'IsWritable', 'testCli' => true, 'mode'=> 'showErrors'],
+		'user_privileges/user_privileges_1.php' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/addressBook/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/images/' => ['type' => 'IsWritable', 'testCli' => true],
@@ -877,7 +877,7 @@ class ConfReport
 				$row[$sapi] = 'On';
 			}
 		} else {
-			$row['mode'] = 'whenError';
+			$row['mode'] = 'skipParam';
 		}
 		return $row;
 	}
