@@ -277,8 +277,8 @@
 .u-w-max-320px {
 	max-width: calculate-rem(320px) !important;
 }
-.u-w-max-432px {
-	max-width: calculate-rem(432px) !important;
+.u-w-max-430px {
+	max-width: calculate-rem(430px) !important;
 }
 .u-w-max-500px {
 	max-width: calculate-rem(500px) !important;
@@ -446,6 +446,9 @@
 .u-bg-gray {
 	background-color: #d1d1db !important;
 	color: $black !important;
+}
+.u-text-gray {
+	color: #d1d1db !important;
 }
 
 .u-rotate-90 {
