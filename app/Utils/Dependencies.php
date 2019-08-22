@@ -1,6 +1,6 @@
 <?php
 /**
- * Dependency class.
+ * Dependencies class.
  *
  * @package   App
  *
@@ -12,9 +12,9 @@
 namespace App\Utils;
 
 /**
- * Dependency .
+ * Dependencies.
  */
-class Dependency
+class Dependencies
 {
 	private $checkUrl = 'https://security.symfony.com/check_lock';
 

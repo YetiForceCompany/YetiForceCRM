@@ -35,7 +35,7 @@ class Dependency
 		if ($this->hasCache()) {
 			$result = $this->getCache();
 		} elseif (\App\RequestUtil::isNetConnection()) {
-			$result = (new \App\Utils\Dependency())->check();
+			$result = (new \App\Utils\Dependencies())->check();
 			$this->saveCache($result);
 		}
 		return $result;
