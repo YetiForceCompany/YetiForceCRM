@@ -17,8 +17,7 @@ class Settings_YetiForce_Vulnerabilities_View extends Settings_Vtiger_Index_View
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = $request->getModule(false);
 		$viewer->assign('VULNERABILITIES', (new \App\Security\Dependency())->securityChecker());
-		$viewer->view('Vulnerabilities.tpl', $qualifiedModuleName);
+		$viewer->view('Vulnerabilities.tpl', $request->getModule(false));
 	}
 }
