@@ -281,7 +281,7 @@ class ConfReport
 		'user_privileges/' => ['type' => 'IsWritable', 'testCli' => true],
 		'user_privileges/tabdata.php' => ['type' => 'IsWritable', 'testCli' => true],
 		'user_privileges/menu_0.php' => ['type' => 'IsWritable', 'testCli' => true],
-		'user_privileges/user_privileges_1.php' => ['type' => 'IsWritable', 'testCli' => true, 'mode'=> 4],
+		'user_privileges/user_privileges_1.php' => ['type' => 'IsWritable', 'testCli' => true, 'mode'=> 'showErrors'],
 		'cache/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/addressBook/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/images/' => ['type' => 'IsWritable', 'testCli' => true],
@@ -309,8 +309,8 @@ class ConfReport
 	 * @var array
 	 */
 	public static $functionalVerification = [
-		'branding' => ['type' => 'Branding',  'testCli' => false, 'label' => 'FOOTER', 'mode' => 3],
-		'premiumModules' => ['type' => 'PremiumModules',  'testCli' => false, 'label' => 'PREMIUM_MODULES', 'mode' => 3],
+		'branding' => ['type' => 'Branding',  'testCli' => false, 'label' => 'FOOTER', 'mode' => 'onlyText'],
+		'premiumModules' => ['type' => 'PremiumModules',  'testCli' => false, 'label' => 'PREMIUM_MODULES', 'mode' => 'onlyText'],
 	];
 	/**
 	 * Php variables.
@@ -543,7 +543,7 @@ class ConfReport
 							$item = static::$methodName($key, $item, 'cron');
 						}
 					}
-					if (isset($item['mode']) && (($item['mode'] === 4 && !$item['status']) || $item['mode'] === 5) ) {
+					if (isset($item['mode']) && (($item['mode'] === 'whenError' && !$item['status']) || $item['mode'] === 'skipParam') ) {
 						unset(static::${$type}[$key]);
 					}
 				}
@@ -877,7 +877,7 @@ class ConfReport
 				$row[$sapi] = 'On';
 			}
 		} else {
-			$row['mode'] = 4;
+			$row['mode'] = 'whenError';
 		}
 		return $row;
 	}
@@ -931,7 +931,7 @@ class ConfReport
 			$row[$sapi] = \App\Config::main('session_regenerate_id') ? 'On' : 'Off';
 			$row['status'] = \App\Config::main('session_regenerate_id');
 		} else {
-			$row['mode'] = 5;
+			$row['mode'] = 'skipParam';
 		}
 		return $row;
 	}
@@ -1134,6 +1134,9 @@ class ConfReport
 	{
 		$row['status'] = \App\Fields\File::isWriteable($name);
 		$row[$sapi] = $row['status'] ? 'LBL_YES' : 'LBL_NO';
+		if(!file_exists(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR .$name)){
+			$row['mode'] = 'skipParam';
+		}
 		return $row;
 	}
 
@@ -1222,7 +1225,7 @@ class ConfReport
 	{
 		$result = [];
 		foreach (static::get($type, true) as $param => $data) {
-			if (!$data['status'] && (empty($data['mode']) || $data['mode'] === 0)) {
+			if (!$data['status'] && (empty($data['mode']) || $data['mode'] === 'showErrors')) {
 				if (!isset($data['www']) && !isset($data['cron'])) {
 					if (!empty($data['type']) && 'ExistsUrl' === $data['type']) {
 						$val = !$data['status'];
