@@ -1,4 +1,4 @@
-{strip} 
+{strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<div class="widget_header row">
 		<div class="col-md-8">
@@ -118,6 +118,30 @@
 					</td>
 				</tr>
 				<tr>
+					<td class="{$WIDTHTYPE} w-25" ><label class="float-right">{App\Language::translate('LBL_MAIL_PRIORITY', $QUALIFIED_MODULE)}</label></td>
+					<td class="{$WIDTHTYPE} w-75">
+						{$RECORD_MODEL->getDisplayValue('priority')}
+					</td>
+				</tr>
+				<tr>
+					<td class="{$WIDTHTYPE} w-25" ><label class="float-right">{App\Language::translate('LBL_CONFIRM_READING_TO', $QUALIFIED_MODULE)}</label></td>
+					<td class="{$WIDTHTYPE} w-75">
+						{$RECORD_MODEL->getDisplayValue('confirm_reading_to')}
+					</td>
+				</tr>
+				<tr>
+					<td class="{$WIDTHTYPE} w-25" ><label class="float-right">{App\Language::translate('LBL_ORGANIZATION', $QUALIFIED_MODULE)}</label></td>
+					<td class="{$WIDTHTYPE} w-75">
+						{$RECORD_MODEL->getDisplayValue('organization')}
+					</td>
+				</tr>
+				<tr>
+					<td class="{$WIDTHTYPE} w-25" ><label class="float-right">{App\Language::translate('LBL_UNSUBSCIBE', $QUALIFIED_MODULE)}</label></td>
+					<td class="{$WIDTHTYPE} w-75">
+						{$RECORD_MODEL->getDisplayValue('unsubscribe')}
+					</td>
+				</tr>
+				<tr>
 					<td class="{$WIDTHTYPE} w-25" ><label class="float-right">{App\Language::translate('LBL_SAVE_SEND_MAIL', $QUALIFIED_MODULE)}</label></td>
 					<td class="{$WIDTHTYPE} w-75">
 						{$RECORD_MODEL->getDisplayValue('save_send_mail')}
@@ -125,7 +149,7 @@
 				</tr>
 			</tbody>
 		</table>
-		{if $RECORD_MODEL->get('save_send_mail') eq 1}	
+		{if $RECORD_MODEL->get('save_send_mail') eq 1}
 			<table class="table table-bordered">
 				<thead>
 					<tr class="blockHeader">
@@ -171,6 +195,6 @@
 					</tr>
 				</tbody>
 			</table>
-		{/if}	
+		{/if}
 	</div>
 	{strip}

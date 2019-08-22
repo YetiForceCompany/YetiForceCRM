@@ -160,14 +160,24 @@
 						   data-validation-engine="validate[custom[email]]">
 				</div>
 			</div>
-			<hr/>
-
+			<div class="c-text-divider mb-3">
+  			<hr class="c-text-divider__line" />
+  			<span class="c-text-divider__title bg-white"> {\App\Language::translate('LBL_ADDITIONAL_HEADERS', $QUALIFIED_MODULE)} </span>
+			</div>
 			<div class="form-group row">
 				<label class="col-form-label col-md-3 text-right">
 					{\App\Language::translate('LBL_MAIL_PRIORITY', $QUALIFIED_MODULE)}
 				</label>
 				<div class="controls col-md-8">
-					<input class="form-control" type="text" name="priority" value="{$RECORD_MODEL->get('priority')}">
+					<select class="select2 form-control sourceModule col-md-8" name="priority" id="priority">
+						{if empty($RECORD_MODEL->get('priority'))}<option value=""></option>{/if}
+						<option {if $RECORD_MODEL->get('priority') eq 'normal'} selected {/if}
+								value="normal">{\App\Language::translate('LBL_NORMAL', $QUALIFIED_MODULE)}</option>
+						<option {if $RECORD_MODEL->get('priority') eq 'non-urgent'} selected {/if}
+								value="non-urgent">{\App\Language::translate('LBL_NO_URGENT', $QUALIFIED_MODULE)}</option>
+						<option {if $RECORD_MODEL->get('priority') eq 'urgent'} selected {/if}
+								value="urgent">{\App\Language::translate('LBL_URGENT', $QUALIFIED_MODULE)}</option>
+					</select>
 				</div>
 			</div>
 			<div class="form-group row">
@@ -175,11 +185,25 @@
 					{\App\Language::translate('LBL_CONFIRM_READING_TO', $QUALIFIED_MODULE)}
 				</label>
 				<div class="controls col-md-8">
-					<input class="form-control" type="text" name="confirm_reading_to" value="{$RECORD_MODEL->get('confirm_reading_to')}">
+					<input class="form-control" type="text" name="confirm_reading_to" value="{$RECORD_MODEL->get('confirm_reading_to')}" data-validation-engine="validate[custom[email]]">
 				</div>
 			</div>
-
-
+			<div class="form-group row">
+				<label class="col-form-label col-md-3 text-right">
+					{\App\Language::translate('LBL_ORGANIZATION', $QUALIFIED_MODULE)}
+				</label>
+				<div class="controls col-md-8">
+					<input class="form-control" type="text" name="organization" value="{$RECORD_MODEL->get('organization')}">
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-form-label col-md-3 text-right">
+					{\App\Language::translate('LBL_UNSUBSCIBE', $QUALIFIED_MODULE)}
+				</label>
+				<div class="controls col-md-8">
+					<input class="form-control" type="text" name="unsubscribe" value="{$RECORD_MODEL->get('unsubscribe')}">
+				</div>
+			</div>
 			<div class="form-group row">
 				<label class="col-form-label col-md-3 text-right">
 					{\App\Language::translate('LBL_OPTIONS', $QUALIFIED_MODULE)}&nbsp;
@@ -192,7 +216,10 @@
 					<textarea class="form-control" name="options">{$RECORD_MODEL->get('options')}</textarea>
 				</div>
 			</div>
-			<hr/>
+			<div class="c-text-divider mb-3">
+  			<hr class="c-text-divider__line" />
+  			<span class="c-text-divider__title bg-white">{\App\Language::translate('LBL_SAVE_SENT_MESSAGE', $QUALIFIED_MODULE)}</span>
+			</div>
 			<div class="form-group row">
 				<label class="col-form-label col-md-3 text-right">
 					{\App\Language::translate('LBL_SAVE_SEND_MAIL', $QUALIFIED_MODULE)}&nbsp;
@@ -207,13 +234,9 @@
 				</div>
 			</div>
 			<div class="saveMailContent {if $RECORD_MODEL->get('save_send_mail') neq 1}d-none{/if}">
-				<hr>
-				<div class="form-group row">
-					<div class="col-md-3">
-					</div>
-					<label class="col-md-6">
-						<h4 class="px-2">{\App\Language::translate('LBL_IMAP_SAVE_MAIL', $QUALIFIED_MODULE)}</h4>
-					</label>
+				<div class="c-text-divider mb-3">
+  				<hr class="c-text-divider__line" />
+  				<span class="c-text-divider__title bg-white">{\App\Language::translate('LBL_IMAP_SAVE_MAIL', $QUALIFIED_MODULE)}</span>
 				</div>
 				<div class="form-group row">
 					<label class="col-form-label col-md-3 text-right">
