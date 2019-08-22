@@ -281,7 +281,7 @@ class ConfReport
 		'user_privileges/' => ['type' => 'IsWritable', 'testCli' => true],
 		'user_privileges/tabdata.php' => ['type' => 'IsWritable', 'testCli' => true],
 		'user_privileges/menu_0.php' => ['type' => 'IsWritable', 'testCli' => true],
-		'user_privileges/user_privileges_1.php' => ['type' => 'IsWritable', 'testCli' => true, 'required'=>false],
+		'user_privileges/user_privileges_1.php' => ['type' => 'IsWritable', 'testCli' => true, 'mode'=> 'showErrors'],
 		'cache/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/addressBook/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/images/' => ['type' => 'IsWritable', 'testCli' => true],
@@ -309,8 +309,8 @@ class ConfReport
 	 * @var array
 	 */
 	public static $functionalVerification = [
-		'branding' => ['type' => 'Branding',  'testCli' => false, 'label' => 'FOOTER'],
-		'premiumModules' => ['type' => 'PremiumModules',  'testCli' => false, 'label' => 'PREMIUM_MODULES'],
+		'branding' => ['type' => 'Branding',  'testCli' => false, 'label' => 'FOOTER', 'mode' => 'onlyText'],
+		'premiumModules' => ['type' => 'PremiumModules',  'testCli' => false, 'label' => 'PREMIUM_MODULES', 'mode' => 'onlyText'],
 	];
 	/**
 	 * Php variables.
@@ -543,7 +543,7 @@ class ConfReport
 							$item = static::$methodName($key, $item, 'cron');
 						}
 					}
-					if (isset($item['skip'])) {
+					if (isset($item['mode']) && (($item['mode'] === 'whenError' && !$item['status']) || $item['mode'] === 'skipParam') ) {
 						unset(static::${$type}[$key]);
 					}
 				}
@@ -877,7 +877,7 @@ class ConfReport
 				$row[$sapi] = 'On';
 			}
 		} else {
-			$row['skip'] = true;
+			$row['mode'] = 'whenError';
 		}
 		return $row;
 	}
@@ -931,7 +931,7 @@ class ConfReport
 			$row[$sapi] = \App\Config::main('session_regenerate_id') ? 'On' : 'Off';
 			$row['status'] = \App\Config::main('session_regenerate_id');
 		} else {
-			$row['skip'] = true;
+			$row['mode'] = 'skipParam';
 		}
 		return $row;
 	}
@@ -1134,8 +1134,8 @@ class ConfReport
 	{
 		$row['status'] = \App\Fields\File::isWriteable($name);
 		$row[$sapi] = $row['status'] ? 'LBL_YES' : 'LBL_NO';
-		if(isset($row['required']) && $row['required'] === false && !file_exists(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR .$name)){
-			$row['skip'] = true;
+		if(!file_exists(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR .$name)){
+			$row['mode'] = 'skipParam';
 		}
 		return $row;
 	}
@@ -1161,7 +1161,6 @@ class ConfReport
 		$view->assign('SHOW_FOOTER', true);
 		$html = $view->view('Footer.tpl', '', true);
 		$row['status'] = true;
-		$row['only_info'] = true;
 		if( !\App\Config::component('Branding', 'isCustomerBrandingActive') ){
 			$row['status'] = false !== \strpos($html, '&copy; YetiForce.com All rights reserved');
 			$row['status'] = $row['status'] && \App\YetiForce\Shop::check('DisableBranding');
@@ -1182,7 +1181,6 @@ class ConfReport
 	 */
 	private static function validatePremiumModules(string $name, array $row, string $sapi)
 	{
-		$row['only_info'] = true;
 		$row['status'] = true;
 		$row[$sapi] = \App\Language::translate($row['status'] ? 'LBL_YES' : 'LBL_NO');
 		return $row;
@@ -1227,7 +1225,7 @@ class ConfReport
 	{
 		$result = [];
 		foreach (static::get($type, true) as $param => $data) {
-			if (!$data['status']) {
+			if (!$data['status'] && (empty($data['mode']) || $data['mode'] === 'showErrors')) {
 				if (!isset($data['www']) && !isset($data['cron'])) {
 					if (!empty($data['type']) && 'ExistsUrl' === $data['type']) {
 						$val = !$data['status'];
