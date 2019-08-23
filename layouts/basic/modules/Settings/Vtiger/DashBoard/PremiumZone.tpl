@@ -3,7 +3,7 @@
 	<div class="tpl-Settings-Base-DashBoard-PremiumZone d-flex flex-wrap mb-3 ml-3 justify-content-center">
 		{assign var="QUALIFIED_MODULE" value='Settings:YetiForce'}
 		{foreach $PRODUCTS_PREMIUM as $PRODUCT}
-			{include file=\App\Layout::getTemplatePath('Shop/SmallProduct.tpl', 'Settings:YetiForce')}
+			{include file=\App\Layout::getTemplatePath('Shop/ProductPremium.tpl', 'Settings:YetiForce')}
 		{/foreach}
 	</div>
 {/strip}

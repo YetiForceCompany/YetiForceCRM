@@ -32,15 +32,15 @@
 					</a>
 				</div>
 			</nav>
-			<div class="tab-content">
+			<div class="tab-content d-flex justify-content-center">
 				<div class="tab-pane fade{if $TAB === 'Premium'} show active{/if}" id="nav-premium" role="tabpanel" aria-labelledby="nav-premium-tab">
 					{foreach $PRODUCTS_PREMIUM as $PRODUCT}
-						{include file=\App\Layout::getTemplatePath('Shop/Product.tpl', $QUALIFIED_MODULE)}
+						{include file=\App\Layout::getTemplatePath('Shop/ProductPremium.tpl', $QUALIFIED_MODULE)}
 					{/foreach}
 				</div>
 				<div class="tab-pane fade js-department{if $TAB === 'Partner'} show active{/if}" data-department="Partner" id="nav-partner" role="tabpanel" aria-labelledby="nav-partner-tab">
 					{foreach $PRODUCTS_PARTNER as $PRODUCT}
-						{include file=\App\Layout::getTemplatePath('Shop/Product.tpl', $QUALIFIED_MODULE)}
+						{include file=\App\Layout::getTemplatePath('Shop/ProductPartner.tpl', $QUALIFIED_MODULE)}
 					{/foreach}
 				</div>
 			</div>

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<!-- tpl-Settings-YetiForce-Shop-SmallProduct -->
+	<!-- tpl-Settings-YetiForce-Shop-ProductPremium -->
 	{assign var=PRODUCT_ALERT value=$PRODUCT->showAlert()}
 	<div class="dashboardWidget mt-3 mr-3 flex-grow-1 u-w-max-430px js-product" data-js="showProductModal | click | container" data-product="{$PRODUCT->getName()}">
 		{if !empty($PRODUCT->expirationDate) && $PRODUCT_ALERT}
@@ -24,7 +24,7 @@
 				</div>
 				<div class="py-0 pl-2 pr-3 d-flex flex-wrap justify-between align-items-center">
 					{include file=\App\Layout::getTemplatePath('DashBoard/WidgetTitle.tpl', $QUALIFIED_MODULE) TITLE=$PRODUCT->getLabel() CLASS="u-cursor-pointer js-text-search"}
-					{include file=\App\Layout::getTemplatePath('DashBoard/WidgetDescription.tpl', $QUALIFIED_MODULE) DESCRIPTION=$PRODUCT->getIntroduction()}
+					{include file=\App\Layout::getTemplatePath('DashBoard/WidgetDescription.tpl', $QUALIFIED_MODULE) DESCRIPTION=$PRODUCT->getIntroduction() CLASS="mb-0"}
 					{if empty($PRODUCT->expirationDate)}
 						<button class="btn btn-dark btn-block mt-auto js-buy-modal" data-js="showBuyModal | click" data-product="{$PRODUCT->getName()}">
 							{if 'manual'===$PRODUCT->getPriceType()}
@@ -50,5 +50,5 @@
 			</div>
 		</div>
 	</div>
-	<!-- /tpl-Settings-YetiForce-Shop-SmallProduct -->
+	<!-- /tpl-Settings-YetiForce-Shop-ProductPremium -->
 {/strip}
