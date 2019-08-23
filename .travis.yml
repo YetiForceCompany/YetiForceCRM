@@ -1,6 +1,6 @@
 sudo: required
 
-dist: xenial
+dist: bionic
 
 language: php
 
