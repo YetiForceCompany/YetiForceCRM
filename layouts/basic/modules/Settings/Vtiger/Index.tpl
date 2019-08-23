@@ -43,14 +43,14 @@
 								</a>
 							</div>
 						</nav>
-						<div class="alert alert-info alert-dismissible fade show mt-3 mb-0" role="alert">
-								{\App\Language::translate('LBL_SHOP_INFORMATION', $QUALIFIED_MODULE)}
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
 						<div class="tab-content">
 							<div class="tab-pane fade show active" id="nav-premium" role="tabpanel" aria-labelledby="nav-premium-tab">
+								<div class="alert alert-info alert-dismissible fade show mt-3 mb-0" role="alert">
+									{\App\Language::translate('LBL_SHOP_INFORMATION', $QUALIFIED_MODULE)}
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
 								{include file=\App\Layout::getTemplatePath('DashBoard/PremiumZone.tpl', $QUALIFIED_MODULE)}
 							</div>
 							<div class="tab-pane fade js-department" data-department="Partner" id="nav-partner" role="tabpanel" aria-labelledby="nav-partner-tab">
