@@ -4,8 +4,8 @@ rm -rf public_html/.user.ini
 sudo cp tests/setup/my.cnf /etc/mysql/conf.d/my.cnf
 sudo service mysql restart
 
-curl -o- -L https://yarnpkg.com/install.sh | bash
-export PATH="$HOME/.yarn/bin:$PATH"
+#npm install -g yarn
+#npm install -g npm@latest
 
 ./tests/setup/dependency.sh
 

@@ -1,6 +1,6 @@
 sudo: required
 
-dist: trusty
+dist: xenial
 
 language: php
 
@@ -35,6 +35,7 @@ addons:
 
 cache:
   yarn: true
+	npm: true
 
   directories:
     - $HOME/.sonar/cache
