@@ -41,7 +41,7 @@ class OSSMailView_Graf_Dashboard extends Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 		$linkId = $request->getInteger('linkid');
 		$owner = $request->getByType('owner', 'Alnum');
-		$dates = $request->getByType('dateFilter', 'Standard');
+		$dates = $request->getByType('dateFilter', 'Text');
 		$userList = \App\Fields\Owner::getInstance($moduleName, $userId)->getAccessibleUsersForModule();
 		$groupList = \App\Fields\Owner::getInstance($moduleName, $userId)->getAccessibleGroupForModule();
 		if (!$owner) {
