@@ -2,9 +2,6 @@
 # Installation of the developer version:
 #########################################
 
-echo " -----  Install composer -----"
-composer install --no-interaction
-
 echo " -----  Install yarn for public_html directory -----"
 yarn install --force --modules-folder "./public_html/libraries"
 
@@ -12,6 +9,9 @@ echo " -----  Install yarn for public_html directory -----"
 cd public_html/src
 yarn install --force
 cd ../../
+
+echo " -----  Install composer -----"
+composer install --no-interaction
 
 #########################################
 # Installing the production version:
