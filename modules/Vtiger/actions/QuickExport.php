@@ -58,8 +58,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		$queryGenerator = self::getQuery($request);
 		$queryGenerator->initForCustomViewById($filter, true);
 		$listViewModel->set('query_generator', $queryGenerator);
-		$pagingModel = new \Vtiger_Paging_Model();
-		$pagingModel->set('limit', Vtiger_Paging_Model::PAGE_MAX_LIMIT);
+		$pagingModel = (new \Vtiger_Paging_Model())->set('limit', Vtiger_Paging_Model::PAGE_MAX_LIMIT);
 		$headers = $listViewModel->getListViewHeaders();
 		foreach ($headers as $fieldModel) {
 			$label = App\Language::translate($fieldModel->getFieldLabel(), $fieldModel->getModuleName());
@@ -91,14 +90,22 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, $type);
 						break;
 					case 'date':
-						$value = \App\Fields\Date::sanitizeDbFormat($value, \App\User::getCurrentUserModel()->getDetail('date_format'));
-						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($value), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
-						$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY');
+						if ($value) {
+							$value = \App\Fields\Date::sanitizeDbFormat($value, \App\User::getCurrentUserModel()->getDetail('date_format'));
+							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($value), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+							$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY');
+						} else {
+							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, '', \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+						}
 						break;
 					case 'datetime':
-						$value = \App\Fields\DateTime::sanitizeDbFormat($value, \App\User::getCurrentUserModel()->getDetail('date_format'));
-						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($value), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
-						$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY HH:MM:SS');
+						if ($value) {
+							$value = \App\Fields\DateTime::sanitizeDbFormat($value, \App\User::getCurrentUserModel()->getDetail('date_format'));
+							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($value), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+							$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY HH:MM:SS');
+						} else {
+							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, '', \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+						}
 						break;
 					default:
 						$worksheet->setCellValueExplicitByColumnAndRow($col, $row, App\Purifier::decodeHtml($value), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
