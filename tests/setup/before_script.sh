@@ -4,9 +4,7 @@ rm -rf public_html/.user.ini
 sudo cp tests/setup/my.cnf /etc/mysql/conf.d/my.cnf
 sudo service mysql restart
 
-curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-sudo apt-get update && sudo apt-get install yarn
+npm install -g yarn
 
 ./tests/setup/dependency.sh
 
