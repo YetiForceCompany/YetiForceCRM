@@ -280,18 +280,19 @@ class Date
 	public static function sanitizeDbFormat(string $date, string $fromFormat)
 	{
 		$dbDate = '';
-		[$y, $m, $d] = self::explode($date, $fromFormat);
-		if (!$y || !$m || !$d) {
-			if (false !== strpos($date, '-')) {
-				$separator = '-';
-			} elseif (false !== strpos($date, '.')) {
-				$separator = '.';
-			} elseif (false !== strpos($date, '/')) {
-				$separator = '/';
-			}
-			$formatToConvert = str_replace(['/', '.'], '-', $fromFormat);
-			$dateToConvert = str_replace($separator, '-', $date);
-			switch ($formatToConvert) {
+		if ($date) {
+			[$y, $m, $d] = self::explode($date, $fromFormat);
+			if (!$y || !$m || !$d) {
+				if (false !== strpos($date, '-')) {
+					$separator = '-';
+				} elseif (false !== strpos($date, '.')) {
+					$separator = '.';
+				} elseif (false !== strpos($date, '/')) {
+					$separator = '/';
+				}
+				$formatToConvert = str_replace(['/', '.'], '-', $fromFormat);
+				$dateToConvert = str_replace($separator, '-', $date);
+				switch ($formatToConvert) {
 				case 'dd-mm-yyyy':
 					[$d, $m, $y] = explode('-', $dateToConvert, 3);
 					break;
@@ -304,10 +305,12 @@ class Date
 				default:
 					break;
 			}
-			$dbDate = $y . '-' . $m . '-' . $d;
-		} else {
-			$dbDate = $y . '-' . $m . '-' . $d;
+				$dbDate = $y . '-' . $m . '-' . $d;
+			} else {
+				$dbDate = $y . '-' . $m . '-' . $d;
+			}
 		}
+
 		return $dbDate;
 	}
 }
