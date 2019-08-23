@@ -230,7 +230,12 @@ header {
 }
 
 //-------- daterangepicker --------//
-
+@media only screen and (max-width: 563px) {
+	.daterangepicker {
+		top: 0 !important;
+		left: 0 !important;
+	}
+}
 .daterangepicker {
 	&.show-calendar {
 		@extend .p-0;
