@@ -8,6 +8,13 @@ sudo service mysql restart
 
 echo "phpunit version: "
 vendor/bin/phpunit --version
+echo "yarn version: "
+yarn -v
+echo "node version: "
+node -v
+echo "npm version: "
+npm -v
+
 
 mysql -e "create database IF NOT EXISTS yetiforce;" -uroot
 cp tests/setup/Db.txt config/Db.php
