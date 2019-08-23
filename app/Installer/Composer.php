@@ -131,10 +131,6 @@ class Composer
 		'sabre/xml' => [
 			'bin'
 		],
-		'sensiolabs/security-checker' => [
-			'security-checker',
-			'box.json',
-		],
 		'sonata-project/google-authenticator' => [
 			'makefile'
 		],
