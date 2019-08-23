@@ -101,13 +101,15 @@ class OSSMailView_Graf_Dashboard extends Vtiger_IndexAjax_View
 		];
 
 		$fieldName = 'ossmailview_sendtype';
-		$colors = \App\Fields\Picklist::getColors($fieldName);
+		$colors = \App\Fields\Picklist::getValues($fieldName);
+		$colors = array_column($colors, 'color', $fieldName);
 		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
 
 		$queryGenerator = (new \App\QueryGenerator($moduleName))
 			->setFields([$fieldName])
 			->setCustomColumn(['count' => new \yii\db\Expression('COUNT(*)')])
 			->setGroup($fieldName)
+			->addCondition($fieldName, '', 'ny')
 			->addCondition('createdtime', $dateFilter['start'] . ',' . $dateFilter['end'], 'bw');
 		if ('all' !== $owner) {
 			$queryGenerator->addCondition('assigned_user_id', $owner, 'e');
@@ -115,11 +117,12 @@ class OSSMailView_Graf_Dashboard extends Vtiger_IndexAjax_View
 		$i = 0;
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
+			$color = !empty($colors[$row[$fieldName]]) ? '#' . $colors[$row[$fieldName]] : \App\Colors::getRandomColor($i);
 			$data['labels'][$i] = \App\Language::translate($row[$fieldName], $moduleName);
 			$dataSets[0]['data'][$i] = $row['count'];
 			$dataSets[0]['names'][$i] = $row[$fieldName];
-			$dataSets[0]['backgroundColor'][$i] = $colors[$row[$fieldName]];
-			$dataSets[0]['borderColor'][$i] = $colors[$row[$fieldName]];
+			$dataSets[0]['backgroundColor'][$i] = $color;
+			$dataSets[0]['borderColor'][$i] = $color;
 			$dataSets[0]['links'][$i] = $listViewUrl . $this->getSearchParams($row[$fieldName], $owner, $dateFilter);
 			$data['show_chart'] = true;
 			++$i;

@@ -1789,9 +1789,9 @@ insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_tit
 insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (438,96,'LBL_CUSTOM_INFORMATION',3,0,0,0,0,0,2,0);
 insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (439,6,'LBL_FOR_THE_PORTAL',11,0,0,0,0,0,2,0);
 insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (442,15,'LBL_ARTICLE',2,0,0,0,0,0,2,0);
-insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (443,111,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,1);
+insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (443,111,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0);
 insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (444,13,'BL_RECORD_STATUS_TIMES',6,0,0,0,0,0,1,0);
-insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (445,34,'LBL_DESCRIPTION_INFORMATION',4,0,0,0,0,0,1,1);
+insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (445,34,'LBL_DESCRIPTION_INFORMATION',4,0,0,0,0,0,1,0);
 
 /*Data for the table `vtiger_blocks_hide` */
 
@@ -2896,6 +2896,8 @@ insert  into `vtiger_end_hour`(`end_hourid`,`end_hour`,`sortorderid`,`presence`)
 insert  into `vtiger_end_hour`(`end_hourid`,`end_hour`,`sortorderid`,`presence`) values (24,'23:00',24,1);
 
 /*Data for the table `vtiger_entity_stats` */
+
+insert  into `vtiger_entity_stats`(`crmid`,`crmactivity`) values (2,NULL);
 
 /*Data for the table `vtiger_entityname` */
 
