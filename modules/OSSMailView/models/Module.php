@@ -31,33 +31,6 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 		return $this->isActive() && \App\Privilege::isPermitted($this->getName(), $actionName);
 	}
 
-	public function getMailCount($owner, $dateFilter)
-	{
-		if (!$owner) {
-			$owner = \App\User::getCurrentUserId();
-		} elseif ('all' === $owner) {
-			$owner = '';
-		}
-		$queryGenerator = new App\QueryGenerator('OSSMailView');
-		$queryGenerator->setFields(['ossmailview_sendtype']);
-		$queryGenerator->setCustomColumn(['count' => new \yii\db\Expression('COUNT(*)')]);
-		$queryGenerator->setGroup('ossmailview_sendtype');
-		if (!empty($owner)) {
-			$queryGenerator->addCondition('assigned_user_id', $owner, 'e');
-		}
-		if (!empty($dateFilter)) {
-			$queryGenerator->addCondition('createdtime', $dateFilter['start'] . ' 00:00:00,' . $dateFilter['end'] . ' 23:59:59', 'bw');
-		}
-		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
-		$response = [];
-		while ($row = $dataReader->read()) {
-			$response[] = [$row['ossmailview_sendtype'], $row['count'], \App\Language::translate($row['ossmailview_sendtype'], $this->getName())];
-		}
-		$dataReader->close();
-
-		return $response;
-	}
-
 	public function getPreviewViewUrl($id)
 	{
 		return 'index.php?module=' . $this->get('name') . '&view=Preview&record=' . $id;
