@@ -49,74 +49,102 @@
 							<span class="fa fa-check u-mr-5px"></span><strong>{\App\Language::translate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
 						</button>
 					</div>
-					<div id="moduleBlocks">
-						<div class="editFieldsTable block marginBottom10px border1px blockSortable" style="border-radius: 4px 4px 0px 0px;background: white;">
-							<div class="row layoutBlockHeader no-margin">
-								<div class="blockLabel col-md-5 marginLeftZero" style="padding:5px 10px 5px 10px">
-									{\App\Language::translate($SELECTED_MODULE_NAME, $SELECTED_MODULE_NAME)}
-								</div>
-							</div>
-							<div class="blockFieldsList row no-margin" style="padding:5px;min-height: 27px">
-								<ul name="sortable1" class="connectedSortable col-md-6" style="list-style-type: none; min-height: 1px;padding:2px;">
-									{foreach  key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=fieldlist}
-										{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
-										{if $smarty.foreach.fieldlist.index % 2 eq 0}
-											<li>
-												<div class="opacity editFields marginLeftZero border1px" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
-													<div class="row padding1per">
-														{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-														<div class="col-sm-1 col-2 col-md-2">&nbsp;
-															{if $FIELD_MODEL->isEditable()}
-																<a>
-																	<img src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
-																</a>
-															{/if}
-														</div>
-														<div class="col-sm-11 col-10 col-md-10 marginLeftZero" style="word-wrap: break-word;">
-                                                                <span class="fieldLabel">{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}
-																	&nbsp;
-																	{if $IS_MANDATORY}
-																		<span class="redColor">*</span>
-																	{/if}</span>
-														</div>
-													</div>
-												</div>
-											</li>
+					<div class="moduleBlocks">
+						{foreach key=BLOCK_LABEL_KEY item=BLOCK_MODEL from=$BLOCKS}
+							{assign var=FIELDS_LIST value=$BLOCK_MODEL->getLayoutBlockActiveFields()}
+							{assign var=BLOCK_ID value=$BLOCK_MODEL->get('id')}
+							{$ALL_BLOCK_LABELS[$BLOCK_ID] = $BLOCK_LABEL_KEY}
+							<div id="block_{$BLOCK_ID}"
+								 class="editFieldsTable block block_{$BLOCK_ID} mb-2 border1px {if $IS_BLOCK_SORTABLE} blockSortable{/if}"
+								 data-block-id="{$BLOCK_ID}" data-sequence="{$BLOCK_MODEL->get('sequence')}"
+								 >
+								<div class="layoutBlockHeader d-flex flex-wrap justify-content-between m-0 p-1 pt-1 w-100">
+									<div class="blockLabel u-white-space-nowrap">
+										{if $IS_BLOCK_SORTABLE}
+											<img class="align-middle" src="{\App\Layout::getImagePath('drag.png')}"
+												 alt=""/>
+											&nbsp;&nbsp;
 										{/if}
-									{/foreach}
-								</ul>
-								<ul name="sortable2" class="connectedSortable col-md-6" style="list-style-type: none; margin: 0;min-height: 1px;padding:2px;">
-									{foreach item=FIELD_MODEL from=$RECORD_STRUCTURE name=fieldlist1}
-										{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
-										{if $smarty.foreach.fieldlist1.index % 2 neq 0}
-											<li>
-												<div class="opacity editFields marginLeftZero border1px" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
-													<div class="row padding1per">
-														{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-														<span class="col-sm-1 col-2 col-md-2">&nbsp;
-															{if $FIELD_MODEL->isEditable()}
-																<a>
-																		<img src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+										<strong class="align-middle">{App\Language::translate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>
+									</div>
+								</div>
+								<div class="blockFieldsList blockFieldsSortable row m-0 p-1 u-min-height-50">
+									<ul name="{if $SELECTED_MODULE_MODEL->isFieldsSortableAllowed($BLOCK_LABEL_KEY)}sortable1{/if}"
+										class="sortTableUl js-sort-table1 connectedSortable col-md-6 mb-0" data-js="container">
+										{foreach item=FIELD_MODEL from=$FIELDS_LIST name=fieldlist}
+											{if $smarty.foreach.fieldlist.index % 2 eq 0}
+												<li>
+													<div class="opacity editFields ml-0 border1px"
+														 data-block-id="{$BLOCK_ID}"
+														 data-field-id="{$FIELD_MODEL->get('id')}"
+														 data-sequence="{$FIELD_MODEL->get('sequence')}">
+														<div class="row p-2">
+															{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
+															<div class="col-2 col-sm-2">&nbsp;
+																{if $FIELD_MODEL->isEditable()}
+																	<a>
+																		<img src="{\App\Layout::getImagePath('drag.png')}"
+																			 border="0"
+																			 alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 																	</a>
-															{/if}
-															</span>
-														<div class="col-sm-11 col-10 col-md-10 marginLeftZero" style="word-wrap: break-word;">
-																<span class="fieldLabel">
+																{/if}
+															</div>
+															<div class="col-10 col-sm-10 ml-0 fieldContainer"
+																 style="word-wrap: break-word;">
+                                    <span class="fieldLabel">{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}
+																	&nbsp;[{$FIELD_MODEL->getName()}]
 																	{if $IS_MANDATORY}
 																		<span class="redColor">*</span>
 																	{/if}
-																	{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}
-																	&nbsp;
 																</span>
+
+															</div>
 														</div>
 													</div>
-												</div>
-											</li>
-										{/if}
-									{/foreach}
-								</ul>
+												</li>
+											{/if}
+										{/foreach}
+									</ul>
+									<ul {if $SELECTED_MODULE_MODEL->isFieldsSortableAllowed($BLOCK_LABEL_KEY)}name="sortable2"{/if}
+										class="connectedSortable js-sort-table2 sortTableUl col-md-6 mb-0"
+										data-js="container">
+										{foreach item=FIELD_MODEL from=$FIELDS_LIST name=fieldlist1}
+											{if $smarty.foreach.fieldlist1.index % 2 neq 0}
+												<li>
+													<div class="opacity editFields ml-0 border1px"
+														 data-block-id="{$BLOCK_ID}"
+														 data-field-id="{$FIELD_MODEL->get('id')}"
+														 data-sequence="{$FIELD_MODEL->get('sequence')}">
+														<div class="row p-2">
+															{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
+															<div class="col-2 col-sm-2">&nbsp;
+																{if $FIELD_MODEL->isEditable()}
+																	<a>
+																		<img src="{\App\Layout::getImagePath('drag.png')}"
+																			 border="0"
+																			 alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+																	</a>
+																{/if}
+															</div>
+															<div class="col-10 col-sm-10 ml-0 fieldContainer"
+																 style="word-wrap: break-word;">
+																<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}
+																	&nbsp;[{$FIELD_MODEL->getName()}]
+																	{if $IS_MANDATORY}
+																		<span class="redColor">*</span>
+																	{/if}
+																</span>
+
+															</div>
+														</div>
+													</div>
+												</li>
+											{/if}
+										{/foreach}
+									</ul>
+								</div>
 							</div>
-						</div>
+						{/foreach}
 					</div>
 				</div>
 			</div>

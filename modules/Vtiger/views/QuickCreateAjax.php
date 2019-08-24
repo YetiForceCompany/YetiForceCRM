@@ -18,7 +18,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'CreateView')) {
@@ -29,7 +29,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
@@ -62,6 +62,21 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 			}
 		}
 
+		$blockModels = $moduleModel->getBlocks();
+		$blockIdFieldMap = [];
+		foreach ($recordStructure as $fieldModel) {
+			$blockIdFieldMap[$fieldModel->getBlockId()][$fieldModel->getName()] = $fieldModel;
+		}
+		foreach ($blockModels as $blockKey => $blockModel) {
+			if (isset($blockIdFieldMap[$blockModel->get('id')])) {
+				$fieldModelList = $blockIdFieldMap[$blockModel->get('id')];
+				$blockModel->setFields($fieldModelList);
+			}
+		}
+		$recordStructureForQuickCreate = [];
+		foreach ($recordStructure as $fieldModel) {
+			$recordStructureForQuickCreate[$fieldModel->block->label][$fieldModel->name] = $fieldModel;
+		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode(\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName)));
 		$viewer->assign('QUICKCREATE_LINKS', Vtiger_QuickCreateView_Model::getInstance($moduleName)->getLinks([]));
@@ -72,11 +87,12 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('SINGLE_MODULE', 'SINGLE_' . $moduleName);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
-		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
+		$viewer->assign('RECORD_STRUCTURE', $recordStructureForQuickCreate);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('VIEW', $request->getByType('view', 1));
 		$viewer->assign('MODE', 'edit');
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
+		$viewer->assign('BLOCK_LIST', $blockModels);
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Vtiger_Util_Helper::getMaxUploadSize());
 		$viewer->assign('MAX_UPLOAD_LIMIT', \App\Config::main('upload_maxsize'));
 	}
@@ -84,14 +100,14 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function postProcessAjax(\App\Request $request)
+	public function postProcessAjax(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		echo $viewer->view('QuickCreate.tpl', $request->getModule(), true);
 		parent::postProcessAjax($request);
 	}
 
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$jsFileNames = [
@@ -101,7 +117,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 
-	public function validateRequest(\App\Request $request)
+	public function validateRequest(App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}
