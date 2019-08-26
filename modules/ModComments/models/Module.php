@@ -51,7 +51,7 @@ class ModComments_Module_Model extends Vtiger_Module_Model
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_WORKFLOWS',
 				'linkurl' => 'index.php?parent=Settings&module=Workflows&view=List&sourceModule=' . $this->getName(),
-				'linkicon' => 'adminIcon-triggers',
+				'linkicon' => 'yfi yfi-workflows-2',
 			];
 		}
 		return $settingsLinks;
@@ -61,6 +61,7 @@ class ModComments_Module_Model extends Vtiger_Module_Model
 	 * Delete coments associated with module.
 	 *
 	 * @param vtlib\ModuleBasic Instnace of module to use
+	 * @param vtlib\ModuleBasic $moduleInstance
 	 */
 	public static function deleteForModule(vtlib\ModuleBasic $moduleInstance)
 	{

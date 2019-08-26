@@ -57,7 +57,7 @@ class Vtiger_Search_Action extends \App\Controller\Action
 					'id' => $key,
 					'label' => $value,
 					'image' => $imageUrl ?? '',
-					'icon' => $imageUrl ? '' : 'adminIcon-user'
+					'icon' => $imageUrl ? '' : 'yfi yfi-users-2'
 				];
 			}
 		}
