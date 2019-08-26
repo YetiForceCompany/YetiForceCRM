@@ -1,6 +1,6 @@
 sudo: required
 
-dist: xenial
+dist: trusty
 
 language: php
 
