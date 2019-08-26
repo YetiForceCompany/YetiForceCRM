@@ -89,31 +89,31 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 				'LABEL' => 'PLU_SYSTEM_WARNINGS',
 				'VALUE' => \count($warnings),
 				'HREF' => 'index.php?module=Logs&parent=Settings&view=SystemWarnings',
-				'ICON' => 'fas fa-exclamation-triangle'
+				'ICON' => 'yfi yfi-system-warnings-2'
 			],
 			'SECURITY_COUNT' => [
 				'LABEL' => 'PLU_SECURITY',
 				'VALUE' => $this->getSecurityCount(),
 				'HREF' => 'index.php?module=Log&parent=Settings&view=Index',
-				'ICON' => 'fas fa-bug'
+				'ICON' => 'yfi yfi-security-errors-2'
 			],
 			'USERS_COUNT' => [
 				'LABEL' => 'PLU_USERS',
 				'VALUE' => Users_Record_Model::getCount(true),
 				'HREF' => 'index.php?module=Users&parent=Settings&view=List',
-				'ICON' => 'adminIcon-user'
+				'ICON' => 'yfi yfi-users-2'
 			],
 			'ACTIVE_MODULES' => [
 				'LABEL' => 'PLU_MODULES',
 				'VALUE' => Settings_ModuleManager_Module_Model::getModulesCount(true),
 				'HREF' => 'index.php?module=ModuleManager&parent=Settings&view=List',
-				'ICON' => 'adminIcon-modules-installation'
+				'ICON' => 'yfi yfi-modules-2'
 			],
 			'ALL_WORKFLOWS' => [
 				'LABEL' => 'PLU_WORKFLOWS_ACTIVE',
 				'VALUE' => Settings_Workflows_Record_Model::getAllAmountWorkflowsAmount(),
 				'HREF' => 'index.php?module=Workflows&parent=Settings&view=List',
-				'ICON' => 'adminIcon-triggers'
+				'ICON' => 'yfi yfi-workflows-2'
 			],
 		];
 		$viewer->assign('SYSTEM_MONITORING', $systemMonitoring);
@@ -177,7 +177,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 				'modules.Settings.Vtiger.resources.Index',
 				'modules.Vtiger.resources.List',
 				'modules.Settings.Vtiger.resources.List',
-				"modules.Settings.YetiForce.resources.Shop",
+				'modules.Settings.YetiForce.resources.Shop',
 				"modules.Settings.$moduleName.resources.Index",
 				"modules.Settings.$moduleName.resources.$type",
 				"modules.Settings.$moduleName.resources.$moduleName"

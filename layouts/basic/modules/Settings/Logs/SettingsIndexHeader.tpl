@@ -10,7 +10,7 @@
 		<ul class="nav nav-tabs massEditTabs js-tabs mx-0" data-js="click">
 			<li class="nav-item" data-mode="systemWarnings">
 				<a class="active nav-link" href="#" data-toggle="tab">
-					<span class="fas fa-exclamation-triangle fa-fw mr-1"></span>
+					<span class="yfi yfi-system-warnings-2 mr-1"></span>
 					{\App\Language::translate('LBL_SYSTEM_WARNINGS', $QUALIFIED_MODULE)}
 				</a>
 			</li>

@@ -277,7 +277,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_FIELDS',
 				'linkurl' => 'index.php?parent=Settings&module=LayoutEditor&sourceModule=' . $this->getName(),
-				'linkicon' => 'adminIcon-triggers',
+				'linkicon' => 'adminIcon-modules-fields',
 			];
 			$settingLinks[] = [
 				'linktype' => 'LISTVIEWSETTING',
