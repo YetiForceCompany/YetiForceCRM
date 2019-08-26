@@ -171,7 +171,7 @@ class Vtiger_MultiCurrency_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getValueToExport($value)
+	public function getValueToExport($value, int $recordId)
 	{
 		$result = [];
 		$value = \App\Json::isEmpty($value) ? [] : \App\Json::decode($value);

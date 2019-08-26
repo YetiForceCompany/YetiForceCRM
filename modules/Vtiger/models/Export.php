@@ -314,7 +314,7 @@ class Vtiger_Export_Model extends \App\Base
 				$this->fieldArray[$columnName] = $fieldObj;
 			}
 		}
-		$recordId = $arr[$this->focus->table_index] ?? '';
+		$recordId = (int) ($arr['id'] ?? 0);
 		$module = $this->moduleInstance->getName();
 		foreach ($arr as $fieldName => &$value) {
 			if (isset($this->fieldArray[$fieldName])) {
@@ -323,7 +323,7 @@ class Vtiger_Export_Model extends \App\Base
 				unset($arr[$fieldName]);
 				continue;
 			}
-			$value = $fieldInfo->getUITypeModel()->getValueToExport($value);
+			$value = $fieldInfo->getUITypeModel()->getValueToExport($value, $recordId);
 			$uitype = $fieldInfo->get('uitype');
 			$fieldname = $fieldInfo->get('name');
 			if (empty($this->fieldDataTypeCache[$fieldName])) {
@@ -346,12 +346,6 @@ class Vtiger_Export_Model extends \App\Base
 				$value = '';
 			} elseif (52 === $uitype || 'owner' === $type) {
 				$value = \App\Fields\Owner::getLabel($value);
-			} elseif (120 === $uitype) {
-				$values = [];
-				foreach (\App\Fields\SharedOwner::getById($recordId) as $owner) {
-					$values[] = \App\Fields\Owner::getLabel($owner);
-				}
-				$value = implode(',', $values);
 			} elseif ($fieldInfo->isReferenceField()) {
 				$value = trim($value);
 				if (!empty($value)) {

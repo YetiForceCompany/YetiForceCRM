@@ -419,10 +419,11 @@ class Vtiger_Base_UIType extends \App\Base
 	 * Gets value to export.
 	 *
 	 * @param mixed $value
+	 * @param int   $recordId
 	 *
 	 * @return mixed
 	 */
-	public function getValueToExport($value)
+	public function getValueToExport($value, int $recordId)
 	{
 		return trim(App\Purifier::decodeHtml($value), '"');
 	}
