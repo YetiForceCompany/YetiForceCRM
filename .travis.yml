@@ -122,6 +122,7 @@ jobs:
         - ./tests/setup/before_script.sh
         - ./tests/setup/apache.sh
         - ./tests/setup/selenium.sh
+        - php -i
       script:
         - cd tests
         - ../vendor/bin/phpunit --verbose --log-junit 'tests/execution.xml' --coverage-clover 'tests/coverage.xml'
