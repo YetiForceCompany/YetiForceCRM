@@ -61,23 +61,29 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 				}
 			}
 		}
-
-		$blockModels = $moduleModel->getBlocks();
-		$blockIdFieldMap = [];
-		foreach ($recordStructure as $fieldModel) {
-			$blockIdFieldMap[$fieldModel->getBlockId()][$fieldModel->getName()] = $fieldModel;
-		}
-		foreach ($blockModels as $blockKey => $blockModel) {
-			if (isset($blockIdFieldMap[$blockModel->get('id')])) {
-				$fieldModelList = $blockIdFieldMap[$blockModel->get('id')];
-				$blockModel->setFields($fieldModelList);
-			}
-		}
-		$recordStructureForQuickCreate = [];
-		foreach ($recordStructure as $fieldModel) {
-			$recordStructureForQuickCreate[$fieldModel->block->label][$fieldModel->name] = $fieldModel;
-		}
 		$viewer = $this->getViewer($request);
+		if (App\Config::performance('showBlocksInQuickCreate') && 'Calendar' !== $moduleName) {
+			$blockModels = $moduleModel->getBlocks();
+			$blockIdFieldMap = [];
+			foreach ($recordStructure as $fieldModel) {
+				$blockIdFieldMap[$fieldModel->getBlockId()][$fieldModel->getName()] = $fieldModel;
+			}
+			foreach ($blockModels as $blockKey => $blockModel) {
+				if (isset($blockIdFieldMap[$blockModel->get('id')])) {
+					$fieldModelList = $blockIdFieldMap[$blockModel->get('id')];
+					$blockModel->setFields($fieldModelList);
+				}
+			}
+			$recordStructureForQuickCreate = [];
+			foreach ($recordStructure as $fieldModel) {
+				$recordStructureForQuickCreate[$fieldModel->block->label][$fieldModel->name] = $fieldModel;
+			}
+			$viewer->assign('RECORD_STRUCTURE', $recordStructureForQuickCreate);
+			$viewer->assign('BLOCK_LIST', $blockModels);
+		} else {
+			$viewer->assign('RECORD_STRUCTURE', $recordStructure);
+		}
+
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode(\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName)));
 		$viewer->assign('QUICKCREATE_LINKS', Vtiger_QuickCreateView_Model::getInstance($moduleName)->getLinks([]));
 		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode($mappingRelatedField));
@@ -87,12 +93,10 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('SINGLE_MODULE', 'SINGLE_' . $moduleName);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
-		$viewer->assign('RECORD_STRUCTURE', $recordStructureForQuickCreate);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('VIEW', $request->getByType('view', 1));
 		$viewer->assign('MODE', 'edit');
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
-		$viewer->assign('BLOCK_LIST', $blockModels);
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Vtiger_Util_Helper::getMaxUploadSize());
 		$viewer->assign('MAX_UPLOAD_LIMIT', \App\Config::main('upload_maxsize'));
 	}

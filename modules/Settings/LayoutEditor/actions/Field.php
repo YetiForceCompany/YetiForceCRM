@@ -75,6 +75,13 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 						}
 						$fieldInstance->set($field, $value);
 						break;
+					case 'quickcreate':
+						$quickCreateValue = $request->getInteger($field);
+						if ($fieldInstance->get('quickcreate') !== $quickCreateValue && $quickCreateValue > 0) {
+							$fieldInstance->set('quicksequence', $fieldInstance->__getNextQuickCreateSequence());
+						}
+						$fieldInstance->set($field, $quickCreateValue);
+						break;
 					default:
 						$fieldInstance->set($field, $request->getInteger($field));
 						break;

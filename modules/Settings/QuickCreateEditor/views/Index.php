@@ -48,27 +48,34 @@ class Settings_QuickCreateEditor_Index_View extends Settings_Vtiger_Index_View
 		}
 
 		$quickCreateFields = Vtiger_RecordStructure_Model::getInstanceFromRecordModel(Vtiger_Record_Model::getCleanInstance($sourceModule), Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE)->getStructure();
-		$selectedModuleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($sourceModule);
-		$blockModels = $selectedModuleModel->getBlocks();
-
-		$blockIdFieldMap = [];
-		foreach ($quickCreateFields as $fieldModel) {
-			$blockIdFieldMap[$fieldModel->getBlockId()][$fieldModel->getName()] = $fieldModel;
-		}
-		foreach ($blockModels as $blockKey => $blockModel) {
-			if (isset($blockIdFieldMap[$blockModel->get('id')])) {
-				$fieldModelList = $blockIdFieldMap[$blockModel->get('id')];
-				$blockModel->setFields($fieldModelList);
-			} else {
-				unset($blockModels[$blockKey]);
-			}
-		}
-		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
+		$displayBlocks = App\Config::performance('showBlocksInQuickCreate');
+		if ($displayBlocks) {
+			$selectedModuleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($sourceModule);
+			$blockModels = $selectedModuleModel->getBlocks();
+
+			$blockIdFieldMap = [];
+			foreach ($quickCreateFields as $fieldModel) {
+				$blockIdFieldMap[$fieldModel->getBlockId()][$fieldModel->getName()] = $fieldModel;
+			}
+			foreach ($blockModels as $blockKey => $blockModel) {
+				if (isset($blockIdFieldMap[$blockModel->get('id')])) {
+					$fieldModelList = $blockIdFieldMap[$blockModel->get('id')];
+					$blockModel->setFields($fieldModelList);
+				} else {
+					unset($blockModels[$blockKey]);
+				}
+			}
+			$viewer->assign('BLOCKS', $blockModels);
+			$viewer->assign('SELECTED_MODULE_MODEL', $selectedModuleModel);
+		} else {
+			$viewer->assign('RECORD_STRUCTURE', $quickCreateFields);
+		}
+
+		$qualifiedModule = $request->getModule(false);
+		$viewer->assign('DISPLAY_BLOCKS', \App\Config::performance('showBlocksInQuickCreate'));
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->assign('SUPPORTED_MODULES', $menuModelsList);
-		$viewer->assign('BLOCKS', $blockModels);
-		$viewer->assign('SELECTED_MODULE_MODEL', $selectedModuleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->view('Index.tpl', $qualifiedModule);
 	}

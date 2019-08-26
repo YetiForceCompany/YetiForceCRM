@@ -708,7 +708,13 @@ return [
 		'recursiveTranslate' => [
 			'default' => false,
 			'description' => 'If there is no translation in the chosen language, then get from the default language.'
-		]
+		],
+		'showBlocksInQuickCreate' => [
+			'default' => false,
+			'description' => 'Parameter that determines if blocks should be visible in quick create. Field order may have to be updated. ',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
 	],
 	'relation' => [
 		'COMMENT_MAX_LENGTH' => [
