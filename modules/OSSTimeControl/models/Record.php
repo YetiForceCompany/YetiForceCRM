@@ -8,6 +8,11 @@
  */
 class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 {
+	/**
+	 * Recalculate status.
+	 */
+	const RECALCULATE_STATUS = 'Accepted';
+
 	public function getDuplicateRecordUrl()
 	{
 		$module = $this->getModule();
