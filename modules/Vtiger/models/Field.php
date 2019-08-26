@@ -253,13 +253,6 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 54:
 						$fieldDataType = 'multiowner';
 						break;
-					case 55:
-						if ('salutationtype' === $this->getName()) {
-							$fieldDataType = 'picklist';
-						} elseif ('firstname' === $this->getName()) {
-							$fieldDataType = 'salutation';
-						}
-						break;
 					case 64:
 						$fieldDataType = 'referenceSubProcessSL';
 						break;
@@ -483,10 +476,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function isRoleBased()
 	{
-		if (15 === $this->get('uitype') || 33 === $this->get('uitype') || (55 === $this->get('uitype') && 'salutationtype' === $this->getFieldName())) {
-			return true;
-		}
-		return false;
+		return 15 === $this->get('uitype') || 33 === $this->get('uitype');
 	}
 
 	/**

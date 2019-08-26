@@ -29,10 +29,15 @@
 						{/if}
 					</span>
 				</div>
-				<div class="d-flex flex-nowrap align-items-center js-popover-tooltip--ellipsis-icon" data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue('salutationtype',$RECORD->getId(), true))} {\App\Purifier::encodeHtml($RECORD->getName())}" data-toggle="popover" data-js="popover | mouseenter">
+				{assign var=SALUTATION value=''}
+				{if $RECORD->getField('salutationtype')->isActiveField()}
+					{assign var=SALUTATION value=$RECORD->getDisplayValue('salutationtype')}
+				{/if}
+				<div class="d-flex flex-nowrap align-items-center js-popover-tooltip--ellipsis-icon" data-content="{if $SALUTATION}{\App\Purifier::encodeHtml($SALUTATION)} {/if}{\App\Purifier::encodeHtml($RECORD->getName())}"
+					data-toggle="popover" data-js="popover | mouseenter">
 					<h4 class="recordLabel h6 mb-0 js-popover-text" data-js="clone">
-						{if $RECORD->getDisplayValue('salutationtype')}
-							<span class="salutation mr-1">{$RECORD->getDisplayValue('salutationtype')}</span>
+						{if $SALUTATION}
+							<span class="salutation mr-1">{$SALUTATION}</span>
 						{/if}
 						<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
 					</h4>

@@ -69,7 +69,7 @@ class Contacts extends CRMEntity
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['assigned_user_id', 'lastname', 'createdtime', 'modifiedtime'];
 	//Default Fields for Email Templates -- Pavani
-	public $emailTemplate_defaultFields = ['firstname', 'lastname', 'salutation', 'title', 'email', 'department', 'phone', 'mobile', 'support_start_date', 'support_end_date'];
+	public $emailTemplate_defaultFields = ['firstname', 'lastname', 'title', 'email', 'department', 'phone', 'mobile', 'support_start_date', 'support_end_date'];
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
