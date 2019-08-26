@@ -11,18 +11,30 @@
 				<script type="{$MODEL->getType()}" src="{$MODEL->getSrc()}"></script>
 			{/foreach}
 			<script type="text/javascript">app.registerModalController();</script>
-			<div class="modal-header{if isset($MODAL_VIEW->headerClass)} {$MODAL_VIEW->headerClass}{/if}">
-				<h5 class="modal-title">
-					{if $MODAL_VIEW->modalIcon}
-						<span class="modal-header-icon {$MODAL_VIEW->modalIcon}"></span>
+			<div class="modal-header d-block">
+				<div class="d-flex">
+					<h5 class="modal-title">
+						{if $MODAL_VIEW->modalIcon}
+							<span class="{$MODAL_VIEW->modalIcon} mr-2"></span>
+						{/if}
+						{$MODAL_TITLE}
+					</h5>
+					{if !$LOCK_EXIT}
+						<button type="button" class="close" data-dismiss="modal"
+								aria-label="{\App\Language::translate('LBL_CANCEL')}">
+							<span aria-hidden="true">&times;</span>
+						</button>
 					{/if}
-					{$MODAL_TITLE}
-				</h5>
-				{if !$LOCK_EXIT}
-					<button type="button" class="close" data-dismiss="modal"
-							aria-label="{\App\Language::translate('LBL_CANCEL')}">
-						<span aria-hidden="true">&times;</span>
-					</button>
+				</div>
+				{if $IS_TREE}
+					<div class="input-group pt-2">
+						<input id="valueSearchTree" type="text" class="form-control"
+							placeholder="{\App\Language::translate('LBL_SEARCH', $MODULE)} ...">
+						<div class="input-group-append">
+							<button id="btnSearchTree" class="btn btn-success"
+									type="button">{\App\Language::translate('LBL_SEARCH', $MODULE)}</button>
+						</div>
+					</div>
 				{/if}
 			</div>
 			{/strip}
