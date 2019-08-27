@@ -17,7 +17,7 @@
 					</div>
 				{else}
 					<table class="table tableBorderHeadBody listViewEntriesTable medium">
-						{if {!empty($STRUCTURE['manage'])}}
+						{if !empty($STRUCTURE['manage'])}
 							<tr class="listViewEntries">
 								<td class="border bc-gray-lighter">
 									<a href="{$STRUCTURE['manage']}">
@@ -60,18 +60,20 @@
 								</th>
 							</tr>
 						</thead>
-						{foreach from=$STRUCTURE['files'] item=$file}
-							<tr class="listViewEntries">
-								<td>{\App\Purifier::encodeHtml($file['name'])}</td>
-								<td>{$file['date']}</td>
-								<td>{$file['size']}</td>
-								<td class="u-w-1em">
-									<a href="{$file['url']}" class="btn btn-primary btn-sm">
-										<span class="fas fa-download mr-1"></span> {\App\Language::translate('LBL_DOWNLOAD',$QUALIFIED_MODULE)}
-									</a>
-								</td>
-							</tr>
-						{/foreach}
+						{if !empty($STRUCTURE['files'])}
+							{foreach from=$STRUCTURE['files'] item=$file}
+								<tr class="listViewEntries">
+									<td>{\App\Purifier::encodeHtml($file['name'])}</td>
+									<td>{$file['date']}</td>
+									<td>{$file['size']}</td>
+									<td class="u-w-1em">
+										<a href="{$file['url']}" class="btn btn-primary btn-sm">
+											<span class="fas fa-download mr-1"></span> {\App\Language::translate('LBL_DOWNLOAD',$QUALIFIED_MODULE)}
+										</a>
+									</td>
+								</tr>
+							{/foreach}
+						{/if}
 					</table>
 					{if empty($STRUCTURE['files'])}
 						<table class="emptyRecordsDiv">
