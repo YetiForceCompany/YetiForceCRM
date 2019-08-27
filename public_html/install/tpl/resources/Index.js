@@ -24,7 +24,7 @@ jQuery.Class(
 		],
 		checkUsername: function(field, rules, i, options) {
 			let fieldValue = field.val(),
-				negativeRegex = /^[a-zA-Z0-9_.@]{3,64}$/,
+				negativeRegex = /^[a-zA-Z0-9_.@-]{3,64}$/,
 				result = negativeRegex.test(fieldValue);
 			if (!result) {
 				return app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
