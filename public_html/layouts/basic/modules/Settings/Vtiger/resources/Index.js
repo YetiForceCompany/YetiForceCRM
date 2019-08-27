@@ -471,11 +471,7 @@ $.Class(
 					e.stopPropagation();
 				});
 		},
-		registerLink: function() {
-			this.container.find('.js-shop-link').on('click', function(e) {
-				e.stopPropagation();
-			});
-		},
+
 		registerEvents: function() {
 			this.container = $('.js-dashboard-container');
 			this.registerTabEvents();
@@ -485,7 +481,6 @@ $.Class(
 			this.registerAddShortcutDragDropEvent();
 			this.registerCollapsiblePanels();
 			this.registerShopSearch();
-			this.registerLink();
 			new window.Settings_YetiForce_Shop_Js().registerEvents();
 		}
 	}
