@@ -16,7 +16,7 @@
 							<span class="fas fa-search fa-sm  " id="{\App\Language::translate('LBL_SEARCH_PLACEHOLDER', $QUALIFIED_MODULE)}"></span>
   						</div>
 					</div>
-					<a class="mb-0 h5" href="index.php?module=YetiForce&parent=Settings&view=Shop">
+					<a class="mb-0 h5 js-shop-link" href="index.php?module=YetiForce&parent=Settings&view=Shop" data-js="click">
 						<span class="fas fa-link fa-sm" title="{\App\Language::translate('LBL_SHOP_MARKETPLACE', $QUALIFIED_MODULE)}"></span>
 					</a>
 					<div class="c-panel__title">
