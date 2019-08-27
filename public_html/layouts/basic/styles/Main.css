@@ -13408,14 +13408,8 @@ label.btn[class*="btn-outline-"]:not(.active) {
   min-width: 4.0625rem; }
 
 .modal-header {
-  padding: 1rem 0;
-  margin: 0 1rem; }
-
-.modal-footer {
-  border-top: none; }
-
-.modal-content {
-  border: none; }
+  padding: 1rem;
+  margin: 0; }
 
 .modal-header-icon {
   margin-right: 0.5rem; }
@@ -17232,6 +17226,9 @@ ul.tweets li {
 @media only screen and (max-width: 575px) {
   .u-border-bottom-0-sm {
     border-bottom: none !important; } }
+.u-outline-none {
+  outline: none; }
+
 .u-bg-twilight, .select2-selection__rendered[title="Twilight"] {
   background-color: #404952 !important;
   color: #fff; }
