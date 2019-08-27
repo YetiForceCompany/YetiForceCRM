@@ -26,7 +26,7 @@
       :y="coordinates.top"
       :w="coordinates.width"
       :h="coordinates.height"
-      :class="[maximized ? 'fit position-sticky' : 'modal-mini', 'overflow-hidden']"
+      :class="[maximized ? 'fit position-static' : 'modal-mini', 'overflow-hidden']"
       ref="resize"
     >
       <div class="fit">
