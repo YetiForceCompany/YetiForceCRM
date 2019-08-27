@@ -116,7 +116,7 @@ class C_RecordActions extends \Tests\Base
 			return static::$recordContacts;
 		}
 		$recordModel = \Vtiger_Record_Model::getCleanInstance('Contacts');
-		$recordModel->set('salutation', 'Mr.');
+		$recordModel->set('salutationtype', 'Mr.');
 		$recordModel->set('firstname', 'Test');
 		$recordModel->set('lastname', 'Testowy');
 		$recordModel->set('contactstatus', 'Active');

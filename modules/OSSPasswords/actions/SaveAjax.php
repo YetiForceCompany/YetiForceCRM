@@ -65,7 +65,7 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$result = [];
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
 			$recordFieldValue = $recordModel->get($fieldName);
-			if (is_array($recordFieldValue) && 'multipicklist' == $fieldModel->getFieldDataType()) {
+			if (\is_array($recordFieldValue) && 'multipicklist' == $fieldModel->getFieldDataType()) {
 				$recordFieldValue = implode(' |##| ', $recordFieldValue);
 			}
 			$fieldValue = $displayValue = \App\Purifier::encodeHtml($recordFieldValue);
@@ -76,16 +76,6 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 				$fieldValue = $displayValue = '**********';
 			}
 			$result[$fieldName] = ['value' => $fieldValue, 'display_value' => $displayValue];
-		}
-
-		// Handling salutation type
-		if ('firstname' === $request->get('field') && in_array($request->getModule(), ['Contacts', 'Leads'])) {
-			$salutationType = $recordModel->getDisplayValue('salutationtype');
-			$firstNameDetails = $result['firstname'];
-			$firstNameDetails['display_value'] = $salutationType . ' ' . $firstNameDetails['display_value'];
-			if ('--None--' != $salutationType) {
-				$result['firstname'] = $firstNameDetails;
-			}
 		}
 
 		$result['_recordLabel'] = $recordModel->getName();

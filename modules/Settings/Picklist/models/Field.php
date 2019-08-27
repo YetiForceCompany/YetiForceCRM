@@ -19,7 +19,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 	public function isEditable()
 	{
 		$nonEditablePickListValues = ['duration_minutes', 'payment_duration', 'recurring_frequency', 'visibility'];
-		if ((!in_array($this->get('displaytype'), [1, 10]) && 'salutationtype' !== $this->getName()) || !in_array($this->get('presence'), [0, 2]) || in_array($this->getName(), $nonEditablePickListValues) || ('picklist' !== $this->getFieldDataType() && 'multipicklist' !== $this->getFieldDataType()) || 'Users' === $this->getModuleName()) {
+		if (!\in_array($this->get('displaytype'), [1, 10]) || !\in_array($this->get('presence'), [0, 2]) || \in_array($this->getName(), $nonEditablePickListValues) || ('picklist' !== $this->getFieldDataType() && 'multipicklist' !== $this->getFieldDataType()) || 'Users' === $this->getModuleName()) {
 			return false;
 		}
 		return true;
@@ -60,7 +60,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		$pickListValues = [];
 		while ($row = $dataReader->read()) {
 			//second not equal if specify that the picklistvalue is not present for all the roles
-			if ($intersectionMode && (int) $row['rolecount'] !== count($roleIdList)) {
+			if ($intersectionMode && (int) $row['rolecount'] !== \count($roleIdList)) {
 				continue;
 			}
 			//Need to decode the picklist values twice which are saved from old ui
@@ -118,14 +118,14 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		if (preg_match('/[\<\>\"\#\,]/', $value)) {
 			throw new \App\Exceptions\AppException(\App\Language::translateArgs('ERR_SPECIAL_CHARACTERS_NOT_ALLOWED', 'Other.Exceptions', '<>"#,'), 512);
 		}
-		if ($this->get('maximumlength') && strlen($value) > $this->get('maximumlength')) {
+		if ($this->get('maximumlength') && \strlen($value) > $this->get('maximumlength')) {
 			throw new \App\Exceptions\AppException(\App\Language::translate('ERR_EXCEEDED_NUMBER_CHARACTERS', 'Other.Exceptions'), 512);
 		}
 		$picklistValues = \App\Fields\Picklist::getValuesName($this->getName());
 		if ($id) {
 			unset($picklistValues[$id]);
 		}
-		if (in_array(strtolower($value), array_map('strtolower', $picklistValues))) {
+		if (\in_array(strtolower($value), array_map('strtolower', $picklistValues))) {
 			throw new \App\Exceptions\AppException(\App\Language::translateArgs('ERR_DUPLICATES_VALUES_FOUND', 'Other.Exceptions', $value), 513);
 		}
 	}
@@ -182,7 +182,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 	 *
 	 * @param int       $valueId
 	 * @param string    $value
-	 * @param null|bool $closeState
+	 * @param bool|null $closeState
 	 *
 	 * @throws \yii\db\Exception
 	 * @throws \App\Exceptions\AppException
