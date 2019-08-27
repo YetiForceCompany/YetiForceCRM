@@ -19,7 +19,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'QuickExportToExcel')) {
@@ -40,7 +40,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function exportToExcel(\App\Request $request)
+	public function exportToExcel(App\Request $request)
 	{
 		$moduleName = $request->getModule(false); //this is the type of things in the current view
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -57,6 +57,8 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		$customView = CustomView_Record_Model::getInstanceById($filter);
 		$queryGenerator = self::getQuery($request);
 		$queryGenerator->initForCustomViewById($filter, true);
+		$listViewModel->set('query_generator', $queryGenerator);
+		$pagingModel = (new \Vtiger_Paging_Model())->set('limit', Vtiger_Paging_Model::PAGE_MAX_LIMIT);
 		$headers = $listViewModel->getListViewHeaders();
 		foreach ($headers as $fieldModel) {
 			$label = App\Language::translate($fieldModel->getFieldLabel(), $fieldModel->getModuleName());
@@ -67,9 +69,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 			++$col;
 		}
 		++$row;
-		//ListViewController has lots of paging stuff and things we don't want
-		//so lets just itterate across the list of IDs we have and get the field values
-		foreach ($listViewModel->getRecordsFromArray($queryGenerator->createQuery()->all()) as $record) {
+		foreach ($listViewModel->getListViewEntries($pagingModel) as $record) {
 			$col = 1;
 			if (!$record->isViewable()) {
 				continue;
@@ -79,46 +79,33 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 				//we might also want the display value sans-links so we can use strip_tags for that
 				//phone numbers need to be explicit strings
 				$value = $record->getListViewDisplayValue($fieldModel, true);
-				switch ($fieldModel->getUIType()) {
-					case 25:
-					case 7:
-						if ($fieldModel->getFieldName() === 'sum_time') {
-							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+				switch ($fieldModel->getFieldDataType()) {
+					case 'integer':
+					case 'double':
+					case 'currency':
+						if (72 !== $fieldModel->getUIType()) {
+							$value = \App\Fields\Double::formatToDb($value);
+						}
+						$type = is_numeric($value) ? \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC : \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING;
+						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, $type);
+						break;
+					case 'date':
+						if ($value) {
+							$value = \App\Fields\Date::sanitizeDbFormat($value, \App\User::getCurrentUserModel()->getDetail('date_format'));
+							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($value), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+							$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY');
 						} else {
-							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $record->get($fieldModel->getFieldName()), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, '', \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 						}
 						break;
-					case 71:
-					case 72:
-						if (!empty($fieldModel->get('source_field_name')) && isset($record->ext[$fieldModel->get('source_field_name')][$fieldModel->getModuleName()])) {
-							$value = $record->ext[$fieldModel->get('source_field_name')][$fieldModel->getModuleName()]->get($fieldModel->getFieldName());
+					case 'datetime':
+						if ($value) {
+							$value = \App\Fields\DateTime::sanitizeDbFormat($value, \App\User::getCurrentUserModel()->getDetail('date_format'));
+							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($value), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+							$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY HH:MM:SS');
 						} else {
-							$value = $record->get($fieldModel->getFieldName());
+							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, '', \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 						}
-						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
-						break;
-					case 6://datetimes
-					case 23:
-						if (!empty($fieldModel->get('source_field_name')) && isset($record->ext[$fieldModel->get('source_field_name')][$fieldModel->getModuleName()])) {
-							$value = $record->ext[$fieldModel->get('source_field_name')][$fieldModel->getModuleName()]->get($fieldModel->getFieldName());
-						} else {
-							$value = $record->get($fieldModel->getFieldName());
-						}
-						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($value), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
-						if ($moduleName === 'Reservations' || $moduleName === 'OSSTimeControl' || $moduleName === 'Calendar') {
-							$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY'); //format the date to the users preference
-						} else {
-							$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY HH:MM:SS'); //format the date to the users preference
-						}
-						break;
-					case 70:
-						if (!empty($fieldModel->get('source_field_name')) && isset($record->ext[$fieldModel->get('source_field_name')][$fieldModel->getModuleName()])) {
-							$value = $record->ext[$fieldModel->get('source_field_name')][$fieldModel->getModuleName()]->get($fieldModel->getFieldName());
-						} else {
-							$value = $record->get($fieldModel->getFieldName());
-						}
-						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($value), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
-						$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY HH:MM:SS');
 						break;
 					default:
 						$worksheet->setCellValueExplicitByColumnAndRow($col, $row, App\Purifier::decodeHtml($value), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
@@ -148,7 +135,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		$filename = \App\Language::translate($moduleName, $moduleName) . '-' . \App\Language::translate(App\Purifier::decodeHtml($customView->get('viewname')), $moduleName) . '.xls';
 		header("content-disposition: attachment; filename=\"$filename\"");
 
-		$fp = fopen($tempFileName, 'rb');
+		$fp = fopen($tempFileName, 'r');
 		fpassthru($fp);
 		fclose($fp);
 		unlink($tempFileName);

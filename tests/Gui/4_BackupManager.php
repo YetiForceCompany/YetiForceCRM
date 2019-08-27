@@ -100,7 +100,7 @@ class Gui_BackupManager extends \Tests\GuiBase
 		);
 		$this->assertSame(
 			static::$fileName,
-			$this->driver->findElement(WebDriverBy::cssSelector('.listViewContentDiv table:nth-child(2) td:first-child'))->getText(),
+			$this->driver->findElement(WebDriverBy::cssSelector('.listViewContentDiv div:nth-child(2) td:first-child'))->getText(),
 			'File does not exist'
 		);
 		$this->assertInstanceOf(

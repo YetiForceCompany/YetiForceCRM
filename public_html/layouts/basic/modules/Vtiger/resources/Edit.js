@@ -980,11 +980,15 @@ $.Class(
 			sourcePickListElements.trigger('change');
 		},
 		registerLeavePageWithoutSubmit: function(form) {
-			if(typeof CKEDITOR !== 'undefined' && typeof CKEDITOR.instances !== 'undefined' && Object.keys(CKEDITOR.instances).length) {
+			if (
+				typeof CKEDITOR !== 'undefined' &&
+				typeof CKEDITOR.instances !== 'undefined' &&
+				Object.keys(CKEDITOR.instances).length
+			) {
 				CKEDITOR.on('instanceReady', function(e) {
 					let initialFormData = form.serialize();
 					window.onbeforeunload = function(e) {
-						if(initialFormData != form.serialize() && form.data('submit') != 'true') {
+						if (initialFormData != form.serialize() && form.data('submit') != 'true') {
 							return app.vtranslate('JS_CHANGES_WILL_BE_LOST');
 						}
 					};
@@ -992,7 +996,7 @@ $.Class(
 			} else {
 				let initialFormData = form.serialize();
 				window.onbeforeunload = function(e) {
-					if(initialFormData != form.serialize() && form.data('submit') != 'true') {
+					if (initialFormData != form.serialize() && form.data('submit') != 'true') {
 						return app.vtranslate('JS_CHANGES_WILL_BE_LOST');
 					}
 				};
@@ -1399,8 +1403,7 @@ $.Class(
 		},
 		registerEvents: function() {
 			var editViewForm = this.getForm();
-			var statusToProceed = this.proceedRegisterEvents();
-			if (!statusToProceed) {
+			if (!this.proceedRegisterEvents()) {
 				return;
 			}
 			this.registerInventoryController(editViewForm);
@@ -1415,6 +1418,7 @@ $.Class(
 			this.registerValidationsFields(editViewForm);
 			this.registerReferenceCreate(editViewForm);
 			this.registerAutoloadAddress();
+			editViewForm.find('.js-form-submit-btn').prop('disabled', false);
 			//this.triggerDisplayTypeEvent();
 		}
 	}

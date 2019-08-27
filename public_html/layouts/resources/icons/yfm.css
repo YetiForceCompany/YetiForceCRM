@@ -25,7 +25,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-[class^="yfm-"]:before, [class*=" yfm-"]:before {{
+[class^="yfm-"]:before, [class*=" yfm-"]:before {
   content: "\e972";
 }
 .yfm-Announcements:before {

@@ -207,7 +207,7 @@ class ConfReport
 		'opcache.save_comments' => ['recommended' => 0, 'type' => 'Equal', 'container' => 'php', 'testCli' => true],
 		'opcache.file_update_protection' => ['recommended' => 0, 'type' => 'Equal', 'container' => 'php', 'testCli' => true],
 		'opcache.memory_consumption' => ['container' => 'php', 'testCli' => true],
-		'realpath_cache_size' => ['recommended' => '256k', 'type' => 'RealpathCacheSize', 'container' => 'php', 'testCli' => true],
+		'realpath_cache_size' => ['recommended' => '256k', 'type' => 'GreaterMb', 'container' => 'php', 'testCli' => true],
 		'realpath_cache_ttl' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'php', 'testCli' => true],
 		'mysqlnd.collect_statistics' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'mysqlnd.collect_memory_statistics' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
@@ -281,7 +281,7 @@ class ConfReport
 		'user_privileges/' => ['type' => 'IsWritable', 'testCli' => true],
 		'user_privileges/tabdata.php' => ['type' => 'IsWritable', 'testCli' => true],
 		'user_privileges/menu_0.php' => ['type' => 'IsWritable', 'testCli' => true],
-		'user_privileges/user_privileges_1.php' => ['type' => 'IsWritable', 'testCli' => true, 'required'=>false],
+		'user_privileges/user_privileges_1.php' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/addressBook/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/images/' => ['type' => 'IsWritable', 'testCli' => true],
@@ -309,8 +309,8 @@ class ConfReport
 	 * @var array
 	 */
 	public static $functionalVerification = [
-		'branding' => ['type' => 'Branding',  'testCli' => false, 'label' => 'FOOTER'],
-		'premiumModules' => ['type' => 'PremiumModules',  'testCli' => false, 'label' => 'PREMIUM_MODULES'],
+		'branding' => ['type' => 'Branding',  'testCli' => false, 'label' => 'FOOTER', 'mode' => 'onlyText'],
+		'premiumModules' => ['type' => 'PremiumModules',  'testCli' => false, 'label' => 'PREMIUM_MODULES', 'mode' => 'onlyText'],
 	];
 	/**
 	 * Php variables.
@@ -543,7 +543,7 @@ class ConfReport
 							$item = static::$methodName($key, $item, 'cron');
 						}
 					}
-					if (isset($item['skip'])) {
+					if (isset($item['mode']) && (($item['mode'] === 'whenError' && !$item['status']) || $item['mode'] === 'skipParam') ) {
 						unset(static::${$type}[$key]);
 					}
 				}
@@ -877,7 +877,7 @@ class ConfReport
 				$row[$sapi] = 'On';
 			}
 		} else {
-			$row['skip'] = true;
+			$row['mode'] = 'skipParam';
 		}
 		return $row;
 	}
@@ -931,7 +931,7 @@ class ConfReport
 			$row[$sapi] = \App\Config::main('session_regenerate_id') ? 'On' : 'Off';
 			$row['status'] = \App\Config::main('session_regenerate_id');
 		} else {
-			$row['skip'] = true;
+			$row['mode'] = 'skipParam';
 		}
 		return $row;
 	}
@@ -1130,35 +1130,12 @@ class ConfReport
 	 *
 	 * @return array
 	 */
-	private static function validateRealpathCacheSize(string $name, array $row, string $sapi)
-	{
-		unset($name);
-		$current = realpath_cache_size();
-		$max = \vtlib\Functions::parseBytes($row[$sapi]);
-		$converter = $current / $max;
-		if ($converter > 1) {
-			$row['recommended'] = \vtlib\Functions::showBytes(ceil($converter) * $max);
-			$row['status'] = false;
-		}
-		$row[$sapi] = \vtlib\Functions::showBytes($row[$sapi]);
-		return $row;
-	}
-
-	/**
-	 * Validate realpath cache size.
-	 *
-	 * @param string $name
-	 * @param array  $row
-	 * @param string $sapi
-	 *
-	 * @return array
-	 */
 	private static function validateIsWritable(string $name, array $row, string $sapi)
 	{
 		$row['status'] = \App\Fields\File::isWriteable($name);
 		$row[$sapi] = $row['status'] ? 'LBL_YES' : 'LBL_NO';
-		if(isset($row['required']) && $row['required'] === false && !file_exists(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR .$name)){
-			$row['skip'] = true;
+		if(!file_exists(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR .$name)){
+			$row['mode'] = 'skipParam';
 		}
 		return $row;
 	}
@@ -1184,7 +1161,6 @@ class ConfReport
 		$view->assign('SHOW_FOOTER', true);
 		$html = $view->view('Footer.tpl', '', true);
 		$row['status'] = true;
-		$row['only_info'] = true;
 		if( !\App\Config::component('Branding', 'isCustomerBrandingActive') ){
 			$row['status'] = false !== \strpos($html, '&copy; YetiForce.com All rights reserved');
 			$row['status'] = $row['status'] && \App\YetiForce\Shop::check('DisableBranding');
@@ -1205,7 +1181,6 @@ class ConfReport
 	 */
 	private static function validatePremiumModules(string $name, array $row, string $sapi)
 	{
-		$row['only_info'] = true;
 		$row['status'] = true;
 		$row[$sapi] = \App\Language::translate($row['status'] ? 'LBL_YES' : 'LBL_NO');
 		return $row;
@@ -1250,7 +1225,7 @@ class ConfReport
 	{
 		$result = [];
 		foreach (static::get($type, true) as $param => $data) {
-			if (!$data['status']) {
+			if (!$data['status'] && (empty($data['mode']) || $data['mode'] === 'showErrors')) {
 				if (!isset($data['www']) && !isset($data['cron'])) {
 					if (!empty($data['type']) && 'ExistsUrl' === $data['type']) {
 						$val = !$data['status'];

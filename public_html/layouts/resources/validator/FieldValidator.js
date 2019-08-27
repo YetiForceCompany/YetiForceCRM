@@ -172,7 +172,7 @@ Vtiger_Base_Validator_Js(
 				this.setError(app.vtranslate('JS_ENTERED_VALUE_IS_TOO_LONG'));
 				return false;
 			}
-			let negativeRegex = /^[a-zA-Z0-9_.@]+$/;
+			let negativeRegex = /^[a-zA-Z0-9_.@-]+$/;
 			if (!negativeRegex.test(fieldValue)) {
 				this.setError(app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS'));
 				return false;

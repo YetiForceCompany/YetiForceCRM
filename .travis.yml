@@ -1,6 +1,6 @@
 sudo: required
 
-dist: trusty
+dist: xenial
 
 language: php
 
@@ -24,8 +24,7 @@ env:
   global:
     # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
     #   via the "travis encrypt" command using the project repo's public key
-    - secure: "DVwz7mJZPez3r1wMNfYv2Pj/BkCi6VTXghfasOtXOw95GSIQ9gZErIPmjDpR27fopmpSYen+QyCBHpqA9UdctCX3BGi+g3yb325dTJa/xZt5zCkah/ebhLOCKMwP7SM6n2zrkViaMQjTqQ5fvV60YZJmckzjhxDWmgHDfWE6nZodphmrMrnN5Mi7EMAx5sePd9WB1uqup01N8mCB4vR8n9HYAnIkPB4zt+0xe2jU7xIDzwaeQk9yCTweA4JCOH1sgKBfwFwqvMv/TvZ4BqzTQVAJPJLungmq0EzpXOcDhuPa36pAGGyMS3KQnABDR7V/ZXZhukNEyiGZyqVuF7yOXiOGmbn4WF63dKUIx9VZrIsFgy7ZEFYmcFaoSfYFmO+7iRCniOnqutUQxJ1nr5eisYWkbzmoCttX9jXx1EaFbs2Js0xLYAi3G250nsrGoo1L9Ln3KQo+OvnmsERBGPddfyBdXY8HoOxWd9BVEOlyNYIva4cDOtu16eD7ZSy5+Hwe72HKdckRJ8oxnl/E5H1nHEcuWSj9MyP5cfXiwp6r43KCNxVZ0F7WhI7bv1NJv3oByvZs3146LH4qwv8rJvs7j3kAgeGwrYlGvpuL7lRHQGQJAEWexCcCc6rzqtfi0r5FeV/0qbBXSlH0PCwnH6YcsaLG0WifYka8i56y9bJK6MY="
-
+    - secure: 'DVwz7mJZPez3r1wMNfYv2Pj/BkCi6VTXghfasOtXOw95GSIQ9gZErIPmjDpR27fopmpSYen+QyCBHpqA9UdctCX3BGi+g3yb325dTJa/xZt5zCkah/ebhLOCKMwP7SM6n2zrkViaMQjTqQ5fvV60YZJmckzjhxDWmgHDfWE6nZodphmrMrnN5Mi7EMAx5sePd9WB1uqup01N8mCB4vR8n9HYAnIkPB4zt+0xe2jU7xIDzwaeQk9yCTweA4JCOH1sgKBfwFwqvMv/TvZ4BqzTQVAJPJLungmq0EzpXOcDhuPa36pAGGyMS3KQnABDR7V/ZXZhukNEyiGZyqVuF7yOXiOGmbn4WF63dKUIx9VZrIsFgy7ZEFYmcFaoSfYFmO+7iRCniOnqutUQxJ1nr5eisYWkbzmoCttX9jXx1EaFbs2Js0xLYAi3G250nsrGoo1L9Ln3KQo+OvnmsERBGPddfyBdXY8HoOxWd9BVEOlyNYIva4cDOtu16eD7ZSy5+Hwe72HKdckRJ8oxnl/E5H1nHEcuWSj9MyP5cfXiwp6r43KCNxVZ0F7WhI7bv1NJv3oByvZs3146LH4qwv8rJvs7j3kAgeGwrYlGvpuL7lRHQGQJAEWexCcCc6rzqtfi0r5FeV/0qbBXSlH0PCwnH6YcsaLG0WifYka8i56y9bJK6MY='
 
 addons:
   apt:
@@ -35,6 +34,7 @@ addons:
 
 cache:
   yarn: true
+  npm: true
 
   directories:
     - $HOME/.sonar/cache
@@ -107,13 +107,13 @@ jobs:
             - libapache2-mod-fastcgi
         chrome: stable
         sonarcloud:
-          organization: "yetiforcecompany"
+          organization: 'yetiforcecompany'
           token:
             secure: ${SONAR_TOKEN}
 
         coverity_scan:
           project:
-            name: "YetiForceCompany/YetiForceCRM"
+            name: 'YetiForceCompany/YetiForceCRM'
           notification_email: m.krzaczkowski@yetiforce.com
           branch_pattern: coverity_scan
       before_script:
@@ -122,6 +122,7 @@ jobs:
         - ./tests/setup/before_script.sh
         - ./tests/setup/apache.sh
         - ./tests/setup/selenium.sh
+        - php -i
       script:
         - cd tests
         - ../vendor/bin/phpunit --verbose --log-junit 'tests/execution.xml' --coverage-clover 'tests/coverage.xml'

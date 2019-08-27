@@ -60,7 +60,21 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		//MultiReferenceValue
 		if (305 === $this->getUIType()) {
 			$fieldParams = \App\Json::decode($this->get('fieldparams'));
-			$db->createCommand()->delete('s_#__multireference', ['source_module' => $fldModule, 'dest_module' => $fieldParams['module']])->execute();
+			$destModule = $fieldParams['module'];
+			$db->createCommand()->delete('s_#__multireference', ['source_module' => $fldModule, 'dest_module' => $destModule])->execute();
+			\App\Cache::delete('mrvfbm', "{$fldModule},{$destModule}");
+			\App\Cache::delete('getMultiReferenceModules', $destModule);
+		}
+		$tabIds = (new \App\Db\Query())
+			->select(['fieldid', 'tabid'])
+			->from('vtiger_field')
+			->where(['and',	['<>', 'presence', 1], ['uitype' => 305],	['and', ['like', 'fieldparams', '"field":"' . $id . '"']]
+			])->createCommand()->queryAllByGroup();
+		foreach ($tabIds as $fieldId => $tabId) {
+			$sourceModule = \App\Module::getModuleName($tabId);
+			$db->createCommand()->update('vtiger_field', ['presence' => 1], ['fieldid' => $fieldId])->execute();
+			\App\Cache::delete('mrvfbm', "{$sourceModule},{$fldModule}");
+			\App\Cache::delete('getMultiReferenceModules', $fldModule);
 		}
 	}
 

@@ -16,7 +16,7 @@ class Vtiger_WorkflowTrigger_View extends Vtiger_IndexAjax_View
 	 * @throws \App\Exceptions\NoPermitted
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if ($request->isEmpty('record')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -30,7 +30,7 @@ class Vtiger_WorkflowTrigger_View extends Vtiger_IndexAjax_View
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->getInteger('record');
@@ -43,7 +43,6 @@ class Vtiger_WorkflowTrigger_View extends Vtiger_IndexAjax_View
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $record);
-		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('WORKFLOWS', $workflows);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('WorkflowTrigger.tpl', $moduleName);

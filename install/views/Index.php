@@ -293,7 +293,7 @@ class Install_Index_View extends \App\Controller\View
 					case 'user_name':
 						$blacklist = require ROOT_DIRECTORY . '/config/username_blacklist.php';
 						$value = $request->get($name);
-						if (\in_array($value, $blacklist) || !preg_match('/^[a-zA-Z0-9_.@]{3,64}$/', $value)) {
+						if (\in_array($value, $blacklist) || !preg_match('/^[a-zA-Z0-9_.@-]{3,64}$/', $value)) {
 							$value = '';
 							$error = true;
 						}

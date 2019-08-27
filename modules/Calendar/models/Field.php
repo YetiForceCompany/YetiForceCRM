@@ -20,7 +20,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	public function getValidator()
 	{
 		$validator = [];
-		if ($this->getName() === 'due_date') {
+		if ('due_date' === $this->getName()) {
 			$funcName = ['name' => 'greaterThanDependentField',
 				'params' => ['date_start'], ];
 			array_push($validator, $funcName);
@@ -35,9 +35,10 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	 */
 	public function getFieldDataType()
 	{
-		if ($this->getName() == 'date_start' || $this->getName() == 'due_date') {
+		if ('date_start' == $this->getName() || 'due_date' == $this->getName()) {
 			return 'datetime';
-		} elseif ($this->getUIType() === 30) {
+		}
+		if (30 === $this->getUIType()) {
 			return 'reminder';
 		}
 		return parent::getFieldDataType();
@@ -49,37 +50,26 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if ($recordModel) {
-			if ($this->getName() === 'date_start') {
-				$dateTimeValue = $value . ' ' . $recordModel->get('time_start');
-				$value = $this->getUITypeModel()->getDisplayValue($dateTimeValue);
-				list($startDate, $startTime) = explode(' ', $value);
-
-				return $startDate . ' ' . $startTime;
-			} elseif ($this->getName() === 'due_date') {
-				$dateTimeValue = $value . ' ' . $recordModel->get('time_end');
-				$value = $this->getUITypeModel()->getDisplayValue($dateTimeValue);
-				list($startDate, $startTime) = explode(' ', $value);
-
-				return $startDate . ' ' . $startTime;
+			if ('date_start' === $this->getName()) {
+				$value = $value . ' ' . $recordModel->get('time_start');
+			} elseif ('due_date' === $this->getName()) {
+				$value = $value . ' ' . $recordModel->get('time_end');
 			}
 		}
 		return parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
 	}
 
 	/**
-	 * Function to get Edit view display value.
-	 *
-	 * @param string Data base value
-	 *
-	 * @return string value
+	 * {@inheritdoc}
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		if (empty($value)) {
 			$fieldName = $this->getName();
-			if ($fieldName === 'date_start') {
+			if ('date_start' === $fieldName) {
 				return DateTimeField::convertToUserFormat(date('Y-m-d'));
-			} elseif ($fieldName === 'due_date') {
+			}
+			if ('due_date' === $fieldName) {
 				$userModel = \App\User::getCurrentUserModel();
 				$defaultType = $userModel->getDetail('defaultactivitytype');
 				$typeByDuration = \App\Json::decode($userModel->getDetail('othereventduration'));
@@ -108,7 +98,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isEmptyPicklistOptionAllowed()
 	{
-		if ($this->getFieldName() == 'visibility') {
+		if ('visibility' == $this->getFieldName()) {
 			return false;
 		}
 		return true;
@@ -123,11 +113,11 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	{
 		parent::getFieldInfo();
 		//Change the default search operator
-		if ($this->get('name') == 'date_start') {
+		if ('date_start' == $this->get('name')) {
 			$searchParams = App\Condition::validSearchParams('Calendar', \App\Request::_getArray('search_params'));
 			if (!empty($searchParams)) {
 				foreach ($searchParams[0] as $value) {
-					if ($value[0] == 'date_start') {
+					if ('date_start' == $value[0]) {
 						$this->fieldInfo['searchOperator'] = $value[1];
 					}
 				}

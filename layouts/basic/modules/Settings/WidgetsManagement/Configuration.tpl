@@ -310,7 +310,7 @@
 					<div class="modal createFieldModal fade" tabindex="-1">
 						<div class="modal-dialog">
 							<div class="modal-content">
-								<div class="modal-header contentsBackground">
+								<div class="modal-header">
 									<h5 class="modal-title">{\App\Language::translate('LBL_CREATE_CUSTOM_FIELD', $QUALIFIED_MODULE)}</h5>
 									<button type="button" class="close" data-dismiss="modal"
 											aria-label="{\App\Language::translate('LBL_CLOSE')}">
@@ -320,8 +320,8 @@
 								</div>
 								<form class="form-horizontal createCustomFieldForm" method="POST">
 									<div class="modal-body">
-										<div class="form-group">
-											<div class="col-md-3 col-form-label">
+										<div class="row mb-2">
+											<div class="col-md-4 col-form-label">
 												{\App\Language::translate('LBL_SELECT_WIDGET', $QUALIFIED_MODULE)}
 											</div>
 											<div class="col-md-8 controls">
@@ -339,8 +339,8 @@
 												</select>
 											</div>
 										</div>
-										<div class="form-group">
-											<div class="col-sm-3 col-form-label">
+										<div class="row mb-2">
+											<div class="col-sm-4 col-form-label">
 												{\App\Language::translate('LBL_WIDTH', $QUALIFIED_MODULE)}
 											</div>
 											<div class="col-sm-2">
@@ -350,7 +350,7 @@
 													{/foreach}
 												</select>
 											</div>
-											<div class="col-sm-3 col-form-label" style="width:135px">
+											<div class="col-sm-4 col-form-label">
 												{\App\Language::translate('LBL_HEIGHT', $QUALIFIED_MODULE)}
 											</div>
 											<div class="col-sm-2">
@@ -361,16 +361,16 @@
 												</select>
 											</div>
 										</div>
-										<div class="form-group">
-											<div class="col-sm-3 col-form-label">
+										<div class="row mb-2">
+											<div class="col-sm-4 col-form-label">
 												{\App\Language::translate('LBL_MANDATORY_WIDGET', $QUALIFIED_MODULE)}
 											</div>
 											<div class="col-sm-2 controls">
-												<input type="checkbox" name="isdefault">
+												<input type="checkbox" class="middle" name="isdefault">
 											</div>
 										</div>
-										<div class="form-group widgetFilter d-none">
-											<div class="col-sm-3 col-form-label">
+										<div class="row mb-2 widgetFilter d-none">
+											<div class="col-sm-4 col-form-label">
 												{\App\Language::translate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}
 											</div>
 											<div class="col-sm-8 controls">
@@ -381,8 +381,8 @@
 												</select>
 											</div>
 										</div>
-										<div class="form-group widgetFilter d-none">
-											<div class="col-sm-3 col-form-label">
+										<div class="row mb-2 widgetFilter d-none">
+											<div class="col-sm-4 col-form-label">
 												{\App\Language::translate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
 											</div>
 											<div class="col-sm-8 controls">
@@ -397,8 +397,8 @@
 												</select>
 											</div>
 										</div>
-										<div class="form-group widgetFilterDate d-none">
-											<div class="col-sm-3 col-form-label">
+										<div class="row mb-2 widgetFilterDate d-none">
+											<div class="col-sm-4 col-form-label">
 												{\App\Language::translate('LBL_DEFAULT_DATE', $QUALIFIED_MODULE)}
 											</div>
 											<div class="col-sm-8 controls">

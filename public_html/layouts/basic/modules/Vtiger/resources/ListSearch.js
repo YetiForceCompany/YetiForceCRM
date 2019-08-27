@@ -119,6 +119,9 @@ jQuery.Class(
 		registerDateListSearch: function(container) {
 			App.Fields.Date.registerRange(this.getContainer().find('.dateRangeField'));
 		},
+		registerDateTimeListSearch: function(container) {
+			App.Fields.DateTime.register(this.getContainer());
+		},
 		registerTimeListSearch: function() {
 			app.registerEventForClockPicker();
 		},
@@ -339,6 +342,7 @@ jQuery.Class(
 		registerBasicEvents: function() {
 			this.registerListViewSelect();
 			this.registerDateListSearch();
+			this.registerDateTimeListSearch();
 			this.registerTimeListSearch();
 			this.registerAlphabetClick();
 			this.registerListSearch();

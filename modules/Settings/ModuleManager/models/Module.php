@@ -228,7 +228,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field2->typeofdata = 'V~O';
 		$field2->columntype = 'string(32)';
 		$field2->maximumlength = '32';
-		$block->addField($field2);
+		$blockcf->addField($field2);
 
 		$field3 = new vtlib\Field();
 		$field3->name = 'assigned_user_id';
@@ -238,7 +238,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field3->uitype = 53;
 		$field3->typeofdata = 'V~M';
 		$field3->maximumlength = '65535';
-		$block->addField($field3);
+		$blockcf->addField($field3);
 
 		$field4 = new vtlib\Field();
 		$field4->name = 'createdtime';
@@ -248,7 +248,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field4->uitype = 70;
 		$field4->typeofdata = 'DT~O';
 		$field4->displaytype = 2;
-		$block->addField($field4);
+		$blockcf->addField($field4);
 
 		$field5 = new vtlib\Field();
 		$field5->name = 'modifiedtime';
@@ -258,7 +258,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field5->uitype = 70;
 		$field5->typeofdata = 'DT~O';
 		$field5->displaytype = 2;
-		$block->addField($field5);
+		$blockcf->addField($field5);
 
 		$field6 = new vtlib\Field();
 		$field6->name = 'created_user_id';
@@ -271,7 +271,18 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field6->quickcreate = 3;
 		$field6->masseditable = 0;
 		$field6->maximumlength = '65535';
-		$block->addField($field6);
+		$blockcf->addField($field6);
+
+		$field7 = new vtlib\Field();
+		$field7->name = 'shownerid';
+		$field7->label = 'Share with users';
+		$field7->table = 'vtiger_crmentity';
+		$field7->column = 'shownerid';
+		$field7->uitype = 120;
+		$field7->columntype = 'int(11)';
+		$field7->typeofdata = 'V~O';
+		$field7->maximumlength = '65535';
+		$blockcf->addField($field7);
 
 		// Create default custom filter (mandatory)
 		$filter1 = new vtlib\Filter();

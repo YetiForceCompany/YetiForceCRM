@@ -89,6 +89,7 @@ class Company extends Base
 					$recordModel->set($fieldName, $uiTypeModel->getDBValue($company[$fieldName]));
 				}
 			}
+			$recordModel->saveCompanyLogos();
 			$recordModel->save();
 		}
 		return (new YetiForce\Register())->register();

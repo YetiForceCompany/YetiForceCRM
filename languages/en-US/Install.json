@@ -131,6 +131,7 @@
     "LBL_PASS_REENTER_ERROR": "Please re-enter passwords.  The Password and Re-type password values do not match.",
     "LBL_INVALID_EMAIL_ERROR": "Warning! Invalid email address.",
     "LBL_INVALID_USERNAME_ERROR": "Invalid username",
+    "JS_CONTAINS_ILLEGAL_CHARACTERS": "Value is to short/long or contains invalid characters",
     "LBL_RESOLVE_ERROR": "Please resolve the error before proceeding with the installation",
     "JS_SELECT_AN_OPTION": "Select an option",
     "JS_S_LENGTH_MENU": "Show _MENU_ entries",

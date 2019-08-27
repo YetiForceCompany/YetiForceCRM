@@ -253,7 +253,7 @@ class Import_Data_Action extends \App\Controller\Action
 					$comparisonValue = $fieldData[$mergeField];
 					$fieldInstance = $moduleFields[$mergeField];
 					if ($fieldInstance->getFieldDataType() == 'owner') {
-						$ownerId = \App\User::getUserIdByName($comparisonValue);
+						$ownerId = \App\User::getUserIdByFullName($comparisonValue);
 						if (empty($ownerId)) {
 							$ownerId = \App\Fields\Owner::getGroupId($comparisonValue);
 						}
@@ -268,9 +268,6 @@ class Import_Data_Action extends \App\Controller\Action
 						if (count($referenceFileValueComponents) > 1) {
 							$comparisonValue = trim($referenceFileValueComponents[1]);
 						}
-					}
-					if (in_array($fieldInstance->getFieldDataType(), ['date', 'datetime'])) {
-						$comparisonValue = DateTimeField::convertToUserFormat($comparisonValue);
 					}
 					$queryGenerator->addCondition($mergeField, $comparisonValue, 'e');
 				}
@@ -503,7 +500,7 @@ class Import_Data_Action extends \App\Controller\Action
 	{
 		$defaultFieldValues = $this->getDefaultFieldValues();
 		$fieldName = $fieldInstance->getFieldName();
-		$ownerId = \App\User::getUserIdByName(trim($fieldValue));
+		$ownerId = \App\User::getUserIdByFullName(trim($fieldValue));
 		if (empty($ownerId)) {
 			$ownerId = \App\Fields\Owner::getGroupId($fieldValue);
 		}
@@ -525,7 +522,7 @@ class Import_Data_Action extends \App\Controller\Action
 	 * @param \Vtiger_Field_Model $fieldInstance
 	 * @param string              $fieldValue
 	 *
-	 * @return array
+	 * @return string
 	 */
 	public function transformSharedOwner($fieldInstance, $fieldValue)
 	{
@@ -535,7 +532,7 @@ class Import_Data_Action extends \App\Controller\Action
 		if ($fieldValue) {
 			$owners = explode(',', $fieldValue);
 			foreach ($owners as $owner) {
-				$ownerId = \App\User::getUserIdByName(trim($owner));
+				$ownerId = \App\User::getUserIdByFullName(trim($owner));
 				if (empty($ownerId)) {
 					$ownerId = \App\Fields\Owner::getGroupId($owner);
 				}
@@ -547,7 +544,7 @@ class Import_Data_Action extends \App\Controller\Action
 				}
 			}
 		}
-		return $values;
+		return implode(',', $values);
 	}
 
 	/**
@@ -610,7 +607,7 @@ class Import_Data_Action extends \App\Controller\Action
 			foreach ($referencedModules as $referenceModule) {
 				$referenceModuleName = $referenceModule;
 				if ($referenceModule === 'Users') {
-					$referenceEntityId = \App\User::getUserIdByName(trim($entityLabel));
+					$referenceEntityId = \App\User::getUserIdByFullName(trim($entityLabel));
 					if (empty($referenceEntityId) || !array_key_exists($referenceEntityId, \App\Fields\Owner::getInstance($fieldInstance->getModuleName(), $this->user->getId())->getAccessibleUsers('', 'owner'))) {
 						$referenceEntityId = $this->user->getId();
 					}
@@ -1009,15 +1006,15 @@ class Import_Data_Action extends \App\Controller\Action
 	}
 
 	/**
-	 * Update rekord.
+	 * Update record.
 	 *
-	 * @param int    $rekord
+	 * @param int    $record
 	 * @param array  $fieldData
 	 * @param string $moduleName
 	 */
-	public function updateRecordByModel($rekord, $fieldData, $moduleName = false)
+	public function updateRecordByModel($record, $fieldData, $moduleName = false)
 	{
-		$recordModel = Vtiger_Record_Model::getInstanceById($rekord, $moduleName);
+		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		if (isset($fieldData['inventoryData'])) {
 			$inventoryData = $fieldData['inventoryData'];
 			unset($fieldData['inventoryData']);

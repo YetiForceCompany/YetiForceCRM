@@ -451,25 +451,28 @@ class Functions
 	 * @param string $src
 	 * @param string $dest
 	 *
-	 * @return string
+	 * @return int
 	 */
 	public static function recurseCopy($src, $dest)
 	{
 		$rootDir = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR;
 		if (!file_exists($rootDir . $src)) {
-			return;
+			return 0;
 		}
 		if ($dest && '/' !== substr($dest, -1) && '\\' !== substr($dest, -1)) {
 			$dest = $dest . \DIRECTORY_SEPARATOR;
 		}
+		$i = 0;
 		$dest = $rootDir . $dest;
 		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			if ($item->isDir() && !file_exists($dest . $iterator->getSubPathName())) {
 				mkdir($dest . $iterator->getSubPathName(), 0755);
 			} elseif (!$item->isDir()) {
 				copy($item->getRealPath(), $dest . $iterator->getSubPathName());
+				++$i;
 			}
 		}
+		return $i;
 	}
 
 	public static function parseBytes($str)

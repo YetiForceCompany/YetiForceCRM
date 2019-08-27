@@ -70,7 +70,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_Basic_Action
 				$taskRecordModel->save();
 			}
 			$response = new Vtiger_Response();
-			$response->setResult(['success' => true, 'count' => count($taskList)]);
+			$response->setResult(['success' => true, 'count' => \count($taskList)]);
 			$response->emit();
 		}
 	}
@@ -112,7 +112,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_Basic_Action
 			foreach ($fieldNames as $fieldName) {
 				if ('field_value_mapping' == $fieldName || 'content' == $fieldName) {
 					$values = \App\Json::decode($request->getRaw($fieldName));
-					if (is_array($values)) {
+					if (\is_array($values)) {
 						foreach ($values as $index => $value) {
 							$values[$index]['value'] = htmlspecialchars($value['value']);
 						}
@@ -126,14 +126,14 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_Basic_Action
 				}
 			}
 
-			$taskType = get_class($taskObject);
+			$taskType = \get_class($taskObject);
 			if ('VTCreateEntityTask' === $taskType && $taskObject->field_value_mapping) {
 				$relationModuleModel = Vtiger_Module_Model::getInstance($taskObject->entity_type);
 				$ownerFieldModels = $relationModuleModel->getFieldsByType('owner');
 
 				$fieldMapping = \App\Json::decode($taskObject->field_value_mapping);
 				foreach ($fieldMapping as $key => $mappingInfo) {
-					if (array_key_exists($mappingInfo['fieldname'], $ownerFieldModels)) {
+					if (\array_key_exists($mappingInfo['fieldname'], $ownerFieldModels)) {
 						if ('assigned_user_id' == $mappingInfo['value']) {
 							$fieldMapping[$key]['valuetype'] = 'fieldname';
 						} else {

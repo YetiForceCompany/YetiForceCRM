@@ -5,6 +5,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Sołek <a.solek@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Fields;
@@ -227,5 +228,26 @@ class DateTime
 				break;
 		}
 		return $interval->format($format);
+	}
+
+	/**
+	 * Function changes the datetime format to the database format without changing the time zone.
+	 *
+	 * @param string $value
+	 * @param string $fromFormat
+	 *
+	 * @return string
+	 */
+	public static function sanitizeDbFormat(string $value, string $fromFormat): string
+	{
+		[$date, $time] = array_pad(explode(' ', $value, 2), 2, '');
+		if (!empty($date)) {
+			$date = \App\Fields\Date::sanitizeDbFormat($date, $fromFormat);
+			$value = $date;
+			if (!empty($time)) {
+				$value .= ' ' . \App\Fields\Time::sanitizeDbFormat($time);
+			}
+		}
+		return $value;
 	}
 }

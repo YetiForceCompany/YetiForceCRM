@@ -15,7 +15,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		if (is_array($value)) {
+		if (\is_array($value)) {
 			$value = implode(',', $value);
 		}
 		return \App\Purifier::decodeHtml($value);
@@ -27,7 +27,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$values = [];
-		if (!is_array($value)) {
+		if (!\is_array($value)) {
 			$value = $value ? explode('##', $value) : [];
 		}
 		foreach ($value as $val) {
@@ -41,11 +41,11 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		$hashValue = is_array($value) ? implode('|', $value) : $value;
+		$hashValue = \is_array($value) ? implode('|', $value) : $value;
 		if (isset($this->validate[$hashValue]) || empty($value)) {
 			return;
 		}
-		if (!is_array($value)) {
+		if (!\is_array($value)) {
 			$value = (array) $value;
 		}
 		$rangeValues = null;
@@ -73,7 +73,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		if (empty($value)) {
 			return '';
 		}
-		if (!is_array($value)) {
+		if (!\is_array($value)) {
 			$values = explode(',', $value);
 		}
 		$displayValue = [];
@@ -233,7 +233,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function  getQueryOperators()
+	public function getQueryOperators()
 	{
 		return ['e', 'n', 'y', 'ny', 'om', 'ogr'];
 	}
@@ -244,5 +244,17 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	public function getOperatorTemplateName(string $operator = '')
 	{
 		return 'ConditionBuilder/Owner.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getValueToExport($value, int $recordId)
+	{
+		$values = [];
+		foreach (\App\Fields\SharedOwner::getById($recordId) as $owner) {
+			$values[] = \App\Fields\Owner::getLabel($owner);
+		}
+		return $value = implode(',', $values);
 	}
 }

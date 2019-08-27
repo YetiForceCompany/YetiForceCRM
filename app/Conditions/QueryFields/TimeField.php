@@ -22,16 +22,6 @@ class TimeField extends BaseField
 	}
 
 	/**
-	 * Get value.
-	 *
-	 * @return mixed
-	 */
-	public function getValue()
-	{
-		return \App\Fields\Time::formatToDB($this->value);
-	}
-
-	/**
 	 * Lower operator.
 	 *
 	 * @return array

@@ -258,6 +258,7 @@
     "LBL_SELECT_USERS": "Select users",
     "Meeting": "Meeting",
     "Call": "Call",
+    "Task": "To Do",
     "Mobile Call": "Mobile call",
     "Planned": "Planned",
     "Held": "Held",
@@ -364,7 +365,8 @@
     "LBL_2FA_TOTP_INFO_IN_DEMO": "In demo mode, 2FA is for preview only.",
     "FL_DEFAULT_SEARCH_MODULE": "Default module",
     "FL_OVERRIDE_SEARCH_MODULE": "Force the default selection",
-    "LBL_GLOBAL_SEARCH_SETTINGS": "Global search settings"
+    "LBL_GLOBAL_SEARCH_SETTINGS": "Global search settings",
+    "FL_PRIMARY_PHONE": "Primary phone"
   },
   "js": {
     "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "Decimal separator and grouping separator can't be the same.",

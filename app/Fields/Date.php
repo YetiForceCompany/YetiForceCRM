@@ -268,4 +268,49 @@ class Date
 		\App\Cache::save('Date::getHolidays', $start . $end, $holidays);
 		return $holidays;
 	}
+
+	/**
+	 * Function changes the date format to the database format without changing the time zone.
+	 *
+	 * @param string $date
+	 * @param string $fromFormat
+	 *
+	 * @return string
+	 */
+	public static function sanitizeDbFormat(string $date, string $fromFormat)
+	{
+		$dbDate = '';
+		if ($date) {
+			[$y, $m, $d] = self::explode($date, $fromFormat);
+			if (!$y || !$m || !$d) {
+				if (false !== strpos($date, '-')) {
+					$separator = '-';
+				} elseif (false !== strpos($date, '.')) {
+					$separator = '.';
+				} elseif (false !== strpos($date, '/')) {
+					$separator = '/';
+				}
+				$formatToConvert = str_replace(['/', '.'], '-', $fromFormat);
+				$dateToConvert = str_replace($separator, '-', $date);
+				switch ($formatToConvert) {
+				case 'dd-mm-yyyy':
+					[$d, $m, $y] = explode('-', $dateToConvert, 3);
+					break;
+				case 'mm-dd-yyyy':
+					[$m, $d, $y] = explode('-', $dateToConvert, 3);
+					break;
+				case 'yyyy-mm-dd':
+					[$y, $m, $d] = explode('-', $dateToConvert, 3);
+					break;
+				default:
+					break;
+			}
+				$dbDate = $y . '-' . $m . '-' . $d;
+			} else {
+				$dbDate = $y . '-' . $m . '-' . $d;
+			}
+		}
+
+		return $dbDate;
+	}
 }

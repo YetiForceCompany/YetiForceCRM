@@ -158,10 +158,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isEditableReadOnly()
 	{
-		if ('login_method' === $this->getColumnName() && !\App\User::getCurrentUserModel()->isAdmin()) {
-			return true;
-		}
-		return parent::isEditableReadOnly();
+		return ('login_method' === $this->getColumnName() && !\App\User::getCurrentUserModel()->isAdmin()) || (10 === (int) $this->get('displaytype'));
 	}
 
 	/**

@@ -83,7 +83,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			}
 			$row['description'] = $description;
 		}
-		if (in_array('color', $db->getTableSchema($tableName)->getColumnNames())) {
+		if (\in_array('color', $db->getTableSchema($tableName)->getColumnNames())) {
 			$row['color'] = '#E6FAD8';
 		}
 		$db->createCommand()->insert($tableName, $row)->execute();
@@ -149,7 +149,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		if ($result) {
 			$dataReader = (new \App\Db\Query())->select(['tablename', 'columnname', 'tabid'])
 				->from('vtiger_field')
-				->where(['and', ['fieldname' => $pickListFieldName], ['presence' => [0, 2]], ['or', ['uitype' => [15, 16, 33]], ['and', ['uitype' => [55]], ['fieldname' => 'salutationtype']]]])
+				->where(['and', ['fieldname' => $pickListFieldName], ['presence' => [0, 2]], ['uitype' => [15, 16, 33]]])
 				->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				$columnName = $row['columnname'];
@@ -200,7 +200,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	public function remove($pickListFieldName, $valueToDeleteId, $replaceValueId, $moduleName)
 	{
 		$dbCommand = App\Db::getInstance()->createCommand();
-		if (!is_array($valueToDeleteId)) {
+		if (!\is_array($valueToDeleteId)) {
 			$valueToDeleteId = [$valueToDeleteId];
 		}
 		$primaryKey = App\Fields\Picklist::getPickListId($pickListFieldName);

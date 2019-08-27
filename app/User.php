@@ -427,6 +427,21 @@ class User
 	}
 
 	/**
+	 * Function gets user ID by user full name.
+	 *
+	 * @param string $fullName
+	 *
+	 * @return int
+	 */
+	public static function getUserIdByFullName(string $fullName): int
+	{
+		$instance = \App\Fields\Owner::getInstance();
+		$instance->showRoleName = false;
+		$users = array_column($instance->initUsers(), 'id', 'fullName');
+		return $users[$fullName] ?? 0;
+	}
+
+	/**
 	 * Get user image details.
 	 *
 	 * @throws \App\Exceptions\AppException

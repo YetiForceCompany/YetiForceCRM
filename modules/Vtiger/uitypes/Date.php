@@ -16,10 +16,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		if (!empty($value)) {
-			return self::getDBInsertedValue($value);
-		}
-		return '';
+		return empty($value) ? '' : DateTimeField::convertToDBFormat($value);
 	}
 
 	public function getDbConditionBuilderValue($value, string $operator)
@@ -69,18 +66,6 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 			return '';
 		}
 		return $dateValue;
-	}
-
-	/**
-	 * Function converts the date to database format.
-	 *
-	 * @param string $value
-	 *
-	 * @return string
-	 */
-	public static function getDBInsertedValue($value)
-	{
-		return DateTimeField::convertToDBFormat($value);
 	}
 
 	/**

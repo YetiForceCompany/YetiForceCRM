@@ -44,20 +44,21 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$currentUser = \App\User::getCurrentUserModel();
 		$moduleName = $request->getModule();
 		$linkId = $request->getInteger('linkid');
 		$user = $request->getByType('owner', 2);
 		$time = $request->getByType('time', 'DateRangeUserFormat');
+		$displayTime = [];
 		if (empty($time)) {
-			$time['start'] = App\Fields\Date::formatToDisplay('now');
-			$time['end'] = App\Fields\Date::formatToDisplay('now');
-		} else {
-			foreach ($time as &$timeValue) {
-				$timeValue = App\Fields\Date::formatToDisplay($timeValue);
-			}
+			$time['start'] = App\Fields\Date::formatToDb('');
+			$time['end'] = $time['start'];
+		}
+
+		foreach ($time as $key => $timeValue) {
+			$displayTime[$key] = App\Fields\Date::formatToDisplay($timeValue);
 		}
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (empty($user)) {
@@ -65,7 +66,7 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 		}
 		$accessibleUsers = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleUsersForModule();
 		$accessibleGroups = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleGroupForModule();
-		if ($user == 'all') {
+		if ('all' == $user) {
 			$user = array_keys($accessibleUsers);
 		}
 		$page = $request->getInteger('page');
@@ -78,7 +79,7 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('NEW_ACCOUNTS', $this->getAccounts($moduleName, $user, $time, $pagingModel));
-		$viewer->assign('DTIME', $time);
+		$viewer->assign('DTIME', $displayTime);
 		$viewer->assign('OWNER', $user);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);

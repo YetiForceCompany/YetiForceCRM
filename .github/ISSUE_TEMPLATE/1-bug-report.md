@@ -83,3 +83,6 @@ ex.
 Add any other context about the problem here.
 
 <!-- Please check on your issue from time to time, in case we have questions or need some extra information. Issues that don't have enough info and can't be reproduced will be closed.--->
+
+### ❗️ Inform the community if you solve the problem
+<!-- If you solve the problem on your own, please inform the YetiForce community and explain what caused it and how you fixed it.--->

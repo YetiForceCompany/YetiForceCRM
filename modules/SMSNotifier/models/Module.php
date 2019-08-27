@@ -61,7 +61,7 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_WORKFLOWS',
 				'linkurl' => 'index.php?parent=Settings&module=Workflows&view=List&sourceModule=' . $this->getName(),
-				'linkicon' => 'adminIcon-triggers',
+				'linkicon' => 'yfi yfi-workflows-2',
 			];
 		}
 		$settingsLinks[] = [

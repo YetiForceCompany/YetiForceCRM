@@ -11,11 +11,4 @@ namespace App\Conditions\QueryFields;
  */
 class DoubleField extends IntegerField
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getValue()
-	{
-		return \App\Fields\Double::formatToDb($this->value);
-	}
 }

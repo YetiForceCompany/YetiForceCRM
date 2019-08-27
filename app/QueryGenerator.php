@@ -1044,14 +1044,18 @@ class QueryGenerator
 	 * @param string $fieldName
 	 * @param mixed  $value
 	 * @param string $operator
+	 * @param bool $userFormat
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return array|bool
 	 */
-	private function getCondition(string $fieldName, $value, string $operator)
+	private function getCondition(string $fieldName, $value, string $operator, bool $userFormat = false)
 	{
 		$queryField = $this->getQueryField($fieldName);
+		if($userFormat && $queryField->getField()){
+			$value = $queryField->getField()->getUITypeModel()->getDbConditionBuilderValue($value, $operator);
+		}
 		$queryField->setValue($value);
 		$queryField->setOperator($operator);
 		$condition = $queryField->getCondition();
@@ -1090,15 +1094,16 @@ class QueryGenerator
 	 * @param mixed  $value
 	 * @param string $operator
 	 * @param mixed  $groupAnd
+	 * @param bool  $userFormat
 	 *
 	 * @see Condition::ADVANCED_FILTER_OPTIONS
 	 * @see Condition::DATE_OPERATORS
 	 *
 	 * @return $this
 	 */
-	public function addCondition($fieldName, $value, $operator, $groupAnd = true)
+	public function addCondition($fieldName, $value, $operator, $groupAnd = true, $userFormat = false)
 	{
-		$condition = $this->getCondition($fieldName, $value, $operator);
+		$condition = $this->getCondition($fieldName, $value, $operator, $userFormat);
 		if ($condition) {
 			if ($groupAnd) {
 				$this->conditionsAnd[] = $condition;
@@ -1168,7 +1173,7 @@ class QueryGenerator
 	 *
 	 * @param string[] $fieldDetail
 	 *
-	 * @return bool|Vtiger_Field_Model
+	 * @return bool|\Vtiger_Field_Model
 	 */
 	protected function addRelatedJoin($fieldDetail)
 	{
@@ -1257,46 +1262,6 @@ class QueryGenerator
 	}
 
 	/**
-	 * Set base search condition (search_key,search_value in url).
-	 *
-	 * @param string $fieldName
-	 * @param mixed  $value
-	 * @param string $operator
-	 * @param mixed  $values
-	 */
-	public function addBaseSearchConditions($fieldName, $values, $operator = 'e')
-	{
-		if (empty($fieldName)) {
-			return;
-		}
-		$field = $this->getModuleField($fieldName);
-		$type = $field->getFieldDataType();
-		if (!\is_array($values)) {
-			$values = [$values];
-		}
-		foreach ($values as &$value) {
-			if ('' !== $value) {
-				$value = \function_exists('iconv') ? iconv('UTF-8', \App\Config::main('default_charset'), $value) : $value; // search other characters like "|, ?, ?" by jagi
-				if ('currency' === $type) {
-					// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion
-					if (72 === $field->getUIType()) {
-						$value = \CurrencyField::convertToDBFormat($value, null, true);
-					} else {
-						$value = \CurrencyField::convertToDBFormat($value);
-					}
-				}
-			}
-			if ('null' === trim(strtolower($value))) {
-				$operator = 'e';
-			}
-		}
-		if (1 === \count($values)) {
-			$values = $values[0];
-		}
-		$this->addCondition($fieldName, $values, $operator);
-	}
-
-	/**
 	 * Parse base search condition to db condition.
 	 *
 	 * @param array $searchParams Example: [[["firstname","a","Tom"]]]
@@ -1328,10 +1293,6 @@ class QueryGenerator
 					}
 					if (('tree' === $field->getFieldDataType() || 'categoryMultipicklist' === $field->getFieldDataType()) && $specialOption) {
 						$fieldValue = \Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $this->moduleModel);
-					}
-					//Request will be having in terms of AM and PM but the database will be having in 24 hr format so converting
-					if ('time' === $field->getFieldDataType()) {
-						$fieldValue = \Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
 					}
 					if ('date_start' === $fieldName || 'due_date' === $fieldName || 'datetime' === $field->getFieldDataType()) {
 						$dateValues = explode(',', $fieldValue);

@@ -273,12 +273,6 @@ class WorkFlowScheduler
 			default:
 				break;
 		}
-		if (!\in_array($operation, ['less than days ago', 'in less than', 'less than hours before', 'less than hours later'])) {
-			$value = App\Fields\DateTime::formatToDisplay($value);
-		} else {
-			$dates = explode(',', $value);
-			$value = implode(',', array_map('\App\Fields\Date::formatToDisplay', $dates));
-		}
 		date_default_timezone_set($default_timezone);
 		return $value;
 	}
