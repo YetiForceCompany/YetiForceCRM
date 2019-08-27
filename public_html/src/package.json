@@ -43,7 +43,7 @@
     "gulp": "^4.0.2",
     "gulp-stylus": "^2.7.0",
     "postcss": "^7.0.16",
-    "rollup": "^1.16.3",
+    "rollup": "^1.20.2",
     "rollup-plugin-alias": "^1.5.2",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-babel-minify": "^9.0.0",
