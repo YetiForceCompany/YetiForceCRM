@@ -279,6 +279,13 @@ $.Class(
 			}
 			return taxRate;
 		},
+		getTaxPercent: function(row) {
+			var taxParams = row.find('.taxParam').val();
+			if (taxParams == '' || taxParams == '[]' || taxParams == undefined) return 0;
+			taxParams = JSON.parse(taxParams);
+			let taxPercent = taxParams[taxParams.aggregationType + 'Tax'];
+			return taxPercent ? taxPercent : 0;
+		},
 		getTaxParams: function(row) {
 			var taxParams = row.find('.taxParam').val();
 			if (taxParams == '' || taxParams == '[]' || taxParams == undefined) return false;
@@ -541,6 +548,7 @@ $.Class(
 		},
 		calculateTaxes: function(row) {
 			this.setTax(row, this.getTax(row));
+			this.setTaxPercent(row, this.getTaxPercent(row));
 		},
 		summaryCalculations: function() {
 			var thisInstance = this;
