@@ -26,9 +26,9 @@
     </div>
     <q-separator class="q-my-xs" />
     <div class="d-flex flex-nowrap">
-      <div class="o-chat__message-block">
+      <div class="full-width">
         <div
-          class="u-font-size-13px js-completions o-chat__form-control full-height"
+          class="u-font-size-13px js-completions full-height u-outline-none"
           contenteditable="true"
           data-completions-buttons="true"
           :placeholder="translate('JS_CHAT_MESSAGE')"
@@ -51,13 +51,13 @@ const Picker = Emoji.Picker
 const { mapGetters, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatMessages',
-	components: { Picker },
-	props: {
+  components: { Picker },
+  props: {
     roomData: {
       type: Object,
       required: true
     }
-	},
+  },
   data() {
     return {
       sending: false,
@@ -95,10 +95,10 @@ export default {
       if (this.$refs.input.innerText.length < this.config.maxLengthMessage) {
         this.sending = true
         this.sendMessage({
-					text: this.$refs.input.innerHTML,
-					roomType: this.roomData.roomType,
-					recordId: this.roomData.recordid
-				}).then(e => {
+          text: this.$refs.input.innerHTML,
+          roomType: this.roomData.roomType,
+          recordId: this.roomData.recordid
+        }).then(e => {
           this.$refs.input.innerText = ''
           this.sending = false
           this.$emit('onSended')
