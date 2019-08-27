@@ -44,7 +44,7 @@
 						<hr class="w-100">
 					</div>
 					<div class="row">
-						<form name="step-stepChooseHost" method="post" action="Install.php" class="{$COL_CLASS} bg-danger">
+						<form name="step-stepChooseHost" method="post" action="Install.php" class="{$COL_CLASS} o-product o-product--own">
 							<input type="hidden" name="mode" value="step3">
 							<input type="hidden" name="lang" value="{$LANG}">
 							{SHOW_HOSTING_TITLE TYPE='SELF'}
@@ -63,11 +63,11 @@
 								<span class="fas fa-lg fa-arrow-circle-right ml-2"></span>
 							</button>
 						</form>
-						<div class="{$COL_CLASS} bg-blue-grey-13">
+						<div class="{$COL_CLASS} o-product o-product--shared">
 							{SHOW_HOSTING_TITLE TYPE='SHARED'}
 							{SHOW_HOSTING_BODY PRODUCT=$PRODUCT_SHARED}
 						</div>
-						<div class="{$COL_CLASS} bg-color-cyan-500">
+						<div class="{$COL_CLASS} o-product o-product--cloud">
 							{SHOW_HOSTING_TITLE TYPE='CLOUD'}
 							{SHOW_HOSTING_BODY PRODUCT=$PRODUCT_ClOUD}
 						</div>
