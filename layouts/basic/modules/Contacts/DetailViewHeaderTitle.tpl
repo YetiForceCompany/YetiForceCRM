@@ -30,7 +30,7 @@
 					</span>
 				</div>
 				{assign var=SALUTATION value=''}
-				{if $RECORD->getField('salutationtype')->isActiveField()}
+				{if $RECORD->getField('salutationtype')->isViewable()}
 					{assign var=SALUTATION value=$RECORD->getDisplayValue('salutationtype')}
 				{/if}
 				<div class="d-flex flex-nowrap align-items-center js-popover-tooltip--ellipsis-icon" data-content="{if $SALUTATION}{\App\Purifier::encodeHtml($SALUTATION)} {/if}{\App\Purifier::encodeHtml($RECORD->getName())}"
