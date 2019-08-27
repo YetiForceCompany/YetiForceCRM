@@ -349,10 +349,10 @@ datatables.net@1.10.19, datatables.net@^1.10.15, datatables.net@^1.10.19:
   dependencies:
     jquery ">=1.7"
 
-dayjs@^1.8.15:
-  version "1.8.15"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.15.tgz#7121bc04e6a7f2621ed6db566be4a8aaf8c3913e"
-  integrity sha512-HYHCI1nohG52B45vCQg8Re3hNDZbMroWPkhz50yaX7Lu0ATyjGsTdoYZBpjED9ar6chqTx2dmSmM8A51mojnAg==
+dayjs@^1.8.16:
+  version "1.8.16"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.16.tgz#2a3771de537255191b947957af2fd90012e71e64"
+  integrity sha512-XPmqzWz/EJiaRHjBqSJ2s6hE/BUoCIHKgdS2QPtTQtKcS9E4/Qn0WomoH1lXanWCzri+g7zPcuNV4aTZ8PMORQ==
 
 debug-fabulous@1.X:
   version "1.1.0"
@@ -571,11 +571,11 @@ fullcalendar@3.10.1:
   integrity sha512-E0ioaHVmwdS4es8pNTUNva7505wPkUMFdn9JGFLYo+J12ARhN3zDBwoPj2DfB8rL7Yc1sSve+FqDHC3s2SZ7Fw==
 
 gantt-elastic@^1.0.0:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-1.0.5.tgz#3bea082d6dcd5b5db695ac2c344fb9baa1d12bce"
-  integrity sha512-e1HJROnXitL6Jwab3elJcee6MgYrF3IKS7XxSxgLzU+Pfo9Pj+Ytdtr0xy42zA+Y793G9hPaCIMhbW0HcmM4lA==
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-1.0.6.tgz#6e2ee83a3edbbfab492cc027790a6599b6441d44"
+  integrity sha512-rxmowgqDuqAnqHZjQgSirF5EjHCK2FMNPNV6nCtsL0oIX6VA9uaKrlCIa1u2bI60RYSm9ahRF20tvreF7KwK6w==
   dependencies:
-    dayjs "^1.8.15"
+    dayjs "^1.8.16"
     resize-observer-polyfill "^1.5.1"
     vue "^2.6.10"
 
