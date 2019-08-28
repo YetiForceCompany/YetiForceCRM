@@ -47,9 +47,16 @@ class Vtiger_TreeModal_View extends \App\Controller\Modal
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('FIELD_INSTANCE', $this->fieldModel);
-		$viewer->assign('IS_TREE', true);
 		$this->pageTitle = $this->fieldModel->getFieldLabel();
 		parent::preProcessAjax($request);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function preProcessTplName(App\Request $request)
+	{
+		return 'Modals/TreeHeader.tpl';
 	}
 
 	/**
