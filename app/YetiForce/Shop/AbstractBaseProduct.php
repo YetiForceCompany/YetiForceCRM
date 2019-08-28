@@ -71,6 +71,20 @@ abstract class AbstractBaseProduct
 	public $paidPackage;
 
 	/**
+	 * Company data in form.
+	 *
+	 * @var bool
+	 */
+	public $companyDataForm = true;
+
+	/**
+	 * Custom Fields.
+	 *
+	 * @var array
+	 */
+	public $customFields = [];
+
+	/**
 	 * Verify the product.
 	 *
 	 * @param bool $cache
@@ -102,11 +116,13 @@ abstract class AbstractBaseProduct
 	/**
 	 * Get product price.
 	 *
+	 * @param bool $installation
+	 *
 	 * @return int
 	 */
-	public function getPrice(): int
+	public function getPrice($installation = false): int
 	{
-		return $this->prices[\App\Company::getSize()] ?? 0;
+		return !$installation ? $this->prices[\App\Company::getSize()] ?? 0 : 0;
 	}
 
 	/**
@@ -152,14 +168,16 @@ abstract class AbstractBaseProduct
 	/**
 	 * Get product image.
 	 *
+	 * @param string $pathPrefix
+	 *
 	 * @return string
 	 */
-	public function getImage(): ?string
+	public function getImage($pathPrefix = ''): ?string
 	{
 		$filePath = null;
 		$file = 'modules/Settings/YetiForce/' . $this->name . '.png';
 		if (\file_exists(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR . $file)) {
-			$filePath = \App\Layout::getPublicUrl($file, true);
+			$filePath = \App\Layout::getPublicUrl($pathPrefix . $file, true);
 		}
 		return $filePath;
 	}
@@ -192,9 +210,12 @@ abstract class AbstractBaseProduct
 	/**
 	 * Get variable product.
 	 *
+	 * @param bool  $installation
+	 * @param mixed $companyDataForm
+	 *
 	 * @return array
 	 */
-	public function getVariable(): array
+	public function getVariable($companyDataForm = true): array
 	{
 		return [
 			'cmd' => '_xclick-subscriptions',
@@ -204,12 +225,32 @@ abstract class AbstractBaseProduct
 			'sra' => 1,
 			't3' => 'M',
 			'p3' => \date('d'),
-			'a3' => $this->getPrice(),
+			'a3' => $companyDataForm ? $this->getPrice() : '',
 			'item_name' => $this->name,
 			'currency_code' => $this->currencyCode,
 			'on0' => 'Package',
-			'os0' => \App\Company::getSize(),
+			'os0' => $companyDataForm ? \App\Company::getSize() : '',
 		];
+	}
+
+	/**
+	 * Get product custom fields.
+	 *
+	 * @return array
+	 */
+	public function getCustomFields(): array
+	{
+		return $this->customFields;
+	}
+
+	/**
+	 * Get product custom fields.
+	 *
+	 * @return bool
+	 */
+	public function hasCompanyData(): bool
+	{
+		return $this->companyDataForm;
 	}
 
 	/**

@@ -9,8 +9,9 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	/**
 	 * Constructor.
 	 */
-	constructor() {
+	constructor(modalUrl = 'index.php?module=YetiForce&parent=Settings') {
 		this.container = $('.js-products-container');
+		this.modalUrl = modalUrl;
 	}
 	/**
 	 * Register events.
@@ -38,7 +39,7 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	showProductModal(productName, department) {
 		app.showModalWindow(
 			null,
-			`index.php?module=YetiForce&parent=Settings&view=ProductModal&product=${productName}&department=${department}`,
+			`${this.modalUrl}&view=ProductModal&product=${productName}&department=${department}`,
 			modalContainer => {
 				modalContainer.find('.js-modal__save').on('click', _ => {
 					app.hideModalWindow();
@@ -67,9 +68,7 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	showBuyModal(productName, department) {
 		app.showModalWindow(
 			null,
-			`index.php?module=YetiForce&parent=Settings&view=BuyModal&product=${productName}${
-				department ? '&department=' + department : ''
-			}`,
+			`${this.modalUrl}&view=BuyModal&product=${productName}${department ? '&department=' + department : ''}`,
 			this.registerBuyModalEvents.bind(this)
 		);
 	}
@@ -83,6 +82,9 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 		if (companyForm.length) {
 			companyForm.validationEngine(app.validationEngineOptions);
 			companyForm.find('[data-inputmask]').inputmask();
+		}
+		if (buyForm.length) {
+			buyForm.validationEngine(app.validationEngineOptions);
 		}
 	}
 	registerBuyModalForms(companyForm, buyForm) {
@@ -111,8 +113,12 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 				app.formAlignmentAfterValidation(companyForm);
 			}
 		} else {
-			buyForm.submit();
-			app.hideModalWindow();
+			if (buyForm.validationEngine('validate') === true) {
+				buyForm.submit();
+				app.hideModalWindow();
+			} else {
+				app.formAlignmentAfterValidation(buyForm);
+			}
 		}
 	}
 	/**

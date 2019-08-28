@@ -1,13 +1,14 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-Settings-YetiForce-Shop-BuyModal -->
+{assign var=LABEL_CLASS value='py-2 u-font-weight-550 align-middle'}
 <div class="modal-body px-md-5 pb-0">
 	<form  class="js-buy-form" action="{$PAYPAL_URL}" method="POST" target="_blank">
 		<div class="row no-gutters" >
 			<div class="col-sm-18 col-md-12">
 				<div class="text-center pb-3 pb-md-5">
-					{if $PRODUCT->getImage()}
-						<img class="o-buy-modal__img" src="{$PRODUCT->getImage()}" alt="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}" title="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}"/>
+					{if $IMAGE}
+						<img class="o-buy-modal__img" src="{$IMAGE}" alt="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}" title="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}"/>
 					{else}
 						<div class="product-no-image m-auto">
 								<span class="fa-stack fa-6x product-no-image">
@@ -20,34 +21,46 @@
 				<table class="table table-sm mb-0">
 					<tbody class="u-word-break-all small">
 						<tr>
-							<td class="py-2 u-font-weight-550">{\App\Language::translate('LBL_SHOP_PRODUCT_NAME', $QUALIFIED_MODULE)}</td>
+							<td class="{$LABEL_CLASS}">{\App\Language::translate('LBL_SHOP_PRODUCT_NAME', $QUALIFIED_MODULE)}</td>
 							<td class="py-2 w-50">{$PRODUCT->getLabel()}</td>
 						</tr>
 						<tr>
-							<td class="py-2 u-font-weight-550 align-middle">{\App\Language::translate('LBL_SHOP_AMOUNT', $QUALIFIED_MODULE)}</td>
+							<td class="{$LABEL_CLASS}">{\App\Language::translate('LBL_SHOP_AMOUNT', $QUALIFIED_MODULE)}</td>
 							{if 'manual'=== $PRODUCT->getPriceType()}
 								<td class="w-50">
 									<input name="a3" class="form-control form-control-sm" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
 							{else}
 								<td class="py-2 w-50">
-								{$PRODUCT->getPrice()} {$PRODUCT->currencyCode}
+								{$PRODUCT->getPrice(true)} {$CURRENCY}
 							{/if}
 							</td>
 						</tr>
 						<tr>
-							<td class="py-2 u-font-weight-550">{\App\Language::translate('LBL_SHOP_PACKAGE', $QUALIFIED_MODULE)} </td>
+							<td class="{$LABEL_CLASS}">{\App\Language::translate('LBL_SHOP_PACKAGE', $QUALIFIED_MODULE)} </td>
 							<td class="py-2 w-50">{$VARIABLE_PRODUCT['os0']}</td>
 						</tr>
 						<tr>
-							<td class="py-2 u-font-weight-550">{\App\Language::translate('LBL_SHOP_SUBSCRIPTIONS_DAY', $QUALIFIED_MODULE)}</td>
+							<td class="{$LABEL_CLASS}">{\App\Language::translate('LBL_SHOP_SUBSCRIPTIONS_DAY', $QUALIFIED_MODULE)}</td>
 							<td class="py-2 w-50">{$VARIABLE_PRODUCT['p3']}</td>
 						</tr>
 						<tr>
-							<td class="py-2 u-font-weight-550 border-bottom">{\App\Language::translate('LBL_SHOP_PAYMENT_FREQUENCY', $QUALIFIED_MODULE)}</td>
+							<td class="{$LABEL_CLASS} border-bottom">{\App\Language::translate('LBL_SHOP_PAYMENT_FREQUENCY', $QUALIFIED_MODULE)}</td>
 							<td class="py-2 w-50 border-bottom">{\App\Language::translate("LBL_SHOP_PAYMENT_FREQUENCY_{$VARIABLE_PRODUCT['t3']}", $QUALIFIED_MODULE)}</td>
 						</tr>
+						{foreach key=FIELD_NAME item=FIELD_DATA from=$PRODUCT->getCustomFields()}
+							<tr>
+								<td class="{$LABEL_CLASS} border-bottom">{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, $QUALIFIED_MODULE)}</td>
+								<td class="py-2 position-relative w-50 border-bottom">
+									<div class="input-group-sm position-relative">
+										<input type="{$FIELD_DATA['type']}" class="form-control" placeholder="{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, $QUALIFIED_MODULE)}"
+										data-validation-engine="validate[{if isset($FIELD_DATA['validator'])}{$FIELD_DATA['validator']}{else}required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]{/if}]"/>
+									</div>
+								</td>
+							</tr>
+						{/foreach}
 					</tbody>
 				</table>
+				<input name="custom_fields" type="hidden">
 				{foreach key=NAME_OF_KEY item=VARIABLE_FORM from=$VARIABLE_PAYMENTS}
 						<input name="{$NAME_OF_KEY}" type="hidden" value="{$VARIABLE_FORM}" />
 				{/foreach}
@@ -87,7 +100,7 @@
 				</tbody>
 			</table>
 		</form>
-	{else}
+	{elseif $COMPANY_DATA_FORM}
 		<div class="alert alert-danger mb-0">
 			<span class="fas fa-exclamation-triangle mr-1"></span>
 			{\App\Language::translate('LBL_SHOP_NO_COMPANIES_ALERT', $QUALIFIED_MODULE)}

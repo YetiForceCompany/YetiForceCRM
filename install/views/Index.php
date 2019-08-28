@@ -35,6 +35,8 @@ class Install_Index_View extends \App\Controller\View
 		parent::__construct();
 		$this->exposeMethod('step1');
 		$this->exposeMethod('step2');
+		$this->exposeMethod('stepChooseHost');
+		$this->exposeMethod('showBuyModal');
 		$this->exposeMethod('step3');
 		$this->exposeMethod('step4');
 		$this->exposeMethod('step5');
@@ -157,6 +159,42 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->assign('LIBRARIES', \App\Installer\Credits::getCredits());
 		$this->viewer->assign('LICENSE', nl2br($license));
 		$this->viewer->display('StepLicense.tpl');
+	}
+
+	/**
+	 * Show choose host step.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function stepChooseHost(App\Request $request)
+	{
+		$this->viewer->assign('PRODUCT_ClOUD', \App\YetiForce\Shop::getProduct('InstallInCloud'));
+		$this->viewer->assign('PRODUCT_SHARED', \App\YetiForce\Shop::getProduct('InstallInHosting'));
+		$this->viewer->display('StepChooseHost.tpl');
+	}
+
+	/**
+	 * Show buy modal in choose host step.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function showBuyModal(App\Request $request)
+	{
+		$request = new \App\Request([
+			'product' => $request->getByType('product'),
+			'module' => 'YetiForce',
+			'parent' => 'Settings',
+			'installation' => true
+		], false);
+		$instance = new Settings_YetiForce_BuyModal_View();
+		$instance->checkPermission($request);
+		$instance->preProcessAjax($request);
+		$instance->process($request);
+		$instance->postProcessAjax($request);
 	}
 
 	public function step3(App\Request $request)
@@ -388,10 +426,19 @@ class Install_Index_View extends \App\Controller\View
 	 */
 	public function getFooterScripts(App\Request $request)
 	{
+		$viewScripts = [];
 		if ('step7' === $request->getMode()) {
 			return [];
 		}
-		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+		if ('stepChooseHost' === $request->getMode()) {
+			$viewScripts = $this->checkAndConvertJsScripts([
+				'~layouts/resources/Field.js',
+				'~layouts/resources/validator/BaseValidator.js',
+				'~layouts/resources/validator/FieldValidator.js',
+				'modules.Settings.YetiForce.resources.Shop'
+			]);
+		}
+		return array_merge(parent::getFooterScripts($request), $viewScripts, $this->checkAndConvertJsScripts([
 			'~libraries/datatables.net/js/jquery.dataTables.js',
 			'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
 			'~libraries/datatables.net-responsive/js/dataTables.responsive.js',

@@ -63,6 +63,15 @@ jQuery.Class(
 				});
 			});
 		},
+		registerEventForStepChooseHost() {
+			$('.js-buy-modal').on('click', e => {
+				$.get(`Install.php?mode=showBuyModal&product=${$(e.currentTarget).data('product')}`).done(data => {
+					app.showModalWindow(data, '', modalContainer => {
+						new window.Settings_YetiForce_Shop_Js().registerBuyModalEvents(modalContainer);
+					});
+				});
+			});
+		},
 		registerEventForStep3: function() {
 			$('#recheck').on('click', function() {
 				window.location.reload();
@@ -236,10 +245,11 @@ jQuery.Class(
 			jQuery('form[name="step1"]').submit();
 		},
 		registerEvents: function() {
+			const form = $('form');
 			jQuery('input[name="back"]').on('click', function() {
 				window.history.back();
 			});
-			jQuery('form').validationEngine(app.validationEngineOptions);
+			form.validationEngine(app.validationEngineOptions);
 			this.registerEventForStep1();
 			this.registerEventForStep2();
 			this.registerEventForStep3();
@@ -247,6 +257,9 @@ jQuery.Class(
 			this.registerEventForStep5();
 			this.registerEventForStep6();
 			this.registerEventForMigration();
+			if (form.attr('name') === 'step-stepChooseHost') {
+				this.registerEventForStepChooseHost();
+			}
 			$('select[name="lang"]').on('change', this.changeLanguage);
 		}
 	}

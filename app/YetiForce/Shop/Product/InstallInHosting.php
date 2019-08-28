@@ -25,6 +25,26 @@ class InstallInHosting extends \App\YetiForce\Shop\AbstractBaseProduct
 		'Medium' => 50,
 		'Large' => 100,
 	];
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public $customFields = [
+		'subdomain' => [
+			'type' => 'text',
+			'validator' => 'required,custom[onlyLetterNumber]'
+		],
+		'email' => [
+			'type' => 'email',
+			'validator' => 'required,funcCall[Vtiger_Email_Validator_Js.invokeValidation]'
+		]
+	];
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public $companyDataForm = false;
+
 	/**
 	 * {@inheritdoc}
 	 */
