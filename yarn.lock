@@ -104,28 +104,28 @@ block-ui@^2.70.1:
     jquery ">=1.7.x"
 
 blueimp-canvas-to-blob@3:
-  version "3.15.0"
-  resolved "https://registry.yarnpkg.com/blueimp-canvas-to-blob/-/blueimp-canvas-to-blob-3.15.0.tgz#7534d81c81624c4a1507f80673abd766f5e4b5cc"
-  integrity sha512-gogzDEkyXhIyEmbwkQ8WXHOXHgouVpRHRxy4Vy3CkDuTjNPdjHZofqCVE52vqCgeeCPGioSPjE91ECuClv9Big==
+  version "3.16.0"
+  resolved "https://registry.yarnpkg.com/blueimp-canvas-to-blob/-/blueimp-canvas-to-blob-3.16.0.tgz#eb5932207f9bf23558c8bc2fbcdc5ca2cca35c36"
+  integrity sha512-r5TRlxH5Y0iKrRajCfiW1K4o2U1JniarjLXuNJrC5nnlWV/UopieF8sysw9pAYBauxg2I3Ah1hUp3NEuinwmkA==
 
 blueimp-file-upload@^10.0.0:
-  version "10.1.0"
-  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-10.1.0.tgz#b376fef7dc4a7a7f61ed7e85cf3c22c9096f9b0b"
-  integrity sha512-Zwsp2Omg6wud1LF+setDmIsO8B++r61VmB+MICiZDDT/6QbfHMsfZki5PAoUnT7EHXevsfiXF7tzv2eniiVREQ==
+  version "10.2.0"
+  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-10.2.0.tgz#7289713c8354fa02107bc2e5eb3b26465202f16e"
+  integrity sha512-xDAZZ+lGC9TVdHojP96AcFuVBrQty0IYrBOcq3vQ+Y8Sx3uwRH8WQrbbjwIqLPWcOKilUss/RPbPbWW796fYWQ==
   optionalDependencies:
     blueimp-canvas-to-blob "3"
     blueimp-load-image "2"
     blueimp-tmpl "3"
 
 blueimp-load-image@2:
-  version "2.23.0"
-  resolved "https://registry.yarnpkg.com/blueimp-load-image/-/blueimp-load-image-2.23.0.tgz#85cdb20cd14b76f59a2e2e0e7914cb41e5ab2300"
-  integrity sha512-2xLJfgYWXLXDFWhSZC49ahJtdiPKiGld3rEqp3ecOM428PlyuYxR7bq2vGuMfdlBXi8wYXfcs5T6XmU6XxrA7w==
+  version "2.24.0"
+  resolved "https://registry.yarnpkg.com/blueimp-load-image/-/blueimp-load-image-2.24.0.tgz#ced5b78fc9b32b4743fc4f780d3305d56391f04f"
+  integrity sha512-fR/CNGEOqbcgbQC7+6hJKcxjD5updapWECbptrHrYpkacP1eXCOoA+92D0v49Sc+gwtxTDzu8nxNmYYd7AXzUg==
 
 blueimp-tmpl@3:
-  version "3.12.0"
-  resolved "https://registry.yarnpkg.com/blueimp-tmpl/-/blueimp-tmpl-3.12.0.tgz#fe56cd90caae619b4f0cb55d9125bc572cd842a5"
-  integrity sha512-rzPHcYgZnYmNwtotIUqm7EhYygIasfZOnpmzHU0elGBOLBwkdwpujKEzmdEbawV5xPKpPuux20HYl9dVYCu1rA==
+  version "3.13.0"
+  resolved "https://registry.yarnpkg.com/blueimp-tmpl/-/blueimp-tmpl-3.13.0.tgz#910c337d5742a8a17e3237139389853ebc9ced56"
+  integrity sha512-TC5eLXhPGGgBJG1gGxKRORB5DMxSVSTS/GsqsQuJ+shv0Ez5wc9bjoXVhPqtdbzVZAzFvveasAMrjqEYY/18Og==
 
 body@^5.1.0:
   version "5.1.0"
@@ -349,10 +349,10 @@ datatables.net@1.10.19, datatables.net@^1.10.15, datatables.net@^1.10.19:
   dependencies:
     jquery ">=1.7"
 
-dayjs@^1.8.15:
-  version "1.8.15"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.15.tgz#7121bc04e6a7f2621ed6db566be4a8aaf8c3913e"
-  integrity sha512-HYHCI1nohG52B45vCQg8Re3hNDZbMroWPkhz50yaX7Lu0ATyjGsTdoYZBpjED9ar6chqTx2dmSmM8A51mojnAg==
+dayjs@^1.8.16:
+  version "1.8.16"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.16.tgz#2a3771de537255191b947957af2fd90012e71e64"
+  integrity sha512-XPmqzWz/EJiaRHjBqSJ2s6hE/BUoCIHKgdS2QPtTQtKcS9E4/Qn0WomoH1lXanWCzri+g7zPcuNV4aTZ8PMORQ==
 
 debug-fabulous@1.X:
   version "1.1.0"
@@ -571,11 +571,11 @@ fullcalendar@3.10.1:
   integrity sha512-E0ioaHVmwdS4es8pNTUNva7505wPkUMFdn9JGFLYo+J12ARhN3zDBwoPj2DfB8rL7Yc1sSve+FqDHC3s2SZ7Fw==
 
 gantt-elastic@^1.0.0:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-1.0.5.tgz#3bea082d6dcd5b5db695ac2c344fb9baa1d12bce"
-  integrity sha512-e1HJROnXitL6Jwab3elJcee6MgYrF3IKS7XxSxgLzU+Pfo9Pj+Ytdtr0xy42zA+Y793G9hPaCIMhbW0HcmM4lA==
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-1.0.6.tgz#6e2ee83a3edbbfab492cc027790a6599b6441d44"
+  integrity sha512-rxmowgqDuqAnqHZjQgSirF5EjHCK2FMNPNV6nCtsL0oIX6VA9uaKrlCIa1u2bI60RYSm9ahRF20tvreF7KwK6w==
   dependencies:
-    dayjs "^1.8.15"
+    dayjs "^1.8.16"
     resize-observer-polyfill "^1.5.1"
     vue "^2.6.10"
 
@@ -1030,9 +1030,9 @@ qs@^6.4.0:
   integrity sha512-tPSkj8y92PfZVbinY1n84i1Qdx75lZjMQYx9WZhnkofyxzw2r7Ho39G3/aEvSUdebxpnnM4LZJCtvE/Aq3+s9w==
 
 quasar@^1.0.0-rc.4:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.0.5.tgz#caddfac55fca0779c996dc1b3977a045ae1426e6"
-  integrity sha512-8CxBZk5Ge+jUC7nzlzrLwlZRedpBkcYjkmyBOA0QJLvCXE8K8Ro68R7Vxf7+Baplo11aBMhFX1FhHZWrSM7Y2A==
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.1.0.tgz#80cbfd85e5731b4982c249206bb6d14fd66bfbe0"
+  integrity sha512-vZQwBEspzWeScSfA7SC9yarh2eZpQPquTTfISL0LQzsVhvYUq5YPMzsnwr8mV26AKcdEicsJD5GLSAzQu6uxyg==
 
 range-parser@~1.2.0, range-parser@~1.2.1:
   version "1.2.1"
@@ -1106,9 +1106,9 @@ select2-theme-bootstrap4@^0.2.0-beta.3:
   integrity sha512-FG9GJdd1syjVvWxkvTrZnEFTvdvyKlBuObLnmRoY2RxQICqcnKdhkUlweGlifdsWJYiWHF342WeGKP5fGJhDQA==
 
 select2@^4.0.8:
-  version "4.0.9"
-  resolved "https://registry.yarnpkg.com/select2/-/select2-4.0.9.tgz#e993716504d193575840c33b28af44831774da5e"
-  integrity sha512-cpGBg3l6xItLRz/Ux6S+Tnt0pc4IQjrnhj525k9bhWIKHMwOIDXoMI6ejXZ/rt8NPNTNV27EEBPY5wqFvMdlkw==
+  version "4.0.10"
+  resolved "https://registry.yarnpkg.com/select2/-/select2-4.0.10.tgz#c8d4e3e2504f49956b3dfd9018ab1d7bc601a41b"
+  integrity sha512-g9fWMdEif4eQ901eiJV3os0MG5y20/3E2WNy0PfYf0T6Q/zZB/NOroJwAxcfE6uv5x0/BGeCDGNtoj9PqCdQEg==
 
 select@^1.1.2:
   version "1.1.2"
