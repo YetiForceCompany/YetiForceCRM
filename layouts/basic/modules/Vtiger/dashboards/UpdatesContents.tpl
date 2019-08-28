@@ -1,10 +1,10 @@
-	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Base-dashboards-UpdateContents">
 		{if $UPDATES neq false}
 			{foreach item=UPDATE_ROW from=$UPDATES}
-				{assign var=MODELNAME value=get_class($UPDATE_ROW)}
-				{if $MODELNAME == 'ModTracker_Record_Model'}
+				{assign var=MODEL_NAME value=get_class($UPDATE_ROW)}
+				{if $MODEL_NAME == 'ModTracker_Record_Model'}
 					{assign var=USER value=$UPDATE_ROW->getModifiedBy()}
 					{assign var=TIME value=$UPDATE_ROW->getActivityTime()}
 					{assign var=PARENT value=$UPDATE_ROW->getParent()}
@@ -98,7 +98,7 @@
 						</div>
 					</div>
 				{/if}
-				{else if $MODELNAME == 'ModComments_Record_Model'}
+				{else if $MODEL_NAME == 'ModComments_Record_Model'}
 					{assign var=TRANSLATED_MODULE_NAME value = \App\Language::translate('SINGLE_ModComments' ,'ModComments')}
 					<div class="d-flex">
 						<div>

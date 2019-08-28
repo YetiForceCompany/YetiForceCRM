@@ -1,8 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
-	{assign var=ACCESSIBLE_GROUPS value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
-	<div class="tpl-dashboards-Updates dashboardWidgetHeader">
+	<div class="tpl-Base-dashboards-Updates dashboardWidgetHeader">
 		<input type="hidden" value="{$WIDGET->get('id')}" id="updatesWidgetId">
 		<input type="hidden" value="{$WIDGET->get('data')}" id="widgetData">
 		<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
@@ -32,6 +30,8 @@
 				</div>
 			</div>
 			<div class="col-ceq-xsm-6">
+				{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
+				{assign var=ACCESSIBLE_GROUPS value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 				{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
 			</div>
 		</div>

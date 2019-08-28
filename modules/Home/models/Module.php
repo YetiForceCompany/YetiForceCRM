@@ -329,7 +329,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 		$currentUser = \App\User::getCurrentUserModel();
 		$accessibleUsers = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
 		$accessibleGroups = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
-		if ($user !== 'all' && $user !== '' && (array_key_exists($user, $accessibleUsers) || array_key_exists($user, $accessibleGroups))) {
+		if ($user !== 'all' && $user !== '' && (isset($accessibleUsers[$user]) || isset($accessibleGroups[$user]))) {
 			$query->andWhere(['whodid' => $user]);
 		}
 

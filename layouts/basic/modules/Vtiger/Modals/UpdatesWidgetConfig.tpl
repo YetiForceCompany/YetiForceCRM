@@ -50,7 +50,7 @@
 										{/if}
 										<li class="list-group-item pt-1 pb-1 pl-1 js-updates-config-search-item">
 											<div class="item" data-tabid="{$MODULEMODEL->id}">
-												<input value="" type="checkbox" class="mr-2 js-selected-modules" data-js=”container” {if \in_array($MODULEMODEL->id, $SELECTED_MODULES)} checked {/if} title="{\App\Language::translate("LBL_SELECT_MODULE")}">
+												<input value="" type="checkbox" class="mr-2 js-selected-modules" data-js="container" {if \in_array($MODULEMODEL->id, $SELECTED_MODULES)} checked {/if} title="{\App\Language::translate("LBL_SELECT_MODULE")}">
 													<span class="modCT_{$NAME} userIcon-{$NAME} mr-1"
 																title="{\App\Language::translate($singularLabel,$NAME)}">
 													</span>

@@ -147,12 +147,15 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 	 */
 	public function saveUpdatesWidgetConfig(App\Request $request)
 	{
-		$selectedModules = $request->has('selectedModules') ? $request->getArray('selectedModules') : [];
-		$selectedTrackerActions = $request->has('selectedTrackerActions') ? $request->getArray('selectedTrackerActions') : [];
+		$selectedModules = $request->has('selectedModules') ? $request->getArray('selectedModules', 'Integer') : [];
+		$selectedTrackerActions = $request->has('selectedTrackerActions') ? $request->getArray('selectedTrackerActions', 'Integer') : [];
 		\App\Db::getInstance()->createCommand()->update('vtiger_module_dashboard_widgets',
-		['data' => App\Json::encode(['selectedModules' => $selectedModules, 'selectedTrackerActions' => $selectedTrackerActions])],
-		['userid' => App\User::getCurrentUserId(), 'id' => $request->getInteger('widgetid')])
-			->execute();
+		[
+			'data' => App\Json::encode(['selectedModules' => $selectedModules, 'selectedTrackerActions' => $selectedTrackerActions])
+		],
+		['userid' => App\User::getCurrentUserId(), 'id' => $request->getInteger('widgetid')
+		])
+		->execute();
 		$response = new Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();

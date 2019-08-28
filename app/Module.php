@@ -304,17 +304,13 @@ class Module
 		if (Cache::staticHas('getPermittedUserModuleModules', $userId)) {
 			return Cache::staticGet('getPermittedUserModuleModules', $userId);
 		}
-		$query = new Db\Query();
-		$query->select(['vtiger_tab.*'])->from('vtiger_field')
-			->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
-			->where(['<>', 'vtiger_tab.presence', 1]);
-		$query->andWhere(['not in', 'vtiger_tab.name', ['Users']]);
-
+	$query = (new Db\Query())->from('vtiger_tab')
+			->where(['<>', 'presence', 1]);
+		$query->andWhere(['not in', 'name', ['Users', 'Dashboard', 'Home', 'Import', 'ModComments', 'PriceBooks', 'CallHistory', 'OSSMailView', 'SMSNotifier', 'RecycleBin', 'Modtracker']]);
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			if (!Privilege::isPermitted($row['tabid'])) {
-				$moduleModel = \Vtiger_Module_Model::getInstanceFromArray($row);
-				$permittedModules[$row['name']] = $moduleModel;
+				$permittedModules[$row['name']] = \Vtiger_Module_Model::getInstanceFromArray($row);;
 			}
 		}
 		Cache::staticSave('getPermittedUserModuleModules', $userId, $permittedModules);

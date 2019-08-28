@@ -7,10 +7,13 @@
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Adrian Koń <a.kon@yetiforce.com>
+ * @author    Adrian Kon <a.kon@yetiforce.com>
  */
 class Vtiger_Updates_Dashboard extends Vtiger_IndexAjax_View
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -22,7 +25,7 @@ class Vtiger_Updates_Dashboard extends Vtiger_IndexAjax_View
 		if (empty($dateRange)) {
 			$dateRange[0] = App\Fields\Date::formatToDisplay('now');
 			$dateRange[1] = App\Fields\Date::formatToDisplay('now');
-		}else{
+		} else {
 			$dateRange = \App\Fields\Date::formatRangeToDisplay($dateRange);
 		}
 		if (!$request->has('owner')) {
@@ -41,7 +44,7 @@ class Vtiger_Updates_Dashboard extends Vtiger_IndexAjax_View
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', $limit);
 		$updates = [];
-		if((false !== $owner && $widgetData = App\Json::decode($widget->get('data')))){
+		if ((false !== $owner && $widgetData = App\Json::decode($widget->get('data')))) {
 			$updates = Vtiger_Module_Model::getInstance($moduleName)->getUpdates($widgetData, $pagingModel, $owner, $dateRange);
 		}
 		$viewer->assign('UPDATES', $updates);
