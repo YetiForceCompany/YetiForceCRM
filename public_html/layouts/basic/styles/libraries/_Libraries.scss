@@ -208,6 +208,11 @@ header {
 	@extend .mr-sm-2;
 }
 
+.select2-container--bootstrap .select2-selection--multiple .select2-search--inline .select2-search__field {
+	min-width: 0;
+	padding: 0;
+}
+
 //-------- leaflet --------//
 .leaflet-popup-content {
 	width: 62px;
