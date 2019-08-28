@@ -974,6 +974,11 @@ var app = (window.app = {
 			formatTimeString(timeInput);
 			timeInput.clockpicker(params);
 		});
+		if ($(window).width() < app.breakpoints.sm) {
+			timeInputs
+				.attr('readonly', 'true')
+				.addClass('bg-white');
+		}
 	},
 	registerDataTables: function(table, options = {}) {
 		if ($.fn.dataTable == undefined) {
