@@ -13124,6 +13124,22 @@ a.text-dark:hover, a.text-dark:focus {
     background-image: url(../../../libraries/flag-icon-css/flags//1x1/xk.svg); }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+@media (max-width: 767.98px) {
+  .daterangepicker.show-calendar.js-visible {
+    display: flex;
+    height: calc(100vh - 3.125rem) !important;
+    width: 100vw !important;
+    top: 3.125rem !important;
+    left: 0 !important;
+    position: fixed;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+    z-index: 9999999999999999999999 !important; }
+    .daterangepicker.show-calendar.js-visible .drp-buttons {
+      position: fixed;
+      text-align: center;
+      width: 100%;
+      bottom: 16px; } }
 .select2-selection {
   padding-top: 0.2rem; }
   .select2-selection .o-filter-actions {
@@ -17773,6 +17789,10 @@ ul.tweets li {
 
 .text-navy {
   color: #202c40 !important; }
+
+.u-img-invert {
+  filter: invert(100%);
+  -webkit-filter: invert(100%); }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .basePanel,
