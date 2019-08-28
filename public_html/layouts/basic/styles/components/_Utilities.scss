@@ -676,3 +676,10 @@
 .text-navy {
 	color: $navy !important;
 }
+
+// --- IMG --- //
+
+.u-img-invert {
+	filter: invert(100%);
+	-webkit-filter: invert(100%);
+}

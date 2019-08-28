@@ -13246,6 +13246,10 @@ header .c-header__btn__container .select2-selection {
   display: inline-block;
   vertical-align: middle; }
 
+.select2-container--bootstrap .select2-selection--multiple .select2-search--inline .select2-search__field {
+  min-width: 0;
+  padding: 0; }
+
 .leaflet-popup-content {
   width: 62px; }
 
@@ -17785,6 +17789,10 @@ ul.tweets li {
 
 .text-navy {
   color: #202c40 !important; }
+
+.u-img-invert {
+  filter: invert(100%);
+  -webkit-filter: invert(100%); }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .basePanel,

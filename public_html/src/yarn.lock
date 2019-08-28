@@ -2967,10 +2967,10 @@ elliptic@^6.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.0"
 
-emoji-mart-vue-fast@^5.4.14:
-  version "5.4.15"
-  resolved "https://registry.yarnpkg.com/emoji-mart-vue-fast/-/emoji-mart-vue-fast-5.4.15.tgz#e5dd8f19ee4f073028175f53fa51288896e84bbb"
-  integrity sha512-kaE7UEtZM/YxSdk/EbkBqjBPUkn9ksNADXuye8D+SXpUQy3pFrjCP+Q5JEfFBamQl2Acw5AYhwoOu0LPYv5FTQ==
+emoji-mart-vue-fast@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/emoji-mart-vue-fast/-/emoji-mart-vue-fast-6.0.0.tgz#a4d231b9110dbee66ebbc9573aaae4c83991b400"
+  integrity sha512-ybIAwWdF9i/wLypfwhNgCP0dh7W8P1b9VRouKABrKtfsHVPU4x4A1+RlWvgdtZKPe94yneUJpt+/PYRT0q2NzQ==
   dependencies:
     "@babel/polyfill" "7.2.5"
     "@babel/runtime" "7.3.4"
@@ -7825,10 +7825,10 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
-rollup-plugin-alias@^1.5.2:
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-alias/-/rollup-plugin-alias-1.5.2.tgz#f15a1cc8ee0debf74ab5c2bb68a944a66b568411"
-  integrity sha512-ODeZXhTxpD48sfcYLAFc1BGrsXKDj7o1CSNH3uYbdK3o0NxyMmaQPTNgW+ko+am92DLC8QSTe4kyxTuEkI5S5w==
+rollup-plugin-alias@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-alias/-/rollup-plugin-alias-2.0.0.tgz#eea77466a8a8a063007c8edb2e9d7a3d06cbb889"
+  integrity sha512-JVwxV9nwzjc0q7JmrV9jvZlJ8FykNd5r7RmYps8i/7v+vcmmVpeMvXrljhCboYErf4VZ2z9FEj+fP7eJlEGfug==
   dependencies:
     slash "^3.0.0"
 

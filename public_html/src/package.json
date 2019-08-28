@@ -23,7 +23,7 @@
     "watch": "cross-env NODE_ENV=development node rollup.js"
   },
   "dependencies": {
-    "emoji-mart-vue-fast": "^5.4.14",
+    "emoji-mart-vue-fast": "^6.0.0",
     "lodash.get": "^4.4.2",
     "lodash.isequal": "^4.5.0",
     "lodash.unionby": "^4.8.0",
@@ -44,7 +44,7 @@
     "gulp-stylus": "^2.7.0",
     "postcss": "^7.0.16",
     "rollup": "^1.16.3",
-    "rollup-plugin-alias": "^1.5.2",
+    "rollup-plugin-alias": "^2.0.0",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-babel-minify": "^9.0.0",
     "rollup-plugin-commonjs": "^10.0.0",
