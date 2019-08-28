@@ -7,6 +7,7 @@
       native
       :title="translate('JS_CHAT_PICK_EMOJI')"
       emoji="point_up"
+      :data="emojiIndex"
       :i18n="emojiTranslations"
       :style="{ position: 'absolute', bottom: containerHeight }"
     />
@@ -46,9 +47,12 @@
 </template>
 <script>
 import Emoji from 'emoji-mart-vue-fast'
+import data from '~/node_modules/emoji-mart-vue-fast/data/all'
 import { createNamespacedHelpers } from 'vuex'
 const Picker = Emoji.Picker
+const EmojiIndex = Emoji.EmojiIndex
 const { mapGetters, mapActions } = createNamespacedHelpers('Chat')
+let emojiIndex = new EmojiIndex(data)
 export default {
   name: 'ChatMessages',
   components: { Picker },
@@ -78,7 +82,8 @@ export default {
           flags: this.translate('JS_EMOJI_FLAGS'),
           custom: this.translate('JS_EMOJI_CUSTOM')
         }
-      }
+      },
+      emojiIndex: emojiIndex
     }
   },
   computed: {
