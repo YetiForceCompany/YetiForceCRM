@@ -1,6 +1,26 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
-//-------- general --------//
+//-------- mobile first --------//
+
+@include media-breakpoint-down(sm) {
+	.daterangepicker.show-calendar.js-visible {
+		display: flex;
+		height: calc(100vh - #{$h-header}) !important;
+		width: 100vw !important;
+		top: $h-header !important;
+		left: 0 !important;
+		position: fixed;
+		overflow: scroll;
+		-webkit-overflow-scrolling: touch;
+		z-index: 9999999999999999999999 !important;
+		.drp-buttons {
+			position: fixed;
+			text-align: center;
+			width: 100%;
+			bottom: 16px;
+		}
+	}
+}
 
 //-------- select2 --------//
 .select2-selection {
