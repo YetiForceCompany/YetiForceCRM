@@ -921,6 +921,7 @@ var app = (window.app = {
 				date = $.datepicker.formatDate(moment(ev.date).format(dateFormat), ev.date);
 			currentElement.val(date);
 		});
+		App.Fields.Utils.hideMobileKeyboard(element);
 	},
 	registerEventForClockPicker: function(timeInputs = $('.clockPicker')) {
 		if (!timeInputs.hasClass('clockPicker')) {
@@ -974,11 +975,7 @@ var app = (window.app = {
 			formatTimeString(timeInput);
 			timeInput.clockpicker(params);
 		});
-		if ($(window).width() < app.breakpoints.sm) {
-			timeInputs
-				.attr('readonly', 'true')
-				.addClass('bg-white');
-		}
+		App.Fields.Utils.hideMobileKeyboard(timeInputs);
 	},
 	registerDataTables: function(table, options = {}) {
 		if ($.fn.dataTable == undefined) {

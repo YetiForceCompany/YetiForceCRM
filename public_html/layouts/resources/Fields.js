@@ -134,15 +134,15 @@ window.App.Fields = {
 				weekStart: CONFIG.firstDayOfWeekNo,
 				autoclose: true,
 				todayHighlight: true,
-				format: format,
-				enableOnReadonly: false
+				format: format
 			};
 			if (typeof customParams !== 'undefined') {
 				params = $.extend(params, customParams);
 			}
 			elements.each((index, element) => {
-				$(element).datepicker($.extend(true, params, $(element).data('params')));
+				$(element).datepicker($.extend(true, Object.assign(params, {enableOnReadonly: !element.hasAttribute('readonly')}), $(element).data('params')));
 			});
+			App.Fields.Utils.hideMobileKeyboard(elements);
 		},
 
 		/**
@@ -2189,16 +2189,20 @@ window.App.Fields = {
 	},
 	Utils: {
 		registerMobileDateRangePicker(element) {
+			this.hideMobileKeyboard(element);
 			if ($(window).width() < app.breakpoints.sm) {
 				element
-					.attr('readonly', 'true')
-					.addClass('bg-white')
 					.on('showCalendar.daterangepicker', (ev, picker) => {
 						picker.container.addClass('js-visible');
 					})
 					.on('hide.daterangepicker', (ev, picker) => {
 						picker.container.removeClass('js-visible');
 					});
+			}
+		},
+		hideMobileKeyboard(element) {
+			if ($(window).width() < app.breakpoints.sm) {
+				element.attr('readonly', 'true').addClass('bg-white');
 			}
 		}
 	}
