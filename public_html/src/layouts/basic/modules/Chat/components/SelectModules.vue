@@ -96,7 +96,7 @@ export default {
         this.$refs.selectModule.showPopup()
         return
       }
-      app.showRecordsList({ module: val }, (modal, instance) => {
+      app.showRecordsList({ module: val, src_module: val}, (modal, instance) => {
         instance.setSelectEvent((responseData, e) => {
           AppConnector.request({
             module: 'Chat',
