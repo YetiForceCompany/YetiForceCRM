@@ -513,6 +513,8 @@ class TextParser
 				return (new \DateTimeField(null))->getDisplayDate();
 			case 'CurrentTime':
 				return \Vtiger_Util_Helper::convertTimeIntoUsersDisplayFormat(date('H:i:s'));
+	  case 'CurrentDateTime':
+				return Fields\DateTime::formatToDisplay('now');
 			case 'SiteUrl':
 				return \App\Config::main('site_URL');
 			case 'PortalUrl':
@@ -1022,9 +1024,16 @@ class TextParser
 	 */
 	protected function custom($params)
 	{
-		$params = explode('|', $params);
-		$parserName = array_shift($params);
-		$aparams = $params;
+		if (false !== strpos($params, '||')) {
+			$params = explode('||', $params);
+			$parserName = array_shift($params);
+			$baseParams = $params;
+			$params = [];
+		} else {
+			$params = explode('|', $params);
+			$parserName = array_shift($params);
+			$baseParams = $params;
+		}
 		$module = false;
 		if (!empty($params)) {
 			$module = array_shift($params);
@@ -1045,7 +1054,7 @@ class TextParser
 				Log::error("Not found custom class $parserName");
 				return '';
 			}
-			$instance = new $className($this, $aparams);
+			$instance = new $className($this, $baseParams);
 		}
 		if ($instance->isActive()) {
 			return $instance->process();
