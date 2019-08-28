@@ -585,11 +585,7 @@ jQuery.Class(
 		},
 		postLoadListViewRecordsEvents: function(container) {
 			const self = this;
-			new PerfectScrollbar(container[0]).destroy();
-			container.find('.js-fixed-thead').floatThead('destroy');
-			container.siblings('.floatThead-container').remove();
-			new PerfectScrollbar(container[0]);
-			self.registerFixedThead(container);
+			this.registerPostLoadDesktopEvents(container);
 			App.Fields.Picklist.showSelect2ElementView(container.find('select.select2'));
 			App.Fields.Picklist.changeSelectElementView(container);
 			var searchInstance = self.getListSearchInstance();
@@ -2114,14 +2110,16 @@ jQuery.Class(
 			app.registerMiddleClickScroll(container);
 		},
 		registerFixedThead(container) {
-			this.listFloatThead = container.find('.js-fixed-thead');
-			this.listFloatThead.floatThead('destroy');
-			this.listFloatThead.floatThead({
-				scrollContainer: function() {
-					return container;
-				}
-			});
-			this.listFloatThead.floatThead('reflow');
+			if ($(window).width() < app.breakpoints.sm) {
+				this.listFloatThead = container.find('.js-fixed-thead');
+				this.listFloatThead.floatThead('destroy');
+				this.listFloatThead.floatThead({
+					scrollContainer: function() {
+						return container;
+					}
+				});
+				this.listFloatThead.floatThead('reflow');
+			}
 		},
 		getFloatTheadContainer(container = this.getListViewContentContainer()) {
 			if (this.listFloatThead === false) {
@@ -2174,6 +2172,15 @@ jQuery.Class(
 		registerDesktopEvents(listViewContainer) {
 			if ($(window).width() > app.breakpoints.sm) {
 				this.registerListScroll(listViewContainer);
+				this.registerFixedThead(listViewContainer);
+			}
+		},
+		registerPostLoadDesktopEvents(listViewContainer) {
+			if ($(window).width() > app.breakpoints.sm) {
+				new PerfectScrollbar(listViewContainer[0]).destroy();
+				listViewContainer.find('.js-fixed-thead').floatThead('destroy');
+				listViewContainer.siblings('.floatThead-container').remove();
+				new PerfectScrollbar(listViewContainer[0]);
 				this.registerFixedThead(listViewContainer);
 			}
 		},
