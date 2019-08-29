@@ -10,18 +10,24 @@
 				<div class="c-panel__header collapsed" id="marketplace" data-toggle="collapse" data-target="#marketplace-collapse" aria-expanded="false" aria-controls="marketplace-collapse">
 					<span class="mdi mdi-chevron-up mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 					<span class="mdi mdi-chevron-down mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
-					<input type="text" class="js-shop-search form-control form-control-sm u-max-w-250px ml-2" aria-label="{\App\Language::translate('LBL_SEARCH_PLACEHOLDER', $QUALIFIED_MODULE)}" placeholder="{\App\Language::translate('LBL_SEARCH_PLACEHOLDER', $QUALIFIED_MODULE)}">
+					<div class="input-group col-2">
+						<input type="text" class="js-shop-search form-control form-control-sm u-max-w-250px ml-2" aria-label="{\App\Language::translate('LBL_SEARCH_PLACEHOLDER', $QUALIFIED_MODULE)}" placeholder="{\App\Language::translate('LBL_SEARCH_PLACEHOLDER', $QUALIFIED_MODULE)}" aria-describedby="{\App\Language::translate('LBL_SEARCH_PLACEHOLDER', $QUALIFIED_MODULE)}">
+						<div class="input-group-append pl-1 d-flex align-items-center border-bottom">
+							<span class="fas fa-search fa-sm  " id="{\App\Language::translate('LBL_SEARCH_PLACEHOLDER', $QUALIFIED_MODULE)}"></span>
+  						</div>
+					</div>
 					<div class="c-panel__title">
 						<span class="yfi yfi-marketplace"></span>
 						<h5>
-							<a class="text-decoration-none text-black" href="index.php?module=YetiForce&parent=Settings&view=Shop">
-								{\App\Language::translate('LBL_SHOP_MARKETPLACE', $QUALIFIED_MODULE)}
-							</a>
+							{\App\Language::translate('LBL_SHOP_MARKETPLACE', $QUALIFIED_MODULE)}
 						</h5>
 					</div>
 				</div>
 				<div id="marketplace-collapse" class="js-collapse collapse multi-collapse" aria-labelledby="marketplace">
-					<div class="c-panel__body pl-3 js-products-container">
+					<div class="c-panel__body px-3 js-products-container">
+						<div class="c-text-divider mb-3">
+  							<hr class="c-text-divider__line u-text-gray" />
+						</div>
 						<nav>
 							<div class="o-shop__nav nav nav-under mt-3" role="tablist">
 								<a class="o-shop__nav__item nav-item nav-link active" id="nav-premium-tab" data-toggle="tab" href="#nav-premium" role="tab" aria-controls="nav-premium" aria-selected="true">
@@ -34,14 +40,14 @@
 								</a>
 							</div>
 						</nav>
-						<div class="alert alert-info alert-dismissible fade show mt-3 mb-0" role="alert">
-								{\App\Language::translate('LBL_SHOP_INFORMATION', $QUALIFIED_MODULE)}
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
 						<div class="tab-content">
 							<div class="tab-pane fade show active" id="nav-premium" role="tabpanel" aria-labelledby="nav-premium-tab">
+								<div class="alert alert-info alert-dismissible fade show mt-3 mb-0" role="alert">
+									{\App\Language::translate('LBL_SHOP_INFORMATION', $QUALIFIED_MODULE)}
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
 								{include file=\App\Layout::getTemplatePath('DashBoard/PremiumZone.tpl', $QUALIFIED_MODULE)}
 							</div>
 							<div class="tab-pane fade js-department" data-department="Partner" id="nav-partner" role="tabpanel" aria-labelledby="nav-partner-tab">
@@ -63,8 +69,11 @@
 					</div>
 				</div>
 				<div id="system-monitoring-collapse" class="js-collapse collapse multi-collapse" aria-labelledby="system-monitoring">
-					<div class="c-panel__body pl-3 pr-0">
-								{include file=\App\Layout::getTemplatePath('DashBoard/SystemMonitoring.tpl', $QUALIFIED_MODULE)}
+					<div class="c-panel__body px-3">
+						<div class="c-text-divider mb-3">
+  							<hr class="c-text-divider__line u-text-gray" />
+						</div>
+						{include file=\App\Layout::getTemplatePath('DashBoard/SystemMonitoring.tpl', $QUALIFIED_MODULE)}
 					</div>
 				</div>
 			</div>
@@ -81,6 +90,9 @@
 				</div>
 				<div id="my-shortcuts-collapse" class="js-collapse collapse multi-collapse" aria-labelledby="my-shortcuts">
 					<div class="c-panel__body px-3">
+						<div class="c-text-divider mb-3">
+  							<hr class="c-text-divider__line u-text-gray" />
+						</div>
 						{include file=\App\Layout::getTemplatePath('DashBoard/SettingsShortCutsContainer.tpl', $QUALIFIED_MODULE)}
 					</div>
 				</div>

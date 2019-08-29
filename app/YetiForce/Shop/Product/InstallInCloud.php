@@ -20,10 +20,10 @@ class InstallInCloud extends \App\YetiForce\Shop\AbstractBaseProduct
 	 * {@inheritdoc}
 	 */
 	public $prices = [
-		'Micro' => 15,
-		'Small' => 25,
-		'Medium' => 50,
-		'Large' => 100,
+		'Micro' => 50,
+		'Small' => 100,
+		'Medium' => 200,
+		'Large' => 400,
 	];
 
 	/**

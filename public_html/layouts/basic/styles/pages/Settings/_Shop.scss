@@ -9,6 +9,13 @@
 		max-width: 30%;
 		min-width: calculate-rem(80px);
 	}
+	&__partner-img {
+		img {
+			max-width: 57%;
+			min-width: calculate-rem(80px);
+
+		}
+	}
 }
 .o-buy-modal {
 	&__img {

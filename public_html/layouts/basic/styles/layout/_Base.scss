@@ -7,6 +7,17 @@
 	width: 100%;
 	overflow-x: hidden;
 }
+.o-vtiger-index-container {
+	.mainBody {
+		background-color: #f3f3f3;
+	}
+	.form-control {
+		border-radius: 0px !important;
+		border-top: 0px !important;
+		border-left: 0px !important;
+		border-right: 0px !important;
+	}
+}
 .c-btn-fixed {
 	bottom: $h-footer;
 }
