@@ -191,7 +191,6 @@ class Install_Index_View extends \App\Controller\View
 			'installation' => true
 		], false);
 		$instance = new Settings_YetiForce_BuyModal_View();
-		$instance->checkPermission($request);
 		$instance->preProcessAjax($request);
 		$instance->process($request);
 		$instance->postProcessAjax($request);

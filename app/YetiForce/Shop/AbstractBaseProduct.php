@@ -43,7 +43,7 @@ abstract class AbstractBaseProduct
 	public $prices = [];
 
 	/**
-	 * Price type (table,manual).
+	 * Price type (table,manual,selection).
 	 *
 	 * @var string
 	 */
@@ -69,13 +69,6 @@ abstract class AbstractBaseProduct
 	 * @var string|null
 	 */
 	public $paidPackage;
-
-	/**
-	 * Company data in form.
-	 *
-	 * @var bool
-	 */
-	public $companyDataForm = true;
 
 	/**
 	 * Custom Fields.
@@ -116,13 +109,11 @@ abstract class AbstractBaseProduct
 	/**
 	 * Get product price.
 	 *
-	 * @param bool $installation
-	 *
 	 * @return int
 	 */
-	public function getPrice($installation = false): int
+	public function getPrice(): int
 	{
-		return !$installation ? $this->prices[\App\Company::getSize()] ?? 0 : 0;
+		return $this->prices[\App\Company::getSize()] ?? $this->prices[0] ?? 0;
 	}
 
 	/**
@@ -210,14 +201,12 @@ abstract class AbstractBaseProduct
 	/**
 	 * Get variable product.
 	 *
-	 * @param bool  $installation
-	 * @param mixed $companyDataForm
-	 *
 	 * @return array
 	 */
-	public function getVariable($companyDataForm = true): array
+	public function getVariable(): array
 	{
-		return [
+		$productSelection = 'selection' === $this->pricesType;
+		$data = [
 			'cmd' => '_xclick-subscriptions',
 			'no_shipping' => 1,
 			'no_note' => 1,
@@ -225,12 +214,17 @@ abstract class AbstractBaseProduct
 			'sra' => 1,
 			't3' => 'M',
 			'p3' => \date('d'),
-			'a3' => $companyDataForm ? $this->getPrice() : '',
 			'item_name' => $this->name,
 			'currency_code' => $this->currencyCode,
-			'on0' => 'Package',
-			'os0' => $companyDataForm ? \App\Company::getSize() : '',
+			'on0' => 'Package'
 		];
+		if (!$productSelection) {
+			$data['os0'] = \App\Company::getSize();
+		}
+		if ('manual' !== $this->pricesType && !$productSelection) {
+			$data['a3'] = $this->getPrice();
+		}
+		return array_merge($data, \App\YetiForce\Shop::getVariablePayments($this->isCustom()));
 	}
 
 	/**
@@ -244,13 +238,13 @@ abstract class AbstractBaseProduct
 	}
 
 	/**
-	 * Get product custom fields.
+	 * Is custom fields.
 	 *
 	 * @return bool
 	 */
-	public function hasCompanyData(): bool
+	public function isCustom(): bool
 	{
-		return $this->companyDataForm;
+		return !empty($this->customFields);
 	}
 
 	/**

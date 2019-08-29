@@ -483,4 +483,19 @@ class User
 		}
 		return $userModel->getImage();
 	}
+
+	/**
+	 * Get number of users.
+	 *
+	 * @return int
+	 */
+	public static function getNumberOfUsers(): int
+	{
+		if (Cache::has('NumberOfUsers', '')) {
+			return Cache::get('NumberOfUsers', '');
+		}
+		$count = (new Db\Query())->from('vtiger_users')->where(['status' => 'Active'])->andWhere(['<>', 'id', 1])->count();
+		Cache::save('NumberOfUsers', '', $count, Cache::LONG);
+		return $count;
+	}
 }

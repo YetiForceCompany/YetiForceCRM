@@ -176,7 +176,6 @@ class Request
 		if (\is_bool($value)) {
 			return $value;
 		}
-
 		return 0 === strcasecmp('true', (string) $value) || '1' === (string) $value;
 	}
 
@@ -663,7 +662,7 @@ class Request
 	 */
 	public function isJSON()
 	{
-		return strpos($this->getHeader('accept'), 'application/json') !== false;
+		return false !== strpos($this->getHeader('accept'), 'application/json');
 	}
 
 	/**
@@ -717,7 +716,7 @@ class Request
 	 * Support static methods, all functions must start with "_".
 	 *
 	 * @param string     $name
-	 * @param null|array $arguments
+	 * @param array|null $arguments
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *

@@ -19,12 +19,7 @@ class Integrator extends \App\YetiForce\Shop\AbstractBaseProduct
 	/**
 	 * {@inheritdoc}
 	 */
-	public $prices = [
-		'Micro' => 100,
-		'Small' => 200,
-		'Medium' => 300,
-		'Large' => 500,
-	];
+	public $prices = [250];
 	/**
 	 * {@inheritdoc}
 	 */

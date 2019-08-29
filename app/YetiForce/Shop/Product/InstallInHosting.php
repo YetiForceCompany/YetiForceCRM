@@ -19,6 +19,10 @@ class InstallInHosting extends \App\YetiForce\Shop\AbstractBaseProduct
 	/**
 	 * {@inheritdoc}
 	 */
+	public $pricesType = 'selection';
+	/**
+	 * {@inheritdoc}
+	 */
 	public $prices = [
 		'Micro' => 20,
 		'Small' => 50,
@@ -31,10 +35,12 @@ class InstallInHosting extends \App\YetiForce\Shop\AbstractBaseProduct
 	 */
 	public $customFields = [
 		'subdomain' => [
+			'label' => 'LBL_DOMAIN_PREFIX',
 			'type' => 'text',
 			'validator' => 'required,custom[onlyLetterNumber]'
 		],
 		'email' => [
+			'label' => 'LBL_EMAIL',
 			'type' => 'email',
 			'validator' => 'required,funcCall[Vtiger_Email_Validator_Js.invokeValidation]'
 		]
