@@ -10,7 +10,7 @@
 		<div id="treePopupContainer" class="m-1">
 			<input type="hidden" name="tree" class="js-tree-workflow-data" value="{\App\Purifier::encodeHtml($TREE)}" data-js="value">
 			{if $TREE}
-					<div class="col-md-12" id="treeWorkflowContents"></div>
+				<div class="col-md-12" id="treeWorkflowContents"></div>
 			{else}
 				<h6 class="textAlignCenter ">{\App\Language::translate('LBL_RECORDS_NO_FOUND', $MODULE_NAME)}</h6>
 			{/if}

@@ -58,7 +58,7 @@
 					<label class="col-sm-3 col-form-label u-text-small-bold text-right">
 						{\App\Language::translate('LBL_SPECIFY_WHEN_TO_EXECUTE', $QUALIFIED_MODULE)}
 					</label>
-					<div class="col-sm-6 controls js-wf-executions-container">
+					<div class="col-sm-6 controls js-wf-executions-container" data-js="container">
 						{assign var=WORKFLOW_MODEL_OBJ value=$WORKFLOW_MODEL->getWorkflowObject()}
 						{foreach from=$TRIGGER_TYPES item=LABEL key=LABEL_ID}
 							{assign var=EXECUTION_CONDITION value=$WORKFLOW_MODEL_OBJ->executionCondition}
@@ -75,7 +75,7 @@
 									{/if}
 									<div class="col-12 mb-2 js-wf-execution-item{if $EXECUTION_CONDITION neq $LABEL_ID} d-none {/if}" data-js="container">
 										<div class="form-check">
-										<input type="hidden" name="params[showTasks]" value="0">
+											<input type="hidden" name="params[showTasks]" value="0">
 											<input class="form-check-input" type="checkbox" value="1" id="showTasks" name="params[showTasks]" {if !empty($PARAMS['showTasks'])} checked="checked" {/if}>
 											<label class="form-check-label" for="showTasks">
 												{\App\Language::translate('LBL_WORKFLOW_TRIGGER_SHOW_TASKS', $QUALIFIED_MODULE)}
