@@ -18236,6 +18236,16 @@ input[type="checkbox"][disabled] {
     padding: 0 20px;
     background-color: inherit; }
 
+.c-mds-input .form-control {
+  border-radius: 0px !important;
+  border-top: 0px !important;
+  border-left: 0px !important;
+  border-right: 0px !important; }
+  .c-mds-input .form-control:focus {
+    box-shadow: none; }
+    .c-mds-input .form-control:focus + .input-group-append {
+      border-color: #5bb1ff !important; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .btn-default {
   color: #212529;
@@ -18509,11 +18519,6 @@ input[type="radio"]:checked:before {
 
 .o-vtiger-index-container .mainBody {
   background-color: #f3f3f3; }
-.o-vtiger-index-container .form-control {
-  border-radius: 0px !important;
-  border-top: 0px !important;
-  border-left: 0px !important;
-  border-right: 0px !important; }
 
 .c-btn-fixed {
   bottom: 2rem; }
@@ -20721,14 +20726,17 @@ td.fieldValue input, td.fieldValue .input-group {
   display: inline-block; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-.o-small-product__container {
-  min-height: 8.125rem; }
-.o-small-product__img {
-  max-width: 30%;
-  min-width: 5rem; }
-.o-small-product__partner-img img {
-  max-width: 57%;
-  min-width: 5rem; }
+.o-small-product {
+  height: 100%;
+  cursor: pointer; }
+  .o-small-product__container {
+    min-height: 8.125rem; }
+  .o-small-product__img {
+    max-width: 30%;
+    min-width: 5rem; }
+  .o-small-product__partner-img img {
+    max-width: 57%;
+    min-width: 5rem; }
 
 .o-buy-modal__img {
   max-height: 13.75rem; }

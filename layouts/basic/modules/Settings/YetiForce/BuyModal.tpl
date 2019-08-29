@@ -40,7 +40,7 @@
 									<input class="js-price-by-size-input" name="os0" type="hidden" value="{key($PRODUCT->prices)}" data-js="val">
 									<select class="select2 form-control js-price-by-size" name="a3" data-js="container">
 										{foreach key=KEY item=PRICE from=$PRODUCT->prices}
-											<option value="{$PRICE}" data-os0="{$KEY}">{\App\Language::translate('LBL_COMPANY_SIZE_'|cat:$KEY|upper, $QUALIFIED_MODULE)}: {$PRICE} {$CURRENCY}</option>
+											<option value="{$PRICE}" data-os0="{$KEY}">{\App\Language::translate('LBL_SHOP_COMPANY_SIZE_'|cat:$KEY|upper, $QUALIFIED_MODULE)}: {$PRICE} {$CURRENCY}</option>
 										{/foreach}
 									</select>
 							{else}
@@ -52,7 +52,7 @@
 						{if 'selection'!== $PRICE_TYPE}
 							<tr>
 								<td class="{$LABEL_CLASS}">{\App\Language::translate('LBL_SHOP_PACKAGE', $QUALIFIED_MODULE)} </td>
-								<td class="py-2 w-50">{$VARIABLE['os0']}</td>
+								<td class="py-2 w-50">{\App\Language::translate('LBL_SHOP_COMPANY_SIZE_'|cat:$VARIABLE['os0']|upper, $QUALIFIED_MODULE)}</td>
 							</tr>
 						{/if}
 						<tr>

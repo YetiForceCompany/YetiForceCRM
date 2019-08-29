@@ -122,8 +122,7 @@
     "LBL_HOSTING_SELF_DESC": "Self-hosting gives you full control over your data. This is an option for companies with IT team that will responsible for maintaining and managing the servers. The cost is cheaper than the monthly cloud plans but also requires more effort from your team.",
     "LBL_HOSTING_SHARED": "Yeti hosting",
     "LBL_HOSTING_CLOUD": "Yeti cloud",
-    "LBL_BUY": "Buy",
-    "LBL_DOMAIN_PREFIX": "Domain prefix"
+    "LBL_BUY": "Buy"
   },
   "js": {
     "JS_ALL": "All",

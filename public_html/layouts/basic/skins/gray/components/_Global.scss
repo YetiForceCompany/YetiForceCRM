@@ -38,3 +38,9 @@ h6,
 .btn {
 	text-transform: uppercase;
 }
+.c-mds-input {
+	.input-group-append {
+		border-bottom: 1px solid $yf-gray !important;
+		color: $yf-gray;
+	}
+}

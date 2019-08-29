@@ -24,10 +24,10 @@ class InstallInCloud extends \App\YetiForce\Shop\AbstractBaseProduct
 	 * {@inheritdoc}
 	 */
 	public $prices = [
-		'Micro' => 50,
-		'Small' => 100,
-		'Medium' => 200,
-		'Large' => 400,
+		'Micro' => 20,
+		'Small' => 50,
+		'Medium' => 100,
+		'Large' => 250,
 	];
 
 	/**
@@ -35,7 +35,7 @@ class InstallInCloud extends \App\YetiForce\Shop\AbstractBaseProduct
 	 */
 	public $customFields = [
 		'subdomain' => [
-			'label' => 'LBL_DOMAIN_PREFIX',
+			'label' => 'LBL_SHOP_DOMAIN_PREFIX',
 			'type' => 'text',
 			'validator' => 'required,custom[onlyLetterNumber]'
 		],
