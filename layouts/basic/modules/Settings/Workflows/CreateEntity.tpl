@@ -67,7 +67,7 @@
 					<input type="hidden" name="valuetype" value="{$FIELD_MAP['valuetype']}"/>
 				</div>
 				{if $MANDATORY_FIELD neq true || $MAPPING_PANEL}
-					<button type="button" class="btn btn-danger js-condition-delete" data-js="click"
+					<button type="button" class="btn btn-danger js-condition-delete" data-js="click">
 						<span class="fas fa-trash-alt"></span>
 					</button>
 				{/if}
