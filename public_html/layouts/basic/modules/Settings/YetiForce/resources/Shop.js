@@ -127,6 +127,7 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	 */
 	updateCustomData(buyForm) {
 		let customField = buyForm.find('.js-custom-data');
+		let priceBySize = buyForm.find('.js-price-by-size');
 		if (customField.length) {
 			let customFields = buyForm.find('.js-custom-field');
 			customFields.each((i, el) => {
@@ -135,6 +136,11 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 					`${customField.val()}${field.data('name')}:${field.val()}${customFields.length - 1 !== i ? '|' : ''}`
 				);
 			});
+		}
+		if (priceBySize.length) {
+			priceBySize
+				.siblings('.js-price-by-size-input')
+				.val(priceBySize.find(`option[value="${priceBySize.val()}"]`).data('os0'));
 		}
 	}
 	/**

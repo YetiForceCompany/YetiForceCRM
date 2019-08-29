@@ -31,9 +31,9 @@
 								<td class="w-50">
 									<input name="a3" class="form-control form-control-sm" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
 							{elseif 'selection'=== $PRICE_TYPE}
-								<td class="w-50">
-									<input name="os0" type="hidden" value="{key($PRODUCT->prices)}">
-									<select class="select2 form-control js-price-by-size" name="a3" data-js="change">
+								<td class="w-50 input-group-sm">
+									<input class="js-price-by-size-input" name="os0" type="hidden" value="{key($PRODUCT->prices)}" data-js="val">
+									<select class="select2 form-control js-price-by-size" name="a3" data-js="container">
 										{foreach key=KEY item=PRICE from=$PRODUCT->prices}
 											<option value="{$PRICE}" data-os0="{$KEY}">{\App\Language::translate('LBL_COMPANY_SIZE_'|cat:$KEY|upper, $QUALIFIED_MODULE)}: {$PRICE} {$CURRENCY}</option>
 										{/foreach}
