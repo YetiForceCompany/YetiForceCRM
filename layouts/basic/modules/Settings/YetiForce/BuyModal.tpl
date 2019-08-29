@@ -29,7 +29,12 @@
 							<td class="{$LABEL_CLASS}">{\App\Language::translate('LBL_SHOP_AMOUNT', $QUALIFIED_MODULE)}</td>
 							{if 'manual'=== $PRICE_TYPE}
 								<td class="w-50">
-									<input name="a3" class="form-control form-control-sm" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
+								<div class="input-group input-group-sm">
+									<input name="a3" class="form-control" type="text" value="{$PRODUCT->getPrice()}" aria-label="price" aria-describedby="currency">
+									<div class="input-group-append">
+    								<span class="input-group-text" id="currency">{$CURRENCY}</span>
+									</div>
+								</div>
 							{elseif 'selection'=== $PRICE_TYPE}
 								<td class="w-50 input-group-sm">
 									<input class="js-price-by-size-input" name="os0" type="hidden" value="{key($PRODUCT->prices)}" data-js="val">
