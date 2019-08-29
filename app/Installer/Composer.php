@@ -161,6 +161,7 @@ class Composer
 		if (!\defined('ROOT_DIRECTORY')) {
 			\define('ROOT_DIRECTORY', $rootDir);
 		}
+		echo str_repeat('=', 50) . PHP_EOL;
 		static::clear();
 		$event->getComposer();
 		if (isset($_SERVER['SENSIOLABS_EXECUTION_NAME'])) {
@@ -168,8 +169,10 @@ class Composer
 		}
 		$publicDir = $rootDir . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR;
 		$types = ['js', 'css', 'woff', 'woff2', 'ttf', 'png', 'gif', 'jpg', 'json'];
+		$list = '';
 		foreach (static::$publicPackage as $package => $method) {
 			$src = 'vendor' . \DIRECTORY_SEPARATOR . $package;
+			$i = 0;
 			foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 				if ($item->isFile() && \in_array($item->getExtension(), $types) && !file_exists($publicDir . $item->getPathname())) {
 					if (!is_dir($publicDir . $item->getPath())) {
@@ -183,11 +186,18 @@ class Composer
 					} elseif ('copy' === $method) {
 						\copy($item->getRealPath(), $publicDir . $item->getPathname());
 					}
+					++$i;
 				}
 			}
+			$list .= PHP_EOL . "{$package}[{$method}]: $i";
 		}
+		echo str_repeat('-', 50) . PHP_EOL;
+		echo "Copy to public_html: $list" . PHP_EOL;
+		echo str_repeat('-', 50) . PHP_EOL;
 		self::customCopy();
+		echo str_repeat('-', 50) . PHP_EOL;
 		self::parseCreditsVue();
+		echo str_repeat('=', 50) . PHP_EOL;
 	}
 
 	/**
