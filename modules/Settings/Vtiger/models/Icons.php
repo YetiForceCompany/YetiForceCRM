@@ -116,7 +116,7 @@ class Settings_Vtiger_Icons_Model
 		foreach (self::$icons['yfi'] as $icon) {
 			$icons[$icon] = 'yfi-' . $icon;
 		}
-		foreach ($icons['yfm'] as $icon) {
+		foreach (self::$icons['yfm'] as $icon) {
 			$icons[$icon] = 'yfm-' . $icon;
 		}
 		return $icons;
