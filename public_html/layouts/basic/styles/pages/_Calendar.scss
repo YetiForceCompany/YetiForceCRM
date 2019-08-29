@@ -61,21 +61,23 @@ $h-calendar-form-actions: calculate-rem(49px);
 }
 
 //standard calendar toggle button
-.basePanel:not(.Calendar_CalendarExtended) {
-	.toggleSiteBarRightButton {
-		background: $light;
-		font-weight: bold;
-		padding: 15px 0 !important;
-		position: fixed;
-		top: 50%;
-		right: 25%;
-		cursor: pointer;
-		width: 17px;
-		z-index: 100;
-		border: $sitebar-border;
-		border-right: 0;
-		display: inline-block;
-		border-radius: 0;
+.container-fluid:not(.o-calendar-calendarextended-container) {
+	.basePanel {
+		.toggleSiteBarRightButton {
+			background: $light;
+			font-weight: bold;
+			padding: 15px 0 !important;
+			position: fixed;
+			top: 50%;
+			right: 25%;
+			cursor: pointer;
+			width: 17px;
+			z-index: 100;
+			border: $sitebar-border;
+			border-right: 0;
+			display: inline-block;
+			border-radius: 0;
+		}
 	}
 }
 
