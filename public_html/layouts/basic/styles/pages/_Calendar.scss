@@ -23,7 +23,7 @@ $h-calendar-form-actions: calculate-rem(49px);
 }
 
 @media (min-width: map_get($grid-breakpoints, lg)) {
-	.basePanel[class*="_Calendar"] {
+	.container-fluid[class*='-calendar-container'] {
 		.mainBody {
 			overflow: hidden;
 		}
