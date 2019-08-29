@@ -109,6 +109,7 @@ class VTWorkflowManager
 				'schdayofweek' => $wf->schdayofweek,
 				'schannualdates' => $wf->schannualdates,
 				'nexttrigger_time' => empty($wf->nexttrigger_time) ? null : $wf->nexttrigger_time,
+				'params' => empty($wf->params) ? null : $wf->params,
 			], ['workflow_id' => $wf->id])->execute();
 		} else {
 			$db = App\Db::getInstance();
@@ -131,6 +132,7 @@ class VTWorkflowManager
 				'schdayofweek' => $wf->schdayofweek,
 				'schannualdates' => $wf->schannualdates,
 				'nexttrigger_time' => empty($wf->nexttrigger_time) ? null : $wf->nexttrigger_time,
+				'params' => empty($wf->params) ? null : $wf->params
 			])->execute();
 			$wf->id = $db->getLastInsertID('com_vtiger_workflows_workflow_id_seq');
 		}
@@ -180,7 +182,7 @@ class VTWorkflowManager
 			$rows = \App\Cache::get('WorkflowsForModule', $moduleName);
 		} else {
 			$rows = (new \App\Db\Query())
-				->select(['workflow_id', 'module_name', 'summary', 'test', 'execution_condition', 'defaultworkflow', 'type', 'filtersavedinnew'])
+				->select(['workflow_id', 'module_name', 'summary', 'test', 'execution_condition', 'defaultworkflow', 'type', 'filtersavedinnew', 'params'])
 				->from('com_vtiger_workflows')
 				->where(['module_name' => $moduleName])->all();
 			\App\Cache::save('WorkflowsForModule', $moduleName, $rows);

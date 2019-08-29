@@ -145,7 +145,7 @@ class Validator
 	public static function dateTimeInUserFormat(string $input, ?int $userId = null): bool
 	{
 		$result = false;
-		if (($arrInput = \explode(' ', $input)) && 2 === \count($arrInput)) {
+		if (($arrInput = \explode(' ', $input, 2)) && 2 === \count($arrInput)) {
 			$userModel = User::getUserModel($userId ?? User::getCurrentUserId());
 			[$dateInput, $timeInput] = $arrInput;
 			[$y, $m, $d] = Fields\Date::explode($dateInput, $userModel->getDetail('date_format'));

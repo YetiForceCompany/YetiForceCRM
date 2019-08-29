@@ -80,7 +80,7 @@ window.App.Fields = {
 		 * @param {boolean} registerForAddon
 		 * @param {object} customParams
 		 */
-		register(parentElement, registerForAddon, customParams, clasName = 'dateField') {
+		register(parentElement, registerForAddon, customParams, className = 'dateField') {
 			if (typeof parentElement === 'undefined') {
 				parentElement = $('body');
 			} else {
@@ -89,8 +89,8 @@ window.App.Fields = {
 			if (typeof registerForAddon === 'undefined') {
 				registerForAddon = true;
 			}
-			let elements = $('.' + clasName, parentElement);
-			if (parentElement.hasClass(clasName)) {
+			let elements = $('.' + className, parentElement);
+			if (parentElement.hasClass(className)) {
 				elements = parentElement;
 			}
 			if (elements.length === 0) {
@@ -103,7 +103,7 @@ window.App.Fields = {
 					// which is stopping from getting focus to input element
 					$(e.currentTarget)
 						.closest('.date')
-						.find('input.' + clasName)
+						.find('input.' + className)
 						.get(0)
 						.focus();
 				});
@@ -140,9 +140,16 @@ window.App.Fields = {
 				params = $.extend(params, customParams);
 			}
 			elements.each((index, element) => {
-				$(element).datepicker($.extend(true, Object.assign(params, {enableOnReadonly: !element.hasAttribute('readonly')}), $(element).data('params')));
+				$(element).datepicker(
+					$.extend(
+						true,
+						Object.assign(params, { enableOnReadonly: !element.hasAttribute('readonly') }),
+						$(element).data('params')
+					)
+				);
 			});
 			App.Fields.Utils.hideMobileKeyboard(elements);
+			return elements;
 		},
 
 		/**

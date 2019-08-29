@@ -80,16 +80,48 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 			$selectedModule = Vtiger_Module_Model::getInstance($selectedModuleName);
 			$workFlowModel = Settings_Workflows_Record_Model::getCleanInstance($selectedModuleName);
 		}
-		$requestData = $request->getAll();
-		foreach ($requestData as $name => $value) {
-			if (('schdayofweek' == $name || 'schdayofmonth' == $name || 'schannualdates' == $name) && \is_string($value)) { // need to save these as json data
-				$value = [$value];
+
+		foreach (['summary', 'schdayofweek', 'schdayofmonth', 'execution_condition', 'schtypeid', 'schtime', 'schdate', 'schannualdates', 'params', 'filtersavedinnew', 'record'] as $name) {
+			if ($request->has($name)) {
+				switch ($name) {
+					case 'summary':
+						$value = htmlspecialchars($request->getByType($name, 'Text'));
+						break;
+					case 'schdayofweek':
+					case 'schdayofmonth':
+						$value = $request->getArray($name, 'Integer');
+						$value = empty($value) ? null : $value;
+						break;
+					case 'execution_condition':
+					case 'record':
+					case 'filtersavedinnew':
+					case 'schtypeid':
+						$value = $request->getInteger($name);
+						break;
+					case 'schtime':
+						$value = $request->isEmpty($name) ? null : $request->getByType($name, 'TimeInUserFormat');
+						break;
+					case 'schdate':
+						$value = $request->isEmpty($name) ? null : $request->getByType($name, 'DateTimeInUserFormat');
+						break;
+					case 'schannualdates':
+						$value = $request->isEmpty($name) ? null : implode(',', $request->getExploded($name, ',', 'DateInUserFormat'));
+						break;
+					case 'params':
+						$value = $request->getMultiDimensionArray($name, [
+							'showTasks' => 'Bool',
+							'enableTasks' => 'Bool'
+						]
+						);
+						$value = \App\Json::encode($value);
+						break;
+					default:
+						$value = null;
+				}
+				$workFlowModel->set($name, $value);
 			}
-			if ('summary' == $name) {
-				$value = htmlspecialchars($value);
-			}
-			$workFlowModel->set($name, $value);
 		}
+
 		//Added to support advance filters
 		$recordStructureInstance = Settings_Workflows_RecordStructure_Model::getInstanceForWorkFlowModule($workFlowModel, Settings_Workflows_RecordStructure_Model::RECORD_STRUCTURE_MODE_FILTER);
 		$recordStructure = $recordStructureInstance->getStructure();

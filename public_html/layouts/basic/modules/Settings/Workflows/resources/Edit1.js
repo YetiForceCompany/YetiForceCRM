@@ -71,75 +71,42 @@ Settings_Workflows_Edit_Js(
 		 * Function to register event for scheduled workflows UI
 		 */
 		registerEventForScheduledWorkflow: function() {
-			var thisInstance = this;
-			jQuery('input[name="execution_condition"]').on('click', function(e) {
-				var element = jQuery(e.currentTarget);
-				var scheduleBoxContainer = jQuery('#scheduleBox');
-				if (element.is(':checked') && element.val() == '6') {
-					//for scheduled workflows
-					scheduleBoxContainer.removeClass('d-none');
-				} else {
-					scheduleBoxContainer.addClass('d-none');
+			let container = $('.js-wf-executions-container');
+			$('input[name="execution_condition"]').on('click', function(e) {
+				let element = $(e.currentTarget),
+					itemBox = element.closest('.js-wf-execution-container').find('.js-wf-execution-item');
+				container.find('.js-wf-execution-item').addClass('d-none');
+				if (itemBox.length && element.prop('checked')) {
+					itemBox.removeClass('d-none');
 				}
 			});
+
 			app.registerEventForClockPicker($('.clockPicker'));
 			App.Fields.Date.register('#scheduleByDate', true);
-
-			App.Fields.Picklist.showSelect2ElementView($('#annualDates'));
+			App.Fields.DateTime.register('#scheduleByDate', true);
+			let newElement = App.Fields.Date.register('#annualDates', false, {
+				maxViewMode: 1,
+				multidate: true,
+				autoclose: false
+			}).on('changeDate', function(e) {
+				let values = [];
+				for (var index in e.dates) {
+					let date = e.dates[index];
+					let formated = moment(date).format(CONFIG.dateFormat.toUpperCase());
+					values.push(formated);
+				}
+				container.find('#annualDates').val(values.join(','));
+			});
+			newElement
+				.closest('.date')
+				.find('.js-date__btn')
+				.on('click', e => {
+					newElement.trigger('click');
+				});
 			App.Fields.Picklist.showSelect2ElementView($('#schdayofweek'));
 			App.Fields.Picklist.showSelect2ElementView($('#schdayofmonth'));
-
-			var currentYear = new Date().getFullYear();
-			var weekStartId = jQuery('#weekStartDay').data('value');
-
-			$('#annualDatePicker')
-				.datepicker({
-					weekStart: weekStartId,
-					startDate: '01/01/' + currentYear,
-					endDate: '12/31/' + currentYear,
-					format: 'mm/dd/yyyy',
-					maxViewMode: 1,
-					todayBtn: 'linked',
-					language: jQuery('body').data('language'),
-					multidate: true,
-					todayHighlight: true
-				})
-				.on('changeDate', function(e) {
-					var datesInfo = [];
-					var values = [];
-					var html = '';
-					// reset the annual dates
-					var annualDatesEle = jQuery('#annualDates');
-					thisInstance.updateAnnualDates(annualDatesEle);
-					for (var index in e.dates) {
-						var date = e.dates[index];
-						var formated = moment(date).format('YYYY-MM-DD');
-						datesInfo.push({
-							id: formated,
-							text: formated
-						});
-						values.push(formated);
-						html += '<option selected value=' + formated + '>' + formated + '</option>';
-					}
-					annualDatesEle.append(html);
-					annualDatesEle.trigger('select2:updated');
-				});
-			var annualDatesEle = jQuery('#annualDates');
-			thisInstance.updateAnnualDates(annualDatesEle);
-			annualDatesEle.trigger('select2:updated');
 		},
-		updateAnnualDates: function(annualDatesEle) {
-			annualDatesEle.html('');
-			var annualDatesJSON = jQuery('#hiddenAnnualDates').val();
-			if (annualDatesJSON) {
-				var hiddenDates = '';
-				var annualDates = JSON.parse(annualDatesJSON);
-				for (var j in annualDates) {
-					hiddenDates += '<option selected value=' + annualDates[j] + '>' + annualDates[j] + '</option>';
-				}
-				annualDatesEle.html(hiddenDates);
-			}
-		},
+
 		registerEventForChangeInScheduledType: function() {
 			var thisInstance = this;
 			jQuery('#schtypeid').on('change', function(e) {
