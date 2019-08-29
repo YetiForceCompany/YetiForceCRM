@@ -2,8 +2,8 @@
 <div class='modelContainer modal fade' tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<form class="form-modalAddWidget">  
-				<div class="modal-header contentsBackground">
+			<form class="form-modalAddWidget">
+				<div class="modal-header">
 					<h5 class="modal-title">
 						<span class="fas fa-plus mr-1"></span>
 						{\App\Language::translate('Add widget', $QUALIFIED_MODULE)}

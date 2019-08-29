@@ -16,7 +16,7 @@
 	<div id="add-comment__container" class="js-add-comment__container modal fade" tabindex="-1" role="dialog" data-js="hasClass">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
-				<div class="modal-header contentsBackground">
+				<div class="modal-header">
 					<h5 class="modal-title">
 						<i class="fa fa-comments"></i> {\App\Language::translate('LBL_MASS_ADD_COMMENT', $MODULE)}
 					</h5>

@@ -72,7 +72,7 @@
 							</div>
 						{/foreach}
 						<div id="scheduleBox"
-								class="well contentsBackground u-timetable {if $EXECUTION_CONDITION neq 6} d-none {/if}">
+								class="well bg-white border u-timetable {if $EXECUTION_CONDITION neq 6} d-none {/if}">
 							<div class="form-row">
 								<div class="col-md-2 d-flex align-items-center">{\App\Language::translate('LBL_RUN_WORKFLOW', $QUALIFIED_MODULE)}</div>
 								{if !empty($WORKFLOW_MODEL_OBJ->schtypeid)}

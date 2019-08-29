@@ -13250,6 +13250,13 @@ header .c-header__btn__container .select2-selection {
   min-width: 0;
   padding: 0; }
 
+.select2-container--open .select2-selection {
+  border-color: #5bb1ff !important; }
+.select2-container--open.select2-container--below .select2-selection {
+  border-bottom-right-radius: 0 !important; }
+.select2-container--open.select2-container--above .select2-selection {
+  border-top-right-radius: 0 !important; }
+
 .leaflet-popup-content {
   width: 62px; }
 
@@ -13428,8 +13435,14 @@ label.btn[class*="btn-outline-"]:not(.active) {
   min-width: 4.0625rem; }
 
 .modal-header {
-  padding: 1rem;
-  margin: 0; }
+  padding: 1rem 0;
+  margin: 0 1rem; }
+
+.modal-footer {
+  border-top: none; }
+
+.modal-content {
+  border: none; }
 
 .modal-header-icon {
   margin-right: 0.5rem; }
@@ -14773,10 +14786,6 @@ textarea {
 
 .highlightBackgroundColor {
   background: #eeeff2 !important; }
-
-.contentsBackground {
-  background: #fff;
-  border: 1px solid #ddd; }
 
 .alignMiddle,
 .tableMiddle td,
@@ -17140,6 +17149,9 @@ ul.tweets li {
 .u-w-max-320px {
   max-width: 20rem !important; }
 
+.u-w-max-430px {
+  max-width: 26.875rem !important; }
+
 .u-w-max-500px {
   max-width: 31.25rem !important; }
 
@@ -17259,6 +17271,9 @@ ul.tweets li {
 .u-bg-gray {
   background-color: #d1d1db !important;
   color: #000 !important; }
+
+.u-text-gray {
+  color: #d1d1db !important; }
 
 .u-rotate-90 {
   transform: rotate(0.75turn);
@@ -18491,6 +18506,14 @@ input[type="radio"]:checked:before {
   bottom: 2rem;
   width: 100%;
   overflow-x: hidden; }
+
+.o-vtiger-index-container .mainBody {
+  background-color: #f3f3f3; }
+.o-vtiger-index-container .form-control {
+  border-radius: 0px !important;
+  border-top: 0px !important;
+  border-left: 0px !important;
+  border-right: 0px !important; }
 
 .c-btn-fixed {
   bottom: 2rem; }
@@ -20702,6 +20725,9 @@ td.fieldValue input, td.fieldValue .input-group {
   min-height: 8.125rem; }
 .o-small-product__img {
   max-width: 30%;
+  min-width: 5rem; }
+.o-small-product__partner-img img {
+  max-width: 57%;
   min-width: 5rem; }
 
 .o-buy-modal__img {
