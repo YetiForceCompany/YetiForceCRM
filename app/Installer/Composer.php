@@ -208,8 +208,16 @@ class Composer
 		$rootDir = realpath(__DIR__ . '/../../') . \DIRECTORY_SEPARATOR;
 		$dirLibraries = $rootDir . 'public_html' . \DIRECTORY_SEPARATOR . 'src' . \DIRECTORY_SEPARATOR . 'node_modules' . \DIRECTORY_SEPARATOR;
 		$dataEncode = Credits::getYarnLibraries($dirLibraries . '.yarn-integrity', $dirLibraries);
-		\App\Json::save($rootDir . 'app_data' . \DIRECTORY_SEPARATOR . 'libraries.json', $dataEncode);
-		echo 'Generated file app_data/libraries.json | ' . \count($dataEncode) . PHP_EOL;
+		if ($dataEncode) {
+			\App\Json::save($rootDir . 'app_data' . \DIRECTORY_SEPARATOR . 'libraries.json', $dataEncode);
+			echo 'Generated file app_data/libraries.json | ' . \count($dataEncode) . PHP_EOL;
+		} else {
+			echo str_repeat('+', 50) . PHP_EOL;
+			echo 'The problem occured when generating app_data/libraries.json file!!!' . PHP_EOL;
+			echo 'It is required to run yarn first and then the composer.' . PHP_EOL;
+			echo 'Example: https://github.com/YetiForceCompany/YetiForceCRM/blob/developer/tests/setup/dependency.sh' . PHP_EOL;
+			echo str_repeat('+', 50) . PHP_EOL;
+		}
 	}
 
 	/**
