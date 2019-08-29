@@ -128,6 +128,13 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	updateCustomData(buyForm) {
 		let customField = buyForm.find('.js-custom-data');
 		if (customField.length) {
+			let customFields = buyForm.find('.js-custom-field');
+			customFields.each((i, el) => {
+				let field = $(el);
+				customField.val(
+					`${customField.val()}${field.data('name')}:${field.val()}${customFields.length - 1 !== i ? '|' : ''}`
+				);
+			});
 		}
 	}
 	/**
