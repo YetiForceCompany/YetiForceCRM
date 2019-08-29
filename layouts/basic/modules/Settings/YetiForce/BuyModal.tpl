@@ -63,7 +63,7 @@
 								<td class="{$LABEL_CLASS} border-bottom">{App\Language::translate($FIELD_DATA['label'], $QUALIFIED_MODULE)}</td>
 								<td class="py-2 position-relative w-50 border-bottom">
 									<div class="input-group-sm position-relative">
-										<input type="{$FIELD_DATA['type']}" class="form-control" placeholder="{App\Language::translate($FIELD_DATA['label'], $QUALIFIED_MODULE)}"
+										<input type="{$FIELD_DATA['type']}" class="form-control js-custom-field" placeholder="{App\Language::translate($FIELD_DATA['label'], $QUALIFIED_MODULE)}" data-name="{$FIELD_NAME}"
 										data-validation-engine="validate[{if isset($FIELD_DATA['validator'])}{$FIELD_DATA['validator']}{else}required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]{/if}]"/>
 									</div>
 								</td>
@@ -72,7 +72,7 @@
 					</tbody>
 				</table>
 				{if $IS_CUSTOM}
-					<input name="custom" type="hidden" class="js-custom-field" data-js="value">
+					<input name="custom" type="hidden" class="js-custom-data" value="" data-js="value">
 				{/if}
 				{foreach key=NAME_OF_KEY item=VALUE from=$VARIABLE}
 						<input name="{$NAME_OF_KEY}" type="hidden" value="{$VALUE}" />
