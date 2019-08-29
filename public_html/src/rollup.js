@@ -23,10 +23,12 @@ let filesToMin = []
 const sourcemap = true
 const plugins = [
 	alias({
-		resolve: ['.vue', '.js'],
-		'~': __dirname,
-		store: `${__dirname}/store/index`,
-		components: `${__dirname}/components`
+		resolve: ['.vue', '.js', '.json'],
+		entries: [
+			{ find: '~', replacement: __dirname },
+			{ find: 'store', replacement: `${__dirname}/store/index` },
+			{ find: 'components', replacement: `${__dirname}/components` }
+		]
 	}),
 	json(),
 	sass(),
