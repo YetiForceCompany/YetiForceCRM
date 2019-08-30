@@ -174,12 +174,15 @@ jQuery.Class(
 					});
 					data.find('[type="submit"]').on('click', function() {
 						let tasks = {};
-						$.each(treeInstance.jstree('getCategory', true), function(index, treeElement) {
-							let value = treeElement.record_id;
+						let selected = treeInstance.jstree('getCategory', true);
+						$.each(selected, function(index, treeElement) {
 							if (treeElement.attr === 'record') {
-								tasks[value] = [];
-							} else if (tasks[treeElement.parent] !== undefined && treeElement.attr === 'task') {
-								tasks[treeElement.parent].push(value);
+								tasks[treeElement.record_id] = [];
+							}
+						});
+						$.each(selected, function(index, treeElement) {
+							if (tasks[treeElement.parent] !== undefined && treeElement.attr === 'task') {
+								tasks[treeElement.parent].push(treeElement.record_id);
 							}
 						});
 						if (Object.keys(tasks).length === 0) {
