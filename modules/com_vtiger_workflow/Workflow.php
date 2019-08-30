@@ -131,6 +131,7 @@ class Workflow
 		}
 		$this->filtersavedinnew = $row['filtersavedinnew'] ?? '';
 		$this->nexttrigger_time = $row['nexttrigger_time'] ?? '';
+		$this->params = $row['params'] ?? '';
 	}
 
 	/**
@@ -186,17 +187,17 @@ class Workflow
 	 * Perform tasks.
 	 *
 	 * @param Vtiger_Record_Model $recordModel
+	 * @param array|null          $tasks
 	 */
-	public function performTasks(Vtiger_Record_Model $recordModel)
+	public function performTasks(Vtiger_Record_Model $recordModel, ?array $tasks = null)
 	{
 		require_once 'modules/com_vtiger_workflow/VTTaskManager.php';
 		require_once 'modules/com_vtiger_workflow/VTTaskQueue.php';
 
 		$tm = new VTTaskManager();
 		$taskQueue = new VTTaskQueue();
-		$tasks = $tm->getTasksForWorkflow($this->id);
-		foreach ($tasks as &$task) {
-			if ($task->active) {
+		foreach ($tm->getTasksForWorkflow($this->id) as $task) {
+			if ($task->active && (null === $tasks || \in_array($task->id, $tasks))) {
 				$trigger = $task->trigger;
 				if (null !== $trigger) {
 					$delay = strtotime($recordModel->get($trigger['field'])) + $trigger['days'] * 86400;

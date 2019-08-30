@@ -157,12 +157,32 @@ jQuery.Class(
 			$(instance).popover('hide');
 			const detailInstance = Vtiger_Detail_Js.getInstance(),
 				callback = function(data) {
+					let treeInstance = data.find('#treeWorkflowContents');
+					treeInstance.jstree({
+						core: {
+							data: JSON.parse(data.find('.js-tree-workflow-data').val()),
+							themes: {
+								name: 'proton',
+								responsive: true,
+								icons: false
+							}
+						},
+						checkbox: {
+							three_state: false
+						},
+						plugins: ['search', 'category']
+					});
 					data.find('[type="submit"]').on('click', function() {
-						let ids = [];
-						data.find('input[type="checkbox"]:checked').each(function() {
-							ids.push($(this).val());
+						let tasks = {};
+						$.each(treeInstance.jstree('getCategory', true), function(index, treeElement) {
+							let value = treeElement.record_id;
+							if (treeElement.attr === 'record') {
+								tasks[value] = [];
+							} else if (tasks[treeElement.parent] !== undefined && treeElement.attr === 'task') {
+								tasks[treeElement.parent].push(value);
+							}
 						});
-						if (ids.length === 0) {
+						if (Object.keys(tasks).length === 0) {
 							Vtiger_Helper_Js.showPnotify({
 								title: app.vtranslate('JS_INFORMATION'),
 								text: app.vtranslate('JS_NOT_SELECTED_WORKFLOW_TRIGGER'),
@@ -180,7 +200,7 @@ jQuery.Class(
 								mode: 'execute',
 								user: data.find('[name="user"]').val(),
 								record: detailInstance.getRecordId(),
-								ids: ids
+								tasks: tasks
 							})
 								.done(function() {
 									Vtiger_Helper_Js.showPnotify({
@@ -2561,7 +2581,9 @@ jQuery.Class(
 			if (chatVue.length) {
 				let chatContainer = this.detailViewContentHolder.find('.js-chat-container');
 				const padding = 10;
-				chatContainer.height($(document).height() - chatContainer.offset().top - $('.js-footer').outerHeight() - padding);
+				chatContainer.height(
+					$(document).height() - chatContainer.offset().top - $('.js-footer').outerHeight() - padding
+				);
 				window.ChatRecordRoomVueComponent.mount({
 					el: '#ChatRecordRoomVue'
 				});

@@ -23,7 +23,7 @@ class Vtiger_Workflow_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if ($request->isEmpty('record')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -33,13 +33,18 @@ class Vtiger_Workflow_Action extends \App\Controller\Action
 		}
 	}
 
-	public function execute(\App\Request $request)
+	/**
+	 * Execute workflow.
+	 *
+	 * @param App\Request $request
+	 */
+	public function execute(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->getInteger('record');
-		$ids = $request->getArray('ids', 'Integer');
 		$user = $request->getInteger('user');
-		Vtiger_WorkflowTrigger_Model::execute($moduleName, $record, $ids, $user);
+		$tasks = $request->getMultiDimensionArray('tasks', ['Integer' => ['Integer']]);
+		\Vtiger_WorkflowTrigger_Model::execute($moduleName, $record, $user, $tasks);
 		$response = new Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
