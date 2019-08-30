@@ -1,15 +1,19 @@
 <?php
 
-namespace App\Map\Address;
-
 /**
- * Address finder Google class.
+ * Address finder Google file.
  *
  * @see       maps.googleapis.com Documentation  of Google Geocoding API
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+namespace App\Map\Address;
+
+/**
+ * Address finder Google class.
  */
 class GoogleGeocode extends Base
 {
@@ -21,9 +25,7 @@ class GoogleGeocode extends Base
 	protected static $url = 'https://maps.googleapis.com/maps/api/geocode/json?';
 
 	/**
-	 * Function checks if teryt is active.
-	 *
-	 * @return bool
+	 * {@inheritdoc}
 	 */
 	public static function isActive()
 	{
@@ -35,6 +37,9 @@ class GoogleGeocode extends Base
 	 */
 	public function find($value)
 	{
+		if (empty($value) || !\App\RequestUtil::isNetConnection()) {
+			return [];
+		}
 		$key = \App\Map\Address::getConfig()['google_map_api']['key'];
 		$lang = \App\Language::getShortLanguageName();
 		$response = \Requests::get(static::$url . "key={$key}&address=$value");

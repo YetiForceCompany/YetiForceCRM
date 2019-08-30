@@ -1,7 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+<!-- tpl-Settings-Workflows-ScheduleBox -->
 <div id="scheduleBox"
-		class="well contentsBackground u-timetable js-wf-execution-item {if $EXECUTION_CONDITION neq 6} d-none {/if}">
+		class="well u-timetable js-wf-execution-item {if $EXECUTION_CONDITION neq 6} d-none {/if}">
 	<div class="form-row">
 		<div class="col-md-2 d-flex align-items-center">{\App\Language::translate('LBL_RUN_WORKFLOW', $QUALIFIED_MODULE)}</div>
 		{if !empty($WORKFLOW_MODEL_OBJ->schtypeid)}
@@ -151,4 +152,5 @@
 		</div>
 	{/if}
 </div>
+<!-- /tpl-Settings-Workflows-ScheduleBox -->
 {/strip}

@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Base-WorkflowTrigger -->
 	<div class="modal-header">
 		<h5 class="modal-title">{\App\Language::translate('LBL_WORKFLOWS_TRIGGER', $MODULE_NAME)}</h5>
 		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -42,4 +43,5 @@
 			<strong>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 		</button>
 	</div>
+	<!-- /tpl-Base-WorkflowTrigger -->
 {/strip}

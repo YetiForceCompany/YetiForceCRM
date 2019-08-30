@@ -471,6 +471,7 @@ $.Class(
 					e.stopPropagation();
 				});
 		},
+
 		registerEvents: function() {
 			this.container = $('.js-dashboard-container');
 			this.registerTabEvents();

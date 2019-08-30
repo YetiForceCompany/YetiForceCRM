@@ -36,6 +36,39 @@ return [
 			'default' => [],
 			'description' => "Restricts the results to the specified country or countries.\nThe country code is a two letter code as defined by the ISO 3166-1 Alpha 2\n(https://en.wikipedia.org/wiki/ISO_3166-1_alpha-, It should be array such like ['en','fr']"
 		],
+		'nominatimMapUrl' => [
+			'default' => '',
+			'description' => "API Address to retrieve data from nominatim map.\n example addresses: https://nominatim.openstreetmap.org."
+		],
+		'nominatimCountryCode' => [
+			'default' => [],
+			'description' => "Restricts the results to the specified country or countries for Nominatim.\nThe country code is a two letter code as defined by the ISO 3166-1 Alpha 2\n(https://en.wikipedia.org/wiki/ISO_3166-1_alpha-, It should be array such like ['en','fr']"
+		],
+		'nominatimRemapping' => [
+			'type' => 'function',
+			'default' => 'return null;',
+			'description' => 'Main function to remapping fields for Nominatim. It should be function.'
+		],
+		'nominatimRemappingForCountry' => [
+			'type' => 'function',
+			'default' => "return [
+			'AU' => function (\$row) {
+				return [
+					'addresslevel1' => [\$row['components']['country'] ?? '', \$row['components']['ISO_3166-1_alpha-2'] ?? ''],
+					'addresslevel2' => \$row['components']['state'] ?? '',
+					'addresslevel3' => \$row['components']['state_district'] ?? '',
+					'addresslevel4' => \$row['components']['county'] ?? '',
+					'addresslevel5' => \$row['components']['suburb'] ?? \$row['components']['neighbourhood'] ?? \$row['components']['city_district'] ?? '',
+					'addresslevel6' => \$row['components']['city'] ?? \$row['components']['town'] ?? \$row['components']['village'] ?? '',
+					'addresslevel7' => \$row['components']['postcode'] ?? '',
+					'addresslevel8' => \$row['components']['road'] ?? '',
+					'buildingnumber' => \$row['components']['house_number'] ?? '',
+					'localnumber' => \$row['components']['local_number'] ?? '',
+				];
+			},
+		];",
+			'description' => 'Function to remapping fields in countries for Nominatim. It should be function.'
+		],
 	],
 	'Backup' => [
 		'BACKUP_PATH' => [

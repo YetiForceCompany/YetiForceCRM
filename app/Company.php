@@ -102,10 +102,7 @@ class Company extends Base
 	 */
 	public static function getSize(): string
 	{
-		if (Cache::has('CompanyGetSize', '')) {
-			return Cache::get('CompanyGetSize', '');
-		}
-		$count = (new Db\Query())->from('vtiger_users')->where(['status' => 'Active'])->andWhere(['<>', 'id', 1])->count();
+		$count = User::getNumberOfUsers();
 		$return = 'Micro';
 		foreach (self::$sizes as $size => $value) {
 			if (0 !== $value && $count > $value) {
@@ -115,7 +112,6 @@ class Company extends Base
 				$return = $size;
 			}
 		}
-		Cache::save('CompanyGetSize', '', $return, Cache::LONG);
 		return $return;
 	}
 }

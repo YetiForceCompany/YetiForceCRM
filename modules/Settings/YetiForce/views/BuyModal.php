@@ -36,23 +36,6 @@ class Settings_YetiForce_BuyModal_View extends \App\Controller\ModalSettings
 	public $headerClass = 'modal-header-xl';
 
 	/**
-	 * Buy modal is accessible only for admin or during installation.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermittedForAdmin
-	 *
-	 * @return bool
-	 */
-	public function checkPermission(App\Request $request)
-	{
-		if (!\App\User::getCurrentUserModel()->isAdmin() && $request->isEmpty('installation')) {
-			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
-		}
-		return true;
-	}
-
-	/**
 	 * {@inheritdoc}
 	 */
 	public function preProcessAjax(App\Request $request)
@@ -74,9 +57,8 @@ class Settings_YetiForce_BuyModal_View extends \App\Controller\ModalSettings
 		$product = \App\YetiForce\Shop::getProduct($request->getByType('product'), $department);
 		$companies = [];
 		$currency = 'EUR';
-		$installMode = !$request->isEmpty('installation');
-		$companyDataForm = $product->hasCompanyData();
-		if ($companyDataForm) {
+		$isCustom = $product->isCustom();
+		if (!$isCustom) {
 			foreach (\App\Company::getAll() as $key => $row) {
 				if (1 === (int) $row['type']) {
 					$companies = $row;
@@ -90,21 +72,19 @@ class Settings_YetiForce_BuyModal_View extends \App\Controller\ModalSettings
 			$formFields = array_filter(Settings_Companies_Module_Model::getFormFields(), function ($key) {
 				return isset($key['paymentData']);
 			});
-		} elseif ($companyDataForm) {
+		} elseif (!$isCustom) {
 			$this->successBtn = '';
 		}
-		$viewer->assign('VARIABLE_PAYMENTS', \App\YetiForce\Shop::getVariablePayments($companyDataForm));
-		$viewer->assign('VARIABLE_PRODUCT', $product->getVariable($companyDataForm));
+		$viewer->assign('VARIABLE', $product->getVariable());
 		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->assign('PRODUCT', $product);
-		$viewer->assign('IMAGE', $product->getImage($installMode ? '../../' : ''));
+		$viewer->assign('IMAGE', $product->getImage($request->getBoolean('installation') ? '../../' : ''));
 		$viewer->assign('PAYPAL_URL', \App\YetiForce\Shop::getPaypalUrl());
 		$viewer->assign('COMPANY_DATA', $companies);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('FORM_FIELDS', $formFields);
 		$viewer->assign('CURRENCY', $currency);
-		$viewer->assign('INSTALL_MODE', $installMode);
-		$viewer->assign('COMPANY_DATA_FORM', $companyDataForm);
+		$viewer->assign('IS_CUSTOM', $isCustom);
 		$viewer->view('BuyModal.tpl', $qualifiedModuleName);
 	}
 }

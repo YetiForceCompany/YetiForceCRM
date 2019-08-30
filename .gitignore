@@ -36,9 +36,11 @@
 /user_privileges/sharing_privileges_5.php
 /user_privileges/sharing_privileges_6.php
 /user_privileges/sharing_privileges_7.php
+/user_privileges/sharing_privileges_8.php
 /user_privileges/user_privileges_5.php
 /user_privileges/user_privileges_6.php
 /user_privileges/user_privileges_7.php
+/user_privileges/user_privileges_8.php
 
 /config/*
 !/config/username_blacklist.php

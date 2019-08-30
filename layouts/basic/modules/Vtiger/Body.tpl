@@ -5,7 +5,7 @@
 		{include file=\App\Layout::getTemplatePath('Announcement.tpl', $MODULE)}
 	{/if}
 	{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}
-	<div class="container-fluid container-fluid-main o-{$MODULE}-{$VIEW}-container">
+	<div class="container-fluid container-fluid-main o-{$MODULE|lower}-{$VIEW|lower}-container">
 		<div class="o-base-container js-base-container c-menu--animation {if $LEFTPANELHIDE} c-menu--open{/if}" data-js="container | class: c-menu--animation">
 			<div class="js-sidebar c-menu__container noSpaces" data-js="class: .js-expand">
 				{include file=\App\Layout::getTemplatePath('BodyLeft.tpl', $MODULE)}

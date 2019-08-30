@@ -630,3 +630,18 @@ input[type="checkbox"][disabled] {
 		background-color: inherit;
 	}
 }
+
+.c-mds-input {
+	.form-control {
+		border-radius: 0px !important;
+		border-top: 0px !important;
+		border-left: 0px !important;
+		border-right: 0px !important;
+		&:focus {
+			box-shadow: none;
+			& + .input-group-append {
+				border-color: #5bb1ff !important;
+			}
+		}
+	}
+}

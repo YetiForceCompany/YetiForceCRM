@@ -1055,6 +1055,7 @@ window.App.Fields = {
 					ajax: {},
 					dataAdapter: CustomData
 				});
+				selectElement.removeClass('js-lazy-select');
 				this.showSelect2ElementView(selectElement, params.selectParams);
 			});
 		},
@@ -1070,6 +1071,16 @@ window.App.Fields = {
 			if ($(selectElement).length > 1) {
 				return $(selectElement).each((index, element) => {
 					this.showSelect2ElementView($(element).eq(0), params);
+				});
+			}
+			if (selectElement.hasClass('js-lazy-select')) {
+				let items = $.map(selectElement.data('fieldinfo').picklistvalues, function(val, key) {
+					return { id: key, text: val };
+				});
+				return App.Fields.Picklist.showLazySelect(selectElement, {
+					lazyElements: 50,
+					data: items,
+					selectParams: params
 				});
 			}
 			params = this.registerParams(selectElement, params);

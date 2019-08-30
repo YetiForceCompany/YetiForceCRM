@@ -87,14 +87,14 @@ class Shop
 	/**
 	 * Get variable payments.
 	 *
-	 * @param bool $companyDataForm
+	 * @param bool $isCustom
 	 *
 	 * @return array
 	 */
-	public static function getVariablePayments($companyDataForm = true): array
+	public static function getVariablePayments($isCustom = false): array
 	{
 		$crmData = [];
-		if ($companyDataForm) {
+		if (!$isCustom) {
 			$crmData = [
 				'return' => \Config\Main::$site_URL . 'index.php?module=YetiForce&parent=Settings&view=Shop&status=success',
 				'cancel_return' => \Config\Main::$site_URL . 'index.php?module=YetiForce&parent=Settings&view=Shop&status=fail',

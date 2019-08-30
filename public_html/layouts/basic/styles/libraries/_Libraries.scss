@@ -233,6 +233,21 @@ header {
 	padding: 0;
 }
 
+.select2-container--open {
+	.select2-selection {
+		border-color: #5bb1ff !important;
+	}
+	&.select2-container--below {
+		.select2-selection {
+			border-bottom-right-radius: 0 !important;
+		}
+	}
+	&.select2-container--above {
+		.select2-selection {
+			border-top-right-radius: 0 !important;
+		}
+	}
+}
 //-------- leaflet --------//
 .leaflet-popup-content {
 	width: 62px;

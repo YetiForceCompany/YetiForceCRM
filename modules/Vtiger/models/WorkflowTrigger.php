@@ -20,7 +20,7 @@
  	 * @param int    $userId
  	 * @param array  $actions
  	 */
- 	public static function execute($moduleName, $record, $userId, array $actions = [])
+ 	public static function execute(string $moduleName, int $record, $userId, array $actions = [])
  	{
  		\Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
  		$recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
