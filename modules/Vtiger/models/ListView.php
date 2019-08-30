@@ -527,9 +527,6 @@ class Vtiger_ListView_Model extends \App\Base
 		if (0 !== $pagingModel->get('limit')) {
 			$query->limit($pageLimit + 1)->offset($pagingModel->getStartIndex());
 		}
-		// echo '<pre>', print_r([$this->get('search_params'), $query->createCommand()->getRawSql()]);
-		// echo '</pre>';
-		// exit;
 		$rows = $query->all();
 		$count = \count($rows);
 		$pagingModel->calculatePageRange($count);
