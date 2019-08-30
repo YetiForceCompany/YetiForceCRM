@@ -13246,7 +13246,7 @@ header .c-header__btn__container .select2-selection {
   display: inline-block;
   vertical-align: middle; }
 
-.select2-container--bootstrap .select2-selection--multiple .select2-search--inline .select2-search__field {
+.select2-container--bootstrap .select2-selection--multiple .select2-selection__choice + .select2-search--inline .select2-search__field {
   min-width: 0;
   padding: 0; }
 
@@ -18523,25 +18523,25 @@ input[type="radio"]:checked:before {
 .c-btn-fixed {
   bottom: 2rem; }
 
-.basePanel[class$="_KnowledgeBase"] .contentsDiv {
+.container-fluid[class$='-knowledgebase-container'] .contentsDiv {
   min-height: calc(100vh - 3.125rem - 2rem); }
 
 .user-info--active .mainBody,
 .user-info--active .c-btn-fixed {
   bottom: calc(2rem + 1rem); }
-.user-info--active .basePanel[class$="_KnowledgeBase"] .contentsDiv {
+.user-info--active .container-fluid[class$='-knowledgebase-container'] .contentsDiv {
   min-height: calc(100vh - 3.125rem - calc(2rem + 1rem)); }
 
 .limited-footer--active .mainBody,
 .limited-footer--active .c-btn-fixed {
   bottom: 1rem; }
-.limited-footer--active .basePanel[class$="_KnowledgeBase"] .contentsDiv {
+.limited-footer--active .container-fluid[class$='-knowledgebase-container'] .contentsDiv {
   min-height: calc(100vh - 3.125rem - 1rem); }
 
 .user-info--active.limited-footer--active .mainBody,
 .user-info--active.limited-footer--active .c-btn-fixed {
   bottom: 2rem; }
-.user-info--active.limited-footer--active .basePanel[class$="_KnowledgeBase"] .contentsDiv {
+.user-info--active.limited-footer--active .container-fluid[class$='-knowledgebase-container'] .contentsDiv {
   min-height: calc(100vh - 3.125rem - 2rem); }
 
 @media (max-width: 767.98px) {
@@ -18549,12 +18549,12 @@ input[type="radio"]:checked:before {
   .c-btn-fixed {
     bottom: 1rem; }
 
-  .basePanel[class$="_KnowledgeBase"] .contentsDiv {
+  .container-fluid[class$='-knowledgebase-container'] .contentsDiv {
     min-height: calc(100vh - 3.125rem - 1rem); }
 
   .user-info--active .mainBody {
     bottom: 2rem; }
-  .user-info--active .basePanel[class$="_KnowledgeBase"] .contentsDiv {
+  .user-info--active .container-fluid[class$='-knowledgebase-container'] .contentsDiv {
     min-height: calc(100vh - 3.125rem - 2rem); } }
 .massEditTable th + th,
 .massEditTable td + td,
@@ -19471,12 +19471,12 @@ body > .o-exception-fixed-block {
     padding-right: 1rem !important; } }
 
 @media (min-width: 992px) {
-  .basePanel[class*="_Calendar"] .mainBody {
+  .container-fluid[class*='-calendar-container'] .mainBody {
     overflow: hidden; } }
 .hideToggleSiteBarRightButton {
   right: 0 !important; }
 
-.basePanel:not(.Calendar_CalendarExtended) .toggleSiteBarRightButton {
+.container-fluid:not(.o-calendar-calendarextended-container) .basePanel .toggleSiteBarRightButton {
   background: #f8f9fa;
   font-weight: bold;
   padding: 15px 0 !important;
