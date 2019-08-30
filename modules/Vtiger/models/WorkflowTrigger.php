@@ -68,7 +68,7 @@
  				'parent' => '#',
  				'text' => '&nbsp;' . \App\Language::translate($workflow->description, $workflowModuleName),
  				'state' => ['selected' => false, 'disabled' => false, 'loaded' => true, 'opened' => false],
- 				'category' => ['checked' => true]
+ 				'category' => ['checked' => false]
  			];
  			$params = $workflow->params ? \App\Json::decode($workflow->params) : [];
  			if (empty($params['showTasks'])) {
@@ -86,7 +86,7 @@
  					'parent' => $workflow->id,
  					'text' => '&nbsp;' . \App\Language::translate($task->summary, $workflowModuleName),
  					'state' => ['selected' => false, 'disabled' => empty($params['enableTasks'])],
- 					'category' => ['checked' => true]
+ 					'category' => ['checked' => false]
  				];
  			}
  		}
