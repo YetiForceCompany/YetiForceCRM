@@ -277,6 +277,7 @@ CREATE TABLE `com_vtiger_workflows` (
   `schannualdates` varchar(100) DEFAULT NULL,
   `schtime` varchar(50) DEFAULT NULL,
   `nexttrigger_time` datetime DEFAULT NULL,
+  `params` text DEFAULT NULL,
   PRIMARY KEY (`workflow_id`),
   UNIQUE KEY `com_vtiger_workflows_idx` (`workflow_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
@@ -1104,10 +1105,10 @@ CREATE TABLE `s_yf_mail_smtp` (
   `from_email` varchar(255) DEFAULT NULL,
   `from_name` varchar(255) DEFAULT NULL,
   `reply_to` varchar(255) DEFAULT NULL,
-	`confirm_reading_to` varchar(255) DEFAULT NULL,
-	`priority` varchar(255) DEFAULT NULL,
-	`organization` varchar(255) DEFAULT NULL,
-	`unsubscribe` varchar(255) DEFAULT NULL,
+  `confirm_reading_to` varchar(255) DEFAULT NULL,
+  `priority` varchar(255) DEFAULT NULL,
+  `organization` varchar(255) DEFAULT NULL,
+  `unsubscribe` varchar(255) DEFAULT NULL,
   `individual_delivery` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `params` text DEFAULT NULL,
   `save_send_mail` tinyint(1) DEFAULT 0,
