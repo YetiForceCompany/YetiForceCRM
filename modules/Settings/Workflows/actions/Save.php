@@ -20,7 +20,7 @@ class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action
 		$conditions = $request->getArray('conditions', 'Text');
 		$filterSavedInNew = $request->isEmpty('filtersavedinnew') ? null : $request->getInteger('filtersavedinnew');
 		$executionCondition = $request->getInteger('execution_condition');
-		$workflowScheduleType = $request->getInteger('schtypeid');
+		$workflowScheduleType = $request->isEmpty('schtypeid') ? null : $request->getInteger('schtypeid');
 		if ($request->isEmpty('record')) {
 			$workflowModel = Settings_Workflows_Record_Model::getCleanInstance($moduleName);
 		} else {

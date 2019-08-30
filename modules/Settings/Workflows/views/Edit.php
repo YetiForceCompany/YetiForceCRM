@@ -93,11 +93,11 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 						$value = empty($value) ? null : $value;
 						break;
 					case 'record':
+					case 'filtersavedinnew':
+					case 'schtypeid':
 						$value = $request->isEmpty($name) ? null : $request->getInteger($name);
 						break;
 					case 'execution_condition':
-					case 'filtersavedinnew':
-					case 'schtypeid':
 						$value = $request->getInteger($name);
 						break;
 					case 'schtime':
