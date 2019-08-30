@@ -1,4 +1,5 @@
 {strip}
+	<!-- tpl-Base-BlockHeader.tpl -->
 	<div class="mb-2 mb-lg-0 mx-2 mx-lg-0">
 		<label class="text-md-right u-text-small-bold pt-1 mb-0">
 			<span class="copyAddressLabel col-form-label mr-2">{\App\Language::translate('COPY_ADRESS_FROM')}</span>
@@ -79,5 +80,5 @@
 			</div>
 		</div>
 	{/if}
+	<!-- /tpl-Base-BlockHeader.tpl -->
 {/strip}
-
