@@ -1,15 +1,19 @@
 <?php
 
-namespace App\Map\Address;
-
 /**
- * Address finder OpenCageGeocoder class.
+ * Address finder OpenCageGeocoder file.
  *
  * @see       https://geocoder.opencagedata.com/api Documentation  of OpenCage Geocoder API
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+namespace App\Map\Address;
+
+/**
+ * Address finder OpenCageGeocoder class.
  */
 class OpenCageGeocoder extends Base
 {
@@ -21,9 +25,7 @@ class OpenCageGeocoder extends Base
 	protected static $url = 'https://api.opencagedata.com/geocode/v1/';
 
 	/**
-	 * Function checks if teryt is active.
-	 *
-	 * @return bool
+	 * {@inheritdoc}
 	 */
 	public static function isActive()
 	{
@@ -35,6 +37,9 @@ class OpenCageGeocoder extends Base
 	 */
 	public function find($value)
 	{
+		if (empty($value) || !\App\RequestUtil::isNetConnection()) {
+			return [];
+		}
 		$config = \App\Map\Address::getConfig();
 		$urlAddress = static::$url . 'json?q=' . $value . '&pretty=1';
 		$urlAddress .= '&language=' . \App\Language::getLanguage();
