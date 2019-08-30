@@ -38,7 +38,11 @@
 						{foreach from=$RELATED_MODULE_MODEL->getFields() item=FIELD_MODEL}
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 							{if $FIELD_MODEL->getFieldDataType() == 'owner'}
-								{$SPECIAL_OPTION = [\App\Language::translate('LBL_SPECIAL_OPTIONS') => ['assigned_user_id' => {\App\Language::translate('LBL_PARENT_OWNER')}]]}
+								{$SPECIAL_OPTION = [\App\Language::translate('LBL_SPECIAL_OPTIONS') => [
+									'assigned_user_id' => \App\Language::translate('LBL_PARENT_OWNER'),
+									'triggerUser' => \App\Language::translate('LBL_TRIGGER_USER',$QUALIFIED_MODULE)
+									]
+								]}
 								{$FIELD_INFO['picklistvalues'] = array_merge($FIELD_INFO['picklistvalues'], $SPECIAL_OPTION)}
 							{/if}
 							<option value="{$FIELD_MODEL->getName()}" {if $FIELD_MAP['fieldname'] eq $FIELD_MODEL->getName()} {if $FIELD_MODEL->isMandatory()}{assign var=MANDATORY_FIELD value=true} {else} {assign var=MANDATORY_FIELD value=false} {/if}{assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldDataType()} selected=""{/if}
@@ -97,7 +101,11 @@
 							{foreach from=$RELATED_MODULE_MODEL->getFields() item=FIELD_MODEL}
 								{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 								{if $FIELD_MODEL->getFieldDataType() == 'owner'}
-									{$SPECIAL_OPTION = [\App\Language::translate('LBL_SPECIAL_OPTIONS') => ['assigned_user_id' => {\App\Language::translate('LBL_PARENT_OWNER')}]]}
+									{$SPECIAL_OPTION = [\App\Language::translate('LBL_SPECIAL_OPTIONS') => [
+										'assigned_user_id' => \App\Language::translate('LBL_PARENT_OWNER'),
+										'triggerUser' => \App\Language::translate('LBL_TRIGGER_USER',$QUALIFIED_MODULE)
+										]
+									]}
 									{$FIELD_INFO['picklistvalues'] = array_merge($FIELD_INFO['picklistvalues'], $SPECIAL_OPTION)}
 								{/if}
 								<option value="{$FIELD_MODEL->getName()}"

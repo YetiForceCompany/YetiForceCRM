@@ -70,13 +70,17 @@ class VTCreateEntityTask extends VTTask
 						$fieldValue = '0';
 					}
 				}
-				if (\in_array($fieldName, $ownerFields) && !is_numeric($fieldValue)) {
-					$userId = App\User::getUserIdByName($fieldValue);
-					$groupId = \App\Fields\Owner::getGroupId($fieldValue);
-					if (!$userId && !$groupId) {
-						$fieldValue = $recordModel->get($fieldName);
-					} else {
-						$fieldValue = (!$userId) ? $groupId : $userId;
+				if (\in_array($fieldName, $ownerFields)) {
+					if ('triggerUser' === $fieldValue) {
+						$fieldValue = $recordModel->executeUser;
+					} elseif (!is_numeric($fieldValue)) {
+						$userId = App\User::getUserIdByName($fieldValue);
+						$groupId = \App\Fields\Owner::getGroupId($fieldValue);
+						if (!$userId && !$groupId) {
+							$fieldValue = $recordModel->get($fieldName);
+						} else {
+							$fieldValue = (!$userId) ? $groupId : $userId;
+						}
 					}
 				}
 				$newRecordModel->set($fieldName, $fieldValue);
