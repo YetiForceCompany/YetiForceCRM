@@ -227,12 +227,14 @@ header {
 	@extend .w-25;
 	@extend .mr-sm-2;
 }
-
-.select2-container--bootstrap .select2-selection--multiple .select2-search--inline .select2-search__field {
-	min-width: 0;
-	padding: 0;
+.select2-container--bootstrap .select2-selection--multiple {
+	.select2-selection__choice + .select2-search--inline {
+		.select2-search__field {
+			min-width: 0;
+			padding: 0;
+		}
+	}
 }
-
 .select2-container--open {
 	.select2-selection {
 		border-color: #5bb1ff !important;
