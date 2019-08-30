@@ -5554,6 +5554,7 @@ CREATE TABLE `vtiger_field` (
   `maxlengthtext` smallint(3) unsigned DEFAULT 0,
   `maxwidthcolumn` smallint(3) unsigned DEFAULT 0,
   `visible` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `tabindex` smallint(5) NOT NULL DEFAULT 0,
   PRIMARY KEY (`fieldid`),
   KEY `field_tabid_idx` (`tabid`),
   KEY `field_fieldname_idx` (`fieldname`),

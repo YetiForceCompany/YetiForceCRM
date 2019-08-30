@@ -29,6 +29,7 @@ class FieldBasic
 	public $header_field = false;
 	public $maxlengthtext = 0;
 	public $maxwidthcolumn = 0;
+	public $tabindex = 0;
 	public $masseditable = 1; // Default: Enable massedit for field
 	public $uitype = 1;
 	public $typeofdata = 'V~O';
@@ -69,6 +70,7 @@ class FieldBasic
 		$this->maximumlength = $valuemap['maximumlength'];
 		$this->maxlengthtext = (int) $valuemap['maxlengthtext'];
 		$this->maxwidthcolumn = (int) $valuemap['maxwidthcolumn'];
+		$this->tabindex = (int) $valuemap['tabindex'];
 		$this->displaytype = (int) $valuemap['displaytype'];
 		$this->generatedtype = (int) $valuemap['generatedtype'];
 		$this->readonly = (int) $valuemap['readonly'];

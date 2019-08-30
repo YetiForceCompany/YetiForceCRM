@@ -149,6 +149,17 @@
 								</div>
 							</div>
 						</div>
+						<div class="form-group">
+							<label for="tabindex"><strong>{App\Language::translate('LBL_TABINDEX', $QUALIFIED_MODULE)}</strong></label>
+							<div class="input-group">
+								<input type="text" class="form-control" id="tabindex" name="tabindex" value="{$FIELD_MODEL->get('tabindex')}"/>
+								<div class="input-group-append">
+									<div class="input-group-text js-popover-tooltip u-cursor-pointer" data-js="popover" data-placement="top" data-content="{App\Language::translate('LBL_TABINDEX_INFO', $QUALIFIED_MODULE)}">
+										<span class="fas fa-info-circle"></span>
+									</div>
+								</div>
+							</div>
+						</div>
 						{if App\Config::developer('CHANGE_GENERATEDTYPE')}
 							<div class="checkbox">
 							<input type="hidden" name="generatedtype" value="0"/>
