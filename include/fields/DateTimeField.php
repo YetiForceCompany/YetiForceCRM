@@ -44,10 +44,7 @@ class DateTimeField
 	 */
 	public function getDBInsertDateValue()
 	{
-		$value = explode(' ', $this->datetime);
-		if (2 == \count($value)) {
-			$value[0] = self::convertToUserFormat($value[0]);
-		}
+		$value = explode(' ', $this->datetime, 2);
 		$insert_date = '';
 		if (!empty($value[1])) {
 			$date = self::convertToDBTimeZone($this->datetime);
@@ -81,19 +78,18 @@ class DateTimeField
 	}
 
 	/**
-	 * @param string $date
-	 * @param Users  $user
+	 * @param string    $date
+	 * @param \App\User $user
 	 *
 	 * @return string
 	 */
 	public static function convertToDBFormat($date, $user = null)
 	{
-		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		\App\Log::trace('Start ' . __METHOD__ . ' ' . serialize($date));
 		if (empty($user)) {
-			$user = $current_user;
+			$user = \App\User::getCurrentUserModel();
 		}
-		$format = $current_user->date_format;
+		$format = $user->getDetail('date_format');
 		if (empty($format)) {
 			$format = 'yyyy-mm-dd';
 		}
