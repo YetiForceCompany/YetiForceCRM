@@ -35,7 +35,7 @@ class InstallInCloud extends \App\YetiForce\Shop\AbstractBaseProduct
 	 */
 	public $customFields = [
 		'subdomain' => [
-			'label' => 'LBL_DOMAIN_PREFIX',
+			'label' => 'LBL_SHOP_DOMAIN_PREFIX',
 			'type' => 'text',
 			'validator' => 'required,custom[onlyLetterNumber]'
 		],

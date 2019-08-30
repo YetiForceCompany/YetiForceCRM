@@ -19,7 +19,7 @@
 					<input id="convertLeadError" class="convertLeadError" type="hidden"
 						   value="{App\Language::translate('LBL_CONVERT_LEAD_ERROR',$MODULE)}"/>
 				{else}
-					<div class="modal-header contentsBackground">
+					<div class="modal-header">
 						<h5 class="modal-title">
 							<span class="fas fa-exchange-alt mr-1"></span>
 							{App\Language::translate('LBL_CONVERT_LEAD', $MODULE)}: {$RECORD->getName()}

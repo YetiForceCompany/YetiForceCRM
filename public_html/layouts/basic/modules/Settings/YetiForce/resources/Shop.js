@@ -114,11 +114,33 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 			}
 		} else {
 			if (buyForm.validationEngine('validate') === true) {
+				this.updateCustomData(buyForm);
 				buyForm.submit();
 				app.hideModalWindow();
 			} else {
 				app.formAlignmentAfterValidation(buyForm);
 			}
+		}
+	}
+	/**
+	 * Update custom data.
+	 */
+	updateCustomData(buyForm) {
+		let customField = buyForm.find('.js-custom-data');
+		let priceBySize = buyForm.find('.js-price-by-size');
+		if (customField.length) {
+			let customFields = buyForm.find('.js-custom-field');
+			customFields.each((i, el) => {
+				let field = $(el);
+				customField.val(
+					`${customField.val()}${field.data('name')}:${field.val()}${customFields.length - 1 !== i ? '|' : ''}`
+				);
+			});
+		}
+		if (priceBySize.length) {
+			priceBySize
+				.siblings('.js-price-by-size-input')
+				.val(priceBySize.find(`option[value="${priceBySize.val()}"]`).data('os0'));
 		}
 	}
 	/**

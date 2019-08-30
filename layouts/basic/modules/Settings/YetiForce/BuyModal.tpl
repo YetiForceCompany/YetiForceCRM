@@ -29,13 +29,18 @@
 							<td class="{$LABEL_CLASS}">{\App\Language::translate('LBL_SHOP_AMOUNT', $QUALIFIED_MODULE)}</td>
 							{if 'manual'=== $PRICE_TYPE}
 								<td class="w-50">
-									<input name="a3" class="form-control form-control-sm" type="text" value="{$PRODUCT->getPrice()}" aria-label="price">
+								<div class="input-group input-group-sm">
+									<input name="a3" class="form-control" type="text" value="{$PRODUCT->getPrice()}" aria-label="price" aria-describedby="currency">
+									<div class="input-group-append">
+    								<span class="input-group-text" id="currency">{$CURRENCY}</span>
+									</div>
+								</div>
 							{elseif 'selection'=== $PRICE_TYPE}
-								<td class="w-50">
-									<input name="os0" type="hidden" value="{key($PRODUCT->prices)}">
-									<select class="select2 form-control js-price-by-size" name="a3" data-js="change">
+								<td class="w-50 input-group-sm">
+									<input class="js-price-by-size-input" name="os0" type="hidden" value="{key($PRODUCT->prices)}" data-js="val">
+									<select class="select2 form-control js-price-by-size" name="a3" data-js="container">
 										{foreach key=KEY item=PRICE from=$PRODUCT->prices}
-											<option value="{$PRICE}" data-os0="{$KEY}">{\App\Language::translate('LBL_COMPANY_SIZE_'|cat:$KEY|upper, $QUALIFIED_MODULE)}: {$PRICE} {$CURRENCY}</option>
+											<option value="{$PRICE}" data-os0="{$KEY}">{\App\Language::translate('LBL_SHOP_COMPANY_SIZE_'|cat:$KEY|upper, $QUALIFIED_MODULE)}: {$PRICE} {$CURRENCY}</option>
 										{/foreach}
 									</select>
 							{else}
@@ -47,7 +52,7 @@
 						{if 'selection'!== $PRICE_TYPE}
 							<tr>
 								<td class="{$LABEL_CLASS}">{\App\Language::translate('LBL_SHOP_PACKAGE', $QUALIFIED_MODULE)} </td>
-								<td class="py-2 w-50">{$VARIABLE['os0']}</td>
+								<td class="py-2 w-50">{\App\Language::translate('LBL_SHOP_COMPANY_SIZE_'|cat:$VARIABLE['os0']|upper, $QUALIFIED_MODULE)}</td>
 							</tr>
 						{/if}
 						<tr>
@@ -63,7 +68,7 @@
 								<td class="{$LABEL_CLASS} border-bottom">{App\Language::translate($FIELD_DATA['label'], $QUALIFIED_MODULE)}</td>
 								<td class="py-2 position-relative w-50 border-bottom">
 									<div class="input-group-sm position-relative">
-										<input type="{$FIELD_DATA['type']}" class="form-control" placeholder="{App\Language::translate($FIELD_DATA['label'], $QUALIFIED_MODULE)}"
+										<input type="{$FIELD_DATA['type']}" class="form-control js-custom-field" placeholder="{App\Language::translate($FIELD_DATA['label'], $QUALIFIED_MODULE)}" data-name="{$FIELD_NAME}"
 										data-validation-engine="validate[{if isset($FIELD_DATA['validator'])}{$FIELD_DATA['validator']}{else}required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]{/if}]"/>
 									</div>
 								</td>
@@ -72,7 +77,7 @@
 					</tbody>
 				</table>
 				{if $IS_CUSTOM}
-					<input name="custom" type="hidden" class="js-custom-field" data-js="value">
+					<input name="custom" type="hidden" class="js-custom-data" value="" data-js="value">
 				{/if}
 				{foreach key=NAME_OF_KEY item=VALUE from=$VARIABLE}
 						<input name="{$NAME_OF_KEY}" type="hidden" value="{$VALUE}" />

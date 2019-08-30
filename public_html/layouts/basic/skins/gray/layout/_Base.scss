@@ -3,14 +3,8 @@
 .mainBody {
 	background-color: $yf-gray-bg;
 }
-.o-vtiger-index-container {
-	.input-group-append {
-		border-bottom: 1px solid $yf-gray-bg !important;
-		color: $yf-gray-bg;
-	}
-	.o-shop__nav {
-		&__item {
-			text-transform: uppercase;
-		}
+.o-shop__nav {
+	&__item {
+		text-transform: uppercase;
 	}
 }

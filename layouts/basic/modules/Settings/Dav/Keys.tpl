@@ -104,7 +104,7 @@
 			<div class="modal addKeyContainer fade" tabindex="-1">
 				<div class="modal-dialog">
 					<div class="modal-content">
-						<div class="modal-header contentsBackground">
+						<div class="modal-header">
 							<h5 class="modal-title">
 								<span class="fas fa-plus fa-sm mr-2"></span>{\App\Language::translate('LBL_ADD_KEY', $QUALIFIED_MODULE)}
 							</h5>
