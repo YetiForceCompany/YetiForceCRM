@@ -21,7 +21,7 @@
 .c-btn-fixed {
 	bottom: $h-footer;
 }
-.basePanel[class$="_KnowledgeBase"] .contentsDiv {
+.container-fluid[class$='-knowledgebase-container'] .contentsDiv {
 	min-height: calc(100vh - #{$h-header} - #{$h-footer});
 }
 .user-info--active {
@@ -29,7 +29,7 @@
 	.c-btn-fixed {
 		bottom: $h-footer-user-info;
 	}
-	.basePanel[class$="_KnowledgeBase"] .contentsDiv {
+	.container-fluid[class$='-knowledgebase-container'] .contentsDiv {
 		min-height: calc(100vh - #{$h-header} - #{$h-footer-user-info});
 	}
 }
@@ -38,7 +38,7 @@
 	.c-btn-fixed {
 		bottom: $h-footer-limited;
 	}
-	.basePanel[class$="_KnowledgeBase"] .contentsDiv {
+	.container-fluid[class$='-knowledgebase-container'] .contentsDiv {
 		min-height: calc(100vh - #{$h-header} - #{$h-footer-limited});
 	}
 }
@@ -48,7 +48,7 @@
 	.c-btn-fixed {
 		bottom: $h-footer;
 	}
-	.basePanel[class$="_KnowledgeBase"] .contentsDiv {
+	.container-fluid[class$='-knowledgebase-container'] .contentsDiv {
 		min-height: calc(100vh - #{$h-header} - #{$h-footer});
 	}
 }
@@ -58,14 +58,14 @@
 	.c-btn-fixed {
 		bottom: $h-footer-limited;
 	}
-	.basePanel[class$="_KnowledgeBase"] .contentsDiv {
+	.container-fluid[class$='-knowledgebase-container'] .contentsDiv {
 		min-height: calc(100vh - #{$h-header} - #{$h-footer-limited});
 	}
 	.user-info--active {
 		.mainBody {
 			bottom: $h-footer;
 		}
-		.basePanel[class$="_KnowledgeBase"] .contentsDiv {
+		.container-fluid[class$='-knowledgebase-container'] .contentsDiv {
 			min-height: calc(100vh - #{$h-header} - #{$h-footer});
 		}
 	}
