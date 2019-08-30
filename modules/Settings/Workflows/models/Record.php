@@ -272,7 +272,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		$wm = new VTWorkflowManager();
 		$wf = $wm->newWorkflow($moduleName);
 		$wf->filtersavedinnew = 6;
-
+		$wf->params = null;
 		return self::getInstanceFromWorkflowObject($wf);
 	}
 
