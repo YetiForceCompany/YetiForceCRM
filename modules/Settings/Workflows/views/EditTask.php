@@ -53,7 +53,7 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 					if (\array_key_exists($mappingInfo['fieldname'], $ownerFieldModels)) {
 						if ('assigned_user_id' == $mappingInfo['value']) {
 							$fieldMapping[$key]['valuetype'] = 'fieldname';
-						} else {
+						} elseif ('triggerUser' !== $mappingInfo['value']) {
 							$userRecordModel = Users_Record_Model::getInstanceByName($mappingInfo['value']);
 							if ($userRecordModel) {
 								$ownerName = $userRecordModel->getId();

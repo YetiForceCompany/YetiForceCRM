@@ -136,7 +136,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_Basic_Action
 					if (\array_key_exists($mappingInfo['fieldname'], $ownerFieldModels)) {
 						if ('assigned_user_id' == $mappingInfo['value']) {
 							$fieldMapping[$key]['valuetype'] = 'fieldname';
-						} else {
+						} elseif ('triggerUser' !== $mappingInfo['value']) {
 							$userRecordModel = Users_Record_Model::getInstanceById($mappingInfo['value'], 'Users');
 							$ownerName = $userRecordModel->get('user_name');
 
