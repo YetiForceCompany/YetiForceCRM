@@ -18,7 +18,7 @@
 			{assign var=SCHTYPE_ID value=$WORKFLOW_MODEL_OBJ->schtypeid}
 		{/if }
 		<div class="col-md-6 d-flex align-items-center">
-			<select class="select2" id="schtypeid" name="schtypeid">
+			<select class="select2 form-control" id="schtypeid" name="schtypeid">
 			{foreach from= Workflow::$SCHEDULED_LIST item=LABEL key=ID}
 				<option value="{$ID}" {if !empty($SCHTYPE_ID) && ($SCHTYPE_ID eq $ID)}selected{/if}>
 				{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}
@@ -103,12 +103,9 @@
 			id='scheduleMonthByWeekDays'>
 	</div>
 	{* show month view by anually *}
-	<div class='form-row my-1 {if empty($SCHTYPE_ID) || $SCHTYPE_ID neq 7} d-none {/if}'
-			id='scheduleAnually'>
-		<div class="col-md-10 form-row date">
-			<div class="pr-2">{\App\Language::translate('LBL_SELECTED_DATES', $QUALIFIED_MODULE)}</div>
-			<div>
-				<div class="input-group date" >
+	<div class="form-row my-1 {if empty($SCHTYPE_ID) || $SCHTYPE_ID neq 7} d-none {/if}" id='scheduleAnually'>
+			<div class="col-md-2">{\App\Language::translate('LBL_SELECTED_DATES', $QUALIFIED_MODULE)}</div>
+				<div class="input-group col-md-10 date" >
 					{assign var=SCHANNUAL_DATES value=''}
 					{if !empty($SCHTYPE_ID) && $SCHTYPE_ID eq 7 && !empty($WORKFLOW_MODEL_OBJ->schannualdates)}
 							{assign var=SCHANNUAL_DATES value=\App\Json::decode($WORKFLOW_MODEL_OBJ->schannualdates)}
@@ -125,8 +122,6 @@
 						</span>
 					</div>
 				</div>
-			</div>
-		</div>
 	</div>
 	{* show time for all other than Hourly option*}
 	<div class="form-row pt-1 pb-2 px-0 {if empty($SCHTYPE_ID) || $SCHTYPE_ID neq 2} d-none {/if}"
@@ -154,13 +149,14 @@
 		</div>
 	</div>
 	{if !empty($WORKFLOW_MODEL_OBJ->nexttrigger_time)}
+		<hr class="mt-2">
 		<div class="form-row">
 			<div class="col-md-2 d-flex align-items-center">
-				<span class=''>{\App\Language::translate('LBL_NEXT_TRIGGER_TIME', $QUALIFIED_MODULE)}</span>
+				<span>{\App\Language::translate('LBL_NEXT_TRIGGER_TIME', $QUALIFIED_MODULE)}</span>
 			</div>
 			<div class="col-md-6 d-flex align-items-center">
-				{DateTimeField::convertToUserFormat($WORKFLOW_MODEL_OBJ->nexttrigger_time)}
-				<span>&nbsp;({$ACTIVE_ADMIN->time_zone})</span>
+				{\App\Fields\DateTime::formatToDisplay($WORKFLOW_MODEL_OBJ->nexttrigger_time)}
+				<span>&nbsp;({$USER_MODEL->time_zone})</span>
 			</div>
 		</div>
 	{/if}

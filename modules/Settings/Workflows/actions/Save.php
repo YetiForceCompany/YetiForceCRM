@@ -18,7 +18,7 @@ class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action
 		$summary = $request->get('summary');
 		$moduleName = $request->getByType('module_name', 2);
 		$conditions = $request->getArray('conditions', 'Text');
-		$filterSavedInNew = $request->getInteger('filtersavedinnew');
+		$filterSavedInNew = $request->isEmpty('filtersavedinnew') ? null : $request->getInteger('filtersavedinnew');
 		$executionCondition = $request->getInteger('execution_condition');
 		$workflowScheduleType = $request->getInteger('schtypeid');
 		if ($request->isEmpty('record')) {
@@ -32,7 +32,7 @@ class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action
 		$workflowModel->set('conditions', $conditions);
 		$workflowModel->set('execution_condition', $executionCondition);
 		$workflowModel->set('params', null);
-		if ('6' == $executionCondition) {
+		if (\VTWorkflowManager::$ON_SCHEDULE === $executionCondition) {
 			$schtime = null;
 			if (!$request->isEmpty('schtime')) {
 				$schtime = $request->getByType('schtime', 'TimeInUserFormat', true);
@@ -65,12 +65,12 @@ class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action
 			$workflowModel->set('schdayofmonth', $dayOfMonth);
 			$workflowModel->set('schdayofweek', $dayOfWeek);
 			$workflowModel->set('schannualdates', $annualDates);
-		} elseif (8 === (int) $executionCondition) {
+		} elseif (\VTWorkflowManager::$TRIGGER === $executionCondition) {
 			$params = $request->getMultiDimensionArray('params', ['showTasks' => 'Bool', 'enableTasks' => 'Bool']);
 			$workflowModel->set('params', empty($params) ? null : \App\Json::encode($params));
 		}
 		// Added to save the condition only when its changed from vtiger6
-		if ('6' == $filterSavedInNew) {
+		if (6 === $filterSavedInNew) {
 			//Added to change advanced filter condition to workflow
 			$workflowModel->transformAdvanceFilterToWorkFlowFilter();
 		}
