@@ -39,7 +39,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @var array
 	 */
-	private static $fieldLockedUiTypes = [70, 4];
+	private static $fieldLockedUiTypes = [70];
 
 	/**
 	 * Function to get the Id.
