@@ -23,12 +23,12 @@
         </q-item>
       </template>
       <template v-slot:prepend>
-        <q-icon @click.stop="showRecordsModal(selectModule)" name="mdi-magnify" class="cursor-pointer" />
+        <q-icon @click.prevent="showRecordsModal(selectModule)" name="mdi-magnify" class="cursor-pointer" />
         <q-tooltip anchor="top middle">{{ translate('JS_CHAT_SEARCH_RECORDS_OF_THE_SELECTED_MODULE') }}</q-tooltip>
       </template>
       <template v-slot:append>
-        <q-icon name="mdi-close" @click.stop="$emit('update:isVisible', false)" class="cursor-pointer" />
-				<q-tooltip anchor="top middle">{{ translate('JS_CHAT_HIDE_SEARCH_FIELD') }}</q-tooltip>
+        <q-icon name="mdi-close" @click.prevent="$emit('update:isVisible', false)" class="cursor-pointer" />
+        <q-tooltip anchor="top middle">{{ translate('JS_CHAT_HIDE_SEARCH_FIELD') }}</q-tooltip>
       </template>
       <template v-slot:option="scope">
         <q-item dense v-bind="scope.itemProps" v-on="scope.itemEvents">
@@ -79,6 +79,7 @@ export default {
     ...mapGetters(['config'])
   },
   methods: {
+    ...mapMutations(['updateRooms']),
     filter(val, update) {
       if (val === '') {
         update(() => {
@@ -96,7 +97,7 @@ export default {
         this.$refs.selectModule.showPopup()
         return
       }
-      app.showRecordsList({ module: val, src_module: val}, (modal, instance) => {
+      app.showRecordsList({ module: val, src_module: val }, (modal, instance) => {
         instance.setSelectEvent((responseData, e) => {
           AppConnector.request({
             module: 'Chat',
@@ -104,6 +105,8 @@ export default {
             mode: 'addToFavorites',
             roomType: 'crm',
             recordId: responseData.id
+          }).done(({ result }) => {
+            this.updateRooms(result)
           })
         })
       })

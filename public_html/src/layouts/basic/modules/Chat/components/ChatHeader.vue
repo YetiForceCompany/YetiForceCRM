@@ -124,7 +124,6 @@ export default {
       'setRightPanel',
       'setSendByEnter',
       'setSoundNotification',
-      'updateRooms'
     ]),
     showTabHistory: function(value) {
       this.$emit('showTabHistory', value)
