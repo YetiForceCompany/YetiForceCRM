@@ -41,8 +41,10 @@
 
 <script>
 import VueDragResize from '~/node_modules/vue-drag-resize/src/components/vue-drag-resize.vue'
+import { keepElementInWindow } from '~/mixins/DragResize'
 export default {
-  name: 'DragResize',
+	name: 'DragResize',
+	mixins: [keepElementInWindow],
   components: { VueDragResize },
   props: {
     maximized: {
@@ -87,29 +89,29 @@ export default {
         top: newRect.top,
         left: newRect.left
       })
-    },
-    correctCoordinates(rect) {
-      let computedRect = Object.assign({}, rect)
+		},
+		correctCoordinates(rect) {
+			let computedRect = Object.assign({}, rect)
 
-      if (rect.width > window.innerWidth) {
-        computedRect.width = window.innerWidth
-        computedRect.left = 0
-      } else if (rect.left + rect.width - this.minWidth < 0) {
-        computedRect.left = this.minWidth - rect.width
-      } else if (rect.width + rect.left > window.innerWidth) {
-        computedRect.left = window.innerWidth - rect.width
-      }
+			if (rect.width > window.innerWidth) {
+				computedRect.width = window.innerWidth
+				computedRect.left = 0
+			} else if (rect.left + rect.width - this.minWidth < 0) {
+				computedRect.left = this.minWidth - rect.width
+			} else if (rect.width + rect.left > window.innerWidth) {
+				computedRect.left = window.innerWidth - rect.width
+			}
 
-      if (rect.height > window.innerHeight) {
-        computedRect.height = window.innerHeight
-        computedRect.top = 0
-      } else if (rect.top < 0) {
-        computedRect.top = 0
-      } else if (rect.top > window.innerHeight - this.minHeight) {
-        computedRect.top = window.innerHeight - this.minHeight
-      }
-      this.$emit('update:coordinates', computedRect)
-    },
+			if (rect.height > window.innerHeight) {
+				computedRect.height = window.innerHeight
+				computedRect.top = 0
+			} else if (rect.top < 0) {
+				computedRect.top = 0
+			} else if (rect.top > window.innerHeight - this.minHeight) {
+				computedRect.top = window.innerHeight - this.minHeight
+			}
+			this.$emit('update:coordinates', computedRect)
+		},
     onActivated() {
       const sticks = this.$refs.resize.$el.querySelectorAll('.vdr-stick')
       Array.prototype.map.call(sticks, element => {

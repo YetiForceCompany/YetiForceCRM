@@ -25,9 +25,11 @@
 
 <script>
 import VueDragResize from '~/node_modules/vue-drag-resize/src/components/vue-drag-resize.vue'
+import { keepElementInWindow } from '~/mixins/DragResize'
 import { createNamespacedHelpers } from 'vuex'
 export default {
-  name: 'DragResize',
+	name: 'DragResize',
+	mixins: [keepElementInWindow],
   components: { VueDragResize },
   props: {
     coordinates: {
@@ -49,7 +51,21 @@ export default {
         top: newRect.top,
         left: newRect.left
       })
-    },
+		},
+		correctCoordinates(rect) {
+			let computedRect = Object.assign({}, rect)
+			if (rect.left + this.width - this.width < 0) {
+				computedRect.left = this.width - this.width
+			} else if (this.width + rect.left > window.innerWidth) {
+				computedRect.left = window.innerWidth - this.width
+			}
+			if (rect.top < 0) {
+				computedRect.top = 0
+			} else if (rect.top > window.innerHeight - this.height) {
+				computedRect.top = window.innerHeight - this.height
+			}
+			this.$emit('update:coordinates', computedRect)
+		},
   }
 }
 </script>
