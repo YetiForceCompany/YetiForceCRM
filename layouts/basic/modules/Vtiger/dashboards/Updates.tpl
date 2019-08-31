@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+<!-- tpl-Base-Dashboards-Updates -->
 	<div class="tpl-Base-dashboards-Updates dashboardWidgetHeader">
 		<input type="hidden" value="{$WIDGET->get('id')}" id="updatesWidgetId">
 		<input type="hidden" value="{$WIDGET->get('data')}" id="widgetData">
@@ -36,7 +37,8 @@
 			</div>
 		</div>
 	</div>
-		<div class="dashboardWidgetContent">
-			{include file=\App\Layout::getTemplatePath('dashboards/UpdatesContents.tpl', $MODULE_NAME)}
-		</div>
+	<div class="dashboardWidgetContent">
+		{include file=\App\Layout::getTemplatePath('dashboards/UpdatesContents.tpl', $MODULE_NAME)}
+	</div>
+<!-- /tpl-Base-Dashboards-Updates -->
 {/strip}
