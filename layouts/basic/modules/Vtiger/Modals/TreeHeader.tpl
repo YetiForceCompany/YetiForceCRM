@@ -36,5 +36,5 @@
 						</div>
 				</div>
 			</div>
+<!-- /tpl-Base-Modals-TreeHeader -->
 			{/strip}
-<!-- tpl-Base-Modals-TreeHeader -->
