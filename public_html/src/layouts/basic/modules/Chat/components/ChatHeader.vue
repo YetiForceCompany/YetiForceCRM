@@ -25,7 +25,6 @@
           </q-btn>
         </div>
         <q-tabs
-          @input="toggleRoomTimer"
           v-model="tab"
           class="chat-tabs"
           dense
@@ -52,7 +51,13 @@
         <div class="flex no-wrap">
           <template v-if="$q.platform.is.desktop">
             <btn-grab v-show="miniMode" class="text-white flex flex-center" grabClass="js-drag" size="19px" />
-            <q-btn dense flat round :icon="miniMode ? 'mdi-window-maximize' : 'mdi-window-restore'" @click="toggleSize()">
+            <q-btn
+              dense
+              flat
+              round
+              :icon="miniMode ? 'mdi-window-maximize' : 'mdi-window-restore'"
+              @click="toggleSize()"
+            >
               <q-tooltip>{{ miniMode ? translate('JS_MAXIMIZE') : translate('JS_MINIMIZE') }}</q-tooltip>
             </q-btn>
           </template>
@@ -123,26 +128,6 @@ export default {
     ]),
     showTabHistory: function(value) {
       this.$emit('showTabHistory', value)
-    },
-    toggleRoomTimer(tabName) {
-      if (tabName === 'chat' && this.timerRoom) {
-        clearTimeout(this.timerRoom)
-        this.timerRoom = false
-      } else if (!this.timerRoom) {
-        this.initTimer()
-      }
-    },
-    initTimer() {
-      this.timerRoom = setTimeout(() => {
-        AppConnector.request({
-          module: 'Chat',
-          action: 'ChatAjax',
-          mode: 'getRooms'
-        }).done(({ result }) => {
-          this.updateRooms(result.roomList)
-          this.initTimer()
-        })
-      }, this.config.refreshRoomTime)
     },
     toggleSize() {
       if (!this.miniMode) {
