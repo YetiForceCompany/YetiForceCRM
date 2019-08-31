@@ -157,7 +157,7 @@ export default {
       this.addActiveRoom({ recordId: this.roomId, roomType: this.roomType })
     },
     disableNewMessagesListener() {
-      if (!this.data.roomList[this.roomType][this.roomId].recordRoom) {
+      if (this.data.roomList[this.roomType][this.roomId]) {
         this.removeActiveRoom({ recordId: this.roomId, roomType: this.roomType })
       }
     }
