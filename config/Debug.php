@@ -74,7 +74,7 @@ class Debug
 	/**
 	 * Set the error reporting level. The parameter is either an integer representing a bit field, or named constants.
 	 * https://secure.php.net/manual/en/errorfunc.configuration.php#ini.error-reporting
-	 * All errors - E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED / Critical errors - E_ERROR | E_WARNING | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR.
+	 * All errors - E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED / Critical errors - E_ERROR | E_WARNING | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR
 	 */
 	public static $EXCEPTION_ERROR_LEVEL = E_ALL & ~E_NOTICE;
 
