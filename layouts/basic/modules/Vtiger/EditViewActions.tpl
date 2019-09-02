@@ -2,16 +2,16 @@
 {strip}
 	<div class="tpl-EditViewActions c-form__action-panel">
 		{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
-		<button class="btn btn-success u-mr-5px js-form-submit-btn" type="submit" disabled="disabled" data-js="disabled" {if Vtiger_Field_Model::$tabIndexLastSeq}tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}"{/if}>
-			<span class="fas fa-check u-mr-5px"></span>
+		<button class="btn btn-success js-form-submit-btn" type="submit" disabled="disabled" data-js="disabled" {if Vtiger_Field_Model::$tabIndexLastSeq}tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}"{/if}>
+			<span class="fas fa-check mr-1"></span>
 			<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
 		</button>
-		<button class="btn btn-danger" type="reset" onclick="javascript:window.history.back();" {if Vtiger_Field_Model::$tabIndexLastSeq}tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}"{/if}>
-			<span class="fas fa-times u-mr-5px"></span>
+		<button class="btn btn-danger ml-1" type="reset" onclick="javascript:window.history.back();" {if Vtiger_Field_Model::$tabIndexLastSeq}tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}"{/if}>
+			<span class="fas fa-times mr-1"></span>
 			<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
 		</button>
 		{foreach item=LINK from=$EDITVIEW_LINKS['EDIT_VIEW_HEADER']}
-			{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='editViewHeader' TABINDEX=Vtiger_Field_Model::$tabIndexLastSeq}
+			{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='editViewHeader' TABINDEX=Vtiger_Field_Model::$tabIndexLastSeq BTN_CLASS="ml-1"}
 		{/foreach}
 	</div>
 </form>
