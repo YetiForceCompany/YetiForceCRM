@@ -8,7 +8,7 @@
         </q-page>
       </q-page-container>
       <q-drawer :value="true" side="right" bordered>
-        <right-panel :participants="roomData.participants || []" />
+        <right-panel :participants="participants" />
       </q-drawer>
     </q-layout>
   </div>
@@ -30,15 +30,18 @@ export default {
   computed: {
     ...mapGetters(['data']),
     roomData() {
-			if (this.data.roomList.crm !== undefined) {
-				return this.data.roomList.crm[this.$parent.$options.recordId]
-			}
-			return {}
+      if (this.data.roomList.crm !== undefined) {
+        return this.data.roomList.crm[this.$parent.$options.recordId]
+      }
+      return {}
+    },
+    participants() {
+      return this.roomData ? this.roomData.participants || [] : []
     }
-	},
-	methods: {
-	...mapActions(['removeActiveRoom'])
-	},
+  },
+  methods: {
+    ...mapActions(['removeActiveRoom'])
+  },
   beforeDestroy() {
     this.removeActiveRoom({ recordId: this.roomData.recordid, roomType: this.roomData.roomType })
   }

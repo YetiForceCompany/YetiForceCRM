@@ -352,6 +352,8 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			'roomList' => [
 				'crm' => [
 					$recordId => [
+						'roomType' => 'crm',
+						'recordid' => $recordId,
 						'active' => true,
 						'recordRoom' => true,
 						'chatEntries' => $chatEntries,
