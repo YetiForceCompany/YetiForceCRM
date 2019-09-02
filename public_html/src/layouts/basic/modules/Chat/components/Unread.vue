@@ -15,7 +15,7 @@
             :key="message.id"
             :name="message.user_name"
             :stamp="message.created"
-            :avatar="message.img"
+            :avatar="message.image"
             :text="[message.messages]"
             :bg-color="message.color"
             size="8"

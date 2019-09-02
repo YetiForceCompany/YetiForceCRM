@@ -440,6 +440,9 @@ input[type='search']::-webkit-search-decoration {
   .justify-xs-around {
     justify-content: space-around;
   }
+  .justify-xs-evenly {
+    justify-content: space-evenly;
+  }
   .items-xs-start {
     align-items: flex-start;
   }
@@ -1170,6 +1173,9 @@ input[type='search']::-webkit-search-decoration {
   }
   .justify-sm-around {
     justify-content: space-around;
+  }
+  .justify-sm-evenly {
+    justify-content: space-evenly;
   }
   .items-sm-start {
     align-items: flex-start;
@@ -2044,6 +2050,9 @@ input[type='search']::-webkit-search-decoration {
   }
   .justify-md-around {
     justify-content: space-around;
+  }
+  .justify-md-evenly {
+    justify-content: space-evenly;
   }
   .items-md-start {
     align-items: flex-start;
@@ -3061,6 +3070,9 @@ input[type='search']::-webkit-search-decoration {
   }
   .justify-lg-around {
     justify-content: space-around;
+  }
+  .justify-lg-evenly {
+    justify-content: space-evenly;
   }
   .items-lg-start {
     align-items: flex-start;
@@ -4221,6 +4233,9 @@ input[type='search']::-webkit-search-decoration {
   }
   .justify-xl-around {
     justify-content: space-around;
+  }
+  .justify-xl-evenly {
+    justify-content: space-evenly;
   }
   .items-xl-start {
     align-items: flex-start;
@@ -5626,7 +5641,7 @@ a.q-btn {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-.q-btn-group > .q-btn-item + .q-btn-item {
+.q-btn-group > .q-btn-item:not(:first-child) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
@@ -5657,6 +5672,9 @@ a.q-btn {
 .q-btn-group--outline > .q-btn-item,
 .q-btn-group--unelevated > .q-btn-item {
   box-shadow: none;
+}
+.q-btn-group--outline > .q-separator {
+  display: none;
 }
 .q-btn-group--outline > .q-btn-item + .q-btn-item {
   border-left: 0;
@@ -5712,9 +5730,6 @@ a.q-btn {
   resize: vertical;
   padding-top: 17px;
   min-height: 52px;
-}
-.q-textarea.q-field--readonly .q-field__native {
-  pointer-events: auto;
 }
 .q-textarea.q-field--labeled .q-field__control-container {
   padding-top: 26px;
@@ -5880,13 +5895,21 @@ body.mobile .q-textarea .q-field__native,
 .q-field__suffix {
   padding-left: 4px;
 }
-.q-field--readonly .q-field__control,
-.q-field--disabled .q-field__control {
-  pointer-events: none;
-}
 .q-field--readonly .q-placeholder,
 .q-field--disabled .q-placeholder {
   opacity: 1 !important;
+}
+.q-field--readonly.q-field--labeled .q-field__native {
+  cursor: default;
+}
+.q-field--readonly.q-field--float .q-field__native {
+  cursor: text;
+}
+.q-field--disabled .q-field__inner {
+  cursor: not-allowed;
+}
+.q-field--disabled .q-field__control {
+  pointer-events: none;
 }
 .q-field--disabled .q-field__control > div {
   opacity: 0.6 !important;
@@ -5910,7 +5933,7 @@ body.mobile .q-textarea .q-field__native,
   transition: transform 0.36s cubic-bezier(0.4, 0, 0.2, 1), right 0.36s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .q-field--float .q-field__label {
-  transform: translate3d(0, -40%, 0) scale3d(0.75, 0.75, 0.75);
+  transform: translate3d(0, -40%, 0) scale3d(0.75, 0.75, 1);
   right: calc(-100% / 3);
 }
 .q-field .q-field__native:-webkit-autofill,
@@ -5920,11 +5943,11 @@ body.mobile .q-textarea .q-field__native,
 }
 .q-field .q-field__native:-webkit-autofill + .q-field__label,
 .q-field .q-select__input:-webkit-autofill + .q-field__label {
-  transform: translate3d(0, -40%, 0) scale3d(0.75, 0.75, 0.75);
+  transform: translate3d(0, -40%, 0) scale3d(0.75, 0.75, 1);
 }
 .q-field .q-field__native[type="number"]:invalid + .q-field__label,
 .q-field .q-select__input[type="number"]:invalid + .q-field__label {
-  transform: translate3d(0, -40%, 0) scale3d(0.75, 0.75, 0.75);
+  transform: translate3d(0, -40%, 0) scale3d(0.75, 0.75, 1);
 }
 .q-field .q-field__native:invalid,
 .q-field .q-select__input:invalid {
@@ -6162,15 +6185,15 @@ body.mobile .q-textarea .q-field__native,
   font-size: 24px;
 }
 .q-field--dense.q-field--float .q-field__label {
-  transform: translate3d(0, -30%, 0) scale3d(0.75, 0.75, 0.75);
+  transform: translate3d(0, -30%, 0) scale3d(0.75, 0.75, 1);
 }
 .q-field--dense .q-field__native:-webkit-autofill + .q-field__label,
 .q-field--dense .q-select__input:-webkit-autofill + .q-field__label {
-  transform: translate3d(0, -30%, 0) scale3d(0.75, 0.75, 0.75);
+  transform: translate3d(0, -30%, 0) scale3d(0.75, 0.75, 1);
 }
 .q-field--dense .q-field__native[type="number"]:invalid + .q-field__label,
 .q-field--dense .q-select__input[type="number"]:invalid + .q-field__label {
-  transform: translate3d(0, -30%, 0) scale3d(0.75, 0.75, 0.75);
+  transform: translate3d(0, -30%, 0) scale3d(0.75, 0.75, 1);
 }
 .q-field--borderless .q-field__bottom,
 .q-field--standard .q-field__bottom,
@@ -6411,6 +6434,9 @@ body.desktop .q-toggle__thumb:before {
 body.desktop .q-toggle:focus:not(.disabled) .q-toggle__thumb:before {
   transform: scale3d(2, 2, 2);
 }
+body.desktop .q-toggle--dense:focus:not(.disabled) .q-toggle__thumb:before {
+  transform: scale3d(1.5, 1.5, 1.5);
+}
 .q-tooltip {
   position: fixed !important;
   font-size: 10px;
@@ -6588,7 +6614,8 @@ body.desktop .q-toggle:focus:not(.disabled) .q-toggle__thumb:before {
 .q-list--bordered {
   border: 1px solid rgba(0,0,0,0.12);
 }
-.q-list--separator > .q-item-type + .q-item-type {
+.q-list--separator > .q-item-type + .q-item-type,
+.q-list--separator > .q-virtual-scroll__content > .q-item-type + .q-item-type {
   border-top: 1px solid rgba(0,0,0,0.12);
 }
 .q-list--padding {
@@ -6599,7 +6626,8 @@ body.desktop .q-toggle:focus:not(.disabled) .q-toggle__thumb:before {
   min-height: 32px;
   padding: 2px 16px;
 }
-.q-list--dark.q-list--separator > .q-item-type + .q-item-type {
+.q-list--dark.q-list--separator > .q-item-type + .q-item-type,
+.q-list--dark.q-list--separator > .q-virtual-scroll__content > .q-item-type + .q-item-type {
   border-top-color: rgba(255,255,255,0.48);
 }
 .q-list--dark,
@@ -7036,6 +7064,10 @@ body.desktop .q-toggle:focus:not(.disabled) .q-toggle__thumb:before {
   z-index: -1;
   pointer-events: all;
   background: rgba(0,0,0,0.4);
+}
+body.platform-ios .q-dialog__inner--minimized > div,
+body.platform-android:not(.cordova) .q-dialog__inner--minimized > div {
+  max-height: calc(100vh - 108px);
 }
 body.q-ios-padding .q-dialog__inner {
   padding-top: 20px !important;
@@ -7758,6 +7790,16 @@ body.mobile .q-tabs__arrow {
 .q-select__dropdown-icon {
   cursor: pointer;
 }
+.q-select.q-field--readonly .q-field__control,
+.q-select.q-field--readonly .q-select__dropdown-icon {
+  cursor: default;
+}
+.q-select.q-field--readonly.q-field--labeled .q-select__input {
+  cursor: default;
+}
+.q-select.q-field--readonly.q-field--float .q-select__input {
+  cursor: text;
+}
 .q-select__dialog {
   width: 90vw !important;
   max-width: 90vw !important;
@@ -7774,15 +7816,22 @@ body.mobile .q-tabs__arrow {
   color: #fff;
   background: #424242;
 }
-.q-select__options--content {
-  position: relative;
-  background-color: inherit;
+body.mobile:not(.cordova) .q-select__dialog {
+  max-height: calc(100vh - 108px) !important;
 }
-.q-select__options--padding {
-  background: linear-gradient(transparent, transparent 20%, rgba(128,128,128,0.03) 20%, rgba(128,128,128,0.08) 50%, rgba(128,128,128,0.03) 80%, transparent 80%, transparent);
-  background-size: 100% 50px;
+body.platform-android.cordova .q-dialog__inner--top .q-select__dialog {
+  max-height: calc(100vh - 24px) !important;
 }
-body.platform-ios .q-select__dialog {
+body.platform-android:not(.cordova) .q-dialog__inner--top .q-select__dialog {
+  max-height: calc(100vh - 80px) !important;
+}
+body.platform-ios.cordova .q-dialog__inner--top > div {
+  border-radius: 4px;
+}
+body.platform-ios.cordova .q-dialog__inner--top .q-select__dialog--focused {
+  max-height: 47vh !important;
+}
+body.platform-ios:not(.cordova) .q-dialog__inner--top .q-select__dialog--focused {
   max-height: 50vh !important;
 }
 .q-menu {
@@ -10206,7 +10255,10 @@ body.platform-ios .q-select__dialog {
 }
 .q-body--fullscreen-mixin,
 .q-body--prevent-scroll {
-  overflow: hidden !important;
+  position: fixed !important;
+}
+.q-body--force-scrollbar {
+  overflow-y: scroll;
 }
 .q-no-input-spinner {
   -moz-appearance: textfield !important;
@@ -12701,4 +12753,8 @@ body .quasar-reset .q-col-gutter-xl > * {
     height: 100%;
     width: auto;
   }
+}
+.q-message-avatar {
+  width: 48px !important;
+  height: auto;
 }
