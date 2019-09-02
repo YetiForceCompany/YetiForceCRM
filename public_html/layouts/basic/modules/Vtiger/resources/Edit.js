@@ -1346,13 +1346,13 @@ $.Class(
 			}
 			container
 				.find(
-					'.fieldValue input.form-control:not([type=hidden],[type=checkbox],.dateField,.clockPicker), .select2-selection.form-control'
+					'.fieldValue input.form-control:not([type=hidden],.dateField,.clockPicker), .fieldValue input[type=checkbox], .select2-selection.form-control'
 				)
 				.each(function(i, e) {
 					let element = $(e);
 					if (!element.prop('readonly') && !element.prop('disabled')) {
 						element = element.get(0);
-						if (element.type !== 'number' && element.value !== undefined) {
+						if (element.type !== 'number' && element.type !== 'checkbox' && element.value !== undefined) {
 							let elemLen = element.value.length;
 							element.selectionStart = elemLen;
 							element.selectionEnd = elemLen;
