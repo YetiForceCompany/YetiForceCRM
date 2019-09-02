@@ -14,7 +14,7 @@
 	{assign var=PICKLIST_VALUES value=Vtiger_Theme::getAllSkins()}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	<div class="tpl-Edit-Field-Theme">
-		<select class="select2 form-control" name="{$FIELD_MODEL->getFieldName()}"
+		<select class="select2 form-control" name="{$FIELD_MODEL->getFieldName()}" tabindex="{$FIELD_MODEL->getTabIndex()}"
 				data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 				data-fieldinfo='{$FIELD_INFO}'
 				{if !empty($SPECIAL_VALIDATOR)}data-validator="{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}"{/if} >

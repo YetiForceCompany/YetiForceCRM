@@ -33,12 +33,12 @@ class Vtiger_QuickCreateRecordStructure_Model extends Vtiger_RecordStructure_Mod
 			$recordModelFieldValue = $recordModel->get($fieldName);
 			if (!empty($recordModelFieldValue)) {
 				$fieldModel->set('fieldvalue', $recordModelFieldValue);
-			} elseif ($fieldName == 'activitystatus') {
+			} elseif ('activitystatus' == $fieldName) {
 				$currentUserModel = Users_Record_Model::getCurrentUserModel();
 				$defaulteventstatus = $currentUserModel->get('defaulteventstatus');
 				$fieldValue = $defaulteventstatus;
 				$fieldModel->set('fieldvalue', $fieldValue);
-			} elseif ($fieldName == 'activitytype') {
+			} elseif ('activitytype' == $fieldName) {
 				$currentUserModel = Users_Record_Model::getCurrentUserModel();
 				$defaultactivitytype = $currentUserModel->get('defaultactivitytype');
 				$fieldValue = $defaultactivitytype;
@@ -49,10 +49,13 @@ class Vtiger_QuickCreateRecordStructure_Model extends Vtiger_RecordStructure_Mod
 					$fieldModel->set('fieldvalue', $defaultValue);
 				}
 			}
+			if ($fieldModel->get('tabindex') > Vtiger_Field_Model::$tabIndexLastSeq) {
+				Vtiger_Field_Model::$tabIndexLastSeq = $fieldModel->get('tabindex');
+			}
 			$values[$fieldName] = $fieldModel;
 		}
 		$this->structuredValues = $values;
-
+		++Vtiger_Field_Model::$tabIndexLastSeq;
 		return $values;
 	}
 }

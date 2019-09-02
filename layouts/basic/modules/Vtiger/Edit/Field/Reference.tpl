@@ -16,6 +16,7 @@
 	{assign var="REFERENCE_LIST_COUNT" value=count($REFERENCE_LIST)}
 	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
+	{assign var=TABINDEX value=$FIELD_MODEL->getTabIndex()}
 	<div>
 		{if {$REFERENCE_LIST_COUNT} eq 1}
 			<input name="popupReferenceModule" type="hidden" data-multi-reference="0" title="{reset($REFERENCE_LIST)}" value="{reset($REFERENCE_LIST)}"/>
@@ -40,38 +41,29 @@
 		<div class="input-group referenceGroup">
 			{if $REFERENCE_LIST_COUNT > 1}
 				<div class="input-group-prepend referenceModulesListGroup">
-					<select class="select2 referenceModulesList"
-							title="{\App\Language::translate('LBL_RELATED_MODULE_TYPE')}" required="required">
+					<select class="select2 referenceModulesList" tabindex="{$TABINDEX}" title="{\App\Language::translate('LBL_RELATED_MODULE_TYPE')}" required="required">
 						{foreach key=index item=REFERENCE from=$REFERENCE_LIST}
 							<option value="{$REFERENCE}" title="{\App\Language::translate($REFERENCE, $REFERENCE)}" {if $REFERENCE eq $REFERENCED_MODULE_NAME} selected {/if}>{\App\Language::translate($REFERENCE, $REFERENCE)}</option>
 						{/foreach}
 					</select>
 				</div>
 			{/if}
-			<input id="{$FIELD_NAME}_display" name="{$FIELD_MODEL->getFieldName()}_display" type="text"
-				   title="{$FIELD_VALUE}" class="marginLeftZero form-control autoComplete"
-				   {if !empty($VALUE)}readonly="true"{/if}
-				   value="{$FIELD_VALUE}"
+			<input id="{$FIELD_NAME}_display" name="{$FIELD_MODEL->getFieldName()}_display" type="text"  title="{$FIELD_VALUE}" class="marginLeftZero form-control autoComplete"
+				tabindex="{$TABINDEX}" {if !empty($VALUE)}readonly="true"{/if} value="{$FIELD_VALUE}"
 				   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 				   data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->get('displaytype') != 10}placeholder="{\App\Language::translate('LBL_TYPE_SEARCH',$MODULE)}"{/if} {if $REFERENCE_MODULE_MODEL == false}disabled{/if}
 					{if !empty($SPECIAL_VALIDATOR)}data-validator="{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}"{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}/>
 			<div class="input-group-append u-cursor-pointer">
-				<button class="btn btn-light clearReferenceSelection" type="button"
-						{if $REFERENCE_MODULE_MODEL == false || $FIELD_MODEL->isEditableReadOnly()}disabled{/if}>
-					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class="fas fa-times-circle"
-						  title="{\App\Language::translate('LBL_CLEAR', $MODULE)}"></span>
+				<button class="btn btn-light clearReferenceSelection" type="button" tabindex="{$TABINDEX}" {if $REFERENCE_MODULE_MODEL == false || $FIELD_MODEL->isEditableReadOnly()}disabled{/if}>
+					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class="fas fa-times-circle" title="{\App\Language::translate('LBL_CLEAR', $MODULE)}"></span>
 				</button>
-				<button class="btn btn-light relatedPopup" type="button"
-						{if $REFERENCE_MODULE_MODEL == false || $FIELD_MODEL->isEditableReadOnly()}disabled{/if}>
-					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="fas fa-search"
-						  title="{\App\Language::translate('LBL_SELECT', $MODULE)}"></span>
+				<button class="btn btn-light relatedPopup" type="button" tabindex="{$TABINDEX}" {if $REFERENCE_MODULE_MODEL == false || $FIELD_MODEL->isEditableReadOnly()}disabled{/if}>
+					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="fas fa-search" title="{\App\Language::translate('LBL_SELECT', $MODULE)}"></span>
 				</button>
 				<!-- Show the add button only if it is edit view  -->
 				{if (! empty($VIEW) && ($VIEW eq 'Edit') ) && $REFERENCE_MODULE_MODEL && $REFERENCE_MODULE_MODEL->isQuickCreateSupported()}
-					<button class="btn btn-light createReferenceRecord" type="button"
-							{if $FIELD_MODEL->isEditableReadOnly()}disabled{/if}>
-						<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_create" class="fas fa-plus"
-							  title="{\App\Language::translate('LBL_CREATE', $MODULE)}"></span>
+					<button class="btn btn-light createReferenceRecord" type="button" tabindex="{$TABINDEX}" {if $FIELD_MODEL->isEditableReadOnly()}disabled{/if}>
+						<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_create" class="fas fa-plus" title="{\App\Language::translate('LBL_CREATE', $MODULE)}"></span>
 					</button>
 				{/if}
 			</div>

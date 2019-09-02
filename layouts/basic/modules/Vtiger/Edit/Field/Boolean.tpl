@@ -20,7 +20,7 @@
 				<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value="0"/>
 			{/if}
 			<input name="{$FIELD_MODEL->getFieldName()}" {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{' '}
-				   disabled="disabled" {/if}
+				   disabled="disabled" {/if} tabindex="{$FIELD_MODEL->getTabIndex()}"
 				   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"{' '}
 				   id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="checkbox"{' '}
 				   data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"{' '}

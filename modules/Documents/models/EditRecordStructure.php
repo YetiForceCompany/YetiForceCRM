@@ -37,19 +37,22 @@ class Documents_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Mod
 							$fieldValue = $fieldModel->getDefaultFieldValue();
 						}
 						//By default the file status should be active while creating a Document record
-						if ($fieldName === 'filestatus' && !$recordId) {
+						if ('filestatus' === $fieldName && !$recordId) {
 							$fieldValue = true;
 						}
 						if ($fieldValue) {
 							$fieldModel->set('fieldvalue', $fieldValue);
 						}
 						$values[$blockLabel][$fieldName] = $fieldModel;
+						if ($fieldModel->get('tabindex') > Vtiger_Field_Model::$tabIndexLastSeq) {
+							Vtiger_Field_Model::$tabIndexLastSeq = $fieldModel->get('tabindex');
+						}
 					}
 				}
 			}
 		}
 		$this->structuredValues = $values;
-
+		++Vtiger_Field_Model::$tabIndexLastSeq;
 		return $values;
 	}
 }

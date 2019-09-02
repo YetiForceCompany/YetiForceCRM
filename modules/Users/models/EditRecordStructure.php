@@ -34,47 +34,53 @@ class Users_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 				$values[$blockLabel] = [];
 				foreach ($fieldModelList as $fieldName => $fieldModel) {
 					$fieldModel->set('rocordId', $recordId);
-					if (empty($recordId) && ($fieldModel->get('uitype') == 99 || $fieldModel->get('uitype') == 106)) {
+					if (empty($recordId) && (99 == $fieldModel->get('uitype') || 106 == $fieldModel->get('uitype'))) {
 						$fieldModel->set('editable', true);
 					}
-					if ($fieldModel->get('uitype') == 156 && $currentUserModel->isAdminUser() === true && $currentUserModel->getId() !== $recordId) {
+					if (156 == $fieldModel->get('uitype') && true === $currentUserModel->isAdminUser() && $currentUserModel->getId() !== $recordId) {
 						$fieldModel->set('editable', true);
 						$fieldValue = false;
-						if ($recordModel->get($fieldName) === 'on') {
+						if ('on' === $recordModel->get($fieldName)) {
 							$fieldValue = true;
 						}
 						$recordModel->set($fieldName, $fieldValue);
 					}
-					if ($fieldName === 'is_owner') {
+					if ('is_owner' === $fieldName) {
 						$fieldModel->set('editable', false);
-					} elseif ($fieldName === 'reports_to_id' && !$currentUserModel->isAdminUser()) {
+					} elseif ('reports_to_id' === $fieldName && !$currentUserModel->isAdminUser()) {
 						continue;
 					}
-					if ($fieldModel->isEditable() && $fieldName != 'is_owner') {
-						if ($recordModel->get($fieldName) !== '') {
+					if ($fieldModel->isEditable() && 'is_owner' != $fieldName) {
+						if ('' !== $recordModel->get($fieldName)) {
 							$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
 						} else {
 							$defaultValue = $fieldModel->getDefaultFieldValue();
-							if ($fieldName === 'time_zone' && empty($defaultValue)) {
+							if ('time_zone' === $fieldName && empty($defaultValue)) {
 								$defaultValue = \App\Config::main('default_timezone');
 							}
-							if ($defaultValue !== '' && !$recordId) {
+							if ('' !== $defaultValue && !$recordId) {
 								$fieldModel->set('fieldvalue', $defaultValue);
 							}
 						}
-						if (!$recordId && $fieldModel->get('uitype') == 99) {
+						if (!$recordId && 99 == $fieldModel->get('uitype')) {
 							$fieldModel->set('editable', true);
 							$fieldModel->set('fieldvalue', '');
 							$values[$blockLabel][$fieldName] = $fieldModel;
-						} elseif ($fieldModel->get('uitype') != 99) {
+							if ($fieldModel->get('tabindex') > Vtiger_Field_Model::$tabIndexLastSeq) {
+								Vtiger_Field_Model::$tabIndexLastSeq = $fieldModel->get('tabindex');
+							}
+						} elseif (99 != $fieldModel->get('uitype')) {
 							$values[$blockLabel][$fieldName] = $fieldModel;
+							if ($fieldModel->get('tabindex') > Vtiger_Field_Model::$tabIndexLastSeq) {
+								Vtiger_Field_Model::$tabIndexLastSeq = $fieldModel->get('tabindex');
+							}
 						}
 					}
 				}
 			}
 		}
 		$this->structuredValues = $values;
-
+		++Vtiger_Field_Model::$tabIndexLastSeq;
 		return $values;
 	}
 }

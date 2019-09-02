@@ -1336,22 +1336,43 @@ $.Class(
 					thisInstance.checkSubProcessModulesList($(e.currentTarget));
 				});
 		},
-		registerFocusFirstField: function(container) {
+		registerFocusFirstField: function(container, afterTimeout) {
+			let elementToFocus, elementToFocusTabindex;
+			if (afterTimeout === undefined && container.closest('.js-modal-container').length) {
+				setTimeout(_ => {
+					this.registerFocusFirstField(container, true);
+				}, 500);
+				return;
+			}
 			container
-				.find('.fieldValue input.form-control:not([type=hidden],[type=checkbox],.dateField,.clockPicker)')
-				.each(function(n, e) {
+				.find(
+					'.fieldValue input.form-control:not([type=hidden],[type=checkbox],.dateField,.clockPicker), .select2-selection.form-control'
+				)
+				.each(function(i, e) {
 					let element = $(e);
 					if (!element.prop('readonly') && !element.prop('disabled')) {
 						element = element.get(0);
-						if (element.type !== 'number') {
+						if (element.type !== 'number' && element.value !== undefined) {
 							let elemLen = element.value.length;
 							element.selectionStart = elemLen;
 							element.selectionEnd = elemLen;
 						}
-						element.focus();
-						return false;
+						if (i === 0 || !elementToFocus) {
+							elementToFocus = element;
+						}
+						let tabindex = $(element).attr('tabindex');
+						if (tabindex > 0 && elementToFocusTabindex === undefined) {
+							elementToFocusTabindex = tabindex;
+							return;
+						}
+
+						if (tabindex > 0 && tabindex < elementToFocusTabindex) {
+							elementToFocusTabindex = tabindex;
+							elementToFocus = element;
+						}
 					}
 				});
+			elementToFocus.focus();
 		},
 		registerCopyValue: function(container) {
 			container.find('.fieldValue [data-copy-to-field]').on('change', function(e) {

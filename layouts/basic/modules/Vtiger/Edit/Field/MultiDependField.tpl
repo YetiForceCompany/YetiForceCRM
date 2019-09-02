@@ -4,8 +4,9 @@
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
 	{assign var=FIELDS_MODEL value=$FIELD_MODEL->getUITypeModel()->getFieldsModel()}
 	<div class="d-flex align-items-center js-multi-field" data-js="container">
-		<input name="{$FIELD_MODEL->getFieldName()}" value="{if $FIELD_MODEL->get('fieldvalue')}{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}{/if}" type="hidden" class="js-multi-field-val" data-js="value" data-fields="{\App\Purifier::encodeHtml(\App\Json::encode(array_keys($FIELDS_MODEL)))}"/>
-		<button type="button" class="btn btn-outline-success border mr-2 mb-2 h-100 js-multi-field-add-item" data-js="click">
+		<input name="{$FIELD_MODEL->getFieldName()}" value="{if $FIELD_MODEL->get('fieldvalue')}{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}{/if}"
+		type="hidden" class="js-multi-field-val" data-js="value" data-fields="{\App\Purifier::encodeHtml(\App\Json::encode(array_keys($FIELDS_MODEL)))}"/>
+		<button type="button" class="btn btn-outline-success border mr-2 mb-2 h-100 js-multi-field-add-item" tabindex="{$FIELD_MODEL->getTabIndex()}" data-js="click">
 			<span class="fas fa-plus" title="{\App\Language::translate('LBL_ADD', $MODULE_NAME)}"></span>
 		</button>
 		<div class="form-inline w-100">

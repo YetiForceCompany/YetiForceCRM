@@ -968,7 +968,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		$fieldModelList = [];
 		$fieldObjects = parent::getAllForModule($moduleModel);
 		$fieldModelList = [];
-		if (!is_array($fieldObjects)) {
+		if (!\is_array($fieldObjects)) {
 			$fieldObjects = [];
 		}
 		foreach ($fieldObjects as &$fieldObject) {
@@ -985,7 +985,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * Function to get instance.
 	 *
-	 * @param string|int $value  - fieldname or fieldid
+	 * @param string|int                $value  - fieldname or fieldid
 	 * @param Vtiger_Module_Model|false $module - optional - module instance
 	 *
 	 * @return Vtiger_Field_Model|false
@@ -1347,7 +1347,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isCalculateField()
 	{
-		return $this->isCalculateField && in_array($this->getUIType(), [71, 7, 317]);
+		return $this->isCalculateField && \in_array($this->getUIType(), [71, 7, 317]);
 	}
 
 	/**
@@ -1559,5 +1559,34 @@ class Vtiger_Field_Model extends vtlib\Field
 			$this->set($key, $value);
 		}
 		return $this;
+	}
+
+	/**
+	 * TabIndex last sequence number.
+	 *
+	 * @var int
+	 */
+	public static $tabIndexLastSeq = 0;
+	/**
+	 * TabIndex default sequence number.
+	 *
+	 * @var int
+	 */
+	public static $tabIndexDefaultSeq = 0;
+
+	/**
+	 * Get TabIndex.
+	 *
+	 * @return int
+	 */
+	public function getTabIndex(): int
+	{
+		$tabindex = 0;
+		if (0 !== $this->get('tabindex')) {
+			$tabindex = $this->get('tabindex');
+		} elseif (self::$tabIndexLastSeq) {
+			$tabindex = self::$tabIndexLastSeq;
+		}
+		return $tabindex + self::$tabIndexDefaultSeq;
 	}
 }
