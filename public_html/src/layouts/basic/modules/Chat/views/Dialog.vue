@@ -41,7 +41,7 @@
         <chat container :parentRefs="$refs" />
       </drag-resize>
     </q-dialog>
-		<update-watcher />
+    <update-watcher />
   </div>
 </template>
 <script>
@@ -84,7 +84,7 @@ export default {
         return this.$store.getters['Chat/buttonCoordinates']
       },
       set(coords) {
-        if (!isEqual(coords, { ...this.$store.getters['Chat/buttonCoordinates'] })) {
+        if (!isEqual({ left: coords.left, top: coords.top }, { ...this.$store.getters['Chat/buttonCoordinates'] })) {
           this.dragging = true
           this.setButtonCoordinates(coords)
         }
