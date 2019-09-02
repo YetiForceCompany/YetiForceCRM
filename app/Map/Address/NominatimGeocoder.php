@@ -44,10 +44,14 @@ class NominatimGeocoder extends Base
 		if ($countryCode = \Config\Components\AddressFinder::$nominatimCountryCode) {
 			$params['countrycodes'] = implode(',', $countryCode);
 		}
+		$options = [];
+		if (!empty(\Config\Components\AddressFinder::$nominatimMapUrlCustomOptions)) {
+			$options = \Config\Components\AddressFinder::$nominatimMapUrlCustomOptions;
+		}
 		$rows = [];
 		try {
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))
-				->request('GET', \Config\Components\AddressFinder::$nominatimMapUrl . '/?' . \http_build_query($params));
+				->request('GET', \Config\Components\AddressFinder::$nominatimMapUrl . '/?' . \http_build_query($params), $options);
 			if (200 !== $response->getStatusCode()) {
 				throw new \App\Exceptions\AppException('Error with connection |' . $response->getStatusCode());
 			}

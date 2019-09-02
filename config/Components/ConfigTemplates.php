@@ -40,6 +40,10 @@ return [
 			'default' => '',
 			'description' => "API Address to retrieve data from nominatim map.\n example addresses: https://nominatim.openstreetmap.org."
 		],
+		'nominatimMapUrlCustomOptions' => [
+			'default' => [],
+			'description' => "Additional headers for connections with nominatim API e.g. \n['auth' => ['username', 'password']]\n['auth' => ['username', 'password', 'digest']]\n['headers' => 'X-KAY' => 'key-x']"
+		],
 		'nominatimCountryCode' => [
 			'default' => [],
 			'description' => "Restricts the results to the specified country or countries for Nominatim.\nThe country code is a two letter code as defined by the ISO 3166-1 Alpha 2\n(https://en.wikipedia.org/wiki/ISO_3166-1_alpha-, It should be array such like ['en','fr']"
