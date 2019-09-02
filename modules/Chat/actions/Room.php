@@ -69,7 +69,7 @@ class Chat_Room_Action extends \App\Controller\Action
 		$this->checkPermissionByRoom($request);
 		\App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'))->addToFavorites();
 		$response = new Vtiger_Response();
-		$response->setResult(true);
+		$response->setResult(\App\Chat::getRoomsByUser());
 		$response->emit();
 	}
 

@@ -146,7 +146,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			if (!$chat->isRoomExists()) {
 				return;
 			}
-			$lastEntries = array_pop($room['chatEntries']);
+			$lastEntries = !empty($room['chatEntries']) ? array_pop($room['chatEntries']) : false;
 			$chatEntries = $chat->getEntries($lastEntries ? $lastEntries['id'] : null);
 			$isNextPage = $this->isNextPage(\count($chatEntries));
 			if ($isNextPage) {

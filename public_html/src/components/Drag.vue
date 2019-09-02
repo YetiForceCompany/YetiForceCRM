@@ -8,26 +8,28 @@
  */
 -->
 <template>
-    <vue-drag-resize
-      :isResizable="false"
-      :isDraggable="true"
-			:parentLimitation="true"
-      v-on:dragging="drag"
-      :x="coordinates.left"
-      :y="coordinates.top"
-			:w="width"
-			:h="height"
-			ref="drag"
-    >
-			<slot></slot>
-    </vue-drag-resize>
+  <vue-drag-resize
+    :isResizable="false"
+    :isDraggable="true"
+    v-on:dragging="drag"
+    @dragstop="correctCoordinates"
+    :x="coordinates.left"
+    :y="coordinates.top"
+    :w="width"
+    :h="height"
+    ref="drag"
+  >
+    <slot></slot>
+  </vue-drag-resize>
 </template>
 
 <script>
 import VueDragResize from '~/node_modules/vue-drag-resize/src/components/vue-drag-resize.vue'
+import { keepElementInWindow } from '~/mixins/DragResize'
 import { createNamespacedHelpers } from 'vuex'
 export default {
   name: 'DragResize',
+  mixins: [keepElementInWindow],
   components: { VueDragResize },
   props: {
     coordinates: {
@@ -41,7 +43,7 @@ export default {
     height: {
       type: Number,
       default: 42
-    },
+    }
   },
   methods: {
     drag(newRect, e) {
@@ -50,6 +52,20 @@ export default {
         left: newRect.left
       })
     },
+    correctCoordinates(rect) {
+      let computedRect = Object.assign({}, rect)
+      if (rect.left + this.width - this.width < 0) {
+        computedRect.left = this.width - this.width
+      } else if (this.width + rect.left > window.innerWidth) {
+        computedRect.left = window.innerWidth - this.width
+      }
+      if (rect.top < 0) {
+        computedRect.top = 0
+      } else if (rect.top > window.innerHeight - this.height) {
+        computedRect.top = window.innerHeight - this.height
+      }
+      this.$emit('update:coordinates', computedRect)
+    }
   }
 }
 </script>

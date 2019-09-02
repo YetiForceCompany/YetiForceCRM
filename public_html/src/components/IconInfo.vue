@@ -13,7 +13,7 @@
       :class="['cursor-pointer', tooltipId]"
       :name="searchInfoShow ? 'mdi-information' : 'mdi-information-outline'"
       :style="`font-size: ${options.iconSize};`"
-      @click="searchInfoShow = !searchInfoShow"
+      @click.prevent="searchInfoShow = !searchInfoShow"
     />
     <div>
       <q-tooltip

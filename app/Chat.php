@@ -189,6 +189,7 @@ final class Chat
 		while ($row = $dataReader->read()) {
 			$row['name'] = Language::translate($row['name'], 'Chat');
 			$row['roomType'] = 'global';
+			$row['isPinned'] = true;
 			$rooms[$row['recordid']] = $row;
 		}
 		$dataReader->close();
@@ -269,6 +270,7 @@ final class Chat
 			if ($recordModel->isViewable()) {
 				$row['moduleName'] = $recordModel->getModuleName();
 				$row['roomType'] = 'crm';
+				$row['isPinned'] = true;
 				$rows[$row['recordid']] = $row;
 			}
 		}
