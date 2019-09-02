@@ -114,7 +114,7 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 					'enabled': true
 				}
 			});
-			if (record == '' && jQuery('input[name="user_password"]').val() != jQuery('input[name="confirm_password"]').val()) {
+			if (!record && jQuery('input[name="user_password"]').val() != jQuery('input[name="confirm_password"]').val()) {
 				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_REENTER_PASSWORDS'));
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				e.preventDefault();
