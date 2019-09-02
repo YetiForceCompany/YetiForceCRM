@@ -1115,9 +1115,7 @@ $.Class(
 								module: app.getModuleName(),
 								action: 'Fields',
 								mode: 'findAddress',
-								type: search.find('.js-select-operator').length
-									? search.find('.js-select-operator').val()
-									: input.data('type'),
+								type: search.find('.js-select-operator').val(),
 								value: request.term
 							})
 								.done(function(requestData) {
