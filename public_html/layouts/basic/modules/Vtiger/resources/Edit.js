@@ -1109,16 +1109,15 @@ $.Class(
 					let search = $(item);
 					let container = search.closest('.js-block-content');
 					let input = search.find('.js-autoload-address');
-					search.find('.js-select-operator').on('click', function(e) {
-						input.data('type', $(this).data('type'));
-					});
 					input.autocomplete({
 						source: function(request, response) {
 							AppConnector.request({
 								module: app.getModuleName(),
 								action: 'Fields',
 								mode: 'findAddress',
-								type: input.data('type'),
+								type: search.find('.js-select-operator').length
+									? search.find('.js-select-operator').val()
+									: input.data('type'),
 								value: request.term
 							})
 								.done(function(requestData) {

@@ -52,16 +52,11 @@
 			<div class="js-search-address input-group input-group-sm c-btn-block-sm-down" data-js="container">
 				{if count($PROVIDER) > 1}
 					<div class="input-group-prepend">
-						<button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"
-								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<span class="sr-only">Toggle Dropdown</span>
-						</button>
-						<div class="dropdown-menu">
+						<select class="select2 js-select-operator" data-dropdown-auto-width="true">
 							{foreach item=ROW from=$PROVIDER}
-								<a class="dropdown-item js-select-operator" href="#" data-js="click"
-								   data-type="{$ROW}">{App\Language::translate($ROW)}</a>
+								<option value="{$ROW}" {if \App\Map\Address::getDefaultProvider() eq $ROW}selected{/if}>{App\Language::translate($ROW)}</option>
 							{/foreach}
-						</div>
+						</select>
 					</div>
 				{/if}
 				{assign var=ADDRESS_FINDER_CONFIG value=\App\Map\Address::getConfig()}
