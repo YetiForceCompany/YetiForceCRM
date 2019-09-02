@@ -63,32 +63,11 @@
 								{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 									{if $BLOCK_FIELDS|@count lte 0}{continue}{/if}
 									{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL]}
-									{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
-									{assign var=IS_DYNAMIC value=$BLOCK->isDynamic()}
-									<div class="js-toggle-panel c-panel c-panel--edit mb-3"
-										data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if}
-										data-label="{$BLOCK_LABEL}">
+									<div class=" c-panel c-panel--edit mb-3">
 										<div class="blockHeader c-panel__header align-items-center">
-											{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
-												{assign var=SEARCH_ADDRESS value=TRUE}
-											{else}
-												{assign var=SEARCH_ADDRESS value=FALSE}
-											{/if}
-											<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}"
-													data-js="click" data-mode="hide"
-													data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
-											<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2 {if ($IS_HIDDEN)}d-none{/if}"
-													data-js="click" data-mode="show"
-													data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
 											<h5>{\App\Language::translate($BLOCK_LABEL, $MODULE_NAME)}</h5>
 										</div>
-										<div class="c-panel__body c-panel__body--edit blockContent js-block-content {if $IS_HIDDEN}d-none{/if}"
-											data-js="display">
-											{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
-												<div class="{if !$SEARCH_ADDRESS} {/if} adressAction row py-2 justify-content-center">
-													{include file=\App\Layout::getTemplatePath('BlockHeader.tpl', $MODULE)}
-												</div>
-											{/if}
+										<div class="c-panel__body c-panel__body--edit blockContent>
 											<div class="row">
 												{assign var=COUNTER value=0}
 												{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
@@ -108,12 +87,12 @@
 												{assign var=COUNTER value=$COUNTER+1}
 												{/if}
 												{if isset($RECORD_STRUCTURE_RIGHT)}
-												<div class="col-sm-12  row form-group align-items-center my-1">
+												<div class="col-sm-12 row form-group align-items-center my-1">
 													{else}
 													<div class="{if $FIELD_MODEL->get('label') eq "FL_REAPEAT"} col-sm-3
 												{elseif $FIELD_MODEL->get('label') eq "FL_RECURRENCE"} col-sm-9
 												{elseif $FIELD_MODEL->getUIType() neq "300"}col-sm-6
-												{else} col-md-12 m-auto{/if}  row form-group align-items-center my-1">
+												{else} col-md-12 m-auto{/if} row form-group align-items-center my-1">
 														{/if}
 															{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
 														<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">
