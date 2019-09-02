@@ -47,14 +47,13 @@
 		{/if}
 	</div>
 	{assign var=PROVIDER value=\App\Map\Address::getProvider()}
-	{assign var=DEFAULT_PROVIDER value=\App\Map\Address::getDefaultProvider()}
 	{if $SEARCH_ADDRESS && $PROVIDER}
 		<div class="d-flex justify-content-center col-lg-4 mx-1 mx-lg-0">
 			<div class="js-search-address input-group input-group-sm c-btn-block-sm-down" data-js="container">
 				<div class="input-group-prepend{if count($PROVIDER) eq 1} d-none{/if}">
 					<select class="select2 js-select-operator" data-dropdown-auto-width="true" data-js="value">
 						{foreach item=ROW from=$PROVIDER}
-							<option value="{$ROW}" {if $DEFAULT_PROVIDER eq $ROW}selected{/if}>{App\Language::translate($ROW)}</option>
+							<option value="{$ROW}" {if \App\Map\Address::getDefaultProvider() eq $ROW}selected{/if}>{App\Language::translate($ROW)}</option>
 						{/foreach}
 					</select>
 				</div>
