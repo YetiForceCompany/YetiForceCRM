@@ -59,14 +59,14 @@
           </q-item>
           <template v-for="(room, roomId) of roomGroup">
             <q-item
-              v-show="roomType === 'group' ? room.isPinned || showAllGroups || filterRooms.length : true"
+              v-show="roomType === 'group' ? room.isPinned || showAllGroups || filterRooms.length : room.isPinned"
               clickable
               v-ripple
               :key="roomId"
               class="q-pl-sm"
               :active="data.currentRoom.recordId === room.recordid"
               active-class="bg-teal-1 text-grey-8"
-              @click="fetchRoom({ id: room.recordid, roomType: roomType, recordView: false})"
+              @click="fetchRoom({ id: room.recordid, roomType: roomType, recordView: false })"
             >
               <div class="full-width flex items-center justify-between no-wrap">
                 <div class="ellipsis-2-lines">

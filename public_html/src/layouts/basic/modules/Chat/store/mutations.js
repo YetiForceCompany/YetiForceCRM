@@ -104,17 +104,17 @@ export default {
 		const roomList = state.data.roomList
 		switch (roomType) {
 			case 'crm':
-				for (let i = 0; i < roomList.crm.length; i++) {
-					if (roomList.crm[i] === room) {
-						roomList.crm.pop(i)
+				for (let roomId in roomList.crm) {
+					if (parseInt(roomId) === room.recordid) {
+						roomList.crm[roomId].isPinned = false
 						break
 					}
 				}
 				break
 			case 'group':
-				for (let i = 0; i < roomList.group.length; i++) {
-					if (roomList.group[i] === room) {
-						roomList.group[i].isPinned = !roomList.group[i].isPinned
+				for (let roomId in roomList.group) {
+					if (parseInt(roomId) === room.recordid) {
+						roomList.group[roomId].isPinned = !roomList.group[roomId].isPinned
 						break
 					}
 				}
