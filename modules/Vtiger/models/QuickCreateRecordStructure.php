@@ -23,7 +23,7 @@ class Vtiger_QuickCreateRecordStructure_Model extends Vtiger_RecordStructure_Mod
 		if (!empty($this->structuredValues)) {
 			return $this->structuredValues;
 		}
-
+		Vtiger_Field_Model::$tabIndexDefaultSeq = 1000;
 		$values = [];
 		$recordModel = $this->getRecord();
 		$moduleModel = $this->getModule();
