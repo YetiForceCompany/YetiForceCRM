@@ -47,6 +47,7 @@
 		{/if}
 	</div>
 	{assign var=PROVIDER value=\App\Map\Address::getProvider()}
+	{assign var=DEFAULT_PROVIDER value=\App\Map\Address::getDefaultProvider()}
 	{if $SEARCH_ADDRESS && $PROVIDER}
 		<div class="d-flex justify-content-center col-lg-4 mx-1 mx-lg-0">
 			<div class="js-search-address input-group input-group-sm c-btn-block-sm-down" data-js="container">
@@ -54,7 +55,7 @@
 					<div class="input-group-prepend">
 						<select class="select2 js-select-operator" data-dropdown-auto-width="true">
 							{foreach item=ROW from=$PROVIDER}
-								<option value="{$ROW}" {if \App\Map\Address::getDefaultProvider() eq $ROW}selected{/if}>{App\Language::translate($ROW)}</option>
+								<option value="{$ROW}" {if $DEFAULT_PROVIDER eq $ROW}selected{/if}>{App\Language::translate($ROW)}</option>
 							{/foreach}
 						</select>
 					</div>
@@ -62,7 +63,7 @@
 				{assign var=ADDRESS_FINDER_CONFIG value=\App\Map\Address::getConfig()}
 				<input title="{\App\Language::translate('LBL_ADDRESS_INFORMATION')}" type="text"
 					   placeholder="{\App\Language::translate('LBL_ENTER_SEARCHED_ADDRESS')}"
-					   data-type="{\App\Map\Address::getDefaultProvider()}"
+					   {if count($PROVIDER) eq 1}data-type="{$DEFAULT_PROVIDER}"{/if}
 					   data-min="{$ADDRESS_FINDER_CONFIG['global']['min_length']}"
 					   class="js-autoload-address form-control" data-js="autocomplete"
 				/>
