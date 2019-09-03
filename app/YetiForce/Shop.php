@@ -122,7 +122,7 @@ class Shop
 		if (\is_dir(ROOT_DIRECTORY . '/app_data/shop/') && \file_exists(ROOT_DIRECTORY . "/app_data/shop/{$name}.php")) {
 			$config = require ROOT_DIRECTORY . "/app_data/shop/{$name}.php";
 		}
-		return \App\YetiForce\Register::getProducts()[$name] ?? $config;
+		return \App\YetiForce\Register::getProducts($name) ?? $config;
 	}
 
 	/**
@@ -144,7 +144,7 @@ class Shop
 		if ($productDetails) {
 			$status = self::verifyProductKey($productDetails['key']);
 			if ($status) {
-				$status = strtotime('now') < strtotime($productDetails['date']);
+				$status = strtotime(date('Y-m-d')) <= strtotime($productDetails['date']);
 			}
 			if ($status) {
 				$status = \App\Company::getSize() === $productDetails['package'];

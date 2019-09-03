@@ -43,7 +43,7 @@
 						<div class="tab-content">
 							<div class="tab-pane fade show active" id="nav-premium" role="tabpanel" aria-labelledby="nav-premium-tab">
 								<div class="alert alert-info alert-dismissible fade show mt-3 mb-0" role="alert">
-									{\App\Language::translate('LBL_SHOP_INFORMATION', $QUALIFIED_MODULE)}
+									{\App\Language::translate('LBL_SHOP_INFORMATION','Settings::YetiForce')}
 									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
