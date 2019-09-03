@@ -42,7 +42,7 @@ class Functions
 		}
 		$restrictedModules = ['SMSNotifier', 'Dashboard', 'ModComments'];
 		foreach ($moduleList as $id => $module) {
-			if (!$showRestricted && in_array($module['name'], $restrictedModules)) {
+			if (!$showRestricted && \in_array($module['name'], $restrictedModules)) {
 				unset($moduleList[$id]);
 			}
 			if ($isEntityType && 0 === (int) $module['isentitytype']) {
@@ -118,7 +118,7 @@ class Functions
 	 */
 	public static function getCRMRecordMetadata($mixedid)
 	{
-		$multimode = is_array($mixedid);
+		$multimode = \is_array($mixedid);
 
 		$ids = $multimode ? $mixedid : [$mixedid];
 		$missing = [];
@@ -225,7 +225,7 @@ class Functions
 			'"' => '&quot;',
 			"'" => '&#039;',
 		];
-		if ($encode && is_string($string)) {
+		if ($encode && \is_string($string)) {
 			$string = addslashes(str_replace(array_values($popup_toHtml), array_keys($popup_toHtml), $string));
 		}
 		return $string;
@@ -331,13 +331,9 @@ class Functions
 		return $type_of_data;
 	}
 
-
-
-
-
 	public static function getArrayFromValue($values)
 	{
-		if (is_array($values)) {
+		if (\is_array($values)) {
 			return $values;
 		}
 		if ('' === $values) {
@@ -353,13 +349,13 @@ class Functions
 
 	public static function throwNewException($e, $die = true, $messageHeader = 'LBL_ERROR')
 	{
-		$message = is_object($e) ? $e->getMessage() : $e;
-		if (!is_array($message)) {
+		$message = \is_object($e) ? $e->getMessage() : $e;
+		if (!\is_array($message)) {
 			if (false === strpos($message, '||')) {
 				$message = \App\Language::translateSingleMod($message, 'Other.Exceptions');
 			} else {
 				$params = explode('||', $message);
-				$message = call_user_func_array('vsprintf', [\App\Language::translateSingleMod(array_shift($params), 'Other.Exceptions'), $params]);
+				$message = \call_user_func_array('vsprintf', [\App\Language::translateSingleMod(array_shift($params), 'Other.Exceptions'), $params]);
 			}
 		}
 		if ('API' === \App\Process::$requestMode) {
@@ -369,10 +365,10 @@ class Functions
 			$response = new \Vtiger_Response();
 			$response->setEmitType(\Vtiger_Response::$EMIT_JSON);
 			$trace = '';
-			if (\App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE') && is_object($e)) {
+			if (\App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE') && \is_object($e)) {
 				$trace = str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
 			}
-			if (is_object($e)) {
+			if (\is_object($e)) {
 				$response->setHeader(\App\Request::_getServer('SERVER_PROTOCOL') . ' ' . $e->getCode() . ' ' . str_ireplace(["\r\n", "\r", "\n"], [' ', ' ', ' '], $e->getMessage()));
 				$response->setError($e->getCode(), $e->getMessage(), $trace);
 			} else {
@@ -381,9 +377,15 @@ class Functions
 			$response->emit();
 		} else {
 			if (\PHP_SAPI !== 'cli') {
+				if (\App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE') && \is_object($e)) {
+					$message = [
+						'message' => $message,
+						'trace' => str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $e->getTraceAsString())
+					];
+				}
 				$viewer = new \Vtiger_Viewer();
 				$viewer->assign('MESSAGE', $message);
-				$viewer->assign('MESSAGE_EXPANDED', is_array($message));
+				$viewer->assign('MESSAGE_EXPANDED', \is_array($message));
 				$viewer->assign('HEADER_MESSAGE', \App\Language::translate($messageHeader));
 				$viewer->view('ExceptionError.tpl', 'Vtiger');
 			} else {
@@ -392,10 +394,10 @@ class Functions
 		}
 		if ($die) {
 			trigger_error(print_r($message, true), E_USER_ERROR);
-			if (is_object($message)) {
+			if (\is_object($message)) {
 				throw new $message();
 			}
-			if (is_array($message)) {
+			if (\is_array($message)) {
 				throw new \App\Exceptions\AppException($message['message']);
 			}
 			throw new \App\Exceptions\AppException($message);
@@ -700,8 +702,8 @@ class Functions
 	{
 		$difference = [];
 		foreach ($array1 as $key => $value) {
-			if (is_array($value)) {
-				if (!isset($array2[$key]) || !is_array($array2[$key])) {
+			if (\is_array($value)) {
+				if (!isset($array2[$key]) || !\is_array($array2[$key])) {
 					$difference[$key] = $value;
 				} else {
 					$newDiff = self::arrayDiffAssocRecursive($value, $array2[$key]);
@@ -709,7 +711,7 @@ class Functions
 						$difference[$key] = $newDiff;
 					}
 				}
-			} elseif (!array_key_exists($key, $array2) || $array2[$key] !== $value) {
+			} elseif (!\array_key_exists($key, $array2) || $array2[$key] !== $value) {
 				$difference[$key] = $value;
 			}
 		}
