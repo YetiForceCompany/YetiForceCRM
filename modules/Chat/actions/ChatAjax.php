@@ -100,7 +100,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		}
 		$chat = \App\Chat::getInstance($roomType, $recordId);
 		if (!$chat->isRoomExists()) {
-			return;
+			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
 		}
 		$chatEntries = $chat->getEntries($request->has('lastId') ? $request->getInteger('lastId') : null);
 		$isNextPage = $this->isNextPage(\count($chatEntries));
@@ -134,17 +134,16 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	 */
 	public function getRoomsMessages(App\Request $request)
 	{
-		$rooms = $request->getArray('rooms');
 		$result = [];
 		$roomList = \App\Chat::getRoomsByUser();
 		$areNewEntries = false;
 
-		foreach ($rooms as $room) {
+		foreach ($request->getArray('rooms') as $room) {
 			$recordId = $room['recordid'];
 			$roomType = $room['roomType'];
 			$chat = \App\Chat::getInstance($roomType, $recordId);
 			if (!$chat->isRoomExists()) {
-				return;
+				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
 			}
 			$lastEntries = !empty($room['chatEntries']) ? array_pop($room['chatEntries']) : false;
 			$chatEntries = $chat->getEntries($lastEntries ? $lastEntries['id'] : null);
