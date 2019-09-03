@@ -17,7 +17,7 @@
             :key="row.id"
             :name="header ? header(row) : row.user_name"
             :stamp="row.created"
-            :avatar="row.img"
+            :avatar="row.image"
             :text="[row.messages]"
             :bg-color="row.color"
             size="8"

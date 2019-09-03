@@ -39,6 +39,8 @@ export function mergeDeepReactive(target, ...sources) {
 					Vue.set(target, key, {})
 				}
 				mergeDeepReactive(target[key], source[key])
+			} else if (Array.isArray(source[key]) && !source[key].length && isObject(target[key])) {
+				Vue.set(target, key, target[key])
 			} else {
 				Vue.set(target, key, source[key])
 			}

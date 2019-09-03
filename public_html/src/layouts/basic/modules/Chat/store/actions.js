@@ -53,7 +53,7 @@ export default {
 				mode: 'getRecordRoom',
 				id: id
 			}).done(({ result }) => {
-				commit('setData', result)
+				commit('updateRooms', result.roomList)
 				resolve(result)
 			})
 		})

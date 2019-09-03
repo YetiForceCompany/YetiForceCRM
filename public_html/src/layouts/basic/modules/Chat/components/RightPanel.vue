@@ -31,8 +31,8 @@
         <template v-for="participant in participantsList">
           <q-item :key="participant.user_id" v-if="participant.user_name === participant.user_name" class="q-py-xs">
             <q-item-section avatar>
-              <q-avatar>
-                <img v-if="participant.img" :src="participant.img" />
+              <q-avatar style="height: unset;">
+                <img v-if="participant.image" :src="participant.image" />
                 <q-icon v-else name="mdi-account" size="40px" />
               </q-avatar>
             </q-item-section>
