@@ -22,7 +22,7 @@
 						</div>
 					{/if}
 				</div>
-				<div class="py-0 pl-2 pr-3 d-flex flex-wrap justify-between align-items-center">
+				<div class="py-0 pl-2 pr-3 d-flex flex-wrap justify-between align-items-center w-100">
 					{include file=\App\Layout::getTemplatePath('DashBoard/WidgetTitle.tpl', $QUALIFIED_MODULE) TITLE=$PRODUCT->getLabel() CLASS="u-cursor-pointer js-text-search"}
 					{include file=\App\Layout::getTemplatePath('DashBoard/WidgetDescription.tpl', $QUALIFIED_MODULE) DESCRIPTION=$PRODUCT->getIntroduction() CLASS="mb-0"}
 					{if empty($PRODUCT->expirationDate)}
