@@ -18236,6 +18236,9 @@ input[type="checkbox"][disabled] {
     padding: 0 20px;
     background-color: inherit; }
 
+.c-mds-input .input-group-append,
+.c-mds-input .input-group-prepend {
+  border-bottom: 1px solid #ced4da; }
 .c-mds-input .form-control {
   border-radius: 0px !important;
   border-top: 0px !important;
@@ -18243,7 +18246,7 @@ input[type="checkbox"][disabled] {
   border-right: 0px !important; }
   .c-mds-input .form-control:focus {
     box-shadow: none; }
-    .c-mds-input .form-control:focus + .input-group-append {
+    .c-mds-input .form-control:focus + .input-group-append, .c-mds-input .form-control:focus ~ .input-group-append, .c-mds-input .form-control:focus + .input-group-prepend, .c-mds-input .form-control:focus ~ .input-group-prepend {
       border-color: #5bb1ff !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
@@ -20730,7 +20733,8 @@ td.fieldValue input, td.fieldValue .input-group {
   height: 100%;
   cursor: pointer; }
   .o-small-product__container {
-    min-height: 8.125rem; }
+    min-height: 8.125rem;
+    height: 100%; }
   .o-small-product__img {
     max-width: 30%;
     min-width: 5rem; }

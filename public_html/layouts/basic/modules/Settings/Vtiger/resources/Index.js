@@ -446,32 +446,6 @@ $.Class(
 				thisInstance.registerWarningsAlert();
 			}
 		},
-		registerShopSearch() {
-			this.container
-				.find('.js-shop-search')
-				.on('keyup', e => {
-					let value = $(e.currentTarget)
-						.val()
-						.toLowerCase();
-					this.container.find('.js-product .js-text-search').filter(function() {
-						let item = $(this).closest('.js-product');
-						if (
-							$(this)
-								.text()
-								.toLowerCase()
-								.indexOf(value) > -1
-						) {
-							item.removeClass('d-none');
-						} else {
-							item.addClass('d-none');
-						}
-					});
-				})
-				.on('click', e => {
-					e.stopPropagation();
-				});
-		},
-
 		registerEvents: function() {
 			this.container = $('.js-dashboard-container');
 			this.registerTabEvents();
@@ -480,7 +454,6 @@ $.Class(
 			this.registerDeleteShortCutEvent();
 			this.registerAddShortcutDragDropEvent();
 			this.registerCollapsiblePanels();
-			this.registerShopSearch();
 			new window.Settings_YetiForce_Shop_Js().registerEvents();
 		}
 	}

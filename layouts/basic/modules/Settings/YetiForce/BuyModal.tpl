@@ -3,7 +3,7 @@
 <!-- tpl-Settings-YetiForce-Shop-BuyModal -->
 {assign var=LABEL_CLASS value='py-2 u-font-weight-550 align-middle'}
 {assign var=PRICE_TYPE value=$PRODUCT->getPriceType()}
-<div class="modal-body px-md-5 pb-0">
+<div class="modal-body pb-0">
 	<form  class="js-buy-form" action="{$PAYPAL_URL}" method="POST" target="_blank">
 		<div class="row no-gutters" >
 			<div class="col-sm-18 col-md-12">
@@ -114,7 +114,7 @@
 			</table>
 		</form>
 	{elseif !$IS_CUSTOM}
-		<div class="alert alert-danger mb-0">
+		<div class="alert alert-danger mb-0 mt-3">
 			<span class="fas fa-exclamation-triangle mr-1"></span>
 			{\App\Language::translate('LBL_SHOP_NO_COMPANIES_ALERT', $QUALIFIED_MODULE)}
 			<div class="d-flex justify-content-center w-100 pt-1">

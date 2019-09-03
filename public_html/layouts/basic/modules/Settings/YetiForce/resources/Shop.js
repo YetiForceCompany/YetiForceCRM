@@ -19,6 +19,35 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	registerEvents() {
 		this.registerProductModalClick();
 		this.registerBuyModalClick();
+		this.registerShopSearch();
+	}
+	/**
+	 * Register events.
+	 */
+	registerShopSearch() {
+		let searchField = this.container.find('.js-shop-search');
+		searchField = searchField.length ? searchField : $('.js-shop-search');
+		searchField.on('keyup', e => {
+				let value = $(e.currentTarget)
+					.val()
+					.toLowerCase();
+				this.container.find('.js-product .js-text-search').filter(function() {
+					let item = $(this).closest('.js-product');
+					if (
+						$(this)
+							.text()
+							.toLowerCase()
+							.indexOf(value) > -1
+					) {
+						item.removeClass('d-none');
+					} else {
+						item.addClass('d-none');
+					}
+				});
+			})
+			.on('click', e => {
+				e.stopPropagation();
+			});
 	}
 	/**
 	 * Register product modal click.
