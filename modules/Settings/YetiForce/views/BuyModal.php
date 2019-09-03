@@ -25,10 +25,6 @@ class Settings_YetiForce_BuyModal_View extends \App\Controller\ModalSettings
 	 */
 	public $successBtnIcon = 'far fa-credit-card';
 	/**
-	 * {@inheritdoc}
-	 */
-	public $footerClass = 'px-md-5';
-	/**
 	 * Header class.
 	 *
 	 * @var string

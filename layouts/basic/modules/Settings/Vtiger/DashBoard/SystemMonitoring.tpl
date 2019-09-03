@@ -1,6 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Settings-Base-DashBoard-SystemMonitoring mb-3 d-flex flex-wrap">
+<!-- tpl-Settings-Base-DashBoard-SystemMonitoring  -->
+	<div class="mb-3 d-flex flex-wrap mr-n3">
 		{foreach from=$SYSTEM_MONITORING item=ITEM}
 			{assign var="TRANSLATION" value=\App\Language::translatePluralized($ITEM['LABEL'], $QUALIFIED_MODULE, $ITEM['VALUE'])}
 			<div class="dashboardWidget px-1 pt-1 pb-4 mt-3 mr-3 flex-grow-1">
@@ -19,4 +20,5 @@
 			</div>
 		{/foreach}
 	</div>
+<!-- /tpl-Settings-Base-DashBoard-SystemMonitoring  -->
 {/strip}

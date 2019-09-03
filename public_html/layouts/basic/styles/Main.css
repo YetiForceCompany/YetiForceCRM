@@ -20730,7 +20730,8 @@ td.fieldValue input, td.fieldValue .input-group {
   height: 100%;
   cursor: pointer; }
   .o-small-product__container {
-    min-height: 8.125rem; }
+    min-height: 8.125rem;
+    height: 100%; }
   .o-small-product__img {
     max-width: 30%;
     min-width: 5rem; }

@@ -5,6 +5,7 @@
 	cursor: pointer;
 	&__container {
 		min-height: calculate-rem(130px);
+		height: 100%;
 	}
 
 	&__img {
