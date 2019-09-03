@@ -123,8 +123,8 @@
     "LBL_SHOP_MODULESENTERPRISE": "Enterprise modules",
     "LBL_SHOP_MODULESENTERPRISE_INTRO": "",
     "LBL_SHOP_MODULESENTERPRISE_DESC": "",
-    "LBL_SHOP_YETIFORCEGEOCODER": "Yetiforce address finder",
-    "LBL_SHOP_YETIFORCEGEOCODER_INTRO": "",
-    "LBL_SHOP_YETIFORCEGEOCODER_DESC": ""
+    "LBL_SHOP_YETIFORCEGEOCODER": "YetiForce address finder",
+    "LBL_SHOP_YETIFORCEGEOCODER_INTRO": "Quick and easy search for any address in the world without entering it manually.",
+    "LBL_SHOP_YETIFORCEGEOCODER_DESC": "YetiForce address finder is based on Open Street Maps with a complete world map and no connection limits. In addition, an expensive server is not required for its proper operation."
   }
 }
