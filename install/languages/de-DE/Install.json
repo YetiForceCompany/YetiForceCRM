@@ -131,7 +131,7 @@
     "LBL_PASS_REENTER_ERROR": "Bitte geben Sie erneut die Passwörter ein. Die beiden Passwörter stimmen nicht überein.",
     "LBL_INVALID_EMAIL_ERROR": "Achtung! Ungültige E-Mail-Adresse.",
     "LBL_INVALID_USERNAME_ERROR": "ungültiger Benutzername",
-    "JS_CONTAINS_ILLEGAL_CHARACTERS": "Value is to short/long or contains invalid characters",
+    "JS_CONTAINS_ILLEGAL_CHARACTERS": "Wert ist zu kurz/lang oder enthält ungültige Zeichen",
     "LBL_RESOLVE_ERROR": "Bitte beheben Sie den Fehler, bevor Sie mit der Installation fortfahren",
     "JS_SELECT_AN_OPTION": "Wählen Sie eine Option",
     "JS_S_LENGTH_MENU": "Zeige _MENU_ Einträge",

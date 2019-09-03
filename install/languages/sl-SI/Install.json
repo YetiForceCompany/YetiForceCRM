@@ -131,7 +131,7 @@
     "LBL_PASS_REENTER_ERROR": "Znova vnesite geslo.  V \\\"Geslo\\\" in \\\"Potrdi geslo\\\" se vrednosti ne ujemajo.",
     "LBL_INVALID_EMAIL_ERROR": "Opozorilo! Neveljaven e-poštni naslov.",
     "LBL_INVALID_USERNAME_ERROR": "Neveljavno uporabniško ime",
-    "JS_CONTAINS_ILLEGAL_CHARACTERS": "Value is to short/long or contains invalid characters",
+    "JS_CONTAINS_ILLEGAL_CHARACTERS": "Vrednost je prekratka/predolga ali pa vsebuje neveljavne znake",
     "LBL_RESOLVE_ERROR": "Preden nadaljujete z namestitvijo popravite napake",
     "JS_SELECT_AN_OPTION": "Izberi možnost",
     "JS_S_LENGTH_MENU": "Prikaži _MENU_ postavke",
