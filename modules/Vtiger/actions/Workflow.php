@@ -43,7 +43,7 @@ class Vtiger_Workflow_Action extends \App\Controller\Action
 		$moduleName = $request->getModule();
 		$record = $request->getInteger('record');
 		$user = $request->getInteger('user');
-		$tasks = $request->getMultiDimensionArray('tasks', ['Integer' => ['Integer']]);
+		$tasks = $request->getArray('tasks', 'Integer');
 		\Vtiger_WorkflowTrigger_Model::execute($moduleName, $record, $user, $tasks);
 		$response = new Vtiger_Response();
 		$response->setResult(true);
