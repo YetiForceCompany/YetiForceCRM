@@ -1,9 +1,7 @@
 <?php
 
 /**
- * Address finder nominatim geocoder file.
- *
- * @see       https://nominatim.org Documentation of Nominatim API
+ * Address finder YetiForce geocoder file.
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -13,16 +11,16 @@
 namespace App\Map\Address;
 
 /**
- * Address finder nominatim geocoder class.
+ * Address finder YetiForce geocoder class.
  */
-class NominatimGeocoder extends Base
+class YetiForceGeocoder extends Base
 {
 	/**
 	 * {@inheritdoc}
 	 */
 	public static function isActive()
 	{
-		return !empty(\Config\Components\AddressFinder::$nominatimMapUrl);
+		return \App\YetiForce\Shop::check('YetiForceGeocoder');
 	}
 
 	/**
@@ -30,7 +28,8 @@ class NominatimGeocoder extends Base
 	 */
 	public function find($value): array
 	{
-		if (empty($value) || !\App\RequestUtil::isNetConnection()) {
+		$product = \App\YetiForce\Register::getProducts('YetiForceGeocoder');
+		if (empty($value) || !\App\RequestUtil::isNetConnection() || empty($product['params']['login']) || empty($product['params']['pass'])) {
 			return [];
 		}
 		$params = [
@@ -40,28 +39,26 @@ class NominatimGeocoder extends Base
 			'accept-language' => \App\Language::getLanguage() . ',' . \App\Config::main('default_language') . ',en-US',
 			'q' => $value
 		];
-		if ($countryCode = \Config\Components\AddressFinder::$nominatimCountryCode) {
+		if ($countryCode = \Config\Components\AddressFinder::$yetiForceCountryCode) {
 			$params['countrycodes'] = implode(',', $countryCode);
-		}
-		$options = [];
-		if (!empty(\Config\Components\AddressFinder::$nominatimMapUrlCustomOptions)) {
-			$options = \Config\Components\AddressFinder::$nominatimMapUrlCustomOptions;
 		}
 		$rows = [];
 		try {
-			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))
-				->request('GET', \Config\Components\AddressFinder::$nominatimMapUrl . '/?' . \http_build_query($params), $options);
+			$response = (new \GuzzleHttp\Client(\array_merge(\App\RequestHttp::getOptions(), ['InsKey' => \App\YetiForce\Register::getInstanceKey()])))
+				->request('GET', 'https://openstreetmap.yetiforce.eu/?' . \http_build_query($params), [
+					'auth' => [$product['params']['login'], $product['params']['pass']]
+				]);
 			if (200 !== $response->getStatusCode()) {
 				throw new \App\Exceptions\AppException('Error with connection |' . $response->getStatusCode());
 			}
 			$body = $response->getBody();
 			$body = \App\Json::isEmpty($body) ? [] : \App\Json::decode($body);
 			if ($body) {
-				$mainMapping = \Config\Components\AddressFinder::nominatimRemapping();
+				$mainMapping = \Config\Components\AddressFinder::yetiForceRemapping();
 				if (!\is_callable($mainMapping)) {
 					$mainMapping = [$this, 'parseRow'];
 				}
-				$countryMapping = \Config\Components\AddressFinder::nominatimRemappingForCountry();
+				$countryMapping = \Config\Components\AddressFinder::yetiForceRemappingForCountry();
 				foreach ($body as $row) {
 					$mappingFunction = $mainMapping;
 					if (isset($row['address']['country_code'], $countryMapping[\strtoupper($row['address']['country_code'])])) {
