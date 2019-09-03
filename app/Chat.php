@@ -608,20 +608,34 @@ final class Chat
 			$query->andWhere(['<', 'id', $messageId]);
 		}
 		$userModel = User::getUserModel($this->userId);
+		$groups = $userModel->getGroupNames();
 		$userImage = $userModel->getImage()['url'] ?? '';
 		$userName = $userModel->getName();
 		$userRoleName = $userModel->getRoleInstance()->getName();
 		$rows = [];
 		$dataReader = $query->createCommand()->query();
+		$notPermittedIds = [];
 		while ($row = $dataReader->read()) {
+			if ('group' === $roomType && 	!isset($groups[$row['recordid']])) {
+				continue;
+			}
+			if  ('crm' === $roomType) {
+				if(in_array($row['recordid'], $notPermittedIds)) {
+					continue;
+				}
+				if (!Record::isExists($row['recordid']) || !\Vtiger_Record_Model::getInstanceById($row['recordid'])->isViewable()) {
+					$notPermittedIds[] = $row['recordid'];
+					continue;
+				}
+			}
+			if ('global' === $roomType) {
+				$row['room_name'] = Language::translate($row['room_name']);
+			}
 			$row['image'] = $userImage;
 			$row['created'] = Fields\DateTime::formatToShort($row['created']);
 			$row['user_name'] = $userName;
 			$row['role_name'] = $userRoleName;
 			$row['messages'] = static::decodeMessage($row['messages']);
-			if ('global' === $roomType) {
-				$row['room_name'] = Language::translate($row['room_name']);
-			}
 			$rows[] = $row;
 		}
 		return \array_reverse($rows);
