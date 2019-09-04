@@ -5,7 +5,7 @@
 * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
 * See the License for the specific language governing rights and limitations under the License.
 * The Original Code is YetiForce.
-* The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+* The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
 * All Rights Reserved.
 *************************************************************************************************************************************/
 -->*}
@@ -24,7 +24,7 @@
 				<div class="col-12 form-row mb-2">
 					<div class="col-sm-6 col-md-4">
 						<div >
-							{\App\Language::translate('LBL_MIN_LOOKUP_LENGTH', $MODULENAME)}: 
+							{\App\Language::translate('LBL_MIN_LOOKUP_LENGTH', $MODULENAME)}:
 						</div>
 					</div>
 					<div class="col-sm-6 col-md-4">
@@ -37,7 +37,7 @@
 				<div class="col-12 form-row  mb-2">
 					<div class='col-sm-6 col-md-4'>
 						<div>
-							{\App\Language::translate('LBL_NUMBER_SEARCH_RESULTS', $MODULENAME)}: 
+							{\App\Language::translate('LBL_NUMBER_SEARCH_RESULTS', $MODULENAME)}:
 						</div>
 					</div>
 					<div class="col-sm-6 col-md-4">
@@ -54,30 +54,38 @@
 				<div class="col-12">
 					<hr>
 				</div>
-				<div class="col-12 form-row mb-2">
-					<div class='col-md-4 col-sm-6'>
-						{\App\Language::translate('LBL_CHOOSE_API', $MODULENAME)}
-					</div>
-					<div class='col-sm-6 col-md-4'>
-						<select class="select2" id="change_api" class="form-control">
-							<option>{\App\Language::translate('LBL_SELECT_OPTION')}</option>
-							{foreach from=$CONFIG item=item key=key}
-								{if $key neq 'global'}
-									<option value="{$key}">{\App\Language::translate($key, $MODULENAME)}</option>
-								{/if}
-
+				<div class="table-responsive">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th class="" scope="col">{\App\Language::translate('LBL_PROVIDER_NAME', $MODULENAME)}</th>
+								<th class="text-center" scope="col">{\App\Language::translate('LBL_PROVIDER_ACTIVE', $MODULENAME)}</th>
+								<th class="text-center" scope="col">{\App\Language::translate('LBL_PROVIDER_DEFAULT', $MODULENAME)}</th>
+								<th class="text-center" scope="col">{\App\Language::translate('LBL_PROVIDER_ACTIONS', $MODULENAME)}</th>
+							</tr>
+						</thead>
+						<tbody>
+							{foreach from=\App\Map\Address::getAllProviders() item=ITEM key=KEY}
+								<tr>
+									<th class="" scope="row">{\App\Language::translate('LBL_PROVIDER_'|cat:$KEY|upper, $MODULENAME)}</th>
+									<td class="text-center"><input name="{$KEY-isActive}" type="checkbox"{if $ITEM->isActive()} checked{/if}></td>
+									<td class="text-center"><input name="defaultProvider" value="{$KEY}" type="radio"{if $DEFAULT_PROVIDER eq $KEY} checked{/if}></td>
+									<td class="text-center">
+										<button class="btn btn-outline-secondary btn-sm js-popover-tooltip mr-1" type="button" data-provider="{$KEY}"
+										data-content="{\App\Language::translate('LBL_PROVIDER_CONFIG', $MODULENAME)}">
+											<span class="fas fa-cog"></span>
+										</button>
+										<a href="{$ITEM->getLink()}" class="btn btn-outline-primary btn-sm js-popover-tooltip" role="button" target="_blank"
+										data-content="{\App\Language::translate('LBL_PROVIDER_INFO_'|cat:$KEY|upper, $MODULENAME)}">
+											<span class="fas fa-info"></span>
+										</a>
+									</td>
+								</tr>
 							{/foreach}
-						</select>
-					</div>
+						</tbody>
+					</table>
 				</div>
-				{foreach from=$CONFIG item=item key=key}
-					{if $key neq 'global'}
-						<div class="apiContainer col-12 form-row px-3 pr-0 {if !$item["key"]}d-none{/if} api_row {$key}">
-							{include file=\App\Layout::getTemplatePath($key|cat:'.tpl', $MODULENAME) API_INFO=$item API_NAME=$key}
-						{/if}
-					</div>
-				{/foreach}
 			</div>
-		</form>	
+		</form>
 	</div>
 </div>
