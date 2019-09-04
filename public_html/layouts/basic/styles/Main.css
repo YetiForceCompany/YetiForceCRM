@@ -16313,6 +16313,9 @@ ul.tweets li {
 .u-font-size-50px {
   font-size: 3.125rem; }
 
+.u-font-size-120px {
+  font-size: 7.5rem; }
+
 .u-font-weight-50 {
   font-weight: 50 !important; }
 
@@ -20743,7 +20746,7 @@ td.fieldValue input, td.fieldValue .input-group {
     min-width: 5rem; }
 
 .o-buy-modal__img {
-  max-height: 13.75rem; }
+  max-height: 11.25rem; }
 
 .o-shop__nav__item {
   display: flex;
