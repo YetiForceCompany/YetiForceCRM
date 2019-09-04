@@ -21,6 +21,12 @@ class Address
 	 */
 	private static $providersCache = [];
 	/**
+	 * Active providers cache.
+	 *
+	 * @var string[]
+	 */
+	private static $activeProvidersCache = [];
+	/**
 	 * Providers instance cache.
 	 *
 	 * @var Address\Base[]
@@ -42,18 +48,45 @@ class Address
 	}
 
 	/**
-	 * Get provider for address finder.
+	 * Get active providers for address finder.
 	 *
 	 * @return string[]
 	 */
-	public static function getProvider()
+	public static function getActiveProviders()
+	{
+		if (self::$activeProvidersCache) {
+			return self::$activeProvidersCache;
+		}
+		if (self::$providersCache) {
+			foreach (self::$providersCache as $provider) {
+				if (static::getInstance($provider)->isActive()) {
+					self::$activeProvidersCache[] = $provider;
+				}
+			}
+		} else {
+			$dir = new \DirectoryIterator(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app/Map/Address');
+			foreach ($dir as $fileinfo) {
+				if ('php' === $fileinfo->getExtension() && 'Base' !== ($fileName = $fileinfo->getBasename('.php')) && static::getInstance($fileName)->isActive()) {
+					self::$activeProvidersCache[] = $fileName;
+				}
+			}
+		}
+		return self::$activeProvidersCache;
+	}
+
+	/**
+	 * Get all providers for address finder.
+	 *
+	 * @return string[]
+	 */
+	public static function getAllProviders()
 	{
 		if (self::$providersCache) {
 			return self::$providersCache;
 		}
 		$dir = new \DirectoryIterator(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app/Map/Address');
 		foreach ($dir as $fileinfo) {
-			if ('php' === $fileinfo->getExtension() && 'Base' !== ($fileName = $fileinfo->getBasename('.php')) && static::getInstance($fileName)->isActive()) {
+			if ('php' === $fileinfo->getExtension() && 'Base' !== ($fileName = $fileinfo->getBasename('.php'))) {
 				self::$providersCache[] = $fileName;
 			}
 		}
