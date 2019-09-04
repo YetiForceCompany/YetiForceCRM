@@ -27,6 +27,11 @@ class OpenCageGeocoder extends Base
 	/**
 	 * {@inheritdoc}
 	 */
+	public $link = 'https://opencagedata.com/api/';
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public static function isActive()
 	{
 		return (bool) \App\Map\Address::getConfig()['opencage_data']['nominatim'];

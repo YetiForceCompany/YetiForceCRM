@@ -59,8 +59,8 @@ class Address
 		}
 		if (self::$providersCache) {
 			foreach (self::$providersCache as $provider) {
-				if (static::getInstance($provider)->isActive()) {
-					self::$activeProvidersCache[] = $provider;
+				if ($provider->isActive()) {
+					self::$activeProvidersCache[] = $provider->getName();
 				}
 			}
 		} else {
@@ -87,7 +87,7 @@ class Address
 		$dir = new \DirectoryIterator(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app/Map/Address');
 		foreach ($dir as $fileinfo) {
 			if ('php' === $fileinfo->getExtension() && 'Base' !== ($fileName = $fileinfo->getBasename('.php'))) {
-				self::$providersCache[] = $fileName;
+				self::$providersCache[$fileName] = static::getInstance($fileName);
 			}
 		}
 		return self::$providersCache;
@@ -106,7 +106,7 @@ class Address
 			return self::$providerInstanceCache[$type];
 		}
 		$className = "\\App\\Map\\Address\\$type";
-		return self::$providerInstanceCache[$type] = new $className();
+		return self::$providerInstanceCache[$type] = new $className($type);
 	}
 
 	/**
