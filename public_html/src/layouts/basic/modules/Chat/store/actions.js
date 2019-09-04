@@ -30,7 +30,7 @@ export default {
 			})
 		})
 	},
-	fetchRoom({ commit }, { id, roomType, recordRoom }) {
+	fetchRoom({ commit }, { id, roomType }) {
 		return new Promise((resolve, reject) => {
 			AppConnector.request({
 				module: 'Chat',
@@ -38,7 +38,7 @@ export default {
 				mode: 'getMessages',
 				recordId: id,
 				roomType: roomType,
-				recordRoom: recordRoom
+				recordRoom: false
 			}).done(({ result }) => {
 				commit('setData', result)
 				resolve(result)
@@ -53,7 +53,7 @@ export default {
 				mode: 'getRecordRoom',
 				id: id
 			}).done(({ result }) => {
-				commit('updateRooms', result.roomList)
+				commit('setData', result)
 				resolve(result)
 			})
 		})
@@ -92,7 +92,7 @@ export default {
 			recordId: room.recordid
 		}).done(_ => {
 			if (mode === 'removeFromFavorites' && roomType === 'crm' && getters.data.currentRoom.roomType === roomType) {
-				dispatch('fetchRoom', { id: undefined, roomType: undefined, recordRoom: false })
+				dispatch('fetchRoom', { id: undefined, roomType: undefined })
 			}
 		})
 	},

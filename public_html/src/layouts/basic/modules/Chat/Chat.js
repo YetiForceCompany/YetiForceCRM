@@ -15,10 +15,38 @@ Vue.mixin({
 	}
 })
 function initChat() {
-	if (!isModuleInitialized) {
-		store.registerModule('Chat', moduleStore)
-		store.dispatch('Chat/fetchChatConfig')
-		isModuleInitialized = true
+	return new Promise((resolve, reject) => {
+		if (!isModuleInitialized) {
+			store.registerModule('Chat', moduleStore)
+			store.dispatch('Chat/fetchChatConfig')
+			isModuleInitialized = true
+			resolve()
+		} else {
+			resolve()
+		}
+	})
+}
+
+let recordChatComponent
+window.ChatRecordRoomVueComponent = {
+	component: ChatRecordRoom,
+	mount(config) {
+		ChatRecordRoom.state = config.state
+		recordChatComponent = () => {
+			return new Vue({
+				store,
+				config: config,
+				render: h => h(ChatRecordRoom),
+				recordId: app.getRecordId(),
+				beforeCreate() {
+					this.$store.dispatch('Chat/fetchRecordRoom', this.$options.recordId)
+				}
+			})
+		}
+		if (isModuleInitialized) {
+			recordChatComponent = recordChatComponent()
+			recordChatComponent.$mount(recordChatComponent.$options.config.el)
+		}
 	}
 }
 window.ChatModalVueComponent = {
@@ -29,29 +57,19 @@ window.ChatModalVueComponent = {
 			store,
 			render: h => h(ChatDialog),
 			beforeCreate() {
-				initChat()
-				this.$store.commit('Chat/initStorage')
-				store.subscribe((mutation, state) => {
-					if (mutation.type !== 'Chat/updateChatData' && mutation.type !== 'Chat/setAmountOfNewMessages') {
-						Quasar.plugins.LocalStorage.set('yf-chat', JSON.stringify(state.Chat.local))
-						Quasar.plugins.SessionStorage.set('yf-chat', JSON.stringify(state.Chat.session))
+				initChat().then(e => {
+					this.$store.commit('Chat/initStorage')
+					store.subscribe((mutation, state) => {
+						if (mutation.type !== 'Chat/updateChatData' && mutation.type !== 'Chat/setAmountOfNewMessages') {
+							Quasar.plugins.LocalStorage.set('yf-chat', JSON.stringify(state.Chat.local))
+							Quasar.plugins.SessionStorage.set('yf-chat', JSON.stringify(state.Chat.session))
+						}
+					})
+					if (recordChatComponent) {
+						recordChatComponent = recordChatComponent()
+						recordChatComponent.$mount(recordChatComponent.$options.config.el)
 					}
 				})
-			}
-		}).$mount(config.el)
-	}
-}
-window.ChatRecordRoomVueComponent = {
-	component: ChatRecordRoom,
-	mount(config) {
-		ChatRecordRoom.state = config.state
-		return new Vue({
-			store,
-			render: h => h(ChatRecordRoom),
-			recordId: app.getRecordId(),
-			beforeCreate() {
-				initChat()
-				this.$store.dispatch('Chat/fetchRecordRoom', this.$options.recordId)
 			}
 		}).$mount(config.el)
 	}

@@ -84,8 +84,7 @@ export default {
     showChatRoom(recordid, roomType) {
       this.fetchRoom({
         id: recordid,
-        roomType: roomType,
-        recordRoom: false
+        roomType: roomType
       }).then(_ => {
         this.setTab('chat')
       })

@@ -72,8 +72,7 @@ export default {
       if (e.target.dataset.showChatRoom) {
         this.fetchRoom({
           id: row.recordid,
-          roomType: this.historyTab,
-          recordRoom: false
+          roomType: this.historyTab
         }).then(_ => {
           this.setTab('chat')
         })

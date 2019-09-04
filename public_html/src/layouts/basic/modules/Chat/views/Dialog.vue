@@ -51,7 +51,7 @@ import Drag from 'components/Drag.vue'
 import DragResize from 'components/DragResize.vue'
 import isEqual from 'lodash.isequal'
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
+const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 export default {
   name: 'Dialog',
   components: { UpdateWatcher, Chat, DragResize, Drag },
@@ -98,9 +98,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchChatConfig']),
     ...mapMutations(['setDialog', 'setCoordinates', 'setButtonCoordinates']),
-
     showDialog() {
       setTimeout(_ => {
         if (!this.dragging) {
