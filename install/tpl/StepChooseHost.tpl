@@ -29,7 +29,7 @@
 			<div class="inner-container">
 					<div class="row">
 						<div class="col-12 text-center">
-						<h3>{App\Language::translate('LBL_CHOOSE_HOSTING', 'Install')}</h3>
+						<h3>{App\Language::translate('LBL_CHOOSE_INSTALLATION_TYPE', 'Install')}</h3>
 						</div>
 						<hr class="w-100">
 					</div>
@@ -43,10 +43,10 @@
 									<span class="fas fa-server"></span>
 								</div>
 								<h5 class="u-font-weight-300">
-									{App\Language::translate('LBL_HOSTING_SELF_TITLE', 'Install')}
+									{App\Language::translate('LBL_MY_SERVER_TITLE', 'Install')}
 								</h5>
 								<hr class="w-50 mx-auto">
-								<p>{App\Language::translate('LBL_HOSTING_SELF_DESC', 'Install')}</p>
+								<p>{App\Language::translate('LBL_MY_SERVER_DESC', 'Install')}</p>
 							</div>
 							<button type="submit" class="{$BTN_CLASS} js-submit">
 								{App\Language::translate('LBL_INSTALL_YOURSELF', 'Install')}
