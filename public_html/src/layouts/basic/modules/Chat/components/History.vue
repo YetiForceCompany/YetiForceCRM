@@ -23,6 +23,7 @@
           :fetchingEarlier="fetchingEarlier"
           :header="messageHeader"
           :roomData="data.history"
+          :messageOnClick="showChatRoom"
         />
       </q-tab-panel>
     </q-tab-panels>
@@ -44,7 +45,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['data', 'tab']),
+    ...mapGetters(['data', 'tab', 'allRooms']),
     historyTab: {
       get() {
         return this.$store.getters['Chat/historyTab']
@@ -55,7 +56,8 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchHistory']),
+    ...mapActions(['fetchHistory', 'fetchRoom']),
+    ...mapMutations(['setTab']),
     getGroupIcon,
     tabChange(val) {
       this.fetchHistory({ groupHistory: val, showMoreClicked: false })
@@ -66,13 +68,27 @@ export default {
         this.fetchingEarlier = false
       })
     },
+    showChatRoom(row, e) {
+      if (e.target.dataset.showChatRoom) {
+        this.fetchRoom({
+          id: row.recordid,
+          roomType: this.historyTab
+        }).then(_ => {
+          this.setTab('chat')
+        })
+      }
+    },
     messageHeader(row) {
-      return `
+      const isRoomActive = this.allRooms.some(e => e.recordid === row.recordid)
+      let template = `
 				<div class="row justify-between${row.userid === this.userId ? ' reverse' : ''}">
-					<div>${row.user_name}</div>
-					<div class="text-teal">${row.room_name}</div>
-				</div>
-			`
+					<div>${row.user_name}</div>`
+      if (isRoomActive) {
+        template += `<a class="text-teal" href="#" data-show-chat-room="true">${row.room_name}</a></div>`
+      } else {
+        template += `<div class="text-teal" href="#">${row.room_name}</div></div>`
+      }
+      return template
     }
   },
   mounted() {

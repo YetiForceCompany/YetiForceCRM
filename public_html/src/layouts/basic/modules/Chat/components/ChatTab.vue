@@ -71,7 +71,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['miniMode', 'data', 'config']),
+    ...mapGetters(['miniMode', 'data', 'config', 'currentRoomData']),
     roomMessages() {
       return this.roomData.chatEntries
     }
@@ -157,23 +157,31 @@ export default {
       this.addActiveRoom({ recordId: this.roomId, roomType: this.roomType })
     },
     disableNewMessagesListener() {
-      if (this.data.roomList[this.roomType][this.roomId]) {
+      if (this.data.roomList[this.roomType] && this.data.roomList[this.roomType][this.roomId]) {
         this.removeActiveRoom({ recordId: this.roomId, roomType: this.roomType })
       }
-    }
-  },
-  mounted() {
-    this.fetchRoom({
-      id: this.roomData.recordid,
-      roomType: this.roomData.roomType,
-      recordRoom: this.recordRoom
-    }).then(e => {
+    },
+    registerPostLoadEvents() {
       this.scrollDown()
       this.$emit('onContentLoaded', true)
       this.updateComponentsRoom()
-      this.enableNewMessagesListener()
+      if (!this.recordRoom) {
+        this.enableNewMessagesListener()
+      }
       this.dataReady = true
-    })
+    }
+  },
+  mounted() {
+    if (!this.recordRoom && !this.currentRoomData.recordid) {
+      this.fetchRoom({
+        id: this.roomData.recordid,
+        roomType: this.roomData.roomType
+      }).then(e => {
+        this.registerPostLoadEvents()
+      })
+    } else {
+      this.registerPostLoadEvents()
+    }
   },
   beforeDestroy() {
     this.disableNewMessagesListener()

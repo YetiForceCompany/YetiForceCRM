@@ -41,9 +41,6 @@ export default {
     tab() {
       this.isLoading = true
     }
-  },
-  methods: {
-    ...mapActions(['fetchRoom'])
   }
 }
 </script>

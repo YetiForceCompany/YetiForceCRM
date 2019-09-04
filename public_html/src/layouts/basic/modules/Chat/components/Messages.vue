@@ -12,18 +12,20 @@
     <div class="q-pa-md">
       <template v-for="row in roomData.chatEntries">
         <!-- <q-chat-message :key="row.id" /> -->
-        <transition :key="row.id" appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
-          <q-chat-message
-            :key="row.id"
-            :name="header ? header(row) : row.user_name"
-            :stamp="row.created"
-            :avatar="row.image"
-            :text="[row.messages]"
-            :bg-color="row.color"
-            size="8"
-            :sent="row.userid === userId"
-          />
-        </transition>
+        <div @click="messageOnClick ? messageOnClick(row, $event) : ''" :data-id="row.recordid" :key="row.id">
+          <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+            <q-chat-message
+              :key="row.id"
+              :name="header ? header(row) : row.user_name"
+              :stamp="row.created"
+              :avatar="row.image"
+              :text="[row.messages]"
+              :bg-color="row.color"
+              size="8"
+              :sent="row.userid === userId"
+            />
+          </transition>
+        </div>
       </template>
       <no-results v-show="!areEntries" />
     </div>
@@ -43,6 +45,9 @@ export default {
       default: false
     },
     header: {
+      type: Function
+    },
+    messageOnClick: {
       type: Function
     },
     roomData: {
