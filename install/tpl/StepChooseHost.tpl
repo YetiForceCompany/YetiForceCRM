@@ -11,7 +11,7 @@
 {function SHOW_HOSTING_BODY PRODUCT=''}
 	<div class="py-5 w-100 text-center">
 		<div class="pb-5">
-			<img class="o-buy-modal__img u-img-invert" src="{$PRODUCT->getImage('../../')}" alt="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}" title="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}"/>
+			<img class="o-buy-modal__img" src="{$PRODUCT->getImage('../../')}" alt="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}" title="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}"/>
 		</div>
 		<h5 class="u-font-weight-300">
 			{$PRODUCT->getLabel()}
@@ -39,7 +39,7 @@
 							<input type="hidden" name="lang" value="{$LANG}">
 							{SHOW_HOSTING_TITLE TYPE='SELF'}
 							<div class="py-5 w-100 text-center">
-								<div class="pb-5 display-3">
+								<div class="pb-5 u-font-size-120px">
 									<span class="fas fa-server"></span>
 								</div>
 								<h5 class="u-font-weight-300">
