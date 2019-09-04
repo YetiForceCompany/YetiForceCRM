@@ -155,9 +155,9 @@ class UserPrivilegesFile
 				fwrite($handle, $newBuf);
 				fclose($handle);
 				//Populating Temp Tables
+				\App\Cache::resetFileCache($fileUserSharingPrivileges);
 				static::populateSharingtmptables($userid);
 				User::clearCache($userid);
-				\App\Cache::resetFileCache($fileUserSharingPrivileges);
 			}
 		}
 	}
