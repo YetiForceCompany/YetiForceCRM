@@ -134,9 +134,10 @@ chartjs-plugin-funnel@^1.1.2:
   dependencies:
     chart.js ">2.7.0"
 
-"ckeditor-image-to-base64@https://github.com/YetiForceCompany/ckeditor-image-to-base64#master":
-  version "0.0.0"
-  resolved "https://github.com/YetiForceCompany/ckeditor-image-to-base64#1e6c7097bbd3a69b8df53599954937cc3039f1c7"
+ckeditor-image-to-base@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/ckeditor-image-to-base/-/ckeditor-image-to-base-0.0.2.tgz#a99b1bb9a1ff494472437f38f4e1c26ce7c390b3"
+  integrity sha512-uXML/M9IQDtL2MMvHp8Q8z0++eZrHg8mlYUPZXhsDtYPNGxa2PXx6STw8a/AX63dtN/c7uVLVe43Xb0WsdXJFg==
 
 clipboard@>=2.0.0:
   version "2.0.4"
