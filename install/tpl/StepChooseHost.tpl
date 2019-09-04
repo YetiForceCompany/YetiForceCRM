@@ -10,7 +10,7 @@
 {/function}
 {function SHOW_HOSTING_BODY PRODUCT=''}
 	<div class="py-5 w-100 text-center">
-		<div class="pb-5">
+		<div class="pb-3">
 			<img class="o-buy-modal__img" src="{$PRODUCT->getImage('../../')}" alt="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}" title="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}"/>
 		</div>
 		<h5 class="u-font-weight-300">
