@@ -219,7 +219,9 @@ class Credits
 				$license = $packageFileContent['license'] ?? $packageFileContent['licenses'] ?? '';
 				if ($license) {
 					if (\is_array($license)) {
-						if (\is_array($license[0]) && isset($license[0]['type'])) {
+						if (isset($license['type'])) {
+							$returnLicense = $license['type'];
+						} elseif (isset($license[0]['type'])) {
 							$returnLicense = implode(', ', array_column($license, 'type'));
 						} else {
 							$returnLicense = implode(', ', $license);
