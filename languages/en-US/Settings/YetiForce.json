@@ -49,6 +49,7 @@
     "LBL_LANG": "Language",
     "LBL_BUY": "Buy",
     "LBL_EMAIL": "Email",
+    "LBL_EMAIL_INFO": "We will send your access data to this email address",
     "LBL_SUBDOMAIN": "Subdomain",
     "LBL_PERIOD_OF_MONTH": "M",
     "LBL_SUCCESSFUL_TRANSACTION": "Thank you for making the payment. The transaction is being processed, purchased functions will be added to your system once we receive the payment.",

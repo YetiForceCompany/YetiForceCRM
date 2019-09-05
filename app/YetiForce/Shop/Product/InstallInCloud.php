@@ -42,6 +42,7 @@ class InstallInCloud extends \App\YetiForce\Shop\AbstractBaseProduct
 		'email' => [
 			'label' => 'LBL_EMAIL',
 			'type' => 'email',
+			'info' => 'LBL_EMAIL_INFO',
 			'validator' => 'required,funcCall[Vtiger_Email_Validator_Js.invokeValidation]'
 		]
 	];
