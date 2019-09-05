@@ -32,6 +32,17 @@ class GoogleGeocode extends Base
 	/**
 	 * {@inheritdoc}
 	 */
+	public $customFields = [
+		'key' => [
+			'label' => 'LBL_PROVIDER_KEY',
+			'type' => 'text',
+			'validator' => 'required'
+		],
+	];
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public static function isActive()
 	{
 		return (bool) \App\Map\Address::getConfig()['google_map_api']['nominatim'];

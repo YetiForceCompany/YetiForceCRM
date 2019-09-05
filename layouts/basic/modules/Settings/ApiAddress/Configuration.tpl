@@ -54,7 +54,7 @@
 				<div class="col-12">
 					<hr>
 				</div>
-				<div class="table-responsive">
+				<div class="js-config-table table-responsive" data-js="container">
 					<table class="table table-bordered">
 						<thead>
 							<tr>
@@ -71,7 +71,7 @@
 									<td class="text-center"><input name="{$KEY-isActive}" type="checkbox"{if $ITEM->isActive()} checked{/if}></td>
 									<td class="text-center"><input name="defaultProvider" value="{$KEY}" type="radio"{if $DEFAULT_PROVIDER eq $KEY} checked{/if}></td>
 									<td class="text-center">
-										<button class="btn btn-outline-secondary btn-sm js-popover-tooltip mr-1" type="button" data-provider="{$KEY}"
+										<button class="btn btn-outline-secondary btn-sm js-show-config-modal js-popover-tooltip mr-1" type="button" data-provider="{$KEY}"
 										data-content="{\App\Language::translate('LBL_PROVIDER_CONFIG', $MODULENAME)}">
 											<span class="fas fa-cog"></span>
 										</button>

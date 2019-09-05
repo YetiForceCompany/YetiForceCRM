@@ -30,6 +30,13 @@ abstract class Base
 	public $name;
 
 	/**
+	 * Custom Fields.
+	 *
+	 * @var array
+	 */
+	public $customFields = [];
+
+	/**
 	 * Provider link.
 	 *
 	 * @var string

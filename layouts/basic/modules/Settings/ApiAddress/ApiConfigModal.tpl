@@ -1,23 +1,28 @@
-	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-<div class="col-12">
-	<hr>
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{strip}
+<!-- tpl-Settings-YetiForce-Shop-BuyModal -->
+<div class="modal-body pb-0">
+	{* <form  class="js-buy-form" action="{$PAYPAL_URL}" method="POST" target="_blank"> *}
+		<div class="row no-gutters" >
+			<div class="col-sm-18 col-md-12">
+				<table class="table table-sm mb-0">
+					<tbody class="u-word-break-all small">
+						{foreach key=FIELD_NAME item=FIELD_DATA from=$PROVIDER->getCustomFields()}
+							<tr>
+								<td class="{$LABEL_CLASS} border-bottom">{App\Language::translate($FIELD_DATA['label'], $QUALIFIED_MODULE)}</td>
+								<td class="py-2 position-relative w-50 border-bottom">
+									<div class="input-group-sm position-relative">
+										<input type="{$FIELD_DATA['type']}" class="form-control js-custom-field" placeholder="{App\Language::translate($FIELD_DATA['label'], $QUALIFIED_MODULE)}" data-name="{$FIELD_NAME}"
+										data-validation-engine="validate[{if isset($FIELD_DATA['validator'])}{$FIELD_DATA['validator']}{else}required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]{/if}]"/>
+									</div>
+								</td>
+							</tr>
+						{/foreach}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	{* </form> *}
 </div>
-{if $API_INFO["key"] }
-	<div class="col-3 apiAdrress" data-api-name="{$API_NAME}">
-		{\App\Language::translate('LBL_USE_GOOGLE_GEOCODER', $MODULENAME)}: &nbsp;&nbsp;
-		<input type="checkbox" name="nominatim" class="api" {if $API_INFO.nominatim } checked {/if}/>
-	</div>
-	<div class="col-9">
-		<button type="button" class="btn btn-danger delete" id="delete">{\App\Language::translate('LBL_REMOVE_CONNECTION', $MODULENAME)}</button>
-		<button type="button" class="btn btn-success save" id="save" >{\App\Language::translate('LBL_SAVE', $MODULENAME)}</button>
-	</div>
-{else}
-	<div class="col-6 apiAdrress px-0 mr-5" data-api-name="{$API_NAME}">
-		<input name="key" type="text" class="api form-control" placeholder="{\App\Language::translate('LBL_ENTER_KEY_APPLICATION', $MODULENAME)}">
-	</div>
-	<div class="col-2 ml-4 px-0">
-		<a class="btn btn-primary" role="button" href="https://code.google.com/apis/console/?noredirect" target="_blank"
-		   rel="noreferrer noopener">{\App\Language::translate('Google Geocoder', $MODULENAME)}</a>
-		<button type="button" class="btn btn-success save" id="save">{\App\Language::translate('LBL_SAVE', $MODULENAME)}</button>
-	</div>
-{/if}
+<!-- /tpl-Settings-YetiForce-Shop-BuyModal -->
+{/strip}
