@@ -22,7 +22,7 @@
 							<div class="text-danger h1 mt-1 mb-0">
 								{if 'manual'===$PRODUCT->getPriceType()}
 									{\App\Language::translate("LBL_SUPPORT_US", $QUALIFIED_MODULE)}
-								{else}
+								{elseif $PRICE !== false}
 									{$PRICE} {$CURRENCY} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}
 								{/if}
 							</div>

@@ -102,7 +102,7 @@ class Install_Index_View extends \App\Controller\View
 			$defaultView = $defaultModuleInstance->getDefaultViewName();
 			header('location: ../index.php?module=' . $defaultModule . '&view=' . $defaultView);
 		}
-		$_SESSION['default_language'] = $defaultLanguage = ($request->getByType('lang', 1)) ? $request->getByType('lang', 1) : \App\Language::DEFAULT_LANG;
+		$_SESSION['language'] = $defaultLanguage = ($request->getByType('lang', 1)) ? $request->getByType('lang', 1) : \App\Language::DEFAULT_LANG;
 		App\Language::setTemporaryLanguage($defaultLanguage);
 		$this->loadJsConfig($request);
 		$this->viewer = new Vtiger_Viewer();
@@ -152,7 +152,7 @@ class Install_Index_View extends \App\Controller\View
 
 	public function step2(App\Request $request)
 	{
-		if ('pl-PL' === $_SESSION['default_language']) {
+		if ('pl-PL' === $_SESSION['language']) {
 			$license = file_get_contents('licenses/LicensePL.txt');
 		} else {
 			$license = file_get_contents('licenses/LicenseEN.txt');

@@ -165,16 +165,14 @@ abstract class AbstractBaseProduct
 	/**
 	 * Get product image.
 	 *
-	 * @param string $pathPrefix
-	 *
 	 * @return string
 	 */
-	public function getImage($pathPrefix = ''): ?string
+	public function getImage(): ?string
 	{
 		$filePath = null;
 		$file = 'modules/Settings/YetiForce/' . $this->name . '.png';
 		if (\file_exists(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR . $file)) {
-			$filePath = \App\Layout::getPublicUrl($pathPrefix . $file, true);
+			$filePath = \App\Layout::getPublicUrl($file);
 		}
 		return $filePath;
 	}

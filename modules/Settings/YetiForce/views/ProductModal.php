@@ -54,8 +54,8 @@ class Settings_YetiForce_ProductModal_View extends \App\Controller\ModalSettings
 		$viewer->assign('MODULE', $this->qualifiedModuleName);
 		$viewer->assign('PRODUCT', $product);
 		$viewer->assign('CURRENCY', $product->isCustom() ? $product->currencyCode : 'EUR');
-		$viewer->assign('PRICE', $installation ? array_values($product->prices)[0] ?? 0 : $product->getPrice());
-		$viewer->assign('IMAGE', $product->getImage($installation ? '../../' : ''));
+		$viewer->assign('PRICE', $installation ? false : $product->getPrice());
+		$viewer->assign('IMAGE', ($installation ? '../../' : '') . $product->getImage());
 		$viewer->view('ProductModal.tpl', $this->qualifiedModuleName);
 	}
 }
