@@ -32,14 +32,6 @@ class OpenCageGeocoder extends Base
 	/**
 	 * {@inheritdoc}
 	 */
-	public static function isActive()
-	{
-		return (bool) \App\Map\Address::getConfig()['opencage_data']['nominatim'];
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function find($value)
 	{
 		if (empty($value) || !\App\RequestUtil::isNetConnection()) {

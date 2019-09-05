@@ -44,6 +44,27 @@ abstract class Base
 	public $link = '';
 
 	/**
+	 * Function checks if provider is active.
+	 *
+	 * @return bool
+	 */
+	public function isActive()
+	{
+		$provider = \App\Map\Address::getConfig()[$this->getName()] ?? 0;
+		return (bool) $provider ? $provider['active'] ?? 0 : 0;
+	}
+
+	/**
+	 * Function checks if provider is set.
+	 *
+	 * @return bool
+	 */
+	public function isSet()
+	{
+		return true;
+	}
+
+	/**
 	 * Get provider custom fields.
 	 *
 	 * @return array
@@ -71,16 +92,6 @@ abstract class Base
 	public function getLink(): string
 	{
 		return $this->link;
-	}
-
-	/**
-	 * Function checks if provider is active.
-	 *
-	 * @return bool
-	 */
-	public static function isActive()
-	{
-		return true;
 	}
 
 	/**

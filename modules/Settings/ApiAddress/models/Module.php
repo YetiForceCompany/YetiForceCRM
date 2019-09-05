@@ -27,17 +27,18 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model
 	public function setConfig(array $elements)
 	{
 		\App\Log::trace('Entering set api address config');
-		$apiName = $elements['api_name'];
 		unset($elements['api_name']);
 		$result = false;
-		if (count($elements)) {
+		if (\count($elements)) {
 			$db = \App\Db::getInstance();
-			foreach ($elements as $key => $value) {
-				$db->createCommand()
-					->update('s_yf_address_finder_config', [
-						'val' => $value,
-						], ['type' => $apiName, 'name' => $key])
+			foreach ($elements as $type => $values) {
+				foreach ($values as $key => $value) {
+					$db->createCommand()
+						->update('s_yf_address_finder_config', [
+							'val' => $value,
+						], ['type' => $type, 'name' => $key])
 						->execute();
+				}
 			}
 			$result = true;
 		}

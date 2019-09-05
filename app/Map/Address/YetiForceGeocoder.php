@@ -18,7 +18,7 @@ class YetiForceGeocoder extends Base
 	/**
 	 * {@inheritdoc}
 	 */
-	public static function isActive()
+	public function isSet()
 	{
 		return \App\YetiForce\Shop::check('YetiForceGeocoder');
 	}

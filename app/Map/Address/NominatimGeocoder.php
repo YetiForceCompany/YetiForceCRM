@@ -20,7 +20,7 @@ class NominatimGeocoder extends Base
 	/**
 	 * {@inheritdoc}
 	 */
-	public static function isActive()
+	public function isSet()
 	{
 		return !empty(\Config\Components\AddressFinder::$nominatimMapUrl);
 	}

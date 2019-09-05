@@ -46,14 +46,6 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-12 form-row mb-2">
-					<div>
-						<button type="button" class="btn btn-success saveGlobal"><span class="fa fa-check u-mr-5px"></span>{\App\Language::translate('LBL_SAVE_GLOBAL_SETTINGS', $MODULENAME)}</button>
-					</div>
-				</div>
-				<div class="col-12">
-					<hr>
-				</div>
 				<div class="js-config-table table-responsive" data-js="container">
 					<table class="table table-bordered">
 						<thead>
@@ -66,10 +58,11 @@
 						</thead>
 						<tbody>
 							{foreach from=\App\Map\Address::getAllProviders() item=ITEM key=KEY}
+								{assign var=IS_SET value=$ITEM->isSet()}
 								<tr>
 									<th class="" scope="row">{\App\Language::translate('LBL_PROVIDER_'|cat:$KEY|upper, $MODULENAME)}</th>
-									<td class="text-center"><input name="{$KEY-isActive}" type="checkbox"{if $ITEM->isActive()} checked{/if}></td>
-									<td class="text-center"><input name="defaultProvider" value="{$KEY}" type="radio"{if $DEFAULT_PROVIDER eq $KEY} checked{/if}></td>
+									<td class="text-center"><input name="active" data-type="{$KEY}" type="checkbox"{if $ITEM->isActive()} checked{/if}{if !$IS_SET} disabled{/if}></td>
+									<td class="text-center"><input name="default_provider" value="{$KEY}" type="radio"{if $DEFAULT_PROVIDER eq $KEY} checked{/if}{if !$IS_SET} disabled{/if}></td>
 									<td class="text-center">
 										<button class="btn btn-outline-secondary btn-sm js-show-config-modal js-popover-tooltip mr-1" type="button" data-provider="{$KEY}"
 										data-content="{\App\Language::translate('LBL_PROVIDER_CONFIG', $MODULENAME)}">
@@ -84,6 +77,11 @@
 							{/foreach}
 						</tbody>
 					</table>
+					<div class="col-12 form-row mb-2">
+						<div>
+							<button type="button" class="btn btn-success saveGlobal"><span class="fa fa-check u-mr-5px"></span>{\App\Language::translate('LBL_SAVE_GLOBAL_SETTINGS', $MODULENAME)}</button>
+						</div>
+					</div>
 				</div>
 			</div>
 		</form>

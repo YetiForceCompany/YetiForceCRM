@@ -17,16 +17,22 @@ jQuery.Class(
 		registerSave: function(content) {
 			const thisInstance = this;
 			content.find('.saveGlobal').on('click', function() {
+				let elements = {
+					global: {
+						min_length: $('[name="min_length"]').val(),
+						result_num: $('[name="result_num"]').val(),
+						default_provider: $('[name="default_provider"]').val()
+					}
+				};
+				$('[name="active"]').each((i, e) => {
+					elements[e.dataset.type] = e.value
+				})
 				AppConnector.request({
 					data: {
 						module: 'ApiAddress',
 						parent: 'Settings',
 						action: 'SaveConfig',
-						elements: {
-							min_length: $('[name="min_length"]').val(),
-							result_num: $('[name="result_num"]').val(),
-							api_name: 'global'
-						}
+						elements: elements
 					},
 					async: false,
 					dataType: 'json'
