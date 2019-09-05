@@ -20,8 +20,8 @@ class Settings_ApiAddress_ApiConfigModal_View extends \App\Controller\ModalSetti
 	 */
 	public function preProcessAjax(App\Request $request)
 	{
-		$qualifiedModuleName = $request->getModule(false);
-		$this->pageTitle = \App\Language::translate('LBL_PROVIDER_CONFIG', $qualifiedModuleName);
+		$this->qualifiedModuleName = $request->getModule(false);
+		$this->pageTitle = \App\Language::translate('LBL_PROVIDER_CONFIG', $this->qualifiedModuleName);
 		parent::preProcessAjax($request);
 	}
 
@@ -31,7 +31,9 @@ class Settings_ApiAddress_ApiConfigModal_View extends \App\Controller\ModalSetti
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = $request->getModule(false);
-		$viewer->view('ApiConfigModal.tpl', $qualifiedModuleName);
+		$provider = \App\Map\Address::getInstance($request->getByType('provider'));
+		$viewer->assign('PROVIDER', $provider);
+		$viewer->assign('CUSTOM_FIELDS', $provider->getCustomFields());
+		$viewer->view('ApiConfigModal.tpl', $this->qualifiedModuleName);
 	}
 }

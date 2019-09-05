@@ -216,10 +216,9 @@ jQuery.Class(
 		},
 		registerConfigModal(container) {
 			container.find('.js-show-config-modal').on('click', e => {
-				console.log(e.target.dataset);
 				app.showModalWindow(
 					null,
-					`index.php?module=ApiAddress&parent=Settings&view=ApiConfigModal&provider=${e.target.dataset.provider}`
+					`index.php?module=ApiAddress&parent=Settings&view=ApiConfigModal&provider=${e.currentTarget.dataset.provider}`
 				);
 			});
 		},

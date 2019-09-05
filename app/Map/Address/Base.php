@@ -44,6 +44,16 @@ abstract class Base
 	public $link = '';
 
 	/**
+	 * Get provider custom fields.
+	 *
+	 * @return array
+	 */
+	public function getCustomFields(): array
+	{
+		return $this->customFields;
+	}
+
+	/**
 	 * Get provider name.
 	 *
 	 * @return string

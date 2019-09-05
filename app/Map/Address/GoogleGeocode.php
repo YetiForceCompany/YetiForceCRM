@@ -33,9 +33,16 @@ class GoogleGeocode extends Base
 	 * {@inheritdoc}
 	 */
 	public $customFields = [
+		'country_codes' => [
+			'label' => 'LBL_COUNTRY_CODES',
+			'type' => 'text',
+			'placeholder' => 'LBL_COUNTRY_CODES_PLACEHOLDER',
+			'validator' => 'onlyLetter'
+		],
 		'key' => [
 			'label' => 'LBL_PROVIDER_KEY',
 			'type' => 'text',
+			'placeholder' => 'LBL_ENTER_KEY_APPLICATION',
 			'validator' => 'required'
 		],
 	];

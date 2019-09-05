@@ -15,6 +15,7 @@
     "LBL_PROVIDER_DEFAULT": "Default provider",
     "LBL_PROVIDER_ACTIVE": "Is provider active",
     "LBL_PROVIDER_ACTIONS": "Actions",
+    "LBL_PROVIDER_CONFIG": "Configure provider",
     "LBL_PROVIDER_GOOGLEGEOCODE": "Google Geocoding",
     "LBL_PROVIDER_INFO_GOOGLEGEOCODE": "Google Geocoding site",
     "LBL_PROVIDER_OPENCAGEGEOCODER": "OpenCage Geocoder",
@@ -23,6 +24,7 @@
     "LBL_PROVIDER_INFO_NOMINATIMGEOCODER": "Nominatim Geocoder site",
     "LBL_PROVIDER_YETIFORCEGEOCODER": "YetiForce Geocoder",
     "LBL_PROVIDER_INFO_YETIFORCEGEOCODER": "YetiForce Geocoder site",
+    "LBL_PROVIDER_KEY": "Key",
     "LBL_GLOBAL_CONFIG": "Configuration",
     "LBL_SAVE_GLOBAL_SETTINGS": "Save the global settings",
     "LBL_NUMBER_SEARCH_RESULTS": "Number of search results"
