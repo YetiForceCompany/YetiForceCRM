@@ -28,6 +28,12 @@ abstract class AbstractBaseProduct
 	 *
 	 * @var bool
 	 */
+	public $active = true;
+	/**
+	 * Is the product featured.
+	 *
+	 * @var bool
+	 */
 	public $featured = false;
 	/**
 	 * Product category.
