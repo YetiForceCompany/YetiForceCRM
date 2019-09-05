@@ -134,10 +134,10 @@ chartjs-plugin-funnel@^1.1.2:
   dependencies:
     chart.js ">2.7.0"
 
-ckeditor-image-to-base@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/ckeditor-image-to-base/-/ckeditor-image-to-base-0.0.2.tgz#a99b1bb9a1ff494472437f38f4e1c26ce7c390b3"
-  integrity sha512-uXML/M9IQDtL2MMvHp8Q8z0++eZrHg8mlYUPZXhsDtYPNGxa2PXx6STw8a/AX63dtN/c7uVLVe43Xb0WsdXJFg==
+ckeditor-image-to-base@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/ckeditor-image-to-base/-/ckeditor-image-to-base-0.0.3.tgz#c99b5c835251833452e7881f18813f16aed85972"
+  integrity sha512-ybLbACTNaDOuidqsdsHgJ/cnQDqrbmMUlbfqLG5kqNeKCeAE7MLEVqpOCids3cWMXqUgdKw7JuOy+8SqgtjnXQ==
 
 clipboard@>=2.0.0:
   version "2.0.4"
