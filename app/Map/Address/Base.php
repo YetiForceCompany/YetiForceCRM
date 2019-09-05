@@ -61,7 +61,8 @@ abstract class Base
 	 */
 	public function isSet()
 	{
-		return true;
+		$provider = \App\Map\Address::getConfig()[$this->getName()] ?? 0;
+		return (bool) $provider ? $provider['key'] ?? 0 : 0;
 	}
 
 	/**

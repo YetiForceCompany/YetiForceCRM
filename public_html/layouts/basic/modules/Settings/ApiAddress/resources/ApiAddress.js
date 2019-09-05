@@ -25,7 +25,7 @@ jQuery.Class(
 					}
 				};
 				$('[name="active"]').each((i, e) => {
-					elements[e.dataset.type] = e.value
+					elements[e.dataset.type] = {active: e.value}
 				})
 				AppConnector.request({
 					data: {
