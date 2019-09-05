@@ -249,12 +249,8 @@ insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','201
 
 /*Data for the table `s_yf_address_finder_config` */
 
-insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (1,'min_length','global','3');
-insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (2,'key','google_map_api','');
-insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (3,'nominatim','google_map_api','0');
-insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (5,'key','opencage_data','');
-insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (7,'nominatim','opencage_data','0');
-insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (8,'result_num','global','10');
+insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`,`active`) values (1,'min_length','global','3',0);
+insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`,`active`) values (2,'result_num','global','10',0);
 
 /*Data for the table `s_yf_auto_record_flow_updater` */
 

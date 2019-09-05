@@ -962,6 +962,7 @@ CREATE TABLE `s_yf_address_finder_config` (
   `name` varchar(50) NOT NULL,
   `type` varchar(50) NOT NULL,
   `val` varchar(255) NOT NULL,
+  `active` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
