@@ -57,7 +57,7 @@
 												class="fas fa-info-circle"></i></a>:</label>
 								<div class="col-md-7 py-1">
 									<select name="relatedfields" multiple class="select2 form-control form-control-sm"
-											data-validation-engine="validate[required]">
+											data-validation-engine="validate[required]" data-select-cb="registerSelectSortable">
 										{foreach from=$RELATEDMODULES item=RELATED_MODULE key=key}
 											{foreach from=Vtiger_Module_Model::getInstance($RELATED_MODULE['name'])->getFieldsByBlocks() key=BLOCK_NAME item=FIELDS}
 												<optgroup
