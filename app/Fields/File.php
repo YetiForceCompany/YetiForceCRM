@@ -492,7 +492,7 @@ class File
 			// Check for code injection
 			$contents = $this->getContents();
 			if (false !== stripos($contents, '<?xpacket')) {
-				throw new \App\Exceptions\DangerousFile('ERR_FILE_XPACKET_CODE_INJECTION');
+				//throw new \App\Exceptions\DangerousFile('ERR_FILE_XPACKET_CODE_INJECTION');
 			}
 			if ((1 === preg_match('/(<\?php?(.*?))/si', $contents) ||
 			false !== stripos($contents, '<?=') ||
