@@ -46,12 +46,16 @@ class Settings_YetiForce_ProductModal_View extends \App\Controller\ModalSettings
 	 */
 	public function process(App\Request $request)
 	{
+		$installation = $request->getBoolean('installation');
 		$department = $request->isEmpty('department') ? '' : $request->getByType('department');
 		$product = \App\YetiForce\Shop::getProduct($request->getByType('product'), $department);
 		$this->successBtn = $product->expirationDate && !$product->showAlert() ? '' : 'LBL_BUY';
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $this->qualifiedModuleName);
 		$viewer->assign('PRODUCT', $product);
+		$viewer->assign('CURRENCY', $product->isCustom() ? $product->currencyCode : 'EUR');
+		$viewer->assign('PRICE', $installation ? array_values($product->prices)[0] ?? 0 : $product->getPrice());
+		$viewer->assign('IMAGE', $product->getImage($installation ? '../../' : ''));
 		$viewer->view('ProductModal.tpl', $this->qualifiedModuleName);
 	}
 }
