@@ -18,9 +18,13 @@
 		</h5>
 		<hr class="w-50 mx-auto">
 		<p>{$PRODUCT->getDescription()}</p>
+		<button type="button" class="btn btn-outline-light js-product-modal my-2" data-product={$PRODUCT->getName()}>
+			<span class="fas fa-info-circle mr-2"></span>
+			{App\Language::translate('LBL_SHOW_MORE', 'Install')}
+		</button>
 	</div>
 	<button type="button" class="{$BTN_CLASS} js-buy-modal" data-product={$PRODUCT->getName()}>
-		<span class="yfi-shop mr-1"></span>
+		<span class="yfi-shop mr-2"></span>
 		{App\Language::translate('LBL_BUY', 'Install')}
 	</button>
 {/function}
@@ -49,8 +53,8 @@
 								<p>{App\Language::translate('LBL_MY_SERVER_DESC', 'Install')}</p>
 							</div>
 							<button type="submit" class="{$BTN_CLASS} js-submit">
+								<span class="fas fa-lg fa-arrow-circle-right mr-2"></span>
 								{App\Language::translate('LBL_INSTALL_YOURSELF', 'Install')}
-								<span class="fas fa-lg fa-arrow-circle-right ml-2"></span>
 							</button>
 						</form>
 						<div class="{$COL_CLASS} o-product o-product--shared">

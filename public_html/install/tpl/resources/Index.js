@@ -63,11 +63,22 @@ jQuery.Class(
 				});
 			});
 		},
+		showBuyModal(event) {
+			$.get(`Install.php?mode=showBuyModal&product=${$(event.currentTarget).data('product')}`).done(data => {
+				app.showModalWindow(data, '', modalContainer => {
+					new window.Settings_YetiForce_Shop_Js().registerBuyModalEvents(modalContainer);
+				});
+			});
+		},
 		registerEventForStepChooseHost() {
-			$('.js-buy-modal').on('click', e => {
-				$.get(`Install.php?mode=showBuyModal&product=${$(e.currentTarget).data('product')}`).done(data => {
+			$('.js-buy-modal').on('click', this.showBuyModal);
+			$('.js-product-modal').on('click', e => {
+				$.get(`Install.php?mode=showProductModal&product=${$(e.currentTarget).data('product')}`).done(data => {
 					app.showModalWindow(data, '', modalContainer => {
-						new window.Settings_YetiForce_Shop_Js().registerBuyModalEvents(modalContainer);
+						modalContainer.find('.js-modal__save').on('click', _ => {
+							app.hideModalWindow();
+							this.showBuyModal(e);
+						});
 					});
 				});
 			});

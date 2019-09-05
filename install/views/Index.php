@@ -37,6 +37,7 @@ class Install_Index_View extends \App\Controller\View
 		$this->exposeMethod('step2');
 		$this->exposeMethod('stepChooseHost');
 		$this->exposeMethod('showBuyModal');
+		$this->exposeMethod('showProductModal');
 		$this->exposeMethod('step3');
 		$this->exposeMethod('step4');
 		$this->exposeMethod('step5');
@@ -191,6 +192,27 @@ class Install_Index_View extends \App\Controller\View
 			'installation' => true
 		], false);
 		$instance = new Settings_YetiForce_BuyModal_View();
+		$instance->preProcessAjax($request);
+		$instance->process($request);
+		$instance->postProcessAjax($request);
+	}
+
+	/**
+	 * Show product modal in choose host step.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function showProductModal(App\Request $request)
+	{
+		$request = new \App\Request([
+			'product' => $request->getByType('product'),
+			'module' => 'YetiForce',
+			'parent' => 'Settings',
+			'installation' => true
+		], false);
+		$instance = new Settings_YetiForce_ProductModal_View();
 		$instance->preProcessAjax($request);
 		$instance->process($request);
 		$instance->postProcessAjax($request);

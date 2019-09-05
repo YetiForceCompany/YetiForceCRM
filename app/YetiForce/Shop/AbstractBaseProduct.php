@@ -123,6 +123,16 @@ abstract class AbstractBaseProduct
 	}
 
 	/**
+	 * Get minimal price.
+	 *
+	 * @return int
+	 */
+	public function getMinimalPrice(): int
+	{
+		return array_values($this->prices)[0] ?? 0;
+	}
+
+	/**
 	 * Get product label.
 	 *
 	 * @return string
