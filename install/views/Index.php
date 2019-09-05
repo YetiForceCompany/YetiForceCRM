@@ -395,6 +395,8 @@ class Install_Index_View extends \App\Controller\View
 		}
 		if (!($success = $_SESSION['installation_success'] ?? false)) {
 			Install_Utils_Model::cleanConfiguration();
+		} else {
+			unset($_SESSION['language']);
 		}
 		$this->viewer->assign('INSTALLATION_SUCCESS', $success);
 		$this->viewer->display('StepInstall.tpl');

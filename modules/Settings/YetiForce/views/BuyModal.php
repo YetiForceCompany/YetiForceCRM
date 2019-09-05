@@ -74,7 +74,7 @@ class Settings_YetiForce_BuyModal_View extends \App\Controller\ModalSettings
 		$viewer->assign('VARIABLE', $product->getVariable());
 		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->assign('PRODUCT', $product);
-		$viewer->assign('IMAGE', ($request->getBoolean('installation') ? '../../' : '') . $product->getImage());
+		$viewer->assign('IMAGE', ($request->getBoolean('installation') ? '../' : '') . $product->getImage());
 		$viewer->assign('PAYPAL_URL', \App\YetiForce\Shop::getPaypalUrl());
 		$viewer->assign('COMPANY_DATA', $companies);
 		$viewer->assign('RECORD', $recordModel);
