@@ -2,7 +2,6 @@
 {strip}
 <!-- tpl-Settings-YetiForce-Shop-BuyModal -->
 <div class="modal-body pb-0">
-	{* <form  class="js-buy-form" action="{$PAYPAL_URL}" method="POST" target="_blank"> *}
 		<div class="row no-gutters" >
 			<div class="col-sm-18 col-md-12">
 				<table class="table table-sm mb-0">
@@ -22,7 +21,6 @@
 				</table>
 			</div>
 		</div>
-	{* </form> *}
 </div>
 <!-- /tpl-Settings-YetiForce-Shop-BuyModal -->
 {/strip}
