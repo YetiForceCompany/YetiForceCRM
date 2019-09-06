@@ -25,7 +25,7 @@
         </template>
       </q-input>
     </div>
-    <div class="flex-grow-1" style="height: 0; overflow: hidden">
+    <div class="flex-grow-1" style="min-height: 100%; height: 0; overflow: hidden">
       <q-scroll-area ref="scrollContainer" :class="[scrollbarHidden ? 'scrollbarHidden' : '']">
         <messages
           :roomData="isSearchActive ? roomData.searchData : roomData"
