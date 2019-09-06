@@ -102,7 +102,7 @@ class Shop
 			];
 		}
 		return array_merge([
-			'business' => 'paypal-facilitator@yetiforce.com',
+			'business' => 'paypal@yetiforce.com',
 			'rm' => 2,
 			'notify_url' => 'https://api.yetiforce.com/shop',
 			'image_url' => 'https://public.yetiforce.com/shop/logo.png',
@@ -160,7 +160,7 @@ class Shop
 	 */
 	public static function getPaypalUrl(): string
 	{
-		return 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+		return 'https://www.paypal.com/cgi-bin/webscr';
 	}
 
 	/**
