@@ -174,7 +174,7 @@
     "LBL_HELP_EXIF": "Extension enables work with image metadata",
     "LBL_HELP_LDAP": "Protocol used to access databases that store information in a tree structure.",
     "LBL_HELP_OPCACHE": "Improves performance by storing compiled byte code in shared memory.",
-    "LBL_HELP_APCU": "Library that improves system performance, recommended when there are more users working or with a greater system workload.",
+    "LBL_HELP_APCU": "Библиотека, която подобрява производителността на системата, препоръчва се, когато работят повече потребители или с по-голямо натоварване на системата.",
     "LBL_HELP_IMAGICK": "Library recommended for securing potentially dangerous graphic files",
     "LBL_HELP_XDEBUG": "Extension that helps detect bugs.",
     "LBL_HELP_OPCACHE_ENABLE": "Improves performance by storing compiled byte code in shared memory.",
