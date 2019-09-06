@@ -32,7 +32,7 @@ class Settings_ApiAddress_ApiConfigModal_View extends \App\Controller\ModalSetti
 	{
 		$viewer = $this->getViewer($request);
 		$provider = \App\Map\Address::getInstance($request->getByType('provider'));
-		$viewer->assign('CONFIG', (array) Settings_ApiAddress_Module_Model::getInstance('Settings:ApiAddress')->getConfig()[$provider->getName()]);
+		$viewer->assign('CONFIG', Settings_ApiAddress_Module_Model::getInstance('Settings:ApiAddress')->getConfig()[$provider->getName()] ?? []);
 		$viewer->assign('PROVIDER', $provider);
 		$viewer->assign('CUSTOM_FIELDS', $provider->getCustomFields());
 		$viewer->view('ApiConfigModal.tpl', $this->qualifiedModuleName);

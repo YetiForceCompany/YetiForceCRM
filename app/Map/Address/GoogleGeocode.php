@@ -34,9 +34,7 @@ class GoogleGeocode extends Base
 	 */
 	public $customFields = [
 		'key' => [
-			'label' => 'LBL_PROVIDER_KEY',
 			'type' => 'text',
-			'placeholder' => 'LBL_ENTER_KEY_APPLICATION',
 			'validator' => 'required'
 		],
 	];

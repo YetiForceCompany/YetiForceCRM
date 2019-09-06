@@ -27,12 +27,9 @@ class NominatimGeocoder extends Base
 	 */
 	public $customFields = [
 		'country_codes' => [
-			'label' => 'LBL_COUNTRY_CODES',
 			'type' => 'text',
-			'placeholder' => 'LBL_COUNTRY_CODES_PLACEHOLDER',
 		],
 		'map_url' => [
-			'label' => 'LBL_PROVIDER_MAP_URL',
 			'type' => 'text',
 			'validator' => 'required'
 		],

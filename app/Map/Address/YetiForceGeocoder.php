@@ -25,9 +25,7 @@ class YetiForceGeocoder extends Base
 	 */
 	public $customFields = [
 		'country_codes' => [
-			'label' => 'LBL_COUNTRY_CODES',
 			'type' => 'text',
-			'placeholder' => 'LBL_COUNTRY_CODES_PLACEHOLDER',
 		]
 	];
 

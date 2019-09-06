@@ -22,14 +22,10 @@ class OpenCageGeocoder extends Base
 	 */
 	public $customFields = [
 		'country_codes' => [
-			'label' => 'LBL_COUNTRY_CODES',
 			'type' => 'text',
-			'placeholder' => 'LBL_COUNTRY_CODES_PLACEHOLDER',
 		],
 		'key' => [
-			'label' => 'LBL_PROVIDER_KEY',
 			'type' => 'text',
-			'placeholder' => 'LBL_ENTER_KEY_APPLICATION',
 			'validator' => 'required'
 		],
 	];
