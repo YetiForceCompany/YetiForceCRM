@@ -196,7 +196,7 @@ class Validator
 	 */
 	public static function floatIsEqual(float $value1, float $value2, int $precision = 2): bool
 	{
-		return abs(round(round($value1, $precision) - round($value2, $precision))) < (1 / pow(10, $precision));
+		return 0 === bccomp($value1, $value2, $precision);
 	}
 
 	/**
