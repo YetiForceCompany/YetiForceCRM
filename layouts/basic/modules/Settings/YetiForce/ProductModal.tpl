@@ -20,14 +20,25 @@
 					<div class="col-sm-11 col-md-7">
 						<div class="d-flex flex-column h-100">
 							<div class="text-danger h1 mt-1 mb-0">
-								{if 'manual'===$PRODUCT->getPriceType()}
-									{\App\Language::translate("LBL_SUPPORT_US", $QUALIFIED_MODULE)}
-								{elseif $PRICE !== false}
+								{if 'manual'=== $PRODUCT->getPriceType() || 'selection'=== $PRODUCT->getPriceType()}
+
+								{elseif $PRICE !== false }
 									{$PRICE} {$CURRENCY} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}
 								{/if}
 							</div>
 							<h5 class="h4 my-4">{$PRODUCT->getLabel()}</h5>
 							<p>{$PRODUCT->getDescription()}</p>
+							{if 'selection'=== $PRODUCT->getPriceType()}
+								<p>
+										{foreach key=KEY item=PRICE from=$PRODUCT->prices}
+											{if isset($PRODUCT->customPricesLabel[$KEY])}
+												{$PRODUCT->getPriceLabel($KEY)}: {$PRICE} {$CURRENCY}<br>
+											{else}
+												{$PRODUCT->getPriceLabel($KEY)}: {$PRICE} {$CURRENCY}<br>
+											{/if}
+										{/foreach}
+								</p>
+							{/if}
 						</div>
 					</div>
 				</div>
