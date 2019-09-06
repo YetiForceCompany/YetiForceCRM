@@ -93,9 +93,9 @@
     "LBL_SHOP_YETIFORCEPREMIUMSUPPORT": "Premium support",
     "LBL_SHOP_YETIFORCEPREMIUMSUPPORT_INTRO": "If you do not know how the system works, or you require individual and quick help, this package is for you",
     "LBL_SHOP_YETIFORCEPREMIUMSUPPORT_DESC": "If you do not know how the system works, or you require individual and quick help, this package is for you",
-    "LBL_SHOP_YETIFORCEDISABLEBRANDING": "Disable branding",
-    "LBL_SHOP_YETIFORCEDISABLEBRANDING_INTRO": "You can now disable the YetiForce footer for a fee.",
-    "LBL_SHOP_YETIFORCEDISABLEBRANDING_DESC": "You can now disable the YetiForce footer for a fee.",
+    "LBL_SHOP_YETIFORCEDISABLEBRANDING": "YetiForce branding",
+    "LBL_SHOP_YETIFORCEDISABLEBRANDING_INTRO": "Replace YetiForce branding with your own",
+    "LBL_SHOP_YETIFORCEDISABLEBRANDING_DESC": "Disabling YetiForce branding results in a change of data that is displayed in many places of the system [ie: footer, printouts, generated documents]. You will be able to display your own data, e.g. your company's data as well as social media links.",
     "LBL_SHOP_INTEGRATOR": "Integrator",
     "LBL_SHOP_INTEGRATOR_INTRO": "Offer the YetiForce system to your clients and gain exclusive perks available only to YetiForce Integrator partners.",
     "LBL_SHOP_INTEGRATOR_DESC": "REQUIREMENTS \n\n 1. Correct registration of all YetiForce installations used by the Partner and the Partner’s clients. \n 2. Owning a GitHub account and active participation in the YetiForce repository. \n\n BENEFITS \n\n 1. Direct support (chat, e-mail, GitHub) from the YetiForce team in terms of advanced problems related to system operation, API and configuration. Support can be provided in Polish or English. Support may also be provided to the Partner’s customers in cases when the Partner will not be able to help its customers. \n 2. The possibility of hiring YetiForce’s employees for large implementations (service available for an additional charge, provided remotely, communication in Polish and English). \n 3. The opportunity to cooperate in tenders (shared customer testimonials, a common list of specialists, support in price estimates). \n 4. Ability to use the “YetiForce Integrator” logo on the Internet. \n 5. Promotion in the partnership catalog on the official website and in the YetiForce system. \n 6. 10% discount on all products offered in the marketplace by the YetiForce producer and other Partners (also for Partner’s own customers). The possibility of booking a project - the discount might be 20% but it will be granted to a Partner which books the project as first. \n 7. The impact on the direction of system development and new functionalities. \n\n  COST \n\n 1. The monthly participation fee for the YetiForce Integrator partnership is 250 €.",
@@ -125,7 +125,7 @@
     "LBL_SHOP_MODULESENTERPRISE_INTRO": "",
     "LBL_SHOP_MODULESENTERPRISE_DESC": "",
     "LBL_SHOP_YETIFORCEGEOCODER": "YetiForce address finder",
-    "LBL_SHOP_YETIFORCEGEOCODER_INTRO": "Quick and easy search for any address in the world without entering it manually.",
-    "LBL_SHOP_YETIFORCEGEOCODER_DESC": "YetiForce address finder is based on Open Street Maps with a complete world map and no connection limits. In addition, an expensive server is not required for its proper operation."
+    "LBL_SHOP_YETIFORCEGEOCODER_INTRO": "Quick and easy search for any address in the world",
+    "LBL_SHOP_YETIFORCEGEOCODER_DESC": "Integration with the YetiForce address database. It is based on Open Street Maps with a complete world map. No connection limits and no need to have your own server."
   }
 }
