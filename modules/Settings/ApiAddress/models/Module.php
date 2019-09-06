@@ -33,11 +33,24 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model
 			$db = \App\Db::getInstance();
 			foreach ($elements as $type => $values) {
 				foreach ($values as $key => $value) {
-					$db->createCommand()
-						->update('s_yf_address_finder_config', [
-							'val' => $value,
-						], ['type' => $type, 'name' => $key])
-						->execute();
+					if ((new \App\Db\Query())->select('type', 'name')
+						->from(['C' => 's_yf_address_finder_config'])
+						->where(['C.name' => $key, 'C.type' => $type])
+						->exists()) {
+						$db->createCommand()
+							->update('s_yf_address_finder_config', [
+								'val' => $value,
+							], ['type' => $type, 'name' => $key])
+							->execute();
+					} else {
+						$db->createCommand()
+							->insert('s_yf_address_finder_config', [
+								'val' => $value,
+								'type' => $type,
+								'name' => $key
+							])
+							->execute();
+					}
 				}
 			}
 			$result = true;

@@ -17,16 +17,17 @@ jQuery.Class(
 		registerSave: function(content) {
 			const thisInstance = this;
 			content.find('.saveGlobal').on('click', function() {
+				const defaultProvider = $('[name="default_provider"]:checked');
 				let elements = {
 					global: {
 						min_length: $('[name="min_length"]').val(),
 						result_num: $('[name="result_num"]').val(),
-						default_provider: $('[name="default_provider"]').val()
+						default_provider: defaultProvider.length ? defaultProvider.val() : 0
 					}
 				};
 				$('[name="active"]').each((i, e) => {
-					elements[e.dataset.type] = {active: e.value}
-				})
+					elements[e.dataset.type] = { active: e.checked ? 1 : 0 };
+				});
 				AppConnector.request({
 					data: {
 						module: 'ApiAddress',
@@ -222,9 +223,43 @@ jQuery.Class(
 		},
 		registerConfigModal(container) {
 			container.find('.js-show-config-modal').on('click', e => {
+				const providerName = e.currentTarget.dataset.provider;
 				app.showModalWindow(
 					null,
-					`index.php?module=ApiAddress&parent=Settings&view=ApiConfigModal&provider=${e.currentTarget.dataset.provider}`
+					`index.php?module=ApiAddress&parent=Settings&view=ApiConfigModal&provider=${providerName}`,
+					modalContainer => {
+						modalContainer.find('.js-modal__save').on('click', _ => {
+							let elements = {};
+							let customField = modalContainer.find('.js-custom-field');
+							customField.each((i, e) => {
+								elements[$(e).attr('name')] = e.value;
+							});
+							elements = { [providerName]: elements };
+							AppConnector.request({
+								data: {
+									module: 'ApiAddress',
+									parent: 'Settings',
+									action: 'SaveConfig',
+									elements: elements
+								},
+								async: false,
+								dataType: 'json'
+							})
+								.done(function(data) {
+									Vtiger_Helper_Js.showPnotify({
+										text: data['result']['message'],
+										type: 'success'
+									});
+									// window.location.reload();
+								})
+								.fail(function() {
+									Vtiger_Helper_Js.showPnotify({
+										text: app.vtranslate('JS_ERROR'),
+										type: 'error'
+									});
+								});
+						});
+					}
 				);
 			});
 		},
