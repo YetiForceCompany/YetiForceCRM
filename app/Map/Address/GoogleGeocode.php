@@ -27,10 +27,17 @@ class GoogleGeocode extends Base
 	/**
 	 * {@inheritdoc}
 	 */
-	public static function isActive()
-	{
-		return (bool) \App\Map\Address::getConfig()['google_map_api']['nominatim'];
-	}
+	public $link = 'https://code.google.com/apis/console/?noredirect';
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public $customFields = [
+		'key' => [
+			'type' => 'text',
+			'validator' => 'required'
+		],
+	];
 
 	/**
 	 * {@inheritdoc}

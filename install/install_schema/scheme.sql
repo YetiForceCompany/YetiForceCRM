@@ -958,12 +958,12 @@ CREATE TABLE `s_yf_address_finder` (
 /*Table structure for table `s_yf_address_finder_config` */
 
 CREATE TABLE `s_yf_address_finder_config` (
-  `id` smallint(4) unsigned NOT NULL,
+  `id` smallint(4) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `type` varchar(50) NOT NULL,
   `val` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `s_yf_auto_record_flow_updater` */
 

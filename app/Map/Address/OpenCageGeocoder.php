@@ -18,6 +18,18 @@ namespace App\Map\Address;
 class OpenCageGeocoder extends Base
 {
 	/**
+	 * {@inheritdoc}
+	 */
+	public $customFields = [
+		'country_codes' => [
+			'type' => 'text',
+		],
+		'key' => [
+			'type' => 'text',
+			'validator' => 'required'
+		],
+	];
+	/**
 	 * API Address to retrieve data.
 	 *
 	 * @var string
@@ -27,10 +39,7 @@ class OpenCageGeocoder extends Base
 	/**
 	 * {@inheritdoc}
 	 */
-	public static function isActive()
-	{
-		return (bool) \App\Map\Address::getConfig()['opencage_data']['nominatim'];
-	}
+	public $link = 'https://opencagedata.com/api/';
 
 	/**
 	 * {@inheritdoc}
@@ -44,8 +53,8 @@ class OpenCageGeocoder extends Base
 		$urlAddress = static::$url . 'json?q=' . $value . '&pretty=1';
 		$urlAddress .= '&language=' . \App\Language::getLanguage();
 		$urlAddress .= '&limit=' . $config['global']['result_num'];
-		$urlAddress .= '&key=' . $config['opencage_data']['key'];
-		if ($countryCode = \App\Config::component('AddressFinder', 'OPENCAGE_COUNTRY_CODE')) {
+		$urlAddress .= '&key=' . $config['OpenCageGeocoder']['key'];
+		if ($countryCode = \App\Map\Address::getConfig()[$this->getName()]['country_codes']) {
 			$urlAddress .= '&countrycode=' . implode(',', $countryCode);
 		}
 		try {
