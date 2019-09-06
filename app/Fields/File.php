@@ -489,11 +489,7 @@ class File
 	{
 		$shortMimeType = $this->getShortMimeType(0);
 		if ($this->validateAllCodeInjection || \in_array($shortMimeType, static::$phpInjection)) {
-			// Check for code injection
 			$contents = $this->getContents();
-			if (false !== stripos($contents, '<?xpacket')) {
-				//throw new \App\Exceptions\DangerousFile('ERR_FILE_XPACKET_CODE_INJECTION');
-			}
 			if ((1 === preg_match('/(<\?php?(.*?))/si', $contents) ||
 			false !== stripos($contents, '<?=') ||
 			false !== stripos($contents, '<? ')) && $this->searchCodeInjection()
