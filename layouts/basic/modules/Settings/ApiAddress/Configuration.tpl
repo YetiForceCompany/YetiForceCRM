@@ -57,12 +57,15 @@
 							</tr>
 						</thead>
 						<tbody>
+							{function UNSET_POPOVER}
+								class="js-popover-tooltip text-center" data-content="{\App\Language::translate('LBL_PROVIDER_UNSET', $MODULENAME)}" data-placement="top"
+							{/function}
 							{foreach from=\App\Map\Address::getAllProviders() item=ITEM key=KEY}
 								{assign var=IS_SET value=$ITEM->isSet()}
 								<tr>
 									<th class="" scope="row">{\App\Language::translate('LBL_PROVIDER_'|cat:$KEY|upper, $MODULENAME)}</th>
-									<td class="text-center"><input name="active" data-type="{$KEY}" type="checkbox"{if $ITEM->isActive()} checked{/if}{if !$IS_SET} disabled{/if}></td>
-									<td class="text-center"><input name="default_provider" value="{$KEY}" type="radio"{if $DEFAULT_PROVIDER eq $KEY} checked{/if}{if !$IS_SET} disabled{/if}></td>
+									<td {if !$IS_SET}{UNSET_POPOVER}{else}class="text-center"{/if}><input name="active" data-type="{$KEY}" type="checkbox"{if $ITEM->isActive()} checked{/if}{if !$IS_SET} disabled{/if}></td>
+									<td {if !$IS_SET}{UNSET_POPOVER}{else}class="text-center"{/if}><input name="default_provider" value="{$KEY}" type="radio"{if $DEFAULT_PROVIDER eq $KEY} checked{/if}{if !$IS_SET} disabled{/if}></td>
 									<td class="text-center">
 										<button class="btn btn-outline-secondary btn-sm js-show-config-modal js-popover-tooltip mr-1" type="button" data-provider="{$KEY}"
 										data-content="{\App\Language::translate('LBL_PROVIDER_CONFIG', $MODULENAME)}">
