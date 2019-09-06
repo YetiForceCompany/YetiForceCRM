@@ -46,7 +46,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 * @param array  $referenceIds
 	 * @param string $refModuleName
 	 */
-	public static function setCrmActivity($referenceIds, $refModuleName = false)
+	public static function setCrmActivity($referenceIds, $refModuleName = null)
 	{
 		$db = \App\Db::getInstance();
 		foreach ($referenceIds as $id => $fieldName) {
@@ -56,13 +56,17 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 			if (empty($fieldName)) {
 				continue;
 			}
+			$fieldModel = Vtiger_Module_Model::getInstance($refModuleName ?? \App\Record::getType($id))->getFieldByName('crmactivity');
+			if (false === $fieldModel || !$fieldModel->isActiveField()) {
+				continue;
+			}
 			$row = (new \App\Db\Query())->select(['vtiger_activity.status', 'vtiger_activity.date_start'])
 				->from('vtiger_activity')
 				->innerJoin('vtiger_crmentity', 'vtiger_activity.activityid=vtiger_crmentity.crmid')
 				->where(['vtiger_crmentity.deleted' => 0, "vtiger_activity.$fieldName" => $id, 'vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('current')])
 				->orderBy(['vtiger_activity.date_start' => SORT_ASC])->one();
 			if ($row) {
-				$db->createCommand()->update('vtiger_entity_stats', ['crmactivity' => (int) \App\Fields\Date::getDiff(date('Y-m-d'), $row['date_start'], '%r%a')], ['crmid' => $id])->execute();
+				$db->createCommand()->update('vtiger_entity_stats', ['crmactivity' => (int) \App\Fields\DateTime::getDiff(date('Y-m-d'), $row['date_start'], '%r%a')], ['crmid' => $id])->execute();
 			} else {
 				$db->createCommand()->update(('vtiger_entity_stats'), ['crmactivity' => null], ['crmid' => $id])->execute();
 			}
@@ -103,11 +107,11 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		return 'index.php?module=Calendar&view=' . $this->getModule()->getDetailViewName() . '&record=' . $this->getId();
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function saveToDb()
 	{
-		//Time should changed to 24hrs format
-		\App\Request::_set('time_start', Vtiger_Time_UIType::getTimeValueWithSeconds(\App\Request::_get('time_start')));
-		\App\Request::_set('time_end', Vtiger_Time_UIType::getTimeValueWithSeconds(\App\Request::_get('time_end')));
 		parent::saveToDb();
 		$this->updateActivityReminder();
 		$this->insertIntoInviteTable();
@@ -223,7 +227,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 				->scalar();
 			$currentStates = Calendar_Module_Model::getComponentActivityStateLabel('current');
 			$state = Calendar_Module_Model::getCalendarState($this->getData());
-			if (in_array($state, $currentStates)) {
+			if (\in_array($state, $currentStates)) {
 				$status = self::REMNDER_POPUP_ACTIVE;
 			} else {
 				$status = self::REMNDER_POPUP_INACTIVE;
@@ -359,7 +363,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		$links = parent::getRecordListViewLinksLeftSide();
 		$recordLinks = [];
 		$statuses = Calendar_Module_Model::getComponentActivityStateLabel('current');
-		if ($this->isEditable() && in_array($this->getValueByField('activitystatus'), $statuses)) {
+		if ($this->isEditable() && \in_array($this->getValueByField('activitystatus'), $statuses)) {
 			$recordLinks[] = [
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_SET_RECORD_STATUS',
@@ -382,7 +386,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	{
 		$links = parent::getRecordRelatedListViewLinksLeftSide($viewModel);
 		if ($viewModel->getRelationModel()->isEditable() && $this->isEditable()) {
-			if (in_array($this->getValueByField('activitystatus'), Calendar_Module_Model::getComponentActivityStateLabel('current'))) {
+			if (\in_array($this->getValueByField('activitystatus'), Calendar_Module_Model::getComponentActivityStateLabel('current'))) {
 				$links['LBL_SET_RECORD_STATUS'] = Vtiger_Link_Model::getInstanceFromValues([
 					'linklabel' => 'LBL_SET_RECORD_STATUS',
 					'linkhref' => true,

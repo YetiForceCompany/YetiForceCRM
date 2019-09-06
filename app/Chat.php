@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Chat.
  *
@@ -7,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
+ * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 
 namespace App;
@@ -27,6 +29,7 @@ final class Chat
 	const TABLE_NAME = [
 		'message' => ['crm' => 'u_#__chat_messages_crm', 'group' => 'u_#__chat_messages_group', 'global' => 'u_#__chat_messages_global'],
 		'room' => ['crm' => 'u_#__chat_rooms_crm', 'group' => 'u_#__chat_rooms_group', 'global' => 'u_#__chat_rooms_global'],
+		'room_name' => ['crm' => 'u_#__crmentity_label', 'group' => 'vtiger_groups', 'global' => 'u_#__chat_global']
 	];
 
 	/**
@@ -35,6 +38,7 @@ final class Chat
 	const COLUMN_NAME = [
 		'message' => ['crm' => 'crmid', 'group' => 'groupid', 'global' => 'globalid'],
 		'room' => ['crm' => 'crmid', 'group' => 'groupid', 'global' => 'global_room_id'],
+		'room_name' => ['crm' => 'label', 'group' => 'groupname', 'global' => 'name']
 	];
 
 	/**
@@ -96,9 +100,9 @@ final class Chat
 		$roomType = $_SESSION['chat']['roomType'] ?? null;
 		if (!isset($_SESSION['chat'])) {
 			$result = static::getDefaultRoom();
-		} elseif ($roomType === 'crm' && (!Record::isExists($recordId) || !\Vtiger_Record_Model::getInstanceById($recordId)->isViewable())) {
+		} elseif ('crm' === $roomType && (!Record::isExists($recordId) || !\Vtiger_Record_Model::getInstanceById($recordId)->isViewable())) {
 			$result = static::getDefaultRoom();
-		} elseif ($roomType === 'group' && !isset(User::getCurrentUserModel()->getGroupNames()[$recordId])) {
+		} elseif ('group' === $roomType && !isset(User::getCurrentUserModel()->getGroupNames()[$recordId])) {
 			$result = static::getDefaultRoom();
 		} else {
 			$result = $_SESSION['chat'];
@@ -136,18 +140,18 @@ final class Chat
 	/**
 	 * Get instance \App\Chat.
 	 *
-	 * @param null|string $roomType
+	 * @param string|null $roomType
 	 * @param int|null    $recordId
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 *
 	 * @return \App\Chat
 	 */
-	public static function getInstance(?string $roomType = null, ?int $recordId = null): \App\Chat
+	public static function getInstance(?string $roomType = null, ?int $recordId = null): self
 	{
-		if (empty($roomType) || \is_null($recordId)) {
+		if (empty($roomType) || null === $recordId) {
 			$currentRoom = static::getCurrentRoom();
-			if ($currentRoom !== false) {
+			if (false !== $currentRoom) {
 				$roomType = $currentRoom['roomType'];
 				$recordId = $currentRoom['recordId'];
 			}
@@ -184,7 +188,9 @@ final class Chat
 		$rooms = [];
 		while ($row = $dataReader->read()) {
 			$row['name'] = Language::translate($row['name'], 'Chat');
-			$rooms[] = $row;
+			$row['roomType'] = 'global';
+			$row['isPinned'] = true;
+			$rooms[$row['recordid']] = $row;
 		}
 		$dataReader->close();
 		return $rooms;
@@ -208,7 +214,6 @@ final class Chat
 			->from(['CR' => static::TABLE_NAME['room']['group']])
 			->innerJoin(['CM' => static::TABLE_NAME['message']['group']], 'CM.groupid = CR.groupid')
 			->where(['>', 'CM.id', new \yii\db\Expression('CR.last_message')])
-			->orWhere(['CR.last_message' => null])
 			->groupBy(['CR.groupid', 'CR.userid']);
 		$dataReader = (new Db\Query())
 			->select(['GR.roomid', 'GR.userid', 'recordid' => 'GR.groupid', 'name' => 'VGR.groupname', 'CNT.cnt_new_message'])
@@ -219,8 +224,16 @@ final class Chat
 		$rows = [];
 		while ($row = $dataReader->read()) {
 			if (isset($groups[$row['recordid']])) {
-				$rows[] = $row;
+				$row['isPinned'] = true;
+				$groups[$row['recordid']] = $row;
 			}
+		}
+		foreach ($groups as $id => $group) {
+			if (\is_string($group)) {
+				$group = ['recordid' => $id, 'name' => $group, 'isPinned' => false];
+			}
+			$group['roomType'] = 'group';
+			$rows[$id] = $group;
 		}
 		$dataReader->close();
 		return $rows;
@@ -256,11 +269,30 @@ final class Chat
 			$recordModel = \Vtiger_Record_Model::getInstanceById($row['recordid']);
 			if ($recordModel->isViewable()) {
 				$row['moduleName'] = $recordModel->getModuleName();
-				$rows[] = $row;
+				$row['roomType'] = 'crm';
+				$row['isPinned'] = true;
+				$rows[$row['recordid']] = $row;
 			}
 		}
 		$dataReader->close();
 		return $rows;
+	}
+
+	/**
+	 * Get room last message.
+	 *
+	 * @param int    $roomId
+	 * @param string $roomType
+	 *
+	 * @return array
+	 */
+	public static function getRoomLastMessage(int $roomId, string $roomType): array
+	{
+		return (array) (new Db\Query())
+			->from(static::TABLE_NAME['message'][$roomType])
+			->where(['crm' === $roomType ? 'crmid' : 'groupid' => $roomId])
+			->orderBy(['id' => \SORT_DESC])
+			->one();
 	}
 
 	/**
@@ -290,18 +322,22 @@ final class Chat
 	/**
 	 * Rerun the number of new messages.
 	 *
-	 * @return int
+	 * @return array
 	 */
-	public static function getNumberOfNewMessages(): int
+	public static function getNumberOfNewMessages(): array
 	{
 		$numberOfNewMessages = 0;
 		$roomInfo = static::getRoomsByUser();
+		$roomList = [];
 		foreach (['crm', 'group', 'global'] as $roomType) {
-			foreach ($roomInfo[$roomType] as $item) {
-				$numberOfNewMessages += $item['cnt_new_message'];
+			foreach ($roomInfo[$roomType] as $room) {
+				if (!empty($room['cnt_new_message'])) {
+					$numberOfNewMessages += $room['cnt_new_message'];
+					$roomList[$roomType][$room['recordid']]['cnt_new_message'] = $room['cnt_new_message'];
+				}
 			}
 		}
-		return $numberOfNewMessages;
+		return ['roomList' => $roomList, 'amount' => $numberOfNewMessages];
 	}
 
 	/**
@@ -344,7 +380,7 @@ final class Chat
 				static::COLUMN_NAME['message']['global'],
 				'id' => new \yii\db\Expression('max(id)')
 			])->from(static::TABLE_NAME['message']['global'])
-				->groupBy([static::COLUMN_NAME['message']['global']]);
+			->groupBy([static::COLUMN_NAME['message']['global']]);
 		return (new Db\Query())
 			->select(['CG.name', 'CM.id'])
 			->from(['CG' => 'u_#__chat_global'])
@@ -369,7 +405,7 @@ final class Chat
 				static::COLUMN_NAME['message']['crm'],
 				'id' => new \yii\db\Expression('max(id)')
 			])->from(static::TABLE_NAME['message']['crm'])
-				->groupBy([static::COLUMN_NAME['message']['crm']]);
+			->groupBy([static::COLUMN_NAME['message']['crm']]);
 		return (new Db\Query())
 			->select(['CM.id'])
 			->from(['C' => static::TABLE_NAME['room']['crm']])
@@ -393,7 +429,7 @@ final class Chat
 				static::COLUMN_NAME['message']['group'],
 				'id' => new \yii\db\Expression('max(id)')
 			])->from(static::TABLE_NAME['message']['group'])
-				->groupBy([static::COLUMN_NAME['message']['group']]);
+			->groupBy([static::COLUMN_NAME['message']['group']]);
 		return (new Db\Query())
 			->select(['CM.id'])
 			->from(['GR' => static::TABLE_NAME['room']['group']])
@@ -419,7 +455,7 @@ final class Chat
 	/**
 	 * Chat constructor.
 	 *
-	 * @param null|string $roomType
+	 * @param string|null $roomType
 	 * @param int|null    $recordId
 	 *
 	 * @throws \App\Exceptions\IllegalValue
@@ -427,13 +463,13 @@ final class Chat
 	public function __construct(?string $roomType, ?int $recordId)
 	{
 		$this->userId = User::getCurrentUserId();
-		if (empty($roomType) || \is_null($recordId)) {
+		if (empty($roomType) || null === $recordId) {
 			return;
 		}
 		$this->roomType = $roomType;
 		$this->recordId = $recordId;
 		$this->room = $this->getQueryRoom()->one();
-		if (($this->roomType === 'crm' || $this->roomType === 'group') && !$this->isRoomExists()) {
+		if (('crm' === $this->roomType || 'group' === $this->roomType) && !$this->isRoomExists()) {
 			$this->room = [
 				'roomid' => null,
 				'userid' => null,
@@ -470,7 +506,7 @@ final class Chat
 	 */
 	public function isRoomExists(): bool
 	{
-		return $this->room !== false;
+		return false !== $this->room;
 	}
 
 	/**
@@ -510,6 +546,7 @@ final class Chat
 	 *
 	 * @param int|null $messageId
 	 * @param string   $condition
+	 * @param ?string  $searchVal
 	 *
 	 * @throws \App\Exceptions\AppException
 	 * @throws \App\Exceptions\IllegalValue
@@ -526,8 +563,10 @@ final class Chat
 		$rows = [];
 		$dataReader = $this->getQueryMessage($messageId, $condition, $searchVal)->createCommand()->query();
 		while ($row = $dataReader->read()) {
+			$row['messages'] = static::decodeMessage($row['messages']);
 			$row['created'] = Fields\DateTime::formatToShort($row['created']);
-			['user_name' => $row['user_name'],
+			[
+				'user_name' => $row['user_name'],
 				'role_name' => $row['role_name'],
 				'image' => $row['image']
 			] = $this->getUserInfo($row['userid']);
@@ -538,7 +577,7 @@ final class Chat
 			}
 		}
 		$dataReader->close();
-		if ($condition === '>') {
+		if ('>' === $condition) {
 			$this->updateRoom();
 		}
 		return \array_reverse($rows);
@@ -554,29 +593,51 @@ final class Chat
 	 */
 	public function getHistoryByType(string $roomType = 'global', ?int $messageId = null)
 	{
+		$columnMessage = static::COLUMN_NAME['message'][$roomType];
+		$columnRoomName = static::COLUMN_NAME['room_name'][$roomType];
+		$roomNameId = 'global' === $roomType ? static::COLUMN_NAME['room']['global'] : $columnMessage;
 		$query = (new Db\Query())
 			->select([
 				'id', 'messages', 'userid', 'created',
-				'recordid' => static::COLUMN_NAME['message'][$roomType],
+				'recordid' => "GL.{$columnMessage}", 'room_name' => "RN.{$columnRoomName}"
 			])
 			->from(['GL' => static::TABLE_NAME['message'][$roomType]])
+			->leftJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$roomNameId} = GL.{$columnMessage}")
 			->where(['userid' => $this->userId])
 			->orderBy(['id' => \SORT_DESC])
-			->limit(\AppConfig::module('Chat', 'CHAT_ROWS_LIMIT') + 1);
-		if (!\is_null($messageId)) {
-			$query->andWhere(['<=', 'id', $messageId]);
+			->limit(\App\Config::module('Chat', 'CHAT_ROWS_LIMIT') + 1);
+		if (null !== $messageId) {
+			$query->andWhere(['<', 'id', $messageId]);
 		}
 		$userModel = User::getUserModel($this->userId);
+		$groups = $userModel->getGroupNames();
 		$userImage = $userModel->getImage()['url'] ?? '';
 		$userName = $userModel->getName();
 		$userRoleName = $userModel->getRoleInstance()->getName();
 		$rows = [];
 		$dataReader = $query->createCommand()->query();
+		$notPermittedIds = [];
 		while ($row = $dataReader->read()) {
+			if ('group' === $roomType && !isset($groups[$row['recordid']])) {
+				continue;
+			}
+			if ('crm' === $roomType) {
+				if (\in_array($row['recordid'], $notPermittedIds)) {
+					continue;
+				}
+				if (!Record::isExists($row['recordid']) || !\Vtiger_Record_Model::getInstanceById($row['recordid'])->isViewable()) {
+					$notPermittedIds[] = $row['recordid'];
+					continue;
+				}
+			}
+			if ('global' === $roomType) {
+				$row['room_name'] = Language::translate($row['room_name']);
+			}
 			$row['image'] = $userImage;
 			$row['created'] = Fields\DateTime::formatToShort($row['created']);
 			$row['user_name'] = $userName;
 			$row['role_name'] = $userRoleName;
+			$row['messages'] = static::decodeMessage($row['messages']);
 			$rows[] = $row;
 		}
 		return \array_reverse($rows);
@@ -594,7 +655,7 @@ final class Chat
 		}
 		$room = false;
 		$row = (new Db\Query())->from('u_#__chat_global')->where(['name' => 'LBL_GENERAL'])->one();
-		if ($row !== false) {
+		if (false !== $row) {
 			$room = [
 				'roomType' => 'global',
 				'recordId' => $row[static::COLUMN_NAME['room']['global']]
@@ -611,7 +672,7 @@ final class Chat
 	 *
 	 * @return \App\Db\Query
 	 */
-	private static function getQueryForUnread(string $roomType = 'global'): \App\Db\Query
+	private static function getQueryForUnread(string $roomType = 'global'): Db\Query
 	{
 		$userId = User::getCurrentUserId();
 		$columnRoom = static::COLUMN_NAME['room'][$roomType];
@@ -689,7 +750,8 @@ final class Chat
 				])->execute();
 			} else {
 				Db::getInstance()->createCommand()->update(
-					static::TABLE_NAME['room'][$roomType], ['last_message' => $lastMessage['id']],
+					static::TABLE_NAME['room'][$roomType],
+					['last_message' => $lastMessage['id']],
 					[static::COLUMN_NAME['room'][$roomType] => $id, 'userid' => User::getCurrentUserId()]
 				)->execute();
 			}
@@ -712,13 +774,13 @@ final class Chat
 		while ($row = $dataReader->read()) {
 			$userModel = User::getUserModel($row['userid']);
 			$image = $userModel->getImage();
-			if ($roomType === 'global') {
+			if ('global' === $roomType) {
 				$row['name'] = Language::translate($row['name']);
 			}
 			$rows[] = [
 				'id' => $row['id'],
 				'userid' => $row['userid'],
-				'messages' => $row['messages'],
+				'messages' => static::decodeMessage($row['messages']),
 				'created' => Fields\DateTime::formatToShort($row['created']),
 				'user_name' => $userModel->getName(),
 				'role_name' => Language::translate($userModel->getRoleInstance()->getName()),
@@ -775,7 +837,7 @@ final class Chat
 			$user = $this->getUserInfo($row['userid']);
 			$participants[] = [
 				'user_id' => $row['userid'],
-				'message' => $row['messages'],
+				'message' => static::decodeMessage($row['messages']),
 				'user_name' => $user['user_name'],
 				'role_name' => $user['role_name'],
 				'image' => $user['image']
@@ -794,11 +856,17 @@ final class Chat
 	{
 		if (!empty($this->roomType) && !empty($this->recordId)) {
 			Db::getInstance()->createCommand()->delete(
-				static::TABLE_NAME['room'][$this->roomType], [
-				'userid' => $this->userId,
-				static::COLUMN_NAME['room'][$this->roomType] => $this->recordId
-			])->execute();
+				static::TABLE_NAME['room'][$this->roomType],
+				[
+					'userid' => $this->userId,
+					static::COLUMN_NAME['room'][$this->roomType] => $this->recordId
+				]
+			)->execute();
 			unset($this->room['userid']);
+		}
+		if (static::getCurrentRoom()['recordId'] === $this->recordId) {
+			$defaultRoom = static::getDefaultRoom();
+			static::setCurrentRoom($defaultRoom['roomType'], $defaultRoom['recordId']);
 		}
 	}
 
@@ -810,12 +878,15 @@ final class Chat
 	public function addToFavorites()
 	{
 		if (!empty($this->roomType) && !empty($this->recordId)) {
+			$lastMessage = static::getRoomLastMessage($this->recordId, $this->roomType);
 			Db::getInstance()->createCommand()->insert(
-				static::TABLE_NAME['room'][$this->roomType], [
-				'userid' => $this->userId,
-				'last_message' => null,
-				static::COLUMN_NAME['room'][$this->roomType] => $this->recordId
-			])->execute();
+				static::TABLE_NAME['room'][$this->roomType],
+				[
+					'last_message' => $lastMessage['id'] ?? 0,
+					'userid' => $this->userId,
+					static::COLUMN_NAME['room'][$this->roomType] => $this->recordId
+				]
+			)->execute();
 			$this->room['userid'] = $this->userId;
 		}
 	}
@@ -826,6 +897,7 @@ final class Chat
 	 * @param int|null $messageId
 	 * @param string   $condition
 	 * @param bool     $isLimit
+	 * @param ?string  $searchVal
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 *
@@ -859,14 +931,14 @@ final class Chat
 			default:
 				throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
 		}
-		if (!\is_null($messageId)) {
+		if (null !== $messageId) {
 			$query->andWhere([$condition, 'C.id', $messageId]);
 		}
 		if (!empty($searchVal)) {
 			$query->andWhere(['LIKE', 'C.messages', $searchVal]);
 		}
 		if ($isLimit) {
-			$query->limit(\AppConfig::module('Chat', 'CHAT_ROWS_LIMIT') + 1);
+			$query->limit(\App\Config::module('Chat', 'CHAT_ROWS_LIMIT') + 1);
 		}
 		return $query->orderBy(['id' => \SORT_DESC]);
 	}
@@ -911,7 +983,7 @@ final class Chat
 	 */
 	private function updateRoom()
 	{
-		if ($this->roomType === 'global' && !$this->isAssigned()) {
+		if ('global' === $this->roomType && !$this->isAssigned()) {
 			Db::getInstance()->createCommand()
 				->insert(static::TABLE_NAME['room'][$this->roomType], [
 					static::COLUMN_NAME['room'][$this->roomType] => $this->recordId,
@@ -922,8 +994,7 @@ final class Chat
 			$this->room['record_id'] = $this->recordId;
 			$this->room['userid'] = $this->userId;
 		} elseif (
-			\is_array($this->room) && $this->isAssigned() &&
-			(empty($this->room['last_message']) || $this->lastMessageId > (int) $this->room['last_message'])
+			\is_array($this->room) && $this->isAssigned() && (empty($this->room['last_message']) || $this->lastMessageId > (int) $this->room['last_message'])
 		) {
 			Db::getInstance()
 				->createCommand()
@@ -933,5 +1004,27 @@ final class Chat
 				])->execute();
 			$this->room['last_message'] = $this->lastMessageId;
 		}
+	}
+
+	/**
+	 * Decode message.
+	 *
+	 * @param string $message
+	 *
+	 * @return string
+	 */
+	private static function decodeMessage(string $message): string
+	{
+		return nl2br(\App\Utils\Completions::decode(\App\Purifier::purifyHtml(\App\Purifier::decodeHtml($message))));
+	}
+
+	/**
+	 * Get chat modules.
+	 *
+	 * @return array
+	 */
+	public static function getChatModules(): array
+	{
+		return array_keys(\App\ModuleHierarchy::getModulesHierarchy());
 	}
 }

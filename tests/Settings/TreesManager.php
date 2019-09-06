@@ -24,6 +24,7 @@ class TreesManager extends \Tests\Base
 	 * @param int|string $key
 	 * @param int|null   $moduleId
 	 * @param array      $tree
+	 * @param mixed      $share
 	 * @dataProvider providerForTree
 	 */
 	public function testAddTree($key, $moduleId = null, $tree = [], $share = [])
@@ -59,9 +60,9 @@ class TreesManager extends \Tests\Base
 	 */
 	private static function countItems($tree)
 	{
-		$cnt = count($tree);
+		$cnt = \count($tree);
 		foreach ($tree as $item) {
-			if (is_array($item['children'])) {
+			if (\is_array($item['children'])) {
 				$cnt += static::countItems($item['children']);
 			}
 		}
@@ -73,6 +74,7 @@ class TreesManager extends \Tests\Base
 	 *
 	 * @param int|string $key
 	 * @param array      $tree
+	 * @param mixed      $share
 	 * @dataProvider providerForEditTree
 	 */
 	public function testEditTree($key, $tree = [], $share = [])
@@ -97,6 +99,7 @@ class TreesManager extends \Tests\Base
 	 * @param int|string $key
 	 * @param int|null   $moduleId
 	 * @param array      $tree
+	 * @param mixed      $share
 	 * @dataProvider providerForTree
 	 */
 	public function testDeleteTree($key, $moduleId = null, $tree = [], $share = [])
@@ -141,6 +144,7 @@ class TreesManager extends \Tests\Base
 	 *
 	 * @param string $itemName
 	 * @param int    $id
+	 * @param mixed  $children
 	 *
 	 * @return array
 	 * @codeCoverageIgnore

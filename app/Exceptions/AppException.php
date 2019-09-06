@@ -24,11 +24,11 @@ class AppException extends \Exception
 	public function getDisplayMessage()
 	{
 		$message = $this->getMessage();
-		if (strpos($message, '||') === false) {
+		if (false === strpos($message, '||')) {
 			$message = \App\Language::translateSingleMod($message, 'Other.Exceptions');
 		} else {
 			$params = explode('||', $message);
-			$message = call_user_func_array('vsprintf', [\App\Language::translateSingleMod(array_shift($params), 'Other.Exceptions'), $params]);
+			$message = \call_user_func_array('vsprintf', [\App\Language::translateSingleMod(array_shift($params), 'Other.Exceptions'), $params]);
 		}
 		return $message;
 	}

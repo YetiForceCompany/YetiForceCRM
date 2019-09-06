@@ -13,21 +13,25 @@
 					</a>
 				</div>
 			</div>
-
-			{if AppConfig::performance('GLOBAL_SEARCH')}
-				<div class="js-global-search__input o-global-search__input o-global-search__input--desktop input-group input-group-sm d-none d-xl-flex"
+			{if \App\Config::performance('GLOBAL_SEARCH')}
+				<div class="js-global-search__input o-global-search__input o-global-search__input--desktop input-group input-group-sm d-none d-xl-flex mr-2"
 					 data-js="container">
 					<div class="input-group-prepend select2HeaderWidth">
+						{assign var="USER_DEFAULT_MODULE" value=$USER_MODEL->get('default_search_module')}
+						{assign var="DEFAULT_OVERRIDE" value=$USER_MODEL->get('default_search_override')}
+						{assign var="SELECTABLE_ACTUAL_MODULE" value="{array_key_exists($MODULE_NAME,$SEARCHABLE_MODULES)}"}
+						{assign var="SELECTABLE_USER_MODULE" value="{array_key_exists($USER_DEFAULT_MODULE,$SEARCHABLE_MODULES)}"}
 						<select class="select2 basicSearchModulesList form-control"
 								title="{\App\Language::translate('LBL_SEARCH_MODULE')}" data-dropdown-auto-width="true">
 							<option value="-">{\App\Language::translate('LBL_ALL_RECORDS')}</option>
 							{foreach key=SEARCHABLE_MODULE item=fieldObject from=$SEARCHABLE_MODULES}
-								{if isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $SEARCHABLE_MODULE && $SEARCHED_MODULE !== 'All'}
-									<option value="{$SEARCHABLE_MODULE}"
-											selected>{\App\Language::translate($SEARCHABLE_MODULE,$SEARCHABLE_MODULE)}</option>
-								{else}
-									<option value="{$SEARCHABLE_MODULE}">{\App\Language::translate($SEARCHABLE_MODULE,$SEARCHABLE_MODULE)}</option>
+								{assign var="SELECTED" value=""}
+								{if $SEARCHABLE_MODULE === $USER_DEFAULT_MODULE && ($DEFAULT_OVERRIDE || !$SELECTABLE_ACTUAL_MODULE) && $SELECTABLE_USER_MODULE}
+									{assign var="SELECTED" value="selected"}
+								{elseif !$USER_MODEL->get('default_override') && isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $SEARCHABLE_MODULE && $SEARCHED_MODULE !== 'All'}
+									{assign var="SELECTED" value="selected"}
 								{/if}
+								<option value="{$SEARCHABLE_MODULE}" {$SELECTED}>{\App\Language::translate($SEARCHABLE_MODULE,$SEARCHABLE_MODULE)}</option>
 							{/foreach}
 						</select>
 					</div>
@@ -40,7 +44,7 @@
 						<button class="btn btn-outline-dark border-0 h-100 searchIcon" type="button">
 							<span class="fas fa-search fa-fw" title="{\App\Language::translate('LBL_SEARCH')}"></span>
 						</button>
-						{if AppConfig::search('GLOBAL_SEARCH_OPERATOR_SELECT')}
+						{if App\Config::search('GLOBAL_SEARCH_OPERATOR_SELECT')}
 							<div class="btn-group">
 								<a class="btn btn-outline-dark border-bottom-0 border-top-0 dropdown-toggle rounded-0 border-left border-right"
 								   id="globalSearchOperator" href="#" role="button" data-toggle="dropdown"
@@ -50,23 +54,23 @@
 								</a>
 								<ul class="dropdown-menu js-global-search-operator"
 									aria-labelledby="globalSearchOperator" data-js="click">
-									<li class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'FulltextBegin'}active{/if} dropdown-item u-cursor-pointer"
+									<li class="{if App\Config::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'FulltextBegin'}active{/if} dropdown-item u-cursor-pointer"
 										href="#" data-operator="FulltextBegin">
 										{\App\Language::translate('LBL_FULLTEXT_BEGIN')}
 									</li>
-									<li class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'FulltextWord'}active{/if} dropdown-item u-cursor-pointer"
+									<li class="{if App\Config::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'FulltextWord'}active{/if} dropdown-item u-cursor-pointer"
 										href="#" data-operator="FulltextWord">
 										{\App\Language::translate('LBL_FULLTEXT_WORD')}
 									</li>
-									<li class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'Contain'}active{/if} dropdown-item u-cursor-pointer"
+									<li class="{if App\Config::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'Contain'}active{/if} dropdown-item u-cursor-pointer"
 										href="#" data-operator="Contain">
 										{\App\Language::translate('LBL_CONTAINS')}
 									</li>
-									<li class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'Begin'}active{/if} dropdown-item u-cursor-pointer"
+									<li class="{if App\Config::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'Begin'}active{/if} dropdown-item u-cursor-pointer"
 										href="#" data-operator="Begin">
 										{\App\Language::translate('LBL_STARTS_WITH')}
 									</li>
-									<li class="{if AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'End'}active{/if} dropdown-item u-cursor-pointer"
+									<li class="{if App\Config::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'End'}active{/if} dropdown-item u-cursor-pointer"
 										href="#" data-operator="End">
 										{\App\Language::translate('LBL_ENDS_WITH')}
 									</li>
@@ -140,6 +144,34 @@
 					</div>
 				</div>
 			{/if}
+			{if !\App\YetiForce\Shop::verify()}
+				<a class="d-flex align-items-center text-warning mr-2 js-popover-tooltip animated flash infinite slower" role="button" data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP_PRODUCT_CANCELED', $MODULE_NAME)}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
+						{if $USER_MODEL->isAdminUser()}
+							href="index.php?module=YetiForce&parent=Settings&view=Shop"
+						{else}
+							href="#"
+						{/if} >
+					<span class="yfi yfi-shop-alert fa-2x"></span>
+				</a>
+			{/if}
+			{if !\App\YetiForce\Register::verify(true)}
+					{if $USER_MODEL->isAdminUser()}
+						{assign var="INFO_REGISTRATION_ERROR" value="<a href='index.php?module=Companies&parent=Settings&view=List&displayModal=online'>{\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}</a>"}
+					{else}
+						{assign var="INFO_REGISTRATION_ERROR" value=\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}
+					{/if}
+					<a class="d-flex align-items-center text-warning mr-2 text-danger js-popover-tooltip" role="button"
+							data-content="{\App\Language::translateArgs('LBL_YETIFORCE_REGISTRATION_ERROR', $MODULE_NAME, $INFO_REGISTRATION_ERROR)}"
+							title="{\App\Purifier::encodeHtml('<span class="yfi yfi-yeti-register-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_REGISTRATION', $MODULE_NAME)}"
+							{if $USER_MODEL->isAdminUser()}
+								href="index.php?parent=Settings&module=Companies&view=List&displayModal=online"
+							{else}
+								href="#"
+							{/if} >
+					<span class="yfi yfi-yeti-register-alert fa-2x">
+					</span>
+					</a>
+			{/if}
 		</div>
 		<div class="o-navbar__right ml-auto d-inline-flex flex-sm-nowrap">
 			{if !Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
@@ -200,7 +232,7 @@
 					{/if}
 				{/if}
 			{/if}
-			{if $PARENT_MODULE === 'Settings' && !\AppConfig::performance('LIMITED_INFO_SUPPORT', false)}
+			{if $PARENT_MODULE === 'Settings'}
 				<div class="mr-xxl-4">
 					<a class="btn btn-light c-header__btn ml-2 js-popover-tooltip" role="button"
 					   href="https://yetiforce.shop"
@@ -244,9 +276,22 @@
 							</a>
 						</div>
 					{/if}
+					{if \App\Privilege::isPermitted('KnowledgeBase')}
+						<div class="o-action-menu__item">
+							<a class="c-header__btn ml-2 btn-light btn js-popover-tooltip js-knowledge-base-modal"
+							   role="button"
+							   data-js="popover|modal" data-content="{\App\Language::translate('BTN_KNOWLEDGE_BASE', 'KnowledgeBase')}"
+							   href="#">
+								<span class="userIcon-KnowledgeBase"
+									  title="{\App\Language::translate('BTN_KNOWLEDGE_BASE', 'KnowledgeBase')}"></span>
+								<span class="c-header__label--sm-down"> {\App\Language::translate('BTN_KNOWLEDGE_BASE', 'KnowledgeBase')}</span>
+							</a>
+							<div id="KnowledgeBaseModal"></div>
+						</div>
+					{/if}
 					{if \App\Privilege::isPermitted('Notification', 'DetailView')}
 						<div class="o-action-menu__item">
-							<a class="c-header__btn ml-2 btn btn-light btn isBadge notificationsNotice js-popover-tooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}"
+							<a class="c-header__btn ml-2 btn btn-light btn isBadge notificationsNotice js-popover-tooltip {if App\Config::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}"
 							   role="button" data-js="popover"
 							   data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}" href="#">
 								<span class="fas fa-bell fa-fw"
@@ -256,30 +301,9 @@
 							</a>
 						</div>
 					{/if}
-					{if \App\Privilege::isPermitted('Chat')}
-						<div class="o-action-menu__item">
-							{assign var=IS_USER_SWITCHED value=\App\User::getCurrentUserRealId() !== \App\User::getCurrentUserId()}
-							<a class="c-header__btn ml-2 btn-light btn{if !$IS_USER_SWITCHED} showModal{/if} js-popover-tooltip js-header-chat-button"
-							   role="button"
-							   data-user-switched="{if $IS_USER_SWITCHED}true{else}false{/if}"
-							   data-url="index.php?module=Chat&view=Modal"
-							   data-refresh-time-global="{AppConfig::module('Chat', 'REFRESH_TIME_GLOBAL')}"
-							   data-show-number-of-new-messages="{if AppConfig::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')}true{else}false{/if}"
-							   data-lbl-chat-user-switched="{\App\Language::translate('LBL_CHAT_USER_SWITCHED', 'Chat')}"
-							   data-lbl-chat-new-message="{\App\Language::translate('LBL_CHAT_NEW_MESSAGE', 'Chat')}"
-							   data-lbl-chat="{\App\Language::translate('LBL_CHAT')}"
-							   data-js="popover|modal|color" data-content="{\App\Language::translate('LBL_CHAT')}"
-							   href="#">
-								<span class="fas fa-comments fa-fw"
-									  title="{\App\Language::translate('LBL_CHAT')}"></span>
-								<span class="badge badge-danger mr-1 hide js-badge" data-js="change">0</span>
-								<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_CHAT')}</span>
-							</a>
-						</div>
-					{/if}
 					{if $REMINDER_ACTIVE}
 						<div class="o-action-menu__item">
-							<a class="c-header__btn ml-2 btn btn-light btn isBadge remindersNotice js-popover-tooltip {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}"
+							<a class="c-header__btn ml-2 btn btn-light btn isBadge remindersNotice js-popover-tooltip {if App\Config::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}"
 							   data-js="popover" role="button" data-content="{\App\Language::translate('LBL_REMINDER')}"
 							   href="#">
 							<span class="fas fa-calendar fa-fw"
@@ -289,7 +313,7 @@
 							</a>
 						</div>
 					{/if}
-					{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
+					{if App\Config::performance('BROWSING_HISTORY_WORKING')}
 						<div class="o-action-menu__item">
 							<div class="dropdown">
 								<a class="c-header__btn ml-2 btn btn-light btn js-popover-tooltip dropdownMenu"
@@ -317,7 +341,8 @@
 							{/if}
 							<div class="o-action-menu__item">
 								<a class="c-header__btn ml-2 btn btn js-popover-tooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-light {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}"
-								   role="button" data-js="popover" data-content="{\App\Language::translate($TITLE)}" data-placement="bottom"
+								   role="button" data-js="popover" data-content="{\App\Language::translate($TITLE)}"
+								   data-placement="bottom"
 								   href="{$HREF}"
 										{if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
 									{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}

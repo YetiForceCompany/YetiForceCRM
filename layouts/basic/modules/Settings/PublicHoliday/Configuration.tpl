@@ -80,7 +80,7 @@
 					<div class="modal addDateWindowModal fade publicHolidayModal" tabindex="-1">
 						<div class="modal-dialog">
 							<div class="modal-content">
-								<div class="modal-header contentsBackground">
+								<div class="modal-header">
 									<span class="fa fa-plus mt-2 u-mr-5px"></span>
 									<h5 class="modal-title">{\App\Language::translate('LBL_ADD_NEW_HOLIDAY', $QUALIFIED_MODULE)}</h5>
 									<button type="button" class="close" data-dismiss="modal"

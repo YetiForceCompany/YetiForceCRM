@@ -62,7 +62,7 @@ class Email
 		}
 		$queryUnion = null;
 		foreach ($fields as $moduleName => $moduleFields) {
-			if (($allowedModules && !in_array($moduleName, $allowedModules)) || in_array($moduleName, $skipModules)) {
+			if (($allowedModules && !\in_array($moduleName, $allowedModules)) || \in_array($moduleName, $skipModules)) {
 				continue;
 			}
 			$instance = \CRMEntity::getInstance($moduleName);

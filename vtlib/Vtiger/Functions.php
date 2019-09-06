@@ -1,5 +1,5 @@
 <?php
-/* +**********************************************************************************
+ /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -35,25 +35,26 @@ class Functions
 				$row['isentitytype'] = (int) $row['isentitytype'];
 				$row['coloractive'] = (int) $row['coloractive'];
 				$row['type'] = (int) $row['type'];
+				$row['premium'] = (int) $row['premium'];
 				$moduleList[$row['tabid']] = $row;
 			}
 			\App\Cache::save('moduleTabs', 'all', $moduleList);
 		}
 		$restrictedModules = ['SMSNotifier', 'Dashboard', 'ModComments'];
 		foreach ($moduleList as $id => $module) {
-			if (!$showRestricted && in_array($module['name'], $restrictedModules)) {
+			if (!$showRestricted && \in_array($module['name'], $restrictedModules)) {
 				unset($moduleList[$id]);
 			}
-			if ($isEntityType && (int) $module['isentitytype'] === 0) {
+			if ($isEntityType && 0 === (int) $module['isentitytype']) {
 				unset($moduleList[$id]);
 			}
-			if ($presence !== false && (int) $module['presence'] !== $presence) {
+			if (false !== $presence && (int) $module['presence'] !== $presence) {
 				unset($moduleList[$id]);
 			}
-			if ($colorActive !== false && (int) $module['coloractive'] !== 1) {
+			if (false !== $colorActive && 1 !== (int) $module['coloractive']) {
 				unset($moduleList[$id]);
 			}
-			if ($ownedby !== false && (int) $module['ownedby'] !== $ownedby) {
+			if (false !== $ownedby && (int) $module['ownedby'] !== $ownedby) {
 				unset($moduleList[$id]);
 			}
 		}
@@ -111,13 +112,13 @@ class Functions
 	/**
 	 * Function gets record metadata.
 	 *
-	 * @param int|array $mixedid
+	 * @param array|int $mixedid
 	 *
 	 * @return array
 	 */
 	public static function getCRMRecordMetadata($mixedid)
 	{
-		$multimode = is_array($mixedid);
+		$multimode = \is_array($mixedid);
 
 		$ids = $multimode ? $mixedid : [$mixedid];
 		$missing = [];
@@ -158,7 +159,7 @@ class Functions
 	/**
 	 * Function get module field infos.
 	 *
-	 * @param int|string $mixed
+	 * @param int|string $module
 	 * @param bool       $returnByColumn
 	 *
 	 * @return mixed[]
@@ -191,17 +192,17 @@ class Functions
 	/**
 	 * Function to gets mudule field ID.
 	 *
-	 * @param string|int $moduleId
-	 * @param string|int $mixed
+	 * @param int|string $moduleId
+	 * @param int|string $mixed
 	 * @param bool       $onlyactive
 	 *
-	 * @return int|bool
+	 * @return bool|int
 	 */
 	public static function getModuleFieldId($moduleId, $mixed, $onlyactive = true)
 	{
 		$field = \App\Field::getFieldInfo($mixed, $moduleId);
 
-		if ($field && $onlyactive && ($field['presence'] != '0' && $field['presence'] != '2')) {
+		if ($field && $onlyactive && ('0' !== $field['presence'] && '2' !== $field['presence'])) {
 			$field = null;
 		}
 		return $field ? $field['fieldid'] : false;
@@ -224,7 +225,7 @@ class Functions
 			'"' => '&quot;',
 			"'" => '&#039;',
 		];
-		if ($encode && is_string($string)) {
+		if ($encode && \is_string($string)) {
 			$string = addslashes(str_replace(array_values($popup_toHtml), array_keys($popup_toHtml), $string));
 		}
 		return $string;
@@ -274,6 +275,7 @@ class Functions
 	 * *
 	 * *    Now in customview and report's advance filter this field's criteria will be show like string.
 	 * *
+	 * @param mixed $column_name
 	 * */
 	public static function transformFieldTypeOfData($table_name, $column_name, $type_of_data)
 	{
@@ -319,10 +321,6 @@ class Functions
 			'vtiger_senotesrel:notesid' => 'V',
 			'vtiger_seproductsrel:crmid' => 'V',
 			'vtiger_seproductsrel:productid' => 'V',
-			'vtiger_seticketsrel:crmid' => 'V',
-			'vtiger_seticketsrel:ticketid' => 'V',
-			'vtiger_vendorcontactrel:vendorid' => 'V',
-			'vtiger_vendorcontactrel:contactid' => 'V',
 			'vtiger_pricebook:currency_id' => 'V',
 		];
 
@@ -333,72 +331,15 @@ class Functions
 		return $type_of_data;
 	}
 
-	public static function getRangeTime($timeMinutesRange, $showEmptyValue = true)
-	{
-		$short = [];
-		$full = [];
-		$years = ((int) $timeMinutesRange) / (60 * 24 * 365);
-		$years = floor($years);
-		if (!empty($years)) {
-			$short[] = $years == 1 ? $years . \App\Language::translate('LBL_Y') : $years . \App\Language::translate('LBL_YRS');
-			$full[] = $years == 1 ? $years . \App\Language::translate('LBL_YEAR') : $years . \App\Language::translate('LBL_YEARS');
-		}
-		$days = self::myBcmod(($timeMinutesRange), (60 * 24 * 365));
-		$days = ($days) / (24 * 60);
-		$days = floor($days);
-		if (!empty($days)) {
-			$short[] = $days . \App\Language::translate('LBL_D');
-			$full[] = $days == 1 ? $days . \App\Language::translate('LBL_DAY') : $days . \App\Language::translate('LBL_DAYS');
-		}
-		$hours = self::myBcmod(($timeMinutesRange), (24 * 60));
-		$hours = ($hours) / (60);
-		$hours = floor($hours);
-		if (!empty($hours)) {
-			$short[] = $hours . \App\Language::translate('LBL_H');
-			$full[] = $hours == 1 ? $hours . \App\Language::translate('LBL_HOUR') : $hours . \App\Language::translate('LBL_HOURS');
-		}
-		$minutes = self::myBcmod(($timeMinutesRange), (60));
-		$minutes = floor($minutes);
-		if (!empty($timeMinutesRange) || $showEmptyValue) {
-			$short[] = $minutes . \App\Language::translate('LBL_M');
-			$full[] = $minutes == 1 ? $minutes . \App\Language::translate('LBL_MINUTE') : $minutes . \App\Language::translate('LBL_MINUTES');
-		}
-		return [
-			'short' => implode(' ', $short),
-			'full' => implode(' ', $full),
-		];
-	}
-
-	/**
-	 * myBcmod - get modulus (substitute for bcmod)
-	 * string my_bcmod ( string left_operand, int modulus )
-	 * left_operand can be really big, but be carefull with modulus :(
-	 * by Andrius Baranauskas and Laurynas Butkus :) Vilnius, Lithuania.
-	 * */
-	public static function myBcmod($x, $y)
-	{
-		// how many numbers to take at once? carefull not to exceed (int)
-		$take = 5;
-		$mod = '';
-
-		do {
-			$a = (int) $mod . substr($x, 0, $take);
-			$x = substr($x, $take);
-			$mod = $a % $y;
-		} while (strlen($x));
-
-		return (int) $mod;
-	}
-
 	public static function getArrayFromValue($values)
 	{
-		if (is_array($values)) {
+		if (\is_array($values)) {
 			return $values;
 		}
-		if ($values == '') {
+		if ('' === $values) {
 			return [];
 		}
-		if (strpos($values, ',') === false) {
+		if (false === strpos($values, ',')) {
 			$array[] = $values;
 		} else {
 			$array = explode(',', $values);
@@ -408,26 +349,26 @@ class Functions
 
 	public static function throwNewException($e, $die = true, $messageHeader = 'LBL_ERROR')
 	{
-		$message = is_object($e) ? $e->getMessage() : $e;
-		if (!is_array($message)) {
-			if (strpos($message, '||') === false) {
+		$message = \is_object($e) ? $e->getMessage() : $e;
+		if (!\is_array($message)) {
+			if (false === strpos($message, '||')) {
 				$message = \App\Language::translateSingleMod($message, 'Other.Exceptions');
 			} else {
 				$params = explode('||', $message);
-				$message = call_user_func_array('vsprintf', [\App\Language::translateSingleMod(array_shift($params), 'Other.Exceptions'), $params]);
+				$message = \call_user_func_array('vsprintf', [\App\Language::translateSingleMod(array_shift($params), 'Other.Exceptions'), $params]);
 			}
 		}
-		if (\App\Process::$requestMode === 'API') {
+		if ('API' === \App\Process::$requestMode) {
 			throw new \App\Exceptions\ApiException($message, 401);
 		}
 		if (\App\Request::_isAjax()) {
 			$response = new \Vtiger_Response();
 			$response->setEmitType(\Vtiger_Response::$EMIT_JSON);
 			$trace = '';
-			if (\App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE') && is_object($e)) {
-				$trace = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
+			if (\App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE') && \is_object($e)) {
+				$trace = str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
 			}
-			if (is_object($e)) {
+			if (\is_object($e)) {
 				$response->setHeader(\App\Request::_getServer('SERVER_PROTOCOL') . ' ' . $e->getCode() . ' ' . str_ireplace(["\r\n", "\r", "\n"], [' ', ' ', ' '], $e->getMessage()));
 				$response->setError($e->getCode(), $e->getMessage(), $trace);
 			} else {
@@ -435,10 +376,16 @@ class Functions
 			}
 			$response->emit();
 		} else {
-			if (php_sapi_name() !== 'cli') {
+			if (\PHP_SAPI !== 'cli') {
+				if (\App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE') && \is_object($e)) {
+					$message = [
+						'message' => $message,
+						'trace' => str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $e->getTraceAsString())
+					];
+				}
 				$viewer = new \Vtiger_Viewer();
 				$viewer->assign('MESSAGE', $message);
-				$viewer->assign('MESSAGE_EXPANDED', is_array($message));
+				$viewer->assign('MESSAGE_EXPANDED', \is_array($message));
 				$viewer->assign('HEADER_MESSAGE', \App\Language::translate($messageHeader));
 				$viewer->view('ExceptionError.tpl', 'Vtiger');
 			} else {
@@ -447,13 +394,13 @@ class Functions
 		}
 		if ($die) {
 			trigger_error(print_r($message, true), E_USER_ERROR);
-			if (is_object($message)) {
+			if (\is_object($message)) {
 				throw new $message();
-			} elseif (is_array($message)) {
-				throw new \App\Exceptions\AppException($message['message']);
-			} else {
-				throw new \App\Exceptions\AppException($message);
 			}
+			if (\is_array($message)) {
+				throw new \App\Exceptions\AppException($message['message']);
+			}
+			throw new \App\Exceptions\AppException($message);
 		}
 	}
 
@@ -466,7 +413,7 @@ class Functions
 	 */
 	public static function getHtmlOrPlainText(string $content)
 	{
-		if (substr($content, 0, 1) === '<' && substr($content, -1) === '>') {
+		if (\App\Utils::isHtml($content)) {
 			$content = \App\Purifier::decodeHtml($content);
 		} else {
 			$content = nl2br($content);
@@ -482,24 +429,19 @@ class Functions
 	 */
 	public static function recurseDelete($src, $outsideRoot = false)
 	{
-		$rootDir = ($outsideRoot || strpos($src, ROOT_DIRECTORY) === 0) ? '' : ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
+		$rootDir = ($outsideRoot || 0 === strpos($src, ROOT_DIRECTORY)) ? '' : ROOT_DIRECTORY . \DIRECTORY_SEPARATOR;
 		if (!file_exists($rootDir . $src)) {
 			return;
 		}
-		$dirs = [];
-		$dirs[] = $rootDir . $src;
-		if (is_dir($src)) {
-			foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
-				if ($item->isDir()) {
-					$dirs[] = $rootDir . $src . DIRECTORY_SEPARATOR . $iterator->getSubPathName();
+		if (is_dir($rootDir . $src)) {
+			foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($rootDir . $src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST) as $filename => $file) {
+				if ($file->isFile()) {
+					unlink($filename);
 				} else {
-					unlink($rootDir . $src . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+					rmdir($filename);
 				}
 			}
-			arsort($dirs);
-			foreach ($dirs as $dir) {
-				rmdir($dir);
-			}
+			rmdir($rootDir . $src);
 		} else {
 			unlink($rootDir . $src);
 		}
@@ -511,25 +453,28 @@ class Functions
 	 * @param string $src
 	 * @param string $dest
 	 *
-	 * @return string
+	 * @return int
 	 */
 	public static function recurseCopy($src, $dest)
 	{
-		$rootDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
+		$rootDir = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR;
 		if (!file_exists($rootDir . $src)) {
-			return;
+			return 0;
 		}
-		if ($dest && substr($dest, -1) !== '/' && substr($dest, -1) !== '\\') {
-			$dest = $dest . DIRECTORY_SEPARATOR;
+		if ($dest && '/' !== substr($dest, -1) && '\\' !== substr($dest, -1)) {
+			$dest = $dest . \DIRECTORY_SEPARATOR;
 		}
+		$i = 0;
 		$dest = $rootDir . $dest;
 		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			if ($item->isDir() && !file_exists($dest . $iterator->getSubPathName())) {
 				mkdir($dest . $iterator->getSubPathName(), 0755);
 			} elseif (!$item->isDir()) {
 				copy($item->getRealPath(), $dest . $iterator->getSubPathName());
+				++$i;
 			}
 		}
+		return $i;
 	}
 
 	public static function parseBytes($str)
@@ -597,10 +542,10 @@ class Functions
 	{
 		switch ($type) {
 			case 'js':
-				$return = \AppConfig::developer('MINIMIZE_JS');
+				$return = \App\Config::developer('MINIMIZE_JS');
 				break;
 			case 'css':
-				$return = \AppConfig::developer('MINIMIZE_CSS');
+				$return = \App\Config::developer('MINIMIZE_CSS');
 				break;
 			default:
 				break;
@@ -608,21 +553,22 @@ class Functions
 		return $return;
 	}
 
-	/*
-	 * Checks if given date is working day, if not returns last working day
+	/**
+	 * Checks if given date is working day, if not returns last working day.
+	 *
 	 * @param <Date> $date
+	 *
 	 * @return <Date> - last working y
 	 */
-
 	public static function getLastWorkingDay($date)
 	{
 		if (empty($date)) {
 			$date = date('Y-m-d');
 		}
 		$date = strtotime($date);
-		if (date('D', $date) == 'Sat') { // switch to friday the day before
+		if ('Sat' === date('D', $date)) { // switch to friday the day before
 			$lastWorkingDay = date('Y-m-d', strtotime('-1 day', $date));
-		} elseif (date('D', $date) == 'Sun') { // switch to friday two days before
+		} elseif ('Sun' === date('D', $date)) { // switch to friday two days before
 			$lastWorkingDay = date('Y-m-d', strtotime('-2 day', $date));
 		} else {
 			$lastWorkingDay = date('Y-m-d', $date);
@@ -641,7 +587,7 @@ class Functions
 			'Ă' => 'D', 'Ă‘' => 'N', 'Ă’' => 'O', 'Ă“' => 'O', 'Ă”' => 'O', 'Ă•' => 'O', 'Ă–' => 'O', 'Ĺ' => 'O',
 			'Ă' => 'O', 'Ă™' => 'U', 'Ăš' => 'U', 'Ă›' => 'U', 'Ăś' => 'U', 'Ĺ°' => 'U', 'Ăť' => 'Y', 'Ăž' => 'TH',
 			'Ăź' => 'ss',
-			'Ă ' => 'a', 'Ăˇ' => 'a', 'Ă˘' => 'a', 'ĂŁ' => 'a', 'Ă¤' => 'a', 'ĂĄ' => 'a', 'Ă¦' => 'ae', 'Ă§' => 'c',
+			'Ă ' => 'a', 'Ăˇ' => 'a', 'Ă˘' => 'a', 'ĂŁ' => 'a', 'Ă¤' => 'a', 'ĂĄ' => 'a', 'Ă¦' => 'ae', 'Ă§' => 'c',
 			'Ă¨' => 'e', 'Ă©' => 'e', 'ĂŞ' => 'e', 'Ă«' => 'e', 'á»‡' => 'e', 'Ă¬' => 'i', 'Ă­' => 'i', 'Ă®' => 'i',
 			'ĂŻ' => 'i', 'Ä©' => 'i', 'Ă°' => 'd', 'Ă±' => 'n', 'Ă˛' => 'o', 'Ăł' => 'o', 'Ă´' => 'o', 'á»™' => 'o',
 			'Ăµ' => 'o', 'Ă¶' => 'o', 'Ĺ‘' => 'o', 'Ă¸' => 'o', 'Ăą' => 'u', 'Ăş' => 'u', 'Ă»' => 'u', 'ĂĽ' => 'u',
@@ -650,7 +596,7 @@ class Functions
 			'Â©' => '(c)',
 			// Greek
 			'Î‘' => 'A', 'Î’' => 'B', 'Î“' => 'G', 'Î”' => 'D', 'Î•' => 'E', 'Î–' => 'Z', 'Î—' => 'H', 'Î' => '8',
-			'Î™' => 'I', 'Îš' => 'K', 'Î›' => 'L', 'Îś' => 'M', 'Îť' => 'N', 'Îž' => '3', 'Îź' => 'O', 'Î ' => 'P',
+			'Î™' => 'I', 'Îš' => 'K', 'Î›' => 'L', 'Îś' => 'M', 'Îť' => 'N', 'Îž' => '3', 'Îź' => 'O', 'Î ' => 'P',
 			'Îˇ' => 'R', 'ÎŁ' => 'S', 'Î¤' => 'T', 'ÎĄ' => 'Y', 'Î¦' => 'F', 'Î§' => 'X', 'Î¨' => 'PS', 'Î©' => 'W',
 			'Î†' => 'A', 'Î' => 'E', 'ÎŠ' => 'I', 'ÎŚ' => 'O', 'ÎŽ' => 'Y', 'Î‰' => 'H', 'ÎŹ' => 'W', 'ÎŞ' => 'I',
 			'Î«' => 'Y',
@@ -665,7 +611,7 @@ class Functions
 			// Russian
 			'Đ' => 'A', 'Đ‘' => 'B', 'Đ’' => 'V', 'Đ“' => 'G', 'Đ”' => 'D', 'Đ•' => 'E', 'Đ' => 'Yo', 'Đ–' => 'Zh',
 			'Đ—' => 'Z', 'Đ' => 'I', 'Đ™' => 'J', 'Đš' => 'K', 'Đ›' => 'L', 'Đś' => 'M', 'Đť' => 'N', 'Đž' => 'O',
-			'Đź' => 'P', 'Đ ' => 'R', 'Đˇ' => 'S', 'Đ˘' => 'T', 'ĐŁ' => 'U', 'Đ¤' => 'F', 'ĐĄ' => 'H', 'Đ¦' => 'C',
+			'Đź' => 'P', 'Đ ' => 'R', 'Đˇ' => 'S', 'Đ˘' => 'T', 'ĐŁ' => 'U', 'Đ¤' => 'F', 'ĐĄ' => 'H', 'Đ¦' => 'C',
 			'Đ§' => 'Ch', 'Đ¨' => 'Sh', 'Đ©' => 'Sh', 'ĐŞ' => '', 'Đ«' => 'Y', 'Đ¬' => '', 'Đ­' => 'E', 'Đ®' => 'Yu',
 			'ĐŻ' => 'Ya',
 			'Đ°' => 'a', 'Đ±' => 'b', 'Đ˛' => 'v', 'Đł' => 'g', 'Đ´' => 'd', 'Đµ' => 'e', 'Ń‘' => 'yo', 'Đ¶' => 'zh',
@@ -686,7 +632,7 @@ class Functions
 			'Đ„' => 'Ye', 'Đ†' => 'I', 'Đ‡' => 'Yi', 'Ň' => 'G',
 			'Ń”' => 'ye', 'Ń–' => 'i', 'Ń—' => 'yi', 'Ň‘' => 'g',
 			// Czech
-			'ÄŚ' => 'C', 'ÄŽ' => 'D', 'Äš' => 'E', 'Ĺ‡' => 'N', 'Ĺ' => 'R', 'Ĺ ' => 'S', 'Ĺ¤' => 'T', 'Ĺ®' => 'U',
+			'ÄŚ' => 'C', 'ÄŽ' => 'D', 'Äš' => 'E', 'Ĺ‡' => 'N', 'Ĺ' => 'R', 'Ĺ ' => 'S', 'Ĺ¤' => 'T', 'Ĺ®' => 'U',
 			'Ĺ˝' => 'Z',
 			'ÄŤ' => 'c', 'ÄŹ' => 'd', 'Ä›' => 'e', 'Ĺ' => 'n', 'Ĺ™' => 'r', 'Ĺˇ' => 's', 'ĹĄ' => 't', 'ĹŻ' => 'u',
 			'Ĺľ' => 'z',
@@ -697,7 +643,7 @@ class Functions
 			'ĹĽ' => 'z',
 			// Latvian
 			'Ä€' => 'A', 'ÄŚ' => 'C', 'Ä’' => 'E', 'Ä˘' => 'G', 'ÄŞ' => 'i', 'Ä¶' => 'k', 'Ä»' => 'L', 'Ĺ…' => 'N',
-			'Ĺ ' => 'S', 'ĹŞ' => 'u', 'Ĺ˝' => 'Z',
+			'Ĺ ' => 'S', 'ĹŞ' => 'u', 'Ĺ˝' => 'Z',
 			'Ä' => 'a', 'ÄŤ' => 'c', 'Ä“' => 'e', 'ÄŁ' => 'g', 'Ä«' => 'i', 'Ä·' => 'k', 'ÄĽ' => 'l', 'Ĺ†' => 'n',
 			'Ĺˇ' => 's', 'Ĺ«' => 'u', 'Ĺľ' => 'z',
 		];
@@ -710,16 +656,17 @@ class Functions
 		return trim($str, $delimiter);
 	}
 
-	/*
-	 * Function that returns conversion info from default system currency to chosen one
+	/**
+	 * Function that returns conversion info from default system currency to chosen one.
+	 *
 	 * @param <Integer> $currencyId - id of currency for which we want to retrieve conversion rate to default currency
-	 * @param <Date> $date - date of exchange rates, if empty then rate from yesterday
+	 * @param <Date>    $date       - date of exchange rates, if empty then rate from yesterday
+	 *
 	 * @return <Array> - array containing:
-	 * 		date - date of rate
-	 * 		value - conversion 1 default currency -> $currencyId
-	 * 		conversion - 1 $currencyId -> default currency
+	 *                 date - date of rate
+	 *                 value - conversion 1 default currency -> $currencyId
+	 *                 conversion - 1 $currencyId -> default currency
 	 */
-
 	public static function getConversionRateInfo($currencyId, $date = '')
 	{
 		$currencyUpdateModel = \Settings_CurrencyUpdate_Module_Model::getCleanInstance();
@@ -737,8 +684,8 @@ class Functions
 			$info['conversion'] = 1.0;
 		} else {
 			$value = $currencyUpdateModel->getCRMConversionRate($currencyId, $defaultCurrencyId, $date);
-			$info['value'] = $value == 0 ? 1.0 : round($value, 5);
-			$info['conversion'] = $value == 0 ? 1.0 : round(1 / $value, 5);
+			$info['value'] = empty($value) ? 1.0 : round($value, 5);
+			$info['conversion'] = empty($value) ? 1.0 : round(1 / $value, 5);
 		}
 		return $info;
 	}
@@ -755,8 +702,8 @@ class Functions
 	{
 		$difference = [];
 		foreach ($array1 as $key => $value) {
-			if (is_array($value)) {
-				if (!isset($array2[$key]) || !is_array($array2[$key])) {
+			if (\is_array($value)) {
+				if (!isset($array2[$key]) || !\is_array($array2[$key])) {
 					$difference[$key] = $value;
 				} else {
 					$newDiff = self::arrayDiffAssocRecursive($value, $array2[$key]);
@@ -764,7 +711,7 @@ class Functions
 						$difference[$key] = $newDiff;
 					}
 				}
-			} elseif (!array_key_exists($key, $array2) || $array2[$key] !== $value) {
+			} elseif (!\array_key_exists($key, $array2) || $array2[$key] !== $value) {
 				$difference[$key] = $value;
 			}
 		}

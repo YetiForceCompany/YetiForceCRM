@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-BreadCrumbs -->
-	{if AppConfig::main('breadcrumbs') eq  'true'}
+	{if App\Config::main('breadcrumbs') eq  'true'}
 		{if isset($BREADCRUMB_TITLE)}
 			{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs($BREADCRUMB_TITLE)}
 			{assign var="BREADCRUMBS_POPOVER" value=Vtiger_Menu_Model::getBreadcrumbs()}
@@ -9,9 +9,9 @@
 			{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs()}
 			{assign var="BREADCRUMBS_POPOVER" value=$BREADCRUMBS}
 		{/if}
-		{assign var=HOMEICON value='userIcon-Home'}
+		{assign var=HOMEICON value='fas fa-home'}
 		{if $BREADCRUMBS}
-			{assign var="BREADCRUMBS_TEXT" value="<a href='`AppConfig::main('site_URL')`'><span class='$HOMEICON' aria-hidden='true'></span></a>"}
+			{assign var="BREADCRUMBS_TEXT" value="<a href='`App\Config::main('site_URL')`'><span class='$HOMEICON' aria-hidden='true'></span></a>"}
 			{foreach key=key item=item from=$BREADCRUMBS_POPOVER}
 				{assign var="BREADCRUMBS_ITEM" value=$item['name']}
 				{if isset($item['url'])}
@@ -24,7 +24,7 @@
 				data-toggle="popover"
 				data-js="popover | mouseenter">
 				<li class="breadcrumb-item">
-					<a href="{AppConfig::main('site_URL')}">
+					<a href="{App\Config::main('site_URL')}">
 						<span class="{$HOMEICON}" aria-hidden="true"></span>
 						<span class="sr-only">{\App\Language::translate('LBL_HOME')}</span>
 					</a>

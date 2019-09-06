@@ -85,7 +85,7 @@ class ModTracker_ChangesReviewedOn_Action extends \App\Controller\Action
 		$request->set('module', $sourceModule);
 		$result = false;
 		$recordsList = Vtiger_Mass_Action::getRecordsListFromRequest($request);
-		if (is_array($recordsList) && count($recordsList) > AppConfig::module($moduleName, 'REVIEW_CHANGES_LIMIT')) {
+		if (is_array($recordsList) && count($recordsList) > App\Config::module($moduleName, 'REVIEW_CHANGES_LIMIT')) {
 			$params = $request->getRaw('selected_ids') === 'all' ? ['viewname', 'selected_ids', 'excluded_ids', 'search_key', 'search_value', 'operator', 'search_params', 'entityState'] : ['selected_ids'];
 			foreach ($params as $variable) {
 				if ($request->has($variable)) {

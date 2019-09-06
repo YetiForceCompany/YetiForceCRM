@@ -15,7 +15,7 @@ class OSSMailScanner_SaveActions_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
@@ -23,12 +23,12 @@ class OSSMailScanner_SaveActions_Action extends \App\Controller\Action
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$userid = $request->getInteger('userid');
 		$vale = $request->get('vale');
 		if ($userid) {
-			if ($vale != 'null') {
+			if ('null' != $vale) {
 				$vale = implode(',', $vale);
 			}
 			$OSSMailScannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');

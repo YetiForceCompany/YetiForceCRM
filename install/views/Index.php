@@ -1,5 +1,5 @@
 <?php
-/* +***********************************************************************************
+ /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -12,16 +12,40 @@
 class Install_Index_View extends \App\Controller\View
 {
 	use \App\Controller\ExposeMethod;
+
 	/**
 	 * @var bool
 	 */
 	protected $debug = false;
+
 	/**
 	 * @var Vtiger_Viewer
 	 */
 	protected $viewer;
 
-	public function checkPermission(\App\Request $request)
+	/**
+	 * Step number.
+	 *
+	 * @var int
+	 */
+	protected $stepNumber = 1;
+
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('step1');
+		$this->exposeMethod('step2');
+		$this->exposeMethod('stepChooseHost');
+		$this->exposeMethod('showBuyModal');
+		$this->exposeMethod('showProductModal');
+		$this->exposeMethod('step3');
+		$this->exposeMethod('step4');
+		$this->exposeMethod('step5');
+		$this->exposeMethod('step6');
+		$this->exposeMethod('step7');
+	}
+
+	public function checkPermission(App\Request $request)
 	{
 	}
 
@@ -37,7 +61,7 @@ class Install_Index_View extends \App\Controller\View
 	 *
 	 * @return \App\Request
 	 */
-	public function setLanguage(\App\Request $request)
+	public function setLanguage(App\Request $request)
 	{
 		if (!$request->getByType('lang', 1)) {
 			$lang = '';
@@ -47,7 +71,7 @@ class Install_Index_View extends \App\Controller\View
 					$shortCode = Locale::getPrimaryLanguage($code);
 				});
 				foreach (explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']) as $code) {
-					if (isset($languages[$code]) || ($code = array_search(Locale::acceptFromHttp($code), $languages)) !== false) {
+					if (isset($languages[$code]) || false !== ($code = array_search(Locale::acceptFromHttp($code), $languages))) {
 						$lang = $code;
 						break;
 					}
@@ -61,40 +85,32 @@ class Install_Index_View extends \App\Controller\View
 		return $request;
 	}
 
-	public function __construct()
+	public function preProcess(App\Request $request, $display = true)
 	{
-		parent::__construct();
-		$this->exposeMethod('step1');
-		$this->exposeMethod('step2');
-		$this->exposeMethod('step3');
-		$this->exposeMethod('step4');
-		$this->exposeMethod('step5');
-		$this->exposeMethod('step6');
-		$this->exposeMethod('step7');
-	}
-
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		if ($request->getMode() !== 'step5') {
+		if (preg_match('|^step([0-9])|i', $request->getMode(), $m)) {
+			$this->stepNumber = (int) $m[1];
+		}
+		if ('step3' !== $request->getMode()) {
 			date_default_timezone_set('UTC'); // to overcome the pre configuration settings
 		}
 		// Added to redirect to default module if already installed
 		$request->set('module', 'Install');
 		$request = $this->setLanguage($request);
-
-		if ($request->getMode() !== 'step7' && \App\Config::main('application_unique_key', false)) {
-			$defaultModule = \AppConfig::main('default_module');
+		if ('step7' !== $request->getMode() && \App\Config::main('application_unique_key', false)) {
+			$defaultModule = \App\Config::main('default_module');
 			$defaultModuleInstance = Vtiger_Module_Model::getInstance($defaultModule);
 			$defaultView = $defaultModuleInstance->getDefaultViewName();
 			header('location: ../index.php?module=' . $defaultModule . '&view=' . $defaultView);
 		}
-		$_SESSION['default_language'] = $defaultLanguage = ($request->getByType('lang', 1)) ? $request->getByType('lang', 1) : \App\Language::DEFAULT_LANG;
+		$_SESSION['language'] = $defaultLanguage = ($request->getByType('lang', 1)) ? $request->getByType('lang', 1) : \App\Language::DEFAULT_LANG;
 		App\Language::setTemporaryLanguage($defaultLanguage);
 		$this->loadJsConfig($request);
 		$this->viewer = new Vtiger_Viewer();
 		$this->viewer->setTemplateDir('install/tpl/');
 		$this->viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 		$this->viewer->assign('LANG', $request->getByType('lang', 1));
+		$this->viewer->assign('NEXT_STEP', 'step' . ($this->stepNumber + 1));
+		$this->viewer->assign('STEP_NUMBER', $this->stepNumber);
 		$this->viewer->assign('HTMLLANG', substr($defaultLanguage, 0, 2));
 		$this->viewer->assign('LANGUAGE', $defaultLanguage);
 		$this->viewer->assign('STYLES', $this->getHeaderCss($request));
@@ -105,48 +121,112 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->display('InstallPreProcess.tpl');
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode) && $this->isMethodExposed($mode)) {
-			return $this->$mode($request);
+			return $this->{$mode}($request);
 		}
 		$this->step1($request);
 	}
 
-	public function postProcess(\App\Request $request, $display = true)
+	public function postProcess(App\Request $request, $display = true)
 	{
 		$this->viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
 		$this->viewer->display('InstallPostProcess.tpl');
 	}
 
-	public function step1(\App\Request $request)
+	public function step1(App\Request $request)
 	{
 		$isMigrate = false;
 		if (is_dir(ROOT_DIRECTORY . '/install/migrate_schema/')) {
 			$filesInDir = scandir(ROOT_DIRECTORY . '/install/migrate_schema/');
-			if (count($filesInDir) > 2) {
+			if (\count($filesInDir) > 2) {
 				$isMigrate = true;
 			}
 		}
 		$this->viewer->assign('LANGUAGES', Install_Utils_Model::getLanguages());
 		$this->viewer->assign('IS_MIGRATE', $isMigrate);
-		$this->viewer->display('Step1.tpl');
+		$this->viewer->display('StepWelcome.tpl');
 	}
 
-	public function step2(\App\Request $request)
+	public function step2(App\Request $request)
 	{
-		if ($_SESSION['default_language'] === 'pl-PL') {
+		if ('pl-PL' === $_SESSION['language']) {
 			$license = file_get_contents('licenses/LicensePL.txt');
 		} else {
 			$license = file_get_contents('licenses/LicenseEN.txt');
 		}
 		$this->viewer->assign('LIBRARIES', \App\Installer\Credits::getCredits());
 		$this->viewer->assign('LICENSE', nl2br($license));
-		$this->viewer->display('Step2.tpl');
+		$this->viewer->display('StepLicense.tpl');
 	}
 
-	public function step3(\App\Request $request)
+	/**
+	 * Show choose host step.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function stepChooseHost(App\Request $request)
+	{
+		$this->viewer->assign('PRODUCT_ClOUD', \App\YetiForce\Shop::getProduct('YetiForceInstallInCloud'));
+		$this->viewer->assign('PRODUCT_SHARED', \App\YetiForce\Shop::getProduct('YetiForceInstallInHosting'));
+		$this->viewer->display('StepChooseHost.tpl');
+	}
+
+	/**
+	 * Show buy modal in choose host step.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function showBuyModal(App\Request $request)
+	{
+		$request = new \App\Request([
+			'product' => $request->getByType('product'),
+			'module' => 'YetiForce',
+			'parent' => 'Settings',
+			'installation' => true
+		], false);
+		$instance = new Settings_YetiForce_BuyModal_View();
+		$instance->preProcessAjax($request);
+		$instance->process($request);
+		$instance->postProcessAjax($request);
+	}
+
+	/**
+	 * Show product modal in choose host step.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function showProductModal(App\Request $request)
+	{
+		$request = new \App\Request([
+			'product' => $request->getByType('product'),
+			'module' => 'YetiForce',
+			'parent' => 'Settings',
+			'installation' => true
+		], false);
+		$instance = new Settings_YetiForce_ProductModal_View();
+		$instance->preProcessAjax($request);
+		$instance->process($request);
+		$instance->postProcessAjax($request);
+	}
+
+	public function step3(App\Request $request)
+	{
+		$this->viewer->assign('ALL', \App\Utils\ConfReport::getByType([
+			'stability', 'security', 'libraries', 'performance', 'environment', 'publicDirectoryAccess', 'writableFilesAndFolders'
+		]));
+		$this->viewer->display('StepVerifyServerConfiguration.tpl');
+	}
+
+	public function step4(App\Request $request)
 	{
 		$this->viewer->assign('CURRENCIES', Install_Utils_Model::getCurrencyList());
 		require_once ROOT_DIRECTORY . '/modules/Users/UserTimeZonesArray.php';
@@ -163,10 +243,10 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->assign('ADMIN_LASTNAME', $defaultParameters['admin_lastname']);
 		$this->viewer->assign('ADMIN_PASSWORD', $defaultParameters['admin_password']);
 		$this->viewer->assign('ADMIN_EMAIL', $defaultParameters['admin_email']);
-		$this->viewer->display('Step3.tpl');
+		$this->viewer->display('StepSystemConfiguration.tpl');
 	}
 
-	public function step4(\App\Request $request)
+	public function step5(App\Request $request)
 	{
 		set_time_limit(60); // Override default limit to let install complete.
 		$error = false;
@@ -187,6 +267,8 @@ class Install_Index_View extends \App\Controller\View
 			$dbConnection = Install_Utils_Model::checkDbConnection($configFile->getData());
 			if (!$dbConnection['flag']) {
 				$error = true;
+			} else {
+				$configFile->create();
 			}
 		}
 		$configFile = new \App\ConfigFile('main');
@@ -206,7 +288,7 @@ class Install_Index_View extends \App\Controller\View
 		$webRoot = str_replace('index.php', '', $webRoot);
 		$webRoot = (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) ? 'https://' : 'http://') . $webRoot;
 		$tabUrl = explode('/', $webRoot);
-		unset($tabUrl[count($tabUrl) - 1], $tabUrl[count($tabUrl) - 1]);
+		unset($tabUrl[\count($tabUrl) - 1], $tabUrl[\count($tabUrl) - 1]);
 		$webRoot = implode('/', $tabUrl) . '/';
 		$name = 'site_URL';
 		try {
@@ -226,11 +308,32 @@ class Install_Index_View extends \App\Controller\View
 							$_SESSION['config_file_info']['currency_symbol'] = $currencies[$value][1];
 						} else {
 							$value = '';
+							$error = true;
+						}
+						break;
+					case 'user_name':
+						$blacklist = require ROOT_DIRECTORY . '/config/username_blacklist.php';
+						$value = $request->get($name);
+						if (\in_array($value, $blacklist) || !preg_match('/^[a-zA-Z0-9_.@-]{3,64}$/', $value)) {
+							$value = '';
+							$error = true;
+						}
+						break;
+					case 'admin_email':
+						$value = $request->get($name);
+						if (!App\Validator::email($value)) {
+							$value = '';
+							$error = true;
 						}
 						break;
 					case 'password':
 					case 'retype_password':
-						$value = $request->getRaw($name);
+						if ($request->getRaw('password') === $request->getRaw('retype_password')) {
+							$value = $request->getRaw($name);
+						} else {
+							$value = '';
+							$error = true;
+						}
 						break;
 					default:
 						$value = $request->get($name);
@@ -243,33 +346,10 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->assign('DB_CONNECTION_INFO', $dbConnection);
 		$this->viewer->assign('INFORMATION', $_SESSION['config_file_info'] ?? []);
 		$this->viewer->assign('AUTH_KEY', $_SESSION['config_file_info']['authentication_key'] = sha1(microtime()));
-		$this->viewer->display('Step4.tpl');
-	}
-
-	public function step5(\App\Request $request)
-	{
-		if ($_SESSION['config_file_info']['db_server'] ?? false) {
-			$success = true;
-			$configFile = new \App\ConfigFile('db');
-			foreach ($configFile->getTemplate() as $name => $data) {
-				try {
-					if (isset($_SESSION['config_file_info'][$name])) {
-						$configFile->set($name, $_SESSION['config_file_info'][$name]);
-					}
-				} catch (\Throwable $e) {
-					$success = false;
-					\App\Log::error($e->__toString());
-					unset($_SESSION['config_file_info'][$name]);
-				}
-			}
-			if ($success) {
-				$configFile->create();
-			}
-		} else {
-			Install_Utils_Model::cleanConfiguration();
+		if (!$error) {
+			$this->viewer->assign('CONF_REPORT_RESULT', \App\Utils\ConfReport::getByType(['database']));
 		}
-		$this->viewer->assign('ALL', \App\Utils\ConfReport::getAll());
-		$this->viewer->display('Step5.tpl');
+		$this->viewer->display('StepConfirmConfigurationSettings.tpl');
 	}
 
 	/**
@@ -279,7 +359,7 @@ class Install_Index_View extends \App\Controller\View
 	 *
 	 * @throws \SmartyException
 	 */
-	public function step6(\App\Request $request)
+	public function step6(App\Request $request)
 	{
 		$configFile = new \App\ConfigFile('main');
 		foreach ($configFile->getTemplate() as $name => $data) {
@@ -290,10 +370,10 @@ class Install_Index_View extends \App\Controller\View
 		$configFile->set('application_unique_key', '');
 		$configFile->create();
 		$this->viewer->assign('AUTH_KEY', $_SESSION['config_file_info']['authentication_key']);
-		$this->viewer->display('Step6.tpl');
+		$this->viewer->display('StepCompanyDetails.tpl');
 	}
 
-	public function step7(\App\Request $request)
+	public function step7(App\Request $request)
 	{
 		set_time_limit(0);
 		if (\App\Config::main('application_unique_key', false)) {
@@ -315,16 +395,18 @@ class Install_Index_View extends \App\Controller\View
 		}
 		if (!($success = $_SESSION['installation_success'] ?? false)) {
 			Install_Utils_Model::cleanConfiguration();
+		} else {
+			unset($_SESSION['language']);
 		}
 		$this->viewer->assign('INSTALLATION_SUCCESS', $success);
-		$this->viewer->display('Step7.tpl');
+		$this->viewer->display('StepInstall.tpl');
 	}
 
-	protected function preProcessDisplay(\App\Request $request)
+	protected function preProcessDisplay(App\Request $request)
 	{
 	}
 
-	public function validateRequest(\App\Request $request)
+	public function validateRequest(App\Request $request)
 	{
 		return $request->validateWriteAccess(true);
 	}
@@ -336,7 +418,7 @@ class Install_Index_View extends \App\Controller\View
 	 *
 	 * @return Vtiger_CssScript_Model[]
 	 */
-	public function getHeaderCss(\App\Request $request)
+	public function getHeaderCss(App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
@@ -351,7 +433,7 @@ class Install_Index_View extends \App\Controller\View
 		return array_merge($headerCssInstances, $cssInstances);
 	}
 
-	public function getHeaderScripts(\App\Request $request)
+	public function getHeaderScripts(App\Request $request)
 	{
 		return $this->checkAndConvertJsScripts([
 			'libraries.jquery.dist.jquery'
@@ -365,12 +447,21 @@ class Install_Index_View extends \App\Controller\View
 	 *
 	 * @return Vtiger_JsScript_Model[]
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
-		if ($request->getMode() === 'step7') {
+		$viewScripts = [];
+		if ('step7' === $request->getMode()) {
 			return [];
 		}
-		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+		if ('stepChooseHost' === $request->getMode()) {
+			$viewScripts = $this->checkAndConvertJsScripts([
+				'~layouts/resources/Field.js',
+				'~layouts/resources/validator/BaseValidator.js',
+				'~layouts/resources/validator/FieldValidator.js',
+				'modules.Settings.YetiForce.resources.Shop'
+			]);
+		}
+		return array_merge(parent::getFooterScripts($request), $viewScripts, $this->checkAndConvertJsScripts([
 			'~libraries/datatables.net/js/jquery.dataTables.js',
 			'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
 			'~libraries/datatables.net-responsive/js/dataTables.responsive.js',

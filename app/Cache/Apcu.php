@@ -32,15 +32,15 @@ class Apcu
 	 */
 	public static function isSupported()
 	{
-		return function_exists('apcu_enabled') && apcu_enabled();
+		return \function_exists('apcu_enabled') && apcu_enabled();
 	}
 
 	/**
 	 * Returns a cache item representing the specified key.
 	 *
-	 * @param string|array $key Cache ID
+	 * @param array|string $key Cache ID
 	 *
-	 * @return string|array
+	 * @return array|string
 	 */
 	public function get($key)
 	{
@@ -50,7 +50,7 @@ class Apcu
 	/**
 	 * Confirms if the cache contains specified cache item.
 	 *
-	 * @param string|array $key Cache ID
+	 * @param array|string $key Cache ID
 	 *
 	 * @return bool
 	 */
@@ -63,10 +63,10 @@ class Apcu
 	 * Cache save.
 	 *
 	 * @param string       $key      Cache ID
-	 * @param string|array $value    Data to store
+	 * @param array|string $value    Data to store
 	 * @param int          $duration Cache TTL (in seconds)
 	 *
-	 * @return bool|array
+	 * @return array|bool
 	 */
 	public function save($key, $value, $duration)
 	{
@@ -76,7 +76,7 @@ class Apcu
 	/**
 	 * Removes the item from the cache.
 	 *
-	 * @param string|array $key Cache ID
+	 * @param array|string $key Cache ID
 	 *
 	 * @return bool
 	 */

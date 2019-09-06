@@ -87,7 +87,7 @@ class Vtiger_DetailView_Model extends \App\Base
 			Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
 			$wfs = new VTWorkflowManager();
 			$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$TRIGGER);
-			if (count($workflows) > 0) {
+			if (\count($workflows) > 0) {
 				$detailViewLinks[] = [
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => '',
@@ -112,7 +112,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				];
 			}
 		}
-		if (AppConfig::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingRecords')) {
+		if (App\Config::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingRecords')) {
 			$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
 			$class = 'btn-outline-dark btn-sm';
 			$iconclass = 'fa-eye-slash';
@@ -143,10 +143,20 @@ class Vtiger_DetailView_Model extends \App\Base
 		}
 		if ($userPrivilegesModel->hasModulePermission('PermissionInspector')) {
 			$detailViewLinks[] = [
-				'linktype' => 'LIST_VIEW_HEADER',
+				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linkhint' => 'BTN_PERMISSION_INSPECTOR',
 				'linkdata' => ['url' => "index.php?module=PermissionInspector&view=UserListModal&srcModule=$moduleName&srcRecord=$recordId"],
 				'linkicon' => 'fas fa-user-secret',
+				'linkclass' => 'btn-outline-dark btn-sm',
+				'modalView' => true,
+			];
+		}
+		if ($moduleModel->isPermitted('RecordConventer') && \App\RecordConverter::isActive($moduleModel->getName(), 'Detail')) {
+			$detailViewLinks[] = [
+				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
+				'linklabel' => 'LBL_RECORD_CONVERTER',
+				'linkdata' => ['url' => "index.php?module={$moduleModel->getName()}&view=RecordConverter&inView=Detail&selected_ids=[{$recordModel->getId()}]"],
+				'linkicon' => 'fas fa-exchange-alt',
 				'linkclass' => 'btn-outline-dark btn-sm',
 				'modalView' => true,
 			];
@@ -173,7 +183,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				'linkhint' => 'BTN_RECORD_OPEN'
 			]);
 		}
-		$stateColors = AppConfig::search('LIST_ENTITY_STATE_COLOR');
+		$stateColors = App\Config::search('LIST_ENTITY_STATE_COLOR');
 		if ($recordModel->privilegeToActivate()) {
 			$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'DETAIL_VIEW_EXTENDED',
@@ -246,16 +256,18 @@ class Vtiger_DetailView_Model extends \App\Base
 		if ($moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdfModel = new $handlerClass();
-			if ($pdfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {
-				$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
-					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
-					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
-					'dataUrl' => 'index.php?module=' . $moduleName . '&view=PDF&fromview=Detail&record=' . $recordId,
-					'linkicon' => 'fas fa-file-pdf',
-					'linkclass' => 'btn-outline-dark btn-sm showModal',
-					'title' => \App\Language::translate('LBL_EXPORT_PDF'),
-				]);
+			$additionalClass = '';
+			if (!$pdfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {
+				$additionalClass = ' d-none';
 			}
+			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
+				'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
+				'dataUrl' => 'index.php?module=' . $moduleName . '&view=PDF&fromview=Detail&record=' . $recordId,
+				'linkicon' => 'fas fa-file-pdf',
+				'linkclass' => 'btn-outline-dark btn-sm showModal js-pdf' . $additionalClass,
+				'title' => \App\Language::translate('LBL_EXPORT_PDF'),
+			]);
 		}
 		$relatedLinks = $this->getDetailViewRelatedLinks();
 		foreach ($relatedLinks as &$relatedLinkEntry) {
@@ -314,7 +326,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments',
 				'linkicon' => '',
 				'related' => $modCommentsModel->getName(),
-				'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT'),
+				'countRelated' => App\Config::relation('SHOW_RECORDS_COUNT'),
 			];
 		}
 		if ($parentModuleModel->isTrackingEnabled() && $parentModuleModel->isPermitted('ModTracker')) {
@@ -324,14 +336,14 @@ class Vtiger_DetailView_Model extends \App\Base
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRecentActivities&page=1',
 				'linkicon' => '',
 				'related' => 'ModTracker',
-				'countRelated' => AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
+				'countRelated' => App\Config::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
 				'badgeClass' => 'bgDanger',
 			];
 		}
 		if (
 			\App\User::getCurrentUserId() === \App\User::getCurrentUserRealId() &&
 			\App\Module::isModuleActive('Chat') &&
-			\App\ModuleHierarchy::getModuleLevel($parentModuleModel->getName()) !== false
+			false !== \App\ModuleHierarchy::getModuleLevel($parentModuleModel->getName())
 		) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
@@ -378,27 +390,24 @@ class Vtiger_DetailView_Model extends \App\Base
 
 	/**
 	 * Function to get the detail view widgets.
-	 *
-	 * @return <Array> - List of widgets , where each widget is an Vtiger_Link_Model
 	 */
 	public function getWidgets()
 	{
-		if (count($this->widgetsList) > 0) {
-			return;
-		}
-		$moduleModel = $this->getModule();
-		$moduleName = $this->getModuleName();
-		$recordId = $this->getRecord()->getId();
-		$modelWidgets = $moduleModel->getWidgets($moduleName);
-		foreach ($modelWidgets as $widgetCol) {
-			foreach ($widgetCol as $widget) {
-				$widgetName = 'Vtiger_' . $widget['type'] . '_Widget';
-				if (class_exists($widgetName)) {
-					$this->widgetsList[] = $widget['type'];
-					$widgetInstance = new $widgetName($moduleName, $moduleModel, $recordId, $widget);
-					$widgetObject = $widgetInstance->getWidget();
-					if (count($widgetObject) > 0) {
-						$this->widgets[$widgetObject['wcol']][] = $widgetObject;
+		if (empty($this->widgetsList)) {
+			$moduleModel = $this->getModule();
+			$moduleName = $this->getModuleName();
+			$recordId = $this->getRecord()->getId();
+			$modelWidgets = $moduleModel->getWidgets($moduleName);
+			foreach ($modelWidgets as $widgetCol) {
+				foreach ($widgetCol as $widget) {
+					$widgetName = Vtiger_Loader::getComponentClassName('Widget', $widget['type'], $moduleName);
+					if (class_exists($widgetName)) {
+						$this->widgetsList[] = $widget['type'];
+						$widgetInstance = new $widgetName($moduleName, $moduleModel, $recordId, $widget);
+						$widgetObject = $widgetInstance->getWidget();
+						if (\count($widgetObject) > 0) {
+							$this->widgets[$widgetObject['wcol']][] = $widgetObject;
+						}
 					}
 				}
 			}

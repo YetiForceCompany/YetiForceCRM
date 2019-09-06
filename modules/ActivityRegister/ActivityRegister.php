@@ -100,14 +100,7 @@ class ActivityRegister extends Vtiger_CRMEntity
 	 *
 	 * @var array
 	 */
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'LBL_SUBJECT' => 'subject',
-		'Assigned To' => 'assigned_user_id',
-		'FL_STATUS' => 'activityregister_status',
-		'FL_START_DATE' => 'start_date',
-		'FL_END_DATE' => 'end_date'
-	];
+	public $search_fields_name = [];
 	/**
 	 * For Popup window record selection.
 	 *

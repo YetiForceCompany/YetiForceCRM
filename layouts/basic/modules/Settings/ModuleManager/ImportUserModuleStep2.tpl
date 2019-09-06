@@ -19,7 +19,7 @@
 		<div class="contents">
 			<div>
 				<div id="vtlib_modulemanager_import_div">
-					<form method="POST" action="index.php">
+					<form class="js-form-import-module" method="POST" action="index.php">
 						<input type="hidden" name="module" value="ModuleManager">
 						<input type="hidden" name="parent" value="Settings"/>
 						{if $MODULEIMPORT_ERROR neq ''}
@@ -37,7 +37,10 @@
 								<thead>
 								<tr class="blockHeader">
 									<th colspan="2">
-										<strong>{\App\Language::translate('LBL_VERIFY_IMPORT_DETAILS',$QUALIFIED_MODULE)}</strong>
+										<strong>{\App\Language::translate('LBL_VERIFY_IMPORT_DETAILS', $QUALIFIED_MODULE)}</strong>
+										{if $MODULEIMPORT_PACKAGE->getPremium() > 0 && !empty($ICONS[$MODULEIMPORT_PACKAGE->getPremium()]) }
+											<span class="{$ICONS[$MODULEIMPORT_PACKAGE->getPremium()]}"></span>
+										{/if}
 									</th>
 								</tr>
 								</thead>
@@ -154,7 +157,7 @@
 								<input type="hidden" name="mode" value="importUserModuleStep3">
 								<span class="text-right">
 															{\App\Language::translate('LBL_PROCEED_WITH_IMPORT', $QUALIFIED_MODULE)}&nbsp;&nbsp;
-															<button class="btn btn-success mx-2" type="submit" name="saveButton"{if $need_license_agreement eq 'true'} disabled {/if}><span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_YES')}</button>
+															<button class="btn btn-success mx-2 js-save-button" type="submit" name="saveButton" {if $need_license_agreement eq 'true'} disabled {/if}><span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_YES')}</button>
 															<button class="cancelLink btn btn-warning" type="reset" data-dismiss="modal" onclick="javascript:window.history.back();"><span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_NO', $MODULE)}</button>
 
 								{/if}

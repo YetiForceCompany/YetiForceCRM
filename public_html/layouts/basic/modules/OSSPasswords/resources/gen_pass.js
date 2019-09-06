@@ -97,54 +97,56 @@ PasswordHelper = {
 		}
 	},
 	showDetailsPassword(record) {
-		var showPassText = app.vtranslate('LBL_ShowPassword');
-		var hidePassText = app.vtranslate('LBL_HidePassword');
+		const showPassText = app.vtranslate('LBL_ShowPassword');
+		const hidePassText = app.vtranslate('LBL_HidePassword');
 
 		if ($('#show-btn').text() == showPassText) {
-			var params = {
-				'module': "OSSPasswords",
-				'action': "GetPass",
-				'record': record
+			const params = {
+				module: 'OSSPasswords',
+				action: 'GetPass',
+				record: record
 			};
 
-			AppConnector.request(params).done(function (data) {
-				var response = data['result'];
+			AppConnector.request(params).done(function(data) {
+				const response = data['result'];
 				if (response['success']) {
-					var el = document.getElementById("detailPassword");
-					el.innerHTML = response['password'];
-					$('#copy-button').removeClass('d-none').show();
+					$('#detailPassword').text(response['password']);
+					$('#copy-button')
+						.removeClass('d-none')
+						.show();
 				}
 			});
 
 			// change buttons label
 			$('#show-btn').html('<span class="fas fa-eye-slash u-mr-5px"></span>' + hidePassText);
 		} else {
-			document.getElementById("detailPassword").innerHTML = '**********';
+			document.getElementById('detailPassword').innerHTML = '**********';
 			$('#show-btn').html('<span class="fas fa-eye u-mr-5px"></span>' + showPassText);
 			$('#copy-button').hide();
 		}
 	},
 	showPasswordQuickEdit(record) {
-		var hidePassText = app.vtranslate('LBL_HidePassword');
+		const hidePassText = app.vtranslate('LBL_HidePassword');
 
-		var params = {
-			'module': "OSSPasswords",
-			'action': "GetPass",
-			'record': record
+		const params = {
+			module: 'OSSPasswords',
+			action: 'GetPass',
+			record: record
 		};
-		AppConnector.request(params).done(function (data) {
-			var response = data['result'];
+		AppConnector.request(params).done(function(data) {
+			const response = data['result'];
 			if (response['success']) {
-				var el = document.getElementById("detailPassword");
-				el.innerHTML = response['password'];
+				$('#detailPassword').text(response['password']);
 				$("input[name='password']").val(response['password']);
-				$('#copy-button').removeClass('d-none').show();
+				$('#copy-button')
+					.removeClass('d-none')
+					.show();
 			}
 		});
 		// change buttons label
 		$('#show-btn').text(hidePassText);
 	}
-}
-$(document).ready(function () {
+};
+$(document).ready(function() {
 	PasswordHelper.init();
 });

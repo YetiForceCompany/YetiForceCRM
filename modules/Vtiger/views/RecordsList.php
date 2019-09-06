@@ -17,7 +17,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$request->isEmpty('related_parent_module') && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('related_parent_module', 2))) {
@@ -29,7 +29,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		if (!$request->isEmpty('related_parent_id', true) && !\App\Privilege::isPermitted($request->getByType('related_parent_module', 2), 'DetailView', $request->getInteger('related_parent_id'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		if (!$request->isEmpty('src_record', true) && $request->getByType('src_module', 2) !== 'Users' && !\App\Privilege::isPermitted($request->getByType('src_module', 2), 'DetailView', $request->getInteger('src_record'))) {
+		if (!$request->isEmpty('src_record', true) && !\in_array($request->getByType('src_module', 2), ['Users', 'WebserviceUsers']) && !\App\Privilege::isPermitted($request->getByType('src_module', 2), 'DetailView', $request->getInteger('src_record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
@@ -37,7 +37,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function preProcessTplName(\App\Request $request)
+	protected function preProcessTplName(App\Request $request)
 	{
 		return 'Modals/RecordsListHeader.tpl';
 	}
@@ -45,7 +45,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function preProcessAjax(\App\Request $request)
+	public function preProcessAjax(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$this->modalIcon = "modCT_{$moduleName} userIcon-{$moduleName}";
@@ -56,11 +56,11 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('ONLY_BODY', $request->getBoolean('onlyBody'));
-		if ($request->getMode() === 'getPagination') {
+		if ('getPagination' === $request->getMode()) {
 			$viewer->assign('VIEWNAME', 'recordsList');
 			$viewer->view('Pagination.tpl', $request->getModule());
 		} else {
@@ -71,14 +71,14 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function postProcessAjax(\App\Request $request)
+	public function postProcessAjax(App\Request $request)
 	{
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getModalScripts(\App\Request $request)
+	public function getModalScripts(App\Request $request)
 	{
 		return array_merge(parent::getModalScripts($request), $this->checkAndConvertJsScripts([
 			'modules.Vtiger.resources.ListSearch',
@@ -94,7 +94,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	 * @throws \App\Exceptions\IllegalValue
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function initializeContent(\App\Request $request)
+	public function initializeContent(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule($request);
@@ -124,17 +124,17 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 		if (!$request->isEmpty('process', true) || !$request->isEmpty('link', true)) {
-			if (!$request->isEmpty('process', true) && in_array($moduleName, array_keys(\App\ModuleHierarchy::getModulesByLevel(2)))) {
+			if (!$request->isEmpty('process', true) && \in_array($moduleName, array_keys(\App\ModuleHierarchy::getModulesByLevel(2)))) {
 				$processRecord = $request->getInteger('process');
 				$processModule = \App\Record::getType($processRecord);
-				if (in_array($moduleName, \App\ModuleHierarchy::getChildModules($processModule)) && in_array($processModule, \App\ModuleHierarchy::getModulesMap1M($moduleName))) {
+				if (\in_array($moduleName, \App\ModuleHierarchy::getChildModules($processModule)) && \in_array($processModule, \App\ModuleHierarchy::getModulesMap1M($moduleName))) {
 					$showSwitch = true;
 					$relatedParentModule = $processModule;
 					$relatedParentId = $processRecord;
 				} elseif (!$request->isEmpty('link', true)) {
 					$linkRecord = $request->getInteger('link');
 					$linkModule = \App\Record::getType($linkRecord);
-					if (in_array($linkModule, \App\ModuleHierarchy::getModulesMap1M($moduleName))) {
+					if (\in_array($linkModule, \App\ModuleHierarchy::getModulesMap1M($moduleName))) {
 						$showSwitch = true;
 						$relatedParentModule = $linkModule;
 						$relatedParentId = $linkRecord;
@@ -143,7 +143,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 			} elseif (!$request->isEmpty('link', true)) {
 				$linkRecord = $request->getInteger('link');
 				$linkModule = \App\Record::getType($linkRecord);
-				if (in_array($linkModule, \App\ModuleHierarchy::getModulesMap1M($moduleName))) {
+				if (\in_array($linkModule, \App\ModuleHierarchy::getModulesMap1M($moduleName))) {
 					$showSwitch = true;
 					$relatedParentModule = $linkModule;
 					$relatedParentId = $linkRecord;
@@ -152,10 +152,18 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		} elseif (!empty($filterFields['parent_id'])) {
 			$linkRecord = $filterFields['parent_id'];
 			$linkModule = \App\Record::getType($linkRecord);
-			if (in_array($linkModule, \App\ModuleHierarchy::getModulesMap1M($moduleName))) {
+			if (\in_array($linkModule, \App\ModuleHierarchy::getModulesMap1M($moduleName))) {
 				$showSwitch = true;
 				$relatedParentModule = $linkModule;
 				$relatedParentId = $linkRecord;
+			}
+		} elseif (!$request->has('related_parent_id') && $sourceRecord && \App\Record::isExists($sourceRecord) && ($filterModules = App\ModuleHierarchy::getRecordsListFilter($moduleName)) && isset($filterModules[$sourceModule])) {
+			['fieldName' => $filterFieldName, 'moduleName' => $filterModuleName] = $filterModules[$sourceModule];
+			$relId = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule)->get($filterFieldName);
+			if ($relId && ('all' === $sourceModule || $filterModuleName === \App\Record::getType($relId))) {
+				$relatedParentModule = $filterModuleName;
+				$relatedParentId = $relId;
+				$showSwitch = true;
 			}
 		}
 		if ($relatedParentId && !\App\Record::isExists($relatedParentId)) {
@@ -203,7 +211,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$transformedSearchParams = $listViewModel->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParmams);
 		$listViewModel->set('search_params', $transformedSearchParams);
 		//To make smarty to get the details easily accesible
-		foreach ($searchParmams as $fieldListGroup) {
+		foreach ($request->getArray('search_params') as $fieldListGroup) {
 			foreach ($fieldListGroup as $fieldSearchInfo) {
 				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
 				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
@@ -216,53 +224,22 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		if (!empty($relatedParentModule) && !empty($relatedParentId)) {
 			$listViewHeaders = $listViewModel->getHeaders();
 			$listViewEntries = $listViewModel->getEntries($pagingModel);
-			if (count($listViewEntries) > 0) {
-				$parentRelatedRecords = true;
-			}
 		} else {
 			$listViewHeaders = $listViewModel->getListViewHeaders();
 			$listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
-		// If there are no related records with parent module then, we should show all the records
-		if (empty($parentRelatedRecords) && !empty($relatedParentModule) && !empty($relatedParentId)) {
-			$relatedParentId = $relatedParentModule = null;
-			$showSwitch = false;
-			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule);
-			$listViewModel->set('search_params', $transformedSearchParams);
-			if (!empty($orderBy)) {
-				$listViewModel->set('orderby', $orderBy)->set('sortorder', $sortOrder);
-			}
-			if (!empty($filterFields)) {
-				$listViewModel->set('filterFields', $filterFields);
-			}
-			if (!empty($sourceModule)) {
-				$listViewModel->set('src_module', $sourceModule)->set('src_field', $sourceField)->set('src_record', $sourceRecord);
-			}
-			if (!$request->isEmpty('search_key', true) && !$request->isEmpty('search_value', true)) {
-				$operator = 's';
-				if (!$request->isEmpty('operator')) {
-					$operator = $request->getByType('operator');
-				}
-				$searchKey = $request->getByType('search_key', 'Alnum');
-				$listViewModel->set('search_key', $searchKey);
-				$listViewModel->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $listViewModel->getQueryGenerator()->getModule(), $searchKey, $operator));
-			}
-			$listViewHeaders = $listViewModel->getListViewHeaders();
-			$listViewEntries = $listViewModel->getListViewEntries($pagingModel);
-		}
-		// End
-		$noOfEntries = count($listViewEntries);
+		$noOfEntries = \count($listViewEntries);
 		if (empty($sortOrder)) {
 			$sortOrder = 'ASC';
 		}
-		if ($sortOrder === 'ASC') {
+		if ('ASC' === $sortOrder) {
 			$nextSortOrder = 'DESC';
 			$sortImage = 'fas fa-chevron-down';
 		} else {
 			$nextSortOrder = 'ASC';
 			$sortImage = 'fas fa-chevron-up';
 		}
-		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') || ($request->getBoolean('showTotalCount') && !$totalCount)) {
+		if (App\Config::performance('LISTVIEW_COMPUTE_PAGE_COUNT') || ($request->getBoolean('showTotalCount') && !$totalCount)) {
 			if (method_exists($listViewModel, 'getListViewCount')) {
 				$totalCount = $listViewModel->getListViewCount();
 			} elseif (method_exists($listViewModel, 'getRelatedEntriesCount')) {
@@ -302,5 +279,6 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$viewer->assign('LISTVIEW_ENTRIES', $listViewEntries);
 		$viewer->assign('MULTI_SELECT', $multiSelectMode);
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
+		$viewer->assign('RECORD_SELECTED', $request->getBoolean('record_selected', false));
 	}
 }

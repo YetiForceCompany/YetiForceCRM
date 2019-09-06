@@ -21,7 +21,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$this->exposeMethod('getPicklist');
 	}
 
-	public function add(\App\Request $request)
+	public function add(App\Request $request)
 	{
 		$type = $request->getByType('fieldType', 'Alnum');
 		$moduleName = $request->getByType('sourceModule', 'Alnum');
@@ -51,12 +51,12 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 	 * @throws \App\Exceptions\AppException
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public function save(\App\Request $request)
+	public function save(App\Request $request)
 	{
 		$fieldId = $request->getInteger('fieldid');
 		$fieldInstance = Vtiger_Field_Model::getInstance($fieldId);
 		$uitypeModel = $fieldInstance->getUITypeModel();
-		$fields = ['presence', 'quickcreate', 'summaryfield', 'generatedtype', 'masseditable', 'header_field', 'displaytype', 'maxlengthtext', 'maxwidthcolumn', 'mandatory'];
+		$fields = ['presence', 'quickcreate', 'summaryfield', 'generatedtype', 'masseditable', 'header_field', 'displaytype', 'maxlengthtext', 'maxwidthcolumn', 'tabindex', 'mandatory'];
 		foreach ($fields as $field) {
 			if ($request->has($field)) {
 				switch ($field) {
@@ -65,7 +65,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 						break;
 					case 'header_field':
 						if ($request->getBoolean($field)) {
-							if (!in_array($request->getByType('header_type', 'Standard'), $uitypeModel->getHeaderTypes())) {
+							if (!\in_array($request->getByType('header_type', 'Standard'), $uitypeModel->getHeaderTypes())) {
 								throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . 'header_type', 406);
 							}
 							$value = \App\Json::encode(['type' => $request->getByType('header_type', 'Standard'),
@@ -105,7 +105,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function delete(\App\Request $request)
+	public function delete(App\Request $request)
 	{
 		$fieldId = $request->getInteger('fieldid');
 		$fieldInstance = Settings_LayoutEditor_Field_Model::getInstance($fieldId);
@@ -127,7 +127,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function move(\App\Request $request)
+	public function move(App\Request $request)
 	{
 		$updatedFieldsList = $request->getMultiDimensionArray('updatedFields',
 			[
@@ -142,7 +142,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function unHide(\App\Request $request)
+	public function unHide(App\Request $request)
 	{
 		$response = new Vtiger_Response();
 		try {
@@ -163,17 +163,17 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function getPicklist(\App\Request $request)
+	public function getPicklist(App\Request $request)
 	{
 		$response = new Vtiger_Response();
 		$fieldName = $request->getByType('rfield', 'Alnum');
 		$moduleName = $request->getByType('rmodule', 'Alnum');
 		$picklistValues = [];
-		if (!empty($fieldName) && !empty($moduleName) && $fieldName != '-') {
+		if (!empty($fieldName) && !empty($moduleName) && '-' != $fieldName) {
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 			$fieldInstance = Vtiger_Field_Model::getInstance($fieldName, $moduleModel);
 			$picklistValues = $fieldInstance->getPicklistValues();
-			if ($picklistValues === null) {
+			if (null === $picklistValues) {
 				$picklistValues = [];
 			}
 		}

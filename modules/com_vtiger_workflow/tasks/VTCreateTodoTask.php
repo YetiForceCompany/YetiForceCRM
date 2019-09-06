@@ -33,12 +33,12 @@ class VTCreateTodoTask extends VTTask
 		}
 		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$userId = $recordModel->get('assigned_user_id');
-		if ($userId === null) {
+		if (null === $userId) {
 			$userId = Users::getActiveAdminUser();
 		}
 		$moduleName = $recordModel->getModuleName();
 
-		if ($this->doNotDuplicate == 'true') {
+		if ('true' == $this->doNotDuplicate) {
 			$entityId = $recordModel->getId();
 			$query = (new App\Db\Query())->from('vtiger_activity')
 				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
@@ -50,7 +50,7 @@ class VTCreateTodoTask extends VTTask
 					['vtiger_activity.subject' => $this->todo],
 				]);
 			$status = vtlib\Functions::getArrayFromValue($this->duplicateStatus);
-			if (count($status) > 0) {
+			if (\count($status) > 0) {
 				$query->andWhere(['not in', 'vtiger_activity.status', $status]);
 			}
 			if ($query->count() > 0) {
@@ -60,11 +60,11 @@ class VTCreateTodoTask extends VTTask
 			}
 		}
 
-		if ($this->assigned_user_id === 'currentUser') {
+		if ('currentUser' === $this->assigned_user_id) {
 			$userId = \App\User::getCurrentUserId();
-		} elseif ($this->assigned_user_id === 'triggerUser') {
+		} elseif ('triggerUser' === $this->assigned_user_id) {
 			$userId = $recordModel->executeUser;
-		} elseif ($this->assigned_user_id === 'copyParentOwner') {
+		} elseif ('copyParentOwner' === $this->assigned_user_id) {
 			$userId = $recordModel->get('assigned_user_id');
 		} elseif (!empty($this->assigned_user_id)) { // Added to check if the user/group is active
 			$userExists = (new App\Db\Query())->from('vtiger_users')
@@ -82,18 +82,18 @@ class VTCreateTodoTask extends VTTask
 			}
 		}
 
-		if ($this->datefield_start == 'wfRunTime') {
+		if ('wfRunTime' == $this->datefield_start) {
 			$baseDateStart = date('Y-m-d H:i:s');
 		} else {
 			$baseDateStart = $recordModel->get($this->datefield_start);
-			if ($baseDateStart == '') {
+			if ('' == $baseDateStart) {
 				$baseDateStart = date('Y-m-d');
 			}
 		}
 
 		$time = explode(' ', $baseDateStart);
-		if (count($time) < 2) {
-			$timeWithSec = Vtiger_Time_UIType::getTimeValueWithSeconds($this->time);
+		if (\count($time) < 2) {
+			$timeWithSec = \App\Fields\Time::sanitizeDbFormat($this->time);
 			$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateStart . ' ' . $timeWithSec);
 			$time = $dbInsertDateTime->format('H:i:s');
 		} else {
@@ -101,37 +101,45 @@ class VTCreateTodoTask extends VTTask
 		}
 		preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDateStart, $match);
 		$baseDateStart = strtotime($match[0]);
+		$date_start = strftime('%Y-%m-%d', $baseDateStart + (int) $this->days_start * 24 * 60 * 60 * ('before' == strtolower($this->direction_start) ? -1 : 1));
+		$endIncrement = \App\Fields\Double::formatToDb($this->days_end) * 24 * 60 * 60 * ('before' == strtolower($this->direction_end) ? -1 : 1);
 
-		if ($this->datefield_end == 'wfRunTime') {
-			$baseDateEnd = date('Y-m-d H:i:s');
-		} else {
-			$baseDateEnd = $recordModel->get($this->datefield_end);
-			if ($baseDateEnd == '') {
-				$baseDateEnd = date('Y-m-d');
-			}
-		}
-
-		$timeEnd = explode(' ', $baseDateEnd);
-		if (count($timeEnd) < 2) {
-			$row = (new App\Db\Query())->select(['end_hour'])->from('vtiger_users')->where(['id' => $userId])->one();
-			if ($row) {
-				$timeEnd = $row['end_hour'];
-				$timeWithSec = Vtiger_Time_UIType::getTimeValueWithSeconds($timeEnd);
-				$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
-				$timeEnd = $dbInsertDateTime->format('H:i:s');
+		if ('fromDateStart' !== $this->datefield_end) {
+			if ('wfRunTime' == $this->datefield_end) {
+				$baseDateEnd = date('Y-m-d H:i:s');
 			} else {
-				$timeEnd = \App\User::getUserModel(\App\User::getActiveAdminId())->column_fields['end_hour'];
-				$timeWithSec = Vtiger_Time_UIType::getTimeValueWithSeconds($timeEnd);
-				$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
-				$timeEnd = $dbInsertDateTime->format('H:i:s');
+				$baseDateEnd = $recordModel->get($this->datefield_end);
+				if ('' == $baseDateEnd) {
+					$baseDateEnd = date('Y-m-d');
+				}
 			}
+			$timeEnd = explode(' ', $baseDateEnd);
+			if (\count($timeEnd) < 2) {
+				$row = (new App\Db\Query())->select(['end_hour'])->from('vtiger_users')->where(['id' => $userId])->one();
+				if ($row) {
+					$timeEnd = $row['end_hour'];
+					$timeWithSec = \App\Fields\Time::sanitizeDbFormat($timeEnd);
+					$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
+					$timeEnd = $dbInsertDateTime->format('H:i:s');
+				} else {
+					$timeEnd = \App\User::getUserModel(\App\User::getActiveAdminId())->column_fields['end_hour'];
+					$timeWithSec = \App\Fields\Time::sanitizeDbFormat($timeEnd);
+					$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
+					$timeEnd = $dbInsertDateTime->format('H:i:s');
+				}
+			} else {
+				$timeEnd = $timeEnd[1];
+			}
+			preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDateEnd, $match);
+			$baseDateEnd = strtotime($match[0]);
+			$due_date = strftime('%Y-%m-%d ', $baseDateEnd + $endIncrement);
 		} else {
-			$timeEnd = $timeEnd[1];
+			$dueDateTime = date('Y-m-d H:i:s', strtotime($date_start . ' ' . $time) + $endIncrement);
+			$dueDateTime = explode(' ', $dueDateTime);
+			$due_date = $dueDateTime[0];
+			$timeEnd = $dueDateTime[1];
 		}
-		preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDateEnd, $match);
-		$baseDateEnd = strtotime($match[0]);
-		$date_start = strftime('%Y-%m-%d', $baseDateStart + (int) $this->days_start * 24 * 60 * 60 * (strtolower($this->direction_start) == 'before' ? -1 : 1));
-		$due_date = strftime('%Y-%m-%d', $baseDateEnd + (int) $this->days_end * 24 * 60 * 60 * (strtolower($this->direction_end) == 'before' ? -1 : 1));
+
 		$textParser = \App\TextParser::getInstanceByModel($recordModel);
 		$fields = [
 			'activitytype' => 'Task',
@@ -142,8 +150,7 @@ class VTCreateTodoTask extends VTTask
 			'assigned_user_id' => $userId,
 			'time_start' => $time,
 			'time_end' => $timeEnd,
-			'sendnotification' => ($this->sendNotification != '' && $this->sendNotification != 'N') ?
-				true : false,
+			'sendnotification' => ('' != $this->sendNotification && 'N' != $this->sendNotification),
 			'date_start' => $date_start,
 			'due_date' => $due_date,
 			'visibility' => 'Private',
@@ -171,9 +178,11 @@ class VTCreateTodoTask extends VTTask
 		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
 		$newRecordModel->save();
 
-		vtlib\Deprecated::relateEntities($recordModel->getEntity(), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
-
-		if ($this->updateDates == 'true') {
+		$relationModel = \Vtiger_Relation_Model::getInstance($recordModel->getModule(), $newRecordModel->getModule());
+		if ($relationModel) {
+			$relationModel->addRelation($recordModel->getId(), $newRecordModel->getId());
+		}
+		if ('true' == $this->updateDates) {
 			App\Db::getInstance()->createCommand()->insert('vtiger_activity_update_dates', [
 				'activityid' => $newRecordModel->getId(),
 				'parent' => $recordModel->getId(),
@@ -187,7 +196,7 @@ class VTCreateTodoTask extends VTTask
 	{
 		$arr = [];
 		preg_match('/(\d{1,2}):(\d{1,2})(am|pm)/', $timeStr, $arr);
-		if ($arr[3] == 'am') {
+		if ('am' == $arr[3]) {
 			$hours = ((int) $arr[1]) % 12;
 		} else {
 			$hours = ((int) $arr[1]) % 12 + 12;

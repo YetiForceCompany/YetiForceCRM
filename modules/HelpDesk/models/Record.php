@@ -12,16 +12,6 @@
 class HelpDesk_Record_Model extends Vtiger_Record_Model
 {
 	/**
-	 * Function to get URL for Convert FAQ.
-	 *
-	 * @return string
-	 */
-	public function getConvertFAQUrl()
-	{
-		return 'index.php?module=' . $this->getModuleName() . '&action=ConvertFAQ&record=' . $this->getId();
-	}
-
-	/**
 	 * Function to get Comments List of this Record.
 	 *
 	 * @return string
@@ -32,36 +22,6 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 			->select(['comments' => 'commentcontent'])
 			->from('vtiger_modcomments')
 			->where(['related_to' => $this->getId()])->column();
-	}
-
-	/**
-	 * Update ticket range time field.
-	 *
-	 * @param Vtiger_Record_Model $recordModel
-	 * @param bool                $updateFieldImmediately
-	 */
-	public static function updateTicketRangeTimeField($recordModel, $updateFieldImmediately = false)
-	{
-		if (!$recordModel->isNew() && ($recordModel->getPreviousValue('ticketstatus') || $updateFieldImmediately)) {
-			$currentDate = date('Y-m-d H:i:s');
-			if (in_array($recordModel->get('ticketstatus'), ['Closed', 'Rejected'])) {
-				$currentDate = null;
-			}
-			\App\Db::getInstance()->createCommand()
-				->update('vtiger_troubletickets', [
-					'response_time' => $currentDate,
-				], ['ticketid' => $recordModel->getId()])
-				->execute();
-		}
-		$closedTime = $recordModel->get('closedtime');
-		if (!empty($closedTime) && $recordModel->has('report_time')) {
-			$timeMinutesRange = round(\App\Fields\Date::getDiff($recordModel->get('createdtime'), $closedTime, 'minutes'));
-			if (!empty($timeMinutesRange)) {
-				App\Db::getInstance()->createCommand()
-					->update('vtiger_troubletickets', ['report_time' => $timeMinutesRange], ['ticketid' => $recordModel->getId()])
-					->execute();
-			}
-		}
 	}
 
 	/**
@@ -86,9 +46,93 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 	{
 		parent::saveToDb();
 		$forModule = \App\Request::_get('return_module');
-		$forCrmid = \App\Request::_get('return_id');
-		if (\App\Request::_get('return_action') && $forModule && $forCrmid && $forModule === 'ServiceContracts') {
-			CRMEntity::getInstance($forModule)->saveRelatedModule($forModule, $forCrmid, \App\Request::_get('module'), $this->getId());
+		$forCrmId = \App\Request::_get('return_id');
+		if (\App\Request::_get('return_action') && $forModule && $forCrmId && 'ServiceContracts' === $forModule) {
+			\Vtiger_Relation_Model::getInstance(\Vtiger_Module_Model::getInstance($forModule), $this->getModule())
+				->addRelation($forCrmId, $this->getId());
 		}
+	}
+
+	/**
+	 * Function returns the details of Hierarchy.
+	 *
+	 * @return array
+	 */
+	public function getHierarchyDetails(): array
+	{
+		$moduleModel = \Vtiger_Module_Model::getInstance($this->getModuleName());
+		$hierarchy = $moduleModel->getHierarchy($this->getId());
+		foreach ($hierarchy['entries'] as $id => $info) {
+			preg_match('/<a href="+/', $info[0], $matches);
+			if (!empty($matches)) {
+				preg_match('/[.\s]+/', $info[0], $dashes);
+				preg_match('/<a(.*)>(.*)<\\/a>/i', $info[0], $name);
+				$recordModel = Vtiger_Record_Model::getCleanInstance('HelpDesk');
+				$recordModel->setId($id);
+				$hierarchy['entries'][$id][0] = $dashes[0] . '<a href=' . $recordModel->getDetailViewUrl() . '>' . $name[2] . '</a>';
+			}
+		}
+		return $hierarchy;
+	}
+
+	/**
+	 * Function check if record can be closed.
+	 *
+	 * @param string $status
+	 *
+	 * @return array
+	 */
+	public function checkValidateToClose(string $status): array
+	{
+		if ((\App\Config::module($this->getModuleName(), 'CHECK_IF_RECORDS_HAS_TIME_CONTROL') ||
+		 \App\Config::module($this->getModuleName(), 'CHECK_IF_RELATED_TICKETS_ARE_CLOSED')) &&
+		  \in_array($status, \App\RecordStatus::getStates($this->getModuleName(), \App\RecordStatus::RECORD_STATE_CLOSED))) {
+			return [
+				'hasTimeControl' => [
+					'result' => $this->checkIfHasTimeControl(),
+					'message' => \App\Language::translate('LBL_ADD_TIME_CONTROL', $this->getModuleName())],
+				'relatedTicketsClosed' => [
+					'result' => $this->checkIfRelatedTicketsClosed(),
+					'message' => \App\Language::translate('LBL_CLOSE_RELATED_TICKETS', $this->getModuleName())]
+			];
+		}
+		return ['hasTimeControl' => ['result' => true], 'relatedTicketsClosed' => ['result' => true]];
+	}
+
+	/**
+	 * Function check if records has fill time control.
+	 *
+	 * @return bool
+	 */
+	public function checkIfHasTimeControl(): bool
+	{
+		if (\App\Config::module($this->getModuleName(), 'CHECK_IF_RECORDS_HAS_TIME_CONTROL')) {
+			$queryGenerator = new App\QueryGenerator('OSSTimeControl');
+			$queryGenerator->permissions = false;
+			$queryGenerator->addNativeCondition([\App\ModuleHierarchy::getMappingRelatedField($this->getModuleName()) => $this->getId()]);
+			return $queryGenerator->createQuery()->exists();
+		}
+		return true;
+	}
+
+	/**
+	 *Function check if related records are close.
+	 *
+	 * @return bool
+	 */
+	public function checkIfRelatedTicketsClosed(): bool
+	{
+		if (\App\Config::module($this->getModuleName(), 'CHECK_IF_RELATED_TICKETS_ARE_CLOSED')) {
+			$queryGenerator = new App\QueryGenerator($this->getModuleName());
+			$queryGenerator->permissions = false;
+			$queryGenerator->addNativeCondition(['parentid' => $this->getId()]);
+			$statusFieldName = \App\RecordStatus::getFieldName($this->getModuleName());
+			$queryGenerator->addCondition($statusFieldName, array_merge(
+				\App\RecordStatus::getStates($this->getModuleName(), \App\RecordStatus::RECORD_STATE_NO_CONCERN),
+				\App\RecordStatus::getStates($this->getModuleName(), \App\RecordStatus::RECORD_STATE_OPEN)
+				), 'e', false);
+			return !$queryGenerator->createQuery()->exists();
+		}
+		return true;
 	}
 }

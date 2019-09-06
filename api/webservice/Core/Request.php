@@ -33,7 +33,7 @@ class Request extends \App\Request
 		} else {
 			$encrypted = $this->getHeader('encrypted');
 			$content = file_get_contents('php://input');
-			if (\AppConfig::api('ENCRYPT_DATA_TRANSFER') && $encrypted && (int) $encrypted === 1) {
+			if (\App\Config::api('ENCRYPT_DATA_TRANSFER') && $encrypted && (int) $encrypted === 1) {
 				$content = $this->decryptData($content);
 			}
 		}
@@ -68,7 +68,7 @@ class Request extends \App\Request
 
 	public function decryptData($data)
 	{
-		$privateKey = 'file://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \AppConfig::api('PRIVATE_KEY');
+		$privateKey = 'file://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \App\Config::api('PRIVATE_KEY');
 		if (!$privateKey = openssl_pkey_get_private($privateKey)) {
 			throw new \App\Exceptions\AppException('Private Key failed');
 		}

@@ -6,7 +6,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 			</div>
 		</div>
-		<div class="contents">
+		<div class="contents mt-2">
 			<h5>{\App\Language::translate('LBL_BACKUP_LIST',$QUALIFIED_MODULE)}</h5>
 			<div class="listViewContentDiv ps ps--active-y">
 				{if !empty($SHOW_CONFIG_ALERT)}
@@ -17,7 +17,7 @@
 					</div>
 				{else}
 					<table class="table tableBorderHeadBody listViewEntriesTable medium">
-						{if {!empty($STRUCTURE['manage'])}}
+						{if !empty($STRUCTURE['manage'])}
 							<tr class="listViewEntries">
 								<td class="border bc-gray-lighter">
 									<a href="{$STRUCTURE['manage']}">
@@ -43,33 +43,37 @@
 							{/foreach}
 						{/if}
 					</table>
-					<table class="table table-striped table-bordered dataTable">
-						<tr class="c-tab--border-active listViewHeaders">
-							<th class="p-2">
-								{\App\Language::translate('LBL_FILE_NAME',$QUALIFIED_MODULE)}
-							</th>
-							<th class="p-2">
-								{\App\Language::translate('LBL_FILE_DATE',$QUALIFIED_MODULE)}
-							</th>
-							<th class="p-2">
-								{\App\Language::translate('LBL_FILE_SIZE',$QUALIFIED_MODULE)}
-							</th>
-							<th class="noWrap p-2">
-								{\App\Language::translate('LBL_DOWNLOAD',$QUALIFIED_MODULE)}
-							</th>
-						</tr>
-						{foreach from=$STRUCTURE['files'] item=$file}
-							<tr class="listViewEntries">
-								<td>{\App\Purifier::encodeHtml($file['name'])}</td>
-								<td>{$file['date']}</td>
-								<td>{$file['size']}</td>
-								<td class="u-w-1em">
-									<a href="{$file['url']}" class="btn btn-primary btn-sm">
-										<span class="fas fa-download mr-1"></span> {\App\Language::translate('LBL_DOWNLOAD',$QUALIFIED_MODULE)}
-									</a>
-								</td>
+					<table class="table table-striped table-bordered js-data-table dataTable" data-j="DataTable">
+						<thead>
+							<tr class="c-tab--border-active listViewHeaders">
+								<th class="p-2">
+									{\App\Language::translate('LBL_FILE_NAME',$QUALIFIED_MODULE)}
+								</th>
+								<th class="p-2">
+									{\App\Language::translate('LBL_FILE_DATE',$QUALIFIED_MODULE)}
+								</th>
+								<th class="p-2">
+									{\App\Language::translate('LBL_FILE_SIZE',$QUALIFIED_MODULE)}
+								</th>
+								<th class="noWrap p-2">
+									{\App\Language::translate('LBL_DOWNLOAD',$QUALIFIED_MODULE)}
+								</th>
 							</tr>
-						{/foreach}
+						</thead>
+						{if !empty($STRUCTURE['files'])}
+							{foreach from=$STRUCTURE['files'] item=$file}
+								<tr class="listViewEntries">
+									<td>{\App\Purifier::encodeHtml($file['name'])}</td>
+									<td>{$file['date']}</td>
+									<td>{$file['size']}</td>
+									<td class="u-w-1em">
+										<a href="{$file['url']}" class="btn btn-primary btn-sm">
+											<span class="fas fa-download mr-1"></span> {\App\Language::translate('LBL_DOWNLOAD',$QUALIFIED_MODULE)}
+										</a>
+									</td>
+								</tr>
+							{/foreach}
+						{/if}
 					</table>
 					{if empty($STRUCTURE['files'])}
 						<table class="emptyRecordsDiv">

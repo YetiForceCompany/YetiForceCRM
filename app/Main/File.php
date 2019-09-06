@@ -13,13 +13,13 @@ class File
 {
 	public function process(\App\Request $request)
 	{
-		if (\AppConfig::main('forceSSL') && !\App\RequestUtil::getBrowserInfo()->https) {
+		if (\App\Config::main('forceSSL') && !\App\RequestUtil::getBrowserInfo()->https) {
 			header("location: https://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}", true, 301);
 		}
-		if (\AppConfig::main('forceRedirect')) {
+		if (\App\Config::main('forceRedirect')) {
 			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-			if (stripos($requestUrl, \AppConfig::main('site_URL')) !== 0) {
-				header('location: ' . \AppConfig::main('site_URL'), true, 301);
+			if (0 !== stripos($requestUrl, \App\Config::main('site_URL'))) {
+				header('location: ' . \App\Config::main('site_URL'), true, 301);
 			}
 		}
 		\App\Session::init();
@@ -36,10 +36,10 @@ class File
 		if ($handler) {
 			$method = $request->getRequestMethod();
 			$permissionFunction = $method . 'CheckPermission';
-			if (!$handler->$permissionFunction($request)) {
+			if (!$handler->{$permissionFunction}($request)) {
 				throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 403);
 			}
-			$handler->$method($request);
+			$handler->{$method}($request);
 		}
 	}
 
@@ -52,7 +52,7 @@ class File
 	{
 		if (\App\Session::has('authenticated_user_id')) {
 			$userid = \App\Session::get('authenticated_user_id');
-			if ($userid && \AppConfig::main('application_unique_key') === \App\Session::get('app_unique_key')) {
+			if ($userid && \App\Config::main('application_unique_key') === \App\Session::get('app_unique_key')) {
 				return \App\User::getCurrentUserModel();
 			}
 		}

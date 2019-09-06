@@ -144,7 +144,7 @@ class User
 	/**
 	 * Clear user cache.
 	 *
-	 * @param int|bool $userId
+	 * @param bool|int $userId
 	 */
 	public static function clearCache($userId = false)
 	{
@@ -324,13 +324,27 @@ class User
 	}
 
 	/**
+	 * Set user parameters.
+	 *
+	 * @param string $key
+	 * @param mixed  $value
+	 *
+	 * @return mixed
+	 */
+	public function set(string $key, $value)
+	{
+		$this->privileges[$key] = $value;
+		return $this;
+	}
+
+	/**
 	 * Function checks if user is active.
 	 *
 	 * @return bool
 	 */
 	public function isActive()
 	{
-		return $this->privileges['details']['status'] === 'Active';
+		return 'Active' === $this->privileges['details']['status'];
 	}
 
 	/**
@@ -346,7 +360,7 @@ class User
 			return Cache::get('UserIsExists', $id);
 		}
 		$isExists = false;
-		if (\AppConfig::performance('ENABLE_CACHING_USERS')) {
+		if (\App\Config::performance('ENABLE_CACHING_USERS')) {
 			$users = PrivilegeFile::getUser('id');
 			if (isset($users[$id]) && !$users[$id]['deleted']) {
 				$isExists = true;
@@ -372,27 +386,26 @@ class User
 		$key = 'id';
 		if (Cache::has(__METHOD__, $key)) {
 			return Cache::get(__METHOD__, $key);
-		} else {
-			$adminId = 1;
-			if (\AppConfig::performance('ENABLE_CACHING_USERS')) {
-				$users = PrivilegeFile::getUser('id');
-				foreach ($users as $id => $user) {
-					if ($user['status'] === 'Active' && $user['is_admin'] === 'on') {
-						$adminId = $id;
-						break;
-					}
-				}
-			} else {
-				$adminId = (new Db\Query())->select(['id'])
-					->from('vtiger_users')
-					->where(['is_admin' => 'on', 'status' => 'Active'])
-					->orderBy(['id' => SORT_ASC])
-					->limit(1)->scalar();
-			}
-			Cache::save(__METHOD__, $key, $adminId, Cache::LONG);
-
-			return $adminId;
 		}
+		$adminId = 1;
+		if (\App\Config::performance('ENABLE_CACHING_USERS')) {
+			$users = PrivilegeFile::getUser('id');
+			foreach ($users as $id => $user) {
+				if ('Active' === $user['status'] && 'on' === $user['is_admin']) {
+					$adminId = $id;
+					break;
+				}
+			}
+		} else {
+			$adminId = (new Db\Query())->select(['id'])
+				->from('vtiger_users')
+				->where(['is_admin' => 'on', 'status' => 'Active'])
+				->orderBy(['id' => SORT_ASC])
+				->limit(1)->scalar();
+		}
+		Cache::save(__METHOD__, $key, $adminId, Cache::LONG);
+
+		return $adminId;
 	}
 
 	/**
@@ -414,6 +427,21 @@ class User
 	}
 
 	/**
+	 * Function gets user ID by user full name.
+	 *
+	 * @param string $fullName
+	 *
+	 * @return int
+	 */
+	public static function getUserIdByFullName(string $fullName): int
+	{
+		$instance = \App\Fields\Owner::getInstance();
+		$instance->showRoleName = false;
+		$users = array_column($instance->initUsers(), 'id', 'fullName');
+		return $users[$fullName] ?? 0;
+	}
+
+	/**
 	 * Get user image details.
 	 *
 	 * @throws \App\Exceptions\AppException
@@ -429,7 +457,7 @@ class User
 		if (empty($image) || !($imageData = \current($image))) {
 			return [];
 		}
-		$imageData['path'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $imageData['path'];
+		$imageData['path'] = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $imageData['path'];
 		$imageData['url'] = "file.php?module=Users&action=MultiImage&field=imagename&record={$this->getId()}&key={$imageData['key']}";
 		Cache::save('UserImageById', $this->getId(), $imageData);
 		return $imageData;
@@ -454,5 +482,20 @@ class User
 			return [];
 		}
 		return $userModel->getImage();
+	}
+
+	/**
+	 * Get number of users.
+	 *
+	 * @return int
+	 */
+	public static function getNumberOfUsers(): int
+	{
+		if (Cache::has('NumberOfUsers', '')) {
+			return Cache::get('NumberOfUsers', '');
+		}
+		$count = (new Db\Query())->from('vtiger_users')->where(['status' => 'Active'])->andWhere(['<>', 'id', 1])->count();
+		Cache::save('NumberOfUsers', '', $count, Cache::LONG);
+		return $count;
 	}
 }

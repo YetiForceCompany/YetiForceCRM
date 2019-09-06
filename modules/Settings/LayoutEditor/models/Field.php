@@ -25,7 +25,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$tablename = $this->get('table');
 		$columnName = $this->get('column');
 		$tabId = $this->getModuleId();
-		if ($tablename !== 'vtiger_crmentity') {
+		if ('vtiger_crmentity' !== $tablename) {
 			$db->createCommand()->dropColumn($tablename, $columnName)->execute();
 		}
 		App\Db::getInstance('admin')->createCommand()->delete('a_#__mapped_fields', ['or', ['source' => $id], ['target' => $id]])->execute();
@@ -33,15 +33,15 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$db->createCommand()->delete('vtiger_cvcolumnlist', ['field_name' => $fieldname, 'module_name' => $fldModule])->execute();
 		$db->createCommand()->delete('u_#__cv_condition', ['field_name' => $fieldname, 'module_name' => $fldModule])->execute();
 		//Deleting from convert lead mapping vtiger_table- Jaguar
-		if ($fldModule === 'Leads') {
+		if ('Leads' === $fldModule) {
 			$db->createCommand()->delete('vtiger_convertleadmapping', ['leadfid' => $id])->execute();
-		} elseif ($fldModule == 'Accounts') {
+		} elseif ('Accounts' == $fldModule) {
 			$mapDelId = ['Accounts' => 'accountfid'];
 			$db->createCommand()->update('vtiger_convertleadmapping', [$mapDelId[$fldModule] => 0], [$mapDelId[$fldModule] => $id])->execute();
 		}
 
 		//HANDLE HERE - we have to remove the table for other picklist type values which are text area and multiselect combo box
-		if ($this->getFieldDataType() === 'picklist' || $this->getFieldDataType() === 'multipicklist') {
+		if ('picklist' === $this->getFieldDataType() || 'multipicklist' === $this->getFieldDataType()) {
 			$query = (new \App\Db\Query())->from('vtiger_field')
 				->where(['fieldname' => $fieldname])
 				->andWhere(['in', 'uitype', [15, 16, 33]]);
@@ -58,9 +58,23 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		}
 
 		//MultiReferenceValue
-		if ($this->getUIType() === 305) {
+		if (305 === $this->getUIType()) {
 			$fieldParams = \App\Json::decode($this->get('fieldparams'));
-			$db->createCommand()->delete('s_#__multireference', ['source_module' => $fldModule, 'dest_module' => $fieldParams['module']])->execute();
+			$destModule = $fieldParams['module'];
+			$db->createCommand()->delete('s_#__multireference', ['source_module' => $fldModule, 'dest_module' => $destModule])->execute();
+			\App\Cache::delete('mrvfbm', "{$fldModule},{$destModule}");
+			\App\Cache::delete('getMultiReferenceModules', $destModule);
+		}
+		$tabIds = (new \App\Db\Query())
+			->select(['fieldid', 'tabid'])
+			->from('vtiger_field')
+			->where(['and',	['<>', 'presence', 1], ['uitype' => 305],	['and', ['like', 'fieldparams', '"field":"' . $id . '"']]
+			])->createCommand()->queryAllByGroup();
+		foreach ($tabIds as $fieldId => $tabId) {
+			$sourceModule = \App\Module::getModuleName($tabId);
+			$db->createCommand()->update('vtiger_field', ['presence' => 1], ['fieldid' => $fieldId])->execute();
+			\App\Cache::delete('mrvfbm', "{$sourceModule},{$fldModule}");
+			\App\Cache::delete('getMultiReferenceModules', $fldModule);
 		}
 	}
 
@@ -127,10 +141,10 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$complusoryMandatoryFieldList = $moduleModel->getCumplosoryMandatoryFieldList();
 		//uitypes for which mandatory switch is disabled
 		$mandatoryRestrictedUitypes = ['4', '70'];
-		if (in_array($this->getName(), $complusoryMandatoryFieldList)) {
+		if (\in_array($this->getName(), $complusoryMandatoryFieldList)) {
 			return true;
 		}
-		if (in_array($this->get('uitype'), $mandatoryRestrictedUitypes)) {
+		if (\in_array($this->get('uitype'), $mandatoryRestrictedUitypes)) {
 			return true;
 		}
 		return false;
@@ -143,7 +157,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isActiveOptionDisabled()
 	{
-		if ($this->get('presence') == 0 || $this->get('uitype') == 306 || $this->isMandatoryOptionDisabled()) {
+		if (0 == $this->get('presence') || 306 == $this->get('uitype') || $this->isMandatoryOptionDisabled()) {
 			return true;
 		}
 		return false;
@@ -157,7 +171,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	public function isQuickCreateOptionDisabled()
 	{
 		$moduleModel = $this->getModule();
-		if ($this->get('quickcreate') == 0 || $this->get('quickcreate') == 3 || !$moduleModel->isQuickCreateSupported()) {
+		if (0 == $this->get('quickcreate') || 3 == $this->get('quickcreate') || !$moduleModel->isQuickCreateSupported()) {
 			return true;
 		}
 		return false;
@@ -170,7 +184,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isMassEditOptionDisabled()
 	{
-		if ($this->get('masseditable') == 0 || $this->get('displaytype') != 1 || $this->get('masseditable') == 3) {
+		if (0 == $this->get('masseditable') || 1 != $this->get('displaytype') || 3 == $this->get('masseditable')) {
 			return true;
 		}
 		return false;
@@ -183,7 +197,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isDefaultValueOptionDisabled()
 	{
-		if ($this->isMandatoryOptionDisabled() || $this->isReferenceField() || $this->getFieldDataType() === 'image' || $this->getFieldDataType() === 'multiImage') {
+		if ($this->isMandatoryOptionDisabled() || $this->isReferenceField() || 'image' === $this->getFieldDataType() || 'multiImage' === $this->getFieldDataType()) {
 			return true;
 		}
 		return false;
@@ -196,7 +210,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isSummaryFieldOptionDisabled()
 	{
-		return $this->get('uitype') === 70;
+		return 70 === $this->get('uitype');
 	}
 
 	/**
@@ -215,7 +229,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 * @param string $value  - fieldname or fieldid
 	 * @param <type> $module - optional - module instance
 	 *
-	 * @return <Settings_LayoutEditor_Field_Model>
+	 * @return self
 	 */
 	public static function getInstance($value, $module = false)
 	{
@@ -223,7 +237,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$objectProperties = get_object_vars($fieldObject);
 		$fieldModel = new self();
 		foreach ($objectProperties as $properName => $propertyValue) {
-			$fieldModel->$properName = $propertyValue;
+			$fieldModel->{$properName} = $propertyValue;
 		}
 		return $fieldModel;
 	}
@@ -233,12 +247,13 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 *
 	 * @param array List of block ids
 	 * @param Vtiger_Module_Model $moduleInstance
+	 * @param mixed               $blockId
 	 *
 	 * @return array List of Field models Settings_LayoutEditor_Field_Model
 	 */
 	public static function getInstanceFromBlockIdList($blockId, $moduleInstance = false)
 	{
-		if (!is_array($blockId)) {
+		if (!\is_array($blockId)) {
 			$blockId = [$blockId];
 		}
 		$query = (new \App\Db\Query())->from('vtiger_field')->where(['block' => $blockId])->orderBy('sequence');
@@ -250,7 +265,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			if ($moduleInstance) {
 				$fieldModel->setModule($moduleInstance);
 			}
-			$fieldModelsList[] = $fieldModel;
+			$fieldModelsList[$row['fieldname']] = $fieldModel;
 		}
 		$dataReader->close();
 

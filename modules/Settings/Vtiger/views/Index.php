@@ -24,11 +24,6 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	{
 		Settings_Vtiger_Tracker_Model::addBasic('view');
 		parent::__construct();
-		$this->exposeMethod('index');
-		$this->exposeMethod('github');
-		$this->exposeMethod('systemWarnings');
-		$this->exposeMethod('getWarningsList');
-		$this->exposeMethod('security');
 	}
 
 	/**
@@ -38,20 +33,20 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if (!\App\User::getCurrentUserModel()->isAdmin()) {
 			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function preProcess(\App\Request $request, $display = true)
+	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$this->preProcessSettings($request);
 	}
 
-	public function postProcess(\App\Request $request, $display = true)
+	public function postProcess(App\Request $request, $display = true)
 	{
 		$this->postProcessSettings($request);
 		parent::postProcess($request);
@@ -62,7 +57,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function preProcessSettings(\App\Request $request)
+	public function preProcessSettings(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -79,127 +74,66 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);
 	}
 
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			echo $this->invokeExposedMethod($mode, $request);
-
-			return;
-		}
-		$this->getViewer($request)->view('SettingsIndexHeader.tpl', $request->getModule(false));
-	}
-
-	public function postProcessSettings(\App\Request $request)
-	{
-		$this->getViewer($request)->view('SettingsMenuEnd.tpl', $request->getModule(false));
-	}
-
 	/**
-	 * Index.
-	 *
-	 * @param \App\Request $request
+	 * {@inheritdoc}
 	 */
-	public function index(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
-		$usersCount = Users_Record_Model::getCount(true);
-		$allWorkflows = Settings_Workflows_Record_Model::getAllAmountWorkflowsAmount();
-		$activeModules = Settings_ModuleManager_Module_Model::getModulesCount(true);
 		$pinnedSettingsShortcuts = Settings_Vtiger_MenuItem_Model::getPinnedItems();
 		$warnings = \App\SystemWarnings::getWarnings('all');
-		$viewer->assign('WARNINGS_COUNT', count($warnings));
 		$viewer->assign('WARNINGS', !App\Session::has('SystemWarnings') ? $warnings : []);
-		$viewer->assign('USERS_COUNT', $usersCount);
-		$viewer->assign('SECURITY_COUNT', $this->getSecurityCount());
-		$viewer->assign('ALL_WORKFLOWS', $allWorkflows);
-		$viewer->assign('ACTIVE_MODULES', $activeModules);
+		$systemMonitoring = [
+			'WARNINGS_COUNT' => [
+				'LABEL' => 'PLU_SYSTEM_WARNINGS',
+				'VALUE' => \count($warnings),
+				'HREF' => 'index.php?module=Logs&parent=Settings&view=SystemWarnings',
+				'ICON' => 'yfi yfi-system-warnings-2'
+			],
+			'SECURITY_COUNT' => [
+				'LABEL' => 'PLU_SECURITY',
+				'VALUE' => $this->getSecurityCount(),
+				'HREF' => 'index.php?module=Log&parent=Settings&view=Index',
+				'ICON' => 'yfi yfi-security-errors-2'
+			],
+			'USERS_COUNT' => [
+				'LABEL' => 'PLU_USERS',
+				'VALUE' => Users_Record_Model::getCount(true),
+				'HREF' => 'index.php?module=Users&parent=Settings&view=List',
+				'ICON' => 'yfi yfi-users-2'
+			],
+			'ACTIVE_MODULES' => [
+				'LABEL' => 'PLU_MODULES',
+				'VALUE' => Settings_ModuleManager_Module_Model::getModulesCount(true),
+				'HREF' => 'index.php?module=ModuleManager&parent=Settings&view=List',
+				'ICON' => 'yfi yfi-modules-2'
+			],
+			'ALL_WORKFLOWS' => [
+				'LABEL' => 'PLU_WORKFLOWS_ACTIVE',
+				'VALUE' => Settings_Workflows_Record_Model::getAllAmountWorkflowsAmount(),
+				'HREF' => 'index.php?module=Workflows&parent=Settings&view=List',
+				'ICON' => 'yfi yfi-workflows-2'
+			],
+		];
+		$viewer->assign('SYSTEM_MONITORING', $systemMonitoring);
 		$viewer->assign('SETTINGS_SHORTCUTS', $pinnedSettingsShortcuts);
+		$viewer->assign('PRODUCTS_PREMIUM', \App\YetiForce\Shop::getProducts('featured'));
+		$viewer->assign('PRODUCTS_PARTNER', \App\YetiForce\Shop::getProducts('featured', 'Partner'));
+		$viewer->assign('PAYPAL_URL', \App\YetiForce\Shop::getPaypalUrl());
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
-	public function github(\App\Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = 'Settings:Github';
-		$clientModel = Settings_Github_Client_Model::getInstance();
-		$isAuthor = $request->getBoolean('author');
-		$pageNumber = $request->getInteger('page', 1);
-		$state = $request->isEmpty('state', true) ? 'open' : $request->getByType('state', 'Text');
-		$issues = $clientModel->getAllIssues($pageNumber, $state, $isAuthor);
-		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('page', $pageNumber);
-		$pagingModel->set('totalCount', Settings_Github_Issues_Model::$totalCount);
-		$pageCount = $pagingModel->getPageCount();
-		$startPaginFrom = $pagingModel->getStartPagingFrom();
-		$viewer->assign('IS_AUTHOR', $isAuthor);
-		$viewer->assign('PAGE_NUMBER', $pageNumber);
-		$viewer->assign('ISSUES_STATE', $state);
-		$viewer->assign('PAGE_COUNT', $pageCount);
-		$viewer->assign('LISTVIEW_ENTRIES_COUNT', false);
-		$viewer->assign('LISTVIEW_COUNT', Settings_Github_Issues_Model::$totalCount);
-		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
-		$viewer->assign('PAGING_MODEL', $pagingModel);
-		$viewer->assign('MODULE', $qualifiedModuleName);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('GITHUB_ISSUES', $issues);
-		$viewer->assign('GITHUB_CLIENT_MODEL', $clientModel);
-		$viewer->view('Github.tpl', $qualifiedModuleName);
-	}
-
 	/**
-	 * Displays warnings system.
+	 * Post process settings.
 	 *
-	 * @param \App\Request $request
-	 */
-	public function systemWarnings(\App\Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = $request->getModule(false);
-
-		$folders = array_values(\App\SystemWarnings::getFolders());
-		$viewer->assign('MODULE', $qualifiedModuleName);
-		$viewer->assign('FOLDERS', \App\Json::encode($folders));
-		$viewer->view('SystemWarnings.tpl', $qualifiedModuleName);
-	}
-
-	/**
-	 * Displays security information.
+	 * @param App\Request $request
 	 *
-	 * @param \App\Request $request
+	 * @return void
 	 */
-	public function security(\App\Request $request)
+	public function postProcessSettings(App\Request $request)
 	{
-		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = $request->getModule(false);
-
-		$folders = array_values(\App\SystemWarnings::getFolders());
-		$checker = new SensioLabs\Security\SecurityChecker();
-		$viewer->assign('MODULE', $qualifiedModuleName);
-		$viewer->assign('FOLDERS', \App\Json::encode($folders));
-		try {
-			$viewer->assign('SENSIOLABS', $checker->check(ROOT_DIRECTORY));
-		} catch (RuntimeException $exc) {
-		}
-		$viewer->view('Security.tpl', $qualifiedModuleName);
-	}
-
-	/**
-	 * Displays a list of system warnings.
-	 *
-	 * @param \App\Request $request
-	 */
-	public function getWarningsList(\App\Request $request)
-	{
-		$folder = $request->getArray('folder', 'Text');
-		$active = $request->getBoolean('active');
-		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = $request->getModule(false);
-		$list = \App\SystemWarnings::getWarnings($folder, $active);
-		$viewer->assign('MODULE', $qualifiedModuleName);
-		$viewer->assign('WARNINGS_LIST', $list);
-		$viewer->view('SystemWarningsList.tpl', $qualifiedModuleName);
+		$this->getViewer($request)->view('SettingsMenuEnd.tpl', $request->getModule(false));
 	}
 
 	/**
@@ -223,7 +157,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$type = \App\Process::$processName;
@@ -243,9 +177,10 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 				'modules.Settings.Vtiger.resources.Index',
 				'modules.Vtiger.resources.List',
 				'modules.Settings.Vtiger.resources.List',
+				'modules.Settings.YetiForce.resources.Shop',
 				"modules.Settings.$moduleName.resources.Index",
 				"modules.Settings.$moduleName.resources.$type",
-				"modules.Settings.$moduleName.resources.$moduleName",
+				"modules.Settings.$moduleName.resources.$moduleName"
 			])
 		);
 	}
@@ -253,7 +188,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getHeaderCss(\App\Request $request)
+	public function getHeaderCss(App\Request $request)
 	{
 		return array_merge($this->checkAndConvertCssStyles([
 			'~libraries/jstree-bootstrap-theme/dist/themes/proton/style.css',
@@ -269,7 +204,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 				$menuItems = $menuModel->getMenuItems();
 				foreach ($menuItems as $item) {
 					$linkTo = $item->getUrl();
-					if (stripos($linkTo, '&module=' . $moduleName) !== false || stripos($linkTo, '?module=' . $moduleName) !== false) {
+					if (false !== stripos($linkTo, '&module=' . $moduleName) || false !== stripos($linkTo, '?module=' . $moduleName)) {
 						return $item;
 					}
 				}
@@ -278,7 +213,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		return false;
 	}
 
-	public function validateRequest(\App\Request $request)
+	public function validateRequest(App\Request $request)
 	{
 		$request->validateReadAccess();
 	}

@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
+ * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  */
 
 namespace App\Security;
@@ -19,10 +20,16 @@ class Dependency
 	/**
 	 * Cache file name.
 	 */
-	const CACHE_FILE_NAME = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'security' . DIRECTORY_SEPARATOR . 'dependency.json';
+	const CACHE_FILE_NAME = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'security' . \DIRECTORY_SEPARATOR . 'dependency.json';
+	/**
+	 * Symfony check url.
+	 *
+	 * @var string
+	 */
+	private $checkUrl = 'https://security.symfony.com/check_lock';
 
 	/**
-	 * SensioLabs security checker.
+	 * Security checker.
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
@@ -34,9 +41,7 @@ class Dependency
 		if ($this->hasCache()) {
 			$result = $this->getCache();
 		} elseif (\App\RequestUtil::isNetConnection()) {
-			$resultObject = (new \SensioLabs\Security\SecurityChecker())->check(ROOT_DIRECTORY);
-			$result = \App\Json::decode((string) $resultObject);
-			$result = (\is_array($result) && !empty($result)) ? $result : [];
+			$result = $this->check();
 			$this->saveCache($result);
 		}
 		return $result;
@@ -51,7 +56,7 @@ class Dependency
 	{
 		return \file_exists(static::CACHE_FILE_NAME) &&
 			\filesize(static::CACHE_FILE_NAME) > 0 &&
-			\time() - \filemtime(static::CACHE_FILE_NAME) < (int) \AppConfig::security('CACHE_LIFETIME_SENSIOLABS_SECURITY_CHECKER');
+			\time() - \filemtime(static::CACHE_FILE_NAME) < (int) \App\Config::security('CACHE_LIFETIME_SENSIOLABS_SECURITY_CHECKER');
 	}
 
 	/**
@@ -76,5 +81,71 @@ class Dependency
 	private function getCache(): array
 	{
 		return \App\Json::decode(\file_get_contents(static::CACHE_FILE_NAME));
+	}
+
+	/**
+	 * Send lock file to verify.
+	 *
+	 * @return array
+	 */
+	public function check(): array
+	{
+		$result = [];
+		if (\App\RequestUtil::isNetConnection() && !empty($lockFile = $this->getLockFile(ROOT_DIRECTORY))) {
+			$options = \App\RequestHttp::getOptions();
+			$options['headers']['Content-Type'] = 'application/octet-stream';
+			$options['headers']['Content-Disposition'] = 'form-data; name="lock"; filename="composer.lock"';
+			$options['headers']['Accept'] = 'application/json';
+			$response = (new \GuzzleHttp\Client($options))->post($this->checkUrl, [
+				'body' => $lockFile
+			]);
+			$result = (array) \App\Json::decode($response->getBody());
+			$result = (\is_array($result) && !empty($result)) ? $result : [];
+		}
+		return $result;
+	}
+
+	/**
+	 * Get lock file content.
+	 *
+	 * @param string $lock
+	 *
+	 * @return string
+	 */
+	private function getLockFile($lock): string
+	{
+		if (is_dir($lock) && file_exists($lock . \DIRECTORY_SEPARATOR . 'composer.lock')) {
+			$lock = $lock . \DIRECTORY_SEPARATOR . 'composer.lock';
+		} elseif (preg_match('/composer\.json$/', $lock)) {
+			$lock = str_replace('composer.json', 'composer.lock', $lock);
+		}
+		return is_file($lock) ? $this->getLockContent($lock) : '';
+	}
+
+	/**
+	 * Get parsed lock file elements.
+	 *
+	 * @param string $lock
+	 *
+	 * @return string
+	 */
+	private function getLockContent($lock): string
+	{
+		$contents = json_decode(file_get_contents($lock), true);
+		$hash = $contents['content-hash'] ?? ($contents['hash'] ?? '');
+		$packages = ['content-hash' => $hash, 'packages' => []];
+		if (\is_array($contents['packages'])) {
+			foreach ($contents['packages'] as $package) {
+				$data = [
+					'name' => $package['name'],
+					'version' => $package['version'],
+				];
+				if (isset($package['time']) && false !== strpos($package['version'], 'dev')) {
+					$data['time'] = $package['time'];
+				}
+				$packages['packages'][] = $data;
+			}
+		}
+		return json_encode($packages);
 	}
 }

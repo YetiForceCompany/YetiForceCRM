@@ -6,11 +6,11 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
 {strip}
-	<div id="VtEmailTaskContainer">
+	<div id="VtEmailTaskContainer tpl-Settings-Workflows-Tasks-VTEmailTask">
 		<div class="">
 			<div class="form-row pb-3">
 				<span class="col-md-12 form-row">
@@ -50,17 +50,25 @@
 				</span>
 				<div class="col-md-5">
 					<div class="col-md-12 px-0">
-						<select id="fromEmailOption" class="select2 form-control"
-								data-placeholder="{\App\Language::translate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
-							<option></option>
-							{foreach item=FIELDS key=BLOCK_NAME from=$FROM_EMAIL_FIELD_OPTION}
-								<optgroup label="{$BLOCK_NAME}">
-									{foreach item=LABEL key=VAL from=$FIELDS}
-										<option value="{$VAL}">{$LABEL}</option>
-									{/foreach}
-								</optgroup>
-							{/foreach}
-						</select>
+						<div class="input-group">
+							<select id="fromEmailOption" class="select2 form-control"
+									data-placeholder="{\App\Language::translate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
+								<option></option>
+								{foreach item=FIELDS key=BLOCK_NAME from=$FROM_EMAIL_FIELD_OPTION}
+									<optgroup label="{$BLOCK_NAME}">
+										{foreach item=LABEL key=VAL from=$FIELDS}
+											<option value="{$VAL}">{$LABEL}</option>
+										{/foreach}
+									</optgroup>
+								{/foreach}
+							</select>
+							<div class="input-group-append">
+								<button type="button" class="btn btn-primary clipboard" data-copy-target="#fromEmailOption"
+										title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')}">
+									<span class="fas fa-copy"></span>
+								</button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -75,17 +83,25 @@
 				</span>
 				<div class="col-md-5">
 					<div class="col-md-12 px-0">
-						<select class="task-fields select2 form-control"
-								data-placeholder="{\App\Language::translate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
-							<option></option>
-							{foreach item=FIELDS key=BLOCK_NAME from=$EMAIL_FIELD_OPTION}
-								<optgroup label="{$BLOCK_NAME}">
-									{foreach item=LABEL key=VAL from=$FIELDS}
-										<option value="{$VAL}">{$LABEL}</option>
-									{/foreach}
-								</optgroup>
-							{/foreach}
-						</select>
+						<div class="input-group">
+							<select class="task-fields select2 form-control" id="toEmailOption"
+									data-placeholder="{\App\Language::translate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
+								<option></option>
+								{foreach item=FIELDS key=BLOCK_NAME from=$EMAIL_FIELD_OPTION}
+									<optgroup label="{$BLOCK_NAME}">
+										{foreach item=LABEL key=VAL from=$FIELDS}
+											<option value="{$VAL}">{$LABEL}</option>
+										{/foreach}
+									</optgroup>
+								{/foreach}
+							</select>
+							<div class="input-group-append">
+								<button type="button" class="btn btn-primary clipboard" data-copy-target="#toEmailOption"
+										title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')}">
+									<span class="fas fa-copy"></span>
+								</button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

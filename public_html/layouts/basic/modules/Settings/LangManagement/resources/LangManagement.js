@@ -328,34 +328,35 @@ var Settings_Index_Js = {
 		})
 	},
 	showStats: function (data, modules) {
-		var thisInstance = this;
-		var html = '<div class="col-md-12"><div class="panel panel-default"><div class="panel-body">';
-		var langStats = 0;
-		var shortages = [];
-		for (var i in modules) {
-			for (var k in modules[i]) {
+		const thisInstance = this;
+		let container = $('.LangManagement'),
+			html = '<div class="col-md-12"><div class="panel panel-default"><div class="panel-body">',
+			langStats = 0,
+			shortages = [];
+		for (let i in modules) {
+			for (let k in modules[i]) {
 				if (data[k].length == 1) {
 					langStats += data[k][0];
 					continue;
 				}
-				var max = data[k][0];
+				let max = data[k][0];
 				langStats += max;
 				delete data[k][0];
 				html += '<div class="row moduleRow" data-module="' + k + '"><label class="col-md-3 form-control-plaintext col-form-label mt-2">' + modules[i][k] + ': </label><div class="form-control-plaintext col-md-9">'
-				for (var q in data[k]) {
+				for (let q in data[k]) {
 					if (typeof shortages[q] === "undefined") {
 						shortages[q] = 0;
 					}
 					shortages[q] += data[k][q].length;
-					var x = data[k][q].length * 100 / max
-					html += '<button class="btn btn-xs btn-primary" data-lang="' + q + '"> ' + jQuery('select option[value="' + q + '"]').text() + ' - ' + x.toFixed(2) + '% </button>&nbsp;';
+					let x = data[k][q].length * 100 / max
+					html += '<button class="btn btn-xs btn-primary" data-lang="' + q + '"> ' + container.find('select option[value="' + q + '"]').first().text() + ' - ' + x.toFixed(2) + '% </button>&nbsp;';
 				}
 				html += '</div></div>';
 			}
 		}
 		html += '</div></div></div>';
 		this.getDataCharts(shortages, langStats);
-		var element = jQuery('.statsData').html(html);
+		let element = container.find('.statsData').html(html);
 		app.showScrollBar(element.find('.panel-body'), {
 			height: '400px',
 			railVisible: true,
@@ -391,35 +392,34 @@ var Settings_Index_Js = {
 		})
 	},
 	getDataCharts: function (shortages, max) {
-		var k = 1;
-		var data = [];
-		var chartData = {
-			labels: [],
-			datasets: [
-				{
-					data: data,
-					backgroundColor: [],
-					datalabels: {
-						font: {
-							weight: 'bold'
-						},
-						color: 'white',
-						anchor: 'end',
-						align: 'start',
+		let container = $('.LangManagement'),
+			data = [],
+			chartData = {
+				labels: [],
+				datasets: [
+					{
+						data: data,
+						backgroundColor: [],
+						datalabels: {
+							font: {
+								weight: 'bold'
+							},
+							color: 'white',
+							anchor: 'end',
+							align: 'start',
+						}
 					}
-				}
-			],
-		};
-		for (var i in shortages) {
-			var x = shortages[i] * 100 / max;
-			var langName = jQuery('select option[value="' + i + '"]').text();
+				],
+			};
+		for (let i in shortages) {
+			let x = shortages[i] * 100 / max,
+				langName = container.find('select option[value="' + i + '"]').first().text();
 			data.push(Math.round(x * 100) / 100);
 			chartData.datasets[0].backgroundColor.push(App.Fields.Colors.getRandomColor());
 			chartData.labels.push(langName);
-			++k;
 		}
 		if (data.length > 0) {
-			jQuery('.widgetData').val(JSON.stringify(chartData));
+			container.find('.widgetData').val(JSON.stringify(chartData));
 			this.showCharts()
 		}
 	},

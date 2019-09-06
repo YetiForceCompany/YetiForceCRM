@@ -43,7 +43,7 @@
     "LBL_PHP_VERSION": "Wersja PHP",
     "LBL_PLEASE_WAIT": "Proszę czekać...",
     "LBL_PRESENT_VALUE": "Aktualne wartości",
-    "LBL_READ_WRITE_ACCESS": "Uprawnienia odczytu\/zapisu",
+    "LBL_READ_WRITE_ACCESS": "Uprawnienia odczytu/zapisu",
     "LBL_RECHECK": "Sprawdź ponownie",
     "LBL_REQUIRED_VALUE": "Wymagane wartości",
     "LBL_RETYPE_PASSWORD": "Powtórz hasło",
@@ -114,7 +114,16 @@
     "LBL_CITY": "Miejscowość",
     "LBL_COUNTRY": "Kraj",
     "LBL_COMPANYSIZE": "Liczba pracowników firmy",
-    "LBL_WEBSITE": "Strona internetowa twojej firmy"
+    "LBL_WEBSITE": "Strona internetowa twojej firmy",
+    "LBL_CHOOSE_INSTALLATION_TYPE": "Wybierz rodzaj instalacji",
+    "LBL_INSTALL_YOURSELF": "Instalacja",
+    "LBL_HOSTING_SELF": "Własny serwer",
+    "LBL_MY_SERVER_TITLE": "Użyj własnego serwera lub hostingu",
+    "LBL_MY_SERVER_DESC": "Możesz zainstalować YetiForce gdzie tylko chcesz bez jakichkolwiek opłat. W przypadku, gdy będziesz potrzebował pomocy związanej z działaniem systemu, możesz skorzystać z darmowej pomocy na naszym repozytorium GitHub, lub wykupić płatne wsparcie prosto od YetiForce.",
+    "LBL_HOSTING_SHARED": "Hosting YetiForce",
+    "LBL_HOSTING_CLOUD": "YetiForce cloud",
+    "LBL_BUY": "Kup",
+    "LBL_SHOW_MORE": "Więcej informacji o produkcie"
   },
   "js": {
     "JS_ALL": "Wszystkie",
@@ -131,12 +140,13 @@
     "LBL_PASS_REENTER_ERROR": "Należy ponownie wpisać hasło. Pole Hasło i Powtórz hasło nie zgadzają się.",
     "LBL_INVALID_EMAIL_ERROR": "Uwaga! Niepoprawny adres email.",
     "LBL_INVALID_USERNAME_ERROR": "Niedozwolona nazwa uzytkownika.",
+    "JS_CONTAINS_ILLEGAL_CHARACTERS": "Wartość jest za krótka/długa lub zawiera niedozwolone znaki",
     "LBL_RESOLVE_ERROR": "Proszę naprawić błąd przed kontynuowaniem instalacji",
     "JS_SELECT_AN_OPTION": "Wybierz opcję",
     "JS_S_LENGTH_MENU": "Pokaż _MENU_ pozycji",
     "JS_SEARCH": "Szukaj:",
     "JS_S_INFO": "Pozycje od _START_ do _END_ z _TOTAL_ łącznie",
     "JS_S_PREVIOUS": "Poprzednia",
-    "JS_S_NEXT": "Dalej"
+    "JS_S_NEXT": "Następna"
   }
 }

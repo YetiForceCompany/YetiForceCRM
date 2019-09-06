@@ -26,15 +26,17 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * @codeCoverageIgnore
+	 *
+	 * @param \Throwable $t
 	 */
 	protected function onNotSuccessfulTest(\Throwable $t)
 	{
 		if (isset($this->logs)) {
 			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+			\print_r($this->logs);
+			print_r(array_shift($t->getTrace()));
 			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
-			//var_export(array_shift($t->getTrace()));
-			\print_r($this->logs, true);
-			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+			print_r($this->driver->getPageSource());
 			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 		}
 		throw $t;
@@ -43,10 +45,10 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 	/**
 	 * Setup test.
 	 */
-	public function setUp()
+	protected function setUp()
 	{
 		parent::setUp();
-		if (\is_null($this->driver)) {
+		if (null === $this->driver) {
 			$this->driver = RemoteWebDriver::create('http://localhost:4444/wd/hub', DesiredCapabilities::chrome(), 5000);
 		}
 		if (!static::$isLogin) {

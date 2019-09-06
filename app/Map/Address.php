@@ -5,6 +5,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 
 namespace App\Map;
@@ -21,6 +22,12 @@ class Address
 	 */
 	private static $providersCache = [];
 	/**
+	 * Active providers cache.
+	 *
+	 * @var string[]
+	 */
+	private static $activeProvidersCache = [];
+	/**
 	 * Providers instance cache.
 	 *
 	 * @var Address\Base[]
@@ -34,7 +41,7 @@ class Address
 	 */
 	public static function getDefaultProvider()
 	{
-		$provider = static::getProvider();
+		$provider = static::getActiveProviders();
 		if ($provider) {
 			return \array_pop($provider);
 		}
@@ -42,19 +49,46 @@ class Address
 	}
 
 	/**
-	 * Get provider for address finder.
+	 * Get active providers for address finder.
 	 *
 	 * @return string[]
 	 */
-	public static function getProvider()
+	public static function getActiveProviders()
+	{
+		if (self::$activeProvidersCache) {
+			return self::$activeProvidersCache;
+		}
+		if (self::$providersCache) {
+			foreach (self::$providersCache as $provider) {
+				if ($provider->isActive()) {
+					self::$activeProvidersCache[] = $provider->getName();
+				}
+			}
+		} else {
+			$dir = new \DirectoryIterator(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app/Map/Address');
+			foreach ($dir as $fileinfo) {
+				if ('php' === $fileinfo->getExtension() && 'Base' !== ($fileName = $fileinfo->getBasename('.php')) && static::getInstance($fileName)->isActive()) {
+					self::$activeProvidersCache[] = $fileName;
+				}
+			}
+		}
+		return self::$activeProvidersCache;
+	}
+
+	/**
+	 * Get all providers for address finder.
+	 *
+	 * @return string[]
+	 */
+	public static function getAllProviders()
 	{
 		if (self::$providersCache) {
 			return self::$providersCache;
 		}
 		$dir = new \DirectoryIterator(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app/Map/Address');
 		foreach ($dir as $fileinfo) {
-			if ($fileinfo->getExtension() === 'php' && ($fileName = $fileinfo->getBasename('.php')) !== 'Base' && static::getInstance($fileName)->isActive()) {
-				self::$providersCache[] = $fileName;
+			if ('php' === $fileinfo->getExtension() && 'Base' !== ($fileName = $fileinfo->getBasename('.php'))) {
+				self::$providersCache[$fileName] = static::getInstance($fileName);
 			}
 		}
 		return self::$providersCache;
@@ -72,8 +106,8 @@ class Address
 		if (isset(self::$providerInstanceCache[$type])) {
 			return self::$providerInstanceCache[$type];
 		}
-		$className = "\App\Map\Address\\$type";
-		return self::$providerInstanceCache[$type] = new $className();
+		$className = "\\App\\Map\\Address\\$type";
+		return self::$providerInstanceCache[$type] = new $className($type);
 	}
 
 	/**

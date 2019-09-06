@@ -218,7 +218,7 @@ class Import_Data_Action extends \App\Controller\Action
 		$query = new \App\Db\Query();
 		$query->from($tableName)->where(['temp_status' => self::IMPORT_RECORD_NONE]);
 		if ($this->batchImport) {
-			$importBatchLimit = \AppConfig::module('Import', 'BATCH_LIMIT');
+			$importBatchLimit = \App\Config::module('Import', 'BATCH_LIMIT');
 			$query->limit($importBatchLimit);
 		}
 
@@ -253,7 +253,7 @@ class Import_Data_Action extends \App\Controller\Action
 					$comparisonValue = $fieldData[$mergeField];
 					$fieldInstance = $moduleFields[$mergeField];
 					if ($fieldInstance->getFieldDataType() == 'owner') {
-						$ownerId = \App\User::getUserIdByName($comparisonValue);
+						$ownerId = \App\User::getUserIdByFullName($comparisonValue);
 						if (empty($ownerId)) {
 							$ownerId = \App\Fields\Owner::getGroupId($comparisonValue);
 						}
@@ -268,9 +268,6 @@ class Import_Data_Action extends \App\Controller\Action
 						if (count($referenceFileValueComponents) > 1) {
 							$comparisonValue = trim($referenceFileValueComponents[1]);
 						}
-					}
-					if (in_array($fieldInstance->getFieldDataType(), ['date', 'datetime'])) {
-						$comparisonValue = DateTimeField::convertToUserFormat($comparisonValue);
 					}
 					$queryGenerator->addCondition($mergeField, $comparisonValue, 'e');
 				}
@@ -503,7 +500,7 @@ class Import_Data_Action extends \App\Controller\Action
 	{
 		$defaultFieldValues = $this->getDefaultFieldValues();
 		$fieldName = $fieldInstance->getFieldName();
-		$ownerId = \App\User::getUserIdByName(trim($fieldValue));
+		$ownerId = \App\User::getUserIdByFullName(trim($fieldValue));
 		if (empty($ownerId)) {
 			$ownerId = \App\Fields\Owner::getGroupId($fieldValue);
 		}
@@ -525,7 +522,7 @@ class Import_Data_Action extends \App\Controller\Action
 	 * @param \Vtiger_Field_Model $fieldInstance
 	 * @param string              $fieldValue
 	 *
-	 * @return array
+	 * @return string
 	 */
 	public function transformSharedOwner($fieldInstance, $fieldValue)
 	{
@@ -535,7 +532,7 @@ class Import_Data_Action extends \App\Controller\Action
 		if ($fieldValue) {
 			$owners = explode(',', $fieldValue);
 			foreach ($owners as $owner) {
-				$ownerId = \App\User::getUserIdByName(trim($owner));
+				$ownerId = \App\User::getUserIdByFullName(trim($owner));
 				if (empty($ownerId)) {
 					$ownerId = \App\Fields\Owner::getGroupId($owner);
 				}
@@ -547,7 +544,7 @@ class Import_Data_Action extends \App\Controller\Action
 				}
 			}
 		}
-		return $values;
+		return implode(',', $values);
 	}
 
 	/**
@@ -610,7 +607,7 @@ class Import_Data_Action extends \App\Controller\Action
 			foreach ($referencedModules as $referenceModule) {
 				$referenceModuleName = $referenceModule;
 				if ($referenceModule === 'Users') {
-					$referenceEntityId = \App\User::getUserIdByName(trim($entityLabel));
+					$referenceEntityId = \App\User::getUserIdByFullName(trim($entityLabel));
 					if (empty($referenceEntityId) || !array_key_exists($referenceEntityId, \App\Fields\Owner::getInstance($fieldInstance->getModuleName(), $this->user->getId())->getAccessibleUsers('', 'owner'))) {
 						$referenceEntityId = $this->user->getId();
 					}
@@ -625,7 +622,7 @@ class Import_Data_Action extends \App\Controller\Action
 				}
 			}
 		}
-		if (\AppConfig::module('Import', 'CREATE_REFERENCE_RECORD') && empty($entityId) && !empty($referenceModuleName) && \App\Privilege::isPermitted($referenceModuleName, 'CreateView')) {
+		if (\App\Config::module('Import', 'CREATE_REFERENCE_RECORD') && empty($entityId) && !empty($referenceModuleName) && \App\Privilege::isPermitted($referenceModuleName, 'CreateView')) {
 			try {
 				$entityId = $this->createEntityRecord($referenceModuleName, $entityLabel);
 			} catch (Exception $e) {
@@ -645,7 +642,7 @@ class Import_Data_Action extends \App\Controller\Action
 	 */
 	public function transformPicklist($fieldInstance, $fieldValue)
 	{
-		$defaultCharset = \AppConfig::main('default_charset', 'UTF-8');
+		$defaultCharset = \App\Config::main('default_charset', 'UTF-8');
 		$fieldName = $fieldInstance->getFieldName();
 		$fieldValue = trim($fieldValue);
 		if ($fieldValue === '') {
@@ -659,7 +656,7 @@ class Import_Data_Action extends \App\Controller\Action
 		$allPicklistValuesInLowerCase = array_map('strtolower', $picklistValues);
 		$picklistDetails = array_combine($allPicklistValuesInLowerCase, $picklistValues);
 		if (!in_array($picklistValueInLowerCase, $allPicklistValuesInLowerCase)) {
-			if (\AppConfig::module('Import', 'ADD_PICKLIST_VALUE')) {
+			if (\App\Config::module('Import', 'ADD_PICKLIST_VALUE')) {
 				$fieldObject = \vtlib\Field::getInstance($fieldName, Vtiger_Module_Model::getInstance($this->module));
 				$fieldObject->setPicklistValues([$fieldValue]);
 				unset($this->allPicklistValues[$fieldName]);
@@ -778,6 +775,8 @@ class Import_Data_Action extends \App\Controller\Action
 				$fieldData[$fieldName] = $this->transformDate($fieldValue);
 			} elseif ($fieldInstance->getFieldDataType() === 'country' && $fieldValue !== '') {
 				$fieldData[$fieldName] = \App\Fields\Country::findCountryName($fieldValue);
+			} else {
+				$fieldData[$fieldName] = $fieldInstance->getUITypeModel()->getValueFromImport($fieldValue);
 			}
 		}
 		return $fieldData;
@@ -806,7 +805,7 @@ class Import_Data_Action extends \App\Controller\Action
 		}
 		$recordModel->set('assigned_user_id', $this->user->getId());
 		if ($save) {
-			if (!\AppConfig::module('Import', 'SAVE_BY_HANDLERS')) {
+			if (!\App\Config::module('Import', 'SAVE_BY_HANDLERS')) {
 				$recordModel->setHandlerExceptions(['disableHandlers' => true]);
 			}
 			$recordModel->save();
@@ -1007,15 +1006,15 @@ class Import_Data_Action extends \App\Controller\Action
 	}
 
 	/**
-	 * Update rekord.
+	 * Update record.
 	 *
-	 * @param int    $rekord
+	 * @param int    $record
 	 * @param array  $fieldData
 	 * @param string $moduleName
 	 */
-	public function updateRecordByModel($rekord, $fieldData, $moduleName = false)
+	public function updateRecordByModel($record, $fieldData, $moduleName = false)
 	{
-		$recordModel = Vtiger_Record_Model::getInstanceById($rekord, $moduleName);
+		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		if (isset($fieldData['inventoryData'])) {
 			$inventoryData = $fieldData['inventoryData'];
 			unset($fieldData['inventoryData']);

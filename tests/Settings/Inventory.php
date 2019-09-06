@@ -45,6 +45,7 @@ class Inventory extends \Tests\Base
 	 * @param string    $name
 	 * @param float|int $value
 	 * @param int       $status
+	 * @param mixed     $default
 	 *
 	 * @return int
 	 */
@@ -56,7 +57,7 @@ class Inventory extends \Tests\Base
 			$recordModel = \Settings_Inventory_Record_Model::getInstanceById($id, $type);
 		}
 
-		if ($type === 'Discounts') {
+		if ('Discounts' === $type) {
 			$recordModel->set('value', \CurrencyField::convertToDBFormat($recordModel->get('value')));
 		}
 
@@ -64,7 +65,7 @@ class Inventory extends \Tests\Base
 		$recordModel->set('name', $name);
 		$recordModel->set('value', $value);
 		$recordModel->set('status', $status);
-		if ($default !== false && $type === 'Taxes') {
+		if (false !== $default && 'Taxes' === $type) {
 			$recordModel->set('default', $default);
 		}
 		$recordModel->setType($type);

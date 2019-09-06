@@ -5,7 +5,7 @@
 			 data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
 			<div class="c-detail-widget__header js-detail-widget-header" data-js="container|value">
 				<div class="form-row align-items-center py-1">
-					<div class="col-9 col-md-5 col-sm-6">
+					<div class="col-8 col-xl-5 col-lg-12 col-sm-5">
 						<div class="widgetTitle u-text-ellipsis">
 							<h5 class="mb-0 modCT_{$WIDGET['label']}">
 								{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}
@@ -13,7 +13,7 @@
 						</div>
 					</div>
 					{if isset($WIDGET['switchHeader'])}
-						<div class="btn-group btn-group-toggle" data-toggle="buttons">
+						<div class="btn-group btn-group-toggle ml-1" data-toggle="buttons">
 							<label class="btn btn-sm btn-outline-primary active">
 								<input class="js-switch" type="radio" name="options" id="option1" data-js="change"
 									   data-on-val="{$WIDGET['switchHeader']['on']}" data-urlparams="whereCondition"
@@ -28,19 +28,17 @@
 							</label>
 						</div>
 					{/if}
-					<div class="col-md-3 col-sm-3 float-right">
-						<div class="float-right">
-							<div class="btn-group">
-								{if $WIDGET['newChanege'] && $MODULE_MODEL->isPermitted('ReviewingUpdates') && $USER_MODEL->getId() eq $USER_MODEL->getRealId()}
-									<div class="float-right btn-group">
-										<button id="btnChangesReviewedOn" type="button"
-												class="btn btn-success btn-sm btnChangesReviewedOn"
-												title="{\App\Language::translate('BTN_CHANGES_REVIEWED_ON', $WIDGET['moduleBaseName'])}">
-											<span class="far fa-check-circle"></span>
-										</button>
-									</div>
-								{/if}
-							</div>
+					<div class="col text-right">
+						<div class="btn-group">
+							{if $WIDGET['newChanege'] && $MODULE_MODEL->isPermitted('ReviewingUpdates') && $USER_MODEL->getId() eq $USER_MODEL->getRealId()}
+								<div class="float-right btn-group">
+									<button id="btnChangesReviewedOn" type="button"
+											class="btn btn-success btn-sm btnChangesReviewedOn"
+											title="{\App\Language::translate('BTN_CHANGES_REVIEWED_ON', $WIDGET['moduleBaseName'])}">
+										<span class="far fa-check-circle"></span>
+									</button>
+								</div>
+							{/if}
 						</div>
 					</div>
 				</div>

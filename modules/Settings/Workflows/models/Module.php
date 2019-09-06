@@ -163,18 +163,16 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Get fields list.
-	 *
-	 * @return array
+	 * {@inheritdoc}
 	 */
-	public function getListFields()
+	public function getListFields(): array
 	{
 		if (!property_exists($this, 'listFieldModels')) {
 			$fields = $this->listFields;
 			$fieldObjects = [];
 			$fieldsNoSort = ['module_name', 'execution_condition', 'all_tasks', 'active_tasks'];
 			foreach ($fields as $fieldName => $fieldLabel) {
-				if (in_array($fieldName, $fieldsNoSort)) {
+				if (\in_array($fieldName, $fieldsNoSort)) {
 					$fieldObjects[$fieldName] = new \App\Base(['name' => $fieldName, 'label' => $fieldLabel, 'sort' => false]);
 				} else {
 					$fieldObjects[$fieldName] = new \App\Base(['name' => $fieldName, 'label' => $fieldLabel]);
@@ -216,14 +214,17 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		if ($data['workflow_tasks']) {
 			foreach ($data['workflow_tasks'] as $task) {
-				$dbCommand->insert('com_vtiger_workflowtasks', ['workflow_id' => $workflowId, 'summary' => $task['summary']])->execute();
-				$taskId = $db->getLastInsertID('com_vtiger_workflowtasks_task_id_seq');
 				include_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.php';
 				include_once 'modules/com_vtiger_workflow/tasks/VTEmailTemplateTask.php';
-				$taskObject = unserialize($task['task']);
-				$taskObject->workflowId = (int) $workflowId;
-				$taskObject->id = (int) $taskId;
-				$dbCommand->update('com_vtiger_workflowtasks', ['task' => serialize($taskObject)], ['task_id' => $taskId])->execute();
+				$taskManager = new VTTaskManager();
+				$taskObject = $taskManager->unserializeTask(base64_decode($task['task']));
+				if (!empty($taskObject)) {
+					$dbCommand->insert('com_vtiger_workflowtasks', ['workflow_id' => $workflowId, 'summary' => $task['summary']])->execute();
+					$taskId = $db->getLastInsertID('com_vtiger_workflowtasks_task_id_seq');
+					$taskObject->workflowId = (int) $workflowId;
+					$taskObject->id = (int) $taskId;
+					$dbCommand->update('com_vtiger_workflowtasks', ['task' => serialize($taskObject)], ['task_id' => $taskId])->execute();
+				}
 			}
 		}
 		return $messages;
@@ -256,38 +257,39 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		$functionPath = $method['function_path'];
 		if (!$this->checkPathForImportMethod($functionPath)) {
 			throw new \App\Exceptions\Security('ERR_NOT_ALLOWED_VALUE||function_path', 406);
-		} elseif (!\preg_match("/^<\?php/", $scriptData)) {
+		}
+		if (!\preg_match('/^<\\?php/', $scriptData)) {
 			throw new \App\Exceptions\Security('ERR_NOT_ALLOWED_VALUE||script_content', 406);
+		}
+		if (!file_exists($functionPath)) {
+			$workflowsExists = file_exists(\dirname($functionPath));
+			if ($workflowsExists && is_file(\dirname($functionPath))) {
+				throw new \App\Exceptions\Security('ERR_DIRECTORY_CANNOT_BE_CREATED||function_path', 406);
+			}
+			if (!$workflowsExists) {
+				mkdir(\dirname($functionPath));
+			}
+			if (false === file_put_contents($functionPath, $scriptData)) {
+				throw new \App\Exceptions\IllegalValue('ERR_FAILED_TO_SAVE_SCRIPT||function_path', 406);
+			}
 		} else {
-			if (!file_exists($functionPath)) {
-				$workflowsExists = file_exists(dirname($functionPath));
-				if($workflowsExists && is_file(dirname($functionPath))){
-					throw new \App\Exceptions\Security('ERR_DIRECTORY_CANNOT_BE_CREATED||function_path', 406);
-				}elseif (!$workflowsExists) {
-					mkdir(dirname($functionPath));
-				}
-				if (file_put_contents($functionPath, $scriptData) === false) {
-					throw new \App\Exceptions\IllegalValue('ERR_FAILED_TO_SAVE_SCRIPT||function_path', 406);
-				}
-			} else {
-				require_once $functionPath;
-				if(!method_exists($method['function_name'], $method['method_name'])){
-					throw new \App\Exceptions\IllegalValue('ERR_SCRIPT_EXISTS_FUNCTION_NOT||function_path', 406);
-				}
+			require_once $functionPath;
+			if (!method_exists($method['function_name'], $method['method_name'])) {
+				throw new \App\Exceptions\IllegalValue('ERR_SCRIPT_EXISTS_FUNCTION_NOT||function_path', 406);
 			}
-			$num = (new \App\Db\Query())
-				->from('com_vtiger_workflowtasks_entitymethod')
-				->where([
-					'module_name' => $method['module_name'],
-					'method_name' => $method['method_name'],
-					'function_path' => $functionPath,
-					'function_name' => $method['function_name']
-					])->exists();
-			if (!$num) {
-				require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.php';
-				$emm = new VTEntityMethodManager();
-				$emm->addEntityMethod($method['module_name'], $method['method_name'], $functionPath, $method['function_name']);
-			}
+		}
+		$num = (new \App\Db\Query())
+			->from('com_vtiger_workflowtasks_entitymethod')
+			->where([
+				'module_name' => $method['module_name'],
+				'method_name' => $method['method_name'],
+				'function_path' => $functionPath,
+				'function_name' => $method['function_name']
+			])->exists();
+		if (!$num) {
+			require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.php';
+			$emm = new VTEntityMethodManager();
+			$emm->addEntityMethod($method['module_name'], $method['method_name'], $functionPath, $method['function_name']);
 		}
 	}
 
@@ -300,9 +302,9 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function checkPathForImportMethod(string $path): bool
 	{
-		if ($returnVal = \preg_match("/^modules[\\\\|\/]([A-Z][a-z,A-Z]+)[\\\\|\/]workflows[\\\\|\/][A-Z][a-z,A-Z]+\.php$/", $path, $match)) {
+		if ($returnVal = \preg_match('/^modules[\\\\|\\/]([A-Z][a-z,A-Z]+)[\\\\|\\/]workflows[\\\\|\\/][A-Z][a-z,A-Z]+\\.php$/', $path, $match)) {
 			//Check if the module exists
-			$returnVal = \vtlib\Module::getInstance($match[1]) !== false;
+			$returnVal = false !== \vtlib\Module::getInstance($match[1]);
 		}
 		return $returnVal;
 	}

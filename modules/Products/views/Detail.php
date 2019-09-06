@@ -14,31 +14,7 @@ class Products_Detail_View extends Vtiger_Detail_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function showModuleDetailView(\App\Request $request)
-	{
-		$recordId = $request->getInteger('record');
-		$moduleName = $request->getModule();
-
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-		$baseCurrenctDetails = $recordModel->getBaseCurrencyDetails();
-
-		$viewer = $this->getViewer($request);
-		$viewer->assign('BASE_CURRENCY_SYMBOL', $baseCurrenctDetails['currency_symbol']);
-		return parent::showModuleDetailView($request);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function showModuleBasicView(\App\Request $request)
-	{
-		return $this->showModuleDetailView($request);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

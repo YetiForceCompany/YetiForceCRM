@@ -61,7 +61,7 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['productname', 'pscategory', 'assigned_user_id', 'datesold', 'oproductstatus'];
+	public $relationFields = [];
 	// Make the field link to detail view
 	public $list_link_field = 'productname';
 	// For Popup listview and UI type support
@@ -73,14 +73,7 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 		'Date Sold' => ['outsourcedproducts' => 'datesold'],
 		'Status' => ['outsourcedproducts' => 'oproductstatus'],
 	];
-	public $search_fields_name = [
-		'Product Name' => 'productname',
-		'Category' => 'pscategory',
-		'Sub Category' => 'pssubcategory',
-		'Assigned To' => 'assigned_user_id',
-		'Date Sold' => 'datesold',
-		'Status' => 'oproductstatus',
-	];
+	public $search_fields_name = [];
 	// For Popup window record selection
 	public $popup_fields = ['productname'];
 	// For Alphabetical search
@@ -92,17 +85,16 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
-	public $unit_price;
 
 	/**
 	 * Invoked when special actions are performed on the module.
 	 *
-	 * @param string Module name
-	 * @param string Event Type
+	 * @param string $moduleName
+	 * @param string $eventType
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($eventType === 'module.postinstall') {
+		if ('module.postinstall' === $eventType) {
 			$dbCommand = \App\Db::getInstance()->createCommand();
 			// Mark the module as Standard module
 			$dbCommand->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
@@ -113,41 +105,5 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 
 			//Showing Assets module in the related modules in the More Information Tab
 		}
-	}
-
-	/**
-	 * Move the related records of the specified list of id's to the given record.
-	 *
-	 * @param string $module            This module name
-	 * @param array  $transferEntityIds List of Entity Id's from which related records need to be transfered
-	 * @param int    $entityId          Id of the the Record to which the related records are to be moved
-	 */
-	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
-	{
-		$dbCommand = \App\Db::getInstance()->createCommand();
-		\App\Log::trace('Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)');
-
-		$relTableArr = ['Documents' => 'vtiger_senotesrel', 'Attachments' => 'vtiger_seattachmentsrel'];
-
-		$tblFieldArr = ['vtiger_senotesrel' => 'notesid', 'vtiger_seattachmentsrel' => 'attachmentsid'];
-
-		$entityTblFieldArr = ['vtiger_senotesrel' => 'crmid', 'vtiger_seattachmentsrel' => 'crmid'];
-
-		foreach ($transferEntityIds as $transferId) {
-			foreach ($relTableArr as $relTable) {
-				$idField = $tblFieldArr[$relTable];
-				$entityIdField = $entityTblFieldArr[$relTable];
-				// IN clause to avoid duplicate entries
-				$subQuery = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $entityId]);
-				$query = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $transferId])->andWhere(['not in', $idField, $subQuery]);
-				$dataReader = $query->createCommand()->query();
-				while ($idFieldValue = $dataReader->readColumn(0)) {
-					$dbCommand->update($relTable, [$entityIdField => $entityId], [$entityIdField => $transferId, $idField => $idFieldValue])->execute();
-				}
-				$dataReader->close();
-			}
-		}
-		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		\App\Log::trace('Exiting transferRelatedRecords...');
 	}
 }

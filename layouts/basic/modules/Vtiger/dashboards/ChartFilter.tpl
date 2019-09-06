@@ -7,7 +7,7 @@
 		<div id="minilistWizardContainer" class='modelContainer modal fade' tabindex="-1">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
-					<div class="modal-header contentsBackground">
+					<div class="modal-header">
 						<h5 class="modal-title" id="massEditHeader">
 							<span class="fas fa-chart-pie mr-1"></span>
 							{\App\Language::translate('LBL_ADD_CHART_FILTER')} {\App\Language::translate($MODULE_NAME, $MODULE_NAME)}
@@ -73,7 +73,7 @@
 			<div class="{$COL_CTRL}">
 				<select class="form-control filtersId" {if $CHART_TYPE!=='Funnel'}name="filtersId"
 						multiple="multiple" {else}name="filtersId[] "{/if}
-						data-validation-engine="validate[required]" data-maximum-selection-length="{\AppConfig::performance('CHART_MULTI_FILTER_LIMIT')}">
+						data-validation-engine="validate[required]" data-maximum-selection-length="{\App\Config::performance('CHART_MULTI_FILTER_LIMIT')}">
 					<option></option>
 					{foreach from=$ALLFILTERS item=FILTERS key=FILTERGROUP}
 						<optgroup label="{\App\Language::translate($FILTERGROUP,$SELECTED_MODULE)}">
@@ -172,7 +172,7 @@
 		<div class="step4 form-group row">
 			<div class="{$COL_LBL}"><label>{\App\Language::translate('LBL_ADDITIONAL_FILTERS','Home')}</label></div>
 			<div class="{$COL_CTRL}">
-				<select class="form-control saveParam" name="additionalFiltersFields" size="2" multiple data-maximum-selection-length="{\AppConfig::performance('CHART_ADDITIONAL_FILTERS_LIMIT')}">
+				<select class="form-control saveParam" name="additionalFiltersFields" size="2" multiple data-maximum-selection-length="{\App\Config::performance('CHART_ADDITIONAL_FILTERS_LIMIT')}">
 					{foreach from=$MODULE_FIELDS item=FIELDS key=BLOCK_NAME}
 						<optgroup label="{\App\Language::translate($BLOCK_NAME,$SELECTED_MODULE)}">
 							{foreach from=$FIELDS item=FIELD key=FIELD_NAME}

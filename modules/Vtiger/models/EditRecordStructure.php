@@ -35,21 +35,24 @@ class Vtiger_EditRecordStructure_Model extends Vtiger_RecordStructure_Model
 				$values[$blockLabel] = [];
 				foreach ($fieldModelList as $fieldName => $fieldModel) {
 					if ($fieldModel->isEditable()) {
-						if ($recordModel->get($fieldName) !== '') {
+						if ('' !== $recordModel->get($fieldName)) {
 							$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
 						} else {
 							$defaultValue = $fieldModel->getDefaultFieldValue();
-							if ($defaultValue !== '' && !$recordId) {
+							if ('' !== $defaultValue && !$recordId) {
 								$fieldModel->set('fieldvalue', $defaultValue);
 							}
 						}
 						$values[$blockLabel][$fieldName] = $fieldModel;
+						if ($fieldModel->get('tabindex') > Vtiger_Field_Model::$tabIndexLastSeq) {
+							Vtiger_Field_Model::$tabIndexLastSeq = $fieldModel->get('tabindex');
+						}
 					}
 				}
 			}
 		}
 		$this->structuredValues = $values;
-
+		++Vtiger_Field_Model::$tabIndexLastSeq;
 		return $values;
 	}
 }

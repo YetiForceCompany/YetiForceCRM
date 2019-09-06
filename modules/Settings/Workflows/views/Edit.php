@@ -6,21 +6,22 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * ********************************************************************************** */
 
 class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$mode = $request->getMode();
 		if ($mode) {
-			$this->$mode($request);
+			$this->{$mode}($request);
 		} else {
 			$this->step1($request);
 		}
 	}
 
-	public function preProcess(\App\Request $request, $display = true)
+	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request);
 		$viewer = $this->getViewer($request);
@@ -34,7 +35,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->view('EditHeader.tpl', $request->getModule(false));
 	}
 
-	public function step1(\App\Request $request)
+	public function step1(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -53,9 +54,6 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 				$viewer->assign('SELECTED_MODULE', $selectedModule);
 			}
 		}
-		$workflowManager = new VTWorkflowManager();
-		$viewer->assign('MAX_ALLOWED_SCHEDULED_WORKFLOWS', $workflowManager->getMaxAllowedScheduledWorkflows());
-		$viewer->assign('SCHEDULED_WORKFLOW_COUNT', $workflowManager->getScheduledWorkflowsCount());
 		$viewer->assign('WORKFLOW_MODEL', $workflowModel);
 		$viewer->assign('ALL_MODULES', Settings_Workflows_Module_Model::getSupportedModules());
 		$viewer->assign('TRIGGER_TYPES', Settings_Workflows_Module_Model::getTriggerTypes());
@@ -68,7 +66,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->view('Step1.tpl', $qualifiedModuleName);
 	}
 
-	public function step2(\App\Request $request)
+	public function step2(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -82,16 +80,50 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 			$selectedModule = Vtiger_Module_Model::getInstance($selectedModuleName);
 			$workFlowModel = Settings_Workflows_Record_Model::getCleanInstance($selectedModuleName);
 		}
-		$requestData = $request->getAll();
-		foreach ($requestData as $name => $value) {
-			if (($name == 'schdayofweek' || $name == 'schdayofmonth' || $name == 'schannualdates') && is_string($value)) { // need to save these as json data
-				$value = [$value];
+
+		foreach (['summary', 'schdayofweek', 'schdayofmonth', 'execution_condition', 'schtypeid', 'schtime', 'schdate', 'schannualdates', 'params', 'filtersavedinnew', 'record'] as $name) {
+			if ($request->has($name)) {
+				switch ($name) {
+					case 'summary':
+						$value = htmlspecialchars($request->getByType($name, 'Text'));
+						break;
+					case 'schdayofweek':
+					case 'schdayofmonth':
+						$value = $request->getArray($name, 'Integer');
+						$value = empty($value) ? null : $value;
+						break;
+					case 'record':
+					case 'filtersavedinnew':
+					case 'schtypeid':
+						$value = $request->isEmpty($name) ? null : $request->getInteger($name);
+						break;
+					case 'execution_condition':
+						$value = $request->getInteger($name);
+						break;
+					case 'schtime':
+						$value = $request->isEmpty($name) ? null : $request->getByType($name, 'TimeInUserFormat');
+						break;
+					case 'schdate':
+						$value = $request->isEmpty($name) ? null : $request->getByType($name, 'DateTimeInUserFormat');
+						break;
+					case 'schannualdates':
+						$value = $request->isEmpty($name) ? null : implode(',', $request->getExploded($name, ',', 'DateInUserFormat'));
+						break;
+					case 'params':
+						$value = $request->getMultiDimensionArray($name, [
+							'showTasks' => 'Bool',
+							'enableTasks' => 'Bool'
+						]
+						);
+						$value = \App\Json::encode($value);
+						break;
+					default:
+						$value = null;
+				}
+				$workFlowModel->set($name, $value);
 			}
-			if ($name == 'summary') {
-				$value = htmlspecialchars($value);
-			}
-			$workFlowModel->set($name, $value);
 		}
+
 		//Added to support advance filters
 		$recordStructureInstance = Settings_Workflows_RecordStructure_Model::getInstanceForWorkFlowModule($workFlowModel, Settings_Workflows_RecordStructure_Model::RECORD_STRUCTURE_MODE_FILTER);
 		$recordStructure = $recordStructureInstance->getStructure();
@@ -115,11 +147,12 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->assign('IS_FILTER_SAVED_NEW', $workFlowModel->isFilterSavedInNew());
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+		$viewer->assign('SKIPPED_FIELD_DATA_TYPES', ['smtp']);
 
 		$viewer->view('Step2.tpl', $qualifiedModuleName);
 	}
 
-	public function step3(\App\Request $request)
+	public function step3(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -144,7 +177,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->view('Step3.tpl', $qualifiedModuleName);
 	}
 
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([

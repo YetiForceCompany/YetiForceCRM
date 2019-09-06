@@ -69,7 +69,7 @@ class Validator
 	 * Function verifies if given value is compatible with user’s date format.
 	 *
 	 * @param string   $input
-	 * @param null|int $userId
+	 * @param int|null $userId
 	 *
 	 * @return bool
 	 */
@@ -98,7 +98,7 @@ class Validator
 	 *  Function verifies if given value is compatible with user’s time format.
 	 *
 	 * @param string   $input
-	 * @param null|int $userId
+	 * @param int|null $userId
 	 *
 	 * @return bool
 	 */
@@ -125,7 +125,7 @@ class Validator
 	public static function dateTime(string $input): bool
 	{
 		$result = false;
-		if (($arrInput = \explode(' ', $input)) && 2 === count($arrInput)) {
+		if (($arrInput = \explode(' ', $input)) && 2 === \count($arrInput)) {
 			[$dateInput, $timeInput] = $arrInput;
 			[$y, $m, $d] = Fields\Date::explode($dateInput);
 			$result = checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d) &&
@@ -138,14 +138,14 @@ class Validator
 	 * Function verifies if given value is compatible with user’s  date and time format.
 	 *
 	 * @param string   $input
-	 * @param null|int $userId
+	 * @param int|null $userId
 	 *
 	 * @return bool
 	 */
 	public static function dateTimeInUserFormat(string $input, ?int $userId = null): bool
 	{
 		$result = false;
-		if (($arrInput = \explode(' ', $input)) && 2 === count($arrInput)) {
+		if (($arrInput = \explode(' ', $input, 2)) && 2 === \count($arrInput)) {
 			$userModel = User::getUserModel($userId ?? User::getCurrentUserId());
 			[$dateInput, $timeInput] = $arrInput;
 			[$y, $m, $d] = Fields\Date::explode($dateInput, $userModel->getDetail('date_format'));
@@ -169,6 +169,47 @@ class Validator
 	public static function integer($input): bool
 	{
 		return false !== filter_var($input, FILTER_VALIDATE_INT);
+	}
+
+	/**
+	 * Function verifies if given value is float type.
+	 *
+	 * @param float|string $input
+	 *
+	 * @return bool
+	 */
+	public static function float($input): bool
+	{
+		return false !== filter_var($input, FILTER_VALIDATE_FLOAT);
+	}
+
+	/**
+	 * Check if floating point numbers are equal.
+	 *
+	 * @see https://www.php.net/manual/en/language.types.float.php
+	 *
+	 * @param float $value1
+	 * @param float $value2
+	 * @param int   $precision
+	 *
+	 * @return bool
+	 */
+	public static function floatIsEqual(float $value1, float $value2, int $precision = 2): bool
+	{
+		return 0 === bccomp($value1, $value2, $precision);
+	}
+
+	/**
+	 * Check if floating point numbers are equal. Get the precision of the number from the user's settings.
+	 *
+	 * @param float $value1
+	 * @param float $value2
+	 *
+	 * @return bool
+	 */
+	public static function floatIsEqualUserCurrencyDecimals(float $value1, float $value2): bool
+	{
+		return static::floatIsEqual($value1, $value2, (int) \App\User::getCurrentUserModel()->getDetail('no_of_currency_decimals'));
 	}
 
 	/**
@@ -228,6 +269,9 @@ class Validator
 	 */
 	public static function url(string $url): bool
 	{
+		if (false === strpos($url, '://')) {
+			return static::domain($url);
+		}
 		return false !== filter_var($url, FILTER_VALIDATE_URL);
 	}
 
@@ -289,5 +333,17 @@ class Validator
 	public static function sql($input): bool
 	{
 		return preg_match('/^[_a-zA-Z0-9.,:]+$/', $input);
+	}
+
+	/**
+	 * Check if input is an time period value.
+	 *
+	 * @param string $input
+	 *
+	 * @return bool
+	 */
+	public static function timePeriod($input): bool
+	{
+		return preg_match('/^[0-9]{1,18}\:(d|H|i){1}$/', $input);
 	}
 }

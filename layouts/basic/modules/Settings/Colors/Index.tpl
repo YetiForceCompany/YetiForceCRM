@@ -6,7 +6,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
-		<div class="contents tabbable">
+		<div class="contents tabbable mt-2">
 			<ul class="nav nav-tabs layoutTabs massEditTabs">
 				<li class="nav-item"><a class="nav-link" data-toggle="tab"
 										href="#userColors"><strong>{\App\Language::translate('LBL_USERS_COLORS', $QUALIFIED_MODULE)}</strong></a>
@@ -145,7 +145,7 @@
 		<div class="modal editColorContainer fade" tabindex="-1">
 			<div class="modal-dialog">
 				<div class="modal-content">
-					<div class="modal-header contentsBackground">
+					<div class="modal-header">
 						<h5 class="modal-title">{\App\Language::translate('LBL_EDIT_COLOR', $QUALIFIED_MODULE)}</h5>
 						<button type="button" class="close" data-dismiss="modal"
 								title="{\App\Language::translate('LBL_CLOSE')}">

@@ -175,6 +175,8 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		}
 		if (count($hierarchy) > $requireCount && ($query = \App\ModuleHierarchy::getQueryRelatedRecords($parentId, $hierarchy))) {
 			$where[] = ['related_to' => (new \App\Db\Query())->select(['id'])->from(['temp_query' => $query])];
+		} else {
+			$where[] = ['related_to' => 0];
 		}
 		$queryGenerator->addNativeCondition($where);
 		$queryGenerator->addNativeCondition(['parent_comments' => 0]);
@@ -365,7 +367,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	public function getCommentLinks()
 	{
 		$links = [];
-		$stateColors = AppConfig::search('LIST_ENTITY_STATE_COLOR');
+		$stateColors = App\Config::search('LIST_ENTITY_STATE_COLOR');
 		if ($this->privilegeToArchive()) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'LBL_ARCHIVE_RECORD',

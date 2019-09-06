@@ -35,7 +35,7 @@ class Newsletter extends \App\SystemWarnings\Template
 	 */
 	public function process()
 	{
-		if (static::emailProvided() && (\App\YetiForce\Register::verify(true) || \AppConfig::main('systemMode') === 'demo')) {
+		if (static::emailProvided() && (\App\YetiForce\Register::verify(true) || 'demo' === \App\Config::main('systemMode'))) {
 			$this->status = 1;
 		} else {
 			$this->status = 0;
@@ -45,7 +45,7 @@ class Newsletter extends \App\SystemWarnings\Template
 	/**
 	 * Check if email address is provided in company data.
 	 *
-	 * @param int|false $company
+	 * @param false|int $company
 	 *
 	 * @return bool
 	 */

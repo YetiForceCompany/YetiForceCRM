@@ -12,8 +12,7 @@
 [![Depfu](https://badges.depfu.com/badges/56870798a59eff717ff60bc775ca6a33/overview.svg)](https://depfu.com/github/YetiForceCompany/YetiForceCRM)
 [![dependencies Status](https://david-dm.org/YetiForceCompany/YetiForceCRM/status.svg)](https://david-dm.org/YetiForceCompany/YetiForceCRM)
 <a href="https://scan.coverity.com/projects/yetiforcecompany-yetiforcecrm">
-  <img alt="Coverity Scan Build Status"
-       src="https://scan.coverity.com/projects/16547/badge.svg"/>
+  <img alt="Coverity Scan Build Status" src="https://scan.coverity.com/projects/16547/badge.svg"/>
 </a>
 [![sonarcloud.io status alert](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=alert_status)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
 [![sonarcloud.io bugs](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=bugs)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
@@ -27,14 +26,21 @@
 [![Backers on Open Collective](https://opencollective.com/YetiForceCRM/backers/badge.svg)](#backers) 
 [![Sponsors on Open Collective](https://opencollective.com/YetiForceCRM/sponsors/badge.svg)](#sponsors) 
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/yetiforcecrm/localized.svg)](https://crowdin.com/project/yetiforcecrm)
+[![Black Duck Security Risk](https://copilot.blackducksoftware.com/github/repos/YetiForceCompany/YetiForceCRM/branches/developer/badge-risk.svg)](https://copilot.blackducksoftware.com/github/repos/YetiForceCompany/YetiForceCRM/branches/developer)
+[![DepShield Badge](https://depshield.sonatype.org/badges/owner/repository/depshield.svg)](https://depshield.github.io)
 
-<a href='http://www.capterra.com/customer-relationship-management-software/reviews/159123/Yetiforce%20/YetiForce?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge'>  <img border='0' src='https://assets.capterra.com/badge/470cd214b89233aa4e89972fa49c3253.png?v=2111411&p=159123' /></a>
-<a href='https://www.capterra.com/customer-relationship-management-software/#affordable' width="50"><img border='0' src='https://public.yetiforce.com/img/CRM-AF-2017.png' width="150" /></a>
+<p align="center">
+	<a href='http://www.capterra.com/customer-relationship-management-software/reviews/159123/Yetiforce%20/YetiForce?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge'>  <img border='0' src='https://assets.capterra.com/badge/470cd214b89233aa4e89972fa49c3253.png?v=2111411&p=159123' /></a>
+	<a href='https://www.capterra.com/customer-relationship-management-software/#affordable' width="50"><img border='0' src='https://public.yetiforce.com/img/CRM-AF-2017.png' width="150" /></a>
+	<a href="https://sourceforge.net/software/product/Yetiforce/?pk_campaign=badge&amp;pk_source=vendor">
+		<img alt="SourceForge Logo" src="https://sourceforge.net/cdn/syndication/badge_img/2970487/dark-default" height="120px">
+	</a>
+</p>
+
 [![SymfonyInsight](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c/big.png)](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c)
 <a href="https://crowdin.com/project/yetiforcecrm" rel="nofollow">
 <img width="35%" src="https://support.crowdin.com/assets/logos/crowdin-CollaborativeTranslationTool-logo.png" alt="crowdin Localization Management Platform">
 </a>
-
 [![Download YetiForce CRM](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/yetiforce/files/latest/download) 
 
 We design an innovative CRM system that is dedicated for large and medium sized companies. We dedicate it to everyone who values open source software, security and innovation. YetiForce was built on a rock-solid Vtiger foundation, but has hundreds of changes that help to accomplish even the most challenging tasks in the simplest way. Every function within the system was thought through and automated to ensure that all of them work together seamlessly and form a coherent integrity. We looked at the entire sales process and consequently refined the system, module by module. We have years of experience creating tailor made CRM software for a variety of different companies. Download it and have a first-hand experience.
@@ -55,7 +61,7 @@ Visit our [online store](https://yetiforce.shop/) with commercial modules and su
 - [Sourceforge](https://sourceforge.net/projects/yetiforce/)
 - [Softaculous](http://www.softaculous.com/apps/erp/YetiForce)
 - [Packagist](https://packagist.org/packages/yetiforce/yetiforce-crm)
-- [Development version](https://download.yetiforce.com/developer.zip) - full package (composer + yarn)
+- [Development version](https://download.yetiforce.com/developer.zip) - full package (yarn + composer)
 
 1. Installation [our website](https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/crm-installation)
 2. The lists of changes for previous versions of YetiForce CRM are available at [our website](https://yetiforce.com/en/knowledge-base/documentation/developer-documentation/category/changes).

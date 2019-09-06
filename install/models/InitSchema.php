@@ -69,21 +69,21 @@ class Install_InitSchema_Model
 				}
 				$splitQueries .= $fileBuffer;
 			}
-			$create_query = substr_count($splitQueries, 'CREATE TABLE');
-			$insert_query = substr_count($splitQueries, 'INSERT INTO');
-			$alter_query = substr_count($splitQueries, 'ALTER TABLE');
-			$executed_query = 0;
+			$createQuery = substr_count($splitQueries, 'CREATE TABLE');
+			$insertQuery = substr_count($splitQueries, 'INSERT INTO');
+			$alterQuery = substr_count($splitQueries, 'ALTER TABLE');
+			$executedQuery = 0;
 			$queries = $this->splitQueries($splitQueries);
 			foreach ($queries as $query) {
 				// Trim any whitespace.
 				$query = trim($query);
-				if (!empty($query) && ($query[0] != '#') && ($query[0] != '-')) {
+				if (!empty($query) && ('#' != $query[0]) && ('-' != $query[0])) {
 					$this->db->createCommand($query)->execute();
-					++$executed_query;
+					++$executedQuery;
 				}
 			}
-			\App\Log::info("create_query: $create_query | insert_query: $insert_query | alter_query: $alter_query | executed_query: $executed_query");
-			$_SESSION['installation_success'] = $create_query && $executed_query;
+			\App\Log::info("create_query: $createQuery | insert_query: $insertQuery | alter_query: $alterQuery | executed_query: $executedQuery");
+			$_SESSION['installation_success'] = $createQuery && $executedQuery;
 		} catch (Throwable $e) {
 			$return = false;
 			\App\Log::error($e->__toString());
@@ -91,7 +91,7 @@ class Install_InitSchema_Model
 		} finally {
 			$this->db->createCommand('SET FOREIGN_KEY_CHECKS = 1;')->execute();
 		}
-		return ['status' => $return, 'create' => $create_query, 'insert' => $insert_query, 'alter' => $alter_query, 'executed' => $executed_query];
+		return ['status' => $return, 'create' => $createQuery, 'insert' => $insertQuery, 'alter' => $alterQuery, 'executed' => $executedQuery];
 	}
 
 	/**
@@ -129,24 +129,24 @@ class Install_InitSchema_Model
 		// Trim any whitespace.
 		$query = trim($query);
 		// Remove comment lines.
-		$query = preg_replace("/\n\#[^\n]*/", '', "\n" . $query);
+		$query = preg_replace("/\n\\#[^\n]*/", '', "\n" . $query);
 		// Remove PostgreSQL comment lines.
-		$query = preg_replace("/\n\--[^\n]*/", '', "\n" . $query);
+		$query = preg_replace("/\n\\--[^\n]*/", '', "\n" . $query);
 		// Find function
 		$funct = explode('CREATE || REPLACE FUNCTION', $query);
 		// Save sql before function and parse it
 		$query = $funct[0];
 
 		// Parse the schema file to break up queries.
-		for ($i = 0; $i < strlen($query) - 1; ++$i) {
-			if ($query[$i] == ';' && !$in_string) {
+		for ($i = 0; $i < \strlen($query) - 1; ++$i) {
+			if (';' == $query[$i] && !$in_string) {
 				$queries[] = substr($query, 0, $i);
 				$query = substr($query, $i + 1);
 				$i = 0;
 			}
-			if ($in_string && ($query[$i] == $in_string) && $buffer[1] != '\\') {
+			if ($in_string && ($query[$i] == $in_string) && '\\' != $buffer[1]) {
 				$in_string = false;
-			} elseif (!$in_string && ($query[$i] == '"' || $query[$i] == "'") && (!isset($buffer[0]) || $buffer[0] != '\\')) {
+			} elseif (!$in_string && ('"' == $query[$i] || "'" == $query[$i]) && (!isset($buffer[0]) || '\\' != $buffer[0])) {
 				$in_string = $query[$i];
 			}
 			if (isset($buffer[1])) {
@@ -159,7 +159,7 @@ class Install_InitSchema_Model
 			$queries[] = $query;
 		}
 		// Add function part as is
-		$countFunct = count($funct);
+		$countFunct = \count($funct);
 		for ($f = 1; $f < $countFunct; ++$f) {
 			$queries[] = 'CREATE || REPLACE FUNCTION ' . $funct[$f];
 		}
@@ -173,7 +173,7 @@ class Install_InitSchema_Model
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public function setCompanyDetails(\App\Request $request)
+	public function setCompanyDetails(App\Request $request)
 	{
 		if (!($_SESSION['installation_success'] ?? false)) {
 			return;

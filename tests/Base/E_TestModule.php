@@ -58,7 +58,7 @@ class E_TestModule extends \Tests\Base
 				} catch (\Exception $e) {
 					$response = false;
 				}
-				if ($response && $response->getStatusCode() === 200) {
+				if ($response && 200 === $response->getStatusCode()) {
 					$this->fileUrl = static::$testDataUrl . $_SERVER['YETI_KEY'];
 				} else {
 					static::$skipTest = 'TestData package not available - bad response from remote server, no sample data to install.';

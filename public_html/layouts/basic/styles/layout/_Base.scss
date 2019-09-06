@@ -7,35 +7,74 @@
 	width: 100%;
 	overflow-x: hidden;
 }
-
-.user-info--active .mainBody {
-	bottom: $h-footer-user-info;
+.o-vtiger-index-container {
+	.mainBody {
+		background-color: $yf-gray;
+	}
 }
-
-.limited-footer--active .mainBody {
-	bottom: $h-footer-limited;
-}
-
-.user-info--active.limited-footer--active .mainBody {
+.c-btn-fixed {
 	bottom: $h-footer;
+}
+.container-fluid[class$='-knowledgebase-container'] .contentsDiv {
+	min-height: calc(100vh - #{$h-header} - #{$h-footer});
+}
+.user-info--active {
+	.mainBody,
+	.c-btn-fixed {
+		bottom: $h-footer-user-info;
+	}
+	.container-fluid[class$='-knowledgebase-container'] .contentsDiv {
+		min-height: calc(100vh - #{$h-header} - #{$h-footer-user-info});
+	}
+}
+.limited-footer--active {
+	.mainBody,
+	.c-btn-fixed {
+		bottom: $h-footer-limited;
+	}
+	.container-fluid[class$='-knowledgebase-container'] .contentsDiv {
+		min-height: calc(100vh - #{$h-header} - #{$h-footer-limited});
+	}
+}
+
+.user-info--active.limited-footer--active {
+	.mainBody,
+	.c-btn-fixed {
+		bottom: $h-footer;
+	}
+	.container-fluid[class$='-knowledgebase-container'] .contentsDiv {
+		min-height: calc(100vh - #{$h-header} - #{$h-footer});
+	}
 }
 
 @include media-breakpoint-down(sm) {
-	.mainBody {
+	.mainBody,
+	.c-btn-fixed {
 		bottom: $h-footer-limited;
 	}
-
-	.user-info--active .mainBody {
-		bottom: $h-footer;
+	.container-fluid[class$='-knowledgebase-container'] .contentsDiv {
+		min-height: calc(100vh - #{$h-header} - #{$h-footer-limited});
+	}
+	.user-info--active {
+		.mainBody {
+			bottom: $h-footer;
+		}
+		.container-fluid[class$='-knowledgebase-container'] .contentsDiv {
+			min-height: calc(100vh - #{$h-header} - #{$h-footer});
+		}
 	}
 }
 
-.contentsDiv, .centerPanel {
+.contentsDiv,
+.centerPanel {
 	@extend .mx-2;
 }
 
 .massEditTable {
-	th + th, td + td, th + td, td + th {
+	th + th,
+	td + td,
+	th + td,
+	td + th {
 		border-left: 0;
 	}
 }
@@ -79,7 +118,8 @@
 	}
 }
 
-.c-header.open, .c-footer.open {
+.c-header.open,
+.c-footer.open {
 	left: 210px;
 	-webkit-transition: left ease-in-out 0.3s;
 	transition: left ease-in-out 0.3s;
@@ -103,4 +143,18 @@
 			}
 		}
 	}
+}
+
+.o-exception-fixed-block {
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	position: fixed;
+	height: 100%;
+	z-index: 11111111111111;
+}
+
+body > .o-exception-fixed-block {
+	position: static;
+	transform: none;
 }

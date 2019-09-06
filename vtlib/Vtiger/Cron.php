@@ -291,7 +291,7 @@ class Cron
 		}
 		$maxExecutionTime = (int) (ini_get('max_execution_time'));
 		if ($maxExecutionTime == 0) {
-			$maxExecutionTime = \AppConfig::main('maxExecutionCronTime');
+			$maxExecutionTime = \App\Config::main('maxExecutionCronTime');
 		}
 		$time = $this->getLastEnd();
 		if ($time == 0) {
@@ -431,6 +431,7 @@ class Cron
 		if ($data) {
 			$this->data = $data;
 		}
+		return $this;
 	}
 
 	public function unlockTask()

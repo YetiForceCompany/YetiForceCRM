@@ -13,7 +13,6 @@
 	.c-btn-block-sm-down,
 	.c-btn-block-sm-down .btn {
 		width: 100% !important;
-
 	}
 }
 
@@ -55,6 +54,7 @@
 
 .c-btn-light-green {
 	@include button-variant(material-color('light-green', '500'), material-color('light-green', '500'));
+
 	color: $white;
 }
 

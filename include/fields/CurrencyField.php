@@ -101,7 +101,7 @@ class CurrencyField
 	 */
 	public function initialize($user = null)
 	{
-		$defaultCharset = AppConfig::main('default_charset');
+		$defaultCharset = App\Config::main('default_charset');
 		if (empty($user)) {
 			$user = \App\User::getCurrentUserModel();
 		}
@@ -119,7 +119,7 @@ class CurrencyField
 		$this->currencySymbol = $currencyData['currency_symbol'];
 		$this->conversionRate = $currencyData['conversion_rate'];
 		$this->currencySymbolPlacement = $user->getDetail('currency_symbol_placement');
-		$this->numberOfDecimal = (empty($user->getDetail('no_of_currency_decimals')) && (int) $user->getDetail('no_of_currency_decimals') !== 0) ? 2 : (int) $user->getDetail('no_of_currency_decimals');
+		$this->numberOfDecimal = (empty($user->getDetail('no_of_currency_decimals')) && 0 !== (int) $user->getDetail('no_of_currency_decimals')) ? 2 : (int) $user->getDetail('no_of_currency_decimals');
 	}
 
 	public function getCurrencySymbol()
@@ -134,6 +134,10 @@ class CurrencyField
 	 *
 	 * @param \App\User $user
 	 * @param bool      $skipConversion
+	 * @param mixed     $value
+	 * @param mixed     $skipFormatting
+	 *
+	 * @deprecated    	Recommend using function \App\Fields\Currency::formatToDisplay
 	 *
 	 * @return string Formatted Currency
 	 */
@@ -141,7 +145,7 @@ class CurrencyField
 	{
 		// To support negative values
 		$negative = false;
-		if (stripos($value, '-') === 0) {
+		if (0 === stripos($value, '-')) {
 			$negative = true;
 			$value = substr($value, 1);
 		}
@@ -154,13 +158,13 @@ class CurrencyField
 	{
 		// To support negative values
 		$negative = false;
-		if (stripos($value, '-') === 0) {
+		if (0 === stripos($value, '-')) {
 			$negative = true;
 			$value = substr($value, 1);
 		}
 		$self = new self($value);
 		$formattedValue = $self->getDisplayValue(null, $skipConversion, $skipFormatting);
-		if ($currencySymbol === false) {
+		if (false === $currencySymbol) {
 			$currencySymbol = $self->currencySymbol;
 		}
 		$value = self::appendCurrencySymbol($formattedValue, $currencySymbol, $self->currencySymbolPlacement);
@@ -172,6 +176,7 @@ class CurrencyField
 	 *
 	 * @param \App\User $user
 	 * @param bool      $skipConversion
+	 * @param mixed     $skipFormatting
 	 *
 	 * @return string Formatted Currency
 	 */
@@ -185,10 +190,10 @@ class CurrencyField
 		if (empty($displayValue)) {
 			$displayValue = 0;
 		}
-		if ($skipConversion === false) {
+		if (false === $skipConversion) {
 			$displayValue = self::convertFromDollar($displayValue, $this->conversionRate);
 		}
-		if ($skipFormatting === false) {
+		if (false === $skipFormatting) {
 			$displayValue = $this->formatCurrencyValue($displayValue);
 		}
 		return $this->currencyDecimalFormat($displayValue, $user);
@@ -272,8 +277,8 @@ class CurrencyField
 			$numericParts = explode('.', $value);
 			$wholeNumber = $numericParts[0];
 			// First part of the number which remains intact
-			if (strlen($wholeNumber) > 3) {
-				$wholeNumberFirstPart = substr($wholeNumber, 0, strlen($wholeNumber) - 3);
+			if (\strlen($wholeNumber) > 3) {
+				$wholeNumberFirstPart = substr($wholeNumber, 0, \strlen($wholeNumber) - 3);
 			}
 			// Second Part of the number (last 3 digits) which should be separated from the First part using Currency Separator
 			$wholeNumberLastPart = substr($wholeNumber, -3);
@@ -306,7 +311,7 @@ class CurrencyField
 			}
 
 			// Pad the rest of the length in the number string with Leading 0, to get it to the multiples of 3
-			$numberLength = strlen($wholeNumber);
+			$numberLength = \strlen($wholeNumber);
 			// First grouping digits length
 			$OddGroupLength = $numberLength % 3;
 			$gapsToBeFilled = 0;
@@ -318,7 +323,7 @@ class CurrencyField
 			$wholeNumberParts = str_split($wholeNumber, 3);
 			// Re-create the whole number with user's configured currency separator
 			$numericParts[0] = $wholeNumber = implode($curSeparator, $wholeNumberParts);
-			if ($wholeNumber != 0) {
+			if (0 != $wholeNumber) {
 				$numericParts[0] = ltrim($wholeNumber, '0');
 			} else {
 				$numericParts[0] = 0;
@@ -352,14 +357,14 @@ class CurrencyField
 			}
 
 			// First part of the number which needs separate division
-			if (strlen($wholeNumber) > 3) {
-				$wholeNumberFirstPart = substr($wholeNumber, 0, strlen($wholeNumber) - 3);
+			if (\strlen($wholeNumber) > 3) {
+				$wholeNumberFirstPart = substr($wholeNumber, 0, \strlen($wholeNumber) - 3);
 			}
 			// Second Part of the number (last 3 digits) which should be separated from the First part using Currency Separator
 			$wholeNumberLastPart = substr($wholeNumber, -3);
 			if (!empty($wholeNumberFirstPart)) {
 				// Pad the rest of the length in the number string with Leading 0, to get it to the multiples of 2
-				$numberLength = strlen($wholeNumberFirstPart);
+				$numberLength = \strlen($wholeNumberFirstPart);
 				// First grouping digits length
 				$OddGroupLength = $numberLength % 2;
 				$gapsToBeFilled = 0;
@@ -370,7 +375,7 @@ class CurrencyField
 				// Split the first part of tne number into chunks of 2 digits
 				$wholeNumberFirstPartElements = str_split($wholeNumberFirstPart, 2);
 				$wholeNumberFirstPart = implode($curSeparator, $wholeNumberFirstPartElements);
-				if ($wholeNumberFirstPart != 0) {
+				if (0 != $wholeNumberFirstPart) {
 					$wholeNumberFirstPart = ltrim($wholeNumberFirstPart, '0');
 				} else {
 					$wholeNumberFirstPart = 0;
@@ -418,7 +423,7 @@ class CurrencyField
 		$dbValue = str_replace($curSeparator, '', $this->value);
 		$dbValue = str_replace($decSeparator, '.', $dbValue);
 		$dbValue = (float) preg_replace('/[^0-9\.-]/', '', $dbValue);
-		if ($skipConversion === false) {
+		if (false === $skipConversion) {
 			$dbValue = self::convertToDollar($dbValue, $this->conversionRate);
 		}
 		return $dbValue;
@@ -458,7 +463,7 @@ class CurrencyField
 
 	public static function convertToDollar($amount, $conversionRate)
 	{
-		if ($conversionRate == 0) {
+		if (0 == $conversionRate) {
 			return 0;
 		}
 		return $amount / $conversionRate;
@@ -477,29 +482,23 @@ class CurrencyField
 			$user = \App\User::getCurrentUserModel();
 		}
 		if ($user->getDetail('truncate_trailing_zeros')) {
-			if (strpos($value, $user->getDetail('currency_decimal_separator')) !== 0) {
-				/**
-				 * We should trim extra zero's if only the value had decimal separator(Ex :- 1600.00)
-				 * else it'll change orginal value.
-				 */
-				$value = rtrim($value, '0');
+			if (0 !== strpos($value, $user->getDetail('currency_decimal_separator'))) {
+				$value = \App\Fields\Double::truncateZeros($value);
 			}
 			$decSeparator = $user->getDetail('currency_decimal_separator');
 			$fieldValue = explode(App\Purifier::decodeHtml($decSeparator), $value);
 			$valueField = $fieldValue[0];
-			if (0 === (int) $valueField || !isset($fieldValue[1]) || strlen($fieldValue[1]) <= 1) {
-				if (isset($fieldValue[1]) && strlen($fieldValue[1]) == 1) {
+			if (0 === (int) $valueField || !isset($fieldValue[1]) || \strlen($fieldValue[1]) <= 1) {
+				if (isset($fieldValue[1]) && 1 <= \strlen($fieldValue[1])) {
 					return $value = $valueField . $decSeparator . $fieldValue[1];
-				} elseif (!isset($fieldValue[1])) {
-					return $value = $valueField;
-				} else {
+				}
+				if (!isset($fieldValue[1])) {
 					return $value = $valueField;
 				}
-			} else {
-				return preg_replace('/(?<=\\.[0-9])[0]+$/', '', $value);
+				return $value = $valueField;
 			}
-		} else {
-			return $value;
+			return preg_replace('/(?<=\\.[0-9])[0]+$/', '', $value);
 		}
+		return $value;
 	}
 }

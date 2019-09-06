@@ -15,6 +15,15 @@
 			{/if}
 		{/if}
 	{/function}
+	{function HIGHLIGHT_ROW ITEM=[]}
+		{if !$ITEM['status'] && (empty($ITEM['mode']) ||  $ITEM['mode'] eq 'showErrors')}
+			class="table-danger"
+		{elseif !$ITEM['status'] && isset($ITEM['mode']) &&  $ITEM['mode'] eq 'showWarnings'}
+			class="table-warning"
+		{elseif !$ITEM['status'] && isset($ITEM['mode']) &&  $ITEM['mode'] eq 'showInfo'}
+			class=""
+		{/if}
+	{/function}
 	<div>
 		<div class="o-breadcrumb widget_header mb-2 d-flex px-2 row">
 			<div class="o-breadcrumb__container flex-md-wrap">
@@ -63,7 +72,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['libraries'] key=KEY item=ITEM}
-						<tr {if !$ITEM['status']}class="table-danger"{/if}>
+						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
@@ -80,14 +89,20 @@
 							</td>
 							{if empty($ITEM['testCli'])}
 								<td colspan="2">
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{else}
 								<td>
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 								<td>
-									{if !empty($ITEM['cron'])}{\App\Language::translate($ITEM['cron'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['cron'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['cron']} {else} {\App\Language::translate($ITEM['cron'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{/if}
 						</tr>
@@ -120,27 +135,33 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['performance'] key=KEY item=ITEM}
-						<tr {if !$ITEM['status']}class="table-danger"{/if}>
+						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
 							<td>
 								{if isset($ITEM['recommended'])}
-									{\App\Language::translate($ITEM['recommended'], $MODULE_NAME)}
+									{if isset($ITEM['isHtml'])} {$ITEM['recommended']} {else} {\App\Language::translate($ITEM['recommended'], $MODULE_NAME)} {/if}
 								{else}
 									-
 								{/if}
 							</td>
 							{if empty($ITEM['testCli'])}
 								<td colspan="2">
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{else}
 								<td>
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 								<td>
-									{if !empty($ITEM['cron'])}{\App\Language::translate($ITEM['cron'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['cron'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['cron']} {else} {\App\Language::translate($ITEM['cron'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{/if}
 						</tr>
@@ -167,7 +188,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['publicDirectoryAccess'] key=KEY item=ITEM}
-						<tr {if !$ITEM['status']}class="table-danger"{/if}>
+						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
@@ -176,6 +197,41 @@
 									{\App\Language::translate('LBL_YES', $MODULE_NAME)}
 								{else}
 									{\App\Language::translate('LBL_NO', $MODULE_NAME)}
+								{/if}
+							</td>
+						</tr>
+					{/foreach}
+					</tbody>
+				</table>
+			</div>
+			<div class="u-columns__item pb-3 functionalVerification table-responsive-md">
+				<table class="table table-bordered table-sm m-0">
+					<thead>
+					<tr>
+						<th colspan="2" scope="col">
+							{\App\Language::translate('LBL_FUNCTIONAL_VERIFICATION_TITLE', $MODULE_NAME)}
+						</th>
+					</tr>
+					<tr>
+						<th colspan="1" scope="col" class="text-left">
+							{App\Language::translate('LBL_FN_NAME', $MODULE_NAME)}
+						</th>
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_IT_WORKS_PROPERLY', $MODULE_NAME)}
+						</th>
+					</tr>
+					</thead>
+					<tbody class="u-word-break-all small">
+					{foreach from=$ALL['functionalVerification'] key=KEY item=ITEM}
+						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
+							<td class="bg-light text-left u-word-break-keep-all">
+								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
+							</td>
+							<td class="text-capitalize">
+								{if empty($ITEM['only_info'])}
+									{$ITEM['www']}
+								{else}
+									<u>{$ITEM['www']}</u>
 								{/if}
 							</td>
 						</tr>
@@ -208,27 +264,33 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['stability'] key=KEY item=ITEM}
-						<tr {if !$ITEM['status']}class="table-danger"{/if}>
+						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
 							<td>
 								{if isset($ITEM['recommended'])}
-									{\App\Language::translate($ITEM['recommended'], $MODULE_NAME)}
+									{if isset($ITEM['isHtml'])} {$ITEM['recommended']} {else} {\App\Language::translate($ITEM['recommended'], $MODULE_NAME)} {/if}
 								{else}
 									-
 								{/if}
 							</td>
 							{if empty($ITEM['testCli'])}
 								<td colspan="2">
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{else}
 								<td>
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 								<td>
-									{if !empty($ITEM['cron'])}{\App\Language::translate($ITEM['cron'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['cron'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['cron']} {else} {\App\Language::translate($ITEM['cron'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{/if}
 						</tr>
@@ -259,20 +321,26 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['environment'] key=KEY item=ITEM}
-						<tr {if !$ITEM['status']}class="table-danger"{/if}>
+						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
 							{if empty($ITEM['testCli'])}
 								<td colspan="2">
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{else}
 								<td>
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 								<td>
-									{if !empty($ITEM['cron'])}{\App\Language::translate($ITEM['cron'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['cron'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['cron']} {else} {\App\Language::translate($ITEM['cron'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{/if}
 						</tr>
@@ -303,20 +371,26 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['writableFilesAndFolders'] key=KEY item=ITEM}
-						<tr {if !$ITEM['status']}class="table-danger"{/if}>
+						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
 							{if empty($ITEM['testCli'])}
 								<td colspan="2">
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{else}
 								<td>
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 								<td>
-									{if !empty($ITEM['cron'])}{\App\Language::translate($ITEM['cron'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['cron'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['cron']} {else} {\App\Language::translate($ITEM['cron'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{/if}
 						</tr>
@@ -349,27 +423,33 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['security'] key=KEY item=ITEM}
-						<tr {if !$ITEM['status']}class="table-danger"{/if}>
+						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
 							<td>
 								{if isset($ITEM['recommended'])}
-									{\App\Language::translate($ITEM['recommended'], $MODULE_NAME)}
+									{if isset($ITEM['isHtml'])} {$ITEM['recommended']} {else} {\App\Language::translate($ITEM['recommended'], $MODULE_NAME)} {/if}
 								{else}
 									-
 								{/if}
 							</td>
 							{if empty($ITEM['testCli'])}
 								<td colspan="2">
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{else}
 								<td>
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 								<td>
-									{if !empty($ITEM['cron'])}{\App\Language::translate($ITEM['cron'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['cron'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['cron']} {else} {\App\Language::translate($ITEM['cron'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{/if}
 						</tr>
@@ -400,20 +480,24 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['database'] key=KEY item=ITEM}
-						<tr {if !$ITEM['status']}class="table-danger"{/if}>
+						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
 							{if isset($ITEM['recommended'])}
 								<td>
-									{$ITEM['recommended']}
+									{if isset($ITEM['isHtml'])} {$ITEM['recommended']} {else} {\App\Language::translate($ITEM['recommended'], $MODULE_NAME)} {/if}
 								</td>
 								<td>
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{else}
 								<td colspan="2">
-									{if !empty($ITEM['www'])}{\App\Language::translate($ITEM['www'], $MODULE_NAME)}{/if}
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
 								</td>
 							{/if}
 						</tr>

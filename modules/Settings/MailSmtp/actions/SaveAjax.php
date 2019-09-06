@@ -23,7 +23,7 @@ class Settings_MailSmtp_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function updateSmtp(\App\Request $request)
+	public function updateSmtp(App\Request $request)
 	{
 		$encryptInstance = \App\Encryption::getInstance();
 		$data = [
@@ -41,6 +41,10 @@ class Settings_MailSmtp_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			'from_email' => $request->getByType('from_email', 'Text'),
 			'from_name' => $request->getByType('from_name', 'Text'),
 			'reply_to' => $request->getByType('reply_to', 'Text'),
+			'priority' => $request->getByType('priority', 'Text'),
+			'confirm_reading_to' => $request->getByType('confirm_reading_to', 'Text'),
+			'organization' => $request->getByType('organization', 'Text'),
+			'unsubscribe' => $request->getByType('unsubscribe', 'Text'),
 			'individual_delivery' => $request->isEmpty('individual_delivery') ? 0 : $request->getInteger('individual_delivery'),
 			'smtp_username' => $request->getByType('smtp_username', 'Text'),
 			'smtp_host' => $request->getByType('smtp_host', 'Text'),
@@ -52,7 +56,7 @@ class Settings_MailSmtp_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$mailer = new \App\Mailer();
 		$mailer->loadSmtp($data);
 		$testMailer = $mailer->test();
-		if (isset($testMailer['result']) && $testMailer['result'] !== false) {
+		if (isset($testMailer['result']) && false !== $testMailer['result']) {
 			if (!empty($data['default'])) {
 				App\Db::getInstance('admin')->createCommand()->update('s_#__mail_smtp', ['default' => 0])->execute();
 			}

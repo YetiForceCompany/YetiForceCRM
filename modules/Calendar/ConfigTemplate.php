@@ -139,5 +139,10 @@ return [
 	'EXPORT_SUPPORTED_FILE_FORMATS' => [
 		'default' => ['LBL_CSV' => 'csv', 'LBL_XML' => 'xml', 'LBL_ICAL' => 'ical'],
 		'description' => 'Supported file types for data export.'
+	],
+	'maxNumberCalendarNotifications' => [
+		'default' => 20,
+		'description' => 'Max number of notifications to display, 0 - no limits',
+		'validation' => '\App\Validator::naturalNumber',
 	]
 ];

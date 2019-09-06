@@ -1,0 +1,40 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+.o-small-product {
+	height: 100%;
+	cursor: pointer;
+	&__container {
+		min-height: calculate-rem(130px);
+		height: 100%;
+	}
+
+	&__img {
+		max-width: 30%;
+		min-width: calculate-rem(80px);
+	}
+	&__partner-img {
+		img {
+			max-width: 57%;
+			min-width: calculate-rem(80px);
+		}
+	}
+}
+.o-buy-modal {
+	&__img {
+		max-height: calculate-rem(180px);
+	}
+}
+.o-shop__nav {
+	&__item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		.yfi {
+			font-size: calculate-rem(25px);
+			margin-right: 0.25rem;
+			&.yfi-for-partners {
+				font-size: calculate-rem(19px);
+			}
+		}
+	}
+}

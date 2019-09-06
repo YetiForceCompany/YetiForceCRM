@@ -10,28 +10,15 @@
 		{if $VIEW eq 'DiscountConfiguration'}
 			<div class="alert alert-info">
 				<h5 class="alert-heading">{\App\Language::translate('LBL_ALERT_DISCOUNT_CONFIG_TITLE', $QUALIFIED_MODULE)}</h5>
-				<p>{\App\Language::translateArgs('LBL_ALERT_DISCOUNT_CONFIG_DESC', $QUALIFIED_MODULE,AppConfig::main('site_URL'))}</p>
+				<p>{\App\Language::translateArgs('LBL_ALERT_DISCOUNT_CONFIG_DESC', $QUALIFIED_MODULE,App\Config::main('site_URL'))}</p>
 			</div>
 		{elseif $VIEW eq 'TaxConfiguration'}
 			<div class="alert alert-info">
 				<h5 class="alert-heading">{\App\Language::translate('LBL_ALERT_TAX_CONFIG_TITLE', $QUALIFIED_MODULE)}</h5>
-				<p>{\App\Language::translateArgs('LBL_ALERT_TAX_CONFIG_DESC', $QUALIFIED_MODULE,AppConfig::main('site_URL'))}</p>
+				<p>{\App\Language::translateArgs('LBL_ALERT_TAX_CONFIG_DESC', $QUALIFIED_MODULE,App\Config::main('site_URL'))}</p>
 			</div>
 		{/if}
 		<div class="contents mt-3 form-horizontal">
-			<div class="form-group form-row">
-				{assign var=LABEL_CHECKBOX value='LBL_YES'}
-				{if !$CONFIG.active}
-					{assign var=LABEL_CHECKBOX value='LBL_NO'}
-				{/if}
-				<label class="col-md-3 col-form-label u-text-small-bold text-md-right form-control-plaintext">{\App\Language::translate('LBL_ARE_ACTIVE', $QUALIFIED_MODULE)}</label>
-				<div class="col-md-6 btn-group-toggle" data-toggle="buttons">
-					<label class="btn {if $CONFIG.active}btn-success active{else}btn-light{/if}">
-						<input autocomplete="off" type="checkbox" name="active" {if $CONFIG.active}checked{/if}><span class="text">&nbsp;&nbsp;{\App\Language::translate($LABEL_CHECKBOX, $QUALIFIED_MODULE)}</span>
-						<span class="far {if $CONFIG.active}fa-check-square{else}fa-square{/if} float-left"></span>
-					</label>	
-				</div>
-			</div>
 			<div class="form-group form-row">
 				<label class="col-md-3 u-text-small-bold col-form-label text-md-right form-control-plaintext">{\App\Language::translate('LBL_SUMMATION_TYPE', $QUALIFIED_MODULE)}</label>
 				<div class="col-md-6">

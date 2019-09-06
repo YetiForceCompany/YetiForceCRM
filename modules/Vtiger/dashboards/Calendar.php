@@ -36,8 +36,8 @@ class Vtiger_Calendar_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('CURRENTUSER', $currentUser);
-		$viewer->assign('NAMELENGTH', AppConfig::main('title_max_length'));
-		$viewer->assign('HREFNAMELENGTH', AppConfig::main('href_max_length'));
+		$viewer->assign('NAMELENGTH', App\Config::main('title_max_length'));
+		$viewer->assign('HREFNAMELENGTH', App\Config::main('href_max_length'));
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_SCHEDULED_ACTIVITIES');
 		$viewer->assign('DATA', $data);
 		$viewer->assign('DEFAULTDATE', $defaultDate);

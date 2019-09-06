@@ -109,7 +109,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		$moduleModels = Vtiger_Module_Model::getAll([0, 2]);
 		$supportedModuleModels = [];
 		foreach ($moduleModels as $tabId => $moduleModel) {
-			if ($moduleModel->isEntityModule() && !in_array($moduleModel->getName(), $restrictedModules)) {
+			if ($moduleModel->isEntityModule() && !\in_array($moduleModel->getName(), $restrictedModules)) {
 				$supportedModuleModels[$tabId] = $moduleModel;
 			}
 		}
@@ -118,6 +118,8 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get instance.
+	 *
+	 * @param mixed $moduleName
 	 *
 	 * @return <Settings_MappedFields_Module_Model>
 	 */
@@ -166,7 +168,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 			$objectProperties = get_object_vars($moduleModel);
 			$moduleModel = new self();
 			foreach ($objectProperties as $properName => $propertyValue) {
-				$moduleModel->$properName = $propertyValue;
+				$moduleModel->{$properName} = $propertyValue;
 			}
 		}
 		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
@@ -197,6 +199,8 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Function to set mapping details.
 	 *
+	 * @param mixed $mapp
+	 *
 	 * @return instance
 	 */
 	public function setMapping($mapp = [])
@@ -225,6 +229,8 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Function returns fields of module.
 	 *
+	 * @param mixed $source
+	 *
 	 * @return <Array of vtlib\Field>
 	 */
 	public function getFields($source = false)
@@ -233,7 +239,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		$moduleModel = Vtiger_Module_Model::getInstance($this->getName());
 		$fields = [];
 		foreach ($moduleModel->getFields() as $fieldName => $fieldModel) {
-			if ($fieldModel->isActiveField() && $fieldModel->isEditable() && !in_array($fieldModel->getUIType(), $this->getRestrictedUitypes())) {
+			if ($fieldModel->isActiveField() && $fieldModel->isEditable() && !\in_array($fieldModel->getUIType(), $this->getRestrictedUitypes())) {
 				$blockName = $fieldModel->getBlockName();
 				if (!$blockName) {
 					$blockName = 'LBL_NOT_ASSIGNET_TO_BLOCK';
@@ -262,7 +268,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	public function deleteMapping($mappedIds)
 	{
 		\App\Log::trace('Entering ' . __METHOD__ . '() method ...');
-		if (!is_array($mappedIds)) {
+		if (!\is_array($mappedIds)) {
 			$mappedIds = [$mappedIds];
 		}
 		\App\Db::getInstance()->createCommand()->delete($this->mappingTable, [$this->mappingIndex => $mappedIds])
@@ -272,6 +278,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function delete()
 	{
+		\App\Cache::delete('MappedFieldsTemplatesByModule', \App\Module::getModuleName($this->record->get('tabid')));
 		return \App\Db::getInstance()->createCommand()->delete($this->baseTable, [$this->baseIndex => $this->getRecordId()])
 			->execute();
 	}
@@ -291,9 +298,9 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		$params = [];
 		foreach ($fields as $field) {
 			$value = $this->record->get($field);
-			if (in_array($field, ['conditions', 'params'])) {
+			if (\in_array($field, ['conditions', 'params'])) {
 				$params[$field] = \App\Json::encode($value);
-			} elseif (is_array($value)) {
+			} elseif (\is_array($value)) {
 				$params[$field] = implode(',', $value);
 			} else {
 				$params[$field] = $value;
@@ -321,6 +328,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 				}
 			}
 		}
+		\App\Cache::delete('MappedFieldsTemplatesByModule', \App\Module::getModuleName($this->record->get('tabid')));
 		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 
 		return $this->getRecordId();
@@ -337,11 +345,11 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		if (!empty($conditions)) {
 			foreach ($conditions as $index => $condition) {
 				$columns = $condition['columns'];
-				if ($index == '1' && empty($columns)) {
+				if ('1' == $index && empty($columns)) {
 					$wfCondition[] = ['fieldname' => '', 'operation' => '', 'value' => '', 'valuetype' => '',
 						'joincondition' => '', 'groupid' => '0', ];
 				}
-				if (!empty($columns) && is_array($columns)) {
+				if (!empty($columns) && \is_array($columns)) {
 					foreach ($columns as $column) {
 						$wfCondition[] = ['fieldname' => $column['columnname'], 'operation' => $column['comparator'],
 							'value' => $column['value'], 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
@@ -358,10 +366,10 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$id = '';
 		$fileInstance = \App\Fields\File::loadFromRequest($_FILES['imported_xml']);
-		if (!$fileInstance->validate() || $fileInstance->getExtension(true) !== 'xml') {
+		if (!$fileInstance->validate() || 'xml' !== $fileInstance->getExtension(true)) {
 			$message = 'LBL_UPLOAD_ERROR';
 		} else {
-			list($id, $message) = $this->importDataFromXML($fileInstance->getPath());
+			[$id, $message] = $this->importDataFromXML($fileInstance->getPath());
 		}
 		return ['id' => $id, 'message' => \App\Language::translate($message, $qualifiedModuleName)];
 	}
@@ -374,19 +382,19 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		$mapping = [];
 		$xml = simplexml_load_file($uploadedXml);
 		foreach ($xml as $fieldsKey => $fieldsValue) {
-			if (array_key_exists($fieldsKey, $combine)) {
+			if (\array_key_exists($fieldsKey, $combine)) {
 				$value = (int) \App\Module::getModuleId((string) $fieldsValue);
 				if (empty($value)) {
 					break;
 				}
 				$instances[$combine[$fieldsKey]] = Vtiger_Module_Model::getInstance((string) $fieldsValue);
-			} elseif ($fieldsKey === 'fields') {
+			} elseif ('fields' === $fieldsKey) {
 				foreach ($fieldsValue as $fieldValue) {
 					foreach ($fieldValue as $columnKey => $columnValue) {
 						$columnKey = (string) $columnKey;
 						$columnValue = (string) $columnValue;
-						if (in_array($columnKey, ['default', 'type'])) {
-							$mapping[$i][$columnKey] = $columnKey === 'default' ? \App\Purifier::purify($columnValue) : $columnValue;
+						if (\in_array($columnKey, ['default', 'type'])) {
+							$mapping[$i][$columnKey] = 'default' === $columnKey ? \App\Purifier::purify($columnValue) : $columnValue;
 							continue;
 						}
 						$fieldObject = Settings_MappedFields_Field_Model::getInstance($columnValue, $instances[$columnKey], $mapping[$i]['type']);

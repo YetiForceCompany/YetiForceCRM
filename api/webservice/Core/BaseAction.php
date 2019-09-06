@@ -22,7 +22,7 @@ class BaseAction
 
 	public function checkAction()
 	{
-		if ((isset($this->allowedMethod) && !in_array($this->controller->method, $this->allowedMethod)) || !method_exists($this, $this->controller->method)) {
+		if ((isset($this->allowedMethod) && !\in_array($this->controller->method, $this->allowedMethod)) || !method_exists($this, $this->controller->method)) {
 			throw new \Api\Core\Exception('Invalid method', 405);
 		}
 		$this->checkPermission();
@@ -59,7 +59,14 @@ class BaseAction
 		$sessionTable = "w_#__{$apiType}_session";
 		$userTable = "w_#__{$apiType}_user";
 		$db = \App\Db::getInstance('webservice');
-		$row = (new \App\Db\Query())->select(["$userTable.*", "$sessionTable.id", 'sessionLanguage' => "$sessionTable.language", "$sessionTable.created", "$sessionTable.changed", "$sessionTable.params"])->from($userTable)
+		$row = (new \App\Db\Query())->select([
+			"$userTable.*",
+			"$sessionTable.id",
+			'sessionLanguage' => "$sessionTable.language",
+			"$sessionTable.created",
+			"$sessionTable.changed",
+			"$sessionTable.params"
+		])->from($userTable)
 			->innerJoin($sessionTable, "$sessionTable.user_id = $userTable.id")
 			->where(["$sessionTable.id" => $this->controller->headers['x-token'], "$userTable.status" => 1])
 			->one($db);
@@ -69,9 +76,18 @@ class BaseAction
 		$this->session = new \App\Base();
 		$this->session->setData($row);
 		\App\User::setCurrentUserId($this->session->get('user_id'));
+		$userModel = \App\User::getCurrentUserModel();
+		$userModel->set('permission_type', $row['type']);
+		$userModel->set('permission_crmid', $row['crmid']);
+		$userModel->set('permission_app', $this->controller->app['id']);
+		$namespace = ucfirst($apiType);
+		\App\Privilege::setPermissionInterpreter("\\Api\\{$namespace}\\Privilege");
+		\App\PrivilegeQuery::setPermissionInterpreter("\\Api\\{$namespace}\\PrivilegeQuery");
+		\Vtiger_Field_Model::setDefaultUiTypeClassName('\\Api\\Core\\Modules\\Vtiger\\UiTypes\\Base');
 		$db->createCommand()
 			->update($sessionTable, ['changed' => date('Y-m-d H:i:s')], ['id' => $this->session->get('id')])
 			->execute();
+		return true;
 	}
 
 	/**
@@ -90,13 +106,14 @@ class BaseAction
 	 *
 	 * @return string
 	 */
-	public function getLanguage()
+	public function getLanguage(): string
 	{
 		$language = '';
-		if (!empty($this->controller->headers['Accept-Language'])) {
-			$language = $this->controller->headers['Accept-Language'];
-		}
-		if ($this->session && !$this->session->isEmpty('language')) {
+		if (!empty($this->controller->headers['accept-language'])) {
+			$language = $this->controller->headers['accept-language'];
+		} elseif ($this->session && !$this->session->isEmpty('sessionLanguage')) {
+			$language = $this->session->get('sessionLanguage');
+		} elseif ($this->session && !$this->session->isEmpty('language')) {
 			$language = $this->session->get('language');
 		}
 		return $language;
@@ -107,7 +124,7 @@ class BaseAction
 	 *
 	 * @return int
 	 */
-	public function getPermissionType()
+	public function getPermissionType(): int
 	{
 		return $this->session->get('type');
 	}
@@ -117,9 +134,30 @@ class BaseAction
 	 *
 	 * @return int
 	 */
-	public function getUserCrmId()
+	public function getUserCrmId(): int
 	{
 		return $this->session->get('crmid');
+	}
+
+	/**
+	 * Get user storage ID.
+	 *
+	 * @return int
+	 */
+	public function getUserStorageId(): ?int
+	{
+		return $this->session->get('istorage');
+	}
+
+	/**
+	 * Get information, whether to check inventory levels.
+	 *
+	 * @return bool
+	 */
+	public function getCheckStockLevels(): bool
+	{
+		$parentId = \Api\Portal\Privilege::USER_PERMISSIONS !== $this->getPermissionType() ? $this->getParentCrmId() : 0;
+		return empty($parentId) || (bool) \Vtiger_Record_Model::getInstanceById($parentId)->get('check_stock_levels');
 	}
 
 	/**
@@ -137,9 +175,8 @@ class BaseAction
 			$records = $hierarchy->get();
 			if (isset($records[$parentId])) {
 				return $parentId;
-			} else {
-				throw new \Api\Core\Exception('No permission to X-PARENT-ID', 403);
 			}
+			throw new \Api\Core\Exception('No permission to X-PARENT-ID', 403);
 		}
 		return \App\Record::getParentRecord($this->getUserCrmId());
 	}

@@ -25,7 +25,6 @@
  * Contributor(s): YetiForce.com.
  * ****************************************************************************** */
 
-require_once 'include/database/PearDatabase.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/fields/DateTimeField.php';
 require_once 'include/fields/DateTimeRange.php';
@@ -127,7 +126,7 @@ class Users extends CRMEntity
 	 */
 	public function isAdminUser()
 	{
-		return isset($this->is_admin) && $this->is_admin === 'on';
+		return isset($this->is_admin) && 'on' === $this->is_admin;
 	}
 
 	/** Function to get the current user information from the user_privileges file
@@ -140,7 +139,7 @@ class Users extends CRMEntity
 		$userInfo = $userPrivileges['user_info'];
 		foreach ($this->column_fields as $field => $value_iter) {
 			if (isset($userInfo[$field])) {
-				$this->$field = $userInfo[$field];
+				$this->{$field} = $userInfo[$field];
 				$this->column_fields[$field] = $userInfo[$field];
 			}
 		}
@@ -159,7 +158,7 @@ class Users extends CRMEntity
 	{
 		\App\Log::trace("Entering into retrieveEntityInfo($record, $module) method.");
 
-		if ($record == '') {
+		if ('' == $record) {
 			\App\Log::error('record is empty. returning null');
 
 			return null;
@@ -178,7 +177,7 @@ class Users extends CRMEntity
 			if (isset($result[$fieldRow['tablename']][$fieldRow['columnname']])) {
 				$value = $result[$fieldRow['tablename']][$fieldRow['columnname']];
 				$this->column_fields[$fieldName] = $value;
-				$this->$fieldName = $value;
+				$this->{$fieldName} = $value;
 			}
 		}
 		$this->column_fields['record_id'] = $record;
@@ -200,10 +199,10 @@ class Users extends CRMEntity
 		$this->column_fields['currency_code'] = $this->currency_code = $currency['currency_code'];
 		$this->column_fields['currency_symbol'] = $this->currency_symbol = $currencySymbol;
 		$this->column_fields['conv_rate'] = $this->conv_rate = $currency['conversion_rate'];
-		if ($this->column_fields['no_of_currency_decimals'] === '') {
+		if ('' === $this->column_fields['no_of_currency_decimals']) {
 			$this->column_fields['no_of_currency_decimals'] = $this->no_of_currency_decimals = App\User::getCurrentUserId() ? (int) App\User::getCurrentUserModel()->getDetail('no_of_currency_decimals') : 2;
 		}
-		if ($this->column_fields['currency_grouping_pattern'] == '' && $this->column_fields['currency_symbol_placement'] == '') {
+		if ('' == $this->column_fields['currency_grouping_pattern'] && '' == $this->column_fields['currency_symbol_placement']) {
 			$this->column_fields['currency_grouping_pattern'] = $this->currency_grouping_pattern = '123,456,789';
 			$this->column_fields['currency_decimal_separator'] = $this->currency_decimal_separator = '.';
 			$this->column_fields['currency_grouping_separator'] = $this->currency_grouping_separator = ' ';
@@ -213,10 +212,6 @@ class Users extends CRMEntity
 		\App\Log::trace('Exit from retrieveEntityInfo() method.');
 
 		return $this;
-	}
-
-	public function filterInactiveFields($module)
-	{
 	}
 
 	/**
@@ -255,25 +250,24 @@ class Users extends CRMEntity
 		$cache = Vtiger_Cache::getInstance();
 		if ($cache->getAdminUserId()) {
 			return $cache->getAdminUserId();
-		} else {
-			if (AppConfig::performance('ENABLE_CACHING_USERS')) {
-				$users = \App\PrivilegeFile::getUser('id');
-				foreach ($users as $id => $user) {
-					if ($user['status'] == 'Active' && $user['is_admin'] == 'on') {
-						$adminId = $id;
-					}
-				}
-			} else {
-				$adminId = 1;
-				$result = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['is_admin' => 'on', 'status' => 'Active'])->limit(1)->scalar();
-				if ($result) {
-					$adminId = $result;
+		}
+		if (App\Config::performance('ENABLE_CACHING_USERS')) {
+			$users = \App\PrivilegeFile::getUser('id');
+			foreach ($users as $id => $user) {
+				if ('Active' == $user['status'] && 'on' == $user['is_admin']) {
+					$adminId = $id;
 				}
 			}
-			$cache->setAdminUserId($adminId);
-
-			return $adminId;
+		} else {
+			$adminId = 1;
+			$result = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['is_admin' => 'on', 'status' => 'Active'])->limit(1)->scalar();
+			if ($result) {
+				$adminId = $result;
+			}
 		}
+		$cache->setAdminUserId($adminId);
+
+		return $adminId;
 	}
 
 	/**

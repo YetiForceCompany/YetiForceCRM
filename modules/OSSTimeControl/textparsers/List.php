@@ -15,9 +15,6 @@ class OSSTimeControl_List_Textparser extends \App\TextParser\Base
 	/** @var mixed Parser type */
 	public $type = 'pdf';
 
-	/** @var mixed Column names */
-	protected $columnNames = ['name', 'link', 'time_start', 'time_end', 'sum_time'];
-
 	/**
 	 * Process.
 	 *
@@ -25,54 +22,58 @@ class OSSTimeControl_List_Textparser extends \App\TextParser\Base
 	 */
 	public function process()
 	{
-		$moduleModel = Vtiger_Module_Model::getInstance($this->textParser->moduleName);
+		$moduleModel = \Vtiger_Module_Model::getInstance($this->textParser->moduleName);
 		$fields = $moduleModel->getFields();
-		$ids = $this->textParser->getParam('pdf')->getRecordIds();
-		if (!is_array($ids)) {
+		$ids = $this->textParser->getParam('pdf')->getVariable('recordsId');
+		if (!\is_array($ids)) {
 			$ids = [$ids];
 		}
-		$html = '<br /><style>' .
-			'.table {width: 100%; border-collapse: collapse;}' .
-			'.table thead th {border-bottom: 1px solid grey;}' .
-			'.table tbody tr {border-bottom: 1px solid grey}' .
-			'.table tbody tr:nth-child(even) {background-color: #F7F7F7;}' .
-			'.center {text-align: center;}' .
-			'.summary {border-top: 1px solid grey;}' .
-			'</style>';
-
-		$html .= '<table class="table"><thead><tr>';
-		foreach ($this->columnNames as $column) {
+		$html = '<table border="1" class="products-table" style="border-collapse:collapse;width:100%;"><thead><tr>';
+		$headerStyle = 'font-size:9px;padding:0px 4px;text-align:center;';
+		$bodyStyle = 'font-size:8px;border:1px solid #ddd;padding:0px4px;';
+		$columns = [];
+		foreach (['name', 'link', 'time_start', 'time_end', 'sum_time'] as $column) {
 			$fieldModel = $fields[$column];
-			$html .= '<th><span>' . \App\Language::translate($fieldModel->get('label'), $this->textParser->moduleName) . '</span>&nbsp;</th>';
+			if (!$fieldModel || !$fieldModel->isActiveField()) {
+				continue;
+			}
+			$columns[$fieldModel->getName()] = $fieldModel;
+			$html .= "<th style=\"{$headerStyle}\">" . \App\Language::translate($fieldModel->get('label'), $this->textParser->moduleName) . '</th>';
 		}
 		$html .= '</tr></thead><tbody>';
 		$summary = [];
 		foreach ($ids as $recordId) {
 			$html .= '<tr>';
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $this->textParser->moduleName);
-			foreach ($this->columnNames as $column) {
-				$fieldModel = $fields[$column];
-				$class = '';
-				if (in_array($column, ['time_start', 'time_end', 'due_date', 'date_start', 'sum_time'])) {
-					$class = 'class="center"';
+			$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, $this->textParser->moduleName);
+			if (!$recordModel->isViewable()) {
+				continue;
+			}
+			foreach ($columns as $column) {
+				$style = $bodyStyle;
+				$columnName = $column->getName();
+				if (\in_array($columnName, ['time_start', 'time_end', 'due_date', 'date_start', 'sum_time'])) {
+					$style = $bodyStyle . 'text-align:center;';
 				}
-				$html .= '<td ' . $class . '>' . $recordModel->getDisplayValue($fieldModel->getName(), $recordId, true) . '</td>';
-				if ($column == 'sum_time') {
-					$summary['sum_time'] += $recordModel->get($fieldModel->getName());
+				$html .= "<td style=\"{$style}\">" . $recordModel->getDisplayValue($columnName, $recordId, true) . '</td>';
+				if ('sum_time' === $columnName) {
+					$summary['sum_time'] = $summary['sum_time'] ?? 0;
+					$summary['sum_time'] += $recordModel->get($columnName);
 				}
 			}
 			$html .= '</tr>';
 		}
 		$html .= '</tbody><tfoot><tr>';
-		foreach ($this->columnNames as $column) {
-			$class = $content = '';
-			if ($column == 'sum_time') {
-				$content = '<strong>' . \App\Fields\Time::formatToHourText($summary['sum_time'], 'short') . '</strong>';
-				$class = 'center';
-			} elseif ($column == 'name') {
+		foreach ($columns as $column) {
+			$style = $bodyStyle;
+			$columnName = $column->getName();
+			$content = '';
+			if ('sum_time' === $columnName) {
+				$content = '<strong>' . \App\Fields\RangeTime::formatHourToDisplay($summary['sum_time'], 'short') . '</strong>';
+				$style = $bodyStyle . 'text-align:center;';
+			} elseif ('name' === $columnName) {
 				$content = '<strong>' . \App\Language::translate('LBL_SUMMARY', $this->textParser->moduleName) . ':' . '</strong>';
 			}
-			$html .= '<td class="summary ' . $class . '">' . $content . '</td>';
+			$html .= "<td style=\"{$style}\">" . $content . '</td>';
 		}
 		return $html . '</tr></tfoot></table>';
 	}

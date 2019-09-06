@@ -52,7 +52,7 @@ class Users_Totp_Authmethod
 	public function getOtpAuthUrl($secret, $name, $issuer = null)
 	{
 		if (is_null($issuer)) {
-			$arr = parse_url(AppConfig::main('site_URL'));
+			$arr = parse_url(App\Config::main('site_URL'));
 			$issuer = $arr['host'] ?? '';
 		}
 		$url = "otpauth://totp/{$issuer}:{$name}?secret={$secret}";
@@ -85,7 +85,7 @@ class Users_Totp_Authmethod
 	private function createQrCode($otpAuthUrl, $type = 'HTML')
 	{
 		$qrCodeGenerator = new \Milon\Barcode\DNS2D();
-		$qrCodeGenerator->setStorPath(__DIR__ . AppConfig::main('tmp_dir'));
+		$qrCodeGenerator->setStorPath(__DIR__ . App\Config::main('tmp_dir'));
 		switch ($type) {
 			case 'HTML':
 				return $qrCodeGenerator->getBarcodeHTML($otpAuthUrl, 'QRCODE');
@@ -137,7 +137,7 @@ class Users_Totp_Authmethod
 	 */
 	public static function isActive($userId = null)
 	{
-		if (\AppConfig::main('systemMode') === 'demo') {
+		if (\App\Config::main('systemMode') === 'demo') {
 			return false;
 		}
 		if (empty($userId)) {
@@ -147,7 +147,7 @@ class Users_Totp_Authmethod
 		if ($userModel->getDetail('login_method') !== 'PLL_PASSWORD_2FA') {
 			return false;
 		}
-		switch (AppConfig::security('USER_AUTHY_MODE')) {
+		switch (App\Config::security('USER_AUTHY_MODE')) {
 			case 'TOTP_OFF':
 				return false;
 			case 'TOTP_OPTIONAL':

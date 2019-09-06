@@ -63,7 +63,7 @@ class Settings_Vtiger_Field_Model extends Vtiger_Field_Model
 	/**
 	 * Function to check if the field is named field of the module.
 	 *
-	 * @return bool - True/False
+	 * @return bool
 	 */
 	public function isNameField()
 	{
@@ -73,7 +73,7 @@ class Settings_Vtiger_Field_Model extends Vtiger_Field_Model
 	/**
 	 * Function to check whether the current field is read-only.
 	 *
-	 * @return bool - true/false
+	 * @return bool
 	 */
 	public function isReadOnly()
 	{

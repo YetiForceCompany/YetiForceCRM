@@ -24,7 +24,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$values = [];
-		if (!is_array($value)) {
+		if (!\is_array($value)) {
 			$value = $value ? explode('##', $value) : [];
 		}
 		foreach ($value as $val) {
@@ -63,7 +63,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 			return '';
 		}
 		$ownerName = \App\Fields\Owner::getLabel($value);
-		if (is_int($length)) {
+		if (\is_int($length)) {
 			$ownerName = \App\TextParser::textTruncate($ownerName, $length);
 		}
 		if ($rawText) {
@@ -73,7 +73,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 			case 'Users':
 				$userModel = Users_Privileges_Model::getInstanceById($value);
 				$userModel->setModule('Users');
-				if ($userModel->get('status') === 'Inactive') {
+				if ('Inactive' === $userModel->get('status')) {
 					$ownerName = '<span class="redColor"><s>' . $ownerName . '</s></span>';
 				} elseif (\App\Privilege::isPermitted('Users', 'DetailView', $value)) {
 					$detailViewUrl = 'index.php?module=Users&view=Detail&record=' . $value;
@@ -146,9 +146,9 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getOperators()
+	public function getQueryOperators()
 	{
-		return ['e', 'n', 'y', 'ny', 'om', 'ogr', 'wr', 'nwr'];
+		return ['e', 'n', 'y', 'ny', 'om', 'nom', 'ogr', 'wr', 'nwr'];
 	}
 
 	/**

@@ -19,13 +19,13 @@ class Cron
 	/**
 	 * Cron run start time in microtime.
 	 *
-	 * @var null|int Cron run start time in microtime
+	 * @var int|null Cron run start time in microtime
 	 */
 	public static $cronTimeStart = null;
 	/**
 	 * Script run start time in microtime.
 	 *
-	 * @var null|int Script run start time in microtime
+	 * @var int|null Script run start time in microtime
 	 */
 	public static $scriptTimeStart = null;
 	/**
@@ -54,9 +54,12 @@ class Cron
 	{
 		static::$scriptTimeStart = microtime(true);
 		static::generateStatusFile();
-		YetiForce\Register::check();
-		YetiForce\Status::send();
-		if (!(static::$logActive = \AppConfig::debug('DEBUG_CRON'))) {
+		YetiForce\Shop::generateCache();
+		if ('test' !== \Config\Main::$systemMode) {
+			YetiForce\Register::check();
+			YetiForce\Status::send();
+		}
+		if (!(static::$logActive = \App\Config::debug('DEBUG_CRON'))) {
 			return;
 		}
 		if (!is_dir($this->logPath) && !mkdir($this->logPath, 0777, true) && !is_dir($this->logPath)) {
@@ -81,7 +84,7 @@ class Cron
 		if (!static::$logActive) {
 			return;
 		}
-		if ($level === 'warning' || $level === 'error') {
+		if ('warning' === $level || 'error' === $level) {
 			static::$keepLogFile = true;
 		}
 		if ($indent) {
@@ -97,7 +100,7 @@ class Cron
 	 */
 	public static function generateStatusFile()
 	{
-		return file_put_contents(ROOT_DIRECTORY . '/user_privileges/cron.php', '<?php return ' . Utils::varExport(array_merge(Utils\ConfReport::getAll(), ['last_start' => time()])) . ';');
+		return file_put_contents(ROOT_DIRECTORY . '/app_data/cron.php', '<?php return ' . Utils::varExport(array_merge(Utils\ConfReport::getAll(), ['last_start' => time()])) . ';');
 	}
 
 	/**

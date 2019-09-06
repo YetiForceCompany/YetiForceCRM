@@ -11,6 +11,8 @@
 
 class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 {
+	public static $supportedModules = false;
+
 	/**
 	 * Related view types.
 	 *
@@ -40,7 +42,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			foreach ($blocks as $block) {
 				$blockId[] = $block->get('id');
 			}
-			if (count($blockId) > 0) {
+			if (\count($blockId) > 0) {
 				$fieldList = Settings_LayoutEditor_Field_Model::getInstanceFromBlockIdList($blockId);
 			}
 			$this->fieldsModule = $fieldList;
@@ -83,32 +85,32 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function getAddSupportedFieldTypes()
 	{
 		return [
-			'Text', 'Decimal', 'Integer', 'Percent', 'Currency', 'Date', 'Email', 'Phone', 'Picklist', 'Country',
+			'Text', 'Decimal', 'Integer', 'AdvPercentage', 'Percent', 'Currency', 'Date', 'Email', 'Phone', 'Picklist', 'Country',
 			'URL', 'Checkbox', 'TextArea', 'MultiSelectCombo', 'Skype', 'Time', 'Related1M', 'Editor', 'Tree',
 			'MultiReferenceValue', 'CategoryMultipicklist', 'DateTime', 'Image', 'MultiImage', 'Twitter', 'MultiEmail',
-			'Smtp'
+			'Smtp', 'ServerAccess', 'MultiDomain', 'RangeTime'
 		];
 	}
 
 	/**
 	 * Function which will give information about the field types that are supported for add.
 	 *
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getAddFieldTypeInfo()
 	{
 		$fieldTypesInfo = [];
 		$addFieldSupportedTypes = $this->getAddSupportedFieldTypes();
-		$lengthSupportedFieldTypes = ['Text', 'Decimal', 'Integer', 'Currency', 'Editor'];
+		$lengthSupportedFieldTypes = ['Text', 'Decimal', 'Integer', 'Currency', 'Editor', 'AdvPercentage'];
 		foreach ($addFieldSupportedTypes as $fieldType) {
 			$details = [];
-			if (in_array($fieldType, $lengthSupportedFieldTypes)) {
+			if (\in_array($fieldType, $lengthSupportedFieldTypes)) {
 				$details['lengthsupported'] = true;
 			}
 			if ('Editor' === $fieldType) {
 				$details['noLimitForLength'] = true;
 			}
-			if ('Decimal' === $fieldType || 'Currency' === $fieldType) {
+			if ('Decimal' === $fieldType || 'Currency' === $fieldType || 'AdvPercentage' === $fieldType) {
 				$details['decimalSupported'] = true;
 				$details['maxFloatingDigits'] = 5;
 				if ('Currency' === $fieldType) {
@@ -150,37 +152,35 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$type = (int) $params['fieldTypeList'];
 		$name = strtolower($params['fieldName']);
 		$fieldParams = '';
-		if ($this->checkFieldLableExists($label)) {
+		if ($this->checkFieldLabelExists($label)) {
 			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 513);
 		}
-		if (0 === $type) {
-			if ($this->checkFieldNameCharacters($name)) {
-				throw new \App\Exceptions\AppException(\App\Language::translate('LBL_INVALIDCHARACTER', 'Settings::LayoutEditor'), 512);
-			}
-			if ($this->checkFieldNameExists($name)) {
-				throw new \App\Exceptions\AppException(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 512);
-			}
-			if ($this->checkFieldNameIsAnException($name)) {
-				throw new \App\Exceptions\AppException(\App\Language::translate('LBL_FIELD_NAME_IS_RESERVED', 'Settings::LayoutEditor'), 512);
-			}
-			if (strlen($name) > 30) {
-				throw new \App\Exceptions\AppException(\App\Language::translate('LBL_EXCEEDED_MAXIMUM_NUMBER_CHARACTERS_FOR_FIELD_NAME', 'Settings::LayoutEditor'), 512);
-			}
+		if ($this->checkFieldNameCharacters($name)) {
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_INVALIDCHARACTER', 'Settings::LayoutEditor'), 512);
+		}
+		if ($this->checkFieldNameExists($name)) {
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 512);
+		}
+		if ($this->checkFieldNameIsAnException($name)) {
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_FIELD_NAME_IS_RESERVED', 'Settings::LayoutEditor'), 512);
+		}
+		if (\strlen($name) > 30) {
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_EXCEEDED_MAXIMUM_NUMBER_CHARACTERS_FOR_FIELD_NAME', 'Settings::LayoutEditor'), 512);
 		}
 		$supportedFieldTypes = $this->getAddSupportedFieldTypes();
-		if (!in_array($fieldType, $supportedFieldTypes)) {
+		if (!\in_array($fieldType, $supportedFieldTypes)) {
 			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_WRONG_FIELD_TYPE', 'Settings::LayoutEditor'), 513);
 		}
 		if ('Picklist' === $fieldType || 'MultiSelectCombo' === $fieldType) {
 			$pickListValues = $params['pickListValues'];
-			if (is_string($pickListValues)) {
+			if (\is_string($pickListValues)) {
 				$pickListValues = [$pickListValues];
 			}
 			foreach ($pickListValues as $value) {
 				if (preg_match('/[\<\>\"\#\,]/', $value)) {
 					throw new \App\Exceptions\AppException(\App\Language::translateArgs('ERR_SPECIAL_CHARACTERS_NOT_ALLOWED', 'Other.Exceptions', '<>"#,'), 512);
 				}
-				if (strlen($value) > 200) {
+				if (\strlen($value) > 200) {
 					throw new \App\Exceptions\AppException(\App\Language::translate('ERR_EXCEEDED_NUMBER_CHARACTERS', 'Other.Exceptions'), 512);
 				}
 			}
@@ -188,10 +188,8 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$moduleName = $this->getName();
 		$focus = CRMEntity::getInstance($moduleName);
 		if (0 === $type) {
-			$columnName = $name;
 			$tableName = $focus->table_name;
 		} elseif (1 === $type) {
-			$columnName = 'cf_' . App\Db::getInstance()->getUniqueID('vtiger_field', 'fieldid', false);
 			if (isset($focus->customFieldTable)) {
 				$tableName = $focus->customFieldTable[0];
 			} else {
@@ -207,15 +205,18 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$fieldParams['filterField'] = $params['MRVFilterField'] ?? null;
 			$fieldParams['filterValue'] = $params['MRVFilterValue'] ?? null;
 			\App\Db::getInstance()->createCommand()->insert('s_#__multireference', ['source_module' => $moduleName, 'dest_module' => $params['MRVModule']])->execute();
+		} elseif ('ServerAccess' === $fieldType) {
+			$fieldParams = (int) $params['server'];
 		}
 		$details = $this->getTypeDetailsForAddField($fieldType, $params);
 		$uitype = $details['uitype'];
 		$typeofdata = $details['typeofdata'];
 		$dbType = $details['dbType'];
 		$fieldModel = new Settings_LayoutEditor_Field_Model();
-		$fieldModel->set('name', $columnName)
+		$fieldModel->set('name', $name)
 			->set('table', $tableName)
-			->set('generatedtype', 2)
+			->set('generatedtype', $params['generatedtype'] ?? 2)
+			->set('helpinfo', $params['helpinfo'] ?? '')
 			->set('uitype', $uitype)
 			->set('label', $label)
 			->set('typeofdata', $typeofdata)
@@ -225,8 +226,8 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		if ('Editor' === $fieldType) {
 			$fieldModel->set('maximumlength', $params['fieldLength'] ?? null);
 		}
-		if (isset($details['displayType'])) {
-			$fieldModel->set('displaytype', $details['displayType']);
+		if (isset($details['displayType']) || isset($params['displayType'])) {
+			$fieldModel->set('displaytype', $params['displayType'] ?? $details['displayType']);
 		}
 		$blockModel = Vtiger_Block_Model::getInstance($blockId, $moduleName);
 		$blockModel->addField($fieldModel);
@@ -234,7 +235,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$fieldModel->setPicklistValues($pickListValues);
 		}
 		if ('Related1M' === $fieldType) {
-			if (!is_array($params['referenceModule'])) {
+			if (!\is_array($params['referenceModule'])) {
 				$moduleList[] = $params['referenceModule'];
 			} else {
 				$moduleList = $params['referenceModule'];
@@ -268,10 +269,13 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$uitype = 1;
 				$type = $importerType->stringType($fieldLength)->defaultValue('');
 				break;
+			case 'AdvPercentage':
+				$uitype = 365;
+				// no break
 			case 'Decimal':
 				$fieldLength = $params['fieldLength'];
 				$decimal = $params['decimal'];
-				$uitype = 7;
+				$uitype = $uitype ?? 7;
 				$dbfldlength = $fieldLength + $decimal + 1;
 				$type = $importerType->decimal($dbfldlength, $decimal);
 				// Fix for http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/6363
@@ -421,6 +425,21 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$uichekdata = 'V~O';
 				$type = $importerType->integer()->defaultValue(null)->unsigned();
 				break;
+			case 'ServerAccess':
+				$uitype = 318;
+				$uichekdata = 'C~O';
+				$type = $importerType->boolean()->defaultValue(false);
+				break;
+			case 'MultiDomain':
+				$uitype = 319;
+				$uichekdata = 'V~O';
+				$type = $importerType->text();
+				break;
+			case 'RangeTime':
+				$uitype = 308;
+				$uichekdata = 'I~O';
+				$type = $importerType->integer()->null();
+				break;
 			default:
 				break;
 		}
@@ -432,6 +451,13 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		];
 	}
 
+	/**
+	 * Check field name characters.
+	 *
+	 * @param string $name
+	 *
+	 * @return bool
+	 */
 	public function checkFieldNameCharacters($name)
 	{
 		if (preg_match('#[^a-z0-9_]#is', $name) || !preg_match('/[a-z]/i', $name)) {
@@ -450,7 +476,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @return bool
 	 */
-	public function checkFieldLableExists(string $fieldLabel): bool
+	public function checkFieldLabelExists(string $fieldLabel): bool
 	{
 		return (new \App\Db\Query())->from('vtiger_field')->where(['fieldlabel' => $fieldLabel, 'tabid' => $this->getId()])->exists();
 	}
@@ -477,15 +503,13 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	 */
 	public function checkFieldNameIsAnException(string $fieldName)
 	{
-		return in_array($fieldName, [
+		return \in_array($fieldName, [
 			'id', 'seq', 'header_type', 'header_class',
 			'module', 'parent', 'action', 'mode', 'view', 'selected_ids',
 			'excluded_ids', 'search_params', 'search_key', 'page', 'operator',
 			'source_module', 'viewname', 'sortorder', 'orderby', 'inventory'
 		]);
 	}
-
-	public static $supportedModules = false;
 
 	public static function getSupportedModules()
 	{
@@ -495,6 +519,13 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		return self::$supportedModules;
 	}
 
+	/**
+	 * Get instance by name.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return self
+	 */
 	public static function getInstanceByName($moduleName)
 	{
 		$moduleInstance = Vtiger_Module_Model::getInstance($moduleName);
@@ -520,7 +551,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function to check field is editable or not.
 	 *
-	 * @return bool true/false
+	 * @return bool
 	 */
 	public function isSortableAllowed()
 	{
@@ -530,7 +561,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function to check blocks are sortable for the module.
 	 *
-	 * @return bool true/false
+	 * @return bool
 	 */
 	public function isBlockSortableAllowed()
 	{
@@ -542,7 +573,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @param mixed $blockName
 	 *
-	 * @return bool true/false
+	 * @return bool
 	 */
 	public function isFieldsSortableAllowed($blockName)
 	{
@@ -551,9 +582,9 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			'Faq' => ['LBL_COMMENT_INFORMATION'],
 			'Calendar' => ['LBL_TASK_INFORMATION', 'LBL_DESCRIPTION_INFORMATION', 'LBL_REMINDER_INFORMATION', 'LBL_RECURRENCE_INFORMATION']
 		];
-		if (in_array($moduleName, ['Calendar', 'HelpDesk', 'Faq'])) {
+		if (\in_array($moduleName, ['Calendar', 'HelpDesk', 'Faq'])) {
 			if (!empty($blocksEliminatedArray[$moduleName])) {
-				if (in_array($blockName, $blocksEliminatedArray[$moduleName])) {
+				if (\in_array($blockName, $blocksEliminatedArray[$moduleName])) {
 					return false;
 				}
 			} else {

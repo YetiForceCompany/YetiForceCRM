@@ -21,7 +21,7 @@ abstract class Base
 	 *
 	 * @param array $addressInfo
 	 *
-	 * @return string[]|bool
+	 * @return bool|string[]
 	 */
 	abstract public function getCoordinates(array $addressInfo);
 
@@ -30,7 +30,7 @@ abstract class Base
 	 *
 	 * @param string $value
 	 *
-	 * @return string[]|bool
+	 * @return bool|string[]
 	 */
 	abstract public function getCoordinatesByValue(string $value);
 }

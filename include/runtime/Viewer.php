@@ -44,7 +44,7 @@ class Vtiger_Viewer extends SmartyBC
 	public function __construct($media = '')
 	{
 		parent::__construct();
-		$this->debugging = AppConfig::debug('DISPLAY_DEBUG_VIEWER');
+		$this->debugging = App\Config::debug('DISPLAY_DEBUG_VIEWER');
 
 		$THISDIR = __DIR__;
 		$compileDir = '';
@@ -54,12 +54,12 @@ class Vtiger_Viewer extends SmartyBC
 		} else {
 			self::$currentLayout = \App\Layout::getActiveLayout();
 		}
-		if (AppConfig::performance('LOAD_CUSTOM_FILES')) {
+		if (App\Config::performance('LOAD_CUSTOM_FILES')) {
 			$templateDir[] = $THISDIR . '/../../custom/layouts/' . self::$currentLayout;
 		}
 		$templateDir[] = $THISDIR . '/../../layouts/' . self::$currentLayout;
 		$compileDir = $THISDIR . '/../../cache/templates_c/' . self::$currentLayout;
-		if (AppConfig::performance('LOAD_CUSTOM_FILES')) {
+		if (App\Config::performance('LOAD_CUSTOM_FILES')) {
 			$templateDir[] = $THISDIR . '/../../custom/layouts/' . self::getDefaultLayoutName();
 		}
 		$templateDir[] = $THISDIR . '/../../layouts/' . self::getDefaultLayoutName();
@@ -69,7 +69,7 @@ class Vtiger_Viewer extends SmartyBC
 		$this->setTemplateDir(array_unique($templateDir));
 		$this->setCompileDir($compileDir);
 
-		self::$debugViewer = AppConfig::debug('DEBUG_VIEWER');
+		self::$debugViewer = App\Config::debug('DEBUG_VIEWER');
 
 		// FOR SECURITY
 		// Escape all {$variable} to overcome XSS
@@ -197,8 +197,8 @@ class Vtiger_Viewer extends SmartyBC
 		}
 		// END
 		if ($templateFound) {
-			if (!empty(AppConfig::debug('SMARTY_ERROR_REPORTING'))) {
-				$this->error_reporting = AppConfig::debug('SMARTY_ERROR_REPORTING');
+			if (!empty(App\Config::debug('SMARTY_ERROR_REPORTING'))) {
+				$this->error_reporting = App\Config::debug('SMARTY_ERROR_REPORTING');
 			}
 			if ($fetch) {
 				return $this->fetch($templatePath);

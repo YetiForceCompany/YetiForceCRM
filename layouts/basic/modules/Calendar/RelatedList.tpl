@@ -21,7 +21,7 @@
 		<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'/>
 		<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'/>
 		<input type="hidden" id="autoRefreshListOnChange"
-			   value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
+			   value="{App\Config::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
 		<div class="relatedHeader calendarRelatedHeader mb-1">
 			<div class="row">
 				<div class="col-sm-6 col-md-6">
@@ -106,7 +106,7 @@
 					<div class="float-right">
 						{if $VIEW_MODEL}
 							<div class="float-right pl-1">
-								{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
+								{assign var=COLOR value=App\Config::search('LIST_ENTITY_STATE_COLOR')}
 								<input type="hidden" class="entityState"
 									   value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}"/>
 								<div class="dropdown dropdownEntityState u-remove-dropdown-icon">
@@ -159,7 +159,7 @@
 			<div class="relatedContents">
 				<div class="d-flex">
 					<input type="hidden" id="defaultDetailViewName"
-						   value="{AppConfig::module($MODULE, 'defaultDetailViewName')}"/>
+						   value="{App\Config::module($MODULE, 'defaultDetailViewName')}"/>
 					<div class="c-side-block c-side-block--left js-side-block js-fixed-scroll"
 						 data-js="css: height;/scroll">
 						<div class="u-rotate-90">

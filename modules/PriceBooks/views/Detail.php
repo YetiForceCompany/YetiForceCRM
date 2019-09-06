@@ -18,7 +18,7 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 	 *
 	 * @see Vtiger_RelatedList_View
 	 */
-	public function showRelatedList(\App\Request $request)
+	public function showRelatedList(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->getByType('relatedModule', 2);
@@ -41,7 +41,7 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
-		if ($sortOrder === 'ASC') {
+		if ('ASC' === $sortOrder) {
 			$nextSortOrder = 'DESC';
 			$sortImage = 'fas fa-chevron-down';
 		} else {
@@ -75,14 +75,14 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 			$viewer->assign('ALPHABET_VALUE', $searchValue);
 		}
 		$searchParmams = App\Condition::validSearchParams($relationListView->getQueryGenerator()->getModule(), $request->getArray('search_params'));
-		if (empty($searchParmams) || !is_array($searchParmams)) {
+		if (empty($searchParmams) || !\is_array($searchParmams)) {
 			$searchParmams = [];
 		}
 		$queryGenerator = $relationListView->getQueryGenerator();
 		$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition($searchParmams);
 		$relationListView->set('search_params', $transformedSearchParams);
 		//To make smarty to get the details easily accesible
-		foreach ($searchParmams as $fieldListGroup) {
+		foreach ($request->getArray('search_params') as $fieldListGroup) {
 			foreach ($fieldListGroup as $fieldSearchInfo) {
 				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
 				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
@@ -90,7 +90,7 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 				$searchParmams[$fieldName] = $fieldSearchInfo;
 			}
 		}
-		if ($relatedView === 'ListPreview') {
+		if ('ListPreview' === $relatedView) {
 			$relationListView->setFields(array_merge(['id'], $relationListView->getRelatedModuleModel()->getNameFields()));
 		}
 		$models = $relationListView->getEntries($pagingModel);
@@ -98,21 +98,6 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 		$header = $relationListView->getHeaders();
 		$relationModel = $relationListView->getRelationModel();
 
-		// [start] modified code compared to base function
-		$parentRecordCurrencyId = $parentRecordModel->get('currency_id');
-		if ($parentRecordCurrencyId) {
-			$productIdsList = [];
-			foreach ($models as $recordId => $recordModel) {
-				$productIdsList[$recordId] = $recordId;
-			}
-			$unitPricesList = $relationListView->getRelatedModuleModel()->getPricesForProducts($parentRecordCurrencyId, $productIdsList);
-			foreach ($models as $recordId => $recordModel) {
-				if (isset($unitPricesList[$recordId])) {
-					$recordModel->set('unit_price', $unitPricesList[$recordId]);
-				}
-			}
-		}
-		// [end] modified code compared to base function
 		$viewer->assign('VIEW_MODEL', $relationListView);
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('PARENT_RECORD', $parentRecordModel);
@@ -120,9 +105,9 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 		$viewer->assign('RELATED_LIST_LINKS', $links);
 		$viewer->assign('RELATED_HEADERS', $header);
 		$viewer->assign('RELATED_MODULE', $relationModel->getRelationModuleModel());
-		$viewer->assign('RELATED_ENTIRES_COUNT', count($models));
+		$viewer->assign('RELATED_ENTIRES_COUNT', \count($models));
 		$viewer->assign('RELATION_FIELD', $relationModel->getRelationField());
-		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		if (App\Config::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
 		}
 		if (empty($totalCount)) {

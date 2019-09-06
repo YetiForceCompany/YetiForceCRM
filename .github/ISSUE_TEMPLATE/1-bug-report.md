@@ -42,6 +42,11 @@ Steps to reproduce the behavior:
 ### 👍 Expected Behavior
 <!-- Describe what you would want the result to be -->
 
+### 👷 Testing 
+<!-- ✔️ Test the error and tick the following options, it is required to perform tests on current versions before reporting the error. Please include a video to confirm you performed the tests. ✔️  -->
+- [ ] I confirm that I tested it at https://gitstable.yetiforce.com 
+* [ ] I confirm that I tested it at https://gitdeveloper.yetiforce.com
+
 ### 📷 Screenshot of configuration
 <!--  Before reporting an issue, check if your server has been properly configured.  
 Please include a screenshot of your configuration. Here is an example: https://public.yetiforce.com/gallery/#15336225417147/15336225686795 -->
@@ -78,3 +83,6 @@ ex.
 Add any other context about the problem here.
 
 <!-- Please check on your issue from time to time, in case we have questions or need some extra information. Issues that don't have enough info and can't be reproduced will be closed.--->
+
+### ❗️ Inform the community if you solve the problem
+<!-- If you solve the problem on your own, please inform the YetiForce community and explain what caused it and how you fixed it.--->

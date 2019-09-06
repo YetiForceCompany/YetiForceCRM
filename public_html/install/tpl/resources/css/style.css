@@ -94,7 +94,7 @@ hr {
 
 .group-heading {
 	color: #2c69a7;
-	text-shadow: 0px 0px 1px #BBB;
+	text-shadow: 0px 0px 1px #bbb;
 }
 
 .group-desc {
@@ -155,7 +155,8 @@ hr {
 	background: #fff;
 }
 
-.config-table tr td, .config-table tr th {
+.config-table tr td,
+.config-table tr th {
 	padding: 8px;
 }
 
@@ -180,17 +181,22 @@ hr {
 	background: #efefef;
 }
 
-.config-table td, .config-table th {
+.config-table td,
+.config-table th {
 	text-align: center;
 	width: 33%;
 }
 
-.config-table tr td.no, p.no, span.no {
+.config-table tr td.no,
+p.no,
+span.no {
 	color: #e00;
 	font-weight: bold;
 }
 
-.config-table tr td.yes, p.yes, span.yes {
+.config-table tr td.yes,
+p.yes,
+span.yes {
 	color: green;
 	font-weight: bold;
 }
@@ -246,7 +252,8 @@ hr {
 	font-size: 60px;
 }
 
-.c-footer, .form-button-nav {
+.c-footer,
+.form-button-nav {
 	width: 100vw;
 }
 
@@ -259,4 +266,15 @@ hr {
 		margin-bottom: 100px;
 	}
 }
-
+.o-product {
+	background-repeat: round;
+}
+.o-product--own {
+	background-image: url('../images/Own.png');
+}
+.o-product--cloud {
+	background-image: url('../images/Cloud.png');
+}
+.o-product--shared {
+	background-image: url('../images/Shared.png');
+}

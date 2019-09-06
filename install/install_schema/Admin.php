@@ -561,7 +561,6 @@ class Admin extends \App\Db\Importers\Base
 			'a_#__discounts_config' => [
 				'columns' => ['param', 'value'],
 				'values' => [
-						['active', '0'],
 						['aggregation', '0'],
 						['discounts', '0,1,2'],
 				]
@@ -1320,7 +1319,6 @@ $(custom : ProductsTableHierarchy|IStorages)$', '<div style="text-align:center;"
 			'a_#__taxes_config' => [
 				'columns' => ['param', 'value'],
 				'values' => [
-						['active', '0'],
 						['aggregation', '0'],
 						['taxs', '0,1,2,3'],
 				]

@@ -36,7 +36,7 @@ class Mixpbx extends Base
 		$url .= '&number=' . urlencode($pbx->get('targetPhone'));
 		$url .= '&extension=' . urlencode($pbx->get('sourcePhone'));
 		$responsse = \Requests::get($url);
-		if (trim($responsse->body) !== 'OK') {
+		if ('OK' !== trim($responsse->body)) {
 			\App\Log::warning($responsse->body, 'PBX[Mixpbx]');
 		}
 	}

@@ -37,7 +37,7 @@
 		</td>
 		{foreach item=FIELD from=$FIELDS[1]}
 			<td {if !$FIELD->isEditable()}colspan="0"{/if}
-				class="col{$FIELD->getType()}{if !$FIELD->isEditable()} d-none{/if} text-right fieldValue u-text-ellipsis">
+				class="col{$FIELD->getType()}{if !$FIELD->isEditable()} d-none{/if} text-right fieldValue">
 				{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
 				{assign var="COLUMN_NAME" value=$FIELD->get('columnName')}
 				{if !isset($ITEM_DATA[$COLUMN_NAME])}

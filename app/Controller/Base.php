@@ -19,7 +19,7 @@ abstract class Base
 	public function __construct()
 	{
 		self::setHeaders();
-		if (\AppConfig::performance('CHANGE_LOCALE')) {
+		if (\App\Config::performance('CHANGE_LOCALE')) {
 			\App\Language::initLocale();
 		}
 	}
@@ -127,12 +127,12 @@ abstract class Base
 		header('access-control-allow-methods: GET, POST, PUT, DELETE');
 		header('x-robots-tag: none');
 		header('x-permitted-cross-domain-policies: none');
-		if (\AppConfig::security('CSP_ACTIVE')) {
+		if (\App\Config::security('CSP_ACTIVE')) {
 			// 'nonce-" . App\Session::get('CSP_TOKEN') . "'
-			$allowed = \implode(' ', \AppConfig::security('PURIFIER_ALLOWED_DOMAINS'));
-			header("content-security-policy: default-src 'self' blob:; img-src 'self' data: a.tile.openstreetmap.org b.tile.openstreetmap.org c.tile.openstreetmap.org $allowed; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' blob:; form-action 'self' ;connect-src 'self';");
+			$allowed = \implode(' ', \App\Config::security('PURIFIER_ALLOWED_DOMAINS'));
+			header("content-security-policy: default-src 'self' blob:; img-src 'self' data: a.tile.openstreetmap.org b.tile.openstreetmap.org c.tile.openstreetmap.org $allowed; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' blob:; form-action 'self' *.paypal.com ;connect-src 'self';");
 		}
-		if ($keys = \AppConfig::security('HPKP_KEYS')) {
+		if ($keys = \App\Config::security('HPKP_KEYS')) {
 			header('public-key-pins: pin-sha256="' . implode('"; pin-sha256="', $keys) . '"; max-age=10000;');
 		}
 		header_remove('x-powered-by');
@@ -142,9 +142,11 @@ abstract class Base
 	/**
 	 * Function to check if session is extend.
 	 *
+	 * @param \App\Request $request
+	 *
 	 * @return bool
 	 */
-	public function isSessionExtend()
+	public function isSessionExtend(\App\Request $request)
 	{
 		return true;
 	}

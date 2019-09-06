@@ -16,11 +16,11 @@ class Project_ProjectHandler_Handler
 	 *
 	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(\App\EventHandler $eventHandler)
+	public function entityAfterSave(App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		if (!$recordModel->isNew()) {
-			if (($value = $recordModel->getPreviousValue('parentid')) !== false) {
+			if (false !== ($value = $recordModel->getPreviousValue('parentid'))) {
 				if (!empty($recordModel->get('parentid'))) {
 					(new \App\BatchMethod(['method' => 'Project_Module_Model::updateProgress', 'params' => [$recordModel->get('parentid')]]))->save();
 				}
@@ -36,7 +36,7 @@ class Project_ProjectHandler_Handler
 	 *
 	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityChangeState(\App\EventHandler $eventHandler)
+	public function entityChangeState(App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		if (!$recordModel->isEmpty('parentid')) {

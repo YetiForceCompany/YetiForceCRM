@@ -127,6 +127,24 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	}
 
 	/**
+	 * Gets value for save.
+	 *
+	 * @param array  $item
+	 * @param bool   $userFormat
+	 * @param string $column
+	 *
+	 * @return mixed
+	 */
+	public function getValueForSave(array $item, bool $userFormat, string $column = null)
+	{
+		if (null === $column) {
+			$column = $this->getColumnName();
+		}
+		$value = $item[$column] ?? null;
+		return $userFormat ? $this->getDBValue($value) : $value;
+	}
+
+	/**
 	 * Getting all params values.
 	 *
 	 * @return array
@@ -183,6 +201,9 @@ class Vtiger_Basic_InventoryField extends \App\Base
 
 	/**
 	 * Getting template name.
+	 *
+	 * @param mixed $view
+	 * @param mixed $moduleName
 	 *
 	 * @return string templateName
 	 */
@@ -241,7 +262,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	/**
 	 * Getting column name.
 	 *
-	 * @return string customColumn
+	 * @return string[] customColumn
 	 */
 	public function getCustomColumn()
 	{
@@ -293,7 +314,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 */
 	public function getValue($value)
 	{
-		if ($value == '') {
+		if ('' == $value) {
 			$value = $this->getDefaultValue();
 		}
 		return $value;
@@ -312,7 +333,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	/**
 	 * Function to check whether the current field is visible.
 	 *
-	 * @return bool - true/false
+	 * @return bool
 	 */
 	public function isVisible()
 	{
@@ -322,21 +343,21 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	/**
 	 * Function to check if field is visible in detail view.
 	 *
-	 * @return bool - true/false
+	 * @return bool
 	 */
 	public function isVisibleInDetail()
 	{
-		return in_array($this->get('displayType'), [self::FIELD_VISIBLE_EVERYWHERE, self::FIELD_READONLY, self::FIELD_VISIBLE_IN_DETAIL]);
+		return \in_array($this->get('displayType'), [self::FIELD_VISIBLE_EVERYWHERE, self::FIELD_READONLY, self::FIELD_VISIBLE_IN_DETAIL]);
 	}
 
 	/**
 	 * Function to check whether the current field is editable.
 	 *
-	 * @return bool - true/false
+	 * @return bool
 	 */
 	public function isEditable()
 	{
-		return in_array($this->get('displayType'), [self::FIELD_VISIBLE_EVERYWHERE, self::FIELD_READONLY]);
+		return \in_array($this->get('displayType'), [self::FIELD_VISIBLE_EVERYWHERE, self::FIELD_READONLY]);
 	}
 
 	/**
@@ -366,7 +387,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	public function getSummaryValuesFromData($data)
 	{
 		$sum = 0;
-		if (is_array($data)) {
+		if (\is_array($data)) {
 			foreach ($data as $row) {
 				$sum += $row[$this->getColumnName()];
 			}
@@ -381,7 +402,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return \Vtiger_Field_Model|bool
+	 * @return bool|\Vtiger_Field_Model
 	 */
 	public function getMapDetail(string $related)
 	{
@@ -419,12 +440,13 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 * @param mixed  $value
 	 * @param string $columnName
 	 * @param bool   $isUserFormat
+	 * @param mixed  $originalValue
 	 *
 	 * @throws \App\Exceptions\Security
 	 */
-	public function validate($value, string $columnName, bool $isUserFormat)
+	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
-		if (!is_numeric($value) && (is_string($value) && $value !== strip_tags($value))) {
+		if (!is_numeric($value) && (\is_string($value) && $value !== strip_tags($value))) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $columnName ?? $this->getColumnName() . '||' . $this->getModuleName() . '||' . $value, 406);
 		}
 		if (App\TextParser::getTextLength($value) > $this->maximumLength) {
@@ -466,22 +488,20 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 * @throws \App\Exceptions\AppException
 	 * @throws \App\Exceptions\Security
 	 */
-	public function setValueToRecord(\Vtiger_Record_Model $recordModel, array $item, bool $userFormat)
+	public function setValueToRecord(Vtiger_Record_Model $recordModel, array $item, bool $userFormat)
 	{
 		$column = $this->getColumnName();
-		$value = $item[$column];
-		$this->validate($value, $column, $userFormat);
-		if ($userFormat) {
-			$value = $this->getDBValue($value, $column);
+		$baseValue = $item[$column] ?? null;
+		$value = $this->getValueForSave($item, $userFormat, $column);
+		if ($userFormat && $baseValue) {
+			$baseValue = $this->getDBValue($baseValue, $column);
 		}
+		$this->validate($value, $column, false, $baseValue);
 		$recordModel->setInventoryItemPart($item['id'], $column, $value);
 		if ($customColumn = $this->getCustomColumn()) {
 			foreach (array_keys($customColumn) as $column) {
-				$value = $item[$column];
-				$this->validate($value, $column, $userFormat);
-				if ($userFormat) {
-					$value = $this->getDBValue($value, $column);
-				}
+				$value = $this->getValueForSave($item, $userFormat, $column);
+				$this->validate($value, $column, false);
 				$recordModel->setInventoryItemPart($item['id'], $column, $value);
 			}
 		}

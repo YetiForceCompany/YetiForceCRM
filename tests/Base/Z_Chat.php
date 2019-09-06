@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Chat test class.
  *
@@ -14,7 +15,7 @@ namespace Tests\Base;
 /**
  * Class Chat.
  */
-class Chat extends \Tests\Base
+class Z_Chat extends \Tests\Base
 {
 	/**
 	 * ID list.
@@ -154,13 +155,12 @@ class Chat extends \Tests\Base
 	{
 		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
 		$groups = \App\User::getCurrentUserModel()->getGroupNames();
-		$this->assertGreaterThanOrEqual(1, count($groups), 'No defined groups');
-		$this->assertCount(0, \App\Chat::getRoomsGroup(), 'There should not be visible rooms');
+		$this->assertGreaterThanOrEqual(1, \count($groups), 'No defined groups');
 		$groupId = \key($groups);
 		$chat = \App\Chat::getInstance('group', $groupId);
 		$this->assertTrue($chat->isRoomExists(), "The chat room does not exist '{$groups[$groupId]}'");
 		$this->assertFalse($chat->isAssigned(), "The user should not be assigned '{$groups[$groupId]}'");
-		$cntEntries = count($chat->getEntries());
+		$cntEntries = \count($chat->getEntries());
 		$id = $chat->addMessage('Test MSG');
 		$this->assertInternalType('integer', $id);
 		$rowMsg = (new \App\Db\Query())
@@ -199,7 +199,7 @@ class Chat extends \Tests\Base
 			->andWhere([\App\Chat::COLUMN_NAME['room'][$chat->getRoomType()] => $groupId])
 			->one();
 		$this->assertNotFalse($row, 'Problem with methods "addToFavorites"');
-		$this->assertNull($row['last_message'], 'Problem with methods "addToFavorites"');
+		$this->assertIsInt($row['last_message'], 'Problem with methods "addToFavorites"');
 	}
 
 	/**
@@ -333,7 +333,7 @@ class Chat extends \Tests\Base
 		$this->assertFalse(\App\Chat::isNewMessagesForCrm($userId), 'Problem with the method "isNewMessagesForCrm"');
 		$chat = \App\Chat::getInstance('crm', static::$listId[0]);
 		$chat->addToFavorites();
-		$this->assertTrue(\App\Chat::isNewMessagesForCrm($userId), 'Problem with the method "isNewMessagesForCrm"');
+		$this->assertFalse(\App\Chat::isNewMessagesForCrm($userId), 'Problem with the method "isNewMessagesForCrm"');
 		$id = $chat->addMessage('testRoomCrm');
 		$this->assertInternalType('integer', $id);
 		$rowMsg = (new \App\Db\Query())

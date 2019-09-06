@@ -16,15 +16,12 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		if (!empty($value)) {
-			return self::getDBInsertedValue($value);
-		}
-		return '';
+		return empty($value) ? '' : DateTimeField::convertToDBFormat($value);
 	}
 
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
-		if ($operator === 'bw') {
+		if ('bw' === $operator) {
 			$values = explode(',', $value);
 			foreach ($values as &$val) {
 				$this->validate($val, true);
@@ -45,9 +42,9 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		if ($isUserFormat) {
-			list($y, $m, $d) = App\Fields\Date::explode($value, App\User::getCurrentUserModel()->getDetail('date_format'));
+			[$y, $m, $d] = App\Fields\Date::explode($value, App\User::getCurrentUserModel()->getDetail('date_format'));
 		} else {
-			list($y, $m, $d) = explode('-', $value);
+			[$y, $m, $d] = explode('-', $value);
 		}
 		if (!is_numeric($m) || !is_numeric($d) || !is_numeric($y) || !checkdate($m, $d, $y)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
@@ -62,26 +59,13 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	{
 		if (empty($value)) {
 			return '';
-		} else {
-			$dateValue = App\Fields\Date::formatToDisplay($value);
 		}
-		if ($dateValue === '--') {
-			return '';
-		} else {
-			return $dateValue;
-		}
-	}
+		$dateValue = App\Fields\Date::formatToDisplay($value);
 
-	/**
-	 * Function converts the date to database format.
-	 *
-	 * @param string $value
-	 *
-	 * @return string
-	 */
-	public static function getDBInsertedValue($value)
-	{
-		return DateTimeField::convertToDBFormat($value);
+		if ('--' === $dateValue) {
+			return '';
+		}
+		return $dateValue;
 	}
 
 	/**
@@ -89,19 +73,19 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		if (empty($value) || $value === ' ') {
+		if (empty($value) || ' ' === $value) {
 			$value = trim($value);
 			$fieldName = $this->getFieldModel()->getFieldName();
 			$moduleName = $this->getFieldModel()->getModule()->getName();
 			//Restricted Fields for to show Default Value
-			if (($fieldName === 'birthday' && $moduleName === 'Contacts') || $moduleName === 'Products') {
+			if (('birthday' === $fieldName && 'Contacts' === $moduleName) || 'Products' === $moduleName) {
 				return \App\Purifier::encodeHtml($value);
 			}
 
 			//Special Condition for field 'support_end_date' in Contacts Module
-			if ($fieldName === 'support_end_date' && $moduleName === 'Contacts') {
+			if ('support_end_date' === $fieldName && 'Contacts' === $moduleName) {
 				$value = DateTimeField::convertToUserFormat(date('Y-m-d', strtotime('+1 year')));
-			} elseif ($fieldName === 'support_start_date' && $moduleName === 'Contacts') {
+			} elseif ('support_start_date' === $fieldName && 'Contacts' === $moduleName) {
 				$value = DateTimeField::convertToUserFormat(date('Y-m-d'));
 			}
 		} else {
@@ -145,7 +129,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setDefaultValueFromRequest(\App\Request $request)
+	public function setDefaultValueFromRequest(App\Request $request)
 	{
 		$fieldName = $this->getFieldModel()->getFieldName();
 		$value = $request->getByType($fieldName, 'Text');
@@ -173,9 +157,9 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getOperators()
+	public function getQueryOperators()
 	{
-		return ['e', 'n', 'bw', 'b', 'a', 'y', 'ny'] + array_keys(App\CustomView::DATE_FILTER_CONDITIONS);
+		return array_merge(['e', 'n', 'bw', 'b', 'a', 'y', 'ny'], array_keys(App\Condition::DATE_OPERATORS));
 	}
 
 	/**
@@ -187,11 +171,10 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	 */
 	public function getOperatorTemplateName(string $operator = '')
 	{
-		if ($operator === 'bw') {
+		if ('bw' === $operator) {
 			return 'ConditionBuilder/DateRange.tpl';
-		} else {
-			return 'ConditionBuilder/Date.tpl';
 		}
+		return 'ConditionBuilder/Date.tpl';
 	}
 
 	/**

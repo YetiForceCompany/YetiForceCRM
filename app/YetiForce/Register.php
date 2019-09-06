@@ -40,7 +40,7 @@ class Register
 	 *
 	 * @var string
 	 */
-	private const REGISTRATION_FILE = \ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'registration.php';
+	private const REGISTRATION_FILE = \ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app_data' . \DIRECTORY_SEPARATOR . 'registration.php';
 	/**
 	 * Status messages.
 	 *
@@ -51,8 +51,8 @@ class Register
 		1 => 'LBL_WAITING_FOR_ACCEPTANCE',
 		2 => 'LBL_INCORRECT_DATA',
 		3 => 'LBL_INCOMPLETE_DATA',
-		4 => 'LBL_OFFLINE_SIGNED',
 		5 => 'LBL_OFFLINE_SERIAL_NOT_FOUND',
+		6 => 'LBL_OFFLINE_SIGNED',
 		7 => 'LBL_OFFLINE_SIGNED',
 		8 => 'LBL_SPECIAL_REGISTRATION',
 		9 => 'LBL_ACCEPTED',
@@ -73,9 +73,9 @@ class Register
 	 *
 	 * @return string
 	 */
-	private static function getInstanceKey(): string
+	public static function getInstanceKey(): string
 	{
-		return sha1(\App\Config::main('application_unique_key') . \App\Config::main('site_URL') . ($_SERVER['SERVER_ADDR'] ?? $_SERVER['COMPUTERNAME'] ?? null));
+		return sha1(\App\Config::main('application_unique_key') . \App\Config::main('site_URL') . gethostname());
 	}
 
 	/**
@@ -109,7 +109,6 @@ class Register
 			return false;
 		}
 		$result = false;
-
 		try {
 			$response = (new \GuzzleHttp\Client())
 				->post(static::$registrationUrl . 'add',
@@ -141,53 +140,58 @@ class Register
 	/**
 	 * Checking registration status.
 	 *
+	 * @param bool $force
+	 *
 	 * @return bool
 	 */
 	public static function check($force = false)
 	{
 		if (!\App\RequestUtil::isNetConnection() || 'yetiforce.com' === gethostbyname('yetiforce.com')) {
 			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
-			static::updateMetaData(['lastError' => 'ERR_NO_INTERNET_CONNECTION']);
+			static::updateMetaData(['last_error' => 'ERR_NO_INTERNET_CONNECTION', 'last_error_date' => date('Y-m-d H:i:s')]);
 			return false;
 		}
 		$conf = static::getConf();
 		if (!$force && (!empty($conf['last_check_time']) && (($conf['status'] < 6 && strtotime('+6 hours', strtotime($conf['last_check_time'])) > time()) || ($conf['status'] > 6 && strtotime('+7 day', strtotime($conf['last_check_time'])) > time())))) {
 			return false;
 		}
-		$params = [
-			'version' => \App\Version::get(),
-			'crmKey' => static::getCrmKey(),
-			'insKey' => static::getInstanceKey(),
-			'serialKey' => $conf['serialKey'] ?? '',
-			'status' => $conf['status'] ?? 0,
-		];
-
 		try {
 			$data = ['last_check_time' => date('Y-m-d H:i:s')];
-			$response = (new \GuzzleHttp\Client())
-				->post(static::$registrationUrl . 'check', \App\RequestHttp::getOptions() + ['form_params' => $params]);
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post(static::$registrationUrl . 'check', [
+				'form_params' => \array_merge($conf, [
+					'version' => \App\Version::get(),
+					'crmKey' => static::getCrmKey(),
+					'insKey' => static::getInstanceKey(),
+					'package' => \App\Company::getSize(),
+				])
+			]);
 			$body = $response->getBody();
 			if (!\App\Json::isEmpty($body)) {
 				$body = \App\Json::decode($body);
-				if ('OK' === $body['text']) {
-					static::updateCompanies($body['companies']);
+				if ('OK' === $body['text'] && static::updateCompanies($body['companies'])) {
 					$data = [
 						'status' => $body['status'],
 						'text' => $body['text'],
 						'serialKey' => $body['serialKey'],
-						'last_check_time' => date('Y-m-d H:i:s')
+						'last_check_time' => date('Y-m-d H:i:s'),
+						'products' => $body['activeProducts']
 					];
 					$status = true;
+				} else {
+					$data['last_error'] = $body['text'];
+					$data['last_error_date'] = date('Y-m-d H:i:s');
 				}
 			} else {
-				\App\Log::warning('ERR_BODY_IS_EMPTY', __METHOD__);
-				static::updateMetaData(['lastError' => 'ERR_BODY_IS_EMPTY']);
+				throw new \App\Exceptions\AppException('ERR_BODY_IS_EMPTY');
 			}
-
 			static::updateMetaData($data);
 		} catch (\Throwable $e) {
 			\App\Log::warning($e->getMessage(), __METHOD__);
-			static::updateMetaData(['lastError' => $e->getMessage()]);
+			static::updateMetaData([
+				'last_error' => $e->getMessage(),
+				'last_error_date' => date('Y-m-d H:i:s'),
+				'last_check_time' => date('Y-m-d H:i:s')
+			]);
 		}
 		return $status ?? false;
 	}
@@ -205,7 +209,7 @@ class Register
 		if (!$conf) {
 			return false;
 		}
-		$status = $conf['status'] > 6;
+		$status = $conf['status'] > 5;
 		if (!empty($conf['serialKey']) && $status && static::verifySerial($conf['serialKey'])) {
 			return true;
 		}
@@ -229,9 +233,11 @@ class Register
 			'status' => $data['status'] ?? $conf['status'] ?? 0,
 			'text' => $data['text'] ?? $conf['text'] ?? '',
 			'serialKey' => $data['serialKey'] ?? $conf['serialKey'] ?? '',
-			'lastError' => $data['lastError'] ?? '',
+			'last_error' => $data['last_error'] ?? '',
+			'last_error_date' => $data['last_error_date'] ?? '',
+			'products' => $data['products'] ?? [],
 		];
-		file_put_contents(static::REGISTRATION_FILE, "<?php //Modifying this file will breach the licence terms. \n return " . \var_export(static::$config, true) . ';');
+		\App\Utils::saveToFile(static::REGISTRATION_FILE, static::$config, 'Modifying this file will breach the licence terms', 0, true);
 	}
 
 	/**
@@ -247,7 +253,8 @@ class Register
 			return false;
 		}
 		static::updateMetaData([
-			'status' => 4,
+			'register_time' => date('Y-m-d H:i:s'),
+			'status' => 6,
 			'text' => 'OK',
 			'insKey' => static::getInstanceKey(),
 			'serialKey' => $serial
@@ -291,19 +298,17 @@ class Register
 	 */
 	public static function getLastCheckTime()
 	{
-		$conf = static::getConf();
-		return $conf['last_check_time'] ?? false;
+		return static::getConf()['last_check_time'] ?? false;
 	}
 
 	/**
 	 * Get last check error.
 	 *
-	 * @return mixed
+	 * @return bool|string
 	 */
 	public static function getLastCheckError()
 	{
-		$conf = static::getConf();
-		return $conf['lastError'] ?? false;
+		return static::getConf()['last_error'] ?? false;
 	}
 
 	/**
@@ -313,8 +318,26 @@ class Register
 	 */
 	public static function getStatus(): int
 	{
-		$conf = static::getConf();
-		return (int) ($conf['status'] ?? 0);
+		return (int) (static::getConf()['status'] ?? 0);
+	}
+
+	/**
+	 * Get registration products.
+	 *
+	 * @param mixed $name
+	 *
+	 * @return array
+	 */
+	public static function getProducts($name = ''): array
+	{
+		$rows = [];
+		foreach (static::getConf()['products'] ?? [] as $row) {
+			$rows[$row['product']] = $row;
+		}
+		if ($name) {
+			return $rows[$name] ?? [];
+		}
+		return $rows;
 	}
 
 	/**
@@ -322,14 +345,21 @@ class Register
 	 *
 	 * @param array $companies
 	 *
-	 * @throws \yii\db\Exception
+	 * @return bool
 	 */
-	private static function updateCompanies(array $companies)
+	private static function updateCompanies(array $companies): bool
 	{
+		$status = false;
+		$names = \array_column(\App\Company::getAll(), 'name', 'name');
 		foreach ($companies as $row) {
-			if (!empty($row['name'])) {
+			if (!empty($row['name']) && isset($names[$row['name']])) {
 				\App\Company::statusUpdate($row['status'], $row['name']);
+				$status = true;
 			}
 		}
+		if (!$status) {
+			throw new \App\Exceptions\AppException('ERR_COMPANY_DATA_IS_NOT_COMPATIBLE');
+		}
+		return $status;
 	}
 }

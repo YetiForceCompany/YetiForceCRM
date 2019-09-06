@@ -94,8 +94,12 @@ class Composer
 		'crowdin.yml',
 		'sonar-project.properties',
 	];
-
-	public static $clearFilesModule = [
+	/**
+	 * Clear vendor files.
+	 *
+	 * @var array
+	 */
+	public static $clearVendorFiles = [
 		'dg/rss-php' => [
 			'example-atom.php',
 			'example-rss.php'
@@ -127,10 +131,6 @@ class Composer
 		'sabre/xml' => [
 			'bin'
 		],
-		'sensiolabs/security-checker' => [
-			'security-checker',
-			'box.json',
-		],
 		'sonata-project/google-authenticator' => [
 			'makefile'
 		],
@@ -141,6 +141,14 @@ class Composer
 			'yii'
 		],
 	];
+	/**
+	 * Copy directories.
+	 *
+	 * @var array
+	 */
+	public static $copyDirectories = [
+		'public_html/libraries/ckeditor-image-to-base' => 'public_html/vendor/ckeditor/ckeditor/plugins/ckeditor-image-to-base'
+	];
 
 	/**
 	 * Post update and post install function.
@@ -149,31 +157,83 @@ class Composer
 	 */
 	public static function install(\Composer\Script\Event $event)
 	{
+		$rootDir = realpath(__DIR__ . '/../../');
+		if (!\defined('ROOT_DIRECTORY')) {
+			\define('ROOT_DIRECTORY', $rootDir);
+		}
+		echo str_repeat('=', 50) . PHP_EOL;
 		static::clear();
 		$event->getComposer();
 		if (isset($_SERVER['SENSIOLABS_EXECUTION_NAME'])) {
 			return true;
 		}
-		$rootDir = realpath(__DIR__ . '/../../') . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR;
+		$publicDir = $rootDir . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR;
 		$types = ['js', 'css', 'woff', 'woff2', 'ttf', 'png', 'gif', 'jpg', 'json'];
+		$list = '';
 		foreach (static::$publicPackage as $package => $method) {
-			$src = 'vendor' . DIRECTORY_SEPARATOR . $package;
+			$src = 'vendor' . \DIRECTORY_SEPARATOR . $package;
+			$i = 0;
 			foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
-				if ($item->isFile() && in_array($item->getExtension(), $types) && !file_exists($rootDir . $item->getPathname())) {
-					if (!is_dir($rootDir . $item->getPath())) {
-						mkdir($rootDir . $item->getPath(), 0755, true);
+				if ($item->isFile() && \in_array($item->getExtension(), $types) && !file_exists($publicDir . $item->getPathname())) {
+					if (!is_dir($publicDir . $item->getPath())) {
+						mkdir($publicDir . $item->getPath(), 0755, true);
 					}
-					if (!is_writable($rootDir . $item->getPath())) {
+					if (!is_writable($publicDir . $item->getPath())) {
 						continue;
 					}
-					if ($method === 'move') {
-						\rename($item->getRealPath(), $rootDir . $item->getPathname());
-					} elseif ($method === 'copy') {
-						\copy($item->getRealPath(), $rootDir . $item->getPathname());
+					if ('move' === $method) {
+						\rename($item->getRealPath(), $publicDir . $item->getPathname());
+					} elseif ('copy' === $method) {
+						\copy($item->getRealPath(), $publicDir . $item->getPathname());
 					}
+					++$i;
 				}
 			}
+			$list .= PHP_EOL . "{$package}[{$method}]: $i";
 		}
+		echo str_repeat('-', 50) . PHP_EOL;
+		echo "Copy to public_html: $list" . PHP_EOL;
+		echo str_repeat('-', 50) . PHP_EOL;
+		self::customCopy();
+		echo str_repeat('-', 50) . PHP_EOL;
+		self::parseCreditsVue();
+		echo str_repeat('=', 50) . PHP_EOL;
+	}
+
+	/**
+	 * Parse credits vue.
+	 */
+	public static function parseCreditsVue()
+	{
+		$rootDir = realpath(__DIR__ . '/../../') . \DIRECTORY_SEPARATOR;
+		$dirLibraries = $rootDir . 'public_html' . \DIRECTORY_SEPARATOR . 'src' . \DIRECTORY_SEPARATOR . 'node_modules' . \DIRECTORY_SEPARATOR;
+		$dataEncode = Credits::getYarnLibraries($dirLibraries . '.yarn-integrity', $dirLibraries);
+		if ($dataEncode) {
+			\App\Json::save($rootDir . 'app_data' . \DIRECTORY_SEPARATOR . 'libraries.json', $dataEncode);
+			echo 'Generated file app_data/libraries.json | ' . \count($dataEncode) . PHP_EOL;
+		} else {
+			echo str_repeat('+', 50) . PHP_EOL;
+			echo 'The problem occured when generating app_data/libraries.json file!!!' . PHP_EOL;
+			echo 'It is required to run yarn first and then the composer.' . PHP_EOL;
+			echo 'Example: https://github.com/YetiForceCompany/YetiForceCRM/blob/developer/tests/setup/dependency.sh' . PHP_EOL;
+			echo str_repeat('+', 50) . PHP_EOL;
+		}
+	}
+
+	/**
+	 * Custom copy.
+	 */
+	public static function customCopy()
+	{
+		$list = '';
+		foreach (static::$copyDirectories as $src => $dest) {
+			if (!file_exists(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $dest)) {
+				mkdir(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $dest, 0755, true);
+			}
+			$i = \vtlib\Functions::recurseCopy($src, $dest);
+			$list .= PHP_EOL . "{$src}  >>>  {$dest} | Files: $i";
+		}
+		echo "Copy custom directories: $list" . PHP_EOL;
 	}
 
 	/**
@@ -181,11 +241,11 @@ class Composer
 	 */
 	public static function clear()
 	{
-		$rootDir = realpath(__DIR__ . '/../../') . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR;
+		$rootDir = realpath(__DIR__ . '/../../') . \DIRECTORY_SEPARATOR . 'vendor' . \DIRECTORY_SEPARATOR;
 		$objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($rootDir), \RecursiveIteratorIterator::SELF_FIRST);
 		$deleted = [];
 		foreach ($objects as $object) {
-			if ($object->getFilename() === '.' || $object->getFilename() === '..') {
+			if ('.' === $object->getFilename() || '..' === $object->getFilename()) {
 				continue;
 			}
 			if ((\in_array(strtolower($object->getFilename()), self::$clearFiles)) && (is_dir($object->getPathname()) || file_exists($object->getPathname()))) {
@@ -197,16 +257,16 @@ class Composer
 		arsort($deleted);
 		foreach ($deleted as $delete) {
 			\vtlib\Functions::recurseDelete($delete, true);
-			$deletedCount++;
+			++$deletedCount;
 		}
 		foreach (new \DirectoryIterator($rootDir) as $level1) {
 			if ($level1->isDir() && !$level1->isDot()) {
 				foreach (new \DirectoryIterator($level1->getPathname()) as $level2) {
 					if ($level2->isDir() && !$level2->isDot()) {
 						foreach (new \DirectoryIterator($level2->getPathname()) as $level3) {
-							if (isset(self::$clearFilesModule[$level1->getFileName() . '/' . $level2->getFilename()]) && !$level3->isDot() && \in_array(strtolower($level3->getFilename()), self::$clearFilesModule[$level1->getFileName() . '/' . $level2->getFilename()])) {
+							if (isset(self::$clearVendorFiles[$level1->getFileName() . '/' . $level2->getFilename()]) && !$level3->isDot() && \in_array(strtolower($level3->getFilename()), self::$clearVendorFiles[$level1->getFileName() . '/' . $level2->getFilename()])) {
 								\vtlib\Functions::recurseDelete($level3->getPathname(), true);
-								$deletedCount++;
+								++$deletedCount;
 							}
 						}
 					}

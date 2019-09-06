@@ -13,8 +13,7 @@
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
-	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-	<div class="tpl-QuickCreate modelContainer modal quickCreateContainer" tabindex="-1" role="dialog">
+	<div class="tpl-QuickCreate modal quickCreateContainer" tabindex="-3" role="dialog">
 		<div class="modal-dialog modal-lg modal-full" role="document">
 			<div class="modal-content">
 				<form class="form-horizontal recordEditView" name="QuickCreate" method="post" action="index.php">
@@ -34,14 +33,14 @@
 							{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
 							{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}
 								{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
-									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader' CLASS='display-block-md'}
+									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader' CLASS='display-block-md' TABINDEX=Vtiger_Field_Model::$tabIndexLastSeq}
 								{/foreach}
 							{/if}
-							<button class="btn btn-success col-12 col-md-1 mb-2 mb-md-0" type="submit"
+							<button class="btn btn-success mr-1" type="submit" tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}"
 									title="{\App\Language::translate('LBL_SAVE', $MODULE)}">
 								<strong><span class="fas fa-check"></span></strong>
 							</button>
-							<button class="cancelLink btn btn-danger col-12 col-md-1 ml-0 ml-md-1" aria-hidden="true"
+							<button class="cancelLink btn btn-danger" tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}"
 									data-dismiss="modal" type="button" title="{\App\Language::translate('LBL_CLOSE')}">
 								<span class="fas fa-times"></span>
 							</button>
@@ -73,17 +72,17 @@
 									{/if}
 									<div class="col-md-6 py-2 form-row d-flex justify-content-center px-0 m-0 {$WIDTHTYPE} ">
 										<div class="fieldLabel col-lg-12 col-xl-3 pl-0 text-lg-left text-xl-right u-text-ellipsis">
-											{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
-											{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
+											{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
 											<label class="text-right muted small font-weight-bold">
 												{if $FIELD_MODEL->isMandatory() eq true}
 													<span class="redColor">*</span>
 												{/if}
-												{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-													<a href="#" class="js-help-info float-right" title=""
-													   data-placement="top"
-													   data-content="{\App\Language::translate($HELPINFO_LABEL, 'HelpInfo')}"
-													   data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}'>
+												{if $HELPINFO_LABEL}
+													<a href="#" class="js-help-info float-right u-cursor-pointer"
+														title=""
+														data-placement="top"
+														data-content="{$HELPINFO_LABEL}"
+														data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}">
 														<span class="fas fa-info-circle"></span>
 													</a>
 												{/if}

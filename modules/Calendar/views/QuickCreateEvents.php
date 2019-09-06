@@ -22,7 +22,7 @@ class Calendar_QuickCreateEvents_View extends Vtiger_IndexAjax_View
 		$dates = [];
 		$moduleName = $request->getModule();
 		$currentDate = DateTimeField::convertToDBFormat($request->getByType('currentDate', 'DateInUserFormat'));
-		$hideDays = AppConfig::module($moduleName, 'HIDDEN_DAYS_IN_CALENDAR_VIEW');
+		$hideDays = App\Config::module($moduleName, 'HIDDEN_DAYS_IN_CALENDAR_VIEW');
 		$numberDaysToDisplay = 3;
 		$dates[$numberDaysToDisplay] = $currentDate;
 		$currentDateInstance = new DateTime($currentDate);
@@ -57,7 +57,7 @@ class Calendar_QuickCreateEvents_View extends Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('DATES', $dates);
 		$viewer->assign('EVENTS', $records);
-		$viewer->assign('SHOW_COMPANIES', AppConfig::module($moduleName, 'SHOW_COMPANIES_IN_QUICKCREATE'));
+		$viewer->assign('SHOW_COMPANIES', App\Config::module($moduleName, 'SHOW_COMPANIES_IN_QUICKCREATE'));
 		$viewer->view('QuickCreateEvents.tpl', $moduleName);
 	}
 }

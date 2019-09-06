@@ -3,9 +3,22 @@ rm -rf public_html/.user.ini
 
 sudo cp tests/setup/my.cnf /etc/mysql/conf.d/my.cnf
 sudo service mysql restart
-composer install
+
+npm install -g yarn
+npm install -g npm@latest
+
+./tests/setup/dependency.sh
+
+echo "phpunit version: "
 vendor/bin/phpunit --version
-yarn install --force --modules-folder "./public_html/libraries"
+echo "yarn version: "
+yarn -v
+echo "node version: "
+node -v
+echo "npm version: "
+npm -v
+
+
 mysql -e "create database IF NOT EXISTS yetiforce;" -uroot
 cp tests/setup/Db.txt config/Db.php
 cp tests/setup/Main.txt config/Main.php

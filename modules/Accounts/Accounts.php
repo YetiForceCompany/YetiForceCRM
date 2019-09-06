@@ -58,18 +58,12 @@ class Accounts extends CRMEntity
 		'Type' => ['vtiger_account' => 'accounttype'],
 		'Vat ID' => ['vtiger_account' => 'vat_id'],
 	];
-	public $search_fields_name = [
-		'Account Name' => 'accountname',
-		'Assigned To' => 'assigned_user_id',
-		'FL_STATUS' => 'accounts_status',
-		'Type' => 'accounttype',
-		'Vat ID' => 'vat_id',
-	];
+	public $search_fields_name = [];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['accountname', 'website', 'phone', 'assigned_user_id'];
+	public $relationFields = [];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['assigned_user_id', 'createdtime', 'modifiedtime', 'accountname'];
@@ -100,7 +94,7 @@ class Accounts extends CRMEntity
 			'Project' => ['vtiger_project' => ['linktoaccountscontacts', 'projectid'], 'vtiger_account' => 'accountid'],
 			'OSSMailView' => ['vtiger_ossmailview_relation' => ['crmid', 'ossmailviewid'], 'vtiger_account' => 'accountid'],
 		];
-		if ($secModule === false) {
+		if (false === $secModule) {
 			return $relTables;
 		}
 		return $relTables[$secModule];
@@ -109,8 +103,9 @@ class Accounts extends CRMEntity
 	/**
 	 * Function to get Account hierarchy of the given Account.
 	 *
-	 * @param int $id - accountid
-	 *                returns Account hierarchy in array format
+	 * @param int   $id          - accountid
+	 *                           returns Account hierarchy in array format
+	 * @param mixed $listColumns
 	 */
 	public function getAccountHierarchy($id, $listColumns = false)
 	{
@@ -118,7 +113,7 @@ class Accounts extends CRMEntity
 
 		$listViewHeader = [];
 		$listViewEntries = [];
-		$listColumns = $listColumns ? $listColumns : AppConfig::module('Accounts', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = $listColumns ? $listColumns : App\Config::module('Accounts', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
@@ -165,7 +160,7 @@ class Accounts extends CRMEntity
 			// Permission to view account is restricted, avoid showing field values (except account name)
 			if (\App\Field::getFieldPermission('Accounts', $fieldName)) {
 				$data = \App\Purifier::encodeHtml($accountInfoBase[$fieldName]);
-				if ($fieldName == 'accountname') {
+				if ('accountname' == $fieldName) {
 					if ($accountId != $id) {
 						if ($hasRecordViewAccess) {
 							$data = '<a href="index.php?module=Accounts&view=Detail&record=' . $accountId . '">' . $data . '</a>';
@@ -178,8 +173,7 @@ class Accounts extends CRMEntity
 					// - to show the hierarchy of the Accounts
 					$accountDepth = str_repeat(' .. ', $accountInfoBase['depth']);
 					$data = $accountDepth . $data;
-				} elseif ($fieldName == 'assigned_user_id' || $fieldName == 'shownerid') {
-				} else {
+				} elseif ('assigned_user_id' !== $fieldName && 'shownerid' !== $fieldName) {
 					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($field['fieldid']);
 					$rawData = $data;
 					$data = $fieldModel->getDisplayValue($data);
@@ -188,9 +182,9 @@ class Accounts extends CRMEntity
 			}
 		}
 		$listViewEntries[$accountId] = $accountInfoData;
-		if (is_array($accountInfoBase)) {
+		if (\is_array($accountInfoBase)) {
 			foreach ($accountInfoBase as $accId => $accountInfo) {
-				if (is_array($accountInfo) && (int) $accId) {
+				if (\is_array($accountInfo) && (int) $accId) {
 					$listViewEntries = $this->getHierarchyData($id, $accountInfo, $accId, $listViewEntries);
 				}
 			}
@@ -203,14 +197,16 @@ class Accounts extends CRMEntity
 	/**
 	 * Function to Recursively get all the upper accounts of a given Account.
 	 *
-	 * @param int   $id             - accountid
-	 * @param array $parentAccounts - Array of all the parent accounts
-	 *                              returns All the parent accounts of the given accountid in array format
+	 * @param int   $id                  - accountid
+	 * @param array $parentAccounts      - Array of all the parent accounts
+	 *                                   returns All the parent accounts of the given accountid in array format
+	 * @param mixed $encounteredAccounts
+	 * @param mixed $depthBase
 	 */
 	public function __getParentAccounts($id, &$parentAccounts, &$encounteredAccounts, $depthBase = 0)
 	{
 		\App\Log::trace('Entering __getParentAccounts(' . $id . ') method ...');
-		if ($depthBase == AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
+		if ($depthBase == App\Config::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting __getParentAccounts method ... - exceeded maximum depth of hierarchy');
 			return $parentAccounts;
 		}
@@ -224,7 +220,7 @@ class Accounts extends CRMEntity
 			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_account.accountid' => $id])->one();
 		if ($row) {
 			$parentId = $row['parentid'];
-			if ($parentId != '' && $parentId != 0 && !in_array($parentId, $encounteredAccounts)) {
+			if ('' != $parentId && 0 != $parentId && !\in_array($parentId, $encounteredAccounts)) {
 				$encounteredAccounts[] = $parentId;
 				$this->__getParentAccounts($parentId, $parentAccounts, $encounteredAccounts, $depthBase + 1);
 			}
@@ -237,9 +233,9 @@ class Accounts extends CRMEntity
 			foreach ($this->hierarchyFields as &$field) {
 				$fieldName = $field['fieldname'];
 
-				if ($fieldName == 'assigned_user_id') {
+				if ('assigned_user_id' == $fieldName) {
 					$parentAccountInfo[$fieldName] = $row['user_name'];
-				} elseif ($fieldName == 'shownerid') {
+				} elseif ('shownerid' == $fieldName) {
 					$sharedOwners = \App\Fields\SharedOwner::getById($row['accountid']);
 					if (!empty($sharedOwners)) {
 						$sharedOwners = implode(',', array_map('\App\Fields\Owner::getLabel', $sharedOwners));
@@ -262,11 +258,12 @@ class Accounts extends CRMEntity
 	 * @param array $childAccounts - Array of all the child accounts
 	 * @param int   $depth         - Depth at which the particular account has to be placed in the hierarchy
 	 *                             returns All the child accounts of the given accountid in array format
+	 * @param mixed $depthBase
 	 */
 	public function __getChildAccounts($id, &$childAccounts, $depthBase)
 	{
 		\App\Log::trace('Entering __getChildAccounts(' . $id . ',' . $depthBase . ') method ...');
-		if (empty($id) || $depthBase == AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
+		if (empty($id) || $depthBase == App\Config::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting __getChildAccounts method ... - exceeded maximum depth of hierarchy');
 			return $childAccounts;
 		}
@@ -288,9 +285,9 @@ class Accounts extends CRMEntity
 				$childAccountInfo['depth'] = $depth;
 				foreach ($this->hierarchyFields as &$field) {
 					$fieldName = $field['fieldname'];
-					if ($fieldName == 'assigned_user_id') {
+					if ('assigned_user_id' == $fieldName) {
 						$childAccountInfo[$fieldName] = $row['user_name'];
-					} elseif ($fieldName == 'shownerid') {
+					} elseif ('shownerid' == $fieldName) {
 						$sharedOwners = \App\Fields\SharedOwner::getById($childAccId);
 						if (!empty($sharedOwners)) {
 							$sharedOwners = implode(',', array_map('\App\Fields\Owner::getLabel', $sharedOwners));
@@ -306,69 +303,5 @@ class Accounts extends CRMEntity
 		}
 		\App\Log::trace('Exiting __getChildAccounts method ...');
 		return $childAccounts;
-	}
-
-	// Function to unlink an entity with given Id from another entity
-	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
-	{
-		if (empty($returnModule) || empty($returnId)) {
-			return;
-		}
-		if ($returnModule === 'Campaigns') {
-			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $returnId])->execute();
-		} elseif ($returnModule === 'Products') {
-			App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['crmid' => $id, 'productid' => $returnId])->execute();
-		} else {
-			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
-		}
-	}
-
-	public function saveRelatedModule($module, $crmId, $withModule, $withCrmIds, $relatedName = false)
-	{
-		if (!is_array($withCrmIds)) {
-			$withCrmIds = [$withCrmIds];
-		}
-		if (!in_array($withModule, ['Products', 'Campaigns'])) {
-			parent::saveRelatedModule($module, $crmId, $withModule, $withCrmIds, $relatedName);
-		} else {
-			foreach ($withCrmIds as $withCrmId) {
-				if ($withModule == 'Products') {
-					App\Db::getInstance()->createCommand()->insert('vtiger_seproductsrel', [
-						'crmid' => $crmId,
-						'productid' => $withCrmId,
-						'setype' => $module,
-						'rel_created_user' => \App\User::getCurrentUserId(),
-						'rel_created_time' => date('Y-m-d H:i:s'),
-					])->execute();
-				} elseif ($withModule == 'Campaigns') {
-					$checkResult = (new \App\Db\Query())->from('vtiger_campaign_records')->where(['campaignid' => $withCrmId, 'crmid' => $crmId])->exists();
-					if ($checkResult) {
-						continue;
-					}
-					App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
-						'campaignid' => $withCrmId,
-						'crmid' => $crmId,
-						'campaignrelstatusid' => 1,
-					])->execute();
-				}
-			}
-		}
-	}
-
-	// Function to get related contact ids for an account record
-
-	public function getRelatedContactsIds($id = null)
-	{
-		if ($id === null) {
-			$id = $this->id;
-		}
-		$query = (new \App\Db\Query())->select(['contactid'])->from('vtiger_contactdetails')
-			->innerJoin('vtiger_crmentity', 'vtiger_contactdetails.contactid = vtiger_crmentity.crmid')
-			->where(['vtiger_contactdetails.parentid' => $id, 'vtiger_crmentity.deleted' => 0]);
-		$entityIds = $query->column();
-		if (empty($entityIds)) {
-			$entityIds = [];
-		}
-		return $entityIds;
 	}
 }

@@ -65,9 +65,8 @@ class Module
 			if ($mixed) {
 				if (is_numeric($mixed)) {
 					return Cache::get('ModuleEntityById', $mixed);
-				} else {
-					return Cache::get('ModuleEntityByName', $mixed);
 				}
+				return Cache::get('ModuleEntityByName', $mixed);
 			}
 		}
 		return $entity;
@@ -97,13 +96,13 @@ class Module
 		if (isset(static::$isModuleActiveCache[$moduleName])) {
 			return static::$isModuleActiveCache[$moduleName];
 		}
-		if (in_array($moduleName, ['CustomView', 'Users', 'Import', 'com_vtiger_workflow', 'PickList'])) {
+		if (\in_array($moduleName, ['CustomView', 'Users', 'Import', 'com_vtiger_workflow', 'PickList'])) {
 			static::$isModuleActiveCache[$moduleName] = true;
 
 			return true;
 		}
 		$moduleId = static::getModuleId($moduleName);
-		$isActive = (isset(static::$tabdataCache['tabPresence'][$moduleId]) && static::$tabdataCache['tabPresence'][$moduleId] == 0);
+		$isActive = (isset(static::$tabdataCache['tabPresence'][$moduleId]) && 0 == static::$tabdataCache['tabPresence'][$moduleId]);
 		static::$isModuleActiveCache[$moduleName] = $isActive;
 
 		return $isActive;
@@ -114,7 +113,7 @@ class Module
 	 *
 	 * @param string $moduleName
 	 *
-	 * @return int|bool
+	 * @return bool|int
 	 */
 	public static function getModuleId($moduleName)
 	{
@@ -126,7 +125,7 @@ class Module
 	 *
 	 * @param int $tabId
 	 *
-	 * @return string|bool
+	 * @return bool|string
 	 */
 	public static function getModuleName($tabId)
 	{
@@ -157,7 +156,7 @@ class Module
 		$modules = \vtlib\Functions::getAllModules(true, true, 0, false, 0);
 		$sharingModules = [];
 		foreach ($modules as $row) {
-			if (!$eliminateModules || !in_array($row['name'], $eliminateModules)) {
+			if (!$eliminateModules || !\in_array($row['name'], $eliminateModules)) {
 				$sharingModules[] = $row['name'];
 			}
 		}
@@ -176,7 +175,7 @@ class Module
 		$db = \App\Db::getInstance();
 		$entityFieldInfo = static::getEntityInfo($moduleName);
 		$fieldsName = $entityFieldInfo['fieldnameArr'];
-		if (count($fieldsName) > 1) {
+		if (\count($fieldsName) > 1) {
 			$sqlString = 'CONCAT(';
 			foreach ($fieldsName as &$column) {
 				$sqlString .= "{$db->quoteTableName($entityFieldInfo['tablename'])}.{$db->quoteColumnName($column)},' ',";
@@ -238,7 +237,7 @@ class Module
 		while ($row = $dataReader->read()) {
 			$actionname = $row['actionname'];
 			$actionAll[$actionname] = $actionid = (int) $row['actionid'];
-			if ((int) $row['securitycheck'] === 0) {
+			if (0 === (int) $row['securitycheck']) {
 				$actionSecure[$actionid] = $actionname;
 			}
 		}
@@ -259,26 +258,39 @@ class Module
 	public static function createModuleMetaFile()
 	{
 		Cache::delete('moduleTabs', 'all');
-		$filename = 'user_privileges/tabdata.php';
+		$filename = ROOT_DIRECTORY . '/user_privileges/tabdata.php';
 		if (file_exists($filename)) {
 			if (is_writable($filename)) {
-				if (!$handle = fopen($filename, 'w+')) {
-					throw new Exceptions\NoPermitted("Cannot open file ($filename)");
-				}
 				$moduleMeta = static::getModuleMeta();
-				$newbuf = "<?php\n";
-				$newbuf .= '$tab_seq_array=' . Utils::varExport($moduleMeta['tabPresence']) . ";\n";
-				$newbuf .= 'return ' . Utils::varExport($moduleMeta) . ";\n";
-				fwrite($handle, $newbuf);
-				fclose($handle);
-				Cache::resetFileCache($filename);
+				$content = '$tab_seq_array=' . Utils::varExport($moduleMeta['tabPresence']) . ";\n";
+				$content .= 'return ' . Utils::varExport($moduleMeta) . ";\n";
+				if (!Utils::saveToFile($filename, $content)) {
+					throw new Exceptions\NoPermitted("Cannot write file ($filename)");
+				}
 			} else {
 				Log::error("The file $filename is not writable");
 			}
 		} else {
 			Log::error("The file $filename does not exist");
 		}
-		static::init();
+		static::initFromDb();
+		register_shutdown_function(function () {
+			YetiForce\Shop::generateCache();
+		});
+	}
+
+	/**
+	 * Function changes the module type.
+	 *
+	 * @param string $moduleName
+	 * @param int    $type
+	 */
+	public static function changeType(string $moduleName, int $type)
+	{
+		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+		if ($moduleModel && $moduleModel->changeType($type) && PrivilegeUtil::modifyPermissions($moduleName, ['RecordPdfInventory'], \Vtiger_Module_Model::ADVANCED_TYPE === $type)) {
+			UserPrivilegesFile::recalculateAll();
+		}
 	}
 }
 

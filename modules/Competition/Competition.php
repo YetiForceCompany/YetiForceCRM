@@ -80,7 +80,7 @@ class Competition extends Vtiger_CRMEntity
 	 *
 	 * @var string[]
 	 */
-	public $relationFields = ['subject', 'assigned_user_id'];
+	public $relationFields = [];
 
 	/**
 	 * Make the field link to detail view.
@@ -106,11 +106,7 @@ class Competition extends Vtiger_CRMEntity
 	 *
 	 * @var array
 	 */
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'LBL_SUBJECT' => 'subject',
-		'Assigned To' => 'assigned_user_id',
-	];
+	public $search_fields_name = [];
 
 	/**
 	 * For Popup window record selection.
@@ -178,37 +174,6 @@ class Competition extends Vtiger_CRMEntity
 	}
 
 	/**
-	 * Move the related records of the specified list of id's to the given record.
-	 *
-	 * @param string $module            This module name
-	 * @param array  $transferEntityIds List of Entity Id's from which related records need to be transfered
-	 * @param int    $entityId          Id of the the Record to which the related records are to be moved
-	 */
-	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
-	{
-		$dbCommand = \App\Db::getInstance()->createCommand();
-		\App\Log::trace("Entering function transferRelatedRecords (${module}, ${transferEntityIds}, ${entityId})");
-		$relTableArr = ['Campaigns' => 'vtiger_campaign_records'];
-		$tblFieldArr = ['vtiger_campaign_records' => 'campaignid'];
-		$entityTblFieldArr = ['vtiger_campaign_records' => 'crmid'];
-		foreach ($transferEntityIds as $transferId) {
-			foreach ($relTableArr as $relTable) {
-				$idField = $tblFieldArr[$relTable];
-				$entityIdField = $entityTblFieldArr[$relTable];
-				// IN clause to avoid duplicate entries
-				$subQuery = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $entityId]);
-				$query = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $transferId])->andWhere(['not in', $idField, $subQuery]);
-				$dataReader = $query->createCommand()->query();
-				while ($idFieldValue = $dataReader->readColumn(0)) {
-					$dbCommand->update($relTable, [$entityIdField => $entityId], [$entityIdField => $transferId, $idField => $idFieldValue])->execute();
-				}
-				$dataReader->close();
-			}
-		}
-		\App\Log::trace('Exiting transferRelatedRecords...');
-	}
-
-	/**
 	 * Function to get the relation tables for related modules.
 	 *
 	 * @param bool|string $secModule secondary module name
@@ -229,53 +194,6 @@ class Competition extends Vtiger_CRMEntity
 	}
 
 	/**
-	 * Function to unlink an entity with given Id from another entity.
-	 *
-	 * @param it     $id
-	 * @param string $returnModule
-	 * @param int    $returnId
-	 * @param string $relatedName
-	 */
-	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
-	{
-		if (empty($returnModule) || empty($returnId)) {
-			return;
-		}
-		if ('Campaigns' === $returnModule) {
-			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $returnId])->execute();
-		} else {
-			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
-		}
-	}
-
-	/**
-	 * Save related module.
-	 *
-	 * @param string    $module
-	 * @param int       $crmid
-	 * @param string    $withModule
-	 * @param array|int $withCrmids
-	 * @param string    $relatedName
-	 */
-	public function saveRelatedModule($module, $crmid, $withModule, $withCrmids, $relatedName = false)
-	{
-		if (!is_array($withCrmids)) {
-			$withCrmids = [$withCrmids];
-		}
-		foreach ($withCrmids as $withCrmid) {
-			if ('Campaigns' === $withModule) {
-				App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
-					'campaignid' => $withCrmid,
-					'crmid' => $crmid,
-					'campaignrelstatusid' => 0,
-				])->execute();
-			} else {
-				parent::saveRelatedModule($module, $crmid, $withModule, $withCrmid, $relatedName);
-			}
-		}
-	}
-
-	/**
 	 * Function to get competition hierarchy.
 	 *
 	 * @param int  $id
@@ -288,7 +206,7 @@ class Competition extends Vtiger_CRMEntity
 	{
 		$listviewHeader = [];
 		$listviewEntries = [];
-		$listColumns = AppConfig::module('Competition', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = App\Config::module('Competition', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
@@ -325,7 +243,7 @@ class Competition extends Vtiger_CRMEntity
 		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $recordId . ') method ...');
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 		$hasRecordViewAccess = $currentUser->isAdminUser() || \App\Privilege::isPermitted('Competition', 'DetailView', $recordId);
-		$listColumns = AppConfig::module('Competition', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = App\Config::module('Competition', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
@@ -353,7 +271,7 @@ class Competition extends Vtiger_CRMEntity
 		}
 		$listviewEntries[$recordId] = $infoData;
 		foreach ($baseInfo as $accId => $rowInfo) {
-			if (is_array($rowInfo) && (int) $accId) {
+			if (\is_array($rowInfo) && (int) $accId) {
 				$listviewEntries = $this->getHierarchyData($id, $rowInfo, $accId, $listviewEntries, $getRawData, $getLinks);
 			}
 		}
@@ -375,7 +293,7 @@ class Competition extends Vtiger_CRMEntity
 	public function getParent(int $id, array &$parent, array &$encountered, int $depthBase = 0)
 	{
 		\App\Log::trace('Entering getParent(' . $id . ') method ...');
-		if ($depthBase == AppConfig::module('Competition', 'MAX_HIERARCHY_DEPTH')) {
+		if ($depthBase == App\Config::module('Competition', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting getParent method ... - exceeded maximum depth of hierarchy');
 
 			return $parent;
@@ -392,7 +310,7 @@ class Competition extends Vtiger_CRMEntity
 			->one();
 		if ($row) {
 			$parentid = $row['parent_id'];
-			if ('' !== $parentid && 0 != $parentid && !in_array($parentid, $encountered)) {
+			if ('' !== $parentid && 0 != $parentid && !\in_array($parentid, $encountered)) {
 				$encountered[] = $parentid;
 				$this->getParent($parentid, $parent, $encountered, $depthBase + 1);
 			}
@@ -402,7 +320,7 @@ class Competition extends Vtiger_CRMEntity
 				$depth = $parent[$parentid]['depth'] + 1;
 			}
 			$parentInfo['depth'] = $depth;
-			$listColumns = AppConfig::module('Competition', 'COLUMNS_IN_HIERARCHY');
+			$listColumns = App\Config::module('Competition', 'COLUMNS_IN_HIERARCHY');
 			if (empty($listColumns)) {
 				$listColumns = $this->list_fields_name;
 			}
@@ -435,7 +353,7 @@ class Competition extends Vtiger_CRMEntity
 	public function getChild(int $id, array &$childRow, int $depthBase)
 	{
 		\App\Log::trace('Entering getChild(' . $id . ',' . $depthBase . ') method ...');
-		if (empty($id) || $depthBase == AppConfig::module('Competition', 'MAX_HIERARCHY_DEPTH')) {
+		if (empty($id) || $depthBase == App\Config::module('Competition', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting getChild method ... - exceeded maximum depth of hierarchy');
 
 			return $childRow;
@@ -450,7 +368,7 @@ class Competition extends Vtiger_CRMEntity
 			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
 			->where(['vtiger_crmentity.deleted' => 0, 'u_#__competition.parent_id' => $id])
 			->createCommand()->query();
-		$listColumns = AppConfig::module('Competition', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = App\Config::module('Competition', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}

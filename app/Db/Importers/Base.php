@@ -65,6 +65,16 @@ class Base
 	}
 
 	/**
+	 * Returns the schema information for the database opened by this connection.
+	 *
+	 * @return Schema the schema information for the database opened by this connection.
+	 */
+	public function getSchema()
+	{
+		return $this->schema;
+	}
+
+	/**
 	 * Creates a primary key column.
 	 *
 	 * @param int $length column size or precision definition.
@@ -145,7 +155,7 @@ class Base
 	/**
 	 * Creates a text column.
 	 *
-	 * @param null|string $length
+	 * @param string|null $length
 	 *
 	 * @return \yii\db\ColumnSchemaBuilder the column instance which can be further customized
 	 */
@@ -163,6 +173,18 @@ class Base
 			$columnSchemaBuilder = $this->schema->createColumnSchemaBuilder(Schema::TYPE_TEXT);
 		}
 		return $columnSchemaBuilder;
+	}
+
+	/**
+	 * Creates a medium text column.
+	 *
+	 * @param string|null $length
+	 *
+	 * @return \yii\db\ColumnSchemaBuilder the column instance which can be further customized
+	 */
+	public function mediumText($length = null)
+	{
+		return $this->schema->createColumnSchemaBuilder('meduimtext', $length);
 	}
 
 	/**
@@ -257,10 +279,10 @@ class Base
 	public function decimal($precision = null, $scale = null)
 	{
 		$length = [];
-		if ($precision !== null) {
+		if (null !== $precision) {
 			$length[] = $precision;
 		}
-		if ($scale !== null) {
+		if (null !== $scale) {
 			$length[] = $scale;
 		}
 		return $this->schema->createColumnSchemaBuilder(Schema::TYPE_DECIMAL, $length);
@@ -365,10 +387,10 @@ class Base
 	public function money($precision = null, $scale = null)
 	{
 		$length = [];
-		if ($precision !== null) {
+		if (null !== $precision) {
 			$length[] = $precision;
 		}
-		if ($scale !== null) {
+		if (null !== $scale) {
 			$length[] = $scale;
 		}
 		return $this->schema->createColumnSchemaBuilder(Schema::TYPE_MONEY, $length);

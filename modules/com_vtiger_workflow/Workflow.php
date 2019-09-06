@@ -64,6 +64,44 @@ class Workflow
 	public static $SCHEDULED_ANNUALLY = 7;
 
 	/**
+	 * Scheduled hourly.
+	 *
+	 * @var int
+	 */
+	public static $SCHEDULED_30_MINUTES = 8;
+	/**
+	 * Scheduled hourly.
+	 *
+	 * @var int
+	 */
+	public static $SCHEDULED_15_MINUTES = 9;
+
+	/**
+	 * Scheduled hourly.
+	 *
+	 * @var int
+	 */
+	public static $SCHEDULED_5_MINUTES = 10;
+
+	/**
+	 * Scheduled list.
+	 *
+	 * @var int[]
+	 */
+	public static $SCHEDULED_LIST = [
+		10 => 'LBL_5_MINUTES',
+		9 => 'LBL_15_MINUTES',
+		8 => 'LBL_30_MINUTES',
+		1 => 'LBL_HOURLY',
+		2 => 'LBL_DAILY',
+		3 => 'LBL_WEEKLY',
+		4 => 'LBL_SPECIFIC_DATE',
+		5 => 'LBL_MONTHLY_BY_DATE',
+		6 => 'LBL_MONTHLY_BY_WEEKDAY',
+		7 => 'LBL_YEARLY',
+	];
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct()
@@ -93,6 +131,7 @@ class Workflow
 		}
 		$this->filtersavedinnew = $row['filtersavedinnew'] ?? '';
 		$this->nexttrigger_time = $row['nexttrigger_time'] ?? '';
+		$this->params = $row['params'] ?? '';
 	}
 
 	/**
@@ -104,12 +143,10 @@ class Workflow
 	 */
 	public function evaluate($recordModel)
 	{
-		if ($this->test == '') {
+		if ('' == $this->test) {
 			return true;
-		} else {
-			$cs = $this->conditionStrategy;
-			return $cs->evaluate($this->test, $recordModel);
 		}
+		return $this->conditionStrategy->evaluate($this->test, $recordModel);
 	}
 
 	/**
@@ -128,9 +165,8 @@ class Workflow
 
 		if (!$isExistsActivateDonce && !$isExistsWorkflowTasks) { // Workflow not done for specified record
 			return false;
-		} else {
-			return true;
 		}
+		return true;
 	}
 
 	/**
@@ -151,24 +187,24 @@ class Workflow
 	 * Perform tasks.
 	 *
 	 * @param Vtiger_Record_Model $recordModel
+	 * @param array|null          $tasks
 	 */
-	public function performTasks(Vtiger_Record_Model $recordModel)
+	public function performTasks(Vtiger_Record_Model $recordModel, ?array $tasks = null)
 	{
 		require_once 'modules/com_vtiger_workflow/VTTaskManager.php';
 		require_once 'modules/com_vtiger_workflow/VTTaskQueue.php';
 
 		$tm = new VTTaskManager();
 		$taskQueue = new VTTaskQueue();
-		$tasks = $tm->getTasksForWorkflow($this->id);
-		foreach ($tasks as &$task) {
-			if ($task->active) {
+		foreach ($tm->getTasksForWorkflow($this->id) as $task) {
+			if ($task->active && (null === $tasks || \in_array($task->id, $tasks))) {
 				$trigger = $task->trigger;
-				if ($trigger !== null) {
+				if (null !== $trigger) {
 					$delay = strtotime($recordModel->get($trigger['field'])) + $trigger['days'] * 86400;
 				} else {
 					$delay = 0;
 				}
-				if ((bool) $task->executeImmediately === true) {
+				if (true === (bool) $task->executeImmediately) {
 					$task->doTask($recordModel);
 				} else {
 					$hasContents = $task->hasContents($recordModel);
@@ -189,15 +225,14 @@ class Workflow
 	 */
 	public function executionConditionAsLabel($label = null)
 	{
-		if ($label === null) {
+		if (null === $label) {
 			$arr = ['ON_FIRST_SAVE', 'ONCE', 'ON_EVERY_SAVE', 'ON_MODIFY', 'ON_DELETE', 'ON_SCHEDULE', 'MANUAL', 'TRIGGER', 'BLOCK_EDIT', 'ON_RELATED'];
 
 			return $arr[$this->executionCondition - 1];
-		} else {
-			$arr = ['ON_FIRST_SAVE' => 1, 'ONCE' => 2, 'ON_EVERY_SAVE' => 3, 'ON_MODIFY' => 4,
-				'ON_DELETE' => 5, 'ON_SCHEDULE' => 6, 'MANUAL' => 7, 'TRIGGER' => 8, 'BLOCK_EDIT' => 9, 'ON_RELATED' => 10, ];
-			$this->executionCondition = $arr[$label];
 		}
+		$arr = ['ON_FIRST_SAVE' => 1, 'ONCE' => 2, 'ON_EVERY_SAVE' => 3, 'ON_MODIFY' => 4,
+			'ON_DELETE' => 5, 'ON_SCHEDULE' => 6, 'MANUAL' => 7, 'TRIGGER' => 8, 'BLOCK_EDIT' => 9, 'ON_RELATED' => 10, ];
+		$this->executionCondition = $arr[$label];
 	}
 
 	/**
@@ -230,7 +265,7 @@ class Workflow
 	 */
 	public function getWFScheduleType()
 	{
-		return $this->executionCondition == 6 ? $this->schtypeid : 0;
+		return 6 == $this->executionCondition ? $this->schtypeid : 0;
 	}
 
 	/**
@@ -292,50 +327,52 @@ class Workflow
 	 */
 	public function getNextTriggerTime()
 	{
-		$default_timezone = \AppConfig::main('default_timezone');
+		$default_timezone = \App\Config::main('default_timezone');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
 		date_default_timezone_set($adminTimeZone);
-
-		$scheduleType = $this->getWFScheduleType();
 		$nextTime = null;
-
-		if ($scheduleType == self::$SCHEDULED_HOURLY) {
-			$nextTime = date('Y-m-d H:i:s', strtotime('+1 hour'));
-		}
-
-		if ($scheduleType == self::$SCHEDULED_DAILY) {
-			$nextTime = $this->getNextTriggerTimeForDaily($this->getWFScheduleTime());
-		}
-
-		if ($scheduleType == self::$SCHEDULED_WEEKLY) {
-			$nextTime = $this->getNextTriggerTimeForWeekly($this->getWFScheduleWeek(), $this->getWFScheduleTime());
-		}
-
-		if ($scheduleType == self::$SCHEDULED_ON_SPECIFIC_DATE) {
-			$nextTime = date('Y-m-d H:i:s', strtotime('+10 year'));
-		}
-
-		if ($scheduleType == self::$SCHEDULED_MONTHLY_BY_DATE) {
-			$nextTime = $this->getNextTriggerTimeForMonthlyByDate($this->getWFScheduleDay(), $this->getWFScheduleTime());
-		}
-
-		if ($scheduleType == self::$SCHEDULED_MONTHLY_BY_WEEKDAY) {
-			$nextTime = $this->getNextTriggerTimeForMonthlyByWeekDay($this->getWFScheduleDay(), $this->getWFScheduleTime());
-		}
-
-		if ($scheduleType == self::$SCHEDULED_ANNUALLY) {
-			$nextTime = $this->getNextTriggerTimeForAnnualDates($this->getWFScheduleAnnualDates(), $this->getWFScheduleTime());
+		switch ($this->getWFScheduleType()) {
+			case self::$SCHEDULED_5_MINUTES:
+				$nextTime = date('Y-m-d H:i:s', strtotime('+5 minutes'));
+			break;
+			case self::$SCHEDULED_15_MINUTES:
+					$nextTime = date('Y-m-d H:i:s', strtotime('+15 minutes'));
+				break;
+			case self::$SCHEDULED_30_MINUTES:
+				$nextTime = date('Y-m-d H:i:s', strtotime('+30 minutes'));
+			break;
+			case self::$SCHEDULED_HOURLY:
+					$nextTime = date('Y-m-d H:i:s', strtotime('+1 hour'));
+				break;
+			case self::$SCHEDULED_DAILY:
+					$nextTime = $this->getNextTriggerTimeForDaily($this->getWFScheduleTime());
+				break;
+			case self::$SCHEDULED_WEEKLY:
+					$nextTime = $this->getNextTriggerTimeForWeekly($this->getWFScheduleWeek(), $this->getWFScheduleTime());
+				break;
+			case self::$SCHEDULED_ON_SPECIFIC_DATE:
+					$nextTime = date('Y-m-d H:i:s', strtotime('+10 year'));
+				break;
+			case self::$SCHEDULED_MONTHLY_BY_DATE:
+					$nextTime = $this->getNextTriggerTimeForMonthlyByDate($this->getWFScheduleDay(), $this->getWFScheduleTime());
+				break;
+			case self::$SCHEDULED_MONTHLY_BY_WEEKDAY:
+					$nextTime = $this->getNextTriggerTimeForMonthlyByWeekDay($this->getWFScheduleDay(), $this->getWFScheduleTime());
+				break;
+			case self::$SCHEDULED_ANNUALLY:
+					$nextTime = $this->getNextTriggerTimeForAnnualDates($this->getWFScheduleAnnualDates(), $this->getWFScheduleTime());
+				break;
 		}
 		date_default_timezone_set($default_timezone);
-
 		return $nextTime;
 	}
 
 	/**
 	 * get next trigger time for daily.
 	 *
-	 * @param type $schTime
+	 * @param type  $schTime
+	 * @param mixed $scheduledTime
 	 *
 	 * @return time
 	 */
@@ -366,7 +403,7 @@ class Workflow
 		$currentWeekDay = date('N', $currentTime);
 		if ($scheduledDaysOfWeek) {
 			$scheduledDaysOfWeek = \App\Json::decode($scheduledDaysOfWeek);
-			if (is_array($scheduledDaysOfWeek)) {
+			if (\is_array($scheduledDaysOfWeek)) {
 				/*
 				  algorithm :
 				  1. First sort all the weekdays(stored as 0,1,2,3 etc in db) and find the closest weekday which is greater than currentWeekDay
@@ -381,9 +418,9 @@ class Workflow
 						if ($currentTime < $scheduleWeekDayInTime) { //if the scheduled time is greater than current time, selected today
 							$nextTriggerWeekDay = $weekDay;
 							break;
-						} else {
-							//current time greater than scheduled time, get the next weekday
-							if (count($scheduledDaysOfWeek) == 1) { //if only one weekday selected, then get next week
+						}
+						//current time greater than scheduled time, get the next weekday
+							if (1 == \count($scheduledDaysOfWeek)) { //if only one weekday selected, then get next week
 								$nextTime = date('Y-m-d', strtotime('next ' . $weekDays[$weekDay])) . ' ' . $scheduledTime;
 							} else {
 								$nextWeekDay = $scheduledDaysOfWeek[$index + 1]; // its the last day of the week i.e. sunday
@@ -392,14 +429,13 @@ class Workflow
 								}
 								$nextTime = date('Y-m-d', strtotime('next ' . $weekDays[$nextWeekDay])) . ' ' . $scheduledTime;
 							}
-						}
 					} elseif ($weekDay > $currentWeekDay) {
 						$nextTriggerWeekDay = $weekDay;
 						break;
 					}
 				}
 
-				if ($nextTime === null) {
+				if (null === $nextTime) {
 					if (!empty($nextTriggerWeekDay)) {
 						$nextTime = date('Y-m-d H:i:s', strtotime($weekDays[$nextTriggerWeekDay] . ' ' . $scheduledTime));
 					} else {
@@ -424,7 +460,7 @@ class Workflow
 		$currentDayOfMonth = date('j', time());
 		if ($scheduledDayOfMonth) {
 			$scheduledDaysOfMonth = \App\Json::decode($scheduledDayOfMonth);
-			if (is_array($scheduledDaysOfMonth)) {
+			if (\is_array($scheduledDaysOfMonth)) {
 				/*
 				  algorithm :
 				  1. First sort all the days in ascending order and find the closest day which is greater than currentDayOfMonth

@@ -28,7 +28,7 @@
 	</div>
 	<div class='clearfix'></div>
 	<div class=" contents" id="detailView">
-		<table class="table customTableRWD table-bordered" id="convertLeadMapping">
+		<table class="table customTableRWD table-bordered my-2" id="convertLeadMapping">
 			<thead>
 			<tr class="blockHeader">
 				<th class="blockHeader">{\App\Language::translate('LBL_FIELD_LABEL', $QUALIFIED_MODULE)}</th>

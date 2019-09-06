@@ -81,7 +81,7 @@ class Vtiger_CurrencyList_UIType extends Vtiger_Picklist_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getOperators()
+	public function getQueryOperators()
 	{
 		return ['e', 'n', 'y', 'ny'];
 	}

@@ -28,29 +28,6 @@ class Settings_Groups_Member_Model extends \App\Base
 		return $this->get('id');
 	}
 
-	public function getIdComponents()
-	{
-		return explode(':', $$this->getId());
-	}
-
-	public function getMemberType()
-	{
-		$idComponents = $this->getIdComponents();
-		if ($idComponents && count($idComponents) > 0) {
-			return $idComponents[0];
-		}
-		return false;
-	}
-
-	public function getMemberId()
-	{
-		$idComponents = $this->getIdComponents();
-		if ($idComponents && count($idComponents) > 1) {
-			return $idComponents[1];
-		}
-		return false;
-	}
-
 	/**
 	 * Function to get the Group Name.
 	 *
@@ -59,16 +36,6 @@ class Settings_Groups_Member_Model extends \App\Base
 	public function getName()
 	{
 		return $this->get('name');
-	}
-
-	/**
-	 * Function to get the Group Name.
-	 *
-	 * @return string
-	 */
-	public function getQualifiedName()
-	{
-		return $this->getMemberType() . ' - ' . $this->get('name');
 	}
 
 	public static function getIdComponentsFromQualifiedId($id)
@@ -86,7 +53,7 @@ class Settings_Groups_Member_Model extends \App\Base
 		$query = new App\Db\Query();
 		$members = [];
 
-		if ($type == self::MEMBER_TYPE_USERS) {
+		if (self::MEMBER_TYPE_USERS == $type) {
 			$query->select(['vtiger_users.id', 'vtiger_users.last_name', 'vtiger_users.first_name'])
 				->from('vtiger_users')
 				->innerJoin('vtiger_users2group', ' vtiger_users2group.userid = vtiger_users.id')
@@ -102,7 +69,7 @@ class Settings_Groups_Member_Model extends \App\Base
 			$dataReader->close();
 		}
 
-		if ($type == self::MEMBER_TYPE_GROUPS) {
+		if (self::MEMBER_TYPE_GROUPS == $type) {
 			$query->select(['vtiger_groups.groupid', 'vtiger_groups.groupname'])
 				->from('vtiger_groups')
 				->innerJoin('vtiger_group2grouprel', 'vtiger_group2grouprel.containsgroupid = vtiger_groups.groupid')
@@ -117,7 +84,7 @@ class Settings_Groups_Member_Model extends \App\Base
 			$dataReader->close();
 		}
 
-		if ($type == self::MEMBER_TYPE_ROLES) {
+		if (self::MEMBER_TYPE_ROLES == $type) {
 			$query->select(['vtiger_role.roleid', 'vtiger_role.rolename'])
 				->from('vtiger_role')
 				->innerJoin('vtiger_group2role', 'vtiger_group2role.roleid = vtiger_role.roleid')
@@ -132,7 +99,7 @@ class Settings_Groups_Member_Model extends \App\Base
 			$dataReader->close();
 		}
 
-		if ($type == self::MEMBER_TYPE_ROLE_AND_SUBORDINATES) {
+		if (self::MEMBER_TYPE_ROLE_AND_SUBORDINATES == $type) {
 			$query->select(['vtiger_role.roleid', 'vtiger_role.rolename'])
 				->from('vtiger_role')
 				->innerJoin('vtiger_group2rs', 'vtiger_group2rs.roleandsubid = vtiger_role.roleid')
@@ -155,7 +122,7 @@ class Settings_Groups_Member_Model extends \App\Base
 	 */
 	public function getDetailViewUrl()
 	{
-		list($type, $recordId) = self::getIdComponentsFromQualifiedId($this->getId());
+		[$type, $recordId] = self::getIdComponentsFromQualifiedId($this->getId());
 		switch ($type) {
 			case 'Users':
 				$recordModel = Users_Record_Model::getCleanInstance($type);
@@ -181,6 +148,8 @@ class Settings_Groups_Member_Model extends \App\Base
 	/**
 	 * Function to get all the groups.
 	 *
+	 * @param mixed $groupModel
+	 *
 	 * @return <Array> - Array of Settings_Groups_Record_Model instances
 	 */
 	public static function getAllByGroup($groupModel)
@@ -197,6 +166,8 @@ class Settings_Groups_Member_Model extends \App\Base
 
 	/**
 	 * Function to get all the groups.
+	 *
+	 * @param mixed $onlyActive
 	 *
 	 * @return <Array> - Array of Settings_Groups_Record_Model instances
 	 */

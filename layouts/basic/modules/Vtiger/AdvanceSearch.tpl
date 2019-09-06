@@ -43,9 +43,7 @@
 							{if $SOURCE_MODULE eq 'Home'}
 								<div class="textAlignCenter">{\App\Language::translate('LBL_PLEASE_SELECT_MODULE',$MODULE)}</div>
 							{else}
-								<input type="hidden" name="labelFields"
-									   data-value="{\App\Purifier::encodeHtml(\App\Json::encode($SOURCE_MODULE_MODEL->getNameFields()))}"/>
-								{include file=\App\Layout::getTemplatePath('AdvanceFilter.tpl') QUALIFIED_MODULE=null}
+								{include file=\App\Layout::getTemplatePath('ConditionBuilder.tpl') MODULE_NAME=$SOURCE_MODULE}
 							{/if}
 						</form>
 					</div>

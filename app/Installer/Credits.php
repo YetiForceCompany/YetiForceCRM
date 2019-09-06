@@ -37,6 +37,7 @@ class Credits
 		'dompurify' => 'Apache-2.0',
 		'nette/php-generator' => 'BSD-3-Clause',
 		'nette/utils' => 'BSD-3-Clause',
+		'@mdi/font' => 'MIT',
 	];
 	/**
 	 * Information about forks CRM.
@@ -68,7 +69,7 @@ class Credits
 						$libraries[$package['name']]['version'] = $package['version'];
 					}
 					if (!empty($package['license'])) {
-						if (count($package['license']) > 1) {
+						if (\count($package['license']) > 1) {
 							$libraries[$package['name']]['license'] = implode(', ', $package['license']);
 							$libraries[$package['name']]['licenseError'] = true;
 						} else {
@@ -101,24 +102,57 @@ class Credits
 	 */
 	public static function getPublicLibraries()
 	{
+		return self::getYarnLibraries(
+			ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR . 'libraries' . \DIRECTORY_SEPARATOR . '.yarn-integrity',
+			ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR . 'libraries' . \DIRECTORY_SEPARATOR
+		);
+	}
+
+	/**
+	 * Get libraries based on .yarn-integrity file.
+	 *
+	 * @param string $integrityFile
+	 * @param string $srcDir
+	 *
+	 * @return array
+	 */
+	public static function getYarnLibraries(string $integrityFile, string $srcDir): array
+	{
 		$libraries = [];
-		$dir = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR . 'libraries' . \DIRECTORY_SEPARATOR;
-		if (file_exists($dir . '.yarn-integrity')) {
-			$yarnFile = \App\Json::decode(file_get_contents($dir . '.yarn-integrity'), true);
+		if (file_exists($integrityFile)) {
+			$yarnFile = \App\Json::decode(file_get_contents($integrityFile), true);
 			if ($yarnFile && $yarnFile['lockfileEntries']) {
-				$libraryDir = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR . 'libraries' . \DIRECTORY_SEPARATOR;
 				foreach ($yarnFile['lockfileEntries'] as $nameWithVersion => $page) {
 					$isPrefix = 0 === strpos($nameWithVersion, '@');
 					$name = $isPrefix ? '@' : '';
 					$tempName = explode('@', $isPrefix ? ltrim($nameWithVersion, '@') : $nameWithVersion);
 					$name .= array_shift($tempName);
-					if (\is_dir($libraryDir . $name)) {
-						$libraries[$name] = self::getLibraryValues($name, $libraryDir);
+					if (\is_dir($srcDir . $name)) {
+						$libraries[$name] = self::getLibraryValues($name, $srcDir);
 						if (empty($libraries[$name]['homepage'])) {
-							$libraries[$name]['homepage'] = "https://yarnpkg.com/en/package/${name}";
+							$libraries[$name]['homepage'] = "https://yarnpkg.com/en/package/{$name}";
 						}
 					}
 				}
+			}
+		}
+		return $libraries;
+	}
+
+	/**
+	 * Function gets vue libraries name.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
+	 */
+	public static function getVueLibs(): array
+	{
+		$libraries = [];
+		$file = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app_data' . \DIRECTORY_SEPARATOR . 'libraries.json';
+		if (file_exists($file)) {
+			foreach (\App\Json::read($file) as $name => $libDetails) {
+				$libraries[$name] = $libDetails;
 			}
 		}
 		return $libraries;
@@ -134,7 +168,7 @@ class Credits
 	 *
 	 * @return array
 	 */
-	public static function getLibraryValues($name, $dir)
+	public static function getLibraryValues($name, $dir): array
 	{
 		$library = ['name' => $name, 'version' => '', 'license' => '', 'homepage' => ''];
 		$existJsonFiles = true;
@@ -184,13 +218,15 @@ class Credits
 				$packageFileContent = \App\Json::decode(file_get_contents($packageFile), true);
 				$license = $packageFileContent['license'] ?? $packageFileContent['licenses'] ?? '';
 				if ($license) {
-					if (is_array($license)) {
-						if (is_array($license[0]) && isset($license[0]['type'])) {
+					if (\is_array($license)) {
+						if (isset($license['type'])) {
+							$returnLicense = $license['type'];
+						} elseif (isset($license[0]['type'])) {
 							$returnLicense = implode(', ', array_column($license, 'type'));
 						} else {
 							$returnLicense = implode(', ', $license);
 						}
-						if (count($license) > 1) {
+						if (\count($license) > 1) {
 							$licenseError = true;
 						}
 					} else {
@@ -198,26 +234,26 @@ class Credits
 						$returnLicense = $license;
 					}
 					if (isset(static::$licenses[$libraryName]) && $returnLicense) {
-						$returnLicense = static::$licenses[$libraryName] . " [${returnLicense}]";
+						$returnLicense = static::$licenses[$libraryName] . " [{$returnLicense}]";
 						$licenseToDisplay = static::$licenses[$libraryName];
 						$licenseError = false;
-						$showLicenseModal = self::checkIfLicenseFileExists($licenseToDisplay);
+						$showLicenseModal = file_exists($dir . '..' . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . 'licenses' . \DIRECTORY_SEPARATOR . $licenseToDisplay . '.txt');
 						break;
 					}
 					if ($returnLicense) {
-						$showLicenseModal = self::checkIfLicenseFileExists($returnLicense);
+						$showLicenseModal = file_exists($dir . '..' . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . 'licenses' . \DIRECTORY_SEPARATOR . $returnLicense . '.txt');
 						break;
 					}
 				} else {
 					if (isset(static::$licenses[$libraryName])) {
 						$returnLicense = static::$licenses[$libraryName];
-						$showLicenseModal = self::checkIfLicenseFileExists($returnLicense);
+						$showLicenseModal = file_exists($dir . '..' . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . 'licenses' . \DIRECTORY_SEPARATOR . $returnLicense . '.txt');
 					}
 				}
 			} else {
 				if (isset(static::$licenses[$libraryName])) {
 					$returnLicense = static::$licenses[$libraryName];
-					$showLicenseModal = self::checkIfLicenseFileExists($returnLicense);
+					$showLicenseModal = file_exists($dir . '..' . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . 'licenses' . \DIRECTORY_SEPARATOR . $returnLicense . '.txt');
 				}
 			}
 		}
@@ -237,7 +273,7 @@ class Credits
 			return true;
 		}
 		$result = false;
-		if (!is_array($license)) {
+		if (!\is_array($license)) {
 			$license = [$license];
 		}
 		foreach ($license as $value) {
@@ -270,6 +306,6 @@ class Credits
 	 */
 	public static function getCredits()
 	{
-		return ['static' => static::$libraries, 'vendor' => self::getVendorLibraries(), 'public' => self::getPublicLibraries()];
+		return ['static' => static::$libraries, 'vendor' => self::getVendorLibraries(), 'public' => self::getPublicLibraries(), 'vue' => self::getVueLibs()];
 	}
 }

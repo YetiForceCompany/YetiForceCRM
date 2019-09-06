@@ -17,7 +17,7 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$currentUserId = \App\User::getCurrentUserId();
 		$viewer = $this->getViewer($request);
@@ -57,15 +57,14 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$rawData = $data = $years = [];
 		$date = date('Y-m-01', strtotime('-23 month', strtotime(date('Y-m-d'))));
-		$displayDate = \App\Fields\Date::formatToDisplay($date);
 		$queryGenerator = new \App\QueryGenerator($moduleName);
 		$y = new \yii\db\Expression('extract(year FROM saledate)');
 		$m = new \yii\db\Expression('extract(month FROM saledate)');
 		$s = new \yii\db\Expression('sum(sum_gross)');
 		$fieldList = ['y' => $y, 'm' => $m, 's' => $s];
 		$queryGenerator->setCustomColumn($fieldList);
-		$queryGenerator->addCondition('saledate', $displayDate, 'a');
-		if ($owner !== 'all') {
+		$queryGenerator->addCondition('saledate', $date, 'a');
+		if ('all' !== $owner) {
 			$queryGenerator->addCondition('assigned_user_id', $owner, 'e');
 		}
 		$queryGenerator->setCustomGroup([new \yii\db\Expression('y'), new \yii\db\Expression('m')]);
@@ -82,10 +81,10 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 		];
 		$this->conditions = ['condition' => ['>', 'saledate', $date]];
 		$yearsData = [];
-		$chartData['show_chart'] = (bool) count($rawData);
+		$chartData['show_chart'] = (bool) \count($rawData);
 		$shortMonth = ['LBL_Jan', 'LBL_Feb', 'LBL_Mar', 'LBL_Apr', 'LBL_May', 'LBL_Jun',
 			'LBL_Jul', 'LBL_Aug', 'LBL_Sep', 'LBL_Oct', 'LBL_Nov', 'LBL_Dec'];
-		for ($i = 0; $i < 12; $i++) {
+		for ($i = 0; $i < 12; ++$i) {
 			$chartData['labels'][] = App\Language::translate($shortMonth[$i]);
 		}
 		foreach ($rawData as $y => $raw) {
@@ -96,7 +95,7 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 					'label' => \App\Language::translate('LBL_YEAR', $moduleName) . ' ' . $y,
 					'backgroundColor' => [],
 				];
-				for ($m = 0; $m < 12; $m++) {
+				for ($m = 0; $m < 12; ++$m) {
 					$yearsData[$y]['data'][$m] = ['x' => $m, 'y' => 0];
 				}
 			}

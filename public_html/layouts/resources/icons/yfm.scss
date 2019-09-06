@@ -1,0 +1,645 @@
+@import "variables";
+
+@font-face {
+  font-family: '#{$icomoon-font-family}';
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?o297gb');
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?o297gb#iefix') format('embedded-opentype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?o297gb') format('truetype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?o297gb') format('woff'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?o297gb##{$icomoon-font-family}') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="yfm-"], [class*=" yfm-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: '#{$icomoon-font-family}' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  content: $yfm-DefaultIcon; 
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.yfm-DefaultIcon {
+  &:before {
+    content: $yfm-DefaultIcon; 
+  }
+}
+.yfm-Announcements {
+  &:before {
+    content: $yfm-Announcements; 
+  }
+}
+.yfm-ModTracker {
+  &:before {
+    content: $yfm-ModTracker; 
+  }
+}
+.yfm-Users {
+  &:before {
+    content: $yfm-Users; 
+  }
+}
+.yfm-AuditRegister {
+  &:before {
+    content: $yfm-AuditRegister; 
+  }
+}
+.yfm-ActivityRegister {
+  &:before {
+    content: $yfm-ActivityRegister; 
+  }
+}
+.yfm-Import {
+  &:before {
+    content: $yfm-Import; 
+  }
+}
+.yfm-PermissionInspector {
+  &:before {
+    content: $yfm-PermissionInspector; 
+  }
+}
+.yfm-Password {
+  &:before {
+    content: $yfm-Password; 
+  }
+}
+.yfm-Dashboard {
+  &:before {
+    content: $yfm-Dashboard; 
+  }
+}
+.yfm-MultiCompany {
+  &:before {
+    content: $yfm-MultiCompany; 
+  }
+}
+.yfm-ApiAddress {
+  &:before {
+    content: $yfm-ApiAddress; 
+  }
+}
+.yfm-LocationRegister {
+  &:before {
+    content: $yfm-LocationRegister; 
+  }
+}
+.yfm-DataSetRegister {
+  &:before {
+    content: $yfm-DataSetRegister; 
+  }
+}
+.yfm-IncidentRegister {
+  &:before {
+    content: $yfm-IncidentRegister; 
+  }
+}
+.yfm-OpenStreetMap {
+  &:before {
+    content: $yfm-OpenStreetMap; 
+  }
+}
+.yfm-Chat {
+  &:before {
+    content: $yfm-Chat; 
+  }
+}
+.yfm-OSSMailScanner {
+  &:before {
+    content: $yfm-OSSMailScanner; 
+  }
+}
+.yfm-SCalculations {
+  &:before {
+    content: $yfm-SCalculations; 
+  }
+}
+.yfm-ProjectMilestones {
+  &:before {
+    content: $yfm-ProjectMilestones; 
+  }
+}
+.yfm-NewOrders {
+  &:before {
+    content: $yfm-NewOrders; 
+  }
+}
+.yfm-TeamWork {
+  &:before {
+    content: $yfm-TeamWork; 
+  }
+}
+.yfm-Bookkeeping {
+  &:before {
+    content: $yfm-Bookkeeping; 
+  }
+}
+.yfm-OSSEmployees {
+  &:before {
+    content: $yfm-OSSEmployees; 
+  }
+}
+.yfm-Faktury {
+  &:before {
+    content: $yfm-Faktury; 
+  }
+}
+.yfm-CInternalTickets {
+  &:before {
+    content: $yfm-CInternalTickets; 
+  }
+}
+.yfm-CMileageLogbook {
+  &:before {
+    content: $yfm-CMileageLogbook; 
+  }
+}
+.yfm-FCorectingInvoice {
+  &:before {
+    content: $yfm-FCorectingInvoice; 
+  }
+}
+.yfm-FInvoiceCost {
+  &:before {
+    content: $yfm-FInvoiceCost; 
+  }
+}
+.yfm-CFixedAssets {
+  &:before {
+    content: $yfm-CFixedAssets; 
+  }
+}
+.yfm-Announcement {
+  &:before {
+    content: $yfm-Announcement; 
+  }
+}
+.yfm-SVendorEnquiries {
+  &:before {
+    content: $yfm-SVendorEnquiries; 
+  }
+}
+.yfm-ISTDN {
+  &:before {
+    content: $yfm-ISTDN; 
+  }
+}
+.yfm-IGRNC {
+  &:before {
+    content: $yfm-IGRNC; 
+  }
+}
+.yfm-IGDNC {
+  &:before {
+    content: $yfm-IGDNC; 
+  }
+}
+.yfm-ISTRN {
+  &:before {
+    content: $yfm-ISTRN; 
+  }
+}
+.yfm-ISTN {
+  &:before {
+    content: $yfm-ISTN; 
+  }
+}
+.yfm-Notification {
+  &:before {
+    content: $yfm-Notification; 
+  }
+}
+.yfm-MeetingCards_old {
+  &:before {
+    content: $yfm-MeetingCards_old; 
+  }
+}
+.yfm-IPreOrder {
+  &:before {
+    content: $yfm-IPreOrder; 
+  }
+}
+.yfm-IStorages {
+  &:before {
+    content: $yfm-IStorages; 
+  }
+}
+.yfm-IGDN {
+  &:before {
+    content: $yfm-IGDN; 
+  }
+}
+.yfm-IGIN {
+  &:before {
+    content: $yfm-IGIN; 
+  }
+}
+.yfm-IGRN {
+  &:before {
+    content: $yfm-IGRN; 
+  }
+}
+.yfm-IIDN {
+  &:before {
+    content: $yfm-IIDN; 
+  }
+}
+.yfm-KnowledgeBase {
+  &:before {
+    content: $yfm-KnowledgeBase; 
+  }
+}
+.yfm-ShoppingCart {
+  &:before {
+    content: $yfm-ShoppingCart; 
+  }
+}
+.yfm-Target {
+  &:before {
+    content: $yfm-Target; 
+  }
+}
+.yfm-Plane {
+  &:before {
+    content: $yfm-Plane; 
+  }
+}
+.yfm-WithoutOwnersAccounts {
+  &:before {
+    content: $yfm-WithoutOwnersAccounts; 
+  }
+}
+.yfm-VendorsAccounts {
+  &:before {
+    content: $yfm-VendorsAccounts; 
+  }
+}
+.yfm-CompanyAccounts {
+  &:before {
+    content: $yfm-CompanyAccounts; 
+  }
+}
+.yfm-ShutdownAccounts {
+  &:before {
+    content: $yfm-ShutdownAccounts; 
+  }
+}
+.yfm-MyAccounts {
+  &:before {
+    content: $yfm-MyAccounts; 
+  }
+}
+.yfm-UnassignedAccounts {
+  &:before {
+    content: $yfm-UnassignedAccounts; 
+  }
+}
+.yfm-AllAccounts {
+  &:before {
+    content: $yfm-AllAccounts; 
+  }
+}
+.yfm-RecycleBin {
+  &:before {
+    content: $yfm-RecycleBin; 
+  }
+}
+.yfm-FInvoice {
+  &:before {
+    content: $yfm-FInvoice; 
+  }
+}
+.yfm-Faktury_old {
+  &:before {
+    content: $yfm-Faktury_old; 
+  }
+}
+.yfm-FInvoiceProforma {
+  &:before {
+    content: $yfm-FInvoiceProforma; 
+  }
+}
+.yfm-ModComments {
+  &:before {
+    content: $yfm-ModComments; 
+  }
+}
+.yfm-FBookkeeping {
+  &:before {
+    content: $yfm-FBookkeeping; 
+  }
+}
+.yfm-Events {
+  &:before {
+    content: $yfm-Events; 
+  }
+}
+.yfm-Activity {
+  &:before {
+    content: $yfm-Activity; 
+  }
+}
+.yfm-Marketing {
+  &:before {
+    content: $yfm-Marketing; 
+  }
+}
+.yfm-SRecurringOrders {
+  &:before {
+    content: $yfm-SRecurringOrders; 
+  }
+}
+.yfm-Competition {
+  &:before {
+    content: $yfm-Competition; 
+  }
+}
+.yfm-Accounts {
+  &:before {
+    content: $yfm-Accounts; 
+  }
+}
+.yfm-CompaniesAndContact {
+  &:before {
+    content: $yfm-CompaniesAndContact; 
+  }
+}
+.yfm-HolidaysEntitlement {
+  &:before {
+    content: $yfm-HolidaysEntitlement; 
+  }
+}
+.yfm-Assets {
+  &:before {
+    content: $yfm-Assets; 
+  }
+}
+.yfm-SCalculations_old {
+  &:before {
+    content: $yfm-SCalculations_old; 
+  }
+}
+.yfm-Calendar {
+  &:before {
+    content: $yfm-Calendar; 
+  }
+}
+.yfm-CallHistory {
+  &:before {
+    content: $yfm-CallHistory; 
+  }
+}
+.yfm-Campaigns {
+  &:before {
+    content: $yfm-Campaigns; 
+  }
+}
+.yfm-Contacts {
+  &:before {
+    content: $yfm-Contacts; 
+  }
+}
+.yfm-OSSMailView {
+  &:before {
+    content: $yfm-OSSMailView; 
+  }
+}
+.yfm-Database {
+  &:before {
+    content: $yfm-Database; 
+  }
+}
+.yfm-Documents {
+  &:before {
+    content: $yfm-Documents; 
+  }
+}
+.yfm-OSSEmployees_old {
+  &:before {
+    content: $yfm-OSSEmployees_old; 
+  }
+}
+.yfm-Faq {
+  &:before {
+    content: $yfm-Faq; 
+  }
+}
+.yfm-Home {
+  &:before {
+    content: $yfm-Home; 
+  }
+}
+.yfm-HumanResources {
+  &:before {
+    content: $yfm-HumanResources; 
+  }
+}
+.yfm-Ideas {
+  &:before {
+    content: $yfm-Ideas; 
+  }
+}
+.yfm-Leads {
+  &:before {
+    content: $yfm-Leads; 
+  }
+}
+.yfm-LettersIn {
+  &:before {
+    content: $yfm-LettersIn; 
+  }
+}
+.yfm-LettersOut {
+  &:before {
+    content: $yfm-LettersOut; 
+  }
+}
+.yfm-PBXManager {
+  &:before {
+    content: $yfm-PBXManager; 
+  }
+}
+.yfm-OSSMailTemplates {
+  &:before {
+    content: $yfm-OSSMailTemplates; 
+  }
+}
+.yfm-EmailTemplates {
+  &:before {
+    content: $yfm-EmailTemplates; 
+  }
+}
+.yfm-OSSMail {
+  &:before {
+    content: $yfm-OSSMail; 
+  }
+}
+.yfm-SSalesProcesses {
+  &:before {
+    content: $yfm-SSalesProcesses; 
+  }
+}
+.yfm-Portal {
+  &:before {
+    content: $yfm-Portal; 
+  }
+}
+.yfm-OutsourcedProducts {
+  &:before {
+    content: $yfm-OutsourcedProducts; 
+  }
+}
+.yfm-OSSOutsourcedServices {
+  &:before {
+    content: $yfm-OSSOutsourcedServices; 
+  }
+}
+.yfm-Partners {
+  &:before {
+    content: $yfm-Partners; 
+  }
+}
+.yfm-OSSPasswords {
+  &:before {
+    content: $yfm-OSSPasswords; 
+  }
+}
+.yfm-PaymentsIn {
+  &:before {
+    content: $yfm-PaymentsIn; 
+  }
+}
+.yfm-PaymentsOut {
+  &:before {
+    content: $yfm-PaymentsOut; 
+  }
+}
+.yfm-PriceBooks {
+  &:before {
+    content: $yfm-PriceBooks; 
+  }
+}
+.yfm-Products {
+  &:before {
+    content: $yfm-Products; 
+  }
+}
+.yfm-ProjectMilestone {
+  &:before {
+    content: $yfm-ProjectMilestone; 
+  }
+}
+.yfm-Project {
+  &:before {
+    content: $yfm-Project; 
+  }
+}
+.yfm-ProjectTask {
+  &:before {
+    content: $yfm-ProjectTask; 
+  }
+}
+.yfm-SQuotes {
+  &:before {
+    content: $yfm-SQuotes; 
+  }
+}
+.yfm-Realization {
+  &:before {
+    content: $yfm-Realization; 
+  }
+}
+.yfm-Reports {
+  &:before {
+    content: $yfm-Reports; 
+  }
+}
+.yfm-Reservations {
+  &:before {
+    content: $yfm-Reservations; 
+  }
+}
+.yfm-Rss {
+  &:before {
+    content: $yfm-Rss; 
+  }
+}
+.yfm-Sales {
+  &:before {
+    content: $yfm-Sales; 
+  }
+}
+.yfm-SQuoteEnquiries {
+  &:before {
+    content: $yfm-SQuoteEnquiries; 
+  }
+}
+.yfm-SSingleOrders {
+  &:before {
+    content: $yfm-SSingleOrders; 
+  }
+}
+.yfm-SRequirementsCards {
+  &:before {
+    content: $yfm-SRequirementsCards; 
+  }
+}
+.yfm-Secretary {
+  &:before {
+    content: $yfm-Secretary; 
+  }
+}
+.yfm-ServiceContracts {
+  &:before {
+    content: $yfm-ServiceContracts; 
+  }
+}
+.yfm-Services {
+  &:before {
+    content: $yfm-Services; 
+  }
+}
+.yfm-OSSSoldServices {
+  &:before {
+    content: $yfm-OSSSoldServices; 
+  }
+}
+.yfm-Support {
+  &:before {
+    content: $yfm-Support; 
+  }
+}
+.yfm-SMSNotifier {
+  &:before {
+    content: $yfm-SMSNotifier; 
+  }
+}
+.yfm-HelpDesk {
+  &:before {
+    content: $yfm-HelpDesk; 
+  }
+}
+.yfm-OSSTimeControl {
+  &:before {
+    content: $yfm-OSSTimeControl; 
+  }
+}
+.yfm-Vendors {
+  &:before {
+    content: $yfm-Vendors; 
+  }
+}
+.yfm-VirtualDesk {
+  &:before {
+    content: $yfm-VirtualDesk; 
+  }
+}
+

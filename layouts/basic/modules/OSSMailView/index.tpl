@@ -6,7 +6,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
-		<form class="js-form" data-js="validationEngine">
+		<form class="js-form mt-2" data-js="validationEngine">
 			<table>
 				<tr>
 					<td>

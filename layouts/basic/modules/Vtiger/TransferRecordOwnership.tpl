@@ -13,7 +13,7 @@
 	<div class="modal fade" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<div class="modal-header contentsBackground">
+				<div class="modal-header">
 					<h5 class="modal-title"><i
 								class="fa fa-user"></i> {\App\Language::translate('LBL_TRANSFER_OWNERSHIP', $MODULE)}
 					</h5>
@@ -30,10 +30,10 @@
 								<select class="select2 form-control" data-validation-engine="validate[ required]"
 										title="{\App\Language::translate('LBL_TRANSFER_OWNERSHIP', $MODULE)}"
 										name="transferOwnerId" id="transferOwnerId"
-										{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
-									data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName=assigned_user_id" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
+										{if App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
+									data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName=assigned_user_id" data-minimum-input="{App\Config::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
 										{/if}>
-									{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
+									{if App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
 										<option value="{$USER_MODEL->get('id')}"
 												data-picklistvalue="{$USER_MODEL->getName()}">
 											{$USER_MODEL->getName()}

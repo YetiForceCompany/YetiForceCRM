@@ -57,7 +57,7 @@ class OSSPasswords extends CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['osspassword_no', 'passwordname', 'username', 'password', 'link_adres'];
+	public $relationFields = [];
 	// Make the field link to detail view
 	public $list_link_field = 'passwordname';
 	// For Popup listview and UI type support
@@ -69,13 +69,7 @@ class OSSPasswords extends CRMEntity
 		'Username' => ['osspasswords' => 'username'],
 		'WWW page' => ['osspasswords' => 'link_adres'],
 	];
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'OSSPassword No' => 'osspassword_no',
-		'Key name' => 'passwordname',
-		'Username' => 'username',
-		'WWW page' => 'link_adres',
-	];
+	public $search_fields_name = [];
 	// For Popup window record selection
 	public $popup_fields = ['username'];
 	// For Alphabetical search
@@ -87,24 +81,9 @@ class OSSPasswords extends CRMEntity
 	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
-	public $unit_price;
 
 	/**
-	 * Transform the value while exporting.
-	 */
-	public function transformExportValue($key, $value)
-	{
-		if ($key == 'owner') {
-			return \App\Fields\Owner::getLabel($value);
-		}
-		return parent::transformExportValue($key, $value);
-	}
-
-	/**
-	 * Invoked when special actions are performed on the module.
-	 *
-	 * @param string Module name
-	 * @param string Event Type
+	 * {@inheritdoc}
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
@@ -112,13 +91,13 @@ class OSSPasswords extends CRMEntity
 		$registerLink = false;
 		$addModTracker = false;
 
-		if ($eventType === 'module.disabled') {
+		if ('module.disabled' === $eventType) {
 			$registerLink = false;
 			App\EventHandler::setInActive('OSSPasswords_Secure_Handler');
-		} elseif ($eventType === 'module.enabled') {
+		} elseif ('module.enabled' === $eventType) {
 			$registerLink = true;
 			App\EventHandler::setActive('OSSPasswords_Secure_Handler');
-		} elseif ($eventType === 'module.preuninstall') {
+		} elseif ('module.preuninstall' === $eventType) {
 			\App\Log::trace('Before starting uninstall script...');
 			require_once 'modules/Settings/' . $moduleName . '/views/uninstall.php';
 			\App\Log::trace('After uninstall script.');

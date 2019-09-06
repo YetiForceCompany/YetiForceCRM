@@ -42,19 +42,18 @@
 		{\App\Debuger::getDebugBar()->getJavascriptRenderer(\App\Debuger::getJavascriptPath())->renderHead()}
 	{/if}
 </head>
-<body class="{if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}user-info--active{/if}{if AppConfig::performance('LIMITED_INFO_IN_FOOTER')} limited-footer--active{/if}" data-language="{$LANGUAGE}" data-skinpath="{$SKIN_PATH}" data-layoutpath="{$LAYOUT_PATH}" {$USER_MODEL->getBodyLocks()}>
+<body class="{if App\Config::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}user-info--active{/if}{if \App\Config::component('Branding', 'isCustomerBrandingActive')} limited-footer--active{/if}" data-language="{$LANGUAGE}" data-skinpath="{$SKIN_PATH}" data-layoutpath="{$LAYOUT_PATH}" {$USER_MODEL->getBodyLocks()}>
 <div id="configuration">
 	<input type="hidden" id="currencyGroupingPattern" value="{$USER_MODEL->get('currency_grouping_pattern')}"/>
 	<input type="hidden" id="truncateTrailingZeros" value="{$USER_MODEL->get('truncate_trailing_zeros')}"/>
-	<input type="hidden" id="backgroundClosingModal" value="{\AppConfig::main('backgroundClosingModal')}"/>
-	<input type="hidden" id="gsAutocomplete" value="{AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE')}"/>
-	<input type="hidden" id="gsMinLength" value="{AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH')}"/>
-	<input type="hidden" id="gsAmountResponse" value="{AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT')}"/>
+	<input type="hidden" id="gsAutocomplete" value="{App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE')}"/>
+	<input type="hidden" id="gsMinLength" value="{App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH')}"/>
+	<input type="hidden" id="gsAmountResponse" value="{App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT')}"/>
 	<input type="hidden" id="module" value="{$MODULE}"/>
 	<input type="hidden" id="parent" value="{$PARENT_MODULE}"/>
 	<input type="hidden" id="view" value="{$VIEW}"/>
-	<input type="hidden" id="sounds" value="{\App\Purifier::encodeHtml(\App\Json::encode(AppConfig::sounds()))}"/>
-	<input type="hidden" id="intervalForNotificationNumberCheck" value="{AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK')}"/>
+	<input type="hidden" id="sounds" value="{\App\Purifier::encodeHtml(\App\Json::encode(App\Config::sounds()))}"/>
+	<input type="hidden" id="intervalForNotificationNumberCheck" value="{App\Config::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK')}"/>
 </div>
 <div id="page">
 	{if $SHOW_BODY_HEADER}

@@ -89,7 +89,7 @@ class Users_Login_Action extends \App\Controller\Action
 	{
 		if (isset($_SESSION['return_params'])) {
 			header('location: index.php?' . $_SESSION['return_params']);
-		} elseif (AppConfig::performance('SHOW_ADMIN_PANEL') && $this->userModel->isAdmin()) {
+		} elseif (App\Config::performance('SHOW_ADMIN_PANEL') && $this->userModel->isAdmin()) {
 			header('location: index.php?module=Vtiger&parent=Settings&view=Index');
 		} else {
 			header('location: index.php');
@@ -139,7 +139,7 @@ class Users_Login_Action extends \App\Controller\Action
 	 */
 	public function afterLogin(\App\Request $request)
 	{
-		if (AppConfig::main('session_regenerate_id')) {
+		if (App\Config::main('session_regenerate_id')) {
 			\App\Session::regenerateId(true); // to overcome session id reuse.
 		}
 		if (Users_Totp_Authmethod::isActive($this->userRecordModel->getId())) {
@@ -156,11 +156,11 @@ class Users_Login_Action extends \App\Controller\Action
 		} else {
 			\App\Session::set('authenticated_user_id', $this->userRecordModel->getId());
 		}
-		\App\Session::set('app_unique_key', AppConfig::main('application_unique_key'));
+		\App\Session::set('app_unique_key', App\Config::main('application_unique_key'));
 		\App\Session::set('user_name', $this->userRecordModel->get('user_name'));
 		\App\Session::set('full_user_name', $this->userModel->getName());
 		\App\Session::set('fingerprint', $request->get('fingerprint'));
-		if ($request->has('loginLanguage') && AppConfig::main('langInLoginView')) {
+		if ($request->has('loginLanguage') && App\Config::main('langInLoginView')) {
 			\App\Session::set('language', $request->getByType('loginLanguage'));
 		}
 		if ($request->has('layout')) {

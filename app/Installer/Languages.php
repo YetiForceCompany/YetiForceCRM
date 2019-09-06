@@ -36,7 +36,7 @@ class Languages
 		$languages = [];
 		try {
 			$response = (new \GuzzleHttp\Client())->request('GET', "https://github.com/YetiForceCompany/YetiForceCRMLanguages/raw/master/{$endpoint}/lang.json", \App\RequestHttp::getOptions());
-			if ($response->getStatusCode() === 200) {
+			if (200 === $response->getStatusCode()) {
 				$body = \App\Json::decode($response->getBody());
 				if ($body) {
 					foreach ($body as $prefix => $row) {
@@ -92,7 +92,7 @@ class Languages
 	/**
 	 * Get last error message.
 	 *
-	 * @return null|string
+	 * @return string|null
 	 */
 	public static function getLastErrorMessage(): ?string
 	{

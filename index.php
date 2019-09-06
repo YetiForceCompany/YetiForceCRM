@@ -8,10 +8,10 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-define('ROOT_DIRECTORY', __DIR__ !== DIRECTORY_SEPARATOR ? __DIR__ : '');
+\define('ROOT_DIRECTORY', __DIR__ !== DIRECTORY_SEPARATOR ? __DIR__ : '');
 
-require __DIR__ . '/include/RequirementsValidation.php';
 require __DIR__ . '/include/main/WebUI.php';
+require __DIR__ . '/include/RequirementsValidation.php';
 
 if (!\App\Config::main('application_unique_key', false)) {
 	header('location: install/Install.php');

@@ -35,8 +35,8 @@ class Dependencies extends \App\SystemWarnings\Template
 		} catch (\Throwable $e) {
 			$this->status = 1;
 		}
-		if ($this->status === 0) {
-			$this->link = 'index.php?module=Vtiger&parent=Settings&view=Index&mode=security';
+		if (0 === $this->status) {
+			$this->link = 'index.php?module=YetiForce&parent=Settings&view=Vulnerabilities';
 			$this->linkTitle = \App\Language::translate('Security', 'Settings:SystemWarnings');
 			$this->description = \App\Language::translate('LBL_VULNERABILITIES_IN_DEPENDENCIES_DESC', 'Settings:SystemWarnings') . '<br />';
 			foreach ($vulnerabilities as $name => $vulnerability) {

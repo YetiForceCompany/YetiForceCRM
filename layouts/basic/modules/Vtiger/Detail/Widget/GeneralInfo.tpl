@@ -17,14 +17,16 @@
 							<tr class="c-table__row--hover">
 								<td class="{$WIDTHTYPE}">
 									<label class="font-weight-bold">{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE_NAME)}
-										{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
-										{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
-										{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-											<a href="#" class="js-help-info pl-1" title="" data-placement="top"
-											   data-content="{\App\Language::translate($HELPINFO_LABEL, 'HelpInfo')}"
-											   data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'><span
-														class="fas fa-info-circle"></span></a>
-										{/if}
+											{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL,$VIEW)}
+										{if $HELPINFO_LABEL}
+												<a href="#" class="js-help-info float-right u-cursor-pointer"
+													title=""
+													data-placement="top"
+													data-content="{$HELPINFO_LABEL}"
+													data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}">
+													<span class="fas fa-info-circle"></span>
+												</a>
+											{/if}
 									</label>
 								</td>
 								<td class="fieldValue {$WIDTHTYPE}">
@@ -70,8 +72,8 @@
 			</table>
 		</div>
 		<hr>
-		<div class="d-flex flex-wrap justify-content-between">
-			<div class="toggleViewByMode">
+		<div class="d-flex flex-wrap justify-content-xl-between justify-content-md-center justify-content-sm-between justify-content-center mx-2">
+			<div class="d-flex align-items-center mx-xl-0 mx-lg-4 mx-md-0 mx-sm-0 mx-4">
 				{if !$IS_READ_ONLY}
 					{assign var="CURRENT_VIEW" value="full"}
 					{assign var="CURRENT_MODE_LABEL" value="{\App\Language::translate('LBL_COMPLETE_DETAILS',{$MODULE_NAME})}"}
@@ -83,7 +85,7 @@
 						   data-currentviewlabel="{$CURRENT_MODE_LABEL}" data-full-url="{$FULL_MODE_URL}"/>
 				{/if}
 			</div>
-			<div>
+			<div class="mx-xl-0 mx-lg-4">
 				<p>
 					<small>
 						{\App\Language::translate('LBL_CREATED_ON',$MODULE_NAME)} {\App\Fields\DateTime::formatToDay($RECORD->get('createdtime'))}

@@ -91,12 +91,12 @@ class TextParser extends \Tests\Base
 	{
 		$this->assertSame(1, \App\TextParser::isVaribleToParse('$(TestGroup : TestVar)$'), 'Clean instance: string should be parseable');
 		$this->assertSame(0, \App\TextParser::isVaribleToParse('$X(TestGroup : TestVar)$'), 'Clean instance: string should be not parseable');
-		$this->assertSame((\AppConfig::main('listview_max_textlength') + 3), strlen(\App\TextParser::textTruncate(\Tests\Base\C_RecordActions::createLoremIpsumText(), false, true)), 'Clean instance: string should be truncated in expexted format (default length)');
-		$this->assertSame(13, strlen(\App\TextParser::textTruncate(\Tests\Base\C_RecordActions::createLoremIpsumText(), 10, true)), 'Clean instance: string should be truncated in expexted format (text length: 10)');
+		$this->assertSame((\App\Config::main('listview_max_textlength') + 3), \strlen(\App\TextParser::textTruncate(\Tests\Base\C_RecordActions::createLoremIpsumText(), false, true)), 'Clean instance: string should be truncated in expexted format (default length)');
+		$this->assertSame(13, \strlen(\App\TextParser::textTruncate(\Tests\Base\C_RecordActions::createLoremIpsumText(), 10, true)), 'Clean instance: string should be truncated in expexted format (text length: 10)');
 
-		$this->assertSame((\AppConfig::main('listview_max_textlength') + 993), strlen(\App\TextParser::htmlTruncate(\Tests\Base\C_RecordActions::createLoremIpsumHtml(), false, true)), 'Clean instance: html should be truncated in expected format (default length)');
+		$this->assertSame((\App\Config::main('listview_max_textlength') + 993), \strlen(\App\TextParser::htmlTruncate(\Tests\Base\C_RecordActions::createLoremIpsumHtml(), false, true)), 'Clean instance: html should be truncated in expected format (default length)');
 
-		$this->assertSame(1008, strlen(\App\TextParser::htmlTruncate(\Tests\Base\C_RecordActions::createLoremIpsumHtml(), 10, true)), 'Clean instance: html should be truncated in expected format (text length: 10)');
+		$this->assertSame(1008, \strlen(\App\TextParser::htmlTruncate(\Tests\Base\C_RecordActions::createLoremIpsumHtml(), 10, true)), 'Clean instance: html should be truncated in expected format (text length: 10)');
 	}
 
 	/**
@@ -119,7 +119,7 @@ class TextParser extends \Tests\Base
 			->setContent('+ $(general : CurrentDate)$ +')
 			->parse()
 			->getContent(), 'Clean instance: $(general : CurrentDate)$ should return current date');
-		$this->assertSame('+ ' . \Vtiger_Util_Helper::convertTimeIntoUsersDisplayFormat(date('h:i:s')) . ' +', static::$parserClean
+		$this->assertSame('+ ' . \Vtiger_Util_Helper::convertTimeIntoUsersDisplayFormat(date('H:i:s')) . ' +', static::$parserClean
 			->setContent('+ $(general : CurrentTime)$ +')
 			->parse()
 			->getContent(), 'Clean instance: $(general : CurrentTime)$ should return current time');
@@ -135,18 +135,18 @@ class TextParser extends \Tests\Base
 		);
 		$currUser = \App\User::getCurrentUserId();
 		\App\User::setCurrentUserId(0);
-		$this->assertSame('+ ' . \AppConfig::main('default_timezone') . ' +', static::$parserClean
+		$this->assertSame('+ ' . \App\Config::main('default_timezone') . ' +', static::$parserClean
 			->setContent('+ $(general : UserTimeZone)$ +')
 			->parse()
 			->getContent(), 'Clean instance: $(general : UserTimeZone)$ when current user not set/exist should return default timezone');
 		\App\User::setCurrentUserId($currUser);
 
-		$this->assertSame('+ ' . \AppConfig::main('site_URL') . ' +', static::$parserClean
+		$this->assertSame('+ ' . \App\Config::main('site_URL') . ' +', static::$parserClean
 			->setContent('+ $(general : SiteUrl)$ +')
 			->parse()
 			->getContent(), 'Clean instance: $(general : SiteUrl)$ should return site url');
 
-		$this->assertSame('+ ' . \AppConfig::main('PORTAL_URL') . ' +', static::$parserClean
+		$this->assertSame('+ ' . \App\Config::main('PORTAL_URL') . ' +', static::$parserClean
 			->setContent('+ $(general : PortalUrl)$ +')
 			->parse()
 			->getContent(), 'Clean instance: $(general : PortalUrl)$ should return portal url');
@@ -313,8 +313,8 @@ class TextParser extends \Tests\Base
 			->parse()
 			->getContent();
 		$this->assertNotEmpty($result, 'recordsList should return not empty string');
-		$this->assertNotFalse(strpos($result, 'recordsList'), 'Record list should contain html class recordsList');
-		$this->assertSame(4, \substr_count($result, '<th>'), 'Columns count should be equal to provided list');
+		$this->assertNotFalse(strpos($result, 'records-list'), 'Record list should contain html class recordsList');
+		$this->assertSame(4, \substr_count($result, '<th '), 'Columns count should be equal to provided list');
 		$text = '$(recordsList : Leads|lead_no,lastname,phone,description|[[["company","a","Test"]]]|NotExist|5)$';
 		$result = \App\TextParser::getInstance()->withoutTranslations(true)
 			->setContent($text)
@@ -397,12 +397,12 @@ class TextParser extends \Tests\Base
 			->getContent(), 'Expected empty string');
 
 		$text = '+ $(record : CrmDetailViewURL)$ +';
-		$this->assertSame('+ ' . \AppConfig::main('site_URL') . 'index.php?module=Leads&view=Detail&record=' . \Tests\Base\C_RecordActions::createLeadRecord()->getId() . ' +', static::$parserRecord->setContent($text)
+		$this->assertSame('+ ' . \App\Config::main('site_URL') . 'index.php?module=Leads&view=Detail&record=' . \Tests\Base\C_RecordActions::createLeadRecord()->getId() . ' +', static::$parserRecord->setContent($text)
 			->parse()
 			->getContent(), 'Expected url is different');
 
 		$text = '+ $(record : PortalDetailViewURL)$ +';
-		$this->assertSame('+ ' . \AppConfig::main('PORTAL_URL') . '/index.php?module=Leads&action=index&id=' . \Tests\Base\C_RecordActions::createLeadRecord()->getId() . ' +', static::$parserRecord->setContent($text)
+		$this->assertSame('+ ' . \App\Config::main('PORTAL_URL') . '/index.php?module=Leads&action=index&id=' . \Tests\Base\C_RecordActions::createLeadRecord()->getId() . ' +', static::$parserRecord->setContent($text)
 			->parse()
 			->getContent(), 'Expected url is different');
 

@@ -1,6 +1,6 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-	{if AppConfig::security('CHANGE_LOGIN_PASSWORD')}
+	{if App\Config::security('CHANGE_LOGIN_PASSWORD')}
 		{assign var=ICON value=Vtiger_Menu_Model::getMenuIcon($MENU, Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU_MODULE))}
 		<li class="tpl-menu-Profile c-menu__item js-menu__item nav-item menuLabel {if !$HASCHILDS}hasParentMenu{/if}" data-id="{$MENU['id']}"
 			data-js="mouseenter mouseleave">

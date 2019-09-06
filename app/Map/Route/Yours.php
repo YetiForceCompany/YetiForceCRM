@@ -8,7 +8,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  *
- * @link      https://wiki.openstreetmap.org/wiki/YOURS
+ * @see      https://wiki.openstreetmap.org/wiki/YOURS
  */
 
 namespace App\Map\Route;
@@ -51,12 +51,12 @@ class Yours extends Base
 		$coordinates = [];
 		$travel = $distance = 0;
 		$description = '';
-		$urlToRoute = \AppConfig::module('OpenStreetMap', 'ADDRESS_TO_ROUTE');
+		$urlToRoute = \App\Config::module('OpenStreetMap', 'ADDRESS_TO_ROUTE');
 		try {
 			foreach ($tracks as $track) {
 				$url = $urlToRoute . '?format=geojson&flat=' . $track['startLat'] . '&flon=' . $track['startLon'] . '&tlat=' . $track['endLat'] . '&tlon=' . $track['endLon'] . '&lang=' . \App\Language::getLanguage() . '&instructions=1';
 				$response = (new \GuzzleHttp\Client())->request('GET', $url, \App\RequestHttp::getOptions() + ['timeout' => 1]);
-				if ($response->getStatusCode() === 200) {
+				if (200 === $response->getStatusCode()) {
 					$json = \App\Json::decode($response->getBody());
 				} else {
 					\App\Log::warning('Error with connection - ' . __CLASS__);

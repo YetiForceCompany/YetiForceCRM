@@ -23,7 +23,7 @@ class VTJsonCondition
 	{
 		$expr = \App\Json::decode($condition);
 		$finalResult = true;
-		if (is_array($expr)) {
+		if (\is_array($expr)) {
 			$groupResults = [];
 			$expressionResults = [];
 			$i = 0;
@@ -33,25 +33,26 @@ class VTJsonCondition
 					$conditionGroup = 0;
 				}
 				preg_match('/(\w+) : \((\w+)\) (\w+)/', $cond['fieldname'], $matches);
-				if (count($matches) == 0) {
+				if (0 == \count($matches)) {
 					$expressionResults[$conditionGroup][$i]['result'] = $this->checkCondition($recordModel, $cond);
 				} else {
 					$referenceField = $matches[1];
 					$referenceModule = $matches[2];
 					$fieldname = $matches[3];
+					$result = false;
 
 					$referenceFieldId = $recordModel->get($referenceField);
 					if (!empty($referenceFieldId)) {
-						if ($referenceModule === 'Users') {
-							$referenceRecordModel = Vtiger_Record_Model::getInstanceById($referenceFieldId, $referenceModule);
-						} else {
-							$referenceRecordModel = Vtiger_Record_Model::getInstanceById($referenceFieldId);
-						}
 						$cond['fieldname'] = $fieldname;
-						$expressionResults[$conditionGroup][$i]['result'] = $this->checkCondition($referenceRecordModel, $cond, $recordModel);
-					} else {
-						$expressionResults[$conditionGroup][$i]['result'] = false;
+						if ('Users' !== $referenceModule) {
+							$referenceRecordModel = Vtiger_Record_Model::getInstanceById($referenceFieldId);
+							$result = $this->checkCondition($referenceRecordModel, $cond, $recordModel);
+						} elseif ('Users' === \App\Fields\Owner::getType($referenceFieldId) && \App\User::getUserModel($referenceFieldId)->isActive()) {
+							$referenceRecordModel = Vtiger_Record_Model::getInstanceById($referenceFieldId, $referenceModule);
+							$result = $this->checkCondition($referenceRecordModel, $cond, $recordModel);
+						}
 					}
+					$expressionResults[$conditionGroup][$i]['result'] = $result;
 				}
 				$expressionResults[$conditionGroup][$i + 1]['logicaloperator'] = (!empty($cond['joincondition'])) ? $cond['joincondition'] : 'and';
 				$groupResults[$conditionGroup]['logicaloperator'] = (!empty($cond['groupjoin'])) ? $cond['groupjoin'] : 'and';
@@ -60,6 +61,7 @@ class VTJsonCondition
 			foreach ($expressionResults as $groupId => &$groupExprResultSet) {
 				$groupResult = true;
 				foreach ($groupExprResultSet as &$exprResult) {
+					$result = null;
 					if (isset($exprResult['result'])) {
 						$result = $exprResult['result'];
 					}
@@ -111,24 +113,22 @@ class VTJsonCondition
 
 	public function startsWith($str, $subStr)
 	{
-		$sl = strlen($str);
-		$ssl = strlen($subStr);
+		$sl = \strlen($str);
+		$ssl = \strlen($subStr);
 		if ($sl >= $ssl) {
-			return substr_compare($str, $subStr, 0, $ssl) == 0;
-		} else {
-			return false;
+			return 0 == substr_compare($str, $subStr, 0, $ssl);
 		}
+		return false;
 	}
 
 	public function endsWith($str, $subStr)
 	{
-		$sl = strlen($str);
-		$ssl = strlen($subStr);
+		$sl = \strlen($str);
+		$ssl = \strlen($subStr);
 		if ($sl >= $ssl) {
-			return substr_compare($str, $subStr, $sl - $ssl, $ssl) == 0;
-		} else {
-			return false;
+			return 0 == substr_compare($str, $subStr, $sl - $ssl, $ssl);
 		}
+		return false;
 	}
 
 	/**
@@ -136,7 +136,7 @@ class VTJsonCondition
 	 *
 	 * @param Vtiger_Record_Model      $recordModel
 	 * @param array                    $cond
-	 * @param null|Vtiger_Record_Model $referredRecordModel
+	 * @param Vtiger_Record_Model|null $referredRecordModel
 	 *
 	 * @throws Exception
 	 *
@@ -146,11 +146,11 @@ class VTJsonCondition
 	{
 		$condition = $cond['operation'];
 		$fieldInstance = $recordModel->getModule()->getFieldByName($cond['fieldname']);
-		if (empty($condition) || $fieldInstance === false) {
+		if (empty($condition) || false === $fieldInstance) {
 			return false;
 		}
 		$dataType = $fieldInstance->getFieldDataType();
-		if ($dataType === 'datetime' || $dataType === 'date') {
+		if ('datetime' === $dataType || 'date' === $dataType) {
 			$fieldName = $cond['fieldname'];
 			$dateTimePair = ['date_start' => 'time_start', 'due_date' => 'time_end'];
 			if (!$recordModel->isEmpty($dateTimePair[$fieldName])) {
@@ -164,18 +164,18 @@ class VTJsonCondition
 		}
 		$value = trim(html_entity_decode($cond['value']));
 		$expressionType = $cond['valuetype'];
-		if ($expressionType === 'fieldname') {
-			if ($referredRecordModel !== null) {
+		if ('fieldname' === $expressionType) {
+			if (null !== $referredRecordModel) {
 				$value = $referredRecordModel->get($value);
 			} else {
 				$value = $recordModel->get($value);
 			}
-		} elseif ($expressionType === 'expression') {
+		} elseif ('expression' === $expressionType) {
 			require_once 'modules/com_vtiger_workflow/expression_engine/include.php';
 			$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($value)));
 			$expression = $parser->expression();
 			$exprEvaluater = new VTFieldExpressionEvaluater($expression);
-			if ($referredRecordModel !== null) {
+			if (null !== $referredRecordModel) {
 				$value = $exprEvaluater->evaluate($referredRecordModel);
 			} else {
 				$value = $exprEvaluater->evaluate($recordModel);
@@ -186,7 +186,7 @@ class VTJsonCondition
 					$fieldValue = $recordModel->get($fieldInstance->getName());
 					break;
 				case 'date':
-					if ($condition !== 'between' && strtotime($value)) {
+					if ('between' !== $condition && strtotime($value)) {
 						//strtotime condition is added for days before, days after where we give integer values, so strtotime will return 0 for such cases.
 						$value = \App\Fields\Date::formatToDb($value, true);
 					}
@@ -197,25 +197,46 @@ class VTJsonCondition
 				case 'multiReferenceValue':
 					$value = Vtiger_MultiReferenceValue_UIType::COMMA . $value . Vtiger_MultiReferenceValue_UIType::COMMA;
 					break;
+				case 'categoryMultipicklist':
+					if (\in_array($condition, ['contains', 'does not contain', 'is', 'is not'])) {
+						$value = array_filter(explode(',', $value));
+						$fieldValue = array_filter(explode(',', $fieldValue));
+						sort($value);
+						sort($fieldValue);
+						switch ($condition) {
+							case 'is':
+								return $value === $fieldValue;
+							case 'is not':
+								return $value !== $fieldValue;
+							case 'contains':
+								return empty(array_diff($value, $fieldValue));
+							case 'does not contain':
+								return !empty(array_diff($value, $fieldValue));
+							default:
+								break;
+						}
+					}
+					$value = ",{$value},";
+					break;
 				case 'sharedOwner':
-					if ($condition === 'is' || $condition === 'is not') {
+					if ('is' === $condition || 'is not' === $condition) {
 						$fieldValueTemp = $value;
 						$value = explode(',', $fieldValue);
 						$fieldValue = $fieldValueTemp;
-						$condition = ($condition == 'is') ? 'contains' : 'does not contain';
+						$condition = ('is' == $condition) ? 'contains' : 'does not contain';
 					}
 					break;
 				case 'owner':
-					if ($condition === 'is' || $condition === 'is not') {
+					if ('is' === $condition || 'is not' === $condition) {
 						//To avoid again checking whether it is user or not
-						if (strpos($value, ',') !== false) {
+						if (false !== strpos($value, ',')) {
 							$value = explode(',', $value);
 						} elseif ($value) {
 							$value = [$value];
 						} else {
 							$value = [];
 						}
-						$condition = ($condition == 'is') ? 'contains' : 'does not contain';
+						$condition = ('is' == $condition) ? 'contains' : 'does not contain';
 					}
 					break;
 				default:
@@ -237,42 +258,36 @@ class VTJsonCondition
 			case 'is':
 				if (preg_match('/([^:]+):boolean$/', $value, $match)) {
 					$value = $match[1];
-					if ($value == 'true') {
-						return $fieldValue === 'on' || $fieldValue === 1 || $fieldValue === '1';
-					} else {
-						return $fieldValue === 'off' || $fieldValue === 0 || $fieldValue === '0' || $fieldValue === '';
+					if ('true' == $value) {
+						return 'on' === $fieldValue || 1 === $fieldValue || '1' === $fieldValue;
 					}
-				} else {
-					return $fieldValue == $value;
+					return 'off' === $fieldValue || 0 === $fieldValue || '0' === $fieldValue || '' === $fieldValue;
 				}
-			// no break
+					return $fieldValue == $value;
 			case 'is not':
 				if (preg_match('/([^:]+):boolean$/', $value, $match)) {
 					$value = $match[1];
-					if ($value == 'true') {
-						return $fieldValue === 'off' || $fieldValue === 0 || $fieldValue === '0' || $fieldValue === '';
-					} else {
-						return $fieldValue === 'on' || $fieldValue === 1 || $fieldValue === '1';
+					if ('true' == $value) {
+						return 'off' === $fieldValue || 0 === $fieldValue || '0' === $fieldValue || '' === $fieldValue;
 					}
-				} else {
-					return $fieldValue != $value;
+					return 'on' === $fieldValue || 1 === $fieldValue || '1' === $fieldValue;
 				}
-			// no break
+					return $fieldValue != $value;
 			case 'contains':
-				if (is_array($value)) {
-					return in_array($fieldValue, $value);
+				if (\is_array($value)) {
+					return \in_array($fieldValue, $value);
 				}
 
-				return strpos($fieldValue, $value) !== false;
+				return false !== strpos($fieldValue, $value);
 			case 'does not contain':
 				if (empty($value)) {
 					unset($value);
 				}
-				if (is_array($value)) {
-					return !in_array($fieldValue, $value);
+				if (\is_array($value)) {
+					return !\in_array($fieldValue, $value);
 				}
 
-				return strpos($fieldValue, $value) === false;
+				return false === strpos($fieldValue, $value);
 			case 'starts with':
 				return $this->startsWith($fieldValue, $value);
 			case 'ends with':
@@ -281,12 +296,10 @@ class VTJsonCondition
 				return preg_match($value, $fieldValue);
 			case 'has changed':
 				$hasChanged = $recordModel->getPreviousValue($cond['fieldname']);
-				if ($hasChanged === false) {
+				if (false === $hasChanged) {
 					return false;
-				} else {
-					return $fieldValue != $hasChanged;
 				}
-			// no break
+					return $fieldValue != $hasChanged;
 			case 'is empty':
 				if (empty($fieldValue)) {
 					return true;
@@ -425,7 +438,6 @@ class VTJsonCondition
 				if ($rawFieldValue <= $olderDateTime) {
 					return true;
 				}
-
 				return false;
 			case 'more than hours later':
 				if (empty($rawFieldValue) || empty($value)) {
@@ -435,12 +447,11 @@ class VTJsonCondition
 				if ($rawFieldValue >= $futureDateTime) {
 					return true;
 				}
-
 				return false;
 			case 'has changed to':
 				$oldValue = $recordModel->getPreviousValue($cond['fieldname']);
 
-				return $oldValue !== false && $recordModel->get($cond['fieldname']) == $value;
+				return false !== $oldValue && $recordModel->get($cond['fieldname']) == $value;
 			case 'is added':
 				//This condition was used only for comments. It should not execute from not from workflows, So it was always "FALSE"
 				return false;
@@ -449,14 +460,28 @@ class VTJsonCondition
 				if ($watchdog->isWatchingRecord()) {
 					return true;
 				}
-
 				return false;
 			case 'is Not Watching Record':
 				$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordModel->getId(), $recordModel->getModuleName());
 				if ($watchdog->isWatchingRecord()) {
 					return false;
 				}
-
+				return true;
+			case 'is record open':
+				if (
+					($fieldName = App\RecordStatus::getFieldName($recordModel->getModule()->getName())) &&
+				\in_array($recordModel->get($fieldName), App\RecordStatus::getStates($recordModel->getModule()->getName()), \App\RecordStatus::RECORD_STATE_OPEN)
+				) {
+					return true;
+				}
+				return false;
+			case 'is record closed':
+				if (
+					($fieldName = App\RecordStatus::getFieldName($recordModel->getModule()->getName())) &&
+				\in_array($recordModel->get($fieldName), App\RecordStatus::getStates($recordModel->getModule()->getName(), \App\RecordStatus::RECORD_STATE_CLOSED))
+				) {
+					return false;
+				}
 				return true;
 			default:
 				//Unexpected condition

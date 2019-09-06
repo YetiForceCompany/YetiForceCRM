@@ -8,31 +8,32 @@
  *************************************************************************************/
 'use strict';
 
-jQuery.Class("Vtiger_Menu_Js", {
-	registerMenu: function () {
+jQuery.Class('Vtiger_Menu_Js', {
+	registerMenu: function() {
 		var largeNav = jQuery('#largeNavDiv nav').width();
 		var tabsWidth = 0;
 
-		jQuery('#largeNavDiv ul.nav.modulesList').children('li').each(function () {
-			var eWidth = jQuery(this).width();
-			var moreMenuElement = jQuery('#commonMoreMenu li[data-id="' + jQuery(this).data('id') + '"]')
-			tabsWidth += eWidth;
-			if (tabsWidth > largeNav) {
-				jQuery(this).hide();
-				moreMenuElement.show();
-			} else {
-				jQuery(this).show();
-				moreMenuElement.hide();
-			}
-		});
-		if (tabsWidth < largeNav)
-			jQuery('#commonMoreMenu').hide();
+		jQuery('#largeNavDiv ul.nav.modulesList')
+			.children('li')
+			.each(function() {
+				var eWidth = jQuery(this).width();
+				var moreMenuElement = jQuery('#commonMoreMenu li[data-id="' + jQuery(this).data('id') + '"]');
+				tabsWidth += eWidth;
+				if (tabsWidth > largeNav) {
+					jQuery(this).hide();
+					moreMenuElement.show();
+				} else {
+					jQuery(this).show();
+					moreMenuElement.hide();
+				}
+			});
+		if (tabsWidth < largeNav) jQuery('#commonMoreMenu').hide();
 	}
 });
 var menu = new Vtiger_Menu_Js();
 jQuery(window).on('resize', () => {
 	menu.registerMenu();
 });
-jQuery(function () {
+jQuery(function() {
 	menu.registerMenu();
 });

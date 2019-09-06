@@ -1,0 +1,39 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.quasar-reset {
+	.row {
+		margin: unset;
+		margin-right: unset;
+		margin-left: unset;
+	}
+
+	.col,
+	[class*="col-"] {
+		position: unset;
+		padding: unset;
+		padding-right: unset;
+		padding-left: unset;
+	}
+}
+
+.quasar-container {
+	height: calc(100% - #{calculate-rem(48px)});
+	margin-left: -0.5rem;
+	margin-right: -0.5rem;
+}
+.quasar-modal {
+	.modal-content {
+		height: 100%;
+	}
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	padding-top: 50px;
+	padding-bottom: 30px;
+	padding-left: 50px;
+	padding-right: 0 !important;
+
+	.q-layout-container {
+		height: calc(100vh - 113px);
+	}
+}

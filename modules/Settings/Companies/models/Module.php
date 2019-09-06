@@ -11,66 +11,77 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 {
 	public $baseTable = 's_yf_companies';
 	public $baseIndex = 'id';
-	public $listFields = ['name' => 'LBL_NAME', 'status' => 'LBL_STATUS', 'type' => 'LBL_TYPE', 'email' => 'LBL_EMAIL', 'city' => 'LBL_CITY', 'country' => 'LBL_COUNTRY', 'website' => 'LBL_WEBSITE'];
+	public $listFields = ['name' => 'LBL_NAME', 'status' => 'LBL_STATUS', 'type' => 'LBL_TYPE', 'email' => 'LBL_EMAIL', 'address' => 'AddressLevel8', 'post_code' => 'AddressLevel7', 'city' => 'LBL_CITY', 'country' => 'LBL_COUNTRY', 'website' => 'LBL_WEBSITE', 'vat_id' => 'Vat ID'];
 	/**
 	 * List of fields in form.
 	 *
 	 * @var array
 	 */
 	public static $formFields = [
-		'name' => [
-			'label' => 'LBL_NAME',
-			'registerView' => true
-		],
 		'type' => [
-			'label' => 'LBL_TYPE',
 			'registerView' => true
 		],
-		'industry' => [
-			'label' => 'LBL_INDUSTRY',
-			'registerView' => true
+		'name' => [
+			'registerView' => true,
+			'paymentData' => true
 		],
-		'city' => [
-			'label' => 'LBL_CITY',
+		'vat_id' => [
+			'paymentData' => true,
 			'registerView' => true
 		],
 		'country' => [
-			'label' => 'LBL_COUNTRY',
+			'registerView' => true,
+			'paymentData' => true,
+		],
+		'post_code' => [
+			'paymentData' => true,
+			'registerView' => true
+		],
+		'city' => [
+			'registerView' => true
+		],
+		'address' => [
+			'paymentData' => true,
+			'registerView' => true
+		],
+		'industry' => [
 			'registerView' => true
 		],
 		'companysize' => [
-			'label' => 'LBL_COMPANYSIZE',
 			'registerView' => true
 		],
 		'website' => [
-			'label' => 'LBL_WEBSITE',
 			'registerView' => true
 		],
 		'spacer' => [
-			'label' => '',
 			'registerView' => true
 		],
 		'newsletter' => [
-			'label' => 'LBL_YETIFORCE_NEWSLETTER',
 			'registerView' => true
 		],
 		'firstname' => [
-			'label' => 'LBL_FIRSTNAME',
 			'registerView' => true
 		],
 		'lastname' => [
-			'label' => 'LBL_LASTNAME',
 			'registerView' => true
 		],
 		'email' => [
-			'label' => 'LBL_EMAIL',
 			'registerView' => true
 		],
 		'logo' => [
-			'label' => 'LBL_LOGO',
-			'registerView' => false
+			'registerView' => true
+		],
+		'facebook' => [
+			'brandBlock' => true
+		],
+		'twitter' => [
+			'brandBlock' => true
+		],
+		'linkedin' => [
+			'brandBlock' => true
 		],
 	];
+
 	public $name = 'Companies';
 
 	/**
@@ -110,7 +121,8 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getIndustryList()
 	{
 		return array_merge(
-			(new \App\Db\Query())->select(['industry'])->from('vtiger_industry')->column(), (new \App\Db\Query())->select(['subindustry'])->from('vtiger_subindustry')->column()
+			(new \App\Db\Query())->select(['industry'])->from('vtiger_industry')->column(),
+			(new \App\Db\Query())->select(['subindustry'])->from('vtiger_subindustry')->column()
 		);
 	}
 

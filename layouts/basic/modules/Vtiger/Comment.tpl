@@ -10,8 +10,9 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- tpl-Base-Comment -->
 {assign var="HIERARCHY" value=isset($PARENT_RECORD) && $PARENT_RECORD != $COMMENT->get('related_to')}
-<div class="tpl-Base-Comment Comment comment-div js-comment-div" data-js="container">
+<div class="Comment comment-div js-comment-div" data-js="container">
 	<div class="js-comment-single singleComment" data-js="append">
 		<div class="js-comment-info-header commentInfoHeader m-0 row" data-commentid="{$COMMENT->getId()}"
 			 data-parentcommentid="{$COMMENT->get('parent_comments')}"
@@ -36,7 +37,7 @@
 						</span>
 						<div class="commentActionsDiv p-0 ml-auto mr-1">
 							{assign var=COMMENTS_MODULE_MODEL value=Vtiger_Module_Model::getInstance('ModComments')}
-							<div class="commentActions">
+							<div class="js-comment-actions" data-js="container">
 								{if !empty($CHILDS_ROOT_PARENT_MODEL)}
 									{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}
 								{/if}
@@ -156,5 +157,5 @@
 		</div>
 	</div>
 	<div>
-		{/strip}
-
+<!-- /tpl-Base-Comment -->
+{/strip}

@@ -15,7 +15,7 @@ class RecordNumber extends \App\Base
 	/**
 	 * Function to get instance.
 	 *
-	 * @param string|int $tabId
+	 * @param int|string $tabId
 	 *
 	 * @return \App\Fields\RecordNumber
 	 */
@@ -66,7 +66,7 @@ class RecordNumber extends \App\Base
 		}
 
 		$fullPrefix = $this->parseNumber($currentSequenceNumber);
-		$strip = strlen($currentSequenceNumber) - strlen($currentSequenceNumber + 1);
+		$strip = \strlen($currentSequenceNumber) - \strlen($currentSequenceNumber + 1);
 		if ($strip < 0) {
 			$strip = 0;
 		}
@@ -87,7 +87,7 @@ class RecordNumber extends \App\Base
 		if (!($piclistName = $this->getPicklistName()) || !$this->getPicklistValue($piclistName)) {
 			return $this->get('cur_id');
 		}
-		return (new \App\Db\Query())->select(['cur_id'])->from('u_#__modentity_sequences')->where(['value' => $this->getPicklistValue($piclistName)])->scalar() ?: 1;
+		return (new \App\Db\Query())->select(['cur_id'])->from('u_#__modentity_sequences')->where(['tabid' => $this->get('tabid'), 'value' => $this->getPicklistValue($piclistName)])->scalar() ?: 1;
 	}
 
 	/**
@@ -148,7 +148,7 @@ class RecordNumber extends \App\Base
 	public function isNewSequence(): bool
 	{
 		return $this->getRecord()->isNew() ||
-			($this->getRecord()->getPreviousValue($this->getPicklistName()) !== false && !$this->getRecord()->isEmpty($this->getPicklistName()) && $this->getPicklistValue($this->getPicklistName()) !== $this->getPicklistValue($this->getPicklistName(), $this->getRecord()->getPreviousValue($this->getPicklistName())));
+			(false !== $this->getRecord()->getPreviousValue($this->getPicklistName()) && !$this->getRecord()->isEmpty($this->getPicklistName()) && $this->getPicklistValue($this->getPicklistName()) !== $this->getPicklistValue($this->getPicklistName(), $this->getRecord()->getPreviousValue($this->getPicklistName())));
 	}
 
 	/**
@@ -208,11 +208,10 @@ class RecordNumber extends \App\Base
 					$dbCommand = \App\Db::getInstance()->createCommand();
 					while ($recordinfo = $dataReader->read()) {
 						$this->setRecord($moduleModel->getRecordFromArray($recordinfo));
-						$picklistValue = $this->getPicklistValue($picklistName, $recordinfo[$picklistName]);
 						$seq = 0;
-						if ($picklistValue && isset($sequences[$picklistValue])) {
+						if ($picklistName && ($picklistValue = $this->getPicklistValue($picklistName, $recordinfo[$picklistName])) && isset($sequences[$picklistValue])) {
 							$seq = $sequences[$picklistValue]++;
-						} elseif ($picklistValue) {
+						} elseif ($picklistName && $picklistValue) {
 							$sequences[$picklistValue] = 1;
 							$seq = $sequences[$picklistValue]++;
 						} else {
@@ -220,7 +219,7 @@ class RecordNumber extends \App\Base
 						}
 						$dbCommand->update($fieldTable, [$fieldColumn => $this->parseNumber($seq)], [$moduleModel->getEntityInstance()->table_index => $recordinfo['id']])
 							->execute();
-						$returninfo['updatedrecords']++;
+						++$returninfo['updatedrecords'];
 					}
 					$dataReader->close();
 					if ($oldNumber != $sequenceNumber) {
@@ -242,13 +241,13 @@ class RecordNumber extends \App\Base
 	 * Date function that can be overrided in tests.
 	 *
 	 * @param string   $format
-	 * @param null|int $time
+	 * @param int|null $time
 	 *
 	 * @return false|string
 	 */
 	public static function date($format, $time = null)
 	{
-		if ($time === null) {
+		if (null === $time) {
 			$time = time();
 		}
 		return date($format, $time);
@@ -294,16 +293,15 @@ class RecordNumber extends \App\Base
 				'reset_sequence' => $this->get('reset_sequence'),
 				'cur_sequence' => $this->get('cur_sequence')
 			])->execute();
-		} else {
-			return $dbCommand->update('vtiger_modentity_num', [
-				'cur_id' => $this->get('cur_id'),
-				'prefix' => $this->get('prefix'),
-				'leading_zeros' => $this->get('leading_zeros'),
-				'postfix' => $this->get('postfix'),
-				'reset_sequence' => $this->get('reset_sequence'),
-				'cur_sequence' => $this->get('cur_sequence')],
-				['tabid' => $this->get('tabid')])
-				->execute();
 		}
+		return $dbCommand->update('vtiger_modentity_num', [
+			'cur_id' => $this->get('cur_id'),
+			'prefix' => $this->get('prefix'),
+			'leading_zeros' => $this->get('leading_zeros'),
+			'postfix' => $this->get('postfix'),
+			'reset_sequence' => $this->get('reset_sequence'),
+			'cur_sequence' => $this->get('cur_sequence')],
+				['tabid' => $this->get('tabid')])
+			->execute();
 	}
 }

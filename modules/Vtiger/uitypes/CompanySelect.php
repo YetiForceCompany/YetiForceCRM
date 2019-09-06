@@ -75,7 +75,7 @@ class Vtiger_CompanySelect_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getOperators()
+	public function getQueryOperators()
 	{
 		return ['e', 'n', 'ew', 'c', 'k', 'y', 'ny'];
 	}

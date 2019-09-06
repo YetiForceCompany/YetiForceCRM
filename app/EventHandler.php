@@ -42,7 +42,7 @@ class EventHandler
 		}
 		if ($active) {
 			foreach ($handlers as $key => &$handler) {
-				if ((int) $handler['is_active'] !== 1) {
+				if (1 !== (int) $handler['is_active']) {
 					unset($handlers[$key]);
 				}
 			}
@@ -54,6 +54,7 @@ class EventHandler
 	 * Get active event handlers by type (event_name).
 	 *
 	 * @param string $name
+	 * @param mixed  $moduleName
 	 *
 	 * @return array
 	 */
@@ -69,7 +70,7 @@ class EventHandler
 		$handlers = self::$handlerByType[$name] ?? [];
 		if ($moduleName) {
 			foreach ($handlers as $key => &$handler) {
-				if ((!empty($handler['include_modules']) && !in_array($moduleName, explode(',', $handler['include_modules']))) || (!empty($handler['exclude_modules']) && in_array($moduleName, explode(',', $handler['exclude_modules'])))) {
+				if ((!empty($handler['include_modules']) && !\in_array($moduleName, explode(',', $handler['include_modules']))) || (!empty($handler['exclude_modules']) && \in_array($moduleName, explode(',', $handler['exclude_modules'])))) {
 					unset($handlers[$key]);
 				}
 			}
@@ -86,6 +87,7 @@ class EventHandler
 	 * @param string $excludeModules
 	 * @param int    $priority
 	 * @param bool   $isActive
+	 * @param mixed  $ownerId
 	 */
 	public static function registerHandler($eventName, $className, $includeModules = '', $excludeModules = '', $priority = 5, $isActive = true, $ownerId = 0)
 	{
@@ -127,6 +129,20 @@ class EventHandler
 			$params['event_name'] = $eventName;
 		}
 		\App\Db::getInstance()->createCommand()->delete(self::$baseTable, $params)->execute();
+		static::clearCache();
+	}
+
+	/**
+	 * Update an event handler.
+	 *
+	 * @param array $params
+	 * @param int   $id
+	 *
+	 * @return void
+	 */
+	public static function update(array $params, int $id)
+	{
+		Db::getInstance()->createCommand()->update(self::$baseTable, $params, ['eventhandler_id' => $id])->execute();
 		static::clearCache();
 	}
 
@@ -198,6 +214,8 @@ class EventHandler
 	 * Add param.
 	 *
 	 * @param array $params
+	 * @param mixed $key
+	 * @param mixed $value
 	 */
 	public function addParams($key, $value)
 	{
@@ -293,7 +311,7 @@ class EventHandler
 			}
 			$function = lcfirst($name);
 			if (method_exists($handlerInstance, $function)) {
-				$handlerInstance->$function($this);
+				$handlerInstance->{$function}($this);
 			} else {
 				Log::error("Handler not found, class: {$handler['handler_class']} | $function");
 				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');

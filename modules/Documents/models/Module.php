@@ -23,7 +23,7 @@ class Documents_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function to check whether the module is summary view supported.
 	 *
-	 * @return bool - true/false
+	 * @return bool
 	 */
 	public function isSummaryViewSupported()
 	{
@@ -38,7 +38,7 @@ class Documents_Module_Model extends Vtiger_Module_Model
 	 * @param string              $record         parent id
 	 * @param \App\QueryGenerator $queryGenerator
 	 */
-	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
+	public function getQueryByModuleField($sourceModule, $field, $record, App\QueryGenerator $queryGenerator)
 	{
 		$queryGenerator->addNativeCondition(['and',
 			['not in', 'vtiger_notes.notesid', (new App\Db\Query())->select(['notesid'])->from('vtiger_senotesrel')->where(['crmid' => $record])],
@@ -49,7 +49,7 @@ class Documents_Module_Model extends Vtiger_Module_Model
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getModalRecordsListFields(\App\QueryGenerator $queryGenerator, $sourceModule = false)
+	public function getModalRecordsListFields(App\QueryGenerator $queryGenerator, $sourceModule = false)
 	{
 		$popupFields = parent::getModalRecordsListFields($queryGenerator, $sourceModule);
 		$headerFields = $queryGenerator->getListViewFields();
@@ -86,7 +86,7 @@ class Documents_Module_Model extends Vtiger_Module_Model
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_WORKFLOWS',
 				'linkurl' => 'index.php?parent=Settings&module=Workflows&view=List&sourceModule=' . $this->getName(),
-				'linkicon' => 'adminIcon-triggers',
+				'linkicon' => 'yfi yfi-workflows-2',
 			];
 		}
 		$settingsLinks[] = [

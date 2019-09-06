@@ -55,6 +55,7 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		'template_members',
 		'watermark_image',
 		'one_pdf',
+		'type'
 	];
 	public static $step1Fields = ['status', 'primary_name', 'secondary_name', 'module_name', 'metatags_status', 'meta_subject', 'meta_title', 'meta_author', 'meta_keywords', 'page_format', 'margin_chkbox', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right', 'header_height', 'footer_height', 'page_orientation', 'language', 'filename', 'visibility', 'default', 'one_pdf', 'template_members', 'watermark_type', 'watermark_text', 'watermark_image', 'watermark_angle'];
 	public static $step2Fields = ['module_name', 'header_content', 'module_name', 'body_content', 'footer_content'];
@@ -152,5 +153,31 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 	public function getTemplatesByModule($moduleName)
 	{
 		return Vtiger_PDF_Model::getTemplatesByModule($moduleName);
+	}
+
+	/**
+	 * Get template type.
+	 *
+	 * @param Vtiger_PDF_Model $template
+	 *
+	 * @return int template type
+	 */
+	public static function getTemplateType(Vtiger_PDF_Model $template)
+	{
+		$matches = [];
+		$content = $template->get('body_content');
+		preg_match_all(\App\TextParser::VARIABLE_REGEX, $content, $matches, PREG_SET_ORDER);
+		$type = Vtiger_PDF_Model::TEMPLATE_TYPE_STANDARD;
+		foreach ($matches as $match) {
+			if ('custom' === $match[1] && false !== strpos($match[2], 'DynamicInventoryColumnsTable')) {
+				$type = Vtiger_PDF_Model::TEMPLATE_TYPE_DYNAMIC;
+				break;
+			}
+			if ('custom' === $match[1] && in_array($match[2], ['UserGroup|OSSTimeControl', 'List|OSSTimeControl', 'DetailedList|OSSTimeControl'])) {
+				$type = Vtiger_PDF_Model::TEMPLATE_TYPE_SUMMARY;
+				break;
+			}
+		}
+		return $type;
 	}
 }

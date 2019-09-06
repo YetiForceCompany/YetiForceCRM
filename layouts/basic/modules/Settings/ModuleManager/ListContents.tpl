@@ -10,7 +10,8 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="" id="moduleManagerContents">
+	<!-- tpl-Settings-ModuleManager-ListContents -->
+	<div id="moduleManagerContents">
 		<div class="widget_header row mb-2">
 			<div class="col-md-7 d-flex align-items-center">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
@@ -23,7 +24,7 @@
 							<strong>{\App\Language::translate('LBL_CREATE_MODULE', $QUALIFIED_MODULE)}</strong>
 						</button>
 					</span>
-					{if \AppConfig::main('systemMode') !== 'demo'}
+					{if \App\Config::main('systemMode') !== 'demo'}
 						<span class="btn-group c-btn-block-md-down mt-1 mt-lg-0">
 							<button class="btn btn-primary c-btn-block-md-down" type="button" onclick='window.location.href = "{$IMPORT_USER_MODULE_URL}"'>
 								<span class="fas fa-download"></span>&nbsp;&nbsp;
@@ -125,6 +126,9 @@
 								<h5 class="m-0 u-text-ellipsis text-left">{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</h5>
 							</div>
 							<div class="col-12 col-sm-2 col-md-5 p-1 form-row align-items-md-center justify-content-end">
+								{if !empty($ICONS[$MODULE_MODEL->get('premium')])}
+									<span class="{$ICONS[$MODULE_MODEL->get('premium')]}"></span>
+								{/if}
 								{if $MODULE_MODEL->isExportable()}
 									<form class="c-btn-block-sm-down" method="POST" action="index.php?module=ModuleManager&parent=Settings&action=ModuleExport&mode=exportModule&forModule={$MODULE_NAME}">
 										<button type="submit" class="btn btn-primary btn-sm float-right ml-0 ml-md-2 c-btn-block-sm-down mb-1 mb-md-0"><i class="far fa-arrow-alt-circle-down"></i></button>
@@ -154,4 +158,5 @@
 			</table>
 		</div>
 	</div>
+<!-- /tpl-Settings-ModuleManager-ListContents -->
 {/strip}

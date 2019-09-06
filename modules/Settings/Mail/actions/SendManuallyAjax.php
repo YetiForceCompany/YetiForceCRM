@@ -14,15 +14,19 @@ class Settings_Mail_SendManuallyAjax_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$record = $request->getInteger('id');
-		$db = \App\Db::getInstance('admin');
-		$row = (new \App\Db\Query())->from('s_#__mail_queue')
-			->where(['id' => $record])->one($db);
-		\App\Mailer::sendByRowQueue($row);
+		$row = (new \App\Db\Query())
+			->from('s_#__mail_queue')
+			->where(['id' => $record])
+			->one(\App\Db::getInstance('admin'));
+		$isMailSent = \App\Mailer::sendByRowQueue($row);
 		$response = new Vtiger_Response();
-		$response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_SEND_EMAIL_MANUALLY', $request->getModule(false))]);
+		$response->setResult([
+			'success' => $isMailSent,
+			'message' => $isMailSent ? \App\Language::translate('LBL_SEND_EMAIL_MANUALLY', $request->getModule(false)) : \App\Mailer::$error
+		]);
 		$response->emit();
 	}
 }

@@ -39,21 +39,21 @@ class Owner
 	{
 		if ($currentUser && $currentUser instanceof \Users) {
 			$currentUser = \App\User::getUserModel($currentUser->id);
-		} elseif ($currentUser === false) {
+		} elseif (false === $currentUser) {
 			$currentUser = \App\User::getCurrentUserModel();
 		} elseif (is_numeric($currentUser)) {
 			$currentUser = \App\User::getUserModel($currentUser);
-		} elseif (is_object($currentUser) && get_class($currentUser) === 'Users_Record_Model') {
+		} elseif (\is_object($currentUser) && 'Users_Record_Model' === \get_class($currentUser)) {
 			$currentUser = \App\User::getUserModel($currentUser->getId());
 		}
 		$cacheKey = $moduleName . $currentUser->getId();
 		$instance = \Vtiger_Cache::get('App\Fields\Owner', $cacheKey);
-		if ($instance === false) {
+		if (false === $instance) {
 			$instance = new self();
 			if ($moduleName) {
 				$instance->moduleName = $moduleName;
 			}
-			$instance->showRoleName = \AppConfig::module('Users', 'SHOW_ROLE_NAME');
+			$instance->showRoleName = \App\Config::module('Users', 'SHOW_ROLE_NAME');
 			$instance->currentUser = $currentUser;
 			\Vtiger_Cache::set('App\Fields\Owner', $cacheKey, $instance);
 		}
@@ -68,6 +68,10 @@ class Owner
 	/**
 	 * Function to get all the accessible groups.
 	 *
+	 * @param mixed $private
+	 * @param mixed $fieldType
+	 * @param mixed $translate
+	 *
 	 * @return <Array>
 	 */
 	public function getAccessibleGroups($private = '', $fieldType = false, $translate = false)
@@ -75,7 +79,7 @@ class Owner
 		$cacheKey = $private . $this->moduleName . $fieldType . $this->currentUser->getRole();
 		if (!\App\Cache::has('getAccessibleGroups', $cacheKey)) {
 			$currentUserRoleModel = \Settings_Roles_Record_Model::getInstanceById($this->currentUser->getRole());
-			if (!empty($fieldType) && ((int) $currentUserRoleModel->get($fieldType === 'sharedOwner' ? 'assignedmultiowner' : 'allowassignedrecordsto') === 5) && $private !== 'Public') {
+			if (!empty($fieldType) && (5 === (int) $currentUserRoleModel->get('sharedOwner' === $fieldType ? 'assignedmultiowner' : 'allowassignedrecordsto')) && 'Public' !== $private) {
 				$accessibleGroups = $this->getAllocation('groups', $private, $fieldType);
 			} else {
 				$accessibleGroups = $this->getGroups(false, $private);
@@ -111,20 +115,20 @@ class Owner
 		$cacheKey = $private . $this->moduleName . $fieldType . $this->currentUser->getRole();
 		if (!\App\Cache::has('getAccessibleUsers', $cacheKey)) {
 			$currentUserRoleModel = \Settings_Roles_Record_Model::getInstanceById($this->currentUser->getRole());
-			$assignTypeValue = (int) $currentUserRoleModel->get($fieldType === 'sharedOwner' ? 'assignedmultiowner' : 'allowassignedrecordsto');
-			if ($assignTypeValue === 1 || $private === 'Public') {
+			$assignTypeValue = (int) $currentUserRoleModel->get('sharedOwner' === $fieldType ? 'assignedmultiowner' : 'allowassignedrecordsto');
+			if (1 === $assignTypeValue || 'Public' === $private) {
 				$accessibleUser = $this->getUsers(false, 'Active', '', 'Public', true);
-			} elseif ($assignTypeValue === 2) {
+			} elseif (2 === $assignTypeValue) {
 				$currentUserRoleModel = \Settings_Roles_Record_Model::getInstanceById($this->currentUser->getRole());
 				$sameLevelRoles = array_keys($currentUserRoleModel->getSameLevelRoles());
 				$childernRoles = \App\PrivilegeUtil::getRoleSubordinates($this->currentUser->getRole());
 				$roles = array_merge($sameLevelRoles, $childernRoles);
 				$accessibleUser = $this->getUsers(false, 'Active', '', '', false, array_unique($roles));
-			} elseif ($assignTypeValue === 3) {
+			} elseif (3 === $assignTypeValue) {
 				$childernRoles = \App\PrivilegeUtil::getRoleSubordinates($this->currentUser->getRole());
 				$accessibleUser = $this->getUsers(false, 'Active', '', '', false, array_unique($childernRoles));
 				$accessibleUser[$this->currentUser->getId()] = $this->currentUser->getName();
-			} elseif (!empty($fieldType) && $assignTypeValue === 5) {
+			} elseif (!empty($fieldType) && 5 === $assignTypeValue) {
 				$accessibleUser = $this->getAllocation('users', '', $fieldType);
 			} else {
 				$accessibleUser[$this->currentUser->getId()] = $this->currentUser->getName();
@@ -163,13 +167,13 @@ class Owner
 	public function getAllocation($mode, $private, $fieldType)
 	{
 		$moduleName = false;
-		if (\App\Request::_get('parent') !== 'Settings' && $this->moduleName) {
+		if ('Settings' !== \App\Request::_get('parent') && $this->moduleName) {
 			$moduleName = $this->moduleName;
 		}
 		$result = [];
 		$usersGroups = \Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($fieldType, $moduleName);
 		$usersGroups = ($usersGroups && $usersGroups[$this->currentUser->getId()]) ? $usersGroups[$this->currentUser->getId()] : [];
-		if ($mode == 'users') {
+		if ('users' == $mode) {
 			$users = $usersGroups ? $usersGroups['users'] : [];
 			if (!empty($users)) {
 				$result = $this->getUsers(false, 'Active', $users);
@@ -179,7 +183,7 @@ class Owner
 			if (!empty($groups)) {
 				$groupsAll = $this->getGroups(false, $private);
 				foreach ($groupsAll as $ID => $name) {
-					if (in_array($ID, $groups)) {
+					if (\in_array($ID, $groups)) {
 						$result[$ID] = $name;
 					}
 				}
@@ -200,9 +204,9 @@ class Owner
 	 */
 	public function &initUsers($status = 'Active', $assignedUser = '', $private = '', $roles = false)
 	{
-		$cacheKeyMod = $private === 'private' ? $this->moduleName : '';
-		$cacheKeyAss = is_array($assignedUser) ? md5(json_encode($assignedUser)) : $assignedUser;
-		$cacheKeyRole = is_array($roles) ? md5(json_encode($roles)) : $roles;
+		$cacheKeyMod = 'private' === $private ? $this->moduleName : '';
+		$cacheKeyAss = \is_array($assignedUser) ? md5(json_encode($assignedUser)) : $assignedUser;
+		$cacheKeyRole = \is_array($roles) ? md5(json_encode($roles)) : $roles;
 		$cacheKey = $cacheKeyMod . '_' . $status . '|' . $cacheKeyAss . '_' . $private . '|' . $cacheKeyRole . '_' . (int) $this->showRoleName;
 		if (\App\Cache::has('getUsers', $cacheKey)) {
 			$tempResult = \App\Cache::get('getUsers', $cacheKey);
@@ -246,10 +250,11 @@ class Owner
 		$entityData = \App\Module::getEntityInfo('Users');
 		$selectFields = array_unique(array_merge($entityData['fieldnameArr'], ['id' => 'id', 'is_admin', 'cal_color', 'status']));
 		// Including deleted vtiger_users for now.
-		if ($private === 'private') {
+		$where = [];
+		if ('private' === $private) {
 			$userPrivileges = \App\User::getPrivilegesFile($this->currentUser->getId());
 			\App\Log::trace('Sharing is Private. Only the current user should be listed');
-			$where = [
+			$whereSection = [
 				'or',
 				['id' => $this->currentUser->getId()],
 				['id' => (new \App\Db\Query())
@@ -260,20 +265,21 @@ class Owner
 				]
 			];
 			if ($this->moduleName) {
-				$where[] = [
+				$whereSection[] = [
 					'id' => (new \App\Db\Query())
 						->select(['vtiger_tmp_write_user_sharing_per.shareduserid'])
 						->from('vtiger_tmp_write_user_sharing_per')
 						->where(['vtiger_tmp_write_user_sharing_per.userid' => $this->currentUser->getId(), 'vtiger_tmp_write_user_sharing_per.tabid' => \App\Module::getModuleId($this->moduleName)])
 				];
 			}
-			$query = (new \App\Db\Query())->select($selectFields)->from('vtiger_users')->where($where);
+			$query = (new \App\Db\Query())->select($selectFields)->from('vtiger_users')->where($whereSection);
 			if ($this->showRoleName) {
 				$query->addSelect(['vtiger_role.rolename'])->innerJoin('vtiger_user2role', 'vtiger_user2role.userid = vtiger_users.id')
 					->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid');
 			}
-		} elseif ($roles !== false) {
+		} elseif (false !== $roles) {
 			$query = (new \App\Db\Query())->select($selectFields)->from('vtiger_users')->innerJoin('vtiger_user2role', 'vtiger_users.id = vtiger_user2role.userid');
+			$where[] = ['vtiger_user2role.roleid' => $roles];
 			if ($this->showRoleName) {
 				$query->addSelect(['rolename'])->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid');
 			}
@@ -287,7 +293,6 @@ class Owner
 					->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid');
 			}
 		}
-		$where = false;
 		if (!empty($this->searchValue)) {
 			$where[] = ['like', \App\Module::getSqlForNameInDisplayFormat('Users'), $this->searchValue];
 		}
@@ -318,18 +323,18 @@ class Owner
 
 		$tempResult = $this->initUsers($status, $assignedUser, $private, $roles);
 
-		if (!is_array($tempResult)) {
+		if (!\is_array($tempResult)) {
 			return [];
 		}
 		$users = [];
-		if ($addBlank === true) {
+		if (true === $addBlank) {
 			// Add in a blank row
 			$users[''] = '';
 		}
-		$adminInList = \AppConfig::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
+		$adminInList = \App\Config::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
 		$isAdmin = $this->currentUser->isAdmin();
 		foreach ($tempResult as $key => $row) {
-			if (!$onlyAdmin || $isAdmin || !(!$adminInList && $row['is_admin'] == 'on')) {
+			if (!$onlyAdmin || $isAdmin || !(!$adminInList && 'on' == $row['is_admin'])) {
 				$users[$key] = $row['fullName'];
 			}
 		}
@@ -351,7 +356,7 @@ class Owner
 	{
 		\App\Log::trace("Entering getGroups($addBlank,$private) method ...");
 		$moduleName = '';
-		if (\App\Request::_get('parent') !== 'Settings' && $this->moduleName) {
+		if ('Settings' !== \App\Request::_get('parent') && $this->moduleName) {
 			$moduleName = $this->moduleName;
 			$tabId = \App\Module::getModuleId($moduleName);
 		}
@@ -362,11 +367,11 @@ class Owner
 		// Including deleted vtiger_users for now.
 		\App\Log::trace('Sharing is Public. All vtiger_users should be listed');
 		$query = (new \App\Db\Query())->select(['groupid', 'groupname'])->from('vtiger_groups');
-		if ($moduleName && $moduleName !== 'CustomView') {
+		if ($moduleName && 'CustomView' !== $moduleName) {
 			$subQuery = (new \App\Db\Query())->select(['groupid'])->from('vtiger_group2modules')->where(['tabid' => $tabId]);
 			$query->where(['groupid' => $subQuery]);
 		}
-		if ($private === 'private') {
+		if ('private' === $private) {
 			$query->andWhere(['groupid' => $this->currentUser->getId()]);
 			if ($this->currentUser->getGroups()) {
 				$query->orWhere(['vtiger_groups.groupid' => $this->currentUser->getGroups()]);
@@ -383,7 +388,7 @@ class Owner
 		$query->orderBy(['groupname' => SORT_ASC]);
 		$dataReader = $query->createCommand()->query();
 		$tempResult = [];
-		if ($addBlank === true) {
+		if (true === $addBlank) {
 			// Add in a blank row
 			$tempResult[''] = '';
 		}
@@ -465,7 +470,7 @@ class Owner
 		$queryGenerator->setFields(['assigned_user_id']);
 		$ids = $queryGenerator->createQuery()->distinct()->createCommand()->queryColumn();
 		$users = $groups = [];
-		$adminInList = \AppConfig::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
+		$adminInList = \App\Config::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
 		foreach ($ids as $id) {
 			$userModel = \App\User::getUserModel($id);
 			$name = $userModel->getName();
@@ -516,7 +521,7 @@ class Owner
 	{
 		if (!isset(self::$usersIdsCache[$status])) {
 			$rows = [];
-			if (\AppConfig::performance('ENABLE_CACHING_USERS')) {
+			if (\App\Config::performance('ENABLE_CACHING_USERS')) {
 				$rows = \App\PrivilegeFile::getUser('id');
 			} else {
 				$instance = new self();
@@ -535,13 +540,13 @@ class Owner
 	/**
 	 * Function gets labels.
 	 *
-	 * @param int|array $mixedId
+	 * @param array|int $mixedId
 	 *
-	 * @return int|array
+	 * @return array|int
 	 */
 	public static function getLabel($mixedId)
 	{
-		$multiMode = is_array($mixedId);
+		$multiMode = \is_array($mixedId);
 		$ids = $multiMode ? $mixedId : [$mixedId];
 		$missing = [];
 		foreach ($ids as $id) {
@@ -621,7 +626,7 @@ class Owner
 	 * @param int  $id
 	 * @param bool $single
 	 *
-	 * @return string|bool
+	 * @return bool|string
 	 */
 	public static function getUserLabel($id, $single = false)
 	{
@@ -629,7 +634,7 @@ class Owner
 			return self::$userLabelCache[$id];
 		}
 
-		if (\AppConfig::performance('ENABLE_CACHING_USERS')) {
+		if (\App\Config::performance('ENABLE_CACHING_USERS')) {
 			$users = \App\PrivilegeFile::getUser('id');
 		} else {
 			$instance = new self();
@@ -659,7 +664,7 @@ class Owner
 		$tabId = \App\Module::getModuleId($this->moduleName);
 		$cacheName = "{$tabId}:{$userId}:{$ownerFieldType}";
 		if (!\App\Cache::has('getFavoriteOwners', $cacheName)) {
-			$tableName = $ownerFieldType === 'sharedOwner' ? 'u_#__favorite_shared_owners' : 'u_#__favorite_owners';
+			$tableName = 'sharedOwner' === $ownerFieldType ? 'u_#__favorite_shared_owners' : 'u_#__favorite_owners';
 			\App\Cache::save('getFavoriteOwners', $cacheName, (new \App\Db\Query())->select(['ownerid', 'owner' => 'ownerid'])
 				->from($tableName)
 				->where(['tabid' => $tabId, 'userid' => $userId])->createCommand()->queryAllByGroup());
@@ -684,7 +689,7 @@ class Owner
 		$tabId = \App\Module::getModuleId($this->moduleName);
 		$dbCommand = \App\Db::getInstance()->createCommand();
 
-		switch (\App\Fields\Owner::getType($ownerId)) {
+		switch (self::getType($ownerId)) {
 			case 'Users':
 				$ownerList = $this->getAccessibleUsers('', $ownerFieldType);
 				break;
@@ -697,7 +702,7 @@ class Owner
 		if (!isset($ownerList[$ownerId])) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
-		$tableName = $ownerFieldType === 'sharedOwner' ? 'u_#__favorite_shared_owners' : 'u_#__favorite_owners';
+		$tableName = 'sharedOwner' === $ownerFieldType ? 'u_#__favorite_shared_owners' : 'u_#__favorite_owners';
 		if (isset($this->getFavorites($ownerFieldType)[$ownerId])) {
 			$result = $dbCommand->delete($tableName, ['tabid' => $tabId, 'userid' => $userId, 'ownerid' => $ownerId])->execute();
 		} else {
@@ -708,7 +713,7 @@ class Owner
 	}
 
 	/**
-	 * @var string|bool Owners color
+	 * @var bool|string Owners color
 	 */
 	protected static $colorsCache = false;
 
@@ -722,19 +727,18 @@ class Owner
 	public static function getColor($id)
 	{
 		if (!static::$colorsCache) {
-			if (file_exists('user_privileges/owners_colors.php')) {
-				static::$colorsCache = require 'user_privileges/owners_colors.php';
+			if (file_exists('app_data/owners_colors.php')) {
+				static::$colorsCache = require 'app_data/owners_colors.php';
 			} else {
 				static::$colorsCache = [];
 			}
 		}
 		if (isset(static::$colorsCache[$id])) {
 			return static::$colorsCache[$id];
-		} else {
-			$hash = md5('color' . $id);
-
-			return '#' . substr($hash, 0, 2) . substr($hash, 2, 2) . substr($hash, 4, 2);
 		}
+		$hash = md5('color' . $id);
+
+		return '#' . substr($hash, 0, 2) . substr($hash, 2, 2) . substr($hash, 4, 2);
 	}
 
 	protected static $typeCache = [];
@@ -751,7 +755,7 @@ class Owner
 		if (isset(self::$typeCache[$id])) {
 			return self::$typeCache[$id];
 		}
-		if (\AppConfig::performance('ENABLE_CACHING_USERS')) {
+		if (\App\Config::performance('ENABLE_CACHING_USERS')) {
 			$users = \App\PrivilegeFile::getUser('id');
 			$isExists = isset($users[$id]);
 		} else {
@@ -791,9 +795,9 @@ class Owner
 		$columnList = [];
 		while ($row = $dataReader->read()) {
 			$column = $row['tablename'] . '.' . $row['columnname'];
-			if (!in_array($column, $columnList)) {
+			if (!\in_array($column, $columnList)) {
 				$columnList[] = $column;
-				if ($row['columnname'] === 'smcreatorid' || $row['columnname'] === 'smownerid') {
+				if ('smcreatorid' === $row['columnname'] || 'smownerid' === $row['columnname']) {
 					$db->createCommand()->update($row['tablename'], [$row['columnname'] => $newId], ['and', [$row['columnname'] => $oldId], ['<>', 'setype', 'ModComments']])
 						->execute();
 				} else {
@@ -832,11 +836,11 @@ class Owner
 			$className = str_replace('"', '', $classNameWithDoubleQuotes);
 			require_once 'modules/com_vtiger_workflow/tasks/' . $className . '.php';
 			$unserializeTask = unserialize($task);
-			if (array_key_exists('field_value_mapping', $unserializeTask)) {
+			if (\array_key_exists('field_value_mapping', $unserializeTask)) {
 				$fieldMapping = \App\Json::decode($unserializeTask->field_value_mapping);
 				if (!empty($fieldMapping)) {
 					foreach ($fieldMapping as $key => $condition) {
-						if ($condition['fieldname'] == 'assigned_user_id') {
+						if ('assigned_user_id' == $condition['fieldname']) {
 							$value = $condition['value'];
 							if (is_numeric($value) && $value == $oldId) {
 								$condition['value'] = $newId;
@@ -853,7 +857,7 @@ class Owner
 				}
 			} else {
 				//For VTCreateTodoTask and VTCreateEventTask
-				if (array_key_exists('assigned_user_id', $unserializeTask)) {
+				if (\array_key_exists('assigned_user_id', $unserializeTask)) {
 					$value = $unserializeTask->assigned_user_id;
 					if ($value == $oldId) {
 						$unserializeTask->assigned_user_id = $newId;

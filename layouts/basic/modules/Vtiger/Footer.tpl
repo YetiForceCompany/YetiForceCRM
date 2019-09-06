@@ -11,6 +11,19 @@
 -->*}
 {strip}
 	<!-- tpl-Base-Footer -->
+	{assign var="DISABLE_BRANDING" value=\App\Config::component('Branding', 'isCustomerBrandingActive')}
+	{if $DISABLE_BRANDING}
+		{assign var="URL_LINKEDIN" value=\App\Config::component('Branding', 'urlLinkedIn')}
+		{assign var="URL_TWITTER" value=\App\Config::component('Branding', 'urlTwitter')}
+		{assign var="URL_FACEBOOK" value=\App\Config::component('Branding', 'urlFacebook')}
+		{assign var="URL_GITHUB" value=null}
+		{assign var="FOOTER_NAME" value=\App\Config::component('Branding', 'footerName')}
+	{else}
+		{assign var="URL_LINKEDIN" value='https://www.linkedin.com/groups/8177576'}
+		{assign var="URL_TWITTER" value='https://twitter.com/YetiForceEN'}
+		{assign var="URL_FACEBOOK" value='https://www.facebook.com/YetiForce-CRM-158646854306054/'}
+		{assign var="URL_GITHUB" value='https://github.com/YetiForceCompany/YetiForceCRM'}
+	{/if}
 	</div>
 	</div>
 	</div>
@@ -20,10 +33,15 @@
 	</div>
 	</div>
 	<input class="tpl-Footer d-none noprint" type="hidden" id="activityReminder" value="{$ACTIVITY_REMINDER}"/>
+	{if \App\Privilege::isPermitted('Chat')}
+		<div class="quasar-reset">
+			<div id="ChatModalVue"></div>
+		</div>
+	{/if}
 	{if $SHOW_FOOTER}
-		<footer class="c-footer fixed-bottom js-footer{if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')} c-footer--user-info-active{/if}{if AppConfig::performance('LIMITED_INFO_IN_FOOTER')} c-footer--limited{/if}"
+		<footer class="c-footer fixed-bottom js-footer{if App\Config::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')} c-footer--user-info-active{/if} {if $DISABLE_BRANDING} c-footer--limited {/if}"
 				data-js="height">
-			{if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}
+			{if App\Config::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}
 				<div class="js-footer__user-info c-footer__user-info">
 					<p>
 						<span class="mr-1"> {$USER_MODEL->getName()}</span>(
@@ -35,96 +53,86 @@
 				</div>
 			{/if}
 			<div class="container-fluid px-0 px-md-1">
-				{if !\AppConfig::performance('LIMITED_INFO_IN_FOOTER')}
-					<ul class="float-left pagination border-0">
+				<ul class="float-left pagination border-0">
+					{if !empty($URL_LINKEDIN)}
 						<li class="page-item">
-							<a class="page-link" href="https://www.linkedin.com/groups/8177576"
-							   rel="noreferrer noopener">
+							<a class="page-link" href="{$URL_LINKEDIN}" target="_blank"
+								rel="noreferrer noopener">
 								<span class="fab fa-linkedin fa-2x" title="Linkedin"></span>
 							</a>
 						</li>
+					{/if}
+					{if !empty($URL_TWITTER)}
 						<li class="page-item">
-							<a class="page-link" href="https://twitter.com/YetiForceEN" rel="noreferrer noopener">
+							<a class="page-link" href="{$URL_TWITTER}" target="_blank" rel="noreferrer noopener">
 								<span class="fab fa-twitter-square fa-2x" title="Twitter"></span>
 							</a>
 						</li>
+					{/if}
+					{if !empty($URL_FACEBOOK)}
 						<li class="page-item">
-							<a class="page-link" href="https://www.facebook.com/YetiForce-CRM-158646854306054/"
-							   rel="noreferrer noopener">
+							<a class="page-link" href="{$URL_FACEBOOK}" target="_blank"
+								rel="noreferrer noopener">
 								<span class="fab fa-facebook-square fa-2x" title="Facebook"></span>
 							</a>
 						</li>
+					{/if}
+					{if !empty($URL_GITHUB)}
 						<li class="page-item">
-							<a class="page-link" href="https://github.com/YetiForceCompany/YetiForceCRM"
-							   rel="noreferrer noopener">
+							<a class="page-link" href="{$URL_GITHUB}" target="_blank"
+								rel="noreferrer noopener">
 								<span class="fab fa-github-square fa-2x" title="Github"></span>
 							</a>
 						</li>
-					</ul>
-				{/if}
+					{/if}
+				</ul>
 				<div class="float-right p-0">
 					<ul class="pagination">
-						{if !\App\YetiForce\Register::verify(true)}
-							<li class="page-item u-cursor-pointer">
-								{if $USER_MODEL->isAdminUser()}
-									{assign var="INFO_REGISTRATION_ERROR" value="<a href='index.php?module=Companies&parent=Settings&view=List&displayModal=online'>{\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}</a>"}
-								{else}
-									{assign var="INFO_REGISTRATION_ERROR" value=\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}
-								{/if}
-								<a class="page-link text-danger js-popover-tooltip" role="button"
-								   data-content="{\App\Language::translateArgs('LBL_YETIFORCE_REGISTRATION_ERROR', $MODULE_NAME, $INFO_REGISTRATION_ERROR)}"
-								   title="{\App\Language::translate('LBL_YETIFORCE_REGISTRATION', $MODULE_NAME)}"
-										{if $USER_MODEL->isAdminUser()}
-											href="index.php?parent=Settings&module=Companies&view=List&displayModal=online"
-										{else}
-											href="#"
-										{/if} >
-								<span class="fas fa-exclamation-triangle fa-2x">
-								</span>
-								</a>
-							</li>
-						{/if}
-						{if !\AppConfig::performance('LIMITED_INFO_IN_FOOTER')}
+						{if !$DISABLE_BRANDING }
 							<li class="page-item">
 								<a class="page-link mr-md-1" href="https://yetiforce.shop" rel="noreferrer noopener">
 									<span class="fas fa-shopping-cart fa-2x" title="yetiforce.shop"></span>
 								</a>
 							</li>
+							<li class="page-item u-cursor-pointer">
+								<a class="page-link" data-toggle="modal" href="#" role="button"
+									data-target="#yetiforceDetails">
+									<span class="fas fa-info-circle fa-2x" title="YetiForceCRM"></span>
+								</a>
+							</li>
 						{/if}
-						<li class="page-item u-cursor-pointer">
-							<a class="page-link" data-toggle="modal" href="#" role="button"
-							   data-target="#yetiforceDetails">
-								<span class="fas fa-info-circle fa-2x" title="YetiForceCRM"></span>
-							</a>
-						</li>
 					</ul>
 				</div>
 				<div class="mx-auto w-75">
 					{assign var=SCRIPT_TIME value=round(microtime(true) - \App\Process::$startTime, 3)}
+					{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
 					{if $USER_MODEL->isAdminUser()}
-						{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
 						{assign var=FOOTVRM value= '['|cat:$SCRIPT_TIME|cat:'s.]'}
 						{assign var=FOOTOSP value= '<em><a class="u-text-underline" href="index.php?module=Vtiger&view=Credits&parent=Settings">open source project</a></em>'}
 						<p class="text-center text-center">
-							<span class="d-none d-sm-inline ">Copyright &copy; YetiForce.com All rights reserved. {$FOOTVR}
-								{if !\AppConfig::performance('LIMITED_INFO_IN_FOOTER')}
-									<br/>
-									{\App\Language::translateArgs('LBL_FOOTER_CONTENT', '_Base',$FOOTOSP)}
-								{/if}
-							</span>
-							<span class="d-inline d-sm-none text-center">&copy; YetiForce.com All rights reserved.</span>
+							{if !$DISABLE_BRANDING}
+								<span class="d-none d-sm-inline ">Copyright &copy; YetiForce.com All rights reserved. {$FOOTVR}
+										<br/>
+										{\App\Language::translateArgs('LBL_FOOTER_CONTENT', '_Base', $FOOTOSP)}
+								</span>
+								<span class="d-inline d-sm-none text-center">&copy; YetiForce.com All rights reserved.</span>
+							{else}
+								{$FOOTER_NAME} [{\App\Language::translate('WEBLOADTIME')}: {$SCRIPT_TIME}s.]
+							{/if}
 						</p>
 					{else}
 						<p class="text-center">
-							<span class="d-none d-sm-inline">
-								Copyright &copy; YetiForce.com All rights reserved.
-								{if !\AppConfig::performance('LIMITED_INFO_IN_FOOTER')}
+							{if !$DISABLE_BRANDING}
+								<span class="d-none d-sm-inline">
+									Copyright &copy; YetiForce.com All rights reserved.
 									[{\App\Language::translate('WEBLOADTIME')}: {$SCRIPT_TIME}s.]
 									<br/>
 									{\App\Language::translateArgs('LBL_FOOTER_CONTENT', '_Base', 'open source project')}
-								{/if}
-							</span>
-							<span class="d-inline d-sm-none text-center">&copy; YetiForce.com All rights reserved.</span>
+								</span>
+								<span class="d-inline d-sm-none text-center">&copy; YetiForce.com All rights reserved.</span>
+							{else}
+								{$FOOTER_NAME} [{\App\Language::translate('WEBLOADTIME')}: {$SCRIPT_TIME}s.]
+							{/if}
 						</p>
 					{/if}
 				</div>
@@ -206,7 +214,7 @@
 					<div class="modal-footer">
 						<button class="btn btn-danger" type="reset" data-dismiss="modal">
 							<span class="fa fa-times u-mr-5px"></span>
-							<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
+							<strong>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 						</button>
 					</div>
 				</div>

@@ -1,0 +1,645 @@
+@import 'variables';
+
+@font-face {
+	font-family: '#{$icomoon-font-family}';
+	src: url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?x5rl3t');
+	src: url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?x5rl3t#iefix') format('embedded-opentype'),
+		url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?x5rl3t') format('truetype'),
+		url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?x5rl3t') format('woff'),
+		url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?x5rl3t##{$icomoon-font-family}') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^='userIcon-'],
+[class*=' userIcon-'] {
+	/* use !important to prevent issues with browser extensions that change fonts */
+	font-family: '#{$icomoon-font-family}' !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	content: $userIcon-DefaultIcon;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.userIcon-DefaultIcon {
+	&:before {
+		content: $userIcon-DefaultIcon;
+	}
+}
+.userIcon-Announcements {
+	&:before {
+		content: $userIcon-Announcements;
+	}
+}
+.userIcon-ModTracker {
+	&:before {
+		content: $userIcon-ModTracker;
+	}
+}
+.userIcon-Users {
+	&:before {
+		content: $userIcon-Users;
+	}
+}
+.userIcon-AuditRegister {
+	&:before {
+		content: $userIcon-AuditRegister;
+	}
+}
+.userIcon-ActivityRegister {
+	&:before {
+		content: $userIcon-ActivityRegister;
+	}
+}
+.userIcon-Import {
+	&:before {
+		content: $userIcon-Import;
+	}
+}
+.userIcon-PermissionInspector {
+	&:before {
+		content: $userIcon-PermissionInspector;
+	}
+}
+.userIcon-Password {
+	&:before {
+		content: $userIcon-Password;
+	}
+}
+.userIcon-Dashboard {
+	&:before {
+		content: $userIcon-Dashboard;
+	}
+}
+.userIcon-MultiCompany {
+	&:before {
+		content: $userIcon-MultiCompany;
+	}
+}
+.userIcon-ApiAddress {
+	&:before {
+		content: $userIcon-ApiAddress;
+	}
+}
+.userIcon-LocationRegister {
+	&:before {
+		content: $userIcon-LocationRegister;
+	}
+}
+.userIcon-DataSetRegister {
+	&:before {
+		content: $userIcon-DataSetRegister;
+	}
+}
+.userIcon-IncidentRegister {
+	&:before {
+		content: $userIcon-IncidentRegister;
+	}
+}
+.userIcon-OpenStreetMap {
+	&:before {
+		content: $userIcon-OpenStreetMap;
+	}
+}
+.userIcon-Chat {
+	&:before {
+		content: $userIcon-Chat;
+	}
+}
+.userIcon-OSSMailScanner {
+	&:before {
+		content: $userIcon-OSSMailScanner;
+	}
+}
+.userIcon-SCalculations {
+	&:before {
+		content: $userIcon-SCalculations;
+	}
+}
+.userIcon-ProjectMilestones {
+	&:before {
+		content: $userIcon-ProjectMilestones;
+	}
+}
+.userIcon-NewOrders {
+	&:before {
+		content: $userIcon-NewOrders;
+	}
+}
+.userIcon-TeamWork {
+	&:before {
+		content: $userIcon-TeamWork;
+	}
+}
+.userIcon-Bookkeeping {
+	&:before {
+		content: $userIcon-Bookkeeping;
+	}
+}
+.userIcon-OSSEmployees {
+	&:before {
+		content: $userIcon-OSSEmployees;
+	}
+}
+.userIcon-Faktury {
+	&:before {
+		content: $userIcon-Faktury;
+	}
+}
+.userIcon-CInternalTickets {
+	&:before {
+		content: $userIcon-CInternalTickets;
+	}
+}
+.userIcon-CMileageLogbook {
+	&:before {
+		content: $userIcon-CMileageLogbook;
+	}
+}
+.userIcon-FCorectingInvoice {
+	&:before {
+		content: $userIcon-FCorectingInvoice;
+	}
+}
+.userIcon-FInvoiceCost {
+	&:before {
+		content: $userIcon-FInvoiceCost;
+	}
+}
+.userIcon-CFixedAssets {
+	&:before {
+		content: $userIcon-CFixedAssets;
+	}
+}
+.userIcon-Announcement {
+	&:before {
+		content: $userIcon-Announcement;
+	}
+}
+.userIcon-SVendorEnquiries {
+	&:before {
+		content: $userIcon-SVendorEnquiries;
+	}
+}
+.userIcon-ISTDN {
+	&:before {
+		content: $userIcon-ISTDN;
+	}
+}
+.userIcon-IGRNC {
+	&:before {
+		content: $userIcon-IGRNC;
+	}
+}
+.userIcon-IGDNC {
+	&:before {
+		content: $userIcon-IGDNC;
+	}
+}
+.userIcon-ISTRN {
+	&:before {
+		content: $userIcon-ISTRN;
+	}
+}
+.userIcon-ISTN {
+	&:before {
+		content: $userIcon-ISTN;
+	}
+}
+.userIcon-Notification {
+	&:before {
+		content: $userIcon-Notification;
+	}
+}
+.userIcon-MeetingCards_old {
+	&:before {
+		content: $userIcon-MeetingCards_old;
+	}
+}
+.userIcon-IPreOrder {
+	&:before {
+		content: $userIcon-IPreOrder;
+	}
+}
+.userIcon-IStorages {
+	&:before {
+		content: $userIcon-IStorages;
+	}
+}
+.userIcon-IGDN {
+	&:before {
+		content: $userIcon-IGDN;
+	}
+}
+.userIcon-IGIN {
+	&:before {
+		content: $userIcon-IGIN;
+	}
+}
+.userIcon-IGRN {
+	&:before {
+		content: $userIcon-IGRN;
+	}
+}
+.userIcon-IIDN {
+	&:before {
+		content: $userIcon-IIDN;
+	}
+}
+.userIcon-KnowledgeBase {
+	&:before {
+		content: $userIcon-KnowledgeBase;
+	}
+}
+.userIcon-ShoppingCart {
+	&:before {
+		content: $userIcon-ShoppingCart;
+	}
+}
+.userIcon-Target {
+	&:before {
+		content: $userIcon-Target;
+	}
+}
+.userIcon-Plane {
+	&:before {
+		content: $userIcon-Plane;
+	}
+}
+.userIcon-WithoutOwnersAccounts {
+	&:before {
+		content: $userIcon-WithoutOwnersAccounts;
+	}
+}
+.userIcon-VendorsAccounts {
+	&:before {
+		content: $userIcon-VendorsAccounts;
+	}
+}
+.userIcon-CompanyAccounts {
+	&:before {
+		content: $userIcon-CompanyAccounts;
+	}
+}
+.userIcon-ShutdownAccounts {
+	&:before {
+		content: $userIcon-ShutdownAccounts;
+	}
+}
+.userIcon-MyAccounts {
+	&:before {
+		content: $userIcon-MyAccounts;
+	}
+}
+.userIcon-UnassignedAccounts {
+	&:before {
+		content: $userIcon-UnassignedAccounts;
+	}
+}
+.userIcon-AllAccounts {
+	&:before {
+		content: $userIcon-AllAccounts;
+	}
+}
+.userIcon-RecycleBin {
+	&:before {
+		content: $userIcon-RecycleBin;
+	}
+}
+.userIcon-FInvoice {
+	&:before {
+		content: $userIcon-FInvoice;
+	}
+}
+.userIcon-Faktury_old {
+	&:before {
+		content: $userIcon-Faktury_old;
+	}
+}
+.userIcon-FInvoiceProforma {
+	&:before {
+		content: $userIcon-FInvoiceProforma;
+	}
+}
+.userIcon-ModComments {
+	&:before {
+		content: $userIcon-ModComments;
+	}
+}
+.userIcon-FBookkeeping {
+	&:before {
+		content: $userIcon-FBookkeeping;
+	}
+}
+.userIcon-Events {
+	&:before {
+		content: $userIcon-Events;
+	}
+}
+.userIcon-Activity {
+	&:before {
+		content: $userIcon-Activity;
+	}
+}
+.userIcon-Marketing {
+	&:before {
+		content: $userIcon-Marketing;
+	}
+}
+.userIcon-SRecurringOrders {
+	&:before {
+		content: $userIcon-SRecurringOrders;
+	}
+}
+.userIcon-Competition {
+	&:before {
+		content: $userIcon-Competition;
+	}
+}
+.userIcon-Accounts {
+	&:before {
+		content: $userIcon-Accounts;
+	}
+}
+.userIcon-CompaniesAndContact {
+	&:before {
+		content: $userIcon-CompaniesAndContact;
+	}
+}
+.userIcon-HolidaysEntitlement {
+	&:before {
+		content: $userIcon-HolidaysEntitlement;
+	}
+}
+.userIcon-Assets {
+	&:before {
+		content: $userIcon-Assets;
+	}
+}
+.userIcon-SCalculations_old {
+	&:before {
+		content: $userIcon-SCalculations_old;
+	}
+}
+.userIcon-Calendar {
+	&:before {
+		content: $userIcon-Calendar;
+	}
+}
+.userIcon-CallHistory {
+	&:before {
+		content: $userIcon-CallHistory;
+	}
+}
+.userIcon-Campaigns {
+	&:before {
+		content: $userIcon-Campaigns;
+	}
+}
+.userIcon-Contacts {
+	&:before {
+		content: $userIcon-Contacts;
+	}
+}
+.userIcon-OSSMailView {
+	&:before {
+		content: $userIcon-OSSMailView;
+	}
+}
+.userIcon-Database {
+	&:before {
+		content: $userIcon-Database;
+	}
+}
+.userIcon-Documents {
+	&:before {
+		content: $userIcon-Documents;
+	}
+}
+.userIcon-OSSEmployees_old {
+	&:before {
+		content: $userIcon-OSSEmployees_old;
+	}
+}
+.userIcon-Faq {
+	&:before {
+		content: $userIcon-Faq;
+	}
+}
+.userIcon-Home {
+	&:before {
+		content: $userIcon-Home;
+	}
+}
+.userIcon-HumanResources {
+	&:before {
+		content: $userIcon-HumanResources;
+	}
+}
+.userIcon-Ideas {
+	&:before {
+		content: $userIcon-Ideas;
+	}
+}
+.userIcon-Leads {
+	&:before {
+		content: $userIcon-Leads;
+	}
+}
+.userIcon-LettersIn {
+	&:before {
+		content: $userIcon-LettersIn;
+	}
+}
+.userIcon-LettersOut {
+	&:before {
+		content: $userIcon-LettersOut;
+	}
+}
+.userIcon-PBXManager {
+	&:before {
+		content: $userIcon-PBXManager;
+	}
+}
+.userIcon-OSSMailTemplates {
+	&:before {
+		content: $userIcon-OSSMailTemplates;
+	}
+}
+.userIcon-EmailTemplates {
+	&:before {
+		content: $userIcon-EmailTemplates;
+	}
+}
+.userIcon-OSSMail {
+	&:before {
+		content: $userIcon-OSSMail;
+	}
+}
+.userIcon-SSalesProcesses {
+	&:before {
+		content: $userIcon-SSalesProcesses;
+	}
+}
+.userIcon-Portal {
+	&:before {
+		content: $userIcon-Portal;
+	}
+}
+.userIcon-OutsourcedProducts {
+	&:before {
+		content: $userIcon-OutsourcedProducts;
+	}
+}
+.userIcon-OSSOutsourcedServices {
+	&:before {
+		content: $userIcon-OSSOutsourcedServices;
+	}
+}
+.userIcon-Partners {
+	&:before {
+		content: $userIcon-Partners;
+	}
+}
+.userIcon-OSSPasswords {
+	&:before {
+		content: $userIcon-OSSPasswords;
+	}
+}
+.userIcon-PaymentsIn {
+	&:before {
+		content: $userIcon-PaymentsIn;
+	}
+}
+.userIcon-PaymentsOut {
+	&:before {
+		content: $userIcon-PaymentsOut;
+	}
+}
+.userIcon-PriceBooks {
+	&:before {
+		content: $userIcon-PriceBooks;
+	}
+}
+.userIcon-Products {
+	&:before {
+		content: $userIcon-Products;
+	}
+}
+.userIcon-ProjectMilestone {
+	&:before {
+		content: $userIcon-ProjectMilestone;
+	}
+}
+.userIcon-Project {
+	&:before {
+		content: $userIcon-Project;
+	}
+}
+.userIcon-ProjectTask {
+	&:before {
+		content: $userIcon-ProjectTask;
+	}
+}
+.userIcon-SQuotes {
+	&:before {
+		content: $userIcon-SQuotes;
+	}
+}
+.userIcon-Realization {
+	&:before {
+		content: $userIcon-Realization;
+	}
+}
+.userIcon-Reports {
+	&:before {
+		content: $userIcon-Reports;
+	}
+}
+.userIcon-Reservations {
+	&:before {
+		content: $userIcon-Reservations;
+	}
+}
+.userIcon-Rss {
+	&:before {
+		content: $userIcon-Rss;
+	}
+}
+.userIcon-Sales {
+	&:before {
+		content: $userIcon-Sales;
+	}
+}
+.userIcon-SQuoteEnquiries {
+	&:before {
+		content: $userIcon-SQuoteEnquiries;
+	}
+}
+.userIcon-SSingleOrders {
+	&:before {
+		content: $userIcon-SSingleOrders;
+	}
+}
+.userIcon-SRequirementsCards {
+	&:before {
+		content: $userIcon-SRequirementsCards;
+	}
+}
+.userIcon-Secretary {
+	&:before {
+		content: $userIcon-Secretary;
+	}
+}
+.userIcon-ServiceContracts {
+	&:before {
+		content: $userIcon-ServiceContracts;
+	}
+}
+.userIcon-Services {
+	&:before {
+		content: $userIcon-Services;
+	}
+}
+.userIcon-OSSSoldServices {
+	&:before {
+		content: $userIcon-OSSSoldServices;
+	}
+}
+.userIcon-Support {
+	&:before {
+		content: $userIcon-Support;
+	}
+}
+.userIcon-SMSNotifier {
+	&:before {
+		content: $userIcon-SMSNotifier;
+	}
+}
+.userIcon-HelpDesk {
+	&:before {
+		content: $userIcon-HelpDesk;
+	}
+}
+.userIcon-OSSTimeControl {
+	&:before {
+		content: $userIcon-OSSTimeControl;
+	}
+}
+.userIcon-Vendors {
+	&:before {
+		content: $userIcon-Vendors;
+	}
+}
+.userIcon-VirtualDesk {
+	&:before {
+		content: $userIcon-VirtualDesk;
+	}
+}

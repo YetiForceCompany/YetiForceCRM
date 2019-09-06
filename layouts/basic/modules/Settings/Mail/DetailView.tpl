@@ -6,7 +6,7 @@
 		</div>
 		<div class="col-md-4">
 			{if $RECORD_MODEL}
-				<div class="float-right btn-toolbar mt-3">
+				<div class="float-right btn-toolbar my-2">
 					<button class="btn btn-info sendManually">
 						<span class="fas fa-paper-plane mr-1"></span>
 						<strong>{App\Language::translate('LBL_MANUAL_SENDING', $QUALIFIED_MODULE)}</strong>
@@ -25,6 +25,11 @@
 			{/if}
 		</div>
 	</div>
+	{if {$RECORD_MODEL->get('status')}==2 }
+		<div class="alert alert-warning">
+			{$RECORD_MODEL->getDisplayValue('error')}
+		</div>
+	{/if}
 	<div class="detailViewInfo">
 		{if $RECORD_MODEL}
 			<input type="hidden" value="{$RECORD_MODEL->getId()}" id="recordId">
@@ -125,7 +130,7 @@
 				<button type="button" class="close" data-dismiss="alert">&times;</button>
 				<strong> <p>{App\Language::translate('LBL_EMAIL_WAS_SENT', $QUALIFIED_MODULE)}</p> </strong>
 				<a class="btn btn-info" role="button" href="{$MODULE_MODEL->getDefaultUrl()}">{App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}</a>
-			</div>	
+			</div>
 		{/if}
 	</div>
 {/strip}

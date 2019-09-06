@@ -10,7 +10,10 @@
  */
 class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 {
-	public function process(\App\Request $request)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function process(App\Request $request)
 	{
 		$baseModuleName = 'Accounts';
 		$viewer = $this->getViewer($request);
@@ -24,18 +27,17 @@ class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$multiReferenceFirld = Vtiger_MultiReferenceValue_UIType::getFieldsByModules($baseModuleName, $moduleName);
-		$multiReferenceFirld = reset($multiReferenceFirld);
-		if (count($multiReferenceFirld) === 0) {
+		$multiReferenceFields = \Vtiger_MultiReferenceValue_UIType::getFieldsByModules($baseModuleName, $moduleName);
+		$multiReferenceFieldId = reset($multiReferenceFields);
+		if (!$multiReferenceFieldId || !($fieldInfo = \App\Field::getFieldInfo($multiReferenceFieldId))) {
 			return;
 		}
-
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('limit', 0);
 		$listViewModel = Vtiger_ListView_Model::getInstance($baseModuleName, $filter);
 		$queryGenerator = $listViewModel->get('query_generator');
 		if (!empty($branches)) {
-			$queryGenerator->addCondition($multiReferenceFirld['columnname'], implode('##', $branches), 'e');
+			$queryGenerator->addCondition($fieldInfo['fieldname'], implode('##', $branches), 'e');
 		}
 		if (!empty($category)) {
 			$query = (new \App\Db\Query())
@@ -46,7 +48,7 @@ class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 		}
 		$listViewModel->set('query_generator', $queryGenerator);
 		$listEntries = $listViewModel->getListViewEntries($pagingModel);
-		if (count($listEntries) === 0) {
+		if (0 === \count($listEntries)) {
 			return;
 		}
 		$listHeaders = $listViewModel->getListViewHeaders();
@@ -57,7 +59,10 @@ class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 		$viewer->view('TreeRecords.tpl', $moduleName);
 	}
 
-	public function postProcess(\App\Request $request, $display = true)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function postProcess(App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
 		$baseModuleName = 'Accounts';

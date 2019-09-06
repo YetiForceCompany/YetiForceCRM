@@ -54,18 +54,34 @@ class Login extends \Api\Core\BaseAction
 		if (\App\Encryption::getInstance()->decrypt($row['password_t']) !== $this->controller->request->get('password')) {
 			throw new \Api\Core\Exception('Invalid user password', 401);
 		}
+		if (\Api\Portal\Privilege::USER_PERMISSIONS !== $row['type'] && (empty($row['crmid']) || !\App\Record::isExists($row['crmid']))) {
+			throw new \Api\Core\Exception('No crmid', 401);
+		}
 		$db->createCommand()->update('w_#__portal_user', ['login_time' => date(static::DATE_TIME_FORMAT)], ['id' => $row['id']])->execute();
 		$row = $this->updateSession($row);
 		$userModel = \App\User::getUserModel($row['user_id']);
-
+		$parentId = \Api\Portal\Privilege::USER_PERMISSIONS !== $row['type'] ? \App\Record::getParentRecord($row['crmid']) : 0;
+		$companyDetails = [];
+		if (!empty($parentId)) {
+			$parentRecordModel = \Vtiger_Record_Model::getInstanceById($parentId, 'Accounts');
+			$companyDetails['check_stock_levels'] = (bool) $parentRecordModel->get('check_stock_levels');
+			$companyDetails['sum_open_orders'] = $parentRecordModel->get('sum_open_orders');
+			$creditLimitId = $parentRecordModel->get('creditlimit');
+			if (!empty($creditLimitId)) {
+				$limits = \Vtiger_InventoryLimit_UIType::getLimits();
+				$companyDetails['creditlimit'] = $limits[$creditLimitId]['value'] ?? 0;
+			}
+		}
 		return [
 			'token' => $row['token'],
 			'name' => \App\Record::getLabel($row['crmid']),
-			'parentName' => \App\Record::getLabel(\App\Record::getParentRecord($row['crmid'])),
+			'parentName' => empty($parentId) ? '' : \App\Record::getLabel($parentId),
 			'lastLoginTime' => $row['login_time'],
 			'lastLogoutTime' => $row['logout_time'],
 			'language' => $row['language'],
 			'type' => $row['type'],
+			'companyId' => (\Api\Portal\Privilege::USER_PERMISSIONS !== $row['type']) ? $parentId : 0,
+			'companyDetails' => $companyDetails,
 			'logged' => true,
 			'preferences' => [
 				'activity_view' => $userModel->getDetail('activity_view'),

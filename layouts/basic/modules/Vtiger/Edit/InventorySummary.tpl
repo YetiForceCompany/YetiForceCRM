@@ -14,7 +14,7 @@
 								</span>
 								<strong>{\App\Language::translate('LBL_DISCOUNTS_SUMMARY',$MODULE)}</strong>
 							</div>
-							<div class="col-12 col-lg-3 p-0 groupDiscount changeDiscount  {if $INVENTORY_ROW && $INVENTORY_ROW['discountmode'] == '1'}d-none{/if}">
+							<div class="col-12 col-lg-3 p-0 groupDiscount changeDiscount  {if isset($INVENTORY_ROW['discountmode']) && $INVENTORY_ROW['discountmode'] === 1}d-none{/if}">
 								<button type="button"
 										class="btn btn-primary btn-sm c-btn-block-md-down float-right">{\App\Language::translate('LBL_SET_GLOBAL_DISCOUNT', $MODULE)}</button>
 							</div>
@@ -35,8 +35,8 @@
 				</div>
 			</div>
 		{/if}
-		{if $INVENTORY_MODEL->isField('tax') && $INVENTORY_MODEL->isField('taxmode')}
-			<div class="col-md-4">
+		{if ($INVENTORY_MODEL->isField('tax') || $INVENTORY_MODEL->isField('tax_percent')) && $INVENTORY_MODEL->isField('taxmode')}
+			<div class="col-md-4 px-1">
 				<div class="card mb-3 mb-md-0 inventorySummaryContainer inventorySummaryTaxes">
 					<div class="card-header">
 						<div class="form-row">
@@ -47,7 +47,7 @@
 								</span>
 								<strong>{\App\Language::translate('LBL_TAX_SUMMARY',$MODULE)}</strong>
 							</div>
-							<div class="col-12 col-lg-3 p-0 groupTax changeTax {if $INVENTORY_ROW && $INVENTORY_ROW['taxmode'] == '1'}d-none{/if}">
+							<div class="col-12 col-lg-3 p-0 groupTax changeTax {if isset($INVENTORY_ROW['taxmode']) && $INVENTORY_ROW['taxmode'] === 1}d-none{/if}">
 								<button type="button"
 										class="btn btn-primary btn-sm float-right c-btn-block-md-down">{\App\Language::translate('LBL_SET_GLOBAL_TAX', $MODULE)}</button>
 							</div>

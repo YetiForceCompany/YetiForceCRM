@@ -18,7 +18,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if ($request->isEmpty('record', true)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -39,7 +39,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 	 *
 	 * @return type
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->getByType('relatedModule', 2);
@@ -62,7 +62,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
-		if ($sortOrder === 'ASC') {
+		if ('ASC' === $sortOrder) {
 			$nextSortOrder = 'DESC';
 			$sortImage = 'fas fa-chevron-down';
 		} else {
@@ -96,14 +96,14 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 			$viewer->assign('ALPHABET_VALUE', $serchValue);
 		}
 		$searchParmams = App\Condition::validSearchParams($relatedModuleName, $request->getArray('search_params'));
-		if (empty($searchParmams) || !is_array($searchParmams)) {
+		if (empty($searchParmams) || !\is_array($searchParmams)) {
 			$searchParmams = [];
 		}
 		$queryGenerator = $relationListView->getQueryGenerator();
 		$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition($searchParmams);
 		$relationListView->set('search_params', $transformedSearchParams);
 		//To make smarty to get the details easily accesible
-		foreach ($searchParmams as $fieldListGroup) {
+		foreach ($request->getArray('search_params') as $fieldListGroup) {
 			foreach ($fieldListGroup as $fieldSearchInfo) {
 				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2] ?? '';
 				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0] ?? '';
@@ -111,7 +111,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 				$searchParmams[$fieldName] = $fieldSearchInfo;
 			}
 		}
-		if ($relatedView === 'ListPreview') {
+		if ('ListPreview' === $relatedView) {
 			$relationListView->setFields(array_merge(['id'], $relationListView->getRelatedModuleModel()->getNameFields()));
 		}
 		$models = $relationListView->getEntries($pagingModel);
@@ -126,7 +126,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('RELATED_LIST_LINKS', $links);
 		$viewer->assign('RELATED_HEADERS', $header);
 		$viewer->assign('RELATED_MODULE', $relationModel->getRelationModuleModel());
-		$viewer->assign('RELATED_ENTIRES_COUNT', count($models));
+		$viewer->assign('RELATED_ENTIRES_COUNT', \count($models));
 		$viewer->assign('RELATION_FIELD', $relationModel->getRelationField());
 		if (\App\Config::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = (int) $relationListView->getRelatedEntriesCount();

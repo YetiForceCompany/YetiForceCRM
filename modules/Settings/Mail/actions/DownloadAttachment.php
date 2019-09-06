@@ -16,7 +16,7 @@ class Settings_Mail_DownloadAttachment_Action extends Vtiger_Mass_Action
 	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserModel = \App\User::getCurrentUserModel();
 		if (!$currentUserModel->isAdmin()) {
@@ -29,20 +29,20 @@ class Settings_Mail_DownloadAttachment_Action extends Vtiger_Mass_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$id = $request->getInteger('record');
 		$selectedFile = $request->getInteger('selectedFile');
-		$filePath = Settings_Mail_Module_Model::getAttachmentPath($id, $selectedFile);
-		if (file_exists($filePath)) {
+		$fileInfo = Settings_Mail_Module_Model::getAttachmentInfo($id, $selectedFile);
+		if ($fileInfo['path'] ?? null && file_exists($fileInfo['path'])) {
 			header('content-description: File Transfer');
 			header('content-type: application/octet-stream');
-			header('content-disposition: attachment; filename="' . basename($filePath) . '"');
+			header('content-disposition: attachment; filename="' . \App\Fields\File::sanitizeUploadFileName($fileInfo['name']) . '"');
 			header('expires: 0');
 			header('cache-control: must-revalidate');
 			header('pragma: public');
-			header('content-length: ' . filesize($filePath));
-			readfile($filePath);
+			header('content-length: ' . filesize($fileInfo['path']));
+			readfile($fileInfo['path']);
 		}
 	}
 }

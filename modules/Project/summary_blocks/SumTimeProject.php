@@ -21,6 +21,6 @@ class SumTimeProject
 	 */
 	public function process(Vtiger_Record_Model $recordModel)
 	{
-		return \App\Fields\Time::formatToHourText($recordModel->get('sum_time'), 'short');
+		return \App\Fields\RangeTime::formatHourToDisplay($recordModel->get('sum_time'), 'short');
 	}
 }

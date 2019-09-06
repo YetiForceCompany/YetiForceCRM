@@ -32,9 +32,59 @@ return [
 	];",
 			'description' => 'Function to remapping fields in countries for OpenCage. It should be function.'
 		],
-		'OPENCAGE_COUNTRY_CODE' => [
+		'nominatimMapUrlCustomOptions' => [
 			'default' => [],
-			'description' => "Restricts the results to the specified country or countries.\nThe country code is a two letter code as defined by the ISO 3166-1 Alpha 2\n(https://en.wikipedia.org/wiki/ISO_3166-1_alpha-, It should be array such like ['en','fr']"
+			'description' => "Additional headers for connections with NominatimGeocoder API e.g. \n['auth' => ['username', 'password']]\n['auth' => ['username', 'password', 'digest']]\n['headers' => 'X-KAY' => 'key-x']"
+		],
+		'nominatimRemapping' => [
+			'type' => 'function',
+			'default' => 'return null;',
+			'description' => 'Main function to remapping fields for NominatimGeocoder. It should be function.'
+		],
+		'nominatimRemappingForCountry' => [
+			'type' => 'function',
+			'default' => "return [
+			'AU' => function (\$row) {
+				return [
+					'addresslevel1' => [\$row['address']['country'] ?? '', \$row['address']['country_code'] ?? ''],
+					'addresslevel2' => \$row['address']['state'] ?? '',
+					'addresslevel3' => \$row['address']['state_district'] ?? '',
+					'addresslevel4' => \$row['address']['county'] ?? '',
+					'addresslevel5' => \$row['address']['suburb'] ?? \$row['address']['neighbourhood'] ?? \$row['address']['city_district'] ?? '',
+					'addresslevel6' => \$row['address']['city'] ?? \$row['address']['town'] ?? \$row['address']['village'] ?? '',
+					'addresslevel7' => \$row['address']['postcode'] ?? '',
+					'addresslevel8' => \$row['address']['road'] ?? '',
+					'buildingnumber' => \$row['address']['house_number'] ?? '',
+					'localnumber' => \$row['address']['local_number'] ?? '',
+				];
+			},
+		];",
+			'description' => 'Function to remapping fields in countries for Nominatim. It should be function.'
+		],
+		'yetiForceRemapping' => [
+			'type' => 'function',
+			'default' => 'return null;',
+			'description' => 'Main function to remapping fields for YetiForceGeocoder. It should be function.'
+		],
+		'yetiForceRemappingForCountry' => [
+			'type' => 'function',
+			'default' => "return [
+			'AU' => function (\$row) {
+				return [
+					'addresslevel1' => [\$row['address']['country'] ?? '', \$row['address']['country_code'] ?? ''],
+					'addresslevel2' => \$row['address']['state'] ?? '',
+					'addresslevel3' => \$row['address']['state_district'] ?? '',
+					'addresslevel4' => \$row['address']['county'] ?? '',
+					'addresslevel5' => \$row['address']['suburb'] ?? \$row['address']['neighbourhood'] ?? \$row['address']['city_district'] ?? '',
+					'addresslevel6' => \$row['address']['city'] ?? \$row['address']['town'] ?? \$row['address']['village'] ?? '',
+					'addresslevel7' => \$row['address']['postcode'] ?? '',
+					'addresslevel8' => \$row['address']['road'] ?? '',
+					'buildingnumber' => \$row['address']['house_number'] ?? '',
+					'localnumber' => \$row['address']['local_number'] ?? '',
+				];
+			},
+		];",
+			'description' => 'Function to remapping fields in countries for YetiForceGeocoder. It should be function.'
 		],
 	],
 	'Backup' => [
@@ -43,7 +93,7 @@ return [
 			'description' => 'Backup catalog path.',
 			'validation' => function () {
 				$arg = func_get_arg(0);
-				return $arg === '' || \App\Fields\File::isAllowedDirectory($arg);
+				return '' === $arg || \App\Fields\File::isAllowedDirectory($arg);
 			}
 		],
 		'EXT_TO_SHOW' => [
@@ -222,5 +272,53 @@ return [
 			'default' => [],
 			'description' => 'List of modules for which Twitter has been enabled.',
 		]
-	]
+	],
+	'Magento' => [
+		'connector' => [
+			'default' => 'Token',
+			'description' => 'Type of connector for integration with magento.',
+		],
+		'addressApi' => [
+			'default' => '',
+			'description' => 'Address url magento',
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return empty($arg) || \App\Validator::url($arg);
+			}
+		],
+		'username' => [
+			'default' => '',
+			'description' => 'Username to account in magento.',
+		],
+		'password' => [
+			'default' => '',
+			'description' => 'Password to account in magento.',
+		],
+		'masterSource' => [
+			'default' => 'magento',
+			'description' => 'Set master source: yetiforce or magento',
+		],
+	],
+	'Branding' => [
+		'isCustomerBrandingActive' => [
+			'default' => false,
+			'description' => "Determines whether client branding is active.\nAny modifications of this parameter require the vendor's consent.\nAny unauthorised modification breaches the terms and conditions of YetiForce Public License.",
+		],
+		'footerName' => [
+			'default' => 'YetiForce',
+			'description' => 'Footer\'s name',
+		],
+		'urlLinkedIn' => [
+			'default' => 'https://www.linkedin.com/groups/8177576',
+			'description' => 'LinkedIn URL',
+		],
+		'urlTwitter' => [
+			'default' => 'https://twitter.com/YetiForceEN',
+			'description' => 'Twitter URL',
+		],
+		'urlFacebook' => [
+			'default' => 'https://www.facebook.com/YetiForce-CRM-158646854306054/',
+			'description' => 'Facebook URL',
+		],
+	],
 ];

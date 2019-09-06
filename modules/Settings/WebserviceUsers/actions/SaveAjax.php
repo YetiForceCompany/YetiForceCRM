@@ -14,7 +14,7 @@ class Settings_WebserviceUsers_SaveAjax_Action extends Settings_Vtiger_Save_Acti
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$data = [
 			'server_id' => $request->getInteger('server_id'),
@@ -26,17 +26,32 @@ class Settings_WebserviceUsers_SaveAjax_Action extends Settings_Vtiger_Save_Acti
 			'popupReferenceModule' => $request->getByType('popupReferenceModule', 'Alnum'),
 			'crmid' => $request->isEmpty('crmid') ? '' : $request->getInteger('crmid'),
 			'crmid_display' => $request->getByType('crmid_display', 'Text'),
-			'user_id' => $request->getInteger('user_id')
+			'user_id' => $request->getInteger('user_id'),
+			'istorage' => $request->isEmpty('istorage') ? '' : $request->getInteger('istorage'),
 		];
+
 		$typeApi = $request->getByType('typeApi', 'Alnum');
 		if (!$request->isEmpty('record')) {
 			$recordModel = Settings_WebserviceUsers_Record_Model::getInstanceById($request->getInteger('record'), $typeApi);
+			foreach ($data as $key => $value) {
+				$recordModel->set($key, $value);
+			}
 		} else {
 			$recordModel = Settings_WebserviceUsers_Record_Model::getCleanInstance($typeApi);
+			$recordModel->setData($data);
 		}
-		$result = $recordModel->save($data);
-		$responceToEmit = new Vtiger_Response();
-		$responceToEmit->setResult($result);
-		$responceToEmit->emit();
+
+		try {
+			if ($recordModel->save() && $request->isEmpty('record') && \App\Config::api('enableEmailPortal', false)) {
+				$recordModel->sendEmail();
+			}
+			$result = ['success' => true];
+		} catch (\Exception $e) {
+			$result = ['success' => false, 'message' => \App\Language::translate('LBL_DUPLICATE_LOGIN')];
+		}
+
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
 	}
 }

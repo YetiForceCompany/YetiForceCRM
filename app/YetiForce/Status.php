@@ -67,7 +67,7 @@ class Status
 		$info = [];
 		foreach ($config as $name => $state) {
 			if ($state) {
-				$info[$name] = call_user_func([$status, 'get' . ucfirst($name)]);
+				$info[$name] = \call_user_func([$status, 'get' . ucfirst($name)]);
 			}
 		}
 		try {
@@ -393,7 +393,7 @@ class Status
 	 */
 	public function getDomain()
 	{
-		return \AppConfig::main('site_URL');
+		return \App\Config::main('site_URL');
 	}
 
 	/**
