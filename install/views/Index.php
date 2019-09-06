@@ -171,8 +171,8 @@ class Install_Index_View extends \App\Controller\View
 	 */
 	public function stepChooseHost(App\Request $request)
 	{
-		$this->viewer->assign('PRODUCT_ClOUD', \App\YetiForce\Shop::getProduct('InstallInCloud'));
-		$this->viewer->assign('PRODUCT_SHARED', \App\YetiForce\Shop::getProduct('InstallInHosting'));
+		$this->viewer->assign('PRODUCT_ClOUD', \App\YetiForce\Shop::getProduct('YetiForceInstallInCloud'));
+		$this->viewer->assign('PRODUCT_SHARED', \App\YetiForce\Shop::getProduct('YetiForceInstallInHosting'));
 		$this->viewer->display('StepChooseHost.tpl');
 	}
 
