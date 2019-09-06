@@ -18,6 +18,22 @@ namespace App\Map\Address;
 class OpenCageGeocoder extends Base
 {
 	/**
+	 * {@inheritdoc}
+	 */
+	public $customFields = [
+		'country_codes' => [
+			'label' => 'LBL_COUNTRY_CODES',
+			'type' => 'text',
+			'placeholder' => 'LBL_COUNTRY_CODES_PLACEHOLDER',
+		],
+		'key' => [
+			'label' => 'LBL_PROVIDER_KEY',
+			'type' => 'text',
+			'placeholder' => 'LBL_ENTER_KEY_APPLICATION',
+			'validator' => 'required'
+		],
+	];
+	/**
 	 * API Address to retrieve data.
 	 *
 	 * @var string
@@ -41,8 +57,8 @@ class OpenCageGeocoder extends Base
 		$urlAddress = static::$url . 'json?q=' . $value . '&pretty=1';
 		$urlAddress .= '&language=' . \App\Language::getLanguage();
 		$urlAddress .= '&limit=' . $config['global']['result_num'];
-		$urlAddress .= '&key=' . $config['opencage_data']['key'];
-		if ($countryCode = \App\Config::component('AddressFinder', 'OPENCAGE_COUNTRY_CODE')) {
+		$urlAddress .= '&key=' . $config['OpenCageGeocoder']['key'];
+		if ($countryCode = \App\Map\Address::getConfig()[$this->getName()]['country_codes']) {
 			$urlAddress .= '&countrycode=' . implode(',', $countryCode);
 		}
 		try {

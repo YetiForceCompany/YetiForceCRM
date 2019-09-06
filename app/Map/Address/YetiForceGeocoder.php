@@ -18,6 +18,17 @@ class YetiForceGeocoder extends Base
 	/**
 	 * {@inheritdoc}
 	 */
+	public $customFields = [
+		'country_codes' => [
+			'label' => 'LBL_COUNTRY_CODES',
+			'type' => 'text',
+			'placeholder' => 'LBL_COUNTRY_CODES_PLACEHOLDER',
+		]
+	];
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function isSet()
 	{
 		return \App\YetiForce\Shop::check('YetiForceGeocoder');
@@ -39,7 +50,7 @@ class YetiForceGeocoder extends Base
 			'accept-language' => \App\Language::getLanguage() . ',' . \App\Config::main('default_language') . ',en-US',
 			'q' => $value
 		];
-		if ($countryCode = \Config\Components\AddressFinder::$yetiForceCountryCode) {
+		if ($countryCode = \App\Map\Address::getConfig()[$this->getName()]['country_codes']) {
 			$params['countrycodes'] = implode(',', $countryCode);
 		}
 		$rows = [];

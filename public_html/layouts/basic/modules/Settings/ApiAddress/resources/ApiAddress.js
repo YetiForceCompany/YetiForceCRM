@@ -250,7 +250,7 @@ jQuery.Class(
 										text: data['result']['message'],
 										type: 'success'
 									});
-									// window.location.reload();
+									window.location.reload();
 								})
 								.fail(function() {
 									Vtiger_Helper_Js.showPnotify({
