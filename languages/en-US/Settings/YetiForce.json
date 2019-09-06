@@ -76,7 +76,6 @@
     "LBL_SHOP_COMPANY_SIZE_LARGE": "Large (above 250)",
     "LBL_SHOP_DOMAIN_PREFIX": "Domain prefix",
     "LBL_SHOP_INSTALLINCLOUD_DESC": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui tempora nemo repellat tenetur libero nihil enim porro nesciunt laboriosam vel. Repudiandae, sit reprehenderit deserunt hic eius porro dolores vitae numquam!",
-
     "LBL_VULNERABILITIES_OK": "No vulnerabilities found in libraries",
     "LBL_VULNERABILITIES_OK_DESC": "Do not forget to check the vulnerabilities in your libraries periodically.",
     "LBL_VULNERABILITIES_WARNING": "Detected vulnerabilities in libraries",
