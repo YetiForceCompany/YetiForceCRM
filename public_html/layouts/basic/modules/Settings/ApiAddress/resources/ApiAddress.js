@@ -5,18 +5,8 @@ jQuery.Class(
 	'Settings_ApiAddress_Configuration_Js',
 	{},
 	{
-		registerChangeApi: function(content) {
-			content.find('#change_api').on('change', function() {
-				var value = $(this).val();
-				content.find('.api_row').addClass('d-none');
-				if (value) {
-					content.find('.' + value).removeClass('d-none');
-				}
-			});
-		},
 		registerSave: function(content) {
-			const thisInstance = this;
-			content.find('.saveGlobal').on('click', function() {
+			content.find('.saveGlobal').on('click', event => {
 				const defaultProvider = $('[name="default_provider"]:checked');
 				let elements = {
 					global: {
@@ -50,119 +40,6 @@ jQuery.Class(
 							type: 'error'
 						});
 					});
-			});
-			content.find('.save').on('click', function() {
-				var elements = {};
-				jQuery(this)
-					.closest('.apiContainer')
-					.find('.api')
-					.each(function() {
-						var name = jQuery(this).attr('name');
-
-						if (jQuery(this).attr('type') == 'checkbox') {
-							elements[name] = jQuery(this).prop('checked') ? 1 : 0;
-						} else {
-							elements[name] = jQuery(this).val();
-						}
-					});
-				elements['api_name'] = jQuery(this)
-					.closest('.apiContainer')
-					.find('.apiAdrress')
-					.data('api-name');
-				// validate fields
-				if (!thisInstance.registerValidate(elements)) {
-					return false;
-				}
-
-				elements = jQuery.extend({}, elements);
-				let params = {};
-				params.data = { module: 'ApiAddress', parent: 'Settings', action: 'SaveConfig', elements: elements };
-				params.async = false;
-				params.dataType = 'json';
-				AppConnector.request(params)
-					.done(function(data) {
-						let response = data['result'];
-						if (response['success']) {
-							if (elements['key']) {
-								thisInstance.registerReload();
-							}
-							Vtiger_Helper_Js.showPnotify({
-								text: response['message'],
-								type: 'success'
-							});
-						} else {
-							Vtiger_Helper_Js.showPnotify({
-								text: response['message'],
-								type: 'error'
-							});
-						}
-					})
-					.fail(function() {
-						Vtiger_Helper_Js.showPnotify({
-							text: app.vtranslate('JS_ERROR'),
-							type: 'error'
-						});
-					});
-			});
-		},
-		registerRemoveConnection: function(content) {
-			const thisInstance = this;
-			content.find('.delete').on('click', function() {
-				AppConnector.request({
-					data: {
-						module: 'ApiAddress',
-						parent: 'Settings',
-						action: 'SaveConfig',
-						elements: {
-							key: '0',
-							nominatim: '0',
-							api_name: jQuery(this)
-								.closest('.apiContainer')
-								.find('.apiAdrress')
-								.data('api-name')
-						}
-					},
-					async: false,
-					dataType: 'json'
-				})
-					.done(function(data) {
-						let response = data['result'];
-						if (response['success']) {
-							thisInstance.registerReload();
-							Vtiger_Helper_Js.showPnotify({
-								text: response['message'],
-								type: 'success'
-							});
-						} else {
-							Vtiger_Helper_Js.showPnotify({
-								text: response['message'],
-								type: 'error'
-							});
-						}
-					})
-					.fail(function() {
-						Vtiger_Helper_Js.showPnotify({
-							text: app.vtranslate('JS_ERROR'),
-							type: 'error'
-						});
-					});
-			});
-		},
-		registerReload: function() {
-			var thisInstance = this;
-			var progress = jQuery.progressIndicator({
-				message: app.vtranslate('JS_LOADING_PLEASE_WAIT'),
-				position: '.contentsDiv',
-				blockInfo: {
-					enabled: true
-				}
-			});
-
-			jQuery.get('index.php?module=ApiAddress&parent=Settings&view=Configuration', function(data) {
-				jQuery('.contentsDiv').html(data);
-				App.Fields.Picklist.showSelect2ElementView(jQuery('.contentsDiv').find('select.select2'));
-				progress.progressIndicator({ mode: 'hide' });
-				thisInstance.registerEvents();
 			});
 		},
 		registerValidate: function(elements) {
@@ -264,13 +141,10 @@ jQuery.Class(
 			});
 		},
 		registerEvents: function() {
-			var thisInstance = this;
 			var content = $('.contentsDiv');
 			var configTable = $('.js-config-table');
 			this.registerConfigModal(configTable);
-			thisInstance.registerChangeApi(content);
-			thisInstance.registerSave(content);
-			thisInstance.registerRemoveConnection(content);
+			this.registerSave(content);
 		}
 	}
 );
