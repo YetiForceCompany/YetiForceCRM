@@ -1057,6 +1057,11 @@ window.App.Fields = {
 				});
 				selectElement.removeClass('js-lazy-select');
 				this.showSelect2ElementView(selectElement, params.selectParams);
+				let selectedOption = selectElement.data('selected-value')
+				if (selectedOption) {
+					const newOption = new Option(selectedOption, 1, true, true);
+					selectElement.append(newOption).trigger('change');
+				}
 			});
 		},
 		/**
