@@ -2,6 +2,21 @@
 # yarn lockfile v1
 
 
+"@babel/polyfill@7.2.5":
+  version "7.2.5"
+  resolved "https://registry.yarnpkg.com/@babel/polyfill/-/polyfill-7.2.5.tgz#6c54b964f71ad27edddc567d065e57e87ed7fa7d"
+  integrity sha512-8Y/t3MWThtMLYr0YNC/Q76tqN1w30+b0uQMeFUYauG2UGTR19zyUtFrAzT23zNtBxPp+LbE5E/nwV/q/r3y6ug==
+  dependencies:
+    core-js "^2.5.7"
+    regenerator-runtime "^0.12.0"
+
+"@babel/runtime@7.3.4":
+  version "7.3.4"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.3.4.tgz#73d12ba819e365fcf7fd152aed56d6df97d21c83"
+  integrity sha512-IvfvnMdSaLBateu0jfsYIpZTxAc2cKEXEMiezGGN75QcBcecDUKd3PgLAncT0oOgxKy8dd8hrJKj9MfzgfZd6g==
+  dependencies:
+    regenerator-runtime "^0.12.0"
+
 "@fortawesome/fontawesome-free@^5.8.2":
   version "5.10.2"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.10.2.tgz#27e02da1e34b50c9869179d364fb46627b521130"
@@ -162,6 +177,11 @@ color-name@^1.0.0:
   resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.4.tgz#c2a09a87acbde69543de6f63fa3995c826c536a2"
   integrity sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==
 
+core-js@^2.5.7:
+  version "2.6.9"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.9.tgz#6b4b214620c834152e179323727fc19741b084f2"
+  integrity sha512-HOpZf6eXmnl7la+cUdMnLvUxKNqLUzJvgIziQ0DiF3JwSImNphIqdGqzj6hIKyX04MmV0poclQ7+wjWvxQyR2A==
+
 css-element-queries@^1.0.5:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/css-element-queries/-/css-element-queries-1.2.1.tgz#70d1a0f676fc0bd0a3306522a5b2d3bcc55c9fe6"
@@ -225,6 +245,15 @@ dompurify@^1.0.10:
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-1.0.11.tgz#fe0f4a40d147f7cebbe31a50a1357539cfc1eb4d"
   integrity sha512-XywCTXZtc/qCX3iprD1pIklRVk/uhl8BKpkTxr+ZyMVUzSUg7wkQXRBp/euJ5J5moa1QvfpvaPQVP71z1O59dQ==
+
+emoji-mart-vue-fast@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/emoji-mart-vue-fast/-/emoji-mart-vue-fast-6.0.1.tgz#780da980835a6d98237374aee47b3680644ed2bf"
+  integrity sha512-+K/Tx2SmDFAOpgoa4cDIjsWQZfEzbFiEKPC4sISa6gnXEmTj+N940NlOP3QutSQsI6gMpX3zvyeI83N6Wnzfsg==
+  dependencies:
+    "@babel/polyfill" "7.2.5"
+    "@babel/runtime" "7.3.4"
+    vue-virtual-scroller "^1.0.0-rc.2"
 
 "emojipanel@https://github.com/YetiForceCompany/EmojiPanel#master":
   version "1.0.0"
@@ -420,6 +449,11 @@ quasar@^1.0.0-rc.4:
   resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.1.0.tgz#80cbfd85e5731b4982c249206bb6d14fd66bfbe0"
   integrity sha512-vZQwBEspzWeScSfA7SC9yarh2eZpQPquTTfISL0LQzsVhvYUq5YPMzsnwr8mV26AKcdEicsJD5GLSAzQu6uxyg==
 
+regenerator-runtime@^0.12.0:
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.12.1.tgz#fa1a71544764c036f8c49b13a08b2594c9f8a0de"
+  integrity sha512-odxIc1/vDlo4iZcfXqRYFj0vpXFNoGdKMAUieAlFYO6m/nl5e9KR/beGf41z4a1FI+aQgtjhuaSlDxQ0hmkrHg==
+
 resize-observer-polyfill@^1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz#0e9020dd3d21024458d4ebd27e23e40269810464"
@@ -434,6 +468,11 @@ sass-material-colors@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/sass-material-colors/-/sass-material-colors-0.0.5.tgz#b944539236c94e2d4ece35d2ee3fa22f10b2ed43"
   integrity sha1-uURTkjbJTi1OzjXS7j+iLxCy7UM=
+
+scrollparent@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/scrollparent/-/scrollparent-2.0.1.tgz#715d5b9cc57760fb22bdccc3befb5bfe06b1a317"
+  integrity sha1-cV1bnMV3YPsivczDvvtb/gaxoxc=
 
 select2-theme-bootstrap4@^0.2.0-beta.3:
   version "0.2.0-beta.4"
@@ -474,6 +513,25 @@ tributejs@^3.7.1:
   version "3.7.3"
   resolved "https://registry.yarnpkg.com/tributejs/-/tributejs-3.7.3.tgz#24f0405aff6383db5e1dc76b9dc1e503e71db9b9"
   integrity sha512-0al6SLgRjSEvdy4/DCz44Zgq6PzXFsOoYuwyg9obuUnneu5xDfASw2xU0Ww4KKCWH1Fb25gVGQz+B6VZmaNcEQ==
+
+vue-observe-visibility@^0.4.3:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/vue-observe-visibility/-/vue-observe-visibility-0.4.4.tgz#cf3e945bf80c1317a1c32bc516d6cfd4dda8f8fd"
+  integrity sha512-2eDYHgL2MJ2wkkNZnus56D0CG8m80BFLuvEcGnD7rQ9jxFogpXMsM9aM5Md+XT8AmYGYCqVfOVBaWFtVvwbpmw==
+
+vue-resize@^0.4.5:
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/vue-resize/-/vue-resize-0.4.5.tgz#4777a23042e3c05620d9cbda01c0b3cc5e32dcea"
+  integrity sha512-bhP7MlgJQ8TIkZJXAfDf78uJO+mEI3CaLABLjv0WNzr4CcGRGPIAItyWYnP6LsPA4Oq0WE+suidNs6dgpO4RHg==
+
+vue-virtual-scroller@^1.0.0-rc.2:
+  version "1.0.0-rc.2"
+  resolved "https://registry.yarnpkg.com/vue-virtual-scroller/-/vue-virtual-scroller-1.0.0-rc.2.tgz#b03828496c87889641bdacc75510e5b1bf5bda7f"
+  integrity sha512-4YFx1a+QDP4f6HW/HBI/qHcmSTlh7BMH6IjEH8WC3ylt499cErl0LpvLLAx9yo3c6NtuK/XvjYXi0vvdxFB5dw==
+  dependencies:
+    scrollparent "^2.0.1"
+    vue-observe-visibility "^0.4.3"
+    vue-resize "^0.4.5"
 
 vue@^2.6.10:
   version "2.6.10"
