@@ -46,8 +46,8 @@
   </div>
 </template>
 <script>
-import Emoji from 'emoji-mart-vue-fast'
-import data from '~/node_modules/emoji-mart-vue-fast/data/all'
+import Emoji from '~/../libraries/emoji-mart-vue-fast/dist/emoji-mart'
+import data from '~/../libraries/emoji-mart-vue-fast/data/all'
 import { createNamespacedHelpers } from 'vuex'
 const Picker = Emoji.Picker
 const EmojiIndex = Emoji.EmojiIndex

@@ -23,7 +23,6 @@
     "watch": "cross-env NODE_ENV=development node rollup.js"
   },
   "dependencies": {
-    "emoji-mart-vue-fast": "^6.0.0",
     "lodash.get": "^4.4.2",
     "lodash.isequal": "^4.5.0",
     "lodash.unionby": "^4.8.0",
