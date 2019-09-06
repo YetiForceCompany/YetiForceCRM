@@ -237,7 +237,7 @@ abstract class View extends Base
 			'~libraries/animate.css/animate.css',
 			'~libraries/tributejs/dist/tribute.css',
 			'~libraries/emojipanel/dist/emojipanel.css',
-			'~src/node_modules/emoji-mart-vue-fast/css/emoji-mart.css',
+			'~libraries/emoji-mart-vue-fast/css/emoji-mart.css',
 			'~libraries/@mdi/font/css/materialdesignicons.min.css',
 			'~src/css/quasar.css',
 			'~layouts/resources/colors/calendar.css',
@@ -466,7 +466,7 @@ abstract class View extends Base
 			if (file_exists($completeFilePath)) {
 				$cssScriptModel->set('base', $completeFilePath);
 				if (0 === strpos($cssFileName, '~')) {
-					$filePath =  ltrim(ltrim($cssFileName, '~'), '/');
+					$filePath = ltrim(ltrim($cssFileName, '~'), '/');
 				} else {
 					$filePath = str_replace('.', '/', $cssFileName) . '.' . $fileExtension;
 				}
@@ -474,8 +474,8 @@ abstract class View extends Base
 				if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\Vtiger_Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
 					$filePath = $minFilePath;
 				}
-				\App\Cache::save('ConvertCssStyles', $cssFileName, $prefix .$filePath, \App\Cache::LONG);
-				$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $prefix .$filePath);
+				\App\Cache::save('ConvertCssStyles', $cssFileName, $prefix . $filePath, \App\Cache::LONG);
+				$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $prefix . $filePath);
 			} else {
 				$preLayoutPath = '';
 				if (0 === strpos($cssFileName, '~')) {
@@ -575,8 +575,8 @@ abstract class View extends Base
 			'searchShowOwnerOnlyInList' => \App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST'),
 			'fieldsReferencesDependent' => \App\Config::security('FIELDS_REFERENCES_DEPENDENT'),
 			'soundFilesPath' => \App\Layout::getPublicUrl('layouts/resources/sounds/'),
-			'debug' => (bool)\App\Config::debug('JS_DEBUG')];
-		if(\App\Session::has('authenticated_user_id')){
+			'debug' => (bool) \App\Config::debug('JS_DEBUG')];
+		if (\App\Session::has('authenticated_user_id')) {
 			$userModel = \App\User::getCurrentUserModel();
 			$jsEnv += [
 				'dateFormat' => $userModel->getDetail('date_format'),
@@ -597,13 +597,13 @@ abstract class View extends Base
 				'currencyDecimalSeparator' => $userModel->getDetail('currency_decimal_separator'),
 				'currencyGroupingSeparator' => $userModel->getDetail('currency_grouping_separator'),
 				'currencySymbolPlacement' => $userModel->getDetail('currency_symbol_placement'),
-				'noOfCurrencyDecimals' => (int)$userModel->getDetail('no_of_currency_decimals'),
+				'noOfCurrencyDecimals' => (int) $userModel->getDetail('no_of_currency_decimals'),
 				'truncateTrailingZeros' => $userModel->getDetail('truncate_trailing_zeros'),
 				'rowHeight' => $userModel->getDetail('rowheight'),
 				'userId' => $userModel->getId()
 			];
 		}
-		foreach($jsEnv as $key => $value) {
+		foreach ($jsEnv as $key => $value) {
 			\App\Config::setJsEnv($key, $value);
 		}
 		if (\App\Session::has('ShowAuthy2faModal')) {
@@ -614,7 +614,7 @@ abstract class View extends Base
 		}
 		if (\App\Session::has('ShowUserPasswordChange')) {
 			\App\Config::setJsEnv('ShowUserPasswordChange', \App\Session::get('ShowUserPasswordChange'));
-			if (1 === (int)\App\Session::get('ShowUserPasswordChange')) {
+			if (1 === (int) \App\Session::get('ShowUserPasswordChange')) {
 				\App\Session::delete('ShowUserPasswordChange');
 			}
 		}
