@@ -20,6 +20,23 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 		this.registerProductModalClick();
 		this.registerBuyModalClick();
 		this.registerShopSearch();
+		this.showInitialModal();
+	}
+	showInitialModal() {
+		let request = {};
+		window.location.href.split('&').forEach(el => {
+			if (el.includes('=')) {
+				let values = el.split('=');
+				request[values[0]] = values[1];
+			}
+		});
+		if (request.mode) {
+			if (request.showBuyModal === 'buy') {
+				this.showBuyModal(request.product, request.department);
+			} else if (request.mode === 'showProductModal') {
+				this.showProductModal(request.product, request.department);
+			}
+		}
 	}
 	/**
 	 * Register events.
@@ -69,7 +86,7 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	showProductModal(productName, department) {
 		app.showModalWindow(
 			null,
-			`${this.modalUrl}&view=ProductModal&product=${productName}&department=${department}`,
+			`${this.modalUrl}&view=ProductModal&product=${productName}${department ? '&department=' + department : ''}`,
 			modalContainer => {
 				modalContainer.find('.js-modal__save').on('click', _ => {
 					app.hideModalWindow();

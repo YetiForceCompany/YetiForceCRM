@@ -18,6 +18,11 @@ class YetiForceGeocoder extends Base
 	/**
 	 * {@inheritdoc}
 	 */
+	public $link = 'index.php?module=YetiForce&parent=Settings&view=Shop&product=YetiForceGeocoder&mode=showProductModal';
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public $customFields = [
 		'country_codes' => [
 			'label' => 'LBL_COUNTRY_CODES',
