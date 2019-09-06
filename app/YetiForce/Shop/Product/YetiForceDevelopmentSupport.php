@@ -1,6 +1,6 @@
 <?php
 /**
- * YetiForce shop PremiumSupport file.
+ * YetiForce shop DevelopmentSupport file.
  *
  * @package   App
  *
@@ -12,9 +12,9 @@
 namespace App\YetiForce\Shop\Product;
 
 /**
- * YetiForce shop PremiumSupport class.
+ * YetiForce shop DevelopmentSupport class.
  */
-class PremiumSupport extends \App\YetiForce\Shop\AbstractBaseProduct
+class YetiForceDevelopmentSupport extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/**
 	 * {@inheritdoc}

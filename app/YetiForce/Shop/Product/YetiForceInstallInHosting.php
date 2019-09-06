@@ -14,7 +14,7 @@ namespace App\YetiForce\Shop\Product;
 /**
  * YetiForce shop InstallInHosting class.
  */
-class InstallInHosting extends \App\YetiForce\Shop\AbstractBaseProduct
+class YetiForceInstallInHosting extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/**
 	 * {@inheritdoc}

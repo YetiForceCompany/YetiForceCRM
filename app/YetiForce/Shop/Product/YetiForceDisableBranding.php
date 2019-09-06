@@ -1,6 +1,6 @@
 <?php
 /**
- * YetiForce shop Donations file.
+ * YetiForce shop DisableBranding file.
  *
  * @package   App
  *
@@ -12,14 +12,20 @@
 namespace App\YetiForce\Shop\Product;
 
 /**
- * YetiForce shop Donations class.
+ * YetiForce shop DisableBranding class.
  */
-class Donations extends \App\YetiForce\Shop\AbstractBaseProduct
+class YetiForceDisableBranding extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/**
 	 * {@inheritdoc}
 	 */
-	public $pricesType = 'manual';
+	public $prices = [
+		'Micro' => 10,
+		'Small' => 25,
+		'Medium' => 50,
+		'Large' => 100,
+	];
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -28,16 +34,11 @@ class Donations extends \App\YetiForce\Shop\AbstractBaseProduct
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getPrice(): int
-	{
-		return \App\User::getNumberOfUsers();
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function verify($cache = true): bool
 	{
+		if (\Config\Components\Branding::$isCustomerBrandingActive) {
+			return \App\YetiForce\Shop::check('DisableBranding');
+		}
 		return true;
 	}
 }
