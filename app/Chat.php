@@ -225,14 +225,14 @@ final class Chat
 		while ($row = $dataReader->read()) {
 			if (isset($groups[$row['recordid']])) {
 				$row['isPinned'] = true;
-				$row['roomType'] =  'group';
 				$groups[$row['recordid']] = $row;
 			}
 		}
 		foreach ($groups as $id => $group) {
-			if (is_string($group)) {
+			if (\is_string($group)) {
 				$group = ['recordid' => $id, 'name' => $group, 'isPinned' => false];
 			}
+			$group['roomType'] = 'group';
 			$rows[$id] = $group;
 		}
 		$dataReader->close();
@@ -281,7 +281,8 @@ final class Chat
 	/**
 	 * Get room last message.
 	 *
-	 * @param int $roomId
+	 * @param int    $roomId
+	 * @param string $roomType
 	 *
 	 * @return array
 	 */
@@ -289,7 +290,7 @@ final class Chat
 	{
 		return (array) (new Db\Query())
 			->from(static::TABLE_NAME['message'][$roomType])
-			->where([$roomType === 'crm' ? 'crmid' : 'groupid' => $roomId])
+			->where(['crm' === $roomType ? 'crmid' : 'groupid' => $roomId])
 			->orderBy(['id' => \SORT_DESC])
 			->one();
 	}
@@ -545,6 +546,7 @@ final class Chat
 	 *
 	 * @param int|null $messageId
 	 * @param string   $condition
+	 * @param ?string  $searchVal
 	 *
 	 * @throws \App\Exceptions\AppException
 	 * @throws \App\Exceptions\IllegalValue
@@ -593,7 +595,7 @@ final class Chat
 	{
 		$columnMessage = static::COLUMN_NAME['message'][$roomType];
 		$columnRoomName = static::COLUMN_NAME['room_name'][$roomType];
-		$roomNameId = $roomType === 'global' ?  static::COLUMN_NAME['room']['global'] : $columnMessage;
+		$roomNameId = 'global' === $roomType ? static::COLUMN_NAME['room']['global'] : $columnMessage;
 		$query = (new Db\Query())
 			->select([
 				'id', 'messages', 'userid', 'created',
@@ -616,11 +618,11 @@ final class Chat
 		$dataReader = $query->createCommand()->query();
 		$notPermittedIds = [];
 		while ($row = $dataReader->read()) {
-			if ('group' === $roomType && 	!isset($groups[$row['recordid']])) {
+			if ('group' === $roomType && !isset($groups[$row['recordid']])) {
 				continue;
 			}
-			if  ('crm' === $roomType) {
-				if(in_array($row['recordid'], $notPermittedIds)) {
+			if ('crm' === $roomType) {
+				if (\in_array($row['recordid'], $notPermittedIds)) {
 					continue;
 				}
 				if (!Record::isExists($row['recordid']) || !\Vtiger_Record_Model::getInstanceById($row['recordid'])->isViewable()) {
@@ -880,7 +882,7 @@ final class Chat
 			Db::getInstance()->createCommand()->insert(
 				static::TABLE_NAME['room'][$this->roomType],
 				[
-					'last_message' => isset($lastMessage['id']) ? $lastMessage['id'] : 0,
+					'last_message' => $lastMessage['id'] ?? 0,
 					'userid' => $this->userId,
 					static::COLUMN_NAME['room'][$this->roomType] => $this->recordId
 				]
@@ -895,6 +897,7 @@ final class Chat
 	 * @param int|null $messageId
 	 * @param string   $condition
 	 * @param bool     $isLimit
+	 * @param ?string  $searchVal
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 *

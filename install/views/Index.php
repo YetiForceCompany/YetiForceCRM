@@ -37,6 +37,7 @@ class Install_Index_View extends \App\Controller\View
 		$this->exposeMethod('step2');
 		$this->exposeMethod('stepChooseHost');
 		$this->exposeMethod('showBuyModal');
+		$this->exposeMethod('showProductModal');
 		$this->exposeMethod('step3');
 		$this->exposeMethod('step4');
 		$this->exposeMethod('step5');
@@ -101,7 +102,7 @@ class Install_Index_View extends \App\Controller\View
 			$defaultView = $defaultModuleInstance->getDefaultViewName();
 			header('location: ../index.php?module=' . $defaultModule . '&view=' . $defaultView);
 		}
-		$_SESSION['default_language'] = $defaultLanguage = ($request->getByType('lang', 1)) ? $request->getByType('lang', 1) : \App\Language::DEFAULT_LANG;
+		$_SESSION['language'] = $defaultLanguage = ($request->getByType('lang', 1)) ? $request->getByType('lang', 1) : \App\Language::DEFAULT_LANG;
 		App\Language::setTemporaryLanguage($defaultLanguage);
 		$this->loadJsConfig($request);
 		$this->viewer = new Vtiger_Viewer();
@@ -151,7 +152,7 @@ class Install_Index_View extends \App\Controller\View
 
 	public function step2(App\Request $request)
 	{
-		if ('pl-PL' === $_SESSION['default_language']) {
+		if ('pl-PL' === $_SESSION['language']) {
 			$license = file_get_contents('licenses/LicensePL.txt');
 		} else {
 			$license = file_get_contents('licenses/LicenseEN.txt');
@@ -170,8 +171,8 @@ class Install_Index_View extends \App\Controller\View
 	 */
 	public function stepChooseHost(App\Request $request)
 	{
-		$this->viewer->assign('PRODUCT_ClOUD', \App\YetiForce\Shop::getProduct('InstallInCloud'));
-		$this->viewer->assign('PRODUCT_SHARED', \App\YetiForce\Shop::getProduct('InstallInHosting'));
+		$this->viewer->assign('PRODUCT_ClOUD', \App\YetiForce\Shop::getProduct('YetiForceInstallInCloud'));
+		$this->viewer->assign('PRODUCT_SHARED', \App\YetiForce\Shop::getProduct('YetiForceInstallInHosting'));
 		$this->viewer->display('StepChooseHost.tpl');
 	}
 
@@ -191,6 +192,27 @@ class Install_Index_View extends \App\Controller\View
 			'installation' => true
 		], false);
 		$instance = new Settings_YetiForce_BuyModal_View();
+		$instance->preProcessAjax($request);
+		$instance->process($request);
+		$instance->postProcessAjax($request);
+	}
+
+	/**
+	 * Show product modal in choose host step.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function showProductModal(App\Request $request)
+	{
+		$request = new \App\Request([
+			'product' => $request->getByType('product'),
+			'module' => 'YetiForce',
+			'parent' => 'Settings',
+			'installation' => true
+		], false);
+		$instance = new Settings_YetiForce_ProductModal_View();
 		$instance->preProcessAjax($request);
 		$instance->process($request);
 		$instance->postProcessAjax($request);
@@ -373,6 +395,8 @@ class Install_Index_View extends \App\Controller\View
 		}
 		if (!($success = $_SESSION['installation_success'] ?? false)) {
 			Install_Utils_Model::cleanConfiguration();
+		} else {
+			unset($_SESSION['language']);
 		}
 		$this->viewer->assign('INSTALLATION_SUCCESS', $success);
 		$this->viewer->display('StepInstall.tpl');

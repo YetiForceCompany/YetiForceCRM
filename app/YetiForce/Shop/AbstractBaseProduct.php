@@ -28,6 +28,12 @@ abstract class AbstractBaseProduct
 	 *
 	 * @var bool
 	 */
+	public $active = true;
+	/**
+	 * Is the product featured.
+	 *
+	 * @var bool
+	 */
 	public $featured = false;
 	/**
 	 * Product category.
@@ -41,6 +47,13 @@ abstract class AbstractBaseProduct
 	 * @var int[]
 	 */
 	public $prices = [];
+
+	/**
+	 * Custom prices label.
+	 *
+	 * @var array
+	 */
+	public $customPricesLabel = [];
 
 	/**
 	 * Price type (table,manual,selection).
@@ -159,18 +172,28 @@ abstract class AbstractBaseProduct
 	/**
 	 * Get product image.
 	 *
-	 * @param string $pathPrefix
-	 *
 	 * @return string
 	 */
-	public function getImage($pathPrefix = ''): ?string
+	public function getImage(): ?string
 	{
 		$filePath = null;
 		$file = 'modules/Settings/YetiForce/' . $this->name . '.png';
 		if (\file_exists(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR . $file)) {
-			$filePath = \App\Layout::getPublicUrl($pathPrefix . $file, true);
+			$filePath = \App\Layout::getPublicUrl($file);
 		}
 		return $filePath;
+	}
+
+	/**
+	 * Get price label.
+	 *
+	 * @param string $key
+	 *
+	 * @return string
+	 */
+	public function getPriceLabel($key): string
+	{
+		return \App\Language::translate('LBL_SHOP_COMPANY_SIZE_' . \strtoupper($key), 'Settings::YetiForce');
 	}
 
 	/**

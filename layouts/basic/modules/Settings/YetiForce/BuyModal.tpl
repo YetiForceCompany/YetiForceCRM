@@ -40,7 +40,11 @@
 									<input class="js-price-by-size-input" name="os0" type="hidden" value="{key($PRODUCT->prices)}" data-js="val">
 									<select class="select2 form-control js-price-by-size" name="a3" data-js="container">
 										{foreach key=KEY item=PRICE from=$PRODUCT->prices}
-											<option value="{$PRICE}" data-os0="{$KEY}">{\App\Language::translate('LBL_SHOP_COMPANY_SIZE_'|cat:$KEY|upper, $QUALIFIED_MODULE)}: {$PRICE} {$CURRENCY}</option>
+											{if isset($PRODUCT->customPricesLabel[$KEY])}
+												<option value="{$PRICE}" data-os0="{$PRODUCT->customPricesLabel[$KEY]}">{$PRODUCT->getPriceLabel($KEY)}: {$PRICE} {$CURRENCY}</option>
+											{else}
+												<option value="{$PRICE}" data-os0="{$KEY}">{$PRODUCT->getPriceLabel($KEY)}: {$PRICE} {$CURRENCY}</option>
+											{/if}
 										{/foreach}
 									</select>
 							{else}
@@ -52,7 +56,7 @@
 						{if 'selection'!== $PRICE_TYPE}
 							<tr>
 								<td class="{$LABEL_CLASS}">{\App\Language::translate('LBL_SHOP_PACKAGE', $QUALIFIED_MODULE)} </td>
-								<td class="py-2 w-50">{\App\Language::translate('LBL_SHOP_COMPANY_SIZE_'|cat:$VARIABLE['os0']|upper, $QUALIFIED_MODULE)}</td>
+								<td class="py-2 w-50">{$PRODUCT->getPriceLabel($VARIABLE['os0'])}</td>
 							</tr>
 						{/if}
 						<tr>
@@ -66,10 +70,12 @@
 						{foreach key=FIELD_NAME item=FIELD_DATA from=$PRODUCT->getCustomFields()}
 							<tr>
 								<td class="{$LABEL_CLASS} border-bottom">{App\Language::translate($FIELD_DATA['label'], $QUALIFIED_MODULE)}</td>
-								<td class="py-2 position-relative w-50 border-bottom">
-									<div class="input-group-sm position-relative">
-										<input type="{$FIELD_DATA['type']}" class="form-control js-custom-field" placeholder="{App\Language::translate($FIELD_DATA['label'], $QUALIFIED_MODULE)}" data-name="{$FIELD_NAME}"
-										data-validation-engine="validate[{if isset($FIELD_DATA['validator'])}{$FIELD_DATA['validator']}{else}required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]{/if}]"/>
+								<td class="py-2 w-50 border-bottom">
+									<div {if isset($FIELD_DATA['info'])}class="js-popover-tooltip" data-toggle="popover" data-trigger="focus" data-content="{App\Language::translate($FIELD_DATA['info'], $QUALIFIED_MODULE)}"{/if}>
+										<div class="input-group-sm position-relative">
+											<input type="{$FIELD_DATA['type']}" class="form-control js-custom-field" placeholder="{App\Language::translate($FIELD_DATA['label'], $QUALIFIED_MODULE)}" data-name="{$FIELD_NAME}"
+											data-validation-engine="validate[{if isset($FIELD_DATA['validator'])}{$FIELD_DATA['validator']}{else}required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]{/if}]"/>
+										</div>
 									</div>
 								</td>
 							</tr>

@@ -49,7 +49,7 @@ class Shop
 			if (!$item->isDir()) {
 				$fileName = $item->getBasename('.php');
 				$instance = static::getProduct($fileName, $department);
-				if ('featured' === $state && !$instance->featured) {
+				if (!$instance->active || ('featured' === $state && !$instance->featured)) {
 					continue;
 				}
 				$products[$fileName] = $instance;

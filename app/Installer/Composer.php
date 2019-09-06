@@ -225,15 +225,15 @@ class Composer
 	 */
 	public static function customCopy()
 	{
-		$f = $d = 0;
+		$list = '';
 		foreach (static::$copyDirectories as $src => $dest) {
 			if (!file_exists(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $dest)) {
 				mkdir(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $dest, 0755, true);
 			}
-			$f += \vtlib\Functions::recurseCopy($src, $dest);
-			++$d;
+			$i = \vtlib\Functions::recurseCopy($src, $dest);
+			$list .= PHP_EOL . "{$src}  >>>  {$dest} | Files: $i";
 		}
-		echo "Copy custom directories | Dir: $d | Files: $f" . PHP_EOL;
+		echo "Copy custom directories: $list" . PHP_EOL;
 	}
 
 	/**

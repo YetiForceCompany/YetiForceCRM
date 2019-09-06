@@ -57,16 +57,22 @@
 												class="fas fa-info-circle"></i></a>:</label>
 								<div class="col-md-7 py-1">
 									<select name="relatedfields" multiple class="select2 form-control form-control-sm"
-											data-validation-engine="validate[required]">
+											data-validation-engine="validate[required]" data-select-cb="registerSelectSortable">
 										{foreach from=$RELATEDMODULES item=RELATED_MODULE key=key}
 											{foreach from=Vtiger_Module_Model::getInstance($RELATED_MODULE['name'])->getFieldsByBlocks() key=BLOCK_NAME item=FIELDS}
 												<optgroup
 														label="{\App\Language::translate($BLOCK_NAME, $RELATED_MODULE['name'])}"
 														data-module="{$RELATED_MODULE['related_tabid']}">
 													{foreach from=$FIELDS item=FIELD_MODEL key=FIELD_NAME}
-														<option value="{$RELATED_MODULE['related_tabid']}::{$FIELD_NAME}"
-																{if !empty($WIDGETINFO['data']['relatedfields']) && in_array($RELATED_MODULE['related_tabid']|cat:'::'|cat:$FIELD_NAME, $WIDGETINFO['data']['relatedfields'])}selected="selected"{' '}{/if}
-																data-module="{$RELATED_MODULE['related_tabid']}">{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATED_MODULE['name'])}</option>
+														{assign var=VALUE_NAME value="{$RELATED_MODULE['related_tabid']}::{$FIELD_NAME}"}
+														<option value="{$VALUE_NAME}"
+																{if !empty($WIDGETINFO['data']['relatedfields']) && in_array($VALUE_NAME, $WIDGETINFO['data']['relatedfields'])}
+																	selected="selected"
+																	data-sort-index="{array_search($VALUE_NAME, $WIDGETINFO['data']['relatedfields'])}"
+																{/if}
+																data-module="{$RELATED_MODULE['related_tabid']}">
+															{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATED_MODULE['name'])}
+														</option>
 													{/foreach}
 												</optgroup>
 											{/foreach}

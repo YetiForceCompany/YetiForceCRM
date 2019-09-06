@@ -4308,7 +4308,6 @@ CREATE TABLE `vtiger_activitytype` (
   `activitytypeid` int(10) NOT NULL AUTO_INCREMENT,
   `activitytype` varchar(200) NOT NULL,
   `presence` int(1) NOT NULL DEFAULT 1,
-  `picklist_valueid` int(10) NOT NULL DEFAULT 0,
   `sortorderid` int(10) DEFAULT NULL,
   `color` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`activitytypeid`),
@@ -5295,7 +5294,6 @@ CREATE TABLE `vtiger_defaultactivitytype` (
   `defaultactivitytypeid` int(10) NOT NULL AUTO_INCREMENT,
   `defaultactivitytype` varchar(200) NOT NULL,
   `presence` int(1) NOT NULL DEFAULT 1,
-  `picklist_valueid` int(10) NOT NULL DEFAULT 0,
   `sortorderid` int(10) DEFAULT 0,
   PRIMARY KEY (`defaultactivitytypeid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;

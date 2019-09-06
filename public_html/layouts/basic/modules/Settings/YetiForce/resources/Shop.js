@@ -27,7 +27,8 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	registerShopSearch() {
 		let searchField = this.container.find('.js-shop-search');
 		searchField = searchField.length ? searchField : $('.js-shop-search');
-		searchField.on('keyup', e => {
+		searchField
+			.on('keyup', e => {
 				let value = $(e.currentTarget)
 					.val()
 					.toLowerCase();
@@ -162,7 +163,7 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 			customFields.each((i, el) => {
 				let field = $(el);
 				customField.val(
-					`${customField.val()}${field.data('name')}:${field.val()}${customFields.length - 1 !== i ? '|' : ''}`
+					`${customField.val()}${field.data('name')}::${field.val()}${customFields.length - 1 !== i ? '|' : ''}`
 				);
 			});
 		}

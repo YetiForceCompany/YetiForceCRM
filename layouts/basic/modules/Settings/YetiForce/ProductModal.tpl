@@ -5,8 +5,8 @@
 			<div class="col-sm-18 col-md-12">
 				<div class="row">
 					<div class="col-sm-4 col-md-3">
-						{if $PRODUCT->getImage()}
-							<img src="{$PRODUCT->getImage()}" class="grow thumbnail-image card-img-top intrinsic-item p-3"
+						{if $IMAGE}
+							<img src="{$IMAGE}" class="grow thumbnail-image card-img-top intrinsic-item p-3"
 								alt="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}" title="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}" />
 						{else}
 							<div class="product-no-image m-auto">
@@ -22,8 +22,8 @@
 							<div class="text-danger h1 mt-1 mb-0">
 								{if 'manual'===$PRODUCT->getPriceType()}
 									{\App\Language::translate("LBL_SUPPORT_US", $QUALIFIED_MODULE)}
-								{else}
-									{$PRODUCT->getPrice()} {$PRODUCT->currencyCode} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}
+								{elseif $PRICE !== false}
+									{$PRICE} {$CURRENCY} / {\App\Language::translate($PRODUCT->getPeriodLabel(), $QUALIFIED_MODULE)}
 								{/if}
 							</div>
 							<h5 class="h4 my-4">{$PRODUCT->getLabel()}</h5>

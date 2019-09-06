@@ -70,7 +70,7 @@ class Vtiger_Response
 	 * Set error data to send.
 	 *
 	 * @param mixed      $code
-	 * @param null|mixed $message
+	 * @param mixed|null $message
 	 * @param mixed      $trace
 	 */
 	public function setError($code, $message = null, $trace = false)
@@ -81,6 +81,32 @@ class Vtiger_Response
 		$error = ['code' => $code, 'message' => $message, 'trace' => $trace];
 		$this->error = $error;
 		http_response_code($code);
+	}
+
+	/**
+	 * Set exception error to send.
+	 *
+	 * @param Throwable $e
+	 *
+	 * @return void
+	 */
+	public function setException(Throwable $e)
+	{
+		$trace = '';
+		if (\App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE')) {
+			$trace = str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
+		}
+		$message = $e->getMessage();
+		if ($e instanceof \App\Exceptions\AppException) {
+			$message = $e->getDisplayMessage();
+		}
+		$this->setHeader(\App\Request::_getServer('SERVER_PROTOCOL') . ' ' . $e->getCode() . ' ' . str_ireplace(["\r\n", "\r", "\n"], ' ', $e->getMessage()));
+		$this->error = [
+			'code' => $e->getCode(),
+			'message' => $message,
+			'trace' => $trace
+		];
+		http_response_code($e->getCode());
 	}
 
 	/**
@@ -231,13 +257,13 @@ class Vtiger_Response
 	protected function emitText()
 	{
 		if (null === $this->result) {
-			if (is_string($this->error)) {
+			if (\is_string($this->error)) {
 				echo $this->error;
 			} else {
 				echo \App\Json::encode($this->prepareResponse());
 			}
 		} else {
-			if (is_string($this->result)) {
+			if (\is_string($this->result)) {
 				echo $this->result;
 			} else {
 				echo \App\Json::encode($this->prepareResponse());
@@ -251,7 +277,7 @@ class Vtiger_Response
 	protected function emitRaw()
 	{
 		if (null === $this->result) {
-			echo (is_string($this->error)) ? $this->error : var_export($this->error, true);
+			echo (\is_string($this->error)) ? $this->error : var_export($this->error, true);
 		}
 		echo $this->result;
 	}

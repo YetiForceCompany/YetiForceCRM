@@ -19,6 +19,10 @@ class ModulesPartners extends \App\YetiForce\Shop\AbstractBaseProduct
 	/**
 	 * {@inheritdoc}
 	 */
+	public $active = false;
+	/**
+	 * {@inheritdoc}
+	 */
 	public $prices = [
 		'Micro' => 50,
 		'Small' => 100,

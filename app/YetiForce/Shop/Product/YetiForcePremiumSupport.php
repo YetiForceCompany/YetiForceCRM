@@ -14,7 +14,7 @@ namespace App\YetiForce\Shop\Product;
 /**
  * YetiForce shop PremiumSupport class.
  */
-class PremiumSupport extends \App\YetiForce\Shop\AbstractBaseProduct
+class YetiForcePremiumSupport extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/**
 	 * {@inheritdoc}

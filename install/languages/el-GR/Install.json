@@ -114,7 +114,16 @@
     "LBL_CITY": "Πόλη/Χωριό",
     "LBL_COUNTRY": "Χώρα",
     "LBL_COMPANYSIZE": "Ο αριθμός των εργαζομένων της εταιρείας",
-    "LBL_WEBSITE": "Ιστοσελίδα της εταιρείας σας"
+    "LBL_WEBSITE": "Ιστοσελίδα της εταιρείας σας",
+    "LBL_CHOOSE_INSTALLATION_TYPE": "Επιλέξτε τον τύπο εγκατάστασης",
+    "LBL_INSTALL_YOURSELF": "Εγκατάσταση",
+    "LBL_HOSTING_SELF": "Δικό σας server",
+    "LBL_MY_SERVER_TITLE": "Χρησιμοποιήστε το δικό σας server ή hosting",
+    "LBL_MY_SERVER_DESC": "Μπορείτε να εγκαταστήσετε YetiForce οπουδήποτε θέλετε χωρίς καμία χρέωση. Αν ποτέ αντιμετωπίσετε προβλήματα που σχετίζονται με το CRM, μπορείτε να βρείτε δωρεάν υποστήριξη στο GitHub μας ή να αγοράσετε υποστήριξη απευθείας από τη YetiForce.",
+    "LBL_HOSTING_SHARED": "YetiForce hosting",
+    "LBL_HOSTING_CLOUD": "YetiForce cloud",
+    "LBL_BUY": "Αγοράστε",
+    "LBL_SHOW_MORE": "Περισσότερες πληροφορίες για το προϊόν"
   },
   "js": {
     "JS_ALL": "Όλες",

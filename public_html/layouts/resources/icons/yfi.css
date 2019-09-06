@@ -1,10 +1,11 @@
 @font-face {
 	font-family: 'yfi';
-	src: url('yfi.eot?cxb3ev');
-	src: url('yfi.eot?cxb3ev#iefix') format('embedded-opentype'), url('yfi.ttf?cxb3ev') format('truetype'),
-		url('yfi.woff?cxb3ev') format('woff'), url('yfi.svg?cxb3ev#yfi') format('svg');
+	src: url('yfi.eot?6tszn7');
+	src: url('yfi.eot?6tszn7#iefix') format('embedded-opentype'), url('yfi.ttf?6tszn7') format('truetype'),
+		url('yfi.woff?6tszn7') format('woff'), url('yfi.svg?6tszn7#yfi') format('svg');
 	font-weight: normal;
 	font-style: normal;
+	font-display: block;
 }
 
 [class^='yfi-'],
@@ -23,6 +24,15 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.yfi-own-hosting:before {
+	content: '\e9a8';
+}
+.yfi-yetiforce-hosting:before {
+	content: '\e9a9';
+}
+.yfi-yetiforce-cloud:before {
+	content: '\e9aa';
+}
 .yfi-yeti-register-alert:before {
 	content: '\e9a5';
 }

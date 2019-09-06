@@ -9,18 +9,22 @@
 	</h4>
 {/function}
 {function SHOW_HOSTING_BODY PRODUCT=''}
-	<div class="py-5 w-100 text-center">
-		<div class="pb-5">
-			<img class="o-buy-modal__img u-img-invert" src="{$PRODUCT->getImage('../../')}" alt="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}" title="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}"/>
+	<div class="py-4 w-100 text-center">
+		<div class="pb-3">
+			<img class="o-buy-modal__img u-img-invert" src="../{$PRODUCT->getImage()}" alt="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}" title="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}"/>
 		</div>
 		<h5 class="u-font-weight-300">
 			{$PRODUCT->getLabel()}
 		</h5>
 		<hr class="w-50 mx-auto">
 		<p>{$PRODUCT->getDescription()}</p>
+		<button type="button" class="btn btn-outline-light js-product-modal my-2" data-product={$PRODUCT->getName()}>
+			<span class="fas fa-info-circle mr-2"></span>
+			{App\Language::translate('LBL_SHOW_MORE', 'Install')}
+		</button>
 	</div>
 	<button type="button" class="{$BTN_CLASS} js-buy-modal" data-product={$PRODUCT->getName()}>
-		<span class="yfi-shop mr-1"></span>
+		<span class="yfi-shop mr-2"></span>
 		{App\Language::translate('LBL_BUY', 'Install')}
 	</button>
 {/function}
@@ -29,7 +33,7 @@
 			<div class="inner-container">
 					<div class="row">
 						<div class="col-12 text-center">
-						<h3>{App\Language::translate('LBL_CHOOSE_HOSTING', 'Install')}</h3>
+						<h3>{App\Language::translate('LBL_CHOOSE_INSTALLATION_TYPE', 'Install')}</h3>
 						</div>
 						<hr class="w-100">
 					</div>
@@ -38,19 +42,19 @@
 							<input type="hidden" name="mode" value="step3">
 							<input type="hidden" name="lang" value="{$LANG}">
 							{SHOW_HOSTING_TITLE TYPE='SELF'}
-							<div class="py-5 w-100 text-center">
-								<div class="pb-5 display-3">
-									<span class="fas fa-server"></span>
+							<div class="py-4 w-100 text-center">
+								<div class="pb-3">
+									<img class="o-buy-modal__img u-img-invert" src="../{\App\Layout::getPublicUrl('install/tpl/resources/images/own_hosting.png')}" alt="{App\Language::translate('LBL_MY_SERVER_TITLE', 'Install')}" title="{App\Language::translate('LBL_MY_SERVER_TITLE', 'Install')}"/>
 								</div>
 								<h5 class="u-font-weight-300">
-									{App\Language::translate('LBL_HOSTING_SELF_TITLE', 'Install')}
+									{App\Language::translate('LBL_MY_SERVER_TITLE', 'Install')}
 								</h5>
 								<hr class="w-50 mx-auto">
-								<p>{App\Language::translate('LBL_HOSTING_SELF_DESC', 'Install')}</p>
+								<p>{App\Language::translate('LBL_MY_SERVER_DESC', 'Install')}</p>
 							</div>
 							<button type="submit" class="{$BTN_CLASS} js-submit">
+								<span class="fas fa-lg fa-arrow-circle-right mr-2"></span>
 								{App\Language::translate('LBL_INSTALL_YOURSELF', 'Install')}
-								<span class="fas fa-lg fa-arrow-circle-right ml-2"></span>
 							</button>
 						</form>
 						<div class="{$COL_CLASS} o-product o-product--shared">
