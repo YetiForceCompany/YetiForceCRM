@@ -40,7 +40,11 @@
 									<input class="js-price-by-size-input" name="os0" type="hidden" value="{key($PRODUCT->prices)}" data-js="val">
 									<select class="select2 form-control js-price-by-size" name="a3" data-js="container">
 										{foreach key=KEY item=PRICE from=$PRODUCT->prices}
-											<option value="{$PRICE}" data-os0="{$KEY}">{\App\Language::translate('LBL_SHOP_COMPANY_SIZE_'|cat:$KEY|upper, $QUALIFIED_MODULE)}: {$PRICE} {$CURRENCY}</option>
+											{if isset($PRODUCT->customPricesLabel[$KEY])}
+												<option value="{$PRICE}" data-os0="{$PRODUCT->customPricesLabel[$KEY]}">{$PRODUCT->getPriceLabel($KEY)}: {$PRICE} {$CURRENCY}</option>
+											{else}
+												<option value="{$PRICE}" data-os0="{$KEY}">{$PRODUCT->getPriceLabel($KEY)}: {$PRICE} {$CURRENCY}</option>
+											{/if}
 										{/foreach}
 									</select>
 							{else}
@@ -52,7 +56,7 @@
 						{if 'selection'!== $PRICE_TYPE}
 							<tr>
 								<td class="{$LABEL_CLASS}">{\App\Language::translate('LBL_SHOP_PACKAGE', $QUALIFIED_MODULE)} </td>
-								<td class="py-2 w-50">{\App\Language::translate('LBL_SHOP_COMPANY_SIZE_'|cat:$VARIABLE['os0']|upper, $QUALIFIED_MODULE)}</td>
+								<td class="py-2 w-50">{$PRODUCT->getPriceLabel($VARIABLE['os0'])}</td>
 							</tr>
 						{/if}
 						<tr>

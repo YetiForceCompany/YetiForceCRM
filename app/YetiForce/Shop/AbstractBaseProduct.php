@@ -49,6 +49,13 @@ abstract class AbstractBaseProduct
 	public $prices = [];
 
 	/**
+	 * Custom prices label.
+	 *
+	 * @var array
+	 */
+	public $customPricesLabel = [];
+
+	/**
 	 * Price type (table,manual,selection).
 	 *
 	 * @var string
@@ -175,6 +182,18 @@ abstract class AbstractBaseProduct
 			$filePath = \App\Layout::getPublicUrl($file);
 		}
 		return $filePath;
+	}
+
+	/**
+	 * Get price label.
+	 *
+	 * @param string $key
+	 *
+	 * @return string
+	 */
+	public function getPriceLabel($key): string
+	{
+		return \App\Language::translate('LBL_SHOP_COMPANY_SIZE_' . \strtoupper($key), 'Settings::YetiForce');
 	}
 
 	/**

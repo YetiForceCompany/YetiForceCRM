@@ -32,6 +32,15 @@ class YetiForceDevelopmentSupport extends \App\YetiForce\Shop\AbstractBaseProduc
 	/**
 	 * {@inheritdoc}
 	 */
+	public $customPricesLabel = [
+		'Micro' => 5,
+		'Small' => 10,
+		'Medium' => 20,
+		'Large' => 40,
+	];
+	/**
+	 * {@inheritdoc}
+	 */
 	public $featured = true;
 
 	/**
@@ -40,5 +49,13 @@ class YetiForceDevelopmentSupport extends \App\YetiForce\Shop\AbstractBaseProduc
 	public function verify($cache = true): bool
 	{
 		return true;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getPriceLabel($key): string
+	{
+		return $this->customPricesLabel[$key] . ' ' . \App\Language::translate('LBL_HOURS');
 	}
 }
