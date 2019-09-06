@@ -117,12 +117,13 @@
     "LBL_WEBSITE": "Strona internetowa twojej firmy",
     "LBL_CHOOSE_INSTALLATION_TYPE": "Wybierz rodzaj instalacji",
     "LBL_INSTALL_YOURSELF": "Instalacja",
-    "LBL_HOSTING_SELF": "Mój serwer",
-    "LBL_MY_SERVER_TITLE": "Zainstaluj na moim serwerze",
-    "LBL_MY_SERVER_DESC": "Na własnym serwerze mam pełną kontrolę nad moimi danymi. Jest to opcja dla tych, którzy mają dział IT, który będzie odpowiedzialny za utrzymanie i zarządzanie serwerem.",
-    "LBL_HOSTING_SHARED": "Yeti Hosting",
-    "LBL_HOSTING_CLOUD": "Chmura Yeti",
-    "LBL_BUY": "Kup"
+    "LBL_HOSTING_SELF": "Własny serwer",
+    "LBL_MY_SERVER_TITLE": "Użyj własnego serwera lub hostingu",
+    "LBL_MY_SERVER_DESC": "Możesz zainstalować YetiForce gdzie tylko chcesz bez jakichkolwiek opłat. W przypadku, gdy będziesz potrzebował pomocy związanej z działaniem systemu, możesz skorzystać z darmowej pomocy na naszym repozytorium GitHub, lub wykupić płatne wsparcie prosto od YetiForce.",
+    "LBL_HOSTING_SHARED": "Hosting YetiForce",
+    "LBL_HOSTING_CLOUD": "YetiForce cloud",
+    "LBL_BUY": "Kup",
+    "LBL_SHOW_MORE": "Więcej informacji o produkcie"
   },
   "js": {
     "JS_ALL": "Wszystkie",

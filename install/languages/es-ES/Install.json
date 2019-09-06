@@ -117,12 +117,13 @@
     "LBL_WEBSITE": "Sitio web de su empresa",
     "LBL_CHOOSE_INSTALLATION_TYPE": "Choose installation type",
     "LBL_INSTALL_YOURSELF": "Instalar",
-    "LBL_HOSTING_SELF": "My server",
-    "LBL_MY_SERVER_TITLE": "Install on my own server",
-    "LBL_MY_SERVER_DESC": "With my own server I have full control over my data. This is an option for those with an IT team that will responsible for maintaining and managing the server.",
-    "LBL_HOSTING_SHARED": "Yeti hosting",
-    "LBL_HOSTING_CLOUD": "Yeti cloud",
-    "LBL_BUY": "Buy"
+    "LBL_HOSTING_SELF": "Own server",
+    "LBL_MY_SERVER_TITLE": "Use your own server or hosting",
+    "LBL_MY_SERVER_DESC": "You can install YetiForce anywhere you want without any fees. If you ever experience any issues related to the CRM system you can find free support in our GitHub repository or purchase support directly from YetiForce.",
+    "LBL_HOSTING_SHARED": "YetiForce hosting",
+    "LBL_HOSTING_CLOUD": "YetiForce cloud",
+    "LBL_BUY": "Buy",
+    "LBL_SHOW_MORE": "More information about product"
   },
   "js": {
     "JS_ALL": "Todo",
