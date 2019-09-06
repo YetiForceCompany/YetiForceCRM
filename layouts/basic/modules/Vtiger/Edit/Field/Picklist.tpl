@@ -26,7 +26,7 @@
 					data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION')}"
 				{/if}
 				{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}
-				data-selected-value='{$FIELD_VALUE}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}>
+				data-selected-value="{$FIELD_VALUE}" {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}>
 			{if !empty($PLACE_HOLDER)}
 				<optgroup class="p-0">
 					<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
