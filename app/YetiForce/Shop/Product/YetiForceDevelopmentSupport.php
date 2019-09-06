@@ -19,11 +19,15 @@ class YetiForceDevelopmentSupport extends \App\YetiForce\Shop\AbstractBaseProduc
 	/**
 	 * {@inheritdoc}
 	 */
+	public $pricesType = 'selection';
+	/**
+	 * {@inheritdoc}
+	 */
 	public $prices = [
-		'Micro' => 25,
-		'Small' => 50,
-		'Medium' => 100,
-		'Large' => 250,
+		'Micro' => 200,
+		'Small' => 380,
+		'Medium' => 700,
+		'Large' => 1200,
 	];
 	/**
 	 * {@inheritdoc}
