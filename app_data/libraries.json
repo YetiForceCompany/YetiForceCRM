@@ -28,7 +28,7 @@
     },
     "emoji-mart-vue-fast": {
         "name": "emoji-mart-vue-fast",
-        "version": "5.4.15",
+        "version": "6.0.0",
         "license": "BSD-3-Clause",
         "homepage": "https:\/\/github.com\/serebrov\/emoji-mart-vue",
         "licenseError": false,
