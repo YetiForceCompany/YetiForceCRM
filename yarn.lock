@@ -22,10 +22,10 @@
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.10.2.tgz#27e02da1e34b50c9869179d364fb46627b521130"
   integrity sha512-9pw+Nsnunl9unstGEHQ+u41wBEQue6XPBsILXtJF/4fNN1L3avJcMF/gGF86rIjeTAgfLjTY9ndm68/X4f4idQ==
 
-"@mdi/font@^4.2.95":
-  version "4.2.95"
-  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-4.2.95.tgz#7fd524746979a37dc7c3fd7a9f9cea1bf58205ba"
-  integrity sha512-pCJ9hR8yQH1tMk6KTZYfJsZkI/XQ1rR9Fe/q50ATDDVUoDk7Wl7n9WqT6dYWn0mnCLgrTQl/WNjyrnTo5rKu+A==
+"@mdi/font@^4.3.95":
+  version "4.3.95"
+  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-4.3.95.tgz#0d546839c4be387eb11754c63a0ed0c966110fbf"
+  integrity sha512-J5l+3bQLBGwYA8EVeazA+YgNTIBpfRgviti8Jyjk2yMAiRDVNlafFbv1j1xlttFLMigXoxZ9J7plyfOYAuyjGA==
 
 add@^2.0.6:
   version "2.0.6"
