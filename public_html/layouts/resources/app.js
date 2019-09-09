@@ -437,8 +437,9 @@ var app = (window.app = {
 		if (!popover.length) {
 			return;
 		}
-		let windowHeight = $(window).height(),
-			windowWidth = $(window).width(),
+		let container = popoverElement.closest('#mainscreen');
+		let windowHeight = container.height(),
+			windowWidth = container.width(),
 			popoverPadding = 10,
 			popoverBody = popover.find('.popover-body'),
 			popoverHeight = popoverBody.height(),
@@ -1988,9 +1989,12 @@ var app = (window.app = {
 			}
 		});
 	},
-	registerPopover() {
+	registerPopover(container = $(document)) {
 		window.popoverCache = {};
-		$(document).on(
+		container.on('mousemove', e => {
+			app.mousePosition = { x: e.pageX, y: e.pageY };
+		});
+		container.on(
 			'mouseenter',
 			'.js-popover-tooltip, .js-popover-tooltip--record, .js-popover-tooltip--ellipsis, [data-field-type="reference"], [data-field-type="multireference"]',
 			e => {
@@ -2101,9 +2105,6 @@ $(document).ready(function() {
 	if (pageController) {
 		pageController.registerEvents();
 	}
-	document.on('mousemove', e => {
-		app.mousePosition = { x: e.pageX, y: e.pageY };
-	});
 });
 (function($) {
 	$.fn.getNumberFromValue = function() {
