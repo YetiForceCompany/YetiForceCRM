@@ -1550,7 +1550,7 @@ jQuery.Class(
 		registerCustomFilterOptionsHoverEvent: function() {
 			var filterBlock = this.getFilterBlock();
 			if (filterBlock != false) {
-				filterBlock.on('mouseenter mouseleave', 'li.select2-results__option[role="treeitem"]', event => {
+				filterBlock.on('mouseenter mouseleave', 'li.select2-results__option[role="option"]', event => {
 					let liElement = $(event.currentTarget);
 					let liFilterImages = liElement.find('.js-filter-actions');
 					if (liElement.hasClass('group-result')) {
