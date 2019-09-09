@@ -95,10 +95,30 @@ jQuery.Class(
 				);
 			});
 		},
+		registerValidateBtn(container) {
+			container.find('.js-validate').on('click', e => {
+				const currentTarget = $(e.currentTarget);
+				let icon = currentTarget.find('.js-validate__icon');
+				icon.addClass('fa-spin');
+				AppConnector.request({
+					module: 'ApiAddress',
+					parent: 'Settings',
+					action: 'DownloadLanguage',
+					provider: currentTarget.data('provider')
+				}).done(data => {
+					icon.removeClass('fa-spin');
+					Vtiger_Helper_Js.showPnotify({
+						text: data['result']['message'],
+						type: data['result']['type']
+					});
+				});
+			});
+		},
 		registerEvents: function() {
 			const container = $('.js-validation-form');
 			this.registerConfigModal(container);
 			this.registerSave(container);
+			this.registerValidateBtn(container);
 		}
 	}
 );

@@ -67,6 +67,14 @@
 										data-content="{\App\Language::translate('LBL_PROVIDER_INFO_'|cat:$KEY|upper, $MODULENAME)}">
 											<span class="fas fa-info"></span>
 										</a>
+										{if $IS_SET}
+											<button class="js-validate btn btn-outline-primary btn-sm"
+												data-provider="{$KEY}" type="button"
+												data-js="click | data | class: fa-spin">
+												<span class="js-validate__icon fas fa-sync fa-xs mr-1"></span>
+												{\App\Language::translate('LBL_VALIDATE', $QUALIFIED_MODULE)}
+											</button>
+										{/if}
 									</td>
 								</tr>
 							{/foreach}
