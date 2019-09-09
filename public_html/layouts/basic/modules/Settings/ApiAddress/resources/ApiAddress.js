@@ -104,7 +104,7 @@ jQuery.Class(
 );
 
 Vtiger_Base_Validator_Js(
-	'Vtiger_OpenCage_Validator_Js',
+	'Vtiger_CountryCode_Validator_Js',
 	{
 		/**
 		 *Function which invokes field validation
@@ -112,7 +112,7 @@ Vtiger_Base_Validator_Js(
 		 * @return error if validation fails true on success
 		 */
 		invokeValidation: function(field, rules, i, options) {
-			var validatorInstance = new Vtiger_OpenCage_Validator_Js();
+			var validatorInstance = new Vtiger_CountryCode_Validator_Js();
 			validatorInstance.setElement(field);
 			const result = validatorInstance.validate();
 			if (result === true) {
@@ -124,24 +124,22 @@ Vtiger_Base_Validator_Js(
 	},
 	{
 		/**
-		 * Function to validate the open cage key
+		 * Function to validate country codes
 		 * @return true if validation is successfull
 		 * @return false if validation error occurs
 		 */
 		validate: function() {
-			const test = 'https://api.opencagedata.com/geocode/v1/json?query=test&pretty=1&key=' + this.getFieldValue();
-			let status = true;
-			jQuery.ajax({
-				url: test,
-				async: false,
-				complete: data => {
-					if (data.status !== 200) {
-						this.setError(app.vtranslate('Invalid API key'));
-						status = false;
-					}
-				}
-			});
-			return status;
+			let response = this._super();
+			if (!response) {
+				return response;
+			}
+			const fieldValue = this.getFieldValue();
+			const regex = /^[a-z]{2}(?:,[a-z]{2})*$/i;
+			if (!regex.test(fieldValue)) {
+				this.setError(app.vtranslate('JS_INVALID_COUNTRY_CODES'));
+				return false;
+			}
+			return true;
 		}
 	}
 );

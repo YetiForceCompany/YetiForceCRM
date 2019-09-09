@@ -26,6 +26,7 @@ class YetiForceGeocoder extends Base
 	public $customFields = [
 		'country_codes' => [
 			'type' => 'text',
+			'validator' => 'funcCall[Vtiger_CountryCode_Validator_Js.invokeValidation]'
 		]
 	];
 

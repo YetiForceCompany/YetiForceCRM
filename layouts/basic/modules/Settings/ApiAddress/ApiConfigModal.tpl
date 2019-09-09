@@ -13,7 +13,7 @@
 								<td class="py-2 position-relative w-50 border-bottom">
 									<div class="input-group-sm position-relative">
 										<input type="{$FIELD_DATA['type']}" class="form-control js-custom-field" placeholder="{\App\Language::translate('LBL_'|cat:$FIELD_NAME|upper|cat:'_PLACEHOLDER', $QUALIFIED_MODULE)}" name="{$FIELD_NAME}" value="{if isset($CONFIG[$FIELD_NAME])}{$CONFIG[$FIELD_NAME]}{/if}"
-										data-validation-engine="validate[{if isset($FIELD_DATA['validator'])}{$FIELD_DATA['validator']}{else}required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]{/if}]"/>
+										data-validation-engine="validate[{if isset($FIELD_DATA['validator'])}{$FIELD_DATA['validator']}{else}funcCall[Vtiger_Base_Validator_Js.invokeValidation]{/if}]"/>
 									</div>
 								</td>
 							</tr>

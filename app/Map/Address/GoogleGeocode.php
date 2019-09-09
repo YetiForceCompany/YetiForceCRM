@@ -35,7 +35,7 @@ class GoogleGeocode extends Base
 	public $customFields = [
 		'key' => [
 			'type' => 'text',
-			'validator' => 'required'
+			'validator' => 'required,custom[onlyLetterNumber]'
 		],
 	];
 
