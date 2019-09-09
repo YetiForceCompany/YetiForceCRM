@@ -343,25 +343,27 @@ var app = (window.app = {
 		});
 		return selectElement;
 	},
-	registerPopoverEllipsis(selectElement = $('.js-popover-tooltip--ellipsis'), params = { trigger: 'hover focus' }) {
+	registerPopoverEllipsis({
+		element = $('.js-popover-tooltip--ellipsis'),
+		params = { trigger: 'hover focus' },
+		container = $(window)
+	} = {}) {
 		const self = this;
 		params = {
 			callbackShown: () => {
-				self.setPopoverPosition(selectElement);
+				self.setPopoverPosition(element, container);
 			},
 			trigger: 'manual',
 			placement: 'right',
 			template:
 				'<div class="popover js-popover--before-positioned" role="tooltip"><div class="popover-body"></div></div>'
 		};
-		let popoverText = selectElement.find('.js-popover-text').length
-			? selectElement.find('.js-popover-text')
-			: selectElement;
+		let popoverText = element.find('.js-popover-text').length ? element.find('.js-popover-text') : element;
 		if (!app.isEllipsisActive(popoverText)) {
-			selectElement.addClass('popover-triggered');
+			element.addClass('popover-triggered');
 			return;
 		}
-		app.showPopoverElementView(selectElement, params);
+		app.showPopoverElementView(element, params);
 	},
 	registerPopoverEllipsisIcon(
 		selectElement = $('.js-popover-tooltip--ellipsis-icon'),
@@ -386,7 +388,11 @@ var app = (window.app = {
 	 * @param {jQuery} selectElement
 	 * @param {object} customParams
 	 */
-	registerPopoverRecord: function(selectElement = $('a.js-popover-tooltip--record'), customParams = {}) {
+	registerPopoverRecord: function(
+		selectElement = $('a.js-popover-tooltip--record'),
+		customParams = {},
+		container = $(document)
+	) {
 		const self = this;
 		let params = {
 			template:
@@ -412,7 +418,7 @@ var app = (window.app = {
 					if (typeof customParams.callback === 'function') {
 						customParams.callback(popoverBody);
 					}
-					self.setPopoverPosition(selectElement);
+					self.setPopoverPosition(selectElement, container);
 				};
 				let cacheData = window.popoverCache[url];
 				if (typeof cacheData !== 'undefined') {
@@ -432,12 +438,12 @@ var app = (window.app = {
 	 * @param {jQuery} popover
 	 * @param {number} offsetLeft
 	 */
-	setPopoverPosition(popoverElement) {
+	setPopoverPosition(popoverElement, container = $(window)) {
 		let popover = this.getBindedPopover(popoverElement);
 		if (!popover.length) {
 			return;
 		}
-		let container = popoverElement.closest('#mainscreen').length ? popoverElement.closest('#mainscreen') : $(window);
+		console.log(container);
 		let windowHeight = container.height(),
 			windowWidth = container.width(),
 			popoverPadding = 10,
@@ -2004,17 +2010,17 @@ var app = (window.app = {
 				}
 				if (!currentTarget.hasClass('popover-triggered')) {
 					if (currentTarget.hasClass('js-popover-tooltip--record')) {
-						app.registerPopoverRecord(currentTarget);
+						app.registerPopoverRecord(currentTarget, {}, container);
 						currentTarget.trigger('mouseenter');
 					} else if (!currentTarget.hasClass('js-popover-tooltip--record') && currentTarget.data('field-type')) {
-						app.registerPopoverRecord(currentTarget.children('a')); //popoverRecord on children doesn't need triggering
+						app.registerPopoverRecord(currentTarget.children('a'), {}, container); //popoverRecord on children doesn't need triggering
 					} else if (
 						!currentTarget.hasClass('js-popover-tooltip--record') &&
 						!currentTarget.find('.js-popover-tooltip--record').length &&
 						!currentTarget.data('field-type')
 					) {
 						if (currentTarget.hasClass('js-popover-tooltip--ellipsis')) {
-							app.registerPopoverEllipsis(currentTarget);
+							app.registerPopoverEllipsis({ element: currentTarget, container });
 						} else {
 							app.showPopoverElementView(currentTarget);
 						}
