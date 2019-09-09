@@ -41,11 +41,14 @@ class Address
 	 */
 	public static function getDefaultProvider()
 	{
-		$provider = static::getActiveProviders();
-		if ($provider) {
-			return \array_pop($provider);
+		$defaultProvider = static::getConfig()['global']['default_provider'] ?? '';
+		if (!$defaultProvider) {
+			$provider = static::getActiveProviders();
+			if ($provider) {
+				return \array_pop($provider);
+			}
 		}
-		return '';
+		return $defaultProvider;
 	}
 
 	/**
