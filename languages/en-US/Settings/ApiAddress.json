@@ -15,6 +15,8 @@
     "LBL_MAP_URL_PLACEHOLDER": "Enter map url",
     "LBL_USE_GOOGLE_GEOCODER": "Use Google Geocoding",
     "LBL_VALIDATE": "Validate configuration",
+    "LBL_PROVIDER_VALID": "Configuration is correct",
+    "LBL_PROVIDER_INVALID": "Configuration is incorrect",
     "LBL_PROVIDER_NAME": "Provider name",
     "LBL_PROVIDER_DEFAULT": "Default provider",
     "LBL_PROVIDER_ACTIVE": "Is provider active",

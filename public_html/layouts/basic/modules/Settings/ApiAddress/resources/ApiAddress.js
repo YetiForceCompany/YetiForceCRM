@@ -103,7 +103,7 @@ jQuery.Class(
 				AppConnector.request({
 					module: 'ApiAddress',
 					parent: 'Settings',
-					action: 'DownloadLanguage',
+					action: 'ValidateConfiguration',
 					provider: currentTarget.data('provider')
 				}).done(data => {
 					icon.removeClass('fa-spin');
