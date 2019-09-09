@@ -9,7 +9,7 @@
     "LBL_SAVE_NOTIFY_OK": "Saved changes.",
     "LBL_COUNTRY_CODES": "Country codes",
     "LBL_COUNTRY_CODES_PLACEHOLDER": "e.g. gb,fr,pl",
-    "LBL_COUNTRY_CODES_INFO": "Check country code list: https://wikipedia.org/wiki/List_of_ISO_3166_country_codes",
+    "LBL_COUNTRY_CODES_INFO": "<a target=\"_blank\" rel=\"noreferrer\" href=\"https://wikipedia.org/wiki/List_of_ISO_3166_country_codes\"><u>Check country code list here</u></a>",
     "LBL_KEY": "Key",
     "LBL_KEY_PLACEHOLDER": "Enter key application",
     "LBL_MAP_URL": "Map url",
