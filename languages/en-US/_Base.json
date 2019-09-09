@@ -1374,6 +1374,7 @@
     "FL_RESPONSE_EXPECTED": "Response expected",
     "FL_SOLUTION_EXPECTED": "Solution expected",
     "FL_IDLE_DATE_EXPECTED": "Idle date expected",
+    "FL_SUM_TIME_SUBORDINATE": "Sum time subordinate",
     "BTN_COPY_TO_CLIPBOARD": "Copy to clipboard",
     "LBL_HAS_CHANGED": "changed",
     "LBL_HAS_CHANGED_TO": "changed to",
