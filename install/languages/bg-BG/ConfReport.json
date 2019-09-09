@@ -7,7 +7,7 @@
     "LBL_NO": "Не",
     "NOT RECOMMENDED": "Не се препоръчва",
     "LBL_CONFIGURATION": "Конфигурация на сървъра",
-    "LBL_CONFREPORT_DESCRIPTION": "Allows you to verify that the main server settings are compatible with the recommended parameters.",
+    "LBL_CONFREPORT_DESCRIPTION": "Позволява ви да проверите дали основните настройки на сървъра са съвместими с препоръчителните параметри.",
     "LBL_PARAMETER": "Параметър",
     "LBL_VALUE": "Стойност",
     "LBL_RECOMMENDED": "Препоръчителна конфигурация",

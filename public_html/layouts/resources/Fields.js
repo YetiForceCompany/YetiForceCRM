@@ -1057,9 +1057,13 @@ window.App.Fields = {
 				});
 				selectElement.removeClass('js-lazy-select');
 				this.showSelect2ElementView(selectElement, params.selectParams);
-				let selectedOption = selectElement.data('selected-value')
+				let selectedOption = selectElement.data('selected-value');
 				if (selectedOption) {
-					const newOption = new Option(selectedOption, 1, true, true);
+					let text = selectedOption;
+					if (selectElement.data('fieldinfo').picklistvalues.hasOwnProperty(selectedOption)) {
+						text = selectElement.data('fieldinfo').picklistvalues[selectedOption];
+					}
+					const newOption = new Option(text, selectedOption, true, true);
 					selectElement.append(newOption).trigger('change');
 				}
 			});
