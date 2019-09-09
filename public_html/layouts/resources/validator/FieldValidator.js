@@ -403,7 +403,18 @@ Vtiger_PositiveNumber_Validator_Js(
 
 Vtiger_Base_Validator_Js(
 	'Vtiger_Url_Validator_Js',
-	{},
+	{
+		invokeValidation: function(field, rules, i, options) {
+			var validatorInstance = new Vtiger_Url_Validator_Js();
+			validatorInstance.setElement(field);
+			const result = validatorInstance.validate();
+			if (result === true) {
+				return result;
+			} else {
+				return validatorInstance.getError();
+			}
+		}
+	},
 	{
 		/**
 		 * Function to validate the Url

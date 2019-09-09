@@ -23,7 +23,7 @@ class OpenCageGeocoder extends Base
 	public $customFields = [
 		'country_codes' => [
 			'type' => 'text',
-			'validator' => 'funcCall[Vtiger_CountryCode_Validator_Js.invokeValidation]'
+			'info' => 'LBL_COUNTRY_CODES_INFO',
 		],
 		'key' => [
 			'type' => 'text',

@@ -28,11 +28,11 @@ class NominatimGeocoder extends Base
 	public $customFields = [
 		'country_codes' => [
 			'type' => 'text',
-			'validator' => 'funcCall[Vtiger_CountryCode_Validator_Js.invokeValidation]'
+			'info' => 'LBL_COUNTRY_CODES_INFO',
 		],
 		'map_url' => [
 			'type' => 'url',
-			'validator' => 'required,custom[url]'
+			'validator' => 'required,funcCall[Vtiger_Url_Validator_Js.invokeValidation]'
 		],
 	];
 
