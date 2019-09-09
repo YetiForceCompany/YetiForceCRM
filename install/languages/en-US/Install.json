@@ -43,7 +43,7 @@
     "LBL_PHP_VERSION": "PHP version",
     "LBL_PLEASE_WAIT": "Please wait...",
     "LBL_PRESENT_VALUE": "Present values",
-    "LBL_READ_WRITE_ACCESS": "Read\/Write access",
+    "LBL_READ_WRITE_ACCESS": "Read/Write access",
     "LBL_RECHECK": "Recheck",
     "LBL_REQUIRED_VALUE": "Required value",
     "LBL_RETYPE_PASSWORD": "Retype password",
@@ -114,7 +114,16 @@
     "LBL_CITY": "City",
     "LBL_COUNTRY": "Country",
     "LBL_COMPANYSIZE": "The number of employees of the company",
-    "LBL_WEBSITE": "Your company's website"
+    "LBL_WEBSITE": "Your company's website",
+    "LBL_CHOOSE_INSTALLATION_TYPE": "Choose installation type",
+    "LBL_INSTALL_YOURSELF": "Install",
+    "LBL_HOSTING_SELF": "Own server",
+    "LBL_MY_SERVER_TITLE": "Use your own server or hosting",
+    "LBL_MY_SERVER_DESC": "You can install YetiForce anywhere you want without any fees. If you ever experience any issues related to the CRM system you can find free support in our GitHub repository or purchase support directly from YetiForce.",
+    "LBL_HOSTING_SHARED": "YetiForce hosting",
+    "LBL_HOSTING_CLOUD": "YetiForce cloud",
+    "LBL_BUY": "Buy",
+    "LBL_SHOW_MORE": "More information about product"
   },
   "js": {
     "JS_ALL": "All",
