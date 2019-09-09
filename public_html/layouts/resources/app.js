@@ -437,7 +437,7 @@ var app = (window.app = {
 		if (!popover.length) {
 			return;
 		}
-		let container = popoverElement.closest('#mainscreen');
+		let container = popoverElement.closest('#mainscreen').length ? popoverElement.closest('#mainscreen') : $(window);
 		let windowHeight = container.height(),
 			windowWidth = container.width(),
 			popoverPadding = 10,
