@@ -54,7 +54,7 @@ class YetiForceGeocoder extends Base
 			'q' => $value
 		];
 		if ($countryCode = \App\Map\Address::getConfig()[$this->getName()]['country_codes']) {
-			$params['countrycodes'] = implode(',', $countryCode);
+			$params['countrycodes'] = strpos($countryCode, ',') ? implode(',', $countryCode) : $countryCode;
 		}
 		$rows = [];
 		try {

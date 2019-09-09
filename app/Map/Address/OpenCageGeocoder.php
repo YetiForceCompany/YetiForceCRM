@@ -26,7 +26,7 @@ class OpenCageGeocoder extends Base
 		],
 		'key' => [
 			'type' => 'text',
-			'validator' => 'required'
+			'validator' => 'required,funcCall[Vtiger_OpenCage_Validator_Js.invokeValidation]'
 		],
 	];
 	/**
@@ -55,7 +55,7 @@ class OpenCageGeocoder extends Base
 		$urlAddress .= '&limit=' . $config['global']['result_num'];
 		$urlAddress .= '&key=' . $config['OpenCageGeocoder']['key'];
 		if ($countryCode = \App\Map\Address::getConfig()[$this->getName()]['country_codes']) {
-			$urlAddress .= '&countrycode=' . implode(',', $countryCode);
+			$urlAddress .= '&countrycode=' . (strpos($countryCode, ',') ? implode(',', $countryCode) : $countryCode);
 		}
 		try {
 			$response = \Requests::get($urlAddress);
