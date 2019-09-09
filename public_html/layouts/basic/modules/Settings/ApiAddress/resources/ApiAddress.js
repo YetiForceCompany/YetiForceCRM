@@ -5,8 +5,13 @@ jQuery.Class(
 	'Settings_ApiAddress_Configuration_Js',
 	{},
 	{
-		registerSave: function(content) {
-			content.find('.saveGlobal').on('click', event => {
+		registerSave: function(container) {
+			container.validationEngine(app.validationEngineOptions);
+			container.find('.saveGlobal').on('click', event => {
+				if (!container.validationEngine('validate')) {
+					app.formAlignmentAfterValidation(container);
+					return false;
+				}
 				const defaultProvider = $('[name="default_provider"]:checked');
 				let elements = {
 					global: {
@@ -42,62 +47,6 @@ jQuery.Class(
 					});
 			});
 		},
-		registerValidate: function(elements) {
-			var thisInstance = this;
-			var status = true;
-			for (var i in elements) {
-				if (i == 'min_length' || i == 'result_num') {
-					if (!thisInstance.registerValidatemin_length(elements[i])) {
-						return false;
-					}
-				}
-
-				if (i == 'key') {
-					if (!thisInstance.registerValidatekey(elements.key, elements.api_name)) {
-						return false;
-					}
-				}
-			}
-			return status;
-		},
-		registerValidatemin_length: function(val) {
-			var filter = /^\d+$/;
-
-			if (!filter.test(val) || (1 == val || 0 == val)) {
-				var par = {
-					text: app.vtranslate('JS_WRONG_NUMBER'),
-					type: 'error'
-				};
-				Vtiger_Helper_Js.showPnotify(par);
-				return false;
-			}
-			return true;
-		},
-		registerValidatekey: function(val, apiName) {
-			var status = true;
-
-			if ('opencage_data' == apiName) {
-				var test = 'https://api.opencagedata.com/geocode/v1/json?query=test&pretty=1&key=' + val;
-				jQuery.ajax({
-					url: test,
-					async: false,
-					complete: function(data) {
-						if (data.status == 403) {
-							var parametry = {
-								text: app.vtranslate('Invalid API key'),
-								type: 'error'
-							};
-							Vtiger_Helper_Js.showPnotify(parametry);
-							status = false;
-						}
-					}
-				});
-			} else {
-				return true;
-			}
-
-			return status;
-		},
 		registerConfigModal(container) {
 			container.find('.js-show-config-modal').on('click', e => {
 				const providerName = e.currentTarget.dataset.provider;
@@ -105,7 +54,13 @@ jQuery.Class(
 					null,
 					`index.php?module=ApiAddress&parent=Settings&view=ApiConfigModal&provider=${providerName}`,
 					modalContainer => {
+						const form = modalContainer.find('.js-form-validation');
+						form.validationEngine(app.validationEngineOptions);
 						modalContainer.find('.js-modal__save').on('click', _ => {
+							if (!form.validationEngine('validate')) {
+								app.formAlignmentAfterValidation(container);
+								return false;
+							}
 							let elements = {};
 							let customField = modalContainer.find('.js-custom-field');
 							customField.each((i, e) => {
@@ -141,10 +96,52 @@ jQuery.Class(
 			});
 		},
 		registerEvents: function() {
-			var content = $('.contentsDiv');
-			var configTable = $('.js-config-table');
-			this.registerConfigModal(configTable);
-			this.registerSave(content);
+			const container = $('.js-validation-form');
+			this.registerConfigModal(container);
+			this.registerSave(container);
+		}
+	}
+);
+
+Vtiger_Base_Validator_Js(
+	'Vtiger_OpenCage_Validator_Js',
+	{
+		/**
+		 *Function which invokes field validation
+		 *@param accepts field element as parameter
+		 * @return error if validation fails true on success
+		 */
+		invokeValidation: function(field, rules, i, options) {
+			var validatorInstance = new Vtiger_OpenCage_Validator_Js();
+			validatorInstance.setElement(field);
+			const result = validatorInstance.validate();
+			if (result === true) {
+				return result;
+			} else {
+				return validatorInstance.getError();
+			}
+		}
+	},
+	{
+		/**
+		 * Function to validate the open cage key
+		 * @return true if validation is successfull
+		 * @return false if validation error occurs
+		 */
+		validate: function() {
+			const test = 'https://api.opencagedata.com/geocode/v1/json?query=test&pretty=1&key=' + this.getFieldValue();
+			let status = true;
+			jQuery.ajax({
+				url: test,
+				async: false,
+				complete: data => {
+					if (data.status !== 200) {
+						this.setError(app.vtranslate('Invalid API key'));
+						status = false;
+					}
+				}
+			});
+			return status;
 		}
 	}
 );

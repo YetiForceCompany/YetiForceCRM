@@ -6,7 +6,7 @@
 		</div>
     </div>
 	<div class="main_content">
-		<form>
+		<form class="js-validation-form">
 			<div class="col-12 form-row m-0">
 				<div class="col-12 form-row">
 					<h4>{\App\Language::translate('LBL_GLOBAL_CONFIG', $MODULENAME)} </h4>
@@ -19,7 +19,8 @@
 					</div>
 					<div class="col-sm-6 col-md-4">
 						<div class="text-center">
-							<input name="min_length" type="text" class="api form-control m-0" value="{$CONFIG['global']['min_length']}">
+							<input name="min_length" type="number" min="0" class="api form-control m-0" value="{$CONFIG['global']['min_length']}"
+							data-validation-engine="validate[required,min[0],funcCall[Vtiger_Integer_Validator_Js.invokeValidation]]">
 						</div>
 					</div>
 				</div>
@@ -32,7 +33,8 @@
 					</div>
 					<div class="col-sm-6 col-md-4">
 						<div class="text-center">
-							<input name="result_num" type="text" class="api form-control m-0" value="{$CONFIG['global']['result_num']}">
+							<input name="result_num" type="number" min="0" class="api form-control m-0" value="{$CONFIG['global']['result_num']}"
+							data-validation-engine="validate[required,min[1]funcCall[Vtiger_Integer_Validator_Js.invokeValidation]]">
 						</div>
 					</div>
 				</div>
