@@ -17,20 +17,20 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 	{
 		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
 		$settingsLinks = [];
-		$menu = Settings_Vtiger_MenuItem_Model::getInstance('Mail');
-		$settingsLinks[] = [
-			'linktype' => 'LISTVIEWSETTING',
-			'linklabel' => 'LBL_MODULE_CONFIGURATION',
-			'linkurl' => 'index.php?module=OSSMail&parent=Settings&view=Index&block=' . $menu->get('blockid').'&fieldid=' . $menu->get('fieldid'),
-			'linkicon' => 'adminIcon-mail-download-history',
-		];
-
+		if ($menu = Settings_Vtiger_MenuItem_Model::getInstance('Mail')) {
+			$settingsLinks[] = [
+				'linktype' => 'LISTVIEWSETTING',
+				'linklabel' => 'LBL_MODULE_CONFIGURATION',
+				'linkurl' => 'index.php?module=OSSMail&parent=Settings&view=Index&block=' . $menu->get('blockid') . '&fieldid=' . $menu->get('fieldid'),
+				'linkicon' => 'adminIcon-mail-download-history',
+			];
+		}
 		return $settingsLinks;
 	}
 
 	public static function getDefaultMailAccount($accounts)
 	{
-		return (isset($_SESSION['AutoLoginUser']) && array_key_exists($_SESSION['AutoLoginUser'], $accounts)) ? $accounts[$_SESSION['AutoLoginUser']] : reset($accounts);
+		return (isset($_SESSION['AutoLoginUser']) && \array_key_exists($_SESSION['AutoLoginUser'], $accounts)) ? $accounts[$_SESSION['AutoLoginUser']] : reset($accounts);
 	}
 
 	public static function getComposeUrl($moduleName = false, $record = false, $view = false, $type = false)
@@ -51,7 +51,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		return $url;
 	}
 
-	public static function getComposeParam(\App\Request $request)
+	public static function getComposeParam(App\Request $request)
 	{
 		$moduleName = $request->getByType('crmModule');
 		$record = $request->getInteger('crmRecord');
@@ -65,9 +65,9 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 				$return['to'] = $email;
 			}
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-			if (!in_array($moduleName, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(), \App\ModuleHierarchy::getModulesByLevel(3)))) || $moduleName === 'Campaigns') {
+			if (!\in_array($moduleName, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(), \App\ModuleHierarchy::getModulesByLevel(3)))) || 'Campaigns' === $moduleName) {
 				$subject = '';
-				if ($type === 'new' || $moduleName === 'Campaigns') {
+				if ('new' === $type || 'Campaigns' === $moduleName) {
 					$return['title'] = $recordModel->getName();
 					$subject .= $recordModel->getName();
 				}
@@ -132,7 +132,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		if (!self::$composeParam) {
 			$config = (new \App\Db\Query())->select(['parameter', 'value'])->from('vtiger_ossmailscanner_config')
 				->where(['conf_type' => 'email_list'])->createCommand()->queryAllByGroup(0);
-			$config['popup'] = $config['target'] == '_blank' ? true : false;
+			$config['popup'] = '_blank' == $config['target'] ? true : false;
 			self::$composeParam = $config;
 		}
 		return self::$composeParam;
@@ -150,11 +150,11 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			$url .= '?';
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			$moduleModel = $recordModel->getModule();
-			if (!in_array($moduleName, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(), \App\ModuleHierarchy::getModulesByLevel(3))))) {
+			if (!\in_array($moduleName, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(), \App\ModuleHierarchy::getModulesByLevel(3))))) {
 				$fieldName = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['tabid' => $moduleModel->getId(), 'uitype' => 4])->scalar();
 				if ($fieldName) {
 					$subject = "subject=[$fieldName] ";
-					if ($type == 'new') {
+					if ('new' == $type) {
 						switch ($moduleName) {
 							case 'HelpDesk':
 								$subject .= $recordModel->get('ticket_title');
@@ -188,7 +188,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getExternalUrlForWidget($record, $type, $srecord = false, $smoduleName = false)
 	{
-		if (is_object($record)) {
+		if (\is_object($record)) {
 			$body = $record->get('content');
 			$subject = $record->get('subject');
 			$from = $record->get('from_email');
@@ -207,14 +207,14 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		if (!empty($srecord) && !empty($smoduleName)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($srecord);
 			$moduleModel = $recordModel->getModule();
-			if (!in_array($smoduleName, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(), \App\ModuleHierarchy::getModulesByLevel(3))))) {
+			if (!\in_array($smoduleName, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(), \App\ModuleHierarchy::getModulesByLevel(3))))) {
 				$fieldName = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['tabid' => $moduleModel->getId(), 'uitype' => 4])->scalar();
 				if ($fieldName) {
 					$subject = "[$fieldName] $subject";
 				}
 			}
 		}
-		if ($type == 'forward') {
+		if ('forward' == $type) {
 			$url = 'mailto:';
 			$subject = 'Fwd: ' . $subject;
 		} else {
@@ -222,7 +222,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			$subject = 'Re: ' . $subject;
 		}
 		$url .= '?subject=' . $subject;
-		if ($type == 'replyAll' && !empty($cc)) {
+		if ('replyAll' == $type && !empty($cc)) {
 			$url .= '&cc=' . $cc;
 		}
 		include_once 'vendor/ezyang/htmlpurifier/library/HTMLPurifier.auto.php';
@@ -234,12 +234,12 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		$config->set('HTML.AllowedAttributes', '');
 		$purifier = new HTMLPurifier($config);
 		$body = $purifier->purify($body);
-		$body = str_replace(['<p> </p>', '<p></p>', '</p>', '<br />', '<p>', '<div>', '</div>', PHP_EOL . PHP_EOL, PHP_EOL . PHP_EOL], ['', '', PHP_EOL, PHP_EOL, '', '', PHP_EOL, PHP_EOL, PHP_EOL], nl2br($body));
+		$body = str_replace(['<p> </p>', '<p></p>', '</p>', '<br />', '<p>', '<div>', '</div>', PHP_EOL . PHP_EOL, PHP_EOL . PHP_EOL], ['', '', PHP_EOL, PHP_EOL, '', '', PHP_EOL, PHP_EOL, PHP_EOL], nl2br($body));
 
 		$content = '';
 		$mailtoLimit = \App\Config::component('Mail', 'MAILTO_LIMIT');
 
-		if ($type == 'forward') {
+		if ('forward' == $type) {
 			$content .= \App\Language::translate('LBL_MAIL_FORWARD_INTRO', 'OSSMailView') . PHP_EOL;
 			$content .= \App\Language::translate('Subject', 'OSSMailView') . ': ' . $subject . PHP_EOL;
 			$content .= \App\Language::translate('Date', 'OSSMailView') . ': ' . $date . PHP_EOL;
@@ -249,7 +249,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 				$line = trim($line);
 				if (!empty($line)) {
 					$line = '> ' . $line . PHP_EOL;
-					if (strlen($url . '&body=' . rawurlencode($content . $line)) > $mailtoLimit) {
+					if (\strlen($url . '&body=' . rawurlencode($content . $line)) > $mailtoLimit) {
 						break;
 					}
 					$content .= $line;
@@ -261,7 +261,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 				$line = trim($line);
 				if (!empty($line)) {
 					$line = '> ' . $line . PHP_EOL;
-					if (strlen($url . '&body=' . rawurlencode($content . $line)) > $mailtoLimit) {
+					if (\strlen($url . '&body=' . rawurlencode($content . $line)) > $mailtoLimit) {
 						break;
 					}
 					$content .= $line;
@@ -274,7 +274,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getModalRecordsListSourceFields(\App\QueryGenerator $queryGenerator, Vtiger_Module_Model $baseModule, $popupFields)
+	public function getModalRecordsListSourceFields(App\QueryGenerator $queryGenerator, Vtiger_Module_Model $baseModule, $popupFields)
 	{
 		foreach ($baseModule->getFieldsByType('email') as $item) {
 			$popupFields[$item->getName()] = $item->getName();
