@@ -22,6 +22,7 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 		let self = this,
 			options = {
 				selectable: self.eventCreate,
+				editable: self.eventEdit,
 				select: function(start, end) {
 					self.selectDays(start, end);
 					self.getCalendarView().fullCalendar('unselect');
