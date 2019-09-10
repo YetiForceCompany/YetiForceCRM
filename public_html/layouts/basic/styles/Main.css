@@ -13192,7 +13192,8 @@ select.select2 select.select2noactive {
   height: calc(1.5em + 0.75rem + 2px) !important; }
 
 .select2-container .select2-search--inline {
-  float: unset; }
+  float: unset;
+  width: fit-content; }
 
 .input-group-sm select.select2 {
   height: calc(1.5em + 0.5rem + 2px) !important; }
