@@ -62,7 +62,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 					center: 'prevYear,prev,title,next,nextYear',
 					right: 'today'
 				},
-				editable: !self.readonly,
+				editable: !self.readonly && this.eventEdit,
 				views: {
 					basic: {
 						eventLimit: false

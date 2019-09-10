@@ -6,6 +6,7 @@
 	<input value="current" type="hidden" id="showType"/>
 	<input value="workDays" type="hidden" id="switchingDays"/>
 	<input value="{$EVENT_CREATE}" type="hidden" id="eventCreate"/>
+	<input value="{$EVENT_EDIT}" type="hidden" id="eventEdit"/>
 	<input value="{$WEEK_COUNT}" type="hidden" id="weekCount"/>
 	<input value="{$WEEK_VIEW}" type="hidden" id="weekView"/>
 	<input value="{$DAY_VIEW}" type="hidden" id="dayView"/>
