@@ -1111,7 +1111,8 @@ jQuery.Class(
 					if (
 						element.closest('.fieldValue').is(currentTdElement) ||
 						element.hasClass('select2-selection__choice__remove') ||
-						element.closest('.select2-container--open').length
+						element.closest('.select2-container--open').length ||
+						element.parents('.clockpicker-popover').length
 					) {
 						return;
 					}
