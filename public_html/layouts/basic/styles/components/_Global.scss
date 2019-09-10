@@ -633,7 +633,7 @@ input[type="checkbox"][disabled] {
 
 .c-mds-input {
 	.input-group-append,
-	.input-group-prepend  {
+	.input-group-prepend {
 		border-bottom: 1px solid $gray-400;
 	}
 	.form-control {
@@ -643,8 +643,10 @@ input[type="checkbox"][disabled] {
 		border-right: 0px !important;
 		&:focus {
 			box-shadow: none;
-			& + .input-group-append, ~ .input-group-append,
-			& + .input-group-prepend, ~ .input-group-prepend {
+			& + .input-group-append,
+			~ .input-group-append,
+			& + .input-group-prepend,
+			~ .input-group-prepend {
 				border-color: #5bb1ff !important;
 			}
 		}

@@ -16317,6 +16317,45 @@ ul.tweets li {
 .u-font-size-120px {
   font-size: 7.5rem; }
 
+.u-fs-xs {
+  font-size: 0.75rem; }
+
+.u-fs-sm {
+  font-size: 0.875rem; }
+
+.u-fs-lg {
+  font-size: 1.33rem; }
+
+.u-fs-1x {
+  font-size: 1rem; }
+
+.u-fs-2x {
+  font-size: 2rem; }
+
+.u-fs-3x {
+  font-size: 3rem; }
+
+.u-fs-4x {
+  font-size: 4rem; }
+
+.u-fs-5x {
+  font-size: 5rem; }
+
+.u-fs-6x {
+  font-size: 6rem; }
+
+.u-fs-7x {
+  font-size: 7rem; }
+
+.u-fs-8x {
+  font-size: 8rem; }
+
+.u-fs-9x {
+  font-size: 9rem; }
+
+.u-fs-10x {
+  font-size: 10rem; }
+
 .u-font-weight-50 {
   font-weight: 50 !important; }
 
@@ -18250,7 +18289,9 @@ input[type="checkbox"][disabled] {
   border-right: 0px !important; }
   .c-mds-input .form-control:focus {
     box-shadow: none; }
-    .c-mds-input .form-control:focus + .input-group-append, .c-mds-input .form-control:focus ~ .input-group-append, .c-mds-input .form-control:focus + .input-group-prepend, .c-mds-input .form-control:focus ~ .input-group-prepend {
+    .c-mds-input .form-control:focus + .input-group-append,
+    .c-mds-input .form-control:focus ~ .input-group-append, .c-mds-input .form-control:focus + .input-group-prepend,
+    .c-mds-input .form-control:focus ~ .input-group-prepend {
       border-color: #5bb1ff !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
