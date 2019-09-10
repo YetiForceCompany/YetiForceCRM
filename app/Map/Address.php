@@ -45,7 +45,7 @@ class Address
 		if (!$defaultProvider) {
 			$provider = static::getActiveProviders();
 			if ($provider) {
-				return \array_pop($provider);
+				$defaultProvider = \current($provider);
 			}
 		}
 		return $defaultProvider;
