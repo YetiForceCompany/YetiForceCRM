@@ -55,8 +55,8 @@ class OpenCageGeocoder extends Base
 		$urlAddress .= '&language=' . \App\Language::getLanguage();
 		$urlAddress .= '&limit=' . $config['global']['result_num'];
 		$urlAddress .= '&key=' . $config['OpenCageGeocoder']['key'];
-		if ($countryCode = \App\Map\Address::getConfig()[$this->getName()]['country_codes']) {
-			$urlAddress .= '&countrycode=' . (strpos($countryCode, ',') ? implode(',', $countryCode) : $countryCode);
+		if ($countryCodes = \App\Map\Address::getConfig()[$this->getName()]['country_codes']) {
+			$urlAddress .= '&countrycode=' . $countryCodes;
 		}
 		try {
 			$response = \Requests::get($urlAddress);
