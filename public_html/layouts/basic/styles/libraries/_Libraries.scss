@@ -126,6 +126,7 @@ select.select2 select.select2noactive {
 
 .select2-container .select2-search--inline {
 	float: unset; //remove unneeded space in multiple select
+	width: fit-content;
 }
 
 .input-group-sm {
