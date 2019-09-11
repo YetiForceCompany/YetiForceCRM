@@ -93,7 +93,7 @@ export default {
       }
       update(() => {
         const needle = val.toLowerCase()
-        this.searchModules = this.modules.filter(v => v.desc.toLowerCase().indexOf(needle) > -1)
+        this.searchModules = this.modules.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
       })
     },
     showRecordsModal(val) {
