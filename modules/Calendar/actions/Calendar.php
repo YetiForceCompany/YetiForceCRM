@@ -17,13 +17,13 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$userPrivilegesModel->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if ($request->getMode() === 'updateEvent' && ($request->isEmpty('id', true) || !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('id')))) {
+		if ('updateEvent' === $request->getMode() && ($request->isEmpty('id', true) || !\App\Privilege::isPermitted($request->getModule(), 'EditView', $request->getInteger('id')))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
@@ -39,7 +39,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		$this->exposeMethod('pinOrUnpinUser');
 	}
 
-	public function getEvents(\App\Request $request)
+	public function getEvents(App\Request $request)
 	{
 		$record = Calendar_Calendar_Model::getCleanInstance();
 		$record->set('user', $request->getArray('user', 'Alnum'));
@@ -75,7 +75,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function getEventsYear(\App\Request $request)
+	public function getEventsYear(App\Request $request)
 	{
 		$record = Calendar_Calendar_Model::getCleanInstance();
 		$record->set('user', $request->getArray('user', 'Alnum'));
@@ -101,7 +101,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function getCountEvents(\App\Request $request)
+	public function getCountEvents(App\Request $request)
 	{
 		$record = Calendar_Calendar_Model::getCleanInstance();
 		$record->set('user', $request->getArray('user', 'Alnum'));
@@ -128,7 +128,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function getCountEventsGroup(\App\Request $request)
+	public function getCountEventsGroup(App\Request $request)
 	{
 		$record = Calendar_Calendar_Model::getCleanInstance();
 		$record->set('user', $request->getArray('user', 'Alnum'));
@@ -151,7 +151,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		$response->emit();
 	}
 
-	public function updateEvent(\App\Request $request)
+	public function updateEvent(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->getInteger('id');
@@ -190,13 +190,13 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 	public function changeDateTime($datetime, $delta)
 	{
 		$date = new DateTime($datetime);
-		if ($delta['days'] != 0) {
+		if (0 != $delta['days']) {
 			$date = $date->modify('+' . $delta['days'] . ' days');
 		}
-		if ($delta['hours'] != 0) {
+		if (0 != $delta['hours']) {
 			$date = $date->modify('+' . $delta['hours'] . ' hours');
 		}
-		if ($delta['minutes'] != 0) {
+		if (0 != $delta['minutes']) {
 			$date = $date->modify('+' . $delta['minutes'] . ' minutes');
 		}
 		return ['date' => $date->format('Y-m-d'), 'time' => $date->format('H:i:s')];
@@ -207,7 +207,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function pinOrUnpinUser(\App\Request $request)
+	public function pinOrUnpinUser(App\Request $request)
 	{
 		$db = \App\Db::getInstance();
 		$userId = \App\User::getCurrentUserId();

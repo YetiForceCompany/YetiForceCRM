@@ -62,7 +62,6 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 					center: 'prevYear,prev,title,next,nextYear',
 					right: 'today'
 				},
-				editable: !self.readonly && this.eventEdit,
 				views: {
 					basic: {
 						eventLimit: false
@@ -124,7 +123,12 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 		if (!this.readonly) {
 			options.eventClick = function(calEvent, jsEvent) {
 				jsEvent.preventDefault();
-				self.getCalendarSidebarData($(this).attr('href'));
+				if (self.editView) {
+					self.getCalendarSidebarData($(this).attr('href'));
+				} else {
+					const link = new URL($(this)[0].href);
+					window.location.assign(`index.php?module=Calendar&view=Detail&record=${link.searchParams.get('record')}`);
+				}
 			};
 		} else {
 			options.eventClick = function(calEvent, jsEvent) {

@@ -6,6 +6,8 @@
 	<input type="hidden" id="weekView" value="{$WEEK_VIEW}"/>
 	<input type="hidden" id="dayView" value="{$DAY_VIEW}"/>
 	<input value="{$ALL_DAY_SLOT}" type="hidden" id="allDaySlot"/>
+	<input value="{$EVENT_CREATE}" type="hidden" id="eventCreate"/>
+	<input value="{$EVENT_EDIT}" type="hidden" id="eventEdit"/>
 	<div class="calendarViewContainer rowContent">
 		<div class="d-flex flex-md-nowrap mt-2">
 			<div class="btn-toolbar flex-nowrap mb-1 mb-sm-0 align-items-center">

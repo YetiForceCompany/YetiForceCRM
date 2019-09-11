@@ -13,6 +13,8 @@ window.Calendar_Js = class {
 		this.calendarCreateView = false;
 		this.container = container;
 		this.readonly = readonly;
+		this.eventCreate = app.getMainParams('eventCreate');
+		this.eventEdit = app.getMainParams('eventEdit');
 		this.browserHistoryConfig = readonly ? {} : this.setBrowserHistoryOptions();
 		this.calendarOptions = this.setCalendarOptions();
 		this.eventTypeKeyName = false;
@@ -201,6 +203,8 @@ window.Calendar_Js = class {
 	setCalendarAdvancedOptions() {
 		let self = this;
 		return {
+			editable: !this.readonly && this.eventEdit,
+			selectable: !this.readonly && this.eventCreate,
 			header: {
 				left: 'month,' + app.getMainParams('weekView') + ',' + app.getMainParams('dayView'),
 				center: 'title today',
@@ -277,9 +281,7 @@ window.Calendar_Js = class {
 		element.find('.fc-title').html(event.title);
 		if (event.rendering === 'background') {
 			element.append(
-				`<span class="js-popover-text d-block"><span class="${event.icon} js-popover-icon mr-1"></span>${
-					event.title
-				}</span>`
+				`<span class="js-popover-text d-block"><span class="${event.icon} js-popover-icon mr-1"></span>${event.title}</span>`
 			);
 			element.addClass('js-popover-tooltip--ellipsis').attr('data-content', event.title);
 			app.registerPopoverEllipsis(element);
@@ -694,12 +696,13 @@ window.Calendar_Unselectable_Js = class extends Calendar_Js {
 		let self = this;
 		return {
 			allDaySlot: false,
-			dayClick: function(date) {
-				self.registerDayClickEvent(date.format());
-				self.getCalendarView().fullCalendar('unselect');
-			},
-			selectable: false,
-			editable: true
+			dayClick: this.eventCreate
+				? function(date) {
+						self.registerDayClickEvent(date.format());
+						self.getCalendarView().fullCalendar('unselect');
+				  }
+				: false,
+			selectable: false
 		};
 	}
 

@@ -13,35 +13,30 @@
  * @extends Calendar_Js
  */
 window.Calendar_Calendar_Js = class extends Calendar_Js {
-	constructor(container, readonly) {
-		super(container, readonly);
-		this.eventCreate = app.getMainParams('eventCreate');
-		this.eventEdit = app.getMainParams('eventEdit');
-	}
 	setCalendarModuleOptions() {
 		let self = this,
 			options = {
-				selectable: self.eventCreate,
-				editable: self.eventEdit,
 				select: function(start, end) {
 					self.selectDays(start, end);
 					self.getCalendarView().fullCalendar('unselect');
 				},
 				eventClick: function(calEvent, jsEvent, view) {
 					jsEvent.preventDefault();
-					var link = new URL($(this)[0].href);
-					var progressInstance = jQuery.progressIndicator({
-						blockInfo: { enabled: true }
-					});
-					var url = 'index.php?module=Calendar&view=ActivityStateModal&record=' + link.searchParams.get('record');
-					var callbackFunction = function(data) {
-						progressInstance.progressIndicator({ mode: 'hide' });
-					};
-					var modalWindowParams = {
-						url: url,
-						cb: callbackFunction
-					};
-					app.showModalWindow(modalWindowParams);
+					const link = new URL($(this)[0].href);
+					if (self.createView) {
+						let progressInstance = jQuery.progressIndicator({
+							blockInfo: { enabled: true }
+						});
+						const callbackFunction = data => {
+							progressInstance.progressIndicator({ mode: 'hide' });
+						};
+						app.showModalWindow({
+							url: `index.php?module=Calendar&view=ActivityStateModal&record=${link.searchParams.get('record')}`,
+							cb: callbackFunction
+						});
+					} else {
+						window.location.assign(`index.php?module=Calendar&view=Detail&record=${link.searchParams.get('record')}`);
+					}
 				}
 			};
 		return options;
