@@ -1026,9 +1026,13 @@ final class Chat
 	public static function getChatModules(): array
 	{
 		$activeModules = [];
+		$userPrivilegesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		foreach (array_keys(ModuleHierarchy::getModulesHierarchy()) as $moduleName) {
-			if (Module::isModuleActive($moduleName)) {
-				$activeModules[$moduleName] = Language::translate($moduleName, $moduleName);
+			if ($userPrivilegesModel->hasModulePermission($moduleName)) {
+				$activeModules[] = [
+					'id' => $moduleName,
+					'label' => Language::translate($moduleName, $moduleName)
+				];
 			}
 		}
 		return $activeModules;
