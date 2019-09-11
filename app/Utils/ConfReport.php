@@ -72,6 +72,8 @@ class ConfReport
 		'allow_url_fopen' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true], //Roundcube
 		'auto_detect_line_endings' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true], //CSVReader
 		'httpMethods' => ['recommended' => 'GET, POST, PUT, OPTIONS, PATCH, PROPFIND, REPORT, LOCK, DELETE, COPY, MOVE', 'type' => 'HttpMethods', 'container' => 'request', 'testCli' => false, 'label' => 'HTTP_METHODS'],
+		'request_order' => ['recommended' => 'GP', 'type' => 'Equal', 'container' => 'php', 'testCli' => true],
+		'variables_order' => ['recommended' => 'GPCS', 'type' => 'Equal', 'container' => 'php', 'testCli' => true],
 	];
 	/**
 	 * Security variables map.
@@ -246,8 +248,7 @@ class ConfReport
 		'spaceTemp' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_TEMP'],
 		'lastCronStart' => ['container' => 'env', 'testCli' => false, 'label' => 'LAST_CRON_START', 'isHtml' => true],
 		'open_basedir' => ['container' => 'php', 'testCli' => true],
-		'variables_order' => ['container' => 'php', 'testCli' => true],
-		'cacertbundle' => ['recommended' => 'On','container' => 'env', 'type' => 'OnOff', 'testCli' => true, 'label' => 'CACERTBUNDLE'],
+		'cacertbundle' => ['recommended' => 'On', 'container' => 'env', 'type' => 'OnOff', 'testCli' => true, 'label' => 'CACERTBUNDLE'],
 		'SSL_CERT_FILE' => ['container' => 'env', 'testCli' => true],
 		'SSL_CERT_DIR' => ['container' => 'env', 'testCli' => true],
 		'openssl.cafile' => ['container' => 'php', 'testCli' => true],
@@ -304,7 +305,7 @@ class ConfReport
 		'public_html/layouts/resources/Logo/' => ['type' => 'IsWritable', 'testCli' => true],
 	];
 	/**
-	 * Functionality test map
+	 * Functionality test map.
 	 *
 	 * @var array
 	 */
@@ -470,8 +471,8 @@ class ConfReport
 				'lastCronStart' => $lastCronStartText,
 				'lastCronStartDateTime' => $lastCronStart,
 				'protocolVersion' => isset($_SERVER['SERVER_PROTOCOL']) ? substr($_SERVER['SERVER_PROTOCOL'], strpos($_SERVER['SERVER_PROTOCOL'], '/') + 1) : '-',
-				'SSL_CERT_FILE' =>  getenv('SSL_CERT_FILE') ?? '',
-				'SSL_CERT_DIR' =>  getenv('SSL_CERT_DIR') ?? ''
+				'SSL_CERT_FILE' => getenv('SSL_CERT_FILE') ?? '',
+				'SSL_CERT_DIR' => getenv('SSL_CERT_DIR') ?? ''
 			]
 		];
 	}
@@ -543,7 +544,7 @@ class ConfReport
 							$item = static::$methodName($key, $item, 'cron');
 						}
 					}
-					if (isset($item['mode']) && (($item['mode'] === 'whenError' && !$item['status']) || $item['mode'] === 'skipParam') ) {
+					if (isset($item['mode']) && (('whenError' === $item['mode'] && !$item['status']) || 'skipParam' === $item['mode'])) {
 						unset(static::${$type}[$key]);
 					}
 				}
@@ -1134,7 +1135,7 @@ class ConfReport
 	{
 		$row['status'] = \App\Fields\File::isWriteable($name);
 		$row[$sapi] = $row['status'] ? 'LBL_YES' : 'LBL_NO';
-		if(!file_exists(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR .$name)){
+		if (!file_exists(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $name)) {
 			$row['mode'] = 'skipParam';
 		}
 		return $row;
@@ -1161,7 +1162,7 @@ class ConfReport
 		$view->assign('SHOW_FOOTER', true);
 		$html = $view->view('Footer.tpl', '', true);
 		$row['status'] = true;
-		if( !\App\Config::component('Branding', 'isCustomerBrandingActive') ){
+		if (!\App\Config::component('Branding', 'isCustomerBrandingActive')) {
 			$row['status'] = false !== \strpos($html, '&copy; YetiForce.com All rights reserved');
 			$row['status'] = $row['status'] && \App\YetiForce\Shop::check('DisableBranding');
 		}
@@ -1225,7 +1226,7 @@ class ConfReport
 	{
 		$result = [];
 		foreach (static::get($type, true) as $param => $data) {
-			if (!$data['status'] && (empty($data['mode']) || $data['mode'] === 'showErrors')) {
+			if (!$data['status'] && (empty($data['mode']) || 'showErrors' === $data['mode'])) {
 				if (!isset($data['www']) && !isset($data['cron'])) {
 					if (!empty($data['type']) && 'ExistsUrl' === $data['type']) {
 						$val = !$data['status'];
