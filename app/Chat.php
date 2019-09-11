@@ -1025,6 +1025,12 @@ final class Chat
 	 */
 	public static function getChatModules(): array
 	{
-		return array_keys(\App\ModuleHierarchy::getModulesHierarchy());
+		$activeModules = [];
+		foreach (array_keys(ModuleHierarchy::getModulesHierarchy()) as $moduleName) {
+			if (Module::isModuleActive($moduleName)) {
+				$activeModules[$moduleName] = Language::translate($moduleName, $moduleName);
+			}
+		}
+		return $activeModules;
 	}
 }

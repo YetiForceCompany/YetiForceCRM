@@ -36,7 +36,7 @@
             <icon :icon="`userIcon-${scope.opt}`" />
           </q-item-section>
           <q-item-section>
-            {{ scope.opt }}
+            {{ modules[scope.opt] }}
           </q-item-section>
         </q-item>
       </template>
@@ -54,7 +54,7 @@ export default {
       type: Boolean
     },
     modules: {
-      type: Array
+      type: Object
     }
   },
   data() {
@@ -76,20 +76,23 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['config'])
+    ...mapGetters(['config']),
+    modulesArray() {
+      return Object.keys(this.modules)
+    }
   },
   methods: {
     ...mapMutations(['updateRooms']),
     filter(val, update) {
       if (val === '') {
         update(() => {
-          this.searchModules = this.modules
+          this.searchModules = this.modulesArray
         })
         return
       }
       update(() => {
         const needle = val.toLowerCase()
-        this.searchModules = this.modules.filter(v => v.toLowerCase().indexOf(needle) > -1)
+        this.searchModules = this.modulesArray.filter(v => v.toLowerCase().indexOf(needle) > -1)
       })
     },
     showRecordsModal(val) {
@@ -113,7 +116,7 @@ export default {
     }
   },
   created() {
-    this.searchModules = this.modules
+    this.searchModules = this.modulesArray
   }
 }
 </script>
