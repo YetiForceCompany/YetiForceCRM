@@ -120,19 +120,16 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 				}
 			};
 		options = Object.assign(basicOptions, options);
-		if (!this.readonly) {
+		if (!this.readonly && self.eventEdit) {
 			options.eventClick = function(calEvent, jsEvent) {
 				jsEvent.preventDefault();
-				if (self.editView) {
-					self.getCalendarSidebarData($(this).attr('href'));
-				} else {
-					const link = new URL($(this)[0].href);
-					window.location.assign(`index.php?module=Calendar&view=Detail&record=${link.searchParams.get('record')}`);
-				}
+				self.getCalendarSidebarData($(this).attr('href'));
 			};
 		} else {
 			options.eventClick = function(calEvent, jsEvent) {
 				jsEvent.preventDefault();
+				const link = new URL($(this)[0].href);
+				window.location.assign(`index.php?module=Calendar&view=Detail&record=${link.searchParams.get('record')}`);
 			};
 		}
 		this.calendar.fullCalendar(options);
