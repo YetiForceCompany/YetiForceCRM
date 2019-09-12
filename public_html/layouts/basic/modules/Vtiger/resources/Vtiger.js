@@ -130,6 +130,9 @@ var Vtiger_Index_Js = {
 				if (toMail) {
 					url += '&to=' + toMail;
 				}
+				if (app.getRecordId() && sendButton.data('record') !== app.getRecordId()) {
+					url += '&crmModule=' + app.getModuleName() + '&crmRecord=' + app.getRecordId();
+				}
 				thisInstance.sendMailWindow(url, popup);
 			});
 		});
