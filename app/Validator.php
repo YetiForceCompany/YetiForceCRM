@@ -198,15 +198,8 @@ class Validator
 	public static function floatIsEqual(float $value1, float $value2, int $precision = 2, $rounding = true): bool
 	{
 		if ($rounding) {
-			[, $decimal1] = array_pad(explode('.', $value1, 2), 2, false);
-			[, $decimal2] = array_pad(explode('.', $value2, 2), 2, false);
-			$len1 = \strlen($decimal1);
-			$len2 = \strlen($decimal2);
-			if ($len1 > $len2) {
-				$value1 = round($value1, $len2);
-			} elseif ($len1 < $len2) {
-				$value2 = round($value2, $len1);
-			}
+				$value1 = round($value1, $precision);
+				$value2 = round($value2, $precision);
 		}
 		return 0 === bccomp($value1, $value2, $precision);
 	}
