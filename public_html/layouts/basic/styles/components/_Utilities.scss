@@ -66,6 +66,24 @@
 	font-size: calculate-rem(120px);
 }
 
+.u-fs-xs {
+	font-size: 0.75rem;
+}
+
+.u-fs-sm {
+	font-size: 0.875rem;
+}
+
+.u-fs-lg {
+	font-size: 1.33rem;
+}
+
+@for $i from 1 through 10 {
+	.u-fs-#{$i}x {
+		font-size: #{$i}rem;
+	}
+}
+
 @for $i from 1 through 18 {
 	.u-font-weight-#{$i*50} {
 		font-weight: #{$i * 50} !important;
