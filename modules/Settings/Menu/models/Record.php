@@ -350,7 +350,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 	 * @param int $fromRole - Copy from role
 	 * @param int $toRole   - Copy to role
 	 */
-	public function copyMenu($fromRole, $toRole)
+	public function copyMenu($fromRole, $toRole, $roleId)
 	{
 		$db = \App\Db::getInstance();
 		$menuData = (new \App\Db\Query())->from('yetiforce_menu')
@@ -370,7 +370,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				}
 				$menuItem['role'] = $toRole;
 				$menuItem['parentid'] = $related[$menuItem['parentid']] ?? $menuItem['parentid'];
-				$menuItem['source'] = (1 === (int) $toRole) ? self::SRC_API : self::SRC_ROLE;
+				$menuItem['source'] = ($roleId && false === strpos($roleId, 'H')) ? Settings_Menu_Record_Model::SRC_API : Settings_Menu_Record_Model::SRC_ROLE;
 				$db->createCommand()->insert('yetiforce_menu', $menuItem)->execute();
 				$related[$menuId] = $db->getLastInsertID('yetiforce_menu_id_seq');
 			}
