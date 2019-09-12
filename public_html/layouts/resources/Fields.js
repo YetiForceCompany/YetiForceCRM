@@ -177,15 +177,33 @@ window.App.Fields = {
 			}
 			let ranges = {};
 			ranges[app.vtranslate('JS_TODAY')] = [moment(), moment()];
+			ranges[app.vtranslate('JS_TOMOROW')] = [moment().add(1, 'days'), moment().add(1, 'days')];
 			ranges[app.vtranslate('JS_YESTERDAY')] = [moment().subtract(1, 'days'), moment().subtract(1, 'days')];
 			ranges[app.vtranslate('JS_LAST_7_DAYS')] = [moment().subtract(6, 'days'), moment()];
+			ranges[app.vtranslate('JS_NEXT_7_DAYS')] = [moment(), moment().add(6, 'days')];
 			ranges[app.vtranslate('JS_CURRENT_MONTH')] = [moment().startOf('month'), moment().endOf('month')];
+			ranges[app.vtranslate('JS_NEXT_MONTH')] = [
+				moment()
+					.add(1, 'month')
+					.startOf('month'),
+				moment()
+					.add(1, 'month')
+					.endOf('month')
+			];
 			ranges[app.vtranslate('JS_LAST_MONTH')] = [
 				moment()
 					.subtract(1, 'month')
 					.startOf('month'),
 				moment()
 					.subtract(1, 'month')
+					.endOf('month')
+			];
+			ranges[app.vtranslate('JS_NEXT_MONTH')] = [
+				moment()
+					.add(1, 'month')
+					.startOf('month'),
+				moment()
+					.add(1, 'month')
 					.endOf('month')
 			];
 			ranges[app.vtranslate('JS_LAST_3_MONTHS')] = [
@@ -196,12 +214,24 @@ window.App.Fields = {
 					.subtract(1, 'month')
 					.endOf('month')
 			];
+			ranges[app.vtranslate('JS_NEXT_3_MONTHS')] = [
+				moment().startOf('month'),
+				moment()
+					.add(3, 'month')
+					.endOf('month')
+			];
 			ranges[app.vtranslate('JS_LAST_6_MONTHS')] = [
 				moment()
 					.subtract(6, 'month')
 					.startOf('month'),
 				moment()
 					.subtract(1, 'month')
+					.endOf('month')
+			];
+			ranges[app.vtranslate('JS_NEXT_6_MONTHS')] = [
+				moment().startOf('month'),
+				moment()
+					.add(6, 'month')
 					.endOf('month')
 			];
 			let params = {
