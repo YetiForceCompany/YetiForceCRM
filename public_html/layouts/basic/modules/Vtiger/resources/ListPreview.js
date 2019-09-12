@@ -232,6 +232,7 @@ Vtiger_List_Js(
 					listPreview.hide();
 					this.list.width(this.list.width() - 10);
 				}
+				this.listFloatThead.floatThead('reflow');
 				app.moduleCacheSet('userSplitSet', split.getSizes());
 			});
 			this.sideBlockLeft.on('click', () => {
@@ -243,6 +244,7 @@ Vtiger_List_Js(
 				}
 				this.sideBlockLeft.removeClass('d-block');
 				this.list.removeClass('u-hide-underneath');
+				this.listFloatThead.floatThead('reflow');
 				app.moduleCacheSet('userSplitSet', split.getSizes());
 			});
 			this.sideBlockRight.on('click', () => {
@@ -255,6 +257,7 @@ Vtiger_List_Js(
 				this.sideBlockRight.removeClass('d-block');
 				listPreview.show();
 				this.gutter.css('right', 'initial');
+				this.listFloatThead.floatThead('reflow');
 				app.moduleCacheSet('userSplitSet', split.getSizes());
 			});
 		},
