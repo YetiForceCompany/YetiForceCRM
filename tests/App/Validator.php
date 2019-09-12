@@ -56,4 +56,36 @@ class Validator extends \Tests\Base
 			[false, 'javascript:alert(1)']
 		];
 	}
+
+	/**
+	 * Provide test data for testValidator function.
+	 *
+	 * @return array
+	 */
+	public function validatorProvider()
+	{
+		return [
+			[3.5768, 3.58, 3, false],
+			[0.314111, 0.3199, 3, false],
+			[0.314000, 0.314, 6, true],
+			[0.314001, 0.314, 6, false],
+			[0.314001, 0.314, 5, true],
+		];
+	}
+
+	/**
+	 * Testing process function.
+	 *
+	 * @dataProvider validatorProvider
+	 *
+	 * @param float $value1
+	 * @param float $value2
+	 * @param int   $precision
+	 * @param bool  $result
+	 *
+	 */
+	public function testValidator(float $value1, float $value2, int $precision, bool $result)
+	{
+		$this->assertSame($result, \App\Validator::floatIsEqual($value1, $value2, $precision), 'Expected ' . $result);
+	}
 }
