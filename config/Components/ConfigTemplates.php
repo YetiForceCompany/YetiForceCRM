@@ -135,7 +135,7 @@ return [
 			'description' => 'What status should be set when a new mail is received regarding a ticket, whose status is awaiting response.'
 		],
 		'HELPDESK_OPENTICKET_STATUS' => [
-			'default' => 'Open',
+			'default' => 'Answered',
 			'description' => 'What status should be set when a ticket is closed, but a new mail regarding the ticket is received.'
 		],
 		'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING' => [

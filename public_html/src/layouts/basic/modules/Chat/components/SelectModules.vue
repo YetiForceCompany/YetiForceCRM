@@ -9,6 +9,10 @@
       hide-selected
       input-debounce="0"
       :options="searchModules"
+      option-value="id"
+      option-label="label"
+      emit-value
+      map-options
       :hint="translate('JS_CHAT_ADD_FAVORITE_ROOM_FROM_MODULE')"
       @filter="filter"
       @input="showRecordsModal"
@@ -33,10 +37,10 @@
       <template v-slot:option="scope">
         <q-item dense v-bind="scope.itemProps" v-on="scope.itemEvents">
           <q-item-section avatar>
-            <icon :icon="`userIcon-${scope.opt}`" />
+            <icon :icon="`userIcon-${scope.opt.id}`" />
           </q-item-section>
           <q-item-section>
-            {{ scope.opt }}
+            {{ scope.opt.label }}
           </q-item-section>
         </q-item>
       </template>
@@ -89,7 +93,7 @@ export default {
       }
       update(() => {
         const needle = val.toLowerCase()
-        this.searchModules = this.modules.filter(v => v.toLowerCase().indexOf(needle) > -1)
+        this.searchModules = this.modules.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
       })
     },
     showRecordsModal(val) {

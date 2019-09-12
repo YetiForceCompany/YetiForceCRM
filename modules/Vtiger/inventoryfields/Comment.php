@@ -9,6 +9,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 {
@@ -19,9 +20,28 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	protected $dbType = 'text';
 	protected $onlyOne = false;
 	protected $blocks = [2];
-	public $height = 50;
 	public $isVisible = false;
 	protected $purifyType = \App\Purifier::HTML;
+
+	/**
+	 * Get height.
+	 *
+	 * @return int
+	 */
+	public function getHeight(): int
+	{
+		return $this->getParamsConfig()['height'] ?? 50;
+	}
+
+	/**
+	 * Get isOpened param.
+	 *
+	 * @return bool
+	 */
+	public function isOpened(): bool
+	{
+		return $this->getParamsConfig()['isOpened'] ?? false;
+	}
 
 	/**
 	 * {@inheritdoc}

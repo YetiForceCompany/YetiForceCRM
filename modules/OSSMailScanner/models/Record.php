@@ -391,15 +391,16 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	 * Return email search results.
 	 *
 	 * @param string $module
+	 * @param mixed  $onlyMailUitype
 	 *
 	 * @return array
 	 */
-	public static function getEmailSearch($module = false)
+	public static function getEmailSearch($module = false, $onlyMailUitype = true)
 	{
 		$return = [];
 		$query = (new App\Db\Query())->from('vtiger_field')
 			->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
-			->where(['and', ['or', ['uitype' => 13], ['uitype' => 319]], ['<>', 'vtiger_field.presence', 1], ['<>', 'vtiger_tab.name', 'Users']]);
+			->where(['and', ['uitype' => ($onlyMailUitype ? 13 : [13, 319])], ['<>', 'vtiger_field.presence', 1], ['<>', 'vtiger_tab.name', 'Users']]);
 		if ($module) {
 			$query->andWhere(['vtiger_tab.name' => $module]);
 		}

@@ -177,15 +177,33 @@ window.App.Fields = {
 			}
 			let ranges = {};
 			ranges[app.vtranslate('JS_TODAY')] = [moment(), moment()];
+			ranges[app.vtranslate('JS_TOMOROW')] = [moment().add(1, 'days'), moment().add(1, 'days')];
 			ranges[app.vtranslate('JS_YESTERDAY')] = [moment().subtract(1, 'days'), moment().subtract(1, 'days')];
 			ranges[app.vtranslate('JS_LAST_7_DAYS')] = [moment().subtract(6, 'days'), moment()];
+			ranges[app.vtranslate('JS_NEXT_7_DAYS')] = [moment(), moment().add(6, 'days')];
 			ranges[app.vtranslate('JS_CURRENT_MONTH')] = [moment().startOf('month'), moment().endOf('month')];
+			ranges[app.vtranslate('JS_NEXT_MONTH')] = [
+				moment()
+					.add(1, 'month')
+					.startOf('month'),
+				moment()
+					.add(1, 'month')
+					.endOf('month')
+			];
 			ranges[app.vtranslate('JS_LAST_MONTH')] = [
 				moment()
 					.subtract(1, 'month')
 					.startOf('month'),
 				moment()
 					.subtract(1, 'month')
+					.endOf('month')
+			];
+			ranges[app.vtranslate('JS_NEXT_MONTH')] = [
+				moment()
+					.add(1, 'month')
+					.startOf('month'),
+				moment()
+					.add(1, 'month')
 					.endOf('month')
 			];
 			ranges[app.vtranslate('JS_LAST_3_MONTHS')] = [
@@ -196,12 +214,24 @@ window.App.Fields = {
 					.subtract(1, 'month')
 					.endOf('month')
 			];
+			ranges[app.vtranslate('JS_NEXT_3_MONTHS')] = [
+				moment().startOf('month'),
+				moment()
+					.add(3, 'month')
+					.endOf('month')
+			];
 			ranges[app.vtranslate('JS_LAST_6_MONTHS')] = [
 				moment()
 					.subtract(6, 'month')
 					.startOf('month'),
 				moment()
 					.subtract(1, 'month')
+					.endOf('month')
+			];
+			ranges[app.vtranslate('JS_NEXT_6_MONTHS')] = [
+				moment().startOf('month'),
+				moment()
+					.add(6, 'month')
 					.endOf('month')
 			];
 			let params = {
@@ -248,10 +278,10 @@ window.App.Fields = {
 						$(this).trigger('change');
 					})
 					.on('show.daterangepicker', (ev, picker) => {
-						this.positionPicker(ev, picker);
+						App.Fields.Utils.positionPicker(ev, picker);
 					})
 					.on('showCalendar.daterangepicker', (ev, picker) => {
-						this.positionPicker(ev, picker);
+						App.Fields.Utils.positionPicker(ev, picker);
 						picker.container.addClass('js-visible');
 					})
 					.on('hide.daterangepicker', (ev, picker) => {
@@ -259,22 +289,6 @@ window.App.Fields = {
 					});
 				App.Fields.Utils.registerMobileDateRangePicker(el);
 			});
-		},
-		positionPicker(ev, picker) {
-			let offset = picker.element.offset();
-			let $window = $(window);
-			if (offset.left - $window.scrollLeft() + picker.container.outerWidth() > $window.width()) {
-				picker.opens = 'left';
-			} else {
-				picker.opens = 'right';
-			}
-			picker.move();
-			if (offset.top - $window.scrollTop() + picker.container.outerHeight() > $window.height()) {
-				picker.drops = 'up';
-			} else {
-				picker.drops = 'down';
-			}
-			picker.move();
 		}
 	},
 	DateTime: {
@@ -348,13 +362,19 @@ window.App.Fields = {
 			if (typeof customParams !== 'undefined') {
 				params = $.extend(params, customParams);
 			}
-			elements.daterangepicker(params).on('apply.daterangepicker', function applyDateRangePickerHandler(ev, picker) {
-				if (isDateRangePicker) {
-					$(this).val(picker.startDate.format(format));
-				} else {
-					$(this).val(picker.startDate.format(format) + ',' + picker.endDate.format(format));
-				}
-			});
+			elements
+				.daterangepicker(params)
+				.on('apply.daterangepicker', function applyDateRangePickerHandler(ev, picker) {
+					if (isDateRangePicker) {
+						$(this).val(picker.startDate.format(format));
+					} else {
+						$(this).val(picker.startDate.format(format) + ',' + picker.endDate.format(format));
+					}
+				})
+				.on('showCalendar.daterangepicker', (ev, picker) => {
+					App.Fields.Utils.positionPicker(ev, picker);
+					picker.container.addClass('js-visible');
+				});
 			elements.each((index, element) => {
 				App.Fields.Utils.registerMobileDateRangePicker($(element));
 			});
@@ -2231,6 +2251,22 @@ window.App.Fields = {
 			if ($(window).width() < app.breakpoints.sm) {
 				element.attr('readonly', 'true').addClass('bg-white');
 			}
+		},
+		positionPicker(ev, picker) {
+			let offset = picker.element.offset();
+			let $window = $(window);
+			if (offset.left - $window.scrollLeft() + picker.container.outerWidth() > $window.width()) {
+				picker.opens = 'left';
+			} else {
+				picker.opens = 'right';
+			}
+			picker.move();
+			if (offset.top - $window.scrollTop() + picker.container.outerHeight() > $window.height()) {
+				picker.drops = 'up';
+			} else {
+				picker.drops = 'down';
+			}
+			picker.move();
 		}
 	}
 };

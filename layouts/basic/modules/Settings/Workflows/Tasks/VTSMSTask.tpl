@@ -25,12 +25,22 @@
 				{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getRecordVariable('phone')}
 					<optgroup label="{$BLOCK_NAME}">
 						{foreach item=ITEM from=$FIELDS}
-							<option value=",{$ITEM['var_value']}" data-label="{$ITEM['var_label']}"
-									{if !empty($TASK_OBJECT->email) && in_array($ITEM['var_value'],$TASK_OBJECT->email)}selected=""{/if}>
+							<option value=",{$ITEM['var_value']}" data-label="{$ITEM['var_label']}">
 								{$ITEM['label']}
 							</option>
 						{/foreach}
 					</optgroup>
+				{/foreach}
+				{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getRelatedVariable('phone')}
+					{foreach item=RELATED_FIELDS key=BLOCK_NAME from=$FIELDS}
+						<optgroup label="{$BLOCK_NAME}">
+							{foreach item=ITEM from=$RELATED_FIELDS}
+								<option value=",{$ITEM['var_value']}" data-label="{$ITEM['var_label']}">
+									{$ITEM['label']}
+								</option>
+							{/foreach}
+						</optgroup>
+					{/foreach}
 				{/foreach}
 			</select>
 		</div>

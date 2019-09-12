@@ -347,7 +347,7 @@
     "LBL_AUTHENTICATION_CODE": "Authentication code",
     "LBL_TWO_FACTOR_AUTHENTICATION": "Two factor authentication",
     "LBL_2FA_SECRET": "Secret code",
-    "LBL_2FA_TOTP_QR_CODE": "Single-use code",
+    "LBL_2FA_TOTP_QR_CODE": "2FA TOTP activation key",
     "LBL_AUTHY_SECRET_TOTP_SUCCESS": "Two factor authentication was succesfully enabled.",
     "LBL_2FA_WRONG_CODE": "Incorrect code - enter again or contact the Administrator",
     "LBL_2FA_OFF": "Enable two-factor authentication",

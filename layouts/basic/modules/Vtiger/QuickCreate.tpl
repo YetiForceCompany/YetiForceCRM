@@ -13,6 +13,7 @@
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
+	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	<div class="tpl-QuickCreate modal quickCreateContainer" tabindex="-3" role="dialog">
 		<div class="modal-dialog modal-lg modal-full" role="document">
 			<div class="modal-content">
