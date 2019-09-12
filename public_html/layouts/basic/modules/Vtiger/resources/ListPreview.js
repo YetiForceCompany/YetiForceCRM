@@ -232,6 +232,7 @@ Vtiger_List_Js(
 					listPreview.hide();
 					this.list.width(this.list.width() - 10);
 				}
+				this.listFloatThead.floatThead('reflow');
 				app.moduleCacheSet('userSplitSet', split.getSizes());
 			});
 			this.sideBlockLeft.on('click', () => {
@@ -243,6 +244,7 @@ Vtiger_List_Js(
 				}
 				this.sideBlockLeft.removeClass('d-block');
 				this.list.removeClass('u-hide-underneath');
+				this.listFloatThead.floatThead('reflow');
 				app.moduleCacheSet('userSplitSet', split.getSizes());
 			});
 			this.sideBlockRight.on('click', () => {
@@ -255,6 +257,7 @@ Vtiger_List_Js(
 				this.sideBlockRight.removeClass('d-block');
 				listPreview.show();
 				this.gutter.css('right', 'initial');
+				this.listFloatThead.floatThead('reflow');
 				app.moduleCacheSet('userSplitSet', split.getSizes());
 			});
 		},
@@ -294,10 +297,19 @@ Vtiger_List_Js(
 						listPreview.show();
 					}
 					if (split.getSizes()[0] > 10 && split.getSizes()[1] > rightSplitMaxWidth) {
+						this.listFloatThead.floatThead('reflow');
 						app.moduleCacheSet('gutterMidPosition', split.getSizes());
 					}
-					this.listFloatThead.floatThead('reflow');
 					app.moduleCacheSet('userSplitSet', split.getSizes());
+				},
+				onDragStart: () => {
+					listPreview.css('z-index', '1001');
+					this.gutter.css('z-index', '1001');
+				},
+				onDragEnd: () => {
+					listPreview.css('z-index', '0');
+					this.gutter.css('z-index', '0');
+					this.listFloatThead.floatThead('reflow');
 				}
 			});
 			if (splitSizes[0] < 10) {
