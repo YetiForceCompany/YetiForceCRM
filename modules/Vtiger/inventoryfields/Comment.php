@@ -25,12 +25,23 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	protected $purifyType = \App\Purifier::HTML;
 
 	/**
-	 * {@inheritdoc}
+	 * Get height.
+	 *
+	 * @return int
 	 */
-	public function setFieldModuleConfig(string $moduleName)
+	public function getHeight(): int
 	{
-		$this->height = App\Config::module($moduleName, 'INVENTORY_COMMENTS_HEIGHT') ?? $this->height;
-		$this->isOpened = App\Config::module($moduleName, 'IS_OPENED_COMMENTS') ?? $this->isOpened;
+		return $this->getParamsConfig()['height'] ?? $this->height;
+	}
+
+	/**
+	 * Get isOpened param.
+	 *
+	 * @return bool
+	 */
+	public function isOpened(): bool
+	{
+		return $this->getParamsConfig()['isOpened'] ?? $this->isOpened;
 	}
 
 	/**

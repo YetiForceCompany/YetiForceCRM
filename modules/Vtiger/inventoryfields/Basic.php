@@ -73,7 +73,6 @@ class Vtiger_Basic_InventoryField extends \App\Base
 			$className = Vtiger_Loader::getComponentClassName('InventoryField', $type, $moduleName);
 			$instance = new $className();
 			$instance->setModuleName($moduleName);
-			$instance->setFieldModuleConfig($moduleName);
 			\App\Cache::save(__METHOD__, $cacheName, $instance);
 		}
 		return clone $instance;
@@ -467,15 +466,6 @@ class Vtiger_Basic_InventoryField extends \App\Base
 			->set('displayType', $this->displayType)
 			->set('invtype', $this->type)
 			->set('colSpan', $this->colSpan);
-	}
-
-	/**
-	 * Sets module config for field.
-	 *
-	 * @param string $moduleName
-	 */
-	public function setFieldModuleConfig(string $moduleName)
-	{
 	}
 
 	/**

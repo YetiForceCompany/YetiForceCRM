@@ -29,7 +29,7 @@
 					{if $FIELD->isVisible()}
 						{assign var="IS_VISIBLE_COMMENTS" value=true}
 					{/if}
-					{if $FIELD->isOpened}
+					{if $FIELD->isOpened()}
 						{assign var="IS_OPENED_COMMENTS" value=true}
 					{/if}
 					{break}
