@@ -17454,15 +17454,15 @@ insert  into `vtiger_ticketseverities`(`ticketseverities_id`,`ticketseverities`,
 
 /*Data for the table `vtiger_ticketstatus` */
 
-insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`record_state`,`time_counting`) values (1,'Open',0,190,1,'855000',0,1);
-insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`record_state`,`time_counting`) values (2,'In Progress',0,191,5,'42c6ff',0,2);
-insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`record_state`,`time_counting`) values (3,'Wait For Response',0,192,3,'ffa800',0,3);
+insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`record_state`,`time_counting`) values (1,'Open',0,190,1,'855000',1,1);
+insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`record_state`,`time_counting`) values (2,'In Progress',0,191,5,'42c6ff',1,2);
+insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`record_state`,`time_counting`) values (3,'Wait For Response',0,192,2,'ffa800',1,3);
 insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`record_state`,`time_counting`) values (4,'Closed',0,193,8,'00ff43',2,0);
-insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`record_state`,`time_counting`) values (5,'Answered',0,387,2,'0038ff',0,2);
+insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`record_state`,`time_counting`) values (5,'Answered',0,387,3,'0038ff',1,2);
 insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`record_state`,`time_counting`) values (6,'Rejected',0,557,9,'e33d3d',2,0);
-insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`record_state`,`time_counting`) values (7,'PLL_SUBMITTED_COMMENTS',1,694,4,'fff500',0,2);
-insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`record_state`,`time_counting`) values (8,'PLL_FOR_APPROVAL',1,695,6,'8c4381',0,2);
-insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`record_state`,`time_counting`) values (9,'PLL_TO_CLOSE',1,696,7,'ffb0e7',0,2);
+insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`record_state`,`time_counting`) values (7,'PLL_SUBMITTED_COMMENTS',1,694,4,'fff500',1,2);
+insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`record_state`,`time_counting`) values (8,'PLL_FOR_APPROVAL',1,695,6,'8c4381',1,2);
+insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`,`record_state`,`time_counting`) values (9,'PLL_TO_CLOSE',1,696,7,'ffb0e7',1,2);
 
 /*Data for the table `vtiger_time_zone` */
 
