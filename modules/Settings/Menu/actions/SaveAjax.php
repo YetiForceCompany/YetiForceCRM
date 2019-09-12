@@ -107,7 +107,7 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$fromRole = filter_var($request->getByType('fromRole', 'Alnum'), FILTER_SANITIZE_NUMBER_INT);
 		$toRole = filter_var($roleTo, FILTER_SANITIZE_NUMBER_INT);
 		$recordModel = Settings_Menu_Record_Model::getCleanInstance();
-		$recordModel->copyMenu($fromRole, $toRole);
+		$recordModel->copyMenu($fromRole, $toRole, $roleTo);
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
