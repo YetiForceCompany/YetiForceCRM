@@ -41,12 +41,15 @@ jQuery.Class(
 							}
 							if (save) {
 								var formData = form.serializeFormData();
-								thisInstance.registerSaveEvent('saveWidget', {
-									data: formData,
-									tabid: tabId
-								});
-								thisInstance.reloadWidgets();
-								app.hideModalWindow();
+								thisInstance
+									.registerSaveEvent('saveWidget', {
+										data: formData,
+										tabid: tabId
+									})
+									.done(_ => {
+										thisInstance.reloadWidgets();
+										app.hideModalWindow();
+									});
 							}
 						}
 					});
