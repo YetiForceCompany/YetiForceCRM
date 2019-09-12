@@ -100,10 +100,10 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		if ($edit) {
 			$data = $this->getData();
 			foreach ($data as $key => $item) {
-				if (!in_array($key, $editFields)) {
+				if (!\in_array($key, $editFields)) {
 					throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $key, 406);
 				}
-				if (is_array($item)) {
+				if (\is_array($item)) {
 					$item = implode(',', $item);
 				}
 				if ('id' != $key && 'edit' != $key) {
@@ -119,10 +119,10 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 			$db->createCommand()->update('yetiforce_menu', $params, ['id' => $this->getId()])->execute();
 		} else {
 			foreach ($this->getData() as $key => $item) {
-				if (!in_array($key, $editFields)) {
+				if (!\in_array($key, $editFields)) {
 					throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $key, 406);
 				}
-				if (is_array($item)) {
+				if (\is_array($item)) {
 					$item = implode(',', $item);
 				}
 				$sqlCol .= $key . ',';
@@ -177,7 +177,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 	public function removeMenu($ids)
 	{
 		$db = \App\Db::getInstance();
-		if (!is_array($ids)) {
+		if (!\is_array($ids)) {
 			$ids = [$ids];
 		}
 		foreach ($ids as $id) {
@@ -260,7 +260,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		$content = $menu['id'] . '=>[';
 		foreach ($menu as $key => $item) {
 			if ('childs' == $key) {
-				if (count($item) > 0) {
+				if (\count($item) > 0) {
 					$childs = var_export($key, true) . '=>[';
 					foreach ($item as $child) {
 						$childs .= $this->createContentMenu($child);
@@ -283,7 +283,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		$content .= "'parent'=>" . var_export($menu['parent'], true) . ',';
 		$content .= "'mod'=>" . var_export($menu['mod'], true);
 		$content .= '],';
-		if (count($menu['childs']) > 0) {
+		if (\count($menu['childs']) > 0) {
 			foreach ($menu['childs'] as $child) {
 				$content .= $this->createParentList($child);
 			}
@@ -300,7 +300,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 			$content .= "'filters'=>" . var_export($menu['filters'], true);
 			$content .= '],';
 		}
-		if (count($menu['childs']) > 0) {
+		if (\count($menu['childs']) > 0) {
 			foreach ($menu['childs'] as $child) {
 				$content .= $this->createFilterList($child);
 			}
@@ -370,6 +370,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				}
 				$menuItem['role'] = $toRole;
 				$menuItem['parentid'] = $related[$menuItem['parentid']] ?? $menuItem['parentid'];
+				$menuItem['source'] = (1 === $toRole) ? self::SRC_ROLE : self::SRC_API;
 				$db->createCommand()->insert('yetiforce_menu', $menuItem)->execute();
 				$related[$menuId] = $db->getLastInsertID('yetiforce_menu_id_seq');
 			}
