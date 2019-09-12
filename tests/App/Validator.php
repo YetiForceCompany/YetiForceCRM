@@ -58,11 +58,11 @@ class Validator extends \Tests\Base
 	}
 
 	/**
-	 * Provide test data for testValidator function.
+	 * Provide test data for testFloatIsEqual function.
 	 *
 	 * @return array
 	 */
-	public function validatorProvider()
+	public function floatIsEqualProvider()
 	{
 		return [
 			[3.5768, 3.58, 3, false],
@@ -76,7 +76,7 @@ class Validator extends \Tests\Base
 	/**
 	 * Testing process function.
 	 *
-	 * @dataProvider validatorProvider
+	 * @dataProvider floatIsEqualProvider
 	 *
 	 * @param float $value1
 	 * @param float $value2
@@ -84,7 +84,7 @@ class Validator extends \Tests\Base
 	 * @param bool  $result
 	 *
 	 */
-	public function testValidator(float $value1, float $value2, int $precision, bool $result)
+	public function testFloatIsEqual(float $value1, float $value2, int $precision, bool $result)
 	{
 		$this->assertSame($result, \App\Validator::floatIsEqual($value1, $value2, $precision), 'Expected ' . $result);
 	}
