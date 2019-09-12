@@ -49,8 +49,8 @@
 			</td>
 		{/foreach}
 	</tr>
-	{if $IS_VISIBLE_DESCRIPTION}
-		<tr class="inventoryRowExpanded numRow{$ROW_NO} d-none" numrowex="{$ROW_NO}">
+	{if $IS_VISIBLE_COMMENTS}
+		<tr class="inventoryRowExpanded numRow{$ROW_NO} {if !$IS_OPENED_COMMENTS}d-none{/if}" numrowex="{$ROW_NO}">
 			<td class="colExpanded" colspan="{$COUNT_FIELDS1+1}">
 				{foreach item=FIELD from=$FIELDS[2]}
 					{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}

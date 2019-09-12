@@ -20,12 +20,18 @@
 		{assign var="COUNT_FIELDS1" value=count($FIELDS[1])}
 		{assign var="COUNT_FIELDS2" value=0}
 		{assign var="REFERENCE_MODULE_DEFAULT" value=''}
-		{assign var="IS_VISIBLE_DESCRIPTION" value=false}
+		{assign var="IS_VISIBLE_COMMENTS" value=false}
+		{assign var="IS_OPENED_COMMENTS" value=false}
 		{if isset($FIELDS[2])}
 			{assign var="COUNT_FIELDS2" value=count($FIELDS[2])}
 			{foreach item=FIELD from=$FIELDS[2]}
-				{if $FIELD->isVisible()}
-					{assign var="IS_VISIBLE_DESCRIPTION" value=true}
+				{if $FIELD->getColumnName() eq 'comment1'}
+					{if $FIELD->isVisible()}
+						{assign var="IS_VISIBLE_COMMENTS" value=true}
+					{/if}
+					{if $FIELD->isOpened}
+						{assign var="IS_OPENED_COMMENTS" value=true}
+					{/if}
 					{break}
 				{/if}
 			{/foreach}

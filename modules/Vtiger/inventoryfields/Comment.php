@@ -21,6 +21,7 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	protected $blocks = [2];
 	public $height = 50;
 	public $isVisible = false;
+	public $isOpened = false;
 	protected $purifyType = \App\Purifier::HTML;
 
 	/**
@@ -29,7 +30,7 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	public function setFieldModuleConfig(string $moduleName)
 	{
 		$this->height = App\Config::module($moduleName, 'INVENTORY_COMMENTS_HEIGHT') ?? $this->height;
-		$this->isVisible = App\Config::module($moduleName, 'INVENTORY_IS_VISIBLE') ?? $this->isVisible;
+		$this->isOpened = App\Config::module($moduleName, 'IS_OPENED_COMMENTS') ?? $this->isOpened;
 	}
 
 	/**
