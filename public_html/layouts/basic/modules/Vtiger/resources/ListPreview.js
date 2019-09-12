@@ -278,7 +278,6 @@ Vtiger_List_Js(
 				gutterSize: 24,
 				snapOffset: 100,
 				onDrag: () => {
-					this.listFloatThead.floatThead('reflow');
 					if (split.getSizes()[1] < rightSplitMaxWidth) {
 						split.collapse(1);
 					}
@@ -298,6 +297,7 @@ Vtiger_List_Js(
 						listPreview.show();
 					}
 					if (split.getSizes()[0] > 10 && split.getSizes()[1] > rightSplitMaxWidth) {
+						this.listFloatThead.floatThead('reflow');
 						app.moduleCacheSet('gutterMidPosition', split.getSizes());
 					}
 					app.moduleCacheSet('userSplitSet', split.getSizes());
@@ -309,6 +309,7 @@ Vtiger_List_Js(
 				onDragEnd: () => {
 					listPreview.css('z-index', '0');
 					this.gutter.css('z-index', '0');
+					this.listFloatThead.floatThead('reflow');
 				}
 			});
 			if (splitSizes[0] < 10) {
