@@ -26,6 +26,15 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
+	public function setFieldModuleConfig(string $moduleName)
+	{
+		$this->height = App\Config::module($moduleName, 'INVENTORY_COMMENTS_HEIGHT') ?? $this->height;
+		$this->isVisible = App\Config::module($moduleName, 'INVENTORY_IS_VISIBLE') ?? $this->isVisible;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		return \App\Utils\Completions::decode(\App\Purifier::purifyHtml($value));
