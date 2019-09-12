@@ -21,6 +21,15 @@
 		}
 	}
 }
+@include media-breakpoint-up(sm) {
+	.daterangepicker.show-ranges {
+		max-height: 300px;
+		overflow-y: scroll;
+	}
+	.daterangepicker.show-ranges.ltr .drp-calendar {
+		border-bottom: 1px solid #ddd;
+	}
+}
 
 //-------- select2 --------//
 .select2-selection {
