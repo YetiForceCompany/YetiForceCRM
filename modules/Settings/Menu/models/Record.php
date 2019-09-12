@@ -370,7 +370,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				}
 				$menuItem['role'] = $toRole;
 				$menuItem['parentid'] = $related[$menuItem['parentid']] ?? $menuItem['parentid'];
-				$menuItem['source'] = ($roleId && false === strpos($roleId, 'H')) ? Settings_Menu_Record_Model::SRC_API : Settings_Menu_Record_Model::SRC_ROLE;
+				$menuItem['source'] = ($roleId && false === strpos($roleId, 'H')) ? self::SRC_API : self::SRC_ROLE;
 				$db->createCommand()->insert('yetiforce_menu', $menuItem)->execute();
 				$related[$menuId] = $db->getLastInsertID('yetiforce_menu_id_seq');
 			}
