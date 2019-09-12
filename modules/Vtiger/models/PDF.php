@@ -581,7 +581,7 @@ class Vtiger_PDF_Model extends \App\Base
 	 */
 	public function getPath(string $prefix = '')
 	{
-		$filePath = \ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'pdf' . \DIRECTORY_SEPARATOR;
+		$filePath = 'cache' . \DIRECTORY_SEPARATOR . 'pdf' . \DIRECTORY_SEPARATOR;
 		$tmpFileName = tempnam($filePath, 'PDF' . $prefix . time());
 		return $filePath .= basename($tmpFileName);
 	}
