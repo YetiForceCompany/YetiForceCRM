@@ -52,6 +52,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			$record->set('mbox', $mail->getFolder())->set('type', $type)->set('mid', $mail->get('id'));
 			$record->set('from_id', implode(',', array_unique($fromIds)))->set('to_id', implode(',', array_unique($toIds)));
 			$record->set('created_user_id', $mail->getAccountOwner())->set('createdtime', $mail->get('udate_formated'));
+			$record->set('date', $mail->get('udate_formated'));
 			$maxLengthContent = $record->getField('content')->get('maximumlength');
 			$content = $this->parseContent($mail);
 			$record->set('content', $maxLengthContent ? \App\TextParser::htmlTruncate($content, $maxLengthContent, false) : $content);
@@ -60,7 +61,6 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			}
 			$record->setHandlerExceptions(['disableHandlers' => true]);
 			$record->setDataForSave(['vtiger_ossmailview' => [
-				'date' => $mail->get('udate_formated'),
 				'cid' => $mail->getUniqueId(),
 			]]);
 			$record->save();
