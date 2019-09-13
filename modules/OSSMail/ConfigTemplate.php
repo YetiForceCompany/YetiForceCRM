@@ -351,6 +351,10 @@ return RCUBE_INSTALL_PATH . "/../../../../cache/mail/";',
 		'default' => 'yetiforce',
 		'description' => 'Set the skin'
 	],
+	'layout' => [
+		'default' => 'desktop',
+		'description' => 'Set the desktop'
+	],
 	'list_cols' => [
 		'default' => ['flag', 'status', 'subject', 'fromto', 'date', 'size', 'attachment', 'authres_status', 'threads'],
 		'description' => 'List cols',

@@ -35,7 +35,7 @@ class OSSMailScanner_BindHelpDesk_ScannerAction extends OSSMailScanner_PrefixSca
 					$recordModel->save();
 				} elseif ('createTicket' === $conf['changeTicketStatus']) {
 					$mailAccount = $mail->getAccount();
-					if (is_array($mailAccount['actions']) ? in_array('CreatedHelpDesk', $mailAccount['actions']) : strstr($mailAccount['actions'], 'CreatedHelpDesk')) {
+					if (\is_array($mailAccount['actions']) ? \in_array('CreatedHelpDesk', $mailAccount['actions']) : strstr($mailAccount['actions'], 'CreatedHelpDesk')) {
 						$handler = new OSSMailScanner_CreatedHelpDesk_ScannerAction();
 						$handler->add($mail);
 					}
