@@ -970,6 +970,31 @@ final class Chat
 	}
 
 	/**
+	 * Create private room.
+	 *
+	 * @param string $name
+	 */
+	public function createPrivateRoom(string $name)
+	{
+		Db::getInstance()->createCommand()->insert(
+				static::TABLE_NAME['room_name']['private'],
+				[
+					'name' => $name,
+					'creatorid' => $this->userId,
+					'created' => date('Y-m-d H:i:s')
+				]
+			)->execute();
+		Db::getInstance()->createCommand()->insert(
+				static::TABLE_NAME['room']['private'],
+				[
+					'userid' => $this->userId,
+					'last_message' => 0,
+					static::COLUMN_NAME['room']['private'] => Db::getInstance()->getLastInsertID(),
+				]
+			)->execute();
+	}
+
+	/**
 	 * Get a query for chat messages.
 	 *
 	 * @param int|null $messageId
