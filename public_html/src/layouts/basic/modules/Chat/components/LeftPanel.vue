@@ -177,7 +177,8 @@ export default {
         return {
           crm: Object.values(this.data.roomList.crm).filter(this.filterRoomByName),
           global: Object.values(this.data.roomList.global).filter(this.filterRoomByName),
-          group: Object.values(this.data.roomList.group).filter(this.filterRoomByName)
+          group: Object.values(this.data.roomList.group).filter(this.filterRoomByName),
+          private: Object.values(this.data.roomList.private).filter(this.filterRoomByName)
         }
       }
     }

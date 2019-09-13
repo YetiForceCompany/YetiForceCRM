@@ -941,7 +941,8 @@ final class Chat
 			)->execute();
 			unset($this->room['userid']);
 		}
-		if (static::getCurrentRoom()['recordId'] === $this->recordId) {
+		$currentRoom = static::getCurrentRoom();
+		if ($currentRoom['recordId'] === $this->recordId && $currentRoom['roomType'] === $this->roomType) {
 			$defaultRoom = static::getDefaultRoom();
 			static::setCurrentRoom($defaultRoom['roomType'], $defaultRoom['recordId']);
 		}

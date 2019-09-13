@@ -102,23 +102,20 @@ export default {
 	},
 	setPinned(state, { roomType, room }) {
 		const roomList = state.data.roomList
-		switch (roomType) {
-			case 'crm':
-				for (let roomId in roomList.crm) {
-					if (parseInt(roomId) === room.recordid) {
-						roomList.crm[roomId].isPinned = false
-						break
-					}
+		if (roomType === 'crm') {
+			for (let roomId in roomList.crm) {
+				if (parseInt(roomId) === room.recordid) {
+					roomList.crm[roomId].isPinned = false
+					break
 				}
-				break
-			case 'group':
-				for (let roomId in roomList.group) {
-					if (parseInt(roomId) === room.recordid) {
-						roomList.group[roomId].isPinned = !roomList.group[roomId].isPinned
-						break
-					}
+			}
+		} else {
+			for (let roomId in roomList[roomType]) {
+				if (parseInt(roomId) === room.recordid) {
+					roomList[roomType][roomId].isPinned = !roomList[roomType][roomId].isPinned
+					break
 				}
-				break
+			}
 		}
 	},
 	setConfig(state, config) {

@@ -87,7 +87,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		if ($request->has('roomType') && $request->has('recordId')) {
 			$roomType = $request->getByType('roomType');
 			$recordId = $request->getInteger('recordId');
-			if (!$request->getBoolean('recordView')) {
+			if (!$request->getBoolean('recordRoom')) {
 				\App\Chat::setCurrentRoom($roomType, $recordId);
 			}
 		} else {
@@ -264,6 +264,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			'crm' => \App\Chat::getUnreadByType('crm'),
 			'group' => \App\Chat::getUnreadByType('group'),
 			'global' => \App\Chat::getUnreadByType('global'),
+			'private' => \App\Chat::getUnreadByType('private'),
 		]);
 		$response->emit();
 	}
