@@ -55,7 +55,7 @@ class J_RecordFlowUpdater extends \Tests\Base
 	public function testConfigurations()
 	{
 		$this->markTestSkipped(static::$skipTest);
-		return;
+		return static::$skipTest;
 		\Vtiger_Cache::$cacheEnable = false;
 		$taskFlowUpdater = new RecordFlowUpdater('ProjectTask');
 		$this->assertTrue($taskFlowUpdater->checkIsConfigured(), 'The RecordFlowUpdater for ProjectTask is not configured');
@@ -69,7 +69,7 @@ class J_RecordFlowUpdater extends \Tests\Base
 	public function testCreateProject()
 	{
 		$this->markTestSkipped(static::$skipTest);
-		return;
+		return static::$skipTest;
 		$projectModel = $this->createProject('p0', 'PLL_PLANNED');
 		$this->assertProject('PLL_PLANNED', $projectModel);
 	}
@@ -82,7 +82,7 @@ class J_RecordFlowUpdater extends \Tests\Base
 	public function testCreateProjectMilestone()
 	{
 		$this->markTestSkipped(static::$skipTest);
-		return;
+		return static::$skipTest;
 		$milestoneModel = $this->createProjectMilestone('pm0', 'PLL_PLANNED', $this->getProject('p0')->getId());
 		$this->assertProjectMilestone('PLL_PLANNED', $milestoneModel);
 		$this->assertProject('PLL_PLANNED', $this->getProject('p0'));
@@ -96,7 +96,7 @@ class J_RecordFlowUpdater extends \Tests\Base
 	public function testCreateProjectTask()
 	{
 		$this->markTestSkipped(static::$skipTest);
-		return;
+		return static::$skipTest;
 		$taskModel = $this->createProjectTask('pt0', 'PLL_PLANNED', $this->getProject('p0')->getId(), $this->getProjectMilestone('pm0')->getId());
 		$this->assertProjectTask('PLL_PLANNED', $taskModel);
 		$this->assertProject('PLL_PLANNED', $this->getProject('p0'));
@@ -111,7 +111,7 @@ class J_RecordFlowUpdater extends \Tests\Base
 	public function testCreateProjectSeveralTask()
 	{
 		$this->markTestSkipped(static::$skipTest);
-		return;
+		return static::$skipTest;
 		for ($i = 1; $i <= 5; ++$i) {
 			$taskModel = $this->createProjectTask('pt' . $i, 'PLL_PLANNED', $this->getProject('p0')->getId(), $this->getProjectMilestone('pm0')->getId());
 			$this->assertProjectTask('PLL_PLANNED', $taskModel);
@@ -128,7 +128,7 @@ class J_RecordFlowUpdater extends \Tests\Base
 	public function testShouldBeInProgressing()
 	{
 		$this->markTestSkipped(static::$skipTest);
-		return;
+		return static::$skipTest;
 		$taskModel = $this->getProjectTask('pt3');
 		$taskModel->set('projecttaskstatus', 'PLL_IN_PROGRESSING');
 		$taskModel->save();
@@ -150,7 +150,7 @@ class J_RecordFlowUpdater extends \Tests\Base
 	private function executeBatchMethod()
 	{
 		$this->markTestSkipped(static::$skipTest);
-		return;
+		return static::$skipTest;
 		require 'cron/BatchMethods.php';
 	}
 
@@ -165,7 +165,7 @@ class J_RecordFlowUpdater extends \Tests\Base
 	private function assertProjectTask(string $expectedStatus, \Vtiger_Record_Model $taskModel)
 	{
 		$this->markTestSkipped(static::$skipTest);
-		return;
+		return static::$skipTest;
 		$this->assertSame($expectedStatus, $taskModel->get('projecttaskstatus'), 'ProjectTask Id: ' . $taskModel->getId());
 	}
 
@@ -180,7 +180,7 @@ class J_RecordFlowUpdater extends \Tests\Base
 	private function assertProjectMilestone(string $expectedStatus, \ProjectMilestone_Record_Model $milestoneModel)
 	{
 		$this->markTestSkipped(static::$skipTest);
-		return;
+		return static::$skipTest;
 		$this->assertSame($expectedStatus, $milestoneModel->get('projectmilestone_status'), 'ProjectMilestone Id: ' . $milestoneModel->getId());
 	}
 
@@ -195,7 +195,7 @@ class J_RecordFlowUpdater extends \Tests\Base
 	private function assertProject(string $expectedStatus, \Project_Record_Model $projectModel)
 	{
 		$this->markTestSkipped(static::$skipTest);
-		return;
+		return static::$skipTest;
 		$this->assertSame($expectedStatus, $projectModel->get('projectstatus'), 'Project Id: ' . $projectModel->getId());
 	}
 
@@ -212,7 +212,7 @@ class J_RecordFlowUpdater extends \Tests\Base
 	private function createProjectTask(string $name, string $status, ?int $projectId = null, ?int $projectMilestoneId = null)
 	{
 		$this->markTestSkipped(static::$skipTest);
-		return;
+		return static::$skipTest;
 		$record = \Vtiger_Record_Model::getCleanInstance('ProjectTask');
 		$record->set('projectmilestonename', $name);
 		$record->set('projecttaskstatus', $status);
@@ -235,7 +235,7 @@ class J_RecordFlowUpdater extends \Tests\Base
 	private function createProjectMilestone(string $name, string $status, ?int $projectId = null)
 	{
 		$this->markTestSkipped(static::$skipTest);
-		return;
+		return static::$skipTest;
 		$record = \Vtiger_Record_Model::getCleanInstance('ProjectMilestone');
 		$record->set('projectmilestonename', $name);
 		$record->set('projectmilestone_status', $status);
@@ -256,7 +256,7 @@ class J_RecordFlowUpdater extends \Tests\Base
 	private function createProject(string $name, string $status)
 	{
 		$this->markTestSkipped(static::$skipTest);
-		return;
+		return static::$skipTest;
 		$record = \Vtiger_Record_Model::getCleanInstance('Project');
 		$record->set('projectname', $name);
 		$record->set('projectstatus', $status);
@@ -277,7 +277,7 @@ class J_RecordFlowUpdater extends \Tests\Base
 	private function getProject(string $name): \Project_Record_Model
 	{
 		$this->markTestSkipped(static::$skipTest);
-		return;
+		return static::$skipTest;
 		if (empty(static::$project[$name])) {
 			throw new \Exception('getProject: ' . $name);
 		}
@@ -297,7 +297,7 @@ class J_RecordFlowUpdater extends \Tests\Base
 	private function getProjectMilestone(string $name): \ProjectMilestone_Record_Model
 	{
 		$this->markTestSkipped(static::$skipTest);
-		return;
+		return static::$skipTest;
 		if (empty(static::$projectMilestone[$name])) {
 			throw new \Exception('getProjectMilestone: ' . $name);
 		}
@@ -317,7 +317,7 @@ class J_RecordFlowUpdater extends \Tests\Base
 	private function getProjectTask(string $name): \Vtiger_Record_Model
 	{
 		$this->markTestSkipped(static::$skipTest);
-		return;
+		return static::$skipTest;
 		if (empty(static::$projectTask[$name])) {
 			throw new \Exception('getProjectTask: ' . $name);
 		}
