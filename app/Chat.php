@@ -21,24 +21,24 @@ final class Chat
 	/**
 	 * Information about allowed types of rooms.
 	 */
-	const ALLOWED_ROOM_TYPES = ['crm', 'group', 'global'];
+	const ALLOWED_ROOM_TYPES = ['crm', 'group', 'global', 'private'];
 
 	/**
 	 * Information about the tables of the database.
 	 */
 	const TABLE_NAME = [
-		'message' => ['crm' => 'u_#__chat_messages_crm', 'group' => 'u_#__chat_messages_group', 'global' => 'u_#__chat_messages_global'],
-		'room' => ['crm' => 'u_#__chat_rooms_crm', 'group' => 'u_#__chat_rooms_group', 'global' => 'u_#__chat_rooms_global'],
-		'room_name' => ['crm' => 'u_#__crmentity_label', 'group' => 'vtiger_groups', 'global' => 'u_#__chat_global']
+		'message' => ['crm' => 'u_#__chat_messages_crm', 'group' => 'u_#__chat_messages_group', 'global' => 'u_#__chat_messages_global', 'private' => 'u_#__chat_messages_private'],
+		'room' => ['crm' => 'u_#__chat_rooms_crm', 'group' => 'u_#__chat_rooms_group', 'global' => 'u_#__chat_rooms_global','private' => 'u_#__chat_rooms_private'],
+		'room_name' => ['crm' => 'u_#__crmentity_label', 'group' => 'vtiger_groups', 'global' => 'u_#__chat_global', 'private' => 'u_#__chat_private']
 	];
 
 	/**
 	 * Information about the columns of the database.
 	 */
 	const COLUMN_NAME = [
-		'message' => ['crm' => 'crmid', 'group' => 'groupid', 'global' => 'globalid'],
-		'room' => ['crm' => 'crmid', 'group' => 'groupid', 'global' => 'global_room_id'],
-		'room_name' => ['crm' => 'label', 'group' => 'groupname', 'global' => 'name']
+		'message' => ['crm' => 'crmid', 'group' => 'groupid', 'global' => 'globalid', 'private' => 'privateid'],
+		'room' => ['crm' => 'crmid', 'group' => 'groupid', 'global' => 'global_room_id', 'private' => 'private_room_id'],
+		'room_name' => ['crm' => 'label', 'group' => 'groupname', 'global' => 'name', 'private' => 'name']
 	];
 
 	/**
