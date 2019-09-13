@@ -27,7 +27,7 @@ class G_Cron extends \Tests\Base
 			$db = \App\Db::getInstance();
 			$db->createCommand()
 				->insert('roundcube_users', [
-					'username' => 'yetiforcetestmail@gmail.com',
+					'username' => 'yetiforcegitdevelopery@gmail.com',
 					'mail_host' => 'imap.gmail.com',
 					'language' => 'en_US',
 					'preferences' => 'a:3:{s:9:"junk_mbox";s:12:"[Gmail]/Spam";s:10:"trash_mbox";s:12:"[Gmail]/Kosz";s:11:"client_hash";s:32:"0e1f51526f56ef769dbd1f58a674f106";}',
