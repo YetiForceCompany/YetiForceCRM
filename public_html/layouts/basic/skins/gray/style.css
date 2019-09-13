@@ -4414,18 +4414,18 @@ h6,
       border-radius: 0; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-.basePanel[class$='_CustomRecordNumbering'] .table th {
+.container-fluid[class$='-customrecordnumbering-container'] .table th {
   background-color: var(--white);
   background-image: var(--white);
   border-top: 1px solid var(--white);
   border-bottom: 1px solid var(--white) !important;
   text-transform: uppercase; }
 
-.basePanel[class$='_CustomRecordNumbering'] .table-bordered td {
+.container-fluid[class$='-customrecordnumbering-container'] .table-bordered td {
   padding-bottom: 0.5rem !important; }
 
-.basePanel[class$='_CustomRecordNumbering'] .table-bordered td,
-.basePanel[class$='_CustomRecordNumbering'] .table-bordered th {
+.container-fluid[class$='-customrecordnumbering-container'] .table-bordered td,
+.container-fluid[class$='-customrecordnumbering-container'] .table-bordered th {
   border: 1px solid var(--white); }
 
 tbody {

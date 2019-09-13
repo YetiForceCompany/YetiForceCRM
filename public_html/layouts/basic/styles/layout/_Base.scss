@@ -15,7 +15,7 @@
 .c-btn-fixed {
 	bottom: $h-footer;
 }
-.container-fluid[class$='-knowledgebase-container'] .contentsDiv {
+.container-fluid[class$="-knowledgebase-container"] .contentsDiv {
 	min-height: calc(100vh - #{$h-header} - #{$h-footer});
 }
 .user-info--active {
@@ -23,7 +23,7 @@
 	.c-btn-fixed {
 		bottom: $h-footer-user-info;
 	}
-	.container-fluid[class$='-knowledgebase-container'] .contentsDiv {
+	.container-fluid[class$="-knowledgebase-container"] .contentsDiv {
 		min-height: calc(100vh - #{$h-header} - #{$h-footer-user-info});
 	}
 }
@@ -32,7 +32,7 @@
 	.c-btn-fixed {
 		bottom: $h-footer-limited;
 	}
-	.container-fluid[class$='-knowledgebase-container'] .contentsDiv {
+	.container-fluid[class$="-knowledgebase-container"] .contentsDiv {
 		min-height: calc(100vh - #{$h-header} - #{$h-footer-limited});
 	}
 }
@@ -42,7 +42,7 @@
 	.c-btn-fixed {
 		bottom: $h-footer;
 	}
-	.container-fluid[class$='-knowledgebase-container'] .contentsDiv {
+	.container-fluid[class$="-knowledgebase-container"] .contentsDiv {
 		min-height: calc(100vh - #{$h-header} - #{$h-footer});
 	}
 }
@@ -52,14 +52,14 @@
 	.c-btn-fixed {
 		bottom: $h-footer-limited;
 	}
-	.container-fluid[class$='-knowledgebase-container'] .contentsDiv {
+	.container-fluid[class$="-knowledgebase-container"] .contentsDiv {
 		min-height: calc(100vh - #{$h-header} - #{$h-footer-limited});
 	}
 	.user-info--active {
 		.mainBody {
 			bottom: $h-footer;
 		}
-		.container-fluid[class$='-knowledgebase-container'] .contentsDiv {
+		.container-fluid[class$="-knowledgebase-container"] .contentsDiv {
 			min-height: calc(100vh - #{$h-header} - #{$h-footer});
 		}
 	}

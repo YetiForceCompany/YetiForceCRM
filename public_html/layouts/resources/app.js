@@ -443,15 +443,15 @@ var app = (window.app = {
 		if (!popover.length) {
 			return;
 		}
-		console.log(container);
-		let windowHeight = container.height(),
-			windowWidth = container.width(),
+		const iframeOffset = this.computePopoverIframeOffset(popoverElement);
+		let windowHeight = $(window).height(),
+			windowWidth = $(window).width(),
 			popoverPadding = 10,
 			popoverBody = popover.find('.popover-body'),
 			popoverHeight = popoverBody.height(),
 			popoverWidth = popoverBody.width(),
-			offsetTop = app.mousePosition.y,
-			offsetLeft = app.mousePosition.x;
+			offsetTop = app.mousePosition.y + iframeOffset.top,
+			offsetLeft = app.mousePosition.x + iframeOffset.left;
 		if (popoverHeight + offsetTop + popoverPadding > windowHeight) {
 			offsetTop = offsetTop - popoverHeight - popoverPadding;
 		}
@@ -465,6 +465,30 @@ var app = (window.app = {
 		popoverElement.one('hide.bs.popover', () => {
 			popover.addClass('js-popover--before-positioned');
 		});
+	},
+	/**
+	 * Compute popover iframe offset
+	 *
+	 * @param   {Object}  popoverElement  jquery
+	 *
+	 * @return  {Object}                  offset top and left
+	 */
+	computePopoverIframeOffset(popoverElement) {
+		let iframeOffsetTop = 0;
+		let iframeOffsetLeft = 0;
+		if (!$(document).find(popoverElement).length) {
+			let iframe = $(document).find('iframe');
+			const iframeOffset = iframe.offset();
+			iframeOffsetTop += iframeOffset.top;
+			iframeOffsetLeft += iframeOffset.left;
+			if (!iframe.contents().find(popoverElement).length) {
+				let iframe2 = iframe.contents().find('iframe');
+				const iframeOffset2 = iframe2.offset();
+				iframeOffsetTop += iframeOffset2.top;
+				iframeOffsetLeft += iframeOffset2.left;
+			}
+		}
+		return {top: iframeOffsetTop, left: iframeOffsetLeft}
 	},
 	/**
 	 * Get binded popover
