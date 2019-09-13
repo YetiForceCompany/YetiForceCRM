@@ -548,7 +548,9 @@ $.Class(
 		 * Function to register click event for save button of fields sequence
 		 */
 		registerFieldSequenceSaveClick: function() {
-			this.getDetailViewLayout().find('.saveFieldSequence').on('click', () => {
+			this.getDetailViewLayout()
+				.find('.saveFieldSequence')
+				.on('click', () => {
 					this.hideSaveFieldSequenceButton();
 					this.createUpdatedBlockFieldsList();
 					this.updateFieldSequence();
@@ -926,9 +928,7 @@ $.Class(
 				app.showModalWindow(
 					addBlockContainer,
 					function(data) {
-						if (typeof callBackFunction == 'function') {
-							callBackFunction(data);
-						}
+						callBackFunction(data);
 					},
 					{ width: '1000px' }
 				);

@@ -56,8 +56,8 @@
 			</div>
 		</div>
 		<div class="blockFieldsList row blockFieldsSortable m-0 p-1" style="min-height: 27px;">
-			<ul class="connectedSortable col-md-6 ui-sortable p-1" style="list-style-type: none; float: left;min-height:1px;" name="sortable1"></ul>
-			<ul class="connectedSortable col-md-6 ui-sortable m-0 p-1" style="list-style-type: none; float: left;min-height:1px;" name="sortable2"></ul>
+			<ul class="sortTableUl js-sort-table1 connectedSortable col-md-6 ui-sortable p-1" style="list-style-type: none; float: left;min-height:1px;" name="sortable1"></ul>
+			<ul class="sortTableUl js-sort-table2 connectedSortable col-md-6 ui-sortable m-0 p-1" style="list-style-type: none; float: left;min-height:1px;" name="sortable2"></ul>
 		</div>
 	</div>
 {/strip}
