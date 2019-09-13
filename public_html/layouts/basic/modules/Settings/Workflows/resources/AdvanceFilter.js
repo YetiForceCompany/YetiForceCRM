@@ -223,7 +223,7 @@ Vtiger_AdvanceFilter_Js(
 					values[index + 1]['columns'] = iterationValues;
 				}
 				if (groupElement.find('div.groupCondition').length > 0) {
-					values[index + 1]['condition'] = conditionGroups.find('div.groupCondition [name="condition"]').val();
+					values[index + 1]['condition'] = groupElement.find('div.groupCondition [name="condition"]').val();
 				}
 			});
 			return values;
