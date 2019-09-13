@@ -25,7 +25,8 @@ export default {
 		roomSoundNotificationsOff: {
 			crm: [],
 			global: [],
-			group: []
+			group: [],
+			private: []
 		}
 	},
 	data: {
@@ -33,7 +34,8 @@ export default {
 		roomList: {
 			crm: {},
 			group: {},
-			global: {}
+			global: {},
+			private: {}
 		},
 		currentRoom: {},
 		history: {

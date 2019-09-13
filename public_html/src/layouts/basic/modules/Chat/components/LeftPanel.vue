@@ -24,17 +24,17 @@
             {{ translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`) }}
             <div class="q-ml-auto">
               <q-btn
-                v-if="roomType === 'group'"
-                v-show="areUnpinned && !filterRooms.length"
+                v-if="roomType !== 'crm'"
+                v-show="areUnpinned(roomType) && !filterRooms.length"
                 dense
                 flat
                 round
                 color="primary"
-                :icon="showAllGroups ? 'mdi-chevron-up' : 'mdi-chevron-down'"
-                @click="showAllGroups = !showAllGroups"
+                :icon="showAll[roomType] ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+                @click="showAll[roomType] = !showAll[roomType]"
               >
                 <q-tooltip>{{
-                  translate(showAllGroups ? 'JS_CHAT_HIDE_UNPINNED' : 'JS_CHAT_SHOW_UNPINNED')
+                  translate(showAll[roomType] ? 'JS_CHAT_HIDE_UNPINNED' : 'JS_CHAT_SHOW_UNPINNED')
                 }}</q-tooltip>
               </q-btn>
               <q-btn
@@ -59,7 +59,7 @@
           </q-item>
           <template v-for="(room, roomId) of roomGroup">
             <q-item
-              v-show="roomType === 'group' ? room.isPinned || showAllGroups || filterRooms.length : room.isPinned"
+              v-show="roomType !== 'crm' ? room.isPinned || showAll[roomType] || filterRooms.length : room.isPinned"
               clickable
               v-ripple
               :key="roomId"
@@ -102,7 +102,6 @@
                       :href="`index.php?module=${room.moduleName}&view=Detail&record=${room.recordid}`"
                     />
                     <q-btn
-                      v-if="roomType === 'group' || roomType === 'crm'"
                       dense
                       round
                       flat
@@ -151,19 +150,25 @@ export default {
     return {
       filterRooms: '',
       fontSize: '0.88rem',
-      showAllGroups: false,
+      showAll: {
+        group: false,
+        global: false,
+        private: false
+      },
       showAddRoomPanel: false
     }
   },
   computed: {
     ...mapGetters(['leftPanel', 'data', 'config', 'isSoundNotification', 'roomSoundNotificationsOff']),
     areUnpinned() {
-      for (let room in this.data.roomList.group) {
-        if (!this.data.roomList.group[room].isPinned) {
-          return true
+      return roomType => {
+        for (let room in this.data.roomList[roomType]) {
+          if (!this.data.roomList[roomType][room].isPinned) {
+            return true
+          }
         }
+        return false
       }
-      return false
     },
     roomList() {
       if (this.filterRooms === '') {
