@@ -44,12 +44,12 @@ class J_RecordFlowUpdater extends \Tests\Base
 	 *
 	 * @return void
 	 */
-	public function testConfigurations()
-	{
-		\Vtiger_Cache::$cacheEnable = false;
-		// $taskFlowUpdater = new RecordFlowUpdater('ProjectTask');
-		// $this->assertTrue($taskFlowUpdater->checkIsConfigured(), 'The RecordFlowUpdater for ProjectTask is not configured');
-	}
+	// public function testConfigurations()
+	// {
+	// 	\Vtiger_Cache::$cacheEnable = false;
+	// 	$taskFlowUpdater = new RecordFlowUpdater('ProjectTask');
+	// 	$this->assertTrue($taskFlowUpdater->checkIsConfigured(), 'The RecordFlowUpdater for ProjectTask is not configured');
+	// }
 
 	/**
 	 * Testing the status after creating the project.
