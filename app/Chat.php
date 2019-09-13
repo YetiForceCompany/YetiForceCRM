@@ -28,7 +28,7 @@ final class Chat
 	 */
 	const TABLE_NAME = [
 		'message' => ['crm' => 'u_#__chat_messages_crm', 'group' => 'u_#__chat_messages_group', 'global' => 'u_#__chat_messages_global', 'private' => 'u_#__chat_messages_private'],
-		'room' => ['crm' => 'u_#__chat_rooms_crm', 'group' => 'u_#__chat_rooms_group', 'global' => 'u_#__chat_rooms_global','private' => 'u_#__chat_rooms_private'],
+		'room' => ['crm' => 'u_#__chat_rooms_crm', 'group' => 'u_#__chat_rooms_group', 'global' => 'u_#__chat_rooms_global', 'private' => 'u_#__chat_rooms_private'],
 		'room_name' => ['crm' => 'u_#__crmentity_label', 'group' => 'vtiger_groups', 'global' => 'u_#__chat_global', 'private' => 'u_#__chat_private']
 	];
 
@@ -197,6 +197,47 @@ final class Chat
 	}
 
 	/**
+	 * List of private chat rooms.
+	 *
+	 * @param int|null $userId
+	 *
+	 * @return array
+	 */
+	public static function getRoomsPrivate(?int $userId = null)
+	{
+		if (empty($userId)) {
+			$userId = User::getCurrentUserId();
+		}
+		$roomIdName = static::COLUMN_NAME['room']['private'];
+		$cntQuery = (new Db\Query())
+			->select([new \yii\db\Expression('COUNT(*)')])
+			->from(['CM' => 'u_yf_chat_messages_private'])
+			->where([
+				'CM.privateid' => new \yii\db\Expression('CR.private_room_id')
+			])->andWhere(['>', 'CM.id', new \yii\db\Expression('CR.last_message')]);
+		$subQuery = (new Db\Query())
+			->select([
+				'CR.*',
+				'cnt_new_message' => $cntQuery
+			])
+			->from(['CR' => 'u_yf_chat_rooms_private']);
+		$dataReader = (new Db\Query())
+			->select(['name', 'recordid' => 'GL.private_room_id', 'CNT.cnt_new_message', 'creatorid', 'created'])
+			->from(['GL' => 'u_#__chat_private'])
+			->innerJoin(['CNT' => $subQuery], "CNT.{$roomIdName} = GL.private_room_id AND CNT.userid = {$userId}")
+			->createCommand()->query();
+		$rooms = [];
+		while ($row = $dataReader->read()) {
+			$row['name'] = Language::translate($row['name'], 'Chat');
+			$row['roomType'] = 'private';
+			$row['isPinned'] = true;
+			$rooms[$row['recordid']] = $row;
+		}
+		$dataReader->close();
+		return $rooms;
+	}
+
+	/**
 	 * List of chat room groups.
 	 *
 	 * @param int|null $userId
@@ -314,6 +355,7 @@ final class Chat
 			'crm' => static::getRoomsCrm($userId),
 			'group' => static::getRoomsGroup($userId),
 			'global' => static::getRoomsGlobal(),
+			'private' => static::getRoomsPrivate($userId)
 		];
 		Cache::staticSave('ChatGetRoomsByUser', $userId);
 		return $roomsByUser;
