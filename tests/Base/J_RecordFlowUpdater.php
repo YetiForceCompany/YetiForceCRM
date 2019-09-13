@@ -1,4 +1,5 @@
 <?php
+/** @codeCoverageIgnoreStart */
 /**
  * The file contains: the test class for RecordFlowUpdater.
  *
@@ -19,7 +20,7 @@ use App\Automatic\RecordFlowUpdater;
 
 class J_RecordFlowUpdater extends \Tests\Base
 {
-/** @codeCoverageIgnoreStart */
+
 	/**
 	 * List of Vtiger_Record_Model.
 	 *
@@ -323,5 +324,5 @@ class J_RecordFlowUpdater extends \Tests\Base
 		\App\Cache::staticDelete('RecordModel', static::$projectTask[$name] . ':ProjectTask');
 		return \Vtiger_Record_Model::getInstanceById(static::$projectTask[$name], 'ProjectTask');
 	}
-/** @codeCoverageIgnoreEnd */
 }
+/** @codeCoverageIgnoreEnd */
