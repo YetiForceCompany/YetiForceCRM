@@ -75,8 +75,8 @@ class SMSNotifier_SMSAPI_Provider extends SMSNotifier_Basic_Provider
 		$moduleName = 'Settings:SMSNotifier';
 		foreach ($this->getRequiredParams() as $name) {
 			$field = ['uitype' => 16, 'column' => $name, 'name' => $name, 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => 0, 'isEditableReadOnly' => false];
-			if ($name === 'from') {
-				$field['picklistValues'] = ['Eco' => 'Eco'];
+			if ('from' === $name) {
+				$field['uitype'] = 1;
 				$field['label'] = 'FL_SMSAPI_FROM';
 				$fields[] = $field;
 			}
