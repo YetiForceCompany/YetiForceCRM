@@ -371,7 +371,7 @@ final class Chat
 		$numberOfNewMessages = 0;
 		$roomInfo = static::getRoomsByUser();
 		$roomList = [];
-		foreach (['crm', 'group', 'global'] as $roomType) {
+		foreach (['crm', 'group', 'global', 'private'] as $roomType) {
 			foreach ($roomInfo[$roomType] as $room) {
 				if (!empty($room['cnt_new_message'])) {
 					$numberOfNewMessages += $room['cnt_new_message'];
@@ -428,6 +428,31 @@ final class Chat
 			->from(['CG' => 'u_#__chat_global'])
 			->innerJoin(['CM' => $subQueryGlobal], 'CM.globalid = CG.global_room_id')
 			->leftJoin(['GL' => static::TABLE_NAME['room']['global']], "GL.global_room_id = CG.global_room_id AND GL.userid = {$userId}")
+			->where(['or', ['GL.userid' => null], ['GL.userid' => $userId]])
+			->andWhere(['or', ['GL.last_message' => null], ['<', 'GL.last_message', new \yii\db\Expression('CM.id')]])
+			->exists();
+	}
+
+	/**
+	 * Is there any new message for global.
+	 *
+	 * @param int $userId
+	 *
+	 * @return bool
+	 */
+	public static function isNewMessagesForPrivate(int $userId): bool
+	{
+		$subQuery = (new Db\Query())
+			->select([
+				static::COLUMN_NAME['message']['private'],
+				'id' => new \yii\db\Expression('max(id)')
+			])->from(static::TABLE_NAME['message']['private'])
+			->groupBy([static::COLUMN_NAME['message']['private']]);
+		return (new Db\Query())
+			->select(['CG.name', 'CM.id'])
+			->from(['CG' => 'u_#__chat_private'])
+			->innerJoin(['CM' => $subQuery], 'CM.privateid = CG.private_room_id')
+			->innerJoin(['GL' => static::TABLE_NAME['room']['private']], "GL.private_room_id = CG.private_room_id AND GL.userid = {$userId}")
 			->where(['or', ['GL.userid' => null], ['GL.userid' => $userId]])
 			->andWhere(['or', ['GL.last_message' => null], ['<', 'GL.last_message', new \yii\db\Expression('CM.id')]])
 			->exists();
@@ -491,7 +516,8 @@ final class Chat
 		$userId = User::getCurrentUserId();
 		return static::isNewMessagesForGlobal($userId) ||
 			static::isNewMessagesForCrm($userId) ||
-			static::isNewMessagesForGroup($userId);
+			static::isNewMessagesForGroup($userId) ||
+			static::isNewMessagesForPrivate($userId);
 	}
 
 	/**
@@ -745,6 +771,14 @@ final class Chat
 					)
 					->leftJoin(['RN' => 'u_#__chat_global'], "RN.global_room_id = M.{$columnMessage}");
 				break;
+			case 'private':
+				$query->select(['M.*', 'name' => 'RN.name', 'R.last_message', 'recordid' => "M.{$columnMessage}"])
+					->leftJoin(
+						['R' => static::TABLE_NAME['room'][$roomType]],
+						"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
+					)
+					->leftJoin(['RN' => 'u_#__chat_private'], "RN.global_room_id = M.{$columnMessage}");
+				break;
 			default:
 				break;
 		}
@@ -850,6 +884,7 @@ final class Chat
 			'crm' => static::getUnreadByType('crm'),
 			'group' => static::getUnreadByType('group'),
 			'global' => static::getUnreadByType('global'),
+			'private' => static::getUnreadByType('private'),
 		];
 	}
 
@@ -970,6 +1005,13 @@ final class Chat
 					->leftJoin(['U' => 'vtiger_users'], 'U.id = C.userid')
 					->where(['globalid' => $this->recordId]);
 				break;
+			case 'private':
+				$query = (new Db\Query())
+					->select(['C.*', 'U.user_name', 'U.last_name'])
+					->from(['C' => 'u_#__chat_messages_private'])
+					->leftJoin(['U' => 'vtiger_users'], 'U.id = C.userid')
+					->where(['privateid' => $this->recordId]);
+				break;
 			default:
 				throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
 		}
@@ -1011,6 +1053,12 @@ final class Chat
 					->from(['CG' => 'u_#__chat_global'])
 					->leftJoin(['CR' => 'u_#__chat_rooms_global'], "CR.global_room_id = CG.global_room_id AND CR.userid = {$this->userId}")
 					->where(['CG.global_room_id' => $this->recordId]);
+			case 'private':
+				return (new Db\Query())
+					->select(['CG.*', 'CR.userid', 'record_id' => 'CR.private_room_id', 'CR.last_message'])
+					->from(['CG' => 'u_#__chat_private'])
+					->leftJoin(['CR' => 'u_#__chat_rooms_private'], "CR.private_room_id = CG.private_room_id AND CR.userid = {$this->userId}")
+					->where(['CG.private_room_id' => $this->recordId]);
 			default:
 				throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
 				break;

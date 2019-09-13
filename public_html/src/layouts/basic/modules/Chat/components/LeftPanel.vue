@@ -64,7 +64,7 @@
               v-ripple
               :key="roomId"
               class="q-pl-sm"
-              :active="data.currentRoom.recordId === room.recordid"
+              :active="data.currentRoom.recordId === room.recordid && data.currentRoom.roomType === roomType"
               active-class="bg-teal-1 text-grey-8"
               @click="fetchRoom({ id: room.recordid, roomType: roomType })"
             >
