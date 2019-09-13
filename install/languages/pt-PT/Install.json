@@ -116,7 +116,7 @@
     "LBL_COMPANYSIZE": "The number of employees of the company",
     "LBL_WEBSITE": "Your company's website",
     "LBL_CHOOSE_INSTALLATION_TYPE": "Choose installation type",
-    "LBL_INSTALL_YOURSELF": "Install",
+    "LBL_INSTALL_YOURSELF": "Instalar",
     "LBL_HOSTING_SELF": "Own server",
     "LBL_MY_SERVER_TITLE": "Use your own server or hosting",
     "LBL_MY_SERVER_DESC": "You can install YetiForce anywhere you want without any fees. If you ever experience any issues related to the CRM system you can find free support in our GitHub repository or purchase support directly from YetiForce.",
