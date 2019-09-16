@@ -1164,7 +1164,7 @@ class ConfReport
 		$row['status'] = true;
 		if (!\App\Config::component('Branding', 'isCustomerBrandingActive')) {
 			$row['status'] = false !== \strpos($html, '&copy; YetiForce.com All rights reserved');
-			$row['status'] = $row['status'] && \App\YetiForce\Shop::check('DisableBranding');
+			$row['status'] = $row['status'] && \App\YetiForce\Shop::check('YetiForceDisableBranding');
 		}
 		unset($name);
 		$row[$sapi] = \App\Language::translate($row['status'] ? 'LBL_YES' : 'LBL_NO');
