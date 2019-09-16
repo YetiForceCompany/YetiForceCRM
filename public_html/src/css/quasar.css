@@ -7880,6 +7880,130 @@ body.platform-ios:not(.cordova) .q-dialog__inner--top .q-select__dialog--focused
 .q-ripple__inner--leave {
   transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
+.q-notifications__list {
+  z-index: 9500;
+  pointer-events: none;
+  left: 0;
+  right: 0;
+  margin-bottom: 10px;
+  position: relative;
+}
+.q-notifications__list--center {
+  top: 0;
+  bottom: 0;
+}
+.q-notifications__list--top {
+  top: 0;
+}
+.q-notifications__list--bottom {
+  bottom: 0;
+}
+body.q-ios-padding .q-notifications__list--center,
+body.q-ios-padding .q-notifications__list--top {
+  top: 20px;
+  top: env(safe-area-inset-top);
+}
+body.q-ios-padding .q-notifications__list--center,
+body.q-ios-padding .q-notifications__list--bottom {
+  bottom: env(safe-area-inset-bottom);
+}
+.q-notification {
+  box-shadow: 0 1px 5px rgba(0,0,0,0.2), 0 2px 2px rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12);
+  border-radius: 4px;
+  pointer-events: all;
+  display: inline-flex;
+  margin: 10px 10px 0;
+  transition: transform 1s, opacity 1s;
+  z-index: 9500;
+  min-width: 300px;
+  max-width: 95vw;
+  background: #323232;
+  color: #fff;
+  font-size: 14px;
+}
+.q-notification__icon {
+  font-size: 24px;
+  padding-right: 16px;
+}
+.q-notification__avatar {
+  font-size: 32px;
+  padding-right: 8px;
+}
+.q-notification__message {
+  padding: 8px 0;
+}
+.q-notification__actions {
+  color: #c581ff;
+}
+.q-notification--standard {
+  padding: 0 16px;
+  min-height: 48px;
+}
+.q-notification--standard .q-notification__actions {
+  padding: 6px 0 6px 8px;
+  margin-right: -8px;
+}
+.q-notification--multi-line {
+  min-height: 68px;
+  padding: 8px 16px;
+}
+.q-notification--multi-line .q-notification__actions {
+  padding: 0;
+}
+.q-notification--top-left-enter,
+.q-notification--top-left-leave-to,
+.q-notification--top-enter,
+.q-notification--top-leave-to,
+.q-notification--top-right-enter,
+.q-notification--top-right-leave-to {
+  opacity: 0;
+  transform: translate3d(0, -50px, 0);
+  z-index: 9499;
+}
+.q-notification--left-enter,
+.q-notification--left-leave-to,
+.q-notification--center-enter,
+.q-notification--center-leave-to,
+.q-notification--right-enter,
+.q-notification--right-leave-to,
+.q-notification--bottom-left-enter,
+.q-notification--bottom-left-leave-to,
+.q-notification--bottom-enter,
+.q-notification--bottom-leave-to,
+.q-notification--bottom-right-enter,
+.q-notification--bottom-right-leave-to {
+  opacity: 0;
+  transform: translate3d(0, 50px, 0);
+  z-index: 9499;
+}
+.q-notification--top-left-leave-active,
+.q-notification--top-leave-active,
+.q-notification--top-right-leave-active,
+.q-notification--left-leave-active,
+.q-notification--center-leave-active,
+.q-notification--right-leave-active,
+.q-notification--bottom-left-leave-active,
+.q-notification--bottom-leave-active,
+.q-notification--bottom-right-leave-active {
+  position: absolute;
+  z-index: 9499;
+  margin-left: 0;
+  margin-right: 0;
+}
+.q-notification--top-leave-active,
+.q-notification--center-leave-active {
+  top: 0;
+}
+.q-notification--bottom-left-leave-active,
+.q-notification--bottom-leave-active,
+.q-notification--bottom-right-leave-active {
+  bottom: 0;
+}
+@media (min-width: 600px) {
+  .q-notification {
+    max-width: 65vw;
+  }
+}
 :root {
   --q-size-xs: 0;
   --q-size-sm: 600px;
@@ -10914,7 +11038,8 @@ body.desktop .q-focusable:focus > .q-focus-helper,
 body.desktop .q-manual-focusable--focused > .q-focus-helper {
   opacity: 0.22;
 }
-body .quasar-reset body {
+body .quasar-reset body,
+.q-notifications body {
   min-width: 100px;
   min-height: 100%;
   font-family: 'Roboto', '-apple-system', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -10926,1830 +11051,2749 @@ body .quasar-reset body {
   line-height: 1.5;
   font-size: 14px;
 }
-body .quasar-reset h1 {
+body .quasar-reset h1,
+.q-notifications h1 {
   font-size: 6rem;
   font-weight: 300;
   line-height: 6rem;
   letter-spacing: -0.01562em;
 }
-body .quasar-reset h2 {
+body .quasar-reset h2,
+.q-notifications h2 {
   font-size: 3.75rem;
   font-weight: 300;
   line-height: 3.75rem;
   letter-spacing: -0.00833em;
 }
-body .quasar-reset h3 {
+body .quasar-reset h3,
+.q-notifications h3 {
   font-size: 3rem;
   font-weight: 400;
   line-height: 3.125rem;
   letter-spacing: normal;
 }
-body .quasar-reset h4 {
+body .quasar-reset h4,
+.q-notifications h4 {
   font-size: 2.125rem;
   font-weight: 400;
   line-height: 2.5rem;
   letter-spacing: 0.00735em;
 }
-body .quasar-reset h5 {
+body .quasar-reset h5,
+.q-notifications h5 {
   font-size: 1.5rem;
   font-weight: 400;
   line-height: 2rem;
   letter-spacing: normal;
 }
-body .quasar-reset h6 {
+body .quasar-reset h6,
+.q-notifications h6 {
   font-size: 1.25rem;
   font-weight: 500;
   line-height: 2rem;
   letter-spacing: 0.0125em;
 }
-body .quasar-reset p {
+body .quasar-reset p,
+.q-notifications p {
   margin: 0 0 16px;
 }
-body .quasar-reset .text-h1 {
+body .quasar-reset .text-h1,
+.q-notifications .text-h1 {
   font-size: 6rem;
   font-weight: 300;
   line-height: 6rem;
   letter-spacing: -0.01562em;
 }
-body .quasar-reset .text-h2 {
+body .quasar-reset .text-h2,
+.q-notifications .text-h2 {
   font-size: 3.75rem;
   font-weight: 300;
   line-height: 3.75rem;
   letter-spacing: -0.00833em;
 }
-body .quasar-reset .text-h3 {
+body .quasar-reset .text-h3,
+.q-notifications .text-h3 {
   font-size: 3rem;
   font-weight: 400;
   line-height: 3.125rem;
   letter-spacing: normal;
 }
-body .quasar-reset .text-h4 {
+body .quasar-reset .text-h4,
+.q-notifications .text-h4 {
   font-size: 2.125rem;
   font-weight: 400;
   line-height: 2.5rem;
   letter-spacing: 0.00735em;
 }
-body .quasar-reset .text-h5 {
+body .quasar-reset .text-h5,
+.q-notifications .text-h5 {
   font-size: 1.5rem;
   font-weight: 400;
   line-height: 2rem;
   letter-spacing: normal;
 }
-body .quasar-reset .text-h6 {
+body .quasar-reset .text-h6,
+.q-notifications .text-h6 {
   font-size: 1.25rem;
   font-weight: 500;
   line-height: 2rem;
   letter-spacing: 0.0125em;
 }
-body .quasar-reset .text-subtitle1 {
+body .quasar-reset .text-subtitle1,
+.q-notifications .text-subtitle1 {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.75rem;
   letter-spacing: 0.00937em;
 }
-body .quasar-reset .text-subtitle2 {
+body .quasar-reset .text-subtitle2,
+.q-notifications .text-subtitle2 {
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.375rem;
   letter-spacing: 0.00714em;
 }
-body .quasar-reset .text-body1 {
+body .quasar-reset .text-body1,
+.q-notifications .text-body1 {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5rem;
   letter-spacing: 0.03125em;
 }
-body .quasar-reset .text-body2 {
+body .quasar-reset .text-body2,
+.q-notifications .text-body2 {
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.25rem;
   letter-spacing: 0.01786em;
 }
-body .quasar-reset .text-overline {
+body .quasar-reset .text-overline,
+.q-notifications .text-overline {
   font-size: 0.75rem;
   font-weight: 500;
   line-height: 2rem;
   letter-spacing: 0.16667em;
 }
-body .quasar-reset .text-caption {
+body .quasar-reset .text-caption,
+.q-notifications .text-caption {
   font-size: 0.75rem;
   font-weight: 400;
   line-height: 1.25rem;
   letter-spacing: 0.03333em;
 }
-body .quasar-reset .text-uppercase {
+body .quasar-reset .text-uppercase,
+.q-notifications .text-uppercase {
   text-transform: uppercase;
 }
-body .quasar-reset .text-lowercase {
+body .quasar-reset .text-lowercase,
+.q-notifications .text-lowercase {
   text-transform: lowercase;
 }
-body .quasar-reset .text-capitalize {
+body .quasar-reset .text-capitalize,
+.q-notifications .text-capitalize {
   text-transform: capitalize;
 }
-body .quasar-reset .text-center {
+body .quasar-reset .text-center,
+.q-notifications .text-center {
   text-align: center;
 }
-body .quasar-reset .text-left {
+body .quasar-reset .text-left,
+.q-notifications .text-left {
   text-align: left;
 }
-body .quasar-reset .text-right {
+body .quasar-reset .text-right,
+.q-notifications .text-right {
   text-align: right;
 }
-body .quasar-reset .text-justify {
+body .quasar-reset .text-justify,
+.q-notifications .text-justify {
   text-align: justify;
   hyphens: auto;
 }
-body .quasar-reset .text-italic {
+body .quasar-reset .text-italic,
+.q-notifications .text-italic {
   font-style: italic;
 }
-body .quasar-reset .text-bold {
+body .quasar-reset .text-bold,
+.q-notifications .text-bold {
   font-weight: bold;
 }
-body .quasar-reset .text-no-wrap {
+body .quasar-reset .text-no-wrap,
+.q-notifications .text-no-wrap {
   white-space: nowrap;
 }
-body .quasar-reset .text-strike {
+body .quasar-reset .text-strike,
+.q-notifications .text-strike {
   text-decoration: line-through;
 }
-body .quasar-reset .text-weight-thin {
+body .quasar-reset .text-weight-thin,
+.q-notifications .text-weight-thin {
   font-weight: 100;
 }
-body .quasar-reset .text-weight-light {
+body .quasar-reset .text-weight-light,
+.q-notifications .text-weight-light {
   font-weight: 300;
 }
-body .quasar-reset .text-weight-regular {
+body .quasar-reset .text-weight-regular,
+.q-notifications .text-weight-regular {
   font-weight: 400;
 }
-body .quasar-reset .text-weight-medium {
+body .quasar-reset .text-weight-medium,
+.q-notifications .text-weight-medium {
   font-weight: 500;
 }
-body .quasar-reset .text-weight-bold {
+body .quasar-reset .text-weight-bold,
+.q-notifications .text-weight-bold {
   font-weight: 700;
 }
-body .quasar-reset .text-weight-bolder {
+body .quasar-reset .text-weight-bolder,
+.q-notifications .text-weight-bolder {
   font-weight: 900;
 }
-body .quasar-reset small {
+body .quasar-reset small,
+.q-notifications small {
   font-size: 80%;
 }
-body .quasar-reset big {
+body .quasar-reset big,
+.q-notifications big {
   font-size: 170%;
 }
-body .quasar-reset sub {
+body .quasar-reset sub,
+.q-notifications sub {
   bottom: -0.25em;
 }
-body .quasar-reset sup {
+body .quasar-reset sup,
+.q-notifications sup {
   top: -0.5em;
 }
 body .quasar-reset .row,
+.q-notifications .row,
 body .quasar-reset .column,
-body .quasar-reset .flex {
+.q-notifications .column,
+body .quasar-reset .flex,
+.q-notifications .flex {
   display: flex;
   flex-wrap: wrap;
 }
 body .quasar-reset .row.inline,
+.q-notifications .row.inline,
 body .quasar-reset .column.inline,
-body .quasar-reset .flex.inline {
+.q-notifications .column.inline,
+body .quasar-reset .flex.inline,
+.q-notifications .flex.inline {
   display: inline-flex;
 }
-body .quasar-reset .row.reverse {
+body .quasar-reset .row.reverse,
+.q-notifications .row.reverse {
   flex-direction: row-reverse;
 }
-body .quasar-reset .column {
+body .quasar-reset .column,
+.q-notifications .column {
   flex-direction: column;
 }
-body .quasar-reset .column.reverse {
+body .quasar-reset .column.reverse,
+.q-notifications .column.reverse {
   flex-direction: column-reverse;
 }
-body .quasar-reset .wrap {
+body .quasar-reset .wrap,
+.q-notifications .wrap {
   flex-wrap: wrap;
 }
-body .quasar-reset .no-wrap {
+body .quasar-reset .no-wrap,
+.q-notifications .no-wrap {
   flex-wrap: nowrap;
 }
-body .quasar-reset .reverse-wrap {
+body .quasar-reset .reverse-wrap,
+.q-notifications .reverse-wrap {
   flex-wrap: wrap-reverse;
 }
-body .quasar-reset .order-first {
+body .quasar-reset .order-first,
+.q-notifications .order-first {
   order: -10000;
 }
-body .quasar-reset .order-last {
+body .quasar-reset .order-last,
+.q-notifications .order-last {
   order: 10000;
 }
-body .quasar-reset .order-none {
+body .quasar-reset .order-none,
+.q-notifications .order-none {
   order: 0;
 }
-body .quasar-reset .justify-start {
+body .quasar-reset .justify-start,
+.q-notifications .justify-start {
   justify-content: flex-start;
 }
-body .quasar-reset .justify-end {
+body .quasar-reset .justify-end,
+.q-notifications .justify-end {
   justify-content: flex-end;
 }
 body .quasar-reset .justify-center,
-body .quasar-reset .flex-center {
+.q-notifications .justify-center,
+body .quasar-reset .flex-center,
+.q-notifications .flex-center {
   justify-content: center;
 }
-body .quasar-reset .justify-between {
+body .quasar-reset .justify-between,
+.q-notifications .justify-between {
   justify-content: space-between;
 }
-body .quasar-reset .justify-around {
+body .quasar-reset .justify-around,
+.q-notifications .justify-around {
   justify-content: space-around;
 }
-body .quasar-reset .items-start {
+body .quasar-reset .items-start,
+.q-notifications .items-start {
   align-items: flex-start;
 }
-body .quasar-reset .items-end {
+body .quasar-reset .items-end,
+.q-notifications .items-end {
   align-items: flex-end;
 }
 body .quasar-reset .items-center,
-body .quasar-reset .flex-center {
+.q-notifications .items-center,
+body .quasar-reset .flex-center,
+.q-notifications .flex-center {
   align-items: center;
 }
-body .quasar-reset .items-baseline {
+body .quasar-reset .items-baseline,
+.q-notifications .items-baseline {
   align-items: baseline;
 }
-body .quasar-reset .items-stretch {
+body .quasar-reset .items-stretch,
+.q-notifications .items-stretch {
   align-items: stretch;
 }
-body .quasar-reset .content-start {
+body .quasar-reset .content-start,
+.q-notifications .content-start {
   align-content: flex-start;
 }
-body .quasar-reset .content-end {
+body .quasar-reset .content-end,
+.q-notifications .content-end {
   align-content: flex-end;
 }
-body .quasar-reset .content-center {
+body .quasar-reset .content-center,
+.q-notifications .content-center {
   align-content: center;
 }
-body .quasar-reset .content-stretch {
+body .quasar-reset .content-stretch,
+.q-notifications .content-stretch {
   align-content: stretch;
 }
-body .quasar-reset .content-between {
+body .quasar-reset .content-between,
+.q-notifications .content-between {
   align-content: space-between;
 }
-body .quasar-reset .content-around {
+body .quasar-reset .content-around,
+.q-notifications .content-around {
   align-content: space-around;
 }
-body .quasar-reset .self-start {
+body .quasar-reset .self-start,
+.q-notifications .self-start {
   align-self: flex-start;
 }
-body .quasar-reset .self-end {
+body .quasar-reset .self-end,
+.q-notifications .self-end {
   align-self: flex-end;
 }
-body .quasar-reset .self-center {
+body .quasar-reset .self-center,
+.q-notifications .self-center {
   align-self: center;
 }
-body .quasar-reset .self-baseline {
+body .quasar-reset .self-baseline,
+.q-notifications .self-baseline {
   align-self: baseline;
 }
-body .quasar-reset .self-stretch {
+body .quasar-reset .self-stretch,
+.q-notifications .self-stretch {
   align-self: stretch;
 }
 body .quasar-reset .q-gutter-x-none,
-body .quasar-reset .q-gutter-none {
+.q-notifications .q-gutter-x-none,
+body .quasar-reset .q-gutter-none,
+.q-notifications .q-gutter-none {
   margin-left: 0;
 }
 body .quasar-reset .q-gutter-x-none > *,
-body .quasar-reset .q-gutter-none > * {
+.q-notifications .q-gutter-x-none > *,
+body .quasar-reset .q-gutter-none > *,
+.q-notifications .q-gutter-none > * {
   margin-left: 0;
 }
 body .quasar-reset .q-gutter-y-none,
-body .quasar-reset .q-gutter-none {
+.q-notifications .q-gutter-y-none,
+body .quasar-reset .q-gutter-none,
+.q-notifications .q-gutter-none {
   margin-top: 0;
 }
 body .quasar-reset .q-gutter-y-none > *,
-body .quasar-reset .q-gutter-none > * {
+.q-notifications .q-gutter-y-none > *,
+body .quasar-reset .q-gutter-none > *,
+.q-notifications .q-gutter-none > * {
   margin-top: 0;
 }
 body .quasar-reset .q-col-gutter-x-none,
-body .quasar-reset .q-col-gutter-none {
+.q-notifications .q-col-gutter-x-none,
+body .quasar-reset .q-col-gutter-none,
+.q-notifications .q-col-gutter-none {
   margin-left: 0;
 }
 body .quasar-reset .q-col-gutter-x-none > *,
-body .quasar-reset .q-col-gutter-none > * {
+.q-notifications .q-col-gutter-x-none > *,
+body .quasar-reset .q-col-gutter-none > *,
+.q-notifications .q-col-gutter-none > * {
   padding-left: 0;
 }
 body .quasar-reset .q-col-gutter-y-none,
-body .quasar-reset .q-col-gutter-none {
+.q-notifications .q-col-gutter-y-none,
+body .quasar-reset .q-col-gutter-none,
+.q-notifications .q-col-gutter-none {
   margin-top: 0;
 }
 body .quasar-reset .q-col-gutter-y-none > *,
-body .quasar-reset .q-col-gutter-none > * {
+.q-notifications .q-col-gutter-y-none > *,
+body .quasar-reset .q-col-gutter-none > *,
+.q-notifications .q-col-gutter-none > * {
   padding-top: 0;
 }
 body .quasar-reset .q-gutter-x-xs,
-body .quasar-reset .q-gutter-xs {
+.q-notifications .q-gutter-x-xs,
+body .quasar-reset .q-gutter-xs,
+.q-notifications .q-gutter-xs {
   margin-left: -4px;
 }
 body .quasar-reset .q-gutter-x-xs > *,
-body .quasar-reset .q-gutter-xs > * {
+.q-notifications .q-gutter-x-xs > *,
+body .quasar-reset .q-gutter-xs > *,
+.q-notifications .q-gutter-xs > * {
   margin-left: 4px;
 }
 body .quasar-reset .q-gutter-y-xs,
-body .quasar-reset .q-gutter-xs {
+.q-notifications .q-gutter-y-xs,
+body .quasar-reset .q-gutter-xs,
+.q-notifications .q-gutter-xs {
   margin-top: -4px;
 }
 body .quasar-reset .q-gutter-y-xs > *,
-body .quasar-reset .q-gutter-xs > * {
+.q-notifications .q-gutter-y-xs > *,
+body .quasar-reset .q-gutter-xs > *,
+.q-notifications .q-gutter-xs > * {
   margin-top: 4px;
 }
 body .quasar-reset .q-col-gutter-x-xs,
-body .quasar-reset .q-col-gutter-xs {
+.q-notifications .q-col-gutter-x-xs,
+body .quasar-reset .q-col-gutter-xs,
+.q-notifications .q-col-gutter-xs {
   margin-left: -4px;
 }
 body .quasar-reset .q-col-gutter-x-xs > *,
-body .quasar-reset .q-col-gutter-xs > * {
+.q-notifications .q-col-gutter-x-xs > *,
+body .quasar-reset .q-col-gutter-xs > *,
+.q-notifications .q-col-gutter-xs > * {
   padding-left: 4px;
 }
 body .quasar-reset .q-col-gutter-y-xs,
-body .quasar-reset .q-col-gutter-xs {
+.q-notifications .q-col-gutter-y-xs,
+body .quasar-reset .q-col-gutter-xs,
+.q-notifications .q-col-gutter-xs {
   margin-top: -4px;
 }
 body .quasar-reset .q-col-gutter-y-xs > *,
-body .quasar-reset .q-col-gutter-xs > * {
+.q-notifications .q-col-gutter-y-xs > *,
+body .quasar-reset .q-col-gutter-xs > *,
+.q-notifications .q-col-gutter-xs > * {
   padding-top: 4px;
 }
 body .quasar-reset .q-gutter-x-sm,
-body .quasar-reset .q-gutter-sm {
+.q-notifications .q-gutter-x-sm,
+body .quasar-reset .q-gutter-sm,
+.q-notifications .q-gutter-sm {
   margin-left: -8px;
 }
 body .quasar-reset .q-gutter-x-sm > *,
-body .quasar-reset .q-gutter-sm > * {
+.q-notifications .q-gutter-x-sm > *,
+body .quasar-reset .q-gutter-sm > *,
+.q-notifications .q-gutter-sm > * {
   margin-left: 8px;
 }
 body .quasar-reset .q-gutter-y-sm,
-body .quasar-reset .q-gutter-sm {
+.q-notifications .q-gutter-y-sm,
+body .quasar-reset .q-gutter-sm,
+.q-notifications .q-gutter-sm {
   margin-top: -8px;
 }
 body .quasar-reset .q-gutter-y-sm > *,
-body .quasar-reset .q-gutter-sm > * {
+.q-notifications .q-gutter-y-sm > *,
+body .quasar-reset .q-gutter-sm > *,
+.q-notifications .q-gutter-sm > * {
   margin-top: 8px;
 }
 body .quasar-reset .q-col-gutter-x-sm,
-body .quasar-reset .q-col-gutter-sm {
+.q-notifications .q-col-gutter-x-sm,
+body .quasar-reset .q-col-gutter-sm,
+.q-notifications .q-col-gutter-sm {
   margin-left: -8px;
 }
 body .quasar-reset .q-col-gutter-x-sm > *,
-body .quasar-reset .q-col-gutter-sm > * {
+.q-notifications .q-col-gutter-x-sm > *,
+body .quasar-reset .q-col-gutter-sm > *,
+.q-notifications .q-col-gutter-sm > * {
   padding-left: 8px;
 }
 body .quasar-reset .q-col-gutter-y-sm,
-body .quasar-reset .q-col-gutter-sm {
+.q-notifications .q-col-gutter-y-sm,
+body .quasar-reset .q-col-gutter-sm,
+.q-notifications .q-col-gutter-sm {
   margin-top: -8px;
 }
 body .quasar-reset .q-col-gutter-y-sm > *,
-body .quasar-reset .q-col-gutter-sm > * {
+.q-notifications .q-col-gutter-y-sm > *,
+body .quasar-reset .q-col-gutter-sm > *,
+.q-notifications .q-col-gutter-sm > * {
   padding-top: 8px;
 }
 body .quasar-reset .q-gutter-x-md,
-body .quasar-reset .q-gutter-md {
+.q-notifications .q-gutter-x-md,
+body .quasar-reset .q-gutter-md,
+.q-notifications .q-gutter-md {
   margin-left: -16px;
 }
 body .quasar-reset .q-gutter-x-md > *,
-body .quasar-reset .q-gutter-md > * {
+.q-notifications .q-gutter-x-md > *,
+body .quasar-reset .q-gutter-md > *,
+.q-notifications .q-gutter-md > * {
   margin-left: 16px;
 }
 body .quasar-reset .q-gutter-y-md,
-body .quasar-reset .q-gutter-md {
+.q-notifications .q-gutter-y-md,
+body .quasar-reset .q-gutter-md,
+.q-notifications .q-gutter-md {
   margin-top: -16px;
 }
 body .quasar-reset .q-gutter-y-md > *,
-body .quasar-reset .q-gutter-md > * {
+.q-notifications .q-gutter-y-md > *,
+body .quasar-reset .q-gutter-md > *,
+.q-notifications .q-gutter-md > * {
   margin-top: 16px;
 }
 body .quasar-reset .q-col-gutter-x-md,
-body .quasar-reset .q-col-gutter-md {
+.q-notifications .q-col-gutter-x-md,
+body .quasar-reset .q-col-gutter-md,
+.q-notifications .q-col-gutter-md {
   margin-left: -16px;
 }
 body .quasar-reset .q-col-gutter-x-md > *,
-body .quasar-reset .q-col-gutter-md > * {
+.q-notifications .q-col-gutter-x-md > *,
+body .quasar-reset .q-col-gutter-md > *,
+.q-notifications .q-col-gutter-md > * {
   padding-left: 16px;
 }
 body .quasar-reset .q-col-gutter-y-md,
-body .quasar-reset .q-col-gutter-md {
+.q-notifications .q-col-gutter-y-md,
+body .quasar-reset .q-col-gutter-md,
+.q-notifications .q-col-gutter-md {
   margin-top: -16px;
 }
 body .quasar-reset .q-col-gutter-y-md > *,
-body .quasar-reset .q-col-gutter-md > * {
+.q-notifications .q-col-gutter-y-md > *,
+body .quasar-reset .q-col-gutter-md > *,
+.q-notifications .q-col-gutter-md > * {
   padding-top: 16px;
 }
 body .quasar-reset .q-gutter-x-lg,
-body .quasar-reset .q-gutter-lg {
+.q-notifications .q-gutter-x-lg,
+body .quasar-reset .q-gutter-lg,
+.q-notifications .q-gutter-lg {
   margin-left: -24px;
 }
 body .quasar-reset .q-gutter-x-lg > *,
-body .quasar-reset .q-gutter-lg > * {
+.q-notifications .q-gutter-x-lg > *,
+body .quasar-reset .q-gutter-lg > *,
+.q-notifications .q-gutter-lg > * {
   margin-left: 24px;
 }
 body .quasar-reset .q-gutter-y-lg,
-body .quasar-reset .q-gutter-lg {
+.q-notifications .q-gutter-y-lg,
+body .quasar-reset .q-gutter-lg,
+.q-notifications .q-gutter-lg {
   margin-top: -24px;
 }
 body .quasar-reset .q-gutter-y-lg > *,
-body .quasar-reset .q-gutter-lg > * {
+.q-notifications .q-gutter-y-lg > *,
+body .quasar-reset .q-gutter-lg > *,
+.q-notifications .q-gutter-lg > * {
   margin-top: 24px;
 }
 body .quasar-reset .q-col-gutter-x-lg,
-body .quasar-reset .q-col-gutter-lg {
+.q-notifications .q-col-gutter-x-lg,
+body .quasar-reset .q-col-gutter-lg,
+.q-notifications .q-col-gutter-lg {
   margin-left: -24px;
 }
 body .quasar-reset .q-col-gutter-x-lg > *,
-body .quasar-reset .q-col-gutter-lg > * {
+.q-notifications .q-col-gutter-x-lg > *,
+body .quasar-reset .q-col-gutter-lg > *,
+.q-notifications .q-col-gutter-lg > * {
   padding-left: 24px;
 }
 body .quasar-reset .q-col-gutter-y-lg,
-body .quasar-reset .q-col-gutter-lg {
+.q-notifications .q-col-gutter-y-lg,
+body .quasar-reset .q-col-gutter-lg,
+.q-notifications .q-col-gutter-lg {
   margin-top: -24px;
 }
 body .quasar-reset .q-col-gutter-y-lg > *,
-body .quasar-reset .q-col-gutter-lg > * {
+.q-notifications .q-col-gutter-y-lg > *,
+body .quasar-reset .q-col-gutter-lg > *,
+.q-notifications .q-col-gutter-lg > * {
   padding-top: 24px;
 }
 body .quasar-reset .q-gutter-x-xl,
-body .quasar-reset .q-gutter-xl {
+.q-notifications .q-gutter-x-xl,
+body .quasar-reset .q-gutter-xl,
+.q-notifications .q-gutter-xl {
   margin-left: -48px;
 }
 body .quasar-reset .q-gutter-x-xl > *,
-body .quasar-reset .q-gutter-xl > * {
+.q-notifications .q-gutter-x-xl > *,
+body .quasar-reset .q-gutter-xl > *,
+.q-notifications .q-gutter-xl > * {
   margin-left: 48px;
 }
 body .quasar-reset .q-gutter-y-xl,
-body .quasar-reset .q-gutter-xl {
+.q-notifications .q-gutter-y-xl,
+body .quasar-reset .q-gutter-xl,
+.q-notifications .q-gutter-xl {
   margin-top: -48px;
 }
 body .quasar-reset .q-gutter-y-xl > *,
-body .quasar-reset .q-gutter-xl > * {
+.q-notifications .q-gutter-y-xl > *,
+body .quasar-reset .q-gutter-xl > *,
+.q-notifications .q-gutter-xl > * {
   margin-top: 48px;
 }
 body .quasar-reset .q-col-gutter-x-xl,
-body .quasar-reset .q-col-gutter-xl {
+.q-notifications .q-col-gutter-x-xl,
+body .quasar-reset .q-col-gutter-xl,
+.q-notifications .q-col-gutter-xl {
   margin-left: -48px;
 }
 body .quasar-reset .q-col-gutter-x-xl > *,
-body .quasar-reset .q-col-gutter-xl > * {
+.q-notifications .q-col-gutter-x-xl > *,
+body .quasar-reset .q-col-gutter-xl > *,
+.q-notifications .q-col-gutter-xl > * {
   padding-left: 48px;
 }
 body .quasar-reset .q-col-gutter-y-xl,
-body .quasar-reset .q-col-gutter-xl {
+.q-notifications .q-col-gutter-y-xl,
+body .quasar-reset .q-col-gutter-xl,
+.q-notifications .q-col-gutter-xl {
   margin-top: -48px;
 }
 body .quasar-reset .q-col-gutter-y-xl > *,
-body .quasar-reset .q-col-gutter-xl > * {
+.q-notifications .q-col-gutter-y-xl > *,
+body .quasar-reset .q-col-gutter-xl > *,
+.q-notifications .q-col-gutter-xl > * {
   padding-top: 48px;
 }
 @media (min-width: 0) {
   body .quasar-reset .row > .col,
+  .q-notifications .row > .col,
   body .quasar-reset .row > .col-xs,
+  .q-notifications .row > .col-xs,
   body .quasar-reset .row > .col-auto,
+  .q-notifications .row > .col-auto,
   body .quasar-reset .row > .col-xs-auto,
+  .q-notifications .row > .col-xs-auto,
   body .quasar-reset .row > .col-grow,
+  .q-notifications .row > .col-grow,
   body .quasar-reset .row > .col-xs-grow,
+  .q-notifications .row > .col-xs-grow,
   body .quasar-reset .row > .col-shrink,
+  .q-notifications .row > .col-shrink,
   body .quasar-reset .row > .col-xs-shrink,
+  .q-notifications .row > .col-xs-shrink,
   body .quasar-reset .row > .col-0,
+  .q-notifications .row > .col-0,
   body .quasar-reset .row > .col-xs-0,
+  .q-notifications .row > .col-xs-0,
   body .quasar-reset .row > .col-1,
+  .q-notifications .row > .col-1,
   body .quasar-reset .row > .col-xs-1,
+  .q-notifications .row > .col-xs-1,
   body .quasar-reset .row > .col-2,
+  .q-notifications .row > .col-2,
   body .quasar-reset .row > .col-xs-2,
+  .q-notifications .row > .col-xs-2,
   body .quasar-reset .row > .col-3,
+  .q-notifications .row > .col-3,
   body .quasar-reset .row > .col-xs-3,
+  .q-notifications .row > .col-xs-3,
   body .quasar-reset .row > .col-4,
+  .q-notifications .row > .col-4,
   body .quasar-reset .row > .col-xs-4,
+  .q-notifications .row > .col-xs-4,
   body .quasar-reset .row > .col-5,
+  .q-notifications .row > .col-5,
   body .quasar-reset .row > .col-xs-5,
+  .q-notifications .row > .col-xs-5,
   body .quasar-reset .row > .col-6,
+  .q-notifications .row > .col-6,
   body .quasar-reset .row > .col-xs-6,
+  .q-notifications .row > .col-xs-6,
   body .quasar-reset .row > .col-7,
+  .q-notifications .row > .col-7,
   body .quasar-reset .row > .col-xs-7,
+  .q-notifications .row > .col-xs-7,
   body .quasar-reset .row > .col-8,
+  .q-notifications .row > .col-8,
   body .quasar-reset .row > .col-xs-8,
+  .q-notifications .row > .col-xs-8,
   body .quasar-reset .row > .col-9,
+  .q-notifications .row > .col-9,
   body .quasar-reset .row > .col-xs-9,
+  .q-notifications .row > .col-xs-9,
   body .quasar-reset .row > .col-10,
+  .q-notifications .row > .col-10,
   body .quasar-reset .row > .col-xs-10,
+  .q-notifications .row > .col-xs-10,
   body .quasar-reset .row > .col-11,
+  .q-notifications .row > .col-11,
   body .quasar-reset .row > .col-xs-11,
+  .q-notifications .row > .col-xs-11,
   body .quasar-reset .row > .col-12,
+  .q-notifications .row > .col-12,
   body .quasar-reset .row > .col-xs-12,
+  .q-notifications .row > .col-xs-12,
   body .quasar-reset .flex > .col,
+  .q-notifications .flex > .col,
   body .quasar-reset .flex > .col-xs,
+  .q-notifications .flex > .col-xs,
   body .quasar-reset .flex > .col-auto,
+  .q-notifications .flex > .col-auto,
   body .quasar-reset .flex > .col-xs-auto,
+  .q-notifications .flex > .col-xs-auto,
   body .quasar-reset .flex > .col-grow,
+  .q-notifications .flex > .col-grow,
   body .quasar-reset .flex > .col-xs-grow,
+  .q-notifications .flex > .col-xs-grow,
   body .quasar-reset .flex > .col-shrink,
+  .q-notifications .flex > .col-shrink,
   body .quasar-reset .flex > .col-xs-shrink,
+  .q-notifications .flex > .col-xs-shrink,
   body .quasar-reset .flex > .col-0,
+  .q-notifications .flex > .col-0,
   body .quasar-reset .flex > .col-xs-0,
+  .q-notifications .flex > .col-xs-0,
   body .quasar-reset .flex > .col-1,
+  .q-notifications .flex > .col-1,
   body .quasar-reset .flex > .col-xs-1,
+  .q-notifications .flex > .col-xs-1,
   body .quasar-reset .flex > .col-2,
+  .q-notifications .flex > .col-2,
   body .quasar-reset .flex > .col-xs-2,
+  .q-notifications .flex > .col-xs-2,
   body .quasar-reset .flex > .col-3,
+  .q-notifications .flex > .col-3,
   body .quasar-reset .flex > .col-xs-3,
+  .q-notifications .flex > .col-xs-3,
   body .quasar-reset .flex > .col-4,
+  .q-notifications .flex > .col-4,
   body .quasar-reset .flex > .col-xs-4,
+  .q-notifications .flex > .col-xs-4,
   body .quasar-reset .flex > .col-5,
+  .q-notifications .flex > .col-5,
   body .quasar-reset .flex > .col-xs-5,
+  .q-notifications .flex > .col-xs-5,
   body .quasar-reset .flex > .col-6,
+  .q-notifications .flex > .col-6,
   body .quasar-reset .flex > .col-xs-6,
+  .q-notifications .flex > .col-xs-6,
   body .quasar-reset .flex > .col-7,
+  .q-notifications .flex > .col-7,
   body .quasar-reset .flex > .col-xs-7,
+  .q-notifications .flex > .col-xs-7,
   body .quasar-reset .flex > .col-8,
+  .q-notifications .flex > .col-8,
   body .quasar-reset .flex > .col-xs-8,
+  .q-notifications .flex > .col-xs-8,
   body .quasar-reset .flex > .col-9,
+  .q-notifications .flex > .col-9,
   body .quasar-reset .flex > .col-xs-9,
+  .q-notifications .flex > .col-xs-9,
   body .quasar-reset .flex > .col-10,
+  .q-notifications .flex > .col-10,
   body .quasar-reset .flex > .col-xs-10,
+  .q-notifications .flex > .col-xs-10,
   body .quasar-reset .flex > .col-11,
+  .q-notifications .flex > .col-11,
   body .quasar-reset .flex > .col-xs-11,
+  .q-notifications .flex > .col-xs-11,
   body .quasar-reset .flex > .col-12,
-  body .quasar-reset .flex > .col-xs-12 {
+  .q-notifications .flex > .col-12,
+  body .quasar-reset .flex > .col-xs-12,
+  .q-notifications .flex > .col-xs-12 {
     width: auto;
     min-width: 0;
     max-width: 100%;
   }
   body .quasar-reset .column > .col,
+  .q-notifications .column > .col,
   body .quasar-reset .column > .col-xs,
+  .q-notifications .column > .col-xs,
   body .quasar-reset .column > .col-auto,
+  .q-notifications .column > .col-auto,
   body .quasar-reset .column > .col-xs-auto,
+  .q-notifications .column > .col-xs-auto,
   body .quasar-reset .column > .col-grow,
+  .q-notifications .column > .col-grow,
   body .quasar-reset .column > .col-xs-grow,
+  .q-notifications .column > .col-xs-grow,
   body .quasar-reset .column > .col-shrink,
+  .q-notifications .column > .col-shrink,
   body .quasar-reset .column > .col-xs-shrink,
+  .q-notifications .column > .col-xs-shrink,
   body .quasar-reset .column > .col-0,
+  .q-notifications .column > .col-0,
   body .quasar-reset .column > .col-xs-0,
+  .q-notifications .column > .col-xs-0,
   body .quasar-reset .column > .col-1,
+  .q-notifications .column > .col-1,
   body .quasar-reset .column > .col-xs-1,
+  .q-notifications .column > .col-xs-1,
   body .quasar-reset .column > .col-2,
+  .q-notifications .column > .col-2,
   body .quasar-reset .column > .col-xs-2,
+  .q-notifications .column > .col-xs-2,
   body .quasar-reset .column > .col-3,
+  .q-notifications .column > .col-3,
   body .quasar-reset .column > .col-xs-3,
+  .q-notifications .column > .col-xs-3,
   body .quasar-reset .column > .col-4,
+  .q-notifications .column > .col-4,
   body .quasar-reset .column > .col-xs-4,
+  .q-notifications .column > .col-xs-4,
   body .quasar-reset .column > .col-5,
+  .q-notifications .column > .col-5,
   body .quasar-reset .column > .col-xs-5,
+  .q-notifications .column > .col-xs-5,
   body .quasar-reset .column > .col-6,
+  .q-notifications .column > .col-6,
   body .quasar-reset .column > .col-xs-6,
+  .q-notifications .column > .col-xs-6,
   body .quasar-reset .column > .col-7,
+  .q-notifications .column > .col-7,
   body .quasar-reset .column > .col-xs-7,
+  .q-notifications .column > .col-xs-7,
   body .quasar-reset .column > .col-8,
+  .q-notifications .column > .col-8,
   body .quasar-reset .column > .col-xs-8,
+  .q-notifications .column > .col-xs-8,
   body .quasar-reset .column > .col-9,
+  .q-notifications .column > .col-9,
   body .quasar-reset .column > .col-xs-9,
+  .q-notifications .column > .col-xs-9,
   body .quasar-reset .column > .col-10,
+  .q-notifications .column > .col-10,
   body .quasar-reset .column > .col-xs-10,
+  .q-notifications .column > .col-xs-10,
   body .quasar-reset .column > .col-11,
+  .q-notifications .column > .col-11,
   body .quasar-reset .column > .col-xs-11,
+  .q-notifications .column > .col-xs-11,
   body .quasar-reset .column > .col-12,
+  .q-notifications .column > .col-12,
   body .quasar-reset .column > .col-xs-12,
+  .q-notifications .column > .col-xs-12,
   body .quasar-reset .flex > .col,
+  .q-notifications .flex > .col,
   body .quasar-reset .flex > .col-xs,
+  .q-notifications .flex > .col-xs,
   body .quasar-reset .flex > .col-auto,
+  .q-notifications .flex > .col-auto,
   body .quasar-reset .flex > .col-xs-auto,
+  .q-notifications .flex > .col-xs-auto,
   body .quasar-reset .flex > .col-grow,
+  .q-notifications .flex > .col-grow,
   body .quasar-reset .flex > .col-xs-grow,
+  .q-notifications .flex > .col-xs-grow,
   body .quasar-reset .flex > .col-shrink,
+  .q-notifications .flex > .col-shrink,
   body .quasar-reset .flex > .col-xs-shrink,
+  .q-notifications .flex > .col-xs-shrink,
   body .quasar-reset .flex > .col-0,
+  .q-notifications .flex > .col-0,
   body .quasar-reset .flex > .col-xs-0,
+  .q-notifications .flex > .col-xs-0,
   body .quasar-reset .flex > .col-1,
+  .q-notifications .flex > .col-1,
   body .quasar-reset .flex > .col-xs-1,
+  .q-notifications .flex > .col-xs-1,
   body .quasar-reset .flex > .col-2,
+  .q-notifications .flex > .col-2,
   body .quasar-reset .flex > .col-xs-2,
+  .q-notifications .flex > .col-xs-2,
   body .quasar-reset .flex > .col-3,
+  .q-notifications .flex > .col-3,
   body .quasar-reset .flex > .col-xs-3,
+  .q-notifications .flex > .col-xs-3,
   body .quasar-reset .flex > .col-4,
+  .q-notifications .flex > .col-4,
   body .quasar-reset .flex > .col-xs-4,
+  .q-notifications .flex > .col-xs-4,
   body .quasar-reset .flex > .col-5,
+  .q-notifications .flex > .col-5,
   body .quasar-reset .flex > .col-xs-5,
+  .q-notifications .flex > .col-xs-5,
   body .quasar-reset .flex > .col-6,
+  .q-notifications .flex > .col-6,
   body .quasar-reset .flex > .col-xs-6,
+  .q-notifications .flex > .col-xs-6,
   body .quasar-reset .flex > .col-7,
+  .q-notifications .flex > .col-7,
   body .quasar-reset .flex > .col-xs-7,
+  .q-notifications .flex > .col-xs-7,
   body .quasar-reset .flex > .col-8,
+  .q-notifications .flex > .col-8,
   body .quasar-reset .flex > .col-xs-8,
+  .q-notifications .flex > .col-xs-8,
   body .quasar-reset .flex > .col-9,
+  .q-notifications .flex > .col-9,
   body .quasar-reset .flex > .col-xs-9,
+  .q-notifications .flex > .col-xs-9,
   body .quasar-reset .flex > .col-10,
+  .q-notifications .flex > .col-10,
   body .quasar-reset .flex > .col-xs-10,
+  .q-notifications .flex > .col-xs-10,
   body .quasar-reset .flex > .col-11,
+  .q-notifications .flex > .col-11,
   body .quasar-reset .flex > .col-xs-11,
+  .q-notifications .flex > .col-xs-11,
   body .quasar-reset .flex > .col-12,
-  body .quasar-reset .flex > .col-xs-12 {
+  .q-notifications .flex > .col-12,
+  body .quasar-reset .flex > .col-xs-12,
+  .q-notifications .flex > .col-xs-12 {
     height: auto;
     min-height: 0;
     max-height: 100%;
   }
   body .quasar-reset .col,
-  body .quasar-reset .col-xs {
+  .q-notifications .col,
+  body .quasar-reset .col-xs,
+  .q-notifications .col-xs {
     flex: 10000 1 0%;
   }
   body .quasar-reset .col-auto,
+  .q-notifications .col-auto,
   body .quasar-reset .col-xs-auto,
+  .q-notifications .col-xs-auto,
   body .quasar-reset .col-0,
+  .q-notifications .col-0,
   body .quasar-reset .col-xs-0,
+  .q-notifications .col-xs-0,
   body .quasar-reset .col-1,
+  .q-notifications .col-1,
   body .quasar-reset .col-xs-1,
+  .q-notifications .col-xs-1,
   body .quasar-reset .col-2,
+  .q-notifications .col-2,
   body .quasar-reset .col-xs-2,
+  .q-notifications .col-xs-2,
   body .quasar-reset .col-3,
+  .q-notifications .col-3,
   body .quasar-reset .col-xs-3,
+  .q-notifications .col-xs-3,
   body .quasar-reset .col-4,
+  .q-notifications .col-4,
   body .quasar-reset .col-xs-4,
+  .q-notifications .col-xs-4,
   body .quasar-reset .col-5,
+  .q-notifications .col-5,
   body .quasar-reset .col-xs-5,
+  .q-notifications .col-xs-5,
   body .quasar-reset .col-6,
+  .q-notifications .col-6,
   body .quasar-reset .col-xs-6,
+  .q-notifications .col-xs-6,
   body .quasar-reset .col-7,
+  .q-notifications .col-7,
   body .quasar-reset .col-xs-7,
+  .q-notifications .col-xs-7,
   body .quasar-reset .col-8,
+  .q-notifications .col-8,
   body .quasar-reset .col-xs-8,
+  .q-notifications .col-xs-8,
   body .quasar-reset .col-9,
+  .q-notifications .col-9,
   body .quasar-reset .col-xs-9,
+  .q-notifications .col-xs-9,
   body .quasar-reset .col-10,
+  .q-notifications .col-10,
   body .quasar-reset .col-xs-10,
+  .q-notifications .col-xs-10,
   body .quasar-reset .col-11,
+  .q-notifications .col-11,
   body .quasar-reset .col-xs-11,
+  .q-notifications .col-xs-11,
   body .quasar-reset .col-12,
-  body .quasar-reset .col-xs-12 {
+  .q-notifications .col-12,
+  body .quasar-reset .col-xs-12,
+  .q-notifications .col-xs-12 {
     flex: 0 0 auto;
   }
   body .quasar-reset .col-grow,
-  body .quasar-reset .col-xs-grow {
+  .q-notifications .col-grow,
+  body .quasar-reset .col-xs-grow,
+  .q-notifications .col-xs-grow {
     flex: 1 0 auto;
   }
   body .quasar-reset .col-shrink,
-  body .quasar-reset .col-xs-shrink {
+  .q-notifications .col-shrink,
+  body .quasar-reset .col-xs-shrink,
+  .q-notifications .col-xs-shrink {
     flex: 0 1 auto;
   }
   body .quasar-reset .row > .col-0,
-  body .quasar-reset .row > .col-xs-0 {
+  .q-notifications .row > .col-0,
+  body .quasar-reset .row > .col-xs-0,
+  .q-notifications .row > .col-xs-0 {
     height: auto;
     width: 0%;
   }
   body .quasar-reset .row > .offset-0,
-  body .quasar-reset .row > .offset-xs-0 {
+  .q-notifications .row > .offset-0,
+  body .quasar-reset .row > .offset-xs-0,
+  .q-notifications .row > .offset-xs-0 {
     margin-left: 0%;
   }
   body .quasar-reset .column > .col-0,
-  body .quasar-reset .column > .col-xs-0 {
+  .q-notifications .column > .col-0,
+  body .quasar-reset .column > .col-xs-0,
+  .q-notifications .column > .col-xs-0 {
     height: 0%;
     width: auto;
   }
   body .quasar-reset .row > .col-1,
-  body .quasar-reset .row > .col-xs-1 {
+  .q-notifications .row > .col-1,
+  body .quasar-reset .row > .col-xs-1,
+  .q-notifications .row > .col-xs-1 {
     height: auto;
     width: 8.3333%;
   }
   body .quasar-reset .row > .offset-1,
-  body .quasar-reset .row > .offset-xs-1 {
+  .q-notifications .row > .offset-1,
+  body .quasar-reset .row > .offset-xs-1,
+  .q-notifications .row > .offset-xs-1 {
     margin-left: 8.3333%;
   }
   body .quasar-reset .column > .col-1,
-  body .quasar-reset .column > .col-xs-1 {
+  .q-notifications .column > .col-1,
+  body .quasar-reset .column > .col-xs-1,
+  .q-notifications .column > .col-xs-1 {
     height: 8.3333%;
     width: auto;
   }
   body .quasar-reset .row > .col-2,
-  body .quasar-reset .row > .col-xs-2 {
+  .q-notifications .row > .col-2,
+  body .quasar-reset .row > .col-xs-2,
+  .q-notifications .row > .col-xs-2 {
     height: auto;
     width: 16.6667%;
   }
   body .quasar-reset .row > .offset-2,
-  body .quasar-reset .row > .offset-xs-2 {
+  .q-notifications .row > .offset-2,
+  body .quasar-reset .row > .offset-xs-2,
+  .q-notifications .row > .offset-xs-2 {
     margin-left: 16.6667%;
   }
   body .quasar-reset .column > .col-2,
-  body .quasar-reset .column > .col-xs-2 {
+  .q-notifications .column > .col-2,
+  body .quasar-reset .column > .col-xs-2,
+  .q-notifications .column > .col-xs-2 {
     height: 16.6667%;
     width: auto;
   }
   body .quasar-reset .row > .col-3,
-  body .quasar-reset .row > .col-xs-3 {
+  .q-notifications .row > .col-3,
+  body .quasar-reset .row > .col-xs-3,
+  .q-notifications .row > .col-xs-3 {
     height: auto;
     width: 25%;
   }
   body .quasar-reset .row > .offset-3,
-  body .quasar-reset .row > .offset-xs-3 {
+  .q-notifications .row > .offset-3,
+  body .quasar-reset .row > .offset-xs-3,
+  .q-notifications .row > .offset-xs-3 {
     margin-left: 25%;
   }
   body .quasar-reset .column > .col-3,
-  body .quasar-reset .column > .col-xs-3 {
+  .q-notifications .column > .col-3,
+  body .quasar-reset .column > .col-xs-3,
+  .q-notifications .column > .col-xs-3 {
     height: 25%;
     width: auto;
   }
   body .quasar-reset .row > .col-4,
-  body .quasar-reset .row > .col-xs-4 {
+  .q-notifications .row > .col-4,
+  body .quasar-reset .row > .col-xs-4,
+  .q-notifications .row > .col-xs-4 {
     height: auto;
     width: 33.3333%;
   }
   body .quasar-reset .row > .offset-4,
-  body .quasar-reset .row > .offset-xs-4 {
+  .q-notifications .row > .offset-4,
+  body .quasar-reset .row > .offset-xs-4,
+  .q-notifications .row > .offset-xs-4 {
     margin-left: 33.3333%;
   }
   body .quasar-reset .column > .col-4,
-  body .quasar-reset .column > .col-xs-4 {
+  .q-notifications .column > .col-4,
+  body .quasar-reset .column > .col-xs-4,
+  .q-notifications .column > .col-xs-4 {
     height: 33.3333%;
     width: auto;
   }
   body .quasar-reset .row > .col-5,
-  body .quasar-reset .row > .col-xs-5 {
+  .q-notifications .row > .col-5,
+  body .quasar-reset .row > .col-xs-5,
+  .q-notifications .row > .col-xs-5 {
     height: auto;
     width: 41.6667%;
   }
   body .quasar-reset .row > .offset-5,
-  body .quasar-reset .row > .offset-xs-5 {
+  .q-notifications .row > .offset-5,
+  body .quasar-reset .row > .offset-xs-5,
+  .q-notifications .row > .offset-xs-5 {
     margin-left: 41.6667%;
   }
   body .quasar-reset .column > .col-5,
-  body .quasar-reset .column > .col-xs-5 {
+  .q-notifications .column > .col-5,
+  body .quasar-reset .column > .col-xs-5,
+  .q-notifications .column > .col-xs-5 {
     height: 41.6667%;
     width: auto;
   }
   body .quasar-reset .row > .col-6,
-  body .quasar-reset .row > .col-xs-6 {
+  .q-notifications .row > .col-6,
+  body .quasar-reset .row > .col-xs-6,
+  .q-notifications .row > .col-xs-6 {
     height: auto;
     width: 50%;
   }
   body .quasar-reset .row > .offset-6,
-  body .quasar-reset .row > .offset-xs-6 {
+  .q-notifications .row > .offset-6,
+  body .quasar-reset .row > .offset-xs-6,
+  .q-notifications .row > .offset-xs-6 {
     margin-left: 50%;
   }
   body .quasar-reset .column > .col-6,
-  body .quasar-reset .column > .col-xs-6 {
+  .q-notifications .column > .col-6,
+  body .quasar-reset .column > .col-xs-6,
+  .q-notifications .column > .col-xs-6 {
     height: 50%;
     width: auto;
   }
   body .quasar-reset .row > .col-7,
-  body .quasar-reset .row > .col-xs-7 {
+  .q-notifications .row > .col-7,
+  body .quasar-reset .row > .col-xs-7,
+  .q-notifications .row > .col-xs-7 {
     height: auto;
     width: 58.3333%;
   }
   body .quasar-reset .row > .offset-7,
-  body .quasar-reset .row > .offset-xs-7 {
+  .q-notifications .row > .offset-7,
+  body .quasar-reset .row > .offset-xs-7,
+  .q-notifications .row > .offset-xs-7 {
     margin-left: 58.3333%;
   }
   body .quasar-reset .column > .col-7,
-  body .quasar-reset .column > .col-xs-7 {
+  .q-notifications .column > .col-7,
+  body .quasar-reset .column > .col-xs-7,
+  .q-notifications .column > .col-xs-7 {
     height: 58.3333%;
     width: auto;
   }
   body .quasar-reset .row > .col-8,
-  body .quasar-reset .row > .col-xs-8 {
+  .q-notifications .row > .col-8,
+  body .quasar-reset .row > .col-xs-8,
+  .q-notifications .row > .col-xs-8 {
     height: auto;
     width: 66.6667%;
   }
   body .quasar-reset .row > .offset-8,
-  body .quasar-reset .row > .offset-xs-8 {
+  .q-notifications .row > .offset-8,
+  body .quasar-reset .row > .offset-xs-8,
+  .q-notifications .row > .offset-xs-8 {
     margin-left: 66.6667%;
   }
   body .quasar-reset .column > .col-8,
-  body .quasar-reset .column > .col-xs-8 {
+  .q-notifications .column > .col-8,
+  body .quasar-reset .column > .col-xs-8,
+  .q-notifications .column > .col-xs-8 {
     height: 66.6667%;
     width: auto;
   }
   body .quasar-reset .row > .col-9,
-  body .quasar-reset .row > .col-xs-9 {
+  .q-notifications .row > .col-9,
+  body .quasar-reset .row > .col-xs-9,
+  .q-notifications .row > .col-xs-9 {
     height: auto;
     width: 75%;
   }
   body .quasar-reset .row > .offset-9,
-  body .quasar-reset .row > .offset-xs-9 {
+  .q-notifications .row > .offset-9,
+  body .quasar-reset .row > .offset-xs-9,
+  .q-notifications .row > .offset-xs-9 {
     margin-left: 75%;
   }
   body .quasar-reset .column > .col-9,
-  body .quasar-reset .column > .col-xs-9 {
+  .q-notifications .column > .col-9,
+  body .quasar-reset .column > .col-xs-9,
+  .q-notifications .column > .col-xs-9 {
     height: 75%;
     width: auto;
   }
   body .quasar-reset .row > .col-10,
-  body .quasar-reset .row > .col-xs-10 {
+  .q-notifications .row > .col-10,
+  body .quasar-reset .row > .col-xs-10,
+  .q-notifications .row > .col-xs-10 {
     height: auto;
     width: 83.3333%;
   }
   body .quasar-reset .row > .offset-10,
-  body .quasar-reset .row > .offset-xs-10 {
+  .q-notifications .row > .offset-10,
+  body .quasar-reset .row > .offset-xs-10,
+  .q-notifications .row > .offset-xs-10 {
     margin-left: 83.3333%;
   }
   body .quasar-reset .column > .col-10,
-  body .quasar-reset .column > .col-xs-10 {
+  .q-notifications .column > .col-10,
+  body .quasar-reset .column > .col-xs-10,
+  .q-notifications .column > .col-xs-10 {
     height: 83.3333%;
     width: auto;
   }
   body .quasar-reset .row > .col-11,
-  body .quasar-reset .row > .col-xs-11 {
+  .q-notifications .row > .col-11,
+  body .quasar-reset .row > .col-xs-11,
+  .q-notifications .row > .col-xs-11 {
     height: auto;
     width: 91.6667%;
   }
   body .quasar-reset .row > .offset-11,
-  body .quasar-reset .row > .offset-xs-11 {
+  .q-notifications .row > .offset-11,
+  body .quasar-reset .row > .offset-xs-11,
+  .q-notifications .row > .offset-xs-11 {
     margin-left: 91.6667%;
   }
   body .quasar-reset .column > .col-11,
-  body .quasar-reset .column > .col-xs-11 {
+  .q-notifications .column > .col-11,
+  body .quasar-reset .column > .col-xs-11,
+  .q-notifications .column > .col-xs-11 {
     height: 91.6667%;
     width: auto;
   }
   body .quasar-reset .row > .col-12,
-  body .quasar-reset .row > .col-xs-12 {
+  .q-notifications .row > .col-12,
+  body .quasar-reset .row > .col-xs-12,
+  .q-notifications .row > .col-xs-12 {
     height: auto;
     width: 100%;
   }
   body .quasar-reset .row > .offset-12,
-  body .quasar-reset .row > .offset-xs-12 {
+  .q-notifications .row > .offset-12,
+  body .quasar-reset .row > .offset-xs-12,
+  .q-notifications .row > .offset-xs-12 {
     margin-left: 100%;
   }
   body .quasar-reset .column > .col-12,
-  body .quasar-reset .column > .col-xs-12 {
+  .q-notifications .column > .col-12,
+  body .quasar-reset .column > .col-xs-12,
+  .q-notifications .column > .col-xs-12 {
     height: 100%;
     width: auto;
   }
-  body .quasar-reset .row > .col-all {
+  body .quasar-reset .row > .col-all,
+  .q-notifications .row > .col-all {
     height: auto;
     flex: 0 0 100%;
   }
 }
 @media (min-width: 600px) {
   body .quasar-reset .row > .col-sm,
+  .q-notifications .row > .col-sm,
   body .quasar-reset .row > .col-sm-auto,
+  .q-notifications .row > .col-sm-auto,
   body .quasar-reset .row > .col-sm-grow,
+  .q-notifications .row > .col-sm-grow,
   body .quasar-reset .row > .col-sm-shrink,
+  .q-notifications .row > .col-sm-shrink,
   body .quasar-reset .row > .col-sm-0,
+  .q-notifications .row > .col-sm-0,
   body .quasar-reset .row > .col-sm-1,
+  .q-notifications .row > .col-sm-1,
   body .quasar-reset .row > .col-sm-2,
+  .q-notifications .row > .col-sm-2,
   body .quasar-reset .row > .col-sm-3,
+  .q-notifications .row > .col-sm-3,
   body .quasar-reset .row > .col-sm-4,
+  .q-notifications .row > .col-sm-4,
   body .quasar-reset .row > .col-sm-5,
+  .q-notifications .row > .col-sm-5,
   body .quasar-reset .row > .col-sm-6,
+  .q-notifications .row > .col-sm-6,
   body .quasar-reset .row > .col-sm-7,
+  .q-notifications .row > .col-sm-7,
   body .quasar-reset .row > .col-sm-8,
+  .q-notifications .row > .col-sm-8,
   body .quasar-reset .row > .col-sm-9,
+  .q-notifications .row > .col-sm-9,
   body .quasar-reset .row > .col-sm-10,
+  .q-notifications .row > .col-sm-10,
   body .quasar-reset .row > .col-sm-11,
+  .q-notifications .row > .col-sm-11,
   body .quasar-reset .row > .col-sm-12,
+  .q-notifications .row > .col-sm-12,
   body .quasar-reset .flex > .col-sm,
+  .q-notifications .flex > .col-sm,
   body .quasar-reset .flex > .col-sm-auto,
+  .q-notifications .flex > .col-sm-auto,
   body .quasar-reset .flex > .col-sm-grow,
+  .q-notifications .flex > .col-sm-grow,
   body .quasar-reset .flex > .col-sm-shrink,
+  .q-notifications .flex > .col-sm-shrink,
   body .quasar-reset .flex > .col-sm-0,
+  .q-notifications .flex > .col-sm-0,
   body .quasar-reset .flex > .col-sm-1,
+  .q-notifications .flex > .col-sm-1,
   body .quasar-reset .flex > .col-sm-2,
+  .q-notifications .flex > .col-sm-2,
   body .quasar-reset .flex > .col-sm-3,
+  .q-notifications .flex > .col-sm-3,
   body .quasar-reset .flex > .col-sm-4,
+  .q-notifications .flex > .col-sm-4,
   body .quasar-reset .flex > .col-sm-5,
+  .q-notifications .flex > .col-sm-5,
   body .quasar-reset .flex > .col-sm-6,
+  .q-notifications .flex > .col-sm-6,
   body .quasar-reset .flex > .col-sm-7,
+  .q-notifications .flex > .col-sm-7,
   body .quasar-reset .flex > .col-sm-8,
+  .q-notifications .flex > .col-sm-8,
   body .quasar-reset .flex > .col-sm-9,
+  .q-notifications .flex > .col-sm-9,
   body .quasar-reset .flex > .col-sm-10,
+  .q-notifications .flex > .col-sm-10,
   body .quasar-reset .flex > .col-sm-11,
-  body .quasar-reset .flex > .col-sm-12 {
+  .q-notifications .flex > .col-sm-11,
+  body .quasar-reset .flex > .col-sm-12,
+  .q-notifications .flex > .col-sm-12 {
     width: auto;
     min-width: 0;
     max-width: 100%;
   }
   body .quasar-reset .column > .col-sm,
+  .q-notifications .column > .col-sm,
   body .quasar-reset .column > .col-sm-auto,
+  .q-notifications .column > .col-sm-auto,
   body .quasar-reset .column > .col-sm-grow,
+  .q-notifications .column > .col-sm-grow,
   body .quasar-reset .column > .col-sm-shrink,
+  .q-notifications .column > .col-sm-shrink,
   body .quasar-reset .column > .col-sm-0,
+  .q-notifications .column > .col-sm-0,
   body .quasar-reset .column > .col-sm-1,
+  .q-notifications .column > .col-sm-1,
   body .quasar-reset .column > .col-sm-2,
+  .q-notifications .column > .col-sm-2,
   body .quasar-reset .column > .col-sm-3,
+  .q-notifications .column > .col-sm-3,
   body .quasar-reset .column > .col-sm-4,
+  .q-notifications .column > .col-sm-4,
   body .quasar-reset .column > .col-sm-5,
+  .q-notifications .column > .col-sm-5,
   body .quasar-reset .column > .col-sm-6,
+  .q-notifications .column > .col-sm-6,
   body .quasar-reset .column > .col-sm-7,
+  .q-notifications .column > .col-sm-7,
   body .quasar-reset .column > .col-sm-8,
+  .q-notifications .column > .col-sm-8,
   body .quasar-reset .column > .col-sm-9,
+  .q-notifications .column > .col-sm-9,
   body .quasar-reset .column > .col-sm-10,
+  .q-notifications .column > .col-sm-10,
   body .quasar-reset .column > .col-sm-11,
+  .q-notifications .column > .col-sm-11,
   body .quasar-reset .column > .col-sm-12,
+  .q-notifications .column > .col-sm-12,
   body .quasar-reset .flex > .col-sm,
+  .q-notifications .flex > .col-sm,
   body .quasar-reset .flex > .col-sm-auto,
+  .q-notifications .flex > .col-sm-auto,
   body .quasar-reset .flex > .col-sm-grow,
+  .q-notifications .flex > .col-sm-grow,
   body .quasar-reset .flex > .col-sm-shrink,
+  .q-notifications .flex > .col-sm-shrink,
   body .quasar-reset .flex > .col-sm-0,
+  .q-notifications .flex > .col-sm-0,
   body .quasar-reset .flex > .col-sm-1,
+  .q-notifications .flex > .col-sm-1,
   body .quasar-reset .flex > .col-sm-2,
+  .q-notifications .flex > .col-sm-2,
   body .quasar-reset .flex > .col-sm-3,
+  .q-notifications .flex > .col-sm-3,
   body .quasar-reset .flex > .col-sm-4,
+  .q-notifications .flex > .col-sm-4,
   body .quasar-reset .flex > .col-sm-5,
+  .q-notifications .flex > .col-sm-5,
   body .quasar-reset .flex > .col-sm-6,
+  .q-notifications .flex > .col-sm-6,
   body .quasar-reset .flex > .col-sm-7,
+  .q-notifications .flex > .col-sm-7,
   body .quasar-reset .flex > .col-sm-8,
+  .q-notifications .flex > .col-sm-8,
   body .quasar-reset .flex > .col-sm-9,
+  .q-notifications .flex > .col-sm-9,
   body .quasar-reset .flex > .col-sm-10,
+  .q-notifications .flex > .col-sm-10,
   body .quasar-reset .flex > .col-sm-11,
-  body .quasar-reset .flex > .col-sm-12 {
+  .q-notifications .flex > .col-sm-11,
+  body .quasar-reset .flex > .col-sm-12,
+  .q-notifications .flex > .col-sm-12 {
     height: auto;
     min-height: 0;
     max-height: 100%;
   }
-  body .quasar-reset .col-sm {
+  body .quasar-reset .col-sm,
+  .q-notifications .col-sm {
     flex: 10000 1 0%;
   }
   body .quasar-reset .col-sm-auto,
+  .q-notifications .col-sm-auto,
   body .quasar-reset .col-sm-0,
+  .q-notifications .col-sm-0,
   body .quasar-reset .col-sm-1,
+  .q-notifications .col-sm-1,
   body .quasar-reset .col-sm-2,
+  .q-notifications .col-sm-2,
   body .quasar-reset .col-sm-3,
+  .q-notifications .col-sm-3,
   body .quasar-reset .col-sm-4,
+  .q-notifications .col-sm-4,
   body .quasar-reset .col-sm-5,
+  .q-notifications .col-sm-5,
   body .quasar-reset .col-sm-6,
+  .q-notifications .col-sm-6,
   body .quasar-reset .col-sm-7,
+  .q-notifications .col-sm-7,
   body .quasar-reset .col-sm-8,
+  .q-notifications .col-sm-8,
   body .quasar-reset .col-sm-9,
+  .q-notifications .col-sm-9,
   body .quasar-reset .col-sm-10,
+  .q-notifications .col-sm-10,
   body .quasar-reset .col-sm-11,
-  body .quasar-reset .col-sm-12 {
+  .q-notifications .col-sm-11,
+  body .quasar-reset .col-sm-12,
+  .q-notifications .col-sm-12 {
     flex: 0 0 auto;
   }
-  body .quasar-reset .col-sm-grow {
+  body .quasar-reset .col-sm-grow,
+  .q-notifications .col-sm-grow {
     flex: 1 0 auto;
   }
-  body .quasar-reset .col-sm-shrink {
+  body .quasar-reset .col-sm-shrink,
+  .q-notifications .col-sm-shrink {
     flex: 0 1 auto;
   }
-  body .quasar-reset .row > .col-sm-0 {
+  body .quasar-reset .row > .col-sm-0,
+  .q-notifications .row > .col-sm-0 {
     height: auto;
     width: 0%;
   }
-  body .quasar-reset .row > .offset-sm-0 {
+  body .quasar-reset .row > .offset-sm-0,
+  .q-notifications .row > .offset-sm-0 {
     margin-left: 0%;
   }
-  body .quasar-reset .column > .col-sm-0 {
+  body .quasar-reset .column > .col-sm-0,
+  .q-notifications .column > .col-sm-0 {
     height: 0%;
     width: auto;
   }
-  body .quasar-reset .row > .col-sm-1 {
+  body .quasar-reset .row > .col-sm-1,
+  .q-notifications .row > .col-sm-1 {
     height: auto;
     width: 8.3333%;
   }
-  body .quasar-reset .row > .offset-sm-1 {
+  body .quasar-reset .row > .offset-sm-1,
+  .q-notifications .row > .offset-sm-1 {
     margin-left: 8.3333%;
   }
-  body .quasar-reset .column > .col-sm-1 {
+  body .quasar-reset .column > .col-sm-1,
+  .q-notifications .column > .col-sm-1 {
     height: 8.3333%;
     width: auto;
   }
-  body .quasar-reset .row > .col-sm-2 {
+  body .quasar-reset .row > .col-sm-2,
+  .q-notifications .row > .col-sm-2 {
     height: auto;
     width: 16.6667%;
   }
-  body .quasar-reset .row > .offset-sm-2 {
+  body .quasar-reset .row > .offset-sm-2,
+  .q-notifications .row > .offset-sm-2 {
     margin-left: 16.6667%;
   }
-  body .quasar-reset .column > .col-sm-2 {
+  body .quasar-reset .column > .col-sm-2,
+  .q-notifications .column > .col-sm-2 {
     height: 16.6667%;
     width: auto;
   }
-  body .quasar-reset .row > .col-sm-3 {
+  body .quasar-reset .row > .col-sm-3,
+  .q-notifications .row > .col-sm-3 {
     height: auto;
     width: 25%;
   }
-  body .quasar-reset .row > .offset-sm-3 {
+  body .quasar-reset .row > .offset-sm-3,
+  .q-notifications .row > .offset-sm-3 {
     margin-left: 25%;
   }
-  body .quasar-reset .column > .col-sm-3 {
+  body .quasar-reset .column > .col-sm-3,
+  .q-notifications .column > .col-sm-3 {
     height: 25%;
     width: auto;
   }
-  body .quasar-reset .row > .col-sm-4 {
+  body .quasar-reset .row > .col-sm-4,
+  .q-notifications .row > .col-sm-4 {
     height: auto;
     width: 33.3333%;
   }
-  body .quasar-reset .row > .offset-sm-4 {
+  body .quasar-reset .row > .offset-sm-4,
+  .q-notifications .row > .offset-sm-4 {
     margin-left: 33.3333%;
   }
-  body .quasar-reset .column > .col-sm-4 {
+  body .quasar-reset .column > .col-sm-4,
+  .q-notifications .column > .col-sm-4 {
     height: 33.3333%;
     width: auto;
   }
-  body .quasar-reset .row > .col-sm-5 {
+  body .quasar-reset .row > .col-sm-5,
+  .q-notifications .row > .col-sm-5 {
     height: auto;
     width: 41.6667%;
   }
-  body .quasar-reset .row > .offset-sm-5 {
+  body .quasar-reset .row > .offset-sm-5,
+  .q-notifications .row > .offset-sm-5 {
     margin-left: 41.6667%;
   }
-  body .quasar-reset .column > .col-sm-5 {
+  body .quasar-reset .column > .col-sm-5,
+  .q-notifications .column > .col-sm-5 {
     height: 41.6667%;
     width: auto;
   }
-  body .quasar-reset .row > .col-sm-6 {
+  body .quasar-reset .row > .col-sm-6,
+  .q-notifications .row > .col-sm-6 {
     height: auto;
     width: 50%;
   }
-  body .quasar-reset .row > .offset-sm-6 {
+  body .quasar-reset .row > .offset-sm-6,
+  .q-notifications .row > .offset-sm-6 {
     margin-left: 50%;
   }
-  body .quasar-reset .column > .col-sm-6 {
+  body .quasar-reset .column > .col-sm-6,
+  .q-notifications .column > .col-sm-6 {
     height: 50%;
     width: auto;
   }
-  body .quasar-reset .row > .col-sm-7 {
+  body .quasar-reset .row > .col-sm-7,
+  .q-notifications .row > .col-sm-7 {
     height: auto;
     width: 58.3333%;
   }
-  body .quasar-reset .row > .offset-sm-7 {
+  body .quasar-reset .row > .offset-sm-7,
+  .q-notifications .row > .offset-sm-7 {
     margin-left: 58.3333%;
   }
-  body .quasar-reset .column > .col-sm-7 {
+  body .quasar-reset .column > .col-sm-7,
+  .q-notifications .column > .col-sm-7 {
     height: 58.3333%;
     width: auto;
   }
-  body .quasar-reset .row > .col-sm-8 {
+  body .quasar-reset .row > .col-sm-8,
+  .q-notifications .row > .col-sm-8 {
     height: auto;
     width: 66.6667%;
   }
-  body .quasar-reset .row > .offset-sm-8 {
+  body .quasar-reset .row > .offset-sm-8,
+  .q-notifications .row > .offset-sm-8 {
     margin-left: 66.6667%;
   }
-  body .quasar-reset .column > .col-sm-8 {
+  body .quasar-reset .column > .col-sm-8,
+  .q-notifications .column > .col-sm-8 {
     height: 66.6667%;
     width: auto;
   }
-  body .quasar-reset .row > .col-sm-9 {
+  body .quasar-reset .row > .col-sm-9,
+  .q-notifications .row > .col-sm-9 {
     height: auto;
     width: 75%;
   }
-  body .quasar-reset .row > .offset-sm-9 {
+  body .quasar-reset .row > .offset-sm-9,
+  .q-notifications .row > .offset-sm-9 {
     margin-left: 75%;
   }
-  body .quasar-reset .column > .col-sm-9 {
+  body .quasar-reset .column > .col-sm-9,
+  .q-notifications .column > .col-sm-9 {
     height: 75%;
     width: auto;
   }
-  body .quasar-reset .row > .col-sm-10 {
+  body .quasar-reset .row > .col-sm-10,
+  .q-notifications .row > .col-sm-10 {
     height: auto;
     width: 83.3333%;
   }
-  body .quasar-reset .row > .offset-sm-10 {
+  body .quasar-reset .row > .offset-sm-10,
+  .q-notifications .row > .offset-sm-10 {
     margin-left: 83.3333%;
   }
-  body .quasar-reset .column > .col-sm-10 {
+  body .quasar-reset .column > .col-sm-10,
+  .q-notifications .column > .col-sm-10 {
     height: 83.3333%;
     width: auto;
   }
-  body .quasar-reset .row > .col-sm-11 {
+  body .quasar-reset .row > .col-sm-11,
+  .q-notifications .row > .col-sm-11 {
     height: auto;
     width: 91.6667%;
   }
-  body .quasar-reset .row > .offset-sm-11 {
+  body .quasar-reset .row > .offset-sm-11,
+  .q-notifications .row > .offset-sm-11 {
     margin-left: 91.6667%;
   }
-  body .quasar-reset .column > .col-sm-11 {
+  body .quasar-reset .column > .col-sm-11,
+  .q-notifications .column > .col-sm-11 {
     height: 91.6667%;
     width: auto;
   }
-  body .quasar-reset .row > .col-sm-12 {
+  body .quasar-reset .row > .col-sm-12,
+  .q-notifications .row > .col-sm-12 {
     height: auto;
     width: 100%;
   }
-  body .quasar-reset .row > .offset-sm-12 {
+  body .quasar-reset .row > .offset-sm-12,
+  .q-notifications .row > .offset-sm-12 {
     margin-left: 100%;
   }
-  body .quasar-reset .column > .col-sm-12 {
+  body .quasar-reset .column > .col-sm-12,
+  .q-notifications .column > .col-sm-12 {
     height: 100%;
     width: auto;
   }
 }
 @media (min-width: 1024px) {
   body .quasar-reset .row > .col-md,
+  .q-notifications .row > .col-md,
   body .quasar-reset .row > .col-md-auto,
+  .q-notifications .row > .col-md-auto,
   body .quasar-reset .row > .col-md-grow,
+  .q-notifications .row > .col-md-grow,
   body .quasar-reset .row > .col-md-shrink,
+  .q-notifications .row > .col-md-shrink,
   body .quasar-reset .row > .col-md-0,
+  .q-notifications .row > .col-md-0,
   body .quasar-reset .row > .col-md-1,
+  .q-notifications .row > .col-md-1,
   body .quasar-reset .row > .col-md-2,
+  .q-notifications .row > .col-md-2,
   body .quasar-reset .row > .col-md-3,
+  .q-notifications .row > .col-md-3,
   body .quasar-reset .row > .col-md-4,
+  .q-notifications .row > .col-md-4,
   body .quasar-reset .row > .col-md-5,
+  .q-notifications .row > .col-md-5,
   body .quasar-reset .row > .col-md-6,
+  .q-notifications .row > .col-md-6,
   body .quasar-reset .row > .col-md-7,
+  .q-notifications .row > .col-md-7,
   body .quasar-reset .row > .col-md-8,
+  .q-notifications .row > .col-md-8,
   body .quasar-reset .row > .col-md-9,
+  .q-notifications .row > .col-md-9,
   body .quasar-reset .row > .col-md-10,
+  .q-notifications .row > .col-md-10,
   body .quasar-reset .row > .col-md-11,
+  .q-notifications .row > .col-md-11,
   body .quasar-reset .row > .col-md-12,
+  .q-notifications .row > .col-md-12,
   body .quasar-reset .flex > .col-md,
+  .q-notifications .flex > .col-md,
   body .quasar-reset .flex > .col-md-auto,
+  .q-notifications .flex > .col-md-auto,
   body .quasar-reset .flex > .col-md-grow,
+  .q-notifications .flex > .col-md-grow,
   body .quasar-reset .flex > .col-md-shrink,
+  .q-notifications .flex > .col-md-shrink,
   body .quasar-reset .flex > .col-md-0,
+  .q-notifications .flex > .col-md-0,
   body .quasar-reset .flex > .col-md-1,
+  .q-notifications .flex > .col-md-1,
   body .quasar-reset .flex > .col-md-2,
+  .q-notifications .flex > .col-md-2,
   body .quasar-reset .flex > .col-md-3,
+  .q-notifications .flex > .col-md-3,
   body .quasar-reset .flex > .col-md-4,
+  .q-notifications .flex > .col-md-4,
   body .quasar-reset .flex > .col-md-5,
+  .q-notifications .flex > .col-md-5,
   body .quasar-reset .flex > .col-md-6,
+  .q-notifications .flex > .col-md-6,
   body .quasar-reset .flex > .col-md-7,
+  .q-notifications .flex > .col-md-7,
   body .quasar-reset .flex > .col-md-8,
+  .q-notifications .flex > .col-md-8,
   body .quasar-reset .flex > .col-md-9,
+  .q-notifications .flex > .col-md-9,
   body .quasar-reset .flex > .col-md-10,
+  .q-notifications .flex > .col-md-10,
   body .quasar-reset .flex > .col-md-11,
-  body .quasar-reset .flex > .col-md-12 {
+  .q-notifications .flex > .col-md-11,
+  body .quasar-reset .flex > .col-md-12,
+  .q-notifications .flex > .col-md-12 {
     width: auto;
     min-width: 0;
     max-width: 100%;
   }
   body .quasar-reset .column > .col-md,
+  .q-notifications .column > .col-md,
   body .quasar-reset .column > .col-md-auto,
+  .q-notifications .column > .col-md-auto,
   body .quasar-reset .column > .col-md-grow,
+  .q-notifications .column > .col-md-grow,
   body .quasar-reset .column > .col-md-shrink,
+  .q-notifications .column > .col-md-shrink,
   body .quasar-reset .column > .col-md-0,
+  .q-notifications .column > .col-md-0,
   body .quasar-reset .column > .col-md-1,
+  .q-notifications .column > .col-md-1,
   body .quasar-reset .column > .col-md-2,
+  .q-notifications .column > .col-md-2,
   body .quasar-reset .column > .col-md-3,
+  .q-notifications .column > .col-md-3,
   body .quasar-reset .column > .col-md-4,
+  .q-notifications .column > .col-md-4,
   body .quasar-reset .column > .col-md-5,
+  .q-notifications .column > .col-md-5,
   body .quasar-reset .column > .col-md-6,
+  .q-notifications .column > .col-md-6,
   body .quasar-reset .column > .col-md-7,
+  .q-notifications .column > .col-md-7,
   body .quasar-reset .column > .col-md-8,
+  .q-notifications .column > .col-md-8,
   body .quasar-reset .column > .col-md-9,
+  .q-notifications .column > .col-md-9,
   body .quasar-reset .column > .col-md-10,
+  .q-notifications .column > .col-md-10,
   body .quasar-reset .column > .col-md-11,
+  .q-notifications .column > .col-md-11,
   body .quasar-reset .column > .col-md-12,
+  .q-notifications .column > .col-md-12,
   body .quasar-reset .flex > .col-md,
+  .q-notifications .flex > .col-md,
   body .quasar-reset .flex > .col-md-auto,
+  .q-notifications .flex > .col-md-auto,
   body .quasar-reset .flex > .col-md-grow,
+  .q-notifications .flex > .col-md-grow,
   body .quasar-reset .flex > .col-md-shrink,
+  .q-notifications .flex > .col-md-shrink,
   body .quasar-reset .flex > .col-md-0,
+  .q-notifications .flex > .col-md-0,
   body .quasar-reset .flex > .col-md-1,
+  .q-notifications .flex > .col-md-1,
   body .quasar-reset .flex > .col-md-2,
+  .q-notifications .flex > .col-md-2,
   body .quasar-reset .flex > .col-md-3,
+  .q-notifications .flex > .col-md-3,
   body .quasar-reset .flex > .col-md-4,
+  .q-notifications .flex > .col-md-4,
   body .quasar-reset .flex > .col-md-5,
+  .q-notifications .flex > .col-md-5,
   body .quasar-reset .flex > .col-md-6,
+  .q-notifications .flex > .col-md-6,
   body .quasar-reset .flex > .col-md-7,
+  .q-notifications .flex > .col-md-7,
   body .quasar-reset .flex > .col-md-8,
+  .q-notifications .flex > .col-md-8,
   body .quasar-reset .flex > .col-md-9,
+  .q-notifications .flex > .col-md-9,
   body .quasar-reset .flex > .col-md-10,
+  .q-notifications .flex > .col-md-10,
   body .quasar-reset .flex > .col-md-11,
-  body .quasar-reset .flex > .col-md-12 {
+  .q-notifications .flex > .col-md-11,
+  body .quasar-reset .flex > .col-md-12,
+  .q-notifications .flex > .col-md-12 {
     height: auto;
     min-height: 0;
     max-height: 100%;
   }
-  body .quasar-reset .col-md {
+  body .quasar-reset .col-md,
+  .q-notifications .col-md {
     flex: 10000 1 0%;
   }
   body .quasar-reset .col-md-auto,
+  .q-notifications .col-md-auto,
   body .quasar-reset .col-md-0,
+  .q-notifications .col-md-0,
   body .quasar-reset .col-md-1,
+  .q-notifications .col-md-1,
   body .quasar-reset .col-md-2,
+  .q-notifications .col-md-2,
   body .quasar-reset .col-md-3,
+  .q-notifications .col-md-3,
   body .quasar-reset .col-md-4,
+  .q-notifications .col-md-4,
   body .quasar-reset .col-md-5,
+  .q-notifications .col-md-5,
   body .quasar-reset .col-md-6,
+  .q-notifications .col-md-6,
   body .quasar-reset .col-md-7,
+  .q-notifications .col-md-7,
   body .quasar-reset .col-md-8,
+  .q-notifications .col-md-8,
   body .quasar-reset .col-md-9,
+  .q-notifications .col-md-9,
   body .quasar-reset .col-md-10,
+  .q-notifications .col-md-10,
   body .quasar-reset .col-md-11,
-  body .quasar-reset .col-md-12 {
+  .q-notifications .col-md-11,
+  body .quasar-reset .col-md-12,
+  .q-notifications .col-md-12 {
     flex: 0 0 auto;
   }
-  body .quasar-reset .col-md-grow {
+  body .quasar-reset .col-md-grow,
+  .q-notifications .col-md-grow {
     flex: 1 0 auto;
   }
-  body .quasar-reset .col-md-shrink {
+  body .quasar-reset .col-md-shrink,
+  .q-notifications .col-md-shrink {
     flex: 0 1 auto;
   }
-  body .quasar-reset .row > .col-md-0 {
+  body .quasar-reset .row > .col-md-0,
+  .q-notifications .row > .col-md-0 {
     height: auto;
     width: 0%;
   }
-  body .quasar-reset .row > .offset-md-0 {
+  body .quasar-reset .row > .offset-md-0,
+  .q-notifications .row > .offset-md-0 {
     margin-left: 0%;
   }
-  body .quasar-reset .column > .col-md-0 {
+  body .quasar-reset .column > .col-md-0,
+  .q-notifications .column > .col-md-0 {
     height: 0%;
     width: auto;
   }
-  body .quasar-reset .row > .col-md-1 {
+  body .quasar-reset .row > .col-md-1,
+  .q-notifications .row > .col-md-1 {
     height: auto;
     width: 8.3333%;
   }
-  body .quasar-reset .row > .offset-md-1 {
+  body .quasar-reset .row > .offset-md-1,
+  .q-notifications .row > .offset-md-1 {
     margin-left: 8.3333%;
   }
-  body .quasar-reset .column > .col-md-1 {
+  body .quasar-reset .column > .col-md-1,
+  .q-notifications .column > .col-md-1 {
     height: 8.3333%;
     width: auto;
   }
-  body .quasar-reset .row > .col-md-2 {
+  body .quasar-reset .row > .col-md-2,
+  .q-notifications .row > .col-md-2 {
     height: auto;
     width: 16.6667%;
   }
-  body .quasar-reset .row > .offset-md-2 {
+  body .quasar-reset .row > .offset-md-2,
+  .q-notifications .row > .offset-md-2 {
     margin-left: 16.6667%;
   }
-  body .quasar-reset .column > .col-md-2 {
+  body .quasar-reset .column > .col-md-2,
+  .q-notifications .column > .col-md-2 {
     height: 16.6667%;
     width: auto;
   }
-  body .quasar-reset .row > .col-md-3 {
+  body .quasar-reset .row > .col-md-3,
+  .q-notifications .row > .col-md-3 {
     height: auto;
     width: 25%;
   }
-  body .quasar-reset .row > .offset-md-3 {
+  body .quasar-reset .row > .offset-md-3,
+  .q-notifications .row > .offset-md-3 {
     margin-left: 25%;
   }
-  body .quasar-reset .column > .col-md-3 {
+  body .quasar-reset .column > .col-md-3,
+  .q-notifications .column > .col-md-3 {
     height: 25%;
     width: auto;
   }
-  body .quasar-reset .row > .col-md-4 {
+  body .quasar-reset .row > .col-md-4,
+  .q-notifications .row > .col-md-4 {
     height: auto;
     width: 33.3333%;
   }
-  body .quasar-reset .row > .offset-md-4 {
+  body .quasar-reset .row > .offset-md-4,
+  .q-notifications .row > .offset-md-4 {
     margin-left: 33.3333%;
   }
-  body .quasar-reset .column > .col-md-4 {
+  body .quasar-reset .column > .col-md-4,
+  .q-notifications .column > .col-md-4 {
     height: 33.3333%;
     width: auto;
   }
-  body .quasar-reset .row > .col-md-5 {
+  body .quasar-reset .row > .col-md-5,
+  .q-notifications .row > .col-md-5 {
     height: auto;
     width: 41.6667%;
   }
-  body .quasar-reset .row > .offset-md-5 {
+  body .quasar-reset .row > .offset-md-5,
+  .q-notifications .row > .offset-md-5 {
     margin-left: 41.6667%;
   }
-  body .quasar-reset .column > .col-md-5 {
+  body .quasar-reset .column > .col-md-5,
+  .q-notifications .column > .col-md-5 {
     height: 41.6667%;
     width: auto;
   }
-  body .quasar-reset .row > .col-md-6 {
+  body .quasar-reset .row > .col-md-6,
+  .q-notifications .row > .col-md-6 {
     height: auto;
     width: 50%;
   }
-  body .quasar-reset .row > .offset-md-6 {
+  body .quasar-reset .row > .offset-md-6,
+  .q-notifications .row > .offset-md-6 {
     margin-left: 50%;
   }
-  body .quasar-reset .column > .col-md-6 {
+  body .quasar-reset .column > .col-md-6,
+  .q-notifications .column > .col-md-6 {
     height: 50%;
     width: auto;
   }
-  body .quasar-reset .row > .col-md-7 {
+  body .quasar-reset .row > .col-md-7,
+  .q-notifications .row > .col-md-7 {
     height: auto;
     width: 58.3333%;
   }
-  body .quasar-reset .row > .offset-md-7 {
+  body .quasar-reset .row > .offset-md-7,
+  .q-notifications .row > .offset-md-7 {
     margin-left: 58.3333%;
   }
-  body .quasar-reset .column > .col-md-7 {
+  body .quasar-reset .column > .col-md-7,
+  .q-notifications .column > .col-md-7 {
     height: 58.3333%;
     width: auto;
   }
-  body .quasar-reset .row > .col-md-8 {
+  body .quasar-reset .row > .col-md-8,
+  .q-notifications .row > .col-md-8 {
     height: auto;
     width: 66.6667%;
   }
-  body .quasar-reset .row > .offset-md-8 {
+  body .quasar-reset .row > .offset-md-8,
+  .q-notifications .row > .offset-md-8 {
     margin-left: 66.6667%;
   }
-  body .quasar-reset .column > .col-md-8 {
+  body .quasar-reset .column > .col-md-8,
+  .q-notifications .column > .col-md-8 {
     height: 66.6667%;
     width: auto;
   }
-  body .quasar-reset .row > .col-md-9 {
+  body .quasar-reset .row > .col-md-9,
+  .q-notifications .row > .col-md-9 {
     height: auto;
     width: 75%;
   }
-  body .quasar-reset .row > .offset-md-9 {
+  body .quasar-reset .row > .offset-md-9,
+  .q-notifications .row > .offset-md-9 {
     margin-left: 75%;
   }
-  body .quasar-reset .column > .col-md-9 {
+  body .quasar-reset .column > .col-md-9,
+  .q-notifications .column > .col-md-9 {
     height: 75%;
     width: auto;
   }
-  body .quasar-reset .row > .col-md-10 {
+  body .quasar-reset .row > .col-md-10,
+  .q-notifications .row > .col-md-10 {
     height: auto;
     width: 83.3333%;
   }
-  body .quasar-reset .row > .offset-md-10 {
+  body .quasar-reset .row > .offset-md-10,
+  .q-notifications .row > .offset-md-10 {
     margin-left: 83.3333%;
   }
-  body .quasar-reset .column > .col-md-10 {
+  body .quasar-reset .column > .col-md-10,
+  .q-notifications .column > .col-md-10 {
     height: 83.3333%;
     width: auto;
   }
-  body .quasar-reset .row > .col-md-11 {
+  body .quasar-reset .row > .col-md-11,
+  .q-notifications .row > .col-md-11 {
     height: auto;
     width: 91.6667%;
   }
-  body .quasar-reset .row > .offset-md-11 {
+  body .quasar-reset .row > .offset-md-11,
+  .q-notifications .row > .offset-md-11 {
     margin-left: 91.6667%;
   }
-  body .quasar-reset .column > .col-md-11 {
+  body .quasar-reset .column > .col-md-11,
+  .q-notifications .column > .col-md-11 {
     height: 91.6667%;
     width: auto;
   }
-  body .quasar-reset .row > .col-md-12 {
+  body .quasar-reset .row > .col-md-12,
+  .q-notifications .row > .col-md-12 {
     height: auto;
     width: 100%;
   }
-  body .quasar-reset .row > .offset-md-12 {
+  body .quasar-reset .row > .offset-md-12,
+  .q-notifications .row > .offset-md-12 {
     margin-left: 100%;
   }
-  body .quasar-reset .column > .col-md-12 {
+  body .quasar-reset .column > .col-md-12,
+  .q-notifications .column > .col-md-12 {
     height: 100%;
     width: auto;
   }
 }
 @media (min-width: 1440px) {
   body .quasar-reset .row > .col-lg,
+  .q-notifications .row > .col-lg,
   body .quasar-reset .row > .col-lg-auto,
+  .q-notifications .row > .col-lg-auto,
   body .quasar-reset .row > .col-lg-grow,
+  .q-notifications .row > .col-lg-grow,
   body .quasar-reset .row > .col-lg-shrink,
+  .q-notifications .row > .col-lg-shrink,
   body .quasar-reset .row > .col-lg-0,
+  .q-notifications .row > .col-lg-0,
   body .quasar-reset .row > .col-lg-1,
+  .q-notifications .row > .col-lg-1,
   body .quasar-reset .row > .col-lg-2,
+  .q-notifications .row > .col-lg-2,
   body .quasar-reset .row > .col-lg-3,
+  .q-notifications .row > .col-lg-3,
   body .quasar-reset .row > .col-lg-4,
+  .q-notifications .row > .col-lg-4,
   body .quasar-reset .row > .col-lg-5,
+  .q-notifications .row > .col-lg-5,
   body .quasar-reset .row > .col-lg-6,
+  .q-notifications .row > .col-lg-6,
   body .quasar-reset .row > .col-lg-7,
+  .q-notifications .row > .col-lg-7,
   body .quasar-reset .row > .col-lg-8,
+  .q-notifications .row > .col-lg-8,
   body .quasar-reset .row > .col-lg-9,
+  .q-notifications .row > .col-lg-9,
   body .quasar-reset .row > .col-lg-10,
+  .q-notifications .row > .col-lg-10,
   body .quasar-reset .row > .col-lg-11,
+  .q-notifications .row > .col-lg-11,
   body .quasar-reset .row > .col-lg-12,
+  .q-notifications .row > .col-lg-12,
   body .quasar-reset .flex > .col-lg,
+  .q-notifications .flex > .col-lg,
   body .quasar-reset .flex > .col-lg-auto,
+  .q-notifications .flex > .col-lg-auto,
   body .quasar-reset .flex > .col-lg-grow,
+  .q-notifications .flex > .col-lg-grow,
   body .quasar-reset .flex > .col-lg-shrink,
+  .q-notifications .flex > .col-lg-shrink,
   body .quasar-reset .flex > .col-lg-0,
+  .q-notifications .flex > .col-lg-0,
   body .quasar-reset .flex > .col-lg-1,
+  .q-notifications .flex > .col-lg-1,
   body .quasar-reset .flex > .col-lg-2,
+  .q-notifications .flex > .col-lg-2,
   body .quasar-reset .flex > .col-lg-3,
+  .q-notifications .flex > .col-lg-3,
   body .quasar-reset .flex > .col-lg-4,
+  .q-notifications .flex > .col-lg-4,
   body .quasar-reset .flex > .col-lg-5,
+  .q-notifications .flex > .col-lg-5,
   body .quasar-reset .flex > .col-lg-6,
+  .q-notifications .flex > .col-lg-6,
   body .quasar-reset .flex > .col-lg-7,
+  .q-notifications .flex > .col-lg-7,
   body .quasar-reset .flex > .col-lg-8,
+  .q-notifications .flex > .col-lg-8,
   body .quasar-reset .flex > .col-lg-9,
+  .q-notifications .flex > .col-lg-9,
   body .quasar-reset .flex > .col-lg-10,
+  .q-notifications .flex > .col-lg-10,
   body .quasar-reset .flex > .col-lg-11,
-  body .quasar-reset .flex > .col-lg-12 {
+  .q-notifications .flex > .col-lg-11,
+  body .quasar-reset .flex > .col-lg-12,
+  .q-notifications .flex > .col-lg-12 {
     width: auto;
     min-width: 0;
     max-width: 100%;
   }
   body .quasar-reset .column > .col-lg,
+  .q-notifications .column > .col-lg,
   body .quasar-reset .column > .col-lg-auto,
+  .q-notifications .column > .col-lg-auto,
   body .quasar-reset .column > .col-lg-grow,
+  .q-notifications .column > .col-lg-grow,
   body .quasar-reset .column > .col-lg-shrink,
+  .q-notifications .column > .col-lg-shrink,
   body .quasar-reset .column > .col-lg-0,
+  .q-notifications .column > .col-lg-0,
   body .quasar-reset .column > .col-lg-1,
+  .q-notifications .column > .col-lg-1,
   body .quasar-reset .column > .col-lg-2,
+  .q-notifications .column > .col-lg-2,
   body .quasar-reset .column > .col-lg-3,
+  .q-notifications .column > .col-lg-3,
   body .quasar-reset .column > .col-lg-4,
+  .q-notifications .column > .col-lg-4,
   body .quasar-reset .column > .col-lg-5,
+  .q-notifications .column > .col-lg-5,
   body .quasar-reset .column > .col-lg-6,
+  .q-notifications .column > .col-lg-6,
   body .quasar-reset .column > .col-lg-7,
+  .q-notifications .column > .col-lg-7,
   body .quasar-reset .column > .col-lg-8,
+  .q-notifications .column > .col-lg-8,
   body .quasar-reset .column > .col-lg-9,
+  .q-notifications .column > .col-lg-9,
   body .quasar-reset .column > .col-lg-10,
+  .q-notifications .column > .col-lg-10,
   body .quasar-reset .column > .col-lg-11,
+  .q-notifications .column > .col-lg-11,
   body .quasar-reset .column > .col-lg-12,
+  .q-notifications .column > .col-lg-12,
   body .quasar-reset .flex > .col-lg,
+  .q-notifications .flex > .col-lg,
   body .quasar-reset .flex > .col-lg-auto,
+  .q-notifications .flex > .col-lg-auto,
   body .quasar-reset .flex > .col-lg-grow,
+  .q-notifications .flex > .col-lg-grow,
   body .quasar-reset .flex > .col-lg-shrink,
+  .q-notifications .flex > .col-lg-shrink,
   body .quasar-reset .flex > .col-lg-0,
+  .q-notifications .flex > .col-lg-0,
   body .quasar-reset .flex > .col-lg-1,
+  .q-notifications .flex > .col-lg-1,
   body .quasar-reset .flex > .col-lg-2,
+  .q-notifications .flex > .col-lg-2,
   body .quasar-reset .flex > .col-lg-3,
+  .q-notifications .flex > .col-lg-3,
   body .quasar-reset .flex > .col-lg-4,
+  .q-notifications .flex > .col-lg-4,
   body .quasar-reset .flex > .col-lg-5,
+  .q-notifications .flex > .col-lg-5,
   body .quasar-reset .flex > .col-lg-6,
+  .q-notifications .flex > .col-lg-6,
   body .quasar-reset .flex > .col-lg-7,
+  .q-notifications .flex > .col-lg-7,
   body .quasar-reset .flex > .col-lg-8,
+  .q-notifications .flex > .col-lg-8,
   body .quasar-reset .flex > .col-lg-9,
+  .q-notifications .flex > .col-lg-9,
   body .quasar-reset .flex > .col-lg-10,
+  .q-notifications .flex > .col-lg-10,
   body .quasar-reset .flex > .col-lg-11,
-  body .quasar-reset .flex > .col-lg-12 {
+  .q-notifications .flex > .col-lg-11,
+  body .quasar-reset .flex > .col-lg-12,
+  .q-notifications .flex > .col-lg-12 {
     height: auto;
     min-height: 0;
     max-height: 100%;
   }
-  body .quasar-reset .col-lg {
+  body .quasar-reset .col-lg,
+  .q-notifications .col-lg {
     flex: 10000 1 0%;
   }
   body .quasar-reset .col-lg-auto,
+  .q-notifications .col-lg-auto,
   body .quasar-reset .col-lg-0,
+  .q-notifications .col-lg-0,
   body .quasar-reset .col-lg-1,
+  .q-notifications .col-lg-1,
   body .quasar-reset .col-lg-2,
+  .q-notifications .col-lg-2,
   body .quasar-reset .col-lg-3,
+  .q-notifications .col-lg-3,
   body .quasar-reset .col-lg-4,
+  .q-notifications .col-lg-4,
   body .quasar-reset .col-lg-5,
+  .q-notifications .col-lg-5,
   body .quasar-reset .col-lg-6,
+  .q-notifications .col-lg-6,
   body .quasar-reset .col-lg-7,
+  .q-notifications .col-lg-7,
   body .quasar-reset .col-lg-8,
+  .q-notifications .col-lg-8,
   body .quasar-reset .col-lg-9,
+  .q-notifications .col-lg-9,
   body .quasar-reset .col-lg-10,
+  .q-notifications .col-lg-10,
   body .quasar-reset .col-lg-11,
-  body .quasar-reset .col-lg-12 {
+  .q-notifications .col-lg-11,
+  body .quasar-reset .col-lg-12,
+  .q-notifications .col-lg-12 {
     flex: 0 0 auto;
   }
-  body .quasar-reset .col-lg-grow {
+  body .quasar-reset .col-lg-grow,
+  .q-notifications .col-lg-grow {
     flex: 1 0 auto;
   }
-  body .quasar-reset .col-lg-shrink {
+  body .quasar-reset .col-lg-shrink,
+  .q-notifications .col-lg-shrink {
     flex: 0 1 auto;
   }
-  body .quasar-reset .row > .col-lg-0 {
+  body .quasar-reset .row > .col-lg-0,
+  .q-notifications .row > .col-lg-0 {
     height: auto;
     width: 0%;
   }
-  body .quasar-reset .row > .offset-lg-0 {
+  body .quasar-reset .row > .offset-lg-0,
+  .q-notifications .row > .offset-lg-0 {
     margin-left: 0%;
   }
-  body .quasar-reset .column > .col-lg-0 {
+  body .quasar-reset .column > .col-lg-0,
+  .q-notifications .column > .col-lg-0 {
     height: 0%;
     width: auto;
   }
-  body .quasar-reset .row > .col-lg-1 {
+  body .quasar-reset .row > .col-lg-1,
+  .q-notifications .row > .col-lg-1 {
     height: auto;
     width: 8.3333%;
   }
-  body .quasar-reset .row > .offset-lg-1 {
+  body .quasar-reset .row > .offset-lg-1,
+  .q-notifications .row > .offset-lg-1 {
     margin-left: 8.3333%;
   }
-  body .quasar-reset .column > .col-lg-1 {
+  body .quasar-reset .column > .col-lg-1,
+  .q-notifications .column > .col-lg-1 {
     height: 8.3333%;
     width: auto;
   }
-  body .quasar-reset .row > .col-lg-2 {
+  body .quasar-reset .row > .col-lg-2,
+  .q-notifications .row > .col-lg-2 {
     height: auto;
     width: 16.6667%;
   }
-  body .quasar-reset .row > .offset-lg-2 {
+  body .quasar-reset .row > .offset-lg-2,
+  .q-notifications .row > .offset-lg-2 {
     margin-left: 16.6667%;
   }
-  body .quasar-reset .column > .col-lg-2 {
+  body .quasar-reset .column > .col-lg-2,
+  .q-notifications .column > .col-lg-2 {
     height: 16.6667%;
     width: auto;
   }
-  body .quasar-reset .row > .col-lg-3 {
+  body .quasar-reset .row > .col-lg-3,
+  .q-notifications .row > .col-lg-3 {
     height: auto;
     width: 25%;
   }
-  body .quasar-reset .row > .offset-lg-3 {
+  body .quasar-reset .row > .offset-lg-3,
+  .q-notifications .row > .offset-lg-3 {
     margin-left: 25%;
   }
-  body .quasar-reset .column > .col-lg-3 {
+  body .quasar-reset .column > .col-lg-3,
+  .q-notifications .column > .col-lg-3 {
     height: 25%;
     width: auto;
   }
-  body .quasar-reset .row > .col-lg-4 {
+  body .quasar-reset .row > .col-lg-4,
+  .q-notifications .row > .col-lg-4 {
     height: auto;
     width: 33.3333%;
   }
-  body .quasar-reset .row > .offset-lg-4 {
+  body .quasar-reset .row > .offset-lg-4,
+  .q-notifications .row > .offset-lg-4 {
     margin-left: 33.3333%;
   }
-  body .quasar-reset .column > .col-lg-4 {
+  body .quasar-reset .column > .col-lg-4,
+  .q-notifications .column > .col-lg-4 {
     height: 33.3333%;
     width: auto;
   }
-  body .quasar-reset .row > .col-lg-5 {
+  body .quasar-reset .row > .col-lg-5,
+  .q-notifications .row > .col-lg-5 {
     height: auto;
     width: 41.6667%;
   }
-  body .quasar-reset .row > .offset-lg-5 {
+  body .quasar-reset .row > .offset-lg-5,
+  .q-notifications .row > .offset-lg-5 {
     margin-left: 41.6667%;
   }
-  body .quasar-reset .column > .col-lg-5 {
+  body .quasar-reset .column > .col-lg-5,
+  .q-notifications .column > .col-lg-5 {
     height: 41.6667%;
     width: auto;
   }
-  body .quasar-reset .row > .col-lg-6 {
+  body .quasar-reset .row > .col-lg-6,
+  .q-notifications .row > .col-lg-6 {
     height: auto;
     width: 50%;
   }
-  body .quasar-reset .row > .offset-lg-6 {
+  body .quasar-reset .row > .offset-lg-6,
+  .q-notifications .row > .offset-lg-6 {
     margin-left: 50%;
   }
-  body .quasar-reset .column > .col-lg-6 {
+  body .quasar-reset .column > .col-lg-6,
+  .q-notifications .column > .col-lg-6 {
     height: 50%;
     width: auto;
   }
-  body .quasar-reset .row > .col-lg-7 {
+  body .quasar-reset .row > .col-lg-7,
+  .q-notifications .row > .col-lg-7 {
     height: auto;
     width: 58.3333%;
   }
-  body .quasar-reset .row > .offset-lg-7 {
+  body .quasar-reset .row > .offset-lg-7,
+  .q-notifications .row > .offset-lg-7 {
     margin-left: 58.3333%;
   }
-  body .quasar-reset .column > .col-lg-7 {
+  body .quasar-reset .column > .col-lg-7,
+  .q-notifications .column > .col-lg-7 {
     height: 58.3333%;
     width: auto;
   }
-  body .quasar-reset .row > .col-lg-8 {
+  body .quasar-reset .row > .col-lg-8,
+  .q-notifications .row > .col-lg-8 {
     height: auto;
     width: 66.6667%;
   }
-  body .quasar-reset .row > .offset-lg-8 {
+  body .quasar-reset .row > .offset-lg-8,
+  .q-notifications .row > .offset-lg-8 {
     margin-left: 66.6667%;
   }
-  body .quasar-reset .column > .col-lg-8 {
+  body .quasar-reset .column > .col-lg-8,
+  .q-notifications .column > .col-lg-8 {
     height: 66.6667%;
     width: auto;
   }
-  body .quasar-reset .row > .col-lg-9 {
+  body .quasar-reset .row > .col-lg-9,
+  .q-notifications .row > .col-lg-9 {
     height: auto;
     width: 75%;
   }
-  body .quasar-reset .row > .offset-lg-9 {
+  body .quasar-reset .row > .offset-lg-9,
+  .q-notifications .row > .offset-lg-9 {
     margin-left: 75%;
   }
-  body .quasar-reset .column > .col-lg-9 {
+  body .quasar-reset .column > .col-lg-9,
+  .q-notifications .column > .col-lg-9 {
     height: 75%;
     width: auto;
   }
-  body .quasar-reset .row > .col-lg-10 {
+  body .quasar-reset .row > .col-lg-10,
+  .q-notifications .row > .col-lg-10 {
     height: auto;
     width: 83.3333%;
   }
-  body .quasar-reset .row > .offset-lg-10 {
+  body .quasar-reset .row > .offset-lg-10,
+  .q-notifications .row > .offset-lg-10 {
     margin-left: 83.3333%;
   }
-  body .quasar-reset .column > .col-lg-10 {
+  body .quasar-reset .column > .col-lg-10,
+  .q-notifications .column > .col-lg-10 {
     height: 83.3333%;
     width: auto;
   }
-  body .quasar-reset .row > .col-lg-11 {
+  body .quasar-reset .row > .col-lg-11,
+  .q-notifications .row > .col-lg-11 {
     height: auto;
     width: 91.6667%;
   }
-  body .quasar-reset .row > .offset-lg-11 {
+  body .quasar-reset .row > .offset-lg-11,
+  .q-notifications .row > .offset-lg-11 {
     margin-left: 91.6667%;
   }
-  body .quasar-reset .column > .col-lg-11 {
+  body .quasar-reset .column > .col-lg-11,
+  .q-notifications .column > .col-lg-11 {
     height: 91.6667%;
     width: auto;
   }
-  body .quasar-reset .row > .col-lg-12 {
+  body .quasar-reset .row > .col-lg-12,
+  .q-notifications .row > .col-lg-12 {
     height: auto;
     width: 100%;
   }
-  body .quasar-reset .row > .offset-lg-12 {
+  body .quasar-reset .row > .offset-lg-12,
+  .q-notifications .row > .offset-lg-12 {
     margin-left: 100%;
   }
-  body .quasar-reset .column > .col-lg-12 {
+  body .quasar-reset .column > .col-lg-12,
+  .q-notifications .column > .col-lg-12 {
     height: 100%;
     width: auto;
   }
 }
 @media (min-width: 1920px) {
   body .quasar-reset .row > .col-xl,
+  .q-notifications .row > .col-xl,
   body .quasar-reset .row > .col-xl-auto,
+  .q-notifications .row > .col-xl-auto,
   body .quasar-reset .row > .col-xl-grow,
+  .q-notifications .row > .col-xl-grow,
   body .quasar-reset .row > .col-xl-shrink,
+  .q-notifications .row > .col-xl-shrink,
   body .quasar-reset .row > .col-xl-0,
+  .q-notifications .row > .col-xl-0,
   body .quasar-reset .row > .col-xl-1,
+  .q-notifications .row > .col-xl-1,
   body .quasar-reset .row > .col-xl-2,
+  .q-notifications .row > .col-xl-2,
   body .quasar-reset .row > .col-xl-3,
+  .q-notifications .row > .col-xl-3,
   body .quasar-reset .row > .col-xl-4,
+  .q-notifications .row > .col-xl-4,
   body .quasar-reset .row > .col-xl-5,
+  .q-notifications .row > .col-xl-5,
   body .quasar-reset .row > .col-xl-6,
+  .q-notifications .row > .col-xl-6,
   body .quasar-reset .row > .col-xl-7,
+  .q-notifications .row > .col-xl-7,
   body .quasar-reset .row > .col-xl-8,
+  .q-notifications .row > .col-xl-8,
   body .quasar-reset .row > .col-xl-9,
+  .q-notifications .row > .col-xl-9,
   body .quasar-reset .row > .col-xl-10,
+  .q-notifications .row > .col-xl-10,
   body .quasar-reset .row > .col-xl-11,
+  .q-notifications .row > .col-xl-11,
   body .quasar-reset .row > .col-xl-12,
+  .q-notifications .row > .col-xl-12,
   body .quasar-reset .flex > .col-xl,
+  .q-notifications .flex > .col-xl,
   body .quasar-reset .flex > .col-xl-auto,
+  .q-notifications .flex > .col-xl-auto,
   body .quasar-reset .flex > .col-xl-grow,
+  .q-notifications .flex > .col-xl-grow,
   body .quasar-reset .flex > .col-xl-shrink,
+  .q-notifications .flex > .col-xl-shrink,
   body .quasar-reset .flex > .col-xl-0,
+  .q-notifications .flex > .col-xl-0,
   body .quasar-reset .flex > .col-xl-1,
+  .q-notifications .flex > .col-xl-1,
   body .quasar-reset .flex > .col-xl-2,
+  .q-notifications .flex > .col-xl-2,
   body .quasar-reset .flex > .col-xl-3,
+  .q-notifications .flex > .col-xl-3,
   body .quasar-reset .flex > .col-xl-4,
+  .q-notifications .flex > .col-xl-4,
   body .quasar-reset .flex > .col-xl-5,
+  .q-notifications .flex > .col-xl-5,
   body .quasar-reset .flex > .col-xl-6,
+  .q-notifications .flex > .col-xl-6,
   body .quasar-reset .flex > .col-xl-7,
+  .q-notifications .flex > .col-xl-7,
   body .quasar-reset .flex > .col-xl-8,
+  .q-notifications .flex > .col-xl-8,
   body .quasar-reset .flex > .col-xl-9,
+  .q-notifications .flex > .col-xl-9,
   body .quasar-reset .flex > .col-xl-10,
+  .q-notifications .flex > .col-xl-10,
   body .quasar-reset .flex > .col-xl-11,
-  body .quasar-reset .flex > .col-xl-12 {
+  .q-notifications .flex > .col-xl-11,
+  body .quasar-reset .flex > .col-xl-12,
+  .q-notifications .flex > .col-xl-12 {
     width: auto;
     min-width: 0;
     max-width: 100%;
   }
   body .quasar-reset .column > .col-xl,
+  .q-notifications .column > .col-xl,
   body .quasar-reset .column > .col-xl-auto,
+  .q-notifications .column > .col-xl-auto,
   body .quasar-reset .column > .col-xl-grow,
+  .q-notifications .column > .col-xl-grow,
   body .quasar-reset .column > .col-xl-shrink,
+  .q-notifications .column > .col-xl-shrink,
   body .quasar-reset .column > .col-xl-0,
+  .q-notifications .column > .col-xl-0,
   body .quasar-reset .column > .col-xl-1,
+  .q-notifications .column > .col-xl-1,
   body .quasar-reset .column > .col-xl-2,
+  .q-notifications .column > .col-xl-2,
   body .quasar-reset .column > .col-xl-3,
+  .q-notifications .column > .col-xl-3,
   body .quasar-reset .column > .col-xl-4,
+  .q-notifications .column > .col-xl-4,
   body .quasar-reset .column > .col-xl-5,
+  .q-notifications .column > .col-xl-5,
   body .quasar-reset .column > .col-xl-6,
+  .q-notifications .column > .col-xl-6,
   body .quasar-reset .column > .col-xl-7,
+  .q-notifications .column > .col-xl-7,
   body .quasar-reset .column > .col-xl-8,
+  .q-notifications .column > .col-xl-8,
   body .quasar-reset .column > .col-xl-9,
+  .q-notifications .column > .col-xl-9,
   body .quasar-reset .column > .col-xl-10,
+  .q-notifications .column > .col-xl-10,
   body .quasar-reset .column > .col-xl-11,
+  .q-notifications .column > .col-xl-11,
   body .quasar-reset .column > .col-xl-12,
+  .q-notifications .column > .col-xl-12,
   body .quasar-reset .flex > .col-xl,
+  .q-notifications .flex > .col-xl,
   body .quasar-reset .flex > .col-xl-auto,
+  .q-notifications .flex > .col-xl-auto,
   body .quasar-reset .flex > .col-xl-grow,
+  .q-notifications .flex > .col-xl-grow,
   body .quasar-reset .flex > .col-xl-shrink,
+  .q-notifications .flex > .col-xl-shrink,
   body .quasar-reset .flex > .col-xl-0,
+  .q-notifications .flex > .col-xl-0,
   body .quasar-reset .flex > .col-xl-1,
+  .q-notifications .flex > .col-xl-1,
   body .quasar-reset .flex > .col-xl-2,
+  .q-notifications .flex > .col-xl-2,
   body .quasar-reset .flex > .col-xl-3,
+  .q-notifications .flex > .col-xl-3,
   body .quasar-reset .flex > .col-xl-4,
+  .q-notifications .flex > .col-xl-4,
   body .quasar-reset .flex > .col-xl-5,
+  .q-notifications .flex > .col-xl-5,
   body .quasar-reset .flex > .col-xl-6,
+  .q-notifications .flex > .col-xl-6,
   body .quasar-reset .flex > .col-xl-7,
+  .q-notifications .flex > .col-xl-7,
   body .quasar-reset .flex > .col-xl-8,
+  .q-notifications .flex > .col-xl-8,
   body .quasar-reset .flex > .col-xl-9,
+  .q-notifications .flex > .col-xl-9,
   body .quasar-reset .flex > .col-xl-10,
+  .q-notifications .flex > .col-xl-10,
   body .quasar-reset .flex > .col-xl-11,
-  body .quasar-reset .flex > .col-xl-12 {
+  .q-notifications .flex > .col-xl-11,
+  body .quasar-reset .flex > .col-xl-12,
+  .q-notifications .flex > .col-xl-12 {
     height: auto;
     min-height: 0;
     max-height: 100%;
   }
-  body .quasar-reset .col-xl {
+  body .quasar-reset .col-xl,
+  .q-notifications .col-xl {
     flex: 10000 1 0%;
   }
   body .quasar-reset .col-xl-auto,
+  .q-notifications .col-xl-auto,
   body .quasar-reset .col-xl-0,
+  .q-notifications .col-xl-0,
   body .quasar-reset .col-xl-1,
+  .q-notifications .col-xl-1,
   body .quasar-reset .col-xl-2,
+  .q-notifications .col-xl-2,
   body .quasar-reset .col-xl-3,
+  .q-notifications .col-xl-3,
   body .quasar-reset .col-xl-4,
+  .q-notifications .col-xl-4,
   body .quasar-reset .col-xl-5,
+  .q-notifications .col-xl-5,
   body .quasar-reset .col-xl-6,
+  .q-notifications .col-xl-6,
   body .quasar-reset .col-xl-7,
+  .q-notifications .col-xl-7,
   body .quasar-reset .col-xl-8,
+  .q-notifications .col-xl-8,
   body .quasar-reset .col-xl-9,
+  .q-notifications .col-xl-9,
   body .quasar-reset .col-xl-10,
+  .q-notifications .col-xl-10,
   body .quasar-reset .col-xl-11,
-  body .quasar-reset .col-xl-12 {
+  .q-notifications .col-xl-11,
+  body .quasar-reset .col-xl-12,
+  .q-notifications .col-xl-12 {
     flex: 0 0 auto;
   }
-  body .quasar-reset .col-xl-grow {
+  body .quasar-reset .col-xl-grow,
+  .q-notifications .col-xl-grow {
     flex: 1 0 auto;
   }
-  body .quasar-reset .col-xl-shrink {
+  body .quasar-reset .col-xl-shrink,
+  .q-notifications .col-xl-shrink {
     flex: 0 1 auto;
   }
-  body .quasar-reset .row > .col-xl-0 {
+  body .quasar-reset .row > .col-xl-0,
+  .q-notifications .row > .col-xl-0 {
     height: auto;
     width: 0%;
   }
-  body .quasar-reset .row > .offset-xl-0 {
+  body .quasar-reset .row > .offset-xl-0,
+  .q-notifications .row > .offset-xl-0 {
     margin-left: 0%;
   }
-  body .quasar-reset .column > .col-xl-0 {
+  body .quasar-reset .column > .col-xl-0,
+  .q-notifications .column > .col-xl-0 {
     height: 0%;
     width: auto;
   }
-  body .quasar-reset .row > .col-xl-1 {
+  body .quasar-reset .row > .col-xl-1,
+  .q-notifications .row > .col-xl-1 {
     height: auto;
     width: 8.3333%;
   }
-  body .quasar-reset .row > .offset-xl-1 {
+  body .quasar-reset .row > .offset-xl-1,
+  .q-notifications .row > .offset-xl-1 {
     margin-left: 8.3333%;
   }
-  body .quasar-reset .column > .col-xl-1 {
+  body .quasar-reset .column > .col-xl-1,
+  .q-notifications .column > .col-xl-1 {
     height: 8.3333%;
     width: auto;
   }
-  body .quasar-reset .row > .col-xl-2 {
+  body .quasar-reset .row > .col-xl-2,
+  .q-notifications .row > .col-xl-2 {
     height: auto;
     width: 16.6667%;
   }
-  body .quasar-reset .row > .offset-xl-2 {
+  body .quasar-reset .row > .offset-xl-2,
+  .q-notifications .row > .offset-xl-2 {
     margin-left: 16.6667%;
   }
-  body .quasar-reset .column > .col-xl-2 {
+  body .quasar-reset .column > .col-xl-2,
+  .q-notifications .column > .col-xl-2 {
     height: 16.6667%;
     width: auto;
   }
-  body .quasar-reset .row > .col-xl-3 {
+  body .quasar-reset .row > .col-xl-3,
+  .q-notifications .row > .col-xl-3 {
     height: auto;
     width: 25%;
   }
-  body .quasar-reset .row > .offset-xl-3 {
+  body .quasar-reset .row > .offset-xl-3,
+  .q-notifications .row > .offset-xl-3 {
     margin-left: 25%;
   }
-  body .quasar-reset .column > .col-xl-3 {
+  body .quasar-reset .column > .col-xl-3,
+  .q-notifications .column > .col-xl-3 {
     height: 25%;
     width: auto;
   }
-  body .quasar-reset .row > .col-xl-4 {
+  body .quasar-reset .row > .col-xl-4,
+  .q-notifications .row > .col-xl-4 {
     height: auto;
     width: 33.3333%;
   }
-  body .quasar-reset .row > .offset-xl-4 {
+  body .quasar-reset .row > .offset-xl-4,
+  .q-notifications .row > .offset-xl-4 {
     margin-left: 33.3333%;
   }
-  body .quasar-reset .column > .col-xl-4 {
+  body .quasar-reset .column > .col-xl-4,
+  .q-notifications .column > .col-xl-4 {
     height: 33.3333%;
     width: auto;
   }
-  body .quasar-reset .row > .col-xl-5 {
+  body .quasar-reset .row > .col-xl-5,
+  .q-notifications .row > .col-xl-5 {
     height: auto;
     width: 41.6667%;
   }
-  body .quasar-reset .row > .offset-xl-5 {
+  body .quasar-reset .row > .offset-xl-5,
+  .q-notifications .row > .offset-xl-5 {
     margin-left: 41.6667%;
   }
-  body .quasar-reset .column > .col-xl-5 {
+  body .quasar-reset .column > .col-xl-5,
+  .q-notifications .column > .col-xl-5 {
     height: 41.6667%;
     width: auto;
   }
-  body .quasar-reset .row > .col-xl-6 {
+  body .quasar-reset .row > .col-xl-6,
+  .q-notifications .row > .col-xl-6 {
     height: auto;
     width: 50%;
   }
-  body .quasar-reset .row > .offset-xl-6 {
+  body .quasar-reset .row > .offset-xl-6,
+  .q-notifications .row > .offset-xl-6 {
     margin-left: 50%;
   }
-  body .quasar-reset .column > .col-xl-6 {
+  body .quasar-reset .column > .col-xl-6,
+  .q-notifications .column > .col-xl-6 {
     height: 50%;
     width: auto;
   }
-  body .quasar-reset .row > .col-xl-7 {
+  body .quasar-reset .row > .col-xl-7,
+  .q-notifications .row > .col-xl-7 {
     height: auto;
     width: 58.3333%;
   }
-  body .quasar-reset .row > .offset-xl-7 {
+  body .quasar-reset .row > .offset-xl-7,
+  .q-notifications .row > .offset-xl-7 {
     margin-left: 58.3333%;
   }
-  body .quasar-reset .column > .col-xl-7 {
+  body .quasar-reset .column > .col-xl-7,
+  .q-notifications .column > .col-xl-7 {
     height: 58.3333%;
     width: auto;
   }
-  body .quasar-reset .row > .col-xl-8 {
+  body .quasar-reset .row > .col-xl-8,
+  .q-notifications .row > .col-xl-8 {
     height: auto;
     width: 66.6667%;
   }
-  body .quasar-reset .row > .offset-xl-8 {
+  body .quasar-reset .row > .offset-xl-8,
+  .q-notifications .row > .offset-xl-8 {
     margin-left: 66.6667%;
   }
-  body .quasar-reset .column > .col-xl-8 {
+  body .quasar-reset .column > .col-xl-8,
+  .q-notifications .column > .col-xl-8 {
     height: 66.6667%;
     width: auto;
   }
-  body .quasar-reset .row > .col-xl-9 {
+  body .quasar-reset .row > .col-xl-9,
+  .q-notifications .row > .col-xl-9 {
     height: auto;
     width: 75%;
   }
-  body .quasar-reset .row > .offset-xl-9 {
+  body .quasar-reset .row > .offset-xl-9,
+  .q-notifications .row > .offset-xl-9 {
     margin-left: 75%;
   }
-  body .quasar-reset .column > .col-xl-9 {
+  body .quasar-reset .column > .col-xl-9,
+  .q-notifications .column > .col-xl-9 {
     height: 75%;
     width: auto;
   }
-  body .quasar-reset .row > .col-xl-10 {
+  body .quasar-reset .row > .col-xl-10,
+  .q-notifications .row > .col-xl-10 {
     height: auto;
     width: 83.3333%;
   }
-  body .quasar-reset .row > .offset-xl-10 {
+  body .quasar-reset .row > .offset-xl-10,
+  .q-notifications .row > .offset-xl-10 {
     margin-left: 83.3333%;
   }
-  body .quasar-reset .column > .col-xl-10 {
+  body .quasar-reset .column > .col-xl-10,
+  .q-notifications .column > .col-xl-10 {
     height: 83.3333%;
     width: auto;
   }
-  body .quasar-reset .row > .col-xl-11 {
+  body .quasar-reset .row > .col-xl-11,
+  .q-notifications .row > .col-xl-11 {
     height: auto;
     width: 91.6667%;
   }
-  body .quasar-reset .row > .offset-xl-11 {
+  body .quasar-reset .row > .offset-xl-11,
+  .q-notifications .row > .offset-xl-11 {
     margin-left: 91.6667%;
   }
-  body .quasar-reset .column > .col-xl-11 {
+  body .quasar-reset .column > .col-xl-11,
+  .q-notifications .column > .col-xl-11 {
     height: 91.6667%;
     width: auto;
   }
-  body .quasar-reset .row > .col-xl-12 {
+  body .quasar-reset .row > .col-xl-12,
+  .q-notifications .row > .col-xl-12 {
     height: auto;
     width: 100%;
   }
-  body .quasar-reset .row > .offset-xl-12 {
+  body .quasar-reset .row > .offset-xl-12,
+  .q-notifications .row > .offset-xl-12 {
     margin-left: 100%;
   }
-  body .quasar-reset .column > .col-xl-12 {
+  body .quasar-reset .column > .col-xl-12,
+  .q-notifications .column > .col-xl-12 {
     height: 100%;
     width: auto;
   }
