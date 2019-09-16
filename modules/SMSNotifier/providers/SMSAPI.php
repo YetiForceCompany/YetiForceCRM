@@ -67,10 +67,19 @@ class SMSNotifier_SMSAPI_Provider extends SMSNotifier_Basic_Provider
 	/**
 	 * Fields to edit in settings.
 	 *
+	 * @param string $params
+	 *
 	 * @return \Settings_Vtiger_Field_Model[]
 	 */
-	public function getSettingsEditFieldsModel()
+	public function getSettingsEditFieldsModel(string $params = '')
 	{
+		$fieldData = [];
+		if (!empty($params)) {
+			$parameters = \App\Json::decode(App\Purifier::decodeHtml($params));
+			foreach ($parameters as $fieldName => $fieldValue) {
+				$fieldData[$fieldName] = $fieldValue;
+			}
+		}
 		$fields = [];
 		$moduleName = 'Settings:SMSNotifier';
 		foreach ($this->getRequiredParams() as $name) {
@@ -78,6 +87,7 @@ class SMSNotifier_SMSAPI_Provider extends SMSNotifier_Basic_Provider
 			if ('from' === $name) {
 				$field['uitype'] = 1;
 				$field['label'] = 'FL_SMSAPI_FROM';
+				$field['fieldvalue'] = $fieldData[$name] ?? '';
 				$fields[] = $field;
 			}
 		}
