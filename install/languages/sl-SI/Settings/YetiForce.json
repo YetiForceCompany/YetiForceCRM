@@ -91,7 +91,7 @@
     "LBL_SHOP_YETIFORCEDONATIONS_INTRO": "Help shape the future of YetiForce CRM!",
     "LBL_SHOP_YETIFORCEDONATIONS_DESC": "Projekti z odprto kodo, ki jih podpira skupnost, se razvijajo veliko hitreje kot projekti brez kakršnega koli prispevka, zato vas prosimo, da nas podprete z mesečno donacijo, ki nam bo omogočila, da ustvarimo še boljši izdelek za vas in vaše podjetje. Hvala vam!",
     "LBL_SHOP_YETIFORCEPREMIUMSUPPORT": "YetiForce pomoč",
-    "LBL_SHOP_YETIFORCEPREMIUMSUPPORT_INTRO": "Basic support for YetiForce CRM",
+    "LBL_SHOP_YETIFORCEPREMIUMSUPPORT_INTRO": "Osnovna podpora za YetiForce CRM",
     "LBL_SHOP_YETIFORCEPREMIUMSUPPORT_DESC": "This support package is dedicated to companies that need help in adjusting YetiForce CRM, such as configuration, substantive support, problem-solving. This package can't be used for programming purposes and is an alternative to free support offered on our GitHub repository.",
     "LBL_SHOP_YETIFORCEDISABLEBRANDING": "YetiForce Branding",
     "LBL_SHOP_YETIFORCEDISABLEBRANDING_INTRO": "Replace YetiForce branding with your own",
@@ -108,7 +108,7 @@
     "LBL_SHOP_YETIFORCEINSTALLINHOSTING": "YetiForce Hosting",
     "LBL_SHOP_YETIFORCEINSTALLINHOSTING_INTRO": "Professional hosting for your company",
     "LBL_SHOP_YETIFORCEINSTALLINHOSTING_DESC": "We will prepare professional hosting that complies with the producer's infrastructure and perfectly meets the restrictive requirements of the system. We will take care of safety, performance and solve any infrastructure problem for your convenience. Each user will receive from a few to several GB for corporate data, and the database will be placed on high-performance SSDs. In addition to the production version, we will configure the testing version of the system and you will receive full access to the application backups. \n Note: We work from Monday to Friday 8am-4pm (CEST) and need one working day to process your order.",
-    "LBL_SHOP_INFORMATION": "The prices of the products and services below vary depending on the size of the company. The size of the company is determined by the number of system users. The application will automatically adjust the prices to the size of the company each month, according to the following criteria: Micro company (up to 10 users), Small company (up to 50 users), Medium company (up to 250 users), Large company (over 250 users).",
+    "LBL_SHOP_INFORMATION": "Cene spodnjih izdelkov in storitev se razlikujejo glede na velikost podjetja. Velikost podjetja je določena s številom uporabnikov sistema. Aplikacija se bo vsak mesec samodejno prilagodila velikosti podjetja glede na naslednja merila: Mikro podjetje (do 10 uporabnikov), majhno podjetje (do 50 uporabnikov), srednje podjetje (do 250 uporabnikov), veliko podjetje (več kot 250 uporabnikov).",
     "LBL_SHOP_RESELLER": "Reseller",
     "LBL_SHOP_RESELLER_INTRO": "Sell YetiForce’s products and services, earn money on promoting YetiForce in your country.",
     "LBL_SHOP_RESELLER_DESC": "REQUIREMENTS \n\n 1. Providing initial support for customers who were offered YetiForce’s products and services. \n  2. Owning a GitHub account and active participation in the YetiForce repository. \n  3. Correct registration of all YetiForce installations used by the Partner and the Partner’s clients. \n\n BENEFITS \n\n 1. Direct support (chat, e-mail, GitHub) from the YetiForce team in terms of solving simple problems related to the operation and configuration of the system. Support can be provided in Polish or English. \n 2. Ability to use the “YetiForce Reseller” logo on the Internet. \n 3. Promotion in the partnership catalog on the official website and in the YetiForce system. \n 4. 10% discount on all services and products offered by YetiForce (also for reseller’s customers). \n 5. An impact on the direction of system development and new functionalities. \n\n  COST \n\n 1. The monthly participation fee for the YetiForce Reseller partnership is 100 €.",
@@ -124,8 +124,8 @@
     "LBL_SHOP_MODULESENTERPRISE": "Enterprise modules",
     "LBL_SHOP_MODULESENTERPRISE_INTRO": "",
     "LBL_SHOP_MODULESENTERPRISE_DESC": "",
-    "LBL_SHOP_YETIFORCEGEOCODER": "YetiForce address finder",
+    "LBL_SHOP_YETIFORCEGEOCODER": "YetiForce iskalnik naslovov",
     "LBL_SHOP_YETIFORCEGEOCODER_INTRO": "Hitro in enostavno iskanje naslovov, kjerkoli na svetu",
-    "LBL_SHOP_YETIFORCEGEOCODER_DESC": "Integration with the YetiForce address database. It is based on Open Street Maps with a complete world map. No connection limits and no need to have your own server."
+    "LBL_SHOP_YETIFORCEGEOCODER_DESC": "Integracija z podatkovno bazo YetiForce. Temelji na Open Street Maps s celotnim zemljevidom sveta. Brez omejitev povezave in brez potrebe po lastnem strežniku."
   }
 }
