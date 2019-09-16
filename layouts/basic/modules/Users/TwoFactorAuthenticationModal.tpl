@@ -49,7 +49,7 @@
 					<span class="fas fa-info-circle mr-1"></span>
 					{\App\Language::translate('LBL_2FA_TOTP_DESC', $MODULE_NAME)}<br />
 					<a rel="noreferrer noopener" target="_blank" href="https://authy.com/download/" class="mr-1">Authy</a>,
-					<a rel="noreferrer noopener" target="_blank" href="https://support.google.com/accounts/answer/1066447?hl={}" class="mr-1">Google Authenticator</a>,
+					<a rel="noreferrer noopener" target="_blank" href="https://support.google.com/accounts/answer/1066447?hl={\App\Language::getShortLanguageName()}" class="mr-1">Google Authenticator</a>,
 					<a rel="noreferrer noopener" target="_blank" href="https://www.microsoft.com/en-us/account/authenticator" >Microsoft Authenticator</a>
 				</div>
 		</div>
