@@ -29,6 +29,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$this->exposeMethod('getHistory');
 		$this->exposeMethod('getRooms');
 		$this->exposeMethod('getRecordRoom');
+		$this->exposeMethod('getChatUsers');
 		$this->exposeMethod('send');
 		$this->exposeMethod('search');
 		$this->exposeMethod('trackNewMessages');
@@ -363,6 +364,33 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 				]
 			]
 		]);
+		$response->emit();
+	}
+
+	/**
+	 * Get chat users.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function getChatUsers(App\Request $request)
+	{
+		$owner = App\Fields\Owner::getInstance();
+		$owner->showRoleName = true;
+		$data = [];
+		if ($users = $owner->getAccessibleUsers('private', 'owner')) {
+			foreach ($users as $key => $value) {
+				if (Users_Privileges_Model::getInstanceById($key)->hasModulePermission('Chat')) {
+					$imageUrl = \App\User::getImageById($key) ? \App\User::getImageById($key)['url'] : '';
+					$data[] = [
+						'id' => $key,
+						'label' => $value,
+						'img' => $imageUrl ?? '',
+					];
+				}
+			}
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($data);
 		$response->emit();
 	}
 
