@@ -90,6 +90,22 @@ export default {
 			})
 		})
 	},
+	/**
+	 * Add participant to private room
+	 */
+	addParticipant({}, { recordId, userId }) {
+		return new Promise((resolve, reject) => {
+			AppConnector.request({
+				module: 'Chat',
+				action: 'ChatAjax',
+				mode: 'addParticipant',
+				recordId,
+				userId
+			}).done(result => {
+				resolve(result)
+			})
+		})
+	},
 	sendMessage({ commit, getters }, { text, roomType, recordId }) {
 		const lastEntries = getters.data.roomList[roomType][recordId].chatEntries.slice(-1)[0]
 		return new Promise((resolve, reject) => {

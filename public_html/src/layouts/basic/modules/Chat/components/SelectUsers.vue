@@ -16,7 +16,8 @@
       map-options
       :hint="translate('JS_CHAT_ADD_FAVORITE_ROOM_FROM_MODULE')"
       @filter="filter"
-      @input=""
+      @input="validateParticipant"
+      :error="!isValid"
       hide-bottom-space
       popup-content-class="quasar-reset"
       class="full-width"
@@ -28,7 +29,11 @@
         </q-item>
       </template>
       <template v-slot:append>
-        <q-icon name="mdi-close" @click.prevent="$emit('update:isVisible', false)" class="cursor-pointer" />
+        <q-icon
+          name="mdi-close"
+          @click.prevent="$emit('update:isVisible', false), (isValid = true)"
+          class="cursor-pointer"
+        />
         <q-tooltip anchor="top middle">{{ translate('JS_CHAT_HIDE_SEARCH_FIELD') }}</q-tooltip>
       </template>
       <template v-slot:option="scope">
@@ -42,12 +47,15 @@
           </q-item-section>
         </q-item>
       </template>
+      <template v-slot:error>
+        {{ errorMessage }}
+      </template>
     </q-select>
   </div>
 </template>
 <script>
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters, mapActions } = createNamespacedHelpers('Chat')
+const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
 
 export default {
   name: 'selectUsers',
@@ -60,7 +68,9 @@ export default {
     return {
       selectUser: null,
       users: [],
-      searchUsers: []
+      searchUsers: [],
+      isValid: true,
+      errorMessage: ''
     }
   },
   watch: {
@@ -75,9 +85,47 @@ export default {
       }
     }
   },
-  computed: {},
+  computed: {
+    ...mapGetters(['currentRoomData'])
+  },
   methods: {
-    ...mapActions(['fetchChatUsers']),
+    ...mapActions(['fetchChatUsers', 'addParticipant']),
+    ...mapMutations(['updateRooms']),
+    validateParticipant(val) {
+      if (val) {
+        let userExists = false
+        for (let participant of this.currentRoomData.participants) {
+          if (participant.user_id === val) {
+            userExists = true
+            break
+          }
+        }
+        if (!userExists) {
+          this.addParticipant({ recordId: this.currentRoomData.recordid, userId: val }).then(({ result }) => {
+            if (result.message) {
+              this.errorMessage = this.translate(result.message)
+              this.isValid = false
+            } else {
+              this.selectUser = null
+              this.isValid = true
+              this.updateRooms(result)
+              this.$q.notify({
+                position: 'top',
+                color: 'success',
+                message: this.translate('JS_CHAT_PARTICIPANT_ADDED'),
+                icon: 'mdi-check'
+              })
+            }
+          })
+        } else {
+          this.errorMessage = this.translate('JS_CHAT_PARTICIPANT_EXISTS')
+          this.isValid = false
+        }
+      } else {
+        this.errorMessage = this.translate('JS_CHAT_PARTICIPANT_NAME_EMPTY')
+        this.isValid = false
+      }
+    },
     filter(val, update) {
       if (val === '') {
         update(() => {

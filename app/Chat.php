@@ -997,19 +997,29 @@ final class Chat
 	/**
 	 * Add participant to private room.
 	 *
-	 * @param int $userId - userid
-	 * @param int $roomId - private_room_id
+	 * @param int $userId
+	 * @return bool $alreadyInvited
 	 */
-	public function addParticipant(int $userId, int $roomId)
+	public function addParticipantToPrivate(int $userId) :bool
 	{
-		Db::getInstance()->createCommand()->insert(
-				static::TABLE_NAME['room']['private'],
-				[
-					'userid' => $userId,
-					'last_message' => null,
-					static::COLUMN_NAME['room']['private'] => $roomId,
-				]
-			)->execute();
+		$privateRoomsTable = static::TABLE_NAME['room']['private'];
+		$privateRoomsIdColumn = static::COLUMN_NAME['room']['private'];
+		$alreadyInvited = (new Db\Query())
+			->select(['userid', $privateRoomsIdColumn])
+			->from($privateRoomsTable)
+			->where(['and', [$privateRoomsIdColumn => $this->recordId], ['userid' => $userId]])
+			->exists();
+			if (!$alreadyInvited) {
+				Db::getInstance()->createCommand()->insert(
+					$privateRoomsTable,
+					[
+						'userid' => $userId,
+						'last_message' => null,
+						$privateRoomsIdColumn => $this->recordId,
+					]
+				)->execute();
+			}
+			return $alreadyInvited;
 	}
 
 	/**

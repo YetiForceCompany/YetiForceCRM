@@ -77,7 +77,7 @@ export default {
             })
           })
         } else {
-          this.errorMessage = this.translate('JS_CHAT_ROOM_EXIST')
+          this.errorMessage = this.translate('JS_CHAT_ROOM_EXISTS')
           this.isValid = false
         }
       } else {

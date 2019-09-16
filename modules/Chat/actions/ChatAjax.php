@@ -34,6 +34,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$this->exposeMethod('search');
 		$this->exposeMethod('trackNewMessages');
 		$this->exposeMethod('addPrivateRoom');
+		$this->exposeMethod('addParticipant');
 	}
 
 	/**
@@ -263,6 +264,26 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$chat->createPrivateRoom($request->getByType('name', 'Text'));
 		$response = new Vtiger_Response();
 		$response->setResult(\App\Chat::getRoomsByUser());
+		$response->emit();
+	}
+
+	/**
+	 * Add participant.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function addParticipant(App\Request $request)
+	{
+		$recordId = $request->getInteger('recordId');
+		$chat = \App\Chat::getInstance('private', $recordId);
+		$alreadyInvited = $chat->addParticipantToPrivate($request->getInteger('userId'));
+		if ($alreadyInvited) {
+			$result = ['message' => 'JS_CHAT_PARTICIPANT_INVITED'];
+		} else {
+			$result = \App\Chat::getRoomsByUser();
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($result);
 		$response->emit();
 	}
 
