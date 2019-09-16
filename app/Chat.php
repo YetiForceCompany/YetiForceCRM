@@ -995,6 +995,24 @@ final class Chat
 	}
 
 	/**
+	 * Add participant to private room.
+	 *
+	 * @param int $userId - userid
+	 * @param int $roomId - private_room_id
+	 */
+	public function addParticipant(int $userId, int $roomId)
+	{
+		Db::getInstance()->createCommand()->insert(
+				static::TABLE_NAME['room']['private'],
+				[
+					'userid' => $userId,
+					'last_message' => null,
+					static::COLUMN_NAME['room']['private'] => $roomId,
+				]
+			)->execute();
+	}
+
+	/**
 	 * Get a query for chat messages.
 	 *
 	 * @param int|null $messageId
