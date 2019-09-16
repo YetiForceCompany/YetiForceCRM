@@ -46,7 +46,7 @@
           </div>
         </q-item-label>
         <q-item v-if="isAddPanel" v-show="showAddPanel">
-          <select-users :modules="[]" :isVisible.sync="showAddPanel" class="q-pb-xs" />
+          <select-users  :isVisible.sync="showAddPanel" class="q-pb-xs" />
         </q-item>
         <template v-for="participant in participantsList">
           <q-item :key="participant.user_id" v-if="participant.user_name === participant.user_name" class="q-py-xs">

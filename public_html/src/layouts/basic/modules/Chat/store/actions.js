@@ -58,6 +58,20 @@ export default {
 			})
 		})
 	},
+	/**
+	 * Fetch all chat users
+	 */
+	fetchChatUsers() {
+		return new Promise((resolve, reject) => {
+			AppConnector.request({
+				module: 'Chat',
+				action: 'ChatAjax',
+				mode: 'getChatUsers'
+			}).done(({ result }) => {
+				resolve(result)
+			})
+		})
+	},
 	removeActiveRoom({ commit }, { recordId, roomType }) {
 		commit('unsetActiveRoom', { recordId, roomType })
 	},

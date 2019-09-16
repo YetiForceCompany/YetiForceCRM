@@ -33,7 +33,10 @@
       </template>
       <template v-slot:option="scope">
         <q-item dense v-bind="scope.itemProps" v-on="scope.itemEvents">
-          <q-item-section avatar> </q-item-section>
+          <q-item-section avatar>
+            <img v-if="scope.opt.img" :src="scope.opt.img" :alt="scope.opt.label" style="height: 40px;" />
+            <q-icon v-else name="mdi-account" size="40px" />
+          </q-item-section>
           <q-item-section>
             {{ scope.opt.label }}
           </q-item-section>
@@ -44,21 +47,19 @@
 </template>
 <script>
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
+const { mapGetters, mapActions } = createNamespacedHelpers('Chat')
 
 export default {
   name: 'selectUsers',
   props: {
     isVisible: {
       type: Boolean
-    },
-    users: {
-      type: Array
     }
   },
   data() {
     return {
       selectUser: null,
+      users: [],
       searchUsers: []
     }
   },
@@ -76,7 +77,7 @@ export default {
   },
   computed: {},
   methods: {
-    ...mapMutations(['updateRooms']),
+    ...mapActions(['fetchChatUsers']),
     filter(val, update) {
       if (val === '') {
         update(() => {
@@ -91,7 +92,10 @@ export default {
     }
   },
   created() {
-    this.searchUsers = this.users
+    this.fetchChatUsers().then(users => {
+      this.users = users
+      this.searchUsers = this.users
+    })
   }
 }
 </script>
