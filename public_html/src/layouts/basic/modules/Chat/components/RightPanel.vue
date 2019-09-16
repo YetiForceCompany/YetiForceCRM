@@ -27,7 +27,27 @@
             <icon icon="yfi-entrant-chat" size="0.88rem" />
           </q-item-section>
           {{ translate('JS_CHAT_PARTICIPANTS') }}
+          <div class="q-ml-auto">
+            <q-btn
+              v-if="isAddPanel"
+              dense
+              flat
+              round
+              size="sm"
+              color="primary"
+              icon="mdi-plus"
+              @click="showAddPanel = !showAddPanel"
+            >
+              <q-tooltip>{{ translate('JS_CHAT_ADD_PARTICIPANT') }}</q-tooltip>
+            </q-btn>
+            <q-icon name="mdi-information" class="q-pr-xs">
+              <q-tooltip>{{ translate(`JS_CHAT_PARTICIPANTS_DESCRIPTION`) }}</q-tooltip>
+            </q-icon>
+          </div>
         </q-item-label>
+        <q-item v-if="isAddPanel" v-show="showAddPanel">
+          <select-users :modules="[]" :isVisible.sync="showAddPanel" class="q-pb-xs" />
+        </q-item>
         <template v-for="participant in participantsList">
           <q-item :key="participant.user_id" v-if="participant.user_name === participant.user_name" class="q-py-xs">
             <q-item-section avatar>
@@ -51,8 +71,12 @@
   </div>
 </template>
 <script>
+import SelectUsers from './SelectUsers.vue'
+import { createNamespacedHelpers } from 'vuex'
+const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatRightPanel',
+  components: { SelectUsers },
   props: {
     participants: {
       type: Array,
@@ -61,10 +85,16 @@ export default {
   },
   data() {
     return {
-      filterParticipants: ''
+      filterParticipants: '',
+      userId: CONFIG.userId,
+      showAddPanel: false
     }
   },
   computed: {
+    ...mapGetters(['currentRoomData']),
+    isAddPanel() {
+      return this.currentRoomData.roomType === 'private' && this.currentRoomData.creatorid === this.userId
+    },
     participantsList() {
       if (this.filterParticipants === '') {
         return this.participants
