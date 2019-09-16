@@ -260,9 +260,9 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	public function addPrivateRoom(App\Request $request)
 	{
 		$chat = \App\Chat::getInstance();
-		$chat->createPrivateRoom($request->getByType('name'));
+		$chat->createPrivateRoom($request->getByType('name', 'Text'));
 		$response = new Vtiger_Response();
-		$response->setResult('success');
+		$response->setResult(\App\Chat::getRoomsByUser());
 		$response->emit();
 	}
 

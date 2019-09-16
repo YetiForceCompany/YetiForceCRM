@@ -1,7 +1,15 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <div class="full-width">
-    <q-input dense v-model="addRoom" :placeholder="translate('JS_CHAT_ADD_PRIVARE_ROOM')">
+    <q-input
+      v-model="addRoom"
+      @keydown.enter="validateRoomName()"
+      dense
+      :placeholder="translate('JS_CHAT_ADD_PRIVATE_ROOM')"
+      :error="!isValid"
+      @input="isValid = true"
+      ref="addRoomInput"
+    >
       <template v-slot:prepend>
         <q-btn color="primary" flat dense icon="mdi-plus" @click="validateRoomName()">
           <q-tooltip anchor="top middle">{{ translate('JS_ADD') }}</q-tooltip>
@@ -11,12 +19,15 @@
         <q-icon name="mdi-close" @click="$emit('update:showAddPrivateRoom', false)" class="cursor-pointer" />
         <q-tooltip anchor="top middle">{{ translate('JS_CHAT_HIDE_ADD_PANEL') }}</q-tooltip>
       </template>
+      <template v-slot:error>
+        {{ errorMessage }}
+      </template>
     </q-input>
   </div>
 </template>
 <script>
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters, mapActions } = createNamespacedHelpers('Chat')
+const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
 
 export default {
   name: 'AddRoom',
@@ -27,18 +38,53 @@ export default {
   },
   data() {
     return {
-      addRoom: ''
+      addRoom: '',
+      isValid: true,
+      errorMessage: ''
     }
   },
-  watch: {},
-  computed: {},
+  watch: {
+    showAddPrivateRoom() {
+      if (this.showAddPrivateRoom) {
+        this.$refs.addRoomInput.focus()
+      }
+    }
+  },
+  computed: {
+    ...mapGetters(['data'])
+  },
   methods: {
-		...mapActions(['addPrivateRoom']),
+    ...mapActions(['addPrivateRoom']),
+    ...mapMutations(['updateRooms']),
     validateRoomName() {
-			this.addPrivateRoom(this.addRoom).then(result => {
-				console.log(result)
-			})
-		}
+      if (this.addRoom.length) {
+        let roomExist = false
+        for (let room in this.data.roomList.private) {
+          if (this.data.roomList.private[room].name === this.addRoom) {
+            roomExist = true
+            break
+          }
+        }
+        if (!roomExist) {
+          this.addPrivateRoom({ name: this.addRoom }).then(({ result }) => {
+            this.addRoom = ''
+            this.updateRooms(result)
+            this.$q.notify({
+              position: 'top',
+              color: 'success',
+              message: this.translate('JS_CHAT_ROOM_ADDED'),
+              icon: 'mdi-check'
+            })
+          })
+        } else {
+          this.errorMessage = this.translate('JS_CHAT_ROOM_EXIST')
+          this.isValid = false
+        }
+      } else {
+        this.errorMessage = this.translate('JS_CHAT_ROOM_NAME_EMPTY')
+        this.isValid = false
+      }
+    }
   },
   created() {}
 }

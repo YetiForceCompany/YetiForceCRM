@@ -59,7 +59,7 @@
                 icon="mdi-plus"
                 @click="showAddPrivateRoom = !showAddPrivateRoom"
               >
-                <q-tooltip>{{ translate('JS_CHAT_ADD_PRIVARE_ROOM') }}</q-tooltip>
+                <q-tooltip>{{ translate('JS_CHAT_ADD_PRIVATE_ROOM') }}</q-tooltip>
               </q-btn>
               <q-icon :size="fontSize" name="mdi-information" class="q-pr-xs">
                 <q-tooltip>{{ translate(`JS_CHAT_ROOM_DESCRIPTION_${roomType.toUpperCase()}`) }}</q-tooltip>
