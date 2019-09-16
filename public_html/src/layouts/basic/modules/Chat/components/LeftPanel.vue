@@ -49,6 +49,18 @@
               >
                 <q-tooltip>{{ translate('JS_CHAT_ADD_FAVORITE_ROOM_FROM_MODULE') }}</q-tooltip>
               </q-btn>
+              <q-btn
+                v-if="roomType === 'private'"
+                dense
+                flat
+                round
+                size="sm"
+                color="primary"
+                icon="mdi-plus"
+                @click="showAddPrivateRoom = !showAddPrivateRoom"
+              >
+                <q-tooltip>{{ translate('JS_CHAT_ADD_PRIVARE_ROOM') }}</q-tooltip>
+              </q-btn>
               <q-icon :size="fontSize" name="mdi-information" class="q-pr-xs">
                 <q-tooltip>{{ translate(`JS_CHAT_ROOM_DESCRIPTION_${roomType.toUpperCase()}`) }}</q-tooltip>
               </q-icon>
@@ -56,6 +68,9 @@
           </q-item-label>
           <q-item v-if="roomType === 'crm' && config.dynamicAddingRooms" v-show="showAddRoomPanel">
             <select-modules :modules="config.chatModules" :isVisible.sync="showAddRoomPanel" class="q-pb-xs" />
+          </q-item>
+          <q-item v-if="roomType === 'private'" v-show="showAddPrivateRoom">
+            <add-room :showAddPrivateRoom.sync="showAddPrivateRoom" />
           </q-item>
           <template v-for="(room, roomId) of roomGroup">
             <q-item
@@ -140,12 +155,13 @@
 </template>
 <script>
 import SelectModules from './SelectModules.vue'
+import AddRoom from './AddRoom.vue'
 import { getGroupIcon } from '../utils/utils.js'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'LeftPanel',
-  components: { SelectModules },
+  components: { SelectModules, AddRoom },
   data() {
     return {
       filterRooms: '',
@@ -155,7 +171,8 @@ export default {
         global: false,
         private: false
       },
-      showAddRoomPanel: false
+      showAddRoomPanel: false,
+      showAddPrivateRoom: false
     }
   },
   computed: {

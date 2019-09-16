@@ -33,6 +33,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$this->exposeMethod('send');
 		$this->exposeMethod('search');
 		$this->exposeMethod('trackNewMessages');
+		$this->exposeMethod('addPrivateRoom');
 	}
 
 	/**
@@ -248,6 +249,20 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			'chatEntries' => $chatEntries,
 			'showMoreButton' => $isNextPage
 		]);
+		$response->emit();
+	}
+
+	/**
+	 * Add private room.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function addPrivateRoom(App\Request $request)
+	{
+		$chat = \App\Chat::getInstance();
+		$chat->createPrivateRoom($request->getByType('name'));
+		$response = new Vtiger_Response();
+		$response->setResult('success');
 		$response->emit();
 	}
 

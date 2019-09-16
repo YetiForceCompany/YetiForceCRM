@@ -78,6 +78,18 @@ export default {
 	addActiveRoom({ commit }, { recordId, roomType }) {
 		commit('setActiveRoom', { recordId, roomType })
 	},
+	addPrivateRoom({ dispatch, commit, getters }, { name }) {
+		return new Promise((resolve, reject) => {
+			AppConnector.request({
+				module: 'Chat',
+				action: 'ChatAjax',
+				mode: 'addPrivateRoom',
+				name: name
+			}).done(result => {
+				resolve(result)
+			})
+		})
+	},
 	sendMessage({ commit, getters }, { text, roomType, recordId }) {
 		const lastEntries = getters.data.roomList[roomType][recordId].chatEntries.slice(-1)[0]
 		return new Promise((resolve, reject) => {
