@@ -1414,6 +1414,7 @@ $.Class(
 			this.registerFocusFirstField(container);
 			this.registerCopyValue(container);
 			this.registerMultiImageFields(container);
+			this.registerReferenceCreate(container);
 			App.Fields.MultiEmail.register(container);
 			App.Fields.MultiDependField.register(container);
 			App.Fields.Tree.register(container);
@@ -1434,7 +1435,6 @@ $.Class(
 			this.registerSubmitEvent();
 			this.registerLeavePageWithoutSubmit(editViewForm);
 			this.registerValidationsFields(editViewForm);
-			this.registerReferenceCreate(editViewForm);
 			this.registerAutoloadAddress();
 			editViewForm.find('.js-form-submit-btn').prop('disabled', false);
 			//this.triggerDisplayTypeEvent();
