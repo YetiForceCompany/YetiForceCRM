@@ -91,9 +91,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentRoomData']),
+    ...mapGetters(['currentRoomData', 'config']),
     isAddPanel() {
-      return this.currentRoomData.roomType === 'private' && this.currentRoomData.creatorid === this.userId
+      return this.currentRoomData.roomType === 'private' && (this.currentRoomData.creatorid === this.userId || this.config.isAdmin)
     },
     participantsList() {
       if (this.filterParticipants === '') {

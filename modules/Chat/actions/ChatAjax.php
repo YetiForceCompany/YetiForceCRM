@@ -42,7 +42,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(App\Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUserPriviligesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 406);
 		}
@@ -61,6 +61,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$result = [
 			'config' => [
 				'isChatAllowed' => \App\User::getCurrentUserRealId() === \App\User::getCurrentUserId(),
+				'isAdmin' => \Users_Privileges_Model::getCurrentUserPrivilegesModel()->isAdminUser(),
 				'isDefaultSoundNotification' => \App\Config::module('Chat', 'DEFAULT_SOUND_NOTIFICATION'),
 				'refreshMessageTime' => \App\Config::module('Chat', 'REFRESH_MESSAGE_TIME'),
 				'refreshRoomTime' => \App\Config::module('Chat', 'REFRESH_ROOM_TIME'),

@@ -221,11 +221,15 @@ final class Chat
 				'cnt_new_message' => $cntQuery
 			])
 			->from(['CR' => 'u_yf_chat_rooms_private']);
-		$dataReader = (new Db\Query())
+		$query = (new Db\Query())
 			->select(['name', 'recordid' => 'GL.private_room_id', 'CNT.cnt_new_message', 'creatorid', 'created'])
-			->from(['GL' => 'u_#__chat_private'])
-			->innerJoin(['CNT' => $subQuery], "CNT.{$roomIdName} = GL.private_room_id AND CNT.userid = {$userId}")
-			->createCommand()->query();
+			->from(['GL' => 'u_#__chat_private']);
+		if (\Users_Privileges_Model::getCurrentUserPrivilegesModel()->isAdminUser()) {
+			$query->leftJoin(['CNT' => $subQuery], "CNT.{$roomIdName} = GL.private_room_id AND CNT.userid = {$userId}");
+		} else {
+			$query->innerJoin(['CNT' => $subQuery], "CNT.{$roomIdName} = GL.private_room_id AND CNT.userid = {$userId}");
+		}
+		$dataReader = $query->createCommand()->query();
 		$rooms = [];
 		while ($row = $dataReader->read()) {
 			$row['name'] = Language::translate($row['name'], 'Chat');
@@ -998,9 +1002,10 @@ final class Chat
 	 * Add participant to private room.
 	 *
 	 * @param int $userId
+	 *
 	 * @return bool $alreadyInvited
 	 */
-	public function addParticipantToPrivate(int $userId) :bool
+	public function addParticipantToPrivate(int $userId): bool
 	{
 		$privateRoomsTable = static::TABLE_NAME['room']['private'];
 		$privateRoomsIdColumn = static::COLUMN_NAME['room']['private'];
@@ -1009,8 +1014,8 @@ final class Chat
 			->from($privateRoomsTable)
 			->where(['and', [$privateRoomsIdColumn => $this->recordId], ['userid' => $userId]])
 			->exists();
-			if (!$alreadyInvited) {
-				Db::getInstance()->createCommand()->insert(
+		if (!$alreadyInvited) {
+			Db::getInstance()->createCommand()->insert(
 					$privateRoomsTable,
 					[
 						'userid' => $userId,
@@ -1018,8 +1023,8 @@ final class Chat
 						$privateRoomsIdColumn => $this->recordId,
 					]
 				)->execute();
-			}
-			return $alreadyInvited;
+		}
+		return $alreadyInvited;
 	}
 
 	/**
