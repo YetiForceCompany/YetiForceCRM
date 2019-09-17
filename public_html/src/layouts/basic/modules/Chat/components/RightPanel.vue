@@ -49,7 +49,13 @@
           <select-users :isVisible.sync="showAddPanel" class="q-pb-xs" />
         </q-item>
         <template v-for="participant in participantsList">
-          <q-item :key="participant.user_id" v-if="participant.user_name === participant.user_name" class="q-py-xs">
+          <q-item
+            :active="participant.active"
+            active-class="opacity-1"
+            :key="participant.user_id"
+            v-if="participant.user_name === participant.user_name"
+            class="q-py-xs opacity-5"
+          >
             <q-item-section avatar>
               <q-avatar style="height: unset;">
                 <img v-if="participant.image" :src="participant.image" />
@@ -65,7 +71,7 @@
             </q-item-section>
             <q-item-section avatar>
               <q-btn
-                v-if="isAddPanel"
+                v-if="isAddPanel && !participant.isAdmin"
                 @click.stop="
                   toggleUser({
                     roomType: currentRoomData.roomType,
@@ -78,9 +84,10 @@
                 round
                 flat
                 size="xs"
-                color="primary"
+                :color="participant.active ? 'primary' : ''"
                 :icon="participant.active ? 'mdi-pin' : 'mdi-pin-off'"
               />
+              <q-icon v-else name="mdi-crown" />
             </q-item-section>
           </q-item>
         </template>
@@ -118,7 +125,7 @@ export default {
     },
     participantsList() {
       if (this.filterParticipants === '') {
-        return this.participants
+        return this.participants.sort((a, b) => (!a.active ? 1 : -1))
       } else {
         return this.participants.filter(participant => {
           return (
@@ -131,11 +138,11 @@ export default {
   },
   methods: {
     ...mapActions(['removeUserFromRoom', 'addParticipant']),
-    ...mapMutations(['updateRooms']),
+    ...mapMutations(['toggleActiveParticipant']),
     toggleUser({ roomType, recordId, userId, active }) {
       if (active) {
         this.removeUserFromRoom({ roomType, recordId, userId }).then(({ result }) => {
-          this.setData(result)
+          this.toggleActiveParticipant({ roomId: recordId, participantId: userId })
           this.$q.notify({
             position: 'top',
             color: 'success',
@@ -145,7 +152,7 @@ export default {
         })
       } else {
         this.addParticipant({ recordId: this.currentRoomData.recordid, userId }).then(({ result }) => {
-          this.updateRooms(result)
+          this.toggleActiveParticipant({ roomId: recordId, participantId: userId })
           this.$q.notify({
             position: 'top',
             color: 'success',
@@ -158,4 +165,11 @@ export default {
   }
 }
 </script>
-<style module lang="stylus"></style>
+<style scoped>
+.opacity-5 {
+  opacity: 0.5;
+}
+.opacity-1 {
+  opacity: 1;
+}
+</style>

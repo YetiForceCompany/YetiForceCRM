@@ -408,6 +408,7 @@ final class Chat
 		return [
 			'user_name' => $userName,
 			'role_name' => $userRoleName,
+			'isAdmin' => $userModel->isAdmin(),
 			'image' => $image['url'] ?? null,
 		];
 	}
@@ -923,6 +924,7 @@ final class Chat
 				'message' => static::decodeMessage($row['messages']),
 				'user_name' => $user['user_name'],
 				'role_name' => $user['role_name'],
+				'isAdmin' => $user['isAdmin'],
 				'image' => $user['image'],
 				'active' => isset($row['isActive']) ? true : false
 			];
@@ -951,14 +953,14 @@ final class Chat
 					static::COLUMN_NAME['room'][$this->roomType] => $this->recordId
 				]
 			)->execute();
-			if ($userId === $this->userId) {
-				unset($this->room['userid']);
-			}
 		}
-		$currentRoom = static::getCurrentRoom();
-		if ($currentRoom['recordId'] === $this->recordId && $currentRoom['roomType'] === $this->roomType) {
-			$defaultRoom = static::getDefaultRoom();
-			static::setCurrentRoom($defaultRoom['roomType'], $defaultRoom['recordId']);
+		if ($userId === $this->userId) {
+			unset($this->room['userid']);
+			$currentRoom = static::getCurrentRoom();
+			if ($currentRoom['recordId'] === $this->recordId && $currentRoom['roomType'] === $this->roomType) {
+				$defaultRoom = static::getDefaultRoom();
+				static::setCurrentRoom($defaultRoom['roomType'], $defaultRoom['recordId']);
+			}
 		}
 	}
 

@@ -100,6 +100,15 @@ export default {
 	setActiveRoom(state, { recordId, roomType }) {
 		state.data.roomList[roomType][recordId].active = true
 	},
+	toggleActiveParticipant(state, { roomId, participantId }) {
+		let participants = state.data.roomList.private[roomId].participants
+		for (const [i, participant] of participants.entries()) {
+			if (participant.user_id === participantId) {
+				participants[i].active = !participants[i].active
+				break
+			}
+		}
+	},
 	setPinned(state, { roomType, room }) {
 		const roomList = state.data.roomList
 		if (roomType === 'crm') {
