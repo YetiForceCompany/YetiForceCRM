@@ -2059,12 +2059,11 @@ $.Class(
 			thisInstance.registerEditInventoryField();
 			thisInstance.registerInventoryFieldSequenceSaveClick();
 			thisInstance.registerDeleteInventoryField();
+			this.registerFieldSequenceSaveClick();
 		},
 		registerBasicEvents: function() {
 			var container = $('#layoutEditorContainer');
-
 			this.registerEvents();
-			this.registerFieldSequenceSaveClick();
 			this.registerCopyClipboard();
 			this.registerContextHelp(container);
 		}
