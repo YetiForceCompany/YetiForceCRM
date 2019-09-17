@@ -17,10 +17,11 @@ class Email
 	 * @param string $value
 	 * @param string $moduleName
 	 *
-	 * @return bool|string
+	 * @return bool|string|array
 	 */
-	public static function findRecordNumber($value, $moduleName)
+	public static function findRecordNumber($value, $moduleName, $returnAsArray = false)
 	{
+		$returnMatch = false;
 		$moduleData = RecordNumber::getInstance($moduleName);
 		$prefix = str_replace(['\{\{YYYY\}\}', '\{\{YY\}\}', '\{\{MM\}\}', '\{\{DD\}\}', '\{\{M\}\}', '\{\{D\}\}'], ['\d{4}', '\d{2}', '\d{2}', '\d{2}', '\d{1,2}', '\d{1,2}'], preg_quote($moduleData->get('prefix'), '/'));
 		$postfix = str_replace(['\{\{YYYY\}\}', '\{\{YY\}\}', '\{\{MM\}\}', '\{\{DD\}\}', '\{\{M\}\}', '\{\{D\}\}'], ['\d{4}', '\d{2}', '\d{2}', '\d{2}', '\d{1,2}', '\d{1,2}'], preg_quote($moduleData->get('postfix'), '/'));
@@ -32,11 +33,20 @@ class Email
 			}
 			return '((' . implode('|', $picklistPrefix) . ')*)';
 		}, $redex);
-		preg_match($redex, $value, $match);
-		if (!empty($match)) {
-			return trim($match[0], '[,]');
+		if($returnAsArray){
+			preg_match_all($redex, $value, $match);
+			if(!empty($match)){
+				foreach(current($match) as $element){
+					$returnMatch[] = trim($element, '[,]');
+				}
+			}
+		} else {
+			preg_match($redex, $value, $match);
+			if (!empty($match[0])) {
+				$returnMatch = trim($match[0], '[,]');
+			}
 		}
-		return false;
+		return $returnMatch;
 	}
 
 	/**
