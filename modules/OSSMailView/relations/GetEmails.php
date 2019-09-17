@@ -95,7 +95,11 @@ class OSSMailView_GetEmails_Relation implements RelationInterface
 	 */
 	public function addToDB(array $data): bool
 	{
-		return (bool) \App\Db::getInstance()->createCommand()->insert(self::TABLE_NAME, $data)->execute();
+		$result = true;
+		if(!$this->isExists(['ossmailviewid' => $data['ossmailviewid'], 'crmid' => $data['crmid']])){
+			$result = (bool) \App\Db::getInstance()->createCommand()->insert(self::TABLE_NAME, $data)->execute();
+		}
+		return $result;
 	}
 
 	/**
@@ -108,6 +112,10 @@ class OSSMailView_GetEmails_Relation implements RelationInterface
 	 */
 	public function updateDB(int $toRecordId, array $where): bool
 	{
-		return (bool) \App\Db::getInstance()->createCommand()->update(self::TABLE_NAME, ['crmid' => $toRecordId], $where)->execute();
+		$result = true;
+		if(!$this->isExists(['ossmailviewid' => $where['ossmailviewid'], 'crmid' => $toRecordId])){
+			$result = (bool) \App\Db::getInstance()->createCommand()->update(self::TABLE_NAME, ['crmid' => $toRecordId], $where)->execute();
+		}
+		return $result;
 	}
 }
