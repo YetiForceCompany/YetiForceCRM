@@ -412,8 +412,8 @@ class ServiceContracts
 	 */
 	public static function updateExpectedTimes(\Vtiger_Record_Model $recordModel, array $type)
 	{
-		if (($field = \App\Field::getRelatedFieldForModule($recordModel->getModuleName(), 'ServiceContracts')) && $recordModel->get($field['fieldname'])) {
-			foreach (self::getExpectedTimes($recordModel->get($field['fieldname']), $recordModel, $type) as $key => $time) {
+		if (($field = \App\Field::getRelatedFieldForModule($recordModel->getModuleName(), 'ServiceContracts'))) {
+			foreach (self::getExpectedTimes(empty($recordModel->get($field['fieldname'])) ? 0 : $recordModel->get($field['fieldname']), $recordModel, $type) as $key => $time) {
 				$recordModel->set($key . '_expected', $time);
 			}
 		}
@@ -432,7 +432,7 @@ class ServiceContracts
 	{
 		$return = [];
 		$date = new \DateTime();
-		if ($rules = self::getRulesForServiceContracts($id, $recordModel)) {
+		if ($id && ($rules = self::getRulesForServiceContracts($id, $recordModel))) {
 			if (isset($rules['id'])) {
 				foreach (self::$fieldsMap as $key => $fieldKey) {
 					if (\in_array($fieldKey, $type)) {
