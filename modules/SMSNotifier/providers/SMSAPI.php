@@ -67,8 +67,6 @@ class SMSNotifier_SMSAPI_Provider extends SMSNotifier_Basic_Provider
 	/**
 	 * Fields to edit in settings.
 	 *
-	 * @param string $params
-	 *
 	 * @return \Settings_Vtiger_Field_Model[]
 	 */
 	public function getSettingsEditFieldsModel()
