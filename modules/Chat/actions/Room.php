@@ -103,7 +103,7 @@ class Chat_Room_Action extends \App\Controller\Action
 					throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 				}
 				break;
-			case 'private':
+			case 'private' || 'global':
 				break;
 			default:
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);

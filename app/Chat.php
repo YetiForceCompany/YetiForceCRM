@@ -181,7 +181,7 @@ final class Chat
 			])
 			->from(['CR' => 'u_yf_chat_rooms_global']);
 		$dataReader = (new Db\Query())
-			->select(['name', 'recordid' => 'GL.global_room_id', 'CNT.cnt_new_message'])
+			->select(['name', 'recordid' => 'GL.global_room_id', 'CNT.cnt_new_message', 'CNT.userid'])
 			->from(['GL' => 'u_#__chat_global'])
 			->leftJoin(['CNT' => $subQuery], "CNT.{$roomIdName} = GL.global_room_id AND CNT.userid = {$userId}")
 			->createCommand()->query();
@@ -189,7 +189,7 @@ final class Chat
 		while ($row = $dataReader->read()) {
 			$row['name'] = Language::translate($row['name'], 'Chat');
 			$row['roomType'] = 'global';
-			$row['isPinned'] = true;
+			$row['isPinned'] = isset($row['userid']) ? true : false;
 			$rooms[$row['recordid']] = $row;
 		}
 		$dataReader->close();
@@ -218,11 +218,11 @@ final class Chat
 		$subQuery = (new Db\Query())
 			->select([
 				'CR.*',
-				'cnt_new_message' => $cntQuery
+				'cnt_new_message' => $cntQuery,
 			])
 			->from(['CR' => 'u_yf_chat_rooms_private']);
 		$query = (new Db\Query())
-			->select(['name', 'recordid' => 'GL.private_room_id', 'CNT.cnt_new_message', 'creatorid', 'created'])
+			->select(['name', 'recordid' => 'GL.private_room_id', 'CNT.cnt_new_message', 'CNT.userid', 'creatorid', 'created'])
 			->from(['GL' => 'u_#__chat_private']);
 		if (\Users_Privileges_Model::getCurrentUserPrivilegesModel()->isAdminUser()) {
 			$query->leftJoin(['CNT' => $subQuery], "CNT.{$roomIdName} = GL.private_room_id AND CNT.userid = {$userId}");
@@ -234,7 +234,7 @@ final class Chat
 		while ($row = $dataReader->read()) {
 			$row['name'] = Language::translate($row['name'], 'Chat');
 			$row['roomType'] = 'private';
-			$row['isPinned'] = true;
+			$row['isPinned'] = isset($row['userid']) ? true : false;
 			$rooms[$row['recordid']] = $row;
 		}
 		$dataReader->close();
@@ -335,7 +335,7 @@ final class Chat
 	{
 		return (array) (new Db\Query())
 			->from(static::TABLE_NAME['message'][$roomType])
-			->where(['crm' === $roomType ? 'crmid' : 'groupid' => $roomId])
+			->where([static::COLUMN_NAME['message'][$roomType] => $roomId])
 			->orderBy(['id' => \SORT_DESC])
 			->one();
 	}
