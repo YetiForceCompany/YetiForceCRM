@@ -100,9 +100,9 @@ class Completions
 				$type = $matches[1];
 				$id = (int) $matches[2];
 				if ('@' === $type) {
-					$label = static::decodeOwnerText($id);
+					$label = static::decodeOwnerText($id, '-');
 				} elseif ('#' === $type) {
-					$label = static::decodeRecordText($id);
+					$label = static::decodeRecordText($id, '-');
 				} else {
 					$label = '';
 				}
@@ -191,7 +191,7 @@ class Completions
 	 *
 	 * @param string $baseText
 	 * @param string $type
-	 * @param int $id
+	 * @param int    $id
 	 * @param string $label
 	 * @param string $format
 	 *
@@ -227,7 +227,7 @@ class Completions
 	/**
 	 * Display record text.
 	 *
-	 * @param int $recordId
+	 * @param int    $recordId
 	 * @param string $recordLabel
 	 *
 	 * @return string
@@ -245,7 +245,7 @@ class Completions
 	/**
 	 * Display record.
 	 *
-	 * @param int $recordId
+	 * @param int    $recordId
 	 * @param string $recordLabel
 	 *
 	 * @return string
@@ -266,7 +266,7 @@ class Completions
 	/**
 	 * Display owner.
 	 *
-	 * @param int $userId
+	 * @param int    $userId
 	 * @param string $recordLabel
 	 *
 	 * @return string
@@ -289,7 +289,7 @@ class Completions
 	/**
 	 * Display owner text.
 	 *
-	 * @param int $userId
+	 * @param int    $userId
 	 * @param string $recordLabel
 	 *
 	 * @return string
