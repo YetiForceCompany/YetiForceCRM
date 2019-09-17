@@ -50,7 +50,7 @@
         </q-item>
         <template v-for="participant in participantsList">
           <q-item
-            :active="participant.active"
+            :active="participant.message !== undefined"
             active-class="opacity-1"
             :key="participant.user_id"
             v-if="participant.user_name === participant.user_name"
@@ -73,19 +73,18 @@
               <q-btn
                 v-if="isAddPanel && !participant.isAdmin"
                 @click.stop="
-                  toggleUser({
+                  unpinUser({
                     roomType: currentRoomData.roomType,
                     recordId: currentRoomData.recordid,
                     userId: participant.user_id,
-                    active: participant.active
+                    active: participant.message !== undefined
                   })
                 "
                 dense
                 round
                 flat
                 size="xs"
-                :color="participant.active ? 'primary' : ''"
-                :icon="participant.active ? 'mdi-pin' : 'mdi-pin-off'"
+                :icon="'mdi-pin'"
               />
               <q-icon v-else name="mdi-crown" />
             </q-item-section>
@@ -125,7 +124,7 @@ export default {
     },
     participantsList() {
       if (this.filterParticipants === '') {
-        return this.participants.sort((a, b) => (!a.active ? 1 : -1))
+        return this.participants.length ? this.participants.concat().sort((a, b) => (!a.active ? 1 : -1)) : []
       } else {
         return this.participants.filter(participant => {
           return (
@@ -137,30 +136,18 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['removeUserFromRoom', 'addParticipant']),
-    ...mapMutations(['toggleActiveParticipant']),
-    toggleUser({ roomType, recordId, userId, active }) {
-      if (active) {
-        this.removeUserFromRoom({ roomType, recordId, userId }).then(({ result }) => {
-          this.toggleActiveParticipant({ roomId: recordId, participantId: userId })
-          this.$q.notify({
-            position: 'top',
-            color: 'success',
-            message: this.translate('JS_CHAT_PARTICIPANT_REMOVED'),
-            icon: 'mdi-check'
-          })
+    ...mapActions(['removeUserFromRoom']),
+    ...mapMutations(['unsetParticipant']),
+    unpinUser({ roomType, recordId, userId, active }) {
+      this.removeUserFromRoom({ roomType, recordId, userId }).then(({ result }) => {
+        this.unsetParticipant({ roomId: recordId, participantId: userId })
+        this.$q.notify({
+          position: 'top',
+          color: 'success',
+          message: this.translate('JS_CHAT_PARTICIPANT_REMOVED'),
+          icon: 'mdi-check'
         })
-      } else {
-        this.addParticipant({ recordId: this.currentRoomData.recordid, userId }).then(({ result }) => {
-          this.toggleActiveParticipant({ roomId: recordId, participantId: userId })
-          this.$q.notify({
-            position: 'top',
-            color: 'success',
-            message: this.translate('JS_CHAT_PARTICIPANT_ADDED'),
-            icon: 'mdi-check'
-          })
-        })
-      }
+      })
     }
   }
 }

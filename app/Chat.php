@@ -906,31 +906,38 @@ final class Chat
 			return [];
 		}
 		$columnRoom = static::COLUMN_NAME['room'][$this->roomType];
+		$allUsersQuery = (new DB\Query())
+			->select(['userid'])
+			->from(static::TABLE_NAME['room'][$this->roomType])
+			->where([$columnRoom => $this->recordId]);
 		$subQuery = (new DB\Query())
-			->select(['CR.userid', 'last_id' => new \yii\db\Expression('max(id)'), 'isActive' => 'CL.userid'])
+			->select(['CR.userid', 'last_id' => new \yii\db\Expression('max(id)')])
 			->from(['CR' => static::TABLE_NAME['message'][$this->roomType]])
-			->leftJoin(['CL' => static::TABLE_NAME['room'][$this->roomType]], "CL.{$columnRoom} = {$this->recordId} AND CL.userid = CR.userid")
 			->where([static::COLUMN_NAME['message'][$this->roomType] => $this->recordId])
-			->groupBy(['CR.userid', 'CL.userid']);
+			->groupBy(['CR.userid']);
 		$query = (new DB\Query())
 			->from(['GL' => static::TABLE_NAME['message'][$this->roomType]])
 			->innerJoin(['LM' => $subQuery], 'LM.last_id = GL.id');
-		$dataReader = $query->createCommand()->query();
 		$participants = [];
+		$dataReader = $allUsersQuery->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$user = $this->getUserInfo($row['userid']);
-			$participants[] = [
+			$participants[$row['userid']] = [
 				'user_id' => $row['userid'],
-				'message' => static::decodeMessage($row['messages']),
 				'user_name' => $user['user_name'],
 				'role_name' => $user['role_name'],
 				'isAdmin' => $user['isAdmin'],
 				'image' => $user['image'],
-				'active' => isset($row['isActive']) ? true : false
 			];
 		}
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			if (isset($participants[$row['userid']])) {
+				$participants[$row['userid']]['message'] = static::decodeMessage($row['messages']);
+			}
+		}
 		$dataReader->close();
-		return $participants;
+		return array_values($participants);
 	}
 
 	/**
