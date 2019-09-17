@@ -325,9 +325,18 @@ class File
 	 *
 	 * @return string
 	 */
-	public function getPath()
+	public function getPath(): string
 	{
 		return $this->path;
+	}
+
+	/** Get file encoding.
+	 *
+	 * @return string
+	 */
+	public function getEncoding(): string
+	{
+		return \strtoupper(mb_detect_encoding($this->getContents(), mb_list_encodings(), true));
 	}
 
 	/**
@@ -663,6 +672,7 @@ class File
 		} else {
 			$uploadStatus = rename($this->path, $target);
 		}
+		$this->path = $target;
 		return $uploadStatus;
 	}
 

@@ -38,7 +38,7 @@ class Import_Data_Action extends \App\Controller\Action
 	 * @param array     $importInfo
 	 * @param \App\User $user
 	 */
-	public function __construct($importInfo, \App\User $user)
+	public function __construct($importInfo, App\User $user)
 	{
 		$this->id = $importInfo['id'];
 		$this->module = $importInfo['module'];
@@ -52,7 +52,7 @@ class Import_Data_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
@@ -63,7 +63,7 @@ class Import_Data_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 	}
 
@@ -81,7 +81,7 @@ class Import_Data_Action extends \App\Controller\Action
 
 		$defaultValue = [];
 		if (!empty($this->defaultValues)) {
-			if (!is_array($this->defaultValues)) {
+			if (!\is_array($this->defaultValues)) {
 				$this->defaultValues = \App\Json::decode($this->defaultValues);
 			}
 			if ($this->defaultValues) {
@@ -92,9 +92,9 @@ class Import_Data_Action extends \App\Controller\Action
 		foreach ($moduleModel->getMandatoryFieldModels() as $fieldInstance) {
 			$mandatoryFieldName = $fieldInstance->getName();
 			if (empty($defaultValue[$mandatoryFieldName])) {
-				if ($fieldInstance->getFieldDataType() === 'owner') {
+				if ('owner' === $fieldInstance->getFieldDataType()) {
 					$defaultValue[$mandatoryFieldName] = $this->user->getId();
-				} elseif (!in_array($fieldInstance->getFieldDataType(), ['datetime', 'date', 'time', 'reference'])) {
+				} elseif (!\in_array($fieldInstance->getFieldDataType(), ['datetime', 'date', 'time', 'reference'])) {
 					$defaultValue[$mandatoryFieldName] = '????';
 				}
 			}
@@ -102,7 +102,7 @@ class Import_Data_Action extends \App\Controller\Action
 		foreach ($moduleModel->getFields() as $fieldName => $fieldInstance) {
 			$fieldDefaultValue = $fieldInstance->getDefaultFieldValue();
 			if (empty($defaultValue[$fieldName])) {
-				if ($fieldInstance->getUIType() === 52) {
+				if (52 === $fieldInstance->getUIType()) {
 					$defaultValue[$fieldName] = $this->user->getId();
 				} elseif (!empty($fieldDefaultValue)) {
 					$defaultValue[$fieldName] = $fieldDefaultValue;
@@ -126,7 +126,7 @@ class Import_Data_Action extends \App\Controller\Action
 			return \App\Cache::staticGet('DefaultMandatoryFieldValues', $key);
 		}
 		$defaultMandatoryValues = [];
-		if (!empty($this->defaultValues) && !is_array($this->defaultValues)) {
+		if (!empty($this->defaultValues) && !\is_array($this->defaultValues)) {
 			$this->defaultValues = \App\Json::decode($this->defaultValues);
 		}
 		$moduleModel = Vtiger_Module_Model::getInstance($this->module);
@@ -137,9 +137,9 @@ class Import_Data_Action extends \App\Controller\Action
 				$defaultMandatoryValues[$mandatoryFieldName] = $this->defaultValues[$mandatoryFieldName];
 			} elseif (!empty($fieldDefaultValue)) {
 				$defaultMandatoryValues[$mandatoryFieldName] = $fieldDefaultValue;
-			} elseif ($fieldInstance->getFieldDataType() === 'owner') {
+			} elseif ('owner' === $fieldInstance->getFieldDataType()) {
 				$defaultMandatoryValues[$mandatoryFieldName] = $this->user->getId();
-			} elseif (!in_array($fieldInstance->getFieldDataType(), ['datetime', 'date', 'time', 'reference'])) {
+			} elseif (!\in_array($fieldInstance->getFieldDataType(), ['datetime', 'date', 'time', 'reference'])) {
 				$defaultMandatoryValues[$mandatoryFieldName] = '????';
 			}
 		}
@@ -172,13 +172,11 @@ class Import_Data_Action extends \App\Controller\Action
 			if ($lockInfo['userid'] != $this->user->getId()) {
 				Import_Utils_Helper::showImportLockedError($lockInfo);
 				return false;
-			} else {
-				return true;
 			}
-		} else {
-			Import_Lock_Action::lock($this->id, $this->module, $this->user);
 			return true;
 		}
+		Import_Lock_Action::lock($this->id, $this->module, $this->user);
+		return true;
 	}
 
 	public function finishImport()
@@ -245,27 +243,27 @@ class Import_Data_Action extends \App\Controller\Action
 			$mergeTypeValue = $this->mergeType;
 			$createRecord = false;
 
-			if (!empty($mergeTypeValue) && $mergeTypeValue !== Import_Module_Model::AUTO_MERGE_NONE) {
+			if (!empty($mergeTypeValue) && Import_Module_Model::AUTO_MERGE_NONE !== $mergeTypeValue) {
 				$queryGenerator = new App\QueryGenerator($moduleName, $this->user->getId());
 				$queryGenerator->setFields(['id']);
 				$moduleFields = $queryGenerator->getModuleFields();
 				foreach ($this->mergeFields as $index => $mergeField) {
 					$comparisonValue = $fieldData[$mergeField];
 					$fieldInstance = $moduleFields[$mergeField];
-					if ($fieldInstance->getFieldDataType() == 'owner') {
+					if ('owner' == $fieldInstance->getFieldDataType()) {
 						$ownerId = \App\User::getUserIdByFullName($comparisonValue);
 						if (empty($ownerId)) {
 							$ownerId = \App\Fields\Owner::getGroupId($comparisonValue);
 						}
 						$comparisonValue = $ownerId ? $ownerId : 0;
 					}
-					if ($fieldInstance->getFieldDataType() == 'reference') {
+					if ('reference' == $fieldInstance->getFieldDataType()) {
 						if (strpos($comparisonValue, '::::') > 0) {
 							$referenceFileValueComponents = explode('::::', $comparisonValue);
 						} else {
 							$referenceFileValueComponents = explode(':::', $comparisonValue);
 						}
-						if (count($referenceFileValueComponents) > 1) {
+						if (\count($referenceFileValueComponents) > 1) {
 							$comparisonValue = trim($referenceFileValueComponents[1]);
 						}
 					}
@@ -285,10 +283,10 @@ class Import_Data_Action extends \App\Controller\Action
 							$forUnset = [];
 							foreach ($fieldData as $fieldName => &$fieldValue) {
 								$currentValue = $recordModel->get($fieldName);
-								if (in_array($fieldName, $mandatoryFieldNames)) {
-									if ($fieldValue === '' && $currentValue !== '' && $currentValue !== null) {
+								if (\in_array($fieldName, $mandatoryFieldNames)) {
+									if ('' === $fieldValue && '' !== $currentValue && null !== $currentValue) {
 										$forUnset[] = $fieldName;
-									} elseif ($fieldValue === '' && ($currentValue === '' || $currentValue === null) && isset($defaultMandatoryFieldValues[$fieldName]) && $defaultMandatoryFieldValues[$fieldName] !== '') {
+									} elseif ('' === $fieldValue && ('' === $currentValue || null === $currentValue) && isset($defaultMandatoryFieldValues[$fieldName]) && '' !== $defaultMandatoryFieldValues[$fieldName]) {
 										$fieldValue = $defaultMandatoryFieldValues[$fieldName];
 									}
 								}
@@ -307,13 +305,13 @@ class Import_Data_Action extends \App\Controller\Action
 							$defaultFieldValues = $this->getDefaultFieldValues();
 							foreach ($fieldData as $fieldName => &$fieldValue) {
 								$currentValue = $recordModel->get($fieldName);
-								if ($fieldValue === '' && ($currentValue === '' || $currentValue === null) && isset($defaultFieldValues[$fieldName]) && $defaultFieldValues[$fieldName] !== '') {
+								if ('' === $fieldValue && ('' === $currentValue || null === $currentValue) && isset($defaultFieldValues[$fieldName]) && '' !== $defaultFieldValues[$fieldName]) {
 									$fieldValue = $defaultFieldValues[$fieldName];
 								}
 							}
 							// remove empty values - do not modify existing
 							$fieldData = array_filter($fieldData, function ($fieldValue) {
-								return $fieldValue !== '';
+								return '' !== $fieldValue;
 							});
 							$fieldData = $this->transformForImport($fieldData);
 							$this->updateRecordByModel($baseRecordId, $fieldData, $moduleName);
@@ -326,16 +324,16 @@ class Import_Data_Action extends \App\Controller\Action
 							$defaultFieldValues = $this->getDefaultFieldValues();
 							foreach ($fieldData as $fieldName => &$fieldValue) {
 								$currentValue = $recordModel->get($fieldName);
-								if ($currentValue !== null && $currentValue !== '') {
+								if (null !== $currentValue && '' !== $currentValue) {
 									// existing record data is priority - do not override - save only empty record fields
 									$fieldValue = '';
-								} elseif ($fieldValue === '' && isset($defaultFieldValues[$fieldName]) && $defaultFieldValues[$fieldName] !== '') {
+								} elseif ('' === $fieldValue && isset($defaultFieldValues[$fieldName]) && '' !== $defaultFieldValues[$fieldName]) {
 									$fieldValue = $defaultFieldValues[$fieldName];
 								}
 							}
 							// remove empty values - do not modify existing
 							$fieldData = array_filter($fieldData, function ($fieldValue) {
-								return $fieldValue !== '';
+								return '' !== $fieldValue;
 							});
 							$fieldData = $this->transformForImport($fieldData);
 							$this->updateRecordByModel($baseRecordId, $fieldData, $moduleName);
@@ -357,13 +355,13 @@ class Import_Data_Action extends \App\Controller\Action
 					$inventoryFieldData = $this->transformInventoryForImport($inventoryFieldData);
 					$fieldData['inventoryData'] = $inventoryFieldData;
 				}
-				if ($fieldData === null) {
+				if (null === $fieldData) {
 					$entityInfo = null;
 				} else {
 					$entityInfo = $this->createRecordByModel($moduleName, $fieldData);
 				}
 			}
-			if ($entityInfo === null) {
+			if (null === $entityInfo) {
 				$entityInfo = ['id' => null, 'status' => self::IMPORT_RECORD_FAILED];
 			}
 			$this->importedRecordInfo[$rowId] = $entityInfo;
@@ -395,9 +393,9 @@ class Import_Data_Action extends \App\Controller\Action
 			foreach ($data as $fieldName => &$value) {
 				if (isset($inventoryFields[$fieldName])) {
 					$fieldInstance = $inventoryFields[$fieldName];
-					if (in_array($fieldInstance->getType(), ['Name', 'Reference'])) {
+					if (\in_array($fieldInstance->getType(), ['Name', 'Reference'])) {
 						$value = $this->transformInventoryReference($value);
-					} elseif ($fieldInstance->getType() == 'Currency') {
+					} elseif ('Currency' == $fieldInstance->getType()) {
 						$value = \App\Fields\Currency::getCurrencyIdByName($value);
 						$currencyParam = $data['currencyparam'];
 						$currencyParam = $fieldInstance->getCurrencyParam([], $currencyParam);
@@ -409,7 +407,7 @@ class Import_Data_Action extends \App\Controller\Action
 							}
 						}
 						$data['currencyparam'] = \App\Json::encode($newCurrencyParam);
-					} elseif (array_key_exists($fieldName, $maps)) {
+					} elseif (\array_key_exists($fieldName, $maps)) {
 						$value = $this->transformInventoryFieldFromMap($value, $maps[$fieldName]);
 					}
 				}
@@ -432,7 +430,7 @@ class Import_Data_Action extends \App\Controller\Action
 	{
 		if (!empty($value)) {
 			if ($this->currentInventoryRawData['name']) {
-				list($entityName) = $this->transformInventoryReference($this->currentInventoryRawData['name'], true);
+				[$entityName] = $this->transformInventoryReference($this->currentInventoryRawData['name'], true);
 			}
 			if ($entityName) {
 				if ($this->inventoryFieldMapData[$mapData['field']] && $this->inventoryFieldMapData[$mapData['field']][$entityName]) {
@@ -440,17 +438,17 @@ class Import_Data_Action extends \App\Controller\Action
 				} else {
 					$moduleObject = vtlib\Module::getInstance($entityName);
 					$fieldObject = $moduleObject ? Vtiger_Field_Model::getInstance($mapData['field'], $moduleObject) : null;
-					if (!is_array($this->inventoryFieldMapData[$mapData['field']])) {
+					if (!\is_array($this->inventoryFieldMapData[$mapData['field']])) {
 						$this->inventoryFieldMapData[$mapData['field']] = [];
 					}
 					$this->inventoryFieldMapData[$mapData['field']][$entityName] = $fieldObject;
 				}
 				if ($fieldObject) {
-					if ($fieldObject->getFieldDataType() === 'picklist') {
+					if ('picklist' === $fieldObject->getFieldDataType()) {
 						$picklist = $fieldObject->getValuesName();
-						if (in_array($value, $picklist)) {
+						if (\in_array($value, $picklist)) {
 							$value = array_search($value, $picklist);
-						} elseif (!array_key_exists($value, $picklist)) {
+						} elseif (!\array_key_exists($value, $picklist)) {
 							$value = '';
 						}
 					}
@@ -467,6 +465,8 @@ class Import_Data_Action extends \App\Controller\Action
 	 *
 	 * @param \Vtiger_Field_Model $fieldInstance
 	 * @param string              $fieldValue
+	 * @param mixed               $value
+	 * @param mixed               $getArray
 	 *
 	 * @return mixed
 	 */
@@ -479,7 +479,7 @@ class Import_Data_Action extends \App\Controller\Action
 			} elseif (strpos($value, ':::') > 0) {
 				$fieldValueDetails = explode(':::', $value);
 			}
-			if (is_array($fieldValueDetails) && count($fieldValueDetails) > 1) {
+			if (\is_array($fieldValueDetails) && \count($fieldValueDetails) > 1) {
 				$referenceModuleName = trim($fieldValueDetails[0]);
 				$entityLabel = trim($fieldValueDetails[1]);
 				$value = \App\Record::getCrmIdByLabel($referenceModuleName, $entityLabel);
@@ -507,7 +507,7 @@ class Import_Data_Action extends \App\Controller\Action
 		if (empty($ownerId) && isset($defaultFieldValues[$fieldName])) {
 			$ownerId = $defaultFieldValues[$fieldName];
 		}
-		if (!empty($ownerId) && \App\Fields\Owner::getType($ownerId) === 'Users' && !array_key_exists($ownerId, \App\Fields\Owner::getInstance($fieldInstance->getModuleName(), $this->user->getId())->getAccessibleUsers('', 'owner'))) {
+		if (!empty($ownerId) && 'Users' === \App\Fields\Owner::getType($ownerId) && !\array_key_exists($ownerId, \App\Fields\Owner::getInstance($fieldInstance->getModuleName(), $this->user->getId())->getAccessibleUsers('', 'owner'))) {
 			$ownerId = '';
 		}
 		if (empty($ownerId)) {
@@ -558,7 +558,7 @@ class Import_Data_Action extends \App\Controller\Action
 	public function transformMultipicklist($fieldInstance, $fieldValue)
 	{
 		$trimmedValue = trim($fieldValue);
-		if ($trimmedValue === '') {
+		if ('' === $trimmedValue) {
 			return $trimmedValue;
 		}
 		$explodedValue = explode(' |##| ', $trimmedValue);
@@ -581,15 +581,15 @@ class Import_Data_Action extends \App\Controller\Action
 		$defaultFieldValues = $this->getDefaultFieldValues();
 		$fieldName = $fieldInstance->getFieldName();
 		$entityId = false;
-		if ($fieldValue === '') {
+		if ('' === $fieldValue) {
 			return $fieldValue;
 		}
-		if (strpos($fieldValue, '::::') !== false) {
+		if (false !== strpos($fieldValue, '::::')) {
 			$fieldValueDetails = explode('::::', $fieldValue);
-		} elseif (strpos($fieldValue, ':::') !== false) {
+		} elseif (false !== strpos($fieldValue, ':::')) {
 			$fieldValueDetails = explode(':::', $fieldValue);
 		}
-		if ($fieldValueDetails && count($fieldValueDetails) > 1) {
+		if ($fieldValueDetails && \count($fieldValueDetails) > 1) {
 			$referenceModuleName = trim($fieldValueDetails[0]);
 			$entityLabel = trim($fieldValueDetails[1]);
 			if (\App\Module::isModuleActive($referenceModuleName)) {
@@ -597,7 +597,7 @@ class Import_Data_Action extends \App\Controller\Action
 			} else {
 				$referenceModuleName = $defaultFieldValues[$fieldName];
 				$referencedModules = $fieldInstance->getReferenceList();
-				if ($referenceModuleName && in_array($defaultFieldValues[$fieldName], $referencedModules)) {
+				if ($referenceModuleName && \in_array($defaultFieldValues[$fieldName], $referencedModules)) {
 					$entityId = \App\Record::getCrmIdByLabel($referenceModuleName, $entityLabel);
 				}
 			}
@@ -606,12 +606,12 @@ class Import_Data_Action extends \App\Controller\Action
 			$entityLabel = $fieldValue;
 			foreach ($referencedModules as $referenceModule) {
 				$referenceModuleName = $referenceModule;
-				if ($referenceModule === 'Users') {
+				if ('Users' === $referenceModule) {
 					$referenceEntityId = \App\User::getUserIdByFullName(trim($entityLabel));
-					if (empty($referenceEntityId) || !array_key_exists($referenceEntityId, \App\Fields\Owner::getInstance($fieldInstance->getModuleName(), $this->user->getId())->getAccessibleUsers('', 'owner'))) {
+					if (empty($referenceEntityId) || !\array_key_exists($referenceEntityId, \App\Fields\Owner::getInstance($fieldInstance->getModuleName(), $this->user->getId())->getAccessibleUsers('', 'owner'))) {
 						$referenceEntityId = $this->user->getId();
 					}
-				} elseif ($referenceModule === 'Currency') {
+				} elseif ('Currency' === $referenceModule) {
 					$referenceEntityId = \App\Fields\Currency::getCurrencyIdByName($entityLabel);
 				} else {
 					$referenceEntityId = \App\Record::getCrmIdByLabel($referenceModule, App\Purifier::decodeHtml($entityLabel));
@@ -645,7 +645,7 @@ class Import_Data_Action extends \App\Controller\Action
 		$defaultCharset = \App\Config::main('default_charset', 'UTF-8');
 		$fieldName = $fieldInstance->getFieldName();
 		$fieldValue = trim($fieldValue);
-		if ($fieldValue === '') {
+		if ('' === $fieldValue) {
 			return $fieldValue;
 		}
 		if (!isset($this->allPicklistValues[$fieldName])) {
@@ -655,13 +655,11 @@ class Import_Data_Action extends \App\Controller\Action
 		$picklistValueInLowerCase = strtolower(htmlentities($fieldValue, ENT_QUOTES, $defaultCharset));
 		$allPicklistValuesInLowerCase = array_map('strtolower', $picklistValues);
 		$picklistDetails = array_combine($allPicklistValuesInLowerCase, $picklistValues);
-		if (!in_array($picklistValueInLowerCase, $allPicklistValuesInLowerCase)) {
+		if (!\in_array($picklistValueInLowerCase, $allPicklistValuesInLowerCase)) {
 			if (\App\Config::module('Import', 'ADD_PICKLIST_VALUE')) {
 				$fieldObject = \vtlib\Field::getInstance($fieldName, Vtiger_Module_Model::getInstance($this->module));
 				$fieldObject->setPicklistValues([$fieldValue]);
 				unset($this->allPicklistValues[$fieldName]);
-				\App\Cache::delete('getValuesName', $fieldName);
-				\App\Cache::delete('getPickListFieldValuesRows', $fieldName);
 			}
 		} else {
 			$fieldValue = $picklistDetails[$picklistValueInLowerCase];
@@ -679,7 +677,7 @@ class Import_Data_Action extends \App\Controller\Action
 	 */
 	public function transformTree($fieldInstance, $fieldValue)
 	{
-		if ($fieldValue === '') {
+		if ('' === $fieldValue) {
 			return $fieldValue;
 		}
 		$values = explode(' |##| ', trim($fieldValue));
@@ -693,7 +691,7 @@ class Import_Data_Action extends \App\Controller\Action
 				}
 			}
 		}
-		if ($fieldInstance->getFieldDataType() === 'tree') {
+		if ('tree' === $fieldInstance->getFieldDataType()) {
 			$fieldValue = trim($fieldValue, ',');
 		} else {
 			if ($fieldValue) {
@@ -712,14 +710,14 @@ class Import_Data_Action extends \App\Controller\Action
 	 */
 	public function transformDatetime(string $fieldValue): string
 	{
-		if ($fieldValue === null || $fieldValue === '0000-00-00 00:00:00') {
+		if (null === $fieldValue || '0000-00-00 00:00:00' === $fieldValue) {
 			$fieldValue = '';
 		}
 		$valuesList = explode(' ', $fieldValue);
-		if (count($valuesList) === 1) {
+		if (1 === \count($valuesList)) {
 			$fieldValue = '';
 		}
-		if (preg_match('/^[0-9]{2,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2} ([0-1][0-9]|[2][0-3])([:][0-5][0-9]){1,2}$/', $fieldValue) == 0) {
+		if (0 == preg_match('/^[0-9]{2,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2} ([0-1][0-9]|[2][0-3])([:][0-5][0-9]){1,2}$/', $fieldValue)) {
 			$fieldValue = '';
 		}
 		return $fieldValue;
@@ -734,10 +732,10 @@ class Import_Data_Action extends \App\Controller\Action
 	 */
 	public function transformDate(string $fieldValue): string
 	{
-		if ($fieldValue === null || $fieldValue === '0000-00-00') {
+		if (null === $fieldValue || '0000-00-00' === $fieldValue) {
 			$fieldValue = '';
 		}
-		if (preg_match('/^[0-9]{2,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2}$/', $fieldValue) == 0) {
+		if (0 == preg_match('/^[0-9]{2,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2}$/', $fieldValue)) {
 			$fieldValue = '';
 		}
 		return $fieldValue;
@@ -755,25 +753,25 @@ class Import_Data_Action extends \App\Controller\Action
 		$moduleModel = Vtiger_Module_Model::getInstance($this->module);
 		foreach ($fieldData as $fieldName => $fieldValue) {
 			$fieldInstance = $moduleModel->getFieldByName($fieldName);
-			if ($fieldInstance->getFieldDataType() === 'owner') {
+			if ('owner' === $fieldInstance->getFieldDataType()) {
 				$fieldData[$fieldName] = $this->transformOwner($fieldInstance, $fieldValue);
-			} elseif ($fieldInstance->getFieldDataType() === 'sharedOwner') {
+			} elseif ('sharedOwner' === $fieldInstance->getFieldDataType()) {
 				$fieldData[$fieldName] = $this->transformSharedOwner($fieldInstance, $fieldValue);
-			} elseif ($fieldInstance->getFieldDataType() === 'multipicklist') {
+			} elseif ('multipicklist' === $fieldInstance->getFieldDataType()) {
 				$fieldData[$fieldName] = $this->transformMultipicklist($fieldInstance, $fieldValue);
-			} elseif (in_array($fieldInstance->getFieldDataType(), Vtiger_Field_Model::$referenceTypes)) {
+			} elseif (\in_array($fieldInstance->getFieldDataType(), Vtiger_Field_Model::$referenceTypes)) {
 				$fieldData[$fieldName] = $this->transformReference($fieldInstance, $fieldValue);
-			} elseif ($fieldInstance->getFieldDataType() === 'picklist') {
+			} elseif ('picklist' === $fieldInstance->getFieldDataType()) {
 				$fieldData[$fieldName] = $this->transformPicklist($fieldInstance, $fieldValue);
-			} elseif ($fieldInstance->getFieldDataType() === 'tree' || $fieldInstance->getFieldDataType() === 'categoryMultipicklist') {
+			} elseif ('tree' === $fieldInstance->getFieldDataType() || 'categoryMultipicklist' === $fieldInstance->getFieldDataType()) {
 				$fieldData[$fieldName] = $this->transformTree($fieldInstance, $fieldValue);
-			} elseif ($fieldInstance->getModuleName() === 'Calendar' && in_array($fieldInstance->getFieldName(), ['date_start', 'due_date'])) {
+			} elseif ('Calendar' === $fieldInstance->getModuleName() && \in_array($fieldInstance->getFieldName(), ['date_start', 'due_date'])) {
 				$fieldData[$fieldName] = $this->transformDate($fieldValue);
-			} elseif ($fieldInstance->getFieldDataType() === 'datetime' && $fieldValue !== '') {
+			} elseif ('datetime' === $fieldInstance->getFieldDataType() && '' !== $fieldValue) {
 				$fieldData[$fieldName] = $this->transformDatetime($fieldValue);
-			} elseif ($fieldInstance->getFieldDataType() === 'date' && $fieldValue !== '') {
+			} elseif ('date' === $fieldInstance->getFieldDataType() && '' !== $fieldValue) {
 				$fieldData[$fieldName] = $this->transformDate($fieldValue);
-			} elseif ($fieldInstance->getFieldDataType() === 'country' && $fieldValue !== '') {
+			} elseif ('country' === $fieldInstance->getFieldDataType() && '' !== $fieldValue) {
 				$fieldData[$fieldName] = \App\Fields\Country::findCountryName($fieldValue);
 			} else {
 				$fieldData[$fieldName] = $fieldInstance->getUITypeModel()->getValueFromImport($fieldValue);
@@ -798,7 +796,7 @@ class Import_Data_Action extends \App\Controller\Action
 		$entityNameFields = $moduleModel->getNameFields();
 		$save = $recordId = false;
 		foreach ($entityNameFields as $entityNameField) {
-			if (in_array($entityNameField, $mandatoryFields)) {
+			if (\in_array($entityNameField, $mandatoryFields)) {
 				$recordModel->set($entityNameField, $entityLabel);
 				$save = true;
 			}
@@ -829,7 +827,7 @@ class Import_Data_Action extends \App\Controller\Action
 		$tableName = Import_Module_Model::getDbTableName($this->user);
 		$query = (new \App\Db\Query())->select(['temp_status'])->from($tableName);
 		$dataReader = $query->createCommand()->query();
-		while (($status = $dataReader->readColumn(0)) !== false) {
+		while (false !== ($status = $dataReader->readColumn(0))) {
 			++$statusCount['TOTAL'];
 			++$statusCount['IMPORTED'];
 			switch ($status) {
@@ -908,8 +906,11 @@ class Import_Data_Action extends \App\Controller\Action
 	 * @parms \App\User $user Current Users
 	 * @parms string $forModule Imported module
 	 * @returns array Import Records with the list of skipped records and failed records
+	 *
+	 * @param \App\User $user
+	 * @param mixed     $forModule
 	 */
-	public static function getImportDetails(\App\User $user, $forModule)
+	public static function getImportDetails(App\User $user, $forModule)
 	{
 		$db = App\Db::getInstance();
 		$importRecords = [];
@@ -930,7 +931,7 @@ class Import_Data_Action extends \App\Controller\Action
 				foreach ($importRecords['headers'] as $columnName => $header) {
 					$record->set($columnName, $row[$columnName]);
 				}
-				if ((int) $row['temp_status'] === self::IMPORT_RECORD_SKIPPED) {
+				if (self::IMPORT_RECORD_SKIPPED === (int) $row['temp_status']) {
 					$importRecords['skipped'][] = $record;
 				} else {
 					$importRecords['failed'][] = $record;
@@ -982,7 +983,7 @@ class Import_Data_Action extends \App\Controller\Action
 	 * @param string $moduleName
 	 * @param array  $fieldData
 	 *
-	 * @return null|array
+	 * @return array|null
 	 */
 	public function createRecordByModel($moduleName, $fieldData)
 	{

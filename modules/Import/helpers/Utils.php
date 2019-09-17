@@ -150,46 +150,40 @@ class Import_Utils_Helper
 		$uploadMaxSize = self::getMaxUploadSize();
 		$importDirectory = App\Fields\File::getTmpPath();
 		$temporaryFileName = self::getImportFilePath($currentUser);
-
 		if ($_FILES['import_file']['error']) {
 			$request->set('error_message', self::fileUploadErrorMessage($_FILES['import_file']['error']));
-
 			return false;
 		}
 		if (!is_uploaded_file($_FILES['import_file']['tmp_name'])) {
 			$request->set('error_message', \App\Language::translate('LBL_FILE_UPLOAD_FAILED', 'Import'));
-
 			return false;
 		}
 		if ($_FILES['import_file']['size'] > $uploadMaxSize) {
 			$request->set('error_message', \App\Language::translate('LBL_IMPORT_ERROR_LARGE_FILE', 'Import') .
 				$uploadMaxSize . ' ' . \App\Language::translate('LBL_IMPORT_CHANGE_UPLOAD_SIZE', 'Import'));
-
 			return false;
 		}
 		if (!is_writable($importDirectory)) {
 			$request->set('error_message', \App\Language::translate('LBL_IMPORT_DIRECTORY_NOT_WRITABLE', 'Import'));
-
 			return false;
 		}
-
-		$fileCopied = move_uploaded_file($_FILES['import_file']['tmp_name'], $temporaryFileName);
-		if (!$fileCopied) {
+		$fileInstance = \App\Fields\File::loadFromRequest($_FILES['import_file']);
+		if ($fileInstance->getEncoding() !== strtoupper($request->getByType('file_encoding', 'Text'))) {
+			$request->set('error_message', \App\Language::translate('LBL_IMPORT_FILE_DIFFERENT_ENCODING', 'Import'));
+			return false;
+		}
+		if (!$fileInstance->moveFile($temporaryFileName)) {
 			$request->set('error_message', \App\Language::translate('LBL_IMPORT_FILE_COPY_FAILED', 'Import'));
-
 			return false;
 		}
 		$fileReader = Import_Module_Model::getFileReader($request, $currentUser);
-
 		if (null === $fileReader) {
 			$request->set('error_message', \App\Language::translate('LBL_INVALID_FILE', 'Import'));
-
 			return false;
 		}
 		$firstRow = $fileReader->getFirstRowData($fileReader->hasHeader());
 		if (false === $firstRow) {
 			$request->set('error_message', \App\Language::translate('LBL_NO_ROWS_FOUND', 'Import'));
-
 			return false;
 		}
 		return true;

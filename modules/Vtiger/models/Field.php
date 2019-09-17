@@ -17,7 +17,6 @@ class Vtiger_Field_Model extends vtlib\Field
 	protected $fieldType;
 	protected $fieldDataTypeShort;
 	protected $uitype_instance;
-	public $picklistValues;
 	/**
 	 * @var bool
 	 */
@@ -488,33 +487,30 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getPicklistValues($skipCheckingRole = false)
 	{
-		if (!isset($this->picklistValues)) {
-			$fieldDataType = $this->getFieldDataType();
-			if ('picklist' === $fieldDataType || 'multipicklist' === $fieldDataType) {
-				if ($this->isRoleBased() && !$skipCheckingRole) {
-					$userModel = Users_Record_Model::getCurrentUserModel();
-					$picklistValues = \App\Fields\Picklist::getRoleBasedValues($this->getName(), $userModel->get('roleid'));
-				} else {
-					$picklistValues = App\Fields\Picklist::getValuesName($this->getName());
-				}
-				$fieldPickListValues = [];
-				foreach ($picklistValues as $value) {
-					$fieldPickListValues[$value] = \App\Language::translate($value, $this->getModuleName());
-				}
-				// Protection against deleting a value that does not exist on the list
-				if ('picklist' === $fieldDataType) {
-					$fieldValue = $this->get('fieldvalue');
-					if (!empty($fieldValue) && !isset($fieldPickListValues[$fieldValue])) {
-						$fieldPickListValues[$fieldValue] = \App\Purifier::decodeHtml($fieldValue);
-						$this->set('isEditableReadOnly', true);
-					}
-				}
-				$this->picklistValues = $fieldPickListValues;
-			} elseif (method_exists($this->getUITypeModel(), 'getPicklistValues')) {
-				$this->picklistValues = $this->getUITypeModel()->getPicklistValues();
+		$fieldDataType = $this->getFieldDataType();
+		$fieldPickListValues = [];
+		if ('picklist' === $fieldDataType || 'multipicklist' === $fieldDataType) {
+			if ($this->isRoleBased() && !$skipCheckingRole) {
+				$userModel = Users_Record_Model::getCurrentUserModel();
+				$picklistValues = \App\Fields\Picklist::getRoleBasedValues($this->getName(), $userModel->get('roleid'));
+			} else {
+				$picklistValues = App\Fields\Picklist::getValuesName($this->getName());
 			}
+			foreach ($picklistValues as $value) {
+				$fieldPickListValues[$value] = \App\Language::translate($value, $this->getModuleName());
+			}
+			// Protection against deleting a value that does not exist on the list
+			if ('picklist' === $fieldDataType) {
+				$fieldValue = $this->get('fieldvalue');
+				if (!empty($fieldValue) && !isset($fieldPickListValues[$fieldValue])) {
+					$fieldPickListValues[$fieldValue] = \App\Purifier::decodeHtml($fieldValue);
+					$this->set('isEditableReadOnly', true);
+				}
+			}
+		} elseif (method_exists($this->getUITypeModel(), 'getPicklistValues')) {
+			$fieldPickListValues = $this->getUITypeModel()->getPicklistValues();
 		}
-		return $this->picklistValues;
+		return $fieldPickListValues;
 	}
 
 	/**
