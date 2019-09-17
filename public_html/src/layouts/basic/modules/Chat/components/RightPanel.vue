@@ -46,7 +46,7 @@
           </div>
         </q-item-label>
         <q-item v-if="isAddPanel" v-show="showAddPanel">
-          <select-users  :isVisible.sync="showAddPanel" class="q-pb-xs" />
+          <select-users :isVisible.sync="showAddPanel" class="q-pb-xs" />
         </q-item>
         <template v-for="participant in participantsList">
           <q-item :key="participant.user_id" v-if="participant.user_name === participant.user_name" class="q-py-xs">
@@ -63,7 +63,25 @@
                 <span class="col-12 text-caption text-grey-5" v-html="participant.message"></span>
               </div>
             </q-item-section>
-            <q-separator />
+            <q-item-section avatar>
+              <q-btn
+                v-if="isAddPanel"
+                @click.stop="
+                  toggleUser({
+                    roomType: currentRoomData.roomType,
+                    recordId: currentRoomData.recordid,
+                    userId: participant.user_id,
+                    active: participant.active
+                  })
+                "
+                dense
+                round
+                flat
+                size="xs"
+                color="primary"
+                :icon="participant.active ? 'mdi-pin' : 'mdi-pin-off'"
+              />
+            </q-item-section>
           </q-item>
         </template>
       </q-list>
@@ -93,7 +111,10 @@ export default {
   computed: {
     ...mapGetters(['currentRoomData', 'config']),
     isAddPanel() {
-      return this.currentRoomData.roomType === 'private' && (this.currentRoomData.creatorid === this.userId || this.config.isAdmin)
+      return (
+        this.currentRoomData.roomType === 'private' &&
+        (this.currentRoomData.creatorid === this.userId || this.config.isAdmin)
+      )
     },
     participantsList() {
       if (this.filterParticipants === '') {
@@ -104,6 +125,33 @@ export default {
             participant.user_name.toLowerCase().includes(this.filterParticipants.toLowerCase()) ||
             participant.role_name.toLowerCase().includes(this.filterParticipants.toLowerCase())
           )
+        })
+      }
+    }
+  },
+  methods: {
+    ...mapActions(['removeUserFromRoom', 'addParticipant']),
+    ...mapMutations(['updateRooms']),
+    toggleUser({ roomType, recordId, userId, active }) {
+      if (active) {
+        this.removeUserFromRoom({ roomType, recordId, userId }).then(({ result }) => {
+          this.setData(result)
+          this.$q.notify({
+            position: 'top',
+            color: 'success',
+            message: this.translate('JS_CHAT_PARTICIPANT_REMOVED'),
+            icon: 'mdi-check'
+          })
+        })
+      } else {
+        this.addParticipant({ recordId: this.currentRoomData.recordid, userId }).then(({ result }) => {
+          this.updateRooms(result)
+          this.$q.notify({
+            position: 'top',
+            color: 'success',
+            message: this.translate('JS_CHAT_PARTICIPANT_ADDED'),
+            icon: 'mdi-check'
+          })
         })
       }
     }

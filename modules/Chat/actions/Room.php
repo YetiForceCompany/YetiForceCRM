@@ -21,6 +21,7 @@ class Chat_Room_Action extends \App\Controller\Action
 	{
 		parent::__construct();
 		$this->exposeMethod('removeFromFavorites');
+		$this->exposeMethod('removeUserFromRoom');
 		$this->exposeMethod('addToFavorites');
 	}
 
@@ -53,6 +54,23 @@ class Chat_Room_Action extends \App\Controller\Action
 		\App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'))->removeFromFavorites();
 		$response = new Vtiger_Response();
 		$response->setResult(true);
+		$response->emit();
+	}
+
+	/**
+	 * Remove user from room.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \yii\db\Exception
+	 */
+	public function removeUserFromRoom(App\Request $request)
+	{
+		$this->checkPermissionByRoom($request);
+		\App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'))->removeFromFavorites($request->getInteger('userId'));
+		$response = new Vtiger_Response();
+		$response->setResult(\App\Chat::getRoomsByUser());
 		$response->emit();
 	}
 

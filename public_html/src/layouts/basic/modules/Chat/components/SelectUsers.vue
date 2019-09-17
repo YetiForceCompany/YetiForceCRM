@@ -95,7 +95,7 @@ export default {
       if (val) {
         let userExists = false
         for (let participant of this.currentRoomData.participants) {
-          if (participant.user_id === val) {
+          if (participant.user_id === val && participant.active) {
             userExists = true
             break
           }

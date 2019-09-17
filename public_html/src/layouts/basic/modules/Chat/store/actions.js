@@ -138,6 +138,21 @@ export default {
 			}
 		})
 	},
+
+	removeUserFromRoom({ dispatch, commit, getters }, { roomType, recordId, userId }) {
+		return new Promise((resolve, reject) => {
+			AppConnector.request({
+				module: 'Chat',
+				action: 'Room',
+				mode: 'removeUserFromRoom',
+				recordId,
+				roomType,
+				userId
+			}).done(({ result }) => {
+				resolve(result)
+			})
+		})
+	},
 	fetchEarlierEntries({ commit }, { chatEntries, roomType, recordId }) {
 		return new Promise((resolve, reject) => {
 			AppConnector.request(

@@ -904,11 +904,13 @@ final class Chat
 		if (empty($this->recordId) || empty($this->roomType)) {
 			return [];
 		}
+		$columnRoom = static::COLUMN_NAME['room'][$this->roomType];
 		$subQuery = (new DB\Query())
-			->select(['userid', 'last_id' => new \yii\db\Expression('max(id)')])
-			->from(static::TABLE_NAME['message'][$this->roomType])
+			->select(['CR.userid', 'last_id' => new \yii\db\Expression('max(id)'), 'isActive' => 'CL.userid'])
+			->from(['CR' => static::TABLE_NAME['message'][$this->roomType]])
+			->leftJoin(['CL' => static::TABLE_NAME['room'][$this->roomType]], "CL.{$columnRoom} = {$this->recordId} AND CL.userid = CR.userid")
 			->where([static::COLUMN_NAME['message'][$this->roomType] => $this->recordId])
-			->groupBy(['userid']);
+			->groupBy(['CR.userid', 'CL.userid']);
 		$query = (new DB\Query())
 			->from(['GL' => static::TABLE_NAME['message'][$this->roomType]])
 			->innerJoin(['LM' => $subQuery], 'LM.last_id = GL.id');
@@ -921,7 +923,8 @@ final class Chat
 				'message' => static::decodeMessage($row['messages']),
 				'user_name' => $user['user_name'],
 				'role_name' => $user['role_name'],
-				'image' => $user['image']
+				'image' => $user['image'],
+				'active' => isset($row['isActive']) ? true : false
 			];
 		}
 		$dataReader->close();
@@ -931,19 +934,26 @@ final class Chat
 	/**
 	 * Remove room from favorites.
 	 *
+	 * @param ?int $userId
+	 *
 	 * @throws \yii\db\Exception
 	 */
-	public function removeFromFavorites()
+	public function removeFromFavorites(?int $userId = null)
 	{
+		if (empty($userId)) {
+			$userId = $this->userId;
+		}
 		if (!empty($this->roomType) && !empty($this->recordId)) {
 			Db::getInstance()->createCommand()->delete(
 				static::TABLE_NAME['room'][$this->roomType],
 				[
-					'userid' => $this->userId,
+					'userid' => $userId,
 					static::COLUMN_NAME['room'][$this->roomType] => $this->recordId
 				]
 			)->execute();
-			unset($this->room['userid']);
+			if ($userId === $this->userId) {
+				unset($this->room['userid']);
+			}
 		}
 		$currentRoom = static::getCurrentRoom();
 		if ($currentRoom['recordId'] === $this->recordId && $currentRoom['roomType'] === $this->roomType) {
