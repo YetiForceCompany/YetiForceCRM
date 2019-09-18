@@ -3,8 +3,12 @@
 	<!-- tpl-Calendar-Edit-Field-ActivityType -->
 	<div class="text-center">
 		{foreach item="ACTIVITYTYPE_VALUE" key="ACTIVITYTYPE_NAME" from=App\Fields\Picklist::getValues('activitytype')}
-			{append var='ACTIVITYTYPE_COLOR' value=$ACTIVITYTYPE_VALUE['color'] index=$ACTIVITYTYPE_VALUE['activitytype']}
-			{append var='ACTIVITYTYPE_ICON' value=$ACTIVITYTYPE_VALUE['icon'] index=$ACTIVITYTYPE_VALUE['activitytype']}
+			{if !empty($ACTIVITYTYPE_VALUE['color'])}
+				{append var='ACTIVITYTYPE_COLOR' value=$ACTIVITYTYPE_VALUE['color'] index=$ACTIVITYTYPE_VALUE['activitytype']}
+			{/if}
+			{if !empty($ACTIVITYTYPE_VALUE['icon'])}
+				{append var='ACTIVITYTYPE_ICON' value=$ACTIVITYTYPE_VALUE['icon'] index=$ACTIVITYTYPE_VALUE['activitytype']}
+			{/if}
 		{/foreach}
 		<div class="btn-group-toggle" data-toggle="buttons">
 			{foreach item="PICKLIST_VALUE" key="PICKLIST_NAME" from=$FIELD_MODEL->getPicklistValues()}
