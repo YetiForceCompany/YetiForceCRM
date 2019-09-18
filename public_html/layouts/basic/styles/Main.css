@@ -17293,6 +17293,9 @@ ul.tweets li {
 .u-border-left-10px {
   border-left: 10px solid; }
 
+.u-border-bottom-5px {
+  border-bottom: 5px solid; }
+
 @media only screen and (max-width: 990px) {
   .u-border-bottom-label-md {
     border-bottom: 1px solid #dee2e6; } }
