@@ -79,7 +79,7 @@ export default {
       }
     },
     messageHeader(row) {
-      const isRoomActive = this.allRooms.some(e => e.recordid === row.recordid)
+      const isRoomActive = this.allRooms.some(e => e.recordid === row.recordid && e.roomType === row.roomType)
       let template = `
 				<div class="row justify-between${row.userid === this.userId ? ' reverse' : ''}">
 					<div>${row.user_name}</div>`

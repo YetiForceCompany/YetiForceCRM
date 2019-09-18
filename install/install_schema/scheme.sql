@@ -1377,6 +1377,27 @@ CREATE TABLE `u_yf_chat_messages_group` (
   CONSTRAINT `fk_chat_group_messages` FOREIGN KEY (`groupid`) REFERENCES `vtiger_groups` (`groupid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_chat_messages_private` */
+
+CREATE TABLE `u_yf_chat_messages_private` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `privateid` int(10) unsigned NOT NULL,
+  `userid` smallint(5) unsigned NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `messages` varchar(500) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_chat_private` */
+
+CREATE TABLE `u_yf_chat_private` (
+  `private_room_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `creatorid` int(10) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  PRIMARY KEY (`private_room_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_chat_rooms_crm` */
 
 CREATE TABLE `u_yf_chat_rooms_crm` (
@@ -1420,6 +1441,16 @@ CREATE TABLE `u_yf_chat_rooms_group` (
   CONSTRAINT `fk_u_yf_chat_rooms_group` FOREIGN KEY (`groupid`) REFERENCES `vtiger_groups` (`groupid`) ON DELETE CASCADE,
   CONSTRAINT `fk_u_yf_chat_rooms_group_users` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_chat_rooms_private` */
+
+CREATE TABLE `u_yf_chat_rooms_private` (
+  `roomid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `userid` int(10) NOT NULL,
+  `private_room_id` int(10) unsigned NOT NULL,
+  `last_message` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`roomid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_cinternaltickets` */
 
@@ -4310,6 +4341,7 @@ CREATE TABLE `vtiger_activitytype` (
   `presence` int(1) NOT NULL DEFAULT 1,
   `sortorderid` int(10) DEFAULT NULL,
   `color` varchar(25) DEFAULT NULL,
+  `icon` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`activitytypeid`),
   UNIQUE KEY `activitytype_activitytype_idx` (`activitytype`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;

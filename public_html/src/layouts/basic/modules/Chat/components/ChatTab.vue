@@ -78,7 +78,7 @@ export default {
   },
   watch: {
     roomData() {
-      if (this.roomData.recordid !== this.roomId && this.dataReady) {
+      if ((this.roomData.recordid !== this.roomId || this.roomData.roomType !== this.roomType) && this.dataReady) {
         this.disableNewMessagesListener()
         this.updateComponentsRoom()
         this.enableNewMessagesListener()

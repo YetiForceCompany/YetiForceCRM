@@ -41,7 +41,8 @@ export default {
       unreadMessages: {
         crm: [],
         global: [],
-        group: []
+        group: [],
+        private: []
       }
     }
   },
@@ -59,7 +60,8 @@ export default {
       let unread = {
         crm: {},
         global: {},
-        group: {}
+        group: {},
+        private: {}
       }
       if (this.areUnread) {
         let tempRoomName = ''
