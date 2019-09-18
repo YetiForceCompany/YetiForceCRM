@@ -644,6 +644,19 @@ final class Chat
 	}
 
 	/**
+	 * Is record owner
+	 *
+	 * @return bool
+	 */
+	public function isRecordOwner(): bool
+	{
+		return (new Db\Query())
+			->select(['userid', static::COLUMN_NAME['room']['private']])
+			->from(static::TABLE_NAME['room']['private'])
+			->where(['and', ['userid' => $this->userId], [static::COLUMN_NAME['room'][$this->getRoomType()] => $this->getRecordId()]])
+			->exists();
+	}
+	/**
 	 * Add new message to chat room.
 	 *
 	 * @param string $message
