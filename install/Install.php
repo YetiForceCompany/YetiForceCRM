@@ -26,6 +26,8 @@ require_once 'install/models/InitSchema.php';
 \App\Config::set('performance', 'recursiveTranslate', true);
 App\Session::init();
 \App\Language::$customDirectory = 'install';
+\App\Process::$startTime = microtime(true);
+\App\Process::$requestMode = 'Install';
 
 $request = App\Request::init();
 if (!$request->getMode() && \App\Config::main('application_unique_key')) {
