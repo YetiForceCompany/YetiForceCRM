@@ -13,7 +13,11 @@
       </q-input>
       <div class="" v-for="(roomGroup, roomType) of roomList" :key="roomType" :style="{ fontSize: fontSize }">
         <q-list
-          v-if="Object.entries(roomGroup).length || (roomType === 'crm' && config.dynamicAddingRooms)"
+          v-if="
+            Object.entries(roomGroup).length ||
+              (roomType === 'crm' && config.dynamicAddingRooms) ||
+              roomType === 'private'
+          "
           dense
           class="q-mb-none"
         >

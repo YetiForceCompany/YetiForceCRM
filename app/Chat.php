@@ -189,7 +189,7 @@ final class Chat
 		while ($row = $dataReader->read()) {
 			$row['name'] = Language::translate($row['name'], 'Chat');
 			$row['roomType'] = 'global';
-			$row['isPinned'] = isset($row['userid']) ? true : false;
+			$row['isPinned'] = isset($row['userid']);
 			$rooms[$row['recordid']] = $row;
 		}
 		$dataReader->close();
@@ -224,7 +224,7 @@ final class Chat
 		$query = (new Db\Query())
 			->select(['name', 'recordid' => 'GL.private_room_id', 'CNT.cnt_new_message', 'CNT.userid', 'creatorid', 'created'])
 			->from(['GL' => 'u_#__chat_private']);
-		if (\Users_Privileges_Model::getCurrentUserPrivilegesModel()->isAdminUser()) {
+		if (User::getUserModel($userId)->isAdmin()) {
 			$query->leftJoin(['CNT' => $subQuery], "CNT.{$roomIdName} = GL.private_room_id AND CNT.userid = {$userId}");
 		} else {
 			$query->innerJoin(['CNT' => $subQuery], "CNT.{$roomIdName} = GL.private_room_id AND CNT.userid = {$userId}");
@@ -1005,7 +1005,7 @@ final class Chat
 				[
 					'userid' => $this->userId,
 					'last_message' => 0,
-					static::COLUMN_NAME['room']['private'] => Db::getInstance()->getLastInsertID(),
+					static::COLUMN_NAME['room']['private'] => Db::getInstance()->getLastInsertID()
 				]
 			)->execute();
 		}

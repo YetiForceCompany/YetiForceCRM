@@ -8,14 +8,14 @@
 
 	.col,
 	[class*="col-"] {
-		position: relative;
+		position: unset;
 		padding: unset;
 		padding-right: unset;
 		padding-left: unset;
 	}
-	// .q-field__messages.col {
-	// 	position: relative;
-	// }
+	.q-field .col {
+		position: relative;
+	}
 }
 
 .quasar-container {
