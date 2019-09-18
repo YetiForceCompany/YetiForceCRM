@@ -9,14 +9,14 @@
 		{/foreach}
 		<div class="btn-group-toggle" data-toggle="buttons">
 			{foreach item="PICKLIST_VALUE" key="PICKLIST_NAME" from=$FIELD_MODEL->getPicklistValues()}
-				<label class="btn u-border-bottom-5px c-btn-outline-done mr-1 mb-1 picklistCBr_Calendar_activitytype_{$PICKLIST_NAME}">
+				{assign var="CHECK" value=trim($FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)) eq trim($PICKLIST_NAME)}
+				<label class="btn u-border-bottom-5px c-btn-outline-done mr-1 mb-1 picklistCBr_Calendar_activitytype_{$PICKLIST_NAME} {if $CHECK}active{/if}" title="{\App\Purifier::encodeHtml($PICKLIST_VALUE)}">
 					<input type="radio" name="{$FIELD_MODEL->getFieldName()}"
 						   id="option_{$PICKLIST_NAME}"
 						   value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}"
-						   title="{\App\Purifier::encodeHtml($PICKLIST_VALUE)}"
 						   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 						   data-fieldinfo='{\App\Json::encode($FIELD_MODEL->getFieldInfo())|escape}'
-							{if trim($FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)) eq trim($PICKLIST_NAME)} checked {/if}
+							{if $CHECK} checked {/if}
 							{if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}>
 					{if !empty($ACTIVITYTYPE_ICON[$PICKLIST_NAME])}
 						<span class="{$ACTIVITYTYPE_ICON[$PICKLIST_NAME]} align-middle"
