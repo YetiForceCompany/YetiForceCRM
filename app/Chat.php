@@ -624,6 +624,26 @@ final class Chat
 	}
 
 	/**
+	 * Is room moderator
+	 *
+	 * @param int $recordId
+	 *
+	 * @return bool
+	 */
+	public function isRoomModerator(int $recordId): bool
+	{
+		if (User::getUserModel($this->userId)->isAdmin()) {
+			return true;
+		} else {
+			return (new Db\Query())
+			->select(['creatorid', static::COLUMN_NAME['room']['private']])
+			->from(static::TABLE_NAME['room_name']['private'])
+			->where(['and', ['creatorid' => $this->userId], [static::COLUMN_NAME['room']['private'] => $recordId]])
+			->exists();
+		}
+	}
+
+	/**
 	 * Add new message to chat room.
 	 *
 	 * @param string $message

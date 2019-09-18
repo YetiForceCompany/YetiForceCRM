@@ -86,7 +86,7 @@
                 size="xs"
                 :icon="'mdi-pin'"
               />
-              <q-icon v-else name="mdi-crown" />
+              <q-icon v-if="participant.isAdmin" name="mdi-crown" />
             </q-item-section>
           </q-item>
         </template>

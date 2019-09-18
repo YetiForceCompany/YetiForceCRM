@@ -121,7 +121,12 @@ class Chat_Room_Action extends \App\Controller\Action
 					throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 				}
 				break;
-			case 'private' || 'global':
+			case 'global':
+				break;
+			case 'private':
+				if (!\App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'))->isRoomModerator($request->getInteger('recordId'))) {
+					throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+				}
 				break;
 			default:
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);

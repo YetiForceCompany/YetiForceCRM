@@ -297,11 +297,16 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	 * Add participant.
 	 *
 	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\AppException
 	 */
 	public function addParticipant(App\Request $request)
 	{
 		$recordId = $request->getInteger('recordId');
 		$chat = \App\Chat::getInstance('private', $recordId);
+		if (!$chat->isRoomModerator($recordId)) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
 		$alreadyInvited = $chat->addParticipantToPrivate($request->getInteger('userId'));
 		if ($alreadyInvited) {
 			$result = ['message' => 'JS_CHAT_PARTICIPANT_INVITED'];
