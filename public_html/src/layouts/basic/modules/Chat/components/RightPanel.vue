@@ -29,7 +29,7 @@
           {{ translate('JS_CHAT_PARTICIPANTS') }}
           <div class="q-ml-auto">
             <q-btn
-              v-if="isAddPanel"
+              v-if="isUserModerator"
               dense
               flat
               round
@@ -45,7 +45,7 @@
             </q-icon>
           </div>
         </q-item-label>
-        <q-item v-if="isAddPanel" v-show="showAddPanel">
+        <q-item v-if="isUserModerator" v-show="showAddPanel">
           <select-users :isVisible.sync="showAddPanel" class="q-pb-xs" />
         </q-item>
         <template v-for="participant in participantsList">
@@ -71,7 +71,7 @@
             </q-item-section>
             <q-item-section avatar>
               <q-btn
-                v-if="isAddPanel && !participant.isAdmin"
+                v-if="isUserModerator && !participant.isAdmin"
                 @click.stop="
                   unpinUser({
                     roomType: currentRoomData.roomType,
@@ -116,7 +116,7 @@ export default {
   },
   computed: {
     ...mapGetters(['currentRoomData', 'config']),
-    isAddPanel() {
+    isUserModerator() {
       return (
         this.currentRoomData.roomType === 'private' &&
         (this.currentRoomData.creatorid === this.userId || this.config.isAdmin)

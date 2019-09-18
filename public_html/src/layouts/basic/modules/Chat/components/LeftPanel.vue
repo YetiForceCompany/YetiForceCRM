@@ -135,6 +135,18 @@
                         }}</q-tooltip>
                       </q-btn>
                       <q-btn
+                        v-if="roomType === 'private' && isUserModerator(room)"
+                        dense
+                        round
+                        flat
+                        size="xs"
+                        @click.stop="showArchiveDialog(room)"
+                        color="negative"
+                        icon="mdi-delete"
+                      >
+                        <q-tooltip>{{ translate('JS_CHAT_REMOVE_ROOM') }}</q-tooltip>
+                      </q-btn>
+                      <q-btn
                         @click.stop="toggleRoomSoundNotification({ roomType, id: room.recordid })"
                         dense
                         round
@@ -156,6 +168,26 @@
           </q-list>
         </div>
       </div>
+      <q-dialog v-if="arePrivateRooms" v-model="confirm" persistent content-class="quasar-reset">
+        <q-card>
+          <q-card-section class="row items-center">
+            <q-avatar icon="mdi-alert-circle-outline" text-color="negative" />
+            <span class="q-ml-sm">{{
+              translate('JS_CHAT_ROOM_ARCHIVE').replace('${roomToArchive}', roomToArchive.name)
+            }}</span>
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn flat :label="translate('JS_CANCEL')" color="black" v-close-popup />
+            <q-btn
+              @click="archivePrivateRoom(roomToArchive)"
+              flat
+              :label="translate('JS_ARCHIVE')"
+              color="negative"
+              v-close-popup
+            />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
     </div>
   </q-drawer>
 </template>
@@ -178,7 +210,9 @@ export default {
         private: false
       },
       showAddRoomPanel: false,
-      showAddPrivateRoom: false
+      showAddPrivateRoom: false,
+      confirm: false,
+      roomToArchive: {}
     }
   },
   computed: {
@@ -191,6 +225,14 @@ export default {
           }
         }
         return false
+      }
+    },
+    arePrivateRooms() {
+      return Object.keys(this.data.roomList.private).length
+    },
+    isUserModerator() {
+      return room => {
+        return room.creatorid === CONFIG.userId || this.config.isAdmin
       }
     },
     roomList() {
@@ -208,13 +250,17 @@ export default {
   },
   methods: {
     ...mapMutations(['setLeftPanel']),
-    ...mapActions(['fetchRoom', 'togglePinned', 'toggleRoomSoundNotification']),
+    ...mapActions(['fetchRoom', 'togglePinned', 'toggleRoomSoundNotification', 'archivePrivateRoom']),
     getGroupIcon,
     filterRoomByName(room) {
       return room.name.toLowerCase().includes(this.filterRooms.toLowerCase())
     },
     isSoundActive(roomType, id) {
       return this.isSoundNotification && !this.roomSoundNotificationsOff[roomType].includes(id)
+    },
+    showArchiveDialog(room) {
+      this.confirm = true
+      this.roomToArchive = room
     }
   }
 }

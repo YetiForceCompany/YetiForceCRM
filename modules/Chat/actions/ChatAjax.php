@@ -34,6 +34,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$this->exposeMethod('search');
 		$this->exposeMethod('trackNewMessages');
 		$this->exposeMethod('addPrivateRoom');
+		$this->exposeMethod('archivePrivateRoom');
 		$this->exposeMethod('addParticipant');
 	}
 
@@ -290,6 +291,26 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$chat->createPrivateRoom($request->getByType('name', 'Text'));
 		$response = new Vtiger_Response();
 		$response->setResult(\App\Chat::getRoomsByUser());
+		$response->emit();
+	}
+
+	/**
+	 * Archive rooms.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 */
+	public function archivePrivateRoom(App\Request $request)
+	{
+		$recordId = $request->getInteger('recordId');
+		$chat = \App\Chat::getInstance('private', $recordId);
+		if (!$chat->isRoomModerator($recordId)) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		$chat->archivePrivateRoom($recordId);
+		$response = new Vtiger_Response();
+		$response->setResult(true);
 		$response->emit();
 	}
 
