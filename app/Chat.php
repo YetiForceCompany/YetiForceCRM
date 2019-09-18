@@ -991,23 +991,25 @@ final class Chat
 	 */
 	public function createPrivateRoom(string $name)
 	{
+		$table = static::TABLE_NAME['room_name']['private'];
+		$roomIdColumn = static::COLUMN_NAME['room']['private'];
 		Db::getInstance()->createCommand()->insert(
-				static::TABLE_NAME['room_name']['private'],
+				$table,
 				[
 					'name' => $name,
 					'creatorid' => $this->userId,
 					'created' => date('Y-m-d H:i:s')
 				]
 			)->execute();
-		if (!$this->getUserInfo($this->userId)['isAdmin']) {
+		if (!User::getUserModel($this->userId)->isAdmin()) {
 			Db::getInstance()->createCommand()->insert(
-				static::TABLE_NAME['room']['private'],
-				[
-					'userid' => $this->userId,
-					'last_message' => 0,
-					static::COLUMN_NAME['room']['private'] => Db::getInstance()->getLastInsertID()
-				]
-			)->execute();
+					static::TABLE_NAME['room']['private'],
+					[
+						'userid' => $this->userId,
+						'last_message' => 0,
+						static::COLUMN_NAME['room']['private'] => Db::getInstance()->getLastInsertID("{$table}_{$roomIdColumn}_seq")
+					]
+				)->execute();
 		}
 	}
 
