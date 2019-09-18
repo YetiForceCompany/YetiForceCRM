@@ -138,7 +138,11 @@ export default {
 			roomType: roomType,
 			recordId: room.recordid
 		}).done(_ => {
-			if (mode === 'removeFromFavorites' && roomType === 'crm' && getters.data.currentRoom.roomType === roomType) {
+			if (
+				mode === 'removeFromFavorites' &&
+				(roomType === 'crm' || roomType === 'private') &&
+				(getters.data.currentRoom.roomType === roomType && getters.data.currentRoom.recordId === room.recordid)
+			) {
 				dispatch('fetchRoom', { id: undefined, roomType: undefined })
 			}
 		})

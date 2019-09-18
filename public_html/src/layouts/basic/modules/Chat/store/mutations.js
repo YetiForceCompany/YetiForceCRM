@@ -79,6 +79,9 @@ export default {
 	updateRooms(state, data) {
 		state.data.roomList = mergeDeepReactive(state.data.roomList, data)
 	},
+	updateParticipants(state, { roomType, recordId, data }) {
+		state.data.roomList[roomType][recordId].participants = data
+	},
 	pushOlderEntries(state, { result, roomType, recordId }) {
 		state.data.roomList[roomType][recordId].chatEntries.unshift(...result.chatEntries)
 		state.data.roomList[roomType][recordId].showMoreButton = result.showMoreButton

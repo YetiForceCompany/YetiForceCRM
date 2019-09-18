@@ -306,7 +306,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		if ($alreadyInvited) {
 			$result = ['message' => 'JS_CHAT_PARTICIPANT_INVITED'];
 		} else {
-			$result = \App\Chat::getRoomsByUser();
+			$result = $chat->getParticipants();
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);

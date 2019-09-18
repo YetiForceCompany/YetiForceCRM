@@ -1,8 +1,8 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <div class="fit">
+  <div class="fit bg-grey-11">
     <slot name="top"></slot>
-    <div class="bg-grey-11 fit">
+    <div class="bg-grey-11">
       <q-input
         dense
         v-model="filterParticipants"

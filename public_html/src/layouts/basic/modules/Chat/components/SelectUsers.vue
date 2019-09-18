@@ -34,7 +34,7 @@
           @click.prevent="$emit('update:isVisible', false), (isValid = true)"
           class="cursor-pointer"
         />
-        <q-tooltip anchor="top middle">{{ translate('JS_CHAT_HIDE_SEARCH_FIELD') }}</q-tooltip>
+        <q-tooltip anchor="top middle">{{ translate('JS_CHAT_HIDE_ADD_PANEL') }}</q-tooltip>
       </template>
       <template v-slot:option="scope">
         <q-item dense v-bind="scope.itemProps" v-on="scope.itemEvents">
@@ -90,7 +90,7 @@ export default {
   },
   methods: {
     ...mapActions(['fetchChatUsers', 'addParticipant']),
-    ...mapMutations(['updateRooms']),
+    ...mapMutations(['updateParticipants']),
     validateParticipant(val) {
       if (val) {
         let userExists = false
@@ -108,7 +108,11 @@ export default {
             } else {
               this.selectUser = null
               this.isValid = true
-              this.updateRooms(result)
+              this.updateParticipants({
+                recordId: this.currentRoomData.recordid,
+                roomType: this.currentRoomData.roomType,
+                data: result
+              })
               this.$q.notify({
                 position: 'top',
                 color: 'success',
