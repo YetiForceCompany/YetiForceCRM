@@ -53,7 +53,7 @@ export default {
 				mode: 'getRecordRoom',
 				id: id
 			}).done(({ result }) => {
-				commit('setData', result)
+				commit('mergeData', result)
 				resolve(result)
 			})
 		})
@@ -118,7 +118,12 @@ export default {
 				message: text,
 				mid: lastEntries !== undefined ? lastEntries['id'] : undefined
 			}).done(({ result }) => {
-				commit('pushSended', { result, roomType, recordId })
+				if (result.message) {
+					commit('setData', result.data)
+					Quasar.Plugins.Notify({ position: 'top', textColor: 'negative', message: app.vtranslate(result.message) })
+				} else {
+					commit('pushSended', { result, roomType, recordId })
+				}
 				resolve(result)
 			})
 		})

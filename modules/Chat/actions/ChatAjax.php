@@ -68,7 +68,8 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 				'maxLengthMessage' => \App\Config::module('Chat', 'MAX_LENGTH_MESSAGE'),
 				'refreshTimeGlobal' => \App\Config::module('Chat', 'REFRESH_TIME_GLOBAL'),
 				'showNumberOfNewMessages' => \App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES'),
-				'dynamicAddingRooms' => \App\Config::module('Chat', 'dynamicAddingRooms')
+				'dynamicAddingRooms' => \App\Config::module('Chat', 'dynamicAddingRooms'),
+				'defaultRoom' => \App\Chat::getDefaultRoom()
 			],
 			'roomList' => \App\Chat::getRoomsByUser()
 		];
@@ -83,10 +84,22 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	 * Get messages from chat.
 	 *
 	 * @param \App\Request $request
+	 */
+	public function getMessages(App\Request $request)
+	{
+		$response = new Vtiger_Response();
+		$response->setResult($this->setMessagesResult($request));
+		$response->emit();
+	}
+
+	/**
+	 *	Set messages result.
+	 *
+	 * @param \App\Request $request
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public function getMessages(App\Request $request)
+	public function setMessagesResult(App\Request $request)
 	{
 		if ($request->has('roomType') && $request->has('recordId')) {
 			$roomType = $request->getByType('roomType');
@@ -124,9 +137,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		if (App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')) {
 			$result['amountOfNewMessages'] = \App\Chat::getNumberOfNewMessages();
 		}
-		$response = new Vtiger_Response();
-		$response->setResult($result);
-		$response->emit();
+		return $result;
 	}
 
 	/**
@@ -148,6 +159,9 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			$chat = \App\Chat::getInstance($roomType, $recordId);
 			if (!$chat->isRoomExists()) {
 				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
+			}
+			if ('private' === $roomType && !$chat->isPrivateRoomAllowed($recordId)) {
+				continue;
 			}
 			$lastEntries = !empty($room['chatEntries']) ? array_pop($room['chatEntries']) : false;
 			$chatEntries = $chat->getEntries($lastEntries ? $lastEntries['id'] : null);
@@ -205,22 +219,33 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	 */
 	public function send(App\Request $request)
 	{
-		$chat = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'));
+		$roomType = $request->getByType('roomType');
+		$recordId = $request->getInteger('recordId');
+		$chat = \App\Chat::getInstance($roomType, $recordId);
 		if (!$chat->isRoomExists()) {
 			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
 		}
-		$chat->addMessage(\App\Utils\Completions::encodeAll($request->getForHtml('message')));
-		$chatEntries = $chat->getEntries($request->isEmpty('mid') ? null : $request->getInteger('mid'));
-		$isNextPage = $this->isNextPage(\count($chatEntries));
-		if ($isNextPage) {
-			array_shift($chatEntries);
+		if ('private' === $roomType && !$chat->isPrivateRoomAllowed($recordId)) {
+			$defaultRoom = $chat->setCurrentRoomDefault();
+			$result = [
+				'message' => 'JS_CHAT_ROOM_NOT_ALLOWED',
+				'data' => $this->setMessagesResult(new App\Request(['roomType' => $defaultRoom['roomType'], 'recordId' => $defaultRoom['recordId']]))
+			];
+		} else {
+			$chat->addMessage(\App\Utils\Completions::encodeAll($request->getForHtml('message')));
+			$chatEntries = $chat->getEntries($request->isEmpty('mid') ? null : $request->getInteger('mid'));
+			$isNextPage = $this->isNextPage(\count($chatEntries));
+			if ($isNextPage) {
+				array_shift($chatEntries);
+			}
+			$result = [
+				'chatEntries' => $chatEntries,
+				'participants' => $chat->getParticipants(),
+				'showMoreButton' => $isNextPage
+			];
 		}
 		$response = new Vtiger_Response();
-		$response->setResult([
-			'chatEntries' => $chatEntries,
-			'participants' => $chat->getParticipants(),
-			'showMoreButton' => $isNextPage
-		]);
+		$response->setResult($result);
 		$response->emit();
 	}
 

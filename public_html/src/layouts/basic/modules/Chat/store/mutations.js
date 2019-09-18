@@ -45,6 +45,12 @@ export default {
 		state.local.isDesktopNotification = val
 	},
 	setData(state, data) {
+		state.data = data
+	},
+	setPrivateRooms(state, data) {
+		state.data.roomList.private = data
+	},
+	mergeData(state, data) {
 		state.data = mergeDeepReactive(state.data, data)
 	},
 

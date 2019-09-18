@@ -46,14 +46,14 @@ final class Chat
 	 *
 	 * @var string
 	 */
-	private $roomType;
+	public $roomType;
 
 	/**
 	 * ID record associated with the chat room.
 	 *
 	 * @var int|null
 	 */
-	private $recordId;
+	public $recordId;
 
 	/**
 	 * @var array|false
@@ -87,6 +87,17 @@ final class Chat
 		$_SESSION['chat'] = [
 			'roomType' => $roomType, 'recordId' => $recordId
 		];
+	}
+
+	/**
+	 * Set default room as current room.
+	 *
+	 * @return array
+	 */
+	public static function setCurrentRoomDefault()
+	{
+		$defaultRoom = static::getDefaultRoom();
+		return static::setCurrentRoom($defaultRoom['roomType'], $defaultRoom['recordId']);
 	}
 
 	/**
@@ -593,6 +604,26 @@ final class Chat
 	}
 
 	/**
+	 * Is private room allowed for specified user.
+	 *
+	 * @param int $recordId
+	 * @param int $userId
+	 *
+	 * @return bool
+	 */
+	public function isPrivateRoomAllowed(int $recordId, ?int $userId = null): bool
+	{
+		if (empty($userId)) {
+			$userId = $this->userId;
+		}
+		return (new Db\Query())
+			->select(['userid', static::COLUMN_NAME['room']['private']])
+			->from(static::TABLE_NAME['room']['private'])
+			->where(['and', ['userid' => $userId], [static::COLUMN_NAME['room']['private'] => $recordId]])
+			->exists();
+	}
+
+	/**
 	 * Add new message to chat room.
 	 *
 	 * @param string $message
@@ -721,7 +752,7 @@ final class Chat
 	 *
 	 * @return array|false
 	 */
-	private static function getDefaultRoom()
+	public static function getDefaultRoom()
 	{
 		if (Cache::has('Chat', 'DefaultRoom')) {
 			return Cache::get('Chat', 'DefaultRoom');
@@ -957,8 +988,7 @@ final class Chat
 			unset($this->room['userid']);
 			$currentRoom = static::getCurrentRoom();
 			if ($currentRoom['recordId'] === $this->recordId && $currentRoom['roomType'] === $this->roomType) {
-				$defaultRoom = static::getDefaultRoom();
-				static::setCurrentRoom($defaultRoom['roomType'], $defaultRoom['recordId']);
+				static::setCurrentRoomDefault();
 			}
 		}
 	}

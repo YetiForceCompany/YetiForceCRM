@@ -19,11 +19,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['data', 'config', 'tab', 'currentRoom', 'allRooms'])
+    ...mapGetters(['data', 'config', 'tab', 'allRooms'])
   },
   methods: {
-    ...mapActions(['updateAmountOfNewMessages']),
-    ...mapMutations(['updateChatData']),
+    ...mapActions(['updateAmountOfNewMessages', 'fetchRoom']),
+    ...mapMutations(['updateChatData', 'setPrivateRooms']),
     /**
      * Init vuex event for adjusting request for updating chat rooms
      */
@@ -58,6 +58,19 @@ export default {
           rooms: this.activeRooms
         }).done(({ result }) => {
           this.updateAmountOfNewMessages(result.amountOfNewMessages)
+          if (
+            typeof result.roomList.private === 'object' &&
+            Object.keys(result.roomList.private).length !== Object.keys(this.data.roomList.private).length
+          ) {
+            if (
+              this.data.currentRoom.roomType === 'private' &&
+              !result.roomList.private[this.data.currentRoom.recordId]
+            ) {
+              this.fetchRoom({ id: this.config.defaultRoom.recordId, roomType: this.config.defaultRoom.roomType })
+            } else {
+              this.setPrivateRooms(result.roomList.private)
+            }
+          }
           if (result.areNewEntries) {
             this.updateChatData({ roomsToUpdate: currentActiveRooms, newData: result })
           }
