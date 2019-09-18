@@ -4310,6 +4310,7 @@ CREATE TABLE `vtiger_activitytype` (
   `presence` int(1) NOT NULL DEFAULT 1,
   `sortorderid` int(10) DEFAULT NULL,
   `color` varchar(25) DEFAULT NULL,
+  `icon` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`activitytypeid`),
   UNIQUE KEY `activitytype_activitytype_idx` (`activitytype`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
