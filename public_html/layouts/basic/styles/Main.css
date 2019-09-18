@@ -13654,6 +13654,8 @@ label.btn[class*="btn-outline-"]:not(.active) {
   padding: unset;
   padding-right: unset;
   padding-left: unset; }
+.quasar-reset .q-field .col {
+  position: relative; }
 
 .quasar-container {
   height: calc(100% - 3rem);
