@@ -668,10 +668,10 @@ final class Chat
 	{
 		$columnMessage = static::COLUMN_NAME['message'][$roomType];
 		$columnRoomName = static::COLUMN_NAME['room_name'][$roomType];
-		$roomNameId = 'global' === $roomType ? static::COLUMN_NAME['room']['global'] : $columnMessage;
+		$roomNameId = 'global' === $roomType || 'private' === $roomType ? static::COLUMN_NAME['room'][$roomType] : $columnMessage;
 		$query = (new Db\Query())
 			->select([
-				'id', 'messages', 'userid', 'created',
+				'id', 'messages', 'userid', 'GL.created',
 				'recordid' => "GL.{$columnMessage}", 'room_name' => "RN.{$columnRoomName}"
 			])
 			->from(['GL' => static::TABLE_NAME['message'][$roomType]])
