@@ -71,7 +71,7 @@
 									</label>
 								</div>
 								<div class="fieldValue col-12">
-								{if $FIELD_MODEL->name === 'activitytype'}
+								{if $FIELD_MODEL->name === 'activitytype' && App\Config::module('Calendar','SHOW_ACTIVITYTYPES_AS_BUTTONS')}
 									{include file=\App\Layout::getTemplatePath('Edit/Field/ActivityType.tpl', $MODULE_NAME)}
 								{else}
 									{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME)}
