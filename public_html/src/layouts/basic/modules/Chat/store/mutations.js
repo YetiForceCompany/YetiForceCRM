@@ -48,6 +48,10 @@ export default {
 		state.data = data
 	},
 	setPrivateRooms(state, data) {
+		if (state.data.currentRoom.roomType === 'private' && data[state.data.currentRoom.recordId]) {
+			data[state.data.currentRoom.recordId].chatEntries =
+				state.data.roomList.private[state.data.currentRoom.recordId].chatEntries
+		}
 		state.data.roomList.private = data
 	},
 	mergeData(state, data) {
@@ -80,7 +84,7 @@ export default {
 		state.data.roomList = mergeDeepReactive(state.data.roomList, data)
 	},
 	updateParticipants(state, { roomType, recordId, data }) {
-		state.data.roomList[roomType][recordId].participants = data
+		if (state.data.currentRoom.roomType === roomType) state.data.roomList[roomType][recordId].participants = data
 	},
 	pushOlderEntries(state, { result, roomType, recordId }) {
 		state.data.roomList[roomType][recordId].chatEntries.unshift(...result.chatEntries)
