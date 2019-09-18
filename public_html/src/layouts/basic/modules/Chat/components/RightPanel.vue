@@ -1,8 +1,8 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <div class="fit">
+  <div class="fit bg-grey-11">
     <slot name="top"></slot>
-    <div class="bg-grey-11 fit">
+    <div class="bg-grey-11">
       <q-input
         dense
         v-model="filterParticipants"
@@ -27,9 +27,35 @@
             <icon icon="yfi-entrant-chat" size="0.88rem" />
           </q-item-section>
           {{ translate('JS_CHAT_PARTICIPANTS') }}
+          <div class="q-ml-auto">
+            <q-btn
+              v-if="isAddPanel"
+              dense
+              flat
+              round
+              size="sm"
+              color="primary"
+              icon="mdi-plus"
+              @click="showAddPanel = !showAddPanel"
+            >
+              <q-tooltip>{{ translate('JS_CHAT_ADD_PARTICIPANT') }}</q-tooltip>
+            </q-btn>
+            <q-icon name="mdi-information" class="q-pr-xs">
+              <q-tooltip>{{ translate(`JS_CHAT_PARTICIPANTS_DESCRIPTION`) }}</q-tooltip>
+            </q-icon>
+          </div>
         </q-item-label>
+        <q-item v-if="isAddPanel" v-show="showAddPanel">
+          <select-users :isVisible.sync="showAddPanel" class="q-pb-xs" />
+        </q-item>
         <template v-for="participant in participantsList">
-          <q-item :key="participant.user_id" v-if="participant.user_name === participant.user_name" class="q-py-xs">
+          <q-item
+            :active="!!participant.message"
+            active-class="opacity-1"
+            :key="participant.user_id"
+            v-if="participant.user_name === participant.user_name"
+            class="q-py-xs opacity-5"
+          >
             <q-item-section avatar>
               <q-avatar style="height: unset;">
                 <img v-if="participant.image" :src="participant.image" />
@@ -43,7 +69,25 @@
                 <span class="col-12 text-caption text-grey-5" v-html="participant.message"></span>
               </div>
             </q-item-section>
-            <q-separator />
+            <q-item-section avatar>
+              <q-btn
+                v-if="isAddPanel && !participant.isAdmin"
+                @click.stop="
+                  unpinUser({
+                    roomType: currentRoomData.roomType,
+                    recordId: currentRoomData.recordid,
+                    userId: participant.user_id,
+                    active: !!participant.message
+                  })
+                "
+                dense
+                round
+                flat
+                size="xs"
+                :icon="'mdi-pin'"
+              />
+              <q-icon v-if="participant.isAdmin" name="mdi-crown" />
+            </q-item-section>
           </q-item>
         </template>
       </q-list>
@@ -51,8 +95,12 @@
   </div>
 </template>
 <script>
+import SelectUsers from './SelectUsers.vue'
+import { createNamespacedHelpers } from 'vuex'
+const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatRightPanel',
+  components: { SelectUsers },
   props: {
     participants: {
       type: Array,
@@ -61,13 +109,22 @@ export default {
   },
   data() {
     return {
-      filterParticipants: ''
+      filterParticipants: '',
+      userId: CONFIG.userId,
+      showAddPanel: false
     }
   },
   computed: {
+    ...mapGetters(['currentRoomData', 'config']),
+    isAddPanel() {
+      return (
+        this.currentRoomData.roomType === 'private' &&
+        (this.currentRoomData.creatorid === this.userId || this.config.isAdmin)
+      )
+    },
     participantsList() {
       if (this.filterParticipants === '') {
-        return this.participants
+        return this.participants.length ? this.participants.concat().sort((a, b) => (!a.message ? 1 : -1)) : []
       } else {
         return this.participants.filter(participant => {
           return (
@@ -77,7 +134,29 @@ export default {
         })
       }
     }
+  },
+  methods: {
+    ...mapActions(['removeUserFromRoom']),
+    ...mapMutations(['unsetParticipant']),
+    unpinUser({ roomType, recordId, userId, active }) {
+      this.removeUserFromRoom({ roomType, recordId, userId }).then(({ result }) => {
+        this.unsetParticipant({ roomId: recordId, participantId: userId })
+        this.$q.notify({
+          position: 'top',
+          color: 'success',
+          message: this.translate('JS_CHAT_PARTICIPANT_REMOVED'),
+          icon: 'mdi-check'
+        })
+      })
+    }
   }
 }
 </script>
-<style module lang="stylus"></style>
+<style scoped>
+.opacity-5 {
+  opacity: 0.5;
+}
+.opacity-1 {
+  opacity: 1;
+}
+</style>

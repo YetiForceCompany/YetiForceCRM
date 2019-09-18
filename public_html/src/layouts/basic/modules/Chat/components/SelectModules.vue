@@ -32,7 +32,7 @@
       </template>
       <template v-slot:append>
         <q-icon name="mdi-close" @click.prevent="$emit('update:isVisible', false)" class="cursor-pointer" />
-        <q-tooltip anchor="top middle">{{ translate('JS_CHAT_HIDE_SEARCH_FIELD') }}</q-tooltip>
+        <q-tooltip anchor="top middle">{{ translate('JS_CHAT_HIDE_ADD_PANEL') }}</q-tooltip>
       </template>
       <template v-slot:option="scope">
         <q-item dense v-bind="scope.itemProps" v-on="scope.itemEvents">

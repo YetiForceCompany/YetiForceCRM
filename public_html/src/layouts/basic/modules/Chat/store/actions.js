@@ -40,7 +40,7 @@ export default {
 				roomType: roomType,
 				recordRoom: false
 			}).done(({ result }) => {
-				commit('setData', result)
+				commit('mergeData', result)
 				resolve(result)
 			})
 		})
@@ -53,7 +53,21 @@ export default {
 				mode: 'getRecordRoom',
 				id: id
 			}).done(({ result }) => {
-				commit('setData', result)
+				commit('mergeData', result)
+				resolve(result)
+			})
+		})
+	},
+	/**
+	 * Fetch all chat users
+	 */
+	fetchChatUsers() {
+		return new Promise((resolve, reject) => {
+			AppConnector.request({
+				module: 'Chat',
+				action: 'ChatAjax',
+				mode: 'getChatUsers'
+			}).done(({ result }) => {
 				resolve(result)
 			})
 		})
@@ -63,6 +77,34 @@ export default {
 	},
 	addActiveRoom({ commit }, { recordId, roomType }) {
 		commit('setActiveRoom', { recordId, roomType })
+	},
+	addPrivateRoom({ dispatch, commit, getters }, { name }) {
+		return new Promise((resolve, reject) => {
+			AppConnector.request({
+				module: 'Chat',
+				action: 'ChatAjax',
+				mode: 'addPrivateRoom',
+				name: name
+			}).done(result => {
+				resolve(result)
+			})
+		})
+	},
+	/**
+	 * Add participant to private room
+	 */
+	addParticipant({}, { recordId, userId }) {
+		return new Promise((resolve, reject) => {
+			AppConnector.request({
+				module: 'Chat',
+				action: 'ChatAjax',
+				mode: 'addParticipant',
+				recordId,
+				userId
+			}).done(result => {
+				resolve(result)
+			})
+		})
 	},
 	sendMessage({ commit, getters }, { text, roomType, recordId }) {
 		const lastEntries = getters.data.roomList[roomType][recordId].chatEntries.slice(-1)[0]
@@ -76,7 +118,12 @@ export default {
 				message: text,
 				mid: lastEntries !== undefined ? lastEntries['id'] : undefined
 			}).done(({ result }) => {
-				commit('pushSended', { result, roomType, recordId })
+				if (result.message) {
+					commit('setData', result.data)
+					Quasar.Plugins.Notify({ position: 'top', textColor: 'negative', message: app.vtranslate(result.message) })
+				} else {
+					commit('pushSended', { result, roomType, recordId })
+				}
 				resolve(result)
 			})
 		})
@@ -91,9 +138,28 @@ export default {
 			roomType: roomType,
 			recordId: room.recordid
 		}).done(_ => {
-			if (mode === 'removeFromFavorites' && roomType === 'crm' && getters.data.currentRoom.roomType === roomType) {
+			if (
+				mode === 'removeFromFavorites' &&
+				(roomType === 'crm' || roomType === 'private') &&
+				(getters.data.currentRoom.roomType === roomType && getters.data.currentRoom.recordId === room.recordid)
+			) {
 				dispatch('fetchRoom', { id: undefined, roomType: undefined })
 			}
+		})
+	},
+
+	removeUserFromRoom({ dispatch, commit, getters }, { roomType, recordId, userId }) {
+		return new Promise((resolve, reject) => {
+			AppConnector.request({
+				module: 'Chat',
+				action: 'Room',
+				mode: 'removeUserFromRoom',
+				recordId,
+				roomType,
+				userId
+			}).done(({ result }) => {
+				resolve(result)
+			})
 		})
 	},
 	fetchEarlierEntries({ commit }, { chatEntries, roomType, recordId }) {

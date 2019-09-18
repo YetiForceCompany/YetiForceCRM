@@ -45,6 +45,16 @@ export default {
 		state.local.isDesktopNotification = val
 	},
 	setData(state, data) {
+		state.data = data
+	},
+	setPrivateRooms(state, data) {
+		if (state.data.currentRoom.roomType === 'private' && data[state.data.currentRoom.recordId]) {
+			data[state.data.currentRoom.recordId].chatEntries =
+				state.data.roomList.private[state.data.currentRoom.recordId].chatEntries
+		}
+		state.data.roomList.private = data
+	},
+	mergeData(state, data) {
 		state.data = mergeDeepReactive(state.data, data)
 	},
 
@@ -73,6 +83,9 @@ export default {
 	updateRooms(state, data) {
 		state.data.roomList = mergeDeepReactive(state.data.roomList, data)
 	},
+	updateParticipants(state, { roomType, recordId, data }) {
+		if (state.data.currentRoom.roomType === roomType) state.data.roomList[roomType][recordId].participants = data
+	},
 	pushOlderEntries(state, { result, roomType, recordId }) {
 		state.data.roomList[roomType][recordId].chatEntries.unshift(...result.chatEntries)
 		state.data.roomList[roomType][recordId].showMoreButton = result.showMoreButton
@@ -100,25 +113,31 @@ export default {
 	setActiveRoom(state, { recordId, roomType }) {
 		state.data.roomList[roomType][recordId].active = true
 	},
+	unsetParticipant(state, { roomId, participantId }) {
+		let participants = state.data.roomList.private[roomId].participants
+		for (const [i, participant] of participants.entries()) {
+			if (participant.user_id === participantId) {
+				participants.splice(i, 1)
+				break
+			}
+		}
+	},
 	setPinned(state, { roomType, room }) {
 		const roomList = state.data.roomList
-		switch (roomType) {
-			case 'crm':
-				for (let roomId in roomList.crm) {
-					if (parseInt(roomId) === room.recordid) {
-						roomList.crm[roomId].isPinned = false
-						break
-					}
+		if (roomType === 'crm') {
+			for (let roomId in roomList.crm) {
+				if (parseInt(roomId) === room.recordid) {
+					roomList.crm[roomId].isPinned = false
+					break
 				}
-				break
-			case 'group':
-				for (let roomId in roomList.group) {
-					if (parseInt(roomId) === room.recordid) {
-						roomList.group[roomId].isPinned = !roomList.group[roomId].isPinned
-						break
-					}
+			}
+		} else {
+			for (let roomId in roomList[roomType]) {
+				if (parseInt(roomId) === room.recordid) {
+					roomList[roomType][roomId].isPinned = !roomList[roomType][roomId].isPinned
+					break
 				}
-				break
+			}
 		}
 	},
 	setConfig(state, config) {

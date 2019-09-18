@@ -10,9 +10,11 @@ export function getGroupIcon(roomType) {
 		case 'crm':
 			return 'yfi-favorite-room'
 		case 'group':
-			return 'yfi-group-room'
+			return 'yfi-groups'
 		case 'global':
 			return 'yfi-global-room'
+		case 'private':
+			return 'yfi-group-room'
 	}
 }
 
