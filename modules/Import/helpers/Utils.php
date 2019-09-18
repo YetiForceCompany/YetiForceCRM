@@ -169,7 +169,7 @@ class Import_Utils_Helper
 		}
 		$fileInstance = \App\Fields\File::loadFromRequest($_FILES['import_file']);
 		if ($fileInstance->getEncoding() !== strtoupper($request->getByType('file_encoding', 'Text'))) {
-			$request->set('error_message', \App\Language::translate('LBL_IMPORT_FILE_DIFFERENT_ENCODING', 'Import'));
+			$request->set('error_message', \App\Language::translateArgs('LBL_IMPORT_FILE_DIFFERENT_ENCODING', $fileInstance->getEncoding(), 'Import'));
 			return false;
 		}
 		if (!$fileInstance->moveFile($temporaryFileName)) {
