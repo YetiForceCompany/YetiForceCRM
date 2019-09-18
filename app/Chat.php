@@ -768,21 +768,13 @@ final class Chat
 					)
 					->leftJoin(['RN' => 'vtiger_groups'], "RN.groupid = M.{$columnMessage}");
 				break;
-			case 'global':
+			case 'global' || 'private':
 				$query->select(['M.*', 'name' => 'RN.name', 'R.last_message', 'recordid' => "M.{$columnMessage}"])
 					->leftJoin(
 						['R' => static::TABLE_NAME['room'][$roomType]],
 						"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
 					)
-					->leftJoin(['RN' => 'u_#__chat_global'], "RN.global_room_id = M.{$columnMessage}");
-				break;
-			case 'private':
-				$query->select(['M.*', 'name' => 'RN.name', 'R.last_message', 'recordid' => "M.{$columnMessage}"])
-					->leftJoin(
-						['R' => static::TABLE_NAME['room'][$roomType]],
-						"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
-					)
-					->leftJoin(['RN' => 'u_#__chat_private'], "RN.global_room_id = M.{$columnMessage}");
+					->leftJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$columnRoom} = M.{$columnMessage}");
 				break;
 			default:
 				break;
