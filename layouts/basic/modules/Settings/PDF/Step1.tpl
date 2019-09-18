@@ -288,7 +288,7 @@
 									{\App\Language::translate('LBL_DEFAULT_TPL', $QUALIFIED_MODULE)}
 								</label>
 								<div class="col-sm-6">
-									{if $PDF_MODEL->get('default') === 0}
+									{if empty($PDF_MODEL->get('default'))}
 										{assign 'DEFAULT' false}
 									{else}
 										{assign 'DEFAULT' true}
