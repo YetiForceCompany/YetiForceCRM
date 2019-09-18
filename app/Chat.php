@@ -999,7 +999,8 @@ final class Chat
 					'created' => date('Y-m-d H:i:s')
 				]
 			)->execute();
-		Db::getInstance()->createCommand()->insert(
+		if (!$this->getUserInfo($this->userId)['isAdmin']) {
+			Db::getInstance()->createCommand()->insert(
 				static::TABLE_NAME['room']['private'],
 				[
 					'userid' => $this->userId,
@@ -1007,6 +1008,7 @@ final class Chat
 					static::COLUMN_NAME['room']['private'] => Db::getInstance()->getLastInsertID(),
 				]
 			)->execute();
+		}
 	}
 
 	/**

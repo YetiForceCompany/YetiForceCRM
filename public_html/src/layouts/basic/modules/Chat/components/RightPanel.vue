@@ -50,7 +50,7 @@
         </q-item>
         <template v-for="participant in participantsList">
           <q-item
-            :active="participant.message !== undefined"
+            :active="!!participant.message"
             active-class="opacity-1"
             :key="participant.user_id"
             v-if="participant.user_name === participant.user_name"
@@ -77,7 +77,7 @@
                     roomType: currentRoomData.roomType,
                     recordId: currentRoomData.recordid,
                     userId: participant.user_id,
-                    active: participant.message !== undefined
+                    active: !!participant.message
                   })
                 "
                 dense
@@ -124,7 +124,7 @@ export default {
     },
     participantsList() {
       if (this.filterParticipants === '') {
-        return this.participants.length ? this.participants.concat().sort((a, b) => (!a.active ? 1 : -1)) : []
+        return this.participants.length ? this.participants.concat().sort((a, b) => (!a.message ? 1 : -1)) : []
       } else {
         return this.participants.filter(participant => {
           return (
