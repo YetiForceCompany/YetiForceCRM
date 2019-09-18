@@ -84,7 +84,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			$row['description'] = $description;
 		}
 		if (\in_array('color', $db->getTableSchema($tableName)->getColumnNames())) {
-			$row['color'] = '#E6FAD8';
+			$row['color'] = 'E6FAD8';
 		}
 		$db->createCommand()->insert($tableName, $row)->execute();
 		$picklistId = $db->getLastInsertID($tableName . '_' . $primaryKey . '_seq');
