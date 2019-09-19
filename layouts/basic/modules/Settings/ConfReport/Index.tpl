@@ -148,18 +148,18 @@
 							</td>
 							{if empty($ITEM['testCli'])}
 								<td colspan="2">
-									{if !empty($ITEM['www'])}
+									{if isset($ITEM['www'])}
 										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
 									{/if}
 								</td>
 							{else}
 								<td>
-									{if !empty($ITEM['www'])}
+									{if isset($ITEM['www'])}
 										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
 									{/if}
 								</td>
 								<td>
-									{if !empty($ITEM['cron'])}
+									{if isset($ITEM['cron'])}
 										{if isset($ITEM['isHtml'])} {$ITEM['cron']} {else} {\App\Language::translate($ITEM['cron'], $MODULE_NAME)} {/if}
 									{/if}
 								</td>
@@ -277,18 +277,18 @@
 							</td>
 							{if empty($ITEM['testCli'])}
 								<td colspan="2">
-									{if !empty($ITEM['www'])}
+									{if isset($ITEM['www'])}
 										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
 									{/if}
 								</td>
 							{else}
 								<td>
-									{if !empty($ITEM['www'])}
+									{if isset($ITEM['www'])}
 										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
 									{/if}
 								</td>
 								<td>
-									{if !empty($ITEM['cron'])}
+									{if isset($ITEM['cron'])}
 										{if isset($ITEM['isHtml'])} {$ITEM['cron']} {else} {\App\Language::translate($ITEM['cron'], $MODULE_NAME)} {/if}
 									{/if}
 								</td>
@@ -489,13 +489,13 @@
 									{if isset($ITEM['isHtml'])} {$ITEM['recommended']} {else} {\App\Language::translate($ITEM['recommended'], $MODULE_NAME)} {/if}
 								</td>
 								<td>
-									{if !empty($ITEM['www'])}
+									{if isset($ITEM['www'])}
 										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
 									{/if}
 								</td>
 							{else}
 								<td colspan="2">
-									{if !empty($ITEM['www'])}
+									{if isset($ITEM['www'])}
 										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
 									{/if}
 								</td>

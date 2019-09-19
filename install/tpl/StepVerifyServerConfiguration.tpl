@@ -151,7 +151,7 @@
 												{SHOW_RECOMMENDED ITEM=$ITEM}
 											</td>
 											<td colspan="2">
-												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
+												{if isset($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
 											</td>
 										</tr>
 									{/foreach}
@@ -180,7 +180,7 @@
 												{SHOW_RECOMMENDED ITEM=$ITEM}
 											</td>
 											<td>
-												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
+												{if isset($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
 											</td>
 										</tr>
 									{/foreach}
