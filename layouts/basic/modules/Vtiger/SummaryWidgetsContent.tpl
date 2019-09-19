@@ -7,7 +7,7 @@
 		<div class="listViewEntriesDiv relatedContents table-responsive">
 			<table class="table c-detail-widget__table listViewEntriesTable">
 				<thead>
-				<tr class="text-center">
+				<tr class="text-left">
 					{if !$IS_READ_ONLY}
 						<th class="noWrap p-1"></th>
 					{/if}
@@ -42,7 +42,7 @@
 						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 							{$COUNT = $COUNT+1}
 							{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->getFieldName()}
-							<td class="text-center {$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}"
+							<td class="text-left {$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}"
 								nowrap>
 								{if ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->getUIType() eq '4') && $RELATED_RECORD->isViewable()}
 									<a class="modCT_{$RELATED_MODULE_NAME}"
@@ -56,13 +56,13 @@
 							</td>
 						{/foreach}
 						{if $SHOW_CREATOR_DETAIL}
-							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_created_time"
+							<td class="{$WIDTHTYPE} text-left" data-field-type="rel_created_time"
 								nowrap>{App\Fields\DateTime::formatToDisplay($RELATED_RECORD->get('rel_created_time'))}</td>
-							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_created_user"
+							<td class="{$WIDTHTYPE} text-left" data-field-type="rel_created_user"
 								nowrap>{\App\Fields\Owner::getLabel($RELATED_RECORD->get('rel_created_user'))}</td>
 						{/if}
 						{if $SHOW_COMMENT}
-							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_comment" nowrap>
+							<td class="{$WIDTHTYPE} text-left" data-field-type="rel_comment" nowrap>
 								{if strlen($RELATED_RECORD->get('rel_comment')) > App\Config::relation('COMMENT_MAX_LENGTH')}
 								<a class="js-popover-tooltip" data-js="popover" data-placement="top"
 								   data-content="{$RELATED_RECORD->get('rel_comment')}">
