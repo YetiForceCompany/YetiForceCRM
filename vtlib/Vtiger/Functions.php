@@ -350,6 +350,7 @@ class Functions
 	public static function throwNewException($e, $die = true, $messageHeader = 'LBL_ERROR')
 	{
 		$message = \is_object($e) ? $e->getMessage() : $e;
+		$code = 500;
 		if (!\is_array($message)) {
 			if (false === strpos($message, '||')) {
 				$message = \App\Language::translateSingleMod($message, 'Other.Exceptions');
@@ -372,7 +373,7 @@ class Functions
 				$response->setHeader(\App\Request::_getServer('SERVER_PROTOCOL') . ' ' . $e->getCode() . ' ' . str_ireplace(["\r\n", "\r", "\n"], [' ', ' ', ' '], $e->getMessage()));
 				$response->setError($e->getCode(), $e->getMessage(), $trace);
 			} else {
-				$response->setError('error', $message, $trace);
+				$response->setError($code, $message, $trace);
 			}
 			$response->emit();
 		} else {
@@ -382,7 +383,9 @@ class Functions
 						'message' => $message,
 						'trace' => str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $e->getTraceAsString())
 					];
+					$code = $e->getCode();
 				}
+				http_response_code($code);
 				$viewer = new \Vtiger_Viewer();
 				$viewer->assign('MESSAGE', $message);
 				$viewer->assign('MESSAGE_EXPANDED', \is_array($message));
