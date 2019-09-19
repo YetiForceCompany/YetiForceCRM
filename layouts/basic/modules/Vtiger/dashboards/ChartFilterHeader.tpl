@@ -1,13 +1,14 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-dashboards-ChartFilterHeader -->
 	<div class="dashboardWidgetHeader">
 		<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME) CLASSNAME="col-md-6"}
 			<div class="d-inline-flex">
-				<button class="btn btn-sm btn-light downloadWidget hidden" data-widgetid="{$CHART_MODEL->get('widgetid')}" title="{\App\Language::translate('LBL_WIDGET_DOWNLOAD','Home')}">
+				<button class="btn btn-sm btn-light downloadWidget" data-widgetid="{$CHART_MODEL->get('widgetid')}" title="{\App\Language::translate('LBL_WIDGET_DOWNLOAD','Home')}">
 					<span class="far fa-arrow-alt-circle-down"></span>
 				</button>&nbsp;
-				<button class="btn btn-sm btn-light printWidget hidden" data-widgetid="{$CHART_MODEL->get('widgetid')}" title="{\App\Language::translate('LBL_WIDGET_PRINT','Home')}">
+				<button class="btn btn-sm btn-light printWidget" data-widgetid="{$CHART_MODEL->get('widgetid')}" title="{\App\Language::translate('LBL_WIDGET_PRINT','Home')}">
 					<span class="fas fa-print"></span>
 				</button>&nbsp;
 				{if count($CHART_MODEL->getFilterIds())<=1}
@@ -43,4 +44,5 @@
 	<div class="dashboardWidgetContent">
 		{include file=\App\Layout::getTemplatePath('dashboards/ChartFilterContents.tpl', $MODULE_NAME) WIDGET=$WIDGET}
 	</div>
+<!-- /tpl-dashboards-ChartFilterHeader -->
 {/strip}
