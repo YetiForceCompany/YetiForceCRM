@@ -18,6 +18,12 @@ class Vtiger_Field_Model extends vtlib\Field
 	protected $fieldDataTypeShort;
 	protected $uitype_instance;
 	/**
+	 * Picklist values only for custom fields;.
+	 *
+	 * @var string[]
+	 */
+	public $picklistValues;
+	/**
 	 * @var bool
 	 */
 	protected $isCalculateField = true;
@@ -487,6 +493,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getPicklistValues($skipCheckingRole = false)
 	{
+		if (isset($this->picklistValues)) {
+			return $this->picklistValues;
+		}
 		$fieldDataType = $this->getFieldDataType();
 		$fieldPickListValues = [];
 		if ('picklist' === $fieldDataType || 'multipicklist' === $fieldDataType) {

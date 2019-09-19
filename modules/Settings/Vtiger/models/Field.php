@@ -29,7 +29,8 @@ class Settings_Vtiger_Field_Model extends Vtiger_Field_Model
 	{
 		$modelClassName = \Vtiger_Loader::getComponentClassName('Model', 'Module', $module);
 		$moduleInstance = new $modelClassName();
-		$instance = new self();
+		$modelClassName = \Vtiger_Loader::getComponentClassName('Model', 'Field', $module);
+		$instance = new $modelClassName();
 		$instance->setModule($moduleInstance);
 		foreach ($data as $key => $value) {
 			$instance->set($key, $value);
