@@ -240,7 +240,7 @@ class ConfReport
 		'crmDir' => ['container' => 'env', 'testCli' => false, 'label' => 'CRM_DIR'],
 		'sapi' => ['container' => 'env', 'testCli' => true, 'label' => 'PHP_SAPI'],
 		'locale' => ['container' => 'env', 'testCli' => true, 'label' => 'LOCALE'],
-		'error_log' => ['container' => 'php', 'testCli' => true, 'label' => 'LOG_FILE'],
+		'error_log' => ['type' => 'IsEmpty', 'container' => 'php', 'testCli' => true, 'label' => 'LOG_FILE'],
 		'phpIni' => ['container' => 'env', 'testCli' => true, 'label' => 'PHPINI'],
 		'phpIniAll' => ['container' => 'env', 'testCli' => true, 'label' => 'PHPINIS'],
 		'spaceRoot' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_ROOT'],
@@ -1189,6 +1189,23 @@ class ConfReport
 		$row[$sapi] = \App\Language::translate($row['status'] ? 'LBL_YES' : 'LBL_NO');
 		return $row;
 	}
+
+	/**
+	 * Validate check if value is empty.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 *
+	 * @return array
+	 */
+	private static function validateIsEmpty(string $name, array $row)
+		{
+			unset($name);
+			if(empty($row['www']) || empty($row['cron'])){
+				$row['status'] = false;
+			}
+			return $row;
+		}
 
 	/**
 	 * Get all configuration error values.
