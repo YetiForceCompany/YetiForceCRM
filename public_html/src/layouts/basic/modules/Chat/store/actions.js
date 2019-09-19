@@ -40,7 +40,7 @@ export default {
 				roomType: roomType,
 				recordRoom: false
 			}).done(({ result }) => {
-				commit('setRoomData', result)
+				commit('mergeData', result)
 				resolve(result)
 			})
 		})

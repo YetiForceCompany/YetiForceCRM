@@ -24,7 +24,7 @@
       <q-list :style="{'font-size': layout.drawer.fs}">
         <q-item-label class="flex items-center text-bold text-muted q-py-sm q-px-md">
           <q-item-section avatar>
-            <icon icon="yfi-entrant-chat" size="0.88rem" />
+            <icon icon="yfi-entrant-chat" :size="layout.drawer.fs" />
           </q-item-section>
           {{ translate('JS_CHAT_PARTICIPANTS') }}
           <div class="q-ml-auto">
