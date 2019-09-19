@@ -308,6 +308,9 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		if (!$chat->isRoomModerator($recordId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
+		if (\App\Chat::getCurrentRoom()['recordId'] === $recordId) {
+			$chat->setCurrentRoomDefault();
+		}
 		$chat->archivePrivateRoom($recordId);
 		$response = new Vtiger_Response();
 		$response->setResult(true);

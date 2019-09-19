@@ -47,6 +47,11 @@ export default {
 	setData(state, data) {
 		state.data = data
 	},
+	setRoomData(state, data) {
+		state.data.amountOfNewMessages = data.amountOfNewMessages
+		state.data.currentRoom = data.currentRoom
+		state.data.roomList = data.roomList
+	},
 	setPrivateRooms(state, data) {
 		if (state.data.currentRoom.roomType === 'private' && data[state.data.currentRoom.recordId]) {
 			data[state.data.currentRoom.recordId].chatEntries =

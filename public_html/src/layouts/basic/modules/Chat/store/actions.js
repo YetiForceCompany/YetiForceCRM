@@ -40,12 +40,12 @@ export default {
 				roomType: roomType,
 				recordRoom: false
 			}).done(({ result }) => {
-				commit('mergeData', result)
+				commit('setRoomData', result)
 				resolve(result)
 			})
 		})
 	},
-	archivePrivateRoom({ commit }, room) {
+	archivePrivateRoom({ dispatch }, room) {
 		return new Promise((resolve, reject) => {
 			AppConnector.request({
 				module: 'Chat',
@@ -53,6 +53,7 @@ export default {
 				mode: 'archivePrivateRoom',
 				recordId: room.recordid
 			}).done(({ result }) => {
+				dispatch('fetchRoom', { id: undefined, roomType: undefined })
 				resolve(result)
 			})
 		})

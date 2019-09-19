@@ -144,7 +144,7 @@
                         color="negative"
                         icon="mdi-delete"
                       >
-                        <q-tooltip>{{ translate('JS_CHAT_ARCHIVE_ROOM') }}</q-tooltip>
+                        <q-tooltip>{{ translate('JS_CHAT_ROOM_ARCHIVE') }}</q-tooltip>
                       </q-btn>
                       <q-btn
                         @click.stop="toggleRoomSoundNotification({ roomType, id: room.recordid })"
