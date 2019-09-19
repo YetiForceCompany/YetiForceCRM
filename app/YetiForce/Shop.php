@@ -32,6 +32,12 @@ class Shop
 	 * @var \App\YetiForce\Shop\AbstractBaseProduct[]
 	 */
 	public static $productCache = [];
+	/**
+	 * Invalid Product Name.
+	 *
+	 * @var string
+	 */
+	public static $verifyProduct = '';
 
 	/**
 	 * Get products.
@@ -192,8 +198,9 @@ class Shop
 	 */
 	public static function verify(): bool
 	{
-		foreach (self::getProducts() as $row) {
-			if (!$row->verify()) {
+		foreach (self::getProducts() as $product) {
+			if (!$product->verify()) {
+				self::$verifyProduct = $product->getLabel();
 				return false;
 			}
 		}
@@ -206,8 +213,8 @@ class Shop
 	public static function generateCache()
 	{
 		$content = [];
-		foreach (self::getProducts() as $key => $row) {
-			$content[$key] = $row->verify(false);
+		foreach (self::getProducts() as $key => $product) {
+			$content[$key] = $product->verify(false);
 		}
 		\App\Utils::saveToFile(ROOT_DIRECTORY . '/app_data/shop.php', $content, 'Modifying this file will breach the licence terms', 0, true);
 	}
