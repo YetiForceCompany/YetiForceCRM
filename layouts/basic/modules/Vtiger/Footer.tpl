@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<!-- tpl-Base-Footer -->
-	{assign var="DISABLE_BRANDING" value=\App\Config::component('Branding', 'isCustomerBrandingActive')}
+	{assign var="DISABLE_BRANDING" value=\App\YetiForce\Shop::check('YetiForceDisableBranding')}
 	{if $DISABLE_BRANDING}
 		{assign var="URL_LINKEDIN" value=\App\Config::component('Branding', 'urlLinkedIn')}
 		{assign var="URL_TWITTER" value=\App\Config::component('Branding', 'urlTwitter')}

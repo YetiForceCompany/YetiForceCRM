@@ -300,25 +300,45 @@ return [
 		],
 	],
 	'Branding' => [
-		'isCustomerBrandingActive' => [
-			'default' => false,
-			'description' => "Determines whether client branding is active.\nAny modifications of this parameter require the vendor's consent.\nAny unauthorised modification breaches the terms and conditions of YetiForce Public License.",
-		],
 		'footerName' => [
-			'default' => 'YetiForce',
+			'default' => '',
 			'description' => 'Footer\'s name',
+			'validation' => function () {
+				return true;
+			},
+			'sanitization' => function () {
+				return \App\Purifier::purify(func_get_arg(0));
+			}
 		],
 		'urlLinkedIn' => [
 			'default' => 'https://www.linkedin.com/groups/8177576',
 			'description' => 'LinkedIn URL',
+			'validation' => function () {
+				return true;
+			},
+			'sanitization' => function () {
+				return \App\Purifier::purify(func_get_arg(0));
+			}
 		],
 		'urlTwitter' => [
 			'default' => 'https://twitter.com/YetiForceEN',
 			'description' => 'Twitter URL',
+			'validation' => function () {
+				return true;
+			},
+			'sanitization' => function () {
+				return \App\Purifier::purify(func_get_arg(0));
+			}
 		],
 		'urlFacebook' => [
 			'default' => 'https://www.facebook.com/YetiForce-CRM-158646854306054/',
 			'description' => 'Facebook URL',
+			'validation' => function () {
+				return true;
+			},
+			'sanitization' => function () {
+				return \App\Purifier::purify(func_get_arg(0));
+			}
 		],
 	],
 ];

@@ -622,7 +622,7 @@ class ConfReport
 				break;
 			}
 		}
-		if((isset(\App\Process::$requestMode) && \App\Process::$requestMode === 'Install') && isset($row['Install']) && !$row['Install']){
+		if ((isset(\App\Process::$requestMode) && 'Install' === \App\Process::$requestMode) && isset($row['Install']) && !$row['Install']) {
 			$row['mode'] = 'skipParam';
 		}
 		return $row;
@@ -1165,9 +1165,8 @@ class ConfReport
 		$view->assign('SHOW_FOOTER', true);
 		$html = $view->view('Footer.tpl', '', true);
 		$row['status'] = true;
-		if (!\App\Config::component('Branding', 'isCustomerBrandingActive')) {
-			$row['status'] = false !== \strpos($html, '&copy; YetiForce.com All rights reserved');
-			$row['status'] = $row['status'] && \App\YetiForce\Shop::check('YetiForceDisableBranding');
+		if (!\App\YetiForce\Shop::check('YetiForceDisableBranding')) {
+			$row['status'] = false !== \strpos($html, '&copy; YetiForce.com All rights reserved') || empty(\App\Config::component('Branding', 'footerName'));
 		}
 		unset($name);
 		$row[$sapi] = \App\Language::translate($row['status'] ? 'LBL_YES' : 'LBL_NO');
