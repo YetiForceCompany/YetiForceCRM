@@ -1,58 +1,88 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-
-<style>
-	.blockHeader th {
-		text-align: center !important;
-		vertical-align: middle !important;
-	}
-
-	.confTable td, label, span {
-		text-align: center !important;
-		vertical-align: middle !important;
-	}
-</style>
 <div class="tpl-Settings-Updates-Index">
 	<div class="widget_header row">
 		<div class="col-md-7">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 		<div class="col-md-5 align-items-center d-flex justify-content-end">
-			<a class="btn btn-success btn-sm addMenu" role="button"
-			   href="{Settings_ModuleManager_Module_Model::getUserModuleImportUrl()}">
-				<span class="fa fa-plus u-mr-5px"
-					  title="{\App\Language::translate('LBL_IMPORT_UPDATE', $QUALIFIED_MODULE)}"></span>
+			<a class="btn btn-success btn-sm addMenu" role="button" href="{Settings_ModuleManager_Module_Model::getUserModuleImportUrl()}">
+				<span class="fa fa-plus u-mr-5px" title="{\App\Language::translate('LBL_IMPORT_UPDATE', $QUALIFIED_MODULE)}"></span>
 				<span class="sr-only">{\App\Language::translate('LBL_IMPORT_UPDATE', $QUALIFIED_MODULE)}</span>
 				<strong>{\App\Language::translate('LBL_IMPORT_UPDATE', $QUALIFIED_MODULE)}</strong>
 			</a>
 		</div>
 	</div>
 	<hr class="mt-1 mb-2">
+	{if $TO_INSTALL}
+		<table class="table tableRWD table-bordered table-sm themeTableColor">
+			<thead>
+				<tr>
+					<th colspan="5" class="text-center">{\App\Language::translate('LBL_AVAILABLE_UPGRADE_PACKAGES', $QUALIFIED_MODULE)}</th>
+				</tr>
+				<tr>
+					<th>{\App\Language::translate('LBL_NAME_PACKAGES', $QUALIFIED_MODULE)}</th>
+					<th>{\App\Language::translate('LBL_FROM_VERSION', $QUALIFIED_MODULE)}</th>
+					<th>{\App\Language::translate('LBL_TO_VERSION', $QUALIFIED_MODULE)}</th>
+					<th>{\App\Language::translate('LBL_PACKAGE_VERSION', $QUALIFIED_MODULE)}</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+			{foreach from=$TO_INSTALL item=ITEM}
+				<tr>
+					<td>{\App\Purifier::encodeHtml($ITEM['label'])}</td>
+					<td>{\App\Purifier::encodeHtml($ITEM['fromVersion'])}</td>
+					<td>{\App\Purifier::encodeHtml($ITEM['toVersion'])}</td>
+					<td>{\App\Purifier::encodeHtml($ITEM['version'])}</td>
+					<td class="text-center">
+						{if \App\YetiForce\Updater::isDownloaded($ITEM)}
+							<a class="btn btn-success btn-sm addMenu" role="button" href="index.php?module=ModuleManager&parent=Settings&view=ModuleImport&mode=importUserModuleStep2&upgradePackage={\App\Purifier::encodeHtml($ITEM['hash'])}">
+								<span class="fas fa-download u-mr-5px" title="{\App\Language::translate('LBL_INSTALL_PACKAGE', $QUALIFIED_MODULE)}"></span>
+								<span class="sr-only">{\App\Language::translate('LBL_INSTALL_PACKAGE', $QUALIFIED_MODULE)}</span>
+								<strong>{\App\Language::translate('LBL_INSTALL_PACKAGE', $QUALIFIED_MODULE)}</strong>
+							</a>
+						{else}
+							<a class="btn btn-primary btn-sm addMenu" role="button" href="index.php?parent=Settings&module=Updates&view=Index&download={\App\Purifier::encodeHtml($ITEM['hash'])}">
+								<span class="fas fa-download u-mr-5px" title="{\App\Language::translate('LBL_DOWNLOAD_PACKAGE', $QUALIFIED_MODULE)}"></span>
+								<span class="sr-only">{\App\Language::translate('LBL_DOWNLOAD_PACKAGE', $QUALIFIED_MODULE)}</span>
+								<strong>{\App\Language::translate('LBL_DOWNLOAD_PACKAGE', $QUALIFIED_MODULE)}</strong>
+							</a>
+						{/if}
+					</td>
+				</tr>
+			{/foreach}
+			</tbody>
+		</table>
+		<hr class="mt-1 mb-2">
+	{/if}
 	<table class="table tableRWD table-bordered table-sm themeTableColor">
 		<thead>
-		<tr class="blockHeader">
-			<th colspan="1" class="mediumWidthType">
-				<span>{\App\Language::translate('LBL_TIME', $MODULE)}</span>
-			</th>
-			<th colspan="1" class="mediumWidthType">
-				<span>{\App\Language::translate('LBL_USER', $MODULE)}</span>
-			</th>
-			<th colspan="1" class="mediumWidthType">
-				<span>{\App\Language::translate('LBL_NAME', $MODULE)}</span>
-			</th>
-			</th>
-			<th colspan="1" class="mediumWidthType">
-				<span>{\App\Language::translate('LBL_FROM_VERSION', $MODULE)}</span>
-			</th>
-			<th colspan="1" class="mediumWidthType">
-				<span>{\App\Language::translate('LBL_TO_VERSION', $MODULE)}</span>
-			</th>
-			<th colspan="1" class="mediumWidthType">
-				<span>{\App\Language::translate('LBL_RESULT', $MODULE)}</span>
-			</th>
-		</tr>
+			<tr>
+				<th colspan="6" class="text-center">{\App\Language::translate('LBL_INSTALLED_PACKAGES', $QUALIFIED_MODULE)}</th>
+			</tr>
+			<tr class="blockHeader">
+				<th colspan="1" class="mediumWidthType">
+					<span>{\App\Language::translate('LBL_TIME', $QUALIFIED_MODULE)}</span>
+				</th>
+				<th colspan="1" class="mediumWidthType">
+					<span>{\App\Language::translate('LBL_USER', $QUALIFIED_MODULE)}</span>
+				</th>
+				<th colspan="1" class="mediumWidthType">
+					<span>{\App\Language::translate('LBL_NAME_PACKAGES', $QUALIFIED_MODULE)}</span>
+				</th>
+				<th colspan="1" class="mediumWidthType">
+					<span>{\App\Language::translate('LBL_FROM_VERSION', $QUALIFIED_MODULE)}</span>
+				</th>
+				<th colspan="1" class="mediumWidthType">
+					<span>{\App\Language::translate('LBL_TO_VERSION', $QUALIFIED_MODULE)}</span>
+				</th>
+				<th colspan="1" class="mediumWidthType">
+					<span>{\App\Language::translate('LBL_RESULT', $QUALIFIED_MODULE)}</span>
+				</th>
+			</tr>
 		</thead>
 		<tbody>
-		{foreach from=$UPDATES key=key item=foo}
+		{foreach from=$INSTALLED key=key item=foo}
 			<tr>
 				<td width="16%">
 					<label class="marginRight5px">{$foo.time}</label>
@@ -72,9 +102,9 @@
 				<td width="16%">
 					<label class="marginRight5px">
 						{if $foo.result eq 1}
-							{\App\Language::translate('LBL_YES', $MODULE)}
+							{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}
 						{else}
-							{\App\Language::translate('LBL_NO', $MODULE)}
+							{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}
 						{/if}
 					</label>
 				</td>

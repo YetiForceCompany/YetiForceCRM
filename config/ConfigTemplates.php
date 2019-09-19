@@ -12,7 +12,7 @@ return [
 			'description' => 'List of active services. Available: dav, webservices, webservice',
 			'validation' => function () {
 				$arg = func_get_arg(0);
-				return is_array($arg) && empty(array_diff($arg, ['dav', 'webservices', 'webservice']));
+				return \is_array($arg) && empty(array_diff($arg, ['dav', 'webservices', 'webservice']));
 			}
 		],
 		'enableBrowser' => [
@@ -55,7 +55,7 @@ return [
 			'default' => 'Basic',
 			'description' => 'Webservice config.',
 			'validation' => function () {
-				return func_get_arg(0) === 'Basic';
+				return 'Basic' === func_get_arg(0);
 			}
 		],
 		'PRIVATE_KEY' => [
@@ -76,11 +76,11 @@ return [
 			'default' => '',
 			'description' => 'Url for customer portal (Example: https://portal.yetiforce.com/)',
 		],
-//		'HELPDESK_SUPPORT_NAME' => [
-//			'default' => 'your-support name',
-//			'description' => 'Helpdesk support email id and support name (Example: "support@yetiforce.com" and "yetiforce support")',
-//			'validation' => ''
-//		],
+		//		'HELPDESK_SUPPORT_NAME' => [
+		//			'default' => 'your-support name',
+		//			'description' => 'Helpdesk support email id and support name (Example: "support@yetiforce.com" and "yetiforce support")',
+		//			'validation' => ''
+		//		],
 		'HELPDESK_SUPPORT_EMAIL_REPLY' => [
 			'default' => '',
 			'description' => 'Help desk support email reply',
@@ -115,7 +115,7 @@ return [
 			'description' => 'Flag to allow export functionality: "all" - to allow anyone to use exports, "admin" - to only allow admins to export, "none" -  to block exports completely',
 			'validation' => function () {
 				$arg = func_get_arg(0);
-				return in_array($arg, ['all', 'admin', 'none']);
+				return \in_array($arg, ['all', 'admin', 'none']);
 			}
 		],
 		'upload_badext' => [
@@ -138,14 +138,14 @@ return [
 			'description' => 'Default module: default value = Home',
 			'validation' => function () {
 				$arg = func_get_arg(0);
-				return \App\Module::isModuleActive($arg) === true;
+				return true === \App\Module::isModuleActive($arg);
 			}
 		],
 		'default_charset' => [
 			'default' => 'UTF-8',
 			'description' => 'Default charset:  default value = "UTF-8"',
 			'validation' => function () {
-				return func_get_arg(0) === 'UTF-8';
+				return 'UTF-8' === func_get_arg(0);
 			}
 		],
 		'default_language' => [
@@ -157,7 +157,7 @@ return [
 			'default' => '',
 			'description' => 'Unique Application Key',
 			'validation' => function () {
-				return !class_exists("\Config\Main");
+				return !class_exists('\\Config\\Main');
 			},
 			'sanitization' => function () {
 				return sha1(time() + random_int(1, 9999999));
@@ -186,7 +186,7 @@ return [
 					Vtiger_Loader::includeOnce('~modules/Users/UserTimeZonesArray.php');
 				}
 				$arg = func_get_arg(0);
-				return in_array($arg, UserTimeZones::getTimeZones());
+				return \in_array($arg, UserTimeZones::getTimeZones());
 			}
 		],
 		'title_max_length' => [
@@ -472,6 +472,10 @@ return [
 		'LANGUAGES_UPDATE_DEV_MODE' => [
 			'default' => false,
 			'description' => 'Developer libraries update mode'
+		],
+		'updaterDevMode' => [
+			'default' => false,
+			'description' => 'Developer updater mode'
 		]
 	],
 	'performance' => [
@@ -480,7 +484,7 @@ return [
 			'description' => 'Data caching is about storing some PHP variables in cache and retrieving it later from cache. Drivers: Base, Apcu',
 			'validation' => function () {
 				$arg = func_get_arg(0);
-				return $arg === 'Basic' || $arg === 'Apcu';
+				return 'Basic' === $arg || 'Apcu' === $arg;
 			}
 		],
 		'ENABLE_CACHING_USERS' => [
@@ -745,7 +749,7 @@ return [
 			'description' => 'Global search - Should the results be sorted in MySQL or PHP while displaying (None = 0, PHP = 1, Mysql = 2). The parameter impacts system efficiency.',
 			'validation' => function () {
 				$arg = func_get_arg(0);
-				return is_int($arg) && in_array($arg, [0, 1, 2]);
+				return \is_int($arg) && \in_array($arg, [0, 1, 2]);
 			}
 		],
 		'GLOBAL_SEARCH_CURRENT_MODULE_TO_TOP' => [
@@ -759,7 +763,7 @@ return [
 			'description' => 'Global search - Search for records while entering text  (1/0).',
 			'validation' => function () {
 				$arg = func_get_arg(0);
-				return is_int($arg) && in_array($arg, [0, 1]);
+				return \is_int($arg) && \in_array($arg, [0, 1]);
 			}
 		],
 		'GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT' => [
@@ -783,7 +787,7 @@ return [
 			'description' => 'Global search - Default search operator. (FulltextBegin,FulltextWord,Contain,Begin,End)',
 			'validation' => function () {
 				$arg = func_get_arg(0);
-				return in_array($arg, ['FulltextBegin', 'FulltextWord', 'Contain', 'Begin', 'End']);
+				return \in_array($arg, ['FulltextBegin', 'FulltextWord', 'Contain', 'Begin', 'End']);
 			}
 		],
 		'LIST_ENTITY_STATE_COLOR' => [
@@ -801,8 +805,8 @@ return [
 			'description' => 'Key to encrypt passwords, changing the key results in the loss of all encrypted data.',
 			'validation' => function () {
 				$arg = func_get_arg(0);
-				return is_array($arg) && !empty($arg['pass']) && !empty($arg['method']) &&
-					in_array($arg['method'], \App\Encryption::getMethods()) && strlen($arg['pass']) === App\Encryption::getLengthVector($arg['method']);
+				return \is_array($arg) && !empty($arg['pass']) && !empty($arg['method']) &&
+					\in_array($arg['method'], \App\Encryption::getMethods()) && \strlen($arg['pass']) === App\Encryption::getLengthVector($arg['method']);
 			}
 		],
 		'encryptionMethod' => [
@@ -810,7 +814,7 @@ return [
 			'description' => 'Encryption method.',
 			'validation' => function () {
 				$arg = func_get_arg(0);
-				return empty($arg) || ($arg && in_array($arg, \App\Encryption::getMethods()));
+				return empty($arg) || ($arg && \in_array($arg, \App\Encryption::getMethods()));
 			}
 		],
 	],
@@ -929,10 +933,10 @@ return [
 		],
 		'USER_AUTHY_MODE' => [
 			'default' => 'TOTP_OPTIONAL',
-			'description' => "User authentication mode.\n@see \Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE Available values.",
+			'description' => "User authentication mode.\n@see \\Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE Available values.",
 			'validation' => function () {
 				$arg = func_get_arg(0);
-				return in_array($arg, \Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE);
+				return \in_array($arg, \Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE);
 			}
 		],
 		'CACHE_LIFETIME_SENSIOLABS_SECURITY_CHECKER' => [

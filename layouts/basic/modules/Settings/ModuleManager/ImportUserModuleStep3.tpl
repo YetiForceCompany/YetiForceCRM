@@ -59,9 +59,8 @@
 							</tr>
 							</tbody>
 						</table>
-						<a href="index.php?module=ModuleManager&parent=Settings&view=List" role="button"
-						   class="btn btn-success"><span
-									class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}
+						<a href="{if $IMPORT_MODULE_TYPE eq 'update'}index.php?parent=Settings&module=Updates&view=Index{else}index.php?module=ModuleManager&parent=Settings&view=List{/if}" role="button" class="btn btn-success">
+							<span	class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}
 						</a>
 					</form>
 				</div>
