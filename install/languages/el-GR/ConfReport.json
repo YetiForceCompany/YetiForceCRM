@@ -55,7 +55,7 @@
     "LBL_CLI_VALUE": "cron (CLI)",
     "LBL_LABEL_PHPINI": "Αρχείο ρύθμισης παραμέτρων PHP (. ini)",
     "LBL_LABEL_PHPINIS": "Πρόσθετα αρχεία ρύθμισης παραμέτρων PHP (. ini)",
-    "LBL_LABEL_LOG_FILE": "Αρχεία καταγραφής (Logs)",
+    "LBL_LABEL_LOG_FILE": "Αρχεία καταγραφής σφαλμάτων (error_log)",
     "LBL_LABEL_CRM_DIR": "Τοπικός κατάλογος CRM",
     "LBL_SOAP_LIBRARY": "SOAP",
     "LBL_LABEL_PHP_SAPI": "Server API",

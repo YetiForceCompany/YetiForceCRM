@@ -62,7 +62,7 @@
     "LBL_SETUP_WIZARD_BODY": "Dobrodošli u YetiForce instalacijski čarobnjak",
     "LBL_STEP2_DESCRIPTION_1": "YetiForce Public License temelji se na MIT licenci, tako da ne stvara nepotrebna ograničenja za vašu kompaniju. Cjelokupna licenca dostupna je i na našoj službenoj web stranici.",
     "LBL_STEP2_DESCRIPTION_2": "Molimo pročitajte licencu za sistem YetiForce. Ako se ne slažete sa njegovim uvjetima, kliknite „Ne slažem se“ i otkažite instalaciju. U suprotnom, kliknite na „Slažem se“ i krenite dalje.",
-    "LBL_STEP3_DESCRIPTION": "YetiForce sistem ima strogo definisane zahteve za server na kojem će biti instaliran. Provjera zahtjeva u ranoj fazi instalacijskog postupka osigurava da sljedeći koraci i daljnja upotreba sustava teče bez problema.",
+    "LBL_STEP3_DESCRIPTION": "YetiForce sistem ima strogo definisane zahtjeve za server na kojem će biti instaliran. Provjera zahtjeva u ranoj fazi instalacijskog postupka osigurava da sljedeći koraci i daljnja upotreba sustava teče bez problema.",
     "LBL_STEP4_DESCRIPTION": "Unesite pristupne podatke u bazu podataka i stvorite administratorski račun na koji ćete se prijaviti nakon završetka instalacije.",
     "LBL_STEP5_DESCRIPTION": "Provjerite podatke unesene u prethodnom koraku. Ako je sve ispravno, krenite dalje.",
     "LBL_STEP6_DESCRIPTION": "Unesite podatke o vašoj kompaniji. Ispunjavanje obrasca obaveza je proizašla iz licence. Podaci prikupljeni putem registracijskog obrasca nikada se neće preprodavati trećim osobama. Zahvaljujući prikupljenim informacijama, u mogućnosti smo bolje odabrati i isplanirati opseg promjena u YetiForceu, kako bi naš sustav pomagao u svakodnevnim zadacima još bolje.",

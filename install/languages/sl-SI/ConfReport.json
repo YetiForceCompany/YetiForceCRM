@@ -55,7 +55,7 @@
     "LBL_CLI_VALUE": "cron (CLI)",
     "LBL_LABEL_PHPINI": "PHP nastavitve",
     "LBL_LABEL_PHPINIS": "Dodatna konfiguracija PHP",
-    "LBL_LABEL_LOG_FILE": "Dnevniki",
+    "LBL_LABEL_LOG_FILE": "Error logs (error_log)",
     "LBL_LABEL_CRM_DIR": "CRM lokalni imenik",
     "LBL_SOAP_LIBRARY": "SOAP",
     "LBL_LABEL_PHP_SAPI": "Server API",

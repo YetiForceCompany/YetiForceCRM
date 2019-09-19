@@ -55,7 +55,7 @@
     "LBL_CLI_VALUE": "cron (CLI)",
     "LBL_LABEL_PHPINI": "Configuration PHP",
     "LBL_LABEL_PHPINIS": "Configuration PHP supplémentaire",
-    "LBL_LABEL_LOG_FILE": "Journaux",
+    "LBL_LABEL_LOG_FILE": "Journaux d'erreurs des logs (error_log)",
     "LBL_LABEL_CRM_DIR": "Répertoire local CRM",
     "LBL_SOAP_LIBRARY": "SOAP",
     "LBL_LABEL_PHP_SAPI": "API serveur",
