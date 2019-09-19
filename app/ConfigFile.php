@@ -95,6 +95,7 @@ This file is auto-generated.
 		if (!\file_exists($this->templatePath)) {
 			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $this->templatePath, 406);
 		}
+		Cache::resetFileCache($this->templatePath);
 		$data = require "{$this->templatePath}";
 		if ('component' === $this->type) {
 			if (!isset($data[$this->component])) {
