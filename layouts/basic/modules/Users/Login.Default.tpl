@@ -158,28 +158,5 @@
 			{/if}
 		</div>
 	</div>
-	<script>
-		jQuery(document).ready(function () {
-			jQuery("#fingerPrint").val(new DeviceUUID().get());
-			jQuery("button.close").on('click', function () {
-				jQuery(".visible-phone").css('visibility', 'hidden');
-			});
-			jQuery("a#forgotpass").on('click', function () {
-				jQuery("#loginDiv").hide();
-				jQuery("#forgotPasswordDiv").removeClass('d-none');
-				jQuery("#forgotPasswordDiv").show();
-			});
-			jQuery("a#backButton").on('click', function () {
-				jQuery("#loginDiv").removeClass('d-none');
-				jQuery("#loginDiv").show();
-				jQuery("#forgotPasswordDiv").hide();
-			});
-			jQuery("form.forgot-form").on('submit', function (event) {
-				if ($("#usernameFp").val() === "" || $("#emailId").val() === "") {
-					event.preventDefault();
-				}
-			});
-		});
-	</script>
 	<!-- /tpl-Users-Login.Default -->
 {/strip}
