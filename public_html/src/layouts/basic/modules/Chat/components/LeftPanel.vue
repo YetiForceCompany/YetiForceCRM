@@ -144,7 +144,7 @@
                         color="negative"
                         icon="mdi-delete"
                       >
-                        <q-tooltip>{{ translate('JS_CHAT_REMOVE_ROOM') }}</q-tooltip>
+                        <q-tooltip>{{ translate('JS_CHAT_ARCHIVE_ROOM') }}</q-tooltip>
                       </q-btn>
                       <q-btn
                         @click.stop="toggleRoomSoundNotification({ roomType, id: room.recordid })"
@@ -173,7 +173,7 @@
           <q-card-section class="row items-center">
             <q-avatar icon="mdi-alert-circle-outline" text-color="negative" />
             <span class="q-ml-sm">{{
-              translate('JS_CHAT_ROOM_ARCHIVE').replace('${roomToArchive}', roomToArchive.name)
+              translate('JS_CHAT_ROOM_ARCHIVE_MESSAGE').replace('${roomToArchive}', roomToArchive.name)
             }}</span>
           </q-card-section>
           <q-card-actions align="right">
