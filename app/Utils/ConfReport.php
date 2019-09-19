@@ -1166,7 +1166,7 @@ class ConfReport
 		$html = $view->view('Footer.tpl', '', true);
 		$row['status'] = true;
 		if (!\App\YetiForce\Shop::check('YetiForceDisableBranding')) {
-			$row['status'] = false !== \strpos($html, '&copy; YetiForce.com All rights reserved') || empty(\App\Config::component('Branding', 'footerName'));
+			$row['status'] = false !== \strpos($html, '&copy; YetiForce.com All rights reserved') || !empty(\App\Config::component('Branding', 'footerName'));
 		}
 		unset($name);
 		$row[$sapi] = \App\Language::translate($row['status'] ? 'LBL_YES' : 'LBL_NO');
