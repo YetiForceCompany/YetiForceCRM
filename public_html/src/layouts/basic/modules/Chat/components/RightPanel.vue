@@ -21,7 +21,7 @@
           />
         </template>
       </q-input>
-      <q-list style="font-size: 0.88rem;">
+      <q-list :style="{'font-size': layout.drawer.fs}">
         <q-item-label class="flex items-center text-bold text-muted q-py-sm q-px-md">
           <q-item-section avatar>
             <icon icon="yfi-entrant-chat" size="0.88rem" />
@@ -70,8 +70,9 @@
               </div>
             </q-item-section>
             <q-item-section avatar>
+              <q-icon v-if="participant.isAdmin" name="mdi-crown" />
               <q-btn
-                v-if="isUserModerator && !participant.isAdmin"
+                v-if="isUserModerator && participant.user_id !== userId"
                 @click.stop="
                   unpinUser({
                     roomType: currentRoomData.roomType,
@@ -86,7 +87,6 @@
                 size="xs"
                 :icon="'mdi-pin'"
               />
-              <q-icon v-if="participant.isAdmin" name="mdi-crown" />
             </q-item-section>
           </q-item>
         </template>
@@ -115,7 +115,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentRoomData', 'config']),
+    ...mapGetters(['currentRoomData', 'config', 'layout']),
     isUserModerator() {
       return (
         this.currentRoomData.roomType === 'private' &&

@@ -12,7 +12,7 @@
             <q-icon v-show="filterRooms.length > 0" name="mdi-close" @click="filterRooms = ''" class="cursor-pointer" />
           </template>
         </q-input>
-        <div class="" v-for="(roomGroup, roomType) of roomList" :key="roomType" :style="{ fontSize: fontSize }">
+        <div class="" v-for="(roomGroup, roomType) of roomList" :key="roomType" :style="{ fontSize: layout.drawer.fs }">
           <q-list
             v-if="
               Object.entries(roomGroup).length ||
@@ -24,7 +24,7 @@
           >
             <q-item-label class="flex items-center text-bold text-muted q-py-sm q-px-md">
               <q-item-section avatar>
-                <icon :icon="getGroupIcon(roomType)" :size="fontSize" />
+                <icon :icon="getGroupIcon(roomType)" :size="layout.drawer.fs" />
               </q-item-section>
               {{ translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`) }}
               <div class="q-ml-auto">
@@ -66,7 +66,7 @@
                 >
                   <q-tooltip>{{ translate('JS_CHAT_ADD_PRIVATE_ROOM') }}</q-tooltip>
                 </q-btn>
-                <q-icon :size="fontSize" name="mdi-information" class="q-pr-xs">
+                <q-icon :size="layout.drawer.fs" name="mdi-information" class="q-pr-xs">
                   <q-tooltip>{{ translate(`JS_CHAT_ROOM_DESCRIPTION_${roomType.toUpperCase()}`) }}</q-tooltip>
                 </q-icon>
               </div>
@@ -204,7 +204,6 @@ export default {
   data() {
     return {
       filterRooms: '',
-      fontSize: '0.88rem',
       showAll: {
         group: false,
         global: false,
@@ -217,7 +216,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['leftPanel', 'data', 'config', 'isSoundNotification', 'roomSoundNotificationsOff']),
+    ...mapGetters(['leftPanel', 'data', 'config', 'isSoundNotification', 'roomSoundNotificationsOff', 'layout']),
     areUnpinned() {
       return roomType => {
         for (let room in this.data.roomList[roomType]) {

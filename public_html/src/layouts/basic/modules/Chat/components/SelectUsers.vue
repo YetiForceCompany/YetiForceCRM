@@ -37,10 +37,13 @@
         <q-tooltip anchor="top middle">{{ translate('JS_CHAT_HIDE_ADD_PANEL') }}</q-tooltip>
       </template>
       <template v-slot:option="scope">
+        <q-item-label v-if="!scope.index || scope.opt.role !== sortedUsers[scope.index - 1].role" class="flex items-center text-bold text-muted q-py-sm q-px-md" :style="{'font-size': layout.drawer.fs}">
+          {{ scope.opt.role }}
+        </q-item-label>
         <q-item dense v-bind="scope.itemProps" v-on="scope.itemEvents">
           <q-item-section avatar>
-            <img v-if="scope.opt.img" :src="scope.opt.img" :alt="scope.opt.label" style="height: 40px;" />
-            <q-icon v-else name="mdi-account" size="40px" />
+            <img v-if="scope.opt.img" :src="scope.opt.img" :alt="scope.opt.label" style="height: 1.7rem;" />
+            <q-icon v-else name="mdi-account" />
           </q-item-section>
           <q-item-section>
             {{ scope.opt.label }}
@@ -86,7 +89,22 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentRoomData'])
+    ...mapGetters(['currentRoomData', 'layout']),
+    sortedUsers() {
+      return this.users.sort((a, b) => {
+        if (a.role > b.role) {
+          return 1
+        } else if (a.role < b.role) {
+          return -1
+        } else {
+          if (a.label > b.label) {
+            return 1
+          } else {
+            return -1
+          }
+        }
+      })
+    }
   },
   methods: {
     ...mapActions(['fetchChatUsers', 'addParticipant']),
@@ -133,7 +151,7 @@ export default {
     filter(val, update) {
       if (val === '') {
         update(() => {
-          this.searchUsers = this.users
+          this.searchUsers = this.sortedUsers
         })
         return
       }
@@ -151,10 +169,9 @@ export default {
   }
 }
 </script>
-<style lang="sass">
+<style lang="sass" scoped>
 .select-dense
 	.q-item
 		min-height: 32px
 		padding: 2px 16px
-		font-size: 0.88rem
 </style>

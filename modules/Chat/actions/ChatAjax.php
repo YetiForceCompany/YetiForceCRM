@@ -476,11 +476,11 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		if ($users = $owner->getAccessibleUsers('private', 'owner')) {
 			foreach ($users as $key => $value) {
 				if (Users_Privileges_Model::getInstanceById($key)->hasModulePermission('Chat')) {
-					$imageUrl = \App\User::getImageById($key) ? \App\User::getImageById($key)['url'] : '';
 					$data[] = [
 						'id' => $key,
-						'label' => $value,
-						'img' => $imageUrl ?? '',
+						'label' => explode(' (', $value)[0],
+						'img' => \App\User::getImageById($key) ? \App\User::getImageById($key)['url'] : '',
+						'role' => str_replace(')', '', explode(' (', $value)[1])
 					];
 				}
 			}
