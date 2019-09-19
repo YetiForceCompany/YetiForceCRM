@@ -83,7 +83,7 @@
                 clickable
                 v-ripple
                 :key="roomId"
-                class="q-pl-sm"
+                class="q-pl-sm hover-container"
                 :active="data.currentRoom.recordId === room.recordid && data.currentRoom.roomType === roomType"
                 active-class="bg-teal-1 text-grey-8"
                 @click="fetchRoom({ id: room.recordid, roomType: roomType })"
@@ -122,6 +122,19 @@
                         :href="`index.php?module=${room.moduleName}&view=Detail&record=${room.recordid}`"
                       />
                       <q-btn
+                        v-if="roomType === 'private' && isUserModerator(room)"
+                        :class="{ 'hover-display': $q.platform.is.desktop }"
+                        dense
+                        round
+                        flat
+                        size="xs"
+                        @click.stop="showArchiveDialog(room)"
+                        color="negative"
+                        icon="mdi-delete"
+                      >
+                        <q-tooltip>{{ translate('JS_CHAT_ROOM_ARCHIVE') }}</q-tooltip>
+                      </q-btn>
+                      <q-btn
                         dense
                         round
                         flat
@@ -133,18 +146,6 @@
                         <q-tooltip>{{
                           translate(room.isPinned || roomType === 'crm' ? 'JS_CHAT_UNPIN' : 'JS_CHAT_PIN')
                         }}</q-tooltip>
-                      </q-btn>
-                      <q-btn
-                        v-if="roomType === 'private' && isUserModerator(room)"
-                        dense
-                        round
-                        flat
-                        size="xs"
-                        @click.stop="showArchiveDialog(room)"
-                        color="negative"
-                        icon="mdi-delete"
-                      >
-                        <q-tooltip>{{ translate('JS_CHAT_ROOM_ARCHIVE') }}</q-tooltip>
                       </q-btn>
                       <q-btn
                         @click.stop="toggleRoomSoundNotification({ roomType, id: room.recordid })"
@@ -265,5 +266,9 @@ export default {
   }
 }
 </script>
-<style lang="sass">
+<style lang="sass" scoped>
+.hover-container .hover-display
+	display: none
+.hover-container:hover .hover-display
+	display: inline
 </style>
