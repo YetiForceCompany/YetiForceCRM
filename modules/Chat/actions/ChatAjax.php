@@ -127,6 +127,11 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		}
 		$result = [];
 		$roomList = \App\Chat::getRoomsByUser();
+		if (!isset($roomList[$roomType][$recordId])) {
+			$defaultRoom = \App\Chat::setCurrentRoomDefault();
+			$roomType = $defaultRoom['roomType'];
+			$recordId = $defaultRoom['recordId'];
+		}
 		$roomList[$roomType][$recordId]['chatEntries'] = $chatEntries;
 		$roomList[$roomType][$recordId]['participants'] = $chat->getParticipants();
 		if (!$request->has('lastId')) {
