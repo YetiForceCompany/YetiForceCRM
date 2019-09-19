@@ -1195,15 +1195,14 @@ class ConfReport
 	 *
 	 * @param string $name
 	 * @param array  $row
+	 * @param string $sapi
 	 *
 	 * @return array
 	 */
-	private static function validateIsEmpty(string $name, array $row)
+	private static function validateIsEmpty(string $name, array $row, string $sapi)
 		{
 			unset($name);
-			if(empty($row['www']) || empty($row['cron'])){
-				$row['status'] = false;
-			}
+			$row[$sapi] ?  $row[$sapi] : ($row['status'] = false);
 			return $row;
 		}
 
