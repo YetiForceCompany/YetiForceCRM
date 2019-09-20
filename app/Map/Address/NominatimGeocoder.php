@@ -20,7 +20,7 @@ class NominatimGeocoder extends Base
 	/**
 	 * {@inheritdoc}
 	 */
-	public $link = 'https://nominatim.org/release-docs/develop/';
+	public $docUrl = 'https://nominatim.org/release-docs/develop/';
 
 	/**
 	 * {@inheritdoc}
@@ -29,6 +29,7 @@ class NominatimGeocoder extends Base
 		'country_codes' => [
 			'type' => 'text',
 			'info' => 'LBL_COUNTRY_CODES_INFO',
+			'link' => 'https://wikipedia.org/wiki/List_of_ISO_3166_country_codes',
 		],
 		'map_url' => [
 			'type' => 'url',
@@ -37,14 +38,11 @@ class NominatimGeocoder extends Base
 	];
 
 	/**
-	 * Function checks if provider is set.
-	 *
-	 * @return bool
+	 * {@inheritdoc}
 	 */
-	public function isSet()
+	public function isConfigured()
 	{
-		$provider = \App\Map\Address::getConfig()[$this->getName()] ?? 0;
-		return (bool) $provider ? $provider['map_url'] ?? 0 : 0;
+		return !empty($this->config['map_url']);
 	}
 
 	/**
@@ -62,8 +60,8 @@ class NominatimGeocoder extends Base
 			'accept-language' => \App\Language::getLanguage() . ',' . \App\Config::main('default_language') . ',en-US',
 			'q' => $value
 		];
-		if ($countryCodes = \App\Map\Address::getConfig()[$this->getName()]['country_codes']) {
-			$params['countrycodes'] = $countryCodes;
+		if (!empty($this->config['country_codes'])) {
+			$params['countrycodes'] = $this->config['country_codes'];
 		}
 		$options = [];
 		if (!empty(\Config\Components\AddressFinder::$nominatimMapUrlCustomOptions)) {
@@ -72,7 +70,7 @@ class NominatimGeocoder extends Base
 		$rows = [];
 		try {
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))
-				->request('GET', \App\Map\Address::getConfig()[$this->getName()]['map_url'] . '/?' . \http_build_query($params), $options);
+				->request('GET', $this->config['map_url'] . '/?' . \http_build_query($params), $options);
 			if (200 !== $response->getStatusCode()) {
 				throw new \App\Exceptions\AppException('Error with connection |' . $response->getStatusCode());
 			}

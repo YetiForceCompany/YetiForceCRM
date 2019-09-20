@@ -28,12 +28,11 @@ class OpenStreetMap extends Base
 			return $coordinates;
 		}
 		$url = \App\Config::module('OpenStreetMap', 'ADDRESS_TO_SEARCH') . '/?';
-		$data = [
+		$url .= \http_build_query(array_merge([
 			'format' => 'json',
 			'addressdetails' => 1,
 			'limit' => 1,
-		];
-		$url .= \http_build_query(array_merge($data, $addressInfo));
+		], $addressInfo));
 		try {
 			$response = (new \GuzzleHttp\Client())->request('GET', $url, \App\RequestHttp::getOptions() + ['timeout' => 1]);
 			if (200 === $response->getStatusCode()) {

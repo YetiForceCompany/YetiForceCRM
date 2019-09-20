@@ -27,7 +27,7 @@ class GoogleGeocode extends Base
 	/**
 	 * {@inheritdoc}
 	 */
-	public $link = 'https://code.google.com/apis/console/?noredirect';
+	public $docUrl = 'https://code.google.com/apis/console/?noredirect';
 
 	/**
 	 * {@inheritdoc}
@@ -47,7 +47,7 @@ class GoogleGeocode extends Base
 		if (empty($value) || !\App\RequestUtil::isNetConnection()) {
 			return [];
 		}
-		$key = \App\Map\Address::getConfig()[$this->getName()]['key'];
+		$key = $this->config['key'];
 		$lang = \App\Language::getShortLanguageName();
 		$response = \Requests::get(static::$url . "key={$key}&address=$value");
 		if (!$response->success) {

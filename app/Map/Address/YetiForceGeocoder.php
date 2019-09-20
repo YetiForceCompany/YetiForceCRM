@@ -18,7 +18,7 @@ class YetiForceGeocoder extends Base
 	/**
 	 * {@inheritdoc}
 	 */
-	public $link = 'index.php?module=YetiForce&parent=Settings&view=Shop&product=YetiForceGeocoder&mode=showProductModal';
+	public $docUrl = 'index.php?module=YetiForce&parent=Settings&view=Shop&product=YetiForceGeocoder&mode=showProductModal';
 
 	/**
 	 * {@inheritdoc}
@@ -27,13 +27,22 @@ class YetiForceGeocoder extends Base
 		'country_codes' => [
 			'type' => 'text',
 			'info' => 'LBL_COUNTRY_CODES_INFO',
+			'link' => 'https://wikipedia.org/wiki/List_of_ISO_3166_country_codes',
 		]
 	];
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSet()
+	public function isActive()
+	{
+		return (bool) ($this->config['active'] ?? 0) && \App\YetiForce\Shop::check('YetiForceGeocoder');
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isConfigured()
 	{
 		return \App\YetiForce\Shop::check('YetiForceGeocoder');
 	}
@@ -54,8 +63,8 @@ class YetiForceGeocoder extends Base
 			'accept-language' => \App\Language::getLanguage() . ',' . \App\Config::main('default_language') . ',en-US',
 			'q' => $value
 		];
-		if ($countryCodes = \App\Map\Address::getConfig()[$this->getName()]['country_codes']) {
-			$params['countrycodes'] = $countryCodes;
+		if (!empty($this->config['country_codes'])) {
+			$params['countrycodes'] = $this->config['country_codes'];
 		}
 		$rows = [];
 		try {

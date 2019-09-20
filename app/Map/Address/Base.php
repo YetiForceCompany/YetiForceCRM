@@ -20,6 +20,7 @@ abstract class Base
 	public function __construct(string $name)
 	{
 		$this->name = $name;
+		$this->config = \App\Map\Address::getConfig()[$name] ?? [];
 	}
 
 	/**
@@ -28,7 +29,12 @@ abstract class Base
 	 * @var string
 	 */
 	public $name;
-
+	/**
+	 * Config data.
+	 *
+	 * @var array
+	 */
+	public $config;
 	/**
 	 * Custom Fields.
 	 *
@@ -37,11 +43,11 @@ abstract class Base
 	public $customFields = [];
 
 	/**
-	 * Provider link.
+	 * Provider documentation url address.
 	 *
 	 * @var string
 	 */
-	public $link = '';
+	public $docUrl = '';
 
 	/**
 	 * Function checks if provider is active.
@@ -50,19 +56,17 @@ abstract class Base
 	 */
 	public function isActive()
 	{
-		$provider = \App\Map\Address::getConfig()[$this->getName()] ?? 0;
-		return (bool) $provider ? $provider['active'] ?? 0 : 0;
+		return (bool) ($this->config['active'] ?? 0);
 	}
 
 	/**
-	 * Function checks if provider is set.
+	 * Function checks if  provider been configured?
 	 *
 	 * @return bool
 	 */
-	public function isSet()
+	public function isConfigured()
 	{
-		$provider = \App\Map\Address::getConfig()[$this->getName()] ?? 0;
-		return (bool) $provider ? $provider['key'] ?? 0 : 0;
+		return !empty($this->config['key']);
 	}
 
 	/**
@@ -86,13 +90,13 @@ abstract class Base
 	}
 
 	/**
-	 * Get provider link.
+	 * Get provider documentation url address.
 	 *
 	 * @return string
 	 */
-	public function getLink(): string
+	public function getDocUrl(): string
 	{
-		return $this->link;
+		return $this->docUrl;
 	}
 
 	/**
@@ -102,7 +106,7 @@ abstract class Base
 	 */
 	public function validate(): bool
 	{
-		return $this->isSet();
+		return $this->isConfigured();
 	}
 
 	/**

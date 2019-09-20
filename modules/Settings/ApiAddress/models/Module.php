@@ -11,7 +11,7 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model
 	public function getConfig($type = null)
 	{
 		$rawData = [];
-		$query = (new \App\Db\Query())->from('s_yf_address_finder_config');
+		$query = (new \App\Db\Query())->from('s_#__address_finder_config');
 		if ($type) {
 			$query->where(['type' => $type]);
 		}
@@ -34,17 +34,17 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model
 			foreach ($elements as $type => $values) {
 				foreach ($values as $key => $value) {
 					if ((new \App\Db\Query())->select('type', 'name')
-						->from(['C' => 's_yf_address_finder_config'])
+						->from(['C' => 's_#__address_finder_config'])
 						->where(['C.name' => $key, 'C.type' => $type])
 						->exists()) {
 						$db->createCommand()
-							->update('s_yf_address_finder_config', [
+							->update('s_#__address_finder_config', [
 								'val' => $value,
 							], ['type' => $type, 'name' => $key])
 							->execute();
 					} else {
 						$db->createCommand()
-							->insert('s_yf_address_finder_config', [
+							->insert('s_#__address_finder_config', [
 								'val' => $value,
 								'type' => $type,
 								'name' => $key
