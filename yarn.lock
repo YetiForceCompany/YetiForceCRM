@@ -247,9 +247,9 @@ dompurify@^1.0.10:
   integrity sha512-XywCTXZtc/qCX3iprD1pIklRVk/uhl8BKpkTxr+ZyMVUzSUg7wkQXRBp/euJ5J5moa1QvfpvaPQVP71z1O59dQ==
 
 emoji-mart-vue-fast@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/emoji-mart-vue-fast/-/emoji-mart-vue-fast-6.0.1.tgz#780da980835a6d98237374aee47b3680644ed2bf"
-  integrity sha512-+K/Tx2SmDFAOpgoa4cDIjsWQZfEzbFiEKPC4sISa6gnXEmTj+N940NlOP3QutSQsI6gMpX3zvyeI83N6Wnzfsg==
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/emoji-mart-vue-fast/-/emoji-mart-vue-fast-6.1.1.tgz#06a13973b9fac71e7f792e960260eafac753427b"
+  integrity sha512-MqjdejpHgM6Z4IOl5EeqUXdFHPPGyN7Pk6PkAAn6KSr9XaQ+1xV7rmAQ3hBJ/a82GFVYxPJEox8qSMHs3UDbZQ==
   dependencies:
     "@babel/polyfill" "7.2.5"
     "@babel/runtime" "7.3.4"
