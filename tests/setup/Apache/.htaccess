@@ -1,0 +1,17 @@
+<ifModule mod_headers.c>
+Header always set X-XSS-Protection "1; mode=block"
+Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+Header always set X-Frame-Options SAMEORIGIN
+Header always set X-Content-Type-Options nosniff
+Header always set X-Permitted-Cross-Domain-Policies "none"
+Header always set Referrer-Policy "no-referrer"
+Header always set Expect-CT 'enforce; max-age=3600
+Header always set X-Robots-Tag none
+Header unset Server
+Header unset X-Powered-By
+</ifModule>
+AddDefaultCharset UTF-8
+<ifModule ModSecurity.c>
+	SecServerSignature ''
+</ifModule>
+Options -Indexes
