@@ -37,9 +37,6 @@
         <q-tooltip anchor="top middle">{{ translate('JS_CHAT_HIDE_ADD_PANEL') }}</q-tooltip>
       </template>
       <template v-slot:option="scope">
-        <q-item-label v-if="!scope.index || scope.opt.role !== sortedUsers[scope.index - 1].role" class="flex items-center text-bold text-muted q-py-sm q-px-md" :style="{'font-size': layout.drawer.fs}">
-          {{ scope.opt.role }}
-        </q-item-label>
         <q-item dense v-bind="scope.itemProps" v-on="scope.itemEvents">
           <q-item-section avatar>
             <img v-if="scope.opt.img" :src="scope.opt.img" :alt="scope.opt.label" style="height: 1.7rem;" />
@@ -89,22 +86,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentRoomData', 'layout']),
-    sortedUsers() {
-      return this.users.sort((a, b) => {
-        if (a.role > b.role) {
-          return 1
-        } else if (a.role < b.role) {
-          return -1
-        } else {
-          if (a.label > b.label) {
-            return 1
-          } else {
-            return -1
-          }
-        }
-      })
-    }
+    ...mapGetters(['currentRoomData', 'layout'])
   },
   methods: {
     ...mapActions(['fetchChatUsers', 'addParticipant']),
@@ -151,7 +133,7 @@ export default {
     filter(val, update) {
       if (val === '') {
         update(() => {
-          this.searchUsers = this.sortedUsers
+          this.searchUsers = this.users
         })
         return
       }

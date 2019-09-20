@@ -471,16 +471,14 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	public function getChatUsers(App\Request $request)
 	{
 		$owner = App\Fields\Owner::getInstance();
-		$owner->showRoleName = true;
 		$data = [];
 		if ($users = $owner->getAccessibleUsers('private', 'owner')) {
 			foreach ($users as $key => $value) {
 				if (Users_Privileges_Model::getInstanceById($key)->hasModulePermission('Chat')) {
 					$data[] = [
 						'id' => $key,
-						'label' => explode(' (', $value)[0],
+						'label' => $value,
 						'img' => \App\User::getImageById($key) ? \App\User::getImageById($key)['url'] : '',
-						'role' => str_replace(')', '', explode(' (', $value)[1])
 					];
 				}
 			}
