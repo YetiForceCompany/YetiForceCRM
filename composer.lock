@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "604e3e26dd1da1e5411f21f6f6d13ff1",
+    "content-hash": "60de2f902eddaa21759353c58dc5769e",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -386,16 +386,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.10.18",
+            "version": "8.10.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "348bac99347a005263f9ec2ed9daf1a511fc5a5f"
+                "reference": "b8f2341692df067028445fee35ca7144d009e251"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/348bac99347a005263f9ec2ed9daf1a511fc5a5f",
-                "reference": "348bac99347a005263f9ec2ed9daf1a511fc5a5f",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/b8f2341692df067028445fee35ca7144d009e251",
+                "reference": "b8f2341692df067028445fee35ca7144d009e251",
                 "shasum": ""
             },
             "require": {
@@ -450,7 +450,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2019-09-06T10:36:55+00:00"
+            "time": "2019-09-18T15:37:43+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -2684,16 +2684,16 @@
         },
         {
             "name": "yetiforce/csrf-magic",
-            "version": "v1.0.8",
+            "version": "v1.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/csrf-magic.git",
-                "reference": "3effa536766a0c159f50a0dde777264b7088cb94"
+                "reference": "e43ae869eac0c1dd6e13eb348f795b8e9f50a2be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/csrf-magic/zipball/3effa536766a0c159f50a0dde777264b7088cb94",
-                "reference": "3effa536766a0c159f50a0dde777264b7088cb94",
+                "url": "https://api.github.com/repos/YetiForceCompany/csrf-magic/zipball/e43ae869eac0c1dd6e13eb348f795b8e9f50a2be",
+                "reference": "e43ae869eac0c1dd6e13eb348f795b8e9f50a2be",
                 "shasum": ""
             },
             "type": "library",
@@ -2708,14 +2708,14 @@
             ],
             "authors": [
                 {
-                    "name": "YetiForceCompany",
-                    "email": "info@yetiforce.com",
-                    "homepage": "https://yetiforce.com/"
-                },
-                {
                     "name": "Edward Z. Yang",
                     "email": "ezyang@mit.edu",
                     "homepage": "https://github.com/ezyang"
+                },
+                {
+                    "name": "YetiForceCompany",
+                    "email": "info@yetiforce.com",
+                    "homepage": "https://yetiforce.com/"
                 }
             ],
             "description": "Cross Site Request Forgery security library",
@@ -2725,7 +2725,7 @@
                 "php",
                 "security"
             ],
-            "time": "2018-05-23T20:17:08+00:00"
+            "time": "2019-09-20T20:50:16+00:00"
         },
         {
             "name": "yetiforce/debugbar",

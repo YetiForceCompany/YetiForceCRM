@@ -122,7 +122,9 @@ abstract class Base
 		header('x-xss-protection: 1; mode=block');
 		header('x-content-type-options: nosniff');
 		header('referrer-policy: no-referrer');
-		header('strict-transport-security: max-age=31536000; includeSubDomains; preload');
+		if ($browser->https) {
+			header('strict-transport-security: max-age=31536000; includeSubDomains; preload');
+		}
 		header('expect-ct: enforce; max-age=3600');
 		header('access-control-allow-methods: GET, POST, PUT, DELETE');
 		header('x-robots-tag: none');

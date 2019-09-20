@@ -505,7 +505,7 @@ $.Class(
 				var formElement = this.getForm();
 				var formData = formElement.serializeFormData();
 				for (var i in formData) {
-					if (!formData[i] || $.inArray(i, ['__vtrftk', 'action']) != -1) {
+					if (!formData[i] || $.inArray(i, ['_csrf', 'action']) != -1) {
 						delete formData[i];
 					}
 				}
