@@ -1800,6 +1800,7 @@
     "JS_CHAT_ROOM_EXISTS": "Room with this name already exists",
     "JS_CHAT_ROOM_NAME_EMPTY": "Room name cannot be empty",
     "JS_CHAT_PARTICIPANT_ADDED": "User has been invited to this chat room",
+    "JS_CHAT_PARTICIPANT_REMOVED": "User has been removed from this chat room",
     "JS_CHAT_PARTICIPANT_EXISTS": "This user already participates in the chat room",
     "JS_CHAT_PARTICIPANT_INVITED": "This user already was invited to the chat room",
     "JS_CHAT_PARTICIPANT_NAME_EMPTY": "User name cannot be empty",

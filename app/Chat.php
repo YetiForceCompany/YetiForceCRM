@@ -1065,16 +1065,14 @@ final class Chat
 					'created' => date('Y-m-d H:i:s')
 				]
 			)->execute();
-		if (!User::getUserModel($this->userId)->isAdmin()) {
-			Db::getInstance()->createCommand()->insert(
-					static::TABLE_NAME['room']['private'],
-					[
-						'userid' => $this->userId,
-						'last_message' => 0,
-						static::COLUMN_NAME['room']['private'] => Db::getInstance()->getLastInsertID("{$table}_{$roomIdColumn}_seq")
-					]
-				)->execute();
-		}
+		Db::getInstance()->createCommand()->insert(
+				static::TABLE_NAME['room']['private'],
+				[
+					'userid' => $this->userId,
+					'last_message' => 0,
+					static::COLUMN_NAME['room']['private'] => Db::getInstance()->getLastInsertID("{$table}_{$roomIdColumn}_seq")
+				]
+			)->execute();
 	}
 
 	/**
