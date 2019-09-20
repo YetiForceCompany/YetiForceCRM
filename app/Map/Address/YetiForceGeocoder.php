@@ -26,6 +26,7 @@ class YetiForceGeocoder extends Base
 	public $customFields = [
 		'country_codes' => [
 			'type' => 'text',
+			'info' => 'LBL_COUNTRY_CODES_INFO',
 		]
 	];
 
@@ -53,8 +54,8 @@ class YetiForceGeocoder extends Base
 			'accept-language' => \App\Language::getLanguage() . ',' . \App\Config::main('default_language') . ',en-US',
 			'q' => $value
 		];
-		if ($countryCode = \App\Map\Address::getConfig()[$this->getName()]['country_codes']) {
-			$params['countrycodes'] = implode(',', $countryCode);
+		if ($countryCodes = \App\Map\Address::getConfig()[$this->getName()]['country_codes']) {
+			$params['countrycodes'] = $countryCodes;
 		}
 		$rows = [];
 		try {

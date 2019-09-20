@@ -96,6 +96,16 @@ abstract class Base
 	}
 
 	/**
+	 * Validate configuration.
+	 *
+	 * @return bool
+	 */
+	public function validate(): bool
+	{
+		return $this->isSet();
+	}
+
+	/**
 	 * Find address.
 	 *
 	 * @param $value string

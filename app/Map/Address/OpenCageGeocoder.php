@@ -23,10 +23,11 @@ class OpenCageGeocoder extends Base
 	public $customFields = [
 		'country_codes' => [
 			'type' => 'text',
+			'info' => 'LBL_COUNTRY_CODES_INFO',
 		],
 		'key' => [
 			'type' => 'text',
-			'validator' => 'required'
+			'validator' => 'required,custom[onlyLetterNumber]'
 		],
 	];
 	/**
@@ -54,8 +55,8 @@ class OpenCageGeocoder extends Base
 		$urlAddress .= '&language=' . \App\Language::getLanguage();
 		$urlAddress .= '&limit=' . $config['global']['result_num'];
 		$urlAddress .= '&key=' . $config['OpenCageGeocoder']['key'];
-		if ($countryCode = \App\Map\Address::getConfig()[$this->getName()]['country_codes']) {
-			$urlAddress .= '&countrycode=' . implode(',', $countryCode);
+		if ($countryCodes = \App\Map\Address::getConfig()[$this->getName()]['country_codes']) {
+			$urlAddress .= '&countrycode=' . $countryCodes;
 		}
 		try {
 			$response = \Requests::get($urlAddress);
