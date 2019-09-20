@@ -21,7 +21,7 @@
           />
         </template>
       </q-input>
-      <q-list :style="{'font-size': layout.drawer.fs}">
+      <q-list :style="{ 'font-size': layout.drawer.fs }">
         <q-item-label class="flex items-center text-bold text-muted q-py-sm q-px-md">
           <q-item-section avatar>
             <icon icon="yfi-entrant-chat" :size="layout.drawer.fs" />
@@ -124,7 +124,7 @@ export default {
     },
     participantsList() {
       if (this.filterParticipants === '') {
-        return this.participants.length ? this.participants.concat().sort((a, b) => (!a.message ? 1 : -1)) : []
+        return this.participants.length ? this.participants.concat().sort(this.sortByCurrentUserMessagesName) : []
       } else {
         return this.participants.filter(participant => {
           return (
@@ -148,6 +148,21 @@ export default {
           icon: 'mdi-check'
         })
       })
+    },
+    sortByCurrentUserMessagesName(a, b) {
+      if (a.user_id === this.userId) {
+        return -1
+      }
+      if (!a.message && b.message) {
+        return 1
+      } else if (a.message && !b.message) {
+        return -1
+      }
+      if (a.user_name > b.user_name) {
+        return 1
+      } else {
+        return -1
+      }
     }
   }
 }

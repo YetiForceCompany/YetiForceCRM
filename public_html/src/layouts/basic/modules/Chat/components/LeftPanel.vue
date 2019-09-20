@@ -237,8 +237,13 @@ export default {
     },
     roomList() {
       if (this.filterRooms === '') {
-        return this.data.roomList
-      } else {
+        return {
+          crm: Object.values(this.data.roomList.crm).sort(this.sortByRoomName),
+          global: Object.values(this.data.roomList.global).sort(this.sortByRoomName),
+          group: Object.values(this.data.roomList.group).sort(this.sortByRoomName),
+          private: Object.values(this.data.roomList.private).sort(this.sortByRoomName)
+				}
+				} else {
         return {
           crm: Object.values(this.data.roomList.crm).filter(this.filterRoomByName),
           global: Object.values(this.data.roomList.global).filter(this.filterRoomByName),
@@ -254,7 +259,10 @@ export default {
     getGroupIcon,
     filterRoomByName(room) {
       return room.name.toLowerCase().includes(this.filterRooms.toLowerCase())
-    },
+		},
+		sortByRoomName(a, b) {
+			return a.name > b.name ? 1 : -1
+		},
     isSoundActive(roomType, id) {
       return this.isSoundNotification && !this.roomSoundNotificationsOff[roomType].includes(id)
     },
