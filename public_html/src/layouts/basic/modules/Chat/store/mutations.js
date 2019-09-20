@@ -155,13 +155,13 @@ export default {
 			chatLocalStorage &&
 			JSON.stringify(Object.keys(state.local)) === JSON.stringify(Object.keys(JSON.parse(chatLocalStorage)))
 		) {
-			state.local = Object.assign(state.local, JSON.parse(chatLocalStorage))
+			state.local = mergeDeepReactive(state.local, JSON.parse(chatLocalStorage))
 		}
 		if (
 			chatSessionStorage &&
 			JSON.stringify(Object.keys(state.session)) === JSON.stringify(Object.keys(JSON.parse(chatSessionStorage)))
 		) {
-			state.session = Object.assign(state.session, JSON.parse(chatSessionStorage))
+			state.session = mergeDeepReactive(state.session, JSON.parse(chatSessionStorage))
 		}
 	}
 }
