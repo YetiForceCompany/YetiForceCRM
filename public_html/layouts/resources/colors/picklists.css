@@ -42,14 +42,14 @@
 .picklistCBg_HelpDesk_ticketstatus_Open { background: #855000 !important; font-weight: 500 !important; color: white !important;}
 .picklistCT_HelpDesk_ticketstatus_Open { color: #855000 !important; }
 .picklistLb_HelpDesk_ticketstatus_Open { background: #855000; color: white !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_HelpDesk_ticketstatus_Answered { border-color: #0038ff !important; }
-.picklistCBg_HelpDesk_ticketstatus_Answered { background: #0038ff !important; font-weight: 500 !important; color: white !important;}
-.picklistCT_HelpDesk_ticketstatus_Answered { color: #0038ff !important; }
-.picklistLb_HelpDesk_ticketstatus_Answered { background: #0038ff; color: white !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
 .picklistCBr_HelpDesk_ticketstatus_Wait_For_Response { border-color: #ffa800 !important; }
 .picklistCBg_HelpDesk_ticketstatus_Wait_For_Response { background: #ffa800 !important; font-weight: 500 !important; color: black !important;}
 .picklistCT_HelpDesk_ticketstatus_Wait_For_Response { color: #ffa800 !important; }
 .picklistLb_HelpDesk_ticketstatus_Wait_For_Response { background: #ffa800; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
+.picklistCBr_HelpDesk_ticketstatus_Answered { border-color: #0038ff !important; }
+.picklistCBg_HelpDesk_ticketstatus_Answered { background: #0038ff !important; font-weight: 500 !important; color: white !important;}
+.picklistCT_HelpDesk_ticketstatus_Answered { color: #0038ff !important; }
+.picklistLb_HelpDesk_ticketstatus_Answered { background: #0038ff; color: white !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
 .picklistCBr_HelpDesk_ticketstatus_PLL_SUBMITTED_COMMENTS { border-color: #fff500 !important; }
 .picklistCBg_HelpDesk_ticketstatus_PLL_SUBMITTED_COMMENTS { background: #fff500 !important; font-weight: 500 !important; color: black !important;}
 .picklistCT_HelpDesk_ticketstatus_PLL_SUBMITTED_COMMENTS { color: #fff500 !important; }
