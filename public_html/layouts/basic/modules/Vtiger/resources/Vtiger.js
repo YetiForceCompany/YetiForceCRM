@@ -55,10 +55,14 @@ var Vtiger_Index_Js = {
 				AppConnector.request(params).done(function(data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					app.hideModalWindow();
+					var relatedModuleName = 'Documents';
 					if (app.getViewName() === 'Detail') {
 						var detailView = Vtiger_Detail_Js.getInstance();
-						if (detailView.getSelectedTab().data('reference') === 'Documents') {
+						var selectedTabElement = detailView.getSelectedTab();
+						if (selectedTabElement.data('reference') === relatedModuleName) {
 							detailView.reloadTabContent();
+						}else if(detailView.getContentHolder().find('.detailViewBlockLink').data('reference') === relatedModuleName){
+							Vtiger_RelatedList_Js.getInstance(detailView.getRecordId(), app.getModuleName(), selectedTabElement, 	relatedModuleName).loadRelatedList();
 						} else {
 							var updatesWidget = detailView
 								.getContentHolder()
