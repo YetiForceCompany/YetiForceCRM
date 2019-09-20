@@ -73,7 +73,7 @@ class ModTracker_ModTrackerHandler_Handler
 			unset($delta['inventory']);
 		}
 		$insertedData = [];
-		foreach ($delta as $fieldName => &$preValue) {
+		foreach ($delta as $fieldName => $preValue) {
 			$newValue = $recordModel->get($fieldName);
 			if (empty($preValue) && empty($newValue)) {
 				continue;
@@ -83,6 +83,10 @@ class ModTracker_ModTrackerHandler_Handler
 			}
 			if (\is_array($newValue)) {
 				$newValue = implode(',', $newValue);
+			}
+			if ('text' === $recordModel->getField($fieldName)->getFieldDataType()) {
+				$preValue = empty($preValue) ? $preValue : \App\TextParser::textTruncate($preValue, 65532);
+				$newValue = empty($newValue) ? $newValue : \App\TextParser::textTruncate($newValue, 65532);
 			}
 			$insertedData[] = [$id, $fieldName, $preValue, $newValue];
 		}
