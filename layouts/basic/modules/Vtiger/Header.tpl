@@ -32,9 +32,9 @@
 	{* ADD <script> INCLUDES in JSResources.tpl - for better performance *}
 	{assign var="HEAD_LOCKS" value=$USER_MODEL->getHeadLocks()}
 	{if $HEAD_LOCKS}
-		<script type="text/javascript">{$HEAD_LOCKS}</script>
+		<script type="text/javascript" {if $NONCE}nonce="{$NONCE}"{/if}>{$HEAD_LOCKS}</script>
 	{/if}
-	<script type="text/javascript">
+	<script type="text/javascript" {if $NONCE}nonce="{$NONCE}"{/if}>
 		var CONFIG = {\App\Config::getJsEnv()};
 		var LANG = {\App\Json::encode($LANGUAGE_STRINGS)};
 	</script>

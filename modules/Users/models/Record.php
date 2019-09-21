@@ -786,7 +786,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			return $this->get('locks');
 		}
 		require 'user_privileges/locks.php';
-		if ($this->getId() && array_key_exists($this->getId(), $locks)) {
+		if ($this->getId() && \array_key_exists($this->getId(), $locks)) {
 			$this->set('locks', $locks[$this->getId()]);
 
 			return $locks[$this->getId()];
@@ -826,30 +826,33 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	public function getHeadLocks()
 	{
-		$return = 'function lockFunction() {return false;}';
+		$return = '';
 		foreach ($this->getLocks() as $lock) {
 			switch ($lock) {
 				case 'copy':
-					$return .= ' document.oncopy = lockFunction;';
+					$return = ' document.oncopy = lockFunction;';
 					break;
 				case 'cut':
-					$return .= ' document.oncut = lockFunction;';
+					$return = ' document.oncut = lockFunction;';
 					break;
 				case 'paste':
-					$return .= ' document.onpaste = lockFunction;';
+					$return = ' document.onpaste = lockFunction;';
 					break;
 				case 'contextmenu':
-					$return .= ' document.oncontextmenu = function(event) {if(event.button==2){return false;}}; document.oncontextmenu = lockFunction;';
+					$return = ' document.oncontextmenu = function(event) {if(event.button==2){return false;}}; document.oncontextmenu = lockFunction;';
 					break;
 				case 'selectstart':
-					$return .= ' document.onselectstart = lockFunction; document.onselect = lockFunction;';
+					$return = ' document.onselectstart = lockFunction; document.onselect = lockFunction;';
 					break;
 				case 'drag':
-					$return .= ' document.ondragstart = lockFunction; document.ondrag = lockFunction;';
+					$return = ' document.ondragstart = lockFunction; document.ondrag = lockFunction;';
 					break;
 				default:
 					break;
 			}
+		}
+		if ($return) {
+			$return = 'function lockFunction() {return false;}' . $return;
 		}
 		return $return;
 	}
@@ -933,7 +936,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @param string $password
 	 *
-	 * @return null|bool
+	 * @return bool|null
 	 */
 	protected function doLoginByAuthMethod($password)
 	{

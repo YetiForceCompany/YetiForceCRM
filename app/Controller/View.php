@@ -165,6 +165,7 @@ abstract class View extends Base
 		$view->assign('VIEW', $request->getByType('view', 1));
 		$view->assign('MODULE_NAME', $moduleName);
 		$view->assign('PARENT_MODULE', $request->getByType('parent', 2));
+		$view->assign('NONCE', \App\Session::get('CSP_TOKEN'));
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}

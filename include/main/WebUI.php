@@ -99,12 +99,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		}
 		try {
 			App\Session::init();
-			// Better place this here as session get initiated
-			//skipping the csrf checking for the forgot(reset) password
-			if (App\Config::main('csrfProtection') && 'reset' !== $request->getMode() && 'Login' !== $request->getByType('action', 1) && 'demo' !== App\Config::main('systemMode')) {
-				require_once 'config/csrf_config.php';
-				\CsrfMagic\Csrf::init();
-			}
 			// common utils api called, depend on this variable right now
 			$this->getLogin();
 			$moduleName = $request->getModule();
@@ -146,6 +140,15 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				}
 				$componentName = $view;
 				\App\Config::setJsEnv('view', $view);
+			}
+			if ('Login' === $view && 'Users' === $moduleName && !\App\Session::has('CSP_TOKEN')) {
+				\App\Session::set('CSP_TOKEN', hash('sha256', \App\Encryption::generatePassword(10)));
+			}
+			// Better place this here as session get initiated
+			//skipping the csrf checking for the forgot(reset) password
+			if (App\Config::main('csrfProtection') && 'reset' !== $request->getMode() && 'Login' !== $action && 'demo' !== App\Config::main('systemMode')) {
+				require_once 'config/csrf_config.php';
+				\CsrfMagic\Csrf::init();
 			}
 			\App\Process::$processName = $componentName;
 			\App\Process::$processType = $componentType;

@@ -130,15 +130,23 @@ abstract class Base
 		header('x-robots-tag: none');
 		header('x-permitted-cross-domain-policies: none');
 		if (\App\Config::security('CSP_ACTIVE')) {
-			// 'nonce-" . App\Session::get('CSP_TOKEN') . "'
-			$allowed = \implode(' ', \App\Config::security('PURIFIER_ALLOWED_DOMAINS'));
-			header("content-security-policy: default-src 'self' blob:; img-src 'self' data: a.tile.openstreetmap.org b.tile.openstreetmap.org c.tile.openstreetmap.org $allowed; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' blob:; form-action 'self' *.paypal.com ;connect-src 'self';");
+			$this->setCspHeaders();
 		}
 		if ($keys = \App\Config::security('HPKP_KEYS')) {
 			header('public-key-pins: pin-sha256="' . implode('"; pin-sha256="', $keys) . '"; max-age=10000;');
 		}
 		header_remove('x-powered-by');
 		header_remove('server');
+	}
+
+	/**
+	 * Set CSP Headers.
+	 */
+	public function setCspHeaders()
+	{
+		// 'nonce-" . App\Session::get('CSP_TOKEN') . "'
+		$allowed = \implode(' ', \App\Config::security('PURIFIER_ALLOWED_DOMAINS'));
+		header("content-security-policy: default-src 'self' blob:; img-src 'self' data: a.tile.openstreetmap.org b.tile.openstreetmap.org c.tile.openstreetmap.org $allowed; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' blob:; form-action 'self' *.paypal.com ;connect-src 'self';");
 	}
 
 	/**
