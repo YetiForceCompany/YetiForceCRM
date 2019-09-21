@@ -261,10 +261,10 @@ emoji-mart-vue-fast@^6.0.1:
   dependencies:
     tether "^1.4.0"
 
-flag-icon-css@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/flag-icon-css/-/flag-icon-css-3.3.0.tgz#7772461e4480d3d86da5962f02120a2825688433"
-  integrity sha512-u5lCGVExrJJRykNGd//ZrBU5Bkt0LTZJFSuG+Az/pwcHgzDeFwomwFbsgVtI1aJd6ysyHsx+5UGrA+nhSGd4yw==
+flag-icon-css@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/flag-icon-css/-/flag-icon-css-3.4.0.tgz#7356dc73641a6406efd21783d73cabd589046f99"
+  integrity sha512-5W4a1QBmej8yTJKbr+hX2gwgk21Wd3Pe3sEHpLVBSfcfnxR/C7QGHq01zViW5JIsw2vbYroGAqbUFe8APEZygg==
 
 floatthead@^2.1.3:
   version "2.1.4"
