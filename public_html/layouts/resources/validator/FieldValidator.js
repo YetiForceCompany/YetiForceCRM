@@ -208,14 +208,11 @@ Vtiger_Base_Validator_Js(
 		validate: function() {
 			let fieldValue = this.getFieldValue(),
 				groupSeperator = CONFIG.currencyGroupingSeparator,
-				integerRegex = new RegExp('(^[-+]?[\\d\\' + groupSeperator + ']+)$', 'g'),
-				decimalIntegerRegex = new RegExp('(^[-+]?[\\d\\' + groupSeperator + ']?).\\d+$', 'g');
+				integerRegex = new RegExp('(^[-+]?[\\d\\' + groupSeperator + ']+)$', 'g');
 			if (!fieldValue.match(integerRegex)) {
-				if (!fieldValue.match(decimalIntegerRegex)) {
-					var errorInfo = app.vtranslate('JS_PLEASE_ENTER_INTEGER_VALUE');
-					this.setError(errorInfo);
-					return false;
-				}
+				var errorInfo = app.vtranslate('JS_PLEASE_ENTER_INTEGER_VALUE');
+				this.setError(errorInfo);
+				return false;
 			}
 			let fieldInfo = this.getElement().data().fieldinfo;
 			if (!fieldInfo || !fieldInfo.maximumlength) {
@@ -403,18 +400,7 @@ Vtiger_PositiveNumber_Validator_Js(
 
 Vtiger_Base_Validator_Js(
 	'Vtiger_Url_Validator_Js',
-	{
-		invokeValidation: function(field, rules, i, options) {
-			var validatorInstance = new Vtiger_Url_Validator_Js();
-			validatorInstance.setElement(field);
-			const result = validatorInstance.validate();
-			if (result === true) {
-				return result;
-			} else {
-				return validatorInstance.getError();
-			}
-		}
-	},
+	{},
 	{
 		/**
 		 * Function to validate the Url
