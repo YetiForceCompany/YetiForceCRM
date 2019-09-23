@@ -181,7 +181,8 @@ jQuery.Class(
 				orderby: this.getOrderBy(),
 				page: this.getCurrentPageNum(),
 				relatedView: this.relatedView,
-				mode: 'showRelatedList'
+				mode: 'showRelatedList',
+				tab_label: container.find('#tab_label').val()
 			};
 			if (container.find('.pagination').length) {
 				params['totalCount'] = container.find('.pagination').data('totalCount');

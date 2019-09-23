@@ -932,7 +932,7 @@ class QueryGenerator
 			} elseif ('vtiger_groups' == $tableName) {
 				$field = $this->getModuleField($ownerField);
 				$this->addJoin([$joinType, $tableName, "{$field->getTableName()}.{$field->getColumnName()} = $tableName.groupid"]);
-			} else {
+			} elseif (isset($moduleTableIndexList[$tableName])) {
 				$this->addJoin([$joinType, $tableName, "$baseTable.$baseTableIndex = $tableName.$moduleTableIndexList[$tableName]"]);
 			}
 		}
@@ -1044,7 +1044,7 @@ class QueryGenerator
 	 * @param string $fieldName
 	 * @param mixed  $value
 	 * @param string $operator
-	 * @param bool $userFormat
+	 * @param bool   $userFormat
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
@@ -1053,7 +1053,7 @@ class QueryGenerator
 	private function getCondition(string $fieldName, $value, string $operator, bool $userFormat = false)
 	{
 		$queryField = $this->getQueryField($fieldName);
-		if($userFormat && $queryField->getField()){
+		if ($userFormat && $queryField->getField()) {
 			$value = $queryField->getField()->getUITypeModel()->getDbConditionBuilderValue($value, $operator);
 		}
 		$queryField->setValue($value);
@@ -1094,7 +1094,7 @@ class QueryGenerator
 	 * @param mixed  $value
 	 * @param string $operator
 	 * @param mixed  $groupAnd
-	 * @param bool  $userFormat
+	 * @param bool   $userFormat
 	 *
 	 * @see Condition::ADVANCED_FILTER_OPTIONS
 	 * @see Condition::DATE_OPERATORS
@@ -1138,12 +1138,12 @@ class QueryGenerator
 		$field = $this->getModuleField($fieldName);
 		if (empty($field)) {
 			Log::error('Not found field model | Field name: ' . $fieldName);
-			throw new \App\Exceptions\AppException('ERR_NOT_FOUND_FIELD_MODEL|'.$fieldName);
+			throw new \App\Exceptions\AppException('ERR_NOT_FOUND_FIELD_MODEL|' . $fieldName);
 		}
 		$className = '\App\Conditions\QueryFields\\' . ucfirst($field->getFieldDataType()) . 'Field';
 		if (!class_exists($className)) {
 			Log::error('Not found query field condition | FieldDataType: ' . ucfirst($field->getFieldDataType()));
-			throw new \App\Exceptions\AppException('ERR_NOT_FOUND_QUERY_FIELD_CONDITION|'.$fieldName);
+			throw new \App\Exceptions\AppException('ERR_NOT_FOUND_QUERY_FIELD_CONDITION|' . $fieldName);
 		}
 		$queryField = new $className($this, $field);
 		return $this->queryFields[$fieldName] = $queryField;

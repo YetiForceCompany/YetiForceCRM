@@ -491,7 +491,7 @@ class Vtiger_Relation_Model extends \App\Base
 	public function getListUrl($parentRecordModel)
 	{
 		$url = 'module=' . $this->getParentModuleModel()->get('name') . '&relatedModule=' . $this->get('modulename') .
-			'&view=Detail&record=' . $parentRecordModel->getId() . '&mode=showRelatedList';
+			'&view=Detail&record=' . $parentRecordModel->getId() . '&mode=showRelatedList&tab_label=' . $this->get('label');
 		if ('Calendar' == $this->get('modulename')) {
 			$url .= '&time=current';
 		}
@@ -546,13 +546,13 @@ class Vtiger_Relation_Model extends \App\Base
 		$toRecordId = $this->get('parentRecord')->getId();
 		$params = ['sourceRecordId' => $toRecordId, 'sourceModule' => $eventHandler->getModuleName(), 'destinationModule' => $this->getRelationModuleModel()->getName()];
 
-		foreach($recordsToTransfer as $relatedRecordId => $fromRecordId){
-				$params['destinationRecordId'] = $relatedRecordId;
-				$eventHandler->setParams($params);
-				$eventHandler->trigger('EntityBeforeTransferUnLink');
-				if ($relationModel->transfer($relatedRecordId, $fromRecordId, $toRecordId)) {
-					\CRMEntity::trackLinkedInfo([$toRecordId, $fromRecordId]);
-					$eventHandler->trigger('EntityAfterTransferLink');
+		foreach ($recordsToTransfer as $relatedRecordId => $fromRecordId) {
+			$params['destinationRecordId'] = $relatedRecordId;
+			$eventHandler->setParams($params);
+			$eventHandler->trigger('EntityBeforeTransferUnLink');
+			if ($relationModel->transfer($relatedRecordId, $fromRecordId, $toRecordId)) {
+				\CRMEntity::trackLinkedInfo([$toRecordId, $fromRecordId]);
+				$eventHandler->trigger('EntityAfterTransferLink');
 			}
 		}
 	}
