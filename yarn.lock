@@ -18,9 +18,9 @@
     regenerator-runtime "^0.12.0"
 
 "@fortawesome/fontawesome-free@^5.8.2":
-  version "5.10.2"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.10.2.tgz#27e02da1e34b50c9869179d364fb46627b521130"
-  integrity sha512-9pw+Nsnunl9unstGEHQ+u41wBEQue6XPBsILXtJF/4fNN1L3avJcMF/gGF86rIjeTAgfLjTY9ndm68/X4f4idQ==
+  version "5.11.1"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.11.1.tgz#cef685a74708cf57b367c32d9f36a931c5a4e894"
+  integrity sha512-DtXLVYAkDU0ce1cFUgLvZaMd1R2J/LviBYih9xr4ZLhQMrgvYX7w2vOxlpKLRALfIj5GyC5zoVrcACOkLcFgvg==
 
 "@mdi/font@^4.4.95":
   version "4.4.95"
@@ -247,9 +247,9 @@ dompurify@^1.0.10:
   integrity sha512-XywCTXZtc/qCX3iprD1pIklRVk/uhl8BKpkTxr+ZyMVUzSUg7wkQXRBp/euJ5J5moa1QvfpvaPQVP71z1O59dQ==
 
 emoji-mart-vue-fast@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/emoji-mart-vue-fast/-/emoji-mart-vue-fast-6.0.1.tgz#780da980835a6d98237374aee47b3680644ed2bf"
-  integrity sha512-+K/Tx2SmDFAOpgoa4cDIjsWQZfEzbFiEKPC4sISa6gnXEmTj+N940NlOP3QutSQsI6gMpX3zvyeI83N6Wnzfsg==
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/emoji-mart-vue-fast/-/emoji-mart-vue-fast-6.1.1.tgz#06a13973b9fac71e7f792e960260eafac753427b"
+  integrity sha512-MqjdejpHgM6Z4IOl5EeqUXdFHPPGyN7Pk6PkAAn6KSr9XaQ+1xV7rmAQ3hBJ/a82GFVYxPJEox8qSMHs3UDbZQ==
   dependencies:
     "@babel/polyfill" "7.2.5"
     "@babel/runtime" "7.3.4"
@@ -262,9 +262,9 @@ emoji-mart-vue-fast@^6.0.1:
     tether "^1.4.0"
 
 flag-icon-css@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/flag-icon-css/-/flag-icon-css-3.3.0.tgz#7772461e4480d3d86da5962f02120a2825688433"
-  integrity sha512-u5lCGVExrJJRykNGd//ZrBU5Bkt0LTZJFSuG+Az/pwcHgzDeFwomwFbsgVtI1aJd6ysyHsx+5UGrA+nhSGd4yw==
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/flag-icon-css/-/flag-icon-css-3.4.0.tgz#7356dc73641a6406efd21783d73cabd589046f99"
+  integrity sha512-5W4a1QBmej8yTJKbr+hX2gwgk21Wd3Pe3sEHpLVBSfcfnxR/C7QGHq01zViW5JIsw2vbYroGAqbUFe8APEZygg==
 
 floatthead@^2.1.3:
   version "2.1.4"
@@ -289,9 +289,9 @@ fullcalendar@3.10.1:
   integrity sha512-E0ioaHVmwdS4es8pNTUNva7505wPkUMFdn9JGFLYo+J12ARhN3zDBwoPj2DfB8rL7Yc1sSve+FqDHC3s2SZ7Fw==
 
 gantt-elastic@^1.0.0:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-1.0.6.tgz#6e2ee83a3edbbfab492cc027790a6599b6441d44"
-  integrity sha512-rxmowgqDuqAnqHZjQgSirF5EjHCK2FMNPNV6nCtsL0oIX6VA9uaKrlCIa1u2bI60RYSm9ahRF20tvreF7KwK6w==
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/gantt-elastic/-/gantt-elastic-1.0.10.tgz#6c7e8524e6e67175aa21ebea68650522d40ae515"
+  integrity sha512-N0S+AfbXqb+562uirzUFykrPi2hocy2pwZyPA/PLoZ8J+rl+d+W44B+derajlciYDuU4JxMeZnDWYti9mkWM8A==
   dependencies:
     dayjs "^1.8.16"
     resize-observer-polyfill "^1.5.1"
@@ -314,9 +314,9 @@ gridstack@^0.4.0:
     lodash "^4.17.10"
 
 html2canvas@^1.0.0-alpha.12:
-  version "1.0.0-rc.3"
-  resolved "https://registry.yarnpkg.com/html2canvas/-/html2canvas-1.0.0-rc.3.tgz#1de88b073f6bcaa6954ca1edfb46da13b258b038"
-  integrity sha512-nWRk34IO3QopcDYpiPAbRW6VoI10H7uxEhcSFjox0JB6wZOMd6Mak+NqHPLljSFFEOvBjPafyRgcHnuWcFpWvg==
+  version "1.0.0-rc.4"
+  resolved "https://registry.yarnpkg.com/html2canvas/-/html2canvas-1.0.0-rc.4.tgz#caa4a094d97d321035a8025e4757bdd5ac76da86"
+  integrity sha512-5sJ+oM3FfNFpGVbMQkJFDl1WH5Sa293l2koMEZWbaehJ3dWHty4mSrmZtfWlWDoLckfGojZS9aZ7Zk3uFouyPw==
   dependencies:
     css-line-break "1.1.1"
 
@@ -445,9 +445,9 @@ popper.js@>=1.12.9, popper.js@^1.15.0:
   integrity sha512-w010cY1oCUmI+9KwwlWki+r5jxKfTFDVoadl7MSrIujHU5MJ5OR6HTDj6Xo8aoR/QsA56x8jKjA59qGH4ELtrA==
 
 quasar@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.1.0.tgz#80cbfd85e5731b4982c249206bb6d14fd66bfbe0"
-  integrity sha512-vZQwBEspzWeScSfA7SC9yarh2eZpQPquTTfISL0LQzsVhvYUq5YPMzsnwr8mV26AKcdEicsJD5GLSAzQu6uxyg==
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.1.3.tgz#f862d24f1b83f00b5ea93a25711cb542899c508d"
+  integrity sha512-mqsaLORO+2eUHTEJAp0qMzJ3XdgRWkmniauTdPmGhx9i6GvmJK4KN1zmyzSHzoJ9OVX4N8aGKAkjMlsAPztODQ==
 
 regenerator-runtime@^0.12.0:
   version "0.12.1"
