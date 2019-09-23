@@ -457,7 +457,6 @@
 					</tbody>
 				</table>
 			</div>
-			<!-- -->
 			<div class="u-columns__item pb-3 security table-responsive-md">
 				<table class="table table-bordered table-sm m-0">
 					<thead>
@@ -474,7 +473,7 @@
 							{App\Language::translate('LBL_RECOMMENDED', $MODULE_NAME)}
 						</th>
 						<th colspan="1" scope="col">
-							{App\Language::translate('LBL_WWW_VALUE', $MODULE_NAME)}
+							{App\Language::translate('LBL_PHP_VALUE', $MODULE_NAME)}
 						</th>
 						<th colspan="1" scope="col">
 							{App\Language::translate('LBL_JS_VALUE', $MODULE_NAME)}

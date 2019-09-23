@@ -29,6 +29,13 @@ class ConfReport
 	];
 
 	/**
+	 * Urls to check in request.
+	 *
+	 * @var array
+	 */
+	public static $urlsToCheck = ['root' => '', 'js' => '/layouts/resources/Tools.js', 'css' => '/layouts/basic/styles/Main.css'];
+
+	/**
 	 * List all variables.
 	 *
 	 * @var string[]
@@ -509,11 +516,10 @@ class ConfReport
 	private static function getRequest()
 	{
 		$requestUrl = \App\Config::main('site_URL') ?: \App\RequestUtil::getBrowserInfo()->url;
-		$urlsToCheck = ['root' => '', 'js' => '/layouts/resources/Tools.js', 'css' => '/layouts/basic/styles/Main.css'];
 		$request = [];
 		try {
-			foreach ($urlsToCheck as $type => $url) {
-				$res = (new \GuzzleHttp\Client())->request('GET', $requestUrl . $url, ['timeout' => 1, 'verify' => false]);
+			foreach (static::$urlsToCheck as $type => $url) {
+				$res = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $requestUrl . $url);
 				foreach ($res->getHeaders() as $key => $value) {
 					$request[strtolower($key)][$type] = \is_array($value) ? implode(',', $value) : $value;
 				}

@@ -56,6 +56,7 @@
     "LBL_CLI_VALUE": "cron (CLI)",
     "LBL_JS_VALUE": "js",
     "LBL_CSS_VALUE": "css",
+    "LBL_PHP_VALUE": "php",
     "LBL_LABEL_PHPINI": "PHP configuraton",
     "LBL_LABEL_PHPINIS": "Additional PHP configuration",
     "LBL_LABEL_LOG_FILE": "Error logs (error_log)",
