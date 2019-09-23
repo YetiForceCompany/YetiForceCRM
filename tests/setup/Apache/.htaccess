@@ -1,4 +1,16 @@
 <ifModule mod_headers.c>
+Header unset X-XSS-Protection
+Header unset Strict-Transport-Security
+Header unset X-Frame-Options
+Header unset X-Content-Type-Options
+Header unset X-Permitted-Cross-Domain-Policies
+Header unset Referrer-Policy
+Header unset Expect-CT
+Header unset X-Robots-Tag
+Header unset Cache-Control
+Header unset Server
+Header unset X-Powered-By
+
 Header always set X-XSS-Protection "1; mode=block"
 Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
 Header always set X-Frame-Options SAMEORIGIN
@@ -7,11 +19,19 @@ Header always set X-Permitted-Cross-Domain-Policies "none"
 Header always set Referrer-Policy "no-referrer"
 Header always set Expect-CT 'enforce; max-age=3600
 Header always set X-Robots-Tag none
-Header unset Server
-Header unset X-Powered-By
+
+Header always set Cache-Control "private, no-cache, no-store, must-revalidate, post-check=0, pre-check=0"
+<FilesMatch "\.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt|ttf|woff2)$">
+Header always set Cache-Control "max-age=86400, public"
+</FilesMatch>
+
 </ifModule>
 AddDefaultCharset UTF-8
 <ifModule ModSecurity.c>
 	SecServerSignature ''
 </ifModule>
-Options -Indexes
+<IfModule mod_autoindex.c>
+	Options -Indexes -MultiViews
+</IfModule>
+
+
