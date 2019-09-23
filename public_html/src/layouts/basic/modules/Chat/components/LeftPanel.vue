@@ -251,17 +251,17 @@ export default {
     roomList() {
       if (this.filterRooms === '') {
         return {
-          crm: Object.values(this.data.roomList.crm).sort(this.sortByRoomName),
-          global: Object.values(this.data.roomList.global).sort(this.sortByRoomName),
+          private: Object.values(this.data.roomList.private).sort(this.sortByRoomName),
           group: Object.values(this.data.roomList.group).sort(this.sortByRoomName),
-          private: Object.values(this.data.roomList.private).sort(this.sortByRoomName)
+          global: Object.values(this.data.roomList.global).sort(this.sortByRoomName),
+          crm: Object.values(this.data.roomList.crm).sort(this.sortByRoomName)
 				}
-				} else {
+			} else {
         return {
-          crm: Object.values(this.data.roomList.crm).filter(this.filterRoomByName),
-          global: Object.values(this.data.roomList.global).filter(this.filterRoomByName),
+          private: Object.values(this.data.roomList.private).filter(this.filterRoomByName),
           group: Object.values(this.data.roomList.group).filter(this.filterRoomByName),
-          private: Object.values(this.data.roomList.private).filter(this.filterRoomByName)
+          global: Object.values(this.data.roomList.global).filter(this.filterRoomByName),
+          crm: Object.values(this.data.roomList.crm).filter(this.filterRoomByName)
         }
       }
     }

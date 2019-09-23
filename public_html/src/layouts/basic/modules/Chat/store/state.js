@@ -37,10 +37,10 @@ export default {
 	data: {
 		amountOfNewMessages: 0,
 		roomList: {
-			crm: {},
+			private: {},
 			group: {},
 			global: {},
-			private: {}
+			crm: {}
 		},
 		currentRoom: {},
 		history: {
