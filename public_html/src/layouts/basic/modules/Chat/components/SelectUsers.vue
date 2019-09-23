@@ -39,8 +39,8 @@
       <template v-slot:option="scope">
         <q-item dense v-bind="scope.itemProps" v-on="scope.itemEvents">
           <q-item-section avatar>
-            <img v-if="scope.opt.img" :src="scope.opt.img" :alt="scope.opt.label" style="height: 40px;" />
-            <q-icon v-else name="mdi-account" size="40px" />
+            <img v-if="scope.opt.img" :src="scope.opt.img" :alt="scope.opt.label" style="height: 1.7rem;" />
+            <q-icon v-else name="mdi-account" />
           </q-item-section>
           <q-item-section>
             {{ scope.opt.label }}
@@ -86,7 +86,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentRoomData'])
+    ...mapGetters(['currentRoomData', 'layout'])
   },
   methods: {
     ...mapActions(['fetchChatUsers', 'addParticipant']),
@@ -151,10 +151,9 @@ export default {
   }
 }
 </script>
-<style lang="sass">
+<style lang="sass" scoped>
 .select-dense
 	.q-item
 		min-height: 32px
 		padding: 2px 16px
-		font-size: 0.88rem
 </style>

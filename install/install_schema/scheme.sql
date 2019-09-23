@@ -1395,6 +1395,7 @@ CREATE TABLE `u_yf_chat_private` (
   `name` varchar(255) NOT NULL,
   `creatorid` int(10) NOT NULL,
   `created` datetime DEFAULT NULL,
+  `archived` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`private_room_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

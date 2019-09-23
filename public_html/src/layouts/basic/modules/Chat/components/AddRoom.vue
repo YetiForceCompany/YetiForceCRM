@@ -8,6 +8,7 @@
       :placeholder="translate('JS_CHAT_ADD_PRIVATE_ROOM')"
       :error="!isValid"
       @input="isValid = true"
+			:loading="isValidating"
       ref="addRoomInput"
     >
       <template v-slot:prepend>
@@ -40,7 +41,8 @@ export default {
     return {
       addRoom: '',
       isValid: true,
-      errorMessage: ''
+			errorMessage: '',
+			isValidating: false
     }
   },
   watch: {
@@ -57,7 +59,8 @@ export default {
     ...mapActions(['addPrivateRoom']),
     ...mapMutations(['updateRooms']),
     validateRoomName() {
-      if (this.addRoom.length) {
+      if (this.addRoom.length && !this.isValidating) {
+				this.isValidating = true
         let roomExist = false
         for (let room in this.data.roomList.private) {
           if (this.data.roomList.private[room].name === this.addRoom) {
@@ -68,7 +71,8 @@ export default {
         if (!roomExist) {
           this.addPrivateRoom({ name: this.addRoom }).then(({ result }) => {
             this.addRoom = ''
-            this.updateRooms(result)
+						this.updateRooms(result)
+						this.isValidating = false
             this.$q.notify({
               position: 'top',
               color: 'success',
@@ -78,7 +82,8 @@ export default {
           })
         } else {
           this.errorMessage = this.translate('JS_CHAT_ROOM_EXISTS')
-          this.isValid = false
+					this.isValid = false
+					this.isValidating = false
         }
       } else {
         this.errorMessage = this.translate('JS_CHAT_ROOM_NAME_EMPTY')

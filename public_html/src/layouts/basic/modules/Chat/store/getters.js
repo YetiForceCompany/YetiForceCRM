@@ -2,6 +2,9 @@
 import get from 'lodash.get'
 
 export default {
+	layout(state) {
+		return state.layout
+	},
 	dialog(state) {
 		return state.session.dialog
 	},

@@ -234,6 +234,7 @@ final class Chat
 			->from(['CR' => 'u_yf_chat_rooms_private']);
 		$query = (new Db\Query())
 			->select(['name', 'recordid' => 'GL.private_room_id', 'CNT.cnt_new_message', 'CNT.userid', 'creatorid', 'created'])
+			->where(['archived' => 0])
 			->from(['GL' => 'u_#__chat_private']);
 		if (User::getUserModel($userId)->isAdmin()) {
 			$query->leftJoin(['CNT' => $subQuery], "CNT.{$roomIdName} = GL.private_room_id AND CNT.userid = {$userId}");
@@ -624,7 +625,7 @@ final class Chat
 	}
 
 	/**
-	 * Is room moderator
+	 * Is room moderator.
 	 *
 	 * @param int $recordId
 	 *
@@ -634,13 +635,26 @@ final class Chat
 	{
 		if (User::getUserModel($this->userId)->isAdmin()) {
 			return true;
-		} else {
-			return (new Db\Query())
+		}
+		return (new Db\Query())
 			->select(['creatorid', static::COLUMN_NAME['room']['private']])
 			->from(static::TABLE_NAME['room_name']['private'])
 			->where(['and', ['creatorid' => $this->userId], [static::COLUMN_NAME['room']['private'] => $recordId]])
 			->exists();
-		}
+	}
+
+	/**
+	 * Is record owner.
+	 *
+	 * @return bool
+	 */
+	public function isRecordOwner(): bool
+	{
+		return (new Db\Query())
+			->select(['userid', static::COLUMN_NAME['room']['private']])
+			->from(static::TABLE_NAME['room']['private'])
+			->where(['and', ['userid' => $this->userId], [static::COLUMN_NAME['room'][$this->getRoomType()] => $this->getRecordId()]])
+			->exists();
 	}
 
 	/**
@@ -1051,16 +1065,28 @@ final class Chat
 					'created' => date('Y-m-d H:i:s')
 				]
 			)->execute();
-		if (!User::getUserModel($this->userId)->isAdmin()) {
-			Db::getInstance()->createCommand()->insert(
-					static::TABLE_NAME['room']['private'],
-					[
-						'userid' => $this->userId,
-						'last_message' => 0,
-						static::COLUMN_NAME['room']['private'] => Db::getInstance()->getLastInsertID("{$table}_{$roomIdColumn}_seq")
-					]
-				)->execute();
-		}
+		Db::getInstance()->createCommand()->insert(
+				static::TABLE_NAME['room']['private'],
+				[
+					'userid' => $this->userId,
+					'last_message' => 0,
+					static::COLUMN_NAME['room']['private'] => Db::getInstance()->getLastInsertID("{$table}_{$roomIdColumn}_seq")
+				]
+			)->execute();
+	}
+
+	/**
+	 * Archive private room.
+	 *
+	 * @param string $name
+	 * @param int    $recordId
+	 */
+	public function archivePrivateRoom(int $recordId)
+	{
+		Db::getInstance()->createCommand()
+			->update(
+			static::TABLE_NAME['room_name']['private'], ['archived' => 1], [static::COLUMN_NAME['room']['private'] => $recordId])
+			->execute();
 	}
 
 	/**

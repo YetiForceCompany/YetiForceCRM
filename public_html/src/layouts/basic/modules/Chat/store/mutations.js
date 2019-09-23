@@ -47,6 +47,11 @@ export default {
 	setData(state, data) {
 		state.data = data
 	},
+	setRoomData(state, data) {
+		state.data.amountOfNewMessages = data.amountOfNewMessages
+		state.data.currentRoom = data.currentRoom
+		state.data.roomList = data.roomList
+	},
 	setPrivateRooms(state, data) {
 		if (state.data.currentRoom.roomType === 'private' && data[state.data.currentRoom.recordId]) {
 			data[state.data.currentRoom.recordId].chatEntries =
@@ -150,13 +155,13 @@ export default {
 			chatLocalStorage &&
 			JSON.stringify(Object.keys(state.local)) === JSON.stringify(Object.keys(JSON.parse(chatLocalStorage)))
 		) {
-			state.local = Object.assign(state.local, JSON.parse(chatLocalStorage))
+			state.local = mergeDeepReactive(state.local, JSON.parse(chatLocalStorage))
 		}
 		if (
 			chatSessionStorage &&
 			JSON.stringify(Object.keys(state.session)) === JSON.stringify(Object.keys(JSON.parse(chatSessionStorage)))
 		) {
-			state.session = Object.assign(state.session, JSON.parse(chatSessionStorage))
+			state.session = mergeDeepReactive(state.session, JSON.parse(chatSessionStorage))
 		}
 	}
 }
