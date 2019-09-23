@@ -457,7 +457,72 @@
 					</tbody>
 				</table>
 			</div>
-
+			<!-- -->
+			<div class="u-columns__item pb-3 security table-responsive-md">
+				<table class="table table-bordered table-sm m-0">
+					<thead>
+					<tr>
+						<th colspan="5">
+							{\App\Language::translate('LBL_HEADERS_SECURITY', $MODULE_NAME)}
+						</th>
+					</tr>
+					<tr>
+						<th colspan="1" scope="col" class="text-left">
+							{App\Language::translate('LBL_PARAMETER', $MODULE_NAME)}
+						</th>
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_RECOMMENDED', $MODULE_NAME)}
+						</th>
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_WWW_VALUE', $MODULE_NAME)}
+						</th>
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_JS_VALUE', $MODULE_NAME)}
+						</th>
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_CSS_VALUE', $MODULE_NAME)}
+						</th>
+					</tr>
+					</thead>
+					<tbody class="u-word-break-all small">
+					{foreach from=$ALL['headers'] key=KEY item=ITEM}
+						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
+							<td class="bg-light text-left u-word-break-keep-all">
+								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
+							</td>
+							<td>
+								{if isset($ITEM['recommended'])}
+									{if isset($ITEM['isHtml'])} {$ITEM['recommended']} {else} {\App\Language::translate($ITEM['recommended'], $MODULE_NAME)} {/if}
+								{else}
+									-
+								{/if}
+							</td>
+							<td>
+								{if !empty($ITEM['www'])}
+									{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+								{else}
+									-
+								{/if}
+							</td>
+							<td>
+								{if !empty($ITEM['js'])}
+									{if isset($ITEM['isHtml'])} {$ITEM['js']} {else} {\App\Language::translate($ITEM['js'], $MODULE_NAME)} {/if}
+								{else}
+									-
+								{/if}
+							</td>
+							<td>
+								{if !empty($ITEM['css'])}
+									{if isset($ITEM['isHtml'])} {$ITEM['css']} {else} {\App\Language::translate($ITEM['css'], $MODULE_NAME)} {/if}
+								{else}
+									-
+								{/if}
+							</td>
+						</tr>
+					{/foreach}
+					</tbody>
+				</table>
+			</div>
 			<div class="u-columns__item pb-3 database table-responsive-md">
 				<table class="table table-bordered table-sm m-0">
 					<thead>

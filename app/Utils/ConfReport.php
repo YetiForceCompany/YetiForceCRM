@@ -33,7 +33,7 @@ class ConfReport
 	 *
 	 * @var string[]
 	 */
-	public static $types = ['stability', 'security', 'libraries', 'database', 'performance', 'environment', 'publicDirectoryAccess', 'writableFilesAndFolders', 'functionalVerification'];
+	public static $types = ['stability', 'security', 'headers', 'libraries', 'database', 'performance', 'environment', 'publicDirectoryAccess', 'writableFilesAndFolders', 'functionalVerification'];
 
 	/**
 	 * List all container.
@@ -94,7 +94,15 @@ class ConfReport
 		'expose_php' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session_regenerate_id' => ['recommended' => 'On', 'type' => 'SessionRegenerate', 'testCli' => true],
 		'disable_functions' => ['recommended' => 'shell_exec, exec, system, passthru, popen', 'type' => 'In', 'container' => 'php', 'testCli' => false],
-		'allow_url_include' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
+		'allow_url_include' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true]
+	];
+
+	/**
+	 * Headers variables map.
+	 *
+	 * @var array
+	 */
+	public static $headers = [
 		'Header: server' => ['recommended' => '', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: x-powered-by' => ['recommended' => '', 'type' => 'Header', 'contaiuse_only_cookiesner' => 'request', 'testCli' => false],
 		'Header: x-frame-options' => ['recommended' => 'sameorigin', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
@@ -501,11 +509,14 @@ class ConfReport
 	private static function getRequest()
 	{
 		$requestUrl = \App\Config::main('site_URL') ?: \App\RequestUtil::getBrowserInfo()->url;
+		$urlsToCheck = ['root' => '', 'js' => '/layouts/resources/Tools.js', 'css' => '/layouts/basic/styles/Main.css'];
 		$request = [];
 		try {
-			$res = (new \GuzzleHttp\Client())->request('GET', $requestUrl, ['timeout' => 1, 'verify' => false]);
-			foreach ($res->getHeaders() as $key => $value) {
-				$request[strtolower($key)] = \is_array($value) ? implode(',', $value) : $value;
+			foreach ($urlsToCheck as $type => $url) {
+				$res = (new \GuzzleHttp\Client())->request('GET', $requestUrl . $url, ['timeout' => 1, 'verify' => false]);
+				foreach ($res->getHeaders() as $key => $value) {
+					$request[strtolower($key)][$type] = \is_array($value) ? implode(',', $value) : $value;
+				}
 			}
 		} catch (\Throwable $e) {
 		}
@@ -944,8 +955,9 @@ class ConfReport
 	 * Validate header.
 	 *
 	 * @param string $name
-	 * @param array  $row
+	 * @param array  $data
 	 * @param string $sapi
+	 * @param array  $row
 	 *
 	 * @return array
 	 */
@@ -953,8 +965,12 @@ class ConfReport
 	{
 		$header = strtolower(\str_replace('Header: ', '', $name));
 		if (isset(static::$request[$header])) {
-			$row['status'] = strtolower(static::$request[$header]) === strtolower($row['recommended']);
-			$row[$sapi] = static::$request[$header];
+			$row['www'] = static::$request[$header]['root'] ?? '';
+			$row['js'] = static::$request[$header]['js'] ?? '';
+			$row['css'] = static::$request[$header]['css'] ?? '';
+			$row['status'] = strtolower($row['www']) === strtolower($row['recommended']) && strtolower($row['js']) === strtolower($row['recommended']) && strtolower($row['css']) === strtolower($row['recommended']);
+		} else {
+			$row['status'] = false;
 		}
 		return $row;
 	}
@@ -1199,13 +1215,13 @@ class ConfReport
 	 * @return array
 	 */
 	private static function validateNotEmpty(string $name, array $row, string $sapi)
-		{
-			unset($name);
-			if(empty($row[$sapi])){
-				$row['status'] = false;
-			}
-			return $row;
+	{
+		unset($name);
+		if (empty($row[$sapi])) {
+			$row['status'] = false;
 		}
+		return $row;
+	}
 
 	/**
 	 * Get all configuration error values.
