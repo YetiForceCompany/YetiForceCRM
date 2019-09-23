@@ -961,8 +961,8 @@ class ConfReport
 	 * Validate header.
 	 *
 	 * @param string $name
-	 * @param string $sapi
 	 * @param array  $row
+	 * @param string $sapi
 	 *
 	 * @return array
 	 */
