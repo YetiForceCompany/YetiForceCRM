@@ -412,7 +412,6 @@ Vtiger_Base_Validator_Js(
 			}
 		}
 	},
-	{},
 	{
 		/**
 		 * Function to validate the Url
