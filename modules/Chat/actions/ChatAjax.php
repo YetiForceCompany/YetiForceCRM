@@ -34,6 +34,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$this->exposeMethod('search');
 		$this->exposeMethod('trackNewMessages');
 		$this->exposeMethod('addPrivateRoom');
+		$this->exposeMethod('archivePrivateRoom');
 		$this->exposeMethod('addParticipant');
 	}
 
@@ -126,6 +127,11 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		}
 		$result = [];
 		$roomList = \App\Chat::getRoomsByUser();
+		if (!isset($roomList[$roomType][$recordId])) {
+			$defaultRoom = \App\Chat::setCurrentRoomDefault();
+			$roomType = $defaultRoom['roomType'];
+			$recordId = $defaultRoom['recordId'];
+		}
 		$roomList[$roomType][$recordId]['chatEntries'] = $chatEntries;
 		$roomList[$roomType][$recordId]['participants'] = $chat->getParticipants();
 		if (!$request->has('lastId')) {
@@ -294,6 +300,29 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	}
 
 	/**
+	 * Archive rooms.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 */
+	public function archivePrivateRoom(App\Request $request)
+	{
+		$recordId = $request->getInteger('recordId');
+		$chat = \App\Chat::getInstance('private', $recordId);
+		if (!$chat->isRoomModerator($recordId)) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		if (\App\Chat::getCurrentRoom()['recordId'] === $recordId) {
+			$chat->setCurrentRoomDefault();
+		}
+		$chat->archivePrivateRoom($recordId);
+		$response = new Vtiger_Response();
+		$response->setResult(true);
+		$response->emit();
+	}
+
+	/**
 	 * Add participant.
 	 *
 	 * @param \App\Request $request
@@ -442,16 +471,14 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	public function getChatUsers(App\Request $request)
 	{
 		$owner = App\Fields\Owner::getInstance();
-		$owner->showRoleName = true;
 		$data = [];
 		if ($users = $owner->getAccessibleUsers('private', 'owner')) {
 			foreach ($users as $key => $value) {
 				if (Users_Privileges_Model::getInstanceById($key)->hasModulePermission('Chat')) {
-					$imageUrl = \App\User::getImageById($key) ? \App\User::getImageById($key)['url'] : '';
 					$data[] = [
 						'id' => $key,
 						'label' => $value,
-						'img' => $imageUrl ?? '',
+						'img' => \App\User::getImageById($key) ? \App\User::getImageById($key)['url'] : '',
 					];
 				}
 			}

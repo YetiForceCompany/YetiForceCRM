@@ -124,7 +124,8 @@ class Chat_Room_Action extends \App\Controller\Action
 			case 'global':
 				break;
 			case 'private':
-				if (!\App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'))->isRoomModerator($request->getInteger('recordId'))) {
+				$chat = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'));
+				if (!$chat->isRoomModerator($request->getInteger('recordId')) && !$chat->isRecordOwner()) {
 					throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 				}
 				break;

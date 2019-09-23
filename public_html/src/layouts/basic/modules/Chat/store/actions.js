@@ -45,6 +45,19 @@ export default {
 			})
 		})
 	},
+	archivePrivateRoom({ dispatch }, room) {
+		return new Promise((resolve, reject) => {
+			AppConnector.request({
+				module: 'Chat',
+				action: 'ChatAjax',
+				mode: 'archivePrivateRoom',
+				recordId: room.recordid
+			}).done(({ result }) => {
+				dispatch('fetchRoom', { id: undefined, roomType: undefined })
+				resolve(result)
+			})
+		})
+	},
 	fetchRecordRoom({ commit }, id) {
 		return new Promise((resolve, reject) => {
 			AppConnector.request({

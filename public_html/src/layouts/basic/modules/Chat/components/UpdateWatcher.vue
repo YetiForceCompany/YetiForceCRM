@@ -34,49 +34,54 @@ export default {
           if (this.activeRooms.length && !this.timerMessage) {
             clearInterval(this.timerAmount)
             this.timerAmount = false
-            this.fetchNewMessages()
+            this.initMessageTimer()
           }
         } else if (mutation.type === 'Chat/unsetActiveRoom' && !this.allRooms.filter(el => el.active).length) {
           if (!this.timerAmount) {
             clearInterval(this.timerMessage)
             this.timerMessage = false
-            this.fetchAmountOfNewMessages()
+            this.initAmountTimer()
           }
         }
       })
+    },
+        /**
+     * Init amount timer
+     */
+    initMessageTimer() {
+      this.timerMessage = setTimeout(this.fetchNewMessages, this.config.refreshMessageTime)
     },
     /**
      * Fetch new messages timeout function
      */
     fetchNewMessages() {
-      this.timerMessage = setTimeout(() => {
-        let currentActiveRooms = [...this.activeRooms]
-        AppConnector.request({
-          module: 'Chat',
-          action: 'ChatAjax',
-          mode: 'getRoomsMessages',
-          rooms: this.activeRooms
-        }).done(({ result }) => {
-          this.updateAmountOfNewMessages(result.amountOfNewMessages)
-          if (
-            typeof result.roomList.private === 'object' &&
-            Object.keys(result.roomList.private).length !== Object.keys(this.data.roomList.private).length
-          ) {
-            if (
-              this.data.currentRoom.roomType === 'private' &&
-              !result.roomList.private[this.data.currentRoom.recordId]
-            ) {
-              this.fetchRoom({ id: this.config.defaultRoom.recordId, roomType: this.config.defaultRoom.roomType })
-            } else {
+      let currentActiveRooms = [...this.activeRooms]
+      AppConnector.request({
+        module: 'Chat',
+        action: 'ChatAjax',
+        mode: 'getRoomsMessages',
+        rooms: this.activeRooms
+      }).done(({ result }) => {
+        this.updateAmountOfNewMessages(result.amountOfNewMessages)
+        if (
+          typeof result.roomList.private === 'object' &&
+          Object.keys(result.roomList.private).length !== Object.keys(this.data.roomList.private).length
+        ) {
+          if (this.data.currentRoom.roomType === 'private' && !result.roomList.private[this.data.currentRoom.recordId]) {
+            this.fetchRoom({ id: this.config.defaultRoom.recordId, roomType: this.config.defaultRoom.roomType }).then(_ => {
               this.setPrivateRooms(result.roomList.private)
-            }
+            })
+          } else {
+            this.setPrivateRooms(result.roomList.private)
           }
-          if (result.areNewEntries) {
-            this.updateChatData({ roomsToUpdate: currentActiveRooms, newData: result })
-          }
-          this.fetchNewMessages()
-        })
-      }, this.config.refreshMessageTime)
+        }
+        if (result.areNewEntries) {
+          this.updateChatData({ roomsToUpdate: currentActiveRooms, newData: result })
+        }
+        if (this.timerMessage) {
+          this.initMessageTimer()
+        }
+      })
     },
     /**
      * Init amount timer
@@ -94,7 +99,9 @@ export default {
         mode: 'trackNewMessages'
       }).done(({ result }) => {
         this.updateAmountOfNewMessages(result)
-        this.initAmountTimer()
+        if (this.timerAmount) {
+          this.initAmountTimer()
+        }
       })
     }
   },
@@ -105,9 +112,9 @@ export default {
     this.adjustUpdateRequestToChatState()
     this.activeRooms = this.allRooms.filter(el => el.active)
     if (this.activeRooms.length) {
-      this.fetchNewMessages()
+      this.initMessageTimer()
     } else {
-      this.fetchAmountOfNewMessages()
+      this.initAmountTimer()
     }
   }
 }

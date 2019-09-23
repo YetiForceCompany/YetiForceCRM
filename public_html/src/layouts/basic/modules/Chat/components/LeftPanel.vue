@@ -12,7 +12,7 @@
             <q-icon v-show="filterRooms.length > 0" name="mdi-close" @click="filterRooms = ''" class="cursor-pointer" />
           </template>
         </q-input>
-        <div class="" v-for="(roomGroup, roomType) of roomList" :key="roomType" :style="{ fontSize: fontSize }">
+        <div class="" v-for="(roomGroup, roomType) of roomList" :key="roomType" :style="{ fontSize: layout.drawer.fs }">
           <q-list
             v-if="
               Object.entries(roomGroup).length ||
@@ -24,7 +24,7 @@
           >
             <q-item-label class="flex items-center text-bold text-muted q-py-sm q-px-md">
               <q-item-section avatar>
-                <icon :icon="getGroupIcon(roomType)" :size="fontSize" />
+                <icon :icon="getGroupIcon(roomType)" :size="layout.drawer.fs" />
               </q-item-section>
               {{ translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`) }}
               <div class="q-ml-auto">
@@ -66,7 +66,7 @@
                 >
                   <q-tooltip>{{ translate('JS_CHAT_ADD_PRIVATE_ROOM') }}</q-tooltip>
                 </q-btn>
-                <q-icon :size="fontSize" name="mdi-information" class="q-pr-xs">
+                <q-icon :size="layout.drawer.fs" name="mdi-information" class="q-pr-xs">
                   <q-tooltip>{{ translate(`JS_CHAT_ROOM_DESCRIPTION_${roomType.toUpperCase()}`) }}</q-tooltip>
                 </q-icon>
               </div>
@@ -83,7 +83,7 @@
                 clickable
                 v-ripple
                 :key="roomId"
-                class="q-pl-sm"
+                class="q-pl-sm hover-container"
                 :active="data.currentRoom.recordId === room.recordid && data.currentRoom.roomType === roomType"
                 active-class="bg-teal-1 text-grey-8"
                 @click="fetchRoom({ id: room.recordid, roomType: roomType })"
@@ -122,6 +122,19 @@
                         :href="`index.php?module=${room.moduleName}&view=Detail&record=${room.recordid}`"
                       />
                       <q-btn
+                        v-if="roomType === 'private' && isUserModerator(room)"
+                        :class="{ 'hover-display': $q.platform.is.desktop }"
+                        dense
+                        round
+                        flat
+                        size="xs"
+                        @click.stop="showArchiveDialog(room)"
+                        color="negative"
+                        icon="mdi-delete"
+                      >
+                        <q-tooltip>{{ translate('JS_CHAT_ROOM_ARCHIVE') }}</q-tooltip>
+                      </q-btn>
+                      <q-btn
                         dense
                         round
                         flat
@@ -156,6 +169,26 @@
           </q-list>
         </div>
       </div>
+      <q-dialog v-if="arePrivateRooms" v-model="confirm" persistent content-class="quasar-reset">
+        <q-card>
+          <q-card-section class="row items-center">
+            <q-avatar icon="mdi-alert-circle-outline" text-color="negative" />
+            <span class="q-ml-sm">{{
+              translate('JS_CHAT_ROOM_ARCHIVE_MESSAGE').replace('${roomToArchive}', roomToArchive.name)
+            }}</span>
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn flat :label="translate('JS_CANCEL')" color="black" v-close-popup />
+            <q-btn
+              @click="archivePrivateRoom(roomToArchive)"
+              flat
+              :label="translate('JS_ARCHIVE')"
+              color="negative"
+              v-close-popup
+            />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
     </div>
   </q-drawer>
 </template>
@@ -171,18 +204,19 @@ export default {
   data() {
     return {
       filterRooms: '',
-      fontSize: '0.88rem',
       showAll: {
         group: false,
         global: false,
         private: false
       },
       showAddRoomPanel: false,
-      showAddPrivateRoom: false
+      showAddPrivateRoom: false,
+      confirm: false,
+      roomToArchive: {}
     }
   },
   computed: {
-    ...mapGetters(['leftPanel', 'data', 'config', 'isSoundNotification', 'roomSoundNotificationsOff']),
+    ...mapGetters(['leftPanel', 'data', 'config', 'isSoundNotification', 'roomSoundNotificationsOff', 'layout']),
     areUnpinned() {
       return roomType => {
         for (let room in this.data.roomList[roomType]) {
@@ -193,10 +227,23 @@ export default {
         return false
       }
     },
+    arePrivateRooms() {
+      return Object.keys(this.data.roomList.private).length
+    },
+    isUserModerator() {
+      return room => {
+        return room.creatorid === CONFIG.userId || this.config.isAdmin
+      }
+    },
     roomList() {
       if (this.filterRooms === '') {
-        return this.data.roomList
-      } else {
+        return {
+          crm: Object.values(this.data.roomList.crm).sort(this.sortByRoomName),
+          global: Object.values(this.data.roomList.global).sort(this.sortByRoomName),
+          group: Object.values(this.data.roomList.group).sort(this.sortByRoomName),
+          private: Object.values(this.data.roomList.private).sort(this.sortByRoomName)
+				}
+				} else {
         return {
           crm: Object.values(this.data.roomList.crm).filter(this.filterRoomByName),
           global: Object.values(this.data.roomList.global).filter(this.filterRoomByName),
@@ -208,16 +255,27 @@ export default {
   },
   methods: {
     ...mapMutations(['setLeftPanel']),
-    ...mapActions(['fetchRoom', 'togglePinned', 'toggleRoomSoundNotification']),
+    ...mapActions(['fetchRoom', 'togglePinned', 'toggleRoomSoundNotification', 'archivePrivateRoom']),
     getGroupIcon,
     filterRoomByName(room) {
       return room.name.toLowerCase().includes(this.filterRooms.toLowerCase())
-    },
+		},
+		sortByRoomName(a, b) {
+			return a.name > b.name ? 1 : -1
+		},
     isSoundActive(roomType, id) {
       return this.isSoundNotification && !this.roomSoundNotificationsOff[roomType].includes(id)
+    },
+    showArchiveDialog(room) {
+      this.confirm = true
+      this.roomToArchive = room
     }
   }
 }
 </script>
-<style lang="sass">
+<style lang="sass" scoped>
+.hover-container .hover-display
+	display: none
+.hover-container:hover .hover-display
+	display: inline
 </style>

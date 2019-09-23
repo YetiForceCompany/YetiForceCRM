@@ -21,15 +21,15 @@
           />
         </template>
       </q-input>
-      <q-list style="font-size: 0.88rem;">
+      <q-list :style="{ 'font-size': layout.drawer.fs }">
         <q-item-label class="flex items-center text-bold text-muted q-py-sm q-px-md">
           <q-item-section avatar>
-            <icon icon="yfi-entrant-chat" size="0.88rem" />
+            <icon icon="yfi-entrant-chat" :size="layout.drawer.fs" />
           </q-item-section>
           {{ translate('JS_CHAT_PARTICIPANTS') }}
           <div class="q-ml-auto">
             <q-btn
-              v-if="isAddPanel"
+              v-if="isUserModerator"
               dense
               flat
               round
@@ -45,7 +45,7 @@
             </q-icon>
           </div>
         </q-item-label>
-        <q-item v-if="isAddPanel" v-show="showAddPanel">
+        <q-item v-if="isUserModerator" v-show="showAddPanel">
           <select-users :isVisible.sync="showAddPanel" class="q-pb-xs" />
         </q-item>
         <template v-for="participant in participantsList">
@@ -70,8 +70,9 @@
               </div>
             </q-item-section>
             <q-item-section avatar>
+              <q-icon v-if="participant.isAdmin" name="mdi-crown" />
               <q-btn
-                v-if="isAddPanel && !participant.isAdmin"
+                v-if="isUserModerator && participant.user_id !== userId"
                 @click.stop="
                   unpinUser({
                     roomType: currentRoomData.roomType,
@@ -86,7 +87,6 @@
                 size="xs"
                 :icon="'mdi-pin'"
               />
-              <q-icon v-if="participant.isAdmin" name="mdi-crown" />
             </q-item-section>
           </q-item>
         </template>
@@ -115,8 +115,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentRoomData', 'config']),
-    isAddPanel() {
+    ...mapGetters(['currentRoomData', 'config', 'layout']),
+    isUserModerator() {
       return (
         this.currentRoomData.roomType === 'private' &&
         (this.currentRoomData.creatorid === this.userId || this.config.isAdmin)
@@ -124,7 +124,7 @@ export default {
     },
     participantsList() {
       if (this.filterParticipants === '') {
-        return this.participants.length ? this.participants.concat().sort((a, b) => (!a.message ? 1 : -1)) : []
+        return this.participants.length ? this.participants.concat().sort(this.sortByCurrentUserMessagesName) : []
       } else {
         return this.participants.filter(participant => {
           return (
@@ -148,6 +148,21 @@ export default {
           icon: 'mdi-check'
         })
       })
+    },
+    sortByCurrentUserMessagesName(a, b) {
+      if (a.user_id === this.userId) {
+        return -1
+      }
+      if (!a.message && b.message) {
+        return 1
+      } else if (a.message && !b.message) {
+        return -1
+      }
+      if (a.user_name > b.user_name) {
+        return 1
+      } else {
+        return -1
+      }
     }
   }
 }

@@ -121,10 +121,9 @@ export default {
   }
 }
 </script>
-<style lang="sass">
+<style lang="sass" scoped>
 .select-dense
 	.q-item
 		min-height: 32px
 		padding: 2px 16px
-		font-size: 0.88rem
 </style>
