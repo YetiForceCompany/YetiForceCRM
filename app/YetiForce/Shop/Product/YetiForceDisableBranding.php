@@ -36,6 +36,9 @@ class YetiForceDisableBranding extends \App\YetiForce\Shop\AbstractBaseProduct
 	 */
 	public function verify($cache = true): bool
 	{
-		return \App\YetiForce\Shop::check('YetiForceDisableBranding');
+		if (\App\YetiForce\Register::getProducts('YetiForceDisableBranding')) {
+			return \App\YetiForce\Shop::check('YetiForceDisableBranding');
+		}
+		return true;
 	}
 }
