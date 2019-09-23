@@ -349,6 +349,9 @@ class Functions
 
 	public static function throwNewException($e, $die = true, $messageHeader = 'LBL_ERROR')
 	{
+		if (!headers_sent() && \App\Config::security('CSP_ACTIVE')) {
+			header("content-security-policy: default-src 'self' 'nonce-" . \App\Session::get('CSP_TOKEN') . "'; object-src 'none';base-uri 'self'; frame-ancestor 'self';");
+		}
 		$message = \is_object($e) ? $e->getMessage() : $e;
 		$code = 500;
 		if (!\is_array($message)) {

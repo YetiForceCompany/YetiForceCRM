@@ -87,7 +87,7 @@
 			{/if}
 		{/if}
 	</div>
-	<script type="text/javascript">
+	<script type="text/javascript"  {if \App\Session::get('CSP_TOKEN')}nonce="{\App\Session::get('CSP_TOKEN')}"{/if}>
 		function errorLog() {
 			console.error(document.querySelector('.js-exception-error').textContent);
 		}

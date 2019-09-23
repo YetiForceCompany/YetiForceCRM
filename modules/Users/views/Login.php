@@ -102,6 +102,6 @@ class Users_Login_View extends \App\Controller\View
 	 */
 	public function setCspHeaders()
 	{
-		header("content-security-policy: default-src 'self' 'nonce-" . App\Session::get('CSP_TOKEN') . "'; object-src 'none';base-uri 'self';");
+		header("content-security-policy: default-src 'self' 'nonce-" . App\Session::get('CSP_TOKEN') . "'; object-src 'none';base-uri 'self'; frame-ancestors 'self';");
 	}
 }
