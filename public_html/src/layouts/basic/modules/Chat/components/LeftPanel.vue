@@ -1,6 +1,6 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <q-drawer :show-if-above="false" v-model="leftPanel" side="left" bordered @hide="setLeftPanel(false)">
+  <q-drawer :breakpoint="drawerBreakpoint" no-swipe-close no-swipe-open :show-if-above="false" v-model="leftPanel" side="left" bordered @hide="setLeftPanel(false)" @input="onDrawerClose">
     <div class="fit bg-grey-11">
       <slot name="top"></slot>
       <div class="bg-grey-11">
@@ -86,7 +86,7 @@
                 class="q-pl-sm hover-container"
                 :active="data.currentRoom.recordId === room.recordid && data.currentRoom.roomType === roomType"
                 active-class="bg-teal-1 text-grey-8"
-                @click="fetchRoom({ id: room.recordid, roomType: roomType })"
+                @click="onRoomClick({ id: room.recordid, roomType: roomType })"
               >
                 <div class="full-width flex items-center justify-between no-wrap">
                   <div class="ellipsis-2-lines">
@@ -200,7 +200,13 @@ import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'LeftPanel',
-  components: { SelectModules, AddRoom },
+	components: { SelectModules, AddRoom },
+	props: {
+		drawerBreakpoint: {
+			type: Number,
+			required: true
+		}
+	},
   data() {
     return {
       filterRooms: '',
@@ -216,7 +222,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['leftPanel', 'data', 'config', 'isSoundNotification', 'roomSoundNotificationsOff', 'layout']),
+		...mapGetters(['data', 'config', 'isSoundNotification', 'roomSoundNotificationsOff', 'layout', 'coordinates', 'miniMode']),
+		leftPanel: {
+      get() {
+        return this.$store.getters['Chat/leftPanel']
+      },
+      set(isOpen) {
+      }
+    },
     areUnpinned() {
       return roomType => {
         for (let room in this.data.roomList[roomType]) {
@@ -269,7 +282,18 @@ export default {
     showArchiveDialog(room) {
       this.confirm = true
       this.roomToArchive = room
-    }
+		},
+		onRoomClick({ id, roomType }) {
+			this.fetchRoom({ id, roomType })
+			if ((this.coordinates.width < this.drawerBreakpoint && this.miniMode) || !this.$q.platform.is.desktop) {
+				this.setLeftPanel(false)
+			}
+		},
+		onDrawerClose(ev) {
+			if(!ev) {
+				this.setLeftPanel(false)
+			}
+		}
   }
 }
 </script>
