@@ -78,6 +78,7 @@ ex.
 | Browser (name and version)  | 		|
 | Operating System (name and version)  | 		|
 | Database (name and version) | 		|
+| Service Pack version | 		|
 
 ### ❓ Additional context
 Add any other context about the problem here.
