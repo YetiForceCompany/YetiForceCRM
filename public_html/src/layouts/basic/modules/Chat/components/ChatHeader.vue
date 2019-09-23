@@ -8,6 +8,10 @@
             <icon icon="yfi-menu-group-room" />
             <q-tooltip>{{ translate('JS_CHAT_ROOMS_MENU') }}</q-tooltip>
           </q-btn>
+          <q-btn dense flat round :color="rightPanel ? 'info' : ''" @click="toggleRightPanel()">
+            <icon icon="yfi-menu-entrant" />
+            <q-tooltip>{{ translate('JS_CHAT_PARTICIPANTS_MENU') }}</q-tooltip>
+          </q-btn>
           <q-btn @click="toggleEnter()" dense round flat :color="sendByEnter ? 'info' : ''">
             <icon :icon="sendByEnter ? 'yfi-enter-on' : 'yfi-enter-off'" />
             <q-tooltip>{{ translate('JS_CHAT_ENTER') }}</q-tooltip>
@@ -63,10 +67,6 @@
           </template>
           <q-btn dense flat round icon="mdi-close" @click="setDialog(false)">
             <q-tooltip>{{ translate('JS_CLOSE') }}</q-tooltip>
-          </q-btn>
-          <q-btn dense flat round :color="rightPanel ? 'info' : ''" @click="toggleRightPanel()">
-            <icon icon="yfi-menu-entrant" />
-            <q-tooltip>{{ translate('JS_CHAT_PARTICIPANTS_MENU') }}</q-tooltip>
           </q-btn>
         </div>
       </div>
