@@ -1,6 +1,6 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <q-drawer :value="leftPanel" side="left" bordered @hide="setLeftPanel(false)">
+  <q-drawer :show-if-above="false" v-model="leftPanel" side="left" bordered @hide="setLeftPanel(false)">
     <div class="fit bg-grey-11">
       <slot name="top"></slot>
       <div class="bg-grey-11">

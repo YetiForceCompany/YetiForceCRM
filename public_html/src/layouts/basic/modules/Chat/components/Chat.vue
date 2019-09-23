@@ -7,7 +7,7 @@
         <backdrop v-show="tab !== 'chat'" />
       </template>
     </left-panel>
-    <q-drawer :value="rightPanel" side="right" @hide="setRightPanel(false)" bordered>
+    <q-drawer :show-if-above="false" v-model="rightPanel" side="right" @hide="setRightPanel(false)" bordered>
       <right-panel :participants="currentRoomData.participants || []">
         <template v-slot:top>
           <backdrop v-show="tab !== 'chat'" />
