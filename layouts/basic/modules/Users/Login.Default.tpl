@@ -158,5 +158,7 @@
 			{/if}
 		</div>
 	</div>
-	<!-- /tpl-Users-Login.Default -->
+	</body>
+</html>
+<!-- /tpl-Users-Login.Default -->
 {/strip}

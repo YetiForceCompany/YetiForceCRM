@@ -20,7 +20,7 @@ class Users_ForgotPassword_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		return true;
 	}
@@ -28,7 +28,15 @@ class Users_ForgotPassword_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function setCspHeaders()
+	{
+		header("content-security-policy: default-src 'self' 'nonce-" . App\Session::get('CSP_TOKEN') . "'; object-src 'none';base-uri 'self'; frame-ancestors 'self';");
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userName = $request->getByType('user_name', 'Text');

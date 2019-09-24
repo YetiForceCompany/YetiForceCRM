@@ -36,7 +36,7 @@ class Users_Login_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		return true;
 	}
@@ -44,7 +44,7 @@ class Users_Login_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
 		if ($bfInstance->isActive() && $bfInstance->isBlockedIp()) {
@@ -53,7 +53,7 @@ class Users_Login_Action extends \App\Controller\Action
 			header('location: index.php?module=Users&view=Login');
 			return false;
 		}
-		if (\App\Session::get('LoginAuthyMethod') === '2fa') {
+		if ('2fa' === \App\Session::get('LoginAuthyMethod')) {
 			$this->check2fa($request);
 		} else {
 			$this->login($request);
@@ -67,7 +67,7 @@ class Users_Login_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public function check2fa(\App\Request $request)
+	public function check2fa(App\Request $request)
 	{
 		$userId = \App\Session::get('2faUserId');
 		if (Users_Totp_Authmethod::verifyCode(\App\User::getUserModel($userId)->getDetail('authy_secret_totp'), $request->getByType('user_code', 'Digital'))) {
@@ -103,17 +103,17 @@ class Users_Login_Action extends \App\Controller\Action
 	 *
 	 * @return bool
 	 */
-	public function login(\App\Request $request)
+	public function login(App\Request $request)
 	{
 		$userName = $request->getByType('username', 'Text');
 		$password = $request->getRaw('password');
-		if ($request->getMode() === 'install') {
+		if ('install' === $request->getMode()) {
 			$this->cleanInstallationFiles();
 		}
 		$this->userRecordModel = Users_Record_Model::getCleanInstance('Users')->set('user_name', $userName);
 		if (!empty($password) && $this->userRecordModel->doLogin($password)) {
 			$this->userModel = App\User::getUserModel($this->userRecordModel->getId());
-			if (\App\Session::get('UserAuthMethod') === 'PASSWORD' && $this->userRecordModel->verifyPasswordChange($this->userModel)) {
+			if ('PASSWORD' === \App\Session::get('UserAuthMethod') && $this->userRecordModel->verifyPasswordChange($this->userModel)) {
 				\App\Session::set('UserLoginMessage', App\Language::translate('LBL_YOUR_PASSWORD_HAS_EXPIRED', 'Users'));
 				\App\Session::set('UserLoginMessageType', 'error');
 				header('location: index.php');
@@ -137,7 +137,7 @@ class Users_Login_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function afterLogin(\App\Request $request)
+	public function afterLogin(App\Request $request)
 	{
 		if (App\Config::main('session_regenerate_id')) {
 			\App\Session::regenerateId(true); // to overcome session id reuse.
@@ -192,7 +192,7 @@ class Users_Login_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function failedLogin(\App\Request $request)
+	public function failedLogin(App\Request $request)
 	{
 		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
 		if ($bfInstance->isActive()) {
@@ -205,5 +205,13 @@ class Users_Login_Action extends \App\Controller\Action
 		}
 		Users_Module_Model::getInstance('Users')->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('username')), 'Failed login');
 		header('location: index.php?module=Users&view=Login');
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setCspHeaders()
+	{
+		header("content-security-policy: default-src 'self' 'nonce-" . App\Session::get('CSP_TOKEN') . "'; object-src 'none';base-uri 'self'; frame-ancestors 'self';");
 	}
 }
