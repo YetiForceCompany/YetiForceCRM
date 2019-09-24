@@ -316,11 +316,17 @@ insert  into `u_yf_chat_global`(`global_room_id`,`name`) values (1,'LBL_GENERAL'
 
 /*Data for the table `u_yf_chat_messages_group` */
 
+/*Data for the table `u_yf_chat_messages_private` */
+
+/*Data for the table `u_yf_chat_private` */
+
 /*Data for the table `u_yf_chat_rooms_crm` */
 
 /*Data for the table `u_yf_chat_rooms_global` */
 
 /*Data for the table `u_yf_chat_rooms_group` */
+
+/*Data for the table `u_yf_chat_rooms_private` */
 
 /*Data for the table `u_yf_cinternaltickets` */
 
@@ -1421,9 +1427,9 @@ insert  into `vtiger_activitystatus`(`activitystatusid`,`activitystatus`,`presen
 
 /*Data for the table `vtiger_activitytype` */
 
-insert  into `vtiger_activitytype`(`activitytypeid`,`activitytype`,`presence`,`sortorderid`,`color`) values (1,'Call',0,0,'80B584');
-insert  into `vtiger_activitytype`(`activitytypeid`,`activitytype`,`presence`,`sortorderid`,`color`) values (2,'Meeting',0,1,'FFD500');
-insert  into `vtiger_activitytype`(`activitytypeid`,`activitytype`,`presence`,`sortorderid`,`color`) values (3,'Task',0,2,'00d4f5');
+insert  into `vtiger_activitytype`(`activitytypeid`,`activitytype`,`presence`,`sortorderid`,`color`,`icon`) values (1,'Call',0,0,'80B584',NULL);
+insert  into `vtiger_activitytype`(`activitytypeid`,`activitytype`,`presence`,`sortorderid`,`color`,`icon`) values (2,'Meeting',0,1,'FFD500',NULL);
+insert  into `vtiger_activitytype`(`activitytypeid`,`activitytype`,`presence`,`sortorderid`,`color`,`icon`) values (3,'Task',0,2,'00d4f5',NULL);
 
 /*Data for the table `vtiger_announcementstatus` */
 

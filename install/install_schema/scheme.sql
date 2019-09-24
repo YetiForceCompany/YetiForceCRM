@@ -6965,7 +6965,7 @@ CREATE TABLE `vtiger_ossmailview` (
   `mbox` varchar(100) DEFAULT NULL,
   `uid` varchar(150) DEFAULT NULL,
   `cid` char(40) DEFAULT NULL,
-  `rc_user` varchar(3) DEFAULT NULL,
+  `rc_user` int(10) unsigned NOT NULL,
   `reply_to_email` text DEFAULT NULL,
   `ossmailview_sendtype` varchar(30) DEFAULT NULL,
   `attachments_exist` tinyint(1) unsigned NOT NULL DEFAULT 0,
