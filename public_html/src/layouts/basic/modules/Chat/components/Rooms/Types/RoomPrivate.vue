@@ -21,6 +21,26 @@
         <AddRoom :showAddPrivateRoom.sync="showAddPrivateRoom" />
       </q-item>
     </template>
+		      <q-dialog v-if="arePrivateRooms" v-model="confirm" persistent content-class="quasar-reset">
+        <q-card>
+          <q-card-section class="row items-center">
+            <q-avatar icon="mdi-alert-circle-outline" text-color="negative" />
+            <span class="q-ml-sm">{{
+              translate('JS_CHAT_ROOM_ARCHIVE_MESSAGE').replace('${roomToArchive}', roomToArchive.name)
+            }}</span>
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn flat :label="translate('JS_CANCEL')" color="black" v-close-popup />
+            <q-btn
+              @click="archivePrivateRoom(roomToArchive)"
+              flat
+              :label="translate('JS_ARCHIVE')"
+              color="negative"
+              v-close-popup
+            />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
   </RoomList>
 </template>
 <script>
